@@ -20,20 +20,23 @@ module Foreman::Controller::Registration
     operatingsystem = Operatingsystem.authorized(:view_operatingsystems).find(params['operatingsystem_id']) if params["operatingsystem_id"].present?
     host_config_params = host_config_params(organization, location, host_group, operatingsystem)
 
+    context = {
+      user: User.current,
+      auth_token: User.current.jwt_token!(expiration: 4.hours.to_i),
+      organization: (organization || User.current.default_organization || User.current.my_organizations.first),
+      location: (location || User.current.default_location || User.current.my_locations.first),
+      hostgroup: host_group,
+      operatingsystem: operatingsystem,
+      url_host: registration_url.host,
+      registration_url: registration_url,
+      setup_insights: global_setup_insights(host_config_params),
+      setup_remote_execution: global_setup_remote_execution(host_config_params),
+    }
+
     params.permit(permitted)
           .to_h
           .symbolize_keys
-          .merge({ user: User.current,
-                   auth_token: User.current.jwt_token!(expiration: 4.hours.to_i),
-                   organization: (organization || User.current.default_organization || User.current.my_organizations.first),
-                   location: (location || User.current.default_location || User.current.my_locations.first),
-                   hostgroup: host_group,
-                   operatingsystem: operatingsystem,
-                   url_host: registration_url.host,
-                   registration_url: registration_url,
-                   setup_insights: global_setup_insights(host_config_params),
-                   setup_remote_execution: global_setup_remote_execution(host_config_params),
-                  })
+          .merge(context)
   end
 
   def safe_render(template)
