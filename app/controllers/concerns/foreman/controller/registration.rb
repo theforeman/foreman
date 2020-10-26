@@ -27,7 +27,10 @@ module Foreman::Controller::Registration
                    organization: (organization || User.current.default_organization || User.current.my_organizations.first),
                    location: (location || User.current.default_location || User.current.my_locations.first),
                    hostgroup: host_group,
-                   operatingsystem: operatingsystem })
+                   operatingsystem: operatingsystem,
+                   url_host: registration_url.host,
+                   registration_url: registration_url,
+                    })
   end
 
   def safe_render(template)
@@ -69,5 +72,18 @@ module Foreman::Controller::Registration
     render_error 'not_found', nf_opts
 
     false
+  end
+
+  def registration_url
+    uri = if params[:url].present?
+            URI.join(params[:url], '/register')
+          else
+            URI(register_url)
+          end
+
+    return uri if uri.scheme && uri.host
+
+    msg = N_('URL in :url parameter is missing a scheme, please set http:// or https://')
+    fail Foreman::Exception.new(msg)
   end
 end
