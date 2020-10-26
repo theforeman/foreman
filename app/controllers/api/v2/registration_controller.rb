@@ -86,6 +86,13 @@ module Api
 
       private
 
+      def check_media_type
+        return super if action_name != 'host'
+        return if ["application/json", "application/x-www-form-urlencoded"].include?(request.media_type)
+
+        render_error(:unsupported_media_type, status: :unsupported_media_type)
+      end
+
       def find_host
         @host = Host.find_or_initialize_by(name: host_params('host')['name'])
       end
