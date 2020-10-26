@@ -48,17 +48,6 @@ exports[`Pagination rendering from js renders correctly 1`] = `
   disableNext={false}
   disablePrev={false}
   dropdownButtonId="pagination-row-dropdown"
-  messages={
-    Object {
-      "currentPage": "Current Page",
-      "firstPage": "First Page",
-      "lastPage": "Last Page",
-      "nextPage": "Next Page",
-      "of": "of",
-      "perPage": "per page",
-      "previousPage": "Previous Page",
-    }
-  }
   onPageSet={[Function]}
   onPerPageSelect={[Function]}
   pagination={
