@@ -45,12 +45,18 @@ module Host
     default_scope -> { where(taxonomy_conditions) }
 
     def self.taxonomy_conditions
-      org = Organization.expand(Organization.current)
-      loc = Location.expand(Location.current)
       conditions = {}
-      conditions[:organization_id] = Array(org).map { |o| o.subtree_ids }.flatten.uniq unless org.nil?
-      conditions[:location_id] = Array(loc).map { |l| l.subtree_ids }.flatten.uniq unless loc.nil?
-      conditions
+      if Organization.current.nil? && User.current.present? && !User.current.admin?
+        conditions[:organization_id] = User.current.organization_and_child_ids
+      else
+        conditions[:organization_id] = Organization.current&.subtree_ids
+      end
+      if Location.current.nil? && User.current.present? && !User.current.admin?
+        conditions[:location_id] = User.current.location_and_child_ids
+      else
+        conditions[:location_id] = Location.current&.subtree_ids
+      end
+      conditions.compact
     end
 
     scope :no_location,     -> { rewhere(:location_id => nil) }
