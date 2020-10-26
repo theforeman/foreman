@@ -6,7 +6,7 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::SetRedirectionPath
 
   before_action :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
-  before_action :ajax_request,   :only => [:process_hostgroup, :puppetclass_parameters]
+  before_action :ajax_request,   :only => [:process_hostgroup]
   before_action :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 
   def index
@@ -81,25 +81,6 @@ class HostgroupsController < ApplicationController
     end
   rescue Ancestry::AncestryException
     process_error(:error_msg => _("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.title })
-  end
-
-  def puppetclass_parameters
-    Taxonomy.as_taxonomy @organization, @location do
-      render :partial => "puppetclasses/classes_parameters",
-             :locals => { :obj => refresh_hostgroup }
-    end
-  end
-
-  def environment_selected
-    env_id = params[:environment_id] || params[:hostgroup][:environment_id]
-    return not_found if env_id.to_i > 0 && !(@environment = Environment.find(env_id))
-
-    refresh_hostgroup
-    @hostgroup.environment = @environment if @environment
-
-    @hostgroup.puppetclasses = Puppetclass.where(:id => params[:hostgroup][:puppetclass_ids])
-    @hostgroup.config_groups = ConfigGroup.where(:id => params[:hostgroup][:config_group_ids])
-    render :partial => 'puppetclasses/class_selection', :locals => {:obj => @hostgroup, :type => 'hostgroup'}
   end
 
   def process_hostgroup

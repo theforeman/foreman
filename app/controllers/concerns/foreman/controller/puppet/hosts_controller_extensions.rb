@@ -2,17 +2,13 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
   extend ActiveSupport::Concern
 
   PUPPETMASTER_ACTIONS = [:externalNodes, :lookup]
-  PUPPET_AJAX_REQUESTS = %w{hostgroup_or_environment_selected puppetclass_parameters}
 
   MULTIPLE_EDIT_ACTIONS = %w(select_multiple_puppet_proxy update_multiple_puppet_proxy
                              select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
 
   included do
     add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
-    alias_method :ajax_request_for_puppet_host_extensions, :ajax_request
 
-    before_action :ajax_request_for_puppet_host_extensions, :only => PUPPET_AJAX_REQUESTS
-    before_action :taxonomy_scope_for_puppet_host_extensions, :only => PUPPET_AJAX_REQUESTS
     before_action :find_multiple_for_puppet_host_extensions, :only => MULTIPLE_EDIT_ACTIONS
     before_action :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
     before_action :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
@@ -20,24 +16,6 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     define_action_permission MULTIPLE_EDIT_ACTIONS, :edit
 
     set_callback :set_class_variables, :after, :set_puppet_class_variables
-  end
-
-  def hostgroup_or_environment_selected
-    refresh_host
-    set_class_variables(@host)
-    Taxonomy.as_taxonomy @organization, @location do
-      if @environment || @hostgroup
-        render :partial => 'puppetclasses/class_selection', :locals => {:obj => @host}
-      else
-        logger.info "environment_id or hostgroup_id is required to render puppetclasses"
-      end
-    end
-  end
-
-  def puppetclass_parameters
-    Taxonomy.as_taxonomy @organization, @location do
-      render :partial => "puppetclasses/classes_parameters", :locals => { :obj => refresh_host}
-    end
   end
 
   def validate_multiple_puppet_proxy
@@ -125,10 +103,6 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
   def set_puppet_class_variables
     @environment = @host.environment
-  end
-
-  def taxonomy_scope_for_puppet_host_extensions
-    taxonomy_scope
   end
 
   def find_multiple_for_puppet_host_extensions

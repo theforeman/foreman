@@ -1,6 +1,11 @@
 module HostFinders
   extend ActiveSupport::Concern
 
+  def switch_form_tab_to_interfaces
+    switch_form_tab('Interfaces')
+    disable_interface_modal_animation
+  end
+
   def disable_interface_modal_animation
     page.evaluate_script('document.getElementById("interfaceModal").classList.remove("fade")')
   end
@@ -9,8 +14,7 @@ module HostFinders
     # go to New Host page
     assert_new_button(hosts_path, "Create Host", new_host_path)
     # switch to interfaces tab
-    page.find(:link, "Interfaces").click
-    disable_interface_modal_animation
+    switch_form_tab_to_interfaces
   end
 
   def close_interfaces_modal
@@ -49,11 +53,7 @@ module HostFinders
     page.find('#submit_multiple')
   end
 
-  def click_on_inherit(attribute)
-    find("#host_#{attribute}_id + .input-group-btn .btn").click
-  end
-
-  def class_params
-    page.find('#inherited_puppetclasses_parameters')
+  def click_on_inherit(attribute, prefix: 'host_')
+    find("##{prefix}#{attribute}_id + .input-group-btn .btn").click
   end
 end
