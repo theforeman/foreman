@@ -331,35 +331,6 @@ $(function() {
   });
 });
 
-function update_puppetclasses(element) {
-  var host_id = $('form').data('id');
-  var url = $(element).attr('data-url');
-  var data = serializeForm().replace('method=patch', 'method=post');
-
-  if (element.value == '') return;
-  if (url.match('hostgroups')) {
-    data = data + '&hostgroup_id=' + host_id;
-  } else {
-    data = data + '&host_id=' + host_id;
-  }
-
-  tfm.tools.showSpinner();
-  $.ajax({
-    type: 'post',
-    url: url,
-    data: data,
-    success: function(request) {
-      $('#puppet_klasses').html(request);
-      reload_puppetclass_params();
-      tfm.tools.activateTooltips();
-      tfm.hostgroups.checkForUnavailablePuppetclasses();
-    },
-    complete: function() {
-      reloadOnAjaxComplete(element);
-    },
-  });
-}
-
 function spinner_placeholder(text) {
   if (text == undefined) text = '';
   return (

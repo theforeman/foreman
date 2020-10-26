@@ -1,5 +1,5 @@
 <%= javascript 'host_edit', 'host_edit_interfaces' %>
-<%= form_for @hostgroup, :html => {:class => 'hostresource-form form-horizontal well', :data => {:id => @hostgroup.try(:id)}} do |f| %>
+<%= form_for @hostgroup, :html => {:class => 'hostresource-form hostgroup-form form-horizontal well', :data => {:id => @hostgroup.try(:id)}} do |f| %>
   <%= base_errors_for @hostgroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
@@ -8,7 +8,7 @@
       <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
     <% end %>
-    <li><a href="#params" id='params-tab' data-url='' data-url2='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+    <li><a href="#params" id='params-tab' data-url='' data-toggle="tab"><%= _('Parameters') %></a></li>
     <%= render_tab_header_for(:main_tabs, :subject => @hostgroup) %>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
@@ -27,7 +27,6 @@
                       :help_inline => :indicator }) if show_parent?(@hostgroup) %>
       <%= text_f f, :name %>
       <%= textarea_f f, :description, :rows => :auto %>
-      <%= hostgroup_puppet_environment_field f %>
 
       <%= select_f f, :compute_resource_id, accessible_resource(@hostgroup, :compute_resource), :id, :to_label,
           { :include_blank => blank_or_inherit_f(f, :compute_resource, blank_value: _('Bare Metal')) },
@@ -38,7 +37,7 @@
                        { :include_blank => blank_or_inherit_f(f, :compute_profile) },
                        { :label => _("Compute profile") }
                   ) if visible_compute_profiles(@hostgroup).any? %>
-      <%= render_pagelets_for(:main_tab_fields, :hostgroup => @hostgroup, :form => f) %>
+      <%= render_pagelets_for(:main_tab_fields, :subject => @hostgroup, :form => f) %>
       <%= smart_proxy_fields f %>
     </div>
 
@@ -46,7 +45,7 @@
       <fieldset>
         <%= select_f f, :domain_id, accessible_resource(@hostgroup, :domain), :id, :to_label, {:include_blank => blank_or_inherit_f(f, :domain)},
           {:help_inline => :indicator, :label => _("Domain"),
-           :onchange => 'interface_domain_selected(this);', :'data-url' => method_path('domain_selected') } %>
+           :class => 'interface_domain', :'data-url' => method_path('domain_selected') } %>
         <%= select_f f, :subnet_id, domain_subnets(:"Subnet::Ipv4"), :id, :to_label,
                      { :include_blank => domain_subnets(:"Subnet::Ipv4").any? ? blank_or_inherit_f(f, :subnet) : _("No subnets") },
                      { :disabled => domain_subnets(:"Subnet::Ipv4").empty?,
@@ -71,12 +70,6 @@
     </div>
 
     <div class="tab-pane" id="params">
-
-      <fieldset>
-        <h2><%= _('Puppet Class Parameters') %></h2>
-        <%= render 'puppetclasses/classes_parameters', :obj => @hostgroup  %>
-      </fieldset>
-      <br/>
 
       <%= slot('HostgroupParams', true, lookup_values: lookup_values_data(@hostgroup)) %>
 

@@ -3,9 +3,6 @@
 $(document).on('ContentLoad', function() {
   onHostEditLoad();
 });
-$(document).on('AddedClass', function(event, link) {
-  load_puppet_class_parameters(link);
-});
 $(document)
   .on('change', '.hostgroup-select', function(evt) {
     hostgroup_changed(evt.target);
@@ -237,44 +234,6 @@ function update_progress(data) {
   $('#tasks_progress').replaceWith(data);
 }
 
-function load_puppet_class_parameters(item) {
-  var id = $(item).attr('data-class-id');
-  // host_id could be either host.id OR hostgroup.id depending on which form
-  var host_id = $('form').data('id');
-  if ($('#puppetclass_' + id + '_params_loading').length > 0) return; // already loading
-  if ($('[id^="#puppetclass_' + id + '_params\\["]').length > 0) return; // already loaded
-  var url = $(item).attr('data-url');
-  var data = serializeForm().replace('method=patch', 'method=post');
-  if (url.match('hostgroups')) {
-    data = data + '&hostgroup_id=' + host_id;
-  } else {
-    data = data + '&host_id=' + host_id;
-  }
-
-  if (url == undefined) return; // no parameters
-  var placeholder = $(
-    '<tr id="puppetclass_' +
-      id +
-      '_params_loading">' +
-      '<td colspan="5">' +
-      spinner_placeholder(__('Loading parameters...')) +
-      '</td></tr>'
-  );
-  $('#inherited_puppetclasses_parameters').append(placeholder);
-  $.ajax({
-    url: url,
-    type: 'post',
-    data: data,
-    success: function(result, textstatus, xhr) {
-      var params = $(result);
-      placeholder.replaceWith(params);
-      params.find('a[rel="popover"]').popover();
-      if (params.find('.error').length > 0)
-        $('#params-tab').addClass('tab-error');
-    },
-  });
-}
-
 function hostgroup_changed(element) {
   var host_id = $('form').data('id');
   var host_changed = $('form').data('type-changed');
@@ -295,7 +254,6 @@ function handleHostgroupChangeEdit(element, host_id, host_changed) {
   } else {
     // edit host
     set_inherited_value(element);
-    update_puppetclasses(element);
     reload_host_params();
   }
 }
@@ -430,7 +388,6 @@ function os_selected(element) {
     success: function(request) {
       $('#media_select').html(request);
       reload_host_params();
-      reload_puppetclass_params();
     },
   });
   update_provisioning_image();
@@ -524,18 +481,6 @@ function reload_host_params() {
   }
 }
 
-function reload_puppetclass_params() {
-  var host_id = $('form.hostresource-form').data('id');
-  var url2 = $('#params-tab').data('url2');
-  var data = serializeForm().replace('method=patch', 'method=post');
-  if (url2.match('hostgroups')) {
-    data = data + '&hostgroup_id=' + host_id;
-  } else {
-    data = data + '&host_id=' + host_id;
-  }
-  load_with_placeholder('inherited_puppetclasses_parameters', url2, data);
-}
-
 function load_with_placeholder(target, url, data) {
   if (url == undefined) return;
   var placeholder = $(
@@ -560,7 +505,6 @@ function load_with_placeholder(target, url, data) {
 
 function onHostEditLoad() {
   update_interface_table();
-  tfm.hostgroups.checkForUnavailablePuppetclasses();
 
   $('#host-conflicts-modal').modal({ show: 'true', backdrop: 'static' });
   $('#host-conflicts-modal').click(function() {
@@ -635,7 +579,6 @@ $(document).on('change', '.interface_domain', function() {
   );
   interface_domain_selected(this);
   reload_host_params();
-  reload_puppetclass_params();
 });
 
 function clearIpField(parent, childclass) {
