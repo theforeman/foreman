@@ -53,6 +53,8 @@ PaginationWrapper.defaultProps = {
   pagination: {},
 };
 
+delete PaginationWrapper.defaultProps.messages;
+
 PaginationWrapper.propTypes = {
   ...Paginator.propTypes,
   /** page and per-page selection callback */

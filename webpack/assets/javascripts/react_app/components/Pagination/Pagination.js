@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { Paginator } from 'patternfly-react';
-import { translateObject } from '../../common/helpers';
+import { translate as __ } from '../../common/I18n';
 import {
   getURIpage,
   getURIperPage,
@@ -41,6 +41,16 @@ const Pagination = props => {
     ...pagination,
   };
 
+  const messages = {
+    firstPage: __('First Page'),
+    previousPage: __('Previous Page'),
+    currentPage: __('Current Page'),
+    nextPage: __('Next Page'),
+    lastPage: __('Last Page'),
+    perPage: __('per page'),
+    of: __('of'),
+  };
+
   return (
     <Paginator
       pagination={pageOpts}
@@ -50,9 +60,9 @@ const Pagination = props => {
       onPerPageSelect={onPerPageSelect}
       disableNext={disableNext}
       disablePrev={disablePrev}
-      messages={translateObject(Paginator.defaultProps.messages)}
       className={className}
       dropdownButtonId={dropdownButtonId}
+      messages={messages}
       {...otherProps}
     />
   );
