@@ -15,6 +15,7 @@ class RegistrationController < ApplicationController
     @host_groups = Hostgroup.authorized(:view_hostgroups).select(:id, :name)
     @operating_systems = Operatingsystem.authorized(:view_operatingsystems).select(:id, :title)
     @smart_proxies = Feature.find_by(name: 'Registration')&.smart_proxies || []
+    @insights_param = CommonParameter.find_by(name: 'host_registration_insights')
   end
 
   def headers

@@ -39,7 +39,8 @@
   <div class='form-group'>
     <label class='col-md-2 control-label' for='setup_insights'><%= _('Setup Insights') %></label>
     <div class='col-md-4'>
-      <%= check_box_tag 'setup_insights', true %>
+      <% insights_opts = options_for_select([[_('Yes'), 'true'], [_('No'), 'false']], (params[:setup_insights] || @insights_param.value.to_s))%>
+      <%= select_tag 'setup_insights', insights_opts, class: 'form-control' %>
     </div>
   </div>
   <div class='form-group'>
