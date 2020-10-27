@@ -38,7 +38,7 @@ namespace :errors do
     end
     puts result
     puts "\n"
-    puts "Foreman version: #{Foreman::VERSION.new.full}"
+    puts "Foreman version: #{Foreman::Version.new.full}"
     unless (plugins = Foreman::Plugin.all).empty?
       puts "Plugins: "
       plugins.each do |plugin|
