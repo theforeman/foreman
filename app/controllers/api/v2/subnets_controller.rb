@@ -43,6 +43,7 @@ module Api
           param :dns_primary, String, :desc => N_("Primary DNS for this subnet")
           param :dns_secondary, String, :desc => N_("Secondary DNS for this subnet")
           param :ipam, IPAM::MODES.values, :desc => N_('IP Address auto suggestion mode for this subnet.')
+          param :externalipam_group, String, :desc => N_('External IPAM group - only relevant when IPAM is set to external')
           param :from, String, :desc => N_("Starting IP Address for IP auto suggestion")
           param :to, String, :desc => N_("Ending IP Address for IP auto suggestion")
           param :vlanid, String, :desc => N_("VLAN ID for this subnet")
