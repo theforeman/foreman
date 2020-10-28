@@ -134,3 +134,15 @@ export function updateTable(element) {
 
 // generates an absolute, needed in case of running Foreman from a subpath
 export { foremanUrl } from './react_app/common/helpers';
+
+export const setTab = () => {
+  const urlHash = document.location.hash.split('?')[0];
+  if (urlHash.length) {
+    const tabContent = $(urlHash);
+    const parentTab = tabContent.closest('.tab-pane');
+    if (parentTab.exists()) {
+      $(`.nav-tabs a[href="#${parentTab[0].id}"]`).tab('show');
+    }
+    $(`.nav-tabs a[href="${urlHash}"]`).tab('show');
+  }
+};

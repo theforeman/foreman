@@ -25,16 +25,38 @@ class HostJSTest < IntegrationTestWithJavascript
     Fog.unmock!
   end
 
-  test "show page" do
-    visit hosts_path
-    click_link @host.fqdn
-    assert_breadcrumb_text(@host.fqdn)
-    assert page.has_link?("Properties", :href => "#properties")
-    assert page.has_link?("Metrics", :href => "#metrics")
-    assert page.has_link?("Templates", :href => "#template")
-    assert page.has_link?("Edit", :href => "/hosts/#{@host.fqdn}/edit")
-    assert page.has_link?("Build", :href => "/hosts/#{@host.fqdn}#review_before_build")
-    assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
+  describe "show page" do
+    test "has proper title and links" do
+      visit hosts_path
+      click_link @host.fqdn
+      assert_breadcrumb_text(@host.fqdn)
+      assert page.has_link?("Properties", :href => "#properties")
+      assert page.has_link?("Metrics", :href => "#metrics")
+      assert page.has_link?("Templates", :href => "#template")
+      assert page.has_link?("Edit", :href => "/hosts/#{@host.fqdn}/edit")
+      assert page.has_link?("Build", :href => "/hosts/#{@host.fqdn}#review_before_build")
+      assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
+    end
+
+    test "link to specific tab in show page" do
+      host = FactoryBot.create(:host)
+
+      visit "#{host_path(host)}#metrics"
+      wait_for_ajax
+
+      page.assert_selector('#host-show-tabs li.active', count: 1, text: "Metrics")
+      page.assert_selector('#host-show-tabs-content div.active', count: 1, text: /No puppet activity/)
+    end
+
+    test "default active tab is properties" do
+      host = FactoryBot.create(:host)
+
+      visit host_path(host) # not passing the active-tab param here
+      wait_for_ajax
+
+      page.assert_selector('#host-show-tabs li.active', count: 1, text: "Properties")
+      page.assert_selector('#host-show-tabs-content div.active', count: 1, text: /Properties/)
+    end
   end
 
   describe 'multiple hosts selection' do
