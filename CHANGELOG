@@ -1,3 +1,12 @@
+2020-10-28	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.2.0
+
+2020-10-28	Evgeni Golov <evgeni@golov.de>
+	* Fixes #31191 - use correct status when report scheduling fails
+
+2020-10-27	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #28384 - Use correct Foreman version in error log task
+
 2020-10-19	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.2.0-rc4
 
