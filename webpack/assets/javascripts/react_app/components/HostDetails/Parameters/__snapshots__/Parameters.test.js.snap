@@ -27,6 +27,7 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
         <DataList
           aria-label="Parameters"
           className=""
+          gridBreakpoint="md"
           isCompact={true}
           selectedDataListItemId=""
           wrapModifier={null}
@@ -102,6 +103,7 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
         <DataList
           aria-label="Parameters"
           className=""
+          gridBreakpoint="md"
           isCompact={true}
           selectedDataListItemId=""
           wrapModifier={null}

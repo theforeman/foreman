@@ -35,6 +35,7 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
         <DataList
           aria-label="Interfaces"
           className=""
+          gridBreakpoint="md"
           isCompact={true}
           selectedDataListItemId=""
           wrapModifier={null}
@@ -188,6 +189,7 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
         <DataList
           aria-label="Interfaces"
           className=""
+          gridBreakpoint="md"
           isCompact={true}
           selectedDataListItemId=""
           wrapModifier={null}
