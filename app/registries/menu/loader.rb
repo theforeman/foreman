@@ -96,6 +96,10 @@ module Menu
           menu.item :host_wizard,
             :caption => 'Host Wizard',
             :url => '/host_wizard'
+
+          menu.item :auth_sources_test,
+            :caption => 'Auth Sources',
+            :url => '/auth_sources_test'
         end
       end
 

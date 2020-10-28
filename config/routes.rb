@@ -599,4 +599,7 @@ Foreman::Application.routes.draw do
     match 'experimental/hosts/:id' => 'react#index', :via => :get, :as => :host_details_page
   end
   get 'links/:type(/:section)' => 'links#show', :as => 'external_link', :constraints => { section: %r{.*} }
+
+  # routes for auth source external, react controller is called from here.
+  match 'auth_sources_test' => 'react#index', :via => :get
 end
