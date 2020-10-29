@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ForemanSwitcher rendering renders ForemanSwitcher with routes 1`] = `
+exports[`ForemanSwitcher rendering routes renders ForemanSwitcher with routes 1`] = `
 <Switch>
   <Route
     key="1"

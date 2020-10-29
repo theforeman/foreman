@@ -5,17 +5,20 @@ import { routes } from './routes';
 import { renderRoute } from './RoutingService';
 import ForemanSwitch from './ForemanSwitcher';
 
-const AppSwitcher = () => (
-  <ForemanSwitch>
-    {routes.map(({ render, path, ...routeProps }) => (
-      <Route
-        path={path}
-        key={path}
-        {...routeProps}
-        render={renderProps => renderRoute(render, renderProps)}
-      />
-    ))}
-  </ForemanSwitch>
+const AppSwitcher = ({ children }) => (
+  <>
+    <ForemanSwitch>
+      {routes.map(({ render, path, ...routeProps }) => (
+        <Route
+          path={path}
+          key={path}
+          {...routeProps}
+          render={renderProps => renderRoute(render, renderProps)}
+        />
+      ))}
+    </ForemanSwitch>
+    {children}
+  </>
 );
 
 AppSwitcher.propTypes = {
