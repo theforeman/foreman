@@ -18,3 +18,10 @@ if @parameters
     { :parameters => partial("api/v2/parameters/index", :object => hostgroup.group_parameters.authorized) }
   end
 end
+
+@object.facets_with_definitions.each do |facet, definition|
+  next unless definition.api_list_view
+  node(false, if: ->(hostgroup) { definition.facet_record_for(hostgroup) }) do |hostgroup|
+    partial(definition.api_list_view, object: hostgroup, locals: { facet: definition.facet_record_for(hostgroup) })
+  end
+end
