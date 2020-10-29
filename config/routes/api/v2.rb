@@ -252,7 +252,6 @@ Foreman::Application.routes.draw do
       resources :template_kinds, :only => [:index]
 
       resources :template_combinations, :only => [:show, :destroy]
-      resources :config_groups, :except => [:new, :edit]
 
       resources :compute_attributes, :only => [:index, :show, :create, :update]
 
