@@ -4,8 +4,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
   PUPPETMASTER_ACTIONS = [:externalNodes, :lookup]
   PUPPET_AJAX_REQUESTS = %w{hostgroup_or_environment_selected puppetclass_parameters}
 
-  MULTIPLE_EDIT_ACTIONS = %w(select_multiple_environment update_multiple_environment
-                             select_multiple_puppet_proxy update_multiple_puppet_proxy
+  MULTIPLE_EDIT_ACTIONS = %w(select_multiple_puppet_proxy update_multiple_puppet_proxy
                              select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
 
   included do
@@ -38,52 +37,6 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
   def puppetclass_parameters
     Taxonomy.as_taxonomy @organization, @location do
       render :partial => "puppetclasses/classes_parameters", :locals => { :obj => refresh_host}
-    end
-  end
-
-  def select_multiple_environment
-  end
-
-  def update_multiple_environment
-    # simple validations
-    if params[:environment].nil? || (id = params["environment"]["id"]).nil?
-      error _('No environment selected!')
-      redirect_to(select_multiple_environment_hosts_path)
-      return
-    end
-
-    ev = Environment.find_by_id(id)
-
-    # update the hosts
-    @hosts.each do |host|
-      host.environment = (id == 'inherit' && host.hostgroup.present?) ? host.hostgroup.environment : ev
-      host.save(:validate => false)
-    end
-
-    success _('Updated hosts: changed environment')
-    redirect_back_or_to hosts_path
-  end
-
-  def environment_from_param
-    # simple validations
-    if params[:environment].nil? || (id = params["environment"]["id"]).nil?
-      error _('No environment selected!')
-      redirect_to(select_multiple_environment_hosts_path)
-      return
-    end
-
-    id
-  end
-
-  def get_environment_id(env_params)
-    env_params['id'] if env_params
-  end
-
-  def get_environment_for(host, id)
-    if id == 'inherit' && host.hostgroup.present?
-      host.hostgroup.environment
-    else
-      Environment.find_by_id(id)
     end
   end
 
