@@ -71,7 +71,7 @@ module Api
           ActiveRecord::Base.transaction do
             find_host
             prepare_host
-            setup_insights
+            host_setup_insights
             @template = @host.registration_template
             raise ActiveRecord::Rollback if @template.nil?
           end
@@ -111,14 +111,6 @@ module Api
         @host.owner = User.current
 
         @host.save!
-      end
-
-      def setup_insights
-        return unless params['setup_insights'].present?
-
-        insights_param = HostParameter.find_or_initialize_by(host: @host, name: 'host_registration_insights', key_type: 'boolean')
-        insights_param.value = ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights'])
-        insights_param.save!
       end
     end
   end

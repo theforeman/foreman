@@ -122,6 +122,51 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
         assert_equal "#{url}/register", assigns(:global_registration_vars)[:registration_url].to_s
       end
     end
+
+    context 'setup_insights_param' do
+      before do
+        CommonParameter.where(name: 'host_registration_insights').destroy_all
+      end
+
+      test 'without param' do
+        get :global, session: set_session_user
+        assert_nil assigns(:global_registration_vars)[:setup_insights]
+      end
+
+      test 'when host_registration_insights = nil && setup_insights = true' do
+        get :global, params: { setup_insights: true }, session: set_session_user
+        assert assigns(:global_registration_vars)[:setup_insights]
+      end
+
+      test 'when host_registration_insights = nil && setup_insights = false' do
+        get :global, params: { setup_insights: false }, session: set_session_user
+        refute assigns(:global_registration_vars)[:setup_insights]
+      end
+
+      test 'when host_registration_insights = true && setup_insights = true' do
+        CommonParameter.create(name: 'host_registration_insights', key_type: 'boolean', value: true)
+        get :global, params: { setup_insights: true }, session: set_session_user
+        assert_nil assigns(:global_registration_vars)[:setup_insights]
+      end
+
+      test 'when host_registration_insights = false && setup_insights = false' do
+        CommonParameter.create(name: 'host_registration_insights', key_type: 'boolean', value: false)
+        get :global, params: { setup_insights: false }, session: set_session_user
+        assert_nil assigns(:global_registration_vars)[:setup_insights]
+      end
+
+      test 'when host_registration_insights = true && setup_insights = false' do
+        CommonParameter.create(name: 'host_registration_insights', key_type: 'boolean', value: true)
+        get :global, params: { setup_insights: false }, session: set_session_user
+        refute assigns(:global_registration_vars)[:setup_insights]
+      end
+
+      test 'when host_registration_insights = false && setup_insights = true' do
+        CommonParameter.create(name: 'host_registration_insights', key_type: 'boolean', value: false)
+        get :global, params: { setup_insights: true }, session: set_session_user
+        assert assigns(:global_registration_vars)[:setup_insights]
+      end
+    end
   end
 
   describe 'host registration' do
@@ -213,6 +258,15 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
     end
 
     context 'setup_insights' do
+      test 'without param' do
+        params = { setup_insights: '' }.merge(host_params)
+        post :host, params: params, session: set_session_user
+        assert_response :success
+
+        host = Host.find_by(name: params[:host][:name]).reload
+        assert_nil HostParameter.find_by(host: host, name: 'host_registration_insights')
+      end
+
       test 'with setup_insights = true' do
         params = { setup_insights: 'true' }.merge(host_params)
         post :host, params: params, session: set_session_user

@@ -14,7 +14,7 @@ model: ProvisioningTemplate
 <%= "\n# Location: [#{@location.name}]" if @location -%>
 <%= "\n# Hostgroup: [#{@hostgroup.name}]" if @hostgroup -%>
 <%= "\n# Operating System: [#{@operatingsystem.name}]" if @operatingsystem -%>
-<%= "\n# Setup Insights: [#{@setup_insights}]" -%>
+<%= "\n# Setup Insights: [#{@setup_insights}]" if !@setup_insights.nil? -%>
 
 
 if ! [ $(id -u) = 0 ]; then
@@ -42,7 +42,7 @@ register_host() {
        <%= "--data \"host[location_id]=#{@location.id}\"" if @location -%>
        <%= "--data \"host[hostgroup_id]=#{@hostgroup.id}\"" if @hostgroup -%>
        <%= "--data \"host[operatingsystem_id]=#{@operatingsystem.id}\"" if @operatingsystem -%>
-       <%= "--data \"setup_insights=#{@setup_insights}\"" -%>
+       <%= "--data \"setup_insights=#{@setup_insights}\"" if !@setup_insights.nil? -%>
 
 }
 
@@ -59,7 +59,7 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
             <%= "--data \"host[organization_id]=#{@organization.id}\"" if @organization -%>
             <%= "--data \"host[location_id]=#{@location.id}\"" if @location -%>
             <%= "--data \"host[hostgroup_id]=#{@hostgroup.id}\"" if @hostgroup -%>
-            <%= "--data \"setup_insights=#{@setup_insights}\"" -%>
+            <%= "--data \"setup_insights=#{@setup_insights}\"" if !@setup_insights.nil? -%>
 
     }
 

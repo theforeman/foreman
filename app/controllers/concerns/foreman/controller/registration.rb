@@ -30,7 +30,7 @@ module Foreman::Controller::Registration
                    operatingsystem: operatingsystem,
                    url_host: registration_url.host,
                    registration_url: registration_url,
-                   setup_insights: ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights']),
+                   setup_insights: global_setup_insights(organization, location, host_group, operatingsystem),
                   })
   end
 
@@ -86,5 +86,22 @@ module Foreman::Controller::Registration
 
     msg = N_('URL in :url parameter is missing a scheme, please set http:// or https://')
     fail Foreman::Exception.new(msg)
+  end
+
+  def global_setup_insights(organization, location, host_group, operatingsystem)
+    return if params['setup_insights'].to_s.blank?
+
+    from_host = Host.new(organization: organization, location: location, hostgroup: host_group, operatingsystem: operatingsystem).params['host_registration_insights']
+    from_request = ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights'])
+
+    from_request if (from_request != from_host)
+  end
+
+  def host_setup_insights
+    return if params['setup_insights'].to_s.blank?
+
+    insights_param = HostParameter.find_or_initialize_by(host: @host, name: 'host_registration_insights', key_type: 'boolean')
+    insights_param.value = ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights'])
+    insights_param.save!
   end
 end
