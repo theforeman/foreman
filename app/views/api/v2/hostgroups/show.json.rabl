@@ -14,10 +14,6 @@ node do |hostgroup|
   { :all_puppetclasses => partial("api/v2/puppetclasses/base", :object => hostgroup.all_puppetclasses) }
 end
 
-child :config_groups do
-  extends "api/v2/config_groups/main"
-end
-
 root_object.facet_definitions.each do |definition|
   next unless definition.api_single_view
   node(false, if: ->(hostgroup) { definition.facet_record_for(hostgroup) }) do |hostgroup|
