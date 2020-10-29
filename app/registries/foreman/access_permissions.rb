@@ -313,8 +313,8 @@ Foreman::AccessControl.map do |permission_set|
                                      :"api/v2/registration" => [:global, :host],
                                   }
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
-                                               :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
-                                               :multiple_parameters, :multiple_disable, :multiple_enable, :update_multiple_environment,
+                                               :select_multiple_hostgroup, :submit_multiple_disable,
+                                               :multiple_parameters, :multiple_disable, :multiple_enable,
                                                :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage,
                                                :select_multiple_organization, :update_multiple_organization,
                                                :disassociate, :multiple_disassociate, :update_multiple_disassociate,
