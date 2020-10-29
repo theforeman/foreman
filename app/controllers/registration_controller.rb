@@ -1,4 +1,6 @@
 class RegistrationController < ApplicationController
+  include Foreman::Controller::Registration
+
   def new
     form_options
   end
@@ -15,6 +17,7 @@ class RegistrationController < ApplicationController
     @host_groups = Hostgroup.authorized(:view_hostgroups).select(:id, :name)
     @operating_systems = Operatingsystem.authorized(:view_operatingsystems).select(:id, :title)
     @smart_proxies = Feature.find_by(name: 'Registration')&.smart_proxies || []
+    @insights_param = CommonParameter.find_by(name: 'host_registration_insights')
   end
 
   def headers
@@ -33,8 +36,19 @@ class RegistrationController < ApplicationController
 
   def registration_args
     ignored = ['utf8', 'authenticity_token', 'commit', 'action', 'locale', 'controller', 'jwt_expiration']
-    params.except(*ignored)
-          .delete_if { |_, v| v.blank? }
-          .permit!
+    args = params.except(*ignored)
+    args[:setup_insights] = setup_insights_param if params['setup_insights'].to_s.present?
+
+    args.delete_if { |_, v| v.blank? }
+        .permit!
+  end
+
+  def setup_insights_param
+    organization = Organization.authorized(:view_organizations).find(params['organization_id']) if params['organization_id'].present?
+    location = Location.authorized(:view_locations).find(params['location_id']) if params['location_id'].present?
+    host_group = Hostgroup.authorized(:view_hostgroups).find(params['host_group_id']) if params["host_group_id"].present?
+    operatingsystem = Operatingsystem.authorized(:view_operatingsystems).find(params['operatingsystem_id']) if params["operatingsystem_id"].present?
+
+    global_setup_insights(organization, location, host_group, operatingsystem).to_s
   end
 end
