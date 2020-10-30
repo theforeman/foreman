@@ -4,6 +4,9 @@ module Api
       include Api::Version2
       include Foreman::Controller::SmartProxyAuth
 
+      # wrapping is extremely slow for large JSON reports, make sure it's not used for this endpoint
+      wrap_parameters :format => []
+
       before_action :find_resource, :only => %w{destroy}
       before_action :setup_search_options, :only => [:index, :last]
       before_action :compatibility, :only => :create
