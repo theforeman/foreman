@@ -1,13 +1,7 @@
 module Api
   module V2
     class OverrideValuesController < V2::BaseController
-      include Api::Version2
-      prepend_before_action :fail_and_inform_about_plugin
-
-      resource_description do
-        desc 'This resource has been deprecated, to continue using it please install Foreman Puppet Enc plugin and use its API enpoints.'
-        deprecated true
-      end
+      include Api::V2::ExtractedPuppetController
 
       api :GET, "/smart_class_parameters/:smart_class_parameter_id/override_values", N_("List of override values for a specific smart class parameter")
       def index
@@ -29,10 +23,8 @@ module Api
       def destroy
       end
 
-      private
-
-      def fail_and_inform_about_plugin
-        render json: { message: _('To access SmartClassParameters API you need to install Foreman Puppet Enc plugin') }, status: :not_implemented
+      def resource_human_name
+        _('Override Value')
       end
     end
   end
