@@ -80,6 +80,7 @@ require_dependency File.expand_path('../lib/foreman/middleware/catch_json_parse_
 require_dependency File.expand_path('../lib/foreman/middleware/logging_context_request', __dir__)
 require_dependency File.expand_path('../lib/foreman/middleware/logging_context_session', __dir__)
 require_dependency File.expand_path('../lib/foreman/middleware/telemetry', __dir__)
+require_dependency File.expand_path('../app/services/facets.rb', __dir__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../Gemfile.in', __dir__))
@@ -107,13 +108,14 @@ module Foreman
     config.autoload_paths += Dir[Rails.root.join('app', 'models', 'power_manager')]
     config.autoload_paths += Dir["#{config.root}/app/models/concerns"]
     config.autoload_paths += Dir["#{config.root}/app/services"]
+
     config.autoload_paths += Dir["#{config.root}/app/mailers"]
 
     config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
     config.autoload_paths += %W(#{config.root}/app/models/fact_names)
     config.autoload_paths += %W(#{config.root}/app/models/lookup_keys)
-    config.autoload_paths += %W(#{config.root}/app/models/host_status)
+    # config.autoload_paths += %W(#{config.root}/app/models/host_status)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
@@ -168,6 +170,9 @@ module Foreman
 
     # enables JSONP support in the Rack middleware
     config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
+
+    config.load_defaults "6.0"
+    config.autoloader = :zeitwerk
 
     # Enable Rack OpenID middleware
     begin
@@ -293,7 +298,7 @@ module Foreman
         child.helper helpers
       end
 
-      Facets.register(HostFacets::ReportedDataFacet, :reported_data) do
+      ::Facets.register(HostFacets::ReportedDataFacet, :reported_data) do
         set_dependent_action :destroy
         template_compatibility_properties :cores, :virtual, :sockets, :ram, :uptime_seconds
       end
