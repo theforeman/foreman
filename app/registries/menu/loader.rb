@@ -74,8 +74,6 @@ module Menu
         menu.sub_menu :configure_menu,  :caption => N_('Configure'), :icon => 'fa fa-wrench' do
           menu.item :hostgroups,        :caption => N_('Host Groups')
           menu.item :common_parameters, :caption => N_('Global Parameters')
-          menu.divider                  :caption => N_('Puppet')
-          menu.item :puppetclasses,     :caption => N_('Classes')
         end
 
         menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure'), :icon => 'pficon pficon-network' do
