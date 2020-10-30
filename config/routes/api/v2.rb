@@ -252,6 +252,7 @@ Foreman::Application.routes.draw do
       resources :template_kinds, :only => [:index]
 
       resources :template_combinations, :only => [:show, :destroy]
+      resources :config_groups, :except => [:new, :edit], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/config_groups'
 
       resources :compute_attributes, :only => [:index, :show, :create, :update]
 
