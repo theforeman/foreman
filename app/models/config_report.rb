@@ -1,6 +1,6 @@
 class ConfigReport < Report
-  METRIC = %w[applied restarted failed failed_restarts skipped pending]
-  BIT_NUM = 6
+  METRIC = %w[applied restarted failed failed_restarts skipped pending].freeze
+  BIT_NUM = 10
   MAX = (1 << BIT_NUM) - 1 # maximum value per metric
 
   scoped_search :on => :status, :offset => 0, :word_size => 4 * BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
@@ -82,7 +82,10 @@ class ConfigReport < Report
   end
 
   delegate :error?, :changes?, :pending?, :status, :status_of, :to => :calculator
+  # delegate all metric methods
   delegate(*METRIC, :to => :calculator)
+  # delegate all metric_s (as string) methods
+  delegate(*(METRIC.map { |x| "#{x}_s".to_sym }), :to => :calculator)
 
   def calculator
     ConfigReportStatusCalculator.new(:bit_field => self[self.class.report_status_column])
