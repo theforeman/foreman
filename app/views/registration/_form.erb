@@ -19,37 +19,67 @@
     </div>
   </div>
   <div class='form-group'>
-    <label class='col-md-2 control-label'><%= _('Host Group') %></label>
+    <label class='col-md-2 control-label' for='host_group_id'>
+      <%= _('Host Group') %>
+    </label>
     <div class='col-md-4'>
       <%= select_tag 'host_group_id', options_from_collection_for_select(@host_groups, :id, :name, params[:host_group_id]), class: 'form-control', include_blank: '' %>
     </div>
   </div>
   <div class='form-group'>
-    <label class='col-md-2 control-label'><%= _('Operating System') %></label>
+    <label class='col-md-2 control-label' for='operatingsystem_id'>
+      <%= _('Operating System') %>
+    </label>
     <div class='col-md-4'>
       <%= select_tag 'operatingsystem_id', options_from_collection_for_select(@operating_systems, :id, :title, params[:operatingsystem_id]), class: 'form-control', include_blank: '' %>
     </div>
   </div>
   <div class='form-group'>
-    <label class='col-md-2 control-label'><%= _('Proxy') %></label>
+    <label class='col-md-2 control-label' for='smart_proxy'>
+      <%= _('Proxy') %>
+      <% help = _('Only Smart Proxies with enabled Registration module are available') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info"></span>
+      </a>
+    </label>
     <div class='col-md-4'>
       <%= select_tag 'smart_proxy', options_from_collection_for_select(@smart_proxies, :id, :name, params[:smart_proxy]), class: 'form-control', include_blank: '' %>
     </div>
   </div>
   <div class='form-group'>
-    <% insights_help = _('If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it.') %>
-    <%= add_help_to_label '', '' , insights_help do %>
-      <label class='col-md-2 control-label' for='setup_insights'>
-        <%= _('Setup Insights') %>
-      </label>
-      <div class='col-md-4'>
-        <% insights_opts = options_for_select([[_('Yes'), 'true'], [_('No'), 'false']], params[:setup_insights]) %>
-        <%= select_tag 'setup_insights', insights_opts, class: 'form-control', include_blank: '' %>
-      </div>
-    <% end %>
+    <label class='col-md-2 control-label' for='setup_insights'>
+      <% help = _('If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it.') %>
+      <%= _('Setup Insights') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info "></span>
+      </a>
+    </label>
+    <div class='col-md-4'>
+      <% insights_opts = options_for_select([[_('Yes'), 'true'], [_('No'), 'false']], params[:setup_insights]) %>
+      <%= select_tag 'setup_insights', insights_opts, class: 'form-control', include_blank: '' %>
+    </div>
   </div>
   <div class='form-group'>
-    <label class='col-md-2 control-label'><%= _('Token lifetime (hours)') %></label>
+    <label class='col-md-2 control-label' for='setup_remote_execution'>
+      <%= _('Remote Execution') %>
+      <% help = _('If selected, SSH keys will be installed on the registered host.') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info "></span>
+      </a>
+    </label>
+    <div class='col-md-4'>
+      <% rex_opts = options_for_select([[_('Yes'), 'true'], [_('No'), 'false']], params[:setup_remote_execution]) %>
+      <%= select_tag 'setup_remote_execution', rex_opts, class: 'form-control', include_blank: '' %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label' for='jwt_expiration'>
+      <%= _('Token lifetime (hours)') %>
+      <% help = _('Expiration of the authorization token.') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info "></span>
+      </a>
+    </label>
     <div class='col-md-4'>
       <%= number_field_tag 'jwt_expiration', params[:jwt_expiration] || 4, class: 'form-control', min: 1, required: true %>
     </div>
