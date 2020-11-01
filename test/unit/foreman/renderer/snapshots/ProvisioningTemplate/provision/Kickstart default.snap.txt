@@ -113,14 +113,13 @@ fi
 #                                         effective user
 #
 # This template sets up SSH keys in any host so that as long as your public
-# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This 
+# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This
 # works in combination with Remote Execution plugin by querying smart proxies
 # to build an array.
 #
 # To use this snippet without the plugin provide the SSH keys as host parameter
 # remote_execution_ssh_keys. It expects the same format like the authorized_keys
 # file.
-
 
 
 

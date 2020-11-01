@@ -19,7 +19,7 @@ snippet: true
 #                                         effective user
 #
 # This template sets up SSH keys in any host so that as long as your public
-# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This 
+# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This
 # works in combination with Remote Execution plugin by querying smart proxies
 # to build an array.
 #
@@ -28,6 +28,7 @@ snippet: true
 # file.
 
 
+<% if host_param_true?('host_registration_remote_execution') -%>
 <% if !host_param('remote_execution_ssh_keys').blank? %>
 <% ssh_user = host_param('remote_execution_ssh_user') || 'root' %>
 
@@ -55,7 +56,7 @@ EOF
 
   # Restore SELinux context with restorecon, if it's available:
   command -v restorecon && restorecon -RvF <%= ssh_path %> || true
-  
+
 <% if ssh_user != 'root' && host_param('remote_execution_effective_user_method') == 'sudo' -%>
 <% if @host.operatingsystem.family == 'Redhat' || @host.operatingsystem.family == 'Debian' -%>
 echo "<%= ssh_user %> ALL = (root) NOPASSWD : ALL
@@ -69,3 +70,4 @@ else
   echo 'The remote_execution_ssh_user does not exist and remote_execution_create_user is not set to true.  remote_execution_ssh_keys snippet will not install keys'
 fi
 <% end %>
+<% end -%>

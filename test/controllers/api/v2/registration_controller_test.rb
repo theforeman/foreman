@@ -167,6 +167,51 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
         assert assigns(:global_registration_vars)[:setup_insights]
       end
     end
+
+    context 'setup_remote_execution' do
+      before do
+        CommonParameter.where(name: 'host_registration_remote_execution').destroy_all
+      end
+
+      test 'without param' do
+        get :global, session: set_session_user
+        assert_nil assigns(:global_registration_vars)[:setup_remote_execution]
+      end
+
+      test 'when host_registration_remote_execution = nil && setup_remote_execution = true' do
+        get :global, params: { setup_remote_execution: true }, session: set_session_user
+        assert assigns(:global_registration_vars)[:setup_remote_execution]
+      end
+
+      test 'when host_registration_remote_execution = nil && setup_remote_execution = false' do
+        get :global, params: { setup_remote_execution: false }, session: set_session_user
+        refute assigns(:global_registration_vars)[:setup_remote_execution]
+      end
+
+      test 'when host_registration_remote_execution = true && setup_remote_execution = true' do
+        CommonParameter.create(name: 'host_registration_remote_execution', key_type: 'boolean', value: true)
+        get :global, params: { setup_remote_execution: true }, session: set_session_user
+        assert_nil assigns(:global_registration_vars)[:setup_remote_execution]
+      end
+
+      test 'when host_registration_remote_execution = false && setup_remote_execution = false' do
+        CommonParameter.create(name: 'host_registration_remote_execution', key_type: 'boolean', value: false)
+        get :global, params: { setup_remote_execution: false }, session: set_session_user
+        assert_nil assigns(:global_registration_vars)[:setup_remote_execution]
+      end
+
+      test 'when host_registration_remote_execution = true && setup_remote_execution = false' do
+        CommonParameter.create(name: 'host_registration_remote_execution', key_type: 'boolean', value: true)
+        get :global, params: { setup_remote_execution: false }, session: set_session_user
+        refute assigns(:global_registration_vars)[:setup_remote_execution]
+      end
+
+      test 'when host_registration_remote_execution = false && setup_remote_execution = true' do
+        CommonParameter.create(name: 'host_registration_remote_execution', key_type: 'boolean', value: false)
+        get :global, params: { setup_remote_execution: true }, session: set_session_user
+        assert assigns(:global_registration_vars)[:setup_remote_execution]
+      end
+    end
   end
 
   describe 'host registration' do
@@ -284,6 +329,36 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
 
         host = Host.find_by(name: params[:host][:name]).reload
         refute HostParameter.find_by(host: host, name: 'host_registration_insights').value
+      end
+    end
+
+    context 'setup_remote_execution' do
+      test 'without param' do
+        params = { setup_remote_execution: '' }.merge(host_params)
+        post :host, params: params, session: set_session_user
+        assert_response :success
+
+        host = Host.find_by(name: params[:host][:name]).reload
+        assert_nil HostParameter.find_by(host: host, name: 'host_registration_remote_execution')
+      end
+
+      test 'with setup_remote_execution = true' do
+        params = { setup_remote_execution: 'true' }.merge(host_params)
+        post :host, params: params, session: set_session_user
+        assert_response :success
+
+        host = Host.find_by(name: params[:host][:name]).reload
+        assert HostParameter.find_by(host: host, name: 'host_registration_remote_execution').value
+      end
+
+      test 'with setup_remote_execution = false' do
+        params = { setup_remote_execution: 'false' }.merge(host_params)
+
+        post :host, params: params, session: set_session_user
+        assert_response :success
+
+        host = Host.find_by(name: params[:host][:name]).reload
+        refute HostParameter.find_by(host: host, name: 'host_registration_remote_execution').value
       end
     end
   end
