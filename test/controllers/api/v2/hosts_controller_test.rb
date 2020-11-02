@@ -1335,13 +1335,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal puppetclass.id, response['puppetclasses'][0]['id'], "Can't update host with puppetclass #{puppetclass}"
   end
 
-  test "should update with puppet proxy" do
-    puppet_proxy = FactoryBot.create(:puppet_smart_proxy)
-    put :update, params: { :id => @host.id, :host => valid_attrs.merge(:puppet_proxy_id => puppet_proxy.id) }
-    assert_response :success
-    assert_equal puppet_proxy['name'], JSON.parse(@response.body)['puppet_proxy']['name'], "Can't update host with puppet proxy #{puppet_proxy}"
-  end
-
   # This is a test of the base_controller functionality, but we need to use a real endpoint
   # to test the API response metadata is returned correctly
   describe 'should create correct subtotals' do

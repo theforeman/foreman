@@ -8,7 +8,6 @@ module PuppetRelatedHelper
   def puppet_actions
     actions = []
     if authorized_for(:controller => :hosts, :action => :edit)
-      actions << { :action => [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path], :priority => 1050 } if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
       actions << { :action => [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path], :priority => 1051 } if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
     end
     actions

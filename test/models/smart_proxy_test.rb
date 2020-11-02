@@ -45,14 +45,6 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_or_selected_location_ids
   end
 
-  test "should return environment stats" do
-    proxy = smart_proxies(:puppetmaster)
-    ProxyAPI::Puppet.any_instance.expects(:environments).returns(['env1', 'env2'])
-    ProxyAPI::Puppet.any_instance.expects(:class_count).with('env1').returns(1)
-    ProxyAPI::Puppet.any_instance.expects(:class_count).with('env2').returns(2)
-    assert_equal({'env1' => 1, 'env2' => 2}, proxy.statuses[:puppet].environment_stats)
-  end
-
   describe "with older smart proxy on v1 api" do
     before do
       ProxyAPI::V2::Features.any_instance.stubs(:features).raises(NotImplementedError.new('not supported'))
@@ -67,15 +59,6 @@ class SmartProxyTest < ActiveSupport::TestCase
         assert @proxy.save
       end
       assert_equal @proxy.url, "http://some.proxy:4568"
-    end
-
-    test "can count connected hosts" do
-      proxy = FactoryBot.create(:puppet_smart_proxy)
-      FactoryBot.create(:host, :with_environment, :puppet_proxy => proxy)
-
-      as_admin do
-        assert_equal 1, proxy.hosts_count
-      end
     end
 
     test "should be saved if features exist" do

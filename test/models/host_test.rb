@@ -359,26 +359,6 @@ class HostTest < ActiveSupport::TestCase
     refute_valid host, :'lookup_values.value', /invalid hash/
   end
 
-  test "should read the Puppetserver URL from its proxy settings" do
-    host = FactoryBot.build_stubbed(:host)
-    assert_nil host.puppet_server_uri
-    assert_empty host.puppetmaster
-
-    proxy = FactoryBot.create(:puppet_smart_proxy, url: 'https://smartproxy.example.com:8443')
-    host.puppet_proxy = proxy
-    assert_equal 'https://smartproxy.example.com:8140', host.puppet_server_uri.to_s
-    assert_equal 'smartproxy.example.com', host.puppetmaster
-
-    features = {
-      'puppet' => {
-        settings: {'puppet_url': 'https://puppet.example.com:8140'},
-      },
-    }
-    SmartProxyFeature.import_features(proxy, features)
-    assert_equal 'https://puppet.example.com:8140', host.puppet_server_uri.to_s
-    assert_equal 'puppet.example.com', host.puppetmaster
-  end
-
   test "should read the Puppet CA Server URL from its proxy settings" do
     host = FactoryBot.build_stubbed(:host)
     assert_nil host.puppet_ca_server_uri
@@ -535,7 +515,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'host #refresh_statuses saves all relevant statuses and refreshes global status' do
     stub_smart_proxy_v2_features
-    host = FactoryBot.create(:host, :with_puppet, :with_reports)
+    host = FactoryBot.create(:host, :with_reports)
     host.reload
     host.global_status = 1
 
@@ -2009,21 +1989,6 @@ class HostTest < ActiveSupport::TestCase
     assert results.include?(host1)
   end
 
-  test "can search hosts by smart proxy" do
-    host = FactoryBot.create(:host)
-    proxy = FactoryBot.create(:puppet_and_ca_smart_proxy)
-    results = Host.search_for("smart_proxy = #{proxy.name}")
-    assert_equal 0, results.count
-    host.update_attribute(:puppet_proxy_id, proxy.id)
-    results = Host.search_for("smart_proxy = #{proxy.name}")
-    assert_equal 1, results.count
-    assert results.include?(host)
-    # the results should not change even if the host has multiple connections to same proxy
-    host.update_attribute(:puppet_ca_proxy_id, proxy.id)
-    results2 = Host.search_for("smart_proxy = #{proxy.name}")
-    assert_equal results, results2
-  end
-
   test "can search hosts by puppet class" do
     host = FactoryBot.create(:host, :with_puppetclass)
     results = Host.search_for("class = #{host.puppetclasses.first.name}")
@@ -3437,7 +3402,6 @@ class HostTest < ActiveSupport::TestCase
     test 'returns IDs for proxies associated with host services' do
       # IDs are fake, just to prove host.smart_proxy_ids gathers them
       host = FactoryBot.build(:host, :with_subnet, :with_realm,
-        :puppet_proxy_id => 1,
         :puppet_ca_proxy_id => 1)
       host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
       host.subnet.tftp_id = 2
@@ -3448,17 +3412,15 @@ class HostTest < ActiveSupport::TestCase
 
     context 'from hostgroup' do
       setup do
-        @hostgroup = FactoryBot.create(:hostgroup, :with_puppet_orchestration)
+        @hostgroup = FactoryBot.create(:hostgroup, :with_puppet_ca)
         @host = FactoryBot.build_stubbed(:host)
         @host.hostgroup = @hostgroup
-        @host.send(:assign_hostgroup_attributes,
-          [:puppet_ca_proxy_id, :puppet_proxy_id])
+        @host.send(:assign_hostgroup_attributes, [:puppet_ca_proxy_id])
       end
 
       test 'returns IDs for proxies used by services inherited from hostgroup' do
         @host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
         assert_equal [@hostgroup.puppet_ca_proxy_id,
-                      @hostgroup.puppet_proxy_id,
                       @host.realm.realm_proxy_id].sort,
           @host.smart_proxy_ids.sort
       end
@@ -3466,8 +3428,7 @@ class HostTest < ActiveSupport::TestCase
       test 'does not return IDs for services not inherited from the hostgroup' do
         @host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
         @host.puppet_proxy_id = nil
-        assert_equal [@hostgroup.puppet_ca_proxy_id,
-                      @host.realm.realm_proxy_id].sort,
+        assert_equal [@hostgroup.puppet_ca_proxy_id, @host.realm.realm_proxy_id].sort,
           @host.smart_proxy_ids.sort
       end
     end
@@ -3544,19 +3505,17 @@ class HostTest < ActiveSupport::TestCase
     host_2 = FactoryBot.create(:host, :with_dns_orchestration)
     host_3 = FactoryBot.create(:host, :with_dhcp_orchestration)
     host_4 = FactoryBot.create(:host, :with_realm)
-    host_5 = FactoryBot.create(:host, :with_puppet)
-    host_6 = FactoryBot.create(:host, :with_puppet_ca)
+    host_5 = FactoryBot.create(:host, :with_puppet_ca)
 
     tftp_proxy_id = host_1.primary_interface.subnet.tftp_id
     dns_proxy_id = host_2.primary_interface.subnet.dns_id
     dhcp_proxy_id = host_3.primary_interface.subnet.dhcp_id
     realm_proxy_id = host_4.realm.realm_proxy_id
-    puppet_id = host_5.puppet_proxy_id
-    puppet_ca_id = host_6.puppet_ca_proxy_id
+    puppet_ca_id = host_5.puppet_ca_proxy_id
 
-    res = Host.smart_proxy_ids(Host.where(:id => [host_1, host_2, host_3, host_4, host_5, host_6].map(&:id)))
+    res = Host.smart_proxy_ids(Host.where(:id => [host_1, host_2, host_3, host_4, host_5].map(&:id)))
 
-    [tftp_proxy_id, dns_proxy_id, dhcp_proxy_id, realm_proxy_id, puppet_id, puppet_ca_id].each do |id|
+    [tftp_proxy_id, dns_proxy_id, dhcp_proxy_id, realm_proxy_id, puppet_ca_id].each do |id|
       assert res.include?(id)
     end
   end

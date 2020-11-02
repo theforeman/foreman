@@ -245,13 +245,6 @@ FactoryBot.define do
       operatingsystem
     end
 
-    trait :with_puppet do
-      environment
-      puppet_proxy do
-        FactoryBot.create(:puppet_smart_proxy)
-      end
-    end
-
     trait :with_puppet_ca do
       environment
       puppet_ca_proxy do
@@ -613,17 +606,17 @@ FactoryBot.define do
       domain
     end
 
-    trait :with_puppet_orchestration do
+    trait :with_puppet_ca do
+      puppet_ca_proxy do
+        FactoryBot.create(:smart_proxy, :features => [FactoryBot.create(:feature, :puppetca)])
+      end
+    end
+
+    trait :with_orchestration do
       architecture
       ptable
       operatingsystem do
         FactoryBot.create(:operatingsystem, :architectures => [architecture], :ptables => [ptable])
-      end
-      puppet_ca_proxy do
-        FactoryBot.create(:puppet_ca_smart_proxy)
-      end
-      puppet_proxy do
-        FactoryBot.create(:puppet_smart_proxy)
       end
     end
   end

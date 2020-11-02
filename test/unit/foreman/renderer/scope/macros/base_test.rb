@@ -141,7 +141,7 @@ class BaseMacrosTest < ActiveSupport::TestCase
 
   context 'subnet helpers' do
     setup do
-      host = FactoryBot.build(:host, :with_puppet)
+      host = FactoryBot.build(:host)
       @scope.instance_variable_set('@host', host)
       subnets(:one).subnet_parameters.create(name: 'myparam', value: 'myvalue')
     end

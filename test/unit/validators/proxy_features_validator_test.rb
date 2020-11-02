@@ -17,7 +17,7 @@ class ProxyFeaturesValidatorTest < ActiveSupport::TestCase
   end
 
   test 'should fail when proxy feature is not present' do
-    @validatable.proxy = FactoryBot.build(:puppet_smart_proxy)
+    @validatable.proxy = FactoryBot.build(:dhcp_smart_proxy)
     refute_valid @validatable
     assert_equal ['does not have the DNS feature'], @validatable.errors[:proxy_id]
   end
