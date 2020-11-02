@@ -2,8 +2,8 @@ class SmartProxiesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::SmartProxy
 
-  before_action :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy, :puppet_environments, :puppet_dashboard, :log_pane, :failed_modules, :errors_card, :modules_card, :expire_logs]
-  before_action :find_status, :only => [:ping, :tftp_server, :puppet_environments]
+  before_action :find_resource, :only => [:show, :edit, :update, :refresh, :ping, :tftp_server, :destroy, :log_pane, :failed_modules, :errors_card, :modules_card, :expire_logs]
+  before_action :find_status, :only => [:ping, :tftp_server]
 
   def index
     @smart_proxies = resource_base_search_and_page.includes(:features)
@@ -55,19 +55,6 @@ class SmartProxiesController < ApplicationController
     else
       render(:json => {:success => false, :message => _('No TFTP feature')})
     end
-  end
-
-  def puppet_environments
-    render :partial => 'smart_proxies/plugins/puppet_envs', :locals => {:envs => @proxy_status[:puppet].environment_stats}
-  rescue Foreman::Exception => exception
-    process_ajax_error exception
-  end
-
-  def puppet_dashboard
-    @data = Dashboard::Data.new("puppet_proxy_id = \"#{@smart_proxy.id}\"")
-    render :partial => 'smart_proxies/plugins/puppet_dashboard'
-  rescue Foreman::Exception => exception
-    process_ajax_error exception
   end
 
   def update
@@ -149,7 +136,7 @@ class SmartProxiesController < ApplicationController
     case params[:action]
       when 'refresh', 'expire_logs'
         :edit
-      when 'ping', 'tftp_server', 'puppet_environments', 'puppet_dashboard', 'log_pane', 'failed_modules', 'errors_card', 'modules_card'
+      when 'ping', 'tftp_server', 'log_pane', 'failed_modules', 'errors_card', 'modules_card'
         :view
       else
         super

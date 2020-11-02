@@ -26,7 +26,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
 
   def test_create_valid
     SmartProxy.any_instance.stubs(:valid?).returns(true)
-    SmartProxy.any_instance.stubs(:to_s).returns("puppet")
+    SmartProxy.any_instance.stubs(:to_s).returns('InternalDHCP')
     post :create, params: { :smart_proxy => {:name => "MySmartProxy", :url => "http://nowhere.net:8000"} }, session: set_session_user
     assert_redirected_to smart_proxies_url
   end
@@ -216,25 +216,6 @@ class SmartProxiesControllerTest < ActionController::TestCase
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_match(/No TFTP feature/, show_response['message'])
-  end
-
-  test '#puppet_environments' do
-    proxy = smart_proxies(:puppetmaster)
-    fake_data = {'env1' => 1, 'special_environment' => 4}
-    ProxyStatus::Puppet.any_instance.expects(:environment_stats).returns(fake_data)
-    get :puppet_environments, params: { :id => proxy.id }, session: set_session_user, xhr: true
-    assert_response :success
-    assert_template 'smart_proxies/plugins/_puppet_envs'
-    assert @response.body.include?('special_environment')
-    assert @response.body.include?('5') # the total is correct
-  end
-
-  test '#puppet_dashboard' do
-    proxy = smart_proxies(:puppetmaster)
-    get :puppet_dashboard, params: { :id => proxy.id }, session: set_session_user, xhr: true
-    assert_response :success
-    assert_template 'smart_proxies/plugins/_puppet_dashboard'
-    assert @response.body.include? 'Latest Events'
   end
 
   test '#log_pane' do

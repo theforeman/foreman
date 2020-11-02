@@ -3,23 +3,17 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
   PUPPETMASTER_ACTIONS = [:externalNodes, :lookup]
 
-  MULTIPLE_EDIT_ACTIONS = %w(select_multiple_puppet_proxy update_multiple_puppet_proxy
-                             select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
+  MULTIPLE_EDIT_ACTIONS = %w(select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
 
   included do
     add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
 
     before_action :find_multiple_for_puppet_host_extensions, :only => MULTIPLE_EDIT_ACTIONS
-    before_action :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
     before_action :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
 
     define_action_permission MULTIPLE_EDIT_ACTIONS, :edit
 
     set_callback :set_class_variables, :after, :set_puppet_class_variables
-  end
-
-  def validate_multiple_puppet_proxy
-    validate_multiple_proxy(select_multiple_puppet_proxy_hosts_path)
   end
 
   def validate_multiple_puppet_ca_proxy
@@ -85,13 +79,6 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
         "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
         errors.count) % {:proxy_type => proxy_type, :host_names => errors.map { |h, err| "#{h} (#{err})" }.to_sentence}
     end
-  end
-
-  def select_multiple_puppet_proxy
-  end
-
-  def update_multiple_puppet_proxy
-    update_multiple_proxy(_('Puppet'), :puppet_proxy=)
   end
 
   def select_multiple_puppet_ca_proxy

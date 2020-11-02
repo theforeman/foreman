@@ -13,9 +13,6 @@ module Queries
           updatedAt
           name
           title
-          environment {
-            id
-          }
           computeResource {
             id
           }
@@ -29,9 +26,6 @@ module Queries
             id
           }
           puppetCaProxy {
-            id
-          }
-          puppetProxy {
             id
           }
           ptable {
@@ -103,12 +97,12 @@ module Queries
       FactoryBot.create(
         :hostgroup,
         :with_compute_resource,
-        :with_environment,
         :with_puppetclass,
         :with_subnet,
         :with_os,
         :with_domain,
-        :with_puppet_orchestration,
+        :with_puppet_ca,
+        :with_orchestration,
         parent: parent_hostgroup,
         operatingsystem: operatingsystem
       )
@@ -136,13 +130,11 @@ module Queries
       assert_equal hostgroup.name, data['name']
       assert_equal hostgroup.title, data['title']
 
-      assert_record hostgroup.environment, data['environment']
       assert_record hostgroup.compute_resource, data['computeResource'], type_name: 'ComputeResource'
       assert_record hostgroup.architecture, data['architecture']
       assert_record hostgroup.domain, data['domain']
       assert_record hostgroup.operatingsystem, data['operatingsystem'], type_name: 'Operatingsystem'
       assert_record hostgroup.puppet_ca_proxy, data['puppetCaProxy']
-      assert_record hostgroup.puppet_proxy, data['puppetProxy']
       assert_record hostgroup.ptable, data['ptable']
       assert_record hostgroup.medium, data['medium']
 

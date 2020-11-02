@@ -5,7 +5,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   include HostFinders
 
   before do
-    as_admin { @host = FactoryBot.create(:host, :with_puppet, :managed) }
+    as_admin { @host = FactoryBot.create(:host, :managed) }
   end
 
   test "index page with search" do

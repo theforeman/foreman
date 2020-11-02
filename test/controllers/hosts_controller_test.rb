@@ -600,49 +600,6 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
-  describe "setting puppet proxy on multiple hosts" do
-    before do
-      setup_user_and_host "edit"
-      as_admin do
-        @hosts = FactoryBot.create_list(:host, 2, :with_puppet)
-      end
-    end
-
-    test "should change the puppet proxy" do
-      @request.env['HTTP_REFERER'] = hosts_path
-
-      proxy = as_admin { FactoryBot.build(:puppet_smart_proxy) }
-
-      params = { :host_ids => @hosts.map(&:id),
-                 :proxy => { :proxy_id => proxy.id } }
-
-      post :update_multiple_puppet_proxy, params: params,
-        session: set_session_user.merge(:user => users(:admin).id)
-
-      assert_empty flash[:error]
-
-      @hosts.each do |host|
-        assert_nil host.reload.puppet_ca_proxy
-      end
-    end
-
-    test "should clear the puppet proxy of multiple hosts" do
-      @request.env['HTTP_REFERER'] = hosts_path
-
-      params = { :host_ids => @hosts.map(&:id),
-                 :proxy => { :proxy_id => "" } }
-
-      post :update_multiple_puppet_proxy, params: params,
-        session: set_session_user.merge(:user => users(:admin).id)
-
-      assert_empty flash[:error]
-
-      @hosts.each do |host|
-        assert_nil host.reload.puppet_ca_proxy
-      end
-    end
-  end
-
   describe "setting puppet ca proxy on multiple hosts" do
     before do
       setup_user_and_host "edit"

@@ -12,6 +12,5 @@ module ProxyStatus
 end
 require_dependency('proxy_status/version')
 require_dependency('proxy_status/tftp')
-require_dependency('proxy_status/puppet')
 require_dependency('proxy_status/puppetca')
 require_dependency('proxy_status/logs')
