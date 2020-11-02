@@ -1,6 +1,16 @@
 require 'test_helper'
 
 class HostTemplateTest < ActiveSupport::TestCase
+  class HostDummyEncInfo
+    def initialize(host)
+      @host = host
+    end
+
+    def host_info
+      { 'parameters' => { 'very' => 'informative' } }
+    end
+  end
+
   setup do
     host = FactoryBot.build_stubbed(:host)
     template = OpenStruct.new(
@@ -13,26 +23,27 @@ class HostTemplateTest < ActiveSupport::TestCase
     @scope = Class.new(Foreman::Renderer::Scope::Base) do
       include Foreman::Renderer::Scope::Macros::HostTemplate
     end.send(:new, host: host, source: source)
+    HostInfo.stubs(:providers).returns([HostDummyEncInfo])
   end
 
   describe '#host_enc' do
     test 'should have host_enc helper' do
-      host = FactoryBot.build(:host, :with_puppet)
+      host = FactoryBot.build(:host)
       @scope.instance_variable_set('@host', host)
-      assert @scope.host_enc
+      assert @scope.host_enc.is_a?(Hash)
     end
 
     test "should find path in host_enc" do
-      host = FactoryBot.build(:host, :with_puppet)
+      host = FactoryBot.build(:host)
       @scope.instance_variable_set('@host', host)
-      assert_equal host.puppetmaster, @scope.host_enc('parameters', 'puppetmaster')
+      assert_equal 'informative', @scope.host_enc('parameters', 'very')
     end
 
     test "should raise rendering exception if no such parameter exists while rendering host_enc" do
-      host = FactoryBot.build(:host, :with_puppet)
+      host = FactoryBot.build(:host)
       @scope.instance_variable_set('@host', host)
       assert_raises(Foreman::Renderer::Errors::HostENCParamUndefined) do
-        assert_equal host.puppetmaster, @scope.host_enc('parameters', 'puppetmaster_that_does_not_exist')
+        assert_equal host.puppetmaster, @scope.host_enc('parameters', 'param_that_does_not_exist')
       end
     end
 
@@ -46,19 +57,19 @@ class HostTemplateTest < ActiveSupport::TestCase
 
   describe '#host_param' do
     test 'should render host param using "host_param" helper' do
-      host = FactoryBot.build(:host, :with_puppet)
+      host = FactoryBot.build(:host)
       @scope.instance_variable_set('@host', host)
       assert @scope.host_param('test').present?
     end
 
     test 'should render host param using "host_param" helper for not existing parameter' do
-      host = FactoryBot.build(:host, :with_puppet)
+      host = FactoryBot.build(:host)
       @scope.instance_variable_set('@host', host)
       assert_nil @scope.host_param('not_existing_param')
     end
 
     test 'should render host param using "host_param" helper for not existing parameter using default value' do
-      host = FactoryBot.build(:host, :with_puppet)
+      host = FactoryBot.build(:host)
       @scope.instance_variable_set('@host', host)
       assert_equal 42, @scope.host_param('not_existing_param', 42)
     end
@@ -73,7 +84,7 @@ class HostTemplateTest < ActiveSupport::TestCase
 
   describe '#host_param!' do
     test 'should raise rendering exception if host_param! is used for not existing param' do
-      host = FactoryBot.build(:host, :with_puppet)
+      host = FactoryBot.build(:host)
       @scope.instance_variable_set('@host', host)
       assert_raises(Foreman::Renderer::Errors::HostParamUndefined) do
         @scope.host_param!('not_existing_param')
@@ -136,7 +147,7 @@ class HostTemplateTest < ActiveSupport::TestCase
 
   describe '#host_param_true?' do
     test 'should have host_param_true? helper' do
-      host = FactoryBot.create(:host, :with_puppet)
+      host = FactoryBot.create(:host)
       @scope.instance_variable_set('@host', host)
       FactoryBot.create(:parameter, :name => 'true_param', :value => "true")
       assert @scope.host_param_true?('true_param')
@@ -146,7 +157,7 @@ class HostTemplateTest < ActiveSupport::TestCase
 
   describe '#host_param_false?' do
     test 'should have host_param_false? helper' do
-      host = FactoryBot.create(:host, :with_puppet)
+      host = FactoryBot.create(:host)
       @scope.instance_variable_set('@host', host)
       FactoryBot.create(:parameter, :name => 'false_param', :value => "false")
       assert @scope.host_param_false?('false_param')

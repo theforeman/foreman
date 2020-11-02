@@ -18,7 +18,7 @@ class HostJSTest < IntegrationTestWithJavascript
   include HostOrchestrationStubs
 
   before do
-    as_admin { @host = FactoryBot.create(:host, :with_puppet, :managed) }
+    as_admin { @host = FactoryBot.create(:host, :managed) }
     Fog.mock!
     Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Libvirt::Compute::Node.new(:cpus => 4))
   end

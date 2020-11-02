@@ -34,10 +34,6 @@ FactoryBot.define do
       name { 'Puppet CA' }
     end
 
-    trait :puppet do
-      name { 'Puppet' }
-    end
-
     trait :bmc do
       name { 'BMC' }
     end

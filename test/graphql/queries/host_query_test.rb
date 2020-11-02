@@ -23,9 +23,6 @@ module Queries
           pxeLoader
           enabled
           uuid
-          environment {
-            id
-          }
           computeResource {
             id
           }
@@ -54,9 +51,6 @@ module Queries
             id
           }
           puppetCaProxy {
-            id
-          }
-          puppetProxy {
             id
           }
           medium {
@@ -100,10 +94,8 @@ module Queries
     let(:host) do
       FactoryBot.create(:host, :managed,
         :dualstack,
-        :with_environment,
         :with_model,
         :with_facts,
-        :with_puppet,
         :with_puppet_ca,
         :on_compute_resource,
         :with_compute_profile,
@@ -134,7 +126,6 @@ module Queries
       assert_equal host.enabled, data['enabled']
       assert_equal host.uuid, data['uuid']
 
-      assert_record host.environment, data['environment']
       assert_record host.compute_resource, data['computeResource'], type_name: 'ComputeResource'
       assert_record host.architecture, data['architecture']
       assert_record host.ptable, data['ptable']
@@ -144,7 +135,6 @@ module Queries
       assert_record host.organization, data['organization']
       assert_record host.operatingsystem, data['operatingsystem']
       assert_record host.puppet_ca_proxy, data['puppetCaProxy']
-      assert_record host.puppet_proxy, data['puppetProxy']
       assert_record host.medium, data['medium']
       assert_record host.hostgroup, data['hostgroup']
       assert_record host.subnet, data['subnet'], type_name: 'Subnet'
