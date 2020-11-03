@@ -1,5 +1,7 @@
 class TemplateRenderJob < ApplicationJob
   queue_as :default
+  include ::Foreman::ObservableJob
+  set_hook :template_render_performed
 
   def perform(composer_params, opts = {})
     user = User.unscoped.find(opts[:user_id])

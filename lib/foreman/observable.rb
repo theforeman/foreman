@@ -2,12 +2,12 @@ module Foreman
   module Observable
     DEFAULT_NAMESPACE = 'event.foreman'
 
-    def trigger_hook(hook_name, namespace: DEFAULT_NAMESPACE, payload: nil, &blk)
+    def trigger_hook(hook_name, namespace: DEFAULT_NAMESPACE, payload: nil, block_argument: self, &blk)
       event_name = event_name_for(hook_name, namespace: namespace)
-      event_context = { context: ::Logging.mdc.context.symbolize_keys }
-      event_payload = event_payload_for(payload, blk).to_h
-      payload_with_context = event_payload.merge(event_context)
-      ActiveSupport::Notifications.instrument(event_name, payload_with_context)
+      event_payload = { context: ::Logging.mdc.context.symbolize_keys }.with_indifferent_access
+      yielded_payload = event_payload_for(payload, block_argument, blk)
+      event_payload.merge!(yielded_payload) if yielded_payload
+      ActiveSupport::Notifications.instrument(event_name, event_payload)
     end
 
     private
@@ -17,8 +17,8 @@ module Foreman
     end
     module_function :event_name_for
 
-    def event_payload_for(payload, blk)
-      payload || blk&.call(self)
+    def event_payload_for(payload, block_argument, blk)
+      payload || blk&.call(block_argument)&.to_h
     end
   end
 end
