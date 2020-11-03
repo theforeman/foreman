@@ -95,3 +95,22 @@ Doing so by updating the plugin's `routes.rb`:
  match '/plugin_page' => '/react#index', :via => [:get]
 ```
 This will use the react template in foreman core.
+
+### Adding Styles
+CSS importing should work out of the box.
+Please use `local` scope when overriding core's styles.
+```css
+/* styles.css */
+:local(.overrideClass) {
+  margin-top: 50px;
+  color: red;
+}
+
+```
+```js
+// index.js
+import React from 'react';
+import pluginStyles from 'styles.css';
+
+return <Component className={pluginStyles.overrideClass} />
+```
