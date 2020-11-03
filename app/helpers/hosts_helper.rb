@@ -40,11 +40,6 @@ module HostsHelper
     javascript_include_tag("compute_resources/#{compute_resource.provider.downcase}/#{js_name}.js")
   end
 
-  def value_hash_cache(host)
-    @value_hash_cache ||= {}
-    @value_hash_cache[host.id] ||= HostInfoProviders::PuppetInfo.new(host).inherited_puppetclass_parameters
-  end
-
   def host_taxonomy_select(f, taxonomy)
     taxonomy_id = "#{taxonomy.to_s.downcase}_id"
     selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)
