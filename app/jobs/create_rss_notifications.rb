@@ -1,4 +1,7 @@
 class CreateRssNotifications < ApplicationJob
+  include ::Foreman::ObservableJob
+  set_hook :create_rss_notifications_performed
+
   def perform(options = {})
     # Defaults to theforeman.org blog RSS
     UINotifications::RssNotificationsChecker.new(options).deliver!
