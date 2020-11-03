@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DatePicker is working properly 1`] = `
+exports[`DatePicker edit works 1`] = `
 <div>
   <span
     class="input-group date-time-picker-pf input-group"
@@ -9,7 +9,7 @@ exports[`DatePicker is working properly 1`] = `
       aria-label="date-time-picker-input"
       class="date-input form-control"
       type="text"
-      value=""
+      value="2019-02-22"
     />
     <span
       class="date-picker-pf input-group-addon"
@@ -31,7 +31,38 @@ exports[`DatePicker is working properly 1`] = `
 </div>
 `;
 
-exports[`Edit form of DatePicker 1`] = `
+exports[`DatePicker prefils the value from prop 1`] = `
+<div>
+  <span
+    class="input-group date-time-picker-pf input-group"
+  >
+    <input
+      aria-label="date-time-picker-input"
+      class="date-input form-control"
+      type="text"
+      value="2019-02-21"
+    />
+    <span
+      class="date-picker-pf input-group-addon"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-calendar"
+      />
+    </span>
+    <span
+      class="clear-button input-group-addon"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-close"
+      />
+    </span>
+  </span>
+</div>
+`;
+
+exports[`DatePicker renders properly 1`] = `
 <div>
   <span
     class="input-group date-time-picker-pf input-group"

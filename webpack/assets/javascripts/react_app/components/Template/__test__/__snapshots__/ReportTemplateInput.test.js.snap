@@ -2,7 +2,6 @@
 
 exports[`Report Template AutoComplete rendering renders report template with date input 1`] = `
 <DateTime
-  hideValue={false}
   id={4}
   info="Format is yyyy-mm-dd HH-mm-ss"
   inputProps={

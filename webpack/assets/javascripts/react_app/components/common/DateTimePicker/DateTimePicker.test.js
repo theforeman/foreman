@@ -2,17 +2,23 @@ import React from 'react';
 import { shallow, mount } from '@theforeman/test';
 import DateTimePicker from './DateTimePicker';
 
-test('DateTimePicker is working properly', () => {
-  const component = shallow(<DateTimePicker value="2/21/2019 , 2:22:31 PM" />);
+describe('DateTimePicker', () => {
+  test('renders properly', () => {
+    const component = shallow(<DateTimePicker/>);
+    expect(component.render()).toMatchSnapshot();
+  });
 
-  expect(component.render()).toMatchSnapshot();
-});
+  test('prefils the value from prop', () => {
+    const component = shallow(<DateTimePicker value="2/21/2019 , 2:22:31 PM"/>);
+    expect(component.render()).toMatchSnapshot();
+  });
 
-test('Edit form of DateTimePicker', () => {
-  const component = mount(<DateTimePicker value="2/21/2019 ,2:22:31 PM" />);
-  expect(component.render()).toMatchSnapshot();
-  component
-    .find('input')
-    .simulate('change', { target: { value: '2/22/2019 , 2:22:31 PM' } });
-  expect(component.state().value).toEqual(new Date('2/22/2019 , 2:22:31 PM'));
+  test('edit works', () => {
+    const component = mount(<DateTimePicker value="2/21/2019 ,2:22:31 PM" />);
+    component
+      .find('input')
+      .simulate('change', { target: { value: '2/22/2019 , 2:22:31 PM' } });
+    expect(component.state().value).toEqual(new Date('2/22/2019 , 2:22:31 PM'));
+    expect(component.render()).toMatchSnapshot();
+  });
 });
