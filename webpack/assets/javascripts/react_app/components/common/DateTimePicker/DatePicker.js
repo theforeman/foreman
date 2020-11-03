@@ -13,14 +13,19 @@ import { formatDate } from '../../../common/helpers';
 import './date-time-picker.scss';
 
 class DatePicker extends React.Component {
+  get hasDefaultValue() {
+    const { value } = this.props;
+    return !!Date.parse(value);
+  }
+
   get initialDate() {
     const { value } = this.props;
-    return Date.parse(value) ? new Date(value) : new Date();
+    return this.hasDefaultValue ? new Date(value) : new Date();
   }
 
   state = {
     value: this.initialDate,
-    hiddenValue: this.props.hiddenValue,
+    hiddenValue: !this.hasDefaultValue,
   };
 
   setSelected = date => {
@@ -99,17 +104,15 @@ DatePicker.propTypes = {
   weekStartsOn: PropTypes.number,
   id: PropTypes.string,
   placement: OverlayTrigger.propTypes.placement,
-  hiddenValue: PropTypes.bool,
   required: PropTypes.bool,
 };
 DatePicker.defaultProps = {
-  value: new Date(),
+  value: null,
   name: null,
   locale: 'en-US',
   weekStartsOn: 1,
   id: 'date-picker-popover',
   placement: 'top',
-  hiddenValue: true,
   required: false,
 };
 export default DatePicker;

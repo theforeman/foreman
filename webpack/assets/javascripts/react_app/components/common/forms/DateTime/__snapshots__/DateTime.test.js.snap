@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Report Template AutoComplete rendering renders Report Date input 1`] = `
+exports[`DateTime rendering renders Report Date input 1`] = `
 <CommonForm
   className=""
   inputClassName="col-md-4"
@@ -10,7 +10,6 @@ exports[`Report Template AutoComplete rendering renders Report Date input 1`] = 
   touched={true}
 >
   <DateTimePicker
-    hiddenValue={false}
     id="template-date-input-4"
     inputProps={
       Object {
@@ -27,7 +26,7 @@ exports[`Report Template AutoComplete rendering renders Report Date input 1`] = 
 </CommonForm>
 `;
 
-exports[`Report Template AutoComplete rendering renders with Require and Info 1`] = `
+exports[`DateTime rendering renders with Require and Info 1`] = `
 <CommonForm
   className=""
   inputClassName="col-md-4"
@@ -48,7 +47,6 @@ exports[`Report Template AutoComplete rendering renders with Require and Info 1`
   touched={true}
 >
   <DateTimePicker
-    hiddenValue={false}
     id="template-date-input-4"
     inputProps={
       Object {

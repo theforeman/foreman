@@ -15,16 +15,21 @@ import { formatDateTime } from '../../../common/helpers';
 import './date-time-picker.scss';
 
 class DateTimePicker extends React.Component {
+  get hasDefaultValue() {
+    const { value } = this.props;
+    return !!Date.parse(value);
+  }
+
   get initialDate() {
     const { value } = this.props;
-    return Date.parse(value) ? new Date(value) : new Date();
+    return this.hasDefaultValue ? new Date(value) : new Date();
   }
 
   state = {
     value: this.initialDate,
     typeOfDateInput: MONTH,
     isTimeTableOpen: false,
-    hiddenValue: this.props.hiddenValue,
+    hiddenValue: !this.hasDefaultValue,
   };
 
   setSelected = date => {
@@ -122,18 +127,16 @@ DateTimePicker.propTypes = {
   weekStartsOn: PropTypes.number,
   inputProps: PropTypes.object,
   id: PropTypes.string,
-  hiddenValue: PropTypes.bool,
   placement: OverlayTrigger.propTypes.placement,
   name: PropTypes.string,
   required: PropTypes.bool,
 };
 DateTimePicker.defaultProps = {
-  value: new Date(),
+  value: null,
   locale: 'en-US',
   weekStartsOn: 1,
   inputProps: {},
   id: 'datetime-picker-popover',
-  hiddenValue: true,
   placement: 'top',
   name: undefined,
   required: false,

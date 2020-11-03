@@ -12,7 +12,6 @@ const DateTime = ({
   id,
   info,
   isRequired,
-  hideValue,
   locale,
   inputProps,
   value,
@@ -36,7 +35,6 @@ const DateTime = ({
       }
     >
       <DateTimePicker
-        hiddenValue={hideValue && !isRequired}
         value={value}
         id={`template-date-input-${id}`}
         inputProps={{
@@ -58,7 +56,6 @@ DateTime.propTypes = {
   inputProps: PropTypes.object,
   value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
   initialError: PropTypes.string,
-  hideValue: PropTypes.bool,
 };
 
 DateTime.defaultProps = {
@@ -67,7 +64,6 @@ DateTime.defaultProps = {
   locale: null,
   value: new Date(),
   initialError: undefined,
-  hideValue: false,
   inputProps: {},
 };
 

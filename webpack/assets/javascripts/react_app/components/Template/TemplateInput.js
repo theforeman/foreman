@@ -48,7 +48,6 @@ const TemplateInput = ({
           inputProps={{
             name: `${template}[input_values][${id}][value]`,
           }}
-          hideValue={!value.length}
           value={value || undefined}
         />
       );
