@@ -1,4 +1,7 @@
 class StoredValuesCleanupJob < ApplicationJob
+  include ::Foreman::ObservableJob
+  set_hook :stored_values_cleanup_performed
+
   def perform(options = {})
     StoredValue.expired(options[:ago] || 0).destroy_all
   ensure

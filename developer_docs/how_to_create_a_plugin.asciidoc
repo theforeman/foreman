@@ -2114,7 +2114,39 @@ where `my_event.foreman` is the name of the event you want to subscribe to. You 
   subscribe /.foreman$/, MyPlugin::MySubscriber
 ....
 
-You can find all observable events by calling `Foreman::EventSubscribers.all_observable_events` in the Rails console. Keep in mind that this list only contains events that were set by the `set_hook` method.
+Example events emitted by creating, updating or deleting of selected records (subclasses of `ApplicationRecord` which are defined via `set_hook` method):
+
+* `subnet_created.event.foreman`
+* `subnet_updated.event.foreman`
+* `subnet_destroyed.event.foreman`
+
+Payload for records is the record model object itself under key `object` and `context` with additional logging context. Keep in mind that the model classes are not subject of stable API, they will change in the future. It's recommended not to publish full object but to strip down exposed information to bare minimum (e.g. host name and ID). 
+
+Example events emitted by performing background jobs (subclasses of `ApplicationJob`):
+
+* `template_render_job_performed.event.foreman`
+* `create_rss_notifications_performed.event.foreman`
+
+Payload for background jobs is the serialized active job hash (see `ActiveJob#serialize` method) named `job` and `context` with additional logging context. Arguments are available via "arguments" key and hash keys are converted to strings. An example for `SomeJob.new(1, 2, "third option", {"a_string" => 1, :a_symbol => 1}).perform_now`:
+
+```
+{
+  "context"=>{"user_login"=>"secret_admin", "user_admin"=>true},
+  "job_class"=>nil,
+  "job_id"=>"fbbf03d3-43a3-4466-9582-16825dd56334",
+  "provider_job_id"=>nil,
+  "queue_name"=>"default",
+  "priority"=>nil,
+  "arguments"=>[1, 2, "third option", {"a_string"=>1, "a_symbol"=>1, "_aj_symbol_keys"=>["a_symbol"]}],
+  "executions"=>1,
+  "exception_executions"=>{},
+  "locale"=>"en",
+  "timezone"=>"UTC",
+  "enqueued_at"=>"2021-01-12T10:07:22Z"
+}
+```
+
+You can find all observable events by calling `Foreman::EventSubscribers.all_observable_events` in the Rails console. 
 
 [[translating]]
 == Translating
