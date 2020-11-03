@@ -7,7 +7,7 @@ const fixtures = {
   'renders with Require and Info': DateTimeWithRequireAndInfo,
 };
 
-describe('Report Template AutoComplete', () => {
+describe('DateTime', () => {
   describe('rendering', () => {
     testComponentSnapshotsWithFixtures(DateTime, fixtures);
   });
