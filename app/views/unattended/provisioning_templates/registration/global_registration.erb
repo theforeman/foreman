@@ -16,6 +16,7 @@ model: ProvisioningTemplate
 <%= "\n# Operating System: [#{@operatingsystem.name}]" if @operatingsystem -%>
 <%= "\n# Setup Insights: [#{@setup_insights}]" unless @setup_insights.nil? -%>
 <%= "\n# Setup Remote Execution: [#{@setup_remote_execution}]" unless @setup_remote_execution.nil? -%>
+<%= "\n# Remote execution interface: [#{@remote_execution_interface}]" if @remote_execution_interface.present? -%>
 
 
 if ! [ $(id -u) = 0 ]; then
@@ -45,6 +46,7 @@ register_host() {
        <%= "--data \"host[operatingsystem_id]=#{@operatingsystem.id}\"" if @operatingsystem -%>
        <%= "--data \"setup_insights=#{@setup_insights}\"" unless @setup_insights.nil? -%>
        <%= "--data \"setup_remote_execution=#{@setup_remote_execution}\"" unless @setup_remote_execution.nil? -%>
+       <%= "--data \"remote_execution_interface=#{@remote_execution_interface}\"" if @remote_execution_interface.present? -%>
 
 }
 
@@ -63,6 +65,7 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
             <%= "--data \"host[hostgroup_id]=#{@hostgroup.id}\"" if @hostgroup -%>
             <%= "--data \"setup_insights=#{@setup_insights}\"" unless @setup_insights.nil? -%>
             <%= "--data \"setup_remote_execution=#{@setup_remote_execution}\"" unless @setup_remote_execution.nil? -%>
+            <%= "--data \"remote_execution_interface=#{@remote_execution_interface}\"" if @remote_execution_interface.present? -%>
 
     }
 
