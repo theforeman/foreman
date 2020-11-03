@@ -63,7 +63,7 @@ Foreman::Application.routes.draw do
         resources :locations, :only => [:index, :show]
         resources :organizations, :only => [:index, :show]
         resources :smart_proxies, :only => [] do
-          post :import_puppetclasses, :on => :member
+          post :import_puppetclasses, :on => :member, :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/environments'
         end
         constraints(:id => /[^\/]+/) do
           resources :smart_class_parameters, :except => [:new, :edit, :create], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/smart_class_parameters' do
@@ -327,9 +327,9 @@ Foreman::Application.routes.draw do
           put :refresh, :on => :member
           get :version, :on => :member
           get :logs, :on => :member
-          post :import_puppetclasses, :on => :member
+          post :import_puppetclasses, :on => :member, :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/environments'
           resources :environments, :only => [] do
-            post :import_puppetclasses, :on => :member
+            post :import_puppetclasses, :on => :member, :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/environments'
           end
           resources :autosign, :only => [:index, :create, :destroy]
         end
