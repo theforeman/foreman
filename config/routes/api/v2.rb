@@ -69,7 +69,7 @@ Foreman::Application.routes.draw do
           resources :smart_class_parameters, :except => [:new, :edit, :create], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/smart_class_parameters' do
             resources :override_values, :except => [:new, :edit], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/override_values'
           end
-          resources :puppetclasses, :except => [:new, :edit] do
+          resources :puppetclasses, :except => [:new, :edit], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/puppetclasses' do
             resources :smart_class_parameters, :except => [:new, :edit, :create], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/smart_class_parameters' do
               resources :override_values, :except => [:new, :edit, :destroy], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/override_values'
             end
@@ -96,7 +96,7 @@ Foreman::Application.routes.draw do
             resources :override_values, :except => [:new, :edit], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/override_values'
           end
         end
-        resources :puppetclasses, :except => [:new, :edit]
+        resources :puppetclasses, :except => [:new, :edit], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/puppetclasses'
         resources :hostgroup_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
         resources :hosts, :except => [:new, :edit]
         resources :template_combinations, :only => [:show, :index, :create, :update]
@@ -131,7 +131,7 @@ Foreman::Application.routes.draw do
         resources :media, :except => [:new, :edit]
         resources :ptables, :except => [:new, :edit]
         resources :architectures, :except => [:new, :edit]
-        resources :puppetclasses, :except => [:new, :edit]
+        resources :puppetclasses, :except => [:new, :edit], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/puppetclasses'
         resources :os_default_templates, :except => [:new, :edit]
       end
 
@@ -354,7 +354,7 @@ Foreman::Application.routes.draw do
               delete '/', :action => :reset
             end
           end
-          resources :puppetclasses, :except => [:new, :edit]
+          resources :puppetclasses, :except => [:new, :edit], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/puppetclasses'
 
           resources :config_reports, :only => [:index, :show] do
             get :last, :on => :collection
@@ -364,7 +364,7 @@ Foreman::Application.routes.draw do
           end
         end
 
-        resources :puppetclasses, :except => [:new, :edit] do
+        resources :puppetclasses, :except => [:new, :edit], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/puppetclasses' do
           resources :smart_class_parameters, :except => [:new, :edit, :create], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/smart_class_parameters' do
             resources :override_values, :except => [:new, :edit, :destroy], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/override_values'
           end
