@@ -13,6 +13,7 @@
     <%= stylesheet_link_tag *webpack_asset_paths('foreman-vendor', :extension => 'css') %>
     <%= stylesheet_link_tag *webpack_asset_paths('bundle', :extension => 'css') %>
     <%= stylesheet_link_tag 'application' %>
+    <%= webpacked_plugins_with_global_css %>
     <%= yield(:stylesheets) %>
 
     <%= csrf_meta_tags %>
