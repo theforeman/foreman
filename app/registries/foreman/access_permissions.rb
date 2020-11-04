@@ -185,25 +185,6 @@ Foreman::AccessControl.map do |permission_set|
     }
   end
 
-  permission_set.security_block :environments do |map|
-    map.permission :view_environments, {:environments => [:index, :show, :auto_complete_search, :welcome],
-                                           :"api/v2/environments" => [:index, :show],
-    }
-    map.permission :create_environments, {:environments => [:new, :create],
-                                           :"api/v2/environments" => [:create],
-    }
-    map.permission :edit_environments, {:environments => [:edit, :update],
-                                           :"api/v2/environments" => [:update],
-    }
-    map.permission :destroy_environments, {:environments => [:destroy],
-                                           :"api/v2/environments" => [:destroy],
-    }
-    map.permission :import_environments, {:environments => [:import_environments, :obsolete_and_new],
-                                           :"api/v2/environments" => [:import_puppetclasses],
-                                           :"api/v2/smart_proxies" => [:import_puppetclasses],
-                                            }
-  end
-
   permission_set.security_block :external_variables do |map|
     map.permission :view_external_parameters,    {:lookup_keys => [:index, :show, :auto_complete_search],
                                                  :puppetclass_lookup_keys => [:index, :show, :auto_complete_search, :welcome],
