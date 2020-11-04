@@ -26,6 +26,10 @@ namespace :errors do
       puts "You can search the logs in #{type} for request_id #{request_id}"
       exit(1)
     end
+    if Foreman::Logging.config[:layout] != 'multiline_request_pattern'
+      $STDERR.puts "Warning: Logging layout is not multiline_request_pattern."
+      $STDERR.puts "This output of this command can be incomplete."
+    end
     file_path = File.join(Foreman::Logging.log_directory, logfile)
     unless File.exist?(file_path)
       puts "Can't find log file #{file_path}"
