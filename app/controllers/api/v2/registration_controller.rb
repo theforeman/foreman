@@ -75,6 +75,7 @@ module Api
             prepare_host
             host_setup_insights
             host_setup_remote_execution
+            host_setup_extension
             @template = @host.registration_template
             raise ActiveRecord::Rollback if @template.nil?
           end
@@ -114,6 +115,10 @@ module Api
         @host.owner = User.current
 
         @host.save!
+      end
+
+      # Extension point for plugins
+      def host_setup_extension
       end
     end
   end

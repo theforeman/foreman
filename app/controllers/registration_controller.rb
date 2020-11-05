@@ -34,7 +34,7 @@ class RegistrationController < ApplicationController
   end
 
   def registration_args
-    ignored = ['utf8', 'authenticity_token', 'commit', 'action', 'locale', 'controller', 'jwt_expiration']
+    ignored = ['utf8', 'authenticity_token', 'commit', 'action', 'locale', 'controller', 'jwt_expiration', 'smart_proxy']
     args = params.except(*ignored)
     args[:setup_insights] = setup_insights_param if params['setup_insights'].to_s.present?
     args[:setup_remote_execution] = setup_remote_execution_param if params['setup_remote_execution'].to_s.present?
