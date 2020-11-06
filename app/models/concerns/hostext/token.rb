@@ -26,8 +26,14 @@ module Hostext
 
     def set_token
       return unless Setting[:token_duration] != 0
-      build_token(:value => Foreman.uuid,
-                       :expires => Time.now.utc + Setting[:token_duration].minutes)
+      value = Foreman.uuid
+      expires = Time.now.utc + Setting[:token_duration].minutes
+      logger.debug do
+        # improve debugging options but avoid leaking the token via logs
+        sha = Digest::SHA256.hexdigest(value)
+        "Building token starting with #{value[0..5]} SHA256:#{sha}"
+      end
+      build_token(:value => value, :expires => expires)
     end
 
     def token_expired?
