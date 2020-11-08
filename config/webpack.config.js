@@ -14,6 +14,7 @@ var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
 var argvParse = require('argv-parse');
 var fs = require('fs');
 var { execSync } = require('child_process');
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 var args = argvParse({
   port: {
@@ -181,6 +182,20 @@ module.exports = env => {
       new ExtractTextPlugin({
         filename: cssFilename,
         allChunks: true
+      }),
+      new OptimizeCssAssetsPlugin({
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: require('cssnano'),
+        cssProcessorPluginOptions: {
+          preset: [
+            'default',
+            {
+              discardComments: { removeAll: true },
+              discardDuplicates: { removeAll: true },
+            },
+          ],
+        },
+        canPrint: true,
       }),
       new webpack.DefinePlugin({
         'process.env': {
