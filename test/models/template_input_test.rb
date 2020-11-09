@@ -20,22 +20,22 @@ class TemplateInputTest < ActiveSupport::TestCase
 
   context 'user input' do
     before { template_input.input_type = 'user' }
-    it { assert template_input.user_template_input? }
+    it { assert template_input.input_type_instance.is_a?(InputType::UserInput) }
   end
 
   context 'fact input' do
     before { template_input.input_type = 'fact' }
-    it { assert template_input.fact_template_input? }
+    it { assert template_input.input_type_instance.is_a?(InputType::FactInput) }
   end
 
   context 'variable input' do
     before { template_input.input_type = 'variable' }
-    it { assert template_input.variable_template_input? }
+    it { assert template_input.input_type_instance.is_a?(InputType::VariableInput) }
   end
 
   context 'puppet parameter input' do
     before { template_input.input_type = 'puppet_parameter' }
-    it { assert template_input.puppet_parameter_template_input? }
+    it { assert template_input.input_type_instance.is_a?(InputType::PuppetParameterInput) }
   end
 
   test "Input should not be created for locked template" do
