@@ -14,27 +14,27 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "breadcrumbItems": Array [
-              Object {
-                "caption": "root",
-                "url": "/some-url",
-              },
-              Object {
-                "caption": "child with onClick",
-                "onClick": [MockFunction],
-              },
-              Object {
-                "caption": "active child",
-              },
-            ],
-            "isSwitchable": false,
-            "resource": Object {
-              "nameField": "name",
-              "resourceUrl": "some/url",
-              "switcherItemUrl": "some/url/:id",
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />
@@ -105,27 +105,27 @@ exports[`render pageLayout w/search 1`] = `
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "breadcrumbItems": Array [
-              Object {
-                "caption": "root",
-                "url": "/some-url",
-              },
-              Object {
-                "caption": "child with onClick",
-                "onClick": [MockFunction],
-              },
-              Object {
-                "caption": "active child",
-              },
-            ],
-            "isSwitchable": false,
-            "resource": Object {
-              "nameField": "name",
-              "resourceUrl": "some/url",
-              "switcherItemUrl": "some/url/:id",
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />
@@ -203,27 +203,27 @@ exports[`render pageLayout w/toastNotifications 1`] = `
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "breadcrumbItems": Array [
-              Object {
-                "caption": "root",
-                "url": "/some-url",
-              },
-              Object {
-                "caption": "child with onClick",
-                "onClick": [MockFunction],
-              },
-              Object {
-                "caption": "active child",
-              },
-            ],
-            "isSwitchable": false,
-            "resource": Object {
-              "nameField": "name",
-              "resourceUrl": "some/url",
-              "switcherItemUrl": "some/url/:id",
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />
@@ -293,27 +293,27 @@ exports[`render pageLayout w/toolBar 1`] = `
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "breadcrumbItems": Array [
-              Object {
-                "caption": "root",
-                "url": "/some-url",
-              },
-              Object {
-                "caption": "child with onClick",
-                "onClick": [MockFunction],
-              },
-              Object {
-                "caption": "active child",
-              },
-            ],
-            "isSwitchable": false,
-            "resource": Object {
-              "nameField": "name",
-              "resourceUrl": "some/url",
-              "switcherItemUrl": "some/url/:id",
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />
@@ -525,27 +525,27 @@ exports[`render pageLayout without search 1`] = `
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "breadcrumbItems": Array [
-              Object {
-                "caption": "root",
-                "url": "/some-url",
-              },
-              Object {
-                "caption": "child with onClick",
-                "onClick": [MockFunction],
-              },
-              Object {
-                "caption": "active child",
-              },
-            ],
-            "isSwitchable": false,
-            "resource": Object {
-              "nameField": "name",
-              "resourceUrl": "some/url",
-              "switcherItemUrl": "some/url/:id",
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />
