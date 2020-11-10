@@ -36,7 +36,7 @@ const PageLayout = ({
           )}
           {customBreadcrumbs
             ? { customBreadcrumbs }
-            : breadcrumbOptions && <BreadcrumbBar data={breadcrumbOptions} />}
+            : breadcrumbOptions && <BreadcrumbBar {...breadcrumbOptions} />}
         </div>
         {beforeToolbarComponent}
         <Row>
