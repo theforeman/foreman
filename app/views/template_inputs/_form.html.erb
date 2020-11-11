@@ -3,9 +3,9 @@
     <%= field_set_tag template_input_header(f, @template) do  %>
       <%= text_f f, :name, :disabled => @template.locked? %>
       <%= checkbox_f f, :required, :disabled => @template.locked? %>
-      <%= selectable_f f, :input_type, template_input_types_options(@template.acceptable_template_input_types), {}, :class => 'input_type_selector without_select2', :disabled => @template.locked? %>
-      <%= selectable_f f, :value_type, [[_('Plain'), 'plain'], [_("Search"), 'search'], [_('Date'), 'date']], {}, {'data-item': f.index || f.object.id, class: 'select-value-type', onchange: "tfm.templateInputs.inputValueOnchange(this)"}  %>
-      <%= selectable_f f, :resource_type, Permission.resources_with_translations, {}, {wrapper_class: "#{hide_resource_type_input(f.object)} form-group resource-type-#{f.index || f.object.id}"} %>
+      <%= selectable_f f, :input_type, template_input_types_options(@template.acceptable_template_input_types), {}, :class => "input_type_selector #{@template.locked? && 'without_select2'}", :disabled => @template.locked? %>
+      <%= selectable_f f, :value_type, [[_('Plain'), 'plain'], [_("Search"), 'search'], [_('Date'), 'date']], {}, {'data-item': f.index || f.object.id, class: "select-value-type #{@template.locked? && 'without_select2'}", onchange: "tfm.templateInputs.inputValueOnchange(this)", disabled: @template.locked? } %>
+      <%= selectable_f f, :resource_type, Permission.resources_with_translations, {}, {wrapper_class: "#{hide_resource_type_input(f.object)} form-group resource-type-#{f.index || f.object.id}", class: "#{@template.locked? && 'without_select2'}", disabled: @template.locked? } %>
       <div class="fact_input_type custom_input_type_fields" style="<%= f.object.fact_template_input? ? '' : 'display:none' %>">
         <%= text_f f, :fact_name, :class => 'fact_input_type', :required => true, :disabled => @template.locked? %>
       </div>
