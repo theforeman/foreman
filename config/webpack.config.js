@@ -14,7 +14,6 @@ var vendorEntry = require('./webpack.vendor');
 var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
 var argvParse = require('argv-parse');
 var fs = require('fs');
-var { execSync } = require('child_process');
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 var args = argvParse({
