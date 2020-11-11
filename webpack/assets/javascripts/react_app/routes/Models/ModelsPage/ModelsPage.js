@@ -8,8 +8,6 @@ import PageLayout from '../../common/PageLayout/PageLayout';
 import ModelsPageContent from './components/ModelsPageContent';
 import { MODELS_SEARCH_PROPS } from '../constants';
 
-import './ModelsPage.scss';
-
 const ModelsPage = ({
   fetchAndPush,
   search,
