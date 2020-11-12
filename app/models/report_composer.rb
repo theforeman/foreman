@@ -236,9 +236,9 @@ class ReportComposer
     scheduler.perform_later(to_params, user_id: User.current.id)
   end
 
-  def render(mode: Foreman::Renderer::REAL_MODE, **params)
+  def render(output:, mode: Foreman::Renderer::REAL_MODE, **params)
     params[:params] = { :format => format }.merge(params.fetch(:params, {}))
-    result = @template.render(mode: mode, template_input_values: template_input_values, **params)
+    result = @template.render(variables: {output: output}, mode: mode, template_input_values: template_input_values, **params)
     result = ActiveSupport::Gzip.compress(result) if gzip?
     result
   end

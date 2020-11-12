@@ -1,6 +1,7 @@
 module Api
   module V2
     class ReportTemplatesController < V2::BaseController
+      include ActionController::Live
       include Foreman::Controller::Parameters::ReportTemplate
       include Foreman::Controller::TemplateImport
 
@@ -115,8 +116,14 @@ module Api
       def generate
         @composer = ReportComposer.from_api_params(params)
         if @composer.valid?
-          response = @composer.render(params: params)
-          send_data response, type: @composer.mime_type, filename: @composer.report_filename
+          response.headers['Content-Type'] = @composer.mime_type
+          # https://discuss.rubyonrails.org/t/actioncontroller-live-chokes-at-buf-push/76490
+          response.headers['Cache-Control'] = 'no-cache'
+          response.headers['Last-Modified'] = '0'
+          response.headers['ETag'] = nil
+          response.stream.write("")
+          # TODO  @composer.report_filename
+          @composer.render(output: response.stream, params: params)
         else
           @report_template = @composer
           process_resource_error
@@ -124,6 +131,8 @@ module Api
       rescue => e
         render_error :custom_error, :status => :unprocessable_entity,
                      :locals => { :message => _("Generating Report template failed for: %s." % e.message) }
+      ensure
+        response.stream.close if @composer.valid?
       end
 
       api :POST, "/report_templates/:id/schedule_report/", N_("Schedule generating of a report")

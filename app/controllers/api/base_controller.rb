@@ -304,7 +304,8 @@ module Api
     end
 
     def log_response_body
-      logger.debug { "Body: #{response.body}" }
+      # This can be dangerous for streaming data
+      # logger.debug { "Body: #{response.body}" }
     end
 
     private
