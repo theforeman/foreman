@@ -1,3 +1,12 @@
+2020-11-12	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.2.1
+
+2020-11-08	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #31262 - Warn about incorrect logging layout
+
+2020-11-08	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #31258 - Don't fail migration if setting is hardcoded
+
 2020-10-28	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.2.0
 
