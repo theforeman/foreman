@@ -58,7 +58,7 @@ class WsProxy
       end
     end
     @proxy_port = port
-    { :port => proxy_port, :password => password, :encrypt => @encrypt }
+    { :port => proxy_port, :password => password, :encrypt => Setting[:websockets_encrypt] }
   end
 
   private
