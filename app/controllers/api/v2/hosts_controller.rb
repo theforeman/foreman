@@ -109,6 +109,7 @@ module Api
           param :capabilities, String
           param :compute_profile_id, :number
           param :interfaces_attributes, Array, :desc => N_("Host's network interfaces.") do
+            param :id, :number, :desc => N_("ID of interface")
             param_group :interface_attributes, ::Api::V2::InterfacesController
           end
           param :compute_attributes, Hash, :desc => N_("Additional compute resource specific attributes.")
