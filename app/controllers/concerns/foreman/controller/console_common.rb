@@ -1,6 +1,5 @@
 module Foreman::Controller::ConsoleCommon
   def console
-    @encrypt = Setting[:websockets_encrypt]
     render case @console[:type]
              when 'spice'
                'hosts/console/spice'
