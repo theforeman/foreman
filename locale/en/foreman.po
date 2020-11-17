@@ -2936,6 +2936,9 @@ msgstr ""
 msgid "Expand the chart"
 msgstr ""
 
+msgid "Expiration of the authorization token."
+msgstr ""
+
 msgid "Expire logs"
 msgstr ""
 
@@ -4425,6 +4428,9 @@ msgid "If owner type is specified, owner must be specified too."
 msgstr ""
 
 msgid "If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it."
+msgstr ""
+
+msgid "If selected, SSH keys will be installed on the registered host."
 msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
@@ -6486,6 +6492,9 @@ msgstr ""
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
 msgstr ""
 
+msgid "Only Smart Proxies with enabled Registration module are available"
+msgstr ""
+
 msgid "Only for BMC interfaces."
 msgstr ""
 
@@ -7447,6 +7456,9 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Remote Execution"
+msgstr ""
+
 msgid "Remote address"
 msgstr ""
 
@@ -8065,6 +8077,9 @@ msgid "Services"
 msgstr ""
 
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
+msgstr ""
+
+msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
 msgstr ""
 
 msgid "Set IP addresses for %s"
@@ -9668,9 +9683,6 @@ msgstr ""
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
 msgstr ""
 
-msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
-msgstr ""
-
 msgid "Unable to communicate with the proxy: %s"
 msgstr ""
 
@@ -9785,7 +9797,7 @@ msgstr ""
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr ""
 
-msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
+msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr ""
 
 msgid "Unable to obtain group %{group} from External IPAM."
