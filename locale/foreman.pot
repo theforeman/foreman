@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-30 15:51+0530\n"
-"PO-Revision-Date: 2020-10-30 15:51+0530\n"
+"POT-Creation-Date: 2020-11-17 13:06+0530\n"
+"PO-Revision-Date: 2020-11-17 13:06+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -576,7 +576,7 @@ msgstr ""
 #: ../app/controllers/api/v2/hostgroups_controller.rb:60
 #: ../app/controllers/api/v2/hosts_controller.rb:100
 #: ../app/controllers/api/v2/parameters_controller.rb:65
-#: ../app/controllers/api/v2/registration_controller.rb:50
+#: ../app/controllers/api/v2/registration_controller.rb:51
 msgid "Type of value"
 msgstr ""
 
@@ -1375,7 +1375,7 @@ msgstr ""
 #: ../app/controllers/api/v2/hosts_controller.rb:98
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:25
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:51
-#: ../app/controllers/api/v2/registration_controller.rb:48
+#: ../app/controllers/api/v2/registration_controller.rb:49
 msgid "Name of the parameter"
 msgstr ""
 
@@ -1383,7 +1383,7 @@ msgstr ""
 #: ../app/controllers/api/v2/hosts_controller.rb:99
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:26
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:52
-#: ../app/controllers/api/v2/registration_controller.rb:49
+#: ../app/controllers/api/v2/registration_controller.rb:50
 msgid "Parameter value"
 msgstr ""
 
@@ -1495,9 +1495,9 @@ msgstr ""
 #: ../app/controllers/api/v2/hosts_controller.rb:78
 #: ../app/controllers/api/v2/hosts_controller.rb:85
 #: ../app/controllers/api/v2/hosts_controller.rb:89
-#: ../app/controllers/api/v2/registration_controller.rb:42
 #: ../app/controllers/api/v2/registration_controller.rb:43
 #: ../app/controllers/api/v2/registration_controller.rb:44
+#: ../app/controllers/api/v2/registration_controller.rb:45
 msgid "required if host is managed and value is not inherited from host group"
 msgstr ""
 
@@ -1506,7 +1506,7 @@ msgid "not required if using a subnet with DHCP proxy"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:76
-#: ../app/controllers/api/v2/registration_controller.rb:41
+#: ../app/controllers/api/v2/registration_controller.rb:42
 msgid ""
 "required for managed host that is bare metal, not required if it's a virtual m"
 "achine"
@@ -1537,12 +1537,12 @@ msgid "Host's owner type"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:97
-#: ../app/controllers/api/v2/registration_controller.rb:47
+#: ../app/controllers/api/v2/registration_controller.rb:48
 msgid "Host's parameters (array or indexed hash)"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:104
-#: ../app/controllers/api/v2/registration_controller.rb:54
+#: ../app/controllers/api/v2/registration_controller.rb:55
 #: ../app/views/hosts/_form.html.erb:127
 msgid "Include this host within Foreman reporting"
 msgstr ""
@@ -1552,7 +1552,7 @@ msgid "The method used to provision the host."
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:106
-#: ../app/controllers/api/v2/registration_controller.rb:55
+#: ../app/controllers/api/v2/registration_controller.rb:56
 msgid ""
 "True/False flag whether a host is managed or unmanaged. Note: this value also "
 "determines whether several parameters are required or not"
@@ -1563,13 +1563,13 @@ msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/ta
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:108
-#: ../app/controllers/api/v2/registration_controller.rb:56
+#: ../app/controllers/api/v2/registration_controller.rb:57
 #: ../app/views/hosts/_form.html.erb:132
 msgid "Additional information about this host"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:111
-#: ../app/controllers/api/v2/registration_controller.rb:57
+#: ../app/controllers/api/v2/registration_controller.rb:58
 msgid "Host's network interfaces."
 msgstr ""
 
@@ -1578,7 +1578,7 @@ msgid "Additional compute resource specific attributes."
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:118
-#: ../app/controllers/api/v2/registration_controller.rb:62
+#: ../app/controllers/api/v2/registration_controller.rb:63
 msgid "Parameters for host's %s facet"
 msgstr ""
 
@@ -2757,32 +2757,39 @@ msgid "ID of the Operating System to register the host in."
 msgstr ""
 
 #: ../app/controllers/api/v2/registration_controller.rb:22
-#: ../app/controllers/api/v2/registration_controller.rb:68
+#: ../app/controllers/api/v2/registration_controller.rb:69
 msgid ""
 "Set 'host_registration_insights' parameter for the host. If it is set to true,"
 " insights client will be installed and registered on Red Hat family operating "
 "systems."
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:27
+#: ../app/controllers/api/v2/registration_controller.rb:23
+#: ../app/controllers/api/v2/registration_controller.rb:70
+msgid ""
+"Set 'host_registration_remote_execution' parameter for the host. If it is set "
+"to true, SSH keys will be installed on the host."
+msgstr ""
+
+#: ../app/controllers/api/v2/registration_controller.rb:28
 msgid ""
 "Global Registration Template with name %s defined via default_global_registrat"
 "ion_item Setting not found, please configure the existing template name first"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:34
+#: ../app/controllers/api/v2/registration_controller.rb:35
 msgid "Find or create a host and render the Host registration template"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:39
+#: ../app/controllers/api/v2/registration_controller.rb:40
 msgid "IPv4 address, not required if using a subnet with DHCP proxy"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:40
+#: ../app/controllers/api/v2/registration_controller.rb:41
 msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:84
+#: ../app/controllers/api/v2/registration_controller.rb:88
 msgid ""
 "Unable to find registration template for host %{host} running %{os}, associate"
 " the registration template for this OS first"
@@ -3895,13 +3902,13 @@ msgstr ""
 msgid "Puppet CA"
 msgstr ""
 
-#: ../app/controllers/concerns/foreman/controller/registration.rb:41
+#: ../app/controllers/concerns/foreman/controller/registration.rb:43
 #: ../app/controllers/foreman_register/hosts_controller.rb:68
 #: ../app/controllers/templates_controller.rb:125
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr ""
 
-#: ../app/controllers/concerns/foreman/controller/registration.rb:87
+#: ../app/controllers/concerns/foreman/controller/registration.rb:89
 msgid "URL in :url parameter is missing a scheme, please set http:// or https://"
 msgstr ""
 
@@ -4485,7 +4492,8 @@ msgstr ""
 
 #: ../app/helpers/application_helper.rb:394
 #: ../app/views/compute_resources/show/_ovirt.html.erb:11
-#: ../app/views/registration/_form.erb:46 ../app/views/users/logout.html.erb:2
+#: ../app/views/registration/_form.erb:58
+#: ../app/views/registration/_form.erb:71 ../app/views/users/logout.html.erb:2
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:29
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:69
 msgid "Yes"
@@ -4493,7 +4501,8 @@ msgstr ""
 
 #: ../app/helpers/application_helper.rb:394
 #: ../app/views/compute_resources/show/_ovirt.html.erb:11
-#: ../app/views/registration/_form.erb:46
+#: ../app/views/registration/_form.erb:58
+#: ../app/views/registration/_form.erb:71
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:30
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:71
 msgid "No"
@@ -4970,7 +4979,7 @@ msgstr ""
 #: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:59
 #: ../app/views/hosts/_assign_hosts.html.erb:38
 #: ../app/views/hosts/_interfaces.html.erb:64
-#: ../app/views/hosts/_list.html.erb:58 ../app/views/registration/_form.erb:64
+#: ../app/views/hosts/_list.html.erb:58 ../app/views/registration/_form.erb:94
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/CancelBtn.js:23
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:42
 #: ../webpack/assets/javascripts/react_app/components/common/RedirectCancelButton/RedirectCancelButton.js:11
@@ -5127,7 +5136,7 @@ msgstr ""
 #: ../app/views/hosts/_form.html.erb:17 ../app/views/images/_form.html.erb:5
 #: ../app/views/images/_list.html.erb:5
 #: ../app/views/operatingsystems/_form.html.erb:4
-#: ../app/views/registration/_form.erb:28
+#: ../app/views/registration/_form.erb:31
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Properties/index.js:22
 msgid "Operating System"
 msgstr ""
@@ -8626,11 +8635,11 @@ msgid ""
 msgstr ""
 
 #: ../app/models/subnet.rb:299
-msgid "Group not found in the configured External IPAM instance"
+msgid "Subnet not found in the configured External IPAM instance"
 msgstr ""
 
 #: ../app/models/subnet.rb:301
-msgid "Subnet not found in the configured External IPAM instance"
+msgid "Group not found in the configured External IPAM instance"
 msgstr ""
 
 #: ../app/models/subnet.rb:303
@@ -12553,7 +12562,7 @@ msgid "This host can be registered to Foreman by executing this command:"
 msgstr ""
 
 #: ../app/views/hosts/_registration_tab.html.erb:19
-#: ../app/views/registration/_form.erb:72
+#: ../app/views/registration/_form.erb:102
 msgid "Copy to clipboard"
 msgstr ""
 
@@ -13835,34 +13844,50 @@ msgstr ""
 msgid "No Location selected"
 msgstr ""
 
-#: ../app/views/registration/_form.erb:22
+#: ../app/views/registration/_form.erb:23
 msgid "Host Group"
 msgstr ""
 
-#: ../app/views/registration/_form.erb:34
+#: ../app/views/registration/_form.erb:39
 msgid "Proxy"
 msgstr ""
 
 #: ../app/views/registration/_form.erb:40
+msgid "Only Smart Proxies with enabled Registration module are available"
+msgstr ""
+
+#: ../app/views/registration/_form.erb:51
 msgid ""
 "If selected, Insights client will be installed and registered on Red Hat famil"
 "y operating systems. It has no effect on other OS families that do not support"
 " it."
 msgstr ""
 
-#: ../app/views/registration/_form.erb:43
+#: ../app/views/registration/_form.erb:52
 msgid "Setup Insights"
 msgstr ""
 
-#: ../app/views/registration/_form.erb:52
+#: ../app/views/registration/_form.erb:64
+msgid "Remote Execution"
+msgstr ""
+
+#: ../app/views/registration/_form.erb:65
+msgid "If selected, SSH keys will be installed on the registered host."
+msgstr ""
+
+#: ../app/views/registration/_form.erb:77
 msgid "Token lifetime (hours)"
 msgstr ""
 
-#: ../app/views/registration/_form.erb:63
+#: ../app/views/registration/_form.erb:78
+msgid "Expiration of the authorization token."
+msgstr ""
+
+#: ../app/views/registration/_form.erb:93
 msgid "Generate command"
 msgstr ""
 
-#: ../app/views/registration/_form.erb:69
+#: ../app/views/registration/_form.erb:99
 msgid "Command"
 msgstr ""
 
@@ -15196,7 +15221,7 @@ msgstr ""
 msgid "Unable to delete DNS entry"
 msgstr ""
 
-#: ../lib/proxy_api/external_ipam.rb:72
+#: ../lib/proxy_api/external_ipam.rb:71
 msgid "Unable to retrieve the next available IP for subnet %{subnet} External IPAM."
 msgstr ""
 
@@ -15204,34 +15229,28 @@ msgstr ""
 msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
 msgstr ""
 
-#: ../lib/proxy_api/external_ipam.rb:131
+#: ../lib/proxy_api/external_ipam.rb:130
 msgid "Unable to obtain groups from External IPAM."
 msgstr ""
 
-#: ../lib/proxy_api/external_ipam.rb:156
+#: ../lib/proxy_api/external_ipam.rb:153
 msgid "Unable to obtain group %{group} from External IPAM."
 msgstr ""
 
-#: ../lib/proxy_api/external_ipam.rb:182
+#: ../lib/proxy_api/external_ipam.rb:180
 msgid "Unable to obtain subnets in group %{group} from External IPAM."
 msgstr ""
 
-#: ../lib/proxy_api/external_ipam.rb:206
+#: ../lib/proxy_api/external_ipam.rb:204
 msgid "Unable to obtain subnet %{subnet} from External IPAM."
 msgstr ""
 
-#: ../lib/proxy_api/external_ipam.rb:235
-msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
+#: ../lib/proxy_api/external_ipam.rb:234
+msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr ""
 
 #: ../lib/proxy_api/external_ipam.rb:262
 msgid "Unable to delete IP %{ip} from the subnet %{subnet} in External IPAM."
-msgstr ""
-
-#: ../lib/proxy_api/external_ipam.rb:284
-msgid ""
-"Unable to check if subnet %{subnet} exists in the External IPAM group %{group}"
-"."
 msgstr ""
 
 #: ../lib/proxy_api/features.rb:11 ../lib/proxy_api/v2/features.rb:13
