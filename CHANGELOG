@@ -1,3 +1,34 @@
+2020-11-17	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.3.0-rc2
+
+2020-11-17	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2020-11-17	yifatmakias <ymakias@redhat.com>
+	* Fixes #30552 - Fix vmware vm cloning when volumes are not present
+
+2020-11-16	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #31317 - Fix broken VNC console in a secured connection
+
+2020-11-15	MariaAga <mariaagaphonchev@gmail.com>
+	* Fixes #31291 - No breadcrumbs for React pages
+
+2020-11-15	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #28214 - Disable all locked template input fields
+
+2020-11-08	grizzthedj <chrisjsmith001@gmail.com>
+	* Fixes #30957 - External IPAM improved error handling and doc updates
+
+2020-11-08	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #31082 - Add Insights snippet to the Kickstart templates (#8092)
+	* Fixes #31236 - Host setup action in RegistrationController extendable from plugins (#8121)
+
+2020-11-08	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #31262 - Warn about incorrect logging layout
+
+2020-11-08	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #31258 - Don't fail migration if setting is hardcoded
+
 2020-11-03	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.3.0-rc1
 	* i18n - extracting new, pulling from tx
