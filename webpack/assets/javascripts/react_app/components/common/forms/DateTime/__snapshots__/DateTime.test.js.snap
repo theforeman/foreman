@@ -1,64 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DateTime rendering renders Report Date input 1`] = `
-<CommonForm
-  className=""
-  inputClassName="col-md-4"
-  label="some-label"
-  required={false}
-  tooltipHelp={null}
-  touched={true}
->
-  <DateTimePicker
-    id="template-date-input-4"
-    inputProps={
-      Object {
-        "autoComplete": "off",
-        "name": "report_template_report[input_values][4][value]",
-      }
-    }
-    locale="EN"
-    placement="top"
-    required={false}
-    value="2019-01-04"
-    weekStartsOn={1}
-  />
-</CommonForm>
+<FormikConnect(FieldInner)
+  name="report_template_report[input_values][4][value]"
+  render={[Function]}
+/>
 `;
 
 exports[`DateTime rendering renders with Require and Info 1`] = `
-<CommonForm
-  className=""
-  inputClassName="col-md-4"
-  label="some-label"
-  required={true}
-  tooltipHelp={
-    <FieldLevelHelp
-      buttonClass="field-help"
-      content={
-        <React.Fragment>
-          some description
-        </React.Fragment>
-      }
-      placement="top"
-      rootClose={true}
-    />
-  }
-  touched={true}
->
-  <DateTimePicker
-    id="template-date-input-4"
-    inputProps={
-      Object {
-        "autoComplete": "off",
-        "name": "report_template_report[input_values][4][value]",
-      }
-    }
-    locale="EN"
-    placement="top"
-    required={false}
-    value="2019-01-04"
-    weekStartsOn={1}
-  />
-</CommonForm>
+<FormikConnect(FieldInner)
+  name="report_template_report[input_values][4][value]"
+  render={[Function]}
+/>
 `;
