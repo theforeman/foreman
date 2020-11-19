@@ -325,7 +325,7 @@ class Role < ApplicationRecord
   end
 
   def find_current_filter(current_filters, filter_record)
-    current_filters.detect { |fil| fil.id == filter_record.id }
+    current_filters.reload.detect { |fil| fil.id == filter_record.id }
   end
 
   def permission_records(permissions)
