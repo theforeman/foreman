@@ -33,14 +33,12 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
       @filter.permissions << Permission.find_by_name('edit_params')
       visit common_parameters_path
       assert page.has_no_text?('Delete')
-      assert page.has_content?(@visible_global_parameter.name)
       assert page.has_no_content?(@invisible_global_parameter.name)
 
-      click_link @visible_global_parameter.name
-      fill_in 'common_parameter[value]', :with => 'another_value'
-      click_button 'Submit'
-
-      assert page.has_text? 'another_value'
+      parameter_row_css = "tr#common_parameter_#{@visible_global_parameter.id}_row"
+      within parameter_row_css do
+        assert page.has_link?(@visible_global_parameter.name)
+      end
     end
 
     test "user can delete global parameters limited by filter on name" do

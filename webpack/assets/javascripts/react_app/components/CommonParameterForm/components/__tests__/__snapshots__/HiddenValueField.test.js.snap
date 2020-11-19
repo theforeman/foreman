@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HiddenValueField rendering when displayed 1`] = `
+<FormField
+  className=""
+  disabled={false}
+  error={null}
+  helpInline={null}
+  id={null}
+  inputProps={null}
+  inputSizeClass="col-md-4"
+  label="Hidden Value"
+  labelHelp={null}
+  labelSizeClass="col-md-2"
+  onChange={[Function]}
+  required={false}
+  type="text"
+>
+  <input
+    checked={false}
+    id="common_parameter_hidden_value"
+    name="common_parameter[hidden_value]"
+    onChange={[Function]}
+    type="checkbox"
+  />
+</FormField>
+`;
+
+exports[`HiddenValueField rendering when hidden 1`] = `
+<FormField
+  className=""
+  disabled={false}
+  error={null}
+  helpInline={null}
+  id={null}
+  inputProps={null}
+  inputSizeClass="col-md-4"
+  label="Hidden Value"
+  labelHelp={null}
+  labelSizeClass="col-md-2"
+  onChange={[Function]}
+  required={false}
+  type="text"
+>
+  <input
+    checked={true}
+    id="common_parameter_hidden_value"
+    name="common_parameter[hidden_value]"
+    onChange={[Function]}
+    type="checkbox"
+  />
+</FormField>
+`;

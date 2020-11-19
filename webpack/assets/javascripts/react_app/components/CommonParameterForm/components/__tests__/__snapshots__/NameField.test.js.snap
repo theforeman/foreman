@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NameField rendering default 1`] = `
+<FormField
+  className=""
+  disabled={false}
+  error=""
+  helpInline={null}
+  id={null}
+  inputProps={null}
+  inputSizeClass="col-md-4"
+  label="Name"
+  labelHelp={null}
+  labelSizeClass="col-md-2"
+  onChange={[Function]}
+  required={true}
+  type="text"
+>
+  <input
+    className="form-control"
+    id="common_parameter_name"
+    name="common_parameter[name]"
+    onChange={[Function]}
+    required={true}
+    type="text"
+    value="something"
+  />
+</FormField>
+`;

@@ -41,6 +41,7 @@ import SettingRecords from './SettingRecords';
 import SettingsTable from './SettingsTable';
 import SettingUpdateModal from './SettingUpdateModal';
 import PersonalAccessTokens from './users/PersonalAccessTokens';
+import CommonParameterForm from './CommonParameterForm';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -172,6 +173,7 @@ const coreComponets = [
   // Report templates
   { name: 'TemplateGenerator', type: TemplateGenerator },
   { name: 'LoginPage', type: LoginPage },
+  { name: 'CommonParameterForm', type: CommonParameterForm },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

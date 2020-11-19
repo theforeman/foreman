@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StringValue rendering with fullScreen 1`] = `
+<textarea
+  className="form-control false"
+  id="common_parameter_value"
+  name="common_parameter[value]"
+  onChange={[Function]}
+  rows={30}
+  value="something"
+/>
+`;
+
+exports[`StringValue rendering without fullScreen 1`] = `
+<textarea
+  className="form-control false"
+  id="common_parameter_value"
+  name="common_parameter[value]"
+  onChange={[Function]}
+  rows={1}
+  value="something"
+/>
+`;

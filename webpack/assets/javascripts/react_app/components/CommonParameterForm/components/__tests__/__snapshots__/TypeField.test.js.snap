@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypeField rendering default 1`] = `
+<FormField
+  className=""
+  disabled={false}
+  error={null}
+  helpInline={null}
+  id={null}
+  inputProps={null}
+  inputSizeClass="col-md-4"
+  label="Parameter Type"
+  labelHelp={
+    <React.Fragment>
+      <dt>
+        String
+      </dt>
+      <dd>
+        Everything turns into a string.
+      </dd>
+      <dt>
+        Boolean
+      </dt>
+      <dd>
+        true / false
+      </dd>
+      <dt>
+        Integer
+      </dt>
+      <dd>
+        Integer numbers only, can be negative.
+      </dd>
+      <dt>
+        Real
+      </dt>
+      <dd>
+        Accept any numerical input.
+      </dd>
+      <dt>
+        Array
+      </dt>
+      <dd>
+        A valid JSON or YAML input, that must evaluate to an array.
+        <br />
+        Example
+        : 
+        <code>
+          ["some-value", 123, true]
+        </code>
+      </dd>
+      <dt>
+        Hash
+      </dt>
+      <dd>
+        A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.
+      </dd>
+      <dd>
+        Examples
+        :
+        <br />
+        <code>
+          {"key" =&gt; "value"}
+          <br />
+          key: value
+        </code>
+      </dd>
+      <dt>
+        YAML
+      </dt>
+      <dd>
+        Any valid YAML input.
+         
+        Example
+        : 
+        <code>
+          key: value
+        </code>
+      </dd>
+      <dt>
+        JSON
+      </dt>
+      <dd>
+        Any valid JSON input.
+         
+        Example
+        : 
+        <code>
+          {"key": "value"}
+        </code>
+      </dd>
+    </React.Fragment>
+  }
+  labelSizeClass="col-md-2"
+  onChange={[Function]}
+  required={false}
+  type="text"
+>
+  <select
+    className="form-control without_select2"
+    id="common_parameter_parameter_type"
+    name="common_parameter[parameter_type]"
+    onChange={[Function]}
+    value="string"
+  >
+    <option
+      key="string"
+      value="string"
+    >
+      String
+    </option>
+    <option
+      key="boolean"
+      value="boolean"
+    >
+      Boolean
+    </option>
+    <option
+      key="integer"
+      value="integer"
+    >
+      Integer
+    </option>
+    <option
+      key="real"
+      value="real"
+    >
+      Real
+    </option>
+    <option
+      key="array"
+      value="array"
+    >
+      Array
+    </option>
+    <option
+      key="hash"
+      value="hash"
+    >
+      Hash
+    </option>
+    <option
+      key="yaml"
+      value="yaml"
+    >
+      Yaml
+    </option>
+    <option
+      key="json"
+      value="json"
+    >
+      JSON
+    </option>
+  </select>
+</FormField>
+`;

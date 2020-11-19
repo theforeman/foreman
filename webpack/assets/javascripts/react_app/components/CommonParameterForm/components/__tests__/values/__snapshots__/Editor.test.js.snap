@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor rendering with fullScreen 1`] = `
+<ReactAce
+  className="common-param-editor fullscreen false"
+  cursorStart={1}
+  editorProps={
+    Object {
+      "$blockScrolling": "Infinity",
+    }
+  }
+  enableBasicAutocompletion={false}
+  enableLiveAutocompletion={false}
+  focus={false}
+  fontSize={12}
+  height="150px"
+  highlightActiveLine={true}
+  id="common_parameter_value"
+  maxLines={null}
+  minLines={null}
+  mode="text"
+  name="common_parameter[value]"
+  navigateToFileEnd={true}
+  onChange={[Function]}
+  onLoad={null}
+  onPaste={null}
+  onScroll={null}
+  placeholder={null}
+  readOnly={false}
+  scrollMargin={
+    Array [
+      0,
+      0,
+      0,
+      0,
+    ]
+  }
+  setOptions={Object {}}
+  showGutter={true}
+  showLineNumbers={true}
+  showPrintMargin={false}
+  style={Object {}}
+  tabSize={2}
+  theme="github"
+  value="something"
+  width="100%"
+  wrapEnabled={false}
+/>
+`;
+
+exports[`Editor rendering without fullScreen 1`] = `
+<ReactAce
+  className="common-param-editor false false"
+  cursorStart={1}
+  editorProps={
+    Object {
+      "$blockScrolling": "Infinity",
+    }
+  }
+  enableBasicAutocompletion={false}
+  enableLiveAutocompletion={false}
+  focus={false}
+  fontSize={12}
+  height="150px"
+  highlightActiveLine={true}
+  id="common_parameter_value"
+  maxLines={null}
+  minLines={null}
+  mode="text"
+  name="common_parameter[value]"
+  navigateToFileEnd={true}
+  onChange={[Function]}
+  onLoad={null}
+  onPaste={null}
+  onScroll={null}
+  placeholder={null}
+  readOnly={false}
+  scrollMargin={
+    Array [
+      0,
+      0,
+      0,
+      0,
+    ]
+  }
+  setOptions={Object {}}
+  showGutter={true}
+  showLineNumbers={true}
+  showPrintMargin={false}
+  style={Object {}}
+  tabSize={2}
+  theme="github"
+  value="something"
+  width="100%"
+  wrapEnabled={false}
+/>
+`;

@@ -1,7 +1,3 @@
-function turn_textarea_switch() {
-  $('#common_parameter_value').toggleClass('masked-input');
-}
-
 function hidden_value_control() {
   $('.toggle-hidden-value a').click(function(event) {
     event.preventDefault();

@@ -15,9 +15,17 @@ class CommonParametersController < ApplicationController
   def create
     @common_parameter = CommonParameter.new(parameter_params(::CommonParameter))
     if @common_parameter.save
-      process_success
+      respond_to do |format|
+        format.html { process_success }
+        format.json { render json: @common_parameter }
+      end
     else
-      process_error
+      respond_to do |format|
+        format.html { process_error }
+        format.json do
+          render json: { errors: @common_parameter.errors }, status: :unprocessable_entity
+        end
+      end
     end
   end
 
@@ -26,9 +34,17 @@ class CommonParametersController < ApplicationController
 
   def update
     if @common_parameter.update(parameter_params(::CommonParameter))
-      process_success
+      respond_to do |format|
+        format.html { process_success }
+        format.json { render json: @common_parameter }
+      end
     else
-      process_error
+      respond_to do |format|
+        format.html { process_error }
+        format.json do
+          render json: { errors: @common_parameter.errors }, status: :unprocessable_entity
+        end
+      end
     end
   end
 

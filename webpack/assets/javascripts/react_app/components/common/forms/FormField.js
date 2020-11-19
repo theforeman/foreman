@@ -100,7 +100,7 @@ FormField.propTypes = {
   ]),
   className: PropTypes.string,
   label: PropTypes.string,
-  labelHelp: PropTypes.string,
+  labelHelp: PropTypes.node,
   required: PropTypes.bool,
   disabled: PropTypes.bool,
   error: PropTypes.string,
@@ -108,7 +108,7 @@ FormField.propTypes = {
   inputSizeClass: PropTypes.string,
   labelSizeClass: PropTypes.string,
   onChange: PropTypes.func,
-  children: PropTypes.element,
+  children: PropTypes.node,
   inputProps: PropTypes.object,
 };
 

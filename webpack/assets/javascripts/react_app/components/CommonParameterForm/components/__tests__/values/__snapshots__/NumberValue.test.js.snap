@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NumberValue rendering default 1`] = `
+<input
+  className="form-control false"
+  id="common_parameter_value"
+  name="common_parameter[value]"
+  onChange={[Function]}
+  type="number"
+  value="123"
+/>
+`;

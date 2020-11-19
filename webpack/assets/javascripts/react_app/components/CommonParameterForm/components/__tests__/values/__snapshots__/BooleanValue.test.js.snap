@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BooleanValue rendering when value = "" 1`] = `
+<select
+  className="without_select2 form-control"
+  defaultValue=""
+  id="common_parameter_value"
+  name="common_parameter[value]"
+  onChange={[Function]}
+>
+  <option
+    key=""
+    value=""
+  />
+  <option
+    key="true"
+    value="true"
+  >
+    Yes
+  </option>
+  <option
+    key="false"
+    value="false"
+  >
+    No
+  </option>
+</select>
+`;
+
+exports[`BooleanValue rendering when value = false 1`] = `
+<select
+  className="without_select2 form-control"
+  defaultValue={false}
+  id="common_parameter_value"
+  name="common_parameter[value]"
+  onChange={[Function]}
+>
+  <option
+    key=""
+    value=""
+  />
+  <option
+    key="true"
+    value="true"
+  >
+    Yes
+  </option>
+  <option
+    key="false"
+    value="false"
+  >
+    No
+  </option>
+</select>
+`;
+
+exports[`BooleanValue rendering when value = true 1`] = `
+<select
+  className="without_select2 form-control"
+  defaultValue={true}
+  id="common_parameter_value"
+  name="common_parameter[value]"
+  onChange={[Function]}
+>
+  <option
+    key=""
+    value=""
+  />
+  <option
+    key="true"
+    value="true"
+  >
+    Yes
+  </option>
+  <option
+    key="false"
+    value="false"
+  >
+    No
+  </option>
+</select>
+`;

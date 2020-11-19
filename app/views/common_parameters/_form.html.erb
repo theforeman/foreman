@@ -1,15 +1,11 @@
-<%= form_for @common_parameter do |f| %>
-    <%= base_errors_for @common_parameter %>
-    <%= text_f f, :name %>
-    <%= param_type_selector(f) %>
-    <%= textarea_f f, :value, :value => f.object.value_before_type_cast, :size => "col-md-8",
-                   :rows => line_count(f, :value),
-                   :input_group_btn => fullscreen_input,
-                   :class => "form-control no-stretch #{'masked-input' if @common_parameter.hidden_value?}" %>
-    <%= checkbox_f f, :hidden_value, :class => 'hidden_value_textarea_switch', :onchange => 'turn_textarea_switch()', :checked => f.object.hidden_value? %>
-
-   <input type="hidden" id="old" value="<%= @common_parameter.value %>" />
-   <input type="hidden" id="new" value="<%= @common_parameter.value %>" />
-
-   <%= submit_or_cancel f %>
-<% end %>
+<%
+  props = {
+    id: @common_parameter.id,
+    name: @common_parameter.name,
+    keyType: @common_parameter.key_type,
+    value: "#{@common_parameter.value_before_type_cast}",
+    isMasked: @common_parameter.hidden_value?,
+    isNew: @common_parameter.new_record?
+  }
+%>
+<%= react_component('CommonParameterForm', props) %>

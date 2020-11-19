@@ -1,0 +1,16 @@
+.common-parameter-form {
+  select,
+  input[type='checkbox'] {
+    cursor: pointer;
+  }
+}
+
+.common-param-editor {
+  border: 1px solid #bbb;
+}
+
+.mask-editor {
+  .ace_content {
+    font-family: 'AllBullets' !important;
+  }
+}

@@ -1,0 +1,774 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ValueField rendering default 1`] = `
+<Fragment>
+  <FormField
+    className=""
+    disabled={false}
+    error=""
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-8"
+    label="Value"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    type="text"
+  >
+    <StringValue
+      css="form-control"
+      fullScreen={false}
+      id="common_parameter_value"
+      isMasked={false}
+      name="common_parameter[value]"
+      onChange={[Function]}
+      value=""
+    />
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <Icon
+        name="expand"
+        type="fa"
+      />
+       Full screen
+    </Button>
+  </FormField>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="editor-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <StringValue
+        css="form-control"
+        fullScreen={true}
+        id="common_parameter_value"
+        isMasked={false}
+        name="common_parameter[value]"
+        onChange={[Function]}
+        value=""
+      />
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
+
+exports[`ValueField rendering when is hidden 1`] = `
+<Fragment>
+  <FormField
+    className=""
+    disabled={false}
+    error=""
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-8"
+    label="Value"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    type="text"
+  >
+    <StringValue
+      css="form-control"
+      fullScreen={false}
+      id="common_parameter_value"
+      isMasked={true}
+      name="common_parameter[value]"
+      onChange={[Function]}
+      value=""
+    />
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <Icon
+        name="expand"
+        type="fa"
+      />
+       Full screen
+    </Button>
+  </FormField>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="editor-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <StringValue
+        css="form-control"
+        fullScreen={true}
+        id="common_parameter_value"
+        isMasked={true}
+        name="common_parameter[value]"
+        onChange={[Function]}
+        value=""
+      />
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
+
+exports[`ValueField rendering when selectedType = array 1`] = `
+<Fragment>
+  <FormField
+    className=""
+    disabled={false}
+    error=""
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-8"
+    label="Value"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    type="text"
+  >
+    <Editor
+      css="form-control"
+      fullScreen={false}
+      id="common_parameter_value"
+      isMasked={false}
+      mode="ruby"
+      name="common_parameter[value]"
+      onChange={[Function]}
+      value=""
+    />
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <Icon
+        name="expand"
+        type="fa"
+      />
+       Full screen
+    </Button>
+  </FormField>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="editor-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <Editor
+        css="form-control"
+        fullScreen={true}
+        id="common_parameter_value"
+        isMasked={false}
+        mode="ruby"
+        name="common_parameter[value]"
+        onChange={[Function]}
+        value=""
+      />
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
+
+exports[`ValueField rendering when selectedType = boolean 1`] = `
+<Fragment>
+  <FormField
+    className=""
+    disabled={false}
+    error=""
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-4"
+    label="Value"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    type="text"
+  >
+    <BooleanValue
+      css="form-control"
+      id="common_parameter_value"
+      isMasked={false}
+      name="common_parameter[value]"
+      onChange={[Function]}
+      value=""
+    />
+  </FormField>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="editor-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <BooleanValue
+        css="form-control"
+        fullScreen={true}
+        id="common_parameter_value"
+        isMasked={false}
+        name="common_parameter[value]"
+        onChange={[Function]}
+        value=""
+      />
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
+
+exports[`ValueField rendering when selectedType = hash 1`] = `
+<Fragment>
+  <FormField
+    className=""
+    disabled={false}
+    error=""
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-8"
+    label="Value"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    type="text"
+  >
+    <Editor
+      css="form-control"
+      fullScreen={false}
+      id="common_parameter_value"
+      isMasked={false}
+      mode="ruby"
+      name="common_parameter[value]"
+      onChange={[Function]}
+      value=""
+    />
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <Icon
+        name="expand"
+        type="fa"
+      />
+       Full screen
+    </Button>
+  </FormField>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="editor-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <Editor
+        css="form-control"
+        fullScreen={true}
+        id="common_parameter_value"
+        isMasked={false}
+        mode="ruby"
+        name="common_parameter[value]"
+        onChange={[Function]}
+        value=""
+      />
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
+
+exports[`ValueField rendering when selectedType = integer 1`] = `
+<Fragment>
+  <FormField
+    className=""
+    disabled={false}
+    error=""
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-4"
+    label="Value"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    type="text"
+  >
+    <NumberValue
+      css="form-control"
+      id="common_parameter_value"
+      isMasked={false}
+      name="common_parameter[value]"
+      onChange={[Function]}
+      value=""
+    />
+  </FormField>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="editor-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <NumberValue
+        css="form-control"
+        fullScreen={true}
+        id="common_parameter_value"
+        isMasked={false}
+        name="common_parameter[value]"
+        onChange={[Function]}
+        value=""
+      />
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
+
+exports[`ValueField rendering when selectedType = json 1`] = `
+<Fragment>
+  <FormField
+    className=""
+    disabled={false}
+    error=""
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-8"
+    label="Value"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    type="text"
+  >
+    <Editor
+      css="form-control"
+      fullScreen={false}
+      id="common_parameter_value"
+      isMasked={false}
+      mode="ruby"
+      name="common_parameter[value]"
+      onChange={[Function]}
+      value=""
+    />
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <Icon
+        name="expand"
+        type="fa"
+      />
+       Full screen
+    </Button>
+  </FormField>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="editor-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <Editor
+        css="form-control"
+        fullScreen={true}
+        id="common_parameter_value"
+        isMasked={false}
+        mode="ruby"
+        name="common_parameter[value]"
+        onChange={[Function]}
+        value=""
+      />
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
+
+exports[`ValueField rendering when selectedType = real 1`] = `
+<Fragment>
+  <FormField
+    className=""
+    disabled={false}
+    error=""
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-4"
+    label="Value"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    type="text"
+  >
+    <NumberValue
+      css="form-control"
+      id="common_parameter_value"
+      isMasked={false}
+      name="common_parameter[value]"
+      onChange={[Function]}
+      value=""
+    />
+  </FormField>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="editor-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <NumberValue
+        css="form-control"
+        fullScreen={true}
+        id="common_parameter_value"
+        isMasked={false}
+        name="common_parameter[value]"
+        onChange={[Function]}
+        value=""
+      />
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
+
+exports[`ValueField rendering when selectedType = yaml 1`] = `
+<Fragment>
+  <FormField
+    className=""
+    disabled={false}
+    error=""
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-8"
+    label="Value"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    type="text"
+  >
+    <Editor
+      css="form-control"
+      fullScreen={false}
+      id="common_parameter_value"
+      isMasked={false}
+      mode="text"
+      name="common_parameter[value]"
+      onChange={[Function]}
+      value=""
+    />
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <Icon
+        name="expand"
+        type="fa"
+      />
+       Full screen
+    </Button>
+  </FormField>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="editor-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <Editor
+        css="form-control"
+        fullScreen={true}
+        id="common_parameter_value"
+        isMasked={false}
+        mode="text"
+        name="common_parameter[value]"
+        onChange={[Function]}
+        value=""
+      />
+    </ModalBody>
+  </Modal>
+</Fragment>
+`;
