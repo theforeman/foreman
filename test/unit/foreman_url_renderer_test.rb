@@ -29,6 +29,20 @@ class ForemanUrlRendererTest < ActiveSupport::TestCase
       assert_equal "#{Setting[:unattended_url]}/unattended/#{action}?token=#{token}", renderer.foreman_url(action)
     end
 
+    test "should render template_url with unattended url with one raw param" do
+      Setting[:unattended_url] = 'http://www.example.net'
+      renderer.host = host
+      assert_equal "#{Setting[:unattended_url]}/unattended/#{action}?token=#{token}&raw=${X}",
+        renderer.foreman_url(action, {}, {raw: '${X}'})
+    end
+
+    test "should render template_url with unattended url with one param and one raw param" do
+      Setting[:unattended_url] = 'http://www.example.net'
+      renderer.host = host
+      assert_equal "#{Setting[:unattended_url]}/unattended/#{action}?test=1&token=#{token}&raw=${X}",
+        renderer.foreman_url(action, {test: 1},  {raw: '${X}'})
+    end
+
     test "should render template_url with unattended url with a parameter" do
       Setting[:unattended_url] = 'http://www.example.net'
       renderer.host = host

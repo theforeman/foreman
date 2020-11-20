@@ -40,6 +40,14 @@ class RendererTest < ActiveSupport::TestCase
     variants = Foreman::Renderer::Source::Snapshot.snapshot_variants(template)
     match = variants.any? { |variant| rendered == File.read(variant) }
 
-    assert match, "Rendered template #{template.name} did not match any snapshot. Tried against #{variants.join(', ')}"
+    # print diff against all compared files
+    unless match
+      variants.each do |variant|
+        puts "Diff for #{variant}:"
+        puts diff(File.read(variant), rendered)
+      end
+
+      assert match, "Rendered template #{template.name} did not match any snapshot. Tried against #{variants.join(', ')}"
+    end
   end
 end
