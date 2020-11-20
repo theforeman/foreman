@@ -3,13 +3,24 @@ module Foreman
     # foreman_url macro uses url_for, therefore we need url helpers and fake default_url_options
     # if it's not defined in class the we mix into
     include Rails.application.routes.url_helpers
+    extend ApipieDSL::Module
+
+    apipie :class, 'Foreman URL macro class' do
+      name 'ForemanUrlRenderer'
+      sections only: %w[all reports provisioning jobs partition_tables]
+    end
 
     def default_url_options
       {}
     end
 
-    # returns the URL for Foreman based on the required action
-    def foreman_url(action = nil, params = {})
+    apipie :method, 'Returns Foreman unattended URL' do
+      desc 'Returns URL to Foreman or Smart Proxy depending on host.subnet.template proxy configuration.'
+      # optional object_of: String, desc: 'template kind (provision, script, ...)'
+      # optional object_of: Hash, desc: 'URL parameters, use key named :unencoded for parameters which must not be URL-encoded'
+      returns String, desc: "Rendered URL"
+    end
+    def foreman_url(action = nil, params = {}, unescaped_params = {})
       if action.nil?
         Foreman::Deprecation.deprecation_warning('2.3', 'Do not call foreman_url macro without arguments, use foreman_url("provision") instead.')
         action = 'provision'
@@ -23,6 +34,16 @@ module Foreman
       host = self if @host.nil? && self.class < Host::Base
       template_proxy = host.try(:provision_interface).try(:subnet).try(:template_proxy)
 
+      # Set token
+      params[:token] = host.token.value if host.try(:build) && host.try(:token)
+
+      # Parameters which must not be URL-encoded (e.g. iPXE synax ${xxx})
+      raw_string = ''
+      if unescaped_params.any?
+        raw_string += params.any? ? '&' : '?'
+        raw_string += unescaped_params.map { |k, v| "#{k}=#{v}" }.join('&')
+      end
+
       # Use template_url from the request if set, but otherwise look for a Template
       # feature proxy, as PXE templates are written without an incoming request.
       url = @template_url
@@ -32,7 +53,7 @@ module Foreman
 
       url_options[:action] = action
       url_options[:path] = config.path
-      render_foreman_url(host, url_options, params)
+      render_foreman_url(host, url_options, params) + raw_string
     end
 
     private
@@ -58,7 +79,6 @@ module Foreman
       url_for :only_path => false, :controller => "/unattended", :action => 'host_template',
         :protocol => options[:protocol], :host => options[:host],
         :port => options[:port], :script_name => options[:path],
-        :token => (host.token.value if (host.try(:build) && host.try(:token))),
         :kind => options[:action], **params
     end
 
