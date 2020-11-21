@@ -32,7 +32,6 @@ snippet: true
   options.push("kssendmac", "ks.sendmac", "inst.ks.sendmac")
 
   # networking credentials
-  raise("Dual-stack provisioning not supported") if subnet4 && subnet6
   if subnet4 && subnet4.dhcp_boot_mode?
     options.push("ip=dhcp") if rhel_compatible && major >= 7
   elsif subnet4 && !subnet4.dhcp_boot_mode?
@@ -50,7 +49,7 @@ snippet: true
         options.push("ip=#{iface.ip}::#{subnet4.gateway}:#{subnet4.mask}:#{hostname}:#{iface.identifier}:none")
       end
     end
-  elsif subnet6.dhcp_boot_mode? && rhel_compatible && major >= 7
+  elsif subnet6 && subnet6.dhcp_boot_mode? && rhel_compatible && major >= 7
     if host_param_true?("use-slaac")
       options.push("ip=auto6")
     else
@@ -102,7 +101,7 @@ snippet: true
   end
 
   nic_delay = subnet4 ? subnet4.nic_delay : nil
-  nic_delay ||= subnet6 ? subnet6.nic_delay : nil
+  nic_delay ||= !subnet4 && subnet6 ? subnet6.nic_delay : nil
   if nic_delay && rhel_compatible && major >= 7
     ["dhcp", "iflink", "ifup", "route", "ipv6dad", "ipv6auto", "carrier"].each do |type|
       options.push("rd.net.timeout.#{type}=#{nic_delay}")
