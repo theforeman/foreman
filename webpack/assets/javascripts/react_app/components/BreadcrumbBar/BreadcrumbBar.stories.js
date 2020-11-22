@@ -27,16 +27,14 @@ export const withOpenSwitcher = () => (
           id: 3,
         },
       ]}
-      data={{
-        resource: {
-          resourceUrl: 'some_url',
-        },
-        isSwitchable: true,
-        breadcrumbItems: [
-          { caption: 'Index Page', url: '#' },
-          { caption: 'Resource Page' },
-        ],
+      resource={{
+        resourceUrl: 'some_url',
       }}
+      isSwitchable={true}
+      breadcrumbItems={[
+        { caption: 'Index Page', url: '#' },
+        { caption: 'Resource Page' },
+      ]}
     />
   </Story>
 );
