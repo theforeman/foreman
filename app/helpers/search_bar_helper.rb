@@ -28,26 +28,4 @@ module SearchBarHelper
                       bookmarks: bookmarks,
                       }})
   end
-
-  def get_search_props(
-    controller: auto_complete_controller_name,
-    url: send("auto_complete_search_#{auto_complete_controller_name}_path"),
-    search_query: params[:search],
-    autocomplete_id: "searchBar"
-  )
-    bookmarks = {
-      url: main_app.api_bookmarks_path,
-      canCreate: authorizer.can?(:create_bookmarks),
-      documentationUrl: documentation_url("4.1.5Searching"),
-    }
-    {
-      controller: controller,
-      autocomplete: {
-        searchQuery: search_query,
-        url: url,
-        id: autocomplete_id,
-      },
-      bookmarks: bookmarks,
-    }
-  end
 end
