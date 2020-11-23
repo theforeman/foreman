@@ -19,7 +19,7 @@ if @parameters
   end
 end
 
-@object.facets_with_definitions.each do |facet, definition|
+@object.facet_definitions.each do |definition|
   next unless definition.api_list_view
   node(false, if: ->(hostgroup) { definition.facet_record_for(hostgroup) }) do |hostgroup|
     partial(definition.api_list_view, object: hostgroup, locals: { facet: definition.facet_record_for(hostgroup) })
