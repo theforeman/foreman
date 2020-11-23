@@ -1,7 +1,7 @@
-import { usePaginationOptions } from './PaginationHelper';
+import { usePaginationOptions } from './PaginationHooks';
 import * as helpers from '../../common/urlHelpers';
 
-describe('Pagination Helper', () => {
+describe('Pagination Hooks', () => {
   it('should render pagination options', () => {
     expect(usePaginationOptions()).toMatchSnapshot();
   });

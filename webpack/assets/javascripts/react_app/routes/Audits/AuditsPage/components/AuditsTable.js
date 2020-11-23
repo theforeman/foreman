@@ -4,7 +4,7 @@ import { withRenderHandler } from '../../../../common/HOC';
 import AuditsList from '../../../../components/AuditsList';
 import AuditsLoadingPage from './AuditsLoadingPage';
 import Pagination from '../../../../components/Pagination/Pagination';
-import { usePaginationOptions } from '../../../../components/Pagination/PaginationHelper';
+import { usePaginationOptions } from '../../../../components/Pagination/PaginationHooks';
 
 const AuditsTable = ({ audits, page, itemCount, fetchAndPush }) => {
   const perPageOptions = usePaginationOptions();

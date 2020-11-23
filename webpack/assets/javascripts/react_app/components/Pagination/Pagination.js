@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { Paginator } from 'patternfly-react';
 import { translate as __ } from '../../common/I18n';
-import { usePaginationOptions } from './PaginationHelper';
+import { usePaginationOptions } from './PaginationHooks';
 import {
   getURIpage,
   getURIperPage,
