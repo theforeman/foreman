@@ -32,7 +32,7 @@
     "@theforeman/builder": "^6.0.0",
     "@theforeman/eslint-plugin-foreman": "^6.0.0",
     "@theforeman/stories": "^6.0.0",
-    "@theforeman/test": "^6.0.0",
+    "@theforeman/test": "^8.0.0",
     "@theforeman/vendor-dev": "^6.0.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
