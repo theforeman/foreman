@@ -1,0 +1,36 @@
+<%#
+name: Host - Vulnerabilities
+snippet: false
+model: ReportTemplate
+template_inputs:
+- name: Without Errata Only
+  required: true
+  input_type: user
+  description: Show only CVEs without errata for host
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "yes"
+- name: Hosts filter
+  required: false
+  input_type: user
+  value_type: search
+  description: Limit the report only on hosts found by this search query. Keep
+    empty for report on all available hosts.
+  resource_type: Host
+require:
+- plugin: foreman_openscap
+  version: 4.3.0
+-%>
+<%- report_headers 'Host Name', 'Ref Id', 'Ref URL' -%>
+<%- load_hosts(includes: [:cves], search: input('Hosts filter')).each_record do |host| -%>
+<%- scope = input('Without Errata Only') == 'yes' ? host.cves_without_errata : host.cves -%>
+<%-   scope.each do |cve| -%>
+<%-     report_row(
+          'Host Name': host.name,
+          'Ref Id': cve.ref_id,
+          'Ref URL': cve.ref_url
+        ) -%>
+<%-   end -%>
+<%- end -%>
+<%= report_render -%>
