@@ -30,7 +30,6 @@ class HostgroupsController < ApplicationController
     @hostgroup = Hostgroup.new(:parent_id => @parent.id)
 
     load_vars_for_ajax
-    @hostgroup.puppetclasses = @parent.puppetclasses
     @hostgroup.locations = @parent.locations
     @hostgroup.organizations = @parent.organizations
     # Clone any parameters as well

@@ -54,7 +54,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
   end
 
   test 'submit updates taxonomy' do
-    group = FactoryBot.create(:hostgroup, :with_puppetclass)
+    group = FactoryBot.create(:hostgroup)
     new_location = FactoryBot.create(:location)
 
     visit edit_hostgroup_path(group)

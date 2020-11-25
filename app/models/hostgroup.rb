@@ -22,8 +22,6 @@ class Hostgroup < ApplicationRecord
 
   validates_lengths_from_database :except => [:name]
   before_destroy EnsureNotUsedBy.new(:hosts)
-  has_many :hostgroup_classes
-  has_many :puppetclasses, :through => :hostgroup_classes, :dependent => :destroy
   validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
@@ -39,8 +37,6 @@ class Hostgroup < ApplicationRecord
   belongs_to :domain
   belongs_to :subnet
   belongs_to :subnet6, :class_name => "Subnet"
-
-  before_save :remove_duplicated_nested_class
 
   alias_attribute :arch, :architecture
   alias_attribute :os, :operatingsystem
@@ -60,7 +56,6 @@ class Hostgroup < ApplicationRecord
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :relation => :hosts, :on => :name, :complete_value => :true, :rename => "host", :only_explicit => true
-  scoped_search :relation => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ ']
   scoped_search :relation => :environment, :on => :name, :complete_value => :true, :rename => :environment, :only_explicit => true
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   # for legacy purposes, keep search on :label
@@ -171,12 +166,6 @@ class Hostgroup < ApplicationRecord
     groups.uniq
   end
 
-  # the environment used by #clases nees to be self.environment and not self.parent.environment
-  def parent_classes
-    return [] unless parent
-    parent.classes(environment)
-  end
-
   def inherited_lookup_value(key)
     if key.path_elements.flatten.include?("hostgroup") && Setting["matchers_inheritance"]
       ancestors.reverse_each do |hg|
@@ -243,7 +232,7 @@ class Hostgroup < ApplicationRecord
     explicit_pxe_loader || nested(:pxe_loader).presence
   end
 
-  include_in_clone :lookup_values, :hostgroup_classes, :locations, :organizations, :group_parameters
+  include_in_clone :lookup_values, :locations, :organizations, :group_parameters
   exclude_from_clone :name, :title, :lookup_value_matcher
 
   # Clone the hostgroup
@@ -303,10 +292,6 @@ class Hostgroup < ApplicationRecord
       end
     end
     nil
-  end
-
-  def remove_duplicated_nested_class
-    self.puppetclasses -= ancestors.map(&:puppetclasses).flatten
   end
 
   # overwrite method in taxonomix, since hostgroup has ancestry

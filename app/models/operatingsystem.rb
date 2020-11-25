@@ -17,7 +17,6 @@ class Operatingsystem < ApplicationRecord
   has_and_belongs_to_many :media
   has_and_belongs_to_many :ptables, :join_table => :operatingsystems_ptables, :foreign_key => :operatingsystem_id, :association_foreign_key => :ptable_id
   has_and_belongs_to_many :architectures
-  has_and_belongs_to_many :puppetclasses
   has_and_belongs_to_many :provisioning_templates, :join_table => :operatingsystems_provisioning_templates, :foreign_key => :operatingsystem_id, :association_foreign_key => :provisioning_template_id
   has_many :os_default_templates, :dependent => :destroy
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,

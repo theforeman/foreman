@@ -2203,25 +2203,13 @@ class HostTest < ActiveSupport::TestCase
 
   describe 'cloning' do
     test 'relationships are copied' do
-      host = FactoryBot.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
+      host = FactoryBot.create(:host, :with_parameter)
       FactoryBot.create(:lookup_key, :with_override, path: 'fqdn', overrides: { host.lookup_value_matcher => 'abc' })
       copy = host.clone
-      assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
       assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
       assert_equal host.host_parameters.map(&:value), copy.host_parameters.map(&:value)
-      assert_equal host.host_config_groups.map(&:config_group_id), copy.host_config_groups.map(&:config_group_id)
       assert_equal host.lookup_values.map(&:key), copy.lookup_values.map(&:key)
       assert_equal host.lookup_values.map(&:value), copy.lookup_values.map(&:value)
-    end
-
-    test '#classes etc. on cloned host return the same' do
-      hostgroup = FactoryBot.create(:hostgroup, :with_config_group, :with_puppetclass)
-      host = FactoryBot.create(:host, :with_config_group, :with_puppetclass, :with_parameter, :hostgroup => hostgroup, :environment => hostgroup.environment)
-      copy = host.clone
-      assert_equal host.individual_puppetclasses.map(&:id), copy.individual_puppetclasses.map(&:id)
-      assert_equal host.classes_in_groups.map(&:id), copy.classes_in_groups.map(&:id)
-      assert_equal host.classes.map(&:id), copy.classes.map(&:id)
-      assert_equal host.available_puppetclasses.map(&:id), copy.available_puppetclasses.map(&:id)
     end
 
     test 'lookup values are copied' do
@@ -2234,7 +2222,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'clone host should not copy name, system fields (mac, ip, etc)' do
-      host = FactoryBot.create(:host, :with_config_group, :with_puppetclass, :with_parameter, :dualstack)
+      host = FactoryBot.create(:host, :with_config_group, :with_parameter, :dualstack)
       copy = host.clone
       assert copy.name.blank?
       assert copy.mac.blank?
@@ -2246,7 +2234,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'clone host should copy interfaces without name, mac, host_id and ips' do
-      host = FactoryBot.create(:host, :with_config_group, :with_puppetclass, :with_parameter, :dualstack)
+      host = FactoryBot.create(:host, :with_config_group, :with_parameter, :dualstack)
       copy = host.clone
 
       assert_equal host.interfaces.length, copy.interfaces.length
