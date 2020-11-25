@@ -78,6 +78,9 @@ module Api
       if association.nil? && parent_name == 'host'
         association = resource_class.reflect_on_all_associations.detect { |assoc| assoc.class_name == 'Host::Base' }
       end
+      if association.nil? && parent_name == 'organization'
+        return resource_class.all
+      end
       raise "Association not found for #{parent_name}" unless association
       result_scope = resource_class_join(association, scope).reorder(nil)
       # Check that the scope resolves before return
