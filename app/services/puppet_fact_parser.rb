@@ -144,6 +144,14 @@ class PuppetFactParser < FactParser
     facts['disks']&.values&.sum { |disk| disk&.fetch('size_bytes', 0).to_i }
   end
 
+  def foreman_uuid
+    facts['foreman_uuid']
+  end
+
+  def smart_proxy_uuid
+    facts['smart_proxy_uuid']
+  end
+
   private
 
   # remove when dropping support for facter < 3.0

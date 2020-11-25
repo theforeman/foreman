@@ -136,6 +136,12 @@ class FactParser
   def disks_total
   end
 
+  def foreman_uuid
+  end
+
+  def smart_proxy_uuid
+  end
+
   private
 
   def find_interface_by_name(host_name)

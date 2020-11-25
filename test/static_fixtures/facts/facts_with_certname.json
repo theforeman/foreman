@@ -89,6 +89,8 @@
     "netmask": "255.255.255.192",
     "fqdn": "sinn1636.lan.cert",
     "hostname": "sinn1636",
-    "domain": "lan.cert"
+    "domain": "lan.cert",
+    "foreman_uuid": "12345",
+    "smart_proxy_uuid": "23456"
   }
 }

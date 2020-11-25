@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :registration_facet, class: 'ForemanRegister::RegistrationFacet' do
-    jwt_secret { SecureRandom.base64 }
+  factory :infrastructure_facet, class: 'HostFacets::InfrastructureFacet' do
+    foreman_uuid { SecureRandom.uuid }
+    smart_proxy_uuid { SecureRandom.uuid }
     host
   end
 end

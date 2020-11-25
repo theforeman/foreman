@@ -22,6 +22,8 @@ class SmartProxy < ApplicationRecord
   validates :name, :uniqueness => true, :presence => true
   validates :url, :presence => true, :url_schema => ['http', 'https'],
     :uniqueness => { :message => N_('Only one declaration of a proxy is allowed') }
+  has_one :infrastructure_host_facet, :class_name => ::HostFacets::InfrastructureFacet.to_s
+  has_one :smart_proxy_host, :through => :infrastructure_host_facet, :source => :host
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
@@ -54,6 +56,8 @@ class SmartProxy < ApplicationRecord
 
   def refresh
     statuses.values.each { |status| status.revoke_cache! }
+    self.uuid = statuses[:version].versions['uuid']
+    statuses[:version].revoke_cache!
     associate_features
     errors
   end

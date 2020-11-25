@@ -47,6 +47,31 @@ class HostFactImporterTest < ActiveSupport::TestCase
         refute_equal first_boot_time, second_boot_time, "boot time didn't get updated during second import of facts"
       end
     end
+
+    test 'should import facts for infrastructure facet' do
+      fake_proxy = OpenStruct.new(:id => 1)
+      refute Host.find_by_name('sinn1636.lan')
+      raw = read_json_fixture('facts/facts_with_certname.json')
+      ::SmartProxy.expects(:find_by).with(:uuid => raw["facts"]["smart_proxy_uuid"]).returns(fake_proxy)
+      host = nil
+      host = Host.import_host(raw['name'], 'puppet')
+      assert HostFactImporter.new(host).import_facts(raw['facts'])
+      assert host.infrastructure_facet
+      assert host.infrastructure_facet.foreman_uuid == raw["facts"]["foreman_uuid"]
+      assert host.infrastructure_facet.smart_proxy_uuid == raw["facts"]["smart_proxy_uuid"]
+      assert host.infrastructure_facet.smart_proxy_id == fake_proxy.id
+    end
+
+    test 'should not create infrastructure facet if facts are missing' do
+      refute Host.find_by_name('sinn1636.lan')
+      raw = read_json_fixture('facts/facts_with_certname.json')
+      facts = raw['facts'].reject { |k, _| ["foreman_uuid", "smart_proxy_uuid"].include? k }
+      raw["facts"] = facts
+      host = nil
+      host = Host.import_host(raw['name'], 'puppet')
+      assert HostFactImporter.new(host).import_facts(facts)
+      refute host.infrastructure_facet
+    end
   end
 
   test "should import facts from json stream" do
