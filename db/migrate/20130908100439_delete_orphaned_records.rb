@@ -23,14 +23,10 @@ class DeleteOrphanedRecords < ActiveRecord::Migration[4.2]
     execute "DELETE FROM user_hostgroups WHERE hostgroup_id NOT IN (SELECT id FROM hostgroups) OR user_id NOT IN (SELECT id FROM users)"
     execute "DELETE FROM user_roles WHERE role_id NOT IN (SELECT id FROM roles) OR user_id NOT IN (SELECT id FROM users)"
     KeyPair.where("compute_resource_id NOT IN (?)", ComputeResource.pluck(:id)).delete_all
-    LookupKey.where("puppetclass_id NOT IN (?)", Puppetclass.pluck(:id)).delete_all
     execute "DELETE FROM environment_classes WHERE environment_id NOT IN (SELECT id FROM environments) OR lookup_key_id NOT IN (SELECT id FROM lookup_keys) OR puppetclass_id NOT IN (SELECT id FROM puppetclasses)"
     LookupValue.where("lookup_key_id NOT IN (?)", LookupKey.pluck(:id)).delete_all
     FactValue.where("fact_name_id NOT IN (?) OR host_id NOT IN (?)", FactName.pluck(:id), Host::Base.pluck(:id)).delete_all
     TaxableTaxonomy.where("taxonomy_id NOT IN (?)", Taxonomy.unscoped.pluck(:id)).delete_all
-    HostClass.where("host_id NOT IN (?) OR puppetclass_id NOT IN (?)", Host::Base.pluck(:id), Puppetclass.pluck(:id)).delete_all
-    # .unscoped is needed since the default scope orders by title, but title is not a db field yet.
-    HostgroupClass.where("hostgroup_id NOT IN (?) OR puppetclass_id NOT IN (?)", Hostgroup.unscoped.pluck(:id), Puppetclass.pluck(:id)).delete_all
     Report.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
     Log.where("message_id NOT IN (?) OR report_id NOT IN (?) OR source_id NOT IN (?)", Message.pluck(:id), Report.pluck(:id), Source.pluck(:id)).delete_all
     Token.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all

@@ -83,18 +83,6 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "2", third.parameters["secondA"]
   end
 
-  test "should inherit parent classes" do
-    child = nil
-    as_admin do
-      top = Hostgroup.create!(:name => "topA")
-      top.puppetclasses << Puppetclass.first
-      child = Hostgroup.create!(:name => "secondB", :parent_id => top.id)
-      child.puppetclasses << Puppetclass.last
-    end
-
-    assert_equal [Puppetclass.first, Puppetclass.last].sort, child.classes.sort
-  end
-
   test "should show parent parameters" do
     pid = Time.now.to_i
     child = nil
@@ -225,54 +213,11 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal domains(:yourdomain), child.domain
   end
 
-  test "classes_in_groups should return the puppetclasses of a config group only if it is in hostgroup environment" do
-    # config_groups(:one) and (:three) belongs to hostgroups(:common)
-    hostgroup = hostgroups(:common)
-    group_classes = hostgroup.classes_in_groups
-    # four classes in config groups
-    assert_equal 4, (config_groups(:one).puppetclasses + config_groups(:three).puppetclasses).uniq.count
-    # but only 3 are in production environment. git is in testing environment
-    assert_equal 3, group_classes.count
-    assert_equal ['chkmk', 'nagios', 'vim'].sort, group_classes.map(&:name).sort
-  end
-
-  test "should return all classes for environment only" do
-    # config_groups(:one) and (:three) belongs to hostgroup(:common)
-    hostgroup = hostgroups(:common)
-    all_classes = hostgroup.classes
-    # three classes from group plus one class directly - base
-    assert_equal 4, all_classes.count
-    assert_equal ['base', 'chkmk', 'nagios', 'vim'].sort, all_classes.map(&:name).sort
-  end
-
   test "search hostgroups by config group" do
     config_group = config_groups(:one)
     hostgroups = Hostgroup.search_for("config_group = #{config_group.name}")
     assert_equal 3, hostgroups.count
     assert_equal ["Common", "Parent", "inherited"].sort, hostgroups.map(&:name).sort
-  end
-
-  test "parent_classes should return parent classes if hostgroup has parent and environment are the same" do
-    hostgroup = hostgroups(:inherited)
-    assert hostgroup.parent
-    # update environment for this test to be same as parent
-    hostgroup.parent.update_attribute(:environment_id, hostgroup.environment_id)
-    refute_empty hostgroup.parent_classes
-    assert_equal hostgroup.parent_classes, hostgroup.parent.classes
-  end
-
-  test "parent_classes should not return parent classes that do not match environment" do
-    hostgroup = hostgroups(:inherited)
-    assert hostgroup.parent
-    refute_empty hostgroup.parent_classes
-    refute_equal hostgroup.environment, hostgroup.parent.environment
-    refute_equal hostgroup.parent_classes, hostgroup.parent.classes
-  end
-
-  test "parent_classes should return empty array if hostgroup does not has parent" do
-    hostgroup = hostgroups(:common)
-    assert_nil hostgroup.parent
-    assert_empty hostgroup.parent_classes
   end
 
   test "parent_config_groups should return parent config_groups if hostgroup has parent - 2 levels" do
@@ -291,63 +236,6 @@ class HostgroupTest < ActiveSupport::TestCase
     hostgroup = hostgroups(:common)
     assert_nil hostgroup.parent
     assert_empty hostgroup.parent_config_groups
-  end
-
-  describe '#individual_puppetclasses' do
-    setup do
-      @hostgroup = FactoryBot.create(:hostgroup, :with_puppetclass)
-      @puppetclass = @hostgroup.puppetclasses.first
-    end
-
-    context 'has NOT set an environment' do
-      test 'returns all classes' do
-        assert_includes @hostgroup.individual_puppetclasses.all, @puppetclass
-      end
-    end
-
-    context 'has an environment set' do
-      setup do
-        @environment = environments(:production)
-        @puppetclass.environments << @environment
-        @other_puppetclass = FactoryBot.create(:puppetclass)
-        @hostgroup.puppetclasses << @other_puppetclass
-        @hostgroup.stubs(:environment).returns(@environment)
-      end
-
-      test 'returns classes regardless of environment by default' do
-        assert_includes @hostgroup.individual_puppetclasses, @puppetclass
-        assert_includes @hostgroup.individual_puppetclasses, @other_puppetclass
-      end
-    end
-
-    test "individual puppetclasses added to hostgroup (that can be removed) does not include classes that are included by config group" do
-      hostgroup = hostgroups(:parent)
-      class_in_group = puppetclasses(:five)
-      hostgroup.stubs(:cg_class_ids).returns([class_in_group.id])
-      hostgroup.puppetclasses << class_in_group
-
-      assert_includes hostgroup.puppetclasses, class_in_group
-      refute_includes hostgroup.individual_puppetclasses, class_in_group
-    end
-  end
-
-  test "available_puppetclasses should return all if no environment" do
-    hostgroup = hostgroups(:common)
-    hostgroup.update_attribute(:environment_id, nil)
-    assert_equal Puppetclass.all, hostgroup.available_puppetclasses
-  end
-
-  test "available_puppetclasses should return environment-specific classes" do
-    hostgroup = hostgroups(:common)
-    refute_equal Puppetclass.all, hostgroup.available_puppetclasses
-    assert_equal hostgroup.environment.puppetclasses.sort, hostgroup.available_puppetclasses.sort
-  end
-
-  test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
-    hostgroup = hostgroups(:inherited)
-    refute_equal Puppetclass.all, hostgroup.available_puppetclasses
-    refute_equal hostgroup.environment.puppetclasses.sort, hostgroup.available_puppetclasses.sort
-    assert_equal (hostgroup.environment.puppetclasses - hostgroup.parent_classes).sort, hostgroup.available_puppetclasses.sort
   end
 
   test "root_pass inherited from parent if blank" do
@@ -452,12 +340,6 @@ class HostgroupTest < ActiveSupport::TestCase
       assert cloned.config_groups.include?(config_group)
     end
 
-    test "clone should clone puppet classes" do
-      group.puppetclasses << FactoryBot.create(:puppetclass)
-      cloned = group.clone("new_name")
-      assert_equal group.hostgroup_classes.map(&:puppetclass_id), cloned.hostgroup_classes.map(&:puppetclass_id)
-    end
-
     test "clone should clone parameters values but update ids" do
       group.group_parameters.create!(:name => "foo", :value => "bar")
       cloned = group.clone("new_name")
@@ -478,37 +360,12 @@ class HostgroupTest < ActiveSupport::TestCase
       assert_equal group.lookup_values.map(&:value), cloned.lookup_values.map(&:value)
     end
 
-    test '#classes etc. on cloned group return the same' do
-      parent = FactoryBot.create(:hostgroup, :with_config_group, :with_puppetclass)
-      group = FactoryBot.create(:hostgroup, :with_config_group, :with_puppetclass, :parent => parent)
-      cloned = group.clone('cloned')
-      assert_equal group.individual_puppetclasses.map(&:id), cloned.individual_puppetclasses.map(&:id)
-      assert_equal group.classes_in_groups.map(&:id), cloned.classes_in_groups.map(&:id)
-      assert_equal group.classes.map(&:id), cloned.classes.map(&:id)
-      assert_equal group.available_puppetclasses.map(&:id), cloned.available_puppetclasses.map(&:id)
-      assert_valid cloned
-    end
-
     test 'without save makes no changes' do
       group = FactoryBot.create(:hostgroup)
       FactoryBot.create(:lookup_key, :with_override, path: "hostgroup\ncomment", overrides: { group.lookup_value_matcher => 'test' })
       ActiveRecord::Base.any_instance.expects(:destroy).never
       ActiveRecord::Base.any_instance.expects(:save).never
       group.clone
-    end
-
-    test "clone with config group should run validations once" do
-      group = FactoryBot.create(:hostgroup, :with_config_group)
-      cloned = group.clone
-      refute cloned.valid?
-      assert_equal 1, cloned.errors[:name].size
-    end
-
-    test "when updating environment for a new (or cloned) hostgroup, the individual_puppetclasses method should return correctly" do
-      group = FactoryBot.create(:hostgroup, :with_config_group, :with_puppetclass)
-      cloned = Hostgroup.new
-      cloned.puppetclasses = group.puppetclasses
-      assert_equal cloned.individual_puppetclasses, group.individual_puppetclasses
     end
   end
 
@@ -540,23 +397,6 @@ class HostgroupTest < ActiveSupport::TestCase
     refute hostgroup.valid?, "Can't be valid with invalid subnet types: #{hostgroup.errors.messages}"
     assert_includes hostgroup.errors.keys, :subnet
     assert_includes hostgroup.errors.keys, :subnet6
-  end
-
-  describe '#environment' do
-    setup do
-      @hostgroup       = FactoryBot.create(:hostgroup, :with_puppetclass)
-      @new_environment = FactoryBot.create(:environment)
-    end
-
-    test 'changing it should preserve puppetclasses' do
-      puppetclasses = @hostgroup.puppetclasses.all
-      old_environment = @hostgroup.environment
-
-      @hostgroup.update(environment: @new_environment)
-
-      assert_equal puppetclasses, @hostgroup.puppetclasses.all
-      refute_equal old_environment, @hostgroup.environment
-    end
   end
 
   context "recreating host configs" do

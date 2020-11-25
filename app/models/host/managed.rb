@@ -24,8 +24,6 @@ class Host::Managed < Host::Base
   include Foreman::ObservableModel
   include ::ForemanRegister::HostExtensions
 
-  has_many :host_classes, :foreign_key => :host_id
-  has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
   has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'
   has_one :last_report_object, -> { order("#{Report.table_name}.id DESC") }, :foreign_key => :host_id, :class_name => 'ConfigReport'
   has_many :all_reports, :foreign_key => :host_id
@@ -70,7 +68,6 @@ class Host::Managed < Host::Base
   # Custom hooks will be executed after_commit
   after_commit :build_hooks
   before_save :clear_data_on_build
-  before_save :clear_puppetinfo, :if => :environment_id_changed?
 
   include PxeLoaderValidator
 
@@ -475,12 +472,6 @@ autopart"', desc: 'to render the content of host partition table'
     puppet_proxy_id.present?
   end
 
-  # the environment used by #clases nees to be self.environment and not self.parent.environment
-  def parent_classes
-    return [] unless hostgroup
-    hostgroup.classes(environment)
-  end
-
   def parent_config_groups
     return [] unless hostgroup
     hostgroup.all_config_groups
@@ -709,7 +700,7 @@ autopart"', desc: 'to render the content of host partition table'
     nil
   end
 
-  include_in_clone :config_groups, :host_config_groups, :host_classes, :host_parameters, :lookup_values
+  include_in_clone :config_groups, :host_config_groups, :host_parameters, :lookup_values
   exclude_from_clone :name, :uuid, :certname, :last_report, :lookup_value_matcher
 
   def clone
@@ -969,17 +960,6 @@ autopart"', desc: 'to render the content of host partition table'
         end
       end
     end
-
-    status = validate_association_taxonomy(:environment)
-
-    if environment
-      puppetclasses.select("puppetclasses.id,puppetclasses.name").distinct.each do |e|
-        unless environment.puppetclasses.map(&:id).include?(e.id)
-          errors.add(:puppetclasses, _("%{e} does not belong to the %{environment} environment") % { :e => e, :environment => environment })
-          status = false
-        end
-      end
-    end
     status
   end
 
@@ -1020,13 +1000,6 @@ autopart"', desc: 'to render the content of host partition table'
     host_reports = Report.where(host_id: id)
     Log.where(report_id: host_reports.pluck(:id)).delete_all
     host_reports.delete_all
-  end
-
-  def clear_puppetinfo
-    unless environment
-      self.puppetclasses = []
-      self.config_groups = []
-    end
   end
 
   def refresh_build_status

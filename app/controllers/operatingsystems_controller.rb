@@ -49,7 +49,7 @@ class OperatingsystemsController < ApplicationController
   end
 
   def clone
-    @operatingsystem = @operatingsystem.deep_clone include: [:media, :ptables, :architectures, :puppetclasses, :os_parameters], except: [:title]
+    @operatingsystem = @operatingsystem.deep_clone include: [:media, :ptables, :architectures, :os_parameters], except: [:title]
   end
 
   private

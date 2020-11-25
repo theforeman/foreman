@@ -76,14 +76,6 @@ module Foreman
             host.respond_to?(:environment) ? host.environment : host_param('puppet_environment')
           end
 
-          apipie :method, 'Returns puppet classes assigned to the host' do
-            returns Array, desc: 'Puppet classes assigned to the host'
-          end
-          def host_puppet_classes
-            check_host
-            host.puppetclasses
-          end
-
           apipie :method, 'Checks whether a parameter value is truthly or not' do
             required :name, String, desc: 'name of the parameter'
             optional :default_value, Object, desc: 'value to be returned if the parameter is not set on host', default: false

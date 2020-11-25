@@ -52,7 +52,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
 
   describe 'clone page' do
     test 'shows no errors on lookup values' do
-      host = FactoryBot.create(:host, :with_puppetclass)
+      host = FactoryBot.create(:host)
       FactoryBot.create(:lookup_key, :with_override, path: "fqdn\ncomment", overrides: { host.lookup_value_matcher => 'test' })
 
       visit clone_host_path(host)

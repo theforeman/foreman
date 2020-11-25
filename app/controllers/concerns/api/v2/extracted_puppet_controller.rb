@@ -13,7 +13,7 @@ module Api
       end
 
       def resource_human_name
-        resource_class.model_name.name
+        resource_name.classify
       end
 
       def fail_and_inform_about_plugin

@@ -164,13 +164,8 @@ FactoryBot.define do
       hostgroup { FactoryBot.create(:hostgroup, :with_domain, :with_os, :environment => environment) }
     end
 
-    trait :with_puppetclass do
-      environment
-      puppetclasses { [FactoryBot.create(:puppetclass, :environments => [environment])] }
-    end
-
     trait :with_config_group do
-      config_groups { [FactoryBot.create(:config_group, :with_puppetclass, :class_environments => [environment])] }
+      config_groups { [FactoryBot.create(:config_group)] }
     end
 
     trait :with_parameter do
@@ -577,18 +572,13 @@ FactoryBot.define do
       environment
     end
 
-    trait :with_puppetclass do
-      environment
-      puppetclasses { [FactoryBot.create(:puppetclass, :environments => [environment])] }
-    end
-
     trait :with_compute_resource do
       compute_resource { FactoryBot.create(:compute_resource, :libvirt) }
     end
 
     trait :with_config_group do
       environment
-      config_groups { [FactoryBot.create(:config_group, :with_puppetclass, :class_environments => [environment])] }
+      config_groups { [FactoryBot.create(:config_group)] }
     end
 
     trait :with_parameter do

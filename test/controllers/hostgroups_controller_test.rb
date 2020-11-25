@@ -28,9 +28,8 @@ class HostgroupsControllerTest < ActionController::TestCase
 
   def test_create_valid
     Hostgroup.any_instance.stubs(:valid?).returns(true)
-    pc = Puppetclass.first
     post :create, params: { :hostgroup => {:name => "test_it", :group_parameters_attributes => {"1272344174448" => {:name => "x", :value => "y", :_destroy => ""}},
-                   :puppetclass_ids => ["", pc.id.to_s], :realm_id => realms(:myrealm).id} }, session: set_session_user
+                   :realm_id => realms(:myrealm).id} }, session: set_session_user
     assert_redirected_to hostgroups_url
   end
 
