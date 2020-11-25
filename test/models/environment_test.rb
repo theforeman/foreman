@@ -4,7 +4,6 @@ class EnvironmentTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name)
   should have_many(:provisioning_templates).through(:template_combinations)
-  should have_many(:puppetclasses).through(:environment_classes)
 
   # List of valid environment names.
   def valid_env_name_list

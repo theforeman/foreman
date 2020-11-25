@@ -137,14 +137,6 @@ class HostTemplateTest < ActiveSupport::TestCase
     end
   end
 
-  describe '#host_puppet_classes' do
-    test 'should render puppetclasses using host_puppetclasses helper' do
-      host = FactoryBot.build(:host, :with_puppetclass)
-      @scope.instance_variable_set('@host', host)
-      assert @scope.host_puppet_classes
-    end
-  end
-
   describe '#host_param_true?' do
     test 'should have host_param_true? helper' do
       host = FactoryBot.create(:host)
