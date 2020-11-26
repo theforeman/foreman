@@ -19,11 +19,11 @@
     </div>
   </div>
   <div class='form-group'>
-    <label class='col-md-2 control-label' for='host_group_id'>
+    <label class='col-md-2 control-label' for='hostgroup_id'>
       <%= _('Host Group') %>
     </label>
     <div class='col-md-4'>
-      <%= select_tag 'host_group_id', options_from_collection_for_select(@host_groups, :id, :name, params[:host_group_id]), class: 'form-control', include_blank: '' %>
+      <%= select_tag 'hostgroup_id', options_from_collection_for_select(@host_groups, :id, :name, params[:hostgroup_id]), class: 'form-control', include_blank: '' %>
     </div>
   </div>
   <div class='form-group'>
@@ -73,7 +73,7 @@
     </div>
   </div>
   <div class='form-group'>
-    <label class='col-md-2 control-label' for='jwt_expiration'>
+    <label class='col-md-2 control-label'>
       <%= _('Token lifetime (hours)') %>
       <% help = _('Expiration of the authorization token.') %>
       <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
