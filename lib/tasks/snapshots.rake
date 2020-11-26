@@ -10,6 +10,18 @@ namespace :snapshots do
     require 'database_cleaner'
     require 'factory_bot_rails'
 
+    # don't advertise any plugins to prevent different results
+    module PluginSnapshotStub
+      def find(id)
+        nil
+      end
+    end
+    ::Foreman::Plugin.singleton_class.send :prepend, PluginSnapshotStub
+
+    # clean the snapshot directory in order to delete renamed ones and keep it clean
+    FileUtils.rm_rf(Dir.glob(File.join(
+      ::Foreman::Renderer::Source::Snapshot::SNAPSHOTS_DIRECTORY, '*')))
+
     DatabaseCleaner.cleaning do
       ENV['FIXTURES'] = 'settings'
       Rake::Task['db:fixtures:load'].invoke

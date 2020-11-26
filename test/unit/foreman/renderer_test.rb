@@ -9,6 +9,11 @@
 require 'test_helper'
 
 class RendererTest < ActiveSupport::TestCase
+  setup do
+    # don't advertise any plugins to prevent different results
+    ::Foreman::Plugin.stubs(:find).returns(nil)
+  end
+
   context 'safe mode' do
     setup do
       Setting[:safemode_render] = true
