@@ -54,7 +54,7 @@ class RegistrationController < ApplicationController
   def host_args
     organization = Organization.authorized(:view_organizations).find(params['organization_id']) if params['organization_id'].present?
     location = Location.authorized(:view_locations).find(params['location_id']) if params['location_id'].present?
-    host_group = Hostgroup.authorized(:view_hostgroups).find(params['host_group_id']) if params["host_group_id"].present?
+    host_group = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id']) if params["hostgroup_id"].present?
     operatingsystem = Operatingsystem.authorized(:view_operatingsystems).find(params['operatingsystem_id']) if params["operatingsystem_id"].present?
 
     [organization, location, host_group, operatingsystem]
