@@ -338,6 +338,10 @@ class Host::Managed < Host::Base
     def compute_provides?(attr)
       false
     end
+
+    def without_orchestration
+      yield
+    end
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address
