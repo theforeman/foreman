@@ -327,6 +327,7 @@ class Host::Managed < Host::Base
     validate :short_name_periods
     validate :check_interfaces
     before_validation :set_compute_attributes, :on => :create, :if => proc { compute_attributes_empty? }
+    before_validation :set_certname, :if => proc { |h| h.managed? && Setting[:use_uuid_for_certificates] }
     validate :check_if_provision_method_changed, :on => :update, :if => proc { |host| host.managed }
     validates :uuid, uniqueness: { :allow_blank => true }
   else
@@ -341,11 +342,14 @@ class Host::Managed < Host::Base
     def compute_provides?(attr)
       false
     end
+
+    def without_orchestration
+      yield
+    end
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address
   after_validation :ensure_associations
-  before_validation :set_certname, :if => proc { |h| h.managed? && Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
   after_validation :trigger_nic_orchestration, :if => proc { |h| h.managed? && h.changed? }, :on => :update
   before_validation :validate_dns_name_uniqueness
 
@@ -1023,7 +1027,7 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def short_name_periods
-    errors.add(:name, _("must not include periods")) if (managed? && shortname && shortname.include?(".") && SETTINGS[:unattended])
+    errors.add(:name, _("must not include periods")) if (managed? && shortname && shortname.include?("."))
   end
 
   # we need this so when attribute like build changes we trigger tftp orchestration so token is updated on tftp
