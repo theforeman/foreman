@@ -42,6 +42,11 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       put :update, params: { :id => Operatingsystem.first, :operatingsystem => {:name => Operatingsystem.first.name} }, session: set_session_user
       assert_template 'edit'
     end
+
+    test 'clone' do
+      get :clone, params: { :id => Operatingsystem.first.id }, session: set_session_user
+      assert_template 'clone'
+    end
   end
 
   context 'redirects' do
