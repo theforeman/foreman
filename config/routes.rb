@@ -422,6 +422,7 @@ Foreman::Application.routes.draw do
       resources :operatingsystems, except: [:show] do
         member do
           get 'bootfiles'
+          get 'clone'
         end
         collection do
           get 'auto_complete_search'
