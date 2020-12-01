@@ -108,15 +108,15 @@ namespace :reports do
     end
   end
 
-  task :daily => :environment do
+  task :daily => [:environment, 'dynflow:client'] do
     process_notifications :daily
   end
 
-  task :weekly => :environment do
+  task :weekly => [:environment, :'dynflow:client'] do
     process_notifications :weekly
   end
 
-  task :monthly => :environment do
+  task :monthly => [:environment, :'dynflow:client'] do
     process_notifications :monthly
   end
 end
