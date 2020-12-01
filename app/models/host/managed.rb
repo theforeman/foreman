@@ -71,6 +71,7 @@ class Host::Managed < Host::Base
   after_commit :build_hooks
   before_save :clear_data_on_build
   before_save :clear_puppetinfo, :if => :environment_id_changed?
+  after_save :refresh_templates_rendering_status, if: -> { (saved_changes.keys - ['global_status', 'updated_at']).any? }
 
   include PxeLoaderValidator
 
@@ -945,6 +946,10 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   private
+
+  def refresh_templates_rendering_status
+    get_status(HostStatus::TemplatesRenderingStatus).update(status: HostStatus::TemplatesRenderingStatus::PENDING)
+  end
 
   def update_os_from_facts
     operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)

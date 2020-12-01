@@ -1,0 +1,48 @@
+<% title _("Templates Rendering Status for: %s") % @templates_rendering_status.host.name %>
+
+<div class="container-fluid container-cards-pf">
+  <div class="row row-cards-pf">
+    <div class="col-xs-12 col-sm-6">
+      <div class="card-pf card-pf-accented card-pf-aggregate-status">
+        <div class="card-pf-body">
+          <table class="table">
+            <tr>
+              <td><%= icon_text('ok', '', kind: 'pficon') %></td>
+              <td><%= to_label(HostStatus::TemplatesRenderingStatus::OK) %></td>
+              <td><%= @combinations_count.fetch(HostStatus::TemplatesRenderingStatus::OK, 0) %></td>
+            </tr>
+            <tr>
+              <td><%= icon_text('error-circle-o', '', kind: 'pficon') %></td>
+              <td><%= to_label(HostStatus::TemplatesRenderingStatus::SAFEMODE_ERRORS) %></td>
+              <td><%= @combinations_count.fetch(HostStatus::TemplatesRenderingStatus::SAFEMODE_ERRORS, 0) %></td>
+            </tr>
+            <tr>
+              <td><%= icon_text('error-circle-o', '', kind: 'pficon') %></td>
+              <td><%= to_label(HostStatus::TemplatesRenderingStatus::UNSAFEMODE_ERRORS) %></td>
+              <td><%= @combinations_count.fetch(HostStatus::TemplatesRenderingStatus::UNSAFEMODE_ERRORS, 0) %></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th><%= _("Template") %></th>
+            <th><%= _("Status") %></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @templates_rendering_status.combinations.not_pending.each do |combination| %>
+          <tr>
+            <td><%= link_to_if_authorized(combination.template.name, hash_for_edit_provisioning_template_path(id: combination.template)) %></td>
+            <td><%= to_label(combination.status) %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

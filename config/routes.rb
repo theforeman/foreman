@@ -602,4 +602,6 @@ Foreman::Application.routes.draw do
     match 'experimental/hosts/:id' => 'react#index', :via => :get, :as => :host_details_page
   end
   get 'links/:type(/:section)' => 'links#show', :as => 'external_link', :constraints => { section: %r{.*} }
+
+  resources :templates_rendering_statuses, only: :show
 end

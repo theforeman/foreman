@@ -75,6 +75,7 @@ class Setting::Provisioning < Setting
       set('default_pxe_item_global', N_("Default PXE menu item in global template - 'local', 'discovery' or custom, use blank for template default"), nil, N_("Default PXE global template entry")),
       set('default_pxe_item_local', N_("Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"), nil, N_("Default PXE local template entry")),
       set('intermediate_ipxe_script', N_('Intermediate iPXE script for unattended installations'), 'iPXE intermediate script', N_('iPXE intermediate script'), nil, { :collection => proc { Hash[ProvisioningTemplate.unscoped.of_kind(:iPXE).map { |tmpl| [tmpl.name, tmpl.name] }] } }),
+      set('templates_rendering_status_refresh_interval', N_('The refreshing interval for templates rendering status (in minutes)'), 5, N_('Templates rendering status refresh interval')),
       set(
         'destroy_vm_on_host_delete',
         N_("Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource. When disabled, VMs are unlinked when the host is deleted, meaning they remain on Compute Resource and can be re-associated or imported back to Foreman again. This does not automatically power off the VM"),

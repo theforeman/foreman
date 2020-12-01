@@ -832,9 +832,7 @@ class HostsController < ApplicationController
 
   def find_templates
     find_resource
-    @templates = TemplateKind.order(:name).map do |kind|
-      @host.provisioning_template(:kind => kind.name)
-    end.compact
+    @templates = @host.find_templates
     raise Foreman::Exception.new(N_("No templates found")) if @templates.empty?
   end
 

@@ -30,7 +30,12 @@ class ProvisioningTemplate < Template
     :reject_if => ->(tc) { tc[:environment_id].blank? && tc[:hostgroup_id].blank? }
   has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_provisioning_templates, :association_foreign_key => :operatingsystem_id, :foreign_key => :provisioning_template_id
   has_many :os_default_templates
+  has_many :templates_rendering_status_combinations, inverse_of: :template,
+                                                     class_name: 'HostStatus::TemplatesRenderingStatusCombination',
+                                                     dependent: :destroy,
+                                                     foreign_key: :template_id
   before_save :check_for_snippet_assoications
+  after_save :refresh_templates_rendering_statuses
 
   # these can't be shared in parent class, scoped search can't handle STI properly
   # tested with scoped_search 3.2.0
@@ -239,6 +244,20 @@ class ProvisioningTemplate < Template
   end
 
   private
+
+  def refresh_templates_rendering_statuses
+    relation = HostStatus::TemplatesRenderingStatus.joins(:combinations, :host)
+
+    by_combinations = relation.where(templates_rendering_status_combinations: { template_id: id })
+    by_operatingsystem = relation.where(hosts: { operatingsystem_id: operatingsystem_ids })
+    by_environment = relation.where(hosts: { environment_id: environment_ids })
+    by_hostgroup = relation.where(hosts: { hostgroup_id: hostgroup_ids })
+
+    by_combinations.or(by_environment)
+                   .or(by_operatingsystem)
+                   .or(by_hostgroup)
+                   .update_all(status: HostStatus::TemplatesRenderingStatus::PENDING)
+  end
 
   def import_custom_data(options)
     super
