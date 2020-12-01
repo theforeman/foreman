@@ -13,4 +13,4 @@ jobs:
           ruby-version: 2.5
           bundler-cache: true
       - name: Run rubocop
-        run: bundle exec rubocop
+        run: bundle exec rubocop -P
