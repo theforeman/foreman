@@ -22,7 +22,7 @@ class RegistrationController < ApplicationController
 
   def headers
     hours = (params[:jwt_expiration].presence || 4).to_i.hours.to_i
-    jwt = User.current.jwt_token!(expiration: hours)
+    jwt = User.current.jwt_token!(expiration: hours, scope: 'registration')
 
     "-H 'Authorization: Bearer #{jwt}'"
   end

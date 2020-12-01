@@ -19,9 +19,26 @@ class JwtTokenTest < ActiveSupport::TestCase
     jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
     JwtSecret.stubs(:find_by).returns(jwt_secret)
     user = OpenStruct.new(id: 123)
-    jwt_token = JwtToken.new(JwtToken.encode(user, jwt_secret.token, 3600).token)
+    jwt_token = JwtToken.new(JwtToken.encode(user, jwt_secret.token, expiration: 3600).token)
 
     assert_nothing_raised { jwt_token.decode }
+  end
+
+  test 'encode with scope (string)' do
+    jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
+    JwtSecret.stubs(:find_by).returns(jwt_secret)
+    jwt_token = JwtToken.new(JwtToken.encode(OpenStruct.new(id: 123), jwt_secret.token, scope: 'onescope').token)
+
+    assert_equal 'onescope', jwt_token.decode['scope']
+  end
+
+  test 'encode with scope (array)' do
+    jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
+    JwtSecret.stubs(:find_by).returns(jwt_secret)
+    scope = ['one', 'two', 'three']
+    jwt_token = JwtToken.new(JwtToken.encode(OpenStruct.new(id: 123), jwt_secret.token, scope: scope).token)
+
+    assert_equal 'one two three', jwt_token.decode['scope']
   end
 
   test 'decoding' do
@@ -74,7 +91,7 @@ class JwtTokenTest < ActiveSupport::TestCase
     jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
     JwtSecret.stubs(:find_by).returns(jwt_secret)
     user = OpenStruct.new(id: 123)
-    jwt_token = JwtToken.new(JwtToken.encode(user, jwt_secret.token, -1).token)
+    jwt_token = JwtToken.new(JwtToken.encode(user, jwt_secret.token, expiration: -1).token)
 
     assert_raise(JWT::ExpiredSignature) { jwt_token.decode }
   end

@@ -22,7 +22,7 @@ module Foreman::Controller::Registration
 
     context = {
       user: User.current,
-      auth_token: User.current.jwt_token!(expiration: 4.hours.to_i),
+      auth_token: User.current.jwt_token!(expiration: 4.hours.to_i, scope: 'registration'),
       organization: (organization || User.current.default_organization || User.current.my_organizations.first),
       location: (location || User.current.default_location || User.current.my_locations.first),
       hostgroup: host_group,

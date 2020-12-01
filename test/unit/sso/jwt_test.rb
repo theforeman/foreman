@@ -71,11 +71,63 @@ class JwtTest < ActiveSupport::TestCase
     end
   end
 
+  context 'scope' do
+    test 'with one valid scope (string)' do
+      token = users(:one).jwt_token!(scope: 'hosts')
+      sso = SSO::Jwt.new(get_controller(true, token))
+
+      assert_equal users(:one).login, sso.authenticated?
+    end
+
+    test 'with multiple scopes (array)' do
+      token = users(:one).jwt_token!(scope: ['one', 'two', 'hosts'])
+      sso = SSO::Jwt.new(get_controller(true, token))
+
+      assert_equal users(:one).login, sso.authenticated?
+    end
+
+    test 'with one invalid scope (string)' do
+      token = users(:one).jwt_token!(scope: 'users')
+      sso = SSO::Jwt.new(get_controller(true, token))
+
+      assert_nil sso.authenticated?
+    end
+
+    test 'with multiple invalid scopes (array)' do
+      token = users(:one).jwt_token!(scope: ['one', 'two', 'three'])
+      sso = SSO::Jwt.new(get_controller(true, token))
+
+      assert_nil sso.authenticated?
+    end
+
+    test 'with nil scope' do
+      token = users(:one).jwt_token!(scope: nil)
+      sso = SSO::Jwt.new(get_controller(true, token))
+
+      assert_equal users(:one).login, sso.authenticated?
+    end
+
+    test 'with empty string scope' do
+      token = users(:one).jwt_token!(scope: '')
+      sso = SSO::Jwt.new(get_controller(true, token))
+
+      assert_equal users(:one).login, sso.authenticated?
+    end
+
+    test 'with empty array scope' do
+      token = users(:one).jwt_token!(scope: [])
+      sso = SSO::Jwt.new(get_controller(true, token))
+
+      assert_equal users(:one).login, sso.authenticated?
+    end
+  end
+
   protected
 
   def get_controller(api_request, jwt_token = 'invalid', headers = {})
     controller = Struct.new(:request).new(Struct.new(:authorization, :headers).new("Bearer #{jwt_token}", headers))
     controller.stubs(:api_request?).returns(api_request)
+    controller.stubs(:controller_permission).returns('hosts')
     controller.stubs(:session).returns(ActionController::TestSession.new)
     controller
   end
