@@ -9,6 +9,12 @@ module SSO
     def authenticate!
       payload = jwt_token.decode || {}
       user_id = payload['user_id']
+
+      unless valid_scope?(payload['scope'])
+        Rails.logger.warn "JWT SSO: Invalid scope for '#{controller.controller_permission}' controller."
+        return
+      end
+
       user = User.unscoped.except_hidden.find_by(id: user_id) if user_id
       @current_user = user
       user&.login
@@ -41,6 +47,11 @@ module SSO
 
     def no_issuer?
       jwt_token.decoded_payload.present? && !jwt_token.decoded_payload.key?('iss')
+    end
+
+    def valid_scope?(scope)
+      return true if scope.empty?
+      scope.split(' ').include? controller.controller_permission
     end
   end
 end

@@ -8,9 +8,11 @@ module JwtAuth
       jwt_secret || create_jwt_secret!
     end
 
-    def jwt_token!(expiration: nil)
+    # expiration:  integer, eg: 4.hours.to_i
+    # scope:       string or array with controller name(s)
+    def jwt_token!(expiration: nil, scope: nil)
       jwt_secret = jwt_secret!
-      JwtToken.encode(self, jwt_secret.token, expiration).to_s
+      JwtToken.encode(self, jwt_secret.token, expiration: expiration, scope: scope).to_s
     end
   end
 end
