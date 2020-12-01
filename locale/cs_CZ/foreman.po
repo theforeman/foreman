@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-11-02 11:15+0000\n"
+"PO-Revision-Date: 2020-11-19 14:22+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
@@ -2947,6 +2947,9 @@ msgstr "Rozbalit vnořené položky"
 msgid "Expand the chart"
 msgstr "Rozbalit graf"
 
+msgid "Expiration of the authorization token."
+msgstr ""
+
 msgid "Expire logs"
 msgstr ""
 
@@ -4436,6 +4439,9 @@ msgid "If owner type is specified, owner must be specified too."
 msgstr ""
 
 msgid "If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it."
+msgstr ""
+
+msgid "If selected, SSH keys will be installed on the registered host."
 msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
@@ -6317,6 +6323,9 @@ msgstr ""
 msgid "Note the extra space before IP, the <code>-&#37;></code> removes the new line character only if there is no other text after it. Therefore the white space needs to be at the new line."
 msgstr ""
 
+msgid "Note: the command contains an authentication token which grants access to your Foreman account until it expires."
+msgstr ""
+
 msgid "Nothing to add"
 msgstr "Není co přidat"
 
@@ -6495,6 +6504,9 @@ msgid ""
 msgstr ""
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
+msgstr ""
+
+msgid "Only Smart Proxies with enabled Registration module are available"
 msgstr ""
 
 msgid "Only for BMC interfaces."
@@ -7458,6 +7470,9 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Remote Execution"
+msgstr "Vykonání na protějšku"
+
 msgid "Remote address"
 msgstr "Adresa protějšku"
 
@@ -8076,6 +8091,9 @@ msgid "Services"
 msgstr "Služby"
 
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
+msgstr ""
+
+msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
 msgstr ""
 
 msgid "Set IP addresses for %s"
@@ -9681,9 +9699,6 @@ msgstr "Nedaří se ověřit uživatele %s"
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
 msgstr ""
 
-msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
-msgstr ""
-
 msgid "Unable to communicate with the proxy: %s"
 msgstr "Nedaří se komunikovat s proxy: %s"
 
@@ -9798,7 +9813,7 @@ msgstr ""
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr ""
 
-msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
+msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr ""
 
 msgid "Unable to obtain group %{group} from External IPAM."

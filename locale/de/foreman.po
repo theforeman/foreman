@@ -37,8 +37,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-11-02 11:15+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"PO-Revision-Date: 2020-11-19 14:22+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2980,6 +2980,9 @@ msgstr "Verschachtelte Elemente ausklappen"
 msgid "Expand the chart"
 msgstr "Diagramm ausklappen"
 
+msgid "Expiration of the authorization token."
+msgstr ""
+
 msgid "Expire logs"
 msgstr "Ablaufprotokolle"
 
@@ -4474,6 +4477,9 @@ msgid "If owner type is specified, owner must be specified too."
 msgstr "Wenn Besitzer-Typ spezifiziert wurde, muss auch ein Besitzer spezifiziert sein."
 
 msgid "If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it."
+msgstr ""
+
+msgid "If selected, SSH keys will be installed on the registered host."
 msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
@@ -6355,6 +6361,9 @@ msgstr ""
 msgid "Note the extra space before IP, the <code>-&#37;></code> removes the new line character only if there is no other text after it. Therefore the white space needs to be at the new line."
 msgstr ""
 
+msgid "Note: the command contains an authentication token which grants access to your Foreman account until it expires."
+msgstr ""
+
 msgid "Nothing to add"
 msgstr "Nichts zum Hinzufügen"
 
@@ -6533,6 +6542,9 @@ msgid ""
 msgstr ""
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
+msgstr ""
+
+msgid "Only Smart Proxies with enabled Registration module are available"
 msgstr ""
 
 msgid "Only for BMC interfaces."
@@ -7498,6 +7510,9 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Remote Execution"
+msgstr "Entfernte Ausführung"
+
 msgid "Remote address"
 msgstr "Entfernte Adresse"
 
@@ -8116,6 +8131,9 @@ msgid "Services"
 msgstr "Dienste"
 
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
+msgstr ""
+
+msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
 msgstr ""
 
 msgid "Set IP addresses for %s"
@@ -9727,9 +9745,6 @@ msgstr "User %s kann nicht authentifiziert werden"
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
 msgstr "Überwachungsadresse für VM-Anzeige konnte nicht geändert werden. Stellen Sie sicher, dass die Anzeige nicht nur mit Localhost verbunden ist"
 
-msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
-msgstr ""
-
 msgid "Unable to communicate with the proxy: %s"
 msgstr "Es konnte nicht mit dem Proxy kommuniziert werden: %s"
 
@@ -9844,7 +9859,7 @@ msgstr "Installierte BMC-Anbieter konnten nicht geladen werden"
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI Klasse %s kann nicht initialisiert werden"
 
-msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
+msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr ""
 
 msgid "Unable to obtain group %{group} from External IPAM."
