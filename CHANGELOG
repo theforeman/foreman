@@ -1,3 +1,39 @@
+2020-12-01	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.3.0
+
+2020-12-01	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2020-11-30	Simon Peeters <simon.peeters@ugent.be>
+	* Fixes #31408 - Use regexp to match networks by VLAN ID
+
+2020-11-30	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #31364 - Properly import facts when unattended == false
+
+2020-11-26	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #31397 - Global Registration - hostgroup_id instead of host_group_id (#8156)
+
+2020-11-26	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #31348 - raw params in foreman_url support
+
+2020-11-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #31398 - Allow period in external usergroup name
+
+2020-11-25	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #31345: Fix permissions undefined for nil due to race condition
+
+2020-11-24	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #30934 - improve template invocation_form inputs
+
+2020-11-23	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #31241 - show dateTimePicker default value
+
+2020-11-19	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #31281 - Registration Form - Add info about JWT access
+
+2020-11-19	Evgeni Golov <evgeni@golov.de>
+	* Fixes #31193 - allow ansible inventory template without Katello
+
 2020-11-17	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.3.0-rc2
 
