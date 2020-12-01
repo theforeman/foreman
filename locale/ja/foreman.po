@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-11-17 07:16+0000\n"
+"PO-Revision-Date: 2020-12-01 08:28+0000\n"
 "Last-Translator: Amit Upadhye <aupadhye@redhat.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -45,21 +45,21 @@ msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr "%(name)s (空き: %(free)s、プロビジョニング: %(prov)s、合計: %(total)s)"
 
 msgid "%s - Press Shift-F12 to release the cursor."
-msgstr "%s - Shift+F12 を押してカーソルを解放します。"
+msgstr "%s: Shift+F12 を押してカーソルを解放します。"
 
 msgid "%s - The following hosts are about to be changed"
-msgstr "%s - 以下のホストはすぐに変更されます"
+msgstr "%s: 以下のホストはまもなく変更されます"
 
 msgid "%s Active Feature"
 msgid_plural "%s Active Features"
-msgstr[0] "%s のアクティブな機能"
+msgstr[0] "アクティブな機能 %s 個"
 
 msgid "%s Filters"
 msgstr "%s フィルター"
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
-msgstr[0] "%s ログメッセージ"
+msgstr[0] "%s 件のログメッセージ"
 
 msgid "%s Parameters updated, see below for more information"
 msgstr "%s パラメーターが更新されました。詳細は以下を参照してください"
@@ -69,11 +69,11 @@ msgstr "%s テンプレート"
 
 msgid "%s VM failed while processing: check logs for more details."
 msgid_plural "%s VMs failed while processing: check logs for more details."
-msgstr[0] "%s VM がプロセス中に失敗しました。詳細はログを確認してください。"
+msgstr[0] "VM %s 台が処理に失敗しました。詳細はログを確認してください。"
 
 msgid "%s VM was associated to a host."
 msgid_plural "%s VMs were each associated to hosts."
-msgstr[0] "%s VM がホストに関連付けられました。"
+msgstr[0] "VM %s 台がホストに関連付けられました。"
 
 msgid "%s ago"
 msgstr "%s 前"
@@ -90,7 +90,7 @@ msgstr[0] "%s 日前"
 
 msgid "%s error message"
 msgid_plural "%s error messages"
-msgstr[0] "%s エラーメッセージ"
+msgstr[0] "%s 件のエラーメッセージ"
 
 msgid "%s filters"
 msgstr "%s フィルター"
@@ -100,7 +100,7 @@ msgstr "%s の VM との関連付けが解除されました"
 
 msgid "%s host"
 msgid_plural "%s hosts"
-msgstr[0] "%s ホスト"
+msgstr[0] "ホスト %s 台"
 
 msgid "%s is an unknown attribute"
 msgstr "%s は不明な属性です"
@@ -109,7 +109,7 @@ msgid "%s is not a valid DNS record type"
 msgstr "%s は有効な DNS レコードタイプではありません"
 
 msgid "%s is not in environment"
-msgstr "%s は環境にありません"
+msgstr "%s は環境内にありません"
 
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
@@ -123,11 +123,11 @@ msgid "%s out of sync disabled"
 msgstr "%s の非同期切り替えを無効にしました"
 
 msgid "%s selected hosts"
-msgstr "%s つの選択されたホスト"
+msgstr "選択したホスト %s 台"
 
 msgid "%s warning message"
 msgid_plural "%s warning messages"
-msgstr[0] "%s 警告メッセージ"
+msgstr[0] "%s 件の警告メッセージ"
 
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
@@ -147,13 +147,13 @@ msgstr "%{app_name} API ドキュメントホームページ"
 
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
-msgstr[0] "%{config_type} の再ビルドに失敗したホスト: %{host_names}。"
+msgstr[0] "ホスト : %{host_names} の %{config_type} 再ビルドに失敗しました。"
 
 msgid "%{controller}: %{host}'s operating system %{os} has no OS family"
-msgstr "%{controller}: %{host} のオペレーティングシステム %{os} には OS の種類がありません"
+msgstr "%{controller}: %{host} のオペレーティングシステム %{os} には OS の系統がありません"
 
 msgid "%{controller}: %{host}'s operating system is missing"
-msgstr "%{controller}: %{host} のオペレーティングシステムが不明です"
+msgstr "%{controller}: %{host} のオペレーティングシステムがありません"
 
 msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr "%{controller}: ホスト %{host} のプロビジョニングトークンが期限切れです"
@@ -162,75 +162,75 @@ msgid "%{controller}: unable to find a host that matches the request from %{addr
 msgstr "%{controller}: %{addr} からの要求に一致するホストを見つけることができません"
 
 msgid "%{cores} Cores and %{memory} memory"
-msgstr "%{cores} コアおよび %{memory} メモリー"
+msgstr "コア %{cores} 個およびメモリー %{memory}"
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
-msgstr[0] "%{taxonomy_single} が割り当てられていないホストが %{count} つあります"
+msgstr[0] "{taxonomy_single} が割り当てられていない %{count} 台のホスト"
 
 msgid "%{cpus} CPUs and %{memory} MB memory"
-msgstr "%{cpus} CPU および %{memory} MB メモリー"
+msgstr "コア %{cpus} 個およびメモリー %{memory} MB"
 
 msgid "%{cpus} CPUs and %{memory} memory"
-msgstr "%{cpus} CPU および %{memory} メモリー"
+msgstr "コア %{cpus} 個およびメモリー %{memory}"
 
 msgid "%{e} does not belong to the %{environment} environment"
-msgstr "%{e} は %{environment} 環境に属していません"
+msgstr "%{e} は %{environment} 環境に所属していません"
 
 msgid "%{host} is about to %{action}"
-msgstr "%{host} はすぐに %{action} を実行します"
+msgstr "%{host} はまもなく %{action} を実行します"
 
 msgid "%{host} now boots from %{device}"
 msgstr "%{host} は %{device} から起動します"
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
-msgstr "%{id} プラグインには Foreman %{matcher} が必要ですが、現在は %{current} です"
+msgstr "%{id} プラグインには Foreman %{matcher} が必要ですが現在は %{current} です"
 
 msgid "%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{plugin_version}"
-msgstr "%{id} プラグインには %{plugin_name} プラグイン %{matcher} が必要ですが、現在は %{plugin_version} です"
+msgstr "%{id} プラグインには %{plugin_name} プラグインの %{matcher} が必要ですが、現在は %{plugin_version} です"
 
 msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
-msgstr "%{id} プラグインには %{plugin_name} プラグインが必要ですが、見つかりません"
+msgstr "%{id} プラグインには {plugin_name} プラグインが必要ですが、見つかりません"
 
 msgid "%{image} needs user data, but %{os_link} is not associated to any provisioning template of the kind user_data. Please associate it with a suitable template or uncheck 'User data' for %{compute_resource_image_link}."
-msgstr "%{image} はユーザーデータが必要ですが、%{os_link} は user_data の種類のプロビジョニングテンプレートに関連付けられていません。適切なテンプレートに関連付けるか、%{compute_resource_image_link} の「ユーザーデータ」のチェックを外してください。"
+msgstr "%{image} はユーザーデータが必要ですが、{os_link} は種類が user_data のプロビジョニングテンプレートに関連付けられていません。適切なテンプレートに関連付けるか、%{compute_resource_image_link} の「ユーザーデータ」のチェックを外してください。"
 
 msgid "%{key} does not exist in order field"
 msgstr "%{key} は順序フィールドに存在しません"
 
 msgid "%{match} does not match an existing host"
-msgstr "%{match} は既存ホストに一致しません"
+msgstr "%{match} と既存ホストは一致しません"
 
 msgid "%{match} does not match an existing host group"
-msgstr "%{match} は既存のホストグループに一致しません"
+msgstr "%{match} と既存のホストグループは一致しません"
 
 msgid "%{model} with id '%{id}' was not found"
 msgstr "id '%{id}' の %{model} が見つかりませんでした"
 
 msgid "%{name} changed from %{label1} to %{label2}"
-msgstr "%{name} は %{label1} から %{label2} に変更されました"
+msgstr "%{name} が %{label1} から %{label2} に変更されました"
 
 msgid "%{name} has %{num_tag} class"
 msgid_plural "%{name} has %{num_tag} classes"
-msgstr[0] "%{name} には %{num_tag} クラスが含まれます"
+msgstr[0] "%{name} には ％{num_tag}クラスが含まれます"
 
 msgid "%{object_name} is a %{object_class}, expected a subnet"
-msgstr "%{object_name} は %{object_class} で、サブネットが必要です"
+msgstr "%{object_name} は %{object_class} ですが、サブネットが必要です"
 
 msgid "%{os} medium was not set for host '%{host}'"
-msgstr "%{os} メディアがホスト '%{host}' に設定されていませんでした"
+msgstr "ホスト '%{host}' に %{os} メディアが設定されていませんでした"
 
 msgid "%{record} is being used by a hidden %{what} resource"
 msgstr "%{record} は、非表示の %{what} リソースによって使用されています"
 
 msgid "%{record} is used by %{what}"
-msgstr "%{record} は %{what} によって使用されています"
+msgstr "%{record} は %{what} が使用します"
 
 msgid "%{record} is used by host in build mode %{what}"
-msgstr "%{record} はビルドモードのホスト %{what} によって使用されています"
+msgstr "%{record} は、ビルドモード %{what} でホストにより使用されます"
 
 msgid "%{resource_name} not found by id '%{id}'"
-msgstr "%{resource_name} が ID '%{id}' で見つかりません"
+msgstr "id '%{id}' で %{resource_name} が見つかりませんでした"
 
 msgid "%{subject} has been deleted successfully"
 msgstr "%{subject} は正常に削除されました"
@@ -242,48 +242,48 @@ msgid "%{subject} has no owner set"
 msgstr "%{subject} には所有者セットがありません"
 
 msgid "%{task} task failed with the following error: %{e}"
-msgstr "%{task} タスクは以下のエラーを出して失敗しました: %{e}"
+msgstr "%{task} タスクは以下のエラーで失敗しました: %{e}"
 
 msgid "%{taxonomy_type} %{taxonomy_name} has %{count} host that will need to be reassociated after deletion. Delete %{taxonomy_name2}?"
 msgid_plural "%{taxonomy_type} %{taxonomy_name} has %{count} hosts that will need to be reassociated after deletion. Delete %{taxonomy_name2}?"
-msgstr[0] "%{taxonomy_type} %{taxonomy_name} には、削除後に再び関連付ける必要がある %{count} ホストがあります。%{taxonomy_name2} を削除しますか?"
+msgstr[0] "%{taxonomy_type} %{taxonomy_name} には、削除後に再割り当ての必要なホストが %{count} 台あります。%{taxonomy_name2} を削除しますか?"
 
 msgid "%{taxonomy} stored in session with id %{id} not found"
-msgstr "id が %{id} のセッションの保存された %{taxonomy} が見つかりませんでした"
+msgstr "id が %{id} のセッションに保存された %{taxonomy} が見つかりませんでした"
 
 msgid "%{taxonomy} with id %{id} not found"
-msgstr "id が %{id} の %{taxonomy} が見つかりませんでした"
+msgstr "id が %{id} の %{taxonomy} が見つかりません"
 
 msgid "%{type} %{conflicts} already exists"
 msgstr "%{type} %{conflicts} はすでに存在します"
 
 msgid "%{user} Downloaded %{key} as pem file"
-msgstr "%{user} のダウンロード済み %{key} (永続ファイル)"
+msgstr "%{user} は %{key} を pem ファイルとしてダウンロードしました"
 
 msgid "%{value} does not belong to %{os} operating system"
-msgstr "%{value} は %{os} オペレーティングシステムに属しません"
+msgstr "%{value} は %{os} オペレーティングシステムに所属しません"
 
 msgid "%{value} is not a valid controller"
 msgstr "%{value} は有効なコントローラーではありません"
 
 msgid "%{value} is not one of %{rules}"
-msgstr "%{value} は %{rules} のいずれでもありません"
+msgstr "%{value} は %{rules} の 1 つではありません"
 
 msgid "%{vm} is now %{vm_state}"
-msgstr "%{vm} は %{vm_state} になりました"
+msgstr "%{vm} の現在の状態は ％{vm_state} です"
 
 msgid "'%{host}' could be deleted or '%{resource}' is not responding."
-msgstr "'%{host}' は削除されている可能性があるか、または '%{resource}' が応答していません。"
+msgstr "'%{host}' は削除されている可能性があるか、または %{resource}' が応答していません。"
 
 msgid "'%{host}' not found on '%{resource}'"
-msgstr "'%{host}' が '%{resource}' に見つかりません"
+msgstr "'%{resource}' で '%{host}'  が見つかりませんでした"
 
 msgid "'%{loader}' is not one of %{loaders}"
-msgstr "'%{loader}' は %{loaders} のいずれかではありません"
+msgstr "'%{loader} 'は %{loaders} の 1 つです"
 
 msgid "(%s host)"
 msgid_plural "(%s hosts)"
-msgstr[0] "(%s ホスト)"
+msgstr[0] "(ホスト %s 台)"
 
 msgid "(Miscellaneous)"
 msgstr "(その他)"
@@ -307,10 +307,10 @@ msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administ
 msgstr ":foreman_url が設定されていません。Foreman Web UI (管理 -> 設定 -> 全般) で設定してください"
 
 msgid "<b class='select_count'>0</b> of <b>%s</b> selected"
-msgstr "<b>%s</b>件中<b class='select_count'>0</b> 件選択済み"
+msgstr "<b>%s</b> 個中 <b class='select_count'>0</b> 個選択"
 
 msgid "<b class='select_count'>0</b> selected"
-msgstr "<b class='select_count'>0</b> 件選択済み"
+msgstr "選択項目 <b class='select_count'>0</b> 件"
 
 msgid ""
 "<b style=\"color: #6bb5df;\">%{disabled_sum}</b>\n"
@@ -340,7 +340,7 @@ msgid_plural ""
 "               <p>Out of sync</p>"
 msgstr[0] ""
 "<b style=\"color: #6bb5df;\">%{out_of_sync_sum}</b>\n"
-"               <p>同期されていない</p>"
+"               <p>非同期</p>"
 
 msgid ""
 "<b>Description:</b> %{desc}<br/>\n"
@@ -351,7 +351,7 @@ msgstr ""
 "<b>説明:</b> %{desc}<br/>\n"
 "     <b>タイプ:</b> %{type}<br/>\n"
 "     <b>Matcher:</b> %{matcher}<br/>\n"
-"     <b>継承された値:</b> %{inherited_value}"
+"     <b>継承値:</b> %{inherited_value}"
 
 msgid "<b>Foreman</b> Build Complete"
 msgstr "<b>Foreman</b> ビルドの完了"
@@ -372,10 +372,10 @@ msgid "<b>Source:</b> %{type} %{name}"
 msgstr "<b>ソース:</b> %{type} %{name}"
 
 msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
-msgstr "<dl><dt>List</dt> <dd>「バリデータールール」フィールドで指定される、許可される値の一覧です。</dd><dt>Regexp</dt> <dd>「バリデータールール」フィールドの正規表現による入力の検証を行います。</dd></dl>"
+msgstr "<dl><dt>List</dt> <dd>許容値の一覧。バリデータールールフィールドで指定します。</dd><dt>Regexp</dt> <dd>バリデータールールフィールドで正規表現を使用して入力を検証します。</dd></dl>"
 
 msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
-msgstr "<dl><dt>String</dt> <dd>すべての値は文字列に変換されます。</dd><dt>Boolean</dt> <dd>ブール値の共通表現が受け入れられます。</dd><dt>Integer</dt> <dd>整数のみです。負の値にできます。</dd><dt>Real</dt> <dd>すべての数値入力を受け入れます。</dd><dt>Array</dt> <dd>配列に評価される有効な JSON または YAML 入力です。</dd><dt>Hash</dt> <dd>object/map/dict/hash として評価される有効な JSON または YAML 入力です。</dd><dt>YAML</dt> <dd>すべての有効な YAML 入力です。</dd><dt>JSON</dt> <dd>すべての有効な JSON 入力です。</dd></dl>"
+msgstr "<dl><dt>String</dt> <dd>すべて文字列に変換されます。</dd><dt>Boolean</dt> <dd>ブール値の一般的な表記を使用できます。</dd><dt>Integer</dt> <dd>整数のみ。負の数も指定できます。</dd><dt>Real</dt> <dd>数値を入力できます。</dd><dt>Array</dt> <dd>有効な JSON または YAML 入力。配列に対して評価する必要があります。</dd><dt>Hash</dt> <dd>有効な JSON または YAML 入力。オブジェクト/マップ/ディクショナリー/ハッシュに対して評価する必要があります。</dd><dt>YAML</dt> <dd>有効な YAML 入力。</dd><dt>JSON</dt> <dd>有効な JSON 入力。</dd></dl>"
 
 msgid "A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
 msgstr "Foreman ユーザーグループは LDAP サーバーに保存されるグループに関連付けられるため、LDAP グループのメンバーシップはユーザーを Foreman ユーザーグループに自動的に追加します。"
@@ -538,10 +538,10 @@ msgid "Add:"
 msgstr "追加:"
 
 msgid "Added %{from} to %{to}"
-msgstr "％{from} から ％{to} に追加"
+msgstr "%{to} に %{from} を追加しました"
 
 msgid "Adding would cause a cycle!"
-msgstr "追加することによりサイクルが生じます!"
+msgstr "追加するとサイクルが開始します!"
 
 msgid "Additional Information"
 msgstr "追加情報"
@@ -622,7 +622,7 @@ msgid "All hosts data matches configurations for locations and organizations."
 msgstr "すべてのホストデータはロケーションと組織の設定に一致します。"
 
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
-msgstr "%{single} のなかったすべてのホストは %{name} に割り当てられています"
+msgstr "以前 %{single} が指定されていなかったホストすべてに %{name} が割り当てられています"
 
 msgid "All hosts will show a configuration status even when a Puppet smart proxy is not assigned"
 msgstr "Puppet Smart Proxy が割り当てられていない場合でも全ホストで設定ステータスが表示されます"
@@ -682,7 +682,7 @@ msgid "Always show configuration status"
 msgstr "常に設定ステータスを表示します"
 
 msgid "An IP address will be auto-suggested if you have enabled IPAM on the IPv4 subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"
-msgstr "上記で選択した IPv4 サブネットで IPAM を有効にした場合は、IP アドレスの自動補完が行なわれます。<br/><br/>IP アドレスは次の場合に空白のままにできます。<br/><ul><li>トークンのプロビジョニングが有効な場合</li><li>ドメインが DNS を管理しない場合</li><li>サブネットが逆引き DNS を管理しない場合</li><li>サブネットが DHCP 予約を管理しない場合</li></ul>"
+msgstr "上記で選択した IPv4 サブネットで IPAM を有効にした場合は、IP アドレスの自動補完が行なわれます。<br/><br/>P アドレスは次の場合に空白のままにできます。<br/><ul><li>トークンのプロビジョニングが有効な場合</li><li>ドメインが DNS を管理しない場合</li><li>サブネットが逆引き DNS を管理しない場合</li><li>サブネットが DHCP 予約を管理しない場合</li></ul>"
 
 msgid "An IP address will be auto-suggested if you have enabled IPAM on the IPv6 subnet selected above."
 msgstr "上記で選択した IPv6 サブネットで IPAM を有効にした場合は、IP アドレスの自動補完が行なわれます。"
@@ -700,7 +700,7 @@ msgid "An error occurred."
 msgstr "エラーが発生しました。"
 
 msgid "An example of a control flow terminal is an if condition or for each cycle. Macros are functions called by their name without specifying any object, e.g. %{load_hosts} or %{input}. See all available macros %{all_macros}. Example of object class is an %{integer}, String, %{host}, %{subnet}, %{user}. Calling a method on an object is denoted by <code>.</code>. For example <code>@host.fqdn</code> expression is an instance variable that holds and evaluates to an object of a Host, on which the fqdn method is called. To find the list of all available methods on objects, see the documentation for each template type."
-msgstr "制御フローターミナルの例として、If 条件または For サイクルなどがあります。マクロは、%{load_hosts} または %{input} など、オブジェクトを指定せずに名前で呼び出しする関数です。オブジェクトクラスの例として、%{integer}、文字列、%{host}、%{subnet}、%{user} があります。<code>.</code> で表記して、オブジェクトでメソッドを呼び出します。たとえば、<code>@host.fqdn</code> 式は、ホストのオブジェクトを保持し、評価するインスタンス変数で、この変数で FQDN メソッドを呼び出します。オブジェクトで利用可能なメソッドの全一覧を検索するには、各テンプレートタイプのドキュメントを参照してください。"
+msgstr "制御フローターミナルの例として、If 条件または For サイクルなどがあります。マクロは、%{load_hosts} または %{input} など、オブジェクトを指定せずに名前で呼び出す関数です。利用可能なマクロ %{all_macros} を参照してください。オブジェクトクラスの例として、%{integer}、文字列、%{host}、%{subnet}、%{user} があります。<code>.</code> で表記して、オブジェクトでメソッドを呼び出します。たとえば、<code>@host.fqdn</code> 式は、ホストのオブジェクトを保持し、評価するインスタンス変数で、この変数で FQDN メソッドを呼び出します。オブジェクトで利用可能なメソッドの全一覧を検索するには、各テンプレートタイプのドキュメントを参照してください。"
 
 msgid "An interface marked as primary is missing"
 msgstr "プライマリーとマークされたインターフェースがありません"
@@ -763,7 +763,7 @@ msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr "ホスト %s を削除してもよろしいですか? この操作を取り消すことはできません。"
 
 msgid "Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "ホスト %s を削除してもよろしいですか? これにより、仮想マシンとそのディスクが削除されます。この動きはグローバル設定「ホストの削除時に関連の仮想マシンを破棄」から変更できます。"
+msgstr "ホスト %s を削除してもよろしいですか? これにより、仮想マシンとそのディスクが削除されます。この動作はグローバル設定「ホストの削除時に関連の仮想マシンを破棄」から変更できます。"
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr "ダッシュボードからこのウィジェットを削除してもよろしいですか?"
@@ -814,7 +814,7 @@ msgid "Assign All"
 msgstr "すべてを割り当て"
 
 msgid "Assign Hosts to %s"
-msgstr "ホストを %s に割り当て"
+msgstr "ホストの %s への割り当て"
 
 msgid "Assign Location"
 msgstr "ロケーションの割り当て"
@@ -827,13 +827,13 @@ msgstr "選択したホストの割り当て"
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
-msgstr[0] "%{taxonomy_single} のないホスト %{count} 台の %{taxonomy_name} への割り当て"
+msgstr[0] "%{taxonomy_single} のないホスト %{count} 台に %{taxonomy_name} を割り当てる"
 
 msgid "Assign to %s"
 msgstr "%s に割り当て"
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
-msgstr "ホストを %{taxonomy_name} に割り当てることにより、選択したホストが現在使用しているすべてのリソースを含むように %{taxonomy_name} も更新されます。"
+msgstr "ホストを %{taxonomy_name} に割り当てると、選択したホストが現在使用している全リソースを追加するように %{taxonomy_name} も更新されます。"
 
 msgid "Associate Ephemeral External IP"
 msgstr "一時外部 ID の関連付け"
@@ -854,7 +854,7 @@ msgid "Associate VMs to Hosts"
 msgstr "VM のホストへの関連付け"
 
 msgid "Associated %{resource} IDs"
-msgstr "関連付けられた％{resource} ID"
+msgstr "関連付けられている %{resource} の ID"
 
 msgid "Associated Host"
 msgstr "関連付けられているホスト"
@@ -872,7 +872,7 @@ msgid "At least one volume must be specified for image-based provisioning."
 msgstr "少なくとも 1 つのボリュームをイメージベースのプロビジョニング用に指定する必要があります。"
 
 msgid "Attempting to construct an operating system image filename but %s cannot be built from an image"
-msgstr "オペレーティングシステムのイメージファイル名を作成しようとしましたが、%s をイメージから作成することができません"
+msgstr "オペレーティングシステムのイメージファイル名を作成しようとしましたが、%s をイメージから作成できません"
 
 msgid "Attribute mappings"
 msgstr "マッピング属性"
@@ -1099,7 +1099,7 @@ msgid "BCrypt password cost"
 msgstr "BCrypt パスワードコスト"
 
 msgid "BCrypt salt '%s' is invalid"
-msgstr "BCrypt salt '％s' は無効です"
+msgstr "BCrypt salt '%s' は無効です"
 
 msgid "BIOS"
 msgstr "BIOS"
@@ -1300,7 +1300,7 @@ msgid "CSRF protection token expired, please log in again"
 msgstr "CSRF 保護トークンの有効期限が切れています。もう一度ログインしてください"
 
 msgid "Cache refreshing is not supported for %s"
-msgstr "％s ではキャッシュの更新はサポートされていません"
+msgstr "%s ではキャッシュの更新はサポートされていません"
 
 msgid "Cache slow calls to VMWare to speed up page rendering"
 msgstr "VMware への時間のかかる呼び出しをキャッシュして、ページのレンダリングを加速する"
@@ -1348,10 +1348,10 @@ msgid "Cannot add audit comment to a locked template."
 msgstr "テンプレートがロックされている場合には監査コメントを追加できません。"
 
 msgid "Cannot add pagelet with key %s and without mountpoint"
-msgstr "キー %s、マウントポイントなしで pagelet を追加できません"
+msgstr "マウントポイントなしでキー %s を使用して pagelet を追加できません"
 
 msgid "Cannot add pagelet with key %s and without partial"
-msgstr "キー %s、部分なしで pagelet を追加できません"
+msgstr "部分なしにキー %s を使用して pagelet を追加できません"
 
 msgid "Cannot continue because some permissions were not found, please run rake db:seed and retry"
 msgstr "一部のパーミッションが見つからなかったため、継続できません。rake db:seed を実行し、再試行してください。"
@@ -1360,7 +1360,7 @@ msgid "Cannot create LDAP configuration for %s without dedicated service account
 msgstr "専用のサービスアカウントなしに %s の LDAP 設定を作成できません"
 
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
-msgstr " %{current} は %{sti_name} をネストしているために削除できません。"
+msgstr "%{sti_name} をネストしているので %{current} を削除できません。"
 
 msgid "Cannot delete built-in role"
 msgstr "組み込みロールを削除できません"
@@ -1372,19 +1372,19 @@ msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "グループ %{current} はグループをネストしているために削除できません。"
 
 msgid "Cannot delete group %{current} because it has nested host groups."
-msgstr "グループ %{current} はホストグループをネストしているために削除できません。"
+msgstr "グループ %{current} は、ホストグループをネストしているため削除できません。"
 
 msgid "Cannot delete template input as template is locked."
 msgstr "テンプレートがロックされているので、テンプレート入力を削除できません。"
 
 msgid "Cannot find user %s when switching context"
-msgstr "コンテキストの切り替え時にユーザー %s を見つけることはできません"
+msgstr "コンテキストの切り替え時にユーザー %s が見つかりません"
 
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr "コンピュートリソースを登録できません。指定されたタイプが間違っています"
 
 msgid "Cannot resolve network type for %s"
-msgstr "％s のネットワークタイプを解決できません"
+msgstr "%s のネットワークタイプを解決できません"
 
 msgid "Caps lock ON"
 msgstr "Caps Lock がオン"
@@ -1483,7 +1483,7 @@ msgid "Clean up failed deployment"
 msgstr "障害が発生したデプロイメントのクリーンアップ"
 
 msgid "Cleanup PuppetCA certificates for %s"
-msgstr "%s の Puppet CA 証明書を削除"
+msgstr "%s の Puppet CA 証明書の削除"
 
 msgid "Clear"
 msgstr "消去"
@@ -1683,10 +1683,10 @@ msgid "Configuration"
 msgstr "設定"
 
 msgid "Configuration Management Error on %s"
-msgstr "%s で設定管理エラー"
+msgstr "%s での設定管理エラー"
 
 msgid "Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
-msgstr "設定管理レポートの要約 - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
+msgstr "設定管理サマリーレポート - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}"
 
 msgid "Configuration rebuild failed for: %s."
 msgstr "設定の再ビルドに失敗しました: %s。"
@@ -1701,7 +1701,7 @@ msgid "Configure"
 msgstr "設定"
 
 msgid "Configure instance %s via SSH"
-msgstr "SSH 経由でインスタンス %s を設定"
+msgstr "SSH 経由でのインスタンス %s の設定"
 
 msgid "Confirm"
 msgstr "確認"
@@ -1722,10 +1722,10 @@ msgid "Connected"
 msgstr "接続"
 
 msgid "Connected (unencrypted) to: %s"
-msgstr "以下に接続 (暗号化解除): %s"
+msgstr "接続先 (暗号化なし): %s"
 
 msgid "Connecting (unencrypted) to: %s"
-msgstr "以下に接続中です (暗号化解除): %s"
+msgstr "接続先 (暗号化なし): %s"
 
 msgid "Console"
 msgstr "コンソール"
@@ -1785,19 +1785,19 @@ msgid "Could not extend role '%{name}': %{message}"
 msgstr "ロール '%{name}' を拡張できませんでした: %{message}"
 
 msgid "Could not find %{association} with name: %{name}"
-msgstr "次の名前の %{association} を見つけることができませんでした: %{name}"
+msgstr "名前が %{name} の %{association} を見つけることができませんでした"
 
 msgid "Could not find %{migration_name} migration in %{destination}"
-msgstr "%{destination} で %{migration_name} マイグレーションが見つかりませんでした"
+msgstr "%{destination} で %{migration_name} の移行を見つけることができませんでした"
 
 msgid "Could not find a Configuration Template with the name \"%s\", please create one."
-msgstr "名前が \"%s\" の設定テンプレートを見つけることができませんでした。これを作成してください。"
+msgstr "名前が \"%s\" の設定テンプレートを見つけることができませんでした。作成してください。"
 
 msgid "Could not find network %s on VMWare compute resource"
 msgstr "VMWare コンピュートリソースにネットワーク %s を見つけることができませんでした"
 
 msgid "Could not find virtual machine network interface matching %s"
-msgstr "%s に一致する仮想マシンネットワークインターフェースを見つけることができませんでした"
+msgstr "%s と一致する仮想マシンネットワークインターフェースを見つけることができませんでした"
 
 msgid "Could not generate the report, check the form for error messages"
 msgstr "レポートを生成できませんでした。エラーメッセージの形式を確認してください。"
@@ -1821,7 +1821,7 @@ msgid "Create %s"
 msgstr "%s の作成"
 
 msgid "Create %{type} for %{host}"
-msgstr "%{host} の %{type} の作成 "
+msgstr "%{host} の %{type} の作成"
 
 msgid "Create :a_resource"
 msgstr ":a_resource の作成"
@@ -2085,7 +2085,7 @@ msgid "Create new host when report is uploaded"
 msgstr "レポートがアップロードされたときに新規ホストを作成します"
 
 msgid "Create realm entry for %s"
-msgstr "%s のレルムエントリーを作成"
+msgstr "%s のレルムエントリーの作成"
 
 msgid "Created"
 msgstr "作成日時"
@@ -2094,10 +2094,10 @@ msgid "Creates a table preference for a given table"
 msgstr "特定のテーブルの設定を作成します"
 
 msgid "Creating IPv4 in External IPAM for %s"
-msgstr "％s の 外部 IPAM で IPv4 を作成しています"
+msgstr "%s の外部 IPAM で IPv4 を作成しています"
 
 msgid "Creating IPv6 in External IPAM for %s"
-msgstr "％s の 外部 IPAM で IPv6 を作成しています"
+msgstr "%s の外部 IPAM で IPv6 を作成しています"
 
 msgid "Creating a DB backup before proceeding is highly recommended!"
 msgstr "続行する前に DB のバックアップを作成することを強くお勧めします。"
@@ -2226,7 +2226,7 @@ msgid "Default PXE menu item in global template - 'local', 'discovery' or custom
 msgstr "グローバルテンプレートでのデフォルトの PXE メニューアイテム - 'local'、'discovery' またはカスタム。デフォルトテンプレートには blank を使用します"
 
 msgid "Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"
-msgstr "ローカルテンプレートでのデフォルトの PXE メニューアイテム - 'local'、'discovery' またはカスタム。デフォルトテンプレートには blank を使用します"
+msgstr "ローカルテンプレートでのデフォルトの PXE メニューアイテム - 'local'、'local_chain_hd0' またはカスタム。デフォルトテンプレートには blank を使用します"
 
 msgid "Default Puppet environment"
 msgstr "デフォルトの Puppet 環境"
@@ -2301,7 +2301,7 @@ msgid "Delete Hosts"
 msgstr "ホストの削除"
 
 msgid "Delete PuppetCA certificates for %s"
-msgstr "%s の Puppet CA 証明書を削除"
+msgstr "%s の Puppet CA 証明書の削除"
 
 msgid "Delete TFTP %{kind} config for %{host}"
 msgstr "%{host} の TFTP %{kind} 設定の削除"
@@ -2469,7 +2469,7 @@ msgid "Delete filter?"
 msgstr "フィルターを削除しますか?"
 
 msgid "Delete realm entry for %s"
-msgstr "%s のレルムエントリーを削除"
+msgstr "%s のレルムエントリーの削除"
 
 msgid "Delete report for %s?"
 msgstr "%s のレポートを削除しますか?"
@@ -2529,7 +2529,7 @@ msgid "Device Identifier"
 msgstr "デバイス識別子"
 
 msgid "Device identifier for this interface. This may be different on various platforms and environments, here are some common examples.<br/><ul><li>Use the basic name for physical interface identifiers, e.g. <strong>eth0</strong> or <strong>em0</strong> with biosdevname.</li><li>For virtual interfaces, use either alias notation (<strong>eth0:1</strong>, name:index) or VLAN notation (<strong>eth0.15</strong>, name.tag).</li><li>For bonds it's common to use <strong>bond0</strong> on Linux, <strong>lagg0</strong> on FreeBSD systems.</li></ul>"
-msgstr "このインターフェースのデバイス ID です。これは各種のプラットフォームおよび環境によって異なる可能性があります。以下は一般的な例になります。<br/><ul><li>biosdevname と共に、物理インターフェース ID の基本名 (例: <strong>eth0</strong> または <strong>em0</strong>) を使用します。</li><li>仮想インターフェースの場合、エイリアス表記 (<strong>eth0:1</strong>、name:index) または VLAN 表記 (<strong>eth0.15</strong>、name.tag) のいずれかを使用します。</li><li>ボンドの場合、Linux では通常 <strong>bond0</strong> を使用し、FreeBSD システムでは <strong>lagg0</strong> を使用します。</li></ul>"
+msgstr "このインターフェースのデバイス ID です。これは各種プラットフォームおよび環境によって異なる可能性があります。以下は一般的な例です。<br/><ul><li>biosdevname と、物理インターフェース ID の基本名 (例:  <strong>eth0</strong> または <strong>em0</strong>) を使用します。</li><li>仮想インターフェースの場合には、エイリアス表記 (<strong>eth0:1</strong>、name:index) または VLAN 表記 (<strong>eth0.15</strong>、name.tag) のいずれかを使用します。</li><li>ボンドの場合、Linux では通常 <strong>bond0</strong> を使用し、FreeBSD システムでは<strong>lagg0</strong>  を使用します。</li></ul>"
 
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "デバイス ID。例: eth0 または eth1.1"
@@ -2538,7 +2538,7 @@ msgid "Disable Notifications"
 msgstr "通知の無効化"
 
 msgid "Disable PuppetCA autosigning for %s"
-msgstr "%s の PuppetCA 自動署名を無効化"
+msgstr "%s の PuppetCA 自動署名の無効化"
 
 msgid "Disable alerts for selected hosts"
 msgstr "選択ホストの警告の無効化"
@@ -2565,7 +2565,7 @@ msgid "Disassociate host"
 msgstr "ホストの関連付けを解除"
 
 msgid "Disassociate the host from a VM"
-msgstr "ホストの VM との関連付けを解除"
+msgstr "ホストの VM との関連付け解除"
 
 msgid "Disassociate the selected hosts from their VMs"
 msgstr "選択ホストの VM との関連付けを解除"
@@ -2605,7 +2605,7 @@ msgstr "このホストのプロビジョニングに使用されるテンプレ
 
 msgid "Displaying %{num_audits} of %{total_audits} audit"
 msgid_plural "Displaying %{num_audits} of %{total_audits} audits"
-msgstr[0] "%{total_audits} 件の監査の内 %{num_audits} 件を表示しています"
+msgstr[0] "監査 %{num_audits} / %{total_audits} 件を表示中"
 
 msgid "Documentation"
 msgstr "ドキュメント"
@@ -2653,7 +2653,7 @@ msgid "Downloads a generated report"
 msgstr "生成したレポートをダウンロードします。"
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
-msgstr "重複した入力が検出されました: %{duplicated_inputs}"
+msgstr "重複した入力が検出されました: ％{duplicated_inputs}"
 
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "サーバーが非同期として分類される Puppet の間隔後の期間 (分単位)。"
@@ -2695,7 +2695,7 @@ msgid "Edit %s"
 msgstr "%s の編集"
 
 msgid "Edit %s Resource Filter"
-msgstr "％s リソースフィルターの編集"
+msgstr "%s リソースフィルターの編集"
 
 msgid "Edit Compute profile"
 msgstr "コンピュートプロファイルの編集"
@@ -2758,10 +2758,10 @@ msgid "Enable Notifications"
 msgstr "通知の有効化"
 
 msgid "Enable PuppetCA autosigning for %s"
-msgstr "%s の PuppetCA 自動署名を有効化"
+msgstr "%s の PuppetCA 自動署名の有効化"
 
 msgid "Enable alerts for selected hosts"
-msgstr "選択ホストについての警告を有効化"
+msgstr "選択ホストに対する警告の有効化"
 
 msgid "Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"
 msgstr "これがエイリアスまたは VLAN インターフェースである場合に有効になります。エイリアスは静的起動モードサブネットとともにのみ使用できます"
@@ -2779,13 +2779,13 @@ msgid "Enabled"
 msgstr "有効化"
 
 msgid "Enabled %s for reboot and rebuild"
-msgstr "再起動および再ビルドに %s を有効化"
+msgstr "%s を有効化して再起動および再ビルド"
 
 msgid "Enabled %s for rebuild on next boot"
-msgstr "次回起動時の再ビルドに %s を有効化"
+msgstr "%s を有効化して次回起動時に再ビルド"
 
 msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
-msgstr "次回ブート時の %s の再ビルドが有効になっていましたが、ホストの電源の入れ直しに失敗しました"
+msgstr "次回ブート時の %s の再ビルドが有効になっていましたが、ホストの電源切断/投入に失敗しました"
 
 msgid "Encloses a comment that is ignored during template rendering:"
 msgstr "テンプレートのレンダリング時に無視されるコメントを囲みます。"
@@ -2835,16 +2835,16 @@ msgid "Error adding widget to dashboard."
 msgstr "ダッシュボードにウィジェットを追加する際にエラーが発生しました。"
 
 msgid "Error connecting to %{proxy}: %{error}."
-msgstr "%{proxy} への接続中にエラーが発生しました: %{error}."
+msgstr "%{proxy} への接続エラー: %{error}。"
 
 msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_timeout settings"
-msgstr "'%{domain}' ドメイン DNS サーバーへの接続中にエラーが発生しました: %{servers} - query_local_nameservers and dns_timeout 設定を確認してください"
+msgstr "'%{domain}' ドメイン DNS サーバーへの接続中にエラーが発生しました: %{servers} - query_local_nameservers と dns_timeout 設定を確認してください"
 
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
 msgstr "システム DNS サーバーへの接続中にエラーが発生しました - /etc/resolv.conf を確認してください"
 
 msgid "Error during LDAP connection %{name} using login %{login}: %{error}"
-msgstr "ログイン %{login} を使用した LDAP 接続 %{name} 中にエラー: %{error}"
+msgstr "ログイン %{login} を使用した LDAP 接続 (%{name}) 中にエラー: %{error}"
 
 msgid "Error during rendering, Return to Editor tab."
 msgstr "レンダリング中のエラー。エディタータブに戻ります。"
@@ -2856,7 +2856,7 @@ msgid "Error has occurred while communicating with %{cr}: %{e}"
 msgstr "%{cr} との通信中にエラーが発生しました: %{e}"
 
 msgid "Error loading interfaces information: %s"
-msgstr "インターフェース情報をロード中にエラーが発生しました: %s"
+msgstr "インターフェース情報のロード中にエラーが発生しました: %s"
 
 msgid "Error loading scheduler hint filters information: %s"
 msgstr "スケジューラーヒントフィルター情報のロード中にエラーが発生しました: %s"
@@ -2901,7 +2901,7 @@ msgid "Example value is <code>DOMAIN\\foreman</code>"
 msgstr "指定できる値の例として <code>DOMAIN\\foreman</code> などがあります"
 
 msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
-msgstr "ネットグループを使用する場合には、 <code>cn=groups,cn=accounts,dc=example,dc=com</code> または <code>cn=ng,cn=compat,dc=example,dc=com</code> などの値を指定できます。"
+msgstr "指定できる値の例として <code>cn=groups,cn=accounts,dc=example,dc=com</code> または <code>cn=ng,cn=compat,dc=example,dc=com</code> などがあります"
 
 msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
 msgstr "指定できる値の例として <code>cn=users,cn=accounts,dc=example,dc=com</code> などがあります"
@@ -2932,6 +2932,9 @@ msgstr "ネスト項目の展開"
 
 msgid "Expand the chart"
 msgstr "チャートを拡大"
+
+msgid "Expiration of the authorization token."
+msgstr "承認トークンの有効期限。"
 
 msgid "Expire logs"
 msgstr "ログの期限切れ"
@@ -3017,7 +3020,7 @@ msgid "Fact distribution chart"
 msgstr "ファクト分布チャート"
 
 msgid "Fact distribution chart - %s "
-msgstr "ファクト分布の表 - %s "
+msgstr "ファクト分布チャート: %s "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
@@ -3080,7 +3083,7 @@ msgstr "失敗した機能"
 
 msgid "Failed features: %s"
 msgid_plural "Failed features: %s"
-msgstr[0] "失敗した機能: %s"
+msgstr[0] "失敗した機能: %s 個"
 
 msgid "Failed login attempts limit"
 msgstr "ログイン試行回数の制限"
@@ -3089,16 +3092,16 @@ msgid "Failed restarts"
 msgstr "再起動失敗"
 
 msgid "Failed to %{action} %{host}: %{e}"
-msgstr "%{host} の %{action} の実行に失敗: %{e}"
+msgstr "%{host} の %{action} に失敗: %{e}"
 
 msgid "Failed to acquire IP addresses from compute resource for %s"
 msgstr "%s のコンピュートリソースからの IP アドレスの取得に失敗しました"
 
 msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
-msgstr "%{hostname} の保留中のビルドの取り消しに失敗し、次のエラーが発生しました: %{errors}"
+msgstr "%{hostname} の保留中のビルドの取り消しに失敗しました。エラー: %{errors}"
 
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
-msgstr "%{device} から起動するための %{host} の設定に失敗しました: %{e}"
+msgstr "%{host} が %{device} から起動する設定に失敗しました: %{e}"
 
 msgid "Failed to create %{name}'s realm entry: %{e}"
 msgstr "%{name} のレルムエントリーの作成に失敗しました: %{e}"
@@ -3110,20 +3113,20 @@ msgid ""
 "Failed to create a compute %{compute_resource} instance %{name}: %{message}\n"
 " "
 msgstr ""
-"コンピュート %{compute_resource} インスタンス %{name} の作成に失敗しました: %{message}\n"
+"コンピュート %{compute_resource} のインスタンス %{name} の作成に失敗しました: %{message}\n"
 " "
 
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr "vm %{name} のデプロイに失敗しました。エラー: %{e}"
 
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "コンピュート %{compute_resource} インスタンス %{name} の破棄に失敗しました: %{e}"
+msgstr "コンピュート %{compute_resource} のインスタンス %{name} の破棄に失敗しました: %{e}"
 
 msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr "インストール用の %{host} の有効化に失敗しました: %{errors}"
 
 msgid "Failed to fetch a free IP from proxy %{proxy}: %{message}"
-msgstr "空き IP をプロキー %{proxy} から取得するのに失敗しました: %{message}"
+msgstr "プロキシー %{proxy} から空いている IP を取得するのに失敗しました: %{message}"
 
 msgid "Failed to fetch boot files"
 msgstr "ブートファイルの取得に失敗しました"
@@ -3135,7 +3138,7 @@ msgid "Failed to fetch: "
 msgstr "取得に失敗しました: "
 
 msgid "Failed to find compute attributes, please check if VM %s was deleted"
-msgstr "コンピュート属性が見つかりませんでした。VM ％s が削除されたかどうかを確認してください"
+msgstr "コンピュート属性が見つかりませんでした。VM %s が削除されたかどうかを確認してください"
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "%{name} の IP の取得に失敗しました: %{e}"
@@ -3144,7 +3147,7 @@ msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr "新規レルム OTP の取得に失敗しました。ビルドを終了しています!"
 
 msgid "Failed to import %{klass} for %{name}: doesn't exists in our database - ignoring"
-msgstr "%{name} の %{klass} のインポートに失敗しました: データベースに存在しません - 無視しています"
+msgstr "%{name} の %{klass} のインポートに失敗しました: データベースに存在しません - 無視します"
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
 msgstr "PuppetCA プロキシーの初期化に失敗しました: %s"
@@ -3165,10 +3168,10 @@ msgid "Failed to modify the build cycle for %s"
 msgstr "%s のビルドサイクルの変更に失敗しました"
 
 msgid "Failed to perform rollback on %{task} - %{e}"
-msgstr "%{task} のロールバックの実行に失敗しました - %{e}"
+msgstr "%{task} のロールバックの実行に失敗しました: %{e}"
 
 msgid "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "コンピュート %{compute_resource} インスタンス %{name} のパワーアップに失敗しました: %{e}"
+msgstr "コンピュート %{compute_resource} のインスタンス %{name} の起動に失敗しました: %{e}"
 
 msgid "Failed to reboot %s."
 msgstr "%s の再起動に失敗しました。"
@@ -3190,7 +3193,7 @@ msgid "Failed to save widget positions."
 msgstr "ウィジェットの位置の保存に失敗しました。"
 
 msgid "Failed to set %{proxy_type} proxy for %{host}."
-msgstr "%{host} の %{proxy_type} プロキシーの設定に失敗しました。"
+msgstr "%{host} に %{proxy_type} プロキシーを設定できませんでした。"
 
 msgid "Failed to set IP for %{name}: %{e}"
 msgstr "%{name} の IP の設定に失敗しました: %{e}"
@@ -3205,16 +3208,16 @@ msgid "Failed to set power state for %s."
 msgstr "%s の電源状態の設定に失敗しました。"
 
 msgid "Failed to stop compute %{compute_resource} instance %{name}: %{e}"
-msgstr "コンピュート %{compute_resource} インスタンス %{name} の停止に失敗しました: %{e}"
+msgstr "コンピュート %{compute_resource} のインスタンス %{name} の停止に失敗しました: %{e}"
 
 msgid "Failed to submit the request."
 msgstr "リクエストを送信できませんでした。"
 
 msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
-msgstr "コンピュート %{compute_resource} インスタンス %{name} の更新を元に戻すことに失敗しました: %{e}"
+msgstr "コンピュート %{compute_resource} のインスタンス %{name} を元に戻せませんでした: %{e}"
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "コンピュート %{compute_resource} インスタンス %{name} の更新に失敗しました: %{e}"
+msgstr "コンピュート %{compute_resource} のインスタンス %{name} の更新に失敗しました: %{e}"
 
 msgid "Failed to update environments and Puppet classes from the on-disk Puppet installation: %s"
 msgstr "環境およびディスク上の Puppet インストールからの Puppet クラスの更新に失敗しました: %s"
@@ -3233,7 +3236,7 @@ msgid "Failure deploying via smart proxy %{proxy}: %{error}."
 msgstr "Smart Proxy %{proxy} 経由でのデプロイに失敗: %{error}"
 
 msgid "Failure parsing %{template}: %{error}."
-msgstr "%{template} の解析に失敗: %{error}."
+msgstr "%{template} の解析失敗: %{error}。"
 
 msgid "Failure: %s"
 msgstr "失敗: %s"
@@ -3299,7 +3302,7 @@ msgid "Filters"
 msgstr "フィルター"
 
 msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, <br> the filter can override the set of its organizations and locations. Later role changes will not affect such filter.<br> After disabling the override field, the role organizations and locations apply again."
-msgstr "フィルターは、デフォルトではロールに関連付けられた組織と場所を継承します。フィールドのオーバーライドが有効な場合には、<br>このフィルターは組織およびロケーションセットをオーバーライドできます。後でロールを変更してもこのフィルターには影響がありません。<br>オーバーライドフィールドを無効にすると、ロールの組織とロケーションをもう一度適用されます。"
+msgstr "フィルターは、デフォルトではロールに関連付けられた組織と場所を継承します。フィールドの上書きが有効な場合には、<br>このフィルターは組織およびロケーションセットを上書きできます。後でロールを変更してもこのフィルターには影響がありません。<br>上書きフィールドを無効にすると、ロールの組織とロケーションが再度適用されます。"
 
 msgid "Filters overriding has been disabled"
 msgstr "フィルターのオーバーライドが無効です"
@@ -3341,7 +3344,7 @@ msgid "First Page"
 msgstr "最初のページ"
 
 msgid "Fix %s on Mismatch"
-msgstr "不一致について %s の修正 "
+msgstr "不一致 の %s を修正"
 
 msgid "Fix All Mismatches"
 msgstr "すべての不一致を修正"
@@ -3377,7 +3380,7 @@ msgid ""
 msgstr ""
 "たとえば、ディスクイメージの名前が 5.8 または 6.2 で、それぞれに x86_64 と i386 バイナリーが含まれるディレクトリー構造に対して複数の Red Hat リリースディスクをコピーする場合に、\n"
 "  上記すべてを記述する単一のメディアエントリーを作成できます。\n"
-"  単純に 'Red Hat' という名前のエントリーには、次のようなパスが含まれます。 <em>'http://server/redhat/$version/$arch'</em>"
+"  単純に 'Red Hat' という名前のエントリーには、次のようなパスが含まれます。  <em>'http://server/redhat/$version/$arch'</em>"
 
 msgid "For example, this can be useful to configure all the Host NICs."
 msgstr "たとえば、ホストの NIC すべてを設定する場合に便利です。"
@@ -3434,7 +3437,7 @@ msgid "Foreman domain ID of interface. Required for primary interfaces on manage
 msgstr "インターフェースの Foreman ドメイン ID。管理対象ホストのプライマリーインターフェースに必要"
 
 msgid "Foreman has detected definitions of unknown classes in your database. This can happen after a plugin removal which did not properly cleaned up data it created. Would you like to delete all records from SQL table <b>\"%{table}\"</b> with column <b>\"%{column}\"</b> having the value <b>\"%{value}\"</b>"
-msgstr "Foreman は、データベースで不明なクラスの定義を検出しました。これは、プラグインを削除してプラグインが作成したデータが正しく消去されなかった場合に発生する可能性があります。<b>\"%{column}\"</b> の値が <b>\"%{value}\"</b> の SQL テーブル <b>\"%{table}\"</b> からのレコードをすべて削除しますか?"
+msgstr "Foreman は、データベースで不明なクラスの定義を検出しました。これは、プラグインを削除してプラグインが作成したデータが正しく消去されなかった場合に発生する可能性があります。<b>\"%{column}\"</b> の値が </b><b>\"%{value}\"</b> の SQL テーブル <b>\"%{table}\"</b> からのレコードをすべて削除しますか?"
 
 msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr "Foreman インスタンス ID。この Foreman インスタンスの一意の ID。"
@@ -3443,10 +3446,10 @@ msgid "Foreman matchers will be inherited by children when evaluating smart clas
 msgstr "Foreman matcher は、ホストグループ、組織、ロケーションのスマートクラスパラメーターの評価時に、子によって継承されます。"
 
 msgid "Foreman now manages the build cycle for %s"
-msgstr "Foreman は %s のビルドサイクルを管理するようになりました"
+msgstr "%s のビルドサイクルが Foreman の管理対象となりました"
 
 msgid "Foreman now no longer manages the build cycle for %s"
-msgstr "Foreman は %s のビルドサイクル管理を行なわなくなりました"
+msgstr "%s のビルドサイクルが Foreman の管理対象外となりました"
 
 msgid "Foreman report creation time is <em>%s</em>"
 msgstr "Foreman レポートの作成時間は <em>%s</em> です"
@@ -3557,7 +3560,7 @@ msgid "Full screen"
 msgstr "全画面"
 
 msgid "Function not available for %s"
-msgstr "%s の機能が使用不可です"
+msgstr "%s に使用できない機能"
 
 msgid "Further Information"
 msgstr "詳細情報"
@@ -3584,7 +3587,7 @@ msgid "Generate a Report"
 msgstr "レポートの生成"
 
 msgid "Generate at"
-msgstr "生成: "
+msgstr "生成:"
 
 msgid "Generate command"
 msgstr "コマンドの生成"
@@ -3602,10 +3605,10 @@ msgid "Generated %s ago"
 msgstr "%s 前に生成"
 
 msgid "Generated at %s"
-msgstr "生成日: %s "
+msgstr "生成日: %s"
 
 msgid "Generating Report template failed for: %s."
-msgstr "レポートテンプレートの生成に失敗しました: ％s。"
+msgstr "レポートテンプレートの生成に失敗しました: %s。"
 
 msgid "Generating a report"
 msgstr "レポートの生成"
@@ -3614,7 +3617,7 @@ msgid "Generating of report has been canceled"
 msgstr "レポートの生成がキャンセルされました"
 
 msgid "Generating the report took %s."
-msgstr "レポートの生成には ％s かかりました。"
+msgstr "レポートの生成には %s かかりました。"
 
 msgid "Get DSL reference for templates writing"
 msgstr "テンプレート作成の DSL 参照を取得する"
@@ -3644,7 +3647,7 @@ msgid "Global Parameters"
 msgstr "グローバルパラメーター"
 
 msgid "Global Registration Template with name %s defined via default_global_registration_item Setting not found, please configure the existing template name first"
-msgstr "default_global_registration_item 設定で定義された名前が ％s のグローバル登録テンプレートが見つかりません。最初に既存のテンプレート名を構成してください"
+msgstr "default_global_registration_item 設定で定義された名前が %s のグローバル登録テンプレートが見つかりません。最初に既存のテンプレート名を構成してください"
 
 msgid "Global Registration template"
 msgstr "グローバル登録テンプレート"
@@ -3653,7 +3656,7 @@ msgid "Global default %s template"
 msgstr "グローバルデフォルト %s テンプレート"
 
 msgid "Global default %s template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades."
-msgstr "グローバルデフォルト %s テンプレートです。このテンプレートはすべての設定済み TFTP サーバーにデプロイされます。これはアップグレードによる影響を受けません。"
+msgstr "グローバルデフォルトの %s テンプレートです。このテンプレートはすべての設定済み TFTP サーバーにデプロイされます。これはアップグレードによる影響を受けません。"
 
 msgid "Global iPXE template '%s' not found"
 msgstr "グローバル iPXE テンプレート '%s' が見つかりません"
@@ -3746,7 +3749,7 @@ msgid "Hardware Model"
 msgstr "ハードウェアモデル"
 
 msgid "Hardware Model %s was successfully deleted"
-msgstr "ハードウェアモデル ％s は正常に削除されました"
+msgstr "ハードウェアモデル %s は正常に削除されました"
 
 msgid "Hardware Models"
 msgstr "ハードウェアモデル"
@@ -3815,7 +3818,7 @@ msgid "Host Configuration Status for %s"
 msgstr "%s のホスト設定の状態"
 
 msgid "Host Fetch ${response}"
-msgstr "ホストの取得 ${response}"
+msgstr "ホストフェッチ ${response}"
 
 msgid "Host Group"
 msgstr "ホストグループ"
@@ -4116,7 +4119,7 @@ msgid "Hosts which are not reporting"
 msgstr "レポートしていないホスト"
 
 msgid "Hosts which didn't report in the last %s"
-msgstr "過去 %s にレポートしなかったホスト"
+msgstr "過去 %s にレポートのないホスト"
 
 msgid "Hosts which do not have recent reports from configuration management"
 msgstr "設定管理からの最近のレポートがないホスト"
@@ -4325,7 +4328,7 @@ msgid "INFO or DEBUG"
 msgstr "INFO または DEBUG"
 
 msgid "IP"
-msgstr "IP "
+msgstr "IP"
 
 msgid "IP Address"
 msgstr "IP アドレス"
@@ -4428,8 +4431,11 @@ msgstr "所有者タイプが指定されている場合は、所有者も指定
 msgid "If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it."
 msgstr "選択すると、Red Hat 系のオペレーティングシステムに Insights クライアントがインストールされ、登録されます。サポート対象外の他の OS には影響がありません。"
 
+msgid "If selected, SSH keys will be installed on the registered host."
+msgstr "選択すると、SSH 鍵が登録済みホストにインストールされます。"
+
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
-msgstr "設定している場合には、スケジュールされたレポートがメールで配信されます。「％s」を使用して、複数のメールアドレスを区切ります。"
+msgstr "設定している場合には、スケジュールされたレポートがメールで配信されます。「%s」を使用して、複数のメールアドレスを区切ります。"
 
 msgid "If the Managed flag is disabled, none of the services will be configured for this interface, even if it is configured for the subnet and domain."
 msgstr "管理フラグが無効になっている場合は、サービスがサブネットやドメインで設定されていても、このインターフェースでは設定されません。"
@@ -4441,13 +4447,13 @@ msgid "If the template supports format selection, user can choose preferred form
 msgstr "テンプレートで形式を選択できる場合には、任意の形式を選択できます。<br>通常、テンプレートは report_render マクロを使用する必要があります。<br><br>テンプレートでマクロが使用されていない場合には<br>このフィールドが無効になっており、出力形式がデフォルトのプレーンテキストに設定されています。<br><br>テンプレートでフィルターの選択をサポートしているが、report_render マクロを使用していない場合には、<br>report_render のマクロ名が記載されているテンプレートのコメントを追加して、このフィールドを有効にしてください。"
 
 msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly."
-msgstr "無制限のフィールドが有効にされた場合、フィルターは選択したタイプのすべてのリソースに適用されます。無制限の </br> フィールドが無効にされた場合は、検索フィールドで Foreman 検索構文を使ってさらにフィルター条件を指定することができます。</br> ロールが組織またはロケーションに関連付けられている場合は、フィルターはそれに応じてスコープが限定されるので、</br> 無制限とはみなされません。"
+msgstr "無制限のフィールドを有効にすると、選択したタイプの全リソースにフィルターが適用されます。無制限の</br>フィールドを無効にすると、検索フィールドで Foreman 検索構文を使ってさらにフィルター条件を指定できます。</br>ロールが組織またはロケーションに関連付けられている場合は、フィルターはそれに応じてスコープが限定されるので、</br>無制限とはみなされません。"
 
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
 msgstr "true の場合は、デフォルト値がなく、Matcher が値を提供しないときにエラーが発生します"
 
 msgid "If you are planning to use Foreman as an external node classifier you should provide information about one or more environments. This information is commonly imported from a pre-existing Puppet configuration by the use of the %{link_start}Puppet classes and environment importer%{link_end}."
-msgstr "Foreman を外部ノードの分類子として使用予定の場合には、1 つ以上の環境に関する情報を指定する必要があります。この情報は一般的に、%{link_start}Puppet クラスと環境 importer%{link_end} を使用して、既存の Puppet 設定からインポートされます。"
+msgstr "Foreman を外部ノードの分類子として使用予定の場合には、1 つ以上の環境に関する情報を指定する必要があります。この情報は一般的に、{link_start}Puppet クラスと環境 importer%{link_end} を使用して、既存の Puppet 設定からインポートされます。"
 
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "これが Foreman 自体のエラーであると思われる場合は、新規の問題として提出してください。"
@@ -4471,7 +4477,7 @@ msgid "Ignore interfaces with matching identifier"
 msgstr "ID が一致するインターフェースを無視します"
 
 msgid "Ignored classes in the environments: %s"
-msgstr "環境内の無視されたクラス: %s"
+msgstr "環境内で無視されたクラス: %s"
 
 msgid "Ignored environment"
 msgstr "無視された環境"
@@ -4580,7 +4586,7 @@ msgid "Imported IPv4 Subnets"
 msgstr "インポート済みの IPv4 サブネット"
 
 msgid "In a report template, loader macros are used most of the time. Iterating over results of these is a little different. It is important to use <code>each_record</code> instead of <code>each</code>, because loaders load objects in batches and each record in fact represents the batch. Otherwise the construct looks the same, as shown in the following example"
-msgstr "多くの場合、レポートテンプレートではローダーマクロが使用されます。ローダーマクロの結果の反復処理は若干異なります。ローダーはバッチでオブジェクトを読み込み、1 つのレコードはバッチを表すので、<code>each</code> ではなく、<code>each_record</code> を使用することが重要です。使用しない場合には、以下の例にように、コンストラクトは同じ用に見えます。"
+msgstr "多くの場合、レポートテンプレートではローダーマクロが使用されます。ローダーマクロの結果の反復処理は若干異なります。ローダーはバッチでオブジェクトを読み込み、1 つのレコードはバッチを表すので、<code>each</code> ではなく、<code>each_record</code> を使用することが重要です。使用しない場合には、以下の例にように、コンストラクトは同じように見えます。"
 
 msgid "In order to add the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
 msgstr "SSH キーを追加するには、まずユーザーを保存する必要があります。 'create_ssh_keys' パーミッションも必要です。"
@@ -4589,7 +4595,7 @@ msgid "In order to disable Safe mode, navigate to Administer -> %{settings_link}
 msgstr "セーフモードを無効にするには、管理 -> %{settings_link} -> プロビジョニングタブの順に移動して、「セーフモードレンダリング」と呼ばれる設定を探します。この設定の値「No」は、保護なしで、リスクが潜在する可能性があります。このインストールにはセーフモードが含まれています: <b>%{status}</b>。"
 
 msgid "In the following example, <code>if</code> and <code>==</code> are terminals, <code>@host</code> is instance variable holding the object of the %{host_object_link} class, <code>.domain</code> is the call of the method named %{domain_method_link} on this %{host_object_link} object. That returns the %{domain_object_link} object. <code>.name</code> is then calling of a method %{name_method_link} on this %{domain_object_link} object. The resulting name of the domain is then compared with fixed string object example.com"
-msgstr "以下の例では、<code>if</code> および <code>==</code> は端末、<code>@host</code> は %{host_object_link} クラスのオブジェクトを保持するインスタンス変数、<code>.domain</code> は %{host_object_link} オブジェクトにある %{domain_method_link} という名前のメソッドです。このメソッドは、%{domain_object_link} オブジェクトを返し、<code>.name</code> は %{domain_object_link} オブジェクト上にある %{name_method_link} メソッドを呼び出します。その後、ドメインで返された名前を、固定文字列オブジェクト example.com と比較します。"
+msgstr " <code>if</code> および <code>==</code> はターミナルで、<code>@host</code> は %{host_object_link} クラスのオブジェクトを保持するインスタンス変数、<code>.domain</code> は %{host_object_link} のオブジェクトで %{domain_method_link} という名前のメソッドを呼び出します。これにより、%{domain_object_link} オブジェクトが返されます。次に <code>.name</code> は % {domain_object_link} で %{name_method_link} メソッドを呼び出します。結果として返されたドメイン名は、固定の文字列オブジェクト example.com と比較されます。"
 
 msgid "In the following example, the ERB syntax searches for a specific host name and returns an output depending on the value it finds:"
 msgstr "以下の例では、ERB 構文は特定のホスト名を検索し、見つかった値に応じて出力を返します。"
@@ -4625,7 +4631,7 @@ msgid "Indentation in ERB templates"
 msgstr "ERB テンプレートのインデント"
 
 msgid "Independent - Nonpersistent"
-msgstr "独立 -  非永続"
+msgstr "独立 - 非永続"
 
 msgid "Independent - Persistent"
 msgstr "独立 - 永続"
@@ -4691,7 +4697,7 @@ msgid "Installed"
 msgstr "インストール済み"
 
 msgid "Instance %{uuid}"
-msgstr "インスタンス %{uuid}"
+msgstr "インスタンスタイプ %{uuid}"
 
 msgid "Instance title"
 msgstr "インスタンスタイトル"
@@ -4730,7 +4736,7 @@ msgid "Internal DB"
 msgstr "内部 DB"
 
 msgid "Internal Server Error: the server was unable to finish the request. "
-msgstr "内部サーバーエラー: サーバーは要求を完了できませんでした。"
+msgstr "内部サーバーエラー: サーバーで要求を完了できませんでした。"
 
 msgid "Internal network"
 msgstr "内部ネットワーク"
@@ -4754,13 +4760,13 @@ msgid "Invalid Google JSON key. Please verify client email & private key options
 msgstr "Google JSON キーが無効です。クライアントのメールと秘密鍵のオプションが存在することを確認してください"
 
 msgid "Invalid architecture '%{arch}' for '%{os}'"
-msgstr "'%{os}' 向けの無効なアーキテクチャー '%{arch}'"
+msgstr "'%{os}' の '%{arch}' アーキテクチャーが無効です"
 
 msgid "Invalid log level: %s"
 msgstr "無効なログレベル: %s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
-msgstr "'%{os}' 向けの無効なメディア '%{medium}' "
+msgstr "'%{os}' の  '%{medium}' メディアが無効です"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "パワー状態の無効な要求: %{action}、サポートされているアクション: %{supported}"
@@ -4781,7 +4787,7 @@ msgid "Invalid smart-proxy id"
 msgstr "無効な smart-proxy ID"
 
 msgid "Invalid type for host creation via facts: %s"
-msgstr "ファクトによるホスト作成の無効なタイプ: %s"
+msgstr "ファクトを使用したホストの作成で無効なタイプ: %s"
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "バージョン形式が無効です。x.y (メジャーバージョンのみ) で入力してください。"
@@ -4790,7 +4796,7 @@ msgid "Issue tracker"
 msgstr "問題トラッカー"
 
 msgid "It is irreversible, but VMs and their disks <b>will not be deleted</b>."
-msgstr "この操作は取り消すことができませんが、仮想マシンとそのディスクは <b>削除されません</b>。"
+msgstr "この操作は取り消すことができませんが、仮想マシンとそのディスクは<b>削除されません</b>。"
 
 msgid "It is not possible to assign provisioning templates at this stage."
 msgstr "この段階でプロビジョニングテンプレートを割り当てることはできません。"
@@ -4802,7 +4808,7 @@ msgid "It is not possible to disable yourself"
 msgstr "自分自身を無効にできません"
 
 msgid "It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead."
-msgstr "このテンプレートは、%{vendor} によって提供され、上書きできるため、ロックを解除することは推奨されません。代わりにクローンの作成を検討してください。"
+msgstr "このテンプレートは、%{vendor} により提供されていて上書きできるため、ロックを解除することは推奨されません。代わりにクローンの作成を検討してください。"
 
 msgid "Iterating"
 msgstr "反復"
@@ -4859,7 +4865,7 @@ msgid "LDAP Documentation"
 msgstr "LDAP ドキュメント"
 
 msgid "LDAP error - %{message}"
-msgstr "LDAP エラー - %{message}"
+msgstr "LDAPエラー: %{message}"
 
 msgid "LDAP filter"
 msgstr "LDAP フィルター"
@@ -4919,7 +4925,7 @@ msgid "Libvirt, oVirt and OpenStack"
 msgstr "Libvirt、oVirt、OpenStack"
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
-msgstr "再ビルドのステップの制限。有効なステップは  %{host_rebuild_steps} です。"
+msgstr "再ビルドのステップの制限。有効なステップは {host_rebuild_steps} です。"
 
 msgid "Link Delay"
 msgstr "リンクの遅延"
@@ -5399,7 +5405,7 @@ msgid "Loading images information ..."
 msgstr "イメージ情報をロード中です ..."
 
 msgid "Loading interfaces information ..."
-msgstr "インターフェース情報をロード中です ..."
+msgstr "インターフェース情報のロード中..."
 
 msgid "Loading parameters..."
 msgstr "パラメーターのロード中..."
@@ -5417,7 +5423,7 @@ msgid "Loading template information ..."
 msgstr "テンプレート情報をロード中です ..."
 
 msgid "Loading virtual machine information ..."
-msgstr "仮想マシン情報をロード中です..."
+msgstr "仮想マシン情報のロード中..."
 
 msgid "Loading virtual machines information ..."
 msgstr "仮想マシン情報をロード中です..."
@@ -5447,7 +5453,7 @@ msgid "Locations"
 msgstr "ロケーション"
 
 msgid "Locations also work nicely when used in tandem with %{organizations}."
-msgstr "ロケーションは %{organizations} と共に使用すると効果的です。"
+msgstr "ロケーションは %{organizations} と併用すると効果的です。"
 
 msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed. For example, there might be a data center in London and one in Virginia; these are locations."
 msgstr "場所は、Foreman を介して管理されるシステムが存在する物理的な場所を管理および区別するために使用されます。たとえば、ロンドンに 1 つのデータセンターがあり、バージニアにもう 1 つのデータセンターがある場合などが該当します。"
@@ -5670,10 +5676,10 @@ msgid "Manually Assign"
 msgstr "手動割り当て"
 
 msgid "Manually select and assign hosts with no %s"
-msgstr "%s のないホストを手動で選択し、割り当てます"
+msgstr "%s のないホストの手動選択および割り当て"
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
-msgstr "Matcher は、属性とその値の組み合わせであり、それらが一致すると、以下のような値が提供されます。<br>Foreman が認識するファクトなどのすべての属性を使用できます: <code> domain = example.com </code> または <code> is_virtual = true</code>"
+msgstr "Matcher は、属性とその値の組み合わせです。一致した場合に以下の値が適用されます。<br>Foreman が認識するファクトなどのすべての属性を使用できます: <code> domain = example.com </code> または <code> is_virtual = true</code>"
 
 msgid "Matchers inheritance"
 msgstr "Matcher の継承"
@@ -5694,7 +5700,7 @@ msgid "Media ID"
 msgstr "メディア ID"
 
 msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will provide new random MAC address."
-msgstr "このインターフェース向けのメディアアクセス制御アドレス。書式は、2 桁の 16 進数をコロン (:) で区切った<br/> 6 つのグループである必要があります (たとえば、00:11:22:33:44:55)。大半の仮想化コンピュートリソース (例: VMware、oVirt、libvirt) <br/> では、新しい MAC アドレスが無作為に割り当てられます。"
+msgstr "このインターフェースのメディアアクセス制御アドレス。書式は、2 桁の 16 進数をコロン (:) で区切った<br/> 6 つのグループである必要があります (たとえば、00:11:22:33:44:55)。大半の仮想化コンピュートリソース (例: VMware、oVirt、libvirt)<br/> では、新しい MAC アドレスが無作為に割り当てられます。"
 
 msgid "Media type in 'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "'コンテンツタイプ: %s' のメディアタイプは POST および PUT 要求の API v2 でサポートされていません。'コンテンツタイプ: アプリケーション/json' を使用してください。"
@@ -5723,11 +5729,11 @@ msgid "Medium|Name"
 msgstr "名前"
 
 msgid "Medium|OS Family"
-msgstr "OS の種類"
+msgstr "OS の系統"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Os family"
-msgstr "OS 種別"
+msgstr "OS の系統"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium|Path"
@@ -5764,7 +5770,7 @@ msgid "Metadata"
 msgstr "メタデータ"
 
 msgid "Method %{method} not found for resource %{resource}."
-msgstr "リソース %{resource} についてメソッド %{method} が見つかりません。"
+msgstr "リソース %{resource} 向けのメソッド %{method} が見つかりません。"
 
 msgid "Method used to deliver email"
 msgstr "メールの配信に使用する方法"
@@ -5788,13 +5794,13 @@ msgid "Mismatches Report"
 msgstr "不一致レポート"
 
 msgid "Missing BMC feature associated with %s."
-msgstr "％s に関連付けられた BMC 機能がありません。"
+msgstr "%s に関連付けられた BMC 機能がありません。"
 
 msgid "Missing a permission to edit parent %s"
 msgstr "親 %s を編集するパーミッションがありません"
 
 msgid "Missing one of the required permissions: %s"
-msgstr "必要ないずれかのパーミッションがありません: %s"
+msgstr "必要なパーミッションの 1 つがありません: %s"
 
 msgid "Missing permission"
 msgstr "パーミッションがありません"
@@ -6059,7 +6065,7 @@ msgid "No"
 msgstr "いいえ"
 
 msgid "No %s with BMC feature found, install one, enable BMC module and register it."
-msgstr "BMC 機能を備えた ％s が見つかりません。インストールし、BMC モジュールを有効にして登録してください。"
+msgstr "BMC 機能を備えた %s が見つかりません。インストールし、BMC モジュールを有効にして登録してください。"
 
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr "このホストの %{template_kind} テンプレートが見つかりませんでした。%{os} 設定に少なくとも 1 つ定義していることを確認するか、PXE ローダーを変更してください"
@@ -6104,7 +6110,7 @@ msgid "No changes"
 msgstr "変更がありません"
 
 msgid "No changes found when refreshing features from %s."
-msgstr "%s からの機能の更新時に変更が見つかりませんでした"
+msgstr "%s からの機能更新時に変更が見つかりませんでした"
 
 msgid "No changes to your environments detected"
 msgstr "環境への変更が検出されませんでした"
@@ -6140,7 +6146,7 @@ msgid "No features found on this proxy, please make sure you enable at least one
 msgstr "このプロキシーに機能が見つかりません。少なくとも 1 つの機能を有効にしていることを確認してください"
 
 msgid "No finish templates were found for this host, make sure you define at least one in your %s settings"
-msgstr "このホストの最終テンプレートが見つかりません。%s 設定に少なくとも 1 つ定義していることを確認してください"
+msgstr "このホストの終了テンプレートが見つかりません。%s 設定に少なくとも 1 つ定義していることを確認してください"
 
 msgid "No free ports available for websockify, try again later"
 msgstr "websockify に使用できる空きポートがありません。後でもう一度試してください"
@@ -6200,7 +6206,7 @@ msgid "No owner selected!"
 msgstr "所有者が選択されていません!"
 
 msgid "No parameters to override for Puppet class %s"
-msgstr "Puppet クラス %s について上書きするパラメーターがありません"
+msgstr "Puppet クラス %s のパラメーターを上書きするパラメーターがありません"
 
 msgid "No parameters were allocated to the selected hosts, can't mass assign"
 msgstr "パラメーターが選択ホストに割り当てられていないため、一括割り当てを実行できません"
@@ -6218,7 +6224,7 @@ msgid "No proxy selected!"
 msgstr "プロキシーが選択されていません!"
 
 msgid "No puppet activity for this host in the last %s days"
-msgstr "過去 %s 日以内にこのホストの puppet アクティビティーは実行されていません"
+msgstr "このホストでは過去 %s 日間に Puppet アクティビティーはありません"
 
 msgid "No report"
 msgstr "レポートがありません"
@@ -6284,7 +6290,7 @@ msgid "Not implemented"
 msgstr "実装されていません"
 
 msgid "Not implemented for %s"
-msgstr "%s について実装されていません"
+msgstr "%s の実装なし"
 
 msgid "Not relevant for snippet"
 msgstr "スニペットと関連がありません"
@@ -6312,6 +6318,9 @@ msgstr "<code>@</code> で開始する単語はインスタンス変数ですの
 
 msgid "Note the extra space before IP, the <code>-&#37;></code> removes the new line character only if there is no other text after it. Therefore the white space needs to be at the new line."
 msgstr "IP の前に余分にスペースがあることに注意してください。<code>-&#37;></code> は、その後に他のテキストがない場合にしか改行文字を削除しないので、改行して空白を指定する必要があります。"
+
+msgid "Note: the command contains an authentication token which grants access to your Foreman account until it expires."
+msgstr "注: コマンドには認証トークンが含まれており、このトークンの有効期限が切れるまで Foreman アカウントにアクセス権を付与します。"
 
 msgid "Nothing to add"
 msgstr "追加するものがありません"
@@ -6461,7 +6470,7 @@ msgid "OS name from facter; e.g. RedHat"
 msgstr "Facter からの OS 名 (例: RedHat)"
 
 msgid "Obsolete"
-msgstr "旧版 "
+msgstr "旧版"
 
 msgid "Off"
 msgstr "オフ"
@@ -6482,7 +6491,7 @@ msgid "On"
 msgstr "オン"
 
 msgid "Once a template input is defined in the Inputs tab and the template is saved, it can be used in the ERB. To load a value specified through this input, a global macro <code>input</code> is used. The input name must be specified as the argument. E.g. the example below will load the value through input called cpus."
-msgstr "テンプレートの入力を入力タブで定義して、テンプレートを保存したら、ERB で使用できます。この入力で指定した値を読み込むには、グローバルマクロ <code>input</code> を使用します。この入力名は、引数として指定する必要があります。たとえば、以下の例では、cpus と呼ばれる入力で値を読み込みます。"
+msgstr "テンプレートの入力を入力タブで定義して、テンプレートを保存すると、ERB で使用できます。この入力で指定した値を読み込むには、グローバルマクロ <code>input</code> を使用します。この入力名は、引数として指定する必要があります。たとえば、以下の例では、cpus と呼ばれる入力で値を読み込みます。"
 
 msgid ""
 "Once you define a template input in Inputs tab and save the template, it can be used in the ERB.\n"
@@ -6495,6 +6504,9 @@ msgstr ""
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
 msgstr "関連付けられたフィルター 1 つ以上が無効であるため、ロールが保存できません"
+
+msgid "Only Smart Proxies with enabled Registration module are available"
+msgstr "登録モジュールが有効な Smart Proxy のみが使用可能です"
 
 msgid "Only for BMC interfaces."
 msgstr "BMC インターフェスのみ。"
@@ -6630,10 +6642,10 @@ msgid "Optional array of log hashes"
 msgstr "ログハッシュのオプション配列"
 
 msgid "Optional comma-delimited string containing either 'new', 'updated', or 'obsolete' that is used to limit the imported Puppet classes"
-msgstr "インポートされた Puppe クラスを制限するために使用される '新規'、'更新済み'、または '旧版' のいずれかが含まれる、オプションのコンマ区切りの文字列　"
+msgstr "インポートされた Puppe クラスを制限するために使用される '新規'、'更新済み'、または '旧版' のいずれかが含まれる、オプションのコンマ区切りの文字列"
 
 msgid "Optional parameter without value.<br/><i>Still managed by Foreman, the value will be empty.</i><br/>"
-msgstr "値がないオプションのパラメーター。<br/><i>引き続き Foreman に管理されます。値は空白になります。</i><br/>"
+msgstr "値なしの任意パラメーターです。<br/><i>引き続き Foreman に管理されます。値は空白になります。</i><br/>"
 
 msgid "Optional: Ending IP Address for IP auto suggestion"
 msgstr "オプション: IP 自動補完の終了 IP アドレス"
@@ -6675,7 +6687,7 @@ msgid "Organizations"
 msgstr "組織"
 
 msgid "Organizations also work nicely in tandem with %{locations}."
-msgstr "組織は %{locations} と共に使用すると効果的です。"
+msgstr "組織は %{locations} と併用すると効果的です。"
 
 msgid "Origin"
 msgstr "生成"
@@ -6985,7 +6997,7 @@ msgid "Please delete all nested groups before deleting it."
 msgstr "これを削除する前に、すべてのネストされたグループを削除してください。"
 
 msgid "Please enable JavaScript to view the %{comments_href}."
-msgstr "%{comments_href} を表示するために JavaScript を有効にしてください。"
+msgstr "JavaScript を有効にして %{comments_href} を表示してください。"
 
 msgid "Please ensure the following parameters name are unique"
 msgstr "以下のパラメーター名が固有であることを確認してください"
@@ -6994,12 +7006,14 @@ msgid "Please include in your report the full error log that can be acquired by 
 msgstr "以下を実行して、取得可能な全エラーログを、レポートに追加してください。"
 
 msgid "Please login to %{foreman_url} to change your password"
-msgstr "%{foreman_url} にログインしてパスワードを変更してください"
+msgstr "{foreman_url} にログインしてパスワードを変更してください"
 
 msgid ""
 "Please note that these HTTP proxy configurations are only used for requests\n"
 "                      from Foreman or Foreman plugins. System-wide proxies must be configured at operating system level."
-msgstr "これらの HTTP プロキシー設定は、Foreman または Foreman プラグインからの要求にのみ使用されます。システム全体のプロキシーは、オペレーティングシステムレベルで設定する必要があります。"
+msgstr ""
+"これらの HTTP プロキシー設定は、Foreman または Foreman プラグインからの要求\n"
+"                      にのみ使用されます。システム全体のプロキシーは、オペレーティングシステムレベルで設定する必要があります。"
 
 msgid "Please note, API v3 is deprecated and will be removed completely in the next Foreman release."
 msgstr "API v3は非推奨であり、今後の Foremanリリースで完全に削除されることに注意してください。"
@@ -7068,10 +7082,10 @@ msgid "Power operations are not enabled on this host."
 msgstr "このホストでは電源操作が有効ではありません。"
 
 msgid "Power up compute instance %s"
-msgstr "コンピュートインスタンス %s の電源を入れる"
+msgstr "コンピュートインスタンス %s の電源投入"
 
 msgid "Power%s"
-msgstr "パワー%s"
+msgstr "電源 %s"
 
 msgid "Preallocate disk"
 msgstr "ディスクの事前割り当て"
@@ -7218,7 +7232,7 @@ msgid ""
 "Proxied request failed with: %s\n"
 "%s"
 msgstr ""
-"プロキシー化された要求に失敗しました:  %s\n"
+"プロキシー化された要求に失敗しました: %s\n"
 "%s"
 
 msgid "Proxies"
@@ -7231,7 +7245,7 @@ msgid "Proxy ID to use within this realm"
 msgstr "このレルム内で使用するプロキシー ID"
 
 msgid "Proxy reference should be { :relation => [:column_name, ...] }"
-msgstr "プロキシー参照は { :relation => [:column_name, ...] } でなければなりません"
+msgstr "プロキシ参照は { :relation => [:column_name, ...] } でなければなりません"
 
 msgid "Ptable|Locked"
 msgstr "ロック"
@@ -7240,7 +7254,7 @@ msgid "Ptable|Name"
 msgstr "名前"
 
 msgid "Ptable|OS Family"
-msgstr "OS 種別"
+msgstr "OS の系統"
 
 msgid "Ptable|Snippet"
 msgstr "スニペット"
@@ -7453,11 +7467,14 @@ msgstr "ホストの選択内容を記憶して次回の一括処理に使用す
 
 msgid "Reminder: <strong> One host is selected </strong>"
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
-msgstr[0] "リマインダー: <strong> 1 台のホストが選択されています </strong>"
+msgstr[0] "リマインダー: <strong> ホスト 1 台が選択されています </strong>"
 
 msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
-msgstr[0] "リマインダー: クエリーのフィルター %{query} に <strong> ホストが 1 台選択されています </strong> "
+msgstr[0] "リマインダー: クエリーフィルター %{query} に <strong>ホストが 1 台選択されています</strong>"
+
+msgid "Remote Execution"
+msgstr "リモート実行"
 
 msgid "Remote address"
 msgstr "リモートアドレス"
@@ -7475,7 +7492,7 @@ msgid "Remove Combination"
 msgstr "組み合わせの削除"
 
 msgid "Remove DHCP Settings for %s"
-msgstr "%s の DHCP 設定を削除"
+msgstr "%s の DHCP 設定の削除"
 
 msgid "Remove Matcher"
 msgstr "Matcher の削除"
@@ -7505,16 +7522,16 @@ msgid "Remove:"
 msgstr "削除:"
 
 msgid "Removed %{from} to %{to}"
-msgstr "％{from} から ％{to} に取り除きました"
+msgstr "%{to} に %{from} を削除しました"
 
 msgid "Removing IPv4 in External IPAM for %s"
-msgstr "％s の外部 IPAM で IPv4 を削除しています"
+msgstr "%s の外部 IPAM で IPv4 を削除しています"
 
 msgid "Removing IPv6 in External IPAM for %s"
-msgstr "％s の外部 IPAM で IPv6 を削除しています"
+msgstr "%s の外部 IPAM で IPv6 を削除しています"
 
 msgid "Removing compute instance %s"
-msgstr "コンピュートインスタンス %s を削除中です"
+msgstr "コンピュートインスタンス %s の削除中"
 
 msgid "Rename"
 msgstr "名前変更"
@@ -7523,7 +7540,7 @@ msgid "Render Global registration template"
 msgstr "グローバル登録テンプレートのレンダリング"
 
 msgid "Render report %s"
-msgstr "レポート ％s をレンダリング"
+msgstr "レポート %s のレンダリング"
 
 msgid "Render report template"
 msgstr "レポートテンプレートのレンダリング"
@@ -7557,13 +7574,13 @@ msgid "Report data are not available, it has probably expired."
 msgstr "レポートデータは利用できません。有効期限が切れている可能性があります。"
 
 msgid "Report format, defaults to '%s'"
-msgstr "レポート形式、デフォルトは「％s」"
+msgstr "レポート形式、デフォルトは「%s」"
 
 msgid "Report is being rendered, it will be delivered via e-mail."
 msgstr "レポートはレンダリングされており、メールで配信されます。"
 
 msgid "Report is going to be rendered at %s and it will be delivered via e-mail once ready."
-msgstr "レポートは ％s でレンダリングされる予定で、準備が整うとメールで配信されます。"
+msgstr "レポートは %s でレンダリングされる予定で、準備が整うとメールで配信されます。"
 
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr "レポートが見つかりません。正しい job_id を使用していることを確認してください"
@@ -7584,7 +7601,7 @@ msgid "Reported at"
 msgstr "レポート日時"
 
 msgid "Reported at %s "
-msgstr "レポート: %s "
+msgstr "レポート日時: %s "
 
 msgid "Reported by %s"
 msgstr "%s で報告済み"
@@ -7630,7 +7647,7 @@ msgid "Required when user want to change own password"
 msgstr "ユーザーが独自のパスワードを変更する場合に必須"
 
 msgid "Reset PuppetCA certname for %s"
-msgstr "%s の PuppetCA certname をリセット"
+msgstr "%s の PuppetCA certname のリセット"
 
 msgid "Reset to default"
 msgstr "デフォルトにリセット"
@@ -7645,7 +7662,7 @@ msgid "Resource"
 msgstr "リソース"
 
 msgid "Resource %{resource_name} not found by id '%{id}'"
-msgstr "リソース %{resource_name} が ID  '%{id}' で見つかりません"
+msgstr "ID  '%{id}' でリソース %{resource_name} が見つかりません"
 
 msgid "Resource %{res} not found."
 msgstr "リソース %{res} が見つかりません。"
@@ -7670,7 +7687,7 @@ msgid "Restrict registered smart proxies"
 msgstr "登録された Smart Proxy の制限"
 
 msgid "Result of report %s"
-msgstr "レポート ％s の結果"
+msgstr "レポート %s の結果"
 
 msgid "Resume"
 msgstr "再開"
@@ -7767,10 +7784,10 @@ msgid "Run Distribution Chart for %s"
 msgstr "%s の実行分布の表"
 
 msgid "Run a power operation on host"
-msgstr "ホストで電源操作を実行します"
+msgstr "ホストでの電源操作の実行"
 
 msgid "Running on"
-msgstr "実行中: "
+msgstr "実行中:"
 
 msgid "Runtime"
 msgstr "ランタイム"
@@ -7887,7 +7904,7 @@ msgid "Scheduler hint filter"
 msgstr "スケジューラーヒントフィルター"
 
 msgid "Scheduling Report template failed for: %s."
-msgstr "レポートテンプレートのスケジュールに失敗しました: ％s。"
+msgstr "レポートテンプレートのスケジュールに失敗しました: %s。"
 
 msgid "Scope by locations"
 msgstr "ロケーション別のスコープ"
@@ -7905,7 +7922,7 @@ msgid "Search fields"
 msgstr "検索フィールド"
 
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
-msgstr "クエリキーワードである特殊文字 (例: < や >) が含まれているため、検索が失敗したり、誤った結果が表示されたりする場合があります"
+msgstr "クエリーキーワードである特殊文字 (例: < and >) が含まれているため、検索が失敗したり、誤った結果が表示されたりする場合があります"
 
 msgid "Search your logs for request-id"
 msgstr "ログで request-id を検索します"
@@ -7953,7 +7970,7 @@ msgid "Select compute resources"
 msgstr "コンピュートリソースの選択"
 
 msgid "Select desired %s proxy"
-msgstr "必要な %s プロキシーの選択"
+msgstr "希望の %s プロキシーの選択"
 
 msgid "Select desired state"
 msgstr "必要な状態の選択"
@@ -8020,10 +8037,10 @@ msgid "Selectable values for user inputs"
 msgstr "ユーザー入力に選択できる値"
 
 msgid "Selected hosts are now assigned to %s"
-msgstr "選択されたホストは %s に割り当てられています"
+msgstr "選択したホストは %s に割り当てられています"
 
 msgid "Selected image does not belong to %s"
-msgstr "選択されたイメージは %s に属していません"
+msgstr "選択したイメージは %s に所属していません"
 
 msgid "Selected items"
 msgstr "選択された項目"
@@ -8076,6 +8093,9 @@ msgstr "サービス"
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
 msgstr "ホストの「host_registration_insights」パラメーターを設定します。 True に設定されている場合には、Insights クライアントは Red Hat ファミリーのオペレーティングシステムにインストール、登録されます。"
 
+msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
+msgstr "ホストの「host_registration_remote_execution」パラメーターを設定します。true に設定すると、SSH 鍵がホストにインストールされます。"
+
 msgid "Set IP addresses for %s"
 msgstr "%s の IP アドレスの設定"
 
@@ -8101,7 +8121,7 @@ msgid "Set the order in which values are resolved."
 msgstr "値が解決される順序を設定します。"
 
 msgid "Set up compute instance %s"
-msgstr "コンピュートインスタンス %s のセットアップ"
+msgstr "コンピュートインスタンス %s の設定"
 
 msgid "Sets a proxy for all outgoing HTTP connections from Foreman. System-wide proxies must be configured at operating system level."
 msgstr "Foreman からの HTTP 送信接続すべてにプロキシーを設定します。システム全体のプロキシーはオペレーティングシステムレベルで設定する必要があります。"
@@ -8170,7 +8190,7 @@ msgid "Should this interface be used for constructing the FQDN of the host? Each
 msgstr "このインターフェースをホストの FQDN の構築に使用する必要がありますか? 各管理対象ホストには 1 つのプライマリーインターフェースがある必要があります。"
 
 msgid "Show %s fact values for all hosts"
-msgstr "すべてのホストの %s ファクト値を表示"
+msgstr "全ホストの %s ファクト値を表示"
 
 msgid "Show :a_resource"
 msgstr ":a_resource の表示"
@@ -8299,7 +8319,7 @@ msgid "Show a virtual machine"
 msgstr "仮想マシンの表示"
 
 msgid "Show all %s children fact values"
-msgstr "すべての %s の子のファクト値を表示"
+msgstr "全 %s の子のファクト値を表示"
 
 msgid "Show all %s facts with the same value"
 msgstr "同じ値のすべての %s ファクトを表示"
@@ -8411,7 +8431,7 @@ msgid "Size (GB)"
 msgstr "サイズ (GB)"
 
 msgid "Skip assign hosts and proceed to edit %s settings"
-msgstr "ホストの割り当てをスキップし、%s 設定の編集に進みます"
+msgstr "ホストの割り当てをスキップして %s 設定の編集に進む"
 
 msgid "Skipped"
 msgstr "スキップ"
@@ -8491,10 +8511,10 @@ msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "一部のインターフェースは無効です。以下の表を確認してください。"
 
 msgid "Something went wrong while changing host type - %s"
-msgstr "ホストタイプの変更中に問題が発生しました - %s"
+msgstr "ホストタイプの変更中に問題が発生しました: %s"
 
 msgid "Something went wrong while selecting hosts - %s"
-msgstr "ホストの選択中に問題が発生しました - %s"
+msgstr "ホストの選択中に問題が発生しました: %s"
 
 msgid "Sometimes it is necessary to iterate over arrays in order to retrieve the information. This is typically required in report templates when loaders are used, however the same technique is useful elsewhere too."
 msgstr "情報を取得するために、配列を反復処理する必要がある場合があります。これは通常、ローダーを使用するレポートテンプレートで必要ですが、同じ手法が他の場所でも役立ちます。"
@@ -8734,7 +8754,7 @@ msgid "Successfully created %s."
 msgstr "%s を正常に作成しました。"
 
 msgid "Successfully delete %s"
-msgstr "%s を正常に削除"
+msgstr "%s を正常に削除しました"
 
 msgid "Successfully deleted %s."
 msgstr "%s を正常に削除しました。"
@@ -8743,19 +8763,19 @@ msgid "Successfully deleted report."
 msgstr "レポートが正常に削除されました。"
 
 msgid "Successfully overridden all parameters of Puppet class %s"
-msgstr "Puppet クラス %s のすべてのパラメーターが正常に上書きされました"
+msgstr "Puppet クラス %s の全パラメーターが正常に上書きされました"
 
 msgid "Successfully recreated"
 msgstr "正常に再作成されました"
 
 msgid "Successfully refreshed features from %s."
-msgstr "%s からの機能の更新が正常に行なわれました。"
+msgstr "%s からの機能が正常に更新されました。"
 
 msgid "Successfully refreshed the cache."
 msgstr "キャッシュが正常に更新されました。"
 
 msgid "Successfully reset all parameters of Puppet class %s to their default values"
-msgstr "Puppet クラス %s のそれらのデフォルト値へのリセットが正常に行なわれました。"
+msgstr "Puppet クラス %s の全パラメーターをデフォルト値に正常にリセットしました"
 
 msgid "Successfully updated %s."
 msgstr "%s を正常に更新しました。"
@@ -8770,7 +8790,7 @@ msgid "Summary from %{time} ago to now"
 msgstr "過去 %{time} から今までの概要"
 
 msgid "Summary report from Foreman server at %{foreman_url}"
-msgstr "%{foreman_url} にある Foreman サーバーからの概要レポート"
+msgstr "{foreman_url} にある Foreman サーバーからの概要レポート"
 
 msgid "Support"
 msgstr "サポート"
@@ -8884,7 +8904,7 @@ msgid "Template Type"
 msgstr "テンプレートタイプ"
 
 msgid "Template content changed %s"
-msgstr "テンプレートのコンテンツの変更 %s"
+msgstr "テンプレートのコンテンツ変更 %s"
 
 msgid "Template diff"
 msgstr "テンプレート差分"
@@ -9015,7 +9035,7 @@ msgstr "名前"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Os family"
-msgstr "OS 種別"
+msgstr "OS の系統"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Snippet"
@@ -9062,23 +9082,25 @@ msgstr "ログインページフッターに表示されるテキスト"
 msgid ""
 "That is, if you are planning to manage a site where all the machines are of the form <i>hostname</i>.<b>somewhere.com</b>\n"
 "    then the domain is <b>somewhere.com</b>."
-msgstr "つまり、全マシンが <i>hostname</i>.<b>somewhere.com</b> 形式のサイトを管理する場合には、ドメインは <b>somewhere.com</b> になります。"
+msgstr ""
+"つまり、全マシンが <i>hostname</i>.<b>somewhere.com</b> 形式のサイトを管理する場合には、ドメイン\n"
+"    は <b>somewhere.com</b> になります。"
 
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] "ホスト: %{host_names} に %{proxy_type} プロキシーを設定できませんでした。"
 
 msgid "The %{proxy_type} proxy of the selected hosts was cleared"
-msgstr "選択されたホストの %{proxy_type} プロキシーが消去されました"
+msgstr "選択したホストの %{proxy_type} プロキシーが消去されました"
 
 msgid "The %{proxy_type} proxy of the selected hosts was cleared."
-msgstr "選択されたホストの %{proxy_type} プロキシーが消去されました。"
+msgstr "選択したホストの %{proxy_type} プロキシーが消去されました。"
 
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}"
-msgstr "選択されたホストの %{proxy_type} プロキシーが %{proxy_name} に設定されました"
+msgstr "選択したホストの %{proxy_type} プロキシーが %{proxy_name} に設定されました"
 
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
-msgstr "選択されたホストの %{proxy_type} プロキシーが %{proxy_name} に設定されました。"
+msgstr "選択したホストの %{proxy_type} プロキシーが %{proxy_name} に設定されました。"
 
 msgid "The %{setting} setting has been deprecated and will be removed in version %{version}"
 msgstr "%{setting} の設定は非推奨になり、バージョン %{version} で削除される予定です"
@@ -9086,13 +9108,15 @@ msgstr "%{setting} の設定は非推奨になり、バージョン %{version} �
 msgid ""
 "The <b>fullname</b> field is used for human readability in reports and other pages that refer to domains,\n"
 "    and also available as an external node parameter"
-msgstr "<b>完全名</b> フィールドは、ドメインを参照するレポートや他のページで、可読性を高めるために使用され、外部ノードパラメーターとしても利用できます。"
+msgstr ""
+"<b>fullname</b> フィールドは、ドメインを参照するレポートや他のページで、可読性を高めるために使用され、外部\n"
+"    ノードパラメーターとしても利用できます。"
 
 msgid "The Audit Comment field is saved with the template auditing to document the template changes"
 msgstr "「監査コメント」フィールドは、テンプレートの変更を記載するテンプレート監査と共に保存されます"
 
 msgid "The BMC password will be used by Foreman to access the host's BMC controller via a BMC-enabled smart proxy, if available.<br/>"
-msgstr "BMC パスワードは、BMC 対応の Smart Proxy (利用可能な場合) を介してホストの BMC コントローラーにアクセスするために Foreman によって使用されます。<br/>"
+msgstr "BMC パスワードは、BMC 対応の Smart Proxy (利用可能な場合) で、Foreman がホストの BMC コントローラーにアクセスするために使用します。<br/>"
 
 msgid "The HTTP Proxy name"
 msgstr "HTTP プロキシー名"
@@ -9186,7 +9210,7 @@ msgid "The following hosts failed the build operation: %s"
 msgstr "以下のホストはビルド操作に失敗しました: %s"
 
 msgid "The following hosts were not %{action}: %{missed_hosts}"
-msgstr "以下のホストでは %{action} が実行されませんでした: %{missed_hosts}"
+msgstr "以下のホストは %{action} されました: {missed_hosts}"
 
 msgid "The following hosts were not deleted: %s"
 msgstr "以下のホストは削除されませんでした: %s"
@@ -9222,11 +9246,11 @@ msgid "The keys can be used in provisioning templates and are also available for
 msgstr "キーはプロビジョニングテンプレートで使用でき、また Foreman で管理される設定管理ツールでも利用できます。"
 
 msgid "The keywords <b>$version</b>, <b>$major</b> and <b>$minor</b> will be interpolated back into the path specification to calculate the true URL address."
-msgstr "キーワード <b>$version</b>、<b>$major</b> および <b>$minor</b> は、パスの仕様に挿入し直され、実際の URL アドレスが算出されます。"
+msgstr "キーワード $version</b>、<b>$major</b> および <b>$minor</b> は、パスの仕様に挿入し直され、実際の URL アドレスが算出されます。"
 
 msgid "The list is excluding %{count} %{link_start}physical host%{link_end}."
 msgid_plural "The list is excluding %{count} %{link_start}physical hosts%{link_end}."
-msgstr[0] "一覧では、%{link_start} 物理ホスト %{link_end} %{count} 台が除外されます。"
+msgstr[0] "このリストは %{count} 件の %{link_start}物理干すおｔ%{link_end} を除外しています。"
 
 msgid "The location of the sendmail executable"
 msgstr "sendmail 実行可能ファイルの場所"
@@ -9238,7 +9262,7 @@ msgid "The method used to provision the host."
 msgstr "このメソッドは、ホストのプロビジョニングに使用されます。"
 
 msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup,environment</code> would expect a matcher such as <code>hostgroup,environment = example-group,production</code>"
-msgstr "Matcher キーが処理される順序です。先に一致したもの順になります。<br> 複数の属性を Matcher キーとして使用できます。たとえば、<code>host group, environment</code> の順序の場合には、<code>hostgroup,environment = example-group,production</code> などの Matcher が予想されます"
+msgstr "Matcher キーの処理順序で、先に一致したものから処理されます。<br>複数の属性を Matcher キーとして使用できます。たとえば、<code>host group, environment</code> の順序の場合には、<code>hostgroup,environment = example-group,production</code> などの Matcher が予想されます"
 
 msgid "The order in which values are resolved"
 msgstr "値が解決される順序"
@@ -9254,10 +9278,10 @@ msgid ""
 "          for example <em>http://mirror.centos.org/centos/$version/os/$arch</em> where <strong>$arch</strong> will be substituted for the host's actual OS architecture and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris and Debian media may also use <strong>$release</strong>."
 msgstr ""
 "メディアのパスには、URL または有効な NFS サーバー (アーキテクチャーは除く) を指定できます。\n"
-"          例: <em>http://mirror.centos.org/centos/$version/os/$arch</em>。ここでは、<strong>$arch</strong> はホストの実際の OS アーキテクチャーに、<strong>$version</strong>、<strong>$major</strong>、<strong>$minor</strong> はオペレーティングシステムのバージョンに置き換えます。Solaris と Debian のメディアの場合は <strong>$release</strong> も使用できます。"
+"          例: <em>http://mirror.centos.org/centos/$version/os/$arch</em>。ここでは、<strong>$arch</strong> はホストの実際の OS アーキテクチャーに、<strong>$version</strong>、<strong>$major</strong> および <strong>$minor</strong> はオペレーティングシステムのバージョンに置き換えます。Solaris および Debian メディアの場合は <strong>$release</strong> も使用できます。"
 
 msgid "The power state of the selected hosts will be set to %s"
-msgstr "選択されたホストの電源状態は %s に設定されます"
+msgstr "選択したホストの電源状態は %s に設定されます"
 
 msgid "The realm name, e.g. EXAMPLE.COM"
 msgstr "レルム名 (例: EXAMPLE.COM)"
@@ -9269,7 +9293,7 @@ msgid "The remote system presented a public key with hash %s but we're expecting
 msgstr "リモートシステムはハッシュが %s の公開鍵を提示しましたが、別のハッシュが必要です。リモートシステムが信頼できる場合には、コンピュートリソースの編集ページに移動し、「テスト接続」または「データセンターのロード」ボタンを押して送信します"
 
 msgid "The report %{name} that was requested at %{time} has been generated%{compression} and attached to this email."
-msgstr "％{time} に要求されたレポート ％{name} が生成され (％{compression})、このメールに添付されました。"
+msgstr "%{time} に要求されたレポート %{name} が生成され (%{compression})、このメールに添付されています。 "
 
 msgid "The selected hosts were enabled for reboot and rebuild"
 msgstr "選択されたホストの再起動と再ビルドが有効にされました"
@@ -9278,13 +9302,13 @@ msgid "The selected hosts will execute a build operation on next reboot"
 msgstr "選択されたホストは次回の再起動時にビルド操作を実行します"
 
 msgid "The services to be configured are determined by the subnet and domain that are selected for this interface. If you want to manage<br/> only a subset of these services, change the %{subnet} and %{domain} proxies configuration. When a proxy is set to 'None', the corresponding"
-msgstr "設定されるサービスは、このインターフェースに選択されたサブネットとドメインで決定されます。これらのサービスのサブネットのみを<br/> 管理する場合は、%{subnet} および %{domain} のプロキシー設定を変更します。プロキシーを「None」に設定すると、対応する"
+msgstr "設定されるサービスは、このインターフェース向けに選択されたサブネットとドメインにより決まります。これらのサービスのサブネットのみを<br/>管理する場合は、%{subnet}および%{domain} のプロキシー設定を変更します。プロキシーを「None」に設定すると、対応する"
 
 msgid "The snippet '%{name}' threw an error: %{exc}"
 msgstr "スニペット '%{name}' はエラーをスローしました: %{exc}"
 
 msgid "The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu"
-msgstr "ビルドモードでは、テンプレートは少なくとも 1 つのホストに関連付けられます。変更を適用するには、ホストでビルドモードを無効および有効にするか、「アクションの選択」メニューから設定に対して %s を実行することを選択します"
+msgstr "ビルドモードでは、テンプレートは少なくとも 1 台のホストに関連付けられます。変更を適用するには、ホストでビルドモードを無効にして有効にするか、「アクションの選択」メニューから設定に対して %s を実行します"
 
 msgid "The user that is used to ssh into the instance, normally cloud-user, ec2-user, ubuntu, root etc"
 msgstr "SSH をインスタンスに実行するために、通常 cloud-user、ec2-user、ubuntu、root などのユーザーを使用します"
@@ -9305,20 +9329,20 @@ msgid "There are no puppet environments set up on this puppet master. Please che
 msgstr "この puppet マスターには puppet 環境がセットアップされていません。puppet マスター設定を確認してください。"
 
 msgid "There are orchestration modules with methods for configuration rebuild that have identical name: '%s'"
-msgstr "名前が同じ設定再ビルド用メソッドを持つオーケストレーションモジュールがあります: '%s'"
+msgstr "名前が同じ設定再ビルド用メソッドを使用するオーケストレーションモジュールがあります: '%s'"
 
 msgid "There is"
 msgid_plural "There are"
 msgstr[0] "次が"
 
 msgid "There is no owner with id %d and type %s"
-msgstr "ID が %d、タイプが %s の作成者がいません"
+msgstr "ID が %d、タイプが %s の所有者はありません"
 
 msgid "There is no proxy with BMC feature set up. Associate a BMC feature with a subnet."
 msgstr "BMC 機能が設定されたプロキシーはありません。 BMC 機能をサブネットに関連付けます。"
 
 msgid "There may be more information in the server's logs."
-msgstr "サーバーのログにはさらに多くの情報がある場合があります。"
+msgstr "サーバーのログに詳細にわたる情報が含まれる可能性があります。"
 
 msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
 msgstr "外部 IPAM プラグインをインストールし、設定した Smart Proxyが最低でも 1 つ必要です。"
@@ -9330,7 +9354,7 @@ msgid "There was an error listing %{listing}: %{errors}"
 msgstr "%{listing} の一覧表示の際にエラーが発生しました: %{errors}"
 
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
-msgstr "VM の一覧表示にエラーがありました: %(status)s %(statusText)s"
+msgstr "%(status)s を表示中にエラーが発生しました: %(statusText)s"
 
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "%{name} テンプレートのレンダリング中にエラーが発生しました: %{error}"
@@ -9405,13 +9429,13 @@ msgid "This may be caused by unavailability of some required service, incorrect 
 msgstr "これは、必要なサービスが利用できない、API 呼び出しが正しくない、またはサーバー側のバグが原因である可能性があります。"
 
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "ホスト、ファクト、レポートすべてが <b>削除されるので</b>、しばらく時間がかかる可能性があります。%s この動きはグローバル設定「ホストの削除時に関連の仮想マシンを破棄」から変更できます。"
+msgstr "ホスト、ファクト、レポートすべてが <b>削除されるので</b>、しばらく時間がかかる可能性があります。%sこの動きはグローバル設定「ホストの削除時に関連の仮想マシンを破棄」から変更できます。"
 
 msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
-msgstr "これは、<code><%</code> と同じ機能を提供しますが、テンプレートが実行されると、コード出力がテンプレートに挿入されます。これは変数の置き換えに便利です。以下に例を示します。"
+msgstr "これは、<code><%</code> の機能と同じですが、テンプレートが実行されると、コード出力がテンプレートに挿入されます。これは変数の置き換えに便利です。以下に例を示します。"
 
 msgid "This role has been cloned from role %s"
-msgstr "このロールのクローンはロール %s から作成されています"
+msgstr "このロールのクローンは、ロール %s を元に作成されました"
 
 msgid "This role is locked for editing."
 msgstr "このロールは編集用にロックされています。"
@@ -9440,7 +9464,9 @@ msgstr "このテンプレートはロックされています。カスタマイ
 msgid ""
 "This template is locked. You may only change the\\\n"
 "                     associations. Please %s it to customize."
-msgstr "このテンプレートはロックされています。変更できるのは関連付けのみになります。カスタマイズするには、これに対して %s を実行してください。"
+msgstr ""
+"このテンプレートはロックされています。関連付けのみ\\\n"
+"                     変更できます。%s を実行してカスタマイズします。"
 
 msgid "This templates requires a host to render but none was specified"
 msgstr "このテンプレートではレンダリングするホストを必要としますが、指定されていません"
@@ -9452,10 +9478,10 @@ msgid "This value is used also as the host's primary interface name."
 msgstr "この値は、ホストのプライマリーインターフェース名としても使用されます。"
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
-msgstr "これにより、レポート ％s が生成されます。レポートの定義によっては、処理に長い時間がかかる場合があります。"
+msgstr "これにより、レポート %s が生成されます。レポートの定義によっては処理時間が長くなる可能性があります。"
 
 msgid "This will reset parameters of the class %s to their default values. Continue?"
-msgstr "これは、クラス %s のパラメーターをそれらのデフォルト値にリセットします。続行しますか?"
+msgstr "この操作ではクラス %s のパラメーターをデフォルト値にリセットします。続行しますか?"
 
 msgid "This will set all parameters of the class %s as overridden. Continue?"
 msgstr "これは、クラス %s のすべてのパラメーターを上書き済みとして設定します。続行しますか?"
@@ -9552,7 +9578,7 @@ msgid "Total"
 msgstr "合計"
 
 msgid "Total Hosts: %s"
-msgstr "合計ホスト数: %s"
+msgstr "ホストの合計数: %s 台"
 
 msgid "Total hosts count"
 msgstr "ホストの合計数"
@@ -9604,7 +9630,7 @@ msgid "Trusted hosts"
 msgstr "信頼できるホスト"
 
 msgid "Try going to %{href}"
-msgstr "%{href} への移行を試行"
+msgstr "%{href} に移動してみてください"
 
 msgid "Type"
 msgstr "タイプ"
@@ -9670,16 +9696,13 @@ msgid "Unable to access key"
 msgstr "キーにアクセスできません"
 
 msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
-msgstr "外部 IPAM のサブネット ％{subnet} に IP ％{ip} を追加できません。"
+msgstr "外部 IPAM のサブネット %{subnet} に IP %{ip} を追加できません。"
 
 msgid "Unable to authenticate user %s"
 msgstr "ユーザー %s を認証できません"
 
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
 msgstr "VM ディスプレイのリッスンアドレスを変更できません。ディスプレイがローカルホストのみに割り当てられていないことを確認してください"
-
-msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
-msgstr "サブネット ％{subnet} が外部 IPAM グループ ％{group} に存在するかどうかを確認できません。"
 
 msgid "Unable to communicate with the proxy: %s"
 msgstr "プロキシーと通信できません: %s"
@@ -9715,7 +9738,7 @@ msgid "Unable to delete DNS entry"
 msgstr "DNS エントリーを削除できません"
 
 msgid "Unable to delete IP %{ip} from the subnet %{subnet} in External IPAM."
-msgstr "外部 IPAM のサブネット ％{subnet} から IP％{ip} を削除できません。"
+msgstr "外部 IPAM のサブネット %{subnet} から IP %{ip} を削除できません。"
 
 msgid "Unable to delete PuppetCA autosign for %s"
 msgstr "%s の PuppetCA 自動署名を削除できません"
@@ -9739,7 +9762,7 @@ msgid "Unable to determine the host's boot server. The DHCP smart proxy failed t
 msgstr "ホストのブートサーバーを判別できません。DHCP Smart Proxy でこの情報の提供に失敗したため、このサブネットには TFTP サービスが提供されません。"
 
 msgid "Unable to disable bmc_credentials_accessible when safemode_render is disabled"
-msgstr "safemode_render が無効な場合は、bmc_credentials_accessible を無効にできません "
+msgstr "safemode_render が無効な場合は、bmc_credentials_accessible を無効にできません"
 
 msgid "Unable to disable safemode_render when bmc_credentials_accessible is disabled"
 msgstr "bmc_credentials_accessible が無効な場合は、safemode_render を無効にできません"
@@ -9763,7 +9786,7 @@ msgid "Unable to find registration template for host %{host} running %{os}"
 msgstr "%{os} を実行するホスト %{host} の登録テンプレートが見つかりません"
 
 msgid "Unable to find registration template for host %{host} running %{os}, associate the registration template for this OS first"
-msgstr "％{os} を実行しているホスト ％{host} の登録テンプレートが見つかりません。最初にこのOSの登録テンプレートを関連付けてください"
+msgstr "%{os} を実行しているホスト %{host} の登録テンプレートが見つかりません。最初にこの OS の登録テンプレートを関連付けてください"
 
 msgid "Unable to find template %s"
 msgstr "テンプレート %s が見つかりません"
@@ -9781,7 +9804,7 @@ msgid "Unable to get PuppetCA certificates"
 msgstr "PuppetCA 証明書を取得できません"
 
 msgid "Unable to get classes from Puppet for %s"
-msgstr "%s についての Puppet のクラスを取得できません"
+msgstr "%s の Puppet のクラスを取得できません"
 
 msgid "Unable to get environment from Puppet"
 msgstr "Puppet から環境を取得できません"
@@ -9795,20 +9818,20 @@ msgstr "インストール済みの BMC プロバイダーを取得できませ�
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI クラス %s を初期化できません"
 
-msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
-msgstr "外部 IPAM から subnet_id％{subnet} の IP アドレスを取得できません。"
+msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
+msgstr "外部 IPAM からサブネット %{subnet} の IP アドレスを取得できません。"
 
 msgid "Unable to obtain group %{group} from External IPAM."
-msgstr "外部 IPAM からグループ ％{group} を取得できません。"
+msgstr "外部 IPAM からグループ %{group} を取得できません。"
 
 msgid "Unable to obtain groups from External IPAM."
 msgstr "外部 IPAM からグループを取得できません。"
 
 msgid "Unable to obtain subnet %{subnet} from External IPAM."
-msgstr "外部 IPAM からサブネット ％{subnet} を取得できません。"
+msgstr "外部 IPAM からサブネット %{subnet} を取得できません。"
 
 msgid "Unable to obtain subnets in group %{group} from External IPAM."
-msgstr "外部 IPAM からグループ ％{group} のサブネットを取得できません。"
+msgstr "外部 IPAM からグループ %{group} のサブネットを取得できません。"
 
 msgid "Unable to perform boot BMC operation"
 msgstr "boot BMC の操作を実行できません"
@@ -9826,7 +9849,7 @@ msgid "Unable to read SSL certification or key for proxy communication, check se
 msgstr "プロキシー通信用の SSL 証明書またはキーを読み取ることができません。ssl_certificate、ssl_ca_file および ssl_priv_key の設定を確認し、foreman ユーザーが読み取れるようにしてください。"
 
 msgid "Unable to render %{kind} template '%{name}': %{e}"
-msgstr "%{kind} テンプレート '%{name}' をレンダリングできません: %{e}"
+msgstr "%{kind} の '%{name}' テンプレートをレンダリングできません: %{e}"
 
 msgid "Unable to render '%{name}' template: %{e}"
 msgstr "'%{name}' テンプレートをレンダリングできません: %{e}"
@@ -9871,7 +9894,7 @@ msgid "Unable to submit role: Problem with associated filter %s"
 msgstr "ロールを送信できません: 関連付けられたフィルターの問題 %s"
 
 msgid "Unable to suggest IP: subnet %s don't have a DHCP proxy associated, a proxy is not in subnets organization or IPAM is not set to DHCP"
-msgstr "IP を提案できません。サブネット％s に DHCP プロキシーが関連付けられていないか、プロキシーがサブネット組織にないか、IPAM が DHCP に設定されていません"
+msgstr "IP を提案できません。サブネット %s に DHCP プロキシーが関連付けられていないか、プロキシーがサブネット組織にないか、IPAM が DHCP に設定されていません"
 
 msgid "Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_ssl_cert is missing"
 msgstr "websockets_encrypt をオンにできません。websockets_ssl_key または websockets_ssl_cert が不明です"
@@ -9889,7 +9912,7 @@ msgid "Unattended URL"
 msgstr "自動 URL"
 
 msgid "Unauthorized. You do not have the required permission %s."
-msgstr "不正アクセス。必要な権限 ％s がありません。"
+msgstr "不正アクセス。必要な権限 %s がありません。"
 
 msgid "Undo selection"
 msgstr "元に戻す"
@@ -9919,13 +9942,13 @@ msgid "Unknown host status \"%{status}\" was specified in host_status macro, use
 msgstr "host_status マクロに不明なホストステータス \"%{status}\" が指定されました。%{statuses} のいずれかを使用してください"
 
 msgid "Unknown interface type, must be one of [%s]"
-msgstr "不明なインターフェースタイプです。[%s] のいずれかにする必要があります"
+msgstr "不明なインターフェースタイプです。%s のいずれかにする必要があります"
 
 msgid "Unknown password hash method: %s"
-msgstr "パスワードのハッシュメソッドが不明です: ％s"
+msgstr "パスワードのハッシュメソッドが不明です: %s"
 
 msgid "Unknown power action: available methods are %s"
-msgstr "不明なパワーアクション: 利用可能な方法は %s です"
+msgstr "不明な電源アクション: 利用可能な方法は %s です"
 
 msgid "Unknown power management support - can't continue"
 msgstr "不明な電源管理サポート - 続行できません"
@@ -9949,10 +9972,10 @@ msgid "Unnamed"
 msgstr "名前なし"
 
 msgid "Unsupported IPAM mode for %s"
-msgstr "%s の未サポート IPAM モード"
+msgstr "%s のサポート対象外の IPAM モード"
 
 msgid "Unsupported password hash function '%s'"
-msgstr "サポートされていないパスワードのハッシュ関数 '%s'"
+msgstr "サポート対象外のパスワードのハッシュ関数 '%s'"
 
 msgid "Unsupported report status format"
 msgstr "サポートされていないレポートのステータス形式"
@@ -10120,7 +10143,7 @@ msgid "Update the default PXE menu on all configured TFTP servers"
 msgstr "すべての設定済み TFTP サーバーでのデフォルト PXE メニューの更新"
 
 msgid "Update value for %s setting"
-msgstr "％s 設定値の更新"
+msgstr "%s 設定値の更新"
 
 msgid "Update:"
 msgstr "更新:"
@@ -10461,7 +10484,7 @@ msgid "Valid Host Group and Environment Combinations"
 msgstr "有効なホストグループと環境の組み合わせ"
 
 msgid "Valid e-mail addresses delimited by \"%s\""
-msgstr "「％s」で区切られた有効なメールアドレス"
+msgstr "「%s」で区切られた有効なメールアドレス"
 
 msgid "Valid from"
 msgstr "有効期間の起点"
@@ -10473,7 +10496,7 @@ msgid "Value"
 msgstr "値"
 
 msgid "Value for required input '%s' was not specified"
-msgstr "必要な入力 '%s' の値が指定されていませんでした"
+msgstr "入力が必須の値 '%s' が指定されていませんでした"
 
 msgid "Value to use when there is no match"
 msgstr "一致がない場合に使用する値"
@@ -10506,7 +10529,7 @@ msgid "Version %{version}"
 msgstr "バージョン %{version}"
 
 msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
-msgstr "バージョン %{version} %{copyright} 2009-%{year} Paul Kelly および %{author}"
+msgstr "バージョン %{version}  %{copyright} 2009-%{year} Paul Kelly および %{author}"
 
 msgid "Very strong"
 msgstr "非常に強い"
@@ -10539,10 +10562,10 @@ msgid "Virtual NIC"
 msgstr "仮想 NIC"
 
 msgid "Virtual machine settings cannot be edited on an existing machine in %s"
-msgstr "%s の既存のマシンで仮想マシン設定を編集することはできません"
+msgstr "%s の既存のマシンで仮想マシン設定を編集できません"
 
 msgid "Virtual machine was not found by id %{vm_id}"
-msgstr "ID％{vm_id} で仮想マシンが見つかりませんでした"
+msgstr "ID %{vm_id} で仮想マシンが見つかりませんでした"
 
 msgid "WARNING"
 msgstr "警告"
@@ -10606,7 +10629,10 @@ msgid ""
 "When a Host requests a template (e.g. during provisioning), Foreman \\\n"
 "will select the best match from the available templates of that type, in the \\\n"
 "following order:"
-msgstr "ホストがテンプレートを要求する際 (例: プロビジョニング時) に、Foreman は以下の順序で、該当タイプの利用できるテンプレートからベストマッチを選択します:"
+msgstr ""
+"ホストがテンプレートを要求する際 (例: プロビジョニング時) に、Foreman\\\n"
+"は以下の順序で、該当タイプの利用できるテンプレートからベストマッチ\\\n"
+"を選択します:"
 
 msgid "When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
 msgstr "ホストにレルムが選択されると、Foreman は適切なレルム Smart Proxy に問い合わせて、ホストのエントリーを作成し、ワンタイムの登録パスワードを取得します。"
@@ -10615,7 +10641,10 @@ msgid ""
 "When editing a template, you must assign a list \\\n"
 "of operating systems which this template can be used with. Optionally, you can \\\n"
 "restrict a template to a list of host groups and/or environments."
-msgstr "テンプレートの編集時に、このテンプレートを使用できるオペレーティングシステムの一覧を割り当てる必要があります。オプションで、テンプレートをホストグループおよび/または環境の一覧に制限することができます。"
+msgstr ""
+"テンプレートの編集時に、このテンプレートを使用できる\\\n"
+"オペレーティングシステムの一覧を割り当てる必要があります。オプションで、テンプレート\\\n"
+"をホストグループおよび/または環境の一覧に制限することができます。"
 
 msgid "When enabled the parameter is hidden in the UI"
 msgstr "有効な場合はパラメーターが UI で非表示になります"
@@ -10629,8 +10658,8 @@ msgid ""
 "                         Note that not all filters support <br>%{taxonomies}, so these always remain global."
 msgstr ""
 "ロールの関連付けられた %{taxonomies} が変更された場合、<br> 変更は継承されるすべてのフィルターに伝播されます。\n"
-"                               オーバーライドするよう設定されたフィルター<br> はそのまま変更されません。ロールフィルターのオーバーライドは  <br>「オーバーライドの無効化」ボタンを押して簡単に無効にできます。\n"
-"                               すべてのフィルターで <br> %{taxonomies}  がサポートされるわけではないため、これらは常にグローバルになります。"
+"                               上書き設定が指定されたフィルター<br>はそのまま変更されません。ロールフィルターの上書きは  <br>「上書きの無効化」ボタンを押して簡単に無効にできます。\n"
+"                               すべてのフィルターで <br>%{taxonomies} がサポートされるわけではないため、常にグローバルになります。"
 
 msgid "When the system asks for evaluated template, the code in the ERB tags is executed and the variables are replaced with their current values. This process is referred to as rendering. Typically rendering occurs during provisioning, when Kickstart file is asked by Anaconda or partition table is about to be deployed. Rendering also happens when a Remote Execution job is triggered to render the script to be executed. While the ERB exposes the power of programming language executed on the application server, the rendering mechanism has the safemode rendering option enabled by default, which prevents any harmful code being executed from templates."
 msgstr "システムが評価したテンプレートを要求すると、ERB タグのコードが実行され、変数が現在の値に置き換えられます。このプロセスは、レンダリングと呼ばれます。通常、レンダリングは、Kickstart ファイルが Anaconda に呼び出された場合や、パーティションテーブルの添付ロイ直前時など、プロビジョニング時に行われます。また、リモート実行ジョブがトリガーされて、スクリプトの実行をレンダリングするときにも発生します。ERB が、アプリケーションサーバーで実行されるプログラミング言語の機能を公開するときには、レンダリングのメカニズムとしてデフォルトでサーフモードのレンダリングオプションが有効になっており、テンプレートから悪意のあるコードが実行されないようにします。"
@@ -10679,7 +10708,8 @@ msgstr ""
 "プレビューモードでテンプレートをレンダリングしているときに、入力は値を読み込むか、\n"
 "                レンダリングの準備ができていない場合にはプレースホルダーを使用します。テンプレートが\n"
 "                実際にレンダリングされ、入力の準備ができていない場合にはエラーが発生します。\n"
-"                準備状態の条件は入力タイプごとに異なります。例: \"cpu_count\" 名のホストのファクトにリンクされたファクト入力は、%{example1} ファクトに対象のファクトの値が含まれる場合に、準備が整います。この値をテンプレートに読み込むには以下のコードを使用できます: %{example2}。\n"
+"                準備状態の条件は入力タイプごとに異なります。例: \"cpu_count\" 名のホストのファクトにリンクされた\n"
+"                ファクト入力は、%{example1} ファクトに対象のファクトの値が含まれる場合に、準備が整います。この値をテンプレートに読み込むには以下のコードを使用できます: %{example2}。\n"
 "                ファクト名は入力名と異なる可能性がある点に注意してください。"
 
 msgid "While rendering the template in preview mode, the input either loads the value or uses a placeholder in case the input is not ready for rendering. If the template is rendered and the input is not ready, an error is thrown. The readiness criteria differs per input type, e.g. for Fact inputs linked to a host's fact with the name \"cpu_count\" , when @host contains a value for the fact, the input is ready."
@@ -10754,7 +10784,7 @@ msgid "You are about to change the default PXE menu on all configured TFTP serve
 msgstr "設定済みの全 TFTP サーバーのデフォルト PXE メニューを変更しようとしています。続行しますか?"
 
 msgid "You are about to delete %s. Are you sure?"
-msgstr "％s を削除しようとしています。本当によろしいですか?"
+msgstr "%s を削除しようとしています。本当によろしいですか?"
 
 msgid "You are about to unlock a locked template."
 msgstr "ロックされたテンプレートをロック解除します。"
@@ -10784,13 +10814,13 @@ msgid "You can add SSH public keys to a user in Foreman."
 msgstr "SSH 公開鍵を Foreman のユーザーに追加できます。"
 
 msgid "You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
-msgstr "%{freenode} (irc.freenode.net) ネットワークに Foreman を見つけることができます。一般的なサポートについては、#theforeman にアクセスし、開発に関連した個別チャットの場合は #theforeman-dev にアクセスしてください。"
+msgstr "%{freenode} (irc.freenode.net) ネットワークで Foreman について検索できます。一般的なサポートについては #theforeman に、開発関連のチャットの場合は #theforeman-dev にアクセスしてください。"
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
-msgstr "選択した IP プロトコルがサポートする IPAM モードの 1 つを選択できます:<br/><ul><li><strong>DHCP</strong> - 割り当てられた DHCP プロキシーを使用して DHCP で IP を管理します。IP の自動補完は DHCP から取得します。<em>(IPv4)</em></li><li><strong>内部 DB</strong> - 内部 DB を使用して同じサブネット範囲内 (範囲が指定されている場合) にある他のインターフェースをもとに空いている IP を自動補完します。これは主に静的ブートモードで便利です。<em>(IPv4, IPv6)</em> - 自然な順序を保持します。</li><li><strong>ランダム DB</strong> - 内部 DB と同じですが、結果をランダム化して競合状態を回避します。<em>(IPv4)</em></li><li><strong>EUI-64</strong> - インターフェースの MAC アドレスをもとに  IPv6 アドレスを割り当てます。 <em>(IPv6)</em></li><li><strong>外部 IPAM</strong> - 外部 IPAM Smart-proxy プラグインを使用して次に利用可能なアドレスを自動補完します。 (IPv4, IPv6)</li><li><strong>なし</strong> - IP 管理をすべてユーザーに任せ、自動補完はありません。<em>(IPv4, IPv6)</em></li></ul>"
+msgstr "選択した IP プロトコルがサポートする IPAM モードの 1 つを選択できます:<br/><ul><li><strong>DHCP</strong> - 割り当てられた DHCP プロキシーを使用して DHCP で IP を管理します。IP の自動補完は DHCP から取得します。<em>(IPv4)</em></li><li><strong>内部 DB</strong> - 内部 DB を使用して同じサブネット範囲内 (範囲が指定されている場合) にある他のインターフェースをもとに空いている IP を自動補完します。これは主に静的ブートモードで便利です。<em>(IPv4, IPv6)</em> - 自然な順序を保持します。</li><li><strong>Random DB</strong> - 内部 DB と同じですが、結果をランダム化して競合状態を回避します。<em>(IPv4)</em></li><li><strong>EUI-64</strong> - インターフェースの MAC アドレスをもとに IPv6 アドレスを割り当てます。<em>(IPv6)</em></li><li><strong>External IPAM</strong> - 外部 IPAM Smart-proxy プラグインを使用して次に利用可能なアドレスを自動補完します。 (IPv4, IPv6)</li><li><strong>なし</strong> - IP 管理をすべてユーザーに任せ、自動補完はありません。<em>(IPv4, IPv6)</em></li></ul>"
 
 msgid "You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman."
-msgstr "%{community_forums} では、サポートまたはアドバイスを求めたり、Fore に関するアイデアや課題に関する話し合いに参加したりできます。"
+msgstr "{community_forums} を使用してサポートやアドバイスを受けたり、Foreman 関連の課題やアイデアに関する話し合いに参加したりできます。"
 
 msgid "You can't assign locations to this resource"
 msgstr "ロケーションをこのリソースに割り当てることができません"
@@ -10802,10 +10832,10 @@ msgid "You cannot delete this user while logged in as this user"
 msgstr "このユーザーがこのユーザーとしてログインしている間は削除できません"
 
 msgid "You do not have permission to %s this location parameter"
-msgstr "このロケーションパラメーターの %s についてのパーミッションがありません"
+msgstr "このロケーションパラメーターの %s へのパーミッションがありません"
 
 msgid "You do not have permission to %s this organization parameter"
-msgstr "この組織パラメーターの %s についてのパーミッションがありません"
+msgstr "この組織パラメーターの %s へのパーミッションがありません"
 
 msgid "You do not have permission to add a mail notification to another user"
 msgstr "別のユーザーにメール通知を追加する権限がありません"
@@ -10838,7 +10868,7 @@ msgid "You impersonated user %s, to cancel the session, click the impersonation 
 msgstr "%s にユーザーを切り替えました。セッションをキャンセルするには、トップバーのユーザーアイコンをクリックします。"
 
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
-msgstr "さらに、1 つ以上のオペレーティングシステムをこのメディアに関連付けるか、またはこれを %s ページで後でセットアップすることができます。"
+msgstr "さらに、1 つ以上のオペレーティングシステムをこのメディアに関連付けるか、または後ほど %s ページで設定できます。"
 
 msgid "You must create a location before continuing."
 msgstr "ロケーションを作成してから続行してください。"
@@ -10859,10 +10889,10 @@ msgid "You must stop impersonation before deleting a user that has active impers
 msgstr "ユーザーを切り替えたセッションが有効な状態のユーザーを削除する場合は先にユーザー切り替えを終了する必要があります。"
 
 msgid "You now act as %s again."
-msgstr "もう一度 %s として機能します。"
+msgstr "もう一度 %s として操作します。"
 
 msgid "You probably need to configure your %s first."
-msgstr "おそらく %s を最初に設定する必要があります。"
+msgstr "%s を最初に設定する必要があります。"
 
 msgid "Your Foreman user account has been created:"
 msgstr "Foreman ユーザーアカウントが作成されました:"
@@ -10997,7 +11027,7 @@ msgid "comma separated interface identifiers"
 msgstr "コンマ区切りのインターフェース ID"
 
 msgid "comments powered by %{disqus}"
-msgstr "%{disqus} で提供されるコメント"
+msgstr "%{disqus} によるコメント"
 
 msgid "community forums"
 msgstr "コミュニティーフォーラム"
@@ -11078,7 +11108,7 @@ msgid "e.g. jpegPhoto"
 msgstr "例: jpegPhoto"
 
 msgid "e.g. karmic, lucid, hw0910 etc"
-msgstr "例: karmic、lucid、hw0910 "
+msgstr "例: karmic、lucid、hw0910"
 
 msgid "e.g. mail"
 msgstr "例: mail"
@@ -11102,13 +11132,13 @@ msgid "environment id"
 msgstr "環境 ID"
 
 msgid "expected a value of type %s"
-msgstr "タイプ ％s の値が必要です"
+msgstr "タイプ %s の値が必要です"
 
 msgid "expecting %s used by hosts or inherited (check mismatches report)."
-msgstr "%s がホストで使用されるか継承されることを予想 (不一致のレポートを確認)。"
+msgstr "%s をホストで使用するか、継承することを想定 (不一致レポートを確認してください)。"
 
 msgid "failed to %{action} %{vm}"
-msgstr "%{vm} に対する %{action} の実行に失敗しました"
+msgstr "%{vm} の %{action} に失敗しました"
 
 msgid "failed to detect boot server: %s"
 msgstr "ブートサーバーの検出に失敗しました: %s"
@@ -11162,7 +11192,7 @@ msgid "from profile %s"
 msgstr "プロファイル %s から"
 
 msgid "further instructions"
-msgstr "追加のシミ"
+msgstr "追加の説明"
 
 msgid "global"
 msgstr "global"
@@ -11216,13 +11246,13 @@ msgid "iPXE intermediate script"
 msgstr "iPXE 中間スクリプト"
 
 msgid "iPXE intermediate script '%s' not found"
-msgstr "iPXE 中間スクリプト '%s' がみつかりません"
+msgstr "iPXE 中間スクリプト '%s' が見つかりません"
 
 msgid "iPXE template"
 msgstr "iPXE テンプレート"
 
 msgid "in %s"
-msgstr "(%s)"
+msgstr "%s 以内"
 
 msgid "in Progress"
 msgstr "処理中"
@@ -11285,13 +11315,13 @@ msgid "is invalid"
 msgstr "無効です"
 
 msgid "is invalid %s"
-msgstr "無効な %s です"
+msgstr "%s は無効です"
 
 msgid "is invalid. No provisioning template with name \"%{name}\" and kind \"%{kind}\" found. "
-msgstr "無効です。名前が \"%{name}\" で種類が \"%{kind}\" のプロビジョニングテンプレートは見つかりませんでした。"
+msgstr "無効です。名前が \"%{name}\" で種類が \"%{kind}\" のプロビジョニングテンプレートは見つかりませんでした。 "
 
 msgid "is invalid: %s"
-msgstr "無効です: %s"
+msgstr "無効: %s"
 
 msgid "is locked for user modifications."
 msgstr "ユーザーの変更用にロックされています"
@@ -11318,7 +11348,7 @@ msgid "is not valid"
 msgstr "無効です"
 
 msgid "is too long (maximum is %s characters)"
-msgstr "長すぎます (最大値は %s  文字です)"
+msgstr "長すぎます (最大値は %s 文字です)"
 
 msgid "is too long (maximum is 254 characters)"
 msgstr "長すぎます (最大値は 254 文字です)"
@@ -11337,7 +11367,7 @@ msgstr "json"
 
 msgid "last %s day"
 msgid_plural "last %s days"
-msgstr[0] "過去 %s 日"
+msgstr[0] "最終 %s 日"
 
 msgid "link external user group with this user group"
 msgstr "外部ユーザーグループをこのユーザーグループにリンクします"
@@ -11363,7 +11393,7 @@ msgid "makes the template default meaning it will be automatically associated wi
 msgstr "テンプレートにデフォルトで意味付けし、新たに作成された組織と場所に自動的に関連付けます (デフォルトは false)"
 
 msgid "managed host must have one provision interface"
-msgstr "管理対象ホストには 1  つのプロビジョンインターフェースが必要です"
+msgstr "管理対象ホストには 1 つのプロビジョンインターフェースが必要です"
 
 msgid "message"
 msgstr "メッセージ"
@@ -11664,7 +11694,7 @@ msgid "subnet"
 msgstr "サブネット"
 
 msgid "subnet boot mode is not %s"
-msgstr "サブネットブートモードが %s ではありません"
+msgstr "サブネットブートモードは %s ではありません"
 
 msgid "sync external user groups on login"
 msgstr "ログイン時に外部ユーザーグループを同期"
@@ -11685,7 +11715,7 @@ msgid "type of the LDAP server"
 msgstr "LDAP サーバーのタイプ"
 
 msgid "unable to find %{type} template for %{host} running %{os}"
-msgstr "%{os} が実行されている %{host} 向けの %{type} テンプレートを見つけることができません"
+msgstr "%{os} を実行中の %{host} の %{type} テンプレートが見つかりません"
 
 msgid "unable to sign a non pending certificate"
 msgstr "保留中ではない証明書に署名できません"
@@ -11697,13 +11727,13 @@ msgid "unknown network_type"
 msgstr "不明な network_type"
 
 msgid "unknown parent permission for %s"
-msgstr "%s の不明な親のパーミッション"
+msgstr "%s の親のパーミッションが不明です"
 
 msgid "unknown permission %s"
 msgstr "不明なパーミッション %s"
 
 msgid "unknown permission for %s"
-msgstr "%s の不明なパーミッション"
+msgstr "%s のパーミッションが不明です"
 
 msgid "unknown provider"
 msgstr "不明なプロバイダー"
@@ -11718,10 +11748,10 @@ msgid "use if you want update locked templates"
 msgstr "ロックしたテンプレートを更新する場合に使用"
 
 msgid "using %s"
-msgstr "%s を使用中です"
+msgstr "%s を使用中"
 
 msgid "using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
-msgstr "%{capacity} GB 中 %{allocation} GB、%{pool_name} ストレージプールを使用中です"
+msgstr "%{capacity} GB の内 %{allocation} GB を使用中。%{pool_name} ストレージプール"
 
 msgid "valid"
 msgstr "有効な"
@@ -11736,7 +11766,7 @@ msgid "virtual"
 msgstr "仮想"
 
 msgid "virtual attached to %s"
-msgstr "%s に接続された仮想"
+msgstr "%s にアタッチされた仮想"
 
 msgid "was not found"
 msgstr "見つかりませんでした"
@@ -11745,7 +11775,7 @@ msgid "with given ID not found"
 msgstr "この ID が指定されている項目が見つかりません"
 
 msgid "with id %{object_id} doesn't exist or is not assigned to proper organization and/or location"
-msgstr "id で %{object_id} が存在しないか、適切な組織またはロケーションに割り当てられていません"
+msgstr "id {object_id} が存在しないか、適切な組織またはロケーションに割り当てられていません"
 
 msgid "yaml"
 msgstr "yaml"

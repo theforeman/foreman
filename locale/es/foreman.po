@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-11-02 11:15+0000\n"
-"Last-Translator: Amit Upadhye <aupadhye@redhat.com>\n"
+"PO-Revision-Date: 2020-11-19 14:22+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -2972,6 +2972,9 @@ msgstr "Expandir elementos anidados"
 msgid "Expand the chart"
 msgstr "Expandir la gráfica"
 
+msgid "Expiration of the authorization token."
+msgstr ""
+
 msgid "Expire logs"
 msgstr "Registros caducados"
 
@@ -4468,6 +4471,9 @@ msgid "If owner type is specified, owner must be specified too."
 msgstr "Si se especifica el tipo de propietario, también debe especificarse el propietario."
 
 msgid "If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it."
+msgstr ""
+
+msgid "If selected, SSH keys will be installed on the registered host."
 msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
@@ -6355,6 +6361,9 @@ msgstr ""
 msgid "Note the extra space before IP, the <code>-&#37;></code> removes the new line character only if there is no other text after it. Therefore the white space needs to be at the new line."
 msgstr ""
 
+msgid "Note: the command contains an authentication token which grants access to your Foreman account until it expires."
+msgstr ""
+
 msgid "Nothing to add"
 msgstr "Nada que añadir"
 
@@ -6537,6 +6546,9 @@ msgstr ""
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
 msgstr "Uno o más de los filtros asociados son inválidos, lo que impide que se guarde el rol"
+
+msgid "Only Smart Proxies with enabled Registration module are available"
+msgstr ""
 
 msgid "Only for BMC interfaces."
 msgstr "Solamente para interfaces BMC."
@@ -7505,6 +7517,9 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] "Recordatorio: <strong> Se ha seleccionado un host </strong> para el filtro de consultas %{query}"
 msgstr[1] "Recordatorio: <strong> todos los %{count} hosts están seleccionados </strong> para el filtro de consulta %{query}"
 
+msgid "Remote Execution"
+msgstr "Ejecución remota"
+
 msgid "Remote address"
 msgstr "Dirección remota"
 
@@ -8123,6 +8138,9 @@ msgid "Services"
 msgstr "Servicios"
 
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
+msgstr ""
+
+msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
 msgstr ""
 
 msgid "Set IP addresses for %s"
@@ -9736,9 +9754,6 @@ msgstr "No se ha podido identificar al usuario %s"
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
 msgstr "No es posible cambiar la dirección de escucha de la pantalla de la máquina virtual,  compruebe que la pantalla no esté conectada a un localhost, "
 
-msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
-msgstr "No se puede comprobar si la subred %{subnet} existe en el grupo IPAM externo %{group}."
-
 msgid "Unable to communicate with the proxy: %s"
 msgstr "No ha sido posible establecer una comunicación con el proxy: %s"
 
@@ -9853,8 +9868,8 @@ msgstr "No se pueden obtener los proveedores BMC instalados"
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "No es posible inicializar clase ProxyAPI %s."
 
-msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
-msgstr "No se puede obtener la dirección IP para subnet_id %{subnet} del IPAM externo."
+msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
+msgstr ""
 
 msgid "Unable to obtain group %{group} from External IPAM."
 msgstr "No se puede obtener el grupo %{group} del IPAM externo."

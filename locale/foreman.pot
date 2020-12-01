@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-17 13:06+0530\n"
-"PO-Revision-Date: 2020-11-17 13:06+0530\n"
+"POT-Creation-Date: 2020-12-01 14:00+0530\n"
+"PO-Revision-Date: 2020-12-01 14:00+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -113,7 +113,7 @@ msgstr ""
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:994
+#: ../app/assets/javascripts/host_edit.js:1007
 msgid "Manual configuration is needed."
 msgstr ""
 
@@ -6687,7 +6687,7 @@ msgid "This IP address has already been reserved in External IPAM"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/external_ipam.rb:26
-#: ../app/models/host/managed.rb:965
+#: ../app/models/host/managed.rb:969
 msgid "Some interfaces are invalid"
 msgstr ""
 
@@ -6979,59 +6979,59 @@ msgstr ""
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:523
+#: ../app/models/host/managed.rb:527
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
 msgstr ""
 
-#: ../app/models/host/managed.rb:579
+#: ../app/models/host/managed.rb:583
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:580
+#: ../app/models/host/managed.rb:584
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:751
+#: ../app/models/host/managed.rb:755
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:752
+#: ../app/models/host/managed.rb:756
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:796
+#: ../app/models/host/managed.rb:800
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:912
+#: ../app/models/host/managed.rb:916
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:990
+#: ../app/models/host/managed.rb:994
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1001
+#: ../app/models/host/managed.rb:1005
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1016
+#: ../app/models/host/managed.rb:1020
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1021
+#: ../app/models/host/managed.rb:1025
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1026 ../app/models/nic/interface.rb:138
+#: ../app/models/host/managed.rb:1030 ../app/models/nic/interface.rb:138
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1082
+#: ../app/models/host/managed.rb:1086
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
@@ -13889,6 +13889,12 @@ msgstr ""
 
 #: ../app/views/registration/_form.erb:99
 msgid "Command"
+msgstr ""
+
+#: ../app/views/registration/_form.erb:106
+msgid ""
+"Note: the command contains an authentication token which grants access to your"
+" Foreman account until it expires."
 msgstr ""
 
 #: ../app/views/report_mailer/report.html.erb:1
