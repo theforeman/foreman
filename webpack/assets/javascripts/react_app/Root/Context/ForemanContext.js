@@ -9,5 +9,4 @@ const useForemanMetadata = () => useForemanContext().metadata;
 
 export const useForemanVersion = () => useForemanMetadata().version;
 export const useForemanSettings = () => useForemanMetadata().UISettings;
-export const usePaginationOptions = () => useForemanSettings().perPageOptions;
 export const useForemanDocUrl = () => useForemanMetadata().docUrl;
