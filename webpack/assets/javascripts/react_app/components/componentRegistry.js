@@ -15,6 +15,7 @@ import IsoDate from './common/dates/IsoDate';
 import FormField from './common/forms/FormField';
 import InputFactory from './common/forms/InputFactory';
 import StorageContainer from './hosts/storage/vmware/';
+import OvirtNetwork from './hosts/network/ovirt/';
 import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
 import FactChart from './FactCharts';
@@ -118,6 +119,7 @@ const coreComponets = [
   { name: 'NotificationContainer', type: NotificationContainer },
   { name: 'ToastNotifications', type: ToastsList },
   { name: 'StorageContainer', type: StorageContainer },
+  { name: 'OvirtNetwork', type: OvirtNetwork },
   { name: 'PasswordStrength', type: PasswordStrength },
   { name: 'BreadcrumbBar', type: BreadcrumbBar },
   { name: 'FactChart', type: FactChart },

@@ -2,8 +2,16 @@
 
 <% selected_cluster ||= params.fetch(:host, {}).fetch(:compute_attributes, {}).fetch(:cluster, nil) %>
 <% selected_cluster ||= compute_resource.clusters.first.try(:id) %>
-<%= select_f f, :network, compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }), :id, :name,
-             { }, :disabled => !new_vm, :class => "ovirt_network",
-             :label         => _('Network'), :label_size => "col-md-3" %>
-<%= select_f f, :interface, compute_resource.nictypes,
-               :id, :name, {}, :label => _('Interface type'), :label_size => "col-md-3", :disabled => !new_vm, :class => "ovirt_network" %>
+<% networks = compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { })  %>
+<%= react_component(
+        'OvirtNetwork',
+        name: "ovirt",
+        vnic_profile: f.object.vnic_profile.present? ? f.object.vnic_profile : compute_resource.vnic_profiles[0].id,
+        vnic_profiles: compute_resource.vnic_profiles,
+        network: f.object.network.present? ? f.object.network : networks[0].id,
+        networks: networks,
+        interface_type: f.object.interface.present? ? f.object.interface : compute_resource.nictypes[0].id,
+        interface_types: compute_resource.nictypes,
+        vmExists: !new_vm,
+        scope: f.object_name
+)%>

@@ -224,6 +224,10 @@ module Foreman::Model
       true
     end
 
+    def vnic_profiles
+      client.list_vnic_profiles
+    end
+
     def networks(opts = {})
       if opts[:cluster_id]
         client.clusters.get(opts[:cluster_id]).networks
@@ -457,6 +461,7 @@ module Foreman::Model
     end
 
     def normalize_vm_attrs(vm_attrs)
+      normalized = slice_vm_attributes(vm_attrs, ['cores', 'interfaces_attributes', 'memory'])
       normalized = slice_vm_attributes(vm_attrs, ['cores', 'interfaces_attributes', 'memory'])
       normalized['cluster_id'] = vm_attrs['cluster']
       normalized['cluster_name'] = clusters.detect { |c| c.id == normalized['cluster_id'] }.try(:name)
@@ -704,6 +709,7 @@ module Foreman::Model
               name: interface.name,
               network: interface.network,
               interface: interface.interface,
+              vnic_profile: interface.vnic_profile,
             },
           }
           hsh[index.to_s] = interface_attrs

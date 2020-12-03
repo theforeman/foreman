@@ -53,6 +53,7 @@ class Select extends React.Component {
       disabled,
       status = STATUS.RESOLVED,
       errorMessage = __('An error occurred.'),
+      labelClass,
     } = this.props;
 
     let content;
@@ -97,7 +98,11 @@ class Select extends React.Component {
       return innerSelect;
     }
     return (
-      <CommonForm label={label} className={`common-select ${className}`}>
+      <CommonForm
+      label={label}
+      labelClass={labelClass}
+      className={`common-select ${className}`}
+      >
         {content}
       </CommonForm>
     );
@@ -116,6 +121,7 @@ Select.propTypes = {
   errorMessage: PropTypes.string,
   onChange: PropTypes.func,
   useSelect2: PropTypes.bool,
+  labelClass: PropTypes.string,
 };
 
 Select.defaultProps = {
@@ -130,6 +136,7 @@ Select.defaultProps = {
   errorMessage: __('An error occurred.'),
   onChange: noop,
   useSelect2: true,
+  labelClass: undefined,
 };
 
 export default Select;
