@@ -246,6 +246,7 @@ redhat-lsb-core
 %post --nochroot --log=/mnt/sysimage/root/install.postnochroot.log
 /usr/bin/chvt 3
 echo "Changed to TTY3 for post installation..."
+<%= snippet_if_exists(template_name + " custom postnochroot") -%>
 
 <% if host_param_false?('no-resolv-override') -%>
 cp -va /etc/resolv.conf /mnt/sysimage/etc/resolv.conf
