@@ -1,0 +1,44 @@
+<%#
+name: Jobs - Invocation report template
+snippet: false
+template_inputs:
+- name: job_id
+  required: true
+  input_type: user
+  description: ID of job to report
+  advanced: false
+  value_type: plain
+  resource_type: JobInvocation
+  hidden_value: false
+- name: hosts
+  required: false
+  input_type: user
+  description: Field for filter hosts of job invocation. Leave blank for all hosts.
+  advanced: false
+  value_type: search
+  resource_type: Host
+  hidden_value: false
+model: ReportTemplate
+require:
+- plugin: foreman_remote_execution
+￼ version: 4.4.0
+-%>
+<%- invocation = find_job_invocation_by_id(input('job_id')) -%>
+<%- parts = ["job_invocation.id = #{input('job_id')}"] %>
+<%- parts << input('hosts') unless input('hosts').blank? %>
+<%- search = parts.map { |part| '(' + part + ')' }.join(' AND ') %>
+<%- load_hosts(search: search).each do |batch| -%>
+<%-   batch.each do |host|  -%>
+<%-     task = invocation.sub_task_for_host(host) -%>
+<%-     task.action_continuous_output.each do |output| -%>
+<%-       report_row(
+            host: host.name,
+            result: task.result,
+            type: output['output_type'],
+            message: output['output'],
+            time: format_time(output['timestamp']),
+          ) -%>
+<%-     end -%>
+<%-   end -%>
+<%- end -%>
+<%= report_render -%>
