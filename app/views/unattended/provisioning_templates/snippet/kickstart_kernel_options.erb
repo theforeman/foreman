@@ -22,9 +22,11 @@ snippet: true
     options.push("network", "ksdevice=bootif", "ks.device=bootif")
   end
 
-  if mac
-    bootif = '00-' + mac.gsub(':', '-')
-    options.push("BOOTIF=#{bootif}")
+  if mac && rhel_compatible && os_major == 8 && os_minor == 3
+    # workaround for EL 8.3: https://projects.theforeman.org/issues/31452
+    options.push("BOOTIF=#{mac.gsub(':', '-')}")
+  elsif mac
+    options.push("BOOTIF=00-#{mac.gsub(':', '-')}")
   end
 
   # tell Anaconda what to pass off to kickstart server
