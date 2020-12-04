@@ -60,7 +60,8 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <%= snippet 'saltstack_setup' %>
 <% end -%>
 
-<%= snippet 'preseed_networking_setup' %>
-<%= snippet 'efibootmgr_netboot' %>
-<%= snippet 'built' %>
+<%= snippet 'preseed_networking_setup' -%>
+<%= snippet 'efibootmgr_netboot' -%>
+<%= snippet 'eject_cdrom' -%>
+<%= snippet 'built' -%>
 <%= snippet 'schedule_reboot' -%>
