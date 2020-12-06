@@ -23,6 +23,7 @@ exports[`Foreman form helper functions should recognize valid initial values 1`]
 
 exports[`ForemanForm render foreman form with fields 1`] = `
 <ForemanForm
+  enableReinitialize={false}
   initialValues={
     Object {
       "name": "Charles",

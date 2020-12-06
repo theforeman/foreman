@@ -29,6 +29,7 @@ const ForemanForm = props => (
     initialValues={props.initialValues}
     validationSchema={props.validationSchema}
     isInitialValid={isInitialValid}
+    enableReinitialize={props.enableReinitialize}
   >
     {formProps => {
       const disabled = formProps.isSubmitting || !formProps.isValid;
@@ -70,10 +71,12 @@ ForemanForm.propTypes = {
   initialValues: PropTypes.object.isRequired,
   validationSchema: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  enableReinitialize: PropTypes.bool,
 };
 
 ForemanForm.defaultProps = {
   validationSchema: undefined,
+  enableReinitialize: false,
 };
 
 export default ForemanForm;
