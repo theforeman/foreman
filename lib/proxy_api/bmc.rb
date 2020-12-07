@@ -30,8 +30,7 @@ module ProxyAPI
       case args[:function]
       when "bootdevice"
         if SUPPORTED_BOOT_DEVICES.include?(args[:device])
-          args[:bmc_provider] = @provider
-          parse put(args, bmc_url_for('config', "#{args[:function]}/#{args[:device]}"))
+          parse put(with_provider(args), bmc_url_for('config', "#{args[:function]}/#{args[:device]}"))
         else
           raise NoMethodError
         end
@@ -51,12 +50,10 @@ module ProxyAPI
       case args[:action]
       when "on?", "off?", "status"
         args[:action].chop! if args[:action].include?('?')
-        provider_query = @provider ? "?bmc_provider=#{@provider}" : ''
-        response = parse(get(bmc_url_for('power', args[:action]) + provider_query, args))
+        response = parse(get(bmc_url_for_get('power', args[:action]), args))
         response.is_a?(Hash) ? response['result'] : response
       when "on", "off", "cycle", "soft"
-        args[:bmc_provider] = @provider
-        res = parse put(args, bmc_url_for('power', args[:action]))
+        res = parse put(with_provider(args), bmc_url_for('power', args[:action]))
         res && (res['result'] == true || res['result'] == "#{@target}: ok\n")
       else
         raise NoMethodError
@@ -73,11 +70,9 @@ module ProxyAPI
       # put "/bmc/:host/chassis/identify/:action"
       case args[:action]
       when "status"
-        provider_query = @provider ? "?bmc_provider=#{@provider}" : ''
-        parse get(bmc_url_for('identify', args[:action]) + provider_query, args)
+        parse get(bmc_url_for_get('identify', args[:action]), args)
       when "on", "off"
-        args[:bmc_provider] = @provider
-        parse put(args, bmc_url_for('identify', args[:action]))
+        parse put(with_provider(args), bmc_url_for('identify', args[:action]))
       else
         raise NoMethodError
       end
@@ -92,8 +87,7 @@ module ProxyAPI
       # get "/bmc/:host/lan/:action"
       case args[:action]
       when "ip", "netmask", "mac", "gateway"
-        provider_query = @provider ? "?bmc_provider=#{@provider}" : ''
-        response = parse(get(bmc_url_for('lan', args[:action]), args) + provider_query)
+        response = parse(get(bmc_url_for_get('lan', args[:action]), args))
         response.is_a?(Hash) ? response['result'] : response
       else
         raise NoMethodError
@@ -112,6 +106,22 @@ module ProxyAPI
         "/#{@target}/lan/#{action}"
       else
         "/#{@target}/chassis/#{controller}/#{action}"
+      end
+    end
+
+    def bmc_url_for_get(controller, action)
+      if @provider
+        "#{bmc_url_for(controller, action)}?bmc_provider=#{@provider}"
+      else
+        bmc_url_for(controller, action)
+      end
+    end
+
+    def with_provider(args)
+      if @provider
+        args.merge bmc_provider: @provider
+      else
+        args
       end
     end
 

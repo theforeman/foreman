@@ -5,7 +5,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   def setup
     @url = "http://dummyproxy.theforeman.org:8443"
     @options = {:username => "testuser", :password => "fakepass"}
-    @testbmc = ProxyAPI::BMC.new({:user => "admin", :password => "secretpass", :url => @url})
+    @testbmc = ProxyAPI::BMC.new({:user => "admin", :password => "secretpass", :url => @url, :bmc_provider => "a_provider"})
   end
 
   test "constructor should complete" do
@@ -61,6 +61,16 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "boot function should create correct url for bootdevice pxe" do
     device = "pxe"
     expected_path = "/127.0.0.1/chassis/config/bootdevice/#{device}"
+    data = @options.merge({:function => "bootdevice", :device => device, :bmc_provider => 'a_provider'})
+    @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
+    @testbmc.expects(:put).with(data, expected_path).at_least_once
+    @testbmc.boot_pxe(@options)
+  end
+
+  test "boot function should create correct url for bootdevice pxe without any provider" do
+    @testbmc = ProxyAPI::BMC.new({:user => "admin", :password => "secretpass", :url => @url})
+    device = "pxe"
+    expected_path = "/127.0.0.1/chassis/config/bootdevice/#{device}"
     data = @options.merge({:function => "bootdevice", :device => device})
     @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
@@ -70,7 +80,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "boot function should create correct url for bootdevice disk" do
     device = "disk"
     expected_path = "/127.0.0.1/chassis/config/bootdevice/#{device}"
-    data = @options.merge({:function => "bootdevice", :device => device})
+    data = @options.merge({:function => "bootdevice", :device => device, :bmc_provider => 'a_provider'})
     @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.boot_disk(@options)
@@ -79,7 +89,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "boot function should create correct url for bootdevice cdrom" do
     device = "cdrom"
     expected_path = "/127.0.0.1/chassis/config/bootdevice/#{device}"
-    data = @options.merge({:function => "bootdevice", :device => device})
+    data = @options.merge({:function => "bootdevice", :device => device, :bmc_provider => 'a_provider'})
     @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.boot_cdrom(@options)
@@ -88,7 +98,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "boot function should create correct url for bootdevice bios" do
     device = "bios"
     expected_path = "/127.0.0.1/chassis/config/bootdevice/#{device}"
-    data = @options.merge({:function => "bootdevice", :device => device})
+    data = @options.merge({:function => "bootdevice", :device => device, :bmc_provider => 'a_provider'})
     @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.boot_bios(@options)
@@ -97,7 +107,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "power function should create correct url for off" do
     action = "off"
     expected_path = "/127.0.0.1/chassis/power/#{action}"
-    data = @options.merge({:action => action})
+    data = @options.merge({:action => action, :bmc_provider => 'a_provider'})
     @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.power_off(@options)
@@ -106,7 +116,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "power function should create correct url for on" do
     action = "on"
     expected_path = "/127.0.0.1/chassis/power/#{action}"
-    data = @options.merge({:action => action})
+    data = @options.merge({:action => action, :bmc_provider => 'a_provider'})
     @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.power_on(@options)
@@ -115,7 +125,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "power function should create correct url for cycle" do
     action = "cycle"
     expected_path = "/127.0.0.1/chassis/power/#{action}"
-    data = @options.merge({:action => action})
+    data = @options.merge({:action => action, :bmc_provider => 'a_provider'})
     @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.power_cycle(@options)
@@ -124,7 +134,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "power function should create correct url for soft" do
     action = "soft"
     expected_path = "/127.0.0.1/chassis/power/#{action}"
-    data = @options.merge({:action => action})
+    data = @options.merge({:action => action, :bmc_provider => 'a_provider'})
     @testbmc.stubs(:put).returns(fake_rest_client_response({"result" => true}))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.power_soft(@options)
@@ -132,7 +142,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "power function should create correct url for off?" do
     action = "off"
-    expected_path = "/127.0.0.1/chassis/power/#{action}"
+    expected_path = "/127.0.0.1/chassis/power/#{action}?bmc_provider=a_provider"
     data = @options.merge({:action => action})
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
@@ -140,7 +150,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   end
   test "power function should create correct url for on?" do
     action = "on"
-    expected_path = "/127.0.0.1/chassis/power/#{action}"
+    expected_path = "/127.0.0.1/chassis/power/#{action}?bmc_provider=a_provider"
     data = @options.merge({:action => action})
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
@@ -149,7 +159,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "power function should create correct url for status" do
     action = "status"
-    expected_path = "/127.0.0.1/chassis/power/#{action}"
+    expected_path = "/127.0.0.1/chassis/power/#{action}?bmc_provider=a_provider"
     data = @options.merge({:action => action})
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
@@ -159,7 +169,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "identify function should create correct url for off" do
     action = "off"
     expected_path = "/127.0.0.1/chassis/identify/#{action}"
-    data = @options.merge({:action => action})
+    data = @options.merge({:action => action, :bmc_provider => 'a_provider'})
     @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.identify_off(@options)
@@ -167,7 +177,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
   test "identify function should create correct url for on" do
     action = "on"
     expected_path = "/127.0.0.1/chassis/identify/#{action}"
-    data = @options.merge({:action => action})
+    data = @options.merge({:action => action, :bmc_provider => 'a_provider'})
     @testbmc.stubs(:put).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:put).with(data, expected_path).at_least_once
     @testbmc.identify_on(@options)
@@ -175,7 +185,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "identify function should create correct url for status" do
     action = "status"
-    expected_path = "/127.0.0.1/chassis/identify/#{action}"
+    expected_path = "/127.0.0.1/chassis/identify/#{action}?bmc_provider=a_provider"
     data = @options.merge({:action => action})
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
@@ -184,7 +194,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "lan function should create correct url for ip" do
     action = "ip"
-    expected_path = "/127.0.0.1/lan/#{action}"
+    expected_path = "/127.0.0.1/lan/#{action}?bmc_provider=a_provider"
     data = @options.merge({:action => action})
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
@@ -193,7 +203,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "lan function should create correct url for netmask" do
     action = "netmask"
-    expected_path = "/127.0.0.1/lan/#{action}"
+    expected_path = "/127.0.0.1/lan/#{action}?bmc_provider=a_provider"
     data = @options.merge({:action => action})
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
@@ -202,7 +212,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "lan function should create correct url for gateway" do
     action = "gateway"
-    expected_path = "/127.0.0.1/lan/#{action}"
+    expected_path = "/127.0.0.1/lan/#{action}?bmc_provider=a_provider"
     data = @options.merge({:action => action})
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
@@ -211,7 +221,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "lan function should create correct url for mac" do
     action = "mac"
-    expected_path = "/127.0.0.1/lan/#{action}"
+    expected_path = "/127.0.0.1/lan/#{action}?bmc_provider=a_provider"
     data = @options.merge({:action => action})
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
     @testbmc.expects(:get).with(expected_path, data).at_least_once
