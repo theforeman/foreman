@@ -1,5 +1,6 @@
+import URI from 'urijs';
 import history from '../../../history';
-import { API_OPERATIONS } from '../../../redux/API';
+import { get } from '../../../redux/API';
 import { buildQuery } from './ModelsPageHelpers';
 
 import { MODELS_API_PATH, MODELS_PATH, API_REQUEST_KEY } from '../constants';
@@ -20,23 +21,18 @@ export const initializeModels = () => dispatch => {
 export const fetchModels = (
   { page, perPage, searchQuery, sort },
   url = MODELS_API_PATH
-) => async dispatch => {
+) => {
   const sortString =
     sort && Object.keys(sort).length > 0 ? `${sort.by} ${sort.order}` : '';
 
-  return dispatch({
-    type: API_OPERATIONS.GET,
-    payload: {
-      key: API_REQUEST_KEY,
-      url,
-      payload: {
-        page,
-        per_page: perPage,
-        search: searchQuery,
-        order: sortString,
-      },
-    },
+  const uriWithPrams = new URI(url);
+  uriWithPrams.setSearch({
+    page,
+    per_page: perPage,
+    search: searchQuery,
+    order: sortString,
   });
+  return get({ key: API_REQUEST_KEY, url: uriWithPrams });
 };
 
 export const fetchAndPush = (params = {}) => (dispatch, getState) => {

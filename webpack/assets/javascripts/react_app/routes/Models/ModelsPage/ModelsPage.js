@@ -34,7 +34,7 @@ const ModelsPage = ({
   return (
     <PageLayout
       header={__('Hardware Models')}
-      searchable
+      searchable={!isLoading}
       searchProps={MODELS_SEARCH_PROPS}
       searchQuery={search}
       isLoading={isLoading && hasData}
