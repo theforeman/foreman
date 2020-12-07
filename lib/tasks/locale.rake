@@ -38,7 +38,7 @@ namespace :locale do
     if errors.count > 0
       errors.each { |e| puts "MALFORMED: #{e}" }
       puts "Malformed strings found: #{errors.count}"
-      puts "Please read http://projects.theforeman.org/projects/foreman/wiki/Translating"
+      puts "Please read https://projects.theforeman.org/projects/foreman/wiki/Translating"
     end
   end
 

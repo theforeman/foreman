@@ -48,7 +48,7 @@ Feel free to edit this page and more items to the list.
 [[Additionally]]
 == Additional info
 
-String extractions have http://projects.theforeman.org/projects/foreman/wiki/Translating#Translating-for-developers[several hard to remember rules].
+String extractions have https://projects.theforeman.org/projects/foreman/wiki/Translating#Translating-for-developers[several hard to remember rules].
 
 Scoped_search definitions for virtual fields can stop free text search if the field definition added doesn't actually exist - i.e. it's a fake field that uses :ext_method to return results. In this case it should use :only_explicit => true too so it isn't searched in free text searches (see also #5777 for another instance of this).
 

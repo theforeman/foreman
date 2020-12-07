@@ -132,7 +132,7 @@ for versioning
 3.  Push a gem of each release to rubygems.org
 4.  Add it to https://projects.theforeman.org/projects/foreman/wiki/List_of_Plugins[List_of_Plugins]
 5.  Add some tests and enable testing in
-http://projects.theforeman.org/projects/foreman/wiki/Jenkins#Foreman-plugin-testing[Jenkins]
+https://projects.theforeman.org/projects/foreman/wiki/Jenkins#Foreman-plugin-testing[Jenkins]
 6.  Create an RPM and Debian package for the plugin - submitted to the
 foreman-packaging repo, we're also happy to do this and publish to our
 official plugin repos
@@ -141,7 +141,7 @@ organization] - in case you move on, this lets us help with maintenance
 or delegate permissions to somebody else and keep the project alive. It
 also makes it easier for people to find. See also https://projects.theforeman.org/projects/foreman/wiki/GitHub[GitHub].
 8.  Have an issue tracker on
-http://projects.theforeman.org/projects[projects.theforeman.org] - a
+https://projects.theforeman.org/projects[projects.theforeman.org] - a
 common location for users for any Foreman-related issue
 9.  Ensure other maintainers can push to rubygems.org - again in case
 you should move on
