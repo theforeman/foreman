@@ -26,7 +26,7 @@ exports[`ModelsPage redering should render when loading 1`] = `
     }
   }
   searchQuery="name=foo"
-  searchable={true}
+  searchable={false}
   toastNotifications={Array []}
   toolbarButtons={
     <Link
