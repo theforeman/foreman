@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
-import ArrowIcon from '@patternfly/react-icons/dist/js/icons/arrow-icon';
+import { ArrowIcon } from '@patternfly/react-icons';
 import ElipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import {
   Card,
