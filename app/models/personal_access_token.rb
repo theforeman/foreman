@@ -24,7 +24,10 @@ class PersonalAccessToken < ApplicationRecord
       active.find_by(user: user, token: hash_token(user, token, :sha1))
     return false unless token
 
-    token.update(last_used_at: Time.current.utc)
+    User.as_anonymous_admin do
+      token.update(last_used_at: Time.current.utc)
+    end
+
     true
   end
 

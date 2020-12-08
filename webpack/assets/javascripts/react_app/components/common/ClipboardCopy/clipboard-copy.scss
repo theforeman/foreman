@@ -1,0 +1,12 @@
+.clipboard-copy {
+  display: grid;
+  padding: 15px 0;
+
+  textarea {
+    margin-bottom: 15px;
+  }
+
+  button {
+    max-width: 200px;
+  }
+}
