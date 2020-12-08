@@ -5,7 +5,7 @@ class SettingPresenter
   include HiddenValue
 
   attribute :id, :integer
-  attribute :category, :string, :default => 'Setting::General'
+  attribute :category, :string, default: 'Setting::General'
   attribute :name, :string
   attribute :default
   attribute :value
@@ -20,19 +20,19 @@ class SettingPresenter
   attr_accessor :options
 
   def self.from_setting(setting)
-    SettingPresenter.new({:id => setting.id,
-                          :name => setting.name,
-                          :category => setting.category,
-                          :description => setting.description,
-                          :settings_type => setting.settings_type,
-                          :default => setting.default,
-                          :full_name => setting.full_name,
-                          :updated_at => setting.updated_at,
-                          :created_at => setting.created_at,
-                          :config_file => setting.class.config_file,
-                          :select_values => setting.select_collection,
-                          :value => setting.value,
-                          :encrypted => setting.encrypted? })
+    SettingPresenter.new({id: setting.id,
+                          name: setting.name,
+                          category: setting.category,
+                          description: setting.description,
+                          settings_type: setting.settings_type,
+                          default: setting.default,
+                          full_name: setting.full_name,
+                          updated_at: setting.updated_at,
+                          created_at: setting.created_at,
+                          config_file: setting.class.config_file,
+                          select_values: setting.select_collection,
+                          value: setting.value,
+                          encrypted: setting.encrypted? })
   end
 
   def self.model_name
