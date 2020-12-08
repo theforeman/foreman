@@ -15,6 +15,8 @@ class SettingPresenter
   attribute :settings_type, :string
   attribute :select_values
   attribute :config_file
+  attribute :updated_at, :datetime
+  attribute :created_at, :datetime
   attr_accessor :options
 
   def self.from_setting(setting)
@@ -25,6 +27,8 @@ class SettingPresenter
                           :settings_type => setting.settings_type,
                           :default => setting.default,
                           :full_name => setting.full_name,
+                          :updated_at => setting.updated_at,
+                          :created_at => setting.created_at,
                           :config_file => setting.class.config_file,
                           :select_values => setting.select_collection,
                           :value => setting.value,
