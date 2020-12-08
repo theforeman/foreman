@@ -40,6 +40,7 @@ import RedirectCancelButton from './common/RedirectCancelButton';
 import SettingRecords from './SettingRecords';
 import SettingsTable from './SettingsTable';
 import SettingUpdateModal from './SettingUpdateModal';
+import PersonalAccessTokens from './users/PersonalAccessTokens';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -137,6 +138,8 @@ const coreComponets = [
   { name: 'SettingRecords', type: SettingRecords },
   { name: 'SettingsTable', type: SettingsTable },
   { name: 'SettingUpdateModal', type: SettingUpdateModal },
+  { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
+
   {
     name: 'RelativeDateTime',
     type: RelativeDateTime,
