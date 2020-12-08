@@ -123,7 +123,7 @@ module ProxyAPI
     #     {"error": "Unable to connect to External IPAM server"}
     def get_groups
       response = parse get("/groups")
-      raise(response['error']) if response['error'].present?
+      raise(response['error']) if response.is_a?(Hash) && response['error'].present?
       response
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to obtain groups from External IPAM."))
@@ -173,7 +173,7 @@ module ProxyAPI
     def get_subnets_by_group(group)
       raise "group must be provided" if group.blank?
       response = parse get("/groups/#{URI.escape(group)}/subnets")
-      raise(response['error']) if response['error'].present?
+      raise(response['error']) if response.is_a?(Hash) && response['error'].present?
       response
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to obtain subnets in group %{group} from External IPAM."), group: group)
