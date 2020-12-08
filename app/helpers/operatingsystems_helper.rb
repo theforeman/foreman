@@ -56,8 +56,7 @@ module OperatingsystemsHelper
            when /Windows/i
              "stub/steelblue-w"
            else
-             return "icons#{size}/black-\%23.png" if record.family.blank?
-             record.family.downcase
+             record.family.blank? && "stub/black-o" || record.family.downcase
            end
     return image_path("icons#{size}/#{name}.png") if opts[:path]
 
