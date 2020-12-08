@@ -1,4 +1,4 @@
-import API from '../../../API';
+import { API } from '../../../redux/API';
 
 export const ajaxRequestAction = async ({
   dispatch,
