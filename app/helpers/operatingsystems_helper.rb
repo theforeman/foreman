@@ -27,8 +27,8 @@ module OperatingsystemsHelper
              "scientific"
            when /archlinux/i
              "archlinux"
-           when /altlinux/i
-             "stub/goldenrod-a"
+           when /alt/i
+             "alt"
            when /gentoo/i
              "gentoo"
            when /SLC/i
