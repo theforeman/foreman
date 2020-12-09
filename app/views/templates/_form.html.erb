@@ -38,24 +38,28 @@
         <% warning_text = (_("The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu") % link_to(_('recreate'), building_hosts_path(@template))).html_safe %>
         <%= alert(:class => 'alert-warning', :header => 'Warning', :text => warning_text) %>
       <% end -%>
-
-      <div class='form-group'>
+      <div class='form-group <%= 'has-error' if @template.errors[:template] %>'>
         <div class="col-md-12">
-              <%= react_component('Editor', { data: {
-                template: @template.template,
-                locked: @template.locked,
-                id: @template.id,
-                type: 'templates',
-                name: template_name_attribute(@template.class),
-                templateClass: @template.class.to_s,
-                title: @template.name,
-                showImport: !@template.locked,
-                showPreview: true,
-                showHostSelector: @template.support_single_host_render?,
-                isSafemodeEnabled: Setting[:safemode_render],
-                renderPath: url_for(template_hash_for_member(@template, 'preview')),
-                safemodeRenderPath: url_for(template_hash_for_member(@template, 'preview').merge({ params: { force_safemode: true }})),
-              }}) %>
+          <% if @template.errors[:template] %>
+            <span class="help-block help-inline">
+              <span class="error-message"><%= @template.errors[:template].join('<br>').html_safe %></span>
+            </span>
+          <% end %>
+          <%= react_component('Editor', { data: {
+            template: @template.template,
+            locked: @template.locked,
+            id: @template.id,
+            type: 'templates',
+            name: template_name_attribute(@template.class),
+            templateClass: @template.class.to_s,
+            title: @template.name,
+            showImport: !@template.locked,
+            showPreview: true,
+            showHostSelector: @template.support_single_host_render?,
+            isSafemodeEnabled: Setting[:safemode_render],
+            renderPath: url_for(template_hash_for_member(@template, 'preview')),
+            safemodeRenderPath: url_for(template_hash_for_member(@template, 'preview').merge({ params: { force_safemode: true }})),
+          }}) %>
         </div>
       </div>
 

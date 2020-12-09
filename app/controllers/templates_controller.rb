@@ -44,6 +44,7 @@ class TemplatesController < ApplicationController
     if @template.save
       process_success :object => @template
     else
+      load_vars_from_template
       process_error :object => @template
     end
   end
@@ -57,6 +58,7 @@ class TemplatesController < ApplicationController
       process_success :object => @template
     else
       load_history
+      load_vars_from_template
       process_error :object => @template
     end
   end
