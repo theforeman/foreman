@@ -8,7 +8,7 @@ module Api
 
       before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
                                               :available_virtual_machines, :available_clusters, :available_flavors, :available_folders,
-                                              :available_networks, :available_resource_pools, :available_security_groups, :available_storage_domains,
+                                              :available_networks, :available_vnic_profiles, :available_resource_pools, :available_security_groups, :available_storage_domains,
                                               :available_zones, :available_storage_pods, :storage_domain, :storage_pod, :refresh_cache, :power_vm, :show_vm, :destroy_vm]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
@@ -143,6 +143,13 @@ module Api
         @available_networks = @compute_resource.available_networks(params[:cluster_id].presence)
         @total = @available_networks&.size
         render :available_networks, :layout => 'api/v2/layouts/index_layout'
+      end
+
+      api :GET, "/compute_resources/:id/available_vnic_profiles", N_("List available vnic profiles for a compute resource, for oVirt only.")
+      param :id, :identifier, :required => true
+      def available_vnic_profiles
+        @available_vnic_profiles = @compute_resource.vnic_profiles
+        render :available_vnic_profiles, :layout => 'api/v2/layouts/index_layout'
       end
 
       api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_resource_pools", N_("List resource pools for a compute resource cluster")
@@ -280,7 +287,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_virtual_machines', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'storage_domain', 'available_zones', 'associate', 'available_storage_pods', 'storage_pod', 'refresh_cache', 'show_vm', 'power_vm', 'destroy_vm'
+          when 'available_images', 'available_virtual_machines', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_vnic_profiles', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'storage_domain', 'available_zones', 'associate', 'available_storage_pods', 'storage_pod', 'refresh_cache', 'show_vm', 'power_vm', 'destroy_vm'
             :view
           else
             super

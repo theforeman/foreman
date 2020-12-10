@@ -141,6 +141,7 @@
           "vms",
           "vmware",
           "vnc",
+          "vnic",
           "webpack",
           "wss",
           "xml",
