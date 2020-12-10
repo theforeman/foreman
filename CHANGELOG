@@ -1,3 +1,15 @@
+2020-12-10	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.3.1
+
+2020-12-09	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #31452 - BOOTIF workaround for EL 8.3
+
+2020-12-07	MariaAga <mariaagaphonchev@gmail.com>
+	* Fixes #31198 - Search doesn't work on the models page
+
+2020-12-07	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #31420 - Global Registration Template - exit on fail
+
 2020-12-01	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.3.0
 
