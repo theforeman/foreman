@@ -1,3 +1,18 @@
+2020-12-10	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.2.2
+
+2020-12-09	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #31452 - BOOTIF workaround for EL 8.3
+
+2020-12-02	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #30713 - power_status helper fixed
+
+2020-11-30	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #31364 - Properly import facts when unattended == false
+
+2020-11-16	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #31317 - Fix broken VNC console in a secured connection
+
 2020-11-12	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.2.1
 
