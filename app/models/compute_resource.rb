@@ -273,6 +273,10 @@ class ComputeResource < ApplicationRecord
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
+  def available_vnic_profiles(cluster_id = nil)
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
   def available_clusters
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end

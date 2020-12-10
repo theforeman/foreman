@@ -196,3 +196,30 @@ export function datacenterSelected(item) {
   // eslint-disable-next-line no-undef
   testConnection($('#test_connection_button'));
 }
+
+export function vnicSelected(item) {
+  const selectedVnicProfile = $(item).val();
+  if (selectedVnicProfile) {
+    const vnicOptions = JSON.parse(
+      $('select[id$=_vnic_profile]')[1].getAttribute('data-profiles')
+    );
+    const networkOptions = JSON.parse(
+      $('select[id$=_vnic_profile]')[1].getAttribute('data-networks')
+    );
+
+    const vnicNetwork = vnicOptions.filter(
+      vnicOption => vnicOption.id === selectedVnicProfile
+    )[0].network;
+    const networkObj = networkOptions.filter(
+      network => network.id === vnicNetwork.id
+    )[0];
+    const networkSelect = $('select[id$=_network]');
+    networkSelect.empty();
+    networkSelect.append(
+      $('<option />')
+        .val(networkObj.id)
+        .text(networkObj.name)
+    );
+    networkSelect.val(networkObj.id).trigger('change');
+  }
+}

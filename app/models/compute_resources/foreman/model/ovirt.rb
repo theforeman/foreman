@@ -208,6 +208,10 @@ module Foreman::Model
       true
     end
 
+    def vnic_profiles
+      client.list_vnic_profiles
+    end
+
     def networks(opts = {})
       if opts[:cluster_id]
         client.clusters.get(opts[:cluster_id]).networks
@@ -612,11 +616,18 @@ module Foreman::Model
       end
       # add interfaces
       cluster_networks = networks(:cluster_id => cluster_id)
+      profiles = vnic_profiles
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.map do |interface|
         interface[:name] = default_iface_name(interfaces) if interface[:name].empty?
-        raise Foreman::Exception.new("Interface network is missing.") if interface[:network].nil?
-        interface[:network] = get_ovirt_id(cluster_networks, interface[:network])
+        raise Foreman::Exception.new("Interface network or vnic profile are missing.") if (interface[:network].nil? && interface[:vnic_profile].nil?)
+        interface[:network] = get_ovirt_id(cluster_networks, interface[:network]) if interface[:network].present?
+        interface[:vnic_profile] = get_ovirt_id(profiles, interface[:vnic_profile]) if interface[:vnic_profile].present?
+        if (interface[:network].present? && interface[:vnic_profile].present?)
+          unless (profiles.select { |profile| profile.network.id == interface[:network] }).present?
+            raise Foreman::Exception.new("Vnic Profile have a different network")
+          end
+        end
         vm.add_interface(interface)
       end
       vm.interfaces.reload
@@ -688,6 +699,7 @@ module Foreman::Model
               name: interface.name,
               network: interface.network,
               interface: interface.interface,
+              vnic_profile: interface.vnic_profile,
             },
           }
           hsh[index.to_s] = interface_attrs

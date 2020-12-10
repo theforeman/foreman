@@ -272,6 +272,7 @@ Foreman::Application.routes.draw do
           get :available_folders, :on => :member
           get :available_flavors, :on => :member
           get :available_networks, :on => :member
+          get :available_vnic_profiles, :on => :member
           get :available_security_groups, :on => :member
           get :available_storage_domains, :on => :member
           get 'storage_domains/(:storage_domain_id)', :to => 'compute_resources#storage_domain', :on => :member
