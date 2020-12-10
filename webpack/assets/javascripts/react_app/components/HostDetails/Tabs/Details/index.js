@@ -8,9 +8,10 @@ import InterfacesCard from '../../Interfaces';
 import AuditCard from '../../Audits';
 import StatusAlert from '../../Status';
 import Slot from '../../../common/Slot';
+import { STATUS } from '../../../../constants';
 import './Details.css';
 
-const DetailsTab = ({ response }) => (
+const DetailsTab = ({ response, status }) => (
   <div className="details-tab">
     <Flex
       spaceItems={{ modifier: 'spaceItemsXl' }}
@@ -23,7 +24,7 @@ const DetailsTab = ({ response }) => (
     </Flex>
     <Grid hasGutter>
       <GridItem xl2={2} md={3} lg={2} rowSpan={3}>
-        <Properties hostData={response} />
+        <Properties hostData={response} isLoading={status === STATUS.PENDING} />
       </GridItem>
       <GridItem xl2={3} md={6} lg={5}>
         <ParametersCard paramters={response.all_parameters} />
@@ -45,7 +46,12 @@ DetailsTab.propTypes = {
     global_status_label: PropTypes.string,
     interfaces: PropTypes.string,
     name: PropTypes.string,
-  }).isRequired,
+  }),
+  status: PropTypes.string,
 };
 
+DetailsTab.defaultProps = {
+  response: {},
+  status: STATUS.PENDING,
+};
 export default DetailsTab;
