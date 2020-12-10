@@ -148,13 +148,10 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
                 alignRight={true}
                 isFilled={true}
               >
-                <G
-                  circle={false}
-                  count={1}
-                  duration={1.2}
-                  height={null}
-                  width={null}
-                  wrapper={null}
+                <SkeletonLoader
+                  emptyState="N/A"
+                  isLoading={false}
+                  skeletonProps={Object {}}
                 />
               </DataListCell>,
             ]

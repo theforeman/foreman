@@ -13,6 +13,7 @@ const fixtures = {
       location_name: 'Beverly Hills',
       organization_name: '90210',
     },
+    isLoading: false,
   },
 };
 

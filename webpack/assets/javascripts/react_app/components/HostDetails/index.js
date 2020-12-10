@@ -20,7 +20,10 @@ import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
 
 import { foremanUrl } from '../../../foreman_tools';
 import { get } from '../../redux/API';
-import { selectAPIResponse } from '../../redux/API/APISelectors';
+import {
+  selectAPIResponse,
+  selectAPIStatus,
+} from '../../redux/API/APISelectors';
 import { selectFillsIDs } from '../common/Slot/SlotSelectors';
 import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
@@ -35,6 +38,7 @@ const HostDetails = ({ match, location: { hash } }) => {
   const response = useSelector(state =>
     selectAPIResponse(state, 'HOST_DETAILS')
   );
+  const status = useSelector(state => selectAPIStatus(state, 'HOST_DETAILS'));
   const isNavCollapsed = useSelector(selectIsCollapsed);
   const tabs = useSelector(state =>
     selectFillsIDs(state, 'host-details-page-tabs')
@@ -140,6 +144,7 @@ const HostDetails = ({ match, location: { hash } }) => {
                 <div className="host-details-tab-item">
                   <Slot
                     response={response}
+                    status={status}
                     id="host-details-page-tabs"
                     fillID={tab}
                   />

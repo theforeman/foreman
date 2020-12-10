@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkeletonLoader should loading false 1`] = `"custom empty"`;
+
+exports[`SkeletonLoader should loading true 1`] = `
+<G
+  circle={false}
+  count={3}
+  duration={1.2}
+  height={null}
+  width={null}
+  wrapper={null}
+/>
+`;
