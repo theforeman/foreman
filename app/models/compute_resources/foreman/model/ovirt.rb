@@ -111,22 +111,6 @@ module Foreman::Model
       super.merge({:mac => :mac})
     end
 
-    def use_v4=(value)
-      value = case value
-              when true, '1'
-                true
-              else
-                false
-              end
-      attrs[:ovirt_use_v4] = value
-    end
-
-    def use_v4
-      attrs.fetch(:ovirt_use_v4, true)
-    end
-
-    alias_method :use_v4?, :use_v4
-
     def ovirt_quota=(ovirt_quota_id)
       attrs[:ovirt_quota_id] = ovirt_quota_id
     end
@@ -524,7 +508,7 @@ module Foreman::Model
         :ovirt_datacenter => uuid,
         :ovirt_ca_cert_store => ca_cert_store(public_key),
         :public_key       => public_key,
-        :api_version      => use_v4? ? 'v4' : 'v3'
+        :api_version      => 'v4'
       )
       client.datacenters
       @client = client
