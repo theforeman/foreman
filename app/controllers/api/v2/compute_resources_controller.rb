@@ -35,7 +35,6 @@ module Api
           param :user, String, :desc => N_("Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2.")
           param :password, String, :desc => N_("Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2")
           param :datacenter, String, :desc => N_("for oVirt, VMware Datacenter")
-          param :use_v4, :bool, :desc => N_("for oVirt only")
           param :ovirt_quota, String, :desc => N_("for oVirt only, ID or Name of quota to use")
           param :public_key, String, :desc => N_("for oVirt only")
           param :region, String, :desc => N_("for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region") % Foreman::Model::EC2::GOV_CLOUD_REGION

@@ -113,31 +113,11 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       @client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [@quota]) }
     end
 
-    it 'passes api_version properly' do
-      Fog::Compute.expects(:new).with do |options|
-        _(options[:api_version]).must_equal 'v4'
-      end.returns(@client_mock)
-      @compute_resource.use_v4 = true
-      @compute_resource.ovirt_quota = '1'
-      @compute_resource.send(:client)
-    end
-
     it 'passes api_version v4 by default' do
       Fog::Compute.expects(:new).with do |options|
         _(options[:api_version]).must_equal 'v4'
       end.returns(@client_mock)
       @compute_resource.send(:client)
-    end
-
-    it 'accepts "1" and true as true values, anything else as false' do
-      @compute_resource.use_v4 = true
-      _(@compute_resource.use_v4?).must_equal true
-      @compute_resource.use_v4 = false
-      _(@compute_resource.use_v4?).must_equal false
-      @compute_resource.use_v4 = '1'
-      _(@compute_resource.use_v4?).must_equal true
-      @compute_resource.use_v4 = '0'
-      _(@compute_resource.use_v4?).must_equal false
     end
   end
 
