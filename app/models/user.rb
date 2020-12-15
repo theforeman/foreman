@@ -2,7 +2,7 @@ require 'digest/sha1'
 
 class User < ApplicationRecord
   audited :except => [:last_login_on, :password_hash, :password_salt, :password_confirmation],
-          :associations => :roles
+          :associations => [:roles, :usergroups]
   include Authorizable
   include Foreman::TelemetryHelper
   extend FriendlyId
