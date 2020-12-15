@@ -125,24 +125,21 @@ class AuthSourceLdap < AuthSource
 
     logger.debug "Updating user groups for user #{login}"
     user = User.unscoped.find_by_login(login)
-    external = ldap_con.group_list(login).map(&:downcase)
+    external_names = ldap_con.group_list(login).map(&:downcase)
     group_name_arel = ExternalUsergroup.arel_table[:name].lower
 
     # User's external user groups localy
-    usergroup_ids = user.usergroups
-                        .joins(:external_usergroups)
-                        .where(ExternalUsergroup.arel_table[:auth_source_id].eq(id))
-                        .pluck(:id)
+    current_external_ids = user.usergroups
+                               .where(id: ExternalUsergroup.where(auth_source_id: id).select(:usergroup_id))
+                               .pluck(:id)
     # User's external user groups as of auth_source
-    usergroup_ids.concat(
-      ExternalUsergroup.where(auth_source_id: id)
-        .where(group_name_arel.in(external))
-        .pluck(:usergroup_id)
-    )
+    correct_external_ids = ExternalUsergroup.where(auth_source_id: id)
+                                            .where(group_name_arel.in(external_names))
+                                            .pluck(:usergroup_id)
 
-    Usergroup.where(id: usergroup_ids.uniq).find_each do |usergroup|
-      refresh_usergroup_members(usergroup)
-    end
+    user.usergroup_ids = (user.usergroup_ids - current_external_ids) + correct_external_ids
+    # audit changes
+    user.save(validate: false)
   end
 
   ##
