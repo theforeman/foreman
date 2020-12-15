@@ -9,7 +9,6 @@ exports[`DiffView rendering render DiffView w/Patch 1`] = `
     hideGutter={false}
     hunks={Array []}
     key="1111111-2222222"
-    markEdits={[Function]}
     optimizeSelection={false}
     viewType="unified"
   />
@@ -48,7 +47,6 @@ exports[`DiffView rendering render DiffView w/oldText & newText 1`] = `
       },
     ]
   }
-  markEdits={[Function]}
   optimizeSelection={false}
   viewType="split"
 />
