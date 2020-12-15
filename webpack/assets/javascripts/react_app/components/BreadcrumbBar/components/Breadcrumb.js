@@ -28,12 +28,14 @@ const Breadcrumb = ({
     <PfBreadcrumb {...props}>
       {items.map((item, index) => {
         const active = index === items.length - 1;
-        const {
-          caption,
-          caption: { icon, text },
-        } = item;
+        const { caption, url, onClick } = item;
+        const { icon, text } = caption || {};
+
         const overrideTitle = active && titleReplacement;
-        const itemTitle = overrideTitle || text || caption;
+        const itemTitle = overrideTitle || text || caption || '';
+
+        if (!icon && !itemTitle) return null;
+
         const inner = active ? (
           <EllipsisWithTooltip placement="bottom">
             {itemTitle}
@@ -46,8 +48,8 @@ const Breadcrumb = ({
           <BreadcrumbItem
             key={index}
             isActive={active}
-            onClick={item.onClick}
-            to={item.url}
+            onClick={onClick}
+            to={url}
             className={classNames('breadcrumb-item', {
               active,
               'breadcrumb-item-with-icon': icon && active,
