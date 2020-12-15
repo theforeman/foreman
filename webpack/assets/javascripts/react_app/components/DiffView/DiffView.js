@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { parseDiff, Diff, markCharacterEdits } from 'react-diff-view';
+import { parseDiff, Diff } from 'react-diff-view';
 import { formatLines, diffLines } from 'unidiff';
 import './diffview.scss';
 
@@ -13,20 +13,12 @@ const getDiff = (oldText, newText) => {
 };
 
 const DiffView = ({ oldText, newText, viewType, patch }) => {
-  const markEdits = markCharacterEdits({
-    threshold: 30,
-    markLongDistanceDiff: true,
-  });
-
   // old,new Text
   if (patch === '') {
     const gitDiff = getDiff(oldText, newText);
     const files = parseDiff(gitDiff);
-    const hunk = files[0].hunks;
-
-    return (
-      hunk && <Diff hunks={hunk} markEdits={markEdits} viewType={viewType} />
-    );
+    const { hunks, type } = files[0];
+    return hunks && <Diff hunks={hunks} viewType={viewType} diffType={type} />;
   }
   // Patch
   const files = parseDiff(
@@ -42,7 +34,6 @@ const DiffView = ({ oldText, newText, viewType, patch }) => {
       viewType={viewType}
       diffType={type}
       hunks={hunks}
-      markEdits={markEdits}
     />
   );
 
