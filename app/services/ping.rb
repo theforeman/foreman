@@ -12,13 +12,19 @@ class Ping
     end
 
     def statuses
+      plugins = Foreman::Plugin.all.map do |plugin|
+        {
+          name: plugin.id.to_s,
+          version: plugin.version,
+        }
+      end
       {
         'foreman': {
           version: SETTINGS[:version].full,
           api: {
             version: Apipie.configuration.default_version,
           },
-          plugins: Foreman::Plugin.all,
+          plugins: plugins,
           smart_proxies: statuses_smart_proxies,
           compute_resources: statuses_compute_resources,
         },
