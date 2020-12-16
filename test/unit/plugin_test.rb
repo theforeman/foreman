@@ -354,6 +354,7 @@ class PluginTest < ActiveSupport::TestCase
     plugin_status_response = { version: '1.0.0' }
     Foreman::Plugin.register :foo do
       name 'foo'
+      version '1.0.0'
       register_status_extension { plugin_status_response }
     end
     Ping.stubs(:statuses_smart_proxies).returns([])
@@ -365,7 +366,12 @@ class PluginTest < ActiveSupport::TestCase
         api: {
           version: Apipie.configuration.default_version,
         },
-        plugins: [Foreman::Plugin.find(:foo)],
+        plugins: [
+          {
+            name: 'foo',
+            version: '1.0.0',
+          },
+        ],
         smart_proxies: [],
         compute_resources: [],
         database: foreman_database_response,
