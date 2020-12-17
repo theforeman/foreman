@@ -2,13 +2,13 @@
 <% metrics.delete_if{ |k,v| v < 0.001 } %>
 
 <div id="config-reports"></div>
-<%= react_component('ConfigReports', { 
+<%= react_component('ConfigReports', {
       data: {
         metricsChartData: metrics.to_a,
         statusChartData: status.to_a,
-        metricsData: { tableData: metrics_table_data(metrics), 
-                       total: metric(@totaltime || @config_report.runtime), 
+        metricsData: { tableData: metrics_table_data(metrics),
+                       total: metric(@totaltime || @config_report.runtime),
                        tableClasses: table_css_classes }
-      }                 
-    }.to_json)
+      }
+    })
 %>
