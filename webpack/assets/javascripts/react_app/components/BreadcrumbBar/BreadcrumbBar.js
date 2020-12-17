@@ -63,7 +63,6 @@ class BreadcrumbBar extends React.Component {
     return (
       <div className="breadcrumb-bar">
         <Breadcrumb
-          title
           items={breadcrumbItems}
           isTitle={isTitle}
           titleReplacement={titleReplacement}
