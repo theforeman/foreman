@@ -10,6 +10,7 @@ import { navigateToSearch } from '../../../services/charts/DonutChartService';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
 import { translate as __ } from '../../common/I18n';
+import { noop } from '../../common/helpers';
 import './ChartBox.css';
 
 class ChartBox extends React.Component {
@@ -50,9 +51,9 @@ class ChartBox extends React.Component {
         }
       : {};
     const handleChartClick =
-      chart.search && chart.search.match(/=$/)
-        ? null
-        : navigateToSearch.bind(null, chart.search);
+      chart.search && !chart.search.match(/=$/)
+        ? navigateToSearch.bind(null, chart.search)
+        : noop;
     const chartProps = {
       data: chart.data ? chart.data : undefined,
       key: `${chart.id}-chart`,
