@@ -10,7 +10,6 @@ import './Breadcrumbs.scss';
 
 const Breadcrumb = ({
   items,
-  title,
   isTitle,
   titleReplacement,
   children,
@@ -67,7 +66,6 @@ const Breadcrumb = ({
 
 Breadcrumb.propTypes = {
   children: PropTypes.node,
-  title: PropTypes.bool,
   titleReplacement: PropTypes.string,
   isTitle: PropTypes.bool,
   items: PropTypes.arrayOf(
@@ -89,7 +87,6 @@ Breadcrumb.propTypes = {
 
 Breadcrumb.defaultProps = {
   children: null,
-  title: false,
   isTitle: false,
   items: [],
   titleReplacement: null,

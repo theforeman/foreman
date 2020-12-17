@@ -22,7 +22,6 @@ exports[`BreadcrumbBar rendering renders breadcrumb-bar 1`] = `
         },
       ]
     }
-    title={true}
     titleReplacement={null}
   />
   <hr
@@ -53,7 +52,6 @@ exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
         },
       ]
     }
-    title={true}
     titleReplacement={null}
   >
     <BreadcrumbSwitcher
