@@ -35,6 +35,7 @@ exports[`ChartBox error 1`] = `
         key="2-chart"
         noDataMsg="No data available"
         onclick={[Function]}
+        searchUrl={null}
         title={
           Object {
             "precision": 1,
@@ -88,6 +89,7 @@ exports[`ChartBox pending 1`] = `
         key="2-chart"
         noDataMsg="No data available"
         onclick={[Function]}
+        searchUrl={null}
         title={
           Object {
             "precision": 1,
@@ -153,6 +155,7 @@ exports[`ChartBox resolved 1`] = `
         key="2-chart"
         noDataMsg="No data available"
         onclick={[Function]}
+        searchUrl={null}
         title={
           Object {
             "precision": 1,

@@ -13,8 +13,16 @@ const DonutChart = ({
   noDataMsg,
   title,
   unloadData,
+  searchUrl,
+  searchFilters,
 }) => {
-  const chartConfig = getDonutChartConfig({ data, config, onclick });
+  const chartConfig = getDonutChartConfig({
+    data,
+    config,
+    onclick,
+    searchUrl,
+    searchFilters,
+  });
 
   if (chartConfig.data.columns.length > 0) {
     return (
@@ -35,6 +43,8 @@ DonutChart.propTypes = {
   title: PropTypes.object,
   unloadData: PropTypes.bool,
   onclick: PropTypes.func,
+  searchUrl: PropTypes.string,
+  searchFilters: PropTypes.object,
 };
 
 DonutChart.defaultProps = {
@@ -44,6 +54,8 @@ DonutChart.defaultProps = {
   title: { type: 'percent', precision: 1 },
   unloadData: false,
   onclick: noop,
+  searchUrl: undefined,
+  searchFilters: undefined,
 };
 
 export default DonutChart;
