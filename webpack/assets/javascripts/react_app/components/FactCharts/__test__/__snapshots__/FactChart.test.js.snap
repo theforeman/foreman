@@ -141,6 +141,7 @@ exports[`factCharts should render open 1`] = `
             key="chart-1"
             noDataMsg="No data available"
             onclick={[Function]}
+            searchUrl="some-search"
             title={
               Object {
                 "precision": 1,

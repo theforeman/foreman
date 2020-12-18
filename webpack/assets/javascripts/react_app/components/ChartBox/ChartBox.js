@@ -6,11 +6,9 @@ import classNames from 'classnames';
 import ElipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import DonutChart from '../common/charts/DonutChart';
 import BarChart from '../common/charts/BarChart';
-import { navigateToSearch } from '../../../services/charts/DonutChartService';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
 import { translate as __ } from '../../common/I18n';
-import { noop } from '../../common/helpers';
 import './ChartBox.css';
 
 class ChartBox extends React.Component {
@@ -50,14 +48,11 @@ class ChartBox extends React.Component {
           'data-placement': 'top',
         }
       : {};
-    const handleChartClick =
-      chart.search && !chart.search.match(/=$/)
-        ? navigateToSearch.bind(null, chart.search)
-        : noop;
     const chartProps = {
+      searchUrl:
+        chart.search && !chart.search.match(/=$/) ? chart.search : null,
       data: chart.data ? chart.data : undefined,
       key: `${chart.id}-chart`,
-      onclick: handleChartClick,
     };
 
     const barChartProps = {
@@ -71,9 +66,7 @@ class ChartBox extends React.Component {
       bar: barChartProps,
     };
 
-    const panelChart = (
-      <Chart {...chartPropsForType[type]} config={this.props.config} />
-    );
+    const panelChart = <Chart {...chartPropsForType[type]} config={config} />;
     const error = (
       <MessageBox
         msg={this.props.errorText}

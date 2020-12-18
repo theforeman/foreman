@@ -101,3 +101,25 @@ export const getChartConfig = ({
     },
   };
 };
+
+export const navigateToSearch = (url, searchFilters, data) => {
+  let val = searchFilters[data.id] || data.id;
+  let setUrl;
+
+  window.tfm.tools.showSpinner();
+
+  if (url.includes('~VAL1~') || url.includes('~VAL2~')) {
+    const vals = val.split(' ');
+
+    const val1 = encodeURIComponent(vals[0]);
+    const val2 = encodeURIComponent(vals[1]);
+
+    setUrl = url.replace('~VAL1~', val1).replace('~VAL2~', val2);
+  } else {
+    if (val.includes(' ')) {
+      val = encodeURIComponent(val);
+    }
+    setUrl = url.replace('~VAL~', val);
+  }
+  window.location.href = setUrl;
+};

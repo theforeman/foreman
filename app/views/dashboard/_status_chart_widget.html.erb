@@ -11,8 +11,5 @@
   <% end %>
 </h4>
 <div class="host-configuration-chart">
-  <%= react_component('DonutChart', get_overview(@data.report))%>
+  <%= react_component('DonutChart', get_overview(@data.report, origin: origin))%>
 </div>
-<ul class="ui-helper-hidden">
-  <%= render "dashboard/status_links" %>
-</ul>
