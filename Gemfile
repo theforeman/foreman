@@ -12,6 +12,7 @@ else
   raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"
 end
 
+gem 'rake', '< 13.0.2'
 gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
 gem 'audited', '>= 4.9.0', '< 5'
 gem 'will_paginate', '>= 3.1.7', '< 4'
