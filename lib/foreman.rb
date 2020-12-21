@@ -30,4 +30,8 @@ module Foreman
   def self.instance_id=(value)
     Setting[:instance_id] = value
   end
+
+  def self.input_types_registry
+    @input_types_registry ||= Foreman::InputTypesRegistry.new
+  end
 end
