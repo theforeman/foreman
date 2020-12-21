@@ -49,9 +49,9 @@ module TemplatesHelper
     header.html_safe
   end
 
-  def template_input_types_options(keys = TemplateInput::TYPES.keys)
+  def template_input_types_options(keys = Foreman.input_types_registry.input_types.keys)
     keys.map!(&:to_s)
-    TemplateInput::TYPES.select { |k, _| keys.include?(k.to_s) }.map { |key, name| [_(name), key] }
+    Foreman.input_types_registry.input_types.select { |k, _| keys.include?(k.to_s) }.map { |key, input_type_cls| [input_type_cls.humanized_name, key] }
   end
 
   def hide_resource_type_input(obj)
