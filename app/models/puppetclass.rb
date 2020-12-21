@@ -21,7 +21,7 @@ class Puppetclass < ApplicationRecord
   has_many :config_group_classes
   has_many :config_groups, :through => :config_group_classes, :dependent => :destroy
 
-  has_many :class_params, :through => :environment_classes, :source => :puppetclass_lookup_key
+  has_many :class_params, -> { distinct }, :through => :environment_classes, :source => :puppetclass_lookup_key
   accepts_nested_attributes_for :class_params, :reject_if => ->(a) { a[:key].blank? }, :allow_destroy => true
 
   validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
