@@ -42,7 +42,9 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
         }
       />
     </div>
-    beforeToolbarComponent
+    <p>
+      beforeToolbarComponent
+    </p>
     <Row
       bsClass="row"
       componentClass="div"
@@ -374,7 +376,9 @@ exports[`render pageLayout w/toolBar 1`] = `
         <div
           className="btn-toolbar pull-right"
         >
-          toolbarButton
+          <button>
+            toolbarButton
+          </button>
         </div>
       </Col>
     </Row>
@@ -399,7 +403,9 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
     <div
       id="breadcrumb"
     >
-      <Component />
+      <p>
+        customBreadcrumbs
+      </p>
     </div>
     <Row
       bsClass="row"

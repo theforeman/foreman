@@ -35,9 +35,8 @@ const PageLayout = ({
             <h1 className="col-md-8">{header}</h1>
           </div>
         )}
-        {customBreadcrumbs
-          ? { customBreadcrumbs }
-          : breadcrumbOptions && <BreadcrumbBar {...breadcrumbOptions} />}
+        {customBreadcrumbs ||
+          (breadcrumbOptions && <BreadcrumbBar {...breadcrumbOptions} />)}
       </div>
       {beforeToolbarComponent}
       <Row>
