@@ -19,7 +19,7 @@ module Api
       end
 
       def fail_and_inform_about_plugin
-        render json: { message: _('To access Puppetrun feature you need to install Foreman Remote Execution Plugin') }, status: :not_implemented
+        render json: { message: _('The puppetrun feature has been removed, however you can use the Remote Execution Plugin to run Puppet commands') }, status: :not_implemented
       end
     end
   end
