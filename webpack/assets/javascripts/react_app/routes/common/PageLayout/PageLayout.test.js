@@ -1,3 +1,4 @@
+import React from 'react';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import PageLayout from './PageLayout';
 import { pageLayoutMock } from './PageLayout.fixtures';
@@ -10,7 +11,7 @@ const pageLayoutFixtures = {
   'render pageLayout without search': { ...pageLayoutMock, searchable: false },
   'render pageLayout with custom breadcrumbs': {
     ...pageLayoutMock,
-    customBreadcrumbs: 'customBreadcrumbs',
+    customBreadcrumbs: <p>customBreadcrumbs</p>,
   },
   'render pageLayout without breadcrumbs': {
     ...pageLayoutMock,
@@ -22,11 +23,11 @@ const pageLayoutFixtures = {
   },
   'render pageLayout w/toolBar': {
     ...pageLayoutMock,
-    toolbarButtons: 'toolbarButton',
+    toolbarButtons: <button>toolbarButton</button>,
   },
   'render pageLayout w/beforeToolbarComponent': {
     ...pageLayoutMock,
-    beforeToolbarComponent: 'beforeToolbarComponent',
+    beforeToolbarComponent: <p>beforeToolbarComponent</p>,
   },
 };
 
