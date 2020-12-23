@@ -37,7 +37,7 @@ export const getActiveMenuItem = (items, path = getCurrentPath()) => {
 };
 
 export const handleMenuClick = (primary, activeMenu, changeActive) => {
-  if (primary.title !== activeMenu) changeActive(primary);
+  if (primary.title !== __(activeMenu)) changeActive(primary);
 };
 
 export const combineMenuItems = data => {
