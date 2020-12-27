@@ -89,7 +89,7 @@ module Api
       end
 
       def metadata_per_page
-        @per_page ||= Setting[:entries_per_page] if params[:per_page].empty?
+        @per_page ||= Setting[:entries_per_page] if params[:per_page].blank?
         @per_page ||= params[:per_page] == 'all' ? metadata_total : params[:per_page].to_i
       end
 
