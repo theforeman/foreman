@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   skip_before_action :authorize, :only => [:extlogin, :impersonate, :stop_impersonation]
   before_action      :require_admin, :only => :impersonate
   after_action       :update_activity_time, :only => :login
-  before_action      :verify_active_session, :only => :login
+  before_action      :verify_active_session, :only => [:login, :extlogin]
 
   def index
     @users = User.authorized(:view_users).except_hidden.search_for(params[:search], :order => params[:order]).includes(:auth_source, :cached_usergroups).paginate(:page => params[:page], :per_page => params[:per_page])
