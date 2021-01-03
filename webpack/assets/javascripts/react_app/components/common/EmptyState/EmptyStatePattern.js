@@ -31,9 +31,9 @@ const EmptyStatePattern = props => {
       return documentation;
     }
     const {
-      label = __('For more information please see '),
-      buttonLabel = __('documentation'),
-      url,
+      label = __('For more information please see '), // eslint-disable-line react/prop-types
+      buttonLabel = __('documentation'), // eslint-disable-line react/prop-types
+      url, // eslint-disable-line react/prop-types
     } = documentation;
     return (
       <span>
@@ -72,6 +72,7 @@ EmptyStatePattern.defaultProps = {
   documentation: {
     url: '#',
   },
+  action: null,
   iconType: 'pf',
 };
 
