@@ -33,7 +33,7 @@ elsif os_family == 'Windows'
 end
 
 if host_param_true?('enable-puppetlabs-repo')
-  repo_name = 'puppetlabs-release'
+  repo_name = 'puppet-release'
   repo_subdir = ''
 elsif host_param_true?('enable-puppetlabs-puppet6-repo')
   repo_name = 'puppet6-release'
