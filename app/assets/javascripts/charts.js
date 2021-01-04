@@ -1,4 +1,5 @@
 $.fn.flot_pie = function() {
+  tfm.tools.deprecate('$.flot_pie()', 'react DonutChart component', '2.5');
   var options = arguments[0] || {};
   $(this).each(function(i, el) {
     var label_exists = false;
@@ -356,6 +357,7 @@ function search_on_click(event, item) {
 }
 
 function get_pie_chart(div, url) {
+  tfm.tools.deprecate('window.get_pie_chart()', 'react DonutChart component', '2.5');
   if ($('#' + div).length == 0) {
     $('body').append(
       '<div id="' +
@@ -412,6 +414,7 @@ function get_pie_chart(div, url) {
 }
 
 function expand_chart(ref) {
+  tfm.tools.deprecate('window.expand_chart()', 'react DonutChart component', '2.5');
   var chart = $(ref);
   if (!chart.hasClass('statistics-pie')) {
     chart = chart.parent().find('.statistics-pie');

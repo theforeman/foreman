@@ -224,19 +224,31 @@ module ApplicationHelper
   end
 
   def flot_pie_chart(name, title, data, options = {})
-    data = data.map { |k, v| {:label => k.to_s.humanize, :data => v} } if data.is_a?(Hash)
-    data.map { |element| element[:label] = truncate(element[:label], :length => 16) }
-    header = content_tag(:h4, options[:show_title] ? title : '', :class => 'ca pie-title', :'data-original-title' => _("Expand the chart"), :rel => 'twipsy')
-    link_to_function(header, "expand_chart(this)") +
-        content_tag(:div, nil,
-          { :id    => name,
-            :class => 'statistics-pie',
-            :data  => {
-              :title  => title,
-              :series => data,
-              :url    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#",
-            },
-          }.merge(options))
+    Foreman::Deprecation.deprecation_warning('2.5', '#flot_pie_chart is by default rendered by react Donut chart with default configuration. In version 2.4 you can still opt-in the old behaviour by option use_legacy_flot: true.')
+    if options[:use_legacy_flot]
+      data = data.map { |k, v| {:label => k.to_s.humanize, :data => v} } if data.is_a?(Hash)
+      data.map { |element| element[:label] = truncate(element[:label], :length => 16) }
+      header = content_tag(:h4, options[:show_title] ? title : '', :class => 'ca pie-title', :'data-original-title' => _("Expand the chart"), :rel => 'twipsy')
+      link_to_function(header, "expand_chart(this)") +
+          content_tag(:div, nil,
+            { :id    => name,
+              :class => 'statistics-pie',
+              :data  => {
+                :title  => title,
+                :series => data,
+                :url    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#",
+              },
+            }.merge(options))
+    else
+      data = data.map { |k, v| [k.to_s.humanize, v] } if data.is_a?(Hash)
+      react_component('ChartBox', type: 'donut',
+                                  status: 'RESOLVED',
+                                  title: title,
+                                  chart: {
+                                    data: data,
+                                    search: options[:search] ? hosts_path(search: options[:search]) : nil,
+                                  })
+    end
   end
 
   def flot_chart(name, xaxis_label, yaxis_label, data, options = {})
