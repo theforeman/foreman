@@ -10,8 +10,11 @@ Rails.autoloaders.each do |autoloader|
     'external_ipam' => 'ExternalIPAM',
     'bmc' => 'BMC',
     'ui_notifications' => 'UINotifications',
+    'ipam' => 'IPAM',
+    'ssh' => 'SSH',
     'ssh_provision' => 'SSHProvision',
-    'ipam' => 'IPAM'
+    'ssh_execution_provider' => 'SSHExecutionProvider',
+    'keep_current_request_id' => 'KeepCurrentRequestID'
   )
 end
-Rails.autoloaders.log!
+# Rails.autoloaders.log!
