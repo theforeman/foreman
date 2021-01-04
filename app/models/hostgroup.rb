@@ -105,7 +105,7 @@ class Hostgroup < ApplicationRecord
     property :pxe_loader, String, desc: 'Returns boot loader to be applied on each host within this host group'
     property :title, String, desc: 'Returns full title of this host group, e.g. Base/CentOS 7'
   end
-  class Jail < Safemode::Jail
+  class Jail < ::Safemode::Jail
     allow :id, :name, :diskLayout, :puppet_server, :operatingsystem, :architecture,
       :ptable, :url_for_boot, :params, :puppet_proxy, :puppet_ca_server,
       :os, :arch, :domain, :subnet, :subnet6, :hosts, :realm,

@@ -1,5 +1,5 @@
 module ProxyStatus
-  class PuppetCA < Base
+  class Puppetca < Base
     def certs
       fetch_proxy_data('/certs') do
         api.all.map do |name, properties|
@@ -71,4 +71,4 @@ module ProxyStatus
     end
   end
 end
-ProxyStatus.status_registry.add(ProxyStatus::PuppetCA)
+ProxyStatus.status_registry.add(ProxyStatus::Puppetca)
