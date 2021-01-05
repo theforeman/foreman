@@ -24,13 +24,6 @@ LABEL installer
   MENU LABEL <%= template_name %>
   KERNEL <%= @kernel %>
   APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
-<%
-  # workaround for EL 8.3: https://projects.theforeman.org/issues/31452
-  unless rhel_compatible && os_major == 8 && os_minor == 3
--%>
   IPAPPEND 2
-<%
-  end
--%>
 
 <%= snippet_if_exists(template_name + " custom menu") %>
