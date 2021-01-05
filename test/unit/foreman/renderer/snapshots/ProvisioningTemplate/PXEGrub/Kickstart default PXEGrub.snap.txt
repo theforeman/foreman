@@ -5,7 +5,7 @@ timeout=10
 
 title Kickstart default PXEGrub
   root (nd)
-  kernel (nd)/../ ks=http://foreman.some.host.fqdn/unattended/provision  BOOTIF=00-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac fips=1
+  kernel (nd)/../ ks=http://foreman.some.host.fqdn/unattended/provision  BOOTIF=01-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac fips=1
   initrd (nd)/../
 
 
