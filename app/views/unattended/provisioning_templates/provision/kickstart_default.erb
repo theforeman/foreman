@@ -53,6 +53,7 @@ https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/pe
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
   use_ntp = host_param_true?('use-ntp') || (is_fedora && os_major < 16) || (rhel_compatible && os_major <= 7)
   iface = @host.provision_interface
+  appstream_present = false
 -%>
 
 <% if (is_fedora && os_major < 29) || (rhel_compatible && os_major <= 7) -%>
@@ -76,11 +77,16 @@ liveimg --url=<%= liveimg_url %> <%= proxy_string %>
 <%= @mediapath %><%= proxy_string %>
 <% @additional_media.each do |medium| -%>
 <% if rhel_compatible && @host.operatingsystem.name.downcase.include?("centos") && os_major >= 8 && medium[:url] && medium[:url].include?("AppStream") -%>
+<% appstream_present = true -%>
 # renamed from "<%= medium[:url] %>" for CentOS Anaconda to work
 repo --name AppStream --baseurl <%= medium[:url] %>
 <% else -%>
 repo --name <%= medium[:name] %> --baseurl <%= medium[:url] %> <%= medium[:install] ? ' --install' : '' %><%= proxy_string %>
 <% end -%>
+<% end -%>
+<% if rhel_compatible && @host.operatingsystem.name.downcase.include?("centos") && os_major >= 8 && medium_uri && medium_uri.to_s.include?("BaseOS") && !appstream_present -%>
+# repository added using BaseOS to AppStream string replacement
+repo --name AppStream --baseurl <%= medium_uri.to_s.gsub("BaseOS", "AppStream") %>
 <% end -%>
 <%= snippet_if_exists(template_name + " custom repositories") %>
 <% end %>
