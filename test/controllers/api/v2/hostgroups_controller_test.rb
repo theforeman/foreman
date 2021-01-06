@@ -327,6 +327,40 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  describe 'facets works in API' do
+    let(:hostgroup) { FactoryBot.create(:hostgroup) }
+    let(:facet) { mock('HostgroupTestFacet') }
+
+    setup do
+      hostgroup # create prior facet stubing
+      Api::V2::BaseController.append_view_path(Rails.root.join('test', 'static_fixtures', 'views'))
+      facet_definition = mock('Facets::HostBaseEntry')
+      facet_definition.stubs(name: :test_facet, api_single_view: 'api/v2/test/two', api_list_view: 'api/v2/test/facet')
+      Hostgroup.any_instance.stubs(:facet_definitions).returns([facet_definition])
+
+      facet_definition.stubs(:facet_record_for).returns(facet)
+      facet.stubs(attributes: { 'id' => 123 })
+    end
+
+    test 'show include both views' do
+      facet.expects(:foo).returns('bar')
+      get :show, params: { id: hostgroup.to_param }
+      json_response = JSON.parse(@response.body)
+      assert_includes json_response.keys, 'two'
+      assert_includes json_response.keys, 'facet_param'
+      assert_equal json_response['facet_param'], 'bar'
+    end
+
+    test 'index include list view' do
+      facet.expects(:foo).times(Hostgroup.count).returns('bar')
+      get :index
+      json_response = JSON.parse(@response.body)['results'].detect { |hostgroup_node| hostgroup_node['id'] == hostgroup.id }
+      assert_not_includes json_response.keys, 'two'
+      assert_includes json_response.keys, 'facet_param'
+      assert_equal json_response['facet_param'], 'bar'
+    end
+  end
+
   private
 
   def last_record
