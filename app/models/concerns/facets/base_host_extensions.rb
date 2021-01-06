@@ -5,10 +5,6 @@ module Facets
     extend ActiveSupport::Concern
     include Facets::ModelExtensionsBase
 
-    included do
-      refresh_facet_relations
-    end
-
     # This method will return attributes list augmented with attributes that are
     # set by the facet. Each registered facet will get opportunity to add its
     # own attributes to the list.
