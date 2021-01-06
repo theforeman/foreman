@@ -55,8 +55,9 @@ if @all_parameters
   end
 end
 
-@object.facets_with_definitions.each do |_facet, definition|
-  node do
-    partial(definition.api_list_view, :object => @object) if definition.api_list_view
+@object.facet_definitions.each do |definition|
+  next unless definition.api_list_view
+  node(false, if: ->(host) { definition.facet_record_for(host) }) do |host|
+    partial(definition.api_list_view, object: host, locals: { facet: definition.facet_record_for(host) })
   end
 end

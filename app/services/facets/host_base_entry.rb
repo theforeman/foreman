@@ -14,6 +14,10 @@ module Facets
       @name = facet_name
     end
 
+    def facet_record_for(base_record)
+      base_record.public_send(name)
+    end
+
     # Declare a helper module that will be added to host's view.
     def add_helper(facet_helper)
       @helper = facet_helper

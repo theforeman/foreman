@@ -100,26 +100,27 @@ module Facets
         hash = super
 
         # include all facet attributes by default
-        facets_with_definitions.each do |facet, facet_definition|
-          hash["#{facet_definition.name}_attributes"] = facet.attributes.reject { |key| %w(created_at updated_at).include? key }
+        facet_definitions.each do |definition|
+          facet = definition.facet_record_for(self)
+          next unless facet
+          hash["#{definition.name}_attributes"] = facet.attributes.reject { |key| %w(created_at updated_at).include? key }
         end
         hash
       end
 
       def facets
-        facets_with_definitions.keys
+        facet_definitions.map { |definition| definition.facet_record_for(self) }.compact
       end
 
-      # This method will return a hash of facets for a specific host including the coresponding definitions.
-      # The output should look like this:
-      # { host.puppet_aspect => Facets.registered_facets[:puppet_aspect] }
-      def facets_with_definitions
-        facet_types = self.class.facet_configurations.map(&:facet_type)
-        tuples = Facets.registered_facets(facet_types).values.map do |facet_config|
-          facet = send(facet_config.name)
-          [facet, facet_config] if facet
+      # This method will return array of all definitions registered for this model.
+      # output will look like:
+      #   => [Facets.registered_facets[:puppet].configuration_for(:host), Facets.registered_facets[:content].configuration_for(:host)]
+      def facet_definitions
+        entries = []
+        self.class.facet_configurations.each do |config|
+          entries.concat(Facets.facets_for_type(config.facet_type))
         end
-        Hash[tuples.compact]
+        entries
       end
     end
 
