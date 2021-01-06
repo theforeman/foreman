@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 /**
  * A custom hook that listens for enter on a ref and runs a function on enter keydown
@@ -6,9 +6,9 @@ import { useEffect } from 'react';
  * @param  {function} onSubmit function to execute on enter keydown
  */
 export const useSubmitOnEnter = (ref, onSubmit) => {
-  const listener = event => {
+  const listener = useCallback(event => {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') onSubmit();
-  };
+  }, []);
 
   useEffect(() => {
     const refPointer = ref; // re-assigning so it's available on unmount
@@ -17,7 +17,7 @@ export const useSubmitOnEnter = (ref, onSubmit) => {
 
     return () =>
       refPointer?.current?.removeEventListener?.('keydown', listener);
-  }, []);
+  }, [ref, listener]);
 };
 
 export default useSubmitOnEnter;
