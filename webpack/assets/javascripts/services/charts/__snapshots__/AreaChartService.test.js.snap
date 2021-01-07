@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getAreaChartConfig should return area timeseries chart config 1`] = `
+Object {
+  "axis": Object {
+    "x": Object {
+      "tick": Object {
+        "format": [MockFunction],
+        "rotate": -40,
+      },
+      "type": "timeseries",
+    },
+    "y": Object {
+      "label": Object {
+        "position": "outer-middle",
+        "text": "Number of Hosts",
+      },
+    },
+  },
+  "color": Object {
+    "pattern": Array [],
+  },
+  "data": Object {
+    "colors": Object {},
+    "columns": Array [
+      Array [
+        "time",
+        2021-02-27T18:16:08.000Z,
+        2021-02-27T18:45:00.000Z,
+      ],
+      Array [
+        "CentOS 7.9",
+        3,
+        5,
+      ],
+      Array [
+        "CentOS 7.6",
+        2,
+        1,
+      ],
+      Array [
+        "Fedora 32",
+        1,
+        2,
+      ],
+    ],
+    "groups": Array [
+      Array [
+        "CentOS 7.9",
+        "CentOS 7.6",
+        "Fedora 32",
+      ],
+    ],
+    "onclick": undefined,
+    "x": "time",
+  },
+  "id": "some-id",
+  "legend": Object {
+    "show": true,
+  },
+  "onrendered": [Function],
+  "padding": Object {
+    "bottom": 60,
+    "left": 60,
+    "right": 20,
+    "top": 10,
+  },
+  "size": undefined,
+  "tooltip": Object {
+    "format": Object {
+      "name": [Function],
+    },
+  },
+}
+`;
