@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingName render with fullName 1`] = `
+<Fragment>
+  Root password
+</Fragment>
+`;
+
+exports[`SettingName render without fullName 1`] = `
+<Fragment>
+  always_show_configuration_status
+</Fragment>
+`;
