@@ -23,7 +23,7 @@ if os_family == 'Redhat'
   end
 elsif os_family == 'Suse'
   repo_host = 'yum.puppet.com'
-  repo_os = 'sles' # PuppetLabs repos only exist for SLES, not OpenSUSE
+  repo_os = 'sles' # Puppet Official repos only exist for SLES, not OpenSUSE
 elsif os_family == 'Debian'
   repo_host = 'apt.puppet.com'
   repo_os = @host.operatingsystem.release_name
