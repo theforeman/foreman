@@ -9,11 +9,12 @@ module ForemanRegister
     end
 
     def registration_token
-      facet = registration_facet!
+      return nil unless registration_facet
       ForemanRegister::RegistrationToken.encode(self, facet.jwt_secret)
     end
 
     def registration_url
+      registration_facet!
       ForemanRegister::RegistrationUrl.new(host: self).url
     end
 
