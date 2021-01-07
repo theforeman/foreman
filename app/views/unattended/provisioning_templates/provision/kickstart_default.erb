@@ -17,9 +17,9 @@ This template accepts the following parameters:
 - http-proxy-port: string (default="")
 - force-puppet: boolean (default=false)
 - enable-epel: boolean (default=true)
-- enable-puppetlabs-repo: boolean (default=false)
-- enable-puppetlabs-puppet5-repo: boolean (default=false)
-- enable-puppetlabs-puppet6-repo: boolean (default=false)
+- enable-puppet-official-repo: boolean (default=false)
+- enable-puppet-official-puppet5-repo: boolean (default=false)
+- enable-puppet-official-puppet6-repo: boolean (default=false)
 - salt_master: string (default=undef)
 - ntp-server: string (default=undef)
 - bootloader-append: string (default="nofb quiet splash=quiet")
@@ -291,8 +291,8 @@ fi
 <% end -%>
 
 <% if puppet_enabled %>
-<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')|| host_param_true?('enable-puppetlabs-puppet5-repo') -%>
-<%= snippet 'puppetlabs_repo' %>
+<% if host_param_true?('enable-puppet-official-repo') || host_param_true?('enable-puppet-official-puppet6-repo')|| host_param_true?('enable-puppet-official-puppet5-repo') -%>
+<%= snippet 'puppet_official_repo' %>
 <% end -%>
 <%= snippet 'puppet_setup' %>
 <% end -%>
