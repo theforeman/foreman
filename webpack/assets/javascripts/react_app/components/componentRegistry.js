@@ -2,8 +2,9 @@ import React from 'react';
 import forceSingleton from '../common/forceSingleton';
 
 import ReactApp from '../Root/ReactApp';
-import DonutChart from './common/charts/DonutChart';
+import AreaChart from './common/charts/AreaChart';
 import BarChart from './common/charts/BarChart';
+import DonutChart from './common/charts/DonutChart';
 import LineChart from './common/charts/LineChart';
 import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
@@ -119,6 +120,7 @@ const coreComponets = [
   { name: 'ReactApp', type: ReactApp },
   { name: 'SearchBar', type: SearchBar },
   { name: 'AutoComplete', type: AutoComplete },
+  { name: 'AreaChart', type: AreaChart },
   { name: 'DonutChart', type: DonutChart },
   { name: 'LineChart', type: LineChart },
   { name: 'PowerStatus', type: PowerStatus },

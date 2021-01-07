@@ -35,7 +35,7 @@ export const chartConfig = {
     columns: [],
   },
   color: {
-    pattern: ['#0088ce', '#ec7a08', '#3f9c35', '#005c66', 'f9d67a', '#703fec'],
+    pattern: ['#0088ce', '#ec7a08', '#3f9c35', '#005c66', '#f9d67a', '#703fec'],
   },
   tooltip: {
     show: true,
@@ -103,12 +103,6 @@ export const lineChartConfig = {
 
 export const timeseriesLineChartConfig = {
   ...lineChartConfig,
-  padding: {
-    top: 10,
-    bottom: 70,
-    left: 30,
-    right: 20,
-  },
   axis: {
     x: {
       type: 'timeseries',
@@ -117,5 +111,42 @@ export const timeseriesLineChartConfig = {
         rotate: -40,
       },
     },
+  },
+  padding: {
+    top: 10,
+    bottom: 70,
+    left: 30,
+    right: 20,
+  },
+};
+
+export const areaChartConfig = {
+  ...chartConfig,
+  legend: { show: true },
+};
+
+export const timeseriesAreaChartConfig = {
+  ...areaChartConfig,
+  axis: {
+    x: {
+      type: 'timeseries',
+      tick: {
+        format: date =>
+          new Intl.DateTimeFormat(intl.locale, {
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+          }).format(date),
+        rotate: -40,
+      },
+    },
+  },
+  size: undefined,
+  padding: {
+    top: 10,
+    bottom: 60,
+    left: 60,
+    right: 20,
   },
 };
