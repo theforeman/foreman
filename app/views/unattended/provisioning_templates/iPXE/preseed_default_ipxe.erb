@@ -22,6 +22,11 @@ oses:
   <%- netcfg_args = 'netcfg/disable_dhcp=true netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true' -%>
 <% end -%>
 
+echo Trying to ping Gateway: ${netX/gateway}
+ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
+echo Trying to ping DNS: ${netX/dns}
+ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
+
 <% boot_files_uris = @host.operatingsystem.boot_files_uri(medium_provider) -%>
 <% kernel = boot_files_uris[0] -%>
 <% initrd = boot_files_uris[1] -%>

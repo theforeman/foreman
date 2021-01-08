@@ -21,6 +21,12 @@ oses:
     ks = foreman_url('provision')
   end
 -%>
+
+echo Trying to ping Gateway: ${netX/gateway}
+ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
+echo Trying to ping DNS: ${netX/dns}
+ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
+
 kernel <%= "#{@host.url_for_boot(:kernel)}" %> initrd=initrd.img ks=<%= ks %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options", variables: {ipxe_net: true}).strip %>
 initrd <%= "#{@host.url_for_boot(:initrd)}" %>
 imgstat
