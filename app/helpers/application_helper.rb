@@ -500,7 +500,12 @@ module ApplicationHelper
   end
 
   def app_metadata
-    { UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url }
+    {
+      UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url,
+      location: Location.current&.attributes&.slice('id', 'title'),
+      organization: Organization.current&.attributes&.slice('id', 'title'),
+      user: User.current&.attributes&.slice('id', 'login', 'firstname', 'lastname', 'admin')
+    }.compact
   end
 
   def ui_settings
