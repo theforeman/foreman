@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingCell render encrypted with fullName 1`] = `
+<Component
+  className="editable"
+  onEditClick={[Function]}
+  setting={
+    Object {
+      "category": "Setting::Provisioning",
+      "configFile": "settings.yaml",
+      "createdAt": "2019-11-06 09:42:45 +0100",
+      "default": "foobar",
+      "description": "Default encrypted root password on provisioned hosts",
+      "encrypted": true,
+      "fullName": "Root password",
+      "id": 73,
+      "name": "root_pass",
+      "readonly": false,
+      "selectValues": null,
+      "settingsType": "string",
+      "updatedAt": "2020-04-29 15:48:23 +0200",
+      "value": "*****",
+    }
+  }
+  tooltipId="root_pass"
+  tooltipText="Root password (Default: ∙∙∙∙∙∙)"
+/>
+`;
+
+exports[`SettingCell render ordinary 1`] = `
+<Component
+  className="editable"
+  onEditClick={[Function]}
+  setting={
+    Object {
+      "category": "Setting::Email",
+      "configFile": "settings.yaml",
+      "createdAt": "2019-11-06 09:42:45 +0100",
+      "default": "root@example.com",
+      "description": "Email reply address for emails that Foreman is sending",
+      "encrypted": false,
+      "fullName": "Email reply address",
+      "id": 36,
+      "name": "email_reply_address",
+      "readonly": false,
+      "selectValues": null,
+      "settingsType": "string",
+      "updatedAt": "2020-04-29 15:48:23 +0200",
+      "value": "root@example.com",
+    }
+  }
+  tooltipId="email_reply_address"
+  tooltipText="Email reply address (Default: root@example.com)"
+/>
+`;
+
+exports[`SettingCell render without fullName 1`] = `
+<Component
+  className="editable"
+  onEditClick={[Function]}
+  setting={
+    Object {
+      "category": "Setting::Puppet",
+      "configFile": "settings.yaml",
+      "createdAt": "2019-11-06 09:42:45 +0100",
+      "default": false,
+      "description": "This has no fullName. All hosts will show a configuration status even when a Puppet smart proxy is not assigned",
+      "encrypted": false,
+      "fullName": null,
+      "id": 132,
+      "name": "always_show_configuration_status",
+      "readonly": false,
+      "selectValues": null,
+      "settingsType": "boolean",
+      "updatedAt": "2019-11-06 09:42:45 +0100",
+      "value": false,
+    }
+  }
+  tooltipId="always_show_configuration_status"
+  tooltipText="always_show_configuration_status (Default: No)"
+/>
+`;

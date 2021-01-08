@@ -33,7 +33,7 @@ export const settings = [
   },
   {
     description:
-      'All hosts will show a configuration status even when a Puppet smart proxy is not assigned',
+      'This has no fullName. All hosts will show a configuration status even when a Puppet smart proxy is not assigned',
     category: 'Setting::Puppet',
     settingsType: 'boolean',
     default: false,
@@ -42,7 +42,7 @@ export const settings = [
     readonly: false,
     id: 132,
     name: 'always_show_configuration_status',
-    fullName: 'Always show configuration status',
+    fullName: null,
     selectValues: null,
     value: false,
     configFile: 'settings.yaml',
@@ -244,3 +244,7 @@ export const timezoneSetting = settings.find(
   item => item.name === 'default_timezone'
 );
 export const rootPass = settings.find(item => item.name === 'root_pass');
+
+export const withoutFullName = settings.find(
+  item => item.name === 'always_show_configuration_status'
+);
