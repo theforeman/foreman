@@ -1,6 +1,6 @@
 <%#
 kind: snippet
-name: puppetlabs_repo
+name: puppet_officials_repo
 model: ProvisioningTemplate
 snippet: true
 -%>
@@ -23,7 +23,7 @@ if os_family == 'Redhat'
   end
 elsif os_family == 'Suse'
   repo_host = 'yum.puppet.com'
-  repo_os = 'sles' # PuppetLabs repos only exist for SLES, not OpenSUSE
+  repo_os = 'sles' # Puppet official repos only exist for SLES, not OpenSUSE
 elsif os_family == 'Debian'
   repo_host = 'apt.puppet.com'
   repo_os = @host.operatingsystem.release_name
@@ -32,13 +32,13 @@ elsif os_family == 'Windows'
   repo_os = 'windows'
 end
 
-if host_param_true?('enable-puppetlabs-repo')
+if host_param_true?('enable-puppet-official-repo')
   repo_name = 'puppet-release'
   repo_subdir = ''
-elsif host_param_true?('enable-puppetlabs-puppet6-repo')
+elsif host_param_true?('enable-puppet-official-puppet6-repo')
   repo_name = 'puppet6-release'
   repo_subdir = 'puppet6/'
-elsif host_param_true?('enable-puppetlabs-puppet5-repo')
+elsif host_param_true?('enable-puppet-official-puppet5-repo')
   repo_name = 'puppet5-release'
   repo_subdir = 'puppet5/'
 end
