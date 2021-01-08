@@ -10,7 +10,7 @@ os_family = @host.operatingsystem.family
 os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
-aio_enabled = host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6') || host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppet5')
+aio_enabled = host_param_true?('enable-puppet-official-puppet6-repo') || host_param_true?('enable-puppet6') || host_param_true?('enable-puppet-official-puppet5-repo') || host_param_true?('enable-puppet5')
 
 if os_family == 'Freebsd'
   freebsd_package = host_param_true?('enable-puppet6') ? 'puppet6' : 'puppet5'
@@ -42,7 +42,7 @@ else
   yum -t -y install <%= linux_package %>
 fi
 <% elsif os_family == 'Suse' -%>
-<% if host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<% if host_param_true?('enable-puppet-officials-puppet6-repo') || host_param_true?('enable-puppet-official-puppet5-repo') -%>
 rpmkeys --import http://yum.puppet.com/RPM-GPG-KEY-puppetlabs
 rpmkeys --import http://yum.puppet.com/RPM-GPG-KEY-puppet
 <% end -%>

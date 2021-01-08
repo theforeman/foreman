@@ -68,7 +68,7 @@ runcmd:
 <% end -%>
 <% if puppet_enabled -%>
 - |
-<%= indent(2) { snippet('puppetlabs_repo') } %>
+<%= indent(2) { snippet('puppet_official_repo') } %>
 - |
 <%= indent(2) { snippet('puppet_setup') } %>
 <% end -%>

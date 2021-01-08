@@ -11,9 +11,9 @@ oses:
 <%#
 This template accepts the following parameters:
 - force-puppet: boolean (default=false)
-- enable-puppetlabs-repo: boolean (default=false)
-- enable-puppetlabs-puppet5-repo: boolean (default=false)
-- enable-puppetlabs-puppet6-repo: boolean (default=false)
+- enable-puppet-official-repo: boolean (default=false)
+- enable-puppet-official-puppet5-repo: boolean (default=false)
+- enable-puppet-official-puppet6-repo: boolean (default=false)
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -55,10 +55,10 @@ runcmd:
 <% end -%>
 - |
 <%=
-  if puppet_enabled && (host_param_true?('enable-puppetlabs-repo') ||
-    host_param_true?('enable-puppetlabs-puppet6-repo') ||
-    host_param_true?('enable-puppetlabs-puppet5-repo'))
-    indent(2) { snippet 'puppetlabs_repo' }
+  if puppet_enabled && (host_param_true?('enable-puppet-official-repo') ||
+    host_param_true?('enable-puppet-official-puppet6-repo') ||
+    host_param_true?('enable-puppet-official-puppet5-repo'))
+    indent(2) { snippet 'puppet_official_repo' }
   elsif puppet_enabled
     indent(2) { snippet('puppet_setup', :variables => { :full_puppet_run => true }) }
   else

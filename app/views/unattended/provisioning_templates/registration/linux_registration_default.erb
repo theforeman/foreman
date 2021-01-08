@@ -16,7 +16,7 @@ set -e
 # Host: <%= @host.name %>
 
 <% if @host.puppetmaster.present? -%>
-<%= snippet 'puppetlabs_repo' %>
+<%= snippet 'puppet_official_repo' %>
 <%= snippet 'puppet_setup' %>
 <% end -%>
 

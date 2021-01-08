@@ -10,7 +10,7 @@ oses:
   os_minor = @host.operatingsystem.minor.to_i
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  aio_enabled = host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppet5')
+  aio_enabled = host_param_true?('enable-puppet-officials-puppet5-repo') || host_param_true?('enable-puppet5')
   puppet_enabled = pm_set || host_param_true?('force-puppet')
   salt_enabled = host_param('salt_master') ? true : false
   sles_minor_string = (os_minor == 0) ? '' : "_SP#{os_minor}"
@@ -252,12 +252,12 @@ rm /etc/resolv.conf
   <% end -%>
 <% end -%>
 <% if puppet_enabled -%>
-<% if host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<% if host_param_true?('enable-puppet-official-puppet6-repo') || host_param_true?('enable-puppet-official-puppet5-repo') -%>
 <%
   puppet_repo_url_base = 'http://yum.puppet.com'
-  if host_param_true?('enable-puppetlabs-puppet6-repo')
+  if host_param_true?('enable-puppet-official-puppet6-repo')
     puppet_repo_url = "#{puppet_repo_url_base}/puppet6/sles/#{os_major}/#{@host.architecture}/"
-  elsif host_param_true?('enable-puppetlabs-puppet5-repo')
+  elsif host_param_true?('enable-puppet-official-puppet5-repo')
     puppet_repo_url = "#{puppet_repo_url_base}/puppet5/sles/#{os_major}/#{@host.architecture}/"
   end
 %>
