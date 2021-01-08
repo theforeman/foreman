@@ -9,24 +9,22 @@ import SettingCellInner from './SettingCellInner';
 
 import './SettingCell.scss';
 
-const SettingCell = props => {
-  const fieldProps = { setting: props.setting, tooltipId: props.setting.name };
+const SettingCell = ({ setting, onEditClick }) => {
+  const fieldProps = { setting, tooltipId: setting.name, onEditClick };
+  const displayName = setting.fullName || setting.name;
+  const defaultStr = defaultToString(setting);
 
-  if (props.setting.readonly) {
+  if (setting.readonly) {
     fieldProps.tooltipText = sprintf(
       __(
         'This setting is defined in the configuration file %s and is read-only.'
       ),
-      props.setting.configFile
+      setting.configFile
     );
   } else {
-    fieldProps.tooltipText = `${
-      props.setting.fullName
-    } (Default: ${defaultToString(props.setting)})`;
+    fieldProps.tooltipText = `${displayName} (Default: ${defaultStr})`;
     fieldProps.className = 'editable';
   }
-
-  fieldProps.onEditClick = props.onEditClick;
 
   const Component = withTooltip(SettingCellInner);
   return <Component {...fieldProps} />;
