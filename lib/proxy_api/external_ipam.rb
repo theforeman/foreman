@@ -63,7 +63,6 @@ module ProxyAPI
     #     {"error": "Unable to connect to External IPAM server"}
     def next_ip(subnet, mac, group = "")
       raise "subnet cannot be nil" if subnet.nil?
-      raise "mac address cannot be nil" if mac.nil?
       response = parse get("/subnet/#{subnet}/next_ip?mac=#{mac}&group=#{URI.escape(group.to_s)}")
       raise(response['error']) if response['error'].present?
       response['data']
