@@ -1,101 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import NavItem from './NavItem';
-import { noop } from '../../../common/helpers';
+import { foremanUrl, noop } from '../../../common/helpers';
 import { translate as __ } from '../../../common/I18n';
 
-class TaxonomyDropdown extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { searchValue: '' };
-  }
+const TaxonomyDropdown = ({
+  taxonomyType,
+  currentTaxonomy,
+  taxonomies,
+  changeTaxonomy,
+}) => {
+  const [searchValue, setSearch] = useState('');
 
-  render() {
-    const {
-      taxonomyType,
-      currentTaxonomy,
-      taxonomies,
-      id,
-      changeTaxonomy,
-      anyTaxonomyText,
-      manageTaxonomyText,
-      anyTaxonomyURL,
-      manageTaxonomyURL,
-    } = this.props;
+  const filteredTaxonomies = () => {
+    if (searchValue === '') {
+      return taxonomies;
+    }
 
-    const filteredTaxonomies = () => {
-      const { searchValue } = this.state;
+    return taxonomies.filter(item =>
+      item.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  };
 
-      if (searchValue === '') {
-        return this.props.taxonomies;
-      }
+  const id = `${taxonomyType}-dropdown`;
+  const anyTaxonomyURL = foremanUrl(`/${taxonomyType}s/clear`);
+  const manageTaxonomyURL = foremanUrl(`/${taxonomyType}s`);
+  const anyTaxonomyText =
+    taxonomyType === 'organization'
+      ? __('Any Organization')
+      : __('Any Location');
 
-      return this.props.taxonomies.filter(item =>
-        item.title.toLowerCase().includes(searchValue.toLowerCase())
-      );
-    };
-
-    return (
-      <NavItem className="dropdown org-switcher" id={id}>
-        <a
-          href="#"
-          className="dropdown-toggle nav-item-iconic"
-          data-toggle="dropdown"
-        >
-          {currentTaxonomy}
-          <span className="caret" />
-        </a>
-        <ul className="dropdown-menu">
-          <li className="dropdown-header">{__(taxonomyType)}</li>
+  return (
+    <NavItem className="dropdown org-switcher" id={id}>
+      <a
+        href="#"
+        className="dropdown-toggle nav-item-iconic"
+        data-toggle="dropdown"
+      >
+        {currentTaxonomy}
+        <span className="caret" />
+      </a>
+      <ul className="dropdown-menu">
+        <li className="dropdown-header">{__(taxonomyType)}</li>
+        <li>
+          <a
+            className={`${taxonomyType}s_clear`}
+            href={anyTaxonomyURL}
+            onClick={() => {
+              changeTaxonomy({ title: anyTaxonomyText });
+            }}
+          >
+            {__(anyTaxonomyText)}
+          </a>
+        </li>
+        <li>
+          <a className={taxonomyType} href={manageTaxonomyURL}>
+            {taxonomyType === 'organization'
+              ? __('Manage Organizations')
+              : __('Manage Locations')}
+          </a>
+        </li>
+        <li className="divider" />
+        {taxonomies.length > 6 && (
           <li>
+            <input
+              type="text"
+              className="form-control taxonomy_search"
+              id={`search_taxonomy_${taxonomyType}`}
+              placeholder="Filter ..."
+              onChange={e => {
+                setSearch(e.target.value);
+              }}
+            />
+          </li>
+        )}
+        {filteredTaxonomies().map((taxonomy, i) => (
+          <li key={i}>
             <a
-              className={`${taxonomyType.toLowerCase()}s_clear`}
-              href={anyTaxonomyURL}
+              className={`${taxonomyType}_menuitem`}
+              id={`select_taxonomy_${taxonomy.title}`}
+              href={taxonomy.href}
               onClick={() => {
-                changeTaxonomy({ title: anyTaxonomyText });
+                changeTaxonomy({ title: taxonomy.title, id: taxonomy.id });
               }}
             >
-              {__(anyTaxonomyText)}
+              {taxonomy.title}
             </a>
           </li>
-          <li>
-            <a className={taxonomyType.toLowerCase()} href={manageTaxonomyURL}>
-              {__(manageTaxonomyText)}
-            </a>
-          </li>
-          <li className="divider" />
-          {taxonomies.length > 6 && (
-            <li>
-              <input
-                type="text"
-                className="form-control taxonomy_search"
-                id={`search_taxonomy_${taxonomyType.toLowerCase()}`}
-                placeholder="Filter ..."
-                onChange={e => {
-                  this.setState({ searchValue: e.target.value });
-                }}
-              />
-            </li>
-          )}
-          {filteredTaxonomies().map((taxonomy, i) => (
-            <li key={i}>
-              <a
-                className={`${taxonomyType.toLowerCase()}_menuitem`}
-                id={`select_taxonomy_${taxonomy.title}`}
-                href={taxonomy.href}
-                onClick={() => {
-                  changeTaxonomy({ title: taxonomy.title, id: taxonomy.id });
-                }}
-              >
-                {taxonomy.title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </NavItem>
-    );
-  }
-}
+        ))}
+      </ul>
+    </NavItem>
+  );
+};
 
 TaxonomyDropdown.propTypes = {
   taxonomyType: PropTypes.string.isRequired,
@@ -107,12 +103,7 @@ TaxonomyDropdown.propTypes = {
       href: PropTypes.string.isRequired,
     })
   ).isRequired,
-  id: PropTypes.string.isRequired,
   changeTaxonomy: PropTypes.func,
-  anyTaxonomyText: PropTypes.string.isRequired,
-  manageTaxonomyText: PropTypes.string.isRequired,
-  anyTaxonomyURL: PropTypes.string.isRequired,
-  manageTaxonomyURL: PropTypes.string.isRequired,
 };
 
 TaxonomyDropdown.defaultProps = {

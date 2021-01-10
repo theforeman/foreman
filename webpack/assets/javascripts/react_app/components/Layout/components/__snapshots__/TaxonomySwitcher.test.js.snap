@@ -11,13 +11,8 @@ exports[`TaxonomySwitcher rendering render TaxonomySwitcher 1`] = `
   stacked={false}
 >
   <TaxonomyDropdown
-    anyTaxonomyText="Any Organization"
-    anyTaxonomyURL="/organizations/clear"
     changeTaxonomy={[Function]}
     currentTaxonomy="organization"
-    id="organization-dropdown"
-    manageTaxonomyText="Manage Organizations"
-    manageTaxonomyURL="/organizations"
     taxonomies={
       Array [
         Object {
@@ -32,16 +27,11 @@ exports[`TaxonomySwitcher rendering render TaxonomySwitcher 1`] = `
         },
       ]
     }
-    taxonomyType="Organization"
+    taxonomyType="organization"
   />
   <TaxonomyDropdown
-    anyTaxonomyText="Any Location"
-    anyTaxonomyURL="/locations/clear"
     changeTaxonomy={[Function]}
     currentTaxonomy="location"
-    id="location-dropdown"
-    manageTaxonomyText="Manage Locations"
-    manageTaxonomyURL="/locations"
     taxonomies={
       Array [
         Object {
@@ -61,7 +51,7 @@ exports[`TaxonomySwitcher rendering render TaxonomySwitcher 1`] = `
         },
       ]
     }
-    taxonomyType="Location"
+    taxonomyType="location"
   />
   <NavItem
     activeHref=""

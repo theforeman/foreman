@@ -6,14 +6,9 @@ import TaxonomyDropdown from './TaxonomyDropdown';
 import { hasTaxonomiesMock } from '../Layout.fixtures';
 
 const props = {
-  taxonomyType: 'Organization',
-  id: 'organization-dropdown',
+  taxonomyType: 'organization',
   currentTaxonomy: hasTaxonomiesMock.currentOrganization,
   taxonomies: hasTaxonomiesMock.data.orgs.available_organizations,
-  anyTaxonomyText: 'Any Organization',
-  manageTaxonomyText: 'Manage Organizations',
-  anyTaxonomyURL: '/organizations/clear',
-  manageTaxonomyURL: '/organizations',
 };
 
 const propsSearch = {

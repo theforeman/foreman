@@ -19,26 +19,16 @@ const TaxonomySwitcher = ({
 }) => (
   <Nav navbar pullLeft className="navbar-iconic">
     <TaxonomyDropdown
-      taxonomyType="Organization"
-      id="organization-dropdown"
+      taxonomyType="organization"
       currentTaxonomy={currentOrganization}
       taxonomies={organizations}
       changeTaxonomy={onOrgClick}
-      anyTaxonomyText="Any Organization"
-      manageTaxonomyText="Manage Organizations"
-      anyTaxonomyURL="/organizations/clear"
-      manageTaxonomyURL="/organizations"
     />
     <TaxonomyDropdown
-      taxonomyType="Location"
-      id="location-dropdown"
+      taxonomyType="location"
       currentTaxonomy={currentLocation}
       taxonomies={locations}
       changeTaxonomy={onLocationClick}
-      anyTaxonomyText="Any Location"
-      manageTaxonomyText="Manage Locations"
-      anyTaxonomyURL="/locations/clear"
-      manageTaxonomyURL="/locations"
     />
     {isLoading && (
       <NavItem id="vertical-spinner">
