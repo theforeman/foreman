@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import NavItem from './NavItem';
 import { foremanUrl, noop } from '../../../common/helpers';
@@ -10,17 +10,13 @@ const TaxonomyDropdown = ({
   taxonomies,
   changeTaxonomy,
 }) => {
-  const [searchValue, setSearch] = useState('');
-
-  const filteredTaxonomies = () => {
-    if (searchValue === '') {
-      return taxonomies;
-    }
-
-    return taxonomies.filter(item =>
-      item.title.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  };
+  const [filteredTaxonomies, setSearch] = useReducer(
+    (_, searchValue) =>
+      taxonomies.filter(item =>
+        item.title.toLowerCase().includes(searchValue.toLowerCase())
+      ),
+    taxonomies
+  );
 
   const id = `${taxonomyType}-dropdown`;
   const anyTaxonomyURL = foremanUrl(`/${taxonomyType}s/clear`);
@@ -74,7 +70,7 @@ const TaxonomyDropdown = ({
             />
           </li>
         )}
-        {filteredTaxonomies().map((taxonomy, i) => (
+        {filteredTaxonomies.map((taxonomy, i) => (
           <li key={i}>
             <a
               className={`${taxonomyType}_menuitem`}
