@@ -90,7 +90,7 @@ const TaxonomyDropdown = ({
 };
 
 TaxonomyDropdown.propTypes = {
-  taxonomyType: PropTypes.string.isRequired,
+  taxonomyType: PropTypes.oneOf(['organization', 'location']).isRequired,
   currentTaxonomy: PropTypes.string,
   taxonomies: PropTypes.arrayOf(
     PropTypes.shape({
