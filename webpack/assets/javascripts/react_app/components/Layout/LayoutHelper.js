@@ -8,7 +8,6 @@ import {
   changeLocation,
 } from '../../../foreman_navigation';
 import { translate as __ } from '../../common/I18n';
-import { ANY_ORGANIZATION_TEXT, ANY_LOCATION_TEXT } from './LayoutConstants';
 import { removeLastSlashFromPath, noop } from '../../common/helpers';
 
 export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
@@ -67,14 +66,13 @@ export const combineMenuItems = data => {
 
 const createOrgItem = orgs => {
   const anyOrg = {
-    name: ANY_ORGANIZATION_TEXT,
+    name: __('Any Organization'),
     url: '/organizations/clear',
     onClick: () => {
-      changeOrganization(ANY_ORGANIZATION_TEXT);
+      changeOrganization();
     },
   };
-  const childrenArray = [];
-  childrenArray.push(anyOrg);
+  const childrenArray = [anyOrg];
 
   orgs.forEach(org => {
     const childObject = {
@@ -101,14 +99,13 @@ const createOrgItem = orgs => {
 
 const createLocationItem = locations => {
   const anyLoc = {
-    name: ANY_LOCATION_TEXT,
+    name: __('Any Location'),
     url: '/locations/clear',
     onClick: () => {
-      changeLocation(ANY_LOCATION_TEXT);
+      changeLocation();
     },
   };
-  const childrenArray = [];
-  childrenArray.push(anyLoc);
+  const childrenArray = [anyLoc];
 
   locations.forEach(loc => {
     const childObject = {
@@ -225,8 +222,6 @@ export const layoutDefaultProps = {
   children: null,
   items: [],
   data: {},
-  currentOrganization: ANY_ORGANIZATION_TEXT,
-  currentLocation: ANY_LOCATION_TEXT,
   isLoading: false,
   isCollapsed: false,
   activeMenu: '',

@@ -4,7 +4,6 @@ import { Nav, Spinner } from 'patternfly-react';
 import { noop } from '../../../common/helpers';
 
 import { locationPropType, organizationPropType } from '../LayoutHelper';
-import { ANY_ORGANIZATION_TEXT, ANY_LOCATION_TEXT } from '../LayoutConstants';
 import NavItem from './NavItem';
 import TaxonomyDropdown from './TaxonomyDropdown';
 
@@ -48,9 +47,9 @@ TaxonomySwitcher.propTypes = {
 };
 TaxonomySwitcher.defaultProps = {
   isLoading: false,
-  currentLocation: ANY_LOCATION_TEXT,
-  currentOrganization: ANY_ORGANIZATION_TEXT,
   onLocationClick: noop,
   onOrgClick: noop,
+  currentLocation: undefined,
+  currentOrganization: undefined,
 };
 export default TaxonomySwitcher;

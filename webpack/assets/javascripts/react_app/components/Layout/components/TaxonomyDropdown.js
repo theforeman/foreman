@@ -33,7 +33,7 @@ const TaxonomyDropdown = ({
         className="dropdown-toggle nav-item-iconic"
         data-toggle="dropdown"
       >
-        {currentTaxonomy}
+        {currentTaxonomy || anyTaxonomyText}
         <span className="caret" />
       </a>
       <ul className="dropdown-menu">
@@ -91,7 +91,7 @@ const TaxonomyDropdown = ({
 
 TaxonomyDropdown.propTypes = {
   taxonomyType: PropTypes.string.isRequired,
-  currentTaxonomy: PropTypes.string.isRequired,
+  currentTaxonomy: PropTypes.string,
   taxonomies: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -104,6 +104,7 @@ TaxonomyDropdown.propTypes = {
 
 TaxonomyDropdown.defaultProps = {
   changeTaxonomy: noop,
+  currentTaxonomy: undefined,
 };
 
 export default TaxonomyDropdown;
