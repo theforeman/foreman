@@ -80,19 +80,16 @@ Array [
       Object {
         "name": "Any Organization",
         "onClick": [Function],
-        "url": "/organizations/clear",
       },
       Object {
         "name": "org1",
         "onClick": [Function],
         "type": undefined,
-        "url": "/organizations/1-org1/select",
       },
       Object {
         "name": "org2",
         "onClick": [Function],
         "type": undefined,
-        "url": "/organizations/2-org2/select",
       },
     ],
     "className": "visible-xs-block",
@@ -105,25 +102,21 @@ Array [
       Object {
         "name": "Any Location",
         "onClick": [Function],
-        "url": "/locations/clear",
       },
       Object {
         "name": "yaml",
         "onClick": [Function],
         "type": undefined,
-        "url": "/locations/1-yaml/select",
       },
       Object {
         "name": "london",
         "onClick": [Function],
         "type": undefined,
-        "url": "/locations/2-london/select",
       },
       Object {
         "name": "norway",
         "onClick": [Function],
         "type": undefined,
-        "url": "/locations/3-norway/select",
       },
     ],
     "className": "visible-xs-block",

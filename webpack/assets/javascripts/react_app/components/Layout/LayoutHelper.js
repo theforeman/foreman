@@ -8,13 +8,16 @@ import {
   changeLocation,
 } from '../../../foreman_navigation';
 import { translate as __ } from '../../common/I18n';
-import { removeLastSlashFromPath, noop } from '../../common/helpers';
+import {
+  removeLastSlashFromPath,
+  noop,
+  foremanUrl,
+} from '../../common/helpers';
 
 export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
   const taxonomyId = availableTaxonomies.find(
     taxonomy => taxonomy.title === currentTaxonomy
   ).id;
-
   return {
     title: currentTaxonomy,
     id: taxonomyId,
@@ -67,9 +70,9 @@ export const combineMenuItems = data => {
 const createOrgItem = orgs => {
   const anyOrg = {
     name: __('Any Organization'),
-    url: '/organizations/clear',
     onClick: () => {
       changeOrganization();
+      window.location.assign(foremanUrl('/organizations/clear'));
     },
   };
   const childrenArray = [anyOrg];
@@ -80,8 +83,8 @@ const createOrgItem = orgs => {
       name: isEmpty(org.title) ? org.title : __(org.title),
       onClick: () => {
         changeOrganization(__(org.title));
+        window.location.assign(org.href);
       },
-      url: org.href,
     };
     childrenArray.push(childObject);
   });
@@ -100,9 +103,9 @@ const createOrgItem = orgs => {
 const createLocationItem = locations => {
   const anyLoc = {
     name: __('Any Location'),
-    url: '/locations/clear',
     onClick: () => {
       changeLocation();
+      window.location.assign(foremanUrl('/locations/clear'));
     },
   };
   const childrenArray = [anyLoc];
@@ -113,8 +116,8 @@ const createLocationItem = locations => {
       name: isEmpty(loc.title) ? loc.title : __(loc.title),
       onClick: () => {
         changeLocation(__(loc.title));
+        window.location.assign(loc.href);
       },
-      url: loc.href,
     };
     childrenArray.push(childObject);
   });
