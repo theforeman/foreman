@@ -10,6 +10,7 @@ import {
   boolSetting,
   arraySetting,
   timezoneSetting,
+  httpProxySetting,
 } from '../../SettingRecords/__tests__/SettingRecords.fixtures';
 
 const array = [
@@ -64,6 +65,8 @@ describe('SettingsTableHelpers', () => {
       ));
     it('should correctly format hash selection value', () =>
       expect(valueToString(timezoneSetting)).toBe('(GMT +07:00) Bangkok'));
+    it('should correctly format array selection value with single group', () =>
+      expect(valueToString(httpProxySetting)).toBe('bar (https://bar.com)'));
   });
 
   describe('defaultToString', () => {

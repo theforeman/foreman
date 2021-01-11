@@ -213,8 +213,26 @@ export const settings = [
     value: 'root@example.com',
     encrypted: false,
     configFile: 'settings.yaml',
-  },
+  }
 ];
+
+export const httpProxySetting = {
+  category: 'Setting::Fake',
+  value: 'bar',
+  selectValues: [
+    {
+      label: 'no global default',
+      value: null,
+    },
+    {
+      groupLabel: 'HTTP Proxies',
+      children: [
+        { label: 'foo (https://foo.com)', value: 'foo' },
+        { label: 'bar (https://bar.com)', value: 'bar' },
+      ]
+    }
+  ]
+}
 
 export const groupedSettings = settings.reduce((memo, setting) => {
   if (memo[setting.category]) {
