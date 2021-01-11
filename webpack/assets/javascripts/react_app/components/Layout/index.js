@@ -3,10 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import {
-  ANY_LOCATION_TAXONOMY,
-  ANY_ORGANIZATION_TAXONOMY,
-} from './LayoutConstants';
-import {
   initializeLayout,
   changeActiveMenu,
   changeOrganization,
@@ -41,18 +37,18 @@ const ConnectedLayout = ({ children, data }) => {
         items: combineMenuItems(data),
         activeMenu: getActiveMenuItem(data.menu).title,
         isCollapsed: getIsNavbarCollapsed(),
-        organization: data.orgs.current_org
-          ? createInitialTaxonomy(
-              data.orgs.current_org,
-              data.orgs.available_organizations
-            )
-          : ANY_ORGANIZATION_TAXONOMY,
-        location: data.locations.current_location
-          ? createInitialTaxonomy(
-              data.locations.current_location,
-              data.locations.available_locations
-            )
-          : ANY_LOCATION_TAXONOMY,
+        organization:
+          data.orgs.current_org &&
+          createInitialTaxonomy(
+            data.orgs.current_org,
+            data.orgs.available_organizations
+          ),
+        location:
+          data.locations.current_location &&
+          createInitialTaxonomy(
+            data.locations.current_location,
+            data.locations.available_locations
+          ),
       })
     );
   }, [data, dispatch]);

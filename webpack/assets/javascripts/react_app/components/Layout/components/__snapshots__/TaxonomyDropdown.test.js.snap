@@ -23,7 +23,7 @@ exports[`TaxonomyDropdown rendering render TaxonomyDropdown 1`] = `
     <li
       className="dropdown-header"
     >
-      Organization
+      organization
     </li>
     <li>
       <a
@@ -96,7 +96,7 @@ exports[`TaxonomyDropdown rendering render TaxonomyDropdownWithSearch 1`] = `
     <li
       className="dropdown-header"
     >
-      Organization
+      organization
     </li>
     <li>
       <a

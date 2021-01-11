@@ -3,12 +3,6 @@
 exports[`Layout reducer should handle LAYOUT_CHANGE_ACTIVE 1`] = `
 Object {
   "activeMenu": "Monitor",
-  "currentLocation": Object {
-    "title": "Any Location",
-  },
-  "currentOrganization": Object {
-    "title": "Any Organization",
-  },
   "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
@@ -19,9 +13,6 @@ exports[`Layout reducer should handle LAYOUT_CHANGE_LOCATION 1`] = `
 Object {
   "activeMenu": "initialActive",
   "currentLocation": "yaml",
-  "currentOrganization": Object {
-    "title": "Any Organization",
-  },
   "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
@@ -31,9 +22,6 @@ Object {
 exports[`Layout reducer should handle LAYOUT_CHANGE_ORG 1`] = `
 Object {
   "activeMenu": "initialActive",
-  "currentLocation": Object {
-    "title": "Any Location",
-  },
   "currentOrganization": "org1",
   "isCollapsed": false,
   "isLoading": false,
@@ -44,12 +32,6 @@ Object {
 exports[`Layout reducer should handle LAYOUT_COLLAPSE 1`] = `
 Object {
   "activeMenu": "initialActive",
-  "currentLocation": Object {
-    "title": "Any Location",
-  },
-  "currentOrganization": Object {
-    "title": "Any Organization",
-  },
   "isCollapsed": true,
   "isLoading": false,
   "items": Array [],
@@ -59,12 +41,6 @@ Object {
 exports[`Layout reducer should handle LAYOUT_EXPAND 1`] = `
 Object {
   "activeMenu": "initialActive",
-  "currentLocation": Object {
-    "title": "Any Location",
-  },
-  "currentOrganization": Object {
-    "title": "Any Organization",
-  },
   "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
@@ -74,12 +50,6 @@ Object {
 exports[`Layout reducer should handle LAYOUT_HIDE_LOADING 1`] = `
 Object {
   "activeMenu": "initialActive",
-  "currentLocation": Object {
-    "title": "Any Location",
-  },
-  "currentOrganization": Object {
-    "title": "Any Organization",
-  },
   "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
@@ -100,12 +70,6 @@ Object {
 exports[`Layout reducer should handle LAYOUT_SHOW_LOADING 1`] = `
 Object {
   "activeMenu": "initialActive",
-  "currentLocation": Object {
-    "title": "Any Location",
-  },
-  "currentOrganization": Object {
-    "title": "Any Organization",
-  },
   "isCollapsed": false,
   "isLoading": true,
   "items": Array [],
@@ -115,12 +79,6 @@ Object {
 exports[`Layout reducer should return the initial state 1`] = `
 Object {
   "activeMenu": "initialActive",
-  "currentLocation": Object {
-    "title": "Any Location",
-  },
-  "currentOrganization": Object {
-    "title": "Any Organization",
-  },
   "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
