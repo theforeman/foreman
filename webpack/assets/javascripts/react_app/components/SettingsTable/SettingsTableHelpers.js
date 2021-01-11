@@ -111,19 +111,21 @@ const formatArraySelection = (attr, setting) => {
     return null;
   }
 
-  const [, model] = setting[attr].split('-');
+  // https://github.com/eslint/eslint/issues/12117
+  let group;
+  for (group of selectValues) {
+    if (group.value === setting[attr]) {
+      return group.label;
+    }
 
-  const selectGroup = selectValues.find(group => group.groupLabel === model);
-
-  if (!selectGroup) {
-    return null;
+    if (group.children) {
+      const child = group.children.find(item => item.value === setting[attr]);
+      if (child) {
+        return child.label;
+      }
+    }
   }
-
-  const selectedItem = selectGroup.children.find(
-    item => item.value === setting[attr]
-  );
-
-  return selectedItem && selectedItem.label;
+  return null;
 };
 
 const reduceFormats = formatters => setting =>
