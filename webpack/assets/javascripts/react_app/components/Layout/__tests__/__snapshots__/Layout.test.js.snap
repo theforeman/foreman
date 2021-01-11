@@ -62,8 +62,6 @@ exports[`Layout rendering renders layout 1`] = `
         titleImg=""
       />
       <TaxonomySwitcher
-        currentLocation="Any Location"
-        currentOrganization="Any Organization"
         isLoading={false}
         locations={
           Array [

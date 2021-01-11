@@ -1,8 +1,6 @@
 import Immutable from 'seamless-immutable';
 
 import {
-  ANY_LOCATION_TAXONOMY,
-  ANY_ORGANIZATION_TAXONOMY,
   LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
@@ -18,8 +16,6 @@ const initialState = Immutable({
   isLoading: false,
   isCollapsed: false,
   activeMenu: 'initialActive',
-  currentOrganization: ANY_ORGANIZATION_TAXONOMY,
-  currentLocation: ANY_LOCATION_TAXONOMY,
 });
 
 export default (state = initialState, action) => {
