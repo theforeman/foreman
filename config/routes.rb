@@ -73,6 +73,7 @@ Foreman::Application.routes.draw do
         post 'forget_status'
         put 'ipmi_boot'
         put 'disassociate'
+        get 'get_statuses'
       end
       collection do
         post 'multiple_actions'
