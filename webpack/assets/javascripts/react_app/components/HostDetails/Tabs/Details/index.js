@@ -8,21 +8,13 @@ import InterfacesCard from '../../Interfaces';
 import AuditCard from '../../Audits';
 import StatusAlert from '../../Status';
 import Slot from '../../../common/Slot';
+import AggregateStatus from '../../AggregateStatusCard';
 import './Details.css';
 
 const DetailsTab = ({ response }) => (
   <div className="details-tab">
-    <Flex
-      spaceItems={{ modifier: 'spaceItemsXl' }}
-      direction={{ default: 'column' }}
-      style={{ paddingBottom: '10px' }}
-    >
-      <FlexItem alignSelf={{ default: 'alignSelfCenter' }}>
-        <StatusAlert status={response ? response.global_status_label : null} />
-      </FlexItem>
-    </Flex>
-    <Grid hasGutter>
-      <GridItem xl2={2} md={3} lg={2} rowSpan={3}>
+    <Grid hasGutter className="details-cards">
+      <GridItem span={3} rowSpan={3}>
         <Properties hostData={response} />
       </GridItem>
       <GridItem xl2={3} md={6} lg={5}>

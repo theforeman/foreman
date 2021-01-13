@@ -26,6 +26,7 @@ import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
+import HostStatus from './Aggregate';
 
 import './HostDetails.scss';
 
@@ -91,13 +92,17 @@ const HostDetails = ({ match, location: { hash } }) => {
           <br />
           <br />
           <Grid>
-            <GridItem span={2}>
+            <GridItem span={3}>
               <Title headingLevel="h5" size="2xl">
                 {/* TODO: Make a generic Skeleton HOC (withSkeleton) */}
                 {response.name || <Skeleton />}
               </Title>
             </GridItem>
-            <GridItem style={{ marginTop: '5px', marginLeft: '10px' }} span={8}>
+            <GridItem
+              style={{ marginTop: '5px', marginRight: '30px' }}
+              span={7}
+            >
+              <HostStatus />
               <Badge key={1}>{response.operatingsystem_name}</Badge>{' '}
               <Badge key={21}>{response.architecture_name}</Badge>
             </GridItem>
