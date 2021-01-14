@@ -4,7 +4,7 @@
     <%= text_f f, :key, :disabled => true, :size => "col-md-8" %>
     <%= f.hidden_field :key %>
     <%= textarea_f f, :description, :rows => :auto, :size => "col-md-8", :class => "no-stretch" %>
-    <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence, :label => _('Puppet Environments'), :size => "col-md-8", :disabled => true) %>
+    <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).compact.to_sentence, :label => _('Puppet Environments'), :size => "col-md-8", :disabled => true) %>
     <%= show_puppet_class f %>
   </fieldset>
   <fieldset>
