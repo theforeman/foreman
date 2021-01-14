@@ -12,6 +12,8 @@ class HttpProxy < ApplicationRecord
 
   has_many :compute_resources
 
+  before_validation :nilify_empty_credentials
+
   validates :name, :presence => true, :uniqueness => true
 
   validates :url, :presence => true
@@ -45,5 +47,12 @@ class HttpProxy < ApplicationRecord
     )
   rescue Excon::Error::Socket => e
     e.message
+  end
+
+  private
+
+  def nilify_empty_credentials
+    self.username = nil if username.empty?
+    self.password = nil if password.empty?
   end
 end
