@@ -12,6 +12,17 @@ class HttpProxyTest < ActiveSupport::TestCase
     assert proxy.save
   end
 
+  # the form sends empty string for the username and password fields
+  # backend systems may have problems detecting the empty string as a no-value
+  # so we should must keep them as nil
+  test 'create with empty username' do
+    proxy = HttpProxy.new(:name => 'foobar', :url => "http://someurl:5000", :username => '', :password => '')
+
+    assert proxy.save
+    assert_nil proxy.username
+    assert_nil proxy.password
+  end
+
   test 'search by name' do
     assert_equal 1, HttpProxy.search_for("name = #{http_proxy.name}").count
   end
