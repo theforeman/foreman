@@ -84,6 +84,18 @@
       <%= number_field_tag 'jwt_expiration', params[:jwt_expiration] || 4, class: 'form-control', min: 1, required: true %>
     </div>
   </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'>
+      <%= _('Insecure') %>
+      <% help = _('If the target machine does not trust the Foreman SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process.') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info "></span>
+      </a>
+    </label>
+    <div class='col-md-4'>
+      <%= check_box_tag 'insecure', '', params[:insecure] %>
+    </div>
+  </div>
 
   <% pagelets_for(:global_registration).each do |pagelet| %>
     <%= render_pagelet(pagelet) %>
