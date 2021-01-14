@@ -7,8 +7,9 @@ class RegistrationController < ApplicationController
 
   def create
     form_options
+    insecure = params[:insecure] ? '--insecure' : ''
     args_query = "?#{registration_args.to_query}"
-    @command = "curl -X GET \"#{endpoint}#{args_query if args_query != '?'}\" #{headers} | bash"
+    @command = "curl #{insecure} -X GET \"#{endpoint}#{args_query if args_query != '?'}\" #{headers} | bash"
   end
 
   private
@@ -34,7 +35,7 @@ class RegistrationController < ApplicationController
   end
 
   def registration_args
-    ignored = ['utf8', 'authenticity_token', 'commit', 'action', 'locale', 'controller', 'jwt_expiration', 'smart_proxy']
+    ignored = ['utf8', 'authenticity_token', 'commit', 'action', 'locale', 'controller', 'jwt_expiration', 'smart_proxy', 'insecure']
     args = params.except(*ignored)
     args[:setup_insights] = setup_insights_param if params['setup_insights'].to_s.present?
     args[:setup_remote_execution] = setup_remote_execution_param if params['setup_remote_execution'].to_s.present?
