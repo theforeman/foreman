@@ -46,6 +46,23 @@ module Foreman
           def to_yaml(data)
             data.to_yaml
           end
+
+          apipie :method, "Generate a formatted time from a Ruby Time object or a Float object representing a UNIX timestamp" do
+            required :time, [Float, Time], desc: 'Ruby Time object or a Float object representing a UNIX timestamp'
+            optional :format, String, desc: 'Pattern to format time', default: '%Y-%-m-%-d %k:%M:%S %z'
+            optional :zone, String, desc: 'This parameter can be used for specify timezone of time, for example Europe/Prague', default: 'Default local timezone'
+            returns String
+          end
+          def format_time(time, format: '%Y-%-m-%-d %k:%M:%S %z', zone: Time.zone)
+            # if time is in float, we need to understand it as UNIX timestamp that is in UTC
+            time_to_format = if (time.is_a? Float) || (time.is_a? Integer)
+                               Time.zone.at(time).utc
+                             else
+                               time
+                             end
+
+            time_to_format.in_time_zone(zone).strftime(format)
+          end
         end
       end
     end
