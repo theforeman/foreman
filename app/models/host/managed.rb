@@ -518,46 +518,6 @@ autopart"', desc: 'to render the content of host partition table'
     errors.empty?
   end
 
-  # this method accepts a puppets external node yaml output and generate a node in our setup
-  # it is assumed that you already have the node (e.g. imported by one of the rack tasks)
-  def importNode(nodeinfo)
-    myklasses = []
-    # puppet classes
-    classes = nodeinfo["classes"]
-    classes = classes.keys if classes.is_a?(Hash)
-    classes.each do |klass|
-      if (pc = Puppetclass.find_by_name(klass.to_s))
-        myklasses << pc
-      else
-        error = _("Failed to import %{klass} for %{name}: doesn't exists in our database - ignoring") % { :klass => klass, :name => name }
-        logger.warn error
-        $stdout.puts error
-      end
-      self.puppetclasses = myklasses
-    end
-
-    # parameters are a bit more tricky, as some classifiers provide the facts as parameters as well
-    # not sure what is puppet priority about it, but we ignore it if has a fact with the same name.
-    # additionally, we don't import any non strings values, as puppet don't know what to do with those as well.
-
-    myparams = info["parameters"]
-    nodeinfo["parameters"].each_pair do |param, value|
-      next if fact_names.exists? :name => param
-      next unless value.is_a?(String)
-
-      # we already have this parameter
-      next if myparams.has_key?(param) && myparams[param] == value
-
-      unless (hp = host_parameters.create(:name => param, :value => value))
-        logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(', ')}"
-        $stdout.puts $ERROR_INFO
-      end
-    end
-
-    clear_host_parameters_cache!
-    save
-  end
-
   # counts each association of a given host
   # e.g. how many hosts belongs to each os
   # returns sorted hash
