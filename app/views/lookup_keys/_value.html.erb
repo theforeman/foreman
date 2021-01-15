@@ -5,13 +5,17 @@
   <td>
     <%= f.hidden_field :match, :class => 'match' %>
     <div class="matcher-group">
-    <%= select_tag '', nil, :class => 'matcher_key without_select2' %>
-    <span> = </span>
-    <%= text_field_tag '', nil, :class => 'matcher_value' %>
+      <%= select_tag '', nil, :class => 'matcher_key without_select2', :onchange => 'tfm.lookupKeys.matcherKeyChanged(this)' %>
+      <span> = </span>
+      <%= text_field_tag '', nil, :class => 'matcher_value', :onkeyup => 'tfm.lookupKeys.matcherValueChanged(this)' %>
+      <%= popover("", 'Highlighted fields with a value change'.html_safe, :icon => 'warning-triangle-o', :class => 'warn-field-changed') %>
     </div>
   </td>
   <td>
-    <%= hidden_value_field(f, :value, f.object.omit, :value => f.object.value_before_type_cast, :'data-property' => 'value', :hidden_value => hidden_value) %>
+    <div class="matcher-value-cell">
+      <%= hidden_value_field(f, :value, f.object.omit, :value => f.object.value_before_type_cast, :'data-property' => 'value', :hidden_value => hidden_value, :onkeyup => 'tfm.lookupKeys.matcherValueChanged(this)') %>
+      <%= popover("", 'Highlighted fields with a value change'.html_safe, :icon => 'warning-triangle-o', :class => 'warn-field-changed') %>
+    </div>
   </td>
   <% if is_param %>
     <td class="ca">

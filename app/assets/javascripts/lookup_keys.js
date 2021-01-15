@@ -324,6 +324,14 @@ function fill_in_matchers() {
         .attr('selected', 'selected');
       matcher_value.val(key_value[1]);
     }
+
+    $(matcher_value).data('initialValue', matcher_value.val());
+    $(matcher_key).data('initialValue', matcher_key.find(":selected").text());
+
+  });
+
+  $('.input-group textarea[data-property="value"]').each(function(idx, element) {
+    $(element).data('initialValue', $(element).val());
   });
 }
 
