@@ -53,7 +53,6 @@ class HostFactImporterTest < ActiveSupport::TestCase
       refute Host.find_by_name('sinn1636.lan')
       raw = read_json_fixture('facts/facts_with_certname.json')
       ::SmartProxy.expects(:find_by).with(:uuid => raw["facts"]["smart_proxy_uuid"]).returns(fake_proxy)
-      host = nil
       host = Host.import_host(raw['name'], 'puppet')
       assert HostFactImporter.new(host).import_facts(raw['facts'])
       assert host.infrastructure_facet
@@ -67,7 +66,6 @@ class HostFactImporterTest < ActiveSupport::TestCase
       raw = read_json_fixture('facts/facts_with_certname.json')
       facts = raw['facts'].reject { |k, _| ["foreman_uuid", "smart_proxy_uuid"].include? k }
       raw["facts"] = facts
-      host = nil
       host = Host.import_host(raw['name'], 'puppet')
       assert HostFactImporter.new(host).import_facts(facts)
       refute host.infrastructure_facet

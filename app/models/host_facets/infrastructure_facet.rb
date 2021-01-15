@@ -1,6 +1,5 @@
 module HostFacets
   class InfrastructureFacet < Base
-
     belongs_to :smart_proxy
 
     def self.populate_fields_from_facts(host, parser, type, source_proxy)
@@ -15,16 +14,16 @@ module HostFacets
     end
 
     def any_foreman?
-      self.foreman_uuid.present?
+      foreman_uuid.present?
     end
 
     def this_foreman?
-      any_foreman? && ::Foreman.instance_id == self.foreman_uuid
+      any_foreman? && ::Foreman.instance_id == foreman_uuid
     end
 
     def refresh_associations!
-      if changed.include?('smart_proxy_uuid') || (self.smart_proxy_uuid && smart_proxy_id.nil?)
-        self.smart_proxy_id = ::SmartProxy.find_by(:uuid => self.smart_proxy_uuid)&.id
+      if changed.include?('smart_proxy_uuid') || (smart_proxy_uuid && smart_proxy_id.nil?)
+        self.smart_proxy_id = ::SmartProxy.find_by(:uuid => smart_proxy_uuid)&.id
       end
     end
   end
