@@ -177,6 +177,13 @@ global_registration:
   name: Global Registration
   template: 'echo "Default Global registration template"'
   template_kind: registration
-  operatingsystems: redhat
+  locked: true
+  type: ProvisioningTemplate
+
+host_init_config:
+  name: Linux host initial configuration
+  template: 'echo "Linux host initial configuration"'
+  template_kind: host_init_config
+  operatingsystems: centos5_3, redhat
   locked: true
   type: ProvisioningTemplate

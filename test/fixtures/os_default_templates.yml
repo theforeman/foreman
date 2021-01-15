@@ -48,3 +48,8 @@ ten:
   provisioning_template: pxeautoyast
   template_kind: PXELinux
   operatingsystem: opensuse
+
+eleven:
+  provisioning_template: host_init_config
+  template_kind: host_init_config
+  operatingsystem: redhat

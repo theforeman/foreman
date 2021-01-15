@@ -22,6 +22,7 @@ class TemplateKind < ApplicationRecord
       "ZTP" => N_("ZTP PXE template"),
       "POAP" => N_("POAP PXE template"),
       "cloud-init" => N_("Cloud-init template"),
+      "host_init_config" => N_("Host initial configuration template"),
       "registration" => N_("Registration template"),
     }
   end
@@ -39,6 +40,7 @@ class TemplateKind < ApplicationRecord
       "ZTP" => N_("Provisioning Junos devices (Junos 12.2+)."),
       "POAP" => N_("Provisioning for switches running NX-OS."),
       "cloud-init" => N_("Template for cloud-init unattended endpoint."),
+      "host_init_config" => N_("Contains the instructions in form of a bash script for the initial host configuration, after the host is registered in Foreman"),
     }
   end
 

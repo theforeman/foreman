@@ -125,46 +125,7 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
   end
 
   describe 'host registration' do
-    let(:organization) { FactoryBot.create(:organization) }
-    let(:tax_location) { FactoryBot.create(:location) }
-    let(:template_kind) { template_kinds(:registration) }
-    let(:registration_template) do
-      FactoryBot.create(
-        :provisioning_template,
-        template_kind: template_kind,
-        template: 'template content <%= @host.name %>',
-        locations: [tax_location],
-        organizations: [organization]
-      )
-    end
-    let(:os) do
-      FactoryBot.create(
-        :operatingsystem,
-        :with_associations,
-        family: 'Redhat',
-        provisioning_templates: [
-          registration_template,
-        ]
-      )
-    end
-
-    let(:host_params) do
-      { host: { name: 'centos-test.example.com',
-                managed: false, build: false,
-                organization_id: organization.id,
-                location_id: tax_location.id,
-                operatingsystem_id: os.id },
-      }
-    end
-
-    setup do
-      FactoryBot.create(
-        :os_default_template,
-        template_kind: template_kind,
-        provisioning_template: registration_template,
-        operatingsystem: os
-      )
-    end
+    let(:host_params) { { host: { name: 'centos-test.example.com', operatingsystem_id: operatingsystems(:redhat).id } } }
 
     test 'should find and create host' do
       post :host, params: host_params, session: set_session_user
@@ -179,13 +140,13 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
 
       post :host, params: params, session: set_session_user
       assert_response :success
-      assert Host.find_by(name: params[:host][:name]).hostgroup_id == params[:host][:hostgroup_id]
+      assert_equal Host.find_by(name: params[:host][:name]).hostgroup_id, params[:host][:hostgroup_id]
     end
 
     test 'should render template' do
       post :host, params: host_params, session: set_session_user
       assert_response :success
-      assert_equal @response.body, "template content #{host_params[:host][:name]}"
+      assert_equal @response.body, "echo \"Linux host initial configuration\""
     end
 
     test 'should set build on host' do
@@ -202,7 +163,15 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
     end
 
     test 'should render error when template is invalid' do
-      registration_template.update(template: "<% asda =!?== '2 % %>")
+      template = FactoryBot.create(
+        :provisioning_template,
+        template_kind: template_kinds(:host_init_config),
+        template: "<% asda =!?== '2 % %>"
+      )
+
+      Setting[:default_host_init_config_template] = template.name
+      host_params = { host: { name: 'centos-test.example.com', operatingsystem_id: FactoryBot.create(:operatingsystem).id } }
+
       post :host, params: host_params, session: set_session_user
       assert_response :internal_server_error
     end

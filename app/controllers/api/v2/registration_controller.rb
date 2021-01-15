@@ -32,7 +32,7 @@ module Api
         render plain: @provisioning_template.render(variables: @global_registration_vars).html_safe
       end
 
-      api :POST, "/register", N_("Find or create a host and render the Host registration template")
+      api :POST, "/register", N_("Find or create a host and render the 'Host initial configuration' template")
       param :host, Hash, required: true, action_aware: true do
         param :name, String, required: true
         param :location_id, :number, required: true
@@ -76,7 +76,7 @@ module Api
             host_setup_insights
             host_setup_remote_execution
             host_setup_extension
-            @template = @host.registration_template
+            @template = @host.initial_configuration_template
             raise ActiveRecord::Rollback if @template.nil?
           end
         rescue ::Foreman::Exception => e
@@ -85,7 +85,7 @@ module Api
         end
 
         unless @template
-          not_found N_("Unable to find registration template for host %{host} running %{os}, associate the registration template for this OS first") % { host: @host.name, os: @host.operatingsystem }
+          not_found N_("Unable to find 'Host initial configuration' template for host %{host} running %{os}, associate the 'Host initial configuration' template for this OS first") % { host: @host.name, os: @host.operatingsystem }
           return
         end
 

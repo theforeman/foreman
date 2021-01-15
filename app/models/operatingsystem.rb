@@ -43,6 +43,8 @@ class Operatingsystem < ApplicationRecord
 
   before_validation :set_family
 
+  after_create :assign_init_config_template
+
   default_scope -> { order(:title) }
 
   scoped_search :on => :name,        :complete_value => :true
@@ -357,5 +359,15 @@ class Operatingsystem < ApplicationRecord
     provisioning_template_id_empty = attributes[:provisioning_template_id].blank?
     attributes[:_destroy] = 1 if template_exists && provisioning_template_id_empty
     (!template_exists && provisioning_template_id_empty)
+  end
+
+  def assign_init_config_template
+    template_name = Setting[:default_host_init_config_template]
+    template_kind = TemplateKind.unscoped.find_by(name: 'host_init_config')
+    template = ProvisioningTemplate.unscoped.find_by(name: template_name, template_kind: template_kind)
+    return unless template
+
+    template.operatingsystems << self
+    OsDefaultTemplate.create(template_kind: template_kind, provisioning_template: template, operatingsystem: self)
   end
 end
