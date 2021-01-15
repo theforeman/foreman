@@ -33,11 +33,6 @@ class TemplateInputTest < ActiveSupport::TestCase
     it { assert template_input.input_type_instance.is_a?(InputType::VariableInput) }
   end
 
-  context 'puppet parameter input' do
-    before { template_input.input_type = 'puppet_parameter' }
-    it { assert template_input.input_type_instance.is_a?(InputType::PuppetParameterInput) }
-  end
-
   test "Input should not be created for locked template" do
     @report_template = FactoryBot.create(:report_template, :locked)
     template_input = TemplateInput.new(:name => "Ubuntu", :input_type => "user", :template_id => @report_template.id)
