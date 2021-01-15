@@ -57,7 +57,8 @@ echo "#"
 if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     register_katello_host(){
         UUID=$(subscription-manager identity | head -1 | awk '{print $3}')
-        curl --cacert $SSL_CA_CERT --request POST "<%= @registration_url %>?uuid=$UUID" \
+        curl --cacert $SSL_CA_CERT --request POST "<%= @registration_url %>" \
+             --data "uuid=$UUID" \
              <%= headers.join(' ') %> \
 <%= "          --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
 <%= "          --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
