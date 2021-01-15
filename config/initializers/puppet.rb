@@ -5,7 +5,3 @@ FactParser.register_fact_parser :puppet, PuppetFactParser, true
 # since it tries to alias_method_chain a method that is defined
 # in the class itself.
 Host::Managed.prepend PuppetHostExtensions
-
-Rails.application.config.to_prepare do
-  Foreman.input_types_registry.register(InputType::PuppetParameterInput)
-end
