@@ -26,6 +26,10 @@ module Tags
       react_opts = {}
       react_opts['inputSizeClass'] = options.delete('size') if options.key?('size')
       react_opts['labelSizeClass'] = options.delete('label_size') if options.key?('label_size')
+      react_opts['helpBlock'] = options.delete('help_block') if options.key?('help_block') && options['help_block'].html_safe?
+      react_opts['helpInline'] = options.delete('help_inline') if options.key?('help_inline') && options['help_inline'].html_safe?
+      react_opts['labelHelp'] = options.delete('label_help') if options.key?('label_help')
+      react_opts['wrapperClass'] = options.delete('wrapper_class') if options.key?('wrapper_class')
       react_opts.merge! deep_camelize_keys(options)
       react_opts['inputProps']['name'] = options['name'] if options['name'] && react_opts['inputProps']
       react_opts
