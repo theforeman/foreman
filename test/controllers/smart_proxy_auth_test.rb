@@ -215,9 +215,9 @@ class SmartProxyAuthWebUITest < ActionController::TestCase
     @controller.stubs(:auth_smart_proxy).returns(false)
     @controller.stubs(:require_login).returns(false)
 
-    get :externalNodes, params: { :id => 123 }
+    @controller.stubs(:performed?).returns(false)
+    @controller.expects(:render_error).with('access_denied', status: :forbidden)
 
-    assert_response :forbidden
-    assert_template "common/403"
+    refute @controller.send(:require_smart_proxy_or_login)
   end
 end

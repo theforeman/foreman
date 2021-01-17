@@ -6,9 +6,6 @@ Foreman::Application.routes.draw do
     end
   end
 
-  # ENC requests goes here
-  get "node/:name" => 'hosts#externalNodes', :constraints => { name: /[^\.][\w\.-]+/ }
-
   resources :config_reports, only: [:index, :show, :destroy] do
     collection do
       get 'auto_complete_search'
@@ -48,7 +45,6 @@ Foreman::Application.routes.draw do
     resources :hosts do
       member do
         get 'clone'
-        get 'externalNodes'
         get 'review_before_build'
         put 'setBuild'
         get 'cancelBuild'

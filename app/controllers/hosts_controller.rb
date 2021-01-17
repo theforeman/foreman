@@ -174,36 +174,6 @@ class HostsController < ApplicationController
     end
   end
 
-  # returns a yaml file ready to use for puppet external nodes script
-  # expected a fqdn parameter to provide hostname to lookup
-  # see example script in extras directory
-  # will return HTML error codes upon failure
-
-  def externalNodes
-    certname = params[:name].to_s
-    @host ||= resource_base.find_by_certname certname
-    @host ||= resource_base.friendly.find certname
-    unless @host
-      not_found
-      return
-    end
-
-    begin
-      respond_to do |format|
-        # don't break lines in yaml to support Ruby < 1.9.3
-        # Remove the HashesWithIndifferentAccess using 'deep_stringify_keys',
-        # then we turn it into YAML
-        host_info_yaml = @host.info.deep_stringify_keys.to_yaml(:line_width => -1)
-        format.html { render :html => "<pre>#{ERB::Util.html_escape(host_info_yaml)}</pre>".html_safe }
-        format.yml { render :plain => host_info_yaml }
-      end
-    rescue => e
-      Foreman::Logging.exception("Failed to generate external nodes for #{@host}", e)
-      render :plain => _('Unable to generate output, Check log files'),
-             :status => :precondition_failed
-    end
-  end
-
   def review_before_build
     @build = @host.build_status_checker
     render :layout => false
@@ -633,7 +603,7 @@ class HostsController < ApplicationController
   end
 
   define_action_permission [
-    'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
+    'clone', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
     'pxe_config', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state', 'preview_host_collection', 'build_errors'
   ], :view
   define_action_permission [
