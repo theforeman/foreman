@@ -2,7 +2,6 @@ module PuppetRelatedHelper
   UI.register_host_description do
     multiple_actions_provider :puppet_actions
     overview_fields_provider :puppet_host_overview_fields
-    overview_buttons_provider :puppet_host_overview_buttons
   end
 
   def puppet_actions
@@ -25,11 +24,5 @@ module PuppetRelatedHelper
       }
     end
     fields
-  end
-
-  def puppet_host_overview_buttons(host)
-    buttons = []
-    buttons << { :button => link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump"), :class => 'btn btn-default'), :priority => 400 } if SmartProxy.with_features("Puppet").any?
-    buttons
   end
 end
