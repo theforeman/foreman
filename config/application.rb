@@ -298,6 +298,10 @@ module Foreman
         template_compatibility_properties :cores, :virtual, :sockets, :ram, :uptime_seconds
       end
 
+      Facets.register(ForemanRegister::RegistrationFacet, :registration_facet) do
+        set_dependent_action :destroy
+      end
+
       Plugin.all.each do |plugin|
         plugin.to_prepare_callbacks.each(&:call)
       end
