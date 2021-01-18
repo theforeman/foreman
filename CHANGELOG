@@ -1,3 +1,46 @@
+2021-01-18	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.3.2
+
+2021-01-17	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #31645 - Missing host UUID in global registration template (#8252)
+
+2021-01-14	MariaAga <mariaagaphonchev@gmail.com>
+	* Fixes #31600 - cant change taxonomies in small screens
+
+2021-01-12	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #31518 - remove unused registration_token from API
+
+2021-01-12	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #31603 - Fix setting for HTTP proxy
+
+2021-01-11	grizzthedj <chrisjsmith001@gmail.com>
+	* Fixes #31578 - External IPAM now fails with 'mac address cannot be nil' on Compute Resource deployment
+
+2021-01-10	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #31587 - SettingName fallback to name (#8235)
+	* Fix js testing - bundler not found
+
+2021-01-05	Matt Darcy <matt@projecthugo.co.uk>
+	* Fixes #31568 - Use puppet-release in provisioning
+
+2021-01-04	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #31526 - ConfigReports chart clicks
+
+2021-01-04	MariaAga <mariaagaphonchev@gmail.com>
+	* Fixes #31561 - fix propTypes in EmptyStatePattern
+
+2020-12-28	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #31554 - empty? check on integer
+
+2020-12-22	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #31538 - use `distinct` scope for class params association
+
+2020-12-15	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #31495: Set a title on the logout page
+
+2020-12-10	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #31285 - setting timestamps for API
+
 2020-12-10	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.3.1
 
