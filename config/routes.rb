@@ -134,13 +134,6 @@ Foreman::Application.routes.draw do
       end
     end
 
-    resources :lookup_keys, except: [:show, :new, :create] do
-      resources :lookup_values, only: [:index, :create, :update, :destroy]
-      collection do
-        get 'auto_complete_search'
-      end
-    end
-
     get 'parent_facts/:parent_fact/facts', to: 'fact_values#index', as: 'parent_fact_facts'
     resources :facts, only: [:index, :show] do
       constraints(id: /[^\/]+/) do
