@@ -185,29 +185,6 @@ Foreman::AccessControl.map do |permission_set|
     }
   end
 
-  permission_set.security_block :external_variables do |map|
-    map.permission :view_external_parameters,    {:lookup_keys => [:index, :show, :auto_complete_search],
-                                                 :puppetclass_lookup_keys => [:index, :show, :auto_complete_search, :welcome],
-                                                 :lookup_values => [:index],
-                                                 :"api/v2/smart_class_parameters" => [:index, :show],
-                                                 :"api/v2/override_values" => [:index, :show]}
-    map.permission :create_external_parameters,  {:lookup_keys => [:new, :create],
-                                                 :puppetclass_lookup_keys => [:new, :create],
-                                                 :lookup_values => [:create],
-                                                 :"api/v2/smart_class_parameters" => [:create],
-                                                 :"api/v2/override_values" => [:create]}
-    map.permission :edit_external_parameters,    {:lookup_keys => [:edit, :update],
-                                                 :puppetclass_lookup_keys => [:edit, :update],
-                                                 :lookup_values => [:create, :update, :destroy],
-                                                 :"api/v2/smart_class_parameters" => [:update],
-                                                 :"api/v2/override_values" => [:create, :update, :destroy]}
-    map.permission :destroy_external_parameters, {:lookup_keys => [:destroy],
-                                                 :puppetclass_lookup_keys => [:destroy],
-                                                 :lookup_values => [:destroy],
-                                                 :"api/v2/smart_class_parameters" => [:destroy],
-                                                 :"api/v2/override_values" => [:create, :update, :destroy]}
-  end
-
   permission_set.security_block :filters do |map|
     map.permission :view_filters,    {:filters => [:index, :auto_complete_search],
                                       :'api/v2/filters' => [:index, :show]}

@@ -194,26 +194,6 @@ import_environments:
   resource_type: Environment
   created_at: "2013-12-04 08:41:04.656654"
   updated_at: "2013-12-04 08:41:04.656654"
-view_external_parameters:
-  name: view_external_parameters
-  resource_type: PuppetclassLookupKey
-  created_at: "2013-12-04 08:41:04.664806"
-  updated_at: "2013-12-04 08:41:04.664806"
-create_external_parameters:
-  name: create_external_parameters
-  resource_type: PuppetclassLookupKey
-  created_at: "2013-12-04 08:41:04.673323"
-  updated_at: "2013-12-04 08:41:04.673323"
-edit_external_parameters:
-  name: edit_external_parameters
-  resource_type: PuppetclassLookupKey
-  created_at: "2013-12-04 08:41:04.681526"
-  updated_at: "2013-12-04 08:41:04.681526"
-destroy_external_parameters:
-  name: destroy_external_parameters
-  resource_type: PuppetclassLookupKey
-  created_at: "2013-12-04 08:41:04.690155"
-  updated_at: "2013-12-04 08:41:04.690155"
 view_globals:
   name: view_globals
   resource_type: CommonParameter
