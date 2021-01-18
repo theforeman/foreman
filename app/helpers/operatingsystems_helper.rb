@@ -57,6 +57,8 @@ module OperatingsystemsHelper
              "stub/goldenrod-p"
            when /Windows/i
              "stub/steelblue-w"
+           when /OpenWrt/i
+             "openwrt"
            else
              if record.family.blank?
                'stub/black-x'
