@@ -102,7 +102,11 @@ skipx
   subnet6 = iface.subnet6
 
   # device and hostname
-  network_options.push("--device=#{iface.mac || iface.identifier}")
+  if iface.bond? && rhel_compatible && os_major >= 6
+    network_options.push("--device=#{iface.identifier}")
+  else
+    network_options.push("--device=#{iface.mac || iface.identifier}")
+  end
   network_options.push("--hostname #{@host.name}")
 
   # single stack
@@ -149,7 +153,8 @@ skipx
 
   # bond
   if iface.bond? && rhel_compatible && os_major >= 6
-    network_options.push("--bondslaves=#{iface.attached_devices_identifiers}")
+    bond_slaves = iface.attached_devices_identifiers.join(',')
+    network_options.push("--bondslaves=#{bond_slaves}")
     network_options.push("--bondopts=mode=#{iface.mode};#{iface.bond_options.tr(' ', ';')}")
   end
 
