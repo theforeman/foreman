@@ -28,7 +28,7 @@ oses:
   else
     options << 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true'
   end
-  if @host.provision_interface.vlanid
+  if @host.provision_interface.has_vlanid?
     options << "netcfg/use_vlan=true netcfg/vlan_id=#{@host.provision_interface.vlanid}"
   end
   options << "locale=#{host_param('lang') || 'en_US'}"
