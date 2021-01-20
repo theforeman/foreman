@@ -18,13 +18,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   def basic_attrs
     { :name                => 'testhost11',
-      :environment_id      => environments(:production).id,
       :domain_id           => domains(:mydomain).id,
       :ptable_id           => @ptable.id,
       :medium_id           => media(:one).id,
       :architecture_id     => Architecture.find_by_name('x86_64').id,
       :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
-      :puppet_proxy_id     => smart_proxies(:puppetmaster).id,
       :compute_resource_id => compute_resources(:one).id,
       :compute_attributes => {
         :cpus => 4,
@@ -215,17 +213,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal puppet_ca_proxy.name, response['puppet_ca_proxy_name']
   end
 
-  test "should show host puppet_proxy_name" do
-    # cover issue #16525
-    puppet_proxy = smart_proxies(:puppetmaster)
-    @host.update_attribute(:puppet_proxy, puppet_proxy)
-    get :show, params: { :id => @host.to_param }
-    assert_response :success
-    response = ActiveSupport::JSON.decode(@response.body)
-    assert response.key?('puppet_proxy_name')
-    assert_equal puppet_proxy.name, response['puppet_proxy_name']
-  end
-
   test "should create host" do
     disable_orchestration
     assert_difference('Host.count') do
@@ -388,8 +375,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should update hostgroup_id of host" do
     host = FactoryBot.create(:host, basic_attrs_with_hg)
-    hg = FactoryBot.create(:hostgroup, :with_environment)
-    set_environment_taxonomies(hg)
+    hg = FactoryBot.create(:hostgroup)
     put :update, params: { :id => host.to_param, :host => { :hostgroup_id => hg.id }}
     assert_response :success
     host.reload
@@ -1189,12 +1175,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal smart_proxy.name, JSON.parse(@response.body)['puppet_ca_proxy']['name'], "Can't create host with smart proxy #{smart_proxy}"
   end
 
-  test "should create with puppet proxy" do
-    post :create, params: { :host => valid_attrs }
-    assert_response :created
-    assert_equal smart_proxies(:puppetmaster).name, JSON.parse(@response.body)['puppet_proxy']['name'], "Can't create host with puppet proxy #{smart_proxies(:puppetmaster)}"
-  end
-
   test "should get per page" do
     per_page = rand(1..1000)
     get :index, params: { :per_page => per_page }
@@ -1313,17 +1293,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:puppet_ca_proxy_id => puppet_ca_proxy.id) }
     assert_response :success
     assert_equal puppet_ca_proxy['name'], JSON.parse(@response.body)['puppet_ca_proxy']['name'], "Can't update host with puppet ca proxy #{puppet_ca_proxy}"
-  end
-
-  test "should update with puppet class" do
-    environment = environments(:testing)
-    set_environment_taxonomies(@host, environment)
-    puppetclass = Puppetclass.find_by_name('git')
-    put :update, params: { :id => @host.id, :host => valid_attrs.merge(:environment_id => environment.id, :puppetclass_ids => [puppetclass.id]) }
-    assert_response :success
-    response = JSON.parse(@response.body)
-    assert_equal environment.id, response['environment_id'], "Can't update host with environment #{environment}"
-    assert_equal puppetclass.id, response['puppetclasses'][0]['id'], "Can't update host with puppetclass #{puppetclass}"
   end
 
   # This is a test of the base_controller functionality, but we need to use a real endpoint

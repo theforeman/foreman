@@ -9,8 +9,8 @@ class HostextOwnershipTest < ActiveSupport::TestCase
   context 'owner_type validations' do
     test "should not save if owner_type is not User or Usergroup" do
       host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
-                      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-                      :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true,
+                      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
+                      :architecture => architectures(:x86_64), :managed => true,
                       :owner_type => "UserGr(up" # should be Usergroup
       assert_raises ArgumentError do
         host.valid?

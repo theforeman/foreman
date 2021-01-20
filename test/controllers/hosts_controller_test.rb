@@ -90,13 +90,11 @@ class HostsControllerTest < ActionController::TestCase
           :domain_id => domains(:mydomain).id,
           :operatingsystem_id => operatingsystems(:redhat).id,
           :architecture_id => architectures(:x86_64).id,
-          :environment_id => environments(:production).id,
           :subnet_id => subnets(:one).id,
           :medium_id => media(:one).id,
           :pxe_loader => "Grub2 UEFI",
           :realm_id => realms(:myrealm).id,
           :disk => "empty partition",
-          :puppet_proxy_id => smart_proxies(:puppetmaster).id,
           :root_pass => "xybxa6JUkz63w",
           :location_id => taxonomies(:location1).id,
           :organization_id => taxonomies(:organization1).id,
@@ -120,7 +118,6 @@ class HostsControllerTest < ActionController::TestCase
         :domain_id => domains(:mydomain).id,
         :operatingsystem_id => operatingsystems(:redhat).id,
         :architecture_id => architectures(:x86_64).id,
-        :environment_id => environments(:production).id,
         :subnet_id => subnets(:one).id,
         :medium_id => media(:one).id,
         :pxe_loader => "Grub2 UEFI",
@@ -618,9 +615,8 @@ class HostsControllerTest < ActionController::TestCase
   def setup_multiple_parameters
     setup_user_and_host "edit"
     as_admin do
-      @host1, @host2 = FactoryBot.create_list(:host, 2, :environment => environments(:production),
-                                               :organization => users(:one).organizations.first,
-                                               :location => users(:one).locations.first)
+      @host1, @host2 = FactoryBot.create_list(:host, 2, organization: users(:one).organizations.first,
+                                                        location: users(:one).locations.first)
     end
   end
 
@@ -857,9 +853,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     location = taxonomies(:location1)
     domain = FactoryBot.create(:domain, :locations => [taxonomies(:location2)])
-    hosts = FactoryBot.create_list(:host, 2, :domain => domain,
-                                    :environment => environments(:production),
-                                    :location => taxonomies(:location2))
+    hosts = FactoryBot.create_list(:host, 2, :domain => domain, :location => taxonomies(:location2))
     assert_difference "location.taxable_taxonomies.count", 1 do
       post :update_multiple_location, params: {
         :location => {:id => location.id, :optimistic_import => "yes"},
@@ -942,9 +936,7 @@ class HostsControllerTest < ActionController::TestCase
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
     domain = FactoryBot.create(:domain, :organizations => [taxonomies(:organization2)])
-    hosts = FactoryBot.create_list(:host, 2, :domain => domain,
-                                    :environment => environments(:production),
-                                    :organization => taxonomies(:organization2))
+    hosts = FactoryBot.create_list(:host, 2, :domain => domain, :organization => taxonomies(:organization2))
     assert_difference "organization.taxable_taxonomies.count", 1 do
       post :update_multiple_organization, params: {
         :organization => { :id => organization.id, :optimistic_import => "yes"},
@@ -1132,6 +1124,7 @@ class HostsControllerTest < ActionController::TestCase
       ActiveRecord::Base.any_instance.expects(:destroy).never
       ActiveRecord::Base.any_instance.expects(:save).never
       @attrs = host_attributes(@host)
+      @attrs['hostgroup_id'] = hostgroups(:common).id
     end
 
     test 'returns templates with interfaces' do
@@ -1558,10 +1551,8 @@ class HostsControllerTest < ActionController::TestCase
                         :domain_id          => domains(:mydomain).id,
                         :operatingsystem_id => operatingsystems(:redhat).id,
                         :architecture_id    => architectures(:x86_64).id,
-                        :environment_id     => environments(:production).id,
                         :subnet_id          => subnets(:one).id,
                         :disk               => "empty partition",
-                        :puppet_proxy_id    => smart_proxies(:puppetmaster).id,
                         :root_pass          => "123456789",
                         :location_id        => taxonomies(:location1).id,
                         :organization_id    => taxonomies(:organization1).id
