@@ -130,8 +130,8 @@ Foreman::Application.routes.draw do
         get 'random_name', only: :new
         get 'preview_host_collection'
 
-        get 'register', to: 'registration#new'
-        post 'register', to: 'registration#create'
+        get 'register', to: 'registration_commands#new'
+        post 'register', to: 'registration_commands#create'
       end
 
       constraints(host_id: /[^\/]+/) do

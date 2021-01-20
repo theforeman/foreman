@@ -305,10 +305,11 @@ Foreman::AccessControl.map do |permission_set|
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
                                     :interfaces => [:new, :random_name],
-                                    :registration => [:new, :create],
+                                    :registration_commands => [:new, :create],
                                      :"api/v2/hosts" => [:create],
                                      :"api/v2/interfaces" => [:create],
                                      :"api/v2/tasks" => [:index],
+                                     :"api/v2/registration_commands" => [:create],
                                      :"api/v2/registration" => [:global, :host],
                                   }
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
