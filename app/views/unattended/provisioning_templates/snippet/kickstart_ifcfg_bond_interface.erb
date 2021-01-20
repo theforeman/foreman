@@ -11,6 +11,9 @@ kind: snippet
                   :subnet6 => @subnet6,
                   :dhcp => @dhcp }) -%>
 TYPE=Bond
+<%-   if @interface.mac.to_s.present? -%>
+MACADDR="<%= @interface.mac -%>"
+<%-   end -%>
 BONDING_OPTS="<%= @interface.bond_options -%> mode=<%= @interface.mode -%>"
 BONDING_MASTER=yes
 <%-   if ( @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.major.to_i <= 7 ) -%>

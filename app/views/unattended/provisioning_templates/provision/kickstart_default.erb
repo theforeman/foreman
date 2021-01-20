@@ -155,7 +155,7 @@ skipx
   if iface.bond? && rhel_compatible && os_major >= 6
     bond_slaves = iface.attached_devices_identifiers.join(',')
     network_options.push("--bondslaves=#{bond_slaves}")
-    network_options.push("--bondopts=mode=#{iface.mode};#{iface.bond_options.tr(' ', ';')}")
+    network_options.push("--bondopts=mode=#{iface.mode},#{iface.bond_options.tr(' ', ',')}")
   end
 
   # VLAN (only on physical is recognized)
