@@ -1,0 +1,10 @@
+<%#
+kind: snippet
+name: CoreOS provision post
+model: ProvisioningTemplate
+snippet: true
+%>
+#!/bin/sh
+
+/usr/bin/wget -q -O /dev/null <%= foreman_url('built') %>
+/usr/sbin/reboot

@@ -1,4 +1,6 @@
 class Setting::Provisioning < Setting
+  extend Foreman::Util
+
   def self.default_global_labels
     TemplateKind::PXE.map do |pxe_kind|
       "global_#{pxe_kind}"
@@ -89,6 +91,8 @@ class Setting::Provisioning < Setting
       ),
       set('maximum_structured_facts', N_("Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"), 100, N_('Maximum structured facts')),
       set('default_global_registration_item', N_("Global Registration template"), 'Global Registration', N_("Default Global registration template")),
+      set('ct_command', N_("CoreOS Transpiler Command"), [which('ct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s], N_("Full path to CoreOS transpiler (ct) with arguments as an comma-separated array")),
+      set('fcct_command', N_("Fedora CoreOS Transpiler Command"), [which('fcct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s], N_("Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array")),
     ] + default_global_templates + default_local_boot_templates
   end
 

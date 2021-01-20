@@ -428,3 +428,15 @@ attribute94:
   category: Setting::Provisioning
   default: 'Global Registration'
   description: "Default Global registration template"
+attribute95:
+  name: ct_command
+  category: Setting::Provisioning
+  settings_type: 'array'
+  default: "['/usr/bin/cat']"
+  description: "CoreOS Transpiler"
+attribute96:
+  name: fcct_command
+  category: Setting::Provisioning
+  settings_type: 'array'
+  default: "['/usr/bin/cat']"
+  description: "Fedora CoreOS Transpiler"

@@ -43,6 +43,8 @@ module Foreman
         :number_with_precision,
         :number_to_human_size,
         :gem_version_compare,
+        :transpile_coreos_linux_config,
+        :transpile_fedora_coreos_config,
         :parse_yaml,
         :parse_json,
         :to_json,
