@@ -3,13 +3,10 @@ require 'test_helper'
 class HostMailerTest < ActionMailer::TestCase
   def setup
     disable_orchestration
-    @env = environments(:production)
-    @host = FactoryBot.create(:host, :environment => @env)
+    @host = FactoryBot.create(:host)
     as_admin do
       @host.last_report = Time.at(0).utc
       @host.save(:validate => false)
-      @env.hosts << @host
-      @env.save
     end
 
     User.current = users :admin
@@ -17,10 +14,7 @@ class HostMailerTest < ActionMailer::TestCase
     Setting[:foreman_url] = "http://dummy.theforeman.org:3000/hosts/:id"
 
     @options = {}
-    @options[:env] = @env
     @options[:user] = User.current.id
-
-    @env.reload
 
     ActionMailer::Base.deliveries = []
   end

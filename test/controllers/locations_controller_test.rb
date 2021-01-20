@@ -101,9 +101,7 @@ class LocationsControllerTest < ActionController::TestCase
   test "should assign all hosts with no location to selected location and add taxable_taxonomies" do
     location = taxonomies(:location1)
     domain = FactoryBot.create(:domain, :locations => [taxonomies(:location2)])
-    FactoryBot.create_list(:host, 2, :domain => domain,
-                            :environment => environments(:production),
-                            :location => nil)
+    FactoryBot.create_list(:host, 2, :domain => domain, :location => nil)
     assert_difference "location.taxable_taxonomies.count", 1 do
       post :assign_all_hosts, params: { :id => location.id }, session: set_session_user
     end

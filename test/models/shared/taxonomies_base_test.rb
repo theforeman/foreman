@@ -70,11 +70,9 @@ module TaxonomiesBaseTest
       FactoryBot.create(:host,
         :compute_resource => cr_one,
         :domain           => domain,
-        :environment      => environments(:production),
         :medium           => media(:one),
         :operatingsystem  => operatingsystems(:centos5_3),
         :owner            => users(:scoped),
-        :puppet_proxy     => smart_proxies(:puppetmaster),
         :realm            => realms(:myrealm),
         :subnet           => subnet,
         :"#{taxonomy_name}" => taxonomy,
@@ -86,7 +84,6 @@ module TaxonomiesBaseTest
       # run used_ids method
       used_ids = taxonomy.used_ids
       # get results from Host object
-      environment_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).distinct.pluck(:environment_id).compact
       hostgroup_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).distinct.pluck(:hostgroup_id).compact
       subnet_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).joins(:primary_interface => :subnet).distinct.pluck(:subnet_id).map(&:to_i).compact
       domain_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).joins(:primary_interface => :domain).distinct.pluck(:domain_id).map(&:to_i).compact
@@ -97,7 +94,6 @@ module TaxonomiesBaseTest
       smart_proxy_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).map { |host| host.smart_proxies.map(&:id) }.flatten.compact.uniq
       provisioning_template_ids = Host.where("#{taxonomy_name}_id = #{taxonomy.id} and operatingsystem_id > 0").map { |host| host.provisioning_template.try(:id) }.compact.uniq
       # match to above retrieved data
-      assert_equal used_ids[:environment_ids], environment_ids
       assert_equal used_ids[:hostgroup_ids], hostgroup_ids
       assert_equal used_ids[:subnet_ids], subnet_ids
       assert_equal used_ids[:domain_ids], domain_ids
@@ -108,14 +104,12 @@ module TaxonomiesBaseTest
       assert_equal used_ids[:smart_proxy_ids].sort, smart_proxy_ids.sort
       assert_equal used_ids[:provisioning_template_ids], provisioning_template_ids
       # match to raw fixtures data
-      assert_equal used_ids[:environment_ids].sort, [environments(:production).id]
       assert_equal used_ids[:hostgroup_ids].sort, []
       assert_equal used_ids[:subnet_ids], [subnet.id]
       assert_equal used_ids[:domain_ids], [domain.id]
       assert_equal used_ids[:medium_ids], [media(:one).id]
       assert_equal used_ids[:compute_resource_ids].sort, [compute_resources(:one).id]
       assert_equal used_ids[:user_ids], [users(:scoped).id]
-      assert_includes used_ids[:smart_proxy_ids].sort, smart_proxies(:puppetmaster).id
       assert_includes used_ids[:smart_proxy_ids].sort, smart_proxies(:realm).id
       assert_equal used_ids[:provisioning_template_ids].sort, [templates(:mystring2).id]
     end
@@ -126,7 +120,6 @@ module TaxonomiesBaseTest
       # run selected_ids method
       selected_ids = taxonomy.selected_ids
       # get results from taxable_taxonomies
-      environment_ids = taxonomy.environment_ids
       hostgroup_ids = taxonomy.hostgroup_ids
       subnet_ids = taxonomy.subnet_ids
       domain_ids = taxonomy.domain_ids
@@ -137,7 +130,6 @@ module TaxonomiesBaseTest
       provisioning_template_ids = taxonomy.provisioning_template_ids
       compute_resource_ids = taxonomy.compute_resource_ids
       # check if they match
-      assert_equal selected_ids[:environment_ids].sort, environment_ids.sort
       assert_equal selected_ids[:hostgroup_ids].sort, hostgroup_ids.sort
       assert_equal selected_ids[:subnet_ids].sort, subnet_ids.uniq.sort
       assert_equal selected_ids[:domain_ids].sort, domain_ids.sort
@@ -148,7 +140,6 @@ module TaxonomiesBaseTest
       assert_equal selected_ids[:provisioning_template_ids].sort, provisioning_template_ids.sort
       assert_equal selected_ids[:compute_resource_ids].sort, compute_resource_ids.sort
       # match to manually generated taxable_taxonomies
-      assert_equal selected_ids[:environment_ids], [environments(:production).id]
       assert_equal selected_ids[:hostgroup_ids], [hostgroups(:common).id]
       assert_equal selected_ids[:subnet_ids].sort, [subnets(:one).id, subnets(:five).id].sort
       assert_equal selected_ids[:domain_ids], [domains(:mydomain).id, domains(:yourdomain).id]
@@ -162,11 +153,10 @@ module TaxonomiesBaseTest
     test 'it should return selected_ids array of ALL values (when types are ignored)' do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       # ignore all types
-      taxonomy.ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
+      taxonomy.ignore_types = ["Domain", "Hostgroup", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
       # run selected_ids method
       selected_ids = taxonomy.selected_ids
       # should return all when type is ignored
-      assert_equal selected_ids[:environment_ids], Environment.pluck(:id)
       assert_equal selected_ids[:hostgroup_ids], Hostgroup.pluck(:id)
       assert_equal selected_ids[:subnet_ids], Subnet.pluck(:id)
       assert_equal selected_ids[:domain_ids], Domain.pluck(:id)
@@ -183,7 +173,6 @@ module TaxonomiesBaseTest
       taxonomy_dup = taxonomy.dup
       taxonomy_dup.name = "taxonomy_dup_name_#{rand}"
       assert taxonomy_dup.save
-      assert_equal taxonomy_dup.environment_ids, taxonomy.environment_ids
       assert_equal taxonomy_dup.hostgroup_ids, taxonomy.hostgroup_ids
       assert_equal taxonomy_dup.subnet_ids, taxonomy.subnet_ids
       assert_equal taxonomy_dup.domain_ids, taxonomy.domain_ids
@@ -277,19 +266,17 @@ module TaxonomiesBaseTest
       parent.update_attribute(:domains, [domain1, domain2])
       parent.update_attribute(:subnets, [subnet])
       # we're no longer using the fixture dhcp/dns/tftp proxy to create the host, so remove them
-      parent.update_attribute(:smart_proxies, [smart_proxies(:puppetmaster), smart_proxies(:realm)])
+      parent.update_attribute(:smart_proxies, [smart_proxies(:realm)])
 
       taxonomy = taxonomy_class.create :name => "rack1", :parent_id => parent.id
       FactoryBot.build(:host,
         :compute_resource => compute_resources(:one),
         :domain           => domain1,
-        :environment      => environments(:production),
         :"#{taxonomy_name}" => parent,
         :organization     => taxonomies(:organization1),
         :medium           => media(:one),
         :operatingsystem  => operatingsystems(:centos5_3),
         :owner            => users(:scoped),
-        :puppet_proxy     => smart_proxies(:puppetmaster),
         :realm            => realms(:myrealm),
         :subnet           => subnet)
       FactoryBot.build(:host,
