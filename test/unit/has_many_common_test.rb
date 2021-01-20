@@ -12,38 +12,38 @@ class HasManyCommonTest < ActiveSupport::TestCase
   #
   # Test default AR extenstion *_names where method is :name by default
   test "should return provisioning_template names using method #provisioning_template_names" do
-    env = environments(:production)
-    assert_equal 4, env.provisioning_template_ids.count
-    assert_equal 4, env.provisioning_template_names.count
-    assert_equal ["MyFinish", "MyScript", "MyString", "MyString2"], env.provisioning_template_names.sort
+    hg = hostgroups(:common)
+    assert_equal 4, hg.provisioning_template_ids.count
+    assert_equal 4, hg.provisioning_template_names.count
+    assert_equal ["MyFinish", "MyScript", "MyString", "MyString2"], hg.provisioning_template_names.sort
   end
 
   test "should add provisioning_template association by passing array of names" do
-    env = environments(:production)
-    assert_difference('env.provisioning_template_names.count') do
-      env.provisioning_template_names = ["MyFinish", "MyScript", "MyString", "MyString2", "PXELinux global default"]
+    hg = hostgroups(:common)
+    assert_difference(-> { hg.provisioning_template_names.count }, 1) do
+      hg.provisioning_template_names = ["MyFinish", "MyScript", "MyString", "MyString2", "PXELinux global default"]
     end
-    assert_equal 5, env.provisioning_template_ids.count
-    assert_equal 5, env.provisioning_template_names.count
-    assert_equal ["MyFinish", "MyScript", "MyString", "MyString2", "PXELinux global default"], env.provisioning_template_names.sort
+    assert_equal 5, hg.provisioning_template_ids.count
+    assert_equal 5, hg.provisioning_template_names.count
+    assert_equal ["MyFinish", "MyScript", "MyString", "MyString2", "PXELinux global default"], hg.provisioning_template_names.sort
   end
 
   test "should delete provisioning_template association by passing array of names" do
-    env = environments(:production)
-    assert_difference('env.provisioning_template_names.count', -1) do
-      env.provisioning_template_names = ["MyFinish", "MyScript", "MyString"]
+    hg = hostgroups(:common)
+    assert_difference(-> { hg.provisioning_template_names.count }, -1) do
+      hg.provisioning_template_names = ["MyFinish", "MyScript", "MyString"]
     end
-    assert_equal 3, env.provisioning_template_ids.count
-    assert_equal 3, env.provisioning_template_names.count
-    assert_equal ["MyFinish", "MyScript", "MyString"], env.provisioning_template_names.sort
+    assert_equal 3, hg.provisioning_template_ids.count
+    assert_equal 3, hg.provisioning_template_names.count
+    assert_equal ["MyFinish", "MyScript", "MyString"], hg.provisioning_template_names.sort
   end
 
   # Test non-default AR extension *_names where method is :label for has_many :hostgroups
   test "should return hostgroup labels (not names) using method #hostgroup_names" do
-    env = environments(:production)
-    assert_equal 3, env.hostgroup_ids.count
-    assert_equal 3, env.hostgroup_names.count
-    assert_equal ["Common", "Parent/inherited", "db"], env.hostgroup_names.sort
+    templ = templates(:mystring2)
+    assert_equal 2, templ.hostgroup_ids.count
+    assert_equal 2, templ.hostgroup_names.count
+    assert_equal ["Common", "Parent/inherited"], templ.hostgroup_names.sort
   end
 
   ### belongs_to ###

@@ -113,9 +113,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   test "should assign all hosts with no organization to selected organization and add taxable_taxonomies" do
     organization = taxonomies(:organization1)
     domain = FactoryBot.create(:domain, :organizations => [taxonomies(:organization2)])
-    FactoryBot.create_list(:host, 2, :domain => domain,
-                            :environment => environments(:production),
-                            :organization => nil)
+    FactoryBot.create_list(:host, 2, :domain => domain, :organization => nil)
     assert_difference "organization.taxable_taxonomies.count", 1 do
       post :assign_all_hosts, params: { :id => organization.id }, session: set_session_user
     end

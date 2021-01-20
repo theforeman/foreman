@@ -152,8 +152,8 @@ class HostTest < ActiveSupport::TestCase
     Host.any_instance.expects(:set_compute_attributes).once.returns(true)
     Host.create! :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
-      :environment => environments(:production), :disk => "empty partition"
+      :subnet => subnets(:two), :architecture => architectures(:x86_64),
+      :disk => "empty partition"
   end
 
   test "should save compute attributes with indifferent access" do
@@ -262,8 +262,7 @@ class HostTest < ActiveSupport::TestCase
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
-      :environment => environments(:production), :disk => "empty partition"
+      :subnet => subnets(:two), :architecture => architectures(:x86_64), :disk => "empty partition"
     assert host.valid?
     assert !host.new_record?
   end
@@ -275,15 +274,12 @@ class HostTest < ActiveSupport::TestCase
       subnets(:two).locations = users(:one).locations
       User.current = users(:one)
       User.current.roles << [roles(:manager)]
-      puts lookup_key
-      refute lookup_key.id.nil?
       assert_difference(-> { LookupValue.unscoped.count }, 1) do
         assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "3.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64),
-        :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64), :medium => media(:one),
         :organization => users(:one).organizations.first, :location => users(:one).locations.first,
-        :environment => environments(:production), :disk => "empty partition",
+        :disk => "empty partition",
         :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_key.id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
       end
     end
@@ -293,8 +289,7 @@ class HostTest < ActiveSupport::TestCase
       assert_difference(-> { LookupValue.where(lookup_key_id: lookup_key.id, match: "fqdn=abc.mydomain.net").count }, 1) do
         Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "3.3.4.3",
           :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-          :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
-          :environment => environments(:production), :disk => "empty partition",
+          :subnet => subnets(:two), :architecture => architectures(:x86_64), :disk => "empty partition",
           :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_key.id, "value" => "some_value"}}
       end
     end
@@ -605,22 +600,6 @@ class HostTest < ActiveSupport::TestCase
       assert @host.organization.valid?
       assert @host.location.valid?
     end
-
-    test "assign a host to environment with incorrect taxonomies" do
-      @host = FactoryBot.build(:host, :managed => false)
-      env_with_tax = FactoryBot.create(:environment,
-        :organizations => [@host.organization],
-        :locations => [@host.location])
-      env_with_other_tax = FactoryBot.create(:environment,
-        :organizations => [FactoryBot.create(:organization)],
-        :locations => [FactoryBot.create(:location)])
-      @host.environment = env_with_tax
-      assert @host.valid?
-
-      @host.environment = env_with_other_tax
-      refute @host.valid?
-      assert_match(/is not assigned/, @host.errors[:environment_id].first)
-    end
   end
 
   test 'host can be searched in multiple taxonomies' do
@@ -702,29 +681,29 @@ class HostTest < ActiveSupport::TestCase
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
         :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :medium => media(:one),
-        :architecture => Architecture.first, :environment => Environment.first, :managed => true
+        :architecture => Architecture.first, :managed => true
       refute_valid host
     end
   end
 
   test "should save if neither ptable or disk are defined when the host is not managed" do
-    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3", :medium => media(:one),
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-      :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
+      :medium => media(:one), :operatingsystem => operatingsystems(:redhat), :architecture => architectures(:x86_64),
+      :domain => domains(:mydomain), :subnet => subnets(:two), :managed => false
     assert host.valid?
   end
 
   test "should save if ptable is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64), :ptable => Ptable.first
     assert !host.new_record?
   end
 
   test "should save if disk is defined" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :medium => media(:one),
-      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy => smart_proxies(:puppetmaster)
+      :architecture => architectures(:x86_64), :disk => "aaa"
     assert !host.new_record?
   end
 
@@ -732,8 +711,7 @@ class HostTest < ActiveSupport::TestCase
     if unattended?
       host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.5.2.3", :ptable => FactoryBot.create(:ptable),
         :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
-        :architecture => Architecture.first, :environment => Environment.first, :puppet_proxy => smart_proxies(:puppetmaster),
-        :ip6 => "2001:db8::1", :subnet6 => subnets(:six)
+        :architecture => Architecture.first, :ip6 => "2001:db8::1", :subnet6 => subnets(:six)
       refute host.valid?, "Host should be invalid: #{host.errors.messages}"
       assert_includes host.errors.messages.keys, :"interfaces.ip"
       assert_includes host.errors.messages.keys, :"interfaces.ip6"
@@ -742,8 +720,8 @@ class HostTest < ActiveSupport::TestCase
 
   test "should not save if installation media is missing" do
     host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => FactoryBot.create(:ptable),
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-      :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
+      :architecture => architectures(:x86_64), :managed => true, :build => true,
       :owner_type => "User", :root_pass => "xybxa6JUkz63w"
     refute host.valid?
     assert_equal "can't be blank", host.errors[:medium_id][0]
@@ -751,8 +729,8 @@ class HostTest < ActiveSupport::TestCase
 
   test "should save if owner_type is empty and Host is unmanaged" do
     host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
-      :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
+      :architecture => architectures(:x86_64), :managed => false
     assert host.valid?
   end
 
@@ -772,7 +750,7 @@ class HostTest < ActiveSupport::TestCase
     domain = domains(:mydomain)
     host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
       :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :medium => media(:one),
-      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa"
+      :architecture => architectures(:x86_64), :disk => "aaa"
     host.valid?
     assert_equal domain, host.domain
   end
@@ -846,58 +824,6 @@ class HostTest < ActiveSupport::TestCase
     assert !h.os.architectures.include?(h.arch)
     assert !h.valid?
     assert_equal ["#{h.architecture} does not belong to #{h.os} operating system"], h.errors[:architecture_id]
-  end
-
-  test "host puppet classes must belong to the host environment" do
-    h = FactoryBot.create(:host, :with_environment)
-
-    pc = puppetclasses(:three)
-    h.puppetclasses << pc
-    assert !h.environment.puppetclasses.map(&:id).include?(pc.id)
-    assert !h.valid?
-    assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
-  end
-
-  test "when changing host environment, its puppet classes should be verified" do
-    h = FactoryBot.create(:host, :environment => environments(:production))
-    pc = puppetclasses(:one)
-    h.puppetclasses << pc
-    assert h.save
-    h.environment = environments(:testing)
-    assert !h.save
-    assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
-  end
-
-  test "when setting host environment to nil, its puppet classes should be removed" do
-    h = FactoryBot.create(:host, :environment => environments(:production))
-    pc = puppetclasses(:one)
-    h.puppetclasses << pc
-    assert h.save
-    h.environment = nil
-    h.save!
-    assert_empty h.puppetclasses
-  end
-
-  test "when setting host environment to nil, its config groups should be removed" do
-    h = FactoryBot.create(:host, :environment => environments(:production))
-    pc = config_groups(:one)
-    h.config_groups << pc
-    assert h.save
-    h.environment = nil
-    h.save!
-    assert_empty h.config_groups
-  end
-
-  test "when saving a host, do not require a puppet environment" do
-    h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy => nil)
-    h.environment = nil
-    assert h.valid?
-  end
-
-  test "when saving a host, require puppet environment if puppet master is set" do
-    h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster))
-    h.environment = nil
-    refute h.valid?
   end
 
   test "should not allow short root passwords for managed host in build mode" do
@@ -1076,7 +1002,7 @@ class HostTest < ActiveSupport::TestCase
     Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
     h = FactoryBot.create(:host, :managed, :with_hostgroup)
     g = h.hostgroup
-    p = FactoryBot.create(:hostgroup, :environment => h.environment)
+    p = FactoryBot.create(:hostgroup)
     p.update_attribute(:root_pass, "abc")
     h.root_pass = nil
     g.root_pass = nil
@@ -1919,42 +1845,6 @@ class HostTest < ActiveSupport::TestCase
     assert results.include?(host1)
   end
 
-  test "can search hosts by puppet class" do
-    host = FactoryBot.create(:host, :with_puppetclass)
-    results = Host.search_for("class = #{host.puppetclasses.first.name}")
-    assert_equal 1, results.count
-    assert_equal host.puppetclasses.first, results.first.puppetclasses.first
-  end
-
-  test "can search hosts by inherited puppet class from a hostgroup" do
-    hg = FactoryBot.create(:hostgroup, :with_puppetclass)
-    FactoryBot.create(:host, :hostgroup => hg, :environment => hg.environment)
-    results = Host.search_for("class = #{hg.puppetclasses.first.name}")
-    assert_equal 1, results.count
-    assert_equal 0, results.first.puppetclasses.count
-    assert_equal hg.puppetclasses.first, results.first.hostgroup.puppetclasses.first
-  end
-
-  test "can search hosts by inherited puppet class from a parent hostgroup" do
-    parent_hg = FactoryBot.create(:hostgroup, :with_puppetclass)
-    hg = FactoryBot.create(:hostgroup, :parent => parent_hg)
-    FactoryBot.create(:host, :hostgroup => hg, :environment => hg.environment)
-    results = Host.search_for("class = #{parent_hg.puppetclasses.first.name}")
-    assert_equal 1, results.count
-    assert_equal 0, results.first.puppetclasses.count
-    assert_equal 0, results.first.hostgroup.puppetclasses.count
-    assert_equal parent_hg.puppetclasses.first, results.first.hostgroup.parent.puppetclasses.first
-  end
-
-  test "can search hosts by puppet class from config group in parent hostgroup" do
-    hostgroup = FactoryBot.create(:hostgroup, :with_config_group)
-    host = FactoryBot.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
-    puppetclass = hostgroup.config_groups.first.puppetclasses.first
-    results = Host.search_for("class = #{puppetclass.name}")
-    assert_equal 1, results.count
-    assert_equal host, results.first
-  end
-
   # Ip validations
   test "unmanaged hosts don't require an IPv4 or IPv6" do
     host = FactoryBot.build_stubbed(:host)
@@ -2208,7 +2098,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "#provision_method must be within capabilities" do
-    host = FactoryBot.create(:host, :managed, :with_environment)
+    host = FactoryBot.create(:host, :managed)
     host.provision_method = 'image'
     host.stubs(:capabilities).returns([:build])
     host.valid?
@@ -2260,113 +2150,6 @@ class HostTest < ActiveSupport::TestCase
     host.provision_method = 'build'
     assert host.pxe_build?
     refute host.image_build?
-  end
-
-  test "classes_in_groups should return the puppetclasses of a config group only if it is in host environment" do
-    group1 = config_groups(:one)
-    group2 = config_groups(:two)
-    host = FactoryBot.create(:host,
-      :location => taxonomies(:location1),
-      :organization => taxonomies(:organization1),
-      :environment => environments(:production),
-      :config_groups => [group1, group2])
-    group_classes = host.classes_in_groups
-    # four classes in config groups, all are in same environment
-    assert_equal 4, (group1.puppetclasses + group2.puppetclasses).uniq.count
-    assert_equal ['chkmk', 'nagios', 'pam', 'auth'].sort, group_classes.map(&:name).sort
-  end
-
-  test "should return all classes for environment only" do
-    host = FactoryBot.create(:host,
-      :location => taxonomies(:location1),
-      :organization => taxonomies(:organization1),
-      :environment => environments(:production),
-      :config_groups => [config_groups(:one), config_groups(:two)],
-      :puppetclasses => [puppetclasses(:one)])
-    all_classes = host.classes
-    # four classes in config groups plus one manually added
-    assert_equal 5, all_classes.count
-    assert_equal ['base', 'chkmk', 'nagios', 'pam', 'auth'].sort, all_classes.map(&:name).sort
-    assert_equal all_classes, host.all_puppetclasses
-  end
-
-  test "search hostgroups by config group" do
-    config_group = config_groups(:one)
-    host = FactoryBot.create(:host,
-      :location => taxonomies(:location1),
-      :organization => taxonomies(:organization1),
-      :environment => environments(:production),
-      :config_groups => [config_groups(:one)])
-    hosts = Host::Managed.search_for("config_group = #{config_group.name}")
-    assert_equal [host.name], hosts.map(&:name)
-  end
-
-  test "parent_classes should return parent_classes if host has hostgroup and environment are the same" do
-    hostgroup        = FactoryBot.create(:hostgroup, :with_puppetclass)
-    host             = FactoryBot.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
-    assert host.hostgroup
-    refute_empty host.parent_classes
-    assert_equal host.parent_classes, host.hostgroup.classes
-  end
-
-  test "parent_classes should not return parent classes that do not match environment" do
-    # one class in the right env, one in a different env
-    pclass1 = FactoryBot.create(:puppetclass, :environments => [environments(:testing), environments(:production)])
-    pclass2 = FactoryBot.create(:puppetclass, :environments => [environments(:production)])
-    hostgroup = FactoryBot.create(:hostgroup, :puppetclasses => [pclass1, pclass2], :environment => environments(:testing))
-    host = FactoryBot.create(:host, :hostgroup => hostgroup, :environment => environments(:production))
-    assert host.hostgroup
-    refute_empty host.parent_classes
-    refute_equal host.environment, host.hostgroup.environment
-    refute_equal host.parent_classes, host.hostgroup.classes
-  end
-
-  test "parent_classes should return empty array if host does not have hostgroup" do
-    host = FactoryBot.create(:host)
-    assert_nil host.hostgroup
-    assert_empty host.parent_classes
-  end
-
-  test "parent_config_groups should return parent config_groups if host has hostgroup" do
-    hostgroup        = FactoryBot.create(:hostgroup, :with_config_group)
-    host             = FactoryBot.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
-    assert host.hostgroup
-    assert_equal host.parent_config_groups, host.hostgroup.config_groups
-  end
-
-  test "parent_config_groups should return empty array if host has no hostgroup" do
-    host = FactoryBot.create(:host)
-    refute host.hostgroup
-    assert_empty host.parent_config_groups
-  end
-
-  test "individual puppetclasses added to host (that can be removed) does not include classes that are included by config group" do
-    host   = FactoryBot.create(:host, :with_config_group)
-    pclass = FactoryBot.create(:puppetclass, :environments => [host.environment])
-    host.puppetclasses << pclass
-    # not sure why, but .classes and .puppetclasses don't return the same thing here...
-    assert_equal (host.config_groups.first.classes + [pclass]).map(&:name).sort, host.classes.map(&:name).sort
-    assert_equal [pclass.name], host.individual_puppetclasses.map(&:name)
-  end
-
-  test "available_puppetclasses should return all if no environment" do
-    host = FactoryBot.create(:host)
-    host.update_attribute(:environment_id, nil)
-    assert_equal Puppetclass.where(nil), host.available_puppetclasses
-  end
-
-  test "available_puppetclasses should return environment-specific classes" do
-    host = FactoryBot.create(:host, :with_environment)
-    refute_equal Puppetclass.where(nil), host.available_puppetclasses
-    assert_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
-  end
-
-  test "available_puppetclasses should return environment-specific classes (and that are NOT already inherited by parent)" do
-    hostgroup        = FactoryBot.create(:hostgroup, :with_puppetclass)
-    host             = FactoryBot.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
-    refute_equal Puppetclass.where(nil), host.available_puppetclasses
-    refute_equal host.environment.puppetclasses.sort, host.available_puppetclasses.sort
-    assert_equal (host.environment.puppetclasses - host.parent_classes).sort, host.available_puppetclasses.sort
   end
 
   test "#info ENC YAML omits root_pw when password_hash is set to Base64" do
