@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-11-02 11:15+0000\n"
+"PO-Revision-Date: 2020-11-19 14:22+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -2933,6 +2933,9 @@ msgstr "중첩된 항목을 확장 "
 msgid "Expand the chart"
 msgstr "차트 확대 "
 
+msgid "Expiration of the authorization token."
+msgstr ""
+
 msgid "Expire logs"
 msgstr "로그 만료"
 
@@ -4427,6 +4430,9 @@ msgid "If owner type is specified, owner must be specified too."
 msgstr ""
 
 msgid "If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it."
+msgstr ""
+
+msgid "If selected, SSH keys will be installed on the registered host."
 msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
@@ -6308,6 +6314,9 @@ msgstr ""
 msgid "Note the extra space before IP, the <code>-&#37;></code> removes the new line character only if there is no other text after it. Therefore the white space needs to be at the new line."
 msgstr ""
 
+msgid "Note: the command contains an authentication token which grants access to your Foreman account until it expires."
+msgstr ""
+
 msgid "Nothing to add"
 msgstr "추가할 항목 없음"
 
@@ -6486,6 +6495,9 @@ msgid ""
 msgstr ""
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
+msgstr ""
+
+msgid "Only Smart Proxies with enabled Registration module are available"
 msgstr ""
 
 msgid "Only for BMC interfaces."
@@ -7449,6 +7461,9 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Remote Execution"
+msgstr "원격 실행"
+
 msgid "Remote address"
 msgstr "원격 주소"
 
@@ -8067,6 +8082,9 @@ msgid "Services"
 msgstr "서비스 "
 
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
+msgstr ""
+
+msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
 msgstr ""
 
 msgid "Set IP addresses for %s"
@@ -9673,9 +9691,6 @@ msgstr "사용자 %s을(를) 인증할 수 없습니다 "
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
 msgstr "VM 디스플레이의 수신 주소를 변경할 수 없습니다. 디스플레이가 로컬 호스트에만 할당되지 않았는지 확인합니다 "
 
-msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
-msgstr ""
-
 msgid "Unable to communicate with the proxy: %s"
 msgstr "프록시와 통신할 수 없습니다: %s"
 
@@ -9790,7 +9805,7 @@ msgstr "설치된 BMC 공급자를 가져올 수 없습니다 "
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI 클래스 %s을(를) 초기화할 수 없습니다."
 
-msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
+msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr ""
 
 msgid "Unable to obtain group %{group} from External IPAM."
