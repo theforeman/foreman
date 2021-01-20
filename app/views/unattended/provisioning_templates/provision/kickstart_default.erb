@@ -226,6 +226,8 @@ key --skip
 text
 reboot
 
+<%= snippet('remote_execution_ssh_keys_kickstart') %>
+
 %packages
 <%= snippet_if_exists(template_name + " custom packages") %>
 yum
@@ -293,8 +295,6 @@ else
   yum -t -y update
 fi
 <% end -%>
-
-<%= snippet('remote_execution_ssh_keys') %>
 
 <%= snippet "blacklist_kernel_modules" %>
 

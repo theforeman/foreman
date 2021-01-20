@@ -73,8 +73,13 @@ text
 reboot
 <%= @host.diskLayout %>
 
+<%= snippet('remote_execution_ssh_keys_kickstart') %>
+
 %post --log=/root/ks.post.log --erroronfail
+# Everything after "nodectl init" will not be persisted.
+# https://bugzilla.redhat.com/show_bug.cgi?id=1842484
 nodectl init
+
 <%= snippet 'redhat_register' %>
 <%= snippet 'kickstart_networking_setup' %>
 <%= snippet 'efibootmgr_netboot' %>

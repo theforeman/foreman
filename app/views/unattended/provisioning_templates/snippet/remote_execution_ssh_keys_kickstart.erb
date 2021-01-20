@@ -1,0 +1,55 @@
+<%#
+kind: snippet
+name: remote_execution_ssh_keys_kickstart
+model: ProvisioningTemplate
+snippet: true
+-%>
+<%#
+# SSH keys setup snippet for Remote Execution plugin via Kickstart format
+#
+# Parameters:
+#
+# remote_execution_ssh_keys: public keys to be put in ~/.ssh/authorized_keys
+#
+# remote_execution_ssh_user: user for which remote_execution_ssh_keys will be
+#                            authorized
+#
+# remote_execution_create_user: create user if it not already existing
+#
+# remote_execution_effective_user_method: method to switch from ssh user to
+#                                         effective user
+#
+# This template sets up SSH keys in any host so that as long as your public
+# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This
+# works in combination with Remote Execution plugin by querying smart proxies
+# to build an array.
+#
+# To use this snippet without the plugin provide the SSH keys as host parameter
+# remote_execution_ssh_keys. It expects the same format like the authorized_keys
+# file.
+#
+# This snippet must be included outside of a %post section.
+#
+-%>
+<% if host_param_true?('host_registration_remote_execution') && !host_param('remote_execution_ssh_keys').blank? -%>
+<% ssh_user = host_param('remote_execution_ssh_user') || 'root' %>
+
+<% if ssh_user != 'root' && host_param_true?('remote_execution_create_user') -%>
+user --name=<%= ssh_user %>
+<% end -%>
+
+<% host_param('remote_execution_ssh_keys').split(',').each do |key| -%>
+sshkey --username=<%= ssh_user %> "<%= key %>"
+<% end -%>
+
+<% if ssh_user != 'root' && host_param('remote_execution_effective_user_method') == 'sudo' -%>
+%post
+echo "<%= ssh_user %> ALL = (root) NOPASSWD : ALL
+Defaults:<%= ssh_user %> !requiretty" > /etc/sudoers.d/<%= ssh_user %>
+%end
+<% end -%>
+
+<% else -%>
+# The remote_execution_ssh_user does not exist and remote_execution_create_user is not
+# set to true. No SSH key will be installed.
+<% end -%>

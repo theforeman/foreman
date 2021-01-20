@@ -52,7 +52,7 @@ export FACTER_is_installer=true
 
 
 
-# SSH keys setup snippet for Remote Execution plugin
+# SSH keys setup snippet for Remote Execution plugin via Shell script
 #
 # Parameters:
 #

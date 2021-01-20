@@ -50,7 +50,7 @@ else
 fi
 
 
-# SSH keys setup snippet for Remote Execution plugin
+# SSH keys setup snippet for Remote Execution plugin via Shell script
 #
 # Parameters:
 #

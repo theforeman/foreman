@@ -48,6 +48,8 @@ rootpw --iscrypted <%= root_pass %>
 
 reboot
 
+<%= snippet('remote_execution_ssh_keys_kickstart') %>
+
 <% if @dynamic -%>
 # Partition table dynamic generation
 %pre --log=/tmp/install.pre.dynamic.log
@@ -68,7 +70,6 @@ cp -vf /tmp/*pre*log /tmp/sysimage/root/
 %post
 <%= snippet 'redhat_register' %>
 rm -f /etc/ostree/remotes.d/*.conf
-<%= snippet('remote_execution_ssh_keys') %>
 <%= snippet 'efibootmgr_netboot' %>
 touch /tmp/foreman_built
 %end

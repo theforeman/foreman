@@ -20,7 +20,7 @@ package_upgrade: true
 runcmd:
 - |
   
-  # SSH keys setup snippet for Remote Execution plugin
+  # SSH keys setup snippet for Remote Execution plugin via Shell script
   #
   # Parameters:
   #
