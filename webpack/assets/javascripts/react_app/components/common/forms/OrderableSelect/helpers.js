@@ -11,7 +11,7 @@ export const orderDragged = (inputArray, dragIndex, hoverIndex) => {
   return ordered;
 };
 
-export const makeOnHover = (getIndex, getMoveFnc) => (
+export const makeOnHover = (getIndex, getMoveFnc, direction) => (
   props,
   monitor,
   component
@@ -24,23 +24,39 @@ export const makeOnHover = (getIndex, getMoveFnc) => (
 
   // Determine rectangle on screen
   const hoverBoundingRect = component.getNode().getBoundingClientRect();
-  // Get vertical middle
-  const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
-  // Determine mouse position
-  const clientOffset = monitor.getClientOffset();
-  // Get pixels to the top
-  const hoverClientX = clientOffset.x - hoverBoundingRect.left;
-  // Only perform the move when the mouse has crossed half of the items width
-  // When dragging right, only move when the cursor is over 50%
-  // When dragging left, only move when the cursor is under 50%
-  // Dragging right
-  if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
+  let shouldMove = false;
+
+  // Determine which drag direction we should handle and whether to move an item
+  if (direction === 'vertical') {
+    shouldMove = onHover(
+      dragIndex,
+      hoverIndex,
+      hoverBoundingRect,
+      monitor,
+      'y',
+      'bottom',
+      'top'
+    );
+  } else if (direction === 'horizontal') {
+    shouldMove = onHover(
+      dragIndex,
+      hoverIndex,
+      hoverBoundingRect,
+      monitor,
+      'x',
+      'right',
+      'left'
+    );
+  } else {
+    throw new Error(
+      `Unknown drag direction, expected one of: horizontal, vertical, got: ${direction}`
+    );
+  }
+
+  if (!shouldMove) {
     return null;
   }
-  // Dragging left
-  if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
-    return null;
-  }
+
   // Time to actually perform the action
   getMoveFnc(props)(dragIndex, hoverIndex);
   // Note: we're mutating the monitor item here!
@@ -51,10 +67,40 @@ export const makeOnHover = (getIndex, getMoveFnc) => (
   return null;
 };
 
-const getDropTarget = (dropTypes, getIndex, getMoveFnc) =>
+const onHover = (
+  dragIndex,
+  hoverIndex,
+  hoverBoundingRect,
+  monitor,
+  clientAttr,
+  rectMaxAttr,
+  rectMinAttr
+) => {
+  // Get midpoint
+  const hoverMiddle =
+    (hoverBoundingRect[rectMaxAttr] - hoverBoundingRect[rectMinAttr]) / 2;
+  // Determine mouse position
+  const clientOffset = monitor.getClientOffset();
+  // Get pixels to the border
+  const hoverClient = clientOffset[clientAttr] - hoverBoundingRect[rectMinAttr];
+
+  // Swap items only when the mouse has moved over the midpoint of other item
+  // Dragging right or down
+  if (dragIndex < hoverIndex && hoverClient < hoverMiddle) {
+    return false;
+  }
+  // Dragging left or up
+  if (dragIndex > hoverIndex && hoverClient > hoverMiddle) {
+    return false;
+  }
+
+  return true;
+};
+
+const getDropTarget = (dropTypes, getIndex, getMoveFnc, direction) =>
   DropTarget(
     dropTypes,
-    { hover: makeOnHover(getIndex, getMoveFnc) },
+    { hover: makeOnHover(getIndex, getMoveFnc, direction) },
     connect => ({
       connectDropTarget: connect.dropTarget(),
     })
@@ -76,6 +122,7 @@ export const orderable = (
   Component,
   {
     type = 'orderable',
+    direction = 'horizontal',
     getItem = props => ({ id: props.id }),
     getIndex = props => props.index,
     getMoveFnc = props => props.moveValue,
@@ -123,6 +170,7 @@ export const orderable = (
   return getDropTarget(
     type,
     getIndex,
-    getMoveFnc
+    getMoveFnc,
+    direction
   )(getDragSource(type, getIndex, getItem)(Orderable));
 };
