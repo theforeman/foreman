@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RegistrationControllerTest < ActionController::TestCase
+class RegistrationCommandsControllerTest < ActionController::TestCase
   test 'new' do
     get :new, session: set_session_user
     assert_response :success

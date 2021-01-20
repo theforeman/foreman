@@ -482,6 +482,7 @@ Foreman::Application.routes.draw do
       get 'ping', :to => 'ping#ping'
       get 'statuses', :to => 'ping#statuses'
       put 'auth_source_ldaps/(:id)/test', :to => 'auth_source_ldaps#test'
+      post 'registration_commands', to: 'registration_commands#create'
     end
   end
 end

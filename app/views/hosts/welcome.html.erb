@@ -8,6 +8,6 @@
   <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("4.4Provisioning")%></p>
   <div class="blank-slate-pf-main-action">
     <%= new_link(_('Create Host'), {}, { :class => "btn-lg" }) %>
-    <%= display_link_if_authorized(_("Register Host"), { :controller => 'registration', :action => :new }, :class => "btn btn-default btn-lg") %>
+    <%= display_link_if_authorized(_("Register Host"), hash_for_register_hosts_path, :class => "btn btn-default btn-lg") %>
   </div>
 </div>

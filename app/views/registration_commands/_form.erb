@@ -1,5 +1,5 @@
 <% title _('Register Host') %>
-<%= form_tag({controller: 'registration', action: 'create' }, method: :post, class: 'form-horizontal well') do %>
+<%= form_tag({controller: 'registration_commands', action: 'create' }, method: :post, class: 'form-horizontal well') do %>
   <div class='form-group'>
     <label class='col-md-2 control-label'><%= _('Organization') %></label>
     <div class='col-md-4'>
@@ -43,7 +43,7 @@
       </a>
     </label>
     <div class='col-md-4'>
-      <%= select_tag 'smart_proxy', options_from_collection_for_select(@smart_proxies, :id, :name, params[:smart_proxy]), class: 'form-control', include_blank: '' %>
+      <%= select_tag 'smart_proxy_id', options_from_collection_for_select(@smart_proxies, :id, :name, params[:smart_proxy_id]), class: 'form-control', include_blank: '' %>
     </div>
   </div>
   <div class='form-group'>
