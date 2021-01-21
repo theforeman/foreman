@@ -3,17 +3,16 @@ require 'base64'
 
 class JwtToken < Struct.new(:token)
   class << self
-    def encode(user, secret, expiration: nil, scope: nil)
+    def encode(user, secret, expiration: nil, scope: [])
       payload = prepare_payload(user, secret, expiration: expiration, scope: scope)
       new JWT.encode(payload, secret)
     end
 
     private
 
-    def prepare_payload(user, secret, expiration: nil, scope: nil)
+    def prepare_payload(user, secret, expiration: nil, scope: [])
       jti_raw = [secret, iat].join(':')
       jti = Digest::SHA256.hexdigest(jti_raw)
-      scope = scope.join(' ') if scope.is_a? Array
       payload = {
         user_id: user.id,
         iat: iat,
@@ -21,12 +20,17 @@ class JwtToken < Struct.new(:token)
       }
 
       payload[:exp] = (Time.now.to_i + expiration) if expiration
-      payload[:scope] = scope if scope
+      payload[:scope] = format_scope(scope) if scope.any?
       payload
     end
 
     def iat
       Time.now.to_i
+    end
+
+    # Format scope to string 'controller#action1 controller#action2'
+    def format_scope(scope)
+      scope.map { |sc| sc[:actions].map { |action| "#{sc[:controller]}##{action}" }.join(' ') }.join(' ')
     end
   end
 

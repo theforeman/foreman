@@ -24,21 +24,13 @@ class JwtTokenTest < ActiveSupport::TestCase
     assert_nothing_raised { jwt_token.decode }
   end
 
-  test 'encode with scope (string)' do
+  test 'encode with scope' do
     jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
     JwtSecret.stubs(:find_by).returns(jwt_secret)
-    jwt_token = JwtToken.new(JwtToken.encode(OpenStruct.new(id: 123), jwt_secret.token, scope: 'onescope').token)
-
-    assert_equal 'onescope', jwt_token.decode['scope']
-  end
-
-  test 'encode with scope (array)' do
-    jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
-    JwtSecret.stubs(:find_by).returns(jwt_secret)
-    scope = ['one', 'two', 'three']
+    scope = [{ controller: 'hosts', actions: ['create', 'update']}]
     jwt_token = JwtToken.new(JwtToken.encode(OpenStruct.new(id: 123), jwt_secret.token, scope: scope).token)
 
-    assert_equal 'one two three', jwt_token.decode['scope']
+    assert_equal 'hosts#create hosts#update', jwt_token.decode['scope']
   end
 
   test 'decoding' do
