@@ -51,7 +51,8 @@ module SSO
 
     def valid_scope?(scope)
       return true if scope.empty?
-      scope.split(' ').include? controller.controller_permission
+      required_scope = "#{controller.controller_permission}##{controller.action_name}"
+      scope.split(' ').include? required_scope
     end
   end
 end

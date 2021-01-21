@@ -22,7 +22,7 @@ module Foreman::Controller::Registration
 
     context = {
       user: User.current,
-      auth_token: User.current.jwt_token!(expiration: 4.hours.to_i, scope: 'registration'),
+      auth_token: api_authorization_token,
       organization: (organization || User.current.default_organization || User.current.my_organizations.first),
       location: (location || User.current.default_location || User.current.my_locations.first),
       hostgroup: host_group,
@@ -129,5 +129,13 @@ module Foreman::Controller::Registration
     rex_param = HostParameter.find_or_initialize_by(host: @host, name: 'host_registration_remote_execution', key_type: 'boolean')
     rex_param.value = ActiveRecord::Type::Boolean.new.deserialize(params['setup_remote_execution'])
     rex_param.save!
+  end
+
+  def api_authorization_token
+    scope = [{
+      controller: :registration,
+      actions: [:global, :host],
+    }]
+    User.current.jwt_token!(expiration: 4.hours.to_i, scope: scope)
   end
 end
