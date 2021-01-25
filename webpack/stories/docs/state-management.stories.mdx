@@ -1,0 +1,73 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction/Where to Put Stuff"
+  parameters={{
+    storyWeight: 132,
+  }}
+/>
+
+# State Management in Foreman & Plugins
+
+Where do I put data so that it's accessible by the React components that need it?
+
+Currently Foreman has a few places for storing data:
+
+* Component state
+* Redux store
+* ForemanContext
+* Global `window` object
+* Other React Context
+* localStorage and sessionStorage
+* Routing
+
+The following sections will outline
+
+*  The architecture around how we use each method
+*  Current opinions on best practices.
+
+## Local component state
+
+This includes anything that uses `useState` or `useReducer` hooks.  Or, in class components, `this.state`.  See the React docs for more info.
+
+This is the best place for any data that is _used only locally by the component_: for example
+* input value for a controlled UI component
+* current form values for form elements
+* Other UI element states
+
+## Redux store
+
+The Redux store is used to store data that needs to be shared across many components.
+
+For the moment this includes API responses through the API middleware.
+
+## ForemanContext
+
+Data that doesn't often change is stored in a special React Context object called ForemanContext.  For more info on how to use it, see foreman-context.stories.mdx // TODO link this
+
+This data includes
+* Current taxonomy (organization, location)
+* Pagination settings
+* Foreman version
+
+## Global `window` object
+
+Because Foreman and plugins use both modern and legacy JS frameworks, Foreman has a unique way of storing some data on the global `window` object.  (See `webpack/assets/javascripts/bundle.js`.) This `tfm` object includes
+
+* A `componentRegistry` that makes React components accessible for mounting on Rails ERB pages // TODO add link
+* A method for legacy JS frameworks to access Foreman's Redux store // TODO add link
+* Several other utilities and helpers written in jQuery and vanilla JavaScript
+
+Other than the `tfm` object, it is not advisable to store anything on the global `window` object.
+
+## Other React Context
+
+Consider the `ForemanModal` component, which is a composite React component which needs to pass data down to its subcomponents.  However, this data is not used or needed by anything other than ForemanModal internals.  For these specific use cases, it makes sense to use a React Context instance that is not connected to `ForemanContext`.
+
+React Router also uses React Context under the hood.
+
+## localStorage and sessionStorage
+
+The browser's `sessionStorage` is currently used to store some user preferences; see `LayoutSessionStorage.js`, `HostSessionStorage.js`, and `NotificationDrawerSessionStorage.js`
+
+Currently the browser `localStorage` is not used by Foreman.  It is recommended to use the Redux store instead.
