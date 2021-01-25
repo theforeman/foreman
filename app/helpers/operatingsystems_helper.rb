@@ -59,6 +59,8 @@ module OperatingsystemsHelper
              "stub/steelblue-w"
            when /OpenWrt/i
              "openwrt"
+           when /Raspbian/i
+             "raspbian"
            else
              if record.family.blank?
                'stub/black-x'
