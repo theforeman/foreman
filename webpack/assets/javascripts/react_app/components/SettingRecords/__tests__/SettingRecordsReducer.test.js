@@ -6,7 +6,7 @@ import { groupedSettings } from './SettingRecords.fixtures';
 
 import {
   LOAD_SETTING_RECORDS,
-  SETTINGS_FORM_SUBMITTED,
+  SETTINGS_FORM_SUBMITTED_SUCCESS,
   SET_EDITING_SETTING,
 } from '../SettingRecordsConstants';
 
@@ -22,13 +22,11 @@ const fixtures = {
   'should update a setting': {
     state: initialState.set('settings', groupedSettings),
     action: {
-      type: SETTINGS_FORM_SUBMITTED,
-      payload: {
-        data: {
-          id: 47,
-          value: 'http://proxy.com',
-          category: 'Setting::General',
-        },
+      type: SETTINGS_FORM_SUBMITTED_SUCCESS,
+      response: {
+        id: 'http_proxy_except_list',
+        value: 'http://proxy.com',
+        category: 'Setting::General',
       },
     },
   },
