@@ -18,8 +18,8 @@ const SettingForm = ({
     let submitValues = { setting: values };
 
     if (setting && setting.settingsType === 'array') {
-      const splitValue = { value: values.value.split(',') };
-      submitValues = { setting: splitValue };
+      const splitValue = values.value === '' ? [] : values.value.split(',');
+      submitValues = { setting: { value: splitValue } };
     }
 
     await submitForm({
