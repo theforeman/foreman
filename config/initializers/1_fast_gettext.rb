@@ -15,8 +15,6 @@ FastGettext.default_text_domain = locale_domain
 FastGettext.default_locale = "en"
 FastGettext.locale = "en"
 
-Foreman::Gettext::Support.register_human_localenames
-
 # work in all domains context by default (for plugins)
 include FastGettext::TranslationMultidomain
 

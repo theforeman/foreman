@@ -1,7 +1,7 @@
 module Types
   class LocaleEnum < Types::BaseEnum
-    FastGettext.human_available_locales.each do |description, locale|
-      value locale, description: description
+    FastGettext.default_available_locales.each do |locale|
+      value locale, description: locale
     end
   end
 end

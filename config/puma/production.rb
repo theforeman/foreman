@@ -53,3 +53,10 @@ end
 
 # === Puma control rack application ===
 activate_control_app "unix://#{run_dir}/sockets/pumactl.sock"
+
+# Loading and initializing of all gettext languages takes about 100ms per language
+# in development environment and little less on production. Let's eager load languages
+# for production before forking to save memory on CoW operating systems.
+before_fork do
+  FastGettext.human_available_locales
+end

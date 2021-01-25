@@ -10,6 +10,11 @@ require app_file
   world.before_termination do
     SdNotify.stopping
   end
+
+  # Loading and initializing of all gettext languages takes about 100ms per language
+  # in development environment and little less on production. Let's eager load languages
+  # but only for production.
+  FastGettext.human_available_locales
 end
 
 rails_env_file = File.expand_path('./config/environment.rb', rails_root)
