@@ -5,11 +5,9 @@
 /* eslint-disable jquery/no-each */
 
 import $ from 'jquery';
-import URI from 'urijs';
 import { translate as __ } from './react_app/common/I18n';
-import { deprecate } from './react_app/common/DeprecationService';
 
-import { showLoading, hideLoading, visit } from './foreman_navigation';
+import { showLoading, hideLoading } from './foreman_navigation';
 
 export * from './react_app/common/DeprecationService';
 
@@ -102,34 +100,6 @@ export function initTypeAheadSelect(input) {
     },
     width: '400px',
   });
-}
-
-// handle table updates via turoblinks
-export function updateTable(element) {
-  deprecate('updateTable', 'react Table component', '2.1');
-  const uri = new URI(window.location.href);
-
-  const values = {};
-
-  if (['per_page', 'search-form'].includes(element.id)) {
-    values.page = '1';
-  } else {
-    values.page = $('#cur_page_num').val();
-  }
-
-  const searchTerm = $(element)
-    .find('.autocomplete-input')
-    .val();
-  if (searchTerm !== undefined) {
-    values.search = searchTerm.trim();
-  }
-  values.per_page = $('#pagination-row-dropdown')
-    .text()
-    .trim();
-  uri.setSearch(values);
-
-  visit(uri.toString());
-  return false;
 }
 
 // generates an absolute, needed in case of running Foreman from a subpath
