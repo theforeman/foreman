@@ -2162,6 +2162,12 @@ Payload for background jobs is the serialized active job hash (see `ActiveJob#se
 }
 ```
 
+Example events emitted by Remote Execution plugin:
+
+* actions.remote_execution.run_host_job_succeeded
+
+Foreman Webhooks plugin ships with an example "Remote Execution Host Job" template.
+
 You can find all observable events by calling `Foreman::EventSubscribers.all_observable_events` in the Rails console. 
 
 [[translating]]

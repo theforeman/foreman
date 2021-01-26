@@ -13,7 +13,7 @@ module Foreman
     private
 
     def event_name_for(hook_name, namespace: DEFAULT_NAMESPACE)
-      [hook_name, namespace].compact.join('.')
+      [hook_name.to_s.tr('/', '.'), namespace].compact.join('.')
     end
     module_function :event_name_for
 
