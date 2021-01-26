@@ -14,7 +14,6 @@ module Hostext
       opts[:kind]               ||= "provision"
       opts[:operatingsystem_id] ||= operatingsystem_id
       opts[:hostgroup_id]       ||= hostgroup_id
-      opts[:environment_id]     ||= environment_id
 
       Taxonomy.as_taxonomy(organization, location) do
         ProvisioningTemplate.find_template opts
@@ -27,7 +26,6 @@ module Hostext
         ProvisioningTemplate.find_template({ :kind               => kind.name,
                                              :operatingsystem_id => operatingsystem_id,
                                              :hostgroup_id       => hostgroup_id,
-                                             :environment_id     => environment_id,
         })
       end.compact
     end
