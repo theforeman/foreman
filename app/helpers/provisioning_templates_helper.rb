@@ -1,11 +1,6 @@
 module ProvisioningTemplatesHelper
   def combination(template)
-    template.template_combinations.map do |comb|
-      str = []
-      str << (comb.hostgroup_id.nil? ? _("None") : comb.hostgroup.to_s)
-      str << (comb.environment_id.nil? ? _("None") : comb.environment.to_s)
-      str.join(" / ")
-    end.to_sentence
+    template.template_combinations.map { |comb| comb.hostgroup.to_s }.to_sentence
   end
 
   def template_kind(template)
@@ -67,13 +62,11 @@ module ProvisioningTemplatesHelper
     alert(:class => 'alert-info', :header => _('How templates are determined'),
           :text => ('<p>' + _("When editing a template, you must assign a list \
 of operating systems which this template can be used with. Optionally, you can \
-restrict a template to a list of host groups and/or environments.") + '</p>' +
+restrict a template to a list of host groups.") + '</p>' +
 '<p>' + _("When a Host requests a template (e.g. during provisioning), Foreman \
 will select the best match from the available templates of that type, in the \
 following order:") + '</p>' + '<ul>' +
-    '<li>' + _("Host group and Environment") + '</li>' +
-    '<li>' + _("Host group only") + '</li>' +
-    '<li>' + _("Environment only") + '</li>' +
+    '<li>' + _("Host group") + '</li>' +
     '<li>' + _("Operating system default") + '</li>' +
     '</ul>' +
     (_("The final entry, Operating System default, can be set by editing the %s page.") %
