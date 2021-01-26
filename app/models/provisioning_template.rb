@@ -21,13 +21,12 @@ class ProvisioningTemplate < Template
   validates :name, :uniqueness => true
   validates :template_kind_id, :presence => true, :unless => proc { |t| t.snippet }
 
-  before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
+  before_destroy EnsureNotUsedBy.new(:hostgroups, :os_default_templates)
   has_many :template_combinations, :dependent => :destroy
   has_many :hostgroups, :through => :template_combinations
-  has_many :environments, :through => :template_combinations
   belongs_to :template_kind
   accepts_nested_attributes_for :template_combinations, :allow_destroy => true,
-    :reject_if => ->(tc) { tc[:environment_id].blank? && tc[:hostgroup_id].blank? }
+    :reject_if => :reject_template_combination_attributes?
   has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_provisioning_templates, :association_foreign_key => :operatingsystem_id, :foreign_key => :provisioning_template_id
   has_many :os_default_templates
   before_save :check_for_snippet_assoications
@@ -46,7 +45,6 @@ class ProvisioningTemplate < Template
   scoped_search :on => :default, :only_explicit => true, :complete_value => {:true => true, :false => false}, :rename => 'default_template'
 
   scoped_search :relation => :operatingsystems, :on => :name, :rename => :operatingsystem, :complete_value => true
-  scoped_search :relation => :environments,     :on => :name, :rename => :environment,     :complete_value => true
   scoped_search :relation => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
   scoped_search :relation => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
@@ -76,16 +74,22 @@ class ProvisioningTemplate < Template
   def self.template_ids_for(hosts)
     hosts = hosts.with_os.distinct
     oses = hosts.pluck(:operatingsystem_id)
-    hostgroups = hosts.pluck(:hostgroup_id) | [nil]
-    environments = hosts.pluck(:environment_id) | [nil]
     templates = ProvisioningTemplate.reorder(nil).joins(:operatingsystems, :template_kind).where('operatingsystems.id' => oses, 'template_kinds.name' => 'provision')
-    ids = templates.joins(:template_combinations).where("template_combinations.hostgroup_id" => hostgroups, "template_combinations.environment_id" => environments).distinct.pluck(:id)
+    ids = templates_by_template_combinations(templates, hosts).pluck(:id)
     ids += templates.joins(:os_default_templates).where("os_default_templates.operatingsystem_id" => oses).distinct.pluck(:id)
     ids.uniq
   end
 
+  def self.templates_by_template_combinations(templates, hosts_or_conditions)
+    conditions = hosts_or_conditions
+    unless hosts_or_conditions.is_a?(Hash)
+      conditions = { hostgroup_id: hosts_or_conditions.pluck(:hostgroup_id) | [nil] }
+    end
+    templates.joins(:template_combinations).where("template_combinations.hostgroup_id" => conditions[:hostgroup_id]).distinct
+  end
+
   def self.template_includes
-    super + [:template_kind, :template_combinations => [:hostgroup, :environment]]
+    super + [:template_kind, :template_combinations => [:hostgroup]]
   end
 
   def self.default_render_scope_class
@@ -103,29 +107,8 @@ class ProvisioningTemplate < Template
 
     # first filter valid templates to our OS and requested template kind.
     templates = ProvisioningTemplate.joins(:operatingsystems, :template_kind).where('operatingsystems.id' => opts[:operatingsystem_id], 'template_kinds.name' => opts[:kind])
-
     # once a template has been matched, we no longer look for others.
-
-    if opts[:hostgroup_id] && opts[:environment_id]
-      # try to find a full match to our host group and environment
-      template ||= templates.joins(:template_combinations).find_by(
-        "template_combinations.hostgroup_id" => opts[:hostgroup_id],
-        "template_combinations.environment_id" => opts[:environment_id])
-    end
-
-    if opts[:hostgroup_id]
-      # try to find a match with our hostgroup only
-      template ||= templates.joins(:template_combinations).find_by(
-        "template_combinations.hostgroup_id" => opts[:hostgroup_id],
-        "template_combinations.environment_id" => nil)
-    end
-
-    if opts[:environment_id]
-      # search for a template based only on our environment
-      template ||= templates.joins(:template_combinations).find_by(
-        "template_combinations.hostgroup_id" => nil,
-        "template_combinations.environment_id" => opts[:environment_id])
-    end
+    template = templates_by_template_combinations(templates, opts).first
 
     # fall back to the os default template
     template ||= templates.joins(:os_default_templates).find_by("os_default_templates.operatingsystem_id" => opts[:operatingsystem_id])
@@ -208,7 +191,7 @@ class ProvisioningTemplate < Template
   # generated for
   def self.pxe_default_combos
     combos = []
-    ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [:operatingsystem, :architecture]}]).find_each do |template|
+    ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [{:hostgroup => [:operatingsystem, :architecture]}]).find_each do |template|
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
         if hostgroup&.operatingsystem && hostgroup&.architecture
@@ -270,9 +253,12 @@ class ProvisioningTemplate < Template
   def check_for_snippet_assoications
     return unless snippet
     hostgroups.clear
-    environments.clear
     template_combinations.clear
     operatingsystems.clear
     self.template_kind = nil
+  end
+
+  def reject_template_combination_attributes?(params)
+    params[:hostgroup_id].blank?
   end
 end
