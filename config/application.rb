@@ -91,6 +91,10 @@ end
 
 module Foreman
   class Application < Rails::Application
+    config.load_defaults "6.0"
+    config.autoloader = :classic # Remove or set to :zeitwerk to use zeitwerk
+    config.active_record.belongs_to_required_by_default = false
+
     # Setup additional routes by loading all routes file from routes directory
     Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
       config.paths['config/routes.rb'] << route_file
