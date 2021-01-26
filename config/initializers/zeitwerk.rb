@@ -23,3 +23,4 @@ Rails.autoloaders.each do |autoloader|
     'vrp' => 'VRP',
   )
 end
+Rails.autoloaders.log!
