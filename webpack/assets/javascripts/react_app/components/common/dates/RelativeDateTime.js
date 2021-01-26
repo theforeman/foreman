@@ -33,7 +33,7 @@ RelativeDateTime.contextTypes = {
 
 RelativeDateTime.propTypes = {
   date: PropTypes.any,
-  defaultValue: PropTypes.string,
+  defaultValue: PropTypes.node,
 };
 
 RelativeDateTime.defaultProps = {
