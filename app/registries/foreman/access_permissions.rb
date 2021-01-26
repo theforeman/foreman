@@ -232,7 +232,7 @@ Foreman::AccessControl.map do |permission_set|
 
     map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :pending, :vm,
                                                :pxe_config, :auto_complete_search, :bmc, :build_errors, :runtime, :resources,
-                                               :templates, :overview, :nics, :get_power_state, :preview_host_collection, :welcome],
+                                               :templates, :overview, :nics, :get_power_state, :preview_host_collection, :welcome, :statuses],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:host_template, :hostgroup_template],
                                      :"api/v2/hosts" => [:index, :show, :get_status, :vm_compute_attributes, :template, :enc],

@@ -27,7 +27,7 @@ class HostsController < ApplicationController
   before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
-                                          :toggle_manage, :pxe_config, :disassociate, :build_errors, :forget_status]
+                                          :toggle_manage, :pxe_config, :disassociate, :build_errors, :forget_status, :statuses]
 
   before_action :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_action :set_host_type, :only => [:update]
@@ -279,7 +279,16 @@ class HostsController < ApplicationController
   def forget_status
     status = @host.host_statuses.find(params[:status])
     status.delete
-    redirect_to host_path(@host)
+    respond_to do |format|
+      format.html do
+        redirect_to host_path(@host)
+      end
+      format.json do
+        head :ok
+      rescue => exception
+        process_ajax_error exception, 'forget status'
+      end
+    end
   end
 
   def ipmi_boot
@@ -596,6 +605,27 @@ class HostsController < ApplicationController
     end
   end
 
+  def statuses
+    statuses = {
+      global: @host.global_status,
+      captions: HostStatus.status_registry.map do |status_class|
+        status_class.status_name
+      end,
+      statuses: @host.host_statuses.map do |status|
+        {
+          id: status.id,
+          name: status.name,
+          label: status.to_label,
+          link: status.status_link,
+          global: status.to_global,
+          status: status.to_status,
+          reported_at: status.reported_at,
+        }
+      end,
+    }
+    render :json => statuses
+  end
+
   private
 
   def resource_base
@@ -603,7 +633,7 @@ class HostsController < ApplicationController
   end
 
   define_action_permission [
-    'clone', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
+    'clone', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics', 'statuses',
     'pxe_config', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state', 'preview_host_collection', 'build_errors'
   ], :view
   define_action_permission [

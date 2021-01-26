@@ -1,0 +1,19 @@
+.card-pf-aggregate-status-notifications .aggregate-text {
+  font-size: 16px;
+}
+
+.disabled {
+  color: var(--pf-global--disabled-color--200);
+}
+
+.status-success {
+  color: var(--pf-global--success-color--100);
+}
+
+.status-error {
+  color: var(--pf-global--danger-color--100);
+}
+
+.status-warning {
+  color: var(--pf-global--warning-color--100);
+}
