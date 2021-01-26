@@ -37,13 +37,13 @@ This is the best place for any data that is _used only locally by the component_
 
 ## Redux store
 
-The Redux store is used to store data that needs to be shared across many components.
+The Redux store is used to store data that needs to be shared across many components, especially ones that don't share a common ancestry. Another case is when one component can trigger an action that could impact the state of another component that isn't directly in its ancestry.
 
 For the moment this includes API responses through the API middleware.
 
 ## ForemanContext
 
-Data that doesn't often change is stored in a special React Context object called ForemanContext.  For more info on how to use it, see foreman-context.stories.mdx // TODO link this
+Data that doesn't often change but can impact many components across the application is stored in a special React Context object called ForemanContext.  For more info on how to use it, see foreman-context.stories.mdx // TODO link this
 
 This data includes
 * Current taxonomy (organization, location)
@@ -60,7 +60,7 @@ Because Foreman and plugins use both modern and legacy JS frameworks, Foreman ha
 
 Other than the `tfm` object, it is not advisable to store anything on the global `window` object.
 
-## Other React Context
+## Other React Contexts
 
 Consider the `ForemanModal` component, which is a composite React component which needs to pass data down to its subcomponents.  However, this data is not used or needed by anything other than ForemanModal internals.  For these specific use cases, it makes sense to use a React Context instance that is not connected to `ForemanContext`.
 
