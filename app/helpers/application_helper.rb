@@ -185,7 +185,7 @@ module ApplicationHelper
   end
 
   def auto_complete_search(name, val, options = {})
-    Foreman::Deprecation.deprecation_warning('1.27', 'use #auto_complete_f, possibly with #form_with if you need to avoid of object scope')
+    Foreman::Deprecation.deprecation_warning('2.5', 'use #auto_complete_f, possibly with #form_with if you need to avoid of object scope')
     options.merge!(
       {
         url: options[:full_path] || (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{name}",

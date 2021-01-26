@@ -142,23 +142,6 @@ module Api
         append_array_of_ids(params)             # unwrapped params
       end
 
-      def self.skip_before_action(*names)
-        names = names.map do |n|
-          if n == :check_content_type
-            Foreman::Deprecation.deprecation_warning('2.3', '#check_content_type is renamed to #check_media_type')
-            :check_media_type
-          else
-            n
-          end
-        end
-        super(*names)
-      end
-
-      def check_content_type
-        Foreman::Deprecation.deprecation_warning('2.3', '#check_content_type is renamed to #check_media_type')
-        check_media_type
-      end
-
       def check_media_type
         if (request.post? || request.put?) && request.media_type != "application/json"
           render_error(:unsupported_media_type, :status => :unsupported_media_type)

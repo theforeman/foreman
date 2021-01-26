@@ -20,12 +20,7 @@ module Foreman
       # optional object_of: Hash, desc: 'URL parameters, use key named :unencoded for parameters which must not be URL-encoded'
       returns String, desc: "Rendered URL"
     end
-    def foreman_url(action = nil, params = {}, unescaped_params = {})
-      if action.nil?
-        Foreman::Deprecation.deprecation_warning('2.3', 'Do not call foreman_url macro without arguments, use foreman_url("provision") instead.')
-        action = 'provision'
-      end
-
+    def foreman_url(action, params = {}, unescaped_params = {})
       # Get basic stuff
       config = URI.parse(Setting[:unattended_url])
       url_options = foreman_url_options_from_settings_or_request(config)

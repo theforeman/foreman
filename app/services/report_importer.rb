@@ -53,15 +53,10 @@ class ReportImporter
   def add_reporter_specific_data
     logger.info "Scanning report with: #{report_scanners.join(', ')}"
     report_scanners.each do |scanner|
-      if scanner.respond_to?(:identify_origin)
-        if (origin = scanner.identify_origin(raw))
-          report.origin = origin
-          scanner.add_reporter_data(report, raw)
-          break
-        end
-      else
-        Foreman::Deprecation.deprecation_warning('2.4', "report_scanners need to implement identify_origin and add_reporter_data methods, but #{scanner} does not.")
-        break if scanner.scan(report, logs)
+      if (origin = scanner.identify_origin(raw))
+        report.origin = origin
+        scanner.add_reporter_data(report, raw)
+        break
       end
     end
     logger.debug { "Changes after reporter specific data added: #{report.changes.inspect}" }
