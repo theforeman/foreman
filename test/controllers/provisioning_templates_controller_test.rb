@@ -150,9 +150,9 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     end
 
     test "pxe menu's labels should be sorted" do
-      t1 = TemplateCombination.new :hostgroup => hostgroups(:db), :environment => environments(:production)
+      t1 = TemplateCombination.new :hostgroup => hostgroups(:db)
       t1.provisioning_template = templates(:mystring2)
-      t2 = TemplateCombination.new :hostgroup => hostgroups(:common), :environment => environments(:production)
+      t2 = TemplateCombination.new :hostgroup => hostgroups(:common)
       t2.provisioning_template = templates(:mystring2)
       t1.save
       t2.save
@@ -162,7 +162,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     end
 
     test "kickstart url should support in nested hostgroup " do
-      t1 = TemplateCombination.new :hostgroup => hostgroups(:inherited), :environment => environments(:production)
+      t1 = TemplateCombination.new :hostgroup => hostgroups(:inherited)
       t1.provisioning_template = templates(:mystring2)
       t1.save
       ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template\/MyString2\/Parent\/inherited/))).returns(true).times(3)

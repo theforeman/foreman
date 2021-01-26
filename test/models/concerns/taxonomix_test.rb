@@ -331,7 +331,7 @@ class TaxonomixTest < ActiveSupport::TestCase
     in_taxonomy org do
       as_user user do
         assert_nothing_raised do
-          ProvisioningTemplate.includes([:template_combinations => [:hostgroup, :environment]]).search_for('something').first
+          ProvisioningTemplate.includes([:template_combinations => :hostgroup]).search_for('something').first
         end
       end
     end

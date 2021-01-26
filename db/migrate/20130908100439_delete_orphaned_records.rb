@@ -52,7 +52,6 @@ class DeleteOrphanedRecords < ActiveRecord::Migration[4.2]
     OsDefaultTemplate.where("operatingsystem_id NOT IN (?)", Operatingsystem.unscoped.pluck(:id)).update_all(:operatingsystem_id => nil)
     OsDefaultTemplate.where("template_kind_id NOT IN (?)", TemplateKind.unscoped.pluck(:id)).update_all(:template_kind_id => nil)
     TemplateCombination.where("config_template_id NOT IN (?)", FakeConfigTemplate.unscoped.pluck(:id)).update_all(:config_template_id => nil)
-    TemplateCombination.where("environment_id NOT IN (?)", Environment.unscoped.pluck(:id)).update_all(:environment_id => nil)
     TemplateCombination.where("hostgroup_id NOT IN (?)", Hostgroup.unscoped.pluck(:id)).update_all(:hostgroup_id => nil)
 
     host_groups_up

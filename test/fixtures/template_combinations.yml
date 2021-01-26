@@ -2,7 +2,6 @@
 one:
   provisioning_template: mystring
   hostgroup: common
-  environment: production
 
 two:
   provisioning_template: mystring2
@@ -15,9 +14,7 @@ three:
 four:
   provisioning_template: mystring2
   hostgroup: common
-  environment: production
 
 five:
   provisioning_template: myscript
   hostgroup: common
-  environment: production

@@ -34,11 +34,12 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
     end
 
     test "should update template combination" do
-      put :update, params: { :template_combination => { :hostgroup_id => hostgroups(:common).id },
+      new_hg = FactoryBot.create(:hostgroup)
+      put :update, params: { :template_combination => { :hostgroup_id => new_hg.id },
                              :provisioning_template_id => templates(:mystring2).id, :id => template_combinations(:two).id }
 
       template_combination = ActiveSupport::JSON.decode(@response.body)
-      assert_equal(template_combination["hostgroup_id"], hostgroups(:common).id)
+      assert_equal(template_combination["hostgroup_id"], new_hg.id)
       assert_response :success
     end
 

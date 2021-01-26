@@ -20,7 +20,6 @@ FactoryBot.define do
   factory :template_combination do
     provisioning_template
     hostgroup
-    environment
   end
 
   factory :os_default_template do

@@ -70,7 +70,7 @@ module Api
       private
 
       def allowed_nested_id
-        %w(environment_id hostgroup_id provisioning_template_id)
+        %w(hostgroup_id provisioning_template_id)
       end
 
       def deprecation_warning
