@@ -213,13 +213,11 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
 
   context 'templates combinations' do
     test 'can be added on template creation' do
-      template_combination = { :environment_id => environments(:production).id,
-                               :hostgroup_id => hostgroups(:db).id }
       provisioning_template = {
         :name => 'foo',
         :template => '#nocontent',
         :template_kind_id => TemplateKind.find_by_name('iPXE').id,
-        :template_combinations_attributes => { '3923' => template_combination },
+        :template_combinations_attributes => { '3923' => { :hostgroup_id => hostgroups(:db).id } },
       }
       assert_difference('TemplateCombination.unscoped.count', 1) do
         assert_difference('ProvisioningTemplate.unscoped.count', 1) do
@@ -231,41 +229,39 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     end
 
     context 'for already existing templates' do
-      setup do
-        @template_combination = FactoryBot.create(:template_combination)
-      end
+      let(:template_combination) { FactoryBot.create(:template_combination) }
 
       test 'can be edited' do
-        template = @template_combination.provisioning_template
-        new_environment = FactoryBot.create(:environment)
-        assert_not_equal new_environment, @template_combination.environment
+        template = template_combination.provisioning_template
+        new_hostgroup = FactoryBot.create(:hostgroup)
+        assert_not_equal new_hostgroup, template_combination.hostgroup
         put :update, params: {
           :id => template.to_param,
           :provisioning_template => {
             :template_combinations_attributes => {
               '0' => {
-                :id => @template_combination.id,
-                :environment_id => new_environment.id,
-                :hostgroup_id => @template_combination.hostgroup.id,
+                :id => template_combination.id,
+                :hostgroup_id => new_hostgroup.id,
               },
             },
           },
         }, session: set_session_user
         assert_response :found
         as_admin do
-          @template_combination.reload
-          assert_equal new_environment, @template_combination.environment
+          template_combination.reload
+          assert_equal new_hostgroup, template_combination.hostgroup
         end
       end
 
       test 'can be destroyed' do
+        template_combination
         assert_difference('TemplateCombination.count', -1) do
           put :update, params: {
-            :id => @template_combination.provisioning_template.to_param,
+            :id => template_combination.provisioning_template.to_param,
             :provisioning_template => {
               :template_combinations_attributes => {
                 '0' => {
-                  :id => @template_combination.id,
+                  :id => template_combination.id,
                   :_destroy => 1,
                 },
               },

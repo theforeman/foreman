@@ -1,4 +1,4 @@
-<%= field_set_tag _("Valid Host Group and Environment Combinations"), :id => "template_combination" do %>
+<%= field_set_tag _("Valid Host Groups"), :id => "template_combination" do %>
   <%= f.fields_for :template_combinations do |builder| %>
     <%= render 'provisioning_templates/combination', :f => builder %>
   <% end %>
