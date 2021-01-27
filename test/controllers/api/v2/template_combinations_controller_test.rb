@@ -24,22 +24,20 @@ class Api::V2::TemplateCombinationsControllerTest < ActionController::TestCase
     test "should create valid" do
       TemplateCombination.any_instance.stubs(:valid?).returns(true)
       as_admin do
-        post :create, params: { :template_combination => { :environment_id => environments(:production).id, :hostgroup_id => hostgroups(:unusual).id },
+        post :create, params: { :template_combination => { :hostgroup_id => hostgroups(:unusual).id },
                                 :provisioning_template_id => templates(:mystring2).id }
       end
       template_combination = ActiveSupport::JSON.decode(@response.body)
-      assert_equal(template_combination["environment_id"], environments(:production).id)
       assert_equal(template_combination["hostgroup_id"], hostgroups(:unusual).id)
       assert_equal(template_combination["provisioning_template_id"], templates(:mystring2).id)
       assert_response :created
     end
 
     test "should update template combination" do
-      put :update, params: { :template_combination => { :environment_id => environments(:testing).id, :hostgroup_id => hostgroups(:common).id },
+      put :update, params: { :template_combination => { :hostgroup_id => hostgroups(:common).id },
                              :provisioning_template_id => templates(:mystring2).id, :id => template_combinations(:two).id }
 
       template_combination = ActiveSupport::JSON.decode(@response.body)
-      assert_equal(template_combination["environment_id"], environments(:testing).id)
       assert_equal(template_combination["hostgroup_id"], hostgroups(:common).id)
       assert_response :success
     end
