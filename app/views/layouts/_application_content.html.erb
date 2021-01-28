@@ -2,13 +2,6 @@
   <div id="content">
     <%= notifications %>
     <div id="breadcrumb">
-      <% unless @page_header.blank? %>
-        <div class="row form-group">
-          <h1 class="col-md-8">
-            <%=h @page_header %>
-          </h1>
-        </div>
-      <% end %>
       <% if content_for?(:breadcrumbs) %>
         <%= yield(:breadcrumbs) %>
       <% else %>
@@ -18,7 +11,7 @@
     <%= yield(:before_search_bar) %>
     <div class="row">
       <div class="title_filter <%= searchable? ? " col-md-6 " : "col-md-4 " %>">
-        <%= render "common/searchbar" if searchable? %>
+        <%= mount_search_bar if searchable? %>
           <%= yield(:search_bar) %>&nbsp;
       </div>
       <div id="title_action" class= <%= searchable? ? "col-md-6" : "col-md-8" %>>

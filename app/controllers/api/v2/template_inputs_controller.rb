@@ -29,11 +29,10 @@ module Api
           param :description, String, :required => false, :desc => N_('Input description')
           param :required, :bool, :allow_nil => true, :desc => N_('Input is required')
           param :advanced, :bool, :allow_nil => true, :desc => N_('Input is advanced')
-          param :input_type, TemplateInput::TYPES.keys.map(&:to_s), :required => true, :desc => N_('Input type')
-          param :fact_name, String, :required => false, :desc => N_('Fact name, used when input type is fact')
-          param :variable_name, String, :required => false, :desc => N_('Variable name, used when input type is variable')
-          param :puppet_class_name, String, :required => false, :desc => N_('Puppet class name, used when input type is puppet_parameter')
-          param :puppet_parameter_name, String, :required => false, :desc => N_('Puppet parameter name, used when input type is puppet_parameter')
+          param :input_type, Foreman.input_types_registry.input_types.keys, :required => true, :desc => N_('Input type')
+          Foreman.input_types_registry.input_types.each do |key, input_type_class|
+            input_type_class.api_params_for_input_group(self)
+          end
           param :options, Array, :required => false, :desc => N_('Selectable values for user inputs')
           param :default, String, :required => false, :desc => N_('Default value for user input')
           param :hidden_value, :bool, :required => false, :desc => N_('The value contains sensitive information and shouldn not be normally visible, useful e.g. for passwords')

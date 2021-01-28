@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 import { getApiResponse } from './APIHelpers';
 import { actionTypeGenerator } from './APIActionTypeGenerator';
 import { noop } from '../../common/helpers';
 import { stopInterval } from '../middlewares/IntervalMiddleware';
 import { selectDoesIntervalExist } from '../middlewares/IntervalMiddleware/IntervalSelectors';
+import { addToast } from '../actions/toasts';
 
 export const apiRequest = async (
   {
@@ -15,6 +17,8 @@ export const apiRequest = async (
       actionTypes = {},
       handleError = noop,
       handleSuccess = noop,
+      successToast,
+      errorToast,
       payload = {},
     },
   },
@@ -22,20 +26,36 @@ export const apiRequest = async (
 ) => {
   const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(key, actionTypes);
   const modifiedPayload = { ...payload, url };
+  const stopIntervalCallback = selectDoesIntervalExist(getState(), key)
+    ? () => dispatch(stopInterval(key))
+    : () => console.warn(`There's no interval API request for the key: ${key}`);
+
   dispatch({
     type: REQUEST,
     key,
     payload: modifiedPayload,
   });
+
   try {
     const response = await getApiResponse({ type, url, headers, params });
+
     dispatch({
       type: SUCCESS,
       key,
       payload: modifiedPayload,
       response: response.data,
     });
-    handleSuccess(response);
+
+    successToast &&
+      dispatch(
+        addToast({
+          type: 'success',
+          message: successToast(response),
+          key: SUCCESS,
+        })
+      );
+
+    handleSuccess(response, stopIntervalCallback);
   } catch (error) {
     dispatch({
       type: FAILURE,
@@ -43,9 +63,12 @@ export const apiRequest = async (
       payload: modifiedPayload,
       response: error,
     });
-    const stopIntervalCallback = selectDoesIntervalExist(getState(), key)
-      ? () => dispatch(stopInterval(key))
-      : noop;
+
+    errorToast &&
+      dispatch(
+        addToast({ type: 'error', message: errorToast(error), key: FAILURE })
+      );
+
     handleError(error, stopIntervalCallback);
   }
 };

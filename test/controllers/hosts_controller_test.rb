@@ -817,7 +817,8 @@ class HostsControllerTest < ActionController::TestCase
       @host = Host.first
       Setting[:authorize_login_delegation] = true
       Setting[:authorize_login_delegation_api] = false
-      set_remote_user_to users(:admin)
+      user = FactoryBot.create(:user, :admin, :with_mail, :auth_source => auth_sources(:external))
+      set_remote_user_to user
       User.current = nil # User.current is admin at this point (from initialize_host)
     end
 
@@ -853,7 +854,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   def set_remote_user_to(user)
-    @request.env['REMOTE_USER'] = user.login
+    @request.env['HTTP_REMOTE_USER'] = user.login
   end
 
   context 'submit actions with multiple hosts' do
@@ -1253,6 +1254,15 @@ class HostsControllerTest < ActionController::TestCase
     put :update, params: { :commit => "Update", :id => @host.name, :host => {:root_pass => '' } }, session: set_session_user
     @host = Host.find(@host.id)
     assert @host.root_pass.empty?
+  end
+
+  test "host should get bmc status" do
+    @host.stubs(:bmc_proxy).returns(nil)
+    @host.interfaces.create(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
+                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+    @host.power.stubs(:state).returns("on")
+    get :bmc, params: { :id => @host.id }, session: set_session_user
+    assert_response :success
   end
 
   test "host update without BMC paasword in the params does not erase existing password" do

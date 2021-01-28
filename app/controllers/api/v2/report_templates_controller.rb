@@ -122,7 +122,8 @@ module Api
           process_resource_error
         end
       rescue => e
-        render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
+        render_error :custom_error, :status => :unprocessable_entity,
+                     :locals => { :message => _("Generating Report template failed for: %s." % e.message) }
       end
 
       api :POST, "/report_templates/:id/schedule_report/", N_("Schedule generating of a report")
@@ -161,7 +162,8 @@ module Api
           process_resource_error
         end
       rescue => e
-        render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
+        render_error :custom_error, :status => :unprocessable_entity,
+                     :locals => { :message => _("Scheduling Report template failed for: %s." % e.message) }
       end
 
       api :GET, "/report_templates/:id/report_data/:job_id", N_("Downloads a generated report")

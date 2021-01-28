@@ -115,19 +115,15 @@ export const breadcrumbSwitcherLoadedWithSearchQuery = {
 };
 
 export const breadcrumbBar = {
-  data: {
-    resource,
-    breadcrumbItems: breadcrumbItems.items,
-    isSwitchable: false,
-  },
+  resource,
+  breadcrumbItems: breadcrumbItems.items,
+  isSwitchable: false,
 };
 
 export const breadcrumbBarSwithcable = {
-  data: {
-    resource,
-    breadcrumbItems: breadcrumbItems.items,
-    isSwitchable: true,
-  },
+  resource,
+  breadcrumbItems: breadcrumbItems.items,
+  isSwitchable: true,
   searchQuery: 'some value',
   searchDebounceTimeout: 0,
 };

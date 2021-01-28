@@ -1,18 +1,14 @@
 module LayoutHelper
   def mount_react_app
-    mount_react_component('ReactApp', "#react-app-root", {
-      layout: layout_data,
-      metadata: app_metadata,
-      toasts: toast_notifications_data,
-    }.to_json)
+    react_component('ReactApp', {
+                      layout: layout_data,
+                      metadata: app_metadata,
+                      toasts: toast_notifications_data,
+                    })
   end
 
   def fetch_menus
     UserMenu.new.menus.flatten
-  end
-
-  def taxonomies_booleans
-    { locations: show_location_tab?, organizations: show_organization_tab? }
   end
 
   def available_organizations
@@ -36,15 +32,11 @@ module LayoutHelper
   end
 
   def fetch_organizations
-    if show_organization_tab?
-      { current_org: current_organization, available_organizations: available_organizations }
-    end
+    { current_org: current_organization, available_organizations: available_organizations }
   end
 
   def fetch_locations
-    if show_location_tab?
-      { current_location: current_location, available_locations: available_locations }
-    end
+    { current_location: current_location, available_locations: available_locations }
   end
 
   def fetch_user
@@ -57,8 +49,10 @@ module LayoutHelper
       notification_url: main_app.notification_recipients_path,
       stop_impersonation_url: main_app.stop_impersonation_users_path,
       user: fetch_user, brand: 'foreman',
-      taxonomies: taxonomies_booleans, root: main_app.root_path,
-      locations: fetch_locations, orgs: fetch_organizations }
+      root: main_app.root_path,
+      locations: fetch_locations, orgs: fetch_organizations,
+      instance_title: Setting[:instance_title]
+    }
   end
 
   def title(page_title, page_header = nil)
@@ -81,7 +75,13 @@ module LayoutHelper
   def mount_breadcrumbs(options = {}, &block)
     options = BreadcrumbsOptions.new(@page_header, controller, action_name, block_given? ? yield : options)
 
-    mount_react_component("BreadcrumbBar", "#breadcrumb", options.bar_props.to_json) if !@welcome && response.ok?
+    if !@welcome && response.ok?
+      react_component("BreadcrumbBar", options.bar_props)
+    elsif @page_header.present?
+      content_tag(:div, class: 'row form-group') do
+        content_tag(:h1, h(@page_header), class: 'col-md-8')
+      end
+    end
   end
 
   def breadcrumbs(options = {}, &block)

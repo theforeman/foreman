@@ -111,22 +111,6 @@ module Foreman::Model
       super.merge({:mac => :mac})
     end
 
-    def use_v4=(value)
-      value = case value
-              when true, '1'
-                true
-              else
-                false
-              end
-      attrs[:ovirt_use_v4] = value
-    end
-
-    def use_v4
-      attrs.fetch(:ovirt_use_v4, true)
-    end
-
-    alias_method :use_v4?, :use_v4
-
     def ovirt_quota=(ovirt_quota_id)
       attrs[:ovirt_quota_id] = ovirt_quota_id
     end
@@ -224,6 +208,10 @@ module Foreman::Model
       true
     end
 
+    def vnic_profiles
+      client.list_vnic_profiles
+    end
+
     def networks(opts = {})
       if opts[:cluster_id]
         client.clusters.get(opts[:cluster_id]).networks
@@ -246,7 +234,7 @@ module Foreman::Model
     end
 
     def storage_domains(opts = {})
-      client.storage_domains({:role => 'data'}.merge(opts))
+      client.storage_domains({:role => ['data', 'volume']}.merge(opts))
     end
 
     def start_vm(uuid)
@@ -308,7 +296,7 @@ module Foreman::Model
     end
 
     def get_ovirt_id(argument_list, argument)
-      if argument_list.detect { |a| a.name == argument }.nil? && argument_list.detect { |a| a.id == argument }.nil?
+      if argument_list.none? { |a| a.name == argument ||  a.id == argument }
         raise Foreman::Exception.new("#{argument} is not valid, enter id or name")
       else
         argument_list.detect { |a| a.name == argument }.try(:id) || argument
@@ -360,6 +348,7 @@ module Foreman::Model
 
     def new_volume(attr = {})
       set_preallocated_attributes!(attr, attr[:preallocate])
+      raise ::Foreman::Exception.new(N_('VM volume attributes are not set properly')) unless attr.all? { |key, value| value.is_a? String }
       Fog::Ovirt::Compute::Volume.new(attr)
     end
 
@@ -499,7 +488,7 @@ module Foreman::Model
       if attrs[:ovirt_quota_id].nil?
         attrs[:ovirt_quota_id] = client.quotas.first.id
       else
-        get_ovirt_id(client.quotas, attrs[:ovirt_quota_id])
+        attrs[:ovirt_quota_id] = get_ovirt_id(client.quotas, attrs[:ovirt_quota_id])
       end
     end
 
@@ -523,7 +512,7 @@ module Foreman::Model
         :ovirt_datacenter => uuid,
         :ovirt_ca_cert_store => ca_cert_store(public_key),
         :public_key       => public_key,
-        :api_version      => use_v4? ? 'v4' : 'v3'
+        :api_version      => 'v4'
       )
       client.datacenters
       @client = client
@@ -627,10 +616,18 @@ module Foreman::Model
       end
       # add interfaces
       cluster_networks = networks(:cluster_id => cluster_id)
+      profiles = vnic_profiles
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.map do |interface|
         interface[:name] = default_iface_name(interfaces) if interface[:name].empty?
-        interface[:network] = get_ovirt_id(cluster_networks, interface[:network])
+        raise Foreman::Exception.new("Interface network or vnic profile are missing.") if (interface[:network].nil? && interface[:vnic_profile].nil?)
+        interface[:network] = get_ovirt_id(cluster_networks, interface[:network]) if interface[:network].present?
+        interface[:vnic_profile] = get_ovirt_id(profiles, interface[:vnic_profile]) if interface[:vnic_profile].present?
+        if (interface[:network].present? && interface[:vnic_profile].present?)
+          unless (profiles.select { |profile| profile.network.id == interface[:network] }).present?
+            raise Foreman::Exception.new("Vnic Profile have a different network")
+          end
+        end
         vm.add_interface(interface)
       end
       vm.interfaces.reload
@@ -702,6 +699,7 @@ module Foreman::Model
               name: interface.name,
               network: interface.network,
               interface: interface.interface,
+              vnic_profile: interface.vnic_profile,
             },
           }
           hsh[index.to_s] = interface_attrs

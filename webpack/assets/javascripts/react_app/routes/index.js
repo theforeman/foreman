@@ -1,48 +1,32 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { routes } from './routes';
-import { visit } from '../../foreman_navigation';
+import { renderRoute } from './RoutingService';
+import ForemanSwitch from './ForemanSwitcher';
 
-let currentPath = window.location.href;
-
-const AppSwitcher = () => {
-  const updateCurrentPath = nextPath => {
-    currentPath = nextPath;
-  };
-
-  const handleRailsContainer = () => {
-    const railsContainer = document.getElementById('rails-app-content');
-    if (railsContainer) railsContainer.remove();
-  };
-
-  const handleRoute = (Component, props) => {
-    handleRailsContainer();
-    updateCurrentPath();
-    return <Component {...props} />;
-  };
-
-  const handleFallbackRoute = () => {
-    const nextPath = window.location.href;
-    if (currentPath !== nextPath) {
-      updateCurrentPath(nextPath);
-      visit(nextPath);
-    }
-    return null;
-  };
-
-  return (
-    <Switch>
-      {routes.map(({ render: Component, path, ...routeProps }) => (
+const AppSwitcher = ({ children }) => (
+  <>
+    <ForemanSwitch>
+      {routes.map(({ render, path, ...routeProps }) => (
         <Route
           path={path}
           key={path}
           {...routeProps}
-          render={componentProps => handleRoute(Component, componentProps)}
+          render={renderProps => renderRoute(render, renderProps)}
         />
       ))}
-      <Route render={handleFallbackRoute} />
-    </Switch>
-  );
+    </ForemanSwitch>
+    {children}
+  </>
+);
+
+AppSwitcher.propTypes = {
+  children: PropTypes.object,
+};
+
+AppSwitcher.defaultProps = {
+  children: null,
 };
 
 export default AppSwitcher;

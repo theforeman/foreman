@@ -26,27 +26,21 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
       :puppet_proxy_id     => smart_proxies(:puppetmaster).id,
       :compute_resource_id => compute_resources(:one).id,
+      :compute_attributes => {
+        :cpus => 4,
+        :memory => 1024,
+      },
       :root_pass           => "xybxa6JUkz63w",
       :location_id         => taxonomies(:location1).id,
       :organization_id     => taxonomies(:organization1).id,
     }
   end
 
-  def valid_compute_attrs
-    {
-      :compute_attributes => {
-        :cpus => 4,
-        :memory => 1024,
-      },
-    }
-  end
-
   def valid_attrs
     net_attrs = {
-      :ip  => '10.0.0.20',
-      :mac => '52:53:00:1e:85:93',
+      :ip => '10.0.0.20',
     }
-    basic_attrs.merge(net_attrs).merge(valid_compute_attrs)
+    basic_attrs.merge(net_attrs)
   end
 
   def valid_attrs_with_root(extra_attrs = {})
@@ -71,7 +65,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     [{
       :primary => true,
       :ip => '10.0.0.20',
-      :mac => '00:11:22:33:44:00',
     }, {
       :type => 'bmc',
       :provider => 'IPMI',
@@ -310,8 +303,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
     assert_equal 2, last_record.interfaces.count
 
-    assert last_record.interfaces.find_by_mac('00:11:22:33:44:00').primary?
-    assert_equal Nic::Managed, last_record.interfaces.find_by_mac('00:11:22:33:44:00').class
+    assert last_record.interfaces.find_by_ip('10.0.0.20').primary?
+    assert_equal Nic::Managed, last_record.interfaces.find_by_ip('10.0.0.20').class
     assert_equal Nic::BMC,     last_record.interfaces.find_by_mac('00:11:22:33:44:01').class
   end
 
@@ -325,8 +318,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
     assert_equal 2, last_record.interfaces.count
 
-    assert last_record.interfaces.find_by_mac('00:11:22:33:44:00').primary?
-    assert_equal Nic::Managed, last_record.interfaces.find_by_mac('00:11:22:33:44:00').class
+    assert last_record.interfaces.find_by_ip('10.0.0.20').primary?
+    assert_equal Nic::Managed, last_record.interfaces.find_by_ip('10.0.0.20').class
     assert_equal Nic::BMC,     last_record.interfaces.find_by_mac('00:11:22:33:44:01').class
   end
 
@@ -344,7 +337,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should create interfaces from compute profile" do
     disable_orchestration
 
-    compute_attrs = compute_attributes(:with_interfaces)
+    compute_attrs = FactoryBot.create(:compute_attribute, :with_interfaces, compute_resource: compute_resources(:one))
     post :create, params: { :host => basic_attrs_with_profile(compute_attrs).merge(:interfaces_attributes => nics_attrs) }
     assert_response :created
 
@@ -352,7 +345,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal compute_attrs.vm_interfaces.count,
         last_record.interfaces.count
       assert_equal expected_compute_attributes(compute_attrs, 0),
-        last_record.interfaces.find_by_mac('00:11:22:33:44:00').compute_attributes
+        last_record.interfaces.find_by_ip('10.0.0.20').compute_attributes
       assert_equal expected_compute_attributes(compute_attrs, 1),
         last_record.interfaces.find_by_mac('00:11:22:33:44:01').compute_attributes
     end
@@ -568,14 +561,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   def set_remote_user_to(user)
-    @request.env['REMOTE_USER'] = user.login
+    @request.env['HTTP_REMOTE_USER'] = user.login
   end
 
   test "when REMOTE_USER is provided and both authorize_login_delegation{,_api}
         are set, authentication should succeed w/o valid session cookies" do
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = true
-    set_remote_user_to users(:admin)
+    user = FactoryBot.create(:user, :admin, :with_mail, :auth_source => auth_sources(:external))
+    set_remote_user_to user
     User.current = nil # User.current is admin at this point (from initialize_host)
     host = Host.first
     get :show, params: { :id => host.to_param, :format => 'json' }
@@ -1470,6 +1464,40 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     test 'do not provide power state on an unknown host' do
       get :power_status, params: { :id => 'no-such-host' }, session: set_session_user, xhr: true
       assert_response :not_found
+    end
+  end
+
+  describe 'facets works in API' do
+    let(:host) { FactoryBot.create(:host, :managed) }
+    let(:facet) { mock('HostTestFacet') }
+
+    setup do
+      host # create prior facet stubing
+      Api::V2::BaseController.append_view_path(Rails.root.join('test', 'static_fixtures', 'views'))
+      facet_definition = mock('Facets::HostBaseEntry')
+      facet_definition.stubs(name: :test_facet, api_single_view: 'api/v2/test/two', api_list_view: 'api/v2/test/facet')
+      Host::Managed.any_instance.stubs(:facet_definitions).returns([facet_definition])
+
+      facet_definition.stubs(:facet_record_for).returns(facet)
+      facet.stubs(attributes: { 'id' => 123 })
+    end
+
+    test 'show include both views' do
+      facet.expects(:foo).returns('bar')
+      get :show, params: { id: host.to_param }
+      json_response = JSON.parse(@response.body)
+      assert_includes json_response.keys, 'two'
+      assert_includes json_response.keys, 'facet_param'
+      assert_equal json_response['facet_param'], 'bar'
+    end
+
+    test 'index include list view' do
+      facet.expects(:foo).times(Host::Managed.count).returns('bar')
+      get :index
+      json_response = JSON.parse(@response.body)['results'].detect { |host_node| host_node['id'] == host.id }
+      assert_not_includes json_response.keys, 'two'
+      assert_includes json_response.keys, 'facet_param'
+      assert_equal json_response['facet_param'], 'bar'
     end
   end
 end

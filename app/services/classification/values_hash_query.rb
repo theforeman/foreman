@@ -69,11 +69,11 @@ module Classification
         matcher_key = ''
         matcher_value = ''
 
-        lookup_value.match.split(LookupKey::KEY_DELM).each do |match_key|
-          element = match_key.split(LookupKey::EQ_DELM).first
-          matcher_key += element + ','
-          if LookupKey::MATCHERS_INHERITANCE.include?(element)
-            matcher_value = match_key.split(LookupKey::EQ_DELM).last
+        lookup_value.match.split(LookupKey::KEY_DELM).each do |match_keyval|
+          key, value = match_keyval.split(LookupKey::EQ_DELM)
+          matcher_key += key + ','
+          if LookupKey::MATCHERS_INHERITANCE.include?(key)
+            matcher_value += value + ','
           end
         end
 

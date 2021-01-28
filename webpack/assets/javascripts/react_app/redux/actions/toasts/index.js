@@ -3,7 +3,7 @@ import uuidV1 from 'uuid/v1';
 import { TOASTS_ADD, TOASTS_DELETE, TOASTS_CLEAR } from '../../consts';
 
 export const addToast = toast => {
-  const key = uuidV1();
+  const key = toast.key || uuidV1();
 
   return {
     type: TOASTS_ADD,

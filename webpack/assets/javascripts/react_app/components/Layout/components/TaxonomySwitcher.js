@@ -4,7 +4,6 @@ import { Nav, Spinner } from 'patternfly-react';
 import { noop } from '../../../common/helpers';
 
 import { locationPropType, organizationPropType } from '../LayoutHelper';
-import { ANY_ORGANIZATION_TEXT, ANY_LOCATION_TEXT } from '../LayoutConstants';
 import NavItem from './NavItem';
 import TaxonomyDropdown from './TaxonomyDropdown';
 
@@ -13,38 +12,23 @@ const TaxonomySwitcher = ({
   currentLocation,
   organizations,
   locations,
-  taxonomiesBool,
   isLoading,
   onLocationClick,
   onOrgClick,
 }) => (
   <Nav navbar pullLeft className="navbar-iconic">
-    {taxonomiesBool.organizations && (
-      <TaxonomyDropdown
-        taxonomyType="Organization"
-        id="organization-dropdown"
-        currentTaxonomy={currentOrganization}
-        taxonomies={organizations}
-        changeTaxonomy={onOrgClick}
-        anyTaxonomyText={ANY_ORGANIZATION_TEXT}
-        manageTaxonomyText="Manage Organizations"
-        anyTaxonomyURL="/organizations/clear"
-        manageTaxonomyURL="/organizations"
-      />
-    )}
-    {taxonomiesBool.locations && (
-      <TaxonomyDropdown
-        taxonomyType="Location"
-        id="location-dropdown"
-        currentTaxonomy={currentLocation}
-        taxonomies={locations}
-        changeTaxonomy={onLocationClick}
-        anyTaxonomyText={ANY_LOCATION_TEXT}
-        manageTaxonomyText="Manage Locations"
-        anyTaxonomyURL="/locations/clear"
-        manageTaxonomyURL="/locations"
-      />
-    )}
+    <TaxonomyDropdown
+      taxonomyType="organization"
+      currentTaxonomy={currentOrganization}
+      taxonomies={organizations}
+      changeTaxonomy={onOrgClick}
+    />
+    <TaxonomyDropdown
+      taxonomyType="location"
+      currentTaxonomy={currentLocation}
+      taxonomies={locations}
+      changeTaxonomy={onLocationClick}
+    />
     {isLoading && (
       <NavItem id="vertical-spinner">
         <Spinner size="md" inverse loading />
@@ -60,16 +44,12 @@ TaxonomySwitcher.propTypes = {
   currentLocation: PropTypes.string,
   organizations: PropTypes.arrayOf(organizationPropType).isRequired,
   locations: PropTypes.arrayOf(locationPropType).isRequired,
-  taxonomiesBool: PropTypes.shape({
-    locations: PropTypes.bool.isRequired,
-    organizations: PropTypes.bool.isRequired,
-  }).isRequired,
 };
 TaxonomySwitcher.defaultProps = {
   isLoading: false,
-  currentLocation: ANY_LOCATION_TEXT,
-  currentOrganization: ANY_ORGANIZATION_TEXT,
   onLocationClick: noop,
   onOrgClick: noop,
+  currentLocation: undefined,
+  currentOrganization: undefined,
 };
 export default TaxonomySwitcher;

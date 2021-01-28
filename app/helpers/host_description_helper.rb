@@ -22,7 +22,7 @@ module HostDescriptionHelper
       actions << { :action => [_('Build Hosts'), multiple_build_hosts_path], :priority => 110 } if SETTINGS[:unattended]
       actions <<  { :action => [_('Assign Organization'), select_multiple_organization_hosts_path], :priority => 800 }
       actions <<  { :action => [_('Assign Location'), select_multiple_location_hosts_path], :priority => 900 }
-      actions <<  { :action => [_('Change Owner'), select_multiple_owner_hosts_path], :priority => 1000 } if SETTINGS[:login]
+      actions <<  { :action => [_('Change Owner'), select_multiple_owner_hosts_path], :priority => 1000 }
     end
     actions << { :action => [_('Change Power State'), select_multiple_power_state_hosts_path], :priority => 1100 } if authorized_for(:controller => :hosts, :action => :power)
     actions << { :action => [_('Delete Hosts'), multiple_destroy_hosts_path], :priority => 1200 } if authorized_for(:controller => :hosts, :action => :destroy)
@@ -53,8 +53,8 @@ module HostDescriptionHelper
       { :field => [
         _(status.name),
         content_tag(:span, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
-          content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global)) +
-          content_tag(:span, link_to(_('clear'), forget_status_host_path(host, status: status), :class => 'pull-right', :method => 'post')),
+            link_to_if(status.status_link, content_tag(:span, _(status.to_label), :class => host_global_status_link_class(status)), status.status_link) +
+            content_tag(:span, link_to(_('clear'), forget_status_host_path(host, status: status), :class => 'pull-right', :method => 'post')),
       ], :priority => priority += 1 }
     end.compact
   end

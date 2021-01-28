@@ -12,7 +12,6 @@ import { reducers as diffModalReducers } from '../../components/ConfigReports/Di
 import { reducers as editorReducers } from '../../components/Editor';
 import { reducers as templateGenerationReducers } from '../../components/TemplateGenerator';
 import { reducers as factChartReducers } from '../../components/FactCharts';
-import { reducers as statisticsPageReducers } from '../../routes/Statistics/StatisticsPage';
 import { reducers as fillReducers } from '../../components/common/Fill';
 import { reducers as typeAheadSelectReducers } from '../../components/common/TypeAheadSelect';
 import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
@@ -21,6 +20,8 @@ import { reducers as bookmarksReducers } from '../../components/Bookmarks';
 import { reducers as modalReducers } from '../../components/ForemanModal';
 import { reducers as apiReducer } from '../API';
 import { reducers as modelsPageReducers } from '../../routes/Models/ModelsPage';
+import { reducers as settingRecordsReducers } from '../../components/SettingRecords';
+import { reducers as personalAccessTokensReducers } from '../../components/users/PersonalAccessTokens';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -38,10 +39,11 @@ export function combineReducersAsync(asyncReducers) {
     ...templateGenerationReducers,
     ...factChartReducers,
     ...typeAheadSelectReducers,
+    ...settingRecordsReducers,
+    ...personalAccessTokensReducers,
 
     router: connectRouter(history),
     // Pages
-    ...statisticsPageReducers,
     ...fillReducers,
     ...auditsPageReducers,
     ...modalReducers,

@@ -19,11 +19,25 @@ class LinksControllerTest < ActionController::TestCase
       get :show, params: {
         type: 'manual',
         section: '2.2PluginSection',
-        :root_url => 'http://www.theforeman.org/my_plugin/v0.1/index.html#',
+        root_url: 'http://www.theforeman.org/my_plugin/v0.1/index.html#',
       }
 
       assert_redirected_to /PluginSection/
       assert_redirected_to /my_plugin/
+    end
+
+    test '#plugin_documentation_url returns foreman docs url for a plugin with a version and a given section' do
+      get :show, params: {
+        type: 'plugin_manual',
+        name: 'foreman_discovery',
+        version: '15.0',
+        section: '#4.Usage',
+      }
+
+      assert_redirected_to /plugins/
+      assert_redirected_to /foreman_discovery/
+      assert_redirected_to /15.0/
+      assert_redirected_to /Usage/
     end
   end
 end

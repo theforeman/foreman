@@ -1,7 +1,5 @@
+
 <%= text_f f, :url, :size => "col-md-8", :help_block => _("e.g. https://ovirt.example.com/ovirt-engine/api"), :help_inline => documentation_button('5.2.7oVirt/RHEVNotes') %>
-<%= checkbox_f f, :use_v4, :checked => f.object.use_v4?,
-               :label => _('Use APIv4'),
-               :help_inline => _("Use the new engine API.") %>
 <%= text_f f, :user, :help_block => _("e.g. admin@internal") %>
 <%= password_f f, :password, :keep_value => true, :unset => unset_password? %>
 <% datacenters = (f.object.uuid.nil? && controller.action_name != 'test_connection')  ? [] : f.object.datacenters rescue []%>

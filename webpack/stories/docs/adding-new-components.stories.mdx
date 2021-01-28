@@ -1,7 +1,7 @@
 import { Meta } from '@theforeman/stories';
 
 <Meta
-  title="Introduction|Adding new components"
+  title="Introduction/Adding new components"
   parameters={{
     storyWeight: 20,
   }}
@@ -101,11 +101,11 @@ This is useful especially for debugging because it doesn't hide console output.
 
 Linter (code style checking) can be executed with `npm run lint`. You can run it with parameter `--fix` to let it automatically fix the discovered issues. You need to pass the parameter to eslint, so run the command like this `npm run lint -- --fix`.
 
-## Making it available from erb
+## Making it available from ERB
 
-If you want your component to be available for mounting into erb templates, you have to add them to [the component registry](https://github.com/theforeman/foreman/blob/develop/webpack/assets/javascripts/react_app/components/componentRegistry.js#L60-L71).
+If you want your component to be available for mounting into ERB templates, it must be added to [the component registry](https://github.com/theforeman/foreman/blob/develop/webpack/assets/javascripts/react_app/components/componentRegistry.js#L60-L71).
 
-Then it will be possible to mount it with `react_component` helper:
+Then, you can mount it with the `react_component` helper:
 
 ```ruby
 react_component(component_name, props)
@@ -117,17 +117,19 @@ react_component(component_name, props)
 <%= react_component('PowerStatus', id: host.id, url: power_host_path(host.id)) %>
 ```
 
-Will render following HTML:
+will render the following HTML:
 
 ```html
-<react-component
+<foreman-react-component
   name="PowerStatus"
   data-props="<%= {
     id: host.id,
     url: power_host_path(host.id)
   }.to_json %>"
-></react-component>
+></foreman-react-component>
 ```
+
+(Note that the React component is rendered as a [web component](https://developer.mozilla.org/en-US/docs/Web/Web_Components).)
 
 ## Before you start writing a new component
 

@@ -30,7 +30,7 @@ template_inputs:
 - name: Host Collections
   required: true
   input_type: user
-  description: Whether should be Host Collections included.
+  description: Whether should be Host Collections included. Ignored when Katello is not available.
   advanced: false
   value_type: plain
   options: "yes\r\nno"
@@ -86,7 +86,7 @@ template_inputs:
 - name: Content Attributes
   required: true
   input_type: user
-  description: Whether should be Content Attributes included.
+  description: Whether should be Content Attributes included. Ignored when Katello is not available.
   advanced: false
   value_type: plain
   options: "yes\r\nno"
@@ -108,17 +108,17 @@ template_inputs:
   value_type: search
   resource_type: Host
 model: ReportTemplate
-require:
-- plugin: foreman_ansible
-  version: '3.1.0'
-- plugin: katello
-  version: '3.9.0'
 -%>
 <%- report_headers 'id', 'name' -%>
-<%- content_attrs = input('Content Attributes') == 'yes' %>
+<%- if plugin_present?('katello') -%>
+<%-   content_attrs = input('Content Attributes') == 'yes' -%>
+<%-   include_host_collections = input('Host Collections') == 'yes' -%>
+<%- end -%>
 <%- interface_includes = [:subnet] %>
 <%- interface_includes.push(:domain) if input('Host Parameters') == 'yes' %>
-<%- includes = [:organization, :location, :hostgroup, :host_collections, { interfaces: interface_includes }, :content_facet] %>
+<%- includes = [:organization, :location, :hostgroup, { interfaces: interface_includes }] %>
+<%- includes.push(:host_collections) if include_host_collections %>
+<%- includes.push(:content_facet) if content_attrs %>
 <%- includes.push(:operatingsystem) if input('Host Parameters') == 'yes' %>
 <%- load_hosts(search: input('Hosts'), includes: includes).each_record do |host| -%>
 <%-   content_facet = host_content_facet(host) if content_attrs -%>
@@ -158,8 +158,10 @@ require:
       inventory_data.update('location': host.location) if input('Location') == 'yes'
       hostgroup = host.hostgroup.title if host.hostgroup
       inventory_data.update('host_group': hostgroup) if input('Host Group') == 'yes'
-      host_collections = host.host_collections.map { |c| c.name } if host.host_collections
-      inventory_data.update('host_collections': host_collections) if input('Host Collections') == 'yes'
+      if include_host_collections
+        host_collections = host.host_collections.map { |c| c.name } if host.host_collections
+        inventory_data.update('host_collections': host_collections)
+      end
       inventory_data.update('host_parameters': host.params) if input('Host Parameters') == 'yes'
       inventory_data.update('ipv4': host.ip) if input('IPv4') == 'yes'
       inventory_data.update('ipv6': host.ip6) if input('IPv6') == 'yes'

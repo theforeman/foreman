@@ -4,6 +4,8 @@ module HostInfoProviders
       # Static parameters
       param = {}
 
+      param["hostname"] = host.name unless host.name.nil?
+      param["fqdn"] = host.fqdn unless host.fqdn.nil?
       param["hostgroup"] = host.hostgroup.to_label unless host.hostgroup.nil?
       param["comment"] = host.comment if host.comment.present?
 

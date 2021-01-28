@@ -117,7 +117,7 @@ class FacetTest < ActiveSupport::TestCase
       @host.stubs(:save)
       facts_json = read_json_fixture('facts/brslc022.facts.json')
 
-      @host.parse_facts(facts_json['facts'], nil, nil)
+      HostFactImporter.new(@host).parse_facts(facts_json['facts'], nil, nil)
     end
   end
 

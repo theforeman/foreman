@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Spinner } from 'patternfly-react';
-import { updateDocumentTitle } from '../../../common/document';
 import { changeQuery } from '../../../common/urlHelpers';
 
 import ToastsList from '../../../components/ToastsList';
 import BreadcrumbBar from '../../../components/BreadcrumbBar';
 import SearchBar from '../../../components/SearchBar';
+import Head from '../../../components/Head';
 
 const PageLayout = ({
-  header,
   searchable,
   searchProps,
   searchQuery,
@@ -18,62 +17,55 @@ const PageLayout = ({
   customBreadcrumbs,
   breadcrumbOptions,
   toolbarButtons,
+  header,
   toastNotifications,
   beforeToolbarComponent,
   isLoading,
   children,
-}) => {
-  updateDocumentTitle(header);
-  return (
-    <div id="main">
-      <div id="react-content">
-        <div
-          id="toast-notifications-container"
-          data-notifications={toastNotifications}
-        >
-          <ToastsList />
-        </div>
-        <div id="breadcrumb">
-          {!breadcrumbOptions && (
-            <div className="row form-group">
-              <h1 className="col-md-8">{header}</h1>
-            </div>
+}) => (
+  <div id="main">
+    <div id="react-content">
+      <Head>
+        <title>{header}</title>
+      </Head>
+      <ToastsList railsMessages={toastNotifications} />
+      <div id="breadcrumb">
+        {!breadcrumbOptions && (
+          <div className="row form-group">
+            <h1 className="col-md-8">{header}</h1>
+          </div>
+        )}
+        {customBreadcrumbs ||
+          (breadcrumbOptions && <BreadcrumbBar {...breadcrumbOptions} />)}
+      </div>
+      {beforeToolbarComponent}
+      <Row>
+        <Col className="title_filter" md={searchable ? 6 : 4}>
+          {searchable && (
+            <SearchBar
+              data={searchProps}
+              initialQuery={searchQuery}
+              onSearch={onSearch}
+              onBookmarkClick={onBookmarkClick}
+            />
           )}
-          {customBreadcrumbs
-            ? { customBreadcrumbs }
-            : breadcrumbOptions && <BreadcrumbBar data={breadcrumbOptions} />}
-        </div>
-        {beforeToolbarComponent}
-        <Row>
-          <Col className="title_filter" md={searchable ? 6 : 4}>
-            {searchable && (
-              <div id="search-bar">
-                <SearchBar
-                  data={searchProps}
-                  initialQuery={searchQuery}
-                  onSearch={onSearch}
-                  onBookmarkClick={onBookmarkClick}
-                />
+          &nbsp;
+        </Col>
+        <Col id="title_action" md={searchable ? 6 : 8}>
+          <div className="btn-toolbar pull-right">
+            {isLoading && (
+              <div id="toolbar-spinner">
+                <Spinner loading size="sm" />
               </div>
             )}
-            &nbsp;
-          </Col>
-          <Col id="title_action" md={searchable ? 6 : 8}>
-            <div className="btn-toolbar pull-right">
-              {isLoading && (
-                <div id="toolbar-spinner">
-                  <Spinner loading size="sm" />
-                </div>
-              )}
-              {toolbarButtons}
-            </div>
-          </Col>
-        </Row>
-        {children}
-      </div>
+            {toolbarButtons}
+          </div>
+        </Col>
+      </Row>
+      {children}
     </div>
-  );
-};
+  </div>
+);
 
 PageLayout.propTypes = {
   children: PropTypes.node.isRequired,
@@ -118,7 +110,7 @@ PageLayout.propTypes = {
     ),
   }),
   toolbarButtons: PropTypes.node,
-  toastNotifications: PropTypes.string,
+  toastNotifications: PropTypes.array,
   onSearch: PropTypes.func,
   onBookmarkClick: PropTypes.func,
   searchQuery: PropTypes.string,
@@ -130,7 +122,7 @@ PageLayout.defaultProps = {
   searchProps: {},
   header: '',
   searchQuery: '',
-  toastNotifications: null,
+  toastNotifications: [],
   customBreadcrumbs: null,
   toolbarButtons: null,
   breadcrumbOptions: null,

@@ -5,18 +5,6 @@ import URI from 'urijs';
 import { push } from 'connected-react-router';
 import store from './react_app/redux';
 import * as LayoutActions from './react_app/components/Layout/LayoutActions';
-import { deprecate } from './react_app/common/DeprecationService';
-
-window.Turbolinks = {
-  visit: url => {
-    deprecate(
-      'Turbolinks.visit',
-      'react router or visit(<url>) method, or legacy tfm.nav.visit(<url>)',
-      '2.1'
-    );
-    visit(url);
-  },
-};
 
 export const visit = url => {
   window.location.href = url;
@@ -31,7 +19,7 @@ export const reloadPage = () => {
  * @param {String} url - the base url i.e `/hosts`
  * @param {Object} searchQuery - the query params, i.e {'per_page': 4, 'page': 2}
  */
-export const pushUrl = (url, queryParams) => {
+export const pushUrl = (url, queryParams = {}) => {
   const urlWithQueries = new URI(url).search(queryParams).toString();
   return store.dispatch(push(urlWithQueries));
 };

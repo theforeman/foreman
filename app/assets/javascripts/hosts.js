@@ -1,4 +1,6 @@
 $(document).on('ContentLoad', function() {
+  tfm.tools.setTab();
+
   var dialog = $('#review_before_build');
   $('#build-review').click(function() {
     dialog.find('.modal-body #build_status').html('');
@@ -57,3 +59,5 @@ $(document).on('ContentLoad', function() {
     }
   });
 });
+
+$(window).on('hashchange', tfm.tools.setTab);

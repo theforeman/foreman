@@ -2,6 +2,7 @@
 
 exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
 <ForemanForm
+  enableReinitialize={false}
   initialValues={
     Object {
       "name": "my bookmark",
@@ -67,6 +68,7 @@ exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
           "transforms": Array [
             [Function],
           ],
+          "type": "string",
         },
         "query": StringSchema {
           "_blacklist": RefSet {
@@ -97,12 +99,14 @@ exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
           "transforms": Array [
             [Function],
           ],
+          "type": "string",
         },
       },
       "tests": Array [],
       "transforms": Array [
         [Function],
       ],
+      "type": "object",
     }
   }
 >

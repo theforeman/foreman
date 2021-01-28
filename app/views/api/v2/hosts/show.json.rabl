@@ -18,9 +18,10 @@ child :config_groups do
   extends "api/v2/config_groups/main"
 end
 
-root_object.facets_with_definitions.each do |_facet, definition|
-  node do
-    partial(definition.api_single_view, :object => root_object) if definition.api_single_view
+root_object.facet_definitions.each do |definition|
+  next unless definition.api_single_view
+  node(false, if: ->(host) { definition.facet_record_for(host) }) do |host|
+    partial(definition.api_single_view, object: host, locals: { facet: definition.facet_record_for(host) })
   end
 end
 

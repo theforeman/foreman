@@ -29,12 +29,11 @@ class ApplicationController < ActionController::Base
   attr_reader :original_search_parameter
 
   def welcome
-    if (model_of_controller.first.nil? rescue false)
+    return if model_of_controller&.any?
+    if template_exists?(:welcome, _prefixes, variants: request.variant)
       @welcome = true
-      render :welcome rescue nil
+      render :welcome
     end
-  rescue
-    not_found
   end
 
   def api_request?
@@ -159,7 +158,7 @@ class ApplicationController < ActionController::Base
   end
 
   def model_of_controller
-    @model_of_controller ||= controller_path.singularize.camelize.gsub('/', '::').constantize
+    @model_of_controller ||= controller_path.singularize.camelize.gsub('/', '::').safe_constantize
   end
 
   def controller_permission
@@ -186,7 +185,7 @@ class ApplicationController < ActionController::Base
     @resource_base ||= if model_of_controller.respond_to?(:authorized)
                          model_of_controller.authorized(current_permission)
                        else
-                         model_of_controller.where(nil)
+                         model_of_controller.all
                        end
   end
 
@@ -231,7 +230,7 @@ class ApplicationController < ActionController::Base
   def remote_user_provided?
     return false unless Setting["authorize_login_delegation"]
     return false if api_request? && !(Setting["authorize_login_delegation_api"])
-    (@remote_user = request.env["REMOTE_USER"]).present?
+    (@remote_user = request.env["HTTP_REMOTE_USER"]).present?
   end
 
   def resource_base_with_search
@@ -351,7 +350,7 @@ class ApplicationController < ActionController::Base
       ex_message = exception.message
       Foreman::Logging.exception(ex_message, exception)
       full_request_id = request.request_id
-      render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception_message => ex_message, request_id: full_request_id.split('-').first, full_request_id: full_request_id}
+      render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { exception_message: ex_message, request_id: full_request_id.split('-').first, full_request_id: full_request_id }
     end
   end
 

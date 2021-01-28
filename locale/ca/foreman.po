@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
+"PO-Revision-Date: 2020-11-19 14:22+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -25,6 +25,12 @@ msgstr ""
 
 msgid " Remove"
 msgstr "Suprimeix"
+
+msgid " and it is highly recommended to also attach the foreman-debug output."
+msgstr ""
+
+msgid "\"preview\" or \"real\", this can be used to change the behavior for previewing the template"
+msgstr ""
 
 msgid "${progress}%% Complete"
 msgstr ""
@@ -178,9 +184,6 @@ msgstr "%{cpus} CPU i %{memory} memòria"
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-msgid "%{full_name} (Default: %{default})"
-msgstr ""
-
 msgid "%{host} is about to %{action}"
 msgstr "%{host} està a punt de %{action}"
 
@@ -287,9 +290,6 @@ msgstr ""
 msgid "'%{loader}' is not one of %{loaders}"
 msgstr ""
 
-msgid "'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
-msgstr ""
-
 msgid "(%s host)"
 msgid_plural "(%s hosts)"
 msgstr[0] ""
@@ -312,9 +312,6 @@ msgstr "*Neteja el grup d'amfitrions*"
 
 msgid "*Inherit from host group*"
 msgstr "*Hereta del grup d'amfitrions*"
-
-msgid ", relevant log entries, and it is highly recommended to also attach the foreman-debug output."
-msgstr ""
 
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
 msgstr ""
@@ -429,14 +426,17 @@ msgstr ""
 msgid "A user group already exists with this name"
 msgstr ""
 
-msgid "API Key"
-msgstr "Clau de l'API"
+msgid "A user needs to specify the value when the template is rendered. A value type can also be specified, determining the filling mode. A plain value can be specified as an arbitrary string, A search value allows the auto-completion in the UI, A date expects a date value and UI provides a calendar helper. A user input can have a default value set. The value can be hidden with asterisks, which is useful for sensitive information. For a plain value type, multiple options can be inserted. During the rendering, a user must pick one of the specified values."
+msgstr ""
 
 msgid "API Resources"
 msgstr ""
 
 msgid "API documentation"
 msgstr "Documentació de l'API"
+
+msgid "API v4 is the default version. Uncheck it if you want to use v3, which is deprecated and will be removed in the next release."
+msgstr ""
 
 msgid "About"
 msgstr "Quant a"
@@ -455,9 +455,6 @@ msgstr "Compte"
 
 msgid "Acquire IP addresses for %s"
 msgstr ""
-
-msgid "Action"
-msgstr "Acció"
 
 msgid "Actions"
 msgstr "Accions"
@@ -504,9 +501,6 @@ msgstr "Afegeix un clau SSH"
 msgid "Add SSH key"
 msgstr "Afegeix un clau SSH"
 
-msgid "Add Trend Counter"
-msgstr ""
-
 msgid "Add Volume"
 msgstr "Afegeix un volum"
 
@@ -524,6 +518,9 @@ msgstr "Afegeix una combinació de plantilles"
 
 msgid "Add an SSH key for a user"
 msgstr "Afegeix una clau SSH per a un usuari"
+
+msgid "Add an email notification for a user"
+msgstr ""
 
 msgid "Add external user group"
 msgstr "Afegeix el grup d'usuaris externs"
@@ -585,6 +582,9 @@ msgstr ""
 msgid "Affected Organizations"
 msgstr ""
 
+msgid "Aim to use macros and variables that are already available with Safe Mode enabled in your template. If you are looking for some information that you are not able to retrieve via allowed methods or macros listed in this documentation, you can consider disabling the Safe Mode. Doing that, you will be able to access all internal application variables and methods directly, when the template is rendered."
+msgstr ""
+
 msgid "Alert"
 msgstr "Alerta"
 
@@ -602,6 +602,9 @@ msgstr "Tots els amfitrions"
 
 msgid "All Reports"
 msgstr "Tots els informes"
+
+msgid "All Ruby code is enclosed within <code><&#37; &#37;></code> in an ERB template. The code is executed when the template is rendered. It can contain Ruby control flow structures as well as application-specific macros and variables. For example:"
+msgstr ""
 
 msgid "All compute resources"
 msgstr "Tots els recursos computacionals"
@@ -626,6 +629,9 @@ msgstr ""
 
 msgid "All hosts will show a configuration status even when a Puppet smart proxy is not assigned"
 msgstr "Tots els amfitrions mostraran un estat de configuració fins i tot quan no s'ha assignat un servidor intermediari intel ligent Puppet"
+
+msgid "All inputs defined for a single template must have a have unique name that is then used in ERB code. Inputs can optionally have a description that is rendered as an inline help when the template is rendered."
+msgstr ""
 
 msgid "All items"
 msgstr "Tots els ítems"
@@ -693,7 +699,10 @@ msgstr ""
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr ""
 
-msgid "An error occured."
+msgid "An error occurred."
+msgstr ""
+
+msgid "An example of a control flow terminal is an if condition or for each cycle. Macros are functions called by their name without specifying any object, e.g. %{load_hosts} or %{input}. See all available macros %{all_macros}. Example of object class is an %{integer}, String, %{host}, %{subnet}, %{user}. Calling a method on an object is denoted by <code>.</code>. For example <code>@host.fqdn</code> expression is an instance variable that holds and evaluates to an object of a Host, on which the fqdn method is called. To find the list of all available methods on objects, see the documentation for each template type."
 msgstr ""
 
 msgid "An interface marked as primary is missing"
@@ -736,9 +745,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
 msgstr "Arquitectura"
-
-msgid "Architecture Distribution"
-msgstr "Distribució de l'arquitectura"
 
 msgid "Architecture ID"
 msgstr "ID d'arquitectura"
@@ -801,6 +807,12 @@ msgstr "Seqüència de paràmetres (nom, valor)"
 msgid "Array of template combinations (hostgroup_id, environment_id)"
 msgstr ""
 
+msgid "As mentioned above, different template types support different template inputs. See the table below for available combinations."
+msgstr ""
+
+msgid "As you can see in the example above, the <code>interfaces</code> method on Host object returns a new object of type Collection. For simplicity, think of it as an array of all host interfaces. To process every item in this array, a method <code>each</code> is used."
+msgstr ""
+
 msgid "Assign All"
 msgstr "Assigna-ho tot"
 
@@ -856,6 +868,9 @@ msgstr ""
 
 msgid "Association"
 msgstr "Associació"
+
+msgid "At least one of the hosts couldn't be found"
+msgstr ""
 
 msgid "At least one volume must be specified for image-based provisioning."
 msgstr ""
@@ -1012,7 +1027,7 @@ msgstr ""
 msgid "Authentication"
 msgstr ""
 
-msgid "Authentication sources"
+msgid "Authentication Sources"
 msgstr ""
 
 msgid "Author"
@@ -1027,11 +1042,11 @@ msgstr "Autoritza l'API de delegació de l'inici de sessió"
 msgid "Authorize login delegation auth source user autocreate"
 msgstr "Autoritza l'autocreació dels usuaris de l'origen d'autenticació de la delegació de l'inici de sessió"
 
-msgid "Authorize login delegation with REMOTE_USER environment variable"
-msgstr "Autoritza la delegació de l'inici de sessió amb la variable d'entorn REMOTE_USER"
+msgid "Authorize login delegation with REMOTE_USER HTTP header"
+msgstr ""
 
-msgid "Authorize login delegation with REMOTE_USER environment variable for API calls too"
-msgstr "També per a les crides de l'API, autoritza la delegació de l'inici de sessió amb la variable d'entorn REMOTE_USER"
+msgid "Authorize login delegation with REMOTE_USER HTTP header for API calls too"
+msgstr ""
 
 msgid "Authorized by"
 msgstr "Autorització"
@@ -1078,10 +1093,7 @@ msgstr "Grups de configuracions disponibles"
 msgid "Available Providers"
 msgstr "Proveïdors disponibles"
 
-msgid "Average Memory Usage"
-msgstr ""
-
-msgid "Average Swap Usage"
+msgid "Available input types"
 msgstr ""
 
 msgid "Avoid duplicate values when merging them (only array type)?"
@@ -1098,6 +1110,15 @@ msgstr "BIOS"
 
 msgid "BMC"
 msgstr "BMC"
+
+msgid "BMC Proxy"
+msgstr ""
+
+msgid "BMC Proxy ID to use within this subnet"
+msgstr ""
+
+msgid "BMC Proxy to use within this subnet for management access"
+msgstr ""
 
 msgid "BMC credentials access"
 msgstr ""
@@ -1122,6 +1143,15 @@ msgstr ""
 
 msgid "Base DN"
 msgstr "DN base"
+
+msgid "Basic building blocks - macros, variables, methods"
+msgstr ""
+
+msgid "Be aware, this is dangerous and it can cause performance and security issues. Disabling safe mode allows any Ruby code to be executed on the server. Any application user that can edit the template can modify the template, so that when it is rendered, it spawns a shell process and runs an arbitrary command in it. These commands are run as the \"foreman\" user and are still restricted by SELinux policy. Disabling Safe Mode is only recommended in a trusted environment."
+msgstr ""
+
+msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax might seem messy. ERB syntax ignores white space. One method of handling the indentation is to declare the ERB tag at the beginning of each new line and then use white space within the ERB tag to outline the relationships within the syntax, for example:"
+msgstr ""
 
 msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
 msgstr ""
@@ -1234,10 +1264,16 @@ msgstr "Construeix des de la imatge del SO"
 msgid "Build in progress"
 msgstr ""
 
+msgid "Built-in variables"
+msgstr ""
+
 msgid "By checking this, the report will be sent to e-mail address specified below. Keep unchecked if you prefer to download the report in your browser."
 msgstr ""
 
 msgid "By default we map user groups to standard LDAP Group objects. FreeIPA and POSIX LDAP server types supports alternative way of grouping users through Netgroups. Enable this checkbox if using Netgroups is preferred instead of standard groups."
+msgstr ""
+
+msgid "By default, a newline character is inserted after a Ruby block if it is closed at the end of a line:"
 msgstr ""
 
 msgid "CA Certificate Expiry Date"
@@ -1263,6 +1299,9 @@ msgstr ""
 
 msgid "CPUs"
 msgstr "Nombre de CPU"
+
+msgid "CSRF protection token expired, please log in again"
+msgstr ""
 
 msgid "Cache refreshing is not supported for %s"
 msgstr ""
@@ -1309,6 +1348,9 @@ msgstr "Cancel·la la petició de construcció per a aquest amfitrió"
 msgid "Canceled pending build for %s"
 msgstr "S'ha cancel·lat la construcció pendent per %s"
 
+msgid "Cannot add audit comment to a locked template."
+msgstr ""
+
 msgid "Cannot add pagelet with key %s and without mountpoint"
 msgstr ""
 
@@ -1334,6 +1376,9 @@ msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "No es pot suprimir el grup %{current} perquè té grups niuats."
 
 msgid "Cannot delete group %{current} because it has nested host groups."
+msgstr ""
+
+msgid "Cannot delete template input as template is locked."
 msgstr ""
 
 msgid "Cannot find user %s when switching context"
@@ -1432,9 +1477,6 @@ msgstr "Seleccioneu un tipus de servidor"
 msgid "Class"
 msgstr "Classe"
 
-msgid "Class Distribution"
-msgstr "Distribució de la classe"
-
 msgid "Classes"
 msgstr "Classes"
 
@@ -1513,6 +1555,9 @@ msgstr "Clúster"
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
+msgid "Command"
+msgstr "Ordre"
+
 msgid "Comment"
 msgstr "Comentari"
 
@@ -1539,9 +1584,6 @@ msgstr ""
 
 msgid "Compute Resource"
 msgstr "Recurs computacional"
-
-msgid "Compute Resource Distribution"
-msgstr ""
 
 msgid "Compute Resources"
 msgstr "Recursos computacionals"
@@ -1621,6 +1663,9 @@ msgstr "Usuari"
 msgid "ComputeResource|Uuid"
 msgstr "UUID"
 
+msgid "Conditional statements"
+msgstr ""
+
 msgid "Config Groups"
 msgstr "Grups de configuracions"
 
@@ -1668,6 +1713,9 @@ msgstr ""
 msgid "Confirm Action"
 msgstr ""
 
+msgid "Confirm Hardware Model Deletion"
+msgstr ""
+
 msgid "Conflict - %s"
 msgstr "Conflicte - %s"
 
@@ -1698,11 +1746,17 @@ msgstr "Contrasenyes de consola"
 msgid "Consult \"Provisioning Templates\" page to see what templates are available."
 msgstr ""
 
+msgid "Content"
+msgstr ""
+
 msgid "Continue to look for matches after first find (only array/hash type)? Note: merging overrides ignores all matchers that are omitted."
 msgstr ""
 
 msgid "Continue?"
 msgstr "Voleu continuar?"
+
+msgid "Copy to clipboard"
+msgstr ""
 
 msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
 msgstr ""
@@ -1753,9 +1807,6 @@ msgid "Could not generate the report, check the form for error messages"
 msgstr ""
 
 msgid "Could not locate CA certificate."
-msgstr ""
-
-msgid "Could not receive data: ${error && error.message}"
 msgstr ""
 
 msgid "Could not recreate a new SSH key"
@@ -1810,9 +1861,6 @@ msgid "Create Filter"
 msgstr ""
 
 msgid "Create Global Parameter"
-msgstr ""
-
-msgid "Create Hardware Model"
 msgstr ""
 
 msgid "Create Host"
@@ -1886,9 +1934,6 @@ msgstr "Crea una subxarxa"
 
 msgid "Create Template"
 msgstr "Crea una plantilla"
-
-msgid "Create Trend"
-msgstr "Crea una tendència"
 
 msgid "Create User"
 msgstr "Crea un usuari"
@@ -2064,6 +2109,9 @@ msgstr ""
 msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Supr"
 
+msgid "Current Page"
+msgstr "Pàgina actual"
+
 msgid "Current password"
 msgstr "Contrasenya actual"
 
@@ -2169,6 +2217,9 @@ msgstr ""
 msgid "Default Display Type"
 msgstr ""
 
+msgid "Default Global registration template"
+msgstr ""
+
 msgid "Default PXE global template entry"
 msgstr ""
 
@@ -2211,6 +2262,9 @@ msgstr "Organització per defecte"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr ""
 
@@ -2222,9 +2276,6 @@ msgstr "Valor per defecte"
 
 msgid "Default value for user input"
 msgstr ""
-
-msgid "Default variables lookup path"
-msgstr "Camí per defecte de recerca de les variables"
 
 msgid "Default verification mode"
 msgstr "Mode predeterminat de verificació"
@@ -2388,9 +2439,6 @@ msgstr "Suprimeix tots els paràmetres niats per a una subxarxa"
 msgid "Delete all nested parameters for an operating system"
 msgstr "Suprimeix tots els paràmetres niats per un sistema operatiu"
 
-msgid "Delete all the trend history for %s?"
-msgstr ""
-
 msgid "Delete an HTTP Proxy"
 msgstr "Suprimeix un servidor intermediari HTTP"
 
@@ -2511,6 +2559,9 @@ msgstr ""
 msgid "Disabled"
 msgstr "Inhabilitada"
 
+msgid "Disabling Safe mode"
+msgstr ""
+
 msgid "Disassociate Hosts"
 msgstr "Desassocia els amfitrions"
 
@@ -2540,9 +2591,6 @@ msgstr ""
 
 msgid "Display"
 msgstr "Monitor"
-
-msgid "Display Name"
-msgstr ""
 
 msgid "Display Type"
 msgstr ""
@@ -2639,6 +2687,9 @@ msgstr ""
 msgid "Each entries represent a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
 msgstr ""
 
+msgid "Each template type rendering capabilities slightly differ, e.g. a provisioning template is always rendered for a single host object and therefore a @host variable is defined. Another example is a report template, where report formatting specific macros are available."
+msgstr ""
+
 msgid "Eager zero"
 msgstr ""
 
@@ -2669,9 +2720,6 @@ msgstr "Edita les propietats"
 msgid "Edit Puppet Class %s"
 msgstr "Edita la classe de Puppet %s"
 
-msgid "Edit Trend %s"
-msgstr "Edita la tendència %s"
-
 msgid "Edit this host"
 msgstr "Editeu aquest amfitrió"
 
@@ -2699,6 +2747,12 @@ msgstr "Prefix del tema del correu electrònic"
 msgid "Email was sent successfully"
 msgstr "El correu electrònic s'ha enviat correctament"
 
+msgid "Embedded Ruby (ERB) is a tool for generating text files based on templates that combine plain text with Ruby code. Foreman uses ERB syntax in the following cases:"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
 msgid "Empty environment"
 msgstr "Entorn buit"
 
@@ -2714,17 +2768,8 @@ msgstr ""
 msgid "Enable alerts for selected hosts"
 msgstr "Habilita les alertes per als amfitrions seleccionats"
 
-msgid "Enable host orchestration on puppet fact import. This could cause serious performance issues as the number of hosts increase"
-msgstr ""
-
 msgid "Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"
 msgstr ""
-
-msgid "Enable orchestration on puppet fact import"
-msgstr ""
-
-msgid "Enable puppetrun support"
-msgstr "Habilita la compatibilitat amb puppetrun"
 
 msgid "Enable rebuild on next host boot"
 msgstr "Habilita la reconstrucció amb la següent arrencada de l'amfitrió"
@@ -2747,6 +2792,9 @@ msgstr ""
 msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
 msgstr "%s ha estat habilitat per a la reconstrucció amb la següent arrencada, però ja fallat l'apagada i engegada de l'amfitrió"
 
+msgid "Encloses a comment that is ignored during template rendering:"
+msgstr ""
+
 msgid "Ending IP Address for IP auto suggestion"
 msgstr "Adreça IP final per a l'autosuggestió de la IP"
 
@@ -2756,9 +2804,6 @@ msgstr "Entrades per pàgina"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Entorn"
-
-msgid "Environment Distribution"
-msgstr ""
 
 msgid "Environment ID"
 msgstr "ID d'entorn"
@@ -2893,6 +2938,9 @@ msgstr "Expandeix els ítems imbricats"
 msgid "Expand the chart"
 msgstr "Expandeix la gràfica"
 
+msgid "Expiration of the authorization token."
+msgstr ""
+
 msgid "Expire logs"
 msgstr ""
 
@@ -2938,6 +2986,9 @@ msgstr ""
 msgid "External IPAM Proxy to use within this subnet"
 msgstr ""
 
+msgid "External IPAM group - only relevant when IPAM is set to external"
+msgstr ""
+
 msgid "External user group"
 msgstr "Grup d'usuaris externs"
 
@@ -2966,9 +3017,6 @@ msgstr "Nom"
 
 msgid "FQDN"
 msgstr "FQDN"
-
-msgid "Fact Name"
-msgstr "Nom de l'objecte d'interès"
 
 msgid "Fact Values"
 msgstr "Valors dels objectes d'interès"
@@ -3285,6 +3333,9 @@ msgstr ""
 msgid "Filter|Unlimited"
 msgstr "Il·limitat"
 
+msgid "Find or create a host and render the Host registration template"
+msgstr ""
+
 msgid "Fingerprint"
 msgstr "Empremta"
 
@@ -3292,6 +3343,9 @@ msgid "Finish template"
 msgstr ""
 
 msgid "Firmware"
+msgstr ""
+
+msgid "First Page"
 msgstr ""
 
 msgid "Fix %s on Mismatch"
@@ -3333,6 +3387,9 @@ msgstr ""
 "  podríeu crear una sola entrada de mitjà que els descrigui a tots.\n"
 "  L'entrada, podria anomenar-se simplement com a «Red Hat» i podria contenir un camí similar a aquest <em>'http://server/redhat/$version/$arch'</em>"
 
+msgid "For example, this can be useful to configure all the Host NICs."
+msgstr ""
+
 msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
 msgstr ""
 
@@ -3342,7 +3399,7 @@ msgstr ""
 msgid "For more information"
 msgstr ""
 
-msgid "For more information please see"
+msgid "For more information please see "
 msgstr ""
 
 msgid "For values of type search, this is the resource the value searches in"
@@ -3441,8 +3498,8 @@ msgstr "Foreman utilitzarà per defecte aquest entorn de puppet si no en pot det
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr ""
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Foreman avaluarà les variables intel·ligents dels amfitrions en aquest ordre per defecte"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman establirà explícitament l'entorn de puppet a la sortida YAML ENC. Això evitarà conflictes entre l'entorn establert al puppet.conf i l'entorn establert a Foreman"
@@ -3507,9 +3564,6 @@ msgstr ""
 msgid "Full screen"
 msgstr "Pantalla completa"
 
-msgid "Full trace"
-msgstr "Traça completa"
-
 msgid "Function not available for %s"
 msgstr ""
 
@@ -3540,6 +3594,9 @@ msgstr ""
 msgid "Generate at"
 msgstr ""
 
+msgid "Generate command"
+msgstr ""
+
 msgid "Generate new random name. Visit Settings to disable this feature."
 msgstr ""
 
@@ -3554,6 +3611,9 @@ msgstr "Generat fa %s"
 
 msgid "Generated at %s"
 msgstr "Es va generar el %s"
+
+msgid "Generating Report template failed for: %s."
+msgstr ""
 
 msgid "Generating a report"
 msgstr ""
@@ -3590,6 +3650,12 @@ msgstr "Global"
 
 msgid "Global Parameters"
 msgstr "Paràmetres globals"
+
+msgid "Global Registration Template with name %s defined via default_global_registration_item Setting not found, please configure the existing template name first"
+msgstr ""
+
+msgid "Global Registration template"
+msgstr ""
 
 msgid "Global default %s template"
 msgstr ""
@@ -3684,17 +3750,14 @@ msgstr ""
 msgid "Harddisk"
 msgstr ""
 
-msgid "Hardware"
-msgstr "Maquinari"
-
 msgid "Hardware Model"
 msgstr "Model de maquinari"
 
+msgid "Hardware Model %s was successfully deleted"
+msgstr ""
+
 msgid "Hardware Models"
 msgstr "Models de maquinari"
-
-msgid "Hardware models describe the hardware types of your hosts, including CPU class, vendor class and other notes."
-msgstr ""
 
 msgid "Has effect only for network based provisioning"
 msgstr ""
@@ -3762,11 +3825,11 @@ msgstr ""
 msgid "Host Fetch ${response}"
 msgstr ""
 
+msgid "Host Group"
+msgstr "Grup dels amfitrions"
+
 msgid "Host Group / Environment"
 msgstr "Grup d'amfitrions / entorn"
-
-msgid "Host Group Distribution"
-msgstr ""
 
 msgid "Host Group Parameters"
 msgstr "Paràmetres del grup d'amfitrions"
@@ -3816,6 +3879,9 @@ msgstr "Només el grup d'amfitrions"
 
 msgid "Host groups"
 msgstr "Grups d'amfitrions"
+
+msgid "Host is not associated with an operating system"
+msgstr ""
 
 msgid "Host owner"
 msgstr ""
@@ -4206,6 +4272,18 @@ msgstr "ID de subxarxa"
 msgid "ID of template"
 msgstr "ID de plantilla"
 
+msgid "ID of the Host group to register the host in."
+msgstr ""
+
+msgid "ID of the Location to register the host in."
+msgstr ""
+
+msgid "ID of the Operating System to register the host in."
+msgstr ""
+
+msgid "ID of the Organization to register the host in."
+msgstr ""
+
 msgid "ID of the user"
 msgstr "ID de l'usuari"
 
@@ -4269,6 +4347,9 @@ msgstr ""
 msgid "IP addresses that should be excluded from suggestion"
 msgstr ""
 
+msgid "IP6 Address"
+msgstr ""
+
 msgid "IP:"
 msgstr "IP:"
 
@@ -4295,6 +4376,9 @@ msgstr ""
 msgid "IPv4 address of interface"
 msgstr "Adreça IPv4 de la interfície"
 
+msgid "IPv4 address, not required if using a subnet with DHCP proxy"
+msgstr ""
+
 msgid "IPv6"
 msgstr ""
 
@@ -4311,6 +4395,9 @@ msgstr "Subxarxa IPv6"
 
 msgid "IPv6 address of interface"
 msgstr "Adreça IPv6 de la interfície"
+
+msgid "IPv6 address, not required if using a subnet with DHCP proxy"
+msgstr ""
 
 msgid "IRC"
 msgstr "IRC"
@@ -4343,6 +4430,12 @@ msgid "If checked, will raise an error if there is no default value and no match
 msgstr "En cas que estigui marcat, es produirà un error si no hi ha cap valor per defecte i no hi ha cap classificador que proporcioni un valor."
 
 msgid "If owner type is specified, owner must be specified too."
+msgstr ""
+
+msgid "If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it."
+msgstr ""
+
+msgid "If selected, SSH keys will be installed on the registered host."
 msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
@@ -4496,8 +4589,23 @@ msgstr ""
 msgid "Imported IPv4 Subnets"
 msgstr "Subxarxes IPv4 importades"
 
+msgid "In a report template, loader macros are used most of the time. Iterating over results of these is a little different. It is important to use <code>each_record</code> instead of <code>each</code>, because loaders load objects in batches and each record in fact represents the batch. Otherwise the construct looks the same, as shown in the following example"
+msgstr ""
+
 msgid "In order to add the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
 msgstr "Per afegir la clau SSH, primer s'ha de desar l'usuari. També es requereix el permís 'create_ssh_keys'."
+
+msgid "In order to disable Safe mode, navigate to Administer -> %{settings_link} -> Provisioning tab and search for a setting called \"Safemode rendering\". Value \"No\" means, rendering is unprotected and potentially dangerous. This installation has currently safe mode: <b>%{status}</b>."
+msgstr ""
+
+msgid "In the following example, <code>if</code> and <code>==</code> are terminals, <code>@host</code> is instance variable holding the object of the %{host_object_link} class, <code>.domain</code> is the call of the method named %{domain_method_link} on this %{host_object_link} object. That returns the %{domain_object_link} object. <code>.name</code> is then calling of a method %{name_method_link} on this %{domain_object_link} object. The resulting name of the domain is then compared with fixed string object example.com"
+msgstr ""
+
+msgid "In the following example, the ERB syntax searches for a specific host name and returns an output depending on the value it finds:"
+msgstr ""
+
+msgid "In your templates, you might perform different actions depending on which value exists. To achieve this, you can use conditional statements in your ERB syntax."
+msgstr ""
 
 msgid "In-line code syntax"
 msgstr ""
@@ -4522,6 +4630,9 @@ msgstr ""
 
 msgid "Incorrect username or password"
 msgstr "Contrasenya o nom d'usuari incorrecte"
+
+msgid "Indentation in ERB templates"
+msgstr ""
 
 msgid "Independent - Nonpersistent"
 msgstr ""
@@ -4586,6 +4697,9 @@ msgstr "Instal·lat"
 msgid "Instance %{uuid}"
 msgstr ""
 
+msgid "Instance title"
+msgstr ""
+
 msgid "Instance type"
 msgstr ""
 
@@ -4628,6 +4742,15 @@ msgstr "Xarxa interna"
 msgid "Interpolate ERB in parameters"
 msgstr "Interpola ERB als paràmetres"
 
+msgid "Interval option is needed"
+msgstr ""
+
+msgid "Interval option is not valid"
+msgstr ""
+
+msgid "Interval or subscription option is missing"
+msgstr ""
+
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr ""
 
@@ -4635,9 +4758,6 @@ msgid "Invalid Google JSON key. Please verify client email & private key options
 msgstr ""
 
 msgid "Invalid architecture '%{arch}' for '%{os}'"
-msgstr ""
-
-msgid "Invalid authenticity token"
 msgstr ""
 
 msgid "Invalid log level: %s"
@@ -4670,9 +4790,6 @@ msgstr ""
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr ""
 
-msgid "Is the cron job that executes %s enabled?"
-msgstr ""
-
 msgid "Issue tracker"
 msgstr "Eina de seguiment d'incidències"
 
@@ -4685,10 +4802,16 @@ msgstr "En aquesta etapa no és possible assignar plantilles d'aprovisionament."
 msgid "It is not possible to change external users login"
 msgstr ""
 
+msgid "It is not possible to disable yourself"
+msgstr ""
+
 msgid "It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead."
 msgstr ""
 
 msgid "Iterating"
+msgstr ""
+
+msgid "Iterating over Arrays"
 msgstr ""
 
 msgid "JSON VM listing is not supported for this compute resource."
@@ -4760,14 +4883,17 @@ msgstr "Idioma"
 msgid "Language to use for new users"
 msgstr ""
 
+msgid "Last Audits"
+msgstr ""
+
+msgid "Last Page"
+msgstr ""
+
 msgid "Last Report"
 msgstr "Últim informe"
 
 msgid "Last report"
 msgstr "Últim informe"
-
-msgid "Last update:"
-msgstr ""
 
 msgid "Latest Events"
 msgstr "Últims esdeveniments"
@@ -4793,7 +4919,7 @@ msgstr "Nivell"
 msgid "Libvirt default console address"
 msgstr "Adreça de la consola per defecte de Libvirt"
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
@@ -4867,6 +4993,9 @@ msgstr "Llista totes les adreces d'interès"
 
 msgid "List all compute resources"
 msgstr "Llista tots els recursos computacionals"
+
+msgid "List all email notifications for a user"
+msgstr ""
 
 msgid "List all environments"
 msgstr "Llista tots els entorns"
@@ -5249,6 +5378,9 @@ msgstr "Carrega les regions"
 msgid "Load Zones"
 msgstr ""
 
+msgid "Loading"
+msgstr "S'està carregant"
+
 msgid "Loading BMC information ..."
 msgstr "S'està carregant la informació del BMC..."
 
@@ -5305,9 +5437,6 @@ msgstr "Hora local"
 
 msgid "Location"
 msgstr "Ubicació"
-
-msgid "Location Distribution"
-msgstr ""
 
 msgid "Location fact"
 msgstr "Objecte d'interès de la ubicació"
@@ -5460,7 +5589,7 @@ msgstr ""
 msgid "MTU for this subnet"
 msgstr ""
 
-msgid "MTU is not consistent accross subnets"
+msgid "MTU is not consistent across subnets"
 msgstr ""
 
 msgid "MTU, this attribute has precedence over the subnet MTU."
@@ -5476,7 +5605,16 @@ msgstr "Tipus de màquina"
 msgid "Mail notification"
 msgstr ""
 
+msgid "Mail notification interval option, e.g. Daily, Weekly or Monthly. Required for summary notification"
+msgstr ""
+
+msgid "Mail notification subscription option, e.g. Subscribe, Subscribe to my hosts or Subscribe to all hosts. Required for host built and config error state"
+msgstr ""
+
 msgid "Mail query"
+msgstr ""
+
+msgid "Mail query is not valid"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -5546,12 +5684,6 @@ msgstr ""
 msgid "Matchers inheritance"
 msgstr ""
 
-msgid "Max days for Trends graphs"
-msgstr "Nombre màxim de dies per als gràfics de les tendències"
-
-msgid "Max trends"
-msgstr "Tendències màx."
-
 msgid "Maximize"
 msgstr ""
 
@@ -5568,6 +5700,9 @@ msgid "Media ID"
 msgstr "ID de mitjà"
 
 msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will provide new random MAC address."
+msgstr ""
+
+msgid "Media type in 'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -5658,6 +5793,9 @@ msgstr ""
 msgid "Mismatches Report"
 msgstr ""
 
+msgid "Missing BMC feature associated with %s."
+msgstr ""
+
 msgid "Missing a permission to edit parent %s"
 msgstr ""
 
@@ -5698,6 +5836,9 @@ msgstr "Monitor"
 
 msgid "Monthly"
 msgstr "Mensualment"
+
+msgid "More Audits..."
+msgstr ""
 
 msgid "Must be unique"
 msgstr ""
@@ -5753,6 +5894,9 @@ msgstr "Nom del paràmetre"
 msgid "Name of the table"
 msgstr ""
 
+msgid "Name of the template being rendered, \"Unnamed\" when the template does not have a name, e.g. preview on unsaved template."
+msgstr ""
+
 msgid "Nest"
 msgstr ""
 
@@ -5798,6 +5942,9 @@ msgstr ""
 msgid "New Autosign Entry"
 msgstr ""
 
+msgid "New Details Page"
+msgstr ""
+
 msgid "New HTTP Proxy"
 msgstr "Servidor intermediari HTTP nou"
 
@@ -5830,6 +5977,9 @@ msgstr "Filtre nou"
 
 msgid "New window"
 msgstr "Finestra nova"
+
+msgid "Next Page"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attached devices"
@@ -5914,13 +6064,13 @@ msgstr "Virtual"
 msgid "No"
 msgstr ""
 
+msgid "No %s with BMC feature found, install one, enable BMC module and register it."
+msgstr ""
+
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr ""
 
 msgid "No BMC NIC available for host %s"
-msgstr ""
-
-msgid "No Charts To Load"
 msgstr ""
 
 msgid "No Failed Features"
@@ -5931,6 +6081,12 @@ msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr "No s'han seleccionat subxarxes IPv4"
+
+msgid "No Location selected"
+msgstr ""
+
+msgid "No Organization selected"
+msgstr ""
 
 msgid "No Results"
 msgstr ""
@@ -5950,9 +6106,6 @@ msgstr ""
 msgid "No audit changes for this period"
 msgstr ""
 
-msgid "No bridges"
-msgstr "Sense ponts"
-
 msgid "No changes"
 msgstr "Sense canvis"
 
@@ -5970,9 +6123,6 @@ msgstr "Sense recursos computacionals a mostrar"
 
 msgid "No data available"
 msgstr "Sense dades disponibles"
-
-msgid "No data for this trend."
-msgstr "No hi ha dades per aquesta tendència."
 
 msgid "No documentation found"
 msgstr "No s'ha trobat la documentació"
@@ -6109,10 +6259,7 @@ msgstr "No s'ha trobat cap plantilla per a aquest amfitrió."
 msgid "No templates found!"
 msgstr "No s'ha trobat cap plantilla!"
 
-msgid "No trend counter defined"
-msgstr ""
-
-msgid "No trend counter found"
+msgid "No user mail notification to update. Use the create action"
 msgstr ""
 
 msgid "None"
@@ -6149,6 +6296,30 @@ msgid "Not relevant for snippet"
 msgstr "No és rellevant per al fragment"
 
 msgid "Not reported"
+msgstr ""
+
+msgid "Not set"
+msgstr ""
+
+msgid "Note that if you enter an incorrect instance variable, no output is returned. However, if you try to call a method on an incorrect variable, the following error message returns:"
+msgstr ""
+
+msgid "Note that the else branch is optional and can be omitted."
+msgstr ""
+
+msgid "Note that the else branch is optional. Also multiple conditions can be specified using elsif, but that is usually better written using a case/when construct. See the example below"
+msgstr ""
+
+msgid "Note that there is no output from tags starting with <% when the template is rendered."
+msgstr ""
+
+msgid "Note that words starting with <code>@</code> are instance variables. When the template is rendered, some instance variables are automatically predefined. Whether you can use a predefined variable depends on the template type, for example, the variable @host is available for the provisioning template, partition tables, and remote execution jobs."
+msgstr ""
+
+msgid "Note the extra space before IP, the <code>-&#37;></code> removes the new line character only if there is no other text after it. Therefore the white space needs to be at the new line."
+msgstr ""
+
+msgid "Note: the command contains an authentication token which grants access to your Foreman account until it expires."
 msgstr ""
 
 msgid "Nothing to add"
@@ -6232,14 +6403,8 @@ msgstr ""
 msgid "Number Of Clients"
 msgstr "Nombre de clients"
 
-msgid "Number of CPUs"
-msgstr "Nombre de CPU"
-
 msgid "Number of Events"
 msgstr "Nombre d'esdeveniments"
-
-msgid "Number of Hosts"
-msgstr "Nombre d'amfitrions"
 
 msgid "Number of Overrides"
 msgstr "Nombre de redefinicions"
@@ -6250,8 +6415,8 @@ msgstr "Nombre de classes"
 msgid "Number of records shown per page in Foreman"
 msgstr "El nombre de registres mostrats per pàgina a Foreman"
 
-msgid "Number of results per page to return"
-msgstr "Nombre de resultats per pàgina a retornar"
+msgid "Number of results per page to return, 'all' to return all results"
+msgstr ""
 
 msgid "Numerical ID or domain name"
 msgstr "ID numèric o nom de domini"
@@ -6325,6 +6490,9 @@ msgstr ""
 msgid "On"
 msgstr ""
 
+msgid "Once a template input is defined in the Inputs tab and the template is saved, it can be used in the ERB. To load a value specified through this input, a global macro <code>input</code> is used. The input name must be specified as the argument. E.g. the example below will load the value through input called cpus."
+msgstr ""
+
 msgid ""
 "Once you define a template input in Inputs tab and save the template, it can be used in the ERB.\n"
 "                To load value specified through this input, use global macro %{example1} and pass the input\n"
@@ -6332,6 +6500,9 @@ msgid ""
 msgstr ""
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
+msgstr ""
+
+msgid "Only Smart Proxies with enabled Registration module are available"
 msgstr ""
 
 msgid "Only for BMC interfaces."
@@ -6500,9 +6671,6 @@ msgstr "Ordre"
 
 msgid "Organization"
 msgstr "Organització"
-
-msgid "Organization Distribution"
-msgstr ""
 
 msgid "Organization fact"
 msgstr "Objecte d'interès de l'organització"
@@ -6720,9 +6888,6 @@ msgstr "La contrasenya que s'utilitzarà per a l'autenticació, si cal"
 msgid "Password used to authenticate with the HTTP Proxy"
 msgstr ""
 
-msgid "Password:"
-msgstr "Contrasenya:"
-
 msgid "Passwords do not match"
 msgstr ""
 
@@ -6811,13 +6976,13 @@ msgstr ""
 msgid "Please Confirm"
 msgstr "Si us plau, confirmeu"
 
-msgid "Please Select"
-msgstr "Si us plau, seleccioneu"
-
 msgid "Please Select an Image"
 msgstr "Si us plau, seleccioneu una imatge"
 
 msgid "Please check the proxy is configured and running on the host."
+msgstr ""
+
+msgid "Please contact your administrator, the request id for finding the logs: \"%s\""
 msgstr ""
 
 msgid "Please correct the error(s) below and submit your changes again."
@@ -6832,6 +6997,9 @@ msgstr ""
 msgid "Please ensure the following parameters name are unique"
 msgstr ""
 
+msgid "Please include in your report the full error log that can be acquired by running: "
+msgstr ""
+
 msgid "Please login to %{foreman_url} to change your password"
 msgstr ""
 
@@ -6840,7 +7008,10 @@ msgid ""
 "                      from Foreman or Foreman plugins. System-wide proxies must be configured at operating system level."
 msgstr ""
 
-msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)"
+msgid "Please note, API v3 is deprecated and will be removed completely in the next Foreman release."
+msgstr ""
+
+msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)"
 msgstr ""
 
 msgid "Please request one of the required permissions listed below from a Foreman administrator:"
@@ -6939,6 +7110,9 @@ msgstr ""
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
+msgid "Previous Page"
+msgstr ""
+
 msgid "Primary"
 msgstr "Primària"
 
@@ -7032,6 +7206,9 @@ msgstr "Plantilla d'aprovisionament"
 msgid "Provisioning template IDs"
 msgstr "Els ID de les plantilles d'aprovisionament"
 
+msgid "Provisioning templates"
+msgstr "Plantilles d'aprovisionament"
+
 msgid "Provisioning templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
 
@@ -7051,6 +7228,9 @@ msgstr ""
 
 msgid "Proxies"
 msgstr "Servidors intermediaris"
+
+msgid "Proxy"
+msgstr "Servidor intermediari"
 
 msgid "Proxy ID to use within this realm"
 msgstr ""
@@ -7082,6 +7262,9 @@ msgstr "Puppet"
 msgid "Puppet CA"
 msgstr "AC de Puppet"
 
+msgid "Puppet CA Proxy"
+msgstr ""
+
 msgid "Puppet CA proxy ID"
 msgstr "ID de servidor intermediari de l'AC de Puppet"
 
@@ -7100,11 +7283,11 @@ msgstr "Entorn de Puppet"
 msgid "Puppet Environments"
 msgstr "Entorns de Puppet"
 
-msgid "Puppet Master"
-msgstr "Màster de Puppet"
-
 msgid "Puppet Modules"
 msgstr "Mòduls de Puppet"
+
+msgid "Puppet Proxy"
+msgstr ""
 
 msgid "Puppet class"
 msgstr "Classe de Puppet"
@@ -7143,9 +7326,6 @@ msgstr "Puppetclass"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Puppetclass|Name"
 msgstr "Nom"
-
-msgid "Puppetrun"
-msgstr "Puppetrun"
 
 msgid "Query"
 msgstr ""
@@ -7261,6 +7441,18 @@ msgstr "Refresca les característiques del servidor intermediari intel·ligent"
 msgid "Region"
 msgstr "Regió"
 
+msgid "Register Host"
+msgstr ""
+
+msgid "Registration template"
+msgstr ""
+
+msgid "Registration token is missing or invalid."
+msgstr ""
+
+msgid "Relevant only for audit summary notification"
+msgstr ""
+
 msgid "Remember hosts selection for the next bulk action"
 msgstr ""
 
@@ -7274,8 +7466,14 @@ msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for q
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Remote Execution"
+msgstr "Execució remota"
+
 msgid "Remote address"
 msgstr "Adreça remota"
+
+msgid "Remote execution job templates"
+msgstr ""
 
 msgid "Remove"
 msgstr "Suprimeix"
@@ -7300,6 +7498,9 @@ msgstr "Suprimeix una classe de Puppet d'un amfitrió"
 
 msgid "Remove a Puppet class from host group"
 msgstr "Suprimeix una classe de Puppet d'un grup d'amfitrions"
+
+msgid "Remove an email notification for a user"
+msgstr ""
 
 msgid "Remove conflicting %{type} for %{host}"
 msgstr ""
@@ -7328,6 +7529,9 @@ msgstr ""
 msgid "Rename"
 msgstr "Reanomena"
 
+msgid "Render Global registration template"
+msgstr ""
+
 msgid "Render report %s"
 msgstr ""
 
@@ -7338,6 +7542,9 @@ msgid "Render user data template for %s"
 msgstr ""
 
 msgid "Rendering failed, no input with name \"%{s}\" for input macro found"
+msgstr ""
+
+msgid "Rendering failed, one or more unknown columns specified for ordering - \"%{unknown}\""
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -7369,6 +7576,9 @@ msgid "Report is going to be rendered at %s and it will be delivered via e-mail 
 msgstr ""
 
 msgid "Report not found, please ensure you used the correct job_id"
+msgstr ""
+
+msgid "Report templates"
 msgstr ""
 
 msgid "ReportTemplate|Locked"
@@ -7407,6 +7617,9 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Status"
 msgstr "Estat"
+
+msgid "Represents the host object for which the template is rendered."
+msgstr ""
 
 msgid "Request Failed"
 msgstr ""
@@ -7565,17 +7778,8 @@ msgstr ""
 msgid "Run Distribution Chart for %s"
 msgstr ""
 
-msgid "Run Puppet"
-msgstr "Executa el puppet"
-
-msgid "Run Puppet on the following hosts"
-msgstr ""
-
 msgid "Run a power operation on host"
 msgstr "Executa una operació energètica a l'amfitrió"
-
-msgid "Run puppet"
-msgstr "Executa el puppet"
 
 msgid "Running on"
 msgstr ""
@@ -7628,6 +7832,9 @@ msgstr ""
 msgid "SSL CA file"
 msgstr "Fitxer d'AC SSL"
 
+msgid "SSL CA file not found, check the 'SSL CA file' in Settings > Authentication"
+msgstr ""
+
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr "El fitxer de l'AC SSL que Foreman utilitzarà per comunicar-se amb els seus servidors intermediaris"
 
@@ -7652,10 +7859,22 @@ msgstr "env de verificació de client SSL"
 msgid "SSL private key"
 msgstr "Clau privada SSL"
 
+msgid "Safe Mode is a safety mechanism that is in place to prevent accidents from occurring. It contains a list of Ruby methods that can be used safely in a template. When a safe-mode-protected method is called accidentally, rendering fails with the error that says \"Safemode doesn't allow to access ...\"."
+msgstr ""
+
+msgid "Safe mode"
+msgstr ""
+
 msgid "Safe mode methods"
 msgstr ""
 
 msgid "Safe mode methods and variables"
+msgstr ""
+
+msgid "Safemode"
+msgstr ""
+
+msgid "Safemode Review"
 msgstr ""
 
 msgid "Safemode rendering"
@@ -7679,6 +7898,9 @@ msgstr ""
 msgid "Scheduler hint filter"
 msgstr ""
 
+msgid "Scheduling Report template failed for: %s."
+msgstr ""
+
 msgid "Scope by locations"
 msgstr "Abast per ubicacions"
 
@@ -7695,6 +7917,9 @@ msgid "Search fields"
 msgstr ""
 
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
+msgstr ""
+
+msgid "Search your logs for request-id"
 msgstr ""
 
 msgid "Secondary DNS Server"
@@ -7781,6 +8006,9 @@ msgstr "Selecciona les plantilles d'aprovisionament"
 msgid "Select realms"
 msgstr "Selecciona els reialmes"
 
+msgid "Select row"
+msgstr ""
+
 msgid "Select smart proxies"
 msgstr "Selecciona els servidors intermediaris intel·ligents"
 
@@ -7858,6 +8086,12 @@ msgstr ""
 msgid "Services"
 msgstr "Serveis"
 
+msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
+msgstr ""
+
+msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
+msgstr ""
+
 msgid "Set IP addresses for %s"
 msgstr ""
 
@@ -7891,6 +8125,9 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
 msgstr "Ajust"
+
+msgid "Setting was successfully updated."
+msgstr ""
 
 msgid "Settings"
 msgstr "Ajusts"
@@ -7927,6 +8164,9 @@ msgstr "Tipus d'ajusts"
 msgid "Setting|Value"
 msgstr "Valor"
 
+msgid "Setup Insights"
+msgstr ""
+
 msgid "Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"
 msgstr "S'hauria d'executar «foreman-rake db:migrate» en la pròxima execució dels mòduls de l'instal·lador?"
 
@@ -7956,12 +8196,6 @@ msgstr "Mostra les diferències"
 
 msgid "Show Experimental Labs"
 msgstr "Mostra els laboratoris experimentals"
-
-msgid "Show Host"
-msgstr "Mosta l'amfitrió"
-
-msgid "Show Trends"
-msgstr "Mostra les tendències"
 
 msgid "Show a Personal Access Token for a user"
 msgstr ""
@@ -8083,6 +8317,9 @@ msgstr ""
 msgid "Show all %s children fact values"
 msgstr "Mostra tots els valors de l'objecte d'interès dels fills %s"
 
+msgid "Show all %s facts with the same value"
+msgstr ""
+
 msgid "Show an HTTP Proxy"
 msgstr "Mostra un servidor intermediari HTTP"
 
@@ -8176,6 +8413,9 @@ msgstr ""
 msgid "Sign"
 msgstr "Signa"
 
+msgid "Similar to the variable input type, however, it loads the value for a specific smart class parameter. The user must specify the Puppet class and the smart class parameter name when defining the input."
+msgstr ""
+
 msgid "Single host on this page is selected."
 msgid_plural "All %{per_page} hosts on this page are selected."
 msgstr[0] ""
@@ -8249,6 +8489,12 @@ msgstr "URL"
 msgid "Snippet"
 msgstr "Fragment"
 
+msgid "Snippets"
+msgstr ""
+
+msgid "Snippets are smaller, reusable templates that can be used to customize other templates. For example, a bootstrap procedure that must run on every provisioned host, but to achieve this requires modifying multiple kickstart templates. To avoid duplication, a snippet can be used. Assuming there is a snippet created with a name Bootstrap, following example will inject it into a template"
+msgstr ""
+
 msgid "Sockets"
 msgstr ""
 
@@ -8261,14 +8507,14 @@ msgstr "Algunes interfícies no són vàlides"
 msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "Algunes de les interfícies no són vàlides. Consulteu la taula de sota."
 
-msgid "Some or all hosts execution failed, Please check log files for more information"
-msgstr ""
-
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
 msgid "Something went wrong while selecting hosts - %s"
 msgstr "Alguna cosa va anar malament mentre se seleccionaven els amfitrions - %s"
+
+msgid "Sometimes it is necessary to iterate over arrays in order to retrieve the information. This is typically required in report templates when loaders are used, however the same technique is useful elsewhere too."
+msgstr ""
 
 msgid "Sorry but no templates were configured."
 msgstr "Ho sento, però no s'ha configurat cap plantilla."
@@ -8292,6 +8538,9 @@ msgid "Source|Value"
 msgstr "Valor"
 
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
+msgstr ""
+
+msgid "Specified value is higher than maximum value"
 msgstr ""
 
 msgid "Specified value is higher than recommended maximum"
@@ -8337,9 +8586,6 @@ msgstr "Estat"
 
 msgid "Static"
 msgstr "Estàtic"
-
-msgid "Statistics"
-msgstr "Estadístiques"
 
 msgid "Status"
 msgstr "Estat"
@@ -8492,6 +8738,12 @@ msgstr ""
 msgid "Subscribe to my hosts"
 msgstr ""
 
+msgid "Subscription option is needed"
+msgstr ""
+
+msgid "Subscription option is not valid"
+msgstr ""
+
 msgid "Success"
 msgstr "Correcte"
 
@@ -8506,12 +8758,6 @@ msgstr "S'ha suprimit correctament %s."
 
 msgid "Successfully deleted report."
 msgstr "S'ha suprimit correctament l'informe."
-
-msgid "Successfully executed, check log files for more details"
-msgstr ""
-
-msgid "Successfully executed, check reports and/or log files for more details"
-msgstr ""
 
 msgid "Successfully overridden all parameters of Puppet class %s"
 msgstr "S'han redefinit correctament tots els paràmetres de la classe de Puppet %s"
@@ -8689,10 +8935,16 @@ msgstr "Sintaxi de la plantilla"
 msgid "Template that will be selected as %s default for local boot."
 msgstr ""
 
+msgid "Template type"
+msgstr ""
+
 msgid "Template unlocked"
 msgstr "Plantilla desbloquejada"
 
 msgid "Template with seed data for virtual or cloud instances when 'user data' flag is set, typically cloud-init or ignition format."
+msgstr ""
+
+msgid "Template writing help"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8757,7 +9009,10 @@ msgstr "Plantilles"
 msgid "Templates DSL"
 msgstr ""
 
-msgid "Templates are generated using the Embedded Ruby (ERB) language."
+msgid "Templates can access built-in instance variables denoted by <code>@</code>."
+msgstr ""
+
+msgid "Templates for partition tables"
 msgstr ""
 
 msgid "Templates resolved for this operating system"
@@ -8890,6 +9145,9 @@ msgstr ""
 msgid "The Report Templates provides a way to create textual reports out of Foreman data. When the template is rendered, it loads data from database and renders the result. Based on the template, the output format can be csv, json, yaml or any custom textual format"
 msgstr ""
 
+msgid "The Ruby code inside of the ERB tags typically contain expressions. They consist of program flow control terminals, variables, macros. Variables and macros evaluates to objects. Each object has set of allowed methods that can be called on it. These methods can return objects."
+msgstr ""
+
 msgid "The algorithm used to encode the JWT in the OpenID provider."
 msgstr ""
 
@@ -8934,6 +9192,9 @@ msgstr ""
 msgid "The following errors may prevent a successful build:"
 msgstr "Els errors següents poden impedir una construcció exitosa:"
 
+msgid "The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:"
+msgstr ""
+
 msgid "The following fields would need reviewing"
 msgstr ""
 
@@ -8955,10 +9216,19 @@ msgstr ""
 msgid "The following table and example snippet shows global methods, variables and class methods and how to use them."
 msgstr ""
 
+msgid "The following tags are the most important and commonly used in ERB templates"
+msgstr ""
+
 msgid "The full DNS domain name"
 msgstr "Tot el nom de domini DNS"
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
+msgstr ""
+
+msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
+msgstr ""
+
+msgid "The instance title is shown on the top navigation bar (requires reload of page)."
 msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
@@ -9062,7 +9332,7 @@ msgstr[1] "Hi ha"
 msgid "There is no owner with id %d and type %s"
 msgstr ""
 
-msgid "There is no proxy with BMC feature set up. Please register a smart proxy with this feature."
+msgid "There is no proxy with BMC feature set up. Associate a BMC feature with a subnet."
 msgstr ""
 
 msgid "There may be more information in the server's logs."
@@ -9104,13 +9374,28 @@ msgstr "Aquesta classe de Puppet no té paràmetres en la seva signatura."
 msgid "This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site."
 msgstr ""
 
+msgid "This generates no output. However if the closing tag was <code>&#37;></code> without the dash, it would generate a new line"
+msgstr ""
+
 msgid "This group has nested groups!"
 msgstr ""
 
 msgid "This group has no roles"
 msgstr "Aquest grup no té cap rol"
 
+msgid "This host can be registered to Foreman by executing this command:"
+msgstr ""
+
+msgid "This host can not be enrolled with Foreman as no registration template was set."
+msgstr ""
+
 msgid "This host's stored facts and reports will be deleted too."
+msgstr ""
+
+msgid "This input value is fed from a specified fact for the host, which the template is being rendered for. This way the template can access e.g. the host cpus number."
+msgstr ""
+
+msgid "This input value is fed from parameter values calculated for the host, which the template is being rendered for. This way the template can access a value of a global parameter, which is applied to every host. If that parameter would be overridden e.g. on a host's subnet level, this value would be fed to this input."
 msgstr ""
 
 msgid "This interface is also used for network communication during provisioning, e.g. downloading installation packages."
@@ -9125,13 +9410,22 @@ msgstr ""
 msgid "This is inherited from parent"
 msgstr "Això s'hereta dels pares"
 
+msgid "This is the simple example of iterating over array of two interfaces and only printing the IP address of each. In reality, the interface object can be used to fetch more information, as shown in the following example. To see all available methods, see the documentation for %s object."
+msgstr ""
+
 msgid "This is used by a host"
 msgstr "Això és utilitzat per un amfitrió"
+
+msgid "This is used to reduce the number of lines, where Ruby syntax permits, in rendered templates. White spaces in ERB tags are ignored."
+msgstr ""
 
 msgid "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
 msgstr ""
 
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
+msgstr ""
+
+msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
 msgstr ""
 
 msgid "This role has been cloned from role %s"
@@ -9143,13 +9437,13 @@ msgstr "Aquest rol està bloquejat per a l'edició."
 msgid "This role is locked from being modified by users."
 msgstr ""
 
+msgid "This section provides an introduction to ERB templates and the rendering engine, and illustrates the core principles with examples. Note that the default templates that are provided with the installation are also a good source of ERB syntax examples."
+msgstr ""
+
 msgid "This service is available for unauthenticated users"
 msgstr "Aquest servei està disponible per a usuaris no autenticats"
 
 msgid "This service is only available for authenticated users"
-msgstr ""
-
-msgid "This setting is defined in the configuration file '%{filename}' and is read-only."
 msgstr ""
 
 msgid "This template is locked and may not be removed."
@@ -9202,7 +9496,19 @@ msgstr ""
 msgid "Timezone to use for new users"
 msgstr ""
 
-msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
+msgid "To access /statistics API you need to install Foreman Statistics plugin"
+msgstr ""
+
+msgid "To access /trends API you need to install Foreman Statistics plugin"
+msgstr ""
+
+msgid "To access Puppetrun feature you need to install Foreman Remote Execution Plugin"
+msgstr ""
+
+msgid "To change the default behavior, modify the enclosing mark with <code>-&#37;></code>:"
+msgstr ""
+
+msgid "To customize a template for each individual rendering, various inputs can be defined. Inputs are of several types. Different template types support different input types."
 msgstr ""
 
 msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. ovirt)."
@@ -9217,9 +9523,6 @@ msgstr ""
 msgid ""
 "To refresh the list of users, click on the tab \"External\n"
 "                groups\" then \"Refresh\"."
-msgstr ""
-
-msgid "To start collecting trend data, set a cron job to execute <span class='black'>foreman-rake trends:counter</span> at least every %s minutes."
 msgstr ""
 
 msgid "To update the class signature, go to the Puppet Classes page and select \"Import\"."
@@ -9242,6 +9545,9 @@ msgid "Token duration"
 msgstr "Duració del testimoni"
 
 msgid "Token expired"
+msgstr ""
+
+msgid "Token lifetime (hours)"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -9280,9 +9586,6 @@ msgstr "Tendència"
 msgid "Trend counter"
 msgstr ""
 
-msgid "Trend of the last %s days."
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TrendCounter|Count"
 msgstr "Nombre"
@@ -9293,15 +9596,6 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TrendCounter|Interval start"
-msgstr ""
-
-msgid "Trends"
-msgstr "Tendències"
-
-msgid "Trends for %s"
-msgstr "Tendències per %s"
-
-msgid "Trends in Foreman allow you to track changes in your infrastructure over time. It allows you to track both Foreman related information and to any fact. The Trend pages give a graph of how the number of hosts with that value have changed over time, and list the current hosts."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -9319,9 +9613,6 @@ msgstr "Nom"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Trend|Trendable type"
 msgstr ""
-
-msgid "Trigger a puppetrun on a node; requires that puppet run is enabled"
-msgstr "Dispara un puppetrun sobre un node; cal que puppetrun estigui habilitat"
 
 msgid "True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not"
 msgstr ""
@@ -9362,6 +9653,9 @@ msgstr "URL per %{providers_requiring_url}"
 msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
 msgstr ""
 
+msgid "URL in :url parameter is missing a scheme, please set http:// or https://"
+msgstr ""
+
 msgid "URL must be valid and schema must be one of %s"
 msgstr ""
 
@@ -9399,9 +9693,6 @@ msgid "Unable to authenticate user %s"
 msgstr "No es pot autenticar l'usuari %s"
 
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
-msgstr ""
-
-msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
 msgstr ""
 
 msgid "Unable to communicate with the proxy: %s"
@@ -9467,9 +9758,6 @@ msgstr ""
 msgid "Unable to disable safemode_render when bmc_credentials_accessible is disabled"
 msgstr ""
 
-msgid "Unable to execute Puppet run"
-msgstr ""
-
 msgid "Unable to fetch TFTP boot file"
 msgstr ""
 
@@ -9483,6 +9771,12 @@ msgid "Unable to find a proxy with BMC feature"
 msgstr ""
 
 msgid "Unable to find proper authentication method"
+msgstr ""
+
+msgid "Unable to find registration template for host %{host} running %{os}"
+msgstr ""
+
+msgid "Unable to find registration template for host %{host} running %{os}, associate the registration template for this OS first"
 msgstr ""
 
 msgid "Unable to find template %s"
@@ -9515,7 +9809,7 @@ msgstr "No es poden obtenir els proveïdors BMC instal·lats"
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr ""
 
-msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
+msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr ""
 
 msgid "Unable to obtain group %{group} from External IPAM."
@@ -9797,6 +10091,9 @@ msgstr "Actualitza un origen d'autenticació LDAP"
 msgid "Update an architecture"
 msgstr "Actualitza una arquitectura"
 
+msgid "Update an email notification for a user"
+msgstr ""
+
 msgid "Update an environment"
 msgstr "Actualitza un entorn"
 
@@ -9835,6 +10132,9 @@ msgstr "Actualitza una combinació de plantilles"
 
 msgid "Update the default PXE menu on all configured TFTP servers"
 msgstr "Actualitza el menú PXE per defecte en tots els servidors TFTP configurats"
+
+msgid "Update value for %s setting"
+msgstr ""
 
 msgid "Update:"
 msgstr "Actualitza:"
@@ -9914,17 +10214,14 @@ msgstr "Utilitza UUID per als certificats"
 msgid "Use short name for VMs"
 msgstr "Utilitza el nom curt per a les MV"
 
-msgid "Use the new engine API."
+msgid "Use the Puppetserver CA configured on this Smart Proxy"
+msgstr ""
+
+msgid "Use the Puppetserver configured on this Smart Proxy"
 msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "Utilitza aquest compte per autenticar, <i>opcional</i>"
-
-msgid "Use this puppet server as a CA server"
-msgstr ""
-
-msgid "Use this puppet server as an initial Puppet Server or to execute puppet runs"
-msgstr ""
 
 msgid "Used"
 msgstr ""
@@ -9957,6 +10254,9 @@ msgstr "Grups d'usuaris"
 msgid "User IDs"
 msgstr "ID d'usuaris"
 
+msgid "User account is disabled, please contact your administrator"
+msgstr ""
+
 msgid "User data template"
 msgstr ""
 
@@ -9972,8 +10272,14 @@ msgstr ""
 msgid "User input"
 msgstr ""
 
+msgid "User is disabled"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
+msgstr ""
+
+msgid "User mail notification already exists. Use the update action"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -10013,6 +10319,9 @@ msgstr "Membre del grup d'usuaris"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "UsergroupMember|Member type"
 msgstr "Tipus de membre"
+
+msgid "Usergroups"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Usergroup|Admin"
@@ -10114,7 +10423,7 @@ msgstr ""
 msgid "VLAN ID for this subnet"
 msgstr "ID de VLAN per aquesta subxarxa"
 
-msgid "VLAN ID is not consistent accross subnets"
+msgid "VLAN ID is not consistent across subnets"
 msgstr ""
 
 msgid "VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces."
@@ -10137,6 +10446,9 @@ msgstr ""
 
 msgid "VM is not running!"
 msgstr "La MV no està executant-se!"
+
+msgid "VM volume attributes are not set properly"
+msgstr ""
 
 msgid "VMRC"
 msgstr ""
@@ -10299,6 +10611,12 @@ msgstr ""
 msgid "Welcome to Foreman"
 msgstr "Benvingut a Foreman"
 
+msgid "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field"
+msgstr ""
+
+msgid "What is ERB"
+msgstr ""
+
 msgid ""
 "When a Host requests a template (e.g. during provisioning), Foreman \\\n"
 "will select the best match from the available templates of that type, in the \\\n"
@@ -10326,10 +10644,16 @@ msgid ""
 "                         Note that not all filters support <br>%{taxonomies}, so these always remain global."
 msgstr ""
 
+msgid "When the system asks for evaluated template, the code in the ERB tags is executed and the variables are replaced with their current values. This process is referred to as rendering. Typically rendering occurs during provisioning, when Kickstart file is asked by Anaconda or partition table is about to be deployed. Rendering also happens when a Remote Execution job is triggered to render the script to be executed. While the ERB exposes the power of programming language executed on the application server, the rendering mechanism has the safemode rendering option enabled by default, which prevents any harmful code being executed from templates."
+msgstr ""
+
 msgid "When using SSH based provisioning, a special SSH key is created in order to automate the provisioning process."
 msgstr ""
 
 msgid "When using TLS, you can set how OpenSSL checks the certificate"
+msgstr ""
+
+msgid "When using external logging, search for request UUID"
 msgstr ""
 
 msgid "Whether or not the image supports user data"
@@ -10363,6 +10687,9 @@ msgid ""
 "                linked to host's fact with name \"cpu_count\" is ready when %{example1} facts contains value\n"
 "                for such fact. To load this value into the template, following code can be used %{example2}\n"
 "                Note that the fact name can differ from input name."
+msgstr ""
+
+msgid "While rendering the template in preview mode, the input either loads the value or uses a placeholder in case the input is not ready for rendering. If the template is rendered and the input is not ready, an error is thrown. The readiness criteria differs per input type, e.g. for Fact inputs linked to a host's fact with the name \"cpu_count\" , when @host contains a value for the fact, the input is ready."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -10415,6 +10742,12 @@ msgstr ""
 msgid "With user groups, you can group your users and assign them roles on a group basis."
 msgstr ""
 
+msgid "Writing ERB Templates"
+msgstr ""
+
+msgid "Writing ERB templates"
+msgstr ""
+
 msgid "X509 Certification Authorities"
 msgstr "Autoritats de certificació X509"
 
@@ -10425,6 +10758,9 @@ msgid "Yes"
 msgstr "Sí"
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
+msgstr ""
+
+msgid "You are about to delete %s. Are you sure?"
 msgstr ""
 
 msgid "You are about to unlock a locked template."
@@ -10478,6 +10814,12 @@ msgstr ""
 msgid "You do not have permission to %s this organization parameter"
 msgstr ""
 
+msgid "You do not have permission to add a mail notification to another user"
+msgstr ""
+
+msgid "You do not have permission to delete a mail notification of another user"
+msgstr ""
+
 msgid "You do not have permission to edit the login"
 msgstr ""
 
@@ -10527,9 +10869,6 @@ msgid "You now act as %s again."
 msgstr ""
 
 msgid "You probably need to configure your %s first."
-msgstr ""
-
-msgid "You would probably need to attach the"
 msgstr ""
 
 msgid "Your Foreman user account has been created:"
@@ -10613,6 +10952,9 @@ msgstr "no pot estar en blanc si no s'ha definit una partició personalitzada"
 msgid "can't be changed once the interface is saved"
 msgstr ""
 
+msgid "can't be set for this interface because it's provided by the compute resource"
+msgstr ""
+
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
@@ -10639,9 +10981,6 @@ msgstr ""
 
 msgid "cannot be changed on an internal protected account"
 msgstr "no es pot canviar en un compte intern protegit"
-
-msgid "cannot be enabled for an unmanaged host"
-msgstr ""
 
 msgid "cannot be removed from an internal protected account"
 msgstr "no es pot suprimir des d'un compte intern protegit"
@@ -10703,6 +11042,12 @@ msgstr "per defecte a 389"
 msgid "determines when the template should associate objects based on metadata, new means only when new template is being created, always means both for new and existing template which is only being updated, never ignores metadata"
 msgstr ""
 
+msgid "disabled"
+msgstr ""
+
+msgid "documentation"
+msgstr ""
+
 msgid "does not appear to be a valid nfs mount path"
 msgstr ""
 
@@ -10733,9 +11078,6 @@ msgstr "p. ex. admin@internal"
 msgid "e.g. givenName"
 msgstr "p. ex. givenName"
 
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "p. ex. https://identity.api.rackspacecloud.com/v2.0"
-
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""
 
@@ -10760,6 +11102,9 @@ msgstr "p. ex. uid"
 msgid "enable caching, for VMware only"
 msgstr ""
 
+msgid "enabled"
+msgstr ""
+
 msgid "environment id"
 msgstr "id d'entorn"
 
@@ -10774,9 +11119,6 @@ msgstr "No s'ha pogut %{action} %{vm}"
 
 msgid "failed to detect boot server: %s"
 msgstr "no s'ha pogut detectar el servidor d'arrencada: %s"
-
-msgid "failed to execute puppetrun: %s"
-msgstr "no s'ha pogut executar puppetrun: %s"
 
 msgid "failed to save %s"
 msgstr "no s'ha pogut desar %s"
@@ -10823,9 +11165,6 @@ msgstr "per a oVirt, VMware Datacenter"
 msgid "for proxy"
 msgstr "per al servidor intermediari"
 
-msgid "free memory"
-msgstr "memòria lliure"
-
 msgid "from profile %s"
 msgstr "des del perfil %s"
 
@@ -10849,6 +11188,9 @@ msgstr "resum"
 
 msgid "hash containing the facts for the host"
 msgstr "el hash que conté els objectes d'interès per a l'amfitrió"
+
+msgid "here"
+msgstr "aquí"
 
 msgid "host"
 msgstr ""
@@ -11109,9 +11451,6 @@ msgstr ""
 msgid "no free IP could be found in our DB"
 msgstr ""
 
-msgid "no puppet proxy defined - cant continue"
-msgstr ""
-
 msgid "no random free IP could be found in our DB, enlarge subnet range"
 msgstr ""
 
@@ -11145,6 +11484,9 @@ msgstr ""
 msgid "oVirt/RHEV template to use"
 msgstr "Plantilla d'oVirt/RHEV a utilitzar"
 
+msgid "of"
+msgstr ""
+
 msgid "off"
 msgstr "apagat"
 
@@ -11174,6 +11516,9 @@ msgstr ""
 
 msgid "pending"
 msgstr "pendent"
+
+msgid "per page"
+msgstr "per pàgina"
 
 msgid "physical"
 msgstr "física"
@@ -11374,9 +11719,6 @@ msgstr "utilitza els grups de xarxa NIS en comptes dels grups posix, només és 
 
 msgid "use if you want update locked templates"
 msgstr ""
-
-msgid "used memory"
-msgstr "memòria utilitzada"
 
 msgid "using %s"
 msgstr ""

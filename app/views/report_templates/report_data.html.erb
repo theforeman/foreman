@@ -1,7 +1,6 @@
 <% title _("Download generated report") %>
 
-<div id="template_generator"></div>
-<%= mount_react_component('TemplateGenerator', '#template_generator', {'templateName' => @template.name}.to_json) %>
+<%= react_component('TemplateGenerator', data: { templateName: @template.name }) %>
 
 <script type="text/javascript">
   tfm.templateInputs.pollReportData('<%= @data_url %>');

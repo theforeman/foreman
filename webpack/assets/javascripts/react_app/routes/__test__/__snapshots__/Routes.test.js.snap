@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Routes rendering routes with children renders routes with chidlren 1`] = `
+<Fragment>
+  <ConnectedForemanSwitcher>
+    <Route
+      key="/host_wizard"
+      path="/host_wizard"
+      render={[Function]}
+    />
+    <Route
+      key="/audits"
+      path="/audits"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      key="/models"
+      path="/models"
+      render={[Function]}
+    />
+    <Route
+      key="/experimental/hosts/:id"
+      path="/experimental/hosts/:id"
+      render={[Function]}
+    />
+  </ConnectedForemanSwitcher>
+  <div
+    id="router-child"
+  />
+</Fragment>
+`;

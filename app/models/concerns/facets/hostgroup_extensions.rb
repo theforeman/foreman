@@ -8,6 +8,8 @@ module Facets
     included do
       configure_facet(:hostgroup, :hostgroup, :hostgroup_id)
 
+      refresh_facet_relations
+
       Facets.after_entry_created do |entry|
         register_facet_relation(entry) if entry.has_hostgroup_configuration?
       end

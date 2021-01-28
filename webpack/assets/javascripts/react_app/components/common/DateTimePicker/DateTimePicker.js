@@ -11,31 +11,42 @@ import DateInput from './DateComponents/DateInput';
 import TodayButton from './DateComponents/TodayButton';
 import TimeInput from './TimeComponents/TimeInput';
 import { MONTH } from './DateComponents/DateConstants';
-import { formatDateTime } from '../../../common/helpers';
+import { noop, formatDateTime } from '../../../common/helpers';
 import './date-time-picker.scss';
 
 class DateTimePicker extends React.Component {
+  get hasDefaultValue() {
+    const { value } = this.props;
+    return !!Date.parse(value);
+  }
+
   get initialDate() {
     const { value } = this.props;
-    return Date.parse(value) ? new Date(value) : new Date();
+    return this.hasDefaultValue ? new Date(value) : new Date();
   }
 
   state = {
     value: this.initialDate,
     typeOfDateInput: MONTH,
     isTimeTableOpen: false,
-    hiddenValue: this.props.hiddenValue,
+    hiddenValue: !this.hasDefaultValue,
   };
 
   setSelected = date => {
     if (Date.parse(date)) {
       const newDate = new Date(date);
       this.setState({ value: newDate });
+      this.props.onChange(newDate);
     }
     this.setState({
       typeOfDateInput: MONTH,
       isTimeTableOpen: false,
     });
+  };
+
+  clearSelected = () => {
+    this.setState({ hiddenValue: true, value: new Date() });
+    this.props.onChange(undefined);
   };
 
   render() {
@@ -101,13 +112,7 @@ class DateTimePicker extends React.Component {
           </OverlayTrigger>
           {!required && (
             <InputGroup.Addon className="clear-button">
-              <Icon
-                type="fa"
-                name="close"
-                onClick={() =>
-                  this.setState({ hiddenValue: true, value: new Date() })
-                }
-              />
+              <Icon type="fa" name="close" onClick={this.clearSelected} />
             </InputGroup.Addon>
           )}
         </InputGroup>
@@ -122,20 +127,21 @@ DateTimePicker.propTypes = {
   weekStartsOn: PropTypes.number,
   inputProps: PropTypes.object,
   id: PropTypes.string,
-  hiddenValue: PropTypes.bool,
   placement: OverlayTrigger.propTypes.placement,
   name: PropTypes.string,
   required: PropTypes.bool,
+  onChange: PropTypes.func,
 };
+
 DateTimePicker.defaultProps = {
-  value: new Date(),
+  value: null,
   locale: 'en-US',
   weekStartsOn: 1,
   inputProps: {},
   id: 'datetime-picker-popover',
-  hiddenValue: true,
   placement: 'top',
   name: undefined,
   required: false,
+  onChange: noop,
 };
 export default DateTimePicker;

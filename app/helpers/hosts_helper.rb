@@ -135,6 +135,23 @@ module HostsHelper
     end
   end
 
+  def host_global_status_link_class(status)
+    if status.status_link
+      case status.to_global
+      when HostStatus::Global::OK
+        'status-ok-link'
+      when HostStatus::Global::WARN
+        'status-warn-link'
+      when HostStatus::Global::ERROR
+        'status-error-link'
+      else
+        'status-question-link'
+      end
+    else
+      host_global_status_class(status.to_global)
+    end
+  end
+
   def days_ago(time)
     ((Time.zone.now - time) / 1.day).ceil.to_i
   end

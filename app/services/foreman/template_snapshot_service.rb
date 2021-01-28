@@ -34,7 +34,7 @@ module Foreman
                                          architectures: [architecture],
                                          media: [medium],
                                          ptables: [ptable])
-      FactoryBot.build(:host, :managed, hostname: 'snapshothost',
+      host = FactoryBot.build(:host, :managed, hostname: 'snapshothost',
                        domain: domain,
                        subnet: subnet,
                        architecture: architecture,
@@ -42,6 +42,25 @@ module Foreman
                        ptable: ptable,
                        operatingsystem: operatingsystem,
                        interfaces: [interface])
+
+      host_params = {
+        "enable-epel" => "true",
+        "package_upgrade" => "true",
+        "ansible_tower_provisioning" => "true",
+        "schedule_reboot" => "true",
+        "fips_enabled" => "true",
+        "force-puppet" => "true",
+        "remote_execution_create_user" => "true",
+        "blacklist_kernel_modules" => "amodule",
+      }
+      host_params.each_pair do |name, value|
+        FactoryBot.build(:host_parameter, host: host, name: name, value: value)
+      end
+      host.define_singleton_method(:params) { host_params }
+      host.define_singleton_method(:host_param) do |name|
+        host_params[name]
+      end
+      host
     end
 
     private

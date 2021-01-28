@@ -67,14 +67,6 @@ class FiltersController < ApplicationController
     @role = Role.find_by_id(role_id)
   end
 
-  def resource_base
-    @resource_base ||= if @role.present?
-                         Filter.authorized(current_permission)
-                       else
-                         Filter.where(nil).authorized(current_permission)
-                       end
-  end
-
   def role_id
     params[:role_id]
   end

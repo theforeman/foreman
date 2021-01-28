@@ -16,7 +16,6 @@ desc <<~END_DESC
       rake reports:expire report_type=MyReport days=3 # expires all reports of type MyReport (class name style) from the last 3 days.
 
 END_DESC
-
 namespace :reports do
   def report_type
     return ConfigReport if ENV['report_type'].blank?
@@ -42,6 +41,7 @@ namespace :reports do
     end
   end
 end
+
 # TRANSLATORS: do not translate
 desc <<~END_DESC
   Send an email notifications such as summarising hosts Puppet reports (and lack of it), audits summaries, built hosts summary etc.
@@ -108,15 +108,15 @@ namespace :reports do
     end
   end
 
-  task :daily => :environment do
+  task :daily => :'dynflow:client' do
     process_notifications :daily
   end
 
-  task :weekly => :environment do
+  task :weekly => :'dynflow:client' do
     process_notifications :weekly
   end
 
-  task :monthly => :environment do
+  task :monthly => :'dynflow:client' do
     process_notifications :monthly
   end
 end

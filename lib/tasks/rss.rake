@@ -21,7 +21,7 @@ namespace :rss do
          FOREMAN_RSS_FORCE_REPOST, no new notifications will be created for these three posts. If you do,
          the task will create notifications once again for "Newsletter December", November and October.
      - FOREMAN_RSS_AUDIENCE
-       + The audience that will recieve the notification. By default, 'global'
+       + The audience that will receive the notification. By default, 'global'
        + Possible values:
          - 'global' - All users will receive the notification
          - 'admin' - Only administrator users will receive the notification

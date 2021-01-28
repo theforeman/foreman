@@ -1,11 +1,44 @@
 import { Meta } from '@theforeman/stories';
 
 <Meta
-  title="Introduction|API Middleware Usage"
+  title="Introduction/API Middleware Usage"
   parameters={{
     storyWeight: 100,
   }}
 />
+
+# How to use API in a Component using useAPI hook
+
+The API middleware is abstracted by the `useAPI` custom hook.
+
+```js
+import { useAPI } from '../common/hooks/API';
+import KEY_FOR_API from './consts';
+import { successCallback, errorCallback } from './helper';
+
+const MyComponent = () => {
+  const options = {
+    handleSuccess: successCallback,
+    handleError: errorCallback,
+    successToast: response => 'This text will be shown as a toast after a success call',
+    errorToast: response => 'This text will be shown as a toast when error occurs',
+  };
+  const {
+    response: { results },
+    status, // The current status of the API call
+    key, // Generated key for storing in redux's store
+  } = useAPI('get', '/api/audits', options);
+  return (
+    <ul>
+      {audits.map(item => (
+        <li key={item.id}>
+          {item.title} {item.action}
+        </li>
+      ))}
+    </ul>
+  );
+};
+```
 
 # Example: how to use the API middleware
 
@@ -100,6 +133,7 @@ export const selectError = state => selectAPIError(state, MY_SPECIAL_KEY);
 ```
 
 ```js
+
 /** MyComponentActions.js*/
 
 export const getData = url => ({
@@ -111,7 +145,7 @@ export const getData = url => ({
       page: 2,
       per_page: 10,
     },
-  }
+  },
 });
 ```
 

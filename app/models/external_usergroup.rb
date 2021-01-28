@@ -20,7 +20,7 @@ class ExternalUsergroup < ApplicationRecord
 
   def users
     auth_source.users_in_group(name)
-  rescue Net::LDAP::Error, Net::LDAP::LdapError => e
+  rescue Net::LDAP::Error => e
     errors.add :auth_source_id, _("LDAP error - %{message}") % { :message => e.message }
     false
   end
@@ -29,7 +29,7 @@ class ExternalUsergroup < ApplicationRecord
 
   def in_auth_source?(source = auth_source)
     errors.add :name, _("is not found in the authentication source") unless source.valid_group?(name)
-  rescue Net::LDAP::Error, Net::LDAP::LdapError => e
+  rescue Net::LDAP::Error => e
     errors.add :auth_source_id, _("LDAP error - %{message}") % { :message => e.message }
   end
 

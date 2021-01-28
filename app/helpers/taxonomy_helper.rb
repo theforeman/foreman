@@ -135,11 +135,11 @@ module TaxonomyHelper
       association = resource.to_s.classify.constantize
     end
     return unless User.current.allowed_to?("view_#{resource}".to_sym)
-    ids = "#{association.where(nil).klass.to_s.underscore.singularize}_ids".to_sym
+    ids = "#{association.all.klass.to_s.underscore.singularize}_ids".to_sym
 
     content_tag(:div, :id => resource, :class => "tab-pane") do
       all_checkbox(f, resource) +
-      multiple_selects(f, association.where(nil).klass.to_s.underscore.pluralize.to_sym, association, taxonomy.selected_or_inherited_ids[ids],
+      multiple_selects(f, association.all.klass.to_s.underscore.pluralize.to_sym, association, taxonomy.selected_or_inherited_ids[ids],
         {:disabled => taxonomy.used_and_selected_or_inherited_ids[ids],
          :label => translated_label(resource, :select)},
         {'data-mismatches' => taxonomy.need_to_be_selected_ids[ids].to_json,

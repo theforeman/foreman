@@ -23,8 +23,8 @@ snippet: true
   end
 
   if mac
-    bootif = '00-' + mac.gsub(':', '-')
-    options.push("BOOTIF=#{bootif}")
+    # hardware type is always 01 (ethernet) unless specified otherwise
+    options.push("BOOTIF=#{host_param("hardware_type", "01")}-#{mac.gsub(':', '-')}")
   end
 
   # tell Anaconda what to pass off to kickstart server
@@ -76,7 +76,8 @@ snippet: true
 
   # bond
   if iface.bond? && rhel_compatible && os_major >= 6
-    options.push("bond=#{iface.identifier}:#{iface.attached_devices_identifiers}:mode=#{iface.mode},#{iface.bond_options.tr(' ', ',')}")
+    bond_slaves = iface.attached_devices_identifiers.join(',')
+    options.push("bond=#{iface.identifier}:#{bond_slaves}:mode=#{iface.mode},#{iface.bond_options.tr(' ', ',')}")
   end
 
   # VLAN (only on physical is recognized)

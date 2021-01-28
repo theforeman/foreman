@@ -265,11 +265,11 @@ class HostsController < ApplicationController
 
   def bmc
     render :partial => 'bmc', :locals => {
-      status: power_status(@host.power.state),
+      status: helpers.power_status(@host.power.state),
       bmc_proxy: @host.bmc_proxy,
     }
   rescue Foreman::BMCFeatureException
-    render :partial => 'bmc_missing_proxy', locals: { bmc_proxy: @host.subnet.bmc, bmc_count: SmartProxy.with_features('BMC').count }
+    render partial: 'bmc_missing_proxy', locals: { bmc_proxy: @host.subnet.bmc, bmc_count: SmartProxy.with_features('BMC').count }
   rescue Foreman::Exception => exception
     process_ajax_error exception, 'fetch bmc information'
   rescue ActionView::Template::Error => exception
@@ -363,7 +363,7 @@ class HostsController < ApplicationController
   # multiple host selection methods
 
   def multiple_parameters
-    @parameters = HostParameter.where(:reference_id => @hosts).select("distinct name")
+    @parameters = HostParameter.where(:reference_id => @hosts).distinct.select("name")
   end
 
   def update_multiple_parameters
@@ -713,7 +713,7 @@ class HostsController < ApplicationController
     # Lets search by name or id and make sure one of them exists first
     if params.key?(:host_names) || params.key?(:host_ids) || multiple_with_filter?
       @hosts = resource_base.search_for(params[:search]) if multiple_with_filter?
-      @hosts ||= resource_base.where("hosts.id IN (?) or hosts.name IN (?)", params[:host_ids], params[:host_names])
+      @hosts ||= resource_base.merge(Host.where(id: params[:host_ids]).or(Host.where(name: params[:host_names])))
       if @hosts.empty?
         error _('No hosts were found with that id, name or query filter')
         redirect_to(hosts_path)

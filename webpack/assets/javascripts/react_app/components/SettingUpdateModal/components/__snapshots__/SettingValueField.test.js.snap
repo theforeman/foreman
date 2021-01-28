@@ -1,0 +1,293 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingValueField should render for array setting 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <FormControl
+        bsClass="form-control"
+        className=""
+        componentClass="textarea"
+      />
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
+exports[`SettingValueField should render for bool setting 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <FormControl
+        bsClass="form-control"
+        className=""
+        componentClass="select"
+      >
+        <option
+          value={true}
+        >
+          Yes
+        </option>
+        <option
+          value={false}
+        >
+          No
+        </option>
+      </FormControl>
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
+exports[`SettingValueField should render for encrypted setting 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <FormControl
+        bsClass="form-control"
+        className="masked-input"
+        componentClass="input"
+      />
+      <HelpBlock
+        bsClass="help-block"
+      >
+        This setting is encrypted. Empty input field is displayed instead of the setting value.
+      </HelpBlock>
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
+exports[`SettingValueField should render for setting with array selection 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <FormControl
+        bsClass="form-control"
+        className=""
+        componentClass="select"
+      >
+        <option
+          key="null"
+          value={null}
+        >
+          Select an owner
+        </option>
+        <optgroup
+          key="Users"
+          label="Users"
+        >
+          <option
+            key="13-Users"
+            value="13-Users"
+          >
+            canned_admin
+          </option>
+          <option
+            key="1"
+            value="19-Users"
+          >
+            user
+          </option>
+          <option
+            key="2"
+            value="27-Users"
+          >
+            viewer
+          </option>
+          <option
+            key="3"
+            value="4-Users"
+          >
+            admin
+          </option>
+        </optgroup>
+        <optgroup
+          key="Usergroups"
+          label="Usergroups"
+        >
+          <option
+            key="1-Usergroups"
+            value="1-Usergroups"
+          >
+            basic broup
+          </option>
+          <option
+            key="1"
+            value="2-Usergroups"
+          >
+            view hosts group
+          </option>
+        </optgroup>
+      </FormControl>
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
+exports[`SettingValueField should render for setting with hash selection 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <FormControl
+        bsClass="form-control"
+        className=""
+        componentClass="select"
+      >
+        <option
+          key="CoreOS PXELinux"
+          value="CoreOS PXELinux"
+        >
+          CoreOS PXELinux
+        </option>
+        <option
+          key="FreeBSD (mfsBSD) PXELinux"
+          value="FreeBSD (mfsBSD) PXELinux"
+        >
+          FreeBSD (mfsBSD) PXELinux
+        </option>
+        <option
+          key="Kickstart default PXELinux"
+          value="Kickstart default PXELinux"
+        >
+          Kickstart default PXELinux
+        </option>
+        <option
+          key="Kickstart oVirt-RHVH PXELinux"
+          value="Kickstart oVirt-RHVH PXELinux"
+        >
+          Kickstart oVirt-RHVH PXELinux
+        </option>
+        <option
+          key="Preseed default PXELinux"
+          value="Preseed default PXELinux"
+        >
+          Preseed default PXELinux
+        </option>
+        <option
+          key="PXELinux chain iPXE"
+          value="PXELinux chain iPXE"
+        >
+          PXELinux chain iPXE
+        </option>
+        <option
+          key="PXELinux chain iPXE UNDI"
+          value="PXELinux chain iPXE UNDI"
+        >
+          PXELinux chain iPXE UNDI
+        </option>
+        <option
+          key="PXELinux default local boot"
+          value="PXELinux default local boot"
+        >
+          PXELinux default local boot
+        </option>
+        <option
+          key="PXELinux default memdisk"
+          value="PXELinux default memdisk"
+        >
+          PXELinux default memdisk
+        </option>
+        <option
+          key="PXELinux global default"
+          value="PXELinux global default"
+        >
+          PXELinux global default
+        </option>
+        <option
+          key="RancherOS PXELinux"
+          value="RancherOS PXELinux"
+        >
+          RancherOS PXELinux
+        </option>
+        <option
+          key="[templates] A fake pxelinux"
+          value="[templates] A fake pxelinux"
+        >
+          [templates] A fake pxelinux
+        </option>
+        <option
+          key="TEST default"
+          value="TEST default"
+        >
+          TEST default
+        </option>
+        <option
+          key="WAIK default PXELinux"
+          value="WAIK default PXELinux"
+        >
+          WAIK default PXELinux
+        </option>
+        <option
+          key="Windows default PXELinux"
+          value="Windows default PXELinux"
+        >
+          Windows default PXELinux
+        </option>
+        <option
+          key="XenServer default PXELinux"
+          value="XenServer default PXELinux"
+        >
+          XenServer default PXELinux
+        </option>
+      </FormControl>
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
+exports[`SettingValueField should render for string setting 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <FormControl
+        bsClass="form-control"
+        className=""
+        componentClass="input"
+      />
+    </Col>
+  </FormGroup>
+</Fragment>
+`;

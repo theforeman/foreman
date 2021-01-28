@@ -1,5 +1,7 @@
+require 'webpack-rails'
 module ReactjsHelper
   def mount_react_component(name, selector, data = [], opts = {})
+    Foreman::Deprecation.deprecation_warning('2.5', 'use #react_component instead of #mount_react_component')
     javascript_tag defer: 'defer' do
       "$(tfm.reactMounter.mount('#{name}', '#{selector}', #{data}, #{opts[:flatten_data] || false}));".html_safe
     end
@@ -13,7 +15,11 @@ module ReactjsHelper
   def react_component(name, props = {})
     props = props.to_json if props.is_a?(Hash)
 
-    content_tag('react-component', '', :name => name, :data => { props: props })
+    content_tag('foreman-react-component', '', :name => name, :data => { props: props })
+  end
+
+  def webpacked_plugins_with_global_css
+    global_css_tags(global_plugins_list).join.html_safe
   end
 
   def webpacked_plugins_js_for(*plugin_names)
@@ -21,7 +27,7 @@ module ReactjsHelper
   end
 
   def webpacked_plugins_with_global_js
-    js_tags_for_global_files(Foreman::Plugin.with_global_js.map { |plugin| { id: plugin.id, files: plugin.global_js_files } }).join.html_safe
+    global_js_tags(global_plugins_list).join.html_safe
   end
 
   def webpacked_plugins_css_for(*plugin_names)
@@ -44,10 +50,18 @@ module ReactjsHelper
     end
   end
 
-  def js_tags_for_global_files(requested_plugins)
+  def global_js_tags(requested_plugins)
     requested_plugins.map do |plugin|
       plugin[:files].map do |file|
-        javascript_include_tag(*webpack_asset_paths(plugin[:id].to_s + ":#{file}", :extension => 'js'), :defer => "defer")
+        javascript_include_tag(*webpack_asset_paths("#{plugin[:id]}:#{file}", :extension => 'js'), :defer => "defer")
+      end
+    end
+  end
+
+  def global_css_tags(requested_plugins)
+    requested_plugins.map do |plugin|
+      plugin[:files].map do |file|
+        stylesheet_link_tag(*webpack_asset_paths("#{plugin[:id]}:#{file}", :extension => 'css'))
       end
     end
   end
@@ -56,5 +70,11 @@ module ReactjsHelper
     requested_plugins.map do |plugin|
       stylesheet_link_tag(*webpack_asset_paths(plugin.to_s, :extension => 'css'))
     end
+  end
+
+  private
+
+  def global_plugins_list
+    Foreman::Plugin.with_global_js.map { |plugin| { id: plugin.id, files: plugin.global_js_files } }
   end
 end

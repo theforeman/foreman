@@ -3,7 +3,7 @@ require 'test_helper'
 class DefaultMediumProviderTest < ActiveSupport::TestCase
   test 'returns default provider for managed host' do
     host = FactoryBot.create(:host, :managed)
-    medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+    medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
     assert_instance_of MediumProviders::Default, medium_provider
   end
 

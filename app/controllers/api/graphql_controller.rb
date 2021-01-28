@@ -102,7 +102,7 @@ module Api
       render_error
     end
 
-    def render_error(error = 'An error occured.', options = {})
+    def render_error(error = 'An error occurred.', options = {})
       options[:status] ||= :internal_server_error
       render options.merge(json: {error: error})
     end

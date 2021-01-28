@@ -12,54 +12,59 @@ module OperatingsystemsHelper
   def icon(record, opts = {})
     return "" if record.blank? || record.name.blank?
     size = opts[:size] ||= '16x16'
-    name = case record.name
-           when /fedora/i
+    name = case record.name.downcase
+           when /fedora/
              "fedora"
-           when /ubuntu/i
+           when /ubuntu/
              "ubuntu"
-           when /solaris|sunos/i
+           when /solaris|sunos/
              "stub/steelblue-s"
-           when /darwin/i
+           when /darwin/
              "stub/darkred-d"
-           when /centos/i
+           when /centos/
              "centos"
-           when /scientific/i
+           when /scientific/
              "scientific"
-           when /archlinux/i
+           when /archlinux/
              "archlinux"
-           when /altlinux/i
-             "stub/goldenrod-a"
-           when /gentoo/i
+           when /^alt/
+             "alt"
+           when /gentoo/
              "gentoo"
-           when /SLC/i
+           when /slc/
              "stub/blue-s"
-           when /FreeBSD/i
+           when /freebsd/
              "freebsd"
-           when /aix/i
+           when /aix/
              "stub/forestgreen-a"
-           when /Junos/i
+           when /junos/
              "stub/darkblue-j"
-           when /VRP/i
+           when /vrp/
              "stub/firebrick-h"
-           when /OracleLinux/i
+           when /oraclelinux/
              "stub/firebrick-o"
-           when /CoreOS|ContainerLinux|Container Linux/i
+           when /coreos|containerlinux|container linux/
              "coreos"
-           when /Flatcar/i
+           when /flatcar/
              "stub/darkblue-f"
-           when /RancherOS/i
+           when /rancheros/
              "rancheros"
-           when /NXOS/i
+           when /nxos/
              "stub/darkslateblue-n"
-           when /XenServer/i
+           when /xenserver/
              "stub/black-x"
-           when /Puppet/i
+           when /puppet/
              "stub/goldenrod-p"
-           when /Windows/i
+           when /windows/
              "stub/steelblue-w"
+           when /OpenWrt/i
+             "openwrt"
            else
-             return os_image_tag(size, "stub/black-x", opts) if record.family.blank?
-             record.family.downcase
+             if record.family.blank?
+               'stub/black-x'
+             else
+               record.family.downcase
+             end
            end
     return image_path("icons#{size}/#{name}.png") if opts[:path]
 

@@ -24,14 +24,14 @@ class LayoutHelperTest < ActionView::TestCase
 
   test "breadcrumbs are not mounted on non-ok pages" do
     response.stubs(:ok?).returns(false)
-    expects(:mount_react_component).never
+    expects(:react_component).never
 
     mount_breadcrumbs
   end
 
   test "breadcrumbs are not mounted on welcome pages" do
     @welcome = true
-    expects(:mount_react_component).never
+    expects(:react_component).never
 
     mount_breadcrumbs
   end

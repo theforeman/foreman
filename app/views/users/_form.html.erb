@@ -15,6 +15,9 @@
     <% if @editing_self || authorized_for(:controller => 'ssh_keys', :action => :view) %>
       <li><a href='#ssh_keys' data-toggle='tab'><%= _('SSH Keys') %></a></li>
     <% end %>
+    <% if @editing_self || (@user.persisted? && authorized_for(hash_for_api_user_personal_access_tokens_path(user_id: @user))) %>
+      <li><a href='#personal_access_tokens' data-toggle='tab'><%= _('Personal Access Tokens') %></a></li>
+    <% end %>
   </ul>
 
   <div class='tab-content'>
@@ -45,15 +48,14 @@
         <% if User.current == @user  %>
           <%= password_f f, :current_password, :label => _('Current password'), :placeholder => '' %>
         <% end %>
-        <div id="password_react"></div>
-        <%= mount_react_component('PasswordStrength', '#password_react',
-                                  {:className => 'form-control',
+        <%= react_component('PasswordStrength',
+                            {data: {:className => 'form-control',
                                    :id => 'user_password',
                                    :userInputIds => ['user_login'],
                                    :name => 'user[password]',
                                    :verify => {name: 'user[password_confirmation]', :error => f.object.errors[:password_confirmation].present? ? f.object.errors[:password_confirmation].to_sentence : false},
                                    :error => f.object.errors[:password_hash].present? ? f.object.errors[:password_hash].to_sentence : false,
-                                   :required => f.object.new_record? }.to_json) %>
+                                   :required => f.object.new_record? }}) %>
       </div>
     </div>
 
@@ -88,6 +90,10 @@
 
     <% if @editing_self || authorized_for(:controller => 'ssh_keys', :action => :view) %>
       <%= render 'ssh_keys/ssh_keys_tab', :f => f, :user => @user %>
+    <% end %>
+
+    <% if @editing_self || (@user.persisted? && authorized_for(hash_for_api_user_personal_access_tokens_path(user_id: @user))) %>
+      <%= render 'personal_access_tokens/personal_access_tokens_tab', :f => f, :user => @user %>
     <% end %>
 
     <div class='tab-pane' id='roles'>

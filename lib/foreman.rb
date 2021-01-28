@@ -2,14 +2,14 @@ require 'securerandom'
 module Foreman
   # generate a UUID
   def self.uuid
-    SecureRandom.uuid.to_s
+    SecureRandom.uuid
   end
 
   UUID_REGEXP = Regexp.new("^([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-" +
-                           "([0-9a-f]{2})([0-9a-f]{2})-([0-9a-f]{12})$")
+                           "([0-9a-f]{4})-([0-9a-f]{12})$")
   # does this look like a UUID?
   def self.is_uuid?(str)
-    !!(str =~ UUID_REGEXP)
+    str.is_a?(String) && str.length == 36 && str.match?(UUID_REGEXP)
   end
 
   def self.in_rake?(*rake_tasks)
@@ -29,5 +29,9 @@ module Foreman
 
   def self.instance_id=(value)
     Setting[:instance_id] = value
+  end
+
+  def self.input_types_registry
+    @input_types_registry ||= Foreman::InputTypesRegistry.new
   end
 end

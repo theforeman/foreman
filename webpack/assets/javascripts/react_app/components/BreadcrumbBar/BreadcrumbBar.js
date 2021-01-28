@@ -9,7 +9,7 @@ import './BreadcrumbBar.scss';
 class BreadcrumbBar extends React.Component {
   handleOpen() {
     const {
-      data: { resource },
+      resource,
       loadSwitcherResourcesByResource,
       currentPage,
       resourceUrl,
@@ -17,7 +17,7 @@ class BreadcrumbBar extends React.Component {
     } = this.props;
     const isUrlFormatValid = resourceSwitcherItems.length
       ? resourceSwitcherItems[0].url ===
-        resource.switcherItemUrl.replace(':id', resourceSwitcherItems[0].id)
+        resource.switcherItemUrl?.replace(':id', resourceSwitcherItems[0].id)
       : true;
     if (
       !currentPage ||
@@ -30,7 +30,9 @@ class BreadcrumbBar extends React.Component {
 
   render() {
     const {
-      data: { breadcrumbItems, isSwitchable, resource },
+      breadcrumbItems,
+      isSwitchable,
+      resource,
       currentPage,
       totalPages,
       resourceSwitcherItems,
@@ -61,7 +63,6 @@ class BreadcrumbBar extends React.Component {
     return (
       <div className="breadcrumb-bar">
         <Breadcrumb
-          title
           items={breadcrumbItems}
           isTitle={isTitle}
           titleReplacement={titleReplacement}
@@ -109,16 +110,14 @@ class BreadcrumbBar extends React.Component {
 }
 
 BreadcrumbBar.propTypes = {
-  data: PropTypes.shape({
-    isSwitchable: PropTypes.bool,
-    resource: PropTypes.shape({
-      nameField: PropTypes.string,
-      resourceUrl: PropTypes.string,
-      switcherItemUrl: PropTypes.string,
-      resourceFilter: PropTypes.string,
-    }),
-    breadcrumbItems: Breadcrumb.propTypes.items,
+  isSwitchable: PropTypes.bool,
+  resource: PropTypes.shape({
+    nameField: PropTypes.string,
+    resourceUrl: PropTypes.string,
+    switcherItemUrl: PropTypes.string,
+    resourceFilter: PropTypes.string,
   }),
+  breadcrumbItems: Breadcrumb.propTypes.items,
   searchDebounceTimeout: PropTypes.number,
   searchQuery: PropTypes.string,
   currentPage: PropTypes.number,
@@ -137,10 +136,9 @@ BreadcrumbBar.propTypes = {
 };
 
 BreadcrumbBar.defaultProps = {
-  data: {
-    breadcrumbItems: [],
-    isSwitchable: false,
-  },
+  isSwitchable: false,
+  resource: {},
+  breadcrumbItems: [],
   searchQuery: '',
   currentPage: null,
   totalPages: 1,

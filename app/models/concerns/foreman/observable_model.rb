@@ -31,8 +31,8 @@ module Foreman
       end
     end
 
-    def event_payload_for(payload, blk)
-      super || { id: id }
+    def event_payload_for(payload, block_argument, blk)
+      super || { object: self }
     end
   end
 end

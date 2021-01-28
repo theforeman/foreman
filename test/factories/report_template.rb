@@ -13,6 +13,10 @@ FactoryBot.define do
       snippet { true }
     end
 
+    trait :locked do
+      locked { true }
+    end
+
     trait :with_report_render do
       template { "<%= report_render -%>" }
     end

@@ -46,9 +46,7 @@ class Host::Managed < Host::Base
     output
   end
 
-  set_crud_hooks :host do |h|
-    { id: h.id, hostname: h.hostname }
-  end
+  set_crud_hooks :host
 
   set_hook :build_entered, if: -> { saved_change_to_build? && build? } do |h|
     { id: h.id, hostname: h.hostname }
@@ -56,6 +54,10 @@ class Host::Managed < Host::Base
 
   set_hook :build_exited, if: -> { saved_change_to_build? && !build? } do |h|
     { id: h.id, hostname: h.hostname }
+  end
+
+  set_hook :status_changed, if: -> { saved_change_to_global_status? } do |h|
+    { id: h.id, hostname: h.hostname, global_status: { from: h.previous_changes[:global_status][0], to: h.previous_changes[:global_status][1] } }
   end
 
   # Define custom hook that can be called in model by magic methods (before, after, around)
@@ -159,9 +161,10 @@ class Host::Managed < Host::Base
     property :cores, Integer, desc: 'Returns number of the host\'s cores'
     property :params, Hash, desc: 'Returns name=value object with host\'s parameters'
     property :pxe_loader_efi?, one_of: [true, false], desc: 'Returns true if PXE Loader uses EFI, false otherwise'
+    property :created_at, 'ActiveSupport::TimeWithZone', desc: 'The time when the host was created'
   end
   class Jail < ::Safemode::Jail
-    allow :id, :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
+    allow :id, :name, :created_at, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :subnet6, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :nil?, :indent, :primary_interface,
@@ -188,7 +191,7 @@ class Host::Managed < Host::Base
   }
 
   scope :not_disabled, lambda {
-    where(["#{Host.table_name}.enabled != ?", false])
+    where.not(enabled: false)
   }
 
   scope :with_last_report_within, lambda { |minutes|
@@ -204,7 +207,7 @@ class Host::Managed < Host::Base
   }
 
   scope :with_status, lambda { |status_type|
-    eager_load(:host_statuses).where("host_status.type = '#{status_type}'")
+    eager_load(:host_statuses).where(host_status: {type: status_type})
   }
 
   scope :with_config_status, lambda {
@@ -338,6 +341,10 @@ class Host::Managed < Host::Base
     def compute_provides?(attr)
       false
     end
+
+    def without_orchestration
+      yield
+    end
   end
 
   before_validation :set_hostgroup_defaults, :set_ip_address
@@ -366,12 +373,12 @@ class Host::Managed < Host::Base
 
   def clear_reports
     # Remove any reports that may be held against this host
-    Report.where("host_id = #{id}").delete_all
+    Report.where(host_id: id).delete_all
     self.last_report = nil
   end
 
   def clear_facts
-    FactValue.where("host_id = #{id}").delete_all
+    FactValue.where(host_id: id).delete_all
   end
 
   def clear_data_on_build
@@ -784,7 +791,7 @@ autopart"', desc: 'to render the content of host partition table'
   def bmc_available?
     ipmi = bmc_nic
     return false if ipmi.nil?
-    (ipmi.password.present? && ipmi.username.present? && ipmi.provider == 'IPMI') || ipmi.provider == 'SSH'
+    (ipmi.password.present? && ipmi.username.present? && %w(IPMI Redfish).include?(ipmi.provider)) || ipmi.provider == 'SSH'
   end
 
   def ipmi_boot(booting_device)

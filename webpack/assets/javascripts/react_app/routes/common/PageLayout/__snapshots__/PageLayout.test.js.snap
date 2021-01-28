@@ -7,44 +7,44 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Head>
+      <title />
+    </Head>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "data": Object {
-              "breadcrumbItems": Array [
-                Object {
-                  "caption": "root",
-                  "url": "/some-url",
-                },
-                Object {
-                  "caption": "child with onClick",
-                  "onClick": [MockFunction],
-                },
-                Object {
-                  "caption": "active child",
-                },
-              ],
-              "isSwitchable": false,
-              "resource": Object {
-                "nameField": "name",
-                "resourceUrl": "some/url",
-                "switcherItemUrl": "some/url/:id",
-              },
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />
     </div>
-    beforeToolbarComponent
+    <p>
+      beforeToolbarComponent
+    </p>
     <Row
       bsClass="row"
       componentClass="div"
@@ -55,33 +55,29 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -107,39 +103,37 @@ exports[`render pageLayout w/search 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Head>
+      <title />
+    </Head>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "data": Object {
-              "breadcrumbItems": Array [
-                Object {
-                  "caption": "root",
-                  "url": "/some-url",
-                },
-                Object {
-                  "caption": "child with onClick",
-                  "onClick": [MockFunction],
-                },
-                Object {
-                  "caption": "active child",
-                },
-              ],
-              "isSwitchable": false,
-              "resource": Object {
-                "nameField": "name",
-                "resourceUrl": "some/url",
-                "switcherItemUrl": "some/url/:id",
-              },
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />
@@ -154,33 +148,29 @@ exports[`render pageLayout w/search 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -206,39 +196,45 @@ exports[`render pageLayout w/toastNotifications 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications="notification"
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Head>
+      <title />
+    </Head>
+    <Connect(ToastsList)
+      railsMessages={
+        Array [
+          Object {
+            "key": "test-key",
+            "message": "Widget positions successfully saved.",
+            "type": "success",
+          },
+        ]
+      }
+    />
     <div
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "data": Object {
-              "breadcrumbItems": Array [
-                Object {
-                  "caption": "root",
-                  "url": "/some-url",
-                },
-                Object {
-                  "caption": "child with onClick",
-                  "onClick": [MockFunction],
-                },
-                Object {
-                  "caption": "active child",
-                },
-              ],
-              "isSwitchable": false,
-              "resource": Object {
-                "nameField": "name",
-                "resourceUrl": "some/url",
-                "switcherItemUrl": "some/url/:id",
-              },
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />
@@ -253,33 +249,29 @@ exports[`render pageLayout w/toastNotifications 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -305,39 +297,37 @@ exports[`render pageLayout w/toolBar 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Head>
+      <title />
+    </Head>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "data": Object {
-              "breadcrumbItems": Array [
-                Object {
-                  "caption": "root",
-                  "url": "/some-url",
-                },
-                Object {
-                  "caption": "child with onClick",
-                  "onClick": [MockFunction],
-                },
-                Object {
-                  "caption": "active child",
-                },
-              ],
-              "isSwitchable": false,
-              "resource": Object {
-                "nameField": "name",
-                "resourceUrl": "some/url",
-                "switcherItemUrl": "some/url/:id",
-              },
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />
@@ -352,33 +342,29 @@ exports[`render pageLayout w/toolBar 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -390,7 +376,9 @@ exports[`render pageLayout w/toolBar 1`] = `
         <div
           className="btn-toolbar pull-right"
         >
-          toolbarButton
+          <button>
+            toolbarButton
+          </button>
         </div>
       </Col>
     </Row>
@@ -406,16 +394,18 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Head>
+      <title />
+    </Head>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
-      <Component />
+      <p>
+        customBreadcrumbs
+      </p>
     </div>
     <Row
       bsClass="row"
@@ -427,33 +417,29 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -479,12 +465,12 @@ exports[`render pageLayout without breadcrumbs 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Head>
+      <title />
+    </Head>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
@@ -493,9 +479,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
       >
         <h1
           className="col-md-8"
-        >
-          Page
-        </h1>
+        />
       </div>
     </div>
     <Row
@@ -508,33 +492,29 @@ exports[`render pageLayout without breadcrumbs 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -560,39 +540,37 @@ exports[`render pageLayout without search 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Head>
+      <title />
+    </Head>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
-        data={
-          Object {
-            "data": Object {
-              "breadcrumbItems": Array [
-                Object {
-                  "caption": "root",
-                  "url": "/some-url",
-                },
-                Object {
-                  "caption": "child with onClick",
-                  "onClick": [MockFunction],
-                },
-                Object {
-                  "caption": "active child",
-                },
-              ],
-              "isSwitchable": false,
-              "resource": Object {
-                "nameField": "name",
-                "resourceUrl": "some/url",
-                "switcherItemUrl": "some/url/:id",
-              },
+        breadcrumbItems={
+          Array [
+            Object {
+              "caption": "root",
+              "url": "/some-url",
             },
+            Object {
+              "caption": "child with onClick",
+              "onClick": [MockFunction],
+            },
+            Object {
+              "caption": "active child",
+            },
+          ]
+        }
+        isSwitchable={false}
+        resource={
+          Object {
+            "nameField": "name",
+            "resourceUrl": "some/url",
+            "switcherItemUrl": "some/url/:id",
           }
         }
       />

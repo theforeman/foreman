@@ -209,6 +209,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
       as_admin do
         FactoryBot.create(:host,
           :with_dhcp_orchestration,
+          :compute_resource => nil,
           :subnet => subnet,
           :interfaces => interfaces,
           :build => true,

@@ -50,12 +50,16 @@ class ReportImporter
     end
   end
 
-  def scan
+  def add_reporter_specific_data
     logger.info "Scanning report with: #{report_scanners.join(', ')}"
     report_scanners.each do |scanner|
-      break if scanner.scan(report, logs)
+      if (origin = scanner.identify_origin(raw))
+        report.origin = origin
+        scanner.add_reporter_data(report, raw)
+        break
+      end
     end
-    logger.debug { "Changes after scanning: #{report.changes.inspect}" }
+    logger.debug { "Changes after reporter specific data added: #{report.changes.inspect}" }
   end
 
   private
@@ -154,7 +158,7 @@ class ReportImporter
     @report = report_name_class.new(:host => host, :reported_at => time, :status => status, :metrics => raw['metrics'])
 
     # Run report scanner
-    scan
+    add_reporter_specific_data
 
     @report.save
     @report

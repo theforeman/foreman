@@ -31,6 +31,11 @@ oses:
 /bin/hostname  <%= @host.shortname %>.<%= @host.domain %>
 <% end -%>
 
+<% if @host.provision_method == 'image' && root_pass.present? -%>
+# Install the root password
+echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
+
+<% end -%>
 <%= snippet_if_exists(template_name + " custom snippet") %>
 <% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>
@@ -55,6 +60,8 @@ oses:
 <%= snippet 'saltstack_setup' %>
 <% end -%>
 
-<%= snippet 'preseed_networking_setup' %>
-<%= snippet 'efibootmgr_netboot' %>
-<%= snippet 'built' %>
+<%= snippet 'preseed_networking_setup' -%>
+<%= snippet 'efibootmgr_netboot' -%>
+<%= snippet 'eject_cdrom' -%>
+<%= snippet 'built' -%>
+<%= snippet 'schedule_reboot' -%>

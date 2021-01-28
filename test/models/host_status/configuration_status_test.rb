@@ -139,17 +139,17 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
   end
 
   test '.is_not' do
-    assert_equal '((host_status.status >> 6 & 63) = 0)', HostStatus::ConfigurationStatus.is_not('restarted')
+    assert_equal '((host_status.status >> 10 & 1023) = 0)', HostStatus::ConfigurationStatus.is_not('restarted')
   end
 
   test '.is' do
-    assert_equal '((host_status.status >> 6 & 63) != 0)', HostStatus::ConfigurationStatus.is('restarted')
+    assert_equal '((host_status.status >> 10 & 1023) != 0)', HostStatus::ConfigurationStatus.is('restarted')
   end
 
   test '.bit_mask' do
-    assert_equal '0 & 63', HostStatus::ConfigurationStatus.bit_mask('applied')
-    assert_equal '6 & 63', HostStatus::ConfigurationStatus.bit_mask('restarted')
-    assert_equal '12 & 63', HostStatus::ConfigurationStatus.bit_mask('failed')
+    assert_equal '0 & 1023', HostStatus::ConfigurationStatus.bit_mask('applied')
+    assert_equal '10 & 1023', HostStatus::ConfigurationStatus.bit_mask('restarted')
+    assert_equal '20 & 1023', HostStatus::ConfigurationStatus.bit_mask('failed')
   end
 
   test 'host search by status works' do

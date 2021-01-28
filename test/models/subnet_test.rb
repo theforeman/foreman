@@ -14,6 +14,16 @@ class SubnetTest < ActiveSupport::TestCase
   should belong_to(:dns)
   should belong_to(:dhcp)
 
+  test 'hooks are defined' do
+    expected = [
+      'subnet_created.event.foreman',
+      'subnet_updated.event.foreman',
+      'subnet_destroyed.event.foreman',
+    ]
+
+    assert_same_elements expected, Subnet.event_subscription_hooks
+  end
+
   test 'should sort by vlanid as number' do
     # ensure we have subnets that would be incorrectly sorted in text sort
     FactoryBot.create(:subnet_ipv4, vlanid: 3)

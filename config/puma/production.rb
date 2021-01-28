@@ -19,6 +19,27 @@ workers ENV.fetch('FOREMAN_PUMA_WORKERS', 2).to_i
 #
 preload_app!
 
+# When systemd socket activation is detected, only use those sockets. This
+# makes FOREMAN_BIND redundant. The code is still there for non-systemd
+# deployments.
+bind_to_activated_sockets 'only'
+
+# Check if FOREMAN_BIND was set to an IP address based on the previous
+# definition of FOREMAN_BIND. If it is an IP address, define the host
+# and port through Puma's DSL. Otherwise rescue and assume the new
+# style of a fully specified bind in the formats of:
+#
+#  * unix:///run/foreman.sock
+#  * tcp://127.0.0.1:3000
+#
+begin
+  IPAddr.new(ENV['FOREMAN_BIND'])
+
+  port ENV.fetch('FOREMAN_PORT', '3000'), ENV['FOREMAN_BIND']
+rescue IPAddr::Error
+  bind ENV.fetch('FOREMAN_BIND', 'tcp://127.0.0.1:3000')
+end
+
 on_worker_boot do
   dynflow = ::Rails.application.dynflow
   dynflow.initialize! unless dynflow.config.lazy_initialization

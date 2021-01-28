@@ -172,7 +172,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       assert_equal uuid, host.uuid
       assert_nil host.domain
       assert_equal '00:1a:4a:23:1b:8f', host.mac
-      assert_equal host.primary_interface.compute_attributes, { "name" => "nic1", "network" => "00000000-0000-0000-0000-000000000009", "interface" => "virtio" }
+      assert_equal host.primary_interface.compute_attributes, { "name" => "nic1", "network" => "00000000-0000-0000-0000-000000000009", "interface" => "virtio", "vnic_profile" => "871f3a06-ef53-4ab1-922f-5aa2bea2e94e" }
       assert_equal compute_resource, host.compute_resource
     end
   end

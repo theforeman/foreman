@@ -5,11 +5,9 @@
 /* eslint-disable jquery/no-each */
 
 import $ from 'jquery';
-import URI from 'urijs';
 import { translate as __ } from './react_app/common/I18n';
-import { deprecate } from './react_app/common/DeprecationService';
 
-import { showLoading, hideLoading, visit } from './foreman_navigation';
+import { showLoading, hideLoading } from './foreman_navigation';
 
 export * from './react_app/common/DeprecationService';
 
@@ -104,33 +102,17 @@ export function initTypeAheadSelect(input) {
   });
 }
 
-// handle table updates via turoblinks
-export function updateTable(element) {
-  deprecate('updateTable', 'react Table component', '2.1');
-  const uri = new URI(window.location.href);
-
-  const values = {};
-
-  if (['per_page', 'search-form'].includes(element.id)) {
-    values.page = '1';
-  } else {
-    values.page = $('#cur_page_num').val();
-  }
-
-  const searchTerm = $(element)
-    .find('.autocomplete-input')
-    .val();
-  if (searchTerm !== undefined) {
-    values.search = searchTerm.trim();
-  }
-  values.per_page = $('#pagination-row-dropdown')
-    .text()
-    .trim();
-  uri.setSearch(values);
-
-  visit(uri.toString());
-  return false;
-}
-
 // generates an absolute, needed in case of running Foreman from a subpath
 export { foremanUrl } from './react_app/common/helpers';
+
+export const setTab = () => {
+  const urlHash = document.location.hash.split('?')[0];
+  if (urlHash.length) {
+    const tabContent = $(urlHash);
+    const parentTab = tabContent.closest('.tab-pane');
+    if (parentTab.exists()) {
+      $(`.nav-tabs a[href="#${parentTab[0].id}"]`).tab('show');
+    }
+    $(`.nav-tabs a[href="${urlHash}"]`).tab('show');
+  }
+};

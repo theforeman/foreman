@@ -44,10 +44,9 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   setup :clear_plugins
-  teardown :restore_plugins
 
   def test_register
-    @klass.register :foo do
+    Foreman::Plugin.register :foo do
       name 'Foo plugin'
       url 'http://example.net/plugins/foo'
       author 'John Smith'
@@ -57,9 +56,9 @@ class PluginTest < ActiveSupport::TestCase
       path '/some/path/on/disk'
     end
 
-    assert_equal 1, @klass.all.size
+    assert_equal 1, Foreman::Plugin.all.size
 
-    plugin = @klass.find('foo')
+    plugin = Foreman::Plugin.find('foo')
     assert plugin.is_a?(Foreman::Plugin)
     assert_equal :foo, plugin.id
     assert_equal 'Foo plugin', plugin.name
@@ -72,15 +71,15 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   def test_installed
-    @klass.register(:foo) {}
-    assert_equal true, @klass.installed?(:foo)
-    assert_equal false, @klass.installed?(:bar)
+    Foreman::Plugin.register(:foo) {}
+    assert_equal true, Foreman::Plugin.installed?(:foo)
+    assert_equal false, Foreman::Plugin.installed?(:bar)
   end
 
   def test_menu
     url_hash = {:controller => 'hosts', :action => 'index'}
     assert_difference 'Menu::Manager.items(:project_menu).size' do
-      @klass.register :foo do
+      Foreman::Plugin.register :foo do
         menu :project_menu, :foo_menu_item, :url_hash => url_hash, :caption => 'Foo'
       end
     end
@@ -93,7 +92,7 @@ class PluginTest < ActiveSupport::TestCase
   def test_delete_menu_item
     Menu::Manager.map(:project_menu).item(:foo_menu_item, :caption => 'Foo')
     assert_difference 'Menu::Manager.items(:project_menu).size', -1 do
-      @klass.register :foo do
+      Foreman::Plugin.register :foo do
         delete_menu_item :project_menu, :foo_menu_item
       end
     end
@@ -180,16 +179,16 @@ class PluginTest < ActiveSupport::TestCase
   def test_requires_foreman_plugin
     test = self
     other_version = '0.5.0'
-    @klass.register :other do
+    Foreman::Plugin.register :other do
       name 'Other'
       version other_version
     end
     other_version_pre = '0.5.0.pre.master'
-    @klass.register :other_pre do
+    Foreman::Plugin.register :other_pre do
       name 'Other'
       version other_version_pre
     end
-    @klass.register :foo do
+    Foreman::Plugin.register :foo do
       test.assert requires_foreman_plugin(:other, '>= 0.1.0')
       test.assert requires_foreman_plugin(:other, other_version)
       test.assert_raise Foreman::PluginRequirementError do
@@ -221,36 +220,36 @@ class PluginTest < ActiveSupport::TestCase
     Foreman::Renderer.configure { |config| config.allowed_generic_helpers -= [:my_helper] }
     refute_includes Foreman::Renderer.config.allowed_helpers, :my_helper
 
-    @klass.register :foo do
+    Foreman::Plugin.register :foo do
       allowed_template_helpers :my_helper
     end
 
     # simulate application start
-    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+    Foreman::Plugin.find(:foo).to_prepare_callbacks.each(&:call)
     assert_includes Foreman::Renderer.config.allowed_helpers, :my_helper
   end
 
   def test_register_allowed_template_variables
     refute_includes Foreman::Renderer.config.allowed_variables, :my_variable
 
-    @klass.register :foo do
+    Foreman::Plugin.register :foo do
       allowed_template_variables :my_variable
     end
 
     # simulate application start
-    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+    Foreman::Plugin.find(:foo).to_prepare_callbacks.each(&:call)
     assert_includes Foreman::Renderer.config.allowed_variables, :my_variable
   end
 
   def test_register_allowed_global_settings
     refute_includes Foreman::Renderer.config.allowed_global_settings, :my_global_setting
 
-    @klass.register :foo do
+    Foreman::Plugin.register :foo do
       allowed_template_global_settings :my_global_setting
     end
 
     # simulate application start
-    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+    Foreman::Plugin.find(:foo).to_prepare_callbacks.each(&:call)
     assert_includes Foreman::Renderer.config.allowed_global_settings, :my_global_setting
   end
 
@@ -258,12 +257,12 @@ class PluginTest < ActiveSupport::TestCase
     refute_includes Foreman::Renderer::Scope::Base.public_instance_methods, :my_helper
     refute_includes Foreman::Renderer::Scope::Base.public_instance_methods, :private_helper
 
-    @klass.register(:foo) do
+    Foreman::Plugin.register(:foo) do
       extend_template_helpers(MyMod)
     end
 
     # simulate application start
-    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+    Foreman::Plugin.find(:foo).to_prepare_callbacks.each(&:call)
     assert_includes Foreman::Renderer::Scope::Base.public_instance_methods, :my_helper
     refute_includes Foreman::Renderer::Scope::Base.public_instance_methods, :private_helper
   end
@@ -299,25 +298,25 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   def test_can_merge_tests_to_skip_arrays
-    @klass.register :foo do
+    Foreman::Plugin.register :foo do
       tests_to_skip "FooTest" => ["test1", "test2"]
     end
-    @klass.register :bar do
+    Foreman::Plugin.register :bar do
       tests_to_skip "FooTest" => ["test3", "test4"]
     end
-    assert_equal ["test1", "test2", "test3", "test4"], @klass.tests_to_skip["FooTest"]
+    assert_equal ["test1", "test2", "test3", "test4"], Foreman::Plugin.tests_to_skip["FooTest"]
   end
 
   def test_configure_logging
     Foreman::Plugin::Logging.any_instance.expects(:configure).with(nil)
-    @klass.register(:foo) {}
+    Foreman::Plugin.register(:foo) {}
 
     assert Foreman::Plugin.find(:foo).logging
   end
 
   def test_logger
     Foreman::Plugin::Logging.any_instance.expects(:configure).with(nil)
-    @klass.register(:foo) {}
+    Foreman::Plugin.register(:foo) {}
     plugin = Foreman::Plugin.find(:foo)
 
     plugin.logging.expects(:add_logger).with(:test_logger, {:enabled => true})
@@ -326,11 +325,11 @@ class PluginTest < ActiveSupport::TestCase
 
   def test_register_custom_status
     status = Struct.new(:status)
-    @klass.register :foo do
+    Foreman::Plugin.register :foo do
       register_custom_status(status)
     end
     # simulate application start
-    @klass.find(:foo).to_prepare_callbacks.each(&:call)
+    Foreman::Plugin.find(:foo).to_prepare_callbacks.each(&:call)
     assert_include HostStatus.status_registry, status
     HostStatus.status_registry.delete status
   end
@@ -355,6 +354,7 @@ class PluginTest < ActiveSupport::TestCase
     plugin_status_response = { version: '1.0.0' }
     Foreman::Plugin.register :foo do
       name 'foo'
+      version '1.0.0'
       register_status_extension { plugin_status_response }
     end
     Ping.stubs(:statuses_smart_proxies).returns([])
@@ -366,7 +366,12 @@ class PluginTest < ActiveSupport::TestCase
         api: {
           version: Apipie.configuration.default_version,
         },
-        plugins: [Foreman::Plugin.find(:foo)],
+        plugins: [
+          {
+            name: 'foo',
+            version: '1.0.0',
+          },
+        ],
         smart_proxies: [],
         compute_resources: [],
         database: foreman_database_response,

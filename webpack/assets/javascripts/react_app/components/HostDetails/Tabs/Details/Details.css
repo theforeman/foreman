@@ -1,0 +1,13 @@
+.details-tab {
+  padding-top: 20px;
+}
+
+.details-cards {
+  padding-top: 20px;
+}
+
+.details-tab .pf-c-accordion {
+  height: 15vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

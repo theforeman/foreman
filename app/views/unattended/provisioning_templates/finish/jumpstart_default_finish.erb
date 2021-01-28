@@ -55,4 +55,7 @@ fi
 /opt/csw/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
 echo "Informing Foreman that we are built"
 /opt/csw/bin/wget --no-check-certificate -O /dev/null <%= foreman_url('built') %>
+
+<%= snippet 'schedule_reboot' -%>
+
 exit 0

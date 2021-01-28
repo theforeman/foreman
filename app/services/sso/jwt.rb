@@ -9,9 +9,18 @@ module SSO
     def authenticate!
       payload = jwt_token.decode || {}
       user_id = payload['user_id']
+
+      unless valid_scope?(payload['scope'])
+        Rails.logger.warn "JWT SSO: Invalid scope for '#{controller.controller_permission}' controller."
+        return
+      end
+
       user = User.unscoped.except_hidden.find_by(id: user_id) if user_id
       @current_user = user
       user&.login
+    rescue JWT::ExpiredSignature
+      Rails.logger.error "JWT SSO: Expired JWT token."
+      nil
     rescue JWT::DecodeError
       Rails.logger.error "JWT SSO: Failed to decode JWT."
       nil
@@ -38,6 +47,12 @@ module SSO
 
     def no_issuer?
       jwt_token.decoded_payload.present? && !jwt_token.decoded_payload.key?('iss')
+    end
+
+    def valid_scope?(scope)
+      return true if scope.empty?
+      required_scope = "#{controller.controller_permission}##{controller.action_name}"
+      scope.split(' ').include? required_scope
     end
   end
 end

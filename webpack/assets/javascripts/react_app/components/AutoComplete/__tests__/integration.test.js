@@ -63,7 +63,7 @@ describe('Autocomplete integration test', () => {
     // Set a new mocked API response
     const secondAPICall = [
       { label: 'results1', category: '' },
-      { label: 'results2', category: 'Dolphine' },
+      { label: 'results2', category: 'Dolphin' },
     ];
     API.get.mockImplementation(async () => ({ data: secondAPICall }));
     // Choose an option.

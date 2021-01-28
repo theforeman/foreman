@@ -3,7 +3,7 @@ import Story from '../../../../../../../../stories/components/Story';
 import ExportButton from './ExportButton';
 
 export default {
-  title: 'Components|ExportButton',
+  title: 'Components/ExportButton',
 };
 
 export const defaultStory = () => (

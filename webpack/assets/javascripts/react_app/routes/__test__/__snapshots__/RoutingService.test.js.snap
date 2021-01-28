@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PluginRoutes rendering Adding global routes 1`] = `
+Object {
+  "routes": Object {
+    "some-id-0": undefined,
+    "some-id-1": undefined,
+  },
+}
+`;
+
+exports[`Routing Service rendering a route with a callback 1`] = `
+<div>
+   Test 
+</div>
+`;
+
+exports[`Routing Service rendering a route with a falsy callback 1`] = `null`;
+
+exports[`Routing Service rendering a route without a callback 1`] = `
+<div>
+   Test 
+</div>
+`;

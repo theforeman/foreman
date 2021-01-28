@@ -15,6 +15,24 @@ class JwtTokenTest < ActiveSupport::TestCase
     assert_equal token, jwt_token.to_s
   end
 
+  test 'encode with expiration' do
+    jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
+    JwtSecret.stubs(:find_by).returns(jwt_secret)
+    user = OpenStruct.new(id: 123)
+    jwt_token = JwtToken.new(JwtToken.encode(user, jwt_secret.token, expiration: 3600).token)
+
+    assert_nothing_raised { jwt_token.decode }
+  end
+
+  test 'encode with scope' do
+    jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
+    JwtSecret.stubs(:find_by).returns(jwt_secret)
+    scope = [{ controller: 'hosts', actions: ['create', 'update']}]
+    jwt_token = JwtToken.new(JwtToken.encode(OpenStruct.new(id: 123), jwt_secret.token, scope: scope).token)
+
+    assert_equal 'hosts#create hosts#update', jwt_token.decode['scope']
+  end
+
   test 'decoding' do
     jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
     JwtSecret.stubs(:find_by).returns(jwt_secret)
@@ -59,5 +77,14 @@ class JwtTokenTest < ActiveSupport::TestCase
     assert_raises JWT::VerificationError do
       jwt_token.decode
     end
+  end
+
+  test 'decoding expired token' do
+    jwt_secret = FactoryBot.build(:jwt_secret, token: 'test_jwt_secret')
+    JwtSecret.stubs(:find_by).returns(jwt_secret)
+    user = OpenStruct.new(id: 123)
+    jwt_token = JwtToken.new(JwtToken.encode(user, jwt_secret.token, expiration: -1).token)
+
+    assert_raise(JWT::ExpiredSignature) { jwt_token.decode }
   end
 end

@@ -43,8 +43,6 @@ module Api
 
       before_action :setup_has_many_params, :only => [:create, :update]
       before_action :check_media_type
-      # ensure include_root_in_json = false for V2 only
-      around_action :disable_json_root
 
       layout 'api/v2/layouts/index_layout', :only => :index
 
@@ -89,7 +87,7 @@ module Api
       end
 
       def metadata_per_page
-        @per_page ||= Setting[:entries_per_page] if params[:per_page].empty?
+        @per_page ||= Setting[:entries_per_page] if params[:per_page].blank?
         @per_page ||= params[:per_page] == 'all' ? metadata_total : params[:per_page].to_i
       end
 
@@ -144,23 +142,6 @@ module Api
         append_array_of_ids(params)             # unwrapped params
       end
 
-      def self.skip_before_action(*names)
-        names = names.map do |n|
-          if n == :check_content_type
-            Foreman::Deprecation.deprecation_warning('2.3', '#check_content_type is renamed to #check_media_type')
-            :check_media_type
-          else
-            n
-          end
-        end
-        super(*names)
-      end
-
-      def check_content_type
-        Foreman::Deprecation.deprecation_warning('2.3', '#check_content_type is renamed to #check_media_type')
-        check_media_type
-      end
-
       def check_media_type
         if (request.post? || request.put?) && request.media_type != "application/json"
           render_error(:unsupported_media_type, :status => :unsupported_media_type)
@@ -171,17 +152,6 @@ module Api
         options = set_error_details(error, options)
         render options.merge(:template => "api/v2/errors/#{error}",
                              :layout   => 'api/v2/layouts/error_layout')
-      end
-
-      private
-
-      def disable_json_root
-        # disable json root element
-        ActiveRecord::Base.include_root_in_json = false
-        yield
-      ensure
-        # re-enable json root element
-        ActiveRecord::Base.include_root_in_json = true
       end
     end
   end

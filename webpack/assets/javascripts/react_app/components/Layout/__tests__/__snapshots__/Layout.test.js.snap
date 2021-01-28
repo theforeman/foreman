@@ -62,8 +62,6 @@ exports[`Layout rendering renders layout 1`] = `
         titleImg=""
       />
       <TaxonomySwitcher
-        currentLocation="Any Location"
-        currentOrganization="Any Organization"
         isLoading={false}
         locations={
           Array [
@@ -100,28 +98,21 @@ exports[`Layout rendering renders layout 1`] = `
             },
           ]
         }
-        taxonomiesBool={
-          Object {
-            "locations": true,
-            "organizations": true,
-          }
-        }
       />
       <UserDropdowns
         changeActiveMenu={[Function]}
         className=""
+        instanceTitle="Production"
         notificationUrl="/notification_recipients"
         stopImpersonationUrl="/users/stop_impersonation"
         user={
           Object {
             "current_user": Object {
-              "user": Object {
-                "firstname": "Admin",
-                "id": 4,
-                "lastname": "User",
-                "login": "admin",
-                "name": "Admin User",
-              },
+              "firstname": "Admin",
+              "id": 4,
+              "lastname": "User",
+              "login": "admin",
+              "name": "Admin User",
             },
             "user_dropdown": Array [
               Object {

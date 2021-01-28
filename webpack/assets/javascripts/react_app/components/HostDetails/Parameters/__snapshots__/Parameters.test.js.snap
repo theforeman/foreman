@@ -4,146 +4,178 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
 <Card
   isHoverable={true}
 >
-  <CardBody>
-    Paramterers
-  </CardBody>
-  <Accordion
-    asDefinitionList={true}
+  <CardTitle
+    component="h4"
   >
-    <AccordionItem
-      key="1"
+    Parameters
+  </CardTitle>
+  <CardBody>
+    <Accordion
+      asDefinitionList={true}
     >
-      <AccordionToggle
-        id="global"
-        isExpanded={false}
-        onClick={[Function]}
+      <AccordionItem
+        key="1"
       >
-        global
-      </AccordionToggle>
-      <AccordionContent
-        id="global"
-        isHidden={true}
-      >
-        <DataList
-          aria-label="Parameters"
-          isCompact={true}
+        <AccordionToggle
+          id="global"
+          isExpanded={false}
+          onClick={[Function]}
         >
-          <DataListItem
-            aria-labelledby="Parameter's type"
-          >
-            <DataListItemRow>
-              <DataListItemCells
-                dataListCells={
-                  Array [
-                    <DataListCell>
-                      <span>
-                        Type
-                      </span>
-                    </DataListCell>,
-                    <DataListCell>
-                      string
-                    </DataListCell>,
-                  ]
-                }
-              />
-            </DataListItemRow>
-          </DataListItem>
-          <DataListItem
-            aria-labelledby="Parameter's Value"
-          >
-            <DataListItemRow>
-              <DataListItemCells
-                dataListCells={
-                  Array [
-                    <DataListCell
-                      isFilled={true}
-                    >
-                      <span>
-                        Value
-                      </span>
-                    </DataListCell>,
-                    <DataListCell
-                      alignRight={true}
-                      isFilled={true}
-                    >
-                      true
-                    </DataListCell>,
-                  ]
-                }
-              />
-            </DataListItemRow>
-          </DataListItem>
-        </DataList>
-      </AccordionContent>
-    </AccordionItem>
-    <AccordionItem
-      key="2"
-    >
-      <AccordionToggle
-        id="local"
-        isExpanded={false}
-        onClick={[Function]}
-      >
-        local
-      </AccordionToggle>
-      <AccordionContent
-        id="local"
-        isHidden={true}
-      >
-        <DataList
-          aria-label="Parameters"
-          isCompact={true}
+          <EllipisWithTooltip>
+            global
+          </EllipisWithTooltip>
+        </AccordionToggle>
+        <AccordionContent
+          id="global"
+          isHidden={true}
         >
-          <DataListItem
-            aria-labelledby="Parameter's type"
+          <DataList
+            aria-label="Parameters"
+            className=""
+            gridBreakpoint="md"
+            isCompact={true}
+            selectedDataListItemId=""
+            wrapModifier={null}
           >
-            <DataListItemRow>
-              <DataListItemCells
-                dataListCells={
-                  Array [
-                    <DataListCell>
-                      <span>
-                        Type
-                      </span>
-                    </DataListCell>,
-                    <DataListCell>
-                      string
-                    </DataListCell>,
-                  ]
-                }
-              />
-            </DataListItemRow>
-          </DataListItem>
-          <DataListItem
-            aria-labelledby="Parameter's Value"
+            <DataListItem
+              aria-labelledby="Parameter's type"
+              className=""
+              id=""
+              isExpanded={false}
+            >
+              <DataListItemRow>
+                <DataListItemCells
+                  dataListCells={
+                    Array [
+                      <DataListCell>
+                        <span>
+                          Type
+                        </span>
+                      </DataListCell>,
+                      <DataListCell>
+                        string
+                      </DataListCell>,
+                    ]
+                  }
+                />
+              </DataListItemRow>
+            </DataListItem>
+            <DataListItem
+              aria-labelledby="Parameter's Value"
+              className=""
+              id=""
+              isExpanded={false}
+            >
+              <DataListItemRow>
+                <DataListItemCells
+                  dataListCells={
+                    Array [
+                      <DataListCell
+                        isFilled={true}
+                      >
+                        <span>
+                          Value
+                        </span>
+                      </DataListCell>,
+                      <DataListCell
+                        alignRight={true}
+                        isFilled={true}
+                      >
+                        <EllipisWithTooltip>
+                          true
+                        </EllipisWithTooltip>
+                      </DataListCell>,
+                    ]
+                  }
+                />
+              </DataListItemRow>
+            </DataListItem>
+          </DataList>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem
+        key="2"
+      >
+        <AccordionToggle
+          id="local"
+          isExpanded={false}
+          onClick={[Function]}
+        >
+          <EllipisWithTooltip>
+            local
+          </EllipisWithTooltip>
+        </AccordionToggle>
+        <AccordionContent
+          id="local"
+          isHidden={true}
+        >
+          <DataList
+            aria-label="Parameters"
+            className=""
+            gridBreakpoint="md"
+            isCompact={true}
+            selectedDataListItemId=""
+            wrapModifier={null}
           >
-            <DataListItemRow>
-              <DataListItemCells
-                dataListCells={
-                  Array [
-                    <DataListCell
-                      isFilled={true}
-                    >
-                      <span>
-                        Value
-                      </span>
-                    </DataListCell>,
-                    <DataListCell
-                      alignRight={true}
-                      isFilled={true}
-                    >
-                      --- false
+            <DataListItem
+              aria-labelledby="Parameter's type"
+              className=""
+              id=""
+              isExpanded={false}
+            >
+              <DataListItemRow>
+                <DataListItemCells
+                  dataListCells={
+                    Array [
+                      <DataListCell>
+                        <span>
+                          Type
+                        </span>
+                      </DataListCell>,
+                      <DataListCell>
+                        string
+                      </DataListCell>,
+                    ]
+                  }
+                />
+              </DataListItemRow>
+            </DataListItem>
+            <DataListItem
+              aria-labelledby="Parameter's Value"
+              className=""
+              id=""
+              isExpanded={false}
+            >
+              <DataListItemRow>
+                <DataListItemCells
+                  dataListCells={
+                    Array [
+                      <DataListCell
+                        isFilled={true}
+                      >
+                        <span>
+                          Value
+                        </span>
+                      </DataListCell>,
+                      <DataListCell
+                        alignRight={true}
+                        isFilled={true}
+                      >
+                        <EllipisWithTooltip>
+                          --- false
 ...
 
-                    </DataListCell>,
-                  ]
-                }
-              />
-            </DataListItemRow>
-          </DataListItem>
-        </DataList>
-      </AccordionContent>
-    </AccordionItem>
-  </Accordion>
+                        </EllipisWithTooltip>
+                      </DataListCell>,
+                    ]
+                  }
+                />
+              </DataListItemRow>
+            </DataListItem>
+          </DataList>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  </CardBody>
 </Card>
 `;

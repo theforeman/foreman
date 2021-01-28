@@ -56,7 +56,7 @@ task :config => :environment do
 
         opt.on("-n",
           "--dry-run",
-          "Don't change thd configuration. Success if no change is needed.") do
+          "Don't change the configuration. Success if no change is needed.") do
           @dry = true
         end
       end
@@ -67,7 +67,7 @@ task :config => :environment do
       parser.parse!(args)
 
       if @key && @key_values.any?
-        puts "Missing value for key '#{@key}'"
+        STDERR.puts "Missing value for key '#{@key}'"
         exit 2
       end
 

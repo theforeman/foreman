@@ -18,7 +18,7 @@ module Nic
     validate :mac_uniqueness,
       :if => proc { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
     validates :mac, :presence => true,
-              :if => proc { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? && (nic.provision? || nic.subnet.present? || nic.subnet6.present?) }
+              :if => proc { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.host.compute_provides?(:mac) && !nic.virtual? && (nic.provision? || nic.subnet.present? || nic.subnet6.present?) }
     validate :validate_mac_is_unicast,
       :if => proc { |nic| nic.managed? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
@@ -44,6 +44,8 @@ module Nic
     validates :subnet6, :belongs_to_host_taxonomy => { :taxonomy => :location }
     validates :subnet, :belongs_to_host_taxonomy => { :taxonomy => :organization }
     validates :subnet6, :belongs_to_host_taxonomy => { :taxonomy => :organization }
+
+    validate :check_blank_mac_for_virtual_resources, on: :create
 
     scope :bmc, -> { where(:type => "Nic::BMC") }
     scope :bonds, -> { where(:type => "Nic::Bond") }
@@ -352,11 +354,17 @@ module Nic
 
     private
 
-    def interface_attribute_uniqueness(attr, base = Nic::Base.where(nil))
+    def interface_attribute_uniqueness(attr, base = Nic::Base)
       in_memory_candidates = host.present? ? host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
       db_candidates = base.where(attr => public_send(attr))
       db_candidates = db_candidates.select { |c| c.id != id && in_memory_candidates.map(&:id).include?(c.id) }
       errors.add(attr, :taken) if db_candidates.present?
+    end
+
+    def check_blank_mac_for_virtual_resources
+      if virtual? && host.try(:compute_provides?, :mac) && host.uuid.empty? && mac.present?
+        errors.add(:mac, _("can't be set for this interface because it's provided by the compute resource"))
+      end
     end
   end
 end

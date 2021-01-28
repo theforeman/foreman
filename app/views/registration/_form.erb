@@ -1,0 +1,118 @@
+<% title _('Register Host') %>
+<%= form_tag({controller: 'registration', action: 'create' }, method: :post, class: 'form-horizontal well') do %>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'><%= _('Organization') %></label>
+    <div class='col-md-4'>
+      <p class="form-control-static">
+        <%= Organization.current&.name || _('No Organization selected') %>
+        <%= hidden_field_tag 'organization_id', Organization.current&.id %>
+      </p>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'><%= _('Location') %></label>
+    <div class='col-md-4'>
+      <p class="form-control-static">
+        <%= Location.current&.name || _('No Location selected') %>
+        <%= hidden_field_tag 'location_id', Location.current&.id %>
+      </p>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label' for='hostgroup_id'>
+      <%= _('Host Group') %>
+    </label>
+    <div class='col-md-4'>
+      <%= select_tag 'hostgroup_id', options_from_collection_for_select(@host_groups, :id, :name, params[:hostgroup_id]), class: 'form-control', include_blank: '' %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label' for='operatingsystem_id'>
+      <%= _('Operating System') %>
+    </label>
+    <div class='col-md-4'>
+      <%= select_tag 'operatingsystem_id', options_from_collection_for_select(@operating_systems, :id, :title, params[:operatingsystem_id]), class: 'form-control', include_blank: '' %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label' for='smart_proxy'>
+      <%= _('Proxy') %>
+      <% help = _('Only Smart Proxies with enabled Registration module are available') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info"></span>
+      </a>
+    </label>
+    <div class='col-md-4'>
+      <%= select_tag 'smart_proxy', options_from_collection_for_select(@smart_proxies, :id, :name, params[:smart_proxy]), class: 'form-control', include_blank: '' %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label' for='setup_insights'>
+      <% help = _('If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it.') %>
+      <%= _('Setup Insights') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info "></span>
+      </a>
+    </label>
+    <div class='col-md-4'>
+      <% insights_opts = options_for_select([[_('Yes'), 'true'], [_('No'), 'false']], params[:setup_insights]) %>
+      <%= select_tag 'setup_insights', insights_opts, class: 'form-control', include_blank: '' %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label' for='setup_remote_execution'>
+      <%= _('Remote Execution') %>
+      <% help = _('If selected, SSH keys will be installed on the registered host.') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info "></span>
+      </a>
+    </label>
+    <div class='col-md-4'>
+      <% rex_opts = options_for_select([[_('Yes'), 'true'], [_('No'), 'false']], params[:setup_remote_execution]) %>
+      <%= select_tag 'setup_remote_execution', rex_opts, class: 'form-control', include_blank: '' %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'>
+      <%= _('Token lifetime (hours)') %>
+      <% help = _('Expiration of the authorization token.') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info "></span>
+      </a>
+    </label>
+    <div class='col-md-4'>
+      <%= number_field_tag 'jwt_expiration', params[:jwt_expiration] || 4, class: 'form-control', min: 1, required: true %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'>
+      <%= _('Insecure') %>
+      <% help = _('If the target machine does not trust the Foreman SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process.') %>
+      <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
+        <span class="pficon pficon-info "></span>
+      </a>
+    </label>
+    <div class='col-md-4'>
+      <%= check_box_tag 'insecure', '', params[:insecure] %>
+    </div>
+  </div>
+
+  <% pagelets_for(:global_registration).each do |pagelet| %>
+    <%= render_pagelet(pagelet) %>
+  <% end %>
+
+  <div class='form-group '>
+    <%= submit_tag _('Generate command'), class: 'btn btn-primary' %>
+    <%= link_to _('Cancel'), hosts_path, class: 'btn btn-default' %>
+  </div>
+
+  <% if action_name == 'create' %>
+    <div class='form-group '>
+      <label class='col-md-2 control-label'><%= _('Command') %></label>
+      <div class='col-md-8'>
+        <pre class='ellipsis white-space-normal' id='registration_command'><%= @command %></pre>
+        <a class='btn btn-default' onclick="tfm.hosts.copyRegistrationCommand();" ><%= _('Copy to clipboard') %></a>
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -8,8 +8,6 @@ import PageLayout from '../../common/PageLayout/PageLayout';
 import ModelsPageContent from './components/ModelsPageContent';
 import { MODELS_SEARCH_PROPS } from '../constants';
 
-import './ModelsPage.scss';
-
 const ModelsPage = ({
   fetchAndPush,
   search,
@@ -36,14 +34,14 @@ const ModelsPage = ({
   return (
     <PageLayout
       header={__('Hardware Models')}
-      searchable
+      searchable={!isLoading}
       searchProps={MODELS_SEARCH_PROPS}
       searchQuery={search}
       isLoading={isLoading && hasData}
       onSearch={handleSearch}
       onBookmarkClick={handleSearch}
       toolbarButtons={canCreate && createBtn}
-      toastNotifications={JSON.stringify(toasts)}
+      toastNotifications={toasts}
     >
       <ModelsPageContent
         models={models}

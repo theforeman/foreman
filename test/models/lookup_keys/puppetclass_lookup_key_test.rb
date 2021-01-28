@@ -9,6 +9,14 @@ class PuppetclassLookupKeyTest < ActiveSupport::TestCase
     refute lookup_key.valid?
   end
 
+  test "default_value is only validated if omit is false" do
+    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :key_type => 'boolean',
+                                    :override => true, :default_value => 'whatever', :omit => true)
+    assert lookup_key.valid?
+    lookup_key.omit = false
+    refute lookup_key.valid?
+  end
+
   test "should update description when override is false" do
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :key_type => 'string',
                                     :default_value => "test123", :description => 'description')

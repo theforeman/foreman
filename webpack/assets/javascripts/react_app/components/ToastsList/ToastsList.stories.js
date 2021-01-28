@@ -18,7 +18,7 @@ import ToastsList from './index';
 import Story from '../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|Toast Notifications',
+  title: 'Components/Toast Notifications',
 };
 
 export const toaster = () => {

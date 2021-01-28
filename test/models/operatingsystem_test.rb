@@ -376,8 +376,39 @@ class OperatingsystemTest < ActiveSupport::TestCase
       assert_match(%r{https://somewhere.*net:1235/httpboot/grub2/grubx64.efi}, host.operatingsystem.boot_filename(host))
     end
 
-    test 'should raise an error without subnet or httpboot feature' do
+    test 'should not raise an error without httpboot feature for PXE' do
+      host = FactoryBot.build(:host, :managed, :with_tftp_and_httpboot_subnet, pxe_loader: 'PXELinux BIOS')
+      host.subnet.expects(:httpboot?).returns(false)
+      assert_equal "pxelinux.0", host.operatingsystem.boot_filename(host)
+    end
+
+    test 'should not raise an error with httpboot without port for PXE' do
+      host = FactoryBot.build(:host, :managed, :with_tftp_and_httpboot_subnet, pxe_loader: 'PXELinux BIOS')
+      host.subnet.expects(:httpboot?).returns(true)
+      SmartProxy.any_instance.stubs(:httpboot_http_port).returns(nil)
+      SmartProxy.any_instance.stubs(:httpboot_https_port).returns(nil)
+      assert_equal "pxelinux.0", host.operatingsystem.boot_filename(host)
+    end
+
+    test 'should raise an error without subnet' do
       host = FactoryBot.build(:host, :managed, pxe_loader: 'Grub2 UEFI HTTP')
+      assert_raises Foreman::Exception do
+        host.operatingsystem.boot_filename(host)
+      end
+    end
+
+    test 'should raise an error without httpboot feature' do
+      host = FactoryBot.build(:host, :managed, :with_tftp_and_httpboot_subnet, pxe_loader: 'Grub2 UEFI HTTP')
+      host.subnet.expects(:httpboot?).returns(false)
+      assert_raises Foreman::Exception do
+        host.operatingsystem.boot_filename(host)
+      end
+    end
+
+    test 'should raise an error without httpboot port' do
+      host = FactoryBot.build(:host, :managed, :with_tftp_and_httpboot_subnet, pxe_loader: 'Grub2 UEFI HTTP')
+      host.subnet.expects(:httpboot?).returns(true)
+      SmartProxy.any_instance.stubs(:httpboot_http_port).returns(nil)
       assert_raises Foreman::Exception do
         host.operatingsystem.boot_filename(host)
       end
@@ -400,7 +431,6 @@ class OperatingsystemTest < ActiveSupport::TestCase
       :name => "os_arr", :value => "['centos 7.0','centos 8.0']", :parameter_type => 'array'
     )
     parameter = os.os_parameters.first
-    puts parameter.searchable_value.inspect
     results = Operatingsystem.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
     refute results.include?(os)
   end

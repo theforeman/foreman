@@ -6,7 +6,7 @@ import { useForemanModal } from './ForemanModalHooks';
 import Story from '../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|ForemanModal/Props & Children',
+  title: 'Components/ForemanModal/Props & Children',
   decorators: [storeDecorator],
 };
 
@@ -174,7 +174,7 @@ export const withPropsPassedDownViaSpreadSyntax = () =>
         <Button bsStyle="primary" onClick={setModalOpen}>
           Show Modal
         </Button>
-        <ForemanModal id="propsPassed" title="I'm a modal!" myProp="Hii">
+        <ForemanModal id="propsPassed" title="I'm a modal!" myProp="Hi">
           <ForemanModal.Header />
           The inner {`<Modal>`} component will have any props you pass to
           {`<ForemanModal>`}. (Look in the React dev tools for

@@ -39,19 +39,24 @@ module Host
     validates :name, :presence => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP, :message => _(Net::Validations::HOST_REGEXP_ERR_MSG)}
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
-    validate :build_managed_only
 
     include PxeLoaderSuggestion
 
     default_scope -> { where(taxonomy_conditions) }
 
     def self.taxonomy_conditions
-      org = Organization.expand(Organization.current)
-      loc = Location.expand(Location.current)
       conditions = {}
-      conditions[:organization_id] = Array(org).map { |o| o.subtree_ids }.flatten.uniq unless org.nil?
-      conditions[:location_id] = Array(loc).map { |l| l.subtree_ids }.flatten.uniq unless loc.nil?
-      conditions
+      if Organization.current.nil? && User.current.present? && !User.current.admin?
+        conditions[:organization_id] = User.current.organization_and_child_ids
+      else
+        conditions[:organization_id] = Organization.current&.subtree_ids
+      end
+      if Location.current.nil? && User.current.present? && !User.current.admin?
+        conditions[:location_id] = User.current.location_and_child_ids
+      else
+        conditions[:location_id] = Location.current&.subtree_ids
+      end
+      conditions.compact
     end
 
     scope :no_location,     -> { rewhere(:location_id => nil) }
@@ -134,32 +139,8 @@ module Host
     end
 
     def import_facts(facts, source_proxy = nil)
-      Foreman::Deprecation.deprecation_warning('2.3', 'Use HostFactImporter#import_facts method instead of Host#import_facts')
+      Foreman::Deprecation.deprecation_warning('2.5', 'Use HostFactImporter#import_facts method instead of Host#import_facts')
       HostFactImporter.new(self).import_facts(facts, source_proxy)
-    end
-
-    def parse_facts(facts, type, source_proxy)
-      time = facts[:_timestamp]
-      time = time.to_time if time.is_a?(String)
-      self.last_compile = time if time
-
-      # taxonomy must be set before populate_fields_from_facts call
-      set_taxonomies(facts)
-
-      unless build?
-        parser = FactParser.parser_for(type).new(facts)
-
-        telemetry_duration_histogram(:importer_facts_import_duration, 1000, type: type) do
-          populate_fields_from_facts(parser, type, source_proxy)
-        end
-      end
-
-      # we are saving here with no validations, as we want this process to be as fast
-      # as possible, assuming we already have all the right settings in Foreman.
-      # If we don't (e.g. we never install the server via Foreman, we populate the fields from facts
-      # TODO: if it was installed by Foreman and there is a mismatch,
-      # we should probably send out an alert.
-      save(:validate => false)
     end
 
     def attributes_to_import_from_facts
@@ -232,12 +213,12 @@ module Host
     end
 
     apipie :method, 'A list of facts known about the host.' do
-      desc 'Note that available facts depend on what facts have been uploaded to Formean,
+      desc 'Note that available facts depend on what facts have been uploaded to Foreman,
            typical sources are Puppet facter, subscription manager etc.
            The facts can be out of date, this macro only provides access to the value stored in the database.'
       returns Hash, desc: 'A hash of facts, keys are fact names, values are fact values'
       example '@host.facts # => { "hardwareisa"=>"x86_64", "kernel"=>"Linux", "virtual"=>"physical", ... }', desc: 'Getting all host facts'
-      example '@host.facts["uptime"] # => "30 days"', desc: 'Getting specific fact value, +uptime+ in this caes'
+      example '@host.facts["uptime"] # => "30 days"', desc: 'Getting specific fact value, +uptime+ in this case'
       aliases :facts
     end
     def facts_hash
@@ -254,28 +235,6 @@ module Host
         comparison_object.is_a?(Host::Base) &&
         id.present? &&
         comparison_object.id == id
-    end
-
-    def set_taxonomies(facts)
-      ['location', 'organization'].each do |taxonomy|
-        taxonomy_class = taxonomy.classify.constantize
-        taxonomy_fact = Setting["#{taxonomy}_fact"]
-
-        if taxonomy_fact.present? && facts.key?(taxonomy_fact)
-          taxonomy_from_fact = taxonomy_class.find_by_title(facts[taxonomy_fact].to_s)
-        else
-          default_taxonomy = taxonomy_class.find_by_title(Setting["default_#{taxonomy}"])
-        end
-
-        if send(taxonomy).present?
-          # Change taxonomy to fact taxonomy if set, otherwise leave it as is
-          send("#{taxonomy}=", taxonomy_from_fact) unless taxonomy_from_fact.nil?
-        else
-          # No taxonomy was set, set to fact taxonomy or default taxonomy
-          send "#{taxonomy}=", (taxonomy_from_fact || default_taxonomy)
-        end
-        taxonomy_class.current = send(taxonomy)
-      end
     end
 
     def overwrite?
@@ -657,12 +616,6 @@ module Host
 
       errors.add(:interfaces, _('some interfaces are invalid')) unless success
       success
-    end
-
-    def build_managed_only
-      if !managed? && build?
-        errors.add(:build, _('cannot be enabled for an unmanaged host'))
-      end
     end
 
     def password_base64_encrypted?

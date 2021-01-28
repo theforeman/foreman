@@ -52,3 +52,4 @@ npm-debug.log
 .yo-rc.json
 .vendor/
 .solargraph.yml
+.nvmrc

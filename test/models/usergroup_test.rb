@@ -176,7 +176,7 @@ class UsergroupTest < ActiveSupport::TestCase
     admin2 = FactoryBot.create(:user, :admin => true)
     usergroup.users = [admin1]
 
-    User.unscoped.except_hidden.only_admin.where('login NOT IN (?)', [admin1.login, admin2.login]).destroy_all
+    User.unscoped.except_hidden.only_admin.where.not(login: [admin1.login, admin2.login]).destroy_all
     usergroup.admin = false
     assert_valid usergroup
   end
@@ -186,7 +186,7 @@ class UsergroupTest < ActiveSupport::TestCase
     admin = FactoryBot.create(:user)
     usergroup.users = [admin]
 
-    User.unscoped.except_hidden.only_admin.where('login <> ?', admin.login).destroy_all
+    User.unscoped.except_hidden.only_admin.where.not(login: admin.login).destroy_all
     usergroup.admin = false
     refute_valid usergroup, :admin, /last admin account/
   end
@@ -196,7 +196,7 @@ class UsergroupTest < ActiveSupport::TestCase
     admin = FactoryBot.create(:user)
     usergroup.users = [admin]
 
-    User.unscoped.except_hidden.only_admin.where('login <> ?', admin.login).destroy_all
+    User.unscoped.except_hidden.only_admin.where.not(login: admin.login).destroy_all
     refute_with_errors usergroup.destroy, usergroup, :base, /last admin user group/
   end
 

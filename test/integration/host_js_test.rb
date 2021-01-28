@@ -25,6 +25,40 @@ class HostJSTest < IntegrationTestWithJavascript
     Fog.unmock!
   end
 
+  describe "show page" do
+    test "has proper title and links" do
+      visit hosts_path
+      click_link @host.fqdn
+      assert_breadcrumb_text(@host.fqdn)
+      assert page.has_link?("Properties", :href => "#properties")
+      assert page.has_link?("Metrics", :href => "#metrics")
+      assert page.has_link?("Templates", :href => "#template")
+      assert page.has_link?("Edit", :href => "/hosts/#{@host.fqdn}/edit")
+      assert page.has_link?("Build", :href => "/hosts/#{@host.fqdn}#review_before_build")
+      assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
+    end
+
+    test "link to specific tab in show page" do
+      host = FactoryBot.create(:host)
+
+      visit "#{host_path(host)}#metrics"
+      wait_for_ajax
+
+      page.assert_selector('#host-show-tabs li.active', count: 1, text: "Metrics")
+      page.assert_selector('#host-show-tabs-content div.active', count: 1, text: /No puppet activity/)
+    end
+
+    test "default active tab is properties" do
+      host = FactoryBot.create(:host)
+
+      visit host_path(host) # not passing the active-tab param here
+      wait_for_ajax
+
+      page.assert_selector('#host-show-tabs li.active', count: 1, text: "Properties")
+      page.assert_selector('#host-show-tabs-content div.active', count: 1, text: /Properties/)
+    end
+  end
+
   describe 'multiple hosts selection' do
     setup do
       @entries = Setting[:entries_per_page]
@@ -682,6 +716,22 @@ class HostJSTest < IntegrationTestWithJavascript
         table.first(:button, 'Edit').click
         select2 'Bond', :from => 'host_interfaces_attributes_0_type'
         assert page.has_selector? 'input[name="host[interfaces_attributes][0][bond_options]"]'
+      end
+
+      test "showing only mac error when entering mac incorrectly" do
+        domain = domains(:mydomain)
+        subnet = subnets(:one)
+        mac = 'bad address'
+        disable_orchestration
+        go_to_interfaces_tab
+
+        table.first(:button, 'Edit').click
+        wait_for_modal
+        select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
+        select2 subnet.name, :from => 'host_interfaces_attributes_0_subnet_id'
+        modal.find('.interface_mac').set(mac)
+        modal.find('.interface_identifier').set('eth0')
+        assert page.has_selector?('span[class="error-message"]', :count => 1)
       end
     end
 

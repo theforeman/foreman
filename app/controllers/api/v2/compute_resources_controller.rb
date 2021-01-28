@@ -8,7 +8,7 @@ module Api
 
       before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
                                               :available_virtual_machines, :available_clusters, :available_flavors, :available_folders,
-                                              :available_networks, :available_resource_pools, :available_security_groups, :available_storage_domains,
+                                              :available_networks, :available_vnic_profiles, :available_resource_pools, :available_security_groups, :available_storage_domains,
                                               :available_zones, :available_storage_pods, :storage_domain, :storage_pod, :refresh_cache, :power_vm, :show_vm, :destroy_vm]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
@@ -35,7 +35,6 @@ module Api
           param :user, String, :desc => N_("Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2.")
           param :password, String, :desc => N_("Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2")
           param :datacenter, String, :desc => N_("for oVirt, VMware Datacenter")
-          param :use_v4, :bool, :desc => N_("for oVirt only")
           param :ovirt_quota, String, :desc => N_("for oVirt only, ID or Name of quota to use")
           param :public_key, String, :desc => N_("for oVirt only")
           param :region, String, :desc => N_("for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region") % Foreman::Model::EC2::GOV_CLOUD_REGION
@@ -68,13 +67,15 @@ module Api
 
       def create
         begin
-          @compute_resource = ComputeResource.new_provider(compute_resource_params.except(:datacenter))
+          if compute_resource_params["provider"].downcase == "ovirt" && !Foreman.is_uuid?(compute_resource_params[:datacenter])
+            @compute_resource = ComputeResource.new_provider(compute_resource_params.except(:datacenter))
+            params[:compute_resource][:datacenter] = change_datacenter_to_uuid(params[:compute_resource][:datacenter])
+          end
+          @compute_resource = ComputeResource.new_provider(compute_resource_params)
         rescue Foreman::Exception => e
           render_exception(e, :status => :unprocessable_entity)
           return
         end
-        datacenter = change_datacenter_to_uuid(compute_resource_params[:datacenter])
-        @compute_resource.datacenter = datacenter if datacenter.present?
 
         process_response @compute_resource.save
       end
@@ -142,6 +143,13 @@ module Api
         @available_networks = @compute_resource.available_networks(params[:cluster_id].presence)
         @total = @available_networks&.size
         render :available_networks, :layout => 'api/v2/layouts/index_layout'
+      end
+
+      api :GET, "/compute_resources/:id/available_vnic_profiles", N_("List available vnic profiles for a compute resource, for oVirt only.")
+      param :id, :identifier, :required => true
+      def available_vnic_profiles
+        @available_vnic_profiles = @compute_resource.vnic_profiles
+        render :available_vnic_profiles, :layout => 'api/v2/layouts/index_layout'
       end
 
       api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_resource_pools", N_("List resource pools for a compute resource cluster")
@@ -279,7 +287,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_virtual_machines', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'storage_domain', 'available_zones', 'associate', 'available_storage_pods', 'storage_pod', 'refresh_cache', 'show_vm', 'power_vm', 'destroy_vm'
+          when 'available_images', 'available_virtual_machines', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_vnic_profiles', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'storage_domain', 'available_zones', 'associate', 'available_storage_pods', 'storage_pod', 'refresh_cache', 'show_vm', 'power_vm', 'destroy_vm'
             :view
           else
             super

@@ -13,7 +13,7 @@ import { useForemanModal } from './ForemanModalHooks';
 import Story from '../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|ForemanModal/ForemanModal Usage',
+  title: 'Components/ForemanModal/ForemanModal Usage',
   decorators: [storeDecorator],
 };
 

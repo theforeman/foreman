@@ -125,7 +125,7 @@ module Host
 
     describe 'hooks' do
       let(:host) { FactoryBot.create(:host, :managed) }
-      let(:event_context) { ::Logging.mdc.context.symbolize_keys }
+      let(:event_context) { ::Logging.mdc.context.symbolize_keys.with_indifferent_access }
       let(:callback) { -> {} }
 
       test 'hooks are defined' do
@@ -135,6 +135,7 @@ module Host
           'host_destroyed.event.foreman',
           'build_entered.event.foreman',
           'build_exited.event.foreman',
+          'status_changed.event.foreman',
         ]
 
         assert_same_elements expected, Host::Managed.event_subscription_hooks
@@ -148,7 +149,7 @@ module Host
 
           ActiveSupport::Notifications.subscribed(callback, 'build_entered.event.foreman') do
             callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
-              payload == { id: host.id, hostname: host.hostname }.merge(context: event_context)
+              payload[:hostname] == host.hostname
             end
 
             host.setBuild
@@ -162,10 +163,24 @@ module Host
         test '"build_exited.event.foreman" event is sent when build set to false' do
           ActiveSupport::Notifications.subscribed(callback, 'build_exited.event.foreman') do
             callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
-              payload == { id: host.id, hostname: host.hostname }.merge(context: event_context)
+              payload[:hostname] == host.hostname
             end
 
             host.built
+          end
+        end
+      end
+
+      describe 'status_changed hook' do
+        let(:host) { FactoryBot.create(:host, :managed, global_status: 0) }
+
+        test '"status_changed.event.foreman" event is sent when global status was changed' do
+          ActiveSupport::Notifications.subscribed(callback, 'status_changed.event.foreman') do
+            callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
+              payload[:global_status] == { "from" => 0, "to" => 1 }
+            end
+
+            host.update(global_status: 1)
           end
         end
       end

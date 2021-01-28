@@ -54,6 +54,6 @@ out*
 .byebug_history
 .gitignore
 .dockerignore
-.travis.yml
+.github/
 docker-compose*.yml
 Gemfile.lock

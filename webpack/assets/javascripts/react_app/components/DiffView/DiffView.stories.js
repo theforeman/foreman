@@ -1,12 +1,11 @@
 import React from 'react';
-import { text, withKnobs } from '@theforeman/stories';
+import { text } from '@storybook/addon-knobs';
 
 import DiffContainer from './DiffContainer';
 import Story from '../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|DiffView',
-  decorators: [withKnobs],
+  title: 'Components/DiffView',
 };
 
 export const diffView = () => (

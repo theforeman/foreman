@@ -136,12 +136,8 @@ class Template < ApplicationRecord
     template
   end
 
-  def acceptable_template_input_types
-    self.class.acceptable_template_input_types
-  end
-
   def self.acceptable_template_input_types
-    TemplateInput::TYPES.keys
+    Foreman.input_types_registry.input_types.keys
   end
 
   # override in subclass to handle taxonomy scope, see TaxonomyCollisionFinder
@@ -151,6 +147,10 @@ class Template < ApplicationRecord
 
   def self.default_render_scope_class
     nil
+  end
+
+  def available_input_types
+    Foreman.input_types_registry.types_for_template_class(self.class).map(&:input_type_name)
   end
 
   def default_render_scope_class
@@ -165,10 +165,11 @@ class Template < ApplicationRecord
     self.class.log_render_results?
   end
 
-  def render(host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE, template_input_values: {}, source_klass: nil)
+  def render(renderer: Foreman::Renderer, host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE, template_input_values: {}, source_klass: nil)
     source = Foreman::Renderer.get_source(template: self, host: host, klass: source_klass)
     scope = Foreman::Renderer.get_scope(host: host, params: params, variables: variables, mode: mode, template: self, source: source, template_input_values: template_input_values)
-    Foreman::Renderer.render(source, scope)
+
+    renderer.render(source, scope)
   end
 
   def dup

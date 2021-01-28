@@ -5,7 +5,6 @@ import ReactApp from '../Root/ReactApp';
 import DonutChart from './common/charts/DonutChart';
 import BarChart from './common/charts/BarChart';
 import LineChart from './common/charts/LineChart';
-import StatisticsChartsList from './StatisticsChartsList';
 import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
 import ToastsList from './ToastsList/';
@@ -31,7 +30,6 @@ import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
 import ModelsTable from './ModelsTable';
 import TemplateGenerator from './TemplateGenerator';
-import TemplateInput from './Template/TemplateInput';
 import Editor from './Editor';
 import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
@@ -39,6 +37,10 @@ import Slot from './common/Slot';
 import TypeAheadSelect from './common/TypeAheadSelect';
 import DatePicker from './common/DateTimePicker/DatePicker';
 import RedirectCancelButton from './common/RedirectCancelButton';
+import SettingRecords from './SettingRecords';
+import SettingsTable from './SettingsTable';
+import SettingUpdateModal from './SettingUpdateModal';
+import PersonalAccessTokens from './users/PersonalAccessTokens';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -113,10 +115,9 @@ const coreComponets = [
   { name: 'AutoComplete', type: AutoComplete },
   { name: 'DonutChart', type: DonutChart },
   { name: 'LineChart', type: LineChart },
-  { name: 'StatisticsChartsList', type: StatisticsChartsList },
   { name: 'PowerStatus', type: PowerStatus },
   { name: 'NotificationContainer', type: NotificationContainer },
-  { name: 'ToastNotifications', type: ToastsList, data: false },
+  { name: 'ToastNotifications', type: ToastsList },
   { name: 'StorageContainer', type: StorageContainer },
   { name: 'PasswordStrength', type: PasswordStrength },
   { name: 'BreadcrumbBar', type: BreadcrumbBar },
@@ -129,12 +130,15 @@ const coreComponets = [
   { name: 'ComponentWrapper', type: ComponentWrapper },
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
-  { name: 'TemplateInput', type: TemplateInput },
   { name: 'ExternalLogout', type: ExternalLogout },
   { name: 'Slot', type: Slot },
   { name: 'TypeAheadSelect', type: TypeAheadSelect },
   { name: 'DatePicker', type: DatePicker },
   { name: 'RedirectCancelButton', type: RedirectCancelButton },
+  { name: 'SettingRecords', type: SettingRecords },
+  { name: 'SettingsTable', type: SettingsTable },
+  { name: 'SettingUpdateModal', type: SettingUpdateModal },
+  { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
 
   {
     name: 'RelativeDateTime',

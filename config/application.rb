@@ -239,7 +239,8 @@ module Foreman
       :telemetry => {:enabled => false},
       :blob => {:enabled => false},
       :taxonomy => {:enabled => true},
-      :api_deprecations => {:enabled => true}
+      :api_deprecations => {:enabled => true},
+      :sidekiq => {:enabled => true, :level => :warn}
     ))
 
     config.logger = Foreman::Logging.logger('app')
@@ -295,6 +296,10 @@ module Foreman
       Facets.register(HostFacets::ReportedDataFacet, :reported_data) do
         set_dependent_action :destroy
         template_compatibility_properties :cores, :virtual, :sockets, :ram, :uptime_seconds
+      end
+
+      Facets.register(ForemanRegister::RegistrationFacet, :registration_facet) do
+        set_dependent_action :destroy
       end
 
       Plugin.all.each do |plugin|

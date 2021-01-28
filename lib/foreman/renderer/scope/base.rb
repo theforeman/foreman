@@ -4,6 +4,7 @@ module Foreman
       class Base
         include Foreman::Renderer::Scope::Variables
         include Foreman::Renderer::Scope::Macros::Base
+        include Foreman::Renderer::Scope::Macros::Helpers
         include Foreman::Renderer::Scope::Macros::Loaders
         include Foreman::Renderer::Scope::Macros::TemplateLogging
         include Foreman::Renderer::Scope::Macros::SnippetRendering
@@ -29,6 +30,11 @@ module Foreman
         end
 
         attr_reader :host, :params, :variables_keys, :mode, :source
+        attr_writer :renderer
+
+        def renderer
+          @renderer || Foreman::Renderer
+        end
 
         def get_binding
           binding

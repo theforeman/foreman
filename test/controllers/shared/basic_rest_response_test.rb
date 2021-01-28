@@ -47,14 +47,8 @@ module BasicRestResponseTest
         test 'should render correct per_page value' do
           get :index, params: {per_page: @entries_per_page + 1}, session: set_session_user
           assert_response :success
-          per_page_results = response.body.scan(/perPage":\d+/).first.gsub(/[^\d]/, '').to_i
+          per_page_results = response.body.scan(/perPage&quot;:\d+/).first.gsub(/[^\d]/, '').to_i
           assert_equal @entries_per_page, per_page_results
-        end
-
-        test 'should render per page dropdown with correct values' do
-          get :index, params: {per_page: @entries_per_page + 1}, session: set_session_user
-          assert_response :success
-          assert_not_nil response.body['perPageOptions":[5,10,15,20,21,25,50]']
         end
 
         test 'sort links should include per page param' do

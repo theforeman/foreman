@@ -5,6 +5,10 @@ class UsergroupJSTest < IntegrationTestWithJavascript
     as_admin { @usergroup = FactoryBot.create(:usergroup) }
   end
 
+  test "index page" do
+    assert_index_page(usergroups_path, "User Groups", "Create User Group", false)
+  end
+
   test "create new page" do
     visit usergroups_path
     first(:link, "Create User Group").click

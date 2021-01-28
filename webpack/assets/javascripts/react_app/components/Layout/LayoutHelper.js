@@ -8,14 +8,16 @@ import {
   changeLocation,
 } from '../../../foreman_navigation';
 import { translate as __ } from '../../common/I18n';
-import { ANY_ORGANIZATION_TEXT, ANY_LOCATION_TEXT } from './LayoutConstants';
-import { removeLastSlashFromPath, noop } from '../../common/helpers';
+import {
+  removeLastSlashFromPath,
+  noop,
+  foremanUrl,
+} from '../../common/helpers';
 
 export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
   const taxonomyId = availableTaxonomies.find(
     taxonomy => taxonomy.title === currentTaxonomy
   ).id;
-
   return {
     title: currentTaxonomy,
     id: taxonomyId,
@@ -37,7 +39,7 @@ export const getActiveMenuItem = (items, path = getCurrentPath()) => {
 };
 
 export const handleMenuClick = (primary, activeMenu, changeActive) => {
-  if (primary.title !== activeMenu) changeActive(primary);
+  if (primary.title !== __(activeMenu)) changeActive(primary);
 };
 
 export const combineMenuItems = data => {
@@ -59,26 +61,21 @@ export const combineMenuItems = data => {
     items.push(translatedItem);
   });
 
-  if (data.taxonomies.organizations) {
-    items.push(createOrgItem(data.orgs.available_organizations));
-  }
+  items.push(createOrgItem(data.orgs.available_organizations));
+  items.push(createLocationItem(data.locations.available_locations));
 
-  if (data.taxonomies.locations) {
-    items.push(createLocationItem(data.locations.available_locations));
-  }
   return items;
 };
 
 const createOrgItem = orgs => {
   const anyOrg = {
-    name: ANY_ORGANIZATION_TEXT,
-    url: '/organizations/clear',
+    name: __('Any Organization'),
     onClick: () => {
-      changeOrganization(ANY_ORGANIZATION_TEXT);
+      changeOrganization();
+      window.location.assign(foremanUrl('/organizations/clear'));
     },
   };
-  const childrenArray = [];
-  childrenArray.push(anyOrg);
+  const childrenArray = [anyOrg];
 
   orgs.forEach(org => {
     const childObject = {
@@ -86,8 +83,8 @@ const createOrgItem = orgs => {
       name: isEmpty(org.title) ? org.title : __(org.title),
       onClick: () => {
         changeOrganization(__(org.title));
+        window.location.assign(org.href);
       },
-      url: org.href,
     };
     childrenArray.push(childObject);
   });
@@ -105,14 +102,13 @@ const createOrgItem = orgs => {
 
 const createLocationItem = locations => {
   const anyLoc = {
-    name: ANY_LOCATION_TEXT,
-    url: '/locations/clear',
+    name: __('Any Location'),
     onClick: () => {
-      changeLocation(ANY_LOCATION_TEXT);
+      changeLocation();
+      window.location.assign(foremanUrl('/locations/clear'));
     },
   };
-  const childrenArray = [];
-  childrenArray.push(anyLoc);
+  const childrenArray = [anyLoc];
 
   locations.forEach(loc => {
     const childObject = {
@@ -120,8 +116,8 @@ const createLocationItem = locations => {
       name: isEmpty(loc.title) ? loc.title : __(loc.title),
       onClick: () => {
         changeLocation(__(loc.title));
+        window.location.assign(loc.href);
       },
-      url: loc.href,
     };
     childrenArray.push(childObject);
   });
@@ -203,6 +199,7 @@ export const layoutPropTypes = {
   data: PropTypes.shape({
     brand: PropTypes.string,
     stop_impersonation_url: PropTypes.string.isRequired,
+    instance_title: PropTypes.string,
     menu: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string.isRequired,
@@ -228,8 +225,6 @@ export const layoutDefaultProps = {
   children: null,
   items: [],
   data: {},
-  currentOrganization: ANY_ORGANIZATION_TEXT,
-  currentLocation: ANY_LOCATION_TEXT,
   isLoading: false,
   isCollapsed: false,
   activeMenu: '',

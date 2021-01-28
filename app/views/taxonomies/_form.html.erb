@@ -54,7 +54,7 @@
       <div class="tab-pane active" id="primary">
         <%= base_errors_for taxonomy %>
         <% taxonomy_name = taxonomy.class.to_s.underscore %>
-        <%= select_f(f, :parent_id, taxonomy.class.completer_scope(nil).authorized("edit_#{taxonomy_name.pluralize}").where("id NOT IN (#{taxonomy.subtree_ids.join(',')})").order(:title), :id, :title, { :include_blank => true },
+        <%= select_f(f, :parent_id, taxonomy.class.completer_scope(nil).authorized("edit_#{taxonomy_name.pluralize}").where.not(id: taxonomy.subtree_ids).order(:title), :id, :title, { :include_blank => true },
                      { :label => _('Parent'), :onchange => 'parent_taxonomy_changed(this);',
                        :help_inline => :indicator,
                        :'data-url' => (controller_name == 'organizations' ? parent_taxonomy_selected_organization_path(taxonomy.id) :

@@ -4,7 +4,6 @@
 //= link application.js
 //= link vendor.js
 
-//= link editable/clear.png
 //= link bg-modal-about-pf.png
 
 //= link unimported/email.css

@@ -12,6 +12,26 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     Fog.unmock!
   end
 
+  test "create new ComputeProfile" do
+    assert_new_button(compute_profiles_path, "Create Compute Profile", new_compute_profile_path)
+    fill_in "compute_profile_name", :with => "5-XXLarge"
+    click_button 'Submit'
+    assert_breadcrumb_text('5-XXLarge')
+  end
+
+  test "edit page" do
+    visit edit_compute_profile_path(compute_profiles(:one))
+    fill_in "compute_profile_name", :with => "1-Tiny"
+    assert_submit_button(compute_profiles_path)
+    assert page.has_link? '1-Tiny'
+  end
+
+  test "show page" do
+    visit compute_profiles_path
+    click_link("1-Small")
+    assert_breadcrumb_text('1-Small')
+  end
+
   test "edit compute attribute page" do
     visit compute_profile_path(compute_profiles(:one))
     # amazon123 exists in fixture compute_attributes.yml

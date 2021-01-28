@@ -76,7 +76,7 @@ class AuthSourceLdap < AuthSource
     logger.debug "Retrieved LDAP Attributes for #{login}: #{attrs}"
 
     attrs
-  rescue Net::LDAP::Error, Net::LDAP::LdapError => error
+  rescue Net::LDAP::Error => error
     raise ::Foreman::LdapException.new(error, N_("Error while connecting to '%{name}' LDAP server at '%{url}' during authentication" % {:url => host, :name => name}))
   end
 
@@ -125,24 +125,21 @@ class AuthSourceLdap < AuthSource
 
     logger.debug "Updating user groups for user #{login}"
     user = User.unscoped.find_by_login(login)
-    external = ldap_con.group_list(login).map(&:downcase)
+    external_names = ldap_con.group_list(login).map(&:downcase)
     group_name_arel = ExternalUsergroup.arel_table[:name].lower
 
     # User's external user groups localy
-    usergroup_ids = user.usergroups
-                        .joins(:external_usergroups)
-                        .where(ExternalUsergroup.arel_table[:auth_source_id].eq(id))
-                        .pluck(:id)
+    current_external_ids = user.usergroups
+                               .where(id: ExternalUsergroup.where(auth_source_id: id).select(:usergroup_id))
+                               .pluck(:id)
     # User's external user groups as of auth_source
-    usergroup_ids.concat(
-      ExternalUsergroup.where(auth_source_id: id)
-        .where(group_name_arel.in(external))
-        .pluck(:usergroup_id)
-    )
+    correct_external_ids = ExternalUsergroup.where(auth_source_id: id)
+                                            .where(group_name_arel.in(external_names))
+                                            .pluck(:usergroup_id)
 
-    Usergroup.where(id: usergroup_ids.uniq).find_each do |usergroup|
-      refresh_usergroup_members(usergroup)
-    end
+    user.usergroup_ids = (user.usergroup_ids - current_external_ids) + correct_external_ids
+    # audit changes
+    user.save(validate: false)
   end
 
   ##
@@ -265,9 +262,7 @@ class AuthSourceLdap < AuthSource
 
   def validate_ldap_filter
     Net::LDAP::Filter.construct(ldap_filter)
-  # rubocop:disable Lint/ShadowedException, Lint/RedundantCopDisableDirective
-  rescue Net::LDAP::Error, Net::LDAP::LdapError, Net::LDAP::FilterSyntaxInvalidError => e
-    # rubocop:enable Lint/ShadowedException, Lint/RedundantCopDisableDirective
+  rescue Net::LDAP::Error => e
     message = _("invalid LDAP filter syntax")
     Foreman::Logging.exception(message, e)
     errors.add(:ldap_filter, message)

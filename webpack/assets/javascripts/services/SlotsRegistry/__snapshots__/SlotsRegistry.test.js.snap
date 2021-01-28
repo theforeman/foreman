@@ -4,6 +4,7 @@ exports[`Extendable Registry should render one component after a removal 1`] = `
 Array [
   Object {
     "component": [Function],
+    "id": "fill-id-1",
     "weight": 100,
   },
 ]
@@ -13,10 +14,12 @@ exports[`Extendable Registry should render two components by weights 1`] = `
 Array [
   Object {
     "component": [Function],
+    "id": "fill-id-1",
     "weight": 100,
   },
   Object {
     "component": [Function],
+    "id": "fill-id-2",
     "weight": 200,
   },
 ]

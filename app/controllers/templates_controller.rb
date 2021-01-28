@@ -44,6 +44,7 @@ class TemplatesController < ApplicationController
     if @template.save
       process_success :object => @template
     else
+      load_vars_from_template
       process_error :object => @template
     end
   end
@@ -57,6 +58,7 @@ class TemplatesController < ApplicationController
       process_success :object => @template
     else
       load_history
+      load_vars_from_template
       process_error :object => @template
     end
   end
@@ -92,7 +94,9 @@ class TemplatesController < ApplicationController
       return
     end
     @template.template = params[:template]
-    safe_render(@template, Foreman::Renderer::PREVIEW_MODE, escape_json: true)
+
+    renderer = params.delete('force_safemode') ? Foreman::Renderer::SafeModeRenderer : Foreman::Renderer
+    safe_render(@template, Foreman::Renderer::PREVIEW_MODE, renderer, escape_json: true)
   end
 
   def export
@@ -109,9 +113,10 @@ class TemplatesController < ApplicationController
 
   private
 
-  def safe_render(template, mode = Foreman::Renderer::REAL_MODE, render_on_error: :plain, **params)
+  def safe_render(template, mode = Foreman::Renderer::REAL_MODE, renderer = Foreman::Renderer, render_on_error: :plain, **params)
     escape = params.delete :escape_json
-    rendered_text = template.render(host: @host, params: params, mode: mode, **params)
+
+    rendered_text = template.render(renderer: renderer, host: @host, params: params, mode: mode, **params)
     rendered_text = rendered_text.to_json if escape
     render :plain => rendered_text
   rescue => error

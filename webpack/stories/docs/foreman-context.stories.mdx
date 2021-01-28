@@ -1,7 +1,7 @@
 import { Meta } from '@theforeman/stories';
 
 <Meta
-  title="Introduction|Foreman Context"
+  title="Introduction/Foreman Context"
   parameters={{
     storyWeight: 130,
   }}
@@ -10,14 +10,14 @@ import { Meta } from '@theforeman/stories';
 # ForemanContext
 
 ForemanContext is an implementation of the new `React Context` API.
-Global metadata (such as version, pagination, theme, foreman's settings, etc...) can be shared over all react nodes
+Global metadata (such as version, pagination, user, taxonomies, theme, foreman's settings, etc...) can be shared over all react nodes
 without any redux integration nor API request.
 
 ### How to apply it
 
 `Foreman Context` comes with every react component by default, like redux's store.
 
-### How to read a value 
+### How to read a value
 
 #### With Hooks
 Like selectors, you can consume context values by custom hooks:
@@ -27,16 +27,22 @@ Like selectors, you can consume context values by custom hooks:
 import {
   useForemanSettings,
   useForemanVersion,
+  useForemanOrganization,
+  useForemanLocation,
+  useForemanUser
 } from '../../Root/Context/ForemanContext';
 
 const { perPage } = useForemanSettings();
 const foremanVersion = useForemanVersion();
+const { id, title } = useForemanLocation();
+const { id, title } = useForemanOrganization();
+const { id, login, firstname, lastname, admin } = useForemanUser();
 ```
 
 ### How to add a value to the context
 
 Keys and values are set in the `app_metadata` method of `/application_helper.rb`.
-The `app_metadata` object is passed down and becomes ForemanContext. 
+The `app_metadata` object is passed down and becomes ForemanContext.
 
 If you add a new value to `app_metadata`, it will also be useful to add a new custom hook in `webpack/assets/javascripts/react_app/ReactApp/Context/ForemanContext.js`
 so that the value can be easily consumed on the front end.

@@ -65,7 +65,7 @@ export default class IntegrationTestHelper {
    * Compare the store with the stored snapshot
    * @param  {string} description Snapshot description
    */
-  takeStoreSnapshot(description) {
+  takeStoreSnapshot(description = 'Integration test store') {
     expect(this.getState()).toMatchSnapshot(description);
   }
   /**

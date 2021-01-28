@@ -3,7 +3,7 @@ import { Grid, Row, Col } from 'patternfly-react';
 import DateTimePicker from './DateTimePicker';
 
 export default {
-  title: 'Components|DateTimePicker',
+  title: 'Components/DateTimePicker',
   component: DateTimePicker,
   parameters: {
     centered: { disable: true },

@@ -1,0 +1,16 @@
+<%#
+kind: snippet
+name: insights
+model: ProvisioningTemplate
+snippet: true
+%>
+<% if @host.operatingsystem.name == 'RedHat' && host_param_true?('host_registration_insights') -%>
+echo '#'
+echo '# Installing Insights client'
+echo '#'
+
+yum install -y insights-client
+insights-client --test-connection
+insights-client --register
+
+<% end -%>

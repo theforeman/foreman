@@ -1,12 +1,12 @@
 import React from 'react';
-import { boolean, number, withKnobs, action } from '@theforeman/stories';
+import { boolean, number } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 
 import BreadcrumbBar from './BreadcrumbBar';
 import Story from '../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|BreadcrumbBar',
-  decorators: [withKnobs],
+  title: 'Components/BreadcrumbBar',
 };
 
 export const withOpenSwitcher = () => (
@@ -27,16 +27,14 @@ export const withOpenSwitcher = () => (
           id: 3,
         },
       ]}
-      data={{
-        resource: {
-          resourceUrl: 'some_url',
-        },
-        isSwitchable: true,
-        breadcrumbItems: [
-          { caption: 'Index Page', url: '#' },
-          { caption: 'Resource Page' },
-        ],
+      resource={{
+        resourceUrl: 'some_url',
       }}
+      isSwitchable={true}
+      breadcrumbItems={[
+        { caption: 'Index Page', url: '#' },
+        { caption: 'Resource Page' },
+      ]}
     />
   </Story>
 );

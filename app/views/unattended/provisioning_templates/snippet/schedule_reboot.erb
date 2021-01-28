@@ -1,0 +1,13 @@
+<%#
+kind: snippet
+name: schedule_reboot
+model: ProvisioningTemplate
+snippet: true
+-%>
+<%#
+  Do not use "reboot" command direcly in SSH finish templates, it will break
+  SSH connection and cause timeouts. This snippet schedules reboot correctly.
+-%>
+<% if host_param_true?('schedule_reboot') -%>
+PATH=/usr/bin:/usr/sbin:/bin:/sbin:$PATH shutdown -r +1
+<% end -%>

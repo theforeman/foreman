@@ -1,6 +1,9 @@
-<div id='pagination'></div>
-  <%= mount_react_component('Pagination', '#pagination', {
+<div id='pagination'> 
+  <%= react_component('Pagination', {
+    data: {
       :viewType => 'table',
       :classNames => options,
       :itemCount => collection.total_entries,
-      }.to_json) %>
+    }
+  }) %>
+</div>

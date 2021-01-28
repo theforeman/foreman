@@ -71,11 +71,29 @@ class JwtTest < ActiveSupport::TestCase
     end
   end
 
+  context 'scope' do
+    test 'with scope' do
+      token = users(:one).jwt_token!(scope: [{ controller: :hosts, actions: [:create]}])
+      sso = SSO::Jwt.new(get_controller(true, token))
+
+      assert_equal users(:one).login, sso.authenticated?
+    end
+
+    test 'without scope' do
+      token = users(:one).jwt_token!(scope: [])
+      sso = SSO::Jwt.new(get_controller(true, token))
+
+      assert_equal users(:one).login, sso.authenticated?
+    end
+  end
+
   protected
 
   def get_controller(api_request, jwt_token = 'invalid', headers = {})
     controller = Struct.new(:request).new(Struct.new(:authorization, :headers).new("Bearer #{jwt_token}", headers))
     controller.stubs(:api_request?).returns(api_request)
+    controller.stubs(:controller_permission).returns('hosts')
+    controller.stubs(:action_name).returns('create')
     controller.stubs(:session).returns(ActionController::TestSession.new)
     controller
   end

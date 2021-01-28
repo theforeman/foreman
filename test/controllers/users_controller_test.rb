@@ -221,7 +221,7 @@ class UsersControllerTest < ActionController::TestCase
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
     time = Time.zone.now
-    @request.env['REMOTE_USER'] = users(:admin).login
+    @request.env['HTTP_REMOTE_USER'] = users(:admin).login
     get :extlogin, session: {:user => users(:admin).id }
     assert_redirected_to hosts_path
     users(:admin).reload
@@ -244,7 +244,7 @@ class UsersControllerTest < ActionController::TestCase
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
     users(:external).update(disabled: true)
-    @request.env['REMOTE_USER'] = users(:external).login
+    @request.env['HTTP_REMOTE_USER'] = users(:external).login
     get :extlogin, session: {:user => users(:external).id }
     assert_redirected_to '/users/login'
   end
@@ -252,7 +252,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should login external user preserving uri" do
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
-    @request.env['REMOTE_USER'] = users(:admin).login
+    @request.env['HTTP_REMOTE_USER'] = users(:admin).login
     get :extlogin, session: { :original_uri => '/test' }
     assert_redirected_to '/test'
   end
@@ -261,7 +261,7 @@ class UsersControllerTest < ActionController::TestCase
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache_mod'
     @request.session.clear
-    @request.env['REMOTE_USER'] = 'ares'
+    @request.env['HTTP_REMOTE_USER'] = 'ares'
     get :extlogin
     assert_redirected_to edit_user_path(User.unscoped.find_by_login('ares'))
   end
@@ -394,7 +394,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_match /An email address is required/, flash[:error]
   end
 
-  test "test email was deliver an email successfuly" do
+  test "test email was deliver an email successfully" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     put :test_mail, params: { :id => user.id, :user => {:login => user.login}, :user_email => user.mail }, session: set_session_user
     mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Foreman test email/ }

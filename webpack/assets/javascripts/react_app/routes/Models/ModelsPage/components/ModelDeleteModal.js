@@ -15,7 +15,10 @@ const ModelDeleteModal = props => {
       enforceFocus
       submitProps={{
         url: `/api/v2/models/${id}`,
-        message: sprintf(__('Hardware Model %s was successfuly deleted'), name),
+        message: sprintf(
+          __('Hardware Model %s was successfully deleted'),
+          name
+        ),
         onSuccess: props.fetchAndPush,
         submitBtnProps: {
           bsStyle: 'danger',

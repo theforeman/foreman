@@ -1,0 +1,16 @@
+name: Assert Single Commit (non-blocking)
+
+on: pull_request
+
+jobs:
+  build:
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 30
+    - name: Checkout target branch
+      run: git fetch origin ${{ github.base_ref }}
+    - name: Commit Count Check
+      run: test `git log  --oneline --no-merges HEAD ^origin/${{ github.base_ref }} | wc -l ` = 1
+    runs-on: ubuntu-latest

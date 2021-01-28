@@ -81,7 +81,7 @@ Foreman::AccessControl.map do |permission_set|
     ajax_actions = [:test_connection]
     map.permission :view_compute_resources, {:compute_resources => [:index, :show, :auto_complete_search, :ping, :available_images, :refresh_cache, :welcome],
                                                 :"api/v2/compute_resources" => [:index, :show, :available_images, :available_clusters, :available_folders,
-                                                                                :available_flavors, :available_networks, :available_resource_pools, :available_virtual_machines, :show_vm,
+                                                                                :available_flavors, :available_networks, :available_vnic_profiles, :available_resource_pools, :available_virtual_machines, :show_vm,
                                                                                 :available_security_groups, :available_storage_domains, :available_zones,
                                                                                 :available_storage_pods, :storage_pod, :storage_domain, :refresh_cache],
     }
@@ -305,10 +305,11 @@ Foreman::AccessControl.map do |permission_set|
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
                                     :interfaces => [:new, :random_name],
+                                    :registration => [:new, :create],
                                      :"api/v2/hosts" => [:create],
                                      :"api/v2/interfaces" => [:create],
                                      :"api/v2/tasks" => [:index],
-                                     :"api/v2/provisioning_templates" => [:global_registration],
+                                     :"api/v2/registration" => [:global, :host],
                                   }
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
                                                :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
@@ -452,7 +453,7 @@ Foreman::AccessControl.map do |permission_set|
                                              :"api/v2/operatingsystems" => [:index, :show, :bootfiles],
                                              :"api/v2/os_default_templates" => [:index, :show],
                                             }
-    map.permission :create_operatingsystems, {:operatingsystems => [:new, :create],
+    map.permission :create_operatingsystems, {:operatingsystems => [:new, :create, :clone],
                                              :"api/v2/operatingsystems" => [:create],
                                              :"api/v2/os_default_templates" => [:create],
                                             }
@@ -676,12 +677,6 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :view_audit_logs, {:audits      => [:index, :show, :auto_complete_search],
                                        :"api/v2/audits" => [:index, :show],
     }
-  end
-
-  permission_set.security_block :statistics do |map|
-    map.permission :view_statistics, {:statistics => [:index, :show],
-                                       :"api/v2/statistics" => [:index],
-                                      }
   end
 
   permission_set.security_block :tasks do |map|

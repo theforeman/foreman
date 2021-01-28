@@ -4,26 +4,6 @@ class FactImporter
   delegate :logger, :to => :Rails
   attr_reader :counters
 
-  def self.importer_for(type)
-    Foreman::Deprecation.deprecation_warning('2.2', 'Use FactImporterRegistry#get or Foreman::Plugin.importer_registry.get methods instead of FactImporter.importer_for')
-    Foreman::Plugin.fact_importer_registry.get(type)
-  end
-
-  def self.importers
-    Foreman::Deprecation.deprecation_warning('2.2', 'Use FactImporterRegistry#importers or Foreman::Plugin.importer_registry.importers method instead of FactImporter.importers')
-    Foreman::Plugin.fact_importer_registry.importers
-  end
-
-  def self.register_fact_importer(key, klass, default = false)
-    Foreman::Deprecation.deprecation_warning('2.2', 'Use FactImporterRegistry#register or Foreman::Plugin.importer_registry.register method instead of FactImporter.register_fact_importer')
-    Foreman::Plugin.fact_importer_registry.register(key, klass, default)
-  end
-
-  def self.fact_features
-    Foreman::Deprecation.deprecation_warning('2.2', 'Use FactImporterRegistry#fact_features or Foreman::Plugin.importer_registry.fact_features method instead of FactImporter.fact_features')
-    Foreman::Plugin.fact_importer_registry.fact_features
-  end
-
   def self.support_background
     false
   end

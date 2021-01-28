@@ -96,9 +96,10 @@ module ApplicationHelper
   # +options+ : Hash containing options for authorized_for and link_to
   # +html_options+ : Hash containing html options for the link or span
   def link_to_if_authorized(name, options = {}, html_options = {})
+    engine = options.delete(:engine) || main_app
     enable_link = authorized_for(options)
     if enable_link
-      link_to name, options, html_options
+      link_to name, engine.url_for(options.reverse_merge(only_path: true)), html_options
     else
       link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
     end
@@ -129,8 +130,10 @@ module ApplicationHelper
   # +options+ : Hash containing options for authorized_for and link_to
   # +html_options+ : Hash containing html options for the link or span
   def display_link_if_authorized(name, options = {}, html_options = {})
-    if authorized_for(options)
-      link_to(name, options, html_options)
+    engine = options.delete(:engine) || main_app
+    enable_link = authorized_for(options)
+    if enable_link
+      link_to(name, engine.url_for(options.reverse_merge(only_path: true)), html_options)
     else
       ""
     end
@@ -182,7 +185,7 @@ module ApplicationHelper
   end
 
   def auto_complete_search(name, val, options = {})
-    Foreman::Deprecation.deprecation_warning('1.27', 'use #auto_complete_f, possibly with #form_with if you need to avoid of object scope')
+    Foreman::Deprecation.deprecation_warning('2.5', 'use #auto_complete_f, possibly with #form_with if you need to avoid of object scope')
     options.merge!(
       {
         url: options[:full_path] || (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{name}",
@@ -394,7 +397,7 @@ module ApplicationHelper
   end
 
   def documentation_url(section = "", options = {})
-    main_app.external_link_url(options.merge(type: 'manual', section: section))
+    main_app.external_link_url(options.merge(type: 'manual', params: { section: section }))
   end
 
   def options_for_puppetclass_selection(klass, type)
@@ -402,7 +405,7 @@ module ApplicationHelper
       :'data-class-id'   => klass.id,
       :'data-class-name' => klass.name,
       :'data-type'       => type,
-      :'data-url'        => parameters_puppetclass_path(:id => klass.id),
+      :'data-url'        => main_app.parameters_puppetclass_path(:id => klass.id),
       :rel               => 'twipsy',
     }
   end
@@ -472,10 +475,7 @@ module ApplicationHelper
   end
 
   def notifications
-    content_tag :div, id: 'toast-notifications-container',
-                      'data-notifications': toast_notifications_data.to_json.html_safe do
-      mount_react_component('ToastNotifications', '#toast-notifications-container')
-    end
+    react_component('ToastNotifications', {railsMessages: toast_notifications_data})
   end
 
   def toast_notifications_data
@@ -500,10 +500,15 @@ module ApplicationHelper
   end
 
   def app_metadata
-    { UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url }
+    {
+      UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url,
+      location: Location.current&.attributes&.slice('id', 'title'),
+      organization: Organization.current&.attributes&.slice('id', 'title'),
+      user: User.current&.attributes&.slice('id', 'login', 'firstname', 'lastname', 'admin')
+    }.compact
   end
 
   def ui_settings
-    { perPage: Setting['entries_per_page'], perPageOptions: per_page_options }
+    { perPage: Setting['entries_per_page'] }
   end
 end

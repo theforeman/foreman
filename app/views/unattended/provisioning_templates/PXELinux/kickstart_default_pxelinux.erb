@@ -9,6 +9,9 @@ oses:
 -%>
 # This file was deployed via '<%= template_name %>' template
 <%
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  os_major = @host.operatingsystem.major.to_i
+  os_minor = @host.operatingsystem.minor.to_i
   timeout = host_param('loader_timeout').to_i * 10
   timeout = 100 if timeout.nil? || timeout <= 0
 -%>

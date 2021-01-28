@@ -12,6 +12,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -29,7 +30,7 @@ jobs:
       # before kicking off the ruby script to find them, this would eliminate the ruby dep and running `npm install` in plugins.
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
+          ruby-version: 2.7
       - name: Checkout Foreman
         uses: actions/checkout@v2
         with:

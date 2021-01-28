@@ -1,10 +1,5 @@
 
-
-
-
 cat > /etc/puppet/puppet.conf << EOF
-
-
 [main]
 vardir = /var/lib/puppet
 logdir = /var/log/puppet

@@ -1,296 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Default Empty State icon, header, description and main action are mandatory 1`] = `
-<EmptyStatePattern
-  action={
-    <PrimaryActionButton
-      action={
-        Object {
-          "title": "action-title",
-          "url": "action-url",
-        }
-      }
-    />
-  }
-  description="description1"
-  documentation={null}
-  header="header1"
-  icon="add-circle-o"
-  iconType="pf"
-  secondaryActions={
-    <SecondaryActionButtons
-      actions={Array []}
-    />
-  }
-/>
-`;
-
 exports[`Default Empty State should render documentation when given a url 1`] = `
-<EmptyStatePattern
-  action={
-    <PrimaryActionButton
-      action={
-        Object {
-          "title": "action-title",
-          "url": "action-url",
-        }
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(Symbol.observable): [Function],
+    }
+  }
+>
+  <DefaultEmptyState
+    description="Printers print a file from the computer"
+    documentation={
+      Object {
+        "url": "https://example.com",
       }
-    />
-  }
-  description="Printers print a file from the computer"
-  documentation={
-    <React.Fragment>
-      For more information please see
-       
-      <a
-        href="doc-url"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Documentation
-      </a>
-    </React.Fragment>
-  }
-  header="Printers"
-  icon="add-circle-o"
-  iconType="pf"
-  secondaryActions={
-    <SecondaryActionButtons
-      actions={Array []}
-    />
-  }
-/>
+    }
+    header="Printers"
+    icon="printer"
+    iconType="pf"
+    secondaryActions={Array []}
+  />
+</Provider>
 `;
 
 exports[`Default Empty State should render secondary actions 1`] = `
-<EmptyStatePattern
-  action={
-    <PrimaryActionButton
-      action={
-        Object {
-          "title": "action-1-title",
-          "url": "action-1-url",
-        }
-      }
-    />
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(Symbol.observable): [Function],
+    }
   }
-  description="Printers print a file from the computer"
-  documentation={null}
-  header="Printers"
-  icon="add-circle-o"
-  iconType="pf"
-  secondaryActions={
-    <SecondaryActionButtons
-      actions={
-        Array [
-          Object {
-            "title": "action-2-title",
-            "url": "action-2-url",
-          },
-          Object {
-            "title": "action-3-title",
-            "url": "action-3-url",
-          },
-          Object {
-            "title": "action-4-title",
-            "url": "action-4-url",
-          },
-        ]
+>
+  <DefaultEmptyState
+    description="Printers print a file from the computer"
+    documentation={
+      Object {
+        "url": "https://example.com",
       }
-    />
-  }
-/>
+    }
+    header="Printers"
+    icon="printer"
+    iconType="pf"
+    secondaryActions={Array []}
+  />
+</Provider>
 `;
 
-exports[`Empty State Pattern icon, header and description are mandatory 1`] = `
+exports[`Empty State Pattern should render with props 1`] = `
 <EmptyState
-  className=""
+  variant="xl"
 >
-  <EmptyStateIcon
-    className=""
-    name="printer"
-    type="pf"
-  />
-  <EmptyStateTitle
-    className=""
+  <span
+    className="empty-state-icon"
+  >
+    <Icon
+      name="printer"
+      size="2x"
+      type="pf"
+    />
+  </span>
+  <Title
+    headingLevel="h5"
+    size="4xl"
   >
     Printers
-  </EmptyStateTitle>
-  <EmptyStateInfo
-    className=""
-  >
-    Printers print a file from the computer
-  </EmptyStateInfo>
-</EmptyState>
-`;
-
-exports[`Empty State Pattern should render description when given one as JSX 1`] = `
-<EmptyState
-  className=""
->
-  <EmptyStateIcon
-    className=""
-    name="printer"
-    type="pf"
-  />
-  <EmptyStateTitle
-    className=""
-  >
-    Printers
-  </EmptyStateTitle>
-  <EmptyStateInfo
-    className=""
-  >
-    Printers print a file from the computer
-  </EmptyStateInfo>
-  <EmptyStateHelp
-    className=""
-  >
-    <div>
-      This is my 
-      <b>
-        description
-      </b>
-      .
+  </Title>
+  <EmptyStateBody>
+    <div
+      className="empty-state-description"
+    >
+      Printers print a file from the computer
     </div>
-  </EmptyStateHelp>
-</EmptyState>
-`;
-
-exports[`Empty State Pattern should render description when given one as a text 1`] = `
-<EmptyState
-  className=""
->
-  <EmptyStateIcon
-    className=""
-    name="printer"
-    type="pf"
-  />
-  <EmptyStateTitle
-    className=""
-  >
-    Printers
-  </EmptyStateTitle>
-  <EmptyStateInfo
-    className=""
-  >
-    Printers print a file from the computer
-  </EmptyStateInfo>
-  <EmptyStateHelp
-    className=""
-  >
-    This is a simple description
-  </EmptyStateHelp>
-</EmptyState>
-`;
-
-exports[`Empty State Pattern should render main action when given title and onClick 1`] = `
-<EmptyState
-  className=""
->
-  <EmptyStateIcon
-    className=""
-    name="printers"
-    type="pf"
-  />
-  <EmptyStateTitle
-    className=""
-  >
-    printers
-  </EmptyStateTitle>
-  <EmptyStateInfo
-    className=""
-  >
-    printers print a file from the computer
-  </EmptyStateInfo>
-  <EmptyStateAction
-    className=""
-    secondary={false}
-  >
-    <PrimaryActionButton
-      action={
-        Object {
-          "onClick": [Function],
-          "title": "my title again",
-        }
-      }
-    />
-  </EmptyStateAction>
-</EmptyState>
-`;
-
-exports[`Empty State Pattern should render main action when given title and url 1`] = `
-<EmptyState
-  className=""
->
-  <EmptyStateIcon
-    className=""
-    name="printer"
-    type="pf"
-  />
-  <EmptyStateTitle
-    className=""
-  >
-    printers
-  </EmptyStateTitle>
-  <EmptyStateInfo
-    className=""
-  >
-    printers print a file from the computer
-  </EmptyStateInfo>
-  <EmptyStateAction
-    className=""
-    secondary={false}
-  >
-    <PrimaryActionButton
-      action={
-        Object {
-          "title": "my title",
-          "url": "https://somewhere.com",
-        }
-      }
-    />
-  </EmptyStateAction>
-</EmptyState>
-`;
-
-exports[`Empty State Pattern should render secondary action when given one 1`] = `
-<EmptyState
-  className=""
->
-  <EmptyStateIcon
-    className=""
-    name="printer"
-    type="pf"
-  />
-  <EmptyStateTitle
-    className=""
-  >
-    printers
-  </EmptyStateTitle>
-  <EmptyStateInfo
-    className=""
-  >
-    printers print a file from the computer
-  </EmptyStateInfo>
-  <EmptyStateAction
-    className=""
-    secondary={true}
-  >
-    <SecondaryActionButtons
-      actions={
-        Array [
-          Object {
-            "title": "x",
-            "url": "some-url",
-          },
-          Object {
-            "title": "y",
-            "url": "random-url",
-          },
-        ]
-      }
-    />
-  </EmptyStateAction>
+    <DocumentationBlock />
+  </EmptyStateBody>
+  <EmptyStateSecondaryActions />
 </EmptyState>
 `;

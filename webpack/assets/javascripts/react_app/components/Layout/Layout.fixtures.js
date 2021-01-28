@@ -168,13 +168,11 @@ const logo =
   '/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg';
 const user = {
   current_user: {
-    user: {
-      id: 4,
-      login: 'admin',
-      firstname: 'Admin',
-      lastname: 'User',
-      name: 'Admin User',
-    },
+    id: 4,
+    login: 'admin',
+    firstname: 'Admin',
+    lastname: 'User',
+    name: 'Admin User',
   },
   user_dropdown: [
     {
@@ -214,11 +212,9 @@ const locations = {
 
 const serverUser = {
   current_user: {
-    user: {
-      firstname: 'G',
-      lastname: 'L',
-      name: 'G L',
-    },
+    firstname: 'G',
+    lastname: 'L',
+    name: 'G L',
   },
   user_dropdown: [
     {
@@ -250,6 +246,7 @@ export const layoutMock = {
     taxonomies: { locations: true, organizations: true },
     user,
     stop_impersonation_url: '/users/stop_impersonation',
+    instance_title: 'Production',
   },
 };
 

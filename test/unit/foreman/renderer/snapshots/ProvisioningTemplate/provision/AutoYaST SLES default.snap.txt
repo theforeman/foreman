@@ -48,6 +48,7 @@
     <packages config:type="list">
       <package>lsb-release</package>
       <package>openssh</package>
+      <package>rubygem-puppet</package>
     </packages>
   </software>
   <users config:type="list">
@@ -98,7 +99,7 @@ cp /etc/resolv.conf /mnt/etc
 #                                         effective user
 #
 # This template sets up SSH keys in any host so that as long as your public
-# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This 
+# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This
 # works in combination with Remote Execution plugin by querying smart proxies
 # to build an array.
 #
@@ -109,11 +110,34 @@ cp /etc/resolv.conf /mnt/etc
 
 
 
+echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
 
 
 
 
+cat > /etc/puppet/puppet.conf << EOF
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = \$vardir/ssl
 
+[agent]
+pluginsync      = true
+report          = true
+ca_server       = 
+certname        = snapshothost
+environment     = 
+server          = 
+
+EOF
+
+
+
+# export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
+export FACTER_is_installer=true
+# passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
 
 
 
@@ -124,7 +148,6 @@ elif [ -x /usr/bin/wget ]; then
 else
   wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.some.host.fqdn/unattended/built'
 fi
-
 
 rm /etc/resolv.conf
 ]]>
@@ -141,6 +164,53 @@ rm /etc/resolv.conf
   </timezone>
   <add-on>
     <add_on_products config:type="list">
+      <listentry>
+        <media_url><![CDATA[http://download.opensuse.org/repositories/systemsmanagement:/puppet/SLE_7/]]></media_url>
+        <name>systemsmanagement_puppet</name>
+        <product>systemsmanagement_puppet</product>
+        <product_dir>/</product_dir>
+        <signature-handling>
+          <accept_non_trusted_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>2ABFA143A0E46E11</keyid>
+            </keys>
+          </accept_non_trusted_gpg_key>
+          <import_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>2ABFA143A0E46E11</keyid>
+            </keys>
+          </import_gpg_key>
+        </signature-handling>
+      </listentry>
+      <listentry>
+        <media_url><![CDATA[http://download.opensuse.org/repositories/devel:languages:ruby:backports/SLE_7/]]></media_url>
+        <name>devel_languages_ruby_backports</name>
+        <product>devel_languages_ruby_backports</product>
+        <product_dir>/</product_dir>
+        <signature-handling>
+          <accept_non_trusted_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>9AF0C9A20E9AF123</keyid>
+            </keys>
+          </accept_non_trusted_gpg_key>
+          <import_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>9AF0C9A20E9AF123</keyid>
+            </keys>
+          </import_gpg_key>
+        </signature-handling>
+      </listentry>
+      <listentry>
+<!-- you have to update the next line with the actual URL of your SDK -->
+        <media_url>http://<your_server_here>/iso/suse/SDK/7.0/x86_64/</media_url>
+        <product>SuSE-Linux-SDK</product>
+        <product_dir>/</product_dir>
+        <name>SuSE-Linux-SDK</name>
+      </listentry>
     </add_on_products>
   </add-on>
 </profile>

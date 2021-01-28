@@ -18,6 +18,14 @@
                                                kind: template.template_kind.name,
                                                hostname: @host.name),
                                        rel: 'external',
+                                       "data-provisioning-template": true),
+                               !Setting[:safemode_render] && link_to(_("Safemode Review"),
+                                       url_for(controller: '/unattended',
+                                               action: 'host_template',
+                                               kind: template.template_kind.name,
+                                               hostname: @host.name,
+                                               force_safemode: true),
+                                       rel: 'external',
                                        "data-provisioning-template": true)) %>
         </td>
       </tr>

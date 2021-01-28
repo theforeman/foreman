@@ -49,13 +49,11 @@
 <h3 id="silent_erb_tag"><%% %></h3>
 <p><%= _('All Ruby code is enclosed within <code><&#37; &#37;></code> in an ERB template. The code is executed when the template is rendered. It can contain Ruby control flow structures as well as application-specific macros and variables. For example:').html_safe %></p>
 
-<pre>
-<&#37; if @host.operatingsystem.family == "Redhat" && @host.operatingsystem.major.to_i > 6 -&#37;>
-systemctl <&#37;= input("action") &#37;> <&#37;= input("service") &#37;>
-<&#37; else -&#37;>
-service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
-<&#37; end -&#37;>
-</pre>
+<%= apipie_dsl_example(apipie_erb_wrap('if @host.operatingsystem.family == "Redhat" && @host.operatingsystem.major.to_i > 6', mode: :silent, close_trim: true) + "\n" +
+                       'systemctl ' + apipie_erb_wrap('input("action")') + ' ' + apipie_erb_wrap('input("service")')+ "\n" +
+                        apipie_erb_wrap('else', mode: :silent, close_trim: true) + "\n" +
+                       'service ' + apipie_erb_wrap('input("service")') + ' ' + apipie_erb_wrap('input("action")')+ "\n" +
+                        apipie_erb_wrap('end', mode: :silent, close_trim: true)) %>
 
 <p><%= _('Note that there is no output from tags starting with <% when the template is rendered.') %></p>
 
@@ -102,19 +100,18 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 
 <p><%= _('Because of the varying lengths of the ERB tags, indenting the ERB syntax might seem messy. ERB syntax ignores white space. One method of handling the indentation is to declare the ERB tag at the beginning of each new line and then use white space within the ERB tag to outline the relationships within the syntax, for example:') %></p>
 
-<pre>
-<&#37;- load_hosts.each_record do |host| -&#37;>
-<&#37;-   if host.build? &#37;>
-<&#37;=     host.name &#37;> build is in progress
-<&#37;-   end &#37;>
-<&#37;- end &#37;>
-</pre>
+<%= apipie_dsl_example(apipie_erb_wrap('load_hosts.each_record do |host|', mode: :silent, open_trim: true, close_trim: true) + "\n" +
+                       apipie_erb_wrap('  if host.build?', mode: :silent, open_trim: true) + "\n" +
+                       apipie_erb_wrap('    host.name') + ' build is in progress' + "\n" +
+                       apipie_erb_wrap('  end', mode: :silent, open_trim: true) + "\n" +
+                       apipie_erb_wrap('end', mode: :silent, open_trim: true)
+                      ) %>
 
 <h2 id="building_blocks"><%= _('Basic building blocks - macros, variables, methods') %></h2>
 
 <p><%= _('The Ruby code inside of the ERB tags typically contain expressions. They consist of program flow control terminals, variables, macros. Variables and macros evaluates to objects. Each object has set of allowed methods that can be called on it. These methods can return objects.') %></p>
 <p><%= (_('An example of a control flow terminal is an if condition or for each cycle. Macros are functions called by their name without specifying any object, e.g. %{load_hosts} or %{input}. See all available macros %{all_macros}. Example of object class is an %{integer}, String, %{host}, %{subnet}, %{user}. Calling a method on an object is denoted by <code>.</code>. For example <code>@host.fqdn</code> expression is an instance variable that holds and evaluates to an object of a Host, on which the fqdn method is called. To find the list of all available methods on objects, see the documentation for each template type.') % {
-    all_macros: link_to(_('here'), @doc[:doc_url] + section_ext('all')),
+    all_macros: link_to(_('here'), @doc[:doc_url] + section_ext('all') + '.html'),
     load_hosts: link_to('load_hosts', @doc[:doc_url] + section_ext('all') + '/Foreman::Renderer::Scope::Macros::Loaders/load_hosts.html'),
     input: link_to('input', @doc[:doc_url] + section_ext('all') + '/Foreman::Renderer::Scope::Macros::Inputs/input.html'),
     integer: link_to('Integer', @doc[:doc_url] + section_ext('basic_ruby_methods') + '/Foreman::Renderer::DocTemplates::BasicRubyMethods::Integer.html'),
@@ -143,10 +140,10 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 <%= apipie_dsl_example(apipie_erb_wrap('@host.name') + "\n" +
                            apipie_erb_wrap('if @host.name == "host1.example.com"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
                            apipie_erb_wrap('  result = "positive"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
-                           apipie_erb_wrap('else"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
+                           apipie_erb_wrap('else', mode: :silent, open_trim: true, close_trim: true) + "\n" +
                            apipie_erb_wrap('  result = "negative"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
-                           apipie_erb_wrap('end"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
-                           apipie_erb_wrap('result"'),
+                           apipie_erb_wrap('end', mode: :silent, open_trim: true, close_trim: true) + "\n" +
+                           apipie_erb_wrap('result'),
                        "host1.example.com\npositive") %>
 
 <p><%= _('Note that the else branch is optional. Also multiple conditions can be specified using elsif, but that is usually better written using a case/when construct. See the example below') %></p>
@@ -267,7 +264,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
   <tr>
     <td><code>@host</code></td>
     <td>Provisioning Template, Partition Table, Job template</td>
-    <td><%= _('Represents the host object for whitch the template is rendered.') %></td>
+    <td><%= _('Represents the host object for which the template is rendered.') %></td>
   </tr>
   </tbody>
 </table>

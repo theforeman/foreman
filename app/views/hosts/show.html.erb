@@ -28,7 +28,7 @@
       </tbody>
     </table>
 
-    <ul id="myTab" class="nav nav-tabs">
+    <ul id="host-show-tabs" class="nav nav-tabs">
       <li class="active"><a href="#properties" data-toggle="tab"><%= _('Properties') %></a></li>
       <li><a href="#metrics" data-toggle="tab"><%= _('Metrics') %></a></li>
       <% if SETTINGS[:unattended] && @host.managed? %>
@@ -43,7 +43,7 @@
       <li><a href="#nics" data-toggle="tab"><%= _('NICs') %></a></li>
       <%= render_tab_header_for(:main_tabs, :subject => @host) %>
     </ul>
-    <div id="myTabContent" class="tab-content">
+    <div id="host-show-tabs-content" class="tab-content">
       <div class="tab-pane active in" id="properties" data-ajax-url='<%= overview_host_path(@host)%>'>
         <%= spinner(_('Loading host information ...')) %>
       </div>

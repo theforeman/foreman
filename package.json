@@ -1,11 +1,12 @@
 {
   "name": "TheForemanDevDeps",
-  "version": "2.2.0",
+  "version": "2.4.0",
   "license": "GPL-3.0",
   "description": "Foreman isn't really a node module, these are just dependencies needed to build the webpack bundle. 'dependencies' are the asset libraries in use and 'devDependencies' are used for the build process.",
   "private": true,
   "scripts": {
     "lint": "tfm-lint",
+    "lint:spelling": "eslint ./webpack",
     "foreman-js:link": "./script/npm_link_foreman_js.sh",
     "postlint": "./script/npm_lint_plugins.js",
     "test": "tfm-test",
@@ -20,18 +21,19 @@
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
-    "@theforeman/vendor": "^4.11.1",
+    "@theforeman/vendor": "^6.0.0",
+    "eslint-plugin-spellcheck": "0.0.17",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
     "react-intl": "^2.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
-    "@theforeman/builder": "^4.11.1",
-    "@theforeman/eslint-plugin-foreman": "^4.11.1",
-    "@theforeman/stories": "^4.11.1",
-    "@theforeman/test": "^4.11.1",
-    "@theforeman/vendor-dev": "^4.11.1",
+    "@theforeman/builder": "^6.0.0",
+    "@theforeman/eslint-plugin-foreman": "^6.0.0",
+    "@theforeman/stories": "^7.0.0",
+    "@theforeman/test": "^8.0.0",
+    "@theforeman/vendor-dev": "^6.0.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
