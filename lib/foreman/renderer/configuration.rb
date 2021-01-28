@@ -61,7 +61,8 @@ module Foreman
         :host_param_true?, :host_param_false?,
         :host_param, :host_param!,
         :host_puppet_classes,
-        :host_enc
+        :host_enc,
+        :install_packages
       ]
 
       DEFAULT_ALLOWED_VARIABLES = [
