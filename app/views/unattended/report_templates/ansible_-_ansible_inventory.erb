@@ -114,12 +114,12 @@ model: ReportTemplate
 <%-   content_attrs = input('Content Attributes') == 'yes' -%>
 <%-   include_host_collections = input('Host Collections') == 'yes' -%>
 <%- end -%>
-<%- interface_includes = [:subnet] %>
-<%- interface_includes.push(:domain) if input('Host Parameters') == 'yes' %>
-<%- includes = [:organization, :location, :hostgroup, { interfaces: interface_includes }] %>
-<%- includes.push(:host_collections) if include_host_collections %>
-<%- includes.push(:content_facet) if content_attrs %>
-<%- includes.push(:operatingsystem) if input('Host Parameters') == 'yes' %>
+<%- interface_includes = [:subnet] -%>
+<%- interface_includes.push(:domain) if input('Host Parameters') == 'yes' -%>
+<%- includes = [:organization, :location, :hostgroup, { interfaces: interface_includes }] -%>
+<%- includes.push(:host_collections) if include_host_collections -%>
+<%- includes.push(:content_facet) if content_attrs -%>
+<%- includes.push(:operatingsystem) if input('Host Parameters') == 'yes' -%>
 <%- load_hosts(search: input('Hosts'), includes: includes).each_record do |host| -%>
 <%-   content_facet = host_content_facet(host) if content_attrs -%>
 <%-   content_attribute_data = nil -%>
