@@ -38,8 +38,8 @@ require:
 <%- include_unknown_search = input('Include unknown') == 'true' ? ' or null? last_checkin' : '' %>
 <%- search = "(last_checkin < \"#{input('Interval')} ago\"#{include_unknown_search})" -%>
 <%- search << "and #{input('Host filter')}" if input('Host filter').present? -%>
-<%- load_hosts(search: search, preload: [ :subscription_facet, :interfaces ]).each_record do |host| -%>
 <%- report_headers('Name', 'IP', 'IPv6', 'Last Checkin') -%>
+<%- load_hosts(search: search, preload: [ :subscription_facet, :interfaces ]).each_record do |host| -%>
 <%-   report_row(
         'Name': host.name,
         'IP': host.ip,
