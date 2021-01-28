@@ -28,6 +28,8 @@ const SettingForm = ({
       item: 'Settings',
       message: __('Setting was successfully updated.'),
       method: 'put',
+      customErrorAlert: ({ response: { data }, message }) =>
+        data.error ? data.error.full_messages : message,
     });
     setModalClosed();
   };

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`form actions should submitForm 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "actionTypes": undefined,
+        "errorToast": [Function],
+        "handleError": [Function],
+        "handleSuccess": [Function],
+        "headers": Object {},
+        "key": "RESOURCE_FORM_SUBMITTED",
+        "params": Object {
+          "a": 1,
+        },
+        "successToast": [Function],
+        "url": "/api/resource",
+      },
+      "type": "API_POST",
+    },
+  ],
+]
+`;

@@ -1,8 +1,16 @@
 /* eslint-disable promise/prefer-await-to-then */
 import { submitForm } from './forms';
 import { mockReset } from '../../../mockRequests';
+import { requestData } from './forms.fixtures';
+import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
+
+const fixtures = {
+  'should submitForm': () => submitForm(requestData),
+};
 
 describe('form actions', () => {
+  testActionSnapshotWithFixtures(fixtures);
+
   beforeEach(() => {
     document.head.innerHTML = `<meta name="csrf-param" content="authenticity_token" />
      <meta name="csrf-token" content="token123" />`;

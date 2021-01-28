@@ -52,6 +52,7 @@ export const submitForm = ({
   message,
   method = 'post',
   headers,
+  customErrorAlert,
   apiActionTypes: actionTypes,
   errorToast,
   successToast,
@@ -89,7 +90,7 @@ export const submitForm = ({
         handleError,
         handleSuccess,
         successToast: successToast || defaultSuccessToast,
-        errorToast: errorToast || defaultErrorToast,
+        errorToast: customErrorAlert || errorToast,
       })
     );
   };
