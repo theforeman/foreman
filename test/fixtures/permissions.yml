@@ -609,11 +609,6 @@ destroy_users:
   resource_type: User
   created_at: "2013-12-04 08:41:06.38334"
   updated_at: "2013-12-04 08:41:06.38334"
-edit_classes:
-  name: edit_classes
-  resource_type: HostClass
-  created_at: "2013-12-04 08:41:04.815942"
-  updated_at: "2013-12-11 09:48:09.672833"
 view_compute_resources_vms:
   name: view_compute_resources_vms
   resource_type: ComputeResource

@@ -97,7 +97,7 @@ Foreman::Application.routes.draw do
           end
         end
         resources :puppetclasses, :except => [:new, :edit], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/puppetclasses'
-        resources :hostgroup_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
+        resources :hostgroup_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/hostgroup_classes'
         resources :hosts, :except => [:new, :edit]
         resources :template_combinations, :only => [:show, :index, :create, :update]
       end
@@ -347,7 +347,7 @@ Foreman::Application.routes.draw do
           post :facts, :on => :collection
           resources :audits, :only => :index
           resources :facts, :only => :index, :controller => :fact_values
-          resources :host_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
+          resources :host_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy], :controller => puppet_plugin && 'foreman_puppet_enc/api/v2/host_classes'
           resources :interfaces, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
             collection do

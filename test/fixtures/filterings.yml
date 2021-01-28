@@ -215,9 +215,6 @@ manager_21_2:
 manager_21_3:
   filter: manager_21
   permission: destroy_organizations
-manager_22_0:
-  filter: manager_22
-  permission: edit_classes
 manager_23_0:
   filter: manager_23
   permission: view_realms
