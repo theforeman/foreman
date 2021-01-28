@@ -1,27 +1,27 @@
 require 'test_helper'
 
 class Api::V2::HostgroupClassesControllerTest < ActionController::TestCase
-  test "should get puppetclass ids for hostgroup" do
-    get :index, params: { :hostgroup_id => hostgroups(:common).id }
-    assert_response :success
-    puppetclasses = ActiveSupport::JSON.decode(@response.body)
-    assert !puppetclasses['results'].empty?
-    assert_equal puppetclasses['results'].length, 1
+  test "should not get index" do
+    skip('Foreman Puppet plugin is installed') if Foreman::Plugin.find(:foreman_puppet)
+    get :index, params: { hostgroup_id: 123 }
+    assert_response :not_implemented
+    json_response = ActiveSupport::JSON.decode(response.body)
+    assert_equal json_response['message'], 'To access HostgroupClass API, you need to install the Foreman Puppet plugin'
   end
 
-  test "should add a puppetclass to a hostgroup" do
-    hostgroup = hostgroups(:common)
-    assert_difference('hostgroup.hostgroup_classes.count') do
-      post :create, params: { :hostgroup_id => hostgroup.id, :puppetclass_id => puppetclasses(:four).id }
-    end
-    assert_response :success
+  test "should not show" do
+    skip('Foreman Puppet plugin is installed') if Foreman::Plugin.find(:foreman_puppet)
+    get :create, params: { hostgroup_id: 123 }
+    assert_response :not_implemented
+    json_response = ActiveSupport::JSON.decode(response.body)
+    assert_equal json_response['message'], 'To access HostgroupClass API, you need to install the Foreman Puppet plugin'
   end
 
-  test "should remove a puppetclass from a hostgroup" do
-    hostgroup = hostgroups(:common)
-    assert_difference('hostgroup.hostgroup_classes.count', -1) do
-      delete :destroy, params: { :hostgroup_id => hostgroup.id, :id => puppetclasses(:one).id }
-    end
-    assert_response :success
+  test "should not update" do
+    skip('Foreman Puppet plugin is installed') if Foreman::Plugin.find(:foreman_puppet)
+    patch :destroy, params: { hostgroup_id: 123, id: 124 }
+    assert_response :not_implemented
+    json_response = ActiveSupport::JSON.decode(response.body)
+    assert_equal json_response['message'], 'To access HostgroupClass API, you need to install the Foreman Puppet plugin'
   end
 end

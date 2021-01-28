@@ -67,6 +67,8 @@ class AccessPermissionsTest < ActiveSupport::TestCase
   EXTRACTED_ACTIONS.concat(%w[api/v2/environments/import_puppetclasses api/v2/smart_proxies/import_puppetclasses])
   EXTRACTED_ACTIONS.concat(crud.map { |action| "api/v2/smart_class_parameters/#{action}" })
   EXTRACTED_ACTIONS.concat(crud.map { |action| "api/v2/override_values/#{action}" })
+  EXTRACTED_ACTIONS.concat((crud - %w[show update]).map { |action| "api/v2/host_classes/#{action}" })
+  EXTRACTED_ACTIONS.concat((crud - %w[show update]).map { |action| "api/v2/hostgroup_classes/#{action}" })
 
   check_routes(Rails.application.routes, MAY_SKIP_REQUIRE_LOGIN + MAY_SKIP_AUTHORIZED + EXTRACTED_ACTIONS)
 end

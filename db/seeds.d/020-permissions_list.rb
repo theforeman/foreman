@@ -48,7 +48,6 @@ class PermissionsList
         ['Filter', 'create_filters'],
         ['Filter', 'edit_filters'],
         ['Filter', 'destroy_filters'],
-        ['HostClass', 'edit_classes'],
         ['Hostgroup', 'view_hostgroups'],
         ['Hostgroup', 'create_hostgroups'],
         ['Hostgroup', 'edit_hostgroups'],
