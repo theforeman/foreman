@@ -212,7 +212,6 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :edit_hostgroups,       {:hostgroups => [:edit, :update, :architecture_selected, :process_hostgroup].push(*ajax_actions),
                                             :host => host_ajax_actions,
                                             :"api/v2/hostgroups" => [:update, :rebuild_config],
-                                            :"api/v2/hostgroup_classes" => [:index, :create, :destroy],
                                            }
     map.permission :destroy_hostgroups,    {:hostgroups => [:destroy],
                                             :"api/v2/hostgroups" => [:destroy],
@@ -287,9 +286,6 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :host_editing do |map|
-    map.permission :edit_classes, { :host_editing => [:edit_classes],
-                                    :"api/v2/host_classes" => [:index, :create, :destroy],
-                                }
     map.permission :view_params, { :host_editing => [:view_params],
                                    :parameters => [:index, :auto_complete_search],
                                    :common_parameters => [:index, :show, :auto_complete_search, :welcome],
