@@ -342,10 +342,11 @@ module Foreman
                      curl --cacert $SSL_CA_CERT https://smart-proxy.example.com:8443"
           end
           def foreman_server_ca_cert
-            if File.exist?(Setting[:ssl_ca_file])
+            raise UndefinedSetting.new(setting: 'SSL CA file') if Setting[:ssl_ca_file].blank?
+            begin
               File.read(Setting[:ssl_ca_file])
-            else
-              msg = N_("SSL CA file not found, check the 'SSL CA file' in Settings > Authentication")
+            rescue => e
+              msg = N_("%s, check the 'SSL CA file' in Settings > Authentication") % e.message
               raise Foreman::Exception.new(msg)
             end
           end
