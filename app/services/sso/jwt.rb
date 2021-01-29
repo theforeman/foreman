@@ -19,10 +19,10 @@ module SSO
       @current_user = user
       user&.login
     rescue JWT::ExpiredSignature
-      Rails.logger.error "JWT SSO: Expired JWT token."
+      Rails.logger.warn "JWT SSO: Expired JWT token."
       nil
     rescue JWT::DecodeError
-      Rails.logger.error "JWT SSO: Failed to decode JWT."
+      Rails.logger.warn "JWT SSO: Failed to decode JWT."
       nil
     end
 
