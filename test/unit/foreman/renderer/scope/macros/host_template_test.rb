@@ -142,8 +142,12 @@ class HostTemplateTest < ActiveSupport::TestCase
       host = FactoryBot.create(:host)
       @scope.instance_variable_set('@host', host)
       FactoryBot.create(:parameter, :name => 'true_param', :value => "true")
+      FactoryBot.create(:parameter, :name => 'false_param', :value => "false")
       assert @scope.host_param_true?('true_param')
       refute @scope.host_param_true?('false_param')
+      refute @scope.host_param_true?('missing_param')
+      assert @scope.host_param_true?('missing_param', 'true')
+      refute @scope.host_param_true?('missing_param', 'false')
     end
   end
 
@@ -152,8 +156,12 @@ class HostTemplateTest < ActiveSupport::TestCase
       host = FactoryBot.create(:host)
       @scope.instance_variable_set('@host', host)
       FactoryBot.create(:parameter, :name => 'false_param', :value => "false")
+      FactoryBot.create(:parameter, :name => 'true_param', :value => "true")
       assert @scope.host_param_false?('false_param')
       refute @scope.host_param_false?('true_param')
+      refute @scope.host_param_false?('missing_param')
+      refute @scope.host_param_false?('missing_param', 'true')
+      assert @scope.host_param_false?('missing_param', 'false')
     end
   end
 

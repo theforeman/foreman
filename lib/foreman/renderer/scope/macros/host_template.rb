@@ -78,36 +78,32 @@ module Foreman
 
           apipie :method, 'Checks whether a parameter value is truthly or not' do
             required :name, String, desc: 'name of the parameter'
-            optional :default_value, Object, desc: 'value to be returned if the parameter is not set on host', default: false
+            optional :default_value, Object, desc: 'value to be used for the comparison if the parameter is not set on the host', default: false
             returns one_of: [true, false], desc: 'Returns true if the value of a parameter can be considered as truthly, false otherwise'
             example "host_param_true?('use-ntp') #=> true"
             example "host_param_true?('use-ntp', false) #=> false if a host has no 'use-ntp' parameter"
+            example "host_param_true?('use-ntp', true) #=> true if a host has no 'use-ntp' parameter"
             see 'host_param_false?', description: '#host_param_false?', scope: Foreman::Renderer::Scope::Macros::HostTemplate
           end
           def host_param_true?(name, default_value = false)
             check_host
-            if host.params.has_key?(name)
-              Foreman::Cast.to_bool(host.params[name])
-            else
-              default_value
-            end
+            value = host.params.fetch(name, default_value)
+            Foreman::Cast.to_bool(value) == true
           end
 
           apipie :method, 'Checks whether a parameter value is falsy or not' do
             required :name, String, desc: 'name of the parameter'
-            optional :default_value, Object, desc: 'value to be returned if the parameter is not set on host', default: false
+            optional :default_value, Object, desc: 'value to be used for the comparison if the parameter is not set on the host', default: true
             returns one_of: [true, false], desc: 'Returns false if the value of a parameter can be considered as falsy, true otherwise'
             example "host_param_false?('use-ntp') #=> true"
-            example "host_param_false?('use-ntp', true) #=> true if a host has no 'use-ntp' parameter"
+            example "host_param_false?('use-ntp', false) #=> true if a host has no 'use-ntp' parameter"
+            example "host_param_false?('use-ntp', true) #=> false if a host has no 'use-ntp' parameter"
             see 'host_param_true?', description: '#host_param_true?', scope: Foreman::Renderer::Scope::Macros::HostTemplate
           end
-          def host_param_false?(name, default_value = false)
+          def host_param_false?(name, default_value = true)
             check_host
-            if host.params.has_key?(name)
-              Foreman::Cast.to_bool(host.params[name]) == false
-            else
-              default_value
-            end
+            value = host.params.fetch(name, default_value)
+            Foreman::Cast.to_bool(value) == false
           end
 
           apipie :method, 'Returns root user\'s encrypted password for the host' do
