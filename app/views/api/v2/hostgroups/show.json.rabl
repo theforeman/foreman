@@ -6,14 +6,6 @@ child :template_combinations do
   extends "api/v2/template_combinations/base"
 end
 
-child :puppetclasses do
-  extends "api/v2/puppetclasses/base"
-end
-
-node do |hostgroup|
-  { :all_puppetclasses => partial("api/v2/puppetclasses/base", :object => hostgroup.all_puppetclasses) }
-end
-
 root_object.facet_definitions.each do |definition|
   next unless definition.api_single_view
   node(false, if: ->(hostgroup) { definition.facet_record_for(hostgroup) }) do |hostgroup|
