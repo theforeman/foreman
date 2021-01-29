@@ -77,8 +77,6 @@ module Api
           Host.registered_smart_proxies.each do |name, options|
             param :"#{name}_id", :number, :desc => options[:api_description]
           end
-          param :puppetclass_ids, Array
-          param :config_group_ids, Array, :desc => N_("IDs of associated config groups")
           param :operatingsystem_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
           param :medium_id, String, :desc => N_("required if not imaged based provisioning and host is managed and value is not inherited from host group")
           param :pxe_loader, Operatingsystem.all_loaders, :desc => N_("DHCP filename option (Grub2/PXELinux by default)")
