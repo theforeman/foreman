@@ -16,42 +16,6 @@ body {
   margin-left: 20px;
 }
 
-#hostclasses,
-.classes li,
-.classes li a {
-  list-style-type: none;
-  margin-right: 0.5em;
-  text-decoration: none;
-}
-
-.classes > ul {
-  margin-bottom: 0;
-  margin-left: -42px;
-}
-
-.puppetclass,
-.puppetclass li,
-.selected_puppetclass,
-.selected_puppetclass li,
-.config_group,
-.config_group li,
-.selected_config_group,
-.selected_config_group li {
-  a {
-    color: #333;
-  }
-
-  a.glyphicon-minus-sign,
-  a.glyphicon-plus-sign {
-    float: right;
-    margin-right: 10px;
-  }
-}
-
-a.config_group_name {
-  color: #428bca;
-}
-
 #actions_dropdown {
   float: right;
   margin-left: 3px;
@@ -450,17 +414,6 @@ table {
       display: inline;
       width: 90%;
       word-break: break-all;
-    }
-  }
-}
-
-.puppetclass_group,
-.config_group_group {
-  li {
-    a {
-      i.glyphicon {
-        font-size: 11px;
-      }
     }
   }
 }
