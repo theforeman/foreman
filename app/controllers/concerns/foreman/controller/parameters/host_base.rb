@@ -24,7 +24,6 @@ module Foreman::Controller::Parameters::HostBase
         # Model relations sorted in alphabetical order
         :architecture, :architecture_id, :architecture_name,
         :domain, :domain_id, :domain_name,
-        :environment, :environment_id, :environment_name,
         :hardware_model_id, :hardware_model_name,
         :hostgroup, :hostgroup_id, :hostgroup_name,
         :location, :location_id, :location_name,
@@ -37,10 +36,8 @@ module Foreman::Controller::Parameters::HostBase
         :realm, :realm_id, :realm_name,
         :subnet, :subnet_id, :subnet_name,
         :subnet6, :subnet6_id, :subnet6_name,
-        :config_groups => [], :config_group_ids => [], :config_group_names => [],
         :host_parameters_attributes => [parameter_params_filter(HostParameter)],
-        :interfaces => [nic_interface_params_filter], :interfaces_attributes => [nic_interface_params_filter],
-        :puppetclasses => [], :puppetclass_ids => [], :puppetclass_names => []
+        :interfaces => [nic_interface_params_filter], :interfaces_attributes => [nic_interface_params_filter]
     end
   end
 end

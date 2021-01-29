@@ -11,10 +11,8 @@ module Api
       before_action :include_parameters_in_response, :only => %w{show create update}
 
       api :GET, "/hostgroups/", N_("List all host groups")
-      api :GET, "/puppetclasses/:puppetclass_id/hostgroups", N_("List all host groups for a Puppet class")
       api :GET, "/locations/:location_id/hostgroups", N_("List all host groups per location")
       api :GET, "/organizations/:organization_id/hostgroups", N_("List all host groups per organization")
-      param :puppetclass_id, String, :desc => N_("ID of Puppet class")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
       param :include, Array, :in => ['parameters'], :desc => N_("Array of extra information types to include")
@@ -51,8 +49,6 @@ module Api
           param :subnet6_id, :number, :desc => N_('Subnet IPv6 ID')
           param :domain_id, :number, :desc => N_('Domain ID')
           param :realm_id, :number, :desc => N_('Realm ID')
-          param :puppetclass_ids, Array
-          param :config_group_ids, Array, :desc => N_("IDs of associated config groups")
           param :group_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters") do
             param :name, String, :desc => N_("Name of the parameter"), :required => true
             param :value, String, :desc => N_("Parameter value"), :required => true
@@ -141,7 +137,7 @@ module Api
       end
 
       def allowed_nested_id
-        %w(puppetclass_id location_id organization_id)
+        %w(location_id organization_id)
       end
     end
   end
