@@ -2201,23 +2201,6 @@ class HostTest < ActiveSupport::TestCase
     assert enc['parameters']['foreman_interfaces'].any? { |s| s['ip6'] == host.ip6 }
   end
 
-  test "#info ENC YAML contains config_groups" do
-    host = FactoryBot.build_stubbed(:host)
-    host.config_groups = [config_groups(:one)]
-    enc = host.info
-    assert_includes(enc['parameters'].keys, 'foreman_config_groups')
-    assert_includes(enc['parameters']['foreman_config_groups'], 'Monitoring')
-  end
-
-  test "#info ENC YAML contains parent hostgroup config_groups" do
-    host = FactoryBot.build_stubbed(:host, :with_hostgroup)
-    hostgroup = host.hostgroup
-    host.config_groups = [config_groups(:one)]
-    hostgroup.config_groups = [config_groups(:two)]
-    enc = host.info
-    assert_equal(enc['parameters']['foreman_config_groups'], ['Monitoring', 'Security'])
-  end
-
   describe 'cloning' do
     test 'relationships are copied' do
       host = FactoryBot.create(:host, :with_config_group, :with_puppetclass, :with_parameter)

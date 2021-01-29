@@ -15,7 +15,6 @@ module HostInfoExtensions
   included do
     # Add default providers
     HostInfo.register_info_provider(HostInfoProviders::StaticInfo)
-    HostInfo.register_info_provider(HostInfoProviders::ConfigGroupsInfo)
     HostInfo.register_info_provider(HostInfoProviders::HostParamsInfo)
   end
 
