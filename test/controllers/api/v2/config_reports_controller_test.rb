@@ -133,11 +133,8 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
   context "with organization given" do
     let(:config_report_org) { Organization.first }
     let(:config_report_loc) { Location.first }
-    let(:config_report_env) do
-      FactoryBot.create(:environment, :organizations => [config_report_org], :locations => [config_report_loc])
-    end
     let(:reporting_host) do
-      FactoryBot.create(:host, :environment => config_report_env, :location => config_report_loc, :organization => config_report_org)
+      FactoryBot.create(:host, :location => config_report_loc, :organization => config_report_org)
     end
     let(:config_report) do
       FactoryBot.create(:config_report, :host => reporting_host)
