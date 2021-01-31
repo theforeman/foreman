@@ -25,8 +25,6 @@ module Mutations
       let(:domain_id) { Foreman::GlobalId.for(domain) }
       let(:owner) { FactoryBot.create(:user, locations: [tax_location], organizations: [organization]) }
       let(:owner_id) { Foreman::GlobalId.for(owner) }
-      let(:puppetclass) { FactoryBot.create(:puppetclass) }
-      let(:puppetclass_id) { Foreman::GlobalId.for(puppetclass) }
       let(:mac) { '00:11:22:33:44:55' }
       let(:ip) { '192.0.2.1' }
       let(:root_pass) { 'graphql-is-great' }
@@ -47,7 +45,6 @@ module Mutations
           ownerId: owner_id,
           rootPass: root_pass,
           build: true,
-          puppetclassIds: [puppetclass_id],
         }
       end
       let(:variables) do
@@ -75,8 +72,7 @@ module Mutations
               $ownerId: ID,
               $ptableId: ID!,
               $rootPass: String,
-              $subnetId: ID,
-              $puppetclassIds: [ID!]
+              $subnetId: ID
             ) {
             createHost(input: {
               architectureId: $architectureId,
@@ -97,7 +93,6 @@ module Mutations
               ptableId: $ptableId,
               rootPass: $rootPass,
               subnetId: $subnetId,
-              puppetclassIds: $puppetclassIds,
             }) {
               host {
                 id,

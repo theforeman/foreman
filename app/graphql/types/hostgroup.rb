@@ -18,7 +18,6 @@ module Types
     belongs_to :medium, Types::Medium
     belongs_to :ptable, Types::Ptable
 
-    has_many :puppetclasses, Types::Puppetclass
     has_many :hosts, Types::Host
     has_many :locations, Types::Location
     has_many :organizations, Types::Organization

@@ -9,6 +9,5 @@ module Types
 
     has_many :environments, Types::Environment
     has_many :hosts, Types::Host
-    has_many :puppetclasses, Types::Puppetclass
   end
 end

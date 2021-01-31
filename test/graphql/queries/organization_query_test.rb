@@ -21,14 +21,6 @@ module Queries
               }
             }
           }
-          puppetclasses {
-            totalCount
-            edges {
-              node {
-                id
-              }
-            }
-          }
         }
       }
       GRAPHQL
@@ -41,10 +33,6 @@ module Queries
     let(:variables) { { id: global_id } }
     let(:data) { result['data']['organization'] }
 
-    setup do
-      FactoryBot.create(:puppetclass, :environments => [environment])
-    end
-
     test 'fetching organization attributes' do
       assert_empty result['errors']
 
@@ -55,7 +43,6 @@ module Queries
       assert_equal organization.title, data['title']
 
       assert_collection organization.environments, data['environments']
-      assert_collection organization.puppetclasses, data['puppetclasses']
     end
   end
 end
