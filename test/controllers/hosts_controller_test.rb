@@ -39,12 +39,12 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should get csv index with data" do
-    host = FactoryBot.create(:host, :with_hostgroup, :with_environment, :on_compute_resource, :with_reports)
+    host = FactoryBot.create(:host, :with_hostgroup, :on_compute_resource, :with_reports)
     get :index, params: { :format => 'csv', :search => "name = #{host.name}" }, session: set_session_user
     assert_response :success
     buf = response.stream.instance_variable_get(:@buf)
-    assert_equal "Name,Operatingsystem,Environment,Compute Resource Or Model,Hostgroup,Last Report\n", buf.next
-    assert_equal "#{host.name},#{host.operatingsystem},#{host.environment},#{host.compute_resource.name},#{host.hostgroup},#{host.last_report}\n", buf.next
+    assert_equal "Name,Operatingsystem,Compute Resource Or Model,Hostgroup,Last Report\n", buf.next
+    assert_equal "#{host.name},#{host.operatingsystem},#{host.compute_resource.name},#{host.hostgroup},#{host.last_report}\n", buf.next
     assert_raises StopIteration do
       buf.next
     end
@@ -183,8 +183,6 @@ class HostsControllerTest < ActionController::TestCase
     end
     as_admin do
       new_host = Host.search_for('myotherfullhost').first
-      assert new_host.environment.present?
-      assert_equal hostgroup.environment, new_host.environment
       assert new_host.puppet_proxy.present?
       assert_equal hostgroup.puppet_proxy, new_host.puppet_proxy
     end
@@ -288,7 +286,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test 'should render ajax_error when finding a vm has been faild' do
       ComputeResource.any_instance.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
-      host = FactoryBot.create(:host, :with_hostgroup, :with_environment, :on_compute_resource)
+      host = FactoryBot.create(:host, :with_hostgroup, :on_compute_resource)
       get :vm, params: { :id => host.id }, session: set_session_user
       expected_body = "<div class=\"alert alert-danger \">"\
                       "<span class=\"pficon pficon-error-circle-o \"></span>"\
@@ -1071,7 +1069,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "#host update shouldn't diassociate from VM" do
     require 'fog/ovirt/models/compute/quota'
-    hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_os)
+    hostgroup = FactoryBot.create(:hostgroup, :with_subnet, :with_domain, :with_os)
     compute_resource = compute_resources(:ovirt)
     quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => "Default" })
     client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [quota]) }
@@ -1323,7 +1321,6 @@ class HostsControllerTest < ActionController::TestCase
     host.stubs(:set_compute_attributes)
     host.stubs(:architecture)
     host.stubs(:operatingsystem)
-    host.stubs(:environment)
     host.stubs(:domain)
     host.stubs(:subnet)
     host.stubs(:compute_profile)

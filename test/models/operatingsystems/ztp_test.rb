@@ -4,7 +4,7 @@ class ZTPTest < ActiveSupport::TestCase
   setup { disable_orchestration }
 
   test "Huawei ZTP parameter generation" do
-    host = FactoryBot.create(:host, :managed, :with_environment, :domain => domains(:yourdomain),
+    host = FactoryBot.create(:host, :managed, :domain => domains(:yourdomain),
           :interfaces => [FactoryBot.build(:nic_primary_and_provision,
             :ip => '2.3.4.10')],
           :architecture => architectures(:ASIC),
@@ -12,7 +12,6 @@ class ZTPTest < ActiveSupport::TestCase
           :pxe_loader => 'None',
           :compute_resource => compute_resources(:one),
           :medium => media(:vrp5),
-          :puppet_proxy => smart_proxies(:puppetmaster),
           :ptable => FactoryBot.create(:ptable, :operatingsystem_ids => [operatingsystems(:vrp5).id])
     )
     medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)

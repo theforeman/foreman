@@ -2173,13 +2173,6 @@ class HostTest < ActiveSupport::TestCase
     refute_nil enc['parameters']['root_pw']
   end
 
-  test "#info ENC YAML omits environment if not set" do
-    host = FactoryBot.build_stubbed(:host)
-    host.environment = nil
-    enc = host.info
-    refute_includes enc.keys, 'environment'
-  end
-
   test '#info ENC YAML contains domain name and description' do
     host = FactoryBot.build_stubbed(:host, :domain => FactoryBot.build_stubbed(:domain, :name => 'example.tst', :fullname => 'custom text'))
     enc = host.info
@@ -2613,7 +2606,7 @@ class HostTest < ActiveSupport::TestCase
   describe '#apply_inherited_attributes' do
     test 'should be no-op if no hostgroup selected' do
       host = FactoryBot.build_stubbed(:host, :managed)
-      attributes = { 'environment_id' => 1 }
+      attributes = { 'compute_resource_id' => 1 }
 
       actual_attr = host.apply_inherited_attributes(attributes)
 
@@ -2622,37 +2615,38 @@ class HostTest < ActiveSupport::TestCase
 
     test 'should take new hostgroup if hostgroup_id present' do
       host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
-      new_environment = FactoryBot.create(:environment)
-      new_hostgroup = FactoryBot.create(:hostgroup, :environment => new_environment)
-      assert_not_equal new_environment.id, host.hostgroup.environment.try(:id)
+      new_compute_resource = FactoryBot.create(:compute_resource, :libvirt)
+      new_hostgroup = FactoryBot.create(:hostgroup, compute_resource: new_compute_resource)
+      assert_not_equal new_compute_resource.id, host.hostgroup.compute_resource.try(:id)
 
       attributes = { 'hostgroup_id' => new_hostgroup.id }
       actual_attr = host.apply_inherited_attributes(attributes)
 
-      assert_equal actual_attr['environment_id'], new_environment.id
+      assert_equal actual_attr['compute_resource_id'], new_compute_resource.id
     end
 
     test 'should take new hostgroup if hostgroup_name present' do
       host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
-      new_environment = FactoryBot.create(:environment)
-      new_hostgroup = FactoryBot.create(:hostgroup, :environment => new_environment)
-      assert_not_equal new_environment.id, host.hostgroup.environment.try(:id)
+      new_compute_resource = FactoryBot.create(:compute_resource, :libvirt)
+      new_hostgroup = FactoryBot.create(:hostgroup, compute_resource: new_compute_resource)
+      assert_not_equal new_compute_resource.id, host.hostgroup.compute_resource.try(:id)
 
       attributes = { 'hostgroup_name' => new_hostgroup.title }
       actual_attr = host.apply_inherited_attributes(attributes)
 
-      assert_equal actual_attr['environment_id'], new_environment.id
+      assert_equal actual_attr['compute_resource_id'], new_compute_resource.id
     end
 
     test 'should take old hostgroup if hostgroup not updated' do
-      environment = FactoryBot.create(:environment)
-      host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup, :environment => environment)
+      hostgroup = FactoryBot.create(:hostgroup, :with_compute_resource)
+      compute_resource = FactoryBot.create(:compute_resource, :libvirt)
+      host = FactoryBot.build_stubbed(:host, :managed, hostgroup: hostgroup, compute_resource: compute_resource)
       Hostgroup.expects(:find).never
 
       attributes = { 'hostgroup_id' => host.hostgroup.id }
       actual_attr = host.apply_inherited_attributes(attributes)
 
-      assert_equal actual_attr['environment_id'], host.hostgroup.environment.id
+      assert_equal actual_attr['compute_resource_id'], hostgroup.compute_resource.id
     end
 
     test 'should accept non-existing hostgroup' do
@@ -2664,28 +2658,28 @@ class HostTest < ActiveSupport::TestCase
       attributes = { 'hostgroup_id' => 1111 }
       actual_attr = host.apply_inherited_attributes(attributes)
 
-      assert_nil actual_attr['environment_id']
+      assert_nil actual_attr['compute_resource_id']
     end
 
     test 'should not touch attribute set explicitly' do
       host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
 
-      attributes = { 'hostgroup_id' => host.hostgroup.id, 'environment_id' => 1111 }
+      attributes = { 'hostgroup_id' => host.hostgroup.id, 'compute_resource_id' => 1111 }
       actual_attr = host.apply_inherited_attributes(attributes)
 
-      assert_equal actual_attr['environment_id'], 1111
+      assert_equal actual_attr['compute_resource_id'], 1111
     end
 
     test 'should inherit attribute value, if not set explicitly' do
       host = FactoryBot.build_stubbed(:host, :managed, :with_hostgroup)
-      environment = FactoryBot.create(:environment)
-      host.hostgroup.environment = environment
+      compute_resource = FactoryBot.create(:compute_resource, :libvirt)
+      host.hostgroup.compute_resource = compute_resource
       host.hostgroup.save!
 
       attributes = { 'hostgroup_id' => host.hostgroup.id }
       actual_attr = host.apply_inherited_attributes(attributes)
 
-      assert_equal actual_attr['environment_id'], host.hostgroup.environment.id
+      assert_equal actual_attr['compute_resource_id'], host.hostgroup.compute_resource.id
     end
 
     test 'should not touch non-inherited attributes' do
@@ -2698,9 +2692,9 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'should add inherited attributes when hostgroup in attributes' do
-      hg = FactoryBot.create(:hostgroup, :with_environment)
-      host = Host.new(:name => "test-host", :hostgroup => hg)
-      assert host.environment
+      hg = FactoryBot.create(:hostgroup, :with_compute_resource)
+      host = Host.new(name: 'test-host', hostgroup: hg)
+      assert_not_nil host.compute_resource
     end
   end
 

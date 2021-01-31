@@ -36,7 +36,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   describe 'edit page' do
     test 'displays warning when vm not found by uuid' do
       ComputeResource.any_instance.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
-      host = FactoryBot.create(:host, :with_hostgroup, :with_environment, :on_compute_resource, :managed)
+      host = FactoryBot.create(:host, :with_hostgroup, :on_compute_resource, :managed)
 
       visit edit_host_path(host)
       assert page.has_link?('Operating System')

@@ -2,8 +2,8 @@ require 'test_helper'
 
 class DashboardTest < ActiveSupport::TestCase
   setup do
-    @env = FactoryBot.build(:environment)
-    @host = FactoryBot.create(:host, :with_reports, :environment => @env)
+    @hg = FactoryBot.build(:hostgroup)
+    @host = FactoryBot.create(:host, :with_reports, hostgroup: @hg)
   end
 
   test 'hosts returns correct host' do
@@ -14,8 +14,8 @@ class DashboardTest < ActiveSupport::TestCase
     end
   end
 
-  test 'hosts works with environment filter' do
-    data = Dashboard::Data.new("environment = #{@env.name}")
+  test 'hosts works with hostgroup filter' do
+    data = Dashboard::Data.new("hostgroup = #{@hg.name}")
 
     as_admin do
       assert_equal 1, data.hosts.length
@@ -23,7 +23,7 @@ class DashboardTest < ActiveSupport::TestCase
   end
 
   test 'hosts works with free text filter' do
-    data = Dashboard::Data.new(@env.name)
+    data = Dashboard::Data.new(@hg.name)
 
     as_admin do
       assert_equal 1, data.hosts.length
@@ -59,8 +59,8 @@ class DashboardTest < ActiveSupport::TestCase
       end
     end
 
-    test 'latest_events works with environment filter' do
-      data = Dashboard::Data.new("environment = #{@env.name}")
+    test 'latest_events works with hostgroup filter' do
+      data = Dashboard::Data.new("hostgroup = #{@hg.name}")
 
       as_admin do
         assert_equal 1, data.latest_events.length
@@ -68,7 +68,7 @@ class DashboardTest < ActiveSupport::TestCase
     end
 
     test 'latest_events works with free text filter' do
-      data = Dashboard::Data.new(@env.name)
+      data = Dashboard::Data.new(@hg.name)
 
       as_admin do
         assert_equal 1, data.latest_events.length

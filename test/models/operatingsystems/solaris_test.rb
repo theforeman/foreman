@@ -4,7 +4,7 @@ class SolarisTest < ActiveSupport::TestCase
   setup { disable_orchestration }
 
   test "jumpstart parameter generation" do
-    h = FactoryBot.create(:host, :managed, :with_environment, :domain => domains(:yourdomain),
+    h = FactoryBot.create(:host, :managed, :domain => domains(:yourdomain),
           :interfaces => [FactoryBot.build(:nic_primary_and_provision,
             :ip => '2.3.4.10')],
           :architecture => architectures(:sparc),
@@ -13,7 +13,6 @@ class SolarisTest < ActiveSupport::TestCase
           :compute_resource => compute_resources(:one),
           :model => models(:V210),
           :medium => media(:solaris10),
-          :puppet_proxy => smart_proxies(:puppetmaster),
           :ptable => FactoryBot.create(:ptable, :operatingsystem_ids => [operatingsystems(:solaris10).id])
     )
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01").returns("2.3.4.5").once
