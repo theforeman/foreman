@@ -28,21 +28,12 @@ module Queries
               }
             }
           }
-          puppetclasses {
-            totalCount
-            edges {
-              node {
-                id
-              }
-            }
-          }
         }
       }
       GRAPHQL
     end
 
-    let(:puppetclass) { FactoryBot.create(:puppetclass, environments: [FactoryBot.create(:environment)]) }
-    let(:environment) { puppetclass.environments.first }
+    let(:environment) { FactoryBot.create(:environment) }
 
     let(:global_id) { Foreman::GlobalId.for(environment) }
     let(:variables) { { id: global_id } }
@@ -58,7 +49,6 @@ module Queries
 
       assert_collection environment.locations, data['locations']
       assert_collection environment.organizations, data['organizations']
-      assert_collection environment.puppetclasses, data['puppetclasses']
     end
   end
 end

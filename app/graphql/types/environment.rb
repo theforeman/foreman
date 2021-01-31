@@ -8,6 +8,5 @@ module Types
 
     has_many :locations, Types::Location
     has_many :organizations, Types::Organization
-    has_many :puppetclasses, Types::Puppetclass
   end
 end
