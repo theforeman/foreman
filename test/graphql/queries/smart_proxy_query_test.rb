@@ -26,7 +26,7 @@ module Queries
       GRAPHQL
     end
 
-    let(:hosts) { FactoryBot.create_list(:host, 2, :with_environment) }
+    let(:hosts) { FactoryBot.create_list(:host, 2) }
     let(:smart_proxy) { FactoryBot.create(:smart_proxy, hosts: hosts) }
 
     let(:global_id) { Foreman::GlobalId.for(smart_proxy) }

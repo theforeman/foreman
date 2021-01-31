@@ -129,7 +129,7 @@ class LocationsControllerTest < ActionController::TestCase
 
   # Mismatches
   test "should show all mismatches and button Fix All Mismatches if there are" do
-    FactoryBot.create_list(:host, 2, :with_environment, :location => taxonomies(:location1))
+    FactoryBot.create_list(:host, 2, :location => taxonomies(:location1))
     TaxableTaxonomy.delete_all
     get :mismatches, session: set_session_user
     assert_response :success

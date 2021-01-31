@@ -270,8 +270,6 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
 
         host = Host.find_by(name: params[:host][:name]).reload
         assert hostgroups(:common).operatingsystem_id, host.operatingsystem_id
-        assert hostgroups(:common).environment_id, host.environment_id
-        assert hostgroups(:common).puppet_proxy_id, host.puppet_proxy_id
       end
     end
   end

@@ -356,31 +356,6 @@ class HostFactImporterTest < ActiveSupport::TestCase
     assert_equal hostgroup, host.hostgroup
   end
 
-  test "should update puppet_proxy_id to the id of the validated proxy" do
-    sp = smart_proxies(:puppetmaster)
-    raw = read_json_fixture('facts/facts_with_caps.json')
-    host = Host.import_host(raw['name'], nil)
-    assert HostFactImporter.new(host).import_facts(raw['facts'], sp)
-    assert_equal sp.id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
-  end
-
-  test "should not update puppet_proxy_id if it was not puppet upload" do
-    sp = smart_proxies(:puppetmaster)
-    raw = read_json_fixture('facts/facts_with_caps.json')
-    host = Host.import_host(raw['name'])
-    assert HostFactImporter.new(host).import_facts(raw['facts'].merge(:_type => 'chef'), sp)
-    assert_nil host.puppet_proxy_id
-  end
-
-  test "shouldn't update puppet_proxy_id if it has been set" do
-    Host.new(:name => 'sinn1636.lan', :puppet_proxy_id => smart_proxies(:puppetmaster).id).save(:validate => false)
-    sp = smart_proxies(:puppetmaster)
-    raw = read_json_fixture('facts/facts_with_certname.json')
-    host = Host.import_host(raw['name'])
-    assert HostFactImporter.new(host).import_facts(raw['facts'], sp)
-    assert_equal smart_proxies(:puppetmaster).id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
-  end
-
   describe 'a host with primary interface on a bond' do
     let(:raw_facts) { read_json_fixture('facts/facts_with_primary_interface_bond.json').merge(_type: 'puppet') }
     let(:hostname) { 'host01.example.com' }
