@@ -21,14 +21,6 @@ module Queries
               }
             }
           }
-          puppetclasses {
-            totalCount
-            edges {
-              node {
-                id
-              }
-            }
-          }
           hosts {
             totalCount
             edges {
@@ -50,10 +42,6 @@ module Queries
     let(:variables) { { id: global_id } }
     let(:data) { result['data']['location'] }
 
-    setup do
-      FactoryBot.create(:puppetclass, :environments => [environment])
-    end
-
     test 'fetching location attributes' do
       assert_empty result['errors']
 
@@ -64,7 +52,6 @@ module Queries
       assert_equal location_object.title, data['title']
 
       assert_collection location_object.environments, data['environments']
-      assert_collection location_object.puppetclasses, data['puppetclasses']
       assert_collection location_object.hosts, data['hosts'], type_name: 'Host'
     end
   end

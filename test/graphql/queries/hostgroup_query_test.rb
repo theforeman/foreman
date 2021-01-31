@@ -42,14 +42,6 @@ module Queries
               }
             }
           }
-          puppetclasses {
-            totalCount
-            edges {
-              node {
-                id
-              }
-            }
-          }
           locations {
             totalCount
             edges {
@@ -97,7 +89,6 @@ module Queries
       FactoryBot.create(
         :hostgroup,
         :with_compute_resource,
-        :with_puppetclass,
         :with_subnet,
         :with_os,
         :with_domain,
@@ -139,7 +130,6 @@ module Queries
       assert_record hostgroup.medium, data['medium']
 
       assert_collection hostgroup.hosts, data['hosts'], type_name: 'Host'
-      assert_collection hostgroup.puppetclasses, data['puppetclasses']
       assert_collection hostgroup.locations, data['locations']
       assert_collection hostgroup.organizations, data['organizations']
 

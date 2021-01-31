@@ -8,6 +8,5 @@ module Types
     field :title, String
 
     has_many :environments, Types::Environment
-    has_many :puppetclasses, Types::Puppetclass
   end
 end

@@ -74,9 +74,6 @@ module Types
     record_field :environment, Types::Environment
     collection_field :environments, Types::Environment
 
-    record_field :puppetclass, Types::Puppetclass
-    collection_field :puppetclasses, Types::Puppetclass
-
     record_field :compute_resource, Types::ComputeResource
     collection_field :compute_resources, Types::ComputeResource
 
