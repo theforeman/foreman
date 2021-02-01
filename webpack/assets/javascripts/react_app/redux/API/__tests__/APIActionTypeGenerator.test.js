@@ -6,6 +6,7 @@ describe('actionTypeGenerator', () => {
       REQUEST: 'TEST_REQUEST',
       SUCCESS: 'TEST_SUCCESS',
       FAILURE: 'TEST_FAILURE',
+      UPDATE: 'TEST_UPDATE',
     });
   });
   it('should generate action types with custom types', () => {
@@ -13,6 +14,7 @@ describe('actionTypeGenerator', () => {
       REQUEST: 'TEST_REQUEST',
       SUCCESS: 'CUSTOM_SUCCESS',
       FAILURE: 'TEST_FAILURE',
+      UPDATE: 'TEST_UPDATE',
     });
   });
 });

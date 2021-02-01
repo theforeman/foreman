@@ -40,4 +40,12 @@ Object {
 }
 `;
 
+exports[`API reducer should handle update response's content 1`] = `
+Object {
+  "SOME_KEY": Object {
+    "response": "UPDATED CONTENT",
+  },
+}
+`;
+
 exports[`API reducer should return the initial state 1`] = `Object {}`;

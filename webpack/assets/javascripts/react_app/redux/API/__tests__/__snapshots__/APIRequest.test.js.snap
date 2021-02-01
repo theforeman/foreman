@@ -82,6 +82,47 @@ Array [
 ]
 `;
 
+exports[`API get should dispatch an update if an updateData callback exists 1`] = `
+Array [
+  Array [
+    Object {
+      "key": "INITIAL_RESOURCE",
+      "payload": Object {
+        "id": 2,
+        "url": "some/url",
+      },
+      "type": "SOME_KEY_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "key": "INITIAL_RESOURCE",
+      "payload": Object {
+        "id": 2,
+        "url": "some/url",
+      },
+      "response": Object {
+        "results": Array [
+          1,
+        ],
+      },
+      "type": "SOME_KEY_SUCCESS",
+    },
+  ],
+  Array [
+    Object {
+      "key": "INITIAL_RESOURCE",
+      "payload": Object {
+        "results": Array [
+          3,
+        ],
+      },
+      "type": "SOME_KEY_UPDATE",
+    },
+  ],
+]
+`;
+
 exports[`API get should dispatch request and failure actions on reject 1`] = `
 Array [
   Array [

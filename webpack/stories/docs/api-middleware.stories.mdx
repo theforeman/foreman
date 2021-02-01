@@ -150,3 +150,50 @@ dispatch(
   })
 );
 ```
+
+## Update resources object
+
+After an API request SUCCESS action, it is often reconfirmed with a second GET request to view the updated data, and keep the Redux store up to date.
+However, if we receive a SUCCESS it is acceptable to assume that the data was actually updated as requested, and not completely necessary to make the additional request.
+To facilitate this, the API middleware can accept an `updateData` callback which returns the updated resource object corresponding to its key.
+Thus, Redux's copy of the backend data is changed based on this trust, and an additional API request to show the updated data is avoided.
+
+`updateData` callback accepts two arguments, prevState and currentResponse:
+
+#### prevState
+The previous response data which stored on redux store and corresponding with the given key.
+
+#### currentResponse
+The current API call response.
+
+
+Examples:
+
+```js
+// This action creates a post API call and only if it ends succesfully,
+// the response object will update with the returned data from 'updateData' callback 
+dispatch(
+  post({
+    key: MY_SPECIAL_KEY,
+    url,
+    updateData: (prevResponseState, currentResponse) => ({
+      results: prevStateData.filter(
+        item => item.id !== currentResponse.id
+      ),
+    }),
+  })
+);
+```
+
+```js
+post({
+  key: MY_SPECIAL_KEY,
+  url,
+  params: { id: selectedID }
+  updateData: prevResponseState => ({
+    results: prevResponseState.filter(
+      item => item.id !== selectedID
+    ),
+  }),
+})
+```
