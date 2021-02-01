@@ -65,7 +65,6 @@ module Hostext
       scoped_search :relation => :interfaces, :on => :ip, :complete_value => true, :rename => :has_ip, :only_explicit => true
       scoped_search :relation => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac, :only_explicit => true
 
-      scoped_search :relation => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
       scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
       scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params_name, :only_explicit => true
       scoped_search :relation => :search_parameters, :on => :searchable_value, :in_key => :search_parameters, :on_key => :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true, :operators => ['= ', '~ ']
@@ -76,8 +75,6 @@ module Hostext
       scoped_search :on => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :relation => :organization, :on => :title, :rename => :organization, :complete_value => true, :only_explicit => true
       scoped_search :on => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
-
-      scoped_search :relation => :config_groups, :on => :name, :complete_value => true, :rename => :config_group, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_config_group
 
       if SETTINGS[:unattended]
         scoped_search :relation => :subnet,          :on => :network,     :complete_value => false, :rename => :subnet
@@ -140,23 +137,6 @@ module Hostext
         { conditions: sanitize_sql_array([sql, user_ids, usergroup_ids]) }
       end
 
-      def search_by_puppetclass(key, operator, value)
-        conditions = sanitize_sql_for_conditions(["puppetclasses.name #{operator} ?", value_to_sql(operator, value)])
-        config_group_ids = ConfigGroup.where(conditions).joins(:puppetclasses).pluck('config_groups.id')
-        host_ids         = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).distinct.pluck('hosts.id')
-        host_ids        += HostConfigGroup.where(:host_type => 'Host::Base').where(:config_group_id => config_group_ids).pluck(:host_id)
-        hostgroups       = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses)
-        hostgroups      += Hostgroup.unscoped.with_taxonomy_scope.joins(:host_config_groups).where(host_config_groups: {config_group_id: config_group_ids}) if config_group_ids.any?
-        hostgroup_ids    = hostgroups.map(&:subtree_ids).flatten.uniq
-
-        opts  = ''
-        opts += "hosts.id IN(#{host_ids.join(',')})"            if host_ids.present?
-        opts += " OR "                                          unless host_ids.blank? || hostgroup_ids.blank?
-        opts += "hostgroups.id IN(#{hostgroup_ids.join(',')})"  if hostgroup_ids.present?
-        opts  = "hosts.id < 0"                                  if host_ids.blank? && hostgroup_ids.blank?
-        {:conditions => opts, :include => :hostgroup}
-      end
-
       def search_by_hostgroup_and_descendants(key, operator, value)
         conditions = sanitize_sql_for_conditions(["hostgroups.title #{operator} ?", value_to_sql(operator, value)])
         # Only one hostgroup (first) is used to determined descendants. Future TODO - alert if result results more than one hostgroup
@@ -186,19 +166,6 @@ module Hostext
         conditions += " AND " unless conditions.blank? || negate.blank?
         conditions += " NOT(#{negate})" if negate.present?
         {:joins => :primary_interface, :conditions => conditions}
-      end
-
-      def search_by_config_group(key, operator, value)
-        conditions = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
-        host_ids = Host::Managed.where(conditions).joins(:config_groups).distinct.pluck('hosts.id')
-        hostgroup_ids = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:config_groups).distinct.map(&:subtree_ids).flatten.uniq
-
-        opts = ''
-        opts += "hosts.id IN(#{host_ids.join(',')})" if host_ids.present?
-        opts += " OR " unless host_ids.blank? || hostgroup_ids.blank?
-        opts += "hostgroup_id IN(#{hostgroup_ids.join(',')})" if hostgroup_ids.present?
-        opts = "hosts.id < 0" if host_ids.blank? && hostgroup_ids.blank?
-        {:conditions => opts}
       end
 
       def search_by_proxy(key, operator, value)
