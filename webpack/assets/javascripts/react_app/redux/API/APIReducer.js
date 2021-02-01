@@ -7,7 +7,7 @@ const initialState = Immutable({});
 const apiReducer = (state = initialState, { type, key, payload, response }) => {
   if (key === undefined) return state;
 
-  const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(key);
+  const { REQUEST, SUCCESS, FAILURE, UPDATE } = actionTypeGenerator(key);
   const { PENDING, RESOLVED, ERROR } = STATUS;
 
   switch (type) {
@@ -34,6 +34,12 @@ const apiReducer = (state = initialState, { type, key, payload, response }) => {
           payload,
           response,
           status: ERROR,
+        },
+      });
+    case UPDATE:
+      return state.merge({
+        [key]: {
+          response: payload,
         },
       });
     default:

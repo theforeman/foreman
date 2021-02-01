@@ -4,6 +4,7 @@ import { actionTypeGenerator } from './APIActionTypeGenerator';
 import { noop } from '../../common/helpers';
 import { stopInterval } from '../middlewares/IntervalMiddleware';
 import { selectDoesIntervalExist } from '../middlewares/IntervalMiddleware/IntervalSelectors';
+import { selectAPIResponse } from './APISelectors';
 import { addToast } from '../actions/toasts';
 
 export const apiRequest = async (
@@ -20,13 +21,18 @@ export const apiRequest = async (
       successToast,
       errorToast,
       payload = {},
+      updateData,
     },
   },
   { dispatch, getState }
 ) => {
-  const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(key, actionTypes);
+  const prevState = getState();
+  const { REQUEST, SUCCESS, FAILURE, UPDATE } = actionTypeGenerator(
+    key,
+    actionTypes
+  );
   const modifiedPayload = { ...payload, url };
-  const stopIntervalCallback = selectDoesIntervalExist(getState(), key)
+  const stopIntervalCallback = selectDoesIntervalExist(prevState, key)
     ? () => dispatch(stopInterval(key))
     : () => console.warn(`There's no interval API request for the key: ${key}`);
 
@@ -45,6 +51,13 @@ export const apiRequest = async (
       payload: modifiedPayload,
       response: response.data,
     });
+
+    updateData &&
+      dispatch({
+        type: UPDATE,
+        key,
+        payload: updateData(selectAPIResponse(prevState, key), response.data),
+      });
 
     successToast &&
       dispatch(

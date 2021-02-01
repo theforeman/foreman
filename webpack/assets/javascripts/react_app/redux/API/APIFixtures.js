@@ -12,6 +12,7 @@ export const actionTypes = {
   REQUEST: `${key}_REQUEST`,
   SUCCESS: `${key}_SUCCESS`,
   FAILURE: `${key}_FAILURE`,
+  UPDATE: `${key}_UPDATE`,
 };
 
 export const action = {
@@ -22,6 +23,20 @@ export const action = {
     headers,
     params,
     actionTypes,
+    payload,
+  },
+};
+
+export const postActionWithCallback = {
+  type: API_OPERATIONS.POST,
+  payload: {
+    key: 'INITIAL_RESOURCE',
+    url,
+    actionTypes,
+    updateData: prevState => ({
+      ...prevState,
+      results: prevState.results.map(i => i + 1),
+    }),
     payload,
   },
 };
@@ -43,5 +58,10 @@ export const middlewareActions = {
     type: actionTypes.FAILURE,
     payload,
     response: error,
+  },
+  update: {
+    key,
+    type: actionTypes.UPDATE,
+    payload: 'UPDATED CONTENT',
   },
 };

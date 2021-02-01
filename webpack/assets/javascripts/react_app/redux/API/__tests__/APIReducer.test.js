@@ -10,6 +10,8 @@ const fixtures = {
   'should handle API success action': { action: middlewareActions.success },
 
   'should handle API failure action': { action: middlewareActions.failure },
+
+  "should handle update response's content": { action: middlewareActions.update },
 };
 
 describe('API reducer', () =>

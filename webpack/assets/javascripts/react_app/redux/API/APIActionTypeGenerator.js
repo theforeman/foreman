@@ -1,4 +1,4 @@
-const actions = ['REQUEST', 'SUCCESS', 'FAILURE'];
+const actions = ['REQUEST', 'SUCCESS', 'FAILURE', 'UPDATE'];
 
 /**
  * Auto generates api consts for redux for given key

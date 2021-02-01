@@ -1,6 +1,6 @@
 import { API } from '../';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
-import { action, key } from '../APIFixtures';
+import { action, key, postActionWithCallback } from '../APIFixtures';
 import { apiRequest } from '../APIRequest';
 
 const data = { results: [1] };
@@ -9,7 +9,12 @@ jest.mock('../');
 describe('API get', () => {
   const store = {
     dispatch: jest.fn(),
-    getState: jest.fn(() => ({ intervals: { [key]: 1 } })),
+    getState: jest.fn(() => ({
+      intervals: { [key]: 1 },
+      API: {
+        INITIAL_RESOURCE: { response: { results: [2] } },
+      },
+    })),
   };
   beforeEach(() => {
     store.dispatch = jest.fn();
@@ -101,6 +106,19 @@ describe('API get', () => {
     expect(modifiedAction.payload.errorToast).toHaveBeenLastCalledWith(
       apiError
     );
+    expect(store.dispatch.mock.calls).toMatchSnapshot();
+  });
+
+  it('should dispatch an update if an updateData callback exists', async () => {
+    const apiSuccessResponse = { data };
+    API.post.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolve(apiSuccessResponse);
+        })
+    );
+    apiRequest(postActionWithCallback, store);
+    await IntegrationTestHelper.flushAllPromises();
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });
 });
