@@ -148,3 +148,17 @@ export const testSelectorsSnapshotWithFixtures = fixtures =>
   Object.entries(fixtures).forEach(([description, selectorRunner]) =>
     it(description, () => expect(selectorRunner()).toMatchSnapshot())
   );
+
+/**
+ * Mock Date.now() with a custom time
+ * @param  {Object} time  time in ms (i.e 1530518207007)
+ * @return {Function} returns a callback to stop mocking the global Date
+ */
+export const mockNowDate = time => {
+  const realDateNow = Date.now.bind(global.Date);
+  const dateNowStub = jest.fn(() => time);
+  global.Date.now = dateNowStub;
+  return () => {
+    global.Date.now = realDateNow;
+  };
+};

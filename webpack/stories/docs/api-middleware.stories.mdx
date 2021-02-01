@@ -150,3 +150,17 @@ dispatch(
   })
 );
 ```
+
+## With timestamp
+
+In order to avoid redundant API calls, you can define an optional minimum delta time between API calls.
+
+```js
+dispatch(
+  get({
+    key: MY_SPECIAL_KEY,
+    url,
+    expiresIn: 10000, // an API call with the same key won't be dispatched unless at least 10 seconds been passed
+  })
+);
+```

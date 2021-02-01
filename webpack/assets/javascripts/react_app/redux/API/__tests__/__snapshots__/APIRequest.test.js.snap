@@ -196,3 +196,36 @@ Array [
   ],
 ]
 `;
+
+exports[`API get should dispatch when timestamp is outdated 1`] = `
+Array [
+  Array [
+    Object {
+      "key": "SOME_KEY",
+      "payload": Object {
+        "id": 2,
+        "url": "some/url",
+      },
+      "type": "SOME_KEY_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "key": "SOME_KEY",
+      "payload": Object {
+        "id": 2,
+        "timestamp": 1530518207007,
+        "url": "some/url",
+      },
+      "response": Object {
+        "results": Array [
+          1,
+        ],
+      },
+      "type": "SOME_KEY_SUCCESS",
+    },
+  ],
+]
+`;
+
+exports[`API get should not dispatch when timestamp is valid 1`] = `Array []`;
