@@ -10,7 +10,7 @@ Object {
           "payload": Object {
             "controller": "hosts",
           },
-          "url": "/api/v2/hosts?search=controller%3Dhosts&per_page=100",
+          "url": "/api/v2/hosts?search=controller%3Dhosts&per_page=all",
         },
         "type": "API_GET",
       },
@@ -43,7 +43,7 @@ Object {
         "key": "BOOKMARKS",
         "payload": Object {
           "controller": "hosts",
-          "url": "/api/v2/hosts?search=controller%3Dhosts&per_page=100",
+          "url": "/api/v2/hosts?search=controller%3Dhosts&per_page=all",
         },
         "response": Object {
           "results": Array [

@@ -47,6 +47,7 @@ exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
           "_conditions": Array [],
           "_deps": Array [],
           "_exclusive": Object {
+            "matches": false,
             "max": true,
             "required": true,
           },
@@ -62,6 +63,7 @@ exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
             "refs": Array [],
           },
           "tests": Array [
+            [Function],
             [Function],
             [Function],
           ],

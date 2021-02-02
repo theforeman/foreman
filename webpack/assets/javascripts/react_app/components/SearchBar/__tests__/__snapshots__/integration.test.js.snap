@@ -10,7 +10,7 @@ Object {
           "payload": Object {
             "controller": "models",
           },
-          "url": "/api/bookmarks?search=controller%3Dmodels&per_page=100",
+          "url": "/api/bookmarks?search=controller%3Dmodels&per_page=all",
         },
         "type": "API_GET",
       },
@@ -94,7 +94,7 @@ Array [
       "key": "BOOKMARKS",
       "payload": Object {
         "controller": "models",
-        "url": "/api/bookmarks?search=controller%3Dmodels&per_page=100",
+        "url": "/api/bookmarks?search=controller%3Dmodels&per_page=all",
       },
       "type": "BOOKMARKS_REQUEST",
     },
@@ -106,7 +106,7 @@ Array [
         "payload": Object {
           "controller": "models",
         },
-        "url": "/api/bookmarks?search=controller%3Dmodels&per_page=100",
+        "url": "/api/bookmarks?search=controller%3Dmodels&per_page=all",
       },
       "type": "API_GET",
     },
