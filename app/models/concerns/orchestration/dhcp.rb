@@ -79,28 +79,23 @@ module Orchestration::DHCP
   end
 
   def boot_server
-    # if we don't manage tftp for IPv4 at all, we dont create a next-server entry.
     return unless tftp?
 
-    # first try to ask our IPv4 TFTP server for its boot server
-    bs = tftp.bootServer
-    # if that failed, trying to guess out tftp next server based on the smart proxy hostname
-    bs ||= URI.parse(subnet.tftp.url).host
-
-    # only smart proxies with V2 API are supported
-    if subnet.dhcp.has_capability?(:DHCP, :dhcp_filename_hostname)
-      # we no longer convert the boot server to IPv4 - smart proxy modules are required to do so if they don't support hostname
-      bs
-    else
-      begin
-        Foreman::Deprecation.deprecation_warning('1.25', "DHCP proxy does not report dhcp_filename_* capability and reverse DNS search in Foreman will be removed.")
-        ip = NicIpResolver.new(:nic => self).to_ip_address(bs) if bs.present?
-        return ip unless ip.nil?
-        failure _("Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services.")
-      rescue => e
-        failure _("failed to detect boot server: %s") % e, e
-      end
+    unless subnet.dhcp.has_capability?(:DHCP, :dhcp_filename_hostname)
+      logger.warn "DHCP proxy does not report dhcp_filename_ipv4 or dhcp_filename_hostname capability. Foreman will pass boot server #{boot_server_or_proxy_hostname} as-is, the request might fail."
     end
+
+    boot_server_or_proxy_hostname
+  end
+
+  def boot_server_or_proxy_hostname
+    if tftp.bootServer.nil?
+      tftp_proxy_hostname = URI.parse(subnet.tftp.url).host
+      logger.warn "Using TFTP Smart Proxy hostname as the boot server name: #{tftp_proxy_hostname}"
+      return tftp_proxy_hostname
+    end
+
+    tftp.bootServer
   end
 
   private

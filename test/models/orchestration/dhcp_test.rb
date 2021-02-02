@@ -87,7 +87,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "provision interface DHCP records should contain default filename/next-server attributes for IPv4 tftp proxy" do
-    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
+    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1').twice
     subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :tftp)
     h = as_admin do
       FactoryBot.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet)
@@ -98,7 +98,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "provision interface DHCP records should contain PXELinux BIOS filename/next-server attributes for IPv4 tftp proxy" do
-    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
+    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1').twice
     subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :tftp)
     h = as_admin do
       FactoryBot.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet, :pxe_loader => 'PXELinux BIOS')
@@ -472,12 +472,11 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
       assert_empty nic.errors
     end
 
-    test 'should error out on no capabilities' do
-      Foreman::Deprecation.expects(:deprecation_warning).once
+    test 'should warn on no capabilities' do
+      Foreman::Logging.logger('app').expects(:warn)
       SmartProxy.any_instance.expects(:capabilities).with(:DHCP).returns([])
-      ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('proxy.example.com')
-      Resolv::DNS.any_instance.expects(:getaddress).once.returns("127.12.0.1")
-      assert_equal '127.12.0.1', nic.send(:boot_server)
+      ProxyAPI::TFTP.any_instance
+      nic.send(:boot_server)
       assert_empty nic.errors
     end
   end
