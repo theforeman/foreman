@@ -108,6 +108,13 @@ module HostStatus
       "#{ConfigReport::BIT_NUM * ConfigReport::METRIC.index(config_status)} & #{ConfigReport::MAX}"
     end
 
+    def status_link
+      return nil if last_report.nil?
+      return nil unless User.current.can?(:view_config_reports, last_report)
+
+      last_report && Rails.application.routes.url_helpers.config_report_path(last_report)
+    end
+
     private
 
     def handle_options(options)
