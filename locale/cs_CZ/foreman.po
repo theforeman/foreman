@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-11-19 14:22+0000\n"
+"PO-Revision-Date: 2021-01-20 11:23+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
@@ -211,6 +211,9 @@ msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
 msgstr ""
 
 msgid "%{image} needs user data, but %{os_link} is not associated to any provisioning template of the kind user_data. Please associate it with a suitable template or uncheck 'User data' for %{compute_resource_image_link}."
+msgstr ""
+
+msgid "%{input_type_attr_name}, used when input type is %{input_type}"
 msgstr ""
 
 msgid "%{key} does not exist in order field"
@@ -444,9 +447,6 @@ msgstr "Prostředky aplikačního programového rozhraní"
 msgid "API documentation"
 msgstr "Dokumentace k aplikačnímu programovému rozhraní"
 
-msgid "API v4 is the default version. Uncheck it if you want to use v3, which is deprecated and will be removed in the next release."
-msgstr ""
-
 msgid "About"
 msgstr "O aplikaci"
 
@@ -473,6 +473,9 @@ msgstr "Aktivní"
 
 msgid "Active Hosts"
 msgstr "Aktivní stroje"
+
+msgid "Active Personal Access Tokens"
+msgstr ""
 
 msgid "Active features"
 msgstr "Aktivní funkce"
@@ -503,6 +506,9 @@ msgstr ""
 
 msgid "Add Parameter"
 msgstr "Přidat parametr"
+
+msgid "Add Personal Access Token"
+msgstr ""
 
 msgid "Add SSH Key"
 msgstr "Přidat SSH klíč"
@@ -1366,6 +1372,9 @@ msgstr ""
 msgid "Cannot add pagelet with key %s and without partial"
 msgstr ""
 
+msgid "Cannot be in the past"
+msgstr ""
+
 msgid "Cannot continue because some permissions were not found, please run rake db:seed and retry"
 msgstr "Nelze pokračovat, protože nebyla nalezena některá oprávnění – spusťte rake db:seed a zkuste to znovu"
 
@@ -1764,6 +1773,9 @@ msgstr ""
 msgid "Continue?"
 msgstr "Pokračovat?"
 
+msgid "Copied!"
+msgstr ""
+
 msgid "Copy to clipboard"
 msgstr "Zkopírovat do schránky"
 
@@ -1826,6 +1838,9 @@ msgstr ""
 
 msgid "Could not resolve ID."
 msgstr "Identif. se nedaří přeložit"
+
+msgid "Could not revoke Token: "
+msgstr ""
 
 msgid "Create"
 msgstr "Vytvořit"
@@ -1910,6 +1925,9 @@ msgstr "Vytvořit parametr"
 
 msgid "Create Partition Table"
 msgstr "Vytvořit tabulku rozdělení úložiště"
+
+msgid "Create Personal Access Token"
+msgstr ""
 
 msgid "Create Provisioning Template"
 msgstr ""
@@ -2136,6 +2154,9 @@ msgstr ""
 msgid "DB pending seed"
 msgstr ""
 
+msgid "DEPRECATED: this will be always application install time and dropped in the future release."
+msgstr ""
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -2282,6 +2303,9 @@ msgstr "Výchozí časová zóna"
 
 msgid "Default value"
 msgstr "Výchozí hodnota"
+
+msgid "Default value for the setting"
+msgstr ""
 
 msgid "Default value for user input"
 msgstr "Výchozí hodnoty pro vstup od uživatele"
@@ -2509,6 +2533,9 @@ msgid "Deploy on"
 msgstr "Nasadit na"
 
 msgid "Deprecations"
+msgstr ""
+
+msgid "Describes the purpose of the setting"
 msgstr ""
 
 msgid "Description"
@@ -2953,6 +2980,9 @@ msgstr ""
 msgid "Expire logs"
 msgstr ""
 
+msgid "Expired"
+msgstr ""
+
 msgid "Expires"
 msgstr "Platnost skončí"
 
@@ -3039,9 +3069,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
 msgstr "Název faktu"
-
-msgid "Fact name, used when input type is fact"
-msgstr "Název faktu, použitý když je typ vstupu „fakt“"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
@@ -3572,9 +3599,6 @@ msgstr "Celá obrazovka"
 
 msgid "Function not available for %s"
 msgstr ""
-
-msgid "Further Information"
-msgstr "Další informace"
 
 msgid "GMT time"
 msgstr ""
@@ -4453,10 +4477,19 @@ msgstr ""
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr ""
 
+msgid "If the target machine does not trust the Foreman SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
+msgstr ""
+
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
 msgstr ""
 
 msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly."
+msgstr ""
+
+msgid "If this setting has list of possible values, this includes the list of the values."
+msgstr ""
+
+msgid "If this setting needs to be changed in file, it will have the file path."
 msgstr ""
 
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
@@ -4616,6 +4649,9 @@ msgstr ""
 msgid "In-line code syntax"
 msgstr ""
 
+msgid "Inactive Personal Access Tokens"
+msgstr ""
+
 msgid "Include default value when merging all matching values"
 msgstr "Při slučování všech odpovídajících hodnota zahrnout výchozí hodnoty"
 
@@ -4644,6 +4680,12 @@ msgid "Independent - Nonpersistent"
 msgstr ""
 
 msgid "Independent - Persistent"
+msgstr ""
+
+msgid "Information about the setting"
+msgstr ""
+
+msgid "Information about the updated setting"
 msgstr ""
 
 msgid "Infrastructure"
@@ -4686,6 +4728,9 @@ msgid ""
 "  via input, use <code>input('name')</code> global macro. The template needs to be \\\n"
 "  saved before input macro can load the value. If the value is not available during\n"
 "  template preview, its value is expanded to <code>$TYPE_INPUT[name]</code> string.</p>"
+msgstr ""
+
+msgid "Insecure"
 msgstr ""
 
 msgid "Installation Media"
@@ -4796,6 +4841,12 @@ msgstr "Neplatný typ pro vytvoření hostitele prostřednictvím faktů: %s"
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr ""
 
+msgid "Is this setting encrypted?"
+msgstr ""
+
+msgid "Is this setting readonly?"
+msgstr ""
+
 msgid "Issue tracker"
 msgstr "Systém správy hlášení problémů"
 
@@ -4889,17 +4940,20 @@ msgstr "Jazyk"
 msgid "Language to use for new users"
 msgstr "Jazyk, který použít pro nové uživatele"
 
-msgid "Last Audits"
-msgstr ""
-
 msgid "Last Page"
 msgstr "Poslední stránka"
 
 msgid "Last Report"
 msgstr ""
 
+msgid "Last Used"
+msgstr ""
+
 msgid "Last report"
 msgstr "Poslední hlášení"
+
+msgid "Last updated. NOTE: this will be reset to application install time, when setting is reset to default value."
+msgstr ""
 
 msgid "Latest Events"
 msgstr "Nejnovější události"
@@ -5257,6 +5311,9 @@ msgstr ""
 
 msgid "List of HTTP Proxies"
 msgstr "Seznam HTTP proxy"
+
+msgid "List of all settings"
+msgstr ""
 
 msgid "List of compute attributes"
 msgstr "Seznam atributů výpočetního prostředku"
@@ -5658,6 +5715,12 @@ msgstr "MailNotification|Typ předplatného"
 msgid "Manage"
 msgstr "Spravovat"
 
+msgid "Manage Locations"
+msgstr ""
+
+msgid "Manage Organizations"
+msgstr ""
+
 msgid "Manage PuppetCA"
 msgstr ""
 
@@ -5841,9 +5904,6 @@ msgstr ""
 msgid "Monthly"
 msgstr ""
 
-msgid "More Audits..."
-msgstr ""
-
 msgid "Must be unique"
 msgstr ""
 
@@ -5936,6 +5996,9 @@ msgstr ""
 
 msgid "Network type"
 msgstr "Typ sítě"
+
+msgid "Never"
+msgstr "Nikdy"
 
 msgid "New"
 msgstr "Nové"
@@ -6272,6 +6335,9 @@ msgstr "Žádné"
 msgid "None found"
 msgstr "Nenalezeno žádné"
 
+msgid "None provided"
+msgstr ""
+
 msgid "None!"
 msgstr "Žádné!"
 
@@ -6441,6 +6507,9 @@ msgid "OAuth consumer secret"
 msgstr ""
 
 msgid "OAuth map users"
+msgstr ""
+
+msgid "OBSOLATED: id of the setting record, doesn't need to be set in the future"
 msgstr ""
 
 msgid "OIDC Algorithm"
@@ -6944,6 +7013,12 @@ msgstr ""
 msgid "Persistent"
 msgstr "Trvalé"
 
+msgid "Personal Access Token was successfully created."
+msgstr ""
+
+msgid "Personal Access Tokens"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Personal access token"
 msgstr "Osobní přístupový token"
@@ -7010,9 +7085,6 @@ msgstr ""
 msgid ""
 "Please note that these HTTP proxy configurations are only used for requests\n"
 "                      from Foreman or Foreman plugins. System-wide proxies must be configured at operating system level."
-msgstr ""
-
-msgid "Please note, API v3 is deprecated and will be removed completely in the next Foreman release."
 msgstr ""
 
 msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)"
@@ -7296,9 +7368,6 @@ msgstr ""
 msgid "Puppet class"
 msgstr "Puppet třída"
 
-msgid "Puppet class name, used when input type is puppet_parameter"
-msgstr ""
-
 msgid "Puppet environments"
 msgstr "Puppet prostředí"
 
@@ -7313,9 +7382,6 @@ msgstr ""
 
 msgid "Puppet parameter"
 msgstr "Puppet parametr"
-
-msgid "Puppet parameter name, used when input type is puppet_parameter"
-msgstr ""
 
 msgid "Puppet proxy ID"
 msgstr ""
@@ -7419,6 +7485,9 @@ msgid "Rebuild orchestration config"
 msgstr ""
 
 msgid "Rebuild orchestration configuration"
+msgstr ""
+
+msgid "Recent Audits"
 msgstr ""
 
 msgid "Recreate"
@@ -7724,6 +7793,9 @@ msgid "Revoke"
 msgstr "Odvolat"
 
 msgid "Revoke a Personal Access Token for a user"
+msgstr ""
+
+msgid "Revoked"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8129,6 +8201,15 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
 msgstr "Nastavení"
+
+msgid "Setting current value. If this setting is encypted, the value will not be returned"
+msgstr ""
+
+msgid "Setting full user readable name"
+msgstr ""
+
+msgid "Setting unique name"
+msgstr ""
 
 msgid "Setting was successfully updated."
 msgstr ""
@@ -9163,6 +9244,9 @@ msgstr ""
 msgid "The authentication source of your external user groups could not connect to LDAP with the provided credentials. Please verify the credentials are still valid."
 msgstr ""
 
+msgid "The category of setting"
+msgstr ""
+
 msgid "The class could not be saved because of an error in one of the class parameters."
 msgstr ""
 
@@ -9229,6 +9313,9 @@ msgstr ""
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
+msgid "The human readable name of settings category"
+msgstr ""
+
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr ""
 
@@ -9276,6 +9363,9 @@ msgid ""
 msgstr ""
 
 msgid "The power state of the selected hosts will be set to %s"
+msgstr ""
+
+msgid "The puppetrun feature has been removed, however you can use the Remote Execution Plugin to run Puppet commands"
 msgstr ""
 
 msgid "The realm name, e.g. EXAMPLE.COM"
@@ -9506,9 +9596,6 @@ msgstr ""
 msgid "To access /trends API you need to install Foreman Statistics plugin"
 msgstr ""
 
-msgid "To access Puppetrun feature you need to install Foreman Remote Execution Plugin"
-msgstr ""
-
 msgid "To change the default behavior, modify the enclosing mark with <code>-&#37;></code>:"
 msgstr ""
 
@@ -9552,6 +9639,9 @@ msgid "Token expired"
 msgstr "Platnost tokenu skončila"
 
 msgid "Token lifetime (hours)"
+msgstr ""
+
+msgid "Token was successfully revoked."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -10206,9 +10296,6 @@ msgstr ""
 msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
-msgid "Use APIv4"
-msgstr ""
-
 msgid "Use NIS netgroups instead of posix groups."
 msgstr ""
 
@@ -10502,11 +10589,11 @@ msgstr "Hodnota kterou použít, pokud není nalezena žádná shoda."
 msgid "Value type, defaults to plain"
 msgstr "Typ hodnoty – pokud není vyplněno, použije se výchozí „holá“ (plain)"
 
+msgid "Value type, that the setting accepts"
+msgstr ""
+
 msgid "Variable"
 msgstr "Proměnná"
-
-msgid "Variable name, used when input type is variable"
-msgstr ""
 
 msgid "Variables"
 msgstr "Proměnné"
@@ -10876,6 +10963,9 @@ msgid "You probably need to configure your %s first."
 msgstr ""
 
 msgid "Your Foreman user account has been created:"
+msgstr ""
+
+msgid "Your New Personal Access Token"
 msgstr ""
 
 msgid "Your host has finished building:"

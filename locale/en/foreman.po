@@ -2143,6 +2143,18 @@ msgstr ""
 msgid "DB pending seed"
 msgstr ""
 
+msgid "DEPRECATED: Add a template combination"
+msgstr ""
+
+msgid "DEPRECATED: List template combination"
+msgstr ""
+
+msgid "DEPRECATED: Show template combination"
+msgstr ""
+
+msgid "DEPRECATED: Update template combination"
+msgstr ""
+
 msgid "DEPRECATED: this will be always application install time and dropped in the future release."
 msgstr ""
 
@@ -4249,6 +4261,9 @@ msgstr ""
 msgid "ID of environment"
 msgstr ""
 
+msgid "ID of environment - DEPRECATED will have no effect"
+msgstr ""
+
 msgid "ID of host"
 msgstr ""
 
@@ -5254,6 +5269,9 @@ msgid "List available security groups for a compute resource"
 msgstr ""
 
 msgid "List available virtual machines for a compute resource"
+msgstr ""
+
+msgid "List available vnic profiles for a compute resource, for oVirt only."
 msgstr ""
 
 msgid "List available zone for a compute resource"
@@ -6376,9 +6394,6 @@ msgid "Note that words starting with <code>@</code> are instance variables. When
 msgstr ""
 
 msgid "Note the extra space before IP, the <code>-&#37;></code> removes the new line character only if there is no other text after it. Therefore the white space needs to be at the new line."
-msgstr ""
-
-msgid "Note: the command contains an authentication token which grants access to your Foreman account until it expires."
 msgstr ""
 
 msgid "Nothing to add"
@@ -10634,6 +10649,9 @@ msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr ""
 
 msgid "Virtual machine was not found by id %{vm_id}"
+msgstr ""
+
+msgid "Vnic Profile"
 msgstr ""
 
 msgid "WARNING"

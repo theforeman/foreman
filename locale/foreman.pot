@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-20 15:12+0530\n"
-"PO-Revision-Date: 2021-01-20 15:12+0530\n"
+"POT-Creation-Date: 2021-02-03 15:21+0530\n"
+"PO-Revision-Date: 2021-02-03 15:21+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -53,27 +53,27 @@ msgstr ""
 msgid "Exit Full Screen"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:244 ../app/views/hosts/show.html.erb:17
+#: ../app/assets/javascripts/charts.js:245 ../app/views/hosts/show.html.erb:17
 #: ../app/views/smart_proxies/show.html.erb:21
 #: ../db/seeds.d/170-notification_blueprints.rb:12
 msgid "Details"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:279
+#: ../app/assets/javascripts/charts.js:280
 msgid "Reset zoom"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:393
+#: ../app/assets/javascripts/charts.js:395
 msgid "Fact distribution chart"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:398
+#: ../app/assets/javascripts/charts.js:400
 msgid "%s host"
 msgid_plural "%s hosts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/assets/javascripts/charts.js:501
+#: ../app/assets/javascripts/charts.js:504
 msgid "Failed to load chart"
 msgstr ""
 
@@ -785,89 +785,93 @@ msgid "List available networks for a compute resource cluster"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:148
+msgid "List available vnic profiles for a compute resource, for oVirt only."
+msgstr ""
+
+#: ../app/controllers/api/v2/compute_resources_controller.rb:155
 msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:157
-#: ../app/controllers/api/v2/compute_resources_controller.rb:165
+#: ../app/controllers/api/v2/compute_resources_controller.rb:164
+#: ../app/controllers/api/v2/compute_resources_controller.rb:172
 msgid "List attributes for a given storage domain"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:164
-#: ../app/controllers/api/v2/compute_resources_controller.rb:166
+#: ../app/controllers/api/v2/compute_resources_controller.rb:171
+#: ../app/controllers/api/v2/compute_resources_controller.rb:173
 msgid "List storage domains for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:181
-#: ../app/controllers/api/v2/compute_resources_controller.rb:189
+#: ../app/controllers/api/v2/compute_resources_controller.rb:188
+#: ../app/controllers/api/v2/compute_resources_controller.rb:196
 msgid "List attributes for a given storage pod"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:188
-#: ../app/controllers/api/v2/compute_resources_controller.rb:190
+#: ../app/controllers/api/v2/compute_resources_controller.rb:195
+#: ../app/controllers/api/v2/compute_resources_controller.rb:197
 msgid "List storage pods for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:205
+#: ../app/controllers/api/v2/compute_resources_controller.rb:212
 msgid "List available security groups for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:213
+#: ../app/controllers/api/v2/compute_resources_controller.rb:220
 msgid "Associate VMs to Hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:222
+#: ../app/controllers/api/v2/compute_resources_controller.rb:229
 msgid "Associating VMs is not supported for this compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:226
+#: ../app/controllers/api/v2/compute_resources_controller.rb:233
 msgid "Refresh Compute Resource Cache"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:231
+#: ../app/controllers/api/v2/compute_resources_controller.rb:238
 #: ../app/controllers/compute_resources_controller.rb:97
 msgid "Successfully refreshed the cache."
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:233
+#: ../app/controllers/api/v2/compute_resources_controller.rb:240
 #: ../app/controllers/compute_resources_controller.rb:102
 msgid "Failed to refresh the cache."
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:236
+#: ../app/controllers/api/v2/compute_resources_controller.rb:243
 #: ../app/controllers/compute_resources_controller.rb:108
 msgid "Cache refreshing is not supported for %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:240
+#: ../app/controllers/api/v2/compute_resources_controller.rb:247
 msgid "List available virtual machines for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:246
+#: ../app/controllers/api/v2/compute_resources_controller.rb:253
 msgid "Show a virtual machine"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:253
+#: ../app/controllers/api/v2/compute_resources_controller.rb:260
 msgid "Virtual machine was not found by id %{vm_id}"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:260
+#: ../app/controllers/api/v2/compute_resources_controller.rb:267
 msgid "Power a Virtual Machine"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:267
+#: ../app/controllers/api/v2/compute_resources_controller.rb:274
 msgid "%{action} %{vm}"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:267
+#: ../app/controllers/api/v2/compute_resources_controller.rb:274
 msgid "stopping"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:267
+#: ../app/controllers/api/v2/compute_resources_controller.rb:274
 msgid "starting"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:272
+#: ../app/controllers/api/v2/compute_resources_controller.rb:279
 msgid "Delete a Virtual Machine"
 msgstr ""
 
@@ -1265,7 +1269,7 @@ msgstr ""
 #: ../app/controllers/api/v2/parameters_controller.rb:139
 #: ../app/controllers/api/v2/puppetclasses_controller.rb:15
 #: ../app/controllers/api/v2/puppetclasses_controller.rb:50
-#: ../app/controllers/api/v2/template_combinations_controller.rb:11
+#: ../app/controllers/api/v2/template_combinations_controller.rb:12
 msgid "ID of host group"
 msgstr ""
 
@@ -1481,7 +1485,6 @@ msgstr ""
 #: ../app/controllers/api/v2/hosts_controller.rb:36
 #: ../app/controllers/api/v2/puppetclasses_controller.rb:16
 #: ../app/controllers/api/v2/puppetclasses_controller.rb:51
-#: ../app/controllers/api/v2/template_combinations_controller.rb:12
 msgid "ID of environment"
 msgstr ""
 
@@ -3340,44 +3343,60 @@ msgstr ""
 msgid "List all tasks for a given orchestration event"
 msgstr ""
 
-#: ../app/controllers/api/v2/template_combinations_controller.rb:10
+#: ../app/controllers/api/v2/template_combinations_controller.rb:11
 msgid "ID of config template"
 msgstr ""
 
-#: ../app/controllers/api/v2/template_combinations_controller.rb:15
+#: ../app/controllers/api/v2/template_combinations_controller.rb:13
+msgid "ID of environment - DEPRECATED will have no effect"
+msgstr ""
+
 #: ../app/controllers/api/v2/template_combinations_controller.rb:16
 #: ../app/controllers/api/v2/template_combinations_controller.rb:17
 msgid "List template combination"
 msgstr ""
 
-#: ../app/controllers/api/v2/template_combinations_controller.rb:26
-msgid "environment id"
+#: ../app/controllers/api/v2/template_combinations_controller.rb:18
+msgid "DEPRECATED: List template combination"
 msgstr ""
 
 #: ../app/controllers/api/v2/template_combinations_controller.rb:27
+msgid "environment id"
+msgstr ""
+
+#: ../app/controllers/api/v2/template_combinations_controller.rb:28
 msgid "host group id"
 msgstr ""
 
-#: ../app/controllers/api/v2/template_combinations_controller.rb:31
 #: ../app/controllers/api/v2/template_combinations_controller.rb:32
 #: ../app/controllers/api/v2/template_combinations_controller.rb:33
 msgid "Add a template combination"
 msgstr ""
 
-#: ../app/controllers/api/v2/template_combinations_controller.rb:42
+#: ../app/controllers/api/v2/template_combinations_controller.rb:34
+msgid "DEPRECATED: Add a template combination"
+msgstr ""
+
 #: ../app/controllers/api/v2/template_combinations_controller.rb:43
 #: ../app/controllers/api/v2/template_combinations_controller.rb:44
 #: ../app/controllers/api/v2/template_combinations_controller.rb:45
 msgid "Show template combination"
 msgstr ""
 
-#: ../app/controllers/api/v2/template_combinations_controller.rb:51
+#: ../app/controllers/api/v2/template_combinations_controller.rb:46
+msgid "DEPRECATED: Show template combination"
+msgstr ""
+
 #: ../app/controllers/api/v2/template_combinations_controller.rb:52
 #: ../app/controllers/api/v2/template_combinations_controller.rb:53
 msgid "Update template combination"
 msgstr ""
 
-#: ../app/controllers/api/v2/template_combinations_controller.rb:62
+#: ../app/controllers/api/v2/template_combinations_controller.rb:54
+msgid "DEPRECATED: Update template combination"
+msgstr ""
+
+#: ../app/controllers/api/v2/template_combinations_controller.rb:63
 msgid "Delete a template combination"
 msgstr ""
 
@@ -3968,7 +3987,7 @@ msgstr ""
 
 #: ../app/controllers/concerns/foreman/controller/registration.rb:46
 #: ../app/controllers/foreman_register/hosts_controller.rb:68
-#: ../app/controllers/templates_controller.rb:125
+#: ../app/controllers/templates_controller.rb:127
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr ""
 
@@ -4344,15 +4363,15 @@ msgstr ""
 msgid "Imported IPv4 Subnets"
 msgstr ""
 
-#: ../app/controllers/templates_controller.rb:91
+#: ../app/controllers/templates_controller.rb:93
 msgid "No host could be found for rendering the template"
 msgstr ""
 
-#: ../app/controllers/templates_controller.rb:139
+#: ../app/controllers/templates_controller.rb:141
 msgid "Template locked"
 msgstr ""
 
-#: ../app/controllers/templates_controller.rb:139
+#: ../app/controllers/templates_controller.rb:141
 msgid "Template unlocked"
 msgstr ""
 
@@ -4538,11 +4557,11 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:229
+#: ../app/helpers/application_helper.rb:231
 msgid "Expand the chart"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:369
+#: ../app/helpers/application_helper.rb:381
 #: ../app/views/about/index.html.erb:125
 #: ../app/views/bookmarks/welcome.html.erb:10
 #: ../app/views/config_reports/welcome.html.erb:14
@@ -4551,12 +4570,12 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:374
+#: ../app/helpers/application_helper.rb:386
 #: ../webpack/assets/javascripts/react_app/components/Bookmarks/Bookmarks.js:68
 msgid "None found"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:394
+#: ../app/helpers/application_helper.rb:406
 #: ../app/views/registration/_form.erb:58
 #: ../app/views/registration/_form.erb:71 ../app/views/users/logout.html.erb:3
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:29
@@ -4564,7 +4583,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:394
+#: ../app/helpers/application_helper.rb:406
 #: ../app/views/registration/_form.erb:58
 #: ../app/views/registration/_form.erb:71
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:30
@@ -6129,19 +6148,19 @@ msgstr ""
 msgid "Impersonate"
 msgstr ""
 
-#: ../app/jobs/create_rss_notifications.rb:17
+#: ../app/jobs/create_rss_notifications.rb:20
 msgid "Create RSS notifications"
 msgstr ""
 
-#: ../app/jobs/stored_values_cleanup_job.rb:16
+#: ../app/jobs/stored_values_cleanup_job.rb:19
 msgid "Clean up StoredValues"
 msgstr ""
 
-#: ../app/jobs/template_render_job.rb:26
+#: ../app/jobs/template_render_job.rb:28
 msgid "Render report %s"
 msgstr ""
 
-#: ../app/jobs/template_render_job.rb:26
+#: ../app/jobs/template_render_job.rb:28
 msgid "Render report template"
 msgstr ""
 
@@ -6241,15 +6260,15 @@ msgstr ""
 #: ../app/models/compute_resource.rb:281 ../app/models/compute_resource.rb:285
 #: ../app/models/compute_resource.rb:289 ../app/models/compute_resource.rb:293
 #: ../app/models/compute_resource.rb:297 ../app/models/compute_resource.rb:301
-#: ../app/models/compute_resource.rb:307
+#: ../app/models/compute_resource.rb:305 ../app/models/compute_resource.rb:311
 msgid "Not implemented for %s"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:416
+#: ../app/models/compute_resource.rb:420
 msgid "Not implemented"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:471
+#: ../app/models/compute_resource.rb:475
 msgid "cannot be changed"
 msgstr ""
 
@@ -6333,15 +6352,15 @@ msgstr ""
 msgid "Datacenter was not found"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:224
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:228
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:347
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:351
 msgid "VM volume attributes are not set properly"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:520
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:524
 msgid ""
 "The remote system presented a public key signed by an unidentified certificate"
 " authority. If you are sure the remote system is authentic, go to the compute "
@@ -6349,7 +6368,7 @@ msgid ""
 "nd submit"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:547
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:551
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
@@ -6398,7 +6417,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/libvirt/_network.html.erb:16
 #: ../app/views/compute_resources_vms/form/libvirt/_network.html.erb:22
 #: ../app/views/compute_resources_vms/form/libvirt/_network.html.erb:26
-#: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:7
+#: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:13
 #: ../app/views/compute_resources_vms/form/vmware/_network.html.erb:8
 #: ../app/views/hostgroups/_form.html.erb:9 ../app/views/hosts/_bmc.html.erb:22
 msgid "Network"
@@ -9354,7 +9373,7 @@ msgstr ""
 msgid "Hosts in build mode"
 msgstr ""
 
-#: ../app/services/fact_importer.rb:75
+#: ../app/services/fact_importer.rb:55
 msgid "Import of facts failed for host %s"
 msgstr ""
 
@@ -9626,7 +9645,7 @@ msgstr ""
 msgid "Invalid report"
 msgstr ""
 
-#: ../app/services/report_importer.rb:105
+#: ../app/services/report_importer.rb:100
 msgid "Invalid log level: %s"
 msgstr ""
 
@@ -9827,7 +9846,7 @@ msgstr ""
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:250
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:279
 #: ../app/views/compute_resources/show.html.erb:38
-#: ../app/views/templates/_form.html.erb:62
+#: ../app/views/templates/_form.html.erb:66
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:31
 #: apipie.rb:7
 msgid "Description"
@@ -9991,7 +10010,7 @@ msgstr ""
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:20
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:272
 #: ../app/views/templates/_form.html.erb:13
-#: ../app/views/templates/_form.html.erb:134
+#: ../app/views/templates/_form.html.erb:138
 msgid "Inputs"
 msgstr ""
 
@@ -11605,7 +11624,11 @@ msgstr ""
 msgid "Keyboard"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:9
+#: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:7
+msgid "Vnic Profile"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:16
 msgid "Interface type"
 msgstr ""
 
@@ -13984,12 +14007,6 @@ msgstr ""
 msgid "Command"
 msgstr ""
 
-#: ../app/views/registration/_form.erb:118
-msgid ""
-"Note: the command contains an authentication token which grants access to your"
-" Foreman account until it expires."
-msgstr ""
-
 #: ../app/views/report_mailer/report.html.erb:1
 #: ../app/views/report_mailer/report.text.erb:2
 msgid "Report completed"
@@ -14655,21 +14672,21 @@ msgstr ""
 msgid "recreate"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:64
+#: ../app/views/templates/_form.html.erb:68
 msgid "Audit Comment"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:65
+#: ../app/views/templates/_form.html.erb:69
 msgid ""
 "The Audit Comment field is saved with the template auditing to document the te"
 "mplate changes"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:70
+#: ../app/views/templates/_form.html.erb:74
 msgid "Template inputs"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:71
+#: ../app/views/templates/_form.html.erb:75
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
 "  based on template type, it allows to fetch the value from host facts, \\\n"
@@ -14682,82 +14699,82 @@ msgid ""
 "ring.</p>"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:86
+#: ../app/views/templates/_form.html.erb:90
 msgid "Add Input"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:86
+#: ../app/views/templates/_form.html.erb:90
 msgid "add a input for this template"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:96
+#: ../app/views/templates/_form.html.erb:100
 msgid "Template syntax"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:97
+#: ../app/views/templates/_form.html.erb:101
 msgid "Provisioning templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:98
+#: ../app/views/templates/_form.html.erb:102
 msgid ""
 "The following table and example snippet shows global methods, variables and cl"
 "ass methods and how to use them."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:99
+#: ../app/views/templates/_form.html.erb:103
 msgid ""
 "These are guaranteed to work via the safe mode rendering, to ensure a template"
 " can do nothing harmful."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:101
+#: ../app/views/templates/_form.html.erb:105
 msgid ""
 "To enable safe mode, navigate to Settings page and enable Safemode rendering o"
 "ption."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:103
+#: ../app/views/templates/_form.html.erb:107
 msgid "For more info visit our documentation."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:104 apipie.rb:22
+#: ../app/views/templates/_form.html.erb:108 apipie.rb:22
 msgid "Examples"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:106
+#: ../app/views/templates/_form.html.erb:110
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/ExpansiveView.js:101
 msgid "Comments"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:109
+#: ../app/views/templates/_form.html.erb:113
 msgid "In-line code syntax"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:114
+#: ../app/views/templates/_form.html.erb:118
 msgid "Printing data"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:117
+#: ../app/views/templates/_form.html.erb:121
 msgid "Variables"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:120
+#: ../app/views/templates/_form.html.erb:124
 msgid "Calling methods on objects"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:123
+#: ../app/views/templates/_form.html.erb:127
 msgid "Safe mode methods"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:126
+#: ../app/views/templates/_form.html.erb:130
 msgid "Global macros"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:129
+#: ../app/views/templates/_form.html.erb:133
 msgid "Iterating"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:136
+#: ../app/views/templates/_form.html.erb:140
 msgid ""
 "Once you define a template input in Inputs tab and save the template, it can b"
 "e used in the ERB.\n"
@@ -14767,7 +14784,7 @@ msgid ""
 "ugh input called cpus."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:143
+#: ../app/views/templates/_form.html.erb:147
 msgid ""
 "While rendering the template in preview mode, the input either loads the value"
 " or uses a placeholder\n"
@@ -14782,23 +14799,23 @@ msgid ""
 "                Note that the fact name can differ from input name."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:156
+#: ../app/views/templates/_form.html.erb:160
 msgid "Safe mode methods and variables"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:160
+#: ../app/views/templates/_form.html.erb:164
 msgid "Class"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:161
+#: ../app/views/templates/_form.html.erb:165
 msgid "Allowed methods or members"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:166
+#: ../app/views/templates/_form.html.erb:170
 msgid "Global methods (macros)"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:170
+#: ../app/views/templates/_form.html.erb:174
 msgid "Global variables"
 msgstr ""
 
@@ -15501,8 +15518,8 @@ msgstr ""
 msgid "Revert Failed, ${err}"
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_tools.js:38
-#: ../webpack/assets/javascripts/foreman_tools.js:50
+#: ../webpack/assets/javascripts/foreman_tools.js:36
+#: ../webpack/assets/javascripts/foreman_tools.js:48
 msgid "Filter..."
 msgstr ""
 
