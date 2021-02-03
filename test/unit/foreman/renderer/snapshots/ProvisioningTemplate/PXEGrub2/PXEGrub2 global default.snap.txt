@@ -134,7 +134,7 @@ menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
   echo
   ls
   echo
-  echo If you can't see the HDD, make sure the drive is marked as bootable in EFI and
+  echo If you cannot see the HDD, make sure the drive is marked as bootable in EFI and
   echo not hidden. Boot order must be the following:
   echo 1) NETWORK
   echo 2) HDD
