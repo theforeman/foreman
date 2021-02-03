@@ -20,7 +20,7 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getPersonalAccessTokens({ url }));
-  }, [url]);
+  }, [url, dispatch]);
 
   const newPersonalAccessToken = useSelector(state =>
     selectNewPersonalAccessToken(state)
