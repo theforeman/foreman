@@ -37,6 +37,7 @@ const Bookmarks = props => {
         controller={controller}
         url={url}
         setModalClosed={setModalClosed}
+        bookmarks={bookmarks}
       />
       <Dropdown pullRight id={controller} onClick={loadBookmarks}>
         <Dropdown.Toggle title={__('Bookmarks')}>

@@ -3,6 +3,15 @@
 exports[`Bookmarks should render bookmarks dropdown when loaded 1`] = `
 <Fragment>
   <SearchModal
+    bookmarks={
+      Array [
+        Object {
+          "controller": "architectures",
+          "name": "my-bookmark",
+          "query": "name ~ 86",
+        },
+      ]
+    }
     controller="architectures"
     onEnter={[Function]}
     setModalClosed={[MockFunction]}
@@ -76,6 +85,7 @@ exports[`Bookmarks should render bookmarks dropdown when loaded 1`] = `
 exports[`Bookmarks should render bookmarks dropdown when loading 1`] = `
 <Fragment>
   <SearchModal
+    bookmarks={Array []}
     controller="architectures"
     onEnter={[Function]}
     setModalClosed={[MockFunction]}
@@ -154,6 +164,7 @@ exports[`Bookmarks should render bookmarks dropdown when loading 1`] = `
 exports[`Bookmarks should render when no bookmarks loaded 1`] = `
 <Fragment>
   <SearchModal
+    bookmarks={Array []}
     controller="architectures"
     onEnter={[Function]}
     setModalClosed={[MockFunction]}
@@ -230,6 +241,7 @@ exports[`Bookmarks should render when no bookmarks loaded 1`] = `
 exports[`Bookmarks should show error 1`] = `
 <Fragment>
   <SearchModal
+    bookmarks={Array []}
     controller="architectures"
     onEnter={[Function]}
     setModalClosed={[MockFunction]}

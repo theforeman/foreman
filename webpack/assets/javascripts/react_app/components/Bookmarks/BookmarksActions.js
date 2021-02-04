@@ -13,7 +13,7 @@ export const getBookmarks = (url, controller) => {
   const uri = new URI(url);
 
   // eslint-disable-next-line camelcase
-  uri.setSearch({ search: `controller=${controller}`, per_page: 100 });
+  uri.setSearch({ search: `controller=${controller}`, per_page: 'all' });
 
   return _getBookmarks(uri.toString(), controller);
 };
