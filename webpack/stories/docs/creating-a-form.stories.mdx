@@ -54,3 +54,23 @@ const FlavorForm = ({
 - `initialValues` - object with initial values for the fields. For the example above, it could be: `{ name: 'Strawberry Super Sweetness' }`
 
 You can also pass a [Yup](https://github.com/jquense/yup) object as a `validationSchema`, which will take care of validations.
+
+### Toast Notifications
+
+Toast Notifications are enabled by default after a success or a failure.
+- `errorToast` - creates a toast notification based on `error.full_messages` object 
+- `successToast` - creates a toast notification with the given `meesage` or the given `item` props
+
+You can override the default `successToast` or `errorToast` functions if needed:
+
+```js
+  <ForemanForm
+    onSubmit={(values, actions) =>
+      submitForm({
+        ...otherProps,
+        successToast: response => __(`a custom success message with ${response.data.item}`),
+        errorToast: error => __(`a custom error message with ${error.response.data.error.item}`),
+      })
+    }
+  >
+```
