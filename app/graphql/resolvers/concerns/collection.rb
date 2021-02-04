@@ -9,6 +9,7 @@ module Resolvers
         argument :search, String, 'Search query', required: false
         argument :sort_by, String, 'Sort by this searchable field', required: false
         argument :sort_direction, Types::SortDirectionEnum, 'Sort direction', required: false
+        argument :pagination, Types::PaginationInput, 'Pagination', required: false
 
         if has_taxonomix?
           argument :location, String, required: false
@@ -53,7 +54,7 @@ module Resolvers
         search_options
       end
 
-      def filter_list(search: nil, sort_by: nil, sort_direction: 'ASC',
+      def filter_list(search: nil, sort_by: nil, sort_direction: 'ASC', pagination: nil,
                       first: nil, skip: nil,
                       location: nil, location_id: nil,
                       organization: nil, organization_id: nil)
@@ -67,6 +68,10 @@ module Resolvers
           taxonomy_ids = taxonomy_ids_for_filter(location_id: location_id, organization_id: organization_id,
                                                  location: location, organization: organization)
           filters << taxonomy_id_filter(taxonomy_ids) if taxonomy_ids.any?
+        end
+
+        if pagination
+          filters << pagination_filter(pagination)
         end
 
         filters
@@ -104,6 +109,14 @@ module Resolvers
         end
 
         taxonomy_ids.uniq
+      end
+
+      def pagination_filter(pagination)
+        lambda do |scope|
+          scope.paginate(page: pagination.page, per_page: pagination.per_page)
+        rescue ScopedSearch::QueryNotSupported => e
+          raise GraphQL::ExecutionError, e.message
+        end
       end
 
       def resolve_taxonomy_global_id(taxonomy_class, global_id)
