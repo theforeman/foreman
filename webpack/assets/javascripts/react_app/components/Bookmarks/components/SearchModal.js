@@ -6,7 +6,14 @@ import { translate as __ } from '../../../common/I18n';
 import { noop } from '../../../common/helpers';
 import BookmarkForm from './BookmarkForm';
 
-const SearchModal = ({ setModalClosed, onEnter, title, controller, url }) => (
+const SearchModal = ({
+  setModalClosed,
+  onEnter,
+  title,
+  controller,
+  url,
+  bookmarks,
+}) => (
   <ForemanModal
     id={BOOKMARKS_MODAL}
     title={title}
@@ -18,6 +25,7 @@ const SearchModal = ({ setModalClosed, onEnter, title, controller, url }) => (
       url={url}
       setModalClosed={setModalClosed}
       onCancel={setModalClosed}
+      bookmarks={bookmarks}
     />
   </ForemanModal>
 );
@@ -28,11 +36,13 @@ SearchModal.propTypes = {
   title: PropTypes.string,
   onEnter: PropTypes.func,
   setModalClosed: PropTypes.func.isRequired,
+  bookmarks: PropTypes.array,
 };
 
 SearchModal.defaultProps = {
   title: __('Create Bookmark'),
   onEnter: noop,
+  bookmarks: [],
 };
 
 export default SearchModal;

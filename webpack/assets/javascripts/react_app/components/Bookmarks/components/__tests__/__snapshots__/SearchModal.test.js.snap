@@ -8,6 +8,7 @@ exports[`SearchModal should show search modal 1`] = `
   title="Create Bookmark"
 >
   <Connect(BookmarkForm)
+    bookmarks={Array []}
     controller="hosts"
     onCancel={[MockFunction]}
     setModalClosed={[MockFunction]}

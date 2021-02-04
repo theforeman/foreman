@@ -1,6 +1,7 @@
 import React from 'react';
 import uuidV1 from 'uuid/v1';
 import { IntegrationTestHelper } from '@theforeman/test';
+
 import API from '../../../../../redux/API/API';
 import { APIMiddleware } from '../../../../../redux/API';
 
@@ -16,6 +17,7 @@ import {
   item,
   submitResponse,
   controller,
+  bookmarks,
 } from '../../../Bookmarks.fixtures';
 import { BOOKMARKS_SUCCESS } from '../../../BookmarksConstants';
 
@@ -80,4 +82,19 @@ describe('Bookmark form integration test', () => {
 
     testHelper.takeActionsSnapshot('form submitted');
   });
+
+  it("should run with name validation", async () => {
+    const testHelper = new IntegrationTestHelper(reducers, [APIMiddleware]);
+    const component = testHelper.mount(<BookmarkForm {...props} bookmarks={bookmarks} />);
+    component
+    .find('input[name="name"]')
+    .simulate('change', { target: { name: 'name', value: '1111' } });
+
+    await IntegrationTestHelper.flushAllPromises();
+    component.update();
+    const formError = component.find('CommonForm[label="Name"]').prop('error');
+
+    expect(formError).toBe('name already exists');
+
+  })
 });

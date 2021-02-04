@@ -8,15 +8,6 @@ import TextField from '../../../common/forms/TextField';
 import { translate as __ } from '../../../../../react_app/common/I18n';
 import { maxLengthMsg, requiredMsg } from '../../../common/forms/validators';
 
-const bookmarkFormSchema = Yup.object().shape({
-  name: Yup.string()
-    .max(...maxLengthMsg(254))
-    .required(requiredMsg()),
-  query: Yup.string()
-    .max(...maxLengthMsg(4096))
-    .required(requiredMsg()),
-});
-
 const BookmarkForm = ({
   url,
   submitForm,
@@ -24,7 +15,23 @@ const BookmarkForm = ({
   onCancel,
   initialValues,
   setModalClosed,
+  bookmarks,
 }) => {
+  const existsNamesRegex = new RegExp(
+    `^(?!(${bookmarks.map(({ name }) => name).join('|')})$).+`
+  );
+  const bookmarkFormSchema = Yup.object().shape({
+    name: Yup.string()
+      .max(...maxLengthMsg(254))
+      .required(requiredMsg())
+      .matches(existsNamesRegex, {
+        excludeEmptyString: true,
+        message: __('name already exists'),
+      }),
+    query: Yup.string()
+      .max(...maxLengthMsg(4096))
+      .required(requiredMsg()),
+  });
   const handleSubmit = async (values, actions) => {
     await submitForm({
       url,
@@ -62,10 +69,12 @@ BookmarkForm.propTypes = {
   initialValues: PropTypes.object.isRequired,
   url: PropTypes.string.isRequired,
   setModalClosed: PropTypes.func.isRequired,
+  bookmarks: PropTypes.array,
 };
 
 BookmarkForm.defaultProps = {
   onCancel: noop,
+  bookmarks: [],
 };
 
 export default BookmarkForm;
