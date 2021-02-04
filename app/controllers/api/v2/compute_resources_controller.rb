@@ -145,7 +145,7 @@ module Api
         render :available_networks, :layout => 'api/v2/layouts/index_layout'
       end
 
-      api :GET, "/compute_resources/:id/available_vnic_profiles", N_("List available vnic profiles for a compute resource, for oVirt only.")
+      api :GET, "/compute_resources/:id/available_vnic_profiles", N_("List available vnic profiles for a compute resource, for oVirt only")
       param :id, :identifier, :required => true
       def available_vnic_profiles
         @available_vnic_profiles = @compute_resource.vnic_profiles
