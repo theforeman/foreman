@@ -53,6 +53,8 @@ export const submitForm = ({
   method = 'post',
   headers,
   apiActionTypes: actionTypes,
+  errorToast,
+  successToast,
 }) => {
   verifyProps(item, params);
   return async dispatch => {
@@ -66,16 +68,17 @@ export const submitForm = ({
         payload: { item, data },
       });
     };
-
-    const successToast = response =>
+    const defaultSuccessToast = () =>
       message || sprintf('%s was successfully created.', __(item));
 
-    const errorToast = error =>
+    const defaultErrorToast = error =>
       sprintf(
-        'Oh no! Something went wrong while submitting the form, the server returned the following error: %s',
-        error
+        __(
+          'Oh no! Something went wrong while submitting the form, the server returned the following error: %s'
+        ),
+        // eslint-disable-next-line camelcase
+        error?.response?.data?.error?.full_messages?.join(', ')
       );
-
     dispatch(
       APIActions[method]({
         key: uniqueAPIKey,
@@ -85,8 +88,8 @@ export const submitForm = ({
         actionTypes,
         handleError,
         handleSuccess,
-        successToast,
-        errorToast,
+        successToast: successToast || defaultSuccessToast,
+        errorToast: errorToast || defaultErrorToast,
       })
     );
   };
