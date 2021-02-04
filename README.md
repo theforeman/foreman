@@ -66,6 +66,10 @@ Plugins are tools to extend and modify the functionality of Foreman. They are im
 
 The [plugins page](https://theforeman.org/plugins/) lists all available plugins and has more information about how to install and develop them.
 
+# Similarly Named Project
+There is a similarly named project on Github called [foreman](https://github.com/ddollar/foreman) (a CLI tool for running processes). 
+We've left a note about it here, to help people in case that's the one they're looking for, but ended up here.
+
 # How to contribute?
 Generally, follow the [Foreman guidelines](https://theforeman.org/contribute.html). For code-related contributions, fork this project and send a pull request with all changes. Some things to keep in mind:
 * [Follow the rules](https://theforeman.org/contribute.html#SubmitPatches) about commit message style and create a Redmine issue. Doing this right will help reviewers to get your contribution merged faster.
