@@ -1,4 +1,5 @@
 import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
+import { STATUS } from '../../../constants';
 import PropertiesCard from './';
 
 const fixtures = {
@@ -13,7 +14,7 @@ const fixtures = {
       location_name: 'Beverly Hills',
       organization_name: '90210',
     },
-    isLoading: false,
+    status: STATUS.RESOLVED,
   },
 };
 
