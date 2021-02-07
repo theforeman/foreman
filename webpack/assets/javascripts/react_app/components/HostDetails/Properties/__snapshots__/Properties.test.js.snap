@@ -29,7 +29,13 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
                 </span>
               </DataListCell>,
               <DataListCell>
-                windows 3.11
+                <SkeletonLoader
+                  emptyState="N/A"
+                  skeletonProps={Object {}}
+                  status="RESOLVED"
+                >
+                  windows 3.11
+                </SkeletonLoader>
               </DataListCell>,
             ]
           }
@@ -57,7 +63,13 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
                 alignRight={true}
                 isFilled={true}
               >
-                altavista
+                <SkeletonLoader
+                  emptyState="N/A"
+                  skeletonProps={Object {}}
+                  status="RESOLVED"
+                >
+                  altavista
+                </SkeletonLoader>
               </DataListCell>,
             ]
           }
@@ -88,7 +100,13 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
                 alignRight={true}
                 isFilled={true}
               >
-                x16
+                <SkeletonLoader
+                  emptyState="N/A"
+                  skeletonProps={Object {}}
+                  status="RESOLVED"
+                >
+                  x16
+                </SkeletonLoader>
               </DataListCell>,
             ]
           }
@@ -119,7 +137,13 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
                 alignRight={true}
                 isFilled={true}
               >
-                0.0.0.1
+                <SkeletonLoader
+                  emptyState="N/A"
+                  skeletonProps={Object {}}
+                  status="RESOLVED"
+                >
+                  windows 3.11
+                </SkeletonLoader>
               </DataListCell>,
             ]
           }
@@ -150,9 +174,11 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
               >
                 <SkeletonLoader
                   emptyState="N/A"
-                  isLoading={false}
                   skeletonProps={Object {}}
-                />
+                  status="RESOLVED"
+                >
+                  
+                </SkeletonLoader>
               </DataListCell>,
             ]
           }
@@ -183,7 +209,13 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
                 alignRight={true}
                 isFilled={true}
               >
-                00:0a:95:9d:68:16
+                <SkeletonLoader
+                  emptyState="N/A"
+                  skeletonProps={Object {}}
+                  status="RESOLVED"
+                >
+                  00:0a:95:9d:68:16
+                </SkeletonLoader>
               </DataListCell>,
             ]
           }
@@ -214,7 +246,13 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
                 alignRight={true}
                 isFilled={true}
               >
-                Beverly Hills
+                <SkeletonLoader
+                  emptyState="N/A"
+                  skeletonProps={Object {}}
+                  status="RESOLVED"
+                >
+                  Beverly Hills
+                </SkeletonLoader>
               </DataListCell>,
             ]
           }
@@ -245,7 +283,13 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
                 alignRight={true}
                 isFilled={true}
               >
-                90210
+                <SkeletonLoader
+                  emptyState="N/A"
+                  skeletonProps={Object {}}
+                  status="RESOLVED"
+                >
+                  90210
+                </SkeletonLoader>
               </DataListCell>,
             ]
           }

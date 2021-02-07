@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SkeletonLoader should loading false 1`] = `"custom empty"`;
+exports[`SkeletonLoader should loading finished with no children 1`] = `"custom empty"`;
 
 exports[`SkeletonLoader should loading true 1`] = `
 <G
@@ -12,3 +12,11 @@ exports[`SkeletonLoader should loading true 1`] = `
   wrapper={null}
 />
 `;
+
+exports[`SkeletonLoader should loading true with a node child 1`] = `
+<div>
+  a child
+</div>
+`;
+
+exports[`SkeletonLoader should render custom error 1`] = `"custom error node"`;

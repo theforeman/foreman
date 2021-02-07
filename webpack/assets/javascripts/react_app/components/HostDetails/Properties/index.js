@@ -9,9 +9,10 @@ import {
   DataListCell,
 } from '@patternfly/react-core';
 import SkeletonLoader from '../../common/SkeletonLoader';
+import { STATUS } from '../../../constants';
 import { translate as __ } from '../../../common/I18n';
 
-const Properties = ({ hostData, isLoading }) => (
+const Properties = ({ hostData, status }) => (
   <Card isHoverable>
     <DataList aria-label="Host Properties" isCompact>
       <DataListItem aria-labelledby="name">
@@ -22,9 +23,9 @@ const Properties = ({ hostData, isLoading }) => (
                 <span> {__('Operating System')}</span>
               </DataListCell>,
               <DataListCell key="os-content">
-                {hostData.operatingsystem_name || (
-                  <SkeletonLoader isLoading={isLoading} />
-                )}
+                <SkeletonLoader status={status}>
+                  {hostData.operatingsystem_name}
+                </SkeletonLoader>
               </DataListCell>,
             ]}
           />
@@ -38,9 +39,9 @@ const Properties = ({ hostData, isLoading }) => (
                 <span>{__('Domain')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="domain-content">
-                {hostData.domain_name || (
-                  <SkeletonLoader isLoading={isLoading} />
-                )}
+                <SkeletonLoader status={status}>
+                  {hostData.domain_name}
+                </SkeletonLoader>
               </DataListCell>,
             ]}
           />
@@ -54,9 +55,9 @@ const Properties = ({ hostData, isLoading }) => (
                 <span id="simple-item2">{__('Architecture')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="architecture-content">
-                {hostData.architecture_name || (
-                  <SkeletonLoader isLoading={isLoading} />
-                )}
+                <SkeletonLoader status={status}>
+                  {hostData.architecture_name}
+                </SkeletonLoader>
               </DataListCell>,
             ]}
           />
@@ -70,7 +71,9 @@ const Properties = ({ hostData, isLoading }) => (
                 <span id="simple-item2">{__('IP Address')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="ip-content">
-                {hostData.ip || <SkeletonLoader isLoading={isLoading} />}
+                <SkeletonLoader status={status}>
+                  {hostData.operatingsystem_name}
+                </SkeletonLoader>
               </DataListCell>,
             ]}
           />
@@ -84,7 +87,7 @@ const Properties = ({ hostData, isLoading }) => (
                 <span>{__('IP6 Address')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="ip6-content">
-                {hostData.ip6 || <SkeletonLoader isLoading={isLoading} />}
+                <SkeletonLoader status={status}>{hostData.ip6}</SkeletonLoader>
               </DataListCell>,
             ]}
           />
@@ -98,7 +101,7 @@ const Properties = ({ hostData, isLoading }) => (
                 <span id="simple-item2">{__('MAC')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="mac-content">
-                {hostData.mac || <SkeletonLoader isLoading={isLoading} />}
+                <SkeletonLoader status={status}>{hostData.mac}</SkeletonLoader>
               </DataListCell>,
             ]}
           />
@@ -112,9 +115,9 @@ const Properties = ({ hostData, isLoading }) => (
                 <span id="simple-item2">{__('Location')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="location-content">
-                {hostData.location_name || (
-                  <SkeletonLoader isLoading={isLoading} />
-                )}
+                <SkeletonLoader status={status}>
+                  {hostData.location_name}
+                </SkeletonLoader>
               </DataListCell>,
             ]}
           />
@@ -129,9 +132,9 @@ const Properties = ({ hostData, isLoading }) => (
                 <span id="simple-item2">{__('Organization')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="org-content">
-                {hostData.organization_name || (
-                  <SkeletonLoader isLoading={isLoading} />
-                )}
+                <SkeletonLoader status={status}>
+                  {hostData.organization_name}
+                </SkeletonLoader>
               </DataListCell>,
             ]}
           />
@@ -152,7 +155,10 @@ Properties.propTypes = {
     operatingsystem_name: PropTypes.string,
     organization_name: PropTypes.string,
   }).isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  status: PropTypes.string,
 };
 
+Properties.defaultProps = {
+  status: STATUS.PENDING,
+};
 export default Properties;
