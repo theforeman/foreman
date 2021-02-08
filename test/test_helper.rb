@@ -21,6 +21,9 @@ FactoryBot.use_parent_strategy = false
 # Do not allow network connections and external processes
 WebMock.disable_net_connect!(allow_localhost: true)
 
+# When there are no requests, avoid delays caused my HTTP connect
+WebMock.disable_net_connect!(net_http_connect_on_start: true)
+
 # Configure shoulda
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
