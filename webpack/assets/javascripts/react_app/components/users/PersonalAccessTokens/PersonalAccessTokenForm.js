@@ -28,16 +28,17 @@ const PersonalAccessTokenForm = ({ controller, url, initialValues }) => {
     id: MODAL_ID,
   });
 
-  const handleSubmit = async (values, actions) => {
-    await dispatch(
+  const handleSubmit = (values, actions) => {
+    dispatch(
       submitForm({
         url,
         values: { ...values, controller },
         item: 'personal_access_token',
         message: __('Personal Access Token was successfully created.'),
+        actions,
+        successCallback: setModalClosed,
       })
     );
-    setModalClosed();
   };
 
   return (
@@ -49,7 +50,7 @@ const PersonalAccessTokenForm = ({ controller, url, initialValues }) => {
       <ForemanModal id={MODAL_ID} title={__('Create Personal Access Token')}>
         <ForemanModal.Header />
         <ForemanForm
-          onSubmit={(values, actions) => handleSubmit(values, actions)}
+          onSubmit={handleSubmit}
           initialValues={initialValues}
           validationSchema={tokenFormSchema}
           onCancel={setModalClosed}

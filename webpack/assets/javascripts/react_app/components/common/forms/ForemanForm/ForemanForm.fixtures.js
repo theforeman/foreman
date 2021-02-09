@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 
@@ -16,16 +17,26 @@ export const validationSchema = Yup.object().shape({
 });
 
 export const FormComponent = ({ submitForm, initValues, schema, onCancel }) => (
-  <ForemanForm
-    onSubmit={(values, actions) => submitForm(values)}
-    initialValues={initValues}
-    validationSchema={schema}
-    onCancel={onCancel}
-  >
-    <TextField name="name" type="text" required="true" label="name" />
-    <TextField name="surname" type="text" label="surname" />
-  </ForemanForm>
-);
+    <ForemanForm
+      onSubmit={submitForm}
+      initialValues={initValues}
+      validationSchema={schema}
+      onCancel={onCancel}
+    >
+      <TextField name="name" type="text" required="true" label="name" />
+      <TextField name="surname" type="text" label="surname" />
+    </ForemanForm>
+  );
+
+export const ConnectedFormComponent = props => {
+  const dispatch = useDispatch();
+  return (
+    <FormComponent
+      {...props}
+      submitForm={(values, actions) => dispatch(props.submitForm(values, actions))}
+    />
+  );
+};
 
 FormComponent.propTypes = {
   submitForm: PropTypes.func.isRequired,

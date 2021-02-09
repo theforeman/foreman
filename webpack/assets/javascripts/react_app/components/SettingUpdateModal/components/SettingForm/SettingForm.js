@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field as FormikField } from 'formik';
-
 import ForemanForm from '../../../common/forms/ForemanForm';
 import SettingValueField from '../SettingValueField';
 import { SETTING_UPDATE_PATH } from '../../SettingUpdateModalConstants';
@@ -14,7 +13,7 @@ const SettingForm = ({
   setModalClosed,
   submitForm,
 }) => {
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = (values, actions) => {
     let submitValues = { setting: values };
 
     if (setting && setting.settingsType === 'array') {
@@ -22,24 +21,26 @@ const SettingForm = ({
       submitValues = { setting: { value: splitValue } };
     }
 
-    await submitForm({
+    return submitForm({
       url: SETTING_UPDATE_PATH.replace(':id', setting.id),
       values: submitValues,
       item: 'Settings',
       message: __('Setting was successfully updated.'),
       method: 'put',
+      successCallback: setModalClosed,
+      actions,
     });
-    setModalClosed();
   };
 
   return (
     <ForemanForm
-      onSubmit={(values, actions) => handleSubmit(values, actions)}
+      onSubmit={handleSubmit}
       initialValues={initialValues}
       onCancel={setModalClosed}
     >
       <FormikField
         name="value"
+        label={__('Value')}
         component={SettingValueField}
         setting={setting}
       />

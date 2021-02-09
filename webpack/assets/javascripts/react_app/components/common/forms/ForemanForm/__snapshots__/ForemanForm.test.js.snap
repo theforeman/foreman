@@ -2,6 +2,7 @@
 
 exports[`Foreman form helper functions should format errors 1`] = `
 Object {
+  "_error": undefined,
   "errors": Object {
     "email": Array [
       "is not a valid format",

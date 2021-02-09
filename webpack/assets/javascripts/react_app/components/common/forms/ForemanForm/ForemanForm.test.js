@@ -4,7 +4,8 @@ import {
 } from '@theforeman/test';
 import * as Yup from 'yup';
 
-import { prepareErrors, isInitialValid } from './ForemanForm';
+import { prepareErrors } from '../../../../redux/actions/common/forms';
+import { isInitialValid } from './ForemanForm'
 import {
   initialValues,
   FormComponent,
