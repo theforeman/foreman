@@ -4,51 +4,42 @@ import PropTypes from 'prop-types';
 import Form from '../Form';
 import { translate as __ } from '../../../../common/I18n';
 
-export const prepareErrors = errors =>
-  Object.keys(errors).reduce((memo, key) => {
-    const errorMessages = errors[key];
-
-    memo[key] =
-      errorMessages && errorMessages.join
-        ? errorMessages.join(', ')
-        : errorMessages;
-    return memo;
-  }, {});
-
 export const isInitialValid = ({ validationSchema, initialValues }) =>
   !validationSchema ? true : validationSchema.isValidSync(initialValues);
 
-const ForemanForm = props => (
+const ForemanForm = ({
+  onSubmit,
+  children,
+  initialValues,
+  validationSchema,
+  enableReinitialize,
+  onCancel,
+}) => (
   <Formik
-    onSubmit={(values, actions) =>
-      props.onSubmit(values, actions).catch(exception => {
-        actions.setSubmitting(false);
-        actions.setErrors(prepareErrors(exception.errors));
-      })
-    }
-    initialValues={props.initialValues}
-    validationSchema={props.validationSchema}
+    onSubmit={onSubmit}
+    initialValues={initialValues}
+    validationSchema={validationSchema}
     isInitialValid={isInitialValid}
-    enableReinitialize={props.enableReinitialize}
+    enableReinitialize={enableReinitialize}
   >
     {formProps => {
       const disabled = formProps.isSubmitting || !formProps.isValid;
-
       const submissionError = formProps.errors._error;
+
       return (
         <Form
           onSubmit={formProps.handleSubmit}
-          onCancel={props.onCancel}
+          onCancel={onCancel}
           disabled={disabled}
           error={submissionError}
           errorTitle={
-            submissionError && submissionError.severity === 'danger'
+            submissionError?.severity === 'danger'
               ? __('Error! ')
               : __('Warning! ')
           }
           submitting={formProps.isSubmitting}
         >
-          {cloneChildren(props.children, { formProps, disabled })}
+          {cloneChildren(children, { formProps, disabled })}
         </Form>
       );
     }}

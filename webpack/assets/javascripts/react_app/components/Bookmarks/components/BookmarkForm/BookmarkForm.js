@@ -32,19 +32,20 @@ const BookmarkForm = ({
       .max(...maxLengthMsg(4096))
       .required(requiredMsg()),
   });
-  const handleSubmit = async (values, actions) => {
-    await submitForm({
+
+  const handleSubmit = (values, actions) =>
+    submitForm({
       url,
       values: { ...values, controller },
       item: 'Bookmarks',
       message: __('Bookmark was successfully created.'),
+      successCallback: setModalClosed,
+      actions,
     });
-    setModalClosed();
-  };
 
   return (
     <ForemanForm
-      onSubmit={(values, actions) => handleSubmit(values, actions)}
+      onSubmit={handleSubmit}
       initialValues={initialValues}
       validationSchema={bookmarkFormSchema}
       onCancel={onCancel}
