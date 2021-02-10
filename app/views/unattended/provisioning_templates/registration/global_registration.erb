@@ -44,6 +44,7 @@ register_host() {
 <%= "       --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
 <%= "       --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
 <%= "       --data 'host[operatingsystem_id]=#{@operatingsystem.id}' \\\n" if @operatingsystem -%>
+<%= "       --data 'host[interfaces_attributes][0][identifier]=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
 <%= "       --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
 <%= "       --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
 <%= "       --data 'remote_execution_interface=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
