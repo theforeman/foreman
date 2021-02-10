@@ -10,20 +10,17 @@ import { selectModalExists } from './ForemanModalSelectors';
 export const addModal = ({ id, isOpen = false, isSubmitting = false }) => (
   dispatch,
   getState
-) => {
-  if (selectModalExists(getState(), id)) {
-    throw new Error(`ForemanModal with ID ${id} already exists`);
-  }
-  return dispatch({
+) =>
+  dispatch({
     type: ADD_MODAL,
     payload: { id, isOpen, isSubmitting },
   });
-};
 
 const modalAction = actionType => ({ id }) => (dispatch, getState) => {
   if (!selectModalExists(getState(), id)) {
-    throw new Error(
-      `${actionType} error: Modal with id '${id}' does not exist`
+    // eslint-disable-next-line no-console
+    console.warn(
+      `${actionType} action received, but ForemanModal with id '${id}' does not exist.`
     );
   }
   return dispatch({
