@@ -21,26 +21,4 @@ const fixtures = {
 
 describe('ForemanModal actions', () => {
   testActionSnapshotWithFixtures(fixtures);
-
-  describe('addModal', () => {
-    it('throws an error if the modal already exists', () => {
-      expect(() => store.dispatch(addModal({ id: 'modal1' }))).toThrow(
-        'already exists'
-      );
-    });
-  });
-  describe('setModalOpen', () => {
-    it('throws an error if the modal does not exist', () => {
-      expect(() => store.dispatch(setModalOpen({ id: 'modal42' }))).toThrow(
-        'does not exist'
-      );
-    });
-  });
-  describe('setModalClosed', () => {
-    it('throws an error if the modal does not exist', () => {
-      expect(() => store.dispatch(setModalClosed({ id: 'modal42' }))).toThrow(
-        'does not exist'
-      );
-    });
-  });
 });
