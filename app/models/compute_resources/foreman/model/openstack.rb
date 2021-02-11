@@ -271,6 +271,7 @@ module Foreman::Model
         :openstack_username => user,
         :openstack_auth_url => url_for_fog,
         :openstack_identity_endpoint => url_for_fog,
+        :openstack_endpoint_type => 'publicURL',
       }.tap do |h|
         if tenant.present?
           if identity_version == 2
