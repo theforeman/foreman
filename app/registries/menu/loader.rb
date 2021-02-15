@@ -51,6 +51,7 @@ module Menu
           menu.item :hosts,             :caption => N_('All Hosts')
           menu.item :newhost,           :caption => N_('Create Host'),
                     :url_hash => {:controller => '/hosts', :action => 'new'}
+          menu.item :register_hosts,    :caption => N_('Register Host')
           if SETTINGS[:unattended]
             menu.divider                :caption => N_('Provisioning Setup')
             menu.item :architectures,   :caption => N_('Architectures')
