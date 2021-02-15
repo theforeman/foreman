@@ -6,6 +6,7 @@
   "search": <%= metadata_search.to_json.html_safe %>,
 <% if params.has_key?(:include_permissions) %>
   "can_create": <%= can_create?.to_json %>,
+  "can_edit": <%= can_edit?.to_json %>,
 <% end %>
   "sort": {
     "by": <%= metadata_by.to_json.html_safe %>,
