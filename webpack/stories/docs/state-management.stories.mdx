@@ -1,7 +1,7 @@
 import { Meta } from '@theforeman/stories';
 
 <Meta
-  title="Introduction/Where to Put Stuff"
+  title="Introduction/Where to Put Data"
   parameters={{
     storyWeight: 132,
   }}
@@ -64,6 +64,8 @@ Because Foreman and plugins use both modern and legacy JS frameworks, Foreman ha
 * A [`componentRegistry`](https://github.com/theforeman/foreman/blob/develop/webpack/assets/javascripts/react_app/components/componentRegistry.js) that makes React components accessible for mounting on Rails ERB pages.  For more info, see [Mounting components into ERB](https://foreman-storybook.surge.sh/?path=/story/introduction-plugins--page#1-mounting-components-into-erb).
 * A method for [legacy JS](https://foreman-storybook.surge.sh/?path=/story/introduction-legacy-js--page) frameworks to access Foreman's Redux store
 * Several other utilities and helpers written in jQuery and vanilla JavaScript
+
+Should be used only if legacy code needs access to such data or methods. Avoid using it if possible.
 
 Other than the `tfm` object, it is not advisable to store anything on the global `window` object.
 
