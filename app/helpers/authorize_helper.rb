@@ -33,4 +33,8 @@ module AuthorizeHelper
   def can_create?
     authorized_for(controller: controller_permission, action: 'create', user_id: User.current.id, authorizer: authorizer)
   end
+
+  def can_edit?
+    authorized_for(controller: controller_permission, action: 'edit', user_id: User.current.id, authorizer: authorizer)
+  end
 end
