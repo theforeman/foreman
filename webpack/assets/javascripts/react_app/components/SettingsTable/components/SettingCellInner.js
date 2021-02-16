@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 
 import { valueToString, hasDefault, inStrong } from '../SettingsTableHelpers';
 
@@ -18,9 +19,11 @@ const SettingCellInner = props => {
     </span>
   );
 
-  return setting.value !== setting.default && hasDefault(setting)
-    ? inStrong(field)
-    : field;
+  const value =
+    setting.value !== setting.default && hasDefault(setting)
+      ? inStrong(field)
+      : field;
+  return <EllipsisWithTooltip>{value}</EllipsisWithTooltip>;
 };
 
 SettingCellInner.propTypes = {
