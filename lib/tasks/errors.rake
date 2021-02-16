@@ -27,8 +27,8 @@ namespace :errors do
       exit(1)
     end
     if Foreman::Logging.config[:layout] != 'multiline_request_pattern'
-      $STDERR.puts "Warning: Logging layout is not multiline_request_pattern."
-      $STDERR.puts "This output of this command can be incomplete."
+      puts "Warning: Logging layout is not multiline_request_pattern."
+      puts "This output of this command can be incomplete."
     end
     file_path = File.join(Foreman::Logging.log_directory, logfile)
     unless File.exist?(file_path)
