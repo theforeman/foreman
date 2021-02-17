@@ -278,7 +278,7 @@ module Foreman::Model
       template = template(args[:template]) if args[:template]
       instance_type = instance_type(args[:instance_type]) unless args[:instance_type].empty?
 
-      args[:cluster] = get_ovirt_id(clusters, args[:cluster])
+      args[:cluster] = get_ovirt_id(clusters, 'cluster', args[:cluster])
 
       sanitize_inherited_vm_attributes(args, template, instance_type)
       preallocate_and_clone_disks(args, template) if args[:volumes_attributes].present? && template.present?
@@ -295,11 +295,12 @@ module Foreman::Model
       vm
     end
 
-    def get_ovirt_id(argument_list, argument)
-      if argument_list.none? { |a| a.name == argument ||  a.id == argument }
-        raise Foreman::Exception.new("#{argument} is not valid, enter id or name")
+    def get_ovirt_id(argument_list, argument_key, argument_value)
+      return argument_value if argument_value.blank?
+      if argument_list.none? { |a| a.name == argument_value || a.id == argument_value }
+        raise Foreman::Exception.new("The #{argument_key} #{argument_value} is not valid, enter a correct id or name")
       else
-        argument_list.detect { |a| a.name == argument }.try(:id) || argument
+        argument_list.detect { |a| a.name == argument_value }.try(:id) || argument_value
       end
     end
 
@@ -446,10 +447,10 @@ module Foreman::Model
 
     def normalize_vm_attrs(vm_attrs)
       normalized = slice_vm_attributes(vm_attrs, ['cores', 'interfaces_attributes', 'memory'])
-      normalized['cluster_id'] = vm_attrs['cluster']
+      normalized['cluster_id'] = get_ovirt_id(clusters, 'cluster', vm_attrs['cluster'])
       normalized['cluster_name'] = clusters.detect { |c| c.id == normalized['cluster_id'] }.try(:name)
 
-      normalized['template_id'] = vm_attrs['template']
+      normalized['template_id'] = get_ovirt_id(templates, 'template', vm_attrs['template'])
       normalized['template_name'] = templates.detect { |t| t.id == normalized['template_id'] }.try(:name)
 
       cluster_networks = networks(:cluster_id => normalized['cluster_id'])
@@ -488,7 +489,7 @@ module Foreman::Model
       if attrs[:ovirt_quota_id].nil?
         attrs[:ovirt_quota_id] = client.quotas.first.id
       else
-        attrs[:ovirt_quota_id] = get_ovirt_id(client.quotas, attrs[:ovirt_quota_id])
+        attrs[:ovirt_quota_id] = get_ovirt_id(client.quotas, 'quota', attrs[:ovirt_quota_id])
       end
     end
 
@@ -621,8 +622,8 @@ module Foreman::Model
       interfaces.map do |interface|
         interface[:name] = default_iface_name(interfaces) if interface[:name].empty?
         raise Foreman::Exception.new("Interface network or vnic profile are missing.") if (interface[:network].nil? && interface[:vnic_profile].nil?)
-        interface[:network] = get_ovirt_id(cluster_networks, interface[:network]) if interface[:network].present?
-        interface[:vnic_profile] = get_ovirt_id(profiles, interface[:vnic_profile]) if interface[:vnic_profile].present?
+        interface[:network] = get_ovirt_id(cluster_networks, 'network', interface[:network]) if interface[:network].present?
+        interface[:vnic_profile] = get_ovirt_id(profiles, 'vnic profile', interface[:vnic_profile]) if interface[:vnic_profile].present?
         if (interface[:network].present? && interface[:vnic_profile].present?)
           unless (profiles.select { |profile| profile.network.id == interface[:network] }).present?
             raise Foreman::Exception.new("Vnic Profile have a different network")
@@ -640,7 +641,7 @@ module Foreman::Model
         if vol[:id].blank?
           set_preallocated_attributes!(vol, vol[:preallocate])
           vol[:wipe_after_delete] = to_fog_ovirt_boolean(vol[:wipe_after_delete])
-          vol[:storage_domain] = get_ovirt_id(storage_domains, vol[:storage_domain])
+          vol[:storage_domain] = get_ovirt_id(storage_domains, 'storage domain', vol[:storage_domain])
           # The blocking true is a work-around for ovirt bug fixed in ovirt version 5.1
           # The BZ in ovirt cause to the destruction of a host in foreman to fail in case a volume is locked
           # Here we are enforcing blocking behavior which  will  wait until the volume is added
