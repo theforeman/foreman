@@ -49,7 +49,7 @@ module Api
         @compute_attribute = ComputeAttribute.new(compute_attribute_params.merge(
           :compute_profile_id => params[:compute_profile_id],
           :compute_resource_id => params[:compute_resource_id]))
-        process_response @compute_attribute.save
+        process_response @compute_attribute.save if @compute_attribute.normalized_vm_attrs
       end
 
       api :PUT, "/compute_resources/:compute_resource_id/compute_profiles/:compute_profile_id/compute_attributes/:id", N_("Update a compute attributes set")
@@ -64,7 +64,7 @@ module Api
       param_group :compute_attribute
 
       def update
-        process_response @compute_attribute.update(compute_attribute_params)
+        process_response @compute_attribute.update(compute_attribute_params) if @compute_attribute.normalized_new_vm_attrs(compute_attribute_params[:vm_attrs])
       end
 
       private

@@ -36,6 +36,10 @@ class ComputeAttribute < ApplicationRecord
     compute_resource.normalize_vm_attrs(vm_attrs)
   end
 
+  def normalized_new_vm_attrs(new_vm_attrs)
+    compute_resource.normalize_vm_attrs(new_vm_attrs)
+  end
+
   def vm_interfaces
     attribute_values(compute_resource.interfaces_attrs_name)
   end

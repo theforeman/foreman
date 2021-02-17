@@ -172,44 +172,44 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     end
 
     test 'cluster validation - id entered' do
-      assert_equal('c2', cr.get_ovirt_id(cr.clusters, 'c2'))
+      assert_equal('c2', cr.get_ovirt_id(cr.clusters, 'cluster', 'c2'))
     end
 
     test 'cluster validation - name entered' do
-      assert_equal('c2', cr.get_ovirt_id(cr.clusters, 'cluster 2'))
+      assert_equal('c2', cr.get_ovirt_id(cr.clusters, 'cluster', 'cluster 2'))
     end
 
     test 'cluster validation - not valid' do
       assert_raise Foreman::Exception do
-        cr.get_ovirt_id(cr.clusters, 'c3')
+        cr.get_ovirt_id(cr.clusters, 'cluster', 'c3')
       end
     end
 
     test 'storage domain validation - id entered' do
-      assert_equal('312f6', cr.get_ovirt_id(cr.storage_domains, '312f6'))
+      assert_equal('312f6', cr.get_ovirt_id(cr.storage_domains, 'storage domain', '312f6'))
     end
 
     test 'storage domain validation - name entered' do
-      assert_equal('382ec', cr.get_ovirt_id(cr.storage_domains, 'domain 2'))
+      assert_equal('382ec', cr.get_ovirt_id(cr.storage_domains, 'storage domain', 'domain 2'))
     end
 
     test 'storage domain validation - not valid' do
       assert_raise Foreman::Exception do
-        cr.get_ovirt_id(cr.storage_domains, 'domain 3')
+        cr.get_ovirt_id(cr.storage_domains, 'storage domain', 'domain 3')
       end
     end
 
     test 'network validation - id entered' do
-      assert_equal('net1', cr.get_ovirt_id(cr.networks, 'net1'))
+      assert_equal('net1', cr.get_ovirt_id(cr.networks, 'network', 'net1'))
     end
 
     test 'network validation - name entered' do
-      assert_equal('net2', cr.get_ovirt_id(cr.networks, 'network 2'))
+      assert_equal('net2', cr.get_ovirt_id(cr.networks, 'network', 'network 2'))
     end
 
     test 'network validation - not valid' do
       assert_raise Foreman::Exception do
-        cr.get_ovirt_id(cr.networks, 'network 3')
+        cr.get_ovirt_id(cr.networks, 'network', 'network 3')
       end
     end
   end
@@ -238,7 +238,13 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     end
 
     test 'maps cluster to cluster_id' do
-      assert_attrs_mapped(cr, 'cluster', 'cluster_id')
+      vm_attrs = {
+        'cluster' => 'cluster 1',
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      refute(normalized.has_key?('cluster'))
+      assert_equal('c1', normalized['cluster_id'])
     end
 
     test 'finds cluster_name' do
@@ -251,7 +257,13 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     end
 
     test 'maps template to template_id' do
-      assert_attrs_mapped(cr, 'template', 'template_id')
+      vm_attrs = {
+        'template' => 'template 1',
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      refute(normalized.has_key?('template'))
+      assert_equal('tpl1', normalized['template_id'])
     end
 
     test 'finds template_name' do
