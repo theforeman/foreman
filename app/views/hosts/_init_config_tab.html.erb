@@ -1,0 +1,20 @@
+<style>
+.host-init-conf-textarea{
+  font-size: 11px;
+  padding: 2px;
+  color: #363636;
+  background-color: #fafafa;
+  border: 1px solid #ccc;
+}
+</style>
+<% if @host.operatingsystem && @host.registration_template %>
+<div style="max-width: 600px">
+  <%= _('For initial configuration of the host run this command:') %>
+  <%= react_component('ClipboardCopy', { text: "curl #{@host.registration_url} | bash",
+                                         textareaProps: { readOnly: true, rows: '1', className: 'host-init-conf-textarea'}})
+  %>
+  <%= _('Host template') %>: <%= link_to(@host.registration_template, edit_provisioning_template_path(@host.registration_template))%>
+</div>
+<% else %>
+  <p><%= _('This host can not be configured as no registration template was set.') %></p>
+<% end %>
