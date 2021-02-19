@@ -42,6 +42,10 @@ module Foreman
       class UnknownReportColumn < RenderingError
         MESSAGE = N_('Rendering failed, one or more unknown columns specified for ordering - "%{unknown}"').freeze
       end
+
+      class HostgroupNotFoundError < RenderingError
+        MESSAGE = N_('Hostgroup not found or not accessible').freeze
+      end
     end
   end
 end
