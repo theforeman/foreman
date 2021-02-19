@@ -1,3 +1,31 @@
+2021-02-19	Eric D. Helms <ericdhelms@gmail.com>
+	* Release 2.4.0-rc2
+
+2021-02-18	Shira Maximov <shiramaximov@gmail.com>
+	* Refs #30215 - mark string for translation
+	* Fixes #30215 - Add warning banner about puppet ENC extraction
+
+2021-02-17	Jeremy Lenz <jlenz@redhat.com>
+	* Fixes #30724 - Remove console errors from ForemanModal
+
+2021-02-17	Manfred Pusch <manfred@pusch.cc>
+	* Fixes #31882 - set ENC var hostname to shortname
+
+2021-02-17	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #31855 - add ellipsis with tooltip for long setting values
+
+2021-02-17	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #31723 - Show changes after setting update
+
+2021-02-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #31884 - Correctly warn about wrong logging layout
+
+2021-02-15	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #31730 - cleaner event name and documentation
+
+2021-02-10	Scott Lindeneau <lindeneau.scott@solute.us>
+	* Fixes #31758 - Unterminated single quote in chainloader pxeboot template breaks grub2 parser
+
 2021-02-03	Marek Hulan <mhulan@redhat.com>
 	* Release 2.4.0-rc1
 
