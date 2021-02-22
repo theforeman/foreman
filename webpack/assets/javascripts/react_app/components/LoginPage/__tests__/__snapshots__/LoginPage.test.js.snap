@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AutoComplete rendering renders LoginPage 1`] = `
+exports[`LoginPage rendering renders LoginPage 1`] = `
 <div
   id="login-page"
 >
@@ -57,13 +57,26 @@ exports[`AutoComplete rendering renders LoginPage 1`] = `
     footerLinks={Array []}
     header={
       Object {
-        "caption": <LoginPageCaption
-          caption="some caption"
-          version="some version"
-        />,
+        "caption": <React.Fragment>
+          <h1
+            id="title"
+          >
+            Welcome
+          </h1>
+          <p
+            id="version"
+          >
+            Version some version
+          </p>
+        </React.Fragment>,
         "logoSrc": "/some-logo",
       }
     }
   />
+  <div
+    id="login-footer-text"
+  >
+    some caption
+  </div>
 </div>
 `;
