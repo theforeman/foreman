@@ -1,1 +1,1 @@
-attributes :username, :password, :provider, :virtual
+attributes :username, :provider, :virtual
