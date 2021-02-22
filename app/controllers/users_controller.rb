@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       update_sub_hostgroups_owners
 
-      process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : {})
+      process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : { :success_redirect => users_path })
     else
       process_error
     end

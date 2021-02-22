@@ -321,6 +321,16 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+  test 'user with no permission should be able to update himself or herself' do
+    user = FactoryBot.create(:user, :mail => nil)
+    setup_user 'view', 'hosts', nil, user
+    put :update, params: { :id => user.id, :user => { :mail => 'test@example.com' } },
+      session: set_session_user(user)
+
+    assert_response :redirect
+    assert_redirected_to hosts_path
+  end
+
   test "#login sets the session user and bumps last log in time" do
     time = Time.zone.now
     post :login, params: { :login => {'login' => users(:admin).login, 'password' => 'secret'} }
