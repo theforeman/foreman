@@ -5,7 +5,7 @@ import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers'
 const fixtures = {
   'renders LoginPage': props,
 };
-describe('AutoComplete', () => {
+describe('LoginPage', () => {
   describe('rendering', () => {
     testComponentSnapshotsWithFixtures(LoginPage, fixtures);
   });

@@ -14,6 +14,14 @@ $background_image: linear-gradient(
 #login-page {
   height: 100%;
 
+  #login-footer-text {
+    position: fixed;
+    bottom: 0;
+    padding: 30px;
+    color: $color-pf-white;
+    font-size: 14px;
+  }
+
   .login-pf {
     background: none;
     background-image: $background_image;
@@ -27,7 +35,7 @@ $background_image: linear-gradient(
     }
 
     .login-pf-caption {
-      color: white;
+      color: $color-pf-white;
 
       h1 {
         font-weight: $caption_font_weight;

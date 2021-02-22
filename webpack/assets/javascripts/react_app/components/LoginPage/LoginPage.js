@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { LoginPage as PFLoginPage } from 'patternfly-react';
 import { translate as __ } from '../../common/I18n';
-import LoginPageCaption from './components/LoginPageCaption';
 import { adjustAlerts, defaultFormProps } from './helpers';
 import './LoginPage.scss';
 
@@ -24,7 +23,12 @@ const LoginPage = ({
         }}
         header={{
           logoSrc,
-          caption: <LoginPageCaption version={version} caption={caption} />,
+          caption: (
+            <>
+              <h1 id="title">{__('Welcome')}</h1>
+              {version && <p id="version">{`${__('Version')} ${version}`}</p>}
+            </>
+          ),
         }}
         card={{
           title: __('Log in to your account'),
@@ -37,6 +41,7 @@ const LoginPage = ({
           },
         }}
       />
+      {caption && <div id="login-footer-text">{caption}</div>}
     </div>
   );
 };
