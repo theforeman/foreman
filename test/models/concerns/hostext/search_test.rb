@@ -68,6 +68,12 @@ module Hostext
           assert_not_includes result, other_host
         end
 
+        test 'can be searched by id' do
+          result = Host.search_for("id = \"#{host.id}\" and user.firstname = #{user.firstname}")
+          assert_same_elements result, [host]
+          assert_not_includes result, other_host
+        end
+
         test 'does not find hosts if condition does not match anything' do
           result = Host.search_for('user.firstname = does_not_exist')
           assert_empty result
