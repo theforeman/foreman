@@ -19,6 +19,7 @@ module Hostext
       scoped_search :on => :managed,       :complete_value => {:true => true, :false => false}
       scoped_search :on => :owner_type,    :complete_value => true, :only_explicit => true
       scoped_search :on => :owner_id,      :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+      scoped_search :on => :id,            :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
       scoped_search :relation => :last_report_object, :on => :origin, :only_explicit => true
 
