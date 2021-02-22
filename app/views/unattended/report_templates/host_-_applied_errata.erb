@@ -59,7 +59,7 @@ require:
                              since: input('Since'),
                              up_to: input('Up to'),
                              status: input('Status'),
-                             host_filter: input('Hosts filter').empty? ? nil : input('Hosts filter')
+                             host_filter: input('Hosts filter').blank? ? nil : input('Hosts filter')
                              ).each do |info| -%>
 <%-   report_row(info) -%>
 <%- end -%>
