@@ -8,6 +8,7 @@ Requires=foreman.socket
 Type=notify
 User=foreman
 TimeoutSec=300
+PrivateTmp=true
 WorkingDirectory=/usr/share/foreman
 ExecStart=/usr/share/foreman/bin/rails server --environment $FOREMAN_ENV
 Environment=FOREMAN_ENV=production
