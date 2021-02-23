@@ -24,7 +24,7 @@ jobs:
         run: npm install
       - name: Run linter
         run: npm run lint
-      - name: Run Spellcheck (only warnings)
+      - name: Run Spellcheck
         run: npm run lint:spelling
       - name: Run tests
         run: npm run test

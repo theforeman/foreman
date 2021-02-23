@@ -3,7 +3,7 @@
   "extends": "plugin:@theforeman/foreman/core",
   "rules": {
     "spellcheck/spell-checker": [
-      "warn",
+      "error",
       {
         "comments": false,
         "identifiers": false,
@@ -65,6 +65,7 @@
           "loc",
           "locs",
           "lsi",
+          "matcher",
           "menuitem",
           "monokai",
           "mousedown",
