@@ -25,9 +25,22 @@ class Redhat < Operatingsystem
     "kickstart"
   end
 
+  def pxe_file_names(medium_provider)
+    if medium_provider.try(:architecture).try(:name) =~ /^[Ss]390/
+      {
+        kernel: "kernel.img",
+        initrd: "initrd.img",
+      }
+    else
+      family.constantize::PXEFILES
+    end
+  end
+
   def pxedir(medium_provider = nil)
     if medium_provider.try(:architecture).try(:name) =~ /^ppc64/
       "ppc/ppc64"
+    elsif medium_provider.try(:architecture).try(:name) =~ /^[Ss]390/
+      "images"
     else
       "images/pxeboot"
     end

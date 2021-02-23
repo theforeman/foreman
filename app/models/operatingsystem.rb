@@ -311,8 +311,12 @@ class Operatingsystem < ApplicationRecord
     boot_file_sources(medium_provider, &block)[file]
   end
 
+  def pxe_file_names(medium_provider)
+    family.constantize::PXEFILES
+  end
+
   def boot_file_sources(medium_provider, &block)
-    @boot_file_sources ||= family.constantize::PXEFILES.transform_values do |img|
+    @boot_file_sources ||= pxe_file_names(medium_provider).transform_values do |img|
       "#{medium_provider.medium_uri(pxedir(medium_provider), &block)}/#{img}"
     end
   end
