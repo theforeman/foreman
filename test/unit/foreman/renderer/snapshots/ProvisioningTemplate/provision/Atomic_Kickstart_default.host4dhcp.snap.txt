@@ -6,7 +6,11 @@ timezone --utc UTC
 
 network --bootproto dhcp --hostname snapshot-ipv4-dhcp-el7 --device=00-f0-54-1a-7e-e0
 # Partition table should create /boot and a volume atomicos
-zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended
+zerombr
+clearpart --all    --initlabel
+part /boot --fstype ext3 --size=100 --asprimary
+part /     --fstype ext3 --size=1024 --grow
+part swap  --recommended
 
 bootloader --timeout=3
 text

@@ -54,3 +54,4 @@ npm-debug.log
 .vendor/
 .solargraph.yml
 .nvmrc
+mkmf.log

@@ -31,7 +31,11 @@
     <start_at_boot config:type="boolean">true</start_at_boot>
     <start_in_chroot config:type="boolean">true</start_in_chroot>
   </ntp-client>
-  zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended
+  zerombr
+clearpart --all    --initlabel
+part /boot --fstype ext3 --size=100 --asprimary
+part /     --fstype ext3 --size=1024 --grow
+part swap  --recommended
   <runlevel>
     <default>3</default>
     <services config:type="list">

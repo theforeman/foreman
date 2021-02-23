@@ -15,7 +15,7 @@ end
 FactoryBot.define do
   factory :ptable do
     sequence(:name) { |n| "ptable#{n}" }
-    layout { 'zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=<%= 10 * 10 %> --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended' }
+    layout { "zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=<%= 10 * 10 %> --asprimary\npart /     --fstype ext3 --size=1024 --grow\npart swap  --recommended" }
     os_family { 'Redhat' }
     organizations { [Organization.find_by_name('Organization 1')] }
     locations { [Location.find_by_name('Location 1')] }
