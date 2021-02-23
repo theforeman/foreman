@@ -2,9 +2,19 @@
 kind: PXELinux
 name: PXELinux default local boot
 model: ProvisioningTemplate
-%>
-<%# Used to boot provisioned hosts, do not associate or change the name. %>
-
+-%>
+<%# Used to boot provisioned hosts, do not associate or change the name. -%>
+<% if @host.architecture.to_s.match(/s390x?/i) -%>
+# pxelinux
+# Reboot dracut image must be manually built and copied over to the TFTP
+# https://github.com/lzap/dracut-reboot-s390x
+default reboot
+label reboot
+kernel kernel-reboot.img
+initrd initrd-reboot.img
+# Uncomment to customize chreipl arguments
+#append rd.shell rd.chreipl=ccw rd.chreipl=0.0.0000XXX
+<% else -%>
 UI menu.c32
 MENU TITLE Booting local disk (ESC to stop)
 TIMEOUT 200
@@ -12,3 +22,4 @@ ONTIMEOUT <%= global_setting("default_pxe_item_local", "local_chain_hd0") %>
 DEFAULT <%= global_setting("default_pxe_item_local", "local_chain_hd0") %>
 
 <%= snippet "pxelinux_chainload" %>
+<% end -%>

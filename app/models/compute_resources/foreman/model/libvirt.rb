@@ -27,6 +27,12 @@ module Foreman::Model
       super.merge({:mac => :mac})
     end
 
+    def host_compute_attrs(host)
+      super.tap do |attrs|
+        attrs[:arch] = host.architecture.try(:name) || "x86_64"
+      end
+    end
+
     def interfaces_attrs_name
       :nics
     end

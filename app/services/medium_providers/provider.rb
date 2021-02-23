@@ -70,6 +70,10 @@ module MediumProviders
       entity.try(:architecture)
     end
 
+    def architecture_name
+      architecture.try(:name)
+    end
+
     private
 
     def parse_media(media)
