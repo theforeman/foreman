@@ -10,12 +10,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version:
-          - 12
-          - 14
     steps:
       - name: Checkout Foreman
         uses: actions/checkout@v2
@@ -25,7 +19,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
       - name: Install npm dependencies
         run: npm install
       - name: Run linter
@@ -34,8 +28,7 @@ jobs:
         run: npm run lint:spelling
       - name: Run tests
         run: npm run test
-      - name: Publish Coveralls (node v14)
-        if: ${{ matrix.node-version == 14 }}
+      - name: Publish Coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
