@@ -226,7 +226,7 @@ class Operatingsystem < ApplicationRecord
     unless medium_provider.is_a? MediumProviders::Provider
       raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)'))
     end
-    pxe_prefix(medium_provider) + "-" + family.constantize::PXEFILES[type.to_sym]
+    pxe_prefix(medium_provider) + "-" + pxe_file_names(medium_provider)[type.to_sym]
   end
 
   # Does this OS family support a build variant that is constructed from a prebuilt archive
@@ -313,8 +313,12 @@ class Operatingsystem < ApplicationRecord
     boot_file_sources(medium_provider, &block)[file]
   end
 
+  def pxe_file_names(medium_provider)
+    family.constantize::PXEFILES
+  end
+
   def boot_file_sources(medium_provider, &block)
-    @boot_file_sources ||= family.constantize::PXEFILES.transform_values do |img|
+    @boot_file_sources ||= pxe_file_names(medium_provider).transform_values do |img|
       "#{medium_provider.medium_uri(pxedir(medium_provider), &block)}/#{img}"
     end
   end

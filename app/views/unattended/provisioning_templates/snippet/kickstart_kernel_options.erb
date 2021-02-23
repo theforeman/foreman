@@ -98,6 +98,14 @@ snippet: true
     options.push("inst.stage2=#{medium_uri}")
   end
 
+  # S390x architecture has a different stage two image:
+  # https://access.redhat.com/solutions/4206591
+  if @host.architecture.to_s.match(/s390x?/i)
+    options.push("inst.cmdline")
+    options.push("inst.repo=#{medium_uri}")
+  end
+
+  # FIPS
   if !is_fedora && os_major >= 7 && host_param_true?('fips_enabled')
     options.push('fips=1')
   end
