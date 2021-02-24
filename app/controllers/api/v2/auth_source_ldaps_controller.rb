@@ -31,7 +31,7 @@ module Api
       def_param_group :auth_source_ldap do
         param :auth_source_ldap, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
-          param :host, String, :required => true
+          param :host, String, :required => true, :desc => N_("The hostname of the LDAP server")
           param :port, :number, :desc => N_("defaults to 389")
           param :account, String
           param :base_dn, String
