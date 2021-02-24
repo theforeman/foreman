@@ -1,3 +1,18 @@
+2021-02-24	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 2.2.3
+
+2021-02-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #31884 - Correctly warn about wrong logging layout
+
+2021-01-05	Matt Darcy <matt@projecthugo.co.uk>
+	* Fixes #31568 - Use puppet-release in provisioning
+
+2020-12-28	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #31554 - empty? check on integer
+
+2020-12-15	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #31495: Set a title on the logout page
+
 2020-12-10	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.2.2
 
