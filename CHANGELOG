@@ -1,3 +1,25 @@
+2021-02-24	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 2.3.3
+
+2021-02-23	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #31931 - Allow searching by id on Hosts (#8344)
+
+2021-02-16	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #31884 - Correctly warn about wrong logging layout
+
+2021-02-10	Scott Lindeneau <lindeneau.scott@solute.us>
+	* Fixes #31758 - Unterminated single quote in chainloader pxeboot template breaks grub2 parser
+
+2021-01-27	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #31573 - drop IPAPPEND2 and use BOOTIF with 01 prefix
+	* Fixes #31571 - CentOS Stream installation media
+
+2021-01-27	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #31483 - Provisioning templates - Error message for blank template & fix resetting fields
+
+2021-01-19	Jonathon Turel <jturel@gmail.com>
+	* Fixes #31669 - Register RegistrationFacet in application.rb
+
 2021-01-18	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.3.2
 
