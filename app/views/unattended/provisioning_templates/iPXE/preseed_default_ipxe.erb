@@ -8,7 +8,7 @@ oses:
 - Ubuntu
 %>
 <% if @host.operatingsystem.name == 'Debian' -%>
-  <%- keyboard_params = "auto=true domain=#{@host.domain}" -%>
+  <%- keyboard_params = "auto=true" -%>
 <% else -%>
   <%- keyboard_params = 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us' -%>
 <% end -%>
@@ -26,7 +26,7 @@ oses:
 <% kernel = boot_files_uris[0] -%>
 <% initrd = boot_files_uris[1] -%>
 
-kernel <%= kernel %> initrd=initrd.img interface=auto url=<%= foreman_url('provision')%><%= provision_url_suffix %> ramdisk_size=10800 root=/dev/rd/0 rw auto BOOTIF=01-${netX/mac:hexhyp} hostname=<%= @host.name %> <%= keyboard_params %> locale=<%= host_param('lang') || 'en_US' %> <%= netcfg_args %>
+kernel <%= kernel %> initrd=initrd.img interface=auto url=<%= foreman_url('provision')%><%= provision_url_suffix %> ramdisk_size=10800 root=/dev/rd/0 rw auto BOOTIF=01-${netX/mac:hexhyp} hostname=<%= @host.name %> domain=<%= @host.domain %> <%= keyboard_params %> locale=<%= host_param('lang') || 'en_US' %> <%= netcfg_args %>
 initrd <%= initrd %>
 
 boot
