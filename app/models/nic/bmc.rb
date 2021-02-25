@@ -40,6 +40,10 @@ module Nic
       Setting[:bmc_credentials_accessible] ? password_unredacted : nil
     end
 
+    def credentials_present?
+      password_unredacted.present? && username.present?
+    end
+
     private
 
     def ensure_physical

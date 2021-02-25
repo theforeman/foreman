@@ -488,20 +488,6 @@ class SettingTest < ActiveSupport::TestCase
     assert !setting.save
   end
 
-  test 'bmc_credentials_accessible may not be disabled with safemode_render disabled' do
-    Setting[:safemode_render] = false
-    bmc = Setting.find_by_name('bmc_credentials_accessible')
-    bmc.value = false
-    refute_valid bmc, :value, 'Unable to disable bmc_credentials_accessible when safemode_render is disabled'
-  end
-
-  test 'safemode_render may not be disabled with bmc_credentials_accessible disabled' do
-    Setting[:bmc_credentials_accessible] = false
-    bmc = Setting.find_by_name('safemode_render')
-    bmc.value = false
-    refute_valid bmc, :value, 'Unable to disable safemode_render when bmc_credentials_accessible is disabled'
-  end
-
   test 'orders settings alphabetically' do
     a_name = 'a_foo'
     b_name = 'b_foo'

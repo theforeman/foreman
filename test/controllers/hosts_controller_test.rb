@@ -1006,7 +1006,7 @@ class HostsControllerTest < ActionController::TestCase
     new_password = "topsecret"
     put :update, params: { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => new_password, :mac => bmc1.mac} } } }, session: set_session_user
     @host = Host.find(@host.id)
-    assert_equal new_password, @host.interfaces.bmc.first.password
+    assert_equal new_password, @host.interfaces.bmc.first.password_unredacted
   end
 
   test "test non admin multiple action" do
