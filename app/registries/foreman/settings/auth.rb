@@ -126,12 +126,8 @@ Foreman::SettingManager.define(:foreman) do
     setting('bmc_credentials_accessible',
       type: :boolean,
       description: N_("Permits access to BMC interface passwords through ENC YAML output and in templates"),
-      default: true,
+      default: false,
       full_name: N_('BMC credentials access'))
-    validates('bmc_credentials_accessible',
-      ->(value) { value || Setting[:safemode_render] },
-      message: N_("Unable to disable bmc_credentials_accessible when safemode_render is disabled"))
-
     setting('oidc_jwks_url',
       type: :string,
       description: N_("OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"),

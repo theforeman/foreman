@@ -148,8 +148,6 @@ Foreman::SettingManager.define(:foreman) do
         collection: proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).pluck(:name).map { |name| [name, name] }] },
         validate: :pxe_template_name)
     end
-
-    validates 'safemode_render', ->(value) { value || Setting[:bmc_credentials_accessible] }, message: N_("Unable to disable safemode_render when bmc_credentials_accessible is disabled")
   end
 end
 

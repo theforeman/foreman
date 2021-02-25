@@ -80,7 +80,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
 
   test "username and password are set on POST (create)" do
     post :create, params: { :host_id => @host.to_param, :interface => valid_attrs }
-    assert_equal valid_attrs['password'], Nic::BMC.find_by_host_id(@host.id).password
+    assert_equal valid_attrs['password'], Nic::BMC.find_by_host_id(@host.id).password_unredacted
   end
 
   test "update a host interface" do
