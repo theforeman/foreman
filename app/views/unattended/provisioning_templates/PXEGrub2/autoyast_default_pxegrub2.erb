@@ -1,0 +1,72 @@
+<%#
+kind: PXEGrub2
+name: AutoYaST default PXEGrub2
+model: ProvisioningTemplate
+oses:
+- SLES
+- OpenSUSE
+description: |
+  The template to render PXEGrub2 bootloader configuration for AutoYaST based distributions.
+  The output is deployed on the host's subnet TFTP proxy.
+-%>
+# This file was deployed via '<%= template_name %>' template
+<%
+  if !@host.pxe_loader_efi?
+    linuxcmd = "linux"
+    initrdcmd = "initrd"
+  else
+    linuxcmd = "linuxefi"
+    initrdcmd = "initrdefi"
+  end
+
+  if host_param('http-proxy')
+    if host_param('http-proxy-port')
+      http_proxy_string = "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port')
+    else
+      http_proxy_string = "proxy=http://" + host_param('http-proxy')
+    end
+  else
+    http_proxy_string = ''
+  end
+
+  kernel_options = "ramdisk_size=65536 install=#{@mediapath} autoyast=#{foreman_url('provision')} textmode=1 #{http_proxy_string}"
+-%>
+
+set default=<%= host_param('default_grub_install_entry') || 0 %>
+set timeout=<%= host_param('loader_timeout') || 10 %>
+
+menuentry '<%= template_name %>' {
+  <%= linuxcmd %> <%= @kernel %> <%= kernel_options %>
+  <%= initrdcmd %> <%= @initrd %>
+}
+
+<%
+# Workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561 and https://bugzilla.redhat.com/show_bug.cgi?id=1842893
+subnet = @host.provision_interface.subnet || @host.provision_interface.subnet6
+if subnet && subnet.httpboot
+  proxy_http_port = subnet.httpboot.httpboot_http_port
+  proxy_https_port = subnet.httpboot.httpboot_https_port
+  # Workaround for "no DNS server configured" https://bugzilla.redhat.com/show_bug.cgi?id=1842509
+  proxy_host = dns_lookup(subnet.httpboot.hostname)
+-%>
+<% if proxy_http_port -%>
+menuentry '<%= template_name %> EFI HTTP' --id efi_http {
+  <%= linuxcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @kernel %> <%= kernel_options %>
+  <%= initrdcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @initrd %>
+}
+<% else -%>
+# Smart proxy does not have HTTPBoot feature with HTTP port enabled, skipping EFI HTTP boot menu entry
+<% end -%>
+
+<% if proxy_https_port -%>
+menuentry '<%= template_name %> EFI HTTPS' --id efi_https {
+  <%= linuxcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @kernel %> <%= kernel_options %>
+  <%= initrdcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @initrd %>
+}
+<% else -%>
+# Smart proxy does not have HTTPBoot feature with HTTPS port enabled, skipping EFI HTTPS boot menu entry
+<% end -%>
+
+<% end %>
+
+<%= snippet_if_exists(template_name + " custom menu") %>
