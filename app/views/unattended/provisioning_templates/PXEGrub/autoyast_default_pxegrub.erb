@@ -1,0 +1,32 @@
+<%#
+kind: PXEGrub
+name: AutoYaST default PXEGrub
+model: ProvisioningTemplate
+oses:
+- SLES
+- OpenSUSE
+description: |
+  The template to render PXEGrub bootloader configuration for AutoYaST based distributions.
+  The output is deployed on the host's subnet TFTP proxy.
+-%>
+# This file was deployed via '<%= template_name %>' template
+
+default=0
+timeout=<%= host_param('loader_timeout') || 10 %>
+
+<% if host_param('http-proxy') -%>
+  <% if host_param('http-proxy-port') -%>
+    <% http_proxy_string = "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') -%>
+  <% else -%>
+    <% http_proxy_string = "proxy=http://" + host_param('http-proxy') -%>
+  <% end -%>
+<% else -%>
+  <% http_proxy_string = '' -%>
+<% end -%>
+
+title <%= template_name %>
+  root (nd)
+  kernel (nd)/../<%= @kernel %> ramdisk_size=65536 install=<%= @mediapath %> autoyast=<%= foreman_url('provision') %> textmode=1 <%= http_proxy_string %>
+  initrd (nd)/../<%= @initrd %>
+
+<%= snippet_if_exists(template_name + " custom menu") %>
