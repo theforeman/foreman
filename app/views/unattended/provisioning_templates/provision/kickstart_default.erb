@@ -243,9 +243,6 @@ chrony
 <% end -%>
 wget
 @Core
-<% if os_major >= 6 -%>
-redhat-lsb-core
-<% end -%>
 <% if host_param_true?('fips_enabled') -%>
 <%=   snippet 'fips_packages' %>
 <% end -%>
