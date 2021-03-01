@@ -39,7 +39,6 @@ ntp
 -chrony
 wget
 @Core
-redhat-lsb-core
 
 dracut-fips
 -prelink
