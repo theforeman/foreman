@@ -68,11 +68,21 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
 <%= "          --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
 <%= "          --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
 <%= "          --data 'remote_execution_interface=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
+
 }
 
     CONSUMER_RPM=$(mktemp --suffix .rpm)
     curl --silent --output $CONSUMER_RPM <%= subscription_manager_configuration_url(hostname: @url_host) %>
-    yum localinstall $CONSUMER_RPM -y
+
+    # Workaround for systems with enabled FIPS,
+    # where installation of RPM generated on RHEL7 cause 'no digest' error
+    # See https://projects.theforeman.org/issues/32068
+    if [ "$(cat /proc/sys/crypto/fips_enabled)" = "1" ]; then
+        rpm -ivh --nodigest --nofiledigest $CONSUMER_RPM
+    else
+        yum localinstall $CONSUMER_RPM -y
+    fi
+
     rm -f $CONSUMER_RPM
 
     subscription-manager register --org='<%= @organization.label %>' --activationkey='<%= @activation_key %>' || exit 1
