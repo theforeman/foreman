@@ -57,6 +57,10 @@ function onContentLoad() {
     return handleDisabledClick(event, this);
   });
 
+  $('body').popover({selector: 'a[rel="popover"]'});
+  tfm.tools.activateTooltips();
+  tfm.tools.activateDatatables();
+
   // allow opening new window for selected links
   $('a[rel="external"]').attr('target', '_blank');
 
