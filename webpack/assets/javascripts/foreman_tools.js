@@ -59,16 +59,18 @@ export function activateDatatables() {
 
 export function activateTooltips(elParam = 'body') {
   const el = $(elParam);
-  el.find('[rel="twipsy"]').tooltip({ container: 'body' });
+
+  el.tooltip({
+    selector: '[rel="twipsy"],*[title]:not(*[rel],.fa,.pficon)',
+    container: 'body',
+  });
+  // Ellipsis have to be initialized for each element for title() to work
   el.find('.ellipsis').tooltip({
     container: 'body',
     title() {
       return this.scrollWidth > this.clientWidth ? this.textContent : null;
     },
   });
-  el.find('*[title]')
-    .not('*[rel],.fa,.pficon')
-    .tooltip({ container: 'body' });
 }
 
 export function initTypeAheadSelect(input) {
@@ -133,8 +135,4 @@ export function highlightTabErrors() {
     .first()
     .find('.form-control')
     .focus();
-
-  $('a[rel="popover"]').popover();
-  activateTooltips();
-  activateDatatables();
 }
