@@ -36,6 +36,10 @@ function onContentLoad() {
   // highlight tabs with errors
   tfm.tools.highlightTabErrors();
 
+  $('body').popover({selector: 'a[rel="popover"]'});
+  tfm.tools.activateTooltips();
+  tfm.tools.activateDatatables();
+
   // allow opening new window for selected links
   $('a[rel="external"]').attr('target', '_blank');
 

@@ -200,6 +200,7 @@ class HostJSTest < IntegrationTestWithJavascript
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
       assert page.has_no_selector?(id)
+      page.find('#global_parameters_table a[title="Remove Parameter"]').hover
       page.find('#global_parameters_table a[data-original-title="Remove Parameter"]').click
       assert page.has_selector?(id)
     end

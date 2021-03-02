@@ -28,6 +28,7 @@ class OrganizationJSTest < IntegrationTestWithJavascript
       within "#locations" do
         find(".ms-selection").assert_no_selector("li[selected='selected']")
         find(".ms-selectable").find("input").set("Location 1")
+        find("a[title='Select All']").hover
         find("a[data-original-title='Select All']").click
         find(".ms-selection").find(".ms-selected").find("span").has_text? "Location 1"
       end
