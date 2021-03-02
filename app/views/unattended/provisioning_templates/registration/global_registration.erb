@@ -70,12 +70,16 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
 <%= "          --data 'remote_execution_interface=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
 }
 
+    <% if @force -%>
+    yum remove -y katello-ca-consumer*
+    <% end -%>
+
     CONSUMER_RPM=$(mktemp --suffix .rpm)
     curl --silent --output $CONSUMER_RPM <%= subscription_manager_configuration_url(hostname: @url_host) %>
     yum localinstall $CONSUMER_RPM -y
     rm -f $CONSUMER_RPM
 
-    subscription-manager register --org='<%= @organization.label %>' --activationkey='<%= @activation_key %>' || exit 1
+    subscription-manager register --org='<%= @organization.label %>' --activationkey='<%= @activation_key %>' <%= '--force' if @force %> || exit 1
     register_katello_host | bash
 else
     register_host | bash
