@@ -50,7 +50,7 @@ https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/pe
   salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
-  use_ntp = host_param_true?('use-ntp') || (is_fedora && os_major < 16) || (rhel_compatible && os_major <= 7)
+  use_ntp = host_param_true?('use-ntp', (is_fedora && os_major < 16) || (rhel_compatible && os_major <= 7))
   iface = @host.provision_interface
   appstream_present = false
 -%>
