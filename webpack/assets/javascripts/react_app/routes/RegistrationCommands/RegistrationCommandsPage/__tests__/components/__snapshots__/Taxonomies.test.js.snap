@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage fields - Taxonomies renders 1`] = `
+<Fragment>
+  <FormGroup
+    fieldId="reg_organization"
+    isRequired={true}
+    label="Organization"
+    labelIcon={
+      <LabelIcon
+        text="If no Organization is set, the default Organization of the user is assumed."
+      />
+    }
+  >
+    <FormSelect
+      className="without_select2"
+      id="reg_organization_select"
+      isDisabled={false}
+      isRequired={true}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      ouiaSafe={true}
+      validated="default"
+      value={0}
+    >
+      <FormSelectOption
+        label="Not specified"
+        value=""
+      />
+    </FormSelect>
+  </FormGroup>
+  <FormGroup
+    fieldId="reg_location"
+    isRequired={true}
+    label="Location"
+    labelIcon={
+      <LabelIcon
+        text="If no Location is set, the default Location of the user is assumed."
+      />
+    }
+  >
+    <FormSelect
+      className="without_select2"
+      id="reg_location_select"
+      isDisabled={false}
+      isRequired={true}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      ouiaSafe={true}
+      validated="default"
+      value={0}
+    >
+      <FormSelectOption
+        label="Not specified"
+        value=""
+      />
+    </FormSelect>
+  </FormGroup>
+</Fragment>
+`;

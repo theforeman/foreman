@@ -128,8 +128,10 @@ Foreman::Application.routes.draw do
         get 'random_name', only: :new
         get 'preview_host_collection'
 
-        get 'register', to: 'registration_commands#new'
+        get 'register' => 'react#index'
         post 'register', to: 'registration_commands#create'
+        get 'register/data', to: 'registration_commands#form_data'
+        get 'register/os/:id', to: 'registration_commands#operatingsystem_template'
       end
 
       constraints(host_id: /[^\/]+/) do

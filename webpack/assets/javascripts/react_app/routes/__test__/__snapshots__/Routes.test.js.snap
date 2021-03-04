@@ -24,6 +24,12 @@ exports[`Routes rendering routes with children renders routes with chidlren 1`] 
       path="/experimental/hosts/:id"
       render={[Function]}
     />
+    <Route
+      exact={true}
+      key="/hosts/register"
+      path="/hosts/register"
+      render={[Function]}
+    />
   </ConnectedForemanSwitcher>
   <div
     id="router-child"

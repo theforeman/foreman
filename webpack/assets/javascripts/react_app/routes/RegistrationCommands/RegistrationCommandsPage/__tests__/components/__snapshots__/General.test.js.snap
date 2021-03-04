@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage - General renders 1`] = `
+<Fragment>
+  <Taxonomies
+    handleLocation={[Function]}
+    handleOrganization={[Function]}
+    isLoading={false}
+    locationId={0}
+    locations={Array []}
+    organizationId={0}
+    organizations={Array []}
+  />
+  <HostGroup
+    handleHostGroup={[Function]}
+    hostGroupId={0}
+    hostGroups={Array []}
+    isLoading={false}
+  />
+  <OperatingSystem
+    handleInvalidField={[Function]}
+    handleOperatingSystem={[Function]}
+    hostGroupId={0}
+    hostGroups={Array []}
+    isLoading={false}
+    operatingSystemId={0}
+    operatingSystemTemplate=""
+    operatingSystems={Array []}
+  />
+  <SmartProxy
+    handleSmartProxy={[Function]}
+    isLoading={false}
+    smartProxies={Array []}
+    smartProxyId={0}
+  />
+  <Insecure
+    handleInsecure={[Function]}
+    insecure={false}
+    isLoading={false}
+  />
+</Fragment>
+`;

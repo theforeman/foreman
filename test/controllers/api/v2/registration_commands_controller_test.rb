@@ -7,7 +7,7 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       assert_response :success
       response = ActiveSupport::JSON.decode(@response.body)['registration_command']
 
-      assert_includes response, "curl  -s 'http://test.host/register'"
+      assert_includes response, "curl -s 'http://test.host/register'"
       assert_includes response, "-H 'Authorization: Bearer"
     end
 
@@ -33,7 +33,7 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       assert_includes response, 'setup_remote_execution=false'
     end
 
-    test 'with params ignored in url' do
+    test 'with params ignored in URL' do
       params = {
         insecure: true,
         jwt_expiration: 23,

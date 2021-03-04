@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage fields - SmartProxy renders 1`] = `
+<FormGroup
+  fieldId="reg_smart_proxy"
+  label="Smart Proxy"
+  labelIcon={
+    <LabelIcon
+      text="Only Smart Proxies with Registration feature enabled are displayed."
+    />
+  }
+>
+  <FormSelect
+    className="without_select2"
+    id="reg_smart_proxy_select"
+    isDisabled={true}
+    isRequired={false}
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    ouiaSafe={true}
+    validated="default"
+    value={0}
+  >
+    <FormSelectOption
+      label="Nothing to select."
+      value=""
+    />
+  </FormSelect>
+</FormGroup>
+`;
