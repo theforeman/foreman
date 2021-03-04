@@ -1,6 +1,7 @@
 import React from 'react';
 import componentRegistry from './componentRegistry';
 
+jest.mock('@apollo/client/link/batch-http');
 jest.unmock('./componentRegistry');
 
 const FakeComponent = () => '';

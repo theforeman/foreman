@@ -1,0 +1,76 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction/Fetching data with GraphQL"
+  parameters={{
+    storyWeight: 160,
+  }}
+/>
+
+# Fetching data with GraphQL
+
+Foreman uses Apollo client to talk to GraphQL endpoint. All the components within react routes have access to the Apollo client as routes are wrapped with ApolloProvider (see ReactApp component for details). Queries can be executed simply by using a hook:
+
+```js
+import { useQuery, gql } from '@apollo/client';
+
+// query any resource for which there is a defined GraphQL type in Foreman, for example Architecture
+const myQuery = gql`
+  query {
+    architectures {
+      edges {
+        nodes {
+          name
+          id
+        }
+      }
+    }
+  }
+`
+
+const MyComponent = props => {
+  const { loading, error, data } = useQuery(myQuery);
+  //...
+}
+```
+
+Even though it is possible to use `gql` template literal tag to define queries, it is not recommended. Much better approach is to place your query into a separate file:
+
+```js
+// myQuery.gql
+query {
+  architectures {
+    edges {
+      nodes {
+        name
+        id
+      }
+    }
+  }
+}
+
+// MyComponent.js
+import myQuery from './myQuery.gql';
+
+```
+
+If your component is mounted directly into erb view, you need to wrap it with `ApolloProvider`:
+
+```js
+import { ApolloProvider } from '@apollo/client';
+
+import apolloClient from 'foremanReact/Root/apollo';
+
+import MyComponent from './MyComponent';
+
+const MyComponentWithApollo = props => {
+  return (
+    <ApolloProvider client={apolloClient}>
+      <MyComponent {...props } />
+    </ApolloProvider>
+  )
+}
+
+export default MyComponentWithApollo;
+
+```

@@ -154,6 +154,11 @@ module.exports = env => {
             fallback: 'style-loader', // The backup style loader
             use: production ? 'css-loader!sass-loader' : 'css-loader?sourceMap!sass-loader?sourceMap'
           })
+        },
+        {
+          test: /\.(graphql|gql)$/,
+          exclude: /node_modules/,
+          loader: 'graphql-tag/loader',
         }
       ]
     },

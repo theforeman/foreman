@@ -3,6 +3,7 @@ import React from 'react';
 import componentRegistry from '../../componentRegistry';
 import ComponentWrapper from './ComponentWrapper';
 
+jest.mock('@apollo/client/link/batch-http');
 jest.mock('../../componentRegistry');
 
 describe('ComponentWrapper', () => {
