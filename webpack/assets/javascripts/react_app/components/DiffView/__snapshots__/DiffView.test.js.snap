@@ -2,25 +2,63 @@
 
 exports[`DiffView rendering render DiffView w/Patch 1`] = `
 <div>
-  <Diff
+  <Memo(Diff)
     diffType="modify"
-    generateAnchorID={[Function]}
-    gutterAnchor={false}
-    hideGutter={false}
-    hunks={Array []}
+    hunks={
+      Array [
+        Object {
+          "changes": Array [
+            Object {
+              "content": "S",
+              "isDelete": true,
+              "lineNumber": 1,
+              "type": "delete",
+            },
+            Object {
+              "content": "Kernel 
+ on an m",
+              "isDelete": true,
+              "lineNumber": 2,
+              "type": "delete",
+            },
+            Object {
+              "content": "",
+              "isDelete": true,
+              "lineNumber": 3,
+              "type": "delete",
+            },
+            Object {
+              "content": "fooo",
+              "isInsert": true,
+              "lineNumber": 1,
+              "type": "insert",
+            },
+            Object {
+              "content": "No newline at end of file",
+              "isNormal": true,
+              "newLineNumber": 2,
+              "oldLineNumber": 4,
+              "type": "normal",
+            },
+          ],
+          "content": "@@ -1,3 +1 @@",
+          "isPlain": false,
+          "newLines": 1,
+          "newStart": 1,
+          "oldLines": 3,
+          "oldStart": 1,
+        },
+      ]
+    }
     key="1111111-2222222"
-    optimizeSelection={false}
     viewType="unified"
   />
 </div>
 `;
 
 exports[`DiffView rendering render DiffView w/oldText & newText 1`] = `
-<Diff
+<Memo(Diff)
   diffType="modify"
-  generateAnchorID={[Function]}
-  gutterAnchor={false}
-  hideGutter={false}
   hunks={
     Array [
       Object {
@@ -47,7 +85,6 @@ exports[`DiffView rendering render DiffView w/oldText & newText 1`] = `
       },
     ]
   }
-  optimizeSelection={false}
   viewType="split"
 />
 `;
