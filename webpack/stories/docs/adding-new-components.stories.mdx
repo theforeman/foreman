@@ -114,22 +114,55 @@ react_component(component_name, props)
 **Example:**
 
 ```erb
-<%= react_component('PowerStatus', id: host.id, url: power_host_path(host.id)) %>
+<div id="my-cool-power-status">
+  <%= react_component('PowerStatus', id: host.id, url: power_host_path(host.id), errorText: 'N/A') %>
+</div>
 ```
 
 will render the following HTML:
 
 ```html
-<foreman-react-component
-  name="PowerStatus"
-  data-props="<%= {
-    id: host.id,
-    url: power_host_path(host.id)
-  }.to_json %>"
-></foreman-react-component>
+<div id="my-cool-power-status">
+  <foreman-react-component
+    name="PowerStatus"
+    data-props="<%= {
+      id: host.id,
+      url: power_host_path(host.id),
+      errorText: 'N/A',
+    }.to_json %>"
+  ></foreman-react-component>
+</div>
 ```
 
 (Note that the React component is rendered as a [web component](https://developer.mozilla.org/en-US/docs/Web/Web_Components).)
+
+### Changing the props from legacy JS
+
+We allow changing the root component props from the legacy JS.
+Be aware, that this will re-render the component.
+This feature should only be used for limited use cases:
+
+1. A legacy JS library/component needs to talk to a React component, AND
+1. The component is simple enough that it wouldn't otherwise make sense to store its data in the Redux store.
+
+We will use a method `reactProps` that our web component exposes and get the current props.
+Then we will change this props and use `reactProps=` setter that will trigger the rerender.
+
+
+```js
+var myCoolPowerElement = document.getElementById("my-cool-power-status").getElementsByTagName('foreman-react-component')[0];
+var newProps = myCoolPowerElement.reactProps;
+
+newProps.errorText = 'MyNewErrorText';
+myCoolPowerElement.reactProps = newProps;
+
+```
+
+
+*Note* that you can also directly set the data: `element.dataset.props = JSON.stringify({new: 'prop'});`
+or even the attribute: `element.setAttribute('data-props', JSON.stringify({new: 'prop'}));`
+
+Both of these need a JSON string as a new value to work.
 
 ## Before you start writing a new component
 
