@@ -33,11 +33,18 @@ function mountNode(component, reactNode, data, flattenData) {
  * This is a html tag (Web component) that can be used for mounting react component from ComponentRegistry.
  */
 class ReactComponentElement extends HTMLElement {
+  static get observedAttributes() {
+    return ['data-props'];
+  }
+
   get componentName() {
     return this.getAttribute('name');
   }
-  get props() {
+  get reactProps() {
     return this.dataset.props !== '' ? JSON.parse(this.dataset.props) : {};
+  }
+  set reactProps(newProps) {
+    this.dataset.props = JSON.stringify(newProps);
   }
   get mountPoint() {
     if (!this._mountPoint) {
@@ -47,16 +54,19 @@ class ReactComponentElement extends HTMLElement {
     return this._mountPoint;
   }
 
-  connectedCallback() {
-    try {
-      mountNode(this.componentName, this, this.props, true);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(
-        `Unable to mount foreman-react-component: ${this.componentName}`,
-        error
-      );
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case 'data-props':
+        // if this is not the initial prop set
+        if (oldValue === null) this._render();
+        break;
+      default:
+      // We don't know how to react to default attribute change
     }
+  }
+
+  connectedCallback() {
+    this._render();
   }
 
   disconnectedCallback() {
@@ -66,6 +76,18 @@ class ReactComponentElement extends HTMLElement {
       // eslint-disable-next-line no-console
       console.error(
         `Unable to unmount foreman-react-component: ${this.componentName}`,
+        error
+      );
+    }
+  }
+
+  _render() {
+    try {
+      mountNode(this.componentName, this, this.reactProps, true);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(
+        `Unable to mount foreman-react-component: ${this.componentName}`,
         error
       );
     }
