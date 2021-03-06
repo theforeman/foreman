@@ -25,7 +25,7 @@
       <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
       <%= textarea_f f, :description, :rows=> 5, :size => "col-md-4" %>
 
-      <%= hidden_field_tag :original_role_id, @original_role.id if @cloned_role %>
+      <%= hidden_field_tag :original_role_id, @role.cloned_from_id if @cloned_role %>
 
       <% tax_help = N_("When the role's associated %{taxonomies} are changed,<br> the change will propagate to all inheriting filters.
                          Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.
