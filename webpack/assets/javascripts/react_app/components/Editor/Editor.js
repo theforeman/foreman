@@ -17,7 +17,7 @@ import './editor.scss';
 class Editor extends React.Component {
   componentDidMount() {
     const {
-      data: { hosts, templateClass, locked, template, type },
+      data: { hosts, templateClass, locked, template, type, dslCache },
       initializeEditor,
       isMasked,
       isRendering,
@@ -39,6 +39,7 @@ class Editor extends React.Component {
       showError,
       template,
       type,
+      dslCache,
     };
     initializeEditor(initializeData);
   }
@@ -235,6 +236,7 @@ Editor.propTypes = {
     hosts: PropTypes.array,
     locked: PropTypes.bool,
     type: PropTypes.string,
+    dslCache: PropTypes.string,
   }).isRequired,
   selectedHost: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
