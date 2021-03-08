@@ -92,7 +92,7 @@ module Api
           param :model_id, :number
           param :hostgroup_id, :number
           param :owner_id, :number
-          param :owner_type, Host::Base::OWNER_TYPES, :desc => N_("Host's owner type")
+          param :owner_type, Host::Base::OWNER_TYPES, :desc => N_("Host's owner type"),  :required => true
           param :image_id, :number
           param :host_parameters_attributes, Array, :desc => N_("Host's parameters (array or indexed hash)") do
             param :name, String, :desc => N_("Name of the parameter"), :required => true
