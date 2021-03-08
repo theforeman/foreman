@@ -277,7 +277,7 @@ class HostsController < ApplicationController
   end
 
   def forget_status
-    status = @host.host_statuses.find(params[:status])
+    status = @host.host_statuses_with_rendering_status.find(params[:status])
     status.delete
     respond_to do |format|
       format.html do
@@ -829,9 +829,7 @@ class HostsController < ApplicationController
 
   def find_templates
     find_resource
-    @templates = TemplateKind.order(:name).map do |kind|
-      @host.provisioning_template(:kind => kind.name)
-    end.compact
+    @templates = @host.find_templates
     raise Foreman::Exception.new(N_("No templates found")) if @templates.empty?
   end
 

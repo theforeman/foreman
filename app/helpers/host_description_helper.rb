@@ -47,7 +47,7 @@ module HostDescriptionHelper
 
   def host_detailed_status_list(host)
     priority = 10
-    host.host_statuses.sort_by(&:type).map do |status|
+    host.host_statuses_with_rendering_status.sort_by(&:type).map do |status|
       next unless status.relevant? && !status.substatus?
       { :field => [
         _(status.name),

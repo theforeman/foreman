@@ -1,6 +1,24 @@
 module Foreman
   module Renderer
     class SafeModeRenderer < BaseRenderer
+      extend Foreman::Observable
+
+      def self.render(source, scope)
+        result = super
+
+        if !scope.preview? && source.template.is_a?(ProvisioningTemplate) && !source.template&.snippet?
+          trigger_hook(:safemode_rendered, payload: { host_id: scope.host&.id, template_id: source.template&.id })
+        end
+
+        result
+      rescue StandardError => e
+        if !scope.preview? && source.template.is_a?(ProvisioningTemplate) && !source.template&.snippet?
+          trigger_hook(:safemode_rendering_error, payload: { host_id: scope.host&.id, template_id: source.template&.id })
+        end
+
+        raise e
+      end
+
       def render
         box = Safemode::Box.new(scope, allowed_helpers, source_name)
         erb = ERB.new(source_content, nil, '-')

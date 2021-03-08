@@ -187,6 +187,7 @@ module Api
           * global
           * configuration
           * build
+          * rendering
         EOS
       )
 

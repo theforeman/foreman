@@ -29,6 +29,7 @@ class ProvisioningTemplate < Template
     :reject_if => :reject_template_combination_attributes?
   has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_provisioning_templates, :association_foreign_key => :operatingsystem_id, :foreign_key => :provisioning_template_id
   has_many :os_default_templates
+  has_many :rendering_status_combinations, class_name: 'HostStatus::RenderingStatusCombination', foreign_key: :template_id, dependent: :destroy
   before_save :check_for_snippet_assoications
 
   validate :no_os_for_registration

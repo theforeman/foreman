@@ -30,6 +30,11 @@ exports[`Routes rendering routes with children renders routes with chidlren 1`] 
       path="/host_statuses"
       render={[Function]}
     />
+    <Route
+      key="/rendering_statuses/:id"
+      path="/rendering_statuses/:id"
+      render={[Function]}
+    />
   </ForemanSwitcher>
   <div
     id="router-child"

@@ -20,6 +20,12 @@ module Hostext
       end
     end
 
+    def find_templates
+      TemplateKind.order(:name).map do |kind|
+        provisioning_template(kind: kind.name)
+      end.compact
+    end
+
     def available_template_kinds(provisioning = nil)
       kinds = template_kinds(provisioning)
       kinds.map do |kind|

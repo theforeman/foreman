@@ -38,6 +38,15 @@ module Hostext
         build_failed: HostStatus::BuildStatus::BUILD_FAILED,
       }
 
+      scoped_search :relation => :rendering_status_object, :on => :status, :rename => :rendering_status, :only_explicit => true, :operators => ['=', '!=', '<>'], :complete_value => {
+        safemode_ok: HostStatus::RenderingStatus::SAFEMODE_OK,
+        unsafemode_ok: HostStatus::RenderingStatus::UNSAFEMODE_OK,
+        safemode_warn: HostStatus::RenderingStatus::SAFEMODE_WARN,
+        unsafemode_warn: HostStatus::RenderingStatus::UNSAFEMODE_WARN,
+        safemode_error: HostStatus::RenderingStatus::SAFEMODE_ERROR,
+        unsafemode_error: HostStatus::RenderingStatus::UNSAFEMODE_ERROR,
+      }
+
       scoped_search :on => :global_status, :complete_value => { :ok => HostStatus::Global::OK, :warning => HostStatus::Global::WARN, :error => HostStatus::Global::ERROR }, :only_explicit => true
       scoped_search :relation => :model,       :on => :name,    :complete_value => true,  :rename => :model
       scoped_search :relation => :hostgroup,   :on => :name,    :complete_value => true,  :rename => :hostgroup

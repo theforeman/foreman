@@ -94,5 +94,14 @@ module Types
 
     record_field :permission, Types::Permission
     collection_field :permissions, Types::Permission
+
+    record_field :provisioning_template, Types::ProvisioningTemplate
+    collection_field :provisioning_templates, Types::ProvisioningTemplate
+
+    record_field :rendering_status, Types::RenderingStatus
+    collection_field :rendering_statuses, Types::RenderingStatus
+
+    record_field :rendering_status_combination, Types::RenderingStatusCombination
+    collection_field :rendering_status_combinations, Types::RenderingStatusCombination
   end
 end

@@ -56,6 +56,7 @@ gem 'rack-cors', '~> 1.0.2', require: 'rack/cors'
 gem 'jwt', '~> 2.2.2'
 gem 'graphql', '~> 1.8.0'
 gem 'graphql-batch'
+gem 'scenic', '~> 1.5.4'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   instance_eval(Bundler.read_file(bundle))
