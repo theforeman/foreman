@@ -66,28 +66,6 @@
   margin: 0 auto 27px;
 }
 
-.statistics-pie,
-.statistics-pie-placeholder {
-  width: 450px;
-  height: 450px;
-  margin: 12px auto;
-
-  &.small {
-    width: 240px;
-    height: 240px;
-  }
-}
-
-.modal-dialog .statistics-pie {
-  margin-bottom: 46px;
-
-  .pieLabel {
-    margin-left: -30px;
-    margin-top: -10px;
-    font-weight: bold;
-  }
-}
-
 .axisLabels {
   color: #626262;
   font-weight: bold;
@@ -115,25 +93,6 @@
   margin-top: 15px;
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
-}
-
-.pie-title {
-  color: #626262;
-}
-
-.pieLabel {
-  text-align: center;
-  font-size: 16px;
-
-  .percent {
-    font-size: 28px;
-  }
-}
-
-.statistics-pie.small .overlay {
-  background: image-url('pie_overlay.png') no-repeat;
-  background-size: cover;
-  z-index: 1;
 }
 
 .statistics-chart {
