@@ -97,7 +97,7 @@ exports[`SettingValueField should render for setting with array selection 1`] = 
       >
         <option
           key="null"
-          value={null}
+          value=""
         >
           Select an owner
         </option>
