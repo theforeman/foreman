@@ -1,4 +1,8 @@
 <% title _('Register Host') %>
+<%
+  options = [[_("Inherit from parameter"), ""], [_('Yes (enforce)'), 'true'], [_('No (enforce)'), 'false']]
+%>
+
 <%= form_tag({controller: 'registration_commands', action: 'create' }, method: :post, class: 'form-horizontal well') do %>
   <div class='form-group'>
     <label class='col-md-2 control-label'><%= _('Organization') %></label>
@@ -48,28 +52,26 @@
   </div>
   <div class='form-group'>
     <label class='col-md-2 control-label' for='setup_insights'>
-      <% help = _('If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it.') %>
+      <% help = _('If set to "Yes", Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it. The inherited value is based on the `host_registration_insights` parameter. It can be inherited e.g. from host group, operating system, organization. When overidden, the selected value will be stored on host parameter level.') %>
       <%= _('Setup Insights') %>
       <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
         <span class="pficon pficon-info "></span>
       </a>
     </label>
     <div class='col-md-4'>
-      <% insights_opts = options_for_select([[_('Yes'), 'true'], [_('No'), 'false']], params[:setup_insights]) %>
-      <%= select_tag 'setup_insights', insights_opts, class: 'form-control', include_blank: '' %>
+      <%= select_tag 'setup_insights', options_for_select(options, params[:setup_insights]), class: 'form-control' %>
     </div>
   </div>
   <div class='form-group'>
     <label class='col-md-2 control-label' for='setup_remote_execution'>
       <%= _('Remote Execution') %>
-      <% help = _('If selected, SSH keys will be installed on the registered host.') %>
+      <% help = _('If set to "Yes", SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization.. When overidden, the selected value will be stored on host parameter level.') %>
       <a rel="popover" data-content="<%= help %>" data-trigger="focus" data-container="body" data-html="true" tabindex="-1">
         <span class="pficon pficon-info "></span>
       </a>
     </label>
     <div class='col-md-4'>
-      <% rex_opts = options_for_select([[_('Yes'), 'true'], [_('No'), 'false']], params[:setup_remote_execution]) %>
-      <%= select_tag 'setup_remote_execution', rex_opts, class: 'form-control', include_blank: '' %>
+      <%= select_tag 'setup_remote_execution', options_for_select(options, params[:setup_remote_execution]), class: 'form-control' %>
     </div>
   </div>
   <div class='form-group'>
