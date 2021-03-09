@@ -38,7 +38,9 @@ const EmptyStatePattern = props => {
     return (
       <span>
         {label}
-        <a href={url}>{buttonLabel}</a>
+        <a href={url} target="_blank" rel="external noreferrer noopener">
+          {buttonLabel}
+        </a>
       </span>
     );
   };
