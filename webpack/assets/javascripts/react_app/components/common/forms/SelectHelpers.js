@@ -1,10 +1,14 @@
 import React from 'react';
 
-const renderOption = (val, text, key = null) => (
-  <option value={val} key={key || val}>
-    {text}
-  </option>
-);
+const renderOption = (val, text, key = null) => {
+  const optValue = val === null || val === undefined ? '' : val;
+
+  return (
+    <option value={optValue} key={key || val}>
+      {text}
+    </option>
+  );
+};
 
 const renderOptGroup = group => (
   <optgroup label={group.groupLabel} key={group.groupLabel}>
