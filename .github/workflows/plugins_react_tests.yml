@@ -19,8 +19,6 @@ jobs:
         include:
           - repo: katello
             org: Katello
-          - repo: foreman-tasks
-            org: theforeman
     steps:
       - name: Use Node.js
         uses: actions/setup-node@v1
