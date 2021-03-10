@@ -187,11 +187,8 @@ authselect --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downca
 <% else -%>
 authconfig --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
 <% end -%>
-<% if use_ntp -%>
-timezone --utc <%= host_param('time-zone') || 'UTC' %>
-<% else -%>
+
 timezone --utc <%= host_param('time-zone') || 'UTC' %> <%= host_param('ntp-server') ? "--ntpservers #{host_param('ntp-server')}" : '' %>
-<% end -%>
 
 <% if rhel_compatible -%>
 services --disabled gpm,sendmail,cups,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd
