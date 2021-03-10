@@ -26,6 +26,13 @@ if (Setting.table_exists? rescue(false))
     require_dependency(f)
   end
 
+  # Foreman would fail if the removed category has no class before migration
+  # TODO: remove in Foreman 3.1
+  if Foreman.in_rake?('db:migrate')
+    class Setting::Puppet < Setting
+    end
+  end
+
   Setting.descendants.each(&:load_defaults)
 end
 
