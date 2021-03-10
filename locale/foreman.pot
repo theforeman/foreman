@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-03 15:21+0530\n"
-"PO-Revision-Date: 2021-02-03 15:21+0530\n"
+"POT-Creation-Date: 2021-03-10 13:26+0530\n"
+"PO-Revision-Date: 2021-03-10 13:26+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4640,15 +4640,15 @@ msgstr ""
 
 #: ../app/helpers/audits_helper.rb:201 ../app/registries/menu/loader.rb:50
 #: ../app/views/architectures/index.html.erb:9
-#: ../app/views/config_groups/index.html.erb:10
+#: ../app/views/config_groups/index.html.erb:11
 #: ../app/views/config_reports/index.html.erb:4
 #: ../app/views/domains/index.html.erb:9
-#: ../app/views/environments/index.html.erb:9
+#: ../app/views/environments/index.html.erb:10
 #: ../app/views/hostgroups/index.html.erb:9
 #: ../app/views/hosts/index.html.erb:12 ../app/views/hosts/welcome.html.erb:1
 #: ../app/views/hosts/welcome.html.erb:6
 #: ../app/views/operatingsystems/index.html.erb:9
-#: ../app/views/puppetclasses/index.html.erb:12
+#: ../app/views/puppetclasses/index.html.erb:13
 #: ../app/views/realms/index.html.erb:9 ../app/views/subnets/index.html.erb:14
 #: ../app/views/taxonomies/index.html.erb:18
 #: ../db/seeds.d/170-notification_blueprints.rb:3
@@ -4757,7 +4757,7 @@ msgstr ""
 #: ../app/views/compute_resources/show.html.erb:28
 #: ../app/views/lookup_keys/_values.html.erb:10
 #: ../app/views/lookup_keys/_values.html.erb:15
-#: ../app/views/puppetclasses/_classes_parameters.html.erb:6
+#: ../app/views/puppetclasses/_classes_parameters.html.erb:8
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Parameters/index.js:76
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:24
 msgid "Value"
@@ -5364,12 +5364,12 @@ msgstr ""
 #: ../app/views/common_parameters/index.html.erb:26
 #: ../app/views/compute_profiles/index.html.erb:18
 #: ../app/views/compute_resources/index.html.erb:20
-#: ../app/views/config_groups/index.html.erb:23
+#: ../app/views/config_groups/index.html.erb:24
 #: ../app/views/domains/index.html.erb:18
 #: ../app/views/http_proxies/index.html.erb:21
 #: ../app/views/media/index.html.erb:29
 #: ../app/views/operatingsystems/index.html.erb:18
-#: ../app/views/puppetclasses/index.html.erb:29
+#: ../app/views/puppetclasses/index.html.erb:30
 #: ../app/views/realms/index.html.erb:18 ../app/views/subnets/index.html.erb:31
 #: ../app/views/taxonomies/index.html.erb:32
 #: ../app/views/usergroups/index.html.erb:24
@@ -5621,7 +5621,8 @@ msgid "Alert"
 msgstr ""
 
 #: ../app/helpers/layout_helper.rb:155 ../app/helpers/layout_helper.rb:161
-#: ../app/helpers/puppet_related_helper.rb:76
+#: ../app/helpers/puppet_related_helper.rb:94
+#: ../app/helpers/puppet_related_helper.rb:98
 #: ../app/views/hosts/_compute.html.erb:3
 #: ../app/views/media/welcome.html.erb:14
 msgid "Notice"
@@ -5650,8 +5651,8 @@ msgid "Puppet class"
 msgstr ""
 
 #: ../app/helpers/lookup_keys_helper.rb:25
-#: ../app/views/puppetclass_lookup_keys/index.html.erb:7
-#: ../app/views/puppetclasses/_classes_parameters.html.erb:4
+#: ../app/views/puppetclass_lookup_keys/index.html.erb:9
+#: ../app/views/puppetclasses/_classes_parameters.html.erb:6
 #: ../app/views/puppetclasses/_form.html.erb:7
 msgid "Puppet Class"
 msgstr ""
@@ -5788,28 +5789,58 @@ msgstr ""
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr ""
 
-#: ../app/helpers/puppet_related_helper.rb:77
+#: ../app/helpers/puppet_related_helper.rb:71
+msgid ""
+"Puppet Classes management is being extracted to the foreman_puppet plugin and "
+"will be removed from core in 3.0"
+msgstr ""
+
+#: ../app/helpers/puppet_related_helper.rb:75
+msgid ""
+"Config Groups are being extracted to the foreman_puppet plugin and will be rem"
+"oved from core in 3.0"
+msgstr ""
+
+#: ../app/helpers/puppet_related_helper.rb:79
+msgid ""
+"Puppet Environments management is being extracted to the foreman_puppet plugin"
+" and will be removed from core in 3.0"
+msgstr ""
+
+#: ../app/helpers/puppet_related_helper.rb:83
+msgid ""
+"Smart Class Parameters management is being extracted to the foreman_puppet plu"
+"gin and will be removed from core in 3.0"
+msgstr ""
+
+#: ../app/helpers/puppet_related_helper.rb:87
+msgid ""
+"Puppet ENC is being extracted to the foreman_puppet plugin and will be removed"
+" from core in 3.0"
+msgstr ""
+
+#: ../app/helpers/puppet_related_helper.rb:99
 msgid "Please select an environment first"
 msgstr ""
 
-#: ../app/helpers/puppet_related_helper.rb:85
+#: ../app/helpers/puppet_related_helper.rb:107
 msgid "Change Puppet Master"
 msgstr ""
 
-#: ../app/helpers/puppet_related_helper.rb:86
+#: ../app/helpers/puppet_related_helper.rb:108
 msgid "Change Puppet CA"
 msgstr ""
 
-#: ../app/helpers/puppet_related_helper.rb:96
+#: ../app/helpers/puppet_related_helper.rb:118
 #: ../app/views/hosts/_list.html.erb:12
 msgid "Puppet Environment"
 msgstr ""
 
-#: ../app/helpers/puppet_related_helper.rb:107
+#: ../app/helpers/puppet_related_helper.rb:129
 msgid "YAML"
 msgstr ""
 
-#: ../app/helpers/puppet_related_helper.rb:107
+#: ../app/helpers/puppet_related_helper.rb:129
 msgid "Puppet external nodes YAML dump"
 msgstr ""
 
@@ -5967,10 +5998,10 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_openstack.html.erb:6
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:7
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:10
-#: ../app/views/config_groups/index.html.erb:12
+#: ../app/views/config_groups/index.html.erb:13
 #: ../app/views/config_reports/_list.html.erb:15
 #: ../app/views/domains/index.html.erb:10
-#: ../app/views/environments/index.html.erb:10
+#: ../app/views/environments/index.html.erb:11
 #: ../app/views/fact_values/index.html.erb:20
 #: ../app/views/filters/index.html.erb:32
 #: ../app/views/hostgroups/index.html.erb:11
@@ -5985,7 +6016,7 @@ msgstr ""
 #: ../app/views/provisioning_templates/index.html.erb:18
 #: ../app/views/ptables/index.html.erb:13
 #: ../app/views/puppetca/_list.html.erb:12
-#: ../app/views/puppetclasses/index.html.erb:14
+#: ../app/views/puppetclasses/index.html.erb:15
 #: ../app/views/realms/index.html.erb:10
 #: ../app/views/report_templates/index.html.erb:13
 #: ../app/views/roles/index.html.erb:12
@@ -8988,31 +9019,31 @@ msgstr ""
 msgid "cannot contain itself as member"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:243
+#: ../app/registries/foreman/plugin.rb:244
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:253
+#: ../app/registries/foreman/plugin.rb:254
 msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:257
+#: ../app/registries/foreman/plugin.rb:258
 msgid ""
 "%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{pl"
 "ugin_version}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:351
+#: ../app/registries/foreman/plugin.rb:352
 msgid "Could not create role '%{name}': %{message}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:353
+#: ../app/registries/foreman/plugin.rb:354
 msgid ""
 "Cannot continue because some permissions were not found, please run rake db:se"
 "ed and retry"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:445
+#: ../app/registries/foreman/plugin.rb:446
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
@@ -9216,11 +9247,11 @@ msgid "Configure"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:72
-#: ../app/views/config_groups/index.html.erb:11
+#: ../app/views/config_groups/index.html.erb:12
 #: ../app/views/hostgroups/index.html.erb:1
 #: ../app/views/hostgroups/welcome.html.erb:1
 #: ../app/views/hostgroups/welcome.html.erb:6
-#: ../app/views/puppetclasses/index.html.erb:11
+#: ../app/views/puppetclasses/index.html.erb:12
 #: ../app/views/taxonomies/_form.html.erb:40
 msgid "Host Groups"
 msgstr ""
@@ -9235,14 +9266,14 @@ msgstr ""
 
 #: ../app/registries/menu/loader.rb:75
 #: ../app/views/environments/welcome.html.erb:6
-#: ../app/views/puppetclasses/index.html.erb:10
+#: ../app/views/puppetclasses/index.html.erb:11
 #: ../app/views/smart_proxies/plugins/_puppet.html.erb:4
 #: ../app/views/taxonomies/_form.html.erb:37
 msgid "Environments"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:76
-#: ../app/views/environments/index.html.erb:21
+#: ../app/views/environments/index.html.erb:22
 msgid "Classes"
 msgstr ""
 
@@ -9776,7 +9807,7 @@ msgstr ""
 #: ../app/views/hosts/_selected_hosts.html.erb:10
 #: ../app/views/http_proxies/index.html.erb:8
 #: ../app/views/key_pairs/index.html.erb:8
-#: ../app/views/puppetclasses/_classes_parameters.html.erb:5
+#: ../app/views/puppetclasses/_classes_parameters.html.erb:7
 #: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:6
 #: ../webpack/assets/javascripts/react_app/components/Bookmarks/components/BookmarkForm/BookmarkForm.js:45
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:35
@@ -10061,7 +10092,7 @@ msgstr ""
 #: ../app/views/hostgroups/_form.html.erb:12
 #: ../app/views/hosts/_form.html.erb:24
 #: ../app/views/operatingsystems/_form.html.erb:11
-#: ../app/views/puppetclasses/index.html.erb:13
+#: ../app/views/puppetclasses/index.html.erb:14
 #: ../app/views/subnets/_form.html.erb:9
 #: ../app/views/taxonomies/_form.html.erb:49
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Parameters/index.js:32
@@ -11852,7 +11883,7 @@ msgstr ""
 msgid "Create Config Group"
 msgstr ""
 
-#: ../app/views/config_groups/index.html.erb:9
+#: ../app/views/config_groups/index.html.erb:10
 #: ../app/views/hostgroups/_form.html.erb:7
 #: ../app/views/puppetclasses/index.html.erb:1
 #: ../config/initializers/puppet.rb:5
@@ -12090,7 +12121,7 @@ msgid "Puppet Environments"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/environments/index.html.erb:8 model_attributes.rb:124
+#: ../app/views/environments/index.html.erb:9 model_attributes.rb:124
 msgid "Environment|Name"
 msgstr ""
 
@@ -13178,7 +13209,7 @@ msgstr ""
 
 #: ../app/views/lookup_keys/_fields.html.erb:24
 #: ../app/views/lookup_keys/_values.html.erb:11
-#: ../app/views/puppetclasses/_classes_parameters.html.erb:7
+#: ../app/views/puppetclasses/_classes_parameters.html.erb:9
 msgid "Omit"
 msgstr ""
 
@@ -13802,12 +13833,12 @@ msgid "Revoke"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/puppetclass_lookup_keys/index.html.erb:6
+#: ../app/views/puppetclass_lookup_keys/index.html.erb:8
 #: model_attributes.rb:446
 msgid "Parameter"
 msgstr ""
 
-#: ../app/views/puppetclass_lookup_keys/index.html.erb:8
+#: ../app/views/puppetclass_lookup_keys/index.html.erb:10
 msgid "Number of Overrides"
 msgstr ""
 
@@ -13885,23 +13916,23 @@ msgid "Edit Puppet Class %s"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/puppetclasses/index.html.erb:9 model_attributes.rb:478
+#: ../app/views/puppetclasses/index.html.erb:10 model_attributes.rb:478
 msgid "Puppetclass|Name"
 msgstr ""
 
-#: ../app/views/puppetclasses/index.html.erb:30
+#: ../app/views/puppetclasses/index.html.erb:31
 msgid "Override all parameters"
 msgstr ""
 
-#: ../app/views/puppetclasses/index.html.erb:30
+#: ../app/views/puppetclasses/index.html.erb:31
 msgid "This will set all parameters of the class %s as overridden. Continue?"
 msgstr ""
 
-#: ../app/views/puppetclasses/index.html.erb:31
+#: ../app/views/puppetclasses/index.html.erb:32
 msgid "Set parameters to defaults"
 msgstr ""
 
-#: ../app/views/puppetclasses/index.html.erb:31
+#: ../app/views/puppetclasses/index.html.erb:32
 msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr ""
 
