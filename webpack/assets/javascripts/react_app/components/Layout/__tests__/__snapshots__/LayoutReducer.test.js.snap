@@ -9,24 +9,6 @@ Object {
 }
 `;
 
-exports[`Layout reducer should handle LAYOUT_CHANGE_LOCATION 1`] = `
-Object {
-  "activeMenu": "initialActive",
-  "isCollapsed": false,
-  "isLoading": true,
-  "items": Array [],
-}
-`;
-
-exports[`Layout reducer should handle LAYOUT_CHANGE_ORG 1`] = `
-Object {
-  "activeMenu": "initialActive",
-  "isCollapsed": false,
-  "isLoading": true,
-  "items": Array [],
-}
-`;
-
 exports[`Layout reducer should handle LAYOUT_COLLAPSE 1`] = `
 Object {
   "activeMenu": "initialActive",

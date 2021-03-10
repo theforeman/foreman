@@ -28,8 +28,6 @@ exports[`HeaderToolbar rendering render HeaderToolbar 1`] = `
           },
         ]
       }
-      onLocationClick={[Function]}
-      onOrgClick={[Function]}
       organizations={
         Array [
           Object {

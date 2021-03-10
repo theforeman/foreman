@@ -3,10 +3,6 @@
 
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import {
-  changeOrganization,
-  changeLocation,
-} from '../../../foreman_navigation';
 import { translate as __ } from '../../common/I18n';
 import {
   removeLastSlashFromPath,
@@ -71,7 +67,6 @@ const createOrgItem = orgs => {
   const anyOrg = {
     name: __('Any Organization'),
     onClick: () => {
-      changeOrganization();
       window.location.assign(foremanUrl('/organizations/clear'));
     },
   };
@@ -82,7 +77,6 @@ const createOrgItem = orgs => {
       type: org.type,
       name: org.title,
       onClick: () => {
-        changeOrganization(org.title);
         window.location.assign(org.href);
       },
     };
@@ -104,7 +98,6 @@ const createLocationItem = locations => {
   const anyLoc = {
     name: __('Any Location'),
     onClick: () => {
-      changeLocation();
       window.location.assign(foremanUrl('/locations/clear'));
     },
   };
@@ -115,7 +108,6 @@ const createLocationItem = locations => {
       type: loc.type,
       name: loc.title,
       onClick: () => {
-        changeLocation(loc.title);
         window.location.assign(loc.href);
       },
     };
@@ -194,8 +186,6 @@ export const layoutPropTypes = {
   activeMenu: PropTypes.string,
   navigate: PropTypes.func,
   changeActiveMenu: PropTypes.func,
-  changeOrganization: PropTypes.func,
-  changeLocation: PropTypes.func,
   expandLayoutMenus: PropTypes.func,
   collapseLayoutMenus: PropTypes.func,
   items: PropTypes.arrayOf(
@@ -226,8 +216,6 @@ export const layoutDefaultProps = {
   activeMenu: '',
   navigate: noop,
   changeActiveMenu: noop,
-  changeOrganization: noop,
-  changeLocation: noop,
   expandLayoutMenus: noop,
   collapseLayoutMenus: noop,
 };

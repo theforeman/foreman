@@ -5,6 +5,7 @@ import URI from 'urijs';
 import { push } from 'connected-react-router';
 import store from './react_app/redux';
 import * as LayoutActions from './react_app/components/Layout/LayoutActions';
+import { deprecate } from './react_app/common/DeprecationService';
 
 export const visit = url => {
   window.location.href = url;
@@ -33,11 +34,11 @@ export const hideLoading = () => {
 };
 
 export const changeLocation = loc => {
-  store.dispatch(LayoutActions.changeLocation(loc));
+  deprecate('changeLocation', 'Context', '2.6');
 };
 
 export const changeOrganization = org => {
-  store.dispatch(LayoutActions.changeOrganization(org));
+  deprecate('changeOrganization', 'Context', '2.6');
 };
 
 export const changeActive = active => {

@@ -4,8 +4,6 @@ import {
   showLoading,
   hideLoading,
   changeActiveMenu,
-  changeOrganization,
-  changeLocation,
   collapseLayoutMenus,
   expandLayoutMenus,
 } from '../LayoutActions';
@@ -30,10 +28,6 @@ const fixtures = {
   'should expandLayoutMenus': () => expandLayoutMenus(),
 
   'should collapseLayoutMenus': () => collapseLayoutMenus(),
-
-  'should changeOrganization': () => changeOrganization('org1'),
-
-  'should changeLocation': () => changeLocation('loc1'),
 };
 
 describe('Layout actions', () => testActionSnapshotWithFixtures(fixtures));

@@ -21,8 +21,6 @@ const Layout = ({
   expandLayoutMenus,
   collapseLayoutMenus,
   changeActiveMenu,
-  changeOrganization,
-  changeLocation,
   activeMenu,
   children,
 }) => (
@@ -47,8 +45,6 @@ const Layout = ({
           />
           <HeaderToolbar
             {...data}
-            changeOrganization={changeOrganization}
-            changeLocation={changeLocation}
             isLoading={isLoading}
             changeActiveMenu={changeActiveMenu}
           />
