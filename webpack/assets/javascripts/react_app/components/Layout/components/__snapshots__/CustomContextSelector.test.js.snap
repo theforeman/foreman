@@ -32,6 +32,7 @@ exports[`CustomContextSelector rendering render CustomContextSelector 1`] = `
         }
       }
       paused={false}
+      preventScrollOnDeactivate={false}
     >
       <div
         className="pf-c-select"
