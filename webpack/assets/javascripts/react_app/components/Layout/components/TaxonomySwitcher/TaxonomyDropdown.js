@@ -7,16 +7,11 @@ import {
   Button,
 } from '@patternfly/react-core';
 import { CheckIcon } from '@patternfly/react-icons';
-import { foremanUrl, noop } from '../../../../common/helpers';
+import { foremanUrl } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
 import './TaxonomyDropdown.scss';
 
-const TaxonomyDropdown = ({
-  taxonomyType,
-  currentTaxonomy,
-  taxonomies,
-  changeTaxonomy,
-}) => {
+const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   const id = `${taxonomyType}-dropdown`;
   const anyTaxonomyURL = foremanUrl(`/${taxonomyType}s/clear`);
   const manageTaxonomyURL = foremanUrl(`/${taxonomyType}s`);
@@ -60,7 +55,6 @@ const TaxonomyDropdown = ({
       key={0}
       className={`${taxonomyType}s_clear`}
       onClick={() => {
-        changeTaxonomy(anyTaxonomyText);
         window.location.assign(anyTaxonomyURL);
       }}
       isDisabled={!currentTaxonomy}
@@ -105,7 +99,6 @@ const TaxonomyDropdown = ({
           id={`select_taxonomy_${title}`}
           className={`${taxonomyType}_menuitem`}
           onClick={() => {
-            changeTaxonomy(title);
             if (href) {
               window.location.assign(href);
             }
@@ -130,11 +123,9 @@ TaxonomyDropdown.propTypes = {
       href: PropTypes.string.isRequired,
     })
   ).isRequired,
-  changeTaxonomy: PropTypes.func,
 };
 
 TaxonomyDropdown.defaultProps = {
-  changeTaxonomy: noop,
   currentTaxonomy: undefined,
 };
 

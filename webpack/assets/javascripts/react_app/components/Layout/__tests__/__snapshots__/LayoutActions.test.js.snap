@@ -9,24 +9,6 @@ Object {
 }
 `;
 
-exports[`Layout actions should changeLocation 1`] = `
-Object {
-  "payload": Object {
-    "location": "loc1",
-  },
-  "type": "LAYOUT_CHANGE_LOCATION",
-}
-`;
-
-exports[`Layout actions should changeOrganization 1`] = `
-Object {
-  "payload": Object {
-    "organization": "org1",
-  },
-  "type": "LAYOUT_CHANGE_ORG",
-}
-`;
-
 exports[`Layout actions should collapseLayoutMenus 1`] = `
 Object {
   "type": "LAYOUT_COLLAPSE",

@@ -60,8 +60,6 @@ exports[`Layout rendering renders layout 1`] = `
         />
         <HeaderToolbar
           changeActiveMenu={[Function]}
-          changeLocation={[Function]}
-          changeOrganization={[Function]}
           instance_title="Production"
           isLoading={false}
           locations={

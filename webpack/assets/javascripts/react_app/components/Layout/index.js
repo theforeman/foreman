@@ -5,8 +5,6 @@ import { useHistory } from 'react-router-dom';
 import {
   initializeLayout,
   changeActiveMenu,
-  changeOrganization,
-  changeLocation,
   collapseLayoutMenus,
   expandLayoutMenus,
 } from './LayoutActions';
@@ -60,8 +58,6 @@ const ConnectedLayout = ({ children, data }) => {
       isCollapsed={isCollapsed}
       activeMenu={activeMenu}
       changeActiveMenu={menu => dispatch(changeActiveMenu(menu))}
-      changeOrganization={org => dispatch(changeOrganization(org))}
-      changeLocation={loc => dispatch(changeLocation(loc))}
       collapseLayoutMenus={() => dispatch(collapseLayoutMenus())}
       expandLayoutMenus={() => dispatch(expandLayoutMenus())}
     >

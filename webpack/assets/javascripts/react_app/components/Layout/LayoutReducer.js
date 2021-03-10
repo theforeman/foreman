@@ -4,8 +4,6 @@ import {
   LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_CHANGE_ORG,
-  LAYOUT_CHANGE_LOCATION,
   LAYOUT_CHANGE_ACTIVE,
   LAYOUT_EXPAND,
   LAYOUT_COLLAPSE,
@@ -35,12 +33,6 @@ export default (state = initialState, action) => {
 
     case LAYOUT_HIDE_LOADING:
       return state.set('isLoading', false);
-
-    case LAYOUT_CHANGE_ORG:
-      return state.set('isLoading', true);
-
-    case LAYOUT_CHANGE_LOCATION:
-      return state.set('isLoading', true);
 
     case LAYOUT_CHANGE_ACTIVE:
       return state.set('activeMenu', payload.activeMenu);

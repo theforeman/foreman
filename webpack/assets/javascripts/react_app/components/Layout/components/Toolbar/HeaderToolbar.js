@@ -23,8 +23,6 @@ const HeaderToolbar = ({
   user,
   stop_impersonation_url: stopImpersonationUrl,
   instance_title: instanceTitle,
-  changeLocation,
-  changeOrganization,
   isLoading,
   changeActiveMenu,
 }) => (
@@ -32,9 +30,7 @@ const HeaderToolbar = ({
     <PageHeaderToolsGroup className="header-tool-item-hidden-lg">
       <TaxonomySwitcher
         locations={locations.available_locations || []}
-        onLocationClick={changeLocation}
         organizations={orgs.available_organizations || []}
-        onOrgClick={changeOrganization}
         isLoading={isLoading}
       />
     </PageHeaderToolsGroup>
@@ -63,15 +59,11 @@ const HeaderToolbar = ({
 );
 HeaderToolbar.propTypes = {
   ...dataPropType,
-  changeLocation: layoutPropTypes.changeLocation,
-  changeOrganization: layoutPropTypes.changeOrganization,
   isLoading: layoutPropTypes.isLoading,
   changeActiveMenu: layoutPropTypes.changeActiveMenu,
 };
 
 HeaderToolbar.defaultProps = {
-  changeLocation: layoutDefaultProps.changeLocation,
-  changeOrganization: layoutDefaultProps.changeOrganization,
   isLoading: layoutDefaultProps.isLoading,
   changeActiveMenu: layoutDefaultProps.changeActiveMenu,
 };

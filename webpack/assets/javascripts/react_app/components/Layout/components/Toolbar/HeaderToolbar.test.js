@@ -8,9 +8,7 @@ const fixtures = {
   'render HeaderToolbar': {
     ...hasTaxonomiesMock.data,
     currentLocation: hasTaxonomiesMock.currentLocation,
-    changeLocation: noop,
     currentOrganization: hasTaxonomiesMock.currentOrganization,
-    changeOrganization: noop,
     isLoading: false,
     changeActiveMenu: noop,
   },

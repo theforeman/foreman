@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ToolbarItem, Spinner } from '@patternfly/react-core';
-import { noop } from '../../../../common/helpers';
 import {
   useForemanOrganization,
   useForemanLocation,
@@ -10,13 +9,7 @@ import {
 import { locationPropType, organizationPropType } from '../../LayoutHelper';
 import TaxonomyDropdown from './TaxonomyDropdown';
 
-const TaxonomySwitcher = ({
-  organizations,
-  locations,
-  isLoading,
-  onLocationClick,
-  onOrgClick,
-}) => {
+const TaxonomySwitcher = ({ organizations, locations, isLoading }) => {
   const currentLocation = useForemanLocation()?.title;
   const currentOrganization = useForemanOrganization()?.title;
   return (
@@ -26,7 +19,6 @@ const TaxonomySwitcher = ({
           taxonomyType="organization"
           currentTaxonomy={currentOrganization}
           taxonomies={organizations}
-          changeTaxonomy={onOrgClick}
         />
       </ToolbarItem>
       <ToolbarItem>
@@ -34,7 +26,6 @@ const TaxonomySwitcher = ({
           taxonomyType="location"
           currentTaxonomy={currentLocation}
           taxonomies={locations}
-          changeTaxonomy={onLocationClick}
         />
       </ToolbarItem>
       {isLoading && <Spinner size="md" />}
@@ -42,8 +33,6 @@ const TaxonomySwitcher = ({
   );
 };
 TaxonomySwitcher.propTypes = {
-  onLocationClick: PropTypes.func,
-  onOrgClick: PropTypes.func,
   isLoading: PropTypes.bool,
   organizations: PropTypes.arrayOf(organizationPropType).isRequired,
   locations: PropTypes.arrayOf(locationPropType).isRequired,
@@ -51,8 +40,6 @@ TaxonomySwitcher.propTypes = {
 
 TaxonomySwitcher.defaultProps = {
   isLoading: false,
-  onLocationClick: noop,
-  onOrgClick: noop,
 };
 
 export default TaxonomySwitcher;

@@ -2,8 +2,6 @@ import {
   LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_CHANGE_ORG,
-  LAYOUT_CHANGE_LOCATION,
   LAYOUT_CHANGE_ACTIVE,
   LAYOUT_COLLAPSE,
   LAYOUT_EXPAND,
@@ -53,22 +51,6 @@ const fixtures = {
   'should handle LAYOUT_EXPAND': {
     action: {
       type: LAYOUT_EXPAND,
-    },
-  },
-  'should handle LAYOUT_CHANGE_ORG': {
-    action: {
-      type: LAYOUT_CHANGE_ORG,
-      payload: {
-        organization: 'org1',
-      },
-    },
-  },
-  'should handle LAYOUT_CHANGE_LOCATION': {
-    action: {
-      type: LAYOUT_CHANGE_LOCATION,
-      payload: {
-        location: 'yaml',
-      },
     },
   },
 };
