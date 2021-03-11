@@ -189,11 +189,11 @@ module Foreman::Model
       associate_by("mac", vm.interfaces.map(&:mac))
     end
 
-    def vm_compute_attributes_for(uuid)
+    def vm_compute_attributes(vm)
       vm_attrs = super
       if vm_attrs[:memory_size].nil?
         vm_attrs[:memory] = nil
-        logger.debug("Compute attributes for VM '#{uuid}' diddn't contain :memory_size")
+        logger.debug("Compute attributes for VM didn't contain :memory_size")
       else
         vm_attrs[:memory] = vm_attrs[:memory_size] * 1024 # value is returned in megabytes, we need bytes
       end
