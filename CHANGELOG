@@ -1,3 +1,38 @@
+2021-03-11	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.4.0-rc3
+
+2021-03-10	Tomer Brisker <tbrisker@gmail.com>
+	* Update js snapshots
+	* Fixes #31990 - Optimize tooltip and popover initialization
+
+2021-03-10	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #32046 - Set setting with selection to empty value
+
+2021-03-10	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #32026 - cloned role throws error 500 if invalid
+
+2021-03-10	Jonas Trüstedt <truestedt@atix.de>
+	* Fixes #31962 - changed preseed-iPXE to set domain for bootdisk-deployments
+
+2021-03-10	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #31850 - Host Registration - REX interface issue
+
+2021-03-10	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2021-02-24	Evgeni Golov <evgeni@golov.de>
+	* Refs #29960 - also set PrivateTmp=true for dynflow-sidekiq
+	* Fixes #29960 - set PrivateTmp=true in foreman.service
+
+2021-02-23	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #31931 - Allow searching by id on Hosts (#8344)
+
+2021-02-23	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #31942 - Host filter error on nil
+
+2021-02-21	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #31798 - Fix error notifications in react forms (#8309)
+
 2021-02-19	Eric D. Helms <ericdhelms@gmail.com>
 	* Release 2.4.0-rc2
 
