@@ -346,28 +346,37 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_clone
-    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
-    get :clone, params: { :id => Host.first.name }, session: set_session_user
-    assert assigns(:clone_host)
-    assert_template 'clone'
-  end
+  describe '#clone' do
+    let(:host) { Host.first }
 
-  def test_clone_empties_fields
-    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
-    get :clone, params: { :id => Host.first.name }, session: set_session_user
-    refute assigns(:host).name
-    refute assigns(:host).ip
-    refute assigns(:host).mac
-  end
+    setup do
+      compute_class = host.compute_resource&.compute_class
+      compute_class.any_instance.stubs(:attributes).returns({}) if compute_class
+    end
 
-  def test_clone_with_hostgroup
-    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({})
-    host = FactoryBot.create(:host, :with_hostgroup)
-    get :clone, params: { :id => host.id }, session: set_session_user
-    assert assigns(:clone_host)
-    assert_template 'clone'
-    assert_response :success
+    test 'success' do
+      get :clone, params: { :id => host.to_param }, session: set_session_user
+      assert assigns(:clone_host)
+      assert_template 'clone'
+    end
+
+    test 'success with empties fields' do
+      get :clone, params: { :id => host.to_param }, session: set_session_user
+      refute assigns(:host).name
+      refute assigns(:host).ip
+      refute assigns(:host).mac
+    end
+
+    context 'with hostgroup' do
+      let(:host) { FactoryBot.create(:host, :with_hostgroup) }
+
+      test 'success' do
+        get :clone, params: { :id => host.to_param }, session: set_session_user
+        assert assigns(:clone_host)
+        assert_template 'clone'
+        assert_response :success
+      end
+    end
   end
 
   def setup_user(operation, type = 'hosts', filter = nil, user = :one)

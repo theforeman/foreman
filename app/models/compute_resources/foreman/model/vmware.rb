@@ -12,6 +12,10 @@ module Foreman::Model
     include ComputeResourceConsoleCommon
     include ComputeResourceCaching
 
+    class Compute < ::Compute
+
+    end
+
     validates :user, :password, :server, :datacenter, :presence => true
     validates :display_type, :inclusion => {
       :in => proc { |cr| cr.class.supported_display_types.keys },
