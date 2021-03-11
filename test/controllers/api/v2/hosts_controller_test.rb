@@ -552,12 +552,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should show hosts vm attributes" do
     host = FactoryBot.create(:host, :compute_resource => compute_resources(:one))
-    ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns(:cpus => 4)
+    compute_resources(:one).compute_class.any_instance.stubs(:attributes).returns(:cpus => 4)
     get :vm_compute_attributes, params: { :id => host.to_param }
     assert_response :success
     data = JSON.parse(@response.body)
     assert_equal data, "cpus" => 4, "memory" => nil
-    ComputeResource.any_instance.unstub(:vm_compute_attributes_for)
+    compute_resources(:one).compute_class.any_instance.unstub(:attributes)
   end
 
   def set_remote_user_to(user)

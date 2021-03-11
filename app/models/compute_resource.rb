@@ -93,6 +93,10 @@ class ComputeResource < ApplicationRecord
     raise ::Foreman::Exception.new N_("unknown provider")
   end
 
+  def self.compute_class
+    self.const_defined?(:Compute) ? Compute : ::Compute
+  end
+
   def capabilities
     []
   end
@@ -138,17 +142,18 @@ class ComputeResource < ApplicationRecord
     self.class.provider_friendly_name
   end
 
+  def compute_for(host)
+    self.class.compute_class.new(compute_resource: self, host: host)
+  end
+
   def host_compute_attrs(host)
-    { :name => host.vm_name,
-      :provision_method => host.provision_method,
-      :firmware_type => host.firmware_type,
-      "#{interfaces_attrs_name}_attributes" => host_interfaces_attrs(host) }.with_indifferent_access
+    Foreman::Deprecation.deprecation_warning('3.0', 'use Host#compute to deal with vm attributes')
+    host.compute.send(:host_create_attributes)
   end
 
   def host_interfaces_attrs(host)
-    host.interfaces.select(&:physical?).each.with_index.reduce({}) do |hash, (nic, index)|
-      hash.merge(index.to_s => nic.compute_attributes.merge(ip: nic.ip, ip6: nic.ip6))
-    end
+    Foreman::Deprecation.deprecation_warning('3.0', 'use Host#compute to deal with vm attributes')
+    host.compute.send(:host_interfaces_create_attributes)
   end
 
   def image_param_name
@@ -363,6 +368,7 @@ class ComputeResource < ApplicationRecord
   end
 
   def vm_compute_attributes_for(uuid)
+    Foreman::Deprecation.deprecation_warning('3.0', 'use Host#compute to deal with vm attributes')
     vm = find_vm_by_uuid(uuid)
     return {} unless vm
     vm_compute_attributes(vm)

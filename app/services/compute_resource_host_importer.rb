@@ -54,7 +54,7 @@ class ComputeResourceHostImporter
   end
 
   def vm_interface_attributes
-    vm_attrs = compute_resource.vm_compute_attributes_for(host.uuid)
+    vm_attrs = host.compute.attributes
     attr_name = compute_resource.interfaces_attrs_name
     attr_key = "#{attr_name}_attributes"
     vm_attrs.with_indifferent_access[attr_key].try(:values) || []

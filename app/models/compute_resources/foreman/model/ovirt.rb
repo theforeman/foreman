@@ -3,6 +3,16 @@ require 'uri'
 
 module Foreman::Model
   class Ovirt < ComputeResource
+    class Compute < ::Compute
+      protected
+
+      def host_create_attributes
+        super.tap do |attrs|
+          attrs[:os] = { type: compute_resource.determine_os_type(host) } if compute_resource.supports_operating_systems?
+        end
+      end
+    end
+
     ALLOWED_DISPLAY_TYPES = %w(vnc spice)
 
     validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true,
@@ -27,12 +37,6 @@ module Foreman::Model
 
     def user_data_supported?
       true
-    end
-
-    def host_compute_attrs(host)
-      super.tap do |attrs|
-        attrs[:os] = { :type => determine_os_type(host) } if supports_operating_systems?
-      end
     end
 
     def capabilities

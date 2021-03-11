@@ -6,9 +6,14 @@ module Orchestration::Compute
   include Orchestration::Common
 
   included do
-    attr_accessor :compute_attributes, :vm
+    attr_accessor :compute_attributes
     after_validation :validate_compute_provisioning, :queue_compute
     before_destroy :queue_compute_destroy
+  end
+
+  def reload
+    super
+    @compute = nil
   end
 
   def compute?
@@ -32,7 +37,16 @@ module Orchestration::Compute
   end
 
   def vm_name
-    Setting[:use_shortname_for_vms] ? shortname : name
+    Foreman::Deprecation.deprecation_warning('3.0', 'use Host#compute to deal with vm attributes')
+    compute.vm_name
+  end
+
+  def compute
+    @compute ||= compute_resource&.compute_for(host)
+  end
+
+  def vm
+    compute.vm
   end
 
   protected
@@ -85,10 +99,8 @@ module Orchestration::Compute
       failure _("Failed to find compute attributes, please check if VM %s was deleted") % name
       return false
     end
-    # TODO: extract the merging into separate class in combination
-    # with ComputeAttributesMerge and InterfacesMerge http://projects.theforeman.org/issues/14536
-    final_compute_attrs = compute_attributes.merge(compute_resource.host_compute_attrs(self))
-    self.vm = compute_resource.create_vm(final_compute_attrs)
+    compute.attributes = compute_attributes
+    compute.save
   rescue => e
     failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e
   end
@@ -232,7 +244,7 @@ module Orchestration::Compute
 
   def compute_update_required?
     return false unless compute_resource.supports_update? && !compute_attributes.nil?
-    attrs = compute_resource.vm_compute_attributes_for(uuid)
+    attrs = compute.attributes
     old.compute_attributes = attrs if old
     compute_resource.update_required?(attrs, compute_attributes.symbolize_keys)
   end
@@ -363,8 +375,7 @@ module Orchestration::Compute
   end
 
   def vm_exists?
-    vm = compute_object
-    return false unless vm
-    vm.persisted?
+    Foreman::Deprecation.deprecation_warning('3.0', 'use Host#compute to deal with vm attributes')
+    compute.vm.persisted?
   end
 end
