@@ -1,0 +1,32 @@
+classDiagram
+    class OrchestrationCompute {
+        Hash compute_attributes
+        FogServer vm()
+        Boolean compute_update_required?()
+    }
+    class Host {
+        +VMUUID uuid
+        vm_compute_attributes()
+    }
+    class ComputeResource {
+        vm_instance_defaults()
+        host_compute_attrs()
+        host_interfaces_attrs()
+        vm_compute_attributes_for(uuid)
+        vm_compute_attributes(vm)
+        compute_profile_attributes_for(cp_id)
+    }
+    class ComputeProfile
+    class ComputeAttribute {
+        +Hash vm_attrs
+        Hash vm_interfaces(vm_attrs)
+    }
+    class Interface {
+        +Hash compute_attributes
+    }
+    OrchestrationCompute <|-- Host
+    Host --> "1..*" Interface
+    Host --> "1" ComputeResource
+    Host --> "0..1" ComputeProfile
+    ComputeProfile "1" --> "1..CRcount" ComputeAttribute
+    ComputeAttribute --> "1" ComputeResource
