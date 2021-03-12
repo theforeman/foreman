@@ -1,0 +1,15 @@
+sequenceDiagram
+    newHostForm->>+HostsController: compute_resource_selected(hg_id, cr_id, cp_id)
+    HostsController->> ComputeResource : compute_resource = find(cr_id)
+    HostsController->> +ComputeResource : compute_profile_attributes_for(cp_id)
+    ComputeResource->> ComputeResource : fetch_cr_attributes(cr_id)
+    ComputeResource->> -HostsController : compute_profile_attrs
+    HostsController->>_compute: render(compute_resource, compute_profile_attrs)
+    _compute->> +ComputeResource : new_vm(attrs = compute_profile_attributes)
+    ComputeResource ->> ComputeResource: fog.new(vm_instance_defaults.merge(attrs))
+    ComputeResource ->> -_compute : vm<Fog::Server>
+    _compute->> HostsHelper : args_for_compute_resource_partial(host=nil)
+    _compute->> _provider_/base : render(compute_resource, vm, args_for_cr_partial)
+    _provider_/base-->> _compute  : rendered
+    _compute-->> HostsController  : rendered
+    HostsController->> -newHostForm : VM_tab_html_over_AJAX

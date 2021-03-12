@@ -1,0 +1,37 @@
+[[vm_manipulation]]
+= VM manipulation
+:toc: right
+:toclevels: 5
+:imagesdir: images/
+
+This page has an overview of Host VM manipulation having current state architecture.
+Serves two purposes:
+1. Understanding current implementation
+1. Ease refactoring
+
+
+== VM attributes
+
+Following diagram shows all the methods that are dealing with virtual machine diagram.
+
+NOTE: `+` means stored in a database.
+
+[#vm_attributes_diagram]
+[caption="Diagram: class methods for vm attributes"]
+image::vm_attributes_diagram.svg[VM attributes methods,300,500]
+
+
+We are seeing many problems:
+* A lot of methods on ComputeResource are dealing with instance attributes.
+* Interfaces are storing compute_attributes, but Hosts are not.
+* ComputeProfile has completely independent `Hash` of attributes stored in DB.
+
+
+[[vm_creation]]
+== VM creation
+
+=== UI rendering for Host form
+
+[#vm_render_form_tab_diagram]
+[caption="Diagram: sequence to render VM tab for form"]
+image::vm_render_form_tab_diagram.svg[VM tab rendering,1024,800]
