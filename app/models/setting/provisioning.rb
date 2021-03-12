@@ -89,6 +89,7 @@ class Setting::Provisioning < Setting
       ),
       set('maximum_structured_facts', N_("Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"), 100, N_('Maximum structured facts')),
       set('default_global_registration_item', N_("Global Registration template"), 'Global Registration', N_("Default Global registration template")),
+      set('default_host_init_config_template', N_("Default 'Host intial configuration' template, automatically assigned when new operating system is created"), 'Linux host_init_config default', N_("Default 'Host intial configuration' template")),
     ] + default_global_templates + default_local_boot_templates
   end
 

@@ -428,3 +428,8 @@ attribute94:
   category: Setting::Provisioning
   default: 'Global Registration'
   description: "Default Global registration template"
+attribute95:
+  name: default_host_init_config_template
+  category: Setting::Provisioning
+  default: 'Linux host initial configuration'
+  description: "Default host initial configuration template"

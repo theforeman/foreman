@@ -56,7 +56,7 @@ module ForemanRegister
     end
 
     def find_template
-      @template = @host.registration_template
+      @template = @host.initial_configuration_template
     rescue ::Foreman::Exception
       render_error(message: N_('Host is not associated with an operating system'))
     end

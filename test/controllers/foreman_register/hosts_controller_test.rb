@@ -7,8 +7,8 @@ module ForemanRegister
     let(:organization) { FactoryBot.create(:organization) }
     let(:tax_location) { FactoryBot.create(:location) }
     let(:template_content) { 'template content <%= @host.name %>' }
-    let(:template_kind) { template_kinds(:registration) }
-    let(:registration_template) do
+    let(:template_kind) { template_kinds(:host_init_config) }
+    let(:host_init_config_template) do
       FactoryBot.create(
         :provisioning_template,
         template_kind: template_kind,
@@ -23,7 +23,7 @@ module ForemanRegister
         :with_associations,
         family: 'Redhat',
         provisioning_templates: [
-          registration_template,
+          host_init_config_template,
         ]
       )
     end
@@ -46,17 +46,12 @@ module ForemanRegister
     end
     let(:registration_token) { host.registration_token }
 
+    setup do
+      Setting[:default_host_init_config_template] = host_init_config_template.name
+    end
+
     describe '#register' do
       context 'with an associated template' do
-        setup do
-          FactoryBot.create(
-            :os_default_template,
-            template_kind: template_kind,
-            provisioning_template: registration_template,
-            operatingsystem: os
-          )
-        end
-
         it 'shows a registration script' do
           get :register, params: { token: registration_token }
           assert_response :success
@@ -85,6 +80,7 @@ module ForemanRegister
 
       context 'without a template association' do
         it 'shows a not found error' do
+          os.update(os_default_templates: [])
           get :register, params: { token: registration_token }
           assert_response :not_found
         end
@@ -98,14 +94,7 @@ module ForemanRegister
         end
 
         it 'template syntax' do
-          FactoryBot.create(
-            :os_default_template,
-            template_kind: template_kind,
-            provisioning_template: registration_template,
-            operatingsystem: os
-          )
-
-          registration_template.update(template: "<% asda =!?== '2 % %>")
+          host_init_config_template.update(template: "<% asda =!?== '2 % %>")
           get :register, params: { token: registration_token }
           assert_response :internal_server_error
           assert_includes @response.body, 'Foreman::Renderer::Errors::SyntaxError'

@@ -17,8 +17,8 @@ module ForemanRegister
       ForemanRegister::RegistrationUrl.new(host: self).url
     end
 
-    def registration_template
-      provisioning_template(kind: 'registration')
+    def initial_configuration_template
+      provisioning_template(kind: 'host_init_config')
     end
   end
 end

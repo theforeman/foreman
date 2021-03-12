@@ -27,6 +27,10 @@ pxegrub2:
   name: PXEGrub2
   description: description for pxegrub2 template
 
+host_init_config:
+  name: host_init_config
+  description: description for host_init_config template
+
 registration:
   name: registration
   description: description for registration template

@@ -32,7 +32,7 @@ module Hostext
           :template_kind => TemplateKind.friendly.find('finish'))
         host  = FactoryBot.create(:host, :operatingsystem => os_dt.operatingsystem)
 
-        assert_equal [os_dt.provisioning_template], host.available_template_kinds('build')
+        assert_equal [os_dt.provisioning_template, templates(:host_init_config)], host.available_template_kinds('build')
       end
 
       test "available_template_kinds finds templates for an image host" do

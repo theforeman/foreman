@@ -365,4 +365,13 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "should not allow to assign OS to the registration kind" do
+    template_kind = template_kinds(:registration)
+    os = operatingsystems(:redhat)
+    template = FactoryBot.build(:provisioning_template, template: "a", template_kind: template_kind, operatingsystems: [os])
+
+    refute template.valid?
+    assert_includes template.errors.keys, :operatingsystems
+  end
 end

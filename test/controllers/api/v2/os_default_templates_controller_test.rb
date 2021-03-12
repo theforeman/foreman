@@ -6,7 +6,7 @@ class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:os_default_templates)
     results = ActiveSupport::JSON.decode(@response.body)
-    assert_equal 6, results['results'].length
+    assert_equal 7, results['results'].length
   end
 
   test 'should show os_default_template' do

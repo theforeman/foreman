@@ -32,6 +32,8 @@ class ProvisioningTemplate < Template
   has_many :os_default_templates
   before_save :check_for_snippet_assoications
 
+  validate :no_os_for_registration
+
   # these can't be shared in parent class, scoped search can't handle STI properly
   # tested with scoped_search 3.2.0
   include Taxonomix
@@ -236,6 +238,11 @@ class ProvisioningTemplate < Template
 
   def self.acceptable_template_input_types
     [:fact, :variable, :puppet_parameter]
+  end
+
+  def no_os_for_registration
+    return unless template_kind&.name == 'registration'
+    errors.add(:operatingsystems, N_("can't assign operating system to Registration template")) if operatingsystems.any?
   end
 
   private

@@ -130,7 +130,8 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       operatingsystem = Operatingsystem.first
       put :update, params: { :id => operatingsystem.id, :operatingsystem =>
           {:os_default_templates_attributes => [{:provisioning_template_id => @provisioning_template.id, :template_kind_id => @template_kind.id}]} }, session: set_session_user
-      refute_empty operatingsystem.os_default_templates
+
+      assert operatingsystem.os_default_templates.size, 2
       assert_redirected_to operatingsystems_url
     end
 
@@ -139,7 +140,8 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       put :update, params: { :id => operatingsystem.id,
                              :operatingsystem => {:os_default_templates_attributes => [{ :provisioning_template_id => nil, :template_kind_id => @template_kind.id }]} }, session: set_session_user
 
-      assert_empty operatingsystem.os_default_templates
+      assert operatingsystem.os_default_templates.size, 1
+      assert operatingsystem.os_default_templates.first.template_kind, templates(:host_init_config)
     end
 
     test 'empty provisioning_template should be destroyed' do

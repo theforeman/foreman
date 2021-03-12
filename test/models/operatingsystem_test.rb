@@ -434,4 +434,9 @@ class OperatingsystemTest < ActiveSupport::TestCase
     results = Operatingsystem.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
     refute results.include?(os)
   end
+
+  test "should assign 'host initial configuration' template after create" do
+    os = FactoryBot.create(:operatingsystem)
+    assert_equal Setting[:default_host_init_config_template], os.provisioning_templates[0]&.name
+  end
 end
