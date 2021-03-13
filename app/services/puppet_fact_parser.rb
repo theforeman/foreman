@@ -41,9 +41,10 @@ class PuppetFactParser < FactParser
   end
 
   def environment
+    return unless Foreman::Plugin.find(:foreman_puppet)
     # by default, puppet doesn't store an env name in the database
     name = facts[:environment] || facts[:agent_specified_environment] || Setting[:default_puppet_environment]
-    Environment.unscoped.where(:name => name).first_or_create
+    ForemanPuppet::Environment.unscoped.where(:name => name).first_or_create
   end
 
   def architecture
