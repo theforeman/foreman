@@ -5,9 +5,6 @@
   <th>
     <%= _('Host group') %>
   </th>
-  <th>
-    <%= _('Environment') %>
-  </th>
   <% list.first.last[:metrics].keys.each do |header| %>
     <th>
       <%= header %>
@@ -20,9 +17,6 @@
     <%= render 'link_to_host', :host => host %>
     <td class="hosts-rows">
       <%= host_object.hostgroup %>
-    </td>
-    <td class="hosts-rows">
-      <%= host_object.environment %>
     </td>
     <% params[:metrics].each do |m,v| %>
       <% if m =~ /failed|failed_restart/ and v > 0 %>

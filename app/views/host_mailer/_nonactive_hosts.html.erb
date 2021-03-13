@@ -6,9 +6,6 @@
     <%= _('Host group') %>
   </th>
   <th>
-    <%= _('Environment') %>
-  </th>
-  <th>
     <%= _('Last Report') %>
   </th>
 </tr>
@@ -17,9 +14,6 @@
     <%= render 'link_to_host', :host => host %>
     <td class="hosts-rows">
       <%= host.hostgroup %>
-    </td>
-    <td class="hosts-rows">
-      <%= host.environment %>
     </td>
     <% if host.last_report %>
       <td class="hosts-rows">
