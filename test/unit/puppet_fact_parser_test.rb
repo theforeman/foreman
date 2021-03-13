@@ -22,10 +22,6 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_equal '192.168.0.1', parser.interfaces['eth0.0']['ipaddress']
   end
 
-  test "should return an env" do
-    assert_kind_of Environment, importer.environment
-  end
-
   test "should return an arch" do
     assert_kind_of Architecture, importer.architecture
   end
