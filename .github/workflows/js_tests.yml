@@ -5,6 +5,8 @@ on:
       - 'webpack/**'
       - 'package.json'
       - '.github/workflows/js_tests.yml'
+      - '.eslintrc'
+      - '.eslintignore'
 
 jobs:
   test:
