@@ -2,6 +2,7 @@ require 'digest'
 
 class ForemanSeeder
   FOREMAN_INTERNAL_KEY = 'database_seed'.freeze
+  ADVISORY_LOCK = 'database_seed'.freeze
 
   attr_reader :seeds
 
@@ -34,27 +35,32 @@ class ForemanSeeder
   end
 
   def execute
-    self.class.is_seeding = true
-    begin
-      @seeds.each do |seed|
-        Rails.logger.info("Seeding #{seed}") unless Rails.env.test?
+    Foreman::AdvisoryLockManager.with_transaction_lock(ADVISORY_LOCK) do
+      # if we had to wait for the lock it is likely that the seeding has already been done, no need to seed again
+      return unless hash_changed?
 
-        admin = User.unscoped.find_by_login(User::ANONYMOUS_ADMIN)
-        # anonymous admin does not exist until some of seed step creates it, therefore we use it only when it exists
-        if admin.present?
-          User.as_anonymous_admin do
+      self.class.is_seeding = true
+      begin
+        @seeds.each do |seed|
+          Rails.logger.info("Seeding #{seed}") unless Rails.env.test?
+
+          admin = User.unscoped.find_by_login(User::ANONYMOUS_ADMIN)
+          # anonymous admin does not exist until some of seed step creates it, therefore we use it only when it exists
+          if admin.present?
+            User.as_anonymous_admin do
+              load seed
+            end
+          else
             load seed
           end
-        else
-          load seed
         end
+      ensure
+        self.class.is_seeding = false
       end
-    ensure
-      self.class.is_seeding = false
-    end
-    save_hash
+      save_hash
 
-    Rails.logger.info("All seed files executed") unless Rails.env.test?
+      Rails.logger.info("All seed files executed") unless Rails.env.test?
+    end
   end
 
   def save_hash

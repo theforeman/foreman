@@ -15,6 +15,7 @@ module Foreman
         if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
           lock_id = generate_lock_id(lock_name)
           ActiveRecord::Base.transaction do
+            Rails.logger.debug("Acquiring Advisory-Transaction-Lock '#{lock_name}' -> #{lock_id}")
             ActiveRecord::Base.connection.execute("SELECT pg_advisory_xact_lock(#{lock_id})")
             yield
           end
@@ -29,6 +30,7 @@ module Foreman
         if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
           begin
             lock_id = generate_lock_id(lock_name)
+            Rails.logger.debug("Acquiring Advisory-Session-Lock '#{lock_name}' -> #{lock_id}")
             ActiveRecord::Base.connection.execute("SELECT pg_advisory_lock(#{lock_id})")
             yield
           ensure
@@ -41,11 +43,9 @@ module Foreman
 
       private
 
-      # PostgreSQL requires signed 64 bit (BIGINT), this uses built-in Ruby hash to generate it.
-      # The method can result in different results with different Ruby versions, but this is
-      # unlikely to happen (possibly during rolling restart when upgrading to new Ruby).
+      # PostgreSQL requires signed 64 bit (BIGINT).
       def generate_lock_id(lock_name)
-        lock_name.to_s.hash & 0x7FFFFFFFFFFFFFFF
+        Digest::SHA512.digest(lock_name).unpack1('q')
       end
     end
   end
