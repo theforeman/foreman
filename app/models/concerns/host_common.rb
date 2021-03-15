@@ -110,9 +110,10 @@ module HostCommon
   end
 
   # The Puppet server FQDN or an empty string. Exposed as a provisioning macro
-  def puppetmaster
+  def puppet_server
     puppet_server_uri.try(:host) || ''
   end
+  alias_method :puppetmaster, :puppet_server
 
   def puppet_ca_server_uri
     return unless puppet_ca_proxy

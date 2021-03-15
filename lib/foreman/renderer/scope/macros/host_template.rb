@@ -52,6 +52,30 @@ module Foreman
             host_param(param_name)
           end
 
+          apipie :method, 'Returns Puppetserver\'s hostname configured configured through the ENC or the puppet_server host parameter' do
+            returns String, desc: 'Returns the configured Puppetserver\'s hostname, or nil if not configured'
+          end
+          def host_puppet_server
+            check_host
+            host.try(:puppet_server) || host_param('puppet_server')
+          end
+
+          apipie :method, 'Returns Puppet CA server\'s hostname configured through the ENC or the puppet_ca_server host parameter' do
+            returns String, desc: 'Returns the configured Puppet CA server\'s hostname, or nil if not configured'
+          end
+          def host_puppet_ca_server
+            check_host
+            host.try(:puppet_ca_server) || host_param('puppet_ca_server')
+          end
+
+          apipie :method, 'Returns the Puppet environment configured configured through the ENC or the puppet_environment host parameter' do
+            returns String, desc: 'Returns the configured Puppet environment name, or nil if not configured'
+          end
+          def host_puppet_environment
+            check_host
+            host.respond_to?(:environment) ? host.environment : host_param('puppet_environment')
+          end
+
           apipie :method, 'Returns puppet classes assigned to the host' do
             returns Array, desc: 'Puppet classes assigned to the host'
           end

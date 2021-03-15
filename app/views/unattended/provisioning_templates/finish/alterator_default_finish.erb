@@ -18,10 +18,10 @@ cat > /etc/puppet/puppet.conf << EOF
 <%= snippet 'puppet.conf' -%>
 EOF
 
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
-<%= snippet 'built' %>
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= host_puppet_server %> --no-daemonize
 /sbin/chkconfig puppetd on
 
+<%= snippet 'built' %>
 <%= snippet 'schedule_reboot' -%>
 
 exit 0

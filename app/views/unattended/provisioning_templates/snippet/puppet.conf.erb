@@ -41,9 +41,13 @@ ssldir = <%= ssl_dir %>
 [agent]
 pluginsync      = true
 report          = true
-<%- if @host.puppet_ca_server.strip -%>
-ca_server       = <%= @host.puppet_ca_server %>
+<%- if host_puppet_ca_server.present? -%>
+ca_server       = <%= host_puppet_ca_server %>
 <%- end -%>
 certname        = <%= @host.certname %>
-environment     = <%= @host.environment %>
-server          = <%= @host.puppetmaster %>
+<%- if host_puppet_server.present? -%>
+server          = <%= host_puppet_server %>
+<%- end -%>
+<%- if host_puppet_environment.present? -%>
+environment     = <%= host_puppet_environment %>
+<%- end -%>
