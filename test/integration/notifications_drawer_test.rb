@@ -14,7 +14,7 @@ class NotificationsDrawerIntegrationTest < IntegrationTestWithJavascript
   private
 
   def notifications_open_and_close_flow
-    within("#notifications_container") do
+    within(".notifications_container") do
       assert page.has_selector?('.fa.fa-bell-o'), "Notifications toggler was expected in the top bar, but was not found"
       assert page.has_no_selector?('.drawer-pf'), "Notifications drawer was expected to be closed, but was found opend"
 
@@ -31,6 +31,7 @@ class NotificationsDrawerIntegrationTest < IntegrationTestWithJavascript
       assert page.has_selector?('.drawer-pf'), "Notifications drawer was expected to be opend, but was found closed"
 
       # close notifications drawer by click on close button
+      page.find('.drawer-pf-notifications').click # to remove the tooltip from the icon
       page.find('.drawer-pf-close').click
       assert page.has_no_selector?('.drawer-pf'), "Notifications drawer was expected to be closed, but was found opend"
 
@@ -41,7 +42,7 @@ class NotificationsDrawerIntegrationTest < IntegrationTestWithJavascript
 
     # close notifications drawer by click outside
     page.find('body').click
-    assert page.has_no_selector?('#notifications_container .drawer-pf'), "Notifications drawer was expected to be closed, but was found opend"
+    assert page.has_no_selector?('.notifications_container .drawer-pf'), "Notifications drawer was expected to be closed, but was found opend"
   end
 
   def navigate_somewhere_with_turbolinks

@@ -22,20 +22,17 @@ exports[`ImpersonateIcon should render 1`] = `
       ]
     }
   >
-    <li
-      className="drawer-pf-trigger masthead-icon"
+    <span
+      className="nav-item-iconic"
+      onClick={[Function]}
     >
-      <span
-        className="nav-item-iconic"
-        onClick={[Function]}
-      >
-        <Icon
-          className="blink-image"
-          name="eye avatar small"
-          type="fa"
-        />
-      </span>
-    </li>
+      <EyeIcon
+        className="blink-image"
+        color="currentColor"
+        noVerticalAlign={false}
+        size="sm"
+      />
+    </span>
   </OverlayTrigger>
   <MessageDialog
     accessibleDescription=""

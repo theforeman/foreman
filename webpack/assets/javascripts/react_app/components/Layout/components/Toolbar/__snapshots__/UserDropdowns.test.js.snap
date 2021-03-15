@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserDropdown render 1`] = `
+<Dropdown
+  className=""
+  dropdownItems={
+    Array [
+      <DropdownItem
+        className="user_menuitem"
+        href="/"
+        onClick={[Function]}
+      >
+        My Account
+      </DropdownItem>,
+      <DropdownSeparator />,
+    ]
+  }
+  isOpen={true}
+  isPlain={true}
+  notification_url="/"
+  onSelect={[Function]}
+  position="right"
+  toggle={
+    <DropdownToggle
+      onToggle={[Function]}
+    >
+      <UserAltIcon
+        className="user-icon"
+        color="currentColor"
+        noVerticalAlign={false}
+        size="sm"
+      />
+      G L
+    </DropdownToggle>
+  }
+/>
+`;

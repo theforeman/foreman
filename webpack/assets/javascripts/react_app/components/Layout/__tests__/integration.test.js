@@ -5,13 +5,29 @@ import { IntegrationTestHelper } from '@theforeman/test';
 
 import { hasTaxonomiesMock } from '../Layout.fixtures';
 import Layout, { reducers } from '../index';
+import ForemanContext from '../../../Root/Context/ForemanContext';
 
 jest.mock('../../notifications', () => 'span');
 
+// mock the taxonomy context to match the test until we implement context setter
+
+jest
+  .spyOn(ForemanContext, 'useForemanLocation')
+  .mockReturnValue({ title: 'london' });
+jest
+  .spyOn(ForemanContext, 'useForemanOrganization')
+  .mockReturnValue({ title: 'org1' });
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 describe('Layout integration test', () => {
   it('should flow', async () => {
     const integrationTestHelper = new IntegrationTestHelper(reducers);
-
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { assign: jest.fn(), pathname: '/' },
+    });
     const component = integrationTestHelper.mount(
       <Router>
         <Layout {...hasTaxonomiesMock} />
@@ -20,30 +36,19 @@ describe('Layout integration test', () => {
     await IntegrationTestHelper.flushAllPromises();
     component.update();
 
-    const yamlLocation = component.find('.location_menuitem');
-    const org2Organization = component.find('.organization_menuitem');
-    const hostsMenuItem = component.find('.secondary-nav-item-pf > a');
     integrationTestHelper.takeStoreSnapshot('initial state');
-
-    yamlLocation.at(0).simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot(
-      'Location "yaml" clicked'
-    );
-    expect(component.find('#location-dropdown > .dropdown-toggle').text()).toBe(
-      'yaml'
-    );
-
-    await IntegrationTestHelper.flushAllPromises();
-    component.update();
-
-    org2Organization.at(1).simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('Org "org2" clicked');
     expect(
-      component.find('#organization-dropdown > .dropdown-toggle').text()
-    ).toBe('org2');
+      component
+        .find('#location-dropdown .pf-c-context-selector__toggle-text')
+        .text()
+    ).toBe('london');
+    expect(
+      component
+        .find('#organization-dropdown .pf-c-context-selector__toggle-text')
+        .text()
+    ).toBe('org1');
 
-    await IntegrationTestHelper.flushAllPromises();
-    component.update();
+    const hostsMenuItem = component.find('.secondary-nav-item-pf > a');
 
     hostsMenuItem.at(1).simulate('click');
     integrationTestHelper.takeStoreAndLastActionSnapshot(

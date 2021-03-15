@@ -15,13 +15,6 @@ const PFitems = [
     subItems: subItemsB,
     href: '/b',
   },
-  {
-    title: 'Configure',
-    initialActive: false,
-    iconClass: 'fa fa-wrench',
-    subItems: subItemsC,
-    href: '/c',
-  },
 ];
 
 const subItemsA = [
@@ -39,23 +32,6 @@ const subItemsA = [
 const subItemsB = [
   {
     title: 'Dd',
-    isDivider: false,
-    onClick: mockOnClick,
-  },
-  {
-    title: 'Ff',
-    isDivider: false,
-    onClick: mockOnClick,
-  },
-];
-const subItemsC = [
-  {
-    title: 'Gg',
-    isDivider: false,
-    onClick: mockOnClick,
-  },
-  {
-    title: 'Ii',
     isDivider: false,
     onClick: mockOnClick,
   },
@@ -81,37 +57,6 @@ const hostsChildren = [
     type: 'item',
     name: 'All Hosts',
     url: '/hosts/new',
-  },
-  {
-    type: 'item',
-    name: 'Architectures',
-    url: '/architectures',
-  },
-];
-
-const userChildren = [
-  {
-    type: 'item',
-    name: 'Environments',
-    url: '/environments',
-  },
-  {
-    type: 'item',
-    name: 'Architectures',
-    url: '/architectures',
-  },
-];
-
-const infrastructureChildren = [
-  {
-    type: 'item',
-    name: 'Domains',
-    url: '/domains',
-  },
-  {
-    type: 'item',
-    name: 'Realms',
-    url: '/realms',
   },
 ];
 
@@ -140,21 +85,6 @@ const hashItemsA = [
   },
 ];
 
-const hashItemsB = [
-  {
-    type: 'sub_menu',
-    name: 'User',
-    icon: 'fa fa-wrench',
-    children: userChildren,
-  },
-  {
-    type: 'sub_menu',
-    name: 'Infrastructure',
-    icon: 'pficon pficon-network',
-    children: infrastructureChildren,
-  },
-];
-
 export const hashItemNameless = [
   {
     type: 'sub_menu',
@@ -167,6 +97,7 @@ export const hashItemNameless = [
 const logo =
   '/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg';
 const user = {
+  impersonated_by: true,
   current_user: {
     id: 4,
     login: 'admin',
@@ -189,15 +120,6 @@ const organizations = {
   available_organizations: [
     { id: 1, title: 'org1', href: '/organizations/1-org1/select' },
     { id: 2, title: 'org2', href: '/organizations/2-org2/select' },
-  ],
-  many_organizations: [
-    { id: 1, title: 'org1', href: '/organizations/1-org1/select' },
-    { id: 2, title: 'org2', href: '/organizations/2-org2/select' },
-    { id: 3, title: 'org3', href: '/organizations/3-org3/select' },
-    { id: 4, title: 'org4', href: '/organizations/4-org4/select' },
-    { id: 5, title: 'org5', href: '/organizations/5-org5/select' },
-    { id: 6, title: 'org6', href: '/organizations/6-org6/select' },
-    { id: 7, title: 'org7', href: '/organizations/7-org7/select' },
   ],
 };
 
@@ -237,13 +159,12 @@ export const layoutMock = {
   items: PFitems,
   activeMenu: 'Monitor',
   data: {
-    menu: [...hashItemsA, ...hashItemsB],
+    menu: [...hashItemsA, ...hashItemNameless],
     locations,
     orgs: organizations,
     root: '/',
     logo,
     notification_url: '/notification_recipients',
-    taxonomies: { locations: true, organizations: true },
     user,
     stop_impersonation_url: '/users/stop_impersonation',
     instance_title: 'Production',

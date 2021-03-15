@@ -28,11 +28,6 @@ Array [
         "type": "item",
         "url": "/hosts/new",
       },
-      Object {
-        "name": "Architectures",
-        "type": "item",
-        "url": "/architectures",
-      },
     ],
     "className": "",
     "icon": "fa fa-server",
@@ -42,37 +37,18 @@ Array [
   Object {
     "children": Array [
       Object {
-        "name": "Environments",
+        "name": undefined,
         "type": "item",
-        "url": "/environments",
+        "url": "/nameless",
       },
       Object {
-        "name": "Architectures",
-        "type": "item",
-        "url": "/architectures",
-      },
-    ],
-    "className": "visible-xs-block",
-    "icon": "fa fa-wrench",
-    "name": "User",
-    "type": "sub_menu",
-  },
-  Object {
-    "children": Array [
-      Object {
-        "name": "Domains",
-        "type": "item",
-        "url": "/domains",
-      },
-      Object {
-        "name": "Realms",
-        "type": "item",
-        "url": "/realms",
+        "name": undefined,
+        "type": "divider",
       },
     ],
     "className": "",
-    "icon": "pficon pficon-network",
-    "name": "Infrastructure",
+    "icon": "pficon pficon-unplugged",
+    "name": "Empty",
     "type": "sub_menu",
   },
   Object {
@@ -92,7 +68,7 @@ Array [
         "type": undefined,
       },
     ],
-    "className": "visible-xs-block",
+    "className": "organization-menu hidden-nav-lg",
     "icon": "fa fa-building",
     "name": "Organizations",
     "type": "sub_menu",
@@ -119,7 +95,7 @@ Array [
         "type": undefined,
       },
     ],
-    "className": "visible-xs-block",
+    "className": "location-menu hidden-nav-lg",
     "icon": "fa fa-globe",
     "name": "Locations",
     "type": "sub_menu",

@@ -1,5 +1,6 @@
 @import '~@theforeman/vendor/scss/variables';
 @import '../../common/colors.scss';
+@import '../../common/variables.scss';
 
 .secondary-nav-item-pf > .nav-pf-secondary-nav {
   background-color: $nav-pf-vertical-active-bg-color;
@@ -83,6 +84,14 @@
       }
     }
   }
+
+  .secondary-nav-item-pf.hidden-nav-lg {
+    display: none;
+
+    @media (max-width: $header-max-width) {
+      display: block;
+    }
+  }
 }
 
 /*
@@ -106,12 +115,20 @@
 }
 
 .navbar-header {
-  width: 221.22px;
+  width: 42px;
 }
 
-.taxonomy_search {
-  max-width: 92%;
-  margin: 4px 0 4px 8px;
+#navbar-header {
+  left: 42px;
+}
+
+#data-toolbar {
+  padding: 0;
+  background-color: transparent;
+}
+
+.pf-c-page {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .collapsed-nav {

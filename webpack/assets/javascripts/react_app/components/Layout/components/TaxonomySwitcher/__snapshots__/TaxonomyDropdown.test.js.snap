@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TaxonomyDropdown Search items 1`] = `
+Array [
+  <ContextSelectorItem
+    className="organizations_clear"
+    isDisabled={false}
+    key="0"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    Any Organization
+  </ContextSelectorItem>,
+  <ContextSelectorItem
+    className="organization_menuitem"
+    id="select_taxonomy_org1"
+    isDisabled={true}
+    key="1"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    <CheckIcon
+      className="current-taxonomy-v"
+      color="currentColor"
+      noVerticalAlign={false}
+      size="sm"
+    />
+    org1
+  </ContextSelectorItem>,
+  <ContextSelectorItem
+    className="organization_menuitem"
+    id="select_taxonomy_org2"
+    isDisabled={false}
+    key="2"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    org2
+  </ContextSelectorItem>,
+]
+`;
+
+exports[`TaxonomyDropdown Search items 2`] = `
+Array [
+  <ContextSelectorItem
+    className="organizations_clear"
+    isDisabled={false}
+    key="0"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    Any Organization
+  </ContextSelectorItem>,
+  <ContextSelectorItem
+    className="organization_menuitem"
+    id="select_taxonomy_org1"
+    isDisabled={true}
+    key="1"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    <CheckIcon
+      className="current-taxonomy-v"
+      color="currentColor"
+      noVerticalAlign={false}
+      size="sm"
+    />
+    org1
+  </ContextSelectorItem>,
+]
+`;
+
+exports[`TaxonomyDropdown rendering rendering 1`] = `
+<ContextSelector
+  className="context-selector"
+  footer={
+    <ContextSelectorFooter>
+      <Button
+        className="organization"
+        component="a"
+        href="/organizations"
+        isSmall={true}
+        variant="secondary"
+      >
+        Manage Organizations
+      </Button>
+    </ContextSelectorFooter>
+  }
+  id="organization-dropdown"
+  isOpen={false}
+  menuAppendTo="inline"
+  onSearchButtonClick={[Function]}
+  onSearchInputChange={[Function]}
+  onSelect={[Function]}
+  onToggle={[Function]}
+  ouiaSafe={true}
+  screenReaderLabel="Selected Taxonomy:"
+  searchButtonAriaLabel="Search menu items"
+  searchInputPlaceholder="Search"
+  searchInputValue=""
+  toggleText="org1"
+>
+  <ContextSelectorItem
+    className="organizations_clear"
+    isDisabled={false}
+    key="0"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    Any Organization
+  </ContextSelectorItem>
+  <ContextSelectorItem
+    className="organization_menuitem"
+    id="select_taxonomy_org1"
+    isDisabled={true}
+    key="1"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    <CheckIcon
+      className="current-taxonomy-v"
+      color="currentColor"
+      noVerticalAlign={false}
+      size="sm"
+    />
+    org1
+  </ContextSelectorItem>
+  <ContextSelectorItem
+    className="organization_menuitem"
+    id="select_taxonomy_org2"
+    isDisabled={false}
+    key="2"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    org2
+  </ContextSelectorItem>
+</ContextSelector>
+`;

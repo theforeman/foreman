@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderToolbar rendering render HeaderToolbar 1`] = `
+<PageHeaderTools
+  id="data-toolbar"
+>
+  <PageHeaderToolsGroup
+    className="header-tool-item-hidden-lg"
+  >
+    <TaxonomySwitcher
+      isLoading={false}
+      locations={
+        Array [
+          Object {
+            "href": "/locations/1-yaml/select",
+            "id": 1,
+            "title": "yaml",
+          },
+          Object {
+            "href": "/locations/2-london/select",
+            "id": 2,
+            "title": "london",
+          },
+          Object {
+            "href": "/locations/3-norway/select",
+            "id": 3,
+            "title": "norway",
+          },
+        ]
+      }
+      onLocationClick={[Function]}
+      onOrgClick={[Function]}
+      organizations={
+        Array [
+          Object {
+            "href": "/organizations/1-org1/select",
+            "id": 1,
+            "title": "org1",
+          },
+          Object {
+            "href": "/organizations/2-org2/select",
+            "id": 2,
+            "title": "org2",
+          },
+        ]
+      }
+    />
+  </PageHeaderToolsGroup>
+  <PageHeaderToolsGroup>
+    <PageHeaderToolsItem>
+      <InstanceTitleViewer
+        title="Production"
+      />
+    </PageHeaderToolsItem>
+    <PageHeaderToolsItem
+      className="notifications_container"
+    >
+      <Connect(OnClickOutside(notificationContainer))
+        data={
+          Object {
+            "url": "/notification_recipients",
+          }
+        }
+      />
+    </PageHeaderToolsItem>
+    <PageHeaderToolsItem
+      className="impersonation-item"
+    >
+      <Connect(ImpersonateIcon)
+        stopImpersonationUrl="/users/stop_impersonation"
+      />
+    </PageHeaderToolsItem>
+    <PageHeaderToolsItem
+      className="header-tool-item-hidden-lg user-nav-item"
+    >
+      <UserDropdowns
+        changeActiveMenu={[Function]}
+        className=""
+        instanceTitle=""
+        notificationUrl="/notification_recipients"
+        user={
+          Object {
+            "current_user": Object {
+              "firstname": "Admin",
+              "id": 4,
+              "lastname": "User",
+              "login": "admin",
+              "name": "Admin User",
+            },
+            "impersonated_by": true,
+            "user_dropdown": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "isDivider": false,
+                    "onClick": [MockFunction],
+                    "title": "Aa",
+                  },
+                  Object {
+                    "isDivider": false,
+                    "onClick": [MockFunction],
+                    "title": "Cc",
+                  },
+                ],
+                "icon": "fa fa-user",
+                "name": "User",
+                "type": "sub_menu",
+              },
+            ],
+          }
+        }
+      />
+    </PageHeaderToolsItem>
+  </PageHeaderToolsGroup>
+</PageHeaderTools>
+`;

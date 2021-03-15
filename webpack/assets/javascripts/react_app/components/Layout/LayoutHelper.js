@@ -56,7 +56,7 @@ export const combineMenuItems = data => {
       name: __(item.name),
       children: translatedChildren,
       // Hiding user if not on Mobile view
-      className: item.name === 'User' ? 'visible-xs-block' : '',
+      className: item.name === 'User' ? 'hidden-nav-lg' : '',
     };
     items.push(translatedItem);
   });
@@ -80,9 +80,9 @@ const createOrgItem = orgs => {
   orgs.forEach(org => {
     const childObject = {
       type: org.type,
-      name: isEmpty(org.title) ? org.title : __(org.title),
+      name: org.title,
       onClick: () => {
-        changeOrganization(__(org.title));
+        changeOrganization(org.title);
         window.location.assign(org.href);
       },
     };
@@ -95,7 +95,7 @@ const createOrgItem = orgs => {
     icon: 'fa fa-building',
     children: childrenArray,
     // Hiding Organizations if not on Mobile view
-    className: 'visible-xs-block',
+    className: 'organization-menu hidden-nav-lg',
   };
   return orgItem;
 };
@@ -113,9 +113,9 @@ const createLocationItem = locations => {
   locations.forEach(loc => {
     const childObject = {
       type: loc.type,
-      name: isEmpty(loc.title) ? loc.title : __(loc.title),
+      name: loc.title,
       onClick: () => {
-        changeLocation(__(loc.title));
+        changeLocation(loc.title);
         window.location.assign(loc.href);
       },
     };
@@ -128,7 +128,7 @@ const createLocationItem = locations => {
     icon: 'fa fa-globe',
     children: childrenArray,
     // Hiding Locations if not on Mobile view
-    className: 'visible-xs-block',
+    className: 'location-menu hidden-nav-lg',
   };
   return locItem;
 };
@@ -167,10 +167,28 @@ export const userPropType = PropTypes.shape({
   ),
 });
 
+export const dataPropType = {
+  brand: PropTypes.string,
+  stop_impersonation_url: PropTypes.string.isRequired,
+  instance_title: PropTypes.string,
+  menu: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      icon: PropTypes.string.isRequired,
+      children: PropTypes.any,
+    })
+  ),
+  locations: locationPropType,
+  orgs: organizationPropType,
+  root: PropTypes.string.isRequired,
+  logo: PropTypes.string.isRequired,
+  notification_url: PropTypes.string.isRequired,
+  user: userPropType,
+};
+
 export const layoutPropTypes = {
   children: PropTypes.node,
-  currentOrganization: PropTypes.string,
-  currentLocation: PropTypes.string,
   isLoading: PropTypes.bool,
   isCollapsed: PropTypes.bool,
   activeMenu: PropTypes.string,
@@ -196,29 +214,7 @@ export const layoutPropTypes = {
       ),
     })
   ),
-  data: PropTypes.shape({
-    brand: PropTypes.string,
-    stop_impersonation_url: PropTypes.string.isRequired,
-    instance_title: PropTypes.string,
-    menu: PropTypes.arrayOf(
-      PropTypes.shape({
-        type: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-        children: PropTypes.any,
-      })
-    ),
-    locations: locationPropType,
-    orgs: organizationPropType,
-    root: PropTypes.string.isRequired,
-    logo: PropTypes.string.isRequired,
-    notification_url: PropTypes.string.isRequired,
-    taxonomies: PropTypes.shape({
-      locations: PropTypes.bool.isRequired,
-      organizations: PropTypes.bool.isRequired,
-    }),
-    user: userPropType,
-  }),
+  data: PropTypes.shape(dataPropType),
 };
 
 export const layoutDefaultProps = {

@@ -37,10 +37,10 @@ export default (state = initialState, action) => {
       return state.set('isLoading', false);
 
     case LAYOUT_CHANGE_ORG:
-      return state.set('currentOrganization', payload.organization);
+      return state.set('isLoading', true);
 
     case LAYOUT_CHANGE_LOCATION:
-      return state.set('currentLocation', payload.location);
+      return state.set('isLoading', true);
 
     case LAYOUT_CHANGE_ACTIVE:
       return state.set('activeMenu', payload.activeMenu);

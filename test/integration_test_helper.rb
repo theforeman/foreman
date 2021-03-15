@@ -177,52 +177,90 @@ class ActionDispatch::IntegrationTest
   end
 
   def assert_available_location(location)
-    within('li#location-dropdown ul', visible: :all) do
+    within('#location-dropdown ul', visible: :all) do
       assert page.has_link?(location)
     end
   end
 
   def refute_available_location(location)
-    within('li#location-dropdown ul', visible: :all) do
+    within('#location-dropdown ul', visible: :all) do
       assert page.has_no_link?(location)
     end
   end
 
   def assert_available_organization(organization)
-    within('li#organization-dropdown ul', visible: :all) do
+    within('#organization-dropdown ul', visible: :all) do
       assert page.has_link?(organization)
     end
   end
 
   def refute_available_organization(organization)
-    within('li#location-dropdown ul', visible: :all) do
-      assert page.has_no_link?(organization)
+    # value of $header-max-width is 1062px
+    if (Capybara.current_session.current_window.size[0] <= 1062)
+      refute_available_organization_menu(organization)
+    else
+      refute_available_organization_dropdown(organization)
+    end
+  end
+
+  def refute_available_organization_menu(organization)
+    within('.location-menu') do
+      first('a:first-of-type').hover
+      within('.location-menu>div>ul', visible: :all) do
+        assert page.has_no_link?(organization)
+      end
+    end
+  end
+
+  def refute_available_organization_dropdown(organization)
+    within('#location-dropdown') do
+      find('.pf-c-context-selector__toggle').click
+      within('.pf-c-context-selector__menu>div>ul', visible: :all) do
+        assert page.has_no_link?(organization)
+      end
+      find('.pf-c-context-selector__toggle').click
     end
   end
 
   def assert_current_organization(organization)
-    within('li#organization-dropdown > a') do
+    within('#organization-dropdown > a') do
       assert page.has_content?(organization)
     end
   end
 
   def assert_current_location(location)
-    within('li#location-dropdown > a') do
+    within('#location-dropdown > a') do
       assert page.has_content?(location)
     end
   end
 
   def select_organization(organization)
-    within('li#organization-dropdown') do
-      find('a.dropdown-toggle').click
-      find("a.organization_menuitem", text: organization).click
+    # value of $header-max-width is 1062px
+    if (Capybara.current_session.current_window.size[0] <= 1062)
+      select_organization_menu(organization)
+    else
+      select_organization_dropdown(organization)
     end
   end
 
-  def select_location(location)
-    within('li#location-dropdown') do
-      find('a.dropdown-toggle').click
-      find("a.organization_menuitem", text: location).click
+  def select_organization_dropdown(organization)
+    within('#organization-dropdown') do
+      find('.pf-c-context-selector__toggle').click
+      find("button.organization_menuitem", text: organization).click
+    end
+  end
+
+  def select_organization_menu(organization)
+    within('.organization-menu') do
+      first('a:first-of-type').hover
+      find("span.list-group-item-value", text: organization).click
+    end
+  end
+
+  def select_location_dropdown(location)
+    within('#location-dropdown') do
+      find('.pf-c-context-selector__toggle').click
+      find("button.location_menuitem", text: location).click
     end
   end
 

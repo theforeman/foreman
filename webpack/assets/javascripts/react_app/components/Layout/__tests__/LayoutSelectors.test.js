@@ -14,8 +14,8 @@ const state = {
   layout: {
     items: layoutMock.data.menu,
     activeMenu: 'Hosts',
-    currentOrganization: { title: 'org1' },
-    currentLocation: { title: 'loc1' },
+    currentOrganization: 'org1',
+    currentLocation: 'loc1',
     isLoading: true,
     isCollapsed: false,
   },
@@ -31,8 +31,8 @@ const namelessState = {
   layout: {
     items: hashItemNameless,
     activeMenu: 'Empty',
-    currentOrganization: { title: 'org1' },
-    currentLocation: { title: 'loc1' },
+    currentOrganization: 'org1',
+    currentLocation: 'loc1',
     isLoading: true,
     isCollapsed: false,
   },
