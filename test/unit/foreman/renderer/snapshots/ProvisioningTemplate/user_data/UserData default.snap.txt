@@ -59,10 +59,7 @@ runcmd:
   [agent]
   pluginsync      = true
   report          = true
-  ca_server       = 
   certname        = snapshothost
-  environment     = 
-  server          = 
   
   EOF
   

@@ -81,6 +81,51 @@ class HostTemplateTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#host_puppet_server' do
+    test 'should render puppet_server' do
+      host = stub(puppet_server: 'myserver.example.com')
+      @scope.instance_variable_set('@host', host)
+      assert_equal @scope.host_puppet_server, 'myserver.example.com'
+    end
+
+    test 'should render puppet_server parameter when puppet_server not defined' do
+      host = stub()
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_server').returns('myserver.example.com')
+      assert_equal @scope.host_puppet_server, 'myserver.example.com'
+    end
+  end
+
+  describe '#host_puppet_ca_server' do
+    test 'should render puppet_ca_server' do
+      host = stub(puppet_ca_server: 'myserver.example.com')
+      @scope.instance_variable_set('@host', host)
+      assert_equal @scope.host_puppet_ca_server, 'myserver.example.com'
+    end
+
+    test 'should render puppet_ca_server parameter when puppet_ca_server not defined' do
+      host = stub()
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_ca_server').returns('myserver.example.com')
+      assert_equal @scope.host_puppet_ca_server, 'myserver.example.com'
+    end
+  end
+
+  describe '#host_puppet_environment' do
+    test 'should render environment' do
+      host = stub(environment: 'production')
+      @scope.instance_variable_set('@host', host)
+      assert_equal @scope.host_puppet_environment, 'production'
+    end
+
+    test 'should render puppet_environment parameter when environment not defined' do
+      host = stub()
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_environment').returns('production')
+      assert_equal @scope.host_puppet_environment, 'production'
+    end
+  end
+
   describe '#host_puppet_classes' do
     test 'should render puppetclasses using host_puppetclasses helper' do
       host = FactoryBot.build(:host, :with_puppetclass)

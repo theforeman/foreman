@@ -9,9 +9,8 @@ oses:
   os_major = @host.operatingsystem.major.to_i
   os_minor = @host.operatingsystem.minor.to_i
   # safemode renderer does not support unary negation
-  pm_set = @host.puppetmaster.empty? ? false : true
   aio_enabled = host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppet5')
-  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  puppet_enabled = host_puppet_server.present? || host_param_true?('force-puppet')
   salt_enabled = host_param('salt_master') ? true : false
   sles_minor_string = (os_minor == 0) ? '' : "_SP#{os_minor}"
   spacewalk_enabled = host_param('spacewalk_host') ? true : false

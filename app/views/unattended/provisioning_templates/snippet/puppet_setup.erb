@@ -56,10 +56,10 @@ $puppet_install_args = @(
   '/norestart',
   '/i',
   "${puppet_agent_msi}",
-  <%- if @host.puppet_ca_server.strip -%>
-  "PUPPET_CA_SERVER=<%= @host.puppet_ca_server %>",
+  <%- if host_puppet_ca_server.present? -%>
+  "PUPPET_CA_SERVER=<%= host_puppet_ca_server %>",
   <%- end -%>
-  "PUPPET_MASTER_SERVER=<%= @host.puppetmaster %>"
+  "PUPPET_MASTER_SERVER=<%= host_puppet_server %>"
 )
 
 Write-Host "Installing ${puppet_agent_msi} with args ${puppet_install_args}"
@@ -108,7 +108,7 @@ fi
 <% elsif os_family == 'Suse' -%>
 if [ -f "/etc/sysconfig/puppet" ]
 then
-/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= @host.puppetmaster.blank? ? '' : @host.puppetmaster %>/ /etc/sysconfig/puppet
+/usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= host_puppet_server %>/ /etc/sysconfig/puppet
 fi
 <% end -%>
 <% end -%>
@@ -143,14 +143,14 @@ $puppet_agent_args = @(
   "--config", "<%= etc_path %>\puppet.conf",
   "--onetime",
   <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : '"--tags no_such_tag",' %>
-  <%= @host.puppetmaster.blank? ? '' : "\"--server #{@host.puppetmaster}\"," %>
+  <%= host_puppet_server.blank? ? '' : "\"--server #{host_puppet_server}\"," %>
   "--no-daemonize"
 )
 Start-Process '<%= bin_path %>\puppet' -ArgumentList $puppet_agent_args -Wait -NoNewWindow
 <% else -%>
 export FACTER_is_installer=true
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
-<%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : '--tags no_such_tag' %> <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : '--tags no_such_tag' %> <%= host_puppet_server.blank? ? '' : "--server #{host_puppet_server}" %> --no-daemonize
 <% if os_family == 'Suse' || (os_name == 'Debian' && os_major > 8) || (os_name == 'Ubuntu' && os_major >= 15) -%>
 <%= bin_path %>/puppet resource service puppet enable=true
 <% end -%>

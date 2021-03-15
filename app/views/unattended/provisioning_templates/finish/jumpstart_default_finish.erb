@@ -52,7 +52,8 @@ then
     rm -f /etc/opt/csw/puppet/puppetd.conf
     ln -s /etc/puppet/puppet.conf /etc/opt/csw/puppet/puppetd.conf
 fi
-/opt/csw/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
+/opt/csw/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= host_puppet_server %> --no-daemonize
+
 echo "Informing Foreman that we are built"
 /opt/csw/bin/wget --no-check-certificate -O /dev/null <%= foreman_url('built') %>
 

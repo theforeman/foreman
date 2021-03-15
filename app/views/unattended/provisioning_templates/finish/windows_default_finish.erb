@@ -27,8 +27,7 @@ params:
 %>
 <%
   # safemode renderer does not support unary negation
-  pm_set = @host.puppetmaster.empty? ? false : true
-  puppet_enabled = pm_set || host_param('force-puppet') && host_param('force-puppet') == 'true'
+  puppet_enabled = host_puppet_server.present? || host_param_true?('force-puppet')
   salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 %>
@@ -102,7 +101,7 @@ params:
 
   <% if puppet_enabled %>
     echo Installing puppet
-    start /w "" msiexec /qn /i C:\extras\puppet.msi PUPPET_AGENT_STARTUP_MODE=Manual PUPPET_MASTER_SERVER=<%= @host.puppetmaster -%> PUPPET_AGENT_ACCOUNT_DOMAIN=<%= @host.domain -%> PUPPET_AGENT_ACCOUNT_USER=administrator PUPPET_AGENT_ACCOUNT_PASSWORD="<%= host_param('domainAdminAccountPasswd') -%>"
+    start /w "" msiexec /qn /i C:\extras\puppet.msi PUPPET_AGENT_STARTUP_MODE=Manual PUPPET_MASTER_SERVER=<%= host_puppet_server -%> PUPPET_AGENT_ACCOUNT_DOMAIN=<%= @host.domain -%> PUPPET_AGENT_ACCOUNT_USER=administrator PUPPET_AGENT_ACCOUNT_PASSWORD="<%= host_param('domainAdminAccountPasswd') -%>"
     echo set puppet to auto start
     sc config puppet start= auto
     sc query puppet

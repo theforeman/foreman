@@ -60,6 +60,9 @@ module Foreman
         :match,
         :host_param_true?, :host_param_false?,
         :host_param, :host_param!,
+        :host_puppet_server,
+        :host_puppet_ca_server,
+        :host_puppet_environment,
         :host_puppet_classes,
         :host_enc
       ]
