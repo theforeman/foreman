@@ -13,7 +13,7 @@
   <%= react_component('ClipboardCopy', { text: "curl #{@host.registration_url} | bash",
                                          textareaProps: { readOnly: true, rows: '1', className: 'host-init-conf-textarea'}})
   %>
-  <%= _('Host template') %>: <%= link_to(@host.initial_configuration_template, edit_provisioning_template_path(@hosthost.initial_configuration_template))%>
+  <%= _('Host template') %>: <%= link_to(@host.initial_configuration_template, edit_provisioning_template_path(@host.initial_configuration_template))%>
 </div>
 <% else %>
   <p><%= _('This host can not be configured as no registration template was set.') %></p>
