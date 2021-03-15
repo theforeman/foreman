@@ -15,14 +15,8 @@ Object {
   "state": Object {
     "layout": Object {
       "activeMenu": "Hosts",
-      "currentLocation": Object {
-        "id": 1,
-        "title": "yaml",
-      },
-      "currentOrganization": Object {
-        "id": 2,
-        "title": "org2",
-      },
+      "currentLocation": "london",
+      "currentOrganization": "org1",
       "isCollapsed": false,
       "isLoading": false,
       "items": Array [
@@ -52,11 +46,6 @@ Object {
               "type": "item",
               "url": "/hosts/new",
             },
-            Object {
-              "name": "Architectures",
-              "type": "item",
-              "url": "/architectures",
-            },
           ],
           "className": "",
           "icon": "fa fa-server",
@@ -66,37 +55,18 @@ Object {
         Object {
           "children": Array [
             Object {
-              "name": "Environments",
+              "name": undefined,
               "type": "item",
-              "url": "/environments",
+              "url": "/nameless",
             },
             Object {
-              "name": "Architectures",
-              "type": "item",
-              "url": "/architectures",
-            },
-          ],
-          "className": "visible-xs-block",
-          "icon": "fa fa-wrench",
-          "name": "User",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Domains",
-              "type": "item",
-              "url": "/domains",
-            },
-            Object {
-              "name": "Realms",
-              "type": "item",
-              "url": "/realms",
+              "name": undefined,
+              "type": "divider",
             },
           ],
           "className": "",
-          "icon": "pficon pficon-network",
-          "name": "Infrastructure",
+          "icon": "pficon pficon-unplugged",
+          "name": "Empty",
           "type": "sub_menu",
         },
         Object {
@@ -116,7 +86,7 @@ Object {
               "type": undefined,
             },
           ],
-          "className": "visible-xs-block",
+          "className": "organization-menu hidden-nav-lg",
           "icon": "fa fa-building",
           "name": "Organizations",
           "type": "sub_menu",
@@ -143,321 +113,7 @@ Object {
               "type": undefined,
             },
           ],
-          "className": "visible-xs-block",
-          "icon": "fa fa-globe",
-          "name": "Locations",
-          "type": "sub_menu",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`Layout integration test should flow: Location "yaml" clicked 1`] = `
-Object {
-  "action": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "location": Object {
-            "id": 1,
-            "title": "yaml",
-          },
-        },
-        "type": "LAYOUT_CHANGE_LOCATION",
-      },
-    ],
-  ],
-  "state": Object {
-    "layout": Object {
-      "activeMenu": "Monitor",
-      "currentLocation": Object {
-        "id": 1,
-        "title": "yaml",
-      },
-      "currentOrganization": Object {
-        "id": 1,
-        "title": "org1",
-      },
-      "isCollapsed": false,
-      "isLoading": false,
-      "items": Array [
-        Object {
-          "children": Array [
-            Object {
-              "exact": true,
-              "name": "Dashboard",
-              "type": "item",
-              "url": "/",
-            },
-            Object {
-              "name": "Facts",
-              "type": "item",
-              "url": "/fact_values",
-            },
-          ],
-          "className": "",
-          "icon": "fa fa-tachometer",
-          "name": "Monitor",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "All Hosts",
-              "type": "item",
-              "url": "/hosts/new",
-            },
-            Object {
-              "name": "Architectures",
-              "type": "item",
-              "url": "/architectures",
-            },
-          ],
-          "className": "",
-          "icon": "fa fa-server",
-          "name": "Hosts",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Environments",
-              "type": "item",
-              "url": "/environments",
-            },
-            Object {
-              "name": "Architectures",
-              "type": "item",
-              "url": "/architectures",
-            },
-          ],
-          "className": "visible-xs-block",
-          "icon": "fa fa-wrench",
-          "name": "User",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Domains",
-              "type": "item",
-              "url": "/domains",
-            },
-            Object {
-              "name": "Realms",
-              "type": "item",
-              "url": "/realms",
-            },
-          ],
-          "className": "",
-          "icon": "pficon pficon-network",
-          "name": "Infrastructure",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Any Organization",
-              "onClick": [Function],
-            },
-            Object {
-              "name": "org1",
-              "onClick": [Function],
-              "type": undefined,
-            },
-            Object {
-              "name": "org2",
-              "onClick": [Function],
-              "type": undefined,
-            },
-          ],
-          "className": "visible-xs-block",
-          "icon": "fa fa-building",
-          "name": "Organizations",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Any Location",
-              "onClick": [Function],
-            },
-            Object {
-              "name": "yaml",
-              "onClick": [Function],
-              "type": undefined,
-            },
-            Object {
-              "name": "london",
-              "onClick": [Function],
-              "type": undefined,
-            },
-            Object {
-              "name": "norway",
-              "onClick": [Function],
-              "type": undefined,
-            },
-          ],
-          "className": "visible-xs-block",
-          "icon": "fa fa-globe",
-          "name": "Locations",
-          "type": "sub_menu",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`Layout integration test should flow: Org "org2" clicked 1`] = `
-Object {
-  "action": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "organization": Object {
-            "id": 2,
-            "title": "org2",
-          },
-        },
-        "type": "LAYOUT_CHANGE_ORG",
-      },
-    ],
-  ],
-  "state": Object {
-    "layout": Object {
-      "activeMenu": "Monitor",
-      "currentLocation": Object {
-        "id": 1,
-        "title": "yaml",
-      },
-      "currentOrganization": Object {
-        "id": 2,
-        "title": "org2",
-      },
-      "isCollapsed": false,
-      "isLoading": false,
-      "items": Array [
-        Object {
-          "children": Array [
-            Object {
-              "exact": true,
-              "name": "Dashboard",
-              "type": "item",
-              "url": "/",
-            },
-            Object {
-              "name": "Facts",
-              "type": "item",
-              "url": "/fact_values",
-            },
-          ],
-          "className": "",
-          "icon": "fa fa-tachometer",
-          "name": "Monitor",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "All Hosts",
-              "type": "item",
-              "url": "/hosts/new",
-            },
-            Object {
-              "name": "Architectures",
-              "type": "item",
-              "url": "/architectures",
-            },
-          ],
-          "className": "",
-          "icon": "fa fa-server",
-          "name": "Hosts",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Environments",
-              "type": "item",
-              "url": "/environments",
-            },
-            Object {
-              "name": "Architectures",
-              "type": "item",
-              "url": "/architectures",
-            },
-          ],
-          "className": "visible-xs-block",
-          "icon": "fa fa-wrench",
-          "name": "User",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Domains",
-              "type": "item",
-              "url": "/domains",
-            },
-            Object {
-              "name": "Realms",
-              "type": "item",
-              "url": "/realms",
-            },
-          ],
-          "className": "",
-          "icon": "pficon pficon-network",
-          "name": "Infrastructure",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Any Organization",
-              "onClick": [Function],
-            },
-            Object {
-              "name": "org1",
-              "onClick": [Function],
-              "type": undefined,
-            },
-            Object {
-              "name": "org2",
-              "onClick": [Function],
-              "type": undefined,
-            },
-          ],
-          "className": "visible-xs-block",
-          "icon": "fa fa-building",
-          "name": "Organizations",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Any Location",
-              "onClick": [Function],
-            },
-            Object {
-              "name": "yaml",
-              "onClick": [Function],
-              "type": undefined,
-            },
-            Object {
-              "name": "london",
-              "onClick": [Function],
-              "type": undefined,
-            },
-            Object {
-              "name": "norway",
-              "onClick": [Function],
-              "type": undefined,
-            },
-          ],
-          "className": "visible-xs-block",
+          "className": "location-menu hidden-nav-lg",
           "icon": "fa fa-globe",
           "name": "Locations",
           "type": "sub_menu",
@@ -472,14 +128,8 @@ exports[`Layout integration test should flow: initial state 1`] = `
 Object {
   "layout": Object {
     "activeMenu": "Monitor",
-    "currentLocation": Object {
-      "id": 2,
-      "title": "london",
-    },
-    "currentOrganization": Object {
-      "id": 1,
-      "title": "org1",
-    },
+    "currentLocation": "london",
+    "currentOrganization": "org1",
     "isCollapsed": false,
     "isLoading": false,
     "items": Array [
@@ -509,11 +159,6 @@ Object {
             "type": "item",
             "url": "/hosts/new",
           },
-          Object {
-            "name": "Architectures",
-            "type": "item",
-            "url": "/architectures",
-          },
         ],
         "className": "",
         "icon": "fa fa-server",
@@ -523,37 +168,18 @@ Object {
       Object {
         "children": Array [
           Object {
-            "name": "Environments",
+            "name": undefined,
             "type": "item",
-            "url": "/environments",
+            "url": "/nameless",
           },
           Object {
-            "name": "Architectures",
-            "type": "item",
-            "url": "/architectures",
-          },
-        ],
-        "className": "visible-xs-block",
-        "icon": "fa fa-wrench",
-        "name": "User",
-        "type": "sub_menu",
-      },
-      Object {
-        "children": Array [
-          Object {
-            "name": "Domains",
-            "type": "item",
-            "url": "/domains",
-          },
-          Object {
-            "name": "Realms",
-            "type": "item",
-            "url": "/realms",
+            "name": undefined,
+            "type": "divider",
           },
         ],
         "className": "",
-        "icon": "pficon pficon-network",
-        "name": "Infrastructure",
+        "icon": "pficon pficon-unplugged",
+        "name": "Empty",
         "type": "sub_menu",
       },
       Object {
@@ -573,7 +199,7 @@ Object {
             "type": undefined,
           },
         ],
-        "className": "visible-xs-block",
+        "className": "organization-menu hidden-nav-lg",
         "icon": "fa fa-building",
         "name": "Organizations",
         "type": "sub_menu",
@@ -600,7 +226,7 @@ Object {
             "type": undefined,
           },
         ],
-        "className": "visible-xs-block",
+        "className": "location-menu hidden-nav-lg",
         "icon": "fa fa-globe",
         "name": "Locations",
         "type": "sub_menu",

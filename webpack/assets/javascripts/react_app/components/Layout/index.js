@@ -14,54 +14,42 @@ import reducer from './LayoutReducer';
 import {
   patternflyMenuItemsSelector,
   selectActiveMenu,
-  selectCurrentOrganization,
-  selectCurrentLocation,
   selectIsLoading,
   selectIsCollapsed,
 } from './LayoutSelectors';
-import {
-  createInitialTaxonomy,
-  combineMenuItems,
-  getActiveMenuItem,
-} from './LayoutHelper';
+import { combineMenuItems, getActiveMenuItem } from './LayoutHelper';
 import { getIsNavbarCollapsed } from './LayoutSessionStorage';
+import {
+  useForemanOrganization,
+  useForemanLocation,
+} from '../../Root/Context/ForemanContext';
 
 import Layout from './Layout';
 
 const ConnectedLayout = ({ children, data }) => {
   const dispatch = useDispatch();
 
+  const currentLocation = useForemanLocation()?.title;
+  const currentOrganization = useForemanOrganization()?.title;
   useEffect(() => {
     dispatch(
       initializeLayout({
         items: combineMenuItems(data),
         activeMenu: getActiveMenuItem(data.menu).title,
         isCollapsed: getIsNavbarCollapsed(),
-        organization:
-          data.orgs.current_org &&
-          createInitialTaxonomy(
-            data.orgs.current_org,
-            data.orgs.available_organizations
-          ),
-        location:
-          data.locations.current_location &&
-          createInitialTaxonomy(
-            data.locations.current_location,
-            data.locations.available_locations
-          ),
+        organization: data.orgs.current_org,
+        location: data.locations.current_location,
       })
     );
   }, [data, dispatch]);
 
   const { push: navigate } = useHistory();
-  const items = useSelector(state => patternflyMenuItemsSelector(state));
+  const items = useSelector(state =>
+    patternflyMenuItemsSelector(state, currentLocation, currentOrganization)
+  );
   const isLoading = useSelector(state => selectIsLoading(state));
   const isCollapsed = useSelector(state => selectIsCollapsed(state));
   const activeMenu = useSelector(state => selectActiveMenu(state));
-  const currentOrganization = useSelector(state =>
-    selectCurrentOrganization(state)
-  );
-  const currentLocation = useSelector(state => selectCurrentLocation(state));
 
   return (
     <Layout
@@ -71,8 +59,6 @@ const ConnectedLayout = ({ children, data }) => {
       isLoading={isLoading}
       isCollapsed={isCollapsed}
       activeMenu={activeMenu}
-      currentOrganization={currentOrganization}
-      currentLocation={currentLocation}
       changeActiveMenu={menu => dispatch(changeActiveMenu(menu))}
       changeOrganization={org => dispatch(changeOrganization(org))}
       changeLocation={loc => dispatch(changeLocation(loc))}

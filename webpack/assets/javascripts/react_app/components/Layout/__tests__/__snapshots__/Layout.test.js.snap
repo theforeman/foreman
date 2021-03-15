@@ -28,13 +28,6 @@ exports[`Layout rendering renders layout 1`] = `
           "subItems": undefined,
           "title": "Hosts",
         },
-        Object {
-          "href": "/c",
-          "iconClass": "fa fa-wrench",
-          "initialActive": false,
-          "subItems": undefined,
-          "title": "Configure",
-        },
       ]
     }
     masthead={null}
@@ -53,89 +46,148 @@ exports[`Layout rendering renders layout 1`] = `
     showBadges={false}
   >
     <VerticalNav.Masthead>
-      <VerticalNav.Brand
-        href="/"
-        iconImg="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
-        img=""
-        onClick={null}
-        title=""
-        titleImg=""
-      />
-      <TaxonomySwitcher
-        isLoading={false}
-        locations={
-          Array [
+      <header
+        className="pf-c-page__header pf-c-page"
+        id="navbar-header"
+      >
+        <VerticalNav.Brand
+          href="/"
+          iconImg="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
+          img=""
+          onClick={null}
+          title=""
+          titleImg=""
+        />
+        <HeaderToolbar
+          changeActiveMenu={[Function]}
+          changeLocation={[Function]}
+          changeOrganization={[Function]}
+          instance_title="Production"
+          isLoading={false}
+          locations={
             Object {
-              "href": "/locations/1-yaml/select",
-              "id": 1,
-              "title": "yaml",
-            },
-            Object {
-              "href": "/locations/2-london/select",
-              "id": 2,
-              "title": "london",
-            },
-            Object {
-              "href": "/locations/3-norway/select",
-              "id": 3,
-              "title": "norway",
-            },
-          ]
-        }
-        onLocationClick={[Function]}
-        onOrgClick={[Function]}
-        organizations={
-          Array [
-            Object {
-              "href": "/organizations/1-org1/select",
-              "id": 1,
-              "title": "org1",
-            },
-            Object {
-              "href": "/organizations/2-org2/select",
-              "id": 2,
-              "title": "org2",
-            },
-          ]
-        }
-      />
-      <UserDropdowns
-        changeActiveMenu={[Function]}
-        className=""
-        instanceTitle="Production"
-        notificationUrl="/notification_recipients"
-        stopImpersonationUrl="/users/stop_impersonation"
-        user={
-          Object {
-            "current_user": Object {
-              "firstname": "Admin",
-              "id": 4,
-              "lastname": "User",
-              "login": "admin",
-              "name": "Admin User",
-            },
-            "user_dropdown": Array [
+              "available_locations": Array [
+                Object {
+                  "href": "/locations/1-yaml/select",
+                  "id": 1,
+                  "title": "yaml",
+                },
+                Object {
+                  "href": "/locations/2-london/select",
+                  "id": 2,
+                  "title": "london",
+                },
+                Object {
+                  "href": "/locations/3-norway/select",
+                  "id": 3,
+                  "title": "norway",
+                },
+              ],
+              "current_location": "london",
+            }
+          }
+          logo="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
+          menu={
+            Array [
               Object {
                 "children": Array [
                   Object {
-                    "isDivider": false,
-                    "onClick": [MockFunction],
-                    "title": "Aa",
+                    "exact": true,
+                    "name": "Dashboard",
+                    "type": "item",
+                    "url": "/",
                   },
                   Object {
-                    "isDivider": false,
-                    "onClick": [MockFunction],
-                    "title": "Cc",
+                    "name": "Facts",
+                    "type": "item",
+                    "url": "/fact_values",
                   },
                 ],
-                "icon": "fa fa-user",
-                "name": "User",
+                "icon": "fa fa-tachometer",
+                "name": "Monitor",
                 "type": "sub_menu",
               },
-            ],
+              Object {
+                "children": Array [
+                  Object {
+                    "name": "All Hosts",
+                    "type": "item",
+                    "url": "/hosts/new",
+                  },
+                ],
+                "icon": "fa fa-server",
+                "name": "Hosts",
+                "type": "sub_menu",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "item",
+                    "url": "/nameless",
+                  },
+                  Object {
+                    "type": "divider",
+                  },
+                ],
+                "icon": "pficon pficon-unplugged",
+                "name": "Empty",
+                "type": "sub_menu",
+              },
+            ]
           }
-        }
-      />
+          notification_url="/notification_recipients"
+          orgs={
+            Object {
+              "available_organizations": Array [
+                Object {
+                  "href": "/organizations/1-org1/select",
+                  "id": 1,
+                  "title": "org1",
+                },
+                Object {
+                  "href": "/organizations/2-org2/select",
+                  "id": 2,
+                  "title": "org2",
+                },
+              ],
+              "current_org": "org1",
+            }
+          }
+          root="/"
+          stop_impersonation_url="/users/stop_impersonation"
+          user={
+            Object {
+              "current_user": Object {
+                "firstname": "Admin",
+                "id": 4,
+                "lastname": "User",
+                "login": "admin",
+                "name": "Admin User",
+              },
+              "impersonated_by": true,
+              "user_dropdown": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "isDivider": false,
+                      "onClick": [MockFunction],
+                      "title": "Aa",
+                    },
+                    Object {
+                      "isDivider": false,
+                      "onClick": [MockFunction],
+                      "title": "Cc",
+                    },
+                  ],
+                  "icon": "fa fa-user",
+                  "name": "User",
+                  "type": "sub_menu",
+                },
+              ],
+            }
+          }
+        />
+      </header>
     </VerticalNav.Masthead>
   </VerticalNav>
   <LayoutContainer

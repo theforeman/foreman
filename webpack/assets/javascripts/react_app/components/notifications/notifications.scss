@@ -1,8 +1,10 @@
 @import '../../common/colors.scss';
 
-#notifications_container {
+.notifications_container {
   position: static;
   margin-top: -1px;
+  color: var(--pf-global--palette--black-1000);
+  top: 48px;
 
   .fa-bell,
   .fa-bell-o {
@@ -33,6 +35,7 @@ Added flexbox functionality to resize the drawer if the window gets resized.
   */
 
   .drawer-pf {
+    top: 47px;
     max-height: calc(100vh - 58px - 20px);
     overflow: hidden;
     display: flex;

@@ -1,0 +1,19 @@
+@import '~@theforeman/vendor/scss/variables';
+
+.pf-c-page__header-tools-group {
+  .pf-c-context-selector__menu-search {
+    border-bottom: 0;
+  }
+  .current-taxonomy-v {
+    margin-right: 2px;
+  }
+  .organizations_clear,
+  .locations_clear {
+    border-bottom: var(--pf-c-context-selector__menu-search--BorderBottomWidth)
+      solid var(--pf-c-context-selector__menu-search--BorderBottomColor);
+  }
+  .pf-c-context-selector__menu-footer > a{
+    // to override secondry button text color being white if the button is in a menu
+    color: $pf-color-blue-400
+  }
+}

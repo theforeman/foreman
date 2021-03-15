@@ -1,0 +1,34 @@
+@import '../../../../common/variables.scss';
+
+#data-toolbar {
+  grid-column: 2 / 3;
+  margin-left: 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  .pf-c-page__header-tools-item {
+    margin-left: 10px;
+  }
+
+  .pf-c-spinner {
+    margin-left: 10px;
+  }
+  @media (max-width: $header-max-width) {
+    justify-content: flex-end;
+
+    .header-tool-item-hidden-lg {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-pf-vertical {
+    display: flex;
+
+    .pf-c-page__header {
+      grid-template-columns: 1fr 3fr;
+    }
+  }
+}

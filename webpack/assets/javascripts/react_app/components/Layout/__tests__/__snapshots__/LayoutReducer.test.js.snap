@@ -12,9 +12,8 @@ Object {
 exports[`Layout reducer should handle LAYOUT_CHANGE_LOCATION 1`] = `
 Object {
   "activeMenu": "initialActive",
-  "currentLocation": "yaml",
   "isCollapsed": false,
-  "isLoading": false,
+  "isLoading": true,
   "items": Array [],
 }
 `;
@@ -22,9 +21,8 @@ Object {
 exports[`Layout reducer should handle LAYOUT_CHANGE_ORG 1`] = `
 Object {
   "activeMenu": "initialActive",
-  "currentOrganization": "org1",
   "isCollapsed": false,
-  "isLoading": false,
+  "isLoading": true,
   "items": Array [],
 }
 `;

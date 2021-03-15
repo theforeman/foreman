@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { OverlayTrigger, Tooltip, Icon, MessageDialog } from 'patternfly-react';
+import { EyeIcon } from '@patternfly/react-icons';
+import { OverlayTrigger, Tooltip, MessageDialog } from 'patternfly-react';
 import { translate as __ } from '../../../../common/I18n';
 
 import './ImpersonateIcon.scss';
@@ -25,11 +26,9 @@ const ImpersonateIcon = props => {
         trigger={['hover', 'focus']}
         rootClose={false}
       >
-        <li className="drawer-pf-trigger masthead-icon">
-          <span className="nav-item-iconic" onClick={toggleModal}>
-            <Icon name="eye avatar small" className="blink-image" />
-          </span>
-        </li>
+        <span className="nav-item-iconic" onClick={toggleModal}>
+          <EyeIcon className="blink-image" />
+        </span>
       </OverlayTrigger>
       <MessageDialog
         show={showModal}

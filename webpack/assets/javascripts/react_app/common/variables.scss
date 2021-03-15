@@ -1,0 +1,3 @@
+@import '~@theforeman/vendor/scss/variables';
+
+$header-max-width: calc(#{$pf-global--breakpoint--lg} + 70px); //TODO move into @theforeman/vendor/scss/variables

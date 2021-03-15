@@ -52,25 +52,6 @@ a {
   }
 }
 
-/*
-  PF3-VerticalNavigation overrides
- */
-.navbar-pf-vertical {
-  ul.navbar-iconic {
-    .nav-item-iconic {
-      font-size: 15px;
-
-      &#account_menu {
-        font-size: 12px;
-      }
-    }
-
-    .notification-dropdown > div {
-      line-height: 18px;
-    }
-  }
-}
-
 .nav-pf-vertical {
   .secondary-nav-item-pf {
     span.list-group-item-value {

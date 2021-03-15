@@ -5,17 +5,8 @@
     font-size: 13px;
   }
 
-  .nav > li > a {
-    font-size: 14px;
-  }
-
-  #account_menu {
-    font-size: 11px;
-    padding-top: 10px;
-
-    .user-icon {
-      margin-right: 10px;
-    }
+  .user-icon {
+    margin-right: 10px;
   }
 
   .active > a,
@@ -28,22 +19,14 @@
       );
   }
 
-  .org-switcher > a {
+  .nav > li > a {
     font-size: 14px;
-    //border-right: solid 1px $border_color;
-    .caret {
-      margin-left: 10px;
-    }
-  }
-
-  .dropdown .caret {
-    margin-left: 4px;
   }
 }
 
-.navbar-brand {
+.navbar-pf-vertical .navbar-brand {
   display: flex;
-  padding: 0;
+  padding-right: 15px;
   height: inherit;
 
   span {
@@ -56,18 +39,8 @@
       text-transform: uppercase;
       font-weight: bold;
       font-size: 20px;
-      font-family: "Open Sans", Helvetica, Arial, sans-serif;
+      font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     }
-  }
-}
-
-.notification-dropdown {
-  padding: 20px 12px !important;
-}
-
-.org-switcher {
-  @media (max-width: 767px) {
-    display: none !important;
   }
 }
 
@@ -77,12 +50,21 @@
   background-size: cover;
   width: 100%;
   height: 60px;
-}
 
-.navbar-left {
-  padding-left: 15px;
-}
+  .pf-c-toolbar__item {
+    .pf-c-context-selector__menu {
+      top: auto;
+    }
 
-.drawer-pf-trigger {
-  padding-top: 15px;
+    .pf-c-context-selector {
+      &.pf-m-expanded,
+      &:hover {
+        background: rgba(255, 255, 255, 0.24);
+      }
+    }
+
+    .pf-c-context-selector__toggle::before {
+      border-width: 0;
+    }
+  }
 }

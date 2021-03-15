@@ -118,7 +118,6 @@ a {
   }
 }
 
-.navbar-brand,
 .navbar-brand-icon {
   width: 44px;
   height: 34px;
@@ -331,10 +330,6 @@ a.btn-info span {
   }
 }
 
-.org-switcher > .dropdown-menu {
-  max-height: 24vh;
-  overflow-y: auto;
-}
 // Color origin: pf-orange-400
 .pficon-ok.warn::before {
   color: #ec7a08;
@@ -374,12 +369,6 @@ a.btn-info span {
 
 #history a .glyphicon {
   color: #4d5258;
-}
-
-.navbar-pf-vertical {
-  .drawer-pf {
-    height: auto;
-  }
 }
 
 span.btn-action a {

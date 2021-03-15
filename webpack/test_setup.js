@@ -4,6 +4,8 @@ jest.mock('./assets/javascripts/react_app/Root/Context/ForemanContext', () => ({
   useForemanSettings: () => ({ perPage: 5 }),
   useForemanDocUrl: () => '/url',
   usePaginationOptions: () => [5, 10, 20, 50],
+  useForemanLocation: () => ({ title: 'location' }),
+  useForemanOrganization: () => ({ title: 'organization' }),
 }));
 jest.mock('./assets/javascripts/react_app/common/I18n');
 jest.mock('./assets/javascripts/foreman_tools', () => ({

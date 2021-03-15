@@ -1,12 +1,10 @@
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
 import TaxonomySwitcher from './TaxonomySwitcher';
-import { layoutMock } from '../Layout.fixtures';
+import { layoutMock } from '../../Layout.fixtures';
 
 const props = {
   organizations: layoutMock.data.orgs.available_organizations,
   locations: layoutMock.data.locations.available_locations,
-  currentLocation: 'location',
-  currentOrganization: 'organization',
   isLoading: true,
 };
 

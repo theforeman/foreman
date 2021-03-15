@@ -14,12 +14,8 @@ Array [
 exports[`Layout selectors should return Layout 1`] = `
 Object {
   "activeMenu": "Hosts",
-  "currentLocation": Object {
-    "title": "loc1",
-  },
-  "currentOrganization": Object {
-    "title": "org1",
-  },
+  "currentLocation": "loc1",
+  "currentOrganization": "org1",
   "isCollapsed": false,
   "isLoading": true,
   "items": Array [
@@ -48,11 +44,6 @@ Object {
           "type": "item",
           "url": "/hosts/new",
         },
-        Object {
-          "name": "Architectures",
-          "type": "item",
-          "url": "/architectures",
-        },
       ],
       "icon": "fa fa-server",
       "name": "Hosts",
@@ -61,35 +52,15 @@ Object {
     Object {
       "children": Array [
         Object {
-          "name": "Environments",
           "type": "item",
-          "url": "/environments",
+          "url": "/nameless",
         },
         Object {
-          "name": "Architectures",
-          "type": "item",
-          "url": "/architectures",
+          "type": "divider",
         },
       ],
-      "icon": "fa fa-wrench",
-      "name": "User",
-      "type": "sub_menu",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "name": "Domains",
-          "type": "item",
-          "url": "/domains",
-        },
-        Object {
-          "name": "Realms",
-          "type": "item",
-          "url": "/realms",
-        },
-      ],
-      "icon": "pficon pficon-network",
-      "name": "Infrastructure",
+      "icon": "pficon pficon-unplugged",
+      "name": "Empty",
       "type": "sub_menu",
     },
   ],
@@ -136,67 +107,14 @@ Array [
         "preventHref": true,
         "title": "All Hosts",
       },
-      Object {
-        "className": "",
-        "href": "/architectures",
-        "id": "menu_item_architectures",
-        "isDivider": false,
-        "onClick": [Function],
-        "preventHref": true,
-        "title": "Architectures",
-      },
     ],
     "title": "Hosts",
   },
   Object {
     "className": undefined,
-    "iconClass": "fa fa-wrench",
-    "subItems": Array [
-      Object {
-        "className": "",
-        "href": "/environments",
-        "id": "menu_item_environments",
-        "isDivider": false,
-        "onClick": [Function],
-        "preventHref": true,
-        "title": "Environments",
-      },
-      Object {
-        "className": "",
-        "href": "/architectures",
-        "id": "menu_item_architectures",
-        "isDivider": false,
-        "onClick": [Function],
-        "preventHref": true,
-        "title": "Architectures",
-      },
-    ],
-    "title": "User",
-  },
-  Object {
-    "className": undefined,
-    "iconClass": "pficon pficon-network",
-    "subItems": Array [
-      Object {
-        "className": "",
-        "href": "/domains",
-        "id": "menu_item_domains",
-        "isDivider": false,
-        "onClick": [Function],
-        "preventHref": true,
-        "title": "Domains",
-      },
-      Object {
-        "className": "",
-        "href": "/realms",
-        "id": "menu_item_realms",
-        "isDivider": false,
-        "onClick": [Function],
-        "preventHref": true,
-        "title": "Realms",
-      },
-    ],
-    "title": "Infrastructure",
+    "iconClass": "pficon pficon-unplugged",
+    "subItems": Array [],
+    "title": "Empty",
   },
 ]
 `;
