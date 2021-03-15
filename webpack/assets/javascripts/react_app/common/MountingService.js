@@ -58,7 +58,7 @@ class ReactComponentElement extends HTMLElement {
     switch (name) {
       case 'data-props':
         // if this is not the initial prop set
-        if (oldValue === null) this._render();
+        if (oldValue !== null) this._render();
         break;
       default:
       // We don't know how to react to default attribute change
