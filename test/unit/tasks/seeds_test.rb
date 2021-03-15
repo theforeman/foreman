@@ -115,7 +115,7 @@ class SeedsTest < ActiveSupport::TestCase
 
   test 'is idempotent' do
     seed
-    ActiveRecord::Base.any_instance.expects(:save).once
+    ActiveRecord::Base.any_instance.expects(:save).never
     seed
   end
 
