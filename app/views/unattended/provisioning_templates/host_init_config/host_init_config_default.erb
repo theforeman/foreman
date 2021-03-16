@@ -20,9 +20,15 @@ set -e
 <%= snippet 'puppet_setup' %>
 <% end -%>
 
+<% if host_param_true?('host_registration_remote_execution') -%>
 <%= snippet 'remote_execution_ssh_keys' %>
-<%= snippet 'insights' -%>
 
+<% end -%>
+
+<% if host_param_true?('host_registration_insights') -%>
+<%= snippet 'insights' %>
+
+<% end -%>
 
 # Call home to exit build mode
 <% built_https = foreman_url('built').start_with?('https') -%>

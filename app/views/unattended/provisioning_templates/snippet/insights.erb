@@ -4,7 +4,7 @@ name: insights
 model: ProvisioningTemplate
 snippet: true
 %>
-<% if @host.operatingsystem.name == 'RedHat' && host_param_true?('host_registration_insights') -%>
+<% if @host.operatingsystem.name == 'RedHat' -%>
 echo '#'
 echo '# Installing Insights client'
 echo '#'

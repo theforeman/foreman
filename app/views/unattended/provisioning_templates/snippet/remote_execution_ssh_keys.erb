@@ -28,7 +28,6 @@ snippet: true
 # file.
 
 
-<% if host_param_true?('host_registration_remote_execution') -%>
 <% if !host_param('remote_execution_ssh_keys').blank? %>
 <% ssh_user = host_param('remote_execution_ssh_user') || 'root' %>
 
@@ -69,5 +68,4 @@ Defaults:<%= ssh_user %> !targetpw" >> /etc/sudoers
 else
   echo 'The remote_execution_ssh_user does not exist and remote_execution_create_user is not set to true.  remote_execution_ssh_keys snippet will not install keys'
 fi
-<% end %>
 <% end -%>
