@@ -11,7 +11,7 @@ module Api
       api :GET, "/architectures/:architecture_id/images/", N_("List all images for architecture")
       param :compute_resource_id, String, :desc => N_("ID of compute resource")
       param :architecture_id, String, :desc => N_("ID of architecture")
-      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param :operatingsystem_id, :number, :desc => N_("ID of operating system")
       param_group :search_and_pagination, ::Api::V2::BaseController
       add_scoped_search_description_for(Image)
 
@@ -25,7 +25,7 @@ module Api
       param :id, :identifier, :required => true
       param :compute_resource_id, String, :desc => N_("ID of compute resource")
       param :architecture_id, String, :desc => N_("ID of architecture")
-      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param :operatingsystem_id, :number, :desc => N_("ID of operating system")
 
       def show
       end
@@ -38,7 +38,7 @@ module Api
           param :password, String, :required => false
           param :compute_resource_id, String, :desc => N_("ID of compute resource")
           param :architecture_id, String, :desc => N_("ID of architecture")
-          param :operatingsystem_id, String, :desc => N_("ID of operating system")
+          param :operatingsystem_id, :number, :desc => N_("ID of operating system")
           param :user_data, :bool, :desc => N_("Whether or not the image supports user data"), :allow_nil => true
         end
       end

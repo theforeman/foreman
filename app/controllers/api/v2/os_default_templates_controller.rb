@@ -11,7 +11,7 @@ module Api
 
       api :GET, '/operatingsystems/:operatingsystem_id/os_default_templates', N_('List default templates combinations for an operating system')
       api :GET, '/provisioning_templates/:provisioning_template_id/os_default_templates', N_('List operating systems where this template is set as a default')
-      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param :operatingsystem_id, :number, :desc => N_("ID of operating system")
       param :provisioning_template_id, String, :desc => N_('ID of provisioning template')
       param_group :pagination, ::Api::V2::BaseController
 
@@ -20,7 +20,7 @@ module Api
       end
 
       api :GET, "/operatingsystems/:operatingsystem_id/os_default_templates/:id", N_("Show a default template combination for an operating system")
-      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param :operatingsystem_id, :number, :desc => N_("ID of operating system")
       param :id, :number, :required => true
 
       def show
@@ -34,7 +34,7 @@ module Api
       end
 
       api :POST, "/operatingsystems/:operatingsystem_id/os_default_templates/", N_("Create a default template combination for an operating system")
-      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param :operatingsystem_id, :number, :desc => N_("ID of operating system")
       param_group :os_default_template, :as => :create
 
       def create
@@ -43,7 +43,7 @@ module Api
       end
 
       api :PUT, "/operatingsystems/:operatingsystem_id/os_default_templates/:id", N_("Update a default template combination for an operating system")
-      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param :operatingsystem_id, :number, :desc => N_("ID of operating system")
       param :id, String, :required => true
       param_group :os_default_template
 
@@ -52,7 +52,7 @@ module Api
       end
 
       api :DELETE, "/operatingsystems/:operatingsystem_id/os_default_templates/:id", N_("Delete a default template combination for an operating system")
-      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param :operatingsystem_id, :number, :desc => N_("ID of operating system")
       param :id, String, :required => true
 
       def destroy

@@ -24,7 +24,7 @@ module Api
       api :GET, "/operatingsystems/:operatingsystem_id/media", N_("List all media for an operating system")
       api :GET, "/locations/:location_id/media", N_("List all media per location")
       api :GET, "/organizations/:organization_id/media", N_("List all media per organization")
-      param :operatingsystem_id, String, :desc => N_("ID of operating system")
+      param :operatingsystem_id, :number, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
       add_scoped_search_description_for(Medium)
