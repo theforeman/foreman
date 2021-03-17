@@ -132,6 +132,10 @@ class FactParser
   def cores
   end
 
+  # The summed total size (in bytes) of all disks of a host or nil if unsupported
+  def disks_total
+  end
+
   private
 
   def find_interface_by_name(host_name)

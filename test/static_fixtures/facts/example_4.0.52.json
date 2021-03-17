@@ -1,0 +1,298 @@
+{
+  "disks": {
+    "nvme0n1": {
+      "model": "SAMSUNG MZVLW256HEHP-000L7",
+      "size": "238.47 GiB",
+      "size_bytes": 256060514304,
+      "type": "ssd"
+    },
+    "nvme0n2": {
+      "model": "SAMSUNG MZVLW256HEHP-000L7",
+      "size": "238.47 GiB",
+      "size_bytes": 256060514304,
+      "type": "ssd"
+    },
+    "sda": {
+      "model": "SD/MMC",
+      "size": "0 bytes",
+      "size_bytes": 0,
+      "type": "hdd",
+      "vendor": "Generic-"
+    }
+  },
+  "dmi": {
+    "bios": {
+      "release_date": "07/18/2018",
+      "vendor": "LENOVO",
+      "version": "N22ET48W (1.25 )"
+    },
+    "board": {
+      "asset_tag": "Not Available",
+      "manufacturer": "LENOVO",
+      "product": "20L8S2N80D"
+    },
+    "chassis": {
+      "asset_tag": "RH0021391",
+      "type": "Notebook"
+    },
+    "manufacturer": "LENOVO",
+    "product": {
+      "name": "20L8S2N80D"
+    }
+  },
+  "facterversion": "4.0.52",
+  "filesystems": "ext2,ext3,ext4,iso9660,vfat",
+  "fips_enabled": false,
+  "identity": {
+    "gid": 1000,
+    "group": "user",
+    "privileged": false,
+    "uid": 1000,
+    "user": "user"
+  },
+  "is_virtual": false,
+  "kernel": "Linux",
+  "kernelmajversion": "5.3",
+  "kernelrelease": "5.3.8-200.fc30.x86_64",
+  "kernelversion": "5.3.8",
+  "load_averages": {
+    "15m": 0.41,
+    "1m": 0.62,
+    "5m": 0.53
+  },
+  "memory": {
+    "swap": {
+      "available": "5.97 GiB",
+      "available_bytes": 6405169152,
+      "capacity": "22.80%",
+      "total": "7.73 GiB",
+      "total_bytes": 8296329216,
+      "used": "1.76 GiB",
+      "used_bytes": 1891160064
+    },
+    "system": {
+      "available": "8.73 GiB",
+      "available_bytes": 9371885568,
+      "capacity": "42.94%",
+      "total": "15.30 GiB",
+      "total_bytes": 16424656896,
+      "used": "6.57 GiB",
+      "used_bytes": 7052771328
+    }
+  },
+  "networking": {
+    "domain": "localdomain",
+    "fqdn": "localhost.localdomain",
+    "hostname": "localhost",
+    "interfaces": {
+      "enp0s31f6": {
+        "mac": "e8:6a:64:00:59:a9",
+        "mtu": 1500
+      },
+      "enp60s0u1u1": {
+        "mac": "3c:e1:a1:49:e7:40",
+        "mtu": 1500
+      },
+      "lo": {
+        "bindings": [
+          {
+            "address": "127.0.0.1",
+            "netmask": "255.0.0.0",
+            "network": "127.0.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "::1",
+            "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+            "network": "::1",
+            "scope6": "host"
+          }
+        ],
+        "ip": "127.0.0.1",
+        "ip6": "::1",
+        "mtu": 65536,
+        "netmask": "255.0.0.0",
+        "netmask6": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "network": "127.0.0.0",
+        "network6": "::1",
+        "scope6": "host"
+      },
+      "tun0": {
+        "bindings": [
+          {
+            "address": "10.40.193.124",
+            "netmask": "255.255.240.0",
+            "network": "10.40.192.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::4ec3:a7e6:2b3b:b20f",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::",
+            "scope6": "link"
+          }
+        ],
+        "ip": "10.40.193.124",
+        "ip6": "fe80::4ec3:a7e6:2b3b:b20f",
+        "mtu": 1360,
+        "netmask": "255.255.240.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "10.40.192.0",
+        "network6": "fe80::",
+        "scope6": "link"
+      },
+      "virbr0": {
+        "bindings": [
+          {
+            "address": "192.168.122.1",
+            "netmask": "255.255.255.0",
+            "network": "192.168.122.0"
+          }
+        ],
+        "ip": "192.168.122.1",
+        "mac": "52:54:00:94:ce:01",
+        "mtu": 1500,
+        "netmask": "255.255.255.0",
+        "network": "192.168.122.0"
+      },
+      "virbr0-nic": {
+        "mac": "52:54:00:94:ce:01",
+        "mtu": 1500
+      },
+      "wlp61s0": {
+        "bindings": [
+          {
+            "address": "192.168.88.248",
+            "netmask": "255.255.255.0",
+            "network": "192.168.88.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::bd29:e2f1:353c:e3a",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::",
+            "scope6": "link"
+          }
+        ],
+        "ip": "192.168.88.248",
+        "ip6": "fe80::bd29:e2f1:353c:e3a",
+        "mac": "04:d3:b0:c3:a1:db",
+        "mtu": 1500,
+        "netmask": "255.255.255.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "192.168.88.0",
+        "network6": "fe80::",
+        "scope6": "link"
+      }
+    },
+    "ip": "192.168.88.248",
+    "ip6": "fe80::bd29:e2f1:353c:e3a",
+    "mac": "04:d3:b0:c3:a1:db",
+    "mtu": 1500,
+    "netmask": "255.255.255.0",
+    "netmask6": "ffff:ffff:ffff:ffff::",
+    "network": "192.168.88.0",
+    "network6": "fe80::",
+    "primary": "wlp61s0",
+    "scope6": "link"
+  },
+  "os": {
+    "architecture": "x86_64",
+    "distro": {
+      "codename": "Thirty",
+      "description": "Fedora release 30 (Thirty)",
+      "id": "Fedora",
+      "release": {
+        "full": "30",
+        "major": "30"
+      },
+      "specification": ":core-4.1-amd64:core-4.1-noarch"
+    },
+    "family": "RedHat",
+    "hardware": "x86_64",
+    "name": "Fedora",
+    "release": {
+      "full": "30",
+      "major": "30"
+    },
+    "selinux": {
+      "config_mode": "enforcing",
+      "config_policy": "targeted",
+      "current_mode": "enforcing",
+      "enabled": true,
+      "enforced": true,
+      "policy_version": "31"
+    }
+  },
+  "partitions": {
+    "/dev/mapper/fedora-home": {
+      "filesystem": "ext4",
+      "size": "159.74 GiB",
+      "size_bytes": 171521867776,
+      "uuid": "c5f4eb6a-be7b-44c1-a9db-9fdb614e767f"
+    },
+    "/dev/mapper/fedora-root": {
+      "filesystem": "ext4",
+      "size": "69.99 GiB",
+      "size_bytes": 75149344768,
+      "uuid": "3e76195e-1ec9-40eb-8eeb-5f831a62f63b"
+    },
+    "/dev/mapper/fedora-swap": {
+      "filesystem": "swap",
+      "size": "7.73 GiB",
+      "size_bytes": 8296333312,
+      "uuid": "672da334-b6df-4481-bdc9-887b09667531"
+    },
+    "/dev/mapper/luks-d9aebe2f-f72d-489f-b257-12ee5ad4e78f": {
+      "filesystem": "LVM2_member",
+      "size": "237.46 GiB",
+      "size_bytes": 254968594432,
+      "uuid": "WKUAEo-tasF-nTPi-8hEI-D6Ig-xNEl-v2kQr1"
+    },
+    "/dev/nvme0n1p1": {
+      "filesystem": "ext4",
+      "size": "1.00 GiB",
+      "size_bytes": 1073741824,
+      "uuid": "9e4776ba-dc84-4b13-932a-5042d972acd3"
+    },
+    "/dev/nvme0n1p2": {
+      "filesystem": "crypto_LUKS",
+      "size": "237.47 GiB",
+      "size_bytes": 254985371648,
+      "uuid": "d9aebe2f-f72d-489f-b257-12ee5ad4e78f"
+    }
+  },
+  "path": "/home/user/.local/bin:/home/user/bin:/usr/share/Modules/bin:/home/user/.rvm/gems/ruby-2.6.5/bin:/home/user/.rvm/gems/ruby-2.6.5@global/bin:/home/user/.rvm/rubies/ruby-2.6.5/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/home/user/.rvm/bin:/home/user/.rvm/bin:/home/user/.rvm/bin:/home/user/.rvm/bin:/home/user/.rvm/bin:/home/user/.rvm/bin:/home/user/.rvm/bin:/home/user/.rvm/bin:/home/user/.rvm/bin",
+  "processors": {
+    "count": 8,
+    "isa": "x86_64",
+    "models": [
+      "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+      "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+      "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+      "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+      "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+      "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+      "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+      "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz"
+    ],
+    "physicalcount": 1,
+    "speed": "700.00 MHz"
+  },
+  "ruby": {
+    "platform": "x86_64-linux",
+    "sitedir": "/home/user/.rvm/rubies/ruby-2.6.5/lib/ruby/site_ruby/2.6.0",
+    "version": "2.6.5"
+  },
+  "system_uptime": {
+    "days": 6,
+    "hours": 167,
+    "seconds": 603314,
+    "uptime": "6 days"
+  },
+  "timezone": "CET",
+  "virtual": "physical"
+}
