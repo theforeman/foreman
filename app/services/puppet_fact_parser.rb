@@ -140,6 +140,10 @@ class PuppetFactParser < FactParser
     facts.dig('processors', 'count') || facts['processorcount']
   end
 
+  def disks_total
+    facts['disks']&.values&.sum { |disk| disk&.fetch('size_bytes', 0).to_i }
+  end
+
   private
 
   # remove when dropping support for facter < 3.0

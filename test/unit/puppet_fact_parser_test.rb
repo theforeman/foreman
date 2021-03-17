@@ -426,6 +426,18 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     end
   end
 
+  test '#test disks_total parsing correctly' do
+    values = [
+      {facts: example_v3_facts, disks_size: 256060514304},
+      {facts: example_v4_facts, disks_size: 512121028608},
+    ]
+
+    values.each do |hash|
+      parser = get_parser(hash[:facts])
+      assert_equal hash[:disks_size], parser.disks_total
+    end
+  end
+
   private
 
   def get_parser(facts)
@@ -471,6 +483,14 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def structured_networking_facts
     read_json_fixture('facts/facts_structured_networking.json')['facts']
+  end
+
+  def example_v3_facts
+    read_json_fixture('facts/example_3.14.16.json').with_indifferent_access
+  end
+
+  def example_v4_facts
+    read_json_fixture('facts/example_4.0.52.json').with_indifferent_access
   end
 
   def assert_os_idempotent(previous_os = os)

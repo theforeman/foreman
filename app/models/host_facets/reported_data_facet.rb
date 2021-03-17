@@ -8,6 +8,7 @@ module HostFacets
         ram: parser.ram,
         sockets: parser.sockets,
         cores: parser.cores,
+        disks_total: parser.disks_total,
       }.compact
       facet.save if facet.changed?
     end
