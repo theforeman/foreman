@@ -33,6 +33,38 @@ cat << EOF > $SSL_CA_CERT
 <%= foreman_server_ca_cert %>
 EOF
 
+<% unless @repo.blank? -%>
+echo '#'
+echo '# Adding repository'
+echo '#'
+
+if [ x$ID = xrhel ] || [ x$ID = xfedora ] || test "${ID_LIKE#*rhel*}" != "$ID_LIKE" ; then
+  cat << EOF > /etc/yum.repos.d/foreman_registration.repo
+[foreman_register]
+name=foreman_register
+baseurl=<%= @repo %>
+enabled=1
+gpgcheck=<%= @repo_gpg_key_url.present? ? 1 : 0 %>
+gpgkey=<%= @repo_gpg_key_url %>
+EOF
+
+  echo "Building yum metadata cache, this may take a few minutes"
+  yum makecache
+elif [ x$ID = xdebian ] || [ x$ID = xubuntu ]; then
+  cat << EOF > /etc/apt/sources.list.d/foreman_registration.list
+<%= @repo %>
+EOF
+<% if @repo_gpg_key_url.present? -%>
+  apt-get -y install ca-certificates gpg
+  curl --silent --show-error <%= @repo_gpg_key_url %> | apt-key add -
+<% end -%>
+  apt-get update
+
+else
+  echo "Unsupported operating system, can't add repository."
+  exit 1
+fi
+<% end -%>
 
 register_host() {
   curl --silent --cacert $SSL_CA_CERT --request POST <%= @registration_url %> \
