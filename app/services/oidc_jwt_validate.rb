@@ -7,13 +7,6 @@ class OidcJwtValidate
   end
 
   def decoded_payload
-    # OpenSSL#set_key method does not support ruby version < 2.4.0, apparently the JWT gem uses
-    # OpenSSL#set_key method for all ruby version. We must remove this condition once new version
-    # of the JWT(2.2.2) is released.
-    unless OpenSSL::PKey::RSA.new.respond_to?(:set_key)
-      Foreman::Logging.logger('app').error "SSO feature is not available for Ruby < 2.4.0"
-      return nil
-    end
     JWT.decode(@jwt_token, nil, true,
       { aud: Setting['oidc_audience'],
         verify_aud: true,
