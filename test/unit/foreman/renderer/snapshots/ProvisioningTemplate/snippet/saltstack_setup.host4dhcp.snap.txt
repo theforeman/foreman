@@ -12,6 +12,8 @@ cat > /etc/salt/minion.d/minion.conf << EOF
 master: 
 log_level: warning
 
+autosign_grains:
+  - autosign_key
 
 grains: {}
 
