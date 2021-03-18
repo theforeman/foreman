@@ -12,12 +12,12 @@
       <% @data.latest_events.each do |report| %>
         <tr>
           <td class='ellipsis'><%= link_to report.host, host_config_reports_path(report.host) %></td>
-          <td class="ca"><%= report_event_column(report.applied, "label-info") %></td>
-          <td class="ca"><%= report_event_column(report.restarted, "label-info") %></td>
-          <td class="ca"><%= report_event_column(report.failed, "label-danger") %></td>
-          <td class="ca"><%= report_event_column(report.failed_restarts, "label-warning") %></td>
-          <td class="ca"><%= report_event_column(report.skipped, "label-info") %></td>
-          <td class="ca"><%= report_event_column(report.pending, "label-info") %></td>
+          <td class="ca"><%= report_event_column(report.applied_s, "label-info") %></td>
+          <td class="ca"><%= report_event_column(report.restarted_s, "label-info") %></td>
+          <td class="ca"><%= report_event_column(report.failed_s, "label-danger") %></td>
+          <td class="ca"><%= report_event_column(report.failed_restarts_s, "label-warning") %></td>
+          <td class="ca"><%= report_event_column(report.skipped_s, "label-info") %></td>
+          <td class="ca"><%= report_event_column(report.pending_s, "label-info") %></td>
         </tr>
       <% end %>
     </tbody>
