@@ -1,5 +1,4 @@
 class UnattendedController < ApplicationController
-  include ::Foreman::Controller::IpFromRequestEnv
   include ::Foreman::Controller::TemplateRendering
 
   layout false
@@ -154,7 +153,7 @@ class UnattendedController < ApplicationController
 
   def load_host_details
     query_params = params
-    query_params[:ip] = ip_from_request_env
+    query_params[:ip] = request.remote_ip
     query_params[:mac_list] = Foreman::UnattendedInstallation::MacListExtractor.new.extract_from_env(request.env, params: params)
     query_params[:built] = ['built', 'failed'].include? action_name
 
@@ -162,7 +161,7 @@ class UnattendedController < ApplicationController
   end
 
   def verify_found_host
-    host_verifier = Foreman::UnattendedInstallation::HostVerifier.new(@host, request_ip: request.env['REMOTE_ADDR'],
+    host_verifier = Foreman::UnattendedInstallation::HostVerifier.new(@host, request_ip: request.remote_ip,
                                                                              for_host_template: (action_name == 'host_template'))
 
     if host_verifier.valid?
@@ -204,7 +203,7 @@ class UnattendedController < ApplicationController
   # doesn't know the IP in advance (and has been given a fake one just to make
   # the form save)
   def update_ip
-    ip = ip_from_request_env
+    ip = request.remote_ip
     logger.debug "Built notice from #{ip}, current host ip is #{@host.ip}, updating" if @host.ip != ip
 
     # @host has been changed even if the save fails, so we have to change it back
