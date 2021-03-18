@@ -1,5 +1,4 @@
 class UserdataController < ApplicationController
-  include ::Foreman::Controller::IpFromRequestEnv
   include ::Foreman::Controller::TemplateRendering
 
   layout false
@@ -59,7 +58,7 @@ class UserdataController < ApplicationController
 
   def find_host
     query_params = {
-      ip: ip_from_request_env,
+      ip: request.remote_ip,
     }
 
     @host = Foreman::UnattendedInstallation::HostFinder.new(query_params: query_params).search
@@ -67,7 +66,7 @@ class UserdataController < ApplicationController
     return true if @host
     render_error('Could not find host for request %{request_ip}',
       :status => :not_found,
-      :request_ip => ip_from_request_env
+      :request_ip => request.remote_ip
     )
     false
   end

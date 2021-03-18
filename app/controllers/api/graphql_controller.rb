@@ -68,7 +68,7 @@ module Api
       {
         current_user: User.current,
         request_id: request.uuid,
-        request_ip: request.ip,
+        request_ip: request.remote_ip,
       }
     end
 

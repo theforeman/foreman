@@ -92,7 +92,6 @@ module Foreman
         :safemode_render,
         :manage_puppetca,
         :ignored_interface_identifiers,
-        :remote_addr,
         :token_duration,
         :dns_timeout,
         :name_generator_type,
