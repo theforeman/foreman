@@ -2,5 +2,7 @@
 master: 
 log_level: warning
 
+autosign_grains:
+  - autosign_key
 
 grains: {}
