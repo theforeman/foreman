@@ -7,7 +7,7 @@ module ReportsHelper
   end
 
   def report_event_column(event, style = "")
-    style = "label-default" if event == 0
+    style = "label-default" if event.to_i == 0
     content_tag(:span, event, :class => 'label ' + style)
   end
 
