@@ -11,6 +11,9 @@ description: |
 master: <%= host_param('salt_master') %>
 log_level: warning
 
+autosign_grains:
+  - autosign_key
+
 <%#
 # Grains (http://docs.saltstack.com/en/latest/topics/targeting/grains.html#grains-in-the-minion-config)
 #
@@ -19,5 +22,9 @@ log_level: warning
 # * {'cluster': 'alpha'}
 # * {'roles': ['webserver', 'frontend']}
 #
-%>
-grains: <%= host_param('salt_grains') ? host_param('salt_grains') : '{}' %>
+-%>
+<% if plugin_present?('foreman_salt') -%>
+grains: <%= to_json(@host.derive_salt_grains(use_autosign: true)) %>
+<% else -%>
+grains: <%= host_param('salt_grains') ? to_json(host_param('salt_grains')) : '{}' %>
+<% end -%>
