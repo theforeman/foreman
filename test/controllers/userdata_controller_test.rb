@@ -54,7 +54,7 @@ class UserdataControllerTest < ActionController::TestCase
         provisioning_template: user_data_template,
         operatingsystem: os
       )
-      @request.env['REMOTE_ADDR'] = host.ip
+      @request.remote_ip = host.ip
     end
 
     context 'with user_data template' do
@@ -66,7 +66,7 @@ class UserdataControllerTest < ActionController::TestCase
 
       context 'with unknown ip address' do
         test 'should display an error' do
-          @request.env['REMOTE_ADDR'] = '198.51.100.1'
+          @request.remote_ip = '198.51.100.1'
           get :userdata
           assert_response :not_found
           assert_includes @response.body, 'Could not find host for request 198.51.100.1'
@@ -95,7 +95,7 @@ class UserdataControllerTest < ActionController::TestCase
   context '#metadata' do
     let(:host) { FactoryBot.create(:host, :managed) }
     setup do
-      @request.env['REMOTE_ADDR'] = host.ip
+      @request.remote_ip = host.ip
     end
 
     test 'should get metadata of a host' do
