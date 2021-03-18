@@ -187,7 +187,6 @@ authselect --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downca
 <% else -%>
 authconfig --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
 <% end -%>
-
 timezone --utc <%= host_param('time-zone') || 'UTC' %> <%= host_param('ntp-server') ? "--ntpservers #{host_param('ntp-server')}" : '' %>
 
 <% if rhel_compatible -%>
