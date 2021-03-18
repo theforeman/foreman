@@ -13,7 +13,7 @@ module Foreman::Controller::BruteforceProtection
 
   def bruteforce_protection
     ::Foreman::BruteforceProtection.new(
-      request_ip: request.ip
+      request_ip: request.remote_ip
     )
   end
 end

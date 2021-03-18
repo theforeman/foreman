@@ -200,6 +200,16 @@ module Foreman
     # Catching Invalid JSON Parse Errors with Rack Middleware
     config.middleware.use Foreman::Middleware::CatchJsonParseErrors
 
+    # When operating behind a reverse proxy, this provides a valid remote ip in request.remote_ip
+    # the middleware is enabled by default however we minimize the trusted proxies list
+    #
+    # the trusted proxies are removed from remote IP candidates, since we know they are proxies and not clients
+    # in the default deployment, this is typically an Apache
+    #
+    # currently the requests with untrusted IPs in X_FORWARDED_FOR are taken into the consideration,
+    # the spoof detection based on HTTP_CLIENT_IP header performed by the middleware does not work
+    config.action_dispatch.trusted_proxies = SETTINGS.fetch(:trusted_proxies, %w(127.0.0.1/8 ::1)).map { |proxy| IPAddr.new(proxy) }
+
     # Record request and session tokens in logging MDC
     config.middleware.insert_before Rails::Rack::Logger, Foreman::Middleware::LoggingContextRequest
     config.middleware.insert_after ActionDispatch::Session::ActiveRecordStore, Foreman::Middleware::LoggingContextSession
