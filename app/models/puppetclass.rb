@@ -22,6 +22,7 @@ class Puppetclass < ApplicationRecord
   has_many :config_groups, :through => :config_group_classes, :dependent => :destroy
 
   has_many :class_params, -> { distinct }, :through => :environment_classes, :source => :puppetclass_lookup_key
+  accepts_nested_attributes_for :environment_classes
   accepts_nested_attributes_for :class_params, :reject_if => ->(a) { a[:key].blank? }, :allow_destroy => true
 
   validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
@@ -66,6 +67,17 @@ class Puppetclass < ApplicationRecord
       end
     end
     hash
+  end
+
+  # For Audits to be correctly taxed for Puppetclass creation
+  # Puppetclass gets saved before the environment class and thus taxonomy ids are empty
+  # We collect the ids from unsaved environment_classes for the Audits correct taxation
+  def location_ids
+    environment_classes.select(&:new_record?).flat_map { |ec| ec.environment.location_ids }.concat(super).uniq
+  end
+
+  def organization_ids
+    environment_classes.select(&:new_record?).flat_map { |ec| ec.environment.organization_ids }.concat(super).uniq
   end
 
   # returns module name (excluding of the class name)

@@ -3,7 +3,7 @@ class EnvironmentClass < ApplicationRecord
   belongs_to :puppetclass, :inverse_of => :environment_classes
   belongs_to :puppetclass_lookup_key, :inverse_of => :environment_classes
   validates :puppetclass_lookup_key_id, :uniqueness => {:scope => [:environment_id, :puppetclass_id]}
-  validates :puppetclass_id, :environment_id, :presence => true
+  validates :puppetclass, :environment, :presence => true
   after_destroy :delete_orphaned_lookup_keys
 
   scope :parameters_for_class, lambda { |puppetclasses_ids, environment_id|
