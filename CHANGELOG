@@ -1,3 +1,22 @@
+2021-03-19	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 2.4.0
+
+2021-03-18	Simon Peeters <simon@inuits.eu>
+	* Refs #31147 - Correct coloring of zero metrics in report overviews
+
+2021-03-18	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #30779 - Implement ActionDispatch
+
+2021-03-18	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #31722 - Improve url validation for HTTP proxies
+	* Fixes #31719 - Fix array settings to accept empty array
+
+2021-03-18	Dominik Matoulek <domitea@gmail.com>
+	* fixes #31633 - Introducing format_time macro
+
+2021-03-18	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #31747 - host checkin report fix (#8293)
+
 2021-03-11	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.4.0-rc3
 
