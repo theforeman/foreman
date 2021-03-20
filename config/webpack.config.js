@@ -234,7 +234,7 @@ module.exports = env => {
       hot: true
     };
     // Source maps
-    config.devtool = 'inline-source-map';
+    config.devtool = (process.env.WEBPACK_DEVTOOL || 'inline-source-map');
   }
 
   return config;
