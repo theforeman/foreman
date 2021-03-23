@@ -142,14 +142,11 @@ class HostsController < ApplicationController
   def compute_resource_selected
     return not_found unless params[:host]
     Taxonomy.as_taxonomy @organization, @location do
-      hostgroup = Hostgroup.find_by_id(params[:host][:hostgroup_id])
-      compute_resource_id = params[:host][:compute_resource_id] || hostgroup.try(:inherited_compute_resource_id)
-      return not_found if compute_resource_id.blank?
-      compute_profile_id = params[:host][:compute_profile_id] || hostgroup.try(:inherited_compute_profile_id)
-      compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(compute_resource_id)
+      refresh_host
+      compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(@host.compute_resource_id) if @host.compute_resource_id
       return not_found if compute_resource.blank?
-      render :partial => "compute", :locals => { :compute_resource => compute_resource,
-                                                 :vm_attrs         => compute_resource.compute_profile_attributes_for(compute_profile_id) }
+      @host.compute_attributes = compute_resource.compute_profile_attributes_for(@host.compute_profile_id || @host.hostgroup&.inherited_compute_profile_id)
+      render partial: 'compute', locals: { host: @host, compute_resource: compute_resource }
     end
   rescue ActionView::Template::Error => exception
     process_ajax_error exception, 'render compute resource template'

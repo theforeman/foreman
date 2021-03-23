@@ -26,7 +26,6 @@
 <%= f.hidden_field :instance_type if !new_vm %>
 
 <%
-selected_cluster ||= params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:cluster]
 if params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:instance_type]
   instance_type = compute_resource.instance_type(params[:host][:compute_attributes][:instance_type])
 end
@@ -60,7 +59,7 @@ disable_mem = !new_vm || (new_vm && instance_type && instance_type.memory.presen
                   :disabled => f.object.status != "down" && !new_vm } %>
 <% end %>
 
-<% unless local_assigns[:hide_image] %>
+<% if host %>
   <%
      arch ||= nil ; os ||= nil
      images = possible_images(compute_resource, arch, os)

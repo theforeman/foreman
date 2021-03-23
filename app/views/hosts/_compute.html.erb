@@ -1,23 +1,23 @@
-<%= fields_for "#{type}[compute_attributes]", @host ? (@vm || @host.compute_object) : compute_resource.new_vm(vm_attrs) do |compute| %>
+<%= fields_for "#{type}[compute_attributes]", @vm || host.compute_object do |compute| %>
   <% if compute.object %>
     <%= alert(:header => _('Notice'),
               :class => 'alert-info hide',
               :id => 'update_not_supported',
               :text => _('Virtual machine settings cannot be edited on an existing machine in %s') %
               compute_resource.provider_friendly_name) %>
-    <%= render :partial => "hosts/compute_detail", :locals => { :f => compute, :compute_resource => compute_resource, :new_vm => !compute.object.persisted? } %>
+    <%= render :partial => "hosts/compute_detail", :locals => { :f => compute, :host => host, :compute_resource => compute_resource, :new_vm => !compute.object.persisted? } %>
   <% else %>
-    <% if @host %>
-      <%= alert(:class => 'alert-danger',
-                :header => _("'%{host}' not found on '%{resource}'") % { :host => @host.name, :resource => compute_resource },
-                :text => _("'%{host}' could be deleted or '%{resource}' is not responding.") % {:host => @host.name, :resource => compute_resource}) %>
-    <% else %>
+    <% if host.new_record? %>
       <%= alert(:class => 'alert-danger',
                 :header => _("Failed connecting to %s") % compute_resource,
                 :text => _("Errors: %s") % compute_resource.errors.full_messages.to_sentence) %>
+    <% else %>
+      <%= alert(:class => 'alert-danger',
+                :header => _("'%{host}' not found on '%{resource}'") % { :host => host.name, :resource => compute_resource },
+                :text => _("'%{host}' could be deleted or '%{resource}' is not responding.") % { host: host.name, resource: compute_resource}) %>
     <% end %>
   <% end%>
   <%= hidden_field_tag 'capabilities', compute_resource.capabilities, :disabled => true %>
   <%= hidden_field_tag 'provider', compute_resource.provider, :disabled => true %>
-  <%= content_tag(:div,'', :id => :'supports_update', :data=>{:'supports-update'=> compute_resource.supports_update? || (@host && @host.new_record?)}) %>
+  <%= content_tag(:div,'', :id => :'supports_update', :data=> { :'supports-update'=> compute_resource.supports_update? || (host && host.new_record?) }) %>
 <% end if compute_resource %>
