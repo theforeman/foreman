@@ -1,5 +1,5 @@
 <div class="tab-pane"  id="compute_resource">
-  <%= render('hosts/compute', :compute_resource => @host.compute_resource) if @host.compute_resource %>
+  <%= render('hosts/compute', host: @host, vm: @vm, compute_resource: @host.compute_resource) if @host.compute_resource %>
 </div>
 
 <div class="tab-pane"  id="os">

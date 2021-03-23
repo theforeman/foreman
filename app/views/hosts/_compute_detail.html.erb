@@ -1,5 +1,6 @@
-<%= render :partial => provider_partial(compute_resource, 'base'),
-            :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_vm, :new_vm => new_vm }.merge(args_for_compute_resource_partial(@host)) %>
+<%= render partial: provider_partial(compute_resource, 'base'),
+           locals: { f: f, host: host, compute_resource: compute_resource, new_host: host.new_record?, new_vm: new_vm,
+                     arch: host.architecture_id, os: host.operatingsystem_id } %>
 
 <!--Storage-->
 <%= render :partial => 'compute_resources_vms/form/volumes', :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_vm, :new_vm => new_vm, :item_layout => 'removable' } %>

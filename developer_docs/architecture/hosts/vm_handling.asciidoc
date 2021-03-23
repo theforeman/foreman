@@ -35,3 +35,4 @@ We are seeing many problems:
 [#vm_render_form_tab_diagram]
 [caption="Diagram: sequence to render VM tab for form"]
 image::vm_render_form_tab_diagram.svg[VM tab rendering,1024,800]
+
