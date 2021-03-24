@@ -36,4 +36,20 @@ class HttpProxyTest < ActiveSupport::TestCase
       end
     end
   end
+
+  context '#full_url' do
+    let(:special_chars) { '#$@&{}[]+%' }
+    let(:proxy) { FactoryBot.build(:http_proxy, :with_auditing) }
+
+    test 'allows having special characters in username' do
+      proxy.username = special_chars
+      assert_nothing_raised { proxy.full_url }
+    end
+
+    test 'allows having special characters in password' do
+      proxy.username = 'admin'
+      proxy.password = special_chars
+      assert_nothing_raised { proxy.full_url }
+    end
+  end
 end
