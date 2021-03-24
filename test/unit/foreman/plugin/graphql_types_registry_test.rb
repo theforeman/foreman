@@ -70,7 +70,7 @@ class Foreman::Plugin::GraphqlTypesRegistryTest < ActiveSupport::TestCase
       err = assert_raises RuntimeError do
         registry.register_plugin_query_field :woof, 'TestType', :custom_field
       end
-      assert_equal err.message, "expected :record_field or :collection_field as a field_type, got custom_field"
+      assert_equal err.message, "expected :record_field, :collection_field or :field as a field_type, got custom_field"
     end
 
     it 'registeres plugin mutation fields' do
