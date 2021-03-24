@@ -1,3 +1,5 @@
+require 'cgi'
+
 class HttpProxy < ApplicationRecord
   audited
   include Authorizable
@@ -31,8 +33,10 @@ class HttpProxy < ApplicationRecord
 
   def full_url
     uri = URI(url)
-    uri.user = username if username.present?
-    uri.password = password if username.present?
+    if username.present?
+      uri.user = CGI.escape(username)
+      uri.password = CGI.escape(password) if password
+    end
     uri.to_s
   end
 
