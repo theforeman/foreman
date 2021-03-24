@@ -619,8 +619,8 @@ module Foreman #:nodoc:
       graphql_types_registry.register_extension(type: type, with_module: with_module, &block)
     end
 
-    def register_graphql_query_field(field_name, type, field_type)
-      graphql_types_registry.register_plugin_query_field(field_name, type, field_type)
+    def register_graphql_query_field(field_name, type, field_type, options = nil)
+      graphql_types_registry.register_plugin_query_field(field_name, type, field_type, options)
     end
 
     def register_graphql_mutation_field(field_name, mutation_class)
