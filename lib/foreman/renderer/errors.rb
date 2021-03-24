@@ -46,6 +46,10 @@ module Foreman
       class HostgroupNotFoundError < RenderingError
         MESSAGE = N_('Hostgroup not found or not accessible').freeze
       end
+
+      class UndefinedSetting < RenderingError
+        MESSAGE = N_("Undefined setting '%{setting}'").freeze
+      end
     end
   end
 end

@@ -215,9 +215,22 @@ module RenderersSharedTests
     test "foreman_server_ca_cert - not existing file" do
       Setting[:ssl_ca_file] = 'not-existing-file'
       source = OpenStruct.new(content: '<%= foreman_server_ca_cert %>')
-      assert_raise Foreman::Exception do
+      error = assert_raise Foreman::Exception do
         renderer.render(source, @scope)
       end
+
+      assert_includes error.message, '[Foreman::Exception]: No such file or directory'
+    end
+
+    test "foreman_server_ca_cert - blank setting" do
+      Setting[:ssl_ca_file] = ''
+      source = OpenStruct.new(content: '<%= foreman_server_ca_cert %>')
+      error = assert_raise Foreman::Renderer::Errors::UndefinedSetting do
+        renderer.render(source, @scope)
+      end
+
+      # assert_includes error.message, "No CA file set, check the 'SSL CA file' in Settings > Authentication"
+      assert_includes error.message, "Undefined setting 'SSL CA file'"
     end
 
     context 'renderer for template with user input used' do
