@@ -1,29 +1,31 @@
 import React from 'react';
 import { mount } from '@theforeman/test';
 import { Provider } from 'react-redux';
+import { MEGABYTES } from '../constants';
 import MemoryAllocationInput from '../';
-import Store from "../../../redux";
 
 
 describe('MemoryAllocationInput', () => {
 
   it('warning alert', async () => {
+      const setWarning = jest.fn();
       const component = mount(
-        <Provider store={Store}>
-            <MemoryAllocationInput defaultValue={11264} recommendedMaxValue={10240} />
-        </Provider>
+        <MemoryAllocationInput
+          value={11264*MEGABYTES}
+          recommendedMaxValue={10240}
+          setWarning={setWarning}
+        />
       );
       expect(component.find('.foreman-numeric-input-input').prop('value')).toEqual('11264 MB');
-      expect(component.find('.warning-icon').exists()).toBeTruthy();
+      expect(setWarning.mock.calls.length).toBe(1);
   });
 
   it('error alert', async () => {
+      const setError = jest.fn();
       const component = mount(
-        <Provider store={Store}>
-            <MemoryAllocationInput defaultValue={21504} maxValue={20480} />
-        </Provider>
+        <MemoryAllocationInput value={21504*MEGABYTES} maxValue={20480*MEGABYTES} setError={setError} />
       );
       expect(component.find('.foreman-numeric-input-input').prop('value')).toEqual('21504 MB');
-      expect(component.find('.error-icon').exists()).toBeTruthy();
+      expect(setError.mock.calls.length).toBe(1);
   });
 });

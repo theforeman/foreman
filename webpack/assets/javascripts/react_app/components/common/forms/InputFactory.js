@@ -7,6 +7,7 @@ import AutoComplete from '../../AutoComplete';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
 import OrderableSelect from './OrderableSelect';
+import MemoryAllocationInput from '../../MemoryAllocationInput/MemoryAllocationInput';
 import TimePicker from '../DateTimePicker/TimePicker';
 import Select from './Select';
 
@@ -17,6 +18,7 @@ const inputComponents = {
   dateTime: DateTimePicker,
   orderableSelect: OrderableSelect,
   time: TimePicker,
+  memory: MemoryAllocationInput,
 };
 
 export const registerInputComponent = (name, Component) => {
@@ -25,13 +27,19 @@ export const registerInputComponent = (name, Component) => {
 
 export const getComponentClass = name => inputComponents[name] || 'input';
 
-const InputFactory = ({ type, ...controlProps }) => (
-  <FormControl
-    componentClass={getComponentClass(type)}
-    type={type}
-    {...controlProps}
-  />
-);
+const InputFactory = ({ type, setError, setWarning, ...controlProps }) => {
+  const componentClass = getComponentClass(type);
+  let validations = {};
+  if (componentClass !== 'input') validations = { setError, setWarning };
+  return (
+    <FormControl
+      componentClass={componentClass}
+      type={type}
+      {...validations}
+      {...controlProps}
+    />
+  );
+};
 
 InputFactory.propTypes = {
   type: PropTypes.string,
@@ -46,6 +54,8 @@ InputFactory.propTypes = {
   required: PropTypes.bool,
   className: PropTypes.string,
   onChange: PropTypes.func,
+  setError: PropTypes.func,
+  setWarning: PropTypes.func,
 };
 
 InputFactory.defaultProps = {
@@ -56,6 +66,8 @@ InputFactory.defaultProps = {
   required: false,
   disabled: false,
   onChange: noop,
+  setError: noop,
+  setWarning: noop,
 };
 
 export default InputFactory;

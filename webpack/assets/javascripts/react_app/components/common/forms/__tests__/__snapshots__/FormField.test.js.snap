@@ -33,12 +33,15 @@ exports[`FormField rendering renders AutoComplete 1`] = `
       }
       onChange={[Function]}
       required={false}
+      setError={[Function]}
+      setWarning={[Function]}
       type="autocomplete"
     />
   </Col>
   <InlineMessage
     error={null}
     helpInline={null}
+    warning={null}
   />
 </FormGroup>
 `;
@@ -66,12 +69,15 @@ exports[`FormField rendering renders Date input 1`] = `
       name="a"
       onChange={[Function]}
       required={false}
+      setError={[Function]}
+      setWarning={[Function]}
       type="date"
     />
   </Col>
   <InlineMessage
     error={null}
     helpInline={null}
+    warning={null}
   />
 </FormGroup>
 `;
@@ -101,6 +107,8 @@ exports[`FormField rendering renders DateTime complex options and error 1`] = `
       name="group[datetime]"
       onChange={[Function]}
       required={false}
+      setError={[Function]}
+      setWarning={[Function]}
       type="dateTime"
       value={1991-01-01T01:12:01.000Z}
     />
@@ -108,6 +116,7 @@ exports[`FormField rendering renders DateTime complex options and error 1`] = `
   <InlineMessage
     error="can not be in the past"
     helpInline={null}
+    warning={null}
   />
 </FormGroup>
 `;
@@ -135,12 +144,15 @@ exports[`FormField rendering renders DateTime input 1`] = `
       name="a"
       onChange={[Function]}
       required={false}
+      setError={[Function]}
+      setWarning={[Function]}
       type="dateTime"
     />
   </Col>
   <InlineMessage
     error={null}
     helpInline={null}
+    warning={null}
   />
 </FormGroup>
 `;
@@ -168,12 +180,15 @@ exports[`FormField rendering renders Time input 1`] = `
       name="a"
       onChange={[Function]}
       required={false}
+      setError={[Function]}
+      setWarning={[Function]}
       type="time"
     />
   </Col>
   <InlineMessage
     error={null}
     helpInline={null}
+    warning={null}
   />
 </FormGroup>
 `;
@@ -213,12 +228,15 @@ exports[`FormField rendering renders text complex options and help 1`] = `
       name="group[textfield]"
       onChange={[Function]}
       required={false}
+      setError={[Function]}
+      setWarning={[Function]}
       type="text"
     />
   </Col>
   <InlineMessage
     error={null}
     helpInline={null}
+    warning={null}
   />
 </FormGroup>
 `;
@@ -246,12 +264,15 @@ exports[`FormField rendering renders text input 1`] = `
       name="a"
       onChange={[Function]}
       required={false}
+      setError={[Function]}
+      setWarning={[Function]}
       type="text"
     />
   </Col>
   <InlineMessage
     error={null}
     helpInline={null}
+    warning={null}
   />
 </FormGroup>
 `;

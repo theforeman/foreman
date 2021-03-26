@@ -232,12 +232,7 @@ module FormHelper
   end
 
   def byte_size_f(f, attr, options = {})
-    options[:class] = options[:class].to_s + ' byte_spinner' unless options[:disabled]
-    options[:label_help] = _("When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified.")
-    options[:help_block] ||= soft_limit_warning_block
-    options[:help_block] += f.hidden_field(attr, :class => "real-hidden-value", :id => nil)
-
-    text_f(f, attr, options)
+    react_form_input('memory', f, attr, options)
   end
 
   def counter_f(f, attr, options = {})

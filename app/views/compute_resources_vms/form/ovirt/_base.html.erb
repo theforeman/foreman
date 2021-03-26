@@ -52,12 +52,7 @@ disable_mem = !new_vm || (new_vm && instance_type && instance_type.memory.presen
                            name: "#{f.object_name}[sockets]"}) %>
 </div>
 <div id="memory-input">
-  <%= react_component('MemoryAllocationInput',
-                      {label: 'Memory',
-                       disabled: disable_mem,
-                       defaultValue: f.object.memory.present? ? f.object.memory.to_i / 1.megabytes : 1024,
-                       id: "#{f.object_name.gsub(/[\[\]]/, '[' => '_', ']' => '_')}memory",
-                       name: "#{f.object_name}[memory]"}) %>
+<%= byte_size_f(f, :memory, label: _('Memory'), disabled: disable_mem) %>
 </div>
 
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>

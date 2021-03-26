@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
@@ -8,27 +8,35 @@ import {
   HelpBlock,
   FieldLevelHelp,
 } from 'patternfly-react';
+import { WarningTriangleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
 import InputFactory from './InputFactory';
 import { noop } from '../../../common/helpers';
 
-const InlineMessage = ({ error, helpInline }) => {
-  if (!error && !helpInline) {
+const InlineMessage = ({ error, warning, helpInline }) => {
+  if (!error && !warning && !helpInline) {
     return null;
   }
   return (
     <HelpBlock
-      className={classNames('help-inline', { 'error-message': !!error })}
+      className={classNames('help-inline', {
+        'error-message': !!error,
+        'warning-message': !!warning,
+      })}
     >
-      {error || helpInline}
+      {error && <ErrorCircleOIcon className="error-icon" />}
+      {!error && warning && <WarningTriangleIcon className="warning-icon" />}
+      {error || warning || helpInline}
     </HelpBlock>
   );
 };
 InlineMessage.propTypes = {
   error: PropTypes.string,
+  warning: PropTypes.string,
   helpInline: PropTypes.string,
 };
 InlineMessage.defaultProps = {
   error: null,
+  warning: null,
   helpInline: null,
 };
 
@@ -51,6 +59,9 @@ const FormField = ({
   inputProps,
   ...otherProps
 }) => {
+  const [innerError, setError] = useState(error);
+  const [innerWarning, setWarning] = useState(null);
+
   const controlProps = {
     value,
     name,
@@ -58,15 +69,21 @@ const FormField = ({
     required,
     className,
     onChange,
+    setError,
+    setWarning,
     ...otherProps,
     ...inputProps,
   };
+
+  let validationState = null;
+  if (innerWarning) validationState = 'warning';
+  if (innerError) validationState = 'error';
 
   return (
     <FormGroup
       controlId={id}
       disabled={disabled}
-      validationState={error ? 'error' : null}
+      validationState={validationState}
     >
       <ControlLabel className={labelSizeClass}>
         {label}
@@ -82,7 +99,11 @@ const FormField = ({
       <Col className={inputSizeClass}>
         {children || <InputFactory type={type} {...controlProps} />}
       </Col>
-      <InlineMessage error={error} helpInline={helpInline} />
+      <InlineMessage
+        error={innerError}
+        warning={innerWarning}
+        helpInline={helpInline}
+      />
     </FormGroup>
   );
 };

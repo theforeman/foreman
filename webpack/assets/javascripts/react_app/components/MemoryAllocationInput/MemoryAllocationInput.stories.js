@@ -1,6 +1,7 @@
 import React from 'react';
-import { number, text } from '@storybook/addon-knobs';
+import { number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
+import { MEGABYTES } from './constants';
 import MemoryAllocationInput from './MemoryAllocationInput';
 
 export default {
@@ -13,10 +14,9 @@ export default {
 
 export const UseMemoryAllocationInput = () => (
     <MemoryAllocationInput
-      label={text('Label', 'Memory')}
-      defaultValue={number('DefaultValue', 1024)}
+      value={number('Value[B]', 1024 * MEGABYTES)}
       onChange={action('Value was changed')}
-      recommendedMaxValue={number('RecommendedMaxValue', 10240)}
-      maxValue={number('MaxValue', 20480)}
+      recommendedMaxValue={number('RecommendedMaxValue', 10240 * MEGABYTES)}
+      maxValue={number('MaxValue', 20480 * MEGABYTES)}
     />
 );
