@@ -22,6 +22,8 @@ exports[`InputFactory rendering renders AutoComplete 1`] = `
   onChange={[Function]}
   required={false}
   searchQuery=""
+  setError={[Function]}
+  setWarning={[Function]}
   type="autocomplete"
   url="bookmarks/auto_complete"
   useKeyShortcuts={false}
@@ -37,6 +39,8 @@ exports[`InputFactory rendering renders DateTime input 1`] = `
   name="a"
   onChange={[Function]}
   required={false}
+  setError={[Function]}
+  setWarning={[Function]}
   type="dateTime"
 />
 `;
@@ -47,7 +51,7 @@ exports[`InputFactory rendering renders Select 1`] = `
   className=""
   componentClass={[Function]}
   disabled={false}
-  id="date-time"
+  id="select-field"
   label="Grouped select"
   name="group[groupedSelect]"
   onChange={[Function]}
@@ -79,6 +83,8 @@ exports[`InputFactory rendering renders Select 1`] = `
     ]
   }
   required={false}
+  setError={[Function]}
+  setWarning={[Function]}
   type="select"
 />
 `;
@@ -94,6 +100,8 @@ exports[`InputFactory rendering renders custom registered component 1`] = `
   name="group[ownfield]"
   onChange={[Function]}
   required={false}
+  setError={[Function]}
+  setWarning={[Function]}
   type="ownInput"
 />
 `;

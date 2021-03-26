@@ -1,16 +1,13 @@
+import RCInputNumber from 'rc-input-number';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { WarningTriangleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
-import { HelpBlock, Grid, Col, Row } from 'patternfly-react';
-import { translate as __ } from '../../common/I18n';
+import { sprintf, translate as __ } from '../../common/I18n';
 import { MB_FORMAT, MEGABYTES } from './constants';
-import './memoryAllocationInput.scss';
+import '../common/forms/NumericInput.scss';
 import { noop } from '../../common/helpers';
-import NumericInput from '../common/forms/NumericInput';
 
 const MemoryAllocationInput = ({
-  defaultValue,
-  label,
+  value,
   onChange,
   maxValue,
   minValue,
@@ -18,104 +15,67 @@ const MemoryAllocationInput = ({
   name,
   id,
   disabled,
+  setError,
+  setWarning,
 }) => {
-  const [validationState, setValidationState] = useState(undefined);
-  const [value, setValue] = useState(defaultValue);
+  const [valueMB, setValueMB] = useState(value / MEGABYTES);
 
   useEffect(() => {
-    setValue(defaultValue);
-  }, [defaultValue]);
-
-  useEffect(() => {
-    if (value > maxValue && maxValue !== undefined) {
-      setValidationState('error');
-    } else if (
-      value > recommendedMaxValue &&
-      recommendedMaxValue !== undefined
-    ) {
-      setValidationState('warning');
+    const valueBytes = valueMB * MEGABYTES;
+    if (maxValue && valueBytes > maxValue) {
+      setWarning(null);
+      setError(
+        sprintf(
+          __('Specified value is higher than maximum value %s'),
+          `${maxValue / MEGABYTES} ${MB_FORMAT}`
+        )
+      );
+    } else if (recommendedMaxValue && valueBytes > recommendedMaxValue) {
+      setError(null);
+      setWarning(
+        sprintf(
+          __('Specified value is higher than recommended maximum %s'),
+          `${recommendedMaxValue / MEGABYTES} ${MB_FORMAT}`
+        )
+      );
     } else {
-      setValidationState(undefined);
+      setWarning(null);
     }
-  }, [recommendedMaxValue, maxValue, value]);
-
-  const handleValueIncrease = () => {
-    setValue(value * 2);
-  };
-
-  const handleValueDecrease = () => {
-    setValue(value / 2);
-  };
-
-  const handleTypedValue = v => {
-    setValue(v);
-  };
+  }, [valueMB, recommendedMaxValue, maxValue, setError, setWarning]);
 
   const handleChange = v => {
-    if (v === value + 1) {
-      handleValueIncrease();
-    } else if (v === value - 1) {
-      handleValueDecrease();
-    } else {
-      handleTypedValue(v);
+    if (v === valueMB + 1) {
+      v = valueMB * 2;
+    } else if (v === valueMB - 1) {
+      v = Math.floor(valueMB / 2);
     }
-    onChange(value);
+    setValueMB(v);
+    onChange(v * MEGABYTES);
   };
 
-  const format = v => `${v} ${MB_FORMAT}`;
-
-  const helpBlock = () => {
-    if (validationState === 'warning') {
-      return (
-        <HelpBlock>
-          <WarningTriangleIcon className="warning-icon" />
-          {__('Specified value is higher than recommended maximum')}
-        </HelpBlock>
-      );
-    } else if (validationState === 'error') {
-      return (
-        <HelpBlock>
-          <ErrorCircleOIcon className="error-icon" />
-          {__('Specified value is higher than maximum value')}
-        </HelpBlock>
-      );
-    }
-    return undefined;
-  };
-
-  const parser = str => str.replace(/\D/g, '');
   return (
-    <Grid>
-      <Row>
-        <Col>
-          <NumericInput
-            value={value}
-            id={id}
-            format={format}
-            parser={parser}
-            onChange={handleChange}
-            label={label}
-            disabled={disabled}
-            minValue={minValue}
-          />
-          <input type="hidden" name={name} value={value * MEGABYTES} />
-        </Col>
-      </Row>
-      <Row>
-        <Col md={2} />
-        <Col md={4} className="form-group">
-          {validationState !== undefined && helpBlock()}
-        </Col>
-      </Row>
-    </Grid>
+    <>
+      <RCInputNumber
+        value={valueMB}
+        id={id}
+        formatter={v => `${v} ${MB_FORMAT}`}
+        parser={str => str.replace(/\D/g, '')}
+        onChange={handleChange}
+        disabled={disabled}
+        min={minValue && minValue / MEGABYTES}
+        step={1}
+        precision={0}
+        name=""
+        prefixCls="foreman-numeric-input"
+      />
+      <input type="hidden" name={name} value={valueMB * MEGABYTES} />
+    </>
   );
 };
 
 MemoryAllocationInput.propTypes = {
-  /** Set the label of the memory allocation input */
-  label: PropTypes.string,
   /** Set the default value of the memory allocation input */
-  defaultValue: PropTypes.number,
+  value: PropTypes.number,
   /** Set the recommended max value of the numeric input */
   recommendedMaxValue: PropTypes.number,
   /** Set the max value of the numeric input */
@@ -124,24 +84,29 @@ MemoryAllocationInput.propTypes = {
   minValue: PropTypes.number,
   /** Set the onChange function of the numeric input */
   onChange: PropTypes.func,
-  /** Set the name of the numeric input */
-  name: NumericInput.propTypes.name,
+  /** Set the name of the input holding the value in bytes */
+  name: PropTypes.string,
   /** Set the id of the numeric input */
-  id: NumericInput.propTypes.id,
+  id: PropTypes.string,
   /** Set whether the numeric input will be disabled or not */
-  disabled: NumericInput.propTypes.disabled,
+  disabled: PropTypes.bool,
+  /** Component passes the validation error to this function */
+  setError: PropTypes.func,
+  /** Component passes the validation warning to this function */
+  setWarning: PropTypes.func,
 };
 
 MemoryAllocationInput.defaultProps = {
-  label: __('Memory'),
-  defaultValue: 1,
+  value: 2048 * MEGABYTES,
   onChange: noop,
-  recommendedMaxValue: undefined,
-  maxValue: undefined,
+  recommendedMaxValue: null,
+  maxValue: null,
   minValue: 1,
   name: '',
   id: '',
   disabled: false,
+  setError: noop,
+  setWarning: noop,
 };
 
 export default MemoryAllocationInput;

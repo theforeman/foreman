@@ -14,8 +14,6 @@ import $ from 'jquery';
 import { showSpinner } from '../foreman_tools';
 import { testConnection } from '../foreman_compute_resource';
 
-const megabyte = 1024 * 1024;
-
 export function templateSelected(item) {
   const template = $(item).val();
 
@@ -34,17 +32,8 @@ export function templateSelected(item) {
       // As Instance Type values will take precence over templates values,
       // we don't update memory/cores values if  instance type is already selected
       if (!$('#host_compute_attributes_instance_type').val()) {
-        const memoryInputElement = document
-          .getElementById('memory-input')
-          .getElementsByTagName('foreman-react-component')[0];
-        memoryInputElement.setAttribute(
-          'data-props',
-          JSON.stringify({
-            ...memoryInputElement.reactProps,
-            defaultValue: result.memory / megabyte,
-          })
-        );
         updateCoresAndSockets(result);
+        setMemoryInputProps({ value: result.memory });
         $('[id$=_ha]').prop('checked', result.ha);
       }
       $('#network_interfaces')
@@ -85,27 +74,12 @@ export function instanceTypeSelected(item) {
       url,
       data: `instance_type_id=${instanceType}`,
       success(result) {
-        const memoryInputElement = document
-          .getElementById('memory-input')
-          .getElementsByTagName('foreman-react-component')[0];
         if (result.name != null) {
-          memoryInputElement.setAttribute(
-            'data-props',
-            JSON.stringify({
-              ...memoryInputElement.reactProps,
-              defaultValue: result.memory / megabyte,
-            })
-          );
+          setMemoryInputProps({ value: result.memory });
           updateCoresAndSockets(result);
           $('[id$=_ha]').prop('checked', result.ha);
         }
-        memoryInputElement.setAttribute(
-          'data-props',
-          JSON.stringify({
-            ...memoryInputElement.reactProps,
-            disabled: result.name != null,
-          })
-        );
+        setMemoryInputProps({ disabled: result.name != null });
         disableCoresAndSockets(result);
         ['_ha'].forEach(name =>
           $(`[id$=${name}]`).prop('readOnly', result.name != null)
@@ -166,6 +140,16 @@ function addVolume({
   $(`[id$=${newId}_storage_domain]`)
     .next()
     .hide();
+}
+
+function setMemoryInputProps(props) {
+  const memoryInputElement = document
+    .getElementById('memory-input')
+    .getElementsByTagName('foreman-react-component')[0];
+  memoryInputElement.reactProps = {
+    ...memoryInputElement.reactProps,
+    ...props,
+  };
 }
 
 function updateCoresAndSockets(result) {

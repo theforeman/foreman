@@ -10,13 +10,7 @@
                         name: "#{f.object_name}[cpus]"}) %>
 </div>
 <%= select_f f, :cpu_mode, Foreman::Model::Libvirt::CPU_MODES, :to_s, :to_s, { }, :label => _("CPU mode"), :label_size => "col-md-2" %>
-<%= react_component('MemoryAllocationInput',
-                    {label: 'Memory',
-                     disabled: !new_vm,
-                     recommendedMaxValue: compute_resource.max_memory.to_i / 1.megabyte,
-                     defaultValue: f.object.memory.present? ? f.object.memory.to_i / 1.megabytes : 1024,
-                     id: "#{f.object_name.gsub(/[\[\]]/, '[' => '_', ']' => '_')}memory",
-                     name: "#{f.object_name}[memory]"}) %>
+<%= byte_size_f(f, :memory, disabled: !new_vm, label: _('Memory'), recommended_max_value: compute_resource.max_memory.to_i) %>
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2"} if new_vm && controller_name != "compute_attributes" %>

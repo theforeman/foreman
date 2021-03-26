@@ -16,6 +16,7 @@ import {
   selectProps,
   dateTimeWithErrorProps,
   ownComponentFieldProps,
+  memoryProps,
 } from './FormField.fixtures';
 
 const StoryForm = () => (
@@ -73,6 +74,9 @@ export const formField = () => (
       </Row>
       <Row>
         <FormField {...ownComponentFieldProps} />
+      </Row>
+      <Row>
+        <FormField {...memoryProps} />
       </Row>
     </Grid>
   </Story>
