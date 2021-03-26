@@ -71,7 +71,7 @@ module HostDescriptionHelper
     fields << { :field => [_("Comment"), host.comment], :priority => 500 } if host.comment.present?
     fields << { :field => [_("MAC Address"), host.mac], :priority => 600 } if host.mac.present?
     fields << { :field => [_("Architecture"), link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}"))], :priority => 700 } if host.arch.present?
-    fields << { :field => [_("Operating System"), link_to(host.operatingsystem.to_label, hosts_path(:search => "os_description = #{host.operatingsystem.description}"))], :priority => 800 } if host.operatingsystem.present?
+    fields << { :field => [_("Operating System"), link_to(host.operatingsystem.to_label, hosts_path(:search => %{os_title = "#{host.operatingsystem.title}"}))], :priority => 800 } if host.operatingsystem.present?
     fields << { :field => [_("PXE Loader"), host.pxe_loader], :priority => 900 } if host.operatingsystem.present? && !host.image_build?
     fields << { :field => [_("Host group"), link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"}))], :priority => 1000 } if host.hostgroup.present?
     fields << { :field => [_("Boot time"), (boot_time = host&.reported_data&.boot_time) ? date_time_relative(boot_time) : _('Not reported')], :priority => 1100 }
