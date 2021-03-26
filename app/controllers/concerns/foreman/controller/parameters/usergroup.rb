@@ -12,7 +12,7 @@ module Foreman::Controller::Parameters::Usergroup
           :usergroup_ids => [], :usergroup_names => []
 
         filter.permit do |ctx|
-          ctx.permit :admin if User.current.try(:admin?) && (ctx.ui? || ctx.api?)
+          ctx.permit :admin if (User.current.try(:admin?) && ctx.ui?) || ctx.api?
         end
       end
     end

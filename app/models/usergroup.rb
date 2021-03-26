@@ -39,6 +39,7 @@ class Usergroup < ApplicationRecord
   scoped_search :relation => :roles, :on => :name, :rename => :role, :complete_value => true
   scoped_search :relation => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   validate :ensure_uniq_name, :ensure_last_admin_remains_admin
+  validate :admin_can_be_set, :if => ->(o) { o.changed.include?('admin') }
 
   accepts_nested_attributes_for :external_usergroups, :reject_if => ->(a) { a[:name].blank? }, :allow_destroy => true
 
@@ -124,5 +125,9 @@ class Usergroup < ApplicationRecord
 
   def other_admins
     User.unscoped.only_admin.except_hidden - all_users
+  end
+
+  def admin_can_be_set
+    errors.add :admin, _('admin flag can only be modified by admins') unless User.current.admin?
   end
 end
