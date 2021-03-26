@@ -50,7 +50,7 @@ class Debian < Operatingsystem
     s.gsub!(/\(.+?\)/, '')
     s.squeeze! " "
     s.strip!
-    s += '.' + minor unless s.include?('.')
+    s += '.' + minor unless minor.blank? || s.include?('.')
     s.presence || description
   end
 
