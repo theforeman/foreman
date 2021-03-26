@@ -23,7 +23,7 @@ module Api
       def_param_group :usergroup do
         param :usergroup, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
-          param :admin, :bool, :required => false, :desc => N_("is an admin user group")
+          param :admin, :bool, :required => false, :desc => N_("is an admin user group, can be modified by admins only")
           param :user_ids, Array, :require => false
           param :usergroup_ids, Array, :require => false
           param :role_ids, Array, :require => false
