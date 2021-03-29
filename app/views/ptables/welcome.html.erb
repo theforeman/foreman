@@ -1,12 +1,11 @@
 <% content_for(:title, _("Partition Tables")) %>
-
-<div id="ptable-empty-state"></div>
 <% description = _("Partition templates describe the partition layout, with just a different disk layout to account for different server capabilities.")%>
+<% action = { :title => _("Create Partition Table"), :url => new_ptable_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'table',
                                     :iconType => 'fa',
                                     :header => _('Partition Tables'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("4.4.4PartitionTables") },
-                                    :action => { :title => _("Create Partition Table"), :url => new_ptable_path }
+                                    :action => action
                                   }) %>

@@ -161,6 +161,7 @@ export const stringIsPositiveNumber = value => {
  * @param {String} section - section id for foreman documetation
  */
 export const getManualURL = section => foremanUrl(`/links/manual/${section}`);
+export const getWikiURL = section => foremanUrl(`/links/wiki/${section}`);
 
 /**
  * Transform the Date object to date string accepted in the server
@@ -209,4 +210,5 @@ export default {
   formatDate,
   formatDateTime,
   foremanUrl,
+  getWikiURL,
 };

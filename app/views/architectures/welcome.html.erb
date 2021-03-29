@@ -1,16 +1,2 @@
 <% content_for(:title, _("Architectures")) %>
- <div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("building", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('Architectures') %></h1>
-  <p>
-    <%= _("Before you proceed to using Foreman you should provide information about one or more architectures.") %></br>
-    <%= _("Each entries represent a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems.").html_safe %></br>
-    <%= _("Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations.") %>
-  </p>
-  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("4.4.5Architectures")%></p>
-  <div class="blank-slate-pf-main-action">
-      <%= new_link(_("Create Architecture"), {}, { :class => "btn-lg" }) %>
-  </div>
-</div>
+<%= react_component('WelcomeArchitecture', {canCreate: authorized_for(action: :new)}) %>

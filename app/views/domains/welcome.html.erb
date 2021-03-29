@@ -1,20 +1,11 @@
-<% title _("Domains") %>
-
-<div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("globe", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('Domains') %></h1>
-  <p>
-    <%= _("Foreman considers a domain and a DNS zone as the same thing.") %></br>
-    <%= _("That is, if you are planning to manage a site where all the machines are of the form <i>hostname</i>.<b>somewhere.com</b>
-    then the domain is <b>somewhere.com</b>.").html_safe %></br>
-    <%= _('This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site.') %></br>
-    <%= _("The <b>fullname</b> field is used for human readability in reports and other pages that refer to domains,
-    and also available as an external node parameter").html_safe %></br>
-  </p>
-  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("4.4.7Networking")%></p>
-  <div class="blank-slate-pf-main-action">
-      <%= new_link(_("Create Domain"), {}, { :class => "btn-lg" }) %>
-  </div>
-</div>
+<% content_for(:title, _("Domains")) %>
+<% description =  _("Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter.")%>
+<% action ={ :title => _("Create Domain"), :url => new_domain_path } if authorized_for(:action => :new)%>
+<%= react_component('EmptyState', {
+                                    :icon => 'globe',
+                                    :iconType => 'fa',
+                                    :header => _('Domains'),
+                                    :description => description,
+                                    :documentation => { :url => documentation_url("4.4.7Networking") },
+                                    :action => action
+                                  }) %>

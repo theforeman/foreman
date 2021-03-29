@@ -11,6 +11,8 @@
         "lang": "en_US",
         "ignoreRequire": false,
         "skipWords": [
+          "x86_64",
+          "i386",
           "2xl",
           "4xl",
           "resize",

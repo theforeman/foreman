@@ -1,12 +1,9 @@
 <% content_for(:title, _("Fact Values")) %>
-<div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("list-alt", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('Fact Values') %></h1>
-  <%= _("You don't seem to have any facts yet. If you wish to configure fact pushing, please follow the documentation.") %>
-  <div class="blank-slate-pf-main-action">
-    <%= link_to _('Documentation'), documentation_url("3.5.5FactsandtheENC"), :rel => "external",
-      :class => "btn btn-primary btn-lg" %>
-  </div>
-</div>
+<% description = _("You don't seem to have any facts yet. If you wish to configure fact pushing, please follow the documentation.")%>
+<%= react_component('EmptyState', {
+                                    :icon => 'list-alt',
+                                    :iconType => 'fa',
+                                    :header => _('Fact Values'),
+                                    :description => description,
+                                    :documentation => { :url => documentation_url("3.5.5FactsandtheENC") },
+                                  }) %>
