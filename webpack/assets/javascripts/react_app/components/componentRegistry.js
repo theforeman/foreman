@@ -45,6 +45,10 @@ import ClipboardCopy from './common/ClipboardCopy';
 import MemoryAllocationInput from './MemoryAllocationInput';
 import CPUCoresInput from './CPUCoresInput';
 import LabelIcon from './common/LabelIcon';
+import { WelcomeEnv } from './Enviroments/Welcome';
+import { WelcomeAuthSource } from './AuthSource/Welcome';
+import { WelcomeConfigReports } from './ConfigReports/Welcome';
+import { WelcomeArchitecture } from './Architectures/Welcome';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -187,6 +191,10 @@ const coreComponets = [
   // Report templates
   { name: 'TemplateGenerator', type: TemplateGenerator },
   { name: 'LoginPage', type: LoginPage },
+  { name: 'WelcomeEnv', type: WelcomeEnv },
+  { name: 'WelcomeAuthSource', type: WelcomeAuthSource },
+  { name: 'WelcomeConfigReports', type: WelcomeConfigReports },
+  { name: 'WelcomeArchitecture', type: WelcomeArchitecture },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

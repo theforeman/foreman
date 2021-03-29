@@ -1,13 +1,11 @@
-<div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("globe", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('HTTP Proxies') %></h1>
-  <p>
-    <%= _("Defining HTTP Proxies that exist on your network allows you to perform various actions through those proxies.") %></br>
-  </p>
-  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("5.9HTTP(S)Proxy")%></p>
-  <div class="blank-slate-pf-main-action">
-      <%= new_link(_("New HTTP Proxy"), {}, { :class => "btn-lg" }) %>
-  </div>
-</div>
+<% content_for(:title, _("HTTP Proxies")) %>
+<% description = _("Defining HTTP Proxies that exist on your network allows you to perform various actions through those proxies.")%>
+<% action = { :title => _("New HTTP Proxy"), :url => new_http_proxy_path } if authorized_for(:action => :new)%>
+<%= react_component('EmptyState', {
+                                    :icon => 'globe',
+                                    :iconType => 'fa',
+                                    :header => _('HTTP Proxies'),
+                                    :description => description,
+                                    :documentation => { :url => documentation_url("5.9HTTP(S)Proxy") },
+                                    :action => action
+                                  }) %>

@@ -1,15 +1,12 @@
-<% title _("Compute Resources") %>
 
-<div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("cubes", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('Compute Resources') %></h1>
-  <p>
-    <%= _("Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts.") %></br>
-  </p>
-  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("5.2ComputeResources")%></p>
-  <div class="blank-slate-pf-main-action">
-     <%= new_link(_("Create Compute Resource"), {}, { :class => "btn-lg" }) %>
-  </div>
-</div>
+<% content_for(:title, _("Compute Resources")) %>
+<% description = _("Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts.")%>
+<% action = { :title => _("Create Compute Resource"), :url => new_compute_resource_path } if authorized_for(:action => :new)%>
+<%= react_component('EmptyState', {
+                                    :icon => 'cubes',
+                                    :iconType => 'fa',
+                                    :header => _('Compute Resources'),
+                                    :description => description,
+                                    :documentation => { :url => documentation_url("5.2ComputeResources") },
+                                    :action => action
+                                  }) %>

@@ -10,9 +10,8 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
 
   test "creating report templates with inputs, displaying them when generating the template" do
     visit report_templates_path
-    assert page.has_link?('Create Report Template')
 
-    click_link 'Create Report Template'
+    page.find('a', text: 'Create Report Template').click
 
     template_text = "CPUs,RAM,HDD\n<%= input(\'cpus\') -%>,<%= 1024 -%> MB,N/A"
 

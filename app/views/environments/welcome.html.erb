@@ -1,17 +1,2 @@
-<% content_for(:title, _("Puppet environments")) %>
-<div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("th", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('Environments') %></h1>
-  <p><%= _("If you are planning to use Foreman as an external node classifier you should provide information about one or more environments. This information is commonly imported from a pre-existing Puppet configuration by the use of the %{link_start}Puppet classes and environment importer%{link_end}.").html_safe % { :link_start => tag(:a, :href => documentation_url("4.2.2Classes"), :rel => 'external'),
-                  :link_end => '</a>'.html_safe} %>
-  </p>
-  <p><%= link_to(_('Learn more about this in the documentation.'), documentation_url("4.2.1Environments")) %></p>
-  <div class="blank-slate-pf-main-action">
-      <%= new_link(_('Create Puppet Environment'), {}, { :class => "btn-lg" }) %>
-  </div>
-  <div class="blank-slate-pf-secondary-action">
-    <%= import_proxy_select(hash_for_import_environments_environments_path) %>
-  </div>
-</div>
+<% content_for(:title, _("Enviroments")) %>
+<%= react_component('WelcomeEnv', {canCreate: authorized_for(action: :new)}) %>

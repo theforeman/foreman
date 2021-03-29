@@ -409,7 +409,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       refute_available_organization(@org1.name)
       refute_available_organization(@org2.name)
 
-      click_link 'Create Domain'
+      page.find('a', text: 'Create Domain').click
 
       assert_form_tab('Locations')
       assert_form_tab('Organizations')

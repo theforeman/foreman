@@ -1,19 +1,2 @@
-<div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("users", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('Authentication Sources') %></h1>
-  <p>
-    <%= _("Foreman can use LDAP based service for user information and authentication.") %><br>
-    <%= _("The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>,
-        <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>.").html_safe %>
-  </p>
-  <p><%= link_to _('Learn more about LDAP authentication in the documentation.'), documentation_url("4.1.1LDAPAuthentication")%></p>
-  <p>
-    <%= _("Foreman can use External service for user information and authentication.") %><br>
-  </p>
-  <p><%= link_to _('Learn more about External authentication in the documentation.'), documentation_url("5.7ExternalAuthentication") %></p>
-  <div class="blank-slate-pf-main-action">
-    <%= new_link(_("Create LDAP Authentication Source"), :class => 'btn-lg',  :controller => :auth_source_ldaps, :action => :new) %>
-  </div>
-</div>
+<%  content_for(:title, _("Authentication Sources")) %>
+<%= react_component('WelcomeAuthSource', {canCreate: authorized_for(action: :new)}) %>

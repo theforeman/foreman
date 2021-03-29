@@ -1,12 +1,11 @@
 <% content_for(:title, _("Global Parameters")) %>
-<div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("list-ul", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('Global Parameters') %></h1>
-  <p><%= _("Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest.") %></p>
-  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("global-parameters")%></p>
-  <div class="blank-slate-pf-main-action">
-    <%= new_link(_("Create Global Parameter"), :class => 'btn-lg') %>
-  </div>
-</div>
+<% description = _("Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest.")%>
+<% action = { :title => _("Create Global Parameter"), :url => new_common_parameter_path } if authorized_for(:action => :new)%>
+<%= react_component('EmptyState', {
+                                    :icon => 'list-ul',
+                                    :iconType => 'fa',
+                                    :header => _('Global Parameters'),
+                                    :description => description,
+                                    :documentation => { :url => documentation_url("global-parameters") },
+                                    :action => action
+                                  }) %>

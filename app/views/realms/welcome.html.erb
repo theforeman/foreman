@@ -1,15 +1,11 @@
 <% content_for(:title, _("Realms")) %>
-<div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("key", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('Realms') %></h1>
-  <p><%= _("Foreman supports automatically creating realm entries for new hosts.") %></br>
-  <%= _("When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password.") %></p>
-  <p>
-    <%= link_to _('Learn more about this in the documentation.'), documentation_url("4.3.8Realm")%>
-  </p>
-  <div class="blank-slate-pf-main-action">
-    <%= new_link(_('Create Realm'), {}, { :class => "btn-lg" }) %>
-  </div>
-</div>
+<% description = _("Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password.") %>
+<% action = { :title => _("Create Realm"), :url => new_realm_path } if authorized_for(:action => :new)%>
+<%= react_component('EmptyState', {
+                                    :icon => 'key',
+                                    :iconType => 'fa',
+                                    :header => _('Realms'),
+                                    :description => description,
+                                    :documentation => { :url => documentation_url("4.3.8Realm") },
+                                    :action => action
+                                  }) %>
