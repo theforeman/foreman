@@ -23,7 +23,7 @@
       <%= password_f   f, :password, :help_inline => _("Password to use if authentication is required."), :unset => true %>
 
       <%= text_f   f, :test_url, :value => "https://aws.amazon.com", :name => "test_url", :label => _("Test URL"),
-                   :help_inline => spinner_button_f(f, 'Test Connection', "tfm.httpProxies.testConnection(this, '#{test_connection_http_proxies_path}')",
+                   :help_inline => spinner_button_f(f, _('Test Connection'), "tfm.httpProxies.testConnection(this, '#{test_connection_http_proxies_path}')",
                                                      :id => 'test_connection_button',
                                                      :spinner_id => 'test_connection_indicator',
                                                      :class => 'btn-default',

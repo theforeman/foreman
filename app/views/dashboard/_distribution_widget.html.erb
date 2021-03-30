@@ -1,9 +1,9 @@
 <% origin = @data.settings[:origin] %>
 <h4 class="header">
   <% if origin %>
-    <%= N_('Run Distribution Chart for %s') % origin %>
+    <%= _('Run Distribution Chart for %s') % origin %>
   <% else %>
-    <%= N_('Run Distribution Chart') %>
+    <%= _('Run Distribution Chart') %>
   <% end %>
 </h4>
 <%= react_component('BarChart', {
