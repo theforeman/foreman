@@ -176,13 +176,14 @@ class FilterTest < ActiveSupport::TestCase
     assert_empty f.taxonomy_search
   end
 
-  test "#allows_*_filtering" do
-    fb = FactoryBot.create(:filter, :resource_type => 'Bookmark')
+  test "#resource_taxable_by_*?" do
+    # Filter is global resource
+    ff = FactoryBot.create(:filter, :resource_type => 'Filter')
     fd = FactoryBot.create(:filter, :resource_type => 'Domain')
-    refute fb.allows_organization_filtering?
-    refute fb.allows_location_filtering?
-    assert fd.allows_organization_filtering?
-    assert fd.allows_location_filtering?
+    refute ff.resource_taxable_by_organization?
+    refute ff.resource_taxable_by_location?
+    assert fd.resource_taxable_by_organization?
+    assert fd.resource_taxable_by_location?
   end
 
   test "search string composition" do

@@ -69,7 +69,7 @@ class FiltersControllerTest < ActionController::TestCase
     org2 = FactoryBot.create(:organization)
     role.organizations = [org1]
     role.filters.reload
-    filter_with_org = role.filters.detect(&:allows_organization_filtering?)
+    filter_with_org = role.filters.detect(&:resource_taxable_by_organization?)
     filter_with_org.update :organizations => [org1, org2], :override => true
 
     patch :disable_overriding, params: { :role_id => role.id, :id => filter_with_org.id }, session: set_session_user

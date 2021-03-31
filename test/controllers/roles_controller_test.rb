@@ -73,7 +73,7 @@ class RolesControllerTest < ActionController::TestCase
 
     test 'should disable filter overriding' do
       @role.filters.reload
-      @filter_with_org = @role.filters.detect { |f| f.allows_organization_filtering? }
+      @filter_with_org = @role.filters.detect { |f| f.resource_taxable_by_organization? }
       @filter_with_org.update :organizations => [@org1, @org2], :override => true
 
       patch :disable_filters_overriding, params: { :id => @role.id }, session: set_session_user

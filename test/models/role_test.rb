@@ -366,8 +366,8 @@ class RoleTest < ActiveSupport::TestCase
       @org1 = FactoryBot.create(:organization)
       @org2 = FactoryBot.create(:organization)
       @role.filters.reload
-      @filter_with_org = @role.filters.detect { |f| f.allows_organization_filtering? }
-      @filter_without_org = @role.filters.detect { |f| !f.allows_organization_filtering? }
+      @filter_with_org = @role.filters.detect { |f| f.resource_taxable_by_organization? }
+      @filter_without_org = @role.filters.detect { |f| !f.resource_taxable_by_organization? }
     end
 
     describe '#sync_inheriting_filters' do
