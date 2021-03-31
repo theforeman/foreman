@@ -26,8 +26,8 @@
 
       <%= selectable_f(f, :resource_type, Permission.resources_with_translations,
                        {:include_blank => _('(Miscellaneous)')}, {:'data-url' => permissions_path,
-                                                                  :'data-allow-organizations' => @filter.allows_organization_filtering?,
-                                                                  :'data-allow-locations' => @filter.allows_location_filtering?,
+                                                                  :'data-allow-organizations' => @filter.resource_taxable_by_organization?,
+                                                                  :'data-allow-locations' => @filter.resource_taxable_by_location?,
                                                                   :autofocus => true}) %>
 
       <%= multiple_selects f, :permissions, Permission.where(:resource_type => f.object.resource_type),
@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div id="override_taxonomy_form" class="<%= f.object.allows_taxonomies_filtering? ? '' : 'hidden' %>">
+      <div id="override_taxonomy_form" class="<%= f.object.resource_taxable? ? '' : 'hidden' %>">
         <%= checkbox_f f, :override?,
                        :label_help => _("Filters inherit organizations and locations associated with the role by default. If override field is enabled, <br> the filter can override the set of its organizations and locations. Later role changes will not affect such filter.<br> After disabling the override field, the role organizations and locations apply again.").html_safe,
                        :id => 'override_taxonomy_checkbox' %>

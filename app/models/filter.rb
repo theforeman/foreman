@@ -127,15 +127,15 @@ class Filter < ApplicationRecord
     end
   end
 
-  def allows_taxonomies_filtering?
-    allows_organization_filtering? || allows_location_filtering?
+  def resource_taxable?
+    resource_taxable_by_organization? || resource_taxable_by_location?
   end
 
-  def allows_organization_filtering?
+  def resource_taxable_by_organization?
     granular? && resource_class.allows_organization_filtering?
   end
 
-  def allows_location_filtering?
+  def resource_taxable_by_location?
     granular? && resource_class.allows_location_filtering?
   end
 
@@ -162,8 +162,8 @@ class Filter < ApplicationRecord
   end
 
   def inherit_taxonomies!
-    self.organization_ids = role.organization_ids if allows_organization_filtering?
-    self.location_ids = role.location_ids if allows_location_filtering?
+    self.organization_ids = role.organization_ids if resource_taxable_by_organization?
+    self.location_ids = role.location_ids if resource_taxable_by_location?
     build_taxonomy_search
   end
 
@@ -173,18 +173,12 @@ class Filter < ApplicationRecord
     orgs = build_taxonomy_search_string('organization')
     locs = build_taxonomy_search_string('location')
 
-    orgs = [] if !granular? || !resource_class.allows_organization_filtering?
-    locs = [] if !granular? || !resource_class.allows_location_filtering?
-
-    if organizations.empty? && locations.empty?
-      self.taxonomy_search = nil
-    else
-      taxonomies = [orgs, locs].reject { |t| t.blank? }
-      self.taxonomy_search = taxonomies.join(' and ')
-    end
+    taxonomies = [orgs, locs].reject { |t| t.blank? }
+    self.taxonomy_search = taxonomies.join(' and ').presence
   end
 
   def build_taxonomy_search_string(name)
+    return '' unless send("resource_taxable_by_#{name}?")
     relation = send(name.pluralize).pluck(:id)
     return '' if relation.empty?
 
@@ -224,17 +218,17 @@ class Filter < ApplicationRecord
   end
 
   def allowed_taxonomies
-    if organization_ids.present? && !allows_organization_filtering?
+    if organization_ids.present? && !resource_taxable_by_organization?
       errors.add(:organization_ids, _('You can\'t assign organizations to this resource'))
     end
 
-    if location_ids.present? && !allows_location_filtering?
+    if location_ids.present? && !resource_taxable_by_location?
       errors.add(:location_ids, _('You can\'t assign locations to this resource'))
     end
   end
 
   def enforce_override_flag
-    self.override = false unless allows_taxonomies_filtering?
+    self.override = false unless resource_taxable?
     true
   end
 
