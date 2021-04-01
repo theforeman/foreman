@@ -168,17 +168,15 @@ task :config => :environment do
   exit
 end
 
-# The db_pending_* settings are handled by the installer. For case
+# The db_pending_seed setting is handled by the installer. For case
 # of not installing with installer, we want to ensure the settings to false
 # at the end of the seeding
 Rake::Task['db:seed'].enhance do
-  %w(db_pending_migration db_pending_seed).each do |setting_name|
-    if !Setting[setting_name].nil?
-      Setting[setting_name] = false
-    else
-      setting = Setting::General.default_settings.detect { |s| s[:name] == setting_name }
-      setting[:value] = false
-      Setting.create! setting.update(:category => "Setting::General")
-    end
+  if !Setting['db_pending_seed'].nil?
+    Setting['db_pending_seed'] = false
+  else
+    setting = Setting::General.default_settings.detect { |s| s[:name] == 'db_pending_seed' }
+    setting[:value] = false
+    Setting.create! setting.update(:category => "Setting::General")
   end
 end
