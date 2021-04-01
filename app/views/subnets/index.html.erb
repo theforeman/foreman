@@ -26,9 +26,11 @@
         <td><%= link_to_if_authorized(hosts_count[subnet], hash_for_hosts_path(:search => "subnet.name=\"#{subnet}\"")) %>
         <td class="col-md-1">
           <%= action_buttons(display_delete_if_authorized(
-            hash_for_subnet_path(:id => subnet).
-            merge(:auth_object => subnet, :authorizer => authorizer),
-            :data => { :confirm => _("Delete %s?") % subnet.name })) %>
+                               hash_for_subnet_path(:id => subnet).
+                               merge(:auth_object => subnet, :authorizer => authorizer),
+                               :data => { :confirm => _("Delete %s?") % subnet.name }),
+                             render_pagelets_for(:action_buttons, subject: subnet)
+              ) %>
         </td>
       </tr>
     <% end %>
