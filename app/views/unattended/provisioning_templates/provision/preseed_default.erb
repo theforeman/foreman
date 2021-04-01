@@ -125,10 +125,10 @@ d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/looku
 <% end -%>
 <% end -%>
 
-<% if host_param('kt_activation_keys') && @host.operatingsystem.name == 'Debian' -%>
-# If we are using Katello for content management, then do not add updates and
-# security repos during the initial installation. Prevents us from defaulting to:
-# d-i apt-setup/services-select multiselect updates,security
+<% if host_param('kt_activation_keys') -%>
+# If we are using Katello for content management, then we do not want to use
+# upstream mirrors prior to Katello registration.
+d-i apt-setup/use_mirror boolean false
 d-i apt-setup/services-select multiselect
 
 <% end -%>
