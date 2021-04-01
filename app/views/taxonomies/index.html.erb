@@ -1,7 +1,6 @@
 <% title taxonomy_upcase %>
 <% title_actions new_link(taxonomy_new),
-                 display_link_if_authorized(_("Mismatches Report"), hash_for_mismatches_taxonomies_path, :class => 'btn btn-default'),
-                 help_button %>
+                 display_link_if_authorized(_("Mismatches Report"), hash_for_mismatches_taxonomies_path, :class => 'btn btn-default') %>
 
 <% if @count_nil_hosts > 0 %>
   <%= alert :class => 'alert-warning', :header => '',
