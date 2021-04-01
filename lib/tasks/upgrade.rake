@@ -12,7 +12,7 @@ namespace :upgrade do
   task :run => :environment do
     ENV['FOREMAN_UPGRADE'] = '1'
 
-    raise "DB migration has not run" if Setting['db_pending_migration']
+    raise "DB migration has not run" if ActiveRecord::Base.connection.migration_context.needs_migration?
     raise "DB seed has not run" if Setting['db_pending_seed']
 
     total = UpgradeTask.needing_run.count
