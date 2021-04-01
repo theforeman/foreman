@@ -31,8 +31,14 @@ module Hostext
       scoped_search_status "skipped",         :relation => :configuration_status_object, :on => :status, :rename => :'status.skipped'
       scoped_search_status "pending",         :relation => :configuration_status_object, :on => :status, :rename => :'status.pending'
 
-      scoped_search :on => :global_status, :complete_value => { :ok => HostStatus::Global::OK, :warning => HostStatus::Global::WARN, :error => HostStatus::Global::ERROR }, :only_explicit => true
+      scoped_search :relation => :build_status_object, :on => :status, :rename => :build_status, :only_explicit => true, :operators => ['=', '!=', '<>'], :complete_value => {
+        built: HostStatus::BuildStatus::BUILT,
+        pending: HostStatus::BuildStatus::PENDING,
+        token_expired: HostStatus::BuildStatus::TOKEN_EXPIRED,
+        build_failed: HostStatus::BuildStatus::BUILD_FAILED,
+      }
 
+      scoped_search :on => :global_status, :complete_value => { :ok => HostStatus::Global::OK, :warning => HostStatus::Global::WARN, :error => HostStatus::Global::ERROR }, :only_explicit => true
       scoped_search :relation => :model,       :on => :name,    :complete_value => true,  :rename => :model
       scoped_search :relation => :hostgroup,   :on => :name,    :complete_value => true,  :rename => :hostgroup
       scoped_search :relation => :hostgroup,   :on => :name,    :complete_enabled => false, :rename => :hostgroup_name, :only_explicit => true

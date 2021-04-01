@@ -7,6 +7,7 @@ import { translate as __ } from '../../../common/I18n';
 
 const SkeletonLoader = ({
   status,
+  customSkeleton,
   skeletonProps,
   emptyState,
   children,
@@ -14,7 +15,7 @@ const SkeletonLoader = ({
 }) => {
   switch (status) {
     case STATUS.PENDING: {
-      return <Skeleton {...skeletonProps} />;
+      return customSkeleton || <Skeleton {...skeletonProps} />;
     }
     case STATUS.RESOLVED: {
       return children || emptyState;
@@ -29,6 +30,7 @@ const SkeletonLoader = ({
 
 SkeletonLoader.propTypes = {
   status: PropTypes.string.isRequired,
+  customSkeleton: PropTypes.node,
   skeletonProps: PropTypes.object,
   emptyState: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   children: PropTypes.node,
@@ -36,6 +38,7 @@ SkeletonLoader.propTypes = {
 };
 
 SkeletonLoader.defaultProps = {
+  customSkeleton: undefined,
   skeletonProps: {},
   emptyState: __('N/A'),
   children: undefined,

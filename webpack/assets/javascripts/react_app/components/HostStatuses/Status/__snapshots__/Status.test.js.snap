@@ -1,0 +1,167 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Status renders Status 1`] = `
+<GridItem
+  sm={12}
+  xl2={6}
+>
+  <Card
+    className="pf-c-alert pf-m-danger"
+    isExpanded={false}
+    isHoverable={true}
+  >
+    <CardHeader
+      onExpand={[Function]}
+      toggleButtonProps={
+        Object {
+          "aria-expanded": false,
+          "aria-label": "Details",
+          "aria-labelledby": "titleId toggle-button",
+          "id": "toggle-button",
+        }
+      }
+    >
+      <Grid
+        className="w-100"
+        hasGutter={true}
+      >
+        <GridItem
+          rowSpan={2}
+          span={1}
+          style={
+            Object {
+              "fontSize": "2.2em",
+            }
+          }
+        >
+          <GlobalStatusIcon
+            status={2}
+          />
+        </GridItem>
+        <GridItem
+          span={5}
+          style={
+            Object {
+              "fontSize": "1.5em",
+            }
+          }
+        >
+          Status Name
+        </GridItem>
+        <GridItem
+          className="status-count text-center"
+          rowSpan={2}
+          span={2}
+        >
+          <div
+            style={
+              Object {
+                "fontSize": "1.5em",
+              }
+            }
+          >
+            <GlobalStatusIcon
+              status={0}
+            />
+          </div>
+          <LinkOrLabel
+            label="Total: 3"
+            path="/hosts?search=status+%3D+ok"
+          />
+          <LinkOrLabel
+            label="Owned: 1"
+            path="/hosts?search=owner+%3D+current_user+AND+%28status+%3D+warn"
+          />
+        </GridItem>
+        <GridItem
+          className="status-count text-center"
+          rowSpan={2}
+          span={2}
+        >
+          <div
+            style={
+              Object {
+                "fontSize": "1.5em",
+              }
+            }
+          >
+            <GlobalStatusIcon
+              status={1}
+            />
+          </div>
+          <LinkOrLabel
+            label="Total: 7"
+            path="/hosts?search=status+%3D+warn"
+          />
+          <LinkOrLabel
+            label="Owned: 2"
+            path="/hosts?search=owner+%3D+current_user+AND+%28status+%3D+error"
+          />
+        </GridItem>
+        <GridItem
+          className="status-count text-center"
+          rowSpan={2}
+          span={2}
+        >
+          <div
+            style={
+              Object {
+                "fontSize": "1.5em",
+              }
+            }
+          >
+            <GlobalStatusIcon
+              status={2}
+            />
+          </div>
+          <LinkOrLabel
+            label="Total: 5"
+            path="/hosts?search=status+%3D+error"
+          />
+          <LinkOrLabel
+            label="Owned: 0"
+            path="/hosts?search=owner+%3D+current_user+AND+%28status+%3D+ok"
+          />
+        </GridItem>
+        <GridItem
+          span={5}
+        >
+          Description of the status
+        </GridItem>
+      </Grid>
+    </CardHeader>
+    <CardExpandableContent>
+      <Details
+        data={
+          Array [
+            Object {
+              "global_status": 0,
+              "label": "OK",
+              "owned": 1,
+              "owned_path": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+ok",
+              "total": 3,
+              "total_path": "/hosts?search=status+%3D+ok",
+            },
+            Object {
+              "global_status": 1,
+              "label": "Warning",
+              "owned": 2,
+              "owned_path": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+warn",
+              "total": 7,
+              "total_path": "/hosts?search=status+%3D+warn",
+            },
+            Object {
+              "global_status": 2,
+              "label": "Error",
+              "owned": 0,
+              "owned_path": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+error",
+              "total": 5,
+              "total_path": "/hosts?search=status+%3D+error",
+            },
+          ]
+        }
+      />
+    </CardExpandableContent>
+  </Card>
+</GridItem>
+`;

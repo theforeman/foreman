@@ -31,6 +31,7 @@ class Host::Managed < Host::Base
   belongs_to :image
   has_many :host_statuses, -> { where.not(type: nil) }, :class_name => 'HostStatus::Status', :foreign_key => 'host_id', :inverse_of => :host, :dependent => :destroy
   has_one :configuration_status_object, :class_name => 'HostStatus::ConfigurationStatus', :foreign_key => 'host_id'
+  has_one :build_status_object, :class_name => 'HostStatus::BuildStatus', :foreign_key => 'host_id'
   before_destroy :remove_reports
 
   def self.complete_for(query, opts = {})

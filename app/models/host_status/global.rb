@@ -4,6 +4,12 @@ module HostStatus
     WARN = 1
     ERROR = 2
 
+    LABELS = {
+      OK => N_('OK'),
+      WARN => N_('Warning'),
+      ERROR => N_('Error'),
+    }.freeze
+
     attr_accessor :status
 
     def self.build(statuses, options = {})
@@ -29,16 +35,7 @@ module HostStatus
     end
 
     def to_label
-      case status
-        when OK
-          N_('OK')
-        when WARN
-          N_('Warning')
-        when ERROR
-          N_('Error')
-        else
-          raise 'Unknown global status'
-      end
+      LABELS[status] || (raise 'Unknown global status')
     end
   end
 end
