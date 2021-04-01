@@ -237,6 +237,7 @@ Foreman::AccessControl.map do |permission_set|
                                     :unattended => [:host_template, :hostgroup_template],
                                      :"api/v2/hosts" => [:index, :show, :get_status, :vm_compute_attributes, :template, :enc],
                                      :"api/v2/interfaces" => [:index, :show],
+                                     :"api/v2/host_statuses" => [:index],
                                      :locations =>  [:mismatches],
                                      :organizations =>  [:mismatches],
                                   }

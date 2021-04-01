@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HostStatusesSelectors selectors selects GlobalStatus 1`] = `2`;
+
+exports[`HostStatusesSelectors selectors selects HostStatusCounter 1`] = `
+Object {
+  "error": Object {
+    "owned": 0,
+    "total": 5,
+  },
+  "ok": Object {
+    "owned": 1,
+    "total": 3,
+  },
+  "unknown": Object {
+    "owned": 0,
+    "total": 0,
+  },
+  "warn": Object {
+    "owned": 2,
+    "total": 7,
+  },
+}
+`;
+
+exports[`HostStatusesSelectors selectors selects HostStatusDescription 1`] = `"Description of the status"`;
+
+exports[`HostStatusesSelectors selectors selects HostStatusDetails 1`] = `
+Array [
+  Object {
+    "global_status": 0,
+    "label": "OK",
+    "owned": 1,
+    "owned_path": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+ok",
+    "total": 3,
+    "total_path": "/hosts?search=status+%3D+ok",
+  },
+  Object {
+    "global_status": 1,
+    "label": "Warning",
+    "owned": 2,
+    "owned_path": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+warn",
+    "total": 7,
+    "total_path": "/hosts?search=status+%3D+warn",
+  },
+  Object {
+    "global_status": 2,
+    "label": "Error",
+    "owned": 0,
+    "owned_path": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+error",
+    "total": 5,
+    "total_path": "/hosts?search=status+%3D+error",
+  },
+]
+`;
+
+exports[`HostStatusesSelectors selectors selects HostStatusesNames 1`] = `
+Array [
+  "Status Name",
+]
+`;
+
+exports[`HostStatusesSelectors selectors selects selectHostStatusOwnedPaths 1`] = `
+Object {
+  "errorOwnedPath": "/hosts?search=status+%3D+error",
+  "okOwnedPath": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+ok",
+  "warnOwnedPath": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+warn",
+}
+`;
+
+exports[`HostStatusesSelectors selectors selects selectHostStatusTotalPaths 1`] = `
+Object {
+  "errorTotalPath": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+error",
+  "okTotalPath": "/hosts?search=status+%3D+ok",
+  "warnTotalPath": "/hosts?search=status+%3D+warn",
+}
+`;
