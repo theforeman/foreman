@@ -145,7 +145,7 @@ module.exports = env => {
           })
         },
         {
-          test: /\.(png|gif|svg)$/,
+          test: /\.(svg|ttf|eot|woff|woff2|png|gif|jpg)$/,
           use: 'url-loader?limit=32767'
         },
         {

@@ -1,0 +1,32 @@
+@import './colors.scss';
+
+.foreman-theme #react-app-root {
+  .pf-c-page__sidebar {
+    --pf-c-page__sidebar--Width: 250px;
+    --pf-c-page__sidebar--BackgroundColor: #{$nav-pf-vertical-bg-color};
+  }
+
+  .pf-c-page__header {
+    --pf-c-page__header--BackgroundColor: #{$topbar-default-color};
+  }
+
+  .pf-c-nav__link {
+    --pf-c-nav__link--BackgroundColor: #{$nav-pf-vertical-bg-color};
+    --pf-c-nav__link--m-current--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-c-nav__link--hover--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-c-nav__link--active--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-c-nav__link--m-current--before--BorderBottomColor: #{$nav-pf-vertical-secondary-active-bg-color};
+    --pf-c-nav__link--m-current--after--BorderLeftColor: #{$nav-pf-vertical-secondary-active-bg-color};
+    --pf-c-nav__link--after--BorderColor: #{$nav-pf-vertical-secondary-active-bg-color};
+    --pf-c-nav__link--before--BorderColor: #{$nav-pf-vertical-secondary-active-bg-color};
+    --pf-c-nav__link--Color: #{$nav-pf-vertical-icon-color};
+  }
+
+  .pf-c-nav__item.pf-m-expandable::before {
+    --pf-c-nav__item--before--BorderColor: #{$nav-pf-vertical-active-bg-color};
+  }
+
+  .pf-c-nav__subnav {
+    --pf-c-nav--c-divider--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+  }
+}

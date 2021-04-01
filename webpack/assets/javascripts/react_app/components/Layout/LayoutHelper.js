@@ -23,21 +23,6 @@ export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
 export const getCurrentPath = () =>
   removeLastSlashFromPath(window.location.pathname);
 
-export const getActiveMenuItem = (items, path = getCurrentPath()) => {
-  for (const item of items) {
-    for (const child of item.children) {
-      if (child.exact) {
-        if (path === child.url) return { title: item.name };
-      } else if (path.startsWith(child.url)) return { title: item.name };
-    }
-  }
-  return { title: '' };
-};
-
-export const handleMenuClick = (primary, activeMenu, changeActive) => {
-  if (primary.title !== __(activeMenu)) changeActive(primary);
-};
-
 export const combineMenuItems = data => {
   const items = [];
 
@@ -57,18 +42,26 @@ export const combineMenuItems = data => {
     items.push(translatedItem);
   });
 
-  items.push(createOrgItem(data.orgs.available_organizations));
-  items.push(createLocationItem(data.locations.available_locations));
+  items.push(
+    createOrgItem(data.orgs.available_organizations, data.orgs.current_org)
+  );
+  items.push(
+    createLocationItem(
+      data.locations.available_locations,
+      data.locations.current_location
+    )
+  );
 
   return items;
 };
 
-const createOrgItem = orgs => {
+const createOrgItem = (orgs, currentOrganization) => {
   const anyOrg = {
     name: __('Any Organization'),
     onClick: () => {
       window.location.assign(foremanUrl('/organizations/clear'));
     },
+    isActive: !currentOrganization,
   };
   const childrenArray = [anyOrg];
 
@@ -79,6 +72,7 @@ const createOrgItem = orgs => {
       onClick: () => {
         window.location.assign(org.href);
       },
+      isActive: currentOrganization === org.title,
     };
     childrenArray.push(childObject);
   });
@@ -94,12 +88,13 @@ const createOrgItem = orgs => {
   return orgItem;
 };
 
-const createLocationItem = locations => {
+const createLocationItem = (locations, currentLocation) => {
   const anyLoc = {
     name: __('Any Location'),
     onClick: () => {
       window.location.assign(foremanUrl('/locations/clear'));
     },
+    isActive: !currentLocation,
   };
   const childrenArray = [anyLoc];
 
@@ -110,6 +105,7 @@ const createLocationItem = locations => {
       onClick: () => {
         window.location.assign(loc.href);
       },
+      isActive: currentLocation === loc.title,
     };
     childrenArray.push(childObject);
   });
@@ -182,10 +178,8 @@ export const dataPropType = {
 export const layoutPropTypes = {
   children: PropTypes.node,
   isLoading: PropTypes.bool,
-  isCollapsed: PropTypes.bool,
-  activeMenu: PropTypes.string,
+  isNavOpen: PropTypes.bool,
   navigate: PropTypes.func,
-  changeActiveMenu: PropTypes.func,
   expandLayoutMenus: PropTypes.func,
   collapseLayoutMenus: PropTypes.func,
   items: PropTypes.arrayOf(
@@ -212,10 +206,7 @@ export const layoutDefaultProps = {
   items: [],
   data: {},
   isLoading: false,
-  isCollapsed: false,
-  activeMenu: '',
   navigate: noop,
-  changeActiveMenu: noop,
   expandLayoutMenus: noop,
   collapseLayoutMenus: noop,
 };

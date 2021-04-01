@@ -54,15 +54,18 @@ Array [
   Object {
     "children": Array [
       Object {
+        "isActive": false,
         "name": "Any Organization",
         "onClick": [Function],
       },
       Object {
+        "isActive": true,
         "name": "org1",
         "onClick": [Function],
         "type": undefined,
       },
       Object {
+        "isActive": false,
         "name": "org2",
         "onClick": [Function],
         "type": undefined,
@@ -76,20 +79,24 @@ Array [
   Object {
     "children": Array [
       Object {
+        "isActive": false,
         "name": "Any Location",
         "onClick": [Function],
       },
       Object {
+        "isActive": false,
         "name": "yaml",
         "onClick": [Function],
         "type": undefined,
       },
       Object {
+        "isActive": true,
         "name": "london",
         "onClick": [Function],
         "type": undefined,
       },
       Object {
+        "isActive": false,
         "name": "norway",
         "onClick": [Function],
         "type": undefined,
@@ -101,22 +108,4 @@ Array [
     "type": "sub_menu",
   },
 ]
-`;
-
-exports[`LayoutHelper should getActiveMenuItem(Hosts, "/hosts/new") 1`] = `
-Object {
-  "title": "Hosts",
-}
-`;
-
-exports[`LayoutHelper should getActiveMenuItem(Monitor, null) 1`] = `
-Object {
-  "title": "Monitor",
-}
-`;
-
-exports[`LayoutHelper should getActiveMenuItem(null) 1`] = `
-Object {
-  "title": "",
-}
 `;

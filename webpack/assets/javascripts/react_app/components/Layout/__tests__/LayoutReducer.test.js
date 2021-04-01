@@ -2,9 +2,7 @@ import {
   LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_CHANGE_ACTIVE,
-  LAYOUT_COLLAPSE,
-  LAYOUT_EXPAND,
+  LAYOUT_CHANGE_IS_NAV_OPEN,
 } from '../LayoutConstants';
 
 import reducer from '../LayoutReducer';
@@ -18,8 +16,6 @@ const fixtures = {
       type: LAYOUT_INITIALIZE,
       payload: {
         items: 'some-items',
-        activeMenu: 'some-menu',
-        isCollapsed: true,
         organization: 'some organization',
         location: 'some location',
       },
@@ -35,22 +31,10 @@ const fixtures = {
       type: LAYOUT_HIDE_LOADING,
     },
   },
-  'should handle LAYOUT_CHANGE_ACTIVE': {
+  'should handle LAYOUT_CHANGE_IS_NAV_OPEN': {
     action: {
-      type: LAYOUT_CHANGE_ACTIVE,
-      payload: {
-        activeMenu: 'Monitor',
-      },
-    },
-  },
-  'should handle LAYOUT_COLLAPSE': {
-    action: {
-      type: LAYOUT_COLLAPSE,
-    },
-  },
-  'should handle LAYOUT_EXPAND': {
-    action: {
-      type: LAYOUT_EXPAND,
+      type: LAYOUT_CHANGE_IS_NAV_OPEN,
+      payload: { isNavOpen: false },
     },
   },
 };

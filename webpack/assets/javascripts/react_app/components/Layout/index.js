@@ -4,62 +4,58 @@ import { useHistory } from 'react-router-dom';
 
 import {
   initializeLayout,
-  changeActiveMenu,
   collapseLayoutMenus,
   expandLayoutMenus,
+  changeIsNavOpen,
 } from './LayoutActions';
 import reducer from './LayoutReducer';
 import {
   patternflyMenuItemsSelector,
-  selectActiveMenu,
   selectIsLoading,
-  selectIsCollapsed,
+  selectIsNavOpen,
 } from './LayoutSelectors';
-import { combineMenuItems, getActiveMenuItem } from './LayoutHelper';
-import { getIsNavbarCollapsed } from './LayoutSessionStorage';
-import {
-  useForemanOrganization,
-  useForemanLocation,
-} from '../../Root/Context/ForemanContext';
+import { combineMenuItems } from './LayoutHelper';
+
+import { getIsNavbarOpen } from './LayoutSessionStorage';
 
 import Layout from './Layout';
 
 const ConnectedLayout = ({ children, data }) => {
   const dispatch = useDispatch();
-
-  const currentLocation = useForemanLocation()?.title;
-  const currentOrganization = useForemanOrganization()?.title;
   useEffect(() => {
     dispatch(
       initializeLayout({
         items: combineMenuItems(data),
-        activeMenu: getActiveMenuItem(data.menu).title,
-        isCollapsed: getIsNavbarCollapsed(),
+        isNavOpen: getIsNavbarOpen(),
         organization: data.orgs.current_org,
         location: data.locations.current_location,
       })
     );
   }, [data, dispatch]);
 
-  const { push: navigate } = useHistory();
-  const items = useSelector(state =>
-    patternflyMenuItemsSelector(state, currentLocation, currentOrganization)
-  );
-  const isLoading = useSelector(state => selectIsLoading(state));
-  const isCollapsed = useSelector(state => selectIsCollapsed(state));
-  const activeMenu = useSelector(state => selectActiveMenu(state));
+  const isNavOpen = useSelector(state => selectIsNavOpen(state));
+  useEffect(() => {
+    // toggles a class in the body tag, so that the main #rails-app-content container can have the appropriate width
+    if (isNavOpen) {
+      document.body.classList.add('pf-m-expanded');
+    } else {
+      document.body.classList.remove('pf-m-expanded');
+    }
+  }, [isNavOpen]);
 
+  const { push: navigate } = useHistory();
+  const items = useSelector(state => patternflyMenuItemsSelector(state));
+  const isLoading = useSelector(state => selectIsLoading(state));
   return (
     <Layout
       data={data}
       navigate={navigate}
       items={items}
       isLoading={isLoading}
-      isCollapsed={isCollapsed}
-      activeMenu={activeMenu}
-      changeActiveMenu={menu => dispatch(changeActiveMenu(menu))}
+      isNavOpen={isNavOpen}
       collapseLayoutMenus={() => dispatch(collapseLayoutMenus())}
       expandLayoutMenus={() => dispatch(expandLayoutMenus())}
+      changeIsNavOpen={value => dispatch(changeIsNavOpen(value))}
     >
       {children}
     </Layout>

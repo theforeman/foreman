@@ -13,11 +13,14 @@ Array [
 
 exports[`Layout selectors should return Layout 1`] = `
 Object {
-  "activeMenu": "Hosts",
-  "currentLocation": "loc1",
-  "currentOrganization": "org1",
-  "isCollapsed": false,
+  "currentLocation": Object {
+    "title": "loc1",
+  },
+  "currentOrganization": Object {
+    "title": "org1",
+  },
   "isLoading": true,
+  "isNavOpen": false,
   "items": Array [
     Object {
       "children": Array [
@@ -74,18 +77,18 @@ Array [
     "iconClass": "fa fa-tachometer",
     "subItems": Array [
       Object {
-        "className": "",
         "href": "/",
         "id": "menu_item_dashboard",
+        "isActive": undefined,
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
         "title": "Dashboard",
       },
       Object {
-        "className": "",
         "href": "/fact_values",
         "id": "menu_item_facts",
+        "isActive": undefined,
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
@@ -99,9 +102,9 @@ Array [
     "iconClass": "fa fa-server",
     "subItems": Array [
       Object {
-        "className": "",
         "href": "/hosts/new",
         "id": "menu_item_all_hosts",
+        "isActive": undefined,
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
@@ -119,14 +122,20 @@ Array [
 ]
 `;
 
-exports[`Layout selectors should return activeMenu 1`] = `"Hosts"`;
-
 exports[`Layout selectors should return empty array of items 1`] = `Array []`;
-
-exports[`Layout selectors should return isCollapsed from selector 1`] = `false`;
 
 exports[`Layout selectors should return isLoading from selector 1`] = `true`;
 
-exports[`Layout selectors should return location from selector 1`] = `"loc1"`;
+exports[`Layout selectors should return isNavOpen from selector 1`] = `false`;
 
-exports[`Layout selectors should return organization from selector 1`] = `"org1"`;
+exports[`Layout selectors should return location from selector 1`] = `
+Object {
+  "title": "loc1",
+}
+`;
+
+exports[`Layout selectors should return organization from selector 1`] = `
+Object {
+  "title": "org1",
+}
+`;

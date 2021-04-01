@@ -1,137 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Layout integration test should flow: Changed ActiveMenu to Hosts 1`] = `
-Object {
-  "action": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "activeMenu": "Hosts",
-        },
-        "type": "LAYOUT_CHANGE_ACTIVE",
-      },
-    ],
-  ],
-  "state": Object {
-    "layout": Object {
-      "activeMenu": "Hosts",
-      "currentLocation": "london",
-      "currentOrganization": "org1",
-      "isCollapsed": false,
-      "isLoading": false,
-      "items": Array [
-        Object {
-          "children": Array [
-            Object {
-              "exact": true,
-              "name": "Dashboard",
-              "type": "item",
-              "url": "/",
-            },
-            Object {
-              "name": "Facts",
-              "type": "item",
-              "url": "/fact_values",
-            },
-          ],
-          "className": "",
-          "icon": "fa fa-tachometer",
-          "name": "Monitor",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "All Hosts",
-              "type": "item",
-              "url": "/hosts/new",
-            },
-          ],
-          "className": "",
-          "icon": "fa fa-server",
-          "name": "Hosts",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": undefined,
-              "type": "item",
-              "url": "/nameless",
-            },
-            Object {
-              "name": undefined,
-              "type": "divider",
-            },
-          ],
-          "className": "",
-          "icon": "pficon pficon-unplugged",
-          "name": "Empty",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Any Organization",
-              "onClick": [Function],
-            },
-            Object {
-              "name": "org1",
-              "onClick": [Function],
-              "type": undefined,
-            },
-            Object {
-              "name": "org2",
-              "onClick": [Function],
-              "type": undefined,
-            },
-          ],
-          "className": "organization-menu hidden-nav-lg",
-          "icon": "fa fa-building",
-          "name": "Organizations",
-          "type": "sub_menu",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "name": "Any Location",
-              "onClick": [Function],
-            },
-            Object {
-              "name": "yaml",
-              "onClick": [Function],
-              "type": undefined,
-            },
-            Object {
-              "name": "london",
-              "onClick": [Function],
-              "type": undefined,
-            },
-            Object {
-              "name": "norway",
-              "onClick": [Function],
-              "type": undefined,
-            },
-          ],
-          "className": "location-menu hidden-nav-lg",
-          "icon": "fa fa-globe",
-          "name": "Locations",
-          "type": "sub_menu",
-        },
-      ],
-    },
-  },
-}
-`;
-
 exports[`Layout integration test should flow: initial state 1`] = `
 Object {
   "layout": Object {
-    "activeMenu": "Monitor",
     "currentLocation": "london",
     "currentOrganization": "org1",
-    "isCollapsed": false,
     "isLoading": false,
+    "isNavOpen": false,
     "items": Array [
       Object {
         "children": Array [
@@ -185,15 +60,18 @@ Object {
       Object {
         "children": Array [
           Object {
+            "isActive": false,
             "name": "Any Organization",
             "onClick": [Function],
           },
           Object {
+            "isActive": true,
             "name": "org1",
             "onClick": [Function],
             "type": undefined,
           },
           Object {
+            "isActive": false,
             "name": "org2",
             "onClick": [Function],
             "type": undefined,
@@ -207,20 +85,24 @@ Object {
       Object {
         "children": Array [
           Object {
+            "isActive": false,
             "name": "Any Location",
             "onClick": [Function],
           },
           Object {
+            "isActive": false,
             "name": "yaml",
             "onClick": [Function],
             "type": undefined,
           },
           Object {
+            "isActive": true,
             "name": "london",
             "onClick": [Function],
             "type": undefined,
           },
           Object {
+            "isActive": false,
             "name": "norway",
             "onClick": [Function],
             "type": undefined,

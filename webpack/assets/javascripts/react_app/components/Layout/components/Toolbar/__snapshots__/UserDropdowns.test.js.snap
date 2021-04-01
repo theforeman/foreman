@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UserDropdown render 1`] = `
+exports[`UserDropdown rendering render switcher w/loading 1`] = `
 <Dropdown
   className=""
   dropdownItems={
@@ -8,7 +8,6 @@ exports[`UserDropdown render 1`] = `
       <DropdownItem
         className="user_menuitem"
         href="/"
-        onClick={[Function]}
       >
         My Account
       </DropdownItem>,

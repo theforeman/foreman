@@ -2,23 +2,21 @@ import {
   LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_CHANGE_ACTIVE,
-  LAYOUT_EXPAND,
-  LAYOUT_COLLAPSE,
+  LAYOUT_CHANGE_IS_NAV_OPEN,
 } from './LayoutConstants';
+
+import { setIsNavbarOpen } from './LayoutSessionStorage';
 
 export const initializeLayout = ({
   items,
-  activeMenu,
-  isCollapsed,
+  isNavOpen,
   organization,
   location,
 }) => ({
   type: LAYOUT_INITIALIZE,
   payload: {
     items,
-    activeMenu,
-    isCollapsed,
+    isNavOpen,
     organization,
     location,
   },
@@ -32,17 +30,12 @@ export const hideLoading = () => ({
   type: LAYOUT_HIDE_LOADING,
 });
 
-export const changeActiveMenu = ({ title }) => ({
-  type: LAYOUT_CHANGE_ACTIVE,
-  payload: {
-    activeMenu: title,
-  },
-});
-
-export const expandLayoutMenus = () => ({
-  type: LAYOUT_EXPAND,
-});
-
-export const collapseLayoutMenus = () => ({
-  type: LAYOUT_COLLAPSE,
-});
+export const changeIsNavOpen = isNavOpen => {
+  setIsNavbarOpen(isNavOpen);
+  return {
+    type: LAYOUT_CHANGE_IS_NAV_OPEN,
+    payload: {
+      isNavOpen,
+    },
+  };
+};

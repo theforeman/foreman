@@ -41,7 +41,7 @@ module Menu
           menu.item :fact_values,       :caption => N_('Facts')
           menu.item :audits,            :caption => N_('Audits')
           menu.divider                  :caption => N_('Reports')
-          menu.item :reports,           :caption => N_('Config Management'),
+          menu.item :reports,           :caption => N_('Config Management Reports'),
                     :url_hash => {:controller => '/config_reports', :action => 'index', :search => 'eventful = true'}
           menu.item :report_templates,  :caption => N_('Report Templates'),
                     :url_hash => { :controller => 'report_templates', :action => 'index' }
@@ -52,6 +52,17 @@ module Menu
           menu.item :newhost,           :caption => N_('Create Host'),
                     :url_hash => {:controller => '/hosts', :action => 'new'}
           menu.item :register_hosts,    :caption => N_('Register Host')
+        end
+
+        menu.sub_menu :configure_menu,  :caption => N_('Configure'), :icon => 'fa fa-wrench' do
+          menu.item :hostgroups,        :caption => N_('Host Groups')
+          menu.item :common_parameters, :caption => N_('Global Parameters')
+          menu.divider                  :caption => N_('Puppet')
+          menu.item :environments,      :caption => N_('Puppet Environments')
+          menu.item :puppetclasses,     :caption => N_('Puppet Classes')
+          menu.item :config_groups,     :caption => N_('Puppet Config Groups')
+          menu.item :puppetclass_lookup_keys, :caption => N_('Puppet Smart Class Parameters')
+
           if SETTINGS[:unattended]
             menu.divider                :caption => N_('Provisioning Setup')
             menu.item :architectures,   :caption => N_('Architectures')
@@ -62,21 +73,11 @@ module Menu
             menu.item :media, :caption => N_('Installation Media')
             menu.item :operatingsystems, :caption => N_('Operating Systems')
             menu.divider :caption => N_('Templates')
-            menu.item :ptables, :caption => N_('Partition Tables'),
+            menu.item :ptables, :caption => N_('Partition Table Templates'),
                       :url_hash => { :controller => 'ptables', :action => 'index' }
             menu.item :provisioning_templates, :caption => N_('Provisioning Templates'),
                       :url_hash => { :controller => 'provisioning_templates', :action => 'index' }
           end
-        end
-
-        menu.sub_menu :configure_menu,  :caption => N_('Configure'), :icon => 'fa fa-wrench' do
-          menu.item :hostgroups,        :caption => N_('Host Groups')
-          menu.item :common_parameters, :caption => N_('Global Parameters')
-          menu.divider                  :caption => N_('Puppet')
-          menu.item :environments,      :caption => N_('Environments')
-          menu.item :puppetclasses,     :caption => N_('Classes')
-          menu.item :config_groups,     :caption => N_('Config Groups')
-          menu.item :puppetclass_lookup_keys, :caption => N_('Smart Class Parameters')
         end
 
         menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure'), :icon => 'pficon pficon-network' do

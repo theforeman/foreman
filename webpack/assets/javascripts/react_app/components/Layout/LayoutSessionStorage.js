@@ -1,4 +1,5 @@
-import { getValue } from '../../common/SessionStorage';
+import { getValue, setValue } from '../../common/SessionStorage';
 
-export const getIsNavbarCollapsed = () =>
-  !!getValue(`["navCollapsed","pinnedPath"]`)?.navCollapsed;
+export const getIsNavbarOpen = () => !!getValue('navOpen');
+
+export const setIsNavbarOpen = value => setValue('navOpen', value);

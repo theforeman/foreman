@@ -2,95 +2,13 @@
 @import '../../common/colors.scss';
 @import '../../common/variables.scss';
 
-.secondary-nav-item-pf > .nav-pf-secondary-nav {
-  background-color: $nav-pf-vertical-active-bg-color;
-
-  .mobile-active {
-    // Mark active Location/Org in Mobile view
-    a {
-      .list-group-item-value {
-        background-color: $nav-pf-vertical-secondary-active-bg-color;
-      }
-    }
-  }
-
-  .list-group-item {
-    a {
-      background-color: $nav-pf-vertical-active-bg-color;
-
-      &:hover {
-        .list-group-item-value {
-          background-color: $nav-pf-vertical-secondary-active-bg-color;
-        }
-      }
-    }
-
-    span {
-      color: $nav-pf-vertical-active-icon-color;
-    }
-  }
+.pf-c-page {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 #react-app-root {
-  .react-container {
-    margin-right: auto;
-    margin-left: 200px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .nav-pf-vertical {
-    background-color: $nav-pf-vertical-secondary-active-bg-color;
-
-    .list-group {
-      .list-group-item {
-        a {
-          span {
-            color: $nav-pf-vertical-icon-color;
-          }
-
-          &:hover {
-            background-color: $nav-pf-vertical-active-bg-color;
-
-            span {
-              color: $nav-pf-vertical-active-icon-color;
-            }
-          }
-
-          &::after {
-            color: $nav-pf-vertical-icon-color;
-          }
-        }
-
-        &:hover {
-          a {
-            background-color: $nav-pf-vertical-active-bg-color;
-
-            span {
-              color: $nav-pf-vertical-active-icon-color;
-            }
-          }
-        }
-
-        &.active {
-          a {
-            background-color: $nav-pf-vertical-active-bg-color;
-
-            span {
-              color: $nav-pf-vertical-active-icon-color;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .secondary-nav-item-pf.hidden-nav-lg {
-    display: none;
-
-    @media (max-width: $header-max-width) {
-      display: block;
-    }
+  .pf-c-page__main section {
+    padding: 0 40px;
   }
 }
 
@@ -105,30 +23,9 @@
   }
 }
 
-#account_menu {
-  outline: none;
-}
-
 #vertical-spinner {
   margin-top: 15px;
   margin-left: 5px;
-}
-
-.navbar-header {
-  width: 42px;
-}
-
-#navbar-header {
-  left: 42px;
-}
-
-#data-toolbar {
-  padding: 0;
-  background-color: transparent;
-}
-
-.pf-c-page {
-  background-color: rgba(0, 0, 0, 0);
 }
 
 .collapsed-nav {
@@ -141,6 +38,16 @@
     #react-app-root .react-container,
     #rails-app-content {
       margin-left: 0;
+    }
+  }
+}
+
+#page-sidebar {
+  .pf-c-nav__item.hidden-nav-lg {
+    display: none;
+
+    @media (max-width: $pf-global--breakpoint--lg) {
+      display: block;
     }
   }
 }

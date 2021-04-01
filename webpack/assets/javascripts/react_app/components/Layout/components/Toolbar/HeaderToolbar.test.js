@@ -10,7 +10,6 @@ const fixtures = {
     currentLocation: hasTaxonomiesMock.currentLocation,
     currentOrganization: hasTaxonomiesMock.currentOrganization,
     isLoading: false,
-    changeActiveMenu: noop,
   },
 };
 

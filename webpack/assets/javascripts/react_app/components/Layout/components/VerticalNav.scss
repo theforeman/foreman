@@ -1,0 +1,14 @@
+.pf-c-nav {
+  .nav-title-icon {
+    pointer-events: none;
+    padding-right: 10px;
+  }
+
+  .nav-title {
+    pointer-events: none;
+  }
+
+  .pf-c-nav__item.pf-m-expandable::before{
+    z-index: 1; //to show dividers
+  }
+}

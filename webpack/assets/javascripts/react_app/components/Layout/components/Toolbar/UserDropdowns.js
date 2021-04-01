@@ -11,13 +11,7 @@ import { UserAltIcon } from '@patternfly/react-icons';
 import { userPropType } from '../../LayoutHelper';
 import { translate as __ } from '../../../../common/I18n';
 
-const UserDropdowns = ({
-  user,
-  changeActiveMenu,
-  notificationUrl,
-  instanceTitle,
-  ...props
-}) => {
+const UserDropdowns = ({ user, notificationUrl, instanceTitle, ...props }) => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   const onDropdownToggle = newUserDropdownOpen => {
@@ -36,9 +30,6 @@ const UserDropdowns = ({
         key={i}
         className="user_menuitem"
         href={item.url}
-        onClick={() => {
-          changeActiveMenu({ title: 'User' });
-        }}
         {...item.html_options}
       >
         {__(item.name)}
@@ -73,15 +64,12 @@ UserDropdowns.propTypes = {
   user: userPropType,
   /** notification URL */
   notificationUrl: PropTypes.string,
-  /** changeActiveMenu Func */
-  changeActiveMenu: PropTypes.func,
   instanceTitle: PropTypes.string,
 };
 UserDropdowns.defaultProps = {
   className: '',
   user: {},
   notificationUrl: '',
-  changeActiveMenu: null,
   instanceTitle: '',
 };
 export default UserDropdowns;

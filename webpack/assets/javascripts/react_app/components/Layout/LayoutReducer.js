@@ -4,16 +4,13 @@ import {
   LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_CHANGE_ACTIVE,
-  LAYOUT_EXPAND,
-  LAYOUT_COLLAPSE,
+  LAYOUT_CHANGE_IS_NAV_OPEN,
 } from './LayoutConstants';
 
 const initialState = Immutable({
   items: [],
   isLoading: false,
-  isCollapsed: false,
-  activeMenu: 'initialActive',
+  isNavOpen: true,
 });
 
 export default (state = initialState, action) => {
@@ -23,8 +20,7 @@ export default (state = initialState, action) => {
     case LAYOUT_INITIALIZE:
       return state
         .set('items', payload.items)
-        .set('activeMenu', payload.activeMenu)
-        .set('isCollapsed', payload.isCollapsed)
+        .set('isNavOpen', payload.isNavOpen)
         .set('currentOrganization', payload.organization)
         .set('currentLocation', payload.location);
 
@@ -34,14 +30,8 @@ export default (state = initialState, action) => {
     case LAYOUT_HIDE_LOADING:
       return state.set('isLoading', false);
 
-    case LAYOUT_CHANGE_ACTIVE:
-      return state.set('activeMenu', payload.activeMenu);
-
-    case LAYOUT_EXPAND:
-      return state.set('isCollapsed', false);
-
-    case LAYOUT_COLLAPSE:
-      return state.set('isCollapsed', true);
+    case LAYOUT_CHANGE_IS_NAV_OPEN:
+      return state.set('isNavOpen', payload.isNavOpen);
 
     default:
       return state;

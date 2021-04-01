@@ -25,7 +25,7 @@ import {
   selectAPIStatus,
 } from '../../redux/API/APISelectors';
 import { selectFillsIDs } from '../common/Slot/SlotSelectors';
-import { selectIsCollapsed } from '../Layout/LayoutSelectors';
+import { selectIsNavOpen } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
@@ -39,7 +39,7 @@ const HostDetails = ({ match, location: { hash } }) => {
     selectAPIResponse(state, 'HOST_DETAILS')
   );
   const status = useSelector(state => selectAPIStatus(state, 'HOST_DETAILS'));
-  const isNavCollapsed = useSelector(selectIsCollapsed);
+  const isNavOpen = useSelector(selectIsNavOpen);
   const tabs = useSelector(state =>
     selectFillsIDs(state, 'host-details-page-tabs')
   );
@@ -133,7 +133,7 @@ const HostDetails = ({ match, location: { hash } }) => {
         </div>
         <Tabs
           style={{
-            width: window.innerWidth - (isNavCollapsed ? 95 : 220),
+            width: window.innerWidth - (isNavOpen ? 220 : 95),
           }}
           activeKey={activeTab}
           onSelect={handleTabClick}

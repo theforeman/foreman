@@ -1,23 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Layout actions should changeActiveMenu to Monitor 1`] = `
+exports[`Layout actions should changeIsNavOpen 1`] = `
 Object {
   "payload": Object {
-    "activeMenu": "Monitor",
+    "isNavOpen": false,
   },
-  "type": "LAYOUT_CHANGE_ACTIVE",
-}
-`;
-
-exports[`Layout actions should collapseLayoutMenus 1`] = `
-Object {
-  "type": "LAYOUT_COLLAPSE",
-}
-`;
-
-exports[`Layout actions should expandLayoutMenus 1`] = `
-Object {
-  "type": "LAYOUT_EXPAND",
+  "type": "LAYOUT_CHANGE_IS_NAV_OPEN",
 }
 `;
 
@@ -30,8 +18,7 @@ Object {
 exports[`Layout actions should initialize the layout 1`] = `
 Object {
   "payload": Object {
-    "activeMenu": "some active menu",
-    "isCollapsed": false,
+    "isNavOpen": undefined,
     "items": "some items",
     "location": "loc2",
     "organization": "org1",

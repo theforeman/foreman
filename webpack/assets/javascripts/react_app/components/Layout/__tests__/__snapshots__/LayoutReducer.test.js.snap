@@ -1,66 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Layout reducer should handle LAYOUT_CHANGE_ACTIVE 1`] = `
+exports[`Layout reducer should handle LAYOUT_CHANGE_IS_NAV_OPEN 1`] = `
 Object {
-  "activeMenu": "Monitor",
-  "isCollapsed": false,
   "isLoading": false,
-  "items": Array [],
-}
-`;
-
-exports[`Layout reducer should handle LAYOUT_COLLAPSE 1`] = `
-Object {
-  "activeMenu": "initialActive",
-  "isCollapsed": true,
-  "isLoading": false,
-  "items": Array [],
-}
-`;
-
-exports[`Layout reducer should handle LAYOUT_EXPAND 1`] = `
-Object {
-  "activeMenu": "initialActive",
-  "isCollapsed": false,
-  "isLoading": false,
+  "isNavOpen": false,
   "items": Array [],
 }
 `;
 
 exports[`Layout reducer should handle LAYOUT_HIDE_LOADING 1`] = `
 Object {
-  "activeMenu": "initialActive",
-  "isCollapsed": false,
   "isLoading": false,
+  "isNavOpen": true,
   "items": Array [],
 }
 `;
 
 exports[`Layout reducer should handle LAYOUT_INITIALIZE 1`] = `
 Object {
-  "activeMenu": "some-menu",
   "currentLocation": "some location",
   "currentOrganization": "some organization",
-  "isCollapsed": true,
   "isLoading": false,
+  "isNavOpen": undefined,
   "items": "some-items",
 }
 `;
 
 exports[`Layout reducer should handle LAYOUT_SHOW_LOADING 1`] = `
 Object {
-  "activeMenu": "initialActive",
-  "isCollapsed": false,
   "isLoading": true,
+  "isNavOpen": true,
   "items": Array [],
 }
 `;
 
 exports[`Layout reducer should return the initial state 1`] = `
 Object {
-  "activeMenu": "initialActive",
-  "isCollapsed": false,
   "isLoading": false,
+  "isNavOpen": true,
   "items": Array [],
 }
 `;

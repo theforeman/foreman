@@ -11,12 +11,11 @@
 
   .active > a,
   .open > a {
-    background:
-      linear-gradient(
-        to bottom,
-        $hover_gradient_start,
-        $hover_gradient_end
-      );
+    background: linear-gradient(
+      to bottom,
+      $hover_gradient_start,
+      $hover_gradient_end
+    );
   }
 
   .nav > li > a {
@@ -24,31 +23,32 @@
   }
 }
 
-.navbar-pf-vertical .navbar-brand {
-  display: flex;
+.pf-c-page__header-brand {
   padding-right: 15px;
-  height: inherit;
 
-  span {
-    display: table;
-
-    .navbar-brand-txt {
-      display: table-cell;
-      vertical-align: middle;
-      color: white;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 20px;
-      font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  .pf-c-page__header-brand-link {
+    &:hover {
+      text-decoration: none;
     }
+
+    .pf-c-brand {
+      height: 34px;
+    }
+  }
+
+  .navbar-brand-txt span {
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   }
 }
 
-.navbar-pf-vertical {
-  background: $topbar-default-color image-url('navbar.png');
+.pf-c-page__header {
+  background: var(--pf-c-page__header--BackgroundColor) image-url('navbar.png');
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
   height: 60px;
 
   .pf-c-toolbar__item {

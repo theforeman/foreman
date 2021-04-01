@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VerticalNav render VerticalNav 1`] = `
+<Nav
+  onSelect={[Function]}
+  onToggle={[Function]}
+  ouiaSafe={true}
+  theme="dark"
+>
+  <NavList
+    ariaLeftScroll="Scroll left"
+    ariaRightScroll="Scroll right"
+  >
+    <NavExpandable
+      className="foreman-nav-expandable"
+      groupId={null}
+      id=""
+      isActive={false}
+      isExpanded={false}
+      key="Monitor"
+      srText=""
+      title={
+        <React.Fragment>
+          <span
+            className="fa fa-tachometer nav-title-icon"
+          />
+          <span
+            className="nav-title"
+          >
+            Monitor
+          </span>
+        </React.Fragment>
+      }
+    >
+      <NavItem
+        isActive={false}
+        key="/Aa"
+        onClick={[Function]}
+        preventDefault={true}
+      >
+        Aa
+      </NavItem>
+      <NavItem
+        isActive={false}
+        key="/Cc"
+        onClick={[Function]}
+        preventDefault={true}
+      >
+        Cc
+      </NavItem>
+    </NavExpandable>
+    <NavExpandable
+      className="foreman-nav-expandable"
+      groupId={null}
+      id=""
+      isActive={false}
+      isExpanded={false}
+      key="Hosts"
+      srText=""
+      title={
+        <React.Fragment>
+          <span
+            className="fa fa-server nav-title-icon"
+          />
+          <span
+            className="nav-title"
+          >
+            Hosts
+          </span>
+        </React.Fragment>
+      }
+    >
+      <NavItem
+        isActive={false}
+        key="/Dd"
+        onClick={[Function]}
+        preventDefault={true}
+      >
+        Dd
+      </NavItem>
+    </NavExpandable>
+  </NavList>
+</Nav>
+`;

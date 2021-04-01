@@ -3,17 +3,13 @@ import {
   initializeLayout,
   showLoading,
   hideLoading,
-  changeActiveMenu,
-  collapseLayoutMenus,
-  expandLayoutMenus,
+  changeIsNavOpen,
 } from '../LayoutActions';
 
 const fixtures = {
   'should initialize the layout': () =>
     initializeLayout({
       items: 'some items',
-      activeMenu: 'some active menu',
-      isCollapsed: false,
       organization: 'org1',
       location: 'loc2',
     }),
@@ -22,12 +18,8 @@ const fixtures = {
 
   'should hideLoading': () => hideLoading(),
 
-  'should changeActiveMenu to Monitor': () =>
-    changeActiveMenu({ title: 'Monitor' }),
+  'should changeIsNavOpen': () => changeIsNavOpen(false),
 
-  'should expandLayoutMenus': () => expandLayoutMenus(),
-
-  'should collapseLayoutMenus': () => collapseLayoutMenus(),
 };
 
 describe('Layout actions', () => testActionSnapshotWithFixtures(fixtures));

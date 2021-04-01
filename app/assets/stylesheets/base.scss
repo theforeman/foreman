@@ -1,14 +1,33 @@
 html {
   height: 100%;
   width: 100%;
-  display: table;
+}
+
+#rails-app-content {
+  position: absolute;
+  top: 76px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 101;
   overflow: auto;
 }
 
 body {
   height: 100%;
   width: 100%;
-  display: table-cell;
+
+  &.pf-m-expanded {
+    #rails-app-content {
+      @media screen and (min-width: 768px) {
+        left: 250px;
+      }
+    }
+  }
+}
+
+#react-app-root {
+  height: 100%;
 }
 
 .base li {

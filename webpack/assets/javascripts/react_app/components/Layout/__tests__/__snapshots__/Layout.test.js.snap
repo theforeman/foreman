@@ -1,65 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Layout rendering renders layout 1`] = `
-<Fragment>
-  <VerticalNav
-    activePath="/Monitor/"
-    blurDelay={700}
-    blurDisabled={false}
-    dynamicBodyClasses={true}
-    forceHidden={false}
-    hiddenIcons={false}
-    hideMasthead={false}
-    hoverDelay={100}
-    hoverDisabled={false}
-    items={
-      Array [
-        Object {
-          "href": "/a",
-          "iconClass": "fa fa-tachometer",
-          "initialActive": true,
-          "subItems": undefined,
-          "title": "Monitor",
-        },
-        Object {
-          "href": "/b",
-          "iconClass": "fa fa-server",
-          "initialActive": false,
-          "subItems": undefined,
-          "title": "Hosts",
-        },
-      ]
-    }
-    masthead={null}
-    onCollapse={[Function]}
-    onExpand={[Function]}
-    onItemBlur={null}
-    onItemClick={[Function]}
-    onItemHover={null}
-    onItemPin={null}
-    onMenuToggleClick={null}
-    onMobileSelection={null}
-    onNavigate={[Function]}
-    persist={true}
-    persistentSecondary={true}
-    pinnableMenus={false}
-    showBadges={false}
-  >
-    <VerticalNav.Masthead>
-      <header
-        className="pf-c-page__header pf-c-page"
-        id="navbar-header"
-      >
-        <VerticalNav.Brand
-          href="/"
-          iconImg="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
-          img=""
-          onClick={null}
-          title=""
-          titleImg=""
-        />
+<Page
+  defaultManagedSidebarIsOpen={true}
+  header={
+    <PageHeader
+      headerTools={
         <HeaderToolbar
-          changeActiveMenu={[Function]}
           instance_title="Production"
           isLoading={false}
           locations={
@@ -167,11 +114,13 @@ exports[`Layout rendering renders layout 1`] = `
                 Object {
                   "children": Array [
                     Object {
+                      "href": "/Aa",
                       "isDivider": false,
                       "onClick": [MockFunction],
                       "title": "Aa",
                     },
                     Object {
+                      "href": "/Cc",
                       "isDivider": false,
                       "onClick": [MockFunction],
                       "title": "Cc",
@@ -185,11 +134,96 @@ exports[`Layout rendering renders layout 1`] = `
             }
           }
         />
-      </header>
-    </VerticalNav.Masthead>
-  </VerticalNav>
-  <LayoutContainer
-    isCollapsed={false}
+      }
+      isManagedSidebar={true}
+      logo={
+        <React.Fragment>
+          <Brand
+            href="/"
+            src="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
+          />
+          <span
+            className="navbar-brand-txt"
+          >
+            <span />
+          </span>
+        </React.Fragment>
+      }
+      logoProps={
+        Object {
+          "href": "/",
+        }
+      }
+      onNavToggle={[Function]}
+      showNavToggle={true}
+    />
+  }
+  isBreadcrumbWidthLimited={false}
+  isManagedSidebar={false}
+  isNotificationDrawerExpanded={false}
+  mainContainerId="main"
+  mainTabIndex={-1}
+  onNotificationDrawerExpand={[Function]}
+  onPageResize={[Function]}
+  sidebar={
+    <PageSidebar
+      nav={
+        <VerticalNav
+          items={
+            Array [
+              Object {
+                "href": "/a",
+                "iconClass": "fa fa-tachometer",
+                "initialActive": true,
+                "subItems": Array [
+                  Object {
+                    "href": "/Aa",
+                    "isDivider": false,
+                    "onClick": [MockFunction],
+                    "title": "Aa",
+                  },
+                  Object {
+                    "href": "/Cc",
+                    "isDivider": false,
+                    "onClick": [MockFunction],
+                    "title": "Cc",
+                  },
+                ],
+                "title": "Monitor",
+              },
+              Object {
+                "href": "/b",
+                "iconClass": "fa fa-server",
+                "initialActive": false,
+                "subItems": Array [
+                  Object {
+                    "href": "/Dd",
+                    "isDivider": false,
+                    "onClick": [MockFunction],
+                    "title": "Dd",
+                  },
+                ],
+                "title": "Hosts",
+              },
+            ]
+          }
+          navigate={[Function]}
+        />
+      }
+    />
+  }
+  skipToContent={
+    <SkipToContent
+      href="#main"
+      show={false}
+    >
+      Skip to content
+    </SkipToContent>
+  }
+>
+  <PageSection
+    className="react-container nav-pf-persistent-secondary"
+    variant="light"
   />
-</Fragment>
+</Page>
 `;

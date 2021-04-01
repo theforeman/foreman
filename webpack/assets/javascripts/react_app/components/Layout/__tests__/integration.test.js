@@ -47,15 +47,5 @@ describe('Layout integration test', () => {
         .find('#organization-dropdown .pf-c-context-selector__toggle-text')
         .text()
     ).toBe('org1');
-
-    const hostsMenuItem = component.find('.secondary-nav-item-pf > a');
-
-    hostsMenuItem.at(1).simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot(
-      'Changed ActiveMenu to Hosts'
-    );
-    expect(component.find('.secondary-nav-item-pf .active > a').text()).toBe(
-      'Hosts'
-    );
   });
 });

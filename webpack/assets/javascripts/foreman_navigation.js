@@ -41,10 +41,6 @@ export const changeOrganization = org => {
   deprecate('changeOrganization', 'Context', '2.6');
 };
 
-export const changeActive = active => {
-  store.dispatch(LayoutActions.changeActiveMenu({ title: active }));
-};
-
 export function showContent(layout, unsubscribe) {
   const content = () => {
     $('#content').show();

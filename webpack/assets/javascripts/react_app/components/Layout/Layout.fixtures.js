@@ -1,6 +1,29 @@
 const mockOnClick = jest.fn();
 
-const PFitems = [
+const subItemsA = [
+  {
+    title: 'Aa',
+    isDivider: false,
+    onClick: mockOnClick,
+    href: '/Aa',
+  },
+  {
+    title: 'Cc',
+    isDivider: false,
+    onClick: mockOnClick,
+    href: '/Cc',
+  },
+];
+const subItemsB = [
+  {
+    title: 'Dd',
+    isDivider: false,
+    onClick: mockOnClick,
+    href: '/Dd',
+  },
+];
+
+const pfItems = [
   {
     title: 'Monitor',
     initialActive: true,
@@ -14,26 +37,6 @@ const PFitems = [
     iconClass: 'fa fa-server',
     subItems: subItemsB,
     href: '/b',
-  },
-];
-
-const subItemsA = [
-  {
-    title: 'Aa',
-    isDivider: false,
-    onClick: mockOnClick,
-  },
-  {
-    title: 'Cc',
-    isDivider: false,
-    onClick: mockOnClick,
-  },
-];
-const subItemsB = [
-  {
-    title: 'Dd',
-    isDivider: false,
-    onClick: mockOnClick,
   },
 ];
 
@@ -156,8 +159,7 @@ const serverUser = {
 };
 
 export const layoutMock = {
-  items: PFitems,
-  activeMenu: 'Monitor',
+  items: pfItems,
   data: {
     menu: [...hashItemsA, ...hashItemNameless],
     locations,
@@ -185,6 +187,5 @@ export const hasTaxonomiesMock = {
 export const userDropdownProps = {
   user: serverUser,
   notification_url: '/',
-  changeActiveMenu: jest.fn(),
   isOpen: true,
 };
