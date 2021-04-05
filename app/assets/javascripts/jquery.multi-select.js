@@ -74,13 +74,18 @@ function sanitize(value){
 
 $(document).on('click', '.ms-select-all', function () {
   // can't use multiSelect('select_all') because it adds filtered out items too.
-    $(this).closest('.form-group').find('.ms-selectable .ms-list :visible').click();
+    $(this).tooltip('hide')
+      .closest('.form-group')
+      .find('.ms-selectable .ms-list :visible')
+      .click();
     return false;
 });
 
 $(document).on('click', '.ms-deselect-all', function () {
     // can't use multiSelect('deselect_all') because it is deselecting disabled items too.
-    var ms = $(this).closest('.form-group').find('select[multiple]');
+    var ms = $(this).tooltip('hide')
+      .closest('.form-group')
+      .find('select[multiple]');
     ms.find('option:not(":disabled")').prop('selected', false);
     ms.multiSelect('refresh');
     return false;

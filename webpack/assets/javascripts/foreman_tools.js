@@ -63,6 +63,7 @@ export function activateTooltips(elParam = 'body') {
   el.tooltip({
     selector: '[rel="twipsy"],*[title]:not(*[rel],.fa,.pficon)',
     container: 'body',
+    trigger: 'hover',
   });
   // Ellipsis have to be initialized for each element for title() to work
   el.find('.ellipsis').tooltip({
