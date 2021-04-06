@@ -26,7 +26,10 @@ module HostStatus
     end
 
     def to_status(options = {})
-      raise NotImplementedError, "Method 'to_status' method needs to be implemented"
+      # By default return the same value the status already has.
+      # Override this method with a way to recalculate the status based on
+      # external values
+      status
     end
 
     def self.status_name
