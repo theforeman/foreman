@@ -5,8 +5,10 @@ module IPAM
     extend ActiveModel::Translation
 
     delegate :logger, :to => :Rails
-    attr_accessor :mac, :subnet, :excluded_ips
+    attr_accessor :mac, :subnet, :excluded_ips, :block_ip_minutes
     attr_reader :errors
+
+    BLOCK_IP_MINUTES_DEFAULT = 30
 
     def initialize(opts = {})
       @subnet = opts[:subnet]
@@ -14,6 +16,7 @@ module IPAM
       @mac = opts.fetch(:mac, nil)
       @mac = nil if @mac.try(:blank?)
       @errors = ActiveModel::Errors.new(self)
+      @block_ip_minutes = opts.fetch(:block_ip_minutes, BLOCK_IP_MINUTES_DEFAULT)
 
       normalize_mac!
     end
@@ -40,6 +43,18 @@ module IPAM
     end
 
     private
+
+    def block_ip_cache_key(ip)
+      "blocked_ip_cache_#{subnet.id}/#{ip}"
+    end
+
+    def block_ip(ip)
+      Rails.cache.write(block_ip_cache_key(ip), 'blocked', expires_in: block_ip_minutes.minutes)
+    end
+
+    def is_ip_blocked?(ip)
+      Rails.cache.exist?(block_ip_cache_key(ip))
+    end
 
     def normalize_mac!
       return unless mac.present?

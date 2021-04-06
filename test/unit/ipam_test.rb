@@ -56,15 +56,28 @@ class IPAMTest < ActiveSupport::TestCase
       assert_match /^10\./, ipam.suggest_ip
     end
 
-    test "should return IPv4 based on MAC if provided" do
+    test "should return IPv4 based on MAC if provided and ip blocking is turned off" do
       subnet = FactoryBot.build(
         :subnet_ipv4, :name => 'my_subnet',
         :network => '10.0.0.0',
         :mask => '255.0.0.0',
         :ipam => IPAM::MODES[:random_db])
-      ipam1 = IPAM::RandomDb.new(:subnet => subnet, :mac => "AA:BB:CC:DD:EE:FF")
-      ipam2 = IPAM::RandomDb.new(:subnet => subnet, :mac => "AA:BB:CC:DD:EE:FF")
+      ipam1 = IPAM::RandomDb.new(:subnet => subnet, :mac => "AA:BB:CC:DD:EE:11", :block_ip_minutes => 0)
+      ipam2 = IPAM::RandomDb.new(:subnet => subnet, :mac => "AA:BB:CC:DD:EE:11", :block_ip_minutes => 0)
       assert_equal ipam1.suggest_ip, ipam2.suggest_ip
+    end
+
+    test "should return IPv4 based on MAC if provided and ip blocking is on" do
+      subnet = FactoryBot.build(
+        :subnet_ipv4, :name => 'my_subnet',
+        :network => '10.0.0.0',
+        :mask => '255.0.0.0',
+        :ipam => IPAM::MODES[:random_db])
+      ipam1 = IPAM::RandomDb.new(:subnet => subnet, :mac => "AA:BB:CC:DD:EE:22")
+      ipam2 = IPAM::RandomDb.new(:subnet => subnet, :mac => "AA:BB:CC:DD:EE:22")
+      assert_not_empty ipam1.suggest_ip
+      assert_not_empty ipam2.suggest_ip
+      assert_not_equal ipam1.suggest_ip, ipam2.suggest_ip
     end
 
     test "should find the only possible IPv4" do
