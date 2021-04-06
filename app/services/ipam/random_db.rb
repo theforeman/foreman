@@ -21,8 +21,9 @@ module IPAM
         break if iterations >= MAX_ITERATIONS
         # try to match it
         ip = candidate.to_s
-        if !excluded_ips.include?(ip) && !subnet.known_ips.include?(ip)
-          logger.debug("Found #{ip} in #{iterations} iterations")
+        if !excluded_ips.include?(ip) && !subnet.known_ips.include?(ip) && !is_ip_blocked?(ip)
+          logger.debug("Found IP #{ip} in #{iterations} iterations, blocking it for the next #{block_ip_minutes} minutes")
+          block_ip(ip)
           return ip
         end
       end
