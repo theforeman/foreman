@@ -61,6 +61,10 @@ class Filter < ApplicationRecord
 
   validate :same_resource_type_permissions, :not_empty_permissions, :allowed_taxonomies
 
+  def self.allows_taxonomy_filtering?(_taxonomy)
+    false
+  end
+
   def self.search_by_unlimited(key, operator, value)
     search_by_limited(key, operator, (value == 'true') ? 'false' : 'true')
   end
