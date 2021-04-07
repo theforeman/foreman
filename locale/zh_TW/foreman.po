@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-11-19 14:22+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2021-01-20 11:23+0000\n"
+"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -202,6 +202,9 @@ msgstr "%{id} 外掛需要 %{plugin_name} 外掛，找不到此外掛"
 
 msgid "%{image} needs user data, but %{os_link} is not associated to any provisioning template of the kind user_data. Please associate it with a suitable template or uncheck 'User data' for %{compute_resource_image_link}."
 msgstr "%{image} 需要使用者資料，但 %{os_link} 並不與任何 user_data 佈建範本相關連。請將其與合適的範本建立關連，或從 %{compute_resource_image_link} 取消勾選 '使用者資料'。"
+
+msgid "%{input_type_attr_name}, used when input type is %{input_type}"
+msgstr ""
 
 msgid "%{key} does not exist in order field"
 msgstr ""
@@ -440,9 +443,6 @@ msgstr ""
 msgid "API documentation"
 msgstr "API 文件"
 
-msgid "API v4 is the default version. Uncheck it if you want to use v3, which is deprecated and will be removed in the next release."
-msgstr ""
-
 msgid "About"
 msgstr "相關資訊"
 
@@ -469,6 +469,9 @@ msgstr "啟用中"
 
 msgid "Active Hosts"
 msgstr "使用中的主機"
+
+msgid "Active Personal Access Tokens"
+msgstr ""
 
 msgid "Active features"
 msgstr "啟用特性"
@@ -499,6 +502,9 @@ msgstr "新增比對器"
 
 msgid "Add Parameter"
 msgstr "新增參數"
+
+msgid "Add Personal Access Token"
+msgstr ""
 
 msgid "Add SSH Key"
 msgstr ""
@@ -1362,6 +1368,9 @@ msgstr ""
 msgid "Cannot add pagelet with key %s and without partial"
 msgstr ""
 
+msgid "Cannot be in the past"
+msgstr ""
+
 msgid "Cannot continue because some permissions were not found, please run rake db:seed and retry"
 msgstr ""
 
@@ -1760,6 +1769,9 @@ msgstr ""
 msgid "Continue?"
 msgstr "繼續？"
 
+msgid "Copied!"
+msgstr ""
+
 msgid "Copy to clipboard"
 msgstr ""
 
@@ -1821,6 +1833,9 @@ msgid "Could not refresh external usergroups: %{e} - %{message} - %{suggestion}"
 msgstr ""
 
 msgid "Could not resolve ID."
+msgstr ""
+
+msgid "Could not revoke Token: "
 msgstr ""
 
 msgid "Create"
@@ -1905,6 +1920,9 @@ msgid "Create Parameter"
 msgstr ""
 
 msgid "Create Partition Table"
+msgstr ""
+
+msgid "Create Personal Access Token"
 msgstr ""
 
 msgid "Create Provisioning Template"
@@ -2132,6 +2150,9 @@ msgstr "DB 尚未處理的遷移"
 msgid "DB pending seed"
 msgstr "DB 尚未處理的種子"
 
+msgid "DEPRECATED: this will be always application install time and dropped in the future release."
+msgstr ""
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -2278,6 +2299,9 @@ msgstr ""
 
 msgid "Default value"
 msgstr "預設值"
+
+msgid "Default value for the setting"
+msgstr ""
 
 msgid "Default value for user input"
 msgstr ""
@@ -2505,6 +2529,9 @@ msgid "Deploy on"
 msgstr "建置於"
 
 msgid "Deprecations"
+msgstr ""
+
+msgid "Describes the purpose of the setting"
 msgstr ""
 
 msgid "Description"
@@ -2949,6 +2976,9 @@ msgstr ""
 msgid "Expire logs"
 msgstr "過期的日誌"
 
+msgid "Expired"
+msgstr ""
+
 msgid "Expires"
 msgstr "有效期限"
 
@@ -3035,9 +3065,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
 msgstr "詳情名稱"
-
-msgid "Fact name, used when input type is fact"
-msgstr "事實名稱，當輸入類型是 fact 時使用"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
@@ -3571,9 +3598,6 @@ msgstr "全螢幕"
 
 msgid "Function not available for %s"
 msgstr "%s 的功能不可用"
-
-msgid "Further Information"
-msgstr ""
 
 msgid "GMT time"
 msgstr "GMT 時間"
@@ -4452,10 +4476,19 @@ msgstr ""
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr ""
 
+msgid "If the target machine does not trust the Foreman SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
+msgstr ""
+
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
 msgstr ""
 
 msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly."
+msgstr ""
+
+msgid "If this setting has list of possible values, this includes the list of the values."
+msgstr ""
+
+msgid "If this setting needs to be changed in file, it will have the file path."
 msgstr ""
 
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
@@ -4615,6 +4648,9 @@ msgstr ""
 msgid "In-line code syntax"
 msgstr ""
 
+msgid "Inactive Personal Access Tokens"
+msgstr ""
+
 msgid "Include default value when merging all matching values"
 msgstr "合併所有相符合的值時包括預設值"
 
@@ -4643,6 +4679,12 @@ msgid "Independent - Nonpersistent"
 msgstr ""
 
 msgid "Independent - Persistent"
+msgstr ""
+
+msgid "Information about the setting"
+msgstr ""
+
+msgid "Information about the updated setting"
 msgstr ""
 
 msgid "Infrastructure"
@@ -4685,6 +4727,9 @@ msgid ""
 "  via input, use <code>input('name')</code> global macro. The template needs to be \\\n"
 "  saved before input macro can load the value. If the value is not available during\n"
 "  template preview, its value is expanded to <code>$TYPE_INPUT[name]</code> string.</p>"
+msgstr ""
+
+msgid "Insecure"
 msgstr ""
 
 msgid "Installation Media"
@@ -4795,6 +4840,12 @@ msgstr "透過詳情建立主機的類型無效：%s"
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "無效的版本格式，請輸入 x.y 格式（僅主要版本）。"
 
+msgid "Is this setting encrypted?"
+msgstr ""
+
+msgid "Is this setting readonly?"
+msgstr ""
+
 msgid "Issue tracker"
 msgstr "問題追蹤器"
 
@@ -4888,17 +4939,20 @@ msgstr "語言"
 msgid "Language to use for new users"
 msgstr ""
 
-msgid "Last Audits"
-msgstr ""
-
 msgid "Last Page"
 msgstr ""
 
 msgid "Last Report"
 msgstr "最後一份報告"
 
+msgid "Last Used"
+msgstr ""
+
 msgid "Last report"
 msgstr "最後一份報告"
+
+msgid "Last updated. NOTE: this will be reset to application install time, when setting is reset to default value."
+msgstr ""
 
 msgid "Latest Events"
 msgstr "最新的事件"
@@ -5255,6 +5309,9 @@ msgid "List internal authentication sources"
 msgstr ""
 
 msgid "List of HTTP Proxies"
+msgstr ""
+
+msgid "List of all settings"
 msgstr ""
 
 msgid "List of compute attributes"
@@ -5657,6 +5714,12 @@ msgstr ""
 msgid "Manage"
 msgstr "管理"
 
+msgid "Manage Locations"
+msgstr "管理位置"
+
+msgid "Manage Organizations"
+msgstr "管理組織"
+
 msgid "Manage PuppetCA"
 msgstr "管理 PuppetCA"
 
@@ -5840,9 +5903,6 @@ msgstr "監控"
 msgid "Monthly"
 msgstr "每個月"
 
-msgid "More Audits..."
-msgstr ""
-
 msgid "Must be unique"
 msgstr ""
 
@@ -5935,6 +5995,9 @@ msgstr ""
 
 msgid "Network type"
 msgstr "網路類型"
+
+msgid "Never"
+msgstr "永不"
 
 msgid "New"
 msgstr "新增"
@@ -6271,6 +6334,9 @@ msgstr "無"
 msgid "None found"
 msgstr "未找到"
 
+msgid "None provided"
+msgstr ""
+
 msgid "None!"
 msgstr "無！"
 
@@ -6441,6 +6507,9 @@ msgstr "OAuth 用戶機密"
 
 msgid "OAuth map users"
 msgstr "OAuth 地圖使用者"
+
+msgid "OBSOLATED: id of the setting record, doesn't need to be set in the future"
+msgstr ""
 
 msgid "OIDC Algorithm"
 msgstr ""
@@ -6943,6 +7012,12 @@ msgstr ""
 msgid "Persistent"
 msgstr ""
 
+msgid "Personal Access Token was successfully created."
+msgstr ""
+
+msgid "Personal Access Tokens"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Personal access token"
 msgstr ""
@@ -7009,9 +7084,6 @@ msgstr "請登入 %{foreman_url} 以更改您的密碼"
 msgid ""
 "Please note that these HTTP proxy configurations are only used for requests\n"
 "                      from Foreman or Foreman plugins. System-wide proxies must be configured at operating system level."
-msgstr ""
-
-msgid "Please note, API v3 is deprecated and will be removed completely in the next Foreman release."
 msgstr ""
 
 msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)"
@@ -7295,9 +7367,6 @@ msgstr ""
 msgid "Puppet class"
 msgstr "Puppet 類別"
 
-msgid "Puppet class name, used when input type is puppet_parameter"
-msgstr "puppet class 名稱，當輸入類型是 puppet_parameter 時使用"
-
 msgid "Puppet environments"
 msgstr "Puppet 環境"
 
@@ -7312,9 +7381,6 @@ msgstr "Puppet 間隔"
 
 msgid "Puppet parameter"
 msgstr "Puppet 參數"
-
-msgid "Puppet parameter name, used when input type is puppet_parameter"
-msgstr "puppet 參數名稱，當輸入類型是 puppet_parameter 時使用"
 
 msgid "Puppet proxy ID"
 msgstr "Puppet 代理 ID"
@@ -7419,6 +7485,9 @@ msgstr "重建協調配置"
 
 msgid "Rebuild orchestration configuration"
 msgstr "重建協調配置"
+
+msgid "Recent Audits"
+msgstr ""
 
 msgid "Recreate"
 msgstr ""
@@ -7723,6 +7792,9 @@ msgid "Revoke"
 msgstr "撤銷"
 
 msgid "Revoke a Personal Access Token for a user"
+msgstr ""
+
+msgid "Revoked"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8128,6 +8200,15 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
 msgstr "設定"
+
+msgid "Setting current value. If this setting is encypted, the value will not be returned"
+msgstr ""
+
+msgid "Setting full user readable name"
+msgstr ""
+
+msgid "Setting unique name"
+msgstr ""
 
 msgid "Setting was successfully updated."
 msgstr ""
@@ -9164,6 +9245,9 @@ msgstr ""
 msgid "The authentication source of your external user groups could not connect to LDAP with the provided credentials. Please verify the credentials are still valid."
 msgstr ""
 
+msgid "The category of setting"
+msgstr ""
+
 msgid "The class could not be saved because of an error in one of the class parameters."
 msgstr ""
 
@@ -9230,6 +9314,9 @@ msgstr "完整的 DNS 區域名稱"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
+msgid "The human readable name of settings category"
+msgstr ""
+
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr ""
 
@@ -9280,6 +9367,9 @@ msgstr ""
 
 msgid "The power state of the selected hosts will be set to %s"
 msgstr "所選主機的電源狀態會被設定為 %s"
+
+msgid "The puppetrun feature has been removed, however you can use the Remote Execution Plugin to run Puppet commands"
+msgstr ""
 
 msgid "The realm name, e.g. EXAMPLE.COM"
 msgstr "領域名稱，例如 EXAMPLE.COM"
@@ -9507,9 +9597,6 @@ msgstr ""
 msgid "To access /trends API you need to install Foreman Statistics plugin"
 msgstr ""
 
-msgid "To access Puppetrun feature you need to install Foreman Remote Execution Plugin"
-msgstr ""
-
 msgid "To change the default behavior, modify the enclosing mark with <code>-&#37;></code>:"
 msgstr ""
 
@@ -9553,6 +9640,9 @@ msgid "Token expired"
 msgstr ""
 
 msgid "Token lifetime (hours)"
+msgstr ""
+
+msgid "Token was successfully revoked."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -10207,9 +10297,6 @@ msgstr "上傳主機的詳情，並視需求建立主機"
 msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
-msgid "Use APIv4"
-msgstr ""
-
 msgid "Use NIS netgroups instead of posix groups."
 msgstr ""
 
@@ -10503,11 +10590,11 @@ msgstr "當沒有相符的項目時所使用的值。"
 msgid "Value type, defaults to plain"
 msgstr ""
 
+msgid "Value type, that the setting accepts"
+msgstr ""
+
 msgid "Variable"
 msgstr "變數"
-
-msgid "Variable name, used when input type is variable"
-msgstr "變數名稱，當輸入類型是 variable 時使用"
 
 msgid "Variables"
 msgstr "變數"
@@ -10878,6 +10965,9 @@ msgstr "您可能必須先配置您的 %s。"
 
 msgid "Your Foreman user account has been created:"
 msgstr "您的 Foreman 使用者帳號已建立："
+
+msgid "Your New Personal Access Token"
+msgstr ""
 
 msgid "Your host has finished building:"
 msgstr "您的主機已經完成組建："
