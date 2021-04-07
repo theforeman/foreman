@@ -36,6 +36,10 @@ module FogExtensions
       def ip_addresses
         [public_ip_address, private_ip_address].flatten.select(&:present?)
       end
+
+      # HACK: For IAM instance profile override on host creation form
+      def iam_instance_profile_name
+      end
     end
   end
 end

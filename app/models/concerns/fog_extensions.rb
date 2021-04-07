@@ -12,6 +12,8 @@ if Foreman::Model::EC2.available?
   Fog::AWS::Compute::Flavor.include FogExtensions::AWS::Flavor
   require 'fog/aws/models/compute/server'
   Fog::AWS::Compute::Server.include FogExtensions::AWS::Server
+  require 'fog/aws/models/iam/instance_profile'
+  Fog::AWS::IAM::InstanceProfile.include FogExtensions::AWS::IAM::InstanceProfile
 end
 
 if Foreman::Model::GCE.available?

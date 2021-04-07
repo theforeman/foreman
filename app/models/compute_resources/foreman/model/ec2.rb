@@ -4,12 +4,14 @@ module Foreman::Model
 
     include KeyPairComputeResource
     delegate :flavors, :subnets, :to => :client
+    delegate :instance_profiles, :to => :iam_client
     validates :user, :password, :presence => true
 
     alias_attribute :access_key, :user
     alias_attribute :region, :url
 
     alias_method :available_flavors, :flavors
+    alias_method :available_instance_profiles, :instance_profiles
 
     def to_label
       "#{name} (#{region}-#{provider_friendly_name})"
@@ -57,7 +59,19 @@ module Foreman::Model
       end
       if (image_id = args[:image_id])
         image = images.find_by_uuid(image_id.to_s)
-        iam_hash = image.iam_role.present? ? {:iam_instance_profile_name => image.iam_role} : {}
+        # Custom IAM instance profile may be defined on image, otherwise check if it defined on machine
+        if image.iam_role.present?
+          if args.has_key?(:iam_instance_profile_name) && !args[:iam_instance_profile_name].empty?
+            raise ::Foreman::Exception.new("Cannot set IAM role because it is already set on selected image")
+          end
+          iam_hash = {:iam_instance_profile_name => image.iam_role}
+          Foreman::Logging.logger('app').info "AWS machine #{args[:name]} will be created using IAM role #{iam_hash[:iam_instance_profile_name]} per image #{image[:name]} association"
+        elsif args.has_key?(:iam_instance_profile_name) && !args[:iam_instance_profile_name].empty?
+          iam_hash = {:iam_instance_profile_name => args[:iam_instance_profile_name]}
+          Foreman::Logging.logger('app').info "AWS machine #{args[:name]} will be created using IAM role #{iam_hash[:iam_instance_profile_name]} per machine definition"
+        else
+          iam_hash = {}
+        end
         args.merge!(iam_hash)
       end
       args[:groups].reject!(&:empty?) if args.has_key?(:groups)
@@ -155,6 +169,14 @@ module Foreman::Model
     def client
       self.url = region if gov_cloud
       @client ||= Fog::AWS::Compute.new(:aws_access_key_id => user, :aws_secret_access_key => password, :region => region, :connection_options => connection_options)
+    end
+
+    def iam_client
+      # https://github.com/fog/fog-aws/blob/master/lib/fog/aws/iam.rb#L285
+      # global services that have no region are signed with the us-east-1 region
+      # the only exception is GovCloud, which requires the region to be explicitly specified as us-gov-west-1
+      iam_region = gov_cloud ? 'us-gov-west-1' : 'us-east-1'
+      @iam_client ||= Fog::AWS::IAM.new(:aws_access_key_id => user, :aws_secret_access_key => password, :region => iam_region, :connection_options => connection_options)
     end
 
     def vm_instance_defaults
