@@ -116,7 +116,6 @@ function add_child_node(item) {
   $('a[rel="popover"]').popover();
   $('a[rel="twipsy"]').tooltip();
   activate_select2($(field).not('.matcher_key'));
-  tfm.numFields.initAll(field);
   return new_id;
 }
 

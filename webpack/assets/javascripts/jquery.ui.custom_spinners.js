@@ -110,6 +110,11 @@ $(() => {
 
 export function initAll(selection = null) {
   // might be called with Event-argument, if used as EventHandler
+  window.tfm.tools.deprecate(
+    'initAll()',
+    'react memory and cpu components',
+    '3.0'
+  );
   if (
     selection !== null &&
     typeof selection === 'object' &&
@@ -124,6 +129,7 @@ export function initAll(selection = null) {
 
 export function initCounter(selection = null) {
   // Do not initialize form_templates
+  window.tfm.tools.deprecate('initCounter()', 'react cpu component', '3.0');
   $('input.counter_spinner', selection)
     .not('.form_template input.counter_spinner')
     .each(function() {
@@ -151,6 +157,7 @@ export function initCounter(selection = null) {
 
 export function initByte(selection = null) {
   // Do not initialize form_templates
+  window.tfm.tools.deprecate('initByte()', 'react memory component', '3.0');
   $('input.byte_spinner', selection)
     .not('.form_template input.byte_spinner')
     .each(function() {

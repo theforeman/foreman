@@ -433,7 +433,6 @@ function reloadOnAjaxComplete(element) {
   tfm.tools.hideSpinner();
   tfm.tools.activateTooltips();
   activate_select2(':root');
-  tfm.numFields.initAll();
   tfm.advancedFields.initAdvancedFields();
   tfm.templateInputs.initTypeChanges();
 }
