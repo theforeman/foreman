@@ -29,7 +29,7 @@
         <td class="ellipsis"><%= combination provisioning_template %></td>
         <td>
           <% if (tmpl = provisioning_template.try(:template_kind)) %>
-            <%= link_to tmpl, provisioning_templates_path(:search => "kind = #{tmpl.name}"), :title => "#{TemplateKind.default_template_descriptions[tmpl.name]}" %>
+            <%= link_to tmpl, provisioning_templates_path(:search => "kind = #{tmpl.name}"), :title => _(TemplateKind.default_template_descriptions[tmpl.name]) %>
           <% end %>
         </td>
         <td align='center'><%= checked_icon provisioning_template.snippet %></td>
