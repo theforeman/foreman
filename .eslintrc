@@ -149,7 +149,8 @@
           "xml",
           "xpi",
           "xyz",
-          "yaml"
+          "yaml",
+          "cpu"
         ],
         "minLength": 3
       }
