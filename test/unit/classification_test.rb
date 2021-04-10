@@ -587,9 +587,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct merged override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'array', :merge_overrides => true,
                              :path => "organization\nhostgroup\nlocation",
@@ -620,9 +618,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct merged override to host when multiple overrides for inherited organizations exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'array', :merge_overrides => true,
                              :path => "location\norganization\nhostgroup",
@@ -651,9 +647,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct merged override to host when multiple overrides for inherited locations exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'array', :merge_overrides => true,
                              :path => "organization\nhostgroup\nlocation",
@@ -682,9 +676,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct merged override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'array', :merge_overrides => true,
                              :path => "organization\nhostgroup\nlocation",
@@ -719,9 +711,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct merged override to host when multiple overrides for inherited organizations exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'array', :merge_overrides => true,
                              :path => "location\norganization\nhostgroup",
@@ -754,9 +744,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct merged override to host when multiple overrides for inherited locations exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'array', :merge_overrides => true,
                              :path => "organization\nhostgroup\nlocation",
@@ -789,9 +777,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nhostgroup\nlocation",
@@ -826,9 +812,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited organizations exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "location\norganization\nhostgroup",
@@ -862,9 +846,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited locations exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nlocation\nhostgroup",
@@ -898,9 +880,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nhostgroup\nlocation",
@@ -934,9 +914,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited organizations exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "organization\nhostgroup\nlocation",
@@ -969,9 +947,7 @@ class ClassificationTest < ActiveSupport::TestCase
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited locations exist" do
-    FactoryBot.create(:setting,
-      :name => 'matchers_inheritance',
-      :value => true)
+    Setting['matchers_inheritance'] = true
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "location\norganization\nhostgroup",

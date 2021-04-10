@@ -8,9 +8,14 @@ class SettingsControllerTest < ActionController::TestCase
   end
 
   test "can render a new category setting" do
-    Foreman.settings._add("foo", default: "bar", description: "test foo", category: "Valid")
+    duped_settings = Foreman::SettingManager.settings.dup
+    Foreman::SettingManager.stubs(settings: duped_settings)
+    Foreman::SettingManager.define(:test) do
+      category(:valid, 'Valid') { setting('valid_foo', default: 'bar', description: 'test foo') }
+    end
+    Foreman.settings.load
     get :index, session: set_session_user
-    assert_match /id='Valid'/, @response.body
+    assert_match /id='valid'/, @response.body
   end
 
   test "does not render an old sti type setting" do

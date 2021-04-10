@@ -1629,63 +1629,46 @@ end
 
 Plugins can store Foreman-wide settings either in the database or a
 config file. The DB should be preferred as it can be managed from the UI
-(under Administer > Settings), CLI, API and Puppet, and changed on the
+(under Administer > Settings), CLI and API. It also can be changed on the
 fly, while the config file is usually only used for settings that change
 behaviour during app startup and require a restart.
 
-To add new DB settings, the plugin should define a Setting class named
-after the plugin. For foreman_example, this would be at
-`app/models/setting/example.rb` and should look like:
+To add DB settings, the plugin should define them in it's registration block:
 
 [source, ruby]
 ....
-class Setting::Example < ::Setting
-  def self.load_defaults
-    return unless ActiveRecord::Base.connection.table_exists?('settings')
-    return unless super
+Foreman::Plugin.register :my_plugin do
+  # ....
 
-    Setting.transaction do
-      [
-        self.set('example_string', N_('Example setting that controls something'), 'default value'),
-        self.set('example_int', N_('Answer to the life, universe, and everything'), 42),
-      ].compact.each { |s| self.create s.update(:category => "Setting::Example") }
+  settings do
+    # Following settings will be added to a General category
+    category :general do
+      setting 'example_setting',
+        default: 'default value',
+        full_name: N_('Example of general setting'),
+        description: N_('Example setting that controls something')
     end
 
-    true
+    # Following settings will be added to category name 'cool' with label Cool
+    category :cool, N_('Cool') do
+      setting 'example_int',
+        default: 42,
+        full_name: N_('The answer'),
+        description: N_('Answer to the life, universe, and everything')
+    end
+
+    # Following settings will be added to existing category named 'cfgmgmt'
+    category :cfgmgmt do
+      setting 'configure_everything',
+        default: true,
+        full_name: N_('Configure everything'),
+        description: N_('Should configuration management tools configure everything for user, so user can go to the beach?')
+    end
   end
-
-  def self.humanized_category
-    N_('My Example')
-  end
 end
 ....
 
-Settings are listed in the transaction block and are initialised at app
-startup, with three arguments. The name is first - it should be unique
-and be prefixed with the plugin name. The second is a human readable
-description which will be translated. The third is the default value of
-the setting, which can be a string, integer, boolean or nil.
-
-If supporting Foreman 1.11+ only, add the following initialiser to
-engine.rb to load it:
-
-[source, ruby]
-....
-initializer 'foreman_example.load_default_settings', :before => :load_config_initializers do |app|
-  require_dependency File.expand_path("../../../app/models/setting/example.rb", __FILE__)
-end
-....
-
-To support 1.10 and lower _as well_ then use:
-
-[source, ruby]
-....
-initializer 'foreman_example.load_default_settings', :before => :load_config_initializers do |app|
-  require_dependency File.expand_path("../../../app/models/setting/example.rb", __FILE__) if (Setting.table_exists? rescue(false))
-end
-....
-
-To access the value of a setting, use `Setting[:example_string]` from
+To access the value of a setting, use `Setting[:example_setting]` from
 anywhere in your plugin.
 
 [[config-files]]

@@ -317,6 +317,25 @@ module Foreman #:nodoc:
       end
     end
 
+    # Adds setting definition
+    #
+    # ===== Example
+    #
+    #   settings do
+    #     category(:cfgmgmt, N_('Configuration Management')) do
+    #       setting(:use_cooler_puppet,
+    #         default: true,
+    #         description: N_('Use Puppet that goes to 11'),
+    #         full_name: N_('Use shiny puppet'),
+    #         encrypt: true)
+    #       end
+    #     end
+    #   end
+    #
+    def settings(&block)
+      SettingManager.define(id, &block)
+    end
+
     def security_block(name, &block)
       @security_block = name
       instance_eval(&block)

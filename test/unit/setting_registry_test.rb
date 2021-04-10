@@ -4,12 +4,14 @@ class SettingRegistryTest < ActiveSupport::TestCase
   let(:registry) { SettingRegistry.instance }
   let(:default) { 5 }
   let(:setting_value) { nil }
-  let(:setting) { Setting.create(registry.find('foo').attributes.merge(value: setting_value)) }
+  let(:setting_memo) { {} }
+  let(:setting) { Setting.create(registry.find('foo').attributes) }
 
   setup do
-    registry._add('foo', category: 'Setting::General', default: default, description: 'test foo')
-    setting
-    registry.load
+    registry.stubs(settings: setting_memo)
+    registry._add('foo', category: 'Setting::General', default: default, full_name: 'test foo', description: 'test foo', context: :test)
+    setting.update(value: setting_value)
+    registry.load_values
   end
 
   context 'with nil default' do
@@ -36,7 +38,7 @@ class SettingRegistryTest < ActiveSupport::TestCase
     assert_equal 5, registry['foo']
 
     setting.save
-    registry.load
+    registry.load_values
     assert_equal 3, setting.value
     assert_equal 3, registry['foo']
   end

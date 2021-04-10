@@ -6,6 +6,7 @@ class SettingPresenter
 
   attribute :id, :integer
   attribute :category, :string, default: 'Setting::General'
+  attribute :context
   attribute :name, :string
   attribute :default
   attribute :value
@@ -15,6 +16,8 @@ class SettingPresenter
   attribute :settings_type, :string
   attribute :config_file, :string
   attribute :updated_at
+
+  attr_accessor :collection
 
   def self.model_name
     Setting.model_name
@@ -63,7 +66,7 @@ class SettingPresenter
   # ----- UI helpers ------
 
   def category_label
-    category.safe_constantize&.humanized_category || category_name
+    Foreman::SettingManager.categories[category] || category.safe_constantize&.humanized_category || category_name
   end
 
   def category_name
