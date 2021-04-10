@@ -71,19 +71,22 @@ class SettingRegistry
 
     # load all db values
     load_values
-
-    # if create_missing create missing values in DB
-    # not needed now as old load mechanism takes care of that
   end
 
   def load_definitions
+    @settings = {}
+
     Setting.descendants.each do |cat_cls|
       if cat_cls.default_settings.empty?
         # Setting category uses really old way of doing things
         _load_category_from_db(cat_cls)
       else
-        cat_cls.default_settings.each { |s| _add(s[:name], s.except(:name).merge(category: cat_cls.name)) }
+        cat_cls.default_settings.each { |s| _add(s[:name], s.except(:name).merge(category: cat_cls.name, context: :deprecated)) }
       end
+    end
+
+    Foreman::SettingManager.settings.each do |name, opts|
+      _add(name, opts)
     end
   end
 
@@ -100,29 +103,36 @@ class SettingRegistry
     end
     # load nil to set value to default
     @settings.except(*loaded_names).each do |name, definition|
+      # Creating missing records as we operate over the DB model while updating the setting
+      _new_db_record(definition).save(validate: false)
       definition.updated_at = nil
       definition.value = definition.default
     end
   end
 
-  def _add(name, category:, default:, description:, full_name: nil, value: nil, encrypted: false)
+  def _add(name, category:, default:, description:, full_name:, context:, value: nil, encrypted: false, collection: nil, options: {})
     @settings[name.to_s] = SettingPresenter.new({ name: name,
+                                                  context: context,
                                                   category: category,
                                                   description: description,
                                                   default: default,
                                                   full_name: full_name,
+                                                  collection: collection,
                                                   encrypted: encrypted })
   end
 
   def _find_or_new_db_record(name)
     definition = find(name)
-    Setting.find_by(name: name) ||
-      Setting.new(name: name,
-                  category: definition.category,
-                  default: definition.default,
-                  description: definition.description,
-                  full_name: definition.full_name,
-                  encrypted: definition.encrypted?)
+    Setting.find_by(name: name) || _new_db_record(definition)
+  end
+
+  def _new_db_record(definition)
+    Setting.new(name: definition.name,
+                category: definition.category.safe_constantize&.name || 'Setting::General',
+                default: definition.default,
+                description: definition.description,
+                full_name: definition.full_name,
+                encrypted: definition.encrypted?)
   end
 
   # ==== Load old defaults
@@ -130,7 +140,7 @@ class SettingRegistry
   def _load_category_from_db(category_klass)
     category_klass.all.each do |set|
       # set.value can be user value, we have no way of telling the initial value
-      _add(set.name, category: category_klass.name, description: set.description, default: set.default, full_name: set.full_name, encrypted: set.encrypted)
+      _add(set.name, category: category_klass.name, description: set.description, default: set.default, full_name: set.full_name, context: :deprecated, encrypted: set.encrypted)
     end
   end
 end
