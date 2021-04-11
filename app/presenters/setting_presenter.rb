@@ -52,10 +52,18 @@ class SettingPresenter
     attribute(:settings_type) || Setting.setting_type_from_value(default)
   end
 
+  def matches_search_query?(query)
+    if (res = query.match(/name\s*=\s*(\S+)/))
+      name == res[1]
+    else
+      description.include?(query) || name.include?(query) || full_name&.include?(query)
+    end
+  end
+
   # ----- UI helpers ------
 
   def category_label
-    category.constantize.humanized_category || _(category_name)
+    category.safe_constantize&.humanized_category || category_name
   end
 
   def category_name

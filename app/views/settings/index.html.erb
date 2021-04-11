@@ -1,25 +1,21 @@
 <% title _("Settings") %>
 <% title_actions documentation_button('3.5.2ConfigurationOptions') %>
-<%
-ordered_settings = @settings.stick_general_first
-first_category = ordered_settings.values.flatten.first.try(:category)
-%>
 
-<%= react_component('SettingRecords', { :settings => grouped_settings(@settings) }) %>
+<%= react_component('SettingRecords', { settings: grouped_settings(@settings) }) %>
 
 <ul class="nav nav-tabs" data-tabs="tabs">
-  <% ordered_settings.each do |category, _setting| %>
-    <li class='<%= category == first_category ? "active" : ""%>'>
-      <a href='<%= "##{short_cat(category)}" %>' data-toggle="tab"><%= _(cat_label(category)) %></a>
+  <% @settings.categories.each do |category, label| %>
+    <li class="<%= 'active' if category == @settings.categories.keys.first %>">
+      <a href="#<%= category %>" data-toggle="tab"><%= _(label) %></a>
     </li>
   <% end %>
 </ul>
 <div class="tab-content">
-  <% ordered_settings.each do |category, setting| %>
-    <div class="tab-pane <%= "active" if category == first_category %>" id='<%= short_cat(category) %>' >
-      <%= render_if_partial_exists "settings/category/#{category.demodulize.downcase}", setting %>
+  <% @settings.categories.each do |category, _label| %>
+    <div class="tab-pane<%= ' active' if category == @settings.categories.keys.first %>" id='<%= category %>' >
+      <%= render_if_partial_exists "settings/category/#{category.downcase}", category %>
 
-      <%= react_component('SettingsTable', { :category => category }) %>
+      <%= react_component('SettingsTable', { category: category }) %>
 
     </div>
   <% end %>

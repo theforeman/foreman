@@ -15,8 +15,7 @@ class SettingJSTest < IntegrationTestWithJavascript
         "My Pretty Setting Label"
       end
     end
-
-    FactoryBot.create(:setting, :settings_type => "boolean", :category => "Setting::Test", :name => 'test_setting', :default => false)
+    Foreman.settings._add(name, category: 'Setting::Test', default: false, description: 'Pretty setting', full_name: 'Pretty setting')
 
     assert_index_page(settings_path, "Settings", false, true, false)
     assert page.has_link?("My Pretty Setting Label", :href => "#Test")

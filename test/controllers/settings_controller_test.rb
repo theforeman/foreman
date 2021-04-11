@@ -7,9 +7,8 @@ class SettingsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
-  test "can render a new sti type setting" do
-    class Setting::Valid < Setting; end
-    assert Setting.create(:name => "foo", :default => "bar", :description => "test foo", :category => "Setting::Valid")
+  test "can render a new category setting" do
+    Foreman.settings._add("foo", default: "bar", description: "test foo", category: "Valid")
     get :index, session: set_session_user
     assert_match /id='Valid'/, @response.body
   end
