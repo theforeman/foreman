@@ -48,4 +48,18 @@ class SettingRegistryTest < ActiveSupport::TestCase
       assert_equal setting_value, registry['foo']
     end
   end
+
+  describe '#search_for' do
+    it 'can find setting by exact name match' do
+      result = registry.search_for('name = foo').to_a
+      assert_equal 1, result.size
+      assert_equal 'foo', result.first.name
+    end
+
+    it 'can find setting by description' do
+      result = registry.search_for('test f').to_a
+      assert_equal 1, result.size
+      assert_equal 'foo', result.first.name
+    end
+  end
 end

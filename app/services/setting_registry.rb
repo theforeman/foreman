@@ -1,8 +1,23 @@
 class SettingRegistry
   include Singleton
+  include Enumerable
 
-  def initialize
-    @settings = {}
+  def self.subset_registry(subset)
+    new(subset)
+  end
+
+  def search_for(query)
+    return self if query.blank?
+    subset = @settings.select { |name, definition| definition.matches_search_query?(query) }
+    self.class.subset_registry(subset)
+  end
+
+  def each(&block)
+    @settings.values.each(&block)
+  end
+
+  def initialize(settings = {})
+    @settings = settings
   end
 
   def ready?
@@ -40,6 +55,14 @@ class SettingRegistry
     db_record.value = value
     db_record.save!
     definition.value = db_record.value
+  end
+
+  # Returns all the categories used for settings
+  def categories
+    sticked_general = { 'General' => nil }
+    sticked_general.merge!(Hash[@settings.map { |_name, definition| [definition.category_name, definition.category_label] }])
+    sticked_general.delete('General') if sticked_general['General'].nil?
+    sticked_general
   end
 
   def load
