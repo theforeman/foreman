@@ -145,14 +145,23 @@ class PuppetFactParser < FactParser
   end
 
   def foreman_uuid
-    facts['foreman_uuid']
+    signed_fact('foreman_uuid')
   end
 
   def smart_proxy_uuid
-    facts['smart_proxy_uuid']
+    signed_fact('smart_proxy_uuid')
   end
 
   private
+
+  def signed_fact(key)
+    uuid = facts[key]
+    signature = facts["#{key}_signature"]
+
+    if uuid.present? && signature.present? && signature == OpenSSL::HMAC.hexdigest("SHA512", SETTINGS[:oauth_consumer_secret], uuid)
+      uuid
+    end
+  end
 
   # remove when dropping support for facter < 3.0
   def get_interfaces_legacy

@@ -48,17 +48,40 @@ class HostFactImporterTest < ActiveSupport::TestCase
       end
     end
 
+    test 'should ignore fact for infrastructure facet if unsigned' do
+      refute Host.find_by_name('sinn1636.lan')
+      raw = read_json_fixture('facts/facts_with_certname.json')
+      host = Host.import_host(raw['name'], 'puppet')
+      assert HostFactImporter.new(host).import_facts(raw['facts'])
+      refute host.infrastructure_facet
+    end
+
+    test 'should ignore fact for infrastructure facet with wrong signature' do
+      SETTINGS[:oauth_consumer_secret] = 'secret'
+      refute Host.find_by_name('sinn1636.lan')
+      raw = read_json_fixture('facts/facts_with_certname.json')
+      raw['facts']['foreman_uuid_signature'] = 'definitely not valid signature'
+      host = Host.import_host(raw['name'], 'puppet')
+      assert HostFactImporter.new(host).import_facts(raw['facts'])
+      refute host.infrastructure_facet
+      SETTINGS[:oauth_consumer_secret] = nil
+    end
+
     test 'should import facts for infrastructure facet' do
+      SETTINGS[:oauth_consumer_secret] = 'secret'
       fake_proxy = OpenStruct.new(:id => 1)
       refute Host.find_by_name('sinn1636.lan')
       raw = read_json_fixture('facts/facts_with_certname.json')
       ::SmartProxy.expects(:find_by).with(:uuid => raw["facts"]["smart_proxy_uuid"]).returns(fake_proxy)
+      raw['facts']['foreman_uuid_signature'] = OpenSSL::HMAC.hexdigest("SHA512", 'secret', raw['facts']['foreman_uuid'])
+      raw['facts']['smart_proxy_uuid_signature'] = OpenSSL::HMAC.hexdigest("SHA512", 'secret', raw['facts']['smart_proxy_uuid'])
       host = Host.import_host(raw['name'], 'puppet')
       assert HostFactImporter.new(host).import_facts(raw['facts'])
       assert host.infrastructure_facet
       assert host.infrastructure_facet.foreman_uuid == raw["facts"]["foreman_uuid"]
       assert host.infrastructure_facet.smart_proxy_uuid == raw["facts"]["smart_proxy_uuid"]
       assert host.infrastructure_facet.smart_proxy_id == fake_proxy.id
+      SETTINGS[:oauth_consumer_secret] = nil
     end
 
     test 'should not create infrastructure facet if facts are missing' do
