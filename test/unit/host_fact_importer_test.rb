@@ -78,9 +78,9 @@ class HostFactImporterTest < ActiveSupport::TestCase
       host = Host.import_host(raw['name'], 'puppet')
       assert HostFactImporter.new(host).import_facts(raw['facts'])
       assert host.infrastructure_facet
-      assert host.infrastructure_facet.foreman_uuid == raw["facts"]["foreman_uuid"]
-      assert host.infrastructure_facet.smart_proxy_uuid == raw["facts"]["smart_proxy_uuid"]
-      assert host.infrastructure_facet.smart_proxy_id == fake_proxy.id
+      assert_equal host.infrastructure_facet.foreman_uuid, raw["facts"]["foreman_uuid"]
+      assert_equal host.infrastructure_facet.smart_proxy_uuid, raw["facts"]["smart_proxy_uuid"]
+      assert_equal host.infrastructure_facet.smart_proxy_id, fake_proxy.id
       SETTINGS[:oauth_consumer_secret] = nil
     end
 
