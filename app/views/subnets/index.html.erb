@@ -1,6 +1,7 @@
 <% title _("Subnets") %>
 
 <%= javascript 'subnets' %>
+<% title_actions render_pagelets_for(:subnet_index_title_buttons) %>
 <% title_actions new_link(_("Create Subnet")) %>
 
 <table class="<%= table_css_classes 'table-fixed' %>">
@@ -29,7 +30,7 @@
                                hash_for_subnet_path(:id => subnet).
                                merge(:auth_object => subnet, :authorizer => authorizer),
                                :data => { :confirm => _("Delete %s?") % subnet.name }),
-                             render_pagelets_for(:action_buttons, subject: subnet)
+                             render_pagelets_for(:subnet_index_action_buttons, subject: subnet)
               ) %>
         </td>
       </tr>
