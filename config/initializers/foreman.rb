@@ -27,6 +27,7 @@ if (Setting.table_exists? rescue(false))
   end
 
   Setting.descendants.each(&:load_defaults)
+  Foreman.settings.load
 end
 
 # load topbar

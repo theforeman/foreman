@@ -3,7 +3,10 @@ class SettingRegistry
 
   def initialize
     @settings = {}
-    load
+  end
+
+  def ready?
+    @settings.any?
   end
 
   def logger
@@ -11,6 +14,7 @@ class SettingRegistry
   end
 
   def find(name)
+    logger.warn("Setting is not initialized yet, requested value for #{name} will be always nil") unless ready?
     @settings[name.to_s]
   end
 
@@ -22,7 +26,10 @@ class SettingRegistry
   #
   def [](name)
     definition = find(name)
-    logger.warn("Setting #{name} has no definition, please define it before using") and return unless definition
+    unless definition
+      logger.warn("Setting #{name} has no definition, please define it before using") if ready?
+      return
+    end
     definition.value
   end
 
