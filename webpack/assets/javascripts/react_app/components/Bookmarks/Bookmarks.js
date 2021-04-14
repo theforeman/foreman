@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
 import { Dropdown, MenuItem, Spinner, Icon } from 'patternfly-react';
+import { PlusIcon } from '@patternfly/react-icons';
 import SearchModal from './components/SearchModal';
 import Bookmark from './components/Bookmark';
 import DocumentationUrl from '../common/DocumentationLink';
 import { STATUS } from '../../constants';
 import { noop } from '../../common/helpers';
 import { sprintf, translate as __ } from '../../../react_app/common/I18n';
+import history from '../../history';
+import { stringifyParams } from '../../common/urlHelpers';
 
 const Bookmarks = props => {
   const loadBookmarks = () => {
@@ -16,6 +19,11 @@ const Bookmarks = props => {
     if (bookmarks.length === 0 && status !== STATUS.PENDING) {
       getBookmarks(url, controller);
     }
+  };
+
+  const manageBookmarks = controller => {
+    const query = stringifyParams({ searchQuery: `controller=${controller}` });
+    history.push({ pathname: '/bookmarks', search: query });
   };
 
   const {
@@ -46,10 +54,9 @@ const Bookmarks = props => {
         <Dropdown.Menu className="scrollable-dropdown">
           {canCreate && (
             <MenuItem key="newBookmark" id="newBookmark" onClick={setModalOpen}>
-              {__('Bookmark this search')}
+              <PlusIcon /> {__('Bookmark this search')}
             </MenuItem>
           )}
-          <DocumentationUrl href={documentationUrl} />
           <MenuItem divider />
           <MenuItem header>{__('Saved Bookmarks')}</MenuItem>
           {status === STATUS.PENDING && (
@@ -74,6 +81,17 @@ const Bookmarks = props => {
               </EllipisWithTooltip>
             </MenuItem>
           )}
+          <MenuItem divider />
+          {canCreate && (
+            <MenuItem
+              key="manageBookmarks"
+              id="manageBookmarks"
+              onClick={() => manageBookmarks(controller)}
+            >
+              {__('Manage Bookmarks')}
+            </MenuItem>
+          )}
+          <DocumentationUrl href={documentationUrl} />
         </Dropdown.Menu>
       </Dropdown>
     </React.Fragment>
