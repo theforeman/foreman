@@ -362,12 +362,6 @@ module Foreman
 
     def init_dynflow
       dynflow.eager_load_actions!
-
-      if defined?(PhusionPassenger) && !dynflow.config.lazy_initialization
-        PhusionPassenger.on_event(:starting_worker_process) do |forked|
-          dynflow.initialize! if forked
-        end
-      end
     end
 
     def setup_auditing
