@@ -40,11 +40,10 @@ description: |
   end
 
   # networking credentials
-  raise("Dual-stack provisioning not supported") if subnet4 && subnet6
-  options.push("dualstack!") if subnet4 && subnet6
-  if subnet4 && subnet4.dhcp_boot_mode?
+  raise("Both IPv4 and IPv6 subnets are set on a provisioning interface, create a 'install-protocol' parameter with either 'force-ipv4' or 'force-ipv6' to identify which protocol to use.") if subnet4 && subnet6 && !host_param("install-protocol").present?
+  if subnet4 && subnet4.dhcp_boot_mode? && host_param("install-protocol") != "force-ipv6"
     options.push("ip=dhcp") if rhel_compatible && major >= 7
-  elsif subnet4 && !subnet4.dhcp_boot_mode?
+  elsif subnet4 && !subnet4.dhcp_boot_mode? && host_param("install-protocol") != "force-ipv6"
     if rhel_compatible && major < 7
       dns_servers = subnet4.dns_servers.join(',')
       if @ipxe_net
@@ -73,7 +72,7 @@ description: |
 
   # nameservers - must be present even for DHCP subnets because of bug:
   # https://bugzilla.redhat.com/show_bug.cgi?id=1795276
-  if subnet4 && !@ipxe_net
+  if subnet4 && !@ipxe_net && host_param("install-protocol") != "force-ipv6"
     subnet4.dns_servers.each { |server|
       options.push("nameserver=#{server}")
     }
@@ -127,7 +126,7 @@ description: |
     options.push('fips=1')
   end
 
-  nic_delay = subnet4 ? subnet4.nic_delay : nil
+  nic_delay = (subnet4 && host_param("install-protocol") != "force-ipv6") ? subnet4.nic_delay : nil
   nic_delay ||= subnet6 ? subnet6.nic_delay : nil
   if nic_delay && rhel_compatible && major >= 7
     ["dhcp", "iflink", "ifup", "route", "ipv6dad", "ipv6auto", "carrier"].each do |type|
