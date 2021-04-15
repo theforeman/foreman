@@ -27,7 +27,7 @@ class BuildStatusTest < ActiveSupport::TestCase
     end
   end
 
-  test '#relevant? is only for managed hosts in unattended mode' do
+  test '#relevant? is only for hosts in unattended mode' do
     @host.managed = true
     assert @status.relevant?
 
@@ -36,7 +36,7 @@ class BuildStatusTest < ActiveSupport::TestCase
     SETTINGS[:unattended] = original
 
     @host.managed = false
-    refute @status.relevant?
+    assert @status.relevant?
   end
 
   test '#waiting_for_build? verifies build flag and host relation' do

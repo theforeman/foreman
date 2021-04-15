@@ -50,7 +50,7 @@ module HostStatus
     end
 
     def relevant?(options = {})
-      SETTINGS[:unattended] && host.managed?
+      SETTINGS[:unattended]
     end
 
     def waiting_for_build?
