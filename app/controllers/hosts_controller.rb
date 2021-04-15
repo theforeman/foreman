@@ -27,7 +27,7 @@ class HostsController < ApplicationController
   before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
-                                          :toggle_manage, :pxe_config, :disassociate, :build_errors, :forget_status]
+                                          :toggle_manage, :pxe_config, :disassociate, :build_errors, :forget_status, :get_statuses]
 
   before_action :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_action :set_host_type, :only => [:update]
@@ -629,6 +629,18 @@ class HostsController < ApplicationController
     end
   end
 
+  def get_statuses
+    statuses = []
+    HostStatus.status_registry.each do |status_class|
+      if @host.get_status(status_class).relevant?
+        statuses << { name: status_class.humanized_name,
+                      status: @host.send("#{status_class.humanized_name}_status"),
+                      label: @host.send("#{status_class.humanized_name}_status_label") }
+      end
+    end
+    render :json => statuses.to_json
+  end
+
   private
 
   def resource_base
@@ -637,7 +649,7 @@ class HostsController < ApplicationController
 
   define_action_permission [
     'clone', 'externalNodes', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics',
-    'pxe_config', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state', 'preview_host_collection', 'build_errors'
+    'pxe_config', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state', 'preview_host_collection', 'build_errors', 'get_statuses'
   ], :view
   define_action_permission [
     'setBuild', 'cancelBuild', 'multiple_build', 'submit_multiple_build', 'review_before_build',

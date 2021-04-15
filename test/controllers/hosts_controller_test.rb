@@ -1873,6 +1873,16 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
+  test "get statuses" do
+    SETTINGS[:unattended] = true
+    host = FactoryBot.create(:host, :managed)
+    ::HostStatus::BuildStatus.create!(host_id: host.id)
+    expected = [{ :name => 'build', :status => 0, :label => 'Installed' }].to_json
+
+    get :get_statuses, params: { :id => host.name, :format => 'json' }, session: set_session_user
+    assert_equal expected, @response.body
+  end
+
   private
 
   def initialize_host
