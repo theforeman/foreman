@@ -7,7 +7,7 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       assert_response :success
       response = ActiveSupport::JSON.decode(@response.body)['registration_command']
 
-      assert_includes response, "curl -s 'http://test.host/register'"
+      assert_includes response, "curl -sS  'http://test.host/register'"
       assert_includes response, "-H 'Authorization: Bearer"
     end
 
@@ -46,7 +46,7 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       assert_response :success
 
       response = ActiveSupport::JSON.decode(@response.body)['registration_command']
-      assert_includes response, "curl --insecure -s '#{smart_proxies(:one).url}/register'"
+      assert_includes response, "curl -sS --insecure '#{smart_proxies(:one).url}/register'"
     end
   end
 end

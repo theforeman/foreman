@@ -41,7 +41,7 @@ cat << EOF > $SSL_CA_CERT
 <%= foreman_server_ca_cert %>
 EOF
 <% end -%>
-curl --silent <%= '--cacert $SSL_CA_CERT' if built_https -%> -o /dev/null --noproxy \* '<%= foreman_url('built') %>'
+curl --silent --show-error <%= '--cacert $SSL_CA_CERT' if built_https -%> -o /dev/null --noproxy \* '<%= foreman_url('built') %>'
 
 echo "#"
 echo "# Host [<%= @host.name %>] successfully enrolled."
