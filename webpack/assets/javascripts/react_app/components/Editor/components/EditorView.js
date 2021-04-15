@@ -33,6 +33,9 @@ const EditorView = ({
     editorProps={{ $blockScrolling: Infinity }}
     showPrintMargin={false}
     debounceChangePeriod={250}
+    enableBasicAutocompletion
+    enableLiveAutocompletion
+    enableSnippets
   />
 );
 EditorView.propTypes = {
