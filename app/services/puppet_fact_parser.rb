@@ -9,11 +9,7 @@ class PuppetFactParser < FactParser
     if major.presence
       args = {:name => os_name, :major => major, :minor => minor}
       os = Operatingsystem.find_or_initialize_by(args)
-      if distro_codename
-        os.release_name = distro_codename
-      elsif os.release_name.blank? && os_name[/debian|ubuntu/i] || os.family == 'Debian'
-        os.release_name = 'unknown'
-      end
+      os.release_name = distro_codename if distro_codename
     else
       os = Operatingsystem.find_or_initialize_by(:name => os_name)
     end
