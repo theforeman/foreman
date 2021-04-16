@@ -11,8 +11,8 @@ class PuppetFactParser < FactParser
       args = {:name => os_name, :major => major, :minor => minor}
       os = Operatingsystem.find_or_initialize_by(args)
       if os_name[/debian|ubuntu/i] || os.family == 'Debian'
-        if facts.dig(:os, :distro, :codename).presence || facts[:lsbdistcodename]
-          os.release_name = facts.dig(:os, :distro, :codename).presence || facts[:lsbdistcodename]
+        if distro_codename
+          os.release_name = distro_codename
         elsif os.release_name.blank?
           os.release_name = 'unknown'
         end
@@ -24,10 +24,10 @@ class PuppetFactParser < FactParser
     if os.description.blank?
       if os_name == 'SLES'
         os.description = os_name + ' ' + orel.gsub('.', ' SP')
-      elsif facts.dig(:os, :distro, :description).presence || facts[:lsbdistdescription]
+      elsif distro_description
         family = os.deduce_family || 'Operatingsystem'
         os = os.becomes(family.constantize)
-        os.description = os.shorten_description(facts.dig(:os, :distro, :description).presence || facts[:lsbdistdescription])
+        os.description = os.shorten_description(distro_description)
       end
     end
 
@@ -40,38 +40,38 @@ class PuppetFactParser < FactParser
     end
   end
 
-  def environment
+  def environment_name
     # by default, puppet doesn't store an env name in the database
-    name = facts[:environment] || facts[:agent_specified_environment] || Setting[:default_puppet_environment]
-    Environment.unscoped.where(:name => name).first_or_create
+    facts[:environment] || facts[:agent_specified_environment] || Setting[:default_puppet_environment]
   end
 
-  def architecture
+  def architecture_name
     # On solaris and junos architecture fact is hardwareisa
     name = case os_name
              when /(sunos|solaris|junos)/i
-               facts[:hardwareisa]
+               hardware_isa
              else
-               facts[:architecture] || facts[:hardwareisa]
+               architecture_fact || hardware_isa
            end
-    # ensure that we convert debian legacy to standard
+    # Normalize some output, like on Debian and FreeBSD
     name = "x86_64" if name == "amd64"
     name = "aarch64" if name == "arm64"
-    Architecture.where(:name => name).first_or_create if name.present?
+    name
   end
 
-  def model
-    name = facts[:productname] || facts[:model] || facts[:boardproductname]
+  def model_name
+    # TODO: not sure where model comes from, not Facter
+    name = dmi_product_name || facts[:model] || dmi_board_product
     # if its a virtual machine and we didn't get a model name, try using that instead.
     name ||= facts[:virtual] if virtual
-    Model.where(:name => name.strip).first_or_create if name.present?
+    name
   end
 
-  def domain
-    name = facts[:domain]
-    Domain.unscoped.where(:name => name).first_or_create if name.present?
+  def domain_name
+    facts.dig(:networking, :domain).presence || facts[:domain].presence
   end
 
+  # ipmi_ facts are custom facts in foreman-discovery-image
   def ipmi_interface
     ipmi = facts.select { |name, _| name =~ /\Aipmi_(.*)\Z/ }.map { |name, value| [name.sub(/\Aipmi_/, ''), value] }
     Hash[ipmi].with_indifferent_access
@@ -101,7 +101,7 @@ class PuppetFactParser < FactParser
 
   def suggested_primary_interface(host)
     # facter 3.x: find 'primary' fact in 'networking' structure
-    facter3_primary = facts.try(:fetch, "networking", nil).try(:fetch, "primary", nil)
+    facter3_primary = facts.dig(:networking, :primary).presence
     return [facter3_primary, interfaces[facter3_primary]] if facter3_primary
     super
   end
@@ -116,7 +116,7 @@ class PuppetFactParser < FactParser
 
   def boot_timestamp
     # system_uptime::seconds is Facter 3, we also fallback to Facter 2 uptime_seconds
-    uptime_seconds = facts.fetch('system_uptime', {}).fetch('seconds', nil) || facts[:uptime_seconds]
+    uptime_seconds = facts.dig(:system_uptime, :seconds) || facts[:uptime_seconds]
     uptime_seconds.nil? ? nil : (Time.zone.now.to_i - uptime_seconds.to_i)
   end
 
@@ -124,6 +124,7 @@ class PuppetFactParser < FactParser
     facts['is_virtual']
   end
 
+  # @return the RAM in megabytes
   def ram
     if (value = facts.dig('memory', 'system', 'total_bytes'))
       value / 1.megabyte
@@ -132,14 +133,17 @@ class PuppetFactParser < FactParser
     end
   end
 
+  # @return the number of physical processors
   def sockets
     facts.dig('processors', 'physicalcount') || facts['physicalprocessorcount']
   end
 
+  # @return the number of processors
   def cores
     facts.dig('processors', 'count') || facts['processorcount']
   end
 
+  # @return the total disk size in bytes
   def disks_total
     facts['disks']&.values&.sum { |disk| disk&.fetch('size_bytes', 0).to_i }
   end
@@ -192,7 +196,7 @@ class PuppetFactParser < FactParser
   def os_name
     os_name = facts.dig(:os, :name).presence || facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
 
-    if os_name == 'RedHat' && facts[:lsbdistid] == 'RedHatEnterpriseWorkstation'
+    if os_name == 'RedHat' && distro_id == 'RedHatEnterpriseWorkstation'
       os_name += '_Workstation'
     end
 
@@ -201,29 +205,27 @@ class PuppetFactParser < FactParser
 
   def os_release
     case os_name
-    when /(suse|sles|gentoo)/i
-      facts[:operatingsystemrelease]
     when /(windows)/i
       facts[:kernelrelease]
     when /AIX/i
-      majoraix, tlaix, spaix, _yearaix = facts[:operatingsystemrelease].split("-")
+      majoraix, tlaix, spaix, _yearaix = os_release_full.split("-")
       majoraix + "." + tlaix + spaix
     when /JUNOS/i
-      majorjunos, minorjunos = facts[:operatingsystemrelease].split("R")
+      majorjunos, minorjunos = os_release_full.split("R")
       majorjunos + "." + minorjunos
     when /FreeBSD/i
-      facts[:operatingsystemrelease].gsub(/\-RELEASE\-p[0-9]+/, '')
+      os_release_full.gsub(/\-RELEASE\-p[0-9]+/, '')
     when /Solaris/i
-      facts[:operatingsystemrelease].gsub(/_u/, '.')
+      os_release_full.gsub(/_u/, '.')
     when /PSBM/i
-      majorpsbm, minorpsbm = facts[:operatingsystemrelease].split(".")
+      majorpsbm, minorpsbm = os_release_full.split(".")
       majorpsbm + "." + minorpsbm
     when /Archlinux/i
       # Archlinux is a rolling release, so it has no releases. 1.0 is always used
       '1.0'
     when /Debian/i
-      return "99" if facts[:lsbdistcodename] =~ /sid/
-      release = facts.dig(:os, :release, :full) || facts[:lsbdistrelease] || facts[:operatingsystemrelease]
+      return "99" if distro_codename =~ /sid/
+      release = os_release_full
       case release
       when 'bullseye/sid' # Debian Bullseye testing will be 11
         '11'
@@ -231,7 +233,57 @@ class PuppetFactParser < FactParser
         release
       end
     else
-      facts.dig(:os, :release, :full) || facts[:lsbdistrelease] || facts[:operatingsystemrelease]
+      os_release_full
     end
+  end
+
+  def os_release_full
+    facts.dig(:os, :release, :full) || facts[:operatingsystemrelease]
+  end
+
+  # This fact returns the distribution's id, which typically relies on
+  # lsb-release to be installed. As such, it's an optional fact
+  def distro_id
+    facts.dig(:os, :distro, :id).presence || facts[:lsbdistid].presence
+  end
+
+  # This fact returns the distribution's codename, which typically relies on
+  # lsb-release to be installed. As such, it's an optional fact
+  def distro_codename
+    facts.dig(:os, :distro, :codename).presence || facts[:lsbdistcodename].presence
+  rescue Exception => e
+    logger.warning { "Failed to read distribution codename: #{e}" }
+    nil
+  end
+
+  # This fact returns the distribution's description, which typically relies on
+  # lsb-release to be installed. As such, it's an optional fact
+  def distro_description
+    facts.dig(:os, :distro, :description).presence || facts[:lsbdistdescription].presence
+  rescue Exception => e
+    logger.warning { "Failed to read distribution description: #{e}" }
+    nil
+  end
+
+  def dmi_product_name
+    facts.dig(:dmi, :product, :name).presence || facts[:productname]
+  rescue Exception => e
+    logger.warning { "Failed to read product name: #{e}" }
+    nil
+  end
+
+  def dmi_board_product
+    facts.dig(:dmi, :board, :product).presence || facts[:boardproductname]
+  rescue Exception => e
+    logger.warning { "Failed to read board product: #{e}" }
+    nil
+  end
+
+  def architecture_fact
+    facts.dig(:os, :architecture).presence || facts[:architecture].presence
+  end
+
+  def hardware_isa
+    facts.dig(:processors, :hardwareisa).presence || facts[:hardwareisa].presence
   end
 end
