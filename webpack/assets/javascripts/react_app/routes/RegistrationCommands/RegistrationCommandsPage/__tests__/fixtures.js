@@ -31,10 +31,12 @@ export const advancedComponentProps = {
   jwtExpiration: '',
   handleJwtExpiration: () => {},
   handleInvalidField: () => {},
+  packages: '',
+  handlePackages: () => {},
   repo: '',
-  repoGpg: '',
+  repoGpgKeyUrl: '',
   handleRepo: () => {},
-  handleRepoGpg: () => {},
+  handleRepoGpgKeyUrl: () => {},
   isLoading: false,
 };
 
@@ -83,11 +85,18 @@ export const osProps = {
   isLoading: false,
 };
 
+export const packagesProps = {
+  packages: '',
+  handlePackages: () => {},
+  configParams: {},
+  isLoading: false,
+};
+
 export const repositoryProps = {
   repo: '',
   handleRepo: () => {},
-  repoGpg: '',
-  handleRepoGpg: () => {},
+  repoGpgKeyUrl: '',
+  handleRepoGpgKeyUrl: () => {},
   isLoading: false,
 };
 

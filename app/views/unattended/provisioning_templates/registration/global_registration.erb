@@ -18,6 +18,7 @@ model: ProvisioningTemplate
 <%= "\n# Setup Insights: [#{@setup_insights}]" unless @setup_insights.nil? -%>
 <%= "\n# Setup Remote Execution: [#{@setup_remote_execution}]" unless @setup_remote_execution.nil? -%>
 <%= "\n# Remote execution interface: [#{@remote_execution_interface}]" if @remote_execution_interface.present? -%>
+<%= "\n# Packages: [#{@packages}]" if @packages.present? -%>
 <%= "\n# Activation keys: [#{activation_keys}]" if activation_keys.present? -%>
 
 
@@ -82,6 +83,7 @@ register_host() {
 <%= "       --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
 <%= "       --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
 <%= "       --data 'remote_execution_interface=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
+<%= "       --data 'packages=#{@packages}' \\\n" if @packages.present? -%>
 
 }
 
@@ -103,6 +105,7 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
 <%= "          --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
 <%= "          --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
 <%= "          --data 'remote_execution_interface=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
+<%= "          --data 'packages=#{@packages}' \\\n" if @packages.present? -%>
 
 }
 

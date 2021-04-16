@@ -240,5 +240,25 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
         refute HostParameter.find_by(host: host, name: 'host_registration_remote_execution').value
       end
     end
+
+    context 'packages' do
+      test 'without param' do
+        params = { packages: '' }.merge(host_params)
+        post :host, params: params, session: set_session_user
+        assert_response :success
+
+        host = Host.find_by(name: params[:host][:name]).reload
+        assert_nil HostParameter.find_by(host: host, name: 'host_packages')
+      end
+
+      test 'with param' do
+        params = { packages: 'pkg1 pkg2' }.merge(host_params)
+        post :host, params: params, session: set_session_user
+        assert_response :success
+
+        host = Host.find_by(name: params[:host][:name]).reload
+        assert HostParameter.find_by(host: host, name: 'host_packages').value
+      end
+    end
   end
 end

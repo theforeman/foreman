@@ -10,8 +10,8 @@ import { translate as __ } from '../../../../../common/I18n';
 const Repository = ({
   repo,
   handleRepo,
-  repoGpg,
-  handleRepoGpg,
+  repoGpgKeyUrl,
+  handleRepoGpgKeyUrl,
   isLoading,
 }) => (
   <>
@@ -35,8 +35,8 @@ const Repository = ({
       />
     </FormGroup>
     <FormGroup
-      label={__('Repository GPG key')}
-      fieldId="reg_smart_proxy"
+      label={__('Repository GPG key URL')}
+      fieldId="reg_gpg_key_url"
       labelIcon={
         <LabelIcon
           text={__(
@@ -46,10 +46,10 @@ const Repository = ({
       }
     >
       <TextInput
-        id="reg_repository_gpg"
-        value={repoGpg}
+        id="reg_repository_gpg_key_url"
+        value={repoGpgKeyUrl}
         type="text"
-        onChange={handleRepoGpg}
+        onChange={handleRepoGpgKeyUrl}
         isDisabled={isLoading}
       />
     </FormGroup>
@@ -58,15 +58,15 @@ const Repository = ({
 
 Repository.propTypes = {
   repo: PropTypes.string,
-  repoGpg: PropTypes.string,
+  repoGpgKeyUrl: PropTypes.string,
   handleRepo: PropTypes.func.isRequired,
-  handleRepoGpg: PropTypes.func.isRequired,
+  handleRepoGpgKeyUrl: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
 
 Repository.defaultProps = {
   repo: '',
-  repoGpg: '',
+  repoGpgKeyUrl: '',
 };
 
 export default Repository;

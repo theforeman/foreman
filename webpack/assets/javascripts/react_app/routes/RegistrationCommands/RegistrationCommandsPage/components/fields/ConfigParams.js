@@ -36,7 +36,7 @@ const ConfigParams = ({
   return (
     <>
       <FormGroup
-        label="Setup Rex"
+        label={__('Setup Rex')}
         isRequired
         labelIcon={
           <LabelIcon
@@ -59,7 +59,7 @@ const ConfigParams = ({
         </FormSelect>
       </FormGroup>
       <FormGroup
-        label="Setup Insights"
+        label={__('Setup Insights')}
         isRequired
         labelIcon={
           <LabelIcon

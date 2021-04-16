@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ConfigParams from './fields/ConfigParams';
+import Packages from './fields/Packages';
 import Repository from './fields/Repository';
 import TokenLifeTime from './fields/TokenLifeTime';
 
@@ -14,10 +15,12 @@ const Advanced = ({
   jwtExpiration,
   handleJwtExpiration,
   handleInvalidField,
+  packages,
+  handlePackages,
   repo,
   handleRepo,
-  repoGpg,
-  handleRepoGpg,
+  repoGpgKeyUrl,
+  handleRepoGpgKeyUrl,
   isLoading,
 }) => (
   <>
@@ -29,11 +32,17 @@ const Advanced = ({
       handleRemoteExecution={handleRemoteExecution}
       isLoading={isLoading}
     />
+    <Packages
+      packages={packages}
+      handlePackages={handlePackages}
+      configParams={configParams}
+      isLoading={isLoading}
+    />
     <Repository
       repo={repo}
       handleRepo={handleRepo}
-      repoGpg={repoGpg}
-      handleRepoGpg={handleRepoGpg}
+      repoGpgKeyUrl={repoGpgKeyUrl}
+      handleRepoGpgKeyUrl={handleRepoGpgKeyUrl}
       isLoading={isLoading}
     />
     <TokenLifeTime
@@ -54,10 +63,12 @@ Advanced.propTypes = {
   jwtExpiration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   handleJwtExpiration: PropTypes.func.isRequired,
   handleInvalidField: PropTypes.func.isRequired,
+  packages: PropTypes.string,
   repo: PropTypes.string,
-  repoGpg: PropTypes.string,
+  repoGpgKeyUrl: PropTypes.string,
+  handlePackages: PropTypes.func.isRequired,
   handleRepo: PropTypes.func.isRequired,
-  handleRepoGpg: PropTypes.func.isRequired,
+  handleRepoGpgKeyUrl: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
 
@@ -66,8 +77,9 @@ Advanced.defaultProps = {
   setupRemoteExecution: '',
   setupInsights: '',
   jwtExpiration: 4,
+  packages: '',
   repo: '',
-  repoGpg: '',
+  repoGpgKeyUrl: '',
 };
 
 export default Advanced;

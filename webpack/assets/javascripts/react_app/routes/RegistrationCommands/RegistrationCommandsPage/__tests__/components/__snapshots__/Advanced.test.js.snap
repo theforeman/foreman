@@ -10,12 +10,18 @@ exports[`RegistrationCommandsPage - Advanced renders 1`] = `
     setupInsights=""
     setupRemoteExecution=""
   />
+  <Packages
+    configParams={Object {}}
+    handlePackages={[Function]}
+    isLoading={false}
+    packages=""
+  />
   <Repository
     handleRepo={[Function]}
-    handleRepoGpg={[Function]}
+    handleRepoGpgKeyUrl={[Function]}
     isLoading={false}
     repo=""
-    repoGpg=""
+    repoGpgKeyUrl=""
   />
   <TokenLifeTime
     handleInvalidField={[Function]}

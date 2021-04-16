@@ -19,6 +19,7 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
         operatingsystem_id: operatingsystems(:redhat).id,
         setup_insights: 'false',
         setup_remote_execution: 'false',
+        packages: 'pkg1',
       }
 
       post :create, params: params
@@ -31,6 +32,7 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       assert_includes response, "operatingsystem_id=#{operatingsystems(:redhat).id}"
       assert_includes response, 'setup_insights=false'
       assert_includes response, 'setup_remote_execution=false'
+      assert_includes response, 'packages=pkg1'
     end
 
     test 'with params ignored in URL' do

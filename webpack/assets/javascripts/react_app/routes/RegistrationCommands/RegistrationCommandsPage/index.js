@@ -82,8 +82,9 @@ const RegistrationCommandsPage = () => {
   const [setupRemoteExecution, setSetupRemoteExecution] = useState('');
   const [setupInsights, setSetupInsights] = useState('');
   const [jwtExpiration, setJwtExpiration] = useState(4);
+  const [packages, setPackages] = useState('');
   const [repo, setRepo] = useState('');
-  const [repoGpg, setRepoGpg] = useState('');
+  const [repoGpgKeyUrl, setRepoGpgKeyUrl] = useState('');
   const [invalidFields, setInvalidFields] = useState([]);
 
   // Command
@@ -117,8 +118,9 @@ const RegistrationCommandsPage = () => {
       setupRemoteExecution,
       setupInsights,
       jwtExpiration,
+      packages,
       repo,
-      repoGpg,
+      repoGpgKeyUrl,
       ...pluginValues,
     };
 
@@ -216,7 +218,7 @@ const RegistrationCommandsPage = () => {
               />
             </GridItem>
           )}
-          <GridItem span={6}>
+          <GridItem span={8}>
             <TabContent eventKey={0} id="generalSection" ref={generalTabRef}>
               <div className="pf-c-form">
                 <General
@@ -280,10 +282,12 @@ const RegistrationCommandsPage = () => {
                   organizationId={organizationId}
                   locationId={locationId}
                   hostGroupId={hostGroupId}
+                  packages={packages}
+                  handlePackages={setPackages}
                   repo={repo}
                   handleRepo={setRepo}
-                  repoGpg={repoGpg}
-                  handleRepoGpg={setRepoGpg}
+                  repoGpgKeyUrl={repoGpgKeyUrl}
+                  handleRepoGpgKeyUrl={setRepoGpgKeyUrl}
                   isLoading={isLoading}
                 />
                 <Slot
@@ -306,6 +310,8 @@ const RegistrationCommandsPage = () => {
               handleSubmit={handleSubmit}
               invalidFields={invalidFields}
             />
+          </GridItem>
+          <GridItem span={10}>
             <Command apiStatus={apiStatusCommand} command={command} />
           </GridItem>
         </Grid>

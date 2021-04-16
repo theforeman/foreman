@@ -20,8 +20,8 @@ exports[`RegistrationCommandsPage fields - Repository renders 1`] = `
     />
   </FormGroup>
   <FormGroup
-    fieldId="reg_smart_proxy"
-    label="Repository GPG key"
+    fieldId="reg_gpg_key_url"
+    label="Repository GPG key URL"
     labelIcon={
       <LabelIcon
         text="If packages are GPG signed, the public key can be specified here to verify the packages signatures. It needs to be specified in the ascii form with the pgp public key header."
@@ -29,7 +29,7 @@ exports[`RegistrationCommandsPage fields - Repository renders 1`] = `
     }
   >
     <TextInput
-      id="reg_repository_gpg"
+      id="reg_repository_gpg_key_url"
       isDisabled={false}
       onChange={[Function]}
       type="text"
