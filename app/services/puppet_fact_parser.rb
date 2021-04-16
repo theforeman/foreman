@@ -1,21 +1,18 @@
+# The PuppetFactParser is really a FacterFactParser. Currently it is compatible
+# with Facter 2.2 or newer
 class PuppetFactParser < FactParser
   attr_reader :facts
 
   def operatingsystem
-    orel = os_release.dup
+    major, minor = os_release_major_minor
 
-    if orel.present?
-      major, minor = orel.split('.', 2)
-      major = major.to_s.gsub(/\D/, '')
-      minor = minor.to_s.gsub(/[^\d\.]/, '')
+    if major.presence
       args = {:name => os_name, :major => major, :minor => minor}
       os = Operatingsystem.find_or_initialize_by(args)
-      if os_name[/debian|ubuntu/i] || os.family == 'Debian'
-        if distro_codename
-          os.release_name = distro_codename
-        elsif os.release_name.blank?
-          os.release_name = 'unknown'
-        end
+      if distro_codename
+        os.release_name = distro_codename
+      elsif os.release_name.blank? && os_name[/debian|ubuntu/i] || os.family == 'Debian'
+        os.release_name = 'unknown'
       end
     else
       os = Operatingsystem.find_or_initialize_by(:name => os_name)
@@ -23,7 +20,7 @@ class PuppetFactParser < FactParser
 
     if os.description.blank?
       if os_name == 'SLES'
-        os.description = os_name + ' ' + orel.gsub('.', ' SP')
+        os.description = "#{os_name} #{major} SP#{minor}" if major && minor
       elsif distro_description
         family = os.deduce_family || 'Operatingsystem'
         os = os.becomes(family.constantize)
@@ -119,8 +116,7 @@ class PuppetFactParser < FactParser
   end
 
   def boot_timestamp
-    # Facter 2.2 introduced the system_uptime fact
-    uptime_seconds = facts.dig(:system_uptime, :seconds) || facts[:uptime_seconds]
+    uptime_seconds = facts.dig(:system_uptime, :seconds)
     uptime_seconds.nil? ? nil : (Time.zone.now.to_i - uptime_seconds.to_i)
   end
 
@@ -138,13 +134,11 @@ class PuppetFactParser < FactParser
   end
 
   def sockets
-    # Facter 2.2 introduced the processors.physicalcount fact
-    facts.dig('processors', 'physicalcount') || facts['physicalprocessorcount']
+    facts.dig('processors', 'physicalcount')
   end
 
   def cores
-    # Facter 2.2 introduced the processors.count fact
-    facts.dig('processors', 'count') || facts['processorcount']
+    facts.dig('processors', 'count')
   end
 
   def disks_total
@@ -198,8 +192,7 @@ class PuppetFactParser < FactParser
   end
 
   def os_name
-    # Facter 2.2 introduced the os fact
-    os_name = facts.dig(:os, :name).presence || facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
+    os_name = facts.dig(:os, :name).presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
 
     if os_name == 'RedHat' && distro_id == 'RedHatEnterpriseWorkstation'
       os_name += '_Workstation'
@@ -215,47 +208,49 @@ class PuppetFactParser < FactParser
     raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
   end
 
-  def os_release
+  def os_release_major_minor
     case os_name
-    when /(windows)/i
-      facts[:kernelrelease]
+    when /windows/i
+      # Windows major releases can contain letters so we use the kernel release
+      facts[:kernelrelease].split('.')[0, 2]
     when /AIX/i
+      # AIX full release looks like 7100-04-04-1717
+      # There is a major fact, but no minor
       majoraix, tlaix, spaix, _yearaix = os_release_full.split("-")
-      majoraix + "." + tlaix + spaix
+      [majoraix, tlaix + spaix]
     when /JUNOS/i
+      # No examples in facterdb
       majorjunos, minorjunos = os_release_full.split("R")
-      majorjunos + "." + minorjunos
+      [majorjunos, minorjunos]
     when /FreeBSD/i
-      os_release_full.gsub(/\-RELEASE\-p[0-9]+/, '')
-    when /Solaris/i
-      os_release_full.gsub(/_u/, '.')
+      # Facter 2.2 - 2.5 reported 0 as minor while 3+ reports 0-RELEASE-p6
+      minor = facts.dig(:os, :release, :minor)&.gsub(/\-RELEASE\-p[0-9]+/, '')
+      [facts.dig(:os, :release, :major), minor]
     when /PSBM/i
-      majorpsbm, minorpsbm = os_release_full.split(".")
-      majorpsbm + "." + minorpsbm
+      # Facter may be fine but no examples in facterdb
+      os_release_full.split('.')[0, 2]
     when /Archlinux/i
       # Archlinux is a rolling release, so it has no releases. 1.0 is always used
-      '1.0'
+      ['1', '0']
     when /Debian/i
-      return "99" if distro_codename =~ /sid/
-      release = os_release_full
-      case release
+      case os_release_full
       when 'bullseye/sid' # Debian Bullseye testing will be 11
-        '11'
+        ['11', nil]
       else
-        release
+        [facts.dig(:os, :release, :major), facts.dig(:os, :release, :minor)]
       end
+    when /Ubuntu/i
+      # Facter never reports a minor and reports 20.04 as the major
+      # Foreman has historically seen 20 as the major and 04 as the minor
+      os_release_full.split('.')[0, 2]
     else
-      os_release_full
+      [facts.dig(:os, :release, :major), facts.dig(:os, :release, :minor)]
     end
   end
 
   # The full OS release (7 / 7.9 / 7.6.1810 / 2012 R2 / 20.04)
   def os_release_full
-    # Facter 2.2 introduced the os.release fact
-    facts.dig(:os, :release, :full) || facts[:operatingsystemrelease]
-  rescue StandardError => e
-    logger.error { "Failed to read the full OS release: #{e}" }
-    nil
+    facts.dig(:os, :release, :full)
   end
 
   # This fact returns the distribution's id, which typically relies on
