@@ -27,6 +27,7 @@ module Foreman
         :preview?,
         :raise,
         :input,
+        :rand,
         :rand_hex,
         :rand_name,
         :mac_name,

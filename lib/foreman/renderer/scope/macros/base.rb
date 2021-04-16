@@ -353,6 +353,16 @@ module Foreman
             end
           end
 
+          apipie_method :rand, 'Returns random floating point numbers between 0 and 1' do
+            desc 'When the attribute is smaller or equal to 1, the function return float. Otherwise it returns integer. '
+            optional :args, ::Float, desc: 'Can take a parameter as max value for random number. For negative and float numbers produce interesting outputs'
+            returns ::Float
+            example 'rand #=> 0.5
+                     rand #=> 0.8
+                     rand(100) #=> 23
+                     rand(100) #=> 72'
+          end
+
           private
 
           def validate_subnet(subnet)
