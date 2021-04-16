@@ -213,22 +213,10 @@ class PuppetFactParser < FactParser
     when /windows/i
       # Windows major releases can contain letters so we use the kernel release
       facts[:kernelrelease].split('.')[0, 2]
-    when /AIX/i
-      # AIX full release looks like 7100-04-04-1717
-      # There is a major fact, but no minor
-      majoraix, tlaix, spaix, _yearaix = os_release_full.split("-")
-      [majoraix, tlaix + spaix]
-    when /JUNOS/i
-      # No examples in facterdb
-      majorjunos, minorjunos = os_release_full.split("R")
-      [majorjunos, minorjunos]
     when /FreeBSD/i
       # Facter 2.2 - 2.5 reported 0 as minor while 3+ reports 0-RELEASE-p6
       minor = facts.dig(:os, :release, :minor)&.gsub(/\-RELEASE\-p[0-9]+/, '')
       [facts.dig(:os, :release, :major), minor]
-    when /PSBM/i
-      # Facter may be fine but no examples in facterdb
-      os_release_full.split('.')[0, 2]
     when /Archlinux/i
       # Archlinux is a rolling release, so it has no releases. 1.0 is always used
       ['1', '0']
