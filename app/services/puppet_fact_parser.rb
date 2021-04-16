@@ -68,11 +68,12 @@ class PuppetFactParser < FactParser
   end
 
   def domain_name
+    # Facter 3.0 introduced the networking fact
     facts.dig(:networking, :domain).presence || facts[:domain].presence
   end
 
-  # ipmi_ facts are custom facts in foreman-discovery-image
   def ipmi_interface
+    # ipmi_ facts are custom facts in foreman-discovery-image
     ipmi = facts.select { |name, _| name =~ /\Aipmi_(.*)\Z/ }.map { |name, value| [name.sub(/\Aipmi_/, ''), value] }
     Hash[ipmi].with_indifferent_access
   end
@@ -115,7 +116,7 @@ class PuppetFactParser < FactParser
   end
 
   def boot_timestamp
-    # system_uptime::seconds is Facter 3, we also fallback to Facter 2 uptime_seconds
+    # Facter 2.2 introduced the system_uptime fact
     uptime_seconds = facts.dig(:system_uptime, :seconds) || facts[:uptime_seconds]
     uptime_seconds.nil? ? nil : (Time.zone.now.to_i - uptime_seconds.to_i)
   end
@@ -126,6 +127,7 @@ class PuppetFactParser < FactParser
 
   # @return the RAM in megabytes
   def ram
+    # Facter 3.0 introduced the memory fact
     if (value = facts.dig('memory', 'system', 'total_bytes'))
       value / 1.megabyte
     else
@@ -135,16 +137,19 @@ class PuppetFactParser < FactParser
 
   # @return the number of physical processors
   def sockets
+    # Facter 2.2 introduced the processors.physicalcount fact
     facts.dig('processors', 'physicalcount') || facts['physicalprocessorcount']
   end
 
   # @return the number of processors
   def cores
+    # Facter 2.2 introduced the processors.count fact
     facts.dig('processors', 'count') || facts['processorcount']
   end
 
   # @return the total disk size in bytes
   def disks_total
+    # Facter 3.0 introduced the disks fact
     facts['disks']&.values&.sum { |disk| disk&.fetch('size_bytes', 0).to_i }
   end
 
@@ -194,6 +199,7 @@ class PuppetFactParser < FactParser
   end
 
   def os_name
+    # Facter 2.2 introduced the os fact
     os_name = facts.dig(:os, :name).presence || facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
 
     if os_name == 'RedHat' && distro_id == 'RedHatEnterpriseWorkstation'
@@ -237,19 +243,23 @@ class PuppetFactParser < FactParser
     end
   end
 
+  # The full OS release (7 / 7.9 / 7.6.1810 / 2012 R2 / 20.04)
   def os_release_full
+    # Facter 2.2 introduced the os.release fact
     facts.dig(:os, :release, :full) || facts[:operatingsystemrelease]
   end
 
   # This fact returns the distribution's id, which typically relies on
   # lsb-release to be installed. As such, it's an optional fact
   def distro_id
+    # Facter 3.0 introduced the os.distro fact
     facts.dig(:os, :distro, :id).presence || facts[:lsbdistid].presence
   end
 
   # This fact returns the distribution's codename, which typically relies on
   # lsb-release to be installed. As such, it's an optional fact
   def distro_codename
+    # Facter 3.0 introduced the os.distro fact
     facts.dig(:os, :distro, :codename).presence || facts[:lsbdistcodename].presence
   rescue Exception => e
     logger.warning { "Failed to read distribution codename: #{e}" }
@@ -259,31 +269,40 @@ class PuppetFactParser < FactParser
   # This fact returns the distribution's description, which typically relies on
   # lsb-release to be installed. As such, it's an optional fact
   def distro_description
+    # Facter 3.0 introduced the os.distro fact
     facts.dig(:os, :distro, :description).presence || facts[:lsbdistdescription].presence
   rescue Exception => e
     logger.warning { "Failed to read distribution description: #{e}" }
     nil
   end
 
+  # Product name from DMI
   def dmi_product_name
+    # Facter 3.0 introduced the dmi fact
     facts.dig(:dmi, :product, :name).presence || facts[:productname]
   rescue Exception => e
     logger.warning { "Failed to read product name: #{e}" }
     nil
   end
 
+  # Board product name as the DMI board reports it.
   def dmi_board_product
+    # Facter 3.0 introduced the dmi fact
     facts.dig(:dmi, :board, :product).presence || facts[:boardproductname]
   rescue Exception => e
     logger.warning { "Failed to read board product: #{e}" }
     nil
   end
 
+  # Architecture (x86_64 / amd64 /x64 / i386 / x64).
   def architecture_fact
+    # Facter 3.0 introduced the os.architecture fact
     facts.dig(:os, :architecture).presence || facts[:architecture].presence
   end
 
+  # Hardware ISA (x86_64 / i686 / i386).
   def hardware_isa
-    facts.dig(:processors, :hardwareisa).presence || facts[:hardwareisa].presence
+    # Facter 3.0 introduced the processors.isa fact
+    facts.dig(:processors, :isa).presence || facts[:hardwareisa].presence
   end
 end
