@@ -85,6 +85,21 @@ class HostFactImporterTest < ActiveSupport::TestCase
     end
 
     test 'should not create infrastructure facet if facts are missing' do
+      SETTINGS[:oauth_consumer_secret] = 'secret'
+      fake_proxy = OpenStruct.new(:id => 1)
+      refute Host.find_by_name('sinn1636.lan')
+      raw = read_json_fixture('facts/facts_with_certname.json')
+      ::SmartProxy.expects(:find_by).with(:uuid => raw["facts"]["smart_proxy_uuid"]).returns(fake_proxy)
+      raw['facts']['foreman_uuid_signature'] = OpenSSL::HMAC.hexdigest("SHA512", 'secret', raw['facts']['foreman_uuid'])
+      raw['facts']['smart_proxy_uuid_signature'] = OpenSSL::HMAC.hexdigest("SHA512", 'secret', raw['facts']['smart_proxy_uuid'])
+      host = Host.import_host(raw['name'], 'puppet')
+      assert HostFactImporter.new(host).import_facts(raw['facts'])
+      refute host.facts.key?('foreman_uuid_signature')
+      refute host.facts.key?('smart_proxy_uuid_signature')
+      SETTINGS[:oauth_consumer_secret] = nil
+    end
+
+    test 'should not import the signature facts' do
       refute Host.find_by_name('sinn1636.lan')
       raw = read_json_fixture('facts/facts_with_certname.json')
       facts = raw['facts'].reject { |k, _| ["foreman_uuid", "smart_proxy_uuid"].include? k }

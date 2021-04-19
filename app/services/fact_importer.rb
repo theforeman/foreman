@@ -15,8 +15,9 @@ class FactImporter
   end
 
   def self.excluded_facts_regex
+    excluded_facts = ['foreman_uuid_signature', 'smart_proxy_uuid_signature'] + Setting[:excluded_facts]
     Setting.convert_array_to_regexp(
-      Setting[:excluded_facts],
+      excluded_facts,
       {
         :prefix => '(\A|.*::|.*_)',
         :suffix => '(\Z|::.*)',
