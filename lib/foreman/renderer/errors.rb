@@ -50,6 +50,10 @@ module Foreman
       class UndefinedSetting < RenderingError
         MESSAGE = N_("Undefined setting '%{setting}'").freeze
       end
+
+      class UnsupportedOS < RenderingError
+        MESSAGE = N_('Unsupported or no operating system found for this host.').freeze
+      end
     end
   end
 end

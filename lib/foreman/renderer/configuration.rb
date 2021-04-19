@@ -64,7 +64,8 @@ module Foreman
         :host_puppet_ca_server,
         :host_puppet_environment,
         :host_puppet_classes,
-        :host_enc
+        :host_enc,
+        :install_packages
       ]
 
       DEFAULT_ALLOWED_VARIABLES = [

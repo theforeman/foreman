@@ -25,6 +25,9 @@ set -e
 
 <% end -%>
 
+<%= install_packages(host_param('host_packages')) -%>
+<%= snippet_if_exists('host_init_config_post') -%>
+
 <% if host_param_true?('host_registration_insights') -%>
 <%= snippet 'insights' %>
 

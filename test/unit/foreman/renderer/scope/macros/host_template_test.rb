@@ -192,4 +192,91 @@ class HostTemplateTest < ActiveSupport::TestCase
       assert_equal 'console=ttyS0,9600', @scope.ks_console
     end
   end
+
+  describe '#install_packages' do
+    test 'no packages' do
+      os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'CentOS')
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+
+      assert_includes '', @scope.install_packages(nil)
+    end
+
+    test 'no OS' do
+      host = FactoryBot.create(:host, operatingsystem: nil)
+      @scope.instance_variable_set('@host', host)
+
+      error = assert_raises(Foreman::Renderer::Errors::UnsupportedOS) do
+        @scope.install_packages('pkg1')
+      end
+
+      assert_includes error.message, 'Unsupported or no operating system found for this host.'
+    end
+
+    test 'unsupported OS' do
+      os = FactoryBot.create(:operatingsystem, family: 'AIX')
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+
+      error = assert_raises(Foreman::Renderer::Errors::UnsupportedOS) do
+        @scope.install_packages('pkg1')
+      end
+
+      assert_includes error.message, 'Unsupported or no operating system found for this host.'
+    end
+
+    test 'RHEL 7' do
+      os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'RedHat', major: 7)
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.install_packages('pkg1')
+
+      assert_includes command, 'yum -y install pkg1'
+    end
+
+    test 'RHEL 8' do
+      os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'RedHat', major: 8)
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.install_packages('pkg1')
+
+      assert_includes command, 'dnf -y install pkg1'
+    end
+
+    test 'fedora 21' do
+      os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'Fedora', major: 21)
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.install_packages('pkg1')
+
+      assert_includes command, 'yum -y install pkg1'
+    end
+
+    test 'fedora 22' do
+      os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'Fedora', major: 22)
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.install_packages('pkg1')
+
+      assert_includes command, 'dnf -y install pkg1'
+    end
+
+    test 'debian' do
+      os = FactoryBot.create(:operatingsystem, family: 'Debian', name: 'Debian', release_name: 'Buster')
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.install_packages('pkg1')
+
+      assert_includes command, 'apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y install pkg1'
+    end
+
+    test 'openSUSE' do
+      os = FactoryBot.create(:operatingsystem, family: 'Suse', name: 'OpenSUSE')
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.install_packages('pkg1')
+
+      assert_includes command, 'zypper -n install pkg1'
+    end
+  end
 end
