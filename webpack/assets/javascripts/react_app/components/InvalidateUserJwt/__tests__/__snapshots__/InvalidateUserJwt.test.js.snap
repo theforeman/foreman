@@ -1,0 +1,225 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InvalidateUserJwt rendering error 1`] = `
+<Fragment>
+  <Grid
+    hasGutter={true}
+  >
+    <GridItem
+      span={12}
+    >
+      <Button
+        isLoading={false}
+        onClick={[Function]}
+        variant="danger"
+      >
+        Invalidate JWTs
+      </Button>
+    </GridItem>
+    <Modal
+      actions={
+        Array [
+          <Button
+            onClick={[Function]}
+            variant="primary"
+          >
+            Confirm
+          </Button>,
+          <Button
+            onClick={[Function]}
+            variant="link"
+          >
+            Cancel
+          </Button>,
+        ]
+      }
+      appendTo={[Function]}
+      aria-describedby=""
+      aria-label=""
+      aria-labelledby=""
+      className=""
+      hasNoBodyWrapper={false}
+      isOpen={false}
+      onClose={[Function]}
+      ouiaSafe={true}
+      showClose={true}
+      title="Invalidate JSON web tokens"
+      titleIconVariant={null}
+      titleLabel=""
+      variant="small"
+    />
+    <GridItem
+      span={8}
+    >
+      <Alert
+        title="JSON web tokens could not be invalidated, please see the log for more details"
+        variant="danger"
+      />
+    </GridItem>
+  </Grid>
+</Fragment>
+`;
+
+exports[`InvalidateUserJwt rendering pending 1`] = `
+<Fragment>
+  <Grid
+    hasGutter={true}
+  >
+    <GridItem
+      span={12}
+    >
+      <Button
+        isLoading={true}
+        onClick={[Function]}
+        variant="danger"
+      >
+        Invalidating ...
+      </Button>
+    </GridItem>
+    <Modal
+      actions={
+        Array [
+          <Button
+            onClick={[Function]}
+            variant="primary"
+          >
+            Confirm
+          </Button>,
+          <Button
+            onClick={[Function]}
+            variant="link"
+          >
+            Cancel
+          </Button>,
+        ]
+      }
+      appendTo={[Function]}
+      aria-describedby=""
+      aria-label=""
+      aria-labelledby=""
+      className=""
+      hasNoBodyWrapper={false}
+      isOpen={false}
+      onClose={[Function]}
+      ouiaSafe={true}
+      showClose={true}
+      title="Invalidate JSON web tokens"
+      titleIconVariant={null}
+      titleLabel=""
+      variant="small"
+    />
+  </Grid>
+</Fragment>
+`;
+
+exports[`InvalidateUserJwt rendering renders 1`] = `
+<Fragment>
+  <Grid
+    hasGutter={true}
+  >
+    <GridItem
+      span={12}
+    >
+      <Button
+        isLoading={false}
+        onClick={[Function]}
+        variant="danger"
+      >
+        Invalidate JWTs
+      </Button>
+    </GridItem>
+    <Modal
+      actions={
+        Array [
+          <Button
+            onClick={[Function]}
+            variant="primary"
+          >
+            Confirm
+          </Button>,
+          <Button
+            onClick={[Function]}
+            variant="link"
+          >
+            Cancel
+          </Button>,
+        ]
+      }
+      appendTo={[Function]}
+      aria-describedby=""
+      aria-label=""
+      aria-labelledby=""
+      className=""
+      hasNoBodyWrapper={false}
+      isOpen={false}
+      onClose={[Function]}
+      ouiaSafe={true}
+      showClose={true}
+      title="Invalidate JSON web tokens"
+      titleIconVariant={null}
+      titleLabel=""
+      variant="small"
+    />
+  </Grid>
+</Fragment>
+`;
+
+exports[`InvalidateUserJwt rendering success 1`] = `
+<Fragment>
+  <Grid
+    hasGutter={true}
+  >
+    <GridItem
+      span={12}
+    >
+      <Button
+        isLoading={false}
+        onClick={[Function]}
+        variant="danger"
+      >
+        Invalidate JWTs
+      </Button>
+    </GridItem>
+    <Modal
+      actions={
+        Array [
+          <Button
+            onClick={[Function]}
+            variant="primary"
+          >
+            Confirm
+          </Button>,
+          <Button
+            onClick={[Function]}
+            variant="link"
+          >
+            Cancel
+          </Button>,
+        ]
+      }
+      appendTo={[Function]}
+      aria-describedby=""
+      aria-label=""
+      aria-labelledby=""
+      className=""
+      hasNoBodyWrapper={false}
+      isOpen={false}
+      onClose={[Function]}
+      ouiaSafe={true}
+      showClose={true}
+      title="Invalidate JSON web tokens"
+      titleIconVariant={null}
+      titleLabel=""
+      variant="small"
+    />
+    <GridItem
+      span={8}
+    >
+      <Alert
+        title="JSON web tokens successfully invalidated"
+        variant="success"
+      />
+    </GridItem>
+  </Grid>
+</Fragment>
+`;

@@ -18,6 +18,9 @@
     <% if @editing_self || (@user.persisted? && authorized_for(hash_for_api_user_personal_access_tokens_path(user_id: @user))) %>
       <li><a href='#personal_access_tokens' data-toggle='tab'><%= _('Personal Access Tokens') %></a></li>
     <% end %>
+    <% if(@editing_self || (@user.persisted? && authorized_for(controller: 'users', action: :edit))) %>
+      <li><a href='#jwts' data-toggle='tab'><%= _('JSON web tokens') %></a></li>
+    <% end %>
   </ul>
 
   <div class='tab-content'>
@@ -134,6 +137,12 @@
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
                :html_options => user_taxonomies_html_options(@user)
     %>
+
+    <% if(@editing_self || (@user.persisted? && authorized_for(controller: 'users', action: :edit))) %>
+    <div class='tab-pane' id='jwts'>
+      <%= react_component('InvalidateUserJwt') %>
+    </div>
+    <% end %>
   </div>
 
   <%= submit_or_cancel f %>

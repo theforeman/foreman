@@ -435,4 +435,23 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     end
     assert_response :unprocessable_entity
   end
+
+  test "invalidate_jwts - user with tokens" do
+    user = FactoryBot.create(:user, admin: true)
+    user.jwt_token! # Generate JWT (& secret)
+
+    as_user(user) { delete :invalidate_jwts, params: { id: user.id } }
+
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['success_msg'], 'JSON web tokens successfully invalidated'
+  end
+
+  test "invalidate_jwts - user without tokens" do
+    user = FactoryBot.create(:user, admin: true)
+
+    as_user(user) { delete :invalidate_jwts, params: { id: user.id } }
+
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['success_msg'], 'JSON web tokens successfully invalidated'
+  end
 end

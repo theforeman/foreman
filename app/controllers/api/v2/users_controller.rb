@@ -1,7 +1,7 @@
 module Api
   module V2
     class UsersController < V2::BaseController
-      before_action :find_resource, :only => %w{show update destroy}
+      before_action :find_resource, :only => %w{show update destroy invalidate_jwts}
       # find_resource needs to be defined prior to UsersMixin is included, it depends on @user
       include Foreman::Controller::UsersMixin
       include Foreman::Controller::Parameters::User
@@ -119,6 +119,21 @@ module Api
         end
       end
 
+      api :DELETE, "/users/:id/invalidate_jwts", N_("Invalidates user's JSON web tokens")
+      param :id, String, :required => true
+      def invalidate_jwts
+        jwt_secret = @user.jwt_secret
+        success_msg = _("JSON web tokens successfully invalidated")
+
+        return process_success(success_msg: success_msg) unless jwt_secret
+
+        if jwt_secret.destroy
+          process_success success_msg: success_msg
+        else
+          process_error error_msg: _("Could not invalidate JSON web tokens")
+        end
+      end
+
       private
 
       def find_resource
@@ -131,6 +146,15 @@ module Api
 
       def parameter_filter_context
         Foreman::Controller::Parameters::User::Context.new(:api, controller_name, params[:action], editing_self?)
+      end
+
+      def action_permission
+        case params[:action]
+          when 'invalidate_jwts'
+            'edit'
+          else
+            super
+        end
       end
     end
   end

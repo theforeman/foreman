@@ -245,6 +245,7 @@ Foreman::Application.routes.draw do
           resources :table_preferences, :only => [:index, :create, :destroy, :show, :update]
           resources :mail_notifications, :only => [:create, :destroy, :update]
           get 'mail_notifications', :to => 'mail_notifications#user_mail_notifications', :on => :member
+          delete :invalidate_jwts, :to => :invalidate_jwts, :on => :member
         end
       end
 

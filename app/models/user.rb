@@ -460,7 +460,7 @@ class User < ApplicationRecord
       options[:action] =~ /edit|update/ &&
       options[:id].to_i == id ||
     options[:controller].to_s =~ /\Aapi\/v\d+\/users\Z/ &&
-      options[:action] =~ /show|update/ &&
+      options[:action] =~ /show|update|invalidate_jwts/ &&
       (options[:id].to_i == id || options[:id] == login) ||
     options[:controller].to_s == 'ssh_keys' &&
       options[:user_id].to_i == id &&
