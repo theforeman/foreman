@@ -177,6 +177,7 @@ class PermissionsList
         ['User', 'create_users'],
         ['User', 'edit_users'],
         ['User', 'destroy_users'],
+        ['User', 'manage_json_web_tokens'],
         [nil, 'view_statuses'],
       ]
     end

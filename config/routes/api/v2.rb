@@ -245,6 +245,9 @@ Foreman::Application.routes.draw do
           resources :table_preferences, :only => [:index, :create, :destroy, :show, :update]
           resources :mail_notifications, :only => [:create, :destroy, :update]
           get 'mail_notifications', :to => 'mail_notifications#user_mail_notifications', :on => :member
+
+          post 'json_web_tokens', to: 'json_web_tokens#create', on: :member
+          delete 'json_web_tokens', to: 'json_web_tokens#destroy', on: :member
         end
       end
 

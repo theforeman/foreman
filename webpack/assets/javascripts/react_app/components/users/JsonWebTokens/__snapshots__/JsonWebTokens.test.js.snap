@@ -1,0 +1,197 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JsonWebTokens rendering renders Generate 1`] = `
+<Fragment>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="success"
+    className="btn-lg"
+    disabled={false}
+    onClick={[Function]}
+  >
+    Generate token
+  </Button>
+  <ConnectedForemanModal
+    id="GENERATE_JWT_MODAL_ID"
+    title="Generate JSON web token"
+  >
+    <ForemanModalHeader />
+    <ForemanForm
+      enableReinitialize={false}
+      initialValues={Object {}}
+      onCancel={[Function]}
+      onSubmit={[Function]}
+      validationSchema={
+        ObjectSchema {
+          "_blacklist": RefSet {
+            "list": Array [],
+            "refs": Array [],
+          },
+          "_conditions": Array [],
+          "_defaultDefault": [Function],
+          "_deps": Array [],
+          "_excludedEdges": Array [],
+          "_exclusive": Object {},
+          "_mutate": undefined,
+          "_nodes": Array [
+            "expiresAt",
+          ],
+          "_options": Object {
+            "abortEarly": true,
+            "recursive": true,
+          },
+          "_type": "object",
+          "_typeError": [Function],
+          "_whitelist": RefSet {
+            "list": Array [],
+            "refs": Array [],
+          },
+          "fields": Object {
+            "expiresAt": DateSchema {
+              "_blacklist": RefSet {
+                "list": Array [],
+                "refs": Array [],
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "min": true,
+              },
+              "_mutate": undefined,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "date",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Array [],
+                "refs": Array [],
+              },
+              "tests": Array [
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+              "type": "date",
+            },
+          },
+          "tests": Array [],
+          "transforms": Array [
+            [Function],
+          ],
+          "type": "object",
+        }
+      }
+    >
+      <DateTime
+        id="jwt_expires_at"
+        inputClassName="col-md-5"
+        inputProps={
+          Object {
+            "autoComplete": "off",
+            "name": "expiresAt",
+            "placeholder": "Never",
+          }
+        }
+        isRequired={false}
+        label="Expires at"
+        locale={null}
+        placement="bottom"
+        value={null}
+      />
+    </ForemanForm>
+  </ConnectedForemanModal>
+</Fragment>
+`;
+
+exports[`JsonWebTokens rendering renders Info 1`] = `
+<Fragment>
+  JSON web token (JWT) allow you to authenticate API requests without exposing your credentials.
+  <p>
+    <code>
+      curl '/api/statuses' -H 'Authorization: Bearer token-value'
+    </code>
+  </p>
+</Fragment>
+`;
+
+exports[`JsonWebTokens rendering renders Invalidate 1`] = `
+<Fragment>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="danger"
+    className="btn-lg"
+    disabled={false}
+    onClick={[Function]}
+  >
+    Invalidate tokens
+  </Button>
+  <ConnectedForemanModal
+    id="INVALIDATE_JWT_MODAL_ID"
+    title="Invalidate JSON web tokens"
+  >
+    <ForemanModalHeader />
+    Are you sure you want to invalidate all JSON web tokens?
+    <ForemanModalFooter>
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        Invalidate
+      </Button>
+       
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={false}
+        onClick={[Function]}
+      >
+        Cancel
+      </Button>
+    </ForemanModalFooter>
+  </ConnectedForemanModal>
+</Fragment>
+`;
+
+exports[`JsonWebTokens rendering renders Token 1`] = `
+<SkeletonLoader
+  emptyState=""
+  skeletonProps={Object {}}
+  status="RESOLVED"
+>
+  <div
+    className="text-center"
+  >
+    <pre>
+      token-value
+    </pre>
+    <ClipboardCopy
+      buttonProps={
+        Object {
+          "className": "center-block",
+        }
+      }
+      buttonText="Copy token to clipboard"
+      successMessage="Copied!"
+      text="token-value"
+      textareaProps={
+        Object {
+          "hidden": true,
+        }
+      }
+    />
+  </div>
+</SkeletonLoader>
+`;
