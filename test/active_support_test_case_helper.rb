@@ -162,6 +162,7 @@ class ActiveSupport::TestCase
 
   def stub_smart_proxy_v2_features
     ProxyAPI::V2::Features.any_instance.stubs(:features).returns(Hash[Feature.name_map.keys.collect { |f| [f, {'state' => 'running'}] }])
+    ProxyStatus::Version.any_instance.stubs(:version).returns({})
   end
 
   def stub_smart_proxy_v2_features_and_statuses

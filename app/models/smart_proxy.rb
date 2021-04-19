@@ -56,7 +56,7 @@ class SmartProxy < ApplicationRecord
 
   def refresh
     statuses.values.each { |status| status.revoke_cache! }
-    self.uuid = statuses[:version].versions['uuid']
+    self.uuid = statuses[:version].version['uuid']
     statuses[:version].revoke_cache!
     associate_features
     errors
