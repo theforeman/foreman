@@ -97,8 +97,8 @@ module Hostext
       scoped_search :relation => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
       scoped_search :relation => :usergroups,   :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name', :aliases => [:usergroup]
 
-      scoped_search :relation => :infrastructure, :on => :foreman_uuid
-      scoped_search :relation => :infrastructure, :on => :smart_proxy_uuid
+      scoped_search :relation => :infrastructure_facet, :on => :foreman_uuid
+      scoped_search :relation => :infrastructure_facet, :on => :smart_proxy_uuid
     end
 
     module ClassMethods
