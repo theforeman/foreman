@@ -40,13 +40,12 @@ class PuppetFactParser < FactParser
     end
   end
 
-  def environment
+  def environment_name
     # by default, puppet doesn't store an env name in the database
-    name = facts[:environment] || facts[:agent_specified_environment] || Setting[:default_puppet_environment]
-    Environment.unscoped.where(:name => name).first_or_create
+    facts[:environment] || facts[:agent_specified_environment] || Setting[:default_puppet_environment]
   end
 
-  def architecture
+  def architecture_name
     # On solaris and junos architecture fact is hardwareisa
     name = case os_name
              when /(sunos|solaris|junos)/i
@@ -57,19 +56,18 @@ class PuppetFactParser < FactParser
     # ensure that we convert debian legacy to standard
     name = "x86_64" if name == "amd64"
     name = "aarch64" if name == "arm64"
-    Architecture.where(:name => name).first_or_create if name.present?
+    name
   end
 
-  def model
+  def model_name
     name = facts[:productname] || facts[:model] || facts[:boardproductname]
     # if its a virtual machine and we didn't get a model name, try using that instead.
     name ||= facts[:virtual] if virtual
-    Model.where(:name => name.strip).first_or_create if name.present?
+    name
   end
 
-  def domain
-    name = facts[:domain]
-    Domain.unscoped.where(:name => name).first_or_create if name.present?
+  def domain_name
+    facts[:domain]
   end
 
   def ipmi_interface

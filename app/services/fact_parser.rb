@@ -33,18 +33,38 @@ class FactParser
   end
 
   def environment
+    name = environment_name
+    Environment.unscoped.where(:name => name).first_or_create
+  end
+
+  def environment_name
     raise NotImplementedError, not_implemented_error(__method__)
   end
 
   def architecture
+    name = architecture_name
+    Architecture.where(:name => name).first_or_create if name.present?
+  end
+
+  def architecture_name
     raise NotImplementedError, not_implemented_error(__method__)
   end
 
   def model
+    name = model_name
+    Model.where(:name => name.strip).first_or_create if name.present?
+  end
+
+  def model_name
     raise NotImplementedError, not_implemented_error(__method__)
   end
 
   def domain
+    name = domain_name
+    Domain.unscoped.where(:name => name).first_or_create if name.present?
+  end
+
+  def domain_name
     raise NotImplementedError, not_implemented_error(__method__)
   end
 
@@ -61,8 +81,12 @@ class FactParser
   end
 
   def hostgroup
-    hostgroup_title = facts[:foreman_hostgroup]
+    hostgroup_title = hostgroup_name
     Hostgroup.unscoped.where(:title => hostgroup_title).first_or_create if hostgroup_title.present?
+  end
+
+  def hostgroup_name
+    facts[:foreman_hostgroup]
   end
 
   # should return hash with indifferent access in following format:
