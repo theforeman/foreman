@@ -15,6 +15,8 @@ module Api
         param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host")
         param :jwt_expiration, :number, desc: N_("Expiration of the authorization token (in hours)")
         param :insecure, :bool, desc: N_("Enable insecure argument for the initial curl")
+        param :repo, String, desc: N_("Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'")
+        param :repo_gpg_key_url, String, desc: N_("URL of the GPG key for the repository")
       end
       def create
         render json: { registration_command: command }

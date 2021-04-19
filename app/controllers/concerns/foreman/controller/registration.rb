@@ -30,6 +30,8 @@ module Foreman::Controller::Registration
       registration_url: registration_url,
       setup_insights: ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights']),
       setup_remote_execution: ActiveRecord::Type::Boolean.new.deserialize(params['setup_remote_execution']),
+      repo: params['repo'],
+      repo_gpg_key_url: params['repo_gpg_key_url'],
     }
 
     params.permit(permitted)
