@@ -16,7 +16,7 @@ const HostGroup = ({ hostGroupId, hostGroups, handleHostGroup, isLoading }) => (
       value={hostGroupId}
       onChange={v => handleHostGroup(v)}
       className="without_select2"
-      id="reg_host_group_select"
+      id="reg_host_group"
       isDisabled={isLoading || hostGroups.length === 0}
     >
       {emptyOption(hostGroups.length)}

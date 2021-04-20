@@ -2,6 +2,7 @@
 
 exports[`RegistrationCommandsPage fields - Packages renders 1`] = `
 <FormGroup
+  fieldId="reg_packages"
   isRequired={true}
   label="Install Packages"
   labelIcon={

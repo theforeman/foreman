@@ -12,7 +12,7 @@ exports[`RegistrationCommandsPage fields - SmartProxy renders 1`] = `
 >
   <FormSelect
     className="without_select2"
-    id="reg_smart_proxy_select"
+    id="reg_smart_proxy"
     isDisabled={true}
     isRequired={false}
     onBlur={[Function]}

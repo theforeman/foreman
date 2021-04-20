@@ -17,7 +17,7 @@ const Repository = ({
   <>
     <FormGroup
       label={__('Repository')}
-      fieldId="reg_smart_proxy"
+      fieldId="reg_repo"
       labelIcon={
         <LabelIcon
           text={__(
@@ -27,7 +27,7 @@ const Repository = ({
       }
     >
       <TextInput
-        id="reg_repository"
+        id="reg_repo"
         value={repo}
         type="text"
         onChange={handleRepo}
@@ -46,7 +46,7 @@ const Repository = ({
       }
     >
       <TextInput
-        id="reg_repository_gpg_key_url"
+        id="reg_gpg_key_url"
         value={repoGpgKeyUrl}
         type="text"
         onChange={handleRepoGpgKeyUrl}

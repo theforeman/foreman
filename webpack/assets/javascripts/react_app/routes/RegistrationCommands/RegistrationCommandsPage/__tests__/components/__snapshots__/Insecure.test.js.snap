@@ -6,7 +6,7 @@ exports[`RegistrationCommandsPage fields - Insecure renders 1`] = `
 >
   <Checkbox
     className=""
-    id="reg_insecure_input"
+    id="reg_insecure"
     isChecked={false}
     isDisabled={false}
     isValid={true}

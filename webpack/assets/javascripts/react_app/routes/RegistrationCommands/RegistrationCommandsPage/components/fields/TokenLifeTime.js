@@ -40,7 +40,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
         maxValue
       )}
       isRequired
-      fieldId="registration_token_life_time"
+      fieldId="reg_token_life_time_input"
       labelIcon={
         <LabelIcon text={__('Expiration of the authorization token.')} />
       }

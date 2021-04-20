@@ -22,6 +22,7 @@ const Packages = ({ packages, handlePackages, configParams, isLoading }) => (
         )}
       />
     }
+    fieldId="reg_packages"
   >
     <TextInput
       id="reg_packages"

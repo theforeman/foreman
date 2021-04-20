@@ -14,7 +14,7 @@ exports[`RegistrationCommandsPage fields - Taxonomies renders 1`] = `
   >
     <FormSelect
       className="without_select2"
-      id="reg_organization_select"
+      id="reg_organization"
       isDisabled={false}
       isRequired={true}
       onBlur={[Function]}
@@ -42,7 +42,7 @@ exports[`RegistrationCommandsPage fields - Taxonomies renders 1`] = `
   >
     <FormSelect
       className="without_select2"
-      id="reg_location_select"
+      id="reg_location"
       isDisabled={false}
       isRequired={true}
       onBlur={[Function]}

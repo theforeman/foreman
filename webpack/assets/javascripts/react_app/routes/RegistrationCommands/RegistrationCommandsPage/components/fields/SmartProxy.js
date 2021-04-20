@@ -33,7 +33,7 @@ const SmartProxy = ({
       value={smartProxyId}
       onChange={v => handleSmartProxy(v)}
       className="without_select2"
-      id="reg_smart_proxy_select"
+      id="reg_smart_proxy"
       isDisabled={isLoading || smartProxies.length === 0}
     >
       {emptyOption(smartProxies.length)}

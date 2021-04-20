@@ -36,7 +36,7 @@ const Taxonomies = ({
         value={organizationId}
         onChange={v => handleOrganization(v)}
         className="without_select2"
-        id="reg_organization_select"
+        id="reg_organization"
         isDisabled={isLoading}
         isRequired
       >
@@ -63,7 +63,7 @@ const Taxonomies = ({
         value={locationId}
         onChange={v => handleLocation(v)}
         className="without_select2"
-        id="reg_location_select"
+        id="reg_location"
         isDisabled={isLoading}
         isRequired
       >

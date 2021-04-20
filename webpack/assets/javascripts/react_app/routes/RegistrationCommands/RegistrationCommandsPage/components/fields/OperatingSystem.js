@@ -51,7 +51,7 @@ const OperatingSystem = ({
       handleOperatingSystem('');
       dispatch(operatingSystemTemplateAction(hostGroupOsId));
     }
-  }, [dispatch, hostGroupId, hostGroups, handleOperatingSystem]);
+  }, [dispatch, hostGroupId]);
 
   // Validate field
   useEffect(() => {
@@ -87,7 +87,7 @@ const OperatingSystem = ({
         value={operatingSystemId}
         onChange={v => handleOperatingSystem(v)}
         className="without_select2"
-        id="reg_os_select"
+        id="reg_os"
         validated={validatedOS(operatingSystemId, operatingSystemTemplate)}
         isDisabled={isLoading || operatingSystems.length === 0}
       >

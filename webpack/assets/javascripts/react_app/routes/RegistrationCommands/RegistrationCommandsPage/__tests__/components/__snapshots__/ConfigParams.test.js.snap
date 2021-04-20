@@ -3,6 +3,7 @@
 exports[`RegistrationCommandsPage fields - ConfigParams renders 1`] = `
 <Fragment>
   <FormGroup
+    fieldId="registration_setup_remote_execution"
     isRequired={true}
     label="Setup Rex"
     labelIcon={
@@ -41,6 +42,7 @@ exports[`RegistrationCommandsPage fields - ConfigParams renders 1`] = `
     </FormSelect>
   </FormGroup>
   <FormGroup
+    fieldId="registration_setup_insights"
     isRequired={true}
     label="Setup Insights"
     labelIcon={

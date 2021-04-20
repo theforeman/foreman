@@ -19,7 +19,7 @@ const Insecure = ({ insecure, handleInsecure, isLoading }) => (
           />
         </span>
       }
-      id="reg_insecure_input"
+      id="reg_insecure"
       onChange={() => handleInsecure(!insecure)}
       isDisabled={isLoading}
       isChecked={insecure}

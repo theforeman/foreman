@@ -45,6 +45,7 @@ const ConfigParams = ({
             )}
           />
         }
+        fieldId="registration_setup_remote_execution"
       >
         <FormSelect
           value={setupRemoteExecution}
@@ -61,6 +62,7 @@ const ConfigParams = ({
       <FormGroup
         label={__('Setup Insights')}
         isRequired
+        fieldId="registration_setup_insights"
         labelIcon={
           <LabelIcon
             text={__(
