@@ -239,7 +239,7 @@ class Setting < ApplicationRecord
       # update query for every setting
       to_update.delete(:default) if to_update[:default].to_yaml.strip == s[:default]
       s.attributes = to_update
-      s.save if s.changed? # to bypass name uniqueness validator to query db
+      s.save(validate: false)
       s.update_column :category, opts[:category] if s.category != opts[:category]
       s.update_column :full_name, opts[:full_name] if column_check([:full_name]).present? && s.full_name != opts[:full_name]
       raw_value = s.read_attribute(:value)
@@ -344,6 +344,7 @@ class Setting < ApplicationRecord
   end
 
   def refresh_registry_value
+    return unless Foreman.settings.ready?
     Foreman.settings.find(name)&.tap do |definition|
       definition.updated_at = updated_at
       definition.value = value
