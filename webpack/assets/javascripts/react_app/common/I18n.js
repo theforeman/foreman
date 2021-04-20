@@ -6,7 +6,8 @@ class IntlLoader {
   constructor(locale, timezone) {
     this.fallbackIntl = !global.Intl;
 
-    [this.locale] = locale.split('-');
+    // eslint-disable-next-line prefer-destructuring
+    this.locale = locale.split('-')[0];
     this.timezone = this.fallbackIntl ? 'UTC' : timezone;
     this.ready = this.init();
   }
@@ -31,7 +32,7 @@ class IntlLoader {
   }
 }
 
-const [htmlElemnt] = document.getElementsByTagName('html');
+const htmlElemnt = document.getElementsByTagName('html')[0];
 const langAttr = htmlElemnt.getAttribute('lang') || 'en';
 const timezoneAttr = htmlElemnt.getAttribute('data-timezone') || 'UTC';
 
