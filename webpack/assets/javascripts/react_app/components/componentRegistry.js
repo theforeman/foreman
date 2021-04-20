@@ -42,8 +42,6 @@ import SettingsTable from './SettingsTable';
 import SettingUpdateModal from './SettingUpdateModal';
 import PersonalAccessTokens from './users/PersonalAccessTokens';
 import ClipboardCopy from './common/ClipboardCopy';
-import MemoryAllocationInput from './MemoryAllocationInput';
-import CPUCoresInput from './CPUCoresInput';
 import LabelIcon from './common/LabelIcon';
 import { WelcomeEnv } from './Enviroments/Welcome';
 import { WelcomeAuthSource } from './AuthSource/Welcome';
@@ -149,16 +147,6 @@ const coreComponets = [
   { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
   { name: 'ClipboardCopy', type: ClipboardCopy },
   { name: 'LabelIcon', type: LabelIcon },
-  {
-    name: 'MemoryAllocationInput',
-    type: MemoryAllocationInput,
-    store: false,
-  },
-  {
-    name: 'CPUCoresInput',
-    type: CPUCoresInput,
-    store: false,
-  },
   {
     name: 'RelativeDateTime',
     type: RelativeDateTime,

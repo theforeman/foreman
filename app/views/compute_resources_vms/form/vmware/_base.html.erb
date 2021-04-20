@@ -1,18 +1,10 @@
 <%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initCounter)"); %>
 <%= text_f f, :name, :label => _('Name'), :disabled => !new_vm if show_vm_name? %>
 <div id="cpus_input">
-  <%= react_component('CPUCoresInput',
-                    {label: 'CPUs',
-                     defaultValue: f.object.cpus.present? ? f.object.cpus : 1,
-                     recommendedMaxValue: compute_resource.max_cpu_count,
-                     name: "#{f.object_name}[cpus]"}) %>
+  <%= counter_f(f, :cpus, label: _('CPUs'), recommended_max_value: compute_resource.max_cpu_count) %>
 </div>
 <div id="cores_input">
-  <%= react_component('CPUCoresInput',
-                      {label: 'Cores per socket',
-                       defaultValue: f.object.corespersocket.present? ? f.object.corespersocket : 1,
-                       recommendedMaxValue: compute_resource.max_cpu_count,
-                       name: "#{f.object_name}[corespersocket]"}) %>
+  <%= counter_f(f, :corespersocket, label: _('Cores per socket'), recommended_max_value: compute_resource.max_cpu_count, value: f.object.corespersocket || 1) %>
 </div>
 <%= text_f f, :memory_mb, :class => "col-md-2", :label => _("Memory (MB)") %>
 <%= field(f, :firmware, :label => _('Firmware'), :label_size => "col-md-2") do

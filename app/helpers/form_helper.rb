@@ -236,18 +236,7 @@ module FormHelper
   end
 
   def counter_f(f, attr, options = {})
-    options[:class] = options[:class].to_s + ' counter_spinner' unless options[:disabled]
-    options[:help_block] ||= soft_limit_warning_block
-
-    text_f(f, attr, options)
-  end
-
-  def soft_limit_warning_block
-    content_tag(:span, :class => 'maximum-limit hidden') do
-      icon_text('warning-triangle-o',
-        content_tag(:span, ' ' + _('Specified value is higher than recommended maximum'), :class => 'error-message'),
-        :kind => 'pficon')
-    end
+    react_form_input('counter', f, attr, options)
   end
 
   def submit_or_cancel(f, overwrite = false, args = { })
