@@ -7,7 +7,6 @@ module Types
     field :name, String
     field :title, String
 
-    has_many :environments, Types::Environment
     has_many :hosts, Types::Host
   end
 end

@@ -71,9 +71,6 @@ module Types
     record_field :fact_value, Types::FactValue
     collection_field :fact_values, Types::FactValue
 
-    record_field :environment, Types::Environment
-    collection_field :environments, Types::Environment
-
     record_field :compute_resource, Types::ComputeResource
     collection_field :compute_resources, Types::ComputeResource
 

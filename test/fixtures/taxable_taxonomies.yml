@@ -9,16 +9,6 @@ four:
   taxable: one
   taxable_type: "SmartProxy"
 
-five:
-  taxonomy: location1
-  taxable: production
-  taxable_type: "Environment"
-
-six:
-  taxonomy: organization1
-  taxable: production
-  taxable_type: "Environment"
-
 seven:
   taxonomy: location1
   taxable: mydomain
