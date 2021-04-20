@@ -24,7 +24,6 @@ module Types
     belongs_to :compute_resource, Types::ComputeResource
     belongs_to :domain, Types::Domain
     belongs_to :ptable, Types::Ptable
-    belongs_to :environment, Types::Environment
     belongs_to :location, Types::Location
     belongs_to :organization, Types::Organization
     belongs_to :model, Types::Model

@@ -17,7 +17,6 @@ module Mutations
       argument :owner_id, ID, loads: Types::UserOrUsergroupUnion
       argument :location_id, ID, loads: Types::Location
       argument :organization_id, ID, loads: Types::Organization
-      argument :environment_id, ID, loads: Types::Environment
       argument :architecture_id, ID, loads: Types::Architecture
       argument :domain_id, ID, loads: Types::Domain
       argument :operatingsystem_id, ID, loads: Types::Operatingsystem

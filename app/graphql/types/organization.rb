@@ -6,7 +6,5 @@ module Types
     timestamps
     field :name, String
     field :title, String
-
-    has_many :environments, Types::Environment
   end
 end

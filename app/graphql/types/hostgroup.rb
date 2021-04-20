@@ -11,7 +11,6 @@ module Types
     belongs_to :architecture, Types::Architecture
     belongs_to :compute_resource, Types::ComputeResource
     belongs_to :domain, Types::Domain
-    belongs_to :environment, Types::Environment
     belongs_to :operatingsystem, Types::Operatingsystem
     belongs_to :puppet_ca_proxy, Types::SmartProxy
     belongs_to :puppet_proxy, Types::SmartProxy
