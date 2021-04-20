@@ -48,10 +48,15 @@ export const formAutocompleteDataProps = {
   id: 'form-search',
 };
 
+export const counterProps = {
+  type: 'counter',
+  label: 'Counter',
+  id: 'counter-field',
+};
+
+
 export const memoryProps = {
   type: 'memory',
   label: 'Memory',
   id: 'memory-field',
-  maxValue: 48000*1024*1024,
-  recommendedMaxValue: 2048*1024*1024,
 };

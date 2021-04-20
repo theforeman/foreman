@@ -35,20 +35,10 @@ disable_mem = !new_vm || (new_vm && instance_type && instance_type.memory.presen
 %>
 
 <div id="cores-input">
-  <%= react_component('CPUCoresInput',
-                          {label: 'Cores per socket',
-                           disabled: disable_cores,
-                           defaultValue: f.object.cores.present? ? f.object.cores : 1,
-                           id: "#{f.object_name.gsub(/[\[\]]/, '[' => '_', ']' => '_')}cores",
-                           name: "#{f.object_name}[cores]"}) %>
+  <%= counter_f(f, :cores, label: _('Cores per socket'), disabled: disable_cores) %>
 </div>
 <div id="sockets-input">
-  <%= react_component('CPUCoresInput',
-                          {label: 'Sockets',
-                           disabled: disable_sockets,
-                           defaultValue: f.object.sockets.present? ? f.object.sockets : 1,
-                           id: "#{f.object_name.gsub(/[\[\]]/, '[' => '_', ']' => '_')}sockets",
-                           name: "#{f.object_name}[sockets]"}) %>
+  <%= counter_f(f, :sockets, label: _('Sockets'), disabled: disable_sockets) %>
 </div>
 <div id="memory-input">
 <%= byte_size_f(f, :memory, label: _('Memory'), disabled: disable_mem) %>

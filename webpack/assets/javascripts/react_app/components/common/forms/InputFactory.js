@@ -7,7 +7,8 @@ import AutoComplete from '../../AutoComplete';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
 import OrderableSelect from './OrderableSelect';
-import MemoryAllocationInput from '../../MemoryAllocationInput/MemoryAllocationInput';
+import MemoryAllocationInput from '../../MemoryAllocationInput';
+import CounterInput from './CounterInput';
 import TimePicker from '../DateTimePicker/TimePicker';
 import Select from './Select';
 
@@ -19,6 +20,7 @@ const inputComponents = {
   orderableSelect: OrderableSelect,
   time: TimePicker,
   memory: MemoryAllocationInput,
+  counter: CounterInput,
 };
 
 export const registerInputComponent = (name, Component) => {
