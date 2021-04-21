@@ -324,7 +324,7 @@ touch /tmp/foreman_built
 
 # copy %pre log files into chroot
 %post --nochroot
-cp -vf /tmp/*.pre.*.log /tmp/sysimage/root/
+cp -vf /tmp/*.pre.*.log /mnt/sysimage/root/
 <%= section_end %>
 
 %post --log=/root/install.post.custom.log
