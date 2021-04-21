@@ -19,11 +19,11 @@ const TableBody = ({ columns, rows, message, ...props }) => {
 TableBody.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   rows: PropTypes.arrayOf(PropTypes.object).isRequired,
-  message: PropTypes.string,
+  message: PropTypes.node,
 };
 
 TableBody.defaultProps = {
-  message: '',
+  message: undefined,
 };
 
 export default TableBody;
