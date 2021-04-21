@@ -8,7 +8,7 @@ exports[`RegistrationCommandsPage fields - Taxonomies renders 1`] = `
     label="Organization"
     labelIcon={
       <LabelIcon
-        text="If no Organization is set, the default Organization of the user is assumed."
+        text="If no organization is set, the default organization of the user is assumed."
       />
     }
   >
@@ -36,7 +36,7 @@ exports[`RegistrationCommandsPage fields - Taxonomies renders 1`] = `
     label="Location"
     labelIcon={
       <LabelIcon
-        text="If no Location is set, the default Location of the user is assumed."
+        text="If no location is set, the default location of the user is assumed."
       />
     }
   >

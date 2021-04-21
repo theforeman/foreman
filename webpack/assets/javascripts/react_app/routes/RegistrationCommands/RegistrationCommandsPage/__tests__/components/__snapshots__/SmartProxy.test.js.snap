@@ -3,10 +3,10 @@
 exports[`RegistrationCommandsPage fields - SmartProxy renders 1`] = `
 <FormGroup
   fieldId="reg_smart_proxy"
-  label="Smart Proxy"
+  label="Smart proxy"
   labelIcon={
     <LabelIcon
-      text="Only Smart Proxies with Registration feature enabled are displayed."
+      text="Only smart proxies with registration feature enabled are displayed."
     />
   }
 >

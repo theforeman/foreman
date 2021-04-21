@@ -14,7 +14,7 @@ const Insecure = ({ insecure, handleInsecure, isLoading }) => (
           {__('Insecure')}{' '}
           <LabelIcon
             text={__(
-              'If the target machine does not trust the Foreman SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process.'
+              'If the target machine does not trust the host SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process.'
             )}
           />
         </span>

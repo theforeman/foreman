@@ -19,9 +19,9 @@ const ConfigParams = ({
   isLoading,
 }) => {
   const options = (value = '') => {
-    const defaultValue = value ? __('Yes') : __('No');
+    const defaultValue = value ? __('yes') : __('no');
     const defaultLabel = `${__(
-      'Inherit from Host parameter'
+      'Inherit from host parameter'
     )} (${defaultValue})`;
 
     return (
@@ -36,12 +36,12 @@ const ConfigParams = ({
   return (
     <>
       <FormGroup
-        label={__('Setup Rex')}
+        label={__('Setup REX')}
         isRequired
         labelIcon={
           <LabelIcon
             text={__(
-              'If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level.'
+              'Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level.'
             )}
           />
         }

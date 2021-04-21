@@ -56,17 +56,17 @@ const OperatingSystem = ({
   // Validate field
   useEffect(() => {
     if (operatingSystemId === '') {
-      handleInvalidField('Operating System', true);
+      handleInvalidField('Operating system', true);
       return;
     }
     if (Object.entries(operatingSystemTemplate).length !== 0) {
-      handleInvalidField('Operating System', !!operatingSystemTemplate?.name);
+      handleInvalidField('Operating system', !!operatingSystemTemplate?.name);
     }
   }, [operatingSystemId, operatingSystemTemplate]);
 
   return (
     <FormGroup
-      label={__('Operating System')}
+      label={__('Operating system')}
       helperText={osHelperText(
         operatingSystemId,
         operatingSystems,
@@ -77,7 +77,7 @@ const OperatingSystem = ({
       labelIcon={
         <LabelIcon
           text={__(
-            'Required for registration without subscription manager. Can be specified by Host Group.'
+            'Required for registration without subscription manager. Can be specified by host group.'
           )}
         />
       }

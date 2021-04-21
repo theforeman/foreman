@@ -9,7 +9,7 @@ import { sprintf, translate as __ } from '../../../../../common/I18n';
 
 const Packages = ({ packages, handlePackages, configParams, isLoading }) => (
   <FormGroup
-    label={__('Install Packages')}
+    label={__('Install packages')}
     helperText={
       configParams?.host_packages &&
       sprintf('Default value: "%s"', configParams?.host_packages)

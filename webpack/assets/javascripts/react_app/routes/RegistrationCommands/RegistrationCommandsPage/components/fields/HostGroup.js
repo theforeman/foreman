@@ -11,7 +11,7 @@ import { translate as __ } from '../../../../../common/I18n';
 import { emptyOption } from '../../RegistrationCommandsPageHelpers';
 
 const HostGroup = ({ hostGroupId, hostGroups, handleHostGroup, isLoading }) => (
-  <FormGroup label={__('Host Group')} fieldId="reg_host_group">
+  <FormGroup label={__('Host group')} fieldId="reg_host_group">
     <FormSelect
       value={hostGroupId}
       onChange={v => handleHostGroup(v)}

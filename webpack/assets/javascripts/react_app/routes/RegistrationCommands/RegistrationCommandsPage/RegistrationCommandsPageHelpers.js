@@ -91,7 +91,7 @@ const hostGroupOSHelperText = (hostGroupId, hostGroups, operatingSystems) => {
   const hostGroupOS = operatingSystems.find(os => `${os.id}` === `${osId}`);
 
   if (hostGroupOS) {
-    return sprintf('Host Group OS: %s', formatOSname(hostGroupOS));
+    return sprintf('Host group OS: %s', formatOSname(hostGroupOS));
   }
-  return __('No OS from Host Group');
+  return __('No OS from host group');
 };

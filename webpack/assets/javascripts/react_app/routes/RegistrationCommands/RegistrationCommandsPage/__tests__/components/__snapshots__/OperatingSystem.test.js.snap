@@ -4,10 +4,10 @@ exports[`RegistrationCommandsPage fields - OperatingSystem renders 1`] = `
 <FormGroup
   fieldId="reg_os"
   helperText=""
-  label="Operating System"
+  label="Operating system"
   labelIcon={
     <LabelIcon
-      text="Required for registration without subscription manager. Can be specified by Host Group."
+      text="Required for registration without subscription manager. Can be specified by host group."
     />
   }
 >

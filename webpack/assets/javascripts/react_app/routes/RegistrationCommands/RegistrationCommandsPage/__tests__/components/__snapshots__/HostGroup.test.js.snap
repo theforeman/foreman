@@ -3,7 +3,7 @@
 exports[`RegistrationCommandsPage fields - HostGroup renders 1`] = `
 <FormGroup
   fieldId="reg_host_group"
-  label="Host Group"
+  label="Host group"
 >
   <FormSelect
     className="without_select2"

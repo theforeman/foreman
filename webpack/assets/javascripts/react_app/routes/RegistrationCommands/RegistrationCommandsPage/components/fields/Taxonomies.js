@@ -27,7 +27,7 @@ const Taxonomies = ({
       labelIcon={
         <LabelIcon
           text={__(
-            'If no Organization is set, the default Organization of the user is assumed.'
+            'If no organization is set, the default organization of the user is assumed.'
           )}
         />
       }
@@ -54,7 +54,7 @@ const Taxonomies = ({
       labelIcon={
         <LabelIcon
           text={__(
-            'If no Location is set, the default Location of the user is assumed.'
+            'If no location is set, the default location of the user is assumed.'
           )}
         />
       }

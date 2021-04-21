@@ -5,10 +5,10 @@ exports[`RegistrationCommandsPage fields - ConfigParams renders 1`] = `
   <FormGroup
     fieldId="registration_setup_remote_execution"
     isRequired={true}
-    label="Setup Rex"
+    label="Setup REX"
     labelIcon={
       <LabelIcon
-        text="If set to \`Yes\`, SSH keys will be installed on the registered host. The inherited value is based on the \`host_registration_remote_execution\` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
+        text="Setup remote execution. If set to \`Yes\`, SSH keys will be installed on the registered host. The inherited value is based on the \`host_registration_remote_execution\` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
       />
     }
   >
@@ -26,7 +26,7 @@ exports[`RegistrationCommandsPage fields - ConfigParams renders 1`] = `
     >
       <FormSelectOption
         key="0"
-        label="Inherit from Host parameter (No)"
+        label="Inherit from host parameter (no)"
         value=""
       />
       <FormSelectOption
@@ -65,7 +65,7 @@ exports[`RegistrationCommandsPage fields - ConfigParams renders 1`] = `
     >
       <FormSelectOption
         key="0"
-        label="Inherit from Host parameter (No)"
+        label="Inherit from host parameter (no)"
         value=""
       />
       <FormSelectOption

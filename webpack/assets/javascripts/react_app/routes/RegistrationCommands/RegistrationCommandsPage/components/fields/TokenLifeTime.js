@@ -26,13 +26,13 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
   };
 
   const setValue = v => {
-    handleInvalidField('Token Life Time', isValid(v));
+    handleInvalidField('Token life time', isValid(v));
     onChange(v);
   };
 
   return (
     <FormGroup
-      label={__('Token Life Time (hours)')}
+      label={__('Token life time (hours)')}
       validated={isValid(value) ? 'default' : 'error'}
       helperTextInvalid={sprintf(
         'Token life time value must be between %s and %s hours.',
@@ -61,7 +61,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
           <Checkbox
             label={__('unlimited')}
             onChange={() => setValue(value === 'unlimited' ? 4 : 'unlimited')}
-            id="reg_token_life_time_unlimited_input"
+            id="reg_unlimited_token_life_time"
             isDisabled={isLoading}
             isChecked={value === 'unlimited'}
           />
