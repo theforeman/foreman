@@ -121,6 +121,26 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       assert_equal "RedHat", first_os.name
     end
 
+    test "should set OS name for CentOS 8 Linux versions" do
+      @importer = PuppetFactParser.new(centos8_linux_facter4)
+      assert_equal 'CentOS', os.name
+      assert_equal 'CentOS Linux 8.3.2011', os.title
+      assert_equal 'CentOS Linux 8.3.2011', os.description
+      assert_equal '8', os.major
+      assert_equal '3.2011', os.minor
+      assert_equal 'Redhat', os.family
+    end
+
+    test "should set OS name for CentOS 8 Stream" do
+      @importer = PuppetFactParser.new(centos8_stream_facter4)
+      assert_equal 'CentOSStream', os.name
+      assert_equal 'CentOS Stream 8', os.title
+      assert_equal 'CentOS Stream 8', os.description
+      assert_equal '8', os.major
+      assert_equal '', os.minor
+      assert_equal 'Redhat', os.family
+    end
+
     test "should not alter description field if already set" do
       # Need to instantiate @importer once with normal facts
       first_os = @importer.operatingsystem
@@ -491,6 +511,14 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def example_v4_facts
     read_json_fixture('facts/example_4.0.52.json').with_indifferent_access
+  end
+
+  def centos8_linux_facter4
+    read_json_fixture('facts/centos8-linux-facter-4.1.json')
+  end
+
+  def centos8_stream_facter4
+    read_json_fixture('facts/centos8-stream-facter-4.1.json')
   end
 
   def assert_os_idempotent(previous_os = os)

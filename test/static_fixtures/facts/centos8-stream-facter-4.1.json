@@ -1,0 +1,244 @@
+{
+  "disks": {
+    "vda": {
+      "size": "7.00 GiB",
+      "size_bytes": 7516192768,
+      "type": "hdd",
+      "vendor": "0x1af4"
+    }
+  },
+  "dmi": {
+    "bios": {
+      "release_date": "04/01/2014",
+      "vendor": "SeaBIOS",
+      "version": "1.14.0-1.fc33"
+    },
+    "chassis": {
+      "type": "Other"
+    },
+    "manufacturer": "QEMU",
+    "product": {
+      "name": "Standard PC (Q35 + ICH9, 2009)",
+      "uuid": "1ddbeb7e-aea3-4ae3-8a57-61867d346372"
+    }
+  },
+  "facterversion": "4.1.0",
+  "filesystems": "ext2,ext3,ext4,xfs",
+  "fips_enabled": false,
+  "hypervisors": {
+    "kvm": {
+    }
+  },
+  "identity": {
+    "gid": 0,
+    "group": "root",
+    "privileged": true,
+    "uid": 0,
+    "user": "root"
+  },
+  "is_virtual": true,
+  "kernel": "Linux",
+  "kernelmajversion": "4.18",
+  "kernelrelease": "4.18.0-193.6.3.el8_2.x86_64",
+  "kernelversion": "4.18.0",
+  "load_averages": {
+    "15m": 0.06,
+    "1m": 0.07,
+    "5m": 0.02
+  },
+  "memory": {
+    "swap": {
+      "available": "602.25 MiB",
+      "available_bytes": 631500800,
+      "capacity": "2.07%",
+      "total": "615.00 MiB",
+      "total_bytes": 644870144,
+      "used": "12.75 MiB",
+      "used_bytes": 13369344
+    },
+    "system": {
+      "available": "1.31 GiB",
+      "available_bytes": 1401630720,
+      "capacity": "26.83%",
+      "total": "1.78 GiB",
+      "total_bytes": 1915502592,
+      "used": "490.07 MiB",
+      "used_bytes": 513871872
+    }
+  },
+  "networking": {
+    "fqdn": "stream",
+    "hostname": "stream",
+    "interfaces": {
+      "enp1s0": {
+        "bindings": [
+          {
+            "address": "192.168.122.29",
+            "netmask": "255.255.255.0",
+            "network": "192.168.122.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::5054:ff:fe85:821",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::",
+            "scope6": "link"
+          }
+        ],
+        "ip": "192.168.122.29",
+        "ip6": "fe80::5054:ff:fe85:821",
+        "mac": "52:54:00:85:08:21",
+        "mtu": 1500,
+        "netmask": "255.255.255.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "192.168.122.0",
+        "network6": "fe80::",
+        "scope6": "link"
+      },
+      "lo": {
+        "bindings": [
+          {
+            "address": "127.0.0.1",
+            "netmask": "255.0.0.0",
+            "network": "127.0.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "::1",
+            "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+            "network": "::1",
+            "scope6": "host"
+          }
+        ],
+        "ip": "127.0.0.1",
+        "ip6": "::1",
+        "mtu": 65536,
+        "netmask": "255.0.0.0",
+        "netmask6": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "network": "127.0.0.0",
+        "network6": "::1",
+        "scope6": "host"
+      }
+    },
+    "ip": "192.168.122.29",
+    "ip6": "fe80::5054:ff:fe85:821",
+    "mac": "52:54:00:85:08:21",
+    "mtu": 1500,
+    "netmask": "255.255.255.0",
+    "netmask6": "ffff:ffff:ffff:ffff::",
+    "network": "192.168.122.0",
+    "network6": "fe80::",
+    "primary": "enp1s0",
+    "scope6": "link"
+  },
+  "os": {
+    "architecture": "x86_64",
+    "distro": {
+      "description": "CentOS Stream release 8",
+      "id": "CentOSStream",
+      "release": {
+        "full": "8",
+        "major": "8"
+      }
+    },
+    "family": "RedHat",
+    "hardware": "x86_64",
+    "name": "CentOS",
+    "release": {
+      "full": "8",
+      "major": "8"
+    },
+    "selinux": {
+      "config_mode": "enforcing",
+      "config_policy": "targeted",
+      "current_mode": "enforcing",
+      "enabled": true,
+      "enforced": true,
+      "policy_version": "31"
+    }
+  },
+  "partitions": {
+    "/dev/vda1": {
+      "partlabel": "primary",
+      "partuuid": "d4ceee7d-f2a8-41cc-9a1f-941b15f6d988",
+      "size": "1.00 MiB",
+      "size_bytes": 1048576
+    },
+    "/dev/vda2": {
+      "filesystem": "ext4",
+      "partlabel": "primary",
+      "partuuid": "268627c0-d337-45e0-8b78-3b4516743e37",
+      "size": "1.00 GiB",
+      "size_bytes": 1073741824,
+      "uuid": "0b3df967-65cc-4a48-8b98-f7f0badc0d91"
+    },
+    "/dev/vda3": {
+      "filesystem": "swap",
+      "partlabel": "primary",
+      "partuuid": "c30f23cb-3504-4020-81b6-1da9d9413a5b",
+      "size": "615.00 MiB",
+      "size_bytes": 644874240,
+      "uuid": "40f14688-2619-4046-a9eb-b7333fff1b84"
+    },
+    "/dev/vda4": {
+      "filesystem": "xfs",
+      "partlabel": "primary",
+      "partuuid": "81a2926c-2b51-4bc8-8ba9-f0af2a91fe85",
+      "size": "5.40 GiB",
+      "size_bytes": 5794103296,
+      "uuid": "4fd120e4-1f6d-46b3-a404-5569ef6af1f9"
+    }
+  },
+  "path": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin",
+  "processors": {
+    "count": 2,
+    "isa": "x86_64",
+    "models": [
+      "Intel Core Processor (Skylake, IBRS)",
+      "Intel Core Processor (Skylake, IBRS)"
+    ],
+    "physicalcount": 2,
+    "speed": "3.00 GHz"
+  },
+  "ruby": {
+    "platform": "x86_64-linux",
+    "sitedir": "/usr/local/share/ruby/site_ruby",
+    "version": "2.7.1"
+  },
+  "ssh": {
+    "ecdsa": {
+      "fingerprints": {
+        "sha1": "SSHFP 3 1 1896eda9c97def529c64f97ebcdb5aee32e25285",
+        "sha256": "SSHFP 3 2 6932a390ad20961350b2ab36861b18ec2ce2644d433bc54f432600421f58bcd1"
+      },
+      "key": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEBFrxBiebSB+0M1LGyX3H3ZHd676wnGGfYjexjSvopznvfkb0PdNSLUvHpc1gU/yPBx7HP/pdGvdDWnwvoNkLY=",
+      "type": "ecdsa-sha2-nistp256"
+    },
+    "ed25519": {
+      "fingerprints": {
+        "sha1": "SSHFP 4 1 43113e7fca870374e8a5f9981e4bf6f97a7bc59a",
+        "sha256": "SSHFP 4 2 d17bfb375bc87e76dcc937708974cd3f7a361843625f67c485426ad4c9bf441f"
+      },
+      "key": "AAAAC3NzaC1lZDI1NTE5AAAAIFu6kGHnNmCA56gkfRAyAxZZEdwF5mCD6aRb0PznE++s",
+      "type": "ssh-ed25519"
+    },
+    "rsa": {
+      "fingerprints": {
+        "sha1": "SSHFP 1 1 0f2ab3941f9c7a54211076bc27dee370e10698b0",
+        "sha256": "SSHFP 1 2 c45674d9bc1091ac4cc9150fd517b0b895650fa590e41e288cc07f2699dfb9e1"
+      },
+      "key": "AAAAB3NzaC1yc2EAAAADAQABAAABgQDSOlxRR5iy0VM5BVl2JiFvUvv5UMAUMPkNxKuo89U/jG1X3N9pqxSpgwy4VnzAJTMXTUObCnSTueiVjj0HHz6UMuRxIe4MYb2XFNrdQUV3BPKvbP3NG02bBGRhH35mr0g9Yd9Rc1Ayf5gTlfGkbOh4JbjPygQ9ub/5gUnEbFOS4x39U3wnZV4z/1s0RwWtzdLe8kj36/gvoYaBdrsDNtFQjEGWSHhjiwXf0wOvOVt+OKY77Z1+pM6CcqQVR75VcT52P/y5UEIREo7CP0eHxjD5JAcm7fWJrxeHFH3Cv1dh9I/J9b5k3WGFciqsv5zebx4MMq64poKbmyFyR+R1ixKM9laoaUiTC5N3ajM54kSb5wREIiMMFpPo7ArfXnIbjOsHidnmXvMfOwTLwwymBoKsWNR2LIf3u/mBOdBC2PtrYz9nL6pi5Lb2OOpa0S+LQFxWulFPWvTN83Mqlcr8qScJqPfgwlM6pIco6blJwe078N5ldXdeaj54I0RQ4XYChhE=",
+      "type": "ssh-rsa"
+    }
+  },
+  "system_uptime": {
+    "days": 0,
+    "hours": 1,
+    "seconds": 5519,
+    "uptime": "1:31 hours"
+  },
+  "timezone": "EDT",
+  "virtual": "kvm"
+}
