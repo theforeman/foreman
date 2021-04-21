@@ -5,7 +5,7 @@ exports[`RegistrationCommandsPage fields - TokenLifeTime renders 1`] = `
   fieldId="reg_token_life_time_input"
   helperTextInvalid="Token life time value must be between %s and %s hours."
   isRequired={true}
-  label="Token life time (hours)"
+  label="Token life time"
   labelIcon={
     <LabelIcon
       text="Expiration of the authorization token."

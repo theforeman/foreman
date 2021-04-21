@@ -14,7 +14,6 @@ const Packages = ({ packages, handlePackages, configParams, isLoading }) => (
       configParams?.host_packages &&
       sprintf('Default value: "%s"', configParams?.host_packages)
     }
-    isRequired
     labelIcon={
       <LabelIcon
         text={__(

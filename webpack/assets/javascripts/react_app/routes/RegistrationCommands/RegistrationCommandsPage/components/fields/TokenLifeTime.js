@@ -32,7 +32,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
 
   return (
     <FormGroup
-      label={__('Token life time (hours)')}
+      label={__('Token life time')}
       validated={isValid(value) ? 'default' : 'error'}
       helperTextInvalid={sprintf(
         'Token life time value must be between %s and %s hours.',
