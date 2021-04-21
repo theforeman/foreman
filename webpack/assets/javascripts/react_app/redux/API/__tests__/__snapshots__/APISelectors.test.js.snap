@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`API selectors should return the API current timestamp 1`] = `10000`;
+
 exports[`API selectors should return the API substate by key 1`] = `
 Object {
   "payload": Object {

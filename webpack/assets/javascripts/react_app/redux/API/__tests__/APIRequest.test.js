@@ -1,7 +1,8 @@
 import { API } from '../';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
-import { action, key } from '../APIFixtures';
+import { action, key, actionWithTimestamp } from '../APIFixtures';
 import { apiRequest } from '../APIRequest';
+import { mockNowDate } from '../../../common/testHelpers';
 
 const data = { results: [1] };
 jest.mock('../');
@@ -9,7 +10,7 @@ jest.mock('../');
 describe('API get', () => {
   const store = {
     dispatch: jest.fn(),
-    getState: jest.fn(() => ({ intervals: { [key]: 1 } })),
+    getState: jest.fn(() => ({ intervals: { [key]: 1 }, API: { [key]: { payload: {} } } })),
   };
   beforeEach(() => {
     store.dispatch = jest.fn();
@@ -102,5 +103,37 @@ describe('API get', () => {
       apiError
     );
     expect(store.dispatch.mock.calls).toMatchSnapshot();
+  });
+
+  it('should not dispatch when timestamp is valid', async () => {
+    const realDateNow = mockNowDate(1530518207007);
+    store.getState = jest.fn(() => ({ API: { [key]: { payload: { timestamp: Date.now() - 10000 } } } }))
+    const apiSuccessResponse = { data };
+    API.get.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolve(apiSuccessResponse);
+        })
+    );
+    apiRequest(actionWithTimestamp, store);
+    await IntegrationTestHelper.flushAllPromises();
+    expect(store.dispatch.mock.calls).toMatchSnapshot();
+    realDateNow();
+  });
+
+  it('should dispatch when timestamp is outdated', async () => {
+    const realDateNow = mockNowDate(1530518207007);
+    store.getState = jest.fn(() => ({ API: { [key]: { payload: { timestamp: Date.now() - 15000 } } } }))
+    const apiSuccessResponse = { data };
+    API.get.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolve(apiSuccessResponse);
+        })
+    );
+    apiRequest(actionWithTimestamp, store);
+    await IntegrationTestHelper.flushAllPromises();
+    expect(store.dispatch.mock.calls).toMatchSnapshot();
+    realDateNow();
   });
 });

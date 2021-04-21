@@ -26,6 +26,19 @@ export const action = {
   },
 };
 
+export const actionWithTimestamp = {
+  type: API_OPERATIONS.GET,
+  payload: {
+    key,
+    url,
+    headers,
+    params,
+    actionTypes,
+    payload,
+    expiresIn: 15000,
+  },
+};
+
 export const middlewareActions = {
   request: {
     type: actionTypes.REQUEST,
