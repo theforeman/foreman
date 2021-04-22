@@ -28,6 +28,7 @@ This template accepts the following parameters:
 - disable-uek: boolean (default=false)
 - use-ntp: boolean (default depends on OS release)
 - fips_enabled: boolean (default=false)
+- encrypt_grub: boolean (default=false)
 
 Reference links:
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
@@ -203,10 +204,10 @@ repo --name="Server-Mysql"
 
 <% if @host.operatingsystem.name == 'Fedora' && os_major <= 16 -%>
 # Bootloader exception for Fedora 16:
-bootloader --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %> <%= ks_console %>" <%= @grub_pass %>
+bootloader --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %> <%= ks_console %>" <%= grub_pass %>
 part biosboot --fstype=biosboot --size=1
 <% else -%>
-bootloader --location=mbr --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %>" <%= @grub_pass %>
+bootloader --location=mbr --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %>" <%= grub_pass %>
 <% if os_major == 5 -%>
 key --skip
 <% end -%>
