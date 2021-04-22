@@ -127,13 +127,15 @@ module Foreman
             host.root_pass
           end
 
-          apipie :method, 'Returns options for GRUB bootloader containing password' do
+          apipie :method, 'Returns options for GRUB bootloader containing encrypted password' do
+            desc 'Options are returned based on *encrypt_grub* host parameter being set.
+                  Returns empty string if the parameter set to false'
             returns String, desc: 'Returns options for GRUB bootloader containing password'
             example 'grub_pass #=> "--md5pass=$1$org$9yxjIDK8FYVlQzHGhasqW/"'
             example 'grub_pass #=> "--iscrypted --password=9yxjIDK8FYVlQzHGhasqW/"'
           end
           def grub_pass
-            return '' unless @grub
+            return '' unless host_param_true?('encrypt_grub')
             host.grub_pass.start_with?('$1$') ? "--md5pass=#{host.grub_pass}" : "--iscrypted --password=#{host.grub_pass}"
           end
 

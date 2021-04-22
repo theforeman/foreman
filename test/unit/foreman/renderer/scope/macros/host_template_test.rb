@@ -172,8 +172,14 @@ class HostTemplateTest < ActiveSupport::TestCase
 
     test 'grub_pass helper returns the grub password if enabled' do
       @scope.instance_variable_set('@host', host)
-      @scope.instance_variable_set('@grub', true)
+      FactoryBot.create(:parameter, name: 'encrypt_grub', value: 'true')
       assert_equal "--iscrypted --password=#{host.grub_pass}", @scope.grub_pass
+    end
+
+    test "grub_pass helper doesn't return the grub password if disabled" do
+      @scope.instance_variable_set('@host', host)
+      FactoryBot.create(:parameter, name: 'encrypt_grub', value: 'false')
+      assert_equal '', @scope.grub_pass
     end
   end
 
