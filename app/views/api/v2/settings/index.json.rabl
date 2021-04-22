@@ -1,3 +1,3 @@
-collection @settings.map { |s| SettingPresenter.from_setting(s) }
+collection @settings
 
 extends "api/v2/settings/main"

@@ -54,9 +54,9 @@ class Setting < ApplicationRecord
   validates :value, :email => true, :if => proc { |s| EMAIL_ATTRS.include? s.name }
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
-  before_save :clear_cache
   validate :validate_frozen_attributes
   after_find :readonly_when_overridden
+  after_save :refresh_registry_value
   default_scope -> { order(:name) }
 
   # Filer out settings from disabled plugins
@@ -89,22 +89,12 @@ class Setting < ApplicationRecord
     nil
   end
 
-  def self.cache_key(name)
-    "settings/#{name}"
-  end
-
   def self.[](name)
-    name = name.to_s
-    cache.fetch(cache_key(name)) do
-      find_by(:name => name)&.value
-    end
+    Foreman.settings[name]
   end
 
   def self.[]=(name, value)
-    name   = name.to_s
-    record = where(:name => name).first!
-    record.value = value
-    record.save!
+    Foreman.settings[name] = value
   end
 
   def self.setting_type_from_value(value_for_type)
@@ -249,7 +239,7 @@ class Setting < ApplicationRecord
       # update query for every setting
       to_update.delete(:default) if to_update[:default].to_yaml.strip == s[:default]
       s.attributes = to_update
-      s.save if s.changed? # to bypass name uniqueness validator to query db
+      s.save(validate: false)
       s.update_column :category, opts[:category] if s.category != opts[:category]
       s.update_column :full_name, opts[:full_name] if column_check([:full_name]).present? && s.full_name != opts[:full_name]
       raw_value = s.read_attribute(:value)
@@ -268,10 +258,6 @@ class Setting < ApplicationRecord
     yield(s)
   ensure
     s.readonly! if old_readonly
-  end
-
-  def self.cache
-    Rails.cache
   end
 
   # Methods for loading default settings
@@ -353,18 +339,15 @@ class Setting < ApplicationRecord
     end
   end
 
-  def clear_cache
-    # Rails cache returns false if the delete failed and nil if the key is missing
-    if Setting.cache.delete(cache_key) == false
-      Rails.logger.warn "Failed to remove #{name} from cache"
-    end
-  end
-
-  def cache_key
-    Setting.cache_key(name)
-  end
-
   def readonly_when_overridden
     readonly! if !new_record? && has_readonly_value?
+  end
+
+  def refresh_registry_value
+    return unless Foreman.settings.ready?
+    Foreman.settings.find(name)&.tap do |definition|
+      definition.updated_at = updated_at
+      definition.value = value
+    end
   end
 end

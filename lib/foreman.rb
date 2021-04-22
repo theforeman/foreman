@@ -34,4 +34,8 @@ module Foreman
   def self.input_types_registry
     @input_types_registry ||= Foreman::InputTypesRegistry.new
   end
+
+  def self.settings
+    SettingRegistry.instance
+  end
 end

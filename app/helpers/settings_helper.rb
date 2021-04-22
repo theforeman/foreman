@@ -10,6 +10,7 @@ module SettingsHelper
   def grouped_settings(settings)
     settings.each_with_object({}) do |setting, memo|
       hash = setting_to_hash(setting)
+      next unless hash
       if memo[setting.category]
         memo[setting.category] << hash
       else
@@ -20,7 +21,11 @@ module SettingsHelper
   end
 
   def setting_to_hash(setting)
-    presenter = SettingPresenter.from_setting(setting)
+    presenter = Foreman.settings.find(setting.name)
+    if presenter.nil?
+      logger.warn("Setting #{setting.name} doesn't exist anymore, clean up your database")
+      return nil
+    end
     {
       :id => setting.id,
       :name => presenter.name,

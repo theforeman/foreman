@@ -1,4 +1,4 @@
-object @setting && SettingPresenter.from_setting(@setting)
+object @setting
 
 extends "api/v2/settings/base"
 

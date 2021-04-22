@@ -115,7 +115,7 @@ class ActiveRecord::Base
   def self.per_page
     # Foreman.in_rake? prevents the failure of db:migrate for postgresql
     # don't query settings table if in rake
-    return 20 if Foreman.in_rake?
+    return 20 unless Foreman.settings.ready?
     Setting[:entries_per_page] rescue 20
   end
 
