@@ -91,6 +91,16 @@ module DashboardHelper
     data.map { |label, value| [label.to_s, value] }
   end
 
+  def searchable_links(name, search, counter)
+    search += " and #{@data.filter}" if @data.filter.present?
+    content_tag :li do
+      content_tag(:span, raw('&nbsp;'), :class => 'label', :style => "background-color:" + report_color[counter]) +
+      raw('&nbsp;') +
+      link_to(name, hosts_path(:search => search), :class => "dashboard-links") +
+      content_tag(:h4, @data.report[counter])
+    end
+  end
+
   def translated_header(shortname, longname)
     "<th class='ca'><span class='small' title='' data-original-title='#{longname}'>#{shortname}</span></th>"
   end
