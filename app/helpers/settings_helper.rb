@@ -22,7 +22,10 @@ module SettingsHelper
 
   def setting_to_hash(setting)
     presenter = Foreman.settings.find(setting.name)
-    logger.warn("Setting #{setting.name} doesn't exist anymore, clean up your database") and return nil if presenter.nil?
+    if presenter.nil?
+      logger.warn("Setting #{setting.name} doesn't exist anymore, clean up your database")
+      return nil
+    end
     {
       :id => setting.id,
       :name => presenter.name,

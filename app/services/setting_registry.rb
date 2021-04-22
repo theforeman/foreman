@@ -62,17 +62,19 @@ class SettingRegistry
 
   def load_values
     loaded_names = []
-    Setting.unscoped.all.each do |set|
-      set_definition = find(set.name)
-      logger.debug("Setting #{set.name} has no definition, clean up your database") and next unless set_definition
-      loaded_names << set.name
-      set_definition.updated_at = set.updated_at
-      set_definition.value = set.value
+    Setting.unscoped.all.each do |s|
+      unless (definition = find(s.name))
+        logger.debug("Setting #{s.name} has no definition, clean up your database")
+        next
+      end
+      loaded_names << s.name
+      definition.updated_at = s.updated_at
+      definition.value = s.value
     end
     # load nil to set value to default
-    @settings.except(*loaded_names).each do |name, set_definition|
-      set_definition.updated_at = nil
-      set_definition.value = set_definition.default
+    @settings.except(*loaded_names).each do |name, definition|
+      definition.updated_at = nil
+      definition.value = definition.default
     end
   end
 
