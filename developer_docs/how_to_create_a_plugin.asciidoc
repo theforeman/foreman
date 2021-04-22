@@ -1330,6 +1330,19 @@ class RandomStatus < HostStatus::Status
 end
 ----
 
+The status class _must_ implement the followig methods:
+
+ * `to_label`: this method will be called to determine the string that will be used while displaying the status value.
+ * `self.status_name`: this method will be called to determine what label to display for the status.
+
+It _can_ also implement the following methods according to the specific needs:
+
+ * `to_global`: This method will be used to determine global status according to this specific one. The mechanism here is "voting" - to_global is called for each status and the highest value from https://github.com/theforeman/foreman/blob/ceb276fbe96b97770f5d292b1eadca0205a34a0a/app/models/host_status/global.rb#L3[the list] would be taken. The default is `HostStatus::Global::OK`.
+
+ * `to_status`: This method is used to determine the status based on external values in the system. By default it will return the previous value the status had. This default is useful if the status could not be determined by examining the current state, for example if the status is changing by some external event.
+
+For more information about possible customizations see the https://github.com/theforeman/foreman/blob/ceb276fbe96b97770f5d292b1eadca0205a34a0a/app/models/host_status/status.rb#L2[`status.rb`] base class.
+
 There are times when you may want to create a status that should not affect the
 host's global status. One use case is when there exists a status which derives
 its own status from one or more sub-statuses. Implementing a sub-status is as
@@ -2136,7 +2149,7 @@ Example events emitted by creating, updating or deleting of selected records (su
 * `subnet_updated.event.foreman`
 * `subnet_destroyed.event.foreman`
 
-Payload for records is the record model object itself under key `object` and `context` with additional logging context. Keep in mind that the model classes are not subject of stable API, they will change in the future. It's recommended not to publish full object but to strip down exposed information to bare minimum (e.g. host name and ID). 
+Payload for records is the record model object itself under key `object` and `context` with additional logging context. Keep in mind that the model classes are not subject of stable API, they will change in the future. It's recommended not to publish full object but to strip down exposed information to bare minimum (e.g. host name and ID).
 
 Example events emitted by performing background jobs (subclasses of `ApplicationJob`):
 
@@ -2168,7 +2181,7 @@ Example events emitted by Remote Execution plugin:
 
 Foreman Webhooks plugin ships with an example "Remote Execution Host Job" template.
 
-You can find all observable events by calling `Foreman::EventSubscribers.all_observable_events` in the Rails console. 
+You can find all observable events by calling `Foreman::EventSubscribers.all_observable_events` in the Rails console.
 
 [[translating]]
 == Translating
