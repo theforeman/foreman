@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage fields - OperatingSystem renders 1`] = `
+<FormGroup
+  fieldId="reg_os"
+  helperText=""
+  label="Operating system"
+  labelIcon={
+    <LabelIcon
+      text="Required for registration without subscription manager. Can be specified by host group."
+    />
+  }
+>
+  <FormSelect
+    className="without_select2"
+    id="reg_os"
+    isDisabled={true}
+    isRequired={false}
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    ouiaSafe={true}
+    validated="default"
+    value={0}
+  >
+    <FormSelectOption
+      label="Nothing to select."
+      value=""
+    />
+  </FormSelect>
+</FormGroup>
+`;

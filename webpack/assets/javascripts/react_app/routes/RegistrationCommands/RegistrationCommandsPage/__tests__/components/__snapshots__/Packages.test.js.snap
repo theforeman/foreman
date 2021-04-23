@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage fields - Packages renders 1`] = `
+<FormGroup
+  fieldId="reg_packages"
+  label="Install packages"
+  labelIcon={
+    <LabelIcon
+      text="Install packages on the host when registered. Can be set by \`host_packages\` parameter"
+    />
+  }
+>
+  <TextInput
+    id="reg_packages"
+    isDisabled={false}
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+</FormGroup>
+`;

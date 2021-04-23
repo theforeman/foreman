@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LabelIcon renders 1`] = `
+<Popover
+  bodyContent="Yay, label help!"
+>
+  <button
+    className="pf-c-form__group-label-help"
+    onClick={[Function]}
+  >
+    <HelpIcon
+      color="currentColor"
+      noVerticalAlign={true}
+      size="sm"
+    />
+  </button>
+</Popover>
+`;

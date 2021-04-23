@@ -30,6 +30,7 @@ module Foreman::Controller::Registration
       registration_url: registration_url,
       setup_insights: ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights']),
       setup_remote_execution: ActiveRecord::Type::Boolean.new.deserialize(params['setup_remote_execution']),
+      packages: params['packages'],
       repo: params['repo'],
       repo_gpg_key_url: params['repo_gpg_key_url'],
     }
@@ -108,6 +109,14 @@ module Foreman::Controller::Registration
     rex_param = HostParameter.find_or_initialize_by(host: @host, name: 'host_registration_remote_execution', key_type: 'boolean')
     rex_param.value = ActiveRecord::Type::Boolean.new.deserialize(params['setup_remote_execution'])
     rex_param.save!
+  end
+
+  def host_setup_packages
+    return if params['packages'].to_s.blank?
+
+    insights_param = HostParameter.find_or_initialize_by(host: @host, name: 'host_packages', key_type: 'string')
+    insights_param.value = params['packages']
+    insights_param.save!
   end
 
   def api_authorization_token

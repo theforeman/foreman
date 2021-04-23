@@ -75,6 +75,7 @@ module Api
             prepare_host
             host_setup_insights
             host_setup_remote_execution
+            host_setup_packages
             host_setup_extension
             @template = @host.initial_configuration_template
             raise ActiveRecord::Rollback if @template.nil?

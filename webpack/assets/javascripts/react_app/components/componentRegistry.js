@@ -44,6 +44,7 @@ import PersonalAccessTokens from './users/PersonalAccessTokens';
 import ClipboardCopy from './common/ClipboardCopy';
 import MemoryAllocationInput from './MemoryAllocationInput';
 import CPUCoresInput from './CPUCoresInput';
+import LabelIcon from './common/LabelIcon';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -143,6 +144,7 @@ const coreComponets = [
   { name: 'SettingUpdateModal', type: SettingUpdateModal },
   { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
   { name: 'ClipboardCopy', type: ClipboardCopy },
+  { name: 'LabelIcon', type: LabelIcon },
   {
     name: 'MemoryAllocationInput',
     type: MemoryAllocationInput,

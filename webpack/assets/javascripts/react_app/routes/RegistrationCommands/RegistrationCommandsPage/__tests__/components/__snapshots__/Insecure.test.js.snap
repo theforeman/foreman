@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage fields - Insecure renders 1`] = `
+<FormGroup
+  fieldId="reg_insecure"
+>
+  <Checkbox
+    className=""
+    id="reg_insecure"
+    isChecked={false}
+    isDisabled={false}
+    isValid={true}
+    label={
+      <span>
+        Insecure
+         
+        <LabelIcon
+          text="If the target machine does not trust the host SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
+        />
+      </span>
+    }
+    onChange={[Function]}
+  />
+</FormGroup>
+`;

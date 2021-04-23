@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage fields - HostGroup renders 1`] = `
+<FormGroup
+  fieldId="reg_host_group"
+  label="Host group"
+>
+  <FormSelect
+    className="without_select2"
+    id="reg_host_group"
+    isDisabled={false}
+    isRequired={false}
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    ouiaSafe={true}
+    validated="default"
+    value={0}
+  >
+    <FormSelectOption
+      label=""
+      value=""
+    />
+    <FormSelectOption
+      key="0"
+      label="test_hg"
+      value={0}
+    />
+  </FormSelect>
+</FormGroup>
+`;

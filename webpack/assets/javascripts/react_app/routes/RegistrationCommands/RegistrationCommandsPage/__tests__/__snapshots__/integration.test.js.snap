@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage integration generate command: generated command 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "key": "REGISTRATION_COMMANDS",
+          "params": Object {
+            "hostgroupId": undefined,
+            "insecure": false,
+            "jwtExpiration": 4,
+            "locationId": undefined,
+            "operatingsystemId": undefined,
+            "organizationId": undefined,
+            "packages": "",
+            "repo": "",
+            "repoGpgKeyUrl": "",
+            "setupInsights": "",
+            "setupRemoteExecution": "",
+            "smartProxyId": undefined,
+          },
+          "url": "/hosts/register",
+        },
+        "type": "API_POST",
+      },
+    ],
+  ],
+  "state": Object {},
+}
+`;
+
+exports[`RegistrationCommandsPage integration generate command: rendered 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "key": "REGISTRATION_COMMANDS_DATA",
+          "params": Object {
+            "location_id": undefined,
+            "organization_id": undefined,
+          },
+          "url": "/hosts/register/data",
+        },
+        "type": "API_GET",
+      },
+    ],
+  ],
+  "state": Object {},
+}
+`;

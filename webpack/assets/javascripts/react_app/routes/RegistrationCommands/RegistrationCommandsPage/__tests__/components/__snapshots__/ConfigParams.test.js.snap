@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage fields - ConfigParams renders 1`] = `
+<Fragment>
+  <FormGroup
+    fieldId="registration_setup_remote_execution"
+    isRequired={true}
+    label="Setup REX"
+    labelIcon={
+      <LabelIcon
+        text="Setup remote execution. If set to \`Yes\`, SSH keys will be installed on the registered host. The inherited value is based on the \`host_registration_remote_execution\` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
+      />
+    }
+  >
+    <FormSelect
+      className="without_select2"
+      id="registration_setup_remote_execution"
+      isDisabled={false}
+      isRequired={true}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      ouiaSafe={true}
+      validated="default"
+      value=""
+    >
+      <FormSelectOption
+        key="0"
+        label="Inherit from host parameter (no)"
+        value=""
+      />
+      <FormSelectOption
+        key="1"
+        label="Yes (override)"
+        value={true}
+      />
+      <FormSelectOption
+        key="2"
+        label="No (override)"
+        value={false}
+      />
+    </FormSelect>
+  </FormGroup>
+  <FormGroup
+    fieldId="registration_setup_insights"
+    isRequired={true}
+    label="Setup Insights"
+    labelIcon={
+      <LabelIcon
+        text="If set to \`Yes\`, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it. The inherited value is based on the \`host_registration_insights\` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
+      />
+    }
+  >
+    <FormSelect
+      className="without_select2"
+      id="registration_setup_insights"
+      isDisabled={false}
+      isRequired={true}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      ouiaSafe={true}
+      validated="default"
+      value=""
+    >
+      <FormSelectOption
+        key="0"
+        label="Inherit from host parameter (no)"
+        value=""
+      />
+      <FormSelectOption
+        key="1"
+        label="Yes (override)"
+        value={true}
+      />
+      <FormSelectOption
+        key="2"
+        label="No (override)"
+        value={false}
+      />
+    </FormSelect>
+  </FormGroup>
+</Fragment>
+`;

@@ -1,5 +1,5 @@
 <%
-  register_btn = display_link_if_authorized(_("Register Host"), hash_for_register_hosts_path, :class => "btn btn-default")
+  register_btn = link_to(_("Register Host"), hash_for_register_hosts_path, :class => "btn btn-default") if authorized_for({contoller: 'hosts', action: 'create'})
 %>
 
 <% title_actions multiple_actions_select, csv_link, register_btn, button_group(new_link(_("Create Host"))) %>

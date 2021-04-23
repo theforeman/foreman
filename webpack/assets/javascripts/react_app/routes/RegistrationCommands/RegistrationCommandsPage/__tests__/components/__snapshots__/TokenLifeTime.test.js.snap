@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage fields - TokenLifeTime renders 1`] = `
+<FormGroup
+  fieldId="reg_token_life_time_input"
+  helperTextInvalid="Token life time value must be between %s and %s hours."
+  isRequired={true}
+  label="Token life time"
+  labelIcon={
+    <LabelIcon
+      text="Expiration of the authorization token."
+    />
+  }
+  validated="default"
+>
+  <InputGroup>
+    <TextInput
+      id="reg_token_life_time_input"
+      isDisabled={false}
+      max={999999}
+      min={1}
+      onChange={[Function]}
+      type="number"
+      validated="default"
+      value={4}
+    />
+    <InputGroupText>
+      hours
+    </InputGroupText>
+    <InputGroupText>
+      <Checkbox
+        className=""
+        id="reg_unlimited_token_life_time"
+        isChecked={false}
+        isDisabled={false}
+        isValid={true}
+        label="unlimited"
+        onChange={[Function]}
+      />
+    </InputGroupText>
+  </InputGroup>
+</FormGroup>
+`;

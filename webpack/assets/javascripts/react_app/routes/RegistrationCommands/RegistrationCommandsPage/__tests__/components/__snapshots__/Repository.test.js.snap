@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationCommandsPage fields - Repository renders 1`] = `
+<Fragment>
+  <FormGroup
+    fieldId="reg_repo"
+    label="Repository"
+    labelIcon={
+      <LabelIcon
+        text="A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+      />
+    }
+  >
+    <TextInput
+      id="reg_repo"
+      isDisabled={false}
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+  </FormGroup>
+  <FormGroup
+    fieldId="reg_gpg_key_url"
+    label="Repository GPG key URL"
+    labelIcon={
+      <LabelIcon
+        text="If packages are GPG signed, the public key can be specified here to verify the packages signatures. It needs to be specified in the ascii form with the pgp public key header."
+      />
+    }
+  >
+    <TextInput
+      id="reg_gpg_key_url"
+      isDisabled={false}
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+  </FormGroup>
+</Fragment>
+`;
