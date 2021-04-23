@@ -33,6 +33,12 @@ cat << EOF > $SSL_CA_CERT
 <%= foreman_server_ca_cert %>
 EOF
 
+if [ -f /usr/bin/hostname ]; then
+  hostname=$(hostname -f)
+else
+  hostname=$(cat /etc/HOSTNAME);
+fi
+
 <% unless @repo.blank? -%>
 echo '#'
 echo '# Adding repository'
@@ -69,7 +75,7 @@ fi
 register_host() {
   curl --silent --cacert $SSL_CA_CERT --request POST <%= @registration_url %> \
        <%= headers.join(' ') %> \
-       --data "host[name]=$(hostname --fqdn)" \
+       --data "host[name]=$hostname" \
        --data "host[build]=false" \
        --data "host[managed]=false" \
 <%= "       --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
