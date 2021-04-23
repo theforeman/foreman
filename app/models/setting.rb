@@ -14,6 +14,8 @@ class Setting < ApplicationRecord
   TYPES = %w{integer boolean hash array string}
   FROZEN_ATTRS = %w{name category}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page outofsync_interval}
+  # constant BLANK_ATTRS is deprecated and all settings without custom validation allow blank values
+  # if you wish to validate non-empty arrays, please add validation through the new setting DSL
   BLANK_ATTRS = %w{ host_owner trusted_hosts login_delegation_logout_url root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text oidc_audience oidc_issuer oidc_algorithm
                     smtp_address smtp_domain smtp_user_name smtp_password smtp_openssl_verify_mode smtp_authentication sendmail_arguments sendmail_location http_proxy http_proxy_except_list default_locale default_timezone ssl_certificate ssl_ca_file server_ca_file ssl_priv_key default_pxe_item_global default_pxe_item_local oidc_jwks_url instance_title }
   ARRAY_HOSTNAMES = %w{trusted_hosts}
@@ -34,12 +36,9 @@ class Setting < ApplicationRecord
 
   validates :name, :presence => true, :uniqueness => true
   validates :description, :presence => true
-  validates :default, :presence => true, :unless => proc { |s| s.settings_type == "boolean" || BLANK_ATTRS.include?(s.name) }
-  validates :default, :inclusion => {:in => [true, false]}, :if => proc { |s| s.settings_type == "boolean" }
   validates :value, :numericality => true, :length => {:maximum => 8}, :if => proc { |s| s.settings_type == "integer" }
   validates :value, :numericality => {:greater_than => 0}, :if => proc { |s| NONZERO_ATTRS.include?(s.name) }
   validates :value, :inclusion => {:in => [true, false]}, :if => proc { |s| s.settings_type == "boolean" }
-  validates :value, :presence => true, :if => proc { |s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
   validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
   validates :value, :url_schema => ['http', 'https'], :if => proc { |s| URI_ATTRS.include?(s.name) }
 
@@ -55,6 +54,7 @@ class Setting < ApplicationRecord
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
   validate :validate_frozen_attributes
+  # Custom validations are added from SettingManager class
   after_find :readonly_when_overridden
   after_save :refresh_registry_value
   default_scope -> { order(:name) }

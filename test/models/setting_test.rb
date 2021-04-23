@@ -2,7 +2,6 @@ require 'test_helper'
 
 class SettingTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
-  should validate_presence_of(:default)
   should validate_uniqueness_of(:name)
   should validate_inclusion_of(:settings_type).in_array(Setting::TYPES)
 
@@ -228,11 +227,6 @@ class SettingTest < ActiveSupport::TestCase
   def test_should_autoselect_correct_type_for_boolean_value
     check_correct_type_for "boolean", true
     check_correct_type_for "boolean", false
-  end
-
-  # tests for default type constraints
-  test "arrays cannot be empty by default" do
-    check_setting_did_not_save_with :name => "foo", :value => [], :default => ["a", "b", "c"], :description => "test foo"
   end
 
   test "hashes can be empty by default" do

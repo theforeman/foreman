@@ -328,7 +328,8 @@ module Foreman #:nodoc:
     #         default: true,
     #         description: N_('Use Puppet that goes to 11'),
     #         full_name: N_('Use shiny puppet'),
-    #         encrypt: true)
+    #         encrypted: true,
+    #         validate: /^cool/)
     #       end
     #     end
     #   end
