@@ -44,6 +44,16 @@ class SettingRegistry
 
   def load
     # add() all setting definitions
+    load_definitions
+
+    # load all db values
+    load_values
+
+    # if create_missing create missing values in DB
+    # not needed now as old load mechanism takes care of that
+  end
+
+  def load_definitions
     Setting.descendants.each do |cat_cls|
       if cat_cls.default_settings.empty?
         # Setting category uses really old way of doing things
@@ -52,12 +62,6 @@ class SettingRegistry
         cat_cls.default_settings.each { |s| _add(s[:name], s.except(:name).merge(category: cat_cls.name)) }
       end
     end
-
-    # load all db values
-    load_values
-
-    # if create_missing create missing values in DB
-    # not needed now as old load mechanism takes care of that
   end
 
   def load_values

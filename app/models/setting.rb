@@ -49,7 +49,7 @@ class Setting < ApplicationRecord
   validates :value, :format => { :with => Resolv::AddressRegex }, :if => proc { |s| IP_ATTRS.include? s.name }
   validates :value, :regexp => true, :if => proc { |s| REGEXP_ATTRS.include? s.name }
   validates :value, :array_type => true, :if => proc { |s| s.settings_type == "array" }
-  validates_with ValueValidator, :if => proc { |s| s.respond_to?("validate_#{s.name}") }
+  validates_with ValueValidator, :if => proc { |s| Foreman.settings.ready? && s.respond_to?("validate_#{s.name}") }
   validates :value, :array_hostnames_ips => true, :if => proc { |s| ARRAY_HOSTNAMES.include? s.name }
   validates :value, :email => true, :if => proc { |s| EMAIL_ATTRS.include? s.name }
   before_validation :set_setting_type_from_value
