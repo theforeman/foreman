@@ -10,6 +10,7 @@ group :test do
   gem 'show_me_the_cookies', '~> 5.0', :require => false
   gem 'database_cleaner', '~> 1.3', :require => false
   gem 'launchy', '~> 2.4'
+  gem 'facterdb', '~> 1.7'
   gem 'factory_bot_rails', '~> 5.0', :require => false
   gem 'selenium-webdriver', :require => false
   gem 'shoulda-matchers', '>= 4.0', '< 4.4'
