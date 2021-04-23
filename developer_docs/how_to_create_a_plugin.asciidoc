@@ -1678,6 +1678,38 @@ The settings are strongly typed and you have to define it.
 The basic types supported by Foreman are: `:boolean`, `:integer`, `:float`, `:string`, `:text`, `:hash`, `:array`.
 The `:text` type supports markdown and usage of such setting should expect markdown syntax when using it.
 
+==== Validate setting values
+
+To validate setting value, you can use API, that tries to mimic the API of ActiveRecord.
+We can use most of the perks offered by ActiveRecord, only defining on setting name instead of attribute.
+We are adding just some shorthands like direct regexp validations.
+The attribute is always `value`, you can't validate anything else as it is the only user input.
+
+You have two ways to define the validations:
+* inline with setting definition by symbol matching ActiveRecord validator, RegExp on strings, or lambda function that gets value to validate as argument.
+* using `validates` of `validates_with` methods, that mimic [Rails validation methods](https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html), but are using setting names instead of attribute names, as the validated attribute is always value in this case.
+
+[source, ruby]
+....
+settings do
+  category(:cfgmgmt) do
+    # Following definitions are missing full names for simplification
+
+    setting(:blank_setting, type: :string,  default: '', description: 'Unnecessary setting')
+
+    setting(:cool_setting, type: :string, default: 'cool' description: 'Setting with only cool values', validate: /^cool.*/)
+
+    setting(:cooler_puppet, type: :integer, default: 5, description: 'Use Puppet that goes to 11', validate: ->(value) { value <= 11 })
+
+    validates(:cooler_puppet, numericality: { greater_than: 10 }, if: -> { Setting[:cool_setting] == 'coolest' }, allow_blank: true)
+
+    # the validator needs to be ActiveModel::Validator
+    validates_with :cool_setting, MyCoolnessValidator
+  end
+end
+....
+
+
 [[config-files]]
 ==== Config files
 
