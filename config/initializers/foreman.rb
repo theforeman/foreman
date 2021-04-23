@@ -26,8 +26,9 @@ if (Setting.table_exists? rescue(false))
     require_dependency(f)
   end
 
+  Foreman.settings.load_definitions
   Setting.descendants.each(&:load_defaults)
-  Foreman.settings.load
+  Foreman.settings.load_values
 end
 
 # load topbar
