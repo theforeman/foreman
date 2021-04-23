@@ -6,8 +6,6 @@ class CreateHostFacetsInfrastructureFacets < ActiveRecord::Migration[6.0]
 
       t.references :smart_proxy
       t.string :smart_proxy_uuid
-
-      t.timestamps
     end
   end
 end
