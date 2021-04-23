@@ -15,7 +15,7 @@ class AuditExtensionsTest < ActiveSupport::TestCase
   end
 
   test "audit's change is filtered when data is encrypted" do
-    setting = settings(:attributes63)
+    setting = settings(:encrypted)
     setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
     setting.value = '654321'
     as_admin do
