@@ -446,7 +446,362 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     end
   end
 
+  # These tests use the FacterDB gem
+  # They are structured primairly based on OS rather than Facter version
+  # because FacterDB doesn't contain facts for every combination
+  describe 'Using FacterDB' do
+    subject { get_parser(get_facterdb_facts(facterversion, os_name, os_major)) }
+    after(:suite) { FacterDB.cleanup }
+
+    describe 'CentOS 7' do
+      let(:os_name) { 'CentOS' }
+      let(:os_major) { '7' }
+
+      ['1.7', '2.1', '2.2', '3.0', '3.14'].each do |facterversion|
+        describe "Facter #{facterversion}" do
+          let(:facterversion) { facterversion }
+
+          test "#sockets" do
+            # Facter 2.[0-3] reports the legacy fact as a string but the
+            # structured fact as an integer
+            expected = facterversion == '2.1' ? String : Integer
+            assert_kind_of expected, subject.sockets
+          end
+
+          test "#cores" do
+            expected = facterversion.to_f >= 2.2 ? Integer : String
+            assert_kind_of expected, subject.cores
+          end
+
+          test "#ram" do
+            expected = facterversion.to_f >= 3 ? Integer : String
+            assert_kind_of expected, subject.ram
+          end
+
+          test "#disks_total" do
+            if facterversion.to_i >= 3
+              assert_kind_of Integer, subject.disks_total
+            else
+              assert_nil subject.disks_total
+            end
+          end
+
+          test "#os_name" do
+            assert_equal 'CentOS', subject.send(:os_name)
+          end
+
+          test "#os_release" do
+            assert_match(/^7\.\d+\.\d+$/, subject.send(:os_release))
+          end
+
+          test "#architecture" do
+            refute_nil subject.architecture
+            assert_not_equal 'amd64', subject.architecture.name
+            assert_includes ['i386', 'x86_64'], subject.architecture.name
+          end
+
+          test "#distro_id" do
+            # lsb-release wasn't installed on the fact sets
+            assert_nil subject.send(:distro_id)
+          end
+
+          test "#distro_codename" do
+            # lsb-release wasn't installed on the fact sets
+            assert_nil subject.send(:distro_codename)
+          end
+
+          test "#distro_description" do
+            # lsb-release wasn't installed on the fact sets
+            assert_nil subject.send(:distro_description)
+          end
+
+          test "#dmi_product_name" do
+            assert_kind_of String, subject.send(:dmi_product_name)
+          end
+
+          test "#dmi_board_product" do
+            assert_kind_of String, subject.send(:dmi_board_product)
+          end
+
+          test "#architecture_fact" do
+            assert_includes ['i386', 'x86_64'], subject.send(:architecture_fact)
+          end
+
+          test "#hardware_isa" do
+            assert_includes ['i386', 'x86_64'], subject.send(:hardware_isa)
+          end
+        end
+      end
+    end
+
+    describe 'Debian 9' do
+      let(:os_name) { 'Debian' }
+      let(:os_major) { '9' }
+
+      ['1.7', '2.1', '2.2', '3.14'].each do |facterversion|
+        describe "Facter #{facterversion}" do
+          let(:facterversion) { facterversion }
+
+          test "#os_name" do
+            assert_equal 'Debian', subject.send(:os_name)
+          end
+
+          test "#os_release" do
+            assert_match(/^9\.\d+$/, subject.send(:os_release))
+          end
+
+          test "#architecture" do
+            refute_nil subject.architecture
+            assert_not_equal 'amd64', subject.architecture.name
+            assert_includes ['i386', 'x86_64'], subject.architecture.name
+          end
+
+          test "#distro_id" do
+            assert_equal 'Debian', subject.send(:distro_id)
+          end
+
+          test "#distro_codename" do
+            assert_equal 'stretch', subject.send(:distro_codename)
+          end
+
+          test "#distro_description" do
+            assert_match(/Debian GNU\/Linux 9\.\d+ \(stretch\)/, subject.send(:distro_description))
+          end
+
+          test "#dmi_product_name" do
+            assert_kind_of String, subject.send(:dmi_product_name)
+          end
+
+          test "#dmi_board_product" do
+            assert_kind_of String, subject.send(:dmi_board_product)
+          end
+
+          test "#architecture_fact" do
+            assert_includes ['i386', 'amd64'], subject.send(:architecture_fact)
+          end
+
+          test "#hardware_isa" do
+            assert_includes ['unknown', 'i386', 'x86_64'], subject.send(:hardware_isa)
+          end
+        end
+      end
+    end
+
+    describe 'FreeBSD 11' do
+      let(:os_name) { 'FreeBSD' }
+      let(:os_major) { '11' }
+
+      ['2.2', '3.14'].each do |facterversion|
+        describe "Facter #{facterversion}" do
+          let(:facterversion) { facterversion }
+
+          test "#sockets" do
+            # TODO: why is this broken?
+            assert_nil subject.sockets
+          end
+
+          test "#cores" do
+            assert_kind_of Integer, subject.cores
+          end
+
+          test "#ram" do
+            expected = facterversion.to_f >= 3 ? Integer : String
+            assert_kind_of expected, subject.ram
+          end
+
+          test "#disks_total" do
+            if facterversion.to_i >= 3
+              assert_kind_of Integer, subject.disks_total
+            else
+              assert_nil subject.disks_total
+            end
+          end
+
+          test "#os_name" do
+            assert_equal 'FreeBSD', subject.send(:os_name)
+          end
+
+          test "#os_release" do
+            assert_match(/^11\.\d+$/, subject.send(:os_release))
+          end
+
+          test "#architecture" do
+            refute_nil subject.architecture
+            assert_not_equal 'amd64', subject.architecture.name
+            assert_includes ['i386', 'x86_64'], subject.architecture.name
+          end
+
+          test "#distro_id" do
+            # Based on LSB (Linux Standard Base) but BSD isn't Linux
+            assert_nil subject.send(:distro_id)
+          end
+
+          test "#distro_codename" do
+            # Based on LSB (Linux Standard Base) but BSD isn't Linux
+            assert_nil subject.send(:distro_codename)
+          end
+
+          test "#distro_description" do
+            # Based on LSB (Linux Standard Base) but BSD isn't Linux
+            assert_nil subject.send(:distro_description)
+          end
+
+          test "#dmi_product_name" do
+            if facterversion.to_i >= 3
+              assert_kind_of String, subject.send(:dmi_product_name)
+            else
+              assert_nil subject.send(:dmi_product_name)
+            end
+          end
+
+          test "#dmi_board_product" do
+            # TODO: this could be a String but our examples don't have this
+            assert_nil subject.send(:dmi_board_product)
+          end
+
+          test "#architecture_fact" do
+            assert_includes ['i386', 'amd64'], subject.send(:architecture_fact)
+          end
+
+          test "#hardware_isa" do
+            assert_includes ['i386', 'amd64'], subject.send(:hardware_isa)
+          end
+        end
+      end
+    end
+
+    describe 'Solaris 11' do
+      let(:os_name) { 'Solaris' }
+      let(:os_major) { '11' }
+
+      ['2.1', '2.2', '3.14'].each do |facterversion|
+        describe "Facter #{facterversion}" do
+          let(:facterversion) { facterversion }
+
+          test "#os_name" do
+            assert_equal 'Solaris', subject.send(:os_name)
+          end
+
+          test "#os_release" do
+            assert_match(/^11\.\d+$/, subject.send(:os_release))
+          end
+
+          test "#architecture" do
+            refute_nil subject.architecture
+            assert_not_equal 'amd64', subject.architecture.name
+            assert_includes ['sparc', 'i386', 'x86_64'], subject.architecture.name
+          end
+
+          test "#distro_id" do
+            # Based on LSB (Linux Standard Base) but Solaris isn't Linux
+            assert_nil subject.send(:distro_id)
+          end
+
+          test "#distro_codename" do
+            # Based on LSB (Linux Standard Base) but Solaris isn't Linux
+            assert_nil subject.send(:distro_codename)
+          end
+
+          test "#distro_description" do
+            # Based on LSB (Linux Standard Base) but Solaris isn't Linux
+            assert_nil subject.send(:distro_description)
+          end
+
+          test "#dmi_product_name" do
+            assert_kind_of String, subject.send(:dmi_product_name)
+          end
+
+          test "#dmi_board_product" do
+            if facterversion.to_f == '3.0'
+              assert_kind_of String, subject.send(:dmi_board_product)
+            else
+              assert_nil subject.send(:dmi_board_product)
+            end
+          end
+
+          test "#architecture_fact" do
+            assert_includes ['sun4v', 'i86pc'], subject.send(:architecture_fact)
+          end
+
+          test "#hardware_isa" do
+            assert_includes ['sparc', 'i386'], subject.send(:hardware_isa)
+          end
+        end
+      end
+    end
+
+    describe 'Windows 2012' do
+      let(:os_name) { 'windows' }
+      let(:os_major) { '2012' }
+
+      ['2.2', '3.0', '3.14'].each do |facterversion|
+        describe "Facter #{facterversion}" do
+          let(:facterversion) { facterversion }
+
+          test "#os_name" do
+            assert_equal 'windows', subject.send(:os_name)
+          end
+
+          test "#os_release" do
+            assert_match(/^6\.2\.\d+$/, subject.send(:os_release))
+          end
+
+          test "#architecture" do
+            refute_nil subject.architecture
+            assert_not_equal 'amd64', subject.architecture.name
+            assert_includes ['i386', 'x64'], subject.architecture.name
+          end
+
+          test "#distro_id" do
+            # Based on LSB (Linux Standard Base) but Windows isn't Linux
+            assert_nil subject.send(:distro_id)
+          end
+
+          test "#distro_codename" do
+            # Based on LSB (Linux Standard Base) but Windows isn't Linux
+            assert_nil subject.send(:distro_codename)
+          end
+
+          test "#distro_description" do
+            # Based on LSB (Linux Standard Base) but Windows isn't Linux
+            assert_nil subject.send(:distro_description)
+          end
+
+          test "#dmi_product_name" do
+            if facterversion.to_f >= 2.2
+              assert_kind_of String, subject.send(:dmi_product_name)
+            else
+              assert_nil subject.send(:dmi_product_name)
+            end
+          end
+
+          test "#dmi_board_product" do
+            # No such thing on Windows
+            assert_nil subject.send(:dmi_board_product)
+          end
+
+          test "#architecture_fact" do
+            assert_equal 'x64', subject.send(:architecture_fact)
+          end
+
+          test "#hardware_isa" do
+            assert_equal 'x64', subject.send(:architecture_fact)
+          end
+        end
+      end
+    end
+  end
+
   private
+
+  def get_facterdb_facts(facterversion, os_name, os_major)
+    require 'facterdb'
+    # This uses the legacy facts since it's always present
+    filter = "facterversion=/^#{Regexp.escape(facterversion)}\./ and operatingsystem=#{os_name} and operatingsystemmajrelease=#{os_major}"
+    result = FacterDB.get_facts(filter)
+    raise "No facts found for #{os_name} #{os_major} on Facter #{facterversion}" if result.empty?
+    result.first.dup
+  end
 
   def get_parser(facts)
     PuppetFactParser.new(facts)
