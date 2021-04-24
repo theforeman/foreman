@@ -104,6 +104,10 @@ class Setting < ApplicationRecord
     return "boolean" if value_for_type.is_a?(TrueClass) || value_for_type.is_a?(FalseClass)
   end
 
+  def to_param
+    name
+  end
+
   def value=(v)
     v = v.to_yaml unless v.nil?
     # the has_attribute is for enabling DB migrations on older versions
