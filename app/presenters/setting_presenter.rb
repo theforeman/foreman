@@ -4,7 +4,6 @@ class SettingPresenter
 
   include HiddenValue
 
-  attribute :id, :integer
   attribute :category, :string, default: 'Setting::General'
   attribute :context
   attribute :name, :string

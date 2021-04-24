@@ -6,11 +6,24 @@ class SettingRegistry
     new(subset)
   end
 
-  def search_for(query)
+  # -----=== Mimic ActiveRecord scope ===------
+  def search_for(query, _options = {})
     return self if query.blank?
     subset = @settings.select { |name, definition| definition.matches_search_query?(query) }
     self.class.subset_registry(subset)
   end
+
+  def paginate(page: nil, per_page: nil)
+    page ||= 1
+    per_page ||= Setting[:entries_per_page]
+    subset_keys = @settings.keys[((page - 1) * per_page)..(page * per_page - 1)]
+    self.class.subset_registry(@settings.slice(*subset_keys))
+  end
+
+  def empty?
+    @settings.empty?
+  end
+  # -----=== END ===------
 
   def each(&block)
     @settings.values.each(&block)
@@ -52,9 +65,26 @@ class SettingRegistry
     definition = find(name)
     raise ::Foreman::Exception.new(N_("Setting definition for '%s' not found, can not set"), name) unless definition
     db_record = _find_or_new_db_record(name)
-    db_record.value = value
-    db_record.save!
-    definition.value = db_record.value
+    db_record.update!(value: value)
+  end
+
+  def set_user_value(name, value)
+    definition = find(name)
+    raise ActiveRecord::RecordNotFound.new(_("Setting definition for '%s' not found, can not set") % name, Setting, name) unless definition
+    db_record = _find_or_new_db_record(name)
+    db_record.send(:set_setting_type_from_value)
+
+    type = value.class.to_s.downcase
+    type = 'boolean' if type == "trueclass" || type == "falseclass"
+    case type
+    when 'string'
+      db_record.parse_string_value(value)
+    when db_record.settings_type
+      db_record.value = value
+    else
+      raise ::Foreman::Exception.new(N_('expected a value of type %s'), @setting.settings_type)
+    end
+    db_record
   end
 
   # Returns all the categories used for settings
@@ -102,8 +132,7 @@ class SettingRegistry
   end
 
   def load_values
-    # we are loading only known STIs as we load settings fairly early the first time and plugin classes might not be loaded yet.
-    Setting.unscoped.where(category: Setting.descendants.map(&:name)).all.each do |s|
+    Setting.unscoped.all.each do |s|
       unless (definition = find(s.name))
         logger.debug("Setting #{s.name} has no definition, clean up your database")
         next
