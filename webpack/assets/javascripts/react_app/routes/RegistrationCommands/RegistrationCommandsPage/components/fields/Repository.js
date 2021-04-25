@@ -40,7 +40,7 @@ const Repository = ({
       labelIcon={
         <LabelIcon
           text={__(
-            'If packages are GPG signed, the public key can be specified here to verify the packages signatures. It needs to be specified in the ascii form with the pgp public key header.'
+            'If packages are GPG signed, the public key can be specified here to verify the packages signatures. It needs to be specified in the ascii form with the GPG public key header.'
           )}
         />
       }
