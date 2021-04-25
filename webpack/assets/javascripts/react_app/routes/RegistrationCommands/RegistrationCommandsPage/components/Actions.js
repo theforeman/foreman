@@ -8,7 +8,7 @@ import {
   FormHelperText,
   FormGroup,
 } from '@patternfly/react-core';
-import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
+import { ExclamationCircleIcon } from '@patternfly/react-icons';
 
 import { sprintf, translate as __ } from '../../../../common/I18n';
 import { foremanUrl } from '../../../../../foreman_tools';
