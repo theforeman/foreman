@@ -12,8 +12,8 @@
         <td class="ellipsis"><%= link_to host.name, host_path(host) %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= safe_join([icon(host.operatingsystem, :size => '16x16'), host.operatingsystem.to_label]) if host.operatingsystem.present? %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= host.owner %></td>
-        <td class="hidden-tablet hidden-xs ellipsis"><%= _('%s ago') % time_ago_in_words(host.created_at) %></td>
-        <td class="hidden-tablet hidden-xs ellipsis"><%= host.installed_at.present? ? _('%s ago') % time_ago_in_words(host.installed_at) : '-' %></td>
+        <td class="hidden-tablet hidden-xs ellipsis"><%= date_time_relative(host.created_at) %></td>
+        <td class="hidden-tablet hidden-xs ellipsis"><%= date_time_relative(host.installed_at) %></td>
       </tr>
   <% end %>
   </tbody>

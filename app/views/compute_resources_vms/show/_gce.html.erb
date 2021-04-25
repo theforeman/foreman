@@ -10,7 +10,7 @@
       <%= prop :zone_name, "Zone" %>
       <tr>
         <td>Created</td>
-        <td><%= date_time_relative_value(@vm.creation_timestamp) %></td>
+        <td><%= date_time_relative(@vm.creation_timestamp) %></td>
       </tr>
       <%= prop :private_ip_address %>
       <%= prop :public_ip_address %>

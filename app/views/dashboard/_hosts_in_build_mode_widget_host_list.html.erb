@@ -11,7 +11,7 @@
         <td class="ellipsis"><%= host_build_status_icon(host) %> <%= link_to host.name, host_path(host) %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= host.owner %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= build_duration(host) %></td>
-        <td class="hidden-tablet hidden-xs ellipsis"><%= host.token ? date_time_relative_value(host.token.expires) : _('N/A') %></td>
+        <td class="hidden-tablet hidden-xs ellipsis"><%= date_time_relative(host.token&.expires)%></td>
       </tr>
     <% end %>
   </tbody>
