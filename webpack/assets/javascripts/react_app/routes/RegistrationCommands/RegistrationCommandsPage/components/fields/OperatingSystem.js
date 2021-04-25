@@ -51,7 +51,7 @@ const OperatingSystem = ({
       handleOperatingSystem('');
       dispatch(operatingSystemTemplateAction(hostGroupOsId));
     }
-  }, [dispatch, hostGroupId]);
+  }, [dispatch, handleOperatingSystem, hostGroupId, hostGroups]);
 
   // Validate field
   useEffect(() => {
@@ -62,7 +62,7 @@ const OperatingSystem = ({
     if (Object.entries(operatingSystemTemplate).length !== 0) {
       handleInvalidField('Operating system', !!operatingSystemTemplate?.name);
     }
-  }, [operatingSystemId, operatingSystemTemplate]);
+  }, [handleInvalidField, operatingSystemId, operatingSystemTemplate]);
 
   return (
     <FormGroup
