@@ -33,7 +33,7 @@ module ComputeResourcesVmsHelper
         when Array
           value.map { |v| v.try(:name) || v.try(:to_s) || v }.to_sentence
         when Fog::Time, Time
-          _("%s ago") % time_ago_in_words(value)
+          date_time_relative_value(value)
         when nil
           _("N/A")
         else

@@ -23,7 +23,7 @@
         <td class="ellipsis"><%= user.lastname %></td>
         <td class="ellipsis"><%= user.mail %></td>
         <td><%= checked_icon user.admin? %></td>
-        <td class="ellipsis"><%= last_login_on_column(user)%></td>
+        <td class="ellipsis"><%= date_time_relative(user.last_login_on)%></td>
         <td class="ellipsis"><%= auth_source_column(user) %></td>
         <td><%= user_action_buttons(user) %></td>
       </tr>

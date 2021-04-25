@@ -183,8 +183,7 @@ module HostsHelper
   end
 
   def date(ts = nil)
-    return _("%s ago") % (time_ago_in_words ts) if ts
-    _("N/A")
+    ts ? date_time_relative_value(ts) : _("N/A")
   end
 
   def template_path(opts = {})
