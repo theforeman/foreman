@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-20 11:23+0000\n"
+"PO-Revision-Date: 2021-04-07 11:21+0000\n"
 "Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
@@ -99,11 +99,6 @@ msgstr ""
 msgid "%s has been disassociated from VM"
 msgstr "%s 和 VM 之間的關聯性已解除"
 
-msgid "%s host"
-msgid_plural "%s hosts"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "%s is an unknown attribute"
 msgstr "%s 乃不明的屬性"
 
@@ -143,6 +138,9 @@ msgid "%s widget loading..."
 msgstr ""
 
 msgid "%s you had selected as your context has been deleted"
+msgstr ""
+
+msgid "%s, check the 'SSL CA file' in Settings > Authentication"
 msgstr ""
 
 msgid "%{action} %{vm}"
@@ -1683,6 +1681,9 @@ msgstr ""
 msgid "Config Groups"
 msgstr ""
 
+msgid "Config Groups are being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
+msgstr ""
+
 msgid "Config Management"
 msgstr ""
 
@@ -1758,6 +1759,9 @@ msgid "Console passwords"
 msgstr "主控台密碼"
 
 msgid "Consult \"Provisioning Templates\" page to see what templates are available."
+msgstr ""
+
+msgid "Contains the instructions in form of a bash script for the initial host configuration, after the host is registered in Foreman"
 msgstr ""
 
 msgid "Content"
@@ -1901,9 +1905,6 @@ msgstr ""
 msgid "Create LDAP Authentication Source"
 msgstr ""
 
-msgid "Create Location"
-msgstr ""
-
 msgid "Create Medium"
 msgstr ""
 
@@ -1912,9 +1913,6 @@ msgstr ""
 
 msgid "Create Operating System"
 msgstr ""
-
-msgid "Create Organization"
-msgstr "建立組織"
 
 msgid "Create Parameter"
 msgstr ""
@@ -2144,11 +2142,20 @@ msgstr "自訂的 LDAP 搜尋篩選器，<i>選用性</i>"
 msgid "Custom instance type"
 msgstr ""
 
-msgid "DB pending migration"
-msgstr "DB 尚未處理的遷移"
-
 msgid "DB pending seed"
 msgstr "DB 尚未處理的種子"
+
+msgid "DEPRECATED: Add a template combination"
+msgstr ""
+
+msgid "DEPRECATED: List template combination"
+msgstr ""
+
+msgid "DEPRECATED: Show template combination"
+msgstr ""
+
+msgid "DEPRECATED: Update template combination"
+msgstr ""
 
 msgid "DEPRECATED: this will be always application install time and dropped in the future release."
 msgstr ""
@@ -2236,6 +2243,12 @@ msgstr "日期"
 
 msgid "Default"
 msgstr "預設值"
+
+msgid "Default 'Host intial configuration' template"
+msgstr ""
+
+msgid "Default 'Host intial configuration' template, automatically assigned when new operating system is created"
+msgstr ""
 
 msgid "Default Behavior"
 msgstr ""
@@ -2803,6 +2816,9 @@ msgstr "啟用所選主機的警示"
 msgid "Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"
 msgstr "若這是個別名或是 VLAN 介面卡的話，將它啟用。請注意別名僅可以用在靜態啟動模式的子網路中"
 
+msgid "Enable insecure argument for the initial curl"
+msgstr ""
+
 msgid "Enable rebuild on next host boot"
 msgstr "在下次主機啟動時啟用重建"
 
@@ -2967,8 +2983,8 @@ msgstr "退出全螢幕"
 msgid "Expand nested items"
 msgstr "展開巢狀的項目"
 
-msgid "Expand the chart"
-msgstr "展開圖表"
+msgid "Expiration of the authorization token (in hours)"
+msgstr ""
 
 msgid "Expiration of the authorization token."
 msgstr ""
@@ -3055,9 +3071,6 @@ msgstr "FQDN"
 
 msgid "Fact Values"
 msgstr "詳情值"
-
-msgid "Fact distribution chart"
-msgstr "詳情散佈圖表"
 
 msgid "Fact distribution chart - %s "
 msgstr ""
@@ -3365,7 +3378,7 @@ msgstr "分類搜尋"
 msgid "Filter|Unlimited"
 msgstr "無限制"
 
-msgid "Find or create a host and render the Host registration template"
+msgid "Find or create a host and render the 'Host initial configuration' template"
 msgstr ""
 
 msgid "Fingerprint"
@@ -3423,6 +3436,9 @@ msgid "For example, this can be useful to configure all the Host NICs."
 msgstr ""
 
 msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
+msgstr ""
+
+msgid "For initial configuration of the host run this command:"
 msgstr ""
 
 msgid "For more info visit our documentation."
@@ -3575,6 +3591,9 @@ msgstr "Foreman 將會使用隨機的 UUID 來進行憑證簽署，而非透過�
 msgid "Foreman will use the short hostname instead of the FQDN for creating new virtual machines"
 msgstr "Foreman 將會使用簡短的主機名稱而非 FQDN 來建立新的虛擬機器"
 
+msgid "Form was successfully created."
+msgstr ""
+
 msgid "Forums"
 msgstr ""
 
@@ -3624,6 +3643,9 @@ msgid "Generate at"
 msgstr ""
 
 msgid "Generate command"
+msgstr ""
+
+msgid "Generate global registration command"
 msgstr ""
 
 msgid "Generate new random name. Visit Settings to disable this feature."
@@ -3909,6 +3931,9 @@ msgstr "僅有主機群組"
 msgid "Host groups"
 msgstr "主機群組"
 
+msgid "Host initial configuration template"
+msgstr ""
+
 msgid "Host is not associated with an operating system"
 msgstr ""
 
@@ -3923,6 +3948,9 @@ msgstr "主機回報時間為 <em>%s</em>"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host status/status"
+msgstr ""
+
+msgid "Host template"
 msgstr ""
 
 msgid "Host times seem to be adrift!"
@@ -4044,6 +4072,9 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
 msgstr "主機群組"
+
+msgid "Hostgroup not found or not accessible"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Ancestry"
@@ -4259,6 +4290,9 @@ msgstr "區域的 ID"
 msgid "ID of environment"
 msgstr "環境的 ID"
 
+msgid "ID of environment - DEPRECATED will have no effect"
+msgstr ""
+
 msgid "ID of host"
 msgstr "主機的 ID"
 
@@ -4301,16 +4335,31 @@ msgstr "子網路 ID"
 msgid "ID of template"
 msgstr "範本 ID"
 
+msgid "ID of the Host group to register the host in"
+msgstr ""
+
 msgid "ID of the Host group to register the host in."
+msgstr ""
+
+msgid "ID of the Location to register the host in"
 msgstr ""
 
 msgid "ID of the Location to register the host in."
 msgstr ""
 
+msgid "ID of the Operating System to register the host in"
+msgstr ""
+
 msgid "ID of the Operating System to register the host in."
 msgstr ""
 
+msgid "ID of the Organization to register the host in"
+msgstr ""
+
 msgid "ID of the Organization to register the host in."
+msgstr ""
+
+msgid "ID of the Smart Proxy"
 msgstr ""
 
 msgid "ID of the user"
@@ -4452,19 +4501,16 @@ msgstr "閒置逾時值"
 msgid "If ERB is used in a parameter value, the validation of the value will happen during the ENC request. If the value is invalid, the ENC request will fail."
 msgstr "如果 ERB 用在參數值中，對這個值的驗證會發生在 ENC 要求時。如果這個值錯誤，ENC 要求就會失敗。"
 
-msgid "If Foreman is running behind Passenger or a remote load balancer, the IP should be set here. This is a regular expression, so it can support several load balancers, i.e: (10.0.0.1|127.0.0.1)"
-msgstr "若 Foreman 在 Passenger 或是一個遠端負載平衡器後執行，您應在此設置 IP。這是個正規表示式，因此它能支援數種負載平衡器，例如：(10.0.0.1|127.0.0.1)"
-
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
 msgstr "若選取而沒有預設值並且比對器未提供值的話，將會造成錯誤發生。"
 
 msgid "If owner type is specified, owner must be specified too."
 msgstr ""
 
-msgid "If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it."
+msgid "If set to \"Yes\", Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it. The inherited value is based on the `host_registration_insights` parameter. It can be inherited e.g. from host group, operating system, organization. When overidden, the selected value will be stored on host parameter level."
 msgstr ""
 
-msgid "If selected, SSH keys will be installed on the registered host."
+msgid "If set to \"Yes\", SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization.. When overidden, the selected value will be stored on host parameter level."
 msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
@@ -4689,6 +4735,9 @@ msgstr ""
 
 msgid "Infrastructure"
 msgstr "設備"
+
+msgid "Inherit from parameter"
+msgstr ""
 
 msgid "Inherit parent (%s)"
 msgstr "繼承 parent（%s）"
@@ -5266,6 +5315,9 @@ msgstr "列出運算資源的可用安全群組"
 msgid "List available virtual machines for a compute resource"
 msgstr ""
 
+msgid "List available vnic profiles for a compute resource, for oVirt only"
+msgstr ""
+
 msgid "List available zone for a compute resource"
 msgstr "列出運算資源的可用區域"
 
@@ -5511,12 +5563,6 @@ msgstr "位置/組織"
 
 msgid "Locations"
 msgstr "位置"
-
-msgid "Locations also work nicely when used in tandem with %{organizations}."
-msgstr "位置也可以運作無誤，當與 %{organizations} 串聯運作時。"
-
-msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed. For example, there might be a data center in London and one in Virginia; these are locations."
-msgstr ""
 
 msgid "Lock"
 msgstr "鎖定"
@@ -6136,6 +6182,9 @@ msgstr ""
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr ""
 
+msgid "No (enforce)"
+msgstr ""
+
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
@@ -6386,9 +6435,6 @@ msgid "Note that words starting with <code>@</code> are instance variables. When
 msgstr ""
 
 msgid "Note the extra space before IP, the <code>-&#37;></code> removes the new line character only if there is no other text after it. Therefore the white space needs to be at the new line."
-msgstr ""
-
-msgid "Note: the command contains an authentication token which grants access to your Foreman account until it expires."
 msgstr ""
 
 msgid "Nothing to add"
@@ -6752,9 +6798,6 @@ msgstr "組織參數"
 
 msgid "Organizations"
 msgstr "組織"
-
-msgid "Organizations also work nicely in tandem with %{locations}."
-msgstr "組織也能與此串聯運作 %{locations}。"
 
 msgid "Origin"
 msgstr ""
@@ -7352,11 +7395,20 @@ msgstr ""
 msgid "Puppet Classes"
 msgstr "Puppet 類別"
 
+msgid "Puppet Classes management is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
+msgstr ""
+
+msgid "Puppet ENC is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
+msgstr ""
+
 msgid "Puppet Environment"
 msgstr "Puppet 環境"
 
 msgid "Puppet Environments"
 msgstr "Puppet 環境"
+
+msgid "Puppet Environments management is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
+msgstr ""
 
 msgid "Puppet Modules"
 msgstr "Puppet 模組"
@@ -7507,6 +7559,9 @@ msgstr ""
 msgid "Refresh external user group"
 msgstr "刷新外部使用者群組"
 
+msgid "Refresh features"
+msgstr "更新功能"
+
 msgid "Refresh smart proxy features"
 msgstr "更新智慧型代理伺服器的功能"
 
@@ -7540,9 +7595,6 @@ msgstr[1] ""
 
 msgid "Remote Execution"
 msgstr "遠端執行"
-
-msgid "Remote address"
-msgstr "遠端位址"
 
 msgid "Remote execution job templates"
 msgstr ""
@@ -7907,9 +7959,6 @@ msgstr ""
 msgid "SSL CA file"
 msgstr "SSL CA 檔案"
 
-msgid "SSL CA file not found, check the 'SSL CA file' in Settings > Authentication"
-msgstr ""
-
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr "Foreman 將會使用來與其協定進行通訊的 SSL CA 檔案"
 
@@ -8161,7 +8210,13 @@ msgstr "服務不存在"
 msgid "Services"
 msgstr "服務"
 
+msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems"
+msgstr ""
+
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
+msgstr ""
+
+msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host"
 msgstr ""
 
 msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
@@ -8250,9 +8305,6 @@ msgstr "值"
 
 msgid "Setup Insights"
 msgstr ""
-
-msgid "Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"
-msgstr "`foreman-rake db:migrate` 是否應該在安裝程式模組下次運作時執行？"
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "`foreman-rake db:seed` 是否應該在安裝程式模組下次運作時執行？"
@@ -8525,6 +8577,9 @@ msgid "Smart Class Parameter"
 msgstr "智慧類別參數"
 
 msgid "Smart Class Parameters"
+msgstr ""
+
+msgid "Smart Class Parameters management is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
 msgstr ""
 
 msgid "Smart Proxies"
@@ -9314,6 +9369,9 @@ msgstr "完整的 DNS 區域名稱"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
+msgid "The hostname of the LDAP server"
+msgstr ""
+
 msgid "The human readable name of settings category"
 msgstr ""
 
@@ -9478,10 +9536,7 @@ msgstr "此群組中包含巢式群組！"
 msgid "This group has no roles"
 msgstr ""
 
-msgid "This host can be registered to Foreman by executing this command:"
-msgstr ""
-
-msgid "This host can not be enrolled with Foreman as no registration template was set."
+msgid "This host can not be configured as no registration template was set."
 msgstr ""
 
 msgid "This host's stored facts and reports will be deleted too."
@@ -9859,6 +9914,9 @@ msgstr "無法截取 TFTP 開機檔案"
 msgid "Unable to fetch logs"
 msgstr "無法取得日誌"
 
+msgid "Unable to find 'Host initial configuration' template for host %{host} running %{os}, associate the 'Host initial configuration' template for this OS first"
+msgstr ""
+
 msgid "Unable to find IP address for '%s'"
 msgstr "找不到「%s」的 IP 位址"
 
@@ -9869,9 +9927,6 @@ msgid "Unable to find proper authentication method"
 msgstr "找不到正確的認證方式"
 
 msgid "Unable to find registration template for host %{host} running %{os}"
-msgstr ""
-
-msgid "Unable to find registration template for host %{host} running %{os}, associate the registration template for this OS first"
 msgstr ""
 
 msgid "Unable to find template %s"
@@ -9998,6 +10053,9 @@ msgid "Unattended URL"
 msgstr "無人看顧的 URL"
 
 msgid "Unauthorized. You do not have the required permission %s."
+msgstr ""
+
+msgid "Undefined setting '%{setting}'"
 msgstr ""
 
 msgid "Undo selection"
@@ -10503,9 +10561,6 @@ msgstr ""
 msgid "Uses thin provisioning if unchecked"
 msgstr "若未選取的話使用精簡佈建"
 
-msgid "Using the organization system provides a way to group resources together for easy management. Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install."
-msgstr ""
-
 msgid "VCPU(s)"
 msgstr "VCPU"
 
@@ -10648,6 +10703,9 @@ msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr "虛擬機器設定不能在 %s 裡的現有機器中被編輯"
 
 msgid "Virtual machine was not found by id %{vm_id}"
+msgstr ""
+
+msgid "Vnic Profile"
 msgstr ""
 
 msgid "WARNING"
@@ -10849,6 +10907,9 @@ msgstr "YAML"
 msgid "Yes"
 msgstr "是"
 
+msgid "Yes (enforce)"
+msgstr ""
+
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "您即將在所有已配置的 TFTP 伺服器上更改預設的 PXE 選單 - 是否繼續？"
 
@@ -10939,12 +11000,6 @@ msgstr ""
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "您亦可為此媒介建立與一或更多個作業系統之間的相聯性，或之後在 %s 網頁上設定它。"
 
-msgid "You must create a location before continuing."
-msgstr "在繼續進行前，您必須建立一個位置。"
-
-msgid "You must create an organization before continuing."
-msgstr "在繼續進行前，您必須建立一個組織。"
-
 msgid "You must create at least one location before continuing."
 msgstr "在繼續進行前，您必須建立至少一個位置。"
 
@@ -11002,6 +11057,9 @@ msgstr "新增網路介面卡"
 msgid "add new storage volume"
 msgstr "新增儲存卷冊"
 
+msgid "admin flag can only be modified by admins"
+msgstr ""
+
 msgid "all"
 msgstr "全部"
 
@@ -11034,6 +11092,9 @@ msgstr "僅能為 merge_overrides 設定為 true 的陣列設置"
 
 msgid "can only be set when merge overrides is set"
 msgstr "只有在合併覆寫設定時，才能設定"
+
+msgid "can't assign operating system to Registration template"
+msgstr ""
 
 msgid "can't be bigger than to range"
 msgstr "不可大於指定的範圍"
@@ -11377,7 +11438,7 @@ msgstr "早已被某個使用者帳號使用"
 msgid "is an admin account"
 msgstr "是組管理員帳號"
 
-msgid "is an admin user group"
+msgid "is an admin user group, can be modified by admins only"
 msgstr ""
 
 msgid "is an unsupported provisioning method, available: %s"
@@ -11533,6 +11594,9 @@ msgstr "必須提供供應者"
 
 msgid "must set host and port"
 msgstr "必須設置主機和連接埠"
+
+msgid "name already exists"
+msgstr ""
 
 msgid "name of the table"
 msgstr ""

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-01-20 11:23+0000\n"
+"PO-Revision-Date: 2021-04-07 11:21+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -98,11 +98,6 @@ msgstr ""
 msgid "%s has been disassociated from VM"
 msgstr ""
 
-msgid "%s host"
-msgid_plural "%s hosts"
-msgstr[0] "%s amfitrió"
-msgstr[1] "%s amfitrions"
-
 msgid "%s is an unknown attribute"
 msgstr ""
 
@@ -142,6 +137,9 @@ msgid "%s widget loading..."
 msgstr ""
 
 msgid "%s you had selected as your context has been deleted"
+msgstr ""
+
+msgid "%s, check the 'SSL CA file' in Settings > Authentication"
 msgstr ""
 
 msgid "%{action} %{vm}"
@@ -1678,6 +1676,9 @@ msgstr ""
 msgid "Config Groups"
 msgstr "Grups de configuracions"
 
+msgid "Config Groups are being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
+msgstr ""
+
 msgid "Config Management"
 msgstr "Gestió de la configuració"
 
@@ -1753,6 +1754,9 @@ msgid "Console passwords"
 msgstr "Contrasenyes de consola"
 
 msgid "Consult \"Provisioning Templates\" page to see what templates are available."
+msgstr ""
+
+msgid "Contains the instructions in form of a bash script for the initial host configuration, after the host is registered in Foreman"
 msgstr ""
 
 msgid "Content"
@@ -1896,9 +1900,6 @@ msgstr "Crea un origen d'autenticació LDAP"
 msgid "Create LDAP Authentication Source"
 msgstr ""
 
-msgid "Create Location"
-msgstr ""
-
 msgid "Create Medium"
 msgstr "Crea un mitjà"
 
@@ -1907,9 +1908,6 @@ msgstr "Crea un model"
 
 msgid "Create Operating System"
 msgstr "Crea un sistema operatiu"
-
-msgid "Create Organization"
-msgstr "Crea una organització"
 
 msgid "Create Parameter"
 msgstr ""
@@ -2139,11 +2137,20 @@ msgstr "Filtre personalitzat de cerca LDAP, <i>opcional</i>"
 msgid "Custom instance type"
 msgstr ""
 
-msgid "DB pending migration"
-msgstr "Migració pendent de la BD"
-
 msgid "DB pending seed"
 msgstr "Població pendent de la BD"
+
+msgid "DEPRECATED: Add a template combination"
+msgstr ""
+
+msgid "DEPRECATED: List template combination"
+msgstr ""
+
+msgid "DEPRECATED: Show template combination"
+msgstr ""
+
+msgid "DEPRECATED: Update template combination"
+msgstr ""
 
 msgid "DEPRECATED: this will be always application install time and dropped in the future release."
 msgstr ""
@@ -2231,6 +2238,12 @@ msgstr "Data"
 
 msgid "Default"
 msgstr "Per defecte"
+
+msgid "Default 'Host intial configuration' template"
+msgstr ""
+
+msgid "Default 'Host intial configuration' template, automatically assigned when new operating system is created"
+msgstr ""
 
 msgid "Default Behavior"
 msgstr ""
@@ -2798,6 +2811,9 @@ msgstr "Habilita les alertes per als amfitrions seleccionats"
 msgid "Enable if this is an alias or VLAN interface, note that alias can be used only with static boot mode subnet"
 msgstr ""
 
+msgid "Enable insecure argument for the initial curl"
+msgstr ""
+
 msgid "Enable rebuild on next host boot"
 msgstr "Habilita la reconstrucció amb la següent arrencada de l'amfitrió"
 
@@ -2962,8 +2978,8 @@ msgstr "Surt de la pantalla completa"
 msgid "Expand nested items"
 msgstr "Expandeix els ítems imbricats"
 
-msgid "Expand the chart"
-msgstr "Expandeix la gràfica"
+msgid "Expiration of the authorization token (in hours)"
+msgstr ""
 
 msgid "Expiration of the authorization token."
 msgstr ""
@@ -3050,9 +3066,6 @@ msgstr "FQDN"
 
 msgid "Fact Values"
 msgstr "Valors dels objectes d'interès"
-
-msgid "Fact distribution chart"
-msgstr "Gràfica de distribució de l'objecte d'interès"
 
 msgid "Fact distribution chart - %s "
 msgstr ""
@@ -3360,7 +3373,7 @@ msgstr ""
 msgid "Filter|Unlimited"
 msgstr "Il·limitat"
 
-msgid "Find or create a host and render the Host registration template"
+msgid "Find or create a host and render the 'Host initial configuration' template"
 msgstr ""
 
 msgid "Fingerprint"
@@ -3418,6 +3431,9 @@ msgid "For example, this can be useful to configure all the Host NICs."
 msgstr ""
 
 msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
+msgstr ""
+
+msgid "For initial configuration of the host run this command:"
 msgstr ""
 
 msgid "For more info visit our documentation."
@@ -3570,6 +3586,9 @@ msgstr "Foreman utilitzarà UUID aleatoris per a la signatura dels certificats e
 msgid "Foreman will use the short hostname instead of the FQDN for creating new virtual machines"
 msgstr ""
 
+msgid "Form was successfully created."
+msgstr ""
+
 msgid "Forums"
 msgstr ""
 
@@ -3619,6 +3638,9 @@ msgid "Generate at"
 msgstr ""
 
 msgid "Generate command"
+msgstr ""
+
+msgid "Generate global registration command"
 msgstr ""
 
 msgid "Generate new random name. Visit Settings to disable this feature."
@@ -3904,6 +3926,9 @@ msgstr "Només el grup d'amfitrions"
 msgid "Host groups"
 msgstr "Grups d'amfitrions"
 
+msgid "Host initial configuration template"
+msgstr ""
+
 msgid "Host is not associated with an operating system"
 msgstr ""
 
@@ -3918,6 +3943,9 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host status/status"
+msgstr ""
+
+msgid "Host template"
 msgstr ""
 
 msgid "Host times seem to be adrift!"
@@ -4039,6 +4067,9 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup"
 msgstr "Grup d'amfitrions"
+
+msgid "Hostgroup not found or not accessible"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Hostgroup|Ancestry"
@@ -4254,6 +4285,9 @@ msgstr "ID de domini"
 msgid "ID of environment"
 msgstr "ID d'entorn"
 
+msgid "ID of environment - DEPRECATED will have no effect"
+msgstr ""
+
 msgid "ID of host"
 msgstr "ID d'amfitrió"
 
@@ -4296,16 +4330,31 @@ msgstr "ID de subxarxa"
 msgid "ID of template"
 msgstr "ID de plantilla"
 
+msgid "ID of the Host group to register the host in"
+msgstr ""
+
 msgid "ID of the Host group to register the host in."
+msgstr ""
+
+msgid "ID of the Location to register the host in"
 msgstr ""
 
 msgid "ID of the Location to register the host in."
 msgstr ""
 
+msgid "ID of the Operating System to register the host in"
+msgstr ""
+
 msgid "ID of the Operating System to register the host in."
 msgstr ""
 
+msgid "ID of the Organization to register the host in"
+msgstr ""
+
 msgid "ID of the Organization to register the host in."
+msgstr ""
+
+msgid "ID of the Smart Proxy"
 msgstr ""
 
 msgid "ID of the user"
@@ -4447,19 +4496,16 @@ msgstr "Temps d'expiració d'inactivitat"
 msgid "If ERB is used in a parameter value, the validation of the value will happen during the ENC request. If the value is invalid, the ENC request will fail."
 msgstr ""
 
-msgid "If Foreman is running behind Passenger or a remote load balancer, the IP should be set here. This is a regular expression, so it can support several load balancers, i.e: (10.0.0.1|127.0.0.1)"
-msgstr ""
-
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
 msgstr "En cas que estigui marcat, es produirà un error si no hi ha cap valor per defecte i no hi ha cap classificador que proporcioni un valor."
 
 msgid "If owner type is specified, owner must be specified too."
 msgstr ""
 
-msgid "If selected, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it."
+msgid "If set to \"Yes\", Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it. The inherited value is based on the `host_registration_insights` parameter. It can be inherited e.g. from host group, operating system, organization. When overidden, the selected value will be stored on host parameter level."
 msgstr ""
 
-msgid "If selected, SSH keys will be installed on the registered host."
+msgid "If set to \"Yes\", SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization.. When overidden, the selected value will be stored on host parameter level."
 msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
@@ -4684,6 +4730,9 @@ msgstr ""
 
 msgid "Infrastructure"
 msgstr "Infraestructura"
+
+msgid "Inherit from parameter"
+msgstr ""
 
 msgid "Inherit parent (%s)"
 msgstr "Hereta el pare (%s)"
@@ -5261,6 +5310,9 @@ msgstr "Llista dels grups de seguretat disponibles per a un recurs computacional
 msgid "List available virtual machines for a compute resource"
 msgstr ""
 
+msgid "List available vnic profiles for a compute resource, for oVirt only"
+msgstr ""
+
 msgid "List available zone for a compute resource"
 msgstr "Llista de les zones disponibles per a un recurs computacional"
 
@@ -5506,12 +5558,6 @@ msgstr ""
 
 msgid "Locations"
 msgstr "Ubicacions"
-
-msgid "Locations also work nicely when used in tandem with %{organizations}."
-msgstr ""
-
-msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed. For example, there might be a data center in London and one in Virginia; these are locations."
-msgstr ""
 
 msgid "Lock"
 msgstr "Bloqueja"
@@ -6133,6 +6179,9 @@ msgstr ""
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr ""
 
+msgid "No (enforce)"
+msgstr ""
+
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
@@ -6383,9 +6432,6 @@ msgid "Note that words starting with <code>@</code> are instance variables. When
 msgstr ""
 
 msgid "Note the extra space before IP, the <code>-&#37;></code> removes the new line character only if there is no other text after it. Therefore the white space needs to be at the new line."
-msgstr ""
-
-msgid "Note: the command contains an authentication token which grants access to your Foreman account until it expires."
 msgstr ""
 
 msgid "Nothing to add"
@@ -6749,9 +6795,6 @@ msgstr "Paràmetres de l'organització"
 
 msgid "Organizations"
 msgstr "Organitzacions"
-
-msgid "Organizations also work nicely in tandem with %{locations}."
-msgstr ""
 
 msgid "Origin"
 msgstr ""
@@ -7349,11 +7392,20 @@ msgstr "Paràmetres de la classe de Puppet"
 msgid "Puppet Classes"
 msgstr "Classes de Puppet"
 
+msgid "Puppet Classes management is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
+msgstr ""
+
+msgid "Puppet ENC is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
+msgstr ""
+
 msgid "Puppet Environment"
 msgstr "Entorn de Puppet"
 
 msgid "Puppet Environments"
 msgstr "Entorns de Puppet"
+
+msgid "Puppet Environments management is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
+msgstr ""
 
 msgid "Puppet Modules"
 msgstr "Mòduls de Puppet"
@@ -7504,6 +7556,9 @@ msgstr ""
 msgid "Refresh external user group"
 msgstr "Refresca un grup d'usuaris externs"
 
+msgid "Refresh features"
+msgstr "Refresca les característiques"
+
 msgid "Refresh smart proxy features"
 msgstr "Refresca les característiques del servidor intermediari intel·ligent"
 
@@ -7537,9 +7592,6 @@ msgstr[1] ""
 
 msgid "Remote Execution"
 msgstr "Execució remota"
-
-msgid "Remote address"
-msgstr "Adreça remota"
 
 msgid "Remote execution job templates"
 msgstr ""
@@ -7904,9 +7956,6 @@ msgstr ""
 msgid "SSL CA file"
 msgstr "Fitxer d'AC SSL"
 
-msgid "SSL CA file not found, check the 'SSL CA file' in Settings > Authentication"
-msgstr ""
-
 msgid "SSL CA file that Foreman will use to communicate with its proxies"
 msgstr "El fitxer de l'AC SSL que Foreman utilitzarà per comunicar-se amb els seus servidors intermediaris"
 
@@ -8158,7 +8207,13 @@ msgstr ""
 msgid "Services"
 msgstr "Serveis"
 
+msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems"
+msgstr ""
+
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
+msgstr ""
+
+msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host"
 msgstr ""
 
 msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
@@ -8247,9 +8302,6 @@ msgstr "Valor"
 
 msgid "Setup Insights"
 msgstr ""
-
-msgid "Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"
-msgstr "S'hauria d'executar «foreman-rake db:migrate» en la pròxima execució dels mòduls de l'instal·lador?"
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "S'hauria d'executar «foreman-rake db:seed» en la pròxima execució dels mòduls de l'instal·lador?"
@@ -8523,6 +8575,9 @@ msgstr "Paràmetre de la classe intel·ligent"
 
 msgid "Smart Class Parameters"
 msgstr "Paràmetres de les classes intel·ligents"
+
+msgid "Smart Class Parameters management is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
+msgstr ""
 
 msgid "Smart Proxies"
 msgstr "Servidors intermediaris intel·ligents"
@@ -9309,6 +9364,9 @@ msgstr "Tot el nom de domini DNS"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
+msgid "The hostname of the LDAP server"
+msgstr ""
+
 msgid "The human readable name of settings category"
 msgstr ""
 
@@ -9473,10 +9531,7 @@ msgstr ""
 msgid "This group has no roles"
 msgstr "Aquest grup no té cap rol"
 
-msgid "This host can be registered to Foreman by executing this command:"
-msgstr ""
-
-msgid "This host can not be enrolled with Foreman as no registration template was set."
+msgid "This host can not be configured as no registration template was set."
 msgstr ""
 
 msgid "This host's stored facts and reports will be deleted too."
@@ -9854,6 +9909,9 @@ msgstr ""
 msgid "Unable to fetch logs"
 msgstr "No es poden capturar els registres"
 
+msgid "Unable to find 'Host initial configuration' template for host %{host} running %{os}, associate the 'Host initial configuration' template for this OS first"
+msgstr ""
+
 msgid "Unable to find IP address for '%s'"
 msgstr ""
 
@@ -9864,9 +9922,6 @@ msgid "Unable to find proper authentication method"
 msgstr ""
 
 msgid "Unable to find registration template for host %{host} running %{os}"
-msgstr ""
-
-msgid "Unable to find registration template for host %{host} running %{os}, associate the registration template for this OS first"
 msgstr ""
 
 msgid "Unable to find template %s"
@@ -9993,6 +10048,9 @@ msgid "Unattended URL"
 msgstr "URL desatès"
 
 msgid "Unauthorized. You do not have the required permission %s."
+msgstr ""
+
+msgid "Undefined setting '%{setting}'"
 msgstr ""
 
 msgid "Undo selection"
@@ -10498,9 +10556,6 @@ msgstr ""
 msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
-msgid "Using the organization system provides a way to group resources together for easy management. Organizations are particularly useful for Foreman installations where several customers or business units are managed with a single Foreman install."
-msgstr ""
-
 msgid "VCPU(s)"
 msgstr ""
 
@@ -10643,6 +10698,9 @@ msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr ""
 
 msgid "Virtual machine was not found by id %{vm_id}"
+msgstr ""
+
+msgid "Vnic Profile"
 msgstr ""
 
 msgid "WARNING"
@@ -10844,6 +10902,9 @@ msgstr "YAML"
 msgid "Yes"
 msgstr "Sí"
 
+msgid "Yes (enforce)"
+msgstr ""
+
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr ""
 
@@ -10934,12 +10995,6 @@ msgstr ""
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "També podeu associar un o més sistemes operatius amb aquest mitjà o bé configurar-ho més endavant a la pàgina dels %s."
 
-msgid "You must create a location before continuing."
-msgstr ""
-
-msgid "You must create an organization before continuing."
-msgstr "Heu de crear una organització abans de continuar."
-
 msgid "You must create at least one location before continuing."
 msgstr ""
 
@@ -10997,6 +11052,9 @@ msgstr "afegeix una interfície de xarxa nova"
 msgid "add new storage volume"
 msgstr "afegeix un volum d'emmagatzematge nou"
 
+msgid "admin flag can only be modified by admins"
+msgstr ""
+
 msgid "all"
 msgstr ""
 
@@ -11028,6 +11086,9 @@ msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr ""
 
 msgid "can only be set when merge overrides is set"
+msgstr ""
+
+msgid "can't assign operating system to Registration template"
 msgstr ""
 
 msgid "can't be bigger than to range"
@@ -11372,8 +11433,8 @@ msgstr "ja s'utilitza amb un compte d'usuari"
 msgid "is an admin account"
 msgstr "és un compte d'administració"
 
-msgid "is an admin user group"
-msgstr "és un grup d'usuaris d'administració"
+msgid "is an admin user group, can be modified by admins only"
+msgstr ""
 
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
@@ -11528,6 +11589,9 @@ msgstr "ha de proporcionar un proveïdor"
 
 msgid "must set host and port"
 msgstr "s'han d'establir l'amfitrió i el port"
+
+msgid "name already exists"
+msgstr ""
 
 msgid "name of the table"
 msgstr ""
