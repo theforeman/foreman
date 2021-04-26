@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -51,7 +52,7 @@ const OperatingSystem = ({
       handleOperatingSystem('');
       dispatch(operatingSystemTemplateAction(hostGroupOsId));
     }
-  }, [dispatch, handleOperatingSystem, hostGroupId, hostGroups]);
+  }, [dispatch, hostGroupId]);
 
   // Validate field
   useEffect(() => {
@@ -62,7 +63,7 @@ const OperatingSystem = ({
     if (Object.entries(operatingSystemTemplate).length !== 0) {
       handleInvalidField('Operating system', !!operatingSystemTemplate?.name);
     }
-  }, [handleInvalidField, operatingSystemId, operatingSystemTemplate]);
+  }, [operatingSystemId, operatingSystemTemplate]);
 
   return (
     <FormGroup
