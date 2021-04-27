@@ -11,7 +11,7 @@ exports[`SettingUpdateModal it should render 1`] = `
       setModalClosed={[Function]}
       setting={
         Object {
-          "category": "Setting::General",
+          "category": "General",
           "configFile": "settings.yaml",
           "createdAt": "2019-11-06 09:42:45 +0100",
           "default": Array [],

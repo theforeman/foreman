@@ -4,6 +4,8 @@ module UrlValidation
   def is_http_url?(url)
     uri = URI.parse(url)
     uri.is_a?(URI::HTTP || URI::HTTPS) && !uri.host.nil?
+  rescue URI::InvalidURIError
+    false
   end
 
   module ClassMethods

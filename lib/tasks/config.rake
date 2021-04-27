@@ -172,11 +172,5 @@ end
 # of not installing with installer, we want to ensure the settings to false
 # at the end of the seeding
 Rake::Task['db:seed'].enhance do
-  if !Setting['db_pending_seed'].nil?
-    Setting['db_pending_seed'] = false
-  else
-    setting = Setting::General.default_settings.detect { |s| s[:name] == 'db_pending_seed' }
-    setting[:value] = false
-    Setting.create! setting.update(:category => "Setting::General")
-  end
+  Setting['db_pending_seed'] = false
 end

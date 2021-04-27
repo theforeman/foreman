@@ -6,7 +6,7 @@ import SettingsTable from '../SettingsTable';
 
 const fixtures = {
   'should render': {
-    settings: groupedSettings['Setting::General'],
+    settings: groupedSettings['General'],
     onEditClick: () => {},
   },
 };

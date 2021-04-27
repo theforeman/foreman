@@ -26,7 +26,7 @@ const fixtures = {
       response: {
         id: 'http_proxy_except_list',
         value: 'http://proxy.com',
-        category: 'Setting::General',
+        category: 'General',
       },
     },
   },

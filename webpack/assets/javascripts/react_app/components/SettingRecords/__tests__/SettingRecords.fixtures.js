@@ -1,7 +1,7 @@
 export const settings = [
   {
     description: 'The default administrator email address',
-    category: 'Setting::General',
+    category: 'General',
     settingsType: 'string',
     default: 'root@example.com',
     createdAt: '2019-11-06 09:42:45 +0100',
@@ -51,7 +51,7 @@ export const settings = [
   {
     description:
       'Foreman will append domain names when new hosts are provisioned',
-    category: 'Setting::General',
+    category: 'General',
     settingsType: 'boolean',
     default: false,
     createdAt: '2018-01-22 14:03:38 +0100',
@@ -114,7 +114,7 @@ export const settings = [
     encrypted: false,
   },
   {
-    category: 'Setting::General',
+    category: 'General',
     configFile: 'settings.yaml',
     default: null,
     description: 'Timezone to use for new users',
@@ -182,7 +182,7 @@ export const settings = [
     encrypted: false,
   },
   {
-    category: 'Setting::General',
+    category: 'General',
     configFile: 'settings.yaml',
     createdAt: '2019-11-06 09:42:45 +0100',
     default: [],

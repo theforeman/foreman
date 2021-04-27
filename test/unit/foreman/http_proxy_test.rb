@@ -73,22 +73,16 @@ class HTTPProxyTest < ActiveSupport::TestCase
       test 'when settings are nil' do
         adapter.unstub(:http_proxy)
         adapter.unstub(:http_proxy_except_list)
-        Setting::General.stubs(:find_by_name)
-                         .with('http_proxy').returns(nil)
-        Setting::General.stubs(:find_by_name)
-                         .with('http_proxy_except_list')
-                         .returns(nil)
+        Setting.stubs(:[]).with(:http_proxy).returns(nil)
+        Setting.stubs(:[]).with(:http_proxy_except_list).returns(nil)
         refute adapter.proxy_http_request?(nil, request_host, schema)
       end
 
       test 'when settings are empty string - after unsetting' do
         adapter.unstub(:http_proxy)
         adapter.unstub(:http_proxy_except_list)
-        Setting::General.stubs(:find_by_name)
-                         .with('http_proxy').returns('')
-        Setting::General.stubs(:find_by_name)
-                         .with('http_proxy_except_list')
-                         .returns(nil)
+        Setting.stubs(:[]).with(:http_proxy).returns('')
+        Setting.stubs(:[]).with(:http_proxy_except_list).returns(nil)
         refute adapter.proxy_http_request?(nil, request_host, schema)
       end
 

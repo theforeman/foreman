@@ -23,7 +23,7 @@ const state = {
 const fixtures = {
   'should select setting records': () => selectSettings(state),
   'should select settings by category': () =>
-    selectSettingsByCategory('Setting::General')(state),
+    selectSettingsByCategory('General')(state),
   'should select setting by id': () =>
     selectSettingById(36, 'Setting::Email')(state),
   'should select setting to edit': () => selectSettingEditing(state),
