@@ -1,8 +1,10 @@
 <%#
-name: Windows network
+name: windows_network
 model: ProvisioningTemplate
 snippet: true
 kind: snippet
+test_on:
+- windows10_dhcp
 description: |
   Configures networking using netsh command on Windows hosts.
 -%>
@@ -25,40 +27,43 @@ for /f "delims=" %%a in ('ipconfig /all') do (
 
 <% @host.managed_interfaces.each do |interface| -%>
             if "<%= interface.mac %>"=="!mac!" (
-                <% if !interface.identifier.empty? %>
+                <% if (interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?) -%>
+                    echo DHCP is active
+                <% end -%>
+                <% if !interface.identifier.empty? -%>
                     netsh interface set interface name="!name!" newname="<%= interface.identifier %>"
-                    <% if (interface.subnet.nil? ? false : !interface.subnet.dhcp_boot_mode?) %>
+                    <% if (interface.subnet.nil? ? false : !interface.subnet.dhcp_boot_mode?) -%>
                     netsh interface ip set address "<%= interface.identifier %>" static <%= interface.ip %> <%= interface.subnet.mask %> <%= interface.subnet.gateway %>
-                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_primary.present?) %>
+                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_primary.present?) -%>
                         netsh interface ip add dnsserver "<%= interface.identifier %>" address="<%= interface.subnet.dns_primary %>" index=1
-                        <% end %>
-                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_secondary.present?) %>
+                        <% end -%>
+                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_secondary.present?) -%>
                         netsh interface ip add dnsserver "<%= interface.identifier %>" address="<%= interface.subnet.dns_secondary %>" index=2
-                        <% end %>
-                    <% end %>
-                    <% if interface.subnet6 %>
+                        <% end -%>
+                    <% end -%>
+                    <% if interface.subnet6 -%>
                     netsh interface ipv6 add address "<%= interface.identifier %>" <%= interface.ip6 %>/<%= interface.subnet6.cidr %>
-                    <% if interface.subnet6.gateway %>
+                    <% if interface.subnet6.gateway -%>
                     netsh interface ipv6 add route ::/0 "<%= interface.identifier %>" <%= interface.subnet6.gateway %>
-                    <% end %>
-                    <% end %>
-                <% else %>
-                    <% if !(interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?) %>
+                    <% end -%>
+                    <% end -%>
+                <% else -%>
+                    <% if (interface.subnet.nil? ? false : !interface.subnet.dhcp_boot_mode?) -%>
                     netsh interface ip set address "!name!" static <%= interface.ip %> <%= interface.subnet.mask %> <%= interface.subnet.gateway %>
-                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_primary.present?) %>
+                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_primary.present?) -%>
                         netsh interface ip add dnsserver "!name!" address="<%= interface.subnet.dns_primary %>" index=1
-                        <% end %>
-                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_secondary.present?) %>
+                        <% end -%>
+                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_secondary.present?) -%>
                         netsh interface ip add dnsserver "!name!" address="<%= interface.subnet.dns_secondary %>" index=2
-                        <% end %>
-                    <% end %>
-                    <% if interface.subnet6 %>
+                        <% end -%>
+                    <% end -%>
+                    <% if interface.subnet6 -%>
                     netsh interface ipv6 add address "!name!" <%= interface.ip6 %>/<%= interface.subnet6.cidr %>
-                    <% if interface.subnet6.gateway %>
+                    <% if interface.subnet6.gateway -%>
                     netsh interface ipv6 add route ::/0 "!name!" <%= interface.subnet6.gateway %>
-                    <% end %>
-                    <% end %>
-                <% end %>
+                    <% end -%>
+                    <% end -%>
+                <% end -%>
             )
 <% end -%>
         )

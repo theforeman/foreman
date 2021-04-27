@@ -37,6 +37,12 @@ FactoryBot.define do
       layout { "<partitioning  config:type=\"list\">\n  <drive>\n    <device>/dev/hda</device>\n    <use>all</use>\n  </drive>\n</partitioning>" }
       os_family { 'Suse' }
     end
+
+    trait :windows do
+      sequence(:name) { |n| "windows default#{n}" }
+      layout { "select disk 0\nclean\nconvert gpt\ncreate partition efi size=200\nformat quick fs=fat32 label=\"System\"\nassign letter=\"S\"\ncreate partition msr size=16\ncreate partition primary\nformat quick fs=ntfs label=\"Windows\"\nassign letter=\"W\"\nlist volume\nexit" }
+      os_family { 'Windows' }
+    end
   end
 
   factory :parameter do
@@ -334,6 +340,10 @@ FactoryBot.define do
 
       factory :host_for_snapshots_ipv4_dhcp_rocky9 do
         operatingsystem { FactoryBot.build(:for_snapshots_rocky9) }
+      end
+
+      factory :host_for_snapshots_ipv4_dhcp_windows10 do
+        operatingsystem { FactoryBot.build(:for_snapshots_windows10) }
       end
     end
 
