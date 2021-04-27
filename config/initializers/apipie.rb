@@ -74,7 +74,9 @@ Apipie.configure do |config|
 end
 
 # check apipie cache in dev mode
-if Apipie.configuration.use_cache
+if Foreman.in_rake?('apipie:cache', 'apipie:cache:index')
+  # No need to check the cache if we're regenerating
+elsif Apipie.configuration.use_cache
   cache_name = File.join(Apipie.configuration.cache_dir, Apipie.configuration.doc_base_url + '.json')
   if File.exist?(cache_name)
     target = File.mtime(cache_name)
@@ -86,7 +88,7 @@ if Apipie.configuration.use_cache
         File.mtime(e) > target
       end
     end
-    if !$ARGV.nil? && $ARGV.first != "apipie:cache" && outdated
+    if outdated
       puts "API controllers newer than Apipie cache! Run apipie:cache rake task to regenerate cache."
     end
   else
