@@ -2,12 +2,12 @@
 attributes1:
   name: administrator
   settings_type: string
-  category: Setting::General
+  category: Setting
   default: root@some.host.fqdn
   description: The Default administrator email address
 attributes2:
   name: foreman_url
-  category: Setting::General
+  category: Setting
   default: http://foreman.some.host.fqdn
   description: The URL Foreman should point to in emails etc
 attributes3:
@@ -63,7 +63,7 @@ attributes15:
   description: Should Foreman manage host certificates when provisioning hosts
 attributes16:
   name: entries_per_page
-  category: Setting::General
+  category: Setting
   default: 20
   description: The amount of records shown per page in foreman
 attributes17:
@@ -73,7 +73,7 @@ attributes17:
   description: Foreman will update a hosts environment from its facts
 attributes18:
   name: idle_timeout
-  category: Setting::General
+  category: Setting
   default: 5
   description: idle timeout
 attributes19:
@@ -93,12 +93,12 @@ attributes21:
   description: "Should Foreman query the locally configured name server or the SOA/NS authorities"
 attributes23:
   name: authorize_login_delegation
-  category: Setting::General
+  category: Setting
   default: "false"
   description: "Setting::Authorize login delegation with REMOTE_USER environment variable"
 attributes24:
   name: authorize_login_delegation_api
-  category: Setting::General
+  category: Setting
   default: "false"
   description: "Setting::Authorize login delegation with REMOTE_USER environment variable for API calls"
 attribute26:
@@ -245,7 +245,7 @@ attributes59:
   description: 'All hosts will show a configuration status even when a Puppet smart proxy is not assigned'
 attributes60:
   name: max_trend
-  category: Setting::General
+  category: Setting
   default: 30
   description: 'Max days for Trends graphs'
 attributes61:
@@ -345,7 +345,7 @@ attributes78:
   settings_type: 'array'
 attribute79:
   name: append_domain_name_for_hosts
-  category: Setting::General
+  category: Setting
   default: "true"
   description: "Should append domain names when new hosts are provisioned"
 attribute80:
@@ -360,7 +360,7 @@ attribute81:
   description: "Cost value of bcrypt password hash function for internal auth-sources."
 attribute82:
   name: login_text
-  category: Setting::General
+  category: Setting
   default: "--- \n"
   description: 'Text to be shown in the login-page footer'
 attribute83:
@@ -385,7 +385,7 @@ attribute86:
   description: 'Maximum structured facts'
 attribute87:
   name: instance_id
-  category: Setting::General
+  category: Setting
   default: '2abbbe02-4ace-4269-9e20-2753f3206cc2'
   description: 'Foreman UUID'
 attribute88:

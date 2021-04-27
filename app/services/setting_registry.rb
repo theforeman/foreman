@@ -89,9 +89,9 @@ class SettingRegistry
 
   # Returns all the categories used for settings
   def categories
-    sticked_general = { 'General' => nil }
+    sticked_general = { 'general' => nil }
     sticked_general.merge!(Hash[@settings.map { |_name, definition| [definition.category_name, definition.category_label] }])
-    sticked_general.delete('General') if sticked_general['General'].nil?
+    sticked_general.delete('general') if sticked_general['general'].nil?
     sticked_general
   end
 

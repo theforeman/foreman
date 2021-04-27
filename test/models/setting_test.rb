@@ -395,8 +395,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "create! can update category" do
-    s = Setting.create!(:name => "foo", :value => "bar", :category => "Setting::General", :default => "bar", :description => "baz")
-    assert_equal s.category, "Setting::General"
+    s = Setting.create!(:name => "foo", :value => "bar", :category => "Setting", :default => "bar", :description => "baz")
+    assert_equal s.category, "Setting"
     s = Setting.create!(:name => "foo", :category => "Setting::Auth")
     assert_equal s.category, "Setting::Auth"
   end

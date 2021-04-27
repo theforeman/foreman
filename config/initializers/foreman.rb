@@ -6,6 +6,7 @@ require 'English'
 require_dependency 'foreman/access_permissions'
 require_dependency 'menu/loader'
 require_dependency 'foreman/plugin'
+require_dependency 'foreman/settings'
 
 # Other internal dependencies, may be autoloaded
 require_dependency 'foreman/foreman_url_renderer'
@@ -51,7 +52,7 @@ Rails.application.config.to_prepare do
     ].each do |f|
       require_dependency(f)
     end
-    Foreman.settings.load
+    Foreman.settings.load unless Foreman.in_setup_db_rake?
   end
 
   Foreman.input_types_registry.register(InputType::UserInput)

@@ -64,7 +64,7 @@ exports[`SettingsTable should render 1`] = `
   rows={
     Array [
       Object {
-        "category": "Setting::General",
+        "category": "General",
         "configFile": "settings.yaml",
         "createdAt": "2019-11-06 09:42:45 +0100",
         "default": "root@example.com",
@@ -80,7 +80,7 @@ exports[`SettingsTable should render 1`] = `
         "value": "root@example.com",
       },
       Object {
-        "category": "Setting::General",
+        "category": "General",
         "configFile": "settings.yaml",
         "createdAt": "2018-01-22 14:03:38 +0100",
         "default": false,
@@ -96,7 +96,7 @@ exports[`SettingsTable should render 1`] = `
         "value": true,
       },
       Object {
-        "category": "Setting::General",
+        "category": "General",
         "configFile": "settings.yaml",
         "default": null,
         "description": "Timezone to use for new users",
@@ -127,7 +127,7 @@ exports[`SettingsTable should render 1`] = `
         "value": "Bangkok",
       },
       Object {
-        "category": "Setting::General",
+        "category": "General",
         "configFile": "settings.yaml",
         "createdAt": "2019-11-06 09:42:45 +0100",
         "default": Array [],

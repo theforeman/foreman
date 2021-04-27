@@ -4,7 +4,7 @@ class GeneralSettingTest < ActiveSupport::TestCase
   describe 'HTTP Proxy settings' do
     let(:attrs) do
       { :name => "http_proxy", :default => nil, :description => "desc",
-        :category => "Setting::General" }
+        :category => "Setting" }
     end
     let(:http_proxy_setting) do
       Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
