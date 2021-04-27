@@ -1,0 +1,104 @@
+
+@setlocal enableextensions enabledelayedexpansion
+@echo off
+set WGET=wget64.exe
+
+select disk 0
+clean
+convert gpt
+create partition efi size=200
+format quick fs=fat32 label="System"
+assign letter="S"
+create partition msr size=16
+create partition primary
+format quick fs=ntfs label="Windows"
+assign letter="W"
+list volume
+exit
+
+
+
+echo Downloading main WIM
+
+%WGET%  "http://archive.example.com/windowssources/images.ini" -O X:\images.ini
+if %ERRORLEVEL% == 0 goto :lookup_image
+
+echo WARNING: Couldn't download the images.ini, falling back to legacy mode!
+%WGET%  "http://archive.example.com/windowssources/install.wim" -O C:\install.wim
+goto :install
+
+:lookup_image
+set file=X:\images.ini
+set key=
+for /f "usebackq delims=" %%a in ("!file!") do (
+	set ln=%%a
+        for /f "tokens=1,2 delims==" %%b in ("!ln!") do (
+            set currkey=%%b
+            set currval=%%c
+            if "x!key!"=="x!currkey!" (
+                %WGET%  http://archive.example.com/windowssources/!currval! -O C:\install.wim
+            )
+        )
+    )
+)
+
+:install
+echo Writing install image to partition while downloading additional files
+
+(
+   start /min cmd /C "echo Writing the install image to the partition
+                dism.exe /apply-image /imagefile:C:\install.wim /Name:"" /ApplyDir:C:\
+                echo Removing install.wim
+                del /q /s C:\install.wim"
+   start /min cmd /C "echo Downloading the drivers
+                md c:\drivers
+                %WGET%  -P c:\drivers -r -np -nH --cut-dirs=3 -R index.html -q --level=0 http://archive.example.com/windows/drivers/"
+   start /min cmd /C "echo Downloading additional updates
+                md c:\updates
+                %WGET%  -P c:\updates\ -r -np -nH --cut-dirs=3 -R index.html -q --level=0 http://archive.example.com/windows/updates/"
+   start /min cmd /C "echo Downloading finsh script and activating SetupComplete.cmd
+                md c:\deploy
+                %WGET% --no-verbose http://foreman.example.com/unattended/finish -O C:\deploy\foreman-finish.bat"
+) | pause
+
+echo Creating a temp staging folder for DISM
+md c:\MININT\Scratch
+
+echo Creating the Panther directory if needed
+set PantherDirectory=C:\Windows\Panther\
+IF not exist %PantherDirectory% (mkdir %PantherDirectory%)
+
+echo Finalizing installation...
+
+echo Downloading custom theme
+%WGET%  -P C:\Windows\Web\ -r -np -nH --cut-dirs=3 -R index.html -q --level=0 "http://archive.example.com/windows/theme/"
+
+echo Staging the Unattend.xml file for dism to apply
+echo Downloading unattend.xml
+%WGET% --no-verbose http://foreman.example.com/unattended/provision -O c:\Windows\Panther\unattend.xml
+echo Applying Unattend.xml
+dism.exe /Image:C:\ /Apply-Unattend:C:\Windows\Panther\unattend.xml /ScratchDir:C:\MININT\Scratch/
+
+echo Copying tools
+copy x:\windows\system32\wget64.exe C:\deploy\
+copy x:\windows\system32\wget64.exe C:\Windows\wget.exe
+copy x:\windows\system32\sdelete.exe C:\Windows\
+IF not exist C:\Windows\Setup\Scripts (md C:\Windows\Setup\Scripts)
+echo call C:\deploy\foreman-finish.bat ^> c:\foreman.log 2^>^&1 > C:\Windows\Setup\Scripts\SetupComplete.cmd
+
+sdelete.exe -accepteula -p 2 c:\foreman.log
+
+echo Applying drivers
+dism.exe /Image:C:\ /Add-Driver /Driver:C:\drivers\ /Recurse /ForceUnsigned
+
+echo Applying updates
+for /f %%u in ('dir /s/b C:\updates\*.msu') do dism.exe /Image:C:\ /Add-Package /PackagePath:%%u /ScratchDir:C:\MININT\Scratch/
+
+echo Setting the boot sector
+bootsect.exe /nt60 C:
+C:\Windows\System32\bcdboot C:\Windows /l en-US
+
+echo Foreman build has finished
+%WGET% http://foreman.example.com/unattended/built
+
+exit 0

@@ -47,13 +47,13 @@ identity:
         - "<%= powershell %> -NonInteractive -Command \"winrm set winrm/config/service/auth '@{Certificate=\\\"true\\\"}'\""
         <% end %>
         <% if puppet_enabled %>
-        - "<%= powershell %> -Command \"invoke-webrequest -Uri <%= host_param('win_puppet_source') %> -OutFile C:\\puppet-agent-x64-latest.msi\""
+        - "<%= powershell %> -Command \"invoke-webrequest -Uri <%= host_param('win_puppet_source') %> -OutFile C:\\puppet-agent-latest.msi\""
         - "<%= powershell %> -Command \"md C:\\ProgramData\\PuppetLabs\\puppet\\etc\""
         - "<%= powershell %> -Command \"echo \"[main]\" | out-file C:\\ProgramData\\PuppetLabs\\puppet\\etc\\puppet.conf -encoding utf8\""
         - "<%= powershell %> -Command \"echo \"server=http://<%= foreman_server_fqdn %>:8000/unattended/built?token=cae2cc74-1394-4acb-ad16-1011020b9bbe\" | add-content C:\\ProgramData\\PuppetLabs\\puppet\\etc\\puppet.conf -encoding utf8\""
         - "<%= powershell %> -Command \"echo \"autoflush=true\" | add-content C:\\ProgramData\\PuppetLabs\\puppet\\etc\\puppet.conf -encoding utf8\""
-        - "<%= powershell %> -Command \"start /wait \"\" msiexec /qn /norestart /i C:\\puppet-agent-x64-latest.msi PUPPET_MASTER_SERVER=<%= @host.puppet_server %>\""
-        - "<%= powershell %> -Command \"sdelete.exe -accepteula -p 2 C:\\puppet-agent-x64-latest.msi\""
+        - "<%= powershell %> -Command \"start /wait \"\" msiexec /qn /norestart /i C:\\puppet-agent-latest.msi PUPPET_MASTER_SERVER=<%= @host.puppet_server %>\""
+        - "<%= powershell %> -Command \"sdelete.exe -accepteula -p 2 C:\\puppet-agent-latest.msi\""
         <% end %>
     guiUnattended:
       autoLogon: true

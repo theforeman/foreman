@@ -26,6 +26,11 @@ FactoryBot.define do
       path { 'http://archive.ubuntu.com/ubuntu' }
     end
 
+    factory :windows_for_snapshots do
+      name { "Windows Mirror" }
+      path { 'http://archive.example.com/windows' }
+    end
+
     trait :centos do
       sequence(:name) { |n| "CentOS Mirror #{n}" }
       sequence(:path) { 'http://mirror.centos.org/centos/$major/os/x86_64' }

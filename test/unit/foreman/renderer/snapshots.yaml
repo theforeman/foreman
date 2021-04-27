@@ -79,3 +79,7 @@ files:
   - iPXE/kickstart_default_ipxe.erb
   - iPXE/preseed_default_ipxe.erb
   - iPXE/preseed_default_ipxe_autoinstall.erb
+  - provision/windows_default_provisioning.erb
+  - finish/windows_default_finish.erb
+  - script/windows_default_script.erb
+  - snippet/windows_network.erb

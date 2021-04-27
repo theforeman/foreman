@@ -242,6 +242,17 @@ FactoryBot.define do
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
     end
 
+    factory :for_snapshots_windows10, class: Windows do
+      name { 'Windows' }
+      major { '10' }
+      minor { '0' }
+      type { 'Windows' }
+      title { 'Windows 10' }
+      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
+      media { [FactoryBot.build(:windows_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, :windows)] }
+    end
+
     factory :altlinux, class: Altlinux do
       sequence(:name) { 'Altlinux' }
       major { '8' }

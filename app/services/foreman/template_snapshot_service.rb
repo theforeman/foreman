@@ -50,6 +50,10 @@ module Foreman
       new.rocky9_dhcp
     end
 
+    def self.windows10_dhcp
+      new.windows10_dhcp
+    end
+
     def self.render_template(template, host_name = :host4dhcp)
       host_stub = send(host_name.to_sym)
       source = Foreman::Renderer::Source::Snapshot.new(template)
@@ -200,6 +204,14 @@ module Foreman
     def rocky9_dhcp
       host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky9,
         name: 'snapshot-ipv4-dhcp-rocky9',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        interfaces: [ipv4_interface])
+      define_host_params(host)
+    end
+
+    def windows10_dhcp
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_windows10,
+        name: 'snapshot-ipv4-dhcp-windows10',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
       define_host_params(host)
