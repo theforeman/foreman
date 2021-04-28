@@ -70,7 +70,7 @@ fi
 <% end -%>
 
 register_host() {
-  curl --silent --cacert $SSL_CA_CERT --request POST <%= @registration_url %> \
+  curl --silent --show-error --cacert $SSL_CA_CERT --request POST <%= @registration_url %> \
        <%= headers.join(' ') %> \
        --data "host[name]=$(hostname --fqdn)" \
        --data "host[build]=false" \
@@ -95,7 +95,7 @@ echo "#"
 if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     register_katello_host(){
         UUID=$(subscription-manager identity | head -1 | awk '{print $3}')
-        curl --silent --cacert $SSL_CA_CERT --request POST "<%= @registration_url %>" \
+        curl --silent --show-error --cacert $SSL_CA_CERT --request POST "<%= @registration_url %>" \
              --data "uuid=$UUID" \
              <%= headers.join(' ') %> \
 <%= "          --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
@@ -114,7 +114,7 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     <% end -%>
 
     CONSUMER_RPM=$(mktemp --suffix .rpm)
-    curl --silent --output $CONSUMER_RPM <%= subscription_manager_configuration_url(hostname: @url_host) %>
+    curl --silent --show-error --output $CONSUMER_RPM <%= subscription_manager_configuration_url(hostname: @url_host) %>
 
     # Workaround for systems with enabled FIPS,
     # where installation of RPM generated on RHEL7 cause 'no digest' error

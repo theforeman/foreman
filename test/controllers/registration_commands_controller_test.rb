@@ -28,7 +28,7 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
       post :create, params: params, session: set_session_user
       command = JSON.parse(@response.body)['command']
 
-      assert_includes command, "curl --insecure -s '#{smart_proxies(:one).url}/register"
+      assert_includes command, "curl -sS --insecure '#{smart_proxies(:one).url}/register"
       refute command.include?('smart_proxy_id')
       refute command.include?('insecure=true')
       refute command.include?('jwt_expiration')

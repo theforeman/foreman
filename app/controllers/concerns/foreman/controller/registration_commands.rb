@@ -5,7 +5,7 @@ module Foreman::Controller::RegistrationCommands
 
   def command
     args_query = "?#{registration_args.to_query}"
-    "curl#{insecure} -s '#{endpoint}#{args_query if args_query != '?'}' #{command_headers} | bash"
+    "curl -sS #{insecure} '#{endpoint}#{args_query if args_query != '?'}' #{command_headers} | bash"
   end
 
   def registration_args
@@ -18,7 +18,7 @@ module Foreman::Controller::RegistrationCommands
   end
 
   def insecure
-    registration_params['insecure'] ? ' --insecure' : ''
+    registration_params['insecure'] ? '--insecure' : ''
   end
 
   def endpoint
