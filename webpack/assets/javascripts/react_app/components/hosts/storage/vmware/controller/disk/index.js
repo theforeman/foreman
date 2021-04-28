@@ -89,6 +89,7 @@ const Disk = ({
         value={sizeGb}
         minValue={1}
         format={v => `${v} GB`}
+        parser={str => str.replace(/\D/g, '')}
         className="text-vmware-size"
         onChange={newValues => updateDisk('sizeGb', newValues)}
         label={__('Size (GB)')}
