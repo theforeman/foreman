@@ -1,0 +1,173 @@
+#!/bin/bash
+
+FOREMAN_RUBY_PREFIX=${FOREMAN_RUBY_PREFIX:-bundle exec}
+FOREMAN_RAILS_PORT=${FOREMAN_RAILS_PORT:-5000}
+if [[ -f ./.foreman-cmd ]]; then
+  source ./.foreman-cmd
+fi
+
+run_rails() {
+  [ -n "$RAILS_STARTUP" ] && $RAILS_STARTUP || \
+    [ -n "$BIND" ] && $FOREMAN_RUBY_PREFIX bin/rails server -p $FOREMAN_RAILS_PORT -b $BIND || \
+    $FOREMAN_RUBY_PREFIX bin/rails server
+}
+
+run_webpack() {
+  [ -n "$NODE_ENV" ] && ./node_modules/.bin/webpack-dev-server --config config/webpack.config.js $WEBPACK_OPTS || \
+    env NODE_ENV=development ./node_modules/.bin/webpack-dev-server --config config/webpack.config.js $WEBPACK_OPTS
+}
+
+HAS_PROXY=0; [[ -d ../smart-proxy ]] && HAS_PROXY=1
+run_proxy() {
+  [[ $HAS_PROXY -eq 0 ]] && exit 1
+  pushd ../smart-proxy
+  $FOREMAN_RUBY_PREFIX bin/smart-proxy
+  popd
+}
+
+ensure_session() {
+  tmux has-session -t foreman &>/dev/null || tmux new-session -d -s foreman
+}
+
+start_rails() {
+  tmux new-window -n:rails $0 run-rails
+  RAILS_PID=$!
+}
+
+start_webpack() {
+  tmux new-window -n:webpack $0 run-webpack
+  WEBPACK_PID=$!
+}
+
+start_proxy() {
+  tmux new-window -n:proxy $0 run-proxy
+  PROXY_PID=$!
+}
+
+stop_all() {
+  tmux kill-session -t foreman
+}
+
+kill_all() {
+  echo
+  echo "Shutting down Rails..."
+  [[ -n "$RAILS_PID" ]] && kill $RAILS_PID
+  echo "Shutting down Webpack..."
+  [[ -n "$WEBPACK_PID" ]] && kill $WEBPACK_PID
+  echo "Shutting down Smart Proxy..."
+  [[ -n "$PROXY_PID" ]] && kill $PROXY_PID
+  exit 0
+}
+
+PREFIX_RAILS=$(echo -e "\e[96m\e[1mRLS|\e[0m")
+PREFIX_WEBPACK=$(echo -e "\e[93m\e[1mWPK|\e[0m")
+PREFIX_PROXY=$(echo -e "\e[92m\e[1mPXY|\e[0m")
+
+print_help() {
+  echo "Usage:"
+  echo "  foreman-cmd -h             Show help"
+  echo "  foreman-cmd run-rails      Start Rails on the foreground"
+  echo "  foreman-cmd run-webpack    Start Webpack on the foreground"
+  if [[ $HAS_PROXY -eq 1 ]]; then
+    echo "  foreman-cmd run-proxy      Start Smart Proxy on the foreground"
+  fi
+  echo "  foreman-cmd run            Start everything on the foreground"
+  echo "  foreman-cmd start-rails    Start Rails in a tmux session"
+  echo "  foreman-cmd start-webpack  Start Webpack in a tmux session"
+  if [[ $HAS_PROXY -eq 1 ]]; then
+    echo "  foreman-cmd start-proxy    Start Smart Proxy in a tmux session"
+  fi
+  echo "  foreman-cmd start          Start everything in a tmux session"
+  echo "  foreman-cmd attach         Attach to the tmux session"
+  echo "  foreman-cmd stop           Stop everything in a tmux session"
+  echo "  foreman-cmd restart        Restart everything in a tmux session"
+  echo
+  echo "Ruby processes are prefixed with 'bundle exec', to override it:"
+  echo "  export FOREMAN_RUBY_PREFIX='bundle exec'"
+  echo
+  echo "By default Puma is used, to use a different webserver, do:"
+  echo "  export RAILS_STARTUP='puma -w 3 -p 3000 --preload"
+  echo
+  echo "To customize Webpack options, use the following env variable:"
+  echo "  export WEBPACK_OPTS='--https --key /path/to/key"
+  echo "    --cert /path/to/cert.pem --cacert /path/to/cacert.pem'"
+  echo
+  echo "Variables can be exported in .foreman-cmd file which is sourced."
+  echo
+  exit 0
+}
+
+while getopts ":h" opt; do
+  case ${opt} in
+    h)
+      print_help
+      ;;
+    \?)
+     echo "Invalid Option: -$OPTARG" 1>&2
+     exit 1
+     ;;
+  esac
+done
+shift $((OPTIND -1))
+
+subcommand=$1; shift
+case "$subcommand" in
+  run-rails)
+    run_rails
+    ;;
+  run-webpack)
+    run_webpack
+    ;;
+  run-proxy)
+    if [[ $HAS_PROXY -eq 1 ]]; then
+      run_proxy
+    else
+      echo "Smart proxy not found in ../smart-proxy, not started."
+      exit 1
+    fi
+    ;;
+  run)
+    trap kill_all INT
+    (run_rails | sed -e "s/^/$PREFIX_RAILS/" &)
+    (run_webpack | sed -e "s/^/$PREFIX_WEBPACK/" &)
+    if [[ $HAS_PROXY -eq 1 ]]; then
+      (run_proxy | sed -e "s/^/$PREFIX_PROXY/" &)
+    fi
+    sleep infinity
+    ;;
+  start-rails)
+    ensure_session
+    start_rails
+    ;;
+  start-webpack)
+    ensure_session
+    start_webpack
+    ;;
+  start-proxy)
+    ensure_session
+    start_proxy
+    ;;
+  start)
+    ensure_session
+    start_rails
+    start_webpack
+    start_proxy
+    ;;
+  attach)
+    tmux attach -t foreman
+    ;;
+  stop)
+    stop_all
+    ;;
+  restart)
+    stop_all
+    ensure_session
+    start_rails
+    start_webpack
+    ;;
+  *)
+    echo "Invalid or missing command: $subcommand"
+    print_help
+    exit 1
+esac
+
