@@ -42,6 +42,25 @@ describe('activateDatatables', () => {
       ajax: $('[data-table=server]').data('source'),
       language: {
         searchPlaceholder: 'Filter...',
+        emptyTable: 'No data available in table',
+        info: 'Showing %s to %s of %s entries',
+        infoEmpty: 'Showing 0 to 0 of 0 entries',
+        infoFiltered: '(filtered from %s total entries)',
+        lengthMenu: 'Show %s entries',
+        loadingRecords: 'Loading...',
+        processing: 'Processing...',
+        search: 'Search:',
+        zeroRecords: 'No matching records found',
+        paginate: {
+          first: 'First',
+          last: 'Last',
+          next: 'Next',
+          previous: 'Previous',
+        },
+        aria: {
+          sortAscending: ': activate to sort column ascending',
+          sortDescending: ': activate to sort column descending',
+        },
       },
       dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'><'col-md-6'p>>",
     });
@@ -84,4 +103,3 @@ describe('initTypeAheadSelect', () => {
     expect($('.select2-chosen').text()).toEqual('testoption');
   });
 });
-
