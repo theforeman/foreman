@@ -45,9 +45,9 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
-<%= snippet('remote_execution_ssh_keys') %>
-
-<%= snippet "blacklist_kernel_modules" %>
+<%= snippet 'remote_execution_ssh_keys' -%>
+<%= snippet 'serial_console' -%>
+<%= snippet "blacklist_kernel_modules" -%>
 
 <% if chef_enabled %>
 <%= snippet 'chef_client' %>

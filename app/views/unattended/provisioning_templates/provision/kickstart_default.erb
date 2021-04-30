@@ -297,6 +297,8 @@ logger "Starting anaconda <%= @host %> postinstall"
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
+<%= snippet('serial_console') -%>
+
 <% unless host_param_false?('package_upgrade') -%>
 # update all the base packages from the updates repository
 if [ -f /usr/bin/dnf ]; then

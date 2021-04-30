@@ -136,6 +136,10 @@ description: |
   elsif nic_delay
     options.push("nicdelay=#{nic_delay} linksleep=#{nic_delay}")
   end
+
+  if host_param_true?("serial_console")
+    options.push("console=#{host_param("serial_console_dev", "ttyS0")}")
+  end
 -%>
 <%# do not add newline after the next line %>
 <%= options.join(' ') -%>

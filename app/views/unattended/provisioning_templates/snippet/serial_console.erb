@@ -1,0 +1,33 @@
+<%#
+kind: snippet
+name: serial_console
+model: ProvisioningTemplate
+snippet: true
+-%>
+<%
+device = host_param("serial_console_dev", "ttyS0")
+if host_param_true?("serial_console")
+-%>
+# launch getty on serial console
+echo "Configuring getty on ttyS0"
+systemctl enable --now serial-getty@<%= device %>.service
+
+# configure kernel to send messages to serial console
+echo "Configuring linux kernel to serial console"
+sed -ie "s/GRUB_CMDLINE_LINUX=\"\(.*\)\"/GRUB_CMDLINE_LINUX=\"\1 console=<%= device %>\"/" /etc/default/grub
+
+# configure both input and output in grub to serial console
+echo "Configuring grub to serial console"
+if grep -q GRUB_TERMINAL= /etc/default/grub; then
+  if grep -q 'GRUB_TERMINAL=.*serial' /etc/default/grub; then
+    echo "Grub config already contains 'serial', skipped"
+  else
+    sed -ie "s/GRUB_TERMINAL=\"\(.*\)\"/GRUB_TERMINAL=\"\1 serial\"/" /etc/default/grub
+  fi
+else
+  echo "Configured grub to serial console"
+  echo 'GRUB_TERMINAL="console serial"' >> /etc/default/grub
+fi
+<%
+end
+-%>
