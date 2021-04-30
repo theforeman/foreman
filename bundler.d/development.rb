@@ -23,6 +23,7 @@ group :development do
   gem 'spring', '>= 1.0', '< 3'
   gem 'benchmark-ips', '>= 2.8.2'
   gem 'foreman'
+  gem 'tmuxinator'
   gem('bootsnap', :require => false)
   gem 'graphiql-rails', '~> 1.7'
 end

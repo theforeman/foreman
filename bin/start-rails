@@ -1,0 +1,9 @@
+#!/bin/bash
+[[ -e .env ]] || bin/create-env
+source .env
+
+if [[ -n "$RAILS_STARTUP" ]]; then
+  $RAILS_STARTUP
+else
+  bin/rails server -b ${FOREMAN_BIND:-::} -p ${FOREMAN_PORT:-3000} $RAILS_OPTS
+fi

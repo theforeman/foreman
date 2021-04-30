@@ -1,0 +1,33 @@
+#!/bin/bash
+
+cat >.env <<EOF
+# Created with bin/create-env
+
+# The IP address to bind or '*' for all IPv4 or '::' for all IPv6
+#FOREMAN_BIND=::
+
+# Port to bind
+#FOREMAN_PORT=3000
+
+# Extra options for "rails server" command. To turn off Rails logging for
+# better debugging experience make sure to turn off console_inline option
+# in config/settings.yaml:
+# :logging:
+#   :type: file
+#   :console_inline: false
+#RAILS_OPTS=--no-log-to-stdout
+
+# Extra verbose debugging messages
+#FOREMAN_TRACE=1
+
+# NodeJS environment
+#NODE_ENV=development
+
+# Webpack statistics on stdout: none, minimal, errors-only, errors-warnings,
+# normal, verbose, detailed, summary
+#WEBPACK_STATS=minimal
+
+# Additional webpack startup options
+#WEBPACK_OPTS="--host :: --public $(hostname)"
+#WEBPACK_OPTS='--https --key /path/to/key --cert /path/to/cert.pem --cacert /path/to/cacert.pem' foreman start"
+EOF
