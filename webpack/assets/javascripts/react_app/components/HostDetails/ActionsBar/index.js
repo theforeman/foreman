@@ -16,18 +16,18 @@ const ActionsBar = ({ hostName }) => {
 
   const dropdownItems = [
     <DropdownItem key="clone" component="button">
-      Delete
+      {__('Delete')}
     </DropdownItem>,
     <DropdownItem key="clone" component="button">
-      Clone
+      {__('Clone')}
     </DropdownItem>,
     <DropdownItem key="disabled link" component="button">
-      Build
+      {__('Build')}
     </DropdownItem>,
     <DropdownSeparator key="separator" />,
-    <DropdownItem key="separated link"> plugin action 1</DropdownItem>,
+    <DropdownItem key="separated link">{__('plugin action 1')}</DropdownItem>,
     <DropdownItem key="separated action" component="button">
-      plugin action 2
+      {__('plugin action 2')}
     </DropdownItem>,
   ];
 

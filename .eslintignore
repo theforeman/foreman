@@ -4,5 +4,6 @@ vendor/**
 config/webpack.config.js
 webpack/simple_named_modules.js
 *.test.js
-*.fixtures.js
+*fixture*
 *.stories.js
+*const*

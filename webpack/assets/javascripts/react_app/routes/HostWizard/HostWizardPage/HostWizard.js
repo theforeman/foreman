@@ -20,7 +20,7 @@ class LoadingWizardExample extends React.Component {
     return (
       <PageLayout header={__('Host Wizard')} searchable={false}>
         <Button bsStyle="primary" bsSize="large" onClick={this.open}>
-          Launch loading wizard
+          {__('Launch loading wizard')}
         </Button>
 
         <Wizard show={showModal} onHide={this.close}>
@@ -34,7 +34,7 @@ class LoadingWizardExample extends React.Component {
                     style={{ float: 'none' }}
                   />
                   <h3 className="blank-slate-pf-main-action">
-                    This will be one of our coolest pages.
+                    {__('This will be one of our coolest pages.')}
                   </h3>
                 </div>
               </Wizard.Main>
@@ -46,14 +46,14 @@ class LoadingWizardExample extends React.Component {
               className="btn-cancel"
               onClick={this.close}
             >
-              Cancel
+              {__('Cancel')}
             </Button>
             <Button bsStyle="default" disabled>
               <Icon type="fa" name="angle-left" />
-              Back
+              {__('Back')}
             </Button>
             <Button bsStyle="primary" disabled>
-              Next
+              {__('Next')}
               <Icon type="fa" name="angle-right" />
             </Button>
           </Wizard.Footer>

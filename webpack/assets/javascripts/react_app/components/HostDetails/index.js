@@ -29,6 +29,7 @@ import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
+import { translate as __ } from '../../common/I18n';
 
 import './HostDetails.scss';
 
@@ -86,7 +87,7 @@ const HostDetails = ({ match, location: { hash } }) => {
       >
         <div style={{ marginLeft: '18px', marginRight: '18px' }}>
           <Breadcrumb style={{ marginTop: '15px' }}>
-            <BreadcrumbItem to="/hosts">Hosts</BreadcrumbItem>
+            <BreadcrumbItem to="/hosts">{__('Hosts')}</BreadcrumbItem>
             <BreadcrumbItem isActive>
               {response.name || <Skeleton />}
             </BreadcrumbItem>

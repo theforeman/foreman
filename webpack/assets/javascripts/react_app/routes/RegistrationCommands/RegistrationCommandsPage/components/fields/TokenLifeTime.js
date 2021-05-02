@@ -56,7 +56,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
           id="reg_token_life_time_input"
           onChange={v => setValue(v)}
         />
-        <InputGroupText>hours</InputGroupText>
+        <InputGroupText>{__('hours')}</InputGroupText>
         <InputGroupText>
           <Checkbox
             label={__('unlimited')}

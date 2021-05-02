@@ -78,7 +78,7 @@ const osTemplateHelperText = (operatingSystemId, template) => {
   return (
     <span className="has-error">
       <a href={foremanUrl(template.os_path)} target="_blank" rel="noreferrer">
-        Operating system
+        {__('Operating system')}
       </a>{' '}
       {__('does not have assigned host_init_config template')}
     </span>

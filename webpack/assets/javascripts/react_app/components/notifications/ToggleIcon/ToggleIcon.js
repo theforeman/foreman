@@ -2,10 +2,11 @@ import React from 'react';
 import { OverlayTrigger, Tooltip } from 'patternfly-react';
 import PropTypes from 'prop-types';
 import { noop } from '../../../common/helpers';
+import { translate as __ } from '../../../common/I18n';
 
 const ToggleIcon = ({ hasUnreadMessages, onClick }) => {
   const iconType = hasUnreadMessages ? 'fa-bell' : 'fa-bell-o';
-  const tooltip = <Tooltip id="tooltip">Notifications</Tooltip>;
+  const tooltip = <Tooltip id="tooltip">{__('Notifications')}</Tooltip>;
 
   return (
     <OverlayTrigger
