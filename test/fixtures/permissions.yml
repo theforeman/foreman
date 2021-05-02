@@ -39,11 +39,6 @@ destroy_authenticators:
   resource_type: AuthSource
   created_at: "2013-12-04 08:41:04.414794"
   updated_at: "2013-12-04 08:41:04.414794"
-view_bookmarks:
-  name: view_bookmarks
-  resource_type: Bookmark
-  created_at: "2013-12-04 08:41:04.423092"
-  updated_at: "2013-12-04 08:41:04.423092"
 create_bookmarks:
   name: create_bookmarks
   resource_type: Bookmark

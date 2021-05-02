@@ -5,13 +5,19 @@ Foreman::AccessControl.map do |permission_set|
   permission_set.security_block :public do |map|
     map.permission :user_logout, { :users => [:logout] }, :public => true
     map.permission :view_current_user, { :"api/v2/users" => [:show_current] }, public: :true
-    map.permission :my_account, { :users => [:edit],
+    map.permission :my_account, {
+      :users => [:edit],
       :notification_recipients => [:index, :update, :destroy, :update_group_as_read, :destroy_group],
-      :"api/v2/table_preferences" => [:show, :create, :edit, :delete, :index]}, :public => true
+      :"api/v2/table_preferences" => [:show, :create, :edit, :delete, :index],
+    }, :public => true
     map.permission :api_status, { :"api/v2/home" => [:status]}, :public => true
     map.permission :about_index, { :about => [:index] }, :public => true
     map.permission :user_menu, { :user_menus => [:menu] }, :public => true
     map.permission :links, { :links => [:show] }, :public => true
+    map.permission :bookmarks, {
+      :bookmarks => [:index, :show, :auto_complete_search, :welcome],
+      :"api/v2/bookmarks" => [:index, :show],
+    }, :public => true
   end
 
   permission_set.security_block :architectures do |map|
@@ -52,9 +58,6 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :bookmarks do |map|
-    map.permission :view_bookmarks,
-      :bookmarks => [:index, :show, :auto_complete_search, :welcome],
-      :"api/v2/bookmarks" => [:index, :show]
     map.permission :create_bookmarks,
       :bookmarks => [:new, :create],
       :"api/v2/bookmarks" => [:new, :create]
