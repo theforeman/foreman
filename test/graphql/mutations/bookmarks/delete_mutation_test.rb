@@ -42,10 +42,10 @@ module Mutations
         end
       end
 
-      context 'with user with view permissions' do
+      context 'with user without permissions' do
         setup do
           bookmark
-          @user = setup_user 'view', 'bookmarks'
+          @user = FactoryBot.create(:user)
         end
 
         test 'cannot delete a bookmark' do

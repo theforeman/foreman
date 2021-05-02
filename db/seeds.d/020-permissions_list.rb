@@ -11,7 +11,6 @@ class PermissionsList
         ['AuthSource', 'create_authenticators'],
         ['AuthSource', 'edit_authenticators'],
         ['AuthSource', 'destroy_authenticators'],
-        ['Bookmark', 'view_bookmarks'],
         ['Bookmark', 'create_bookmarks'],
         ['Bookmark', 'edit_bookmarks'],
         ['Bookmark', 'destroy_bookmarks'],

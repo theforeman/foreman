@@ -30,7 +30,7 @@ class RolesList
                                              :view_users, :edit_users, :view_realms, :view_mail_notifications,
                                              :view_params, :view_ssh_keys, :view_personal_access_tokens],
                             :description => 'Role granting mostly view permissions but also permissions required for managing hosts in the infrastructure. Users with this role can update puppet parameters, create and edit hosts, manage installation media, subnets, usergroups and edit existing users.' },
-        'Bookmarks manager' => { :permissions => [:view_bookmarks, :create_bookmarks, :edit_bookmarks, :destroy_bookmarks],
+        'Bookmarks manager' => { :permissions => [:create_bookmarks, :edit_bookmarks, :destroy_bookmarks],
                                  :description => 'Role granting permissions for managing search bookmarks. Usually useful in combination with Viewer role. This role also grants the permission to update all public bookmarks.' },
         'Auditor' => { :permissions => [:view_audit_logs],
                        :description => 'Role granting permission to view only the Audit log and nothing else.',
@@ -40,7 +40,7 @@ class RolesList
 
     def default_role
       {
-        'Default role' => { permissions: [:view_bookmarks, :view_tasks],
+        'Default role' => { permissions: [:view_tasks],
                             description: 'Role that is automatically assigned to every user in the system. Adding a permission grants it to everybody',
         },
       }
