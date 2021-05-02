@@ -12,8 +12,7 @@ import { maxLengthMsg, requiredMsg } from '../../common/forms/validators';
 import { translate as __ } from '../../../common/I18n';
 import { submitForm } from '../../../redux/actions/common/forms';
 import DateTime from '../../common/forms/DateTime/DateTime';
-
-const MODAL_ID = 'personal-access-tokens-form-modal';
+import { MODAL_ID } from './PersonalAccessTokensConstants';
 
 const tokenFormSchema = Yup.object().shape({
   name: Yup.string()
