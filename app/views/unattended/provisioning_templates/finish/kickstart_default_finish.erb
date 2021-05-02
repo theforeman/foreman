@@ -80,6 +80,7 @@ fi
 
 <% if host_param_true?('ansible_tower_provisioning') -%>
 <%= save_to_file('/root/ansible_provisioning_call.sh', snippet('ansible_tower_callback_script')) %>
+chmod +x /root/ansible_provisioning_call.sh
 /root/ansible_provisioning_call.sh
 <% end -%>
 
