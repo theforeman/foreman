@@ -83,6 +83,14 @@ snippet: true
 
   # VLAN (only on physical is recognized)
   if iface.virtual? && iface.tag.present? && iface.attached_to.present?
+    if iface.attached_to.match 'bond'
+      @host.bond_interfaces.each do |bond_interface|
+          if bond_interface.identifier == iface.attached_to
+              bond_slaves = bond_interface.attached_devices_identifiers.join(',')
+              options.push("bond=#{bond_interface.identifier}:#{bond_slaves}:mode=#{bond_interface.mode},#{bond_interface.bond_options.tr(' ', ',')}")
+          end
+      end
+    end
     if (is_fedora && os_major < 17) || (rhel_compatible && os_major < 7)
       options.push("vlanid=#{iface.tag}")
     else
