@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-26 20:03+0530\n"
-"PO-Revision-Date: 2021-04-26 20:03+0530\n"
+"POT-Creation-Date: 2021-05-03 19:26+0530\n"
+"PO-Revision-Date: 2021-05-03 19:26+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -113,13 +113,13 @@ msgid "Interface"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:186
-#: ../app/helpers/hosts_helper.rb:69 ../app/helpers/hosts_helper.rb:365
+#: ../app/helpers/hosts_helper.rb:69 ../app/helpers/hosts_helper.rb:364
 #: ../app/views/taxonomies/_form.html.erb:6
 msgid "Primary"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:192
-#: ../app/helpers/hosts_helper.rb:70 ../app/helpers/hosts_helper.rb:366
+#: ../app/helpers/hosts_helper.rb:70 ../app/helpers/hosts_helper.rb:365
 #: ../app/models/setting/provisioning.rb:96
 msgid "Provisioning"
 msgstr ""
@@ -148,8 +148,9 @@ msgstr ""
 
 #: ../app/assets/javascripts/hosts.js:25
 #: ../app/helpers/host_description_helper.rb:102
-#: ../app/helpers/hosts_helper.rb:375 ../app/helpers/hosts_helper.rb:377
+#: ../app/helpers/hosts_helper.rb:374 ../app/helpers/hosts_helper.rb:376
 #: ../app/models/host_status/build_status.rb:9
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:25
 msgid "Build"
 msgstr ""
 
@@ -4539,16 +4540,11 @@ msgid "Cannot resolve network type for %s"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:41
-#: ../app/helpers/compute_resources_vms_helper.rb:36
-#: ../app/helpers/hosts_helper.rb:186 ../app/helpers/users_helper.rb:3
-#: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:15
-#: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:16
-#: ../app/views/ssh_keys/_ssh_key_row.html.erb:7
-msgid "%s ago"
+msgid "in %s"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:41
-msgid "in %s"
+msgid "%s ago"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:56 ../app/helpers/audits_helper.rb:7
@@ -4556,10 +4552,9 @@ msgstr ""
 #: ../app/helpers/compute_resources_vms_helper.rb:38
 #: ../app/helpers/fact_values_helper.rb:5
 #: ../app/helpers/host_description_helper.rb:66
-#: ../app/helpers/hosts_helper.rb:187 ../app/helpers/hosts_helper.rb:194
-#: ../app/helpers/hosts_helper.rb:247 ../app/helpers/reports_helper.rb:24
+#: ../app/helpers/hosts_helper.rb:186 ../app/helpers/hosts_helper.rb:193
+#: ../app/helpers/hosts_helper.rb:246 ../app/helpers/reports_helper.rb:24
 #: ../app/services/power_manager/power_status.rb:6
-#: ../app/views/dashboard/_hosts_in_build_mode_widget_host_list.html.erb:14
 #: ../app/views/fact_values/_fact.html.erb:7
 #: ../app/views/filters/index.html.erb:52
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/index.js:40
@@ -4581,6 +4576,7 @@ msgstr ""
 #: ../app/views/common/confirm_class_clean_up.html.erb:8
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:19
 #: ../webpack/assets/javascripts/react_app/components/common/table/components/DeleteButton.js:9
 #: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/components/ModelDeleteModal.js:25
 msgid "Delete"
@@ -4697,6 +4693,7 @@ msgstr ""
 #: ../db/seeds.d/170-notification_blueprints.rb:3
 #: ../db/seeds.d/170-notification_blueprints.rb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:23
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:90
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:42
 msgid "Hosts"
 msgstr ""
@@ -4762,14 +4759,14 @@ msgstr ""
 
 #: ../app/helpers/bmc_helper.rb:5 ../app/helpers/compute_resources_helper.rb:8
 #: ../app/helpers/compute_resources_helper.rb:13
-#: ../app/helpers/hosts_helper.rb:266
+#: ../app/helpers/hosts_helper.rb:265
 #: ../app/services/power_manager/power_status.rb:4
 msgid "On"
 msgstr ""
 
 #: ../app/helpers/bmc_helper.rb:7 ../app/helpers/compute_resources_helper.rb:8
 #: ../app/helpers/compute_resources_helper.rb:13
-#: ../app/helpers/hosts_helper.rb:266 ../app/services/name_generator.rb:3
+#: ../app/helpers/hosts_helper.rb:265 ../app/services/name_generator.rb:3
 #: ../app/services/power_manager/power_status.rb:5
 msgid "Off"
 msgstr ""
@@ -4969,7 +4966,7 @@ msgstr ""
 msgid "Applied|A"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:111 ../app/helpers/hosts_helper.rb:212
+#: ../app/helpers/dashboard_helper.rb:111 ../app/helpers/hosts_helper.rb:211
 #: ../app/views/config_reports/_list.html.erb:9
 msgid "Applied"
 msgstr ""
@@ -4979,7 +4976,7 @@ msgstr ""
 msgid "Restarted|R"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:113 ../app/helpers/hosts_helper.rb:216
+#: ../app/helpers/dashboard_helper.rb:113 ../app/helpers/hosts_helper.rb:215
 #: ../app/views/config_reports/_list.html.erb:10
 msgid "Restarted"
 msgstr ""
@@ -4989,7 +4986,7 @@ msgstr ""
 msgid "Failed|F"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:115 ../app/helpers/hosts_helper.rb:213
+#: ../app/helpers/dashboard_helper.rb:115 ../app/helpers/hosts_helper.rb:212
 #: ../app/models/config_report.rb:79
 #: ../app/views/config_reports/_list.html.erb:11
 msgid "Failed"
@@ -5009,7 +5006,7 @@ msgstr ""
 msgid "Skipped|S"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:119 ../app/helpers/hosts_helper.rb:215
+#: ../app/helpers/dashboard_helper.rb:119 ../app/helpers/hosts_helper.rb:214
 #: ../app/views/config_reports/_list.html.erb:13
 msgid "Skipped"
 msgstr ""
@@ -5104,6 +5101,7 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:41
 #: ../webpack/assets/javascripts/react_app/components/common/RedirectCancelButton/RedirectCancelButton.js:11
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:19
+#: ../webpack/assets/javascripts/react_app/routes/HostWizard/HostWizardPage/HostWizard.js:49
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:31
 msgid "Cancel"
 msgstr ""
@@ -5313,7 +5311,7 @@ msgid "Certificate Name"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:93
-#: ../app/helpers/hosts_helper.rb:384 ../app/helpers/smart_proxies_helper.rb:6
+#: ../app/helpers/hosts_helper.rb:383 ../app/helpers/smart_proxies_helper.rb:6
 #: ../app/helpers/smart_proxies_helper.rb:51
 #: ../app/views/auth_source_externals/_external_card_kebab.html.erb:6
 #: ../app/views/compute_resources/index.html.erb:19
@@ -5341,6 +5339,7 @@ msgstr ""
 #: ../app/views/operatingsystems/index.html.erb:17
 #: ../app/views/roles/index.html.erb:28
 #: ../app/views/taxonomies/index.html.erb:30
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:22
 msgid "Clone"
 msgstr ""
 
@@ -5392,7 +5391,7 @@ msgstr ""
 #: ../app/helpers/hostgroups_helper.rb:6
 #: ../app/helpers/provisioning_templates_helper.rb:44
 #: ../app/helpers/roles_helper.rb:34 ../app/helpers/smart_proxies_helper.rb:8
-#: ../app/helpers/smart_proxies_helper.rb:55 ../app/helpers/users_helper.rb:43
+#: ../app/helpers/smart_proxies_helper.rb:55 ../app/helpers/users_helper.rb:39
 #: ../app/views/architectures/index.html.erb:22
 #: ../app/views/auth_source_ldaps/_ldap_table.html.erb:18
 #: ../app/views/bookmarks/index.html.erb:23
@@ -5458,78 +5457,78 @@ msgstr ""
 msgid "%s - The following hosts are about to be changed"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:214
+#: ../app/helpers/hosts_helper.rb:213
 msgid "Failed restarts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:225
+#: ../app/helpers/hosts_helper.rb:224
 msgid "Config Retrieval"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:225 ../app/views/hosts/show.html.erb:82
+#: ../app/helpers/hosts_helper.rb:224 ../app/views/hosts/show.html.erb:82
 msgid "Runtime"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:234
+#: ../app/helpers/hosts_helper.rb:233
 msgid "Found %{count} reports from the last %{days} days"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:282
+#: ../app/helpers/hosts_helper.rb:281
 msgid ""
 "Are you sure you want to delete host %s? This will delete the VM and its disks"
 ", and is irreversible. This behavior can be changed via global setting \"Destro"
 "y associated VM on host delete\"."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:284
+#: ../app/helpers/hosts_helper.rb:283
 msgid ""
 "Are you sure you want to delete host %s? It is irreversible, but VM and its di"
 "sks will not be deleted. This behavior can be changed via global setting \"Dest"
 "roy associated VM on host delete\"."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:287
+#: ../app/helpers/hosts_helper.rb:286
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:320
+#: ../app/helpers/hosts_helper.rb:319
 msgid "Allocation (GB)"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:323 ../app/helpers/lookup_keys_helper.rb:36
+#: ../app/helpers/hosts_helper.rb:322 ../app/helpers/lookup_keys_helper.rb:36
 #: ../app/helpers/provisioning_templates_helper.rb:5
 #: ../app/helpers/provisioning_templates_helper.rb:6
 #: ../app/models/setting/puppet.rb:6 ../app/services/ipam.rb:2
 msgid "None"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:323
+#: ../app/helpers/hosts_helper.rb:322
 msgid "Size"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:323
+#: ../app/helpers/hosts_helper.rb:322
 msgid "Full"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:345
+#: ../app/helpers/hosts_helper.rb:344
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:6
 #: ../app/views/compute_resources_vms/form/_networks.html.erb:15
 msgid "remove network interface"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:354
+#: ../app/helpers/hosts_helper.rb:353
 msgid "Interface is up"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:356
+#: ../app/helpers/hosts_helper.rb:355
 msgid "Interface is down"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:377
+#: ../app/helpers/hosts_helper.rb:376
 msgid "Errors occurred, build may fail"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:385 ../app/helpers/images_helper.rb:30
+#: ../app/helpers/hosts_helper.rb:384 ../app/helpers/images_helper.rb:30
 #: ../app/views/architectures/edit.html.erb:1
 #: ../app/views/auth_source_ldaps/edit.html.erb:8
 #: ../app/views/auth_source_ldaps/edit.html.erb:14
@@ -5556,15 +5555,15 @@ msgstr ""
 msgid "Edit %s"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:399
+#: ../app/helpers/hosts_helper.rb:398
 msgid "Select desired %s proxy"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:400
+#: ../app/helpers/hosts_helper.rb:399
 msgid "*Clear %s proxy*"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:409
+#: ../app/helpers/hosts_helper.rb:408
 msgid "Generate new random name. Visit Settings to disable this feature."
 msgstr ""
 
@@ -5787,6 +5786,10 @@ msgstr ""
 
 #: ../app/helpers/provisioning_templates_helper.rb:41
 msgid "Lock"
+msgstr ""
+
+#: ../app/helpers/provisioning_templates_helper.rb:67
+msgid "How templates are determined"
 msgstr ""
 
 #: ../app/helpers/provisioning_templates_helper.rb:68
@@ -6215,7 +6218,7 @@ msgstr ""
 msgid "remove template input"
 msgstr ""
 
-#: ../app/helpers/users_helper.rb:32
+#: ../app/helpers/users_helper.rb:28
 msgid "Impersonate"
 msgstr ""
 
@@ -8133,6 +8136,7 @@ msgstr ""
 
 #: ../app/models/setting/notification.rb:10
 #: ../app/views/users/_form.html.erb:78
+#: ../webpack/assets/javascripts/react_app/components/notifications/ToggleIcon/ToggleIcon.js:9
 msgid "Notifications"
 msgstr ""
 
@@ -9863,7 +9867,7 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/Bookmarks/components/BookmarkForm/BookmarkForm.js:53
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:35
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:17
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:61
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:60
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:19
 msgid "Name"
 msgstr ""
@@ -10765,6 +10769,7 @@ msgstr ""
 #: ../app/views/common/403.html.erb:14 ../app/views/common/404.html.erb:4
 #: ../app/views/common/500.html.erb:2 ../app/views/common/503.html.erb:2
 #: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:31
+#: ../webpack/assets/javascripts/react_app/routes/HostWizard/HostWizardPage/HostWizard.js:53
 msgid "Back"
 msgstr ""
 
@@ -10936,6 +10941,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:8
 #: ../app/views/hosts/_assign_hosts.html.erb:12
 #: ../app/views/hosts/_list.html.erb:11
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:81
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/OperatingSystem.js:70
 msgid "Operating system"
 msgstr ""
@@ -11477,7 +11483,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/gce/_volume.html.erb:1
 #: ../app/views/compute_resources_vms/form/libvirt/_volume.html.erb:3
 #: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:2
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:94
+#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:95
 msgid "Size (GB)"
 msgstr ""
 
@@ -13701,7 +13707,7 @@ msgid "Valid from"
 msgstr ""
 
 #: ../app/views/puppetca/_list.html.erb:10
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:67
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:66
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:21
 msgid "Expires"
 msgstr ""
@@ -14805,7 +14811,7 @@ msgid "SSH Keys"
 msgstr ""
 
 #: ../app/views/users/_form.html.erb:19
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:64
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:65
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:49
 msgid "Personal Access Tokens"
 msgstr ""
@@ -15313,6 +15319,7 @@ msgid "Connected"
 msgstr ""
 
 #: ../webpack/assets/javascripts/bundle_novnc.js:91
+#: ../webpack/assets/javascripts/foreman_tools.js:45
 msgid "Loading..."
 msgstr ""
 
@@ -15372,9 +15379,65 @@ msgstr ""
 msgid "Revert Failed, ${err}"
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_tools.js:37
-#: ../webpack/assets/javascripts/foreman_tools.js:49
+#: ../webpack/assets/javascripts/foreman_tools.js:34
 msgid "Filter..."
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:35
+msgid "No data available in table"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:37
+msgid "Showing %s to %s of %s entries"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:42
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:43
+msgid "(filtered from %s total entries)"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:44
+msgid "Show %s entries"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:46
+msgid "Processing..."
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:47
+msgid "Search:"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:48
+msgid "No matching records found"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:50
+msgid "First"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:51
+msgid "Last"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:52
+#: ../webpack/assets/javascripts/react_app/routes/HostWizard/HostWizardPage/HostWizard.js:56
+msgid "Next"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:53
+msgid "Previous"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:56
+msgid ": activate to sort column ascending"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_tools.js:57
+msgid ": activate to sort column descending"
 msgstr ""
 
 #: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:77
@@ -15616,6 +15679,16 @@ msgstr[1] ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitOrCancelActions.js:30
 msgid "Failed to submit the request."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:28
+msgid "plugin action 1"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:30
+msgid "plugin action 2"
 msgstr ""
 
 #:
@@ -15884,12 +15957,12 @@ msgid "Disk Mode"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:98
+#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:99
 msgid "Thin provision"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:108
+#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:109
 msgid "Eager zero"
 msgstr ""
 
@@ -15925,32 +15998,32 @@ msgid "Your New Personal Access Token"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:22
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:21
 msgid "Cannot be in the past"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:37
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:36
 msgid "Personal Access Token was successfully created."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:47
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:46
 msgid "Add Personal Access Token"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:50
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:49
 msgid "Create Personal Access Token"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:46
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:47
 msgid "Active Personal Access Tokens"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:52
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:53
 msgid "Inactive Personal Access Tokens"
 msgstr ""
 
@@ -16002,6 +16075,16 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/routes/HostWizard/HostWizardPage/HostWizard.js:21
 msgid "Host Wizard"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/HostWizard/HostWizardPage/HostWizard.js:23
+msgid "Launch loading wizard"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/HostWizard/HostWizardPage/HostWizard.js:37
+msgid "This will be one of our coolest pages."
 msgstr ""
 
 #:
@@ -16120,6 +16203,11 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:45
 msgid "Expiration of the authorization token."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:59
+msgid "hours"
 msgstr ""
 
 #:
