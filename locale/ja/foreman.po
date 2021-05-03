@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-19 06:48+0000\n"
-"Last-Translator: Amit Upadhye <aupadhye@redhat.com>\n"
+"PO-Revision-Date: 2021-04-26 17:23+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
 "MIME-Version: 1.0\n"
@@ -379,9 +379,6 @@ msgstr "<dl><dt>List</dt> <dd>許容値の一覧。バリデータールール�
 msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr "<dl><dt>String</dt> <dd>すべて文字列に変換されます。</dd><dt>Boolean</dt> <dd>ブール値の一般的な表記を使用できます。</dd><dt>Integer</dt> <dd>整数のみ。負の数も指定できます。</dd><dt>Real</dt> <dd>数値を入力できます。</dd><dt>Array</dt> <dd>有効な JSON または YAML 入力。配列に対して評価する必要があります。</dd><dt>Hash</dt> <dd>有効な JSON または YAML 入力。オブジェクト/マップ/ディクショナリー/ハッシュに対して評価する必要があります。</dd><dt>YAML</dt> <dd>有効な YAML 入力。</dd><dt>JSON</dt> <dd>有効な JSON 入力。</dd></dl>"
 
-msgid "A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
-msgstr "Foreman ユーザーグループは LDAP サーバーに保存されるグループに関連付けられるため、LDAP グループのメンバーシップはユーザーを Foreman ユーザーグループに自動的に追加します。"
-
 msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
 msgstr "プロキシータブでは、外部の IPAM 機能が有効な Smart Proxy を選択する必要があります。"
 
@@ -577,6 +574,9 @@ msgstr "管理者のメールアドレス"
 
 msgid "Administrator user account required"
 msgstr "管理者ユーザーアカウントが必要"
+
+msgid "Advanced"
+msgstr ""
 
 msgid "Affected Locations"
 msgstr "影響を受けるロケーション"
@@ -1154,9 +1154,6 @@ msgstr "この操作はリスクを伴い、パフォーマンスおよびセキ
 msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax might seem messy. ERB syntax ignores white space. One method of handling the indentation is to declare the ERB tag at the beginning of each new line and then use white space within the ERB tag to outline the relationships within the syntax, for example:"
 msgstr "ERB タグの長さが異なるため、ERB 構文にインデントを入れると見にくい場合があります。ERB 構文は空白を無視します。インデントを処理する方法の 1 つは、新しい行の各行頭に ERB タグを宣言し、ERB タグ内の空白を使用して構文内の関係を説明することです。以下に例を示します。"
 
-msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
-msgstr "Foreman を使用する前に、1 つ以上のアーキテクチャーの情報を指定する必要があります。"
-
 msgid "Blank template"
 msgstr "空白のテンプレート"
 
@@ -1181,9 +1178,6 @@ msgstr "ブックマークが正常に更新されました"
 
 msgid "Bookmarks"
 msgstr "ブックマーク"
-
-msgid "Bookmarks are saved search queries. To save them, click on 'Bookmark this search' on the dropdown next to every search button."
-msgstr "ブックマークは保存済みの検索クエリーです。保存するには、各検索ボタンの横にあるドロップボックスの「この検索をブックマーク」をクリックします。"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Bookmark|Controller"
@@ -1559,9 +1553,6 @@ msgstr "クラスター"
 msgid "Cluster ID is required to list available networks"
 msgstr "利用可能なネットワークを一覧表示するにはクラスター ID が必要です"
 
-msgid "Command"
-msgstr "コマンド"
-
 msgid "Comment"
 msgstr "コメント"
 
@@ -1678,6 +1669,9 @@ msgstr "設定グループは foreman_puppet プラグインに抽出されて�
 
 msgid "Config Management"
 msgstr "設定管理"
+
+msgid "Config Reports"
+msgstr ""
 
 msgid "Config Retrieval"
 msgstr "設定の取得"
@@ -1809,6 +1803,9 @@ msgstr "%{destination} で %{migration_name} の移行を見つけることが�
 
 msgid "Could not find a Configuration Template with the name \"%s\", please create one."
 msgstr "名前が \"%s\" の設定テンプレートを見つけることができませんでした。作成してください。"
+
+msgid "Could not find host for request %{request_ip}"
+msgstr ""
 
 msgid "Could not find network %s on VMWare compute resource"
 msgstr "VMWare コンピュートリソースにネットワーク %s を見つけることができませんでした"
@@ -2148,9 +2145,6 @@ msgstr "非推奨: テンプレートの組み合わせの表示"
 
 msgid "DEPRECATED: Update template combination"
 msgstr "非推奨: テンプレートの組み合わせの更新"
-
-msgid "DEPRECATED: this will be always application install time and dropped in the future release."
-msgstr "非推奨:これは常にアプリケーションのインストール時間であり、将来のリリースで削除されます。"
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -2596,6 +2590,9 @@ msgstr "上書きの無効化"
 msgid "Disabled"
 msgstr "無効化"
 
+msgid "Disabled alerts"
+msgstr ""
+
 msgid "Disabling Safe mode"
 msgstr "セーフモードの無効化"
 
@@ -2717,12 +2714,6 @@ msgstr "ERROR または FATAL"
 msgid "EUI-64"
 msgstr "EUI-64"
 
-msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
-msgstr "各アーキテクチャーは複数のオペレーティングシステムに関連付けることもでき、有効な組み合わせを選択できるようにセレクターブロックが提供されます。"
-
-msgid "Each entries represent a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
-msgstr "各エントリーは、特定のハードウェアのアーキテクチャーを表します (一般的には <b>x86_64</b> または <b>i386</b> です)。Foreman は <b>sparc</b> ベースのシステムを含む Solaris オペレーティングシステムファミリーにも対応しています。"
-
 msgid "Each template type rendering capabilities slightly differ, e.g. a provisioning template is always rendered for a single host object and therefore a @host variable is defined. Another example is a report template, where report formatting specific macros are available."
 msgstr "レンダリング機能はテンプレートタイプごとに若干異なります。たとえば、プロビジョニングは常に、単一ホストオブジェクト向けにレンダリングされるので、@host 変数が定義されます。別の例として、レポート形式固有のマクロが利用できるレポートのテンプレートもあります。"
 
@@ -2839,6 +2830,9 @@ msgstr "IP 自動補完の終了 IP アドレス"
 
 msgid "Entries per page"
 msgstr "1 ページあたりのエントリー"
+
+msgid "Enviroments"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
@@ -3465,14 +3459,8 @@ msgstr "Foreman 監査概要"
 msgid "Foreman can store information about the networking setup of a host that it’s provisioning, which can be used to configure the virtual machine, assign the correct IP addresses and network resources, then configure the OS correctly during the provisioning process."
 msgstr "Foreman は、プロビジョニングしているホストのネットワーク設定についての情報を保存します。これは、プロビジョニングプロセスでの仮想マシンの設定、正しい IP アドレスとネットワークリソースの割り当て、また OS の正しい設定に使用できます。"
 
-msgid "Foreman can use External service for user information and authentication."
-msgstr "Foreman では、ユーザー情報と認証用に外部サービスを使用できます。"
-
-msgid "Foreman can use LDAP based service for user information and authentication."
-msgstr "Foreman では、ユーザー情報と認証用に LDAP ベースのサービスを使用できます。"
-
-msgid "Foreman considers a domain and a DNS zone as the same thing."
-msgstr "Foreman はドメインと DNS ゾーンを同じものと見なします。"
+msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter."
+msgstr ""
 
 msgid "Foreman could not find a required vSphere resource. Check if Foreman has the required permissions and the resource exists. Reason: %s"
 msgstr "Foreman は必要な vSphere リソースを見つけることができませんでした。Foreman に必要なパーミッションがあり、リソースが存在するかどうかを確認してください。理由: %s"
@@ -3504,8 +3492,8 @@ msgstr "IPv4 インターフェースの Foreman サブネット ID"
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr "IPv6 インターフェースの Foreman サブネット ID"
 
-msgid "Foreman supports automatically creating realm entries for new hosts."
-msgstr "Foreman は、新規ホストのレルムエントリーの自動作成に対応します。"
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
+msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
 msgstr "Foreman はベアメタルホストのほかにも、「コンピュートリソース」と呼ばれる数多くの仮想化およびクラウドサービスでホストを作成し、管理することをサポートします。"
@@ -3633,9 +3621,6 @@ msgstr "レポートの生成"
 msgid "Generate at"
 msgstr "生成:"
 
-msgid "Generate command"
-msgstr "コマンドの生成"
-
 msgid "Generate global registration command"
 msgstr "グローバル登録コマンドを生成する"
 
@@ -3653,6 +3638,9 @@ msgstr "%s 前に生成"
 
 msgid "Generated at %s"
 msgstr "生成日: %s"
+
+msgid "Generating ..."
+msgstr ""
 
 msgid "Generating Report template failed for: %s."
 msgstr "レポートテンプレートの生成に失敗しました: %s。"
@@ -3866,9 +3854,6 @@ msgstr "%s のホスト設定のステータス"
 
 msgid "Host Fetch ${response}"
 msgstr "ホストフェッチ ${response}"
-
-msgid "Host Group"
-msgstr "ホストグループ"
 
 msgid "Host Group / Environment"
 msgstr "ホストグループ / 環境"
@@ -4499,12 +4484,6 @@ msgstr "チェックが付けられていると、デフォルト値がなく Ma
 msgid "If owner type is specified, owner must be specified too."
 msgstr "所有者タイプが指定されている場合は、所有者も指定する必要があります。"
 
-msgid "If set to \"Yes\", Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it. The inherited value is based on the `host_registration_insights` parameter. It can be inherited e.g. from host group, operating system, organization. When overidden, the selected value will be stored on host parameter level."
-msgstr "「はい」に設定すると、Insights クライアントが Red Hat ファミリーのオペレーティングシステムにインストールおよび登録されます。サポート対象外の他の OS ファミリーへの影響はありません。継承された値は、`host_registration_insights` パラメーターに基づいています。これは、ホストグループ、オペレーティングシステム、組織などから継承することができます。上書きされると、選択した値がホストパラメーターレベルで保存されます。"
-
-msgid "If set to \"Yes\", SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization.. When overidden, the selected value will be stored on host parameter level."
-msgstr "「はい」に設定すると、SSH キーが登録済みホストにインストールされます。継承された値は、`host_registration_remote_execution` パラメーターに基づいています。これは、ホストグループ、オペレーティングシステム、組織などから継承することができます。上書きされると、選択した値がホストパラメーターレベルで保存されます。"
-
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
 msgstr "設定している場合には、スケジュールされたレポートがメールで配信されます。「%s」を使用して、複数のメールアドレスを区切ります。"
 
@@ -4513,9 +4492,6 @@ msgstr "管理フラグが無効になっている場合は、サービスがサ
 
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr "管理フラグが有効になっている場合は、DHCP、DNS、および TFTP といった外部サービスは、提供された情報に従って設定されます。"
-
-msgid "If the target machine does not trust the Foreman SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
-msgstr "ターゲットマシンが Foreman SSL 証明書を信頼していない場合、最初の接続は中間者攻撃の対象となる可能性があります。リスクを受け入れ、サーバーの信頼性を検証する必要がない場合は、最初の curl に対して安全でない引数を有効にすることができます。最初の要求は残りの登録プロセスに SSL 証明書をデプロイするため、すべての後続の通信は適切に保護される点に留意してください。"
 
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
 msgstr "テンプレートで形式を選択できる場合には、任意の形式を選択できます。<br>通常、テンプレートは report_render マクロを使用する必要があります。<br><br>テンプレートでマクロが使用されていない場合には<br>このフィールドが無効になっており、出力形式がデフォルトのプレーンテキストに設定されています。<br><br>テンプレートでフィルターの選択をサポートしているが、report_render マクロを使用していない場合には、<br>report_render のマクロ名が記載されているテンプレートのコメントを追加して、このフィールドを有効にしてください。"
@@ -4532,14 +4508,8 @@ msgstr "この設定をファイルで変更する必要がある場合は、フ
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
 msgstr "true の場合は、デフォルト値がなく、Matcher が値を提供しないときにエラーが発生します"
 
-msgid "If you are planning to use Foreman as an external node classifier you should provide information about one or more environments. This information is commonly imported from a pre-existing Puppet configuration by the use of the %{link_start}Puppet classes and environment importer%{link_end}."
-msgstr "Foreman を外部ノードの分類子として使用予定の場合には、1 つ以上の環境に関する情報を指定する必要があります。この情報は一般的に、{link_start}Puppet クラスと環境 importer%{link_end} を使用して、既存の Puppet 設定からインポートされます。"
-
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "これが Foreman 自体のエラーであると思われる場合は、新規の問題として提出してください。"
-
-msgid "If you wish to configure Puppet to forward it reports to Foreman, please follow"
-msgstr "レポートを Foreman に転送するよう Puppet を設定する場合は、次の手順に従ってください"
 
 msgid "Ignore Puppet facts for provisioning"
 msgstr "プロビジョニングのために Puppet ファクトを無視します"
@@ -4728,9 +4698,6 @@ msgstr "更新された設定に関する情報"
 msgid "Infrastructure"
 msgstr "インフラストラクチャー"
 
-msgid "Inherit from parameter"
-msgstr "パラメーターから継承"
-
 msgid "Inherit parent (%s)"
 msgstr "親の継承 (%s)"
 
@@ -4739,6 +4706,9 @@ msgstr "%s から継承されたクラス"
 
 msgid "Inherits from subnet VLAN ID if not set"
 msgstr "設定されていない場合のサブネット VLAN ID からの継承"
+
+msgid "Initial configuration template"
+msgstr ""
 
 msgid "Input %s: "
 msgstr "入力 %s: "
@@ -4778,6 +4748,9 @@ msgstr ""
 
 msgid "Insecure"
 msgstr "安全でない"
+
+msgid "Install packages"
+msgstr ""
 
 msgid "Installation Media"
 msgstr "インストールメディア"
@@ -5012,9 +4985,6 @@ msgstr "ドキュメントで外部認証の詳細を確認してください。
 
 msgid "Learn more about LDAP authentication in the documentation."
 msgstr "ドキュメントで LDAP 認証の詳細を確認してださい。"
-
-msgid "Learn more about this in the documentation."
-msgstr "詳細についてはドキュメントを参照してください。"
 
 msgid "Length"
 msgstr "長さ"
@@ -5758,6 +5728,9 @@ msgstr "サブスクリプションタイプ"
 msgid "Manage"
 msgstr "管理"
 
+msgid "Manage Bookmarks"
+msgstr "ブックマークの管理"
+
 msgid "Manage Locations"
 msgstr "ロケーションの管理"
 
@@ -6180,8 +6153,8 @@ msgstr "BMC 機能を備えた %s が見つかりません。インストール�
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
 msgstr "このホストの %{template_kind} テンプレートが見つかりませんでした。%{os} 設定に少なくとも 1 つ定義していることを確認するか、PXE ローダーを変更してください"
 
-msgid "No (enforce)"
-msgstr "いいえ (適用)"
+msgid "No (override)"
+msgstr ""
 
 msgid "No BMC NIC available for host %s"
 msgstr "ホスト %s に利用可能な BMC NIC はありません"
@@ -6195,11 +6168,8 @@ msgstr "ビルドモードのホストも、ビルドエラーがあるホスト
 msgid "No IPv4 subnets selected"
 msgstr "IPv4 サブネットが選択されていません"
 
-msgid "No Location selected"
-msgstr "ロケーションが選択されていません"
-
-msgid "No Organization selected"
-msgstr "組織が選択されていません"
+msgid "No OS from host group"
+msgstr ""
 
 msgid "No Results"
 msgstr "結果なし"
@@ -6417,6 +6387,9 @@ msgstr "報告なし"
 msgid "Not set"
 msgstr "設定されていません"
 
+msgid "Not specified"
+msgstr ""
+
 msgid "Note that if you enter an incorrect instance variable, no output is returned. However, if you try to call a method on an incorrect variable, the following error message returns:"
 msgstr "誤ったインスタンス変数を入力した場合、出力は返されない点にご留意ください。ただし、誤った変数でメソッドを呼び出そうとすると、以下のエラーメッセージが返されます。"
 
@@ -6437,6 +6410,9 @@ msgstr "IP の前に余分にスペースがあることに注意してくださ
 
 msgid "Nothing to add"
 msgstr "追加するものがありません"
+
+msgid "Nothing to select."
+msgstr ""
 
 msgid "Nothing to show"
 msgstr "表示するものがありません"
@@ -6620,9 +6596,6 @@ msgstr ""
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
 msgstr "関連付けられたフィルター 1 つ以上が無効であるため、ロールを保存できません"
-
-msgid "Only Smart Proxies with enabled Registration module are available"
-msgstr "登録モジュールが有効な Smart Proxy のみが使用可能です"
 
 msgid "Only for BMC interfaces."
 msgstr "BMC インターフェスのみ。"
@@ -7354,9 +7327,6 @@ msgstr ""
 msgid "Proxies"
 msgstr "プロキシー"
 
-msgid "Proxy"
-msgstr "プロキシー"
-
 msgid "Proxy ID to use within this realm"
 msgstr "このレルム内で使用するプロキシー ID"
 
@@ -7578,6 +7548,9 @@ msgstr "リージョン"
 msgid "Register Host"
 msgstr "ホストの登録"
 
+msgid "Registration command"
+msgstr ""
+
 msgid "Registration template"
 msgstr "登録テンプレート"
 
@@ -7597,9 +7570,6 @@ msgstr[0] "リマインダー: <strong> ホスト 1 台が選択されていま�
 msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] "リマインダー: クエリーフィルター %{query} に <strong>ホストが 1 台選択されています</strong>"
-
-msgid "Remote Execution"
-msgstr "リモート実行"
 
 msgid "Remote execution job templates"
 msgstr "リモート実行ジョブのテンプレート"
@@ -7746,6 +7716,15 @@ msgstr "レポート"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Status"
 msgstr "状態"
+
+msgid "Repository"
+msgstr "リポジトリー"
+
+msgid "Repository GPG key URL"
+msgstr ""
+
+msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
 msgstr "テンプレートをレンダリングするホストオブジェクトを表します。"
@@ -8261,6 +8240,9 @@ msgstr "設定"
 msgid "Setting current value. If this setting is encypted, the value will not be returned"
 msgstr "現在の値を設定します。この設定が暗号化されている場合は、値は返されません"
 
+msgid "Setting definition for '%s' not found, can not set"
+msgstr ""
+
 msgid "Setting full user readable name"
 msgstr "ユーザーが判読できる完全な名前の設定"
 
@@ -8307,6 +8289,9 @@ msgstr "値"
 
 msgid "Setup Insights"
 msgstr "Insights の設定"
+
+msgid "Setup REX"
+msgstr ""
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "インストーラーモジュールの次回実行時に `foreman-rake db:seed` を実行する必要がありますか?"
@@ -8683,8 +8668,14 @@ msgstr "スペースで区切られたオプション (例: e.g. miimon=100)。�
 msgid "Specified value is higher than maximum value"
 msgstr "最大値よりも大きい値が指定されています"
 
+msgid "Specified value is higher than maximum value %s"
+msgstr ""
+
 msgid "Specified value is higher than recommended maximum"
 msgstr "指定された値は推奨される最大値よりも大きいです"
+
+msgid "Specified value is higher than recommended maximum %s"
+msgstr ""
 
 msgid "Specify Matchers"
 msgstr "Matcher の指定"
@@ -9216,13 +9207,6 @@ msgstr "テスター"
 msgid "Text to be shown in the login-page footer"
 msgstr "ログインページフッターに表示されるテキスト"
 
-msgid ""
-"That is, if you are planning to manage a site where all the machines are of the form <i>hostname</i>.<b>somewhere.com</b>\n"
-"    then the domain is <b>somewhere.com</b>."
-msgstr ""
-"つまり、全マシンが <i>hostname</i>.<b>somewhere.com</b> 形式のサイトを管理する場合には、ドメイン\n"
-"    は <b>somewhere.com</b> になります。"
-
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] "ホスト: %{host_names} に %{proxy_type} プロキシーを設定できませんでした。"
@@ -9241,13 +9225,6 @@ msgstr "選択したホストの %{proxy_type} プロキシーが %{proxy_name} 
 
 msgid "The %{setting} setting has been deprecated and will be removed in version %{version}"
 msgstr "%{setting} の設定は非推奨になり、バージョン %{version} で削除される予定です"
-
-msgid ""
-"The <b>fullname</b> field is used for human readability in reports and other pages that refer to domains,\n"
-"    and also available as an external node parameter"
-msgstr ""
-"<b>fullname</b> フィールドは、ドメインを参照するレポートや他のページで、可読性を高めるために使用され、外部\n"
-"    ノードパラメーターとしても利用できます。"
 
 msgid "The Audit Comment field is saved with the template auditing to document the template changes"
 msgstr "「監査コメント」フィールドは、テンプレートの変更を記載するテンプレート監査と共に保存されます"
@@ -9293,13 +9270,6 @@ msgstr "ERB タグ内の Ruby コードには通常、式が含まれます。�
 
 msgid "The algorithm used to encode the JWT in the OpenID provider."
 msgstr "OpenID プロバイダーで JWT をエンコードするために使用されるアルゴリズム。"
-
-msgid ""
-"The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>,\n"
-"        <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
-msgstr ""
-"現在、認証プロセスには LDAP プロバイダー (<em>FreeIPA</em>、\n"
-"            <em>OpenLDAP</em>、または <em>Microsoft's Active Directory</em>) が必要です。"
 
 msgid "The authentication source of your external user groups could not connect to LDAP with the provided credentials. Please verify the credentials are still valid."
 msgstr "外部ユーザーグループの認証ソースは、指定の認証情報で LDAP に接続できませんでした。認証情報がまだ有効であることを確認してください。"
@@ -9526,9 +9496,6 @@ msgstr "この IP アドレスはすでに外部 IPAM で確保されていま�
 msgid "This Puppet class has no parameters in its signature."
 msgstr "この Puppet クラスの署名にはパラメーターがありません。"
 
-msgid "This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site."
-msgstr "これにより、Foreman が Puppet 変数をドメイン/サイトに関連付けて、この変数を自動的に、対象のサイトのマシンが作成した外部ノード要求すべてに追加できます。"
-
 msgid "This generates no output. However if the closing tag was <code>&#37;></code> without the dash, it would generate a new line"
 msgstr "これでは、出力が生成されませんが、終了タグがダッシュなしの <code>&#37;></code> の場合には、改行が追加されます。"
 
@@ -9700,8 +9667,8 @@ msgstr "トークン期間"
 msgid "Token expired"
 msgstr "トークンは期限切れです"
 
-msgid "Token lifetime (hours)"
-msgstr "トークンの有効期間 (時間)"
+msgid "Token life time"
+msgstr ""
 
 msgid "Token was successfully revoked."
 msgstr "トークンは正常に取り消されました。"
@@ -9814,6 +9781,9 @@ msgstr ":url パラメーターの URL にスキームがありません。http:
 msgid "URL must be valid and schema must be one of %s"
 msgstr "URL が有効であり、スキーマが %s のいずれかである必要があります"
 
+msgid "URL of the GPG key for the repository"
+msgstr ""
+
 msgid "URL of the HTTP Proxy"
 msgstr "HTTP プロキシーの URL"
 
@@ -9904,9 +9874,6 @@ msgstr "機能を検出できません"
 msgid "Unable to detect version"
 msgstr "バージョンを検出できません"
 
-msgid "Unable to determine the host's boot server. The DHCP smart proxy failed to provide this information and this subnet is not provided with TFTP services."
-msgstr "ホストのブートサーバーを判別できません。DHCP Smart Proxy でこの情報の提供に失敗したため、このサブネットには TFTP サービスが提供されません。"
-
 msgid "Unable to disable bmc_credentials_accessible when safemode_render is disabled"
 msgstr "safemode_render が無効な場合は、bmc_credentials_accessible を無効にできません"
 
@@ -9936,6 +9903,9 @@ msgstr "%{os} を実行中のホスト %{host} の登録テンプレートが見
 
 msgid "Unable to find template %s"
 msgstr "テンプレート %s が見つかりません"
+
+msgid "Unable to find user-data or cloud-init template for host %{host} running %{os}"
+msgstr ""
 
 msgid "Unable to generate output, Check log files"
 msgstr "出力を生成できません。ログファイルを確認してください"
@@ -10122,6 +10092,9 @@ msgstr "名前なし"
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "%s のサポート対象外の IPAM モード"
+
+msgid "Unsupported or no operating system found for this host."
+msgstr "サポートされていないか、このホストのオペレーティングシステムが見つかりません。"
 
 msgid "Unsupported password hash function '%s'"
 msgstr "サポート対象外のパスワードのハッシュ関数 '%s'"
@@ -10417,12 +10390,6 @@ msgstr "ユーザーデータテンプレート"
 
 msgid "User domain"
 msgstr "ユーザードメイン"
-
-msgid "User groups"
-msgstr "ユーザーグループ"
-
-msgid "User groups enable users to log into Foreman and be automatically granted permissions."
-msgstr "ユーザーグループを使うと、ユーザーは Foreman にログインし、自動的にパーミッションが割り当てられます。"
 
 msgid "User input"
 msgstr "ユーザー入力"
@@ -10780,9 +10747,6 @@ msgstr ""
 "は以下の順序で、該当タイプの利用できるテンプレートからベストマッチ\\\n"
 "を選択します:"
 
-msgid "When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
-msgstr "ホストにレルムが選択されると、Foreman は適切なレルム Smart Proxy に問い合わせて、ホストのエントリーを作成し、ワンタイムの登録パスワードを取得します。"
-
 msgid ""
 "When editing a template, you must assign a list \\\n"
 "of operating systems which this template can be used with. Optionally, you can \\\n"
@@ -10794,9 +10758,6 @@ msgstr ""
 
 msgid "When enabled the parameter is hidden in the UI"
 msgstr "有効な場合はパラメーターが UI で非表示になります"
-
-msgid "When specifying custom value, add 'MB' or 'GB' at the end. Field is not case sensitive and MB is default if unspecified."
-msgstr "カスタム値を指定する場合は、末尾に 'MB' または 'GB' を追加してください。フィールドでは大文字と小文字は区別されず、指定しない場合は MB がデフォルト値になります。"
 
 msgid ""
 "When the role's associated %{taxonomies} are changed,<br> the change will propagate to all inheriting filters.\n"
@@ -10908,8 +10869,11 @@ msgstr "Wiki"
 msgid "Wipe disk after delete"
 msgstr "削除後のディスクのワイプ"
 
-msgid "With user groups, you can group your users and assign them roles on a group basis."
-msgstr "ユーザーグループを使うと、ユーザーを分類し、グループベースでユーザーにロールを割り当てることができます。"
+msgid ""
+"With user groups, you can group your users and assign them roles on a group basis.\n"
+" User groups enable users to log into Foreman and be automatically granted permissions.\n"
+" A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
+msgstr ""
 
 msgid "Writing ERB Templates"
 msgstr "ERB テンプレートの作成"
@@ -10926,8 +10890,8 @@ msgstr "YAML"
 msgid "Yes"
 msgstr "はい"
 
-msgid "Yes (enforce)"
-msgstr "はい (適用)"
+msgid "Yes (override)"
+msgstr ""
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "設定済みの全 TFTP サーバーのデフォルト PXE メニューを変更しようとしています。続行しますか?"
@@ -11001,8 +10965,8 @@ msgstr "表示可能なホストがありません。ホストは Foreman から
 msgid "You don't have permission %{name} with attributes that you have specified or you don't have access to specified organizations or locations"
 msgstr "指定した属性にパーミッション %{name} がありません。または、指定した組織またはロケーションにアクセスできません。"
 
-msgid "You don't seem to have any bookmarks."
-msgstr "ブックマークがないようです。"
+msgid "You don't seem to have any bookmarks. Bookmarks are saved search queries. To save them, click on 'Bookmark this search' on the dropdown next to every search button."
+msgstr ""
 
 msgid "You don't seem to have any facts yet. If you wish to configure fact pushing, please follow the documentation."
 msgstr "まだファクトがないようです。ファクトのプッシュを設定する場合は、ドキュメンテーションの内容に従ってください。"
@@ -11087,9 +11051,6 @@ msgstr "すでに存在します"
 
 msgid "an organization"
 msgstr "組織"
-
-msgid "and"
-msgstr "および"
 
 msgid "array"
 msgstr "配列"
@@ -11235,6 +11196,9 @@ msgstr "ホストの組織に属しません"
 msgid "does not belong to subnet"
 msgstr "サブネットに属しません"
 
+msgid "does not have assigned host_init_config template"
+msgstr ""
+
 msgid "does not have the %s feature"
 msgstr "%s 機能がありません"
 
@@ -11243,9 +11207,6 @@ msgstr "選択されたサブネットに一致しません"
 
 msgid "domain"
 msgstr "ドメイン"
-
-msgid "e-mail reporting"
-msgstr "メールによるレポート"
 
 msgid "e.g. admin@internal"
 msgstr "例: admin@internal"
@@ -11291,9 +11252,6 @@ msgstr "%s をホストで使用するか、継承することを想定 (不一�
 
 msgid "failed to %{action} %{vm}"
 msgstr "%{vm} の %{action} に失敗しました"
-
-msgid "failed to detect boot server: %s"
-msgstr "ブートサーバーの検出に失敗しました: %s"
 
 msgid "failed to save %s"
 msgstr "%s の保存に失敗しました"
@@ -11625,6 +11583,9 @@ msgstr "Nil が許可されます"
 msgid "nil means host is bare metal"
 msgstr "Nil はホストがベアメタルであることを意味します"
 
+msgid "no"
+msgstr "no"
+
 msgid "no free IP could be found in our DB"
 msgstr "DB で空き IP が見つかりませんでした"
 
@@ -11778,9 +11739,6 @@ msgstr "選択されたイメージがありません"
 msgid "service configuration will be skipped."
 msgstr "サービス設定が省略されます。"
 
-msgid "setting up reporting"
-msgstr "レポートをセットアップ中です"
-
 msgid "should be 8 characters or more"
 msgstr "8 文字以上にする必要があります"
 
@@ -11893,6 +11851,9 @@ msgstr "%s のパーミッションが不明です"
 msgid "unknown provider"
 msgstr "不明なプロバイダー"
 
+msgid "unlimited"
+msgstr ""
+
 msgid "unspecified"
 msgstr "指定がありません"
 
@@ -11934,6 +11895,9 @@ msgstr "id {object_id} が存在しないか、適切な組織またはロケー
 
 msgid "yaml"
 msgstr "yaml"
+
+msgid "yes"
+msgstr "yes"
 
 msgid "you can't assign some of roles you selected"
 msgstr "選択したロールの一部を割り当てることはできません"
