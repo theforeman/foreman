@@ -104,14 +104,19 @@ module Foreman
           apipie :method, 'Generates a shell command to store the given text into a file' do
             desc "This is useful if some multiline string needs to be saved somewhere on the hard disk. This
               is typically used in provisioning or job templates, e.g. when puppet configuration file is
-              generated based on host configuration and stored for puppet agent."
+              generated based on host configuration and stored for puppet agent. The content must end with
+              a line end, if not an extra trailing line end is appended automatically."
             required :filename, String, desc: 'the file path to store the content to'
             required :content, String, desc: 'content to be stored'
             returns String, desc: 'String representing the shell command'
-            example "save_to_file(\"hello\\nworld\\n\", '/etc/motd') # => 'cat << EOF > /etc/motd\\nhello\\nworld\\nEOF'"
+            example "save_to_file('/etc/motd', \"hello\\nworld\\n\") # => 'cat << EOF > /etc/motd\\nhello\\nworld\\nEOF'"
           end
           def save_to_file(filename, content)
-            "cat << EOF > #{filename}\n#{content}EOF"
+            if !content || content.ends_with?("\n")
+              "cat << EOF > #{filename}\n#{content}EOF"
+            else
+              "cat << EOF > #{filename}\n#{content}\nEOF"
+            end
           end
 
           apipie :method, desc: 'Takes a block of code, runs it and prefixes the resulting text by given number of spaces' do
