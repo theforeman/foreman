@@ -82,13 +82,13 @@ snippet: true
 <% if registration_type == 'subscription_manager' %>
   <%
     atomic = @host.operatingsystem.respond_to?(:atomic) ? @host.operatingsystem.atomic? : host_param_true?('atomic')
+    redhat_install_agent = host_param_true?('redhat_install_agent', katello_agent_enabled?)
 
     if host_param('kt_activation_keys')
       subscription_manager_certpkg_url = subscription_manager_configuration_url(@host)
       subscription_manager_atomic_url = subscription_manager_configuration_url(@host, false)
       subscription_manager_org = @host.rhsm_organization_label
       activation_key = host_param('kt_activation_keys')
-      redhat_install_agent = host_param_true?('redhat_install_agent', true)
       redhat_install_host_tools = host_param_true?('redhat_install_host_tools', true)
       redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
     else
@@ -96,7 +96,6 @@ snippet: true
       subscription_manager_atomic_url = host_param('subscription_manager_atomic_url')
       subscription_manager_org = host_param('subscription_manager_org')
       activation_key = host_param('activation_key')
-      redhat_install_agent = host_param_true?('redhat_install_agent')
       redhat_install_host_tools = host_param_true?('redhat_install_host_tools')
       redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
     end
