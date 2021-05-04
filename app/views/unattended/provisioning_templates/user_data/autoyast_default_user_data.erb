@@ -17,7 +17,7 @@ oses:
 <%# Cloud instances frequently have incorrect hosts data %>
 <%= snippet 'fix_hosts' %>
 
-<% if @host.provision_method == 'image' && !root_pass.empty? -%>
+<% if @host.provision_method == 'image' && root_pass.present? -%>
 # Install the root password
 echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>
