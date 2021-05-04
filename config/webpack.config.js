@@ -231,7 +231,8 @@ module.exports = env => {
       host: devServer.host,
       port: devServer.port,
       headers: { 'Access-Control-Allow-Origin': '*' },
-      hot: true
+      hot: true,
+      stats: (process.env.WEBPACK_STATS || 'minimal'),
     };
     // Source maps
     config.devtool = 'inline-source-map';
