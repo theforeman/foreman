@@ -15,6 +15,34 @@ export const APIFailMock = { data: APIError };
 export const isErrorVisible = false;
 export const disabled = false;
 
+export const API = {
+  '': [
+    { label: 'name', category: '' },
+    { label: 'id', category: '' },
+  ],
+  n: [{ label: 'name', category: '' }],
+  na: [{ label: 'name', category: '' }],
+  nam: [{ label: 'name', category: '' }],
+  name: [
+    { label: 'name =', category: '' },
+    { label: 'name ~', category: '' },
+  ],
+  'name+': [
+    { label: 'name =', category: '' },
+    { label: 'name ~', category: '' },
+  ],
+  'name+%3D': [{ label: 'name = foreman', category: '' }],
+  'name+%3D+': [{ label: 'name = foreman', category: '' }],
+  'name+~': [{ label: 'name ~ foreman', category: '' }],
+  'name+~ ': [{ label: 'name ~ foreman', category: '' }],
+  i: [{ label: 'id', category: '' }],
+  id: [{ label: 'id', category: '' }],
+  'id+%3D': [{ label: 'id = 1234', category: '' }],
+  'id+%3D+': [{ label: 'id = 1234', category: '' }],
+  'id+~': [{ label: 'id ~ 1234', category: '' }],
+  'id+~ ': [{ label: 'id ~ 1234', category: '' }],
+};
+
 export const AutoCompleteProps = {
   controller,
   searchQuery,
@@ -24,6 +52,12 @@ export const AutoCompleteProps = {
   error,
   id,
   disabled,
+};
+
+export const AutoCompletePropsWithData = {
+  ...AutoCompleteProps,
+  error: undefined,
+  results: API['name+%3D'],
 };
 
 export const initialState = {
@@ -91,30 +125,3 @@ export const reset = {
   id,
 };
 
-export const API = {
-  '': [
-    { label: 'name', category: '' },
-    { label: 'id', category: '' },
-  ],
-  n: [{ label: 'name', category: '' }],
-  na: [{ label: 'name', category: '' }],
-  nam: [{ label: 'name', category: '' }],
-  name: [
-    { label: 'name =', category: '' },
-    { label: 'name ~', category: '' },
-  ],
-  'name+': [
-    { label: 'name =', category: '' },
-    { label: 'name ~', category: '' },
-  ],
-  'name+%3D': [{ label: 'name = foreman', category: '' }],
-  'name+%3D+': [{ label: 'name = foreman', category: '' }],
-  'name+~': [{ label: 'name ~ foreman', category: '' }],
-  'name+~ ': [{ label: 'name ~ foreman', category: '' }],
-  i: [{ label: 'id', category: '' }],
-  id: [{ label: 'id', category: '' }],
-  'id+%3D': [{ label: 'id = 1234', category: '' }],
-  'id+%3D+': [{ label: 'id = 1234', category: '' }],
-  'id+~': [{ label: 'id ~ 1234', category: '' }],
-  'id+~ ': [{ label: 'id ~ 1234', category: '' }],
-};
