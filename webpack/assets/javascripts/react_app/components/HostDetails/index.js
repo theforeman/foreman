@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Grid,
@@ -30,12 +30,12 @@ import ActionsBar from './ActionsBar';
 import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
 import { translate as __ } from '../../common/I18n';
+import { handleTabClick } from './routedTabsHelper';
 
 import './HostDetails.scss';
 
-const HostDetails = ({ match, location: { hash } }) => {
+const HostDetails = ({ match, location: { hash }, history }) => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('Overview');
   const response = useSelector(state =>
     selectAPIResponse(state, 'HOST_DETAILS')
   );
@@ -54,9 +54,12 @@ const HostDetails = ({ match, location: { hash } }) => {
     registerCoreTabs();
   }, []);
 
-  useEffect(() => {
-    if (hash) setActiveTab(hash.slice(1));
-  }, [hash]);
+  const capitalize = tabName =>
+    `${tabName[0].toUpperCase()}${tabName.slice(1)}`;
+
+  const activeTab = match.params.tab
+    ? capitalize(match.params.tab)
+    : 'Overview';
 
   useEffect(() => {
     dispatch(
@@ -73,10 +76,6 @@ const HostDetails = ({ match, location: { hash } }) => {
     document.body.classList.add('pf-gray-background');
     return () => document.body.classList.remove('pf-gray-background');
   }, []);
-
-  const handleTabClick = (event, tabIndex) => {
-    setActiveTab(tabIndex);
-  };
 
   return (
     <>
@@ -137,7 +136,7 @@ const HostDetails = ({ match, location: { hash } }) => {
             width: window.innerWidth - (isNavCollapsed ? 95 : 220),
           }}
           activeKey={activeTab}
-          onSelect={handleTabClick}
+          onSelect={handleTabClick(history, match, ':tab?')}
         >
           {tabs &&
             tabs.map(tab => (
@@ -145,6 +144,8 @@ const HostDetails = ({ match, location: { hash } }) => {
                 <Slot
                   response={response}
                   status={status}
+                  history={history}
+                  match={match}
                   id="host-details-page-tabs"
                   fillID={tab}
                 />
@@ -157,14 +158,11 @@ const HostDetails = ({ match, location: { hash } }) => {
 };
 
 HostDetails.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
+  match: PropTypes.object.isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string,
   }).isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default HostDetails;

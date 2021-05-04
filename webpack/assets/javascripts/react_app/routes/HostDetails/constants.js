@@ -1,1 +1,1 @@
-export const HOST_DETAILS_PATH = '/experimental/hosts/:id';
+export const HOST_DETAILS_PATH = '/experimental/hosts/:id/:tab?/:subtab?';

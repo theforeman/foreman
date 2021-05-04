@@ -599,7 +599,7 @@ Foreman::Application.routes.draw do
 
   match 'host_wizard' => 'react#index', :via => :get
   constraints(id: /[^\/]+/) do
-    match 'experimental/hosts/:id' => 'react#index', :via => :get, :as => :host_details_page
+    match 'experimental/hosts/:id(/*path)' => 'react#index', :via => :get, :as => :host_details_page
   end
   get 'links/:type(/:section)' => 'links#show', :as => 'external_link', :constraints => { section: %r{.*} }
 end
