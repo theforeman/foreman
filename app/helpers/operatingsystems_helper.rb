@@ -61,6 +61,8 @@ module OperatingsystemsHelper
              "openwrt"
            when /Raspbian/i
              "raspbian"
+           when /almalinux/i
+             "almalinux"
            else
              if record.family.blank?
                'stub/black-x'
