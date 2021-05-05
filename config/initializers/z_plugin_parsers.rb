@@ -11,3 +11,7 @@ end
 # Ansible
 Foreman::Plugin.fact_importer_registry.register(:ansible, ForemanAnsible::StructuredFactImporter, false)
 ParserRegistrator.register_fact_parser(:ansible, AnsibleFactParser)
+
+# Katello
+::Foreman::Plugin.fact_importer_registry.register(Katello::RhsmFactName::FACT_TYPE, Katello::RhsmFactImporter)
+ParserRegistrator.register_fact_parser(Katello::RhsmFactName::FACT_TYPE, Katello::RhsmFactParser)
