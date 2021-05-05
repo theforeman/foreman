@@ -23,6 +23,8 @@ module OperatingsystemsHelper
              "stub/darkred-d"
            when /centos/
              "centos"
+           when /rocky/
+             "rocky"
            when /scientific/
              "scientific"
            when /archlinux/
