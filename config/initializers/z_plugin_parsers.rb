@@ -19,3 +19,7 @@ ParserRegistrator.register_fact_parser(Katello::RhsmFactName::FACT_TYPE, Katello
 # Chef
 Foreman::Plugin.fact_importer_registry.register(:foreman_chef, ForemanChef::FactImporter)
 ParserRegistrator.register_fact_parser(:foreman_chef, ForemanChef::FactParser)
+
+# Salt
+Foreman::Plugin.fact_importer_registry.register(:foreman_salt, ForemanSalt::FactImporter)
+FactParser.register_fact_parser(:foreman_salt, ForemanSalt::FactParser)
