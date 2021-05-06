@@ -7,7 +7,13 @@ oses:
 - CentOS
 - Fedora
 - RedHat
-%>
+test_on:
+- host4dhcp
+- host6dhcp
+- host4and6dhcp
+- host4static
+- host6static
+-%>
 <%
   iface = @host.provision_interface
   subnet4 = iface.subnet

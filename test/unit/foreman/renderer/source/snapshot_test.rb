@@ -25,7 +25,7 @@ class Foreman::Renderer::Source::SnapshotTest < ActiveSupport::TestCase
 
   describe '#snapshot_path' do
     test 'generates correct snapshot path' do
-      assert_equal Rails.root.join('test/unit/foreman/renderer/snapshots/ProvisioningTemplate/provision/One.snap.txt').to_s, subject.snapshot_path(template)
+      assert_equal Rails.root.join('test/unit/foreman/renderer/snapshots/ProvisioningTemplate/provision/One.host4dhcp.snap.txt').to_s, subject.snapshot_path(template)
     end
   end
 

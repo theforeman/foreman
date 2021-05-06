@@ -1,0 +1,48 @@
+#cloud-config
+
+
+coreos:
+  units:
+    - name: coreos-bootstrap.service
+      runtime: no
+      command: start
+      content: |
+        [Unit]
+        Description=Install coreos to disk
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/coreos-install \
+          -C  \
+          -V 7.0 \
+          -d /dev/sda  \
+          -c /home/core/cloud-config.yml 
+        ExecStartPost=/usr/bin/wget -q -O /dev/null --no-check-certificate http://foreman.some.host.fqdn/unattended/built
+        ExecStartPost=/usr/sbin/reboot
+        [X-Fleet]
+        X-Conflicts=coreos-bootstrap.service
+users:
+  - name: core
+    passwd: $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
+write_files:
+  - content: |
+      #cloud-config
+
+      coreos:
+        etcd2:
+          advertise-client-urls: http://192.168.42.42:2379
+          initial-advertise-peer-urls: http://192.168.42.42:2380
+          listen-client-urls: http://0.0.0.0:2379
+          listen-peer-urls: http://0.0.0.0:2380
+        units:
+          - name: etcd2.service
+            command: start
+          - name: fleet.service
+            command: start
+      hostname: snapshot-ipv4-dhcp-el7
+      users:
+        - name: core
+          passwd: $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
+
+    path: /home/core/cloud-config.yml
+    permissions: '0600'
+    owner: core:core

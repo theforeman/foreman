@@ -1,0 +1,122 @@
+
+# FreeIPA Registration Snippet
+#
+# Optional parameters:
+#
+#   freeipa_server              IPA server
+#
+#   freeipa_sudo                Enable sudoers
+#                               Default: true
+#
+#   freeipa_ssh                 Enable ssh integration
+#                               Default: true
+#
+#   freeipa_automount           Enable automounter
+#                               Default: false
+#
+#   freeipa_automount_location  Location for automounts
+#
+#   freeipa_mkhomedir           Enable automatically making home directories
+#                               Default: true
+#
+#   freeipa_opts                Additional options to pass directly to installer
+#
+#   freeipa_automount_server    Override automount server if freeipa_automount is true and the server differs from freeipa_server
+#
+
+      freeipa_client=ipa-client
+    
+      /usr/sbin/sshd-keygen
+  
+yum install -y libsss_sudo $freeipa_client
+
+##
+## IPA Client Installation
+##
+
+
+freeipa_mkhomedir="--mkhomedir"
+
+
+
+# One-time password will be requested at install time. Otherwise, $HOST[OTP] is used as a placeholder value.
+/usr/sbin/ipa-client-install -w '$HOST[OTP]' --realm= -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_domain $freeipa_ssh
+
+##
+## Automounter
+##
+
+
+
+##
+## Sudoers
+##
+
+
+
+freeipa_client_version=$(ipa-client-install --version)
+freeipa_client_version_major=$(echo $freeipa_client_version | cut -f1 -d.)
+freeipa_client_version_minor=$(echo $freeipa_client_version | cut -f2 -d.)
+freeipa_realm=$(grep default_realm /etc/krb5.conf | cut -d"=" -f2 | tr -d ' ')
+freeipa_domain=$(grep -A 2 domain_realm /etc/krb5.conf | tail -n1 | awk '{print $1}')
+freeipa_dn=$(for word in $(echo $freeipa_domain | sed 's/\./ /g'); do echo -n dc=$word,; done)
+sssd_version=$(sssd --version)
+sssd_major=$(echo $sssd_version | cut -f1 -d.)
+sssd_minor=$(echo $sssd_version | cut -f2 -d.)
+LDAP_CONFIG=$(mktemp)
+
+# >=ipa-client-4.1.0 automatically configures sssd for sudo
+# =<ipa-client-3 requires manual configuration which this snippet takes care of
+
+if [ $freeipa_client_version_major -lt 4 ]
+then
+  # Modify sssd.conf
+  sed -i -e "s/services = .*/\0, sudo/" /etc/sssd/sssd.conf
+
+  # Modify sssd.conf for sssd <1.11 (RHEL <6.6)
+  if [ $sssd_minor -lt 11 ] || [ $sssd_major -lt 1 ]
+  then
+        krb5_server="_srv_"
+    
+cat <<EOF > $LDAP_CONFIG
+sudo_provider = ldap
+ldap_uri = _srv_ $ldap_uri
+ldap_sudo_search_base = ou=SUDOers,${freeipa_dn%?}
+ldap_sasl_mech = GSSAPI
+ldap_sasl_authid = host/$HOSTNAME
+ldap_sasl_realm = $freeipa_realm
+krb5_server = $krb5_server
+EOF
+  sed -i -e "/\[domain\/.*\]/ r $LDAP_CONFIG" /etc/sssd/sssd.conf
+  fi
+
+  # Modify nsswitch.conf
+  grep -q sudoers /etc/nsswitch.conf
+  if [[ $? -eq 0 ]];
+  then
+    sed -i -e "s/^sudoers.*/sudoers:    files sss/" /etc/nsswitch.conf
+  else
+    echo "sudoers:    files sss" >> /etc/nsswitch.conf
+  fi
+
+  # Configure nisdomain
+      authconfig --nisdomain ${freeipa_domain} --update
+    chkconfig sssd on
+    
+    if [[ $(rpm -qa systemd | wc -l) -gt 0 ]];
+    then
+      domain_service=/usr/lib/systemd/system/*-domainname.service
+      
+      # Workaround for BZ1071969 on RHEL 7.0
+      grep -q "DefaultDependencies=no" $domain_service
+      if [[ $? -ne 0 ]]
+      then
+        sed -i -e "s/\[Unit\]/\[Unit\]\nDefaultDependencies=no/" $domain_service
+      fi
+
+      systemctl start $(basename $domain_service)
+      systemctl enable $(basename $domain_service)
+    fi
+  fi
+
+

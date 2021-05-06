@@ -13,11 +13,11 @@ module Foreman
           end
 
           def snapshot_variants(template)
-            Dir["#{File.join(SNAPSHOTS_DIRECTORY, template_path(template))}*"]
+            Dir.glob "#{File.join(SNAPSHOTS_DIRECTORY, template_path(template))}*"
           end
 
-          def snapshot_path(template)
-            File.join(SNAPSHOTS_DIRECTORY, "#{template_path(template)}.snap.txt")
+          def snapshot_path(template, suffix = 'host4dhcp')
+            File.join(SNAPSHOTS_DIRECTORY, "#{template_path(template)}.#{suffix}.snap.txt")
           end
 
           def template_path(template)
@@ -26,14 +26,14 @@ module Foreman
               template.name)
           end
 
+          def hosts(template)
+            fetch_metadata(template.template, :test_on, ['host4dhcp'])
+          end
+
           private
 
           def fetch_metadata(content, key, default = nil)
-            content_by_lines(content).find { |l| l.starts_with?("#{key}: ") }.try(:remove, "#{key}: ").try(:strip) || default
-          end
-
-          def content_by_lines(content)
-            content.split("\n")
+            ::Template.parse_metadata(content)[key] || default
           end
         end
 

@@ -1,6 +1,0 @@
-
-DEFAULT coreos
-
-LABEL coreos
-    KERNEL 
-    APPEND initrd= cloud-config-url=http://foreman.some.host.fqdn/unattended/provision

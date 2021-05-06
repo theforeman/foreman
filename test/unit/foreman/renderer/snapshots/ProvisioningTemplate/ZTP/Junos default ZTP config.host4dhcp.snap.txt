@@ -1,0 +1,66 @@
+system {
+    host-name ;
+    root-authentication {
+      encrypted-password "$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0"; ## SECRET-DATA
+    }
+    services {
+        ssh;
+        netconf {
+            ssh;
+        }
+    }
+    syslog {
+        user * {
+            any emergency;
+            user info;
+        }
+        file messages {
+            any notice;
+            authorization info;
+        }
+        console {
+            user info;
+        }
+    }
+}
+interfaces {
+    vme {
+        unit 0 {
+            family inet {
+                dhcp;
+            }
+        }
+    }
+}
+event-options {
+    generate-event {
+        fmztp time-interval 90;
+    }
+    policy fmztp {
+        events fmztp;
+        then {
+            execute-commands {
+                commands {
+                    "op url http://foreman.some.host.fqdn/unattended/provision.slax";
+                }
+            }
+        }
+    }
+}
+protocols {
+    igmp-snooping {
+        vlan all;
+    }
+    rstp;
+    lldp {
+        interface all;
+    }
+    lldp-med {
+        interface all;
+    }
+}
+ethernet-switching-options {
+    storm-control {
+        interface all;
+    }
+}

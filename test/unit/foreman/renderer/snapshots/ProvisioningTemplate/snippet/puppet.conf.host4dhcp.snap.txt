@@ -1,0 +1,13 @@
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = \$vardir/ssl
+
+[agent]
+pluginsync      = true
+report          = true
+ca_server       = localhost
+certname        = snapshot-ipv4-dhcp-el7
+server          = localhost
+environment     = test

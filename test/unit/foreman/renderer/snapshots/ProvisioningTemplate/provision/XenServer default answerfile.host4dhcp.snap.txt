@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<installation mode="fresh" srtype="lvm">
+zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended  <keymap>us</keymap>
+  <hostname></hostname>
+  <root-password type="hash">$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0</root-password>
+  <source type="url">url --url http://mirror.centos.org/centos/7/os/x86_64</source>
+  <admin-interface name="eth0" proto="dhcp">
+  </admin-interface>
+  <name-server>192.168.42.2</name-server>
+  <name-server>192.168.42.3</name-server>
+  <ntp-server>pool.ntp.org</ntp-server>
+  <timezone>UTC</timezone>
+  <time-config-method>ntp</time-config-method>
+  <script stage="installation-complete" type="url">
+    http://foreman.some.host.fqdn/unattended/finish
+  </script>
+</installation>

@@ -320,6 +320,24 @@ FactoryBot.define do
       end
     end
 
+    factory :host_for_snapshots_ipv4_dhcp_el7 do
+      name { 'snapshot-ipv4-dhcp-el7' }
+      hostname { name }
+      managed { true }
+      operatingsystem { FactoryBot.build(:for_snapshots_centos_7_0) }
+      domain { FactoryBot.build(:domain_for_snapshots) }
+      subnet { FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots) }
+      pxe_loader { "PXELinux BIOS" }
+      architecture { operatingsystem.try(:architectures).try(:first) }
+      medium { operatingsystem.try(:media).try(:first) }
+      ptable { operatingsystem.try(:ptables).try(:first) }
+      root_pass { '$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0' }
+      environment { FactoryBot.build(:environment, :for_snapshots_test) }
+      certname { name }
+      puppet_proxy { FactoryBot.build(:puppet_smart_proxy, name: 'puppet-proxy', url: 'http://localhost:8448') }
+      puppet_ca_proxy { FactoryBot.build(:puppet_ca_smart_proxy, name: 'puppetca-proxy', url: 'http://localhost:8448') }
+    end
+
     trait :with_dhcp_orchestration do
       managed
       compute_resource do

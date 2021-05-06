@@ -3,6 +3,10 @@ FactoryBot.define do
     sequence(:name) { |n| "environment#{n}" }
     organizations { [Organization.find_by_name('Organization 1')] }
     locations { [Location.find_by_name('Location 1')] }
+
+    trait :for_snapshots_test do
+      name { 'test' }
+    end
   end
 
   factory :environment_class do

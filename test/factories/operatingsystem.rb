@@ -124,6 +124,17 @@ FactoryBot.define do
       title { 'Red Hat Enterprise Linux 7.5' }
     end
 
+    factory :for_snapshots_centos_7_0, class: Redhat do
+      name { 'CentOS' }
+      major { '7' }
+      minor { '0' }
+      type { 'Redhat' }
+      title { 'CentOS 7.0' }
+      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
+      media { [FactoryBot.build(:centos_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
     factory :altlinux, class: Altlinux do
       sequence(:name) { 'Altlinux' }
       major { '8' }
