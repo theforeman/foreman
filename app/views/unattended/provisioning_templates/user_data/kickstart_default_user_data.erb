@@ -29,7 +29,7 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 
 <%= snippet 'ntp' %>
 
-<% if rhel_compatible && !host_param_false?('enable-epel') -%>
+<% if rhel_compatible && host_param_true?('enable-epel') -%>
 <%= snippet 'epel' -%>
 <% end -%>
 

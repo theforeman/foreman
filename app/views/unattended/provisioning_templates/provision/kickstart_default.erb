@@ -24,7 +24,7 @@ This template accepts the following parameters:
 - http-proxy: string (default="")
 - http-proxy-port: string (default="")
 - force-puppet: boolean (default=false)
-- enable-epel: boolean (default=true)
+- enable-epel: boolean (default=false)
 - enable-puppetlabs-repo: boolean (default=false)
 - enable-puppetlabs-puppet5-repo: boolean (default=false)
 - enable-puppetlabs-puppet6-repo: boolean (default=false)
@@ -276,7 +276,7 @@ logger "Starting anaconda <%= @host %> postinstall"
 
 <%= snippet 'yum_proxy' %>
 
-<% if rhel_compatible && !host_param_false?('enable-epel') -%>
+<% if rhel_compatible && host_param_true?('enable-epel') -%>
 <%= snippet 'epel' -%>
 <% end -%>
 
