@@ -1,14 +1,21 @@
 class Setting::General < Setting
   include UrlValidator
 
+  # Lazy-load this to avoid loading this during Rails startup
+  def self.locales
+    Hash['' => _("Browser locale")].merge(Hash[FastGettext.human_available_locales.map { |lang| [lang[1], lang[0]] }])
+  end
+
+  # Lazy-load this to avoid loading this during Rails startup
+  def self.timezones
+    Hash['' => _("Browser timezone")].merge(Hash[ActiveSupport::TimeZone.all.map { |tz| [tz.name, "(GMT #{tz.formatted_offset}) #{tz.name}"] }])
+  end
+
   def self.default_settings
     protocol = SETTINGS[:require_ssl] ? 'https' : 'http'
     domain = SETTINGS[:domain]
     administrator = "root@#{domain}"
     foreman_url = "#{protocol}://#{SETTINGS[:fqdn]}"
-
-    locales = Hash['' => _("Browser locale")].merge(Hash[FastGettext.human_available_locales.map { |lang| [lang[1], lang[0]] }])
-    timezones = Hash['' => _("Browser timezone")].merge(Hash[ActiveSupport::TimeZone.all.map { |tz| [tz.name, "(GMT #{tz.formatted_offset}) #{tz.name}"] }])
 
     [
       set('administrator', N_("The default administrator email address"), administrator, N_('Administrator email address')),
