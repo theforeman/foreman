@@ -51,6 +51,7 @@ module ComputeResourcesVmsHelper
 
   def spice_data_attributes(console)
     options = {
+      :encrypt  => console[:encrypt],
       :port     => console[:port],
       :password => console[:password],
     }
