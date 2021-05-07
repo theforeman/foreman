@@ -1,0 +1,24 @@
+
+
+
+if [ -f /usr/bin/dnf ]; then
+  dnf -y install salt-minion
+else
+  yum -t -y install salt-minion
+fi
+
+cat > /etc/salt/minion.d/minion.conf << EOF
+
+master: 
+log_level: warning
+
+
+grains: {}
+
+EOF
+
+echo snapshot-ipv4-dhcp-el7 > /etc/salt/minion_id
+
+/sbin/chkconfig --level 345 salt-minion on
+
+/usr/bin/salt-call --no-color --grains >/dev/null

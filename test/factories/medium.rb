@@ -6,6 +6,16 @@ FactoryBot.define do
     organizations { [Organization.find_by_name('Organization 1')] }
     locations { [Location.find_by_name('Location 1')] }
 
+    factory :centos_for_snapshots do
+      name { |n| "CentOS Mirror" }
+      path { 'http://mirror.centos.org/centos/$major/os/x86_64' }
+    end
+
+    trait :centos do
+      sequence(:name) { |n| "CentOS Mirror #{n}" }
+      sequence(:path) { 'http://mirror.centos.org/centos/$major/os/x86_64' }
+    end
+
     trait :coreos do
       sequence(:name) { |n| "CoreOS Mirror #{n}" }
       sequence(:path) { 'http://$release.release.core-os.net' }

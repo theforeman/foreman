@@ -12,6 +12,9 @@ class RendererTest < ActiveSupport::TestCase
   setup do
     # don't advertise any plugins to prevent different results
     ::Foreman::Plugin.stubs(:find).returns(nil)
+
+    # dns_query macro
+    Resolv::DNS.any_instance.stubs(:getaddress).returns('127.0.0.15')
   end
 
   context 'safe mode' do

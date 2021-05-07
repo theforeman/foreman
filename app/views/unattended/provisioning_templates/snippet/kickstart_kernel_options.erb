@@ -33,6 +33,7 @@ snippet: true
 
   # networking credentials
   raise("Dual-stack provisioning not supported") if subnet4 && subnet6
+  options.push("dualstack!") if subnet4 && subnet6
   if subnet4 && subnet4.dhcp_boot_mode?
     options.push("ip=dhcp") if rhel_compatible && major >= 7
   elsif subnet4 && !subnet4.dhcp_boot_mode?
@@ -50,7 +51,7 @@ snippet: true
         options.push("ip=#{iface.ip}::#{subnet4.gateway}:#{subnet4.mask}:#{hostname}:#{iface.identifier}:none")
       end
     end
-  elsif subnet6.dhcp_boot_mode? && rhel_compatible && major >= 7
+  elsif subnet6 && subnet6.dhcp_boot_mode? && rhel_compatible && major >= 7
     if host_param_true?("use-slaac")
       options.push("ip=auto6")
     else

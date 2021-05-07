@@ -6,13 +6,30 @@ module Foreman
       new.templates
     end
 
-    def self.host
-      new.host
+    def self.host4dhcp
+      new.host4dhcp
     end
 
-    def self.render_template(template)
+    def self.host6dhcp
+      new.host6dhcp
+    end
+
+    def self.host4and6dhcp
+      new.host4and6dhcp
+    end
+
+    def self.host4static
+      new.host4static
+    end
+
+    def self.host6static
+      new.host6static
+    end
+
+    def self.render_template(template, host_name = :host4dhcp)
+      host_stub = send(host_name.to_sym)
       source = Foreman::Renderer::Source::Snapshot.new(template)
-      scope = Foreman::Renderer.get_scope(host: host, source: source)
+      scope = Foreman::Renderer.get_scope(host: host_stub, source: source)
       Foreman::Renderer.render(source, scope)
     end
 
@@ -20,29 +37,7 @@ module Foreman
       files.map { |path| Foreman::Renderer::Source::Snapshot.load_file(path) }
     end
 
-    def host
-      interface = FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
-                                   mac: '00-f0-54-1a-7e-e0',
-                                   ip: '127.0.0.1')
-      domain = FactoryBot.build(:domain, name: 'snapshotdomain.com')
-      subnet = FactoryBot.build(:subnet_ipv4, name: 'one', network: interface.ip)
-      architecture = FactoryBot.build(:architecture, name: 'x86_64')
-      medium = FactoryBot.build(:medium, name: 'CentOS mirror')
-      ptable = FactoryBot.build(:ptable, name: 'ptable')
-      operatingsystem = FactoryBot.build(:operatingsystem, name: 'Redhat',
-                                         major: 7,
-                                         architectures: [architecture],
-                                         media: [medium],
-                                         ptables: [ptable])
-      host = FactoryBot.build(:host, :managed, hostname: 'snapshothost',
-                       domain: domain,
-                       subnet: subnet,
-                       architecture: architecture,
-                       medium: medium,
-                       ptable: ptable,
-                       operatingsystem: operatingsystem,
-                       interfaces: [interface])
-
+    def define_host_params(host)
       host_params = {
         "enable-epel" => "true",
         "package_upgrade" => "true",
@@ -61,6 +56,66 @@ module Foreman
         host_params[name]
       end
       host
+    end
+
+    def ipv4_interface
+      FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
+        mac: '00-f0-54-1a-7e-e0',
+        ip: '192.168.42.42')
+    end
+
+    def ipv6_interface
+      FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
+        mac: '00-f0-54-1a-7e-e0',
+        ip: '2001:db8:42::42')
+    end
+
+    def ipv46_interface
+      FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
+        mac: '00-f0-54-1a-7e-e0',
+        ip: '192.168.42.42',
+        ip6: '2001:db8:42::42')
+    end
+
+    def host4dhcp
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+        name: 'snapshot-ipv4-dhcp-el7',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        interfaces: [ipv4_interface])
+      define_host_params(host)
+    end
+
+    def host4static
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+        name: 'snapshot-ipv4-static-el7',
+        subnet: FactoryBot.build(:subnet_ipv4_static_for_snapshots),
+        interfaces: [ipv4_interface])
+      define_host_params(host)
+    end
+
+    def host6dhcp
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+        name: 'snapshot-ipv6-dhcp-el7',
+        subnet: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
+        interfaces: [ipv6_interface])
+      define_host_params(host)
+    end
+
+    def host6static
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+        name: 'snapshot-ipv6-static-el7',
+        subnet: FactoryBot.build(:subnet_ipv6_static_for_snapshots),
+        interfaces: [ipv6_interface])
+      define_host_params(host)
+    end
+
+    def host4and6dhcp
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+        name: 'snapshot-ipv4-6-dhcp-el7',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        subnet6: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
+        interfaces: [ipv46_interface])
+      define_host_params(host)
     end
 
     private

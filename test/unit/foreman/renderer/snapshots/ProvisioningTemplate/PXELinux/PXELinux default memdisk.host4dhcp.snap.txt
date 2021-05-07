@@ -1,0 +1,6 @@
+
+DEFAULT memdisk
+
+LABEL memdisk
+    KERNEL memdisk
+    APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img harddisk raw

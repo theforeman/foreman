@@ -1,0 +1,15 @@
+#cloud-config
+hostname: 
+rancher:
+  network:
+    dns:
+      nameservers:
+        - 192.168.42.2
+        - 192.168.42.3
+      search:
+        - snap.example.com
+    interfaces:
+      eth*:
+        dhcp: true
+  console: debian
+ssh_authorized_keys:

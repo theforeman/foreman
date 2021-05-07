@@ -14,5 +14,10 @@ FactoryBot.define do
         FactoryBot.create(:domain_parameter, :domain => domain)
       end
     end
+
+    factory :domain_for_snapshots do
+      name { 'snap.example.com' }
+      fullname { 'snap.example.com' }
+    end
   end
 end

@@ -1,0 +1,11 @@
+# This file was deployed via 'Kickstart default PXEGrub' template
+
+default=0
+timeout=10
+
+title Kickstart default PXEGrub
+  root (nd)
+  kernel (nd)/../boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz ks=http://foreman.some.host.fqdn/unattended/provision  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac ip=2001:db8:42::42::2001:db8:42::1:ffff:ffff:ffff:::snapshot-ipv6-static-el7:eth0:none nameserver=2001:db8:42::8 nameserver=2001:db8:42::4 fips=1
+  initrd (nd)/../boot/centos-mirror-nrm0GtSX1ZC5-initrd.img
+
+

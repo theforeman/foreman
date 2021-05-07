@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE profile>
+<profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
+  <general>
+    <mode>
+      <confirm config:type="boolean">false</confirm>
+      <final_reboot config:type="boolean">true</final_reboot>
+    </mode>
+  </general>
+  <networking>
+    <dns>
+      <hostname>snapshot-ipv4-dhcp-el7</hostname>
+      <resolv_conf_policy>auto</resolv_conf_policy>
+      <searchlist config:type="list">
+        <search>snap.example.com</search>
+      </searchlist>
+    </dns>
+    <interfaces config:type="list">
+    </interfaces>
+  </networking>
+      <ntp-client>
+    <configure_dhcp config:type="boolean">false</configure_dhcp>
+    <peers config:type="list">
+      <peer>
+        <address>0.opensuse.pool.ntp.org</address>
+        <initial_sync config:type="boolean">true</initial_sync>
+        <options></options>
+        <type>server</type>
+      </peer>
+    </peers>
+    <start_at_boot config:type="boolean">true</start_at_boot>
+    <start_in_chroot config:type="boolean">true</start_in_chroot>
+  </ntp-client>
+  zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended
+  <runlevel>
+    <default>3</default>
+    <services config:type="list">
+      <service>
+        <service_name>sshd</service_name>
+        <service_status>enable</service_status>
+      </service>
+    </services>
+  </runlevel>
+  <software>
+    <base>default</base>
+    <patterns config:type="list">
+      <pattern>base</pattern>
+      <pattern>enhanced_base</pattern>
+      <pattern>sw_management</pattern>
+      <pattern>yast2_basis</pattern>
+    </patterns>
+    <packages config:type="list">
+      <package>lsb-release</package>
+      <package>rubygem-puppet</package>
+    </packages>
+  </software>
+  <users config:type="list">
+    <user>
+      <username>root</username>
+      <encrypted config:type="boolean">true</encrypted>
+      <fullname>root</fullname>
+      <gid>0</gid>
+      <home>/root</home>
+      <shell>/bin/bash</shell>
+      <uid>0</uid>
+      <user_password>$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0</user_password>
+    </user>
+  </users>
+  <scripts>
+    <chroot-scripts config:type="list">
+      <script>
+        <filename>cp-resolv.sh</filename>
+        <chrooted config:type="boolean">false</chrooted>
+        <interpreter>shell</interpreter>
+        <notification>Copying resolv.conf into chroot ...</notification>
+        <source><![CDATA[
+cp /etc/resolv.conf /mnt/etc
+]]>
+        </source>
+      </script>
+      <script>
+        <filename>foreman.sh</filename>
+        <chrooted config:type="boolean">true</chrooted>
+        <interpreter>shell</interpreter>
+        <notification>Setting up Puppet / Foreman ...</notification>
+        <source><![CDATA[
+/bin/hostname snapshot-ipv4-dhcp-el7
+
+
+# SSH keys setup snippet for Remote Execution plugin
+#
+# Parameters:
+#
+# remote_execution_ssh_keys: public keys to be put in ~/.ssh/authorized_keys
+#
+# remote_execution_ssh_user: user for which remote_execution_ssh_keys will be
+#                            authorized
+#
+# remote_execution_create_user: create user if it not already existing
+#
+# remote_execution_effective_user_method: method to switch from ssh user to
+#                                         effective user
+#
+# This template sets up SSH keys in any host so that as long as your public
+# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This
+# works in combination with Remote Execution plugin by querying smart proxies
+# to build an array.
+#
+# To use this snippet without the plugin provide the SSH keys as host parameter
+# remote_execution_ssh_keys. It expects the same format like the authorized_keys
+# file.
+
+
+
+
+echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
+
+
+if [ -f /usr/bin/dnf ]; then
+  dnf -y install puppet
+else
+  yum -t -y install puppet
+fi
+
+cat > /etc/puppet/puppet.conf << EOF
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = \$vardir/ssl
+
+[agent]
+pluginsync      = true
+report          = true
+ca_server       = localhost
+certname        = snapshot-ipv4-dhcp-el7
+server          = localhost
+environment     = test
+
+EOF
+
+
+puppet_unit=puppet
+/usr/bin/systemctl list-unit-files | grep -q puppetagent && puppet_unit=puppetagent
+/usr/bin/systemctl enable ${puppet_unit}
+
+# export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
+export FACTER_is_installer=true
+# passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag --server localhost --no-daemonize
+
+
+
+if [ -x /usr/bin/curl ]; then
+  /usr/bin/curl -o /dev/null --noproxy \* -H 'Content-Type: text/plain' --silent 'http://foreman.some.host.fqdn/unattended/built'
+elif [ -x /usr/bin/wget ]; then
+  /usr/bin/wget -q -O /dev/null --no-proxy --method POST --header 'Content-Type: text/plain' 'http://foreman.some.host.fqdn/unattended/built'
+else
+  wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.some.host.fqdn/unattended/built'
+fi
+
+rm /etc/resolv.conf
+]]>
+        </source>
+      </script>
+    </chroot-scripts>
+  </scripts>
+  <keyboard>
+    <keymap>english-us</keymap>
+  </keyboard>
+  <timezone>
+    <hwclock>UTC</hwclock>
+    <timezone>Etc/UTC</timezone>
+  </timezone>
+</profile>
