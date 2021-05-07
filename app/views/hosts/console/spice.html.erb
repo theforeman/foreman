@@ -1,9 +1,6 @@
 <% title "#{@console[:name]}" %>
 <%= title_actions(
         button_group(link_to(_("Ctrl-Alt-Del"), "#", :id => "sendCtrlAltDelButton", :onclick => 'tfm.spice.sendCtrlAltDel()', :class => "btn btn-default"),
-                     if supports_spice_xpi?
-                       link_to(_("New window"), "#", :id => "disconnect", :class => "btn btn-default", :onclick => 'tfm.spice.connectXPI()', :title => _("Open Spice in a new window"))
-                     end,
                      if @host
                        link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')
                      end

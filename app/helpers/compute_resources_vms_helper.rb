@@ -44,26 +44,11 @@ module ComputeResourcesVmsHelper
     end
   end
 
-  def supports_spice_xpi?
-    user_agent = request.env['HTTP_USER_AGENT']
-    user_agent =~ /linux/i && user_agent =~ /firefox/i
-  end
-
   def spice_data_attributes(console)
-    options = {
+    {
       :port     => console[:port],
       :password => console[:password],
     }
-    if supports_spice_xpi?
-      options.merge!(
-        :address     => console[:address],
-        :secure_port => console[:secure_port],
-        :subject     => console[:subject],
-        :title       => _("%s - Press Shift-F12 to release the cursor.") % console[:name]
-      )
-    end
-    options[:ca_cert] = URI.escape(console[:ca_cert]) if console[:ca_cert].present?
-    options
   end
 
   def libvirt_networks(compute_resource)
