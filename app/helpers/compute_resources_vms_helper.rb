@@ -51,7 +51,7 @@ module ComputeResourcesVmsHelper
 
   def spice_data_attributes(console)
     options = {
-      :port     => console[:proxy_port],
+      :port     => console[:port],
       :password => console[:password],
     }
     if supports_spice_xpi?
