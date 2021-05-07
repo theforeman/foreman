@@ -16,7 +16,7 @@ coreos:
           -V 7 \
           -d /dev/sda  \
           -c /home/core/cloud-config.yml 
-        ExecStartPost=/usr/bin/wget -q -O /dev/null --no-check-certificate http://foreman.some.host.fqdn/unattended/built
+        ExecStartPost=/usr/bin/wget -q -O /dev/null --no-check-certificate http://foreman.example.com/unattended/built
         ExecStartPost=/usr/sbin/reboot
         [X-Fleet]
         X-Conflicts=coreos-bootstrap.service

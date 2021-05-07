@@ -2,5 +2,5 @@ DEFAULT rancheros
 
 LABEL rancheros
     KERNEL 
-    APPEND rancher.state.dev=LABEL=RANCHER_STATE rancher.state.autoformat=[/dev/sda] rancher.cloud_init.datasources=['url:http://foreman.some.host.fqdn/unattended/provision']
+    APPEND rancher.state.dev=LABEL=RANCHER_STATE rancher.state.autoformat=[/dev/sda] rancher.cloud_init.datasources=['url:http://foreman.example.com/unattended/provision']
     INITRD 

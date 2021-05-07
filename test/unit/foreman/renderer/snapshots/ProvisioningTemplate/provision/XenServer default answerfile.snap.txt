@@ -10,6 +10,6 @@ zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --a
   <timezone>UTC</timezone>
   <time-config-method>ntp</time-config-method>
   <script stage="installation-complete" type="url">
-    http://foreman.some.host.fqdn/unattended/finish
+    http://foreman.example.com/unattended/finish
   </script>
 </installation>

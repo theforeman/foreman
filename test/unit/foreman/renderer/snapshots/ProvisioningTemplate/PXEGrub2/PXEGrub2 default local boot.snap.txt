@@ -140,7 +140,7 @@ menuentry 'Chainload into BIOS bootloader on second disk' --id local_chain_legac
   boot
 }
 
-common="rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac"
+common="rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.example.com proxy.type=foreman BOOTIF=01-$net_default_mac"
 
 if [ ${grub_platform} == "pc" ]; then
   menuentry 'Foreman Discovery Image' --id discovery {

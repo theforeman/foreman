@@ -15,5 +15,5 @@
 ("/net-eth" action "add_iface_address" name "eth0" addip "127.0.0.1" addmask "255.255.255.0")
 ("/net-eth" action "write" commit #t)
 ("/root/change_password" language (en_US") passwd_2 "123" passwd_1 "123")
-("/postinstall/firsttime" action "write" method "url" url "http://foreman.some.host.fqdn/unattended/finish")
+("/postinstall/firsttime" action "write" method "url" url "http://foreman.example.com/unattended/finish")
 

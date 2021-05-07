@@ -58,7 +58,7 @@ title Chainload into bootloader on first disk
 
 # http://projects.theforeman.org/issues/15997
 title Foreman Discovery Image - not supported with Grub 1.x
-  kernel boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
+  kernel boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.example.com proxy.type=foreman BOOTIF=01-$net_default_mac
   initrd boot/fdi-image/initrd0.img
 
 

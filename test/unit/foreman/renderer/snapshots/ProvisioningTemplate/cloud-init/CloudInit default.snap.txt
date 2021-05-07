@@ -95,6 +95,6 @@ runcmd:
   # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
   /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime   --no-daemonize
 phone_home:
-  url: http://foreman.some.host.fqdn/unattended/built
+  url: http://foreman.example.com/unattended/built
   post: []
   tries: 10

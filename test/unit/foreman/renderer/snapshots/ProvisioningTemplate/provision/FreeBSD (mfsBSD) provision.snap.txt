@@ -11,10 +11,10 @@ test -z "$first_disk" || echo "First disk: $first_disk"
 
 cp /etc/resolv.conf /mnt/etc/resolv.conf
 mount -t devfs devfs /mnt/dev
-fetch -q --no-verify-hostname --no-verify-peer -o /mnt/tmp/finish.sh -d http://foreman.some.host.fqdn/unattended/finish
+fetch -q --no-verify-hostname --no-verify-peer -o /mnt/tmp/finish.sh -d http://foreman.example.com/unattended/finish
 chroot /mnt /bin/sh /tmp/finish.sh
 rm /mnt/tmp/finish.sh
 
-fetch -q --no-verify-hostname --no-verify-peer -o /dev/null -d http://foreman.some.host.fqdn/unattended/built
+fetch -q --no-verify-hostname --no-verify-peer -o /dev/null -d http://foreman.example.com/unattended/built
 sleep 5
 reboot

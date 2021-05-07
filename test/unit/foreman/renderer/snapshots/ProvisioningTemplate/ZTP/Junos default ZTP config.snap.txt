@@ -41,7 +41,7 @@ event-options {
         then {
             execute-commands {
                 commands {
-                    "op url http://foreman.some.host.fqdn/unattended/provision.slax";
+                    "op url http://foreman.example.com/unattended/provision.slax";
                 }
             }
         }

@@ -183,20 +183,20 @@ cp -vf /tmp/*.pre.*.log /mnt/sysimage/root/
 if test -f /tmp/foreman_built; then
   echo "calling home: build is done!"
   if [ -x /usr/bin/curl ]; then
-    /usr/bin/curl -o /dev/null --noproxy \* -H 'Content-Type: text/plain' --data @/root/install.post.log --silent 'http://foreman.some.host.fqdn/unattended/built'
+    /usr/bin/curl -o /dev/null --noproxy \* -H 'Content-Type: text/plain' --data @/root/install.post.log --silent 'http://foreman.example.com/unattended/built'
   elif [ -x /usr/bin/wget ]; then
-    /usr/bin/wget -q -O /dev/null --no-proxy --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log 'http://foreman.some.host.fqdn/unattended/built'
+    /usr/bin/wget -q -O /dev/null --no-proxy --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log 'http://foreman.example.com/unattended/built'
   else
-    wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.some.host.fqdn/unattended/built'
+    wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/built'
   fi
 else
   echo "calling home: build failed!"
   if [ -x /usr/bin/curl ]; then
-    /usr/bin/curl -o /dev/null --noproxy \* -H 'Content-Type: text/plain' --data @/root/install.post.log --silent 'http://foreman.some.host.fqdn/unattended/failed'
+    /usr/bin/curl -o /dev/null --noproxy \* -H 'Content-Type: text/plain' --data @/root/install.post.log --silent 'http://foreman.example.com/unattended/failed'
   elif [ -x /usr/bin/wget ]; then
-    /usr/bin/wget -q -O /dev/null --no-proxy --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log 'http://foreman.some.host.fqdn/unattended/failed'
+    /usr/bin/wget -q -O /dev/null --no-proxy --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log 'http://foreman.example.com/unattended/failed'
   else
-    wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.some.host.fqdn/unattended/failed'
+    wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/failed'
   fi
 fi
 

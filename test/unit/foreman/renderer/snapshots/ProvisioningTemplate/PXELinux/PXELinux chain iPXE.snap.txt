@@ -3,5 +3,5 @@
 DEFAULT linux
 LABEL linux
 KERNEL ipxe.lkrn
-APPEND dhcp && chain http://foreman.some.host.fqdn/unattended/iPXE
+APPEND dhcp && chain http://foreman.example.com/unattended/iPXE
 IPAPPEND 2
