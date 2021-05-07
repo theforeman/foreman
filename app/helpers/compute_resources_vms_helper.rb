@@ -45,11 +45,21 @@ module ComputeResourcesVmsHelper
   end
 
   def spice_data_attributes(console)
+    query = {}
+    query[:token] = console[:token] if console[:token]
+    uri = URI::Generic.build({scheme: console[:scheme], host: console[:host], port: console[:port], path: console[:path], query: query.to_query})
     {
-      :encrypt  => console[:encrypt],
-      :port     => console[:port],
+      :uri      => uri.to_s,
       :password => console[:password],
     }
+  end
+
+  def vnc_data_attributes(console)
+    query = {}
+    query[:token] = console[:token] if console[:token]
+    uri = URI::Generic.build({scheme: console[:scheme], host: console[:host], port: console[:port], path: console[:path], query: query.to_query})
+    # token_protocol and plain_protocol are used by Kubevirt
+    console.slice(:password, :token_protocol, :plain_protocol).merge(uri: uri.to_s)
   end
 
   def libvirt_networks(compute_resource)

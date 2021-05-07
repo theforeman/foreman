@@ -10,7 +10,13 @@
         ) %>
 <%= content_tag(:div, :id =>'spice-area', :data => spice_data_attributes(@console)) do %>
   <div class="console-status">
-    <div id="spice-status" class="col-md-12 label" data-host="<%= @console[:name] %>"><%= _("Connecting (unencrypted) to: %s") % @console[:name] %></div>
+    <div id="spice-status" class="col-md-12 label" data-host="<%= @console[:name] %>">
+      <% if @console[:encrypt] -%>
+        <%= _("Connecting to: %s") % @console[:name] %>
+      <% else -%>
+        <%= _("Connecting (unencrypted) to: %s") % @console[:name] %>
+      <% end -%>
+    </div>
   </div>
   <div id="spice-screen" class="console-screen"> </div>
 <% end %>

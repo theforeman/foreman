@@ -10,18 +10,9 @@
         )
  ) %>
 
-<div id='vnc'
-     data-host='<%= @console[:host] %>'
-     data-port='<%= @console[:port] %>'
-     data-path='<%= @console[:path] %>'
-     data-token-protocol='<%= @console[:token_protocol] %>'
-     data-plain-protocol='<%= @console[:plain_protocol] %>'
-     data-password='<%= @console[:password] %>'
-     data-encrypt='<%= @console[:encrypt] %>'
->
+<%= content_tag(:div, :id => 'vnc', :data => vnc_data_attributes(@console)) do %>
   <div id="noVNC_status_bar" class="console-status">
     <div id="noVNC_status" class="col-md-12 label">Loading ...</div>
   </div>
-
   <div id="noVNC_screen" class="console-screen"></div>
-</div>
+<% end -%>

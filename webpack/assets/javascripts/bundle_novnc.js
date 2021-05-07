@@ -67,14 +67,10 @@ $(document).on('ContentLoad', () => {
 
   if (vncScreen.length) {
     $('#sendCtrlAltDelButton').on('click', sendCtrlAltDel);
-    const protocol = $('#vnc').data('encrypt') ? 'wss' : 'ws';
-    const host = $('#vnc').attr('data-host') || window.location.hostname;
-    const port = $('#vnc').attr('data-port');
-    const path = $('#vnc').attr('data-path');
-    const password = $('#vnc').attr('data-password');
-    const tokenProtocol = $('#vnc').attr('data-token-protocol');
-    const plainProtocol = $('#vnc').attr('data-plain-protocol');
-    const url = `${protocol}://${host}:${port}${path || ''}`;
+    const url = $('#vnc').data('uri');
+    const password = $('#vnc').data('password');
+    const tokenProtocol = $('#vnc').data('token-protocol');
+    const plainProtocol = $('#vnc').data('plain-protocol');
     const options = {};
     if (password) {
       options.credentials = { password };

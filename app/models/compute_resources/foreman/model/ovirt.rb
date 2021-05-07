@@ -386,12 +386,16 @@ module Foreman::Model
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
       raise "VM is not running!" if vm.status == "down"
-      opts = if vm.display[:secure_port]
-               { :host_port => vm.display[:secure_port], :ssl_target => true }
-             else
-               { :host_port => vm.display[:port] }
-             end
-      WsProxy.start(opts.merge(:host => vm.display[:address], :password => vm.ticket)).merge(:name => vm.name, :type => vm.display[:type])
+      if vm.display[:secure_port]
+        port = vm.display[:secure_port]
+        # TODO how to pass this? websockify only has a global option to use ssl or not
+        # Should we run two websockify instances? 1 SSL and 1 non-SSL?
+        ssl_target = true
+      else
+        port = vm.display[:port]
+      end
+
+      WsProxy.start(host: vm.display[:address], port: port, password: vm.ticket).merge(:name => vm.name, :type => vm.display[:type])
     end
 
     def update_required?(old_attrs, new_attrs)

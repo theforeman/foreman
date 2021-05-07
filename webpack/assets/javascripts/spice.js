@@ -13,18 +13,14 @@ import { sprintf, translate as __ } from './react_app/common/I18n';
 let sc = null;
 
 export function startSpice() {
-  const scheme = $('#spice-area').data('encrypt') ? 'wss' : 'ws';
-  const host = window.location.hostname;
-  const port = $('#spice-area').data('port');
+  const uri = $('#spice-area').data('uri');
   const password = $('#spice-area').data('password');
 
-  if (!host || !port) {
+  if (!uri) {
     // eslint-disable-next-line no-console
-    console.log(__('must set host and port'));
+    console.log(__('Spice connection must set uri'));
     return;
   }
-
-  const uri = `${scheme}://${host}:${port}`;
 
   try {
     sc = new SpiceMainConn({
