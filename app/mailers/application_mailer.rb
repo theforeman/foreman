@@ -11,6 +11,7 @@ class ApplicationMailer < ActionMailer::Base
       headers[:to] = utf8_encode(headers[:to])
       headers[:subject] = "#{Setting[:email_subject_prefix]} #{headers[:subject]}" if (headers[:subject] && Setting[:email_subject_prefix].present?)
       headers['X-Foreman-Server'] = URI.parse(Setting[:foreman_url]).host if Setting[:foreman_url].present?
+      headers['X-Foreman-ID'] = Setting[:instance_id] if Setting[:instance_id].present?
     end
     super
   end
