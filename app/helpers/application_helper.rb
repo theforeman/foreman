@@ -236,17 +236,13 @@ module ApplicationHelper
   end
 
   def flot_chart(name, xaxis_label, yaxis_label, data, options = {})
+    Foreman::Deprecation.deprecation_warning('3.1', '#flot_chart is rendering its react version by default now. '\
+                                                    'Please move to rendering React Component directly.')
     data = data.map { |k, v| {:label => k.to_s.humanize, :data => v} } if data.is_a?(Hash)
-    content_tag(:div, nil,
-      { :id    => name,
-        :class => 'statistics-chart',
-        :data  => {
-          :'legend-options' => options.delete(:legend),
-          :'xaxis-label'    => xaxis_label,
-          :'yaxis-label'    => yaxis_label,
-          :series => data,
-        },
-      }.merge(options))
+    time = ['time'].concat(data[0][:data].map { |d| d.first })
+    data = data.map { |d_hash| [d_hash[:label]].concat(d_hash[:data].map { |d| d.second }) }
+    data.unshift(time)
+    react_component('AreaChart', id: name, xAxisLabel: xaxis_label, yAxisLabel: yaxis_label, data: data)
   end
 
   def flot_bar_chart(name, xaxis_label, yaxis_label, data, options = {})
