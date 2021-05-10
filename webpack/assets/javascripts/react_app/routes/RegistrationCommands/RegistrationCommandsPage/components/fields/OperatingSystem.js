@@ -20,7 +20,6 @@ import {
   osHelperText,
   validatedOS,
   emptyOption,
-  formatOSname,
 } from '../../RegistrationCommandsPageHelpers';
 
 const OperatingSystem = ({
@@ -94,7 +93,7 @@ const OperatingSystem = ({
       >
         {emptyOption(operatingSystems.length)}
         {operatingSystems.map((os, i) => (
-          <FormSelectOption key={i} value={os.id} label={formatOSname(os)} />
+          <FormSelectOption key={i} value={os.id} label={os.title} />
         ))}
       </FormSelect>
     </FormGroup>

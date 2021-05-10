@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, render } from '@theforeman/test';
 import { FormSelectOption } from '@patternfly/react-core';
 
-import { emptyOption, validatedOS, formatOSname, osHelperText } from '../RegistrationCommandsPageHelpers'
+import { emptyOption, validatedOS, osHelperText } from '../RegistrationCommandsPageHelpers'
 
 describe('emptyOption', () => {
   it('when length == 0', () => {
@@ -25,25 +25,6 @@ describe('validatedOS', () => {
 
   it('without template', () => {
     expect(validatedOS(1, {name: ''})).toEqual('error');
-  });
-});
-
-describe('formatOSname', () => {
-  it('with minor version', () => {
-    const os = {
-      name: 'test',
-      major: '1',
-      minor: '23',
-    }
-    expect(formatOSname(os)).toEqual(`${os.name} ${os.major}.${os.minor}`);
-  });
-
-  it('without minor version', () => {
-    const os = {
-      name: 'test',
-      major: '1'
-    }
-    expect(formatOSname(os)).toEqual(`${os.name} ${os.major}`);
   });
 });
 

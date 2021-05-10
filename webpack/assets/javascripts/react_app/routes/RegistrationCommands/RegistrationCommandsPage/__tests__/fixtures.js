@@ -65,7 +65,7 @@ export const hostGroupProps = {
   hostGroupId: 0,
   handleHostGroup: () => {},
   isLoading: false,
-  hostGroups: [{ id: 0, name: 'test_hg' }],
+  hostGroups: [{ id: 0, title: 'test_hg' }],
 };
 
 export const insecureProps = {
