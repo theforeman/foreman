@@ -12,9 +12,15 @@ class SeedsTest < ActiveSupport::TestCase
     # Since we truncate the db, settings getter/setter won't work properly
     Setting.stubs(:[])
     Setting.stubs(:[]=)
+    Setting.stubs(:[]).with(:password_hash).returns(:bcrypt)
+    Setting.stubs(:[]=).with(:password_hash, anything).returns(true)
+    Setting.stubs(:[]=).with(:bcrypt_cost, anything).returns(true)
     Setting.stubs(:[]).with(:bcrypt_cost).returns(1)
     Setting.stubs(:[]=).with(:bcrypt_cost, anything).returns(true)
+    Setting.stubs(:[]).with(:pbkdf2_cost).returns(1000)
+    Setting.stubs(:[]=).with(:pbkdf2_cost, anything).returns(true)
     BCrypt::Engine.stubs(:calibrate).returns(4)
+    BCrypt::Engine.stubs(:password_hash).returns(:bcrypt)
     Foreman.stubs(:in_rake?).returns(true)
   end
 
