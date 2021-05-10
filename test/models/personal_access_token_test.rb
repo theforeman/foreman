@@ -16,17 +16,17 @@ class PersonalAccessTokenTest < ActiveSupport::TestCase
     end
 
     test 'calculates token salt' do
-      expected_salt = '$2a$04$b1d5781111d84f7b3fe45a0852e59758cd7a87e5'
+      expected_salt = '$pbkdf2sha1$1000$b1d5781111d84f7b3fe45a0852e59758cd7a87e5'
       user = mock('user')
       user.stubs(:id).returns(10)
       assert_equal expected_salt, PersonalAccessToken.token_salt(user)
     end
 
     test 'generates token and token hash' do
-      PersonalAccessToken.stubs(:token_salt).returns('$2a$04$0807b1e28d4dfe3d0574eebc3a1278049ba9fbe2')
-      SecureRandom.stubs(:urlsafe_base64).returns('hwGtI4jE5oYBPuM5L9qS7Q')
-      assert_equal 'hwGtI4jE5oYBPuM5L9qS7Q', token.generate_token
-      assert_equal '$2a$04$0807b1e28d4dfe3d0574eeOmfD.Qo6RiW3iyp5bsEOPARUo4rOFTu', token.token
+      PersonalAccessToken.stubs(:token_salt).returns('$pbkdf2sha1$1000$b1d5781111d84f7b3fe45a0852e59758cd7a87e5')
+      SecureRandom.stubs(:urlsafe_base64).returns('JHBia2RmMnNoYTEkMTAwMCRiMWQ1NzgxMTExZDg0ZjdiM2ZlNDVhMDg1MmU1OTc1OGNkN2E4N2U1')
+      assert_equal 'JHBia2RmMnNoYTEkMTAwMCRiMWQ1NzgxMTExZDg0ZjdiM2ZlNDVhMDg1MmU1OTc1OGNkN2E4N2U1', token.generate_token
+      assert_equal '$pbkdf2sha1$1000$b1d5781111d84f7b3fe45a0852e59758cd7a87e5$18ai5/OGgztB9yh1iwjLzQcA/FlSzKHIPM2ZM+CY1MF9UOE4cVB3', token.token
     end
 
     test 'authenticate_user validates token' do

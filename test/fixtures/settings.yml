@@ -428,3 +428,8 @@ attribute95:
   category: Setting::Provisioning
   default: 'Linux host initial configuration'
   description: "Default host initial configuration template"
+attribute96:
+  name: password_hash
+  category: Setting::Auth
+  default: 'pbkdf2sha1'
+  description: "Password hash"

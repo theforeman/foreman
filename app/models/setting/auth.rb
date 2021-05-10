@@ -1,5 +1,11 @@
 class Setting::Auth < Setting
   def self.default_settings
+    password_hashes = {
+      sha1: _("SHA1"),
+      bcrypt: _("BCrypt"),
+      pbkdf2sha1: _("PBKDF2 SHA1"),
+    }
+
     [
       set('oauth_active', N_("Foreman will use OAuth for API authorization"), false, N_('OAuth active')),
       set('oauth_consumer_key', N_("OAuth consumer key"), '', N_('OAuth consumer key'), nil, {:encrypted => true}),
@@ -25,6 +31,7 @@ class Setting::Auth < Setting
       set('authorize_login_delegation_api', N_("Authorize login delegation with REMOTE_USER HTTP header for API calls too"), false, N_('Authorize login delegation API')),
       set('idle_timeout', N_("Log out idle users after a certain number of minutes"), 60, N_('Idle timeout')),
       set('bcrypt_cost', N_("Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."), 4, N_('BCrypt password cost')),
+      set('password_hash', N_("Password hashing algorithm"), :pbkdf2sha1, N_('Password hashing'), nil, {:collection => proc { password_hashes }}),
       set('bmc_credentials_accessible', N_("Permits access to BMC interface passwords through ENC YAML output and in templates"), true, N_('BMC credentials access')),
       set('oidc_jwks_url', N_("OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"), nil, N_('OIDC JWKs URL')),
       set('oidc_audience', N_("Name of the OpenID Connect Audience that is being used for Authentication. In case of Keycloak this is the Client ID."), [], N_('OIDC Audience')),
