@@ -21,7 +21,8 @@ class PersonalAccessToken < ApplicationRecord
   attr_accessor :token_value
 
   def self.authenticate_user(user, token)
-    token = active.find_by(user: user, token: hash_token(user, token, :bcrypt)) ||
+    token = active.find_by(user: user, token: hash_token(user, token, :pbkdf2sha1)) ||
+      active.find_by(user: user, token: hash_token(user, token, :bcrypt)) ||
       active.find_by(user: user, token: hash_token(user, token, :sha1))
     return false unless token
 
@@ -33,19 +34,19 @@ class PersonalAccessToken < ApplicationRecord
   end
 
   # static salt based on user id because input is already good enough (sha1 string)
-  def self.token_salt(user, type = :bcrypt)
+  def self.token_salt(user, type = Setting[:password_hash])
     hasher = Foreman::PasswordHash.new(type)
-    hasher.calculate_salt(user.id, Setting[:bcrypt_cost])
+    hasher.calculate_salt(user.id)
   end
 
-  def self.hash_token(user, token, type = :bcrypt)
+  def self.hash_token(user, token, type = Setting[:password_hash])
     telemetry_duration_histogram(:login_pwhash_duration, :ms, algorithm: type) do
       hasher = Foreman::PasswordHash.new(type)
       hasher.hash_secret(token, token_salt(user, type))
     end
   end
 
-  def generate_token(type = :bcrypt)
+  def generate_token(type = Setting[:password_hash])
     self.token_value = SecureRandom.urlsafe_base64(nil, false)
     self.token = self.class.hash_token(user, token_value, type)
     token_value

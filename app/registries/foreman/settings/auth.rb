@@ -118,11 +118,22 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Log out idle users after a certain number of minutes"),
       default: 60,
       full_name: N_('Idle timeout'))
+    setting('password_hash',
+      type: :string,
+      description: N_("Password hashing algorithm. A password change is needed effect existing passwords."),
+      default: 'bcrypt',
+      full_name: N_('Password hashing algorithm'),
+      collection: proc { { 'sha1' => _("SHA1"), 'bcrypt' => _("BCrypt"), 'pbkdf2sha1' => _("PBKDF2 SHA1") } })
     setting('bcrypt_cost',
       type: :integer,
       description: N_("Cost value of bcrypt password hash function for internal auth-sources (4-30). A higher value is safer but verification is slower, particularly for stateless API calls and UI logins. A password change is needed effect existing passwords."),
       default: 4,
       full_name: N_('BCrypt password cost'))
+    setting('pbkdf2_cost',
+      type: :integer,
+      description: N_("Cost value of PBKDF2 password hash function for internal auth-sources. A higher value is safer but verification is slower, particularly for stateless API calls and UI logins. A password change is needed effect existing passwords."),
+      default: 50000,
+      full_name: N_('PBKDF2 password cost'))
     setting('bmc_credentials_accessible',
       type: :boolean,
       description: N_("Permits access to BMC interface passwords through ENC YAML output and in templates"),

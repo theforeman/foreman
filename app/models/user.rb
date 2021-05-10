@@ -373,17 +373,17 @@ class User < ApplicationRecord
   end
 
   def upgrade_password(pass)
-    logger.info "Upgrading password for user #{login} to bcrypt"
+    logger.info "Upgrading password for user #{login} to configured algorithm"
     self.password_salt = salt_password
     self.password_hash = hash_password(pass)
     update_columns(password_salt: password_salt, password_hash: password_hash)
   end
 
   def matching_password?(pass)
-    return false if password_hash.nil?
+    return false if password_hash.nil? || pass.nil?
     type = Foreman::PasswordHash.detect_implementation(password_salt)
     return false if password_hash != hash_password(pass, type)
-    upgrade_password(pass) if type != :bcrypt
+    upgrade_password(pass) if type != Setting[:password_hash]&.to_sym
     true
   end
 
@@ -615,12 +615,12 @@ class User < ApplicationRecord
     MailNotification[:welcome].deliver(:user => self)
   end
 
-  def salt_password(type = :bcrypt)
+  def salt_password(type = Setting[:password_hash])
     hasher = Foreman::PasswordHash.new(type)
-    hasher.generate_salt(Setting[:bcrypt_cost])
+    hasher.generate_salt
   end
 
-  def hash_password(pass, type = :bcrypt)
+  def hash_password(pass, type = Setting[:password_hash])
     telemetry_duration_histogram(:login_pwhash_duration, :ms, algorithm: type) do
       hasher = Foreman::PasswordHash.new(type)
       hasher.hash_secret(pass, password_salt)

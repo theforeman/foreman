@@ -60,7 +60,7 @@ class UserTest < ActiveSupport::TestCase
   should allow_value(*RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values).for(:lastname)
   should allow_value('A$+#APRocky').for(:login)
   should allow_value(*valid_name_list).for(:description)
-  should allow_value(*RFauxFactory.gen_strings(1..50, exclude: [:html])).for(:password)
+  should allow_value(*RFauxFactory.gen_strings(1..50, exclude: [:html]).values).for(:password)
   should_not allow_value('The Riddle?').for(:firstname)
   should_not allow_value(*RFauxFactory.gen_strings(51)).for(:firstname)
   should_not allow_value("it's the JOKER$$$").for(:lastname)
@@ -991,10 +991,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "#matching_password? succeeds if password matches with higher cost" do
-    Setting[:bcrypt_cost] = 15
     user = FactoryBot.build_stubbed(:user)
+    hasher = Foreman::PasswordHash.new(:sha1)
+    user.password_salt = hasher.generate_salt(10)
+    user.password_hash = hasher.hash_secret('password', user.password_salt)
     assert_valid user
+    Setting[:bcrypt_cost] = 15
     assert user.matching_password?('password')
+  ensure
     Setting[:bcrypt_cost] = 10
   end
 
@@ -1004,7 +1008,7 @@ class UserTest < ActiveSupport::TestCase
     refute u.matching_password?('wrong password')
   end
 
-  test "#matching_password? upgrades from SHA1 to BCrypt" do
+  test "#matching_password? upgrades to default algorithm" do
     hasher = Foreman::PasswordHash.new(:sha1)
     u = FactoryBot.build_stubbed(:user)
     u.password_salt = hasher.generate_salt(0)
@@ -1013,7 +1017,7 @@ class UserTest < ActiveSupport::TestCase
     assert u.matching_password?('password')
   end
 
-  test "#matching_password? does not upgrade from BCrypt to BCrypt for no reason" do
+  test "#matching_password? does not upgrade for no reason" do
     hasher = Foreman::PasswordHash.new(:bcrypt)
     u = FactoryBot.build_stubbed(:user)
     u.password_salt = hasher.generate_salt(5)
