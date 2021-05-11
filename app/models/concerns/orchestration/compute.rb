@@ -17,7 +17,19 @@ module Orchestration::Compute
 
   def compute_object
     if uuid.present? && compute_resource_id.present?
-      compute_resource.find_vm_by_uuid(uuid) rescue nil
+      begin
+        compute_resource.find_vm_by_uuid(uuid)
+      rescue Net::OpenTimeout, Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
+        failure _("Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'.") % {
+          :host => vm_name,
+          :compute_resource => compute_resource.to_s,
+          :exception => compute_resource_connection_failure(e),
+        }
+        nil
+      rescue => e
+        logger.debug "Receiving vm data for host '#{vm_name}' from compute resource '#{compute_resource}' failed. #{e.class}: #{e.message}"
+        nil
+      end
       # we don't want the fact that we failed to fetch the information to break foreman
       # this is mostly relevant when the orchestration had a failure, and later on in the ui we try to retrieve the server again.
       # or when the server was removed not via foreman.
@@ -40,7 +52,11 @@ module Orchestration::Compute
   def queue_compute
     return log_orchestration_errors unless compute? && errors.empty?
     # Create a new VM if it doesn't already exist or update an existing vm
-    vm_exists? ? queue_compute_update : queue_compute_create
+
+    update_or_create = vm_exists?
+    return log_orchestration_errors unless errors.empty?
+
+    update_or_create ? queue_compute_update : queue_compute_create
   end
 
   def queue_compute_create
@@ -366,5 +382,18 @@ module Orchestration::Compute
     vm = compute_object
     return false unless vm
     vm.persisted?
+  end
+
+  def compute_resource_connection_failure(e)
+    case e
+    when Net::OpenTimeout
+      _("Connection to compute resource timed out")
+    when Errno::ECONNREFUSED
+      _("Connection to compute resource refused")
+    when Errno::EHOSTUNREACH
+      _("Compute resource destination unreachable")
+    else
+      e.class.to_s
+    end
   end
 end
