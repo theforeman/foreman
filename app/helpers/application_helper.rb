@@ -224,7 +224,8 @@ module ApplicationHelper
   end
 
   def flot_pie_chart(name, title, data, options = {})
-    Foreman::Deprecation.deprecation_warning('2.6', '#flot_pie_chart is now rendered by react Donut chart with default configuration, please render the donut chart directly.')
+    Foreman::Deprecation.deprecation_warning('3.1', '#flot_pie_chart is now rendered by react Donut chart with default configuration. '\
+                                                    'Please render the Donut chart component directly.')
     data = data.map { |k, v| [k.to_s.humanize, v] } if data.is_a?(Hash)
     react_component('ChartBox', type: 'donut',
                                 status: 'RESOLVED',
@@ -246,39 +247,10 @@ module ApplicationHelper
   end
 
   def flot_bar_chart(name, xaxis_label, yaxis_label, data, options = {})
-    Foreman::Deprecation.deprecation_warning('2.6', '#flot_bar_chart is rendering its react version by default now. '\
-                                                    'You can fall back by use_flot=true option, but that will go away in the 3.0. '\
+    Foreman::Deprecation.deprecation_warning('3.1', '#flot_bar_chart is rendering its react version now. '\
                                                     'Please move to rendering React Component directly.')
-    if options.delete(:use_flot)
-      i = 0
-      ticks = nil
-      if data.is_a?(Array)
-        data = data.map do |kv|
-          ticks ||= []
-          ticks << [i += 1, kv[0].to_s.humanize]
-          [i, kv[1]]
-        end
-      elsif  data.is_a?(Hash)
-        data = data.map do |k, v|
-          ticks ||= []
-          ticks << [i += 1, k.to_s.humanize]
-          [i, v]
-        end
-      end
-
-      content_tag(:div, nil,
-        { :id   => name,
-          :data => {
-            :'xaxis-label' => xaxis_label,
-            :'yaxis-label' => yaxis_label,
-            :chart   => data,
-            :ticks   => ticks,
-          },
-        }.merge(options))
-    else
-      content_tag(:div, id: name) do
-        react_component('BarChart', data: data, xAxisLabel: xaxis_label, yAxisLabel: yaxis_label)
-      end
+    content_tag(:div, id: name) do
+      react_component('BarChart', data: data, xAxisLabel: xaxis_label, yAxisLabel: yaxis_label)
     end
   end
 

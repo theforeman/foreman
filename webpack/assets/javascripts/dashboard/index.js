@@ -141,6 +141,5 @@ function serializeGrid() {
 
 export function widgetLoaded(widget) {
   // TODO: remove this once we no longer use legacy charts in the dashboard widgets.
-  window.refreshCharts();
   activateTooltips(widget);
 }

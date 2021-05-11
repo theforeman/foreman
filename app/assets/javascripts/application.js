@@ -1,6 +1,5 @@
 //= require bootstrap
 //= require patternfly
-//= require vendor
 //= require jquery.extentions
 //= require jquery.multi-select
 //= require hidden_values

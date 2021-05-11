@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`factCharts should render closed 1`] = `
-<div>
+<div
+  className="fact-chart"
+>
   <OverlayTrigger
     defaultOverlayShown={false}
     overlay={
@@ -36,7 +38,9 @@ exports[`factCharts should render closed 1`] = `
 `;
 
 exports[`factCharts should render open 1`] = `
-<div>
+<div
+  className="fact-chart"
+>
   <OverlayTrigger
     defaultOverlayShown={false}
     overlay={
@@ -114,7 +118,7 @@ exports[`factCharts should render open 1`] = `
       componentClass="div"
     >
       <div
-        id="factChartModalBody"
+        className="modal-body"
       >
         <Loader
           spinnerSize="lg"

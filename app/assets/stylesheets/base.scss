@@ -283,6 +283,20 @@ table {
   white-space: nowrap;
 }
 
+.stats-well {
+  border: 1px solid #d7d7d7;
+  background-size: 100%;
+  padding: 15px;
+  min-width: 280px;
+  min-height: 100px;
+  margin-bottom: 15px;
+
+  h2,
+  h4 {
+    font-weight: normal;
+  }
+}
+
 .white-space-normal {
   white-space: normal;
 }
