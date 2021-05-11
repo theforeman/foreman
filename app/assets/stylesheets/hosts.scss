@@ -1,3 +1,20 @@
+#hosts .stats-well {
+  min-height: 270px;
+}
+
+#reports .stats-well {
+  min-height: 380px;
+}
+
+.host-configuration-chart {
+  width: 240px;
+  margin: 25px auto;
+}
+
+.report-chart {
+  height: 405px;
+}
+
 #review_before_build {
   #build_form {
     padding: 0;

@@ -2,7 +2,6 @@
 //= link_tree ../images
 //= link application.css
 //= link application.js
-//= link vendor.js
 
 //= link bg-modal-about-pf.png
 
@@ -17,7 +16,6 @@
 //= link host_edit_interfaces.js
 //= link hosts.js
 // link reports.js
-//= link charts.js
 //= link taxonomy_edit.js
 // link gettext/all.js
 //= link filters.js

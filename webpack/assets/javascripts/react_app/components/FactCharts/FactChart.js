@@ -11,6 +11,7 @@ import {
   ngettext as n__,
   translate as __,
 } from '../../../react_app/common/I18n';
+import './FactChart.scss';
 
 const FactChart = ({
   hostsCount,
@@ -51,7 +52,7 @@ const FactChart = ({
   );
 
   return (
-    <div>
+    <div className="fact-chart">
       <OverlayTrigger placement="top" overlay={tooltip}>
         <Button onClick={openModal}>{__('View Chart')}</Button>
       </OverlayTrigger>
@@ -71,7 +72,7 @@ const FactChart = ({
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div id="factChartModalBody">
+            <div className="modal-body">
               <Loader status={status}>{[chart, error]}</Loader>
             </div>
           </Modal.Body>

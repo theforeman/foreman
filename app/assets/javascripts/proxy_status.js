@@ -2,7 +2,6 @@
 //= require proxy_status/logs
 
 $(document).on('ContentLoad', function() {
-  $('.nav-tabs a').on('shown.bs.tab', refreshCharts);
   $('a[data-toggle="tab"]').on('click', function(e) {
     history.pushState(
       null,
