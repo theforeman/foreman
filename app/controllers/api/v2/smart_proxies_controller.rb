@@ -5,6 +5,11 @@ module Api
       include Api::ImportPuppetclassesCommonController
       include Foreman::Controller::Parameters::SmartProxy
 
+      resource_description do
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
+      end
+
       before_action :find_resource, :only => %w{show update destroy refresh version logs}
 
       api :GET, "/smart_proxies/", N_("List all smart proxies")

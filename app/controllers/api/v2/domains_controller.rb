@@ -14,6 +14,8 @@ module Api
           and automatically append this variable to all external node requests made
           by machines at that site.
         DOC
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
       end
 
       before_action :find_optional_nested_object

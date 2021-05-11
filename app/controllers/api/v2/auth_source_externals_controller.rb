@@ -3,6 +3,11 @@ module Api
     class AuthSourceExternalsController < V2::BaseController
       include Foreman::Controller::Parameters::AuthSourceExternal
 
+      resource_description do
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
+      end
+
       before_action :find_resource, :only => %w{show update}
 
       api :GET, "/auth_source_externals/", N_("List external authentication sources")

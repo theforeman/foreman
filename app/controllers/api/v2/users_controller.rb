@@ -7,6 +7,11 @@ module Api
       include Foreman::Controller::Parameters::User
       include Api::Version2
 
+      resource_description do
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
+      end
+
       wrap_parameters User, :include => user_params_filter.accessible_attributes(
         Foreman::Controller::Parameters::User::Context.new(:api, controller_name, nil, false)) +
         ['compute_attributes']

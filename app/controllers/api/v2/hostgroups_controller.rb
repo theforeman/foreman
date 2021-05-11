@@ -5,6 +5,11 @@ module Api
       include Foreman::Controller::Parameters::Hostgroup
       include ParameterAttributes
 
+      resource_description do
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
+      end
+
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy clone rebuild_config}
       before_action :process_parameter_attributes, :only => %w{update}

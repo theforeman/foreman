@@ -3,6 +3,11 @@ module Api
     class AuthSourceLdapsController < V2::BaseController
       include Foreman::Controller::Parameters::AuthSourceLdap
 
+      resource_description do
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
+      end
+
       wrap_parameters AuthSourceLdap,
         :include => auth_source_ldap_params_filter.
                       accessible_attributes(parameter_filter_context)

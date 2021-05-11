@@ -4,6 +4,11 @@ module Api
       include Api::Version2
       include Foreman::Controller::Parameters::Medium
 
+      resource_description do
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
+      end
+
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
 

@@ -4,6 +4,11 @@ module Api
       include Foreman::Controller::Parameters::ReportTemplate
       include Foreman::Controller::TemplateImport
 
+      resource_description do
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
+      end
+
       wrap_parameters :report_template, :include => report_template_params_filter.accessible_attributes(parameter_filter_context)
 
       before_action :find_optional_nested_object

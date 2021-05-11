@@ -7,8 +7,6 @@ module Api
       resource_description do
         api_version "v2"
         app_info N_("Foreman API v2 is currently the default API version.")
-        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
-        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
       end
 
       def_param_group :pagination do

@@ -5,6 +5,11 @@ module Api
       include Foreman::Controller::Parameters::Subnet
       include ParameterAttributes
 
+      resource_description do
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
+      end
+
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy freeip}
       before_action :find_ipam, :only => %w{freeip}

@@ -4,6 +4,11 @@ module Api
       include Api::Version2
       include Foreman::Controller::Parameters::ComputeResource
 
+      resource_description do
+        param :location_id, Integer, :required => false, :desc => N_("Set the current location context for the request")
+        param :organization_id, Integer, :required => false, :desc => N_("Set the current organization context for the request")
+      end
+
       wrap_parameters ComputeResource, :include => compute_resource_params_filter.accessible_attributes(parameter_filter_context)
 
       before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
