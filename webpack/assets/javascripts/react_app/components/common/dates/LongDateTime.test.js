@@ -4,7 +4,6 @@ import { mount } from '@theforeman/test';
 import React from 'react';
 import LongDateTime from './LongDateTime';
 import { i18nProviderWrapperFactory } from '../../../common/i18nProviderWrapperFactory';
-import { intl } from '../../../common/I18n';
 
 describe('LongDateTime', () => {
   const date = new Date('2017-10-13 00:54:55 -1100');
@@ -16,10 +15,7 @@ describe('LongDateTime', () => {
       <IntlDate date={date} defaultValue="Default value" />
     );
 
-    intl.ready.then(() => {
-      wrapper.update();
-      expect(wrapper.find('LongDateTime')).toMatchSnapshot();
-    });
+    expect(wrapper.find('LongDateTime')).toMatchSnapshot();
   });
 
   it('formats date with relative tooltip', () => {
@@ -31,10 +27,7 @@ describe('LongDateTime', () => {
       />
     );
 
-    intl.ready.then(() => {
-      wrapper.update();
-      expect(wrapper.find('LongDateTime')).toMatchSnapshot();
-    });
+    expect(wrapper.find('LongDateTime')).toMatchSnapshot();
   });
 
   it('formats date with seconds', () => {
@@ -42,10 +35,7 @@ describe('LongDateTime', () => {
       <IntlDate date={date} seconds defaultValue="Default value" />
     );
 
-    intl.ready.then(() => {
-      wrapper.update();
-      expect(wrapper.find('LongDateTime')).toMatchSnapshot();
-    });
+    expect(wrapper.find('LongDateTime')).toMatchSnapshot();
   });
 
   it('renders default value', () => {
@@ -53,9 +43,6 @@ describe('LongDateTime', () => {
       <IntlDate date={null} defaultValue="Default value" />
     );
 
-    intl.ready.then(() => {
-      wrapper.update();
-      expect(wrapper.find('LongDateTime')).toMatchSnapshot();
-    });
+    expect(wrapper.find('LongDateTime')).toMatchSnapshot();
   });
 });

@@ -24,21 +24,6 @@ var args = argvParse({
   }
 })
 
-const supportedLocales = () => {
-  const localeDir = path.join(__dirname, '..', 'locale');
-
-  // Find all files in ./locale/*
-  const localesFiles = fs.readdirSync(localeDir)
-
-  // Return only folders
-  return localesFiles.filter(f => fs.statSync(path.join(localeDir, f)).isDirectory());
-}
-
-const supportedLanguages = () => {
-  // Extract extract languages from the language tags (strip off dialects)
-  return [ ...new Set(supportedLocales().map(d => d.split('_')[0]))];
-}
-
 const devServerConfig = () => {
   const result = require('dotenv').config();
   if (result.error && result.error.code !== 'ENOENT') {
@@ -98,8 +83,6 @@ module.exports = env => {
     },
     pluginEntries
   );
-
-  const supportedLanguagesRE = new RegExp(`/(${supportedLanguages().join('|')})$`);
 
   var config = {
     entry: entry,
@@ -189,16 +172,6 @@ module.exports = env => {
           REDUX_LOGGER: process.env.REDUX_LOGGER
         }
       }),
-      // limit locales from intl only to supported ones
-      new webpack.ContextReplacementPlugin(
-        /intl\/locale-data\/jsonp/,
-        supportedLanguagesRE
-      ),
-      // limit locales from react-intl only to supported ones
-      new webpack.ContextReplacementPlugin(
-        /react-intl\/locale-data/,
-        supportedLanguagesRE
-      ),
     ]
   };
 

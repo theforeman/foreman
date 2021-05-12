@@ -8,7 +8,6 @@ export const ngettext = createTranslateMock();
 export const sprintf = createTranslateMock();
 
 export const intl = {
-  ready: Promise.resolve(true),
   timezone: 'UTC',
   locale: 'en',
 };

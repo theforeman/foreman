@@ -1,1 +1,1 @@
-module.exports = ['react-intl', 'intl'];
+module.exports = ['react-intl'];
