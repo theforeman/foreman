@@ -13,11 +13,11 @@ module Foreman
           end
 
           def snapshot_variants(template)
-            Dir.glob "#{File.join(SNAPSHOTS_DIRECTORY, template_path(template))}*"
+            Dir.glob "#{File.join(SNAPSHOTS_DIRECTORY, template_path(template).tr(' ', '_'))}*"
           end
 
           def snapshot_path(template, suffix = 'host4dhcp')
-            File.join(SNAPSHOTS_DIRECTORY, "#{template_path(template)}.#{suffix}.snap.txt")
+            File.join(SNAPSHOTS_DIRECTORY, "#{template_path(template).tr(' ', '_')}.#{suffix}.snap.txt")
           end
 
           def template_path(template)
