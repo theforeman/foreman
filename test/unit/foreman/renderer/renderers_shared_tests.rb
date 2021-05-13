@@ -15,7 +15,7 @@ module RenderersSharedTests
       @scope = Class.new(Foreman::Renderer::Scope::Base) do
         include Foreman::Renderer::Scope::Macros::Base
         include Foreman::Renderer::Scope::Macros::SnippetRendering
-      end.send(:new, host: @host, source: source)
+      end.send(:new, host: @host, source: source, variables: { x: 'test' })
     end
 
     test "should evaluate template variables" do
@@ -125,6 +125,13 @@ module RenderersSharedTests
       level1_snippet = FactoryBot.create(:provisioning_template, :snippet, :template => "<%= @level1 -%><%= snippet('#{level2_snippet.name}', :variables => {:level2 => 2}) %><%= @level2 %>")
       source = OpenStruct.new(content: "<%= snippet('#{level1_snippet.name}', :variables => {:level1 => 1}) -%><%= @level1 %>")
       assert_equal '12', renderer.render(source, @scope)
+    end
+
+    test "should pass variables from template to snippet" do
+      snippet = FactoryBot.create(:provisioning_template, :snippet, :template => "<%= @x -%>")
+      template = OpenStruct.new(content: "<%= snippet('#{snippet.name}') %>")
+
+      assert_equal renderer.render(template, @scope), 'test'
     end
 
     test "should render a save_to_file macro" do
