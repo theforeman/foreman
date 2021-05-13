@@ -12,6 +12,10 @@ class Permission < ApplicationRecord
 
   def self.resources
     @all_resources ||= Permission.distinct.order(:resource_type).pluck(:resource_type).compact
+  rescue
+    return [] if ActiveRecord::Base.connection.migration_context.needs_migration?
+
+    raise
   end
 
   def self.resources_with_translations
