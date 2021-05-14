@@ -20,8 +20,8 @@ require_dependency 'fog_extensions'
 if (Setting.table_exists? rescue(false))
   # in this phase, the classes are not fully loaded yet, load them
   Dir[
-    File.join(Rails.root, "app/models/setting.rb"),
-    File.join(Rails.root, "app/models/setting/*.rb"),
+    Rails.root.join('app', 'models', 'setting.rb'),
+    Rails.root.join('app', 'models', 'setting', '*.rb'),
   ].each do |f|
     require_dependency(f)
   end
@@ -42,8 +42,17 @@ Foreman::Plugin.initialize_default_registries
 Foreman::Plugin.medium_providers_registry.register MediumProviders::Default
 
 Rails.application.config.to_prepare do
-  # Force reload settings after all plugins have loaded and on code reload
-  Foreman.settings.load if (Setting.table_exists? rescue(false))
+  if (Setting.table_exists? rescue(false))
+    # Force reload settings after all plugins have loaded and on code reload
+    Dir[
+      Rails.root.join('app', 'models', 'setting.rb'),
+      Rails.root.join('app', 'models', 'setting', '*.rb'),
+      *Foreman::Plugin.registered_plugins.map { |_n, p| p.engine&.root&.join('app', 'models', 'setting', '*.rb') }.compact
+    ].each do |f|
+      require_dependency(f)
+    end
+    Foreman.settings.load
+  end
 
   Foreman.input_types_registry.register(InputType::UserInput)
   Foreman.input_types_registry.register(InputType::FactInput)
