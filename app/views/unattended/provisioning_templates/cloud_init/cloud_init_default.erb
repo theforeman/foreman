@@ -14,6 +14,7 @@ This template accepts the following parameters:
 - enable-puppetlabs-repo: boolean (default=false)
 - enable-puppetlabs-puppet5-repo: boolean (default=false)
 - enable-puppetlabs-puppet6-repo: boolean (default=false)
+- enable-puppetoffical-puppet7-repo: boolean (default=false)
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -55,6 +56,7 @@ runcmd:
 - |
 <%=
   if puppet_enabled && (host_param_true?('enable-puppetlabs-repo') ||
+    host_param_true?('enable-puppetofficial-puppet7-repo') ||
     host_param_true?('enable-puppetlabs-puppet6-repo') ||
     host_param_true?('enable-puppetlabs-puppet5-repo'))
     indent(2) { snippet 'puppetlabs_repo' }
