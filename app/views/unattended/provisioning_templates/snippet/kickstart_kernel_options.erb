@@ -29,7 +29,11 @@ snippet: true
 
   # tell Anaconda what to pass off to kickstart server
   # both current and legacy syntax provided
-  options.push("kssendmac", "ks.sendmac", "inst.ks.sendmac")
+  if (is_fedora && os_major >= 33) || (rhel_compatible && os_major >= 9)
+    options.push("inst.ks=#{foreman_url('provision')}", "inst.ks.sendmac")
+  else
+    options.push("ks=#{foreman_url('provision')}", "kssendmac", "ks.sendmac")  
+  end
 
   # networking credentials
   raise("Dual-stack provisioning not supported") if subnet4 && subnet6
