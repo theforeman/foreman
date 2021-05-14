@@ -31,7 +31,7 @@ ONTIMEOUT installer
 LABEL installer
 MENU LABEL <%= template_name %>
 KERNEL <%= @kernel %>
-APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+APPEND initrd=<%= @initrd %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
 <% if @host.architecture.to_s.match(/s390x?/i) %>
 INITRD <%= @initrd %>
 <% end %>

@@ -5,7 +5,7 @@ timeout=10
 
 title Kickstart default PXEGrub
   root (nd)
-  kernel (nd)/../boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz ks=http://foreman.some.host.fqdn/unattended/provision  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac ip=dhcp nameserver=192.168.42.2 nameserver=192.168.42.3 fips=1
+  kernel (nd)/../boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.some.host.fqdn/unattended/provision kssendmac ks.sendmac ip=dhcp nameserver=192.168.42.2 nameserver=192.168.42.3 fips=1
   initrd (nd)/../boot/centos-mirror-nrm0GtSX1ZC5-initrd.img
 
 

@@ -22,7 +22,7 @@ timeout=<%= host_param('loader_timeout') || 10 %>
 
 title <%= template_name %>
   root (nd)
-  kernel (nd)/../<%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  kernel (nd)/../<%= @kernel %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
   initrd (nd)/../<%= @initrd %>
 
 <%= snippet_if_exists(template_name + " custom menu") %>
