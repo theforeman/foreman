@@ -22,6 +22,7 @@ description: |
   - enable-puppetlabs-repo: boolean (default=false)
   - enable-puppetlabs-puppet5-repo: boolean (default=false)
   - enable-puppetlabs-puppet6-repo: boolean (default=false)
+  - enable-puppetoffical-puppet7-repo: boolean (default=false)
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -61,17 +62,12 @@ runcmd:
 <%= indent(2) { snippet 'chef_client' } %>
 <% end -%>
 - |
-<%=
-  if puppet_enabled && (host_param_true?('enable-puppetlabs-repo') ||
-    host_param_true?('enable-puppetlabs-puppet6-repo') ||
-    host_param_true?('enable-puppetlabs-puppet5-repo'))
-    indent(2) { snippet 'puppetlabs_repo' }
-  elsif puppet_enabled
-    indent(2) { snippet('puppet_setup', :variables => { :full_puppet_run => true }) }
-  else
-    ''
-  end
--%>
+<% if puppet_enabled %>
+<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-puppetofficial-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<%= indent(2) { snippet 'puppetlabs_repo' } %>
+<% end -%>
+<%= indent(2) { snippet 'puppet_setup' } %>
+<% end -%>
 phone_home:
   url: <%= foreman_url('built') %>
   post: []
