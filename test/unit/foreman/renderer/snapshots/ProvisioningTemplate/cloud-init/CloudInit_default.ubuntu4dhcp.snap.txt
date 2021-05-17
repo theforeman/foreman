@@ -86,10 +86,7 @@ runcmd:
   [agent]
   pluginsync      = true
   report          = true
-  ca_server       = localhost
   certname        = snapshot-ipv4-dhcp-ubuntu20
-  server          = localhost
-  environment     = test
   
   EOF
   
@@ -103,7 +100,7 @@ runcmd:
   # export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
   export FACTER_is_installer=true
   # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
-  /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime  --server localhost --no-daemonize
+  /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime   --no-daemonize
   systemctl enable puppet
 phone_home:
   url: http://foreman.some.host.fqdn/unattended/built

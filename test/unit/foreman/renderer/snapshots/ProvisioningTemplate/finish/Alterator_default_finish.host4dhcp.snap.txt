@@ -29,13 +29,10 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-ca_server       = localhost
 certname        = snapshot-ipv4-dhcp-el7
-server          = localhost
-environment     = test
 EOF
 
-/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server localhost --no-daemonize
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server  --no-daemonize
 /sbin/chkconfig puppetd on
 
 if [ -x /usr/bin/curl ]; then
