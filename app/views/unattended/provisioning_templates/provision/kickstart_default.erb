@@ -42,16 +42,15 @@ Reference links:
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/sect-kickstart-syntax
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-commands-and-options-reference_installing-rhel-as-an-experienced-user
-%>
-
-# This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
-
+-%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   is_fedora = @host.operatingsystem.name == 'Fedora'
   os_major = @host.operatingsystem.major.to_i
   os_minor = @host.operatingsystem.minor.to_i
   realm_compatible = (@host.operatingsystem.name == 'Fedora' && os_major >= 20) || (rhel_compatible && os_major >= 7)
+  organization = @host.info.fetch('parameters', nil)&.fetch('organization', nil)
+  location = @host.info.fetch('parameters', nil)&.fetch('location', nil)
   # safemode renderer does not support unary negation
   proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
   proxy_string = proxy_uri ? " --proxy=#{proxy_uri}" : ''
@@ -63,6 +62,19 @@ https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/pe
   iface = @host.provision_interface
   appstream_present = false
 -%>
+# This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
+# for <%= @host %> running <%= @host.operatingsystem.name %> <%= os_major %> <%= @arch %>
+<% if organization %># in <%= organization %> <% end %>
+<% if location %># at <%= location %> <% end %>
+<% if plugin_present?('katello') -%>
+<%
+  # Katello only information
+  lifecycle_environment = @host.info.fetch('parameters', nil)&.fetch('lifecycle_environment', nil)
+  content_view = @host.info.fetch('parameters', nil)&.fetch('content_view', nil)
+  content_source = @host&.content_source&.hostname
+-%>
+# using <%= content_view %> in <%= lifecycle_environment %> from <%= content_source %>
+<% end -%>
 
 <% if (is_fedora && os_major < 29) || (rhel_compatible && os_major <= 7) -%>
 install
