@@ -102,6 +102,7 @@ class Subnet < ApplicationRecord
   validates :nic_delay, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than: 1024 }, allow_blank: true
 
   before_validation :normalize_addresses
+  before_validation :normalize_subnet
   after_validation :validate_against_external_ipam
   validate :ensure_ip_addrs_valid
 
@@ -363,6 +364,13 @@ class Subnet < ApplicationRecord
     [dns_primary, dns_secondary].select(&:present?)
   end
 
+  def masked_subnet_address
+    IPAddr.new(network).mask(mask)
+  rescue StandardError => e
+    logger.info "Unable to mask '#{network}' with '#{mask}': #{e}"
+    IPAddr.new(network)
+  end
+
   private
 
   def validate_ranges
@@ -380,6 +388,10 @@ class Subnet < ApplicationRecord
     if type_changed?
       errors.add(:type, _("can't be updated after subnet is saved"))
     end
+  end
+
+  def normalize_subnet
+    self.network = Net::Validations.normalize_network_address(network, mask)
   end
 
   def normalize_addresses
