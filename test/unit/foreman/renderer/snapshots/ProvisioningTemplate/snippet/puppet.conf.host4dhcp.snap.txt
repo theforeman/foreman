@@ -7,7 +7,4 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-ca_server       = localhost
 certname        = snapshot-ipv4-dhcp-el7
-server          = localhost
-environment     = test
