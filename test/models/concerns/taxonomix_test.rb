@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class TaxonomixDummy < ApplicationRecord
-  self.table_name = 'environments'
+  self.table_name = 'domains'
   include Taxonomix
 
   attr_accessor :locations, :organizations
@@ -14,7 +14,7 @@ class TaxonomixDummy < ApplicationRecord
 end
 
 class UntaxedDummy < ApplicationRecord
-  self.table_name = 'environments'
+  self.table_name = 'domains'
 end
 
 class InheritingTaxonomixDummy < UntaxedDummy
@@ -129,17 +129,17 @@ class TaxonomixTest < ActiveSupport::TestCase
     end
 
     test 'should return objects for not admin user' do
-      envs = []
+      domains = []
       3.times do
-        envs << FactoryBot.create(:environment, :organizations => [@org], :locations => [@loc])
+        domains << FactoryBot.create(:domain, :organizations => [@org], :locations => [@loc])
       end
 
-      assert_equal 3, envs.size
+      assert_equal 3, domains.size
 
       as_user(@user) do
-        environment_scope = Environment.taxonomy_join_scope.all
+        domain_scope = Domain.taxonomy_join_scope.all
         refute User.current.admin?
-        assert_equal envs.sort, environment_scope.to_a.sort
+        assert_equal domains.sort, domain_scope.to_a.sort
       end
     end
   end
@@ -213,13 +213,13 @@ class TaxonomixTest < ActiveSupport::TestCase
         visible_dummies = any_org.map(&:"#{@dummy.class.table_name}").flatten.map(&:id) &
           any_loc.map(&:"#{@dummy.class.table_name}").flatten.map(&:id)
 
-        # We need to call '.taxable_ids' using the Environment class because
+        # We need to call '.taxable_ids' using the Domain class because
         # '.taxable_ids' will look for the 'taxable_taxonomies.taxable_type'
         # table of the caller.
-        # Since TaxonomixDummy is defined in terms of the Environment table,
-        # the table will have Environment, not TaxonomixDummy as taxable_type
-        assert_equal visible_dummies, Environment.taxable_ids(nil, nil)
-        assert_equal visible_dummies, Environment.taxable_ids([], [])
+        # Since TaxonomixDummy is defined in terms of the Domain table,
+        # the table will have Domain, not TaxonomixDummy as taxable_type
+        assert_equal visible_dummies, Domain.taxable_ids(nil, nil)
+        assert_equal visible_dummies, Domain.taxable_ids([], [])
       end
     end
 
@@ -244,35 +244,35 @@ class TaxonomixTest < ActiveSupport::TestCase
       loc3 = FactoryBot.create(:location, :parent_id => loc2.id)
       loc4 = FactoryBot.create(:location)
       org = FactoryBot.create(:organization)
-      env1 = FactoryBot.create(:environment, :organizations => [org], :locations => [loc2])
-      env2 = FactoryBot.create(:environment, :organizations => [org])
-      env3 = FactoryBot.create(:environment, :locations => [loc2])
-      env4 = FactoryBot.create(:environment, :locations => [loc4])
-      env5 = FactoryBot.create(:environment, :locations => [loc1])
-      env6 = FactoryBot.create(:environment, :locations => [loc3])
-      taxable_ids = Environment.taxable_ids([loc2, loc4], org, :subtree_ids)
-      visible = [env1]
-      invisible = [env2, env3, env4, env5, env6]
-      visible.each { |env| assert_includes taxable_ids, env.id }
-      invisible.each { |env| refute_includes taxable_ids, env.id }
+      domain1 = FactoryBot.create(:domain, :organizations => [org], :locations => [loc2])
+      domain2 = FactoryBot.create(:domain, :organizations => [org])
+      domain3 = FactoryBot.create(:domain, :locations => [loc2])
+      domain4 = FactoryBot.create(:domain, :locations => [loc4])
+      domain5 = FactoryBot.create(:domain, :locations => [loc1])
+      domain6 = FactoryBot.create(:domain, :locations => [loc3])
+      taxable_ids = Domain.taxable_ids([loc2, loc4], org, :subtree_ids)
+      visible = [domain1]
+      invisible = [domain2, domain3, domain4, domain5, domain6]
+      visible.each { |domain| assert_includes taxable_ids, domain.id }
+      invisible.each { |domain| refute_includes taxable_ids, domain.id }
 
-      taxable_ids = Environment.taxable_ids([], org, :subtree_ids)
-      visible = [env1, env2]
-      invisible = [env3, env4, env5, env6]
-      visible.each { |env| assert_includes taxable_ids, env.id }
-      invisible.each { |env| refute_includes taxable_ids, env.id }
+      taxable_ids = Domain.taxable_ids([], org, :subtree_ids)
+      visible = [domain1, domain2]
+      invisible = [domain3, domain4, domain5, domain6]
+      visible.each { |domain| assert_includes taxable_ids, domain.id }
+      invisible.each { |domain| refute_includes taxable_ids, domain.id }
 
-      taxable_ids = Environment.taxable_ids(loc2, [], :subtree_ids)
-      visible = [env1, env3, env5, env6]
-      invisible = [env2, env4]
-      visible.each { |env| assert_includes taxable_ids, env.id }
-      invisible.each { |env| refute_includes taxable_ids, env.id }
+      taxable_ids = Domain.taxable_ids(loc2, [], :subtree_ids)
+      visible = [domain1, domain3, domain5, domain6]
+      invisible = [domain2, domain4]
+      visible.each { |domain| assert_includes taxable_ids, domain.id }
+      invisible.each { |domain| refute_includes taxable_ids, domain.id }
 
-      taxable_ids = Environment.taxable_ids([loc2, loc4], [], :subtree_ids)
-      visible = [env1, env3, env4, env5, env6]
-      invisible = [env2]
-      visible.each { |env| assert_includes taxable_ids, env.id }
-      invisible.each { |env| refute_includes taxable_ids, env.id }
+      taxable_ids = Domain.taxable_ids([loc2, loc4], [], :subtree_ids)
+      visible = [domain1, domain3, domain4, domain5, domain6]
+      invisible = [domain2]
+      visible.each { |domain| assert_includes taxable_ids, domain.id }
+      invisible.each { |domain| refute_includes taxable_ids, domain.id }
     end
   end
 
@@ -364,11 +364,13 @@ class TaxonomixTest < ActiveSupport::TestCase
 
   context 'admin permissions' do
     test "returns only visible objects when org/loc are selected" do
-      scoped_environments = Environment.
+      scoped_domains = Domain.
         with_taxonomy_scope([taxonomies(:organization1)])
-      assert scoped_environments.include?(*taxonomies(:organization1).environments)
-      assert_not_equal Environment.unscoped.all, scoped_environments
-      assert_equal taxonomies(:organization1).environments, scoped_environments
+      taxonomies(:organization1).domains.each do |org_domain|
+        assert_include scoped_domains, org_domain
+      end
+      assert_not_equal Domain.unscoped.all, scoped_domains
+      assert_equal taxonomies(:organization1).domains, scoped_domains
     end
 
     test "returns nil (all objects) when there are no org/loc" do
@@ -385,50 +387,50 @@ class TaxonomixTest < ActiveSupport::TestCase
 
   context 'user with objects outside its current taxonomies' do
     setup do
-      # Environment in organization 1 and location 1 cannot be seen by an user
+      # Domain in organization 1 and location 1 cannot be seen by an user
       # who is scoped to organization 1 and location 2
       users(:one).organizations = [taxonomies(:organization1)]
       users(:one).locations = [taxonomies(:location2)]
-      @unreachable_env = FactoryBot.create(
-        :environment,
+      @unreachable_domain = FactoryBot.create(
+        :domain,
         :organizations => [taxonomies(:organization1)],
         :locations => [taxonomies(:location1)])
     end
 
     test 'via resource default scope' do
       as_user(:one) do
-        assert_not_include Environment.all, @unreachable_env
+        assert_not_include Domain.all, @unreachable_domain
       end
     end
 
     context 'via resource association' do
-      setup do
-        @hg = FactoryBot.create(:hostgroup, environment: @unreachable_env, locations: [taxonomies(:location2)], organizations: [taxonomies(:organization1)])
-        # factory corrected environment taxonomy - put it outside of user one
-        @unreachable_env.organizations = [taxonomies(:organization1)]
-        @unreachable_env.locations = [taxonomies(:location1)]
+      let(:hostgroup) do
+        FactoryBot.create(:hostgroup, domain: @unreachable_domain,
+                                      locations: [taxonomies(:location2)],
+                                      organizations: [taxonomies(:organization1)])
       end
+      setup { hostgroup }
 
-      test 'via resource association with no reachable environments' do
+      test 'via resource association with no reachable domains' do
         as_user(:one) do
-          assert_empty Environment.all, "User should not see any environments for this test"
-          hg = Hostgroup.find(@hg.id)
-          refute hg.environment
-          assert_equal @unreachable_env.id, hg.environment_id
+          assert_empty Domain.all, "User should not see any domains for this test"
+          hg = Hostgroup.find(hostgroup.id)
+          refute hg.domain
+          assert_equal @unreachable_domain.id, hg.domain_id
         end
       end
 
-      test 'via resource association with other reachable environments' do
-        # Create a reachable environment too, as scope_by_taxable_ids has a separate code path when
+      test 'via resource association with other reachable domains' do
+        # Create a reachable domain too, as scope_by_taxable_ids has a separate code path when
         # one or more resources are visible to the user
-        FactoryBot.create(:environment,
+        FactoryBot.create(:domain,
           :organizations => [taxonomies(:organization1)],
           :locations => [taxonomies(:location2)])
 
         as_user(:one) do
-          hg = Hostgroup.find(@hg.id)
-          refute hg.environment
-          assert_equal @unreachable_env.id, hg.environment_id
+          hg = Hostgroup.find(hostgroup.id)
+          refute hg.domain
+          assert_equal @unreachable_domain.id, hg.domain_id
         end
       end
     end
