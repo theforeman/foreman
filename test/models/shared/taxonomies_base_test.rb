@@ -42,9 +42,8 @@ module TaxonomiesBaseTest
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       taxonomy.public_send(:"#{opposite_taxonomy}_ids=",
         [taxonomies(:"#{opposite_taxonomy}1").id])
-      taxonomy.ignore_types = ["Domain", "Hostgroup", "Environment",
-                               "User", "Medium", "Subnet", "SmartProxy",
-                               "ProvisioningTemplate", "ComputeResource",
+      taxonomy.ignore_types = ["Domain", "Hostgroup", "User", "Medium", "Subnet",
+                               "SmartProxy", "ProvisioningTemplate", "ComputeResource",
                                "Realm"]
       assert taxonomy.valid?
     end
@@ -402,19 +401,19 @@ module TaxonomiesBaseTest
     test 'ignores the taxable_type if current taxonomy ignores it' do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       assert_empty taxonomy.ignore_types
-      taxonomy.ignore_types << 'Environment'
+      taxonomy.ignore_types << 'Domain'
       in_taxonomy(taxonomy) do
-        assert taxonomy_class.ignore?('Environment')
+        assert taxonomy_class.ignore?('Domain')
       end
     end
 
     test "'no current Taxonomy' is understood as 'any taxonomy'" do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       assert_empty taxonomy.ignore_types
-      taxonomy.ignore_types << 'Environment'
+      taxonomy.ignore_types << 'Domain'
       User.current.public_send("#{taxonomy_name.pluralize}=", [taxonomy])
       refute taxonomy_class.current
-      assert taxonomy_class.ignore?('Environment')
+      assert taxonomy_class.ignore?('Domain')
     end
 
     def taxonomy_name
