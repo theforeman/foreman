@@ -80,6 +80,7 @@ require_dependency File.expand_path('../lib/foreman/middleware/catch_json_parse_
 require_dependency File.expand_path('../lib/foreman/middleware/logging_context_request', __dir__)
 require_dependency File.expand_path('../lib/foreman/middleware/logging_context_session', __dir__)
 require_dependency File.expand_path('../lib/foreman/middleware/telemetry', __dir__)
+require_dependency File.expand_path('../app/services/facets', __dir__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../Gemfile.in', __dir__))
@@ -91,6 +92,10 @@ end
 
 module Foreman
   class Application < Rails::Application
+    config.load_defaults "6.0"
+    config.autoloader = :zeitwerk # Remove or set to :zeitwerk to use zeitwerk
+    config.active_record.belongs_to_required_by_default = false
+
     # Setup additional routes by loading all routes file from routes directory
     Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
       config.paths['config/routes.rb'] << route_file
@@ -113,7 +118,6 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
     config.autoload_paths += %W(#{config.root}/app/models/fact_names)
     config.autoload_paths += %W(#{config.root}/app/models/lookup_keys)
-    config.autoload_paths += %W(#{config.root}/app/models/host_status)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
