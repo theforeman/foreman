@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-26 17:23+0000\n"
+"PO-Revision-Date: 2021-05-03 17:21+0000\n"
 "Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
@@ -300,6 +300,9 @@ msgstr[1] ""
 msgid "(Miscellaneous)"
 msgstr "（雜項）"
 
+msgid "(filtered from %s total entries)"
+msgstr ""
+
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr "(選擇性) 當Fog 用來創建此VM時使用的 IAM 角色."
 
@@ -314,6 +317,12 @@ msgstr "*清除主機群組*"
 
 msgid "*Inherit from host group*"
 msgstr "*從主機群組繼承*"
+
+msgid ": activate to sort column ascending"
+msgstr ""
+
+msgid ": activate to sort column descending"
+msgstr ""
 
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
 msgstr "並未設定 :foreman_url，請在 Foreman Web UI 中配置（管理 -> 設定 -> 一般）"
@@ -3384,6 +3393,9 @@ msgstr ""
 msgid "Firmware"
 msgstr ""
 
+msgid "First"
+msgstr ""
+
 msgid "First Page"
 msgstr ""
 
@@ -4216,6 +4228,9 @@ msgstr ""
 msgid "Hosts without errors, with alerts enabled"
 msgstr ""
 
+msgid "How templates are determined"
+msgstr "決定範本的方式"
+
 msgid "How values are validated"
 msgstr "驗證值的方式"
 
@@ -4961,6 +4976,9 @@ msgstr "語言"
 msgid "Language to use for new users"
 msgstr ""
 
+msgid "Last"
+msgstr ""
+
 msgid "Last Page"
 msgstr ""
 
@@ -4980,6 +4998,9 @@ msgid "Latest Events"
 msgstr "最新的事件"
 
 msgid "Launch Console"
+msgstr ""
+
+msgid "Launch loading wizard"
 msgstr ""
 
 msgid "Learn more about External authentication in the documentation."
@@ -6063,6 +6084,9 @@ msgstr "新增篩選器"
 msgid "New window"
 msgstr "新增視窗"
 
+msgid "Next"
+msgstr "下一步"
+
 msgid "Next Page"
 msgstr ""
 
@@ -6209,6 +6233,9 @@ msgstr "沒有可顯示的運算資源"
 msgid "No data available"
 msgstr ""
 
+msgid "No data available in table"
+msgstr ""
+
 msgid "No documentation found"
 msgstr "找不到文件"
 
@@ -6265,6 +6292,9 @@ msgstr "上個禮拜未收到有趣的報告"
 
 msgid "No logs to show"
 msgstr "沒有可顯示的日誌"
+
+msgid "No matching records found"
+msgstr ""
 
 msgid "No matching server groups found"
 msgstr ""
@@ -7201,6 +7231,9 @@ msgstr ""
 msgid "Preview rendered provisioning template content"
 msgstr "預覽已轉譯的範本內容"
 
+msgid "Previous"
+msgstr ""
+
 msgid "Previous Page"
 msgstr ""
 
@@ -7230,6 +7263,9 @@ msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "繼續前往編輯"
+
+msgid "Processing..."
+msgstr ""
 
 msgid "Project (Tenant) name"
 msgstr ""
@@ -8025,6 +8061,9 @@ msgstr ""
 msgid "Search your logs for request-id"
 msgstr ""
 
+msgid "Search:"
+msgstr ""
+
 msgid "Secondary DNS Server"
 msgstr ""
 
@@ -8306,6 +8345,9 @@ msgstr "這介面是否要給 PXELinux 的 TFTP（或映像檔為主的 SSH）�
 msgid "Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface."
 msgstr "這介面是否要用來建立主機的 FQDN？每個受管理的主機需要有一組主介面。"
 
+msgid "Show %s entries"
+msgstr ""
+
 msgid "Show %s fact values for all hosts"
 msgstr ""
 
@@ -8524,6 +8566,12 @@ msgstr ""
 
 msgid "Show the last report for a host"
 msgstr "顯示主機的最後報告"
+
+msgid "Showing %s to %s of %s entries"
+msgstr ""
+
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
 
 msgid "Shows status and version information of Foreman system and it's subcomponents"
 msgstr ""
@@ -9589,6 +9637,9 @@ msgstr ""
 
 msgid "This value is used also as the host's primary interface name."
 msgstr "這個值也用於主機的主介面名稱。"
+
+msgid "This will be one of our coolest pages."
+msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr ""
@@ -11334,6 +11385,9 @@ msgstr ""
 msgid "hostname of the host"
 msgstr "主機的主機名稱"
 
+msgid "hours"
+msgstr ""
+
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
@@ -11652,6 +11706,12 @@ msgstr "實體 @ NAT %s"
 
 msgid "physical @ bridge %s"
 msgstr "實體 @ 橋接器 %s"
+
+msgid "plugin action 1"
+msgstr ""
+
+msgid "plugin action 2"
+msgstr ""
 
 msgid "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"
 msgstr "電源動作，有效的動作為（on/start）、（off/stop）、（soft/reboot）、（cycle/reset）、（state/status）"
