@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-26 17:23+0000\n"
+"PO-Revision-Date: 2021-05-03 17:21+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -299,6 +299,9 @@ msgstr[1] ""
 msgid "(Miscellaneous)"
 msgstr "(Miscel·lani)"
 
+msgid "(filtered from %s total entries)"
+msgstr ""
+
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr ""
 
@@ -313,6 +316,12 @@ msgstr "*Neteja el grup d'amfitrions*"
 
 msgid "*Inherit from host group*"
 msgstr "*Hereta del grup d'amfitrions*"
+
+msgid ": activate to sort column ascending"
+msgstr ""
+
+msgid ": activate to sort column descending"
+msgstr ""
 
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
 msgstr ""
@@ -3379,6 +3388,9 @@ msgstr ""
 msgid "Firmware"
 msgstr ""
 
+msgid "First"
+msgstr ""
+
 msgid "First Page"
 msgstr ""
 
@@ -4211,6 +4223,9 @@ msgstr ""
 msgid "Hosts without errors, with alerts enabled"
 msgstr "Amfitrions sense errors amb les alertes habilitades"
 
+msgid "How templates are determined"
+msgstr "Com es determinen les plantilles"
+
 msgid "How values are validated"
 msgstr "Com es validen els valors"
 
@@ -4956,6 +4971,9 @@ msgstr "Idioma"
 msgid "Language to use for new users"
 msgstr ""
 
+msgid "Last"
+msgstr ""
+
 msgid "Last Page"
 msgstr ""
 
@@ -4975,6 +4993,9 @@ msgid "Latest Events"
 msgstr "Últims esdeveniments"
 
 msgid "Launch Console"
+msgstr ""
+
+msgid "Launch loading wizard"
 msgstr ""
 
 msgid "Learn more about External authentication in the documentation."
@@ -6060,6 +6081,9 @@ msgstr "Filtre nou"
 msgid "New window"
 msgstr "Finestra nova"
 
+msgid "Next"
+msgstr "Següent"
+
 msgid "Next Page"
 msgstr ""
 
@@ -6206,6 +6230,9 @@ msgstr "Sense recursos computacionals a mostrar"
 msgid "No data available"
 msgstr "Sense dades disponibles"
 
+msgid "No data available in table"
+msgstr ""
+
 msgid "No documentation found"
 msgstr "No s'ha trobat la documentació"
 
@@ -6262,6 +6289,9 @@ msgstr "En l'última setmana no s'han rebut informes interessants"
 
 msgid "No logs to show"
 msgstr "Sense registres a mostrar"
+
+msgid "No matching records found"
+msgstr ""
 
 msgid "No matching server groups found"
 msgstr ""
@@ -7198,6 +7228,9 @@ msgstr ""
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
+msgid "Previous"
+msgstr ""
+
 msgid "Previous Page"
 msgstr ""
 
@@ -7226,6 +7259,9 @@ msgid "Private key file that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid "Proceed to Edit"
+msgstr ""
+
+msgid "Processing..."
 msgstr ""
 
 msgid "Project (Tenant) name"
@@ -8022,6 +8058,9 @@ msgstr ""
 msgid "Search your logs for request-id"
 msgstr ""
 
+msgid "Search:"
+msgstr ""
+
 msgid "Secondary DNS Server"
 msgstr "Servidor DNS secundari"
 
@@ -8303,6 +8342,9 @@ msgstr ""
 msgid "Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface."
 msgstr ""
 
+msgid "Show %s entries"
+msgstr ""
+
 msgid "Show %s fact values for all hosts"
 msgstr ""
 
@@ -8521,6 +8563,12 @@ msgstr ""
 
 msgid "Show the last report for a host"
 msgstr "Mostra l'últim informe per un amfitrió"
+
+msgid "Showing %s to %s of %s entries"
+msgstr ""
+
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
 
 msgid "Shows status and version information of Foreman system and it's subcomponents"
 msgstr ""
@@ -9586,6 +9634,9 @@ msgstr ""
 
 msgid "This value is used also as the host's primary interface name."
 msgstr "Aquest valor també s'utilitza com el nom de la interfície principal de l'amfitrió."
+
+msgid "This will be one of our coolest pages."
+msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr ""
@@ -11331,6 +11382,9 @@ msgstr ""
 msgid "hostname of the host"
 msgstr "nom d'amfitrió de l'amfitrió"
 
+msgid "hours"
+msgstr ""
+
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
@@ -11649,6 +11703,12 @@ msgstr "física @ NAT %s"
 
 msgid "physical @ bridge %s"
 msgstr "física @ pont %s"
+
+msgid "plugin action 1"
+msgstr ""
+
+msgid "plugin action 2"
+msgstr ""
 
 msgid "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"
 msgstr ""

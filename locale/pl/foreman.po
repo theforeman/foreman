@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-26 17:23+0000\n"
-"Last-Translator: sziolkow <sziolkow@gmail.com>\n"
+"PO-Revision-Date: 2021-05-03 17:20+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Polish (http://www.transifex.com/foreman/foreman/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -318,6 +318,9 @@ msgstr[1] ""
 msgid "(Miscellaneous)"
 msgstr "(Różne)"
 
+msgid "(filtered from %s total entries)"
+msgstr ""
+
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr "(Opcjonalnie) AM Role for Fog mogła zostać użyta podczas tworzenia tego obrazu."
 
@@ -332,6 +335,12 @@ msgstr "* Wyczyść grupę hosta *"
 
 msgid "*Inherit from host group*"
 msgstr "* Dziedziczenie z grupy hosta *"
+
+msgid ": activate to sort column ascending"
+msgstr ""
+
+msgid ": activate to sort column descending"
+msgstr ""
 
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
 msgstr ":foreman_url nie został ustawiony, proszę skonfiguruj go w Foreman Web UI (Administer -> Settings -> General)"
@@ -3411,6 +3420,9 @@ msgstr ""
 msgid "Firmware"
 msgstr ""
 
+msgid "First"
+msgstr ""
+
 msgid "First Page"
 msgstr ""
 
@@ -4243,6 +4255,9 @@ msgstr ""
 msgid "Hosts without errors, with alerts enabled"
 msgstr ""
 
+msgid "How templates are determined"
+msgstr ""
+
 msgid "How values are validated"
 msgstr "Jak wartości są walidowane"
 
@@ -4988,6 +5003,9 @@ msgstr "Język"
 msgid "Language to use for new users"
 msgstr ""
 
+msgid "Last"
+msgstr ""
+
 msgid "Last Page"
 msgstr ""
 
@@ -5007,6 +5025,9 @@ msgid "Latest Events"
 msgstr "Ostatnie zdarzenia"
 
 msgid "Launch Console"
+msgstr ""
+
+msgid "Launch loading wizard"
 msgstr ""
 
 msgid "Learn more about External authentication in the documentation."
@@ -6090,6 +6111,9 @@ msgstr "Nowy filtr"
 msgid "New window"
 msgstr "Nowe okno"
 
+msgid "Next"
+msgstr ""
+
 msgid "Next Page"
 msgstr ""
 
@@ -6236,6 +6260,9 @@ msgstr "Brak zasobów obliczeniowych, do pokazania"
 msgid "No data available"
 msgstr ""
 
+msgid "No data available in table"
+msgstr ""
+
 msgid "No documentation found"
 msgstr "Nie znaleziono dokumentacji"
 
@@ -6292,6 +6319,9 @@ msgstr "Brak interesujących raportów otrzymanych w ciągu ostatniego tygodnia"
 
 msgid "No logs to show"
 msgstr "Brak logów do pokazania"
+
+msgid "No matching records found"
+msgstr ""
 
 msgid "No matching server groups found"
 msgstr ""
@@ -7228,6 +7258,9 @@ msgstr ""
 msgid "Preview rendered provisioning template content"
 msgstr "Podgląd zawartości renderowanego szablonu dostawy"
 
+msgid "Previous"
+msgstr ""
+
 msgid "Previous Page"
 msgstr ""
 
@@ -7257,6 +7290,9 @@ msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "Przejdź do edycji"
+
+msgid "Processing..."
+msgstr ""
 
 msgid "Project (Tenant) name"
 msgstr ""
@@ -8052,6 +8088,9 @@ msgstr ""
 msgid "Search your logs for request-id"
 msgstr ""
 
+msgid "Search:"
+msgstr ""
+
 msgid "Secondary DNS Server"
 msgstr ""
 
@@ -8333,6 +8372,9 @@ msgstr "Czy interfejs ma zostać użyty przez TFTP dla PXELinux (lub SSH dla baz
 msgid "Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface."
 msgstr "Czy interfejs ma zostać użyty do konstrukcji FQDN hosta? Każdy zarządzany host potrzebuje jednego pierwszego interfejsu."
 
+msgid "Show %s entries"
+msgstr ""
+
 msgid "Show %s fact values for all hosts"
 msgstr ""
 
@@ -8551,6 +8593,12 @@ msgstr ""
 
 msgid "Show the last report for a host"
 msgstr "Pokaż ostatni raport dla hosta"
+
+msgid "Showing %s to %s of %s entries"
+msgstr ""
+
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
 
 msgid "Shows status and version information of Foreman system and it's subcomponents"
 msgstr ""
@@ -9618,6 +9666,9 @@ msgstr ""
 
 msgid "This value is used also as the host's primary interface name."
 msgstr "Wartość jest używana również jako podstawowa nazwa hostu."
+
+msgid "This will be one of our coolest pages."
+msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr ""
@@ -11365,6 +11416,9 @@ msgstr ""
 msgid "hostname of the host"
 msgstr "Nazwa danego hostu"
 
+msgid "hours"
+msgstr ""
+
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
@@ -11685,6 +11739,12 @@ msgstr "fizyczny @ NAT %s"
 
 msgid "physical @ bridge %s"
 msgstr "Fizyczny @ bridge %s"
+
+msgid "plugin action 1"
+msgstr ""
+
+msgid "plugin action 2"
+msgstr ""
 
 msgid "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"
 msgstr "zasilanie działa, poprawne operacje to (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"
