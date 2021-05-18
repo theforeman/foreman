@@ -1,6 +1,9 @@
 # foreman plugins import this file therefore __FILE__ cannot be used
 FOREMAN_GEMFILE = __FILE__ unless defined? FOREMAN_GEMFILE
 
+# pin YAML library before we even load YAML configuration
+gem 'psych', '< 4'
+
 require_relative 'config/boot_settings'
 
 source 'https://rubygems.org'
