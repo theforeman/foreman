@@ -1,4 +1,3 @@
-<%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initCounter)"); %>
 <%= text_f f, :name, :label => _('Name'), :disabled => !new_vm if show_vm_name? %>
 <div id="cpus_input">
   <%= counter_f(f, :cpus, label: _('CPUs'), recommended_max_value: compute_resource.max_cpu_count) %>
