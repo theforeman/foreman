@@ -5,7 +5,7 @@ class RegistrationCommandsController < ApplicationController
     render json: {
       organizations: User.current.my_organizations.select(:id, :name),
       locations: User.current.my_locations.select(:id, :name),
-      hostGroups: Hostgroup.authorized(:view_hostgroups).includes([:operatingsystem]),
+      hostGroups: host_groups_json,
       operatingSystems: Operatingsystem.authorized(:view_operatingsystems),
       smartProxies: Feature.find_by(name: 'Registration')&.smart_proxies,
       configParams: host_config_params,
@@ -41,6 +41,11 @@ class RegistrationCommandsController < ApplicationController
     else
       params
     end
+  end
+
+  def host_groups_json
+    Hostgroup.authorized(:view_hostgroups)
+             .map { |hg| hg.as_json(methods: :inherited_operatingsystem_id) }
   end
 
   # Extension point for plugins
