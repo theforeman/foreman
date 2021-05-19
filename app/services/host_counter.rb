@@ -34,6 +34,7 @@ class HostCounter
       # count for hosts not in the current organization & location.
       hosts_scope = hosts_scope.unscoped
     when 'subnet', 'domain'
+      @association = "nics.#{@association}"
       hosts_scope = hosts_scope.joins(:primary_interface)
     end
     hosts_scope.authorized(:view_hosts).group("#{@association}_id").count
