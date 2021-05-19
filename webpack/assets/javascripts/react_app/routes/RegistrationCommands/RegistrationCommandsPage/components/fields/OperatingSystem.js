@@ -46,7 +46,7 @@ const OperatingSystem = ({
     if (hostGroupId !== undefined) {
       const hostGroupOsId = hostGroups.find(
         hg => `${hg.id}` === `${hostGroupId}`
-      )?.operatingsystem_id;
+      )?.inherited_operatingsystem_id;
 
       handleOperatingSystem('');
       dispatch(operatingSystemTemplateAction(hostGroupOsId));

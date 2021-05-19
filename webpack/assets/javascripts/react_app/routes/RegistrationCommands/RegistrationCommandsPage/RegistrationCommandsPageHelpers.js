@@ -39,7 +39,7 @@ export const osHelperText = (
 
   if (hostGroupId) {
     const osId = hostGroups.find(hg => `${hg.id}` === `${hostGroupId}`)
-      ?.operatingsystem_id;
+      ?.inherited_operatingsystem_id;
     return (
       <>
         {hostGroupOSHelperText(hostGroupId, hostGroups, operatingSystems)}
@@ -80,7 +80,7 @@ const osTemplateHelperText = (operatingSystemId, template) => {
 
 const hostGroupOSHelperText = (hostGroupId, hostGroups, operatingSystems) => {
   const osId = hostGroups.find(hg => `${hg.id}` === `${hostGroupId}`)
-    ?.operatingsystem_id;
+    ?.inherited_operatingsystem_id;
   const hostGroupOS = operatingSystems.find(os => `${os.id}` === `${osId}`);
 
   if (hostGroupOS) {

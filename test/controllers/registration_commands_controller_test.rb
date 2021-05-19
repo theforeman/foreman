@@ -88,4 +88,16 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
       end
     end
   end
+
+  describe 'form_data' do
+    test 'host groups & inherited_operatingsystem_id' do
+      os = operatingsystems(:redhat)
+      child_hg = FactoryBot.create(:hostgroup, parent: FactoryBot.create(:hostgroup, operatingsystem: os))
+      get :form_data, session: set_session_user
+
+      child_hg_from_response = JSON.parse(@response.body)['hostGroups']
+                                   .find { |hg| hg['id'] == child_hg.id }
+      assert_equal os.id, child_hg_from_response['inherited_operatingsystem_id']
+    end
+  end
 end
