@@ -1,7 +1,5 @@
 module Foreman
   class EnvSettingsLoader
-    LOGGERS_FROM_ENV_REGEX = /^FOREMAN_LOGGERS_([A-Z0-9_]+)_[A-Z]+$/
-
     attr_reader :env
 
     def initialize(env: ENV)
@@ -73,7 +71,10 @@ module Foreman
     end
 
     def loggers_from_env
-      env.keys.grep(LOGGERS_FROM_ENV_REGEX).map { |key| key.gsub(LOGGERS_FROM_ENV_REGEX, '\1').downcase.gsub('__', '/').to_sym }.uniq
+      @loggers_from_env ||= begin
+        loggers_from_env_regexp = /^FOREMAN_LOGGERS_([A-Z0-9_]+)_[A-Z]+$/
+        env.keys.grep(loggers_from_env_regexp).map { |key| key.gsub(loggers_from_env_regexp, '\1').downcase.gsub('__', '/').to_sym }.uniq
+      end
     end
 
     def cast_value(type:, value:)
