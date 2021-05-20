@@ -15,6 +15,12 @@ table {
   width: 100%;
 }
 
+.footer {
+  display: block;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
 table.center {
   text-align: center;
 }
