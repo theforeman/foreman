@@ -1,15 +1,18 @@
 require 'securerandom'
+
 module Foreman
   # generate a UUID
   def self.uuid
     SecureRandom.uuid
   end
 
-  UUID_REGEXP = Regexp.new("^([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-" +
-                           "([0-9a-f]{4})-([0-9a-f]{12})$")
+  def self.uuid_regexp
+    @uuid_regexp ||= Regexp.new("^([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})$")
+  end
+
   # does this look like a UUID?
   def self.is_uuid?(str)
-    str.is_a?(String) && str.length == 36 && str.match?(UUID_REGEXP)
+    str.is_a?(String) && str.length == 36 && str.match?(uuid_regexp)
   end
 
   def self.in_rake?(*rake_tasks)

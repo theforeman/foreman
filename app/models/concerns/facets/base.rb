@@ -1,4 +1,4 @@
-require 'facets'
+require_dependency 'facets'
 
 module Facets
   module Base
