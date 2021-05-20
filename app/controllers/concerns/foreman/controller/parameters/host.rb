@@ -26,7 +26,9 @@ module Foreman::Controller::Parameters::Host
         add_host_common_params_filter(filter)
 
         facets = Facets.registered_facets.values.map { |facet_config| "#{facet_config.name}_attributes" }
-        filter.permit(*facets) if facets.present?
+        facets.each do |facet|
+          filter.permit(facet => {})
+        end if facets.present?
       end
     end
   end
