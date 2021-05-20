@@ -21,7 +21,7 @@ const HostGroup = ({ hostGroupId, hostGroups, handleHostGroup, isLoading }) => (
     >
       {emptyOption(hostGroups.length)}
       {hostGroups.map((hg, i) => (
-        <FormSelectOption key={i} value={hg.id} label={hg.name} />
+        <FormSelectOption key={i} value={hg.id} label={hg.title} />
       ))}
     </FormSelect>
   </FormGroup>

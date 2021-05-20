@@ -13,12 +13,17 @@ model: ProvisioningTemplate
 <%= "# User: [#{@user.login}]" -%>
 <%= "\n# Organization: [#{@organization.name}]" if @organization -%>
 <%= "\n# Location: [#{@location.name}]" if @location -%>
-<%= "\n# Hostgroup: [#{@hostgroup.name}]" if @hostgroup -%>
-<%= "\n# Operating System: [#{@operatingsystem.name}]" if @operatingsystem -%>
+<%= "\n# Host group: [#{@hostgroup.title}]" if @hostgroup -%>
+<%= "\n# Operating system: [#{@operatingsystem}]" if @operatingsystem -%>
 <%= "\n# Setup Insights: [#{@setup_insights}]" unless @setup_insights.nil? -%>
-<%= "\n# Setup Remote Execution: [#{@setup_remote_execution}]" unless @setup_remote_execution.nil? -%>
+<%= "\n# Setup remote execution: [#{@setup_remote_execution}]" unless @setup_remote_execution.nil? -%>
 <%= "\n# Remote execution interface: [#{@remote_execution_interface}]" if @remote_execution_interface.present? -%>
 <%= "\n# Packages: [#{@packages}]" if @packages.present? -%>
+<%= "\n# Repository: [#{@repo}]" if @repo.present? -%>
+<%= "\n# Repository GPG key URL: [#{@repo_gpg_key_url}]" if @repo_gpg_key_url.present? -%>
+<%= "\n# Force: [#{@force}]" unless @force.nil? -%>
+<%= "\n# Ignore subman errors: [#{@ignore_subman_errors}]" unless @ignore_subman_errors.nil? -%>
+<%= "\n# Lifecycle environment id: [#{@lifecycle_environment_id}]" if @lifecycle_environment_id.present? -%>
 <%= "\n# Activation keys: [#{activation_keys}]" if activation_keys.present? -%>
 
 

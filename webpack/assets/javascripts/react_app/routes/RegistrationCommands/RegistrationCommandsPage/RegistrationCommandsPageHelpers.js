@@ -26,13 +26,6 @@ export const validatedOS = (operatingSystemId, template) => {
   return 'error';
 };
 
-export const formatOSname = os => {
-  if (os?.minor) {
-    return `${os.name} ${os.major}.${os.minor}`;
-  }
-  return `${os.name} ${os.major}`;
-};
-
 export const osHelperText = (
   operatingSystemId,
   operatingSystems,
@@ -91,7 +84,7 @@ const hostGroupOSHelperText = (hostGroupId, hostGroups, operatingSystems) => {
   const hostGroupOS = operatingSystems.find(os => `${os.id}` === `${osId}`);
 
   if (hostGroupOS) {
-    return sprintf('Host group OS: %s', formatOSname(hostGroupOS));
+    return sprintf('Host group OS: %s', hostGroupOS.title);
   }
   return __('No OS from host group');
 };
