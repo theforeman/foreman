@@ -1,3 +1,12 @@
+2021-05-20	Eric D. Helms <ericdhelms@gmail.com>
+	* Release 2.5.0-rc3
+
+2021-05-19	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2021-05-10	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #32566 - Fix port setting for spice consoles
+
 2021-05-09	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.5.0-rc2
 
