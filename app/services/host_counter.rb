@@ -28,6 +28,7 @@ class HostCounter
 
   def counted_hosts
     hosts_scope = Host::Managed.reorder('')
+    grouping = "#{@association}_id"
     case @association.to_s
     when 'organization', 'location'
       # If we are on /organizations or /locations, this allows to display the
@@ -35,7 +36,8 @@ class HostCounter
       hosts_scope = hosts_scope.unscoped
     when 'subnet', 'domain'
       hosts_scope = hosts_scope.joins(:primary_interface)
+      grouping.prepend("#{Nic::Base.table_name}.")
     end
-    hosts_scope.authorized(:view_hosts).group("#{@association}_id").count
+    hosts_scope.authorized(:view_hosts).group(grouping).count
   end
 end
