@@ -27,5 +27,9 @@ module Types
     field :children, Types::Hostgroup.connection_type, null: true, resolve: (proc do |object|
       RecordLoader.for(model_class).load_many(object.child_ids)
     end)
+
+    field :descendants, Types::Hostgroup.connection_type, null: true, resolve: (proc do |object|
+      RecordLoader.for(model_class).load_many(object.descendant_ids)
+    end)
   end
 end
