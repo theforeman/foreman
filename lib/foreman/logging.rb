@@ -193,7 +193,7 @@ module Foreman
     end
 
     def build_file_appender(name, options)
-      log_filename = "#{@log_directory}/#{@config[:filename]}"
+      log_filename = File.expand_path(@config[:filename], @log_directory)
       File.truncate(log_filename, 0) if @config[:truncate] && File.exist?(log_filename)
       begin
         ::Logging.appenders.file(
