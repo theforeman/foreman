@@ -149,5 +149,43 @@ class HostCounterTest < ActiveSupport::TestCase
         domain.reload
       end
     end
+
+    context 'with a user with filters on the hosts model' do
+      let(:hostgroup) { FactoryBot.create(:hostgroup) }
+
+      context 'that can see the hosts' do
+        let(:context_user) { setup_user 'view', 'hosts', "hostgroup_title = #{hostgroup.title}" }
+
+        test 'should obtain a correct host count in the domain' do
+          host = FactoryBot.create(:host, :managed, :ip => '127.0.0.1', :hostgroup => hostgroup)
+          primary = host.primary_interface
+          primary.domain = domain
+          primary.host.overwrite = true
+          assert primary.save
+          domain.reload
+
+          as_user(context_user) do
+            assert_equal 1, hosts_count(:domain)[domain]
+          end
+        end
+      end
+
+      context 'that can not see the hosts' do
+        let(:context_user) { setup_user 'view', 'hosts', "hostgroup_title = rubbish" }
+
+        test 'should not see any host in the domain' do
+          host = FactoryBot.create(:host, :managed, :ip => '127.0.0.1', :hostgroup => hostgroup)
+          primary = host.primary_interface
+          primary.domain = domain
+          primary.host.overwrite = true
+          assert primary.save
+          domain.reload
+
+          as_user(context_user) do
+            assert_equal 0, hosts_count(:domain)[domain]
+          end
+        end
+      end
+    end
   end
 end
