@@ -1,3 +1,28 @@
+2021-05-21	Eric D. Helms <ericdhelms@gmail.com>
+	* Release 2.3.4
+
+2021-05-10	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #32566 - Fix port setting for spice consoles
+
+2021-04-22	Christian Meißner <cme+github@meissner.sh>
+	* fixes #31631 - configure bond the right way
+	* Fixes #31626 - convert list into comma sep string
+
+2021-03-29	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #32217 - Correct OS search on host list
+
+2021-03-24	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #30779 - Implement ActionDispatch
+
+2021-03-10	Tomer Brisker <tbrisker@gmail.com>
+	* Update js snapshots
+
+2021-03-10	Jonas Trüstedt <truestedt@atix.de>
+	* Fixes #31962 - changed preseed-iPXE to set domain for bootdisk-deployments
+
+2021-03-10	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #32046 - Set setting with selection to empty value
+
 2021-02-24	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 2.3.3
 
