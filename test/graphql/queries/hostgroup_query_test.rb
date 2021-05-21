@@ -83,6 +83,14 @@ module Queries
               }
             }
           }
+          descendants {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
       GRAPHQL
@@ -106,6 +114,8 @@ module Queries
       )
     end
     let(:child_hostgroup) { FactoryBot.create(:hostgroup, parent: hostgroup) }
+    let(:second_child_hostgroup) { FactoryBot.create(:hostgroup, :parent => hostgroup) }
+    let(:grandchild_hostgroup) { FactoryBot.create(:hostgroup, :parent => child_hostgroup) }
 
     let(:global_id) { Foreman::GlobalId.for(hostgroup) }
     let(:variables) { { id: global_id } }
@@ -113,6 +123,8 @@ module Queries
 
     setup do
       child_hostgroup
+      second_child_hostgroup
+      grandchild_hostgroup
       FactoryBot.create(:host, hostgroup: hostgroup)
     end
 
@@ -141,6 +153,7 @@ module Queries
 
       assert_record hostgroup.parent, data['parent']
       assert_collection hostgroup.children, data['children']
+      assert_collection hostgroup.descendants, data['descendants']
     end
   end
 end
