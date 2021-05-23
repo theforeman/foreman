@@ -1,3 +1,3 @@
 object @filter
 
-attributes :id
+attributes :id, :resource_type
