@@ -77,7 +77,6 @@ module FactsData
     def good_facts
       {
         'something_filter_something_else' => 'hello',
-        'fact_bad_something' => 'hello',
         'filter_something' => 'hello',
       }
     end
@@ -85,10 +84,13 @@ module FactsData
     def ignored_facts
       {
         'ignored_fact_something' => 'will_not_show',
-        'something_ignored_fact' => 'will_not_show',
-        'something_ignored_fact_something_else' => 'will_not_show',
         'something_fact_bad' => 'will_not_show',
-        'something_filter' => 'will_not_show',
+        'filter' => 'will_not_show',
+        'mtu_filter' => 'will_not_show',
+        'facter_mtu_filter' => 'will_not_show',
+        'ipaddress_filter' => 'will_not_show',
+        'ipaddress6_filter' => 'will_not_show',
+        'facter_ipaddress6_filter' => 'will_not_show',
       }
     end
   end
@@ -143,6 +145,7 @@ module FactsData
       {
         'macaddress_virbr4' => 'fe:54:00:59:4e:bf',
         'mtu_virbr4' => '1500',
+        'non_docker_host' => 'non_docker_host',
         'net::interface::virbr4::ipv6_address::link' => 'fe80::fc54:ff:fe59:4ebf',
         'net::interface::virbr4::ipv6_address::link_list' => 'fe80::fc54:ff:fe59:4ebf',
         'net::interface::virbr4::ipv6_netmask::link' => '64',
@@ -156,6 +159,7 @@ module FactsData
       {
         'macaddress_vnet4' => 'fe:54:00:59:4e:bf',
         'mtu_vnet4' => '1500',
+        'docker_host' => 'ignored_host',
         'net::interface::vnet4::ipv6_address::link' => 'fe80::fc54:ff:fe59:4ebf',
         'net::interface::macvtap1::ipv6_address::link_list' => 'fe80::fc54:ff:fe59:4ebf',
         'net::interface::veth4::ipv6_netmask::link' => '64',

@@ -18,7 +18,7 @@ class FactImporter
     Setting.convert_array_to_regexp(
       Setting[:excluded_facts],
       {
-        :prefix => '(\A|.*::|.*_)',
+        :prefix => '(\A|.*::|\A(facter_)?(mtu|macaddress|(ipaddress|network|netmask)6?)_)',
         :suffix => '(\Z|::.*)',
       }
     )
