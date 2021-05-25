@@ -34,6 +34,9 @@ fi
 
 if [ -f /etc/os-release ] ; then
   . /etc/os-release
+else
+  echo "'/etc/os-release' file not found"
+  exit 1
 fi
 
 SSL_CA_CERT=$(mktemp)
