@@ -1,9 +1,0 @@
----
-production:
-  name: production
-
-global_puppetmaster:
-  name: global_puppetmaster
-
-testing:
-  name: testing

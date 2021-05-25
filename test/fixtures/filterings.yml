@@ -23,21 +23,6 @@ manager_2_2:
 manager_2_3:
   filter: manager_2
   permission: destroy_authenticators
-manager_3_0:
-  filter: manager_3
-  permission: view_environments
-manager_3_1:
-  filter: manager_3
-  permission: create_environments
-manager_3_2:
-  filter: manager_3
-  permission: edit_environments
-manager_3_3:
-  filter: manager_3
-  permission: destroy_environments
-manager_3_4:
-  filter: manager_3
-  permission: import_environments
 manager_5_0:
   filter: manager_5
   permission: view_domains
@@ -290,9 +275,6 @@ viewer_4_1:
 viewer_5_0:
   filter: viewer_5
   permission: view_domains
-viewer_6_0:
-  filter: viewer_6
-  permission: view_environments
 viewer_8_0:
   filter: viewer_8
   permission: view_facts
