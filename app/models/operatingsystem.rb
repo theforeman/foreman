@@ -355,6 +355,10 @@ class Operatingsystem < ApplicationRecord
     medium_provider.medium_uri.to_s
   end
 
+  def has_default_template?(template_kind)
+    os_default_templates.find_by(template_kind: template_kind) || false
+  end
+
   private
 
   def set_family
