@@ -3,8 +3,6 @@ manager_1:
   role_id: 1
 manager_2:
   role_id: 1
-manager_3:
-  role_id: 1
 manager_5:
   role_id: 1
 manager_6:
@@ -60,8 +58,6 @@ viewer_3:
 viewer_4:
   role_id: 5
 viewer_5:
-  role_id: 5
-viewer_6:
   role_id: 5
 viewer_8:
   role_id: 5

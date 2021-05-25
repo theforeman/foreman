@@ -164,31 +164,6 @@ destroy_realms:
   resource_type: Realm
   created_at: "2013-12-04 08:41:04.648794"
   updated_at: "2013-12-04 08:41:04.648794"
-view_environments:
-  name: view_environments
-  resource_type: Environment
-  created_at: "2013-12-04 08:41:04.623403"
-  updated_at: "2013-12-04 08:41:04.623403"
-create_environments:
-  name: create_environments
-  resource_type: Environment
-  created_at: "2013-12-04 08:41:04.631791"
-  updated_at: "2013-12-04 08:41:04.631791"
-edit_environments:
-  name: edit_environments
-  resource_type: Environment
-  created_at: "2013-12-04 08:41:04.640671"
-  updated_at: "2013-12-04 08:41:04.640671"
-destroy_environments:
-  name: destroy_environments
-  resource_type: Environment
-  created_at: "2013-12-04 08:41:04.648794"
-  updated_at: "2013-12-04 08:41:04.648794"
-import_environments:
-  name: import_environments
-  resource_type: Environment
-  created_at: "2013-12-04 08:41:04.656654"
-  updated_at: "2013-12-04 08:41:04.656654"
 view_globals:
   name: view_globals
   resource_type: CommonParameter
