@@ -2,7 +2,7 @@
   <%= base_errors_for @bookmark %>
   <%= text_f f, :name %>
   <%= textarea_f f, :query, :size => "col-md-8" , :rows=> '3' %>
-  <%= checkbox_f(f, :public, :checked => true) %>
+  <%= @bookmark.new_record? ? checkbox_f(f, :public, :checked => true) : checkbox_f(f, :public, :checked => @bookmark.public?) %>
   <%= f.hidden_field :controller %>
   <%= submit_or_cancel f %>
 <% end %>
