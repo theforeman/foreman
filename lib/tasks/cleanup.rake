@@ -19,6 +19,10 @@ namespace :purge do
   task puppet: :environment do
     raise('You have the Puppet plugin installed, uninstall it first to purge puppet data') if Foreman::Plugin.find(:foreman_puppet)
 
+    if ActiveRecord::Base.connection.column_exists?(:template_combinations, :environment_id)
+      ActiveRecord::Base.connection.remove_reference(:template_combinations, :environment)
+    end
+
     envs = %w[view_environments create_environments edit_environments destroy_environments import_environments]
     cfgs = %w[view_config_groups create_config_groups edit_config_groups destroy_config_groups]
     plks = %w[view_external_parameters create_external_parameters edit_external_parameters
@@ -31,6 +35,6 @@ namespace :purge do
     Feature.where(name: 'Puppet').destroy_all
   end
 
-  task all: ['purge:trends']
+  task all: ['purge:trends', 'purge:puppet']
 end
 task purge_data: 'purge:all'

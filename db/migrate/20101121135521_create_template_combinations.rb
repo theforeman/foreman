@@ -3,7 +3,6 @@ class CreateTemplateCombinations < ActiveRecord::Migration[4.2]
     create_table :template_combinations do |t|
       t.references :config_template
       t.references :hostgroup
-      t.references :environment
 
       t.timestamps null: true
     end
