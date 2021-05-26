@@ -72,7 +72,6 @@ class AddKeys < ActiveRecord::Migration[4.2]
     add_foreign_key "subnets", "smart_proxies", :name => "subnets_tftp_id_fk", :column => "tftp_id"
     add_foreign_key "taxable_taxonomies", "taxonomies", :name => "taxable_taxonomies_taxonomy_id_fk"
     add_foreign_key "template_combinations", "config_templates", :name => "template_combinations_config_template_id_fk"
-    add_foreign_key "template_combinations", "environments", :name => "template_combinations_environment_id_fk"
     add_foreign_key "template_combinations", "hostgroups", :name => "template_combinations_hostgroup_id_fk"
     add_foreign_key "tokens", "hosts", :name => "tokens_host_id_fk"
     add_foreign_key "user_compute_resources", "compute_resources", :name => "user_compute_resources_compute_resource_id_fk"
