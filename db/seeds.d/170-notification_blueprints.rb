@@ -61,6 +61,26 @@ blueprints = [
     message: N_('Support for %{feature} has been deprecated and will be removed in version %{version}'),
     expires_in: 30.days,
   },
+  {
+    group: N_('Reports'),
+    name: 'report_finish',
+    message: N_('Report is ready to download'),
+    level: 'info',
+    actions:
+    {
+      links:
+      [
+        {
+          path_method: :edit_host_path,
+          title: N_('Download Report'),
+        },
+        {
+          path_method: :edit_host_path,
+          title: N_('Regenerate Report'),
+        },
+      ],
+    },
+  },
 ]
 
 blueprints.each { |blueprint| UINotifications::Seed.new(blueprint).configure }
