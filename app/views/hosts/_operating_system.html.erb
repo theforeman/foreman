@@ -23,7 +23,9 @@
 
 <div id='root_password'>
   <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more"), :required => true,
-                 :unset => action_name == "edit", :keep_value => action_name == "clone"  %>
+                 :unset => action_name == "edit", :keep_value => action_name == "clone",
+                 :placeholder => (@host.root_pass.empty?) ? nil : "**********",
+                 :help_inline => (@host.root_pass_source.present?) ? _("The password is set by %s param.") % @host.root_pass_source : nil %>
 </div>
 <!-- this section is used for displaying the provisioning scripts-->
 <div class="form-group">
