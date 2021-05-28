@@ -106,7 +106,15 @@ module Orchestration::Compute
     final_compute_attrs = compute_attributes.merge(compute_resource.host_compute_attrs(self))
     self.vm = compute_resource.create_vm(final_compute_attrs)
   rescue => e
-    failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e
+    # Workaround bug when the exception itself contains unresolved string placeholder
+    # Example: Foreman could not find a required vSphere resource. Check if Foreman has the required permissions and the resource exists. Reason: %s
+    # See: https://projects.theforeman.org/issues/32273
+    begin
+      failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message }, e
+    rescue => e2
+      logger.warn "Got #{e2.class} when accessing #{e.class} message attribute, falling back to message_untranslated containing #{e.message_untranslated}"
+      failure _("Failed to create a compute %{compute_resource} instance %{name}: %{message}\n ") % { :compute_resource => compute_resource, :name => name, :message => e.message_untranslated }
+    end
   end
 
   def setUserData
