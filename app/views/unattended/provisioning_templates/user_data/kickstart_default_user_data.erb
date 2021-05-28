@@ -5,6 +5,7 @@ model: ProvisioningTemplate
 oses:
 - CentOS
 - Fedora
+- Rocky
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
