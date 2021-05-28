@@ -494,7 +494,7 @@ module Foreman::Model
         e,
         N_(
           'Foreman could not find a required vSphere resource. Check if Foreman has the required permissions and the resource exists. Reason: %s'
-        )
+        ) % e.message
       )
     rescue Fog::Errors::Error => e
       Foreman::Logging.exception("Unhandled VMware error", e)
