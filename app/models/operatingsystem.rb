@@ -60,6 +60,7 @@ class Operatingsystem < ApplicationRecord
 
   FAMILIES = { 'Debian'    => %r{Debian|Ubuntu}i,
                'Redhat'    => %r{RedHat|Centos|Fedora|Scientific|SLC|OracleLinux}i,
+               'Redhat'    => %r{RedHat|Centos|Fedora|Scientific|SLC|OracleLinux|Rocky}i,
                'Suse'      => %r{OpenSuSE|SLES|SLED}i,
                'Windows'   => %r{Windows}i,
                'Altlinux'  => %r{Altlinux}i,
