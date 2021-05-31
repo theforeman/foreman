@@ -195,6 +195,7 @@ module Api
             @status = @host.build_global_status
           else
             @status = @host.get_status(HostStatus.find_status_by_humanized_name(params[:type]))
+            render :json => { :error => _("Status %s does not exist.") % params[:type] }, :status => :unprocessable_entity if @status.type.empty?
         end
       end
 
