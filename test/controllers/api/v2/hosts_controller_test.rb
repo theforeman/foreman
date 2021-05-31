@@ -457,6 +457,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not get nonexistent status" do
+    get :get_status, params: { :id => @host.to_param, :type => 'doesnt_exist' }
+    assert_equal({'error' => 'Status doesnt_exist does not exist.'}, JSON.parse(@response.body))
+    assert_response :unprocessable_entity
+  end
+
   test "should be able to create hosts even when restricted" do
     disable_orchestration
     assert_difference('Host.count') do
