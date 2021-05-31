@@ -98,13 +98,18 @@
     <div class="tab-pane" id="help">
       <div>
         <h1><%= _('Template syntax') %></h1>
-        <%= _('Provisioning templates are generated using the Embedded Ruby (ERB) language.') %>
+        <%= _('Templates are generated using the Embedded Ruby (ERB) language.') %>
         <%= _('The following table and example snippet shows global methods, variables and class methods and how to use them.') %>
         <%= _('These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful.') %>
         <% unless Setting[:safemode_render] -%>
           <%= _('To enable safe mode, navigate to Settings page and enable Safemode rendering option.') %>
         <% end -%>
-        <%= link_to(_('For more info visit our documentation.'), documentation_url(controller.documentation_anchor)) if controller.respond_to?(:documentation_anchor) %>
+        <%= (_'For more info visit:') %>
+        <% if controller.respond_to?(:documentation_anchor) -%>
+          <%= link_to(_('our templates documentation'), documentation_url(controller.documentation_anchor)) %> <%= _('and') %>
+        <% end -%>
+        <%= link_to(_('DSL (Domain Specific Language) documentation'), apipie_dsl_apipie_dsl_path) %>
+
         <h2><%= _('Examples') %></h2>
         <div class="panel-group" id="accordion-markup">
           <%= render "help_accordion", :title => N_('Comments'), :contents => (capture { %>
