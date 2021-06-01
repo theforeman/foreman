@@ -3,10 +3,6 @@
   :text => h(exception_message),
   :close => false %>
 
-<div class="pull-right">
-  <%= documentation_button("7.3GettingHelp")%>
-</div>
-
 <p id="message">
   <%= _("If you feel this is an error with Foreman itself, please open a new issue with") %>
   <%= link_to _("Foreman ticketing system"), "https://projects.theforeman.org/projects/foreman/issues", :rel => "external" %>,
@@ -19,3 +15,7 @@
   <% end %>
     <%= _(" and it is highly recommended to also attach the foreman-debug output.") %>
 </p>
+
+<div class="pull-right">
+  <%= documentation_button("7.3GettingHelp")%>
+</div>
