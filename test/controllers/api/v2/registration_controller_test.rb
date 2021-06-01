@@ -134,7 +134,7 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
     end
 
     test 'should find and update host' do
-      params = { host: { name: host_params[:host][:name], hostgroup_id: hostgroups(:unusual).id } }
+      params = { host: { name: host_params[:host][:name], hostgroup_id: hostgroups(:common).id } }
 
       Host.create(host_params[:host])
 
@@ -258,6 +258,20 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
 
         host = Host.find_by(name: params[:host][:name]).reload
         assert HostParameter.find_by(host: host, name: 'host_packages').value
+      end
+    end
+
+    context 'prepare host' do
+      test 'Apply inherited attributes from host group' do
+        params = { host: { name: 'hostgroup.example.com', hostgroup_id: hostgroups(:common).id }}
+
+        post :host, params: params, session: set_session_user
+        assert_response :success
+
+        host = Host.find_by(name: params[:host][:name]).reload
+        assert hostgroups(:common).operatingsystem_id, host.operatingsystem_id
+        assert hostgroups(:common).environment_id, host.environment_id
+        assert hostgroups(:common).puppet_proxy_id, host.puppet_proxy_id
       end
     end
   end

@@ -111,13 +111,10 @@ module Api
       end
 
       def prepare_host
-        hostgroup_id = host_params('host')['hostgroup_id']
+        host_attributes = @host.apply_inherited_attributes(host_params('host'))
 
-        @host.assign_attributes(host_params('host'))
-        # Hardcoded params so they can't be overridden
-        @host.hostgroup = Hostgroup.authorized(:view_hostgroups).find(hostgroup_id) if hostgroup_id
+        @host.assign_attributes(host_attributes)
         @host.owner = User.current
-
         @host.save!
       end
 
