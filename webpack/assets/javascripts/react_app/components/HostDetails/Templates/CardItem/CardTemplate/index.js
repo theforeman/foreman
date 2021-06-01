@@ -17,7 +17,7 @@ import {
   GridItem,
 } from '@patternfly/react-core';
 
-const CardItem = ({ content, header, children }) => {
+const CardItem = ({ content, header, children, overrideGridProps }) => {
   const [activeAccordion, setActiveAccordion] = useState(0);
 
   const onToggle = id => {
@@ -29,7 +29,7 @@ const CardItem = ({ content, header, children }) => {
   };
 
   return (
-    <GridItem xl2={3} md={6} lg={5}>
+    <GridItem xl2={3} md={6} lg={5} {...overrideGridProps}>
       <Card isHoverable>
         <CardTitle>{header}</CardTitle>
         <CardBody>
@@ -93,10 +93,12 @@ CardItem.propTypes = {
   ).isRequired,
   header: PropTypes.node.isRequired,
   children: PropTypes.node,
+  overrideGridProps: PropTypes.shape({}),
 };
 
 CardItem.defaultProps = {
   children: undefined,
+  overrideGridProps: undefined,
 };
 
 export default CardItem;
