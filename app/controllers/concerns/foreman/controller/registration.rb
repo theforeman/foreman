@@ -26,8 +26,6 @@ module Foreman::Controller::Registration
       location: (location || User.current.default_location || User.current.my_locations.first),
       hostgroup: host_group,
       operatingsystem: operatingsystem,
-      url_host: registration_url.host,
-      registration_url: registration_url,
       setup_insights: ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights']),
       setup_remote_execution: ActiveRecord::Type::Boolean.new.deserialize(params['setup_remote_execution']),
       packages: params['packages'],
@@ -40,6 +38,7 @@ module Foreman::Controller::Registration
           .to_h
           .symbolize_keys
           .merge(context)
+          .merge(context_urls)
   end
 
   def safe_render(template)
@@ -94,6 +93,10 @@ module Foreman::Controller::Registration
 
     msg = N_('URL in :url parameter is missing a scheme, please set http:// or https://')
     fail Foreman::Exception.new(msg)
+  end
+
+  def context_urls
+    { registration_url: registration_url }
   end
 
   def setup_host_params
