@@ -10,12 +10,32 @@ oses:
 - Debian
 - Ubuntu
 -%>
+<% built_https = foreman_url('built').start_with?('https') -%>
 #!/bin/bash
-
 set -e
 
-# This script enrolls a host with Foreman.
-# Host: <%= @host.name %>
+echo "# Running [<%= @host.name %>] host initial configuration"
+
+<% if built_https -%>
+SSL_CA_CERT=$(mktemp)
+cat << EOF > $SSL_CA_CERT
+<%= foreman_server_ca_cert %>
+EOF
+<% end -%>
+
+foreman_curl() {
+  curl --silent --show-error <%= '--cacert $SSL_CA_CERT' if built_https %> -o /dev/null --noproxy \* "$@"
+}
+
+exit_and_cancel_build() {
+  echo 'Host [<%= @host.name %>] initial configuration failed'
+  foreman_curl --request POST '<%= foreman_url('failed') %>' \
+       --data 'Host initial configuration failed, please see the registration log for more details.'
+  exit 1
+}
+
+set +e
+trap 'exit_and_cancel_build' ERR
 
 <% if host_puppet_server.present? -%>
 <%= snippet 'puppetlabs_repo' %>
@@ -37,17 +57,14 @@ set -e
 <%= snippet_if_exists('host_init_config_post') -%>
 
 # Call home to exit build mode
-<% built_https = foreman_url('built').start_with?('https') -%>
-<% if built_https -%>
-SSL_CA_CERT=$(mktemp)
-cat << EOF > $SSL_CA_CERT
-<%= foreman_server_ca_cert %>
-EOF
-<% end -%>
-curl --silent --show-error <%= '--cacert $SSL_CA_CERT' if built_https -%> -o /dev/null --noproxy \* '<%= foreman_url('built') %>'
 
-echo "#"
-echo "# Host [<%= @host.name %>] successfully enrolled."
-echo "#"
+trap - ERR
+foreman_curl '<%= foreman_url('built') %>'
+
+if [[ $? == 0 ]] ; then
+  echo "Host [<%= @host.name %>] successfully configured."
+else
+  echo "Host [<%= @host.name %>] successfully configured, but failed to set built status."
+fi
 
 exit 0

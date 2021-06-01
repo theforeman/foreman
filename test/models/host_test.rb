@@ -542,7 +542,7 @@ class HostTest < ActiveSupport::TestCase
     host.refresh_statuses
     assert_equal 0, host.global_status
     refute_empty host.host_statuses
-    assert host.get_status(HostStatus::BuildStatus).new_record? # BuildStatus was not #relevant? for unmanaged host
+    refute host.get_status(HostStatus::BuildStatus).new_record?
     refute host.get_status(HostStatus::ConfigurationStatus).new_record?
   end
 
