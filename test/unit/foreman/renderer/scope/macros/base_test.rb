@@ -139,6 +139,13 @@ class BaseMacrosTest < ActiveSupport::TestCase
     end
   end
 
+  test 'URI::Generic jail test' do
+    allowed = [:host, :path, :port, :query, :scheme]
+    allowed.each do |m|
+      assert URI::HTTP::Jail.allowed?(m), "Method #{m} is not available in URI::HTTP::Jail while should be allowed."
+    end
+  end
+
   context 'subnet helpers' do
     setup do
       host = FactoryBot.build(:host)

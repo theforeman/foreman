@@ -37,10 +37,35 @@ if [ -f /etc/os-release ] ; then
   . /etc/os-release
 fi
 
+# Choose package manager
+# apt-get for Debian & Ubuntu
+# dnf for Fedora (version >= 22) & RHEL family (version > 7)
+# yum for Fedora (version < 22) & RHEL family (version < 8)
+if [ x$ID = xfedora ]; then
+  if [ "${VERSION_ID%.*}" -gt 21 ]; then
+    PKG_MANAGER='dnf'
+  else
+    PKG_MANAGER='yum'
+  fi
+elif [ -f /etc/redhat-release ] ; then
+  if [ "${VERSION_ID%.*}" -gt 7 ]; then
+    PKG_MANAGER='dnf'
+  else
+    PKG_MANAGER='yum'
+  fi
+elif [ -f /etc/debian_version ]; then
+  PKG_MANAGER='apt-get'
+fi
+
 SSL_CA_CERT=$(mktemp)
 cat << EOF > $SSL_CA_CERT
 <%= foreman_server_ca_cert %>
 EOF
+
+cleanup_and_exit() {
+  rm -f $SSL_CA_CERT
+  exit $1
+}
 
 <% unless @repo.blank? -%>
 echo '#'
@@ -58,8 +83,8 @@ gpgkey=<%= shell_escape @repo_gpg_key_url %>
 EOF
 
   echo "Building yum metadata cache, this may take a few minutes"
-  yum makecache
-elif [ x$ID = xdebian ] || [ x$ID = xubuntu ]; then
+  $PKG_MANAGER makecache
+elif [ -f /etc/debian_version ]; then
   cat << EOF > /etc/apt/sources.list.d/foreman_registration.list
 <%= shell_escape @repo %>
 EOF
@@ -71,7 +96,7 @@ EOF
 
 else
   echo "Unsupported operating system, can't add repository."
-  exit 1
+  cleanup_and_exit 1
 fi
 <% end -%>
 
@@ -102,7 +127,7 @@ echo "#"
 if [ -f /etc/redhat-release ]; then
     register_katello_host(){
         UUID=$(subscription-manager identity | head -1 | awk '{print $3}')
-        curl --silent --show-error --cacert $SSL_CA_CERT --request POST "<%= @registration_url %>" \
+        curl --silent --show-error --cacert $KATELLO_SERVER_CA_CERT --request POST "<%= @registration_url %>" \
              --data "uuid=$UUID" \
              <%= headers.join(' ') %> \
 <%= "          --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
@@ -115,42 +140,77 @@ if [ -f /etc/redhat-release ]; then
 <%= "          --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
 <%= "          --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
 
-}
+    }
 
+    KATELLO_SERVER_CA_CERT=/etc/rhsm/ca/katello-server-ca.pem
+    RHSM_CFG=/etc/rhsm/rhsm.conf
+
+    # Backup rhsm.conf
+    if [ -f $RHSM_CFG ] ; then
+      test -f $RHSM_CFG.bak || cp $RHSM_CFG $RHSM_CFG.bak
+    fi
+
+    # rhn-client-tools conflicts with subscription-manager package
+    # since rhn tools replaces subscription-manager, we need to explicitly
+    # install subscription-manager after the rhn tools cleanup
+    if [ x$ID = xol ]; then
+      $PKG_MANAGER remove -y rhn-client-tools
+      $PKG_MANAGER install -y --setopt=obsoletes=0 subscription-manager
+    fi
+
+    # Prepare SSL certificate
+    mkdir -p /etc/rhsm/ca
+    cp -f $SSL_CA_CERT $KATELLO_SERVER_CA_CERT
+    chmod 644 $KATELLO_SERVER_CA_CERT
+
+    # Prepare subscription-manager
     <% if @force -%>
     if [ -x "$(command -v subscription-manager)" ] ; then
       subscription-manager unregister || true
       subscription-manager clean
     fi
 
-    yum remove -y katello-ca-consumer\*
+    $PKG_MANAGER remove -y katello-ca-consumer\*
     <% end -%>
 
-    # rhn-client-tools conflicts with subscription-manager package
-    # since rhn tools replaces subscription-manager, we need to explicitly
-    # install subscription-manager after the rhn tools cleanup
-    if [ x$ID = xol ]; then
-      yum remove -y rhn-client-tools
-      yum install -y --setopt=obsoletes=0 subscription-manager
-    fi
-
-    CONSUMER_RPM=$(mktemp --suffix .rpm)
-    curl --silent --show-error --output $CONSUMER_RPM <%= subscription_manager_configuration_url(hostname: @url_host) %>
-
-    # Workaround for systems with enabled FIPS,
-    # where installation of RPM generated on RHEL7 cause 'no digest' error
-    # See https://projects.theforeman.org/issues/32068
-    if [ "$(cat /proc/sys/crypto/fips_enabled)" = "1" ]; then
-        rpm -ivh --nodigest --nofiledigest $CONSUMER_RPM
+    if ! [ -x "$(command -v subscription-manager)" ] ; then
+      $PKG_MANAGER install -y subscription-manager
     else
-        yum localinstall $CONSUMER_RPM -y
+      $PKG_MANAGER upgrade -y subscription-manager
     fi
 
-    rm -f $CONSUMER_RPM
+    if ! [ -f $RHSM_CFG ] ; then
+      echo "'$RHSM_CFG' not found, cannot configure subscription-manager"
+      cleanup_and_exit 1
+    fi
+
+    # Configure subscription-manager
+    test -f $RHSM_CFG.bak || cp $RHSM_CFG $RHSM_CFG.bak
+    subscription-manager config \
+      --server.hostname="<%= @rhsm_url.host %>" \
+      --server.port="<%= @rhsm_url.port %>" \
+      --server.prefix="<%= @rhsm_url.path %>" \
+      --rhsm.repo_ca_cert="$KATELLO_SERVER_CA_CERT" \
+      --rhsm.baseurl="<%= @pulp_content_url %>"
+
+    # Older versions of subscription manager may not recognize
+    # report_package_profile and package_profile_on_trans options.
+    # So set them separately and redirect out & error to /dev/null
+    # to fail silently.
+    subscription-manager config --rhsm.package_profile_on_trans=1 > /dev/null 2>&1 || true
+    subscription-manager config --rhsm.report_package_profile=1 > /dev/null 2>&1 || true
+
+    # Configuration for EL6
+    if grep --quiet full_refresh_on_yum $RHSM_CFG; then
+      sed -i "s/full_refresh_on_yum\s*=.*$/full_refresh_on_yum = 1/g" $RHSM_CFG
+    else
+      full_refresh_config="#config for on-premise management\nfull_refresh_on_yum = 1"
+      sed -i "/baseurl/a $full_refresh_config" $RHSM_CFG
+    fi
 
     subscription-manager register <%= '--force' if @force %> \
-        --org='<%= @organization.label %>' \
-        --activationkey=<%= shell_escape(activation_keys) %> || <%= @ignore_subman_errors ? 'true' : 'exit 1' %>
+      --org='<%= @organization.label %>' \
+      --activationkey='<%= activation_keys %>' || <%= @ignore_subman_errors ? 'true' : 'cleanup_and_exit 1' %>
 
     register_katello_host | bash
 else
@@ -159,3 +219,5 @@ fi
 <% else -%>
 register_host | bash
 <% end -%>
+
+cleanup_and_exit
