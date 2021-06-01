@@ -54,7 +54,7 @@ gem 'bcrypt', '~> 3.1'
 gem 'get_process_mem'
 gem 'rack-cors', '~> 1.0.2', require: 'rack/cors'
 gem 'jwt', '~> 2.2.2'
-gem 'graphql', '~> 1.8.0'
+gem 'graphql', '~> 1.8'
 gem 'graphql-batch'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
