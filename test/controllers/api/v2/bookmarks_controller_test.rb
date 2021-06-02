@@ -16,10 +16,23 @@ class Api::V2::BookmarksControllerTest < ActionController::TestCase
                                        :query => " facts.architecture = x86_64",
                                      })
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:bookmarks)
+  context 'index test' do
+    def setup
+      @org = FactoryBot.create(:organization)
+      @loc = FactoryBot.create(:location)
+    end
+
+    test "should get index" do
+      get :index
+      assert_response :success
+      assert_not_nil assigns(:bookmarks)
+    end
+
+    test "should get index with organization and location params" do
+      get :index, params: { :location_id => @loc.id, :organization_id => @org.id}
+      assert_response :success
+      assert_not_nil assigns(:bookmarks)
+    end
   end
 
   test "should show bookmark" do
