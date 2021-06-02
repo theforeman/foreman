@@ -40,6 +40,7 @@
     "compression-webpack-plugin": "~1.1.11",
     "cross-env": "^5.2.0",
     "css-loader": "^0.23.1",
+    "cssnano": "^4.1.10",
     "dotenv": "^5.0.0",
     "eslint": "^6.7.2",
     "expose-loader": "~0.6.0",
