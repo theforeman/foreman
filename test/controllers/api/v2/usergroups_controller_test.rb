@@ -7,12 +7,27 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
 
   valid_attrs = { :name => 'test_usergroup' }
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:usergroups)
-    usergroups = ActiveSupport::JSON.decode(@response.body)
-    assert !usergroups.empty?
+  context 'index test' do
+    def setup
+      @org = FactoryBot.create(:organization)
+      @loc = FactoryBot.create(:location)
+    end
+
+    test "should get index" do
+      get :index
+      assert_response :success
+      assert_not_nil assigns(:usergroups)
+      usergroups = ActiveSupport::JSON.decode(@response.body)
+      assert !usergroups.empty?
+    end
+
+    test "should get index with organization and location params" do
+      get :index, params: { :location_id => @loc.id, :organization_id => @org.id}
+      assert_response :success
+      assert_not_nil assigns(:usergroups)
+      usergroups = ActiveSupport::JSON.decode(@response.body)
+      assert !usergroups.empty?
+    end
   end
 
   test "should show individual record" do

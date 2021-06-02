@@ -1,12 +1,27 @@
 require 'test_helper'
 
 class Api::V2::SettingsControllerTest < ActionController::TestCase
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:settings)
-    settings = ActiveSupport::JSON.decode(@response.body)
-    assert !settings.empty?
+  context 'index test' do
+    def setup
+      @org = FactoryBot.create(:organization)
+      @loc = FactoryBot.create(:location)
+    end
+
+    test "should get index" do
+      get :index
+      assert_response :success
+      assert_not_nil assigns(:settings)
+      settings = ActiveSupport::JSON.decode(@response.body)
+      assert !settings.empty?
+    end
+
+    test "should get index with organization and location params" do
+      get :index, params: { :location_id => @loc.id, :organization_id => @org.id}
+      assert_response :success
+      assert_not_nil assigns(:settings)
+      settings = ActiveSupport::JSON.decode(@response.body)
+      assert !settings.empty?
+    end
   end
 
   test "should show individual record" do

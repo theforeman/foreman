@@ -3,10 +3,23 @@ require 'test_helper'
 class Api::V2::ModelsControllerTest < ActionController::TestCase
   valid_attrs = { :name => "new model" }
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:models)
+  context 'index test' do
+    def setup
+      @org = FactoryBot.create(:organization)
+      @loc = FactoryBot.create(:location)
+    end
+
+    test "should get index" do
+      get :index
+      assert_response :success
+      assert_not_nil assigns(:models)
+    end
+
+    test "should get index with organization and location params" do
+      get :index, params: { :location_id => @loc.id, :organization_id => @org.id}
+      assert_response :success
+      assert_not_nil assigns(:models)
+    end
   end
 
   test "should show model" do

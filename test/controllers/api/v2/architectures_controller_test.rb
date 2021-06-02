@@ -13,12 +13,27 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
 
   all_per_page_test
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:architectures)
-    architectures = ActiveSupport::JSON.decode(@response.body)
-    assert !architectures.empty?
+  context 'index test' do
+    def setup
+      @org = FactoryBot.create(:organization)
+      @loc = FactoryBot.create(:location)
+    end
+
+    test "should get index" do
+      get :index
+      assert_response :success
+      assert_not_nil assigns(:architectures)
+      architectures = ActiveSupport::JSON.decode(@response.body)
+      assert !architectures.empty?
+    end
+
+    test "should get index with organization and location params" do
+      get :index, params: { :location_id => @loc.id, :organization_id => @org.id}
+      assert_response :success
+      assert_not_nil assigns(:architectures)
+      architectures = ActiveSupport::JSON.decode(@response.body)
+      assert !architectures.empty?
+    end
   end
 
   test "should show individual record" do
