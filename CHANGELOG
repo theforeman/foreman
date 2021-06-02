@@ -1,3 +1,10 @@
+2021-06-02	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.5.0
+	* Fixes #32657 - Prevent duplicate templates
+
+2021-05-25	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #32452 - Host Registration tweaks and improvements (#8519)
+
 2021-05-20	Eric D. Helms <ericdhelms@gmail.com>
 	* Release 2.5.0-rc3
 
