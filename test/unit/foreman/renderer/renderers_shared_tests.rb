@@ -320,5 +320,127 @@ module RenderersSharedTests
         end
       end
     end
+
+    describe 'input_resource macro' do
+      let(:template) { FactoryBot.build(:provisioning_template, template: 'resource: <%= input_resource("ress") -%>') }
+      let(:template_inputs) { [FactoryBot.build(:template_input, name: 'ress', value_type: 'resource', resource_type: 'Hostgroup')] }
+      let(:source) { Foreman::Renderer::Source::Database.new(template) }
+
+      let(:real_scope) { Foreman::Renderer::Scope::Provisioning.new(**scope_args) }
+      let(:preview_scope) { Foreman::Renderer::Scope::Provisioning.new(**scope_args, mode: Foreman::Renderer::PREVIEW_MODE) }
+
+      setup { template.update(template_inputs: template_inputs) }
+
+      context "when resource found" do
+        let(:scope_args) { { host: @host, source: source, template_input_values: { 'ress' => hostgroups(:common).id } } }
+
+        test "preview" do
+          assert_nothing_raised do
+            result = renderer.render(source, preview_scope)
+            assert_equal "resource: #{hostgroups(:common).id}", result
+          end
+        end
+
+        test "render" do
+          assert_nothing_raised do
+            result = renderer.render(source, real_scope)
+            assert_equal "resource: #{hostgroups(:common)}", result
+          end
+        end
+      end
+
+      context "when resource not found" do
+        let(:scope_args) { { host: @host, source: source, template_input_values: { 'ress' => 0 } } }
+
+        test "preview" do
+          assert_nothing_raised do
+            result = renderer.render(source, preview_scope)
+            assert_equal 'resource: 0', result
+          end
+        end
+
+        test "render" do
+          assert_raises ActiveRecord::RecordNotFound do
+            renderer.render(source, real_scope)
+          end
+        end
+      end
+
+      context "when resource class is not found" do
+        let(:template_inputs) { [FactoryBot.build(:template_input, name: 'ress', value_type: 'resource', resource_type: 'NotExistingResource')] }
+        let(:scope_args) { { host: @host, source: source, template_input_values: { 'ress' => 0 } } }
+
+        test "preview" do
+          assert_nothing_raised do
+            result = renderer.render(source, preview_scope)
+            assert_equal 'resource: 0', result
+          end
+        end
+
+        test "render" do
+          e = assert_raises Foreman::Renderer::Errors::UnknownResource do
+            renderer.render(source, real_scope)
+          end
+          assert_includes e.message, "Unkown 'NotExistingResource' resource class"
+        end
+      end
+
+      context "when not authorized" do
+        let(:template_inputs) { [FactoryBot.build(:template_input, name: 'ress', value_type: 'resource', resource_type: 'Image')] }
+        let(:scope_args) { { host: @host, source: source, template_input_values: { 'ress' => images(:one).id } } }
+
+        test "preview" do
+          as_user(users(:one)) do
+            assert_nothing_raised do
+              result = renderer.render(source, preview_scope)
+              assert_equal "resource: #{images(:one).id}", result
+            end
+          end
+        end
+
+        test "render" do
+          as_user(users(:one)) do
+            assert_raises ActiveRecord::RecordNotFound do
+              renderer.render(source, real_scope)
+            end
+          end
+        end
+      end
+
+      context "when value is empty" do
+        let(:scope_args) { { host: @host, source: source } }
+
+        test "preview" do
+          assert_nothing_raised do
+            result = renderer.render(source, preview_scope)
+            assert_equal "resource: $USER_INPUT[ress]", result
+          end
+        end
+
+        test "render" do
+          e = assert_raises TemplateInput::ValueNotReady do
+            renderer.render(source, real_scope)
+          end
+          assert_includes e.message, "Input 'ress' is not ready for rendering"
+        end
+      end
+
+      context "when value type != 'resource'" do
+        let(:template_inputs) { [FactoryBot.build(:template_input, name: 'ress')] }
+        let(:scope_args) { { host: @host, source: source } }
+
+        test "preview" do
+          assert_raises Foreman::Renderer::Errors::WrongInputValueType do
+            renderer.render(source, real_scope)
+          end
+        end
+
+        test "render" do
+          assert_raises Foreman::Renderer::Errors::WrongInputValueType do
+            renderer.render(source, real_scope)
+          end
+        end
+      end
+    end
   end
 end

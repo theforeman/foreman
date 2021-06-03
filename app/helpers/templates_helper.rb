@@ -55,7 +55,8 @@ module TemplatesHelper
   end
 
   def hide_resource_type_input(obj)
-    'hide' unless obj.value_type == 'search'
+    return if obj.value_type == 'search' || obj.value_type == 'resource'
+    'hide'
   end
 
   def template_input_f(f, options = {})
@@ -63,6 +64,10 @@ module TemplatesHelper
     input = input_value.template_input
 
     options.reverse_merge!(label: input.name, id: input.name, label_help: input.description.presence, required: input.required)
+
+    if input.value_type == 'resource'
+      return selectable_f(f, :value, resource_value_options(input.resource_type), { include_blank: !input.required }, options)
+    end
 
     if input.options.present?
       selectable_f(f, :value, input.options_array, { include_blank: !input.required }, options)
@@ -80,5 +85,18 @@ module TemplatesHelper
       end
       react_form_input(input_type, f, :value, options)
     end
+  end
+
+  def template_input_value_type_options
+    [[_('Plain'), 'plain'], [_("Search"), 'search'], [_('Date'), 'date'], [_('Resource'), 'resource']]
+  end
+
+  def resource_value_options(resource_type)
+    return [] unless User.current.allowed_to?("view_#{resource_type.underscore.pluralize}".to_sym)
+
+    resource_type.constantize
+                 .all
+                 .map { |r| [r.to_s, r.id] }
+                 .sort
   end
 end
