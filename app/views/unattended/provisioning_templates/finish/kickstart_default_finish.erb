@@ -17,6 +17,7 @@ oses:
   - package_upgrade: boolean (default=true)
   - salt_master: string (default=undef)
   %>
+<%= snippet_if_exists(template_name + " custom pre") -%>
 <% if @host.subnet.respond_to?(:dhcp_boot_mode?) -%>
 <%= snippet 'kickstart_networking_setup' %>
 service network restart
@@ -61,6 +62,7 @@ fi
 
 <%= snippet "blacklist_kernel_modules" %>
 
+<%= snippet_if_exists(template_name + " custom post") -%>
 <% if chef_enabled %>
 <%= snippet 'chef_client' %>
 <% end -%>
