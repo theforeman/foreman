@@ -39,6 +39,10 @@ module Foreman
         MESSAGE = N_('Rendering failed, no input with name "%{s}" for input macro found').freeze
       end
 
+      class WrongInputValueType < RenderingError
+        MESSAGE = N_('%{name} value is a "%{type}", expected "resource" value type').freeze
+      end
+
       class UnknownReportColumn < RenderingError
         MESSAGE = N_('Rendering failed, one or more unknown columns specified for ordering - "%{unknown}"').freeze
       end
@@ -53,6 +57,10 @@ module Foreman
 
       class UnsupportedOS < RenderingError
         MESSAGE = N_('Unsupported or no operating system found for this host.').freeze
+      end
+
+      class UnknownResource < RenderingError
+        MESSAGE = N_("Unkown '%{klass}' resource class").freeze
       end
     end
   end
