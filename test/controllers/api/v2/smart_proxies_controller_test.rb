@@ -40,12 +40,39 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     expected_proxy_ids = SmartProxy.unscoped.with_features("TFTP").map { |p| p.id }
     assert_equal expected_proxy_ids, returned_proxy_ids
   end
+  test "should get index including status" do
+    stub_smart_proxy_v2_features_and_statuses
+    get :index, params: { :include_status => true }
+    assert_response :success
+    smart_proxies = ActiveSupport::JSON.decode(@response.body)
+    returned_proxy_status = smart_proxies['results'].map { |p| p["status"] }
+    number_of_proxies = smart_proxies['results'].map { |p| p["id"] }.count
+    assert_equal number_of_proxies, returned_proxy_status.count
+  end
 
   test "should show individual record" do
     get :show, params: { :id => smart_proxies(:one).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     refute_empty show_response
+  end
+
+  test "should show individual record with including status" do
+    stub_smart_proxy_v2_features_and_statuses
+    get :show, params: { :id => smart_proxies(:one).to_param, :include_status => true }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_includes show_response, 'status'
+    refute_includes show_response, 'version'
+  end
+
+  test "should show individual record including version" do
+    stub_smart_proxy_v2_features_and_statuses
+    get :show, params: { :id => smart_proxies(:one).to_param, :include_version => true }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    refute_includes show_response, 'status'
+    assert_includes show_response, 'version'
   end
 
   test_attributes :pid => '0ffe0dc5-675e-45f4-b7e1-a14d3dd81f6e'
