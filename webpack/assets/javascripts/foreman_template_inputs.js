@@ -49,11 +49,14 @@ export const pollReportData = url => {
 
 export const inputValueOnchange = input => {
   const searchValue = input.value === 'search';
+  const resourceValue = input.value === 'resource';
   const plainValue = input.value === 'plain';
   const inputId = input.dataset.item;
   const $fields = $(input).closest('.fields');
 
-  $fields.find(`.resource-type-${inputId}`).toggle(searchValue);
+  $fields
+    .find(`.resource-type-${inputId}`)
+    .toggle(searchValue || resourceValue);
   $fields.find(`.input-options-${inputId}`).toggle(plainValue);
   $fields.find(`.input-hidden-value-${inputId}`).toggle(plainValue);
 };

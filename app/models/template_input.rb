@@ -6,7 +6,7 @@ class TemplateInput < ApplicationRecord
   class UnsatisfiedRequiredInput < ::Foreman::Exception
   end
 
-  VALUE_TYPE = ['plain', 'search', 'date']
+  VALUE_TYPE = ['plain', 'search', 'date', 'resource']
 
   attr_exportable(:name, :required, :input_type, :description,
     :options, :advanced, :value_type, :resource_type, :default, :hidden_value)
