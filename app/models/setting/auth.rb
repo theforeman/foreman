@@ -15,6 +15,7 @@ class Setting::Auth < Setting
       set('ssl_client_dn_env', N_('Environment variable containing the subject DN from a client SSL certificate'), 'SSL_CLIENT_S_DN', N_('SSL client DN env')),
       set('ssl_client_verify_env', N_('Environment variable containing the verification status of a client SSL certificate'), 'SSL_CLIENT_VERIFY', N_('SSL client verify env')),
       set('ssl_client_cert_env', N_("Environment variable containing a client's SSL certificate"), 'SSL_CLIENT_CERT', N_('SSL client cert env')),
+      set('server_ca_file', N_("SSL CA file that will be used in templates (to verify the connection to Foreman)"), nil, N_('Server CA file')),
       set('websockets_ssl_key', N_("Private key file that Foreman will use to encrypt websockets "), nil, N_('Websockets SSL key')),
       set('websockets_ssl_cert', N_("Certificate that Foreman will use to encrypt websockets "), nil, N_('Websockets SSL certificate')),
       # websockets_encrypt depends on key/cert when true, so initialize it last
