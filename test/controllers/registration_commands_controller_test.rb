@@ -1,6 +1,25 @@
 require 'test_helper'
 
 class RegistrationCommandsControllerTest < ActionController::TestCase
+  describe 'operatingsystem_template' do
+    test 'with template' do
+      os = operatingsystems(:redhat)
+
+      get :operatingsystem_template, params: { id: os.id }, session: set_session_user
+      assert_response :success
+      assert_not_nil JSON.parse(@response.body)['template']['name']
+    end
+
+    test 'without template' do
+      os = FactoryBot.create(:operatingsystem)
+      os.os_default_templates = []
+
+      get :operatingsystem_template, params: { id: os.id }, session: set_session_user
+      assert_response :success
+      assert_nil JSON.parse(@response.body)['template']['name']
+    end
+  end
+
   describe 'create' do
     test 'with params' do
       params = {

@@ -48,5 +48,13 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       response = ActiveSupport::JSON.decode(@response.body)['registration_command']
       assert_includes response, "curl -sS --insecure '#{smart_proxies(:one).url}/register'"
     end
+
+    test 'os without host_init_config template' do
+      os = FactoryBot.create(:operatingsystem)
+      os.os_default_templates = []
+
+      post :create, params: { operatingsystem_id: os.id}
+      assert_response :unprocessable_entity
+    end
   end
 end

@@ -9,7 +9,7 @@ module Api
         param :organization_id, :number, desc: N_("ID of the Organization to register the host in")
         param :location_id, :number, desc: N_("ID of the Location to register the host in")
         param :hostgroup_id, :number, desc: N_("ID of the Host group to register the host in")
-        param :operatingsystem_id, :number, desc: N_("ID of the Operating System to register the host in")
+        param :operatingsystem_id, :number, desc: N_("ID of the Operating System to register the host in. Operating system must have a `host_init_config` template assigned")
         param :smart_proxy_id, :number, desc: N_("ID of the Smart Proxy")
         param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems")
         param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host")
@@ -20,6 +20,12 @@ module Api
         param :repo_gpg_key_url, String, desc: N_("URL of the GPG key for the repository")
       end
       def create
+        unless os_with_template?
+          message = N_("Operating system doesn't have a 'host_init_config' template assigned.")
+          render_error 'custom_error', status: :unprocessable_entity, locals: { message: message }
+          return
+        end
+
         render json: { registration_command: command }
       end
 
@@ -31,6 +37,13 @@ module Api
 
       def registration_params
         params[:registration_command]
+      end
+
+      def os_with_template?
+        return true unless registration_params[:operatingsystem_id]
+
+        os = Operatingsystem.authorized(:view_operatingsystems).find(registration_params[:operatingsystem_id])
+        os.has_default_template?(TemplateKind.find_by(name: 'host_init_config'))
       end
     end
   end
