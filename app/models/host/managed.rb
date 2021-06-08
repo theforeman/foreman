@@ -17,6 +17,7 @@ class Host::Managed < Host::Base
   include Hostext::Token
   include Hostext::OperatingSystem
   include Hostext::Puppetca
+  include Hostext::RenderingStatus
   include SelectiveClone
   include HostInfoExtensions
   include HostParams
@@ -879,11 +880,11 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def build_global_status(options = {})
-    HostStatus::Global.build(host_statuses, options)
+    HostStatus::Global.build(host_statuses_with_rendering_status, options)
   end
 
   def global_status_label(options = {})
-    HostStatus::Global.build(host_statuses, options).to_label
+    HostStatus::Global.build(host_statuses_with_rendering_status, options).to_label
   end
 
   def configuration_status(options = {})

@@ -69,6 +69,10 @@ module HostStatus
     def status_link
     end
 
+    def forget_status_host_path
+      Rails.application.routes.url_helpers.forget_status_host_path(host, status: self)
+    end
+
     private
 
     def update_timestamp

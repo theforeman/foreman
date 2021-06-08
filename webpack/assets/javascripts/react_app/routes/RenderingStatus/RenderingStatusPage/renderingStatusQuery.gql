@@ -1,0 +1,32 @@
+query (
+  $id: String!
+) {
+  renderingStatus(id: $id) {
+    status
+    safemodeStatus
+    unsafemodeStatus
+    label
+    host {
+      name
+    }
+    combinations {
+      edges {
+        node {
+          safemodeStatus
+          unsafemodeStatus
+          updatedAt
+          template {
+            name
+          }
+        }
+      }
+    }
+  }
+  settings(search: "name = safemode_render") {
+    edges {
+      node {
+        value
+      }
+    }
+  }
+}

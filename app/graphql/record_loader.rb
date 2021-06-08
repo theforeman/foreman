@@ -9,11 +9,16 @@ class RecordLoader < GraphQL::Batch::Loader
   end
 
   def load_by_global_id(global_id)
-    id = Foreman::GlobalId.decode(global_id).last.to_i
+    id = Foreman::GlobalId.decode(global_id).last.yield_self do |model_id|
+      model.columns_hash['id'].type == :integer ? model_id.to_i : model_id
+    end
+
     load(id)
   end
 
   private
+
+  attr_reader :model
 
   def authorized_scope
     return @model unless @model.respond_to?(:authorized)
