@@ -1,5 +1,12 @@
+require 'shellwords'
+
 class Setting::Email < Setting
   NON_EMAIL_YAML_SETTINGS = %w(send_welcome_email email_reply_address email_subject_prefix)
+  SENDMAIL_LOCATIONS = %w(/usr/sbin/sendmail /usr/bin/sendmail /usr/local/sbin/sendmail /usr/local/bin/sendmail)
+
+  def self.sendmail_locations_hash
+    SENDMAIL_LOCATIONS.zip(SENDMAIL_LOCATIONS).to_h
+  end
 
   def self.default_settings
     domain = SETTINGS[:domain]
@@ -19,11 +26,17 @@ class Setting::Email < Setting
       set('smtp_password', N_("Password to use to authenticate, if required"), '', N_('SMTP password'), nil, {:encrypted => true}),
       set('smtp_authentication', N_("Specify authentication type, if required"), '', N_('SMTP authentication'), nil, { :collection => proc { {:plain => "plain", :login => "login", :cram_md5 => "cram_md5", '' => _("none")} }}),
       set('sendmail_arguments', N_("Specify additional options to sendmail"), '-i', N_('Sendmail arguments')),
-      set('sendmail_location', N_("The location of the sendmail executable"), "/usr/sbin/sendmail", N_('Sendmail location')),
+      set('sendmail_location', N_("The location of the sendmail executable"), "/usr/sbin/sendmail", N_('Sendmail location'), nil, { :collection => proc { sendmail_locations_hash } }),
     ]
   end
 
   validates :value, :length => {:maximum => 255}, :if => proc { |s| s.name == "email_subject_prefix" }
+
+  def validate_sendmail_location(record)
+    if record.value.present? && !SENDMAIL_LOCATIONS.include?(record.value)
+      record.errors[:base] << _("Invalid sendmail location, use settings.yaml for arbitrary location")
+    end
+  end
 
   def self.delivery_settings
     options = {}
@@ -31,7 +44,11 @@ class Setting::Email < Setting
       extracted = {:smtp => extract_prefix(setting.name, 'smtp'), :sendmail => extract_prefix(setting.name, 'sendmail')}
       ["smtp", "sendmail"].each do |method|
         if Setting[:delivery_method].to_s == method && setting.name.start_with?(method) && setting.value.to_s.present?
-          options[extracted[method.to_sym]] = setting.value
+          if setting.name == "sendmail_arguments"
+            options[extracted[method.to_sym]] = Shellwords.shellescape(setting.value)
+          else
+            options[extracted[method.to_sym]] = setting.value
+          end
         end
       end
     end
