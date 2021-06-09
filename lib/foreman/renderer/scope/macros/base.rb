@@ -137,22 +137,39 @@ module Foreman
             result.join('')
           end
 
-          apipie :method, 'Performs a DNS lookup on Foreman server' do
+          apipie :method, 'Performs a Hosts and DNS lookup on Foreman server. Prefers A records over AAAA, on systems without public IPv6 addresses Ruby does not return AAAA record, use the second argument for a specific type.' do
             required :name_or_ip, String, desc: 'a hostname or IP address to perform DNS lookup for'
-            returns String, desc: 'IP resolved via DNS if hostname was given, hostname if an IP was given.'
+            optional :record_type, Symbol, desc: 'optional symbol representing record type to return: :a, :aaaa, :cname, :mx, :ptr, :txt'
+            returns String, desc: 'when no type is provided, returns IP resolved via DNS if hostname was given, hostname if an IP was given. When type is provided, performs DNS lookup of the particular type. TXT record returns array of strings and MX an exchange host. In case of multiple records, the first one is returned.'
             raises error: Timeout::Error, desc: 'when DNS resolve could not be performed in time set by global setting `dns_timeout`'
             raises error: Resolv::ResolvError, desc: 'when DNS resolve failed, e.g. because of misconfigured DNS server or invalid query'
             example "dns_lookup('example.com') # => '10.0.0.1'"
+            example "dns_lookup('example.com', :aaaa) # => '2001:db8:85a3:8d3:1319:8a2e:370:7348'"
             example "dns_lookup('10.0.0.1') # => 'example.com'"
-            example "echo <%= dns_lookup('example.com') %> example.com >> /etc/hosts"
+            example "echo <%= dns_lookup('example.com', :a) %> example.com >> /etc/hosts"
           end
-          def dns_lookup(name_or_ip)
+          def dns_lookup(name_or_ip, record_type = nil)
             resolver = Resolv::DNS.new
             resolver.timeouts = Setting[:dns_timeout]
-            begin
-              resolver.getname(name_or_ip)
-            rescue Resolv::ResolvError
-              resolver.getaddress(name_or_ip)
+            case record_type
+            when :a
+              resolver.getresource(name_or_ip, Resolv::DNS::Resource::IN::A)&.name
+            when :aaaa
+              resolver.getresource(name_or_ip, Resolv::DNS::Resource::IN::AAAA)&.name
+            when :cname
+              resolver.getresource(name_or_ip, Resolv::DNS::Resource::IN::CNAME)&.name
+            when :mx
+              resolver.getresource(name_or_ip, Resolv::DNS::Resource::IN::MX)&.exchange
+            when :ptr
+              resolver.getresource(name_or_ip, Resolv::DNS::Resource::IN::PTR)&.name
+            when :txt
+              resolver.getresource(name_or_ip, Resolv::DNS::Resource::IN::TXT)&.strings
+            else
+              begin
+                resolver.getname(name_or_ip)
+              rescue Resolv::ResolvError
+                resolver.getaddress(name_or_ip)
+              end
             end
           rescue StandardError => e
             log_warn "Template helper dns_lookup failed: #{e} (timeout set to #{Setting[:dns_timeout]})"
