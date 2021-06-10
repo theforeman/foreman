@@ -31,9 +31,11 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
   const boundClearNewPersonalAccessToken = () =>
     dispatch(clearNewPersonalAccessToken());
 
-  const boundRevokePersonalAccessToken = id =>
-    dispatch(revokePersonalAccessTokenAction({ url, id }));
-
+  const boundRevokePersonalAccessToken = id => {
+    if (window.confirm(__('Do you really want to revoke Access Token?'))) {
+      dispatch(revokePersonalAccessTokenAction({ url, id }));
+    }
+  };
   return (
     <Fragment>
       <NewPersonalAccessToken
