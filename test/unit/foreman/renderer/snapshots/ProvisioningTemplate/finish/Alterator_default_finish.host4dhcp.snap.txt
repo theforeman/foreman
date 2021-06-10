@@ -5,7 +5,7 @@ echo "" > /etc/hostname
 hostname 
 
 cat > /etc/hosts << EOF
-127.0.0.1   snapshot-ipv4-dhcp-el7  localhost localhost.localdomain
+127.0.0.1   snapshot-host.snap.example.com  localhost localhost.localdomain
 ::1     ip6-localhost ip6-loopback
 fe00::0 ip6-localnet
 ff00::0 ip6-mcastprefix
@@ -28,7 +28,7 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-certname        = snapshot-ipv4-dhcp-el7
+certname        = snapshot-host.snap.example.com
 EOF
 
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server  --no-daemonize

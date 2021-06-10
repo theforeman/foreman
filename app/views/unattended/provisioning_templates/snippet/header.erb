@@ -1,0 +1,25 @@
+<%#
+kind: snippet
+name: header
+model: ProvisioningTemplate
+snippet: true
+-%>
+# Host: <%= @host.name %>
+# Organization: <%= @host.organization %>
+# Location: <%= @host.location %>
+# Interfaces: <%= @host.interfaces.size %>
+# IPv4 subnet: <%= @host.subnet || "unset" %>
+# IPv6 subnet: <%= @host.subnet6 || "unset" %>
+# Provision interface: <%= @host.provision_interface.mac %>
+# Primary interface: <%= @host.primary_interface.mac %>
+# Provision IPv4: <%= @host.provision_interface.ip || "unset" %>
+# Primary IPv4: <%= @host.primary_interface.ip || "unset" %>
+# Provision IPv6: <%= @host.provision_interface.ip6 || "unset" %>
+# Primary IPv6: <%= @host.primary_interface.ip6 || "unset" %>
+<%
+if plugin_present?('katello')
+-%>
+# Lifecycle environment: <%= @host.lifecycle_environment %>
+# Content View: <%= @host.content_view %>
+# Content Source: <%= @host.content_source %>
+<% end -%>

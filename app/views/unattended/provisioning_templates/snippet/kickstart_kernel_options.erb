@@ -40,7 +40,7 @@ description: |
   end
 
   # networking credentials
-  raise("Both IPv4 and IPv6 subnets are set on a provisioning interface, create a 'install-protocol' parameter with either 'force-ipv4' or 'force-ipv6' to identify which protocol to use.") if subnet4 && subnet6 && !host_param("install-protocol").present?
+  raise("Both IPv4 and IPv6 subnets are set on a provisioning interface, create an 'install-protocol' parameter with either 'force-ipv4' or 'force-ipv6' to identify which protocol to use.") if subnet4 && subnet6 && !host_param("install-protocol").present?
   if subnet4 && subnet4.dhcp_boot_mode? && host_param("install-protocol") != "force-ipv6"
     options.push("ip=dhcp") if rhel_compatible && major >= 7
   elsif subnet4 && !subnet4.dhcp_boot_mode? && host_param("install-protocol") != "force-ipv6"

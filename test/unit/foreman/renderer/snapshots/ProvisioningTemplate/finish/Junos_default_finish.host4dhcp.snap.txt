@@ -1,5 +1,5 @@
 system {
-    host-name snapshot-ipv4-dhcp-el7;
+    host-name snapshot-host.snap.example.com;
     time-zone Etc/UTC;
     root-authentication {
         encrypted-password "$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0"; ## SECRET-DATA

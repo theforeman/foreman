@@ -1,7 +1,7 @@
 
 #cloud-config
-hostname: snapshot-ipv4-dhcp-ubuntu20
-fqdn: snapshot-ipv4-dhcp-ubuntu20
+hostname: snapshot-host.snap.example.com
+fqdn: snapshot-host.snap.example.com
 manage_etc_hosts: true
 users: {}
 runcmd:
@@ -11,7 +11,7 @@ runcmd:
   hostname 
   
   cat > /etc/hosts << EOF
-  127.0.0.1   snapshot-ipv4-dhcp-ubuntu20  localhost localhost.localdomain
+  127.0.0.1   snapshot-host.snap.example.com  localhost localhost.localdomain
   ::1     ip6-localhost ip6-loopback
   fe00::0 ip6-localnet
   ff00::0 ip6-mcastprefix
@@ -57,7 +57,7 @@ runcmd:
   [agent]
   pluginsync      = true
   report          = true
-  certname        = snapshot-ipv4-dhcp-ubuntu20
+  certname        = snapshot-host.snap.example.com
   
   EOF
   

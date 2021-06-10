@@ -9,7 +9,7 @@
   </general>
   <networking>
     <dns>
-      <hostname>snapshot-ipv4-dhcp-el7</hostname>
+      <hostname>snapshot-host.snap.example.com</hostname>
       <resolv_conf_policy>auto</resolv_conf_policy>
       <searchlist config:type="list">
         <search>snap.example.com</search>
@@ -85,7 +85,7 @@ cp /etc/resolv.conf /mnt/etc
         <interpreter>shell</interpreter>
         <notification>Setting up Puppet / Foreman ...</notification>
         <source><![CDATA[
-/bin/hostname snapshot-ipv4-dhcp-el7
+/bin/hostname snapshot-host.snap.example.com
 
 
 
@@ -110,7 +110,7 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-certname        = snapshot-ipv4-dhcp-el7
+certname        = snapshot-host.snap.example.com
 
 EOF
 

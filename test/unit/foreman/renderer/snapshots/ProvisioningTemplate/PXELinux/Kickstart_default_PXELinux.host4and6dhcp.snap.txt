@@ -1,4 +1,16 @@
 # This file was deployed via 'Kickstart default PXELinux' template
+# Host: snapshot-host.snap.example.com
+# Organization: Organization 1
+# Location: Location 1
+# Interfaces: 2
+# IPv4 subnet: snapshot-ipv4-dhcp
+# IPv6 subnet: snapshot-ipv6-dhcp
+# Provision interface: 00-f0-54-1a-7e-e4
+# Primary interface: 00-f0-54-1a-7e-e4
+# Provision IPv4: 192.168.42.42
+# Primary IPv4: 192.168.42.42
+# Provision IPv6: 2001:db8:42::42
+# Primary IPv6: 2001:db8:42::42
 DEFAULT menu
 MENU TITLE Booting into OS installer (ESC to stop)
 TIMEOUT 100
@@ -7,7 +19,7 @@ ONTIMEOUT installer
 LABEL installer
 MENU LABEL Kickstart default PXELinux
 KERNEL boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz
-APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.some.host.fqdn/unattended/provision kssendmac ks.sendmac ip=dhcp nameserver=192.168.42.2 nameserver=192.168.42.3 fips=1
+APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e4 ks=http://foreman.some.host.fqdn/unattended/provision kssendmac ks.sendmac ip=dhcp nameserver=192.168.42.2 nameserver=192.168.42.3 fips=1
 
 IPAPPEND 2
 

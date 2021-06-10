@@ -20,6 +20,7 @@ test_on:
 - host6static
 -%>
 # This file was deployed via '<%= template_name %>' template
+<%= snippet("header") -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   os_major = @host.operatingsystem.major.to_i

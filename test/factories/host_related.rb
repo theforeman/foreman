@@ -314,6 +314,159 @@ FactoryBot.define do
       end
     end
 
+    # Factory for snapshots do not have any random numbers
+    factory :snapshot_host do
+      name { 'snapshot-host' }
+      hostname { 'snapshot-host.snap.example.com' }
+      managed { true }
+      domain { FactoryBot.build(:domain_for_snapshots) }
+
+      after(:build) do |host|
+        host_params = {
+          "enable-epel" => "true",
+          "package_upgrade" => "true",
+          "ansible_tower_provisioning" => "true",
+          "schedule_reboot" => "true",
+          "fips_enabled" => "true",
+          "force-puppet" => "true",
+          "remote_execution_create_user" => "true",
+          "blacklist_kernel_modules" => "amodule",
+          "install-protocol" => "force-ipv4",
+        }
+        host_params.each_pair do |name, value|
+          FactoryBot.build(:host_parameter, host: host, name: name, value: value)
+        end
+        host.define_singleton_method(:params) { host_params }
+        host.define_singleton_method(:host_param) do |name|
+          host_params[name]
+        end
+      end
+    end
+
+    trait :with_snapshot_puppet do
+      if Foreman::Plugin.find("puppet").present?
+        environment { FactoryBot.build(:environment, :for_snapshots_test) }
+        certname { name }
+        puppet_proxy { FactoryBot.build(:puppet_smart_proxy, name: 'puppet-proxy', url: 'http://localhost:8448') }
+        puppet_ca_proxy { FactoryBot.build(:puppet_ca_smart_proxy, name: 'puppetca-proxy', url: 'http://localhost:8448') }
+      end
+    end
+
+    trait :with_snapshot_os_el7 do
+      operatingsystem { FactoryBot.build(:for_snapshots_centos_7_0) }
+      pxe_loader { "PXELinux BIOS" }
+      architecture { operatingsystem.try(:architectures).try(:first) }
+      medium { operatingsystem.try(:media).try(:first) }
+      ptable { operatingsystem.try(:ptables).try(:first) }
+      root_pass { '$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0' }
+    end
+
+    trait :with_snapshot_os_debian10 do
+      operatingsystem { FactoryBot.build(:for_snapshots_debian_10) }
+      pxe_loader { "PXELinux BIOS" }
+      architecture { operatingsystem.try(:architectures).try(:first) }
+      medium { operatingsystem.try(:media).try(:first) }
+      ptable { operatingsystem.try(:ptables).try(:first) }
+      root_pass { '$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0' }
+    end
+
+    trait :with_snapshot_os_ubuntu20 do
+      operatingsystem { FactoryBot.build(:for_snapshots_ubuntu_20) }
+      pxe_loader { "PXELinux BIOS" }
+      architecture { operatingsystem.try(:architectures).try(:first) }
+      medium { operatingsystem.try(:media).try(:first) }
+      ptable { operatingsystem.try(:ptables).try(:first) }
+      root_pass { '$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0' }
+    end
+
+    trait :with_snapshot_dhcp4 do
+      interfaces do
+        [FactoryBot.build(:nic_primary_and_provision,
+          identifier: 'eth0',
+          mac: '00-f0-54-1a-7e-e0',
+          ip: '192.168.42.42')]
+      end
+      after(:build) do |host|
+        overrides = {}
+        overrides[:locations] = [host.location] unless host.location.nil?
+        overrides[:organizations] = [host.organization] unless host.organization.nil?
+        host.subnet = FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots, overrides)
+        host.ip = '192.168.42.42'
+      end
+    end
+
+    trait :with_snapshot_static4 do
+      interfaces do
+        [FactoryBot.build(:nic_primary_and_provision,
+          identifier: 'eth0',
+          mac: '00-f0-54-1a-7e-e0',
+          ip: '192.168.42.42')]
+      end
+      after(:build) do |host|
+        overrides = {}
+        overrides[:locations] = [host.location] unless host.location.nil?
+        overrides[:organizations] = [host.organization] unless host.organization.nil?
+        host.subnet = FactoryBot.build(:subnet_ipv4_static_for_snapshots, overrides)
+        host.ip = '192.168.42.42'
+      end
+    end
+
+    trait :with_snapshot_dhcp6 do
+      interfaces do
+        [FactoryBot.build(:nic_primary_and_provision,
+          identifier: 'eth0',
+          mac: '00-f0-54-1a-7e-e0',
+          ip: '2001:db8:42::42')]
+      end
+      after(:build) do |host|
+        overrides = {}
+        overrides[:locations] = [host.location] unless host.location.nil?
+        overrides[:organizations] = [host.organization] unless host.organization.nil?
+        host.subnet6 = FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots, overrides)
+        host.ip6 = '2001:db8:42::42'
+      end
+    end
+
+    trait :with_snapshot_static6 do
+      interfaces do
+        [FactoryBot.build(:nic_primary_and_provision,
+          identifier: 'eth0',
+          mac: '00-f0-54-1a-7e-e0',
+          ip: '2001:db8:42::42')]
+      end
+      after(:build) do |host|
+        overrides = {}
+        overrides[:locations] = [host.location] unless host.location.nil?
+        overrides[:organizations] = [host.organization] unless host.organization.nil?
+        host.subnet6 = FactoryBot.build(:subnet_ipv6_static_for_snapshots, overrides)
+        host.ip6 = '2001:db8:42::42'
+      end
+    end
+
+    trait :with_snapshot_dhcp_dualstack do
+      interfaces do
+        [
+          FactoryBot.build(:nic_primary_and_provision,
+            identifier: 'eth0',
+            mac: '00-f0-54-1a-7e-e4',
+            ip: '192.168.42.42'),
+          FactoryBot.build(:nic_primary_and_provision,
+            identifier: 'eth1',
+            mac: '00-f0-54-1a-7e-e6',
+            ip: '2001:db8:42::42'),
+        ]
+      end
+      after(:build) do |host|
+        overrides = {}
+        overrides[:locations] = [host.location] unless host.location.nil?
+        overrides[:organizations] = [host.organization] unless host.organization.nil?
+        host.subnet = FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots, overrides)
+        host.subnet6 = FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots, overrides)
+        host.ip = '192.168.42.42'
+        host.ip6 = '2001:db8:42::42'
+      end
+    end
+
     trait :with_dhcp_orchestration do
       managed
       compute_resource do

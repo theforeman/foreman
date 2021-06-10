@@ -21,6 +21,8 @@ test_on:
 - host4static
 - host6static
 -%>
+# This file was deployed via '<%= template_name %>' template
+<%= snippet("header") -%>
 <%
   iface = @host.provision_interface
   subnet4 = iface.subnet

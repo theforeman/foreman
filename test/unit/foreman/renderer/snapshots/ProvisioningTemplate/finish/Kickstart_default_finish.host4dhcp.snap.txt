@@ -58,7 +58,7 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-certname        = snapshot-ipv4-dhcp-el7
+certname        = snapshot-host.snap.example.com
 
 EOF
 

@@ -12,8 +12,7 @@ description: |
   The template to render PXELinux bootloader configuration for preseed based distributions.
   The output is deployed on the host's subnet TFTP proxy.
 -%>
-#
-# This file was deployed via '<%= template_name %>' template
+<%= snippet("header") -%>
 #
 # Supported host/hostgroup parameters:
 #

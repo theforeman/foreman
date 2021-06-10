@@ -45,101 +45,53 @@ module Foreman
       files.map { |path| Foreman::Renderer::Source::Snapshot.load_file(path) }
     end
 
-    def define_host_params(host)
-      host_params = {
-        "enable-epel" => "true",
-        "package_upgrade" => "true",
-        "ansible_tower_provisioning" => "true",
-        "schedule_reboot" => "true",
-        "fips_enabled" => "true",
-        "force-puppet" => "true",
-        "remote_execution_create_user" => "true",
-        "blacklist_kernel_modules" => "amodule",
-      }
-      host_params.each_pair do |name, value|
-        FactoryBot.build(:host_parameter, host: host, name: name, value: value)
-      end
-      host.define_singleton_method(:params) { host_params }
-      host.define_singleton_method(:host_param) do |name|
-        host_params[name]
-      end
-      host
-    end
-
-    def ipv4_interface
-      FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
-        mac: '00-f0-54-1a-7e-e0',
-        ip: '192.168.42.42')
-    end
-
-    def ipv6_interface
-      FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
-        mac: '00-f0-54-1a-7e-e0',
-        ip: '2001:db8:42::42')
-    end
-
-    def ipv46_interface
-      FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
-        mac: '00-f0-54-1a-7e-e0',
-        ip: '192.168.42.42',
-        ip6: '2001:db8:42::42')
-    end
-
     def host4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
-        name: 'snapshot-ipv4-dhcp-el7',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
-      define_host_params(host)
+      FactoryBot.build(:snapshot_host,
+        :with_snapshot_dhcp4,
+        :with_snapshot_os_el7,
+        :with_snapshot_puppet)
     end
 
     def host4static
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
-        name: 'snapshot-ipv4-static-el7',
-        subnet: FactoryBot.build(:subnet_ipv4_static_for_snapshots),
-        interfaces: [ipv4_interface])
-      define_host_params(host)
+      FactoryBot.build(:snapshot_host,
+        :with_snapshot_static4,
+        :with_snapshot_os_el7,
+        :with_snapshot_puppet)
     end
 
     def host6dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
-        name: 'snapshot-ipv6-dhcp-el7',
-        subnet: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
-        interfaces: [ipv6_interface])
-      define_host_params(host)
+      FactoryBot.build(:snapshot_host,
+        :with_snapshot_dhcp6,
+        :with_snapshot_os_el7,
+        :with_snapshot_puppet)
     end
 
     def host6static
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
-        name: 'snapshot-ipv6-static-el7',
-        subnet: FactoryBot.build(:subnet_ipv6_static_for_snapshots),
-        interfaces: [ipv6_interface])
-      define_host_params(host)
+      FactoryBot.build(:snapshot_host,
+        :with_snapshot_static6,
+        :with_snapshot_os_el7,
+        :with_snapshot_puppet)
     end
 
     def host4and6dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
-        name: 'snapshot-ipv4-6-dhcp-el7',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        subnet6: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
-        interfaces: [ipv46_interface])
-      define_host_params(host)
+      FactoryBot.build(:snapshot_host,
+        :with_snapshot_dhcp_dualstack,
+        :with_snapshot_os_el7,
+        :with_snapshot_puppet)
     end
 
     def debian4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_deb10,
-        name: 'snapshot-ipv4-dhcp-deb10',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
-      define_host_params(host)
+      FactoryBot.build(:snapshot_host,
+        :with_snapshot_dhcp_dualstack,
+        :with_snapshot_os_debian10,
+        :with_snapshot_puppet)
     end
 
     def ubuntu4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_ubuntu20,
-        name: 'snapshot-ipv4-dhcp-ubuntu20',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
-      define_host_params(host)
+      FactoryBot.build(:snapshot_host,
+        :with_snapshot_dhcp_dualstack,
+        :with_snapshot_os_ubuntu20,
+        :with_snapshot_puppet)
     end
 
     private

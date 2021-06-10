@@ -17,7 +17,7 @@ grains: {}
 
 EOF
 
-echo snapshot-ipv4-dhcp-el7 > /etc/salt/minion_id
+echo snapshot-host.snap.example.com > /etc/salt/minion_id
 
 /sbin/chkconfig --level 345 salt-minion on
 

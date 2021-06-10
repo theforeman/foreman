@@ -22,7 +22,7 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-certname        = snapshot-ipv4-dhcp-ubuntu20
+certname        = snapshot-host.snap.example.com
 
 EOF
 
@@ -42,7 +42,7 @@ systemctl enable puppet
 
 
 
-real=`ip -o link | awk '/00-f0-54-1a-7e-e0/ {print $2;}' | sed s/://`
+real=`ip -o link | awk '/00-f0-54-1a-7e-e4/ {print $2;}' | sed s/://`
 cat << EOF > /etc/network/interfaces
 #loopback
 auto lo

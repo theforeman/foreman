@@ -21,6 +21,7 @@ test_on:
 - host6static
 -%>
 # This file was deployed via '<%= template_name %>' template
+<%= snippet("header") -%>
 
 default=0
 timeout=<%= host_param('loader_timeout') || 10 %>

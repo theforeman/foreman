@@ -1,5 +1,15 @@
-#
-# This file was deployed via 'Preseed default PXELinux' template
+# Host: snapshot-host.snap.example.com
+# Organization: Organization 1
+# Location: Location 1
+# Interfaces: 2
+# IPv4 subnet: snapshot-ipv4-dhcp
+# IPv6 subnet: snapshot-ipv6-dhcp
+# Provision interface: 00-f0-54-1a-7e-e4
+# Primary interface: 00-f0-54-1a-7e-e4
+# Provision IPv4: 192.168.42.42
+# Primary IPv4: 192.168.42.42
+# Provision IPv6: 2001:db8:42::42
+# Primary IPv6: 2001:db8:42::42
 #
 # Supported host/hostgroup parameters:
 #
@@ -12,7 +22,7 @@
 DEFAULT linux
 LABEL linux
     KERNEL boot/debian-mirror-RpV7E2zxrKHe-linux
-    APPEND initrd=boot/debian-mirror-RpV7E2zxrKHe-initrd.gz interface=auto url=http://foreman.some.host.fqdn/unattended/provision ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=snapshot-ipv4-dhcp-deb10 auto=true domain=snap.example.com locale=en_US
+    APPEND initrd=boot/debian-mirror-RpV7E2zxrKHe-initrd.gz interface=auto url=http://foreman.some.host.fqdn/unattended/provision ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=snapshot-host.snap.example.com auto=true domain=snap.example.com locale=en_US
     IPAPPEND 2
 
 

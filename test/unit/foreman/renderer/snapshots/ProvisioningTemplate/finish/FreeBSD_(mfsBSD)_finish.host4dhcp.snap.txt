@@ -1,7 +1,7 @@
 
 /bin/echo '$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0' | pw usermod root -H 0
 cat >> /etc/rc.conf <<EOF
-hostname="snapshot-ipv4-dhcp-el7"
+hostname="snapshot-host.snap.example.com"
 sshd_enable="YES"
 ntpd_enable="YES"
 EOF
@@ -10,7 +10,7 @@ echo ifconfig_`ifconfig -l | cut -d ' ' -f 1`=DHCP >>/etc/rc.conf
 
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
-/bin/hostname snapshot-ipv4-dhcp-el7
+/bin/hostname snapshot-host.snap.example.com
 cp /usr/share/zoneinfo/UTC /etc/localtime
 adjkerntz -a
 ntpdate 0.freebsd.pool.ntp.org
@@ -40,7 +40,7 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-certname        = snapshot-ipv4-dhcp-el7
+certname        = snapshot-host.snap.example.com
 
 EOF
 

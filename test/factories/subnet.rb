@@ -99,7 +99,7 @@ FactoryBot.define do
       gateway { '192.168.42.1' }
       dns_primary { '192.168.42.2' }
       dns_secondary { '192.168.42.3' }
-      mtu { '1142' }
+      mtu { '1280' }
       boot_mode { :DHCP }
       domains { [FactoryBot.build(:domain_for_snapshots)] }
       proxies_for_snapshots
@@ -112,7 +112,7 @@ FactoryBot.define do
       gateway { '192.168.42.1' }
       dns_primary { '192.168.42.2' }
       dns_secondary { '192.168.42.3' }
-      mtu { '1242' }
+      mtu { '1280' }
       boot_mode { :Static }
       domains { [FactoryBot.build(:domain_for_snapshots)] }
       proxies_for_snapshots
@@ -125,7 +125,7 @@ FactoryBot.define do
       gateway { '2001:db8:42::1' }
       dns_primary { '2001:db8:42::8' }
       dns_secondary { '2001:db8:42::4' }
-      mtu { '1342' }
+      mtu { '1280' }
       boot_mode { :DHCP }
       domains { [FactoryBot.build(:domain_for_snapshots)] }
       proxies_for_snapshots
@@ -138,7 +138,7 @@ FactoryBot.define do
       gateway { '2001:db8:42::1' }
       dns_primary { '2001:db8:42::8' }
       dns_secondary { '2001:db8:42::4' }
-      mtu { '1442' }
+      mtu { '1280' }
       boot_mode { :Static }
       domains { [FactoryBot.build(:domain_for_snapshots)] }
       proxies_for_snapshots
