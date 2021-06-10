@@ -18,6 +18,8 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
 
+import ToastsList from '../ToastsList';
+
 import { foremanUrl } from '../../../foreman_tools';
 import { get } from '../../redux/API';
 import {
@@ -95,6 +97,7 @@ const HostDetails = ({ match, location: { hash } }) => {
           {/* TODO: Replace all br with css */}
           <br />
           <br />
+          <ToastsList />
           <Grid>
             <GridItem span={2}>
               <Title headingLevel="h5" size="2xl">
