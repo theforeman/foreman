@@ -9,6 +9,7 @@ export const getAreaChartConfig = ({
   xAxisDataLabel = 'time',
   stacked = true,
   id = uuidV1(),
+  size = undefined,
 }) => {
   const chartConfig = getChartConfig({
     type: 'area',
@@ -31,6 +32,9 @@ export const getAreaChartConfig = ({
     );
     chartConfig.data.colors = {};
     chartConfig.data.columns[0] = [xAxisDataLabel].concat(formatedDates);
+    if (size) {
+      chartConfig.size = size;
+    }
 
     if (stacked) {
       chartConfig.data.groups = [

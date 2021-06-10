@@ -56,7 +56,7 @@
   min-height: 380px;
 }
 
-#hosts .stats-well {
+#host-show .stats-well {
   min-height: 270px;
 }
 
@@ -117,13 +117,9 @@
   margin: 25px auto;
 }
 
-#host-show {
+#hosts {
   .statistics-chart {
     height: 230px;
-  }
-
-  .chart {
-    height: 250px;
   }
 }
 

@@ -1,1 +1,5 @@
-<%= flot_chart('resource_graph', '', _("Number of Events"), resources_chart(params["range"].to_i.days.ago)) %>
+<%= react_component('AreaChart', id: 'resource_graph',
+                                 xAxisLabel: '',
+                                 yAxisLabel: _('Number of Events'),
+                                 data: resources_chart_data(params["range"].to_i.days.ago),
+                                 size: { height: 250 }) %>

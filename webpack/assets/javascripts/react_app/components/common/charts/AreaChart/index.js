@@ -14,6 +14,7 @@ const AreaChart = ({
   unloadData,
   xAxisDataLabel,
   yAxisLabel,
+  size,
 }) => {
   const chartConfig = getAreaChartConfig({
     data,
@@ -21,6 +22,7 @@ const AreaChart = ({
     onclick,
     yAxisLabel,
     xAxisDataLabel,
+    size,
   });
 
   if (chartConfig.data.columns.length) {
@@ -37,6 +39,7 @@ AreaChart.propTypes = {
   unloadData: PropTypes.bool,
   xAxisDataLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
+  size: PropTypes.object,
 };
 
 AreaChart.defaultProps = {
@@ -47,6 +50,7 @@ AreaChart.defaultProps = {
   unloadData: false,
   xAxisDataLabel: 'time',
   yAxisLabel: '',
+  size: undefined,
 };
 
 export default AreaChart;
