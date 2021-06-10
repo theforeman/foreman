@@ -8,8 +8,9 @@ class RecordLoader < GraphQL::Batch::Loader
     ids.each { |id| fulfill(id, nil) unless fulfilled?(id) }
   end
 
-  def load_by_global_id(global_id)
-    id = Foreman::GlobalId.decode(global_id).last.to_i
+  def load_by_global_id(global_id, id_type = :integer)
+    id_string = Foreman::GlobalId.decode(global_id).last
+    id = id_type == :integer ? id_string.to_i : id_string
     load(id)
   end
 
