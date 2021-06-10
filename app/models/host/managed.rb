@@ -742,9 +742,9 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def root_pass_source
-    return :host if self[:root_pass].present?
-    return :hostgroup if hostgroup.try(:root_pass).present?
-    return :global if Setting[:root_pass].present?
+    return N_("host") if self[:root_pass].present?
+    return N_("hostgroup") if hostgroup.try(:root_pass).present?
+    return N_("global setting") if Setting[:root_pass].present?
     nil
   end
 
