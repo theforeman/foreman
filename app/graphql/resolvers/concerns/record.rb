@@ -10,7 +10,7 @@ module Resolvers
       end
 
       def resolve(id:)
-        RecordLoader.for(self.class::MODEL_CLASS).load_by_global_id(id)
+        RecordLoader.for(self.class::MODEL_CLASS).load_by_global_id(id, self.class::MODEL_CLASS.columns_hash['id'].type)
       end
     end
   end
