@@ -8,6 +8,11 @@ class ApplicationRecord < ActiveRecord::Base
     meta_example = ", e.g. #{@meta[:example]}" if @meta[:example]
     name_desc = @meta[:name_desc] || "Name of the #{@meta[:friendly_name] || @meta[:class_scope]}#{meta_example}"
     property :name, String, desc: name_desc
+    property :present?, one_of: [true, false], desc: 'Object presence (always true)'
+  end
+
+  class Jail < Safemode::Jail
+    allow :id, :name, :present?
   end
 
   self.abstract_class = true
