@@ -1,1 +1,5 @@
-<%= flot_chart('runtime_graph','', _('Time in Seconds'), runtime_chart(params["range"].to_i.days.ago), :class=>"statistics-chart stack") %>
+<%= react_component('AreaChart', id: 'runtime_graph',
+                                 xAxisLabel: '',
+                                 yAxisLabel: _('Time in Seconds'),
+                                 data: runtime_chart_data(params["range"].to_i.days.ago),
+                                 size: { height: 250 } ) %>
