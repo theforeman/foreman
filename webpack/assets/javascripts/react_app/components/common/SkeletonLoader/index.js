@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
 
 import { STATUS } from '../../../constants';
-import { translate as __ } from '../../../../react_app/common/I18n';
+import { translate as __ } from '../../../common/I18n';
 
 const SkeletonLoader = ({
   status,
