@@ -133,7 +133,11 @@ module HostStatus
     end
 
     def default_report_interval
-      Setting[:outofsync_interval]
+      if host.params.has_key? 'outofsync_interval'
+        host.params['outofsync_interval']
+      else
+        Setting[:outofsync_interval]
+      end
     end
 
     def out_of_sync_disabled?

@@ -8065,7 +8065,9 @@ msgid "Append domain names to the host"
 msgstr ""
 
 #: ../app/models/setting/general.rb:26
-msgid "Duration in minutes after servers are classed as out of sync."
+msgid ""
+"Duration in minutes after servers are classed as out of sync. You can override"$
+" this on hosts by adding a parameter \"outofsync_interval\"."$
 msgstr ""
 
 #: ../app/models/setting/general.rb:26
