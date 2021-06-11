@@ -27,121 +27,124 @@ insmod fat
 insmod chain
 
 menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
-  echo "Chainloading Grub2 EFI from ESP, enabled devices for booting:"
-  ls
-  echo "Trying /EFI/fedora/shim.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/fedora/shim.efi
-  if [ -f ($chroot)/EFI/fedora/shim.efi ]; then
-    chainloader ($chroot)/EFI/fedora/shim.efi
-    echo "Found /EFI/fedora/shim.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/fedora/grubx64.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/fedora/grubx64.efi
-  if [ -f ($chroot)/EFI/fedora/grubx64.efi ]; then
-    chainloader ($chroot)/EFI/fedora/grubx64.efi
-    echo "Found /EFI/fedora/grubx64.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/redhat/shim.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/redhat/shim.efi
-  if [ -f ($chroot)/EFI/redhat/shim.efi ]; then
-    chainloader ($chroot)/EFI/redhat/shim.efi
-    echo "Found /EFI/redhat/shim.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/redhat/grubx64.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/redhat/grubx64.efi
-  if [ -f ($chroot)/EFI/redhat/grubx64.efi ]; then
-    chainloader ($chroot)/EFI/redhat/grubx64.efi
-    echo "Found /EFI/redhat/grubx64.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/centos/shim.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/centos/shim.efi
-  if [ -f ($chroot)/EFI/centos/shim.efi ]; then
-    chainloader ($chroot)/EFI/centos/shim.efi
-    echo "Found /EFI/centos/shim.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/centos/grubx64.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/centos/grubx64.efi
-  if [ -f ($chroot)/EFI/centos/grubx64.efi ]; then
-    chainloader ($chroot)/EFI/centos/grubx64.efi
-    echo "Found /EFI/centos/grubx64.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/debian/grubx64.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/debian/grubx64.efi
-  if [ -f ($chroot)/EFI/debian/grubx64.efi ]; then
-    chainloader ($chroot)/EFI/debian/grubx64.efi
-    echo "Found /EFI/debian/grubx64.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/ubuntu/grubx64.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/ubuntu/grubx64.efi
-  if [ -f ($chroot)/EFI/ubuntu/grubx64.efi ]; then
-    chainloader ($chroot)/EFI/ubuntu/grubx64.efi
-    echo "Found /EFI/ubuntu/grubx64.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/sles/grubx64.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/sles/grubx64.efi
-  if [ -f ($chroot)/EFI/sles/grubx64.efi ]; then
-    chainloader ($chroot)/EFI/sles/grubx64.efi
-    echo "Found /EFI/sles/grubx64.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/opensuse/grubx64.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/opensuse/grubx64.efi
-  if [ -f ($chroot)/EFI/opensuse/grubx64.efi ]; then
-    chainloader ($chroot)/EFI/opensuse/grubx64.efi
-    echo "Found /EFI/opensuse/grubx64.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Trying /EFI/Microsoft/boot/bootmgfw.efi "
-  unset chroot
-  search --file --no-floppy --set=chroot /EFI/Microsoft/boot/bootmgfw.efi
-  if [ -f ($chroot)/EFI/Microsoft/boot/bootmgfw.efi ]; then
-    chainloader ($chroot)/EFI/Microsoft/boot/bootmgfw.efi
-    echo "Found /EFI/Microsoft/boot/bootmgfw.efi at $chroot, attempting to chainboot it..."
-    sleep 2
-    boot
-  fi
-  echo "Partition with known EFI file not found, you may want to drop to grub shell"
-  echo "and investigate available files updating 'pxegrub2_chainload' template and"
-  echo "the list of known filepaths for probing. Available devices are:"
-  echo
-  ls
-  echo
-  echo "If you cannot see the HDD, make sure the drive is marked as bootable in EFI and"
-  echo "not hidden. Boot order must be the following:"
-  echo "1) NETWORK"
-  echo "2) HDD"
-  echo
-  echo "The system will halt in 2 minutes or press ESC to halt immediately."
-  sleep -i 120
-  halt --no-apm
+  while true; do
+    echo "Chainloading Grub2 EFI from ESP, available devices:"
+    ls
+    echo "Trying /EFI/fedora/shim.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/fedora/shim.efi
+    if [ -f ($chroot)/EFI/fedora/shim.efi ]; then
+      chainloader ($chroot)/EFI/fedora/shim.efi
+      echo "Found /EFI/fedora/shim.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/fedora/grubx64.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/fedora/grubx64.efi
+    if [ -f ($chroot)/EFI/fedora/grubx64.efi ]; then
+      chainloader ($chroot)/EFI/fedora/grubx64.efi
+      echo "Found /EFI/fedora/grubx64.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/redhat/shim.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/redhat/shim.efi
+    if [ -f ($chroot)/EFI/redhat/shim.efi ]; then
+      chainloader ($chroot)/EFI/redhat/shim.efi
+      echo "Found /EFI/redhat/shim.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/redhat/grubx64.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/redhat/grubx64.efi
+    if [ -f ($chroot)/EFI/redhat/grubx64.efi ]; then
+      chainloader ($chroot)/EFI/redhat/grubx64.efi
+      echo "Found /EFI/redhat/grubx64.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/centos/shim.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/centos/shim.efi
+    if [ -f ($chroot)/EFI/centos/shim.efi ]; then
+      chainloader ($chroot)/EFI/centos/shim.efi
+      echo "Found /EFI/centos/shim.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/centos/grubx64.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/centos/grubx64.efi
+    if [ -f ($chroot)/EFI/centos/grubx64.efi ]; then
+      chainloader ($chroot)/EFI/centos/grubx64.efi
+      echo "Found /EFI/centos/grubx64.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/debian/grubx64.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/debian/grubx64.efi
+    if [ -f ($chroot)/EFI/debian/grubx64.efi ]; then
+      chainloader ($chroot)/EFI/debian/grubx64.efi
+      echo "Found /EFI/debian/grubx64.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/ubuntu/grubx64.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/ubuntu/grubx64.efi
+    if [ -f ($chroot)/EFI/ubuntu/grubx64.efi ]; then
+      chainloader ($chroot)/EFI/ubuntu/grubx64.efi
+      echo "Found /EFI/ubuntu/grubx64.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/sles/grubx64.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/sles/grubx64.efi
+    if [ -f ($chroot)/EFI/sles/grubx64.efi ]; then
+      chainloader ($chroot)/EFI/sles/grubx64.efi
+      echo "Found /EFI/sles/grubx64.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/opensuse/grubx64.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/opensuse/grubx64.efi
+    if [ -f ($chroot)/EFI/opensuse/grubx64.efi ]; then
+      chainloader ($chroot)/EFI/opensuse/grubx64.efi
+      echo "Found /EFI/opensuse/grubx64.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Trying /EFI/Microsoft/boot/bootmgfw.efi "
+    unset chroot
+    search --file --no-floppy --set=chroot /EFI/Microsoft/boot/bootmgfw.efi
+    if [ -f ($chroot)/EFI/Microsoft/boot/bootmgfw.efi ]; then
+      chainloader ($chroot)/EFI/Microsoft/boot/bootmgfw.efi
+      echo "Found /EFI/Microsoft/boot/bootmgfw.efi at $chroot, attempting to chainboot it..."
+      sleep 2
+      boot
+    fi
+    echo "Unable to find a partition with shim.efi or grubx64.efi:"
+    echo
+    ls
+    echo
+    echo "When missing drives or parititions, ensure they are avaialble for boot"
+    echo "in EFI firmware. When booting uncommon OS, edit 'pxegrub2_chainload'"
+    echo "template and update search paths. Note ESP chainbooting is not supported"
+    echo "in SecureBoot mode."
+    echo
+    echo "Consider booting from HDD directly, use 'efi_bootentry' host parameter"
+    echo "to set specific EFI boot entry after OS installation or use efibootmgr"
+    echo "utility directly to modify the boot order."
+    echo
+    echo "Will try again in 30 seconds, press ESC to search again immediately."
+    sleep -i 30
+  done
 }
 
 menuentry 'Chainload into BIOS bootloader on first disk' --id local_chain_legacy_hd0 {
