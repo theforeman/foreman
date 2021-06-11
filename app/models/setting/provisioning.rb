@@ -59,7 +59,7 @@ class Setting::Provisioning < Setting
       set('access_unattended_without_build', N_("Allow access to unattended URLs without build mode being used"), false, N_('Access unattended without build')),
       set('manage_puppetca', N_("Foreman will automate certificate signing upon provision of new host"), true, N_('Manage PuppetCA')),
       set('ignore_puppet_facts_for_provisioning', N_("Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"), false, N_('Ignore Puppet facts for provisioning')),
-      set('ignored_interface_identifiers', N_("Ignore interfaces that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*"), IGNORED_INTERFACES, N_('Ignore interfaces with matching identifier')),
+      set('ignored_interface_identifiers', N_("Skip creating or updating host network interfaces objects with identifiers matching these values from incoming facts. You can use * wildcard to match identifiers with indexes e.g. macvtap*. The ignored interfaces raw facts will be still stored in the DB, see the 'Exclude pattern' setting for more details."), IGNORED_INTERFACES, N_('Ignore interfaces with matching identifier')),
       set('ignore_facts_for_operatingsystem', N_("Stop updating Operating System from facts"), false, N_('Ignore facts for operating system')),
       set('ignore_facts_for_domain', N_("Stop updating domain values from facts"), false, N_('Ignore facts for domain')),
       set('query_local_nameservers', N_("Foreman will query the locally configured resolver instead of the SOA/NS authorities"), false, N_('Query local nameservers')),
