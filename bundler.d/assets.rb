@@ -1,5 +1,4 @@
 group :assets do
-  gem 'jquery-ui-rails', '~> 6.0'
   gem 'patternfly-sass', '~> 3.59.4'
   gem 'gettext_i18n_rails_js', '~> 1.0'
   gem 'execjs', '>= 1.4.0', '< 3.0'
