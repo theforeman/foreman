@@ -1,5 +1,31 @@
 module HostStatus
   class ConfigurationStatus < Status
+    ALERTS_DISABLED = 0
+    NO_REPORTS = 1
+    OUT_OF_SYNC = 2
+    PENDING = 3
+    ERROR = 4
+    ACTIVE = 5
+    NO_CHANGES = 6
+
+    OK_STATUSES = [ALERTS_DISABLED, PENDING, ACTIVE, NO_CHANGES]
+    WARN_STATUSES = [OUT_OF_SYNC, NO_REPORTS]
+    ERROR_STATUSES = [ERROR]
+
+    LABELS = {
+      ALERTS_DISABLED => N_("Alerts disabled"),
+      NO_REPORTS => N_("No reports"),
+      OUT_OF_SYNC => N_("Out of sync"),
+      PENDING => N_("Pending"),
+      ERROR => N_("Error"),
+      ACTIVE => N_("Active"),
+      NO_CHANGES => N_("No changes"),
+    }.freeze
+
+    def self.presenter
+      ::ConfigurationStatusPresenter.new(self)
+    end
+
     delegate :error?, :changes?, :pending?, :to => :calculator
     delegate(*ConfigReport::METRIC, :to => :calculator)
 
