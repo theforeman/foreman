@@ -317,15 +317,15 @@ module Nic
 
     def exclusive_primary_interface
       if host && primary?
-        primaries = host.interfaces.select { |i| i.primary? && i != self }
-        errors.add :primary, _("host already has primary interface") unless primaries.empty?
+        duplicate = host.interfaces.any? { |i| i.primary? && i != self }
+        errors.add :primary, _("interface is already set on the host") if duplicate
       end
     end
 
     def exclusive_provision_interface
       if host && provision?
-        provisions = host.interfaces.select { |i| i.provision? && i != self }
-        errors.add :provision, _("host already has provision interface") unless provisions.empty?
+        duplicate = host.interfaces.any? { |i| i.provision? && i != self }
+        errors.add :provision, _("interface is already set on the host") if duplicate
       end
     end
 

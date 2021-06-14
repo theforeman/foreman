@@ -1254,7 +1254,7 @@ class HostTest < ActiveSupport::TestCase
         :provision => true },
     ]
     refute host.valid?
-    assert_equal ['host already has provision interface'], host.errors['interfaces.provision']
+    assert_equal ['interface is already set on the host'], host.errors['interfaces.provision']
     assert_equal 1, host.interfaces.count
   end
 
