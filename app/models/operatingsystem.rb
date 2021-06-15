@@ -59,7 +59,7 @@ class Operatingsystem < ApplicationRecord
   scoped_search :relation => :provisioning_templates, :on => :name, :complete_value => :true, :rename => "template", :only_explicit => true
 
   FAMILIES = { 'Debian'    => %r{Debian|Ubuntu}i,
-               'Redhat'    => %r{RedHat|Centos|Fedora|Scientific|SLC|OracleLinux|AlmaLinux|Rocky}i,
+               'Redhat'    => %r{RedHat|Centos|Fedora|Scientific|SLC|OracleLinux|AlmaLinux|Rocky|Amazon}i,
                'Suse'      => %r{OpenSuSE|SLES|SLED}i,
                'Windows'   => %r{Windows}i,
                'Altlinux'  => %r{Altlinux}i,

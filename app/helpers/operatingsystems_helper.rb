@@ -67,6 +67,8 @@ module OperatingsystemsHelper
              "raspbian"
            when /almalinux/i
              "almalinux"
+           when /amazon/i
+             "amazon"
            else
              if record.family.blank?
                'stub/black-x'
