@@ -17,7 +17,7 @@ class LinksController < ApplicationController
     when 'wiki'
       wiki_url(section: options['section'])
     when 'chat'
-      'https://freenode.net'
+      'https://libera.chat'
     when 'forums'
       forum_url(options['post'])
     when 'issues'
