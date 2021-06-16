@@ -130,7 +130,7 @@
         <li><%= link_to _('Wiki'), external_link_path(type: 'wiki'), :rel => "external" %></li>
       </ul>
       <h6><%= _("IRC") %></h6>
-      <p><%= (_("You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:freenode => link_to("freenode", external_link_path(type: 'chat'), :rel => "external")}).html_safe  %></p>
+      <p><%= (_("You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:liberachat => link_to("Libera.Chat", external_link_path(type: 'chat'), :rel => "external")}).html_safe  %></p>
       <h6><%= _("Forums") %></h6>
       <p><%= (_("You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman.") % {:community_forums => link_to( _('community forums'), external_link_path(type: 'forums'), :rel => "external")}).html_safe %></p>
       <h6><%= _("Issue tracker") %></h6>
