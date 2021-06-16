@@ -42,7 +42,11 @@ module Api
         @hosts = action_scope_for(:index, resource_scope_for_index)
 
         if params[:thin]
-          @subtotal = @hosts.total_entries
+          @subtotal = if @hosts.respond_to?(:total_entries)
+                        @hosts.total_entries
+                      else
+                        @hosts.size
+                      end
           @hosts = @hosts.reorder(:name).distinct.pluck(:id, :name)
           render 'thin'
           return
