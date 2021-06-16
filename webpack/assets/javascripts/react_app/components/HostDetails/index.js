@@ -33,7 +33,12 @@ import { translate as __ } from '../../common/I18n';
 
 import './HostDetails.scss';
 
-const HostDetails = ({ match, location: { hash } }) => {
+const HostDetails = ({
+  match: {
+    params: { id },
+  },
+  location: { hash },
+}) => {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('Overview');
   const response = useSelector(state =>
@@ -62,10 +67,10 @@ const HostDetails = ({ match, location: { hash } }) => {
     dispatch(
       get({
         key: 'HOST_DETAILS',
-        url: foremanUrl(`/api/hosts/${match.params.id}`),
+        url: foremanUrl(`/api/hosts/${id}`),
       })
     );
-  }, [match.params.id, dispatch]);
+  }, [id, dispatch]);
 
   useEffect(() => {
     //  This is a workaround for adding gray background inspiring pf4 desgin
@@ -141,8 +146,9 @@ const HostDetails = ({ match, location: { hash } }) => {
         >
           {tabs &&
             tabs.map(tab => (
-              <Tab eventKey={tab} title={tab}>
+              <Tab key={tab} eventKey={tab} title={tab}>
                 <Slot
+                  hostName={id}
                   response={response}
                   status={status}
                   id="host-details-page-tabs"

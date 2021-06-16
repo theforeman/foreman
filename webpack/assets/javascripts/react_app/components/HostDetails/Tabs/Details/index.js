@@ -11,7 +11,7 @@ import Slot from '../../../common/Slot';
 import { STATUS } from '../../../../constants';
 import './Details.css';
 
-const DetailsTab = ({ response, status }) => (
+const DetailsTab = ({ response, status, hostName }) => (
   <div className="host-details-tab-item details-tab">
     <Flex
       spaceItems={{ modifier: 'spaceItemsXl' }}
@@ -30,7 +30,7 @@ const DetailsTab = ({ response, status }) => (
         <ParametersCard paramters={response.all_parameters} />
       </GridItem>
       <GridItem xl2={3} md={6} lg={5}>
-        <AuditCard hostName={response.name} />
+        <AuditCard hostName={hostName} />
       </GridItem>
       <GridItem xl2={3} md={6} lg={5}>
         <InterfacesCard interfaces={response.interfaces} />
@@ -41,17 +41,14 @@ const DetailsTab = ({ response, status }) => (
 );
 
 DetailsTab.propTypes = {
-  response: PropTypes.shape({
-    all_parameters: PropTypes.string,
-    global_status_label: PropTypes.string,
-    interfaces: PropTypes.string,
-    name: PropTypes.string,
-  }),
+  response: PropTypes.object,
   status: PropTypes.string,
+  hostName: PropTypes.string,
 };
 
 DetailsTab.defaultProps = {
   response: {},
   status: STATUS.PENDING,
+  hostName: undefined,
 };
 export default DetailsTab;
