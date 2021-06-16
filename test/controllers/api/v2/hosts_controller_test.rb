@@ -107,6 +107,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal Host.all.pluck(:id, :name), hosts['results'].map(&:values)
   end
 
+  test "should get thin index even the will paginate scope is not defined" do
+    # this test is based on bug: https://projects.theforeman.org/issues/32776
+    get :index, params: { thin: true, per_page: :all}
+    assert_response :success
+    assert_not_nil assigns(:hosts)
+    hosts = ActiveSupport::JSON.decode(@response.body)
+    assert !hosts.empty?
+    assert_equal Host.all.pluck(:id, :name), hosts['results'].map(&:values)
+  end
+
   test "subtotal should be the same as the search count with thin" do
     FactoryBot.create_list(:host, 2)
     Host.last.update_attribute(:name, 'test')
