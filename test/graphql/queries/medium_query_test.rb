@@ -14,6 +14,10 @@ module Queries
           name
           path
           osFamily
+          meta {
+            canEdit
+            canDestroy
+          }
           operatingsystems {
             totalCount
             edges {
@@ -70,6 +74,8 @@ module Queries
       assert_equal medium.name, data['name']
       assert_equal medium.path, data['path']
       assert_equal medium.os_family, data['osFamily']
+      assert data['meta']['canEdit']
+      assert data['meta']['canDestroy']
 
       assert_collection medium.operatingsystems, data['operatingsystems']
       assert_collection medium.hosts, data['hosts'], type_name: 'Host'

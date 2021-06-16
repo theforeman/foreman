@@ -2,6 +2,8 @@ module Types
   class Medium < BaseObject
     description 'A Medium'
 
+    include ::Types::Concerns::MetaField
+
     global_id_field :id
     timestamps
     field :name, String
