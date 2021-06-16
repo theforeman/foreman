@@ -51,4 +51,4 @@ GETTING HELP
 ------------
 
 For support, please see http://theforeman.org/support.html, the
-foreman-users@googlegroups.com mailing list or #theforeman on Freenode.
+foreman-users@googlegroups.com mailing list or #theforeman on Libera.Chat.
