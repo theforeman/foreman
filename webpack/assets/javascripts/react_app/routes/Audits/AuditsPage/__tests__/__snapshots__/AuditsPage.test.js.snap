@@ -37,6 +37,8 @@ exports[`AuditsPage rendering render audits page 1`] = `
       className="btn-docs"
       disabled={false}
       href="/links/manual/4.1.4Auditing"
+      rel="external noreferrer noopener"
+      target="_blank"
     >
       <Icon
         name="help"
@@ -112,6 +114,8 @@ exports[`AuditsPage rendering render audits page w/empty audits 1`] = `
       className="btn-docs"
       disabled={false}
       href="/links/manual/4.1.4Auditing"
+      rel="external noreferrer noopener"
+      target="_blank"
     >
       <Icon
         name="help"
@@ -189,6 +193,8 @@ exports[`AuditsPage rendering render audits page w/error 1`] = `
       className="btn-docs"
       disabled={false}
       href="/links/manual/4.1.4Auditing"
+      rel="external noreferrer noopener"
+      target="_blank"
     >
       <Icon
         name="help"
@@ -266,6 +272,8 @@ exports[`AuditsPage rendering render loading audits page 1`] = `
       className="btn-docs"
       disabled={false}
       href="/links/manual/4.1.4Auditing"
+      rel="external noreferrer noopener"
+      target="_blank"
     >
       <Icon
         name="help"
