@@ -142,14 +142,12 @@ const HostDetails = ({ match, location: { hash } }) => {
           {tabs &&
             tabs.map(tab => (
               <Tab eventKey={tab} title={tab}>
-                <div className="host-details-tab-item">
-                  <Slot
-                    response={response}
-                    status={status}
-                    id="host-details-page-tabs"
-                    fillID={tab}
-                  />
-                </div>
+                <Slot
+                  response={response}
+                  status={status}
+                  id="host-details-page-tabs"
+                  fillID={tab}
+                />
               </Tab>
             ))}
         </Tabs>

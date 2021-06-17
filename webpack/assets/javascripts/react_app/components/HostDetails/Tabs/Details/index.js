@@ -12,7 +12,7 @@ import { STATUS } from '../../../../constants';
 import './Details.css';
 
 const DetailsTab = ({ response, status }) => (
-  <div className="details-tab">
+  <div className="host-details-tab-item details-tab">
     <Flex
       spaceItems={{ modifier: 'spaceItemsXl' }}
       direction={{ default: 'column' }}
