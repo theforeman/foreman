@@ -54,4 +54,14 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
     assert @personal_access_token.reload.revoked?
     assert_response :success
   end
+
+  context 'with non-admin user' do
+    it 'allows to revoke his token' do
+      setup_user('edit', 'users', nil, @user)
+      setup_user('revoke', 'personal_access_tokens', nil, @user)
+      delete :destroy, params: { id: @personal_access_token.to_param, user_id: @user.id }, session: set_session_user(@user)
+      assert_response :success
+      assert @personal_access_token.reload.revoked?
+    end
+  end
 end

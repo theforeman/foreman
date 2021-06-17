@@ -46,6 +46,26 @@ module Api
       def destroy
         process_response @personal_access_token.revoke!
       end
+
+      private
+
+      def action_permission
+        case params[:action]
+        when 'destroy'
+          'revoke'
+        else
+          super
+        end
+      end
+
+      def parent_permission(child_perm)
+        case child_perm.to_s
+        when 'revoke'
+          'edit'
+        else
+          super
+        end
+      end
     end
   end
 end
