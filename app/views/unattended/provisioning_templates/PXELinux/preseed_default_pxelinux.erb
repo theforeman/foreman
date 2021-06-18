@@ -33,6 +33,10 @@ oses:
   end
   options << "locale=#{host_param('lang') || 'en_US'}"
   options = options.join(' ')
+
+  if host_param_true?("serial_console")
+    options.push("console=#{host_param("serial_console_dev", "ttyS0")}")
+  end
 -%>
 
 DEFAULT linux
