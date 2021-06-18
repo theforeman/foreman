@@ -749,6 +749,11 @@ escalate_roles:
   resource_type: Role
   created_at: "2014-01-07 15:09:32.783442"
   updated_at: "2014-01-07 15:09:32.783442"
+revoke_personal_access_tokens:
+  name: revoke_personal_access_tokens
+  resource_type: PersonalAccessToken
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
 
 <% Foreman::Plugin.all.map(&:permissions).inject({}, :merge).each do |permission,attrs| %>
 <%= permission %>:
