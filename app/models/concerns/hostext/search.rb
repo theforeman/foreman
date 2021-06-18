@@ -72,7 +72,7 @@ module Hostext
 
       scoped_search :relation => :reported_data, :on => :boot_time, :rename => 'boot_time', :only_explicit => true
       scoped_search :relation => :reported_data, :on => :boot_time, :rename => 'reported.boot_time', :only_explicit => true
-      scoped_search :relation => :reported_data, :on => :virtual, :rename => 'reported.virtual', :only_explicit => true
+      scoped_search :relation => :reported_data, :on => :virtual, :rename => 'reported.virtual', :complete_value => {:true => true, :false => false}
       scoped_search :relation => :reported_data, :on => :ram, :rename => 'reported.ram', :only_explicit => true
       scoped_search :relation => :reported_data, :on => :sockets, :rename => 'reported.sockets', :only_explicit => true
       scoped_search :relation => :reported_data, :on => :cores, :rename => 'reported.cores', :only_explicit => true
