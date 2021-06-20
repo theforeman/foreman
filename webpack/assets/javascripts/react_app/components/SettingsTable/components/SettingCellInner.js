@@ -1,18 +1,17 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import { useDispatch } from 'react-redux';
 
 import { setSettingEditing } from '../../SettingRecords/SettingRecordsActions';
 import useSettingModal from '../../SettingUpdateModal/useSettingModal';
 
-import { valueToString, hasDefault, inStrong } from '../SettingsTableHelpers';
+import { valueToString, hasDefault } from '../SettingsTableHelpers';
 
 const SettingCellInner = props => {
   const { setting, className, ...rest } = props;
 
-  const cssClasses = classNames(className, {
+  const cssClasses = classNames(className, 'ellipsis', {
     'editable-empty': !setting.value && setting.settingsType !== 'boolean',
     'masked-input': setting.encrypted,
   });
@@ -26,21 +25,19 @@ const SettingCellInner = props => {
     setModalOpen();
   };
 
-  const field = (
-    <span
+  let field = (
+    <div
       onClick={editable ? openModal : undefined}
       {...rest}
       className={cssClasses}
     >
       {valueToString(setting)}
-    </span>
+    </div>
   );
 
-  const value =
-    setting.value !== setting.default && hasDefault(setting)
-      ? inStrong(field)
-      : field;
-  return <EllipsisWithTooltip>{value}</EllipsisWithTooltip>;
+  if (setting.value !== setting.default && hasDefault(setting))
+    field = <strong>{field}</strong>;
+  return field;
 };
 
 SettingCellInner.propTypes = {
