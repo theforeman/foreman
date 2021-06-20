@@ -6,7 +6,6 @@ exports[`documentation links should have an external link to documentation 1`] =
   disabled={false}
   divider={false}
   header={false}
-  href="http://theforeman.org"
   key="documentationUrl"
   onClick={[Function]}
 >
@@ -14,7 +13,7 @@ exports[`documentation links should have an external link to documentation 1`] =
     name="question-circle"
     type="fa"
   />
-   $
+   
   Documentation
 </MenuItem>
 `;

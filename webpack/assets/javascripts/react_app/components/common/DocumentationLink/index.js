@@ -5,8 +5,8 @@ import { newWindowOnClick } from '../../../common/helpers';
 import { translate as __ } from '../../../../react_app/common/I18n';
 
 const DocumentationLink = ({ href, children }) => (
-  <MenuItem key="documentationUrl" href={href} onClick={newWindowOnClick(href)}>
-    <Icon type="fa" name="question-circle" /> ${children}
+  <MenuItem key="documentationUrl" onClick={newWindowOnClick(href)}>
+    <Icon type="fa" name="question-circle" /> {children}
   </MenuItem>
 );
 

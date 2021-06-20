@@ -54,8 +54,8 @@ describe('Bookmarks integration test', () => {
     expect(component.find('Spinner').exists()).not.toBeTruthy();
     expect(component.find('Bookmark').exists()).toBeTruthy();
     expect(
-      component.find(`a[href="${props.documentationUrl}"]`).exists()
-    ).toBeTruthy();
+      component.find('DocumentationLink').prop('href'))
+      .toBe(props.documentationUrl);
 
     const newBookmark = component.find('a#newBookmark');
     newBookmark.simulate('click');
