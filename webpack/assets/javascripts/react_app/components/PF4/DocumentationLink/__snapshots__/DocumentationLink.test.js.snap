@@ -2,7 +2,6 @@
 
 exports[`documentation links should have an external link to documentation 1`] = `
 <DropdownItem
-  href="http://theforeman.org"
   key="documentationUrl"
   onClick={[Function]}
 >
@@ -11,6 +10,7 @@ exports[`documentation links should have an external link to documentation 1`] =
     noVerticalAlign={false}
     size="sm"
   />
-   Documentation
+   
+  Documentation
 </DropdownItem>
 `;
