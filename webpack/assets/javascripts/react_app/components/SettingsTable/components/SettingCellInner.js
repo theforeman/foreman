@@ -13,8 +13,14 @@ const SettingCellInner = props => {
     'masked-input': setting.encrypted,
   });
 
+  if (!setting.readonly)
+    rest.onClick = () => onEditClick(setting);
+
   const field = (
-    <span {...rest} className={cssClasses} onClick={() => onEditClick(setting)}>
+    <span
+      {...rest}
+      className={cssClasses}
+    >
       {valueToString(setting)}
     </span>
   );
