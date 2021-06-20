@@ -11,8 +11,6 @@ import './SettingCell.scss';
 
 const SettingCell = ({ setting, onEditClick }) => {
   const fieldProps = { setting, tooltipId: setting.name, onEditClick };
-  const displayName = setting.fullName || setting.name;
-  const defaultStr = defaultToString(setting);
 
   if (setting.readonly) {
     fieldProps.tooltipText = sprintf(
@@ -22,7 +20,8 @@ const SettingCell = ({ setting, onEditClick }) => {
       setting.configFile
     );
   } else {
-    fieldProps.tooltipText = `${displayName} (Default: ${defaultStr})`;
+    const defaultStr = defaultToString(setting);
+    fieldProps.tooltipText = sprintf(__('Default: %s'), defaultStr);
     fieldProps.className = 'editable';
   }
 

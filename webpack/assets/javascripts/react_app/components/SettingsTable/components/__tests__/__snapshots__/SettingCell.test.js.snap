@@ -23,7 +23,7 @@ exports[`SettingCell render encrypted with fullName 1`] = `
     }
   }
   tooltipId="root_pass"
-  tooltipText="Root password (Default: ∙∙∙∙∙∙)"
+  tooltipText="Default: ∙∙∙∙∙∙"
 />
 `;
 
@@ -50,7 +50,7 @@ exports[`SettingCell render ordinary 1`] = `
     }
   }
   tooltipId="email_reply_address"
-  tooltipText="Email reply address (Default: root@example.com)"
+  tooltipText="Default: root@example.com"
 />
 `;
 
@@ -77,6 +77,6 @@ exports[`SettingCell render without fullName 1`] = `
     }
   }
   tooltipId="always_show_configuration_status"
-  tooltipText="always_show_configuration_status (Default: No)"
+  tooltipText="Default: No"
 />
 `;
