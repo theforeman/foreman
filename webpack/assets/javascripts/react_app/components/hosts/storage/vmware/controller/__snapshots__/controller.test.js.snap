@@ -88,7 +88,7 @@ exports[`StorageContainer should render controller 1`] = `
       datastore=""
       datastores={
         Object {
-          "FC0001_LX_DC1_EXAMPLE_PROD_01": "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)",
+          "FC0001_LX_DC1_EXAMPLE_PROD_01": "FC0001_LX_DC1_EXAMPLE_PROD_01 (free: 350 GB, prov: 4.9 TB, total: 2.00 TB)",
         }
       }
       eagerZero={false}
@@ -101,7 +101,7 @@ exports[`StorageContainer should render controller 1`] = `
       storagePod=""
       storagePods={
         Object {
-          "LX-DC1-EXAMPLE": "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)",
+          "LX-DC1-EXAMPLE": "LX-DC1-EXAMPLE (free: 4.3 TB, prov: 690 GB, total: 5.00 TB)",
         }
       }
       thin={true}

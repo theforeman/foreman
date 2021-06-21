@@ -4,7 +4,7 @@ exports[`SettingUpdateModal it should render 1`] = `
 <ConnectedForemanModal
   enforceFocus={true}
   id="settingUpdateModal"
-  title="Update value for %s setting"
+  title="Update value for HTTP(S) proxy except hosts setting"
 >
   <div>
     <WrappedSettingForm

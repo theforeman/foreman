@@ -10,7 +10,7 @@ exports[`TemplateGenerator rendering render button if not polling and no errors 
   >
     <AlertBody
       message="
-  Generating of the report %s has been completed.
+  Generating of the report template has been completed.
   Download should start automatically.
   In case it does not, please use the download button below.
 "
@@ -39,7 +39,7 @@ exports[`TemplateGenerator rendering render info alert if polling 1`] = `
   >
     <AlertBody
       message="
-  Report %s is now being generated, the download will start once it's done.
+  Report template is now being generated, the download will start once it's done.
   You can come to this page later to get the results. The result is available for 24 hours.
 "
     />

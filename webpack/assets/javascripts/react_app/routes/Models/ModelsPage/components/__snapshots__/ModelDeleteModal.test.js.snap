@@ -6,7 +6,7 @@ exports[`ModelDeleteModal should render a modal 1`] = `
   id="modelDeleteModal"
   submitProps={
     Object {
-      "message": "Hardware Model %s was successfully deleted",
+      "message": "Hardware Model HW model to delete was successfully deleted",
       "onSuccess": [MockFunction],
       "submitBtnProps": Object {
         "bsStyle": "danger",
@@ -17,7 +17,7 @@ exports[`ModelDeleteModal should render a modal 1`] = `
   }
   title="Confirm Hardware Model Deletion"
 >
-  You are about to delete %s. Are you sure?
+  You are about to delete HW model to delete. Are you sure?
   <ForemanModalFooter />
 </ConnectedForemanModal>
 `;
