@@ -211,7 +211,7 @@ exports[`Bookmarks should show error 1`] = `
             isDisabled={true}
           >
             <EllipisWithTooltip>
-              Failed to load bookmarks: %s
+              Failed to load bookmarks: Random test error
             </EllipisWithTooltip>
           </DropdownItem>
         </DropdownGroup>,

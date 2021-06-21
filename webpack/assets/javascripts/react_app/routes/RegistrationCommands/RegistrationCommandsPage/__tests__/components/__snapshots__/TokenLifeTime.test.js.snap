@@ -3,7 +3,7 @@
 exports[`RegistrationCommandsPage fields - TokenLifeTime renders 1`] = `
 <FormGroup
   fieldId="reg_token_life_time_input"
-  helperTextInvalid="Token life time value must be between %s and %s hours."
+  helperTextInvalid="Token life time value must be between 1 and 999999 hours."
   isRequired={true}
   label="Token life time"
   labelIcon={

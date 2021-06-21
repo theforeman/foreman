@@ -1,11 +1,10 @@
-const createTranslateMock = () => jest.fn(str => str);
-
 export const jed = jest.fn();
 
-export const translate = createTranslateMock();
-export const ngettext = createTranslateMock();
+export const translate = jest.fn(str => str);
+export const ngettext = (singular, plural, number) =>
+  number > 1 ? plural : singular;
 
-export const sprintf = createTranslateMock();
+export const { sprintf } = jest.requireActual('jed');
 
 export const intl = {
   ready: Promise.resolve(true),

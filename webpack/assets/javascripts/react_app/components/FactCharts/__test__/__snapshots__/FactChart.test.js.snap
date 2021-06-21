@@ -102,10 +102,10 @@ exports[`factCharts should render open 1`] = `
         componentClass="h4"
       >
         <b>
-          Fact distribution chart - %s 
+          Fact distribution chart - some_title 
         </b>
         <small>
-          (%s host)
+          (100 hosts)
         </small>
       </ModalTitle>
     </ModalHeader>

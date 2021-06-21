@@ -379,7 +379,7 @@ exports[`Bookmarks should show error 1`] = `
         key="bookmarks-errors"
       >
         <EllipisWithTooltip>
-          Failed to load bookmarks: %s
+          Failed to load bookmarks: Random test error
         </EllipisWithTooltip>
       </MenuItem>
       <MenuItem
