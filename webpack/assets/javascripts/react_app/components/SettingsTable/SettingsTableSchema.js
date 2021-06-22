@@ -11,7 +11,7 @@ import {
   settingValueCellFormatter,
 } from './SettingsTableFormatters';
 
-const createSettingsTableSchema = onEditClick => [
+const createSettingsTableSchema = [
   column(
     'fullName',
     __('Name'),
@@ -23,7 +23,7 @@ const createSettingsTableSchema = onEditClick => [
     'value',
     __('Value'),
     [headerFormatterWithProps],
-    [settingValueCellFormatter(onEditClick), cellFormatterWithProps],
+    [settingValueCellFormatter, cellFormatterWithProps],
     { className: 'col-md-3' }
   ),
   column(

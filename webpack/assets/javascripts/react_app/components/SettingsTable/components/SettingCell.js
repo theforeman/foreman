@@ -9,8 +9,8 @@ import SettingCellInner from './SettingCellInner';
 
 import './SettingCell.scss';
 
-const SettingCell = ({ setting, onEditClick }) => {
-  const fieldProps = { setting, tooltipId: setting.name, onEditClick };
+const SettingCell = ({ setting }) => {
+  const fieldProps = { setting, tooltipId: setting.name };
 
   if (setting.readonly) {
     fieldProps.tooltipText = sprintf(
@@ -31,11 +31,9 @@ const SettingCell = ({ setting, onEditClick }) => {
 
 SettingCell.propTypes = {
   setting: PropTypes.object.isRequired,
-  onEditClick: PropTypes.func,
 };
 
 SettingCell.defaultProps = {
-  onEditClick: () => {},
 };
 
 export default SettingCell;

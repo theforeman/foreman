@@ -17,7 +17,7 @@ export const settingNameCellFormatter = (value, { rowData }) => {
   );
 };
 
-export const settingValueCellFormatter = onEditClick => (
+export const settingValueCellFormatter = (
   value,
   { rowData }
-) => <SettingCell value={value} setting={rowData} onEditClick={onEditClick} />;
+) => <SettingCell value={value} setting={rowData} />;
