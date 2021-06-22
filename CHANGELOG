@@ -1,3 +1,55 @@
+2021-06-22	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.4.1
+
+2021-06-22	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #32753 - Remote code execution through Sendmail
+
+2021-06-17	Amit Upadhye <upadhyeammit@gmail.com>
+	* Fixes #32809 - Replace Freenode references with Libera.Chat
+
+2021-06-03	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #32657 - Prevent duplicate templates
+
+2021-06-03	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #32673 - deduplicate records prior uniq index
+
+2021-06-03	Evgeni Golov <evgeni@golov.de>
+	* Fixes #32508 - use root_pass.present? to check the root_pass
+
+2021-06-03	Nacho Barrientos <nacho.barrientos@cern.ch>
+	* Fixes #32641 - Disambiguate column name
+
+2021-05-10	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #32566 - Fix port setting for spice consoles
+
+2021-05-05	Lukáš Zapletal <lzap+git@redhat.com>
+	* Fixes #32266 - render_error call in userdata fixed (#8442)
+
+2021-05-05	nadjaheitmann <71487468+nadjaheitmann@users.noreply.github.com>
+	* Fixes #32295 - Fix Puppet service for Debian provisioning
+
+2021-05-05	yifatmakias <ymakias@redhat.com>
+	* Fixes #32264 - Fix bug in vmware disk size field input
+
+2021-05-05	Adi Abramovitch <57755873+adiabramovitch@users.noreply.github.com>
+	* Fixes #32389 - Quote taxonomies in search query (#8490)
+
+2021-04-29	Martin Schlossarek <martin.schlossarek@gmail.com>
+	* Refs #32372 - correct remaining paths
+	* Fixes #32372 - Correct path for logs in kickstart
+
+2021-04-28	Stefan Lasiewski <slasiewski@lbl.gov>
+	* Fixes #30748 - On Ubuntu 18.04+ use /etc/netplan
+
+2021-04-07	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #32238 - Bind systemd socket to IPv6
+
+2021-03-31	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #32216 - Handle Debian Bullseye Testing facts
+
+2021-03-29	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #32217 - Correct OS search on host list
+
 2021-03-19	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 2.4.0
 
