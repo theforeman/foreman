@@ -32,6 +32,14 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_match /my_plugin/, url
     end
 
+    test '#documentation_url and new docs page' do
+      url = documentation_url('TestSection', { type: 'docs', chapter: 'test_chapter' })
+
+      assert_match /links\/docs/, url
+      assert_match /chapter=test_chapter/, url
+      assert_match /section=TestSection/, url
+    end
+
     test '#documentation_button forwards options to #documentation_url' do
       expects(:icon_text).returns('http://nowhere.com')
       expects(:link_to).returns('<a>test</a>'.html_safe)

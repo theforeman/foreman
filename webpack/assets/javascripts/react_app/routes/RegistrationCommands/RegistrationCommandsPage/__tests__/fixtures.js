@@ -135,6 +135,7 @@ export const spySelector = selectors => {
   jest.spyOn(selectors, 'selectOperatingSystemTemplate');
   jest.spyOn(selectors, 'selectSmartProxies');
   jest.spyOn(selectors, 'selectConfigParams');
+  jest.spyOn(selectors, 'selectDocumentationUrl');
   jest.spyOn(selectors, 'selectPluginData');
   jest.spyOn(selectors, 'selectAPIStatusCommand');
   jest.spyOn(selectors, 'selectCommand');
@@ -149,6 +150,7 @@ export const spySelector = selectors => {
   selectors.selectOperatingSystemTemplate.mockImplementation(() => '');
   selectors.selectSmartProxies.mockImplementation(() => []);
   selectors.selectConfigParams.mockImplementation(() => ({}));
+  selectors.selectDocumentationUrl.mockImplementation(() => (''));
   selectors.selectPluginData.mockImplementation(() => {});
   selectors.selectAPIStatusCommand.mockImplementation(() => undefined);
   selectors.selectCommand.mockImplementation(() => '');

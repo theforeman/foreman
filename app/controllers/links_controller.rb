@@ -24,6 +24,8 @@ class LinksController < ApplicationController
       'https://projects.theforeman.org/projects/foreman/issues'
     when 'vmrc'
       'https://www.vmware.com/go/download-vmrc'
+    when 'docs'
+      new_documentation_url(options)
     end
   end
 
@@ -36,6 +38,19 @@ class LinksController < ApplicationController
   def documentation_url(section = "", options = {})
     root_url = options[:root_url] || foreman_org_path("manuals/#{SETTINGS[:version].short}/index.html#")
     root_url + (section || '')
+  end
+
+  # For new documentation at docs.theforeman.org
+  # options:
+  #   :section
+  #   :index    'foreman-el' (default), 'foreman-deb' or 'katello'
+  #   :chapter
+  def new_documentation_url(options)
+    version = SETTINGS[:version].short
+    index = options[:index] || 'foreman-el'
+    chapter_hash = "##{options[:chapter]}" if options[:chapter]
+
+    "https://docs.theforeman.org/#{version}/#{options[:section]}/index-#{index}.html#{chapter_hash}"
   end
 
   def plugin_documentation_url

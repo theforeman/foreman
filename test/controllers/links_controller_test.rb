@@ -39,5 +39,18 @@ class LinksControllerTest < ActionController::TestCase
       assert_redirected_to /15.0/
       assert_redirected_to /Usage/
     end
+
+    test '#plugin_documentation_url and new docs page' do
+      get :show, params: {
+        type: 'docs',
+        section: 'TestSection',
+        chapter: 'TestChapter',
+      }
+
+      assert_redirected_to /docs.theforeman.org/
+      assert_redirected_to /TestSection/
+      assert_redirected_to /foreman-el/
+      assert_redirected_to /#TestChapter/
+    end
   end
 end

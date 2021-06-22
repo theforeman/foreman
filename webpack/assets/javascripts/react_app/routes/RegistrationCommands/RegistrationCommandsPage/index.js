@@ -34,6 +34,7 @@ import {
   selectOperatingSystems,
   selectOperatingSystemTemplate,
   selectSmartProxies,
+  selectDocumentationUrl,
   selectPluginData,
 } from './RegistrationCommandsPageSelectors';
 import { dataAction, commandAction } from './RegistrationCommandsPageActions';
@@ -70,6 +71,7 @@ const RegistrationCommandsPage = () => {
   const operatingSystemTemplate = useSelector(selectOperatingSystemTemplate);
   const smartProxies = useSelector(selectSmartProxies);
   const configParams = useSelector(selectConfigParams);
+  const documentationUrl = useSelector(selectDocumentationUrl);
   const pluginData = useSelector(selectPluginData);
 
   // Form values
@@ -178,7 +180,7 @@ const RegistrationCommandsPage = () => {
           </GridItem>
           <GridItem span={6}>
             <a
-              href="https://docs.theforeman.org/nightly/Managing_Hosts/index-foreman-el.html#registering-a-host-to-project-using-the-global-registration-template_managing-hosts"
+              href={documentationUrl}
               target="_blank"
               rel="noreferrer"
               className="pf-c-button pf-m-secondary pf-m-small pull-right"
