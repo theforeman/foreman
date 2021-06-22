@@ -22,10 +22,10 @@
 <% end %>
 
 <div id='root_password'>
-  <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more"), :required => true,
+  <%= password_f f, :root_pass, :required => true,
                  :unset => action_name == "edit", :keep_value => action_name == "clone",
                  :placeholder => (@host.root_pass.empty?) ? nil : "**********",
-                 :help_inline => (@host.root_pass_source.present?) ? _("The password is currently set by %s.") % @host.root_pass_source : nil %>
+                 :help_inline => _("Password must be 8 characters or more.") + ((@host.root_pass_source.present?) ? " " + _("The password is currently set by %s.") % _(@host.root_pass_source) : "") %>
 </div>
 <!-- this section is used for displaying the provisioning scripts-->
 <div class="form-group">
