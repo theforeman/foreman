@@ -78,7 +78,7 @@ class LookupKey < ApplicationRecord
   end
 
   def supports_merge?
-    ['array', 'hash'].include?(key_type)
+    ['array', 'hash', 'json', 'yaml'].include?(key_type)
   end
 
   def supports_uniq?
@@ -190,7 +190,7 @@ class LookupKey < ApplicationRecord
 
   def disable_merge_overrides
     if merge_overrides && !supports_merge?
-      errors.add(:merge_overrides, _("can only be set for array or hash"))
+      errors.add(:merge_overrides, _("can only be set for array, hash, json or yaml"))
     end
   end
 

@@ -50,6 +50,12 @@ module Classification
             value = update_array_matcher(default, key.avoid_duplicates, sorted_lookup_values, options)
           when "hash"
             value = update_hash_matcher(default, sorted_lookup_values, options)
+          when "yaml"
+            value = update_hash_matcher(default, sorted_lookup_values, options)
+            value[:value] = value[:value].to_yaml unless value.nil?
+          when "json"
+            value = update_hash_matcher(default, sorted_lookup_values, options)
+            value[:value] = value[:value].to_json unless value.nil?
           else
             raise "merging enabled for non mergeable key #{key.key}"
         end

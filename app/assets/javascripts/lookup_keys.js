@@ -184,7 +184,7 @@ function keyTypeChange(item) {
 
   changeCheckboxEnabledStatus(
     mergeOverrides,
-    keyType == 'array' || keyType == 'hash'
+    keyType == 'array' || keyType == 'hash' || keyType == 'json' || keyType == 'yaml'
   );
   var mergeOverrideChecked = $(mergeOverrides).attr('checked') == 'checked';
   changeCheckboxEnabledStatus(

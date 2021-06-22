@@ -469,6 +469,54 @@ class ClassificationTest < ActiveSupport::TestCase
       Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
 
+  test 'smart class parameter of json with merge_overrides and merge_default should return merge all values' do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
+      :override => true, :key_type => 'json', :merge_overrides => true, :merge_default => true,
+      :default_value => "{\"default\":\"default\"}", :path => "organization\nlocation",
+      :puppetclass => puppetclass)
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:example => {:a => 'test'}},
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :omit => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => "{\"default\":\"default\",\"example\":{\"a\":\"test\",\"b\":\"test2\"}}",
+                                         :element => ['Default value', 'location', 'organization'],
+                                         :element_name => ['Default value', 'Location 1', 'Organization 1']}}},
+      Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
+  end
+
+  test 'smart class parameter of yaml with merge_overrides and merge_default should return merge all values' do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
+      :override => true, :key_type => 'yaml', :merge_overrides => true, :merge_default => true,
+      :default_value => "---\n:default: default\n", :path => "organization\nlocation",
+      :puppetclass => puppetclass)
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => {:example => {:a => 'test'}},
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => {:example => {:b => 'test2'}},
+                          :omit => false
+    end
+    key.reload
+
+    assert_equal({key.id => {key.key => {:value => "---\n:default: default\n:example:\n  :a: test\n  :b: test2\n",
+                                         :element => ['Default value', 'location', 'organization'],
+                                         :element_name => ['Default value', 'Location 1', 'Organization 1']}}},
+      Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
+  end
+
   test "#enc should not return class parameters when default value should use puppet default" do
     lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :with_omit,
       :puppetclass => puppetclass)

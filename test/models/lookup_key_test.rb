@@ -111,7 +111,7 @@ class LookupKeyTest < ActiveSupport::TestCase
   test "should not be able to merge overrides for a string" do
     key = FactoryBot.build_stubbed(:lookup_key, override: true, merge_overrides: true)
     refute_valid key
-    assert_equal key.errors[:merge_overrides].first, _("can only be set for array or hash")
+    assert_equal key.errors[:merge_overrides].first, _("can only be set for array, hash, json or yaml")
   end
 
   test "should be able to merge overrides and merge_default for a hash" do

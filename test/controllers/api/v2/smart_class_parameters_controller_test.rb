@@ -201,7 +201,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     lookup_key = lookup_keys(:five)
     put :update, params: { :id => lookup_key.id, :smart_class_parameter => { :override => true, :parameter_type => "string", :default_value => RFauxFactory.gen_alpha, :merge_overrides => true } }
     assert_response :internal_server_error, 'Can set merge overrides for non supported types'
-    assert_includes JSON.parse(response.body)['error']['message'], 'Validation failed: Merge overrides can only be set for array or hash'
+    assert_includes JSON.parse(response.body)['error']['message'], 'Validation failed: Merge overrides can only be set for array, hash, json or yaml'
     assert_equal lookup_key.reload.merge_overrides, false
   end
 

@@ -56,7 +56,7 @@
                         :label_help => _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup,environment</code> would expect a matcher such as <code>hostgroup,environment = example-group,production</code>").html_safe %>
       <%= checkbox_f(f, :merge_overrides, :onchange => 'mergeOverridesChanged(this)', :table_field => true,
                         :disabled => !f.object.supports_merge?, :size => "col-md-1", :label_size => "col-md-2",
-                        :label_help => _("Continue to look for matches after first find (only array/hash type)? Note: merging overrides ignores all matchers that are omitted.")) %>
+                        :label_help => _("Continue to look for matches after first find (only array/hash/json/yaml type)? Note: merging overrides ignores all matchers that are omitted.")) %>
       <%= checkbox_f(f, :merge_default, :disabled =>  !f.object.merge_overrides, :size => "col-md-1", :table_field => true,
                         :label_size => "col-md-2", :label_help => _("Include default value when merging all matching values.")) %>
       <%= checkbox_f(f, :avoid_duplicates, :disabled => (!f.object.supports_uniq? || !f.object.merge_overrides),
