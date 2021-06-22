@@ -1,82 +1,52 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import {
-  DataList,
-  DataListItem,
-  DataListItemRow,
-  DataListItemCells,
-  DataListCell,
   Card,
+  CardActions,
+  CardHeader,
+  Dropdown,
+  KebabToggle,
   CardTitle,
   CardBody,
-  Accordion,
-  AccordionItem,
-  AccordionContent,
-  AccordionToggle,
   GridItem,
 } from '@patternfly/react-core';
 
-const CardItem = ({ content, header, children, overrideGridProps }) => {
-  const [activeAccordion, setActiveAccordion] = useState(0);
+const CardItem = ({
+  header,
+  children,
+  dropdownItems,
+  overrideGridProps,
+  overrideDropdownProps,
+}) => {
+  const [dropdownVisibility, setDropdownVisibility] = useState(false);
+  const onDropdownToggle = isOpen => setDropdownVisibility(isOpen);
 
-  const onToggle = id => {
-    if (id === activeAccordion) {
-      setActiveAccordion('');
-    } else {
-      setActiveAccordion(id);
-    }
+  const onDropdownSelect = event => {
+    setDropdownVisibility(prevState => !prevState);
+    // https://github.com/eslint/eslint/issues/12822
+    // eslint-disable-next-line no-unused-expressions
+    overrideDropdownProps?.onSelect?.(event);
   };
-
   return (
     <GridItem xl2={3} md={6} lg={5} {...overrideGridProps}>
       <Card isHoverable>
-        <CardTitle>{header}</CardTitle>
-        <CardBody>
-          {children || (
-            <Accordion asDefinitionList>
-              {!content.length && (
-                <div style={{ marginLeft: '20px' }}>
-                  <Skeleton count={3} width={200} />
-                </div>
-              )}
-
-              {content.map(({ id, name, key, value, href }) => (
-                <AccordionItem key={id}>
-                  <AccordionToggle
-                    onClick={() => {
-                      onToggle(id);
-                    }}
-                    isExpanded={activeAccordion === id}
-                    id={id}
-                  >
-                    {name}
-                  </AccordionToggle>
-                  <AccordionContent id={id} isHidden={activeAccordion !== id}>
-                    <DataList aria-label="Parameters" isCompact>
-                      <DataListItem aria-labelledby="Parameter's type">
-                        <DataListItemRow>
-                          <DataListItemCells
-                            dataListCells={[
-                              <DataListCell key={`${name}-type`}>
-                                <span>
-                                  {href ? <a href={href}>{key}</a> : key}
-                                </span>
-                              </DataListCell>,
-                              <DataListCell key={`${name}-type-content`}>
-                                {value}
-                              </DataListCell>,
-                            ]}
-                          />
-                        </DataListItemRow>
-                      </DataListItem>
-                    </DataList>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+        <CardHeader>
+          {dropdownItems && (
+            <CardActions>
+              <Dropdown
+                toggle={<KebabToggle onToggle={onDropdownToggle} />}
+                isOpen={dropdownVisibility}
+                dropdownItems={dropdownItems}
+                isPlain
+                position="right"
+                {...overrideDropdownProps}
+                onSelect={onDropdownSelect}
+              />
+            </CardActions>
           )}
-        </CardBody>
+          <CardTitle>{header}</CardTitle>
+        </CardHeader>
+        <CardBody>{children}</CardBody>
       </Card>
     </GridItem>
   );
@@ -93,12 +63,16 @@ CardItem.propTypes = {
   ).isRequired,
   header: PropTypes.node.isRequired,
   children: PropTypes.node,
-  overrideGridProps: PropTypes.shape({}),
+  overrideGridProps: PropTypes.object,
+  dropdownItems: PropTypes.arrayOf(PropTypes.node),
+  overrideDropdownProps: PropTypes.object,
 };
 
 CardItem.defaultProps = {
   children: undefined,
   overrideGridProps: undefined,
+  dropdownItems: undefined,
+  overrideDropdownProps: {},
 };
 
 export default CardItem;
