@@ -25,6 +25,8 @@ snippet: true
 #
 #   subscription_manager = 'true'               You're going to use subscription-manager
 #
+#   subscription_manager_auto_attach = 'false'  Run attach --auto after registering. 
+#
 #   subscription_manager_username = <username>  Username for subscription-manager
 #
 #   subscription_manager_password = <password>  Password for subscription-manager
@@ -189,6 +191,10 @@ snippet: true
         fi
       fi
     done
+  <% end %>
+
+  <% if host_param_true?('subscription_manager_auto_attach', false) %>
+    subscription-manager attach --auto
   <% end %>
 
   <% if host_param('subscription_manager_repos') %>
