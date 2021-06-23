@@ -1,3 +1,60 @@
+2021-06-23	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.5.1
+
+2021-06-23	Bernhard Suttner <suttner@atix.de>
+	* Fixes #31307 - Improve compute network error messages
+
+2021-06-23	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #30394 - allow non-admins deal with untaxed filters
+	* Fixes #32826 - nonadmin users able to revoke tokens (#8602)
+
+2021-06-23	Dominik Matoulek <domitea@gmail.com>
+	* Fixes #32776 - Fixing subtotal count at Hosts controller
+
+2021-06-22	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #32753 - Remote code execution through Sendmail
+
+2021-06-17	Amit Upadhye <upadhyeammit@gmail.com>
+	* Fixes #32809 - Replace Freenode references with Libera.Chat
+
+2021-06-16	Bernhard Suttner <suttner@atix.de>
+	* Refs #32516 - Rocky Linux support in templates
+	* Refs #31787 - AlmaLinux support in templates
+
+2021-06-16	lumarel <lumarel@users.noreply.github.com>
+	* fixes #32516 - Add visual Rocky support
+
+2021-06-16	Lukáš Zapletal <lzap+git@redhat.com>
+	* Fixes #32681 - avoid naked echo statements in grub (#8564)
+
+2021-06-16	Andrew Lukoshko <andrew.lukoshko@gmail.com>
+	* Fixes #31787 - Add AlmaLinux support
+
+2021-06-16	Joniel Pasqualetto <jpasqualetto@gmail.com>
+	* Fixes #32497 - allow template to properly manage vlan tag over bond interface
+
+2021-06-14	Dominik Matoulek <domitea@gmail.com>
+	* Fixes #32140 - Adding scoped search on reported data
+
+2021-06-14	yifatmakias <ymakias@redhat.com>
+	* Fixes #32536 - add valid error when using invalid status type
+
+2021-06-14	Adi Abramovitch <57755873+adiabramovitch@users.noreply.github.com>
+	* Fixes #32397 - changed button type to submit (#8543)
+
+2021-06-10	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #32772 - allow present? on ApplicationRecord
+
+2021-06-03	Nacho Barrientos <nacho.barrientos@cern.ch>
+	* Fixes #32662 - Respect the visibility when editing bookmarks
+	* Fixes #32641 - Disambiguate column name
+
+2021-06-03	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #32457 - Register host & apply inherited attributes (#8539)
+
+2021-06-03	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #32673 - deduplicate records prior uniq index
+
 2021-06-02	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.5.0
 	* Fixes #32657 - Prevent duplicate templates
