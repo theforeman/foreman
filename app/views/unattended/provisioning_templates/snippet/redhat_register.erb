@@ -193,7 +193,7 @@ snippet: true
     done
   <% end %>
 
-  <% if host_param_true?('subscription_manager_auto_attach', false) %>
+  <% if host_param_true?('subscription_manager_auto_attach', false) -%>
     subscription-manager attach --auto
 
   <% end -%>
