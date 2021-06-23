@@ -162,6 +162,7 @@ class Host::Managed < Host::Base
     property :params, Hash, desc: 'Returns name=value object with host\'s parameters'
     property :pxe_loader_efi?, one_of: [true, false], desc: 'Returns true if PXE Loader uses EFI, false otherwise'
     property :created_at, 'ActiveSupport::TimeWithZone', desc: 'The time when the host was created'
+    property :comment, String, desc: 'Returns comment/description of this host'
   end
   class Jail < ::Safemode::Jail
     allow :id, :name, :created_at, :diskLayout, :puppetmaster, :puppet_server, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
@@ -172,7 +173,7 @@ class Host::Managed < Host::Base
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
       :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used, :owner, :owner_type,
       :ssh_authorized_keys, :pxe_loader, :global_status, :get_status, :puppetca_token, :last_report, :build?, :smart_proxies, :host_param,
-      :virtual, :ram, :sockets, :cores, :params, :pxe_loader_efi?
+      :virtual, :ram, :sockets, :cores, :params, :pxe_loader_efi?, :comment
 
     def puppetmaster
       Foreman::Deprecation.deprecation_warning('3.0', 'Host#puppetmaster is deprecated, please use host_puppet_server macro instead')
