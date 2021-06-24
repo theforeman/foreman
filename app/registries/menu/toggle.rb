@@ -17,7 +17,7 @@ module Menu
         index = list.index(child)
         child.is_a?(Menu::Divider) && (index == list.size - 1 || list[index + 1].is_a?(Menu::Divider))
       end
-      list.map(&:to_hash)
+      list.map(&:to_hash).compact
     end
 
     def authorized?
