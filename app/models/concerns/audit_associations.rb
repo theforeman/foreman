@@ -8,6 +8,10 @@ module AuditAssociations
       super.merge(associated_attributes)
     end
 
+    def previous_revision
+      revision(:previous)
+    end
+
     protected
 
     # Prevent associations from being set when looking at revisions since

@@ -161,7 +161,7 @@ class User < ApplicationRecord
     property :last_login_on, 'ActiveSupport::TimeWithZone', desc: 'Returns the user last login time, in UTC time zone'
     property :disabled, one_of: [true, false], desc: 'Returns true if the user account is disabled, false otherwise'
   end
-  class Jail < ::Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail, :last_login_on, :disabled
   end
 

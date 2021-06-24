@@ -13,7 +13,7 @@ module MediumProviders
       name
     end
 
-    class Jail < Safemode::Jail
+    class Jail < ::Safemode::Jail
       allow :medium_uri, :unique_id, :errors
     end
 

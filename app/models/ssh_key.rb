@@ -48,7 +48,7 @@ class SshKey < ApplicationRecord
     property :comment, String, desc: 'Returns a key comment. The comment is usually a user identifier',
                                example: '@ssh-key.comment # => forman@foreman.example.com'
   end
-  class Jail < ::Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :name, :user, :key, :to_export, :fingerprint, :length, :ssh_key, :type, :comment
   end
 

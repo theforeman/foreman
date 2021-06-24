@@ -161,7 +161,7 @@ class Host::Managed < Host::Base
     property :created_at, 'ActiveSupport::TimeWithZone', desc: 'The time when the host was created'
     property :comment, String, desc: 'Returns comment/description of this host'
   end
-  class Jail < ::Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :name, :created_at, :diskLayout, :puppetmaster, :puppet_server, :puppet_ca_server, :operatingsystem, :os, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :subnet6, :token, :location, :organization, :provision_method,

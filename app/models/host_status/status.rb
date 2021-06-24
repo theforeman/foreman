@@ -16,7 +16,7 @@ module HostStatus
       ::HostStatusPresenter.new(self)
     end
 
-    class Jail < ::Safemode::Jail
+    class Jail < ApplicationRecord::Jail
       allow :host, :to_global, :to_label, :status, :name, :relevant?
       allow_class_method :status_name, :humanized_name
     end

@@ -639,6 +639,20 @@ module Foreman #:nodoc:
       (@observable_events << events).flatten!.uniq!
     end
 
+    def extend_allowed_instance_methods_for_jail(jail_class, *methods)
+      raise "Jail not defined for #{jail_class}" unless jail_class.const_defined?(:Jail)
+      methods.each do |method|
+        Object.const_get("#{jail_class}::Jail").allow_instance_method method.to_sym
+      end
+    end
+
+    def extend_allowed_class_methods_for_jail(jail_class, *methods)
+      raise "Jail not defined for #{jail_class}" unless jail_class.const_defined?(:Jail)
+      methods.each do |method|
+        Object.const_get("#{jail_class}::Jail").allow_class_method method.to_sym
+      end
+    end
+
     delegate :subscribe, to: ActiveSupport::Notifications
 
     private

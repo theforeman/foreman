@@ -155,7 +155,7 @@ class Subnet < ApplicationRecord
     property :to_label, String, desc: 'Returns the the subnet label which is a combination of name and the network address'
     property :vlanid, Integer, desc: 'Returns the VLAN ID for of this subnet'
   end
-  class Jail < ::Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary, :dns_servers,
       :vlanid, :mtu, :nic_delay, :boot_mode, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description, :present?,
       :dhcp, :dhcp?, :tftp, :tftp?, :dns, :dns?, :httpboot, :httpboot?, :template, :template?, :ipam, :ipam?

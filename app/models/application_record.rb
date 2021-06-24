@@ -9,10 +9,16 @@ class ApplicationRecord < ActiveRecord::Base
     name_desc = @meta[:name_desc] || "Name of the #{@meta[:friendly_name] || @meta[:class_scope]}#{meta_example}"
     property :name, String, desc: name_desc
     property :present?, one_of: [true, false], desc: 'Object presence (always true)'
+    property :previous_revision, ApplicationRecord, desc: "Previous revision of the record as tracked in the audit, returns the same object if there is no previous revision"
   end
 
-  class Jail < Safemode::Jail
-    allow :id, :name, :present?
+  class Jail < ::Safemode::Jail
+    allow :id, :name, :present?, :previous_revision
+  end
+
+  # Overriden by audited for some models
+  def previous_revision
+    raise "Class #{self.class.name} is not audited"
   end
 
   self.abstract_class = true

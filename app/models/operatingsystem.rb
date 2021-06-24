@@ -90,7 +90,7 @@ class Operatingsystem < ApplicationRecord
     property :pxe_type, String, desc: 'PXE type of the operating system, e.g. kickstart'
     property :password_hash, String, desc: 'Encrypted hash of the operating system password'
   end
-  class Jail < Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :name, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath
   end
 
