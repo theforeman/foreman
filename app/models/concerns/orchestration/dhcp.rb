@@ -120,7 +120,7 @@ module Orchestration::DHCP
       :ip => ip,
       :mac => record_mac,
       :proxy => subnet.dhcp_proxy,
-      :network => subnet.network,
+      :network => subnet.masked_subnet_address.to_s,
       :related_macs => mac_addresses_for_provisioning - [record_mac],
     }
 

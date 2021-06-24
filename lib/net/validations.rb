@@ -119,6 +119,13 @@ module Net
       IPAddr.new(ip, Socket::AF_INET6).to_s rescue ip
     end
 
+    def self.normalize_network_address(ip, mask)
+      IPAddr.new(ip).mask(mask).to_s
+    rescue StandardError => e
+      Foreman::Logging.logger('app').info "Unable to normalize network address '#{ip}' with mask '#{mask}': #{e}"
+      ip
+    end
+
     def self.normalize_mac(mac)
       return unless mac.present?
       m = mac.downcase

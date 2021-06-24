@@ -102,17 +102,26 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "should strip whitespace before save" do
     s = subnets(:one)
-    s.network = " 10.0.0.22   "
+    s.network = " 10.0.22.0   "
     s.mask = " 255.255.255.0   "
-    s.gateway = " 10.0.0.138   "
+    s.gateway = " 10.0.22.138   "
     s.dns_primary = " 10.0.0.50   "
     s.dns_secondary = " 10.0.0.60   "
     assert s.save
-    assert_equal "10.0.0.22", s.network
+    assert_empty s.errors.full_messages
+    assert_equal "10.0.22.0", s.network
     assert_equal "255.255.255.0", s.mask
-    assert_equal "10.0.0.138", s.gateway
+    assert_equal "10.0.22.138", s.gateway
     assert_equal "10.0.0.50", s.dns_primary
     assert_equal "10.0.0.60", s.dns_secondary
+  end
+
+  test "should normalize network address" do
+    s = subnets(:one)
+    s.network = "10.1.2.3"
+    s.mask = "255.255.255.0"
+    assert s.save
+    assert_equal "10.1.2.0", s.network
   end
 
   test "should not destroy if hostgroup uses it" do
