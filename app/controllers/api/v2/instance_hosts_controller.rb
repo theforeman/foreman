@@ -1,0 +1,45 @@
+module Api
+  module V2
+    class InstanceHostsController < V2::BaseController
+
+      def resource_class
+        @resource_class ||= Host::Managed
+      end
+
+      def resource_scope(*args)
+        super.joins(:infrastructure_facet).merge(::HostFacets::InfrastructureFacet.where(foreman: true))
+      end
+
+      api :GET, '/instance/hosts', N_("Get hosts forming the Foreman instance")
+      def index
+        # TODO: Permissions and taxonomies
+        @hosts = resource_scope_for_index
+        render 'api/v2/hosts/index'
+      end
+
+      api :PUT, '/instance/hosts/:host_id', N_("Assign a host to the Foreman instance")
+      param :host_id, :identifier_dottable
+      def create
+        # TODO: Permissions and taxonomies
+        # TODO?: output
+        # We cannot use resource scope as that is scoped only to hosts which already have the facet
+        host = ::Host::Managed.find(params[:id])
+        facet = host.infrastructure_facet || host.build_infrastructure_facet
+        facet.foreman = true
+        facet.save!
+        render status: :created, body: ''
+      end
+
+      api :DESTROY, '/instance/hosts/:host_id', N_("Unassign a given host from the Foreman instance")
+      def destroy
+        # TODO: Permissions and taxonomies
+        host = resource_scope.find_by(id: params[:id])
+        facet = host&.infrastructure_facet
+        return if facet.nil?
+
+        facet.foreman = false
+        facet.save!
+      end
+    end
+  end
+end

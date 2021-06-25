@@ -331,6 +331,7 @@ Foreman::Application.routes.draw do
             post :import_puppetclasses, :on => :member
           end
           resources :autosign, :only => [:index, :create, :destroy]
+          resources :hosts, :only => [:index, :create, :destroy], :controller => 'smart_proxy_hosts'
         end
         resources :hosts, :except => [:new, :edit] do
           get :enc, :on => :member
@@ -381,6 +382,11 @@ Foreman::Application.routes.draw do
         end
 
         resources :override_values, :only => [:update, :destroy]
+        resources :instance_hosts, :only => [:index, :destroy] do
+          member do
+            put :create
+          end
+        end
       end
 
       resources :locations, :except => [:new, :edit] do
