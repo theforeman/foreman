@@ -240,6 +240,8 @@ Foreman::AccessControl.map do |permission_set|
                                      :"api/v2/host_statuses" => [:index],
                                      :locations =>  [:mismatches],
                                      :organizations =>  [:mismatches],
+                                     :'api/v2/instance_hosts' => [:index, :update, :destroy],
+                                     :'api/v2/smart_proxy_hosts' => [:index, :update, :destroy],
                                   }
     map.permission :create_hosts,  {:hosts => [:new, :create, :clone].push(*ajax_actions),
                                     :compute_resources_vms => [:import],

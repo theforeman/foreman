@@ -513,6 +513,10 @@ FactoryBot.define do
     trait :with_registration_facet do
       association :registration_facet, factory: :registration_facet, strategy: :build
     end
+
+    trait :with_infrastructure_facet do
+      association :infrastructure_facet, factory: :infrastructure_facet, strategy: :build
+    end
   end
 
   factory :hostgroup do

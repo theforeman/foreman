@@ -293,6 +293,7 @@ Foreman::Application.routes.draw do
           get :version, :on => :member
           get :logs, :on => :member
           resources :autosign, :only => [:index, :create, :destroy]
+          resources :hosts, :only => [:update, :index, :destroy], :controller => 'smart_proxy_hosts'
         end
         resources :hosts, :except => [:new, :edit] do
           get :enc, :on => :member
@@ -319,6 +320,8 @@ Foreman::Application.routes.draw do
             get :last, :on => :collection
           end
         end
+
+        resources :instance_hosts, :only => [:destroy, :index, :update]
       end
 
       resources :locations, :except => [:new, :edit] do

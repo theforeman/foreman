@@ -104,6 +104,9 @@ module Hostext
       scoped_search :relation => :search_users, :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
       scoped_search :relation => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
       scoped_search :relation => :usergroups,   :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name', :aliases => [:usergroup]
+
+      scoped_search :relation => :infrastructure_facet, :on => :foreman_instance, :rename => 'infrastructure_facet.foreman', :only_explicit => true, :operators => ['= ', '!= ']
+      scoped_search :relation => :infrastructure_facet, :on => :smart_proxy_id, :rename => 'infrastructure_facet.smart_proxy_id', :only_explicit => true
     end
 
     module ClassMethods
