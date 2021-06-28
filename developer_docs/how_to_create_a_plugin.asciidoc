@@ -1644,6 +1644,7 @@ Foreman::Plugin.register :my_plugin do
     # Following settings will be added to a General category
     category :general do
       setting 'example_setting',
+        type: :string,
         default: 'default value',
         full_name: N_('Example of general setting'),
         description: N_('Example setting that controls something')
@@ -1652,6 +1653,7 @@ Foreman::Plugin.register :my_plugin do
     # Following settings will be added to category name 'cool' with label Cool
     category :cool, N_('Cool') do
       setting 'example_int',
+        type: :integer,
         default: 42,
         full_name: N_('The answer'),
         description: N_('Answer to the life, universe, and everything')
@@ -1660,6 +1662,7 @@ Foreman::Plugin.register :my_plugin do
     # Following settings will be added to existing category named 'cfgmgmt'
     category :cfgmgmt do
       setting 'configure_everything',
+        type: :boolean
         default: true,
         full_name: N_('Configure everything'),
         description: N_('Should configuration management tools configure everything for user, so user can go to the beach?')
@@ -1670,6 +1673,10 @@ end
 
 To access the value of a setting, use `Setting[:example_setting]` from
 anywhere in your plugin.
+
+The settings are strongly typed and you have to define it.
+The basic types supported by Foreman are: `:boolean`, `:integer`, `:float`, `:string`, `:text`, `:hash`, `:array`.
+The `:text` type supports markdown and usage of such setting should expect markdown syntax when using it.
 
 [[config-files]]
 ==== Config files

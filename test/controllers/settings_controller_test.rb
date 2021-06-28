@@ -11,7 +11,7 @@ class SettingsControllerTest < ActionController::TestCase
     duped_settings = Foreman::SettingManager.settings.dup
     Foreman::SettingManager.stubs(settings: duped_settings)
     Foreman::SettingManager.define(:test) do
-      category(:valid, 'Valid') { setting('valid_foo', default: 'bar', description: 'test foo') }
+      category(:valid, 'Valid') { setting('valid_foo', type: :string, default: 'bar', description: 'test foo') }
     end
     Foreman.settings.load
     get :index, session: set_session_user

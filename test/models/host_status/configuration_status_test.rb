@@ -101,6 +101,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
       def stub_outofsync_setting(value)
         Foreman.settings._add('testorigin_out_of_sync_disabled',
           context: :test,
+          type: :boolean,
           category: 'Setting::General',
           full_name: 'Test out of sync',
           description: 'description',

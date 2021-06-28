@@ -324,6 +324,7 @@ module Foreman #:nodoc:
     #   settings do
     #     category(:cfgmgmt, N_('Configuration Management')) do
     #       setting(:use_cooler_puppet,
+    #         type: :boolean,
     #         default: true,
     #         description: N_('Use Puppet that goes to 11'),
     #         full_name: N_('Use shiny puppet'),

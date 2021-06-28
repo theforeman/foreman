@@ -37,6 +37,10 @@ module Foreman
         SettingManager.settings
       end
 
+      def available_types
+        [:boolean, :integer, :float, :string, :text, :hash, :array]
+      end
+
       # Adds setting definition
       #
       # ===== Example
@@ -44,6 +48,7 @@ module Foreman
       #   SettingManager.define(:puppet) do
       #     category(:cfgmgmt, N_('Configuration Management')) do
       #       setting(:use_cooler_puppet,
+      #               type: :boolean,
       #               default: true,
       #               description: N_('Use Puppet that goes to 11'),
       #               full_name: N_('Use shiny puppet'),
@@ -51,11 +56,13 @@ module Foreman
       #     end
       #   end
       #
-      def setting(name, default:, description:, full_name: nil, value: nil, collection: nil, encrypted: false, **options)
+      def setting(name, default:, description:, type:, full_name: nil, value: nil, collection: nil, encrypted: false, **options)
         raise ::Foreman::Exception.new(N_("Setting '%s' is already defined, please avoid collisions"), name) if storage.key?(name.to_s)
+        raise ::Foreman::Exception.new(N_("Setting '%s' has an invalid type definition. Please use a valid type."), name) unless available_types.include?(type)
         storage[name.to_s] = {
           context: context_name,
           category: category_name,
+          type: type,
           default: default,
           description: description,
           full_name: full_name,

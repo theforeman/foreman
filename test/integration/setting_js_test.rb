@@ -18,6 +18,7 @@ class SettingJSTest < IntegrationTestWithJavascript
     Foreman.settings._add(name,
       category: 'Setting::CategoryLabelTest',
       context: :test,
+      type: :boolean,
       default: false,
       description: 'Pretty setting',
       full_name: 'Pretty setting')

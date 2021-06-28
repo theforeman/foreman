@@ -12,6 +12,7 @@ class SettingManagerTest < ActiveSupport::TestCase
     Foreman::SettingManager.define(:test_context) do
       category(:general) do
         setting(:foo,
+          type: :string,
           default: 'bar',
           description: 'This is nicely described foo setting',
           full_name: 'Foo setting')
@@ -25,6 +26,7 @@ class SettingManagerTest < ActiveSupport::TestCase
     Foreman::SettingManager.define(:test_context) do
       category(:my_category, 'Awesome Category') do
         setting(:foo,
+          type: :string,
           default: 'bar',
           description: 'This is nicely described foo setting',
           full_name: 'Foo setting')
@@ -40,12 +42,40 @@ class SettingManagerTest < ActiveSupport::TestCase
       Foreman::SettingManager.define(:test_context) do
         category(:my_category, 'Awesome Category') do
           setting(:foo,
+            type: :string,
             default: 'bar',
             description: 'This is nicely described foo setting',
             full_name: 'Foo setting')
         end
         category(:general) do
           setting(:foo,
+            type: :string,
+            default: 'bar',
+            description: 'This is nicely described foo setting',
+            full_name: 'Foo setting')
+        end
+      end
+    end
+  end
+
+  it 'doesnt allow setting with invalid type' do
+    # no type not allowed
+    assert_raise ArgumentError, "missing keyword: :type" do
+      Foreman::SettingManager.define(:test_context) do
+        category(:my_category, 'Awesome Category') do
+          setting(:foo,
+            default: 'bar',
+            description: 'This is nicely described foo setting',
+            full_name: 'Foo setting')
+        end
+      end
+    end
+    # invalid type not allowed
+    assert_raise ::Foreman::Exception, "Setting 'foo' has invalid type definition. Please use valid type." do
+      Foreman::SettingManager.define(:test_context) do
+        category(:general) do
+          setting(:foo,
+            type: :custom_type,
             default: 'bar',
             description: 'This is nicely described foo setting',
             full_name: 'Foo setting')
