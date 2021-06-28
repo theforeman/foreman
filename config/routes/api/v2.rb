@@ -281,10 +281,10 @@ Foreman::Application.routes.draw do
           get 'storage_pods/(:storage_pod_id)', :to => 'compute_resources#storage_pod', :on => :member
           get 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#show_vm', :on => :member
           get 'available_storage_pods/(:storage_pod)', :to => 'compute_resources#available_storage_pods', :on => :member
-          get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member
-          get 'available_clusters/(:cluster_id)/available_resource_pools', :to => 'compute_resources#available_resource_pools', :on => :member
-          get 'available_clusters/(:cluster_id)/available_storage_domains', :to => 'compute_resources#available_storage_domains', :on => :member
-          get 'available_clusters/(:cluster_id)/available_storage_pods', :to => 'compute_resources#available_storage_pods', :on => :member
+          get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member, :cluster_id => /[^\/]+/
+          get 'available_clusters/(:cluster_id)/available_resource_pools', :to => 'compute_resources#available_resource_pools', :on => :member, :cluster_id => /[^\/]+/
+          get 'available_clusters/(:cluster_id)/available_storage_domains', :to => 'compute_resources#available_storage_domains', :on => :member, :cluster_id => /[^\/]+/
+          get 'available_clusters/(:cluster_id)/available_storage_pods', :to => 'compute_resources#available_storage_pods', :on => :member, :cluster_id => /[^\/]+/
           get :available_zones, :on => :member
           put :associate, :on => :member
           put :refresh_cache, :on => :member
