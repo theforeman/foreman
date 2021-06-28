@@ -1,5 +1,5 @@
 class Setting::General < Setting
-  include UrlValidator
+  include UrlValidation
 
   # Lazy-load this to avoid loading this during Rails startup
   def self.locales
