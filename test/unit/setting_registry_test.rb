@@ -9,7 +9,7 @@ class SettingRegistryTest < ActiveSupport::TestCase
 
   setup do
     registry.stubs(settings: setting_memo)
-    registry._add('foo', category: 'Setting::General', default: default, full_name: 'test foo', description: 'test foo', context: :test)
+    registry._add('foo', type: :integer, category: 'Setting::General', default: default, full_name: 'test foo', description: 'test foo', context: :test)
     setting.update(value: setting_value)
     registry.load_values
   end

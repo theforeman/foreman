@@ -81,7 +81,10 @@ class SettingRegistry
         # Setting category uses really old way of doing things
         _load_category_from_db(cat_cls)
       else
-        cat_cls.default_settings.each { |s| _add(s[:name], s.except(:name).merge(category: cat_cls.name, context: :deprecated)) }
+        cat_cls.default_settings.each do |s|
+          t = Setting.setting_type_from_value(s[:default]) || 'string'
+          _add(s[:name], s.except(:name).merge(type: t.to_sym, category: cat_cls.name, context: :deprecated))
+        end
       end
     end
 
@@ -110,10 +113,11 @@ class SettingRegistry
     end
   end
 
-  def _add(name, category:, default:, description:, full_name:, context:, value: nil, encrypted: false, collection: nil, options: {})
+  def _add(name, category:, type:, default:, description:, full_name:, context:, value: nil, encrypted: false, collection: nil, options: {})
     @settings[name.to_s] = SettingPresenter.new({ name: name,
                                                   context: context,
                                                   category: category,
+                                                  settings_type: type.to_s,
                                                   description: description,
                                                   default: default,
                                                   full_name: full_name,
@@ -140,7 +144,7 @@ class SettingRegistry
   def _load_category_from_db(category_klass)
     category_klass.all.each do |set|
       # set.value can be user value, we have no way of telling the initial value
-      _add(set.name, category: category_klass.name, description: set.description, default: set.default, full_name: set.full_name, context: :deprecated, encrypted: set.encrypted)
+      _add(set.name, type: set.settings_type.to_sym, category: category_klass.name, description: set.description, default: set.default, full_name: set.full_name, context: :deprecated, encrypted: set.encrypted)
     end
   end
 end
