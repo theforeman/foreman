@@ -17,14 +17,13 @@ const SettingCellInner = props => {
     'masked-input': setting.encrypted,
   });
 
+  const { setModalOpen } = useSettingModal();
+  const dispatch = useDispatch();
   if (!setting.readonly){
-    const { setModalOpen } = useSettingModal();
-    const dispatch = useDispatch();
-    const onEditClick = async setting => {
-      await dispatch(setSettingEditing(setting));
+    rest.onClick = () => {
+      dispatch(setSettingEditing(setting));
       setModalOpen();
     };
-    rest.onClick = () => onEditClick(setting);
   }
 
   const field = (
