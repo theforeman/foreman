@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
@@ -9,12 +8,7 @@ import useSettingModal from '../../SettingUpdateModal/useSettingModal';
 import { valueToString, hasDefault } from '../SettingsTableHelpers';
 
 const SettingCellInner = props => {
-  const { setting, className, ...rest } = props;
-
-  const cssClasses = classNames(className, 'ellipsis', {
-    'editable-empty': !setting.value && setting.settingsType !== 'boolean',
-    'masked-input': setting.encrypted,
-  });
+  const { setting, ...rest } = props;
 
   const { setModalOpen } = useSettingModal();
   const dispatch = useDispatch();
@@ -26,11 +20,7 @@ const SettingCellInner = props => {
   };
 
   let field = (
-    <div
-      onClick={editable ? openModal : undefined}
-      {...rest}
-      className={cssClasses}
-    >
+    <div onClick={editable ? openModal : undefined} {...rest}>
       {valueToString(setting)}
     </div>
   );
@@ -42,11 +32,6 @@ const SettingCellInner = props => {
 
 SettingCellInner.propTypes = {
   setting: PropTypes.object.isRequired,
-  className: PropTypes.string,
-};
-
-SettingCellInner.defaultProps = {
-  className: '',
 };
 
 export default SettingCellInner;
