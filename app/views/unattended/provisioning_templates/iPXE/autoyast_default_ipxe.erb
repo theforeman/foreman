@@ -11,6 +11,8 @@ description: |
   The output is deployed on the host's subnet TFTP proxy.
   See https://ipxe.org/scripting for more details
 -%>
+<% http_proxy_string = host_param('http-proxy') ? "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') : '' -%>
+
 echo Trying to ping Gateway: ${netX/gateway}
 ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
 echo Trying to ping DNS: ${netX/dns}
@@ -20,6 +22,11 @@ ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not availa
 <% kernel = boot_files_uris[0] -%>
 <% initrd = boot_files_uris[1] -%>
 
+<% subnet = @host.subnet -%>
+<% if subnet.respond_to?(:dhcp_boot_mode?) && subnet.dhcp_boot_mode? -%>
 kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1
+<% else -%>
+kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=0 netsetup=-dhcp ifcfg=*="${netX/ip}/<%= @host.primary_interface.subnet.cidr -%>,${netX/gateway},${dns},<%= @host.domain %>" <%= http_proxy_string %>
+<% end -%>
 initrd <%= initrd %>
 boot
