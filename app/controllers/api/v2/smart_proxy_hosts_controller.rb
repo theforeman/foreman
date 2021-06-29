@@ -26,7 +26,7 @@ module Api
         # TODO: Permissions and taxonomies
         # TODO?: output
         # We cannot use resource scope as that is scoped only to hosts which already have the facet
-        host = ::Host::Managed.find(params[:id])
+        host = ::Host::Managed.friendly.find(params[:id])
         facet = host.infrastructure_facet || host.build_infrastructure_facet
         facet.smart_proxy_id = @proxy.id
         facet.save!
@@ -36,7 +36,7 @@ module Api
       api :DELETE, '/smart_proxies/:smart_proxy_id/hosts/:host_id', N_("Unassign a given host from the Foreman instance")
       def destroy
         # TODO: Permissions and taxonomies
-        host = resource_scope.find_by(id: params[:id])
+        host = resource_scope.friendly.try(:find, params[:id])
         facet = host&.infrastructure_facet
         return if facet.nil?
 
