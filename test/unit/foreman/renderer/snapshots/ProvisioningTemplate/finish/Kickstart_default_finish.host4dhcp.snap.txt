@@ -115,6 +115,7 @@ echo "Calling Ansible AWX/Tower provisioning callback..."
 /usr/bin/curl -v -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
 echo "DONE"
 EOF
+chmod +x /root/ansible_provisioning_call.sh
 /root/ansible_provisioning_call.sh
 
 sync
