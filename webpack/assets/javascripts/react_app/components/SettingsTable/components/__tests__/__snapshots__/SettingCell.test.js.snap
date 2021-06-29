@@ -3,7 +3,6 @@
 exports[`SettingCell render encrypted with fullName 1`] = `
 <Component
   className="editable"
-  onEditClick={[Function]}
   setting={
     Object {
       "category": "Setting::Provisioning",
@@ -30,7 +29,6 @@ exports[`SettingCell render encrypted with fullName 1`] = `
 exports[`SettingCell render ordinary 1`] = `
 <Component
   className="editable"
-  onEditClick={[Function]}
   setting={
     Object {
       "category": "Setting::Email",
@@ -57,7 +55,6 @@ exports[`SettingCell render ordinary 1`] = `
 exports[`SettingCell render without fullName 1`] = `
 <Component
   className="editable"
-  onEditClick={[Function]}
   setting={
     Object {
       "category": "Setting::Puppet",
