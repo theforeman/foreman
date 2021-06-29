@@ -505,8 +505,14 @@ module ApplicationHelper
       UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url,
       location: Location.current&.attributes&.slice('id', 'title'),
       organization: Organization.current&.attributes&.slice('id', 'title'),
-      user: User.current&.attributes&.slice('id', 'login', 'firstname', 'lastname', 'admin')
+      user: user_metadata
     }.compact
+  end
+
+  def user_metadata
+    return {} unless (user = User.current)
+    permissions = user.permissions.search_for('name ~ create_').pluck(:name)
+    user.attributes.slice('id', 'login', 'firstname', 'lastname', 'admin').merge(:permissions => permissions)
   end
 
   def ui_settings
