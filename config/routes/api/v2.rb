@@ -331,7 +331,7 @@ Foreman::Application.routes.draw do
             post :import_puppetclasses, :on => :member
           end
           resources :autosign, :only => [:index, :create, :destroy]
-          resources :hosts, :only => [:index, :create, :destroy], :controller => 'smart_proxy_hosts'
+          resources :hosts, :only => [:index, :update, :destroy], :controller => 'smart_proxy_hosts'
         end
         resources :hosts, :except => [:new, :edit] do
           get :enc, :on => :member
@@ -429,7 +429,7 @@ Foreman::Application.routes.draw do
           resources :ptables, :only => [:index, :show]
           resources :compute_resources, :only => [:index, :show]
           resources :media, :only => [:index, :show]
-          resources :smart_proxies, :only => [:index, :show]
+          resources :srbmart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
           resources :report_templates, :only => [:index, :show]

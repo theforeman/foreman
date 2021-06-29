@@ -19,7 +19,7 @@ module Api
 
       api :PUT, '/instance/hosts/:host_id', N_("Assign a host to the Foreman instance")
       param :host_id, :identifier_dottable
-      def create
+      def update
         # TODO: Permissions and taxonomies
         # TODO?: output
         # We cannot use resource scope as that is scoped only to hosts which already have the facet

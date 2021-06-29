@@ -14,13 +14,13 @@ class Api::V2::InstanceHostsControllerTest < ActionController::TestCase
   end
 
   test "should return 404 when host does not exist" do
-    put :create, params: { :id => 12345 }
+    put :update, params: { :id => 12345 }
     assert_response :not_found
   end
 
   test "should mark a host as foreman" do
     host = FactoryBot.create(:host)
-    put :create, params: { :id => host.id }
+    put :update, params: { :id => host.id }
     assert_response :created
 
     host.reload

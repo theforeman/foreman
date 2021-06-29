@@ -27,18 +27,18 @@ class Api::V2::SmartProxyHostsControllerTest < ActionController::TestCase
 
   describe "create" do
     test "should return 422 when proxy does not exist" do
-      put :create, params: { :smart_proxy_id => 12345, :id => 1 }
+      put :update, params: { :smart_proxy_id => 12345, :id => 1 }
       assert_response :unprocessable_entity
     end
 
     test "should return 404 when host does not exist" do
-      put :create, params: { :smart_proxy_id => @proxy.id, :id => 12345 }
+      put :update, params: { :smart_proxy_id => @proxy.id, :id => 12345 }
       assert_response :not_found
     end
 
     test "should mark a host as smart proxy" do
       host = FactoryBot.create(:host)
-      put :create, params: { :smart_proxy_id => @proxy.id, :id => host.id }
+      put :update, params: { :smart_proxy_id => @proxy.id, :id => host.id }
       assert_response :created
 
       host.reload

@@ -22,7 +22,7 @@ module Api
       api :PUT, '/smart_proxies/:smart_proxy_id/hosts/:host_id', N_("Assign a host to the Foreman instance")
       param :smart_proxy_id, :identifier
       param :host_id, :identifier
-      def create
+      def update
         # TODO: Permissions and taxonomies
         # TODO?: output
         # We cannot use resource scope as that is scoped only to hosts which already have the facet
