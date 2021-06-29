@@ -33,7 +33,4 @@ SettingCell.propTypes = {
   setting: PropTypes.object.isRequired,
 };
 
-SettingCell.defaultProps = {
-};
-
 export default SettingCell;
