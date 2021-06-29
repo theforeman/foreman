@@ -1,0 +1,4 @@
+/* Make toasts visible over modal (z-index: 1050) */
+.pf-c-alert-group {
+  z-index: 1100 !important;
+}
