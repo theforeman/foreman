@@ -35,7 +35,11 @@ module Api
       api :DELETE, '/smart_proxies/:smart_proxy_id/hosts/:host_id', N_("Unassign a given host from the Foreman instance")
       def destroy
         # TODO: Permissions and taxonomies
-        host = resource_scope.friendly.try(:find, params[:id])
+        host = begin
+                 resource_scope.friendly.find(params[:id])
+               rescue ActiveRecord::RecordNotFound
+                 # A comment is not considered suppressing an exception
+               end
         facet = host&.infrastructure_facet
         return if facet.nil?
 
