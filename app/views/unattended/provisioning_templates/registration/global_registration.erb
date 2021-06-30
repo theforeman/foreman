@@ -19,6 +19,7 @@ model: ProvisioningTemplate
 <%= "\n# Setup remote execution: [#{@setup_remote_execution}]" unless @setup_remote_execution.nil? -%>
 <%= "\n# Remote execution interface: [#{@remote_execution_interface}]" if @remote_execution_interface.present? -%>
 <%= "\n# Packages: [#{@packages}]" if @packages.present? -%>
+<%= "\n# Update packages: [#{@update_packages}]" unless @update_packages.nil? -%>
 <%= "\n# Repository: [#{@repo}]" if @repo.present? -%>
 <%= "\n# Repository GPG key URL: [#{@repo_gpg_key_url}]" if @repo_gpg_key_url.present? -%>
 <%= "\n# Force: [#{@force}]" unless @force.nil? -%>
@@ -89,6 +90,7 @@ register_host() {
 <%= "       --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
 <%= "       --data 'remote_execution_interface=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
 <%= "       --data 'packages=#{@packages}' \\\n" if @packages.present? -%>
+<%= "       --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
 
 }
 
@@ -111,6 +113,7 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ] || [ x$ID = xol ]; then
 <%= "          --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
 <%= "          --data 'remote_execution_interface=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
 <%= "          --data 'packages=#{@packages}' \\\n" if @packages.present? -%>
+<%= "          --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
 
 }
 
