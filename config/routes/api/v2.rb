@@ -429,7 +429,7 @@ Foreman::Application.routes.draw do
           resources :ptables, :only => [:index, :show]
           resources :compute_resources, :only => [:index, :show]
           resources :media, :only => [:index, :show]
-          resources :srbmart_proxies, :only => [:index, :show]
+          resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
           resources :report_templates, :only => [:index, :show]
