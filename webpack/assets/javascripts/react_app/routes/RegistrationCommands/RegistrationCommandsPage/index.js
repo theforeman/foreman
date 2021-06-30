@@ -83,6 +83,7 @@ const RegistrationCommandsPage = () => {
   const [setupInsights, setSetupInsights] = useState('');
   const [jwtExpiration, setJwtExpiration] = useState(4);
   const [packages, setPackages] = useState('');
+  const [updatePackages, setUpdatePackages] = useState(false);
   const [repo, setRepo] = useState('');
   const [repoGpgKeyUrl, setRepoGpgKeyUrl] = useState('');
   const [invalidFields, setInvalidFields] = useState([]);
@@ -121,6 +122,7 @@ const RegistrationCommandsPage = () => {
       packages,
       repo,
       repoGpgKeyUrl,
+      updatePackages,
       ...pluginValues,
     };
 
@@ -288,6 +290,8 @@ const RegistrationCommandsPage = () => {
                   handleRepo={setRepo}
                   repoGpgKeyUrl={repoGpgKeyUrl}
                   handleRepoGpgKeyUrl={setRepoGpgKeyUrl}
+                  updatePackages={updatePackages}
+                  handleUpdatePackages={setUpdatePackages}
                   isLoading={isLoading}
                 />
                 <Slot
