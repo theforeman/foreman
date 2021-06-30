@@ -5,8 +5,9 @@ exports[`RegistrationCommandsPage - Command renders 1`] = `
   label="Registration command"
 >
   <ClipboardCopy
+    additionalActions={null}
     clickTip="Successfully copied to clipboard!"
-    entryDelay={100}
+    entryDelay={300}
     exitDelay={1600}
     hoverTip="Copy to clipboard"
     isCode={true}
