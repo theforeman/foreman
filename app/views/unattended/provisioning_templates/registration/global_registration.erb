@@ -46,7 +46,7 @@ echo '#'
 echo '# Adding repository'
 echo '#'
 
-if [ x$ID = xrhel ] || [ x$ID = xfedora ] || test "${ID_LIKE#*rhel*}" != "$ID_LIKE" ; then
+if [ x$ID = xrhel ] || [ x$ID = xfedora ] || [ x$ID = xol ] || test "${ID_LIKE#*rhel*}" != "$ID_LIKE" ; then
   cat << EOF > /etc/yum.repos.d/foreman_registration.repo
 [foreman_register]
 name=foreman_register
@@ -97,7 +97,7 @@ echo "# Running registration"
 echo "#"
 
 <% if plugin_present?('katello') -%>
-if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
+if [ x$ID = xrhel ] || [ x$ID = xcentos ] || [ x$ID = xol ]; then
     register_katello_host(){
         UUID=$(subscription-manager identity | head -1 | awk '{print $3}')
         curl --silent --show-error --cacert $SSL_CA_CERT --request POST "<%= @registration_url %>" \
@@ -117,6 +117,14 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     <% if @force -%>
     yum remove -y katello-ca-consumer*
     <% end -%>
+
+    # rhn-client-tools conflicts with subscription-manager package
+    # since rhn tools replaces subscription-manager, we need to explicitly
+    # install subscription-manager after the rhn tools cleanup
+    if [ x$ID = xol ]; then
+      yum remove -y rhn-client-tools
+      yum install -y --setopt=obsoletes=0 subscription-manager
+    fi
 
     CONSUMER_RPM=$(mktemp --suffix .rpm)
     curl --silent --show-error --output $CONSUMER_RPM <%= subscription_manager_configuration_url(hostname: @url_host) %>
