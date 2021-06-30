@@ -1,7 +1,6 @@
 module Api
   module V2
     class InstanceHostsController < V2::BaseController
-
       def resource_class
         @resource_class ||= Host::Managed
       end

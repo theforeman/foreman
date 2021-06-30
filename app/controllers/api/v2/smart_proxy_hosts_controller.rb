@@ -1,7 +1,6 @@
 module Api
   module V2
     class SmartProxyHostsController < V2::BaseController
-
       before_action :find_proxy
 
       def resource_class
