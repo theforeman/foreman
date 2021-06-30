@@ -8,6 +8,7 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
         locationId: taxonomies(:location1).id,
         hostgroupId: hostgroups(:common).id,
         operatingsystemId: operatingsystems(:redhat).id,
+        update_packages: true,
       }
       post :create, params: params, session: set_session_user
       command = JSON.parse(@response.body)['command']
@@ -16,6 +17,7 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
       assert_includes command, 'locationId='
       assert_includes command, 'hostgroupId='
       assert_includes command, 'operatingsystemId='
+      assert_includes command, 'update_packages=true'
     end
 
     test 'with params ignored in URL' do

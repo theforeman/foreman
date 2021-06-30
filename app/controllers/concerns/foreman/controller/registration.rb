@@ -31,6 +31,7 @@ module Foreman::Controller::Registration
       setup_insights: ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights']),
       setup_remote_execution: ActiveRecord::Type::Boolean.new.deserialize(params['setup_remote_execution']),
       packages: params['packages'],
+      update_packages: params['update_packages'],
       repo: params['repo'],
       repo_gpg_key_url: params['repo_gpg_key_url'],
     }
@@ -95,28 +96,25 @@ module Foreman::Controller::Registration
     fail Foreman::Exception.new(msg)
   end
 
-  def host_setup_insights
-    return if params['setup_insights'].to_s.blank?
-
-    insights_param = HostParameter.find_or_initialize_by(host: @host, name: 'host_registration_insights', key_type: 'boolean')
-    insights_param.value = ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights'])
-    insights_param.save!
+  def setup_host_params
+    setup_host_param('host_registration_insights', params['setup_insights'])
+    setup_host_param('host_registration_remote_execution', params['setup_remote_execution'])
+    setup_host_param('host_packages', params['packages'], 'string')
+    setup_host_param('host_update_packages', params['update_packages'])
   end
 
-  def host_setup_remote_execution
-    return if params['setup_remote_execution'].to_s.blank?
+  def setup_host_param(name, value, key_type = 'boolean')
+    return if value.to_s.blank?
 
-    rex_param = HostParameter.find_or_initialize_by(host: @host, name: 'host_registration_remote_execution', key_type: 'boolean')
-    rex_param.value = ActiveRecord::Type::Boolean.new.deserialize(params['setup_remote_execution'])
-    rex_param.save!
-  end
+    hp = HostParameter.find_or_initialize_by(host: @host, name: name, key_type: key_type)
 
-  def host_setup_packages
-    return if params['packages'].to_s.blank?
+    hp.value = if key_type == 'boolean'
+                 ActiveRecord::Type::Boolean.new.deserialize(value)
+               else
+                 value
+               end
 
-    insights_param = HostParameter.find_or_initialize_by(host: @host, name: 'host_packages', key_type: 'string')
-    insights_param.value = params['packages']
-    insights_param.save!
+    hp.save!
   end
 
   def api_authorization_token
