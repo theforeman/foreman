@@ -5,6 +5,7 @@ import ConfigParams from './fields/ConfigParams';
 import Packages from './fields/Packages';
 import Repository from './fields/Repository';
 import TokenLifeTime from './fields/TokenLifeTime';
+import UpdatePackages from './fields/UpdatePackages';
 
 const Advanced = ({
   configParams,
@@ -21,6 +22,8 @@ const Advanced = ({
   handleRepo,
   repoGpgKeyUrl,
   handleRepoGpgKeyUrl,
+  updatePackages,
+  handleUpdatePackages,
   isLoading,
 }) => (
   <>
@@ -36,6 +39,11 @@ const Advanced = ({
       packages={packages}
       handlePackages={handlePackages}
       configParams={configParams}
+      isLoading={isLoading}
+    />
+    <UpdatePackages
+      updatePackages={updatePackages}
+      handleUpdatePackages={handleUpdatePackages}
       isLoading={isLoading}
     />
     <Repository
@@ -69,6 +77,8 @@ Advanced.propTypes = {
   handlePackages: PropTypes.func.isRequired,
   handleRepo: PropTypes.func.isRequired,
   handleRepoGpgKeyUrl: PropTypes.func.isRequired,
+  updatePackages: PropTypes.bool,
+  handleUpdatePackages: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
 
@@ -80,6 +90,7 @@ Advanced.defaultProps = {
   packages: '',
   repo: '',
   repoGpgKeyUrl: '',
+  updatePackages: false,
 };
 
 export default Advanced;

@@ -20,6 +20,7 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
         setup_insights: 'false',
         setup_remote_execution: 'false',
         packages: 'pkg1',
+        update_packages: true,
       }
 
       post :create, params: params
@@ -33,6 +34,7 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       assert_includes response, 'setup_insights=false'
       assert_includes response, 'setup_remote_execution=false'
       assert_includes response, 'packages=pkg1'
+      assert_includes response, 'update_packages=true'
     end
 
     test 'with params ignored in URL' do

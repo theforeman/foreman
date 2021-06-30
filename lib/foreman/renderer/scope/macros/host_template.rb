@@ -192,6 +192,47 @@ module Foreman
             end
           end
 
+          apipie :method, 'Generates commands for update of all packages' do
+            description 'Supported OS families: Redhat, Debian & Suse'
+            returns String, desc: 'Update commands'
+            example "CentOS host: update_packages #=> yum -y update"
+            example "Fedora host: update_packages #=> dnf -y update"
+            example "Debian host: update_packages #=> apt-get -y update; apt-get -y upgrade"
+          end
+          def update_packages
+            banner = <<~CMD
+              echo '#'
+              echo '# Updating packages'
+              echo '#'
+            CMD
+
+            case host.operatingsystem&.family
+            when 'Redhat'
+              os = host.operatingsystem
+              is_fedora = os.name.downcase == 'fedora'
+              is_dnf = (is_fedora && os.major.to_i >= 22) || (!is_fedora && os.major.to_i >= 8)
+
+              <<~CMD
+                #{banner}
+                #{is_dnf ? 'dnf' : 'yum'} -y update
+              CMD
+            when 'Debian'
+              <<~CMD
+                #{banner}
+                export DEBIAN_FRONTEND=noninteractive
+                apt-get -y update
+                apt-get -y upgrade
+              CMD
+            when 'Suse'
+              <<~CMD
+                #{banner}
+                zypper -n update
+              CMD
+            else
+              raise UnsupportedOS.new
+            end
+          end
+
           private
 
           def enc

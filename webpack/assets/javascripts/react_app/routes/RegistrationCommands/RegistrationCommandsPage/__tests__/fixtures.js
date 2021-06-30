@@ -37,6 +37,8 @@ export const advancedComponentProps = {
   repoGpgKeyUrl: '',
   handleRepo: () => {},
   handleRepoGpgKeyUrl: () => {},
+  updatePackages: false,
+  handleUpdatePackages: () => {},
   isLoading: false,
 };
 
@@ -89,6 +91,12 @@ export const packagesProps = {
   packages: '',
   handlePackages: () => {},
   configParams: {},
+  isLoading: false,
+};
+
+export const updatePackagesProps = {
+  updatePackages: false,
+  handleUpdatePackages: () => {},
   isLoading: false,
 };
 

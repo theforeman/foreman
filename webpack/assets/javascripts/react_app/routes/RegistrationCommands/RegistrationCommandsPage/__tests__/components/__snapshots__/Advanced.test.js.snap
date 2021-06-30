@@ -16,6 +16,11 @@ exports[`RegistrationCommandsPage - Advanced renders 1`] = `
     isLoading={false}
     packages=""
   />
+  <UpdatePackages
+    handleUpdatePackages={[Function]}
+    isLoading={false}
+    updatePackages={false}
+  />
   <Repository
     handleRepo={[Function]}
     handleRepoGpgKeyUrl={[Function]}

@@ -285,4 +285,73 @@ class HostTemplateTest < ActiveSupport::TestCase
       assert_includes command, 'zypper -n install pkg1'
     end
   end
+
+  describe '#update_packages' do
+    test 'unsupported OS' do
+      os = FactoryBot.create(:operatingsystem, family: 'AIX')
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+
+      error = assert_raises(Foreman::Renderer::Errors::UnsupportedOS) do
+        @scope.update_packages
+      end
+
+      assert_includes error.message, 'Unsupported or no operating system found for this host.'
+    end
+
+    test 'RHEL 7' do
+      os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'RedHat', major: 7)
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.update_packages
+
+      assert_includes command, 'yum -y update'
+    end
+
+    test 'RHEL 8' do
+      os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'RedHat', major: 8)
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.update_packages
+
+      assert_includes command, 'dnf -y update'
+    end
+
+    test 'fedora 21' do
+      os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'Fedora', major: 21)
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.update_packages
+
+      assert_includes command, 'yum -y update'
+    end
+
+    test 'fedora 22' do
+      os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'Fedora', major: 22)
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.update_packages
+
+      assert_includes command, 'dnf -y update'
+    end
+
+    test 'debian' do
+      os = FactoryBot.create(:operatingsystem, family: 'Debian', name: 'Debian', release_name: 'Buster')
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.update_packages
+
+      assert_includes command, 'apt-get -y update'
+      assert_includes command, 'apt-get -y upgrade'
+    end
+
+    test 'openSUSE' do
+      os = FactoryBot.create(:operatingsystem, family: 'Suse', name: 'OpenSUSE')
+      host = FactoryBot.create(:host, operatingsystem: os)
+      @scope.instance_variable_set('@host', host)
+      command = @scope.update_packages
+
+      assert_includes command, 'zypper -n update'
+    end
+  end
 end
