@@ -54,7 +54,7 @@
             templateClass: @template.class.to_s,
             title: @template.name,
             showImport: !@template.locked,
-            showPreview: true,
+            showPreview: @template.support_preview?,
             showHostSelector: @template.support_single_host_render?,
             isSafemodeEnabled: Setting[:safemode_render],
             renderPath: url_for(template_hash_for_member(@template, 'preview')),
