@@ -89,13 +89,11 @@ module Orchestration::DHCP
   end
 
   def boot_server_or_proxy_hostname
-    if tftp.bootServer.nil?
-      tftp_proxy_hostname = URI.parse(subnet.tftp.url).host
-      logger.warn "Using TFTP Smart Proxy hostname as the boot server name: #{tftp_proxy_hostname}"
-      return tftp_proxy_hostname
-    end
+    return tftp.bootServer if tftp.bootServer.present?
 
-    tftp.bootServer
+    tftp_proxy_hostname = URI.parse(subnet.tftp.url).host
+    logger.warn "Using TFTP Smart Proxy hostname as the boot server name: #{tftp_proxy_hostname}"
+    tftp_proxy_hostname
   end
 
   private

@@ -466,8 +466,14 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
       assert_empty nic.errors
     end
 
-    test 'should use boot server based on proxy url' do
+    test 'should use boot server based on proxy url when nil is returned' do
       ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns(nil)
+      assert_equal URI.parse(host.subnet.tftp.url).host, nic.send(:boot_server)
+      assert_empty nic.errors
+    end
+
+    test 'should use boot server based on proxy url when an empty string is returned' do
+      ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('')
       assert_equal URI.parse(host.subnet.tftp.url).host, nic.send(:boot_server)
       assert_empty nic.errors
     end
