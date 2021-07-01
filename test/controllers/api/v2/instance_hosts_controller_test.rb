@@ -1,18 +1,6 @@
 require 'test_helper'
 
 class Api::V2::InstanceHostsControllerTest < ActionController::TestCase
-  test "should get index" do
-    foreman = FactoryBot.create(:host, :with_infrastructure_facet)
-    FactoryBot.create(:host)
-
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:hosts)
-    hosts = ActiveSupport::JSON.decode(@response.body)
-    assert_equal hosts['total'], 1
-    assert_equal hosts['results'].first['id'], foreman.id
-  end
-
   test "should return 404 when host does not exist" do
     put :update, params: { :id => 12345 }
     assert_response :not_found

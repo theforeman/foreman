@@ -5,27 +5,7 @@ class Api::V2::SmartProxyHostsControllerTest < ActionController::TestCase
     @proxy = FactoryBot.create(:smart_proxy)
   end
 
-  describe "index" do
-    test "should get" do
-      FactoryBot.create(:host, :with_infrastructure_facet)
-      proxy = FactoryBot.create(:host, :with_infrastructure_facet)
-      proxy.infrastructure_facet.smart_proxy = @proxy
-      proxy.infrastructure_facet.save!
-
-      get :index, params: { :smart_proxy_id => @proxy.id }
-      assert_response :success
-      assert_not_nil assigns(:hosts)
-      hosts = ActiveSupport::JSON.decode(@response.body)
-      assert_equal hosts['total'], 1
-    end
-
-    test "should return 422 when proxy does not exist" do
-      get :index, params: { :smart_proxy_id => 12345 }
-      assert_response :unprocessable_entity
-    end
-  end
-
-  describe "create" do
+  describe "update" do
     test "should return 422 when proxy does not exist" do
       put :update, params: { :smart_proxy_id => 12345, :id => 1 }
       assert_response :unprocessable_entity

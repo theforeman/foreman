@@ -727,4 +727,9 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :edit_settings, { :settings => [:update],
                                      :'api/v2/settings' => [:update] }
   end
+
+  permission_set.security_block :instance_hosts do |map|
+    map.permission :edit_instance_hosts, { :'api/v2/instance_hosts' => [:update, :destroy],
+                                           :'api/v2/smart_proxy_hosts' => [:update, :destroy] }
+  end
 end

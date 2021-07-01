@@ -11,13 +11,6 @@ module Api
         ::Host::Managed.joins(:infrastructure_facet).merge(::HostFacets::InfrastructureFacet.where(smart_proxy_id: @proxy.id))
       end
 
-      api :GET, '/smart_proxies/:smart_proxy_id/hosts', N_("Get hosts forming the Foreman instance")
-      def index
-        # TODO: Permissions and taxonomies
-        @hosts = resource_scope_for_index
-        render 'api/v2/hosts/index'
-      end
-
       api :PUT, '/smart_proxies/:smart_proxy_id/hosts/:host_id', N_("Assign a host to the Foreman instance")
       param :smart_proxy_id, :identifier
       param :host_id, :identifier

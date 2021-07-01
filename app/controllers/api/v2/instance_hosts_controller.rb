@@ -9,13 +9,6 @@ module Api
         super.joins(:infrastructure_facet).merge(::HostFacets::InfrastructureFacet.where(foreman: true))
       end
 
-      api :GET, '/instance/hosts', N_("Get hosts forming the Foreman instance")
-      def index
-        # TODO: Permissions and taxonomies
-        @hosts = resource_scope_for_index
-        render 'api/v2/hosts/index'
-      end
-
       api :PUT, '/instance/hosts/:host_id', N_("Assign a host to the Foreman instance")
       param :host_id, :identifier_dottable
       def update
