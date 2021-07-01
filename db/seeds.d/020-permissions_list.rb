@@ -71,6 +71,7 @@ class PermissionsList
         ['Host', 'console_hosts'],
         ['Host', 'ipmi_boot_hosts'],
         ['Host', 'forget_status_hosts'],
+        ['Host', 'edit_instance_hosts'],
         ['HttpProxy', 'view_http_proxies'],
         ['HttpProxy', 'create_http_proxies'],
         ['HttpProxy', 'edit_http_proxies'],
