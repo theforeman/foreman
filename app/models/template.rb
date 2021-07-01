@@ -209,6 +209,10 @@ class Template < ApplicationRecord
     true
   end
 
+  def support_preview?
+    true
+  end
+
   private
 
   # This method can be overridden in Template children classes to import additional attributes
