@@ -6,14 +6,12 @@ module Api
       end
 
       def resource_scope(*args)
-        super.joins(:infrastructure_facet).merge(::HostFacets::InfrastructureFacet.where(foreman: true))
+        super.authorized(:view_hosts).joins(:infrastructure_facet).merge(::HostFacets::InfrastructureFacet.where(foreman: true))
       end
 
       api :PUT, '/instance/hosts/:host_id', N_("Assign a host to the Foreman instance")
       param :host_id, :identifier_dottable
       def update
-        # TODO: Permissions and taxonomies
-        # TODO?: output
         # We cannot use resource scope as that is scoped only to hosts which already have the facet
         host = ::Host::Managed.friendly.find(params[:id])
         facet = host.infrastructure_facet || host.build_infrastructure_facet
@@ -24,7 +22,6 @@ module Api
 
       api :DESTROY, '/instance/hosts/:host_id', N_("Unassign a given host from the Foreman instance")
       def destroy
-        # TODO: Permissions and taxonomies
         host = resource_scope.friendly.find_by(id: params[:id])
         facet = host&.infrastructure_facet
         return if facet.nil?

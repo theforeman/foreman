@@ -8,14 +8,13 @@ module Api
       end
 
       def resource_scope(*args)
-        ::Host::Managed.joins(:infrastructure_facet).merge(::HostFacets::InfrastructureFacet.where(smart_proxy_id: @proxy.id))
+        ::Host::Managed.authorized(:view_hosts).joins(:infrastructure_facet).merge(::HostFacets::InfrastructureFacet.where(smart_proxy_id: @proxy.id))
       end
 
       api :PUT, '/smart_proxies/:smart_proxy_id/hosts/:host_id', N_("Assign a host to the Foreman instance")
       param :smart_proxy_id, :identifier
       param :host_id, :identifier
       def update
-        # TODO: Permissions and taxonomies
         # TODO?: output
         # We cannot use resource scope as that is scoped only to hosts which already have the facet
         host = ::Host::Managed.friendly.find(params[:id])
@@ -27,7 +26,6 @@ module Api
 
       api :DELETE, '/smart_proxies/:smart_proxy_id/hosts/:host_id', N_("Unassign a given host from the Foreman instance")
       def destroy
-        # TODO: Permissions and taxonomies
         host = begin
                  resource_scope.friendly.find(params[:id])
                rescue ActiveRecord::RecordNotFound
@@ -41,7 +39,7 @@ module Api
       end
 
       def find_proxy
-        @proxy ||= ::SmartProxy.find(params[:smart_proxy_id])
+        @proxy ||= ::SmartProxy.authorized(:view_smart_proxies).find(params[:smart_proxy_id])
       end
     end
   end
