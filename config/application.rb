@@ -309,6 +309,7 @@ module Foreman
       end
       Facets.register(HostFacets::InfrastructureFacet, :infrastructure_facet) do
         api_view({ :list => 'api/v2/hosts/infrastructure_facet' })
+        set_dependent_action :destroy
       end
 
       Facets.register(ForemanRegister::RegistrationFacet, :registration_facet) do
