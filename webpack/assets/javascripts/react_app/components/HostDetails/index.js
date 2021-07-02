@@ -31,11 +31,12 @@ import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
 import { translate as __ } from '../../common/I18n';
 
+import { currentTab, handleTabClick } from './routedTabsHelper';
+
 import './HostDetails.scss';
 
-const HostDetails = ({ match, location: { hash } }) => {
+const HostDetails = ({ history, match, location }) => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('Overview');
   const response = useSelector(state =>
     selectAPIResponse(state, 'HOST_DETAILS')
   );
@@ -45,6 +46,8 @@ const HostDetails = ({ match, location: { hash } }) => {
     selectFillsIDs(state, 'host-details-page-tabs')
   );
 
+  const activeTab = currentTab(location, 0) || 'Overview';
+
   // This is a workaround due to the tabs overflow mechanism in PF4
   useEffect(() => {
     if (tabs?.length) dispatchEvent(new Event('resize'));
@@ -53,10 +56,6 @@ const HostDetails = ({ match, location: { hash } }) => {
   useEffect(() => {
     registerCoreTabs();
   }, []);
-
-  useEffect(() => {
-    if (hash) setActiveTab(hash.slice(1));
-  }, [hash]);
 
   useEffect(() => {
     dispatch(
@@ -73,10 +72,6 @@ const HostDetails = ({ match, location: { hash } }) => {
     document.body.classList.add('pf-gray-background');
     return () => document.body.classList.remove('pf-gray-background');
   }, []);
-
-  const handleTabClick = (event, tabIndex) => {
-    setActiveTab(tabIndex);
-  };
 
   return (
     <>
@@ -137,7 +132,7 @@ const HostDetails = ({ match, location: { hash } }) => {
             width: window.innerWidth - (isNavCollapsed ? 95 : 220),
           }}
           activeKey={activeTab}
-          onSelect={handleTabClick}
+          onSelect={handleTabClick(history, 0)}
         >
           {tabs &&
             tabs.map(tab => (
@@ -145,6 +140,9 @@ const HostDetails = ({ match, location: { hash } }) => {
                 <Slot
                   response={response}
                   status={status}
+                  history={history}
+                  location={location}
+                  match={match}
                   id="host-details-page-tabs"
                   fillID={tab}
                 />
