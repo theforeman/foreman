@@ -155,9 +155,7 @@ module.exports = env => {
           unidiff can be removed once https://github.com/mvoss9000/unidiff/pull/1 is merged */
           exclude: /node_modules(?!\/(@novnc|unidiff))/,
           loader: 'babel-loader',
-          options: {
-            presets: [require.resolve('@theforeman/builder/babel')],
-          },
+          options: require.resolve('@theforeman/builder/babel'),
         },
         {
           test: /\.css$/,
