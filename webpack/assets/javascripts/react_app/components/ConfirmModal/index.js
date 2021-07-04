@@ -46,6 +46,7 @@ const ConfirmModal = () => {
   return (
     <Modal
       id="app-confirm-modal"
+      aria-label="application confirm modal"
       variant={ModalVariant.small}
       title={title}
       isOpen={isOpen}
