@@ -16,6 +16,7 @@ class Hostgroup < ApplicationRecord
 
   validate :validate_subnet_types
   validates_with SubnetsConsistencyValidator
+  validate :validate_compute_profile, :if => proc { |hostgroup| hostgroup.compute_profile_id_changed? && hostgroup.compute_profile_id.present? }
 
   include ScopedSearchExtensions
   include SelectiveClone
@@ -322,5 +323,9 @@ class Hostgroup < ApplicationRecord
   def validate_subnet_types
     errors.add(:subnet, _("must be of type Subnet::Ipv4.")) if subnet.present? && subnet.type != 'Subnet::Ipv4'
     errors.add(:subnet6, _("must be of type Subnet::Ipv6.")) if subnet6.present? && subnet6.type != 'Subnet::Ipv6'
+  end
+
+  def validate_compute_profile
+    errors.add(:compute_profile, _('is not valid.')) unless ComputeProfile.authorized(:view_compute_profiles).visibles.where(id: compute_profile_id).any?
   end
 end
