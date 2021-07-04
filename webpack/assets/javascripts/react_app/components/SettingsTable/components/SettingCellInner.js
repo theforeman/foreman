@@ -19,15 +19,19 @@ const SettingCellInner = props => {
 
   const { setModalOpen } = useSettingModal();
   const dispatch = useDispatch();
-  if (!setting.readonly) {
-    rest.onClick = () => {
-      dispatch(setSettingEditing(setting));
-      setModalOpen();
-    };
-  }
+
+  const editable = !setting.readonly;
+  const openModal = () => {
+    dispatch(setSettingEditing(setting));
+    setModalOpen();
+  };
 
   const field = (
-    <span {...rest} className={cssClasses}>
+    <span
+      onClick={editable ? openModal : undefined}
+      {...rest}
+      className={cssClasses}
+    >
       {valueToString(setting)}
     </span>
   );
