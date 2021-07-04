@@ -10,6 +10,32 @@ import { sprintf, translate as __ } from './react_app/common/I18n';
 
 import { showLoading, hideLoading } from './foreman_navigation';
 
+import store from './react_app/redux';
+import { openConfirmModal as coreOpenConfirmModal } from './react_app/components/ConfirmModal';
+import { noop } from './react_app/common/helpers';
+
+export function openConfirmModal({
+  title = '',
+  message = '',
+  onConfirm = noop,
+  onCancel = noop,
+  modalProps = {},
+  isWarning = false,
+  confirmButtonText = null,
+}) {
+  return store.dispatch(
+    coreOpenConfirmModal({
+      title,
+      message,
+      onConfirm,
+      onCancel,
+      modalProps,
+      isWarning,
+      confirmButtonText,
+    })
+  );
+}
+
 export * from './react_app/common/DeprecationService';
 
 export function showSpinner() {
