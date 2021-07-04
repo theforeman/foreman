@@ -36,6 +36,33 @@ export function openConfirmModal({
   );
 }
 
+// override the jQuery UJS $.rails.allowAction
+$.rails.allowAction = function railsConfirmOverride(element) {
+  const message = element.data('confirm');
+  const answer = false;
+  let callback;
+  if (!message) return true;
+
+  if ($.rails.fire(element, 'confirm')) {
+    openConfirmModal({
+      title: __('Confirm'),
+      message,
+      onConfirm: function onConfirm() {
+        callback = $.rails.fire(element, 'confirm:complete', [answer]);
+        if (callback) {
+          const oldAllowAction = $.rails.allowAction;
+          $.rails.allowAction = function allowAction() {
+            return true;
+          };
+          element.trigger('click');
+          $.rails.allowAction = oldAllowAction;
+        }
+      },
+    });
+  }
+  return false;
+};
+
 export * from './react_app/common/DeprecationService';
 
 export function showSpinner() {
