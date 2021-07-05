@@ -1,8 +1,8 @@
 import Immutable from 'seamless-immutable';
 import { noop } from '../../common/helpers';
 
-export const OPEN_CONFIRM_MODAL = 'OPEN_CONFIRM_MODAL';
-export const CLOSE_CONFIRM_MODAL = 'CLOSE_CONFIRM_MODAL';
+const OPEN_CONFIRM_MODAL = 'OPEN_CONFIRM_MODAL';
+const CLOSE_CONFIRM_MODAL = 'CLOSE_CONFIRM_MODAL';
 
 // actions
 export const openConfirmModal = ({

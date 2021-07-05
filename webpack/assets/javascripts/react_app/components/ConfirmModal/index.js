@@ -21,12 +21,12 @@ const ConfirmModal = () => {
   const closeModal = () => dispatch(closeConfirmModal());
 
   const handleCancel = () => {
-    onCancel && onCancel();
+    onCancel();
     closeModal();
   };
 
   const handleConfirm = () => {
-    onConfirm && onConfirm();
+    onConfirm();
     closeModal();
   };
 
