@@ -5,17 +5,16 @@ import { Table } from '../common/table';
 
 import createSettingsTableSchema from './SettingsTableSchema';
 
-const SettingsTable = ({ settings, onEditClick }) => (
+const SettingsTable = ({ settings }) => (
   <Table
     key="settings-table"
-    columns={createSettingsTableSchema(onEditClick)}
+    columns={createSettingsTableSchema}
     rows={settings}
   />
 );
 
 SettingsTable.propTypes = {
   settings: PropTypes.array.isRequired,
-  onEditClick: PropTypes.func.isRequired,
 };
 
 export default SettingsTable;
