@@ -21,7 +21,6 @@ const ModelsPage = ({
   itemCount,
   message,
   canCreate,
-  toasts,
 }) => {
   const handleSearch = query => fetchAndPush({ searchQuery: query, page: 1 });
 
@@ -41,7 +40,6 @@ const ModelsPage = ({
       onSearch={handleSearch}
       onBookmarkClick={handleSearch}
       toolbarButtons={canCreate && createBtn}
-      toastNotifications={toasts}
     >
       <ModelsPageContent
         models={models}
@@ -73,7 +71,6 @@ ModelsPage.propTypes = {
   itemCount: PropTypes.number.isRequired,
   message: PropTypes.object,
   canCreate: PropTypes.bool.isRequired,
-  toasts: PropTypes.array.isRequired,
 };
 
 ModelsPage.defaultProps = {

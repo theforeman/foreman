@@ -2,7 +2,6 @@ import React from 'react';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import PageLayout from './PageLayout';
 import { pageLayoutMock } from './PageLayout.fixtures';
-import { toast } from '../../../components/ToastsList/ToastList.fixtures';
 
 jest.unmock('react-helmet');
 
@@ -16,10 +15,6 @@ const pageLayoutFixtures = {
   'render pageLayout without breadcrumbs': {
     ...pageLayoutMock,
     breadcrumbOptions: null,
-  },
-  'render pageLayout w/toastNotifications': {
-    ...pageLayoutMock,
-    toastNotifications: [toast],
   },
   'render pageLayout w/toolBar': {
     ...pageLayoutMock,

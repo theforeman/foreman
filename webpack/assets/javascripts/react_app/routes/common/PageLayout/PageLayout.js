@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Row, Col, Spinner } from 'patternfly-react';
 import { changeQuery } from '../../../common/urlHelpers';
 
-import ToastsList from '../../../components/ToastsList';
 import BreadcrumbBar from '../../../components/BreadcrumbBar';
 import SearchBar from '../../../components/SearchBar';
 import Head from '../../../components/Head';
@@ -18,7 +17,6 @@ const PageLayout = ({
   breadcrumbOptions,
   toolbarButtons,
   header,
-  toastNotifications,
   beforeToolbarComponent,
   isLoading,
   children,
@@ -28,7 +26,6 @@ const PageLayout = ({
       <Head>
         <title>{header}</title>
       </Head>
-      <ToastsList railsMessages={toastNotifications} />
       <div id="breadcrumb">
         {!breadcrumbOptions && (
           <div className="row form-group">
@@ -110,7 +107,6 @@ PageLayout.propTypes = {
     ),
   }),
   toolbarButtons: PropTypes.node,
-  toastNotifications: PropTypes.array,
   onSearch: PropTypes.func,
   onBookmarkClick: PropTypes.func,
   searchQuery: PropTypes.string,
@@ -122,7 +118,6 @@ PageLayout.defaultProps = {
   searchProps: {},
   header: '',
   searchQuery: '',
-  toastNotifications: [],
   customBreadcrumbs: null,
   toolbarButtons: null,
   breadcrumbOptions: null,
