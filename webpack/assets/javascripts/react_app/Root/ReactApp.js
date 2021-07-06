@@ -8,6 +8,7 @@ import Layout, { propTypes as LayoutPropTypes } from '../components/Layout';
 import AppSwitcher from '../routes';
 
 import apolloClient from './apollo';
+import ConfirmModal from '../components/ConfirmModal';
 
 const ReactApp = ({ layout, metadata, toasts }) => {
   const contextData = { metadata, toasts };
@@ -20,6 +21,7 @@ const ReactApp = ({ layout, metadata, toasts }) => {
           <ConnectedRouter history={history}>
             <Layout data={layout}>
               <AppSwitcher />
+              <ConfirmModal />
             </Layout>
           </ConnectedRouter>
         </ApolloProvider>

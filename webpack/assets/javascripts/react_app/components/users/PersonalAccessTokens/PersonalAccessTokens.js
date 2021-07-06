@@ -16,6 +16,7 @@ import PersonalAccessTokenForm from './PersonalAccessTokenForm';
 import PersonalAccessTokensList from './PersonalAccessTokensList';
 import { translate as __ } from '../../../common/I18n';
 import { foremanUrl } from '../../../common/helpers';
+import { openConfirmModal } from '../../ConfirmModal';
 
 const PersonalAccessTokens = ({ url, canCreate }) => {
   const dispatch = useDispatch();
@@ -32,10 +33,17 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
     dispatch(clearNewPersonalAccessToken());
 
   const boundRevokePersonalAccessToken = id => {
-    if (window.confirm(__('Do you really want to revoke Access Token?'))) {
-      dispatch(revokePersonalAccessTokenAction({ url, id }));
-    }
+    dispatch(
+      openConfirmModal({
+        title: __('Revoke personal access token'),
+        message: __('Do you really want to revoke Access Token?'),
+        confirmButtonText: __('Revoke'),
+        isWarning: true,
+        onConfirm: () => dispatch(revokePersonalAccessTokenAction({ url, id })),
+      })
+    );
   };
+
   return (
     <Fragment>
       <NewPersonalAccessToken
