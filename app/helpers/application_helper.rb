@@ -476,7 +476,7 @@ module ApplicationHelper
   end
 
   def notifications
-    react_component('ToastNotifications', {railsMessages: toast_notifications_data})
+    Foreman::Deprecation.deprecation_warning('3.1', 'notifications method is deprecated, and instead, toasts alerts are handled in the root of the React app.')
   end
 
   def toast_notifications_data
