@@ -16,9 +16,7 @@ export const withTooltip = Component => componentProps => {
       placement="top"
       rootClose={false}
     >
-      <span>
-        <Component {...rest} />
-      </span>
+      <Component {...rest} />
     </OverlayTrigger>
   );
 };
@@ -171,5 +169,3 @@ export const hasDefault = setting => {
     }
   }
 };
-
-export const inStrong = markup => <strong>{markup}</strong>;

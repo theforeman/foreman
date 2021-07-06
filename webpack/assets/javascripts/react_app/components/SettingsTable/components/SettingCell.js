@@ -9,8 +9,12 @@ import SettingCellInner from './SettingCellInner';
 
 import './SettingCell.scss';
 
-const SettingCell = ({ setting }) => {
-  const fieldProps = { setting, tooltipId: setting.name };
+const SettingCell = ({ setting, className }) => {
+  const fieldProps = {
+    setting,
+    tooltipId: setting.name,
+    className,
+  };
 
   if (setting.readonly) {
     fieldProps.tooltipText = sprintf(
@@ -22,7 +26,6 @@ const SettingCell = ({ setting }) => {
   } else {
     const defaultStr = defaultToString(setting);
     fieldProps.tooltipText = sprintf(__('Default: %s'), defaultStr);
-    fieldProps.className = 'editable';
   }
 
   const Component = withTooltip(SettingCellInner);
@@ -31,6 +34,11 @@ const SettingCell = ({ setting }) => {
 
 SettingCell.propTypes = {
   setting: PropTypes.object.isRequired,
+  className: PropTypes.string,
+};
+
+SettingCell.defaultProps = {
+  className: '',
 };
 
 export default SettingCell;

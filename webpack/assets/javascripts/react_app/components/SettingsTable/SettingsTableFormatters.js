@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { withTooltip } from './SettingsTableHelpers';
 
@@ -17,6 +18,11 @@ export const settingNameCellFormatter = (value, { rowData }) => {
   );
 };
 
-export const settingValueCellFormatter = (value, { rowData }) => (
-  <SettingCell value={value} setting={rowData} />
-);
+export const settingValueCellFormatter = (value, { rowData: setting }) => {
+  const cssClasses = classNames('ellipsis', {
+    'editable-empty': !setting.value && setting.settingsType !== 'boolean',
+    'masked-input': setting.encrypted,
+    editable: !setting.readonly,
+  });
+  return <SettingCell value={value} setting={setting} className={cssClasses} />;
+};
