@@ -349,7 +349,7 @@ class User < ApplicationRecord
           logger.info "User '#{user.login}' auto-created from #{user.auth_source}"
           user.post_successful_login
         else
-          logger.info "Failed to create external User '{user.login}': #{user.errors.full_messages.join(', ')}"
+          logger.info "Failed to create external User '#{user.login}': #{user.errors.full_messages.join(', ')}"
           user = nil
         end
       end
