@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 
@@ -6,8 +5,6 @@ import ModelsPage from './ModelsPage';
 import * as actions from './ModelsPageActions';
 
 import { callOnMount, callOnPopState } from '../../../common/HOC';
-
-import { useForemanContext } from '../../../Root/Context/ForemanContext';
 
 import {
   selectModels,
@@ -39,14 +36,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-const callWithToastsContext = Component => props => {
-  const { toasts } = useForemanContext();
-  return <Component {...props} toasts={toasts} />;
-};
-
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  callWithToastsContext,
   callOnMount(({ initializeModels }) => initializeModels()),
   callOnPopState(({ initializeModels }) => initializeModels())
 )(ModelsPage);

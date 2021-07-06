@@ -27,7 +27,6 @@ exports[`ModelsPage redering should render when loading 1`] = `
   }
   searchQuery="name=foo"
   searchable={false}
-  toastNotifications={Array []}
   toolbarButtons={
     <Link
       to="/models/new"
@@ -111,7 +110,6 @@ exports[`ModelsPage redering should render with error 1`] = `
   }
   searchQuery="name=foo"
   searchable={true}
-  toastNotifications={Array []}
   toolbarButtons={
     <Link
       to="/models/new"
@@ -200,7 +198,6 @@ exports[`ModelsPage redering should render with models 1`] = `
   }
   searchQuery="name=foo"
   searchable={true}
-  toastNotifications={Array []}
   toolbarButtons={
     <Link
       to="/models/new"
@@ -284,7 +281,6 @@ exports[`ModelsPage redering should render with no data 1`] = `
   }
   searchQuery="name=foo"
   searchable={true}
-  toastNotifications={Array []}
   toolbarButtons={
     <Link
       to="/models/new"

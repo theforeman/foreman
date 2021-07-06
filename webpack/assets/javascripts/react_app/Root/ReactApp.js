@@ -8,6 +8,7 @@ import Layout, { propTypes as LayoutPropTypes } from '../components/Layout';
 import AppSwitcher from '../routes';
 
 import apolloClient from './apollo';
+import ToastsList from '../components/ToastsList';
 
 const ReactApp = ({ layout, metadata, toasts }) => {
   const contextData = { metadata, toasts };
@@ -19,6 +20,7 @@ const ReactApp = ({ layout, metadata, toasts }) => {
         <ApolloProvider client={apolloClient}>
           <ConnectedRouter history={history}>
             <Layout data={layout}>
+              <ToastsList railsMessages={toasts} />
               <AppSwitcher />
             </Layout>
           </ConnectedRouter>
