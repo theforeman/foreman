@@ -1,0 +1,6 @@
+#!/bin/bash
+[[ -e .env ]] || bin/create-env
+source .env
+
+[ -n "$NODE_ENV" ] && ./node_modules/.bin/webpack-dev-server --config config/webpack.config.js $WEBPACK_OPTS || \
+env NODE_ENV=development ./node_modules/.bin/webpack-dev-server --config config/webpack.config.js $WEBPACK_OPTS

@@ -1,0 +1,6 @@
+name: foreman
+windows:
+  - rails: bundle exec ./bin/start-rails
+  - rails-log: tail -F log/development.log
+  - rails-errors: tail -F log/development.log | grep '[EF]|'
+  - webpack: ./bin/start-webpack
