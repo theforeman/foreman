@@ -5,7 +5,9 @@ const Slot = ({ fills, id, multi, children = null, ...props }) => {
   const addProps = object => {
     if (multi && !object.key) {
       // eslint-disable-next-line no-console
-      console.warn('Please add a key attribute to multiple fills');
+      console.warn(
+        `Please add a key attribute to multiple fills [component - ${object.type.name}]`
+      );
     }
 
     if (isValidElement(object)) {
