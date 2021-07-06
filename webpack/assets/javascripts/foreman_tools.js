@@ -10,6 +10,59 @@ import { sprintf, translate as __ } from './react_app/common/I18n';
 
 import { showLoading, hideLoading } from './foreman_navigation';
 
+import store from './react_app/redux';
+import { openConfirmModal as coreOpenConfirmModal } from './react_app/components/ConfirmModal';
+import { noop } from './react_app/common/helpers';
+
+export function openConfirmModal({
+  title = '',
+  message = '',
+  onConfirm = noop,
+  onCancel = noop,
+  modalProps = {},
+  isWarning = false,
+  confirmButtonText = null,
+}) {
+  return store.dispatch(
+    coreOpenConfirmModal({
+      title,
+      message,
+      onConfirm,
+      onCancel,
+      modalProps,
+      isWarning,
+      confirmButtonText,
+    })
+  );
+}
+
+// override the jQuery UJS $.rails.allowAction
+$.rails.allowAction = function railsConfirmOverride(element) {
+  const message = element.data('confirm');
+  const answer = false;
+  let callback;
+  if (!message) return true;
+
+  if ($.rails.fire(element, 'confirm')) {
+    openConfirmModal({
+      title: __('Confirm'),
+      message,
+      onConfirm: function onConfirm() {
+        callback = $.rails.fire(element, 'confirm:complete', [answer]);
+        if (callback) {
+          const oldAllowAction = $.rails.allowAction;
+          $.rails.allowAction = function allowAction() {
+            return true;
+          };
+          element.trigger('click');
+          $.rails.allowAction = oldAllowAction;
+        }
+      },
+    });
+  }
+  return false;
+};
+
 export * from './react_app/common/DeprecationService';
 
 export function showSpinner() {

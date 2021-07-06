@@ -23,6 +23,7 @@ import { reducers as apiReducer } from '../API';
 import { reducers as modelsPageReducers } from '../../routes/Models/ModelsPage';
 import { reducers as settingRecordsReducers } from '../../components/SettingRecords';
 import { reducers as personalAccessTokensReducers } from '../../components/users/PersonalAccessTokens';
+import { reducers as confirmModalReducers } from '../../components/ConfirmModal';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -43,6 +44,7 @@ export function combineReducersAsync(asyncReducers) {
     ...typeAheadSelectReducers,
     ...settingRecordsReducers,
     ...personalAccessTokensReducers,
+    ...confirmModalReducers,
 
     router: connectRouter(history),
     // Pages

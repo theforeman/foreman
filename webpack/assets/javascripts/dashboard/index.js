@@ -7,7 +7,11 @@
 import $ from 'jquery';
 import { doesDocumentHasFocus } from '../react_app/common/document';
 import { notify } from '../foreman_toast_notifications';
-import { activateTooltips, foremanUrl } from '../foreman_tools';
+import {
+  activateTooltips,
+  foremanUrl,
+  openConfirmModal,
+} from '../foreman_tools';
 import { reloadPage } from '../foreman_navigation';
 import { translate as __ } from '../react_app/common/I18n';
 import './index.scss';
@@ -55,29 +59,33 @@ export function removeWidget(item) {
   const gridster = $('.gridster>ul')
     .gridster()
     .data('gridster');
-  if (
-    window.confirm(
-      __('Are you sure you want to delete this widget from your dashboard?')
-    )
-  ) {
-    $.ajax({
-      type: 'DELETE',
-      url: $(item).data('url'),
-      success() {
-        notify({
-          message: __('Widget removed from dashboard.'),
-          type: 'success',
-        });
-        gridster.remove_widget(widget);
-      },
-      error() {
-        notify({
-          message: __('Error removing widget from dashboard.'),
-          type: 'error',
-        });
-      },
-    });
-  }
+  openConfirmModal({
+    title: __('Remove widget'),
+    message: __(
+      'Are you sure you want to delete this widget from your dashboard?'
+    ),
+    confirmButtonText: __('Delete'),
+    isWarning: true,
+    onConfirm: function onConfirm() {
+      $.ajax({
+        type: 'DELETE',
+        url: $(item).data('url'),
+        success() {
+          notify({
+            message: __('Widget removed from dashboard.'),
+            type: 'success',
+          });
+          gridster.remove_widget(widget);
+        },
+        error() {
+          notify({
+            message: __('Error removing widget from dashboard.'),
+            type: 'error',
+          });
+        },
+      });
+    },
+  });
 }
 
 export function addWidget(name) {
