@@ -11,7 +11,7 @@ import apolloClient from './apollo';
 import ToastsList from '../components/ToastsList';
 
 const ReactApp = ({ layout, metadata, toasts }) => {
-  const contextData = { metadata, toasts };
+  const contextData = { metadata };
   const ForemanContext = getForemanContext(contextData);
 
   return (
