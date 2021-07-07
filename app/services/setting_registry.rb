@@ -71,6 +71,14 @@ class SettingRegistry
 
     # load all db values
     load_values
+
+    # create missing settings in the database
+    @settings.except(*Setting.unscoped.all.pluck(:name)).each do |name, definition|
+      # Creating missing records as we operate over the DB model while updating the setting
+      _new_db_record(definition).save(validate: false)
+      definition.updated_at = nil
+      definition.value = definition.default
+    end
   end
 
   def load_definitions
@@ -94,22 +102,13 @@ class SettingRegistry
   end
 
   def load_values
-    loaded_names = []
     Setting.unscoped.all.each do |s|
       unless (definition = find(s.name))
         logger.debug("Setting #{s.name} has no definition, clean up your database")
         next
       end
-      loaded_names << s.name
       definition.updated_at = s.updated_at
       definition.value = s.value
-    end
-    # load nil to set value to default
-    @settings.except(*loaded_names).each do |name, definition|
-      # Creating missing records as we operate over the DB model while updating the setting
-      _new_db_record(definition).save(validate: false)
-      definition.updated_at = nil
-      definition.value = definition.default
     end
   end
 
