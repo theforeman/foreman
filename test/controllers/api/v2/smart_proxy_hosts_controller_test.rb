@@ -32,7 +32,7 @@ class Api::V2::SmartProxyHostsControllerTest < ActionController::TestCase
       assert_response :unprocessable_entity
     end
 
-    test "destroy should mark host as non-foreman" do
+    test "destroy should mark host as non-smart-proxy" do
       host = FactoryBot.create(:host, :with_infrastructure_facet)
       host.infrastructure_facet.smart_proxy_id = @proxy.id
       host.infrastructure_facet.save!
