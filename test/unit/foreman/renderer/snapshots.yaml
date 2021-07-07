@@ -45,8 +45,8 @@ files:
   - provision/rancheros_provision.erb
   - user_data/userdata_default.erb
   - PXELinux/waik_default_pxelinux.erb
-  - provision/xenserver_default_answerfile.erb
   - finish/xenserver_default_finish.erb
+  - provision/xenserver_default_answerfile.erb
   - PXELinux/xenserver_default_pxelinux.erb
   - iPXE/ipxe_intermediate_script.erb
   - snippet/ansible_tower_callback_script.erb
