@@ -14,6 +14,11 @@ class TemplateKindRegistration < ActiveRecord::Migration[6.0]
                         .where(name: 'Linux registration default')
                         .update_all(name: Setting[:default_host_init_config_template])
 
+    # Unassign operating systems from registration templates
+    # (Registration templates are not allowed to be assigned to OS)
+    registration_templates = ProvisioningTemplate.unscoped.where(template_kind: registration_kind)
+    registration_templates.each { |rt| rt.operatingsystems = [] }
+
     # Assign default host_init_config template to all operating systems
     # and change registration association to the host_init_config
     template = ProvisioningTemplate.unscoped.find_by_name(Setting[:default_host_init_config_template])
