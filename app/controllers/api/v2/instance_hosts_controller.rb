@@ -13,21 +13,19 @@ module Api
       param :host_id, :identifier_dottable
       def update
         # We cannot use resource scope as that is scoped only to hosts which already have the facet
-        host = ::Host::Managed.friendly.find(params[:id])
+        host = resource_class.friendly.find(params[:id])
         facet = host.infrastructure_facet || host.build_infrastructure_facet
         facet.foreman = true
-        facet.save!
-        render status: :created, body: ''
+        process_response facet.save, ''
       end
 
       api :DESTROY, '/instance/hosts/:host_id', N_("Unassign a given host from the Foreman instance")
       def destroy
-        host = resource_scope.friendly.find_by(id: params[:id])
-        facet = host&.infrastructure_facet
-        return if facet.nil?
+        # Will raise ActiveRecord::RecordNotFound if the host does not exist or is not Foreman
+        facet = resource_scope.friendly.find(params[:id]).infrastructure_facet
 
         facet.foreman = false
-        facet.save!
+        process_response facet.save, ''
       end
     end
   end

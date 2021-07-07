@@ -17,25 +17,18 @@ module Api
       def update
         # TODO?: output
         # We cannot use resource scope as that is scoped only to hosts which already have the facet
-        host = ::Host::Managed.friendly.find(params[:id])
+        host = resource_class.authorized(:view_hosts).friendly.find(params[:id])
         facet = host.infrastructure_facet || host.build_infrastructure_facet
         facet.smart_proxy_id = @proxy.id
-        facet.save!
-        render status: :created, body: ''
+        process_response facet.save, ''
       end
 
       api :DELETE, '/smart_proxies/:smart_proxy_id/hosts/:host_id', N_("Unassign a given host from the Foreman instance")
       def destroy
-        host = begin
-                 resource_scope.friendly.find(params[:id])
-               rescue ActiveRecord::RecordNotFound
-                 # A comment is not considered suppressing an exception
-               end
-        facet = host&.infrastructure_facet
-        return if facet.nil?
+        facet = resource_scope.friendly.find(params[:id]).infrastructure_facet
 
         facet.smart_proxy_id = nil
-        facet.save!
+        process_response facet.save, ''
       end
 
       def find_proxy

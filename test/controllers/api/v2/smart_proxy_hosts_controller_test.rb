@@ -19,7 +19,7 @@ class Api::V2::SmartProxyHostsControllerTest < ActionController::TestCase
     test "should mark a host as smart proxy" do
       host = FactoryBot.create(:host)
       put :update, params: { :smart_proxy_id => @proxy.id, :id => host.id }
-      assert_response :created
+      assert_response :ok
 
       host.reload
       assert_equal host.infrastructure_facet.smart_proxy_id, @proxy.id
@@ -46,7 +46,7 @@ class Api::V2::SmartProxyHostsControllerTest < ActionController::TestCase
     test "destroy on non-smart proxy host is a noop" do
       host = FactoryBot.create(:host)
       delete :destroy, params: { :smart_proxy_id => @proxy.id, :id => host.id }
-      assert_response :success
+      assert_response :not_found
       host.reload
       assert_nil host.infrastructure_facet
     end
@@ -55,7 +55,7 @@ class Api::V2::SmartProxyHostsControllerTest < ActionController::TestCase
       host = FactoryBot.create(:host, :with_infrastructure_facet)
 
       delete :destroy, params: { :smart_proxy_id => @proxy.id, :id => host.id }
-      assert_response :success
+      assert_response :not_found
       host.reload
       assert_nil host.infrastructure_facet.smart_proxy_id
     end

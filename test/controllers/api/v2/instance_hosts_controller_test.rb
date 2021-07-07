@@ -9,7 +9,7 @@ class Api::V2::InstanceHostsControllerTest < ActionController::TestCase
   test "should mark a host as foreman" do
     host = FactoryBot.create(:host)
     put :update, params: { :id => host.id }
-    assert_response :created
+    assert_response :ok
 
     host.reload
     assert host.infrastructure_facet.foreman
@@ -26,7 +26,7 @@ class Api::V2::InstanceHostsControllerTest < ActionController::TestCase
   test "destroy on non-foreman host is a noop" do
     host = FactoryBot.create(:host)
     delete :destroy, params: { :id => host.id }
-    assert_response :success
+    assert_response :not_found
     host.reload
     assert_nil host.infrastructure_facet
   end
@@ -37,7 +37,7 @@ class Api::V2::InstanceHostsControllerTest < ActionController::TestCase
     host.infrastructure_facet.save!
 
     delete :destroy, params: { :id => host.id }
-    assert_response :success
+    assert_response :not_found
     host.reload
     refute host.infrastructure_facet.foreman
   end
