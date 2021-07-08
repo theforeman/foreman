@@ -40,6 +40,7 @@ const ActionsBar = ({ hostName }) => {
       >
         {__('Edit')}
       </Button>
+
       <Dropdown
         toggle={<KebabToggle onToggle={onKebabToggle} />}
         isOpen={kebabIsOpen}

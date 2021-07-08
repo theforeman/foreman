@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   Grid,
   Tab,
@@ -21,7 +21,7 @@ import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
 import { selectFillsIDs } from '../common/Slot/SlotSelectors';
 import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
-import { registerCoreTabs } from './Tabs';
+import { registerCoreTabs, registerConsoleTab, unregisterTab } from './Tabs';
 import { HOST_DETAILS_API_OPTIONS } from './consts';
 
 import { translate as __, sprintf } from '../../common/I18n';
@@ -39,12 +39,13 @@ const HostDetails = ({
   location: { hash },
   history,
 }) => {
-  const { response, status } = useAPI(
-    'get',
-    `/api/hosts/${id}`,
-    HOST_DETAILS_API_OPTIONS
-  );
-
+  const {
+    response,
+    response: { compute_resource_id: computeId },
+    status,
+  } = useAPI('get', `/api/hosts/${id}`, HOST_DETAILS_API_OPTIONS);
+  const dispatch = useDispatch();
+  const isConsoleRegistered = useRef(false);
   const isNavCollapsed = useSelector(selectIsCollapsed);
   const tabs = useSelector(
     state => selectFillsIDs(state, 'host-details-page-tabs'),
@@ -57,7 +58,20 @@ const HostDetails = ({
   }, [tabs]);
 
   useEffect(() => {
+    if (computeId) {
+      !isConsoleRegistered.current && registerConsoleTab();
+      isConsoleRegistered.current = true;
+    } else if (isConsoleRegistered.current) {
+      dispatch(unregisterTab('Console'));
+    }
+  }, [computeId]);
+
+  useEffect(() => {
+    //  This is a workaround for adding gray background inspiring pf4 desgin
+    //  TODO: delete it when pf4 layout (Page copmponent) is implemented in foreman
     registerCoreTabs();
+    document.body.classList.add('pf-gray-background');
+    return () => document.body.classList.remove('pf-gray-background');
   }, []);
 
   return (
