@@ -237,6 +237,26 @@ module Foreman::Model
       normalized
     end
 
+    def self.terminate_connection(url = nil)
+      if url
+        local_names = ["libvirt_connection_#{url}"]
+      else
+        local_names = Thread.current.keys
+      end
+      local_names.each do |name|
+        if name.to_s.start_with?("libvirt_connection") && (conn = Thread.current[name])
+          Rails.logger.debug { "Terminating libvirt connection #{conn.object_id}: #{name}" }
+          # in test environment Fog::Libvirt::Compute::Mock does not respond to terminate
+          conn.terminate if conn.respond_to?(:terminate)
+          Thread.current[name] = nil
+        end
+      end
+    end
+
+    def disconnect
+      self.class.terminate_connection(url)
+    end
+
     protected
 
     def libvirt_connection_error
@@ -245,17 +265,17 @@ module Foreman::Model
     end
 
     def client
-      # WARNING potential connection leak
       tries ||= 3
-      Thread.current[url] ||= ::Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => url)
+      key = "libvirt_connection_#{url}"
+      Thread.current[key] ||= begin
+        conn = ::Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => url)
+        logger.debug { "Created libvirt connection #{conn.object_id}: #{url}" }
+        conn
+      end
     rescue ::Libvirt::RetrieveError
-      Thread.current[url] = nil
+      logger.debug { "Libvirt connection failed, trying again" }
+      Thread.current[key] = nil
       retry unless (tries -= 1).zero?
-    end
-
-    def disconnect
-      client.terminate if Thread.current[url]
-      Thread.current[url] = nil
     end
 
     def vm_instance_defaults
