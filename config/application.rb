@@ -83,6 +83,7 @@ require_dependency File.expand_path('../lib/foreman/middleware/catch_json_parse_
 require_dependency File.expand_path('../lib/foreman/middleware/logging_context_request', __dir__)
 require_dependency File.expand_path('../lib/foreman/middleware/logging_context_session', __dir__)
 require_dependency File.expand_path('../lib/foreman/middleware/telemetry', __dir__)
+require_dependency File.expand_path('../lib/foreman/middleware/libvirt_connection_cleaner', __dir__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../Gemfile.in', __dir__))
@@ -214,8 +215,9 @@ module Foreman
     # Add apidoc hash in headers for smarter caching
     config.middleware.use Apipie::Middleware::ChecksumInHeaders
 
-    # Add telemetry
+    # Add telemetry and connection cleaner
     config.middleware.use Foreman::Middleware::Telemetry
+    config.middleware.use Foreman::Middleware::LibvirtConnectionCleaner
 
     # New config option to opt out of params "deep munging" that was used to address security vulnerability CVE-2013-0155.
     config.action_dispatch.perform_deep_munge = false
