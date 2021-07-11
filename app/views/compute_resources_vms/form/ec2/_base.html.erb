@@ -1,4 +1,12 @@
 <%= select_f f, :flavor_id, compute_resource.flavors, :id, :to_label, {}, :label => _('Flavor'), :label_size => "col-md-2" %>
+
+<% if controller_name != "compute_attributes" %>
+  <%= select_f f, :iam_instance_profile_name, compute_resource.instance_profiles, :name, :to_label,
+    {:include_blank => true},
+    {:label => _("IAM instance profile"), :help_inline => _('optional, can be left empty')}
+  %>
+<% end %>
+
 <%
 arch ||= nil ; os ||= nil
 images = possible_images(compute_resource, arch, os)

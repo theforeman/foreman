@@ -1,5 +1,8 @@
 <%= text_f f, :username, :value => @image.username || "root", :help_inline => _("The user that is used to ssh into the instance, normally cloud-user, ec2-user, ubuntu, root etc") %>
 <%= image_field(f) %>
 <%= checkbox_f f, :user_data, :help_inline => _("Does this image support user data input (e.g. via cloud-init)?") %>
-<%# TODO - Get IAM roles from AWS and display in select drop %>
-<%= text_f f, :iam_role, :help_inline => _("(optional) IAM Role for Fog to use when creating this image.") %>
+<%# Sadly this is not an iam role but iam instance profile, name was wrong so I kept it for compat purpose %>
+<%= select_f f, :iam_role, @compute_resource.instance_profiles, :name, :to_label,
+  {:include_blank => true},
+  {:label => _("IAM instance profile"), :help_inline => _('optional, can be left empty')}
+%>
