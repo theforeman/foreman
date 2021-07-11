@@ -23,7 +23,9 @@ exports[`withReactRoutes should render and pass props: should render and pass pr
     }
   }
 >
-  <AppSwitcher>
+  <AppSwitcher
+    serverRoutes={Array []}
+  >
     <Component
       name="foo"
     />
