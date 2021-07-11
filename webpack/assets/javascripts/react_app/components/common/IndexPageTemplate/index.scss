@@ -1,0 +1,17 @@
+#main.index_page_template {
+  padding: 0;
+
+  h1 {
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  #index-page-top-pagination {
+    margin-right: 24px;
+  }
+
+  .index-page-description {
+    white-space: nowrap;
+    margin-bottom: 15px;
+  }
+}

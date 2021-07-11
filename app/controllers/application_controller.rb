@@ -243,6 +243,46 @@ class ApplicationController < ActionController::Base
     base.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
+  def can_edit?(model_id)
+    is_authorized_for_action?(:update, model_id)
+  end
+
+  def can_delete?(model_id)
+    is_authorized_for_action?(:destroy, model_id)
+  end
+
+  def is_authorized_for_action?(action, model_id)
+    authorized_for(controller: controller_permission, action: model_of_controller.find_permission_name(action), id: model_id)
+  end
+
+  def js_link_if_can_edit(model_id, path, label)
+    can_edit?(model_id) ? js_link_to(label, path) : label
+  end
+
+  def js_link_to(label, path)
+    { type: 'link', label: label, path: path }
+  end
+
+  def js_component(name, props)
+    { component: name, props: props }
+  end
+
+  def js_sortable_col(label, sort_by)
+    {label: label, sort_by: sort_by}
+  end
+
+  def js_delete_if_authorized(model_id:, label: _("Delete"), message: _("Are you sure?"), path:, operation: "delete", confirm_text: _("Delete"))
+    props = {
+      label: label, disabled: !can_delete?(model_id), message: message,
+      operation: operation, path: path, isWarning: true, confirmButtonText: confirm_text
+    }
+    js_component('TableConfirmModal', props)
+  end
+
+  def js_empty_state_action(title, path)
+    { title: title, path: path }
+  end
+
   private
 
   def require_admin
