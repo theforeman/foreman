@@ -291,11 +291,20 @@ class ApplicationController < ActionController::Base
     end
     hash[:success_redirect] ||= saved_redirect_url_or(send("#{controller_name}_url"))
 
-    success hash[:success_msg]
-    if hash[:success_redirect] == :back
-      redirect_back(fallback_location: saved_redirect_url_or(send("#{controller_name}_url")))
-    else
-      redirect_to hash[:success_redirect]
+    respond_to do |format|
+      format.html do
+        success hash[:success_msg]
+        if hash[:success_redirect] == :back
+          redirect_back(fallback_location: saved_redirect_url_or(send("#{controller_name}_url")))
+        else
+          redirect_to hash[:success_redirect]
+        end
+      end
+      format.json do
+        render json: {
+          message: hash[:success_msg],
+        }, status: :ok
+      end
     end
   end
 
@@ -313,15 +322,25 @@ class ApplicationController < ActionController::Base
     logger.error "Failed to save: #{hash[:object].errors.full_messages.join(', ')}" if hash[:object].respond_to?(:errors)
     hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map { |e| _("Conflict - %s") % e }].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten.to_sentence
-    if hash[:render]
-      error(hash[:error_msg], true) unless hash[:error_msg].empty?
-      render hash[:render]
-    elsif hash[:redirect]
-      error(hash[:error_msg]) unless hash[:error_msg].empty?
-      if hash[:redirect] == :back
-        redirect_back(fallback_location: send("#{controller_name}_url"))
-      else
-        redirect_to hash[:redirect]
+
+    respond_to do |format|
+      format.html do
+        if hash[:render]
+          error(hash[:error_msg], true) unless hash[:error_msg].empty?
+          render hash[:render]
+        elsif hash[:redirect]
+          error(hash[:error_msg]) unless hash[:error_msg].empty?
+          if hash[:redirect] == :back
+            redirect_back(fallback_location: send("#{controller_name}_url"))
+          else
+            redirect_to hash[:redirect]
+          end
+        end
+      end
+      format.json do
+        render json: {
+          message: hash[:error_msg],
+        }, status: :internal_server_error
       end
     end
   end
