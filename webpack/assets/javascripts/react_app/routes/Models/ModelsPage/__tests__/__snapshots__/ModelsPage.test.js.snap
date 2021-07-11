@@ -4,6 +4,7 @@ exports[`ModelsPage redering should render when loading 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className=""
   customBreadcrumbs={null}
   header="Hardware Models"
   isLoading={false}
@@ -27,6 +28,7 @@ exports[`ModelsPage redering should render when loading 1`] = `
   }
   searchQuery="name=foo"
   searchable={false}
+  title=""
   toolbarButtons={
     <Link
       to="/models/new"
@@ -87,6 +89,7 @@ exports[`ModelsPage redering should render with error 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className=""
   customBreadcrumbs={null}
   header="Hardware Models"
   isLoading={false}
@@ -110,6 +113,7 @@ exports[`ModelsPage redering should render with error 1`] = `
   }
   searchQuery="name=foo"
   searchable={true}
+  title=""
   toolbarButtons={
     <Link
       to="/models/new"
@@ -175,6 +179,7 @@ exports[`ModelsPage redering should render with models 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className=""
   customBreadcrumbs={null}
   header="Hardware Models"
   isLoading={false}
@@ -198,6 +203,7 @@ exports[`ModelsPage redering should render with models 1`] = `
   }
   searchQuery="name=foo"
   searchable={true}
+  title=""
   toolbarButtons={
     <Link
       to="/models/new"
@@ -258,6 +264,7 @@ exports[`ModelsPage redering should render with no data 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className=""
   customBreadcrumbs={null}
   header="Hardware Models"
   isLoading={false}
@@ -281,6 +288,7 @@ exports[`ModelsPage redering should render with no data 1`] = `
   }
   searchQuery="name=foo"
   searchable={true}
+  title=""
   toolbarButtons={
     <Link
       to="/models/new"
