@@ -45,7 +45,13 @@ module LayoutHelper
   end
 
   def routes
-    []
+    [
+      {
+        path: experimental_architectures_path,
+        component: 'IndexPageTemplate',
+        props: { path: architectures_path, header: _("Architectures") },
+      },
+    ]
   end
 
   def layout_data

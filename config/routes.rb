@@ -598,6 +598,7 @@ Foreman::Application.routes.draw do
   end
 
   match 'host_wizard' => 'react#index', :via => :get
+  get 'experimental/architectures' => 'react#index'
   constraints(id: /[^\/]+/) do
     match 'experimental/hosts/:id' => 'react#index', :via => :get, :as => :host_details_page
   end
