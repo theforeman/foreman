@@ -4,7 +4,9 @@ exports[`HostWizard rendering renders LoginPage 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className={null}
   customBreadcrumbs={null}
+  headProps={Object {}}
   header="Host Wizard"
   isLoading={false}
   onBookmarkClick={[Function]}

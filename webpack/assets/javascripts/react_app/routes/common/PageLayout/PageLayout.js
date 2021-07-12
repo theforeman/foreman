@@ -20,10 +20,12 @@ const PageLayout = ({
   beforeToolbarComponent,
   isLoading,
   children,
+  className,
+  headProps,
 }) => (
-  <div id="main">
+  <div id="main" className={className}>
     <div id="react-content">
-      <Head>
+      <Head {...headProps}>
         <title>{header}</title>
       </Head>
       <div id="breadcrumb">
@@ -65,6 +67,8 @@ const PageLayout = ({
 );
 
 PageLayout.propTypes = {
+  className: PropTypes.string,
+  headProps: PropTypes.object,
   children: PropTypes.node.isRequired,
   searchable: PropTypes.bool.isRequired,
   header: PropTypes.string,
@@ -115,8 +119,10 @@ PageLayout.propTypes = {
 };
 
 PageLayout.defaultProps = {
+  className: null,
   searchProps: {},
   header: '',
+  headProps: {},
   searchQuery: '',
   customBreadcrumbs: null,
   toolbarButtons: null,
