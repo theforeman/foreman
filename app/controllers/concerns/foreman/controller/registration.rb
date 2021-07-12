@@ -97,24 +97,31 @@ module Foreman::Controller::Registration
   end
 
   def setup_host_params
+    clean_host_params
+
     setup_host_param('host_registration_insights', params['setup_insights'])
     setup_host_param('host_registration_remote_execution', params['setup_remote_execution'])
     setup_host_param('host_packages', params['packages'], 'string')
     setup_host_param('host_update_packages', params['update_packages'])
   end
 
+  def clean_host_params
+    names = ['host_registration_insights', 'host_registration_remote_execution',
+             'host_packages', 'host_update_packages']
+
+    HostParameter.where(host: @host, name: names).destroy_all
+  end
+
   def setup_host_param(name, value, key_type = 'boolean')
     return if value.to_s.blank?
 
-    hp = HostParameter.find_or_initialize_by(host: @host, name: name, key_type: key_type)
-
-    hp.value = if key_type == 'boolean'
+    hp_value = if key_type == 'boolean'
                  ActiveRecord::Type::Boolean.new.deserialize(value)
                else
                  value
                end
 
-    hp.save!
+    HostParameter.create(host: @host, name: name, value: hp_value, key_type: key_type)
   end
 
   def api_authorization_token
