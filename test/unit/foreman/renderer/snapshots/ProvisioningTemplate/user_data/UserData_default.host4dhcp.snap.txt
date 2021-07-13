@@ -1,6 +1,6 @@
 #cloud-config
 hostname: 
-fqdn: snapshot-ipv4-dhcp-el7
+fqdn: snapshot-host.snap.example.com
 manage_etc_hosts: true
 ssh_pwauth: true
 groups:
@@ -68,7 +68,7 @@ runcmd:
   pluginsync      = true
   report          = true
   ca_server       = localhost
-  certname        = snapshot-ipv4-dhcp-el7
+  certname        = snapshot-host
   server          = localhost
   environment     = test
   

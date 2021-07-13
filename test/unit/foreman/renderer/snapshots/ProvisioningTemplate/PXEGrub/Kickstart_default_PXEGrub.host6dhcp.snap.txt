@@ -1,11 +1,23 @@
 # This file was deployed via 'Kickstart default PXEGrub' template
+# Host: snapshot-host.snap.example.com
+# Organization: Organization 1
+# Location: Location 1
+# Interfaces: 1
+# IPv4 subnet: unset
+# IPv6 subnet: snapshot-ipv6-dhcp
+# Provision interface: 00-f0-54-1a-7e-e0
+# Primary interface: 00-f0-54-1a-7e-e0
+# Provision IPv4: 2001:db8:42::42
+# Primary IPv4: 2001:db8:42::42
+# Provision IPv6: 2001:db8:42::42
+# Primary IPv6: 2001:db8:42::42
 
 default=0
 timeout=10
 
 title Kickstart default PXEGrub
   root (nd)
-  kernel (nd)/../boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.some.host.fqdn/unattended/provision kssendmac ks.sendmac ip=dhcp nameserver=2001:db8:42::8 nameserver=2001:db8:42::4 fips=1
+  kernel (nd)/../boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.some.host.fqdn/unattended/provision kssendmac ks.sendmac ip=dhcp6 nameserver=2001:db8:42::8 nameserver=2001:db8:42::4 fips=1
   initrd (nd)/../boot/centos-mirror-nrm0GtSX1ZC5-initrd.img
 
 

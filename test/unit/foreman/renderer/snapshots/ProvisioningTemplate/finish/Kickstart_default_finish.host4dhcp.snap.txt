@@ -90,7 +90,7 @@ ssldir = \$vardir/ssl
 pluginsync      = true
 report          = true
 ca_server       = localhost
-certname        = snapshot-ipv4-dhcp-el7
+certname        = snapshot-host
 server          = localhost
 environment     = test
 

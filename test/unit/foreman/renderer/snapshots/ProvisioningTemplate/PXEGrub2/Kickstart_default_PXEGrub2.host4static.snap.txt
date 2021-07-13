@@ -1,10 +1,22 @@
 # This file was deployed via 'Kickstart default PXEGrub2' template
+# Host: snapshot-host.snap.example.com
+# Organization: Organization 1
+# Location: Location 1
+# Interfaces: 1
+# IPv4 subnet: snapshot-ipv4-static
+# IPv6 subnet: unset
+# Provision interface: 00-f0-54-1a-7e-e0
+# Primary interface: 00-f0-54-1a-7e-e0
+# Provision IPv4: 192.168.42.42
+# Primary IPv4: 192.168.42.42
+# Provision IPv6: unset
+# Primary IPv6: unset
 
 set default=0
 set timeout=10
 
 menuentry 'Kickstart default PXEGrub2' {
-  linux boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.some.host.fqdn/unattended/provision kssendmac ks.sendmac ip=192.168.42.42::192.168.42.1:255.255.255.0:snapshot-ipv4-static-el7:eth0:none nameserver=192.168.42.2 nameserver=192.168.42.3 fips=1
+  linux boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.some.host.fqdn/unattended/provision kssendmac ks.sendmac ip=192.168.42.42::192.168.42.1:255.255.255.0:snapshot-host.snap.example.com:eth0:none nameserver=192.168.42.2 nameserver=192.168.42.3 fips=1
   initrd boot/centos-mirror-nrm0GtSX1ZC5-initrd.img
 }
 

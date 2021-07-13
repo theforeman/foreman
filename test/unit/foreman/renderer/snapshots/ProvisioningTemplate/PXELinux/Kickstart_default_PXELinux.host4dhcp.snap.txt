@@ -1,4 +1,16 @@
 # This file was deployed via 'Kickstart default PXELinux' template
+# Host: snapshot-host.snap.example.com
+# Organization: Organization 1
+# Location: Location 1
+# Interfaces: 1
+# IPv4 subnet: snapshot-ipv4-dhcp
+# IPv6 subnet: unset
+# Provision interface: 00-f0-54-1a-7e-e0
+# Primary interface: 00-f0-54-1a-7e-e0
+# Provision IPv4: 192.168.42.42
+# Primary IPv4: 192.168.42.42
+# Provision IPv6: unset
+# Primary IPv6: unset
 DEFAULT menu
 MENU TITLE Booting into OS installer (ESC to stop)
 TIMEOUT 100

@@ -6,8 +6,8 @@ oses:
 - Debian
 - Ubuntu
 %>
-#
 # This file was deployed via '<%= template_name %>' template
+<%= snippet("header") -%>
 #
 # Supported host/hostgroup parameters:
 #
@@ -32,7 +32,7 @@ oses:
     options << 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true'
   end
   options << "locale=#{host_param('lang') || 'en_US'}"
-  
+
   # send PXELinux "IPAPPEND 2" option along
   options.push("BOOTIF=01-$net_default_mac")
 
