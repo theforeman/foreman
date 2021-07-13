@@ -320,11 +320,10 @@ FactoryBot.define do
       end
     end
 
-    factory :host_for_snapshots_ipv4_dhcp_el7 do
+    factory :host_for_snapshots_base do
       name { 'snapshot-ipv4-dhcp-el7' }
       hostname { name }
       managed { true }
-      operatingsystem { FactoryBot.build(:for_snapshots_centos_7_0) }
       domain { FactoryBot.build(:domain_for_snapshots) }
       subnet { FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots) }
       pxe_loader { "PXELinux BIOS" }
@@ -336,6 +335,18 @@ FactoryBot.define do
       certname { name }
       puppet_proxy { FactoryBot.build(:puppet_smart_proxy, name: 'puppet-proxy', url: 'http://localhost:8448') }
       puppet_ca_proxy { FactoryBot.build(:puppet_ca_smart_proxy, name: 'puppetca-proxy', url: 'http://localhost:8448') }
+
+      factory :host_for_snapshots_ipv4_dhcp_el7 do
+        operatingsystem { FactoryBot.build(:for_snapshots_centos_7_0) }
+      end
+
+      factory :host_for_snapshots_ipv4_dhcp_deb10 do
+        operatingsystem { FactoryBot.build(:for_snapshots_debian_10) }
+      end
+
+      factory :host_for_snapshots_ipv4_dhcp_ubuntu20 do
+        operatingsystem { FactoryBot.build(:for_snapshots_ubuntu_20) }
+      end
     end
 
     trait :with_dhcp_orchestration do

@@ -5,14 +5,16 @@ model: ProvisioningTemplate
 oses:
 - Debian
 - Ubuntu
-%>
+test_on:
+- debian4dhcp
+- ubuntu4dhcp
+-%>
 <%
   # safemode renderer does not support unary negation
   puppet_enabled = host_puppet_server.present? || host_param_true?('force-puppet')
   salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
-%>
-
+-%>
 <% subnet = @host.subnet -%>
 <% if @static -%>
   <%- dhcp = false -%>

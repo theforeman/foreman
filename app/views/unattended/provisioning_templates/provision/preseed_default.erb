@@ -5,6 +5,9 @@ model: ProvisioningTemplate
 oses:
 - Debian
 - Ubuntu
+test_on:
+- debian4dhcp
+- ubuntu4dhcp
 %>
 <%
   proxy_string = host_param('http-proxy') ? " http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : ''

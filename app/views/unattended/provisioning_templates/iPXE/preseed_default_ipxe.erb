@@ -6,6 +6,9 @@ model: ProvisioningTemplate
 oses:
 - Debian
 - Ubuntu
+test_on:
+- debian4dhcp
+- ubuntu4dhcp
 %>
 <% if @host.operatingsystem.name == 'Debian' -%>
   <%- keyboard_params = "auto=true" -%>
