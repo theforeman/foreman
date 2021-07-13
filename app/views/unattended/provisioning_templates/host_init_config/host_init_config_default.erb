@@ -34,6 +34,11 @@ set -e
 
 <% end -%>
 
+<% if plugin_present?('katello') && @host.operatingsystem.family == 'Redhat' -%>
+echo "Refreshing subscription data"
+subscription-manager refresh
+
+<% end -%>
 <%= update_packages if host_param_true?('host_update_packages') -%>
 
 <%= snippet_if_exists('host_init_config_post') -%>
