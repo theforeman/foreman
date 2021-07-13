@@ -1,22 +1,3 @@
-#!/bin/bash
-
-
-
-echo "" > /etc/hostname
-
-hostname 
-
-cat > /etc/hosts << EOF
-127.0.0.1   snapshot-ipv4-dhcp-el7  localhost localhost.localdomain
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-EOF
-
-
-
 
 
 
@@ -52,11 +33,8 @@ echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
 
 
 
-if [ -f /usr/bin/dnf ]; then
-  dnf -y install puppet
-else
-  yum -t -y install puppet
-fi
+apt-get update
+apt-get install -y puppet
 
 cat > /etc/puppet/puppet.conf << EOF
 [main]
@@ -69,25 +47,42 @@ ssldir = \$vardir/ssl
 pluginsync      = true
 report          = true
 ca_server       = localhost
-certname        = snapshot-ipv4-dhcp-el7
+certname        = snapshot-ipv4-dhcp-deb10
 server          = localhost
 environment     = test
 
 EOF
 
 
-puppet_unit=puppet
-/usr/bin/systemctl list-unit-files | grep -q puppetagent && puppet_unit=puppetagent
-/usr/bin/systemctl enable ${puppet_unit}
+if [ -f "/etc/default/puppet" ]
+then
+/bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
+fi
+/usr/bin/puppet agent --enable
 
 # export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
 export FACTER_is_installer=true
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag --server localhost --no-daemonize
+systemctl enable puppet
 
 
 
-# UserData still needs wget to mark as finished
+
+
+real=`ip -o link | awk '/00-f0-54-1a-7e-e0/ {print $2;}' | sed s/://`
+cat << EOF > /etc/network/interfaces
+#loopback
+auto lo
+iface lo inet loopback
+
+#eth0
+auto $real
+allow-hotplug $real
+iface $real inet dhcp
+EOF
+
+
 if [ -x /usr/bin/curl ]; then
   /usr/bin/curl -o /dev/null --noproxy \* -H 'Content-Type: text/plain' --silent 'http://foreman.some.host.fqdn/unattended/built'
 elif [ -x /usr/bin/wget ]; then
@@ -95,4 +90,4 @@ elif [ -x /usr/bin/wget ]; then
 else
   wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.some.host.fqdn/unattended/built'
 fi
-
+PATH=/usr/bin:/usr/sbin:/bin:/sbin:$PATH shutdown -r +1

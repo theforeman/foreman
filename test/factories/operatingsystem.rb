@@ -153,6 +153,30 @@ FactoryBot.define do
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
     end
 
+    factory :for_snapshots_debian_10, class: Debian do
+      name { 'Debian' }
+      major { '10' }
+      minor { '0' }
+      type { 'Debian' }
+      release_name { 'wheezy' }
+      title { 'Debian Wheezy' }
+      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
+      media { [FactoryBot.build(:debian_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
+    factory :for_snapshots_ubuntu_20, class: Debian do
+      name { 'Ubuntu' }
+      major { '20' }
+      minor { '04' }
+      type { 'Debian' }
+      release_name { 'focal' }
+      title { 'Ubuntu Focal' }
+      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
+      media { [FactoryBot.build(:ubuntu_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
     factory :altlinux, class: Altlinux do
       sequence(:name) { 'Altlinux' }
       major { '8' }

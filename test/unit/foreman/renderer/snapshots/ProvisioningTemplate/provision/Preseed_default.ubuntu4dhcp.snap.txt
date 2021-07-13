@@ -9,7 +9,7 @@ d-i keyboard-configuration/xkb-keymap seen true
 
 # Network configuration
 d-i netcfg/choose_interface select auto
-d-i netcfg/get_hostname string snapshot-ipv4-dhcp-el7
+d-i netcfg/get_hostname string snapshot-ipv4-dhcp-ubuntu20
 d-i netcfg/get_domain string snap.example.com
 d-i netcfg/wireless_wep string
 
@@ -18,12 +18,12 @@ d-i hw-detect/load_firmware boolean true
 
 # Mirror settings
 d-i mirror/country string manual
-d-i mirror/http/hostname string 
-d-i mirror/http/directory string 
+d-i mirror/http/hostname string archive.ubuntu.com:80
+d-i mirror/http/directory string /ubuntu
 d-i mirror/http/proxy string
-d-i mirror/codename string 
-d-i mirror/suite string 
-d-i mirror/udeb/suite string 
+d-i mirror/codename string focal
+d-i mirror/suite string focal
+d-i mirror/udeb/suite string focal
 
 # Time settings
 d-i clock-setup/utc boolean true
