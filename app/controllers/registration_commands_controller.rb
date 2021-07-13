@@ -10,6 +10,7 @@ class RegistrationCommandsController < ApplicationController
       smartProxies: Feature.find_by(name: 'Registration')&.smart_proxies,
       configParams: host_config_params,
       pluginData: plugin_data,
+      documentationUrl: documentation_url,
     }
   end
 
@@ -51,5 +52,11 @@ class RegistrationCommandsController < ApplicationController
   # Extension point for plugins
   def plugin_data
     {}
+  end
+
+  def documentation_url
+    options = { type: 'docs', params: { section: 'Managing_Hosts',
+                                        chapter: 'registering-a-host_managing-hosts' } }
+    main_app.external_link_url(options)
   end
 end
