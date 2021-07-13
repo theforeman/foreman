@@ -13,8 +13,6 @@ description: this will configure your host networking, it configures your primar
 <% host_dhcp6 = host_subnet6.nil? ? true : host_subnet6.dhcp_boot_mode? -%>
 
 real=`ip -o link | awk '/<%= @host.mac -%>/ {print $2;}' | sed s/://`
-<%# Ubuntu before 18.04 uses /etc/network/interfaces -%>
-<% if @host.operatingsystem.major.to_i < 18 -%>
 cat << EOF > /etc/network/interfaces
 #loopback
 auto lo
@@ -39,7 +37,6 @@ iface $real inet6 static
 <% end -%>
 <% end -%>
 EOF
-<% end -%>
 
 <% @host.managed_interfaces.each do |interface| -%>
 <% interface_subnet = interface.subnet -%>
@@ -53,7 +50,6 @@ real=`ip -o link | awk '/<%= interface.mac -%>/ {print $2;}' | sed s/:$//`
 real=`echo <%= interface.identifier -%> | sed s/<%= interface.attached_to -%>/$real/`
 <% end -%>
 
-<% if @host.operatingsystem.major.to_i < 18 -%>
 cat << EOF >> /etc/network/interfaces
 #<%= interface.identifier %>
 <% if interface_subnet %>
@@ -74,25 +70,4 @@ iface $real inet6 static
 <% end -%>
 <% end -%>
 EOF
-<% else -%>
-<%# Ubuntu 18.04+ uses /etc/netplan -%>
-cat << EOF >> /etc/netplan/01-netcfg.yaml
-    # <%= interface.identifier %>
-    $real:
-  <% if interface_dhcp -%>
-        dhcp4: true
-  <% else -%>
-      addresses:
-      <% addresses.each do |address| -%>
-        - <%= address %>
-      <% end -%>
-        <%if @host.ip && host_subnet && !host_dhcp && host_subnet.gateway -%>gateway4: <%= host_subnet.gateway %><% end %>
-        <%if @host.ip6 && host_subnet6 && !host_dhcp6 && host_subnet6.gateway -%>gateway6: <%= host_subnet6.gateway %><% end %>
-          nameservers:
-            <% if @host.domain %>search: [ <%= @host.domain %> ] <% end %>
-            addresses: [ <%= interface_subnet.dns_primary %><% if interface_subnet.dns_secondary -%>, <%= interface_subnet.dns_secondary %><% end -%> ]
-        dhcp4: false
-  <% end -%>
-EOF
-<% end -%>
 <% end -%>
