@@ -1,52 +1,65 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Grid, GridItem, Flex, FlexItem } from '@patternfly/react-core';
-
-import Properties from '../../Properties';
-import ParametersCard from '../../Parameters';
-import InterfacesCard from '../../Interfaces';
-import AuditCard from '../../Audits';
-import StatusAlert from '../../Status';
-import Slot from '../../../common/Slot';
+import { Grid } from '@patternfly/react-core';
+import DetailsCardTemplate from '../../Templates/CardItem/DetailsCard';
+import { translate as __ } from '../../../../common/I18n';
 import { STATUS } from '../../../../constants';
-import './Details.css';
+import Slot from '../../../common/Slot/Slot';
 
 const DetailsTab = ({ response, status }) => (
   <div className="host-details-tab-item details-tab">
-    <Flex
-      spaceItems={{ modifier: 'spaceItemsXl' }}
-      direction={{ default: 'column' }}
-      style={{ paddingBottom: '10px' }}
-    >
-      <FlexItem alignSelf={{ default: 'alignSelfCenter' }}>
-        <StatusAlert status={response ? response.global_status_label : null} />
-      </FlexItem>
-    </Flex>
     <Grid hasGutter>
-      <GridItem xl2={2} md={3} lg={2} rowSpan={3}>
-        <Properties hostData={response} status={status} />
-      </GridItem>
-      <GridItem xl2={3} md={6} lg={5}>
-        <ParametersCard paramters={response.all_parameters} />
-      </GridItem>
-      <GridItem xl2={3} md={6} lg={5}>
-        <AuditCard hostName={response.name} />
-      </GridItem>
-      <GridItem xl2={3} md={6} lg={5}>
-        <InterfacesCard interfaces={response.interfaces} />
-      </GridItem>
-      <Slot hostDetails={response} id="details-cards" multi />
+      <DetailsCardTemplate
+        status={status}
+        overrideGridProps={{ rowSpan: 3 }}
+        title={__('System Properties')}
+        columnModifier={{ md: '1Col', lg: '2Col' }}
+      >
+        {[
+          { name: 'Host Name', description: response.name },
+          { name: 'Host Owner', description: response.owner_name },
+          { name: 'Host Group', description: response.hostgroup_title },
+          { name: 'Location', description: response.location_name },
+          { name: 'Organization', description: response.organization_name },
+          { name: 'Registered on', description: 'aa' },
+          { name: 'Registered by', description: 'aa' },
+          { name: 'Domain', description: 'example.com' },
+        ]}
+      </DetailsCardTemplate>
+      <DetailsCardTemplate
+        status={status}
+        title={__('HW Properties')}
+        columnModifier={{ md: '1Col', lg: '2Col' }}
+      >
+        {[
+          { name: 'Number of CPU(s)', description: '2' },
+          { name: 'Number of sockets', description: '2' },
+          { name: 'Cores per socket', description: '1' },
+          { name: 'RAM (GB)', description: '4' },
+          { name: 'Storage', description: '100' },
+          { name: 'Model', description: 'Model' },
+        ]}
+      </DetailsCardTemplate>
+      <DetailsCardTemplate
+        status={status}
+        title={__('Infrastructure')}
+        columnModifier={{ md: '1Col', lg: '2Col' }}
+      >
+        {[
+          { name: 'type', description: 'Primary' },
+          { name: 'IPv4 Address', description: response.ip },
+          { name: 'IPv6 Address', description: response.ip6 },
+          { name: 'MAC Address', description: response.mac },
+          { name: 'Interfaces', description: 'To be continue' },
+        ]}
+      </DetailsCardTemplate>
+      <Slot hostDetails={response} id="details-tab-cards" multi />
     </Grid>
   </div>
 );
 
 DetailsTab.propTypes = {
-  response: PropTypes.shape({
-    all_parameters: PropTypes.string,
-    global_status_label: PropTypes.string,
-    interfaces: PropTypes.string,
-    name: PropTypes.string,
-  }),
+  response: PropTypes.object,
   status: PropTypes.string,
 };
 
