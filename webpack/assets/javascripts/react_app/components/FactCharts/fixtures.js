@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { STATUS } from '../../constants';
 import { noop } from '../../common/helpers';
-import { FACT_CHART } from './FactChartConstants';
+import { FACT_CHART } from './constants';
 
 export const id = 1;
 export const url = 'some/url';

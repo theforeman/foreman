@@ -6,13 +6,13 @@ import { get } from '../../redux/API';
 import FactChart from './FactChart';
 import { openModal, closeModal } from './slice';
 
-import { FACT_CHART } from './FactChartConstants';
+import { FACT_CHART } from './constants';
 import {
   selectHostCount,
   selectDisplayModal,
   selectFactChartStatus,
   selectFactChartData,
-} from './FactChartSelectors';
+} from './selectors';
 
 const ConnectedFactChart = ({ id, path, title, search }) => {
   const key = `${FACT_CHART}_${id}`;

@@ -1,12 +1,12 @@
 import { STATUS } from '../../../constants';
-import { chartData, modalToDisplay, id, key } from '../FactChart.fixtures';
+import { chartData, modalToDisplay, id, key } from '../fixtures';
 import {
   selectHostCount,
   selectFactChart,
   selectDisplayModal,
   selectFactChartData,
   selectFactChartStatus,
-} from '../FactChartSelectors';
+} from '../selectors';
 
 describe('Fact Chart Selector', () => {
   const factChartState = {
