@@ -16,6 +16,10 @@ set -e
 
 echo "# Running [<%= @host.name %>] host initial configuration"
 
+if [ -f /etc/os-release ] ; then
+  . /etc/os-release
+fi
+
 <% if built_https -%>
 SSL_CA_CERT=$(mktemp)
 cat << EOF > $SSL_CA_CERT
@@ -51,6 +55,16 @@ trap 'exit_and_cancel_build' ERR
 
 <% if host_param_true?('host_registration_insights') -%>
 <%= snippet 'insights' %>
+
+<% end -%>
+
+# Subscription manager - refresh subscription data
+
+<% if plugin_present?('katello') -%>
+if [ x$ID = xrhel ] || [ x$ID = xcentos ] || [ x$ID = xol ]; then
+    echo "Refreshing subscription data"
+    subscription-manager refresh
+fi
 
 <% end -%>
 
