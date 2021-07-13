@@ -10,7 +10,7 @@ import AppSwitcher from '../routes';
 import apolloClient from './apollo';
 import ToastsList from '../components/ToastsList';
 
-const ReactApp = ({ layout, metadata, toasts }) => {
+const ReactApp = ({ layout, metadata, toasts, routes }) => {
   const contextData = { metadata };
   const ForemanContext = getForemanContext(contextData);
 
@@ -21,7 +21,7 @@ const ReactApp = ({ layout, metadata, toasts }) => {
           <ConnectedRouter history={history}>
             <Layout data={layout}>
               <ToastsList railsMessages={toasts} />
-              <AppSwitcher />
+              <AppSwitcher serverRoutes={routes} />
             </Layout>
           </ConnectedRouter>
         </ApolloProvider>
@@ -34,6 +34,7 @@ ReactApp.propTypes = {
   layout: LayoutPropTypes.data.isRequired,
   metadata: PropTypes.object.isRequired,
   toasts: PropTypes.array.isRequired,
+  routes: PropTypes.array.isRequired,
 };
 
 export default ReactApp;
