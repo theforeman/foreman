@@ -4,7 +4,9 @@ exports[`ModelsPage redering should render when loading 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className={null}
   customBreadcrumbs={null}
+  headProps={Object {}}
   header="Hardware Models"
   isLoading={false}
   onBookmarkClick={[Function]}
@@ -87,7 +89,9 @@ exports[`ModelsPage redering should render with error 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className={null}
   customBreadcrumbs={null}
+  headProps={Object {}}
   header="Hardware Models"
   isLoading={false}
   onBookmarkClick={[Function]}
@@ -175,7 +179,9 @@ exports[`ModelsPage redering should render with models 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className={null}
   customBreadcrumbs={null}
+  headProps={Object {}}
   header="Hardware Models"
   isLoading={false}
   onBookmarkClick={[Function]}
@@ -258,7 +264,9 @@ exports[`ModelsPage redering should render with no data 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className={null}
   customBreadcrumbs={null}
+  headProps={Object {}}
   header="Hardware Models"
   isLoading={false}
   onBookmarkClick={[Function]}

@@ -2,6 +2,7 @@
 
 exports[`render pageLayout w/beforeToolbarComponent 1`] = `
 <div
+  className={null}
   id="main"
 >
   <div
@@ -95,6 +96,7 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
 
 exports[`render pageLayout w/search 1`] = `
 <div
+  className={null}
   id="main"
 >
   <div
@@ -185,6 +187,7 @@ exports[`render pageLayout w/search 1`] = `
 
 exports[`render pageLayout w/toolBar 1`] = `
 <div
+  className={null}
   id="main"
 >
   <div
@@ -279,6 +282,7 @@ exports[`render pageLayout w/toolBar 1`] = `
 
 exports[`render pageLayout with custom breadcrumbs 1`] = `
 <div
+  className={null}
   id="main"
 >
   <div
@@ -347,6 +351,7 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
 
 exports[`render pageLayout without breadcrumbs 1`] = `
 <div
+  className={null}
   id="main"
 >
   <div
@@ -419,6 +424,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
 
 exports[`render pageLayout without search 1`] = `
 <div
+  className={null}
   id="main"
 >
   <div
