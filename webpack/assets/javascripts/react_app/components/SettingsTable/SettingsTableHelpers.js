@@ -16,7 +16,10 @@ export const withTooltip = Component => componentProps => {
       placement="top"
       rootClose={false}
     >
-      <Component {...rest} />
+      {/* The span is needed because OverlayTrigger overrides child events */}
+      <span>
+        <Component {...rest} />
+      </span>
     </OverlayTrigger>
   );
 };
