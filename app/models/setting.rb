@@ -64,8 +64,8 @@ class Setting < ApplicationRecord
 
   scope :order_by, ->(attr) { except(:order).order(attr) }
 
-  scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :description, :complete_value => :true
+  scoped_search on: :name, complete_value: :true, operators: ['=']
+  scoped_search on: :description, complete_value: :true, operators: ['~']
 
   def self.config_file
     'settings.yaml'

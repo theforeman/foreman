@@ -63,5 +63,11 @@ class SettingRegistryTest < ActiveSupport::TestCase
       assert_equal 1, result.size
       assert_equal 'foo', result.first.name
     end
+
+    it 'can find setting by "description ~ value"' do
+      result = registry.search_for('description ~ logic').to_a
+      assert_equal 1, result.size
+      assert_equal 'dependency_solving_algorithm', result.first.name
+    end
   end
 end
