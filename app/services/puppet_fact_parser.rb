@@ -190,6 +190,9 @@ class PuppetFactParser < FactParser
   end
 
   def os_name
+    os_name = facts.dig(:os, :distro, :id)
+    return os_name if os_name == 'CentOSStream'
+
     os_name = facts.dig(:os, :name).presence || facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
 
     if os_name == 'RedHat' && facts[:lsbdistid] == 'RedHatEnterpriseWorkstation'

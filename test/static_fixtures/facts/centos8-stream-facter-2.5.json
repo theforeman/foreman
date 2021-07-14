@@ -1,0 +1,117 @@
+{
+  "architecture": "x86_64",
+  "kernel": "Linux",
+  "blockdevice_vda_size": 7516192768,
+  "blockdevice_vda_vendor": "0x1af4",
+  "blockdevices": "vda",
+  "virtual": "kvm",
+  "is_virtual": true,
+  "hardwaremodel": "x86_64",
+  "operatingsystem": "CentOS",
+  "os": {
+    "name": "CentOS",
+    "family": "RedHat",
+    "release": {
+      "major": "8",
+      "full": "8"
+    }
+  },
+  "facterversion": "2.5.7",
+  "filesystems": "ext2,ext3,ext4,xfs",
+  "fqdn": "stream",
+  "gid": "root",
+  "hardwareisa": "x86_64",
+  "hostname": "stream",
+  "id": "root",
+  "interfaces": "",
+  "ipaddress": "192.168.122.29",
+  "kernelmajversion": "4.18",
+  "kernelrelease": "4.18.0-193.6.3.el8_2.x86_64",
+  "kernelversion": "4.18.0",
+  "bios_vendor": "SeaBIOS",
+  "bios_version": "1.14.0-1.fc33",
+  "bios_release_date": "04/01/2014",
+  "manufacturer": "QEMU",
+  "productname": "Standard PC (Q35 + ICH9, 2009)",
+  "serialnumber": "Not Specified",
+  "uuid": "1ddbeb7e-aea3-4ae3-8a57-61867d346372",
+  "type": "Other",
+  "memorysize": "1.78 GB",
+  "memoryfree": "1.40 GB",
+  "swapsize": "615.00 MB",
+  "swapfree": "602.25 MB",
+  "swapsize_mb": "615.00",
+  "swapfree_mb": "602.25",
+  "memorysize_mb": "1826.77",
+  "memoryfree_mb": "1435.07",
+  "operatingsystemmajrelease": "8",
+  "operatingsystemrelease": "8",
+  "osfamily": "RedHat",
+  "partitions": {
+    "vda4": {
+      "uuid": "4fd120e4-1f6d-46b3-a404-5569ef6af1f9",
+      "size": "11316608",
+      "mount": "/",
+      "label": "primary",
+      "filesystem": "xfs"
+    },
+    "vda2": {
+      "uuid": "0b3df967-65cc-4a48-8b98-f7f0badc0d91",
+      "size": "2097152",
+      "mount": "/boot",
+      "label": "primary",
+      "filesystem": "ext4"
+    },
+    "vda3": {
+      "uuid": "40f14688-2619-4046-a9eb-b7333fff1b84",
+      "size": "1259520",
+      "label": "primary",
+      "filesystem": "swap"
+    },
+    "vda1": {
+      "size": "2048",
+      "label": "primary"
+    }
+  },
+  "path": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin",
+  "physicalprocessorcount": 2,
+  "processors": {
+    "models": [
+      "Intel Core Processor (Skylake, IBRS)",
+      "Intel Core Processor (Skylake, IBRS)"
+    ],
+    "count": 2,
+    "physicalcount": 2
+  },
+  "processor0": "Intel Core Processor (Skylake, IBRS)",
+  "processor1": "Intel Core Processor (Skylake, IBRS)",
+  "processorcount": 2,
+  "ps": "ps -ef",
+  "rubyplatform": "x86_64-linux",
+  "rubysitedir": "/usr/local/share/ruby/site_ruby",
+  "rubyversion": "2.7.1",
+  "selinux": true,
+  "selinux_enforced": true,
+  "selinux_policyversion": "31",
+  "selinux_current_mode": "enforcing",
+  "selinux_config_mode": "enforcing",
+  "selinux_config_policy": "targeted",
+  "sshrsakey": "AAAAB3NzaC1yc2EAAAADAQABAAABgQDSOlxRR5iy0VM5BVl2JiFvUvv5UMAUMPkNxKuo89U/jG1X3N9pqxSpgwy4VnzAJTMXTUObCnSTueiVjj0HHz6UMuRxIe4MYb2XFNrdQUV3BPKvbP3NG02bBGRhH35mr0g9Yd9Rc1Ayf5gTlfGkbOh4JbjPygQ9ub/5gUnEbFOS4x39U3wnZV4z/1s0RwWtzdLe8kj36/gvoYaBdrsDNtFQjEGWSHhjiwXf0wOvOVt+OKY77Z1+pM6CcqQVR75VcT52P/y5UEIREo7CP0eHxjD5JAcm7fWJrxeHFH3Cv1dh9I/J9b5k3WGFciqsv5zebx4MMq64poKbmyFyR+R1ixKM9laoaUiTC5N3ajM54kSb5wREIiMMFpPo7ArfXnIbjOsHidnmXvMfOwTLwwymBoKsWNR2LIf3u/mBOdBC2PtrYz9nL6pi5Lb2OOpa0S+LQFxWulFPWvTN83Mqlcr8qScJqPfgwlM6pIco6blJwe078N5ldXdeaj54I0RQ4XYChhE=",
+  "sshfp_rsa": "SSHFP 1 1 0f2ab3941f9c7a54211076bc27dee370e10698b0\nSSHFP 1 2 c45674d9bc1091ac4cc9150fd517b0b895650fa590e41e288cc07f2699dfb9e1",
+  "sshecdsakey": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEBFrxBiebSB+0M1LGyX3H3ZHd676wnGGfYjexjSvopznvfkb0PdNSLUvHpc1gU/yPBx7HP/pdGvdDWnwvoNkLY=",
+  "sshfp_ecdsa": "SSHFP 3 1 1896eda9c97def529c64f97ebcdb5aee32e25285\nSSHFP 3 2 6932a390ad20961350b2ab36861b18ec2ce2644d433bc54f432600421f58bcd1",
+  "sshed25519key": "AAAAC3NzaC1lZDI1NTE5AAAAIFu6kGHnNmCA56gkfRAyAxZZEdwF5mCD6aRb0PznE++s",
+  "sshfp_ed25519": "SSHFP 4 1 43113e7fca870374e8a5f9981e4bf6f97a7bc59a\nSSHFP 4 2 d17bfb375bc87e76dcc937708974cd3f7a361843625f67c485426ad4c9bf441f",
+  "system_uptime": {
+    "seconds": 4782,
+    "hours": 1,
+    "days": 0,
+    "uptime": "1:19 hours"
+  },
+  "timezone": "EDT",
+  "uniqueid": "a8c01d7a",
+  "uptime": "1:19 hours",
+  "uptime_days": 0,
+  "uptime_hours": 1,
+  "uptime_seconds": 4782
+}
