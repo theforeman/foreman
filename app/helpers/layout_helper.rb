@@ -4,6 +4,7 @@ module LayoutHelper
                       layout: layout_data,
                       metadata: app_metadata,
                       toasts: toast_notifications_data,
+                      routes: routes,
                     })
   end
 
@@ -41,6 +42,16 @@ module LayoutHelper
 
   def fetch_user
     { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu), impersonated_by: User.unscoped.find_by_id(session[:impersonated_by]) }
+  end
+
+  def routes
+    [
+      {
+        path: experimental_architectures_path,
+        component: 'IndexPageTemplate',
+        props: { path: architectures_path, header: _("Architectures") },
+      },
+    ]
   end
 
   def layout_data

@@ -4,6 +4,7 @@ exports[`HostWizard rendering renders LoginPage 1`] = `
 <PageLayout
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
+  className=""
   customBreadcrumbs={null}
   header="Host Wizard"
   isLoading={false}
@@ -12,6 +13,7 @@ exports[`HostWizard rendering renders LoginPage 1`] = `
   searchProps={Object {}}
   searchQuery=""
   searchable={false}
+  title=""
   toolbarButtons={null}
 >
   <Button
