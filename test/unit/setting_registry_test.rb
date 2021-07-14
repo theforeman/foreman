@@ -80,6 +80,16 @@ class SettingRegistryTest < ActiveSupport::TestCase
   end
 
   describe '#search_for' do
+    setup do
+      registry._add('desc_set_test',
+        category: 'Setting::General',
+        default: default,
+        type: :integer,
+        full_name: 'Desc set test',
+        description: 'unique desc23x description',
+        context: :test)
+    end
+
     it 'can find setting by exact name match' do
       result = registry.search_for('name = foo').to_a
       assert_equal 1, result.size
@@ -90,6 +100,12 @@ class SettingRegistryTest < ActiveSupport::TestCase
       result = registry.search_for('test f').to_a
       assert_equal 1, result.size
       assert_equal 'foo', result.first.name
+    end
+
+    it 'can find setting by "description ~ value"' do
+      result = registry.search_for('description ~ desc23x').to_a
+      assert_equal 1, result.size
+      assert_equal 'desc_set_test', result.first.name
     end
   end
 end

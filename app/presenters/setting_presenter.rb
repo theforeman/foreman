@@ -57,6 +57,8 @@ class SettingPresenter
   def matches_search_query?(query)
     if (res = query.match(/name\s*=\s*(\S+)/))
       name == res[1]
+    elsif (res = query.match(/description\s*~\s*(\S+)/))
+      description.include? res[1]
     else
       description.include?(query) || name.include?(query) || full_name&.include?(query)
     end
