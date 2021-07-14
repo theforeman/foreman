@@ -354,7 +354,7 @@ module FormHelper
         { :f => builder }.merge(locals_option))
     end
     options[:class] = link_to_add_fields_classes(options)
-    link_to_function(name, "add_fields('#{options[:target]}', '#{association}', '#{escape_javascript(fields)}')".html_safe, options)
+    link_to_function(name, "add_fields('#{options[:target]}', '#{association}', '#{escape_javascript(fields)}', '#{options[:direction] || 'append'}')".html_safe, options)
   end
 
   def field(f, attr, options = {})

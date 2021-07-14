@@ -148,10 +148,15 @@ function mark_params_override() {
   $('a[rel="popover"]').popover();
 }
 
-function add_fields(target, association, content) {
+function add_fields(target, association, content, direction) {
+  direction = direction ? direction : 'append';
   var new_id = new Date().getTime();
   var regexp = new RegExp('new_' + association, 'g');
-  $(target).append(content.replace(regexp, new_id));
+  if (direction == 'append') {
+    $(target).append(content.replace(regexp, new_id));
+  } else {
+    $(target).prepend(content.replace(regexp, new_id));
+  }
 }
 
 $(document).ready(function() {
