@@ -32,6 +32,7 @@ if File.exist?(File.expand_path('../Gemfile.in', __dir__))
   # rathern then trying to download them from rubygems.org. It always
   # loads all gemfile groups.
   require 'bundler_ext'
+  Bundler.ui = Bundler::UI::Silent.new if Rails.env.production?
   BundlerExt.system_require(File.expand_path('../Gemfile.in', __dir__), :all)
 
   class Foreman::Consoletie < Rails::Railtie
@@ -42,6 +43,8 @@ else
   # Note that :default, :test, :development and :production groups
   # will be included by default (and dependending on the current environment)
   if defined?(Bundler)
+    Bundler.ui = Bundler::UI::Silent.new if Rails.env.production?
+
     class Foreman::Consoletie < Rails::Railtie
       console do
         begin
