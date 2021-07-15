@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { HashRouter, Switch, Route, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Grid,
@@ -54,9 +55,9 @@ const HostDetails = ({ match, location: { hash } }) => {
     registerCoreTabs();
   }, []);
 
-  useEffect(() => {
-    if (hash) setActiveTab(hash.slice(1));
-  }, [hash]);
+  // useEffect(() => {
+  //   if (hash) setActiveTab(hash.slice(1));
+  // }, [hash]);
 
   useEffect(() => {
     dispatch(
@@ -74,9 +75,9 @@ const HostDetails = ({ match, location: { hash } }) => {
     return () => document.body.classList.remove('pf-gray-background');
   }, []);
 
-  const handleTabClick = (event, tabIndex) => {
-    setActiveTab(tabIndex);
-  };
+  // const handleTabClick = (event, tabIndex) => {
+  //   setActiveTab(tabIndex);
+  // };
 
   return (
     <>
@@ -132,25 +133,36 @@ const HostDetails = ({ match, location: { hash } }) => {
           </Text>
           <br />
         </div>
-        <Tabs
-          style={{
-            width: window.innerWidth - (isNavCollapsed ? 95 : 220),
-          }}
-          activeKey={activeTab}
-          onSelect={handleTabClick}
-        >
-          {tabs &&
-            tabs.map(tab => (
-              <Tab eventKey={tab} title={tab}>
-                <Slot
-                  response={response}
-                  status={status}
-                  id="host-details-page-tabs"
-                  fillID={tab}
+        <HashRouter>
+          <>
+            <Tabs
+              style={{
+                width: window.innerWidth - (isNavCollapsed ? 95 : 220),
+              }}
+              activeKey={activeTab}
+            >
+              {tabs &&
+                tabs.map(tab => (
+                  <Tab eventKey={tab} title={tab} href={`#${tab}`} />
+                ))}
+            </Tabs>
+            <Switch>
+              {tabs?.map(tab => (
+                <Route
+                  path={`/${tab}`}
+                  render={() => (
+                    <Slot
+                      response={response}
+                      status={status}
+                      id="host-details-page-tabs"
+                      fillID={tab}
+                    />
+                  )}
                 />
-              </Tab>
-            ))}
-        </Tabs>
+              ))}
+            </Switch>
+          </>
+        </HashRouter>
       </PageSection>
     </>
   );
