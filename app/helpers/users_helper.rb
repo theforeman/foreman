@@ -48,4 +48,8 @@ module UsersHelper
   def mail_notification_query_builder(mail_notification, f)
     render :partial => "#{mail_notification}_query_builder", :locals => {:f => f, :mailer => mail_notification.name } if mail_notification.queryable?
   end
+
+  def allowed_to_manage_jwts?
+    @editing_self || (@user.persisted? && authorized_for(controller: 'api/v2/json_web_tokens', action: :create))
+  end
 end

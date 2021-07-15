@@ -48,6 +48,7 @@ import { WelcomeEnv } from './Enviroments/Welcome';
 import { WelcomeAuthSource } from './AuthSource/Welcome';
 import { WelcomeConfigReports } from './ConfigReports/Welcome';
 import { WelcomeArchitecture } from './Architectures/Welcome';
+import JsonWebTokens from './users/JsonWebTokens';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -147,6 +148,7 @@ const coreComponets = [
   { name: 'SettingsTable', type: SettingsTable },
   { name: 'SettingUpdateModal', type: SettingUpdateModal },
   { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
+  { name: 'JsonWebTokens', type: JsonWebTokens },
   { name: 'ClipboardCopy', type: ClipboardCopy },
   { name: 'LabelIcon', type: LabelIcon },
   {
