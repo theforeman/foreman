@@ -1,3 +1,33 @@
+2021-07-15	Eric D. Helms <ericdhelms@gmail.com>
+	* Release 2.5.2
+
+2021-07-14	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #32959 - Unassign OS in registration migration
+
+2021-07-14	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #32981 - revert #30748 - On Ubuntu 18 use netplan
+
+2021-07-08	Evgeni Golov <evgeni@golov.de>
+	* Fixes #32942 - properly state the user name when failing
+
+2021-07-08	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #32490 - proper permission for ansible (#8630)
+
+2021-07-06	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #32921 - treat empty TFTP servername correctly
+
+2021-06-30	Marek Hulan <mhulan@redhat.com>
+	* Fixes #32858 - allow host comment in safe mode
+
+2021-06-30	Manuel Laug <manuel.laug@dm.de>
+	* Fixes #32842: Don't disable MAC address input for VMs being imported
+
+2021-06-30	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #32821 - Open audit documentation in a new tab
+
+2021-06-30	Pablo N. Hess <phess@redhat.com>
+	* Fixes #32715 - add custom snippets to finish template
+
 2021-06-23	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.5.1
 
