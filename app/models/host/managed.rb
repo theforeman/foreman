@@ -750,6 +750,7 @@ autopart"', desc: 'to render the content of host partition table'
     return false if ipmi.nil?
     (ipmi.password.present? && ipmi.username.present? && %w(IPMI Redfish).include?(ipmi.provider)) || ipmi.provider == 'SSH'
   end
+  alias_method :bmc_available, :bmc_available?
 
   def ipmi_boot(booting_device)
     unless bmc_available?
