@@ -438,4 +438,8 @@ module HostsHelper
       }
     end
   end
+
+  def can_clear_status?(status)
+    authorized_for(action: :forget_status, auth_object: status)
+  end
 end
