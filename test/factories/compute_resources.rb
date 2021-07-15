@@ -105,6 +105,7 @@ FactoryBot.define do
       {
         :flavor_id => 'm1.small',
         :availability_zone => 'eu-west-1a',
+        'path' => '/Datacenters/vdatacenter/vm',
       }
     end
 

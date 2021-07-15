@@ -368,6 +368,16 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert_equal 1, cr.attrs[:setpw]
   end
 
+  test "should update compute attribute datacenter for VMware compute resource" do
+    cr = FactoryBot.create(:vmware_cr)
+    FactoryBot.create(:compute_attribute, compute_resource: cr)
+    attrs = { :provider => 'Vmware', :datacenter => 'Solutions' }
+    put :update, params: { :id => cr.id, :compute_resource => attrs }
+    assert_response :success
+    cr.reload
+    assert_equal '/Datacenters/Solutions/vm', cr.compute_attributes.first.vm_attrs['path']
+  end
+
   test "should not update set_console_password to true for non-VMware or non-Libvirt compute resource" do
     cr = compute_resources(:openstack)
     put :update, params: { :id => cr.id, :compute_resource => { :set_console_password => true } }
