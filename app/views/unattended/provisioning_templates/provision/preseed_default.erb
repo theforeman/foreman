@@ -17,7 +17,6 @@ oses:
   additional_packages = ['lsb-release', 'wget']
   additional_packages << host_param('additional-packages')
   additional_packages << python_package if ansible_enabled
-  additional_packages << 'salt-minion' if salt_enabled
   additional_packages = additional_packages.join(" ").split().uniq().join(" ")
 %>
 # Locale
