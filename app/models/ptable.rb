@@ -64,7 +64,7 @@ class Ptable < Template
     sections only: %w[all additional]
     prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'partition table', example: 'Kickstart default' }
   end
-  class Jail < Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :name
   end
 

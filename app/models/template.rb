@@ -29,7 +29,7 @@ class Template < ApplicationRecord
     sections only: %w[all additional]
     prop_group :basic_model_props, ApplicationRecord
   end
-  class Jail < Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :name
   end
 

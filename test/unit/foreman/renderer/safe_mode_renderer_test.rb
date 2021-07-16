@@ -24,4 +24,15 @@ class SafeModeRendererTest < ActiveSupport::TestCase
 
     assert_include exception.message, 'parse error on value ")"'
   end
+
+  test "application record allowed methods" do
+    assert ::ApplicationRecord::Jail.allowed? :name
+    assert ::ApplicationRecord::Jail.allowed? :present?
+  end
+
+  test "application record child allowed methods" do
+    assert ::Domain::Jail.allowed? :name
+    assert ::Domain::Jail.allowed? :fullname
+    assert ::Domain::Jail.allowed? :present?
+  end
 end

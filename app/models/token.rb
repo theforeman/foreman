@@ -4,7 +4,7 @@ class Token < ApplicationRecord
 
   validates :value, :host_id, :presence => true
 
-  class Jail < ::Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :host, :value, :expires, :nil?, :present?
   end
 

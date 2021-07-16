@@ -116,7 +116,7 @@ module Nic
       property :bmc?, one_of: [true, false], desc: 'Returns true if the type of the interface is BMC, false otherwise'
       property :link, one_of: [true, false], desc: 'Returns true if the interface is up, false otherwise'
     end
-    class Jail < ::Safemode::Jail
+    class Jail < ApplicationRecord::Jail
       allow :id, :subnet, :subnet6, :virtual?, :physical?, :mac, :ip, :ip6, :identifier, :attached_to,
         :link, :tag, :domain, :vlanid, :mtu, :bond_options, :attached_devices, :mode,
         :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac,

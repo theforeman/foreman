@@ -56,7 +56,7 @@ class Domain < ApplicationRecord
     prop_group :basic_model_props, ApplicationRecord, meta: { example: 'example.com' }
     property :fullname, String, desc: 'User name for this domain, e.g. "Primary domain for our company"'
   end
-  class Jail < Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :name, :fullname
   end
 

@@ -39,7 +39,7 @@ class Realm < ApplicationRecord
     prop_group :basic_model_props, ApplicationRecord, meta: { example: 'EXAMPLE.COM' }
     property :realm_type, String, desc: 'Realm type, e.g. FreeIPA or Active Directory'
   end
-  class Jail < ::Safemode::Jail
+  class Jail < ApplicationRecord::Jail
     allow :id, :name, :realm_type
   end
 end
