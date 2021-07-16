@@ -13,13 +13,15 @@ test_on:
 - host4dhcp
 - debian4dhcp
 - ubuntu4dhcp
--%>
-<%#
-This template accepts the following parameters:
-- force-puppet: boolean (default=false)
-- enable-puppetlabs-repo: boolean (default=false)
-- enable-puppetlabs-puppet5-repo: boolean (default=false)
-- enable-puppetlabs-puppet6-repo: boolean (default=false)
+description: |
+  This template is used during image based provisioning, when the image is configured to use user-data.
+  The output is a list of cloud-init directives that cloud-init parses and uses to configures the VM
+  booted from the image. The image must have cloud-init installed in order for this to work.
+  This template accepts the following parameters:
+  - force-puppet: boolean (default=false)
+  - enable-puppetlabs-repo: boolean (default=false)
+  - enable-puppetlabs-puppet5-repo: boolean (default=false)
+  - enable-puppetlabs-puppet6-repo: boolean (default=false)
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'

@@ -8,7 +8,10 @@ oses:
 test_on:
 - debian4dhcp
 - ubuntu4dhcp
-%>
+description: |
+  The provisioning template for preseed based distributions. The output is fetched by the installer during
+  the network based installation. To customize the installation, modify the host parameters.
+-%>
 <%
   proxy_string = host_param('http-proxy') ? " http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : ''
   ansible_enabled = plugin_present?('foreman_ansible')

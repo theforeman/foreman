@@ -4,7 +4,6 @@ TIMEOUT 200
 ONTIMEOUT nil
 DEFAULT nil
 
-
 LABEL local
   MENU LABEL Default local boot
   LOCALBOOT 0

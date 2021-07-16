@@ -3,6 +3,9 @@ kind: snippet
 name: ansible_tower_callback_script
 model: ProvisioningTemplate
 snippet: true
+description: |
+  The script that calls to the Ansible Tower / AWX to trigger a job on the host. Typically used
+  during provisioning to trigger one Ansible run on newly provisioned host.
 -%>
 #!/bin/sh
 

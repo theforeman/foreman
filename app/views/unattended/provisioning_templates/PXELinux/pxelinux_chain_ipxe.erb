@@ -2,15 +2,14 @@
 kind: PXELinux
 name: PXELinux chain iPXE
 model: ProvisioningTemplate
-%>
-<%#
-Chainboots iPXE/gPXE from PXELinux. Make sure the OS has iPXE template
-associated and file ipxe.lkrn was copied in the TFTP directory (e.g. from
-/usr/share/ipxe/ipxe.lkrn or iPXE project web site).
+description: |
+  Chainboots iPXE/gPXE from PXELinux. Make sure the OS has iPXE template
+  associated and file ipxe.lkrn was copied in the TFTP directory (e.g. from
+  /usr/share/ipxe/ipxe.lkrn or iPXE project web site).
 
-For more info visit:
-http://projects.theforeman.org/projects/foreman/wiki/Fetch_boot_files_via_http_instead_of_TFTP
-%>
+  For more info visit:
+  https://docs.theforeman.org/nightly/Provisioning_Guide/index-foreman-el.html#Configuring_Networking-Configuring_gPXE_to_Reduce_Provisioning_Times
+-%>
 DEFAULT linux
 LABEL linux
 KERNEL ipxe.lkrn

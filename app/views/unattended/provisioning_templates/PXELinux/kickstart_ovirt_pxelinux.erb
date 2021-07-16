@@ -5,7 +5,10 @@ model: ProvisioningTemplate
 oses:
 - oVirt
 - RHVH
-%>
+description: |
+  The template to render PXELinux bootloader configuration for oVirt Node or Red Hat Virtualization Host.
+  The output is deployed on the host's subnet TFTP proxy.
+-%>
 DEFAULT rhvh
 
 LABEL rhvh

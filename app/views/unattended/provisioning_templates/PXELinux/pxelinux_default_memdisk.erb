@@ -4,7 +4,15 @@ name: PXELinux default memdisk
 model: ProvisioningTemplate
 oses:
 - FreeBSD (memdisk image)
-%>
+description: |
+  The template to render PXELinux bootloader configuration for FreeBSD.
+  The output is deployed on the host's subnet TFTP proxy. It boots the memdisk.
+  Memdisk is meant to allow booting legacy operating systems. Memdisk can boot
+  floppy images, hard disk images and some ISO images.
+
+  This template does not store the foreman_url in the comment (see freebsd (mfsbsd) pxelinux
+  template)
+-%>
 DEFAULT memdisk
 
 LABEL memdisk

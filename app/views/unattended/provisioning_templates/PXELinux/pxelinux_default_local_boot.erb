@@ -2,8 +2,12 @@
 kind: PXELinux
 name: PXELinux default local boot
 model: ProvisioningTemplate
+description: |
+  The template to render PXELinux bootloader configuration for provisioned hosts,
+  that still boot from the network.
+  Hosts are instructed to boot from the first local medium.
+  Do not associate or change the name.
 -%>
-<%# Used to boot provisioned hosts, do not associate or change the name. -%>
 <% if @host.architecture.to_s.match(/s390x?/i) -%>
 # pxelinux
 # Reboot dracut image must be manually built and copied over to the TFTP

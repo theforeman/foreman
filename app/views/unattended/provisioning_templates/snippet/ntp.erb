@@ -3,13 +3,12 @@ kind: snippet
 name: ntp
 model: ProvisioningTemplate
 snippet: true
-%>
-<%#
-This snippet accepts the following parameters:
-- use-ntp: boolean (default depends on OS release)
-- ntp-server: string (default=undef)
-%>
-
+description: |
+  The snippet configuring the system time using a given NTP server
+  It respects the following parameters:
+  - use-ntp: boolean (default depends on OS release)
+  - ntp-server: string (default=undef)
+-%>
 <%
 rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
 is_fedora = @host.operatingsystem.name == 'Fedora'

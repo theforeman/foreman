@@ -14,36 +14,37 @@ test_on:
 - host4and6dhcp
 - host4static
 - host6static
+description: |
+  The provisioning template for kickstart based distributions. The output is fetched by Anaconda installer during
+  the network based installation. To customize the installation, modify the host parameters.
+
+  This template accepts the following parameters:
+  - lang: string (default="en_US.UTF-8")
+  - selinux-mode: string (default="enforcing")
+  - keyboard: string (default="us")
+  - time-zone: string (default="UTC")
+  - http-proxy: string (default="")
+  - http-proxy-port: string (default="")
+  - force-puppet: boolean (default=false)
+  - enable-epel: boolean (default=false)
+  - enable-puppetlabs-repo: boolean (default=false)
+  - enable-puppetlabs-puppet5-repo: boolean (default=false)
+  - enable-puppetlabs-puppet6-repo: boolean (default=false)
+  - salt_master: string (default=undef)
+  - ntp-server: string (default=undef)
+  - bootloader-append: string (default="nofb quiet splash=quiet")
+  - disable-firewall: boolean (default=false)
+  - package_upgrade: boolean (default=true)
+  - disable-uek: boolean (default=false)
+  - use-ntp: boolean (default depends on OS release)
+  - fips_enabled: boolean (default=false)
+  - encrypt_grub: boolean (default=false)
+
+  Reference links:
+  - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
+  - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/sect-kickstart-syntax
+  - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-commands-and-options-reference_installing-rhel-as-an-experienced-user
 -%>
-<%#
-This template accepts the following parameters:
-- lang: string (default="en_US.UTF-8")
-- selinux-mode: string (default="enforcing")
-- keyboard: string (default="us")
-- time-zone: string (default="UTC")
-- http-proxy: string (default="")
-- http-proxy-port: string (default="")
-- force-puppet: boolean (default=false)
-- enable-epel: boolean (default=false)
-- enable-puppetlabs-repo: boolean (default=false)
-- enable-puppetlabs-puppet5-repo: boolean (default=false)
-- enable-puppetlabs-puppet6-repo: boolean (default=false)
-- salt_master: string (default=undef)
-- ntp-server: string (default=undef)
-- bootloader-append: string (default="nofb quiet splash=quiet")
-- disable-firewall: boolean (default=false)
-- package_upgrade: boolean (default=true)
-- disable-uek: boolean (default=false)
-- use-ntp: boolean (default depends on OS release)
-- fips_enabled: boolean (default=false)
-- encrypt_grub: boolean (default=false)
-
-Reference links:
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/sect-kickstart-syntax
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-commands-and-options-reference_installing-rhel-as-an-experienced-user
-%>
-
 # This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
 
 <%

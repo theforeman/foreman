@@ -2,17 +2,16 @@
 kind: PXELinux
 name: PXELinux chain iPXE UNDI
 model: ProvisioningTemplate
-%>
-<%#
-Chainboots iPXE/gPXE from PXELinux via UNDI. Make sure the OS has an iPXE
-template associated and the file undionly.kpxe was copied into the TFTP
-directory as undionly-ipxe.0 (e.g. from /usr/share/ipxe/undionly.kpxe or
-the iPXE project web site). Changes need to be made in the DHCP
-configuration to prevent an endless loop to happen.
+description: |
+  Chainboots iPXE/gPXE from PXELinux via UNDI. Make sure the OS has an iPXE
+  template associated and the file undionly.kpxe was copied into the TFTP
+  directory as undionly-ipxe.0 (e.g. from /usr/share/ipxe/undionly.kpxe or
+  the iPXE project web site). Changes need to be made in the DHCP
+  configuration to prevent an endless loop to happen.
 
-For more info visit:
-http://projects.theforeman.org/projects/foreman/wiki/Fetch_boot_files_via_http_instead_of_TFTP
-%>
+  For more info visit:
+  https://docs.theforeman.org/nightly/Provisioning_Guide/index-foreman-el.html#Configuring_Networking-Configuring_gPXE_to_Reduce_Provisioning_Times
+-%>
 DEFAULT linux
 LABEL linux
 KERNEL undionly-ipxe.0

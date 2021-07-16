@@ -3,6 +3,10 @@ kind: snippet
 name: kickstart_kernel_options
 model: ProvisioningTemplate
 snippet: true
+description: |
+  The list of kernel options for initrd appended to the bootloader kernel line on Red Hat compatible distributions.
+  Typically renders to a string with the url where to fetch the OS installer answer files, e.g.
+    network ksdevice=bootif ks.device=bootif BOOTIF=01-52-54-00-8b-a3-86 ks=http://foreman.example.com/unattended/provision kssendmac ks.sendmac ip=dhcp nameserver=192.168.122.1
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'

@@ -4,7 +4,11 @@ name: Jumpstart default PXEGrub
 model: ProvisioningTemplate
 oses:
 - Solaris
-%>
+description: |
+  The template to render Grub bootloader configuration for Solaris.
+  The output is deployed on the host's subnet TFTP proxy.
+  This template is for legacy Grub 1.x, you are probably looking for Grub2.
+-%>
 default=0
 timeout=10
 title Solaris_10 Jumpstart

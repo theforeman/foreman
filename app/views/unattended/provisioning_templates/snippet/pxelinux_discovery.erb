@@ -3,11 +3,12 @@ kind: snippet
 name: pxelinux_discovery
 model: ProvisioningTemplate
 snippet: true
--%>
-<%#
-discovery image is based on CentOS/RHEL and therefor it is affected by https://bugzilla.redhat.com/show_bug.cgi?id=1259015.
-In short, before RHEL 7.2 virtio driver didn't have the new persistent naming scheme, causing interfaces to be named eth0, eth1, etc..
-If you want to enable the new persistent naming scheme and get inteface names like ens3, add net.ifnames=1 to the APPEND line below.
+description: |
+  Snippet with PXELinux menu items for discovery plugin. It is included in PXELinux Default templates to boot unknown hosts into discovery image.
+
+  discovery image is based on CentOS/RHEL and therefore it is affected by https://bugzilla.redhat.com/show_bug.cgi?id=1259015.
+  In short, before RHEL 7.2 virtio driver didn't have the new persistent naming scheme, causing interfaces to be named eth0, eth1, etc..
+  If you want to enable the new persistent naming scheme and get inteface names like ens3, add net.ifnames=1 to the APPEND line below.
 -%>
 LABEL discovery
   MENU LABEL Foreman Discovery Image

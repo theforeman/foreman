@@ -4,13 +4,13 @@ name: Windows peSetup.cmd
 model: ProvisioningTemplate
 oses:
 - Windows
-# Parameters are expected to be set in Foreman (globally or per group/host)
-params:
-- wimImageName: Windows 8.1 Pro # name of wim image to apply
-%>
-<%#
-# You can create amd assing a "user_data" ProvisioningTemplate as powershell to execute some custom code
-%>
+description: |
+  The provisioning template used for Windows
+  You can create and assign a "user_data" ProvisioningTemplate as powershell to execute some custom code
+  See https://community.theforeman.org/t/windows-provisioning-made-easy/16756/
+  params:
+  - wimImageName: Windows 8.1 Pro # name of wim image to apply
+-%>
 <%
   proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port') || 3128}" : nil
   proxy_string = proxy_uri ? "-e http_proxy=#{proxy_uri}" : ''

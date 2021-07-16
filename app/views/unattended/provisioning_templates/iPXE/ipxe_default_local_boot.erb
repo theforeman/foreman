@@ -3,6 +3,11 @@ kind: iPXE
 model: ProvisioningTemplate
 name: iPXE default local boot
 snippet: false
+description: |
+  The template to render iPXE bootloader configuration for provisioned hosts,
+  that still boot from the network.
+  Hosts are instructed to boot from the first local medium.
+  Do not associate or change the name.
 -%>
 #!ipxe
 

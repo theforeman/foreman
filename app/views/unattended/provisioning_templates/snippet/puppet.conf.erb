@@ -3,6 +3,10 @@ kind: snippet
 name: puppet.conf
 model: ProvisioningTemplate
 snippet: true
+description: |
+  Generates a puppet.conf file which is required for the puppet agent bootstraping.
+  The puppet server and CA is configured based on the host configuration. It supports
+  Puppet 5 and newer.
 -%>
 <%
   os_family = @host.operatingsystem.family

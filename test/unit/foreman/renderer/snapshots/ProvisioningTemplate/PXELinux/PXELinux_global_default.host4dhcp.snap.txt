@@ -1,12 +1,9 @@
 
-
-
 UI menu.c32
 MENU TITLE Booting unknown host (ESC to stop)
 TIMEOUT 200
 ONTIMEOUT nil
 DEFAULT nil
-
 
 LABEL local
   MENU LABEL Default local boot

@@ -3,6 +3,10 @@ kind: iPXE
 model: ProvisioningTemplate
 name: iPXE global default
 snippet: false
+description: |
+  The template to render iPXE bootloader configuration for unknown hosts.
+  The output is deployed on the host's subnet TFTP proxy.
+  Do not associate or change the name.
 -%>
 #!ipxe
 

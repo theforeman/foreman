@@ -3,42 +3,40 @@ kind: snippet
 name: bmc_nic_setup
 model: ProvisioningTemplate
 snippet: true
-%>
-<%#
-# bmc_nic_setup snippet
-# This snippet configure BMC interfaces.
-# At this time, only IPMI provider is supported.
-# It was tested on some Dell hardware with CentOS 6 - CentOS 7 and should be compatible with respective
-# upstream RHEL versions.
-#
-# What this snippet does:
-# * Configure the networking part of the interface (ipaddr, netmask, ip gateway or dhcp)
-#
-# * Set the authentication mecanism to 'MD5' for the used privilege level
-#
-# * Create or Update the provided user with provided privileges level. ADMINISTRATOR privilege level is used by default
-#   because ipmitool utility request ADMINISTRATOR privileges level if no privilege level is provided.
-#   If you want to use a lower level of privilges (like OPERATOR), don't forget to add the privilege level to request
-#   with your ipmi command (eg: ipmitool -I lanplus -L operator -U user1 -H 192.168.1.2 chassis status).
-#
-# * Enable the user created/updated
-#
-# What this snippet doesn't do:
-# * Set/Update the VLAN tag on the BMC interface because this configuration depends on the switch port configuration
-#   and the 'ipmitool lan set <channel> vlan id <off|<id>>' command don't work on all Dell hardware tested.
-#
-# host_params:
-# * bmc_ipmi_priv_level: Privilege level to use for the ipmi user.
-#                        'ADMINISTRATOR' is used by default if not provided.
-# * bmc_ipmi_auth_method: Channel authentication types. Possible values: NONE, MD2, MD4, MD5, PASSWORD.
-#                         'MD5' is used by default if not provided.
-# * bmc_ipmi_channel_id: Channel ID for the IPMI configuration.
-#
-#
-# How to test configuration result:
-# * From a remote host that can reach the current IPMI interface, install ipmitool utilities and type the following command:
-#   ipmitool -I <interface> -L <privilege_level> -U <user> -H <host> chassis status
-%>
+description: |
+  This snippet configure BMC interfaces.
+  At this time, only IPMI provider is supported.
+  It was tested on some Dell hardware with CentOS 6 - CentOS 7 and should be compatible with respective
+  upstream RHEL versions.
+
+  What this snippet does:
+  * Configure the networking part of the interface (ipaddr, netmask, ip gateway or dhcp)
+
+  * Set the authentication mechanism to 'MD5' for the used privilege level
+
+  * Create or Update the provided user with provided privileges level. ADMINISTRATOR privilege level is used by default
+    because ipmitool utility request ADMINISTRATOR privileges level if no privilege level is provided.
+    If you want to use a lower level of privileges (like OPERATOR), don't forget to add the privilege level to request
+    with your ipmi command (eg: ipmitool -I lanplus -L operator -U user1 -H 192.168.1.2 chassis status).
+
+  * Enable the user created/updated
+
+  What this snippet doesn't do:
+  * Set/Update the VLAN tag on the BMC interface because this configuration depends on the switch port configuration
+    and the 'ipmitool lan set <channel> vlan id <off|<id>>' command don't work on all Dell hardware tested.
+
+  host_params:
+  * bmc_ipmi_priv_level: Privilege level to use for the ipmi user.
+                         'ADMINISTRATOR' is used by default if not provided.
+  * bmc_ipmi_auth_method: Channel authentication types. Possible values: NONE, MD2, MD4, MD5, PASSWORD.
+                          'MD5' is used by default if not provided.
+  * bmc_ipmi_channel_id: Channel ID for the IPMI configuration.
+
+
+  How to test configuration result:
+  * From a remote host that can reach the current IPMI interface, install ipmitool utilities and type the following command:
+    ipmitool -I <interface> -L <privilege_level> -U <user> -H <host> chassis status
+-%>
 <%
 bmc_nic = @host.bmc_nic
 

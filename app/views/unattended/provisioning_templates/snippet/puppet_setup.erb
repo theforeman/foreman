@@ -2,8 +2,14 @@
 kind: snippet
 name: puppet_setup
 model: ProvisioningTemplate
-description: this snippet will configure the Puppet agent
 snippet: true
+description: |
+  Bootstraps the Puppet agent and performs one empty run to create a certificate request.
+
+  In more details it installs a Puppet agent, creates the necessary configuration files,
+  enables the Puppet agent service and performs  a single run with non existing tag. That
+  results in an empty run only used for the agent  detecting it's missing a client certificate
+  so it asks for a new one at the host's Puppet CA.
 -%>
 <%
 os_family = @host.operatingsystem.family

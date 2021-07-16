@@ -1,4 +1,3 @@
-
 default xenserver
 label xenserver
 kernel mboot.c32

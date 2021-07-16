@@ -5,37 +5,38 @@ model: ProvisioningTemplate
 oses:
 - oVirt
 - RHVH
-%>
-<%#
-This template accepts the following parameters:
-- liveimg_name: string (default=squashfs.img)
-- lang: string (default="en_US.UTF-8")
-- selinux-mode: string (default="enforcing")
-- keyboard: string (default="us")
-- time-zone: string (default="UTC")
-- ntp-server: string (default="0.fedora.pool.ntp.org")
-- disable-firewall: boolean (default=false)
+description: |
+  Provisioning template for oVirt Node and Red Hat Virtualization Host. It renders the kickstart
+  file.
 
-This kickstart will only work with LVM THIN partitioning ('Kickstart default thin')
-and it requires the installation URL to have squashfs.img image extracted in the
-root folder (or specified via 'liveimg_name' parameter). See oVirt Node documentation
-or RHV Installation Manual, section 5.2. Advanced installation.
+  This template accepts the following parameters:
+  - liveimg_name: string (default=squashfs.img)
+  - lang: string (default="en_US.UTF-8")
+  - selinux-mode: string (default="enforcing")
+  - keyboard: string (default="us")
+  - time-zone: string (default="UTC")
+  - ntp-server: string (default="0.fedora.pool.ntp.org")
+  - disable-firewall: boolean (default=false)
 
-By default, the template expects the squashfs.img to be present inside
-the installation media. When using Katello for content management (the
-kt_activation_key parameter is set), the liveimg_name is used to
-specify relative path to the file and the template use repository_url
-helper to generate an absolute path to the file (taking into account
-also info about the content proxy relevant for the host)
+  This kickstart will only work with LVM THIN partitioning ('Kickstart default thin')
+  and it requires the installation URL to have squashfs.img image extracted in the
+  root folder (or specified via 'liveimg_name' parameter). See oVirt Node documentation
+  or RHV Installation Manual, section 5.2. Advanced installation.
 
-For example, in case the squashfs.img is uploaded inside custom
-product named 'oVirt' and repository 'hypervisor', the
-liveimg_name would be 'custom/ovirt/hypervisor/squashfs.img'.
-In this case, this repository would need to be part of the content
-view the host is assigned to. It's also possible to provide full url,
-in which case it would be used without a change.
-%>
+  By default, the template expects the squashfs.img to be present inside
+  the installation media. When using Katello for content management (the
+  kt_activation_key parameter is set), the liveimg_name is used to
+  specify relative path to the file and the template use repository_url
+  helper to generate an absolute path to the file (taking into account
+  also info about the content proxy relevant for the host)
 
+  For example, in case the squashfs.img is uploaded inside custom
+  product named 'oVirt' and repository 'hypervisor', the
+  liveimg_name would be 'custom/ovirt/hypervisor/squashfs.img'.
+  In this case, this repository would need to be part of the content
+  view the host is assigned to. It's also possible to provide full url,
+  in which case it would be used without a change.
+-%>
 # This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
 
 install

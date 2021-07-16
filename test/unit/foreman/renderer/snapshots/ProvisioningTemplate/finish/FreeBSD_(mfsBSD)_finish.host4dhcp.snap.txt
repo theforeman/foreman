@@ -1,5 +1,4 @@
 
-
 /bin/echo '$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0' | pw usermod root -H 0
 cat >> /etc/rc.conf <<EOF
 hostname="snapshot-ipv4-dhcp-el7"
@@ -55,30 +54,6 @@ export FACTER_is_installer=true
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
 
-
-
-# SSH keys setup snippet for Remote Execution plugin
-#
-# Parameters:
-#
-# remote_execution_ssh_keys: public keys to be put in ~/.ssh/authorized_keys
-#
-# remote_execution_ssh_user: user for which remote_execution_ssh_keys will be
-#                            authorized
-#
-# remote_execution_create_user: create user if it not already existing
-#
-# remote_execution_effective_user_method: method to switch from ssh user to
-#                                         effective user
-#
-# This template sets up SSH keys in any host so that as long as your public
-# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This
-# works in combination with Remote Execution plugin by querying smart proxies
-# to build an array.
-#
-# To use this snippet without the plugin provide the SSH keys as host parameter
-# remote_execution_ssh_keys. It expects the same format like the authorized_keys
-# file.
 
 
 

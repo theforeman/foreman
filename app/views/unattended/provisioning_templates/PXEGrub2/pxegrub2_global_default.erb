@@ -2,9 +2,11 @@
 kind: PXEGrub2
 name: PXEGrub2 global default
 model: ProvisioningTemplate
-%>
-<%# Used to boot unknown hosts, do not associate or change the name. %>
-
+description: |
+  The template to render Grub2 bootloader configuration for unknown hosts.
+  The output is deployed on the host's subnet TFTP proxy.
+  Do not associate or change the name.
+-%>
 default=<%= global_setting("default_pxe_item_global", "local") %>
 timeout=20
 echo Default PXE global template entry is set to '<%= global_setting("default_pxe_item_global", "local") %>'

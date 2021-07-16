@@ -4,14 +4,15 @@ name: Windows default provision
 model: ProvisioningTemplate
 oses:
 - Windows
-# Parameters are expected to be set in Foreman (globally or per group/host)
-params:
-- windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
-- windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
-- systemLocale: en-US
-- systemUILanguage: en-US
-- systemTimeZone: GMT Standard Time #see https://msdn.microsoft.com/en-us/library/ms912391(v=winembedded.11).aspx
-- wimImageName = Windows 8.1 Pro # Image name seems only necessary if the WIM contains more than one image
+description: |
+  A templated answers.xml file for windows installations. This provides all answers to the questions an interactive installation would ask.
+  It supports the following parameters:
+  - windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
+  - windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
+  - systemLocale: en-US
+  - systemUILanguage: en-US
+  - systemTimeZone: GMT Standard Time #see https://msdn.microsoft.com/en-us/library/ms912391(v=winembedded.11).aspx
+  - wimImageName = Windows 8.1 Pro # Image name seems only necessary if the WIM contains more than one image
 -%>
 <%
   system_locale = host_param('systemLocale') ? host_param('systemLocale') : 'en-US'

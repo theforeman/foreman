@@ -3,9 +3,10 @@ kind: snippet
 name: built
 model: ProvisioningTemplate
 snippet: true
--%>
-<%#
-  Sends 'built' request to exit build mode. Only use in multi-line shell context.
+description: |
+  Sends 'built' request to exit build mode for the host, that finished the provisioning.
+  Used from most of provisioning and finish templates.
+  Only use in multi-line shell context.
   Tries curl, if not found then wget and finally wget from busybox (limited options).
 -%>
 <%

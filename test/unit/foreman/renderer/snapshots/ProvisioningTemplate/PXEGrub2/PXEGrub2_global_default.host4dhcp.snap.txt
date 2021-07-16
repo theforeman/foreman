@@ -1,6 +1,3 @@
-
-
-
 default=nil
 timeout=20
 echo Default PXE global template entry is set to 'nil'
@@ -20,7 +17,6 @@ configfile "grub2/grub.cfg-$net_default_mac"
 
 echo "Trying grub.cfg-$net_default_mac"
 configfile "grub.cfg-$net_default_mac"
-
 
 insmod part_gpt
 insmod fat

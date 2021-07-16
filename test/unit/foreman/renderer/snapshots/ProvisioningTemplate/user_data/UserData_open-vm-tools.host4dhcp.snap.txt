@@ -1,4 +1,3 @@
-# Template for VMWare customization via open-vm-tools
 
 identity:
   LinuxPrep:

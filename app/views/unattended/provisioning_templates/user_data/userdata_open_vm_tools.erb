@@ -9,8 +9,24 @@ oses:
 - Rocky
 - Debian
 - Ubuntu
+description: |
+  Template for VMWare customization via open-vm-tools during user-data image based provisioning.
+
+  Comparing to other user-data templates, e.g. those based on cloud-init, this template defines a Customization Specifications that is evaluated by vSphere while cloning a VM from a Template. When the Template that should be cloned has open-vm-tools installed, this allows to configure certain aspects, e.g. networking of the VM, prior boot, so no DHCP configuration is required.
+  Cloud-init is typically used for a stage 2 configuration. In order for this to work, the VMware
+  template must have open-vm-tools installed.
+  The example below is for Linux only, Windows is supported by this mechanism via Sysprep as well, though.
+  
+  This needs to he a hash in YAML format with these keys:
+  - encryptionKey (array)
+  - globalIPSettings (hash), REQUIRED
+  - identity (hash), REQUIRED
+  - nicSettingMap (array)
+  - options (hash)
+  - extraConfig (hash)
+  
+  See https://docs.theforeman.org/nightly/Provisioning_Guide/index-foreman-el.html#Provisioning_Virtual_Machines_in_VMware_vSphere-Provisioning_with_cloudinit_and_userdata_templates
 -%>
-# Template for VMWare customization via open-vm-tools
 
 identity:
   LinuxPrep:

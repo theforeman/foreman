@@ -3,7 +3,11 @@ kind: snippet
 name: pxegrub2_chainload
 model: ProvisioningTemplate
 snippet: true
-%>
+description: |
+  In Foreman's typical PXE workflow, managed hosts are configured to always boot from network and inventory build flag dictates if they should boot into installer (build is on) or boot from local drive (build is off). This template is used to chainload from EFI ESP for systems which booted from network. It is not as straightforward as in BIOS and EFI boot file must be found on an ESP partition.
+
+  This will only be needed when provisioned hosts are set to boot from network, typically EFI firmware implementations overrides boot order after new OS installation. This behavior can be set in EFI, or "efi_bootentry" host parameter can be set to "previous" to override boot order back to previous (network) setting. See efibootmgr_netboot snippet for more info.
+-%>
 <%
   paths = [
     '/EFI/fedora/shim.efi',

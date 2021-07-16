@@ -3,6 +3,13 @@ kind: snippet
 name: ansible_provisioning_callback
 model: ProvisioningTemplate
 snippet: true
+description: |
+  Setups the one time run of the Ansible Tower / AWX callback script on a host.
+  Supports only RPM based distributions. It is only used if the host param "ansible_tower_provisioning"
+  is set to true. The actual callback script content is stored in the "ansible_tower_callback_script"
+  snippet.
+
+  See https://docs.theforeman.org/nightly/Configuring_Ansible/index-foreman-el.html#provisioning-a-callback-for-a-host_ansible for more details
 -%>
 <% if host_param_true?('ansible_tower_provisioning') -%>
 <%

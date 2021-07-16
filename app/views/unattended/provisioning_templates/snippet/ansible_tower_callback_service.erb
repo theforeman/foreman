@@ -3,6 +3,9 @@ kind: snippet
 name: ansible_tower_callback_service
 model: ProvisioningTemplate
 snippet: true
+description: |
+  The content of a systemd service for running Ansible Tower / AWX callback script one-time.
+  Used in the ansible_provisioning_callback snippet for systemd enabled systems.
 -%>
 [Unit]
 Description=Provisioning callback to Ansible Tower

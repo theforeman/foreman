@@ -3,6 +3,9 @@ kind: snippet
 name: epel
 model: ProvisioningTemplate
 snippet: true
+description: |
+  Installs the epel RPM from the official online EPEL repository. Supports
+  using the http proxy through host parameters.
 -%>
 <%
 repo_base  = host_param('epel-repo-base') ? host_param('epel-repo-base') : 'https://dl.fedoraproject.org/pub/epel'

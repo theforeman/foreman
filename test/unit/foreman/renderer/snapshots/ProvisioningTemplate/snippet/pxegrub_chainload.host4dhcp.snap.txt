@@ -1,4 +1,3 @@
-
 title Update your PXEGrub local template to get EFI options
   root (hd0,0)
   chainloader +1

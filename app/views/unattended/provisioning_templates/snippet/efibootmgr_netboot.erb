@@ -4,7 +4,9 @@ name: efibootmgr_netboot
 model: ProvisioningTemplate
 description: Configure booting from network in EFI
 snippet: true
-%>
+description: |
+  Most EFI system firmware implementations put new items to the top of the boot priority list. Foreman workflow assumes that managed nodes always boot from network. This snippet can be included from provisioning templates and when "efi_bootentry" host param is set to "previous" it will attempt to find previous boot entry (network) and put it back into first position.
+-%>
 <% if host_param('efi_bootentry') == 'previous' -%>
 if [ -d /sys/firmware/efi ]; then
   echo "Changing EFI boot order to preserve boot. Typically the previous entry"

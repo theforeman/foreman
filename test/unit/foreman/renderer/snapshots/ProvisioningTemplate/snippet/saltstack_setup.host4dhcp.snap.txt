@@ -1,6 +1,5 @@
 
 
-
 if [ -f /usr/bin/dnf ]; then
   dnf -y install salt-minion
 else
@@ -8,7 +7,6 @@ else
 fi
 
 cat > /etc/salt/minion.d/minion.conf << EOF
-
 master: 
 log_level: warning
 

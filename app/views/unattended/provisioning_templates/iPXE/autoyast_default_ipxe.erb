@@ -6,8 +6,11 @@ model: ProvisioningTemplate
 oses:
 - SLES
 - OpenSUSE
-%>
-
+description: |
+  The template to render iPXE installation script for SLES and OpenSUSE
+  The output is deployed on the host's subnet TFTP proxy.
+  See https://ipxe.org/scripting for more details
+-%>
 echo Trying to ping Gateway: ${netX/gateway}
 ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
 echo Trying to ping DNS: ${netX/dns}

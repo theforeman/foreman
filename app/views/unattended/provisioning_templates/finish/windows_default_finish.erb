@@ -8,23 +8,25 @@ oses:
 - Windows Server 2012
 - Windows Server 2012 R2
 - Windows
-# Parameters are expected to be set in Foreman (globally or per group/host)
-params:
-- windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
-- windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
-- localAdminAccountDisabled: false
-- ntpServer: time.windows.com,other.time.server
-- domainAdminAccount: joinuser@domain.com # please do not use the domain administrator
-- domainAdminAccountPasswd: Password for the domain Admin account
-- computerOU: OU=Computers,CN=domain,CN=com # Place the computer account in specified Organizational Unit
-- computerDomain: domain.com # domain to join
-- machinePassword: used for unsecure domain join. needs precrated computer object (New-ADComputer)
-- foremanDebug: false
-%>
-<%#
-# Information about unsecure domain join
-# https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/add-computer?view=powershell-5.1#example-9--add-a-computer-to-a-domain-using-predefined-computer-credentials
-%>
+description: |
+  A finish template executed at the end of Windows provisioning. For more information, please
+  see https://community.theforeman.org/t/windows-provisioning-made-easy/16756
+
+  This template accepts the following parameters:
+  - windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
+  - windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
+  - localAdminAccountDisabled: false
+  - ntpServer: time.windows.com,other.time.server
+  - domainAdminAccount: joinuser@domain.com # please do not use the domain administrator
+  - domainAdminAccountPasswd: Password for the domain Admin account
+  - computerOU: OU=Computers,CN=domain,CN=com # Place the computer account in specified Organizational Unit
+  - computerDomain: domain.com # domain to join
+  - machinePassword: used for unsecure domain join. needs precrated computer object (New-ADComputer)
+  - foremanDebug: false
+
+  Information about unsecure domain join
+  https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/add-computer?view=powershell-5.1#example-9--add-a-computer-to-a-domain-using-predefined-computer-credentials
+-%>
 <%
   # safemode renderer does not support unary negation
   puppet_enabled = host_puppet_server.present? || host_param_true?('force-puppet')

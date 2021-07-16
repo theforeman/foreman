@@ -3,7 +3,9 @@ kind: snippet
 name: pxelinux_chainload
 model: ProvisioningTemplate
 snippet: true
-%>
+description: |
+  Snippet used to chainload BIOS HDD when booted from network. Used in PXELinux global and local templates.
+-%>
 LABEL local
   MENU LABEL Default local boot
   LOCALBOOT 0

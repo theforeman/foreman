@@ -1,4 +1,3 @@
-
 insmod part_gpt
 insmod fat
 insmod chain
