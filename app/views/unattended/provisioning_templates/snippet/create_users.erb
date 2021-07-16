@@ -3,6 +3,12 @@ name: create_users
 model: ProvisioningTemplate
 kind: snippet
 snippet: true
+description: |
+  This snippet can be used to create user accounts during the provisioning
+  based on the Host owner. If the owner is set to the user group, all users
+  from that user group will have an account created. Each such account will
+  be also configured with the respective SSH authorized keys uploaded to the
+  Foreman.
 -%>
 <%- users = @host.owner_type == 'Usergroup' ? @host.owner.all_users : [@host.owner] -%>
 <%- users.each do |user| -%>

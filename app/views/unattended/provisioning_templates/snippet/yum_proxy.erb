@@ -3,7 +3,10 @@ kind: snippet
 name: yum_proxy
 model: ProvisioningTemplate
 snippet: true
-%>
+description: |
+  Configures HTTP proxy in /etc/yum.conf based on the http-proxy and http-proxy-port
+  host parameters.
+-%>
 <%
 proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
 -%>

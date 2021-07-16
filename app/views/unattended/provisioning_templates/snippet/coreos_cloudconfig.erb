@@ -4,7 +4,10 @@ kind: snippet
 name: coreos_cloudconfig
 model: ProvisioningTemplate
 snippet: true
-%>
+description: |
+  The actual content of the provisioning template for the CoreOS Container Linux distribution.
+  It is only used from the provisioning template.
+-%>
 <%
   units = 0
   unless host_param_false?('enable_etcd')

@@ -1,29 +1,3 @@
-
-# FreeIPA Registration Snippet
-#
-# Optional parameters:
-#
-#   freeipa_server              IPA server
-#
-#   freeipa_sudo                Enable sudoers
-#                               Default: true
-#
-#   freeipa_ssh                 Enable ssh integration
-#                               Default: true
-#
-#   freeipa_automount           Enable automounter
-#                               Default: false
-#
-#   freeipa_automount_location  Location for automounts
-#
-#   freeipa_mkhomedir           Enable automatically making home directories
-#                               Default: true
-#
-#   freeipa_opts                Additional options to pass directly to installer
-#
-#   freeipa_automount_server    Override automount server if freeipa_automount is true and the server differs from freeipa_server
-#
-
       freeipa_client=ipa-client
     
       /usr/sbin/sshd-keygen

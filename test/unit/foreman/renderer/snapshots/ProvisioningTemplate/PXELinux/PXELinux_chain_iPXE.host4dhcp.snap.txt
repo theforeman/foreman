@@ -1,5 +1,3 @@
-
-
 DEFAULT linux
 LABEL linux
 KERNEL ipxe.lkrn

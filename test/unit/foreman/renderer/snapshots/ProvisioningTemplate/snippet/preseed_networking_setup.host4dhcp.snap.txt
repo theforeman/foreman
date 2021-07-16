@@ -1,5 +1,4 @@
 
-
 real=`ip -o link | awk '/00-f0-54-1a-7e-e0/ {print $2;}' | sed s/://`
 cat << EOF > /etc/network/interfaces
 #loopback

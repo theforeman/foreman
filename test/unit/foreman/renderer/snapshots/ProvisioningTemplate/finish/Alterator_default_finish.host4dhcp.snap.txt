@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 echo "" > /etc/hostname
 
 hostname 

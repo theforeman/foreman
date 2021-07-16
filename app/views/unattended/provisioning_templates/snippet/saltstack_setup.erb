@@ -2,9 +2,9 @@
 kind: snippet
 name: saltstack_setup
 model: ProvisioningTemplate
-description: this snippet will configure the Saltstack Minion
 snippet: true
-%>
+description: this snippet will configure the Saltstack Minion
+-%>
 <%
 etc_path = (@host.operatingsystem.family == 'Freebsd') ? '/usr/local/etc/salt' : '/etc/salt'
 bin_path = (@host.operatingsystem.family == 'Freebsd') ? '/usr/local/bin' : '/usr/bin'

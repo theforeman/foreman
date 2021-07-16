@@ -7,8 +7,12 @@ oses:
 - CentOS
 - Fedora
 - Rocky
-%>
-  <%#
+description: |
+  A finish template executed at the end of the image based provisioning
+  using the image without user data. Foreman connects to the VM over SSH
+  and runs the script rendered from this template. It is meant to be run
+  on RPM based distributons.
+
   This template accepts the following parameters:
   - bootloader-append: string (default="nofb quiet splash=quiet")
   - force-puppet: boolean (default=false)
@@ -16,7 +20,7 @@ oses:
   - ntp-server: string (default=undef)
   - package_upgrade: boolean (default=true)
   - salt_master: string (default=undef)
-  %>
+-%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   os_major = @host.operatingsystem.major.to_i

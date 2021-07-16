@@ -4,7 +4,11 @@ name: Jumpstart default finish
 model: ProvisioningTemplate
 oses:
 - Solaris
-%>
+description: |
+  A finish template executed at the end of a network provisioning or
+  after the image based provisioning is done using the image without user data.
+  It is only used for Solaris.
+-%>
 logger "Starting finish script"
 
 # Do not turn the machine off after 30 minutes. Very annoying!

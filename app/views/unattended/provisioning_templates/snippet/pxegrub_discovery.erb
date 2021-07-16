@@ -3,13 +3,14 @@ kind: snippet
 name: pxegrub_discovery
 model: ProvisioningTemplate
 snippet: true
--%>
-<%#
-RHEL 7 virtio driver does not have persistent naming scheme, causing interfaces
-to be named eth0, eth1, etc.. If you want to enable the new persistent naming
-scheme and get inteface names like ens3, add net.ifnames=1 to the linuxefi line
-below. This will not be fixed until RHEL8 due to prevent breaking changes for
-existing systems. See RHBZ#1259015 for more details.
+description: |
+  Snippet with Grub menu items for discovery plugin. It is included in PXEGrub Default templates to boot unknown hosts into discovery image.
+
+  RHEL 7 virtio driver does not have persistent naming scheme, causing interfaces
+  to be named eth0, eth1, etc.. If you want to enable the new persistent naming
+  scheme and get inteface names like ens3, add net.ifnames=1 to the linuxefi line
+  below. This will not be fixed until RHEL8 due to prevent breaking changes for
+  existing systems. See RHBZ#1259015 for more details.
 -%>
 # http://projects.theforeman.org/issues/15997
 title Foreman Discovery Image - not supported with Grub 1.x

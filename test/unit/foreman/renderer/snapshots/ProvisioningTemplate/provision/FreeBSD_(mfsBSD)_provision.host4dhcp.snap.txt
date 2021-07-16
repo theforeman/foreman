@@ -1,6 +1,5 @@
 
 
-
 # Get the disk layout, and the first disk connected to the system
 disk_layout=`/sbin/sysctl -n kern.disks | /usr/bin/sed 's/cd[0-9]//g'`
 first_disk="`echo ${disk_layout##*[1-9]} | /usr/bin/cut -d' ' -f1`"

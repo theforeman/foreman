@@ -3,6 +3,11 @@ kind: iPXE
 model: ProvisioningTemplate
 name: iPXE intermediate script
 snippet: false
+description: |
+  This template is returned when ?bootstrap=1 URL parameter is provided.
+  It is used in pure iPXE environment and it's purpose is to perform another iPXE template call,
+  but with MAC address(es) of the server in order to find appropriate host record in the inventory.
+  See https://docs.theforeman.org/nightly/Provisioning_Guide/index-foreman-el.html#Configuring_Networking-Configuring_gPXE_to_Reduce_Provisioning_Times
 -%>
 #!ipxe
 # Intermediate iPXE script to report MAC address to Foreman

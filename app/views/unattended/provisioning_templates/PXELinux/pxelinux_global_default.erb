@@ -2,8 +2,11 @@
 kind: PXELinux
 name: PXELinux global default
 model: ProvisioningTemplate
-%>
-<%# Used to boot unknown hosts, do not associate or change the name. %>
+description: |
+  The template to render PXELinux bootloader configuration for unknown hosts.
+  The output is deployed on the host's subnet TFTP proxy.
+  Do not associate or change the name.
+-%>
 
 UI menu.c32
 MENU TITLE Booting unknown host (ESC to stop)

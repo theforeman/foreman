@@ -5,6 +5,11 @@ model: ProvisioningTemplate
 oses:
 - ALTLinux p6
 - ALTLinux p7
+description: |
+  A finish template executed at the end of a network provisioning or
+  after the image based provisioning is done using the image without user data.
+  It is only used for ALTLinux distributions. It fixes the /etc/hosts entries,
+  installs and cofigures puppet and reboots the machine.
 -%>
 #!/bin/sh
 

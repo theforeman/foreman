@@ -1,5 +1,3 @@
-
-
 # This kickstart file was rendered from the Foreman provisioning template "Kickstart default".
 
 
@@ -39,7 +37,6 @@ ntp
 -chrony
 wget
 @Core
-
 dracut-fips
 -prelink
 
@@ -68,14 +65,10 @@ logger "Starting anaconda snapshot-ipv6-static-el7 postinstall"
 
 
 
-
-
-
 echo "Updating system time"
 yum -y install ntpdate
   systemctl enable --now ntpd
 /usr/sbin/hwclock --systohc
-
 
 
 
@@ -92,37 +85,12 @@ rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 
 
-
 # update all the base packages from the updates repository
 if [ -f /usr/bin/dnf ]; then
   dnf -y update
 else
   yum -t -y update
 fi
-
-
-# SSH keys setup snippet for Remote Execution plugin
-#
-# Parameters:
-#
-# remote_execution_ssh_keys: public keys to be put in ~/.ssh/authorized_keys
-#
-# remote_execution_ssh_user: user for which remote_execution_ssh_keys will be
-#                            authorized
-#
-# remote_execution_create_user: create user if it not already existing
-#
-# remote_execution_effective_user_method: method to switch from ssh user to
-#                                         effective user
-#
-# This template sets up SSH keys in any host so that as long as your public
-# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This
-# works in combination with Remote Execution plugin by querying smart proxies
-# to build an array.
-#
-# To use this snippet without the plugin provide the SSH keys as host parameter
-# remote_execution_ssh_keys. It expects the same format like the authorized_keys
-# file.
 
 
 
@@ -181,8 +149,6 @@ WantedBy=multi-user.target
 EOF
 # Runs during first boot, removes itself
 systemctl enable ansible-callback
-
-
 
 
 

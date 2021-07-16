@@ -4,6 +4,9 @@ name: Junos default ZTP config
 model: ProvisioningTemplate
 oses:
 - Junos
+description: |
+  Generates a Junos OS configuration file. That can be used by ZTP on Juniper
+  network devices. For more information, see https://projects.theforeman.org/issues/3906
 -%>
 system {
     host-name <%= @host.shortname %>;

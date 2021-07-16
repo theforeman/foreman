@@ -4,7 +4,10 @@ name: XenServer default PXELinux
 model: ProvisioningTemplate
 oses:
 - XenServer
-%>
+description: |
+  The template to render PXELinux bootloader configuration for XenServer or Citrix Hypervisor.
+  The output is deployed on the host's subnet TFTP proxy.
+-%>
 default xenserver
 label xenserver
 kernel mboot.c32

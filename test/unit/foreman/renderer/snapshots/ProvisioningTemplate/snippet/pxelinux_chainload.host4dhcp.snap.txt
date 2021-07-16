@@ -1,4 +1,3 @@
-
 LABEL local
   MENU LABEL Default local boot
   LOCALBOOT 0

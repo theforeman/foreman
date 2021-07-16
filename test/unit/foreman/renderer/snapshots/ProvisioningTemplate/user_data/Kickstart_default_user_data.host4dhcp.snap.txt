@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-
 echo "" > /etc/hostname
 
 hostname 
@@ -14,10 +13,6 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 EOF
-
-
-
-
 
 
 
@@ -42,37 +37,12 @@ rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 
 
-
 # update all the base packages from the updates repository
 if [ -f /usr/bin/dnf ]; then
   dnf -y update
 else
   yum -t -y update
 fi
-
-
-# SSH keys setup snippet for Remote Execution plugin
-#
-# Parameters:
-#
-# remote_execution_ssh_keys: public keys to be put in ~/.ssh/authorized_keys
-#
-# remote_execution_ssh_user: user for which remote_execution_ssh_keys will be
-#                            authorized
-#
-# remote_execution_create_user: create user if it not already existing
-#
-# remote_execution_effective_user_method: method to switch from ssh user to
-#                                         effective user
-#
-# This template sets up SSH keys in any host so that as long as your public
-# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This
-# works in combination with Remote Execution plugin by querying smart proxies
-# to build an array.
-#
-# To use this snippet without the plugin provide the SSH keys as host parameter
-# remote_execution_ssh_keys. It expects the same format like the authorized_keys
-# file.
 
 
 

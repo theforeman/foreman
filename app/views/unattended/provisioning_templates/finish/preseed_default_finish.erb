@@ -8,6 +8,9 @@ oses:
 test_on:
 - debian4dhcp
 - ubuntu4dhcp
+description: |
+  A finish template executed at the end of a network provisioning done using preseed based
+  installer, typically DEB based distributions. This template render to a shell script.
 -%>
 <%
   # safemode renderer does not support unary negation

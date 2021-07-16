@@ -4,6 +4,15 @@ model: ProvisioningTemplate
 snippet: true
 model: ProvisioningTemplate
 kind: snippet
+description: |
+  Generates shell snippet that detects the current identifier of a network interface
+  based on the MAC address. This is required in provisioning flows when reboot is involved
+  between when the network interfaces has been reported to the database and the actual
+  provisioning, e.g. when provisioning using discovery image. Interfaces reported by FDI
+  use naming convention used by FDI, e.g. eth0, while when provisioning a newer RHEL, interfaces
+  use bios dev names e.g. enp0s31f6.
+  This is typically used by other templates and snippets that pass interface
+  object to be configured. It is not expected to be used directly.
 -%>
 <%- if @identifier -%>
 <%=   "real=\"#{@identifier}\"" %>

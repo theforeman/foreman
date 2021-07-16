@@ -4,7 +4,12 @@ name: Windows default PXELinux
 model: ProvisioningTemplate
 oses:
 - Windows
-%>
+description: |
+  A template to render a PXELinux configuration for Windows installations.
+  It injects the actual installation script from Foreman to give a highly customizable installation.
+  Note that this does rely on HTTP support inside your PXE environment. If this is not supported, please chain this using iPXE instead.
+  After this has been injected, it starts wimboot which in turn starts the actual WinPE image
+-%>
 DEFAULT menu
 LABEL menu
      COM32 linux.c32 <%= @host.operatingsystem.bootfile(medium_provider,:kernel) %>

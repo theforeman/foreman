@@ -1,4 +1,3 @@
-
 DEFAULT memdisk
 
 LABEL memdisk

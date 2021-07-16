@@ -1,5 +1,4 @@
 
-
 # Locale
 d-i debian-installer/locale string en_US
 # country and keyboard settings are automatic. Keep them ...

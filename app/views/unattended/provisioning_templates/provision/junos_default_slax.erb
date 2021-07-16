@@ -4,6 +4,10 @@ name: Junos default SLAX
 model: ProvisioningTemplate
 oses:
 - Junos
+description: |
+  Provisioning template for the Junos OS, used on Juniper network devices.
+  It fetches the config file based on the Juniper Finish template and deploys
+  it if it differs from the current version.
 -%>
 version 1.0;
 

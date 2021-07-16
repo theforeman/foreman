@@ -8,6 +8,11 @@ oses:
 test_on:
 - debian4dhcp
 - ubuntu4dhcp
+description: |
+  This template is used during image based provisioning, when the image is configured to use user-data.
+  The output is a shell script that cloud-init runs to configures the VM
+  booted from the image. The image must have cloud-init installed in order for this to work.
+  This script can be used with preseed distributions images.
 -%>
 #!/bin/bash
 
