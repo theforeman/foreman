@@ -4,7 +4,9 @@ name: Windows default PXELinux
 model: ProvisioningTemplate
 oses:
 - Windows
-%>
+description: |
+  TODO
+-%>
 DEFAULT menu
 LABEL menu
      COM32 linux.c32 <%= @host.operatingsystem.bootfile(medium_provider,:kernel) %>

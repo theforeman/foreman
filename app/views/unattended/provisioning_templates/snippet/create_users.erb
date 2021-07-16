@@ -3,6 +3,8 @@ name: create_users
 model: ProvisioningTemplate
 kind: snippet
 snippet: true
+description: |
+  This snippet can be used  
 -%>
 <%- users = @host.owner_type == 'Usergroup' ? @host.owner.all_users : [@host.owner] -%>
 <%- users.each do |user| -%>

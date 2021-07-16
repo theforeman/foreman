@@ -5,6 +5,9 @@ model: ProvisioningTemplate
 oses:
 - ALTLinux p6
 - ALTLinux p7
+description: |
+  Provisioning template for the ALTLinux installer
+  see https://projects.theforeman.org/issues/3377 for more details
 -%>
 <% if @metadata.to_s == '/vm-profile.scm' -%>
 <%= @host.diskLayout %>

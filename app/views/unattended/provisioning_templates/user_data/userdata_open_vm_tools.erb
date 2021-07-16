@@ -9,8 +9,14 @@ oses:
 - Rocky
 - Debian
 - Ubuntu
+description: |
+  Template for VMWare customization via open-vm-tools during user-data image based provisioning.
+
+  Comparing to other user-data templates e.g. those based on the cloud-init, the open-vm-tools
+  allows to configure networking of the VM prior boot, so no DHCP configuration is required.
+  Cloud-init is typically used for a stage 2 configuration. In order for this to work, the VMware
+  template must have open-vm-tools installed.
 -%>
-# Template for VMWare customization via open-vm-tools
 
 identity:
   LinuxPrep:

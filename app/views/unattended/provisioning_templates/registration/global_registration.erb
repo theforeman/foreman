@@ -2,6 +2,12 @@
 kind: registration
 name: Global Registration
 model: ProvisioningTemplate
+description: |
+  The registration template used to render OS agnostic script that any host can use to register to
+  this Foreman instance. It is rendered as a response in the registration API endpoint. The resulting
+  script contains instructions to prepare the machine for registration, to create a new Host record in Foreman,
+  and to fetch and run the host specific initial configuration script. The initial script is rendered based
+  on the template of host_init_config kind.
 -%>
 #!/bin/sh
 <%

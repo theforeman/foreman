@@ -5,11 +5,10 @@ model: ProvisioningTemplate
 oses:
 - ALTLinux p6
 - ALTLinux p7
+description: |
+  The template to render PXELinux bootloader configuration for ALTLinux distributions.
+  The output is deployed on the host's subnet TFTP proxy.
 -%>
-<%#
-  This template will not function with Safemode set to true.
-    Please disable it in Settings > Provisioning
-%>
 <%
     metadata    = @host.token.nil? ? '?metadata=' : '&metadata='
     os          = @host.operatingsystem

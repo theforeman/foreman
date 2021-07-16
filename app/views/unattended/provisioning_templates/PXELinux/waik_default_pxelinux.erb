@@ -4,7 +4,11 @@ name: WAIK default PXELinux
 model: ProvisioningTemplate
 oses:
 - Windows
-%>
+description: |
+  The template to render PXELinux bootloader configuration for Windows.
+  It is used to boot the Windows PE that is then used to install Windows.
+  The output is deployed on the host's subnet TFTP proxy.
+-%>
 DEFAULT winPE
 
 LABEL winPE

@@ -4,7 +4,11 @@ name: FreeBSD (mfsBSD) provision
 model: ProvisioningTemplate
 oses:
 - FreeBSD
-%>
+description: |
+  Provisioning template for the FreeBSD.
+  It prepares the environment and deploys and runs the Finish template.
+  See FreeBSD (mfsbsd) finish template for more details.
+-%>
 <%
 proxy_string = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : ''
 %>

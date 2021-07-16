@@ -5,7 +5,10 @@ model: ProvisioningTemplate
 oses:
 - SLES
 - OpenSUSE
-%>
+description: |
+  The template to render PXELinux bootloader configuration for SLES and OpenSUSE distributions.
+  The output is deployed on the host's subnet TFTP proxy.
+-%>
 <% http_proxy_string = host_param('http-proxy') ? "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') : '' -%>
 
 DEFAULT linux

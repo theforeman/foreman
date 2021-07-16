@@ -3,6 +3,10 @@ kind: snippet
 name: puppetlabs_repo
 model: ProvisioningTemplate
 snippet: true
+description: |
+  Fetches the package that deploys the PuppetLabs repository that can be
+  used to install Puppet from. It only performs the installation in case
+  one of the enable-puppetlabs*repo parameter is set to true.
 -%>
 <%
 http_proxy   = host_param('http-proxy') ? " --httpproxy #{host_param('http-proxy')}" : nil

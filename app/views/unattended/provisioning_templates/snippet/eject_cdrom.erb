@@ -3,9 +3,10 @@ kind: snippet
 name: eject_cdrom
 model: ProvisioningTemplate
 snippet: true
--%>
-<%# 
-  This template will eject DVD/CD ROM for bootdisk provisioning method
+description: |
+  This template will eject DVD/CD ROM for bootdisk provisioning method,
+  typically called in the final phase of the main provisioning template,
+  such as %post section of Kickstart or Preseed Finish.
 -%>
 <% if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build? -%>
 eject -v

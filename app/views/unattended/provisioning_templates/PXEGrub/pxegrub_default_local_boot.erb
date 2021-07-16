@@ -2,8 +2,12 @@
 kind: PXEGrub
 name: PXEGrub default local boot
 model: ProvisioningTemplate
-%>
-<%# Used to boot provisioned hosts, do not associate or change the name. %>
+description: |
+  The template to render PXEGrub bootloader configuration for provisioned hosts,
+  that still boot from the network.
+  Hosts are instructed to boot from the first local medium.
+  Do not associate or change the name.
+-%>
 <%
   # Grub1 only supports numeric default statement, this allows conversion to number. First define
   # array of directories we will search for EFI booloaders:

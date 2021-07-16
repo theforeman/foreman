@@ -5,7 +5,10 @@ name: CoreOS provision
 model: ProvisioningTemplate
 oses:
 - CoreOS
-%>
+description: |
+  Provisioning template for the CoreOS Container Linux distribution.
+  This does not work for Fedora CoreOS or Flatcar Container Linux, which use Ignition instead.
+-%>
 <%
 os_major  = @host.operatingsystem.major.to_i
 %>

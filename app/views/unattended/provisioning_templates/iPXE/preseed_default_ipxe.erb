@@ -6,7 +6,11 @@ model: ProvisioningTemplate
 oses:
 - Debian
 - Ubuntu
-%>
+description: |
+  The template to render iPXE installation script for preseed based distributions
+  The output is deployed on the host's subnet TFTP proxy.
+  See https://ipxe.org/scripting for more details
+-%>
 <% if @host.operatingsystem.name == 'Debian' -%>
   <%- keyboard_params = "auto=true" -%>
 <% else -%>

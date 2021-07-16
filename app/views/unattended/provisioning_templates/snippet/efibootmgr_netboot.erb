@@ -4,7 +4,9 @@ name: efibootmgr_netboot
 model: ProvisioningTemplate
 description: Configure booting from network in EFI
 snippet: true
-%>
+description: |
+  TODO
+-%>
 <% if host_param('efi_bootentry') == 'previous' -%>
 if [ -d /sys/firmware/efi ]; then
   echo "Changing EFI boot order to preserve boot. Typically the previous entry"

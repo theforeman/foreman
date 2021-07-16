@@ -4,7 +4,12 @@ name: FreeBSD (mfsBSD) finish
 model: ProvisioningTemplate
 oses:
 - FreeBSD
-%>
+description: |
+  A finish template executed at the end of network provisioning or
+  after the image based provisioning is done using the image without user data.
+  It is only used for FreeBSD with mfsBSD toolset.
+  It supports deploying puppet and salt agents.
+-%>
 <%
   # safemode renderer does not support unary negation
   puppet_enabled = host_puppet_server.present? || host_param_true?('force-puppet')

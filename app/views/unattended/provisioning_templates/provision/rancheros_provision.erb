@@ -4,5 +4,8 @@ name: RancherOS provision
 model: ProvisioningTemplate
 oses:
 - RancherOS
+description: |
+  The provisioning template for the RancherOS. The output is the cloud config data.
+  This does not work with k3os, a successor of the RancherOS 1.x and 2.x
 -%>
 <%= snippet 'rancheros_cloudconfig' -%>

@@ -5,7 +5,10 @@ model: ProvisioningTemplate
 oses:
 - Debian
 - Ubuntu
-%>
+description: |
+  The template to render PXEGrub2 bootloader configuration for preseed based distributions.
+  The output is deployed on the host's subnet TFTP proxy.
+-%>
 #
 # This file was deployed via '<%= template_name %>' template
 #

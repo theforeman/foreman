@@ -4,7 +4,12 @@ name: Windows default iPXE
 model: ProvisioningTemplate
 oses:
 - Windows
-%>#!ipxe
+description: |
+  The template to render iPXE installation script for Windows
+  The output is deployed on the host's subnet TFTP proxy.
+  See https://ipxe.org/scripting for more details
+-%>
+#!ipxe
 
 echo Trying to ping Gateway: ${netX/gateway}
 ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.

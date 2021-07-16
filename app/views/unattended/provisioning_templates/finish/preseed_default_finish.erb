@@ -5,7 +5,10 @@ model: ProvisioningTemplate
 oses:
 - Debian
 - Ubuntu
-%>
+description: |
+  A finish template executed at the end of a network provisioning done using preseed based
+  installer, typically DEB based distributions. This template render to a shell script.
+-%>
 <%
   # safemode renderer does not support unary negation
   puppet_enabled = host_puppet_server.present? || host_param_true?('force-puppet')

@@ -3,8 +3,9 @@ kind: snippet
 name: alterator_pkglist
 model: ProvisioningTemplate
 snippet: true
+description: |
+  Fetches the list of packages from the ALTLinux installation media.
+  It is used by the ALTLinux provisioning templates.
+  This template will not function with Safemode set to true.
 -%>
-<%# 
-  This template will not function with Safemode set to true. 
-%>
 <%= Net::HTTP.get(URI.parse("#{@mediapath}/Metadata/pkg-groups.tar")) %>

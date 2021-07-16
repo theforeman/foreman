@@ -3,10 +3,11 @@ kind: snippet
 name: preseed_networking_setup
 model: ProvisioningTemplate
 snippet: true
-description: this will configure your host networking, it configures your primary interface as well
-    as other configures NICs. It supports physical, VLAN and Alias interfaces. It's intended to be
-    called in your preseed finish template.
-%>
+description: |
+  This will configure your host networking, it configures your primary interface as well
+  as other configures NICs. It supports physical, VLAN and Alias interfaces. It's intended to be
+  called in your preseed finish template.
+-%>
 <% host_subnet = @host.subnet -%>
 <% host_dhcp = host_subnet.nil? ? true : host_subnet.dhcp_boot_mode? -%>
 <% host_subnet6 = @host.subnet6 -%>

@@ -3,6 +3,9 @@ kind: snippet
 name: blacklist_kernel_modules
 model: ProvisioningTemplate
 snippet: true
+description: |
+    The snippet to generate the command disables kernel modules based on the blacklist_kernel_modules
+    host parameter. It is used by multiple provisioning and finish templates.
 -%>
 <% if host_param('blacklist_kernel_modules') -%>
 <% host_param('blacklist_kernel_modules').split.each do |mod| -%>

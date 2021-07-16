@@ -2,7 +2,10 @@
 kind: provision
 name: Atomic Kickstart default
 model: ProvisioningTemplate
-%>
+description: |
+  Provisioning template for the Fedora, RHEL and CentOS Atomic distributions.
+  It does not work for Fedora CoreOS (FCOS) or RHEL CoreOS (RHCOS) which use Ignition instead
+-%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   is_fedora = @host.operatingsystem.name == 'Fedora'
