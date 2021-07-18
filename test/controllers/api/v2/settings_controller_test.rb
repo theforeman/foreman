@@ -44,45 +44,43 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
   end
 
   test "should parse string values to integers" do
-    setting_id = Setting.where(:settings_type => 'integer').first.id
-    put :update, params: { :id => setting_id, :setting => { :value => "100" } }
+    setting = Setting.where(:settings_type => 'integer').first
+    put :update, params: { :id => setting.to_param, :setting => { :value => "100" } }
     assert_response :success
-    assert_equal 100, Setting.find(setting_id).value
+    assert_equal 100, Setting[setting.name]
   end
 
   test "should accept integer values" do
-    setting_id = Setting.where(:settings_type => 'integer').first.id
-    put :update, params: { :id => setting_id, :setting => { :value => 120 } }
+    setting = Setting.where(:settings_type => 'integer').first
+    put :update, params: { :id => setting.to_param, :setting => { :value => 120 } }
     assert_response :success
-    assert_equal 120, Setting.find(setting_id).value
+    assert_equal 120, Setting[setting.name]
   end
 
   test "should parse string values to ararys" do
-    setting_id = Setting.where(:settings_type => 'array').first.id
-    put :update, params: { :id => setting_id, :setting => { :value => "['baz','foo']" } }
+    setting = Setting.where(:settings_type => 'array').first
+    put :update, params: { :id => setting.to_param, :setting => { :value => "['baz','foo']" } }
     assert_response :success
-    assert_equal ['baz', 'foo'], Setting.find(setting_id).value
+    assert_equal ['baz', 'foo'], Setting[setting.name]
   end
 
   test "should accept array values" do
-    setting_id = Setting.where(:settings_type => 'array').first.id
-    put :update, params: { :id => setting_id, :setting => { :value => ['foo', 'bar'] } }
+    setting = Setting.where(:settings_type => 'array').first
+    put :update, params: { :id => setting.to_param, :setting => { :value => ['foo', 'bar'] } }
     assert_response :success
-    assert_equal ['foo', 'bar'], Setting.find(setting_id).value
+    assert_equal ['foo', 'bar'], Setting[setting.name]
   end
 
   test_attributes :pid => 'fb8b0bf1-b475-435a-926b-861aa18d31f1'
   test "should update login page footer text with long value" do
     value = RFauxFactory.gen_alpha 1000
-    setting = Setting.find_by_name("login_text")
-    put :update, params: { :id => setting.id, :setting => { :value => value } }
+    put :update, params: { :id => 'login_text', :setting => { :value => value } }
     assert_equal JSON.parse(@response.body)['value'], value, "Can't update login_text setting with valid value #{value}"
   end
 
   test_attributes :pid => '7a56f194-8bde-4dbf-9993-62eb6ab10733'
   test "should update login page footer text with empty value" do
-    setting = Setting.find_by_name("login_text")
-    put :update, params: { :id => setting.id, :setting => { :value => "" } }
+    put :update, params: { :id => 'login_text', :setting => { :value => "" } }
     assert_equal JSON.parse(@response.body)['value'], "", "Can't update login_text setting with empty value"
   end
 
@@ -95,18 +93,18 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
 
   test "should update setting as system admin" do
     user = user_one_as_system_admin
-    setting_id = Setting.where(:settings_type => 'integer').first.id
+    setting = Setting.where(:settings_type => 'integer').first
     as_user user do
-      put :update, params: { :id => setting_id, :setting => { :value => "100" } }
+      put :update, params: { :id => setting.to_param, :setting => { :value => "100" } }
     end
     assert_response :success
   end
 
   test "should view setting as system admin" do
     user = user_one_as_system_admin
-    setting_id = Setting.first.id
+    setting = Setting.first
     as_user user do
-      get :show, params: { :id => setting_id }
+      get :show, params: { :id => setting.to_param }
     end
     assert_response :success
   end
