@@ -6,7 +6,6 @@ import { get } from '../../redux/API';
 import FactChart from './FactChart';
 import { openModal, closeModal } from './slice';
 
-import { FACT_CHART } from './constants';
 import {
   selectHostCount,
   selectDisplayModal,
@@ -15,7 +14,7 @@ import {
 } from './selectors';
 
 const ConnectedFactChart = ({ id, path, title, search }) => {
-  const key = `${FACT_CHART}_${id}`;
+  const key = `FACT_CHART_${id}`;
   const hostsCount = useSelector(state => selectHostCount(state, key));
   const status = useSelector(state => selectFactChartStatus(state, key));
   const chartData = useSelector(state => selectFactChartData(state, key));
