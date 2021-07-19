@@ -6,7 +6,7 @@ module Api
 
       wrap_parameters ComputeResource, :include => compute_resource_params_filter.accessible_attributes(parameter_filter_context)
 
-      before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
+      before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate, :associate_vm,
                                               :available_virtual_machines, :available_clusters, :available_flavors, :available_folders,
                                               :available_networks, :available_vnic_profiles, :available_resource_pools, :available_security_groups, :available_storage_domains,
                                               :available_zones, :available_storage_pods, :storage_domain, :storage_pod, :refresh_cache, :power_vm, :show_vm, :destroy_vm]
@@ -223,10 +223,36 @@ module Api
         if @compute_resource.supports_host_association?
           associator = ComputeResourceHostAssociator.new(@compute_resource)
           associator.associate_hosts
-          @hosts = associator.hosts
-          render 'api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout'
+          handle_errors(associator)
         else
           render_message(_('Associating VMs is not supported for this compute resource'), :status => :unprocessable_entity)
+        end
+      end
+
+      api :PUT, "/compute_resources/:id/associate_vm/:vm_id", N_("Associate VM to Hosts")
+      param :id, :identifier, :required => true
+      param :vm_id, :identifier, :required => true
+      def associate_vm
+        @vm = @compute_resource.find_vm_by_uuid(params[:vm_id])
+        if @compute_resource.supports_host_association?
+          associator = ComputeResourceHostAssociator.new(@compute_resource)
+          associator.associate_hosts_to_vm(@vm)
+          handle_errors(associator)
+        else
+          render_message(_('Associating VM is not supported for this compute resource.'))
+        end
+      end
+
+      def handle_errors(associator)
+        if associator.hosts.empty?
+          render_message(_('No VMs matched any host.'), :status => :unprocessable_entity)
+        else
+          render_message(n_('%s VM was associated to a host.', '%s VMs were each associated to hosts.', associator.hosts.count) % associator.hosts.count)
+        end
+        if associator.fail_count > 0
+          render_message(n_('%s VM failed while processing: check logs for more details.',
+            '%s VMs failed while processing: check logs for more details.',
+            associator.fail_count) % associator.fail_count)
         end
       end
 
@@ -287,7 +313,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_virtual_machines', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_vnic_profiles', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'storage_domain', 'available_zones', 'associate', 'available_storage_pods', 'storage_pod', 'refresh_cache', 'show_vm', 'power_vm', 'destroy_vm'
+          when 'available_images', 'available_virtual_machines', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_vnic_profiles', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'storage_domain', 'available_zones', 'associate', 'associate_vm', 'available_storage_pods', 'storage_pod', 'refresh_cache', 'show_vm', 'power_vm', 'destroy_vm'
             :view
           else
             super

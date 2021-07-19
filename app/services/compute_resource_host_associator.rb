@@ -15,6 +15,12 @@ class ComputeResourceHostAssociator
     end
   end
 
+  def associate_hosts_to_vm(vm)
+    if Host.for_vm(compute_resource, vm).empty?
+      associate_vm(vm)
+    end
+  end
+
   private
 
   def associate_vm(vm)
