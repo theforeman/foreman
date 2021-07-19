@@ -9,6 +9,7 @@ import AppSwitcher from '../routes';
 
 import apolloClient from './apollo';
 import ToastsList from '../components/ToastsList';
+import ErrorBoundary from '../components/common/ErrorBoundary';
 
 const ReactApp = ({ layout, metadata, toasts }) => {
   const contextData = { metadata };
@@ -20,8 +21,10 @@ const ReactApp = ({ layout, metadata, toasts }) => {
         <ApolloProvider client={apolloClient}>
           <ConnectedRouter history={history}>
             <Layout data={layout}>
-              <ToastsList railsMessages={toasts} />
-              <AppSwitcher />
+              <ErrorBoundary history={history}>
+                <ToastsList railsMessages={toasts} />
+                <AppSwitcher />
+              </ErrorBoundary>
             </Layout>
           </ConnectedRouter>
         </ApolloProvider>
