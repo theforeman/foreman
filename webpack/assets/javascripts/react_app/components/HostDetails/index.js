@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { HashRouter, Switch, Route, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Grid,
@@ -30,16 +30,18 @@ import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
+import { DEFAULT_TAB } from './consts';
 import { translate as __ } from '../../common/I18n';
 
 import './HostDetails.scss';
 
 const HostDetails = ({ match, location: { hash } }) => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('Overview');
   const response = useSelector(state =>
     selectAPIResponse(state, 'HOST_DETAILS')
   );
+
+  const history = useHistory();
   const status = useSelector(state => selectAPIStatus(state, 'HOST_DETAILS'));
   const isNavCollapsed = useSelector(selectIsCollapsed);
   const tabs = useSelector(state =>
@@ -53,11 +55,8 @@ const HostDetails = ({ match, location: { hash } }) => {
 
   useEffect(() => {
     registerCoreTabs();
+    if (!hash) history.push(`#/${DEFAULT_TAB}`);
   }, []);
-
-  // useEffect(() => {
-  //   if (hash) setActiveTab(hash.slice(1));
-  // }, [hash]);
 
   useEffect(() => {
     dispatch(
@@ -74,10 +73,6 @@ const HostDetails = ({ match, location: { hash } }) => {
     document.body.classList.add('pf-gray-background');
     return () => document.body.classList.remove('pf-gray-background');
   }, []);
-
-  // const handleTabClick = (event, tabIndex) => {
-  //   setActiveTab(tabIndex);
-  // };
 
   return (
     <>
@@ -139,7 +134,7 @@ const HostDetails = ({ match, location: { hash } }) => {
               style={{
                 width: window.innerWidth - (isNavCollapsed ? 95 : 220),
               }}
-              activeKey={activeTab}
+              activeKey={hash.slice(2)}
             >
               {tabs &&
                 tabs.map(tab => (
@@ -148,17 +143,14 @@ const HostDetails = ({ match, location: { hash } }) => {
             </Tabs>
             <Switch>
               {tabs?.map(tab => (
-                <Route
-                  path={`/${tab}`}
-                  render={() => (
-                    <Slot
-                      response={response}
-                      status={status}
-                      id="host-details-page-tabs"
-                      fillID={tab}
-                    />
-                  )}
-                />
+                <Route path={`/${tab}`}>
+                  <Slot
+                    response={response}
+                    status={status}
+                    id="host-details-page-tabs"
+                    fillID={tab}
+                  />
+                </Route>
               ))}
             </Switch>
           </>
