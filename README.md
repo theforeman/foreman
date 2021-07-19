@@ -3,7 +3,6 @@
 [![Build Status](https://ci.theforeman.org/buildStatus/icon?job=foreman-develop-source-release)](https://ci.theforeman.org/job/test_foreman-develop-source-release/)
 [![Code Climate](https://codeclimate.com/github/theforeman/foreman/badges/gpa.svg)](https://codeclimate.com/github/theforeman/foreman)
 [![Coverage Status](https://coveralls.io/repos/github/theforeman/foreman/badge.svg?branch=develop)](https://coveralls.io/github/theforeman/foreman?branch=develop)
-[![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 [![Support IRC channel](https://kiwiirc.com/buttons/irc.libera.chat/theforeman.png)](https://kiwiirc.com/client/irc.libera.chat/?#theforeman)
 [![Storybook](https://raw.githubusercontent.com/storybooks/brand/master/badge/badge-storybook.svg)](https://foreman-storybook.surge.sh)
 
