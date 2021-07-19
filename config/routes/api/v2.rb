@@ -287,7 +287,7 @@ Foreman::Application.routes.draw do
           get 'available_clusters/(:cluster_id)/available_storage_domains', :to => 'compute_resources#available_storage_domains', :on => :member, :cluster_id => /[^\/]+/
           get 'available_clusters/(:cluster_id)/available_storage_pods', :to => 'compute_resources#available_storage_pods', :on => :member, :cluster_id => /[^\/]+/
           get :available_zones, :on => :member
-          put :associate, :on => :member
+          put 'associate/(:vm_id)', :to => 'compute_resources#associate', :on => :member
           put :refresh_cache, :on => :member
           put 'available_virtual_machines/(:vm_id)/power', :to => 'compute_resources#power_vm', :on => :member
           delete 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#destroy_vm', :on => :member

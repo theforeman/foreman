@@ -217,14 +217,20 @@ module Api
         render :available_security_groups, :layout => 'api/v2/layouts/index_layout'
       end
 
-      api :PUT, "/compute_resources/:id/associate/", N_("Associate VMs to Hosts")
+      api :PUT, "/compute_resources/:id/associate/:vm_id", N_("Associate VMs to Hosts")
       param :id, :identifier, :required => true
+      param :vm_id, :identifier
       def associate
         if @compute_resource.supports_host_association?
           associator = ComputeResourceHostAssociator.new(@compute_resource)
-          associator.associate_hosts
+          if params[:vm_id].nil?
+            associator.associate_hosts
+          else
+            @vm = @compute_resource.find_vm_by_uuid(params[:vm_id])
+            associator.associate_hosts([@vm])
+          end
           @hosts = associator.hosts
-          render 'api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout'
+          handle_messages(associator)
         else
           render_message(_('Associating VMs is not supported for this compute resource'), :status => :unprocessable_entity)
         end
@@ -291,6 +297,18 @@ module Api
             :view
           else
             super
+        end
+      end
+
+      def handle_messages(associator)
+        if associator.fail_count > 0
+          render_message((n_('%s VM failed while processing: check logs for more details.',
+            '%s VMs failed while processing: check logs for more details.',
+            associator.fail_count) % associator.fail_count), :status => :unprocessable_entity)
+        elsif associator.hosts.empty?
+          render_message(_('No VMs matched any host'), :status => :unprocessable_entity)
+        else
+          render('api/v2/hosts/index', :layout => 'api/v2/layouts/index_layout')
         end
       end
     end

@@ -7,8 +7,8 @@ class ComputeResourceHostAssociator
     self.compute_resource = compute_resource
   end
 
-  def associate_hosts
-    compute_resource.vms(:eager_loading => true).each do |vm|
+  def associate_hosts(vms = compute_resource.vms(:eager_loading => true))
+    vms.each do |vm|
       if Host.for_vm(compute_resource, vm).empty?
         associate_vm(vm)
       end
