@@ -24,15 +24,6 @@ class CacheManager
   end
 
   def self.set_cache_setting(value)
-    flag = Setting::General.find_by_name('fix_db_cache')
-    # we call this from places where setting does not have to exist, in that case we create new record here
-    flag ||= Setting::General.new(:name => 'fix_db_cache',
-                                  :description   => 'Fix DB cache on next Foreman restart',
-                                  :settings_type => 'boolean')
-
-    # we need to call default= and value= explicitly so it stores value in YAML
-    flag.default = false
-    flag.value = value
-    flag.save
+    Setting['fix_db_cache'] = value
   end
 end

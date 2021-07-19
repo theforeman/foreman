@@ -6,6 +6,7 @@ require 'English'
 require_dependency 'foreman/access_permissions'
 require_dependency 'menu/loader'
 require_dependency 'foreman/plugin'
+require_dependency 'foreman/settings'
 
 # Other internal dependencies, may be autoloaded
 require_dependency 'foreman/foreman_url_renderer'
