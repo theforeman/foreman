@@ -61,11 +61,7 @@ exports[`Empty State Pattern should render with props 1`] = `
   <span
     className="empty-state-icon"
   >
-    <Icon
-      name="printer"
-      size="2x"
-      type="pf"
-    />
+    <EmptyStateIcon />
   </span>
   <Title
     headingLevel="h5"
