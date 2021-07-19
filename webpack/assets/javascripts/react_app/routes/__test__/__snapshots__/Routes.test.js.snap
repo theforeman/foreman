@@ -20,8 +20,8 @@ exports[`Routes rendering routes with children renders routes with chidlren 1`] 
       render={[Function]}
     />
     <Route
-      key="/experimental/hosts/:id"
-      path="/experimental/hosts/:id"
+      key="/experimental/hosts/:id/:tab?/:subtab?"
+      path="/experimental/hosts/:id/:tab?/:subtab?"
       render={[Function]}
     />
     <Route
