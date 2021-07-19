@@ -30,16 +30,21 @@ class Setting < ApplicationRecord
     end
   end
 
+  def self.allows_blank?(name)
+    name = name.to_s
+    BLANK_ATTRS.include?(name) || (Foreman::SettingManager.settings.key?(name) && Foreman::SettingManager.settings[name][:options][:allow_blank])
+  end
+
   validates_lengths_from_database
 
   validates :name, :presence => true, :uniqueness => true
   validates :description, :presence => true
-  validates :default, :presence => true, :unless => proc { |s| s.settings_type == "boolean" || BLANK_ATTRS.include?(s.name) }
+  validates :default, :presence => true, :unless => proc { |s| s.settings_type == "boolean" || s.class.allows_blank?(s.name) }
   validates :default, :inclusion => {:in => [true, false]}, :if => proc { |s| s.settings_type == "boolean" }
   validates :value, :numericality => true, :length => {:maximum => 8}, :if => proc { |s| s.settings_type == "integer" }
   validates :value, :numericality => {:greater_than => 0}, :if => proc { |s| NONZERO_ATTRS.include?(s.name) }
   validates :value, :inclusion => {:in => [true, false]}, :if => proc { |s| s.settings_type == "boolean" }
-  validates :value, :presence => true, :if => proc { |s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
+  validates :value, :presence => true, :if => proc { |s| s.settings_type == "array" && !s.class.allows_blank?(s.name) }
   validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
   validates :value, :url_schema => ['http', 'https'], :if => proc { |s| URI_ATTRS.include?(s.name) }
 
@@ -55,6 +60,7 @@ class Setting < ApplicationRecord
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
   validate :validate_frozen_attributes
+  # Custom validations are added from SettingManager class
   after_find :readonly_when_overridden
   after_save :refresh_registry_value
   default_scope -> { order(:name) }

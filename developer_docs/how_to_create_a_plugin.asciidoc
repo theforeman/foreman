@@ -1678,6 +1678,42 @@ The settings are strongly typed and you have to define it.
 The basic types supported by Foreman are: `:boolean`, `:integer`, `:float`, `:string`, `:text`, `:hash`, `:array`.
 The `:text` type supports markdown and usage of such setting should expect markdown syntax when using it.
 
+==== Validate setting values
+
+To validate setting value, you can use API, that tries to mimic the API of ActiveRecord.
+We can use most of the perks offered by ActiveRecord, only defining on setting name instead of attribute.
+We are adding just some shorthands like direct regexp validations.
+The attribute is always `value`, you can't validate anything else as it is the only user input.
+Custom validation methods allow you to run validations against other setting attributes like description or full_name, but please dont, use only `value`! :)
+
+You have two ways to define the validations:
+* inline with setting definition
+* using `validates` of `validates_with` methods, that mimic [Rails validation methods](https://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html), but are using setting names instead of attribute names, as the validated attribute is always value in this case.
+
+There is special option `allow_blank`, that needs to be defined on setting definition.
+This also allows a blank default value.
+
+[source, ruby]
+....
+settings do
+  category(:cfgmgmt) do
+    # Following definitions are missing defaults and full names for simplification
+
+    setting(:blank_setting, type: :string, description: 'Unnecessary setting', allow_blank: true)
+
+    setting(:cool_setting, type: :string, description: 'Setting with only cool values', validate: /^cool.*/, allow_blank: true)
+
+    setting(:cooler_puppet, type: :integer, description: 'Use Puppet that goes to 11', validate: ->(s) { s.value <= 11 })
+
+    validates(:cooler_puppet, numericality: { greater_than: 11 }, allow_blank: true, if: -> { Setting[:cool_setting] == 'ultra_cool' })
+
+    # the validator needs to be ActiveModel::Validator
+    validates_with :cool_setting, MyCoolnessValidator
+  end
+end
+....
+
+
 [[config-files]]
 ==== Config files
 

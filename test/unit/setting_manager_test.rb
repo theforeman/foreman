@@ -83,4 +83,48 @@ class SettingManagerTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe 'Validations' do
+    setup do
+      @validation_backup = Setting._validators[:value].dup
+    end
+
+    teardown do
+      Setting._validators[:value] = @validation_backup
+    end
+
+    it 'defines validation on Setting model for given setting name' do
+      Foreman::SettingManager.define(:test_context) do
+        category(:general) do
+          setting(:validfoo,
+            type: :string,
+            default: 'bar@example.com',
+            description: 'This is nicely described foo setting',
+            full_name: 'Foo setting',
+            validate: :email)
+        end
+      end
+      Foreman.settings.load_definitions
+      setting = Setting.new(name: 'validfoo', default: '-omited-', description: 'Omited', value: 'notanemail')
+      assert_not setting.valid?
+    end
+
+    it 'defines validation through validates' do
+      Foreman::SettingManager.define(:test_context) do
+        category(:general) do
+          setting(:validfoo,
+            type: :string,
+            default: 'bar@example.com',
+            description: 'This is nicely described foo setting',
+            full_name: 'Foo setting')
+          validates(:validfoo, email: true)
+        end
+      end
+      Foreman.settings.load_definitions
+      setting = Setting.new(name: 'validfoo', default: '-omited-', description: 'Omited', value: 'notanemail')
+      assert_not setting.valid?
+    end
+
+    # If it really works, should get tested for specific settings
+  end
 end
