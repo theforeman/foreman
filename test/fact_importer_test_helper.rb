@@ -77,7 +77,6 @@ module FactsData
     def good_facts
       {
         'something_filter_something_else' => 'hello',
-        'fact_bad_something' => 'hello',
         'filter_something' => 'hello',
       }
     end
@@ -85,10 +84,8 @@ module FactsData
     def ignored_facts
       {
         'ignored_fact_something' => 'will_not_show',
-        'something_ignored_fact' => 'will_not_show',
-        'something_ignored_fact_something_else' => 'will_not_show',
         'something_fact_bad' => 'will_not_show',
-        'something_filter' => 'will_not_show',
+        'filter' => 'will_not_show',
       }
     end
   end

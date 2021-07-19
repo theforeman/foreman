@@ -18,7 +18,7 @@ class FactImporter
     Setting.convert_array_to_regexp(
       Setting[:excluded_facts],
       {
-        :prefix => '(\A|.*::|.*_)',
+        :prefix => '(\A|.*::)',
         :suffix => '(\Z|::.*)',
       }
     )
