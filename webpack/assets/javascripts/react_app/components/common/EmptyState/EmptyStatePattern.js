@@ -45,11 +45,17 @@ const EmptyStatePattern = props => {
     );
   };
 
+  const EmptyStateIcon = () =>
+    React.isValidElement(icon) ? (
+      icon
+    ) : (
+      <Icon name={icon} type={iconType} size="2x" />
+    );
+
   return (
     <EmptyState variant={EmptyStateVariant.xl}>
       <span className="empty-state-icon">
-        {/* TODO: Add pf4 icons, Redmine issue: #30865 */}
-        <Icon name={icon} type={iconType} size="2x" />
+        <EmptyStateIcon />
       </span>
       <Title headingLevel="h5" size="4xl">
         {header}
