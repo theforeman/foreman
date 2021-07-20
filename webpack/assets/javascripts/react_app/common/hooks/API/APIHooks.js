@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import uuid from 'uuid/v1';
 import {
   selectAPIResponse,
@@ -18,6 +18,7 @@ import { APIActions } from '../../../redux/API';
 export const useAPI = (method, url, options) => {
   const dispatch = useDispatch();
   const keyRef = useRef(options?.key);
+  const asMutable = options?.asMutable;
 
   useEffect(() => {
     if (!keyRef.current) keyRef.current = uuid();
@@ -35,8 +36,9 @@ export const useAPI = (method, url, options) => {
     }
   }, [dispatch, url, method, options]);
 
-  const response = useSelector(state =>
-    selectAPIResponse(state, keyRef.current)
+  const response = useSelector(
+    state => selectAPIResponse(state, keyRef.current, asMutable),
+    asMutable ? shallowEqual : undefined
   );
   const status = useSelector(state => selectAPIStatus(state, keyRef.current));
 

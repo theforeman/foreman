@@ -1,5 +1,5 @@
-import { act } from '@testing-library/react-hooks';
 import { useAPI } from './APIHooks';
+import Immutable from 'seamless-immutable';
 import APIHelper from '../../../redux/API/API';
 import { renderHookWithRedux } from '../testHelper';
 import {
@@ -17,12 +17,12 @@ it('should use default url', async () => {
     useAPI('get', '/lotr')
   );
   await waitForNextUpdate();
-
+  expect(Immutable.isImmutable(result.current.response)).toBe(true);
   expect(result.current.response.results).toEqual(resultFromGOT.data.results);
   expect(result.current.key).toBeDefined();
 });
 
-it('shuold use the given key', async () => {
+it('should use the given key', async () => {
   const options = { key: API_TEST_KEY };
 
   APIHelper.get.mockResolvedValue(resultsFromLOTR);
@@ -33,4 +33,16 @@ it('shuold use the given key', async () => {
 
   await waitForNextUpdate();
   expect(result.current.key).toEqual(API_TEST_KEY);
+});
+
+it('should return mutable data', async () => {
+  const options = { key: API_TEST_KEY, asMutable: true };
+
+  APIHelper.get.mockResolvedValue(resultsFromLOTR);
+  const { result, waitForNextUpdate } = renderHookWithRedux(() =>
+    useAPI('get', '/got', options)
+  );
+
+  await waitForNextUpdate();
+  expect(Immutable.isImmutable(result.current.response)).toBe(false);
 });
