@@ -107,7 +107,10 @@ const HostDetails = ({ match, location: { hash } }) => {
               <Badge key={21}>{response.architecture_name}</Badge>
             </GridItem>
             <GridItem span={2}>
-              <ActionsBar hostName={response.name || <Skeleton />} />
+              <ActionsBar
+                permissions={response.permissions}
+                hostName={response.name || <Skeleton />}
+              />
             </GridItem>
           </Grid>
           <Text style={{ fontStyle: 'italic' }} component={TextVariants.p}>
@@ -141,12 +144,13 @@ const HostDetails = ({ match, location: { hash } }) => {
         >
           {tabs &&
             tabs.map(tab => (
-              <Tab eventKey={tab} title={tab}>
+              <Tab key={tab} eventKey={tab} title={tab}>
                 <Slot
                   response={response}
                   status={status}
                   id="host-details-page-tabs"
                   fillID={tab}
+                  isActive={tab === activeTab}
                 />
               </Tab>
             ))}

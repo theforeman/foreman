@@ -9,9 +9,14 @@ import {
 } from '@patternfly/react-core';
 import { foremanUrl } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
+import ConsoleModal from '../Console';
 
-const ActionsBar = ({ hostName }) => {
+const ActionsBar = ({
+  hostName,
+  permissions: { console_hosts: canViewConsole },
+}) => {
   const [kebabIsOpen, setKebab] = useState(false);
+  const [console, setConsole] = useState();
   const onKebabToggle = isOpen => setKebab(isOpen);
 
   const dropdownItems = [
@@ -25,7 +30,13 @@ const ActionsBar = ({ hostName }) => {
       {__('Build')}
     </DropdownItem>,
     <DropdownSeparator key="separator" />,
-    <DropdownItem key="separated link">{__('plugin action 1')}</DropdownItem>,
+    <DropdownItem
+      isDisabled={!canViewConsole}
+      key="console"
+      onClick={() => setConsole(true)}
+    >
+      {__('Console')}
+    </DropdownItem>,
     <DropdownItem key="separated action" component="button">
       {__('plugin action 2')}
     </DropdownItem>,
@@ -41,18 +52,31 @@ const ActionsBar = ({ hostName }) => {
       >
         {__('Edit')}
       </Button>
+
       <Dropdown
         toggle={<KebabToggle onToggle={onKebabToggle} />}
         isOpen={kebabIsOpen}
         isPlain
         dropdownItems={dropdownItems}
       />
+      {console && (
+        <ConsoleModal
+          hostID={hostName}
+          isOpen={console}
+          onClose={() => setConsole(false)}
+        />
+      )}
     </>
   );
 };
 
 ActionsBar.propTypes = {
   hostName: PropTypes.string.isRequired,
+  permissions: PropTypes.object,
+};
+
+ActionsBar.defaultProps = {
+  permissions: {},
 };
 
 export default ActionsBar;

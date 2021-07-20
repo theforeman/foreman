@@ -1,6 +1,6 @@
 <div class="row">
   <% search_bar(_("Generated %s ago") % time_ago_in_words(@console['timestamp'])) %>
-  <%= title_actions(link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')) if @host %>
+  <%= title_actions(link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default', :id => 'back-to-host-btn')) if @host %>
   <% title "#{@console[:name]}" %>
 </div>
 <% if @host && (@host.installed_at.nil? or (@console['timestamp'] - @host.installed_at < 5.minutes)) %>
