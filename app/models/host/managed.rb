@@ -748,7 +748,7 @@ autopart"', desc: 'to render the content of host partition table'
   def bmc_available?
     ipmi = bmc_nic
     return false if ipmi.nil?
-    (ipmi.password.present? && ipmi.username.present? && %w(IPMI Redfish).include?(ipmi.provider)) || ipmi.provider == 'SSH'
+    (ipmi.credentials_present? && %w(IPMI Redfish).include?(ipmi.provider)) || ipmi.provider == 'SSH'
   end
 
   def ipmi_boot(booting_device)
