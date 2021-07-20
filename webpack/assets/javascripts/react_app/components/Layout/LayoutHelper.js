@@ -4,11 +4,7 @@
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../common/I18n';
-import {
-  removeLastSlashFromPath,
-  noop,
-  foremanUrl,
-} from '../../common/helpers';
+import { removeLastSlashFromPath, noop } from '../../common/helpers';
 
 export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
   const taxonomyId = availableTaxonomies.find(
@@ -67,7 +63,7 @@ const createOrgItem = orgs => {
   const anyOrg = {
     name: __('Any Organization'),
     onClick: () => {
-      window.location.assign(foremanUrl('/organizations/clear'));
+      window.location.assign('/organizations/clear');
     },
   };
   const childrenArray = [anyOrg];
@@ -98,7 +94,7 @@ const createLocationItem = locations => {
   const anyLoc = {
     name: __('Any Location'),
     onClick: () => {
-      window.location.assign(foremanUrl('/locations/clear'));
+      window.location.assign('/locations/clear');
     },
   };
   const childrenArray = [anyLoc];

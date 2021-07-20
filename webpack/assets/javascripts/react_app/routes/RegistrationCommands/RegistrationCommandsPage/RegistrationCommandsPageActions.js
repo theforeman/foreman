@@ -1,4 +1,3 @@
-import { foremanUrl } from '../../../../foreman_tools';
 import { get, post } from '../../../redux/API';
 
 import {
@@ -10,19 +9,19 @@ import {
 export const dataAction = params =>
   get({
     key: REGISTRATION_COMMANDS_DATA,
-    url: foremanUrl('/hosts/register/data'),
+    url: '/hosts/register/data',
     params,
   });
 
 export const operatingSystemTemplateAction = operatingSystemId =>
   get({
     key: REGISTRATION_COMMANDS_OS_TEMPLATE,
-    url: foremanUrl(`/hosts/register/os/${operatingSystemId}`),
+    url: `/hosts/register/os/${operatingSystemId}`,
   });
 
 export const commandAction = params =>
   post({
     key: REGISTRATION_COMMANDS,
-    url: foremanUrl('/hosts/register'),
+    url: '/hosts/register',
     params,
   });

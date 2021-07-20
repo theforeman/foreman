@@ -161,8 +161,8 @@ export const stringIsPositiveNumber = value => {
  * Get manual url based on version
  * @param {String} section - section id for foreman documetation
  */
-export const getManualURL = section => foremanUrl(`/links/manual/${section}`);
-export const getWikiURL = section => foremanUrl(`/links/wiki/${section}`);
+export const getManualURL = section => `/links/manual/${section}`;
+export const getWikiURL = section => `/links/wiki/${section}`;
 
 /**
  * Transform the Date object to date string accepted in the server

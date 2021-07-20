@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../common/I18n';
 import EmptyState from '../common/EmptyState';
-import { foremanUrl } from '../../common/helpers';
 
 export const WelcomeArchitecture = ({ canCreate }) => {
   const action = canCreate && {
     title: __('Create Architecture'),
-    url: foremanUrl('/architectures/new'),
+    url: '/architectures/new',
   };
   const content = __(`Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>.
   Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems.`);

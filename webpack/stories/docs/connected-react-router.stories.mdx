@@ -17,9 +17,8 @@ This pushed a new url (including querystring) to react router and creates a tran
 
 ```js
 import { pushUrl } from '../foreman_navigation';
-import { foremanUrl } from '../foreman_tools';
 
-<Button onClick={() => pushUrl(foremanUrl('/hosts'))}>
+<Button onClick={() => pushUrl('/hosts')}>
    Click Me!
 </Button>
 ```

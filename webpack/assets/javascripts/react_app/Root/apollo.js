@@ -1,9 +1,7 @@
 import { ApolloClient, ApolloLink, InMemoryCache, from } from '@apollo/client';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 
-import { foremanUrl } from '../common/helpers';
-
-const batchLink = new BatchHttpLink({ uri: foremanUrl('/api/graphql') });
+const batchLink = new BatchHttpLink({ uri: '/api/graphql' });
 
 const authLink = new ApolloLink((operation, forward) => {
   operation.setContext({
