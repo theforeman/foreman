@@ -191,6 +191,9 @@ export const formatDateTime = date => {
 // generates an absolute, needed in case of running Foreman from a subpath
 export const foremanUrl = path => `${window.URL_PREFIX}${path}`;
 
+export const capitalize = string =>
+  string.charAt(0).toUpperCase() + string.slice(1);
+
 export default {
   isoCompatibleDate,
   bindMethods,

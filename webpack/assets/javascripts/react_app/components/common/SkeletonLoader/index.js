@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Skeleton from 'react-loading-skeleton';
 
 import { STATUS } from '../../../constants';
-import { translate as __ } from '../../../../react_app/common/I18n';
+import DefaultLoaderEmptyState from './DefaultLoaderEmptyState';
 
 const SkeletonLoader = ({
   status,
@@ -37,7 +37,7 @@ SkeletonLoader.propTypes = {
 
 SkeletonLoader.defaultProps = {
   skeletonProps: {},
-  emptyState: __('N/A'),
+  emptyState: <DefaultLoaderEmptyState />,
   children: undefined,
   errorNode: undefined,
 };

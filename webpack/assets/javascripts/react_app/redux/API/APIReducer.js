@@ -37,11 +37,7 @@ const apiReducer = (state = initialState, { type, key, payload, response }) => {
         },
       });
     case UPDATE:
-      return state.merge({
-        [key]: {
-          response: payload,
-        },
-      });
+      return state.setIn([key, 'response'], payload);
     default:
       return state;
   }
