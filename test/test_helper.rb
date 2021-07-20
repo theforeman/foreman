@@ -136,7 +136,7 @@ end
 class ActionController::TestCase
   extend Robottelo::Reporter::TestAttributes
   include ::BasicRestResponseTest
-  setup :setup_set_script_name, :set_api_user, :turn_off_login,
+  setup :set_api_user, :turn_off_login,
     :disable_webpack, :set_admin
 
   class << self
@@ -149,10 +149,6 @@ class ActionController::TestCase
 
   def turn_off_login
     SETTINGS[:require_ssl] = false
-  end
-
-  def setup_set_script_name
-    @request.env["SCRIPT_NAME"] = @controller.config.relative_url_root
   end
 
   def set_api_user

@@ -30,7 +30,7 @@ module Menu
     end
 
     def url
-      add_relative_path(@url || @context.routes.url_for(url_hash.merge(:only_path => true).except(:use_route)))
+      @url || @context.routes.url_for(url_hash.merge(:only_path => true).except(:use_route))
     end
 
     def url_hash
@@ -45,15 +45,6 @@ module Menu
     rescue => error
       Foreman::Logging.exception("Error while evaluating permissions", error)
       false
-    end
-
-    private
-
-    def add_relative_path(path)
-      relative_url = @context.config.action_controller.relative_url_root
-      return path unless relative_url.present?
-      return "#{relative_url}#{path}" unless path.start_with?(relative_url.end_with?('/') ? relative_url : "#{relative_url}/")
-      path
     end
   end
 end
