@@ -1,4 +1,4 @@
-module UrlValidator
+module UrlValidation
   extend ActiveSupport::Concern
 
   def is_http_url?(url)
