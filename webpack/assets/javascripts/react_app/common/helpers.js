@@ -1,5 +1,6 @@
 import { snakeCase, camelCase, debounce } from 'lodash';
 import URI from 'urijs';
+import { deprecate } from './DeprecationService';
 import { translate as __ } from './I18n';
 
 /**
@@ -189,7 +190,10 @@ export const formatDateTime = date => {
 };
 
 // generates an absolute, needed in case of running Foreman from a subpath
-export const foremanUrl = path => `${window.URL_PREFIX}${path}`;
+export const foremanUrl = path => {
+  deprecate('foremanUrl', 'plain URL', 3.1);
+  return path;
+};
 
 export default {
   isoCompatibleDate,
