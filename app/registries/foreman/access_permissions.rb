@@ -268,7 +268,7 @@ Foreman::AccessControl.map do |permission_set|
                                     :interfaces => [:new, :random_name],
                                     :"api/v2/hosts" => [:update, :disassociate, :forget_status],
                                     :"api/v2/interfaces" => [:create, :update, :destroy],
-                                    :"api/v2/compute_resources" => [:associate],
+                                    :"api/v2/compute_resources" => [:associate, :associate_vm],
                                   }
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy],
                                     :"api/v2/hosts" => [:destroy],
