@@ -18,7 +18,6 @@ import {
   AccordionToggle,
 } from '@patternfly/react-core';
 
-import { foremanUrl } from '../../../../foreman_tools';
 import { translate as __ } from '../../../common/I18n';
 import { useAPI } from '../../../common/hooks/API/APIHooks';
 
@@ -32,7 +31,7 @@ const AuditCard = ({ hostName }) => {
     }
   };
 
-  const url = hostName && foremanUrl(`/api/audits?search=host+%3D+${hostName}`);
+  const url = hostName && `/api/audits?search=host+%3D+${hostName}`;
   const {
     response: { results },
   } = useAPI('get', url);
@@ -40,7 +39,7 @@ const AuditCard = ({ hostName }) => {
     <Card isHoverable>
       <CardTitle>
         {__('Recent Audits')}{' '}
-        <a href={foremanUrl(`/audits?search=host+%3D+${hostName}`)}>
+        <a href={`/audits?search=host+%3D+${hostName}`}>
           <ArrowIcon />
         </a>
       </CardTitle>

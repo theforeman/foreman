@@ -7,14 +7,13 @@ import {
   Button,
 } from '@patternfly/react-core';
 import { CheckIcon } from '@patternfly/react-icons';
-import { foremanUrl } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
 import './TaxonomyDropdown.scss';
 
 const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   const id = `${taxonomyType}-dropdown`;
-  const anyTaxonomyURL = foremanUrl(`/${taxonomyType}s/clear`);
-  const manageTaxonomyURL = foremanUrl(`/${taxonomyType}s`);
+  const anyTaxonomyURL = `/${taxonomyType}s/clear`;
+  const manageTaxonomyURL = `/${taxonomyType}s`;
   const anyTaxonomyText =
     taxonomyType === 'organization'
       ? __('Any Organization')

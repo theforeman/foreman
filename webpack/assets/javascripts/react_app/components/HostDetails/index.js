@@ -18,7 +18,6 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
 
-import { foremanUrl } from '../../../foreman_tools';
 import { get } from '../../redux/API';
 import {
   selectAPIResponse,
@@ -62,7 +61,7 @@ const HostDetails = ({ match, location: { hash } }) => {
     dispatch(
       get({
         key: 'HOST_DETAILS',
-        url: foremanUrl(`/api/hosts/${match.params.id}`),
+        url: `/api/hosts/${match.params.id}`,
       })
     );
   }, [match.params.id, dispatch]);

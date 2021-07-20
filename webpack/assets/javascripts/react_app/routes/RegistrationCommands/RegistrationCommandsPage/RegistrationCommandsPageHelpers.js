@@ -2,7 +2,6 @@
 import React from 'react';
 import { FormSelectOption } from '@patternfly/react-core';
 
-import { foremanUrl } from '../../../../foreman_tools';
 import { sprintf, translate as __ } from '../../../common/I18n';
 
 // Form helpers
@@ -61,7 +60,7 @@ const osTemplateHelperText = (operatingSystemId, template) => {
     return (
       <span>
         {__('Initial configuration template')}:{' '}
-        <a href={foremanUrl(template.path)} target="_blank" rel="noreferrer">
+        <a href={template.path} target="_blank" rel="noreferrer">
           {template.name}
         </a>
       </span>
@@ -70,7 +69,7 @@ const osTemplateHelperText = (operatingSystemId, template) => {
 
   return (
     <span className="has-error">
-      <a href={foremanUrl(template.os_path)} target="_blank" rel="noreferrer">
+      <a href={template.os_path} target="_blank" rel="noreferrer">
         {__('Operating system')}
       </a>{' '}
       {__('does not have assigned host_init_config template')}

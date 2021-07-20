@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../common/I18n';
 import EmptyState from '../common/EmptyState';
-import { foremanUrl, getManualURL } from '../../common/helpers';
+import { getManualURL } from '../../common/helpers';
 
 export const WelcomeAuthSource = ({ canCreate }) => {
   const content = __(
@@ -29,7 +29,7 @@ export const WelcomeAuthSource = ({ canCreate }) => {
   );
   const action = canCreate && {
     title: __('Create LDAP Authentication Source'),
-    url: foremanUrl('auth_source_ldaps/new'),
+    url: 'auth_source_ldaps/new',
   };
 
   return (

@@ -395,7 +395,7 @@ function update_fqdn() {
     .text();
   var pathname = window.location.pathname;
   var name = fqdn(host_name, domain_name);
-  if (name.length > 0 && pathname === tfm.tools.foremanUrl('/hosts/new')) {
+  if (name.length > 0 && pathname === '/hosts/new') {
     name = __('Create Host') + ' | ' + name;
     tfm.store.dispatch('updateBreadcrumbTitle', name);
   }

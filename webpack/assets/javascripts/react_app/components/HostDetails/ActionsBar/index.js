@@ -7,7 +7,6 @@ import {
   Dropdown,
   KebabToggle,
 } from '@patternfly/react-core';
-import { foremanUrl } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
 
 const ActionsBar = ({ hostName }) => {
@@ -35,7 +34,7 @@ const ActionsBar = ({ hostName }) => {
     <>
       <Button
         onClick={() => {
-          window.location = foremanUrl(`/hosts/${hostName}/edit`);
+          window.location = `/hosts/${hostName}/edit`;
         }}
         variant="secondary"
       >

@@ -21,7 +21,6 @@ import {
   translate as __,
 } from '../react_app/common/I18n';
 import { getURIsearch } from '../react_app/common/urlHelpers';
-import { foremanUrl } from '../foreman_tools';
 import * as sessionStorage from './HostsSessionStorage';
 
 // Array contains list of host ids
@@ -88,7 +87,7 @@ function toggleActions() {
 
 // setups checkbox values upon document load
 $(document).on('ContentLoad', () => {
-  if (window.location.pathname !== foremanUrl('/hosts')) return;
+  if (window.location.pathname !== '/hosts') return;
 
   const hostQuery = sessionStorage.getHostQuery();
   const uriSearch = getURIsearch();

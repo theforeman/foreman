@@ -72,10 +72,6 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
     end
 
     context 'with :url parameter' do
-      after do
-        ENV['RAILS_RELATIVE_URL_ROOT'] = nil
-      end
-
       test 'without protocol and without port' do
         get :global, params: { url: 'example.com' }, session: set_session_user
         assert_response :internal_server_error
@@ -112,14 +108,6 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
         get :global, params: { url: url }, session: set_session_user
         assert_response :success
         assert_equal 'https://example.com/register', assigns(:global_registration_vars)[:registration_url].to_s
-      end
-
-      test 'with RAILS_RELATIVE_URL_ROOT' do
-        ENV['RAILS_RELATIVE_URL_ROOT'] = '/foreman'
-        url = 'https://example.com'
-        get :global, params: { url: url }, session: set_session_user
-        assert_response :success
-        assert_equal "#{url}/register", assigns(:global_registration_vars)[:registration_url].to_s
       end
     end
   end

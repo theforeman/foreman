@@ -19,7 +19,6 @@
     <%= csrf_meta_tags %>
 
     <script type="text/javascript">
-      var URL_PREFIX = '<%= controller.relative_url_root %>';
 
       <% if protect_against_forgery? %>
         var AUTH_TOKEN = '<%= form_authenticity_token %>';

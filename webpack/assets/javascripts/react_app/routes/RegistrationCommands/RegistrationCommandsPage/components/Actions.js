@@ -11,7 +11,6 @@ import {
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 
 import { sprintf, translate as __ } from '../../../../common/I18n';
-import { foremanUrl } from '../../../../../foreman_tools';
 
 const Actions = ({ isLoading, isGenerating, handleSubmit, invalidFields }) => (
   <>
@@ -27,7 +26,7 @@ const Actions = ({ isLoading, isGenerating, handleSubmit, invalidFields }) => (
       </Button>
 
       {/* Can't use <RedirectCancelButton> due to infinitive loop */}
-      <Link to={foremanUrl('/hosts')}>
+      <Link to="/hosts">
         <Button variant="link">{__('Cancel')}</Button>
       </Link>
     </ActionGroup>
