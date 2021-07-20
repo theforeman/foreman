@@ -87,6 +87,9 @@ module Api
       def update
         datacenter = change_datacenter_to_uuid(compute_resource_params[:datacenter])
         update_parameters = datacenter.present? ? compute_resource_params.merge(:datacenter => datacenter) : compute_resource_params
+        if @compute_resource.provider == 'Vmware' && compute_resource_params[:datacenter].present?
+          @compute_resource.compute_attributes.each { |ca| ca.vm_attrs['path'].gsub(@compute_resource.datacenter, compute_resource_params[:datacenter]) }
+        end
         process_response @compute_resource.update(update_parameters)
       end
 

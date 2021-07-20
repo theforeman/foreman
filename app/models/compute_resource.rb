@@ -25,7 +25,7 @@ class ComputeResource < ApplicationRecord
   has_many :hostgroups, :dependent => :nullify
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
-  has_many :compute_attributes, :dependent => :destroy
+  has_many :compute_attributes, :dependent => :destroy, :autosave => true
   has_many :compute_profiles, :through => :compute_attributes
 
   # The DB may contain compute resource from disabled plugins - filter them out here
