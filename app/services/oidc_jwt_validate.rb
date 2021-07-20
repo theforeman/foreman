@@ -12,8 +12,8 @@ class OidcJwtValidate
         verify_aud: true,
         iss: Setting['oidc_issuer'],
         verify_iss: true,
-        algorithms: [Setting['oidc_algorithm']],
-        jwks: jwks_loader }
+        algorithms: [Setting['oidc_algorithm']] },
+      &method(:jwk_findkey)
     ).first
   rescue JWT::DecodeError => e
     Foreman::Logging.exception('Failed to decode JWT', e)
@@ -21,6 +21,15 @@ class OidcJwtValidate
   end
 
   private
+
+  def jwk_findkey(header)
+    finder = JWT::JWK::KeyFinder.new(jwks: jwks_loader)
+
+    # Support ADFS's use of the non-standard x5t header for holding key ID
+    key = finder.key_for(header['kid']) if header.key? 'kid'
+    key ||= finder.key_for(header['x5t']) if header.key? 'x5t'
+    key
+  end
 
   def jwks_loader(options = {})
     response = RestClient::Request.execute(
