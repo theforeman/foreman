@@ -5,32 +5,39 @@ module HostStatus
     BUILD_FAILED = 3
     BUILT = 0
 
+    OK_STATUSES = [PENDING, BUILT]
+    WARN_STATUSES = []
+    ERROR_STATUSES = [TOKEN_EXPIRED, BUILD_FAILED]
+
+    LABELS = {
+      PENDING => N_("Pending installation"),
+      TOKEN_EXPIRED => N_("Token expired"),
+      BUILD_FAILED => N_("Installation error"),
+      BUILT => N_("Installed"),
+    }.freeze
+
+    SEARCH = {
+      PENDING => 'build_status = pending',
+      TOKEN_EXPIRED => 'build_status = token_expired',
+      BUILD_FAILED => 'build_status = build_failed',
+      BUILT => 'build_status = built',
+    }.freeze
+
     def self.status_name
       N_("Build")
     end
 
     def to_label(options = {})
-      case to_status
-        when PENDING
-          N_("Pending installation")
-        when TOKEN_EXPIRED
-          N_("Token expired")
-        when BUILT
-          N_("Installed")
-        when BUILD_FAILED
-          N_("Installation error")
-        else
-          N_("Unknown build status")
-      end
+      LABELS.fetch(to_status, N_("Unknown build status"))
     end
 
     def to_global(options = {})
-      case to_status
-        when TOKEN_EXPIRED, BUILD_FAILED
-          HostStatus::Global::ERROR
-        else
-          HostStatus::Global::OK
-      end
+      status = to_status
+
+      return HostStatus::Global::ERROR if ERROR_STATUSES.include?(status)
+      return HostStatus::Global::WARN if WARN_STATUSES.include?(status)
+
+      HostStatus::Global::OK
     end
 
     def to_status(options = {})

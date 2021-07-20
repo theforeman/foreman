@@ -214,6 +214,31 @@ module Hostext
           assert_empty result
         end
       end
+
+      context "search by build status" do
+        let(:built_status) do
+          HostStatus::BuildStatus.create(
+            status: HostStatus::BuildStatus::BUILT,
+            host: FactoryBot.create(:host)
+          )
+        end
+        let(:build_failed_status) do
+          HostStatus::BuildStatus.create(
+            status: HostStatus::BuildStatus::BUILD_FAILED,
+            host: FactoryBot.create(:host)
+          )
+        end
+
+        subject { Host.search_for('build_status = built') }
+
+        setup do
+          built_status
+          build_failed_status
+        end
+
+        it { assert_includes(subject, built_status.host) }
+        it { assert_not_includes(subject, build_failed_status.host) }
+      end
     end
   end
 end

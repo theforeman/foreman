@@ -312,6 +312,10 @@ Foreman::AccessControl.map do |permission_set|
                                   }
   end
 
+  permission_set.security_block :host_statuses do |map|
+    map.permission :view_statuses, {:"api/v2/host_statuses" => [:index]}
+  end
+
   permission_set.security_block :images do |map|
     map.permission :view_images, {:images => [:index, :show, :auto_complete_search],
                                      :"api/v2/images" => [:index, :show],

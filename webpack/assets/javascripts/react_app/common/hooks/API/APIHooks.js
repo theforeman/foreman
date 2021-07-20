@@ -18,6 +18,7 @@ import { APIActions } from '../../../redux/API';
 export const useAPI = (method, url, options) => {
   const dispatch = useDispatch();
   const keyRef = useRef(options?.key);
+  const optionsRef = useRef(options);
 
   useEffect(() => {
     if (!keyRef.current) keyRef.current = uuid();
@@ -28,12 +29,12 @@ export const useAPI = (method, url, options) => {
       dispatch(
         APIActions[method]({
           url,
-          ...options,
+          ...optionsRef,
           key: keyRef.current,
         })
       );
     }
-  }, [dispatch, url, method, options]);
+  }, [dispatch, url, method, optionsRef]);
 
   const response = useSelector(state =>
     selectAPIResponse(state, keyRef.current)
