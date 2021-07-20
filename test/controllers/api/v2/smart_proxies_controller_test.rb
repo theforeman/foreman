@@ -4,7 +4,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   valid_attrs = { :name => 'master02', :url => 'http://server:8443' }
 
   setup do
-    stub_smart_proxy_v2_features
+    stub_smart_proxy_v2_features_and_statuses
   end
 
   test "should get index" do
@@ -44,6 +44,25 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     refute_empty show_response
+  end
+
+  test "should show individual record with including status" do
+    get :show, params: { :id => smart_proxies(:one).to_param, :include_status => true }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    puts show_response
+
+    assert_includes show_response, 'status'
+    refute_includes show_response, 'version'
+  end
+
+  test "should show individual record including version" do
+    get :show, params: { :id => smart_proxies(:one).to_param, :include_version => true }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    puts show_response
+    refute_includes show_response, 'status'
+    assert_includes show_response, 'version'
   end
 
   test_attributes :pid => '0ffe0dc5-675e-45f4-b7e1-a14d3dd81f6e'
