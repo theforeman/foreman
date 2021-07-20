@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   Grid,
   Tab,
@@ -18,28 +19,25 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
 
-import { foremanUrl } from '../../../foreman_tools';
-import { get } from '../../redux/API';
-import {
-  selectAPIResponse,
-  selectAPIStatus,
-} from '../../redux/API/APISelectors';
 import { selectFillsIDs } from '../common/Slot/SlotSelectors';
 import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
+import { DEFAULT_TAB, HOST_DETAILS_API_OPTIONS } from './consts';
 import { translate as __ } from '../../common/I18n';
 
 import './HostDetails.scss';
+import { useAPI } from '../../common/hooks/API/APIHooks';
 
 const HostDetails = ({ match, location: { hash } }) => {
-  const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('Overview');
-  const response = useSelector(state =>
-    selectAPIResponse(state, 'HOST_DETAILS')
+  const { response, status } = useAPI(
+    'get',
+    `/api/hosts/${match.params.id}`,
+    HOST_DETAILS_API_OPTIONS
   );
-  const status = useSelector(state => selectAPIStatus(state, 'HOST_DETAILS'));
+
+  const history = useHistory();
   const isNavCollapsed = useSelector(selectIsCollapsed);
   const tabs = useSelector(state =>
     selectFillsIDs(state, 'host-details-page-tabs')
@@ -52,20 +50,8 @@ const HostDetails = ({ match, location: { hash } }) => {
 
   useEffect(() => {
     registerCoreTabs();
+    if (!hash) history.push(`#/${DEFAULT_TAB}`);
   }, []);
-
-  useEffect(() => {
-    if (hash) setActiveTab(hash.slice(1));
-  }, [hash]);
-
-  useEffect(() => {
-    dispatch(
-      get({
-        key: 'HOST_DETAILS',
-        url: foremanUrl(`/api/hosts/${match.params.id}`),
-      })
-    );
-  }, [match.params.id, dispatch]);
 
   useEffect(() => {
     //  This is a workaround for adding gray background inspiring pf4 desgin
@@ -73,10 +59,6 @@ const HostDetails = ({ match, location: { hash } }) => {
     document.body.classList.add('pf-gray-background');
     return () => document.body.classList.remove('pf-gray-background');
   }, []);
-
-  const handleTabClick = (event, tabIndex) => {
-    setActiveTab(tabIndex);
-  };
 
   return (
     <>
@@ -132,25 +114,34 @@ const HostDetails = ({ match, location: { hash } }) => {
           </Text>
           <br />
         </div>
-        <Tabs
-          style={{
-            width: window.innerWidth - (isNavCollapsed ? 95 : 220),
-          }}
-          activeKey={activeTab}
-          onSelect={handleTabClick}
-        >
-          {tabs &&
-            tabs.map(tab => (
-              <Tab eventKey={tab} title={tab}>
-                <Slot
-                  response={response}
-                  status={status}
-                  id="host-details-page-tabs"
-                  fillID={tab}
-                />
-              </Tab>
-            ))}
-        </Tabs>
+        <HashRouter>
+          <>
+            <Tabs
+              style={{
+                width: window.innerWidth - (isNavCollapsed ? 95 : 220),
+              }}
+              activeKey={hash.slice(2)}
+            >
+              {tabs &&
+                tabs.map(tab => (
+                  <Tab eventKey={tab} title={tab} href={`#${tab}`} />
+                ))}
+            </Tabs>
+            <Switch>
+              {tabs?.map(tab => (
+                <Route path={`/${tab}`}>
+                  <Slot
+                    response={response}
+                    status={status}
+                    id="host-details-page-tabs"
+                    fillID={tab}
+                    router={history}
+                  />
+                </Route>
+              ))}
+            </Switch>
+          </>
+        </HashRouter>
       </PageSection>
     </>
   );
