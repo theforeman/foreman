@@ -1,5 +1,5 @@
 # Base container that is used for both building and running the app
-FROM registry.fedoraproject.org/fedora-minimal:latest as base
+FROM registry.fedoraproject.org/fedora-minimal:33 as base
 ARG RUBY_VERSION="2.7"
 ARG NODEJS_VERSION="12"
 ENV FOREMAN_FQDN=foreman.example.com
@@ -8,7 +8,7 @@ ENV FOREMAN_DOMAIN=example.com
 RUN \
   echo -e "[nodejs]\nname=nodejs\nstream=${NODEJS_VERSION}\nprofiles=\nstate=enabled\n" > /etc/dnf/modules.d/nodejs.module && \
   echo -e "[ruby]\nname=ruby\nstream=${RUBY_VERSION}\nprofiles=\nstate=enabled\n" > /etc/dnf/modules.d/ruby.module && \
-  microdnf install postgresql-libs ruby{,gems} rubygem-{rake,bundler} npm nc hostname \
+  microdnf install -y postgresql-libs ruby{,gems} rubygem-{rake,bundler} npm nc hostname \
   # needed for VNC/SPICE websockets
   python2-numpy && \
   microdnf clean all
@@ -33,7 +33,7 @@ ENV FOREMAN_APIPIE_LANGS=en
 ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter console"
 
 RUN \
-  microdnf install redhat-rpm-config git \
+  microdnf install -y redhat-rpm-config git \
     gcc-c++ make bzip2 gettext tar \
     libxml2-devel libcurl-devel ruby-devel \
     postgresql-devel && \
