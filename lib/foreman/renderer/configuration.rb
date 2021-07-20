@@ -27,6 +27,7 @@ module Foreman
         :preview?,
         :raise,
         :input,
+        :input_resource,
         :rand,
         :rand_hex,
         :rand_name,
