@@ -1,7 +1,7 @@
 import { shallow } from '@theforeman/test';
 import React from 'react';
 import FactChart from '../FactChart';
-import { props } from '../FactChart.fixtures';
+import { props } from '../fixtures';
 
 describe('factCharts', () => {
   it('should render open', () => {

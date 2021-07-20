@@ -7,7 +7,7 @@ import {
   modalSuccessState,
   modalLoadingState,
   modalErrorState,
-} from './FactChart.fixtures';
+} from './fixtures';
 import Story from '../../../../../stories/components/Story';
 
 const mockStore = configureMockStore([thunk]);

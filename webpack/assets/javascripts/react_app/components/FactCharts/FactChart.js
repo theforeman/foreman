@@ -11,7 +11,7 @@ import {
   ngettext as n__,
   translate as __,
 } from '../../../react_app/common/I18n';
-import './FactChart.scss';
+import './style.scss';
 
 const FactChart = ({
   hostsCount,
