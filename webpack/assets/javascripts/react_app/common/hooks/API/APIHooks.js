@@ -36,7 +36,7 @@ export const useAPI = (method, url, options) => {
   }, [dispatch, url, method, options]);
 
   const response = useSelector(state =>
-    selectAPIResponse(state, keyRef.current)
+    selectAPIResponse(state, keyRef.current, options?.asMutable)
   );
   const status = useSelector(state => selectAPIStatus(state, keyRef.current));
 
