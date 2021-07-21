@@ -50,7 +50,8 @@ module Foreman
         :to_json,
         :to_yaml,
         :foreman_server_ca_cert,
-        :format_time
+        :format_time,
+        :shell_escape
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [
