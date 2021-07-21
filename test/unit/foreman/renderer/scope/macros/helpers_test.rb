@@ -92,4 +92,11 @@ class HelpersTest < ActiveSupport::TestCase
 
     it { assert_equal utc_time.strftime(format_pattern), scope.format_time(unix_timestamp, format: format_pattern) }
   end
+
+  describe '#shell_escape' do
+    string = "how y'all doin?"
+    escaped = "how\\ y\\'all\\ doin\\?"
+
+    it { assert_equal escaped, scope.shell_escape(string) }
+  end
 end

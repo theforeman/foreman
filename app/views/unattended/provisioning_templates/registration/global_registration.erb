@@ -51,21 +51,21 @@ if [ x$ID = xrhel ] || [ x$ID = xfedora ] || [ x$ID = xol ] || test "${ID_LIKE#*
   cat << EOF > /etc/yum.repos.d/foreman_registration.repo
 [foreman_register]
 name=foreman_register
-baseurl=<%= @repo %>
+baseurl=<%= shell_escape @repo %>
 enabled=1
 gpgcheck=<%= @repo_gpg_key_url.present? ? 1 : 0 %>
-gpgkey=<%= @repo_gpg_key_url %>
+gpgkey=<%= shell_escape @repo_gpg_key_url %>
 EOF
 
   echo "Building yum metadata cache, this may take a few minutes"
   yum makecache
 elif [ x$ID = xdebian ] || [ x$ID = xubuntu ]; then
   cat << EOF > /etc/apt/sources.list.d/foreman_registration.list
-<%= @repo %>
+<%= shell_escape @repo %>
 EOF
 <% if @repo_gpg_key_url.present? -%>
   apt-get -y install ca-certificates gpg
-  curl --silent --show-error <%= @repo_gpg_key_url %> | apt-key add -
+  curl --silent --show-error <%= shell_escape @repo_gpg_key_url %> | apt-key add -
 <% end -%>
   apt-get update
 
@@ -85,11 +85,11 @@ register_host() {
 <%= "       --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
 <%= "       --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
 <%= "       --data 'host[operatingsystem_id]=#{@operatingsystem.id}' \\\n" if @operatingsystem -%>
-<%= "       --data 'host[interfaces_attributes][0][identifier]=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
+<%= "       --data host[interfaces_attributes][0][identifier]=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
 <%= "       --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
 <%= "       --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
-<%= "       --data 'remote_execution_interface=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
-<%= "       --data 'packages=#{@packages}' \\\n" if @packages.present? -%>
+<%= "       --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
+<%= "       --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
 <%= "       --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
 
 }
@@ -111,8 +111,8 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ] || [ x$ID = xol ]; then
 <%= "          --data 'host[lifecycle_environment_id]=#{@lifecycle_environment_id}' \\\n" if @lifecycle_environment_id.present? -%>
 <%= "          --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
 <%= "          --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
-<%= "          --data 'remote_execution_interface=#{@remote_execution_interface}' \\\n" if @remote_execution_interface.present? -%>
-<%= "          --data 'packages=#{@packages}' \\\n" if @packages.present? -%>
+<%= "          --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
+<%= "          --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
 <%= "          --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
 
 }
@@ -143,7 +143,10 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ] || [ x$ID = xol ]; then
 
     rm -f $CONSUMER_RPM
 
-    subscription-manager register <%= '--force' if @force %> --org='<%= @organization.label %>' --activationkey='<%= activation_keys %>' || <%= @ignore_subman_errors ? 'true' : 'exit 1' %>
+    subscription-manager register <%= '--force' if @force %> \
+        --org='<%= @organization.label %>' \
+        --activationkey=<%= shell_escape(activation_keys) %> || <%= @ignore_subman_errors ? 'true' : 'exit 1' %>
+
     register_katello_host | bash
 else
     register_host | bash
