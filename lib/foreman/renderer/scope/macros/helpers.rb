@@ -90,6 +90,15 @@ module Foreman
 
             time_to_format.in_time_zone(zone).strftime(format)
           end
+
+          apipie :method, "Escape string to safely use it with a shell" do
+            required :string, String, desc: 'String to escape'
+            returns String
+            example "shell_escape('escaped;string') #=> 'escaped\\;string'"
+          end
+          def shell_escape(string)
+            Shellwords.shellescape(string)
+          end
         end
       end
     end
