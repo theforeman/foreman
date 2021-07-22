@@ -53,14 +53,6 @@ const CardItem = ({
 };
 
 CardItem.propTypes = {
-  content: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      key: PropTypes.string,
-      value: PropTypes.string,
-    })
-  ).isRequired,
   header: PropTypes.node.isRequired,
   children: PropTypes.node,
   overrideGridProps: PropTypes.object,

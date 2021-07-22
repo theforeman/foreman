@@ -15,18 +15,20 @@ const ActionsBar = ({ hostName }) => {
   const onKebabToggle = isOpen => setKebab(isOpen);
 
   const dropdownItems = [
-    <DropdownItem key="clone" component="button">
+    <DropdownItem key="delete" component="button">
       {__('Delete')}
     </DropdownItem>,
     <DropdownItem key="clone" component="button">
       {__('Clone')}
     </DropdownItem>,
-    <DropdownItem key="disabled link" component="button">
+    <DropdownItem key="build" component="button">
       {__('Build')}
     </DropdownItem>,
     <DropdownSeparator key="separator" />,
-    <DropdownItem key="separated link">{__('plugin action 1')}</DropdownItem>,
-    <DropdownItem key="separated action" component="button">
+    <DropdownItem key="[plugin]-action-1">
+      {__('plugin action 1')}
+    </DropdownItem>,
+    <DropdownItem key="[plugin]-action-2" component="button">
       {__('plugin action 2')}
     </DropdownItem>,
   ];
@@ -52,7 +54,10 @@ const ActionsBar = ({ hostName }) => {
 };
 
 ActionsBar.propTypes = {
-  hostName: PropTypes.string.isRequired,
+  hostName: PropTypes.string,
+};
+ActionsBar.defaultProps = {
+  hostName: undefined,
 };
 
 export default ActionsBar;
