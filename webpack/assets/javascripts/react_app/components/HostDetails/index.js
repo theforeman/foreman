@@ -112,13 +112,13 @@ const HostDetails = ({
               <Badge key={21}>{response.architecture_name}</Badge>
             </GridItem>
             <GridItem span={2}>
-              <ActionsBar hostName={response.name || <Skeleton />} />
+              <ActionsBar hostName={response.name} />
             </GridItem>
           </Grid>
           <Text style={{ fontStyle: 'italic' }} component={TextVariants.p}>
             {/* TODO: extracting text and remove timeago usage in favor i18n */}
             {response.name ? (
-              <div>
+              <span>
                 created{' '}
                 <RelativeDateTime
                   date={response.created_at}
@@ -130,7 +130,7 @@ const HostDetails = ({
                   defaultValue="N/A"
                 />
                 )
-              </div>
+              </span>
             ) : (
               <Skeleton width={400} />
             )}

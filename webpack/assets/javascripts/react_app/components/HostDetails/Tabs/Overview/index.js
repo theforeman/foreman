@@ -3,8 +3,6 @@ import React from 'react';
 import { Grid, GridItem, Flex, FlexItem } from '@patternfly/react-core';
 
 import Properties from '../../Properties';
-import ParametersCard from '../../Parameters';
-import InterfacesCard from '../../Interfaces';
 import AuditCard from '../../Audits';
 import StatusAlert from '../../Status';
 import Slot from '../../../common/Slot';
@@ -27,13 +25,7 @@ const DetailsTab = ({ response, status, hostName }) => (
         <Properties hostData={response} status={status} />
       </GridItem>
       <GridItem xl2={3} md={6} lg={5}>
-        <ParametersCard paramters={response.all_parameters} />
-      </GridItem>
-      <GridItem xl2={3} md={6} lg={5}>
         <AuditCard hostName={hostName} />
-      </GridItem>
-      <GridItem xl2={3} md={6} lg={5}>
-        <InterfacesCard interfaces={response.interfaces} />
       </GridItem>
       <Slot hostDetails={response} id="details-cards" multi />
     </Grid>
