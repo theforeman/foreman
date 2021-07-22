@@ -17,18 +17,23 @@ oses:
   - package_upgrade: boolean (default=true)
   - salt_master: string (default=undef)
   %>
-<%= snippet_if_exists(template_name + " custom pre") -%>
-<% if @host.subnet.respond_to?(:dhcp_boot_mode?) -%>
-<%= snippet 'kickstart_networking_setup' %>
-service network restart
-<% end -%>
-
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  os_major = @host.operatingsystem.major.to_i
   puppet_enabled = host_puppet_server.present? || host_param_true?('force-puppet')
   salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 %>
+
+<%= snippet_if_exists(template_name + " custom pre") -%>
+<% if @host.subnet.respond_to?(:dhcp_boot_mode?) -%>
+<%= snippet 'kickstart_networking_setup' %>
+<% if (rhel_compatible && os_major >= 8) -%>
+systemctl restart NetworkManager
+<% else -%>
+service network restart
+<% end -%>
+<% end -%>
 
 <% if @host.provision_method == 'image' && root_pass.present? -%>
 # Install the root password
