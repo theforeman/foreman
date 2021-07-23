@@ -17,8 +17,8 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
         location_id: taxonomies(:location1).id,
         hostgroup_id: hostgroups(:common).id,
         operatingsystem_id: operatingsystems(:redhat).id,
-        setup_insights: 'false',
-        setup_remote_execution: 'false',
+        setup_insights: false,
+        setup_remote_execution: false,
         packages: 'pkg1',
         update_packages: true,
       }
