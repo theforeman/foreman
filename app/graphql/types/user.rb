@@ -20,5 +20,6 @@ module Types
     has_many :personal_access_tokens, Types::PersonalAccessToken
     has_many :ssh_keys, Types::SshKey
     has_many :usergroups, Types::Usergroup
+    has_many :permissions, Types::Permission
   end
 end
