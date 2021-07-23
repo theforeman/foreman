@@ -51,6 +51,15 @@ module Queries
               }
             }
           }
+          permissions {
+            totalCount
+            edges {
+              node {
+                id
+                name
+              }
+            }
+          }
         }
       }
       GRAPHQL
@@ -100,6 +109,7 @@ module Queries
       assert_collection user.personal_access_tokens, data['personalAccessTokens']
       assert_collection user.ssh_keys, data['sshKeys']
       assert_collection user.usergroups, data['usergroups']
+      assert_collection user.permissions, data['permissions']
     end
   end
 end

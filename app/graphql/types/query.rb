@@ -91,5 +91,8 @@ module Types
 
     record_field :lookup_value, Types::LookupValue
     collection_field :lookup_values, Types::LookupValue
+
+    record_field :permission, Types::Permission
+    collection_field :permissions, Types::Permission
   end
 end
