@@ -9,12 +9,10 @@ module Foreman::Controller::RegistrationCommands
   end
 
   def registration_args
-    args = registration_params.except(*ignored_query_args)
-    args['setup_insights'] = registration_params['setup_insights']
-    args['setup_remote_execution'] = registration_params['setup_remote_execution']
-
-    args.delete_if { |_, v| v.blank? }
-        .permit!
+    registration_params.except(*ignored_query_args)
+                       .transform_values! { |v| v == false ? v.to_s : v }
+                       .delete_if { |_, v| v.blank? }
+                       .permit!
   end
 
   def insecure
