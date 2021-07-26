@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-26 17:23+0000\n"
+"PO-Revision-Date: 2021-05-03 17:21+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
@@ -299,6 +299,9 @@ msgstr[1] ""
 msgid "(Miscellaneous)"
 msgstr ""
 
+msgid "(filtered from %s total entries)"
+msgstr ""
+
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr ""
 
@@ -312,6 +315,12 @@ msgid "*Clear host group*"
 msgstr ""
 
 msgid "*Inherit from host group*"
+msgstr ""
+
+msgid ": activate to sort column ascending"
+msgstr ""
+
+msgid ": activate to sort column descending"
 msgstr ""
 
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
@@ -3377,6 +3386,9 @@ msgstr ""
 msgid "Firmware"
 msgstr ""
 
+msgid "First"
+msgstr ""
+
 msgid "First Page"
 msgstr ""
 
@@ -4206,6 +4218,9 @@ msgstr ""
 msgid "Hosts without errors, with alerts enabled"
 msgstr ""
 
+msgid "How templates are determined"
+msgstr ""
+
 msgid "How values are validated"
 msgstr ""
 
@@ -4951,6 +4966,9 @@ msgstr ""
 msgid "Language to use for new users"
 msgstr ""
 
+msgid "Last"
+msgstr ""
+
 msgid "Last Page"
 msgstr ""
 
@@ -4970,6 +4988,9 @@ msgid "Latest Events"
 msgstr ""
 
 msgid "Launch Console"
+msgstr ""
+
+msgid "Launch loading wizard"
 msgstr ""
 
 msgid "Learn more about External authentication in the documentation."
@@ -6053,6 +6074,9 @@ msgstr ""
 msgid "New window"
 msgstr ""
 
+msgid "Next"
+msgstr "Next"
+
 msgid "Next Page"
 msgstr ""
 
@@ -6199,6 +6223,9 @@ msgstr ""
 msgid "No data available"
 msgstr ""
 
+msgid "No data available in table"
+msgstr ""
+
 msgid "No documentation found"
 msgstr ""
 
@@ -6254,6 +6281,9 @@ msgid "No interesting reports received in the last week"
 msgstr ""
 
 msgid "No logs to show"
+msgstr ""
+
+msgid "No matching records found"
 msgstr ""
 
 msgid "No matching server groups found"
@@ -7191,6 +7221,9 @@ msgstr ""
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
+msgid "Previous"
+msgstr ""
+
 msgid "Previous Page"
 msgstr ""
 
@@ -7219,6 +7252,9 @@ msgid "Private key file that Foreman will use to encrypt websockets "
 msgstr ""
 
 msgid "Proceed to Edit"
+msgstr ""
+
+msgid "Processing..."
 msgstr ""
 
 msgid "Project (Tenant) name"
@@ -8015,6 +8051,9 @@ msgstr ""
 msgid "Search your logs for request-id"
 msgstr ""
 
+msgid "Search:"
+msgstr ""
+
 msgid "Secondary DNS Server"
 msgstr ""
 
@@ -8296,6 +8335,9 @@ msgstr ""
 msgid "Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface."
 msgstr ""
 
+msgid "Show %s entries"
+msgstr ""
+
 msgid "Show %s fact values for all hosts"
 msgstr ""
 
@@ -8513,6 +8555,12 @@ msgid "Show the currently logged-in user"
 msgstr ""
 
 msgid "Show the last report for a host"
+msgstr ""
+
+msgid "Showing %s to %s of %s entries"
+msgstr ""
+
+msgid "Showing 0 to 0 of 0 entries"
 msgstr ""
 
 msgid "Shows status and version information of Foreman system and it's subcomponents"
@@ -9576,6 +9624,9 @@ msgid "This value is not hidden"
 msgstr ""
 
 msgid "This value is used also as the host's primary interface name."
+msgstr ""
+
+msgid "This will be one of our coolest pages."
 msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
@@ -11322,6 +11373,9 @@ msgstr ""
 msgid "hostname of the host"
 msgstr ""
 
+msgid "hours"
+msgstr ""
+
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
@@ -11640,6 +11694,12 @@ msgstr "physical @ NAT %s"
 
 msgid "physical @ bridge %s"
 msgstr "physical @ bridge %s"
+
+msgid "plugin action 1"
+msgstr ""
+
+msgid "plugin action 2"
+msgstr ""
 
 msgid "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"
 msgstr ""

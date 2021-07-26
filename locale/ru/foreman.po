@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-26 17:23+0000\n"
+"PO-Revision-Date: 2021-05-03 17:21+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
@@ -326,6 +326,9 @@ msgstr[1] ""
 msgid "(Miscellaneous)"
 msgstr "(другое)"
 
+msgid "(filtered from %s total entries)"
+msgstr ""
+
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr "Дополнительно: роль IAM для Fog, используемая для создания образа "
 
@@ -340,6 +343,12 @@ msgstr "*Очистить группу узлов*"
 
 msgid "*Inherit from host group*"
 msgstr "*Наследовать от группы*"
+
+msgid ": activate to sort column ascending"
+msgstr ""
+
+msgid ": activate to sort column descending"
+msgstr ""
 
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
 msgstr ":foreman_url не установлен, настройте Foreman Web UI (Администрирование -> Настройки  -> Общее)"
@@ -3416,6 +3425,9 @@ msgstr "Завершающий шаблон"
 msgid "Firmware"
 msgstr ""
 
+msgid "First"
+msgstr ""
+
 msgid "First Page"
 msgstr ""
 
@@ -4248,6 +4260,9 @@ msgstr ""
 msgid "Hosts without errors, with alerts enabled"
 msgstr ""
 
+msgid "How templates are determined"
+msgstr "Определение шаблонов"
+
 msgid "How values are validated"
 msgstr "Допустимые типы"
 
@@ -4993,6 +5008,9 @@ msgstr "Язык"
 msgid "Language to use for new users"
 msgstr ""
 
+msgid "Last"
+msgstr ""
+
 msgid "Last Page"
 msgstr ""
 
@@ -5012,6 +5030,9 @@ msgid "Latest Events"
 msgstr "Последние события"
 
 msgid "Launch Console"
+msgstr ""
+
+msgid "Launch loading wizard"
 msgstr ""
 
 msgid "Learn more about External authentication in the documentation."
@@ -6095,6 +6116,9 @@ msgstr "Новый фильтр"
 msgid "New window"
 msgstr "Новое окно"
 
+msgid "Next"
+msgstr "Далее"
+
 msgid "Next Page"
 msgstr ""
 
@@ -6241,6 +6265,9 @@ msgstr "Нет вычислительных ресурсов"
 msgid "No data available"
 msgstr ""
 
+msgid "No data available in table"
+msgstr ""
+
 msgid "No documentation found"
 msgstr "Документация не найдена"
 
@@ -6297,6 +6324,9 @@ msgstr "Нет отчетов за прошлую неделю"
 
 msgid "No logs to show"
 msgstr "Нет журналов"
+
+msgid "No matching records found"
+msgstr ""
 
 msgid "No matching server groups found"
 msgstr ""
@@ -7233,6 +7263,9 @@ msgstr ""
 msgid "Preview rendered provisioning template content"
 msgstr "Просмотр содержимого подготовительного шаблона"
 
+msgid "Previous"
+msgstr ""
+
 msgid "Previous Page"
 msgstr ""
 
@@ -7262,6 +7295,9 @@ msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "Перейти к редактированию"
+
+msgid "Processing..."
+msgstr ""
 
 msgid "Project (Tenant) name"
 msgstr ""
@@ -8057,6 +8093,9 @@ msgstr ""
 msgid "Search your logs for request-id"
 msgstr ""
 
+msgid "Search:"
+msgstr ""
+
 msgid "Secondary DNS Server"
 msgstr ""
 
@@ -8338,6 +8377,9 @@ msgstr "Должен ли интерфейс использоваться для
 msgid "Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface."
 msgstr "Должен ли интерфейс использоваться для формирования FQDN-имени узла? Каждый управляемый узел должен иметь один первичный интерфейс."
 
+msgid "Show %s entries"
+msgstr ""
+
 msgid "Show %s fact values for all hosts"
 msgstr "Показать значения %s для всех узлов"
 
@@ -8556,6 +8598,12 @@ msgstr ""
 
 msgid "Show the last report for a host"
 msgstr "Показать последний отчет узла"
+
+msgid "Showing %s to %s of %s entries"
+msgstr ""
+
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
 
 msgid "Shows status and version information of Foreman system and it's subcomponents"
 msgstr ""
@@ -9627,6 +9675,9 @@ msgstr ""
 
 msgid "This value is used also as the host's primary interface name."
 msgstr "Это значение также используется для обозначения первичного интерфейса узла."
+
+msgid "This will be one of our coolest pages."
+msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr ""
@@ -11374,6 +11425,9 @@ msgstr ""
 msgid "hostname of the host"
 msgstr "имя узла"
 
+msgid "hours"
+msgstr ""
+
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
@@ -11694,6 +11748,12 @@ msgstr "физический @ NAT %s"
 
 msgid "physical @ bridge %s"
 msgstr "физический @ мост %s"
+
+msgid "plugin action 1"
+msgstr ""
+
+msgid "plugin action 2"
+msgstr ""
 
 msgid "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"
 msgstr "управление питанием, доступные действия: (включить/запустить), (выключить/остановить), (перезагрузка), (сброс), (состояние)"

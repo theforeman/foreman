@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-26 17:23+0000\n"
-"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
+"PO-Revision-Date: 2021-05-03 17:21+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -310,6 +310,9 @@ msgstr[1] ""
 msgid "(Miscellaneous)"
 msgstr "(různé)"
 
+msgid "(filtered from %s total entries)"
+msgstr ""
+
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr ""
 
@@ -324,6 +327,12 @@ msgstr ""
 
 msgid "*Inherit from host group*"
 msgstr "*Převzít ze skupiny stroje*"
+
+msgid ": activate to sort column ascending"
+msgstr ""
+
+msgid ": activate to sort column descending"
+msgstr ""
 
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
 msgstr ""
@@ -3388,6 +3397,9 @@ msgstr "Dokončit šablonu"
 msgid "Firmware"
 msgstr "Firmware"
 
+msgid "First"
+msgstr ""
+
 msgid "First Page"
 msgstr "První stránka"
 
@@ -4217,6 +4229,9 @@ msgstr ""
 msgid "Hosts without errors, with alerts enabled"
 msgstr "Stroje bez chyb a se zapnutými výstrahami"
 
+msgid "How templates are determined"
+msgstr ""
+
 msgid "How values are validated"
 msgstr "Jak jsou hodnoty ověřovány"
 
@@ -4962,6 +4977,9 @@ msgstr "Jazyk"
 msgid "Language to use for new users"
 msgstr "Jazyk, který použít pro nové uživatele"
 
+msgid "Last"
+msgstr ""
+
 msgid "Last Page"
 msgstr "Poslední stránka"
 
@@ -4982,6 +5000,9 @@ msgstr "Nejnovější události"
 
 msgid "Launch Console"
 msgstr "Spustit konzoli"
+
+msgid "Launch loading wizard"
+msgstr ""
 
 msgid "Learn more about External authentication in the documentation."
 msgstr ""
@@ -6064,6 +6085,9 @@ msgstr "Nový filtr"
 msgid "New window"
 msgstr "Nové okno"
 
+msgid "Next"
+msgstr "Další"
+
 msgid "Next Page"
 msgstr "Další stránka"
 
@@ -6210,6 +6234,9 @@ msgstr "Žádné výpočetní prostředky k zobrazení"
 msgid "No data available"
 msgstr "Žádná data k dispozici"
 
+msgid "No data available in table"
+msgstr ""
+
 msgid "No documentation found"
 msgstr "Nebyla nalezena žádná dokumentace"
 
@@ -6266,6 +6293,9 @@ msgstr "V uplynulém týdnu neobdrženy žádné zajímavé výkazy"
 
 msgid "No logs to show"
 msgstr "Žádná loga ke zobrazení"
+
+msgid "No matching records found"
+msgstr ""
 
 msgid "No matching server groups found"
 msgstr ""
@@ -7202,6 +7232,9 @@ msgstr "Náhled už neplatí."
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
+msgid "Previous"
+msgstr ""
+
 msgid "Previous Page"
 msgstr "Předchozí stránka"
 
@@ -7231,6 +7264,9 @@ msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "Pokračovat na úpravu"
+
+msgid "Processing..."
+msgstr ""
 
 msgid "Project (Tenant) name"
 msgstr ""
@@ -8026,6 +8062,9 @@ msgstr ""
 msgid "Search your logs for request-id"
 msgstr ""
 
+msgid "Search:"
+msgstr ""
+
 msgid "Secondary DNS Server"
 msgstr "Sekundární DNS server"
 
@@ -8307,6 +8346,9 @@ msgstr ""
 msgid "Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface."
 msgstr ""
 
+msgid "Show %s entries"
+msgstr ""
+
 msgid "Show %s fact values for all hosts"
 msgstr "Zobrazit %s hodnot faktů pro všechny stroje"
 
@@ -8524,6 +8566,12 @@ msgid "Show the currently logged-in user"
 msgstr ""
 
 msgid "Show the last report for a host"
+msgstr ""
+
+msgid "Showing %s to %s of %s entries"
+msgstr ""
+
+msgid "Showing 0 to 0 of 0 entries"
 msgstr ""
 
 msgid "Shows status and version information of Foreman system and it's subcomponents"
@@ -9589,6 +9637,9 @@ msgid "This value is not hidden"
 msgstr "Tato hodnota není skrytá"
 
 msgid "This value is used also as the host's primary interface name."
+msgstr ""
+
+msgid "This will be one of our coolest pages."
 msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
@@ -11335,6 +11386,9 @@ msgstr ""
 msgid "hostname of the host"
 msgstr "název stroje hostitele"
 
+msgid "hours"
+msgstr ""
+
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
@@ -11654,6 +11708,12 @@ msgid "physical @ NAT %s"
 msgstr ""
 
 msgid "physical @ bridge %s"
+msgstr ""
+
+msgid "plugin action 1"
+msgstr ""
+
+msgid "plugin action 2"
 msgstr ""
 
 msgid "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"

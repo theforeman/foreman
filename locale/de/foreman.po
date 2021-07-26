@@ -31,14 +31,14 @@
 # stbenjam <stephen@redhat.com>, 2014,2016
 # Wiederoder <stefanwiederoder@googlemail.com>, 2013
 # Timo Goebel <mail@timogoebel.name>, 2015
-# Ulrich Habel <rhaen@pkgbox.de>, 2013-2014
+# 47388d0d0847859fcc07f8955b27d2a7_d1cb104 <93875580def0fcc1a566b016c3948752_122921>, 2013-2014
 # Wiederoder <stefanwiederoder@googlemail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-04-26 17:23+0000\n"
-"Last-Translator: simon11 <transifex@stieger.co>\n"
+"PO-Revision-Date: 2021-05-03 17:21+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -325,6 +325,9 @@ msgstr[1] "(%s Hosts)"
 msgid "(Miscellaneous)"
 msgstr "(Verschiedenes)"
 
+msgid "(filtered from %s total entries)"
+msgstr ""
+
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr "(optional) IAM-Rolle für Fog verwenden, wenn das Abbild erstellt wird."
 
@@ -339,6 +342,12 @@ msgstr "*Lösche Hostgruppe*"
 
 msgid "*Inherit from host group*"
 msgstr "*Vererbe von Hostgruppe*"
+
+msgid ": activate to sort column ascending"
+msgstr ""
+
+msgid ": activate to sort column descending"
+msgstr ""
 
 msgid ":foreman_url is not set, please configure in the Foreman Web UI (Administer -> Settings -> General)"
 msgstr ":foreman_url ist nicht gesetzt, bitte im Foreman Web UI setzen (Administration -> Einstellungen -> Allgemein)"
@@ -3423,6 +3432,9 @@ msgstr "Abschlussvorlage"
 msgid "Firmware"
 msgstr "Firmware"
 
+msgid "First"
+msgstr ""
+
 msgid "First Page"
 msgstr "Erste Seite"
 
@@ -4255,6 +4267,9 @@ msgstr "Prozentsatz der fehlerfreien Hosts"
 msgid "Hosts without errors, with alerts enabled"
 msgstr "Hosts ohne Fehler, mit aktivierten Warnungen"
 
+msgid "How templates are determined"
+msgstr "Wie Vorlagen ermittelt werden"
+
 msgid "How values are validated"
 msgstr "Wie Werte überprüft werden"
 
@@ -5000,6 +5015,9 @@ msgstr "Sprache"
 msgid "Language to use for new users"
 msgstr ""
 
+msgid "Last"
+msgstr ""
+
 msgid "Last Page"
 msgstr "Letzte Seite"
 
@@ -5020,6 +5038,9 @@ msgstr "Neueste Ereignisse"
 
 msgid "Launch Console"
 msgstr "Konsole starten"
+
+msgid "Launch loading wizard"
+msgstr ""
 
 msgid "Learn more about External authentication in the documentation."
 msgstr ""
@@ -6102,6 +6123,9 @@ msgstr "Neuer Filter"
 msgid "New window"
 msgstr "Neues Fenster"
 
+msgid "Next"
+msgstr "Weiter"
+
 msgid "Next Page"
 msgstr "Nächste Seite"
 
@@ -6248,6 +6272,9 @@ msgstr "Keine anzuzeigende Rechenressource"
 msgid "No data available"
 msgstr "Keine Daten verfügbar"
 
+msgid "No data available in table"
+msgstr ""
+
 msgid "No documentation found"
 msgstr "Keine Dokumentation gefunden"
 
@@ -6304,6 +6331,9 @@ msgstr "Keine interessanten Berichte in der letzten Woche erhalten"
 
 msgid "No logs to show"
 msgstr "Keine Logs zum anzeigen"
+
+msgid "No matching records found"
+msgstr ""
 
 msgid "No matching server groups found"
 msgstr "Keine übereinstimmenden Servergruppen gefunden"
@@ -7240,6 +7270,9 @@ msgstr "Vorschau ist veraltet."
 msgid "Preview rendered provisioning template content"
 msgstr "Inhaltsvorschau der gerenderten Bereitstellungsvorlage"
 
+msgid "Previous"
+msgstr ""
+
 msgid "Previous Page"
 msgstr "Vorherige Seite"
 
@@ -7269,6 +7302,9 @@ msgstr "Privater Schlüssel den Foreman benutzt um Web-Sockets zu verschlüsseln
 
 msgid "Proceed to Edit"
 msgstr "Zum Ändern fortfahren"
+
+msgid "Processing..."
+msgstr ""
 
 msgid "Project (Tenant) name"
 msgstr ""
@@ -8066,6 +8102,9 @@ msgstr "Die Suche könnte fehlschlagen oder falsche Resultate zeigen, da die Suc
 msgid "Search your logs for request-id"
 msgstr ""
 
+msgid "Search:"
+msgstr ""
+
 msgid "Secondary DNS Server"
 msgstr "Sekundärer DNS-Server"
 
@@ -8347,6 +8386,9 @@ msgstr "Soll diese Schnittstelle für TFTP von PXELinux (oder SSH für image-bas
 msgid "Should this interface be used for constructing the FQDN of the host? Each managed hosts needs to have one primary interface."
 msgstr "Soll diese Schnittstelle zum Erstellen des FQDN des Hosts verwendet werden? Jeder gemanagte Host muss eine Primärschnittstelle aufweisen."
 
+msgid "Show %s entries"
+msgstr ""
+
 msgid "Show %s fact values for all hosts"
 msgstr "%s Faktwerte für alle Hosts anzeigen"
 
@@ -8565,6 +8607,12 @@ msgstr ""
 
 msgid "Show the last report for a host"
 msgstr "Letzten Bericht für einen Host anzeigen"
+
+msgid "Showing %s to %s of %s entries"
+msgstr ""
+
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
 
 msgid "Shows status and version information of Foreman system and it's subcomponents"
 msgstr ""
@@ -9632,6 +9680,9 @@ msgstr "Dieser Wert ist nicht versteckt"
 
 msgid "This value is used also as the host's primary interface name."
 msgstr "Dieser Wert wird auch als Name für die Primärschnittstelle des Hosts verwendet."
+
+msgid "This will be one of our coolest pages."
+msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr "Dies wird einen Bericht %s generieren. Abhängig von der Definition, kann dies eine lange Zeit zum verarbeiten in Kauf nehmen."
@@ -11384,6 +11435,9 @@ msgstr "gemäß RFC921, RFC952 und RFC1123 können Hostnamen nur Kleinbuchstaben
 msgid "hostname of the host"
 msgstr "Hostname des Hosts"
 
+msgid "hours"
+msgstr ""
+
 msgid "iPXE default local boot template '%s' not found"
 msgstr "Lokale Standard iPXE Boot-Vorlage '%s' nicht gefunden"
 
@@ -11702,6 +11756,12 @@ msgstr "physikalisch @ NAT %s"
 
 msgid "physical @ bridge %s"
 msgstr "physikalisch @ Bridge %s"
+
+msgid "plugin action 1"
+msgstr ""
+
+msgid "plugin action 2"
+msgstr ""
 
 msgid "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"
 msgstr "Energieaktion, gültige Aktionen sind (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-03 19:26+0530\n"
-"PO-Revision-Date: 2021-05-03 19:26+0530\n"
+"POT-Creation-Date: 2021-07-26 22:01+0530\n"
+"PO-Revision-Date: 2021-07-26 22:01+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -18,25 +18,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../app/assets/javascripts/application.js:53
+#: ../app/assets/javascripts/application.js:51
 msgid "Failed to fetch: "
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:212
+#: ../app/assets/javascripts/application.js:215
 msgid "Sorry but no templates were configured."
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:372
+#: ../app/assets/javascripts/application.js:346
 #: ../app/models/config_report.rb:81
 msgid "Success"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:376
+#: ../app/assets/javascripts/application.js:350
 #: ../app/helpers/layout_helper.rb:158 ../app/models/host_status/global.rb:36
 msgid "Warning"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:380
+#: ../app/assets/javascripts/application.js:354
 #: ../app/controllers/application_controller.rb:378
 #: ../app/helpers/dashboard_helper.rb:61 ../app/helpers/layout_helper.rb:164
 #: ../app/models/host_status/configuration_status.rb:71
@@ -45,26 +45,12 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:416
+#: ../app/assets/javascripts/application.js:390
 msgid "Unknown power state"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:443
+#: ../app/assets/javascripts/application.js:417
 msgid "Exit Full Screen"
-msgstr ""
-
-#: ../app/assets/javascripts/charts.js:98 ../app/views/hosts/show.html.erb:17
-#: ../app/views/smart_proxies/show.html.erb:21
-#: ../db/seeds.d/170-notification_blueprints.rb:12
-msgid "Details"
-msgstr ""
-
-#: ../app/assets/javascripts/charts.js:133
-msgid "Reset zoom"
-msgstr ""
-
-#: ../app/assets/javascripts/charts.js:234
-msgid "Failed to load chart"
 msgstr ""
 
 #: ../app/assets/javascripts/compute_resources/libvirt/nic_info.js:3
@@ -75,35 +61,34 @@ msgstr ""
 msgid "physical @ bridge %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:27
+#: ../app/assets/javascripts/host_edit.js:24
 msgid "Loading interfaces information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:39
+#: ../app/assets/javascripts/host_edit.js:36
 msgid "Error loading interfaces information: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:88
+#: ../app/assets/javascripts/host_edit.js:85
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:260
-#: ../app/assets/javascripts/host_edit.js:546
+#: ../app/assets/javascripts/host_edit.js:491
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:706
+#: ../app/assets/javascripts/host_edit.js:649
 #: ../app/helpers/hosts_nic_helper.rb:22
-#: ../app/views/hostgroups/_form.html.erb:54
-#: ../app/views/hostgroups/_form.html.erb:61
+#: ../app/views/hostgroups/_form.html.erb:50
+#: ../app/views/hostgroups/_form.html.erb:57
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:872
+#: ../app/assets/javascripts/host_edit.js:815
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:1006
+#: ../app/assets/javascripts/host_edit.js:949
 msgid "Manual configuration is needed."
 msgstr ""
 
@@ -113,13 +98,13 @@ msgid "Interface"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:186
-#: ../app/helpers/hosts_helper.rb:69 ../app/helpers/hosts_helper.rb:364
+#: ../app/helpers/hosts_helper.rb:64 ../app/helpers/hosts_helper.rb:364
 #: ../app/views/taxonomies/_form.html.erb:6
 msgid "Primary"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:192
-#: ../app/helpers/hosts_helper.rb:70 ../app/helpers/hosts_helper.rb:365
+#: ../app/helpers/hosts_helper.rb:65 ../app/helpers/hosts_helper.rb:365
 #: ../app/models/setting/provisioning.rb:96
 msgid "Provisioning"
 msgstr ""
@@ -147,7 +132,7 @@ msgid "Create Host"
 msgstr ""
 
 #: ../app/assets/javascripts/hosts.js:25
-#: ../app/helpers/host_description_helper.rb:102
+#: ../app/helpers/host_description_helper.rb:101
 #: ../app/helpers/hosts_helper.rb:374 ../app/helpers/hosts_helper.rb:376
 #: ../app/models/host_status/build_status.rb:9
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:25
@@ -198,7 +183,7 @@ msgstr ""
 msgid "Parent is already selected"
 msgstr ""
 
-#: ../app/assets/javascripts/proxy_status.js:26
+#: ../app/assets/javascripts/proxy_status.js:25
 #: ../app/helpers/dashboard_helper.rb:60
 #: ../app/models/host_status/configuration_status.rb:75
 msgid "Active"
@@ -245,31 +230,31 @@ msgstr ""
 msgid "There may be more information in the server's logs."
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:200
+#: ../app/controllers/api/base_controller.rb:201
 #: ../app/controllers/concerns/foreman/controller/authentication.rb:27
 #: ../app/controllers/concerns/foreman/controller/authentication.rb:37
 #: ../app/controllers/users_controller.rb:137
 msgid "User account is disabled, please contact your administrator"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:214
+#: ../app/controllers/api/base_controller.rb:215
 msgid "Admin permissions required"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:343
+#: ../app/controllers/api/base_controller.rb:344
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:356
+#: ../app/controllers/api/base_controller.rb:357
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:388
+#: ../app/controllers/api/base_controller.rb:389
 #: ../app/controllers/application_controller.rb:180
 msgid "unknown permission for %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:399
+#: ../app/controllers/api/base_controller.rb:400
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -488,7 +473,7 @@ msgid "filter results"
 msgstr ""
 
 #: ../app/controllers/api/v2/base_controller.rb:21
-msgid "Sort field and order, eg. ‘id DESC’"
+msgid "Sort and order by a searchable field, e.g. 'id DESC'"
 msgstr ""
 
 #: ../app/controllers/api/v2/base_controller.rb:26
@@ -554,12 +539,8 @@ msgstr ""
 
 #: ../app/controllers/api/v2/common_parameters_controller.rb:9
 #: ../app/controllers/api/v2/common_parameters_controller.rb:18
-#: ../app/controllers/api/v2/override_values_controller.rb:18
-#: ../app/controllers/api/v2/override_values_controller.rb:27
 #: ../app/controllers/api/v2/parameters_controller.rb:31
 #: ../app/controllers/api/v2/parameters_controller.rb:56
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:20
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:32
 msgid "Display hidden values"
 msgstr ""
 
@@ -568,10 +549,10 @@ msgid "Show a global parameter"
 msgstr ""
 
 #: ../app/controllers/api/v2/common_parameters_controller.rb:28
-#: ../app/controllers/api/v2/hostgroups_controller.rb:60
-#: ../app/controllers/api/v2/hosts_controller.rb:100
+#: ../app/controllers/api/v2/hostgroups_controller.rb:55
+#: ../app/controllers/api/v2/hosts_controller.rb:99
 #: ../app/controllers/api/v2/parameters_controller.rb:65
-#: ../app/controllers/api/v2/registration_controller.rb:51
+#: ../app/controllers/api/v2/registration_controller.rb:55
 msgid "Type of value"
 msgstr ""
 
@@ -870,23 +851,23 @@ msgstr ""
 msgid "Delete a Virtual Machine"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:10
+#: ../app/controllers/api/v2/config_groups_controller.rb:6
 msgid "List of config groups"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:18
+#: ../app/controllers/api/v2/config_groups_controller.rb:10
 msgid "Show a config group"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:31
+#: ../app/controllers/api/v2/config_groups_controller.rb:14
 msgid "Create a config group"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:39
+#: ../app/controllers/api/v2/config_groups_controller.rb:18
 msgid "Update a config group"
 msgstr ""
 
-#: ../app/controllers/api/v2/config_groups_controller.rb:47
+#: ../app/controllers/api/v2/config_groups_controller.rb:22
 msgid "Delete a config group"
 msgstr ""
 
@@ -1040,8 +1021,8 @@ msgid "Numerical ID or domain name"
 msgstr ""
 
 #: ../app/controllers/api/v2/domains_controller.rb:38
-#: ../app/controllers/api/v2/hostgroups_controller.rb:33
-#: ../app/controllers/api/v2/hosts_controller.rb:62
+#: ../app/controllers/api/v2/hostgroups_controller.rb:31
+#: ../app/controllers/api/v2/hosts_controller.rb:64
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:37
 #: ../app/controllers/api/v2/subnets_controller.rb:29
 #: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:57
@@ -1079,45 +1060,35 @@ msgstr ""
 msgid "Delete a domain"
 msgstr ""
 
-#: ../app/controllers/api/v2/environments_controller.rb:11
+#: ../app/controllers/api/v2/environments_controller.rb:7
 msgid "List all environments"
 msgstr ""
 
-#: ../app/controllers/api/v2/environments_controller.rb:12
+#: ../app/controllers/api/v2/environments_controller.rb:8
 msgid "List environments of Puppet class"
 msgstr ""
 
-#: ../app/controllers/api/v2/environments_controller.rb:13
+#: ../app/controllers/api/v2/environments_controller.rb:9
 msgid "List environments per location"
 msgstr ""
 
-#: ../app/controllers/api/v2/environments_controller.rb:14
+#: ../app/controllers/api/v2/environments_controller.rb:10
 msgid "List environments per organization"
 msgstr ""
 
-#: ../app/controllers/api/v2/environments_controller.rb:15
-#: ../app/controllers/api/v2/host_classes_controller.rb:17
-#: ../app/controllers/api/v2/host_classes_controller.rb:26
-#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:16
-#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:25
-#: ../app/controllers/api/v2/hostgroups_controller.rb:17
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:52
-msgid "ID of Puppet class"
-msgstr ""
-
-#: ../app/controllers/api/v2/environments_controller.rb:24
+#: ../app/controllers/api/v2/environments_controller.rb:14
 msgid "Show an environment"
 msgstr ""
 
-#: ../app/controllers/api/v2/environments_controller.rb:37
+#: ../app/controllers/api/v2/environments_controller.rb:26
 msgid "Create an environment"
 msgstr ""
 
-#: ../app/controllers/api/v2/environments_controller.rb:45
+#: ../app/controllers/api/v2/environments_controller.rb:32
 msgid "Update an environment"
 msgstr ""
 
-#: ../app/controllers/api/v2/environments_controller.rb:53
+#: ../app/controllers/api/v2/environments_controller.rb:39
 msgid "Delete an environment"
 msgstr ""
 
@@ -1220,55 +1191,27 @@ msgstr ""
 msgid "Show status"
 msgstr ""
 
-#: ../app/controllers/api/v2/host_classes_controller.rb:9
+#: ../app/controllers/api/v2/host_classes_controller.rb:6
 msgid "List all Puppet class IDs for host"
 msgstr ""
 
-#: ../app/controllers/api/v2/host_classes_controller.rb:15
+#: ../app/controllers/api/v2/host_classes_controller.rb:10
 msgid "Add a Puppet class to host"
 msgstr ""
 
-#: ../app/controllers/api/v2/host_classes_controller.rb:16
-#: ../app/controllers/api/v2/host_classes_controller.rb:25
-#: ../app/controllers/api/v2/parameters_controller.rb:24
-#: ../app/controllers/api/v2/parameters_controller.rb:48
-#: ../app/controllers/api/v2/parameters_controller.rb:76
-#: ../app/controllers/api/v2/parameters_controller.rb:97
-#: ../app/controllers/api/v2/parameters_controller.rb:118
-#: ../app/controllers/api/v2/parameters_controller.rb:138
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:14
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:49
-msgid "ID of host"
-msgstr ""
-
-#: ../app/controllers/api/v2/host_classes_controller.rb:24
+#: ../app/controllers/api/v2/host_classes_controller.rb:14
 msgid "Remove a Puppet class from host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:8
+#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:6
 msgid "List all Puppet class IDs for host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:14
+#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:10
 msgid "Add a Puppet class to host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:15
-#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:24
-#: ../app/controllers/api/v2/hosts_controller.rb:33
-#: ../app/controllers/api/v2/parameters_controller.rb:25
-#: ../app/controllers/api/v2/parameters_controller.rb:49
-#: ../app/controllers/api/v2/parameters_controller.rb:77
-#: ../app/controllers/api/v2/parameters_controller.rb:98
-#: ../app/controllers/api/v2/parameters_controller.rb:119
-#: ../app/controllers/api/v2/parameters_controller.rb:139
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:15
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:50
-#: ../app/controllers/api/v2/template_combinations_controller.rb:12
-msgid "ID of host group"
-msgstr ""
-
-#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:23
+#: ../app/controllers/api/v2/hostgroup_classes_controller.rb:14
 msgid "Remove a Puppet class from host group"
 msgstr ""
 
@@ -1277,158 +1220,145 @@ msgid "List all host groups"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:14
-msgid "List all host groups for a Puppet class"
-msgstr ""
-
-#: ../app/controllers/api/v2/hostgroups_controller.rb:15
 msgid "List all host groups per location"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:16
+#: ../app/controllers/api/v2/hostgroups_controller.rb:15
 msgid "List all host groups per organization"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:20
-#: ../app/controllers/api/v2/hosts_controller.rb:37
+#: ../app/controllers/api/v2/hostgroups_controller.rb:18
+#: ../app/controllers/api/v2/hosts_controller.rb:35
 msgid "Array of extra information types to include"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:31
+#: ../app/controllers/api/v2/hostgroups_controller.rb:29
 msgid "Show a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:40
+#: ../app/controllers/api/v2/hostgroups_controller.rb:38
 msgid "Name of the host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:41
+#: ../app/controllers/api/v2/hostgroups_controller.rb:39
 msgid "Host group description"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:42
+#: ../app/controllers/api/v2/hostgroups_controller.rb:40
 msgid "Parent ID of the host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:43
-msgid "Environment ID"
-msgstr ""
-
-#: ../app/controllers/api/v2/hostgroups_controller.rb:44
+#: ../app/controllers/api/v2/hostgroups_controller.rb:41
 msgid "Compute profile ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:45
+#: ../app/controllers/api/v2/hostgroups_controller.rb:42
 msgid "Compute resource ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:46
+#: ../app/controllers/api/v2/hostgroups_controller.rb:43
 msgid "Operating system ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:47
+#: ../app/controllers/api/v2/hostgroups_controller.rb:44
 msgid "Architecture ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:48
-#: ../app/controllers/api/v2/hosts_controller.rb:87
+#: ../app/controllers/api/v2/hostgroups_controller.rb:45
+#: ../app/controllers/api/v2/hosts_controller.rb:86
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:49
+#: ../app/controllers/api/v2/hostgroups_controller.rb:46
 msgid "Media ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:50
+#: ../app/controllers/api/v2/hostgroups_controller.rb:47
 msgid "Partition table ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:51
+#: ../app/controllers/api/v2/hostgroups_controller.rb:48
 msgid "Subnet ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:52
+#: ../app/controllers/api/v2/hostgroups_controller.rb:49
 msgid "Subnet IPv6 ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:53
+#: ../app/controllers/api/v2/hostgroups_controller.rb:50
 msgid "Domain ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:54
+#: ../app/controllers/api/v2/hostgroups_controller.rb:51
 msgid "Realm ID"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:56
-#: ../app/controllers/api/v2/hosts_controller.rb:84
-msgid "IDs of associated config groups"
-msgstr ""
-
-#: ../app/controllers/api/v2/hostgroups_controller.rb:57
+#: ../app/controllers/api/v2/hostgroups_controller.rb:52
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:24
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:50
 msgid "Array of parameters"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:58
-#: ../app/controllers/api/v2/hosts_controller.rb:98
+#: ../app/controllers/api/v2/hostgroups_controller.rb:53
+#: ../app/controllers/api/v2/hosts_controller.rb:97
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:25
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:51
-#: ../app/controllers/api/v2/registration_controller.rb:49
+#: ../app/controllers/api/v2/registration_controller.rb:53
 msgid "Name of the parameter"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:59
-#: ../app/controllers/api/v2/hosts_controller.rb:99
+#: ../app/controllers/api/v2/hostgroups_controller.rb:54
+#: ../app/controllers/api/v2/hosts_controller.rb:98
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:26
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:52
-#: ../app/controllers/api/v2/registration_controller.rb:50
+#: ../app/controllers/api/v2/registration_controller.rb:54
 msgid "Parameter value"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:66
+#: ../app/controllers/api/v2/hostgroups_controller.rb:61
 msgid "Root password on provisioned hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:71
+#: ../app/controllers/api/v2/hostgroups_controller.rb:66
 msgid "Create a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:81
+#: ../app/controllers/api/v2/hostgroups_controller.rb:76
 msgid "Update a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:89
+#: ../app/controllers/api/v2/hostgroups_controller.rb:84
 msgid "Delete a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:94
+#: ../app/controllers/api/v2/hostgroups_controller.rb:89
 msgid "Cannot delete group %{current} because it has nested host groups."
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:100
+#: ../app/controllers/api/v2/hostgroups_controller.rb:95
 msgid "Clone a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:108
+#: ../app/controllers/api/v2/hostgroups_controller.rb:103
 #: ../app/controllers/api/v2/hosts_controller.rb:313
 msgid "Rebuild orchestration config"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:110
+#: ../app/controllers/api/v2/hostgroups_controller.rb:105
 #: ../app/controllers/api/v2/hosts_controller.rb:315
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:111
+#: ../app/controllers/api/v2/hostgroups_controller.rb:106
 msgid "Operate on child hostgroup hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:120
+#: ../app/controllers/api/v2/hostgroups_controller.rb:115
 #: ../app/controllers/api/v2/hosts_controller.rb:320
 msgid "Configuration successfully rebuilt."
 msgstr ""
 
-#: ../app/controllers/api/v2/hostgroups_controller.rb:123
+#: ../app/controllers/api/v2/hostgroups_controller.rb:118
 #: ../app/controllers/api/v2/hosts_controller.rb:322
 msgid "Configuration rebuild failed for: %s."
 msgstr ""
@@ -1450,14 +1380,21 @@ msgid "List hosts per organization"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:31
-msgid "List hosts per environment"
-msgstr ""
-
-#: ../app/controllers/api/v2/hosts_controller.rb:32
 msgid "Only list ID and name of hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:34
+#: ../app/controllers/api/v2/hosts_controller.rb:32
+#: ../app/controllers/api/v2/parameters_controller.rb:25
+#: ../app/controllers/api/v2/parameters_controller.rb:49
+#: ../app/controllers/api/v2/parameters_controller.rb:77
+#: ../app/controllers/api/v2/parameters_controller.rb:98
+#: ../app/controllers/api/v2/parameters_controller.rb:119
+#: ../app/controllers/api/v2/parameters_controller.rb:139
+#: ../app/controllers/api/v2/template_combinations_controller.rb:12
+msgid "ID of host group"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_controller.rb:33
 #: ../app/controllers/api/v2/parameters_controller.rb:28
 #: ../app/controllers/api/v2/parameters_controller.rb:52
 #: ../app/controllers/api/v2/parameters_controller.rb:80
@@ -1467,7 +1404,7 @@ msgstr ""
 msgid "ID of location"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:35
+#: ../app/controllers/api/v2/hosts_controller.rb:34
 #: ../app/controllers/api/v2/parameters_controller.rb:29
 #: ../app/controllers/api/v2/parameters_controller.rb:53
 #: ../app/controllers/api/v2/parameters_controller.rb:81
@@ -1477,135 +1414,128 @@ msgstr ""
 msgid "ID of organization"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:36
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:16
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:51
-msgid "ID of environment"
-msgstr ""
-
-#: ../app/controllers/api/v2/hosts_controller.rb:60
+#: ../app/controllers/api/v2/hosts_controller.rb:62
 msgid "Show a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:74
-#: ../app/controllers/api/v2/hosts_controller.rb:77
-#: ../app/controllers/api/v2/hosts_controller.rb:78
-#: ../app/controllers/api/v2/hosts_controller.rb:85
-#: ../app/controllers/api/v2/hosts_controller.rb:89
-#: ../app/controllers/api/v2/registration_controller.rb:43
-#: ../app/controllers/api/v2/registration_controller.rb:44
-#: ../app/controllers/api/v2/registration_controller.rb:45
-msgid "required if host is managed and value is not inherited from host group"
-msgstr ""
-
-#: ../app/controllers/api/v2/hosts_controller.rb:75
+#: ../app/controllers/api/v2/hosts_controller.rb:76
 msgid "not required if using a subnet with DHCP proxy"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:76
-#: ../app/controllers/api/v2/registration_controller.rb:42
+#: ../app/controllers/api/v2/hosts_controller.rb:77
+#: ../app/controllers/api/v2/registration_controller.rb:46
 msgid ""
 "required for managed host that is bare metal, not required if it's a virtual m"
 "achine"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:86
+#: ../app/controllers/api/v2/hosts_controller.rb:78
+#: ../app/controllers/api/v2/hosts_controller.rb:79
+#: ../app/controllers/api/v2/hosts_controller.rb:84
+#: ../app/controllers/api/v2/hosts_controller.rb:88
+#: ../app/controllers/api/v2/registration_controller.rb:47
+#: ../app/controllers/api/v2/registration_controller.rb:48
+#: ../app/controllers/api/v2/registration_controller.rb:49
+msgid "required if host is managed and value is not inherited from host group"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_controller.rb:85
 msgid ""
 "required if not imaged based provisioning and host is managed and value is not"
 " inherited from host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:88
+#: ../app/controllers/api/v2/hosts_controller.rb:87
 msgid "required if host is managed and custom partition has not been defined"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:90
+#: ../app/controllers/api/v2/hosts_controller.rb:89
 msgid "nil means host is bare metal"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:91
+#: ../app/controllers/api/v2/hosts_controller.rb:90
 msgid ""
 "required if host is managed and value is not inherited from host group or defa"
 "ult password in settings"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:95
+#: ../app/controllers/api/v2/hosts_controller.rb:94
 msgid "Host's owner type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:97
-#: ../app/controllers/api/v2/registration_controller.rb:48
+#: ../app/controllers/api/v2/hosts_controller.rb:96
+#: ../app/controllers/api/v2/registration_controller.rb:52
 msgid "Host's parameters (array or indexed hash)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:104
-#: ../app/controllers/api/v2/registration_controller.rb:55
-#: ../app/views/hosts/_form.html.erb:132
+#: ../app/controllers/api/v2/hosts_controller.rb:103
+#: ../app/controllers/api/v2/registration_controller.rb:59
+#: ../app/views/hosts/_form.html.erb:127
 msgid "Include this host within Foreman reporting"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:105
+#: ../app/controllers/api/v2/hosts_controller.rb:104
 msgid "The method used to provision the host."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:106
-#: ../app/controllers/api/v2/registration_controller.rb:56
+#: ../app/controllers/api/v2/hosts_controller.rb:105
+#: ../app/controllers/api/v2/registration_controller.rb:60
 msgid ""
 "True/False flag whether a host is managed or unmanaged. Note: this value also "
 "determines whether several parameters are required or not"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:107
+#: ../app/controllers/api/v2/hosts_controller.rb:106
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:108
-#: ../app/controllers/api/v2/registration_controller.rb:57
-#: ../app/views/hosts/_form.html.erb:137
+#: ../app/controllers/api/v2/hosts_controller.rb:107
+#: ../app/controllers/api/v2/registration_controller.rb:61
+#: ../app/views/hosts/_form.html.erb:132
 msgid "Additional information about this host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:111
-#: ../app/controllers/api/v2/registration_controller.rb:58
+#: ../app/controllers/api/v2/hosts_controller.rb:110
+#: ../app/controllers/api/v2/registration_controller.rb:62
 msgid "Host's network interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:112
+#: ../app/controllers/api/v2/hosts_controller.rb:111
 #: ../app/controllers/api/v2/interfaces_controller.rb:80
 #: ../app/controllers/api/v2/interfaces_controller.rb:89
 msgid "ID of interface"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:115
+#: ../app/controllers/api/v2/hosts_controller.rb:114
 msgid "Additional compute resource specific attributes."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:119
-#: ../app/controllers/api/v2/registration_controller.rb:63
+#: ../app/controllers/api/v2/hosts_controller.rb:118
+#: ../app/controllers/api/v2/registration_controller.rb:67
 msgid "Parameters for host's %s facet"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:127
+#: ../app/controllers/api/v2/hosts_controller.rb:126
 msgid "Create a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:150
+#: ../app/controllers/api/v2/hosts_controller.rb:149
 msgid "Update a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:166
+#: ../app/controllers/api/v2/hosts_controller.rb:165
 msgid "Delete a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:173
+#: ../app/controllers/api/v2/hosts_controller.rb:172
 msgid "Get ENC values of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:180
+#: ../app/controllers/api/v2/hosts_controller.rb:179
 msgid "Get status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:182
+#: ../app/controllers/api/v2/hosts_controller.rb:181
 msgid ""
 "status type, can be one of\n"
 "* global\n"
@@ -1613,8 +1543,13 @@ msgid ""
 "* build\n"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:191
+#: ../app/controllers/api/v2/hosts_controller.rb:190
 msgid "Returns string representing a host status of a given type"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_controller.rb:197
+#: ../app/controllers/api/v2/hosts_controller.rb:215
+msgid "Status %s does not exist."
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:201
@@ -1632,10 +1567,6 @@ msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:213
 msgid "Cannot delete global status."
-msgstr ""
-
-#: ../app/controllers/api/v2/hosts_controller.rb:215
-msgid "Status %s does not exist."
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:221
@@ -2227,36 +2158,28 @@ msgstr ""
 msgid "Delete a default template combination for an operating system"
 msgstr ""
 
-#: ../app/controllers/api/v2/override_values_controller.rb:16
+#: ../app/controllers/api/v2/override_values_controller.rb:6
 msgid "List of override values for a specific smart class parameter"
 msgstr ""
 
-#: ../app/controllers/api/v2/override_values_controller.rb:24
+#: ../app/controllers/api/v2/override_values_controller.rb:10
 msgid "Show an override value for a specific smart class parameter"
 msgstr ""
 
-#: ../app/controllers/api/v2/override_values_controller.rb:34
-msgid "Override match"
-msgstr ""
-
-#: ../app/controllers/api/v2/override_values_controller.rb:35
-msgid "Override value, required if omit is false"
-msgstr ""
-
-#: ../app/controllers/api/v2/override_values_controller.rb:36
-msgid "Foreman will not send this parameter in classification output"
-msgstr ""
-
-#: ../app/controllers/api/v2/override_values_controller.rb:40
+#: ../app/controllers/api/v2/override_values_controller.rb:14
 msgid "Create an override value for a specific smart class parameter"
 msgstr ""
 
-#: ../app/controllers/api/v2/override_values_controller.rb:50
+#: ../app/controllers/api/v2/override_values_controller.rb:18
 msgid "Update an override value for a specific smart class parameter"
 msgstr ""
 
-#: ../app/controllers/api/v2/override_values_controller.rb:59
+#: ../app/controllers/api/v2/override_values_controller.rb:22
 msgid "Delete an override value for a specific smart class parameter"
+msgstr ""
+
+#: ../app/controllers/api/v2/override_values_controller.rb:27
+msgid "Override Value"
 msgstr ""
 
 #: ../app/controllers/api/v2/parameters_controller.rb:17
@@ -2285,6 +2208,15 @@ msgstr ""
 
 #: ../app/controllers/api/v2/parameters_controller.rb:23
 msgid "List all parameters for a subnet"
+msgstr ""
+
+#: ../app/controllers/api/v2/parameters_controller.rb:24
+#: ../app/controllers/api/v2/parameters_controller.rb:48
+#: ../app/controllers/api/v2/parameters_controller.rb:76
+#: ../app/controllers/api/v2/parameters_controller.rb:97
+#: ../app/controllers/api/v2/parameters_controller.rb:118
+#: ../app/controllers/api/v2/parameters_controller.rb:138
+msgid "ID of host"
 msgstr ""
 
 #: ../app/controllers/api/v2/parameters_controller.rb:26
@@ -2658,47 +2590,47 @@ msgid ""
 "on Plugin to run Puppet commands"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:10
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:6
 msgid "List all Puppet classes"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:11
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:7
 msgid "List all Puppet classes for a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:12
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:8
 msgid "List all Puppet classes for a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:13
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:9
 msgid "List all Puppet classes for an environment"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:45
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:13
 msgid "Show a Puppet class"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:46
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:14
 msgid "Show a Puppet class for host"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:47
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:15
 msgid "Show a Puppet class for a host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:48
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:16
 msgid "Show a Puppet class for an environment"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:63
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:26
 msgid "Create a Puppet class"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:71
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:31
 msgid "Update a Puppet class"
 msgstr ""
 
-#: ../app/controllers/api/v2/puppetclasses_controller.rb:80
+#: ../app/controllers/api/v2/puppetclasses_controller.rb:37
 msgid "Delete a Puppet class"
 msgstr ""
 
@@ -2751,7 +2683,9 @@ msgid "ID of the Host group to register the host in"
 msgstr ""
 
 #: ../app/controllers/api/v2/registration_commands_controller.rb:12
-msgid "ID of the Operating System to register the host in"
+msgid ""
+"ID of the Operating System to register the host in. Operating system must have"
+" a `host_init_config` template assigned"
 msgstr ""
 
 #: ../app/controllers/api/v2/registration_commands_controller.rb:13
@@ -2780,14 +2714,33 @@ msgid "Enable insecure argument for the initial curl"
 msgstr ""
 
 #: ../app/controllers/api/v2/registration_commands_controller.rb:18
+#: ../app/controllers/api/v2/registration_controller.rb:24
+msgid ""
+"Packages to install on the host when registered. Can be set by `host_packages`"
+" parameter. Example: `pkg1 pkg2`"
+msgstr ""
+
+#: ../app/controllers/api/v2/registration_commands_controller.rb:19
+#: ../app/controllers/api/v2/registration_controller.rb:25
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/UpdatePackages.js:19
+msgid "Update all packages on the host"
+msgstr ""
+
+#: ../app/controllers/api/v2/registration_commands_controller.rb:20
+#: ../app/controllers/api/v2/registration_controller.rb:26
 msgid ""
 "Repository URL / details, for example for Debian OS family: 'deb http://deb.ex"
 "ample.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/clie"
 "nt/latest/el8/x86_64/'"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:19
+#: ../app/controllers/api/v2/registration_commands_controller.rb:21
+#: ../app/controllers/api/v2/registration_controller.rb:27
 msgid "URL of the GPG key for the repository"
+msgstr ""
+
+#: ../app/controllers/api/v2/registration_commands_controller.rb:25
+msgid "Operating system doesn't have a 'host_init_config' template assigned."
 msgstr ""
 
 #: ../app/controllers/api/v2/registration_controller.rb:17
@@ -2811,7 +2764,7 @@ msgid "ID of the Operating System to register the host in."
 msgstr ""
 
 #: ../app/controllers/api/v2/registration_controller.rb:22
-#: ../app/controllers/api/v2/registration_controller.rb:69
+#: ../app/controllers/api/v2/registration_controller.rb:73
 msgid ""
 "Set 'host_registration_insights' parameter for the host. If it is set to true,"
 " insights client will be installed and registered on Red Hat family operating "
@@ -2819,31 +2772,31 @@ msgid ""
 msgstr ""
 
 #: ../app/controllers/api/v2/registration_controller.rb:23
-#: ../app/controllers/api/v2/registration_controller.rb:70
+#: ../app/controllers/api/v2/registration_controller.rb:74
 msgid ""
 "Set 'host_registration_remote_execution' parameter for the host. If it is set "
 "to true, SSH keys will be installed on the host."
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:28
+#: ../app/controllers/api/v2/registration_controller.rb:32
 msgid ""
 "Global Registration Template with name %s defined via default_global_registrat"
 "ion_item Setting not found, please configure the existing template name first"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:35
+#: ../app/controllers/api/v2/registration_controller.rb:39
 msgid "Find or create a host and render the 'Host initial configuration' template"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:40
+#: ../app/controllers/api/v2/registration_controller.rb:44
 msgid "IPv4 address, not required if using a subnet with DHCP proxy"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:41
+#: ../app/controllers/api/v2/registration_controller.rb:45
 msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_controller.rb:89
+#: ../app/controllers/api/v2/registration_controller.rb:91
 msgid ""
 "Unable to find 'Host initial configuration' template for host %{host} running "
 "%{os}, associate the 'Host initial configuration' template for this OS first"
@@ -2992,7 +2945,7 @@ msgid "Clone a role"
 msgstr ""
 
 #: ../app/controllers/api/v2/settings_controller.rb:7
-msgid "OBSOLATED: id of the setting record, doesn't need to be set in the future"
+msgid "Alias for setting name"
 msgstr ""
 
 #: ../app/controllers/api/v2/settings_controller.rb:8
@@ -3061,119 +3014,62 @@ msgstr ""
 msgid "List of all settings"
 msgstr ""
 
-#: ../app/controllers/api/v2/settings_controller.rb:35
+#: ../app/controllers/api/v2/settings_controller.rb:34
 msgid "Show a setting"
 msgstr ""
 
-#: ../app/controllers/api/v2/settings_controller.rb:37
+#: ../app/controllers/api/v2/settings_controller.rb:36
 msgid "Information about the setting"
 msgstr ""
 
-#: ../app/controllers/api/v2/settings_controller.rb:42
+#: ../app/controllers/api/v2/settings_controller.rb:41
 msgid "Update a setting"
 msgstr ""
 
-#: ../app/controllers/api/v2/settings_controller.rb:47
+#: ../app/controllers/api/v2/settings_controller.rb:46
 msgid "Information about the updated setting"
 msgstr ""
 
-#: ../app/controllers/api/v2/settings_controller.rb:57
+#: ../app/controllers/api/v2/settings_controller.rb:51
 msgid "No setting value provided."
 msgstr ""
 
-#: ../app/controllers/api/v2/settings_controller.rb:64
-msgid "expected a value of type %s"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:10
+#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:6
 msgid "List all smart class parameters"
 msgstr ""
 
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:11
+#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:7
 msgid "List of smart class parameters for a specific host"
 msgstr ""
 
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:12
+#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:8
 msgid "List of smart class parameters for a specific host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:13
+#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:9
 msgid "List of smart class parameters for a specific Puppet class"
 msgstr ""
 
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:14
+#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:10
 msgid "List of smart class parameters for a specific environment"
 msgstr ""
 
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:15
+#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:11
 msgid ""
 "List of smart class parameters for a specific environment/Puppet class combina"
 "tion"
 msgstr ""
 
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:30
+#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:15
 msgid "Show a smart class parameter"
 msgstr ""
 
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:37
+#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:20
 msgid "Update a smart class parameter"
 msgstr ""
 
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:41
-msgid "Whether the smart class parameter value is managed by Foreman"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:42
-msgid "Description of smart class"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:43
-msgid "Value to use when there is no match"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:44
-msgid "When enabled the parameter is hidden in the UI"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:45
-msgid ""
-"Foreman will not send this parameter in classification output. Puppet will use"
-" the value defined in the Puppet manifest for this parameter"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:46
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:49
-msgid "The order in which values are resolved"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:47
-msgid "Types of validation values"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:48
-msgid "Used to enforce certain values for the parameter values"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:50
-msgid "Types of variable values"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:51
-msgid ""
-"If true, will raise an error if there is no default value and no matcher provi"
-"de a value"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:52
-msgid "Merge all matching values (only array/hash type)"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:53
-msgid "Include default value when merging all matching values"
-msgstr ""
-
-#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:54
-msgid "Remove duplicate values (only array type)"
+#: ../app/controllers/api/v2/smart_class_parameters_controller.rb:25
+msgid "Smart Class Parameter"
 msgstr ""
 
 #: ../app/controllers/api/v2/smart_proxies_controller.rb:10
@@ -3739,7 +3635,7 @@ msgid "The virtual machine is being deleted."
 msgstr ""
 
 #: ../app/controllers/compute_resources_vms_controller.rb:90
-#: ../app/controllers/hosts_controller.rb:330
+#: ../app/controllers/hosts_controller.rb:300
 msgid "Failed to set console: %s"
 msgstr ""
 
@@ -3755,41 +3651,29 @@ msgstr ""
 msgid "Error - %{message}"
 msgstr ""
 
-#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:12
+#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:13
+msgid ""
+"To access import_puppetclasses API you need to install the Foreman Puppet plug"
+"in"
+msgstr ""
+
+#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:18
 msgid "Import puppet classes from puppet proxy"
 msgstr ""
 
-#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:13
-#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:14
+#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:19
+#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:20
 msgid "Import puppet classes from puppet proxy for an environment"
 msgstr ""
 
-#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:19
+#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:25
 msgid ""
 "Optional comma-delimited string containing either 'new', 'updated', or 'obsole"
 "te' that is used to limit the imported Puppet classes"
 msgstr ""
 
-#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:44
-msgid ""
-"Failed to update the environments and Puppet classes from the on-disk puppet i"
-"nstallation: %s"
-msgstr ""
-
-#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:68
-#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:106
-msgid ""
-"No proxy found to import classes from, ensure that the smart proxy has the Pup"
-"pet feature enabled."
-msgstr ""
-
-#: ../app/controllers/concerns/api/import_puppetclasses_common_controller.rb:95
-#: ../app/controllers/concerns/foreman/controller/environments.rb:28
-msgid "No changes to your environments detected"
-msgstr ""
-
-#: ../app/controllers/concerns/api/v2/lookup_keys_common_controller.rb:96
-msgid "%{model} with id '%{id}' was not found"
+#: ../app/controllers/concerns/api/v2/extracted_puppet_controller.rb:20
+msgid "To access %s API, you need to install the Foreman Puppet plugin"
 msgstr ""
 
 #: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:21
@@ -3877,11 +3761,11 @@ msgstr ""
 msgid "%{taxonomy} with id %{id} not found"
 msgstr ""
 
-#: ../app/controllers/concerns/application_shared.rb:141
+#: ../app/controllers/concerns/application_shared.rb:133
 msgid "%{taxonomy} stored in session with id %{id} not found"
 msgstr ""
 
-#: ../app/controllers/concerns/application_shared.rb:144
+#: ../app/controllers/concerns/application_shared.rb:136
 msgid "%s you had selected as your context has been deleted"
 msgstr ""
 
@@ -3896,38 +3780,6 @@ msgstr ""
 
 #: ../app/controllers/concerns/foreman/controller/auto_complete_search.rb:26
 msgid "Invalid search query: %s"
-msgstr ""
-
-#: ../app/controllers/concerns/foreman/controller/environments.rb:14
-msgid ""
-"No smart proxy was found to import environments from, ensure that at least one"
-" smart proxy is registered with the 'puppet' feature"
-msgstr ""
-
-#: ../app/controllers/concerns/foreman/controller/environments.rb:22
-msgid ""
-"Ignored environment names resulting in booleans found. Please quote strings li"
-"ke true/false and yes/no in config/ignored_environments.yml"
-msgstr ""
-
-#: ../app/controllers/concerns/foreman/controller/environments.rb:41
-msgid ""
-"Successfully updated environments and Puppet classes from the on-disk Puppet i"
-"nstallation"
-msgstr ""
-
-#: ../app/controllers/concerns/foreman/controller/environments.rb:43
-msgid ""
-"Failed to update environments and Puppet classes from the on-disk Puppet insta"
-"llation: %s"
-msgstr ""
-
-#: ../app/controllers/concerns/foreman/controller/environments.rb:53
-msgid "Ignored environments: %s"
-msgstr ""
-
-#: ../app/controllers/concerns/foreman/controller/environments.rb:55
-msgid "Ignored classes in the environments: %s"
 msgstr ""
 
 #:
@@ -3964,79 +3816,61 @@ msgid "There are migrations pending in the system."
 msgstr ""
 
 #:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:50
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:70
-msgid "No environment selected!"
-msgstr ""
-
-#:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:63
-msgid "Updated hosts: changed environment"
-msgstr ""
-
-#:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:100
-#: ../app/controllers/hosts_controller.rb:785
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:23
+#: ../app/controllers/hosts_controller.rb:755
 msgid "No proxy selected!"
 msgstr ""
 
 #:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:106
-#: ../app/controllers/hosts_controller.rb:791
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:29
+#: ../app/controllers/hosts_controller.rb:761
 msgid "Invalid proxy selected!"
 msgstr ""
 
 #:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:127
-#: ../app/controllers/hosts_controller.rb:812
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:50
+#: ../app/controllers/hosts_controller.rb:782
 msgid "Failed to set %{proxy_type} proxy for %{host}."
 msgstr ""
 
 #:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:133
-#: ../app/controllers/hosts_controller.rb:818
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:56
+#: ../app/controllers/hosts_controller.rb:788
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}"
 msgstr ""
 
 #:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:135
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:150
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:58
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:73
 msgid "The %{proxy_type} proxy of the selected hosts was cleared."
 msgstr ""
 
 #:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:138
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:153
-#: ../app/controllers/hosts_controller.rb:823
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:61
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:76
+#: ../app/controllers/hosts_controller.rb:793
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] ""
 msgstr[1] ""
 
 #:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:148
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:71
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
 msgstr ""
 
 #:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:163
-#: ../app/models/concerns/host_common.rb:17 ../app/models/setting/puppet.rb:34
-#: ../app/registries/menu/loader.rb:77
-msgid "Puppet"
-msgstr ""
-
-#:
-#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:170
+#: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:86
 msgid "Puppet CA"
 msgstr ""
 
-#: ../app/controllers/concerns/foreman/controller/registration.rb:48
+#: ../app/controllers/concerns/foreman/controller/registration.rb:49
 #: ../app/controllers/foreman_register/hosts_controller.rb:68
 #: ../app/controllers/templates_controller.rb:127
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr ""
 
-#: ../app/controllers/concerns/foreman/controller/registration.rb:94
+#: ../app/controllers/concerns/foreman/controller/registration.rb:95
 msgid "URL in :url parameter is missing a scheme, please set http:// or https://"
 msgstr ""
 
@@ -4088,11 +3922,11 @@ msgstr ""
 msgid "Host is not associated with an operating system"
 msgstr ""
 
-#: ../app/controllers/hostgroups_controller.rb:47
+#: ../app/controllers/hostgroups_controller.rb:46
 msgid "The following fields would need reviewing"
 msgstr ""
 
-#: ../app/controllers/hostgroups_controller.rb:83
+#: ../app/controllers/hostgroups_controller.rb:82
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
@@ -4119,208 +3953,204 @@ msgstr ""
 msgid "The marked fields will need reviewing"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:202
-msgid "Unable to generate output, Check log files"
-msgstr ""
-
-#: ../app/controllers/hosts_controller.rb:218
+#: ../app/controllers/hosts_controller.rb:188
 msgid "Enabled %s for reboot and rebuild"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:220
+#: ../app/controllers/hosts_controller.rb:190
 msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:224
+#: ../app/controllers/hosts_controller.rb:194
 msgid "Failed to reboot %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:227
-#: ../app/controllers/hosts_controller.rb:230
+#: ../app/controllers/hosts_controller.rb:197
+#: ../app/controllers/hosts_controller.rb:200
 msgid "Enabled %s for rebuild on next boot"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:233
+#: ../app/controllers/hosts_controller.rb:203
 msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:239
+#: ../app/controllers/hosts_controller.rb:209
 msgid "Canceled pending build for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:241
+#: ../app/controllers/hosts_controller.rb:211
 msgid ""
 "Failed to cancel pending build for %{hostname} with the following errors: %{er"
 "rors}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:252
+#: ../app/controllers/hosts_controller.rb:222
 msgid "%{host} is about to %{action}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:254
+#: ../app/controllers/hosts_controller.rb:224
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:319
+#: ../app/controllers/hosts_controller.rb:289
 msgid "%{host} now boots from %{device}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:321
+#: ../app/controllers/hosts_controller.rb:291
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:337
+#: ../app/controllers/hosts_controller.rb:307
 msgid "Foreman now manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:339
+#: ../app/controllers/hosts_controller.rb:309
 msgid "Foreman now no longer manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:343
+#: ../app/controllers/hosts_controller.rb:313
 msgid "Failed to modify the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:350
+#: ../app/controllers/hosts_controller.rb:320
 msgid "%s has been disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:352
+#: ../app/controllers/hosts_controller.rb:322
 msgid "Host %s is not associated with a VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:368
+#: ../app/controllers/hosts_controller.rb:338
 msgid "No parameters were allocated to the selected hosts, can't mass assign"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:388
+#: ../app/controllers/hosts_controller.rb:358
 msgid "Updated all hosts!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:392
+#: ../app/controllers/hosts_controller.rb:362
 msgid "%s Parameters updated, see below for more information"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:402
+#: ../app/controllers/hosts_controller.rb:372
 msgid "No host group selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:413
+#: ../app/controllers/hosts_controller.rb:383
 msgid "Updated hosts: changed host group"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:424
+#: ../app/controllers/hosts_controller.rb:394
 msgid "No owner selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:435
+#: ../app/controllers/hosts_controller.rb:405
 msgid "Updated hosts: changed owner"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:447
+#: ../app/controllers/hosts_controller.rb:417
 msgid "Failed to set power state for %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:451
+#: ../app/controllers/hosts_controller.rb:421
 msgid "The power state of the selected hosts will be set to %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:477
+#: ../app/controllers/hosts_controller.rb:447
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/controllers/hosts_controller.rb:484
+#: ../app/controllers/hosts_controller.rb:454
 msgid "Configuration successfully rebuilt"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:501
+#: ../app/controllers/hosts_controller.rb:471
 msgid "Failed to redeploy %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:510
+#: ../app/controllers/hosts_controller.rb:480
 msgid "The selected hosts were enabled for reboot and rebuild"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:512
+#: ../app/controllers/hosts_controller.rb:482
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:515
+#: ../app/controllers/hosts_controller.rb:485
 msgid "The following hosts failed the build operation: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:524
+#: ../app/controllers/hosts_controller.rb:494
 msgid "Destroyed selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:526
+#: ../app/controllers/hosts_controller.rb:496
 msgid "The following hosts were not deleted: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:554
+#: ../app/controllers/hosts_controller.rb:524
 msgid "Updated hosts: Disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:560
+#: ../app/controllers/hosts_controller.rb:530
 msgid "Hosts with errors"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:565
+#: ../app/controllers/hosts_controller.rb:535
 msgid "Active Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:570
+#: ../app/controllers/hosts_controller.rb:540
 msgid "Pending Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:575
+#: ../app/controllers/hosts_controller.rb:545
 msgid "Hosts which didn't report in the last %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:580
+#: ../app/controllers/hosts_controller.rb:550
 msgid "Hosts with notifications disabled"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:680
+#: ../app/controllers/hosts_controller.rb:650
 msgid "invalid type: %s requested"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:685
+#: ../app/controllers/hosts_controller.rb:655
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:715
+#: ../app/controllers/hosts_controller.rb:685
 msgid "No hosts were found with that id, name or query filter"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:720
+#: ../app/controllers/hosts_controller.rb:690
 msgid "No hosts selected"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:727
+#: ../app/controllers/hosts_controller.rb:697
 msgid "Something went wrong while selecting hosts - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:740
+#: ../app/controllers/hosts_controller.rb:710
 msgid "%s selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:742
+#: ../app/controllers/hosts_controller.rb:712
 msgid "The following hosts were not %{action}: %{missed_hosts}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:769
+#: ../app/controllers/hosts_controller.rb:739
 msgid "No or invalid power state selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:820
+#: ../app/controllers/hosts_controller.rb:790
 msgid "The %{proxy_type} proxy of the selected hosts was cleared"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:835
+#: ../app/controllers/hosts_controller.rb:805
 msgid "No templates found"
 msgstr ""
 
@@ -4346,18 +4176,6 @@ msgstr ""
 
 #: ../app/controllers/key_pairs_controller.rb:34
 msgid "Could not delete %s"
-msgstr ""
-
-#: ../app/controllers/puppetclasses_controller.rb:41
-msgid "Successfully overridden all parameters of Puppet class %s"
-msgstr ""
-
-#: ../app/controllers/puppetclasses_controller.rb:43
-msgid "Successfully reset all parameters of Puppet class %s to their default values"
-msgstr ""
-
-#: ../app/controllers/puppetclasses_controller.rb:46
-msgid "No parameters to override for Puppet class %s"
 msgstr ""
 
 #: ../app/controllers/report_templates_controller.rb:23
@@ -4390,7 +4208,7 @@ msgstr ""
 msgid "No TFTP feature"
 msgstr ""
 
-#: ../app/controllers/smart_proxies_controller.rb:189
+#: ../app/controllers/smart_proxies_controller.rb:176
 msgid ""
 "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-pro"
 "xy: %{proxy_version}"
@@ -4551,8 +4369,8 @@ msgstr ""
 #: ../app/helpers/audits_helper.rb:40 ../app/helpers/audits_helper.rb:73
 #: ../app/helpers/compute_resources_vms_helper.rb:38
 #: ../app/helpers/fact_values_helper.rb:5
-#: ../app/helpers/host_description_helper.rb:66
-#: ../app/helpers/hosts_helper.rb:186 ../app/helpers/hosts_helper.rb:193
+#: ../app/helpers/host_description_helper.rb:65
+#: ../app/helpers/hosts_helper.rb:181 ../app/helpers/hosts_helper.rb:188
 #: ../app/helpers/hosts_helper.rb:246 ../app/helpers/reports_helper.rb:24
 #: ../app/services/power_manager/power_status.rb:6
 #: ../app/views/fact_values/_fact.html.erb:7
@@ -4562,17 +4380,8 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:78
-#: ../webpack/assets/javascripts/foreman_class_edit.js:54
-msgid "Click to remove %s"
-msgstr ""
-
-#: ../app/helpers/application_helper.rb:91
-msgid "Click to add %s"
-msgstr ""
-
-#: ../app/helpers/application_helper.rb:121
-#: ../app/helpers/host_description_helper.rb:124
+#: ../app/helpers/application_helper.rb:96
+#: ../app/helpers/host_description_helper.rb:123
 #: ../app/views/common/confirm_class_clean_up.html.erb:8
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
@@ -4582,52 +4391,62 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:124 ../app/helpers/bmc_helper.rb:18
+#: ../app/helpers/application_helper.rb:99 ../app/helpers/bmc_helper.rb:18
 #: ../app/helpers/bmc_helper.rb:26
 #: ../app/helpers/compute_resources_vms_helper.rb:5
 #: ../app/views/images/_list.html.erb:21
 msgid "Are you sure?"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:149
-#: ../app/helpers/provisioning_templates_helper.rb:18
+#: ../app/helpers/application_helper.rb:124
+#: ../app/helpers/provisioning_templates_helper.rb:13
 #: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:22
 msgid "Export"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:150
+#: ../app/helpers/application_helper.rb:125
 #: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:21
 msgid "Export to CSV"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:206
+#: ../app/helpers/application_helper.rb:181
 #: ../app/views/templates/_form.html.erb:22
 msgid "Help"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:374
+#: ../app/helpers/application_helper.rb:308
 #: ../app/views/about/index.html.erb:125
-#: ../webpack/assets/javascripts/react_app/components/common/DocumentationLink/index.js:20
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:186
+#: ../webpack/assets/javascripts/react_app/components/PF4/DocumentationLink/index.js:20
+#: ../webpack/assets/javascripts/react_app/components/common/DocumentationLink/index.js:19
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:188
 msgid "Documentation"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:379
+#: ../app/helpers/application_helper.rb:313
 #: ../webpack/assets/javascripts/react_app/components/Bookmarks/Bookmarks.js:76
+#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:33
 msgid "None found"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:399
+#: ../app/helpers/application_helper.rb:333
 #: ../app/views/users/logout.html.erb:3
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:29
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:69
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:70
 msgid "Yes"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:399
+#: ../app/helpers/application_helper.rb:333
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:30
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:71
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:72
 msgid "No"
+msgstr ""
+
+#: ../app/helpers/application_mailer_helper.rb:7
+msgid "This email was sent from Foreman instance %{title} identified by %{uuid}"
+msgstr ""
+
+#: ../app/helpers/application_mailer_helper.rb:9
+msgid "This email was sent from Foreman identified by UUID %{uuid}"
 msgstr ""
 
 #: ../app/helpers/audits_helper.rb:10
@@ -4679,29 +4498,26 @@ msgstr ""
 
 #: ../app/helpers/audits_helper.rb:201 ../app/registries/menu/loader.rb:50
 #: ../app/views/architectures/index.html.erb:9
-#: ../app/views/config_groups/index.html.erb:11
 #: ../app/views/config_reports/index.html.erb:4
 #: ../app/views/domains/index.html.erb:9
-#: ../app/views/environments/index.html.erb:10
 #: ../app/views/hostgroups/index.html.erb:9
 #: ../app/views/hosts/index.html.erb:12 ../app/views/hosts/welcome.html.erb:1
 #: ../app/views/hosts/welcome.html.erb:7
 #: ../app/views/operatingsystems/index.html.erb:9
-#: ../app/views/puppetclasses/index.html.erb:13
 #: ../app/views/realms/index.html.erb:9 ../app/views/subnets/index.html.erb:15
 #: ../app/views/taxonomies/index.html.erb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:3
 #: ../db/seeds.d/170-notification_blueprints.rb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:23
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:90
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:95
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:42
 msgid "Hosts"
 msgstr ""
 
 #: ../app/helpers/audits_helper.rb:209
-#: ../app/helpers/host_description_helper.rb:137
+#: ../app/helpers/host_description_helper.rb:136
 #: ../app/registries/menu/loader.rb:42
-#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:22
+#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:20
 msgid "Audits"
 msgstr ""
 
@@ -4793,11 +4609,12 @@ msgstr ""
 
 #: ../app/helpers/common_parameters_helper.rb:52
 #: ../app/views/common_parameters/_inherited_parameters.html.erb:6
-#: ../app/views/common_parameters/_parameters.html.erb:7
+#: ../app/views/common_parameters/_parameters.html.erb:12
 #: ../app/views/compute_resources/show.html.erb:28
+#: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:43
+#: ../app/views/compute_resources_vms/form/ec2/_ec2_tag.html.erb:6
 #: ../app/views/lookup_keys/_values.html.erb:10
 #: ../app/views/lookup_keys/_values.html.erb:15
-#: ../app/views/puppetclasses/_classes_parameters.html.erb:8
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Parameters/index.js:76
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingForm/SettingForm.js:43
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:24
@@ -4868,7 +4685,7 @@ msgid "Virtual (NAT)"
 msgstr ""
 
 #: ../app/helpers/compute_resources_vms_helper.rb:180
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:15
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:14
 #: ../webpack/assets/javascripts/compute_resource/vmware.js:33
 #: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:112
 msgid "Please select a cluster"
@@ -4966,7 +4783,7 @@ msgstr ""
 msgid "Applied|A"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:111 ../app/helpers/hosts_helper.rb:211
+#: ../app/helpers/dashboard_helper.rb:111 ../app/helpers/hosts_helper.rb:199
 #: ../app/views/config_reports/_list.html.erb:9
 msgid "Applied"
 msgstr ""
@@ -4976,7 +4793,7 @@ msgstr ""
 msgid "Restarted|R"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:113 ../app/helpers/hosts_helper.rb:215
+#: ../app/helpers/dashboard_helper.rb:113 ../app/helpers/hosts_helper.rb:203
 #: ../app/views/config_reports/_list.html.erb:10
 msgid "Restarted"
 msgstr ""
@@ -4986,7 +4803,7 @@ msgstr ""
 msgid "Failed|F"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:115 ../app/helpers/hosts_helper.rb:212
+#: ../app/helpers/dashboard_helper.rb:115 ../app/helpers/hosts_helper.rb:200
 #: ../app/models/config_report.rb:79
 #: ../app/views/config_reports/_list.html.erb:11
 msgid "Failed"
@@ -5006,7 +4823,7 @@ msgstr ""
 msgid "Skipped|S"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:119 ../app/helpers/hosts_helper.rb:214
+#: ../app/helpers/dashboard_helper.rb:119 ../app/helpers/hosts_helper.rb:202
 #: ../app/views/config_reports/_list.html.erb:13
 msgid "Skipped"
 msgstr ""
@@ -5036,18 +4853,12 @@ msgid "Token expired"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:193
-#: ../app/helpers/host_description_helper.rb:65
+#: ../app/helpers/host_description_helper.rb:64
 msgid "Build errors"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:198
 msgid "Build in progress"
-msgstr ""
-
-#: ../app/helpers/environments_helper.rb:6
-#: ../app/views/environments/new.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/Enviroments/Welcome.js:9
-msgid "Create Puppet Environment"
 msgstr ""
 
 #: ../app/helpers/fact_values_helper.rb:16
@@ -5093,10 +4904,9 @@ msgid "Choose a new file:"
 msgstr ""
 
 #: ../app/helpers/form_helper.rb:244 ../app/views/autosign/_form.html.erb:4
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:59
-#: ../app/views/hosts/_assign_hosts.html.erb:38
+#: ../app/views/hosts/_assign_hosts.html.erb:36
 #: ../app/views/hosts/_interfaces.html.erb:64
-#: ../app/views/hosts/_list.html.erb:58
+#: ../app/views/hosts/_list.html.erb:56
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/CancelBtn.js:23
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:41
 #: ../webpack/assets/javascripts/react_app/components/common/RedirectCancelButton/RedirectCancelButton.js:11
@@ -5110,7 +4920,7 @@ msgstr ""
 msgid "Overwrite"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:247 ../app/views/hosts/_list.html.erb:59
+#: ../app/helpers/form_helper.rb:247 ../app/views/hosts/_list.html.erb:57
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitBtn.js:25
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:14
 msgid "Submit"
@@ -5133,77 +4943,73 @@ msgid "Change Group"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:15
-msgid "Change Environment"
-msgstr ""
-
-#: ../app/helpers/host_description_helper.rb:16
 msgid "Edit Parameters"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:17
+#: ../app/helpers/host_description_helper.rb:16
 msgid "Disable Notifications"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:18
+#: ../app/helpers/host_description_helper.rb:17
 msgid "Enable Notifications"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:19
+#: ../app/helpers/host_description_helper.rb:18
 msgid "Disassociate Hosts"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:20
+#: ../app/helpers/host_description_helper.rb:19
 msgid "Rebuild Config"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:22
+#: ../app/helpers/host_description_helper.rb:21
 msgid "Build Hosts"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:23
+#: ../app/helpers/host_description_helper.rb:22
 msgid "Assign Organization"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:24
+#: ../app/helpers/host_description_helper.rb:23
 msgid "Assign Location"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:25
+#: ../app/helpers/host_description_helper.rb:24
 msgid "Change Owner"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:27
+#: ../app/helpers/host_description_helper.rb:26
 msgid "Change Power State"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:28
+#: ../app/helpers/host_description_helper.rb:27
 msgid "Delete Hosts"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:37
+#: ../app/helpers/host_description_helper.rb:36
 #: ../app/views/about/index.html.erb:27 ../app/views/about/index.html.erb:50
 #: ../app/views/about/index.html.erb:77 ../app/views/hosts/_bmc.html.erb:9
 #: ../app/views/smart_proxies/index.html.erb:13
 msgid "Status"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:57
+#: ../app/helpers/host_description_helper.rb:56
 msgid "clear"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:64
+#: ../app/helpers/host_description_helper.rb:63
 msgid "Build duration"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/host_description_helper.rb:66 model_attributes.rb:662
+#: ../app/helpers/host_description_helper.rb:65 model_attributes.rb:662
 msgid "Token"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/host_description_helper.rb:67
+#: ../app/helpers/host_description_helper.rb:66
 #: ../app/views/domains/_form.html.erb:4
-#: ../app/views/hostgroups/_form.html.erb:51
+#: ../app/views/hostgroups/_form.html.erb:47
 #: ../app/views/subnets/_form.html.erb:25
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Properties/index.js:39
 #: model_attributes.rb:116
@@ -5211,47 +5017,47 @@ msgid "Domain"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/host_description_helper.rb:68
-#: ../app/views/hostgroups/_form.html.erb:66
+#: ../app/helpers/host_description_helper.rb:67
+#: ../app/views/hostgroups/_form.html.erb:62
 #: ../app/views/realms/_form.html.erb:4
 #: ../app/views/smart_proxies/plugins/_realm.html.erb:2 model_attributes.rb:480
 msgid "Realm"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:69
+#: ../app/helpers/host_description_helper.rb:68
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Interfaces/index.js:63
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Properties/index.js:71
 msgid "IP Address"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:70
+#: ../app/helpers/host_description_helper.rb:69
 #: ../app/views/hosts/_interfaces.html.erb:17
 #: ../app/views/hosts/_nics.html.erb:26 ../app/views/nic/_base_form.html.erb:56
 msgid "IPv6 Address"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:71
+#: ../app/helpers/host_description_helper.rb:70
 msgid "Comment"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:72
+#: ../app/helpers/host_description_helper.rb:71
 #: ../app/views/hosts/_interfaces.html.erb:15
 #: ../app/views/hosts/_nics.html.erb:14 ../app/views/nic/_base_form.html.erb:7
 msgid "MAC Address"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/host_description_helper.rb:73
+#: ../app/helpers/host_description_helper.rb:72
 #: ../app/views/common/os_selection/_initial.html.erb:3
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Properties/index.js:55
 #: model_attributes.rb:2
 msgid "Architecture"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:74
-#: ../app/helpers/provisioning_templates_helper.rb:80
+#: ../app/helpers/host_description_helper.rb:73
+#: ../app/helpers/provisioning_templates_helper.rb:73
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:4
-#: ../app/views/hostgroups/_form.html.erb:10
+#: ../app/views/hostgroups/_form.html.erb:9
 #: ../app/views/hosts/_form.html.erb:17 ../app/views/images/_form.html.erb:5
 #: ../app/views/images/_list.html.erb:5
 #: ../app/views/operatingsystems/_form.html.erb:4
@@ -5259,58 +5065,59 @@ msgstr ""
 msgid "Operating System"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:75
+#: ../app/helpers/host_description_helper.rb:74
 msgid "PXE Loader"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:76
+#: ../app/helpers/host_description_helper.rb:75
+#: ../app/helpers/provisioning_templates_helper.rb:69
 #: ../app/views/host_mailer/_active_hosts.html.erb:6
 #: ../app/views/host_mailer/_nonactive_hosts.html.erb:6
-#: ../app/views/hosts/_assign_hosts.html.erb:15
-#: ../app/views/hosts/_list.html.erb:14
+#: ../app/views/hosts/_assign_hosts.html.erb:14
+#: ../app/views/hosts/_list.html.erb:13
 #: ../app/views/hosts/_selected_hosts.html.erb:13
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/HostGroup.js:14
 msgid "Host group"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:77
+#: ../app/helpers/host_description_helper.rb:76
 msgid "Boot time"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:77
+#: ../app/helpers/host_description_helper.rb:76
 msgid "Not reported"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:78
-#: ../app/views/hosts/_selected_hosts.html.erb:19
+#: ../app/helpers/host_description_helper.rb:77
+#: ../app/views/hosts/_selected_hosts.html.erb:16
 #: ../app/views/hosts/select_multiple_location.html.erb:5
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Properties/index.js:115
 #: taxonomies.rb:10
 msgid "Location"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:79
-#: ../app/views/hosts/_selected_hosts.html.erb:22
+#: ../app/helpers/host_description_helper.rb:78
+#: ../app/views/hosts/_selected_hosts.html.erb:19
 #: ../app/views/hosts/select_multiple_organization.html.erb:5
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Properties/index.js:132
 #: taxonomies.rb:11
 msgid "Organization"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:81
-#: ../app/helpers/host_description_helper.rb:83
+#: ../app/helpers/host_description_helper.rb:80
+#: ../app/helpers/host_description_helper.rb:82
 #: ../app/views/dashboard/_hosts_in_build_mode_widget_host_list.html.erb:4
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:5
 #: ../app/views/hosts/select_multiple_owner.html.erb:6
 msgid "Owner"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:85
+#: ../app/helpers/host_description_helper.rb:84
 #: ../app/views/puppetca/_list.html.erb:7
 msgid "Certificate Name"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:93
+#: ../app/helpers/host_description_helper.rb:92
 #: ../app/helpers/hosts_helper.rb:383 ../app/helpers/smart_proxies_helper.rb:6
 #: ../app/helpers/smart_proxies_helper.rb:51
 #: ../app/views/auth_source_externals/_external_card_kebab.html.erb:6
@@ -5318,7 +5125,7 @@ msgstr ""
 #: ../app/views/compute_resources/show.html.erb:7
 #: ../app/views/filters/index.html.erb:59
 #: ../app/views/hosts/_interfaces.html.erb:33
-#: ../app/views/hosts/_list.html.erb:39
+#: ../app/views/hosts/_list.html.erb:37
 #: ../app/views/hosts/_templates.html.erb:12
 #: ../app/views/hosts/review_before_build.html.erb:6
 #: ../app/views/images/_list.html.erb:20
@@ -5328,14 +5135,14 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:94
+#: ../app/helpers/host_description_helper.rb:93
 msgid "Edit this host"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:95
-#: ../app/helpers/provisioning_templates_helper.rb:17
+#: ../app/helpers/host_description_helper.rb:94
+#: ../app/helpers/provisioning_templates_helper.rb:12
 #: ../app/views/hostgroups/index.html.erb:29
-#: ../app/views/hosts/_list.html.erb:40
+#: ../app/views/hosts/_list.html.erb:38
 #: ../app/views/operatingsystems/index.html.erb:17
 #: ../app/views/roles/index.html.erb:28
 #: ../app/views/taxonomies/index.html.erb:30
@@ -5343,53 +5150,54 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:96
+#: ../app/helpers/host_description_helper.rb:95
 msgid "Clone this host"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:98
+#: ../app/helpers/host_description_helper.rb:97
 msgid "Cancel build"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:100
+#: ../app/helpers/host_description_helper.rb:99
 msgid "Cancel build request for this host"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:104
+#: ../app/helpers/host_description_helper.rb:103
 msgid "Enable rebuild on next host boot"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:117
+#: ../app/helpers/host_description_helper.rb:116
 msgid "Loading power state ..."
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:137
+#: ../app/helpers/host_description_helper.rb:136
 msgid "Host audit entries"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:138
+#: ../app/helpers/host_description_helper.rb:137
 #: ../app/registries/menu/loader.rb:41
 msgid "Facts"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:138
+#: ../app/helpers/host_description_helper.rb:137
 msgid "Browse host facts"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:139
+#: ../app/helpers/host_description_helper.rb:138
 #: ../app/registries/menu/loader.rb:43
 #: ../app/views/config_reports/index.html.erb:12
 #: ../app/views/config_reports/index.html.erb:17
+#: ../db/seeds.d/170-notification_blueprints.rb:65
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:22
 msgid "Reports"
 msgstr ""
 
-#: ../app/helpers/host_description_helper.rb:139
+#: ../app/helpers/host_description_helper.rb:138
 msgid "Browse host config management reports"
 msgstr ""
 
 #: ../app/helpers/hostgroups_helper.rb:6
-#: ../app/helpers/provisioning_templates_helper.rb:44
+#: ../app/helpers/provisioning_templates_helper.rb:39
 #: ../app/helpers/roles_helper.rb:34 ../app/helpers/smart_proxies_helper.rb:8
 #: ../app/helpers/smart_proxies_helper.rb:55 ../app/helpers/users_helper.rb:39
 #: ../app/views/architectures/index.html.erb:22
@@ -5398,12 +5206,10 @@ msgstr ""
 #: ../app/views/common_parameters/index.html.erb:26
 #: ../app/views/compute_profiles/index.html.erb:18
 #: ../app/views/compute_resources/index.html.erb:20
-#: ../app/views/config_groups/index.html.erb:24
 #: ../app/views/domains/index.html.erb:18
 #: ../app/views/http_proxies/index.html.erb:21
 #: ../app/views/media/index.html.erb:29
 #: ../app/views/operatingsystems/index.html.erb:18
-#: ../app/views/puppetclasses/index.html.erb:30
 #: ../app/views/realms/index.html.erb:18 ../app/views/subnets/index.html.erb:32
 #: ../app/views/taxonomies/index.html.erb:31
 #: ../app/views/usergroups/index.html.erb:24
@@ -5437,35 +5243,35 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/helpers/hosts_helper.rb:61
+#: ../app/helpers/hosts_helper.rb:56
 msgid "%s can be changed using bulk action on the All Hosts page"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:85
+#: ../app/helpers/hosts_helper.rb:80
 msgid "view last report details"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:88
+#: ../app/helpers/hosts_helper.rb:83
 msgid "report already deleted"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:172
+#: ../app/helpers/hosts_helper.rb:167
 msgid "Select Action"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:177
+#: ../app/helpers/hosts_helper.rb:172
 msgid "%s - The following hosts are about to be changed"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:213
+#: ../app/helpers/hosts_helper.rb:201
 msgid "Failed restarts"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:224
+#: ../app/helpers/hosts_helper.rb:217
 msgid "Config Retrieval"
 msgstr ""
 
-#: ../app/helpers/hosts_helper.rb:224 ../app/views/hosts/show.html.erb:82
+#: ../app/helpers/hosts_helper.rb:218 ../app/views/hosts/show.html.erb:82
 msgid "Runtime"
 msgstr ""
 
@@ -5496,8 +5302,6 @@ msgid "Allocation (GB)"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:322 ../app/helpers/lookup_keys_helper.rb:36
-#: ../app/helpers/provisioning_templates_helper.rb:5
-#: ../app/helpers/provisioning_templates_helper.rb:6
 #: ../app/models/setting/puppet.rb:6 ../app/services/ipam.rb:2
 msgid "None"
 msgstr ""
@@ -5536,17 +5340,12 @@ msgstr ""
 #: ../app/views/common_parameters/edit.html.erb:1
 #: ../app/views/compute_attributes/edit.html.erb:16
 #: ../app/views/compute_resources/edit.html.erb:1
-#: ../app/views/config_groups/edit.html.erb:1
-#: ../app/views/domains/edit.html.erb:1
-#: ../app/views/environments/edit.html.erb:1
-#: ../app/views/hostgroups/edit.html.erb:1 ../app/views/hosts/edit.html.erb:1
-#: ../app/views/http_proxies/edit.html.erb:1 ../app/views/media/edit.html.erb:1
-#: ../app/views/models/edit.html.erb:1
+#: ../app/views/domains/edit.html.erb:1 ../app/views/hostgroups/edit.html.erb:1
+#: ../app/views/hosts/edit.html.erb:1 ../app/views/http_proxies/edit.html.erb:1
+#: ../app/views/media/edit.html.erb:1 ../app/views/models/edit.html.erb:1
 #: ../app/views/operatingsystems/edit.html.erb:1
 #: ../app/views/provisioning_templates/edit.html.erb:1
-#: ../app/views/ptables/edit.html.erb:1
-#: ../app/views/puppetclass_lookup_keys/edit.html.erb:1
-#: ../app/views/realms/edit.html.erb:1
+#: ../app/views/ptables/edit.html.erb:1 ../app/views/realms/edit.html.erb:1
 #: ../app/views/report_templates/edit.html.erb:1
 #: ../app/views/roles/edit.html.erb:1
 #: ../app/views/smart_proxies/edit.html.erb:1
@@ -5579,7 +5378,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:13
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:77
 #: ../app/views/compute_resources_vms/form/rackspace/_base.html.erb:9
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:50
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:49
 #: model_attributes.rb:246
 msgid "Image"
 msgstr ""
@@ -5592,7 +5391,7 @@ msgstr ""
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
-#: ../app/helpers/images_helper.rb:18 ../app/registries/menu/loader.rb:87
+#: ../app/helpers/images_helper.rb:18 ../app/registries/menu/loader.rb:82
 #: ../app/views/about/index.html.erb:13
 #: ../app/views/compute_attributes/edit.html.erb:4
 #: ../app/views/compute_attributes/new.html.erb:5
@@ -5655,8 +5454,6 @@ msgid "Alert"
 msgstr ""
 
 #: ../app/helpers/layout_helper.rb:155 ../app/helpers/layout_helper.rb:161
-#: ../app/helpers/puppet_related_helper.rb:94
-#: ../app/helpers/puppet_related_helper.rb:98
 #: ../app/views/hosts/_compute.html.erb:3
 #: ../app/views/media/welcome.html.erb:14
 msgid "Notice"
@@ -5685,9 +5482,6 @@ msgid "Puppet class"
 msgstr ""
 
 #: ../app/helpers/lookup_keys_helper.rb:25
-#: ../app/views/puppetclass_lookup_keys/index.html.erb:9
-#: ../app/views/puppetclasses/_classes_parameters.html.erb:6
-#: ../app/views/puppetclasses/_form.html.erb:7
 msgid "Puppet Class"
 msgstr ""
 
@@ -5702,105 +5496,66 @@ msgstr ""
 msgid "Validation types"
 msgstr ""
 
-#: ../app/helpers/lookup_keys_helper.rb:80 ../app/models/hostgroup.rb:188
-msgid "Default value"
-msgstr ""
-
-#: ../app/helpers/lookup_keys_helper.rb:91
-msgid "Original value info"
-msgstr ""
-
-#: ../app/helpers/lookup_keys_helper.rb:97
-msgid ""
-"<b>Description:</b> %{desc}<br/>\n"
-"     <b>Type:</b> %{type}<br/>\n"
-"     <b>Matcher:</b> %{matcher}<br/>\n"
-"     <b>Inherited value:</b> %{inherited_value}"
-msgstr ""
-
-#: ../app/helpers/lookup_keys_helper.rb:109
-msgid "Required parameter without value.<br/><b>Please override!</b><br/>"
-msgstr ""
-
-#: ../app/helpers/lookup_keys_helper.rb:112
-msgid ""
-"Optional parameter without value.<br/><i>Still managed by Foreman, the value w"
-"ill be empty.</i><br/>"
-msgstr ""
-
-#: ../app/helpers/lookup_keys_helper.rb:120
-#: ../app/views/common_parameters/_inherited_parameters.html.erb:24
-msgid "Override this value"
-msgstr ""
-
-#: ../app/helpers/lookup_keys_helper.rb:124
-msgid "Remove this override"
-msgstr ""
-
-#: ../app/helpers/lookup_keys_helper.rb:132
+#: ../app/helpers/lookup_keys_helper.rb:53
 msgid "This value is not hidden"
 msgstr ""
 
-#: ../app/helpers/lookup_keys_helper.rb:135
+#: ../app/helpers/lookup_keys_helper.rb:56
 msgid "Unhide this value"
 msgstr ""
 
-#: ../app/helpers/lookup_keys_helper.rb:138
+#: ../app/helpers/lookup_keys_helper.rb:59
 msgid "Hide this value"
-msgstr ""
-
-#: ../app/helpers/lookup_keys_helper.rb:154
-msgid "Omit from classification output"
 msgstr ""
 
 #: ../app/helpers/pagination_helper.rb:4
 msgid "No entries found"
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:22
+#: ../app/helpers/provisioning_templates_helper.rb:17
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:26
 msgid "Generate"
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:27
+#: ../app/helpers/provisioning_templates_helper.rb:22
 msgid "You are about to unlock a locked template."
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:28
+#: ../app/helpers/provisioning_templates_helper.rb:23
 msgid "This is for every location and organization that uses it."
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:30
+#: ../app/helpers/provisioning_templates_helper.rb:25
 msgid ""
 "It is not recommended to unlock this template, as it is provided by %{vendor} "
 "and may be overwritten. Please consider cloning it instead."
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:34
+#: ../app/helpers/provisioning_templates_helper.rb:29
 msgid "Continue?"
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:37
+#: ../app/helpers/provisioning_templates_helper.rb:32
 msgid "Unlock"
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:41
+#: ../app/helpers/provisioning_templates_helper.rb:36
 msgid "Lock"
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:67
+#: ../app/helpers/provisioning_templates_helper.rb:62
 msgid "How templates are determined"
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:68
+#: ../app/helpers/provisioning_templates_helper.rb:63
 msgid ""
 "When editing a template, you must assign a list \\\n"
 "of operating systems which this template can be used with. Optionally, you can"
 " \\\n"
-"restrict a template to a list of host groups and/or environments."
+"restrict a template to a list of host groups."
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:71
+#: ../app/helpers/provisioning_templates_helper.rb:66
 msgid ""
 "When a Host requests a template (e.g. during provisioning), Foreman \\\n"
 "will select the best match from the available templates of that type, in the \\"
@@ -5808,79 +5563,16 @@ msgid ""
 "following order:"
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:74
-msgid "Host group and Environment"
-msgstr ""
-
-#: ../app/helpers/provisioning_templates_helper.rb:75
-msgid "Host group only"
-msgstr ""
-
-#: ../app/helpers/provisioning_templates_helper.rb:76
-msgid "Environment only"
-msgstr ""
-
-#: ../app/helpers/provisioning_templates_helper.rb:77
+#: ../app/helpers/provisioning_templates_helper.rb:70
 msgid "Operating system default"
 msgstr ""
 
-#: ../app/helpers/provisioning_templates_helper.rb:79
+#: ../app/helpers/provisioning_templates_helper.rb:72
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr ""
 
-#: ../app/helpers/puppet_related_helper.rb:71
-msgid ""
-"Puppet Classes management is being extracted to the foreman_puppet plugin and "
-"will be removed from core in 3.0"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:75
-msgid ""
-"Config Groups are being extracted to the foreman_puppet plugin and will be rem"
-"oved from core in 3.0"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:79
-msgid ""
-"Puppet Environments management is being extracted to the foreman_puppet plugin"
-" and will be removed from core in 3.0"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:83
-msgid ""
-"Smart Class Parameters management is being extracted to the foreman_puppet plu"
-"gin and will be removed from core in 3.0"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:87
-msgid ""
-"Puppet ENC is being extracted to the foreman_puppet plugin and will be removed"
-" from core in 3.0"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:99
-msgid "Please select an environment first"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:107
-msgid "Change Puppet Master"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:108
+#: ../app/helpers/puppet_related_helper.rb:9
 msgid "Change Puppet CA"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:118
-#: ../app/views/hosts/_list.html.erb:12
-msgid "Puppet Environment"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:129
-msgid "YAML"
-msgstr ""
-
-#: ../app/helpers/puppet_related_helper.rb:129
-msgid "Puppet external nodes YAML dump"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:2
@@ -5894,40 +5586,6 @@ msgstr ""
 #: ../app/helpers/puppetca_helper.rb:10
 msgid "all"
 msgstr ""
-
-#: ../app/helpers/puppetclasses_and_environments_helper.rb:4
-msgid "Empty environment"
-msgstr ""
-
-#: ../app/helpers/puppetclasses_and_environments_helper.rb:6
-msgid "Deleted environment"
-msgstr ""
-
-#: ../app/helpers/puppetclasses_and_environments_helper.rb:8
-msgid "Deleted environment %{env} and %{pcs}"
-msgstr ""
-
-#: ../app/helpers/puppetclasses_and_environments_helper.rb:10
-msgid "Ignored environment"
-msgstr ""
-
-#: ../app/helpers/puppetclasses_and_environments_helper.rb:17
-msgid "Import"
-msgstr ""
-
-#: ../app/helpers/puppetclasses_and_environments_helper.rb:21
-msgid "Import environments from %s"
-msgstr ""
-
-#: ../app/helpers/puppetclasses_and_environments_helper.rb:21
-msgid "Import classes from %s"
-msgstr ""
-
-#: ../app/helpers/puppetclasses_and_environments_helper.rb:42
-msgid "%{name} has %{num_tag} class"
-msgid_plural "%{name} has %{num_tag} classes"
-msgstr[0] ""
-msgstr[1] ""
 
 #: ../app/helpers/reports_helper.rb:15
 msgid "%s minute ago"
@@ -6027,25 +5685,24 @@ msgstr ""
 #: ../app/views/autosign/_list.html.erb:6
 #: ../app/views/bookmarks/index.html.erb:11
 #: ../app/views/common_parameters/_inherited_parameters.html.erb:7
-#: ../app/views/common_parameters/_parameters.html.erb:8
+#: ../app/views/common_parameters/_parameters.html.erb:13
 #: ../app/views/common_parameters/index.html.erb:13
 #: ../app/views/compute_profiles/index.html.erb:9
 #: ../app/views/compute_resources/index.html.erb:10
+#: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:45
 #: ../app/views/compute_resources_vms/index/_ec2.html.erb:7
 #: ../app/views/compute_resources_vms/index/_gce.html.erb:6
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:7
 #: ../app/views/compute_resources_vms/index/_openstack.html.erb:6
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:7
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:10
-#: ../app/views/config_groups/index.html.erb:13
 #: ../app/views/config_reports/_list.html.erb:15
 #: ../app/views/domains/index.html.erb:10
-#: ../app/views/environments/index.html.erb:11
 #: ../app/views/fact_values/index.html.erb:20
 #: ../app/views/filters/index.html.erb:32
 #: ../app/views/hostgroups/index.html.erb:11
 #: ../app/views/hosts/_interfaces.html.erb:19
-#: ../app/views/hosts/_list.html.erb:16 ../app/views/hosts/_metrics.html.erb:5
+#: ../app/views/hosts/_list.html.erb:15 ../app/views/hosts/_metrics.html.erb:5
 #: ../app/views/http_proxies/index.html.erb:10
 #: ../app/views/images/_list.html.erb:9
 #: ../app/views/key_pairs/index.html.erb:10
@@ -6055,7 +5712,6 @@ msgstr ""
 #: ../app/views/provisioning_templates/index.html.erb:18
 #: ../app/views/ptables/index.html.erb:13
 #: ../app/views/puppetca/_list.html.erb:12
-#: ../app/views/puppetclasses/index.html.erb:15
 #: ../app/views/realms/index.html.erb:10
 #: ../app/views/report_templates/index.html.erb:13
 #: ../app/views/roles/index.html.erb:12
@@ -6230,15 +5886,15 @@ msgstr ""
 msgid "Clean up StoredValues"
 msgstr ""
 
-#: ../app/jobs/template_render_job.rb:28
+#: ../app/jobs/template_render_job.rb:29
 msgid "Render report %s"
 msgstr ""
 
-#: ../app/jobs/template_render_job.rb:28
+#: ../app/jobs/template_render_job.rb:29
 msgid "Render report template"
 msgstr ""
 
-#: ../app/mailers/application_mailer.rb:44
+#: ../app/mailers/application_mailer.rb:45
 msgid ""
 ":foreman_url is not set, please configure in the Foreman Web UI (Administer ->"
 " Settings -> General)"
@@ -6344,6 +6000,10 @@ msgstr ""
 
 #: ../app/models/compute_resource.rb:475
 msgid "cannot be changed"
+msgstr ""
+
+#: ../app/models/compute_resources/foreman/model/ec2.rb:71
+msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr ""
 
 #: ../app/models/compute_resources/foreman/model/gce.rb:112
@@ -6493,7 +6153,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/libvirt/_network.html.erb:26
 #: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:13
 #: ../app/views/compute_resources_vms/form/vmware/_network.html.erb:8
-#: ../app/views/hostgroups/_form.html.erb:9 ../app/views/hosts/_bmc.html.erb:22
+#: ../app/views/hostgroups/_form.html.erb:8 ../app/views/hosts/_bmc.html.erb:22
 msgid "Network"
 msgstr ""
 
@@ -6565,6 +6225,10 @@ msgstr ""
 
 #: ../app/models/concerns/has_many_common.rb:89
 msgid "Could not find %{association} with name: %{name}"
+msgstr ""
+
+#: ../app/models/concerns/host_common.rb:17 ../app/models/setting/puppet.rb:40
+msgid "Puppet"
 msgstr ""
 
 #: ../app/models/concerns/host_common.rb:18
@@ -6669,105 +6333,123 @@ msgstr ""
 msgid "invalid method %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:48
-msgid "Render user data template for %s"
-msgstr ""
-
-#: ../app/models/concerns/orchestration/compute.rb:51
-msgid "Set up compute instance %s"
-msgstr ""
-
-#: ../app/models/concerns/orchestration/compute.rb:54
-msgid "Acquire IP addresses for %s"
-msgstr ""
-
-#: ../app/models/concerns/orchestration/compute.rb:57
-msgid "Query instance details for %s"
-msgstr ""
-
-#: ../app/models/concerns/orchestration/compute.rb:60
-msgid "Set IP addresses for %s"
+#: ../app/models/concerns/orchestration/compute.rb:23
+msgid ""
+"Receiving vm data for host '%{host}' from used compute resource '%{compute_res"
+"ource}' failed: '%{exception}'."
 msgstr ""
 
 #: ../app/models/concerns/orchestration/compute.rb:64
+msgid "Render user data template for %s"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/compute.rb:67
+msgid "Set up compute instance %s"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/compute.rb:70
+msgid "Acquire IP addresses for %s"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/compute.rb:73
+msgid "Query instance details for %s"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/compute.rb:76
+msgid "Set IP addresses for %s"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/compute.rb:80
 msgid "Power up compute instance %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:72
+#: ../app/models/concerns/orchestration/compute.rb:88
 msgid "Compute resource update for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:78
+#: ../app/models/concerns/orchestration/compute.rb:94
 msgid "Removing compute instance %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:85
+#: ../app/models/concerns/orchestration/compute.rb:101
 msgid "Failed to find compute attributes, please check if VM %s was deleted"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:93
+#: ../app/models/concerns/orchestration/compute.rb:109
 msgid ""
 "Failed to create a compute %{compute_resource} instance %{name}: %{message}\n"
 " "
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:103
+#: ../app/models/concerns/orchestration/compute.rb:119
 msgid ""
 "%{image} needs user data, but %{os_link} is not associated to any provisioning"
 " template of the kind user_data. Please associate it with a suitable template "
 "or uncheck 'User data' for %{compute_resource_image_link}."
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:128
+#: ../app/models/concerns/orchestration/compute.rb:144
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:150
+#: ../app/models/concerns/orchestration/compute.rb:166
 msgid "Failed to acquire IP addresses from compute resource for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:155
+#: ../app/models/concerns/orchestration/compute.rb:171
 msgid "failed to save %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:175
+#: ../app/models/concerns/orchestration/compute.rb:191
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:185
+#: ../app/models/concerns/orchestration/compute.rb:201
 msgid "Failed to set IPs via IPAM for %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:190
+#: ../app/models/concerns/orchestration/compute.rb:206
 msgid "Failed to set IP for %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:200
+#: ../app/models/concerns/orchestration/compute.rb:216
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:207
+#: ../app/models/concerns/orchestration/compute.rb:223
 msgid "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:214
+#: ../app/models/concerns/orchestration/compute.rb:230
 msgid "Failed to stop compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:221
+#: ../app/models/concerns/orchestration/compute.rb:237
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:228
+#: ../app/models/concerns/orchestration/compute.rb:244
 msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:255
+#: ../app/models/concerns/orchestration/compute.rb:271
 msgid "Selected image does not belong to %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/compute.rb:344
+#: ../app/models/concerns/orchestration/compute.rb:360
 msgid "Could not find virtual machine network interface matching %s"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/compute.rb:390
+msgid "Connection to compute resource timed out"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/compute.rb:392
+msgid "Connection to compute resource refused"
+msgstr ""
+
+#: ../app/models/concerns/orchestration/compute.rb:394
+msgid "Compute resource destination unreachable"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/dhcp.rb:9 ../app/models/subnet.rb:8
@@ -6776,26 +6458,26 @@ msgstr ""
 msgid "DHCP"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:104
-#: ../app/models/concerns/orchestration/dhcp.rb:115
+#: ../app/models/concerns/orchestration/dhcp.rb:102
+#: ../app/models/concerns/orchestration/dhcp.rb:113
 msgid "DHCP not supported for this NIC"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:156
-#: ../app/models/concerns/orchestration/dhcp.rb:163
+#: ../app/models/concerns/orchestration/dhcp.rb:154
+#: ../app/models/concerns/orchestration/dhcp.rb:161
 msgid "Create DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:162
-#: ../app/models/concerns/orchestration/dhcp.rb:193
+#: ../app/models/concerns/orchestration/dhcp.rb:160
+#: ../app/models/concerns/orchestration/dhcp.rb:191
 msgid "Remove DHCP Settings for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:201
+#: ../app/models/concerns/orchestration/dhcp.rb:199
 msgid "DHCP conflicts removal for %s"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dhcp.rb:210
+#: ../app/models/concerns/orchestration/dhcp.rb:208
 msgid "DHCP records %s already exists"
 msgstr ""
 
@@ -6838,7 +6520,7 @@ msgid "This IP address has already been reserved in External IPAM"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/external_ipam.rb:26
-#: ../app/models/host/managed.rb:974
+#: ../app/models/host/managed.rb:927
 msgid "Some interfaces are invalid"
 msgstr ""
 
@@ -7039,10 +6721,6 @@ msgstr ""
 msgid "DNS proxy ID to use within this domain"
 msgstr ""
 
-#: ../app/models/environment.rb:37
-msgid "Can't find a valid Foreman Proxy with a Puppet feature"
-msgstr ""
-
 #: ../app/models/external_usergroup.rb:24
 #: ../app/models/external_usergroup.rb:33
 msgid "LDAP error - %{message}"
@@ -7052,7 +6730,7 @@ msgstr ""
 msgid "is not found in the authentication source"
 msgstr ""
 
-#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:761
+#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:746
 msgid "is not permitted"
 msgstr ""
 
@@ -7066,31 +6744,31 @@ msgstr ""
 msgid "invalid search query: %s"
 msgstr ""
 
-#: ../app/models/filter.rb:96
+#: ../app/models/filter.rb:100
 msgid "filter for %s role"
 msgstr ""
 
-#: ../app/models/filter.rb:109 ../app/views/filters/_form.html.erb:28
+#: ../app/models/filter.rb:113 ../app/views/filters/_form.html.erb:28
 msgid "(Miscellaneous)"
 msgstr ""
 
-#: ../app/models/filter.rb:209
+#: ../app/models/filter.rb:207
 msgid "must be of same resource type (%{types}) - Role (%{role})"
 msgstr ""
 
-#: ../app/models/filter.rb:219
+#: ../app/models/filter.rb:217
 msgid "You must select at least one permission"
 msgstr ""
 
-#: ../app/models/filter.rb:224
+#: ../app/models/filter.rb:222
 msgid "You can't assign organizations to this resource"
 msgstr ""
 
-#: ../app/models/filter.rb:228
+#: ../app/models/filter.rb:226
 msgid "You can't assign locations to this resource"
 msgstr ""
 
-#: ../app/models/filter.rb:238
+#: ../app/models/filter.rb:236
 msgid "is locked for user modifications."
 msgstr ""
 
@@ -7106,83 +6784,86 @@ msgstr ""
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:273
+#: ../app/models/host/managed.rb:270
 msgid "invalid time range"
 msgstr ""
 
-#: ../app/models/host/managed.rb:320 ../app/models/hostgroup.rb:27
+#: ../app/models/host/managed.rb:316 ../app/models/hostgroup.rb:26
 msgid "should be 8 characters or more"
 msgstr ""
 
-#: ../app/models/host/managed.rb:321
+#: ../app/models/host/managed.rb:317
 msgid "should not be blank - consider setting a global or host group default"
 msgstr ""
 
-#: ../app/models/host/managed.rb:323
+#: ../app/models/host/managed.rb:319
 msgid "can't be blank unless a custom partition has been defined"
 msgstr ""
 
-#: ../app/models/host/managed.rb:325
+#: ../app/models/host/managed.rb:321
 msgid "is unknown"
 msgstr ""
 
-#: ../app/models/host/managed.rb:329
+#: ../app/models/host/managed.rb:325
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:532
-msgid ""
-"Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
-"ng"
-msgstr ""
-
-#: ../app/models/host/managed.rb:588
+#: ../app/models/host/managed.rb:533
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:589
+#: ../app/models/host/managed.rb:534
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:760
+#: ../app/models/host/managed.rb:690
+#: ../app/models/parameters/host_parameter.rb:11
+msgid "host"
+msgstr ""
+
+#: ../app/models/host/managed.rb:691
+msgid "hostgroup"
+msgstr ""
+
+#: ../app/models/host/managed.rb:692
+msgid "global setting"
+msgstr ""
+
+#: ../app/models/host/managed.rb:712
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:761
+#: ../app/models/host/managed.rb:713
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:805
+#: ../app/models/host/managed.rb:758
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:921
+#: ../app/models/host/managed.rb:874
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:999
+#: ../app/models/host/managed.rb:952
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1010
-msgid "%{e} does not belong to the %{environment} environment"
-msgstr ""
-
-#: ../app/models/host/managed.rb:1025
+#: ../app/models/host/managed.rb:967
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1030
+#: ../app/models/host/managed.rb:972
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1035 ../app/models/nic/interface.rb:138
+#: ../app/models/host/managed.rb:977 ../app/models/nic/interface.rb:138
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1091
+#: ../app/models/host/managed.rb:1026
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
@@ -7226,12 +6907,20 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-#: ../app/models/hostgroup.rb:323 ../app/models/nic/base.rb:334
+#: ../app/models/hostgroup.rb:153
+msgid "Default value"
+msgstr ""
+
+#: ../app/models/hostgroup.rb:282 ../app/models/nic/base.rb:338
 msgid "must be of type Subnet::Ipv4."
 msgstr ""
 
-#: ../app/models/hostgroup.rb:324 ../app/models/nic/base.rb:335
+#: ../app/models/hostgroup.rb:283 ../app/models/nic/base.rb:339
 msgid "must be of type Subnet::Ipv6."
+msgstr ""
+
+#: ../app/models/hostgroup.rb:287
+msgid "is not valid."
 msgstr ""
 
 #: ../app/models/image.rb:26
@@ -7251,7 +6940,7 @@ msgid "invalid path"
 msgstr ""
 
 #: ../app/models/lookup_keys/lookup_key.rb:193
-msgid "can only be set for array or hash"
+msgid "can only be set for array, hash, json or yaml"
 msgstr ""
 
 #: ../app/models/lookup_keys/lookup_key.rb:199
@@ -7262,19 +6951,15 @@ msgstr ""
 msgid "can only be set when merge overrides is set"
 msgstr ""
 
-#: ../app/models/lookup_keys/puppetclass_lookup_key.rb:50
-msgid "must be true to edit the parameter"
-msgstr ""
-
-#: ../app/models/lookup_value.rb:88
+#: ../app/models/lookup_value.rb:87
 msgid "%{match} does not match an existing host"
 msgstr ""
 
-#: ../app/models/lookup_value.rb:98
+#: ../app/models/lookup_value.rb:97
 msgid "%{match} does not match an existing host group"
 msgstr ""
 
-#: ../app/models/lookup_value.rb:118
+#: ../app/models/lookup_value.rb:117
 msgid "%{key} does not exist in order field"
 msgstr ""
 
@@ -7310,39 +6995,35 @@ msgstr ""
 msgid "%{record} is used by host in build mode %{what}"
 msgstr ""
 
-#: ../app/models/nic/base.rb:275
+#: ../app/models/nic/base.rb:279
 msgid "Unnamed"
 msgstr ""
 
-#: ../app/models/nic/base.rb:289
+#: ../app/models/nic/base.rb:293
 msgid "can't find domain with this id"
 msgstr ""
 
-#: ../app/models/nic/base.rb:305
+#: ../app/models/nic/base.rb:309
 msgid "can't delete primary interface of managed host"
 msgstr ""
 
-#: ../app/models/nic/base.rb:308
+#: ../app/models/nic/base.rb:312
 msgid "can't delete provision interface of managed host"
 msgstr ""
 
-#: ../app/models/nic/base.rb:317
-msgid "host already has primary interface"
+#: ../app/models/nic/base.rb:321 ../app/models/nic/base.rb:328
+msgid "interface is already set on the host"
 msgstr ""
 
-#: ../app/models/nic/base.rb:324
-msgid "host already has provision interface"
-msgstr ""
-
-#: ../app/models/nic/base.rb:343
+#: ../app/models/nic/base.rb:347
 msgid "must be a unicast MAC address"
 msgstr ""
 
-#: ../app/models/nic/base.rb:348
+#: ../app/models/nic/base.rb:352
 msgid "can't be changed once the interface is saved"
 msgstr ""
 
-#: ../app/models/nic/base.rb:366
+#: ../app/models/nic/base.rb:370
 msgid "can't be set for this interface because it's provided by the compute resource"
 msgstr ""
 
@@ -7373,26 +7054,26 @@ msgstr ""
 msgid "subnet boot mode is not %s"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:26
+#: ../app/models/operatingsystem.rb:25
 msgid "Operating System version is required"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:37
+#: ../app/models/operatingsystem.rb:36
 msgid "Operating system version already exists"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:191 ../app/models/operatingsystem.rb:198
-#: ../app/models/operatingsystem.rb:227
+#: ../app/models/operatingsystem.rb:192 ../app/models/operatingsystem.rb:199
+#: ../app/models/operatingsystem.rb:228
 msgid ""
 "Please provide a medium provider. It can be found as @medium_provider in templ"
 "ates, or Foreman::Plugin.medium_providers_registry.find_provider(host)"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:260
+#: ../app/models/operatingsystem.rb:261
 msgid "HTTP UEFI boot requires proxy with httpboot feature"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:273
+#: ../app/models/operatingsystem.rb:289
 msgid ""
 "Attempting to construct an operating system image filename but %s cannot be bu"
 "ilt from an image"
@@ -7400,6 +7081,11 @@ msgstr ""
 
 #: ../app/models/operatingsystems/nxos.rb:18
 msgid "Function not available for %s"
+msgstr ""
+
+#: ../app/models/operatingsystems/nxos.rb:40
+#: ../app/models/operatingsystems/solaris.rb:81
+msgid "auxiliary field"
 msgstr ""
 
 #: ../app/models/parameters/common_parameter.rb:6
@@ -7413,10 +7099,6 @@ msgstr ""
 
 #: ../app/models/parameters/group_parameter.rb:7
 msgid "host group"
-msgstr ""
-
-#: ../app/models/parameters/host_parameter.rb:11
-msgid "host"
 msgstr ""
 
 #: ../app/models/parameters/location_parameter.rb:7
@@ -7446,35 +7128,35 @@ msgstr ""
 msgid "subnet"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:101
+#: ../app/models/provisioning_template.rb:105
 msgid "Must provide template kind"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:102
+#: ../app/models/provisioning_template.rb:106
 msgid "Must provide an operating system"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:156
+#: ../app/models/provisioning_template.rb:139
 msgid "No TFTP proxies defined, can't continue"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:163
+#: ../app/models/provisioning_template.rb:146
 msgid "Could not find a Configuration Template with the name \"%s\", please create one."
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:186
+#: ../app/models/provisioning_template.rb:169
 msgid "PXE files for templates %s have been deployed to all Smart Proxies"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:188
+#: ../app/models/provisioning_template.rb:171
 msgid "There was an error creating the PXE file: %s"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:245
+#: ../app/models/provisioning_template.rb:228
 msgid "can't assign operating system to Registration template"
 msgstr ""
 
-#: ../app/models/provisioning_template.rb:257
+#: ../app/models/provisioning_template.rb:240
 msgid "specified template \"%s\" kind was not found"
 msgstr ""
 
@@ -7520,31 +7202,31 @@ msgstr ""
 msgid "some permissions were not found: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:144
+#: ../app/models/setting.rb:148
 msgid "must be boolean"
 msgstr ""
 
-#: ../app/models/setting.rb:154
+#: ../app/models/setting.rb:158
 msgid "must be integer"
 msgstr ""
 
-#: ../app/models/setting.rb:167
+#: ../app/models/setting.rb:171
 msgid "must be an array"
 msgstr ""
 
-#: ../app/models/setting.rb:179
+#: ../app/models/setting.rb:183
 msgid "parsing settings type '%s' from string is not defined"
 msgstr ""
 
-#: ../app/models/setting.rb:313
+#: ../app/models/setting.rb:317
 msgid "Host owner is invalid"
 msgstr ""
 
-#: ../app/models/setting.rb:317
+#: ../app/models/setting.rb:321
 msgid "is invalid: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:329
+#: ../app/models/setting.rb:333
 msgid "is not allowed to change"
 msgstr ""
 
@@ -7818,135 +7500,139 @@ msgstr ""
 msgid "Unable to unset websockets_ssl_cert when websockets_encrypt is on"
 msgstr ""
 
-#: ../app/models/setting/email.rb:9
+#: ../app/models/setting/email.rb:16
 msgid "Email reply address for emails that Foreman is sending"
 msgstr ""
 
-#: ../app/models/setting/email.rb:9
+#: ../app/models/setting/email.rb:16
 msgid "Email reply address"
 msgstr ""
 
-#: ../app/models/setting/email.rb:10
+#: ../app/models/setting/email.rb:17
 msgid "Prefix to add to all outgoing email"
 msgstr ""
 
-#: ../app/models/setting/email.rb:10
+#: ../app/models/setting/email.rb:17
 msgid "Email subject prefix"
 msgstr ""
 
-#: ../app/models/setting/email.rb:11
+#: ../app/models/setting/email.rb:18
 msgid "Send a welcome email including username and URL to new users"
 msgstr ""
 
-#: ../app/models/setting/email.rb:11
+#: ../app/models/setting/email.rb:18
 msgid "Send welcome email"
 msgstr ""
 
-#: ../app/models/setting/email.rb:12
+#: ../app/models/setting/email.rb:19
 msgid "Method used to deliver email"
 msgstr ""
 
-#: ../app/models/setting/email.rb:12
+#: ../app/models/setting/email.rb:19
 msgid "Delivery method"
 msgstr ""
 
-#: ../app/models/setting/email.rb:12
+#: ../app/models/setting/email.rb:19
 msgid "Sendmail"
 msgstr ""
 
-#: ../app/models/setting/email.rb:12
+#: ../app/models/setting/email.rb:19
 msgid "SMTP"
 msgstr ""
 
-#: ../app/models/setting/email.rb:13
+#: ../app/models/setting/email.rb:20
 msgid "SMTP automatic STARTTLS"
 msgstr ""
 
-#: ../app/models/setting/email.rb:13
+#: ../app/models/setting/email.rb:20
 msgid "SMTP enable StartTLS auto"
 msgstr ""
 
-#: ../app/models/setting/email.rb:14
+#: ../app/models/setting/email.rb:21
 msgid "When using TLS, you can set how OpenSSL checks the certificate"
 msgstr ""
 
-#: ../app/models/setting/email.rb:14
+#: ../app/models/setting/email.rb:21
 msgid "SMTP OpenSSL verify mode"
 msgstr ""
 
-#: ../app/models/setting/email.rb:14
+#: ../app/models/setting/email.rb:21
 msgid "Default verification mode"
 msgstr ""
 
-#: ../app/models/setting/email.rb:14 ../app/models/setting/email.rb:20
+#: ../app/models/setting/email.rb:21 ../app/models/setting/email.rb:27
 msgid "none"
 msgstr ""
 
-#: ../app/models/setting/email.rb:15
+#: ../app/models/setting/email.rb:22
 msgid "Address to connect to"
 msgstr ""
 
-#: ../app/models/setting/email.rb:15
+#: ../app/models/setting/email.rb:22
 msgid "SMTP address"
 msgstr ""
 
-#: ../app/models/setting/email.rb:16
+#: ../app/models/setting/email.rb:23
 msgid "Port to connect to"
 msgstr ""
 
-#: ../app/models/setting/email.rb:16
+#: ../app/models/setting/email.rb:23
 msgid "SMTP port"
 msgstr ""
 
-#: ../app/models/setting/email.rb:17
+#: ../app/models/setting/email.rb:24
 msgid "HELO/EHLO domain"
 msgstr ""
 
-#: ../app/models/setting/email.rb:17
+#: ../app/models/setting/email.rb:24
 msgid "SMTP HELO/EHLO domain"
 msgstr ""
 
-#: ../app/models/setting/email.rb:18
+#: ../app/models/setting/email.rb:25
 msgid "Username to use to authenticate, if required"
 msgstr ""
 
-#: ../app/models/setting/email.rb:18
+#: ../app/models/setting/email.rb:25
 msgid "SMTP username"
 msgstr ""
 
-#: ../app/models/setting/email.rb:19
+#: ../app/models/setting/email.rb:26
 msgid "Password to use to authenticate, if required"
 msgstr ""
 
-#: ../app/models/setting/email.rb:19
+#: ../app/models/setting/email.rb:26
 msgid "SMTP password"
 msgstr ""
 
-#: ../app/models/setting/email.rb:20
+#: ../app/models/setting/email.rb:27
 msgid "Specify authentication type, if required"
 msgstr ""
 
-#: ../app/models/setting/email.rb:20
+#: ../app/models/setting/email.rb:27
 msgid "SMTP authentication"
 msgstr ""
 
-#: ../app/models/setting/email.rb:21
+#: ../app/models/setting/email.rb:28
 msgid "Specify additional options to sendmail"
 msgstr ""
 
-#: ../app/models/setting/email.rb:21
+#: ../app/models/setting/email.rb:28
 msgid "Sendmail arguments"
 msgstr ""
 
-#: ../app/models/setting/email.rb:22
+#: ../app/models/setting/email.rb:29
 msgid "The location of the sendmail executable"
 msgstr ""
 
-#: ../app/models/setting/email.rb:22
+#: ../app/models/setting/email.rb:29
 msgid "Sendmail location"
 msgstr ""
 
-#: ../app/models/setting/general.rb:10 ../app/views/users/_form.html.erb:38
+#: ../app/models/setting/email.rb:37
+msgid "Invalid sendmail location, use settings.yaml for arbitrary location"
+msgstr ""
+
+#: ../app/models/setting/general.rb:6 ../app/views/users/_form.html.erb:38
 msgid "Browser locale"
 msgstr ""
 
@@ -7954,169 +7640,169 @@ msgstr ""
 msgid "Browser timezone"
 msgstr ""
 
-#: ../app/models/setting/general.rb:14
+#: ../app/models/setting/general.rb:21
 msgid "The default administrator email address"
 msgstr ""
 
-#: ../app/models/setting/general.rb:14
+#: ../app/models/setting/general.rb:21
 msgid "Administrator email address"
 msgstr ""
 
-#: ../app/models/setting/general.rb:15
+#: ../app/models/setting/general.rb:22
 msgid ""
 "URL where your Foreman instance is reachable (see also Provisioning > unattend"
 "ed_url)"
 msgstr ""
 
-#: ../app/models/setting/general.rb:15
+#: ../app/models/setting/general.rb:22
 msgid "Foreman URL"
 msgstr ""
 
-#: ../app/models/setting/general.rb:16
+#: ../app/models/setting/general.rb:23
 msgid "Number of records shown per page in Foreman"
 msgstr ""
 
-#: ../app/models/setting/general.rb:16
+#: ../app/models/setting/general.rb:23
 msgid "Entries per page"
 msgstr ""
 
-#: ../app/models/setting/general.rb:17
+#: ../app/models/setting/general.rb:24
 msgid "Fix DB cache on next Foreman restart"
 msgstr ""
 
-#: ../app/models/setting/general.rb:17
+#: ../app/models/setting/general.rb:24
 msgid "Fix DB cache"
 msgstr ""
 
-#: ../app/models/setting/general.rb:18
+#: ../app/models/setting/general.rb:25
 msgid ""
 "Should the `foreman-rake db:seed` be executed on the next run of the installer"
 " modules?"
 msgstr ""
 
-#: ../app/models/setting/general.rb:18
+#: ../app/models/setting/general.rb:25
 msgid "DB pending seed"
 msgstr ""
 
-#: ../app/models/setting/general.rb:19
+#: ../app/models/setting/general.rb:26
 msgid ""
 "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in second"
 "s)"
 msgstr ""
 
-#: ../app/models/setting/general.rb:19
+#: ../app/models/setting/general.rb:26
 msgid "Smart Proxy request timeout"
 msgstr ""
 
-#: ../app/models/setting/general.rb:20
+#: ../app/models/setting/general.rb:27
 msgid "Text to be shown in the login-page footer"
 msgstr ""
 
-#: ../app/models/setting/general.rb:20
+#: ../app/models/setting/general.rb:27
 msgid "Login page footer text"
 msgstr ""
 
-#: ../app/models/setting/general.rb:21
+#: ../app/models/setting/general.rb:28
 msgid ""
 "Show power status on host index page. This feature calls to compute resource p"
 "roviders which may lead to decreased performance on host listing page."
 msgstr ""
 
-#: ../app/models/setting/general.rb:21
+#: ../app/models/setting/general.rb:28
 msgid "Show host power status"
 msgstr ""
 
-#: ../app/models/setting/general.rb:22
+#: ../app/models/setting/general.rb:29
 msgid ""
 "Sets a proxy for all outgoing HTTP connections from Foreman. System-wide proxi"
 "es must be configured at operating system level."
 msgstr ""
 
-#: ../app/models/setting/general.rb:22
+#: ../app/models/setting/general.rb:29
 msgid "HTTP(S) proxy"
 msgstr ""
 
-#: ../app/models/setting/general.rb:23
+#: ../app/models/setting/general.rb:30
 msgid ""
 "Set hostnames to which requests are not to be proxied. Requests to the local h"
 "ost are excluded by default."
 msgstr ""
 
-#: ../app/models/setting/general.rb:23
+#: ../app/models/setting/general.rb:30
 msgid "HTTP(S) proxy except hosts"
 msgstr ""
 
-#: ../app/models/setting/general.rb:24
+#: ../app/models/setting/general.rb:31
 msgid ""
 "Whether or not to show a menu to access experimental lab features (requires re"
 "load of page)"
 msgstr ""
 
-#: ../app/models/setting/general.rb:24
+#: ../app/models/setting/general.rb:31
 msgid "Show Experimental Labs"
 msgstr ""
 
-#: ../app/models/setting/general.rb:25
+#: ../app/models/setting/general.rb:32
 msgid "Foreman will append domain names when new hosts are provisioned"
 msgstr ""
 
-#: ../app/models/setting/general.rb:25
+#: ../app/models/setting/general.rb:32
 msgid "Append domain names to the host"
 msgstr ""
 
-#: ../app/models/setting/general.rb:26
+#: ../app/models/setting/general.rb:33
 msgid ""
 "Duration in minutes after servers are classed as out of sync. You can override"
 " this on hosts by adding a parameter \"outofsync_interval\"."
 msgstr ""
 
-#: ../app/models/setting/general.rb:26
+#: ../app/models/setting/general.rb:33
 msgid "Out of sync interval"
 msgstr ""
 
-#: ../app/models/setting/general.rb:27
+#: ../app/models/setting/general.rb:34
 msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr ""
 
-#: ../app/models/setting/general.rb:27
+#: ../app/models/setting/general.rb:34
 msgid "Foreman UUID"
 msgstr ""
 
-#: ../app/models/setting/general.rb:28
+#: ../app/models/setting/general.rb:35
 msgid "Language to use for new users"
 msgstr ""
 
-#: ../app/models/setting/general.rb:28
+#: ../app/models/setting/general.rb:35
 msgid "Default language"
 msgstr ""
 
-#: ../app/models/setting/general.rb:29
+#: ../app/models/setting/general.rb:36
 msgid "Timezone to use for new users"
 msgstr ""
 
-#: ../app/models/setting/general.rb:29
+#: ../app/models/setting/general.rb:36
 msgid "Default timezone"
 msgstr ""
 
-#: ../app/models/setting/general.rb:30
+#: ../app/models/setting/general.rb:37
 msgid ""
 "The instance title is shown on the top navigation bar (requires reload of page"
 ")."
 msgstr ""
 
-#: ../app/models/setting/general.rb:30
+#: ../app/models/setting/general.rb:37
 msgid "Instance title"
 msgstr ""
 
-#: ../app/models/setting/general.rb:35
-#: ../app/views/smart_proxies/plugins/_puppet.html.erb:3
+#: ../app/models/setting/general.rb:42
+#: ../app/registries/foreman/setting_manager.rb:11
 #: ../app/views/smart_proxies/plugins/_puppet_ca.html.erb:2
 #: ../app/views/users/_form.html.erb:69
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:197
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:199
 msgid "General"
 msgstr ""
 
-#: ../app/models/setting/general.rb:40
+#: ../app/models/setting/general.rb:47
 msgid "Not a valid URL for a HTTP proxy"
 msgstr ""
 
@@ -8163,7 +7849,7 @@ msgid "Host owner"
 msgstr ""
 
 #: ../app/models/setting/provisioning.rb:55
-#: ../app/views/hosts/_form.html.erb:129
+#: ../app/views/hosts/_form.html.erb:124
 msgid "Select an owner"
 msgstr ""
 
@@ -8221,8 +7907,10 @@ msgstr ""
 
 #: ../app/models/setting/provisioning.rb:62
 msgid ""
-"Ignore interfaces that match these values during facts importing, you can use "
-"* wildcard to match names with indexes e.g. macvtap*"
+"Skip creating or updating host network interfaces objects with identifiers mat"
+"ching these values from incoming facts. You can use * wildcard to match identi"
+"fiers with indexes e.g. macvtap*. The ignored interfaces raw facts will be sti"
+"ll stored in the DB, see the 'Exclude pattern' setting for more details."
 msgstr ""
 
 #: ../app/models/setting/provisioning.rb:62
@@ -8403,12 +8091,12 @@ msgstr ""
 
 #: ../app/models/setting/provisioning.rb:91
 msgid ""
-"Default 'Host intial configuration' template, automatically assigned when new "
-"operating system is created"
+"Default 'Host initial configuration' template, automatically assigned when new"
+" operating system is created"
 msgstr ""
 
 #: ../app/models/setting/provisioning.rb:91
-msgid "Default 'Host intial configuration' template"
+msgid "Default 'Host initial configuration' template"
 msgstr ""
 
 #: ../app/models/setting/provisioning.rb:101
@@ -8437,167 +8125,167 @@ msgstr ""
 msgid "Provisioning only"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:12
+#: ../app/models/setting/puppet.rb:18
 msgid ""
 "Duration in minutes after servers reporting via Puppet are classed as out of s"
 "ync."
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:12
+#: ../app/models/setting/puppet.rb:18
 msgid "Puppet interval"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:13
+#: ../app/models/setting/puppet.rb:19
 msgid ""
 "Disable host configuration status turning to out of sync for %s after report d"
 "oes not arrive within configured interval"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:13
+#: ../app/models/setting/puppet.rb:19
 msgid "%s out of sync disabled"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:14
+#: ../app/models/setting/puppet.rb:20
 msgid "Foreman will default to this puppet environment if it cannot auto detect one"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:14
+#: ../app/models/setting/puppet.rb:20
 msgid "Default Puppet environment"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:15
+#: ../app/models/setting/puppet.rb:21
 msgid "Foreman will evaluate host smart class parameters in this order by default"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:15
+#: ../app/models/setting/puppet.rb:21
 msgid "Default parameters lookup path"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:16
+#: ../app/models/setting/puppet.rb:22
 msgid "Foreman will parse ERB in parameters value in the ENC output"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:16
+#: ../app/models/setting/puppet.rb:22
 msgid "Interpolate ERB in parameters"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:17
+#: ../app/models/setting/puppet.rb:23
 msgid ""
 "Foreman will explicitly set the puppet environment in the ENC yaml output. Thi"
 "s will avoid conflicts between the environment in puppet.conf and the environm"
 "ent set in Foreman"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:17
+#: ../app/models/setting/puppet.rb:23
 msgid "ENC environment"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:18
+#: ../app/models/setting/puppet.rb:24
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:18
+#: ../app/models/setting/puppet.rb:24
 msgid "Use UUID for certificates"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:19
+#: ../app/models/setting/puppet.rb:25
 msgid "Foreman will update a host's environment from its facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:19
+#: ../app/models/setting/puppet.rb:25
 msgid "Update environment from facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:20
+#: ../app/models/setting/puppet.rb:26
 msgid "Foreman will update a host's subnet from its facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:20
+#: ../app/models/setting/puppet.rb:26
 msgid "Update subnets from facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:21
+#: ../app/models/setting/puppet.rb:27
 msgid "Foreman will update a host's hostgroup from its facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:21
+#: ../app/models/setting/puppet.rb:27
 msgid "Update hostgroup from facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:22
+#: ../app/models/setting/puppet.rb:28
 msgid ""
 "Foreman matchers will be inherited by children when evaluating smart class par"
 "ameters for hostgroups, organizations and locations"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:22
+#: ../app/models/setting/puppet.rb:28
 msgid "Matchers inheritance"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:23
+#: ../app/models/setting/puppet.rb:29
 msgid "Foreman will create the host when new facts are received"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:23
+#: ../app/models/setting/puppet.rb:29
 msgid "Create new host when facts are uploaded"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:24
+#: ../app/models/setting/puppet.rb:30
 msgid "Foreman will create the host when a report is received"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:24
+#: ../app/models/setting/puppet.rb:30
 msgid "Create new host when report is uploaded"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:25
+#: ../app/models/setting/puppet.rb:31
 msgid ""
 "Hosts created after a puppet run will be placed in the location this fact dict"
 "ates. The content of this fact should be the full label of the location."
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:25
+#: ../app/models/setting/puppet.rb:31
 msgid "Location fact"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:26
+#: ../app/models/setting/puppet.rb:32
 msgid ""
 "Hosts created after a puppet run will be placed in the organization this fact "
 "dictates. The content of this fact should be the full label of the organizatio"
 "n."
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:26
+#: ../app/models/setting/puppet.rb:32
 msgid "Organization fact"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:27
+#: ../app/models/setting/puppet.rb:33
 msgid ""
 "Hosts created after a puppet run that did not send a location fact will be pla"
 "ced in this location"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:27
+#: ../app/models/setting/puppet.rb:33
 msgid "Default location"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:28
+#: ../app/models/setting/puppet.rb:34
 msgid ""
 "Hosts created after a puppet run that did not send a organization fact will be"
 " placed in this organization"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:28
+#: ../app/models/setting/puppet.rb:34
 msgid "Default organization"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:29
+#: ../app/models/setting/puppet.rb:35
 msgid ""
 "All hosts will show a configuration status even when a Puppet smart proxy is n"
 "ot assigned"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:29
+#: ../app/models/setting/puppet.rb:35
 msgid "Always show configuration status"
 msgstr ""
 
@@ -8826,7 +8514,7 @@ msgstr ""
 msgid "Prefix length must be /64 or less to use EUI-64"
 msgstr ""
 
-#: ../app/models/taxonomy.rb:257
+#: ../app/models/taxonomy.rb:253
 msgid "Missing a permission to edit parent %s"
 msgstr ""
 
@@ -8834,24 +8522,24 @@ msgstr ""
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
 msgstr ""
 
-#: ../app/models/template.rb:281
+#: ../app/models/template.rb:285
 msgid "This template is locked and may not be removed."
 msgstr ""
 
-#: ../app/models/template.rb:292
+#: ../app/models/template.rb:296
 msgid "You are not authorized to lock templates."
 msgstr ""
 
-#: ../app/models/template.rb:298
+#: ../app/models/template.rb:302
 msgid "You are not authorized to make a template default."
 msgstr ""
 
-#: ../app/models/template.rb:306 ../app/models/template.rb:325
+#: ../app/models/template.rb:310 ../app/models/template.rb:329
 #: ../app/models/template_input.rb:84
 msgid "This template is locked. Please clone it to a new template to customize."
 msgstr ""
 
-#: ../app/models/template.rb:310
+#: ../app/models/template.rb:314
 msgid "Cannot add audit comment to a locked template."
 msgstr ""
 
@@ -8983,63 +8671,63 @@ msgstr ""
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
 
-#: ../app/models/user.rb:667
+#: ../app/models/user.rb:652
 msgid "Incorrect password"
 msgstr ""
 
-#: ../app/models/user.rb:675
+#: ../app/models/user.rb:660
 msgid "A user group already exists with this name"
 msgstr ""
 
-#: ../app/models/user.rb:681
+#: ../app/models/user.rb:666
 msgid "Can't delete the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:689 ../app/models/usergroup.rb:112
+#: ../app/models/user.rb:674 ../app/models/usergroup.rb:112
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:698
+#: ../app/models/user.rb:683
 msgid "Can't delete internal admin account"
 msgstr ""
 
-#: ../app/models/user.rb:707
+#: ../app/models/user.rb:692
 msgid "cannot be removed from an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:713
+#: ../app/models/user.rb:698
 msgid "cannot be changed on an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:725
+#: ../app/models/user.rb:710
 msgid "you can't assign some of roles you selected"
 msgstr ""
 
-#: ../app/models/user.rb:732
+#: ../app/models/user.rb:717
 msgid "you can't change administrator flag"
 msgstr ""
 
-#: ../app/models/user.rb:743
+#: ../app/models/user.rb:728
 msgid "cannot be changed by a non-admin user"
 msgstr ""
 
-#: ../app/models/user.rb:749
+#: ../app/models/user.rb:734
 msgid "default locations need to be user locations first"
 msgstr ""
 
-#: ../app/models/user.rb:755
+#: ../app/models/user.rb:740
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
-#: ../app/models/user.rb:768
+#: ../app/models/user.rb:753
 msgid "It is not possible to change external users login"
 msgstr ""
 
-#: ../app/models/user.rb:770
+#: ../app/models/user.rb:755
 msgid "You do not have permission to edit the login"
 msgstr ""
 
-#: ../app/models/user.rb:777
+#: ../app/models/user.rb:762
 msgid "It is not possible to disable yourself"
 msgstr ""
 
@@ -9077,17 +8765,17 @@ msgid ""
 "ugin_version}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:352
+#: ../app/registries/foreman/plugin.rb:372
 msgid "Could not create role '%{name}': %{message}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:354
+#: ../app/registries/foreman/plugin.rb:374
 msgid ""
 "Cannot continue because some permissions were not found, please run rake db:se"
 "ed and retry"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:446
+#: ../app/registries/foreman/plugin.rb:466
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
@@ -9111,6 +8799,14 @@ msgstr ""
 msgid "Could not extend role '%{name}': %{message}"
 msgstr ""
 
+#: ../app/registries/foreman/setting_manager.rb:60
+msgid "Setting '%s' is already defined, please avoid collisions"
+msgstr ""
+
+#: ../app/registries/foreman/setting_manager.rb:61
+msgid "Setting '%s' has an invalid type definition. Please use a valid type."
+msgstr ""
+
 #: ../app/registries/menu/loader.rb:15
 msgid "My Account"
 msgstr ""
@@ -9127,17 +8823,16 @@ msgstr ""
 #: ../app/views/auth_source_externals/_form.html.erb:7
 #: ../app/views/auth_source_ldaps/_form.html.erb:8
 #: ../app/views/compute_resources/_form.html.erb:6
-#: ../app/views/domains/_form.html.erb:9
-#: ../app/views/environments/_form.html.erb:6
-#: ../app/views/filters/_form.html.erb:8 ../app/views/filters/_form.html.erb:66
-#: ../app/views/hostgroups/_form.html.erb:15
+#: ../app/views/domains/_form.html.erb:9 ../app/views/filters/_form.html.erb:8
+#: ../app/views/filters/_form.html.erb:66
+#: ../app/views/hostgroups/_form.html.erb:14
 #: ../app/views/http_proxies/_form.html.erb:11
 #: ../app/views/media/_form.html.erb:7 ../app/views/realms/_form.html.erb:6
 #: ../app/views/roles/_form.html.erb:35
 #: ../app/views/smart_proxies/_form.html.erb:6
 #: ../app/views/smart_proxies/index.html.erb:10
 #: ../app/views/subnets/_form.html.erb:12
-#: ../app/views/taxonomies/_form.html.erb:43
+#: ../app/views/taxonomies/_form.html.erb:40
 #: ../app/views/templates/_form.html.erb:17 ../app/views/users/_form.html.erb:9
 #: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:119
 #: taxonomies.rb:14
@@ -9149,17 +8844,16 @@ msgstr ""
 #: ../app/views/auth_source_ldaps/_form.html.erb:11
 #: ../app/views/compute_resources/_form.html.erb:9
 #: ../app/views/domains/_form.html.erb:12
-#: ../app/views/environments/_form.html.erb:9
 #: ../app/views/filters/_form.html.erb:11
 #: ../app/views/filters/_form.html.erb:72
-#: ../app/views/hostgroups/_form.html.erb:18
+#: ../app/views/hostgroups/_form.html.erb:17
 #: ../app/views/http_proxies/_form.html.erb:14
 #: ../app/views/media/_form.html.erb:10 ../app/views/realms/_form.html.erb:9
 #: ../app/views/roles/_form.html.erb:40
 #: ../app/views/smart_proxies/_form.html.erb:10
 #: ../app/views/smart_proxies/index.html.erb:11
 #: ../app/views/subnets/_form.html.erb:15
-#: ../app/views/taxonomies/_form.html.erb:46
+#: ../app/views/taxonomies/_form.html.erb:43
 #: ../app/views/templates/_form.html.erb:20
 #: ../app/views/users/_form.html.erb:12
 #: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:88
@@ -9237,8 +8931,8 @@ msgstr ""
 
 #: ../app/registries/menu/loader.rb:54 ../app/views/hosts/index.html.erb:2
 #: ../app/views/hosts/welcome.html.erb:3
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:167
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:177
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:169
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:179
 msgid "Register Host"
 msgstr ""
 
@@ -9255,7 +8949,7 @@ msgid "Architectures"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:61
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/ModelsPage.js:36
+#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/ModelsPage.js:35
 msgid "Hardware Models"
 msgstr ""
 
@@ -9286,7 +8980,7 @@ msgid "Partition Tables"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:69
-#: ../app/views/hosts/_operating_system.html.erb:30
+#: ../app/views/hosts/_operating_system.html.erb:32
 #: ../app/views/provisioning_templates/index.html.erb:1
 #: ../app/views/provisioning_templates/welcome.html.erb:1
 #: ../app/views/provisioning_templates/welcome.html.erb:7
@@ -9298,13 +8992,10 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:75
-#: ../app/views/config_groups/index.html.erb:12
-#: ../app/views/hostgroups/index.html.erb:1
+#: ../app/registries/menu/loader.rb:75 ../app/views/hostgroups/index.html.erb:1
 #: ../app/views/hostgroups/welcome.html.erb:1
 #: ../app/views/hostgroups/welcome.html.erb:9
-#: ../app/views/puppetclasses/index.html.erb:12
-#: ../app/views/taxonomies/_form.html.erb:40
+#: ../app/views/taxonomies/_form.html.erb:37
 msgid "Host Groups"
 msgstr ""
 
@@ -9312,43 +9003,15 @@ msgstr ""
 #: ../app/views/common_parameters/index.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:7
-#: ../app/views/hosts/_form.html.erb:118
+#: ../app/views/hosts/_form.html.erb:113
 msgid "Global Parameters"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:78
-#: ../app/views/puppetclasses/index.html.erb:11
-#: ../app/views/smart_proxies/plugins/_puppet.html.erb:4
-#: ../app/views/taxonomies/_form.html.erb:37
-#: ../webpack/assets/javascripts/react_app/components/Enviroments/Welcome.js:21
-msgid "Environments"
-msgstr ""
-
 #: ../app/registries/menu/loader.rb:79
-#: ../app/views/environments/index.html.erb:22
-msgid "Classes"
-msgstr ""
-
-#: ../app/registries/menu/loader.rb:80
-#: ../app/views/config_groups/index.html.erb:1
-#: ../app/views/config_groups/welcome.html.erb:1
-#: ../app/views/config_groups/welcome.html.erb:7
-msgid "Config Groups"
-msgstr ""
-
-#: ../app/registries/menu/loader.rb:81
-#: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:37
-#: ../app/views/puppetclass_lookup_keys/index.html.erb:1
-#: ../app/views/puppetclass_lookup_keys/welcome.html.erb:1
-#: ../app/views/puppetclass_lookup_keys/welcome.html.erb:6
-msgid "Smart Class Parameters"
-msgstr ""
-
-#: ../app/registries/menu/loader.rb:84
 msgid "Infrastructure"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:85 ../app/views/about/index.html.erb:10
+#: ../app/registries/menu/loader.rb:80 ../app/views/about/index.html.erb:10
 #: ../app/views/smart_proxies/index.html.erb:1
 #: ../app/views/smart_proxies/welcome.html.erb:1
 #: ../app/views/smart_proxies/welcome.html.erb:7
@@ -9356,7 +9019,7 @@ msgstr ""
 msgid "Smart Proxies"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:88
+#: ../app/registries/menu/loader.rb:83
 #: ../app/views/compute_attributes/edit.html.erb:12
 #: ../app/views/compute_attributes/new.html.erb:13
 #: ../app/views/compute_profiles/index.html.erb:1
@@ -9365,7 +9028,7 @@ msgstr ""
 msgid "Compute Profiles"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:89
+#: ../app/registries/menu/loader.rb:84
 #: ../app/views/smart_proxies/plugins/_dhcp.html.erb:7
 #: ../app/views/subnets/index.html.erb:1
 #: ../app/views/subnets/welcome.html.erb:1
@@ -9374,7 +9037,7 @@ msgstr ""
 msgid "Subnets"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:90 ../app/views/domains/index.html.erb:1
+#: ../app/registries/menu/loader.rb:85 ../app/views/domains/index.html.erb:1
 #: ../app/views/domains/welcome.html.erb:1
 #: ../app/views/domains/welcome.html.erb:7
 #: ../app/views/smart_proxies/plugins/_dns.html.erb:7
@@ -9383,14 +9046,14 @@ msgstr ""
 msgid "Domains"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:91
+#: ../app/registries/menu/loader.rb:86
 #: ../app/views/http_proxies/index.html.erb:1
 #: ../app/views/http_proxies/welcome.html.erb:1
 #: ../app/views/http_proxies/welcome.html.erb:7
 msgid "HTTP Proxies"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:92 ../app/views/realms/index.html.erb:1
+#: ../app/registries/menu/loader.rb:87 ../app/views/realms/index.html.erb:1
 #: ../app/views/realms/welcome.html.erb:1
 #: ../app/views/realms/welcome.html.erb:7
 #: ../app/views/smart_proxies/plugins/_realm.html.erb:7
@@ -9398,7 +9061,7 @@ msgstr ""
 msgid "Realms"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:98
+#: ../app/registries/menu/loader.rb:93
 msgid "Lab Features"
 msgstr ""
 
@@ -9415,7 +9078,7 @@ msgid "unknown permission %s"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/services/classification/values_hash_query.rb:147
+#: ../app/services/classification/values_hash_query.rb:153
 #: model_attributes.rb:276
 msgid "LookupKey|Default value"
 msgstr ""
@@ -9522,11 +9185,6 @@ msgstr ""
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:288
 #: model_attributes.rb:140
 msgid "Fact value"
-msgstr ""
-
-#: ../app/services/input_type/puppet_parameter_input.rb:23
-#: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:296
-msgid "Puppet parameter"
 msgstr ""
 
 #: ../app/services/input_type/user_input.rb:5
@@ -9691,7 +9349,7 @@ msgid "Invalid power state request: %{action}, supported actions are %{supported
 msgstr ""
 
 #: ../app/services/power_manager/base.rb:50
-#: ../app/views/host_mailer/_nonactive_hosts.html.erb:30
+#: ../app/views/host_mailer/_nonactive_hosts.html.erb:24
 msgid "Unknown"
 msgstr ""
 
@@ -9733,16 +9391,35 @@ msgstr ""
 msgid "Invalid log level: %s"
 msgstr ""
 
-#: ../app/services/setting_registry.rb:38
+#: ../app/services/setting_registry.rb:66
+#: ../app/services/setting_registry.rb:73
 msgid "Setting definition for '%s' not found, can not set"
+msgstr ""
+
+#: ../app/services/setting_registry.rb:85
+msgid "expected a value of type %s"
 msgstr ""
 
 #: ../app/services/smart_proxies/puppet_ca_certificate.rb:13
 msgid "unable to sign a non pending certificate"
 msgstr ""
 
-#: ../app/services/tax_host.rb:133
+#: ../app/services/tax_host.rb:131
 msgid "expecting %s used by hosts or inherited (check mismatches report)."
+msgstr ""
+
+#: ../app/services/ui_notifications/report_finished.rb:32
+msgid "Report \"%s\" is ready to download"
+msgstr ""
+
+#: ../app/services/ui_notifications/report_finished.rb:36
+#: ../db/seeds.d/170-notification_blueprints.rb:75
+msgid "Download Report"
+msgstr ""
+
+#: ../app/services/ui_notifications/report_finished.rb:40
+#: ../db/seeds.d/170-notification_blueprints.rb:79
+msgid "Regenerate Report"
 msgstr ""
 
 #: ../app/services/ui_notifications/rss_notifications_checker.rb:62
@@ -9845,12 +9522,12 @@ msgstr ""
 #: ../app/views/autosign/_list.html.erb:5
 #: ../app/views/common_parameters/_inherited_parameters.html.erb:4
 #: ../app/views/common_parameters/_parameter.html.erb:4
-#: ../app/views/common_parameters/_parameters.html.erb:5
+#: ../app/views/common_parameters/_parameters.html.erb:10
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:2
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:1
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:2
 #: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:1
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:2
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:1
 #: ../app/views/compute_resources_vms/index/_ec2.html.erb:3
 #: ../app/views/compute_resources_vms/index/_gce.html.erb:3
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:3
@@ -9864,7 +9541,6 @@ msgstr ""
 #: ../app/views/hosts/_selected_hosts.html.erb:10
 #: ../app/views/http_proxies/index.html.erb:8
 #: ../app/views/key_pairs/index.html.erb:8
-#: ../app/views/puppetclasses/_classes_parameters.html.erb:7
 #: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:6
 #: ../webpack/assets/javascripts/react_app/components/Bookmarks/components/BookmarkForm/BookmarkForm.js:53
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:35
@@ -9910,7 +9586,7 @@ msgstr ""
 #: ../app/views/about/index.html.erb:76
 #: ../app/views/apipie/apipies/_scoped_search.erb:5
 #: ../app/views/common_parameters/_inherited_parameters.html.erb:5
-#: ../app/views/common_parameters/_parameters.html.erb:6
+#: ../app/views/common_parameters/_parameters.html.erb:11
 #: ../app/views/compute_resources/index.html.erb:9
 #: ../app/views/compute_resources_vms/form/libvirt/_volume.html.erb:5
 #: ../app/views/compute_resources_vms/index/_ec2.html.erb:5
@@ -9978,9 +9654,9 @@ msgstr ""
 
 #: ../app/views/about/index.html.erb:133
 msgid ""
-"You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For g"
-"eneral support, please visit #theforeman and for development specific related "
-"chat, please visit #theforeman-dev."
+"You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For "
+"general support, please visit #theforeman and for development specific related"
+" chat, please visit #theforeman-dev."
 msgstr ""
 
 #: ../app/views/about/index.html.erb:134
@@ -10041,6 +9717,10 @@ msgid ""
 "uests. Please use 'Content-Type: application/json'."
 msgstr ""
 
+#: ../app/views/api/v2/taxonomies/show.json.rabl:104
+msgid "Environments got deprecated from this endpoint."
+msgstr ""
+
 #: ../app/views/apipie/apipies/_metadata.erb:2
 msgid "Search fields"
 msgstr ""
@@ -10098,7 +9778,7 @@ msgstr ""
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:20
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:272
 #: ../app/views/templates/_form.html.erb:13
-#: ../app/views/templates/_form.html.erb:138
+#: ../app/views/templates/_form.html.erb:143
 msgid "Inputs"
 msgstr ""
 
@@ -10144,14 +9824,17 @@ msgstr ""
 msgid "Report templates"
 msgstr ""
 
+#: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:37
+msgid "Smart Class Parameters"
+msgstr ""
+
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:38
 #: ../app/views/domains/_form.html.erb:6
-#: ../app/views/hostgroups/_form.html.erb:12
+#: ../app/views/hostgroups/_form.html.erb:11
 #: ../app/views/hosts/_form.html.erb:24
 #: ../app/views/operatingsystems/_form.html.erb:11
-#: ../app/views/puppetclasses/index.html.erb:14
 #: ../app/views/subnets/_form.html.erb:9
-#: ../app/views/taxonomies/_form.html.erb:49
+#: ../app/views/taxonomies/_form.html.erb:46
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Parameters/index.js:32
 msgid "Parameters"
 msgstr ""
@@ -10437,6 +10120,10 @@ msgid ""
 " a global parameter, which is applied to every host. If that parameter would b"
 "e overridden e.g. on a host's subnet level, this value would be fed to this in"
 "put."
+msgstr ""
+
+#: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:296
+msgid "Puppet parameter"
 msgstr ""
 
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:297
@@ -10787,29 +10474,29 @@ msgstr ""
 msgid "Oops, we're sorry but something went wrong"
 msgstr ""
 
-#: ../app/views/common/500.html.erb:11
+#: ../app/views/common/500.html.erb:7
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr ""
 
-#: ../app/views/common/500.html.erb:12
+#: ../app/views/common/500.html.erb:8
 msgid "Foreman ticketing system"
 msgstr ""
 
-#: ../app/views/common/500.html.erb:14
+#: ../app/views/common/500.html.erb:10
 msgid ""
 "Please include in your report the full error log that can be acquired by runni"
 "ng: "
 msgstr ""
 
-#: ../app/views/common/500.html.erb:17
+#: ../app/views/common/500.html.erb:13
 msgid "Search your logs for request-id"
 msgstr ""
 
-#: ../app/views/common/500.html.erb:18
+#: ../app/views/common/500.html.erb:14
 msgid "When using external logging, search for request UUID"
 msgstr ""
 
-#: ../app/views/common/500.html.erb:20
+#: ../app/views/common/500.html.erb:16
 msgid " and it is highly recommended to also attach the foreman-debug output."
 msgstr ""
 
@@ -10819,91 +10506,6 @@ msgstr ""
 
 #: ../app/views/common/_ajax_error.html.erb:1
 msgid "Failure: %s"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:1
-msgid "Changed environments"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:3
-msgid "Select the changes you want to apply to Foreman"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:5
-msgid "Toggle"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:6
-msgid "New"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:8
-msgid "Check/Uncheck new"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:9
-msgid "Updated"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:11
-msgid "Check/Uncheck updated"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:12
-msgid "Obsolete"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:14
-msgid "Check/Uncheck obsolete"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:22
-msgid "Check/Uncheck all"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:24
-#: ../app/views/environments/_form.html.erb:4
-#: ../app/views/host_mailer/_active_hosts.html.erb:9
-#: ../app/views/host_mailer/_nonactive_hosts.html.erb:9
-#: ../app/views/hosts/_selected_hosts.html.erb:16
-#: ../app/views/hosts/select_multiple_environment.html.erb:7
-#: ../app/views/provisioning_templates/_combination.html.erb:4
-#: ../app/views/smart_proxies/plugins/_puppet_envs.html.erb:4
-#: model_attributes.rb:122
-msgid "Environment"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:25
-msgid "Operation"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:26
-msgid "Puppet Modules"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:39
-msgid "Check/Uncheck all %s changes"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:46
-msgid "Add:"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:46
-msgid "Remove:"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:46
-msgid "Update:"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:46
-msgid "Ignored:"
-msgstr ""
-
-#: ../app/views/common/_puppetclasses_or_envs_changed.html.erb:60
-msgid "Update"
 msgstr ""
 
 #: ../app/views/common/class_clean_up_failed.html.erb:1
@@ -10943,8 +10545,8 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:8
 #: ../app/views/hosts/_assign_hosts.html.erb:12
 #: ../app/views/hosts/_list.html.erb:11
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:81
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/OperatingSystem.js:70
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:74
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/OperatingSystem.js:69
 msgid "Operating system"
 msgstr ""
 
@@ -10989,13 +10591,17 @@ msgstr ""
 msgid "Override"
 msgstr ""
 
+#: ../app/views/common_parameters/_inherited_parameters.html.erb:24
+msgid "Override this value"
+msgstr ""
+
 #: ../app/views/common_parameters/_parameter.html.erb:12
-#: ../app/views/config_groups/_config_group.html.erb:14
-#: ../app/views/provisioning_templates/_combination.html.erb:4
+#: ../app/views/compute_resources_vms/form/ec2/_ec2_tag.html.erb:10
+#: ../app/views/provisioning_templates/_combination.html.erb:3
 msgid "Remove"
 msgstr ""
 
-#: ../app/views/common_parameters/_parameters.html.erb:23
+#: ../app/views/common_parameters/_parameters.html.erb:6
 msgid "Add Parameter"
 msgstr ""
 
@@ -11031,7 +10637,7 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/compute_attributes/_form.html.erb:4
 #: ../app/views/compute_resources/show.html.erb:68
-#: ../app/views/hostgroups/_form.html.erb:40
+#: ../app/views/hostgroups/_form.html.erb:38
 #: ../app/views/hosts/_form.html.erb:73 model_attributes.rb:88
 msgid "Compute profile"
 msgstr ""
@@ -11430,7 +11036,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:17
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:12
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:72
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:49
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:48
 msgid "Please select an image"
 msgstr ""
 
@@ -11474,6 +11080,23 @@ msgstr ""
 msgid "Managed IP"
 msgstr ""
 
+#: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:38
+msgid "Tags"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:42
+#: ../app/views/compute_resources_vms/form/ec2/_ec2_tag.html.erb:3
+msgid "Key"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:55
+msgid "Add tag"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/ec2/_ec2_tag.html.erb:10
+msgid "Remove tag"
+msgstr ""
+
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:3
 msgid "Machine type"
 msgstr ""
@@ -11490,7 +11113,7 @@ msgid "Size (GB)"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:4
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:4
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:3
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:4
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:4
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:5
@@ -11513,13 +11136,13 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:10
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:48
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:38
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:37
 msgid "Power ON this machine"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:10
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:48
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:38
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:37
 msgid "Start"
 msgstr ""
 
@@ -11600,7 +11223,7 @@ msgid "Server group"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:8
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:17
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:16
 msgid "Cluster"
 msgstr ""
 
@@ -11627,7 +11250,7 @@ msgid "Instance type"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:37
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:7
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:6
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:15
 msgid "Cores per socket"
 msgstr ""
@@ -11685,65 +11308,65 @@ msgstr ""
 msgid "Please Select an Image"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:9
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:8
 msgid "Memory (MB)"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:10
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:9
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:16
 msgid "Firmware"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:21
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:20
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:4
 msgid "Folder"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:22
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:21
 msgid "Guest OS"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:23
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:22
 msgid "Virtual H/W version"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:24
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:23
 msgid ""
 "Memory hot add lets you add memory resources for a virtual machine while the m"
 "achine is powered on."
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:24
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:23
 msgid "Memory hot add"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:25
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:24
 msgid ""
 "CPU hot add lets you add CPU resources for a virtual machine while the machine"
 " is powered on."
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:25
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:24
 msgid "CPU hot add"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:26
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:25
 msgid "Add a CD-ROM drive to the virtual machine."
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:26
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:25
 msgid "CD-ROM drive"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:28
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:27
 msgid "Boot order"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:29
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:28
 msgid "Has effect only for network based provisioning"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:40
+#: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:39
 msgid "Annotation Notes"
 msgstr ""
 
@@ -11847,48 +11470,8 @@ msgstr ""
 msgid "Annotation notes"
 msgstr ""
 
-#: ../app/views/config_groups/_config_group.html.erb:10
-msgid "included already from parent"
-msgstr ""
-
-#: ../app/views/config_groups/_config_group.html.erb:14
-msgid "Add"
-msgstr ""
-
-#: ../app/views/config_groups/_config_group.html.erb:26
-msgid "%s is not in environment"
-msgstr ""
-
-#: ../app/views/config_groups/_config_groups_selection.html.erb:5
-msgid "Included Config Groups"
-msgstr ""
-
-#: ../app/views/config_groups/_config_groups_selection.html.erb:22
-msgid "Available Config Groups"
-msgstr ""
-
-#: ../app/views/config_groups/index.html.erb:3
-#: ../app/views/config_groups/new.html.erb:1
-#: ../app/views/config_groups/welcome.html.erb:3
-msgid "Create Config Group"
-msgstr ""
-
-#: ../app/views/config_groups/index.html.erb:10
-#: ../app/views/hostgroups/_form.html.erb:7
-#: ../app/views/puppetclasses/index.html.erb:1
-#: ../config/initializers/puppet.rb:5
-msgid "Puppet Classes"
-msgstr ""
-
-#: ../app/views/config_groups/welcome.html.erb:2
-msgid ""
-"A config group provides a one-step method of associating many Puppet classes t"
-"o either a host or host group. Typically this would be used to add a particula"
-"r application profile or stack in one step."
-msgstr ""
-
 #: ../app/views/config_reports/_list.html.erb:7
-#: ../app/views/hosts/_list.html.erb:15
+#: ../app/views/hosts/_list.html.erb:14
 msgid "Last report"
 msgstr ""
 
@@ -12029,16 +11612,16 @@ msgstr ""
 msgid "Total Hosts: %s"
 msgstr ""
 
-#: ../app/views/dashboard/index.html.erb:2
+#: ../app/views/dashboard/index.html.erb:1
 #: ../app/views/smart_proxies/show.html.erb:8
 msgid "Overview"
 msgstr ""
 
-#: ../app/views/dashboard/index.html.erb:8
+#: ../app/views/dashboard/index.html.erb:7
 msgid "Get default dashboard widgets"
 msgstr ""
 
-#: ../app/views/dashboard/index.html.erb:20
+#: ../app/views/dashboard/index.html.erb:19
 msgid "%s widget loading..."
 msgstr ""
 
@@ -12069,26 +11652,6 @@ msgid ""
 " to all external node requests made by machines at that site. The fullname fie"
 "ld is used for human readability in reports and other pages that refer to doma"
 "ins, and also available as an external node parameter."
-msgstr ""
-
-#: ../app/views/environments/edit.html.erb:5
-#: ../app/views/environments/index.html.erb:1
-#: ../app/views/environments/new.html.erb:4
-#: ../app/views/lookup_keys/_fields.html.erb:7
-msgid "Puppet Environments"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/environments/index.html.erb:9 model_attributes.rb:124
-msgid "Environment|Name"
-msgstr ""
-
-#: ../app/views/environments/new.html.erb:1
-msgid "Create Environment"
-msgstr ""
-
-#: ../app/views/environments/welcome.html.erb:1
-msgid "Enviroments"
 msgstr ""
 
 #: ../app/views/fact_values/_fact.html.erb:21
@@ -12264,7 +11827,7 @@ msgstr[1] ""
 msgid "None!"
 msgstr ""
 
-#: ../app/views/host_mailer/_nonactive_hosts.html.erb:12
+#: ../app/views/host_mailer/_nonactive_hosts.html.erb:9
 msgid "Last Report"
 msgstr ""
 
@@ -12333,46 +11896,40 @@ msgstr ""
 msgid "Hostgroup"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:25
-#: ../app/views/taxonomies/_form.html.erb:58
+#: ../app/views/hostgroups/_form.html.erb:24
+#: ../app/views/taxonomies/_form.html.erb:55
 #: ../app/views/taxonomies/_step1.html.erb:4
 msgid "Parent"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:34
+#: ../app/views/hostgroups/_form.html.erb:32
 #: ../app/views/hosts/_form.html.erb:55
 msgid "Bare Metal"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:35
+#: ../app/views/hostgroups/_form.html.erb:33
 msgid "Deploy on"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:58
+#: ../app/views/hostgroups/_form.html.erb:54
 #: ../app/views/nic/_base_form.html.erb:34
 msgid "IPv4 Subnet"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:63
+#: ../app/views/hostgroups/_form.html.erb:59
 #: ../app/views/hosts/_nics.html.erb:41 ../app/views/nic/_base_form.html.erb:39
 msgid "IPv6 Subnet"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:72
-#: ../app/views/hosts/_operating_system.html.erb:25
+#: ../app/views/hostgroups/_form.html.erb:68
 msgid "Password must be 8 characters or more"
 msgstr ""
 
 #: ../app/views/hostgroups/_form.html.erb:79
-#: ../app/views/hosts/_form.html.erb:107
-msgid "Puppet Class Parameters"
-msgstr ""
-
-#: ../app/views/hostgroups/_form.html.erb:89
 msgid "Parent Parameters"
 msgstr ""
 
-#: ../app/views/hostgroups/_form.html.erb:92
+#: ../app/views/hostgroups/_form.html.erb:82
 msgid "Host Group Parameters"
 msgstr ""
 
@@ -12422,11 +11979,11 @@ msgstr ""
 msgid "Assign Selected Hosts"
 msgstr ""
 
-#: ../app/views/hosts/_assign_hosts.html.erb:34
+#: ../app/views/hosts/_assign_hosts.html.erb:32
 msgid "<b class='select_count'>0</b> selected"
 msgstr ""
 
-#: ../app/views/hosts/_assign_hosts.html.erb:39
+#: ../app/views/hosts/_assign_hosts.html.erb:37
 msgid "Assign to %s"
 msgstr ""
 
@@ -12530,15 +12087,15 @@ msgstr ""
 msgid "Deploy On"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:120
+#: ../app/views/hosts/_form.html.erb:115
 msgid "Host Parameters"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:129
+#: ../app/views/hosts/_form.html.erb:124
 msgid "Owned By"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:135
+#: ../app/views/hosts/_form.html.erb:130
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:39
 msgid "Hardware Model"
 msgstr ""
@@ -12592,15 +12149,15 @@ msgid "items selected. Uncheck to Clear"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/hosts/_list.html.erb:13 model_attributes.rb:348
+#: ../app/views/hosts/_list.html.erb:12 model_attributes.rb:348
 msgid "Model"
 msgstr ""
 
-#: ../app/views/hosts/_list.html.erb:41
+#: ../app/views/hosts/_list.html.erb:39
 msgid "New Details Page"
 msgstr ""
 
-#: ../app/views/hosts/_list.html.erb:53
+#: ../app/views/hosts/_list.html.erb:51
 msgid "Please Confirm"
 msgstr ""
 
@@ -12618,11 +12175,19 @@ msgstr ""
 msgid "Provisioning Method"
 msgstr ""
 
-#: ../app/views/hosts/_operating_system.html.erb:32
-msgid "Resolve"
+#: ../app/views/hosts/_operating_system.html.erb:28
+msgid "Password must be 8 characters or more."
+msgstr ""
+
+#: ../app/views/hosts/_operating_system.html.erb:28
+msgid "The password is currently set by %s."
 msgstr ""
 
 #: ../app/views/hosts/_operating_system.html.erb:34
+msgid "Resolve"
+msgstr ""
+
+#: ../app/views/hosts/_operating_system.html.erb:36
 msgid "Display the templates that will be used to provision this host"
 msgstr ""
 
@@ -12642,16 +12207,16 @@ msgstr ""
 msgid "%s Template"
 msgstr ""
 
-#: ../app/views/hosts/_resources.html.erb:1
+#: ../app/views/hosts/_resources.html.erb:3
 msgid "Number of Events"
 msgstr ""
 
-#: ../app/views/hosts/_runtime.html.erb:1
+#: ../app/views/hosts/_runtime.html.erb:3
 msgid "Time in Seconds"
 msgstr ""
 
-#: ../app/views/hosts/_selected_hosts.html.erb:40
-#: ../app/views/hosts/_selected_hosts.html.erb:41
+#: ../app/views/hosts/_selected_hosts.html.erb:35
+#: ../app/views/hosts/_selected_hosts.html.erb:36
 msgid "Remember hosts selection for the next bulk action"
 msgstr ""
 
@@ -12843,18 +12408,6 @@ msgstr ""
 msgid "Edit Host"
 msgstr ""
 
-#: ../app/views/hosts/select_multiple_environment.html.erb:4
-msgid "Select environment"
-msgstr ""
-
-#: ../app/views/hosts/select_multiple_environment.html.erb:5
-msgid "*Clear environment*"
-msgstr ""
-
-#: ../app/views/hosts/select_multiple_environment.html.erb:6
-msgid "*Inherit from host group*"
-msgstr ""
-
 #: ../app/views/hosts/select_multiple_hostgroup.html.erb:4
 msgid "Select host group"
 msgstr ""
@@ -12877,6 +12430,12 @@ msgstr ""
 
 #: ../app/views/hosts/select_multiple_power_state.html.erb:6
 msgid "Select desired state"
+msgstr ""
+
+#: ../app/views/hosts/show.html.erb:17
+#: ../app/views/smart_proxies/show.html.erb:21
+#: ../db/seeds.d/170-notification_blueprints.rb:12
+msgid "Details"
 msgstr ""
 
 #: ../app/views/hosts/show.html.erb:33
@@ -13107,6 +12666,10 @@ msgstr ""
 msgid "Parameter Details"
 msgstr ""
 
+#: ../app/views/lookup_keys/_fields.html.erb:7
+msgid "Puppet Environments"
+msgstr ""
+
 #: ../app/views/lookup_keys/_fields.html.erb:11
 msgid "Default Behavior"
 msgstr ""
@@ -13125,7 +12688,6 @@ msgstr ""
 
 #: ../app/views/lookup_keys/_fields.html.erb:24
 #: ../app/views/lookup_keys/_values.html.erb:11
-#: ../app/views/puppetclasses/_classes_parameters.html.erb:9
 msgid "Omit"
 msgstr ""
 
@@ -13175,8 +12737,8 @@ msgstr ""
 
 #: ../app/views/lookup_keys/_fields.html.erb:59
 msgid ""
-"Continue to look for matches after first find (only array/hash type)? Note: me"
-"rging overrides ignores all matchers that are omitted."
+"Continue to look for matches after first find (only array/hash/json/yaml type)"
+"? Note: merging overrides ignores all matchers that are omitted."
 msgstr ""
 
 #: ../app/views/lookup_keys/_fields.html.erb:61
@@ -13342,7 +12904,7 @@ msgid ""
 msgstr ""
 
 #: ../app/views/models/new.html.erb:1
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/ModelsPage.js:30
+#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/ModelsPage.js:29
 msgid "Create Model"
 msgstr ""
 
@@ -13518,11 +13080,11 @@ msgid "OS name from facter; e.g. RedHat"
 msgstr ""
 
 #: ../app/views/operatingsystems/_form.html.erb:20
-msgid "OS major version from facter; e.g. 7"
+msgid "OS major version from facter; e.g. %s"
 msgstr ""
 
 #: ../app/views/operatingsystems/_form.html.erb:21
-msgid "OS minor version from facter; e.g. 0 or 6.1810 (CentOS scheme)"
+msgid "OS minor version from facter; e.g. %s"
 msgstr ""
 
 #: ../app/views/operatingsystems/_form.html.erb:22
@@ -13531,10 +13093,6 @@ msgstr ""
 
 #: ../app/views/operatingsystems/_form.html.erb:23
 msgid "Family"
-msgstr ""
-
-#: ../app/views/operatingsystems/_form.html.erb:25
-msgid "e.g. karmic, lucid, hw0910 etc"
 msgstr ""
 
 #: ../app/views/operatingsystems/_form.html.erb:27
@@ -13583,12 +13141,12 @@ msgid ""
 "t that the other required components tie into."
 msgstr ""
 
-#: ../app/views/provisioning_templates/_combination.html.erb:4
+#: ../app/views/provisioning_templates/_combination.html.erb:3
 msgid "Remove Combination"
 msgstr ""
 
 #: ../app/views/provisioning_templates/_combinations.html.erb:1
-msgid "Valid Host Group and Environment Combinations"
+msgid "Valid Host Groups"
 msgstr ""
 
 #: ../app/views/provisioning_templates/_combinations.html.erb:6
@@ -13721,114 +13279,6 @@ msgstr ""
 #: ../app/views/puppetca/_list.html.erb:31
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:36
 msgid "Revoke"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/puppetclass_lookup_keys/index.html.erb:8
-#: model_attributes.rb:446
-msgid "Parameter"
-msgstr ""
-
-#: ../app/views/puppetclass_lookup_keys/index.html.erb:10
-msgid "Number of Overrides"
-msgstr ""
-
-#: ../app/views/puppetclass_lookup_keys/welcome.html.erb:2
-msgid ""
-"Parameterized class support permits detecting, importing, and supplying parame"
-"ters directly to classes which support it, via the ENC and depending on a set "
-"of rules (Smart Matchers)."
-msgstr ""
-
-#: ../app/views/puppetclasses/_class_selection.html.erb:10
-msgid "Included Classes"
-msgstr ""
-
-#: ../app/views/puppetclasses/_class_selection.html.erb:24
-#: ../app/views/puppetclasses/_classes.html.erb:10
-msgid "Not authorized to edit classes"
-msgstr ""
-
-#: ../app/views/puppetclasses/_class_selection.html.erb:35
-msgid "Inherited Classes from %s"
-msgstr ""
-
-#: ../app/views/puppetclasses/_class_selection.html.erb:56
-msgid "Available Classes"
-msgstr ""
-
-#: ../app/views/puppetclasses/_class_selection.html.erb:59
-msgid "Filter classes"
-msgstr ""
-
-#: ../app/views/puppetclasses/_classes_in_groups.html.erb:2
-#: ../webpack/assets/javascripts/foreman_class_edit.js:83
-msgid "belongs to config group"
-msgstr ""
-
-#: ../app/views/puppetclasses/_form.html.erb:4
-msgid ""
-"The class could not be saved because of an error in one of the class parameter"
-"s."
-msgstr ""
-
-#: ../app/views/puppetclasses/_form.html.erb:8
-msgid "Smart Class Parameter"
-msgstr ""
-
-#: ../app/views/puppetclasses/_form.html.erb:14
-msgid "Puppet environments"
-msgstr ""
-
-#: ../app/views/puppetclasses/_form.html.erb:15
-msgid "Host groups"
-msgstr ""
-
-#: ../app/views/puppetclasses/_form.html.erb:22
-msgid "This Puppet class has no parameters in its signature."
-msgstr ""
-
-#: ../app/views/puppetclasses/_form.html.erb:23
-msgid ""
-"To update the class signature, go to the Puppet Classes page and select \"Impor"
-"t\"."
-msgstr ""
-
-#: ../app/views/puppetclasses/_form.html.erb:28
-msgid "Filter by name"
-msgstr ""
-
-#: ../app/views/puppetclasses/_form.html.erb:34
-msgid "All environments - (not filtered)"
-msgstr ""
-
-#: ../app/views/puppetclasses/_form.html.erb:46
-msgid "Overridden"
-msgstr ""
-
-#: ../app/views/puppetclasses/edit.html.erb:1
-msgid "Edit Puppet Class %s"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/puppetclasses/index.html.erb:10 model_attributes.rb:478
-msgid "Puppetclass|Name"
-msgstr ""
-
-#: ../app/views/puppetclasses/index.html.erb:31
-msgid "Override all parameters"
-msgstr ""
-
-#: ../app/views/puppetclasses/index.html.erb:31
-msgid "This will set all parameters of the class %s as overridden. Continue?"
-msgstr ""
-
-#: ../app/views/puppetclasses/index.html.erb:32
-msgid "Set parameters to defaults"
-msgstr ""
-
-#: ../app/views/puppetclasses/index.html.erb:32
-msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr ""
 
 #: ../app/views/realms/_form.html.erb:16
@@ -14150,32 +13600,12 @@ msgstr[1] ""
 msgid "Create Proxy"
 msgstr ""
 
-#: ../app/views/smart_proxies/plugins/_puppet.html.erb:12
-#: ../app/views/smart_proxies/plugins/_puppet_ca.html.erb:16
-msgid "Hosts managed:"
-msgstr ""
-
 #: ../app/views/smart_proxies/plugins/_puppet_ca.html.erb:7
 msgid "Autosign entries"
 msgstr ""
 
-#: ../app/views/smart_proxies/plugins/_puppet_envs.html.erb:5
-msgid "Number of classes"
-msgstr ""
-
-#: ../app/views/smart_proxies/plugins/_puppet_envs.html.erb:15
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:56
-msgid "Total"
-msgstr ""
-
-#: ../app/views/smart_proxies/plugins/_puppet_envs.html.erb:25
-msgid "No environments found"
-msgstr ""
-
-#: ../app/views/smart_proxies/plugins/_puppet_envs.html.erb:27
-msgid ""
-"There are no puppet environments set up on this puppet master. Please check th"
-"e puppet master configuration."
+#: ../app/views/smart_proxies/plugins/_puppet_ca.html.erb:16
+msgid "Hosts managed:"
 msgstr ""
 
 #: ../app/views/smart_proxies/plugins/_tftp.html.erb:7
@@ -14380,23 +13810,23 @@ msgid ""
 "ng the provisioning process."
 msgstr ""
 
-#: ../app/views/taxonomies/_form.html.erb:86
+#: ../app/views/taxonomies/_form.html.erb:82
 msgid "Select organizations"
 msgstr ""
 
-#: ../app/views/taxonomies/_form.html.erb:94
+#: ../app/views/taxonomies/_form.html.erb:90
 msgid "Select locations"
 msgstr ""
 
-#: ../app/views/taxonomies/_form.html.erb:105
+#: ../app/views/taxonomies/_form.html.erb:101
 msgid "Parent parameters"
 msgstr ""
 
-#: ../app/views/taxonomies/_form.html.erb:110
+#: ../app/views/taxonomies/_form.html.erb:106
 msgid "Location parameters"
 msgstr ""
 
-#: ../app/views/taxonomies/_form.html.erb:112
+#: ../app/views/taxonomies/_form.html.erb:108
 msgid "Organization parameters"
 msgstr ""
 
@@ -14574,7 +14004,7 @@ msgid "Template syntax"
 msgstr ""
 
 #: ../app/views/templates/_form.html.erb:101
-msgid "Provisioning templates are generated using the Embedded Ruby (ERB) language."
+msgid "Templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
 
 #: ../app/views/templates/_form.html.erb:102
@@ -14596,47 +14026,59 @@ msgid ""
 msgstr ""
 
 #: ../app/views/templates/_form.html.erb:107
-msgid "For more info visit our documentation."
+msgid "For more info visit:"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:108 apipie.rb:22
+#: ../app/views/templates/_form.html.erb:109
+msgid "our templates documentation"
+msgstr ""
+
+#: ../app/views/templates/_form.html.erb:109
+msgid "and"
+msgstr ""
+
+#: ../app/views/templates/_form.html.erb:111
+msgid "DSL (Domain Specific Language) documentation"
+msgstr ""
+
+#: ../app/views/templates/_form.html.erb:113 apipie.rb:22
 msgid "Examples"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:110
+#: ../app/views/templates/_form.html.erb:115
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/ExpansiveView.js:101
 msgid "Comments"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:113
+#: ../app/views/templates/_form.html.erb:118
 msgid "In-line code syntax"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:118
+#: ../app/views/templates/_form.html.erb:123
 msgid "Printing data"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:121
+#: ../app/views/templates/_form.html.erb:126
 msgid "Variables"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:124
+#: ../app/views/templates/_form.html.erb:129
 msgid "Calling methods on objects"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:127
+#: ../app/views/templates/_form.html.erb:132
 msgid "Safe mode methods"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:130
+#: ../app/views/templates/_form.html.erb:135
 msgid "Global macros"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:133
+#: ../app/views/templates/_form.html.erb:138
 msgid "Iterating"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:140
+#: ../app/views/templates/_form.html.erb:145
 msgid ""
 "Once you define a template input in Inputs tab and save the template, it can b"
 "e used in the ERB.\n"
@@ -14646,7 +14088,7 @@ msgid ""
 "ugh input called cpus."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:147
+#: ../app/views/templates/_form.html.erb:152
 msgid ""
 "While rendering the template in preview mode, the input either loads the value"
 " or uses a placeholder\n"
@@ -14661,23 +14103,23 @@ msgid ""
 "                Note that the fact name can differ from input name."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:160
+#: ../app/views/templates/_form.html.erb:165
 msgid "Safe mode methods and variables"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:164
+#: ../app/views/templates/_form.html.erb:169
 msgid "Class"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:165
+#: ../app/views/templates/_form.html.erb:170
 msgid "Allowed methods or members"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:170
+#: ../app/views/templates/_form.html.erb:175
 msgid "Global methods (macros)"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:174
+#: ../app/views/templates/_form.html.erb:179
 msgid "Global variables"
 msgstr ""
 
@@ -14813,7 +14255,7 @@ msgid "SSH Keys"
 msgstr ""
 
 #: ../app/views/users/_form.html.erb:19
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:65
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:67
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:49
 msgid "Personal Access Tokens"
 msgstr ""
@@ -14993,6 +14435,10 @@ msgid ""
 "rsion}"
 msgstr ""
 
+#: ../db/seeds.d/170-notification_blueprints.rb:67
+msgid "Report is ready to download"
+msgstr ""
+
 #: ../lib/core_extensions.rb:48
 msgid "%{record} is used by %{what}"
 msgstr ""
@@ -15005,8 +14451,8 @@ msgstr ""
 msgid "Adding would cause a cycle!"
 msgstr ""
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
-#: ../lib/foreman/gettext/support.rb:52
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#: ../lib/foreman/gettext/support.rb:61
 msgid "locale_name"
 msgstr ""
 
@@ -15085,7 +14531,7 @@ msgstr ""
 msgid "%s, check the 'SSL CA file' in Settings > Authentication"
 msgstr ""
 
-#: ../lib/foreman/renderer/scope/macros/snippet_rendering.rb:62
+#: ../lib/foreman/renderer/scope/macros/snippet_rendering.rb:65
 msgid "The snippet '%{name}' threw an error: %{exc}"
 msgstr ""
 
@@ -15357,6 +14803,14 @@ msgstr ""
 msgid "Failed to save widget positions."
 msgstr ""
 
+#: ../webpack/assets/javascripts/foreman_class_edit.js:54
+msgid "Click to remove %s"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_class_edit.js:83
+msgid "belongs to config group"
+msgstr ""
+
 #: ../webpack/assets/javascripts/foreman_class_edit.js:141
 msgid "Click to remove config group"
 msgstr ""
@@ -15503,10 +14957,12 @@ msgid "Press ' / ' to focus on search"
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/Bookmarks/Bookmarks.js:57
+#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:12
 msgid "Bookmark this search"
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/Bookmarks/Bookmarks.js:61
+#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:51
 msgid "Saved Bookmarks"
 msgstr ""
 
@@ -15537,7 +14993,8 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/ChartBox/ChartBox.js:127
 #: ../webpack/assets/javascripts/react_app/components/ChartBox/index.js:71
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:27
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:35
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:36
+#: ../webpack/assets/javascripts/react_app/components/common/charts/AreaChart/index.js:48
 #: ../webpack/assets/javascripts/react_app/components/common/charts/BarChart/index.js:55
 #: ../webpack/assets/javascripts/react_app/components/common/charts/DonutChart/index.js:53
 #: ../webpack/assets/javascripts/react_app/components/common/charts/LineChart/index.js:57
@@ -15547,6 +15004,11 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:39
 msgid "Report Metrics"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:56
+msgid "Total"
 msgstr ""
 
 #:
@@ -15652,27 +15114,27 @@ msgid "Click to log in again"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:35
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:36
 msgid "Request Failed"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:49
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:50
 msgid "Show distribution chart"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:56
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:57
 msgid "View Chart"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:62
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:63
 msgid "Fact distribution chart - %s "
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:66
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:67
 msgid "(%s host)"
 msgid_plural "(%s hosts)"
 msgstr[0] ""
@@ -15694,8 +15156,18 @@ msgid "plugin action 2"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Audits/index.js:42
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Audits/index.js:47
 msgid "Recent Audits"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Audits/index.js:49
+msgid "All Audits"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Audits/index.js:58
+msgid "No Results found"
 msgstr ""
 
 #:
@@ -15859,13 +15331,18 @@ msgid "Setting was successfully updated."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:99
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:100
 msgid "Not set"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:100
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:101
 msgid "Empty"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/components/SettingCell.js:28
+msgid "Default: %s"
 msgstr ""
 
 #:
@@ -16020,12 +15497,17 @@ msgid "Create Personal Access Token"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:47
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:35
+msgid "Do you really want to revoke Access Token?"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:49
 msgid "Active Personal Access Tokens"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:53
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:55
 msgid "Inactive Personal Access Tokens"
 msgstr ""
 
@@ -16070,7 +15552,7 @@ msgid "Hard disk"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:32
+#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:35
 msgid " Documentation"
 msgstr ""
 
@@ -16110,17 +15592,17 @@ msgid "Nothing to select."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:70
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:63
 msgid "Initial configuration template"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:83
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:76
 msgid "does not have assigned host_init_config template"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:96
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:89
 msgid "No OS from host group"
 msgstr ""
 
@@ -16218,7 +15700,12 @@ msgid "unlimited"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:204
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/UpdatePackages.js:18
+msgid "Update packages"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:206
 msgid "Advanced"
 msgstr ""
 
@@ -16537,6 +16024,16 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:120
 msgid "Domain|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#: model_attributes.rb:122
+msgid "Environment"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#: model_attributes.rb:124
+msgid "Environment|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -17250,6 +16747,11 @@ msgid "Operatingsystem|Release name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#: model_attributes.rb:446
+msgid "Parameter"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:448
 msgid "Parameter|Hidden value"
 msgstr ""
@@ -17307,6 +16809,11 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:476
 msgid "Puppetclass"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#: model_attributes.rb:478
+msgid "Puppetclass|Name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
