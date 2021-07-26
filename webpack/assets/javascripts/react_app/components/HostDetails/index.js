@@ -22,12 +22,15 @@ import {
 
 import Skeleton from 'react-loading-skeleton';
 import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
+import {
+  selectFillsIDs,
+  selectSlotMetadata,
+} from '../common/Slot/SlotSelectors';
 
-import { selectFillsIDs } from '../common/Slot/SlotSelectors';
 import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import { registerCoreTabs } from './Tabs';
-import { HOST_DETAILS_API_OPTIONS } from './consts';
+import { HOST_DETAILS_API_OPTIONS, TABS_SLOT_ID } from './consts';
 
 import { translate as __, sprintf } from '../../common/I18n';
 import HostGlobalStatus from './Status/GlobalStatus';
@@ -53,8 +56,12 @@ const HostDetails = ({
 
   const isNavCollapsed = useSelector(selectIsCollapsed);
   const tabs = useSelector(
-    state => selectFillsIDs(state, 'host-details-page-tabs'),
+    state => selectFillsIDs(state, TABS_SLOT_ID),
     shallowEqual
+  );
+
+  const slotMetadata = useSelector(state =>
+    selectSlotMetadata(state, TABS_SLOT_ID)
   );
 
   // This is a workaround due to the tabs overflow mechanism in PF4
@@ -166,7 +173,11 @@ const HostDetails = ({
               activeKey={activeTab}
             >
               {tabs.map(tab => (
-                <Tab key={tab} eventKey={tab} title={tab} />
+                <Tab
+                  key={tab}
+                  eventKey={tab}
+                  title={slotMetadata?.[tab]?.title || tab}
+                />
               ))}
             </Tabs>
           </TabRouter>
