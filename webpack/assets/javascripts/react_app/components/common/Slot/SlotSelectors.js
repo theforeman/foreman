@@ -16,7 +16,9 @@ export const selectFillsIDs = (state, id) => {
   const registerdFills = state.extendable[id];
   if (registerdFills) {
     const fillIDs = Object.keys(registerdFills);
-    return fillIDs.sort((a, b) => registerdFills[b] - registerdFills[a]);
+    return fillIDs.sort(
+      (a, b) => registerdFills[b].weight - registerdFills[a].weight
+    );
   }
   return null;
 };
@@ -35,4 +37,17 @@ export const selectFillsComponents = (state, props) => {
     return [selectMaxComponent(id)];
   }
   return [];
+};
+
+export const selectSlotMetadata = (state, id) => {
+  const registerdFills = state.extendable[id] || {};
+  const slotMetadata = {};
+  // eslint bug - https://github.com/eslint/eslint/issues/12117
+  /* eslint-disable-next-line no-unused-vars */
+  for (const fill of Object.keys(registerdFills)) {
+    if (registerdFills[fill].metadata)
+      slotMetadata[fill] = registerdFills[fill].metadata;
+  }
+
+  return slotMetadata;
 };

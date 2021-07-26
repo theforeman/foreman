@@ -199,6 +199,7 @@ Array [
     Object {
       "payload": Object {
         "fillId": "some-key-1",
+        "metadata": undefined,
         "slotId": "slot-1",
         "weight": 100,
       },
@@ -209,6 +210,7 @@ Array [
     Object {
       "payload": Object {
         "fillId": "some-key-2",
+        "metadata": undefined,
         "slotId": "slot-1",
         "weight": 200,
       },
@@ -222,8 +224,14 @@ exports[`Slot-Fill render multiple fills: Integration test store 1`] = `
 Object {
   "extendable": Object {
     "slot-1": Object {
-      "some-key-1": 100,
-      "some-key-2": 200,
+      "some-key-1": Object {
+        "metadata": undefined,
+        "weight": 100,
+      },
+      "some-key-2": Object {
+        "metadata": undefined,
+        "weight": 200,
+      },
     },
   },
 }
