@@ -6,6 +6,7 @@ Array [
     Object {
       "payload": Object {
         "fillId": "fill-id",
+        "metadata": undefined,
         "slotId": "slot-id",
         "weight": 100,
       },
