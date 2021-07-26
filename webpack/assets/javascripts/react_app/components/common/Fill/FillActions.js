@@ -6,12 +6,13 @@ export const registerFillComponent = (
   overrideProps,
   fillId,
   component,
-  weight
+  weight,
+  metadata
 ) => dispatch => {
   SlotsRegistry.add(slotId, fillId, component, weight, overrideProps);
   dispatch({
     type: REGISTER_FILL,
-    payload: { slotId, fillId, weight },
+    payload: { slotId, fillId, weight, metadata },
   });
 };
 

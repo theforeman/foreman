@@ -3,8 +3,14 @@
 exports[`PluginRoutes rendering Adding global routes 1`] = `
 Object {
   "routes": Object {
-    "some-id-0": undefined,
-    "some-id-1": undefined,
+    "some-id-0": Object {
+      "metadata": undefined,
+      "weight": undefined,
+    },
+    "some-id-1": Object {
+      "metadata": undefined,
+      "weight": undefined,
+    },
   },
 }
 `;
