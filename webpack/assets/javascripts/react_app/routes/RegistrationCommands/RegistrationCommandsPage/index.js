@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -94,17 +94,22 @@ const RegistrationCommandsPage = () => {
   // Plugins
   const [pluginValues, setPluginValues] = useState({});
 
-  const handlePluginValue = data => {
-    setPluginValues({ ...pluginValues, ...data });
-  };
+  const handlePluginValue = useCallback(data => {
+    setPluginValues(prevValues => ({ ...prevValues, ...data }));
+  }, []);
 
-  const handleInvalidField = (field, isValid) => {
+  const handleInvalidField = useCallback((field, isValid) => {
     if (isValid) {
-      setInvalidFields(invalidFields.filter(f => f !== field));
-    } else if (!invalidFields.find(f => f === field)) {
-      setInvalidFields([...invalidFields, field].sort());
+      setInvalidFields(prevFields => prevFields.filter(f => f !== field));
+    } else {
+      setInvalidFields(prevFields => {
+        if (!prevFields.find(f => f === field)) {
+          return [...prevFields, field].sort();
+        }
+        return prevFields;
+      });
     }
-  };
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
