@@ -1,5 +1,5 @@
 import React from 'react';
-import { add, remove, getSlotComponents } from '.';
+import SlotsRegistry from '.';
 
 jest.unmock('./');
 
@@ -9,14 +9,14 @@ const props = { someProp: true };
 
 describe('Extendable Registry', () => {
   it('should render two components by weights', () => {
-    add('slot-id', 'fill-id-1', componnentOne, 100);
-    add('slot-id', 'fill-id-2', componnentTwo, 200);
-    add('another-slot-id', 'fill-id', props, 300);
+    SlotsRegistry.add('slot-id', 'fill-id-1', componnentOne, 100);
+    SlotsRegistry.add('slot-id', 'fill-id-2', componnentTwo, 200);
+    SlotsRegistry.add('another-slot-id', 'fill-id', props, 300);
 
-    expect(getSlotComponents('slot-id')).toMatchSnapshot();
+    expect(SlotsRegistry.getSlotComponents('slot-id')).toMatchSnapshot();
   });
   it('should render one component after a removal', () => {
-    remove('slot-id', 'fill-id-2');
-    expect(getSlotComponents('slot-id')).toMatchSnapshot();
+    SlotsRegistry.remove('slot-id', 'fill-id-2');
+    expect(SlotsRegistry.getSlotComponents('slot-id')).toMatchSnapshot();
   });
 });

@@ -1,7 +1,7 @@
-import { getSlotComponents } from '../../../../services/SlotsRegistry';
+import SlotsRegistry from '../../../../services/SlotsRegistry';
 
 export const selectComponentByWeight = slotId =>
-  getSlotComponents(slotId)
+  SlotsRegistry.getSlotComponents(slotId)
     .sort((a, b) => b.weight - a.weight)
     .map(c => c.component) || {};
 
@@ -26,7 +26,7 @@ export const selectFillsComponents = (state, props) => {
 
   if (selectFillsAmount(state, id)) {
     if (fillID) {
-      const slotComponent = getSlotComponents(id);
+      const slotComponent = SlotsRegistry.getSlotComponents(id);
       const getFill = slotComponent.filter(c => c.id === fillID);
 
       return [getFill[0].component];
