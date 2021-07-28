@@ -1,27 +1,30 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { get } from '../../redux/API';
+
 import FactChart from './FactChart';
-import reducer from './FactChartReducer';
-import { openModal, closeModal } from './FactChartActions';
-import { FACT_CHART } from './FactChartConstants';
+import { openModal, closeModal } from './slice';
+
 import {
   selectHostCount,
   selectDisplayModal,
   selectFactChartStatus,
   selectFactChartData,
-} from './FactChartSelectors';
+} from './selectors';
 
 const ConnectedFactChart = ({ id, path, title, search }) => {
-  const key = `${FACT_CHART}_${id}`;
+  const key = `FACT_CHART_${id}`;
   const hostsCount = useSelector(state => selectHostCount(state, key));
   const status = useSelector(state => selectFactChartStatus(state, key));
   const chartData = useSelector(state => selectFactChartData(state, key));
   const modalToDisplay = useSelector(state => selectDisplayModal(state, id));
   const dispatch = useDispatch();
-  const dispatchCloseModal = () => dispatch(closeModal(id));
-  const dispatchOpenModal = () =>
-    dispatch(openModal({ id, title, apiKey: key, apiUrl: path }));
+  const dispatchCloseModal = () => dispatch(closeModal());
+  const dispatchOpenModal = () => {
+    dispatch(get({ key, url: path }));
+    dispatch(openModal({ id, title }));
+  };
 
   return (
     <FactChart
@@ -50,5 +53,3 @@ ConnectedFactChart.defaultProps = {
 };
 
 export default ConnectedFactChart;
-
-export const reducers = { factChart: reducer };

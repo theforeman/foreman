@@ -1,11 +1,10 @@
 import Immutable from 'seamless-immutable';
 import { STATUS } from '../../constants';
 import { noop } from '../../common/helpers';
-import { FACT_CHART } from './FactChartConstants';
 
 export const id = 1;
 export const url = 'some/url';
-export const key = `${FACT_CHART}_${id}`;
+export const key = `FACT_CHART_${id}`;
 export const title = 'some_title';
 export const search = 'some-search';
 export const status = STATUS.RESOLVED;
