@@ -18,7 +18,7 @@ export const WelcomeEnv = ({ canCreate }) => {
     <EmptyState
       icon="th"
       iconType="fa"
-      header={__('Environments')}
+      header={__('Puppet Environments')}
       description={<div dangerouslySetInnerHTML={{ __html: content }} />}
       documentation={{ url: getManualURL('4.2.1Environments') }}
       action={action}
