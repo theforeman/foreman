@@ -1,2 +1,6 @@
-<% content_for(:title, _("Enviroments")) %>
+<% content_for(:title, _("Puppet Environments")) %>
+<%= breadcrumbs(:switchable => false,
+                :items => [
+                  { :caption => _('Puppet Environments'), :url => environments_path },
+                ]) %>
 <%= react_component('WelcomeEnv', {canCreate: authorized_for(action: :new)}) %>
