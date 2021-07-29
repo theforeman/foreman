@@ -20,7 +20,6 @@ import * as medium from './foreman_medium';
 import * as templateInputs from './foreman_template_inputs';
 import * as advancedFields from './foreman_advanced_fields';
 import * as configReportsModalDiff from './foreman_config_reports_modal_diff';
-import * as classEditor from './foreman_class_edit';
 import * as dashboard from './dashboard';
 import * as spice from './spice';
 import * as autocomplete from './foreman_autocomplete';
@@ -61,7 +60,6 @@ window.tfm = Object.assign(window.tfm || {}, {
   templateInputs,
   advancedFields,
   configReportsModalDiff,
-  classEditor,
   dashboard,
   i18n,
   spice,
