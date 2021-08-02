@@ -85,6 +85,9 @@ module Foreman
     end
   end
 
+  class UsernameOrPasswordException < Foreman::Exception
+  end
+
   class MaintenanceException < Foreman::Exception
   end
 

@@ -69,6 +69,10 @@ module ComputeResourcesHelper
   rescue Foreman::FingerprintException => e
     compute.errors.add(:pubkey_hash, e.message)
     []
+  rescue Foreman::UsernameOrPasswordException => e
+    Foreman::Logging.exception("Failed listing datacenters", e)
+    compute.errors.add(:datacenter, e.message)
+    []
   rescue => e
     Foreman::Logging.exception("Failed listing datacenters", e)
     []
