@@ -132,7 +132,8 @@ class SettingRegistry
   end
 
   def load_values
-    Setting.unscoped.all.each do |s|
+    # we are loading only known STIs as we load settings fairly early the first time and plugin classes might not be loaded yet.
+    Setting.unscoped.where(category: Setting.descendants.map(&:name)).all.each do |s|
       unless (definition = find(s.name))
         logger.debug("Setting #{s.name} has no definition, clean up your database")
         next
