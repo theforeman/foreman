@@ -7,7 +7,7 @@
              :id, :name, {}, :label => _('Vnic Profile'), :label_size => "col-md-3", :disabled => !new_vm,
              :class => "ovirt_network",
              :onchange => 'tfm.computeResource.ovirt.vnicSelected(this)',
-             :data => {:profiles => compute_resource.vnic_profiles.to_json, :networks => networks } %>
+             :data => {:profiles => JSON.generate(compute_resource.vnic_profiles), :networks => JSON.generate(networks) } %>
 <%= select_f f, :network, networks, :id, :name,
              { }, :disabled => !new_vm, :class => "ovirt_network",
              :label         => _('Network'), :label_size => "col-md-3"%>
