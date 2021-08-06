@@ -52,7 +52,8 @@ module Foreman
         :to_yaml,
         :foreman_server_ca_cert,
         :format_time,
-        :shell_escape
+        :shell_escape,
+        :join_with_line_break
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [

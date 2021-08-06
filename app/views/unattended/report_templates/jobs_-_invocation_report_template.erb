@@ -23,6 +23,7 @@ require:
 - plugin: foreman_remote_execution
 ￼ version: 4.4.0
 -%>
+<%- report_headers 'Host', 'stdout', 'stderr', 'debug', 'Result', 'Finished' %>
 <%- invocation = find_job_invocation_by_id(input('job_id')) -%>
 <%- parts = ["job_invocation.id = #{input('job_id')}"] %>
 <%- parts << input('hosts') unless input('hosts').blank? %>
@@ -30,15 +31,18 @@ require:
 <%- load_hosts(search: search).each do |batch| -%>
 <%-   batch.each do |host|  -%>
 <%-     task = invocation.sub_task_for_host(host) -%>
+<%-     outputs = { 'stdout' => [], 'stderr' => [], 'debug' => [] }  -%>
 <%-     task.action_continuous_output.each do |output| -%>
-<%-       report_row(
-            host: host.name,
-            result: task.result,
-            type: output['output_type'],
-            message: output['output'],
-            time: format_time(output['timestamp']),
-          ) -%>
+<%-       outputs[output['output_type']] << output['output'] -%>
 <%-     end -%>
+<%-     report_row(
+            'Host': host.name,
+            'stdout': join_with_line_break(outputs['stdout']),
+            'stderr': join_with_line_break(outputs['stderr']),
+            'debug': join_with_line_break(outputs['debug']),
+            'Result': task.result,
+            'Finished': format_time(task.ended_at),
+        ) -%>
 <%-   end -%>
 <%- end -%>
 <%= report_render -%>
