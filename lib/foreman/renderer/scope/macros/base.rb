@@ -363,6 +363,28 @@ module Foreman
                      rand(100) #=> 72'
           end
 
+          apipie :method, "Return the concatenated array with correct line break" do
+            desc 'This method returns concatenated array with correct line break with the respect of output format.
+                  For HTML output, it joins array members with <br> tag otherwise it uses a \n character.
+                  It works as new line at CSV but at YAML and JSON it is used for separating of lines
+                  because of structure of these formats'
+            required :array, Array, desc: 'Array of values to concatenate'
+            returns ::String
+            example "join_with_line_break(values) # => 1<br>2<br>3 for HTML"
+            example 'join_with_line_break(values) # => 1\n2\n3 for CSV,JSON,YAML'
+          end
+          def join_with_line_break(array)
+            case report_format.mime_type
+            when 'text/csv'
+              array.join("\n")
+            when 'application/json', 'text/yaml'
+              array.join("\\n")
+            when 'text/html'
+              array.map! { |str| CGI.escapeHTML(str) }
+              array.join("<br>").html_safe
+            end
+          end
+
           private
 
           def validate_subnet(subnet)
