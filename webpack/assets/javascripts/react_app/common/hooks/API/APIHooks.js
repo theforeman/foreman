@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import uuid from 'uuid/v1';
 import {
@@ -15,31 +15,33 @@ import { APIActions } from '../../../redux/API';
  * @return {object} returns an object that contains the response, status, key and 'setUrl' for setting the url dynamically
  */
 
-export const useAPI = (method, url, options) => {
+export const useAPI = (method, url, options = {}) => {
   const dispatch = useDispatch();
-  const keyRef = useRef(options?.key);
+  const { key, ...rest } = options;
+  const [keyState, setKeyState] = useState(key || uuid());
+  const [APIoptions, setAPIOptions] = useState(rest);
 
   useEffect(() => {
-    if (!keyRef.current) keyRef.current = uuid();
-  }, []);
+    if (key) setKeyState(key);
+  }, [key]);
 
   useEffect(() => {
     if (url && method) {
       dispatch(
         APIActions[method]({
           url,
-          ...options,
-          key: keyRef.current,
+          ...APIoptions,
+          key: keyState,
         })
       );
     }
-  }, [dispatch, url, method, options]);
+  }, [dispatch, url, method, keyState, APIoptions]);
 
   const response = useSelector(
-    state => selectAPIResponse(state, keyRef.current),
+    state => selectAPIResponse(state, keyState),
     shallowEqual
   );
-  const status = useSelector(state => selectAPIStatus(state, keyRef.current));
+  const status = useSelector(state => selectAPIStatus(state, keyState));
 
-  return { response, status, key: keyRef.current };
+  return { response, status, key: keyState, setAPIOptions };
 };
