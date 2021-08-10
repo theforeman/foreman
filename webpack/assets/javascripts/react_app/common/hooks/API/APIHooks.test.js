@@ -23,14 +23,29 @@ it('should use default url', async () => {
 });
 
 it('shuold use the given key', async () => {
-  const options = { key: API_TEST_KEY };
-
   APIHelper.get.mockResolvedValue(resultsFromLOTR);
   const { result, waitForNextUpdate } = renderHookWithRedux(() =>
-    useAPI('get', '/got', options)
+    useAPI('get', '/got', { key: API_TEST_KEY })
   );
   expect(result.current.response).toEqual({});
 
   await waitForNextUpdate();
   expect(result.current.key).toEqual(API_TEST_KEY);
+});
+
+it('shuold update APIOptions', async () => {
+  const spy = jest.spyOn(APIHelper, 'get');
+  APIHelper.get.mockResolvedValue(resultsFromLOTR);
+  const { result } = renderHookWithRedux(() =>
+    useAPI('get', '/lotr', { params: { a: 'a param' } })
+  );
+
+  await act(async () => {
+    result.current.setAPIOptions(prevOptions => ({
+      ...prevOptions,
+      params: { a: 'updated param' },
+    }));
+  });
+
+  expect(spy).toHaveBeenLastCalledWith('/lotr', {}, { a: 'updated param' });
 });
