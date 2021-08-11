@@ -11,7 +11,7 @@ class ForemanSeeder
   end
 
   def initialize
-    @seeds = (foreman_seeds + plugin_seeds).sort_by { |seed| seed.split("/").last }
+    @seeds = order_seeds(foreman_seeds) + order_seeds(plugin_seeds)
     @hashed_files = @seeds + templates
   end
 
@@ -37,7 +37,10 @@ class ForemanSeeder
   def execute
     Foreman::AdvisoryLockManager.with_transaction_lock(ADVISORY_LOCK) do
       # if we had to wait for the lock it is likely that the seeding has already been done, no need to seed again
-      return unless hash_changed?
+      unless hash_changed?
+        Rails.logger.info("Seeding skipped because the hash was unchanged")
+        return
+      end
 
       self.class.is_seeding = true
       begin
@@ -73,5 +76,11 @@ class ForemanSeeder
 
   def hash_changed?
     old_hash != hash
+  end
+
+  def order_seeds(seeds)
+    seeds.sort_by do |seed_path|
+      seed_path.split("/").last.match(/^\d*/)[0].to_i
+    end
   end
 end
