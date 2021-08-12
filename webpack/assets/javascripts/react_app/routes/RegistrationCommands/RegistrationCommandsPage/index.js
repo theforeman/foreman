@@ -18,6 +18,7 @@ import { translate as __ } from '../../../common/I18n';
 import {
   useForemanOrganization,
   useForemanLocation,
+  useForemanVersion,
 } from '../../../Root/Context/ForemanContext';
 import { STATUS } from '../../../constants';
 import Head from '../../../components/Head';
@@ -37,6 +38,7 @@ import {
   selectPluginData,
 } from './RegistrationCommandsPageSelectors';
 import { dataAction, commandAction } from './RegistrationCommandsPageActions';
+import { docUrl } from './RegistrationCommandsPageConstants';
 
 import General from './components/General';
 import Advanced from './components/Advanced';
@@ -50,6 +52,7 @@ const RegistrationCommandsPage = () => {
   // Context
   const currentOrganization = useForemanOrganization();
   const currentLocation = useForemanLocation();
+  const foremanVersion = useForemanVersion();
 
   // Form tabs
   const [activeTab, setActiveTab] = useState(0);
@@ -185,7 +188,7 @@ const RegistrationCommandsPage = () => {
           </GridItem>
           <GridItem span={6}>
             <a
-              href="https://docs.theforeman.org/nightly/Managing_Hosts/index-foreman-el.html#registering-a-host-to-project-using-the-global-registration-template_managing-hosts"
+              href={docUrl(foremanVersion)}
               target="_blank"
               rel="noreferrer"
               className="pf-c-button pf-m-secondary pf-m-small pull-right"
