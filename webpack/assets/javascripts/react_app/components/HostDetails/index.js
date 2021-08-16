@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   Grid,
   Tab,
@@ -18,23 +18,19 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
 
-import { foremanUrl } from '../../../foreman_tools';
-import { get } from '../../redux/API';
-import {
-  selectAPIResponse,
-  selectAPIStatus,
-} from '../../redux/API/APISelectors';
 import { selectFillsIDs } from '../common/Slot/SlotSelectors';
 import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
-import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
-import { sprintf, translate as __ } from '../../common/I18n';
-import HostGlobalStatus from './Status/GlobalStatus';
+import { HOST_DETAILS_API_OPTIONS } from './consts';
 
-import './HostDetails.scss';
+import { translate as __, sprintf } from '../../common/I18n';
+import HostGlobalStatus from './Status/GlobalStatus';
 import SkeletonLoader from '../common/SkeletonLoader';
 import { STATUS } from '../../constants';
+import './HostDetails.scss';
+import { useAPI } from '../../common/hooks/API/APIHooks';
+import TabRouter from './Tabs/TabRouter';
 
 const HostDetails = ({
   match: {
@@ -42,12 +38,12 @@ const HostDetails = ({
   },
   location: { hash },
 }) => {
-  const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('Overview');
-  const response = useSelector(state =>
-    selectAPIResponse(state, 'HOST_DETAILS')
+  const { response, status } = useAPI(
+    'get',
+    `/api/hosts/${id}`,
+    HOST_DETAILS_API_OPTIONS
   );
-  const status = useSelector(state => selectAPIStatus(state, 'HOST_DETAILS'));
+
   const isNavCollapsed = useSelector(selectIsCollapsed);
   const tabs = useSelector(
     state => selectFillsIDs(state, 'host-details-page-tabs'),
@@ -64,28 +60,11 @@ const HostDetails = ({
   }, []);
 
   useEffect(() => {
-    if (hash) setActiveTab(hash.slice(1));
-  }, [hash]);
-
-  useEffect(() => {
-    dispatch(
-      get({
-        key: 'HOST_DETAILS',
-        url: foremanUrl(`/api/hosts/${id}`),
-      })
-    );
-  }, [id, dispatch]);
-
-  useEffect(() => {
     //  This is a workaround for adding gray background inspiring pf4 desgin
     //  TODO: delete it when pf4 layout (Page copmponent) is implemented in foreman
     document.body.classList.add('pf-gray-background');
     return () => document.body.classList.remove('pf-gray-background');
   }, []);
-
-  const handleTabClick = (event, tabIndex) => {
-    setActiveTab(tabIndex);
-  };
 
   return (
     <>
@@ -142,26 +121,25 @@ const HostDetails = ({
           </SkeletonLoader>
           <br />
         </div>
-        <Tabs
-          style={{
-            width: window.innerWidth - (isNavCollapsed ? 95 : 220),
-          }}
-          activeKey={activeTab}
-          onSelect={handleTabClick}
-        >
-          {tabs &&
-            tabs.map(tab => (
-              <Tab key={tab} eventKey={tab} title={tab}>
-                <Slot
-                  hostName={id}
-                  response={response}
-                  status={status}
-                  id="host-details-page-tabs"
-                  fillID={tab}
-                />
-              </Tab>
-            ))}
-        </Tabs>
+        {tabs && (
+          <TabRouter
+            response={response}
+            hostName={id}
+            status={status}
+            tabs={tabs}
+          >
+            <Tabs
+              style={{
+                width: window.innerWidth - (isNavCollapsed ? 95 : 220),
+              }}
+              activeKey={hash.slice(2).split('/')[0]}
+            >
+              {tabs.map(tab => (
+                <Tab key={tab} eventKey={tab} title={tab} href={`#/${tab}`} />
+              ))}
+            </Tabs>
+          </TabRouter>
+        )}
       </PageSection>
     </>
   );
