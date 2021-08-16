@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import uuid from 'uuid/v1';
 import {
   selectAPIResponse,
@@ -35,8 +35,9 @@ export const useAPI = (method, url, options) => {
     }
   }, [dispatch, url, method, options]);
 
-  const response = useSelector(state =>
-    selectAPIResponse(state, keyRef.current)
+  const response = useSelector(
+    state => selectAPIResponse(state, keyRef.current),
+    shallowEqual
   );
   const status = useSelector(state => selectAPIStatus(state, keyRef.current));
 
