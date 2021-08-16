@@ -50,6 +50,7 @@
     "node-sass": "^4.5.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "prettier": "^1.19.1",
+    "pretty-format": "26.6.2",
     "raw-loader": "^0.5.1",
     "react-dnd-test-backend": "^9.4.0",
     "react-dnd-test-utils": "^9.4.0",
