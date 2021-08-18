@@ -71,7 +71,7 @@ class SettingPresenter
   end
 
   def category_name
-    category.gsub(/Setting::/, '')
+    category.to_s.gsub(/Setting::/, '')
   end
 
   def select_values

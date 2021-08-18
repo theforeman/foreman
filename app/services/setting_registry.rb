@@ -133,7 +133,7 @@ class SettingRegistry
 
   def load_values
     # we are loading only known STIs as we load settings fairly early the first time and plugin classes might not be loaded yet.
-    Setting.unscoped.where(category: Setting.descendants.map(&:name)).all.each do |s|
+    Setting.unscoped.where(category: Setting.descendants.map(&:name) + %w[Setting]).all.each do |s|
       unless (definition = find(s.name))
         logger.debug("Setting #{s.name} has no definition, clean up your database")
         next
@@ -162,7 +162,7 @@ class SettingRegistry
 
   def _new_db_record(definition)
     Setting.new(name: definition.name,
-                category: definition.category.safe_constantize&.name || 'Setting::General',
+                category: definition.category.safe_constantize&.name || 'Setting',
                 default: definition.default,
                 description: definition.description,
                 full_name: definition.full_name,
