@@ -22,6 +22,8 @@ const EditorModal = ({
   selectedView,
   template,
   theme,
+  autocompletion,
+  liveAutocompletion,
   title,
   toggleModal,
 }) => (
@@ -64,6 +66,8 @@ const EditorModal = ({
           readOnly={readOnly || selectedView === 'preview'}
           className="editor ace_editor_modal"
           isMasked={isMasked}
+          autocompletion={autocompletion}
+          liveAutocompletion={liveAutocompletion}
         />
       )}
     </Modal.Body>
@@ -86,6 +90,8 @@ EditorModal.propTypes = {
   selectedView: PropTypes.string.isRequired,
   template: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
+  autocompletion: PropTypes.bool.isRequired,
+  liveAutocompletion: PropTypes.bool.isRequired,
   title: PropTypes.string,
   toggleModal: PropTypes.func.isRequired,
 };

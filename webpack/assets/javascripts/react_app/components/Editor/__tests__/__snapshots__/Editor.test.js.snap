@@ -11,6 +11,7 @@ exports[`Editor rendering renders editor 1`] = `
     type="error"
   />
   <EditorNavbar
+    autocompletion={true}
     changeDiffViewType={[Function]}
     changeSetting={[Function]}
     changeTab={[Function]}
@@ -46,6 +47,7 @@ exports[`Editor rendering renders editor 1`] = `
         "Vim",
       ]
     }
+    liveAutocompletion={false}
     mode="Ruby"
     modes={
       Array [
@@ -94,11 +96,13 @@ exports[`Editor rendering renders editor 1`] = `
     value="value"
   />
   <EditorView
+    autocompletion={true}
     className="ace_editor_form ace_preview"
     isMasked={false}
     isSelected={false}
     key="editorPreview"
     keyBinding="Default"
+    liveAutocompletion={false}
     mode="Ruby"
     name="editorPreview"
     onChange={[Function]}
@@ -107,11 +111,13 @@ exports[`Editor rendering renders editor 1`] = `
     value="value"
   />
   <EditorView
+    autocompletion={true}
     className="ace_editor_form ace_input"
     isMasked={false}
     isSelected={true}
     key="editorCode"
     keyBinding="Default"
+    liveAutocompletion={false}
     mode="Ruby"
     name="editorCode"
     onChange={[Function]}
@@ -131,6 +137,7 @@ exports[`Editor rendering renders editor 1`] = `
     />
   </div>
   <EditorModal
+    autocompletion={true}
     changeDiffViewType={[Function]}
     changeEditorValue={[Function]}
     diffViewType="split"
@@ -140,6 +147,7 @@ exports[`Editor rendering renders editor 1`] = `
     isRendering={false}
     key="editorModal"
     keyBinding="Default"
+    liveAutocompletion={false}
     mode="Ruby"
     name="editor"
     previewValue="previewResult"

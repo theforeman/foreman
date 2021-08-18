@@ -11,6 +11,7 @@ Object {
   ],
   "state": Object {
     "editor": Object {
+      "autocompletion": true,
       "diffViewType": "split",
       "editorName": "editor",
       "errorText": "",
@@ -24,6 +25,7 @@ Object {
       "isSearchingHosts": false,
       "isSelectOpen": false,
       "keyBinding": "Default",
+      "liveAutocompletion": false,
       "mode": "Ruby",
       "previewResult": "",
       "readOnly": false,
@@ -46,6 +48,7 @@ Object {
 exports[`Editor integration test should flow: initial state 1`] = `
 Object {
   "editor": Object {
+    "autocompletion": true,
     "diffViewType": "split",
     "editorName": "editor",
     "errorText": "",
@@ -59,6 +62,7 @@ Object {
     "isSearchingHosts": false,
     "isSelectOpen": false,
     "keyBinding": "Default",
+    "liveAutocompletion": false,
     "mode": "Ruby",
     "previewResult": "",
     "readOnly": false,
@@ -88,6 +92,7 @@ Object {
   ],
   "state": Object {
     "editor": Object {
+      "autocompletion": true,
       "diffViewType": "split",
       "editorName": "editor",
       "errorText": "",
@@ -101,6 +106,7 @@ Object {
       "isSearchingHosts": false,
       "isSelectOpen": false,
       "keyBinding": "Default",
+      "liveAutocompletion": false,
       "mode": "Ruby",
       "previewResult": "",
       "readOnly": false,
