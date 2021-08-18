@@ -236,7 +236,7 @@ class HostsController < ApplicationController
       bmc_proxy: @host.bmc_proxy,
     }
   rescue Foreman::BMCFeatureException
-    render partial: 'bmc_missing_proxy', locals: { bmc_proxy: @host.subnet.bmc, bmc_count: SmartProxy.with_features('BMC').count }
+    render partial: 'bmc_missing_proxy', locals: { bmc_proxy: @host&.subnet&.bmc, bmc_count: SmartProxy.with_features('BMC')&.count }
   rescue Foreman::Exception => exception
     process_ajax_error exception, 'fetch bmc information'
   rescue ActionView::Template::Error => exception
