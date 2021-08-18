@@ -29,10 +29,12 @@ import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
-import { translate as __ } from '../../common/I18n';
+import { sprintf, translate as __ } from '../../common/I18n';
 import HostGlobalStatus from './Status/GlobalStatus';
 
 import './HostDetails.scss';
+import SkeletonLoader from '../common/SkeletonLoader';
+import { STATUS } from '../../constants';
 
 const HostDetails = ({
   match: {
@@ -121,26 +123,23 @@ const HostDetails = ({
               <ActionsBar hostName={response.name} />
             </GridItem>
           </Grid>
-          <Text style={{ fontStyle: 'italic' }} component={TextVariants.p}>
-            {/* TODO: extracting text and remove timeago usage in favor i18n */}
-            {response.name ? (
-              <span>
-                created{' '}
-                <RelativeDateTime
-                  date={response.created_at}
-                  defaultValue="N/A"
-                />{' '}
-                by {response.owner_name} (updated{' '}
-                <RelativeDateTime
-                  date={response.updated_at}
-                  defaultValue="N/A"
-                />
-                )
-              </span>
-            ) : (
-              <Skeleton width={400} />
+          <SkeletonLoader
+            skeletonProps={{ width: 400 }}
+            status={status || STATUS.PENDING}
+          >
+            {response && (
+              <Text component={TextVariants.span}>
+                <RelativeDateTime date={response.created_at} defaultValue="N/A">
+                  {date =>
+                    sprintf(__('Created %s by %s'), date, response.owner_name)
+                  }
+                </RelativeDateTime>{' '}
+                <RelativeDateTime date={response.updated_at} defaultValue="N/A">
+                  {date => sprintf(__('(updated %s)'), date)}
+                </RelativeDateTime>
+              </Text>
             )}
-          </Text>
+          </SkeletonLoader>
           <br />
         </div>
         <Tabs
