@@ -74,6 +74,7 @@ exports[`EditorNavbar rendring renders EditorNavbar 1`] = `
     />
   </Nav>
   <EditorOptions
+    autocompletion={true}
     changeDiffViewType={[Function]}
     changeSetting={[Function]}
     changeTab={[Function]}
@@ -102,6 +103,7 @@ exports[`EditorNavbar rendring renders EditorNavbar 1`] = `
         "Vim",
       ]
     }
+    liveAutocompletion={false}
     mode="Ruby"
     modes={
       Array [

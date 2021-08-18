@@ -14,6 +14,8 @@ export const editor = {
   previewResult: 'previewResult',
   mode: 'Ruby',
   theme: 'Monokai',
+  autocompletion: true,
+  liveAutocompletion: false,
   keyBinding: 'Default',
   selectedView: 'input',
   editorName: 'editor',
