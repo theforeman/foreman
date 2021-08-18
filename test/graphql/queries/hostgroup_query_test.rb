@@ -77,6 +77,10 @@ module Queries
               }
             }
           }
+          meta {
+            canEdit
+            canDestroy
+          }
         }
       }
       GRAPHQL
@@ -128,6 +132,8 @@ module Queries
       assert_record hostgroup.puppet_ca_proxy, data['puppetCaProxy']
       assert_record hostgroup.ptable, data['ptable']
       assert_record hostgroup.medium, data['medium']
+      assert data['meta']['canEdit']
+      assert data['meta']['canDestroy']
 
       assert_collection hostgroup.hosts, data['hosts'], type_name: 'Host'
       assert_collection hostgroup.locations, data['locations']

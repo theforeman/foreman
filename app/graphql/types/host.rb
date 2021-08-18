@@ -1,6 +1,7 @@
 module Types
   class Host < BaseObject
     model_class ::Host::Managed
+    include ::Types::Concerns::MetaField
 
     description 'A Host'
 

@@ -84,6 +84,10 @@ module Queries
               }
             }
           }
+          meta {
+            canEdit
+            canDestroy
+          }
         }
       }
       GRAPHQL
@@ -145,6 +149,8 @@ module Queries
 
       assert_collection host.fact_names, data['factNames']
       assert_collection host.fact_values, data['factValues']
+      assert data['meta']['canEdit']
+      assert data['meta']['canDestroy']
     end
 
     context 'with user without view_models permission' do

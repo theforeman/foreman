@@ -1,6 +1,7 @@
 module Types
   class Hostgroup < BaseObject
     description 'A Hostgroup'
+    include ::Types::Concerns::MetaField
 
     global_id_field :id
     timestamps
