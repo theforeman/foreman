@@ -2,7 +2,7 @@
 
 exports[`Routes rendering routes with children renders routes with chidlren 1`] = `
 <Fragment>
-  <ConnectedForemanSwitcher>
+  <ForemanSwitcher>
     <Route
       key="/host_wizard"
       path="/host_wizard"
@@ -35,7 +35,7 @@ exports[`Routes rendering routes with children renders routes with chidlren 1`] 
       path="/host_statuses"
       render={[Function]}
     />
-  </ConnectedForemanSwitcher>
+  </ForemanSwitcher>
   <div
     id="router-child"
   />
