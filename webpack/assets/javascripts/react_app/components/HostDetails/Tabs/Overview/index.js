@@ -12,16 +12,16 @@ import './Details.css';
 const DetailsTab = ({ response, status, hostName }) => (
   <div className="host-details-tab-item details-tab">
     <Grid hasGutter>
-      <GridItem xl2={3} md={6} lg={4} rowSpan={3}>
+      <GridItem xl2={3} xl={4} md={6} lg={4} rowSpan={2}>
         <DetailsCard {...response} status={status} />
       </GridItem>
-      <GridItem xl2={3} md={6} lg={5}>
+      <GridItem xl2={3} xl={4} md={6} lg={4}>
         <AggregateStatus
           hostName={hostName}
           permissions={response.permissions}
         />
       </GridItem>
-      <GridItem xl2={3} md={6} lg={5}>
+      <GridItem xl2={3} xl={4} md={6} lg={4}>
         <AuditCard hostName={hostName} />
       </GridItem>
       <Slot hostDetails={response} id="details-cards" multi />
