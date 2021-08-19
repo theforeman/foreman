@@ -3,11 +3,11 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { routes } from './routes';
 import { renderRoute } from './RoutingService';
-import ForemanSwitch from './ForemanSwitcher';
+import ForemanSwitcher from './ForemanSwitcher';
 
 const AppSwitcher = ({ children }) => (
   <>
-    <ForemanSwitch>
+    <ForemanSwitcher>
       {routes.map(({ render, path, ...routeProps }) => (
         <Route
           path={path}
@@ -16,7 +16,7 @@ const AppSwitcher = ({ children }) => (
           render={renderProps => renderRoute(render, renderProps)}
         />
       ))}
-    </ForemanSwitch>
+    </ForemanSwitcher>
     {children}
   </>
 );
