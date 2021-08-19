@@ -9,15 +9,7 @@ Object {
 }
 `;
 
-exports[`Routing Service rendering a route with a callback 1`] = `
-<div>
-   Test 
-</div>
-`;
-
-exports[`Routing Service rendering a route with a falsy callback 1`] = `null`;
-
-exports[`Routing Service rendering a route without a callback 1`] = `
+exports[`Routing Service rendering a route 1`] = `
 <div>
    Test 
 </div>
