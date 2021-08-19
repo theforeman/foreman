@@ -32,6 +32,9 @@ module Foreman::Controller::AutoCompleteSearch
   end
 
   def store_redirect_to_url
+    # Clear the stored url if the referer is the current URL. This can occur due
+    # to client side routing that modifies the history prior to the page load.
+    return reset_redirect_to_url if request.url == request.referer
     session["redirect_to_url_#{controller_name}"] ||= request.referer
   end
 end
