@@ -28,7 +28,7 @@ const CardItem = ({
     overrideDropdownProps?.onSelect?.(event);
   };
   return (
-    <GridItem xl2={3} md={6} lg={5} {...overrideGridProps}>
+    <GridItem xl2={3} xl={4} md={6} lg={4} {...overrideGridProps}>
       <Card isHoverable>
         <CardHeader>
           {dropdownItems && (
