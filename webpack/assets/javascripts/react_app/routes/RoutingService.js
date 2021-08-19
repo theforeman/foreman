@@ -11,38 +11,29 @@ let currentPath = window.location.href;
  * @param  {Array}   routes an array that contains a plugin's routes
  */
 export const registerRoutes = (id, routes) =>
-  routes.map(
-    ({ render, path, beforeRendering = undefined, ...routeProps }, index) =>
-      addGlobalFill(
-        'routes',
-        `${id}-${index}`,
-        <Route
-          path={path}
-          key={path}
-          {...routeProps}
-          render={renderProps =>
-            renderRoute(render, renderProps, beforeRendering)
-          }
-        />
-      )
+  routes.map(({ render, path, ...routeProps }, index) =>
+    addGlobalFill(
+      'routes',
+      `${id}-${index}`,
+      <Route
+        path={path}
+        key={path}
+        {...routeProps}
+        render={renderProps => renderRoute(render, renderProps)}
+      />
+    )
   );
 
 /**
  * a Helper function for rendering a route
  * @param {Function} renderFn - a component's rendering function
  * @param {Object} props - routing props
- * @param {Function} beforeRenderingCallback - a callback to run before the rendering, if it returns false the rendering will terminate
  */
-export const renderRoute = (
-  renderFn,
-  props,
-  beforeRenderingCallback = () => true
-) => {
+export const renderRoute = (renderFn, props) => {
   const {
     location,
     location: { pathname, search },
   } = props;
-  if (!beforeRenderingCallback(location)) return null;
   removeRailsContent();
   location && updatePath(`${pathname}${search}`);
   return renderFn(props);
