@@ -45,7 +45,7 @@ const ToastsList = ({ railsMessages }) => {
         }
         {...toastProps}
       >
-        {message.length > 60 && message}
+        {(message.length > 60 || React.isValidElement(message)) && message}
       </Alert>
     )
   );
