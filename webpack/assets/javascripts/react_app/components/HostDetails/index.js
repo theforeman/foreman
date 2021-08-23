@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import {
   Grid,
   Tab,
@@ -47,8 +47,9 @@ const HostDetails = ({
   );
   const status = useSelector(state => selectAPIStatus(state, 'HOST_DETAILS'));
   const isNavCollapsed = useSelector(selectIsCollapsed);
-  const tabs = useSelector(state =>
-    selectFillsIDs(state, 'host-details-page-tabs')
+  const tabs = useSelector(
+    state => selectFillsIDs(state, 'host-details-page-tabs'),
+    shallowEqual
   );
 
   // This is a workaround due to the tabs overflow mechanism in PF4
