@@ -13,10 +13,10 @@
     "test:watch": "tfm-test --watchAll",
     "test:current": "tfm-test --watch",
     "publish-coverage": "tfm-publish-coverage",
-    "stories": "tfm-stories",
-    "build-storybook": "tfm-build-stories",
+    "stories": "./script/npm-fix-foreman-stories.sh && tfm-stories",
+    "build-storybook": "./script/npm-fix-foreman-stories.sh && tfm-build-stories",
     "deploy-storybook": "cross-env NODE_ENV=storybook NODE_OPTIONS=--max_old_space_size=8192 storybook-to-ghpages",
-    "postinstall": "./script/npm-fix-foreman-stories.sh && ./script/npm_install_plugins.js",
+    "postinstall": "./script/npm_install_plugins.js",
     "analyze": "./script/webpack-analyze",
     "create-react-component": "yo react-domain"
   },
