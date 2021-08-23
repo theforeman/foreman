@@ -1,0 +1,41 @@
+{
+    "EXCLUDE_NPM_PACKAGES": [
+        "@sheerun/mutationobserver-shim",
+        "@testing-library/jest-dom",
+        "@testing-library/react",
+        "@theforeman/env",
+        "@theforeman/eslint-plugin-foreman",
+        "@theforeman/stories",
+        "@theforeman/test",
+        "@theforeman/vendor-dev",
+        "@theforeman/find-foreman",
+        "axios-mock-adapter",
+        "babel-eslint",
+        "babel-jest",
+        "babel-plugin-dynamic-import-node",
+        "coveralls",
+        "cross-env",
+        "highlight.js",
+        "jest",
+        "nock",
+        "prettier",
+        "raw-loader",
+        "react-addons-test-utils",
+        "react-dnd-test-backend",
+        "react-dnd-test-utils",
+        "react-remarkable",
+        "react-test-renderer",
+        "react-redux-test-utils",
+        "redux-mock-store",
+        "surge",
+        "webpack-bundle-analyzer",
+        "webpack-dev-server"
+    ],
+    "EXCLUDE_NPM_PREFIXES": [
+        "@storybook/",
+        "enzyme",
+        "eslint",
+        "jest-",
+        "stylelint"
+    ]
+}
