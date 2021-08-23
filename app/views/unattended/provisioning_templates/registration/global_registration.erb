@@ -118,7 +118,7 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ] || [ x$ID = xol ]; then
 }
 
     <% if @force -%>
-    yum remove -y katello-ca-consumer*
+    yum remove -y katello-ca-consumer\*
     <% end -%>
 
     # rhn-client-tools conflicts with subscription-manager package
