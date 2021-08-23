@@ -9,5 +9,9 @@ if [ "$NODE_ENV" = "production" ]; then
   exit 0
 fi
 
+if [ -d node_modules/@theforeman/stories/node_modules ]; then
+  exit 0
+fi
+
 cd ./node_modules/@theforeman/stories
 npm install
