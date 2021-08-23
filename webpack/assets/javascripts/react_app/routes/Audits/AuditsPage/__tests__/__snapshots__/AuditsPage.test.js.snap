@@ -19,7 +19,7 @@ exports[`AuditsPage rendering render audits page 1`] = `
       },
       "bookmarks": Object {
         "canCreate": true,
-        "documentationUrl": "4.1.5Searching",
+        "documentationUrl": "/links/manual/4.1.5Searching",
         "url": "/api/bookmarks",
       },
       "controller": "audits",
@@ -95,7 +95,7 @@ exports[`AuditsPage rendering render audits page w/empty audits 1`] = `
       },
       "bookmarks": Object {
         "canCreate": true,
-        "documentationUrl": "4.1.5Searching",
+        "documentationUrl": "/links/manual/4.1.5Searching",
         "url": "/api/bookmarks",
       },
       "controller": "audits",
@@ -173,7 +173,7 @@ exports[`AuditsPage rendering render audits page w/error 1`] = `
       },
       "bookmarks": Object {
         "canCreate": true,
-        "documentationUrl": "4.1.5Searching",
+        "documentationUrl": "/links/manual/4.1.5Searching",
         "url": "/api/bookmarks",
       },
       "controller": "audits",
@@ -251,7 +251,7 @@ exports[`AuditsPage rendering render loading audits page 1`] = `
       },
       "bookmarks": Object {
         "canCreate": true,
-        "documentationUrl": "4.1.5Searching",
+        "documentationUrl": "/links/manual/4.1.5Searching",
         "url": "/api/bookmarks",
       },
       "controller": "audits",
