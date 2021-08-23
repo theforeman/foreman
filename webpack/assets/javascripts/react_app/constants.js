@@ -1,3 +1,5 @@
+import { getManualURL } from './common/helpers';
+
 export const STATUS = {
   PENDING: 'PENDING',
   RESOLVED: 'RESOLVED',
@@ -19,6 +21,6 @@ export const getControllerSearchProps = (
   bookmarks: {
     url: '/api/bookmarks',
     canCreate,
-    documentationUrl: `4.1.5Searching`,
+    documentationUrl: getManualURL('4.1.5Searching'),
   },
 });
