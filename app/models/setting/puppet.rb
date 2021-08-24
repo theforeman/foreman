@@ -15,7 +15,7 @@ class Setting::Puppet < Setting
 
   def self.default_settings
     [
-      set('puppet_interval', N_("Duration in minutes after servers reporting via Puppet are classed as out of sync."), 35, N_('Puppet interval')),
+      set('puppet_interval', N_("Duration in minutes after servers reporting via Puppet are classed as out of sync (overrides outofsync_interval in general settings; can be overridden by host and hostgroup parameter setting)."), 35, N_('Puppet interval')),
       set('puppet_out_of_sync_disabled', N_("Disable host configuration status turning to out of sync for %s after report does not arrive within configured interval") % 'Puppet', false, N_('%s out of sync disabled') % 'Puppet'),
       set('default_puppet_environment', N_("Foreman will default to this puppet environment if it cannot auto detect one"), "production", N_('Default Puppet environment'), nil, { :collection => proc { all_environments } }),
       set('Default_parameters_Lookup_Path', N_("Foreman will evaluate host smart class parameters in this order by default"), ["fqdn", "hostgroup", "os", "domain"], N_('Default parameters lookup path')),

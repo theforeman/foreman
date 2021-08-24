@@ -75,7 +75,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_("Append domain names to the host"))
     setting('outofsync_interval',
       type: :integer,
-      description: N_('Duration in minutes after servers are classed as out of sync. You can override this on hosts by adding a parameter "outofsync_interval".'),
+      description: N_('Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from content management tools (e.g. puppet_inteval, ansible_interval).'),
       default: 30,
       full_name: N_('Out of sync interval'))
     setting('instance_id',
