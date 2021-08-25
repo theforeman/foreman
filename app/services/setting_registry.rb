@@ -14,8 +14,8 @@ class SettingRegistry
   end
 
   def paginate(page: nil, per_page: nil)
-    page ||= 1
-    per_page ||= Setting[:entries_per_page]
+    page = (page || 1).to_i
+    per_page = (per_page || Setting[:entries_per_page]).to_i
     subset_keys = @settings.keys[((page - 1) * per_page)..(page * per_page - 1)]
     self.class.subset_registry(@settings.slice(*subset_keys))
   end

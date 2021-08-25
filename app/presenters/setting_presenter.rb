@@ -56,7 +56,7 @@ class SettingPresenter
 
   def matches_search_query?(query)
     if (res = query.match(/name\s*=\s*(\S+)/))
-      name == res[1]
+      name == ScopedSearch::QueryLanguage::Compiler.tokenize(query)[2]
     elsif (res = query.match(/description\s*~\s*(\S+)/))
       description.include? res[1]
     else
