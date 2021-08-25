@@ -22,6 +22,14 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
       settings = ActiveSupport::JSON.decode(@response.body)
       assert !settings.empty?
     end
+
+    test "should get index with pagination string params" do
+      get :index, params: { :page => "1", :per_page => "5"}
+      assert_response :success
+      assert_not_nil assigns(:settings)
+      settings = ActiveSupport::JSON.decode(@response.body)
+      assert !settings.empty?
+    end
   end
 
   test "should show individual record" do
