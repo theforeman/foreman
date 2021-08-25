@@ -1,3 +1,29 @@
+2021-08-25	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.0.0-rc2
+
+2021-08-25	maccelf <maxmol27@gmail.com>
+	* Fixes #32541 - add "overwrite" parameter in apidoc
+
+2021-08-24	rafaelguerra01 <rafael.guerra01@gmail.com>
+	* Fixes #33305 - Prevent shell globs for yum remove katello-ca-consumer
+
+2021-08-24	yifatmakias <ymakias@redhat.com>
+	* Fixes #32908 - Allow UTF character in vnic attributes
+
+2021-08-24	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2021-08-24	Evgeni Golov <evgeni@golov.de>
+	* Refs #33318 - add a script to filter package.json
+	* Fixes #33319 - don't run fix-stories on every postinstall
+	* Fixes #33318 - add JS packages to be excluded for packaging
+
+2021-08-18	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #22801 - Encrypted spice consoles
+
+2021-08-12	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #33180 - add task to migrate Puppet info
+
 2021-08-06	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.0.0-rc1
 
