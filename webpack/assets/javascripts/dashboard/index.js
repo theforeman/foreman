@@ -66,7 +66,7 @@ export function removeWidget(item) {
     ),
     confirmButtonText: __('Delete'),
     isWarning: true,
-    onConfirm: function onConfirm() {
+    onConfirm: () => {
       $.ajax({
         type: 'DELETE',
         url: $(item).data('url'),
