@@ -7,6 +7,7 @@ tmp/
 jenkins/reports/*
 test/reports/*
 db/schema.rb
+db/structure.sql
 config/settings.yaml
 config/ignored_environments.yml
 config/settings.plugins.d
