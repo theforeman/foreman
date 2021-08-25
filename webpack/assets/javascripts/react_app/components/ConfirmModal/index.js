@@ -43,6 +43,8 @@ const ConfirmModal = () => {
     </Button>,
   ];
 
+  if (!isOpen) return null;
+
   return (
     <Modal
       id="app-confirm-modal"
