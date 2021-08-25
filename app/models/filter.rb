@@ -1,6 +1,7 @@
 class Filter < ApplicationRecord
   audited :associated_with => :role
 
+  include ::Foreman::Controller::AvoidLoneTaxonomies
   include Taxonomix
   include Authorizable
   include TopbarCacheExpiry

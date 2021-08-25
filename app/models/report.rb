@@ -2,6 +2,7 @@ class Report < ApplicationRecord
   LOG_LEVELS = %w[debug info notice warning err alert emerg crit]
 
   prepend Foreman::STI
+  include ::Foreman::Controller::AvoidLoneTaxonomies
   include Authorizable
   include ConfigurationStatusScopedSearch
 

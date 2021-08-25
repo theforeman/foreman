@@ -255,8 +255,7 @@ module Api
       # parameters aren't taxable but have a relation to taxonomies because of location and organization params
       return if resource_name.ends_with? 'parameter'
       # reports have a relationship to taxonomies through the host, not directly
-      return if resource_class.ancestors.include? Report
-      return if resource_class == Filter
+      return if resource_class.include?(::Foreman::Controller::AvoidLoneTaxonomies)
       Taxonomy.types.each do |taxonomy|
         tax_name = taxonomy.to_s.downcase
         if resource_class.reflections.has_key? tax_name.pluralize
