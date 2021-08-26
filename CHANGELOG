@@ -1,3 +1,39 @@
+2021-08-26	Eric D. Helms <ericdhelms@gmail.com>
+	* Release 2.5.3
+
+2021-08-23	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #32928 - Allow templates to hide preview button
+
+2021-08-18	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #32489 - setting load on code reload
+
+2021-08-05	Stejskal Leos <github@stejskalleos.cz>
+	* Fixes #33033 - shell_escape template macro
+	* Fixes #33004 - Registration - Refresh subscription data
+	* Fixes #32780 - Delete host params when register host
+	* Fixes #33121 - Registration command API & params with false values
+
+2021-08-05	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #32918 - Host registration - Update packages
+
+2021-08-05	Bernhard Suttner <suttner@atix.de>
+	* Fixes #33042 - salt-minion is installed in saltstack_setup
+
+2021-08-05	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #33049 - Properly handle missing status type (#8675)
+
+2021-08-05	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #33090 - load AIX OS attributes
+
+2021-08-05	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #32963 - Load only present categories
+
+2021-08-02	yifatmakias <ymakias@redhat.com>
+	* Fixes #33179 - Fix header in Enviroments page
+
+2021-07-28	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #32493 - add deprecation only once
+
 2021-07-15	Eric D. Helms <ericdhelms@gmail.com>
 	* Release 2.5.2
 
