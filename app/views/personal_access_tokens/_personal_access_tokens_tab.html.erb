@@ -1,6 +1,6 @@
 <div class="tab-pane" id="personal_access_tokens">
   <%= react_component('PersonalAccessTokens', {
     url: api_user_personal_access_tokens_path(user_id: @user),
-    canCreate: authorized_for(controller: 'api/v2/personal_access_tokens', auth_action: :create)
+    canCreate: authorized_for(controller: 'api/v2/personal_access_tokens', auth_action: :create, user_id: @user.to_param)
   }) %>
 </div>

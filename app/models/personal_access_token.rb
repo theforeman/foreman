@@ -50,6 +50,11 @@ class PersonalAccessToken < ApplicationRecord
     token_value
   end
 
+  def check_permissions_after_save
+    return true if user == User.current
+    super
+  end
+
   def revoke!
     update!(revoked: true)
   end
