@@ -178,31 +178,106 @@ class Host::Managed < Host::Base
     end
   end
 
-  scope :recent, lambda { |interval = Setting[:outofsync_interval]|
-    with_last_report_within(interval.to_i.minutes)
+  scope :recent, lambda { |interval = Setting[:outofsync_interval], report_origin = 'All'|
+    if report_origin == 'All'
+      with_last_report_within(interval.to_i.minutes)
+    else
+      with_last_report_within_with_param(report_origin, interval.to_i.minutes)
+    end
   }
 
   scope :out_of_sync, lambda { |interval = Setting[:outofsync_interval]|
-    not_disabled.with_last_report_exceeded(interval.to_i.minutes)
+    # find all hosts that have a report origin
+    report_origins = Report.select(:origin).distinct
+    if report_origins.empty?
+      not_disabled.with_last_report_exceeded(interval.to_i.minutes)
+    else
+      # we need all hosts with reports that are out of sync
+      outofsync_hosts_with_reports = Model.none
+      report_origins.select do |ro|
+        outofsync_hosts_with_reports += out_of_sync_for(ro.origin) unless ro.origin.nil?
+      end
+      # we need to look at all hosts that do not have reports as well
+      hosts_with_reports = with_last_report_origin(report_origins).pluck(:id)
+      outofsync_hosts_without_reports = where.not(id: hosts_with_reports).not_disabled.with_last_report_exceeded(interval.to_i.minutes)
+      # return all outofsync hosts
+      outofsync_hosts_without_reports + outofsync_hosts_with_reports
+    end
   }
 
   scope :out_of_sync_for, lambda { |report_origin|
     interval = Setting[:"#{report_origin.downcase}_interval"] || Setting[:outofsync_interval]
-    with_last_report_exceeded(interval.to_i.minutes)
+    if Parameter.exists?(name: "#{report_origin.downcase}_interval")
+      out_of_sync_for_with_param(report_origin, interval.to_i.minutes)
+    else
+      with_last_report_exceeded(interval.to_i.minutes)
+        .not_disabled
+        .with_last_report_origin(report_origin)
+    end
+  }
+
+  scope :out_of_sync_for_with_param, lambda { |report_origin, minutes|
+    with_last_report_exceeded_with_param(report_origin, minutes)
       .not_disabled
       .with_last_report_origin(report_origin)
+  }
+
+  scope :join_on_parameter_type, lambda { |parameter_type, report_origin|
+    table_entry = ''
+    case parameter_type
+      when 'HostParameter'
+        table_entry = 'id'
+      when 'GroupParameter'
+        table_entry = 'hostgroup_id'
+      else
+        return Model.none
+    end
+    joins("INNER JOIN #{Parameter.table_name} on
+          #{Host.table_name}.#{table_entry} = #{Parameter.table_name}.reference_id and
+          #{Parameter.table_name}.type = '#{parameter_type}' and
+          #{Parameter.table_name}.name = '#{report_origin.downcase}_interval'")
+  }
+
+  scope :with_outofsync_interval_param, lambda { |report_origin|
+    # get all parameter types that overwrite outofsync interval, order by priority (highest first)
+    param_types = Parameter.where(name: "#{report_origin.downcase}_interval").select(:name, :type, :priority).distinct.order(priority: :desc)
+    # extract all hosts and override hosts on higher parameter priority
+    result = Model.none
+    param_types.select do |pt|
+      param_hosts = join_on_parameter_type(pt.type, report_origin)
+      result += param_hosts.reject { |ph| result.pluck(:id).include?(ph.id) }
+    end
+
+    where(id: result.pluck(:id))
   }
 
   scope :not_disabled, lambda {
     where.not(enabled: false)
   }
 
+  scope :with_last_report_exceed_within_with_param, lambda { |report_origin, minutes, comparator|
+    hosts_param = with_outofsync_interval_param(report_origin)
+    hosts_param_within = hosts_param.select do |h|
+      !h.last_report.nil? && h.last_report.send(comparator, h.params["#{report_origin.downcase}_interval"].to_i.minutes.ago)
+    end
+    # return active record relation including all hosts that have no parameter overwritten
+    where(id: hosts_param_within.map(&:id)).or(where.not(id: hosts_param.map(&:id)).where("last_report #{comparator} ?", minutes.ago))
+  }
+
   scope :with_last_report_within, lambda { |minutes|
     where(["#{Host.table_name}.last_report > ?", minutes.ago])
   }
 
+  scope :with_last_report_within_with_param, lambda { |report_origin, minutes|
+    with_last_report_exceed_within_with_param(report_origin, minutes, :>)
+  }
+
   scope :with_last_report_exceeded, lambda { |minutes|
     where(["#{Host.table_name}.last_report < ?", minutes.ago])
+  }
+
+  scope :with_last_report_exceeded_with_param, lambda { |report_origin, minutes|
+    with_last_report_exceed_within_with_param(report_origin, minutes, :<)
   }
 
   scope :with_last_report_origin, lambda { |origin|

@@ -81,7 +81,7 @@ module Dashboard
 
     def recent_hosts
       if settings[:origin] && settings[:origin] != 'All'
-        hosts.recent(Setting[:"#{settings[:origin].downcase}_interval"])
+        hosts.recent(Setting[:"#{settings[:origin].downcase}_interval"], settings[:origin])
       else
         hosts.recent
       end
