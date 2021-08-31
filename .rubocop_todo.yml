@@ -786,7 +786,6 @@ Style/SignalException:
     - 'app/models/concerns/orchestration.rb'
     - 'app/services/facets/entry.rb'
     - 'lib/foreman/logging.rb'
-    - 'lib/tasks/trends.rake'
 
 # Offense count: 8
 # Cop supports --auto-correct.
