@@ -149,7 +149,6 @@ class PermissionsList
         ['Subnet', 'edit_subnets'],
         ['Subnet', 'destroy_subnets'],
         ['Subnet', 'import_subnets'],
-        [nil, 'view_tasks'],
         ['Usergroup', 'view_usergroups'],
         ['Usergroup', 'create_usergroups'],
         ['Usergroup', 'edit_usergroups'],

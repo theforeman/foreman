@@ -593,10 +593,6 @@ Foreman::AccessControl.map do |permission_set|
     }
   end
 
-  permission_set.security_block :tasks do |map|
-    map.permission :view_tasks, {:trends => [:show]}
-  end
-
   permission_set.security_block :plugins do |map|
     map.permission :view_plugins, {:plugins => [:index],
                                       :"api/v2/plugins" => [:index],

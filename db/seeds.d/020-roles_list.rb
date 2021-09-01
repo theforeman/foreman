@@ -37,7 +37,7 @@ class RolesList
 
     def default_role
       {
-        'Default role' => { permissions: [:view_tasks],
+        'Default role' => { permissions: [],
                             description: 'Role that is automatically assigned to every user in the system. Adding a permission grants it to everybody',
         },
       }
