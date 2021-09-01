@@ -19,24 +19,19 @@ export const openConfirmModal = options =>
 // override the jQuery UJS $.rails.allowAction
 $.rails.allowAction = function railsConfirmOverride(element) {
   const message = element.data('confirm');
-  const answer = false;
-  let callback;
+  const isWarning = element.data('method') === 'delete';
   if (!message) return true;
 
   if ($.rails.fire(element, 'confirm')) {
     openConfirmModal({
       title: __('Confirm'),
       message,
+      isWarning,
       onConfirm: () => {
-        callback = $.rails.fire(element, 'confirm:complete', [answer]);
-        if (callback) {
-          const oldAllowAction = $.rails.allowAction;
-          $.rails.allowAction = function allowAction() {
-            return true;
-          };
-          element.trigger('click');
-          $.rails.allowAction = oldAllowAction;
-        }
+        const oldAllowAction = $.rails.allowAction;
+        $.rails.allowAction = () => true;
+        element.trigger('click');
+        $.rails.allowAction = oldAllowAction;
       },
     });
   }
