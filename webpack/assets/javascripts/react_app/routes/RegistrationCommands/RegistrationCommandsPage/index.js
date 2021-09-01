@@ -219,16 +219,19 @@ const RegistrationCommandsPage = () => {
           </GridItem>
 
           {apiStatusData === STATUS.ERROR && (
-            <GridItem span={8}>
-              <Alert
-                variant="danger"
-                title={__(
-                  'There was an error while loading the data, see the logs for more information.'
-                )}
-              />
-            </GridItem>
+            <>
+              <GridItem span={4}>
+                <Alert
+                  variant="danger"
+                  title={__(
+                    'There was an error while loading the data, see the logs for more information.'
+                  )}
+                />
+              </GridItem>
+              <GridItem span={12} />
+            </>
           )}
-          <GridItem span={8}>
+          <GridItem span={4}>
             <TabContent eventKey={0} id="generalSection" ref={generalTabRef}>
               <div className="pf-c-form">
                 <General
