@@ -16,30 +16,6 @@ import { openConfirmModal as coreOpenConfirmModal } from './react_app/components
 export const openConfirmModal = options =>
   store.dispatch(coreOpenConfirmModal(options));
 
-if ($.rails) {
-  // override the jQuery UJS $.rails.allowAction
-  $.rails.allowAction = element => {
-    const message = element.data('confirm');
-    const isWarning = element.data('method') === 'delete';
-    if (!message) return true;
-
-    if ($.rails.fire(element, 'confirm')) {
-      openConfirmModal({
-        title: __('Confirm'),
-        message,
-        isWarning,
-        onConfirm: () => {
-          const oldAllowAction = $.rails.allowAction;
-          $.rails.allowAction = () => true;
-          element.trigger('click');
-          $.rails.allowAction = oldAllowAction;
-        },
-      });
-    }
-    return false;
-  };
-}
-
 export * from './react_app/common/DeprecationService';
 
 export function showSpinner() {
