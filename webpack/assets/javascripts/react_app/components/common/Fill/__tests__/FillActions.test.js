@@ -5,17 +5,9 @@ import { registerFillComponent, unregisterFillComponent } from '../FillActions';
 const SomeComponent = () => <div> a component </div>;
 const fixtures = {
   'should regiser a component': () =>
-    registerFillComponent({
-      slotId: 'slot-id',
-      fillId: 'fill-id',
-      component: SomeComponent,
-      weight: 100,
-    }),
+    registerFillComponent('slot-id', undefined, 'fill-id', SomeComponent, 100),
   'should unregiser a component': () =>
-    unregisterFillComponent({
-      slotId: 'slot-id',
-      fillId: 'fill-id',
-    }),
+    unregisterFillComponent('slot-id', 'fill-id'),
 };
 
 describe('AutoComplete actions', () =>

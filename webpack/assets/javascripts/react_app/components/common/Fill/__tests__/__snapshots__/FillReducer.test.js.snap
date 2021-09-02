@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FillReducer should removed a fill 1`] = `
+Object {
+  "slot": Object {
+    "fill2": Object {
+      "weight": 200,
+    },
+  },
+}
+`;
