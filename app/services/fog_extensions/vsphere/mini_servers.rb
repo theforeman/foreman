@@ -19,7 +19,7 @@ module FogExtensions
 
         folder_inventory = generate_folder_inventory(folders)
 
-        vms = results.select { |result| result.obj.is_a?(RbVmomi::VIM::VirtualMachine) && result['config.template'] == templates && !result['config.instanceUuid'].nil? }
+        vms = results.select { |result| result.obj.is_a?(RbVmomi::VIM::VirtualMachine) && result['config.template'] == templates && result['config.instanceUuid'].present? }
 
         vms.map do |vm|
           attrs = attribute_mapping.map do |key, value|
