@@ -32,6 +32,7 @@
         "webpack-dev-server"
     ],
     "EXCLUDE_NPM_PREFIXES": [
+        "@babel/eslint-",
         "@storybook/",
         "enzyme",
         "eslint",
