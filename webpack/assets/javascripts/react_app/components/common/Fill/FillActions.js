@@ -19,6 +19,6 @@ export const unregisterFillComponent = (slotId, fillId) => dispatch => {
   SlotsRegistry.remove(slotId, fillId);
   dispatch({
     type: REMOVE_FILLED_COMPONENT,
-    payload: { slotId },
+    payload: { slotId, fillId },
   });
 };
