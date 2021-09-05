@@ -10,6 +10,12 @@ import { sprintf, translate as __ } from './react_app/common/I18n';
 
 import { showLoading, hideLoading } from './foreman_navigation';
 
+import store from './react_app/redux';
+import { openConfirmModal as coreOpenConfirmModal } from './react_app/components/ConfirmModal';
+
+export const openConfirmModal = options =>
+  store.dispatch(coreOpenConfirmModal(options));
+
 export * from './react_app/common/DeprecationService';
 
 export function showSpinner() {
