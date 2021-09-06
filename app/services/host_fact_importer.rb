@@ -44,7 +44,7 @@ class HostFactImporter
 
     skipping_orchestration do
       unless host.build?
-        parser = FactParser.parser_for(type).new(facts)
+        parser = Foreman::Plugin.fact_parser_registry[type].new(facts)
 
         telemetry_duration_histogram(:importer_facts_import_duration, 1000, type: type) do
           host.populate_fields_from_facts(parser, type, source_proxy)

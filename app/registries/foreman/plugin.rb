@@ -40,6 +40,7 @@ module Foreman #:nodoc:
   class Plugin
     DEFAULT_REGISTRIES = {
       fact_importer: 'Foreman::Plugin::FactImporterRegistry',
+      fact_parser: 'Foreman::Plugin::FactParserRegistry',
       report_scanner: 'Foreman::Plugin::ReportScannerRegistry',
       report_origin: 'Foreman::Plugin::ReportOriginRegistry',
       medium_providers: 'Foreman::Plugin::MediumProvidersRegistry',
@@ -205,6 +206,10 @@ module Foreman #:nodoc:
 
     def fact_importer_registry
       self.class.fact_importer_registry
+    end
+
+    def fact_parser_registry
+      self.class.fact_parser_registry
     end
 
     def report_scanner_registry
