@@ -58,6 +58,11 @@ module Api
         end
       end
 
+      def parent_resource_details
+        # return nil skips the parent check, which is desired behaviour for current user
+        super unless editing_self?
+      end
+
       def parent_permission(child_perm)
         case child_perm.to_s
         when 'revoke'
