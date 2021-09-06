@@ -22,24 +22,6 @@ class FactParserTest < ActiveSupport::TestCase
     refute_match FactParser::BRIDGES, 'bridge'
   end
 
-  test "default parsers" do
-    assert_includes FactParser.parsers.keys, 'puppet'
-    assert_equal PuppetFactParser, FactParser.parser_for(:puppet)
-    assert_equal PuppetFactParser, FactParser.parser_for('puppet')
-    assert_equal PuppetFactParser, FactParser.parser_for(:whatever)
-    assert_equal PuppetFactParser, FactParser.parser_for('whatever')
-  end
-
-  test ".register_custom_parser" do
-    chef_parser = Struct.new(:my_method)
-    FactParser.register_fact_parser :chef, chef_parser
-    begin
-      assert_equal chef_parser, FactParser.parser_for(:chef)
-    ensure
-      FactParser.parsers.delete :chef
-    end
-  end
-
   test "#parse_interfaces? should answer based on current setttings" do
     parser.stub(:support_interfaces_parsing?, true) do
       Setting.expects(:[]).with('ignore_puppet_facts_for_provisioning').returns(false)

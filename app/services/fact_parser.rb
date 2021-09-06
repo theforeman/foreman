@@ -8,16 +8,18 @@ class FactParser
   VIRTUAL_NAMES = /#{ALIASES}|#{VLANS}|#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
 
   def self.parser_for(type)
-    parsers[type.to_s]
+    Foreman::Deprecation.deprecation_warning('3.2', 'FactParser.parser_for() is deprecated, use FactParserRegistry[] instead')
+    Foreman::Plugin.fact_parser_registry[type]
   end
 
   def self.parsers
-    @parsers ||= {}.with_indifferent_access
+    Foreman::Deprecation.deprecation_warning('3.2', 'FactParser.parsers is deprecated, use FactParserRegistry.parsers instead')
+    Foreman::Plugin.fact_parser_registry.parsers
   end
 
   def self.register_fact_parser(key, klass, default = false)
-    parsers.default = klass if default
-    parsers[key.to_sym] = klass
+    Foreman::Deprecation.deprecation_warning('3.2', 'FactParser.register_fact_parser() is deprecated, use FactParserRegistry.register() instead')
+    Foreman::Plugin.fact_parser_registry.register(key, klass, default)
   end
 
   attr_reader :facts
