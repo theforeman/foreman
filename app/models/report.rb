@@ -11,6 +11,7 @@ class Report < ApplicationRecord
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
   has_one :hostgroup, :through => :host
+  has_one :host_owner, through: :host, source: :owner, source_type: 'User'
 
   has_one :organization, :through => :host
   has_one :location, :through => :host
@@ -21,6 +22,14 @@ class Report < ApplicationRecord
   def self.inherited(child)
     child.instance_eval do
       scoped_search :relation => :host,         :on => :name,  :complete_value => true, :rename => :host
+      scoped_search :relation => :host_owner,
+        :on => :id,
+        :complete_value => true,
+        :rename => :host_owner_id,
+        :only_explicit => true,
+        :validator => ->(value) { ScopedSearch::Validators::INTEGER.call(value) },
+        :value_translation => ->(value) { value == 'current_user' ? User.current.id : value },
+        :special_values => %w[current_user]
       scoped_search :relation => :organization, :on => :name,  :complete_value => true, :rename => :organization
       scoped_search :relation => :location,     :on => :name,  :complete_value => true, :rename => :location
       scoped_search :relation => :messages,     :on => :value,                          :rename => :log, :only_explicit => true
