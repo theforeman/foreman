@@ -1,3 +1,21 @@
+2021-09-08	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.0.0
+
+2021-09-07	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2021-09-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #32837 - drop unwanted URI parsing from extension
+
+2021-09-07	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #33316 - display toasts messages properly
+
+2021-09-01	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #33229 - BMC feature error reports correctly
+
+2021-08-31	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #33311 - align host details cards
+
 2021-08-25	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.0.0-rc2
 
