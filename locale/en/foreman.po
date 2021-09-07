@@ -23,9 +23,6 @@ msgstr ""
 msgid " Documentation"
 msgstr ""
 
-msgid " Remove"
-msgstr ""
-
 msgid " and it is highly recommended to also attach the foreman-debug output."
 msgstr ""
 
@@ -36,9 +33,6 @@ msgid "${progress}%% Complete"
 msgstr ""
 
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
-msgstr ""
-
-msgid "%s - Press Shift-F12 to release the cursor."
 msgstr ""
 
 msgid "%s - The following hosts are about to be changed"
@@ -588,6 +582,9 @@ msgid "All Reports"
 msgstr ""
 
 msgid "All Ruby code is enclosed within <code><&#37; &#37;></code> in an ERB template. The code is executed when the template is rendered. It can contain Ruby control flow structures as well as application-specific macros and variables. For example:"
+msgstr ""
+
+msgid "All Statuses are OK"
 msgstr ""
 
 msgid "All compute resources"
@@ -1293,6 +1290,9 @@ msgstr ""
 msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
 msgstr ""
 
+msgid "Can not load datacenters due to an incorrect user name or password."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr ""
 
@@ -1444,12 +1444,6 @@ msgid "Click on the link of a compute resource to edit its default VM attributes
 msgstr ""
 
 msgid "Click to log in again"
-msgstr ""
-
-msgid "Click to remove %s"
-msgstr ""
-
-msgid "Click to remove config group"
 msgstr ""
 
 msgid "Client Email"
@@ -1664,7 +1658,7 @@ msgstr ""
 msgid "Connected"
 msgstr ""
 
-msgid "Connected (unencrypted) to: %s"
+msgid "Connected to: %s"
 msgstr ""
 
 msgid "Connecting (unencrypted) to: %s"
@@ -2826,6 +2820,9 @@ msgstr ""
 msgid "Error removing widget from dashboard."
 msgstr ""
 
+msgid "Error statuses"
+msgstr ""
+
 msgid "Error submitting data:"
 msgstr ""
 
@@ -3755,6 +3752,9 @@ msgstr ""
 msgid "Host Fetch ${response}"
 msgstr ""
 
+msgid "Host Group"
+msgstr ""
+
 msgid "Host Group / Environment"
 msgstr ""
 
@@ -3770,7 +3770,13 @@ msgid ""
 "            This is then treated as a template and is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
 msgstr ""
 
+msgid "Host Owner"
+msgstr ""
+
 msgid "Host Parameters"
+msgstr ""
+
+msgid "Host Status"
 msgstr ""
 
 msgid "Host Wizard"
@@ -4284,9 +4290,6 @@ msgid "IP address auto-suggest"
 msgstr ""
 
 msgid "IP addresses that should be excluded from suggestion"
-msgstr ""
-
-msgid "IP6 Address"
 msgstr ""
 
 msgid "IP:"
@@ -5516,6 +5519,9 @@ msgstr ""
 msgid "MTU, this attribute has precedence over the subnet MTU."
 msgstr ""
 
+msgid "Mac Address"
+msgstr ""
+
 msgid "Machine Type"
 msgstr ""
 
@@ -5576,6 +5582,9 @@ msgstr ""
 msgid "Manage Bookmarks"
 msgstr ""
 
+msgid "Manage Host's Statuses"
+msgstr ""
+
 msgid "Manage Locations"
 msgstr ""
 
@@ -5583,6 +5592,9 @@ msgid "Manage Organizations"
 msgstr ""
 
 msgid "Manage PuppetCA"
+msgstr ""
+
+msgid "Manage all statuses"
 msgstr ""
 
 msgid "Manage host"
@@ -5783,6 +5795,9 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
+msgid "N/A statuses"
+msgstr ""
+
 msgid "NA"
 msgstr ""
 
@@ -5895,9 +5910,6 @@ msgid "New connection has been rejected with reason: %"
 msgstr ""
 
 msgid "New filter"
-msgstr ""
-
-msgid "New window"
 msgstr ""
 
 msgid "Next"
@@ -6160,6 +6172,9 @@ msgstr ""
 msgid "No smart proxies to show"
 msgstr ""
 
+msgid "No statuses to show"
+msgstr ""
+
 msgid "No subnets"
 msgstr ""
 
@@ -6194,6 +6209,9 @@ msgid "Normal"
 msgstr ""
 
 msgid "Normally when setting up a Compute Resource, a key pair (private and public) is created for you automatically."
+msgstr ""
+
+msgid "Not Available"
 msgstr ""
 
 msgid "Not Installed"
@@ -6367,6 +6385,9 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
+msgid "OK statuses"
+msgstr ""
+
 msgid "OS Image"
 msgstr ""
 
@@ -6436,9 +6457,6 @@ msgid "Oops, we're sorry but something went wrong"
 msgstr ""
 
 msgid "Open"
-msgstr ""
-
-msgid "Open Spice in a new window"
 msgstr ""
 
 msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
@@ -6619,6 +6637,9 @@ msgid "Overview"
 msgstr ""
 
 msgid "Overwrite"
+msgstr ""
+
+msgid "Overwrite existing host (true by default)"
 msgstr ""
 
 msgid "Owned By"
@@ -7462,6 +7483,9 @@ msgid "ReportTemplate|Name"
 msgstr ""
 
 msgid "ReportTemplate|Snippet"
+msgstr ""
+
+msgid "Reported At"
 msgstr ""
 
 msgid "Reported at"
@@ -10439,6 +10463,9 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
+msgid "Warning statuses"
+msgstr ""
+
 msgid "Warning!"
 msgstr ""
 
@@ -10623,6 +10650,9 @@ msgstr ""
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr ""
 
+msgid "You are about to clear %s status. Are you sure?"
+msgstr ""
+
 msgid "You are about to delete %s. Are you sure?"
 msgstr ""
 
@@ -10786,9 +10816,6 @@ msgid "array"
 msgstr ""
 
 msgid "auxiliary field"
-msgstr ""
-
-msgid "belongs to config group"
 msgstr ""
 
 msgid "boolean"
