@@ -244,7 +244,7 @@ module FormHelper
     cancel_btn = args[:react_cancel_button] ? react_cancel_button(args) : link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default")
     content_tag(:div, :class => "clearfix") do
       content_tag(:div, :class => "form-actions") do
-        text    = overwrite ? _("Overwrite") : _("Submit")
+        text    = overwrite ? _("Overwrite") : args.delete(:button_text) || _("Submit")
         options = options_for_submit_or_cancel(f, overwrite, args)
         f.submit(text, options) + " " + cancel_btn
       end
