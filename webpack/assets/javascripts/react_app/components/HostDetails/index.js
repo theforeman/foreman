@@ -37,6 +37,7 @@ const HostDetails = ({
     params: { id },
   },
   location: { hash },
+  history,
 }) => {
   const { response, status } = useAPI(
     'get',
@@ -120,6 +121,7 @@ const HostDetails = ({
             hostName={id}
             status={status}
             tabs={tabs}
+            router={history}
           >
             <Tabs
               style={{
@@ -147,6 +149,7 @@ HostDetails.propTypes = {
   location: PropTypes.shape({
     hash: PropTypes.string,
   }).isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default HostDetails;
