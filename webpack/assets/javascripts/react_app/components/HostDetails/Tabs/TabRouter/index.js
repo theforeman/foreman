@@ -5,7 +5,7 @@ import { STATUS } from '../../../../constants';
 import Slot from '../../../common/Slot';
 import { DEFAULT_TAB } from '../../consts';
 
-const TabRouter = ({ children, tabs, hostName, response, status }) => (
+const TabRouter = ({ children, tabs, hostName, response, status, router }) => (
   <HashRouter>
     <>
       {children}
@@ -24,6 +24,7 @@ const TabRouter = ({ children, tabs, hostName, response, status }) => (
                 status={status}
                 id="host-details-page-tabs"
                 fillID={tab}
+                router={router}
                 {...props}
               />
             )}
@@ -40,6 +41,7 @@ TabRouter.propTypes = {
   status: PropTypes.string,
   response: PropTypes.object,
   tabs: PropTypes.array.isRequired,
+  router: PropTypes.object.isRequired,
 };
 
 TabRouter.defaultProps = {
