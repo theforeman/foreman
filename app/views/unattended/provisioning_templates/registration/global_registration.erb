@@ -47,7 +47,7 @@ echo '#'
 echo '# Adding repository'
 echo '#'
 
-if [ "${ID_LIKE#*fedora*}" != "$ID_LIKE" ]; then
+if [ x$ID = xfedora ] || [ "${ID_LIKE#*fedora*}" != "$ID_LIKE" ]; then
   cat << EOF > /etc/yum.repos.d/foreman_registration.repo
 [foreman_register]
 name=foreman_register
