@@ -5,14 +5,9 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "fillId": undefined,
-        "slotId": Object {
-          "component": [Function],
-          "fillId": "fill-id",
-          "slotId": "slot-id",
-          "weight": 100,
-        },
-        "weight": undefined,
+        "fillId": "fill-id",
+        "slotId": "slot-id",
+        "weight": 100,
       },
       "type": "SLOT_AND_FILL_REGISTER_FILL",
     },
@@ -25,10 +20,8 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "slotId": Object {
-          "fillId": "fill-id",
-          "slotId": "slot-id",
-        },
+        "fillId": "fill-id",
+        "slotId": "slot-id",
       },
       "type": "SLOT_AND_FILL_REMOVE_FILLED_COMPONENT",
     },

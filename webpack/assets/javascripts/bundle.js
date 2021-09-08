@@ -25,6 +25,7 @@ import * as spice from './spice';
 import * as autocomplete from './foreman_autocomplete';
 import * as typeAheadSelect from './foreman_type_ahead_select';
 import * as lookupKeys from './foreman_lookup_keys';
+import './foreman_overrides';
 import './bundle_novnc';
 
 const numFieldsDeprecationOnly = {

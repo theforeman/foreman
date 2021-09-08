@@ -12,7 +12,9 @@ export default (state = initialState, action) => {
       return state.setIn([payload.slotId, payload.fillId], payload.weight);
 
     case REMOVE_FILLED_COMPONENT:
-      return state.setIn([payload.slotId, payload.fillId], false);
+      return state.update(payload.slotId, fills =>
+        fills.without(payload.fillId)
+      );
     default:
       return state;
   }

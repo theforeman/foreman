@@ -59,13 +59,6 @@ const HostDetails = ({
     registerCoreTabs();
   }, []);
 
-  useEffect(() => {
-    //  This is a workaround for adding gray background inspiring pf4 desgin
-    //  TODO: delete it when pf4 layout (Page copmponent) is implemented in foreman
-    document.body.classList.add('pf-gray-background');
-    return () => document.body.classList.remove('pf-gray-background');
-  }, []);
-
   return (
     <>
       <PageSection
