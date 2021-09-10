@@ -47,7 +47,7 @@ echo '#'
 echo '# Adding repository'
 echo '#'
 
-if [ x$ID = xrhel ] || [ x$ID = xfedora ] || [ x$ID = xol ] || test "${ID_LIKE#*rhel*}" != "$ID_LIKE" ; then
+if [ x$ID = xfedora ] || [ "${ID_LIKE#*fedora*}" != "$ID_LIKE" ]; then
   cat << EOF > /etc/yum.repos.d/foreman_registration.repo
 [foreman_register]
 name=foreman_register
@@ -99,7 +99,7 @@ echo "# Running registration"
 echo "#"
 
 <% if plugin_present?('katello') -%>
-if [ x$ID = xrhel ] || [ x$ID = xcentos ] || [ x$ID = xol ]; then
+if [ "${ID_LIKE#*fedora*}" != "$ID_LIKE" ]; then
     register_katello_host(){
         UUID=$(subscription-manager identity | head -1 | awk '{print $3}')
         curl --silent --show-error --cacert $SSL_CA_CERT --request POST "<%= @registration_url %>" \
