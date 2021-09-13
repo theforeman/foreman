@@ -21,7 +21,7 @@ const DetailsTab = ({ response, status, hostName }) => {
     <div className="host-details-tab-item details-tab">
       <Grid hasGutter>
         <GridItem xl2={3} xl={4} md={6} lg={4} rowSpan={2}>
-          <DetailsCard {...response} status={status} />
+          <DetailsCard {...response} status={status} hostName={hostName} />
         </GridItem>
         <GridItem xl2={3} xl={4} md={6} lg={4}>
           <AggregateStatus
