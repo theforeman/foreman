@@ -7,21 +7,28 @@ import StatusIcon from './StatusIcon';
 import { forgetStatus } from './StatusActions';
 import { translate as __, sprintf } from '../../../common/I18n';
 import './styles.scss';
+import { openConfirmModal } from '../../ConfirmModal';
 
 const StatusTable = ({ hostName, statuses, canForgetStatuses }) => {
   const dispatch = useDispatch();
   const handleClearStatus = (event, rowId, rowData) => {
     const statusName = rowData[0]?.title?.props?.children || rowData[0];
-    // TODO: change with confirm dialog service
-    const isConfirmed = window.confirm(
-      sprintf(__('You are about to clear %s status. Are you sure?'), statusName)
+    dispatch(
+      openConfirmModal({
+        title: __("Clear Host's Status"),
+        message: sprintf(
+          __('You are about to clear %s status. Are you sure?'),
+          statusName
+        ),
+        isWarning: true,
+        onConfirm: () => {
+          const [chosenStatus] = statuses.filter(
+            status => status.name === statusName
+          );
+          dispatch(forgetStatus(hostName, chosenStatus));
+        },
+      })
     );
-    if (isConfirmed) {
-      const [chosenStatus] = statuses.filter(
-        status => status.name === statusName
-      );
-      dispatch(forgetStatus(hostName, chosenStatus));
-    }
   };
   const columns = [__('Name'), __('Status'), __('Reported At')];
   const rows = statuses?.map(
