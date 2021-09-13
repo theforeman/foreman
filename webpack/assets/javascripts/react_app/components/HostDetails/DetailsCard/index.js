@@ -6,6 +6,7 @@ import {
   DescriptionListGroup,
   DescriptionListDescription,
   Card,
+  CardActions,
   CardHeader,
   CardTitle,
   CardBody,
@@ -17,10 +18,12 @@ import { translate as __ } from '../../../common/I18n';
 import SkeletonLoader from '../../common/SkeletonLoader';
 import { STATUS } from '../../../constants';
 import DefaultLoaderEmptyState from './DefaultLoaderEmptyState';
+import PowerStatusDropDown from './PowerStatus/PowerStatusDropDown';
 
 import './styles.scss';
 
 const DetailsCard = ({
+  hostName,
   ip,
   ip6,
   mac,
@@ -29,10 +32,17 @@ const DetailsCard = ({
   owner_name: ownerName,
   hostgroup_name: hostgroupName,
   status,
+  permissions: { power_hosts: hasPowerPermission },
 }) => (
   <Card isHoverable>
     <CardHeader>
       <CardTitle>{__('Details')}</CardTitle>
+      <CardActions>
+        <PowerStatusDropDown
+          hostID={hostName}
+          hasPowerPermission={hasPowerPermission}
+        />
+      </CardActions>
     </CardHeader>
     <CardBody>
       <DescriptionList
@@ -126,6 +136,7 @@ const DetailsCard = ({
 );
 
 DetailsCard.propTypes = {
+  hostName: PropTypes.string.isRequired,
   comment: PropTypes.string,
   hostgroup_name: PropTypes.string,
   ip: PropTypes.string,
@@ -134,6 +145,7 @@ DetailsCard.propTypes = {
   owner_id: PropTypes.number,
   owner_name: PropTypes.string,
   status: PropTypes.string,
+  permissions: PropTypes.object,
 };
 
 DetailsCard.defaultProps = {
@@ -145,6 +157,7 @@ DetailsCard.defaultProps = {
   mac: undefined,
   owner_id: undefined,
   owner_name: undefined,
+  permissions: { power_hosts: false },
 };
 
 export default DetailsCard;
