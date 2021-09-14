@@ -1,13 +1,15 @@
 import Audits from './Audits';
 import Models from './Models';
-import HostDetails from './HostDetails';
+import HostDetailsSwitcher from './HostDetails';
+import ExperimentalHostDetails from './HostDetails/experimental';
 import RegistrationCommands from './RegistrationCommands';
 import HostStatuses from './HostStatuses';
 
 export const routes = [
   Audits,
   Models,
-  HostDetails,
+  HostDetailsSwitcher,
+  ExperimentalHostDetails,
   RegistrationCommands,
   HostStatuses,
 ];

@@ -15,6 +15,12 @@ exports[`Routes rendering routes with children renders routes with chidlren 1`] 
       render={[Function]}
     />
     <Route
+      exact={true}
+      key="/hosts/:id"
+      path="/hosts/:id"
+      render={[Function]}
+    />
+    <Route
       key="/experimental/hosts/:id"
       path="/experimental/hosts/:id"
       render={[Function]}

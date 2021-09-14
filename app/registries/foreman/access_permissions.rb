@@ -230,7 +230,7 @@ Foreman::AccessControl.map do |permission_set|
     subnets_ajax_actions = [:freeip]
     tasks_ajax_actions = [:show]
 
-    map.permission :view_hosts,    {:hosts => [:index, :show, :errors, :active, :out_of_sync, :disabled, :pending, :vm,
+    map.permission :view_hosts,    {:hosts => [:index, :show, :legacy_show, :errors, :active, :out_of_sync, :disabled, :pending, :vm,
                                                :pxe_config, :auto_complete_search, :bmc, :build_errors, :runtime, :resources,
                                                :templates, :overview, :nics, :get_power_state, :preview_host_collection, :welcome, :statuses],
                                     :dashboard => [:OutOfSync, :errors, :active],

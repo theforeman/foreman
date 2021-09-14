@@ -24,6 +24,7 @@ import { foremanUrl } from '../../../common/helpers';
 import { cancelBuild, deleteHost } from './actions';
 import { useForemanSettings } from '../../../Root/Context/ForemanContext';
 import BuildModal from './BuildModal';
+import { LEGACY_DETAILS_PATH } from '../consts';
 
 const ActionsBar = ({
   hostId,
@@ -101,7 +102,7 @@ const ActionsBar = ({
     <DropdownSeparator key="sp-2" />,
     <DropdownItem
       icon={<UndoIcon />}
-      href={`/hosts/${hostId}`}
+      onClick={() => visit(foremanUrl(`${LEGACY_DETAILS_PATH}/${hostId}`))}
       key="prev-version"
     >
       {__('Previous UI')}

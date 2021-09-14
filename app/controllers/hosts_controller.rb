@@ -24,7 +24,7 @@ class HostsController < ApplicationController
                         select_multiple_power_state update_multiple_power_state)
 
   before_action :ajax_request, :only => AJAX_REQUESTS
-  before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :review_before_build,
+  before_action :find_resource, :only => [:show, :legacy_show, :clone, :edit, :update, :destroy, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
                                           :toggle_manage, :pxe_config, :disassociate, :build_errors, :forget_status, :statuses]
@@ -60,7 +60,7 @@ class HostsController < ApplicationController
     end
   end
 
-  def show
+  def legacy_show
     respond_to do |format|
       format.html do
         # filter graph time range
@@ -72,6 +72,11 @@ class HostsController < ApplicationController
       format.yaml { render :plain => @host.info.to_yaml }
       format.json
     end
+    render :show
+  end
+
+  def show
+    render template: 'react/index', layout: 'layouts/react_application'
   end
 
   def new
@@ -96,7 +101,7 @@ class HostsController < ApplicationController
     @host.managed = true if (params[:host] && params[:host][:managed].nil?)
     forward_url_options
     if @host.save
-      process_success :success_redirect => host_path(@host)
+      process_success :success_redirect => legacy_host_show_path(@host)
     else
       load_vars_for_ajax
       offer_to_overwrite_conflicts
@@ -114,7 +119,7 @@ class HostsController < ApplicationController
       attributes = @host.apply_inherited_attributes(host_params)
       attributes.delete(:compute_resource_id)
       if @host.update(attributes)
-        process_success :success_redirect => host_path(@host)
+        process_success :success_redirect => legacy_host_show_path(@host)
       else
         taxonomy_scope
         load_vars_for_ajax
@@ -682,7 +687,7 @@ class HostsController < ApplicationController
   end
 
   define_action_permission [
-    'clone', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics', 'statuses',
+    'clone', 'legacy_show', 'overview', 'bmc', 'vm', 'runtime', 'resources', 'templates', 'nics', 'statuses',
     'pxe_config', 'active', 'errors', 'out_of_sync', 'pending', 'disabled', 'get_power_state', 'preview_host_collection', 'build_errors'
   ], :view
   define_action_permission [

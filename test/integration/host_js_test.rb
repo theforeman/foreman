@@ -27,6 +27,28 @@ class HostJSTest < IntegrationTestWithJavascript
     Fog.unmock!
   end
 
+  describe "create new host page" do
+    test "tabs are present" do
+      assert_new_button(hosts_path, "Create Host", new_host_path)
+      assert page.has_link?("Host", :href => "#primary")
+      assert page.has_link?("Interfaces", :href => "#network")
+      assert page.has_link?("Operating System", :href => "#os")
+      assert page.has_link?("Parameters", :href => "#params")
+      assert page.has_link?("Additional Information", :href => "#info")
+    end
+  end
+
+  test "destroy redirects to hosts index" do
+    disable_orchestration # Avoid DNS errors
+    visit hosts_path
+    click_link @host.fqdn
+    assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
+    accept_alert do
+      first(:link, "Delete").click
+    end
+    assert_current_path hosts_path
+  end
+
   describe "show page" do
     test "has proper title and links" do
       visit hosts_path

@@ -164,7 +164,6 @@ function submit_with_all_params() {
   $('body').css('cursor', 'progress');
   clear_errors();
   animate_progress();
-
   $.ajax({
     type: 'POST',
     url: $('form').attr('action'),

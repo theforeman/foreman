@@ -16,7 +16,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'show' do
-    get :show, params: { :id => Host.first.name }, session: set_session_user
+    get :legacy_show, params: { :id => Host.first.name }, session: set_session_user
     assert_template 'show'
   end
 
@@ -1485,7 +1485,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test '#show renders a pagelet tab' do
-      get :show, params: {:id => Host.first.name}, session: set_session_user
+      get :legacy_show, params: {:id => Host.first.name}, session: set_session_user
       assert @response.body.match /id='my-special-id'/
     end
   end

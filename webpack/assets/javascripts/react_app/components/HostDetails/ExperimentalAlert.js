@@ -8,6 +8,7 @@ import {
 import { translate as __ } from '../../common/I18n';
 import { visit } from '../../../foreman_navigation';
 import { foremanUrl } from '../../common/helpers';
+import { LEGACY_DETAILS_PATH } from './consts';
 
 const ExperimentalAlert = ({ hostId }) => {
   const [alertVisibility, setAlertVisibility] = useState(true);
@@ -35,9 +36,11 @@ const ExperimentalAlert = ({ hostId }) => {
             {__('Share your feedback')}
           </AlertActionLink>
           <AlertActionLink
-            onClick={() => visit(foremanUrl(`/hosts/${hostId}`))}
+            onClick={() =>
+              visit(foremanUrl(`${LEGACY_DETAILS_PATH}/${hostId}`))
+            }
           >
-            {__('Switch to previous version')}
+            {__('Switch to previous UI')}
           </AlertActionLink>
         </>
       }

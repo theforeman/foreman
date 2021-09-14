@@ -13,26 +13,6 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link?('Export', href: hosts_path(format: 'csv', search: "name = #{@host.name}"))
   end
 
-  describe "create new host page" do
-    test "tabs are present" do
-      assert_new_button(hosts_path, "Create Host", new_host_path)
-      assert page.has_link?("Host", :href => "#primary")
-      assert page.has_link?("Interfaces", :href => "#network")
-      assert page.has_link?("Operating System", :href => "#os")
-      assert page.has_link?("Parameters", :href => "#params")
-      assert page.has_link?("Additional Information", :href => "#info")
-    end
-  end
-
-  test "destroy redirects to hosts index" do
-    disable_orchestration # Avoid DNS errors
-    visit hosts_path
-    click_link @host.fqdn
-    assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
-    first(:link, "Delete").click
-    assert_current_path hosts_path
-  end
-
   describe 'edit page' do
     test 'displays warning when vm not found by uuid' do
       ComputeResource.any_instance.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)

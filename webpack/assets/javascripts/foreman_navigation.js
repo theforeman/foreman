@@ -19,6 +19,7 @@ export const reloadPage = () => {
  * Push a new url to foreman's react router
  * @param {String} url - the base url i.e `/hosts`
  * @param {Object} searchQuery - the query params, i.e {'per_page': 4, 'page': 2}
+ * @param {Object} state - a given state
  */
 export const pushUrl = (url, queryParams = {}) => {
   const urlWithQueries = new URI(url).search(queryParams).toString();
