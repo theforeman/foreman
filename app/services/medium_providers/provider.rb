@@ -74,6 +74,14 @@ module MediumProviders
       architecture.try(:name)
     end
 
+    def os_major
+      entity.try(:operatingsystem).try(:major)
+    end
+
+    def os_minor
+      entity.try(:operatingsystem).try(:minor)
+    end
+
     def interpolate_vars(pattern)
       pattern
     end

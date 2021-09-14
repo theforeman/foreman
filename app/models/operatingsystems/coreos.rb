@@ -28,7 +28,11 @@ class Coreos < Operatingsystem
   end
 
   def pxedir(medium_provider = nil)
-    '$arch-usr/$version'
+    if medium_provider&.os_major&.to_s == "0"
+      '$arch-usr/current'
+    else
+      '$arch-usr/$version'
+    end
   end
 
   def boot_file_sources(medium_provider, &block)
@@ -54,7 +58,7 @@ class Coreos < Operatingsystem
 
   # Helper text shown next to major version (do not use i18n)
   def major_version_help
-    '2512.3'
+    '2512.3 or set to 0 to use current'
   end
 
   # Helper text shown next to minor version (do not use i18n)
