@@ -4,7 +4,7 @@ class Setting::Auth < Setting
       set('oauth_active', N_("Foreman will use OAuth for API authorization"), false, N_('OAuth active')),
       set('oauth_consumer_key', N_("OAuth consumer key"), '', N_('OAuth consumer key'), nil, {:encrypted => true}),
       set('oauth_consumer_secret', N_("OAuth consumer secret"), '', N_("OAuth consumer secret"), nil, {:encrypted => true}),
-      set('oauth_map_users', N_("Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."), true, N_('OAuth map users')),
+      set('oauth_map_users', N_("When enabled, Foreman will map users by username in request-header. If this is disabled, OAuth requests will have admin rights."), true, N_('OAuth map users')),
       set('failed_login_attempts_limit', N_("Foreman will block user login after this number of failed login attempts for 5 minutes from offending IP address. Set to 0 to disable bruteforce protection"), 30, N_('Failed login attempts limit')),
       set('restrict_registered_smart_proxies', N_('Only known Smart Proxies may access features that use Smart Proxy authentication'), true, N_('Restrict registered smart proxies')),
       set('require_ssl_smart_proxies', N_('Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)'), true, N_('Require SSL for smart proxies')),
