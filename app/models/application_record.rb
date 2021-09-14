@@ -18,6 +18,7 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
   extend AuditAssociations::AssociationsDefinitions
+  include ::Taxable
 
   # Rails use Notifications for own sql logging so we can override sql logger for orchestration
   def self.logger

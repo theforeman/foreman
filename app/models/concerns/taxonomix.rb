@@ -4,24 +4,7 @@ module Taxonomix
   TAXONOMY_JOIN_TABLE = :taxable_taxonomies
 
   included do
-    has_many TAXONOMY_JOIN_TABLE, :dependent => :destroy, :as => :taxable
-    has_many :locations, -> { where(:type => 'Location') },
-      :through => TAXONOMY_JOIN_TABLE, :source => :taxonomy,
-      :validate => false
-    has_many :organizations, -> { where(:type => 'Organization') },
-      :through => TAXONOMY_JOIN_TABLE, :source => :taxonomy,
-      :validate => false
-    after_initialize :set_current_taxonomy
-
-    scoped_search :relation => :locations, :on => :name, :rename => :location, :complete_value => true, :only_explicit => true
-    scoped_search :relation => :locations, :on => :id, :rename => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
-    scoped_search :relation => :organizations, :on => :name, :rename => :organization, :complete_value => true, :only_explicit => true
-    scoped_search :relation => :organizations, :on => :id, :rename => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
-
-    dirty_has_many_associations :organizations, :locations
-    audit_associations :organizations, :locations if respond_to? :audit_associations
-
-    validate :ensure_taxonomies_not_escalated, :if => proc { User.current.nil? || !User.current.admin? }
+    taxable(join_table: TAXONOMY_JOIN_TABLE)
   end
 
   module ClassMethods
@@ -48,12 +31,12 @@ module Taxonomix
     end
 
     def used_location_ids
-      return [] unless which_location
+      return [] unless taxable_options[:location] && which_location
       get_taxonomy_ids(which_location, which_ancestry_method)
     end
 
     def used_organization_ids
-      return [] unless which_organization
+      return [] unless taxable_options[:organization] && which_organization
       get_taxonomy_ids(which_organization, which_ancestry_method)
     end
 
@@ -83,17 +66,19 @@ module Taxonomix
     # Passing a nil or [] value as taxonomy equates to "Any context".
     # Any other value will be understood as 'IDs available in this taxonomy'.
     def inner_ids(taxonomy, taxonomy_class, inner_method)
+      taxonomy_relation = taxonomy_class.to_s.underscore.pluralize
+
+      return [] unless taxable_options[taxonomy_relation.to_sym]
       return unscoped.pluck("#{table_name}.id") if taxonomy_class.ignore?(to_s)
       return inner_select(taxonomy, inner_method) if taxonomy.present?
       return [] unless User.current.present?
       # Any available taxonomy to the current user
       return unscoped.pluck("#{table_name}.id") if User.current.admin?
 
-      taxonomy_relation = taxonomy_class.to_s.underscore.pluralize
       any_context_taxonomies = User.current.
         taxonomy_and_child_ids(:"#{taxonomy_relation}")
-      unscoped.joins(TAXONOMY_JOIN_TABLE).
-        where("#{TAXONOMY_JOIN_TABLE}.taxonomy_id" => any_context_taxonomies).
+      unscoped.joins(taxable_options[:join_table]).
+        where("#{taxable_options[:join_table]}.taxonomy_id" => any_context_taxonomies).
         pluck(:id)
     end
 
@@ -248,6 +233,7 @@ module Taxonomix
       assoc = assoc_base.pluralize
       key = assoc_base + '_ids'
 
+      next unless taxable_options[assoc.to_sym]
       next if (User.current.nil? || User.current.send(assoc.to_s).empty?) || (!new_record? && !send("#{key}_changed?"))
 
       allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set.union(send("#{key}_was"))

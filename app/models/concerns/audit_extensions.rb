@@ -13,6 +13,7 @@ module AuditExtensions
     scope :untaxed, -> { by_auditable_types(untaxable) }
     scope :by_auditable_types, ->(auditable_types) { where(:auditable_type => auditable_types.map(&:to_s)).readonly(false) }
 
+    include Taxable
     include Authorizable
     include Taxonomix
     include Foreman::TelemetryHelper
