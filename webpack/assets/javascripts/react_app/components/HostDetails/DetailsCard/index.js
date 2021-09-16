@@ -68,7 +68,7 @@ const DetailsCard = ({
           </DescriptionListDescription>
         </DescriptionListGroup>
         <DescriptionListGroup>
-          <DescriptionListTerm>{__('Mac Address')}</DescriptionListTerm>
+          <DescriptionListTerm>{__('MAC Address')}</DescriptionListTerm>
           <DescriptionListDescription>
             <SkeletonLoader
               emptyState={<DefaultLoaderEmptyState />}
