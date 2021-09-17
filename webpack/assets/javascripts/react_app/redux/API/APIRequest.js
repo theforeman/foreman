@@ -79,7 +79,7 @@ export const apiRequest = async (
 
     errorToast &&
       dispatch(
-        addToast({ type: 'error', message: errorToast(error), key: FAILURE })
+        addToast({ type: 'danger', message: errorToast(error), key: FAILURE })
       );
 
     handleError(error, stopIntervalCallback);
