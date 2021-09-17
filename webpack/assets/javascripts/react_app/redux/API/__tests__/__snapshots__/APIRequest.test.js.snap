@@ -73,7 +73,7 @@ Array [
         "message": Object {
           "key": "SOME_KEY_FAILURE",
           "message": "Oh no! Something went wrong, server returned the error: bad request",
-          "type": "error",
+          "type": "danger",
         },
       },
       "type": "TOASTS_ADD",
