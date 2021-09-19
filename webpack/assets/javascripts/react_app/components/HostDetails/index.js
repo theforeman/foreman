@@ -117,7 +117,7 @@ const HostDetails = ({
               <Badge key={21}>{response.architecture_name}</Badge>
             </GridItem>
             <GridItem span={2}>
-              <ActionsBar hostName={response.name} />
+              <ActionsBar hostId={id} permissions={response.permissions} />
             </GridItem>
           </Grid>
           <Text style={{ fontStyle: 'italic' }} component={TextVariants.p}>
