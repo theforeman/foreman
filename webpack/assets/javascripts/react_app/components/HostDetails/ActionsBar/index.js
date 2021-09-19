@@ -8,11 +8,12 @@ import {
   Dropdown,
   KebabToggle,
 } from '@patternfly/react-core';
-import { foremanUrl } from '../../../../foreman_navigation';
+import { visit } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
 import { selectKebabItems } from './Selectors';
+import { foremanUrl } from '../../../common/helpers';
 
-const ActionsBar = ({ hostName }) => {
+const ActionsBar = ({ hostId, permissions: { edit_hosts: canEdit } }) => {
   const [kebabIsOpen, setKebab] = useState(false);
   const onKebabToggle = isOpen => setKebab(isOpen);
   const registeredItems = useSelector(selectKebabItems, shallowEqual);
@@ -33,10 +34,9 @@ const ActionsBar = ({ hostName }) => {
   return (
     <>
       <Button
-        onClick={() => {
-          window.location = foremanUrl(`/hosts/${hostName}/edit`);
-        }}
+        onClick={() => visit(foremanUrl(`/hosts/${hostId}/edit`))}
         variant="secondary"
+        isDisabled={!canEdit}
       >
         {__('Edit')}
       </Button>
@@ -51,10 +51,12 @@ const ActionsBar = ({ hostName }) => {
 };
 
 ActionsBar.propTypes = {
-  hostName: PropTypes.string,
+  hostId: PropTypes.string,
+  permissions: PropTypes.object,
 };
 ActionsBar.defaultProps = {
-  hostName: undefined,
+  hostId: undefined,
+  permissions: { edit_hosts: false },
 };
 
 export default ActionsBar;
