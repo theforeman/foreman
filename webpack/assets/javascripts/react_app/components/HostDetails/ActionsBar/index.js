@@ -7,12 +7,6 @@ import {
   Dropdown,
   KebabToggle,
 } from '@patternfly/react-core';
-import {
-  TrashIcon,
-  CloneIcon,
-  CommentIcon,
-  UndoIcon,
-} from '@patternfly/react-icons';
 import { visit } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
 import { selectKebabItems } from './Selectors';
@@ -80,10 +74,9 @@ const ActionsBar = ({
   return (
     <>
       <Button
-        onClick={() => {
-          window.location = foremanUrl(`/hosts/${hostName}/edit`);
-        }}
+        onClick={() => visit(foremanUrl(`/hosts/${hostId}/edit`))}
         variant="secondary"
+        isDisabled={!canEdit}
       >
         {__('Edit')}
       </Button>
