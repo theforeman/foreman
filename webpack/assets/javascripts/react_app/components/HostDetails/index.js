@@ -119,7 +119,11 @@ const HostDetails = ({
             <GridItem offset={10} span={2}>
               <Flex>
                 <FlexItem align={{ default: 'alignRight' }}>
-                  <ActionsBar hostId={id} permissions={response.permissions} />
+                  <ActionsBar
+                    computeId={response.compute_resource_id}
+                    hostId={id}
+                    permissions={response.permissions}
+                  />
                 </FlexItem>
               </Flex>
             </GridItem>

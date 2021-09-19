@@ -439,6 +439,6 @@ module ApplicationHelper
   end
 
   def ui_settings
-    { perPage: Setting['entries_per_page'] }
+    { perPage: Setting['entries_per_page'], destroyVmOnHostDelete: Setting['destroy_vm_on_host_delete'] }
   end
 end
