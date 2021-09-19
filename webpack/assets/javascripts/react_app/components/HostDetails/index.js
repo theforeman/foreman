@@ -109,15 +109,16 @@ const HostDetails = ({
                 <HostGlobalStatus hostName={id} />
               </Title>
             </GridItem>
-            <GridItem
-              style={{ marginTop: '5px', marginRight: '30px' }}
-              span={7}
-            >
-              <Badge key={1}>{response.operatingsystem_name}</Badge>{' '}
-              <Badge key={21}>{response.architecture_name}</Badge>
-            </GridItem>
-            <GridItem span={2}>
-              <ActionsBar hostName={response.name} />
+            <GridItem offset={10} span={2}>
+              <Flex>
+                <FlexItem align={{ default: 'alignRight' }}>
+                  <ActionsBar
+                    computeId={response.compute_resource_id}
+                    hostId={id}
+                    permissions={response.permissions}
+                  />
+                </FlexItem>
+              </Flex>
             </GridItem>
           </Grid>
           <Text style={{ fontStyle: 'italic' }} component={TextVariants.p}>
