@@ -40,6 +40,11 @@ module Foreman
       def unregister(key)
         @parsers.delete(key)
       end
+
+      # @return Array of features for smart proxy of the registered parsers
+      def fact_features
+        @parsers.values.map { |parser| parser.smart_proxy_features }.compact.flatten.uniq
+      end
     end
   end
 end

@@ -7,7 +7,8 @@ class AnsibleFactParser < FactParser
   attr_reader :facts
 
   def initialize(facts)
-    @facts = HashWithIndifferentAccess.new(facts[:ansible_facts])
+    facts = facts[:ansible_facts] if facts[:ansible_facts]
+    @facts = HashWithIndifferentAccess.new(facts)
   end
 
   # Don't do anything as there's no env in Ansible
@@ -88,6 +89,22 @@ class AnsibleFactParser < FactParser
 
   def cores
     facts['ansible_processor_cores'].to_i
+  end
+
+  def fact_name_class
+    ForemanAnsible::FactName
+  end
+
+  def self.smart_proxy_features
+    'Ansible'
+  end
+
+  def host_from_facts
+    Host.find_by(:name => facts[:ansible_fqdn] || facts[:fqdn])
+  end
+
+  def self.facts_key
+    :ansible_facts
   end
 
   private

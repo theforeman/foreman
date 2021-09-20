@@ -4,15 +4,19 @@ module ForemanSalt
   class SaltFactImpoterTest < ActiveSupport::TestCase
     def setup
       @host = FactoryBot.build(:host)
+      @facts = {
+        _type: 'foreman_salt',
+        a: 'b',
+      }
     end
 
     test 'should have fact set' do
-      importer = FactImporter.new(@host, 'a' => 'b')
+      importer = FactImporters::Base.new(@host, nil, @facts)
       assert_equal({ 'a' => 'b' }, importer.send(:facts))
     end
 
     test 'should have Salt as origin' do
-      importer = FactImporter.new(@host, 'a' => 'b')
+      importer = FactImporters::Base.new(@host, nil, @facts)
       importer.stubs(:ensure_no_active_transaction).returns(true)
       importer.import!
       imported_fact = FactName.find_by_name('a')

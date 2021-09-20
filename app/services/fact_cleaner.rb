@@ -66,7 +66,7 @@ class FactCleaner
   end
 
   def delete_excluded_facts
-    excluded_facts_regex = FactImporter.excluded_facts_regex
+    excluded_facts_regex = FactImporters::Base.excluded_facts_regex
     logger.debug "Cleaning facts matching excluded pattern: #{excluded_facts_regex}"
 
     FactName.unscoped.reorder(nil).select(:id, :name).find_in_batches(:batch_size => @batch_size) do |names_batch|

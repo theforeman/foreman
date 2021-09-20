@@ -115,9 +115,9 @@ class FacetTest < ActiveSupport::TestCase
     test 'facts are parsed by facets too' do
       TestFacet.expects(:populate_fields_from_facts)
       @host.stubs(:save)
-      facts_json = read_json_fixture('facts/brslc022.facts.json')
+      facts_json = read_json_fixture('facts/brslc022.facts.json')['facts']
 
-      HostFactImporter.new(@host).parse_facts(facts_json['facts'], nil, nil)
+      FactImporters::Structured.new(@host, nil, facts_json).parse_facts
     end
   end
 

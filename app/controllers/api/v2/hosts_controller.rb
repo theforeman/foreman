@@ -15,7 +15,7 @@ module Api
       check_permissions_for %w{power boot}
       before_action :process_parameter_attributes, :only => %w{update}
 
-      add_smart_proxy_filters :facts, :features => proc { Foreman::Plugin.fact_importer_registry.fact_features }
+      add_smart_proxy_filters :facts, :features => proc { Foreman::Plugin.fact_parser_registry.fact_features }
 
       add_scope_for(:index) do |base_scope|
         base_scope.preload([:host_statuses, :compute_resource, :hostgroup, :operatingsystem,

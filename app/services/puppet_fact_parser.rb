@@ -152,6 +152,14 @@ class PuppetFactParser < FactParser
     facts['disks']&.values&.sum { |disk| disk&.fetch('size_bytes', 0).to_i }
   end
 
+  def self.smart_proxy_features
+    'Puppet'.freeze
+  end
+
+  def fact_name_class
+    PuppetFactName
+  end
+
   private
 
   # remove when dropping support for facter < 3.0
