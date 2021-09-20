@@ -21,7 +21,6 @@ require_dependency 'foreman/plugin/rbac_support'
 require_dependency 'foreman/plugin/report_scanner_registry'
 require_dependency 'foreman/plugin/report_origin_registry'
 require_dependency 'foreman/plugin/medium_providers_registry'
-require_dependency 'foreman/plugin/fact_importer_registry'
 
 module Foreman #:nodoc:
   class PluginNotFound < Foreman::Exception; end
@@ -39,7 +38,6 @@ module Foreman #:nodoc:
   #
   class Plugin
     DEFAULT_REGISTRIES = {
-      fact_importer: 'Foreman::Plugin::FactImporterRegistry',
       fact_parser: 'Foreman::Plugin::FactParserRegistry',
       report_scanner: 'Foreman::Plugin::ReportScannerRegistry',
       report_origin: 'Foreman::Plugin::ReportOriginRegistry',
@@ -163,7 +161,7 @@ module Foreman #:nodoc:
       :renderer_variable_loaders, :host_ui_description, :ping_extension, :status_extension,
       :allowed_registration_vars, :observable_events
 
-    delegate :fact_importer_registry, :fact_parser_registry, :graphql_types_registry, :medium_providers_registry, :report_scanner_registry, :report_origin_registry, to: :class
+    delegate :fact_parser_registry, :graphql_types_registry, :medium_providers_registry, :report_scanner_registry, :report_origin_registry, to: :class
 
     # Lists plugin's roles:
     # Foreman::Plugin.find('my_plugin').registered_roles

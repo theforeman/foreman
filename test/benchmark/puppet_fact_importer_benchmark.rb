@@ -25,7 +25,7 @@ foreman_benchmark do
   Benchmark.ips do |x|
     x.config(:time => 10, :warmup => 0)
 
-    [::PuppetFactImporter, ::StructuredFactImporter].each do |importer|
+    [::FactImporters::Structured].each do |importer|
       [200, 500].each do |total_facts|
         [0, 50].each do |unique_names|
           [0, 25].each do |structured_names|
@@ -33,7 +33,7 @@ foreman_benchmark do
             x.report("#{importer} (#{total_facts}) - #{unique_names} UN #{structured_names} SN") do
               host = FactoryBot.create(:host, :name => "benchmark-#{Foreman.uuid}")
               importer.new(host, facts).import!
-              importer.new(host, {}).import!
+              importer.new(host, nil, {}).import!
             end
           end
         end

@@ -96,7 +96,7 @@ class FactCleanerTest < ActiveSupport::TestCase
     data = FactsData::HierarchicalPuppetStyleFacts.new
 
     facts_hierarchy = data.good_facts.deep_merge(data.ignored_facts)
-    importer = StructuredFactImporter.new(nil, facts_hierarchy)
+    importer = FactImporters::Structured.new(nil, nil, facts_hierarchy)
     facts = importer.send(:facts)
     fact_records = []
 

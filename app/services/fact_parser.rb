@@ -39,6 +39,26 @@ class FactParser
     raise NotImplementedError, not_implemented_error(__method__)
   end
 
+  def fact_name_class
+    raise NotImplementedError, not_implemented_error(__method__)
+  end
+
+  def self.smart_proxy_features
+    nil
+  end
+
+  # @return host based on facts
+  def host_from_facts
+    nil
+  end
+
+  # @return key to facts in hash
+  # Parser can override method facts_key to say where facts can be found at hash
+  # ie. All Ansible facts are under :ansible_facts key
+  def self.facts_key
+    nil
+  end
+
   def comment
     facts[:foreman_comment]
   end

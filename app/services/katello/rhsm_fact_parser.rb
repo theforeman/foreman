@@ -108,6 +108,10 @@ module Katello
       facts['cpu.core(s)_per_socket']
     end
 
+    def fact_name_class
+      Katello::RhsmFactName
+    end
+
     private
 
     def get_rhsm_ip(interface)

@@ -25,7 +25,7 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
   end
 
   def import(facts)
-    @importer = PuppetFactImporter.new(@host, facts)
+    @importer = FactImporters::Structured.new(@host, nil, facts)
     allow_transactions_for @importer
     importer.import!
   end

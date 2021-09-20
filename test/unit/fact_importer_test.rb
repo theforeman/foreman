@@ -6,54 +6,11 @@ class FactImporterTest < ActiveSupport::TestCase
 
   attr_reader :importer
   class CustomFactName < FactName; end
-  class CustomImporter < FactImporter
-    def fact_name_class
-      CustomFactName
-    end
-  end
 
   let(:host) { FactoryBot.create(:host) }
-  let(:fact_importer_registry) { Foreman::Plugin.fact_importer_registry }
-
-  test "default importers" do
-    assert_includes fact_importer_registry.importers.keys, 'puppet'
-    assert_equal PuppetFactImporter, fact_importer_registry.get(:puppet)
-    assert_equal PuppetFactImporter, fact_importer_registry.get('puppet')
-    assert_equal PuppetFactImporter, fact_importer_registry.get(:whatever)
-    assert_equal PuppetFactImporter, fact_importer_registry.get('whatever')
-  end
 
   test 'importer API defines background processing support' do
-    assert FactImporter.respond_to?(:support_background)
-  end
-
-  context 'when using a custom importer' do
-    setup do
-      fact_importer_registry.register :custom_importer, CustomImporter
-    end
-
-    test ".register_custom_importer" do
-      assert_equal CustomImporter, fact_importer_registry.get(:custom_importer)
-    end
-
-    test 'importers without authorized_smart_proxy_features return empty set of features' do
-      assert_equal [], fact_importer_registry.get(:custom_importer).authorized_smart_proxy_features
-    end
-
-    context 'importing facts' do
-      test 'facts of other type do not collide even if they inherit from FactName' do
-        assert_nothing_raised do
-          custom_import '_timestamp' => '234'
-          puppet_import '_timestamp' => '345'
-        end
-      end
-
-      test 'facts created have the origin attribute set' do
-        custom_import('foo' => 'bar')
-        imported_fact = FactName.find_by_name('foo').fact_values.first
-        assert_equal 'N/A', imported_fact.origin
-      end
-    end
+    assert FactImporters::Base.respond_to?(:support_background)
   end
 
   describe '#normalize' do
@@ -63,7 +20,7 @@ class FactImporterTest < ActiveSupport::TestCase
 
       facts = data.good_facts.merge(data.ignored_facts)
 
-      importer = FactImporter.new(nil, facts)
+      importer = FactImporters::Base.new(nil, nil, facts)
       actual_facts = importer.send(:facts)
 
       assert_equal data.good_facts, actual_facts
@@ -75,7 +32,7 @@ class FactImporterTest < ActiveSupport::TestCase
 
       facts = data.good_facts.merge(data.ignored_facts)
 
-      importer = FactImporter.new(nil, facts)
+      importer = FactImporters::Base.new(nil, nil, facts)
       actual_facts = importer.send(:facts)
 
       assert_equal data.good_facts, actual_facts
@@ -87,7 +44,7 @@ class FactImporterTest < ActiveSupport::TestCase
 
       facts = data.good_facts.merge(data.ignored_facts)
 
-      importer = FactImporter.new(nil, facts)
+      importer = FactImporters::Base.new(nil, nil, facts)
       actual_facts = importer.send(:facts)
 
       assert_equal data.good_facts, actual_facts
@@ -98,7 +55,7 @@ class FactImporterTest < ActiveSupport::TestCase
 
       facts = data.good_facts.merge(data.ignored_facts)
 
-      importer = FactImporter.new(nil, facts)
+      importer = FactImporters::Base.new(nil, nil, facts)
       actual_facts = importer.send(:facts)
 
       assert_equal data.good_facts, actual_facts
@@ -193,7 +150,7 @@ class FactImporterTest < ActiveSupport::TestCase
 
     test "importer handles fact name additions" do
       facts = { 'duplicate_name' => 'some_value' }
-      importer = FactImporter.new(host, facts)
+      importer = FactImporters::Base.new(host, nil, facts)
       importer.stubs(:fact_name_class).returns(FactName)
       allow_transactions_for importer
       importer.stubs(:save_name_record).raises(ActiveRecord::RecordNotUnique, 'Test message')
@@ -220,7 +177,7 @@ class FactImporterTest < ActiveSupport::TestCase
 
     test 'importer cannot run in transaction' do
       facts = { 'some_name' => 'some_value' }
-      importer = FactImporter.new(host, facts)
+      importer = FactImporters::Base.new(host, nil, facts)
       importer.stubs(:fact_name_class).returns(FactName)
       exception = assert_raises(RuntimeError) do
         importer.import!
@@ -230,20 +187,14 @@ class FactImporterTest < ActiveSupport::TestCase
   end
 
   def default_import(facts)
-    @importer = FactImporter.new(host, facts)
+    @importer = FactImporters::Base.new(host, nil, facts)
     allow_transactions_for @importer
     @importer.stubs(:fact_name_class).returns(FactName)
     @importer.import!
   end
 
-  def custom_import(facts)
-    @importer = CustomImporter.new(host, facts)
-    allow_transactions_for @importer
-    @importer.import!
-  end
-
   def puppet_import(facts)
-    @importer = PuppetFactImporter.new(host, facts)
+    @importer = FactImporters::Structured.new(host, nil, facts)
     allow_transactions_for @importer
     @importer.import!
   end

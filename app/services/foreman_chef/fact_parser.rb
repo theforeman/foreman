@@ -95,6 +95,14 @@ module ForemanChef
       Time.zone.now.to_i - facts['system_uptime::seconds'].to_i
     end
 
+    def fact_name_class
+      ForemanChef::FactName
+    end
+
+    def self.smart_proxy_features
+      'Chef'
+    end
+
     private
 
     def logger

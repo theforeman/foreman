@@ -8,8 +8,9 @@ module ForemanAnsible
   class StructuredFactImporterTest < ActiveSupport::TestCase
     test 'if host is not in Foreman, use hostname provided by call' do
       fake_host = Host.new(:name => 'fake')
-      importer = ForemanAnsible::StructuredFactImporter.new(
+      importer = FactImporters::Structured.new(
         fake_host,
+        nil,
         facts_json
       )
       assert_equal fake_host, importer.send(:host)
@@ -19,8 +20,10 @@ module ForemanAnsible
       ansible_fqdn_host = FactoryBot.build(:host)
       ansible_fqdn_host.name = facts_json[:ansible_facts][:ansible_fqdn]
       ansible_fqdn_host.save
-      importer = ForemanAnsible::StructuredFactImporter.new(
+
+      importer = FactImporters::Structured.new(
         Host.new(:name => 'fake'),
+        nil,
         facts_json
       )
 

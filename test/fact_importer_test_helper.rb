@@ -7,7 +7,7 @@ module FactImporterIsolation
   end
 
   def allow_transactions_for_any_importer
-    Foreman::Plugin.fact_importer_registry.importers.values.map(&:constantize).each do |importer|
+    [FactImporters::Base, FactImporters::Structured].each do |importer|
       allow_transactions_for(importer.any_instance)
     end
   end

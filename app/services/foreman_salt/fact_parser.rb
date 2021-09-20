@@ -84,6 +84,14 @@ module ForemanSalt
       true
     end
 
+    def fact_name_class
+      ForemanSalt::FactName
+    end
+
+    def self.smart_proxy_features
+      'Salt'
+    end
+
     private
 
     def os_hash
