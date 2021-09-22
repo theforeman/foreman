@@ -514,21 +514,6 @@ class SettingTest < ActiveSupport::TestCase
     refute_valid bmc, :base, 'Unable to disable safemode_render when bmc_credentials_accessible is disabled'
   end
 
-  def sticky_setting
-    'Setting::General'
-  end
-
-  test 'stick_general_first: should unshift all settings of sticky category to the beginning of list' do
-    sorted_list = Setting.stick_general_first
-    assert_equal sticky_setting, sorted_list.keys.first
-  end
-
-  test 'stick_general_first: should work even if general category settings does not exists' do
-    sorted_list = Setting.where.not(:category => sticky_setting).stick_general_first
-    refute_empty sorted_list
-    assert sorted_list.keys.exclude?(sticky_setting)
-  end
-
   test 'orders settings alphabetically' do
     a_name = 'a_foo'
     b_name = 'b_foo'

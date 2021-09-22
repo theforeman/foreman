@@ -115,7 +115,7 @@ class SettingRegistry
     @settings = {}
 
     Setting.descendants.each do |cat_cls|
-      if cat_cls.default_settings.empty?
+      if cat_cls.default_settings.empty? && (Setting.table_exists? rescue(false))
         # Setting category uses really old way of doing things
         _load_category_from_db(cat_cls)
       else
@@ -144,6 +144,8 @@ class SettingRegistry
   end
 
   def _add(name, category:, type:, default:, description:, full_name:, context:, value: nil, encrypted: false, collection: nil, options: {})
+    Setting.select_collection_registry.add(name, collection: collection) if collection
+
     @settings[name.to_s] = SettingPresenter.new({ name: name,
                                                   context: context,
                                                   category: category,
@@ -164,9 +166,7 @@ class SettingRegistry
     Setting.new(name: definition.name,
                 category: definition.category.safe_constantize&.name || 'Setting',
                 default: definition.default,
-                description: definition.description,
-                full_name: definition.full_name,
-                encrypted: definition.encrypted?)
+                description: definition.description)
   end
 
   # ==== Load old defaults
@@ -174,7 +174,7 @@ class SettingRegistry
   def _load_category_from_db(category_klass)
     category_klass.all.each do |set|
       # set.value can be user value, we have no way of telling the initial value
-      _add(set.name, type: set.settings_type.to_sym, category: category_klass.name, description: set.description, default: set.default, full_name: set.full_name, context: :deprecated, encrypted: set.encrypted)
+      _add(set.name, type: set.settings_type.to_sym, category: category_klass.name, description: set.description, default: set.default, full_name: set.try(:full_name), context: :deprecated, encrypted: set.try(:encrypted))
     end
   end
 end
