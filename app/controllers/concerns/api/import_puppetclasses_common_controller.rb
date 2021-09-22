@@ -2,7 +2,7 @@ module Api::ImportPuppetclassesCommonController
   extend ActiveSupport::Concern
 
   included do
-    prepend_before_action :fail_and_inform_about_plugin_for_import, only: :import_puppetclasses
+    prepend_before_action :fail_and_inform_about_plugin, only: :import_puppetclasses
   end
 
   def resource_human_name
