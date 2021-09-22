@@ -118,6 +118,11 @@ if [ -f /etc/redhat-release ]; then
 }
 
     <% if @force -%>
+    if [ -x "$(command -v subscription-manager)" ] ; then
+      subscription-manager unregister || true
+      subscription-manager clean
+    fi
+
     yum remove -y katello-ca-consumer\*
     <% end -%>
 
