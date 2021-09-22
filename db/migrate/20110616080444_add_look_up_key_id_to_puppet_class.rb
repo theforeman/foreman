@@ -1,7 +1,7 @@
 class AddLookUpKeyIdToPuppetClass < ActiveRecord::Migration[4.2]
   def up
+    # Will be dropped in later migration
     add_column :lookup_keys, :puppetclass_id, :integer
-    add_index :lookup_keys, :puppetclass_id
 
     add_column :lookup_keys, :default_value, :string, :limit => 255
     add_column :lookup_keys, :path, :string, :limit => 255
@@ -14,7 +14,6 @@ class AddLookUpKeyIdToPuppetClass < ActiveRecord::Migration[4.2]
   end
 
   def down
-    remove_index :lookup_keys, :puppetclass_id
     remove_index :lookup_keys, :path
     remove_index :lookup_values, :match
     remove_column :lookup_keys, :puppetclass_id
