@@ -25,6 +25,10 @@ namespace :purge do
     ActiveRecord::Base.connection.drop_table(:host_config_groups, if_exists: true, force: :cascade)
     ActiveRecord::Base.connection.drop_table(:config_group_classes, if_exists: true, force: :cascade)
     ActiveRecord::Base.connection.drop_table(:config_groups, if_exists: true, force: :cascade)
+    ActiveRecord::Base.connection.drop_table(:operatingsystems_puppetclasses, if_exists: true, force: :cascade)
+    ActiveRecord::Base.connection.drop_table(:hosts_classes, if_exists: true, force: :cascade)
+    ActiveRecord::Base.connection.drop_table(:hostgroups_classes, if_exists: true, force: :cascade)
+    ActiveRecord::Base.connection.drop_table(:puppetclasses, if_exists: true, force: :cascade)
 
     envs = %w[view_environments create_environments edit_environments destroy_environments import_environments]
     cfgs = %w[view_config_groups create_config_groups edit_config_groups destroy_config_groups]

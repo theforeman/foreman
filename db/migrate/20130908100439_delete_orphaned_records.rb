@@ -15,7 +15,6 @@ class DeleteOrphanedRecords < ActiveRecord::Migration[4.2]
     execute "DELETE FROM features_smart_proxies WHERE feature_id NOT IN (SELECT id FROM features) OR smart_proxy_id NOT IN (SELECT id FROM smart_proxies)"
     execute "DELETE FROM media_operatingsystems WHERE medium_id NOT IN (SELECT id FROM media) OR operatingsystem_id NOT IN (SELECT id FROM operatingsystems)"
     execute "DELETE FROM operatingsystems_ptables WHERE ptable_id NOT IN (SELECT id FROM ptables) OR operatingsystem_id NOT IN (SELECT id FROM operatingsystems)"
-    execute "DELETE FROM operatingsystems_puppetclasses WHERE puppetclass_id NOT IN (SELECT id FROM puppetclasses) OR operatingsystem_id NOT IN (SELECT id FROM operatingsystems)"
     execute "DELETE FROM subnet_domains WHERE domain_id NOT IN (SELECT id FROM domains) OR subnet_id NOT IN (SELECT id FROM subnets)"
     execute "DELETE FROM user_compute_resources WHERE compute_resource_id NOT IN (SELECT id FROM compute_resources) OR user_id NOT IN (SELECT id FROM users)"
     execute "DELETE FROM user_domains WHERE domain_id NOT IN (SELECT id FROM domains) OR user_id NOT IN (SELECT id FROM users)"

@@ -18,12 +18,6 @@ class AddCounterCaches < ActiveRecord::Migration[4.2]
     # Operating Systems
     add_column :operatingsystems, :hosts_count, :integer, :default => 0
     add_column :operatingsystems, :hostgroups_count, :integer, :default => 0
-
-    # Puppetclasses
-    add_column :puppetclasses, :hosts_count, :integer, :default => 0
-    add_column :puppetclasses, :hostgroups_count, :integer, :default => 0
-
-    add_column :puppetclasses, :lookup_keys_count, :integer, :default => 0
   end
 
   def down
@@ -40,9 +34,5 @@ class AddCounterCaches < ActiveRecord::Migration[4.2]
 
     remove_column :operatingsystems, :hosts_count
     remove_column :operatingsystems, :hostgroups_count
-
-    remove_column :puppetclasses,    :hosts_count
-    remove_column :puppetclasses,    :hostgroups_count
-    remove_column :puppetclasses,    :lookup_keys_count
   end
 end
