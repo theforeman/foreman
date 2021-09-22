@@ -60,7 +60,7 @@ class Setting < ApplicationRecord
   default_scope -> { order(:name) }
 
   # Filer out settings from disabled plugins
-  scope :disabled_plugins, -> { where(:category => descendants.map(&:to_s)) unless Rails.env.development? }
+  scope :disabled_plugins, -> { where(:category => %w[Setting].concat(descendants.map(&:to_s))) unless Rails.env.development? }
 
   scope :order_by, ->(attr) { except(:order).order(attr) }
 
@@ -73,11 +73,6 @@ class Setting < ApplicationRecord
 
   def self.live_descendants
     disabled_plugins.order_by(:full_name)
-  end
-
-  def self.stick_general_first
-    sticky_setting = 'Setting::General'
-    (where(:category => sticky_setting) + where.not(:category => sticky_setting)).group_by(&:category)
   end
 
   # can't use our own settings
