@@ -33,11 +33,19 @@ module AuditSearch
     scoped_search :relation => :search_hosts, :on => :name, :complete_value => true, :rename => :host, :only_explicit => true
     scoped_search :relation => :search_hostgroups, :on => :name, :complete_value => true, :rename => :hostgroup, :only_explicit => true
     scoped_search :relation => :search_hostgroups, :on => :title, :complete_value => true, :rename => :hostgroup_title, :only_explicit => true
-    scoped_search :relation => :search_users, :on => :login, :complete_value => true, :rename => :user, :only_explicit => true
+    scoped_search :relation => :search_users, :on => :login, :complete_value => true, :rename => :user, :only_explicit => true,
+      :special_values => %w[current_user], :value_translation => ->(value) { value == 'current_user' ? User.current.login : value }
     scoped_search :relation => :search_nics, :on => :name, :complete_value => true, :rename => :interface_fqdn, :only_explicit => true
     scoped_search :relation => :search_nics, :on => :ip, :complete_value => true, :rename => :interface_ip, :only_explicit => true
     scoped_search :relation => :search_nics, :on => :mac, :complete_value => true, :rename => :interface_mac, :only_explicit => true
     scoped_search :relation => :search_settings, :on => :name, :complete_value => true, :rename => :setting, :only_explicit => true
+    scoped_search :on => :user_id,
+      :complete_value => true,
+      :rename => 'user.id',
+      :validator => ->(value) { ScopedSearch::Validators::INTEGER.call(value) },
+      :value_translation => ->(value) { value == 'current_user' ? User.current.id : value },
+      :special_values => %w[current_user],
+      :only_explicit => true
 
     def user_login
       user.login rescue nil
