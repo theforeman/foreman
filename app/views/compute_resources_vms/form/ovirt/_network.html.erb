@@ -1,17 +1,26 @@
-<%= text_f f, :name, :disabled => !new_vm, :class => "ovirt_name", :label => _('Name'), :label_size => "col-md-3" %>
+<%= text_f f, :name,
+           :class => "ovirt_name",
+           :size => "col-md-8", :disabled => !new_vm,
+           :label => _('Name'), :label_size => "col-md-3" %>
 
 <% selected_cluster ||= params.fetch(:host, {}).fetch(:compute_attributes, {}).fetch(:cluster, nil) %>
 <% selected_cluster ||= compute_resource.clusters.first.try(:id) %>
 <% networks = compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }) %>
 <%= select_f f, :vnic_profile, compute_resource.vnic_profiles,
-             :id, :name, {}, :label => _('Vnic Profile'), :label_size => "col-md-3", :disabled => !new_vm,
-             :class => "ovirt_network",
+             :id, :name, {},
+             :class => "ovirt_network", 
+             :size => "col-md-8", :disabled => !new_vm,
+             :label => _('Vnic Profile'), :label_size => "col-md-3",
              :onchange => 'tfm.computeResource.ovirt.vnicSelected(this)',
              :data => {:profiles => JSON.generate(compute_resource.vnic_profiles), :networks => JSON.generate(networks) } %>
-<%= select_f f, :network, networks, :id, :name,
-             { }, :disabled => !new_vm, :class => "ovirt_network",
-             :label         => _('Network'), :label_size => "col-md-3"%>
+<%= select_f f, :network, networks,
+             :id, :name, {},
+             :class => "ovirt_network",
+             :size => "col-md-8", :disabled => !new_vm,
+             :label => _('Network'), :label_size => "col-md-3" %>
 
 <%= select_f f, :interface, compute_resource.nictypes,
-             :id, :name, {}, :label => _('Interface type'), :label_size => "col-md-3", :disabled => !new_vm,
-             :class => "ovirt_network" %>
+             :id, :name, {},
+             :class => "ovirt_network", 
+             :size => "col-md-8",  :disabled => !new_vm,
+             :label => _('Interface type'), :label_size => "col-md-3" %>
