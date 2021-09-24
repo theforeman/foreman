@@ -9,6 +9,7 @@
         "@theforeman/test",
         "@theforeman/vendor-dev",
         "@theforeman/find-foreman",
+        "@types/jest",
         "axios-mock-adapter",
         "babel-eslint",
         "babel-jest",

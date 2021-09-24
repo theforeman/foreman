@@ -34,6 +34,7 @@
     "@theforeman/stories": ">= 8.7, < 8.12.1",
     "@theforeman/test": ">= 8.7, < 8.12.1",
     "@theforeman/vendor-dev": ">= 8.7, < 8.12.1",
+    "@types/jest": "<27.0.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
