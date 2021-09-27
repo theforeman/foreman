@@ -56,7 +56,7 @@ else
 fi
 <% elsif os_family == 'Suse' -%>
 <% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
-rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppetlabs
+rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppet-20250406
 rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppet
 <% end -%>
 <% if @host.provision_method == 'image' -%>
