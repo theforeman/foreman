@@ -241,7 +241,9 @@ ntp
 chrony
 -ntp
 <% end -%>
+<% if rhel_compatible && os_major < 9 -%>
 wget
+<% end -%>
 @Core
 <% if host_param_true?('fips_enabled') -%>
 <%=   snippet 'fips_packages' %>
