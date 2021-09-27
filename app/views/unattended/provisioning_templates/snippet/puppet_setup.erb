@@ -137,7 +137,6 @@ $puppet_agent_args = @(
   "--config", "<%= etc_path %>\puppet.conf",
   "--onetime",
   <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : "\"--tags #{puppet_tags}\"," %>
-  <%= host_puppet_server.blank? ? '' : "\"--server #{host_puppet_server}\"," %>
   "--no-daemonize"
 )
 Start-Process '<%= bin_path %>\puppet' -ArgumentList $puppet_agent_args -Wait -NoNewWindow
@@ -151,7 +150,7 @@ echo "Performing initial full puppet run"
 <% else -%>
 echo "Performing initial puppet run for --tags <%= puppet_tags %>"
 <% end -%>
-<%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : "--tags #{puppet_tags}" %> <%= host_puppet_server.blank? ? '' : "--server #{host_puppet_server}" %> --no-daemonize
+<%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : "--tags #{puppet_tags}" %> --no-daemonize
 <%= bin_path %>/puppet resource service puppet enable=true
 <% if @host.provision_method == 'image' -%>
 <%= bin_path %>/puppet resource service puppet ensure=running
