@@ -101,9 +101,7 @@ EOF
 
 <% if os_family == 'Redhat' -%>
 <% if os_major > 6 -%>
-puppet_unit=puppet
-/usr/bin/systemctl list-unit-files | grep -q puppetagent && puppet_unit=puppetagent
-/usr/bin/systemctl enable ${puppet_unit}
+/usr/bin/systemctl enable puppet
 <% else -%>
 /sbin/chkconfig --level 345 puppet on
 <% end -%>
