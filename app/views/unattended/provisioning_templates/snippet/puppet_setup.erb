@@ -108,20 +108,11 @@ EOF
 <% end -%>
 <% if os_family == 'Freebsd' -%>
 echo 'puppet_enable="YES"' >>/etc/rc.conf
-<% end -%>
-<% unless aio_enabled -%>
-<% if os_family == 'Debian' -%>
-if [ -f "/etc/default/puppet" ]
-then
-/bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
-fi
-<%= bin_path %>/puppet agent --enable
-<% elsif os_family == 'Suse' -%>
+<% elsif os_family == 'Suse' && !aio_enabled -%>
 if [ -f "/etc/sysconfig/puppet" ]
 then
 /usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= host_puppet_server %>/ /etc/sysconfig/puppet
 fi
-<% end -%>
 <% end -%>
 <%#
 IMPORTANT NOTE: Setting "run-puppet-in-installer" is UNSUPPORTED!
