@@ -21,7 +21,7 @@ $(document).on('ContentLoad', () => {
           onConfirm: () => {
             const oldAllowAction = $.rails.allowAction;
             $.rails.allowAction = () => true;
-            element.trigger('click');
+            element[0].click();
             $.rails.allowAction = oldAllowAction;
           },
         })
