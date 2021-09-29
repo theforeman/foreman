@@ -319,12 +319,12 @@ attribute73:
   description: 'Set up default local boot template for PXELinux'
 attribute74:
   name: rss_enable
-  category: Setting::Notification
+  category: Setting
   default: true
   description: 'Whether to enable or not RSS feed notifications'
 attribute75:
   name: rss_url
-  category: Setting::Notification
+  category: Setting
   default: "http://theforeman.org/feed.xml"
   description: 'Default URL for RSS feed notifications'
 attribute76:
