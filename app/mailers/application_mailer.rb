@@ -1,10 +1,29 @@
 require 'uri'
+require 'shellwords'
 
 class ApplicationMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
   default :delivery_method => proc { Setting[:delivery_method] },
           :from => proc { Setting[:email_reply_address] || "noreply@foreman.example.org" }
   after_action :set_delivery_options
+
+  def self.delivery_settings
+    options = {}
+    return options unless ['smtp', 'sendmail'].include?(Setting[:delivery_method].to_s)
+
+    prefix = "#{Setting[:delivery_method]}_"
+    Foreman.settings.category_settings('email').each do |name, setting|
+      if name.start_with?(prefix) && setting.value.to_s.present?
+        opt_name = name.delete_prefix(prefix)
+        options[opt_name] = if name == "sendmail_arguments"
+                              Shellwords.shellescape(setting.value)
+                            else
+                              setting.value
+                            end
+      end
+    end
+    options
+  end
 
   def mail(headers = {}, &block)
     if headers.present?
@@ -56,6 +75,6 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def set_delivery_options
-    mail.delivery_method.settings.merge!(Setting::Email.delivery_settings.symbolize_keys)
+    mail.delivery_method.settings.merge!(self.class.delivery_settings.symbolize_keys)
   end
 end

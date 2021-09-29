@@ -95,6 +95,10 @@ class SettingRegistry
     sticked_general
   end
 
+  def category_settings(category)
+    @settings.select { |_name, definition| definition.category_name == category.to_s }
+  end
+
   def load
     # add() all setting definitions
     load_definitions

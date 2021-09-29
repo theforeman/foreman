@@ -3,7 +3,6 @@ require 'test_helper'
 class ApplicationMailerTest < ActiveSupport::TestCase
   setup do
     ActionMailer::Base.deliveries = []
-    Setting::Email.load_defaults
     Setting[:delivery_method] = :test
   end
 
