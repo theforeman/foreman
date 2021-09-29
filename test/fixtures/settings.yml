@@ -209,12 +209,12 @@ attributes52:
   description: "Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."
 attributes53:
   name: send_welcome_email
-  category: Setting::Email
+  category: Setting
   default: "false"
   description: "Send a welcome email including initial username and password to new users"
 attributes54:
   name: email_subject_prefix
-  category: Setting::Email
+  category: Setting
   default: "[foreman]"
   description: "Prefix to add to all outgoing email"
 attributes55:
@@ -225,7 +225,7 @@ attributes55:
   description: "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
 attributes56:
   name: email_reply_address
-  category: Setting::Email
+  category: Setting
   default: "foreman-noreply@#{SETTINGS[:domain]}"
   description: 'Email reply address for emails that Foreman is sending'
 attributes57:
@@ -279,22 +279,22 @@ attributes65:
   description: 'Foreman will update a hosts subnets from its facts'
 attributes66:
   name: delivery_method
-  category: Setting::Email
+  category: Setting
   default: :test
   description: 'Method used to deliver e-mail'
 attributes67:
   name: smtp_address
-  category: Setting::Email
+  category: Setting
   default: 'smtp@example.com'
   description: Method used to deliver email'
 attributes68:
   name: smtp_authentication
-  category: Setting::Email
+  category: Setting
   default: 'none'
   description: 'Specify authentication type, if required'
 attributes69:
   name: sendmail_arguments
-  category: Setting::Email
+  category: Setting
   default: 'args'
   description: 'Specify additional options to sendmail'
 attribute70:
