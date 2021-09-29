@@ -6,7 +6,7 @@ class SettingJSTest < IntegrationTestWithJavascript
     assert page.has_link?("General", :href => "#general")
     assert page.has_link?("Puppet", :href => "#Puppet")
     assert page.has_link?("Provisioning", :href => "#Provisioning")
-    assert page.has_link?("Authentication", :href => "#Auth")
+    assert page.has_link?("Authentication", :href => "#auth")
   end
 
   test "humanized tab label for setting category" do

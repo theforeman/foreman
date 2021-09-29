@@ -4,7 +4,6 @@ class UsersControllerTest < ActionController::TestCase
   setup do
     setup_users
     @model = User.last
-    Setting::Auth.load_defaults
   end
 
   basic_index_test('users')
