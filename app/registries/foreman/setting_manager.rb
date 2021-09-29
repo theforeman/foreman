@@ -28,7 +28,7 @@ module Foreman
     class ValueLambdaValidator < ActiveModel::Validator
       def validate(record)
         return true if options[:allow_blank] && record.value.blank?
-        record.errors.add(:value, :invalid) unless options[:proc].call(record.value)
+        record.errors.add(:value, :invalid, message: _(options[:message])) unless options[:proc].call(record.value)
       end
     end
 
@@ -95,9 +95,13 @@ module Foreman
         validates(name, validations)
       end
 
-      def validates(name, validations)
-        _wrap_validation_if(name, validations)
-        Setting.validates(:value, validations)
+      def validates(name, validations, **opts)
+        if validations.is_a?(Proc)
+          validates_with name, ValueLambdaValidator, opts.merge(proc: validations)
+        else
+          _wrap_validation_if(name, validations)
+          Setting.validates(:value, validations)
+        end
       end
 
       def validates_with(name, *args, &block)

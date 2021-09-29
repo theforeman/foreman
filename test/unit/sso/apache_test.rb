@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class ApacheTest < ActiveSupport::TestCase
-  def setup
-    Setting::Auth.load_defaults
-  end
-
   def test_user_is_set_when_authenticated
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
     apache = get_apache_method
