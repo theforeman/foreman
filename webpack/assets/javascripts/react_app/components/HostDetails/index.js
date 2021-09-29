@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import {
+  Flex,
+  FlexItem,
   Grid,
   Tab,
   Tabs,
@@ -34,6 +36,7 @@ import { STATUS } from '../../constants';
 import './HostDetails.scss';
 import { useAPI } from '../../common/hooks/API/APIHooks';
 import TabRouter from './Tabs/TabRouter';
+import ExperimentalAlert from './ExperimentalAlert';
 
 const HostDetails = ({
   match: {
@@ -114,7 +117,11 @@ const HostDetails = ({
               </SkeletonLoader>
             </GridItem>
             <GridItem offset={10} span={2}>
-              <ActionsBar hostId={id} permissions={response.permissions} />
+              <Flex>
+                <FlexItem align={{ default: 'alignRight' }}>
+                  <ActionsBar hostId={id} permissions={response.permissions} />
+                </FlexItem>
+              </Flex>
             </GridItem>
           </Grid>
           <SkeletonLoader
@@ -134,8 +141,8 @@ const HostDetails = ({
               </Text>
             )}
           </SkeletonLoader>
-          <br />
         </div>
+        <ExperimentalAlert hostId={id} />
         {tabs && (
           <TabRouter
             response={response}
