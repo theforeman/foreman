@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  Flex,
+  FlexItem,
   Grid,
   Tab,
   Tabs,
@@ -36,6 +38,7 @@ import { translate as __ } from '../../common/I18n';
 import HostGlobalStatus from './Status/GlobalStatus';
 
 import './HostDetails.scss';
+import ExperimentalAlert from './ExperimentalAlert';
 
 const HostDetails = ({
   match: {
@@ -171,6 +174,7 @@ const HostDetails = ({
           </Text>
           <br />
         </div>
+        <ExperimentalAlert hostId={id} />
         <Tabs
           style={{
             width: window.innerWidth - (isNavCollapsed ? 95 : 220),
