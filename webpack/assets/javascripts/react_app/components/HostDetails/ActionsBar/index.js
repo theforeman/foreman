@@ -29,6 +29,21 @@ const ActionsBar = ({ hostId, permissions: { edit_hosts: canEdit } }) => {
       {__('Build')}
     </DropdownItem>,
     <DropdownSeparator key="separator" />,
+    <DropdownItem href={`/hosts/${hostId}`} key="prev-version">
+      {__('Previous version')}
+    </DropdownItem>,
+    <DropdownItem
+      onClick={() =>
+        window.open(
+          'https://community.theforeman.org/t/foreman-3-0-new-host-detail-page-feedback/25281',
+          '_blank'
+        )
+      }
+      key="feedback"
+      component="button"
+    >
+      {__('Share feedback')}
+    </DropdownItem>,
   ];
 
   return (
@@ -41,6 +56,7 @@ const ActionsBar = ({ hostId, permissions: { edit_hosts: canEdit } }) => {
         {__('Edit')}
       </Button>
       <Dropdown
+        alignments={{ default: 'right' }}
         toggle={<KebabToggle onToggle={onKebabToggle} />}
         isOpen={kebabIsOpen}
         isPlain
