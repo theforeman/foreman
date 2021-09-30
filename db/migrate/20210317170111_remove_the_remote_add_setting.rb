@@ -1,6 +1,6 @@
 class RemoveTheRemoteAddSetting < ActiveRecord::Migration[6.0]
   def up
-    Setting.find_by_name('remote_addr').try(:destroy)
+    Setting.where(name: 'remote_addr').delete_all
   end
 
   def down

@@ -5,7 +5,7 @@ class SettingJSTest < IntegrationTestWithJavascript
     assert_index_page(settings_path, "Settings", false, true, false)
     assert page.has_link?("General", :href => "#general")
     assert page.has_link?("Puppet", :href => "#Puppet")
-    assert page.has_link?("Provisioning", :href => "#Provisioning")
+    assert page.has_link?("Provisioning", :href => "#provisioning")
     assert page.has_link?("Authentication", :href => "#auth")
   end
 

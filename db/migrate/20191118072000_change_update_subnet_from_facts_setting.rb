@@ -1,15 +1,13 @@
 class ChangeUpdateSubnetFromFactsSetting < ActiveRecord::Migration[5.2]
   def up
-    setting = Setting.find_by :name => 'update_subnets_from_facts'
-    return unless setting
-    if setting.value
-      setting.value = 'all'
+    setting = Setting.where(name: 'update_subnets_from_facts')
+    return unless setting.exists?
+    if setting.pick(:value)
+      new_value = 'all'
     else
-      setting.value = 'none'
+      new_value = 'none'
     end
-    setting.settings_type = 'string'
-    setting.default = 'none'
-    setting.save
+    setting.update_all(value: new_value)
   end
 
   def down

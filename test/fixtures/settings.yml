@@ -12,12 +12,12 @@ attributes2:
   description: The URL Foreman should point to in emails etc
 attributes3:
   name: root_pass
-  category: Setting::Provisioning
+  category: Setting
   default: "--- \n"
   description: Default root password on provisioned hosts
 attributes4:
   name: safemode_render
-  category: Setting::Provisioning
+  category: Setting
   default: "true"
   description: Enable safe mode config templates rendinging(recommended)
 attributes5:
@@ -58,7 +58,7 @@ attributes14:
   description: The Default path in which foreman resolves host specific variables
 attributes15:
   name: manage_puppetca
-  category: Setting::Provisioning
+  category: Setting
   default: "true"
   description: Should Foreman manage host certificates when provisioning hosts
 attributes16:
@@ -88,7 +88,7 @@ attributes20:
   description: "Should Foreman use random UUID's for certificate signing instead of hostnames"
 attributes21:
   name: query_local_nameservers
-  category: Setting::Provisioning
+  category: Setting
   default: "false"
   description: "Should Foreman query the locally configured name server or the SOA/NS authorities"
 attributes23:
@@ -103,7 +103,7 @@ attributes24:
   description: "Setting::Authorize login delegation with REMOTE_USER environment variable for API calls"
 attribute26:
   name: token_duration
-  category: Setting::Provisioning
+  category: Setting
   default: 0
   description: "Time in minutes installation tokens should be valid for, 0 to disable"
 attribute27:
@@ -144,7 +144,7 @@ attribute37:
   description: "Foreman will create the host when new facts are received"
 attribute38:
   name: update_ip_from_built_request
-  category: Setting::Provisioning
+  category: Setting
   default: "true"
   description: "Should we use the originating IP of the built request to update the Host's IP?"
 attribute40:
@@ -154,7 +154,7 @@ attribute40:
   description: "Should Foreman parse ERB to return dynamic parameters?"
 attribute41:
   name: use_shortname_for_vms
-  category: Setting::Provisioning
+  category: Setting
   default: "false"
   description: "Should Foreman use the short hostname instead of the FQDN for creating new virtual machines"
 attribute42:
@@ -164,7 +164,7 @@ attribute42:
   description: "Foreman will create the host when a report is received"
 attributes43:
   name: unattended_url
-  category: Setting::Provisioning
+  category: Setting
   default: http://foreman.some.host.fqdn
   description: The URL Foreman should point to in templates etc
 attributes44:
@@ -230,12 +230,12 @@ attributes56:
   description: 'Email reply address for emails that Foreman is sending'
 attributes57:
   name: clean_up_failed_deployment
-  category: Setting::Provisioning
+  category: Setting
   default: "true"
   description: "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 attributes58:
   name: ignored_interface_identifiers
-  category: Setting::Provisioning
+  category: Setting
   default: "['lo', 'en*v*', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*']"
   description: 'Ignore interfaces that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'
 attributes59:
@@ -251,7 +251,7 @@ attributes60:
 attributes61:
   name: name_generator_type
   settings_type: string
-  category: Setting::Provisioning
+  category: Setting
   default: "Random-based"
   description: 'Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)'
 attributes62:
@@ -267,7 +267,7 @@ attributes63:
   encrypted: true
 attributes64:
   name: access_unattended_without_build
-  category: Setting::Provisioning
+  category: Setting
   default: "false"
   description: 'Allow access to unattended URLs without build mode being used'
   full_name: 'Access unattended without build'
@@ -299,22 +299,22 @@ attributes69:
   description: 'Specify additional options to sendmail'
 attribute70:
   name: ignore_facts_for_operatingsystem
-  category: Setting::Provisioning
+  category: Setting
   default: "false"
   description: 'Stop updating Operating System from facts'
 attribute71:
   name: ignore_facts_for_domain
-  category: Setting::Provisioning
+  category: Setting
   default: "false"
   description: 'Stop updating domain from facts'
 attribute72:
   name: host_owner
-  category: Setting::Provisioning
+  category: Setting
   default: nil
   description: 'Default host owner'
 attribute73:
   name: local_boot_PXELinux
-  category: Setting::Provisioning
+  category: Setting
   default: PXELinux default local boot
   description: 'Set up default local boot template for PXELinux'
 attribute74:
@@ -329,17 +329,17 @@ attribute75:
   description: 'Default URL for RSS feed notifications'
 attribute76:
   name: default_pxe_item_global
-  category: Setting::Provisioning
+  category: Setting
   default: nil
   description: 'Default PXE global template entry'
 attribute77:
   name: default_pxe_item_local
-  category: Setting::Provisioning
+  category: Setting
   default: nil
   description: 'Default PXE local template entry'
 attributes78:
   name: excluded_facts
-  category: Setting::Provisioning
+  category: Setting
   default: "['lo', 'en*v*', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*', 'load_averages::*', 'memory::system::capacity', 'memory::system::used*', 'memory::system::available*', 'memory::swap::capacity', 'memory::swap::used*', 'memory::swap::available*']"
   description: 'Ignore fact names that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'
   settings_type: 'array'
@@ -365,22 +365,22 @@ attribute82:
   description: 'Text to be shown in the login-page footer'
 attribute83:
   name: ssh_timeout
-  category: Setting::Provisioning
+  category: Setting
   default: 120
   description: 'Time in seconds before SSH provisioning times out'
 attribute84:
   name: destroy_vm_on_host_delete
-  category: Setting::Provisioning
+  category: Setting
   default: true
   description: 'Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource, meaning they can be re-associated or imported back to Foreman again. This does not automatically power off the VM'
 attribute85:
   name: intermediate_ipxe_script
-  category: Setting::Provisioning
+  category: Setting
   default: nil
   description: 'Intermidiate iPXE script'
 attribute86:
   name: maximum_structured_facts
-  category: Setting::Provisioning
+  category: Setting
   default: 100
   description: 'Maximum structured facts'
 attribute87:
@@ -420,12 +420,12 @@ attribute93:
   description: "Foreman will update a host's hostgroup from its facts"
 attribute94:
   name: default_global_registration_item
-  category: Setting::Provisioning
+  category: Setting
   default: 'Global Registration'
   description: "Default Global registration template"
 attribute95:
   name: default_host_init_config_template
-  category: Setting::Provisioning
+  category: Setting
   default: 'Linux host initial configuration'
   description: "Default host initial configuration template"
 attribute96:

@@ -162,7 +162,7 @@ class SettingRegistry
   end
 
   def _add(name, category:, type:, default:, description:, full_name:, context:, value: nil, encrypted: false, collection: nil, options: {})
-    Setting.select_collection_registry.add(name, collection: collection) if collection
+    Setting.select_collection_registry.add(name, collection: collection, **options) if collection
 
     @settings[name.to_s] = SettingPresenter.new({ name: name,
                                                   context: context,
