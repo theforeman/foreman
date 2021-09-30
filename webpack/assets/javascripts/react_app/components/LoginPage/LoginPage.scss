@@ -14,12 +14,9 @@ $background_image: linear-gradient(
 #login-page {
   height: 100%;
 
-  #login-footer-text {
-    position: fixed;
-    bottom: 0;
-    padding: 30px;
-    color: $color-pf-white;
-    font-size: 14px;
+  .login-pf-page-footer-link[href*='foreman-login-footer-text'] {
+    pointer-events: none;
+    cursor: default;
   }
 
   .login-pf {
