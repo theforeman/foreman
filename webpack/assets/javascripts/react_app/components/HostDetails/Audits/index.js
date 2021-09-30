@@ -11,6 +11,7 @@ import {
   DataListItem,
   DataListItemRow,
   DataListItemCells,
+  DataListText,
   DataListCell,
   Title,
 } from '@patternfly/react-core';
@@ -67,14 +68,25 @@ const AuditCard = ({ hostName }) => {
                     <DataListItemRow>
                       <DataListItemCells
                         dataListCells={[
-                          <DataListCell key={`action-${id}`}>
-                            {action}
+                          <DataListCell
+                            wrapModifier="truncate"
+                            key={`action-${id}`}
+                          >
+                            <DataListText tooltip={action}>
+                              {action}
+                            </DataListText>
                           </DataListCell>,
-                          <DataListCell key={`date-${id}`}>
+                          <DataListCell
+                            wrapModifier="truncate"
+                            key={`date-${id}`}
+                          >
                             <RelativeDateTime date={timestamp} />
                           </DataListCell>,
-                          <DataListCell key={`user-${id}`}>
-                            {user}
+                          <DataListCell
+                            wrapModifier="truncate"
+                            key={`user-${id}`}
+                          >
+                            <DataListText tooltip={user}>{user}</DataListText>
                           </DataListCell>,
                         ]}
                       />
