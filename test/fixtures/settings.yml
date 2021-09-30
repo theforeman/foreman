@@ -38,22 +38,22 @@ attributes7:
 attributes8:
   name: puppet_interval
   settings_type: integer
-  category: Setting::Puppet
+  category: Setting
   default: 30
-  description: Setting::Puppet interval in minutes
+  description: Setting interval in minutes
 attributes9:
   name: default_puppet_environment
-  category: Setting::Puppet
+  category: Setting
   default: production
-  description: "The Setting::Puppet environment foreman would default to in case it can't auto detect it"
+  description: "The Setting environment foreman would default to in case it can't auto detect it"
 attributes13:
   name: failed_report_email_notification
-  category: Setting::Puppet
+  category: Setting
   default: "false"
   description: Enable Email Alerts per each failed puppet report
 attributes14:
   name: Default_parameters_Lookup_Path
-  category: Setting::Puppet
+  category: Setting
   default: ["fqdn", "hostgroup", "os", "domain"]
   description: The Default path in which foreman resolves host specific variables
 attributes15:
@@ -68,7 +68,7 @@ attributes16:
   description: The amount of records shown per page in foreman
 attributes17:
   name: update_environment_from_facts
-  category: Setting::Puppet
+  category: Setting
   default: "false"
   description: Foreman will update a hosts environment from its facts
 attributes18:
@@ -78,12 +78,12 @@ attributes18:
   description: idle timeout
 attributes19:
   name: enc_environment
-  category: Setting::Puppet
+  category: Setting
   default: "true"
   description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
 attributes20:
   name: use_uuid_for_certificates
-  category: Setting::Puppet
+  category: Setting
   default: "false"
   description: "Should Foreman use random UUID's for certificate signing instead of hostnames"
 attributes21:
@@ -139,7 +139,7 @@ attribute32:
   settings_type: array
 attribute37:
   name: create_new_host_when_facts_are_uploaded
-  category: Setting::Puppet
+  category: Setting
   default: "true"
   description: "Foreman will create the host when new facts are received"
 attribute38:
@@ -149,7 +149,7 @@ attribute38:
   description: "Should we use the originating IP of the built request to update the Host's IP?"
 attribute40:
   name: interpolate_erb_in_parameters
-  category: Setting::Puppet
+  category: Setting
   default: "true"
   description: "Should Foreman parse ERB to return dynamic parameters?"
 attribute41:
@@ -159,7 +159,7 @@ attribute41:
   description: "Should Foreman use the short hostname instead of the FQDN for creating new virtual machines"
 attribute42:
   name: create_new_host_when_report_is_uploaded
-  category: Setting::Puppet
+  category: Setting
   default: "true"
   description: "Foreman will create the host when a report is received"
 attributes43:
@@ -169,22 +169,22 @@ attributes43:
   description: The URL Foreman should point to in templates etc
 attributes44:
   name: default_organization
-  category: Setting::Puppet
+  category: Setting
   default: 'Organization 1'
   description: 'Default organization when importing hosts'
 attributes45:
   name: default_location
-  category: Setting::Puppet
+  category: Setting
   default: 'Location 1'
   description: 'Default location when importing hosts'
 attributes46:
   name: location_fact
-  category: Setting::Puppet
+  category: Setting
   default: 'foreman_location'
   description: 'Fact to set location from when importing hosts'
 attributes47:
   name: organization_fact
-  category: Setting::Puppet
+  category: Setting
   default: 'foreman_organization'
   description: 'Fact to set organization from when importing hosts'
 attributes49:
@@ -220,7 +220,7 @@ attributes54:
 attributes55:
   name: outofsync_interval
   settings_type: integer
-  category: Setting::Puppet
+  category: Setting
   default: 5
   description: "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
 attributes56:
@@ -240,7 +240,7 @@ attributes58:
   description: 'Ignore interfaces that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'
 attributes59:
   name: always_show_configuration_status
-  category: Setting::Puppet
+  category: Setting
   default: "false"
   description: 'All hosts will show a configuration status even when a Puppet smart proxy is not assigned'
 attributes60:
@@ -261,7 +261,7 @@ attributes62:
   description: 'Permits access to BMC interface passwords through ENC YAML output and in templates'
 attributes63:
   name: password
-  category: Setting::Puppet
+  category: Setting
   default: nil
   description: 'Encrypted password'
   encrypted: true
@@ -274,7 +274,7 @@ attributes64:
   settings_type: 'boolean'
 attributes65:
   name: update_subnets_from_facts
-  category: Setting::Puppet
+  category: Setting
   default: "none"
   description: 'Foreman will update a hosts subnets from its facts'
 attributes66:
@@ -415,7 +415,7 @@ attribute92:
   description: 'Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)'
 attribute93:
   name: update_hostgroup_from_facts
-  category: Setting::Puppet
+  category: Setting
   default: true
   description: "Foreman will update a host's hostgroup from its facts"
 attribute94:

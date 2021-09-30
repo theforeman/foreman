@@ -52,7 +52,6 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
 
   context 'with origin' do
     setup do
-      Setting::Puppet.load_defaults
       Setting[:puppet_out_of_sync_disabled] = true
     end
 
