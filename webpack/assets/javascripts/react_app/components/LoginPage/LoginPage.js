@@ -14,6 +14,9 @@ const LoginPage = ({
   version,
 }) => {
   const { modifiedAlerts, submitErrors } = adjustAlerts(alerts);
+  const footerLinks = caption
+    ? [{ children: caption, href: 'foreman-login-footer-text' }] // The href text is detected in our css to disable it from being an actual link.
+    : [];
   return (
     <div id="login-page">
       <PFLoginPage
@@ -40,8 +43,8 @@ const LoginPage = ({
             ),
           },
         }}
+        footerLinks={footerLinks}
       />
-      {caption && <div id="login-footer-text">{caption}</div>}
     </div>
   );
 };
