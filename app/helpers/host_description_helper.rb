@@ -136,6 +136,7 @@ module HostDescriptionHelper
       { :button => link_to_if_authorized(_("Audits"), { :controller => 'audits', :action => 'index', :search => "host = #{host.name}" }, :title => _("Host audit entries"), :class => 'btn btn-default'), :priority => 100 },
       ({ :button => link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default'), :priority => 200 } if host.fact_values.any?),
       ({ :button => link_to_if_authorized(_("Reports"), hash_for_host_config_reports_path(:host_id => host), :title => _("Browse host config management reports"), :class => 'btn btn-default'), :priority => 300 } if host.reports.any?),
+      { :button => link_to(_("New UI"), host_details_page_path(host.name), :title => _("Switch to the new host details UI"), :class => 'btn btn-default'), :priority => 50 },
     ].compact
   end
 end
