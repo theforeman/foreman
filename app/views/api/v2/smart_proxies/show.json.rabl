@@ -11,6 +11,7 @@ if @version
 end
 
 child :smart_proxy_features => :features do
+  attributes :capabilities
   glue :feature do
     attributes :name, :id
     if @version
