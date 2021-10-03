@@ -42,46 +42,56 @@ const DetailsCard = ({
         }}
       >
         <DescriptionListGroup>
-          <DescriptionListTerm>{__('IPv6 Address')}</DescriptionListTerm>
+          <DescriptionListTerm>{__('IPv6 address')}</DescriptionListTerm>
           <DescriptionListDescription>
             <SkeletonLoader
               emptyState={<DefaultLoaderEmptyState />}
               status={status}
             >
               {ip6 && (
-                <ClipboardCopy variant="inline-compact">{ip6}</ClipboardCopy>
+                <ClipboardCopy isBlock variant="inline-compact">
+                  {ip6}
+                </ClipboardCopy>
               )}
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
         <DescriptionListGroup>
-          <DescriptionListTerm>{__('IPv4 Address')}</DescriptionListTerm>
+          <DescriptionListTerm>{__('IPv4 address')}</DescriptionListTerm>
           <DescriptionListDescription>
             <SkeletonLoader
               emptyState={<DefaultLoaderEmptyState />}
               status={status}
             >
               {ip && (
-                <ClipboardCopy variant="inline-compact">{ip}</ClipboardCopy>
+                <ClipboardCopy isBlock variant="inline-compact">
+                  {ip}
+                </ClipboardCopy>
               )}
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
         <DescriptionListGroup>
-          <DescriptionListTerm>{__('Mac Address')}</DescriptionListTerm>
+          <DescriptionListTerm>{__('MAC address')}</DescriptionListTerm>
           <DescriptionListDescription>
             <SkeletonLoader
               emptyState={<DefaultLoaderEmptyState />}
               status={status}
             >
               {mac && (
-                <ClipboardCopy variant="inline-compact">{mac}</ClipboardCopy>
+                <ClipboardCopy isBlock variant="inline-compact">
+                  {mac}
+                </ClipboardCopy>
               )}
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
+      </DescriptionList>
+
+      <Divider className="padded-divider" />
+      <DescriptionList>
         <DescriptionListGroup>
-          <DescriptionListTerm>{__('Host Group')}</DescriptionListTerm>
+          <DescriptionListTerm>{__('Host group')}</DescriptionListTerm>
           <DescriptionListDescription>
             <SkeletonLoader
               emptyState={<DefaultLoaderEmptyState />}
@@ -92,7 +102,7 @@ const DetailsCard = ({
           </DescriptionListDescription>
         </DescriptionListGroup>
         <DescriptionListGroup>
-          <DescriptionListTerm>{__('Host Owner')}</DescriptionListTerm>
+          <DescriptionListTerm>{__('Host owner')}</DescriptionListTerm>
           <DescriptionListDescription>
             <SkeletonLoader
               emptyState={<DefaultLoaderEmptyState />}
@@ -106,9 +116,6 @@ const DetailsCard = ({
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
-      </DescriptionList>
-      <Divider className="padded-divider" />
-      <DescriptionList>
         <DescriptionListGroup>
           <DescriptionListTerm>{__('Comment')}</DescriptionListTerm>
           <DescriptionListDescription>
