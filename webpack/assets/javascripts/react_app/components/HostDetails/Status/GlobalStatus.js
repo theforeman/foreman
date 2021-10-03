@@ -31,7 +31,7 @@ const GlobalStatus = ({ hostName }) => {
 
   return (
     <>
-      <a onClick={handleGlobalStatusClick}>
+      <a style={{ fontSize: '18px' }} onClick={handleGlobalStatusClick}>
         <StatusIcon statusNumber={global} />
       </a>
       <StatusesModal
