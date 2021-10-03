@@ -14,7 +14,6 @@ import {
   DataListCell,
   Title,
 } from '@patternfly/react-core';
-import { Link } from 'react-router-dom';
 import URI from 'urijs';
 
 import { foremanUrl } from '../../../common/helpers';
@@ -23,6 +22,7 @@ import { useAPI } from '../../../common/hooks/API/APIHooks';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
 import SkeletonLoader from '../../common/SkeletonLoader';
 import { STATUS } from '../../../constants';
+import { pushUrl } from '../../../../foreman_navigation';
 
 const NUMBER_OF_RECORDS = 3;
 const BASE_URL = '/audits';
@@ -46,7 +46,7 @@ const AuditCard = ({ hostName }) => {
       <CardHeader>
         <CardTitle>{__('Recent Audits')}</CardTitle>
         <CardActions>
-          <Link to={uiUrl}> {__('All Audits')}</Link>
+          <a onClick={() => pushUrl(uiUrl)}> {__('All audits')}</a>
         </CardActions>
       </CardHeader>
       <CardBody>
