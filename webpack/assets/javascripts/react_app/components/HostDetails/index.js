@@ -36,9 +36,11 @@ import Slot from '../common/Slot';
 import { registerCoreTabs } from './Tabs';
 import { translate as __ } from '../../common/I18n';
 import HostGlobalStatus from './Status/GlobalStatus';
-
-import './HostDetails.scss';
 import ExperimentalAlert from './ExperimentalAlert';
+import SkeletonLoader from '../common/SkeletonLoader';
+import { STATUS } from '../../constants';
+import './HostDetails.scss';
+
 
 const HostDetails = ({
   match: {

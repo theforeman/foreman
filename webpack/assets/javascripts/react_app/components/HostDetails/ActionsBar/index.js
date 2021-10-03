@@ -1,15 +1,20 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Button,
   DropdownItem,
   Dropdown,
   KebabToggle,
 } from '@patternfly/react-core';
+import {
+  TrashIcon,
+  CloneIcon,
+  UndoIcon,
+  CommentIcon,
+} from '@patternfly/react-icons';
 import { visit } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
-import { selectKebabItems } from './Selectors';
 import { foremanUrl } from '../../../common/helpers';
 import { deleteHost } from './actions';
 import { useForemanSettings } from '../../../Root/Context/ForemanContext';
@@ -26,7 +31,7 @@ const ActionsBar = ({
   const [kebabIsOpen, setKebab] = useState(false);
   const onKebabToggle = isOpen => setKebab(isOpen);
   const { destroyVmOnHostDelete } = useForemanSettings();
-  const registeredItems = useSelector(selectKebabItems, shallowEqual);
+
   const dispatch = useDispatch();
   const deleteHostHandler = () =>
     dispatch(deleteHost(hostId, computeId, destroyVmOnHostDelete));
@@ -58,21 +63,6 @@ const ActionsBar = ({
     </DropdownItem>,
     <DropdownItem
       icon={<CommentIcon />}
-      onClick={() =>
-        window.open(
-          'https://community.theforeman.org/t/foreman-3-0-new-host-detail-page-feedback/25281',
-          '_blank'
-        )
-      }
-      key="feedback"
-      component="button"
-    >
-      {__('Share feedback')}
-    </DropdownItem>,
-    <DropdownItem href={`/hosts/${hostId}`} key="prev-version">
-      {__('Previous version')}
-    </DropdownItem>,
-    <DropdownItem
       onClick={() =>
         window.open(
           'https://community.theforeman.org/t/foreman-3-0-new-host-detail-page-feedback/25281',
