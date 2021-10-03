@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -13,6 +14,8 @@ import {
   Text,
   TextVariants,
   PageSection,
+  Split,
+  SplitItem,
 } from '@patternfly/react-core';
 
 import Skeleton from 'react-loading-skeleton';
@@ -78,21 +81,39 @@ const HostDetails = ({
           <br />
           <br />
           <Grid>
-            <GridItem span={3}>
-              <Title headingLevel="h5" size="2xl">
-                {/* TODO: Make a generic Skeleton HOC (withSkeleton) */}
-                {response.name || <Skeleton />}{' '}
-                <HostGlobalStatus hostName={id} />
-              </Title>
+            <GridItem span={9}>
+              <SkeletonLoader status={status || STATUS.PENDING}>
+                {response && (
+                  <>
+                    <div className="hostname-wrapper">
+                      <SkeletonLoader status={status || STATUS.PENDING}>
+                        {response && (
+                          <Title
+                            className="hostname-truncate"
+                            headingLevel="h5"
+                            size="2xl"
+                          >
+                            {response.name}
+                          </Title>
+                        )}
+                      </SkeletonLoader>
+                    </div>
+                    <Split style={{ display: 'inline-flex' }} hasGutter>
+                      <SplitItem>
+                        <HostGlobalStatus hostName={id} />
+                      </SplitItem>
+                      <SplitItem>
+                        <Badge> {response?.operatingsystem_name}</Badge>
+                      </SplitItem>
+                      <SplitItem>
+                        <Badge>{response?.architecture_name}</Badge>
+                      </SplitItem>
+                    </Split>
+                  </>
+                )}
+              </SkeletonLoader>
             </GridItem>
-            <GridItem
-              style={{ marginTop: '5px', marginRight: '30px' }}
-              span={7}
-            >
-              <Badge key={1}>{response.operatingsystem_name}</Badge>{' '}
-              <Badge key={21}>{response.architecture_name}</Badge>
-            </GridItem>
-            <GridItem span={2}>
+            <GridItem offset={10} span={2}>
               <ActionsBar hostId={id} permissions={response.permissions} />
             </GridItem>
           </Grid>
