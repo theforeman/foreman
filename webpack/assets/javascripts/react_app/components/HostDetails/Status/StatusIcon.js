@@ -19,26 +19,26 @@ const StatusIcon = ({ statusNumber, label }) => {
     case OK_STATUS_STATE:
       return (
         <span className="status-success">
-          <CheckCircleIcon /> {label}
+          <CheckCircleIcon noVerticalAlign /> {label}
         </span>
       );
     case WARNING_STATUS_STATE:
       return (
         <span className="status-warning">
-          <ExclamationTriangleIcon /> {label}
+          <ExclamationTriangleIcon noVerticalAlign /> {label}
         </span>
       );
 
     case ERROR_STATUS_STATE:
       return (
         <span className="status-error">
-          <ExclamationCircleIcon /> {label}
+          <ExclamationCircleIcon noVerticalAlign /> {label}
         </span>
       );
     case NA_STATUS_STATE:
       return (
         <span className="disabled">
-          <BanIcon /> {label}
+          <BanIcon noVerticalAlign /> {label}
         </span>
       );
     default:
