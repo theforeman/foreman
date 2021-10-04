@@ -90,12 +90,7 @@ module Menu
       end
 
       Manager.map :labs_menu do |menu|
-        menu.sub_menu :lab_features_menu, :caption => N_('Lab Features'), :icon => 'fa fa-flask' do
-          menu.item :host_wizard,
-            :caption => 'Host Wizard',
-            :url_hash => { :controller => 'api/v2/hosts', :action => 'create' },
-            :url => '/host_wizard'
-        end
+        menu.sub_menu :lab_features_menu, :caption => N_('Lab Features'), :icon => 'fa fa-flask'
       end
 
       if Rails.env.development? && defined?(::GraphiQL::Rails::Engine)
