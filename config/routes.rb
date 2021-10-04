@@ -543,7 +543,6 @@ Foreman::Application.routes.draw do
     mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/api/graphql'
   end
 
-  match 'host_wizard' => 'react#index', :via => :get
   constraints(id: /[^\/]+/) do
     match 'experimental/hosts/:id' => 'react#index', :via => :get, :as => :host_details_page
   end
