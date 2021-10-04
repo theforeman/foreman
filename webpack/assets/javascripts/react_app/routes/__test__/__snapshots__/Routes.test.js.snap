@@ -4,11 +4,6 @@ exports[`Routes rendering routes with children renders routes with chidlren 1`] 
 <Fragment>
   <ForemanSwitcher>
     <Route
-      key="/host_wizard"
-      path="/host_wizard"
-      render={[Function]}
-    />
-    <Route
       key="/audits"
       path="/audits"
       render={[Function]}
