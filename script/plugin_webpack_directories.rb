@@ -37,11 +37,14 @@ config = { entries: {}, paths: [], plugins: {} }
 entry_paths = []
 plugin_name_regexp = /foreman.*|katello.*/
 specs.each do |dep|
+  dep = dep.to_spec if gemfile_in
+
   # skip other rails engines that are not plugins
   # TODO: Consider using the plugin registration api?
-  next unless dep.name =~ plugin_name_regexp
-  next if dep.name =~ /.*[_-]core$/
-  dep = dep.to_spec if gemfile_in
+  unless dep.respond_to?("metadata") && dep.metadata.has_key?("is_foreman_plugin") && dep.metadata["is_foreman_plugin"] == "true"
+    next unless dep.name =~ plugin_name_regexp
+    next if dep.name =~ /.*[_-]core$/
+  end
 
   path = "#{dep.to_spec.full_gem_path}/webpack"
 
