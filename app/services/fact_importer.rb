@@ -4,6 +4,8 @@ class FactImporter
   delegate :logger, :to => :Rails
   attr_reader :counters
 
+  FACT_NAME_TYPE = 'fact_names.type'.freeze
+
   def self.support_background
     false
   end
@@ -138,7 +140,7 @@ class FactImporter
     time = Time.now.utc
     updated = 0
     db_facts_names = []
-    host.fact_values.joins(:fact_name).where('fact_names.type' => fact_name_class_name).reorder('').find_each do |record|
+    host.fact_values.includes([:fact_name]).joins(:fact_name).where(FACT_NAME_TYPE => fact_name_class_name).reorder('').find_each do |record|
       next unless fact_names.include?(record.name)
       new_value = facts[record.name]
       if record.value != new_value
