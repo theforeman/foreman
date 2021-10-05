@@ -18,19 +18,21 @@ const ReactApp = ({ layout, metadata, toasts }) => {
 
   return (
     <div id="react-app-root">
-      <ForemanContext.Provider value={contextData}>
-        <ApolloProvider client={apolloClient}>
-          <ConnectedRouter history={history}>
-            <Layout data={layout}>
-              <ErrorBoundary history={history}>
-                <ToastsList railsMessages={toasts} />
-                <AppSwitcher />
-                <ConfirmModal />
-              </ErrorBoundary>
-            </Layout>
-          </ConnectedRouter>
-        </ApolloProvider>
-      </ForemanContext.Provider>
+      <React.StrictMode>
+        <ForemanContext.Provider value={contextData}>
+          <ApolloProvider client={apolloClient}>
+            <ConnectedRouter history={history}>
+              <Layout data={layout}>
+                <ErrorBoundary history={history}>
+                  <ToastsList railsMessages={toasts} />
+                  <AppSwitcher />
+                  <ConfirmModal />
+                </ErrorBoundary>
+              </Layout>
+            </ConnectedRouter>
+          </ApolloProvider>
+        </ForemanContext.Provider>
+      </React.StrictMode>
     </div>
   );
 };
