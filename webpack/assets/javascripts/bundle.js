@@ -25,6 +25,7 @@ import * as spice from './spice';
 import * as autocomplete from './foreman_autocomplete';
 import * as typeAheadSelect from './foreman_type_ahead_select';
 import * as lookupKeys from './foreman_lookup_keys';
+import reportWebVitals from './services/web-vitals';
 import './foreman_overrides';
 import './bundle_novnc';
 
@@ -43,6 +44,8 @@ if (process.env.NODE_ENV !== 'production') {
   /* eslint-disable-next-line */
   __webpack_public_path__ = `${window.location.protocol}//${window.location.hostname}:3808/webpack/`;
 }
+
+reportWebVitals();
 
 window.tfm = Object.assign(window.tfm || {}, {
   authSource,
