@@ -62,6 +62,26 @@ module Mutations
         end
       end
 
+      context 'with invalid name' do
+        let(:context_user) { FactoryBot.create(:user, :admin) }
+        let(:variables) { { id: model_id, name: '' } }
+
+        test 'should return original name value' do
+          model
+
+          assert_difference(-> { ::Model.count }, 0) do
+            assert_empty result['errors']
+          end
+          model.reload
+          returned_name = result['data']['updateModel']['model']['name']
+          assert_not_empty returned_name
+          assert_equal model.name, returned_name
+          error = result['data']['updateModel']['errors'].first
+          assert_equal ['attributes', 'name'], error['path']
+          assert_equal "can't be blank", error['message']
+        end
+      end
+
       context 'with edit permission' do
         let(:context_user) do
           setup_user('edit', 'models') do |user|
