@@ -151,7 +151,7 @@ class SettingRegistry
       end
       definition.updated_at = s.updated_at
       definition.value = s.value
-      logger.debug("Updated cached value for setting=#{s.name}")
+      logger.debug("Updated cached value for setting=#{s.name}") unless ignore_cache
     end
     @values_loaded_at = Time.zone.now if settings.any?
   end
