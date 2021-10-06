@@ -62,6 +62,7 @@ module Mutations
         errors = if resource.save
                    []
                  else
+                   resource.restore_attributes if resource.persisted?
                    map_errors_to_path(resource)
                  end
 
