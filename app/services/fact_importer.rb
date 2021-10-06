@@ -137,7 +137,6 @@ class FactImporter
   def update_facts
     time = Time.now.utc
     updated = 0
-    db_facts_names = []
     db_facts = host.fact_values.joins(:fact_name).where(fact_names: {type: fact_name_class_name}).reorder(nil).pluck(:name, :value, :id)
     db_facts.each do |name, value, id|
       next unless fact_names.include?(name)
@@ -147,8 +146,8 @@ class FactImporter
         FactValue.where(id: id).update_all(:value => new_value, :updated_at => time)
         updated += 1
       end
-      db_facts_names << name
     end
+    db_facts_names = db_facts.map(&:first) & fact_names.keys
     @facts_to_create = facts.keys - db_facts_names
     @counters[:updated] = updated
   end
