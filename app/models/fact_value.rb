@@ -11,10 +11,10 @@ class FactValue < ApplicationRecord
 
   has_one :location, :through => :host
   scoped_search :relation => :location, :on => :name, :rename => :location, :complete_value => true, :only_explicit => true
-  scoped_search :relation => :location, :on => :id, :rename => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+  scoped_search :relation => :host, :on => :location_id, :rename => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   has_one :organization, :through => :host
   scoped_search :relation => :organization, :on => :name, :rename => :organization, :complete_value => true, :only_explicit => true
-  scoped_search :relation => :organization, :on => :id, :rename => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+  scoped_search :relation => :host, :on => :organization_id, :rename => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
   scoped_search :on => :value, :in_key => :fact_name, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
   scoped_search :on => :value, :default_order => true, :ext_method => :search_value_cast_facts
