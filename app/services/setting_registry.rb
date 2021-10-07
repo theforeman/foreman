@@ -100,7 +100,7 @@ class SettingRegistry
     load_definitions
 
     # load all db values
-    load_values
+    load_values(ignore_cache: true)
 
     # create missing settings in the database
     @settings.except(*Setting.unscoped.all.pluck(:name)).each do |name, definition|
@@ -131,16 +131,29 @@ class SettingRegistry
     end
   end
 
-  def load_values
+  def known_categories
+    unless @known_descendants == Setting.descendants
+      @known_descendants = Setting.descendants
+      @known_categories = @known_descendants.map(&:name)
+      @values_loaded_at = nil # force all values to be reloaded
+    end
+    @known_categories
+  end
+
+  def load_values(ignore_cache: false)
     # we are loading only known STIs as we load settings fairly early the first time and plugin classes might not be loaded yet.
-    Setting.unscoped.where(category: Setting.descendants.map(&:name)).all.each do |s|
+    settings = Setting.unscoped.where(category: known_categories)
+    settings = settings.where('updated_at >= ?', @values_loaded_at) unless ignore_cache || @values_loaded_at.nil?
+    settings.each do |s|
       unless (definition = find(s.name))
         logger.debug("Setting #{s.name} has no definition, clean up your database")
         next
       end
       definition.updated_at = s.updated_at
       definition.value = s.value
+      logger.debug("Updated cached value for setting=#{s.name}") unless ignore_cache
     end
+    @values_loaded_at = Time.zone.now if settings.any?
   end
 
   def _add(name, category:, type:, default:, description:, full_name:, context:, value: nil, encrypted: false, collection: nil, options: {})
