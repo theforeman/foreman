@@ -136,20 +136,17 @@ class FactImporter
 
   def update_facts
     time = Time.now.utc
-    updated = 0
-    db_facts = host.fact_values.joins(:fact_name).where(fact_names: {type: fact_name_class_name}).reorder(nil).pluck(:name, :value, :id)
-    db_facts.each do |name, value, id|
+    to_update = []
+    db_facts = host.fact_values.joins(:fact_name).where(fact_names: {type: fact_name_class_name}).reorder(nil).pluck(:name, :value, :id, :fact_name_id, :host_id, :created_at)
+    db_facts.each do |name, value, id, fact_name_id, host_id, created_at|
       next unless fact_names.include?(name)
       new_value = facts[name]
-      if value != new_value
-        # skip callbacks/validations
-        FactValue.where(id: id).update_all(:value => new_value, :updated_at => time)
-        updated += 1
-      end
+      to_update << {id: id, value: new_value, fact_name_id: fact_name_id, host_id: host_id, updated_at: time, created_at: created_at} if value != new_value
     end
+    FactValue.upsert_all(to_update) unless to_update.empty?
     db_facts_names = db_facts.map(&:first) & fact_names.keys
     @facts_to_create = facts.keys - db_facts_names
-    @counters[:updated] = updated
+    @counters[:updated] = to_update.count
   end
 
   def normalize(facts)
