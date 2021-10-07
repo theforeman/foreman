@@ -22,7 +22,8 @@ class SettingJSTest < IntegrationTestWithJavascript
           full_name: 'Pretty setting')
       end
     end
-    Foreman.settings.load_definitions
+
+    Foreman.settings.load
 
     assert_index_page(settings_path, "Settings", false, true, false)
     assert page.has_link?("My Pretty Setting Label", :href => "#category_label_test")
