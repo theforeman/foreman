@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle } from '@patternfly/react-core';
-import { BookmarkIcon } from '@patternfly/react-icons';
+import { OutlinedBookmarkIcon } from '@patternfly/react-icons';
 import BookmarkModal from '../../Bookmarks/components/SearchModal';
 import { STATUS } from '../../../constants';
 import { noop } from '../../../common/helpers';
-import { actionItems, savedBookmarksItems } from './BookmarkItems';
+import {
+  addBookmarkItem,
+  savedBookmarksItems,
+  manageBookmarksItem,
+} from './BookmarkItems';
+import history from '../../../history';
+import { stringifyParams } from '../../../common/urlHelpers';
 
 const Bookmarks = ({
   bookmarks,
@@ -28,13 +34,24 @@ const Bookmarks = ({
       getBookmarks();
     }
   };
+
+  const manageBookmarks = () => {
+    const query = stringifyParams({ searchQuery: `controller=${controller}` });
+    history.push({ pathname: '/bookmarks', search: query });
+  };
+
   const dropdownItems = [
-    actionItems({ canCreate, setModalOpen, documentationUrl }),
+    addBookmarkItem({ canCreate, setModalOpen }),
     savedBookmarksItems({
       bookmarks,
       onBookmarkClick,
       status,
       errors,
+    }),
+    manageBookmarksItem({
+      canCreate,
+      onClick: manageBookmarks,
+      documentationUrl,
     }),
   ];
 
@@ -50,7 +67,7 @@ const Bookmarks = ({
         isOpen={isDropdownOpen}
         toggle={
           <DropdownToggle onToggle={onToggle}>
-            <BookmarkIcon />
+            <OutlinedBookmarkIcon />
           </DropdownToggle>
         }
         id={controller}
