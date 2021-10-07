@@ -26,13 +26,15 @@ exports[`Bookmarks should render bookmarks dropdown when loaded 1`] = `
             id="newBookmark"
             onClick={[MockFunction]}
           >
+            <PlusIcon
+              color="currentColor"
+              noVerticalAlign={false}
+              size="sm"
+            />
+             
             Bookmark this search
           </DropdownItem>
-          <DocumentationLink
-            href="https://test-docs.com"
-          >
-            Documentation
-          </DocumentationLink>
+          <DropdownSeparator />
         </DropdownGroup>,
         <DropdownGroup
           label="Saved Bookmarks"
@@ -45,6 +47,20 @@ exports[`Bookmarks should render bookmarks dropdown when loaded 1`] = `
             </EllipisWithTooltip>
           </DropdownItem>
         </DropdownGroup>,
+        <DropdownGroup>
+          <DropdownSeparator />
+          <DropdownItem
+            id="manageBookmarks"
+            onClick={[Function]}
+          >
+            Manage Bookmarks
+          </DropdownItem>
+          <DocumentationLink
+            href="https://test-docs.com"
+          >
+            Documentation
+          </DocumentationLink>
+        </DropdownGroup>,
       ]
     }
     id="architectures"
@@ -54,7 +70,7 @@ exports[`Bookmarks should render bookmarks dropdown when loaded 1`] = `
       <DropdownToggle
         onToggle={[Function]}
       >
-        <BookmarkIcon
+        <OutlinedBookmarkIcon
           color="currentColor"
           noVerticalAlign={false}
           size="sm"
@@ -83,13 +99,15 @@ exports[`Bookmarks should render bookmarks dropdown when loading 1`] = `
             id="newBookmark"
             onClick={[MockFunction]}
           >
+            <PlusIcon
+              color="currentColor"
+              noVerticalAlign={false}
+              size="sm"
+            />
+             
             Bookmark this search
           </DropdownItem>
-          <DocumentationLink
-            href="https://test-docs.com"
-          >
-            Documentation
-          </DocumentationLink>
+          <DropdownSeparator />
         </DropdownGroup>,
         <DropdownGroup
           label="Saved Bookmarks"
@@ -103,6 +121,20 @@ exports[`Bookmarks should render bookmarks dropdown when loading 1`] = `
             />
           </DropdownItem>
         </DropdownGroup>,
+        <DropdownGroup>
+          <DropdownSeparator />
+          <DropdownItem
+            id="manageBookmarks"
+            onClick={[Function]}
+          >
+            Manage Bookmarks
+          </DropdownItem>
+          <DocumentationLink
+            href="https://test-docs.com"
+          >
+            Documentation
+          </DocumentationLink>
+        </DropdownGroup>,
       ]
     }
     id="architectures"
@@ -112,7 +144,7 @@ exports[`Bookmarks should render bookmarks dropdown when loading 1`] = `
       <DropdownToggle
         onToggle={[Function]}
       >
-        <BookmarkIcon
+        <OutlinedBookmarkIcon
           color="currentColor"
           noVerticalAlign={false}
           size="sm"
@@ -141,13 +173,15 @@ exports[`Bookmarks should render when no bookmarks loaded 1`] = `
             id="newBookmark"
             onClick={[MockFunction]}
           >
+            <PlusIcon
+              color="currentColor"
+              noVerticalAlign={false}
+              size="sm"
+            />
+             
             Bookmark this search
           </DropdownItem>
-          <DocumentationLink
-            href="https://test-docs.com"
-          >
-            Documentation
-          </DocumentationLink>
+          <DropdownSeparator />
         </DropdownGroup>,
         <DropdownGroup
           label="Saved Bookmarks"
@@ -158,6 +192,20 @@ exports[`Bookmarks should render when no bookmarks loaded 1`] = `
             None found
           </DropdownItem>
         </DropdownGroup>,
+        <DropdownGroup>
+          <DropdownSeparator />
+          <DropdownItem
+            id="manageBookmarks"
+            onClick={[Function]}
+          >
+            Manage Bookmarks
+          </DropdownItem>
+          <DocumentationLink
+            href="https://test-docs.com"
+          >
+            Documentation
+          </DocumentationLink>
+        </DropdownGroup>,
       ]
     }
     id="architectures"
@@ -167,7 +215,7 @@ exports[`Bookmarks should render when no bookmarks loaded 1`] = `
       <DropdownToggle
         onToggle={[Function]}
       >
-        <BookmarkIcon
+        <OutlinedBookmarkIcon
           color="currentColor"
           noVerticalAlign={false}
           size="sm"
@@ -196,13 +244,15 @@ exports[`Bookmarks should show error 1`] = `
             id="newBookmark"
             onClick={[MockFunction]}
           >
+            <PlusIcon
+              color="currentColor"
+              noVerticalAlign={false}
+              size="sm"
+            />
+             
             Bookmark this search
           </DropdownItem>
-          <DocumentationLink
-            href="https://test-docs.com"
-          >
-            Documentation
-          </DocumentationLink>
+          <DropdownSeparator />
         </DropdownGroup>,
         <DropdownGroup
           label="Saved Bookmarks"
@@ -215,6 +265,20 @@ exports[`Bookmarks should show error 1`] = `
             </EllipisWithTooltip>
           </DropdownItem>
         </DropdownGroup>,
+        <DropdownGroup>
+          <DropdownSeparator />
+          <DropdownItem
+            id="manageBookmarks"
+            onClick={[Function]}
+          >
+            Manage Bookmarks
+          </DropdownItem>
+          <DocumentationLink
+            href="https://test-docs.com"
+          >
+            Documentation
+          </DocumentationLink>
+        </DropdownGroup>,
       ]
     }
     id="architectures"
@@ -224,7 +288,7 @@ exports[`Bookmarks should show error 1`] = `
       <DropdownToggle
         onToggle={[Function]}
       >
-        <BookmarkIcon
+        <OutlinedBookmarkIcon
           color="currentColor"
           noVerticalAlign={false}
           size="sm"

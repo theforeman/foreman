@@ -1,20 +1,25 @@
 import React from 'react';
 import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
-import { DropdownItem, DropdownGroup, Spinner } from '@patternfly/react-core';
+import { PlusIcon } from '@patternfly/react-icons';
+import {
+  DropdownItem,
+  DropdownGroup,
+  DropdownSeparator,
+  Spinner,
+} from '@patternfly/react-core';
 import { sprintf, translate as __ } from '../../../common/I18n';
 import { STATUS } from '../../../constants';
 import DocumentationUrl from '../DocumentationLink';
 
-export const actionItems = ({ canCreate, setModalOpen, documentationUrl }) => (
-  <DropdownGroup key="group 1">
-    {canCreate && (
+export const addBookmarkItem = ({ canCreate, setModalOpen }) =>
+  canCreate && (
+    <DropdownGroup key="group 1">
       <DropdownItem key="newBookmark" id="newBookmark" onClick={setModalOpen}>
-        {__('Bookmark this search')}
+        <PlusIcon /> {__('Bookmark this search')}
       </DropdownItem>
-    )}
-    <DocumentationUrl href={documentationUrl} />
-  </DropdownGroup>
-);
+      <DropdownSeparator key="separator" />
+    </DropdownGroup>
+  );
 
 const pendingItem = (
   <DropdownItem key="spinner" className="loader-root" isDisabled>
@@ -56,5 +61,25 @@ export const savedBookmarksItems = ({
       ],
       status === STATUS.ERROR && [errorItem(errors)],
     ].filter(item => item)}
+  </DropdownGroup>
+);
+
+export const manageBookmarksItem = ({
+  canCreate,
+  onClick,
+  documentationUrl,
+}) => (
+  <DropdownGroup key="manage bookmarks">
+    <DropdownSeparator key="separator" />
+    {canCreate && (
+      <DropdownItem
+        key="manageBookmarks"
+        id="manageBookmarks"
+        onClick={onClick}
+      >
+        {__('Manage Bookmarks')}
+      </DropdownItem>
+    )}
+    <DocumentationUrl href={documentationUrl} />
   </DropdownGroup>
 );
