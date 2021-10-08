@@ -49,6 +49,8 @@ https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/pe
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   is_fedora = @host.operatingsystem.name == 'Fedora'
+  is_centos = @host.operatingsystem.name.downcase.include?("centos")
+  is_rocky = @host.operatingsystem.name.downcase.include?("rocky")
   os_major = @host.operatingsystem.major.to_i
   os_minor = @host.operatingsystem.minor.to_i
   realm_compatible = (@host.operatingsystem.name == 'Fedora' && os_major >= 20) || (rhel_compatible && os_major >= 7)
@@ -84,7 +86,7 @@ liveimg --url=<%= liveimg_url %> <%= proxy_string %>
 <% else %>
 <%= @mediapath %><%= proxy_string %>
 <% @additional_media.each do |medium| -%>
-<% if rhel_compatible && @host.operatingsystem.name.downcase.include?("centos") && os_major >= 8 && medium[:url] && medium[:url].include?("AppStream") -%>
+<% if rhel_compatible && (is_centos || is_rocky) && os_major >= 8 && medium[:url] && medium[:url].include?("AppStream") -%>
 <% appstream_present = true -%>
 # renamed from "<%= medium[:url] %>" for CentOS Anaconda to work
 repo --name AppStream --baseurl <%= medium[:url] %>
@@ -92,7 +94,7 @@ repo --name AppStream --baseurl <%= medium[:url] %>
 repo --name <%= medium[:name] %> --baseurl <%= medium[:url] %> <%= medium[:install] ? ' --install' : '' %><%= proxy_string %>
 <% end -%>
 <% end -%>
-<% if rhel_compatible && @host.operatingsystem.name.downcase.include?("centos") && os_major >= 8 && medium_uri && medium_uri.to_s.include?("BaseOS") && !appstream_present -%>
+<% if rhel_compatible && (is_centos || is_rocky) && os_major >= 8 && medium_uri && medium_uri.to_s.include?("BaseOS") && !appstream_present -%>
 # repository added using BaseOS to AppStream string replacement
 repo --name AppStream --baseurl <%= medium_uri.to_s.gsub("BaseOS", "AppStream") %>
 <% end -%>
