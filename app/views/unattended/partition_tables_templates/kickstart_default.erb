@@ -9,6 +9,9 @@ oses:
 - RedHat
 - Rocky
 %>
+<% if host_param('ignoredisk_options') %>
+ignoredisk <%= host_param('ignoredisk_options') %>
+<% end %>
 zerombr
 clearpart --all --initlabel
 autopart <%= host_param('autopart_options') %>
