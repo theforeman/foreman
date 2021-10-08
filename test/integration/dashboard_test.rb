@@ -39,7 +39,7 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
   end
 
   test "dashboard link good host reports" do
-    assert_dashboard_link "Good host reports in the last 35 minutes"
+    assert_dashboard_link "Good hosts with reports"
   end
 
   test "dashboard link hosts that had pending changes" do
@@ -61,8 +61,7 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
         visit_dashboard
         within "li[data-name='Host Configuration Status for Puppet']" do
           assert page.has_no_link?('Out of sync hosts')
-          assert page.has_no_link?('Good host reports in the last')
-          assert page.has_link?('Good host with reports')
+          assert page.has_link?('Good hosts with reports')
         end
       end
     end

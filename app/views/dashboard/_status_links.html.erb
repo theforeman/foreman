@@ -18,7 +18,7 @@
                      :bad_hosts_enabled
 %>
 
-<%= searchable_links (out_of_sync_enabled?(origin) ? _("Good host reports in the last %s") % time_ago_in_words((report_origin_interval_setting(origin).to_i || 0).minutes.ago) : _("Good host with reports")),
+<%= searchable_links (_("Good hosts with reports")),
                      search_filter_with_origin(
                        "status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0",
                        origin
