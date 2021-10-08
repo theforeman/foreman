@@ -9,7 +9,7 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
     end
 
     test "should render not_found" do
-      Setting::Provisioning.any_instance.stubs(:value).returns('not-existing-template')
+      Setting[:default_global_registration_item] = ""
       get :global
       assert_response :not_found
     end

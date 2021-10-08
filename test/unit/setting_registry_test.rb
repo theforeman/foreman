@@ -20,6 +20,27 @@ class SettingRegistryTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#load_values' do
+    it "doesn't update definitions for unchanged settings" do
+      registry.expects(:find).never
+
+      registry.load_values
+    end
+
+    it "updates definitions for changed settings" do
+      setting.update(value: 100)
+      registry.expects(:find).once
+
+      registry.load_values
+    end
+
+    it "can be forced to load all values" do
+      registry.expects(:find).times(Setting.count)
+
+      registry.load_values(ignore_cache: true)
+    end
+  end
+
   it 'provides default if no value defined' do
     assert_equal 5, registry['foo']
     assert_equal 5, registry[:foo]

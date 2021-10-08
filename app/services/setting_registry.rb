@@ -47,10 +47,13 @@ class SettingRegistry
     load_definitions
 
     # load all db values
-    load_values
+    load_values(ignore_cache: true)
 
-    # if create_missing create missing values in DB
-    # not needed now as old load mechanism takes care of that
+    # load nil to set value to default
+    @settings.except(*Setting.unscoped.pluck(:name)).each do |name, definition|
+      definition.updated_at = nil
+      definition.value = definition.default
+    end
   end
 
   def load_definitions
@@ -64,23 +67,29 @@ class SettingRegistry
     end
   end
 
-  def load_values
-    loaded_names = []
+  def known_categories
+    unless @known_descendants == Setting.descendants
+      @known_descendants = Setting.descendants
+      @known_categories = @known_descendants.map(&:name)
+      @values_loaded_at = nil # force all values to be reloaded
+    end
+    @known_categories
+  end
+
+  def load_values(ignore_cache: false)
     # we are loading only known STIs as we load settings fairly early the first time and plugin classes might not be loaded yet.
-    Setting.unscoped.where(category: Setting.descendants.map(&:name)).all.each do |s|
+    settings = Setting.unscoped.where(category: known_categories)
+    settings = settings.where('updated_at >= ?', @values_loaded_at) unless ignore_cache || @values_loaded_at.nil?
+    settings.each do |s|
       unless (definition = find(s.name))
         logger.debug("Setting #{s.name} has no definition, clean up your database")
         next
       end
-      loaded_names << s.name
       definition.updated_at = s.updated_at
       definition.value = s.value
+      logger.debug("Updated cached value for setting=#{s.name}") unless ignore_cache
     end
-    # load nil to set value to default
-    @settings.except(*loaded_names).each do |name, definition|
-      definition.updated_at = nil
-      definition.value = definition.default
-    end
+    @values_loaded_at = Time.zone.now if settings.any?
   end
 
   def _add(name, category:, default:, description:, full_name: nil, value: nil, encrypted: false)
