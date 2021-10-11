@@ -75,8 +75,8 @@ const Pagination = props => {
         variant={PaginationVariant.bottom}
         titles={paginationTitles}
         itemCount={data.itemCount}
-        onSetPage={onPageSet}
-        onPerPageSelect={onPerPageSelect}
+        onSetPage={(e, nextPage) => onPageSet(nextPage)}
+        onPerPageSelect={(e, nextPerPage) => onPerPageSelect(nextPerPage)}
         {...otherProps}
       />
     );

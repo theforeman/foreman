@@ -62,7 +62,7 @@ exports[`Pagination rendering from erb renders layout 1`] = `
     }
   }
   toggleTemplate={[Function]}
-  variant="top"
+  variant="bottom"
   widgetId="pagination-options-menu"
 />
 `;
