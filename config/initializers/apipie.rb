@@ -89,13 +89,13 @@ elsif Apipie.configuration.use_cache
       end
     end
     if outdated
-      puts "API controllers newer than Apipie cache! Run apipie:cache rake task to regenerate cache."
+      warn "API controllers newer than Apipie cache! Run apipie:cache rake task to regenerate cache."
     end
   else
-    puts "Apipie cache enabled but not present yet. Run apipie:cache rake task to speed up API calls."
+    warn "Apipie cache enabled but not present yet. Run apipie:cache rake task to speed up API calls."
   end
 else
-  puts "The Apipie cache is turned off. Enable it and run apipie:cache rake task to speed up API calls."
+  warn "The Apipie cache is turned off. Enable it and run apipie:cache rake task to speed up API calls."
 end
 
 # special type of validator: we say that it's not specified
