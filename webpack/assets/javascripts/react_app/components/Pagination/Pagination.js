@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { Paginator } from 'patternfly-react';
-import { Pagination as Pf4Pagination } from '@patternfly/react-core';
+import {
+  Pagination as Pf4Pagination,
+  PaginationVariant,
+} from '@patternfly/react-core';
 import { translate as __ } from '../../common/I18n';
 import { usePaginationOptions } from './PaginationHooks';
 import {
@@ -69,11 +72,12 @@ const Pagination = props => {
     return (
       <Pf4Pagination
         {...pageOpts}
-        {...otherProps}
+        variant={PaginationVariant.bottom}
+        titles={paginationTitles}
         itemCount={data.itemCount}
         onSetPage={onPageSet}
         onPerPageSelect={onPerPageSelect}
-        titles={paginationTitles}
+        {...otherProps}
       />
     );
 
