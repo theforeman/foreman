@@ -1,6 +1,6 @@
 <% title _("SSH keys for: %s") % @compute_resource.name %>
 
-<table class="<%= table_css_classes 'table-fixed' %>">
+<table class="<%= table_css_classes %>">
   <% if @key_pairs.any? %>
     <thead>
     <tr>

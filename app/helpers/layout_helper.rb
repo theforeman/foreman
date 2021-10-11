@@ -236,6 +236,6 @@ module LayoutHelper
   private
 
   def table_css_classes(classes = '')
-    "pf-c-table " + classes
+    "pf-c-table pf-m-compact " + classes
   end
 end

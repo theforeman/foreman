@@ -15,11 +15,11 @@ class LayoutHelperTest < ActionView::TestCase
   end
 
   test "table css classes should return the regular classes for table" do
-    assert_equal table_css_classes, "table table-bordered table-striped table-hover "
+    assert_equal table_css_classes, "pf-c-table pf-m-compact "
   end
 
   test "table css classes should return the regular classes for table plus the added classes" do
-    assert_equal table_css_classes("test-class"), "table table-bordered table-striped table-hover test-class"
+    assert_equal table_css_classes("test-class"), "pf-c-table pf-m-compact test-class"
   end
 
   test "breadcrumbs are not mounted on non-ok pages" do

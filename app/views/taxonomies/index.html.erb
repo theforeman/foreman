@@ -10,7 +10,7 @@
                       {:count => @count_nil_hosts , :taxonomy_single => taxonomy_single },
                       hosts_path(:search => "not has #{controller_name.singularize}"))).html_safe %>
 <% end %>
-<table class="<%= table_css_classes 'table-fixed' %>">
+<table class="<%= table_css_classes %>">
   <thead>
     <tr>
       <th><%= sort :title, :as => s_("Taxonomy|Name") %></th>

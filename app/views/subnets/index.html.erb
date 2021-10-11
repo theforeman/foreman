@@ -4,7 +4,7 @@
 <% title_actions render_pagelets_for(:subnet_index_title_buttons) %>
 <% title_actions new_link(_("Create Subnet")) %>
 
-<table class="<%= table_css_classes 'table-fixed' %>">
+<table class="<%= table_css_classes %>">
   <thead>
     <tr>
       <th class="col-md-2"><%= sort :name, :as => s_("Subnet|Name") %></th>

@@ -17,7 +17,7 @@ end %>
 <% title_actions new_link_unless_locked(_("Create Filter"), { :controller => :filters, :role_id => @role }, @role),
                  documentation_button('4.1.2RolesandPermissions') %>
 
-<table class="<%= table_css_classes 'table-fixed' %>" <%= "data-table='inline'".html_safe if params[:paginate] == 'client' %> >
+<table class="<%= table_css_classes %>" <%= "data-table='inline'".html_safe if params[:paginate] == 'client' %> >
   <thead>
     <tr>
       <% unless params[:role_id] %>
