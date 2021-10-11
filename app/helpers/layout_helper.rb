@@ -236,6 +236,6 @@ module LayoutHelper
   private
 
   def table_css_classes(classes = '')
-    "table table-bordered table-striped table-hover " + classes
+    "pf-c-table " + classes
   end
 end
