@@ -1,39 +1,69 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Pagination rendering from erb renders layout 1`] = `
-<Paginator
-  className="col-md-12"
-  disableNext={false}
-  disablePrev={false}
-  dropdownButtonId="pagination-row-dropdown"
+<Pagination
+  className=""
+  defaultToFullPage={false}
+  firstPage={1}
+  isCompact={false}
+  isDisabled={false}
+  isSticky={false}
   itemCount={21}
-  messages={
-    Object {
-      "currentPage": "Current Page",
-      "firstPage": "First Page",
-      "lastPage": "Last Page",
-      "nextPage": "Next Page",
-      "of": "of",
-      "perPage": "per page",
-      "previousPage": "Previous Page",
-    }
-  }
-  onPageSet={[Function]}
+  itemsEnd={null}
+  itemsStart={null}
+  offset={0}
+  onFirstClick={[Function]}
+  onLastClick={[Function]}
+  onNextClick={[Function]}
+  onPageInput={[Function]}
   onPerPageSelect={[Function]}
-  pagination={
+  onPreviousClick={[Function]}
+  onSetPage={[Function]}
+  ouiaSafe={true}
+  page={1}
+  perPage={5}
+  perPageOptions={
+    Array [
+      Object {
+        "title": "5",
+        "value": 5,
+      },
+      Object {
+        "title": "10",
+        "value": 10,
+      },
+      Object {
+        "title": "15",
+        "value": 15,
+      },
+      Object {
+        "title": "25",
+        "value": 25,
+      },
+      Object {
+        "title": "50",
+        "value": 50,
+      },
+    ]
+  }
+  titles={
     Object {
-      "page": 1,
-      "perPage": 5,
-      "perPageOptions": Array [
-        5,
-        10,
-        15,
-        25,
-        50,
-      ],
+      "currPage": "Current page",
+      "items": "items",
+      "itemsPerPage": "Items per page",
+      "optionsToggle": "Items per page",
+      "page": "page",
+      "paginationTitle": "Pagination",
+      "perPageSuffix": "per page",
+      "toFirstPage": "Go to first page",
+      "toLastPage": "Go to last page",
+      "toNextPage": "Go to next page",
+      "toPreviousPage": "Go to previous page",
     }
   }
-  viewType="table"
+  toggleTemplate={[Function]}
+  variant="top"
+  widgetId="pagination-options-menu"
 />
 `;
 
@@ -49,6 +79,7 @@ exports[`Pagination rendering from js renders correctly 1`] = `
   disableNext={false}
   disablePrev={false}
   dropdownButtonId="pagination-row-dropdown"
+  isPF4={true}
   onPageSet={[Function]}
   onPerPageSelect={[Function]}
   pagination={

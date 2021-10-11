@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { Paginator } from 'patternfly-react';
+import { Pagination as Pf4Pagination } from '@patternfly/react-core';
 import { translate as __ } from '../../common/I18n';
 import { usePaginationOptions } from './PaginationHooks';
 import {
@@ -21,6 +22,7 @@ const Pagination = props => {
     dropdownButtonId,
     disableNext,
     disablePrev,
+    isPF4,
     ...otherProps
   } = props;
 
@@ -48,6 +50,32 @@ const Pagination = props => {
     perPage: __('per page'),
     of: __('of'),
   };
+
+  const paginationTitles = {
+    items: __('items'),
+    page: __('page'),
+    itemsPerPage: __('Items per page'),
+    perPageSuffix: __('per page'),
+    toFirstPage: __('Go to first page'),
+    toPreviousPage: __('Go to previous page'),
+    toLastPage: __('Go to last page'),
+    toNextPage: __('Go to next page'),
+    optionsToggle: __('Items per page'),
+    currPage: __('Current page'),
+    paginationTitle: __('Pagination'),
+  };
+
+  if (isPF4)
+    return (
+      <Pf4Pagination
+        {...pageOpts}
+        {...otherProps}
+        itemCount={data.itemCount}
+        onSetPage={onPageSet}
+        onPerPageSelect={onPerPageSelect}
+        titles={paginationTitles}
+      />
+    );
 
   return (
     <Paginator
@@ -83,6 +111,7 @@ Pagination.propTypes = {
     page: PropTypes.number,
     perPageOptions: PropTypes.arrayOf(PropTypes.number),
   }),
+  isPF4: PropTypes.bool,
 };
 
 Pagination.defaultProps = {
@@ -92,6 +121,7 @@ Pagination.defaultProps = {
   pagination: null,
   disableNext: false,
   disablePrev: false,
+  isPF4: true,
 };
 
 export default Pagination;
