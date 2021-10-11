@@ -66,7 +66,10 @@ const Bookmarks = ({
       <Dropdown
         isOpen={isDropdownOpen}
         toggle={
-          <DropdownToggle onToggle={onToggle}>
+          <DropdownToggle
+            onToggle={onToggle}
+            aria-label="bookmarks dropdown toggle"
+          >
             <OutlinedBookmarkIcon />
           </DropdownToggle>
         }

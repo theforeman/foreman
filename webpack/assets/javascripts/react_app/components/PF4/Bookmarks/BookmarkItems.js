@@ -23,7 +23,7 @@ export const addBookmarkItem = ({ canCreate, setModalOpen }) =>
 
 const pendingItem = (
   <DropdownItem key="spinner" className="loader-root" isDisabled>
-    <Spinner size="xs" />
+    <Spinner size="xs" aria-label="loading bookmarks" />
   </DropdownItem>
 );
 
