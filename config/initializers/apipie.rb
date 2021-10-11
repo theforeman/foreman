@@ -74,8 +74,8 @@ Apipie.configure do |config|
 end
 
 # check apipie cache in dev mode
-if Foreman.in_rake?('apipie:cache', 'apipie:cache:index')
-  # No need to check the cache if we're regenerating
+if Foreman.in_rake?('apipie:cache', 'apipie:cache:index', 'config')
+  # No need to check the cache if we're regenerating or handling config
 elsif Apipie.configuration.use_cache
   cache_name = File.join(Apipie.configuration.cache_dir, Apipie.configuration.doc_base_url + '.json')
   if File.exist?(cache_name)
