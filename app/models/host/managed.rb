@@ -180,7 +180,18 @@ class Host::Managed < Host::Base
 
   scope :recent, lambda { |interval = Setting[:outofsync_interval], report_origin = 'All'|
     if report_origin == 'All'
-      with_last_report_within(interval.to_i.minutes)
+      report_origins = Report.select(:origin).distinct
+      if report_origins.empty?
+        with_last_report_within(interval.to_i.minutes)
+      else
+        recent_with_reports = Model.none
+        report_origins.select do |ro|
+          recent_with_reports = recent_with_reports.or(with_last_report_within_with_param(ro.origin, interval.to_i.minutes))
+        end
+        hosts_with_reports = with_last_report_origin(report_origins).pluck(:id)
+        recent_without_reports = where.not(id: hosts_with_reports).with_last_report_within(interval.to_i.minutes)
+        where(id: recent_without_reports.pluck(:id) + recent_with_reports.pluck(:id))
+      end
     else
       with_last_report_within_with_param(report_origin, interval.to_i.minutes)
     end
@@ -195,13 +206,14 @@ class Host::Managed < Host::Base
       # we need all hosts with reports that are out of sync
       outofsync_hosts_with_reports = Model.none
       report_origins.select do |ro|
-        outofsync_hosts_with_reports += out_of_sync_for(ro.origin) unless ro.origin.nil?
+        outofsync_hosts_with_reports = outofsync_hosts_with_reports.or(out_of_sync_for(ro.origin)) unless ro.origin.nil?
       end
       # we need to look at all hosts that do not have reports as well
       hosts_with_reports = with_last_report_origin(report_origins).pluck(:id)
       outofsync_hosts_without_reports = where.not(id: hosts_with_reports).not_disabled.with_last_report_exceeded(interval.to_i.minutes)
       # return all outofsync hosts
-      outofsync_hosts_without_reports + outofsync_hosts_with_reports
+      where(id: outofsync_hosts_with_reports.pluck(:id) + outofsync_hosts_without_reports.pluck(:id))
+
     end
   }
 
@@ -261,7 +273,7 @@ class Host::Managed < Host::Base
       !h.last_report.nil? && h.last_report.send(comparator, h.params["#{report_origin.downcase}_interval"].to_i.minutes.ago)
     end
     # return active record relation including all hosts that have no parameter overwritten
-    where(id: hosts_param_within.map(&:id)).or(where.not(id: hosts_param.map(&:id)).where("last_report #{comparator} ?", minutes.ago))
+    where(id: hosts_param_within.map(&:id)).or(where.not(id: hosts_param.map(&:id)).where("last_report #{comparator} ?", minutes.ago)).with_last_report_origin(report_origin)
   }
 
   scope :with_last_report_within, lambda { |minutes|
