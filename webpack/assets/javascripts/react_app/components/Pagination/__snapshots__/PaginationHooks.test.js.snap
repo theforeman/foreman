@@ -2,54 +2,21 @@
 
 exports[`Pagination Hooks should add per_page query to pagination options and sort it 1`] = `
 Array [
-  Object {
-    "title": "3",
-    "value": 3,
-  },
-  Object {
-    "title": "5",
-    "value": 5,
-  },
-  Object {
-    "title": "10",
-    "value": 10,
-  },
-  Object {
-    "title": "15",
-    "value": 15,
-  },
-  Object {
-    "title": "25",
-    "value": 25,
-  },
-  Object {
-    "title": "50",
-    "value": 50,
-  },
+  3,
+  5,
+  10,
+  15,
+  25,
+  50,
 ]
 `;
 
 exports[`Pagination Hooks should render pagination options 1`] = `
 Array [
-  Object {
-    "title": "5",
-    "value": 5,
-  },
-  Object {
-    "title": "10",
-    "value": 10,
-  },
-  Object {
-    "title": "15",
-    "value": 15,
-  },
-  Object {
-    "title": "25",
-    "value": 25,
-  },
-  Object {
-    "title": "50",
-    "value": 50,
-  },
+  5,
+  10,
+  15,
+  25,
+  50,
 ]
 `;

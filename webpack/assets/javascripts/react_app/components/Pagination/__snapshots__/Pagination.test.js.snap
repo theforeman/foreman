@@ -3,6 +3,8 @@
 exports[`Pagination rendering from erb renders layout 1`] = `
 <Pagination
   className=""
+  data-per-page={5}
+  data-total={21}
   defaultToFullPage={false}
   firstPage={1}
   isCompact={false}
