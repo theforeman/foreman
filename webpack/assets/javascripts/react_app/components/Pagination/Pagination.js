@@ -30,7 +30,7 @@ const Pagination = props => {
   } = props;
 
   const { perPage } = useForemanSettings();
-  const perPageOptions = usePaginationOptions();
+  const perPageOptions = usePaginationOptions(isPF4);
   const urlPage = getURIpage();
   const urlPerPage = getURIperPage() || null;
   const className = isEmpty(data.classNames)
@@ -77,6 +77,8 @@ const Pagination = props => {
         itemCount={data.itemCount}
         onSetPage={(e, nextPage) => onPageSet(nextPage)}
         onPerPageSelect={(e, nextPerPage) => onPerPageSelect(nextPerPage)}
+        data-per-page={pageOpts.perPage}
+        data-total={data.itemCount}
         {...otherProps}
       />
     );

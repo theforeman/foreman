@@ -265,13 +265,10 @@ export function buildRedirect(url) {
 }
 
 function paginationMetaData() {
-  const total = Number(
-    document.getElementsByClassName('pagination-pf-items-total')[0].textContent
-  );
-  const perPage = Number(
-    document.getElementById('pagination-row-dropdown').textContent
-  );
-  return { total, perPage };
+  const { total, perPage } = document.getElementsByClassName(
+    'pf-c-pagination'
+  )[0].dataset;
+  return { total: Number(total), perPage: Number(perPage) };
 }
 
 function updateCounter() {
