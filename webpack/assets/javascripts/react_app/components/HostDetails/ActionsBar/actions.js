@@ -1,3 +1,5 @@
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { visit } from '../../../../foreman_navigation';
 import { foremanUrl } from '../../../common/helpers';
 import { sprintf, translate as __ } from '../../../common/I18n';
@@ -13,29 +15,19 @@ export const deleteHost = (
     sprintf(__('Host %s has been removed successfully'), hostName);
   const errorToast = ({ message }) => message;
   const url = foremanUrl(`/api/hosts/${hostName}`);
+
   // TODO: Replace with a checkbox instead of a global setting for cascade host destroy
-  const warningMessage = () => {
+  const cascadeMessage = () => {
     if (compute) {
       return destroyVmOnHostDelete
-        ? sprintf(
-            __(
-              'Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed via global setting "Destroy associated VM on host delete".'
-            ),
-            hostName
+        ? __(
+            'This will delete the VM and its disks. This behavior can be changed via global setting "Destroy associated VM on host delete".'
           )
-        : sprintf(
-            __(
-              'Are you sure you want to delete host %s? It is irreversible, but VM and its disks will not be deleted. This behavior can be changed via global setting "Destroy associated VM on host delete".'
-            ),
-            hostName
+        : __(
+            'VM and its disks will not be deleted. This behavior can be changed via global setting "Destroy associated VM on host delete".'
           );
     }
-    return sprintf(
-      __(
-        'Are you sure you want to delete host %s ? This action is irreversible'
-      ),
-      hostName
-    );
+    return null;
   };
 
   dispatch(
@@ -53,7 +45,18 @@ export const deleteHost = (
             handleSuccess: () => visit(foremanUrl('/hosts')),
           })
         ),
-      message: warningMessage(),
+      message: (
+        <FormattedMessage
+          id="delete-host"
+          values={{
+            host: <b>{hostName}</b>,
+            cascade: cascadeMessage(),
+          }}
+          defaultMessage={__(
+            'Are you sure you want to delete host {host}? This action is irreversible. {cascade}'
+          )}
+        />
+      ),
     })
   );
 };
