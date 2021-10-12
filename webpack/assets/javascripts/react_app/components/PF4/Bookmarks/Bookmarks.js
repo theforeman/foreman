@@ -12,6 +12,7 @@ import {
 } from './BookmarkItems';
 import history from '../../../history';
 import { stringifyParams } from '../../../common/urlHelpers';
+import { translate as __ } from '../../../common/I18n';
 
 const Bookmarks = ({
   bookmarks,
@@ -68,6 +69,7 @@ const Bookmarks = ({
         toggle={
           <DropdownToggle
             onToggle={onToggle}
+            title={__('Bookmarks')}
             aria-label="bookmarks dropdown toggle"
           >
             <OutlinedBookmarkIcon />

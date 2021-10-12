@@ -5,9 +5,9 @@ import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { SearchBarProps } from '../SearchBar.fixtures';
 import SearchBar from '../index';
 import { reducers } from '../../AutoComplete';
-import bookmarksReducer from '../../Bookmarks/BookmarksReducer';
+import bookmarksReducer from '../../PF4/Bookmarks/BookmarksReducer';
 import foremanModalsReducer from '../../ForemanModal/ForemanModalReducer';
-import { APIMiddleware } from '../../../redux/API';
+import { APIMiddleware, reducers as APIreducers } from '../../../redux/API';
 import { visit } from '../../../../foreman_navigation';
 
 jest.mock('../../../redux/API/API');
@@ -15,7 +15,8 @@ jest.mock('lodash/debounce', () => jest.fn(fn => fn));
 
 const combinedReducers = {
   ...reducers,
-  bookmarks: bookmarksReducer,
+  ...APIreducers,
+  bookmarksPF4: bookmarksReducer,
   foremanModals: foremanModalsReducer,
 };
 
@@ -53,7 +54,7 @@ describe('SearchBar integration test', () => {
     );
     // dropdown should open, lets click on 'Bookmark this page'
     wrapper
-      .find('a[id="newBookmark"]')
+      .find('li[id="newBookmark"] > a')
       .first()
       .simulate('click');
     integrationTestHelper.takeActionsSnapshot(

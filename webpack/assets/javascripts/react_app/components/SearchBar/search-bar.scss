@@ -1,11 +1,64 @@
-@import "../AutoComplete/auto-complete.scss";
+@import '../AutoComplete/auto-complete.scss';
 
 .search-bar {
+  width: 100%;
+
   .autocomplete-search-btn-text {
     display: inline;
   }
 
   .search-input.use-shortcuts {
     padding-left: 21px;
+  }
+
+  .rbt-input-hint input {
+    display: none;
+  }
+
+  .scrollable-dropdown {
+    max-width: 250px;
+  }
+
+  li {
+    font-size: 16px;
+  }
+  input {
+    font-size: 16px;
+    height: 36px;
+    border-bottom-color: var(--pf-global--BorderColor--200);
+    border-top-color: var(--pf-global--BorderColor--300);
+    border-left-color: var(--pf-global--BorderColor--300);
+    border-left-width: 0.7px;
+    border-top-width: 0;
+
+    &::-webkit-input-placeholder {
+      font-style: normal;
+    }
+    &:-moz-placeholder {
+      font-style: normal;
+    }
+    &::-moz-placeholder {
+      font-style: normal;
+    }
+    &:-ms-input-placeholder {
+      font-style: normal;
+    }
+  }
+
+  .foreman-autocomplete {
+    width: 100%;
+
+    .autocomplete-focus-shortcut {
+      top: 8px;
+      font-size: 8px;
+    }
+
+    .autocomplete-aux {
+      top: 6px;
+      font-size: 16px;
+      .autocomplete-clear-button {
+        font-size: 16px;
+      }
+    }
   }
 }

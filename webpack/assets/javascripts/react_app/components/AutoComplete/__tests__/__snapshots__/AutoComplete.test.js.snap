@@ -55,12 +55,9 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     }
     paginate={true}
     paginationText="Display additional results..."
-    placeholder="Filter ..."
+    placeholder="Search"
     renderMenu={[Function]}
     selectHintOnEnter={false}
-  />
-  <AutoCompleteAux
-    onClear={[Function]}
   />
   <AutoCompleteFocusShortcut
     useKeyShortcuts={false}
