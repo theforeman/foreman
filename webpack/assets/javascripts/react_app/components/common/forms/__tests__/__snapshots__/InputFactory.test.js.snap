@@ -8,7 +8,6 @@ exports[`InputFactory rendering renders AutoComplete 1`] = `
     Object {
       "$$typeof": Symbol(react.memo),
       "Error": [Function],
-      "SearchButton": [Function],
       "WrappedComponent": [Function],
       "compare": null,
       "displayName": "Connect(AutoComplete)",

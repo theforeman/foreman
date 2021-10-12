@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import Immutable from 'seamless-immutable';
 import { bindMethods, debounceMethods, noop } from '../../common/helpers';
 import AutoCompleteMenu from './components/AutoCompleteMenu';
-import AutoCompleteSearchButton from './components/AutoCompleteSearchButton';
 import AutoCompleteError from './components/AutoCompleteError';
 import AutoCompleteAux from './components/AutoCompleteAux';
 import AutoCompleteFocusShortcut from './components/AutoCompleteFocusShortcut';
@@ -202,7 +201,7 @@ class AutoComplete extends React.Component {
           onChange={this.handleResultsChange}
           onFocus={this.handleInputFocus}
           onKeyDown={this.handleKeyDown}
-          placeholder={__(placeholder)}
+          placeholder={placeholder}
           disabled={disabled}
           renderMenu={(r, menuProps) => (
             <AutoCompleteMenu {...{ results: r, menuProps }} />
@@ -219,7 +218,7 @@ class AutoComplete extends React.Component {
             ...inputProps,
           }}
         />
-        <AutoCompleteAux onClear={this.handleClear} />
+        {searchQuery && <AutoCompleteAux onClear={this.handleClear} />}
         <AutoCompleteFocusShortcut useKeyShortcuts={useKeyShortcuts} />
         <AutoCompleteError error={error} />
       </div>
@@ -264,12 +263,11 @@ AutoComplete.defaultProps = {
   resetData: noop,
   initialUpdate: noop,
   useKeyShortcuts: false,
-  placeholder: 'Filter ...',
+  placeholder: __('Search'),
   disabled: false,
   trigger: null,
 };
 
-AutoComplete.SearchButton = AutoCompleteSearchButton;
 AutoComplete.Error = AutoCompleteError;
 
 export default AutoComplete;

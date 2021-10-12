@@ -112,7 +112,7 @@ describe('AutoComplete', () => {
 
     it('clear button click should call getResult', () => {
       const props = getProps();
-      const component = mount(<AutoComplete {...props} />);
+      const component = mount(<AutoComplete {...props} searchQuery="clear btn will appear only when query exists" />);
       expect(props.getResults.mock.calls).toHaveLength(0);
       component
         .find('.autocomplete-clear-button')

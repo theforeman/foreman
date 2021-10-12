@@ -49,7 +49,7 @@ class ActionDispatch::IntegrationTest
     visit index_path
     assert_breadcrumb_text(title_text)
     (assert first(:link, new_link_text).visible?, "#{new_link_text} is not visible") if new_link_text
-    (assert find_button('Search').visible?, "Search button is not visible") if has_search
+    (assert find_button('btn-search').visible?, "Search button is not visible") if has_search
   end
 
   def assert_breadcrumb_text(text)

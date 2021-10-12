@@ -16,8 +16,7 @@ class ConfigReportJSTest < IntegrationTestWithJavascript
 
   test "index page" do
     report
-    visit config_reports_path
-    assert find_button('Search').visible?, "Search button is not visible"
+    assert_index_page(config_reports_path, "Reports", nil, true)
   end
 
   test "reports for host" do

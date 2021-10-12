@@ -2,27 +2,34 @@
 
 exports[`AutoComplete rendering renders AutoComplete 1`] = `
 <div
-  className="search-bar input-group"
-  id="search-bar"
+  className="pf-c-search-input"
 >
-  <Connect(AutoComplete)
-    controller="models"
-    handleSearch={[Function]}
-    id="searchBar"
-    searchQuery=""
-    url="model/auto_complete_search"
-    useKeyShortcuts={true}
-  />
   <div
-    className="input-group-btn"
+    className="search-bar pf-c-input-group"
+    id="search-bar"
   >
-    <SearchButton
-      className=""
+    <Connect(AutoComplete)
+      controller="models"
+      handleSearch={[Function]}
+      id="searchBar"
+      searchQuery=""
+      url="model/auto_complete_search"
+      useKeyShortcuts={true}
+    />
+    <Button
+      aria-label="search button for search input"
+      className="autocomplete-search-btn"
+      id="btn-search"
       onClick={[Function]}
+      variant="control"
     >
-      Search
-    </SearchButton>
-    <Connect(Bookmarks)
+      <SearchIcon
+        color="currentColor"
+        noVerticalAlign={false}
+        size="sm"
+      />
+    </Button>
+    <ConnectedBookmarks
       canCreate={true}
       controller="models"
       documentationUrl="/doc/url"
