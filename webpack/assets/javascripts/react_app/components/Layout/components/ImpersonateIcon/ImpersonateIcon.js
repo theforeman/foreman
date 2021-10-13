@@ -7,7 +7,7 @@ import { translate as __ } from '../../../../common/I18n';
 
 import './ImpersonateIcon.scss';
 
-const ImpersonateIcon = props => {
+const ImpersonateIcon = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => setShowModal(!showModal);

@@ -18,8 +18,8 @@ const initialState = Immutable({
   hasUnreadMessages: sessionStorage.getHasUnreadMessages() || false,
 });
 
-const hasUnreadMessages = notifications => {
-  const result = Object.values(notifications).some(n => !n.seen);
+const hasUnreadMessages = (notifications) => {
+  const result = Object.values(notifications).some((n) => !n.seen);
 
   // store indicator in sessionStorage.
   // TODO: consider moving this either to a reselect
@@ -46,7 +46,7 @@ export default (state = initialState, { type, payload, response }) => {
     case NOTIFICATIONS_SET_EXPANDED_GROUP:
       return state.set('expandedGroup', payload.group);
     case NOTIFICATIONS_MARK_AS_READ: {
-      const notifications = state.notifications.map(n =>
+      const notifications = state.notifications.map((n) =>
         n.id === payload.id ? { ...n, seen: true } : n
       );
 
@@ -57,7 +57,7 @@ export default (state = initialState, { type, payload, response }) => {
     }
     case NOTIFICATIONS_MARK_AS_CLEAR: {
       const notifications = state.notifications.filter(
-        n => n.id !== payload.id
+        (n) => n.id !== payload.id
       );
 
       return state.merge({
@@ -66,7 +66,7 @@ export default (state = initialState, { type, payload, response }) => {
       });
     }
     case NOTIFICATIONS_MARK_GROUP_AS_READ: {
-      const notifications = state.notifications.map(n =>
+      const notifications = state.notifications.map((n) =>
         n.group === payload.group ? { ...n, seen: true } : n
       );
 
@@ -77,7 +77,7 @@ export default (state = initialState, { type, payload, response }) => {
     }
     case NOTIFICATIONS_MARK_GROUP_AS_CLEARED: {
       const notifications = state.notifications.filter(
-        n => n.group !== payload.group
+        (n) => n.group !== payload.group
       );
 
       return state.merge({

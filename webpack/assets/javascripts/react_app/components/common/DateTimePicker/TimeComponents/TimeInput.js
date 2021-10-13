@@ -10,18 +10,18 @@ class TimeInput extends React.Component {
     isTimeTableOpen: this.props.isTimeTableOpen,
     typeOfTimeInput: HOUR,
   };
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps) => {
     const { time: nextTime, isTimeTableOpen } = this.props;
     if (prevProps.time !== nextTime) {
       this.setIsTimeTableOpen(isTimeTableOpen);
     }
   };
-  setIsTimeTableOpen = isTimeTableOpen => {
+  setIsTimeTableOpen = (isTimeTableOpen) => {
     this.setState({
       isTimeTableOpen,
     });
   };
-  toggleTimeTable = type => {
+  toggleTimeTable = (type) => {
     this.setState({
       typeOfTimeInput: type,
       isTimeTableOpen: !this.state.isTimeTableOpen,

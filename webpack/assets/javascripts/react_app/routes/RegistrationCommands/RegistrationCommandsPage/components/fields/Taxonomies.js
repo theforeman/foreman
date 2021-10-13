@@ -34,7 +34,7 @@ const Taxonomies = ({
     >
       <FormSelect
         value={organizationId}
-        onChange={v => handleOrganization(v)}
+        onChange={(v) => handleOrganization(v)}
         className="without_select2"
         id="reg_organization"
         isDisabled={isLoading}
@@ -61,7 +61,7 @@ const Taxonomies = ({
     >
       <FormSelect
         value={locationId}
-        onChange={v => handleLocation(v)}
+        onChange={(v) => handleLocation(v)}
         className="without_select2"
         id="reg_location"
         isDisabled={isLoading}

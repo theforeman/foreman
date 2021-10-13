@@ -23,7 +23,7 @@ export const ActionButtons = ({ buttons }) => {
       {...firstButton.action}
       bsSize="small"
     >
-      {buttons.map(button => (
+      {buttons.map((button) => (
         <MenuItem key={button.title} title={button.title} {...button.action}>
           {button.title}
         </MenuItem>

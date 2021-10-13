@@ -8,8 +8,8 @@ import { selectState, selectTitle } from './PowerStatusSelectors';
 
 const ConnectedPowerStatus = ({ id, url }) => {
   const key = `${HOST_POWER_STATUS}_${id}`;
-  const state = useSelector(store => selectState(store, key));
-  const title = useSelector(store => selectTitle(store, key));
+  const state = useSelector((store) => selectState(store, key));
+  const title = useSelector((store) => selectTitle(store, key));
   const dispatch = useDispatch();
 
   useEffect(() => {

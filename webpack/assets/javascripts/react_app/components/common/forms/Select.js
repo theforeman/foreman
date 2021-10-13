@@ -21,9 +21,7 @@ class Select extends React.Component {
 
   attachEvent() {
     const { onChange } = this.props;
-    $(this.select)
-      .off('change', onChange)
-      .on('change', onChange);
+    $(this.select).off('change', onChange).on('change', onChange);
   }
 
   componentDidMount() {
@@ -62,7 +60,7 @@ class Select extends React.Component {
         <select
           name={name}
           disabled={disabled}
-          ref={select => {
+          ref={(select) => {
             this.select = select;
           }}
           className="form-control"

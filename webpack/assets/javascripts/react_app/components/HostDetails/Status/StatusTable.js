@@ -23,7 +23,7 @@ const StatusTable = ({ hostName, statuses, canForgetStatuses }) => {
         isWarning: true,
         onConfirm: () => {
           const [chosenStatus] = statuses.filter(
-            status => status.name === statusName
+            (status) => status.name === statusName
           );
           dispatch(forgetStatus(hostName, chosenStatus));
         },

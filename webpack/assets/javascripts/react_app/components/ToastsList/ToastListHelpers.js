@@ -2,7 +2,7 @@
 
 import { AlertVariant } from '@patternfly/react-core';
 
-export const toastType = type => {
+export const toastType = (type) => {
   if (type in AlertVariant) return type;
 
   console.warn(
@@ -25,7 +25,7 @@ export const toastTitle = (message, type) => {
   return defaultTitle(type);
 };
 
-const defaultTitle = type => {
+const defaultTitle = (type) => {
   switch (type) {
     case 'danger':
     case 'error':

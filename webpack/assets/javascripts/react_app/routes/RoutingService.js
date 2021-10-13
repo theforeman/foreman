@@ -19,7 +19,7 @@ export const registerRoutes = (id, routes) =>
         path={path}
         key={path}
         {...routeProps}
-        render={renderProps => renderRoute(render, renderProps)}
+        render={(renderProps) => renderRoute(render, renderProps)}
       />
     )
   );
@@ -48,7 +48,7 @@ export const fallbackRoute = () => {
   return null;
 };
 
-const updatePath = newPath => {
+const updatePath = (newPath) => {
   if (newPath) currentPath = newPath;
 };
 

@@ -30,7 +30,7 @@ const ActionsBar = ({
   },
 }) => {
   const [kebabIsOpen, setKebab] = useState(false);
-  const onKebabToggle = isOpen => setKebab(isOpen);
+  const onKebabToggle = (isOpen) => setKebab(isOpen);
   const { destroyVmOnHostDelete } = useForemanSettings();
   const registeredItems = useSelector(selectKebabItems, shallowEqual);
   const dispatch = useDispatch();

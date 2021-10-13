@@ -7,7 +7,7 @@ import reducer from './FillReducer';
 import Fill from './Fill';
 
 // map action dispatchers to props
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 // export reducers
 export const reducers = { extendable: reducer };

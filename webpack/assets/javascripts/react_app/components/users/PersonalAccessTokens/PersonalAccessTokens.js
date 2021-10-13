@@ -24,15 +24,15 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
     dispatch(getPersonalAccessTokens({ url }));
   }, [url, dispatch]);
 
-  const newPersonalAccessToken = useSelector(state =>
+  const newPersonalAccessToken = useSelector((state) =>
     selectNewPersonalAccessToken(state)
   );
-  const tokens = useSelector(state => selectTokens(state));
+  const tokens = useSelector((state) => selectTokens(state));
 
   const boundClearNewPersonalAccessToken = () =>
     dispatch(clearNewPersonalAccessToken());
 
-  const boundRevokePersonalAccessToken = id => {
+  const boundRevokePersonalAccessToken = (id) => {
     dispatch(
       openConfirmModal({
         title: __('Revoke personal access token'),
@@ -55,13 +55,13 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
           {canCreate && <PersonalAccessTokenForm url={url} />}
           <PersonalAccessTokensList
             title={__('Active Personal Access Tokens')}
-            tokens={tokens.filter(token => token['active?'])}
+            tokens={tokens.filter((token) => token['active?'])}
             revokePersonalAccessToken={boundRevokePersonalAccessToken}
             revocable
           />
           <PersonalAccessTokensList
             title={__('Inactive Personal Access Tokens')}
-            tokens={tokens.filter(token => !token['active?'])}
+            tokens={tokens.filter((token) => !token['active?'])}
           />
         </Fragment>
       ) : (

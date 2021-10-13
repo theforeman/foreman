@@ -5,7 +5,7 @@
 import $ from 'jquery';
 
 export function initAdvancedFields() {
-  $('a.advanced_fields_switch').each(function() {
+  $('a.advanced_fields_switch').each(function () {
     const field = $(this);
     field.on('click', updateAdvancedFields);
   });

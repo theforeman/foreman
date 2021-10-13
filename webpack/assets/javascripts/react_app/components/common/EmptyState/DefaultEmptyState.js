@@ -5,7 +5,7 @@ import { Button } from '@patternfly/react-core';
 import EmptyStatePattern from './EmptyStatePattern';
 import { defaultEmptyStatePropTypes } from './EmptyStatePropTypes';
 
-const DefaultEmptyState = props => {
+const DefaultEmptyState = (props) => {
   const {
     icon,
     iconType,

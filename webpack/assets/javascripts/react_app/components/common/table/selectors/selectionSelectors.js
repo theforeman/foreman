@@ -1,4 +1,4 @@
-export const selectSelection = state => state.API;
+export const selectSelection = (state) => state.API;
 
 export const selectSelectionByID = (state, tableID) =>
   selectSelection(state)[tableID] || {};

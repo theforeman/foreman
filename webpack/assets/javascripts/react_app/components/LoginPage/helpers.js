@@ -1,11 +1,11 @@
 import { translate as __ } from '../../common/I18n';
 
-export const adjustAlerts = alerts => {
+export const adjustAlerts = (alerts) => {
   const submitErrors = [];
   const modifiedAlerts = [];
 
   alerts &&
-    Object.keys(alerts).forEach(alertType => {
+    Object.keys(alerts).forEach((alertType) => {
       const alertMessage = alerts[alertType];
       if (alertType === 'error') {
         submitErrors.push(alertMessage);

@@ -20,7 +20,7 @@ const PermissionDenied = ({ missingPermissions, texts, backHref }) => {
         <br />
       </p>
       <ul className="list-unstyled">
-        {missingPermissions.map(permission => (
+        {missingPermissions.map((permission) => (
           <li key={permission}>
             <strong>{permission}</strong>
           </li>

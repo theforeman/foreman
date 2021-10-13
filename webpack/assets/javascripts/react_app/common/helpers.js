@@ -7,7 +7,7 @@ import { translate as __ } from './I18n';
  * This method converts those strings into ISO8601 format
  * @param {String} date - non-ISO date to convert
  */
-export const isoCompatibleDate = date => {
+export const isoCompatibleDate = (date) => {
   if (
     typeof date === 'string' &&
     date.match(/\d{4}-\d\d-\d\d\s\d\d:\d\d:\d\d\s[+-]?\d{4}/)
@@ -26,7 +26,7 @@ export const isoCompatibleDate = date => {
  * @param {Array} methods - Array that contains the methods to run on.
  */
 export const debounceMethods = (context, time, methods) => {
-  methods.forEach(method => {
+  methods.forEach((method) => {
     const methodName = method.name || method;
     const methodTime = method.time || time;
     // eslint-disable-next-line no-param-reassign
@@ -40,7 +40,7 @@ export const debounceMethods = (context, time, methods) => {
  * @param {Array} methods - Array that contains the methods to run on.
  */
 export const bindMethods = (context, methods) => {
-  methods.forEach(method => {
+  methods.forEach((method) => {
     // eslint-disable-next-line no-param-reassign
     context[method] = context[method].bind(context);
   });
@@ -50,7 +50,7 @@ export const bindMethods = (context, methods) => {
  * Removes slashes from the beggining and end of the path
  * @param {String} path - the path that should be removed of slashes
  */
-export const removeLastSlashFromPath = path => {
+export const removeLastSlashFromPath = (path) => {
   if (!path || path.length < 2) return path;
   const lastCharIndex = path.length - 1;
   return path[lastCharIndex] === '/' ? path.slice(0, -1) : path;
@@ -64,7 +64,7 @@ export const noop = Function.prototype;
  * Opens the link in a new window.
  * @param {String} url - the path to open in a new window.
  */
-export const newWindowOnClick = url => event => {
+export const newWindowOnClick = (url) => (event) => {
   event.preventDefault();
   const newWindow = window.open(url, '_blank');
   newWindow.opener = null;
@@ -74,16 +74,16 @@ export const newWindowOnClick = url => event => {
  * Clear the spaces in both sides of a string and erase multiple spaces.
  * @param {String} string - the string which should be trimmed.
  */
-export const clearSpaces = string => string.trim().replace(/\s\s+/, ' ');
+export const clearSpaces = (string) => string.trim().replace(/\s\s+/, ' ');
 
-export const getDisplayName = Component =>
+export const getDisplayName = (Component) =>
   Component.displayName || Component.name || 'Component';
 /**
  * Use I18n to translate an object of strings
  * @param {Object.<string, string>} obj - the object to translate
  * @returns {Object.<string, string>} a translated object
  */
-export const translateObject = obj =>
+export const translateObject = (obj) =>
   Object.assign({}, ...Object.entries(obj).map(([k, v]) => ({ [k]: __(v) })));
 
 /**
@@ -91,25 +91,25 @@ export const translateObject = obj =>
  * @param {Array.<string>} arr - the array to translate
  * @returns {Array.<string>} a translated array
  */
-export const translateArray = arr => arr.map(str => __(str));
+export const translateArray = (arr) => arr.map((str) => __(str));
 
 /**
  * Return the query in URL as Objects where keys are
  * the parameters and the values are the parameters' values.
  * @param {String} url - the URL
  */
-export const getURIQuery = url => new URI(url).query(true);
+export const getURIQuery = (url) => new URI(url).query(true);
 
 /**
  * Transform object keys to snake case
  */
-export const propsToSnakeCase = ob =>
+export const propsToSnakeCase = (ob) =>
   propsToCase(snakeCase, 'propsToSnakeCase only takes objects', ob);
 
 /**
  * Transform object keys to camel case
  */
-export const propsToCamelCase = ob =>
+export const propsToCamelCase = (ob) =>
   propsToCase(camelCase, 'propsToCamelCase only takes objects', ob);
 
 const propsToCase = (casingFn, errorMsg, ob) => {
@@ -124,16 +124,16 @@ const propsToCase = (casingFn, errorMsg, ob) => {
 /**
  * Transform object keys to camel case, works for nested objects
  */
-export const deepPropsToCamelCase = obj =>
+export const deepPropsToCamelCase = (obj) =>
   deepPropsToCase(camelCase, 'propsToCamelCase only takes objects')(obj);
 
 /**
  * Transform object keys to snake case, works for nested objects
  */
-export const deepPropsToSnakeCase = obj =>
+export const deepPropsToSnakeCase = (obj) =>
   deepPropsToCase(snakeCase, 'propsToSnakeCase only takes objects')(obj);
 
-const deepPropsToCase = (casingFn, errorMsg) => obj => {
+const deepPropsToCase = (casingFn, errorMsg) => (obj) => {
   if (typeof obj !== 'object' || obj === null) {
     return obj;
   }
@@ -151,7 +151,7 @@ const deepPropsToCase = (casingFn, errorMsg) => obj => {
  * Check if a string is a positive integer
  * @param {String} value - the string
  */
-export const stringIsPositiveNumber = value => {
+export const stringIsPositiveNumber = (value) => {
   const reg = new RegExp('^[0-9]+$');
   return reg.test(value);
 };
@@ -160,23 +160,23 @@ export const stringIsPositiveNumber = value => {
  * Get manual url based on version
  * @param {String} section - section id for foreman documetation
  */
-export const getManualURL = section => foremanUrl(`/links/manual/${section}`);
-export const getWikiURL = section => foremanUrl(`/links/wiki/${section}`);
+export const getManualURL = (section) => foremanUrl(`/links/manual/${section}`);
+export const getWikiURL = (section) => foremanUrl(`/links/wiki/${section}`);
 
 /**
  * Transform the Date object to date string accepted in the server
  * @param {Date}
  * @returns {string}
  */
-export const formatDate = date => formatDateTime(date).split(' ')[0];
+export const formatDate = (date) => formatDateTime(date).split(' ')[0];
 
 /**
  * Transform the Date object to datetime string accepted in the server
  * @param {Date}
  * @returns {string}
  */
-export const formatDateTime = date => {
-  const zeroPadding = n => (n < 10 ? `0${n}` : n);
+export const formatDateTime = (date) => {
+  const zeroPadding = (n) => (n < 10 ? `0${n}` : n);
   const { year, month, day, hour, minutes } = {
     year: date.getFullYear(),
     month: zeroPadding(date.getMonth() + 1),
@@ -189,7 +189,7 @@ export const formatDateTime = date => {
 };
 
 // generates an absolute, needed in case of running Foreman from a subpath
-export const foremanUrl = path => `${window.URL_PREFIX}${path}`;
+export const foremanUrl = (path) => `${window.URL_PREFIX}${path}`;
 
 export default {
   isoCompatibleDate,

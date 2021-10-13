@@ -28,7 +28,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
     const filtered =
       searchValue === ''
         ? taxonomies
-        : taxonomies.filter(item =>
+        : taxonomies.filter((item) =>
             item.title.toLowerCase().includes(searchValue.toLowerCase())
           );
     setFilteredItems(filtered || []);

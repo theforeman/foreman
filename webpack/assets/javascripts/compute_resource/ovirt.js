@@ -36,14 +36,12 @@ export function templateSelected(item) {
         setMemoryInputProps({ value: result.memory });
         $('[id$=_ha]').prop('checked', result.ha);
       }
-      $('#network_interfaces')
-        .children('.fields')
-        .remove();
-      $.each(result.interfaces, function() {
+      $('#network_interfaces').children('.fields').remove();
+      $.each(result.interfaces, function () {
         addNetworkInterface(this);
       });
       $('#storage_volumes .children_fields >.fields').remove();
-      $.each(result.volumes, function() {
+      $.each(result.volumes, function () {
         // Change variable name because 'interface' is a reserved keyword.
         // eslint-disable-next-line dot-notation
         this.disk_interface = this['interface'];
@@ -81,7 +79,7 @@ export function instanceTypeSelected(item) {
         }
         setMemoryInputProps({ disabled: result.name != null });
         disableCoresAndSockets(result);
-        ['_ha'].forEach(name =>
+        ['_ha'].forEach((name) =>
           $(`[id$=${name}]`).prop('readOnly', result.name != null)
         );
         const instanceTypeSelector = $(
@@ -137,9 +135,7 @@ function addVolume({
   if (id) {
     $(`[id$=${newId}_id]`).val(id);
   }
-  $(`[id$=${newId}_storage_domain]`)
-    .next()
-    .hide();
+  $(`[id$=${newId}_storage_domain]`).next().hide();
 }
 
 function setMemoryInputProps(props) {
@@ -183,10 +179,7 @@ function getComponentByWrapperId(wrapperId) {
 }
 
 function disableElement(element) {
-  element
-    .clone()
-    .attr('type', 'hidden')
-    .appendTo(element);
+  element.clone().attr('type', 'hidden').appendTo(element);
   element.attr('disabled', 'disabled');
 }
 
@@ -212,12 +205,8 @@ export function clusterSelected(item) {
     success(result) {
       const networkOptions = $('select[id$=_network]').empty();
 
-      $.each(result, function() {
-        networkOptions.append(
-          $('<option />')
-            .val(this.id)
-            .text(this.name)
-        );
+      $.each(result, function () {
+        networkOptions.append($('<option />').val(this.id).text(this.name));
       });
     },
     complete() {
@@ -244,17 +233,15 @@ export function vnicSelected(item) {
     );
 
     const vnicNetwork = vnicOptions.filter(
-      vnicOption => vnicOption.id === selectedVnicProfile
+      (vnicOption) => vnicOption.id === selectedVnicProfile
     )[0].network;
     const networkObj = networkOptions.filter(
-      network => network.id === vnicNetwork.id
+      (network) => network.id === vnicNetwork.id
     )[0];
     const networkSelect = $('select[id$=_network]');
     networkSelect.empty();
     networkSelect.append(
-      $('<option />')
-        .val(networkObj.id)
-        .text(networkObj.name)
+      $('<option />').val(networkObj.id).text(networkObj.name)
     );
     networkSelect.val(networkObj.id).trigger('change');
   }

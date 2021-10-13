@@ -17,7 +17,7 @@ const mapStateToProps = ({ passwordStrength }) => ({
 });
 
 // map action dispatchers to props
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 // export reducers
 export const reducers = { passwordStrength: reducer };

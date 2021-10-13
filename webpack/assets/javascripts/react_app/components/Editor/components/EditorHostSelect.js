@@ -13,18 +13,18 @@ class EditorHostSelect extends Component {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
-  setWrapperRef = node => {
+  setWrapperRef = (node) => {
     this.selectRef = node;
   };
 
-  handleClickOutside = event => {
+  handleClickOutside = (event) => {
     if (this.selectRef && !this.selectRef.contains(event.target)) {
       const { open, onToggle } = this.props;
       if (open) onToggle();
     }
   };
 
-  onKey = event => {
+  onKey = (event) => {
     if (event.keyCode === 27) {
       const { open, onToggle } = this.props;
       if (open) onToggle();

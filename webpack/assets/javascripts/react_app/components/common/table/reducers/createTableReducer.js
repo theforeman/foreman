@@ -12,34 +12,33 @@ const initState = Immutable({
   total: 0,
 });
 
-const createTableReducer = tableID => (
-  state = initState,
-  { type, payload, response }
-) => {
-  const { REQUEST, FAILURE, SUCCESS } = createTableActionTypes(tableID);
+const createTableReducer =
+  (tableID) =>
+  (state = initState, { type, payload, response }) => {
+    const { REQUEST, FAILURE, SUCCESS } = createTableActionTypes(tableID);
 
-  switch (type) {
-    case REQUEST:
-      return state.set('status', STATUS.PENDING);
-    case SUCCESS:
-      return Immutable.merge(state, {
-        error: null,
-        status: STATUS.RESOLVED,
-        results: response.results,
-        sortBy: response.sort.by,
-        sortOrder: response.sort.order,
-        pagination: { page: response.page, perPage: response.per_page },
-        total: response.total,
-      });
-    case FAILURE:
-      return Immutable.merge(state, {
-        error: response,
-        status: STATUS.ERROR,
-        results: [],
-      });
-    default:
-      return state;
-  }
-};
+    switch (type) {
+      case REQUEST:
+        return state.set('status', STATUS.PENDING);
+      case SUCCESS:
+        return Immutable.merge(state, {
+          error: null,
+          status: STATUS.RESOLVED,
+          results: response.results,
+          sortBy: response.sort.by,
+          sortOrder: response.sort.order,
+          pagination: { page: response.page, perPage: response.per_page },
+          total: response.total,
+        });
+      case FAILURE:
+        return Immutable.merge(state, {
+          error: response,
+          status: STATUS.ERROR,
+          results: [],
+        });
+      default:
+        return state;
+    }
+  };
 
 export default createTableReducer;

@@ -4,5 +4,5 @@ import { AUDITS_PATH } from './constants';
 
 export default {
   path: AUDITS_PATH,
-  render: props => <AuditsPage {...props} />,
+  render: (props) => <AuditsPage {...props} />,
 };

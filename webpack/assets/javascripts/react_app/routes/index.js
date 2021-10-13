@@ -13,7 +13,7 @@ const AppSwitcher = ({ children }) => (
           path={path}
           key={path}
           {...routeProps}
-          render={renderProps => renderRoute(render, renderProps)}
+          render={(renderProps) => renderRoute(render, renderProps)}
         />
       ))}
     </ForemanSwitcher>

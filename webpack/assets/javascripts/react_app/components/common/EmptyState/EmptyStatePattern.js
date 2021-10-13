@@ -11,7 +11,7 @@ import { emptyStatePatternPropTypes } from './EmptyStatePropTypes';
 import { translate as __ } from '../../../common/I18n';
 import './EmptyState.scss';
 
-const EmptyStatePattern = props => {
+const EmptyStatePattern = (props) => {
   const {
     documentation,
     action,

@@ -45,7 +45,7 @@ const OperatingSystem = ({
   useEffect(() => {
     if (hostGroupId !== undefined) {
       const hostGroupOsId = hostGroups.find(
-        hg => `${hg.id}` === `${hostGroupId}`
+        (hg) => `${hg.id}` === `${hostGroupId}`
       )?.inherited_operatingsystem_id;
 
       handleOperatingSystem('');
@@ -85,7 +85,7 @@ const OperatingSystem = ({
     >
       <FormSelect
         value={operatingSystemId}
-        onChange={v => handleOperatingSystem(v)}
+        onChange={(v) => handleOperatingSystem(v)}
         className="without_select2"
         id="reg_os"
         validated={validatedOS(operatingSystemId, operatingSystemTemplate)}

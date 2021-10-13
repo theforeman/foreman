@@ -20,7 +20,7 @@ import {
 import BreadcrumbBar from './BreadcrumbBar';
 
 // map state to props
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   resourceSwitcherItems: selectResourceSwitcherItems(state),
   isSwitcherOpen: selectIsSwitcherOpen(state),
   resourceUrl: selectResourceUrl(state),
@@ -34,7 +34,7 @@ const mapStateToProps = state => ({
 });
 
 // map action dispatchers to props
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 // export reducers
 export const reducers = { breadcrumbBar: reducer };

@@ -15,7 +15,7 @@ const InlineTextInput = ({
 
   const inputProps = {
     value,
-    onChange: v => setInputValue(v),
+    onChange: (v) => setInputValue(v),
     onFocus: () => inputRef?.current?.select(),
   };
 

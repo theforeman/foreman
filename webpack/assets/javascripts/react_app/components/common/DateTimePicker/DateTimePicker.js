@@ -32,7 +32,7 @@ class DateTimePicker extends React.Component {
     hiddenValue: !this.hasDefaultValue,
   };
 
-  setSelected = date => {
+  setSelected = (date) => {
     if (Date.parse(date)) {
       const newDate = new Date(date);
       this.setState({ value: newDate });
@@ -50,15 +50,8 @@ class DateTimePicker extends React.Component {
   };
 
   render() {
-    const {
-      locale,
-      weekStartsOn,
-      inputProps,
-      id,
-      placement,
-      name,
-      required,
-    } = this.props;
+    const { locale, weekStartsOn, inputProps, id, placement, name, required } =
+      this.props;
     const { value, typeOfDateInput, isTimeTableOpen, hiddenValue } = this.state;
     const popover = (
       <Popover
@@ -95,7 +88,7 @@ class DateTimePicker extends React.Component {
             className="date-time-input"
             name={name}
             value={hiddenValue && !required ? '' : formatDateTime(value)}
-            onChange={e => this.setSelected(e.target.value)}
+            onChange={(e) => this.setSelected(e.target.value)}
           />
 
           <OverlayTrigger

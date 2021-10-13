@@ -7,36 +7,38 @@ import LoadingPage from '../routes/common/LoadingPage';
  * HOC that runs a function on the initial mount of the component using useEffect
  * @param {Function} callback - function to run
  */
-export const callOnMount = callback => WrappedComponent => componentProps => {
-  // fires callback onMount, [] means don't listen to any props change
-  useEffect(() => {
-    callback(componentProps);
-  }, []);
+export const callOnMount =
+  (callback) => (WrappedComponent) => (componentProps) => {
+    // fires callback onMount, [] means don't listen to any props change
+    useEffect(() => {
+      callback(componentProps);
+    }, []);
 
-  return <WrappedComponent {...componentProps} />;
-};
+    return <WrappedComponent {...componentProps} />;
+  };
 
 /**
  * HOC that runs a function onPopState if search query has changed,
  * assuming the component has withRouter
  * @param {Function} callback - function to run
  */
-export const callOnPopState = callback => WrappedComponent => componentProps => {
-  const didMount = useRef(false);
-  const {
-    history: { action },
-    location: { search },
-  } = componentProps;
-  useEffect(() => {
-    if (action === 'POP' && didMount.current) {
-      callback(componentProps);
-    } else {
-      didMount.current = true;
-    }
-  }, [search, action]);
+export const callOnPopState =
+  (callback) => (WrappedComponent) => (componentProps) => {
+    const didMount = useRef(false);
+    const {
+      history: { action },
+      location: { search },
+    } = componentProps;
+    useEffect(() => {
+      if (action === 'POP' && didMount.current) {
+        callback(componentProps);
+      } else {
+        didMount.current = true;
+      }
+    }, [search, action]);
 
-  return <WrappedComponent {...componentProps} />;
-};
+    return <WrappedComponent {...componentProps} />;
+  };
 
 /**
  * HOC That renders a component based on its state
@@ -53,16 +55,18 @@ export const callOnPopState = callback => WrappedComponent => componentProps => 
  * @param {ReactElement} ErrorComponent - Component to render if Error
  * @param {ReactElement} EmptyComponent - Component to render if no Data exists
  */
-export const withRenderHandler = ({
-  Component,
-  LoadingComponent = LoadingPage,
-  ErrorComponent = EmptyPage,
-  EmptyComponent = EmptyPage,
-}) => componentProps => {
-  const { isLoading, hasData, hasError } = componentProps;
+export const withRenderHandler =
+  ({
+    Component,
+    LoadingComponent = LoadingPage,
+    ErrorComponent = EmptyPage,
+    EmptyComponent = EmptyPage,
+  }) =>
+  (componentProps) => {
+    const { isLoading, hasData, hasError } = componentProps;
 
-  if (isLoading && !hasData) return <LoadingComponent {...componentProps} />;
-  if (hasError) return <ErrorComponent {...componentProps} />;
-  if (hasData) return <Component {...componentProps} />;
-  return <EmptyComponent {...componentProps} />;
-};
+    if (isLoading && !hasData) return <LoadingComponent {...componentProps} />;
+    if (hasError) return <ErrorComponent {...componentProps} />;
+    if (hasData) return <Component {...componentProps} />;
+    return <EmptyComponent {...componentProps} />;
+  };

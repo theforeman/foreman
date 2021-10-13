@@ -12,7 +12,7 @@ import { sprintf, translate as __ } from '../../../react_app/common/I18n';
 import history from '../../history';
 import { stringifyParams } from '../../common/urlHelpers';
 
-const Bookmarks = props => {
+const Bookmarks = (props) => {
   const loadBookmarks = () => {
     const { bookmarks, status, url, controller, getBookmarks } = props;
 
@@ -21,7 +21,7 @@ const Bookmarks = props => {
     }
   };
 
-  const manageBookmarks = controller => {
+  const manageBookmarks = (controller) => {
     const query = stringifyParams({ searchQuery: `controller=${controller}` });
     history.push({ pathname: '/bookmarks', search: query });
   };

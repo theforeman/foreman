@@ -13,11 +13,11 @@ const TabRouter = ({ children, tabs, hostName, response, status, router }) => (
         <Route path="/" exact>
           <Redirect to={`/${DEFAULT_TAB}`} />
         </Route>
-        {tabs.map(tab => (
+        {tabs.map((tab) => (
           <Route
             key={tab}
             path={`/${tab}`}
-            render={props => (
+            render={(props) => (
               <Slot
                 hostName={hostName}
                 response={response}

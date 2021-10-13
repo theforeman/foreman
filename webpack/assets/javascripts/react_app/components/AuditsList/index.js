@@ -11,7 +11,7 @@ import { translate as __ } from '../../common/I18n';
 import ShortDateTime from '../common/dates/ShortDateTime';
 import './audit.scss';
 
-const isAuditLogin = auditedChanges => {
+const isAuditLogin = (auditedChanges) => {
   let name;
   try {
     [name] = Object.keys(auditedChanges);
@@ -21,19 +21,19 @@ const isAuditLogin = auditedChanges => {
   return name === 'last_login_on';
 };
 
-const description = actionDisplayName => (
+const description = (actionDisplayName) => (
   <ListView.Description>
     <ListView.DescriptionText>{actionDisplayName}</ListView.DescriptionText>
   </ListView.Description>
 );
 
-const renderAdditionalInfoItems = items =>
+const renderAdditionalInfoItems = (items) =>
   items &&
   items.map((item, index) => (
     <ListView.InfoItem key={index}>{item}</ListView.InfoItem>
   ));
 
-const renderTimestamp = date => (
+const renderTimestamp = (date) => (
   <span className="gray-text">
     <ShortDateTime
       date={date}

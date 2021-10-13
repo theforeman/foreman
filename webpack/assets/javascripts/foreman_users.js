@@ -25,8 +25,8 @@ export function initInheritedRoles() {
 
 function getSelectValues({ options = [] }) {
   return Object.values(options)
-    .filter(opt => opt.selected)
-    .map(opt => [opt.value, opt.text]);
+    .filter((opt) => opt.selected)
+    .map((opt) => [opt.value, opt.text]);
 }
 
 export function taxonomyAdded(taxonomies, type) {
@@ -34,7 +34,7 @@ export function taxonomyAdded(taxonomies, type) {
   const defaults = document.getElementById(`user_default_${type}_id`);
 
   defaults.innerHTML = selected
-    .map(opt => `<option value='${opt[0]}'>${escape(opt[1])}</option>`)
+    .map((opt) => `<option value='${opt[0]}'>${escape(opt[1])}</option>`)
     .join('');
 }
 

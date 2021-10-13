@@ -13,7 +13,7 @@ import AlertBody from '../../../common/Alert/AlertBody';
 import './StorageContainer.scss';
 import { STATUS } from '../../../../constants';
 
-const filterKeyFromVolume = volume => {
+const filterKeyFromVolume = (volume) => {
   // eslint-disable-next-line no-unused-vars
   const { key, ...volumeWithoutKey } = volume;
   return volumeWithoutKey;
@@ -22,7 +22,7 @@ const filterKeyFromVolume = volume => {
 export const controllersToJsonString = (controllers, volumes) =>
   JSON.stringify({
     scsiControllers: controllers,
-    volumes: volumes.map(v => filterKeyFromVolume(v)),
+    volumes: volumes.map((v) => filterKeyFromVolume(v)),
   });
 
 class StorageContainer extends React.Component {
@@ -74,7 +74,7 @@ class StorageContainer extends React.Component {
 
     return controllers.map((controller, idx) => {
       const controllerVolumes = volumes.filter(
-        v => v.controllerKey === controller.key
+        (v) => v.controllerKey === controller.key
       );
 
       return (
@@ -87,7 +87,7 @@ class StorageContainer extends React.Component {
           addDisk={() => addDisk(controller.key)}
           updateDisk={updateDisk}
           removeDisk={removeDisk}
-          updateController={newValues => updateController(idx, newValues)}
+          updateController={(newValues) => updateController(idx, newValues)}
           config={config}
           datastores={datastores}
           datastoresError={datastoresError}
@@ -203,7 +203,7 @@ StorageContainer.defaultProps = {
   initController: noop,
 };
 
-const mapStateToProps = state =>
+const mapStateToProps = (state) =>
   pick(state.hosts.storage.vmware, [
     'controllers',
     'config',

@@ -5,7 +5,7 @@ import { STATUS } from '../../../constants';
 import MessageBox from '../MessageBox';
 import './Loader.css';
 
-const _simpleLoader = spinnerSize => (
+const _simpleLoader = (spinnerSize) => (
   <div className="loader-root">
     <Spinner loading size={spinnerSize} />
   </div>

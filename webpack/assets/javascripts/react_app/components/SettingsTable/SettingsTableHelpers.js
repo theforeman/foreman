@@ -6,7 +6,7 @@ import { translate as __ } from '../../common/I18n';
 
 import { deepPropsToCamelCase } from '../../common/helpers';
 
-export const withTooltip = Component => componentProps => {
+export const withTooltip = (Component) => (componentProps) => {
   const { tooltipId, tooltipText, ...rest } = componentProps;
 
   return (
@@ -24,7 +24,7 @@ export const withTooltip = Component => componentProps => {
   );
 };
 
-export const arraySelection = setting => {
+export const arraySelection = (setting) => {
   const { selectValues } = setting;
 
   if (!Array.isArray(selectValues)) {
@@ -33,20 +33,20 @@ export const arraySelection = setting => {
   return deepPropsToCamelCase(selectValues);
 };
 
-const formatEncryptedDefault = setting => {
+const formatEncryptedDefault = (setting) => {
   if (setting.encrypted && setting.default) {
     return setting.default
       .split('')
-      .map(item => '\u2219')
+      .map((item) => '\u2219')
       .join('');
   }
 
   return null;
 };
 
-const formatHashSelectionDefault = setting =>
+const formatHashSelectionDefault = (setting) =>
   formatHashSelection('default', setting);
-const formatHashSelectionValue = setting =>
+const formatHashSelectionValue = (setting) =>
   formatHashSelection('value', setting);
 
 const formatHashSelection = (attr, setting) => {
@@ -61,8 +61,8 @@ const formatHashSelection = (attr, setting) => {
   return selectValues[val];
 };
 
-const formatBooleanDefault = setting => formatBoolean('default', setting);
-const formatBooleanValue = setting => formatBoolean('value', setting);
+const formatBooleanDefault = (setting) => formatBoolean('default', setting);
+const formatBooleanValue = (setting) => formatBoolean('value', setting);
 
 const formatBoolean = (attr, setting) => {
   if (setting.settingsType === 'boolean') {
@@ -74,8 +74,8 @@ const formatBoolean = (attr, setting) => {
   return null;
 };
 
-const formatArrayValue = setting => formatArray('value', setting);
-const formatArrayDefault = setting => formatArray('default', setting);
+const formatArrayValue = (setting) => formatArray('value', setting);
+const formatArrayDefault = (setting) => formatArray('default', setting);
 
 const formatArray = (attr, setting) => {
   if (setting.settingsType === 'array') {
@@ -86,8 +86,8 @@ const formatArray = (attr, setting) => {
   return null;
 };
 
-const formatTextValue = setting => setting.value;
-const formatTextDefault = setting => setting.default;
+const formatTextValue = (setting) => setting.value;
+const formatTextDefault = (setting) => setting.default;
 
 const formatEmpty = (attr, emptyValue, setting) => {
   if (!setting[attr]) {
@@ -96,13 +96,14 @@ const formatEmpty = (attr, emptyValue, setting) => {
   return null;
 };
 
-const formatEmptyDefault = setting =>
+const formatEmptyDefault = (setting) =>
   formatEmpty('default', __('Not set'), setting);
-const formatEmptyValue = setting => formatEmpty('value', __('Empty'), setting);
+const formatEmptyValue = (setting) =>
+  formatEmpty('value', __('Empty'), setting);
 
-const formatArraySelectionDefault = setting =>
+const formatArraySelectionDefault = (setting) =>
   formatArraySelection('default', setting);
-const formatArraySelectionValue = setting =>
+const formatArraySelectionValue = (setting) =>
   formatArraySelection('value', setting);
 
 const formatArraySelection = (attr, setting) => {
@@ -120,7 +121,7 @@ const formatArraySelection = (attr, setting) => {
     }
 
     if (group.children) {
-      const child = group.children.find(item => item.value === setting[attr]);
+      const child = group.children.find((item) => item.value === setting[attr]);
       if (child) {
         return child.label;
       }
@@ -129,7 +130,7 @@ const formatArraySelection = (attr, setting) => {
   return null;
 };
 
-const reduceFormats = formatters => setting =>
+const reduceFormats = (formatters) => (setting) =>
   formatters.reduce((memo, formatter) => {
     if (memo) {
       return memo;
@@ -156,7 +157,7 @@ export const defaultToString = reduceFormats([
   formatTextDefault,
 ]);
 
-export const hasDefault = setting => {
+export const hasDefault = (setting) => {
   switch (setting.settingsType) {
     case 'boolean':
     case 'integer': {

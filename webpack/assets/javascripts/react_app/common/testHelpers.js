@@ -11,14 +11,14 @@ export default {
       setItem: (key, value) => {
         storage[key] = value || '';
       },
-      getItem: key => (key in storage ? storage[key] : null),
-      removeItem: key => {
+      getItem: (key) => (key in storage ? storage[key] : null),
+      removeItem: (key) => {
         delete storage[key];
       },
       get length() {
         return Object.keys(storage).length;
       },
-      key: i => {
+      key: (i) => {
         const keys = Object.keys(storage);
 
         return keys[i] || null;
@@ -34,7 +34,7 @@ export const mockWindowLocation = ({ href }) => {
   Object.defineProperty(global.window.location, 'href', {
     configurable: true,
     get: () => currentHref,
-    set: newValue => {
+    set: (newValue) => {
       currentHref = newValue;
     },
   });
@@ -68,11 +68,9 @@ export const shallowRenderComponentWithFixtures = (Component, fixtures) =>
  * @param  {Object}         fixtures  key=fixture description, value=props to apply
  */
 export const testComponentSnapshotsWithFixtures = (Component, fixtures) =>
-  shallowRenderComponentWithFixtures(
-    Component,
-    fixtures
-  ).forEach(({ description, component }) =>
-    it(description, () => expect(component).toMatchSnapshot())
+  shallowRenderComponentWithFixtures(Component, fixtures).forEach(
+    ({ description, component }) =>
+      it(description, () => expect(component).toMatchSnapshot())
   );
 
 const resolveDispatch = async (action, depth) => {
@@ -83,7 +81,7 @@ const resolveDispatch = async (action, depth) => {
     jest.runOnlyPendingTimers();
 
     return Promise.all(
-      dispatch.mock.calls.map(call => resolveDispatch(call[0], depth - 1))
+      dispatch.mock.calls.map((call) => resolveDispatch(call[0], depth - 1))
     );
   }
   // else return the action itself
@@ -104,7 +102,7 @@ export const runActionInDepth = (runAction, depth = 1) =>
  * @param  {Function}  runAction  Action runner function
  * @return {Promise}
  */
-export const testActionSnapshot = async runAction => {
+export const testActionSnapshot = async (runAction) => {
   const actionResults = runAction();
 
   // if it's an async action
@@ -122,7 +120,7 @@ export const testActionSnapshot = async runAction => {
  * Test actions with fixtures and snapshots
  * @param  {Object} fixtures key=fixture description, value=action runner function
  */
-export const testActionSnapshotWithFixtures = fixtures =>
+export const testActionSnapshotWithFixtures = (fixtures) =>
   Object.entries(fixtures).forEach(([description, runAction]) =>
     it(description, () => testActionSnapshot(runAction))
   );
@@ -144,7 +142,7 @@ export const testReducerSnapshotWithFixtures = (reducer, fixtures) => {
  * @param  {Object} fixtures  key=fixture description,
  *                            value=selector runner function
  */
-export const testSelectorsSnapshotWithFixtures = fixtures =>
+export const testSelectorsSnapshotWithFixtures = (fixtures) =>
   Object.entries(fixtures).forEach(([description, selectorRunner]) =>
     it(description, () => expect(selectorRunner()).toMatchSnapshot())
   );

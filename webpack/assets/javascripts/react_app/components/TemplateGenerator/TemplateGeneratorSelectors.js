@@ -1,4 +1,4 @@
-const selectTemplates = state => state.templates;
+const selectTemplates = (state) => state.templates;
 
 const selectGeneratingPropsFromTemplates = ({
   polling,
@@ -12,5 +12,5 @@ const selectGeneratingPropsFromTemplates = ({
   generatingErrorMessages,
 });
 
-export const selectGeneratingProps = state =>
+export const selectGeneratingProps = (state) =>
   selectGeneratingPropsFromTemplates(selectTemplates(state));

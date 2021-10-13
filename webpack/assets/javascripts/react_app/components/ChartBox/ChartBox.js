@@ -38,7 +38,7 @@ class ChartBox extends React.Component {
       bar: BarChart,
     };
     const Chart = components[type];
-    const dataFiltered = chart.data && chart.data.filter(arr => arr[1] !== 0);
+    const dataFiltered = chart.data && chart.data.filter((arr) => arr[1] !== 0);
     const hasChartData = dataFiltered && dataFiltered.length > 0;
     const headerProps = hasChartData
       ? {

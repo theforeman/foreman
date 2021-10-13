@@ -6,7 +6,7 @@ import ForemanModalHeader from './subcomponents/ForemanModalHeader';
 import ForemanModalFooter from './subcomponents/ForemanModalFooter';
 import { extractModalNodes } from './helpers';
 
-const ForemanModal = props => {
+const ForemanModal = (props) => {
   const {
     id,
     title,
@@ -18,9 +18,8 @@ const ForemanModal = props => {
     ...propsToPassDown
   } = props;
   // Extract header and footer from children, if provided
-  const { headerChild, footerChild, otherChildren } = extractModalNodes(
-    children
-  );
+  const { headerChild, footerChild, otherChildren } =
+    extractModalNodes(children);
   const context = {
     isOpen,
     onClose,
@@ -30,11 +29,11 @@ const ForemanModal = props => {
     submitProps,
   };
 
-  const defaultHeader = headerTitle =>
+  const defaultHeader = (headerTitle) =>
     headerTitle ? <ForemanModalHeader /> : null;
   const headerToRender = headerChild || defaultHeader(title);
 
-  const defaultFooter = subProps =>
+  const defaultFooter = (subProps) =>
     Object.keys(subProps).length !== 0 ? <ForemanModalFooter /> : null;
   const footerToRender = footerChild || defaultFooter(submitProps);
 

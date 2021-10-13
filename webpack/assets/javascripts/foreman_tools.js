@@ -13,7 +13,7 @@ import { showLoading, hideLoading } from './foreman_navigation';
 import store from './react_app/redux';
 import { openConfirmModal as coreOpenConfirmModal } from './react_app/components/ConfirmModal';
 
-export const openConfirmModal = options =>
+export const openConfirmModal = (options) =>
   store.dispatch(coreOpenConfirmModal(options));
 
 export * from './react_app/common/DeprecationService';
@@ -63,12 +63,10 @@ export function activateDatatables() {
       sortDescending: __(': activate to sort column descending'),
     },
   };
-  $('[data-table=inline]')
-    .not('.dataTable')
-    .DataTable({
-      language,
-      dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
-    });
+  $('[data-table=inline]').not('.dataTable').DataTable({
+    language,
+    dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+  });
 
   $('[data-table=server]')
     .not('.dataTable')
@@ -113,7 +111,7 @@ export function initTypeAheadSelect(input) {
         q: term,
         scope: input.data('scope'),
       }),
-      results: data => ({
+      results: (data) => ({
         results: data.map(({ id, name }) => ({ id, text: name })),
       }),
       cache: true,
@@ -124,7 +122,7 @@ export function initTypeAheadSelect(input) {
           scope: input.data('scope'),
         },
         dataType: 'json',
-      }).done(data => {
+      }).done((data) => {
         if (data.length > 0) {
           // eslint-disable-next-line standard/no-callback-literal
           callback({ id: data[0].id, text: data[0].name });
@@ -155,14 +153,7 @@ export function highlightTabErrors() {
   errorFields.parents('.tab-pane').each(function fn() {
     $(`a[href="#${this.id}"]`).addClass('tab-error');
   });
-  $('.tab-error')
-    .first()
-    .click();
-  $('.nav-pills .tab-error')
-    .first()
-    .click();
-  errorFields
-    .first()
-    .find('.form-control')
-    .focus();
+  $('.tab-error').first().click();
+  $('.nav-pills .tab-error').first().click();
+  errorFields.first().find('.form-control').focus();
 }

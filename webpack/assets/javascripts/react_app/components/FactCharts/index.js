@@ -15,10 +15,10 @@ import {
 
 const ConnectedFactChart = ({ id, path, title, search }) => {
   const key = `FACT_CHART_${id}`;
-  const hostsCount = useSelector(state => selectHostCount(state, key));
-  const status = useSelector(state => selectFactChartStatus(state, key));
-  const chartData = useSelector(state => selectFactChartData(state, key));
-  const modalToDisplay = useSelector(state => selectDisplayModal(state, id));
+  const hostsCount = useSelector((state) => selectHostCount(state, key));
+  const status = useSelector((state) => selectFactChartStatus(state, key));
+  const chartData = useSelector((state) => selectFactChartData(state, key));
+  const modalToDisplay = useSelector((state) => selectDisplayModal(state, id));
   const dispatch = useDispatch();
   const dispatchCloseModal = () => dispatch(closeModal());
   const dispatchOpenModal = () => {

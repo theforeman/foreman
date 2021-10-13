@@ -21,14 +21,14 @@ export const isEqualDate = (date1, date2) =>
   date1.getMonth() === date2.getMonth() &&
   date1.getDate() === date2.getDate();
 
-export const isWeekend = date => date.getDay() === 6 || date.getDay() === 5;
+export const isWeekend = (date) => date.getDay() === 6 || date.getDay() === 5;
 
-export const getMonthStart = date => {
+export const getMonthStart = (date) => {
   date.setDate(1);
   return date;
 };
 
-export const getWeekStart = date => addDays(date, (7 - date.getDay()) % 7);
+export const getWeekStart = (date) => addDays(date, (7 - date.getDay()) % 7);
 
 export const helpers = {
   addDays,

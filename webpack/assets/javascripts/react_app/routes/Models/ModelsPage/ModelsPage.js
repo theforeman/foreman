@@ -22,7 +22,7 @@ const ModelsPage = ({
   message,
   canCreate,
 }) => {
-  const handleSearch = query => fetchAndPush({ searchQuery: query, page: 1 });
+  const handleSearch = (query) => fetchAndPush({ searchQuery: query, page: 1 });
 
   const createBtn = (
     <Link to="/models/new">

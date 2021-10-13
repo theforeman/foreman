@@ -1,6 +1,6 @@
 import { STATUS } from '../../constants';
 
-export const selectAPI = state => state.API;
+export const selectAPI = (state) => state.API;
 
 export const selectAPIByKey = (state, key) => selectAPI(state)[key] || {};
 

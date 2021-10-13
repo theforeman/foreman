@@ -56,7 +56,7 @@ const AggregateStatusCard = ({
   const naStatuses = useSelector(selectNAStatuses);
   const allSortedStatuses = useSelector(selectAllSortedStatuses);
 
-  const statusesMapper = type => {
+  const statusesMapper = (type) => {
     switch (type) {
       case OK_STATUS_STATE:
         return okStatuses;
@@ -76,7 +76,7 @@ const AggregateStatusCard = ({
     warnStatus.length === 0 &&
     errorStatus.length === 0;
 
-  const hadleIconClick = type => {
+  const hadleIconClick = (type) => {
     setChosenType(type);
     setOpenModal(true);
   };

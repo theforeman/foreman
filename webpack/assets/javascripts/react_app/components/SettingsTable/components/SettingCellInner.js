@@ -7,7 +7,7 @@ import useSettingModal from '../../SettingUpdateModal/useSettingModal';
 
 import { valueToString, hasDefault } from '../SettingsTableHelpers';
 
-const SettingCellInner = props => {
+const SettingCellInner = (props) => {
   const { setting, ...rest } = props;
 
   const { setModalOpen } = useSettingModal();

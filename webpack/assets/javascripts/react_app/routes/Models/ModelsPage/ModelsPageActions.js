@@ -7,7 +7,7 @@ import { MODELS_API_PATH, MODELS_PATH, API_REQUEST_KEY } from '../constants';
 
 import { stringifyParams, getParams } from '../../../common/urlHelpers';
 
-export const initializeModels = () => dispatch => {
+export const initializeModels = () => (dispatch) => {
   const params = getParams();
   dispatch(fetchModels(params));
   if (!history.action === 'POP') {
@@ -35,11 +35,13 @@ export const fetchModels = (
   return get({ key: API_REQUEST_KEY, url: uriWithPrams });
 };
 
-export const fetchAndPush = (params = {}) => (dispatch, getState) => {
-  const query = buildQuery(params, getState());
-  dispatch(fetchModels(query));
-  history.push({
-    pathname: MODELS_PATH,
-    search: stringifyParams(query),
-  });
-};
+export const fetchAndPush =
+  (params = {}) =>
+  (dispatch, getState) => {
+    const query = buildQuery(params, getState());
+    dispatch(fetchModels(query));
+    history.push({
+      pathname: MODELS_PATH,
+      search: stringifyParams(query),
+    });
+  };

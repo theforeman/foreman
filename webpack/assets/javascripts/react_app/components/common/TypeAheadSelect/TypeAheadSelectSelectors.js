@@ -1,6 +1,7 @@
 import Immutable from 'seamless-immutable';
 
-export const mapSelected = selected => selected.map(item => item.label || item);
+export const mapSelected = (selected) =>
+  selected.map((item) => item.label || item);
 
 const selectTypeAheadSelect = ({ typeAheadSelect }, id) =>
   typeAheadSelect[id] || {};

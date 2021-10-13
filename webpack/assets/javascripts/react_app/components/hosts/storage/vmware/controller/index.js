@@ -31,7 +31,7 @@ const Controller = ({
   storagePodsStatus,
   storagePodsError,
 }) => {
-  const getEventValue = e => {
+  const getEventValue = (e) => {
     if (!e || !e.target) {
       return e;
     }
@@ -46,7 +46,7 @@ const Controller = ({
     updateDisk(uuid, { [attribute]: getEventValue(e) });
   };
 
-  const humanSize = number => number_to_human_size(number, { precision: 2 });
+  const humanSize = (number) => number_to_human_size(number, { precision: 2 });
 
   const datastoresStats = () => {
     if (!datastores.length) {
@@ -85,7 +85,7 @@ const Controller = ({
   };
 
   const disks = () =>
-    controllerVolumes.map(disk => (
+    controllerVolumes.map((disk) => (
       <Disk
         key={disk.key}
         id={disk.key}
@@ -112,7 +112,7 @@ const Controller = ({
           <Select
             value={controller.type}
             disabled={config.vmExists}
-            onChange={e => _updateController('type', e)}
+            onChange={(e) => _updateController('type', e)}
             options={config.controllerTypes}
           />
           <Button

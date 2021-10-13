@@ -22,7 +22,7 @@ const ForemanForm = ({
     isInitialValid={isInitialValid}
     enableReinitialize={enableReinitialize}
   >
-    {formProps => {
+    {(formProps) => {
       const disabled = formProps.isSubmitting || !formProps.isValid;
       const submissionError = formProps.errors._error;
 

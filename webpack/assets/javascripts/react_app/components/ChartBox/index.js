@@ -28,11 +28,11 @@ const ConnectedChartBox = ({
     dispatch(get({ key, url }));
   }, [key, url, dispatch]);
   const chartData = useSelector(
-    state => selectAPIResponse(state, key),
+    (state) => selectAPIResponse(state, key),
     shallowEqual
   );
-  const error = useSelector(state => selectAPIErrorMessage(state, key));
-  const status = useSelector(state => selectAPIStatus(state, key));
+  const error = useSelector((state) => selectAPIErrorMessage(state, key));
+  const status = useSelector((state) => selectAPIStatus(state, key));
   return (
     <ChartBox
       className={className}

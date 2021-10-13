@@ -20,7 +20,7 @@ const UserDropdowns = ({
 }) => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
-  const onDropdownToggle = newUserDropdownOpen => {
+  const onDropdownToggle = (newUserDropdownOpen) => {
     setUserDropdownOpen(newUserDropdownOpen);
   };
   const onDropdownSelect = () => {

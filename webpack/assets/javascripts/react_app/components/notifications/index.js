@@ -134,17 +134,13 @@ notificationContainer.defaultProps = {
   translations: NotificationDrawerPanelWrapper.defaultProps.translations,
 };
 
-const mapStateToProps = state => {
-  const {
-    notifications,
-    isDrawerOpen,
-    expandedGroup,
-    hasUnreadMessages,
-  } = state.notifications;
+const mapStateToProps = (state) => {
+  const { notifications, isDrawerOpen, expandedGroup, hasUnreadMessages } =
+    state.notifications;
 
   return {
     isDrawerOpen,
-    notifications: groupBy(notifications, n => n.group),
+    notifications: groupBy(notifications, (n) => n.group),
     expandedGroup,
     isReady: !!notifications,
     hasUnreadMessages,

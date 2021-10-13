@@ -56,9 +56,7 @@ export function startGridster() {
 
 export function removeWidget(item) {
   const widget = $(item).parents('li.gs-w');
-  const gridster = $('.gridster>ul')
-    .gridster()
-    .data('gridster');
+  const gridster = $('.gridster>ul').gridster().data('gridster');
   openConfirmModal({
     title: __('Remove widget'),
     message: __(

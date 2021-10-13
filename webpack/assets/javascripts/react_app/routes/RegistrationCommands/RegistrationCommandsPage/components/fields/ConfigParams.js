@@ -49,14 +49,16 @@ const ConfigParams = ({
       >
         <FormSelect
           value={setupRemoteExecution}
-          onChange={v => handleRemoteExecution(v)}
+          onChange={(v) => handleRemoteExecution(v)}
           className="without_select2"
           id="registration_setup_remote_execution"
           isDisabled={isLoading}
           isRequired
         >
-          {/* eslint-disable-next-line camelcase */
-          options(configParams?.host_registration_remote_execution)}
+          {
+            /* eslint-disable-next-line camelcase */
+            options(configParams?.host_registration_remote_execution)
+          }
         </FormSelect>
       </FormGroup>
       <FormGroup
@@ -73,14 +75,16 @@ const ConfigParams = ({
       >
         <FormSelect
           value={setupInsights}
-          onChange={v => handleInsights(v)}
+          onChange={(v) => handleInsights(v)}
           className="without_select2"
           id="registration_setup_insights"
           isDisabled={isLoading}
           isRequired
         >
-          {/* eslint-disable-next-line camelcase */
-          options(configParams?.host_registration_insights)}
+          {
+            /* eslint-disable-next-line camelcase */
+            options(configParams?.host_registration_insights)
+          }
         </FormSelect>
       </FormGroup>
     </>

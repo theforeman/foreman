@@ -8,7 +8,7 @@ export const toggleModal = () => ({
   type: DIFF_MODAL_TOGGLE,
 });
 
-export const changeViewType = viewType => dispatch => {
+export const changeViewType = (viewType) => (dispatch) => {
   dispatch({
     type: DIFF_MODAL_VIEWTYPE,
     payload: {
@@ -17,7 +17,7 @@ export const changeViewType = viewType => dispatch => {
   });
 };
 
-export const createDiff = (diff, title) => dispatch => {
+export const createDiff = (diff, title) => (dispatch) => {
   dispatch({
     type: DIFF_MODAL_CREATE,
     payload: {

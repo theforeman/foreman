@@ -16,7 +16,7 @@ const PasswordStrength = ({
 }) => {
   const userInputs =
     userInputIds && userInputIds.length > 0
-      ? userInputIds.map(input => document.getElementById(input).value)
+      ? userInputIds.map((input) => document.getElementById(input).value)
       : [];
 
   return (

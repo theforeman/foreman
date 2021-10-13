@@ -1,4 +1,4 @@
-const selectBookmarkState = state => state.bookmarks;
+const selectBookmarkState = (state) => state.bookmarks;
 
 const selectBookmarksSubState = (state, controller) =>
   selectBookmarkState(state)[controller];

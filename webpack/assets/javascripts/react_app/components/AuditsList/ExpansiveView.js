@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DiffContainer from '../DiffView/DiffContainer';
 import { translate as __ } from '../../common/I18n';
 
-const renderListItems = items =>
+const renderListItems = (items) =>
   items &&
   items.map((item, index) =>
     item && typeof item === 'string' && item.length > 0 ? (
@@ -13,7 +13,7 @@ const renderListItems = items =>
     ) : null
   );
 
-const renderCols = changeArr =>
+const renderCols = (changeArr) =>
   changeArr &&
   changeArr.map(({ css_class: CssClassStr, id_to_label: idToLabel }, index) => (
     <td
@@ -30,7 +30,7 @@ const renderCols = changeArr =>
     </td>
   ));
 
-const renderTableRows = changeEntries =>
+const renderTableRows = (changeEntries) =>
   changeEntries &&
   changeEntries.map(({ name, change }, index) => (
     <tr key={index}>
@@ -80,12 +80,8 @@ class ExpansiveView extends React.Component {
   }
 
   render() {
-    const {
-      comment,
-      actionDisplayName,
-      auditedChangesWithIdToLabel,
-      details,
-    } = this.props;
+    const { comment, actionDisplayName, auditedChangesWithIdToLabel, details } =
+      this.props;
 
     return (
       <div className="grid-container">

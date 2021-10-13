@@ -108,7 +108,7 @@ const EditorNavbar = ({
                 selectedItem={selectedHost}
                 placeholder={__('Select Host...')}
                 isLoading={isFetchingHosts}
-                onChange={host =>
+                onChange={(host) =>
                   previewTemplate({ host, renderPath: selectedRenderPath })
                 }
                 searchQuery={searchQuery}

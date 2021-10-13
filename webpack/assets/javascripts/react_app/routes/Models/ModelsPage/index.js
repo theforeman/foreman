@@ -20,7 +20,7 @@ import {
   selectCanCreate,
 } from './ModelsPageSelectors';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   models: selectModels(state),
   page: selectPage(state),
   perPage: selectPerPage(state),
@@ -34,7 +34,7 @@ const mapStateToProps = state => ({
   canCreate: selectCanCreate(state),
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

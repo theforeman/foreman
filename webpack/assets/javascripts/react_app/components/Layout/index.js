@@ -42,12 +42,12 @@ const ConnectedLayout = ({ children, data }) => {
   }, [data, dispatch]);
 
   const { push: navigate } = useHistory();
-  const items = useSelector(state =>
+  const items = useSelector((state) =>
     patternflyMenuItemsSelector(state, currentLocation, currentOrganization)
   );
-  const isLoading = useSelector(state => selectIsLoading(state));
-  const isCollapsed = useSelector(state => selectIsCollapsed(state));
-  const activeMenu = useSelector(state => selectActiveMenu(state));
+  const isLoading = useSelector((state) => selectIsLoading(state));
+  const isCollapsed = useSelector((state) => selectIsCollapsed(state));
+  const activeMenu = useSelector((state) => selectActiveMenu(state));
 
   return (
     <Layout
@@ -57,7 +57,7 @@ const ConnectedLayout = ({ children, data }) => {
       isLoading={isLoading}
       isCollapsed={isCollapsed}
       activeMenu={activeMenu}
-      changeActiveMenu={menu => dispatch(changeActiveMenu(menu))}
+      changeActiveMenu={(menu) => dispatch(changeActiveMenu(menu))}
       collapseLayoutMenus={() => dispatch(collapseLayoutMenus())}
       expandLayoutMenus={() => dispatch(expandLayoutMenus())}
     >

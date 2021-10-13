@@ -22,12 +22,12 @@ const ConnectedBookmarks = ({
   documentationUrl,
 }) => {
   const key = `${BOOKMARKS}_${controller.toUpperCase()}`;
-  const status = useSelector(store => selectAPIStatus(store, key));
-  const errors = useSelector(store => selectAPIError(store, key));
-  const bookmarks = useSelector(store =>
+  const status = useSelector((store) => selectAPIStatus(store, key));
+  const errors = useSelector((store) => selectAPIError(store, key));
+  const bookmarks = useSelector((store) =>
     selectBookmarksResults(store, key, controller)
   );
-  const isModalOpen = useSelector(store =>
+  const isModalOpen = useSelector((store) =>
     selectIsModalOpen(store, BOOKMARKS_MODAL)
   );
   const dispatch = useDispatch();

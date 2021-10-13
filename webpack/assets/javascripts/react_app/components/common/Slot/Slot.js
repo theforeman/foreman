@@ -2,7 +2,7 @@ import { cloneElement, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 
 const Slot = ({ fills, id, multi, children = null, ...props }) => {
-  const addProps = object => {
+  const addProps = (object) => {
     if (multi && !object.key) {
       // eslint-disable-next-line no-console
       console.warn(
@@ -21,7 +21,7 @@ const Slot = ({ fills, id, multi, children = null, ...props }) => {
     return cloneElement(children, { ...props, ...object });
   };
 
-  if (fills.length) return fills.map(component => addProps(component));
+  if (fills.length) return fills.map((component) => addProps(component));
   return children;
 };
 

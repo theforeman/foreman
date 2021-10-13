@@ -5,7 +5,7 @@ import { sprintf, translate as __ } from '../../../../common/I18n';
 import ForemanModal from '../../../../components/ForemanModal';
 import { MODEL_DELETE_MODAL_ID } from '../../constants';
 
-const ModelDeleteModal = props => {
+const ModelDeleteModal = (props) => {
   const { id, name } = props.toDelete;
 
   return (

@@ -15,10 +15,10 @@ class SlotsRegistry {
     delete slotItems[fillId];
   };
 
-  static getSlotComponents = id =>
+  static getSlotComponents = (id) =>
     this.registry[id] ? Object.values(this.registry[id]) : [];
 
-  static getFillsFromSlot = slotId => this.registry[slotId];
+  static getFillsFromSlot = (slotId) => this.registry[slotId];
 }
 
 export default SlotsRegistry;

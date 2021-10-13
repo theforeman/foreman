@@ -5,7 +5,7 @@ if (!window.sessionStorage) {
   };
 }
 
-export const getValue = key => {
+export const getValue = (key) => {
   const value = window.sessionStorage.getItem(key) || 'null';
 
   return JSON.parse(value);

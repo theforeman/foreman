@@ -28,7 +28,7 @@ const Layout = ({
     <VerticalNav
       hoverDelay={100}
       items={items}
-      onItemClick={primary =>
+      onItemClick={(primary) =>
         handleMenuClick(primary, activeMenu, changeActiveMenu)
       }
       onNavigate={({ href }) => navigate(href)}

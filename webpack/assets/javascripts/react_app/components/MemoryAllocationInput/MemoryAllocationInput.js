@@ -43,7 +43,7 @@ const MemoryAllocationInput = ({
     }
   }, [valueMB, recommendedMaxValue, maxValue, setError, setWarning]);
 
-  const handleChange = v => {
+  const handleChange = (v) => {
     if (v === valueMB + 1) {
       v = valueMB * 2;
     } else if (v === valueMB - 1) {
@@ -58,8 +58,8 @@ const MemoryAllocationInput = ({
       <RCInputNumber
         value={valueMB}
         id={id}
-        formatter={v => `${v} ${MB_FORMAT}`}
-        parser={str => str.replace(/\D/g, '')}
+        formatter={(v) => `${v} ${MB_FORMAT}`}
+        parser={(str) => str.replace(/\D/g, '')}
         onChange={handleChange}
         disabled={disabled}
         min={minValue && minValue / MEGABYTES}

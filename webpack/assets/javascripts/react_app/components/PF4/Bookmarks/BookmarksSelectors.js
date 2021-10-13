@@ -10,7 +10,7 @@ const sortByName = (a, b) => {
   // names must be equal
   return 0;
 };
-const selectBookmarks = state => state.bookmarksPF4 || {};
+const selectBookmarks = (state) => state.bookmarksPF4 || {};
 const selectBookmarksByController = (state, controller) =>
   selectBookmarks(state)[controller] || {};
 

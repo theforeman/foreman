@@ -122,8 +122,9 @@ PageLayout.defaultProps = {
   toolbarButtons: null,
   breadcrumbOptions: null,
   isLoading: false,
-  onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
-  onBookmarkClick: searchQuery =>
+  onSearch: (searchQuery) =>
+    changeQuery({ search: searchQuery.trim(), page: 1 }),
+  onBookmarkClick: (searchQuery) =>
     changeQuery({ search: searchQuery.trim(), page: 1 }),
   beforeToolbarComponent: null,
 };

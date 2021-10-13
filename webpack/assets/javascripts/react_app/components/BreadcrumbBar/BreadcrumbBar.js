@@ -79,7 +79,7 @@ class BreadcrumbBar extends React.Component {
               onTogglerClick={() => toggleSwitcher()}
               onHide={() => closeSwitcher()}
               onOpen={() => this.handleOpen()}
-              onSearchChange={event =>
+              onSearchChange={(event) =>
                 loadSwitcherResourcesByResource(resource, {
                   searchQuery: event.target.value,
                 })

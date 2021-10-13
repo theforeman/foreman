@@ -51,7 +51,7 @@ const DateTime = ({
             name={name}
             placement="bottom"
             required={isRequired}
-            onChange={newValue => setFieldValue(name, newValue)}
+            onChange={(newValue) => setFieldValue(name, newValue)}
           />
         </CommonForm>
       )}

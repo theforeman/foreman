@@ -13,7 +13,8 @@ export const useModalContext = () => useContext(ModalContext);
 export const useForemanModal = ({ id, isOpen = false }) => {
   if (!id) throw new Error('useForemanModal: ID is required');
   const initialModalState = isOpen;
-  const modalOpen = useSelector(state => selectIsModalOpen(state, id)) || false;
+  const modalOpen =
+    useSelector((state) => selectIsModalOpen(state, id)) || false;
   const dispatch = useDispatch();
   const boundSetModalClosed = () => dispatch(setModalClosed({ id }));
   const boundSetModalOpen = () => dispatch(setModalOpen({ id }));

@@ -33,7 +33,7 @@ import {
 } from './EditorSelectors';
 
 // map state to props
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   diffViewType: selectDiffType(state),
   editorName: selectEditorName(state),
   errorText: selectErrorText(state),
@@ -60,7 +60,7 @@ const mapStateToProps = state => ({
 });
 
 // map action dispatchers to props
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 // export reducers
 export const reducers = { editor: reducer };

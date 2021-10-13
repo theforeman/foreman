@@ -21,12 +21,7 @@ const DiffView = ({ oldText, newText, viewType, patch }) => {
     return hunks && <Diff hunks={hunks} viewType={viewType} diffType={type} />;
   }
   // Patch
-  const files = parseDiff(
-    patch
-      .split('\n')
-      .slice(1)
-      .join('\n')
-  );
+  const files = parseDiff(patch.split('\n').slice(1).join('\n'));
   // eslint-disable-next-line react/prop-types
   const renderFile = ({ oldRevision, newRevision, type, hunks }) => (
     <Diff

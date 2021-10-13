@@ -48,9 +48,7 @@ export function disconnect() {
 
 function spiceError(e) {
   $('#spice-status').text(e);
-  $('#spice-status')
-    .removeClass('label-success')
-    .addClass('label-danger');
+  $('#spice-status').removeClass('label-success').addClass('label-danger');
   disconnect();
 }
 

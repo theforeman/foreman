@@ -26,11 +26,11 @@ const Disk = ({
   storagePodsStatus,
   storagePodsError,
 }) => {
-  const updateStoragePod = newValues => {
+  const updateStoragePod = (newValues) => {
     updateDisk('storagePod', newValues);
     updateDisk('datastore', { target: { value: null } });
   };
-  const updateDatastore = newValues => {
+  const updateDatastore = (newValues) => {
     updateDisk('datastore', newValues);
     updateDisk('storagePod', { target: { value: null } });
   };
@@ -53,7 +53,7 @@ const Disk = ({
           label={__('Storage Pod')}
           value={storagePod}
           disabled={vmExists}
-          onChange={newValues => updateStoragePod(newValues)}
+          onChange={(newValues) => updateStoragePod(newValues)}
           options={storagePods}
           allowClear
           key="storagePodsSelect"
@@ -67,7 +67,7 @@ const Disk = ({
           disabled={vmExists}
           label={__('Data store')}
           value={datastore}
-          onChange={newValues => updateDatastore(newValues)}
+          onChange={(newValues) => updateDatastore(newValues)}
           options={datastores}
           allowClear
           key="datastoresSelect"
@@ -81,17 +81,17 @@ const Disk = ({
         label={__('Disk Mode')}
         value={mode}
         disabled={vmExists}
-        onChange={newValues => updateDisk('mode', newValues)}
+        onChange={(newValues) => updateDisk('mode', newValues)}
         options={diskModeTypes}
       />
 
       <NumericInput
         value={sizeGb}
         minValue={1}
-        format={v => `${v} GB`}
-        parser={str => str.replace(/\D/g, '')}
+        format={(v) => `${v} GB`}
+        parser={(str) => str.replace(/\D/g, '')}
         className="text-vmware-size"
-        onChange={newValues => updateDisk('sizeGb', newValues)}
+        onChange={(newValues) => updateDisk('sizeGb', newValues)}
         label={__('Size (GB)')}
       />
 
@@ -99,7 +99,7 @@ const Disk = ({
         label={__('Thin provision')}
         checked={thin}
         disabled={vmExists || eagerZero}
-        onChange={newValues => {
+        onChange={(newValues) => {
           updateDisk('thin', newValues);
           newValues && updateDisk('eagerZero', false);
         }}
@@ -109,7 +109,7 @@ const Disk = ({
         label={__('Eager zero')}
         checked={eagerZero}
         disabled={vmExists || thin}
-        onChange={newValues => {
+        onChange={(newValues) => {
           updateDisk('eagerZero', newValues);
           newValues && updateDisk('thin', false);
         }}

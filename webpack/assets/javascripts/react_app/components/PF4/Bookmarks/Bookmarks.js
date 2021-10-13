@@ -29,7 +29,7 @@ const Bookmarks = ({
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const onToggle = isOpen => {
+  const onToggle = (isOpen) => {
     setIsDropdownOpen(isOpen);
     if (bookmarks.length === 0 && status !== STATUS.PENDING) {
       getBookmarks();

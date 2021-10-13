@@ -3,10 +3,10 @@ import {
   SET_EDITING_SETTING,
 } from './SettingRecordsConstants';
 
-export const loadSettingRecords = settings => async dispatch =>
+export const loadSettingRecords = (settings) => async (dispatch) =>
   dispatch({ type: LOAD_SETTING_RECORDS, payload: settings });
 
-export const setSettingEditing = setting => ({
+export const setSettingEditing = (setting) => ({
   type: SET_EDITING_SETTING,
   payload: { setting },
 });

@@ -9,7 +9,7 @@ export const useSubmitOnEnter = (ref, onSubmit) => {
   const [listenerAdded, setListenerAdded] = useState(false);
 
   useEffect(() => {
-    const listener = event => {
+    const listener = (event) => {
       if (event.code === 'Enter' || event.code === 'NumpadEnter') onSubmit();
     };
 

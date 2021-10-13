@@ -21,9 +21,9 @@ export const getBarChartConfig = ({
   let columns = null;
 
   if (data) {
-    categories = data.map(dataItem => dataItem[0]);
+    categories = data.map((dataItem) => dataItem[0]);
 
-    columns = data.map(x => x[1]);
+    columns = data.map((x) => x[1]);
 
     columns.unshift(xAxisLabel);
 

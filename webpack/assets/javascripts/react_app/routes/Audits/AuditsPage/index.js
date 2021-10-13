@@ -19,7 +19,7 @@ import { callOnMount, callOnPopState } from '../../../common/HOC';
 import withQueryReducer from '../../common/reducerHOC/withQueryReducer';
 import withDataReducer from '../../common/reducerHOC/withDataReducer';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   audits: selectAudits(state),
   isLoading: selectAuditsIsLoadingPage(state),
   itemCount: selectAuditsCount(state),
@@ -31,7 +31,7 @@ const mapStateToProps = state => ({
   hasData: selectAuditsHasData(state),
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 export const reducers = {
   auditsPage: combineReducers({

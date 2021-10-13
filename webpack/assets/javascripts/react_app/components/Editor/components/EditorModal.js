@@ -40,7 +40,7 @@ const EditorModal = ({
       {selectedView === 'diff' && (
         <DiffRadioButtons
           stateView={diffViewType}
-          changeState={viewType => changeDiffViewType(viewType)}
+          changeState={(viewType) => changeDiffViewType(viewType)}
         />
       )}
     </Modal.Header>

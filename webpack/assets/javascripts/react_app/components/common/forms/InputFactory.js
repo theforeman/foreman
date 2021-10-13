@@ -27,7 +27,7 @@ export const registerInputComponent = (name, Component) => {
   inputComponents[name] = Component;
 };
 
-export const getComponentClass = name => inputComponents[name] || 'input';
+export const getComponentClass = (name) => inputComponents[name] || 'input';
 
 const InputFactory = ({ type, setError, setWarning, ...controlProps }) => {
   const componentClass = getComponentClass(type);

@@ -28,11 +28,11 @@ const initialState = Immutable({
 
 const availableControllerKeys = [1000, 1001, 1002, 1003, 1004];
 
-const getAvailableKey = controllers =>
+const getAvailableKey = (controllers) =>
   head(
     difference(
       availableControllerKeys,
-      controllers.map(c => c.key)
+      controllers.map((c) => c.key)
     )
   );
 
@@ -45,12 +45,12 @@ export default (state = initialState, { type, payload, response }) => {
 
       // controller key is assigned here using getAvailableKey
       return state
-        .update('controllers', ctrls =>
+        .update('controllers', (ctrls) =>
           ctrls.concat(
             Object.assign({}, payload.controller, { key: availableKey })
           )
         )
-        .update('volumes', volumes =>
+        .update('volumes', (volumes) =>
           volumes.concat(
             Object.assign(
               {},
@@ -71,29 +71,29 @@ export default (state = initialState, { type, payload, response }) => {
       );
     case STORAGE_VMWARE_REMOVE_CONTROLLER:
       return state
-        .update('controllers', ctrls =>
-          ctrls.filter(ctrl => ctrl.key !== payload.controllerKey)
+        .update('controllers', (ctrls) =>
+          ctrls.filter((ctrl) => ctrl.key !== payload.controllerKey)
         )
-        .update('volumes', volumes =>
+        .update('volumes', (volumes) =>
           volumes.filter(
-            volume => volume.controllerKey !== payload.controllerKey
+            (volume) => volume.controllerKey !== payload.controllerKey
           )
         );
     case STORAGE_VMWARE_UPDATE_CONTROLLER:
-      return state.updateIn(['controllers', payload.idx], controller =>
+      return state.updateIn(['controllers', payload.idx], (controller) =>
         Object.assign({}, controller, payload.newValues)
       );
     case STORAGE_VMWARE_UPDATE_DISK:
       return state.set(
         'volumes',
-        state.volumes.map(v =>
+        state.volumes.map((v) =>
           v.key === payload.key ? Object.assign({}, v, payload.newValues) : v
         )
       );
     case STORAGE_VMWARE_REMOVE_DISK:
       return state.set(
         'volumes',
-        state.volumes.filter(v => v.key !== payload.key)
+        state.volumes.filter((v) => v.key !== payload.key)
       );
     case STORAGE_VMWARE_INIT:
       const newState = {
@@ -105,7 +105,10 @@ export default (state = initialState, { type, payload, response }) => {
         storagePods: [],
         storagePodsLoading: false,
         storagePodsError: undefined,
-        volumes: payload.volumes.map(volume => ({ ...volume, key: uuidV1() })),
+        volumes: payload.volumes.map((volume) => ({
+          ...volume,
+          key: uuidV1(),
+        })),
         cluster: payload.cluster,
       };
       return initialState

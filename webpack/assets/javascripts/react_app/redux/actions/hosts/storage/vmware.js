@@ -24,28 +24,24 @@ export const updateDisk = (key, newValues) => ({
   },
 });
 
-export const initController = (
-  config,
-  cluster,
-  controllers,
-  volumes
-) => dispatch => {
-  dispatch({
-    type: STORAGE_VMWARE_INIT,
-    payload: {
-      config,
-      controllers: controllers || defaultControllerAttributes,
-      volumes: volumes || getDefaultDiskAttributes,
-      cluster,
-    },
-  });
-  if (cluster) {
-    dispatch(fetchDatastores(config.datastoresUrl, cluster));
-    dispatch(fetchStoragePods(config.storagePodsUrl, cluster));
-  }
-};
+export const initController =
+  (config, cluster, controllers, volumes) => (dispatch) => {
+    dispatch({
+      type: STORAGE_VMWARE_INIT,
+      payload: {
+        config,
+        controllers: controllers || defaultControllerAttributes,
+        volumes: volumes || getDefaultDiskAttributes,
+        cluster,
+      },
+    });
+    if (cluster) {
+      dispatch(fetchDatastores(config.datastoresUrl, cluster));
+      dispatch(fetchStoragePods(config.storagePodsUrl, cluster));
+    }
+  };
 
-export const changeCluster = newCluster => (dispatch, getState) => {
+export const changeCluster = (newCluster) => (dispatch, getState) => {
   const { config } = getState().hosts.storage.vmware;
   if (newCluster === '') newCluster = null;
 
@@ -74,7 +70,7 @@ export const fetchDatastores = (url, cluster) =>
 export const fetchStoragePods = (url, cluster) =>
   fetchStorages(url, cluster, STORAGE_VMWARE_STORAGEPODS);
 
-export const addController = data => ({
+export const addController = (data) => ({
   type: STORAGE_VMWARE_ADD_CONTROLLER,
   payload: {
     controller: defaultControllerAttributes,
@@ -90,19 +86,19 @@ export const updateController = (idx, newValues) => ({
   },
 });
 
-export const removeDisk = key => ({
+export const removeDisk = (key) => ({
   type: STORAGE_VMWARE_REMOVE_DISK,
   payload: {
     key,
   },
 });
 
-export const removeController = controllerKey => ({
+export const removeController = (controllerKey) => ({
   type: STORAGE_VMWARE_REMOVE_CONTROLLER,
   payload: { controllerKey },
 });
 
-export const addDisk = controllerKey => ({
+export const addDisk = (controllerKey) => ({
   type: STORAGE_VMWARE_ADD_DISK,
   payload: {
     controllerKey,

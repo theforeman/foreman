@@ -27,7 +27,7 @@ class TemplateGenerator extends React.Component {
     const { generatingError, generatingErrorMessages } = this.props;
     const errors =
       generatingErrorMessages &&
-      generatingErrorMessages.map(e => e.message).join('\n');
+      generatingErrorMessages.map((e) => e.message).join('\n');
 
     return errors || generatingError;
   }

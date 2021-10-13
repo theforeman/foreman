@@ -10,13 +10,13 @@ const renderOption = (val, text, key = null) => {
   );
 };
 
-const renderOptGroup = group => (
+const renderOptGroup = (group) => (
   <optgroup label={group.groupLabel} key={group.groupLabel}>
     {renderOptions(group.children)}
   </optgroup>
 );
 
-export const renderOptions = opts => {
+export const renderOptions = (opts) => {
   if (Array.isArray(opts)) {
     return opts.map((opt, index) => {
       if (opt.children) {

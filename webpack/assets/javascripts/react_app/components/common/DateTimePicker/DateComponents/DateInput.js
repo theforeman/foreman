@@ -29,7 +29,7 @@ class DateInput extends React.Component {
     const { date } = this.state;
     this.setState({ date: addMonths(date, 1) });
   };
-  setSelected = day => {
+  setSelected = (day) => {
     this.setState({
       date: day,
     });
@@ -40,7 +40,7 @@ class DateInput extends React.Component {
       typeOfDateInput: type,
     });
   };
-  getDateViewByType = type => {
+  getDateViewByType = (type) => {
     const { date, locale, weekStartsOn, setSelected } = this.props;
     switch (type) {
       case DAY:

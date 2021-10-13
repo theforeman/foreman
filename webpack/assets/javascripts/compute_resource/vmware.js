@@ -46,15 +46,9 @@ function fetchResourcePools(url, clusterId) {
       hideSpinner();
     },
     success(request) {
-      $selectbox
-        .select2('destroy')
-        .empty()
-        .prop('disabled', false);
+      $selectbox.select2('destroy').empty().prop('disabled', false);
       request.forEach(({ name }) => {
-        $('<option>')
-          .text(name)
-          .val(name)
-          .appendTo($selectbox);
+        $('<option>').text(name).val(name).appendTo($selectbox);
       });
       $selectbox.select2();
     },

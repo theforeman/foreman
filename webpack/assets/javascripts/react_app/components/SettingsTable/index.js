@@ -6,8 +6,8 @@ import { selectSettingsByCategory } from '../SettingRecords/SettingRecordsSelect
 
 import SettingsTable from './SettingsTable';
 
-const WrappedSettingsTable = props => {
-  const settings = useSelector(state =>
+const WrappedSettingsTable = (props) => {
+  const settings = useSelector((state) =>
     selectSettingsByCategory(props.category)(state)
   );
 

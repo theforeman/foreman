@@ -27,7 +27,7 @@ const Actions = ({ isLoading, isGenerating, handleSubmit, invalidFields }) => (
       <Button
         variant="primary"
         id="generate_btn"
-        onClick={e => handleSubmit(e)}
+        onClick={(e) => handleSubmit(e)}
         isDisabled={isLoading || invalidFields.length > 0}
         isLoading={isGenerating}
       >

@@ -1,7 +1,8 @@
 import { API_OPERATIONS } from './APIConstants';
 import { API } from './';
 
-export const getApiMethodByActionType = type => type.substring(4).toLowerCase();
+export const getApiMethodByActionType = (type) =>
+  type.substring(4).toLowerCase();
 
 export const getApiResponse = async ({ type, url, headers, params }) => {
   const method = getApiMethodByActionType(type);

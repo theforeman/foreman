@@ -9,7 +9,7 @@ import {
   setModalStopSubmitting,
 } from '../../ForemanModalActions';
 
-const onModalError = error => {
+const onModalError = (error) => {
   const {
     response: {
       status,
@@ -30,34 +30,36 @@ const onModalError = error => {
   return `${status}: ${__('Failed to submit the request.')}`;
 };
 
-export const submitModal = ({
-  url,
-  message,
-  method = 'delete',
-  closeFn,
-  getErrorMsg = onModalError,
-  onSuccess = () => {},
-  id,
-}) => async dispatch => {
-  try {
-    dispatch(setModalStartSubmitting({ id }));
-    const { data } = await API[method](url, {});
-    dispatch(setModalStopSubmitting({ id }));
-    onSuccess(data);
-    closeFn();
-    dispatch(
-      addToast({
-        type: 'success',
-        message,
-      })
-    );
-  } catch (error) {
-    dispatch(setModalStopSubmitting({ id }));
-    dispatch(
-      addToast({
-        type: 'error',
-        message: getErrorMsg(error),
-      })
-    );
-  }
-};
+export const submitModal =
+  ({
+    url,
+    message,
+    method = 'delete',
+    closeFn,
+    getErrorMsg = onModalError,
+    onSuccess = () => {},
+    id,
+  }) =>
+  async (dispatch) => {
+    try {
+      dispatch(setModalStartSubmitting({ id }));
+      const { data } = await API[method](url, {});
+      dispatch(setModalStopSubmitting({ id }));
+      onSuccess(data);
+      closeFn();
+      dispatch(
+        addToast({
+          type: 'success',
+          message,
+        })
+      );
+    } catch (error) {
+      dispatch(setModalStopSubmitting({ id }));
+      dispatch(
+        addToast({
+          type: 'error',
+          message: getErrorMsg(error),
+        })
+      );
+    }
+  };

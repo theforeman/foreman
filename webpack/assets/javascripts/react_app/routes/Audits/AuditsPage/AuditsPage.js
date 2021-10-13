@@ -22,8 +22,8 @@ const AuditsPage = ({
     searchProps={AUDITS_SEARCH_PROPS}
     searchQuery={searchQuery}
     isLoading={isLoading && hasData}
-    onSearch={search => fetchAndPush({ searchQuery: search, page: 1 })}
-    onBookmarkClick={search => fetchAndPush({ searchQuery: search, page: 1 })}
+    onSearch={(search) => fetchAndPush({ searchQuery: search, page: 1 })}
+    onBookmarkClick={(search) => fetchAndPush({ searchQuery: search, page: 1 })}
     toolbarButtons={
       <Button
         href={getManualURL('4.1.4Auditing')}

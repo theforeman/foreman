@@ -8,7 +8,7 @@ export const getWeekArray = (weekStartsOn, locale) => {
     3
       ? 'narrow'
       : 'short';
-  return times(7, i =>
+  return times(7, (i) =>
     Intl.DateTimeFormat(locale, { weekday: dayFormat })
       .format(addDays(weekStart, (i + weekStartsOn) % 7))
       .slice(0, 2)

@@ -18,7 +18,7 @@ export const getLineChartConfig = ({
   });
 
   if (chartConfig.data && chartConfig.data.columns) {
-    chartConfig.data.columns = chartConfig.data.columns.map(col => {
+    chartConfig.data.columns = chartConfig.data.columns.map((col) => {
       const [label, values] = col;
       // destruct data into format line chart accepts,
       // remove last item in column as it specifies the color

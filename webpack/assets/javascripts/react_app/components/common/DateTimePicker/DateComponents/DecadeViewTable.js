@@ -10,7 +10,7 @@ export const DecadeViewTable = ({
   <tbody>
     <tr>
       <td colSpan="7">
-        {yearArray.map(year => (
+        {yearArray.map((year) => (
           <span
             onClick={() => setSelectedYear(year)}
             className={`year ${year === selectedYear ? 'active' : ''}`}

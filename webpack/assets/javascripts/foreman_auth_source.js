@@ -68,15 +68,9 @@ function updateLdapAccountHelp(selectedType) {
         .parents('.form-group')
         .find('label a[rel=popover]')
         .attr('data-content', help);
-      element
-        .parents('.form-group')
-        .find('label a[rel=popover]')
-        .show();
+      element.parents('.form-group').find('label a[rel=popover]').show();
     } else {
-      element
-        .parents('.form-group')
-        .find('label a[rel=popover]')
-        .hide();
+      element.parents('.form-group').find('label a[rel=popover]').hide();
     }
   });
 }

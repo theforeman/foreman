@@ -15,7 +15,7 @@ class DecadeView extends React.Component {
   getYearArray = () => {
     const { date } = this.state;
     date.setFullYear(Math.floor(date.getFullYear() / 10) * 10);
-    return times(12, i => addYears(date, i).getFullYear());
+    return times(12, (i) => addYears(date, i).getFullYear());
   };
   getPrevDecade = () => {
     const { date } = this.state;
@@ -25,7 +25,7 @@ class DecadeView extends React.Component {
     const { date } = this.state;
     this.setState({ date: addYears(date, 10) });
   };
-  setSelectedYear = year => {
+  setSelectedYear = (year) => {
     const { setSelected, toggleDateView } = this.props;
     const { date } = this.state;
     date.setFullYear(year);

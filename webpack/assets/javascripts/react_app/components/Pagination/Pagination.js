@@ -12,7 +12,7 @@ import {
 import { useForemanSettings } from '../../Root/Context/ForemanContext';
 import './pagination.scss';
 
-const Pagination = props => {
+const Pagination = (props) => {
   const {
     data,
     pagination,
@@ -86,8 +86,8 @@ Pagination.propTypes = {
 };
 
 Pagination.defaultProps = {
-  onPageSet: page => changeQuery({ page }),
-  onPerPageSelect: perPage => changeQuery({ page: 1, per_page: perPage }),
+  onPageSet: (page) => changeQuery({ page }),
+  onPerPageSelect: (perPage) => changeQuery({ page: 1, per_page: perPage }),
   dropdownButtonId: 'pagination-row-dropdown',
   pagination: null,
   disableNext: false,

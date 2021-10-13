@@ -20,8 +20,8 @@ const AuditsTable = ({ audits, page, itemCount, fetchAndPush }) => (
         pagination={{
           page,
         }}
-        onPageSet={newPage => fetchAndPush({ page: newPage })}
-        onPerPageSelect={newPerPage =>
+        onPageSet={(newPage) => fetchAndPush({ page: newPage })}
+        onPerPageSelect={(newPerPage) =>
           fetchAndPush({ perPage: newPerPage, page: 1 })
         }
       />

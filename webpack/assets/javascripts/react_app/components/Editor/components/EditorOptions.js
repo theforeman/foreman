@@ -55,7 +55,7 @@ class EditorOptions extends React.Component {
         {selectedView === 'diff' && (
           <DiffRadioButtons
             stateView={diffViewType}
-            changeState={viewType => changeDiffViewType(viewType)}
+            changeState={(viewType) => changeDiffViewType(viewType)}
           />
         )}
 
@@ -133,7 +133,7 @@ class EditorOptions extends React.Component {
             >
               <Icon size="lg" type="pf" name="folder-open" />
               <FormControl
-                inputRef={ref => {
+                inputRef={(ref) => {
                   this.fileInput = ref;
                 }}
                 className="hidden"

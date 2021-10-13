@@ -14,32 +14,28 @@ import {
   TRIGGERS,
 } from './AutoCompleteConstants';
 
-export const getResults = ({
-  url,
-  searchQuery,
-  controller,
-  trigger,
-  id,
-}) => dispatch => {
-  dispatch(
-    startRequest({
-      controller,
+export const getResults =
+  ({ url, searchQuery, controller, trigger, id }) =>
+  (dispatch) => {
+    dispatch(
+      startRequest({
+        controller,
+        searchQuery,
+        trigger,
+        dispatch,
+        id,
+        url,
+      })
+    );
+
+    return createAPIRequest({
       searchQuery,
       trigger,
-      dispatch,
       id,
+      dispatch,
       url,
-    })
-  );
-
-  return createAPIRequest({
-    searchQuery,
-    trigger,
-    id,
-    dispatch,
-    url,
-  });
-};
+    });
+  };
 
 let createAPIRequest = async ({ searchQuery, trigger, id, dispatch, url }) => {
   if (!url) {
@@ -106,7 +102,7 @@ const requestSuccess = ({ data, trigger, id }) => {
       isVisible: false,
     });
   }
-  const results = data.map(result => objectDeepTrim(result, trigger));
+  const results = data.map((result) => objectDeepTrim(result, trigger));
   return {
     type: AUTO_COMPLETE_SUCCESS,
     payload: {
@@ -128,7 +124,7 @@ const requestFailure = ({ error, id, isVisible = true }) => ({
   },
 });
 
-const isFinishedWithPoint = string => string.slice(-1) === '.';
+const isFinishedWithPoint = (string) => string.slice(-1) === '.';
 
 const getAPIPath = ({ trigger, searchQuery, url }) => {
   const loadNextResults =
@@ -170,7 +166,7 @@ export const initialUpdate = ({
 
 const objectDeepTrim = (obj, trigger) => {
   const copy = { ...obj };
-  Object.keys(copy).forEach(key => {
+  Object.keys(copy).forEach((key) => {
     const addSpace =
       key === 'label' && trigger === TRIGGERS.ITEM_SELECT ? ' ' : '';
     copy[key] = clearSpaces(copy[key]) + addSpace;

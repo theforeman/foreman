@@ -36,7 +36,7 @@ import {
   selectHosts,
 } from './EditorSelectors';
 
-export const initializeEditor = initializeData => dispatch => {
+export const initializeEditor = (initializeData) => (dispatch) => {
   const {
     template,
     locked,
@@ -72,11 +72,11 @@ export const initializeEditor = initializeData => dispatch => {
   });
 };
 
-export const importFile = e => dispatch => {
+export const importFile = (e) => (dispatch) => {
   const reader = new FileReader();
   reader.onloadstart = () => dispatch({ type: EDITOR_SHOW_LOADING });
   reader.onloadend = () => dispatch({ type: EDITOR_HIDE_LOADING });
-  reader.onload = event => {
+  reader.onload = (event) => {
     dispatch({
       type: EDITOR_IMPORT_FILE,
       payload: {
@@ -87,7 +87,7 @@ export const importFile = e => dispatch => {
   reader.readAsText(e.target.files[0]);
 };
 
-export const revertChanges = template => dispatch => {
+export const revertChanges = (template) => (dispatch) => {
   dispatch({
     type: EDITOR_REVERT_CHANGES,
     payload: {
@@ -97,83 +97,78 @@ export const revertChanges = template => dispatch => {
   });
 };
 
-export const previewTemplate = ({ host, renderPath }) => async (
-  dispatch,
-  getState
-) => {
-  const { id, name } = host;
-  if (selectIsSelectOpen(getState()))
-    dispatch({ type: EDITOR_HOST_SELECT_TOGGLE });
-  const templateValue = selectValue(getState());
-  const isErrorShown = selectShowError(getState());
+export const previewTemplate =
+  ({ host, renderPath }) =>
+  async (dispatch, getState) => {
+    const { id, name } = host;
+    if (selectIsSelectOpen(getState()))
+      dispatch({ type: EDITOR_HOST_SELECT_TOGGLE });
+    const templateValue = selectValue(getState());
+    const isErrorShown = selectShowError(getState());
 
-  const params = {
-    template: templateValue,
-    /* eslint-disable camelcase */
-    preview_host_id: id,
+    const params = {
+      template: templateValue,
+      /* eslint-disable camelcase */
+      preview_host_id: id,
+    };
+    dispatch({ type: EDITOR_SHOW_LOADING });
+    try {
+      const response = await fetchTemplatePreview(renderPath, params);
+      if (isErrorShown) dispatch(dismissErrorToast());
+      dispatch({ type: EDITOR_HIDE_LOADING });
+      dispatch({
+        type: EDITOR_EXEC_PREVIEW,
+        payload: {
+          renderedEditorValue: templateValue,
+          selectedHost: {
+            id: toString(id),
+            name,
+          },
+          previewResult: response.data,
+          isSearchingHosts: false,
+        },
+      });
+    } catch (error) {
+      dispatch({ type: EDITOR_HIDE_LOADING });
+      dispatch({
+        type: EDITOR_SHOW_ERROR,
+        payload: {
+          renderedEditorValue: templateValue,
+          showError: true,
+          errorText: error.response ? __(error.response.data) : '',
+          previewResult: __('Error during rendering, Return to Editor tab.'),
+          selectedHost: {
+            id: toString(id),
+            name,
+          },
+        },
+      });
+    }
   };
-  dispatch({ type: EDITOR_SHOW_LOADING });
-  try {
-    const response = await fetchTemplatePreview(renderPath, params);
-    if (isErrorShown) dispatch(dismissErrorToast());
-    dispatch({ type: EDITOR_HIDE_LOADING });
-    dispatch({
-      type: EDITOR_EXEC_PREVIEW,
-      payload: {
-        renderedEditorValue: templateValue,
-        selectedHost: {
-          id: toString(id),
-          name,
-        },
-        previewResult: response.data,
-        isSearchingHosts: false,
-      },
-    });
-  } catch (error) {
-    dispatch({ type: EDITOR_HIDE_LOADING });
-    dispatch({
-      type: EDITOR_SHOW_ERROR,
-      payload: {
-        renderedEditorValue: templateValue,
-        showError: true,
-        errorText: error.response ? __(error.response.data) : '',
-        previewResult: __('Error during rendering, Return to Editor tab.'),
-        selectedHost: {
-          id: toString(id),
-          name,
-        },
-      },
-    });
-  }
-};
 
 export const fetchTemplatePreview = (renderPath, params) =>
   API.post(renderPath, params);
 
 // fetch & debounced fetch
-const fetchHosts = (
-  query = '',
-  array = EDITOR_HOST_ARR,
-  url = EDITOR_HOSTS_URL
-) => (dispatch, getState) =>
-  createHostAPIRequest(query, array, url, dispatch, getState);
+const fetchHosts =
+  (query = '', array = EDITOR_HOST_ARR, url = EDITOR_HOSTS_URL) =>
+  (dispatch, getState) =>
+    createHostAPIRequest(query, array, url, dispatch, getState);
 
-const debouncedFetchHosts = (
-  query = '',
-  array = EDITOR_HOST_ARR,
-  url = EDITOR_HOSTS_URL
-) => (dispatch, getState) =>
-  debouncedCreateHostAPIRequest(query, array, url, dispatch, getState);
+const debouncedFetchHosts =
+  (query = '', array = EDITOR_HOST_ARR, url = EDITOR_HOSTS_URL) =>
+  (dispatch, getState) =>
+    debouncedCreateHostAPIRequest(query, array, url, dispatch, getState);
 
 // API & debounced API
 const createHostAPIRequest = async (query, array, url, dispatch, getState) => {
-  const onResultsSuccess = response =>
+  const onResultsSuccess = (response) =>
     dispatch({
       type: EDITOR_FETCH_HOST_RESOLVED,
       payload: { [array]: response.data },
     });
 
-  const onResultsError = response =>
+  const onResultsError = (response) =>
     dispatch({
       type: EDITOR_SHOW_ERROR,
       payload: {
@@ -196,7 +191,7 @@ const createHostAPIRequest = async (query, array, url, dispatch, getState) => {
 };
 const debouncedCreateHostAPIRequest = debounce(createHostAPIRequest, 250);
 
-export const onHostSearch = e => (dispatch, getState) => {
+export const onHostSearch = (e) => (dispatch, getState) => {
   if (e.target.value === '')
     return dispatch({ type: EDITOR_HOST_SELECT_RESET });
 
@@ -212,7 +207,7 @@ export const onHostSearch = e => (dispatch, getState) => {
   );
 };
 
-export const fetchAndPreview = renderPath => async (dispatch, getState) => {
+export const fetchAndPreview = (renderPath) => async (dispatch, getState) => {
   dispatch({ type: EDITOR_SHOW_LOADING });
   await dispatch(fetchHosts());
   const hosts = selectHosts(getState());
@@ -225,28 +220,28 @@ export const toggleModal = () => ({
   type: EDITOR_MODAL_TOGGLE,
 });
 
-export const changeDiffViewType = viewType => dispatch => {
+export const changeDiffViewType = (viewType) => (dispatch) => {
   dispatch({
     type: EDITOR_CHANGE_DIFF_VIEW,
     payload: viewType,
   });
 };
 
-export const changeEditorValue = value => dispatch => {
+export const changeEditorValue = (value) => (dispatch) => {
   dispatch({
     type: EDITOR_CHANGE_VALUE,
     payload: value,
   });
 };
 
-export const dismissErrorToast = () => dispatch => {
+export const dismissErrorToast = () => (dispatch) => {
   dispatch({
     type: EDITOR_DISMISS_ERROR,
     payload: { showError: false, errorText: '' },
   });
 };
 
-export const changeTab = selectedView => dispatch => {
+export const changeTab = (selectedView) => (dispatch) => {
   dispatch({
     type: EDITOR_CHANGE_TAB,
     payload: selectedView,
@@ -257,14 +252,14 @@ export const toggleMaskValue = () => ({
   type: EDITOR_TOGGLE_MASK,
 });
 
-export const changeSetting = newSetting => dispatch => {
+export const changeSetting = (newSetting) => (dispatch) => {
   dispatch({
     type: EDITOR_CHANGE_SETTING,
     payload: newSetting,
   });
 };
 
-export const toggleRenderView = isRendering => ({
+export const toggleRenderView = (isRendering) => ({
   type: EDITOR_TOGGLE_RENDER_VIEW,
 });
 

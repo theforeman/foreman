@@ -4,7 +4,8 @@ import EmptyState from '../common/EmptyState';
 import { getManualURL, getWikiURL } from '../../common/helpers';
 
 export const WelcomeConfigReports = () => {
-  const content = __(`If you wish to configure Puppet to forward its reports to Foreman, 
+  const content =
+    __(`If you wish to configure Puppet to forward its reports to Foreman, 
   please follow <a href=${getManualURL(
     '3.5.4PuppetReports'
   )}>setting up reporting</a> and

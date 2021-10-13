@@ -24,7 +24,7 @@ const HostStatuses = () => {
     </Fragment>
   );
 
-  const statuses = useSelector(state => selectHostStatusesNames(state));
+  const statuses = useSelector((state) => selectHostStatusesNames(state));
 
   return (
     <PageSection padding className="host-statuses-page">

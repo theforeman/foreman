@@ -20,7 +20,7 @@ import { stringifyParams, getParams } from '../../../common/urlHelpers';
 import { translate as __ } from '../../../common/I18n';
 
 // on didMount or popstatee
-export const initializeAudits = () => dispatch => {
+export const initializeAudits = () => (dispatch) => {
   const params = getParams();
   dispatch(fetchAudits(params));
   if (!history.action === 'POP') {
@@ -31,69 +31,68 @@ export const initializeAudits = () => dispatch => {
   }
 };
 
-export const fetchAudits = (
-  { page, perPage, searchQuery },
-  url = AUDITS_PATH
-) => async (dispatch, getState) => {
-  dispatch({ type: AUDITS_PAGE_SHOW_LOADING });
-  if (selectAuditsHasError(getState()))
-    dispatch({
-      type: AUDITS_PAGE_CLEAR_ERROR,
-    });
+export const fetchAudits =
+  ({ page, perPage, searchQuery }, url = AUDITS_PATH) =>
+  async (dispatch, getState) => {
+    dispatch({ type: AUDITS_PAGE_SHOW_LOADING });
+    if (selectAuditsHasError(getState()))
+      dispatch({
+        type: AUDITS_PAGE_CLEAR_ERROR,
+      });
 
-  const onRequestSuccess = ({ data: { audits, itemCount } }) => {
-    if (selectAuditsIsLoadingPage(getState()))
-      dispatch({ type: AUDITS_PAGE_HIDE_LOADING });
+    const onRequestSuccess = ({ data: { audits, itemCount } }) => {
+      if (selectAuditsIsLoadingPage(getState()))
+        dispatch({ type: AUDITS_PAGE_HIDE_LOADING });
 
-    dispatch({
-      type: AUDITS_PAGE_UPDATE_QUERY,
-      payload: {
-        page,
-        perPage,
-        searchQuery,
-        itemCount,
-      },
-    });
-
-    dispatch({
-      type: AUDITS_PAGE_DATA_RESOLVED,
-      payload: {
-        audits,
-        hasData: itemCount > 0,
-      },
-    });
-  };
-  const onRequestFail = error => {
-    if (selectAuditsIsLoadingPage(getState()))
-      dispatch({ type: AUDITS_PAGE_HIDE_LOADING });
-
-    dispatch({
-      type: AUDITS_PAGE_DATA_FAILED,
-      payload: {
-        message: {
-          type: 'error',
-          text: `${error.response.status} ${__(error.response.statusText)}`,
+      dispatch({
+        type: AUDITS_PAGE_UPDATE_QUERY,
+        payload: {
+          page,
+          perPage,
+          searchQuery,
+          itemCount,
         },
-      },
-    });
-  };
-  try {
-    const response = await API.get(
-      url,
-      {},
-      {
-        page,
-        per_page: perPage,
-        search: searchQuery,
-      }
-    );
-    return onRequestSuccess(response);
-  } catch (error) {
-    return onRequestFail(error);
-  }
-};
+      });
 
-export const fetchAndPush = params => (dispatch, getState) => {
+      dispatch({
+        type: AUDITS_PAGE_DATA_RESOLVED,
+        payload: {
+          audits,
+          hasData: itemCount > 0,
+        },
+      });
+    };
+    const onRequestFail = (error) => {
+      if (selectAuditsIsLoadingPage(getState()))
+        dispatch({ type: AUDITS_PAGE_HIDE_LOADING });
+
+      dispatch({
+        type: AUDITS_PAGE_DATA_FAILED,
+        payload: {
+          message: {
+            type: 'error',
+            text: `${error.response.status} ${__(error.response.statusText)}`,
+          },
+        },
+      });
+    };
+    try {
+      const response = await API.get(
+        url,
+        {},
+        {
+          page,
+          per_page: perPage,
+          search: searchQuery,
+        }
+      );
+      return onRequestSuccess(response);
+    } catch (error) {
+      return onRequestFail(error);
+    }
+  };
+
+export const fetchAndPush = (params) => (dispatch, getState) => {
   const query = buildQuery(params, getState());
   dispatch(fetchAudits(query));
   history.push({

@@ -31,7 +31,7 @@ const SmartProxy = ({
   >
     <FormSelect
       value={smartProxyId}
-      onChange={v => handleSmartProxy(v)}
+      onChange={(v) => handleSmartProxy(v)}
       className="without_select2"
       id="reg_smart_proxy"
       isDisabled={isLoading || smartProxies.length === 0}

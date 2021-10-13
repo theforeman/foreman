@@ -21,7 +21,7 @@ class PickTimeTable extends React.Component {
         <tbody>
           {array.map((row, idx) => (
             <tr key={idx}>
-              {row.map(hour => (
+              {row.map((hour) => (
                 <td
                   key={hour}
                   className={type}

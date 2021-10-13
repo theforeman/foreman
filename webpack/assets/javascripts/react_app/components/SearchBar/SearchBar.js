@@ -8,7 +8,7 @@ import Bookmarks from '../PF4/Bookmarks';
 import { changeQuery } from '../../common/urlHelpers';
 import './search-bar.scss';
 
-const SearchBar = props => {
+const SearchBar = (props) => {
   const {
     data: { autocomplete, controller, bookmarks },
     searchQuery,
@@ -71,8 +71,9 @@ SearchBar.propTypes = {
 SearchBar.defaultProps = {
   searchQuery: '',
   initialQuery: '',
-  onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
-  onBookmarkClick: searchQuery =>
+  onSearch: (searchQuery) =>
+    changeQuery({ search: searchQuery.trim(), page: 1 }),
+  onBookmarkClick: (searchQuery) =>
     changeQuery({ search: searchQuery.trim(), page: 1 }),
   data: {
     autocomplete: {

@@ -7,7 +7,7 @@ import { openConfirmModal } from './react_app/components/ConfirmModal';
 $(document).on('ContentLoad', () => {
   if (!$.rails) return;
   // override the jQuery UJS $.rails.allowAction
-  $.rails.allowAction = element => {
+  $.rails.allowAction = (element) => {
     const message = element.data('confirm');
     const isWarning = element.data('method') === 'delete';
     if (!message) return true;

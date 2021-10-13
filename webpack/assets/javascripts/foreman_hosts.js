@@ -19,9 +19,8 @@ const pluginEditAttributes = {
 
 export function registerPluginAttributes(componentType, attributes) {
   if (pluginEditAttributes[componentType] !== undefined) {
-    const combinedAttributes = pluginEditAttributes[componentType].concat(
-      attributes
-    );
+    const combinedAttributes =
+      pluginEditAttributes[componentType].concat(attributes);
     pluginEditAttributes[componentType] = uniq(combinedAttributes);
   }
 }
@@ -45,8 +44,9 @@ export function getAttributesToPost(componentType) {
 }
 
 export function copyRegistrationCommand() {
-  const commandText = document.getElementById('registration_command')
-    .textContent;
+  const commandText = document.getElementById(
+    'registration_command'
+  ).textContent;
   const tmpElement = document.createElement('textarea');
 
   tmpElement.textContent = commandText;
@@ -91,7 +91,7 @@ export const pxeCompatibility = {};
 set(
   pxeCompatibility,
   'ubuntu',
-  new PXECompatibilityCheck(/ubuntu[^\d]*(\d+)(?:[.]\d+)?/, os => {
+  new PXECompatibilityCheck(/ubuntu[^\d]*(\d+)(?:[.]\d+)?/, (os) => {
     if (os[1] <= '10') {
       return [PXE_BIOS, GRUB_UEFI];
     } else if (os[1] > '10') {
@@ -108,7 +108,7 @@ set(
   'rhel',
   new PXECompatibilityCheck(
     /(?:red[ ]*hat|rhel|cent[ ]*os|scientific|oracle)[^\d]*(\d+)(?:[.]\d+)?/,
-    os => {
+    (os) => {
       if (os[1] === '6') {
         return [PXE_BIOS, GRUB_UEFI];
       } else if (os[1] >= '7') {
@@ -124,7 +124,7 @@ set(
 set(
   pxeCompatibility,
   'debian',
-  new PXECompatibilityCheck(/debian[^\d]*(\d+)(?:[.]\d+)?/, os => {
+  new PXECompatibilityCheck(/debian[^\d]*(\d+)(?:[.]\d+)?/, (os) => {
     if (os[1] >= '2' && os[1] <= '6') {
       return [PXE_BIOS, GRUB_UEFI];
     } else if (os[1] > '6') {
@@ -142,7 +142,7 @@ export function checkPXELoaderCompatibility(osTitle, pxeLoader) {
 
   // eslint-disable-next-line no-param-reassign
   osTitle = osTitle.toLowerCase();
-  Object.values(pxeCompatibility).forEach(check => {
+  Object.values(pxeCompatibility).forEach((check) => {
     const compatibleCheck = check.isCompatible(osTitle, pxeLoader);
 
     if (compatibleCheck != null) {

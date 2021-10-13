@@ -7,13 +7,13 @@ class PickTimeClock extends React.Component {
   state = {
     ampm: this.props.time.getHours() >= 12 ? 'PM' : 'AM',
   };
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps) => {
     const newTime = this.props.time;
     if (prevProps.time !== newTime) {
       this.setAMPM(newTime);
     }
   };
-  setAMPM = time => {
+  setAMPM = (time) => {
     this.setState({ ampm: time.getHours() >= 12 ? 'PM' : 'AM' });
   };
   setTime = (type, amount) => {

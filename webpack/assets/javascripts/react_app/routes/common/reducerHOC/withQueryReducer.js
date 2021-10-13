@@ -6,17 +6,16 @@ const initialState = Immutable({
   itemCount: 0,
 });
 
-const withQueryReducer = controller => (
-  state = initialState,
-  { type, payload }
-) => {
-  switch (type) {
-    case `${controller}_UPDATE_QUERY`:
-      return state.merge(payload);
+const withQueryReducer =
+  (controller) =>
+  (state = initialState, { type, payload }) => {
+    switch (type) {
+      case `${controller}_UPDATE_QUERY`:
+        return state.merge(payload);
 
-    default:
-      return state;
-  }
-};
+      default:
+        return state;
+    }
+  };
 
 export default withQueryReducer;

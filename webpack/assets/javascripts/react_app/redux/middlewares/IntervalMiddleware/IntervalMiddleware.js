@@ -8,7 +8,7 @@ import {
 import { startInterval as startIntervalAction } from './IntervalActions';
 import { whenDocumentIsVisible } from '../common/helpers';
 
-export const IntervalMiddleware = store => next => action => {
+export const IntervalMiddleware = (store) => (next) => (action) => {
   const { type, key, interval, payload = {} } = action;
   const intervalKey = key || payload.key;
 

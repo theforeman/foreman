@@ -6,9 +6,9 @@ import { orderable } from '../helpers';
 
 const orderConfig = {
   type: 'multiValue',
-  getItem: props => ({ value: props.data.value }),
-  getIndex: props => props.data.index,
-  getMoveFnc: props => props.moveDraggedOption,
+  getItem: (props) => ({ value: props.data.value }),
+  getIndex: (props) => props.data.index,
+  getMoveFnc: (props) => props.moveDraggedOption,
 };
 
 const OrderableToken = ({

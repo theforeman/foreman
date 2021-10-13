@@ -26,7 +26,7 @@ const handleNotificationPollingError = (error, stopNotificationPolling) => {
   }
 };
 
-export const startNotificationsPolling = url =>
+export const startNotificationsPolling = (url) =>
   withInterval(
     get({
       key: NOTIFICATIONS,
@@ -38,7 +38,7 @@ export const startNotificationsPolling = url =>
 
 export const stopNotificationsPolling = () => stopInterval(NOTIFICATIONS);
 
-export const markAsRead = (group, id) => dispatch => {
+export const markAsRead = (group, id) => (dispatch) => {
   dispatch({
     type: NOTIFICATIONS_MARK_AS_READ,
     payload: {
@@ -51,7 +51,7 @@ export const markAsRead = (group, id) => dispatch => {
   API.put(url, data);
 };
 
-export const markGroupAsRead = group => dispatch => {
+export const markGroupAsRead = (group) => (dispatch) => {
   dispatch({
     type: NOTIFICATIONS_MARK_GROUP_AS_READ,
     payload: {
@@ -62,7 +62,7 @@ export const markGroupAsRead = group => dispatch => {
   API.put(url);
 };
 
-export const clearNotification = (group, id) => dispatch => {
+export const clearNotification = (group, id) => (dispatch) => {
   dispatch({
     type: NOTIFICATIONS_MARK_AS_CLEAR,
     payload: {
@@ -74,7 +74,7 @@ export const clearNotification = (group, id) => dispatch => {
   API.delete(url);
 };
 
-export const clearGroup = group => dispatch => {
+export const clearGroup = (group) => (dispatch) => {
   dispatch({
     type: NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
     payload: {
@@ -85,7 +85,7 @@ export const clearGroup = group => dispatch => {
   API.delete(url);
 };
 
-export const expandGroup = group => (dispatch, getState) => {
+export const expandGroup = (group) => (dispatch, getState) => {
   const currentExpanded = getState().notifications.expandedGroup;
 
   const getNewExpandedGroup = () => (currentExpanded === group ? '' : group);
@@ -111,22 +111,21 @@ export const toggleDrawer = () => (dispatch, getState) => {
   });
 };
 
-export const clickedLink = (
-  { href, external = false },
-  toggleDrawerAction = toggleDrawer
-) => dispatch => {
-  dispatch(toggleDrawerAction());
+export const clickedLink =
+  ({ href, external = false }, toggleDrawerAction = toggleDrawer) =>
+  (dispatch) => {
+    dispatch(toggleDrawerAction());
 
-  const openedWindow = window.open(href, external ? '_blank' : '_self');
+    const openedWindow = window.open(href, external ? '_blank' : '_self');
 
-  if (external) {
-    openedWindow.opener = null;
-  }
+    if (external) {
+      openedWindow.opener = null;
+    }
 
-  dispatch({
-    type: NOTIFICATIONS_LINK_CLICKED,
-    payload: { href, external },
-  });
+    dispatch({
+      type: NOTIFICATIONS_LINK_CLICKED,
+      payload: { href, external },
+    });
 
-  return openedWindow;
-};
+    return openedWindow;
+  };

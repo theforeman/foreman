@@ -5,11 +5,11 @@ import ModelsTable from './ModelsTable';
 import { MODEL_DELETE_MODAL_ID } from '../../routes/Models/constants';
 import { useForemanModal } from '../ForemanModal/ForemanModalHooks';
 
-const WrappedModelsTable = props => {
+const WrappedModelsTable = (props) => {
   const { setModalOpen } = useForemanModal({ id: MODEL_DELETE_MODAL_ID });
   const { setToDelete, ...rest } = props;
 
-  const onDeleteClick = rowData => {
+  const onDeleteClick = (rowData) => {
     setToDelete(rowData);
     setModalOpen();
   };

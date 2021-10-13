@@ -28,12 +28,12 @@ class MonthView extends React.Component {
     return null;
   }
 
-  calendarArray = date => {
+  calendarArray = (date) => {
     const { weekStartsOn } = this.props;
     const monthStart = getMonthStart(new Date(date));
     const offset = monthStart.getDay() - weekStartsOn;
     return chunk(
-      times(35, i => addDays(monthStart, i - offset)),
+      times(35, (i) => addDays(monthStart, i - offset)),
       7
     );
   };
@@ -46,7 +46,7 @@ class MonthView extends React.Component {
     const { date } = this.state;
     this.setState({ date: addMonths(date, 1) });
   };
-  setSelected = day => {
+  setSelected = (day) => {
     this.setState({
       selectedDate: day,
       date: day,
@@ -72,7 +72,7 @@ class MonthView extends React.Component {
           <tbody>
             {calendar.map((el, idx) => (
               <tr key={idx}>
-                {el.map(day => (
+                {el.map((day) => (
                   <Day
                     key={day}
                     day={day}

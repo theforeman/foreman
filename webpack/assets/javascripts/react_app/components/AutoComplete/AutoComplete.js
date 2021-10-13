@@ -32,15 +32,8 @@ class AutoComplete extends React.Component {
 
   componentDidMount() {
     window.addEventListener('keypress', this.windowKeyPressHandler);
-    const {
-      controller,
-      searchQuery,
-      disabled,
-      error,
-      id,
-      url,
-      initialUpdate,
-    } = this.props;
+    const { controller, searchQuery, disabled, error, id, url, initialUpdate } =
+      this.props;
 
     initialUpdate({ searchQuery, controller, id, disabled, error, url });
   }

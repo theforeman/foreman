@@ -39,7 +39,7 @@ const bookmarksList = ({ bookmarks, onBookmarkClick }) =>
     </DropdownItem>
   );
 
-const errorItem = errors => (
+const errorItem = (errors) => (
   <DropdownItem key="bookmarks-errors" isDisabled>
     <EllipisWithTooltip>
       {sprintf('Failed to load bookmarks: %s', errors)}
@@ -60,7 +60,7 @@ export const savedBookmarksItems = ({
         bookmarksList({ bookmarks, onBookmarkClick }),
       ],
       status === STATUS.ERROR && [errorItem(errors)],
-    ].filter(item => item)}
+    ].filter((item) => item)}
   </DropdownGroup>
 );
 

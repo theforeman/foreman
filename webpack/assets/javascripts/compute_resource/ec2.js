@@ -15,9 +15,7 @@ export function vpcSelected({ value }) {
   securityGroups[vpc.vpc_id].forEach(
     ({ group_id: groupdId, group_name: groupName }) => {
       sgSelect.append(
-        $('<option />')
-          .val(groupdId)
-          .text(`${groupName} - ${vpc.subnet_name}`)
+        $('<option />').val(groupdId).text(`${groupName} - ${vpc.subnet_name}`)
       );
     }
   );

@@ -5,7 +5,7 @@ import {
   GET_SETTING_FAILURE,
 } from './SettingsConstants';
 
-export const loadSetting = settingName => async dispatch => {
+export const loadSetting = (settingName) => async (dispatch) => {
   dispatch({ type: GET_SETTING_REQUEST });
   try {
     const { data } = await API.get(`/api/v2/settings/${settingName}`);

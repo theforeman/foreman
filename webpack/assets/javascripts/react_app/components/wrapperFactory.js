@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { i18nProviderWrapperFactory } from '../common/i18nProviderWrapperFactory';
 import { getDisplayName } from '../common/helpers';
 
-const storeProviderWrapperFactory = store => WrappedComponent => {
-  const StoreProvider = props => (
+const storeProviderWrapperFactory = (store) => (WrappedComponent) => {
+  const StoreProvider = (props) => (
     <Provider store={store}>
       <WrappedComponent {...props} />
     </Provider>
@@ -16,25 +16,24 @@ const storeProviderWrapperFactory = store => WrappedComponent => {
   return StoreProvider;
 };
 
-const dataProviderWrapperFactory = (
-  data,
-  flattenData = false
-) => WrappedComponent => {
-  const DataProvider = props => {
-    if (flattenData) {
-      return <WrappedComponent {...data} {...props} />;
-    }
-    return <WrappedComponent data={data} {...props} />;
+const dataProviderWrapperFactory =
+  (data, flattenData = false) =>
+  (WrappedComponent) => {
+    const DataProvider = (props) => {
+      if (flattenData) {
+        return <WrappedComponent {...data} {...props} />;
+      }
+      return <WrappedComponent data={data} {...props} />;
+    };
+    DataProvider.displayName = `DataProvider(${getDisplayName(
+      WrappedComponent
+    )})`;
+
+    return DataProvider;
   };
-  DataProvider.displayName = `DataProvider(${getDisplayName(
-    WrappedComponent
-  )})`;
 
-  return DataProvider;
-};
-
-const propDataMapperWrapperFactory = () => WrappedComponent => {
-  const PropDataMapper = props => <WrappedComponent data={props} />;
+const propDataMapperWrapperFactory = () => (WrappedComponent) => {
+  const PropDataMapper = (props) => <WrappedComponent data={props} />;
   PropDataMapper.displayName = `PropDataMapper(${getDisplayName(
     WrappedComponent
   )})`;
@@ -67,7 +66,7 @@ export const wrapperRegistry = {
 
 export class WrapperFactory {
   constructor() {
-    this.wrapper = component => component;
+    this.wrapper = (component) => component;
   }
 
   with(name, ...params) {
@@ -75,7 +74,7 @@ export class WrapperFactory {
     const additionalWrapperFactory = wrapperRegistry.getWrapper(name);
     const additionalWrapper = additionalWrapperFactory(...params);
 
-    this.wrapper = component => additionalWrapper(currentWrapper(component));
+    this.wrapper = (component) => additionalWrapper(currentWrapper(component));
 
     return this;
   }

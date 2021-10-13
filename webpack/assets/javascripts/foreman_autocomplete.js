@@ -10,8 +10,8 @@ export const updateController = (controller, url, id) => {
   store.dispatch(updateAutocompleteController(controller, url, id));
 };
 
-export const disableAutocomplete = autocompleteID =>
+export const disableAutocomplete = (autocompleteID) =>
   store.dispatch(updateDisability(true, autocompleteID));
 
-export const enableAutocomplete = autocompleteID =>
+export const enableAutocomplete = (autocompleteID) =>
   store.dispatch(updateDisability(false, autocompleteID));

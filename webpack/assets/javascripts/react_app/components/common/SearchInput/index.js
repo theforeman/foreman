@@ -24,7 +24,7 @@ class SearchInput extends React.Component {
         <Icon type="fa" name="search" />
         <DebounceInput
           className="form-control"
-          inputRef={input => {
+          inputRef={(input) => {
             this.nameInput = input;
           }}
           id="breadcrumbs-search"

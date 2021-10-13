@@ -11,7 +11,7 @@ import {
 
 const pollingInterval = 3000;
 
-export const generateTemplate = (url, templateInputData) => dispatch => {
+export const generateTemplate = (url, templateInputData) => (dispatch) => {
   dispatch({
     type: TEMPLATE_GENERATE_REQUEST,
     payload: { ...templateInputData },
@@ -20,7 +20,7 @@ export const generateTemplate = (url, templateInputData) => dispatch => {
     .then(({ data }) => {
       dispatch(pollReportData(data.data_url));
     })
-    .catch(error =>
+    .catch((error) =>
       dispatch({
         type: TEMPLATE_GENERATE_FAILURE,
         payload: { error, item: templateInputData },
@@ -28,28 +28,27 @@ export const generateTemplate = (url, templateInputData) => dispatch => {
     );
 };
 
-const _downloadFile = response => {
+const _downloadFile = (response) => {
   const blob = new Blob([response.data], {
     type: response.headers['content-type'],
   });
-  const filename = response.headers['content-disposition'].match(
-    /filename="(.*)"/
-  );
+  const filename =
+    response.headers['content-disposition'].match(/filename="(.*)"/);
   saveAs(blob, (filename && filename[1]) || 'report.txt');
 };
 
-const _getErrors = errorResponse => {
+const _getErrors = (errorResponse) => {
   if (!errorResponse || !errorResponse.data) return null;
   if (errorResponse.status === 422) return errorResponse.data.errors;
   if (errorResponse.data.error) return [errorResponse.data.error]; // most of >500
   return [errorResponse.data];
 };
 
-export const pollReportData = pollUrl => dispatch => {
+export const pollReportData = (pollUrl) => (dispatch) => {
   dispatch({ type: TEMPLATE_GENERATE_POLLING, payload: { url: pollUrl } });
 
   return API.get(pollUrl, { responseType: 'blob' })
-    .then(response => {
+    .then((response) => {
       if (response.status === 200) {
         dispatch({ type: TEMPLATE_GENERATE_SUCCESS, payload: {} });
         _downloadFile(response);
@@ -57,7 +56,7 @@ export const pollReportData = pollUrl => dispatch => {
         setTimeout(() => dispatch(pollReportData(pollUrl)), pollingInterval);
       }
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch({
         type: TEMPLATE_GENERATE_FAILURE,
         payload: { error, messages: _getErrors(error.response) },

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import withReactRoutes from '../../../common/withReactRoutes';
 import { translate as __ } from '../../../common/I18n';
 
-const RedirectCancelButton = props => (
+const RedirectCancelButton = (props) => (
   <Link to={props.cancelPath}>
     <Button>{__('Cancel')}</Button>
   </Link>

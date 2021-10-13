@@ -14,14 +14,16 @@ import reducer from './ForemanModalReducer';
 
 export const reducers = { foremanModals: reducer };
 
-const ConnectedForemanModal = props => {
+const ConnectedForemanModal = (props) => {
   const { id, title } = props;
-  const isOpen = useSelector(state => selectIsModalOpen(state, id));
-  const isSubmitting = useSelector(state => selectIsModalSubmitting(state, id));
+  const isOpen = useSelector((state) => selectIsModalOpen(state, id));
+  const isSubmitting = useSelector((state) =>
+    selectIsModalSubmitting(state, id)
+  );
   const dispatch = useDispatch();
   const onClose = () => dispatch(setModalClosed({ id }));
 
-  const modalExists = useSelector(state => selectModalExists(state, id));
+  const modalExists = useSelector((state) => selectModalExists(state, id));
 
   useEffect(() => {
     if (modalExists) return; // don't add modal if it already exists

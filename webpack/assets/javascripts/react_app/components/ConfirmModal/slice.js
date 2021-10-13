@@ -40,4 +40,4 @@ export const { openConfirmModal, closeConfirmModal } = actions;
 
 export const reducers = { [name]: reducer };
 
-export const selectConfirmModal = state => state[name];
+export const selectConfirmModal = (state) => state[name];

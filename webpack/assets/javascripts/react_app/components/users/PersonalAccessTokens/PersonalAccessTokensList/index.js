@@ -24,7 +24,7 @@ const PersonalAccessTokensList = ({
           </tr>
         </thead>
         <tbody>
-          {tokens.map(token => (
+          {tokens.map((token) => (
             <PersonalAccessToken
               key={token.id}
               {...token}

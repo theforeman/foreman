@@ -6,7 +6,7 @@ import { translate as __ } from '../../../common/I18n';
 
 import SubmitOrCancel from './SubmitOrCancel';
 
-const ForemanModalFooter = props => {
+const ForemanModalFooter = (props) => {
   const childCount = React.Children.count(props.children);
   const { onClose, isSubmitting, id, submitProps } = useModalContext();
 

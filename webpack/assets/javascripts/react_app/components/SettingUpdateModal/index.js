@@ -7,8 +7,8 @@ import SettingUpdateModal from './SettingUpdateModal';
 
 import { selectSettingEditing } from '../SettingRecords/SettingRecordsSelectors';
 
-const WrappedSettingUpdateModal = props => {
-  const setting = useSelector(state => selectSettingEditing(state)) || {};
+const WrappedSettingUpdateModal = (props) => {
+  const setting = useSelector((state) => selectSettingEditing(state)) || {};
 
   const { setModalClosed } = useSettingModal();
 

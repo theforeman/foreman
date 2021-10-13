@@ -17,7 +17,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
   const minValue = 1;
   const maxValue = 999999;
 
-  const isValid = v => {
+  const isValid = (v) => {
     if (v === 'unlimited') {
       return true;
     }
@@ -25,7 +25,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
     return v >= minValue && v <= maxValue;
   };
 
-  const setValue = v => {
+  const setValue = (v) => {
     handleInvalidField('Token life time', isValid(v));
     onChange(v);
   };
@@ -54,7 +54,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
           validated={isValid(value) ? 'default' : 'error'}
           isDisabled={isLoading || value === 'unlimited'}
           id="reg_token_life_time_input"
-          onChange={v => setValue(v)}
+          onChange={(v) => setValue(v)}
         />
         <InputGroupText>{__('hours')}</InputGroupText>
         <InputGroupText>

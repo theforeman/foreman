@@ -10,7 +10,7 @@ export default class IntegrationTestHelper {
    * @return {Promise}
    */
   static flushAllPromises() {
-    return new Promise(resolve => setImmediate(resolve));
+    return new Promise((resolve) => setImmediate(resolve));
   }
   /**
    * Create an integration-test-helper
@@ -49,7 +49,7 @@ export default class IntegrationTestHelper {
    * @return {Array} Dispatch calls
    */
   getDispatchCalls() {
-    const isRelevantCall = call =>
+    const isRelevantCall = (call) =>
       call.filter(({ type }) => type.startsWith('@@redux')).length === 0;
 
     return this.dispatchSpy.mock.calls.filter(isRelevantCall);

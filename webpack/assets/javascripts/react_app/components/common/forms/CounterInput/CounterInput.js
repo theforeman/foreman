@@ -31,7 +31,7 @@ const CounterInput = ({
     }
   }, [recommendedMaxValue, max, innerValue]);
 
-  const handleChange = v => {
+  const handleChange = (v) => {
     setInnerValue(v);
     onChange(v);
   };

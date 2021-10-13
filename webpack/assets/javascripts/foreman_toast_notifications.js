@@ -2,7 +2,7 @@ import store from './react_app/redux';
 
 import * as ToastActions from './react_app/redux/actions/toasts';
 
-const isStickyType = type => !['success', 'info'].includes(type);
+const isStickyType = (type) => !['success', 'info'].includes(type);
 
 /**
  * Notify the user with a toast-notification

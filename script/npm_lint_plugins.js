@@ -12,7 +12,7 @@ function pluginDefinesLint(pluginPath) {
   return packageData.scripts && packageData.scripts.lint;
 }
 
-packageJsonDirs().forEach(pluginPath => {
+packageJsonDirs().forEach((pluginPath) => {
   if (pluginDefinesLint(pluginPath)) {
     childProcess.spawn('npm', ['run', 'lint'], {
       env: process.env,

@@ -29,7 +29,7 @@ export const getAreaChartConfig = ({
   if (data) {
     const timestamps = data[0].slice(1);
     const formatedDates = timestamps.map(
-      epochSecs => new Date(epochSecs * 1000)
+      (epochSecs) => new Date(epochSecs * 1000)
     );
     chartConfig.data.colors = {};
     chartConfig.data.columns[0] = [xAxisDataLabel].concat(formatedDates);
@@ -39,7 +39,7 @@ export const getAreaChartConfig = ({
 
     if (stacked) {
       chartConfig.data.groups = [
-        chartConfig.data.columns.slice(1).map(dataItem => dataItem[0]),
+        chartConfig.data.columns.slice(1).map((dataItem) => dataItem[0]),
       ];
     }
   }

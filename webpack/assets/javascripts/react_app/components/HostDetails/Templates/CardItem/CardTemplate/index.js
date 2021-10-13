@@ -19,10 +19,10 @@ const CardItem = ({
   overrideDropdownProps,
 }) => {
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
-  const onDropdownToggle = isOpen => setDropdownVisibility(isOpen);
+  const onDropdownToggle = (isOpen) => setDropdownVisibility(isOpen);
 
-  const onDropdownSelect = event => {
-    setDropdownVisibility(prevState => !prevState);
+  const onDropdownSelect = (event) => {
+    setDropdownVisibility((prevState) => !prevState);
     // https://github.com/eslint/eslint/issues/12822
     // eslint-disable-next-line no-unused-expressions
     overrideDropdownProps?.onSelect?.(event);

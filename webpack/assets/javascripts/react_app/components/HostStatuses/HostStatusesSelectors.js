@@ -6,10 +6,10 @@ import {
   HOST_STATUSES_KEY,
 } from './HostStatusesConstants';
 
-export const selectHostStatuses = state =>
+export const selectHostStatuses = (state) =>
   selectAPIResponse(state, HOST_STATUSES_KEY)?.results || [];
 
-export const selectHostStatusesNames = state =>
+export const selectHostStatusesNames = (state) =>
   selectHostStatuses(state).map(({ name }) => name);
 
 export const selectHostStatus = (state, statusName) =>

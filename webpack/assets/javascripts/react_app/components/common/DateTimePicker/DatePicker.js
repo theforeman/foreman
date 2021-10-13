@@ -28,7 +28,7 @@ class DatePicker extends React.Component {
     hiddenValue: !this.hasDefaultValue,
   };
 
-  setSelected = date => {
+  setSelected = (date) => {
     if (Date.parse(date)) {
       const newDate = new Date(date);
       this.setState({ value: newDate });
@@ -66,7 +66,7 @@ class DatePicker extends React.Component {
             className="date-input"
             value={hiddenValue && !required ? '' : formatDate(value)}
             name={name}
-            onChange={e => this.setSelected(e.target.value)}
+            onChange={(e) => this.setSelected(e.target.value)}
           />
           <OverlayTrigger
             trigger="click"

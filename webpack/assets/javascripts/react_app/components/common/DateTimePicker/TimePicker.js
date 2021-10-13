@@ -10,7 +10,7 @@ import {
 import TimeInput from './TimeComponents/TimeInput';
 
 class TimePicker extends React.Component {
-  getDateFromTime = time => {
+  getDateFromTime = (time) => {
     if (Date.parse(time)) {
       return new Date(time);
     }
@@ -25,7 +25,7 @@ class TimePicker extends React.Component {
     const options = { hour: 'numeric', minute: 'numeric' };
     return value.toLocaleString(locale, options);
   };
-  setSelected = date => {
+  setSelected = (date) => {
     if (Date.parse(date)) {
       const newDate = new Date(date);
       this.setState({ value: newDate });
@@ -72,7 +72,7 @@ class TimePicker extends React.Component {
               aria-label="date-time-picker-input"
               type="text"
               value={this.formatDate()}
-              onChange={e => this.setSelected(e.target.value)}
+              onChange={(e) => this.setSelected(e.target.value)}
             />
             <InputGroup.Addon className="date-picker-pf">
               <Icon type="fa" name="clock-o" />

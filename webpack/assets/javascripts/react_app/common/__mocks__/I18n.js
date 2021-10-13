@@ -1,6 +1,6 @@
 export const jed = jest.fn();
 
-export const translate = jest.fn(str => str);
+export const translate = jest.fn((str) => str);
 export const ngettext = (singular, plural, number) =>
   number > 1 ? plural : singular;
 

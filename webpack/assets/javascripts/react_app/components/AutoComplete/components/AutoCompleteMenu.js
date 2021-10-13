@@ -13,9 +13,9 @@ const AutoCompleteMenu = ({ results, menuProps }) => {
   }
 
   let itemIndex = 0;
-  const grouped = groupBy(results, r => r.category);
-  const getMenuItemsByCategory = category =>
-    grouped[category].map(result => {
+  const grouped = groupBy(results, (r) => r.category);
+  const getMenuItemsByCategory = (category) =>
+    grouped[category].map((result) => {
       const item = (
         <MenuItem key={itemIndex} option={result.label} position={itemIndex}>
           <SubstringWrapper substring={menuProps.text}>
@@ -28,7 +28,7 @@ const AutoCompleteMenu = ({ results, menuProps }) => {
     });
   const items = Object.keys(grouped)
     .sort()
-    .map(category => (
+    .map((category) => (
       <Fragment key={`${category}-fragment`}>
         {!!itemIndex && <Divider key={`${category}-divider`} />}
         <Header key={`${category}-header`}>{category}</Header>

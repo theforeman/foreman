@@ -39,8 +39,9 @@ export const onError = (error, actions) => {
     actions.setErrors({
       _error: {
         errorMsgs: [
-          `${__('Error submitting data:')} ${error.response?.status} ${error
-            .response?.statusText && __(error.response?.statusText)}`,
+          `${__('Error submitting data:')} ${error.response?.status} ${
+            error.response?.statusText && __(error.response?.statusText)
+          }`,
         ],
       },
     });
@@ -70,10 +71,10 @@ export const submitForm = ({
   successCallback,
 }) => {
   verifyProps(item, params);
-  return dispatch => {
+  return (dispatch) => {
     const uniqueAPIKey = `${item.toUpperCase()}_FORM_SUBMITTED`;
 
-    const handleError = error => onError(error, actions);
+    const handleError = (error) => onError(error, actions);
 
     const handleSuccess = ({ data }) => {
       successCallback();
@@ -85,7 +86,7 @@ export const submitForm = ({
     const defaultSuccessToast = () =>
       message || sprintf('%s was successfully created.', __(item));
 
-    const defaultErrorToast = error =>
+    const defaultErrorToast = (error) =>
       sprintf(
         __(
           'Oh no! Something went wrong while submitting the form, the server returned the following error: %s'

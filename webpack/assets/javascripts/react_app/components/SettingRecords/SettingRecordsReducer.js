@@ -17,7 +17,7 @@ const reducer = (state = initialState, { type, payload, response }) => {
       return state.set('settings', payload);
     case SETTINGS_FORM_SUBMITTED_SUCCESS: {
       const categorized = state.settings[response.category];
-      const updatedCategory = categorized.map(item =>
+      const updatedCategory = categorized.map((item) =>
         item.name === response.id ? { ...item, value: response.value } : item
       );
       return state.setIn(['settings', response.category], updatedCategory);

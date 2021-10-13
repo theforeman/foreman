@@ -6,10 +6,10 @@ import {
   OPEN_SELECT_ALL,
 } from '../constants/SelectionConstants';
 
-export const selectPage = (tableID, results) => dispatch => {
+export const selectPage = (tableID, results) => (dispatch) => {
   dispatch({
     type: SELECT_ROWS,
-    payload: results.map(row => row.id),
+    payload: results.map((row) => row.id),
     tableID,
   });
   dispatch({
@@ -18,12 +18,12 @@ export const selectPage = (tableID, results) => dispatch => {
   });
 };
 
-export const selectAllRows = tableID => ({
+export const selectAllRows = (tableID) => ({
   type: SELECT_ALL_ROWS,
   tableID,
 });
 
-export const unselectAllRows = tableID => ({
+export const unselectAllRows = (tableID) => ({
   type: UNSELECT_ALL_ROWS,
   tableID,
 });

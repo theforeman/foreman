@@ -13,7 +13,7 @@ const GlobalStatus = ({ hostName }) => {
   const [modalStatus, setModalStatus] = useState(false);
   const dispatch = useDispatch();
 
-  const { global } = useSelector(state =>
+  const { global } = useSelector((state) =>
     selectAPIResponse(state, HOST_STATUSES_KEY)
   );
   const url = foremanUrl(`/hosts/${hostName}/statuses`);

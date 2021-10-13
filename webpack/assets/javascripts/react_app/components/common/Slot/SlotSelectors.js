@@ -1,11 +1,12 @@
 import SlotsRegistry from '../../../../services/SlotsRegistry';
 
-export const selectComponentByWeight = slotId =>
+export const selectComponentByWeight = (slotId) =>
   SlotsRegistry.getSlotComponents(slotId)
     .sort((a, b) => b.weight - a.weight)
-    .map(c => c.component) || {};
+    .map((c) => c.component) || {};
 
-export const selectMaxComponent = slotId => selectComponentByWeight(slotId)[0];
+export const selectMaxComponent = (slotId) =>
+  selectComponentByWeight(slotId)[0];
 
 export const selectFillsAmount = (state, id) => {
   const registerdFills = state.extendable[id];
@@ -27,7 +28,7 @@ export const selectFillsComponents = (state, props) => {
   if (selectFillsAmount(state, id)) {
     if (fillID) {
       const slotComponent = SlotsRegistry.getSlotComponents(id);
-      const getFill = slotComponent.filter(c => c.id === fillID);
+      const getFill = slotComponent.filter((c) => c.id === fillID);
 
       return [getFill[0].component];
     }

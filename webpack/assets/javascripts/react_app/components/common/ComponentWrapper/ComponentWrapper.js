@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import componentRegistry from '../../componentRegistry';
 
-const ComponentWrapper = props => {
+const ComponentWrapper = (props) => {
   const { component, componentProps } = props.data;
 
   if (component === 'ComponentWrapper') {

@@ -28,15 +28,15 @@ import './Status.scss';
 const Status = ({ name }) => {
   const [expanded, setExpanded] = useState(false);
 
-  const globalStatus = useSelector(state => selectGlobalStatus(state, name));
-  const details = useSelector(state => selectHostStatusDetails(state, name));
-  const description = useSelector(state =>
+  const globalStatus = useSelector((state) => selectGlobalStatus(state, name));
+  const details = useSelector((state) => selectHostStatusDetails(state, name));
+  const description = useSelector((state) =>
     selectHostStatusDescription(state, name)
   );
-  const { okTotalPath, warnTotalPath, errorTotalPath } = useSelector(state =>
+  const { okTotalPath, warnTotalPath, errorTotalPath } = useSelector((state) =>
     selectHostStatusTotalPaths(state, name)
   );
-  const { okOwnedPath, warnOwnedPath, errorOwnedPath } = useSelector(state =>
+  const { okOwnedPath, warnOwnedPath, errorOwnedPath } = useSelector((state) =>
     selectHostStatusOwnedPaths(state, name)
   );
 
@@ -45,7 +45,7 @@ const Status = ({ name }) => {
     ok: { total: okTotalCount, owned: okOwnedCount },
     warn: { total: warnTotalCount, owned: warnOwnedCount },
     error: { total: errorTotalCount, owned: errorOwnedCount },
-  } = useSelector(state => selectHostStatusCounter(state, name));
+  } = useSelector((state) => selectHostStatusCounter(state, name));
 
   const cardClass = classNames('pf-c-alert', {
     'pf-m-danger': errorTotalCount,

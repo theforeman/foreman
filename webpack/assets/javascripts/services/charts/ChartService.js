@@ -32,7 +32,7 @@ const chartsSizeConfig = {
   },
 };
 
-const doDataExist = data => {
+const doDataExist = (data) => {
   if (!data || data.length === 0) {
     return false;
   }
@@ -43,7 +43,7 @@ const doDataExist = data => {
   }, false);
 };
 
-const getColors = data =>
+const getColors = (data) =>
   data.reduce((curr, next) => {
     const key = next[0];
     const color = next[2];
@@ -67,7 +67,7 @@ export const getChartConfig = ({
   let dataWithShortNames = [];
 
   if (dataExists) {
-    dataWithShortNames = data.map(val => {
+    dataWithShortNames = data.map((val) => {
       const item = Immutable.asMutable(val.slice());
       const longName = item[0];
       item[0] = item[0].length > 30 ? `${val[0].substring(0, 10)}...` : item[0];
@@ -88,7 +88,7 @@ export const getChartConfig = ({
     tooltip: { format: { name: (name, ratio, id, idx) => longNames[id] } },
 
     onrendered: () => {
-      dataWithShortNames.forEach(colData => {
+      dataWithShortNames.forEach((colData) => {
         const nameOfClass = colData[0].replace(/\W/g, '-');
         const selector = `.c3-legend-item-${nameOfClass} > title`;
         // eslint-disable-next-line no-undef

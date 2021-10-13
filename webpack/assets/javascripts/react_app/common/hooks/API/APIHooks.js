@@ -36,10 +36,10 @@ export const useAPI = (method, url, options) => {
   }, [dispatch, url, method, options]);
 
   const response = useSelector(
-    state => selectAPIResponse(state, keyRef.current),
+    (state) => selectAPIResponse(state, keyRef.current),
     shallowEqual
   );
-  const status = useSelector(state => selectAPIStatus(state, keyRef.current));
+  const status = useSelector((state) => selectAPIStatus(state, keyRef.current));
 
   return { response, status, key: keyRef.current };
 };

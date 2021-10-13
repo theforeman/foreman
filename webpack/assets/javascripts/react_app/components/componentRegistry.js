@@ -66,7 +66,7 @@ const componentRegistry = {
   },
 
   registerMultiple(componentObjs) {
-    return Object.values(componentObjs).forEach(obj => this.register(obj));
+    return Object.values(componentObjs).forEach((obj) => this.register(obj));
   },
 
   getComponent(name) {

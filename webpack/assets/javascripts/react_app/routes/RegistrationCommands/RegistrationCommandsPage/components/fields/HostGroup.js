@@ -14,7 +14,7 @@ const HostGroup = ({ hostGroupId, hostGroups, handleHostGroup, isLoading }) => (
   <FormGroup label={__('Host group')} fieldId="reg_host_group">
     <FormSelect
       value={hostGroupId}
-      onChange={v => handleHostGroup(v)}
+      onChange={(v) => handleHostGroup(v)}
       className="without_select2"
       id="reg_host_group"
       isDisabled={isLoading || hostGroups.length === 0}

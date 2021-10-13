@@ -9,7 +9,8 @@ export const WelcomeArchitecture = ({ canCreate }) => {
     title: __('Create Architecture'),
     url: foremanUrl('/architectures/new'),
   };
-  const content = __(`Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>.
+  const content =
+    __(`Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>.
   Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems.`);
   const description = (
     <>

@@ -53,7 +53,7 @@ const HostDetails = ({
 
   const isNavCollapsed = useSelector(selectIsCollapsed);
   const tabs = useSelector(
-    state => selectFillsIDs(state, 'host-details-page-tabs'),
+    (state) => selectFillsIDs(state, 'host-details-page-tabs'),
     shallowEqual
   );
 
@@ -135,12 +135,12 @@ const HostDetails = ({
             {response && (
               <Text component={TextVariants.span}>
                 <RelativeDateTime date={response.created_at} defaultValue="N/A">
-                  {date =>
+                  {(date) =>
                     sprintf(__('Created %s by %s'), date, response.owner_name)
                   }
                 </RelativeDateTime>{' '}
                 <RelativeDateTime date={response.updated_at} defaultValue="N/A">
-                  {date => sprintf(__('(updated %s)'), date)}
+                  {(date) => sprintf(__('(updated %s)'), date)}
                 </RelativeDateTime>
               </Text>
             )}
@@ -161,7 +161,7 @@ const HostDetails = ({
               }}
               activeKey={hash.slice(2).split('/')[0]}
             >
-              {tabs.map(tab => (
+              {tabs.map((tab) => (
                 <Tab key={tab} eventKey={tab} title={tab} href={`#/${tab}`} />
               ))}
             </Tabs>

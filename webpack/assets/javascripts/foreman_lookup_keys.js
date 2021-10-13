@@ -11,9 +11,7 @@ import $ from 'jquery';
 const matcherFieldChanged = (element, currentValue) => {
   const { initialValue } = $(element).data();
 
-  const popover = $(element)
-    .closest('td')
-    .find('a.warn-field-changed');
+  const popover = $(element).closest('td').find('a.warn-field-changed');
 
   if (initialValue === currentValue) {
     $(element).removeClass('matcher-field-changed');
@@ -24,15 +22,13 @@ const matcherFieldChanged = (element, currentValue) => {
   }
 };
 
-export const matcherKeyChanged = element => {
-  const currentValue = $(element)
-    .find(':selected')
-    .text();
+export const matcherKeyChanged = (element) => {
+  const currentValue = $(element).find(':selected').text();
 
   matcherFieldChanged(element, currentValue);
 };
 
-export const matcherValueChanged = element => {
+export const matcherValueChanged = (element) => {
   const currentValue = $(element).val();
 
   matcherFieldChanged(element, currentValue);

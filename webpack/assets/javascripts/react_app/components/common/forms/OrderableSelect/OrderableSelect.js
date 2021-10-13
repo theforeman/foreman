@@ -35,7 +35,7 @@ const OrderableSelect = ({
     className &&
     className
       .split(/\s+/)
-      .filter(el => el !== 'form-control')
+      .filter((el) => el !== 'form-control')
       .join(' ');
 
   return (
@@ -59,7 +59,7 @@ const OrderableSelect = ({
       className={classesWithoutFormControl}
       options={options}
       selected={internalValue}
-      onChange={newValue => {
+      onChange={(newValue) => {
         setInternalValue(newValue);
         onChange(newValue);
       }}

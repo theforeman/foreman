@@ -8,7 +8,7 @@ const LabelIcon = ({ text }) => (
   <Popover bodyContent={text}>
     <button
       className="pf-c-form__group-label-help"
-      onClick={e => e.preventDefault()}
+      onClick={(e) => e.preventDefault()}
     >
       <HelpIcon noVerticalAlign />
     </button>

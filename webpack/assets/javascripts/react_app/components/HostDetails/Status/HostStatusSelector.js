@@ -31,10 +31,10 @@ export const selectStatusByState = (state, statusState) => {
   }
 };
 
-const selectSupportedStatuses = state =>
+const selectSupportedStatuses = (state) =>
   selectAPIResponse(state, HOST_STATUSES_KEY)?.captions?.asMutable();
-const selectSupportedStatusesAsObject = state =>
-  selectSupportedStatuses(state)?.map(name => ({
+const selectSupportedStatusesAsObject = (state) =>
+  selectSupportedStatuses(state)?.map((name) => ({
     name,
     date: undefined,
     label: 'N/A',
@@ -43,14 +43,14 @@ const selectSupportedStatusesAsObject = state =>
     reported_at: undefined,
   }));
 
-export const selectErrorStatuses = state =>
+export const selectErrorStatuses = (state) =>
   selectStatusByState(state, ERROR_STATUS_STATE);
-export const selectWarningStatuses = state =>
+export const selectWarningStatuses = (state) =>
   selectStatusByState(state, WARNING_STATUS_STATE);
-export const selectOKStatuses = state =>
+export const selectOKStatuses = (state) =>
   selectStatusByState(state, OK_STATUS_STATE);
 
-export const selectNAStatuses = state => {
+export const selectNAStatuses = (state) => {
   const supportedStatuses = selectSupportedStatusesAsObject(state);
   const existStatuses = selectStatusByState(state, ALL_STATUS_STATE);
   if (supportedStatuses)
@@ -58,7 +58,7 @@ export const selectNAStatuses = state => {
   return EMPTY_ARRAY;
 };
 
-export const selectAllSortedStatuses = state =>
+export const selectAllSortedStatuses = (state) =>
   selectErrorStatuses(state)
     .concat(selectWarningStatuses(state))
     .concat(selectOKStatuses(state))

@@ -22,7 +22,7 @@ const ConnectedTypeAheadSelect = ({
   inputProps,
 }) => {
   const dispatch = useDispatch();
-  const exists = useSelector(state => selectTypeAheadSelectExists(state, id));
+  const exists = useSelector((state) => selectTypeAheadSelectExists(state, id));
 
   useEffect(() => {
     if (!exists) {
@@ -30,9 +30,9 @@ const ConnectedTypeAheadSelect = ({
     }
   }, [dispatch, exists, options, selected, id]);
 
-  const _selected = useSelector(state => selectSelected(state, id));
-  const _options = useSelector(state => selectOptions(state, id));
-  const onChange = items => dispatch(updateSelected(items, id));
+  const _selected = useSelector((state) => selectSelected(state, id));
+  const _options = useSelector((state) => selectOptions(state, id));
+  const onChange = (items) => dispatch(updateSelected(items, id));
 
   return (
     <TypeAheadSelect

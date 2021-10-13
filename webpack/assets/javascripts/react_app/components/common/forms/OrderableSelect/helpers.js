@@ -11,61 +11,58 @@ export const orderDragged = (inputArray, dragIndex, hoverIndex) => {
   return ordered;
 };
 
-export const makeOnHover = (getIndex, getMoveFnc, direction) => (
-  props,
-  monitor,
-  component
-) => {
-  const dragIndex = monitor.getItem().index;
-  const hoverIndex = getIndex(props);
+export const makeOnHover =
+  (getIndex, getMoveFnc, direction) => (props, monitor, component) => {
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = getIndex(props);
 
-  // Don't replace items with themselves
-  if (dragIndex === hoverIndex) return null;
+    // Don't replace items with themselves
+    if (dragIndex === hoverIndex) return null;
 
-  // Determine rectangle on screen
-  const hoverBoundingRect = component.getNode().getBoundingClientRect();
-  let shouldMove = false;
+    // Determine rectangle on screen
+    const hoverBoundingRect = component.getNode().getBoundingClientRect();
+    let shouldMove = false;
 
-  // Determine which drag direction we should handle and whether to move an item
-  if (direction === 'vertical') {
-    shouldMove = onHover(
-      dragIndex,
-      hoverIndex,
-      hoverBoundingRect,
-      monitor,
-      'y',
-      'bottom',
-      'top'
-    );
-  } else if (direction === 'horizontal') {
-    shouldMove = onHover(
-      dragIndex,
-      hoverIndex,
-      hoverBoundingRect,
-      monitor,
-      'x',
-      'right',
-      'left'
-    );
-  } else {
-    throw new Error(
-      `Unknown drag direction, expected one of: horizontal, vertical, got: ${direction}`
-    );
-  }
+    // Determine which drag direction we should handle and whether to move an item
+    if (direction === 'vertical') {
+      shouldMove = onHover(
+        dragIndex,
+        hoverIndex,
+        hoverBoundingRect,
+        monitor,
+        'y',
+        'bottom',
+        'top'
+      );
+    } else if (direction === 'horizontal') {
+      shouldMove = onHover(
+        dragIndex,
+        hoverIndex,
+        hoverBoundingRect,
+        monitor,
+        'x',
+        'right',
+        'left'
+      );
+    } else {
+      throw new Error(
+        `Unknown drag direction, expected one of: horizontal, vertical, got: ${direction}`
+      );
+    }
 
-  if (!shouldMove) {
+    if (!shouldMove) {
+      return null;
+    }
+
+    // Time to actually perform the action
+    getMoveFnc(props)(dragIndex, hoverIndex);
+    // Note: we're mutating the monitor item here!
+    // Generally it's better to avoid mutations,
+    // but it's good here for the sake of performance
+    // to avoid expensive index searches.
+    monitor.getItem().index = hoverIndex;
     return null;
-  }
-
-  // Time to actually perform the action
-  getMoveFnc(props)(dragIndex, hoverIndex);
-  // Note: we're mutating the monitor item here!
-  // Generally it's better to avoid mutations,
-  // but it's good here for the sake of performance
-  // to avoid expensive index searches.
-  monitor.getItem().index = hoverIndex;
-  return null;
-};
+  };
 
 const onHover = (
   dragIndex,
@@ -101,7 +98,7 @@ const getDropTarget = (dropTypes, getIndex, getMoveFnc, direction) =>
   DropTarget(
     dropTypes,
     { hover: makeOnHover(getIndex, getMoveFnc, direction) },
-    connect => ({
+    (connect) => ({
       connectDropTarget: connect.dropTarget(),
     })
   );
@@ -110,7 +107,7 @@ const getDragSource = (dragType, getIndex, getItem) =>
   DragSource(
     dragType,
     {
-      beginDrag: props => set(getItem(props), 'index', getIndex(props)),
+      beginDrag: (props) => set(getItem(props), 'index', getIndex(props)),
     },
     (connect, monitor) => ({
       connectDragSource: connect.dragSource(),
@@ -123,9 +120,9 @@ export const orderable = (
   {
     type = 'orderable',
     direction = 'horizontal',
-    getItem = props => ({ id: props.id }),
-    getIndex = props => props.index,
-    getMoveFnc = props => props.moveValue,
+    getItem = (props) => ({ id: props.id }),
+    getIndex = (props) => props.index,
+    getMoveFnc = (props) => props.moveValue,
   }
 ) => {
   const Orderable = React.forwardRef(
@@ -152,9 +149,9 @@ export const orderable = (
       );
     }
   );
-  Orderable.displayName = `Orderable(${Component.displayName ||
-    Component.name ||
-    'Component'})`;
+  Orderable.displayName = `Orderable(${
+    Component.displayName || Component.name || 'Component'
+  })`;
 
   Orderable.propTypes = {
     isDragging: PropTypes.bool.isRequired,

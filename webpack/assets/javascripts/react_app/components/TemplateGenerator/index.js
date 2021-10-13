@@ -12,10 +12,10 @@ export const actions = templateActions;
 export const reducers = { templates: reducer };
 
 // map state to props
-const mapStateToProps = state => selectGeneratingProps(state);
+const mapStateToProps = (state) => selectGeneratingProps(state);
 
 // map action dispatchers to props
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(actions, dispatch);
 
 // export connected component
 export default connect(mapStateToProps, mapDispatchToProps)(TemplateGenerator);

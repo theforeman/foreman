@@ -12,7 +12,7 @@ import {
 
 export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
   const taxonomyId = availableTaxonomies.find(
-    taxonomy => taxonomy.title === currentTaxonomy
+    (taxonomy) => taxonomy.title === currentTaxonomy
   ).id;
   return {
     title: currentTaxonomy,
@@ -38,11 +38,11 @@ export const handleMenuClick = (primary, activeMenu, changeActive) => {
   if (primary.title !== __(activeMenu)) changeActive(primary);
 };
 
-export const combineMenuItems = data => {
+export const combineMenuItems = (data) => {
   const items = [];
 
-  data.menu.forEach(item => {
-    const translatedChildren = item.children.map(child => ({
+  data.menu.forEach((item) => {
+    const translatedChildren = item.children.map((child) => ({
       ...child,
       name: isEmpty(child.name) ? child.name : __(child.name),
     }));
@@ -63,7 +63,7 @@ export const combineMenuItems = data => {
   return items;
 };
 
-const createOrgItem = orgs => {
+const createOrgItem = (orgs) => {
   const anyOrg = {
     name: __('Any Organization'),
     onClick: () => {
@@ -72,7 +72,7 @@ const createOrgItem = orgs => {
   };
   const childrenArray = [anyOrg];
 
-  orgs.forEach(org => {
+  orgs.forEach((org) => {
     const childObject = {
       type: org.type,
       name: org.title,
@@ -94,7 +94,7 @@ const createOrgItem = orgs => {
   return orgItem;
 };
 
-const createLocationItem = locations => {
+const createLocationItem = (locations) => {
   const anyLoc = {
     name: __('Any Location'),
     onClick: () => {
@@ -103,7 +103,7 @@ const createLocationItem = locations => {
   };
   const childrenArray = [anyLoc];
 
-  locations.forEach(loc => {
+  locations.forEach((loc) => {
     const childObject = {
       type: loc.type,
       name: loc.title,

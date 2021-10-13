@@ -13,7 +13,7 @@ class YearView extends React.Component {
   };
   getMonthArray = () => {
     const date = new Date('1/1/1');
-    return times(12, i =>
+    return times(12, (i) =>
       Intl.DateTimeFormat(this.props.locale, { month: 'short' }).format(
         addMonths(date, i)
       )
@@ -27,7 +27,7 @@ class YearView extends React.Component {
     const { date } = this.state;
     this.setState({ date: addYears(date, 1) });
   };
-  setSelectedMonth = month => {
+  setSelectedMonth = (month) => {
     const { date } = this.state;
     date.setMonth(month);
     this.props.setSelected(date);

@@ -24,6 +24,6 @@ export const pickSort = (query, state) =>
     ? transformSort(query.sort)
     : checkSort(compose(transformSort, selectSort)(state));
 
-const checkSort = sort => (sort && sort.by && sort.order ? sort : undefined);
+const checkSort = (sort) => (sort && sort.by && sort.order ? sort : undefined);
 
-const transformSort = sort => ({ ...sort, by: snakeCase(sort.by) });
+const transformSort = (sort) => ({ ...sort, by: snakeCase(sort.by) });

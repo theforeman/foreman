@@ -8,7 +8,7 @@ import { STATUS } from '../../constants';
 
 import './ConfigReports.scss';
 
-const ConfigReports = props => {
+const ConfigReports = (props) => {
   const {
     metricsChartData,
     statusChartData,

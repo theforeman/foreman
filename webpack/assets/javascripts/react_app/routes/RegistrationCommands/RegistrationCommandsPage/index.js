@@ -97,16 +97,16 @@ const RegistrationCommandsPage = () => {
   // Plugins
   const [pluginValues, setPluginValues] = useState({});
 
-  const handlePluginValue = useCallback(data => {
-    setPluginValues(prevValues => ({ ...prevValues, ...data }));
+  const handlePluginValue = useCallback((data) => {
+    setPluginValues((prevValues) => ({ ...prevValues, ...data }));
   }, []);
 
   const handleInvalidField = useCallback((field, isValid) => {
     if (isValid) {
-      setInvalidFields(prevFields => prevFields.filter(f => f !== field));
+      setInvalidFields((prevFields) => prevFields.filter((f) => f !== field));
     } else {
-      setInvalidFields(prevFields => {
-        if (!prevFields.find(f => f === field)) {
+      setInvalidFields((prevFields) => {
+        if (!prevFields.find((f) => f === field)) {
           return [...prevFields, field].sort();
         }
         return prevFields;
@@ -114,7 +114,7 @@ const RegistrationCommandsPage = () => {
     }
   }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const params = {
@@ -177,7 +177,7 @@ const RegistrationCommandsPage = () => {
         <title>{__('Register Host')}</title>
       </Head>
       <Form
-        onSubmit={e => handleSubmit(e)}
+        onSubmit={(e) => handleSubmit(e)}
         className="registration_commands_form"
         isHorizontal
       >
