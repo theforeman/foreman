@@ -5,7 +5,7 @@ import { noop } from '../../common/helpers';
 import { stopInterval } from '../middlewares/IntervalMiddleware';
 import { selectDoesIntervalExist } from '../middlewares/IntervalMiddleware/IntervalSelectors';
 import { selectAPIResponse } from './APISelectors';
-import { addToast } from '../actions/toasts';
+import { addToast } from '../../components/ToastsList';
 
 export const apiRequest = async (
   {
