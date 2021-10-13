@@ -9,14 +9,13 @@ import {
   AlertGroup,
 } from '@patternfly/react-core';
 
-import { addToast, deleteToast } from '../../redux/actions/toasts';
-import { selectToastsListMessages } from './ToastsListSelectors';
-import { toastType, toastTitle } from './ToastListHelpers';
-import './ToastList.scss';
+import { addToast, deleteToast, selectToastsList } from './slice';
+import { toastType, toastTitle } from './helpers';
+import './style.scss';
 
 const ToastsList = ({ railsMessages }) => {
   const dispatch = useDispatch();
-  const messages = useSelector(selectToastsListMessages);
+  const messages = useSelector(selectToastsList);
 
   useEffect(() => {
     railsMessages.forEach(({ message, type, key }) => {
@@ -62,3 +61,5 @@ ToastsList.defaultProps = {
 };
 
 export default ToastsList;
+
+export * from './slice';

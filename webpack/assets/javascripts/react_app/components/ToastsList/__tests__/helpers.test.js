@@ -1,4 +1,4 @@
-import { toastType, toastTitle } from '../ToastListHelpers'
+import { toastType, toastTitle } from '../helpers'
 
 const shortMessage = 'short message';
 const longMessage = 'This is long message. Long, long, long, long, long, long, long, long, long, long, long. Too long.'

@@ -1,7 +1,7 @@
 import { API } from '../../../../redux/API';
 import { foremanUrl } from '../../../../../foreman_tools';
 
-import { addToast } from '../../../../redux/actions/toasts';
+import { addToast } from '../../../ToastsList';
 
 export const stopImpersonating = url => async dispatch => {
   try {

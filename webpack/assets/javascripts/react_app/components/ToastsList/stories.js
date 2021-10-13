@@ -13,8 +13,7 @@ import {
   Alert,
 } from 'patternfly-react';
 import store from '../../redux';
-import { addToast } from '../../redux/actions/toasts';
-import ToastsList from './index';
+import ToastsList, { addToast } from './index';
 import Story from '../../../../../stories/components/Story';
 
 export default {

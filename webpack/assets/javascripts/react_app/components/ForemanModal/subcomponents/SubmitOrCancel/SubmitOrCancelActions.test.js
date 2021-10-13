@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 
 import API from '../../../../redux/API/API';
 
-import { TOASTS_ADD } from '../../../../redux/consts';
 import {
   SET_MODAL_START_SUBMITTING,
   SET_MODAL_STOP_SUBMITTING,
@@ -50,8 +49,8 @@ describe('SubmitOrCancelActions test', () => {
     expect(store.getActions()[0].type).toBe(SET_MODAL_START_SUBMITTING);
     expect(store.getActions()[1].type).toBe(SET_MODAL_STOP_SUBMITTING);
     expect(
-      store.getActions().find(action => action.type === TOASTS_ADD).payload
-        .message.type
+      store.getActions().find(action => action.type === 'toasts/addToast').payload
+        .toast.type
     ).toBe('success');
     expect(mocks.onSuccess).toHaveBeenCalled();
     expect(mocks.closeFn).toHaveBeenCalled();
@@ -75,8 +74,8 @@ describe('SubmitOrCancelActions test', () => {
     expect(store.getActions()[0].type).toBe(SET_MODAL_START_SUBMITTING);
     expect(store.getActions()[1].type).toBe(SET_MODAL_STOP_SUBMITTING);
     expect(
-      store.getActions().find(action => action.type === TOASTS_ADD).payload
-        .message.type
+      store.getActions().find(action => action.type === 'toasts/addToast').payload
+        .toast.type
     ).toBe('error');
     expect(mocks.onSuccess).not.toHaveBeenCalled();
     expect(mocks.closeFn).not.toHaveBeenCalled();

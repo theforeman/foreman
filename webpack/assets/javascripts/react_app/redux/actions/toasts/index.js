@@ -1,22 +1,9 @@
-import uuidV1 from 'uuid/v1';
+import { deprecate } from '../../../common/DeprecationService';
 
-import { TOASTS_ADD, TOASTS_DELETE, TOASTS_CLEAR } from '../../consts';
+deprecate('import from redux/action/toasts', 'components/ToastsList', '3.2');
 
-export const addToast = toast => {
-  const key = toast.key || uuidV1();
-
-  return {
-    type: TOASTS_ADD,
-    payload: {
-      key,
-      message: { ...toast, key },
-    },
-  };
-};
-
-export const deleteToast = key => ({
-  type: TOASTS_DELETE,
-  payload: { key },
-});
-
-export const clearToasts = () => ({ type: TOASTS_CLEAR });
+export {
+  addToast,
+  deleteToast,
+  clearToasts,
+} from '../../../components/ToastsList';

@@ -82,13 +82,13 @@ Array [
     Object {
       "payload": Object {
         "key": "BOOKMARKS_FORM_SUBMITTED_SUCCESS",
-        "message": Object {
+        "toast": Object {
           "key": "BOOKMARKS_FORM_SUBMITTED_SUCCESS",
           "message": "Bookmark was successfully created.",
           "type": "success",
         },
       },
-      "type": "TOASTS_ADD",
+      "type": "toasts/addToast",
     },
   ],
   Array [

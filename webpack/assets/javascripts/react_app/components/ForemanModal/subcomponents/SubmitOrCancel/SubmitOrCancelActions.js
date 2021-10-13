@@ -2,7 +2,7 @@ import { deepPropsToCamelCase } from '../../../../common/helpers';
 
 import { API } from '../../../../redux/API';
 
-import { addToast } from '../../../../redux/actions/toasts';
+import { addToast } from '../../../ToastsList';
 import { translate as __ } from '../../../../common/I18n';
 import {
   setModalStartSubmitting,

@@ -1,6 +1,6 @@
 import URI from 'urijs';
 import { API } from '../../../redux/API';
-import { addToast } from '../../../redux/actions/toasts';
+import { addToast } from '../../ToastsList';
 import { ajaxRequestAction } from '../../../redux/actions/common';
 import { translate as __ } from '../../../common/I18n';
 import {
