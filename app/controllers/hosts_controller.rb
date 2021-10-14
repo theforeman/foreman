@@ -176,7 +176,14 @@ class HostsController < ApplicationController
 
   def review_before_build
     @build = @host.build_status_checker
-    render :layout => false
+    respond_to do |format|
+      format.html do
+        render :layout => false
+      end
+      format.json do
+        render :json => @build.to_json
+      end
+    end
   end
 
   def setBuild
@@ -189,18 +196,46 @@ class HostsController < ApplicationController
           else
             message = _("Enabled %s for rebuild on next boot, but failed to power cycle the host")
           end
-          process_success :success_msg => message % @host, :success_redirect => :back
+          respond_to do |format|
+            format.html do
+              process_success :success_msg => message % @host, :success_redirect => :back
+            end
+            format.json do
+              render :json => { :success_msg => message % @host }
+            end
+          end
         rescue => error
           message = _('Failed to reboot %s.') % @host
           warning(message)
           Foreman::Logging.exception(message, error)
-          process_success :success_msg => _("Enabled %s for rebuild on next boot") % @host, :success_redirect => :back
+          respond_to do |format|
+            format.html do
+              process_success :success_msg => _("Enabled %s for rebuild on next boot") % @host, :success_redirect => :back
+            end
+            format.json do
+              render :json => { :success_msg => _("Enabled %s for rebuild on next boot") % @host }
+            end
+          end
         end
       else
-        process_success :success_msg => _("Enabled %s for rebuild on next boot") % @host, :success_redirect => :back
+        respond_to do |format|
+          format.html do
+            process_success :success_msg => _("Enabled %s for rebuild on next boot") % @host, :success_redirect => :back
+          end
+          format.json do
+            render :json => { :success_msg => _("Enabled %s for rebuild on next boot") % @host }
+          end
+        end
       end
     else
-      process_error :redirect => :back, :error_msg => _("Failed to enable %{host} for installation: %{errors}") % { :host => @host, :errors => @host.errors.full_messages }
+      respond_to do |format|
+        format.html do
+          process_error :redirect => :back, :error_msg => _("Failed to enable %{host} for installation: %{errors}") % { :host => @host, :errors => @host.errors.full_messages }
+        end
+        format.json do
+          render :json => { :errors => @host.errors.full_messages }, :status => :internal_server_error
+        end
+      end
     end
   end
 

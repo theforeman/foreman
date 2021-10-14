@@ -4,8 +4,8 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   Button,
   DropdownItem,
-  DropdownSeparator,
   Dropdown,
+  DropdownSeparator,
   KebabToggle,
 } from '@patternfly/react-core';
 import {
@@ -15,6 +15,7 @@ import {
   CommentIcon,
   UndoIcon,
   FileInvoiceIcon,
+  BuildIcon,
 } from '@patternfly/react-icons';
 import { visit } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
@@ -22,6 +23,7 @@ import { selectKebabItems } from './Selectors';
 import { foremanUrl } from '../../../common/helpers';
 import { deleteHost } from './actions';
 import { useForemanSettings } from '../../../Root/Context/ForemanContext';
+import BuildModal from './BuildModal';
 
 const ActionsBar = ({
   hostId,
@@ -34,6 +36,7 @@ const ActionsBar = ({
   },
 }) => {
   const [kebabIsOpen, setKebab] = useState(false);
+  const [isBuildModalOpen, setBuildModal] = useState(false);
   const onKebabToggle = isOpen => setKebab(isOpen);
   const { destroyVmOnHostDelete } = useForemanSettings();
   const registeredItems = useSelector(selectKebabItems, shallowEqual);
@@ -41,6 +44,14 @@ const ActionsBar = ({
   const deleteHostHandler = () =>
     dispatch(deleteHost(hostId, computeId, destroyVmOnHostDelete));
   const dropdownItems = [
+    <DropdownItem
+      onClick={() => setBuildModal(true)}
+      key="build"
+      component="button"
+      icon={<BuildIcon />}
+    >
+      {__('Build')}
+    </DropdownItem>,
     <DropdownItem
       isDisabled={!canCreate}
       onClick={() => visit(foremanUrl(`/hosts/${hostId}/clone`))}
@@ -59,7 +70,7 @@ const ActionsBar = ({
     >
       {__('Delete')}
     </DropdownItem>,
-    <DropdownSeparator />,
+    <DropdownSeparator key="sp-1" />,
     <DropdownItem
       onClick={() => visit(foremanUrl(`/hosts/${hostId}/facts`))}
       key="fact"
@@ -77,7 +88,7 @@ const ActionsBar = ({
     >
       {__('Reports')}
     </DropdownItem>,
-    <DropdownSeparator />,
+    <DropdownSeparator key="sp-2" />,
     <DropdownItem
       icon={<UndoIcon />}
       href={`/hosts/${hostId}`}
@@ -116,6 +127,13 @@ const ActionsBar = ({
         isPlain
         dropdownItems={dropdownItems.concat(registeredItems)}
       />
+      {isBuildModalOpen && (
+        <BuildModal
+          isModalOpen={isBuildModalOpen}
+          onClose={() => setBuildModal(false)}
+          hostId={hostId}
+        />
+      )}
     </>
   );
 };

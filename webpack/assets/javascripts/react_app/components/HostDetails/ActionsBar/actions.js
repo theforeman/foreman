@@ -57,3 +57,18 @@ export const deleteHost = (
     })
   );
 };
+
+export const buildHost = hostId => dispatch => {
+  const successToast = () =>
+    sprintf(__('Host %s will be built next boot'), hostId);
+  const errorToast = ({ message }) => message;
+  const url = foremanUrl(`/hosts/${hostId}/setBuild`);
+  dispatch(
+    APIActions.put({
+      url,
+      key: `${hostId}-BUILD`,
+      successToast,
+      errorToast,
+    })
+  );
+};
