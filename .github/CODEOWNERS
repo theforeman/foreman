@@ -1,4 +1,9 @@
 Gemfile         @theforeman/packaging
-Rakefile.dist	@theforeman/packaging
-bundler.d/*.rb  @theforeman/packaging
+Rakefile.dist   @theforeman/packaging
+
+# exclude development and test groups, these aren't packaged
+bundler.d/      @theforeman/packaging
+bundler.d/development.rb
+bundler.d/test.rb
+
 package.json    @theforeman/packaging
