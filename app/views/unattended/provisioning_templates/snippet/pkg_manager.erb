@@ -1,0 +1,38 @@
+<%#
+kind: snippet
+name: pkg_manager
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Get OS package manager
+-%>
+
+if [ -f /etc/os-release ] ; then
+  . /etc/os-release
+fi
+
+# Get OS package manager
+# ---
+# apt-get   Debian
+#           Ubuntu
+# dnf       Fedora
+#           RHEL family version > 7
+# yum       RHEL family version < 8
+# pacman    Arch
+# zypper    openSUSE Tumbleweed
+
+if [ -f /etc/fedora-release ]; then
+  PKG_MANAGER='dnf'
+elif [ -f /etc/redhat-release ] ; then
+  if [ "${VERSION_ID%.*}" -gt 7 ]; then
+    PKG_MANAGER='dnf'
+  else
+    PKG_MANAGER='yum'
+  fi
+elif [ -f /etc/debian_version ]; then
+  PKG_MANAGER='apt-get'
+elif [ -f /etc/arch-release ]; then
+  PKG_MANAGER='pacman'
+elif [ x$ID = xopensuse-tumbleweed ]; then
+  PKG_MANAGER='zypper'
+fi
