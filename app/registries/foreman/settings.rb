@@ -103,5 +103,10 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("The instance title is shown on the top navigation bar (requires reload of page)."),
       default: nil,
       full_name: N_('Instance title'))
+    setting('audits_period',
+      type: :integer,
+      description: N_('Duration in days to preserve audits for. Leave empty to disable the audits cleanup.'),
+      default: nil,
+      full_name: N_('Saved audits interval'))
   end
 end
