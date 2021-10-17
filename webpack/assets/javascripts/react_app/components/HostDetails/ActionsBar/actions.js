@@ -1,7 +1,6 @@
 import { visit } from '../../../../foreman_navigation';
 import { foremanUrl } from '../../../common/helpers';
 import { sprintf, translate as __ } from '../../../common/I18n';
-import { openConfirmModal } from '../../ConfirmModal';
 import { APIActions } from '../../../redux/API';
 
 export const deleteHost = (
@@ -38,22 +37,15 @@ export const deleteHost = (
     );
   };
 
-  dispatch(
-    openConfirmModal({
-      isWarning: true,
-      title: __('Delete host?'),
-      confirmButtonText: __('Delete host'),
-      onConfirm: () =>
-        dispatch(
-          APIActions.delete({
-            url,
-            key: `${hostName}-DELETE`,
-            successToast,
-            errorToast,
-            handleSuccess: () => visit(foremanUrl('/hosts')),
-          })
-        ),
-      message: warningMessage(),
-    })
-  );
+  if (window.confirm(warningMessage())) {
+    dispatch(
+      APIActions.delete({
+        url,
+        key: `${hostName}-DELETE`,
+        successToast,
+        errorToast,
+        handleSuccess: () => visit(foremanUrl('/hosts')),
+      })
+    );
+  }
 };

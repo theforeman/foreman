@@ -54,12 +54,8 @@ const ActionsBar = ({
     >
       {__('Clone')}
     </DropdownItem>,
-    <DropdownItem
-      icon={<UndoIcon />}
-      href={`/hosts/${hostId}`}
-      key="prev-version"
-    >
-      {__('Previous version')}
+    <DropdownItem icon={<UndoIcon />} href={`/hosts/${hostId}`} key="prev-ui">
+      {__('Previous UI')}
     </DropdownItem>,
     <DropdownItem
       icon={<CommentIcon />}

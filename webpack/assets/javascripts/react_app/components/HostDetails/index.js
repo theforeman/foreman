@@ -41,7 +41,6 @@ import SkeletonLoader from '../common/SkeletonLoader';
 import { STATUS } from '../../constants';
 import './HostDetails.scss';
 
-
 const HostDetails = ({
   match: {
     params: { id },
