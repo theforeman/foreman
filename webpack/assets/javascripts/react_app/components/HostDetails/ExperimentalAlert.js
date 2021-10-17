@@ -37,7 +37,7 @@ const ExperimentalAlert = ({ hostId }) => {
           <AlertActionLink
             onClick={() => visit(foremanUrl(`/hosts/${hostId}`))}
           >
-            {__('Switch to previous version')}
+            {__('Switch to previous UI')}
           </AlertActionLink>
         </>
       }
