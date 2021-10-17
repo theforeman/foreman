@@ -29,6 +29,14 @@ namespace :purge do
     ActiveRecord::Base.connection.drop_table(:hosts_classes, if_exists: true, force: :cascade)
     ActiveRecord::Base.connection.drop_table(:hostgroups_classes, if_exists: true, force: :cascade)
     ActiveRecord::Base.connection.drop_table(:puppetclasses, if_exists: true, force: :cascade)
+    if ActiveRecord::Base.connection.column_exists?(:hosts, :environment_id)
+      ActiveRecord::Base.connection.remove_foreign_key :hosts, :environments, name: 'hosts_environment_id_fk'
+      ActiveRecord::Base.connection.remove_column :hosts, :environment_id
+    end
+    if ActiveRecord::Base.connection.column_exists?(:hostgroups, :environment_id)
+      ActiveRecord::Base.connection.remove_foreign_key :hostgroups, :environments, name: 'hostgroups_environment_id_fk'
+      ActiveRecord::Base.connection.remove_column :hostgroups, :environment_id
+    end
     ActiveRecord::Base.connection.drop_table(:environments, if_exists: true, force: :cascade)
 
     ActiveRecord::SchemaMigration.
