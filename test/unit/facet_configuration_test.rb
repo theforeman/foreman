@@ -15,7 +15,7 @@ class FacetConfigurationTest < ActiveSupport::TestCase
   setup do
     # Do not mess with the Host::Managed object as
     # we just want to test the configuration here
-    Host::Managed.stubs(:register_facet_relation)
+    Host::Managed.stubs(:register_facet_relation_for_type)
   end
 
   test 'enables block configuration' do
@@ -93,7 +93,7 @@ class FacetConfigurationTest < ActiveSupport::TestCase
       end
 
       test 'no class generates an error' do
-        Host::Managed.unstub(:register_facet_relation)
+        Host::Managed.unstub(:register_facet_relation_for_type)
         assert_raises NoMethodError do
           Facets.register :test_facet do
             configure_host
