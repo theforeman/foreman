@@ -4,14 +4,17 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   Button,
   DropdownItem,
+  DropdownSeparator,
   Dropdown,
   KebabToggle,
 } from '@patternfly/react-core';
 import {
+  DatabaseIcon,
   TrashIcon,
   CloneIcon,
   CommentIcon,
   UndoIcon,
+  FileInvoiceIcon,
 } from '@patternfly/react-icons';
 import { visit } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
@@ -23,6 +26,7 @@ import { useForemanSettings } from '../../../Root/Context/ForemanContext';
 const ActionsBar = ({
   hostId,
   computeId,
+  hasReports,
   permissions: {
     destroy_hosts: canDestroy,
     create_hosts: canCreate,
@@ -38,15 +42,6 @@ const ActionsBar = ({
     dispatch(deleteHost(hostId, computeId, destroyVmOnHostDelete));
   const dropdownItems = [
     <DropdownItem
-      isDisabled={!canDestroy}
-      onClick={deleteHostHandler}
-      key="delete"
-      component="button"
-      icon={<TrashIcon />}
-    >
-      {__('Delete')}
-    </DropdownItem>,
-    <DropdownItem
       isDisabled={!canCreate}
       onClick={() => visit(foremanUrl(`/hosts/${hostId}/clone`))}
       key="clone"
@@ -56,11 +51,39 @@ const ActionsBar = ({
       {__('Clone')}
     </DropdownItem>,
     <DropdownItem
+      isDisabled={!canDestroy}
+      onClick={deleteHostHandler}
+      key="delete"
+      component="button"
+      icon={<TrashIcon />}
+    >
+      {__('Delete')}
+    </DropdownItem>,
+    <DropdownSeparator />,
+    <DropdownItem
+      onClick={() => visit(foremanUrl(`/hosts/${hostId}/facts`))}
+      key="fact"
+      component="button"
+      icon={<DatabaseIcon />}
+    >
+      {__('Facts')}
+    </DropdownItem>,
+    <DropdownItem
+      isDisabled={!hasReports}
+      onClick={() => visit(foremanUrl(`/hosts/${hostId}/config_reports`))}
+      key="report"
+      component="button"
+      icon={<FileInvoiceIcon />}
+    >
+      {__('Reports')}
+    </DropdownItem>,
+    <DropdownSeparator />,
+    <DropdownItem
       icon={<UndoIcon />}
       href={`/hosts/${hostId}`}
       key="prev-version"
     >
-      {__('Previous version')}
+      {__('Previous UI')}
     </DropdownItem>,
     <DropdownItem
       icon={<CommentIcon />}
@@ -101,11 +124,13 @@ ActionsBar.propTypes = {
   hostId: PropTypes.string,
   computeId: PropTypes.number,
   permissions: PropTypes.object,
+  hasReports: PropTypes.bool,
 };
 ActionsBar.defaultProps = {
   hostId: undefined,
   computeId: undefined,
   permissions: { destroy_hosts: false, create_hosts: false, edit_hosts: false },
+  hasReports: false,
 };
 
 export default ActionsBar;
