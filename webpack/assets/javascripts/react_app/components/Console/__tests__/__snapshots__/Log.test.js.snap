@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Console/Log should render output 1`] = `
+<Fragment>
+  <pre
+    className="pre-scrollable"
+  >
+    <code>
+      I'm output \\nof the console
+    </code>
+  </pre>
+</Fragment>
+`;

@@ -3,12 +3,5 @@
   <%= title_actions(link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')) if @host %>
   <% title "#{@console[:name]}" %>
 </div>
-<% if @host && (@host.installed_at.nil? or (@console['timestamp'] - @host.installed_at < 5.minutes)) %>
-  <%= alert :class => 'alert-info', :text => _('Console output may be out of date') %>
-<% end %>
-<pre class="pre-scrollable">
-  <code>
-    <%= @console['output'] %>
-  </code>
-</pre>
+<%= react_component('LogConsole', @console.merge(outdated: @host && (@host.installed_at.nil? or (@console['timestamp'] - @host.installed_at < 5.minutes)))) %>
 

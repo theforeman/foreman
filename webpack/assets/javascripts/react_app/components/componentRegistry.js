@@ -44,6 +44,7 @@ import SettingUpdateModal from './SettingUpdateModal';
 import PersonalAccessTokens from './users/PersonalAccessTokens';
 import ClipboardCopy from './common/ClipboardCopy';
 import LabelIcon from './common/LabelIcon';
+import LogConsole from './Console/Log';
 import { WelcomeAuthSource } from './AuthSource/Welcome';
 import { WelcomeConfigReports } from './ConfigReports/Welcome';
 import { WelcomeArchitecture } from './Architectures/Welcome';
@@ -170,6 +171,12 @@ const coreComponets = [
     name: 'IsoDate',
     type: IsoDate,
     data: true,
+    store: false,
+  },
+  {
+    name: 'LogConsole',
+    type: LogConsole,
+    data: false,
     store: false,
   },
   { name: 'FormField', type: FormField },
