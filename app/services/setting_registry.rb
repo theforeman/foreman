@@ -115,7 +115,8 @@ class SettingRegistry
     @settings = {}
 
     Setting.descendants.each do |cat_cls|
-      if cat_cls.default_settings.empty? && (Setting.table_exists? rescue(false))
+      if cat_cls.default_settings.empty?
+        next unless (Setting.table_exists? rescue(false))
         # Setting category uses really old way of doing things
         _load_category_from_db(cat_cls)
       else
