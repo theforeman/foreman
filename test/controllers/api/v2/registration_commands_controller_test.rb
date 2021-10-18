@@ -38,17 +38,19 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
     end
 
     test 'with params ignored in URL' do
+      features = [FactoryBot.create(:feature, name: 'Registration'), FactoryBot.create(:feature, name: 'Templates')]
+      proxy = FactoryBot.create(:smart_proxy, features: features)
       params = {
         insecure: true,
         jwt_expiration: 23,
-        smart_proxy_id: smart_proxies(:one).id,
+        smart_proxy_id: proxy.id,
       }
 
       post :create, params: params
       assert_response :success
 
       response = ActiveSupport::JSON.decode(@response.body)['registration_command']
-      assert_includes response, "curl -sS --insecure '#{smart_proxies(:one).url}/register'"
+      assert_includes response, "curl -sS --insecure '#{proxy.url}/register'"
     end
 
     test 'os without host_init_config template' do
@@ -56,6 +58,11 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       os.os_default_templates = []
 
       post :create, params: { operatingsystem_id: os.id}
+      assert_response :unprocessable_entity
+    end
+
+    test 'with proxy without required features' do
+      post :create, params: { smart_proxy_id: smart_proxies(:one).id }
       assert_response :unprocessable_entity
     end
   end

@@ -24,7 +24,7 @@ const SmartProxy = ({
     labelIcon={
       <LabelIcon
         text={__(
-          'Only smart proxies with registration feature enabled are displayed.'
+          'Only smart proxies with enabled `Templates` and `Registration` features are displayed.'
         )}
       />
     }
