@@ -22,8 +22,7 @@ module Foreman::Controller::RegistrationCommands
   def endpoint
     return global_registration_url if registration_params['smart_proxy_id'].blank?
 
-    proxy = SmartProxy.authorized(:view_smart_proxies).find(registration_params['smart_proxy_id'])
-    "#{proxy.url}/register"
+    "#{@smart_proxy.url}/register"
   end
 
   def command_headers
@@ -47,5 +46,15 @@ module Foreman::Controller::RegistrationCommands
     operatingsystem = Operatingsystem.authorized(:view_operatingsystems).find(registration_params['operatingsystem_id']) if registration_params["operatingsystem_id"].present?
 
     Host.new(organization: organization, location: location, hostgroup: host_group, operatingsystem: operatingsystem).params
+  end
+
+  def find_smart_proxy
+    @smart_proxy = SmartProxy.authorized(:view_smart_proxies).find(registration_params['smart_proxy_id'])
+    features = @smart_proxy.features.map(&:name)
+
+    unless features.include?('Registration') && features.include?('Templates')
+      message = N_("Proxy lacks one of the following features: 'Registration', 'Templates'")
+      render_error('custom_error', status: :unprocessable_entity, locals: { message: message }) and return
+    end
   end
 end

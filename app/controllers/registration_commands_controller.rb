@@ -1,13 +1,15 @@
 class RegistrationCommandsController < ApplicationController
   include Foreman::Controller::RegistrationCommands
 
+  before_action :find_smart_proxy, if: -> { registration_params['smart_proxy_id'] }, only: [:create]
+
   def form_data
     render json: {
       organizations: User.current.my_organizations.select(:id, :name),
       locations: User.current.my_locations.select(:id, :name),
       hostGroups: host_groups_json,
       operatingSystems: Operatingsystem.authorized(:view_operatingsystems),
-      smartProxies: Feature.find_by(name: 'Registration')&.smart_proxies,
+      smartProxies: smart_proxies,
       configParams: host_config_params,
       pluginData: plugin_data,
     }
@@ -46,6 +48,10 @@ class RegistrationCommandsController < ApplicationController
   def host_groups_json
     Hostgroup.authorized(:view_hostgroups)
              .map { |hg| hg.as_json(methods: :inherited_operatingsystem_id) }
+  end
+
+  def smart_proxies
+    SmartProxy.with_features('Templates') & SmartProxy.with_features('Registration')
   end
 
   # Extension point for plugins
