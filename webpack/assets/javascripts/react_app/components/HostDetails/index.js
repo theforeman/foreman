@@ -123,6 +123,7 @@ const HostDetails = ({
                     computeId={response.compute_resource_id}
                     hostId={id}
                     permissions={response.permissions}
+                    hasReports={!!response.last_report}
                   />
                 </FlexItem>
               </Flex>
