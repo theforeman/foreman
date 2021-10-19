@@ -1,3 +1,19 @@
+2021-10-19	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 2.5.4
+
+2021-10-12	Jonathon Turel <jturel@gmail.com>
+	* Fixes #33640 - Leverage caching of SettingRegistry#load_values
+
+2021-10-11	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #33639 - Reduce array resizing in fact importer
+	* Refs #33639 - Only pull needed data for fact updates
+
+2021-10-11	Jonathon Turel <jturel@gmail.com>
+	* Fixes #33639 - Reduce object allocations in FactImporter#update_facts
+
+2021-08-31	Ohad Levy <ohadlevy@gmail.com>
+	* fixes #33093 - force Fedora 33 builds due to failures on 34
+
 2021-08-26	Eric D. Helms <ericdhelms@gmail.com>
 	* Release 2.5.3
 
