@@ -2,6 +2,7 @@
 Description=Foreman jobs daemon - %i on sidekiq
 Documentation=https://theforeman.org
 After=network.target remote-fs.target nss-lookup.target
+PartOf=foreman.service
 
 [Service]
 Type=notify
