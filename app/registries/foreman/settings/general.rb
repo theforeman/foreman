@@ -1,9 +1,4 @@
 Foreman::SettingManager.define(:foreman) do
-  protocol = SETTINGS[:require_ssl] ? 'https' : 'http'
-  domain = SETTINGS[:domain]
-  administrator = "root@#{domain}"
-  foreman_url = "#{protocol}://#{SETTINGS[:fqdn]}"
-
   locales = -> { Hash['' => _("Browser locale")].merge(Hash[FastGettext.human_available_locales.map { |lang| [lang[1], lang[0]] }]) }
   timezones = -> { Hash['' => _("Browser timezone")].merge(Hash[ActiveSupport::TimeZone.all.map { |tz| [tz.name, "(GMT #{tz.formatted_offset}) #{tz.name}"] }]) }
 
@@ -11,13 +6,13 @@ Foreman::SettingManager.define(:foreman) do
     setting('administrator',
       type: :string,
       description: N_("The default administrator email address"),
-      default: administrator,
+      default: "root@#{SETTINGS[:domain]}",
       full_name: N_('Administrator email address'),
       validate: :email)
     setting('foreman_url',
       type: :string,
       description: N_("URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"),
-      default: foreman_url,
+      default: "#{SETTINGS[:require_ssl] ? 'https' : 'http'}://#{SETTINGS[:fqdn]}",
       full_name: N_('Foreman URL'),
       validate: :http_url)
     setting('entries_per_page',
@@ -52,7 +47,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Show host power status'))
     setting('http_proxy',
       type: :string,
-      description: N_('Sets a proxy for all outgoing HTTP connections from Foreman. System-wide proxies must be configured at operating system level.'),
+      description: N_('Set a proxy for all outgoing HTTP(S) connections from Foreman. System-wide proxies must be configured at the operating system level.'),
       default: nil,
       full_name: N_('HTTP(S) proxy'))
     validates :http_proxy, http_url: { allow_blank: true }
@@ -66,11 +61,11 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Whether or not to show a menu to access experimental lab features (requires reload of page)"),
       default: false,
       full_name: N_('Show Experimental Labs'))
-    setting("append_domain_name_for_hosts",
+    setting('append_domain_name_for_hosts',
       type: :boolean,
-      description: N_("Foreman will append domain names when new hosts are provisioned"),
+      description: N_('Foreman will append domain names when new hosts are provisioned'),
       default: true,
-      full_name: N_("Append domain names to the host"))
+      full_name: N_('Append domain names to the host'))
     setting('outofsync_interval',
       type: :integer,
       description: N_('Duration in minutes after servers are classed as out of sync. You can override this on hosts by adding a parameter "outofsync_interval".'),
@@ -87,18 +82,16 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Language to use for new users"),
       default: nil,
       full_name: N_('Default language'),
-      value: nil,
       collection: locales)
     setting('default_timezone',
       type: :string,
       description: N_("Timezone to use for new users"),
       default: nil,
       full_name: N_('Default timezone'),
-      value: nil,
       collection: timezones)
     setting('instance_title',
       type: :string,
-      description: N_("The instance title is shown on the top navigation bar (requires reload of page)."),
+      description: N_("The instance title is shown on the top navigation bar (requires a page reload)."),
       default: nil,
       full_name: N_('Instance title'))
     setting('audits_period',
