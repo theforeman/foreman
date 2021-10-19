@@ -22,7 +22,14 @@ module Foreman
         mapper = Mapper.new
         yield mapper
         @permissions ||= []
-        @permissions += mapper.mapped_permissions
+        mapper.mapped_permissions.each do |permission|
+          if (perm = permission(permission.name))
+            Rails.logger.warn "You are trying to replace #{perm.name} from #{permission.engine}. Adding allowed actions from plugin permissions to the existing one."
+            perm.actions.concat(permission.actions)
+          else
+            @permissions << permission
+          end
+        end
       end
 
       attr_reader :permissions
