@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Grid, GridItem } from '@patternfly/react-core';
 
 import AuditCard from '../../Audits';
+import ReportsCard from '../../Reports';
 import Slot from '../../../common/Slot';
 import DetailsCard from '../../DetailsCard';
 import { STATUS } from '../../../../constants';
@@ -31,6 +32,9 @@ const DetailsTab = ({ response, status, hostName }) => {
         </GridItem>
         <GridItem xl2={3} xl={4} md={6} lg={4}>
           <AuditCard hostName={hostName} />
+        </GridItem>
+        <GridItem xl2={3} xl={4} md={6} lg={4}>
+          <ReportsCard hostName={hostName} />
         </GridItem>
         <Slot hostDetails={response} id="details-cards" multi />
       </Grid>

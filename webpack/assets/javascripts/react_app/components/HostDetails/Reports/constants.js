@@ -1,0 +1,1 @@
+export const REPORT_API_OPTIONS = { key: 'HOST_DETAILS_RECENT_REPORTS' };
