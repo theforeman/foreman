@@ -37,12 +37,12 @@ Foreman::SettingManager.define(:foreman) do
       collection: proc { {'' => _("Default verification mode"), :none => _("none"), :peer => "peer", :client_once => "client_once", :fail_if_no_peer_cert => "fail_if_no_peer_cert"} })
     setting('smtp_address',
       type: :string,
-      description: N_("Address to connect to"),
+      description: N_("SMTP address to connect to"),
       default: '',
       full_name: N_('SMTP address'))
     setting('smtp_port',
       type: :integer,
-      description: N_("Port to connect to"),
+      description: N_("SMTP port to connect to"),
       default: 25,
       full_name: N_('SMTP port'))
     setting('smtp_domain',
@@ -69,12 +69,12 @@ Foreman::SettingManager.define(:foreman) do
       collection: proc { {:plain => "plain", :login => "login", :cram_md5 => "cram_md5", '' => _("none")} })
     setting('sendmail_arguments',
       type: :string,
-      description: N_("Specify additional options to sendmail"),
+      description: N_("Specify additional options to sendmail. Only used when the delivery method is set to sendmail."),
       default: '-i',
       full_name: N_('Sendmail arguments'))
     setting('sendmail_location',
       type: :string,
-      description: N_("The location of the sendmail executable"),
+      description: N_("The location of the sendmail executable. Only used when the delivery method is set to sendmail."),
       default: "/usr/sbin/sendmail",
       full_name: N_('Sendmail location'),
       collection: proc { SENDMAIL_LOCATIONS.zip(SENDMAIL_LOCATIONS).to_h })
