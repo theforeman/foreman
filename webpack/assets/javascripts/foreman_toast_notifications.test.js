@@ -4,7 +4,10 @@ import { notify, clear } from './foreman_toast_notifications';
 
 jest.unmock('jquery');
 jest.unmock('./foreman_toast_notifications');
-jest.mock('uuid/v1', () => jest.fn(() => 42) )
+jest.mock('@reduxjs/toolkit', () => ({
+  ...jest.requireActual('@reduxjs/toolkit'),
+  nanoid: jest.fn(() => 42)
+}))
 
 describe('Notifications', () => {
   describe('notify', () => {
