@@ -24,7 +24,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('OAuth map users'))
     setting('failed_login_attempts_limit',
       type: :integer,
-      description: N_("Foreman will block user login after this number of failed login attempts for 5 minutes from offending IP address. Set to 0 to disable bruteforce protection"),
+      description: N_("Foreman will block user logins from an IP address after this number of failed login attempts for 5 minutes. Set to 0 to disable bruteforce protection"),
       default: 30,
       full_name: N_('Failed login attempts limit'))
     setting('restrict_registered_smart_proxies',
@@ -49,12 +49,12 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('SSL certificate'))
     setting('ssl_ca_file',
       type: :string,
-      description: N_("SSL CA file that Foreman will use to communicate with its proxies"),
+      description: N_("SSL CA file path that Foreman will use to communicate with its proxies"),
       default: nil,
       full_name: N_('SSL CA file'))
     setting('ssl_priv_key',
       type: :string,
-      description: N_("SSL Private Key file that Foreman will use to communicate with its proxies"),
+      description: N_("SSL Private Key path that Foreman will use to communicate with its proxies"),
       default: nil,
       full_name: N_('SSL private key'))
     setting('ssl_client_dn_env',
@@ -74,17 +74,18 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('SSL client cert env'))
     setting('server_ca_file',
       type: :string,
-      description: N_("SSL CA file that will be used in templates (to verify the connection to Foreman)"),
+      description: N_("SSL CA file path that will be used in templates (to verify the connection to Foreman)"),
       default: nil,
       full_name: N_('Server CA file'))
+
     setting('websockets_ssl_key',
       type: :string,
-      description: N_("Private key file that Foreman will use to encrypt websockets "),
+      description: N_("Private key file path that Foreman will use to encrypt websockets"),
       default: nil,
       full_name: N_('Websockets SSL key'))
     setting('websockets_ssl_cert',
       type: :string,
-      description: N_("Certificate that Foreman will use to encrypt websockets "),
+      description: N_("Certificate path that Foreman will use to encrypt websockets"),
       default: nil,
       full_name: N_('Websockets SSL certificate'))
     # websockets_encrypt depends on key/cert when true, so initialize it last
@@ -93,6 +94,10 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"),
       default: !!SETTINGS[:require_ssl],
       full_name: N_('Websockets encryption'))
+    validates('websockets_encrypt', ->(value) { !value || !(Setting["websockets_ssl_key"].empty? || Setting["websockets_ssl_cert"].empty?) }, message: N_("Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_ssl_cert is missing"))
+    validates('websockets_ssl_key', ->(value) { !Setting["websockets_encrypt"] || !value.empty? }, message: N_("Unable to unset websockets_ssl_key when websockets_encrypt is on"))
+    validates('websockets_ssl_cert', ->(value) { !Setting["websockets_encrypt"] || !value.empty? }, message: N_("Unable to unset websockets_ssl_cert when websockets_encrypt is on"))
+
     setting('login_delegation_logout_url',
       type: :string,
       description: N_('Redirect your users to this url on logout (authorize_login_delegation should also be enabled)'),
@@ -100,7 +105,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Login delegation logout URL'))
     setting('authorize_login_delegation_auth_source_user_autocreate',
       type: :string,
-      description: N_('Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (If you want to prevent the autocreation, keep unset)'),
+      description: N_('Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created. Empty means no autocreation.'),
       default: 'External',
       full_name: N_('Authorize login delegation auth source user autocreate'))
     setting('authorize_login_delegation',
@@ -120,7 +125,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Idle timeout'))
     setting('bcrypt_cost',
       type: :integer,
-      description: N_("Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."),
+      description: N_("Cost value of bcrypt password hash function for internal auth-sources (4-30). A higher value is safer but verification is slower, particularly for stateless API calls and UI logins. A password change is needed effect existing passwords."),
       default: 4,
       full_name: N_('BCrypt password cost'))
     setting('bmc_credentials_accessible',
@@ -131,7 +136,6 @@ Foreman::SettingManager.define(:foreman) do
     validates('bmc_credentials_accessible',
       ->(value) { value || Setting[:safemode_render] },
       message: N_("Unable to disable bmc_credentials_accessible when safemode_render is disabled"))
-
 
     setting('oidc_jwks_url',
       type: :string,
@@ -153,9 +157,5 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("The algorithm used to encode the JWT in the OpenID provider."),
       default: nil,
       full_name: N_('OIDC Algorithm'))
-
-    validates('websockets_encrypt', ->(value) { !value || !(Setting["websockets_ssl_key"].empty? || Setting["websockets_ssl_cert"].empty?) }, message: N_("Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_ssl_cert is missing"))
-    validates('websockets_ssl_key', ->(value) { !Setting["websockets_encrypt"] || !value.empty? }, message: N_("Unable to unset websockets_ssl_key when websockets_encrypt is on"))
-    validates('websockets_ssl_cert', ->(value) { !Setting["websockets_encrypt"] || !value.empty? }, message: N_("Unable to unset websockets_ssl_cert when websockets_encrypt is on"))
   end
 end
