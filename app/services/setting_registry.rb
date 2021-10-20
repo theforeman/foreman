@@ -111,7 +111,7 @@ class SettingRegistry
       # Creating missing records as we operate over the DB model while updating the setting
       _new_db_record(definition).save(validate: false)
       definition.updated_at = nil
-      definition.value = definition.default
+      definition.value ||= definition.default
     end
   end
 
@@ -163,6 +163,7 @@ class SettingRegistry
 
   def _add(name, category:, type:, default:, description:, full_name:, context:, value: nil, encrypted: false, collection: nil, options: {})
     Setting.select_collection_registry.add(name, collection: collection, **options) if collection
+    Foreman::Deprecation.deprecation_warning('3.3', "initial value of setting '#{name}' should be created in a migration") if value
 
     @settings[name.to_s] = SettingPresenter.new({ name: name,
                                                   context: context,
@@ -170,6 +171,7 @@ class SettingRegistry
                                                   settings_type: type.to_s,
                                                   description: description,
                                                   default: default,
+                                                  value: value,
                                                   full_name: full_name,
                                                   collection: collection,
                                                   encrypted: encrypted })
@@ -184,6 +186,7 @@ class SettingRegistry
     Setting.new(name: definition.name,
                 category: definition.category.safe_constantize&.name || 'Setting',
                 default: definition.default,
+                value: definition.value,
                 description: definition.description)
   end
 

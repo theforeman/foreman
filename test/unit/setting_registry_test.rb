@@ -8,10 +8,20 @@ class SettingRegistryTest < ActiveSupport::TestCase
   let(:setting) { Setting.create(registry.find('foo').attributes) }
 
   setup do
-    registry.stubs(settings: setting_memo)
     registry._add('foo', type: :integer, category: 'Setting', default: default, full_name: 'test foo', description: 'test foo', context: :test)
     setting.update(value: setting_value)
     registry.load_values
+  end
+
+  describe '#load' do
+    it 'loads initial value from the inventory, tho deprecates it' do
+      uuid = Foreman.uuid
+      registry.stubs(:load_definitions)
+      Foreman::Deprecation.expects(:deprecation_warning)
+      registry._add('test_uuid', type: :string, category: 'general', default: 'uuid', value: uuid, full_name: 'test uuid', description: 'test uuid', context: :test)
+      registry.load
+      assert_equal uuid, Setting['test_uuid'], 'The initial value was not set'
+    end
   end
 
   describe '#load_values' do
