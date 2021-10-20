@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-import uuidV1 from 'uuid/v1';
+import { createSlice, nanoid } from '@reduxjs/toolkit';
 
 const initialState = {};
 const toastsListSlice = createSlice({
@@ -11,7 +10,7 @@ const toastsListSlice = createSlice({
         state[key] = toast;
       },
       prepare: toast => {
-        const key = toast.key || uuidV1();
+        const key = toast.key || nanoid();
         return { payload: { key, toast } };
       },
     },
