@@ -1678,6 +1678,19 @@ The settings are strongly typed and you have to define it.
 The basic types supported by Foreman are: `:boolean`, `:integer`, `:float`, `:string`, `:text`, `:hash`, `:array`.
 The `:text` type supports markdown and usage of such setting should expect markdown syntax when using it.
 
+==== Initial setting value
+
+If you want the setting to have initial value please use migration to seed it.
+
+[source, ruby]
+```
+class SeedInitialFooSettingValue < ActiveRecord::Migration[6.0]
+  def up
+    Setting.find_or_create(name: 'foo').update(value: Foreman.uuid)
+  end
+end
+```
+
 ==== Validate setting values
 
 To validate setting value, you can use API, that tries to mimic the API of ActiveRecord.

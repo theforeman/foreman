@@ -11,3 +11,4 @@
     communicate over HTTPS. If needed, you can use `config.ssl_options` to exempt
     matching endpoints from being redirected to HTTPS.
 - message: Initialization autoloaded the constants
+- message: You are using a deprecated behavior, it will be removed in version 3.3, initial value of setting 'instance_id' should be created in a migration
