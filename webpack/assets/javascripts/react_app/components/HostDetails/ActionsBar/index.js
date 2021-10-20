@@ -104,7 +104,7 @@ const ActionsBar = ({
       href={`/hosts/${hostId}`}
       key="prev-version"
     >
-      {__('Previous UI')}
+      {__('Legacy UI')}
     </DropdownItem>,
     <DropdownItem
       icon={<CommentIcon />}
