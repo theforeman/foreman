@@ -31,7 +31,6 @@ Foreman::SettingManager.define(:foreman) do
       'br-int',
     ].freeze
 
-    unattended_url = "http://#{SETTINGS[:fqdn]}"
     owner_select = [{:name => _("Users"), :class => 'user', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'login'},
                     {:name => _("Usergroups"), :class => 'usergroup', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'name'}]
 
@@ -51,7 +50,7 @@ Foreman::SettingManager.define(:foreman) do
     setting('unattended_url',
       type: :string,
       description: N_("URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"),
-      default: unattended_url,
+      default: "http://#{SETTINGS[:fqdn]}",
       full_name: N_('Unattended URL'))
     setting('safemode_render',
       type: :boolean,
@@ -70,7 +69,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Manage PuppetCA'))
     setting('ignore_puppet_facts_for_provisioning',
       type: :boolean,
-      description: N_("Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"),
+      description: N_("Stop updating IP and MAC address values from facts (affects all interfaces)"),
       default: false,
       full_name: N_('Ignore Puppet facts for provisioning'))
     setting('ignored_interface_identifiers',
@@ -97,7 +96,7 @@ Foreman::SettingManager.define(:foreman) do
       type: :integer,
       description: N_("Time in minutes installation tokens should be valid for, 0 to disable token generation"),
       default: 60 * 6,
-      full_name: N_('Token duration'))
+      full_name: N_('Installation token lifetime'))
     setting('ssh_timeout',
       type: :integer,
       description: N_("Time in seconds before SSH provisioning times out"),
@@ -172,7 +171,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_("Default Global registration template"))
     setting('default_host_init_config_template',
       type: :string,
-      description: N_("Default 'Host initial configuration' template, automatically assigned when new operating system is created"),
+      description: N_("Default 'Host initial configuration' template, automatically assigned when a new operating system is created"),
       default: 'Linux host_init_config default',
       full_name: N_("Default 'Host initial configuration' template"))
 
@@ -184,7 +183,7 @@ Foreman::SettingManager.define(:foreman) do
         description: N_("Global default %s template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades.") % pxe_kind,
         default: ProvisioningTemplate.global_default_name(pxe_kind),
         full_name: N_("Global default %s template") % pxe_kind,
-        collection: proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).map { |tmpl| [tmpl.name, tmpl.name] }] },
+        collection: proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).pluck(:name).map { |name| [name, name] }] },
         validates: :pxe_template_name)
     end
     TemplateKind::PXE.each do |pxe_kind|
@@ -193,7 +192,7 @@ Foreman::SettingManager.define(:foreman) do
         description: N_("Template that will be selected as %s default for local boot.") % pxe_kind,
         default: ProvisioningTemplate.local_boot_name(pxe_kind),
         full_name: N_("Local boot %s template") % pxe_kind,
-        collection: proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).map { |tmpl| [tmpl.name, tmpl.name] }] },
+        collection: proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).pluck(:name).map { |name| [name, name] }] },
         validates: :pxe_template_name)
     end
 
