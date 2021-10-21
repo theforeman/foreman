@@ -1,0 +1,255 @@
+{
+  "disks": {
+    "sr0": {
+      "model": "QEMU DVD-ROM",
+      "size": "1.00 GiB",
+      "size_bytes": 1073741312,
+      "type": "hdd",
+      "vendor": "QEMU"
+    },
+    "vda": {
+      "size": "10.00 GiB",
+      "size_bytes": 10737418240,
+      "type": "hdd",
+      "vendor": "0x1af4"
+    }
+  },
+  "dmi": {
+    "bios": {
+      "release_date": "04/01/2014",
+      "vendor": "SeaBIOS",
+      "version": "1.11.0-2.el7"
+    },
+    "chassis": {
+      "type": "Other"
+    },
+    "manufacturer": "Red Hat",
+    "product": {
+      "name": "KVM",
+      "uuid": "b9ea0f0a-5ce4-45dc-9a0e-4979ea4911c1"
+    }
+  },
+  "facterversion": "4.2.5",
+  "filesystems": "xfs",
+  "fips_enabled": false,
+  "hypervisors": {
+    "kvm": {
+    }
+  },
+  "identity": {
+    "gid": 0,
+    "group": "root",
+    "privileged": true,
+    "uid": 0,
+    "user": "root"
+  },
+  "is_virtual": true,
+  "kernel": "Linux",
+  "kernelmajversion": "4.18",
+  "kernelrelease": "4.18.0-338.el8.x86_64",
+  "kernelversion": "4.18.0",
+  "load_averages": {
+    "15m": 0.04,
+    "1m": 0.35,
+    "5m": 0.12
+  },
+  "memory": {
+    "swap": {
+      "available": "365.77 MiB",
+      "available_bytes": 383541248,
+      "capacity": "64.28%",
+      "total": "1.00 GiB",
+      "total_bytes": 1073737728,
+      "used": "658.22 MiB",
+      "used_bytes": 690196480
+    },
+    "system": {
+      "available": "269.00 MiB",
+      "available_bytes": 282066944,
+      "capacity": "66.75%",
+      "total": "809.09 MiB",
+      "total_bytes": 848392192,
+      "used": "540.09 MiB",
+      "used_bytes": 566325248
+    }
+  },
+  "networking": {
+    "domain": "dl360.cluster.com",
+    "fqdn": "stream.dl360.cluster.com",
+    "hostname": "stream",
+    "interfaces": {
+      "ens3": {
+        "bindings": [
+          {
+            "address": "192.168.88.20",
+            "netmask": "255.255.255.0",
+            "network": "192.168.88.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::5054:ff:fee3:8d8b",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::",
+            "scope6": "link",
+            "flags": [
+              "permanent"
+            ]
+          }
+        ],
+        "ip": "192.168.88.20",
+        "ip6": "fe80::5054:ff:fee3:8d8b",
+        "mac": "52:54:00:e3:8d:8b",
+        "mtu": 1500,
+        "netmask": "255.255.255.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "192.168.88.0",
+        "network6": "fe80::",
+        "scope6": "link"
+      },
+      "lo": {
+        "bindings": [
+          {
+            "address": "127.0.0.1",
+            "netmask": "255.0.0.0",
+            "network": "127.0.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "::1",
+            "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+            "network": "::1",
+            "scope6": "host",
+            "flags": [
+              "permanent"
+            ]
+          }
+        ],
+        "ip": "127.0.0.1",
+        "ip6": "::1",
+        "mtu": 65536,
+        "netmask": "255.0.0.0",
+        "netmask6": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "network": "127.0.0.0",
+        "network6": "::1",
+        "scope6": "host"
+      }
+    },
+    "ip": "192.168.88.20",
+    "ip6": "fe80::5054:ff:fee3:8d8b",
+    "mac": "52:54:00:e3:8d:8b",
+    "mtu": 1500,
+    "netmask": "255.255.255.0",
+    "netmask6": "ffff:ffff:ffff:ffff::",
+    "network": "192.168.88.0",
+    "network6": "fe80::",
+    "primary": "ens3",
+    "scope6": "link"
+  },
+  "os": {
+    "architecture": "x86_64",
+    "distro": {
+      "description": "CentOS Stream release 8",
+      "id": "CentOSStream",
+      "release": {
+        "full": "8",
+        "major": "8"
+      }
+    },
+    "family": "RedHat",
+    "hardware": "x86_64",
+    "name": "CentOS",
+    "release": {
+      "full": "8",
+      "major": "8"
+    },
+    "selinux": {
+      "config_mode": "enforcing",
+      "config_policy": "targeted",
+      "current_mode": "enforcing",
+      "enabled": true,
+      "enforced": true,
+      "policy_version": "33"
+    }
+  },
+  "partitions": {
+    "/dev/mapper/cs_stream-root": {
+      "filesystem": "xfs",
+      "size": "8.00 GiB",
+      "size_bytes": 8585740288,
+      "uuid": "50d1cc90-1804-4026-b473-58da96d64156"
+    },
+    "/dev/mapper/cs_stream-swap": {
+      "filesystem": "swap",
+      "size": "1.00 GiB",
+      "size_bytes": 1073741824,
+      "uuid": "0d782303-3cd7-451a-b5fd-083ba57fb696"
+    },
+    "/dev/vda1": {
+      "filesystem": "xfs",
+      "partuuid": "d7c9ab65-01",
+      "size": "1.00 GiB",
+      "size_bytes": 1073741824,
+      "uuid": "9900694f-e73a-4e83-83e9-042cce34a5ee"
+    },
+    "/dev/vda2": {
+      "filesystem": "LVM2_member",
+      "partuuid": "d7c9ab65-02",
+      "size": "9.00 GiB",
+      "size_bytes": 9662627840,
+      "uuid": "iG7brm-YhtC-3kJT-BcpM-xbcC-aqbj-UewxvL"
+    }
+  },
+  "path": "/usr/local/rvm/gems/ruby-2.6.6/bin:/usr/local/rvm/gems/ruby-2.6.6@global/bin:/usr/local/rvm/rubies/ruby-2.6.6/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/rvm/bin:/root/bin",
+  "processors": {
+    "cores": 1,
+    "count": 1,
+    "isa": "x86_64",
+    "models": [
+      "Westmere E56xx/L56xx/X56xx (IBRS update)"
+    ],
+    "physicalcount": 1,
+    "speed": "2.27 GHz",
+    "threads": 1
+  },
+  "ruby": {
+    "platform": "x86_64-linux",
+    "sitedir": "/usr/local/rvm/rubies/ruby-2.6.6/lib/ruby/site_ruby/2.6.0",
+    "version": "2.6.6"
+  },
+  "ssh": {
+    "ecdsa": {
+      "fingerprints": {
+        "sha1": "SSHFP 3 1 d9413db6fc7ce6057a7d57b4d2226498978d32cc",
+        "sha256": "SSHFP 3 2 ed6abdf69798184794ffdcb0af778ab09d4cc1fa04a3840c01ae320eb752205b"
+      },
+      "key": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLdk3JuvO4JtWAGg9jIqEDpeYc8ofaX5N6XwN0qyIW3iF12S9eNv6TZKTVLfZk7kF3n5MXTIkjJkfh+C2U9f4ic=",
+      "type": "ecdsa-sha2-nistp256"
+    },
+    "ed25519": {
+      "fingerprints": {
+        "sha1": "SSHFP 4 1 7eb4b26f1c0f3ba859277cc08d2a93fa1711504c",
+        "sha256": "SSHFP 4 2 3da2e178f69ccfbaae32a0e5bea93fc9ef1ddb418a6d7dedc8ebf27ff0ce8f17"
+      },
+      "key": "AAAAC3NzaC1lZDI1NTE5AAAAICNdD7XD7S1/I6b1nve57M+9r53NRt4fFYP3F1XSfiUN",
+      "type": "ssh-ed25519"
+    },
+    "rsa": {
+      "fingerprints": {
+        "sha1": "SSHFP 1 1 f1321c1ba331e0457d303c2fd4a5f8b50a84bc6c",
+        "sha256": "SSHFP 1 2 ef5855802fbe846d1334c562ceffadee8675d64797215e0003516dc68e61b87f"
+      },
+      "key": "AAAAB3NzaC1yc2EAAAADAQABAAABgQDId3dwByYgssoJLLqDZNkweT+TscVl2htpObYaWqIBfTH6rur0rXvOrRclEn+ZbZhvnAoUwNHUvIK6LZDL1Ji+mnAC8//P09HMMflHDDhrpZXEEfyN5yqG6Pc2CAPFlaiBatlThVZmo3RiHAQAZ2daBAZs9w6wgb2ImS+Lor5kyyFzVfEba7moDTBo09C7eG2k0O2dm70c9j3ArBs++LQc7BGSfL+GODADHXraJ8SFWkiXxKXMd7rLgOhEXEtnP9IksZBqeS/R1v7Vg8eErHhxUYRQDAPtJ4uaQCCGOIeUqcgzimY5hpi8kiyd7VK5P96MaRsr4Dv5X7MzwhUF+1vM8mkl2FX+zXfOA9m+KwA+EgmYCRsLqLugRTDEQBd/MzYz7uzUo+4nWZYUe4+N+1V9Dm6BbayPh+RT9dN1y1Luvm3nXpdPlj+6Wmo1LywNWwRWIXEj/zhVKK165Jh/5EOju0yO07IB9N0g1IzZSvHb6BGkw7OhwTKIoQ7D/O8buEs=",
+      "type": "ssh-rsa"
+    }
+  },
+  "system_uptime": {
+    "days": 1,
+    "hours": 39,
+    "seconds": 142509,
+    "uptime": "1 day"
+  },
+  "timezone": "EDT",
+  "virtual": "kvm"
+}

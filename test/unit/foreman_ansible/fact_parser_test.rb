@@ -338,4 +338,29 @@ module ForemanAnsible
       end
     end
   end
+
+  class CentOSStreamFactParserTest < ActiveSupport::TestCase
+    context 'CentOS Stream' do
+      setup do
+        facts_stream = HashWithIndifferentAccess.new(read_json_fixture('facts/ansible_centos_stream.json'))
+        facts_8_normal = HashWithIndifferentAccess.new(read_json_fixture('facts/ansible_centos_8.json'))
+        @fact_parser_stream = AnsibleFactParser.new(facts_stream)
+        @fact_parser_8_normal = AnsibleFactParser.new(facts_8_normal)
+      end
+
+      test 'should identify CentOS Stream' do
+        os = @fact_parser_stream.operatingsystem
+        assert_equal 'CentOS_Stream', os.name
+        assert_equal '8', os.major
+        assert_empty os.minor
+      end
+
+      test 'should identify CentOS 8' do
+        os = @fact_parser_8_normal.operatingsystem
+        assert_equal 'CentOS', os.name
+        assert_equal '8', os.major
+        assert_equal '4', os.minor
+      end
+    end
+  end
 end

@@ -200,6 +200,9 @@ class PuppetFactParser < FactParser
   def os_name
     # Facter 2.2 introduced the os fact
     os_name = facts.dig(:os, :name).presence || facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
+    # CentOS Stream doesn't have a minor version so it's good to check it at two places according to version of Facter that produced facts
+    has_no_minor = facts[:lsbdistrelease]&.exclude?('.') || (facts.dig(:os, :name).presence && facts.dig(:os, :release, :minor).nil?)
+    return 'CentOS_Stream' if os_name == 'CentOSStream' || (os_name == 'CentOS' && has_no_minor)
 
     if os_name == 'RedHat' && distro_id == 'RedHatEnterpriseWorkstation'
       os_name += '_Workstation'
