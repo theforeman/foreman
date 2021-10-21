@@ -88,6 +88,8 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
   }
   id="organization-dropdown"
   isOpen={false}
+  isPlain={false}
+  isText={false}
   menuAppendTo="inline"
   onSearchButtonClick={[Function]}
   onSearchInputChange={[Function]}

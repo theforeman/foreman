@@ -20,6 +20,7 @@ exports[`RegistrationCommandsPage fields - Insecure renders 1`] = `
       </span>
     }
     onChange={[Function]}
+    ouiaSafe={true}
   />
 </FormGroup>
 `;

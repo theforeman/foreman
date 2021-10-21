@@ -21,19 +21,17 @@
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
-    "@theforeman/vendor": "^8.8.0",
-    "eslint-plugin-spellcheck": "0.0.17",
+    "@theforeman/vendor": "^8.16.0",
     "intl": "~1.2.5",
-    "jed": "^1.1.1",
-    "react-intl": "^2.8.0"
+    "jed": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
-    "@theforeman/builder": ">= 8.7, < 8.12.1",
-    "@theforeman/eslint-plugin-foreman": ">= 8.7, < 8.12.1",
-    "@theforeman/stories": ">= 8.7, < 8.12.1",
-    "@theforeman/test": ">= 8.7, < 8.12.1",
-    "@theforeman/vendor-dev": ">= 8.7, < 8.12.1",
+    "@theforeman/builder": "^8.16.0",
+    "@theforeman/eslint-plugin-foreman": "^8.16.0",
+    "@theforeman/stories": "^8.16.0",
+    "@theforeman/test": "^8.16.0",
+    "@theforeman/vendor-dev": "^8.16.0",
     "@types/jest": "<27.0.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
@@ -44,6 +42,7 @@
     "cssnano": "^4.1.10",
     "dotenv": "^5.0.0",
     "eslint": "^6.7.2",
+    "eslint-plugin-spellcheck": "0.0.17",
     "expose-loader": "~0.6.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.9.0",
