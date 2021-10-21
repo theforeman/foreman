@@ -124,6 +124,7 @@ const HostDetails = ({
                     hostId={id}
                     permissions={response.permissions}
                     hasReports={!!response.last_report}
+                    isBuild={response.build}
                   />
                 </FlexItem>
               </Flex>
