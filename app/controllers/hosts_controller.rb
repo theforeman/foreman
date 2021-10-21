@@ -241,9 +241,23 @@ class HostsController < ApplicationController
 
   def cancelBuild
     if @host.built(false)
-      process_success :success_msg => _("Canceled pending build for %s") % @host.name, :success_redirect => :back
+      respond_to do |format|
+        format.html do
+          process_success :success_msg => _("Canceled pending build for %s") % @host.name, :success_redirect => :back
+        end
+        format.json do
+          render :json => { :success_msg => _("Canceled pending build for %s") % @host.name }
+        end
+      end
     else
-      process_error :redirect => :back, :error_msg => _("Failed to cancel pending build for %{hostname} with the following errors: %{errors}") % {:hostname => @host.name, :errors => @host.errors.full_messages.join(', ')}
+      respond_to do |format|
+        format.html do
+          process_error :redirect => :back, :error_msg => _("Failed to cancel pending build for %{hostname} with the following errors: %{errors}") % {:hostname => @host.name, :errors => @host.errors.full_messages.join(', ')}
+        end
+        format.json do
+          render :json => { :errors => @host.errors.full_messages.join(', ') }, :status => :internal_server_error
+        end
+      end
     end
   end
 

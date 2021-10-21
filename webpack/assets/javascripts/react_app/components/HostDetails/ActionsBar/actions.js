@@ -3,6 +3,7 @@ import { foremanUrl } from '../../../common/helpers';
 import { sprintf, translate as __ } from '../../../common/I18n';
 import { openConfirmModal } from '../../ConfirmModal';
 import { APIActions } from '../../../redux/API';
+import { HOST_DETAILS_KEY } from '../consts';
 
 export const deleteHost = (
   hostName,
@@ -58,6 +59,16 @@ export const deleteHost = (
   );
 };
 
+export const updateHost = hostId => dispatch => {
+  const url = foremanUrl(`/api/hosts/${hostId}`);
+  dispatch(
+    APIActions.get({
+      url,
+      key: HOST_DETAILS_KEY,
+    })
+  );
+};
+
 export const buildHost = hostId => dispatch => {
   const successToast = () =>
     sprintf(__('Host %s will be built next boot'), hostId);
@@ -66,9 +77,26 @@ export const buildHost = hostId => dispatch => {
   dispatch(
     APIActions.put({
       url,
-      key: `${hostId}-BUILD`,
+      key: `${hostId}_BUILD`,
       successToast,
       errorToast,
+      handleSuccess: () => dispatch(updateHost(hostId)),
+    })
+  );
+};
+
+export const cancelBuild = hostId => dispatch => {
+  const successToast = () =>
+    sprintf(__('Canceled pending build for %s'), hostId);
+  const errorToast = ({ message }) => message;
+  const url = foremanUrl(`/hosts/${hostId}/cancelBuild`);
+  dispatch(
+    APIActions.get({
+      url,
+      key: `${hostId}_CANCEL_BUILD`,
+      successToast,
+      errorToast,
+      handleSuccess: () => dispatch(updateHost(hostId)),
     })
   );
 };

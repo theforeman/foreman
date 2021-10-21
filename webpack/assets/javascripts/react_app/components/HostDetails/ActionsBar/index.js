@@ -21,13 +21,14 @@ import { visit } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
 import { selectKebabItems } from './Selectors';
 import { foremanUrl } from '../../../common/helpers';
-import { deleteHost } from './actions';
+import { cancelBuild, deleteHost } from './actions';
 import { useForemanSettings } from '../../../Root/Context/ForemanContext';
 import BuildModal from './BuildModal';
 
 const ActionsBar = ({
   hostId,
   computeId,
+  isBuild,
   hasReports,
   permissions: {
     destroy_hosts: canDestroy,
@@ -43,14 +44,23 @@ const ActionsBar = ({
   const dispatch = useDispatch();
   const deleteHostHandler = () =>
     dispatch(deleteHost(hostId, computeId, destroyVmOnHostDelete));
+
+  const buildHandler = () => {
+    if (isBuild) {
+      dispatch(cancelBuild(hostId));
+      setKebab(false);
+    } else {
+      setBuildModal(true);
+    }
+  };
   const dropdownItems = [
     <DropdownItem
-      onClick={() => setBuildModal(true)}
+      onClick={buildHandler}
       key="build"
       component="button"
       icon={<BuildIcon />}
     >
-      {__('Build')}
+      {isBuild ? __('Cancel build') : __('Build')}
     </DropdownItem>,
     <DropdownItem
       isDisabled={!canCreate}
@@ -143,12 +153,14 @@ ActionsBar.propTypes = {
   computeId: PropTypes.number,
   permissions: PropTypes.object,
   hasReports: PropTypes.bool,
+  isBuild: PropTypes.bool,
 };
 ActionsBar.defaultProps = {
   hostId: undefined,
   computeId: undefined,
   permissions: { destroy_hosts: false, create_hosts: false, edit_hosts: false },
   hasReports: false,
+  isBuild: false,
 };
 
 export default ActionsBar;

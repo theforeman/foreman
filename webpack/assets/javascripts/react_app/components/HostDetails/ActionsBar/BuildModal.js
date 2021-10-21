@@ -38,7 +38,7 @@ const BuildModal = ({ isModalOpen, onClose, hostId }) => {
 
   return (
     <Modal
-      variant={ModalVariant.small}
+      variant={ModalVariant.medium}
       title={__('Review before build')}
       isOpen={isModalOpen}
       onClose={onClose}
