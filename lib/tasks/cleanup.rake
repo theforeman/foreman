@@ -28,6 +28,7 @@ namespace :purge do
     ActiveRecord::Base.connection.drop_table(:operatingsystems_puppetclasses, if_exists: true, force: :cascade)
     ActiveRecord::Base.connection.drop_table(:hosts_classes, if_exists: true, force: :cascade)
     ActiveRecord::Base.connection.drop_table(:hostgroups_classes, if_exists: true, force: :cascade)
+    ActiveRecord::Base.connection.drop_table(:environment_classes, if_exists: true, force: :cascade)
     ActiveRecord::Base.connection.drop_table(:puppetclasses, if_exists: true, force: :cascade)
     if ActiveRecord::Base.connection.column_exists?(:hosts, :environment_id)
       ActiveRecord::Base.connection.remove_foreign_key :hosts, :environments, name: 'hosts_environment_id_fk'
