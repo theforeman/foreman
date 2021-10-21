@@ -90,10 +90,14 @@ module ForemanSalt
       name = facts[:os]
       (_, major, minor, sub) = /(\d+)\.?(\d+)?\.?(\d+)?/.match(facts[:osrelease]).to_a
       minor = "" if minor.nil?
-      if name == 'CentOS'
+      if name == 'CentOS Stream'
+        return { :name => name.tr(' ', '_'), :major => major, :minor => minor }
+      end
+      if name == 'CentOS' || name == 'CentOS Linux'
         if sub
           minor += '.' + sub
         end
+        return { :name => 'CentOS', :major => major, :minor => minor }
       end
       { :name => name, :major => major, :minor => minor }
     end

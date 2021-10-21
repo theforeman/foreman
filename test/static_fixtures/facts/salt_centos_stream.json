@@ -1,0 +1,283 @@
+{
+    "cwd": "/root",
+    "ip_gw": true,
+    "ip4_gw": "192.168.88.1",
+    "ip6_gw": false,
+    "dns": {
+        "nameservers": [
+            "192.168.88.30",
+            "192.168.88.1"
+        ],
+        "ip4_nameservers": [
+            "192.168.88.30",
+            "192.168.88.1"
+        ],
+        "ip6_nameservers": [],
+        "sortlist": [],
+        "domain": "",
+        "search": [
+            "dl360.cluster.com"
+        ],
+        "options": []
+    },
+    "fqdns": [
+        "stream.dl360.cluster.com"
+    ],
+    "machine_id": "b9ea0f0a5ce445dc9a0e4979ea4911c1",
+    "master": "localhost",
+    "server_id": 1758077233,
+    "localhost": "stream.dl360.cluster.com",
+    "fqdn": "stream.dl360.cluster.com",
+    "host": "stream",
+    "domain": "dl360.cluster.com",
+    "hwaddr_interfaces": {
+        "lo": "00:00:00:00:00:00",
+        "ens3": "52:54:00:e3:8d:8b"
+    },
+    "id": "stream.dl360.cluster.com",
+    "ip4_interfaces": {
+        "lo": [
+            "127.0.0.1"
+        ],
+        "ens3": [
+            "192.168.88.20"
+        ]
+    },
+    "ip6_interfaces": {
+        "lo": [
+            "::1"
+        ],
+        "ens3": [
+            "fe80::5054:ff:fee3:8d8b"
+        ]
+    },
+    "ipv4": [
+        "127.0.0.1",
+        "192.168.88.20"
+    ],
+    "ipv6": [
+        "::1",
+        "fe80::5054:ff:fee3:8d8b"
+    ],
+    "fqdn_ip4": [
+        "192.168.88.20"
+    ],
+    "fqdn_ip6": [
+        "fe80::5054:ff:fee3:8d8b"
+    ],
+    "ip_interfaces": {
+        "lo": [
+            "127.0.0.1",
+            "::1"
+        ],
+        "ens3": [
+            "192.168.88.20",
+            "fe80::5054:ff:fee3:8d8b"
+        ]
+    },
+    "kernelparams": [
+        [
+            "BOOT_IMAGE",
+            "(hd0,msdos1)/vmlinuz-4.18.0-338.el8.x86_64"
+        ],
+        [
+            "root",
+            "/dev/mapper/cs_stream-root"
+        ],
+        [
+            "ro",
+            null
+        ],
+        [
+            "crashkernel",
+            "auto"
+        ],
+        [
+            "resume",
+            "/dev/mapper/cs_stream-swap"
+        ],
+        [
+            "rd.lvm.lv",
+            "cs_stream/root"
+        ],
+        [
+            "rd.lvm.lv",
+            "cs_stream/swap"
+        ],
+        [
+            "rhgb",
+            null
+        ],
+        [
+            "quiet",
+            null
+        ]
+    ],
+    "locale_info": {
+        "defaultlanguage": "en_US",
+        "defaultencoding": "UTF-8",
+        "detectedencoding": "UTF-8",
+        "timezone": "EDT"
+    },
+    "num_gpus": 1,
+    "gpus": [
+        {
+            "vendor": "unknown",
+            "model": "QXL paravirtual graphic card"
+        }
+    ],
+    "kernel": "Linux",
+    "nodename": "stream.dl360.cluster.com",
+    "kernelrelease": "4.18.0-338.el8.x86_64",
+    "kernelversion": "#1 SMP Fri Aug 27 17:32:14 UTC 2021",
+    "cpuarch": "x86_64",
+    "selinux": {
+        "enabled": true,
+        "enforced": "Enforcing"
+    },
+    "systemd": {
+        "version": "239",
+        "features": "+PAM +AUDIT +SELINUX +IMA -APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2 -IDN +PCRE2 default-hierarchy=legacy"
+    },
+    "init": "systemd",
+    "lsb_distrib_id": "CentOS Stream",
+    "lsb_distrib_release": "8",
+    "lsb_distrib_codename": "CentOS Stream 8",
+    "osfullname": "CentOS Stream",
+    "osrelease": "8",
+    "oscodename": "CentOS Stream 8",
+    "os": "CentOS Stream",
+    "num_cpus": 1,
+    "cpu_model": "Westmere E56xx/L56xx/X56xx (IBRS update)",
+    "cpu_flags": [
+        "fpu",
+        "vme",
+        "de",
+        "pse",
+        "tsc",
+        "msr",
+        "pae",
+        "mce",
+        "cx8",
+        "apic",
+        "sep",
+        "mtrr",
+        "pge",
+        "mca",
+        "cmov",
+        "pat",
+        "pse36",
+        "clflush",
+        "mmx",
+        "fxsr",
+        "sse",
+        "sse2",
+        "syscall",
+        "nx",
+        "pdpe1gb",
+        "rdtscp",
+        "lm",
+        "constant_tsc",
+        "rep_good",
+        "nopl",
+        "xtopology",
+        "cpuid",
+        "tsc_known_freq",
+        "pni",
+        "pclmulqdq",
+        "ssse3",
+        "cx16",
+        "pcid",
+        "sse4_1",
+        "sse4_2",
+        "x2apic",
+        "popcnt",
+        "tsc_deadline_timer",
+        "aes",
+        "hypervisor",
+        "lahf_lm",
+        "pti",
+        "ssbd",
+        "ibrs",
+        "ibpb",
+        "stibp",
+        "tsc_adjust",
+        "arat"
+    ],
+    "os_family": "RedHat",
+    "osarch": "x86_64",
+    "mem_total": 809,
+    "swap_total": 1023,
+    "biosversion": "1.11.0-2.el7",
+    "productname": "KVM",
+    "manufacturer": "Red Hat",
+    "biosreleasedate": "04/01/2014",
+    "uuid": "b9ea0f0a-5ce4-45dc-9a0e-4979ea4911c1",
+    "serialnumber": "",
+    "virtual": "kvm",
+    "ps": "ps -efHww",
+    "osrelease_info": [
+        8
+    ],
+    "osmajorrelease": 8,
+    "osfinger": "CentOS Stream-8",
+    "path": "/usr/local/rvm/gems/ruby-2.6.6/bin:/usr/local/rvm/gems/ruby-2.6.6@global/bin:/usr/local/rvm/rubies/ruby-2.6.6/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/rvm/bin:/root/bin",
+    "systempath": [
+        "/usr/local/rvm/gems/ruby-2.6.6/bin",
+        "/usr/local/rvm/gems/ruby-2.6.6@global/bin",
+        "/usr/local/rvm/rubies/ruby-2.6.6/bin",
+        "/usr/local/sbin",
+        "/usr/local/bin",
+        "/usr/sbin",
+        "/usr/bin",
+        "/usr/local/rvm/bin",
+        "/root/bin"
+    ],
+    "pythonexecutable": "/usr/bin/python3.6",
+    "pythonpath": [
+        "/usr/bin",
+        "/usr/lib64/python36.zip",
+        "/usr/lib64/python3.6",
+        "/usr/lib64/python3.6/lib-dynload",
+        "/usr/local/lib64/python3.6/site-packages",
+        "/usr/local/lib/python3.6/site-packages",
+        "/usr/lib64/python3.6/site-packages",
+        "/usr/lib/python3.6/site-packages"
+    ],
+    "pythonversion": [
+        3,
+        6,
+        8,
+        "final",
+        0
+    ],
+    "saltpath": "/usr/lib/python3.6/site-packages/salt",
+    "saltversion": "3004",
+    "saltversioninfo": [
+        3004
+    ],
+    "zmqversion": "4.3.4",
+    "disks": [
+        "sr0",
+        "vda"
+    ],
+    "ssds": [],
+    "shell": "/bin/bash",
+    "transactional": false,
+    "efi": false,
+    "efi-secure-boot": false,
+    "lvm": {
+        "cs_stream": [
+            "root",
+            "swap"
+        ]
+    },
+    "mdadm": [],
+    "username": "root",
+    "groupname": "root",
+    "pid": 80057,
+    "gid": 0,
+    "uid": 0,
+    "zfs_support": false,
+    "zfs_feature_flags": false
+}

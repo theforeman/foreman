@@ -4,7 +4,7 @@ module ForemanSalt
   class SaltFactsParserTest < ActiveSupport::TestCase
     def setup
       grains = JSON.parse(File.read(File.join(Rails.root, 'test', 'static_fixtures', 'facts', 'grains_centos.json')))
-      @facts_parser = FactParser.new grains["facts"]
+      @facts_parser = ForemanSalt::FactParser.new grains["facts"]
       User.current = users :admin
     end
 
@@ -21,6 +21,28 @@ module ForemanSalt
       assert_equal '6', os.major
       assert_equal '5', os.minor
       assert_equal 'CentOS 6.5', os.title
+    end
+
+    test "should identify CentOS Stream correctly" do
+      facts = HashWithIndifferentAccess.new(read_json_fixture("facts/salt_centos_stream.json"))
+      parser = ForemanSalt::FactParser.new(facts)
+      os = parser.operatingsystem
+
+      assert os.present?
+      assert_equal 'CentOS_Stream', os.name
+      assert_equal '8', os.major
+      assert_empty os.minor
+    end
+
+    test "should identify CentOS 8 correctly" do
+      facts = HashWithIndifferentAccess.new(read_json_fixture("facts/salt_centos_8.json"))
+      parser = ForemanSalt::FactParser.new(facts)
+      os = parser.operatingsystem
+
+      assert os.present?
+      assert_equal 'CentOS', os.name
+      assert_equal '8', os.major
+      assert_equal '4.2105', os.minor
     end
 
     test "should set domain correctly" do

@@ -1,0 +1,280 @@
+{
+    "cwd": "/root",
+    "ip_gw": true,
+    "ip4_gw": "192.168.88.1",
+    "ip6_gw": false,
+    "dns": {
+        "nameservers": [
+            "192.168.88.30",
+            "192.168.88.1"
+        ],
+        "ip4_nameservers": [
+            "192.168.88.30",
+            "192.168.88.1"
+        ],
+        "ip6_nameservers": [],
+        "sortlist": [],
+        "domain": "",
+        "search": [
+            "cluster.local"
+        ],
+        "options": []
+    },
+    "fqdns": [
+        "foreman.cluster.local"
+    ],
+    "machine_id": "5d33f1d45b774d26b22a76ffcc26d275",
+    "master": "192.168.88.15",
+    "server_id": 359285562,
+    "localhost": "foreman.cluster.local",
+    "fqdn": "foreman.cluster.local",
+    "host": "foreman",
+    "domain": "cluster.local",
+    "hwaddr_interfaces": {
+        "lo": "00:00:00:00:00:00",
+        "ens3": "52:54:00:2a:fa:7a"
+    },
+    "id": "foreman.cluster.local",
+    "ip4_interfaces": {
+        "lo": [
+            "127.0.0.1"
+        ],
+        "ens3": [
+            "192.168.88.15"
+        ]
+    },
+    "ip6_interfaces": {
+        "lo": [
+            "::1"
+        ],
+        "ens3": [
+            "fe80::5054:ff:fe2a:fa7a"
+        ]
+    },
+    "ipv4": [
+        "127.0.0.1",
+        "192.168.88.15"
+    ],
+    "ipv6": [
+        "::1",
+        "fe80::5054:ff:fe2a:fa7a"
+    ],
+    "fqdn_ip4": [
+        "192.168.88.15"
+    ],
+    "fqdn_ip6": [
+        "fe80::5054:ff:fe2a:fa7a"
+    ],
+    "ip_interfaces": {
+        "lo": [
+            "127.0.0.1",
+            "::1"
+        ],
+        "ens3": [
+            "192.168.88.15",
+            "fe80::5054:ff:fe2a:fa7a"
+        ]
+    },
+    "kernelparams": [
+        [
+            "BOOT_IMAGE",
+            "(hd0,msdos1)/vmlinuz-4.18.0-305.19.1.el8_4.x86_64"
+        ],
+        [
+            "root",
+            "/dev/mapper/cl_foreman-root"
+        ],
+        [
+            "ro",
+            null
+        ],
+        [
+            "crashkernel",
+            "auto"
+        ],
+        [
+            "resume",
+            "/dev/mapper/cl_foreman-swap"
+        ],
+        [
+            "rd.lvm.lv",
+            "cl_foreman/root"
+        ],
+        [
+            "rd.lvm.lv",
+            "cl_foreman/swap"
+        ],
+        [
+            "rhgb",
+            null
+        ],
+        [
+            "quiet",
+            null
+        ]
+    ],
+    "locale_info": {
+        "defaultlanguage": "en_US",
+        "defaultencoding": "UTF-8",
+        "detectedencoding": "UTF-8",
+        "timezone": "EDT"
+    },
+    "num_gpus": 1,
+    "gpus": [
+        {
+            "vendor": "unknown",
+            "model": "QXL paravirtual graphic card"
+        }
+    ],
+    "kernel": "Linux",
+    "nodename": "foreman.cluster.local",
+    "kernelrelease": "4.18.0-305.19.1.el8_4.x86_64",
+    "kernelversion": "#1 SMP Wed Sep 15 15:39:39 UTC 2021",
+    "cpuarch": "x86_64",
+    "selinux": {
+        "enabled": true,
+        "enforced": "Enforcing"
+    },
+    "systemd": {
+        "version": "239",
+        "features": "+PAM +AUDIT +SELINUX +IMA -APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2 -IDN +PCRE2 default-hierarchy=legacy"
+    },
+    "init": "systemd",
+    "lsb_distrib_id": "CentOS Linux",
+    "lsb_distrib_codename": "CentOS Linux 8",
+    "osfullname": "CentOS Linux",
+    "osrelease": "8.4.2105",
+    "oscodename": "CentOS Linux 8",
+    "os": "CentOS",
+    "num_cpus": 6,
+    "cpu_model": "Westmere E56xx/L56xx/X56xx (IBRS update)",
+    "cpu_flags": [
+        "fpu",
+        "vme",
+        "de",
+        "pse",
+        "tsc",
+        "msr",
+        "pae",
+        "mce",
+        "cx8",
+        "apic",
+        "sep",
+        "mtrr",
+        "pge",
+        "mca",
+        "cmov",
+        "pat",
+        "pse36",
+        "clflush",
+        "mmx",
+        "fxsr",
+        "sse",
+        "sse2",
+        "ht",
+        "syscall",
+        "nx",
+        "pdpe1gb",
+        "rdtscp",
+        "lm",
+        "constant_tsc",
+        "rep_good",
+        "nopl",
+        "xtopology",
+        "cpuid",
+        "tsc_known_freq",
+        "pni",
+        "pclmulqdq",
+        "ssse3",
+        "cx16",
+        "pcid",
+        "sse4_1",
+        "sse4_2",
+        "x2apic",
+        "popcnt",
+        "tsc_deadline_timer",
+        "aes",
+        "hypervisor",
+        "lahf_lm",
+        "pti",
+        "ssbd",
+        "ibrs",
+        "ibpb",
+        "stibp",
+        "tsc_adjust",
+        "arat"
+    ],
+    "os_family": "RedHat",
+    "osarch": "x86_64",
+    "mem_total": 9783,
+    "swap_total": 4095,
+    "biosversion": "1.11.0-2.el7",
+    "productname": "KVM",
+    "manufacturer": "Red Hat",
+    "biosreleasedate": "04/01/2014",
+    "uuid": "5d33f1d4-5b77-4d26-b22a-76ffcc26d275",
+    "serialnumber": "",
+    "virtual": "kvm",
+    "ps": "ps -efHww",
+    "osrelease_info": [
+        8,
+        4,
+        2105
+    ],
+    "osmajorrelease": 8,
+    "osfinger": "CentOS Linux-8",
+    "path": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/puppetlabs/bin:/root/bin",
+    "systempath": [
+        "/usr/local/sbin",
+        "/usr/local/bin",
+        "/usr/sbin",
+        "/usr/bin",
+        "/opt/puppetlabs/bin",
+        "/root/bin"
+    ],
+    "pythonexecutable": "/usr/bin/python3.6",
+    "pythonpath": [
+        "/usr/bin",
+        "/usr/lib64/python36.zip",
+        "/usr/lib64/python3.6",
+        "/usr/lib64/python3.6/lib-dynload",
+        "/usr/lib64/python3.6/site-packages",
+        "/usr/lib/python3.6/site-packages"
+    ],
+    "pythonversion": [
+        3,
+        6,
+        8,
+        "final",
+        0
+    ],
+    "saltpath": "/usr/lib/python3.6/site-packages/salt",
+    "saltversion": "3004",
+    "saltversioninfo": [
+        3004
+    ],
+    "zmqversion": "4.3.4",
+    "disks": [
+        "sr0",
+        "sda"
+    ],
+    "ssds": [],
+    "shell": "/bin/bash",
+    "transactional": false,
+    "efi": false,
+    "efi-secure-boot": false,
+    "lvm": {
+        "cl_foreman": [
+            "root",
+            "swap"
+        ]
+    },
+    "mdadm": [],
+    "username": "root",
+    "groupname": "root",
+    "pid": 191775,
+    "gid": 0,
+    "uid": 0,
+    "zfs_support": false,
+    "zfs_feature_flags": false
+}

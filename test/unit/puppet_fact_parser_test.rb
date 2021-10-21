@@ -192,6 +192,38 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       assert_equal '9', os.minor
       assert_os_idempotent
     end
+
+    test "should correctly identify CentOS Stream" do
+      parser = PuppetFactParser.new(centos_stream_facts)
+      os = parser.operatingsystem
+      assert_equal 'CentOS_Stream', os.name
+      assert_equal '8', os.major
+      assert_empty os.minor
+    end
+
+    test "should correctly identify CentOS Stream by facter 2.5" do
+      parser = PuppetFactParser.new(centos_stream_facts_facter_2)
+      os = parser.operatingsystem
+      assert_equal 'CentOS_Stream', os.name
+      assert_equal '8', os.major
+      assert_empty os.minor
+    end
+
+    test "should correctly identify CentOS 8 by facter 2.5" do
+      parser = PuppetFactParser.new(centos_8_facts_facter_2)
+      os = parser.operatingsystem
+      assert_equal 'CentOS', os.name
+      assert_equal '8', os.major
+      assert_equal '3.2011', os.minor
+    end
+
+    test "should correctly identify CentOS 8 by facter 4.1" do
+      parser = PuppetFactParser.new(centos_8_facts_facter_4)
+      os = parser.operatingsystem
+      assert_equal 'CentOS', os.name
+      assert_equal '8', os.major
+      assert_equal '3.2011', os.minor
+    end
   end
 
   describe "#facterversion" do
@@ -443,6 +475,22 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
   def facts
     #  return the equivalent of Facter.to_hash
     @json ||= read_json_fixture('facts/facts.json')['facts']
+  end
+
+  def centos_stream_facts
+    read_json_fixture('facts/puppet_centos_stream.json')
+  end
+
+  def centos_stream_facts_facter_2
+    read_json_fixture('facts/puppet_centos_stream_facter_2.5.json')
+  end
+
+  def centos_8_facts_facter_2
+    read_json_fixture('facts/puppet_centos_8_facter_2.5.json')
+  end
+
+  def centos_8_facts_facter_4
+    read_json_fixture('facts/puppet_centos_8_facter_4.1.json')
   end
 
   def debian_facts

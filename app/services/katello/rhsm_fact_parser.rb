@@ -67,6 +67,14 @@ module Katello
           os_attributes[:name] = os_name + '_Workstation'
         end
 
+        if facts['distribution.name'] == 'CentOS Stream'
+          os_attributes[:name] = "CentOS_Stream"
+        end
+
+        if facts['distribution.name'] == 'CentOS Linux'
+          os_attributes[:name] = "CentOS"
+        end
+
         ::Operatingsystem.find_by(os_attributes) || ::Operatingsystem.create!(os_attributes)
       end
     end

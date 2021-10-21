@@ -172,6 +172,24 @@ module Katello
       assert_equal parser.operatingsystem.minor, '2'
     end
 
+    def test_operatingsystem_centos_stream
+      @facts['distribution.name'] = 'CentOS Stream'
+      @facts['distribution.version'] = '8'
+      @facts['distribution.id'] = '8'
+
+      assert_equal parser.operatingsystem.name, 'CentOS_Stream'
+      assert_equal parser.operatingsystem.major, '8'
+      assert_equal parser.operatingsystem.minor, ''
+    end
+
+    def test_operatingsystem_centos_8
+      @facts['distribution.name'] = 'CentOS Linux'
+      @facts['distribution.version'] = '8'
+
+      assert_equal parser.operatingsystem.name, 'CentOS'
+      assert_equal parser.operatingsystem.major, '8'
+    end
+
     def test_uname_architecture
       @facts['uname.machine'] = 'i686'
 
