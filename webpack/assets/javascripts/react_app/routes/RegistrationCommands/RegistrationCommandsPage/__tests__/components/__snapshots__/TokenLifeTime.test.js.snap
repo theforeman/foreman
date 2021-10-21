@@ -36,6 +36,7 @@ exports[`RegistrationCommandsPage fields - TokenLifeTime renders 1`] = `
         isValid={true}
         label="unlimited"
         onChange={[Function]}
+        ouiaSafe={true}
       />
     </InputGroupText>
   </InputGroup>
