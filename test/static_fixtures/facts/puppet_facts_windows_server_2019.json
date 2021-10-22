@@ -1,0 +1,140 @@
+{
+  "aio_agent_version": "6.24.0",
+  "dmi": {
+    "manufacturer": "Dell Inc.",
+    "product": {
+      "name": "PowerEdge R630",
+      "serial_number": "ABCDEF1234",
+      "uuid": "A84CAF65-FC46-4823-A885-2B408DFDB42B"
+    }
+  },
+  "facterversion": "3.14.19",
+  "fips_enabled": false,
+  "identity": {
+    "privileged": true,
+    "user": "AD\\adm_user"
+  },
+  "is_virtual": false,
+  "kernel": "windows",
+  "kernelmajversion": "10.0",
+  "kernelrelease": "10.0.17763",
+  "kernelversion": "10.0.17763",
+  "memory": {
+    "system": {
+      "available": "27.94 GiB",
+      "available_bytes": 29998473216,
+      "capacity": "12.44%",
+      "total": "31.91 GiB",
+      "total_bytes": 34259439616,
+      "used": "3.97 GiB",
+      "used_bytes": 4260966400
+    }
+  },
+  "networking": {
+    "domain": "ad",
+    "fqdn": "server.ad",
+    "hostname": "server",
+    "interfaces": {
+      "Ethernet": {
+        "bindings": [
+          {
+            "address": "169.254.0.2",
+            "netmask": "255.255.255.0",
+            "network": "169.254.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::854e:9550:6d1a:3fc5",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "dhcp": "169.254.0.1",
+        "ip": "169.254.0.2",
+        "ip6": "fe80::854e:9550:6d1a:3fc5",
+        "mac": "44:44:44:44:44:45",
+        "mtu": 1500,
+        "netmask": "255.255.255.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "169.254.0.0",
+        "network6": "fe80::",
+        "scope6": "link"
+      },
+      "NIC1": {
+        "bindings": [
+          {
+            "address": "172.28.5.105",
+            "netmask": "255.255.254.0",
+            "network": "172.28.4.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::d192:626d:440b:2b9a",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip": "172.28.5.105",
+        "ip6": "fe80::d192:626d:440b:2b9a",
+        "mac": "44:44:44:44:44:44",
+        "mtu": 1500,
+        "netmask": "255.255.254.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "172.28.4.0",
+        "network6": "fe80::",
+        "scope6": "link"
+      }
+    },
+    "ip": "172.28.5.105",
+    "ip6": "fe80::d192:626d:440b:2b9a",
+    "mac": "44:44:44:44:44:44",
+    "mtu": 1500,
+    "netmask": "255.255.254.0",
+    "netmask6": "ffff:ffff:ffff:ffff::",
+    "network": "172.28.4.0",
+    "network6": "fe80::",
+    "primary": "NIC1",
+    "scope6": "link"
+  },
+  "os": {
+    "architecture": "x64",
+    "family": "windows",
+    "hardware": "x86_64",
+    "name": "windows",
+    "release": {
+      "full": "2019",
+      "major": "2019"
+    },
+    "windows": {
+      "edition_id": "ServerStandard",
+      "installation_type": "Server",
+      "product_name": "Windows Server 2019 Standard",
+      "release_id": "1809",
+      "system32": "C:\\Windows\\system32"
+    }
+  },
+  "path": "C:\\Program Files\\Puppet Labs\\Puppet\\puppet\\bin;C:\\Program Files\\Puppet Labs\\Puppet\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Dell\\SysMgt\\oma\\bin;C:\\Program Files\\Dell\\SysMgt\\shared\\bin;C:\\Program Files\\Dell\\SysMgt\\idrac;C:\\Program Files\\PowerShell\\7\\;C:\\Program Files\\Dell\\DELL EMC System Update\\;C:\\Program Files\\Dell\\SysMgt\\sm\\dellvl;C:\\Program Files\\Dell\\SysMgt\\sm;C:\\Program Files\\Dell\\SysMgt\\OM_iDRACTools\\racadm;C:\\Program Files\\PuTTY\\;C:\\Program Files\\Puppet Labs\\Puppet\\bin;C:\\Program Files\\Puppet Labs\\Puppet\\puppet\\bin",
+  "processors": {
+    "count": 12,
+    "isa": "x64",
+    "models": [
+      "Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz"
+    ],
+    "physicalcount": 1
+  },
+  "ruby": {
+    "platform": "x64-mingw32",
+    "sitedir": "C:/Program Files/Puppet Labs/Puppet/puppet/lib/ruby/site_ruby/2.5.0",
+    "version": "2.5.9"
+  },
+  "system_uptime": {
+    "days": 9,
+    "hours": 225,
+    "seconds": 810557,
+    "uptime": "9 days"
+  },
+  "timezone": "W. Europe Daylight Time",
+  "virtual": "physical"
+}

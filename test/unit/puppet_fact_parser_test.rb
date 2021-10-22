@@ -117,6 +117,18 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       assert_equal "RedHat", first_os.name
     end
 
+    test "should not mix Windows with Windows Server" do
+      @importer = PuppetFactParser.new(windows_10_facts)
+      first_os = @importer.operatingsystem
+      assert first_os.present?
+      assert_equal "windows_client", first_os.name
+
+      @importer = PuppetFactParser.new(windows_server_2019_facts)
+      first_os = @importer.operatingsystem
+      assert first_os.present?
+      assert_equal "windows", first_os.name
+    end
+
     test "should not alter description field if already set" do
       # Need to instantiate @importer once with normal facts
       first_os = @importer.operatingsystem
@@ -459,6 +471,14 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def rhel_7_server_facts
     read_json_fixture('facts/facts_rhel_7_server.json').with_indifferent_access
+  end
+
+  def windows_server_2019_facts
+    read_json_fixture('facts/puppet_facts_windows_server_2019.json').with_indifferent_access
+  end
+
+  def windows_10_facts
+    read_json_fixture('facts/puppet_facts_windows_10.json').with_indifferent_access
   end
 
   def sles_facts
