@@ -195,6 +195,8 @@ class PuppetFactParser < FactParser
 
     if os_name == 'RedHat' && facts[:lsbdistid] == 'RedHatEnterpriseWorkstation'
       os_name += '_Workstation'
+    elsif os_name == 'windows' && facts.dig(:os, :windows, :installation_type) == 'Client'
+      os_name += '_client'
     end
 
     os_name
