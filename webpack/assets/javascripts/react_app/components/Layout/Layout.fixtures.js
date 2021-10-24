@@ -157,7 +157,6 @@ const serverUser = {
 
 export const layoutMock = {
   items: PFitems,
-  activeMenu: 'Monitor',
   data: {
     menu: [...hashItemsA, ...hashItemNameless],
     locations,
@@ -185,6 +184,5 @@ export const hasTaxonomiesMock = {
 export const userDropdownProps = {
   user: serverUser,
   notification_url: '/',
-  changeActiveMenu: jest.fn(),
   isOpen: true,
 };

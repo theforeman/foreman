@@ -1,6 +1,5 @@
 import { testSelectorsSnapshotWithFixtures } from '../../../common/testHelpers';
 import {
-  selectActiveMenu,
   patternflyMenuItemsSelector,
   selectIsLoading,
   selectLayout,
@@ -13,7 +12,6 @@ import { layoutMock, hashItemNameless } from '../Layout.fixtures';
 const state = {
   layout: {
     items: layoutMock.data.menu,
-    activeMenu: 'Hosts',
     currentOrganization: 'org1',
     currentLocation: 'loc1',
     isLoading: true,
@@ -30,7 +28,6 @@ const emptyState = {
 const namelessState = {
   layout: {
     items: hashItemNameless,
-    activeMenu: 'Empty',
     currentOrganization: 'org1',
     currentLocation: 'loc1',
     isLoading: true,
@@ -40,7 +37,6 @@ const namelessState = {
 
 const fixtures = {
   'should return Layout': () => selectLayout(state),
-  'should return activeMenu': () => selectActiveMenu(state),
   'should return PF-React Compatible items': () =>
     patternflyMenuItemsSelector(state),
   'should return empty array of items': () =>

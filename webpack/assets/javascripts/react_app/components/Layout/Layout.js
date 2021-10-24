@@ -1,18 +1,8 @@
 import React from 'react';
 
-import { VerticalNav } from 'patternfly-react';
-import {
-  Page,
-  PageSidebar,
-  PageSection,
-  PageSectionVariants,
-} from '@patternfly/react-core';
+import { Page, PageSidebar } from '@patternfly/react-core';
 import { translate as __ } from '../../common/I18n';
-import {
-  handleMenuClick,
-  layoutPropTypes,
-  layoutDefaultProps,
-} from './LayoutHelper';
+import { layoutPropTypes, layoutDefaultProps } from './LayoutHelper';
 import LayoutContainer from './components/LayoutContainer';
 import Header from './components/Toolbar/Header';
 import Navigation from './Navigation';

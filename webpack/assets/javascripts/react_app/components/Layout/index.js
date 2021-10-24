@@ -4,18 +4,16 @@ import { useHistory } from 'react-router-dom';
 
 import {
   initializeLayout,
-  changeActiveMenu,
   collapseLayoutMenus,
   expandLayoutMenus,
 } from './LayoutActions';
 import reducer from './LayoutReducer';
 import {
   patternflyMenuItemsSelector,
-  selectActiveMenu,
   selectIsLoading,
   selectIsCollapsed,
 } from './LayoutSelectors';
-import { combineMenuItems, getActiveMenuItem } from './LayoutHelper';
+import { combineMenuItems } from './LayoutHelper';
 import { getIsNavbarCollapsed } from './LayoutSessionStorage';
 import {
   useForemanOrganization,
@@ -33,7 +31,6 @@ const ConnectedLayout = ({ children, data }) => {
     dispatch(
       initializeLayout({
         items: combineMenuItems(data),
-        activeMenu: getActiveMenuItem(data.menu).title,
         isCollapsed: getIsNavbarCollapsed(),
         organization: data.orgs.current_org,
         location: data.locations.current_location,
@@ -43,7 +40,6 @@ const ConnectedLayout = ({ children, data }) => {
 
   const isNavCollapsed = useSelector(state => selectIsCollapsed(state));
   useEffect(() => {
-    console.log({ isNavCollapsed });
     // toggles a class in the body tag, so that the main #rails-app-content container can have the appropriate width
     if (isNavCollapsed) {
       document.body.classList.remove('pf-m-expanded');
@@ -57,7 +53,6 @@ const ConnectedLayout = ({ children, data }) => {
   );
   const isLoading = useSelector(state => selectIsLoading(state));
   const isCollapsed = useSelector(state => selectIsCollapsed(state));
-  const activeMenu = useSelector(state => selectActiveMenu(state));
 
   const [flyoutActiveItem, setFlyoutActiveItem] = useState(null);
 
@@ -68,8 +63,6 @@ const ConnectedLayout = ({ children, data }) => {
       items={items}
       isLoading={isLoading}
       isCollapsed={isCollapsed}
-      activeMenu={activeMenu}
-      changeActiveMenu={menu => dispatch(changeActiveMenu(menu))}
       collapseLayoutMenus={() => {
         setFlyoutActiveItem(null);
         dispatch(collapseLayoutMenus());

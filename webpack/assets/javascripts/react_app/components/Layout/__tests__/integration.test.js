@@ -51,9 +51,7 @@ describe('Layout integration test', () => {
     const hostsMenuItem = component.find('.secondary-nav-item-pf > a');
 
     hostsMenuItem.at(1).simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot(
-      'Changed ActiveMenu to Hosts'
-    );
+
     expect(component.find('.secondary-nav-item-pf .active > a').text()).toBe(
       'Hosts'
     );

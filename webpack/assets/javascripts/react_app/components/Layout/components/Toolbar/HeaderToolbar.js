@@ -24,7 +24,6 @@ const HeaderToolbar = ({
   stop_impersonation_url: stopImpersonationUrl,
   instance_title: instanceTitle,
   isLoading,
-  changeActiveMenu,
 }) => (
   <PageHeaderTools id="data-toolbar">
     <PageHeaderToolsGroup className="header-tool-item-hidden-lg">
@@ -48,11 +47,7 @@ const HeaderToolbar = ({
       )}
 
       <PageHeaderToolsItem className="header-tool-item-hidden-lg user-nav-item">
-        <UserDropdowns
-          notificationUrl={notificationUrl}
-          user={user}
-          changeActiveMenu={changeActiveMenu}
-        />
+        <UserDropdowns notificationUrl={notificationUrl} user={user} />
       </PageHeaderToolsItem>
     </PageHeaderToolsGroup>
   </PageHeaderTools>
@@ -60,11 +55,9 @@ const HeaderToolbar = ({
 HeaderToolbar.propTypes = {
   ...dataPropType,
   isLoading: layoutPropTypes.isLoading,
-  changeActiveMenu: layoutPropTypes.changeActiveMenu,
 };
 
 HeaderToolbar.defaultProps = {
   isLoading: layoutDefaultProps.isLoading,
-  changeActiveMenu: layoutDefaultProps.changeActiveMenu,
 };
 export default HeaderToolbar;

@@ -2,7 +2,6 @@ import {
   LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_CHANGE_ACTIVE,
   LAYOUT_COLLAPSE,
   LAYOUT_EXPAND,
 } from '../LayoutConstants';
@@ -18,7 +17,6 @@ const fixtures = {
       type: LAYOUT_INITIALIZE,
       payload: {
         items: 'some-items',
-        activeMenu: 'some-menu',
         isCollapsed: true,
         organization: 'some organization',
         location: 'some location',
@@ -33,14 +31,6 @@ const fixtures = {
   'should handle LAYOUT_HIDE_LOADING': {
     action: {
       type: LAYOUT_HIDE_LOADING,
-    },
-  },
-  'should handle LAYOUT_CHANGE_ACTIVE': {
-    action: {
-      type: LAYOUT_CHANGE_ACTIVE,
-      payload: {
-        activeMenu: 'Monitor',
-      },
     },
   },
   'should handle LAYOUT_COLLAPSE': {
