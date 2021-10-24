@@ -1,15 +1,21 @@
 import React from 'react';
 
 import { VerticalNav } from 'patternfly-react';
+import {
+  Page,
+  PageSidebar,
+  PageSection,
+  PageSectionVariants,
+} from '@patternfly/react-core';
 import { translate as __ } from '../../common/I18n';
-
 import {
   handleMenuClick,
   layoutPropTypes,
   layoutDefaultProps,
 } from './LayoutHelper';
 import LayoutContainer from './components/LayoutContainer';
-import HeaderToolbar from './components/Toolbar/HeaderToolbar';
+import Header from './components/Toolbar/Header';
+import Navigation from './Navigation';
 import './layout.scss';
 
 const Layout = ({
@@ -20,40 +26,38 @@ const Layout = ({
   navigate,
   expandLayoutMenus,
   collapseLayoutMenus,
-  changeActiveMenu,
-  activeMenu,
   children,
-}) => (
-  <React.Fragment>
-    <VerticalNav
-      hoverDelay={100}
-      items={items}
-      onItemClick={primary =>
-        handleMenuClick(primary, activeMenu, changeActiveMenu)
-      }
-      onNavigate={({ href }) => navigate(href)}
-      activePath={`/${__(activeMenu || 'active')}/`}
-      onCollapse={collapseLayoutMenus}
-      onExpand={expandLayoutMenus}
-    >
-      <VerticalNav.Masthead>
-        <header className="pf-c-page__header pf-c-page" id="navbar-header">
-          <VerticalNav.Brand
-            title={data.brand}
-            iconImg={data.logo}
-            href={data.root}
+  flyoutActiveItem,
+  setFlyoutActiveItem,
+}) => {
+  const onNavToggle = () => {
+    isCollapsed ? expandLayoutMenus() : collapseLayoutMenus();
+  };
+  return (
+    <>
+      <Page
+        header={
+          <Header data={data} onNavToggle={onNavToggle} isLoading={isLoading} />
+        }
+        sidebar={
+          <PageSidebar
+            isNavOpen={!isCollapsed}
+            nav={
+              <Navigation
+                items={items}
+                navigate={navigate}
+                flyoutActiveItem={flyoutActiveItem}
+                setFlyoutActiveItem={setFlyoutActiveItem}
+              />
+            }
           />
-          <HeaderToolbar
-            {...data}
-            isLoading={isLoading}
-            changeActiveMenu={changeActiveMenu}
-          />
-        </header>
-      </VerticalNav.Masthead>
-    </VerticalNav>
-    <LayoutContainer isCollapsed={isCollapsed}>{children}</LayoutContainer>
-  </React.Fragment>
-);
+        }
+      >
+        <LayoutContainer isCollapsed={isCollapsed}>{children}</LayoutContainer>
+      </Page>
+    </>
+  );
+};
 
 Layout.propTypes = layoutPropTypes;
 Layout.defaultProps = layoutDefaultProps;

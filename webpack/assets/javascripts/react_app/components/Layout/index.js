@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -41,6 +41,16 @@ const ConnectedLayout = ({ children, data }) => {
     );
   }, [data, dispatch]);
 
+  const isNavCollapsed = useSelector(state => selectIsCollapsed(state));
+  useEffect(() => {
+    console.log({ isNavCollapsed });
+    // toggles a class in the body tag, so that the main #rails-app-content container can have the appropriate width
+    if (isNavCollapsed) {
+      document.body.classList.remove('pf-m-expanded');
+    } else {
+      document.body.classList.add('pf-m-expanded');
+    }
+  }, [isNavCollapsed]);
   const { push: navigate } = useHistory();
   const items = useSelector(state =>
     patternflyMenuItemsSelector(state, currentLocation, currentOrganization)
@@ -48,6 +58,8 @@ const ConnectedLayout = ({ children, data }) => {
   const isLoading = useSelector(state => selectIsLoading(state));
   const isCollapsed = useSelector(state => selectIsCollapsed(state));
   const activeMenu = useSelector(state => selectActiveMenu(state));
+
+  const [flyoutActiveItem, setFlyoutActiveItem] = useState(null);
 
   return (
     <Layout
@@ -58,8 +70,13 @@ const ConnectedLayout = ({ children, data }) => {
       isCollapsed={isCollapsed}
       activeMenu={activeMenu}
       changeActiveMenu={menu => dispatch(changeActiveMenu(menu))}
-      collapseLayoutMenus={() => dispatch(collapseLayoutMenus())}
+      collapseLayoutMenus={() => {
+        setFlyoutActiveItem(null);
+        dispatch(collapseLayoutMenus());
+      }}
       expandLayoutMenus={() => dispatch(expandLayoutMenus())}
+      flyoutActiveItem={flyoutActiveItem}
+      setFlyoutActiveItem={setFlyoutActiveItem}
     >
       {children}
     </Layout>

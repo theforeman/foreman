@@ -2,102 +2,27 @@
 @import '../../common/colors.scss';
 @import '../../common/variables.scss';
 
-.secondary-nav-item-pf > .nav-pf-secondary-nav {
-  background-color: $nav-pf-vertical-active-bg-color;
-
-  .mobile-active {
-    // Mark active Location/Org in Mobile view
-    a {
-      .list-group-item-value {
-        background-color: $nav-pf-vertical-secondary-active-bg-color;
-      }
-    }
-  }
-
-  .list-group-item {
-    a {
-      background-color: $nav-pf-vertical-active-bg-color;
-
-      &:hover {
-        .list-group-item-value {
-          background-color: $nav-pf-vertical-secondary-active-bg-color;
-        }
-      }
-    }
-
-    span {
-      color: $nav-pf-vertical-active-icon-color;
-    }
-  }
-}
+// .pf-c-page {
+//   background-color: rgba(0, 0, 0, 0);
+// }
 
 #react-app-root {
-  .react-container {
+  .react-container.container-fluid {
     margin-right: auto;
-    margin-left: 200px;
-    padding-left: 20px;
-    padding-right: 20px;
+    margin-left: 250px;
   }
-
-  .nav-pf-vertical {
-    background-color: $nav-pf-vertical-secondary-active-bg-color;
-
-    .list-group {
-      .list-group-item {
-        a {
-          span {
-            color: $nav-pf-vertical-icon-color;
-          }
-
-          &:hover {
-            background-color: $nav-pf-vertical-active-bg-color;
-
-            span {
-              color: $nav-pf-vertical-active-icon-color;
-            }
-          }
-
-          &::after {
-            color: $nav-pf-vertical-icon-color;
-          }
-        }
-
-        &:hover {
-          a {
-            background-color: $nav-pf-vertical-active-bg-color;
-
-            span {
-              color: $nav-pf-vertical-active-icon-color;
-            }
-          }
-        }
-
-        &.active {
-          a {
-            background-color: $nav-pf-vertical-active-bg-color;
-
-            span {
-              color: $nav-pf-vertical-active-icon-color;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .secondary-nav-item-pf.hidden-nav-lg {
-    display: none;
-
-    @media (max-width: $header-max-width) {
-      display: block;
+}
+.collapsed-nav {
+  #react-app-root {
+    main.pf-c-page__main {
+      padding-left: 0;
     }
   }
 }
 
-/*
-  patternfly-sass hides the vertical-nav on smaller screens, see: https://github.com/patternfly/patternfly-sass/blob/5e7cce3445d5b1af1e16500695b9f33edc6a4f6c/assets/javascripts/patternfly-functions.js#L260
-  the react-container needs to be shifted when it happens.
-*/
+#rails-app-content {
+  margin-left: 250px;
+}
 @media only screen and (max-width: $pf-global--breakpoint--md) {
   #react-app-root .react-container,
   #rails-app-content {
@@ -105,42 +30,52 @@
   }
 }
 
-#account_menu {
-  outline: none;
-}
-
 #vertical-spinner {
   margin-top: 15px;
   margin-left: 5px;
 }
 
-.navbar-header {
-  width: 42px;
-}
-
-#navbar-header {
-  left: 42px;
-}
-
-#data-toolbar {
-  padding: 0;
-  background-color: transparent;
-}
-
-.pf-c-page {
-  background-color: rgba(0, 0, 0, 0);
-}
-
 .collapsed-nav {
-  #react-app-root .react-container,
-  #rails-app-content {
-    margin-left: 75px;
-  }
-
   @media only screen and (max-width: $pf-global--breakpoint--md) {
     #react-app-root .react-container,
     #rails-app-content {
       margin-left: 0;
     }
+  }
+}
+#page-sidebar {
+  position: fixed;
+  bottom: 0;
+  top: 60px;
+  .pf-c-nav__item.hidden-nav-lg {
+    display: none;
+
+    @media (max-width: $pf-global--breakpoint--lg) {
+      display: block;
+    }
+  }
+}
+
+.pf-c-nav {
+  .nav-title-icon {
+    pointer-events: none;
+    padding-right: 10px;
+  }
+
+  .nav-title {
+    pointer-events: none;
+  }
+
+  .pf-c-nav__item .pf-c-nav__link::before {
+    z-index: 1; //to show dividers
+  }
+}
+
+.pf-c-menu.pf-m-flyout {
+  .pf-c-menu__group-title {
+    font-size: var(--pf-global--FontSize--lg);
+  }
+  .pf-c-divider {
+    height: 1px;
   }
 }

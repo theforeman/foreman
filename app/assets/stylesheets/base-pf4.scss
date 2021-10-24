@@ -17,7 +17,6 @@ body {
   font-weight: var(--pf-global--FontWeight--normal);
   line-height: var(--pf-global--LineHeight--md);
   text-align: left;
-  background-color: var(--pf-global--BackgroundColor--100);
 }
 
 a {
@@ -47,30 +46,6 @@ a {
       // fix headers to be bold
       & > th a {
         font-weight: 600;
-      }
-    }
-  }
-}
-
-.nav-pf-vertical {
-  .secondary-nav-item-pf {
-    span.list-group-item-value {
-      font-size: 15px;
-      line-height: inherit;
-    }
-
-    .nav-pf-secondary-nav {
-      .nav-item-pf-header {
-        font-size: 18px;
-      }
-
-      .vertical-sub-header-pf {
-        font-size: 15px;
-        font-weight: 900;
-      }
-
-      span.list-group-item-value {
-        font-size: 13px;
       }
     }
   }

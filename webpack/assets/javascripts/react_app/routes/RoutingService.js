@@ -34,6 +34,7 @@ export const renderRoute = (renderFn, props) => {
     location,
     location: { pathname, search },
   } = props;
+  console.log('here');
   removeRailsContent();
   location && updatePath(`${pathname}${search}`);
   return renderFn(props);
@@ -53,6 +54,7 @@ const updatePath = newPath => {
 };
 
 const removeRailsContent = () => {
+  console.log(document.getElementById('rails-app-content'));
   const railsContainer = document.getElementById('rails-app-content');
   if (railsContainer) railsContainer.remove();
 };

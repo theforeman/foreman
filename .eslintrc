@@ -161,7 +161,8 @@
           "xpi",
           "xyz",
           "yaml",
-          "cpu"
+          "cpu",
+          "subnav"
         ],
         "minLength": 3
       }

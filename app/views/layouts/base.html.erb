@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" data-timezone="<%= iana_timezone %>" class="<%= User.current ? "layout-pf layout-pf-fixed" : "no-js"%>">
+<html lang="<%= I18n.locale %>" data-timezone="<%= iana_timezone %>" class="<%= User.current ? "" : "no-js"%>">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -47,7 +47,7 @@
     <%= yield(:head) %>
   </head>
 
-  <body class="pf-m-redhat-font">
+  <body class='<%= body_css_classes %>'>
     <!--[if lte IE 9]>
       <%= _('You are using an unsupported browser.') %>
     <![endif]-->
@@ -57,7 +57,7 @@
       <% end %>
       <div
         id="rails-app-content"
-        class="container-fluid container-pf-nav-pf-vertical nav-pf-persistent-secondary"
+        class="container-pf-nav-pf-vertical container-fluid nav-pf-persistent-secondary"
       >
 
       <%= yield(:content) %>

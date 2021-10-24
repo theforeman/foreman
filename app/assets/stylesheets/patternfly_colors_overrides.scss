@@ -1,0 +1,43 @@
+@import './colors.scss';
+
+.foreman-theme {
+  .pf-c-page{
+    --pf-c-page--BackgroundColor: var(--pf-global--BackgroundColor--100);
+  }
+  .pf-c-page__sidebar {
+    --pf-c-page__sidebar--Width: 250px;
+    --pf-c-page__sidebar--BackgroundColor: #{$nav-pf-vertical-bg-color};
+  }
+
+  .pf-c-page__header {
+    --pf-c-page__header--BackgroundColor: #{$topbar-default-color};
+  }
+
+  .pf-c-nav__link {
+    --pf-c-nav__link--BackgroundColor: #{$nav-pf-vertical-bg-color};
+    --pf-c-nav__link--m-current--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-c-nav__link--hover--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-c-nav__link--active--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-c-nav__link--m-current--before--BorderBottomColor: #{$nav-pf-vertical-secondary-active-bg-color};
+    --pf-c-nav__link--m-current--after--BorderLeftColor: #{$nav-pf-vertical-secondary-active-bg-color};
+    --pf-c-nav__link--after--BorderColor: #030303;
+    --pf-c-nav__link--before--BorderColor: #030303;
+    --pf-c-nav__link--Color: #{$nav-pf-vertical-icon-color};
+  }
+
+  // .pf-c-nav__item.pf-m-expandable::before {
+  //   --pf-c-nav__item--before--BorderColor: #{$nav-pf-vertical-active-bg-color};
+  // }
+
+  .pf-c-nav__subnav {
+    --pf-c-nav--c-divider--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+  }
+  .pf-c-menu.pf-m-flyout {
+    --pf-c-menu--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-c-menu__group-title--Color: #{$nav-pf-vertical-icon-color};
+    --pf-c-menu__item--Color: #{$nav-pf-vertical-icon-color};
+    .pf-c-divider::after {
+      --pf-c-divider--after--BackgroundColor: #030303;
+    }
+  }
+}

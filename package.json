@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@theforeman/vendor": "^8.16.0",
+    "eslint-plugin-spellcheck": "0.0.17",
     "intl": "~1.2.5",
     "jed": "^1.1.1"
   },
@@ -32,7 +33,6 @@
     "@theforeman/stories": "^8.16.0",
     "@theforeman/test": "^8.16.0",
     "@theforeman/vendor-dev": "^8.16.0",
-    "@types/jest": "<27.0.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
