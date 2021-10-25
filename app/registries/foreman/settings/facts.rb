@@ -3,12 +3,19 @@ Foreman::SettingManager.define(:foreman) do
     # facts which change way too often
     IGNORED_FACTS = [
       'load_averages::*',
-      'memory::system::capacity',
-      'memory::system::used*',
-      'memory::system::available*',
+      'memory::swap::available*',
       'memory::swap::capacity',
       'memory::swap::used*',
-      'memory::swap::available*',
+      'memory::system::available*',
+      'memory::system::capacity',
+      'memory::system::used*',
+      'memoryfree',
+      'memoryfree_mb',
+      'swapfree',
+      'swapfree_mb',
+      # uptime_seconds is not here since the boot time fact is derived from it
+      'uptime_hours',
+      'uptime_days',
     ].freeze
 
     IGNORED_INTERFACES = [
