@@ -7,6 +7,7 @@ module Katello
         'net.interface.bond0.mac_address' => '52:54:00:6D:40:72',
         'net.interface.eth0.mac_address' => '00:00:00:00:00:12',
         'net.interface.eth0.ipv4_address' => '192.168.0.1',
+        'net.interface.eth0.ipv6_address.link' => '2001:db8::5230:dd:7741:8a',
         'net.interface.eth0.1.mac_address' => '00:00:00:00:00:12',
         'net.interface.eth0.1.ipv4_address' => '192.168.0.2',
         'net.interface.eth1.permanent_mac_address' => '52:54:00:6D:40:72',
@@ -36,6 +37,7 @@ module Katello
         'link' => true,
         'macaddress' => @facts['net.interface.eth0.mac_address'],
         'ipaddress' => @facts['net.interface.eth0.ipv4_address'],
+        'ipaddress6' => @facts['net.interface.eth0.ipv6_address.link'],
       }
       assert_equal expected_eth0, parser.get_facts_for_interface('eth0')
     end
@@ -45,6 +47,7 @@ module Katello
         'link' => true,
         'macaddress' => @facts['net.interface.eth2.permanent_mac_address'],
         'ipaddress' => nil,
+        'ipaddress6' => nil,
       }
       assert_equal expected_eth2, parser.get_facts_for_interface('eth2')
     end

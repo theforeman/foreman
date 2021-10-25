@@ -28,6 +28,7 @@ module Katello
         'link' => true,
         'macaddress' => get_rhsm_mac(interface),
         'ipaddress' => get_rhsm_ip(interface),
+        'ipaddress6' => get_rhsm_ipv6(interface),
       }
     end
 
@@ -112,6 +113,11 @@ module Katello
     def get_rhsm_ip(interface)
       ip = facts["net.interface.#{interface}.ipv4_address"]
       Net::Validations.validate_ip(ip) ? ip : nil
+    end
+
+    def get_rhsm_ipv6(interface)
+      ip = facts["net.interface.#{interface}.ipv6_address.link"] || facts["net.interface.#{interface}.ipv6_address.host"]
+      Net::Validations.validate_ip6(ip) ? ip : nil
     end
 
     def get_rhsm_mac(interface)
