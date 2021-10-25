@@ -3281,10 +3281,10 @@ msgid "Failed|F"
 msgstr ""
 
 msgid "Failure deploying via smart proxy %{proxy}: %{error}."
-msgstr "No s'ha pogut desplegar a través del servidor intermediari intel·ligent %{host}: %{error}."
+msgstr "No s'ha pogut desplegar a través del servidor intermediari intel·ligent %{proxy}: %{error}."
 
 msgid "Failure parsing %{template}: %{error}."
-msgstr "No s'ha pogut analitzar sintàcticament %{host}: %{error}."
+msgstr "No s'ha pogut analitzar sintàcticament %{template}: %{error}."
 
 msgid "Failure: %s"
 msgstr "Característica: %s"

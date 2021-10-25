@@ -10070,7 +10070,7 @@ msgid "Unable to read SSL certification or key for proxy communication, check se
 msgstr "Não foi possível ler a certificação SSL ou a chave para comunicação com proxy, verifique as configurações para ssl_certificate, ssl_ca_file e ssl_priv_key e certifique-se de que elas podem ser lidas pelo usuário do foreman."
 
 msgid "Unable to render %{kind} template '%{name}': %{e}"
-msgstr "Falha ao gerar %{template_kind} template %{template_name}: %{e}"
+msgstr "Falha ao gerar %{kind} template %{name}: %{e}"
 
 msgid "Unable to render '%{name}' template: %{e}"
 msgstr "Não foi possível renderizar o modelo '%{name}': %{e}"

@@ -9305,7 +9305,7 @@ msgstr "Texto que se mostrará en el pie de la página de inicio de sesión"
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] "No se pudo establecer el proxy %{proxy_type} para el host: %{host_names}."
-msgstr[1] "No se pudo establecer el proxy %{proxy_type} puppet ca para los hosts: %{nombres_de_anfitriones}"
+msgstr[1] "No se pudo establecer el proxy %{proxy_type} puppet ca para los hosts: %{host_names}"
 
 msgid "The %{proxy_type} proxy of the selected hosts was cleared"
 msgstr "Se borró el proxy %{proxy_type} de los hosts seleccionados"

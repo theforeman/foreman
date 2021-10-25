@@ -177,28 +177,28 @@ msgstr "%<b> Page principale de la documentation de l'API"
 
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
-msgstr[0] "La reconstruction {config_type} a échoué pour l'hôte : %{device}:."
-msgstr[1] "La reconstruction {config_type} a échoué pour les hôtes : %{device}:."
+msgstr[0] "La reconstruction {config_type} a échoué pour l'hôte : %{host_names}:."
+msgstr[1] "La reconstruction {config_type} a échoué pour les hôtes : %{host_names}:."
 
 msgid "%{controller}: %{host}'s operating system %{os} has no OS family"
-msgstr "%{value}: Le système d'exploitation %{os} de %{host} n'a pas de famille d'OS"
+msgstr "%{controller}: Le système d'exploitation %{os} de %{host} n'a pas de famille d'OS"
 
 msgid "%{controller}: %{host}'s operating system is missing"
-msgstr "%{value} Le système d'exploitation de %{host} est manquant"
+msgstr "%{controller} Le système d'exploitation de %{host} est manquant"
 
 msgid "%{controller}: provisioning token for host %{host} expired"
-msgstr "%{value}: jeton de provisioning pour l'hôte %{host} expiré"
+msgstr "%{controller}: jeton de provisioning pour l'hôte %{host} expiré"
 
 msgid "%{controller}: unable to find a host that matches the request from %{addr}"
-msgstr "%{value}: impossible de trouver l'hôte correspondant à la requête venant de %{host}"
+msgstr "%{controller}: impossible de trouver l'hôte correspondant à la requête venant de %{addr}"
 
 msgid "%{cores} Cores and %{memory} memory"
 msgstr "%{cores} Coeurs et %{memory} mémoire"
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
-msgstr[0] "%{name} d'hôte sans %{host} assigné"
-msgstr[1] "%{name} hôtes sans aucun %{taxonomy_single} assigné"
+msgstr[0] "%{count} d'hôte sans %{taxonomy_single} assigné"
+msgstr[1] "%{count} hôtes sans aucun %{taxonomy_single} assigné"
 
 msgid "%{cpus} CPUs and %{memory} MB memory"
 msgstr "%{cpus} CPUs et %{memory} Mo mémoire"
@@ -207,7 +207,7 @@ msgid "%{cpus} CPUs and %{memory} memory"
 msgstr "%{cpus} CPUs et %{memory} mémoire"
 
 msgid "%{e} does not belong to the %{environment} environment"
-msgstr "%%s n'appartient pas à l'environnement %{name}"
+msgstr "%%s n'appartient pas à l'environnement %{environment}"
 
 msgid "%{host} is about to %{action}"
 msgstr "%{host} est sur le point de %{action}"
@@ -216,19 +216,19 @@ msgid "%{host} now boots from %{device}"
 msgstr "%{host} démarre maintenant à partir de %{device}"
 
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
-msgstr "Le plugin %%s nécessite Foreman %{message} mais le courant est %{current}"
+msgstr "Le plugin %%s nécessite Foreman %{matcher} mais le courant est %{current}"
 
 msgid "%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{plugin_version}"
 msgstr "Le %%s plugin nécessite le %{plugin_name} plugin %{matcher} mais le courant est %{plugin_version}"
 
 msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
-msgstr "Le plugin %%s requiert le plugin %{message}, non trouvé"
+msgstr "Le plugin %%s requiert le plugin %{plugin_name}, non trouvé"
 
 msgid "%{image} needs user data, but %{os_link} is not associated to any provisioning template of the kind user_data. Please associate it with a suitable template or uncheck 'User data' for %{compute_resource_image_link}."
-msgstr "%%s a besoin de données utilisateur, cependant %{name} n'est associé à aucun modèle de provisioning du type user_data. Merci de faire une association de ce type ou décocher 'Données utilisateur' pour %{message}."
+msgstr "%%s a besoin de données utilisateur, cependant %{os_link} n'est associé à aucun modèle de provisioning du type user_data. Merci de faire une association de ce type ou décocher 'Données utilisateur' pour %{compute_resource_image_link}."
 
 msgid "%{input_type_attr_name}, used when input type is %{input_type}"
-msgstr "%{value} utilisé quand le type d'entrée est %{host}"
+msgstr "%{input_type_attr_name} utilisé quand le type d'entrée est %{input_type}"
 
 msgid "%{key} does not exist in order field"
 msgstr "%%s n'existe pas dans le champ d'ordonnancement"
@@ -251,13 +251,13 @@ msgstr[0] "%{name} a %{num_tag} classe"
 msgstr[1] "%{name} a %{num_tag} classes"
 
 msgid "%{object_name} is a %{object_class}, expected a subnet"
-msgstr "%{object_name} est un %{host}, on s’attendait à un sous-réseau"
+msgstr "%{object_name} est un %{object_class}, on s’attendait à un sous-réseau"
 
 msgid "%{os} medium was not set for host '%{host}'"
 msgstr "Medium %%s non défini pour l'hôte '%{host}'"
 
 msgid "%{record} is being used by a hidden %{what} resource"
-msgstr "%<b> est utilisé par la ressource %{version} cachée"
+msgstr "%<b> est utilisé par la ressource %{what} cachée"
 
 msgid "%{record} is used by %{what}"
 msgstr "%s utilisé"
@@ -278,7 +278,7 @@ msgid "%{subject} has no owner set"
 msgstr "Aucun propriétaire n'est défini pour %<b>"
 
 msgid "%{task} task failed with the following error: %{e}"
-msgstr "La tâche %{name}  a échoué avec l'erreur suivante : %{name}"
+msgstr "La tâche %{task}  a échoué avec l'erreur suivante : %{e}"
 
 msgid "%{taxonomy_type} %{taxonomy_name} has %{count} host that will need to be reassociated after deletion. Delete %{taxonomy_name2}?"
 msgid_plural "%{taxonomy_type} %{taxonomy_name} has %{count} hosts that will need to be reassociated after deletion. Delete %{taxonomy_name2}?"
@@ -286,7 +286,7 @@ msgstr[0] "%{taxonomy_type}%{taxonomy_name} a hôte{count} hôtes qui devront ê
 msgstr[1] "{taxonomy_type}{taxonomy_name} a %{count} hôtes qui devront être réassociés après la suppression. Supprimer {taxonomy_name2} ?"
 
 msgid "%{taxonomy} stored in session with id %{id} not found"
-msgstr "%{current} stocké dans la session avec l'ID %{sti_name} introuvable"
+msgstr "%{taxonomy} stocké dans la session avec l'ID %{id} introuvable"
 
 msgid "%{taxonomy} with id %{id} not found"
 msgstr "%{taxonomy} with id %{id} not found"
@@ -298,7 +298,7 @@ msgid "%{user} Downloaded %{key} as pem file"
 msgstr "%{user} Téléchargé %{key} en tant que fichier pem"
 
 msgid "%{value} does not belong to %{os} operating system"
-msgstr "%%s ne fait pas partie du système d'exploitation %{name}"
+msgstr "%%s ne fait pas partie du système d'exploitation %{os}"
 
 msgid "%{value} is not a valid controller"
 msgstr "%%s n'est pas un contrôleur valide"
@@ -893,7 +893,7 @@ msgid "Assign to %s"
 msgstr "Attribuer à %s"
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
-msgstr "L'attribution des hôtes à %{name}mettra également à jour %{host} pour inclure toutes les ressources que les hôtes sélectionnés sont en train d'utiliser."
+msgstr "L'attribution des hôtes à %{taxonomy_name} mettra également à jour %{taxonomy_name} pour inclure toutes les ressources que les hôtes sélectionnés sont en train d'utiliser."
 
 msgid "Associate Ephemeral External IP"
 msgstr "Associer l’IP externe éphémère"
@@ -2932,7 +2932,7 @@ msgid "Error connecting to %{proxy}: %{error}."
 msgstr "Erreur de connexion à %{proxy}: %{error}."
 
 msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_timeout settings"
-msgstr "Erreur de connexion au domaine '%%s’ sur les serveurs DNS %{name} - vérifier les paramètres query_local_nameservers et dns_conflict_timeout."
+msgstr "Erreur de connexion au domaine '%%s’ sur les serveurs DNS %{servers} - vérifier les paramètres query_local_nameservers et dns_conflict_timeout."
 
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
 msgstr "Erreur de connexion au(x) serveur(s) DNS - vérifier /etc/resolv.conf"
@@ -2947,7 +2947,7 @@ msgid "Error generating IP: %s"
 msgstr "Erreur de génération de l'adresse IP : %s"
 
 msgid "Error has occurred while communicating with %{cr}: %{e}"
-msgstr "Une erreur est survenue lors de la communication avec %%s : %{host}"
+msgstr "Une erreur est survenue lors de la communication avec %%s : %{e}"
 
 msgid "Error loading interfaces information: %s"
 msgstr "Erreur de chargement des informations des interfaces : %s"
@@ -3085,10 +3085,10 @@ msgid "External user group"
 msgstr "Groupe d'utilisateur externe"
 
 msgid "External user group %{name} could not be refreshed."
-msgstr "Impossible d'actualiser le groupe d'utilisateurs externes %{single}."
+msgstr "Impossible d'actualiser le groupe d'utilisateurs externes %{name}."
 
 msgid "External user group %{name} refreshed"
-msgstr "Groupe d'utilisateur externe %{single} rafraichi"
+msgstr "Groupe d'utilisateur externe %{name} rafraichi"
 
 msgid "External user group information"
 msgstr "Information du groupe d'utilisateurs externe"
@@ -3190,13 +3190,13 @@ msgid "Failed to acquire IP addresses from compute resource for %s"
 msgstr "N'a pas pu obtenir les adresses IP de la ressource de calcul pour %s"
 
 msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
-msgstr "Échec de l'annulation de la construction en cours pour %{host} avec les erreurs suivantes : %{errors}"
+msgstr "Échec de l'annulation de la construction en cours pour %{hostname} avec les erreurs suivantes : %{errors}"
 
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr "Échec de la configuration de %{host} pour démarrer à partir de %{device}: : %{e}"
 
 msgid "Failed to create %{name}'s realm entry: %{e}"
-msgstr "Impossible de créer l'entrée du domaine %%s : %{host}"
+msgstr "Impossible de créer l'entrée du domaine %%s : %{e}"
 
 msgid "Failed to create X509 certificate, error: %s"
 msgstr "Impossible de créer le certificat X509. Erreur : %s"
@@ -3218,7 +3218,7 @@ msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr "Échec de l'activation de %{host} pour l'installation : %{errors}"
 
 msgid "Failed to fetch a free IP from proxy %{proxy}: %{message}"
-msgstr "N'a pas pu récupérer un IP disponible du proxy %%s : %{host}"
+msgstr "N'a pas pu récupérer un IP disponible du proxy %%s : %{message}"
 
 msgid "Failed to fetch boot files"
 msgstr "Échec de récupération des fichiers boot"
@@ -3319,17 +3319,17 @@ msgid "Failed to update the environments and Puppet classes from the on-disk pup
 msgstr "Échec de la mise à jour des environnements et classes Puppet depuis l'application Puppet présente sur le disque : %s"
 
 msgid "Failed to validate %{host}: %{error}"
-msgstr "Impossible de valider %{value} : %{host}"
+msgstr "Impossible de valider %{host} : %{error}"
 
 #. TRANSLATORS: initial character of Failed
 msgid "Failed|F"
 msgstr "Echec|E"
 
 msgid "Failure deploying via smart proxy %{proxy}: %{error}."
-msgstr "Impossible de déployer via le Smart Proxy %{value} : %{host}"
+msgstr "Impossible de déployer via le Smart Proxy %{proxy} : %{error}"
 
 msgid "Failure parsing %{template}: %{error}."
-msgstr "Échec de l'analyse syntaxique %{value} : %{host}."
+msgstr "Échec de l'analyse syntaxique %{template} : %{error}."
 
 msgid "Failure: %s"
 msgstr "Erreur : %s"
@@ -4888,22 +4888,22 @@ msgid "Interval or subscription option is missing"
 msgstr "L'intervalle ou l'option de souscription est manquant"
 
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
-msgstr "Sélection %%s non valide. Vous devez sélectionner au moins une des vôtres et disposer de l'autorisation '%{name}'."
+msgstr "Sélection %%s non valide. Vous devez sélectionner au moins une des vôtres et disposer de l'autorisation '%{perm}'."
 
 msgid "Invalid Google JSON key. Please verify client email & private key options are present"
 msgstr "Clé JSON de Google invalide. Veuillez vérifier que les options email et de clé privée du client soient présentes"
 
 msgid "Invalid architecture '%{arch}' for '%{os}'"
-msgstr "Architecture invalide '%%s' pour '%{host}'"
+msgstr "Architecture invalide '%%s' pour '%{os}'"
 
 msgid "Invalid log level: %s"
 msgstr "Niveau de log invalide : %s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
-msgstr "Medium invalide '%%s ' pour '%{host}'"
+msgstr "Medium invalide '%%s ' pour '%{os}'"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
-msgstr "Requête état invalide: %%s , les actions prises en charge sont %{host}"
+msgstr "Requête état invalide: %%s , les actions prises en charge sont %{supported}"
 
 msgid "Invalid proxy selected!"
 msgstr "Un proxy non valide a été sélectionné."
@@ -5925,7 +5925,7 @@ msgid "Metadata"
 msgstr "Métadonnée"
 
 msgid "Method %{method} not found for resource %{resource}."
-msgstr "La méthode %<b> est introuvable pour la ressource %{host}."
+msgstr "La méthode %<b> est introuvable pour la ressource %{resource}."
 
 msgid "Method used to deliver email"
 msgstr "Méthode utilisée pour la remise d'email"
@@ -6226,7 +6226,7 @@ msgid "No %s with BMC feature found, install one, enable BMC module and register
 msgstr "Aucun %s avec la fonction BMC trouvé, en installer un, activer le module BMC et l'enregistrer."
 
 msgid "No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader"
-msgstr "Aucun modèle %%s n'a été trouvé pour cet hôte, veiller à définir un des paramètres de configuration de votre %{name} ou bien modifier le chargeur PXE"
+msgstr "Aucun modèle %%s n'a été trouvé pour cet hôte, veiller à définir un des paramètres de configuration de votre %{os} ou bien modifier le chargeur PXE"
 
 msgid "No (override)"
 msgstr "Non (remplacement)"
@@ -6673,7 +6673,7 @@ msgid ""
 msgstr ""
 "Une fois que vous définissez un modèle d'entrée dans l'onglet Entrées et que vous enregistrez le modèle, il peut être utilisé dans ERB.\n"
 "                Pour charger la valeur spécifiée via cette saisie, utilisez la macro globale %{example1} et transmettez le nom de l'entrée\n"
-"                comme argument. Par exemple, %{host} chargera la valeur via une entrée appelée cpus."
+"                comme argument. Par exemple, %{example2} chargera la valeur via une entrée appelée cpus."
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
 msgstr "Un ou plusieurs des filtres associés sont incorrects. C'est pourquoi vous ne pouvez pas enregistrer le rôle"
@@ -6749,7 +6749,7 @@ msgid "Operating system default"
 msgstr "Système d'Exploitation par défaut"
 
 msgid "Operating system family, available values: %{operatingsystem_families}"
-msgstr "Famille du système d'exploitation, valeurs disponibles : %{default_nic_type}"
+msgstr "Famille du système d'exploitation, valeurs disponibles : %{operatingsystem_families}"
 
 msgid "Operating system version already exists"
 msgstr "Ce Système d'Exploitation existe déjà"
@@ -7852,7 +7852,7 @@ msgid "Resource"
 msgstr "Ressource"
 
 msgid "Resource %{resource_name} not found by id '%{id}'"
-msgstr "Ressource %%s avec l'id '%{host}' non trouvée"
+msgstr "Ressource %%s avec l'id '%{id}' non trouvée"
 
 msgid "Resource %{res} not found."
 msgstr "La ressource %<b> est introuvable."
@@ -9020,16 +9020,16 @@ msgid "Suggest new"
 msgstr "Nouvelle suggestion"
 
 msgid "Summary from %{time} ago to now"
-msgstr "Résumé de %{hosts} à maintenant"
+msgstr "Résumé de %{time} à maintenant"
 
 msgid "Summary report from Foreman server at %{foreman_url}"
-msgstr "Rapport récapitulatif de Foreman à %{hosts} "
+msgstr "Rapport récapitulatif de Foreman à %{foreman_url} "
 
 msgid "Support"
 msgstr "Assistance"
 
 msgid "Support for %{feature} has been deprecated and will be removed in version %{version}"
-msgstr "Le paramètre %<b> est obsolète et sera supprimé dans la version %{host}"
+msgstr "Le paramètre %<b> est obsolète et sera supprimé dans la version %{version}"
 
 msgid "Supported Formats"
 msgstr "Formats pris en charge"
@@ -9041,7 +9041,7 @@ msgid "Syntax"
 msgstr "Syntaxe"
 
 msgid "Syntax error occurred while parsing the template %{name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"
-msgstr "Une erreur de syntaxe est survenue lors de l'analyse du modèle %<b>. Veillez à ce que toutes les balises ERB soient correctement fermées et vérifiez que la syntaxe Ruby est valide. Erreur Ruby : %{version}"
+msgstr "Une erreur de syntaxe est survenue lors de l'analyse du modèle %<b>. Veillez à ce que toutes les balises ERB soient correctement fermées et vérifiez que la syntaxe Ruby est valide. Erreur Ruby : %{message}"
 
 msgid "System Information"
 msgstr "Informations sur le système"
@@ -9314,17 +9314,17 @@ msgstr "Texte qui doit s'afficher sans le pied de page de la page de connexion"
 
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
-msgstr[0] "Le proxy %{proxy_type} n'a pas pu être défini pour l'hôte : %{host}."
-msgstr[1] "Le proxy %{proxy_type} puppet ca n'a pas pu être défini pour les hôtes : %{host}."
+msgstr[0] "Le proxy %{proxy_type} n'a pas pu être défini pour l'hôte : %{host_names}."
+msgstr[1] "Le proxy %{proxy_type} puppet ca n'a pas pu être défini pour les hôtes : %{host_names}."
 
 msgid "The %{proxy_type} proxy of the selected hosts was cleared"
-msgstr "Le proxy %{config_type} pour les hôtes sélectionnés a été effacé"
+msgstr "Le proxy %{proxy_type} pour les hôtes sélectionnés a été effacé"
 
 msgid "The %{proxy_type} proxy of the selected hosts was cleared."
 msgstr "Le proxy %{proxy_type}pour les hôtes sélectionnés a été effacé"
 
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}"
-msgstr "Le proxy %{proxy_type} pour les hôtes sélectionnés a été défini à %{host}"
+msgstr "Le proxy %{proxy_type} pour les hôtes sélectionnés a été défini à %{proxy_name}"
 
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
 msgstr "Le proxy %{proxy_type} pour les hôtes sélectionnés a été défini à {host}."
@@ -9426,7 +9426,7 @@ msgid "The following hosts failed the build operation: %s"
 msgstr "Les hôtes suivants ont échoué à la phase d'installation : %s"
 
 msgid "The following hosts were not %{action}: %{missed_hosts}"
-msgstr "Les hôtes suivants n'étaient pas %{config_type} : %{missed_hosts}"
+msgstr "Les hôtes suivants n'étaient pas %{action} : %{missed_hosts}"
 
 msgid "The following hosts were not deleted: %s"
 msgstr "Les hôtes suivants n'ont pas été supprimés : %s"
@@ -9531,7 +9531,7 @@ msgid "The services to be configured are determined by the subnet and domain tha
 msgstr "Les services à configurer sont déterminés par le sous-réseau et le domaine sélectionnés pour cette interface. Si vous souhaitez gérer <br/> uniquement un sous-ensemble de ces services, modifiez la configuration des proxies %{subnet} et %{domain}. Lorsqu'un proxy est défini sur 'Aucun', la configuration de service"
 
 msgid "The snippet '%{name}' threw an error: %{exc}"
-msgstr "Le snippet '%<b>' a renvoyé une erreur : %{host}"
+msgstr "Le snippet '%<b>' a renvoyé une erreur : %{exc}"
 
 msgid "The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu"
 msgstr "Le modèle est associé avec au moins un hôte en mode construction. Pour appliquer ce changement, désactiver puis réactiver le mode construction sur les hôtes pour mettre à jour les modèles dynamiques ou choisir de %s leur configuration depuis le menu 'Choisir une action'"
@@ -9578,13 +9578,13 @@ msgid "There was an error creating the PXE file: %s"
 msgstr "Une erreur s'est produite lors de la création du fichier PXE : %s"
 
 msgid "There was an error listing %{listing}: %{errors}"
-msgstr "Une erreur de listage s'est produite %%s : %{host}"
+msgstr "Une erreur de listage s'est produite %%s : %{errors}"
 
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "Il y a eu une erreur dans la liste des VMs : %(status)s %(statusText)s"
 
 msgid "There was an error rendering the %{name} template: %{error}"
-msgstr "Il y a eu une erreur de rendu du modèle %{proxy_type} : %{host}"
+msgstr "Il y a eu une erreur de rendu du modèle %{name} : %{error}"
 
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr "Aucune interface pont active trouvée avec libvirt, si le listing n'est pas supporté, vous pouvez définir le nom du pont manuellement (par ex. br0)"
@@ -9924,7 +9924,7 @@ msgid "Unable to access key"
 msgstr "Impossible d'accéder à la clé"
 
 msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
-msgstr "Impossible d'ajouter IP %<b> au sous-réseau %{host} dans l'IPAM externe."
+msgstr "Impossible d'ajouter IP %<b> au sous-réseau %{subnet} dans l'IPAM externe."
 
 msgid "Unable to authenticate user %s"
 msgstr "Impossible d'authentifier l'utilisateur %s"
@@ -9966,7 +9966,7 @@ msgid "Unable to delete DNS entry"
 msgstr "Impossible de supprimer l'entrée DNS"
 
 msgid "Unable to delete IP %{ip} from the subnet %{subnet} in External IPAM."
-msgstr "Impossible de supprimer IP %<b> du sous-réseau %{host} dans l'IPAM externe."
+msgstr "Impossible de supprimer IP %<b> du sous-réseau %{subnet} dans l'IPAM externe."
 
 msgid "Unable to delete PuppetCA autosign for %s"
 msgstr "Impossible de supprimer la signature automatique PuppetCA pour %s"
@@ -9999,7 +9999,7 @@ msgid "Unable to fetch logs"
 msgstr "Impossible de récupérer les journaux"
 
 msgid "Unable to find 'Host initial configuration' template for host %{host} running %{os}, associate the 'Host initial configuration' template for this OS first"
-msgstr "Impossible de trouver le modèle de \"configuration initiale de l'hôte\" pour l'hôte %{default_nic_type} en cours d'exécution %{os}, associez d'abord le modèle de \"configuration initiale de l'hôte\" pour ce système d'exploitation"
+msgstr "Impossible de trouver le modèle de \"configuration initiale de l'hôte\" pour l'hôte %{host} en cours d'exécution %{os}, associez d'abord le modèle de \"configuration initiale de l'hôte\" pour ce système d'exploitation"
 
 msgid "Unable to find IP address for '%s'"
 msgstr "Impossible de trouver l'adresse IP pour '%s'"
@@ -10077,7 +10077,7 @@ msgid "Unable to read SSL certification or key for proxy communication, check se
 msgstr "Impossible de lire la certification SSL ou la clé pour la communication proxy, vérifiez les paramètres de ssl_certificate, ssl_ca_file et ssl_priv_key et assurez-vous qu'ils sont lisibles par l'utilisateur foreman."
 
 msgid "Unable to render %{kind} template '%{name}': %{e}"
-msgstr "Impossible de produire modèle '%%s' : ’%{name}’: %{message}"
+msgstr "Impossible de produire modèle '%%s' : ’%{name}’: %{e}"
 
 msgid "Unable to render '%{name}' template: %{e}"
 msgstr "Impossible de produire modèle '%%s' : %{name}"
@@ -10170,7 +10170,7 @@ msgid "Unknown device: available devices are %s"
 msgstr "Périphérique inconnu : les périphériques disponibles sont %s"
 
 msgid "Unknown host status \"%{status}\" was specified in host_status macro, use one of %{statuses}"
-msgstr "Le statut d'hôte inconnu \"%<b>\" a été spécifié dans la macro host_status, utilisez l'un des %{host}"
+msgstr "Le statut d'hôte inconnu \"%<b>\" a été spécifié dans la macro host_status, utilisez l'un des %{statuses}"
 
 msgid "Unknown interface type, must be one of [%s]"
 msgstr "Type d'interface inconnu, le type doit être un élément de la liste suivante : [%s]"
@@ -10929,7 +10929,7 @@ msgstr ""
 "                 si l'entrée n'est pas prête pour le rendu. Si le modèle est rendu pour de vrai et l'entrée n'est \n"
 "                pas prête, une erreur est générée. Les critères de disponibilité diffèrent selon le type d’entrée, par exemple pour les entrées de fait \n"
 "                liées au fait de l'hôte avec le nom \"cpu_count\" est prêt lorsque les faits %{example1} contiennent une valeur \n"
-"                pour un tel fait. Pour charger cette valeur dans le modèle, le code suivant peut être utilisé %{host}\n"
+"                pour un tel fait. Pour charger cette valeur dans le modèle, le code suivant peut être utilisé %{example2}\n"
 "                Notez que le nom du fait peut différer du nom de l'entrée."
 
 msgid "While rendering the template in preview mode, the input either loads the value or uses a placeholder in case the input is not ready for rendering. If the template is rendered and the input is not ready, an error is thrown. The readiness criteria differs per input type, e.g. for Fact inputs linked to a host's fact with the name \"cpu_count\" , when @host contains a value for the fact, the input is ready."

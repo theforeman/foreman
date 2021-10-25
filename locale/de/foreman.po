@@ -3238,7 +3238,7 @@ msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr "Fehler beim Abrufen eines neuen Bereichs-OTP. Build wird abgebrochen!"
 
 msgid "Failed to import %{klass} for %{name}: doesn't exists in our database - ignoring"
-msgstr "Fehler beim Importieren der Klasse %{class} for %{name}: existiert nicht in der Datenbank - wird ignoriert"
+msgstr "Fehler beim Importieren der Klasse %{kclass} for %{name}: existiert nicht in der Datenbank - wird ignoriert"
 
 msgid "Failed to initialize the PuppetCA proxy: %s"
 msgstr "Fehler bei der Initialisierung des Puppet-CA-Proxys: %s"

@@ -277,13 +277,13 @@ msgid "%{user} Downloaded %{key} as pem file"
 msgstr "%{user} heeft %{key} gedownload als pem bestand"
 
 msgid "%{value} does not belong to %{os} operating system"
-msgstr "%{waarde} hoort niet bij %{os} besturingssysteem"
+msgstr "%{value} hoort niet bij %{os} besturingssysteem"
 
 msgid "%{value} is not a valid controller"
 msgstr "%{value} is geen valide controller"
 
 msgid "%{value} is not one of %{rules}"
-msgstr "%{waarde} is niet een van %{rules}"
+msgstr "%{value} is niet een van %{rules}"
 
 msgid "%{vm} is now %{vm_state}"
 msgstr "%{vm} is nu %{vm_state}"
@@ -9364,7 +9364,7 @@ msgid "The following hosts failed the build operation: %s"
 msgstr "De volgende hosts hebben hun uitrol nite goed uitgevoerd: %s"
 
 msgid "The following hosts were not %{action}: %{missed_hosts}"
-msgstr "De volgende hosts zijn niet %{action}: %{missing_hosts}"
+msgstr "De volgende hosts zijn niet %{action}: %{missed_hosts}"
 
 msgid "The following hosts were not deleted: %s"
 msgstr "De volgende hosts zijn niet verwijderd: %s"

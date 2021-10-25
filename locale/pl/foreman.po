@@ -181,7 +181,7 @@ msgid "%{controller}: unable to find a host that matches the request from %{addr
 msgstr ""
 
 msgid "%{cores} Cores and %{memory} memory"
-msgstr "%{cpus} rdzeni i %{memory} pamięci"
+msgstr "%{cores} rdzeni i %{memory} pamięci"
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
@@ -3199,7 +3199,7 @@ msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Nie udało się zniszczyć instancji zasobu %{compute_resource} %{name}: %{message}"
+msgstr "Nie udało się zniszczyć instancji zasobu %{compute_resource} %{name}: %{e}"
 
 msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr "Nie udało się uruchomić %{host} dla instalacji: %{errors}"
@@ -3250,7 +3250,7 @@ msgid "Failed to perform rollback on %{task} - %{e}"
 msgstr "Nie można wykonać rollback na %{task} - %{e}"
 
 msgid "Failed to power up a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Nie udało się uruchomić instancji zasobu %{compute_resource} %{name}: %{message}"
+msgstr "Nie udało się uruchomić instancji zasobu %{compute_resource} %{name}: %{e}"
 
 msgid "Failed to reboot %s."
 msgstr "Nie udało się ponownie uruchomić %s ."
@@ -3288,16 +3288,16 @@ msgid "Failed to set power state for %s."
 msgstr "Nie udało się ustawić źródła zasilania dla: %s"
 
 msgid "Failed to stop compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Nie udało się zatrzymać instancji zasobu %{compute_resource} %{name}: %{message}"
+msgstr "Nie udało się zatrzymać instancji zasobu %{compute_resource} %{name}: %{e}"
 
 msgid "Failed to submit the request."
 msgstr ""
 
 msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Nie udało się cofnąć aktualizacji instancji zasobu %{compute_resource} %{name}: %{message}"
+msgstr "Nie udało się cofnąć aktualizacji instancji zasobu %{compute_resource} %{name}: %{e}"
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
-msgstr "Nie udało się aktualizować instancji zasobu %{compute_resource} %{name}: %{message}"
+msgstr "Nie udało się aktualizować instancji zasobu %{compute_resource} %{name}: %{e}"
 
 msgid "Failed to update environments and Puppet classes from the on-disk Puppet installation: %s"
 msgstr "Nie udało się zaktualizować środowisk i klas puppet z instalacji Puppet na dysku: %s"
@@ -6390,7 +6390,7 @@ msgid "No subnets"
 msgstr "Brak podsieci"
 
 msgid "No template with kind %{kind} for %{host}"
-msgstr "Brak szablonów w rodzaju %{kind} dla %{hosts}"
+msgstr "Brak szablonów w rodzaju %{kind} dla %{host}"
 
 msgid "No templates found"
 msgstr ""
