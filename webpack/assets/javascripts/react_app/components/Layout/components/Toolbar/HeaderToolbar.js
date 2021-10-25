@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   PageHeaderTools,
   PageHeaderToolsGroup,
@@ -11,7 +12,9 @@ import ImpersonateIcon from '../ImpersonateIcon';
 import {
   layoutPropTypes,
   layoutDefaultProps,
-  dataPropType,
+  locationPropType,
+  organizationPropType,
+  userPropType,
 } from '../../LayoutHelper';
 import InstanceTitleViewer from './InstanceTitleViewer';
 import './HeaderToolbar.scss';
@@ -53,11 +56,18 @@ const HeaderToolbar = ({
   </PageHeaderTools>
 );
 HeaderToolbar.propTypes = {
-  ...dataPropType,
+  stop_impersonation_url: PropTypes.string.isRequired,
+  instance_title: PropTypes.string,
+  locations: locationPropType.isRequired,
+  orgs: organizationPropType.isRequired,
+  notification_url: PropTypes.string.isRequired,
+  user: userPropType,
   isLoading: layoutPropTypes.isLoading,
 };
 
 HeaderToolbar.defaultProps = {
+  instance_title: null,
+  user: {},
   isLoading: layoutDefaultProps.isLoading,
 };
 export default HeaderToolbar;

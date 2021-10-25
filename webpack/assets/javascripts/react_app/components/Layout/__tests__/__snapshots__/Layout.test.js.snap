@@ -2,68 +2,14 @@
 
 exports[`Layout rendering renders layout 1`] = `
 <Fragment>
-  <VerticalNav
-    activePath="/Monitor/"
-    blurDelay={700}
-    blurDisabled={false}
-    dynamicBodyClasses={true}
-    forceHidden={false}
-    hiddenIcons={false}
-    hideMasthead={false}
-    hoverDelay={100}
-    hoverDisabled={false}
-    items={
-      Array [
-        Object {
-          "href": "/a",
-          "iconClass": "fa fa-tachometer",
-          "initialActive": true,
-          "subItems": undefined,
-          "title": "Monitor",
-        },
-        Object {
-          "href": "/b",
-          "iconClass": "fa fa-server",
-          "initialActive": false,
-          "subItems": undefined,
-          "title": "Hosts",
-        },
-      ]
-    }
-    masthead={null}
-    onCollapse={[Function]}
-    onExpand={[Function]}
-    onItemBlur={null}
-    onItemClick={[Function]}
-    onItemHover={null}
-    onItemPin={null}
-    onMenuToggleClick={null}
-    onMobileSelection={null}
-    onNavigate={[Function]}
-    persist={true}
-    persistentSecondary={true}
-    pinnableMenus={false}
-    showBadges={false}
-  >
-    <VerticalNav.Masthead>
-      <header
-        className="pf-c-page__header pf-c-page"
-        id="navbar-header"
-      >
-        <VerticalNav.Brand
-          href="/"
-          iconImg="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
-          img=""
-          onClick={null}
-          title=""
-          titleImg=""
-        />
-        <HeaderToolbar
-          changeActiveMenu={[Function]}
-          instance_title="Production"
-          isLoading={false}
-          locations={
-            Object {
+  <Page
+    defaultManagedSidebarIsOpen={true}
+    header={
+      <Header
+        data={
+          Object {
+            "instance_title": "Production",
+            "locations": Object {
               "available_locations": Array [
                 Object {
                   "href": "/locations/1-yaml/select",
@@ -82,11 +28,9 @@ exports[`Layout rendering renders layout 1`] = `
                 },
               ],
               "current_location": "london",
-            }
-          }
-          logo="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
-          menu={
-            Array [
+            },
+            "logo": "/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg",
+            "menu": Array [
               Object {
                 "children": Array [
                   Object {
@@ -131,11 +75,9 @@ exports[`Layout rendering renders layout 1`] = `
                 "name": "Empty",
                 "type": "sub_menu",
               },
-            ]
-          }
-          notification_url="/notification_recipients"
-          orgs={
-            Object {
+            ],
+            "notification_url": "/notification_recipients",
+            "orgs": Object {
               "available_organizations": Array [
                 Object {
                   "href": "/organizations/1-org1/select",
@@ -149,12 +91,10 @@ exports[`Layout rendering renders layout 1`] = `
                 },
               ],
               "current_org": "org1",
-            }
-          }
-          root="/"
-          stop_impersonation_url="/users/stop_impersonation"
-          user={
-            Object {
+            },
+            "root": "/",
+            "stop_impersonation_url": "/users/stop_impersonation",
+            "user": Object {
               "current_user": Object {
                 "firstname": "Admin",
                 "id": 4,
@@ -182,14 +122,53 @@ exports[`Layout rendering renders layout 1`] = `
                   "type": "sub_menu",
                 },
               ],
-            }
+            },
           }
-        />
-      </header>
-    </VerticalNav.Masthead>
-  </VerticalNav>
-  <LayoutContainer
-    isCollapsed={false}
-  />
+        }
+        isLoading={false}
+        onNavToggle={[Function]}
+      />
+    }
+    isBreadcrumbWidthLimited={false}
+    isManagedSidebar={false}
+    isNotificationDrawerExpanded={false}
+    mainTabIndex={-1}
+    onNotificationDrawerExpand={[Function]}
+    onPageResize={[Function]}
+    sidebar={
+      <PageSidebar
+        isNavOpen={true}
+        nav={
+          <Navigation
+            flyoutActiveItem={null}
+            items={
+              Array [
+                Object {
+                  "href": "/a",
+                  "iconClass": "fa fa-tachometer",
+                  "initialActive": true,
+                  "subItems": undefined,
+                  "title": "Monitor",
+                },
+                Object {
+                  "href": "/b",
+                  "iconClass": "fa fa-server",
+                  "initialActive": false,
+                  "subItems": undefined,
+                  "title": "Hosts",
+                },
+              ]
+            }
+            navigate={[Function]}
+            setFlyoutActiveItem={[MockFunction]}
+          />
+        }
+      />
+    }
+  >
+    <LayoutContainer
+      isCollapsed={false}
+    />
+  </Page>
 </Fragment>
 `;

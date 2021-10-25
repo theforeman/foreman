@@ -70,6 +70,7 @@ const Navigation = ({ items, flyoutActiveItem, setFlyoutActiveItem }) => {
 
   const withPopper = (trigger, popper, index) => (
     <Popper
+      key={index}
       onDocumentClick={onDocumentClick}
       trigger={trigger}
       popper={popper}
@@ -82,19 +83,21 @@ const Navigation = ({ items, flyoutActiveItem, setFlyoutActiveItem }) => {
   const groupedItems = items.map(({ subItems, ...rest }) => {
     const groups = [];
     let currIndex = 0;
-    if (subItems[0].isDivider) {
-      groups.push({ title: subItems[0].title, groupItems: [] });
-    } else {
-      groups.push({ title: rest.title, groupItems: [] });
-    }
-    subItems.forEach(sub => {
-      if (sub.isDivider) {
-        groups.push({ title: sub.title, groupItems: [] });
-        currIndex++;
+    if (subItems.length) {
+      if (subItems[0].isDivider) {
+        groups.push({ title: subItems[0].title, groupItems: [] });
       } else {
-        groups[currIndex].groupItems.push(sub);
+        groups.push({ title: rest.title, groupItems: [] });
       }
-    });
+      subItems.forEach(sub => {
+        if (sub.isDivider) {
+          groups.push({ title: sub.title, groupItems: [] });
+          currIndex++;
+        } else {
+          groups[currIndex].groupItems.push(sub);
+        }
+      });
+    }
     return { ...rest, groups };
   });
   return (
@@ -114,6 +117,7 @@ const Navigation = ({ items, flyoutActiveItem, setFlyoutActiveItem }) => {
             >
               <div
                 onMouseOver={() => onMouseOver(index)}
+                onClick={() => onMouseOver(index)}
                 onKeyDown={e => handleFlyout(e, index)}
                 onFocus={() => onMouseOver(index)}
               >
@@ -124,11 +128,9 @@ const Navigation = ({ items, flyoutActiveItem, setFlyoutActiveItem }) => {
               <MenuContent>
                 <MenuList>
                   {groups.map((group, groupIndex) => (
-                    <>
-                      {group.title && groupIndex !== 0 && (
-                        <Divider key={group.id} />
-                      )}
-                      <MenuGroup key={group.id} label={group.title}>
+                    <React.Fragment key={groupIndex}>
+                      {group.title && groupIndex !== 0 && <Divider />}
+                      <MenuGroup label={group.title}>
                         {group.groupItems.map(
                           ({
                             id,
@@ -150,7 +152,7 @@ const Navigation = ({ items, flyoutActiveItem, setFlyoutActiveItem }) => {
                           )
                         )}
                       </MenuGroup>
-                    </>
+                    </React.Fragment>
                   ))}
                 </MenuList>
               </MenuContent>

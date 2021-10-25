@@ -168,6 +168,7 @@ export const layoutMock = {
     stop_impersonation_url: '/users/stop_impersonation',
     instance_title: 'Production',
   },
+  setFlyoutActiveItem: jest.fn(),
 };
 
 export const noItemsMock = {

@@ -25,10 +25,6 @@
     --pf-c-nav__link--Color: #{$nav-pf-vertical-icon-color};
   }
 
-  // .pf-c-nav__item.pf-m-expandable::before {
-  //   --pf-c-nav__item--before--BorderColor: #{$nav-pf-vertical-active-bg-color};
-  // }
-
   .pf-c-nav__subnav {
     --pf-c-nav--c-divider--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
   }

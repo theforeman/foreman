@@ -12,7 +12,6 @@ const Header = ({
   data: { logo, brand, root, ...props },
   onNavToggle,
   isLoading,
-  isNavOpen,
 }) => (
   <PageHeader
     logo={
@@ -31,10 +30,9 @@ const Header = ({
 );
 
 Header.propTypes = {
-  ...dataPropType,
+  data: PropTypes.shape(dataPropType).isRequired,
   isLoading: layoutPropTypes.isLoading,
   onNavToggle: PropTypes.func.isRequired,
-  isNavOpen: PropTypes.bool.isRequired,
 };
 
 Header.defaultProps = {

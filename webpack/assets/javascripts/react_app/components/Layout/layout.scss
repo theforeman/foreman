@@ -2,12 +2,9 @@
 @import '../../common/colors.scss';
 @import '../../common/variables.scss';
 
-// .pf-c-page {
-//   background-color: rgba(0, 0, 0, 0);
-// }
-
 #react-app-root {
   .react-container.container-fluid {
+    padding-top: 60px;
     margin-right: auto;
     margin-left: 250px;
   }
@@ -17,6 +14,9 @@
     main.pf-c-page__main {
       padding-left: 0;
     }
+  }
+  #rails-app-content {
+    margin-left: 0;
   }
 }
 

@@ -13,7 +13,6 @@ Array [
 
 exports[`Layout selectors should return Layout 1`] = `
 Object {
-  "activeMenu": "Hosts",
   "currentLocation": "loc1",
   "currentOrganization": "org1",
   "isCollapsed": false,
@@ -118,8 +117,6 @@ Array [
   },
 ]
 `;
-
-exports[`Layout selectors should return activeMenu 1`] = `"Hosts"`;
 
 exports[`Layout selectors should return empty array of items 1`] = `Array []`;
 

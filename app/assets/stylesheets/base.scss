@@ -16,14 +16,6 @@ html {
 body {
   height: 100%;
   width: 100%;
-  padding-top: 60px;
-  &.pf-m-expanded {
-    #rails-app-content {
-      @media screen and (min-width: 768px) {
-        left: var(--pf-c-page__sidebar--Width);
-      }
-    }
-  }
 }
 
 #react-app-root {

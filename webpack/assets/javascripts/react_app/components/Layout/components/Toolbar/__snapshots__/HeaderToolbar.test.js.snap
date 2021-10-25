@@ -72,7 +72,6 @@ exports[`HeaderToolbar rendering render HeaderToolbar 1`] = `
       className="header-tool-item-hidden-lg user-nav-item"
     >
       <UserDropdowns
-        changeActiveMenu={[Function]}
         className=""
         instanceTitle=""
         notificationUrl="/notification_recipients"

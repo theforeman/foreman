@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import { act } from 'react-dom/test-utils';
 import { IntegrationTestHelper } from '@theforeman/test';
 
 import { hasTaxonomiesMock } from '../Layout.fixtures';
@@ -48,12 +49,14 @@ describe('Layout integration test', () => {
         .text()
     ).toBe('org1');
 
-    const hostsMenuItem = component.find('.secondary-nav-item-pf > a');
-
-    hostsMenuItem.at(1).simulate('click');
-
-    expect(component.find('.secondary-nav-item-pf .active > a').text()).toBe(
-      'Hosts'
+    const hostsMenuItem = component.find(
+      '.pf-c-nav__item.pf-m-flyout > div > div'
     );
+    await act(async () => {
+      await hostsMenuItem.at(1).simulate('mouseover');
+    });
+    component.update();
+    expect(hostsMenuItem.at(1).text()).toBe('Hosts');
+    expect(component.find('.pf-c-menu.pf-m-flyout a').text()).toBe('All Hosts');
   });
 });

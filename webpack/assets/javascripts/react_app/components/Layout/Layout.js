@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Page, PageSidebar } from '@patternfly/react-core';
-import { translate as __ } from '../../common/I18n';
 import { layoutPropTypes, layoutDefaultProps } from './LayoutHelper';
 import LayoutContainer from './components/LayoutContainer';
 import Header from './components/Toolbar/Header';
