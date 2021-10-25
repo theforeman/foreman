@@ -4,7 +4,9 @@ name: pkg_manager
 model: ProvisioningTemplate
 snippet: true
 description: |
-  Get OS package manager
+  Select package manager for the OS. Snippet sets the package manager
+  in the PKG_MANAGER env variable so it can be used in templates like this:
+  $PKG_MANAGER install -y pkg1 pkg2
 -%>
 
 if [ -f /etc/os-release ] ; then
