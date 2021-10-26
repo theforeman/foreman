@@ -14,6 +14,11 @@
     },
   ]
 ) if @host %>
+<%= alert class: 'alert-warning',
+  header: _('Migrate Reports to new format'),
+  text: "</br>".html_safe +
+        _("Reports can be stored in more efficient way, data will need to be upgraded to the new format. Read more details in") +
+        ' <a href="https://community.theforeman.org/t/migrating-reports-to-the-new-format-in-foreman-3-1/25846">our tutorial</a>.'.html_safe %>
 <% title _("Reports") %>
 <% title_actions csv_link, documentation_button('3.5.4PuppetReports') %>
 <%= render :partial => 'list' %>
