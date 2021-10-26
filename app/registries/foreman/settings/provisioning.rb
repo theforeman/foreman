@@ -1,45 +1,16 @@
 Foreman::SettingManager.define(:foreman) do
   category(:provisioning, N_('Provisioning')) do
-    # facts which change way too often
-    IGNORED_FACTS = [
-      'load_averages::*',
-      'memory::system::capacity',
-      'memory::system::used*',
-      'memory::system::available*',
-      'memory::swap::capacity',
-      'memory::swap::used*',
-      'memory::swap::available*',
-    ].freeze
-
-    IGNORED_INTERFACES = [
-      'lo',
-      'en*v*',
-      'usb*',
-      'vnet*',
-      'macvtap*',
-      ';vdsmdummy;',
-      'veth*',
-      'docker*',
-      'tap*',
-      'qbr*',
-      'qvb*',
-      'qvo*',
-      'qr-*',
-      'qg-*',
-      'vlinuxbr*',
-      'vovsbr*',
-      'br-int',
-    ].freeze
-
-    owner_select = [{:name => _("Users"), :class => 'user', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'login'},
-                    {:name => _("Usergroups"), :class => 'usergroup', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'name'}]
+    owner_select = proc do
+      [{:name => _("Users"), :class => 'user', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'login'},
+       {:name => _("Usergroups"), :class => 'usergroup', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'name'}]
+    end
 
     setting('host_owner',
       type: :string,
       description: N_("Default owner on provisioned hosts, if empty Foreman will use current user"),
       default: nil,
       full_name: N_('Host owner'),
-      collection: proc { owner_select },
+      collection: owner_select,
       include_blank: N_("Select an owner"))
     setting('root_pass',
       type: :string,
@@ -62,31 +33,6 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Allow access to unattended URLs without build mode being used"),
       default: false,
       full_name: N_('Access unattended without build'))
-    setting('manage_puppetca',
-      type: :boolean,
-      description: N_("Foreman will automate certificate signing upon provision of new host"),
-      default: true,
-      full_name: N_('Manage PuppetCA'))
-    setting('ignore_puppet_facts_for_provisioning',
-      type: :boolean,
-      description: N_("Stop updating IP and MAC address values from facts (affects all interfaces)"),
-      default: false,
-      full_name: N_('Ignore Puppet facts for provisioning'))
-    setting('ignored_interface_identifiers',
-      type: :array,
-      description: N_("Skip creating or updating host network interfaces objects with identifiers matching these values from incoming facts. You can use * wildcard to match identifiers with indexes e.g. macvtap*. The ignored interfaces raw facts will be still stored in the DB, see the 'Exclude pattern' setting for more details."),
-      default: IGNORED_INTERFACES,
-      full_name: N_('Ignore interfaces with matching identifier'))
-    setting('ignore_facts_for_operatingsystem',
-      type: :boolean,
-      description: N_("Stop updating Operating System from facts"),
-      default: false,
-      full_name: N_('Ignore facts for operating system'))
-    setting('ignore_facts_for_domain',
-      type: :boolean,
-      description: N_("Stop updating domain values from facts"),
-      default: false,
-      full_name: N_('Ignore facts for domain'))
     setting('query_local_nameservers',
       type: :boolean,
       description: N_("Foreman will query the locally configured resolver instead of the SOA/NS authorities"),
@@ -154,11 +100,6 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource. When disabled, VMs are unlinked when the host is deleted, meaning they remain on Compute Resource and can be re-associated or imported back to Foreman again. This does not automatically power off the VM"),
       default: false,
       full_name: N_("Destroy associated VM on host delete"))
-    setting('excluded_facts',
-      type: :array,
-      description: N_("Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"),
-      default: IGNORED_INTERFACES + IGNORED_FACTS,
-      full_name: N_('Exclude pattern for facts stored in foreman'))
     setting('maximum_structured_facts',
       type: :integer,
       description: N_("Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"),
@@ -197,5 +138,20 @@ Foreman::SettingManager.define(:foreman) do
     end
 
     validates 'safemode_render', ->(value) { value || Setting[:bmc_credentials_accessible] }, message: N_("Unable to disable safemode_render when bmc_credentials_accessible is disabled")
+  end
+end
+
+Foreman::SettingManager.define(:puppet) do
+  category(:provisioning) do
+    setting('manage_puppetca',
+      type: :boolean,
+      description: N_("Foreman will automate certificate signing upon provision of new host"),
+      default: true,
+      full_name: N_('Manage PuppetCA'))
+    setting('use_uuid_for_certificates',
+      type: :boolean,
+      description: N_("Foreman will use random UUIDs for certificate signing instead of hostnames"),
+      default: false,
+      full_name: N_('Use UUID for certificates'))
   end
 end
