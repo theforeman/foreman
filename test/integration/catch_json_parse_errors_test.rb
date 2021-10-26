@@ -29,7 +29,7 @@ class CatchJsonParseErrorsTest < IntegrationTestWithJavascript
 
   def default_headers
     {
-      'Accept'       => 'application/json,version=2',
+      'Accept'       => 'application/json',
       'Content-Type' => 'application/json',
     }
   end
