@@ -203,7 +203,7 @@ module AuditsHelper
         },
         {
           caption: @host.name,
-          url: (host_path(@host) if authorized_for(hash_for_host_path(@host))),
+          url: (current_host_details_path(@host) if authorized_for(hash_for_host_path(@host))),
         },
         {
           caption: _('Audits'),
@@ -366,7 +366,7 @@ module AuditsHelper
     auth_options = send("hash_for_#{host_path_name}", :id => host.to_param).merge(
       :auth_object => host, :auth_action => 'view')
     if authorized_for(auth_options)
-      action_details[:url] = send(host_path_name, :id => host.to_param)
+      action_details[:url] = current_host_details_path(host)
     else
       action_details.merge!(:url => '#', :css_class => 'btn btn-default disabled', :disabled => true)
     end

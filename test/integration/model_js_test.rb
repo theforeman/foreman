@@ -2,7 +2,9 @@ require 'integration_test_helper'
 
 class ModelIntegrationTest < IntegrationTestWithJavascript
   test "create new page" do
-    assert_new_button(models_path, "Create model", new_model_path)
+    visit models_path
+    click_on "Create model", class: 'pf-c-button'
+    assert_current_path new_model_path
     fill_in "model_name", :with => "IBM 123"
     fill_in "model_hardware_model", :with => "IBMabcde"
     fill_in "model_vendor_class", :with => "ABCDE"

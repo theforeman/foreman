@@ -140,7 +140,7 @@ export { foremanUrl } from './react_app/common/helpers';
 
 export const setTab = () => {
   const urlHash = document.location.hash.split('?')[0];
-  if (urlHash.length) {
+  if (urlHash.length && !urlHash.startsWith('#/')) {
     const tabContent = $(urlHash);
     const parentTab = tabContent.closest('.tab-pane');
     if (parentTab.exists()) {

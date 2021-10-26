@@ -441,4 +441,8 @@ module ApplicationHelper
   def ui_settings
     { perPage: Setting['entries_per_page'], destroyVmOnHostDelete: Setting['destroy_vm_on_host_delete'] }
   end
+
+  def current_host_details_path(host)
+    Setting['host_details_ui'] ? host_details_page_path(host) : host_path(host)
+  end
 end

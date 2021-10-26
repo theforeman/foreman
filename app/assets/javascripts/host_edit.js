@@ -159,6 +159,7 @@ function update_capabilities(capabilities) {
 var stop_pooling;
 
 function submit_with_all_params() {
+  var fqdn = $('.fqdn')[0].textContent;
   $('form.hostresource-form input[type="submit"]').attr('disabled', true);
   stop_pooling = false;
   $('body').css('cursor', 'progress');
@@ -170,6 +171,11 @@ function submit_with_all_params() {
     url: $('form').attr('action'),
     data: serializeForm(),
     success: function(response) {
+      // workaround for redirecting to the new host details page
+      if (!response.includes('id="main"')) {
+        return tfm.nav.pushUrl('/new/hosts/' + fqdn);
+      }
+   
       $('#host-progress').hide();
       $('#content').replaceWith($('#content', response));
       $(document.body).trigger('ContentLoad');

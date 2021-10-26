@@ -61,6 +61,53 @@ class HostJSTest < IntegrationTestWithJavascript
     end
   end
 
+  describe 'new host details page' do
+    setup do
+      Setting[:host_details_ui] = true
+    end
+
+    teardown do
+      Setting[:host_details_ui] = false
+    end
+
+    test "new show page" do
+      visit hosts_path
+      click_link @host.fqdn
+      find('h5', :text => @host.fqdn)
+    end
+
+    test "create new host and redirect to the new host details page" do
+      compute_resource = FactoryBot.create(:compute_resource, :libvirt)
+      os = FactoryBot.create(:ubuntu14_10, :with_associations)
+      Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
+      visit new_host_path
+
+      fill_in 'host_name', :with => 'newhost1'
+      select2 'Organization 1', :from => 'host_organization_id'
+      wait_for_ajax
+      select2 'Location 1', :from => 'host_location_id'
+      wait_for_ajax
+      select2 compute_resource.name, :from => 'host_compute_resource_id'
+
+      click_link 'Operating System'
+      wait_for_ajax
+      select2 os.architectures.first.name, :from => 'host_architecture_id'
+      select2 os.title, :from => 'host_operatingsystem_id'
+      uncheck('host_build')
+      select2 os.media.first.name, :from => 'host_medium_id'
+      select2 os.ptables.first.name, :from => 'host_ptable_id'
+      fill_in 'host_root_pass', :with => '12345678'
+
+      switch_form_tab_to_interfaces
+      click_button 'Edit'
+      select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
+      fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
+      close_interfaces_modal
+      click_button('Submit')
+      find('h5', :text => /newhost1.*/) # wait for the new host details page
+    end
+  end
+
   describe 'multiple hosts selection' do
     setup do
       @entries = Setting[:entries_per_page]
