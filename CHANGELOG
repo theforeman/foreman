@@ -1,3 +1,55 @@
+2021-10-26	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.0.1
+
+2021-10-18	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #29481 - unpin capybara
+
+2021-10-18	Amir Fefer <amirfefer@gmail.com>
+	* Refs #33491 -  switch back to native confirm
+	* Fixes #33617 - fix 'All audits' link in host details page
+	* Fixes #33597 - add an experimental banner on host details page
+	* Fixes #33507 - add a button for switching the new details page
+	* Fixes #33505 - trucate overflow text in audit card
+	* Fixes #33504 - align hostname title in host details page
+	* Fixes #33502,#33501 - align host owner in host details
+	* Fixes #33490 - fix edit button in host details page
+	* Fixes #33491 - fix host page kebab actions
+
+2021-10-18	Marek Hulan <mhulan@redhat.com>
+	* Fixes #33503 - change Mac to MAC in the overview
+
+2021-10-18	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #33621 - Remove experimental host wizard
+
+2021-10-10	Jonathon Turel <jturel@gmail.com>
+	* Fixes #33640 - Improve caching of SettingRegistry#load_values (#8817)
+	* Fixes #33639 - Reduce object allocations in FactImporter#update_facts
+
+2021-10-10	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #33639 - Reduce array resizing in fact importer
+	* Refs #33639 - Only pull needed data for fact updates
+
+2021-10-08	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #33347 - Fix settings index API
+
+2021-09-15	Adam Cecile <acecile@le-vert.net>
+	* Fixes #32273 - VMWare compute failure ends up in ArgumentError (too few arguments)
+
+2021-09-15	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #33426 - changing virtual in ks fixed
+
+2021-09-15	Dominik Matoulek <domitea@gmail.com>
+	* Fixes #33223 - Improving Job Invocation Report Template
+
+2021-09-15	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #33389 - Make the registration form more compact
+
+2021-09-15	Stejskal Leos <github@stejskalleos.cz>
+	* Fixes #33390 - Use PF4 styling for warning in registration form
+
+2021-09-15	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #33396 - Filter out vms with missing instanceUuid
+
 2021-09-08	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.0.0
 
