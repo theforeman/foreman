@@ -373,15 +373,7 @@ module Host
         end
       end
 
-      if ignore_link_local
-        # Ruby 2.5 introduced IPAddr#link_local?
-        if addr.respond_to?(:link_local?)
-          return if addr.link_local?
-        else
-          return if addr.ipv4? && IPAddr.new('169.254.0.0/16').include?(addr)
-          return if addr.ipv6? && IPAddr.new('fe80::/10').include?(addr)
-        end
-      end
+      return if ignore_link_local && addr.link_local?
 
       addr.to_s
     end
