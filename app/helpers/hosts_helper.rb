@@ -92,7 +92,7 @@ module HostsHelper
     tooltip = displayable_statuses.sort_by(&:type).map { |status| "#{_(status.name)}: #{_(status.to_label)}" }.join(', ')
 
     content = content_tag(:span, "", {:rel => "twipsy", :class => style, :"data-original-title" => tooltip})
-    content += link_to("  #{host}", host_path(host))
+    content += link_to("  #{host}", current_host_details_path(host))
     content
   end
 

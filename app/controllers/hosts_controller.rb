@@ -96,7 +96,7 @@ class HostsController < ApplicationController
     @host.managed = true if (params[:host] && params[:host][:managed].nil?)
     forward_url_options
     if @host.save
-      process_success :success_redirect => host_path(@host)
+      process_success :success_redirect => current_host_details_path(@host)
     else
       load_vars_for_ajax
       offer_to_overwrite_conflicts
@@ -114,7 +114,7 @@ class HostsController < ApplicationController
       attributes = @host.apply_inherited_attributes(host_params)
       attributes.delete(:compute_resource_id)
       if @host.update(attributes)
-        process_success :success_redirect => host_path(@host)
+        process_success :success_redirect => current_host_details_path(@host)
       else
         taxonomy_scope
         load_vars_for_ajax
@@ -920,5 +920,9 @@ class HostsController < ApplicationController
     path_hash = main_app.routes.recognize_path(session["redirect_to_url_#{controller_name}"])
     return default_redirection if (path_hash.nil? || (path_hash && path_hash[:action] != 'index'))
     { :success_redirect => saved_redirect_url_or(send("#{controller_name}_url")) }
+  end
+
+  def current_host_details_path(host)
+    Setting['host_details_ui'] ? host_details_page_path(host) : host_path(host)
   end
 end

@@ -99,5 +99,10 @@ Foreman::SettingManager.define(:foreman) do
       description: N_('Duration in days to preserve audits for. Leave empty to disable the audits cleanup.'),
       default: nil,
       full_name: N_('Saved audits interval'))
+    setting('host_details_ui',
+      type: :boolean,
+      description: N_("Foreman will load the new UI for host details"),
+      default: false,
+      full_name: N_('New host details UI'))
   end
 end

@@ -6,7 +6,7 @@
     },
     {
       caption: @host.name,
-      url: (host_path(@host) if authorized_for(hash_for_host_path(@host)))
+      url: (current_host_details_path(@host) if authorized_for(hash_for_host_path(@host)))
     },
     {
       caption: _('Reports'),
