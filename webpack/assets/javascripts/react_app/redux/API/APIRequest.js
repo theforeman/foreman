@@ -74,12 +74,16 @@ export const apiRequest = async (
       type: FAILURE,
       key,
       payload: modifiedPayload,
-      response: error,
+      response: error.response,
     });
 
     errorToast &&
       dispatch(
-        addToast({ type: 'danger', message: errorToast(error), key: FAILURE })
+        addToast({
+          type: 'danger',
+          message: errorToast(error.response),
+          key: FAILURE,
+        })
       );
 
     handleError(error, stopIntervalCallback);

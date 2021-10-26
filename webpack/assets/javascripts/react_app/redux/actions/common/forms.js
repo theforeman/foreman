@@ -91,7 +91,7 @@ export const submitForm = ({
           'Oh no! Something went wrong while submitting the form, the server returned the following error: %s'
         ),
         // eslint-disable-next-line camelcase
-        error?.response?.data?.error?.full_messages?.join(', ')
+        error?.data?.error?.full_messages?.join(', ')
       );
     dispatch(
       APIActions[method]({

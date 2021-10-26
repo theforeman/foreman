@@ -89,7 +89,7 @@ describe('API get', () => {
   });
 
   it('should dispatch an error toast notification on API failure', async () => {
-    const apiError = new Error('bad request');
+    const apiError = { response: { errors: 'bad request' } };
     API.get.mockImplementation(
       () =>
         new Promise((resolve, reject) => {
@@ -99,13 +99,13 @@ describe('API get', () => {
     const modifiedAction = { ...action };
     modifiedAction.payload.errorToast = jest.fn(
       error =>
-        `Oh no! Something went wrong, server returned the error: ${error.message}`
+        `Oh no! Something went wrong, server returned the error: ${error.errors}`
     );
     apiRequest(modifiedAction, store);
     await IntegrationTestHelper.flushAllPromises();
-    expect(modifiedAction.payload.errorToast).toHaveBeenLastCalledWith(
-      apiError
-    );
+    expect(modifiedAction.payload.errorToast).toHaveBeenCalledWith({
+      errors: 'bad request',
+    });
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });
 

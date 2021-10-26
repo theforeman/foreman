@@ -15,5 +15,10 @@ export const getApiResponse = async ({ type, url, headers, params }) => {
   }
 };
 
+export const defaultErrorToast = error => {
+  if (error?.data?.errors) return error.data.errors;
+  return `${error.status} - ${error.statusText}`;
+};
+
 export const isAPIAction = ({ type }) =>
   Object.values(API_OPERATIONS).includes(type);

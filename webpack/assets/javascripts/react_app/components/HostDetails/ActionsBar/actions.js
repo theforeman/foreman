@@ -4,6 +4,7 @@ import { sprintf, translate as __ } from '../../../common/I18n';
 import { openConfirmModal } from '../../ConfirmModal';
 import { APIActions } from '../../../redux/API';
 import { HOST_DETAILS_KEY } from '../consts';
+import { defaultErrorToast } from '../../../redux/API/APIHelpers';
 
 export const deleteHost = (
   hostName,
@@ -12,7 +13,6 @@ export const deleteHost = (
 ) => dispatch => {
   const successToast = () =>
     sprintf(__('Host %s has been removed successfully'), hostName);
-  const errorToast = ({ message }) => message;
   const url = foremanUrl(`/api/hosts/${hostName}`);
   // TODO: Replace with a checkbox instead of a global setting for cascade host destroy
   const warningMessage = () => {
@@ -50,7 +50,7 @@ export const deleteHost = (
             url,
             key: `${hostName}-DELETE`,
             successToast,
-            errorToast,
+            errorToast: defaultErrorToast,
             handleSuccess: () => visit(foremanUrl('/hosts')),
           })
         ),
@@ -72,14 +72,14 @@ export const updateHost = hostId => dispatch => {
 export const buildHost = hostId => dispatch => {
   const successToast = () =>
     sprintf(__('Host %s will be built next boot'), hostId);
-  const errorToast = ({ message }) => message;
+
   const url = foremanUrl(`/hosts/${hostId}/setBuild`);
   dispatch(
     APIActions.put({
       url,
       key: `${hostId}_BUILD`,
       successToast,
-      errorToast,
+      errorToast: defaultErrorToast,
       handleSuccess: () => dispatch(updateHost(hostId)),
     })
   );
@@ -88,14 +88,13 @@ export const buildHost = hostId => dispatch => {
 export const cancelBuild = hostId => dispatch => {
   const successToast = () =>
     sprintf(__('Canceled pending build for %s'), hostId);
-  const errorToast = ({ message }) => message;
   const url = foremanUrl(`/hosts/${hostId}/cancelBuild`);
   dispatch(
     APIActions.get({
       url,
       key: `${hostId}_CANCEL_BUILD`,
       successToast,
-      errorToast,
+      errorToast: defaultErrorToast,
       handleSuccess: () => dispatch(updateHost(hostId)),
     })
   );
