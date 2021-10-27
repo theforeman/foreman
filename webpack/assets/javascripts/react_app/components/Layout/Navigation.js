@@ -87,7 +87,7 @@ const Navigation = ({ items, flyoutActiveItem, setFlyoutActiveItem }) => {
       if (subItems[0].isDivider) {
         groups.push({ title: subItems[0].title, groupItems: [] });
       } else {
-        groups.push({ title: rest.title, groupItems: [] });
+        groups.push({ title: '', groupItems: [] });
       }
       subItems.forEach(sub => {
         if (sub.isDivider) {
@@ -107,11 +107,13 @@ const Navigation = ({ items, flyoutActiveItem, setFlyoutActiveItem }) => {
           withPopper(
             <NavItem
               key={index}
-              className={className}
+              className={classNames(
+                className,
+                flyoutActiveItem === index && 'open-flyout'
+              )}
               flyout={<div> </div>}
               itemId={index}
               isActive={
-                flyoutActiveItem === index ||
                 subItemToItemMap[pathFragment(getCurrentPath())] === title
               }
             >

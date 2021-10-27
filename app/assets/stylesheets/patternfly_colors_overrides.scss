@@ -1,7 +1,7 @@
 @import './colors.scss';
 
 .foreman-theme {
-  .pf-c-page{
+  .pf-c-page {
     --pf-c-page--BackgroundColor: var(--pf-global--BackgroundColor--100);
   }
   .pf-c-page__sidebar {
@@ -16,24 +16,31 @@
   .pf-c-nav__link {
     --pf-c-nav__link--BackgroundColor: #{$nav-pf-vertical-bg-color};
     --pf-c-nav__link--m-current--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
-    --pf-c-nav__link--hover--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-c-nav__link--hover--BackgroundColor: #{$nav-pf-vertical-hover-bg-color};
     --pf-c-nav__link--active--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
-    --pf-c-nav__link--m-current--before--BorderBottomColor: #{$nav-pf-vertical-secondary-active-bg-color};
-    --pf-c-nav__link--m-current--after--BorderLeftColor: #{$nav-pf-vertical-secondary-active-bg-color};
-    --pf-c-nav__link--after--BorderColor: #030303;
-    --pf-c-nav__link--before--BorderColor: #030303;
-    --pf-c-nav__link--Color: #{$nav-pf-vertical-icon-color};
+    --pf-c-nav__link--after--BorderColor: #f0f0f0;
+    --pf-c-nav__link--before--BorderColor: #f0f0f0;
+    --pf-c-nav__link--Color: #{$navbar-default-link-color};
   }
 
   .pf-c-nav__subnav {
     --pf-c-nav--c-divider--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
   }
   .pf-c-menu.pf-m-flyout {
-    --pf-c-menu--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
-    --pf-c-menu__group-title--Color: #{$nav-pf-vertical-icon-color};
-    --pf-c-menu__item--Color: #{$nav-pf-vertical-icon-color};
+    --pf-c-menu--BackgroundColor: #{$nav-pf-vertical-bg-color};
+    --pf-c-menu__group-title--Color: #{$navbar-default-link-color};
+    --pf-c-menu__item--Color: #{$navbar-default-link-color};
     .pf-c-divider::after {
-      --pf-c-divider--after--BackgroundColor: #030303;
+      --pf-c-divider--after--BackgroundColor: #f0f0f0;
+    }
+    .pf-c-menu__list-item:hover:not(.pf-m-disabled) {
+      --pf-c-menu__list-item--BackgroundColor: #{$nav-pf-vertical-hover-bg-color};
+      --pf-c-menu__list-item--Color: #{$navbar-default-link-color};
+      --pf-global--link--Color: #{$navbar-default-link-color};
+    }
+    .pf-c-menu__list-item a:hover {
+      --pf-global--link--Color: #{$navbar-default-link-color};
+      color: #{$navbar-default-link-color};
     }
   }
 }

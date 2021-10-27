@@ -162,7 +162,8 @@
           "xyz",
           "yaml",
           "cpu",
-          "subnav"
+          "subnav",
+          "flyout"
         ],
         "minLength": 3
       }
