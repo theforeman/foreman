@@ -23,7 +23,8 @@
   "dependencies": {
     "@theforeman/vendor": "^8.16.0",
     "intl": "~1.2.5",
-    "jed": "^1.1.1"
+    "jed": "^1.1.1",
+    "react-intl": "^2.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
