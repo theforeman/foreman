@@ -50,6 +50,10 @@ class SettingPresenter
     SETTINGS.key?(name.to_sym)
   end
 
+  def value
+    SETTINGS.fetch(name.to_sym) { super }
+  end
+
   def settings_type
     attribute(:settings_type) || Setting.setting_type_from_value(default)
   end

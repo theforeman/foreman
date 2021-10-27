@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Api::V2::SettingsControllerTest < ActionController::TestCase
-  context 'index test' do
+  describe '#index' do
     def setup
       @org = FactoryBot.create(:organization)
       @loc = FactoryBot.create(:location)
@@ -10,25 +10,36 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     test "should get index" do
       get :index
       assert_response :success
-      assert_not_nil assigns(:settings)
-      settings = ActiveSupport::JSON.decode(@response.body)
+      settings = ActiveSupport::JSON.decode(@response.body)['results']
       assert !settings.empty?
     end
 
     test "should get index with organization and location params" do
-      get :index, params: { :location_id => @loc.id, :organization_id => @org.id}
+      get :index, params: { location_id: @loc.id, organization_id: @org.id}
       assert_response :success
-      assert_not_nil assigns(:settings)
-      settings = ActiveSupport::JSON.decode(@response.body)
+      settings = ActiveSupport::JSON.decode(@response.body)['results']
       assert !settings.empty?
     end
 
     test "should get index with pagination string params" do
-      get :index, params: { :page => "1", :per_page => "5"}
+      get :index, params: { page: "1", per_page: "5"}
       assert_response :success
-      assert_not_nil assigns(:settings)
-      settings = ActiveSupport::JSON.decode(@response.body)
+      settings = ActiveSupport::JSON.decode(@response.body)['results']
       assert !settings.empty?
+    end
+
+    context 'with globals set' do
+      setup { SETTINGS.merge!(oauth_active: true) }
+      teardown { SETTINGS.delete(:oauth_active) }
+
+      it 'retrieves the global value' do
+        get :index, params: { per_page: 'all' }
+        assert_response :success
+        settings = ActiveSupport::JSON.decode(@response.body)['results']
+        oauth_active = settings.detect { |set| set['name'] == 'oauth_active' }
+        assert_not_nil oauth_active
+        assert true, oauth_active['value']
+      end
     end
   end
 

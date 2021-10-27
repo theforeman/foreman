@@ -82,6 +82,15 @@ class SettingRegistryTest < ActiveSupport::TestCase
         assert_equal setting_value, registry['foo']
       end
     end
+
+    context 'with SETTINGS value from config file' do
+      setup { SETTINGS.merge!(foo: 42) }
+      teardown { SETTINGS.delete(:foo) }
+
+      it 'returns the global truth' do
+        assert_equal 42, registry['foo']
+      end
+    end
   end
 
   describe '#set_user_value' do
