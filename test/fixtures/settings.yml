@@ -35,17 +35,6 @@ attributes7:
   category: Setting
   default: /var/lib/puppet/ssl/private_keys/super.some.host.fqdn.pem
   description: SSL Private Key file that foreman would use to communicate with its proxies
-attributes8:
-  name: puppet_interval
-  settings_type: integer
-  category: Setting
-  default: 30
-  description: Setting interval in minutes
-attributes9:
-  name: default_puppet_environment
-  category: Setting
-  default: production
-  description: "The Setting environment foreman would default to in case it can't auto detect it"
 attributes13:
   name: failed_report_email_notification
   category: Setting
@@ -56,36 +45,16 @@ attributes14:
   category: Setting
   default: ["fqdn", "hostgroup", "os", "domain"]
   description: The Default path in which foreman resolves host specific variables
-attributes15:
-  name: manage_puppetca
-  category: Setting
-  default: "true"
-  description: Should Foreman manage host certificates when provisioning hosts
 attributes16:
   name: entries_per_page
   category: Setting
   default: 20
   description: The amount of records shown per page in foreman
-attributes17:
-  name: update_environment_from_facts
-  category: Setting
-  default: "false"
-  description: Foreman will update a hosts environment from its facts
 attributes18:
   name: idle_timeout
   category: Setting
   default: 5
   description: idle timeout
-attributes19:
-  name: enc_environment
-  category: Setting
-  default: "true"
-  description: Should Foreman provide puppet environment in ENC yaml output? (this avoids the mismatch error between puppet.conf and ENC environment)
-attributes20:
-  name: use_uuid_for_certificates
-  category: Setting
-  default: "false"
-  description: "Should Foreman use random UUID's for certificate signing instead of hostnames"
 attributes21:
   name: query_local_nameservers
   category: Setting

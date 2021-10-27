@@ -53,7 +53,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
   test '#out_of_sync? is true if reported_at is set and is too long ago' do
     @status.refresh!
     assert @status.reported_at.present?
-    window = (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes
+    window = Setting[:outofsync_interval].minutes
     assert @status.reported_at < Time.now.utc - window
 
     assert @status.out_of_sync?
@@ -166,8 +166,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
 
   test 'overwrite outofsync_interval as host parameter' do
     window = 30
-    Setting['puppet_interval'] = 10
-    Setting['outofsync_interval'] = 15
+    Setting['outofsync_interval'] = 10
     @status.reported_at = Time.now.utc - window.minutes
     assert @status.out_of_sync?
     # should be not out of sync if Setting['outofsync_interval'] is overwritten by parameter

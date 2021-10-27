@@ -103,28 +103,3 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Exclude pattern for facts stored in foreman'))
   end
 end
-
-Foreman::SettingManager.define(:puppet) do
-  all_environments = proc do
-    env_klass = 'ForemanPuppet::Environment'.safe_constantize
-    env_klass ? Hash[env_klass.all.map { |env| [env[:name], env[:name]] }] : {}
-  end
-  category(:facts, N_('Facts')) do
-    setting('default_puppet_environment',
-      type: :string,
-      description: N_("Foreman will default to this puppet environment if it cannot auto detect one"),
-      default: "production",
-      full_name: N_('Default Puppet environment'),
-      collection: all_environments)
-    setting('enc_environment',
-      type: :boolean,
-      description: N_("Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"),
-      default: true,
-      full_name: N_('ENC environment'))
-    setting('update_environment_from_facts',
-      type: :boolean,
-      description: N_("Foreman will update a host's environment from its facts"),
-      default: false,
-      full_name: N_('Update environment from facts'))
-  end
-end
