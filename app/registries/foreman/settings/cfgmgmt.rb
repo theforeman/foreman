@@ -27,18 +27,3 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Always show configuration status'))
   end
 end
-
-Foreman::SettingManager.define(:puppet) do
-  category(:cfgmgmt, N_('Config Management')) do
-    setting('puppet_interval',
-      type: :integer,
-      description: N_("Duration in minutes after servers reporting via Puppet are classed as out of sync."),
-      default: 35,
-      full_name: N_('Puppet interval'))
-    setting('puppet_out_of_sync_disabled',
-      type: :boolean,
-      description: N_("Disable host configuration status turning to out of sync for %s after report does not arrive within configured interval") % 'Puppet',
-      default: false,
-      full_name: N_('%s out of sync disabled') % 'Puppet')
-  end
-end

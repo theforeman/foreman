@@ -50,23 +50,6 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
     assert_dashboard_link 'Out of sync hosts'
   end
 
-  context 'with origin' do
-    setup do
-      Setting[:puppet_out_of_sync_disabled] = true
-    end
-
-    context 'out of sync disabled' do
-      test 'has no out of sync link' do
-        visit_dashboard
-        within "li[data-name='Host Configuration Status for Puppet']" do
-          assert page.has_no_link?('Out of sync hosts')
-          assert page.has_no_link?('Good host reports in the last')
-          assert page.has_link?('Good host with reports')
-        end
-      end
-    end
-  end
-
   test "dashboard link hosts with no reports" do
     assert_dashboard_link 'Hosts with no reports'
   end

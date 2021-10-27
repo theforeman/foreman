@@ -246,10 +246,6 @@ class SettingTest < ActiveSupport::TestCase
     check_zero_value_not_allowed_for 'entries_per_page'
   end
 
-  test "puppet_interval should not be zero" do
-    check_zero_value_not_allowed_for 'puppet_interval'
-  end
-
   test "trusted_hosts can be empty array" do
     check_empty_array_allowed_for "trusted_hosts"
   end
