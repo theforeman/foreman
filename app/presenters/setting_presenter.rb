@@ -51,7 +51,7 @@ class SettingPresenter
   end
 
   def value
-    SETTINGS.fetch(name.to_sym) { super }
+    SETTINGS.fetch(name.to_sym, attribute(:value))
   end
 
   def settings_type
