@@ -504,31 +504,6 @@ autopart"', desc: 'to render the content of host partition table'
     errors.empty?
   end
 
-  # counts each association of a given host
-  # e.g. how many hosts belongs to each os
-  # returns sorted hash
-  def self.count_distribution(association)
-    output = []
-    data = group("#{Host.table_name}.#{association}_id").reorder('').count
-    associations = association.to_s.camelize.constantize.where(:id => data.keys).all
-    data.each do |k, v|
-      output << {:label => associations.detect { |a| a.id == k }.to_label, :data => v } unless v == 0
-    rescue
-      logger.info "skipped #{k} as it has has no label"
-    end
-    output
-  end
-
-  # counts each association of a given host for HABTM relationships
-  # TODO: Merge these two into one method
-  # e.g. how many hosts belongs to each os
-  # returns sorted hash
-  def self.count_habtm(association)
-    counter = Host::Managed.joins(association.tableize.to_sym).group("#{association.tableize.to_sym}.id").reorder('').count
-    # Puppetclass.find(counter.keys.compact)...
-    association.camelize.constantize.find(counter.keys.compact).map { |i| {:label => i.to_label, :data => counter[i.id]} }
-  end
-
   def self.provision_methods
     {
       'build' => N_('Network Based'),
