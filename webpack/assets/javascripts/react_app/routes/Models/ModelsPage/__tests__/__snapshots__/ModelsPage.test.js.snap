@@ -5,7 +5,7 @@ exports[`ModelsPage redering should render when loading 1`] = `
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
   customBreadcrumbs={null}
-  header="Hardware Models"
+  header="Hardware models"
   isLoading={false}
   onBookmarkClick={[Function]}
   onSearch={[Function]}
@@ -31,14 +31,8 @@ exports[`ModelsPage redering should render when loading 1`] = `
     <Link
       to="/models/new"
     >
-      <Button
-        active={false}
-        block={false}
-        bsClass="btn"
-        bsStyle="primary"
-        disabled={false}
-      >
-        Create Model
+      <Button>
+        Create model
       </Button>
     </Link>
   }
@@ -88,7 +82,7 @@ exports[`ModelsPage redering should render with error 1`] = `
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
   customBreadcrumbs={null}
-  header="Hardware Models"
+  header="Hardware models"
   isLoading={false}
   onBookmarkClick={[Function]}
   onSearch={[Function]}
@@ -114,14 +108,8 @@ exports[`ModelsPage redering should render with error 1`] = `
     <Link
       to="/models/new"
     >
-      <Button
-        active={false}
-        block={false}
-        bsClass="btn"
-        bsStyle="primary"
-        disabled={false}
-      >
-        Create Model
+      <Button>
+        Create model
       </Button>
     </Link>
   }
@@ -176,7 +164,7 @@ exports[`ModelsPage redering should render with models 1`] = `
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
   customBreadcrumbs={null}
-  header="Hardware Models"
+  header="Hardware models"
   isLoading={false}
   onBookmarkClick={[Function]}
   onSearch={[Function]}
@@ -202,14 +190,8 @@ exports[`ModelsPage redering should render with models 1`] = `
     <Link
       to="/models/new"
     >
-      <Button
-        active={false}
-        block={false}
-        bsClass="btn"
-        bsStyle="primary"
-        disabled={false}
-      >
-        Create Model
+      <Button>
+        Create model
       </Button>
     </Link>
   }
@@ -259,7 +241,7 @@ exports[`ModelsPage redering should render with no data 1`] = `
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
   customBreadcrumbs={null}
-  header="Hardware Models"
+  header="Hardware models"
   isLoading={false}
   onBookmarkClick={[Function]}
   onSearch={[Function]}
@@ -285,14 +267,8 @@ exports[`ModelsPage redering should render with no data 1`] = `
     <Link
       to="/models/new"
     >
-      <Button
-        active={false}
-        block={false}
-        bsClass="btn"
-        bsStyle="primary"
-        disabled={false}
-      >
-        Create Model
+      <Button>
+        Create model
       </Button>
     </Link>
   }

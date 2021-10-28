@@ -35,8 +35,8 @@ const createModelsTableSchema = (apiCall, by, order, onDeleteClick) => {
     sortableColumn('name', __('Name'), 4, sortController, [
       nameCellFormatter('models'),
     ]),
-    sortableColumn('vendorClass', __('Vendor Class'), 3, sortController),
-    sortableColumn('hardwareModel', __('Hardware Model'), 3, sortController),
+    sortableColumn('vendorClass', __('Vendor class'), 3, sortController),
+    sortableColumn('hardwareModel', __('Hardware model'), 3, sortController),
     column(
       'hostsCount',
       __('Hosts'),

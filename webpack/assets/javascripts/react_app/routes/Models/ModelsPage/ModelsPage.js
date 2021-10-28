@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'patternfly-react';
+import { Button } from '@patternfly/react-core';
 import { Link } from 'react-router-dom';
 
 import { translate as __ } from '../../../common/I18n';
@@ -26,13 +26,13 @@ const ModelsPage = ({
 
   const createBtn = (
     <Link to="/models/new">
-      <Button bsStyle="primary">{__('Create Model')}</Button>
+      <Button>{__('Create model')}</Button>
     </Link>
   );
 
   return (
     <PageLayout
-      header={__('Hardware Models')}
+      header={__('Hardware models')}
       searchable={!isLoading}
       searchProps={MODELS_SEARCH_PROPS}
       searchQuery={search}
