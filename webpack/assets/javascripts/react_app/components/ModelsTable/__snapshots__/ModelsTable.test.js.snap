@@ -38,7 +38,7 @@ exports[`ModelsTable rendering should render ModelsTable 1`] = `
             [Function],
             [Function],
           ],
-          "label": "Vendor Class",
+          "label": "Vendor class",
           "props": Object {
             "className": "col-md-3",
             "sort": true,
@@ -59,7 +59,7 @@ exports[`ModelsTable rendering should render ModelsTable 1`] = `
             [Function],
             [Function],
           ],
-          "label": "Hardware Model",
+          "label": "Hardware model",
           "props": Object {
             "className": "col-md-3",
             "sort": true,

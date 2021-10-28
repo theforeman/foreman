@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'patternfly-react';
+import { Button } from '@patternfly/react-core';
 import './auditspage.scss';
 
 import { translate as __ } from '../../../common/I18n';
@@ -26,12 +26,13 @@ const AuditsPage = ({
     onBookmarkClick={search => fetchAndPush({ searchQuery: search, page: 1 })}
     toolbarButtons={
       <Button
-        href={getManualURL('4.1.4Auditing')}
-        target="_blank"
-        rel="external noreferrer noopener"
+        component="a"
         className="btn-docs"
+        href={getManualURL('4.1.4Auditing')}
+        rel="external noreferrer noopener"
+        target="_blank"
+        variant="secondary"
       >
-        <Icon type="pf" name="help" />
         {__(' Documentation')}
       </Button>
     }
