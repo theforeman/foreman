@@ -164,7 +164,7 @@ const HostDetails = ({
               activeKey={hash.slice(2).split('/')[0]}
             >
               {tabs.map(tab => (
-                <Tab key={tab} eventKey={tab} title={tab} href={`#/${tab}`} />
+                <Tab key={tab} eventKey={tab} title={tab} />
               ))}
             </Tabs>
           </TabRouter>
