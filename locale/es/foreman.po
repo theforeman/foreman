@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-05-03 17:21+0000\n"
-"Last-Translator: Carmela Rubiños <carmela.rubinos@gmail.com>\n"
+"PO-Revision-Date: 2021-07-29 17:18+0000\n"
+"Last-Translator: Sergio Ocón-Cárdenas <sergio.ocon@redhat.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -122,9 +122,6 @@ msgstr "%s es un atributo desconocido"
 msgid "%s is not a valid DNS record type"
 msgstr "%s no es un tipo de registro DNS válido"
 
-msgid "%s is not in environment"
-msgstr "%s no está en el entorno"
-
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "Hace %s minuto"
@@ -197,9 +194,6 @@ msgstr "%{cpus} CPUs y %{memory} MB de memoria"
 msgid "%{cpus} CPUs and %{memory} memory"
 msgstr "%{cpus} CPUs y %{memory} de memoria"
 
-msgid "%{e} does not belong to the %{environment} environment"
-msgstr "%{e} no pertenece al entorno %{environment}"
-
 msgid "%{host} is about to %{action}"
 msgstr "%{host} a punto de %{action}"
 
@@ -230,16 +224,8 @@ msgstr "%{match} no coincide con un host existente"
 msgid "%{match} does not match an existing host group"
 msgstr "%{match} no coincide con un grupo de host"
 
-msgid "%{model} with id '%{id}' was not found"
-msgstr "No se encontró %{model} con id '%{id}'."
-
 msgid "%{name} changed from %{label1} to %{label2}"
 msgstr "%{name} ha cambiado de %{label1} a %{label2}"
-
-msgid "%{name} has %{num_tag} class"
-msgid_plural "%{name} has %{num_tag} classes"
-msgstr[0] "%{name} tiene %{num_tag} clase"
-msgstr[1] "%{name} tiene %{num_tag} clases"
 
 msgid "%{object_name} is a %{object_class}, expected a subnet"
 msgstr "%{object_name} es un %{object_class}; se esperó una subred"
@@ -326,14 +312,8 @@ msgstr "(opcional) Rol IAM para que Fog utilice al crear  esta imagen"
 msgid "*Clear %s proxy*"
 msgstr "*Eliminar proxy %s*"
 
-msgid "*Clear environment*"
-msgstr "*Limpiar entorno*"
-
 msgid "*Clear host group*"
 msgstr "*Limpiar grupo de hosts*"
-
-msgid "*Inherit from host group*"
-msgstr "*Heredar del grupo de hosts*"
 
 msgid ": activate to sort column ascending"
 msgstr ""
@@ -389,17 +369,6 @@ msgstr[1] ""
 "<b style=\"color: #6bb5df;\">%{out_of_sync_sum}</b>\n"
 "               <p>No sincronizado</p>"
 
-msgid ""
-"<b>Description:</b> %{desc}<br/>\n"
-"     <b>Type:</b> %{type}<br/>\n"
-"     <b>Matcher:</b> %{matcher}<br/>\n"
-"     <b>Inherited value:</b> %{inherited_value}"
-msgstr ""
-"<b>Descripción:</b> %{desc}<br/>\n"
-"     <b>Tipo:</b> %{type}<br/>\n"
-"     <b>Concordancia:</b> %{matcher}<br/>\n"
-"     <b>Valor heredado:</b> %{inherited_value}"
-
 msgid "<b>Foreman</b> Build Complete"
 msgstr "Construcción <b>Foreman</b> completa"
 
@@ -429,9 +398,6 @@ msgstr "En la pestaña de proxies se debe seleccionar un proxy inteligente con u
 
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
 msgstr "Un perfil de cómputo es una forma de expresar un conjunto de valores predeterminados para las MV creadas en un recurso de cómputo específico que se pueden asignar a una etiqueta definida por el operador.  Esto significa que el administrador puede expresar, por ejemplo, lo que significa 'Small', 'Medium' o 'Large' ('pequeño', 'mediano' o 'grande') en todos los recursos de cómputo individuales de una instalación determinada."
-
-msgid "A config group provides a one-step method of associating many Puppet classes to either a host or host group. Typically this would be used to add a particular application profile or stack in one step."
-msgstr "Un grupo de configuración permite asociar muchas clases Puppet a un host o grupo de hosts en un solo paso. Normalmente, esto se utilizaría para añadir un perfil de aplicación particular o una pila en un solo paso."
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
 msgstr "Una lista de opciones desde la que el usuario puede realizar selecciones. Si no se proporciona, el usuario recibirá un campo libre."
@@ -512,9 +478,6 @@ msgstr "Funcionalidades activas"
 msgid "Active key"
 msgstr "clave activa"
 
-msgid "Add"
-msgstr "Añadir"
-
 msgid "Add Autosign entry"
 msgstr "Añadir entrada autofirmada"
 
@@ -572,6 +535,9 @@ msgstr "Añadir grupo de usuarios externo"
 msgid "Add filter"
 msgstr "Añadir filtro"
 
+msgid "Add tag"
+msgstr ""
+
 msgid "Add to dashboard"
 msgstr "Añadir al tablero"
 
@@ -580,9 +546,6 @@ msgstr "Añadir volumen"
 
 msgid "Add widgets"
 msgstr "Añadir asistentes"
-
-msgid "Add:"
-msgstr "Añadir:"
 
 msgid "Added %{from} to %{to}"
 msgstr "Añadido de %{from} a %{to}"
@@ -638,11 +601,17 @@ msgstr "Alerta"
 msgid "Alerts disabled"
 msgstr "Alertas inhabilitadas"
 
+msgid "Alias for setting name"
+msgstr ""
+
 msgid "Alias or VLAN device"
 msgstr "Dispositivo VLAN o alias"
 
 msgid "All"
 msgstr "Todos"
+
+msgid "All Audits"
+msgstr ""
 
 msgid "All Hosts"
 msgstr "Todos los hosts"
@@ -661,9 +630,6 @@ msgstr "Todos los dominios"
 
 msgid "All environments"
 msgstr "Todos los entornos"
-
-msgid "All environments - (not filtered)"
-msgstr "Todos los entornos - (no filtrados)"
 
 msgid "All host groups"
 msgstr "Todos los grupos de hosts"
@@ -1131,12 +1097,6 @@ msgstr "Zona de disponibilidad"
 msgid "Available"
 msgstr "Disponible"
 
-msgid "Available Classes"
-msgstr "Clases disponibles"
-
-msgid "Available Config Groups"
-msgstr "Grupos de configuración disponibles"
-
 msgid "Available Providers"
 msgstr "Proveedores disponibles"
 
@@ -1374,9 +1334,6 @@ msgstr "No se puede borrar la última cuenta de administración"
 msgid "Can't delete the last admin user group"
 msgstr "No se puede borrar el último grupo de usuarios de administración"
 
-msgid "Can't find a valid Foreman Proxy with a Puppet feature"
-msgstr "No se encuentra un Proxy Foreman con características de Puppet habilitadas"
-
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -1455,9 +1412,6 @@ msgstr "Certificado usado por Foreman para encriptar websockets"
 msgid "Certificates"
 msgstr "Certificados"
 
-msgid "Change Environment"
-msgstr "Cambiar entorno"
-
 msgid "Change Group"
 msgstr "Cambiar grupo"
 
@@ -1470,14 +1424,8 @@ msgstr "Cambiar estado de energía"
 msgid "Change Puppet CA"
 msgstr "Cambiar Puppet CA"
 
-msgid "Change Puppet Master"
-msgstr "Cambiar Puppetmaster"
-
 msgid "Change the password"
 msgstr "Cambiar la contraseña"
-
-msgid "Changed environments"
-msgstr "Entornos modificados"
 
 msgid "Changes"
 msgstr "Cambios"
@@ -1490,21 +1438,6 @@ msgstr "Chasis"
 
 msgid "Check again"
 msgstr "Comprobar de nuevo"
-
-msgid "Check/Uncheck all"
-msgstr "Marcar/Desmarcar todos"
-
-msgid "Check/Uncheck all %s changes"
-msgstr "Marcar/Desmarcar todos los cambios %s"
-
-msgid "Check/Uncheck new"
-msgstr "Marcar/Desmarcar nuevos"
-
-msgid "Check/Uncheck obsolete"
-msgstr "Marcar/Desmarcar obsoletos"
-
-msgid "Check/Uncheck updated"
-msgstr "Marcar/Desmarcar actualizados"
 
 msgid "Choose a family"
 msgstr "Elegir una familia"
@@ -1520,9 +1453,6 @@ msgstr "Elegir un tipo de servidor"
 
 msgid "Class"
 msgstr "Clase"
-
-msgid "Classes"
-msgstr "Clases"
 
 msgid "Clean up StoredValues"
 msgstr "Eliminar los valores almacenados"
@@ -1544,9 +1474,6 @@ msgstr "Eliminar el subestado de un host de un tipo determinado"
 
 msgid "Click on the link of a compute resource to edit its default VM attributes."
 msgstr "Haga clic en el enlace de un recurso de cómputo para editar los  atributos predeterminados para las máquinas virtuales.."
-
-msgid "Click to add %s"
-msgstr "Haga clic para añadir %s"
 
 msgid "Click to log in again"
 msgstr "Haga clic para volver a iniciar sesión"
@@ -1653,6 +1580,9 @@ msgstr "ID de recurso de cómputo"
 msgid "Compute resource IDs"
 msgstr "ID de recursos de cómputo"
 
+msgid "Compute resource destination unreachable"
+msgstr ""
+
 msgid "Compute resource update for %s"
 msgstr "Actualizado el recurso de cómputo de %s"
 
@@ -1705,12 +1635,6 @@ msgid "ComputeResource|Uuid"
 msgstr "Uuid"
 
 msgid "Conditional statements"
-msgstr ""
-
-msgid "Config Groups"
-msgstr "Grupos de configuración"
-
-msgid "Config Groups are being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
 msgstr ""
 
 msgid "Config Management"
@@ -1778,6 +1702,12 @@ msgstr "Conectado (sin cifrar) a: %s"
 msgid "Connecting (unencrypted) to: %s"
 msgstr "Conexión (sin cifrar) a: %s"
 
+msgid "Connection to compute resource refused"
+msgstr ""
+
+msgid "Connection to compute resource timed out"
+msgstr ""
+
 msgid "Console"
 msgstr "Consola"
 
@@ -1799,8 +1729,8 @@ msgstr ""
 msgid "Content"
 msgstr "Contenido"
 
-msgid "Continue to look for matches after first find (only array/hash type)? Note: merging overrides ignores all matchers that are omitted."
-msgstr "¿Desea continuar buscando coincidencias después del primer resultado (solo tipo array/hash)? Nota: Fusionar las anulaciones ignora todos los comparadores que están omitidos."
+msgid "Continue to look for matches after first find (only array/hash/json/yaml type)? Note: merging overrides ignores all matchers that are omitted."
+msgstr ""
 
 msgid "Continue?"
 msgstr "¿Continuar?"
@@ -1904,17 +1834,11 @@ msgstr "Crear perfil informático"
 msgid "Create Compute Resource"
 msgstr "Crear recurso informático"
 
-msgid "Create Config Group"
-msgstr "Crear grupo de configuración"
-
 msgid "Create DHCP Settings for %s"
 msgstr "Crear Parámetros DHCP para %s"
 
 msgid "Create Domain"
 msgstr "Crear dominio"
-
-msgid "Create Environment"
-msgstr "Crear entorno"
 
 msgid "Create Filter"
 msgstr "Crear filtro"
@@ -1963,9 +1887,6 @@ msgstr "Crear plantilla de aprovisionamiento"
 
 msgid "Create Proxy"
 msgstr "Crear proxy"
-
-msgid "Create Puppet Environment"
-msgstr "Crear entorno Puppet"
 
 msgid "Create RSS notifications"
 msgstr "Crear notificaciones RSS"
@@ -2249,6 +2170,9 @@ msgstr "Proxy DNS a utilizar en esta subred para administrar registros PTR, obse
 msgid "DNS timeout"
 msgstr "Tiempo de espera de DNS"
 
+msgid "DSL (Domain Specific Language) documentation"
+msgstr ""
+
 msgid "Daily"
 msgstr "Diariamente"
 
@@ -2276,10 +2200,10 @@ msgstr "Fecha"
 msgid "Default"
 msgstr "Predeterminado"
 
-msgid "Default 'Host intial configuration' template"
+msgid "Default 'Host initial configuration' template"
 msgstr ""
 
-msgid "Default 'Host intial configuration' template, automatically assigned when new operating system is created"
+msgid "Default 'Host initial configuration' template, automatically assigned when new operating system is created"
 msgstr ""
 
 msgid "Default Behavior"
@@ -2353,6 +2277,9 @@ msgstr "Valor para la entrada del usuario por defecto"
 
 msgid "Default verification mode"
 msgstr "Modo de verificación predeterminado"
+
+msgid "Default: %s"
+msgstr ""
 
 msgid "Defaults to image size if left blank"
 msgstr "El valor predeterminado del tamaño de la imagen está en blanco."
@@ -2552,12 +2479,6 @@ msgstr "Borrar entrada de reino para %s"
 msgid "Delete report for %s?"
 msgstr "¿Borrar informe de %s?"
 
-msgid "Deleted environment"
-msgstr "Entorno eliminado"
-
-msgid "Deleted environment %{env} and %{pcs}"
-msgstr "Eliminado entorno %{env} y %{pcs}"
-
 msgid "Deliver to e-mail addresses"
 msgstr "Entregar a direcciones de correo electrónico"
 
@@ -2581,9 +2502,6 @@ msgstr ""
 
 msgid "Description"
 msgstr "Descripción"
-
-msgid "Description of smart class"
-msgstr "Descripción de clase inteligente"
 
 msgid "Description of the domain"
 msgstr "Descripción del dominio"
@@ -2692,6 +2610,9 @@ msgid_plural "Displaying %{num_audits} of %{total_audits} audits"
 msgstr[0] "Mostrando %{num_audits} de %{total_audits} auditoría"
 msgstr[1] "Mostrando %{num_audits} de %{total_audits} auditorías"
 
+msgid "Do you really want to revoke Access Token?"
+msgstr ""
+
 msgid "Documentation"
 msgstr "Documentación"
 
@@ -2728,6 +2649,9 @@ msgstr "Nombre"
 msgid "Download"
 msgstr "Descargar"
 
+msgid "Download Report"
+msgstr ""
+
 msgid "Download VMRC"
 msgstr "Descargar VMRC"
 
@@ -2740,8 +2664,8 @@ msgstr "Descarga un informe generado"
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
 msgstr "Entradas duplicadas detectadas: %{duplicated_inputs}"
 
-msgid "Duration in minutes after servers are classed as out of sync."
-msgstr "Duración en minutos después de que los servidores se clasifiquen como fuera de sincronización."
+msgid "Duration in minutes after servers are classed as out of sync. You can override this on hosts by adding a parameter \"outofsync_interval\"."
+msgstr ""
 
 msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
 msgstr "Duración en minutos después de que los servidores que informan mediante Puppet se clasifiquen como fuera de sincronización."
@@ -2791,9 +2715,6 @@ msgstr "Editar parámetros"
 msgid "Edit Properties"
 msgstr "Editar propiedades"
 
-msgid "Edit Puppet Class %s"
-msgstr "Editar clase Puppet %s"
-
 msgid "Edit this host"
 msgstr "Editar este host"
 
@@ -2826,9 +2747,6 @@ msgstr ""
 
 msgid "Empty"
 msgstr ""
-
-msgid "Empty environment"
-msgstr "Entorno vacío"
 
 msgid "Enable Caching"
 msgstr "Habilitar el caché"
@@ -2878,21 +2796,12 @@ msgstr "Dirección IP final para sugerencias"
 msgid "Entries per page"
 msgstr "Entradas por página"
 
-msgid "Enviroments"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment"
 msgstr "Entorno"
 
-msgid "Environment ID"
-msgstr "ID de entorno"
-
 msgid "Environment IDs"
 msgstr "ID de entorno"
-
-msgid "Environment only"
-msgstr "Solo entorno"
 
 msgid "Environment variable containing a client's SSL certificate"
 msgstr "Variable de entorno que contiene un certificado SSL de cliente"
@@ -2903,8 +2812,8 @@ msgstr "Variable de entorno que contiene el sujeto DN de un certificado SSL"
 msgid "Environment variable containing the verification status of a client SSL certificate"
 msgstr "Variable de entorno que contiene la verificación del estado de un certificado SSL de cliente"
 
-msgid "Environments"
-msgstr "Entornos"
+msgid "Environments got deprecated from this endpoint."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Environment|Name"
@@ -3229,9 +3138,6 @@ msgstr "Falló al asignar la IP de %{name}: %{e}"
 msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr "Error al obtener un nuevo sector OTP. ¡Terminando la compilación!"
 
-msgid "Failed to import %{klass} for %{name}: doesn't exists in our database - ignoring"
-msgstr "Falló al importar %{klass} para %{name}: no existe en la base de datos - se ignora."
-
 msgid "Failed to initialize the PuppetCA proxy: %s"
 msgstr "Falló al inicializar el proxy PuppetCA: %s"
 
@@ -3240,9 +3146,6 @@ msgstr "Error al iniciar el proxy de reino: %s"
 
 msgid "Failed to launch script on %{name}: %{e}"
 msgstr "Falló al ejecutar script en %{name}: %{e}"
-
-msgid "Failed to load chart"
-msgstr "No se pudo cargar el gráfico"
 
 msgid "Failed to login via SSH to %{name}: %{e}"
 msgstr "Falló al iniciar sesión SSH en %{name}: %{e}"
@@ -3303,12 +3206,6 @@ msgstr "Error deshaciendo la actualización del recurso %{compute_resource} en l
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Error actualizando la actualización del recurso %{compute_resource} en la instancia %{name}: %{e}"
 
-msgid "Failed to update environments and Puppet classes from the on-disk Puppet installation: %s"
-msgstr "Ocurrió un error al actualizar los entornos y las clases Puppet en la instalación de Puppet en el disco: %s"
-
-msgid "Failed to update the environments and Puppet classes from the on-disk puppet installation: %s"
-msgstr "Error al actualizar los entornos y clases Puppet desde el disco de instalación de puppet: %s"
-
 msgid "Failed to validate %{host}: %{error}"
 msgstr "No se pudo validar %{host}: %{error}"
 
@@ -3367,14 +3264,8 @@ msgstr "Filtrar auditorías para este usuario únicamente"
 msgid "Filter by level:"
 msgstr "Filtrar por nivel:"
 
-msgid "Filter by name"
-msgstr "Filtrar por nombre"
-
 msgid "Filter by state:"
 msgstr "Filtrar por estado:"
-
-msgid "Filter classes"
-msgstr "Clases de filtro"
 
 msgid "Filter overriding has been disabled"
 msgstr "Se deshabilitó la anulación de filtros"
@@ -3477,8 +3368,8 @@ msgstr "En el caso del aprovisionamiento basado en imágenes que utiliza una pla
 msgid "For initial configuration of the host run this command:"
 msgstr ""
 
-msgid "For more info visit our documentation."
-msgstr "Visite nuestros documentos para obtener más información."
+msgid "For more info visit:"
+msgstr ""
 
 msgid "For more information"
 msgstr "Para obtener más información"
@@ -3585,14 +3476,8 @@ msgstr "Foreman establecerá explícitamente el entorno puppet en las salida yam
 msgid "Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."
 msgstr "Foreman mapeará los usuarios por nombre de usuario en la cabecera de la solicitud. Si se establece como falso, las peticiones de OAuth tendrán privilegios administrativos."
 
-msgid "Foreman will not send this parameter in classification output"
-msgstr "Foreman no enviará este parámetro en el resultado de clasificación"
-
 msgid "Foreman will not send this parameter in classification output."
 msgstr "Foreman no enviará este parámetro en el resultado de clasificación."
-
-msgid "Foreman will not send this parameter in classification output. Puppet will use the value defined in the Puppet manifest for this parameter"
-msgstr "Foreman no enviará este parámetro en el resultado de clasificación. Puppet usará el valor definido en el manifiesto de Puppet para este parámetro."
 
 msgid "Foreman will parse ERB in parameters value in the ENC output"
 msgstr "Foreman analizará ERB en los valores de los parámetros de la salida ENC"
@@ -3949,17 +3834,8 @@ msgstr "Grupo de hosts"
 msgid "Host group IDs"
 msgstr "ID de grupos de host"
 
-msgid "Host group and Environment"
-msgstr "Grupo del host y Entorno"
-
 msgid "Host group description"
 msgstr "Descripción del grupo de hosts"
-
-msgid "Host group only"
-msgstr "Solo Grupo del host"
-
-msgid "Host groups"
-msgstr "Grupo del host"
 
 msgid "Host initial configuration template"
 msgstr ""
@@ -4299,9 +4175,6 @@ msgstr "ID asignado a la generación del trabajo por el comando de programación
 msgid "ID of LDAP authentication source"
 msgstr "ID de la fuente de identificación LDAP"
 
-msgid "ID of Puppet class"
-msgstr "ID de la clase Puppet"
-
 msgid "ID of architecture"
 msgstr "ID de la arquitectura"
 
@@ -4319,9 +4192,6 @@ msgstr "ID de la plantilla de configuración"
 
 msgid "ID of domain"
 msgstr "ID del dominio"
-
-msgid "ID of environment"
-msgstr "ID del entorno"
 
 msgid "ID of environment - DEPRECATED will have no effect"
 msgstr ""
@@ -4380,10 +4250,10 @@ msgstr ""
 msgid "ID of the Location to register the host in."
 msgstr ""
 
-msgid "ID of the Operating System to register the host in"
+msgid "ID of the Operating System to register the host in."
 msgstr ""
 
-msgid "ID of the Operating System to register the host in."
+msgid "ID of the Operating System to register the host in. Operating system must have a `host_init_config` template assigned"
 msgstr ""
 
 msgid "ID of the Organization to register the host in"
@@ -4424,9 +4294,6 @@ msgstr "Id o nombre del grupo de usuarios"
 
 msgid "IDs of associated architectures"
 msgstr "ID de arquitecturas asociadas"
-
-msgid "IDs of associated config groups"
-msgstr "ID de grupos de configuración asociados"
 
 msgid "IDs of associated media"
 msgstr "ID de medios asociados"
@@ -4561,9 +4428,6 @@ msgstr ""
 msgid "If this setting needs to be changed in file, it will have the file path."
 msgstr ""
 
-msgid "If true, will raise an error if there is no default value and no matcher provide a value"
-msgstr "Si es así, se mostrará un error si no existe un valor predeterminado y no existe ninguna concordancia que pueda proporcionar un valor"
-
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "Si cree que esto es un error de Foreman, por favor, reporte una incidencia con"
 
@@ -4576,26 +4440,8 @@ msgstr "Ignorar datos para el dominio"
 msgid "Ignore facts for operating system"
 msgstr "Ignorar los datos para el sistema operativo"
 
-msgid "Ignore interfaces that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*"
-msgstr "Ignorar interfaces que coincidan con estos valores durante la importación de eventos, puede utilizar el comodín * para coincidir con los nombres con índices, por ejemplo, macvtap*"
-
 msgid "Ignore interfaces with matching identifier"
 msgstr "Ignorar interfaces con identificador de coincidencias"
-
-msgid "Ignored classes in the environments: %s"
-msgstr "Clases ignoradas en los entornos: %s"
-
-msgid "Ignored environment"
-msgstr "Entorno ignorado"
-
-msgid "Ignored environment names resulting in booleans found. Please quote strings like true/false and yes/no in config/ignored_environments.yml"
-msgstr "Se hallaron nombres de entornos ignorados que resultaron en valores booleanos. Mencione las cadenas como verdadero/falso y sí/no en config/ignored_environments.yml"
-
-msgid "Ignored environments: %s"
-msgstr "Entornos ignorados: %s"
-
-msgid "Ignored:"
-msgstr "Ignorado:"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Image"
@@ -4649,9 +4495,6 @@ msgstr "Uuid"
 msgid "Impersonate"
 msgstr "Imitar"
 
-msgid "Import"
-msgstr "Importar"
-
 msgid "Import File"
 msgstr "Importar archivo"
 
@@ -4672,12 +4515,6 @@ msgstr "Importar como host administrado"
 
 msgid "Import as unmanaged Host"
 msgstr "Importar como host no administrado"
-
-msgid "Import classes from %s"
-msgstr "Importar clases desde %s"
-
-msgid "Import environments from %s"
-msgstr "Importar entornos desde %s"
 
 msgid "Import of facts failed for host %s"
 msgstr "No se pudieron importar los eventos para host %s"
@@ -4715,20 +4552,11 @@ msgstr "Sintaxis de código en línea"
 msgid "Inactive Personal Access Tokens"
 msgstr ""
 
-msgid "Include default value when merging all matching values"
-msgstr "Incluir el valor predeterminado al combinar todos los valores que coinciden"
-
 msgid "Include default value when merging all matching values."
 msgstr "Incluir valor predeterminado al combinar todos los valores que coinciden"
 
 msgid "Include this host within Foreman reporting"
 msgstr "Incluir este host en el informe de Foreman"
-
-msgid "Included Classes"
-msgstr "Clases incluidas"
-
-msgid "Included Config Groups"
-msgstr "Grupos de configuración Incluidos"
 
 msgid "Incorrect password"
 msgstr "Contraseña incorrecta"
@@ -4756,9 +4584,6 @@ msgstr "Infraestructuras"
 
 msgid "Inherit parent (%s)"
 msgstr "Heredar padre (%s)"
-
-msgid "Inherited Classes from %s"
-msgstr "Clases heredadas de %s"
 
 msgid "Inherits from subnet VLAN ID if not set"
 msgstr "Hereda del ID de VLAN de la subred si no está establecido"
@@ -4907,8 +4732,14 @@ msgstr "Informe  no válido"
 msgid "Invalid search query: %s"
 msgstr "Consulta de búsqueda no válida: %s"
 
+msgid "Invalid sendmail location, use settings.yaml for arbitrary location"
+msgstr ""
+
 msgid "Invalid smart-proxy id"
 msgstr "ID de proxy inteligente inválido"
+
+msgid "Invalid tags, must be an array of maps with key and value properties"
+msgstr ""
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "Tipo no válido para la creación de host mediante eventos: %s"
@@ -4959,6 +4790,9 @@ msgstr "Jwt secreto"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "JwtSecret|Token"
 msgstr "JwtSecret|Token"
+
+msgid "Key"
+msgstr "Llave"
 
 msgid "Key not connected to any compute resource"
 msgstr "Clave no conectada con ningún recurso de cómputo"
@@ -5161,9 +4995,6 @@ msgstr "Listar todos los modelos de hardware"
 
 msgid "List all host groups"
 msgstr "Listar todos los grupos de hosts"
-
-msgid "List all host groups for a Puppet class"
-msgstr "Listarr los grupos de hosts para una clase Puppet"
 
 msgid "List all host groups per location"
 msgstr "Listar los grupos de hosts por ubicación"
@@ -5374,9 +5205,6 @@ msgstr "Enumerar las fuentes de autenticación externa por ubicación"
 
 msgid "List external authentication sources per organization"
 msgstr "Enumerar las fuentes de autenticación externa por organización"
-
-msgid "List hosts per environment"
-msgstr "Listar hosts por entorno"
 
 msgid "List hosts per location"
 msgstr "Listar hosts por ubicación"
@@ -5896,9 +5724,6 @@ msgstr "Función de agregado en caliente de la memoria"
 msgid "Memory hot add lets you add memory resources for a virtual machine while the machine is powered on."
 msgstr "La función de agregado en caliente de la memoria permite añadir recursos de memoria para una máquina virtual mientras la máquina se enciende."
 
-msgid "Merge all matching values (only array/hash type)"
-msgstr "Combinar todos los valores que coinciden (solo tipo array/hash)"
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Message"
 msgstr "Mensaje"
@@ -6078,9 +5903,6 @@ msgstr "Tipo de red"
 msgid "Never"
 msgstr "Nunca"
 
-msgid "New"
-msgstr "Nuevo"
-
 msgid "New %s"
 msgstr "Nuevo %s"
 
@@ -6239,6 +6061,9 @@ msgstr ""
 msgid "No Results"
 msgstr "No hay resultados"
 
+msgid "No Results found"
+msgstr ""
+
 msgid "No TFTP feature"
 msgstr "Ninguna funcionalidad TFTP"
 
@@ -6259,9 +6084,6 @@ msgstr "No hay cambios"
 
 msgid "No changes found when refreshing features from %s."
 msgstr "No se encontraron cambios durante la actualización de funcionalidades desde %s"
-
-msgid "No changes to your environments detected"
-msgstr "No se detectaron cambios en sus entornos"
 
 msgid "No comment provided"
 msgstr "No hay comentarios"
@@ -6286,12 +6108,6 @@ msgstr "No correo-e"
 
 msgid "No entries found"
 msgstr "No se encontraron entradas"
-
-msgid "No environment selected!"
-msgstr "¡Ningún entorno seleccionado!"
-
-msgid "No environments found"
-msgstr "No se encontraron entornos"
 
 msgid "No features found on this proxy, please make sure you enable at least one feature"
 msgstr "No se han encontrado funciones en este proxy, por favor asegúrese de que haya por lo menos una función habilitada"
@@ -6359,9 +6175,6 @@ msgstr "¡No se seleccionó un estado de energía o el estado seleccionado no es
 msgid "No owner selected!"
 msgstr "¡No se seleccionó ningún propietario!"
 
-msgid "No parameters to override for Puppet class %s"
-msgstr "No hay parámetros para sobrescribir la clase Puppet %s"
-
 msgid "No parameters were allocated to the selected hosts, can't mass assign"
 msgstr "No se asignaron parámetros a los hosts seleccionados; no se puede realizar una asignación masiva"
 
@@ -6370,9 +6183,6 @@ msgstr "No se encontraron complementos"
 
 msgid "No preference"
 msgstr "Sin preferencia"
-
-msgid "No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled."
-msgstr "No se encontró el Proxy para importar clases, asegúrese de que el proxy inteligente tenga la funcionalidad Puppet habilitada."
 
 msgid "No proxy selected!"
 msgstr "¡No se seleccionó ningún proxy!"
@@ -6394,9 +6204,6 @@ msgstr "No se encontraron proxis inteligentes."
 
 msgid "No smart proxies to show"
 msgstr "No hay proxis inteligentes para mostrar"
-
-msgid "No smart proxy was found to import environments from, ensure that at least one smart proxy is registered with the 'puppet' feature"
-msgstr "No se encontró un smart proxy desde el cual  importar entornos, asegúrese de que al menos se haya  registrado uno con la funcionalidad 'puppet'."
 
 msgid "No subnets"
 msgstr "No hay subredes"
@@ -6439,9 +6246,6 @@ msgstr "No instalado"
 
 msgid "Not a valid URL for a HTTP proxy"
 msgstr "URL inválida para un proxy HTTP"
-
-msgid "Not authorized to edit classes"
-msgstr "No autorizado para editar clases"
 
 msgid "Not implemented"
 msgstr "No se implementó"
@@ -6566,12 +6370,6 @@ msgstr "Número de clientes"
 msgid "Number of Events"
 msgstr "Número de eventos"
 
-msgid "Number of Overrides"
-msgstr "Cantidad de reemplazos"
-
-msgid "Number of classes"
-msgstr "Cantidad de clases"
-
 msgid "Number of records shown per page in Foreman"
 msgstr "Número de elementos por página mostrados en Foreman"
 
@@ -6599,9 +6397,6 @@ msgstr "Llave secreta de consumidor OAuth "
 msgid "OAuth map users"
 msgstr "OAuth mapea usuarios"
 
-msgid "OBSOLATED: id of the setting record, doesn't need to be set in the future"
-msgstr ""
-
 msgid "OIDC Algorithm"
 msgstr "Algoritmo de OIDC"
 
@@ -6623,17 +6418,14 @@ msgstr "Imagen SO"
 msgid "OS friendly name; e.g. RHEL 6.5"
 msgstr "nombre descriptivo del sistema operativo; por ejemplo, RHEL 6.5"
 
-msgid "OS major version from facter; e.g. 7"
-msgstr "Versión principal de SO de facter; por ejemplo, 7"
+msgid "OS major version from facter; e.g. %s"
+msgstr ""
 
-msgid "OS minor version from facter; e.g. 0 or 6.1810 (CentOS scheme)"
-msgstr "Versión menor del SO de facter; por ejemplo, 0 o 6.1810 (esquema CentOS)"
+msgid "OS minor version from facter; e.g. %s"
+msgstr ""
 
 msgid "OS name from facter; e.g. RedHat"
 msgstr "Nombre del SO procedente de facter; p. e.j., RedHat"
-
-msgid "Obsolete"
-msgstr "Obsoleta"
 
 msgid "Off"
 msgstr "Desactivar"
@@ -6643,9 +6435,6 @@ msgstr "Ok"
 
 msgid "Omit"
 msgstr "Omitir"
-
-msgid "Omit from classification output"
-msgstr "Omitir del resultado de clasificación"
 
 msgid "Omit parameter from classification"
 msgstr "Omitir parámetro de la clasificación"
@@ -6738,6 +6527,9 @@ msgstr "ID de sistemas operativos"
 msgid "Operating system default"
 msgstr "Sistema operativo predeterminado"
 
+msgid "Operating system doesn't have a 'host_init_config' template assigned."
+msgstr ""
+
 msgid "Operating system family, available values: %{operatingsystem_families}"
 msgstr "Familia de sistema operativo, valores disponibles: %{operatingsystem_families}"
 
@@ -6789,9 +6581,6 @@ msgstr "Nombre de lanzamiento"
 msgid "Operatingsystem|Title"
 msgstr "Título"
 
-msgid "Operation"
-msgstr "Operación"
-
 msgid "Operators"
 msgstr "Operadores"
 
@@ -6803,9 +6592,6 @@ msgstr "Array opcional de hash de registro"
 
 msgid "Optional comma-delimited string containing either 'new', 'updated', or 'obsolete' that is used to limit the imported Puppet classes"
 msgstr "Cadena opcional delimitada por comas, que contiene 'nuevo', 'actualizado' u 'obsoleto', utilizada para limitar las clases Puppet importadas."
-
-msgid "Optional parameter without value.<br/><i>Still managed by Foreman, the value will be empty.</i><br/>"
-msgstr "Parámetro opcional sin valor.<br/><i>Aún administrado por Foreman, el valor estará vacío.</i><br/>"
 
 msgid "Optional: Ending IP Address for IP auto suggestion"
 msgstr "Opcional: Última dirección para autosugerencia de IP"
@@ -6849,9 +6635,6 @@ msgstr "Organizaciones"
 msgid "Origin"
 msgstr "Origen"
 
-msgid "Original value info"
-msgstr "Información del valor original"
-
 msgid "Other reports for this host"
 msgstr "Otros informes paraeste host"
 
@@ -6870,26 +6653,17 @@ msgstr "Intervalo fuera de sincronización"
 msgid "Output format"
 msgstr "Formato de salida"
 
-msgid "Overridden"
-msgstr "Reemplazado"
-
 msgid "Override"
 msgstr "Sobrescribir"
 
-msgid "Override all parameters"
-msgstr "Sobrescribir todos los parámetros"
-
-msgid "Override match"
-msgstr "Sustituir coincidencia"
+msgid "Override Value"
+msgstr "Sobrescribir Valor"
 
 msgid "Override the default value of the Puppet class parameter."
 msgstr "Sustituir el valor predeterminado del parámetro de clase Puppet"
 
 msgid "Override this value"
 msgstr "Sobrescribir este valor"
-
-msgid "Override value, required if omit is false"
-msgstr "Valor de reemplazo; obligatorio si omit es 'false'"
 
 msgid "Overview"
 msgstr "Sinopsis"
@@ -6933,6 +6707,9 @@ msgstr "Plantilla PXEGrub2"
 msgid "PXELinux template"
 msgstr "Plantilla PXELinux "
 
+msgid "Packages to install on the host when registered. Can be set by `host_packages` parameter. Example: `pkg1 pkg2`"
+msgstr ""
+
 msgid "Page number, starting at 1"
 msgstr "Número de página, comenzando por 1"
 
@@ -6954,9 +6731,6 @@ msgstr "Detalles del parámetro"
 
 msgid "Parameter value"
 msgstr "Valor del parámetro"
-
-msgid "Parameterized class support permits detecting, importing, and supplying parameters directly to classes which support it, via the ENC and depending on a set of rules (Smart Matchers)."
-msgstr "El soporte de clase parametrizada permite detectar, importar y suministrar parámetros a las clases que lo admiten de forma directa y a través de ENC, aunque depende de un conjunto de reglas (concordancias inteligentes o Smart Matchers)."
 
 msgid "Parameters"
 msgstr "Parámetros"
@@ -7037,6 +6811,9 @@ msgstr "Se modificó la contraseña"
 
 msgid "Password must be 8 characters or more"
 msgstr "La contraseña debe tener al menos 8 caracteres"
+
+msgid "Password must be 8 characters or more."
+msgstr ""
 
 msgid "Password to authenticate with - used for SSH finish step."
 msgstr "Contraseña de autenticación - usada para el paso final de SSH"
@@ -7198,9 +6975,6 @@ msgstr "Guarde el usuario antes de asignar notificaciones de correo-e"
 
 msgid "Please select a cluster"
 msgstr "Seleccione un clúster."
-
-msgid "Please select an environment first"
-msgstr "Seleccione primero un entorno"
 
 msgid "Please select an image"
 msgstr "Seleccione una imagen"
@@ -7382,9 +7156,6 @@ msgstr "ID de plantilla de aprovisionamiento"
 msgid "Provisioning templates"
 msgstr "Plantillas de aprovisionamiento"
 
-msgid "Provisioning templates are generated using the Embedded Ruby (ERB) language."
-msgstr "Las plantillas de aprovisionamiento se generan con el idioma Embedded Ruby (ERB)."
-
 msgid "ProvisioningTemplate|Locked"
 msgstr "Plantilla de aprovisionamiento|Bloqueada"
 
@@ -7443,29 +7214,8 @@ msgstr "ID del Proxy Puppet CA"
 msgid "Puppet Class"
 msgstr "Clase Puppet"
 
-msgid "Puppet Class Parameters"
-msgstr "Parámetros de clase de Puppet"
-
-msgid "Puppet Classes"
-msgstr "Clases Puppet"
-
-msgid "Puppet Classes management is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
-msgstr ""
-
-msgid "Puppet ENC is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
-msgstr ""
-
-msgid "Puppet Environment"
-msgstr "Entorno de Puppet"
-
 msgid "Puppet Environments"
 msgstr "Entornos Puppet"
-
-msgid "Puppet Environments management is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
-msgstr ""
-
-msgid "Puppet Modules"
-msgstr "Módulos Puppet"
 
 msgid "Puppet Proxy"
 msgstr ""
@@ -7473,14 +7223,8 @@ msgstr ""
 msgid "Puppet class"
 msgstr "Clase Puppet"
 
-msgid "Puppet environments"
-msgstr "Entornos Puppet"
-
 msgid "Puppet error state"
 msgstr "Estado de error de Puppet"
-
-msgid "Puppet external nodes YAML dump"
-msgstr "Volcado YAML de nodos externos Puppet"
 
 msgid "Puppet interval"
 msgstr "Intervalo Puppet"
@@ -7592,6 +7336,9 @@ msgstr "Volver a construir la configuración de orquestación"
 msgid "Rebuild orchestration configuration"
 msgstr "Reconstruir la configuración de orquestación"
 
+msgid "Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'."
+msgstr ""
+
 msgid "Recent Audits"
 msgstr ""
 
@@ -7618,6 +7365,9 @@ msgstr "Refrescar características"
 
 msgid "Refresh smart proxy features"
 msgstr "Actualizar las funcionalidades del Proxy inteligente"
+
+msgid "Regenerate Report"
+msgstr ""
 
 msgid "Region"
 msgstr "Región"
@@ -7683,14 +7433,8 @@ msgstr ""
 msgid "Remove conflicting %{type} for %{host}"
 msgstr "Eliminar %{type} en conflicto para %{host}"
 
-msgid "Remove duplicate values (only array type)"
-msgstr "Eliminar valores duplicados (solo tipo array)"
-
-msgid "Remove this override"
-msgstr "Eliminar esta sustitución"
-
-msgid "Remove:"
-msgstr "Eliminar:"
+msgid "Remove tag"
+msgstr ""
 
 msgid "Removed %{from} to %{to}"
 msgstr "Se eliminó de %{from} a %{to}"
@@ -7729,6 +7473,9 @@ msgstr ""
 msgid "Report"
 msgstr "Informe"
 
+msgid "Report \"%s\" is ready to download"
+msgstr ""
+
 msgid "Report Metrics"
 msgstr "Métrica de informe"
 
@@ -7752,6 +7499,9 @@ msgstr "El informe se está produciendo, se entregará por correo electrónico."
 
 msgid "Report is going to be rendered at %s and it will be delivered via e-mail once ready."
 msgstr "El informe será produciendo en %s y será entregado por e-mail una vez que esté listo."
+
+msgid "Report is ready to download"
+msgstr ""
 
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr "Informe no encontrado, asegúrese de que ha utilizado el job_id correcto"
@@ -7817,9 +7567,6 @@ msgstr "Solicitar UUID"
 msgid "Require SSL for smart proxies"
 msgstr "Requiere SSL para proxy inteligentes"
 
-msgid "Required parameter without value.<br/><b>Please override!</b><br/>"
-msgstr "Parámetro requerido sin valor.<br/><b>¡Sustituir!</b><br/>"
-
 msgid "Required unless user is in an external authentication source"
 msgstr "Obligatorio, a menos que el usuario sea una fuente de autenticación externa"
 
@@ -7831,9 +7578,6 @@ msgstr "Reiniciar nombre de certificado PuppetCA para %s"
 
 msgid "Reset to default"
 msgstr "Restablecer valores predeterminados"
-
-msgid "Reset zoom"
-msgstr "Restablecer nivel de ampliación"
 
 msgid "Resolve"
 msgstr "Resolver"
@@ -8163,9 +7907,6 @@ msgstr "Seleccionar estado deseado"
 msgid "Select domains"
 msgstr "Seleccionar dominios"
 
-msgid "Select environment"
-msgstr "Seleccionar entorno"
-
 msgid "Select environments"
 msgstr "Seleccionar entornos"
 
@@ -8204,9 +7945,6 @@ msgstr "Seleccionar proxy inteligente"
 
 msgid "Select subnets"
 msgstr "Seleccionar subredes"
-
-msgid "Select the changes you want to apply to Foreman"
-msgstr "Seleccione los cambios que desea aplicar a Foreman"
 
 msgid "Select this host"
 msgid_plural "Select all <b> %{total} </b> hosts"
@@ -8300,9 +8038,6 @@ msgstr "Configurar una contraseña generada en forma  aleatoria  en la conexión
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
 msgstr "Definir nombres de hosts para los que las solicitudes no tendrán proxy. Las solicitudes al host local se excluyen de manera predeterminada."
 
-msgid "Set parameters to defaults"
-msgstr "Restablecer los parámetros predeterminados"
-
 msgid "Set the current location context for the request"
 msgstr "Establecer el contexto actual de la ubicación para la solicitud"
 
@@ -8321,6 +8056,12 @@ msgstr "Establece un proxy para todas las conexiones HTTP salientes de Foreman. 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
 msgstr "Parámetro"
+
+msgid "Setting '%s' has an invalid type definition. Please use a valid type."
+msgstr ""
+
+msgid "Setting '%s' is already defined, please avoid collisions"
+msgstr ""
 
 msgid "Setting current value. If this setting is encypted, the value will not be returned"
 msgstr ""
@@ -8647,6 +8388,9 @@ msgstr "Tamaño (GB)"
 msgid "Skip assign hosts and proceed to edit %s settings"
 msgstr "Saltar el paso de asignación de hosts y proceder a editar las preferencias %s"
 
+msgid "Skip creating or updating host network interfaces objects with identifiers matching these values from incoming facts. You can use * wildcard to match identifiers with indexes e.g. macvtap*. The ignored interfaces raw facts will be still stored in the DB, see the 'Exclude pattern' setting for more details."
+msgstr ""
+
 msgid "Skipped"
 msgstr "Omitido"
 
@@ -8659,9 +8403,6 @@ msgstr "Parámetro de clase Inteligente"
 
 msgid "Smart Class Parameters"
 msgstr "Parámetros de clase inteligente"
-
-msgid "Smart Class Parameters management is being extracted to the foreman_puppet plugin and will be removed from core in 3.0"
-msgstr ""
 
 msgid "Smart Proxies"
 msgstr "Proxies inteligentes"
@@ -8742,8 +8483,8 @@ msgstr "No se ha configurado ninguna plantilla"
 msgid "Sorry, these hosts do not have parameters assigned to them, you must add them first."
 msgstr "Estos hosts no tienen parámetros asignados. Debe añadírselos primero."
 
-msgid "Sort field and order, eg. ‘id DESC’"
-msgstr "Orden y campo de clasificación, p. ej., 'id DESC'"
+msgid "Sort and order by a searchable field, e.g. 'id DESC'"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Source"
@@ -8985,9 +8726,6 @@ msgstr "Se ha eliminado correctamente %s."
 msgid "Successfully deleted report."
 msgstr "El informe se ha eliminado correctamente."
 
-msgid "Successfully overridden all parameters of Puppet class %s"
-msgstr "Se han sobrescrito con éxito todos los parámetros de clase Puppet %s"
-
 msgid "Successfully recreated"
 msgstr "Recreación correcta"
 
@@ -8997,14 +8735,8 @@ msgstr "Se actualizaron con éxito las funcionalidades %s."
 msgid "Successfully refreshed the cache."
 msgstr "Se actualizó el caché correctamente."
 
-msgid "Successfully reset all parameters of Puppet class %s to their default values"
-msgstr "Se han restablecido con éxito todos los parámetros de la clase Puppet %s a sus valores predeterminados"
-
 msgid "Successfully updated %s."
 msgstr "Se ha actualizado correctamente %s."
-
-msgid "Successfully updated environments and Puppet classes from the on-disk Puppet installation"
-msgstr "Se actualizaron los entornos y clases Puppet con éxito desde la instalación de Puppet en disco"
 
 msgid "Suggest new"
 msgstr "Sugerir nuevo"
@@ -9068,6 +8800,9 @@ msgstr "TablePreference|Columns"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TablePreference|Name"
 msgstr "TablePreference|Name"
+
+msgid "Tags"
+msgstr "Etiquetas"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Taxable taxonomy"
@@ -9235,6 +8970,9 @@ msgstr "Plantillas"
 msgid "Templates DSL"
 msgstr "Plantillas DSL"
 
+msgid "Templates are generated using the Embedded Ruby (ERB) language."
+msgstr ""
+
 msgid "Templates can access built-in instance variables denoted by <code>@</code>."
 msgstr ""
 
@@ -9373,9 +9111,6 @@ msgstr "La fuente de autenticación de sus grupos de usuarios externos no pudo c
 msgid "The category of setting"
 msgstr ""
 
-msgid "The class could not be saved because of an error in one of the class parameters."
-msgstr "La clase no se pudo guardar debido a un error en uno de los parámetros de clase."
-
 msgid "The class of CPU supplied in this machine. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -m"
 msgstr "La clase de CPU suministrada en esta máquina. Se utiliza principalmente para arquitecturas Sparc Solaris y se puede dejar en blanco para otras arquitecturas. Se puede consultar este valor en Solaris con el comando uname -m"
 
@@ -9477,8 +9212,8 @@ msgstr "El método utilizado para aprovisionar el host."
 msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup,environment</code> would expect a matcher such as <code>hostgroup,environment = example-group,production</code>"
 msgstr "El orden en que se procesan las llaves de concordancia, la primera concordancia gana.<br> Se pueden usar múltiples atributos como llave de concordancia, por ejemplo, con una orden de <code>hostgroup,environment</code> se esperaría una comparación como <code>hostgroup,environment = example-group,production</code>"
 
-msgid "The order in which values are resolved"
-msgstr "El orden en el cual se resuelven los valores"
+msgid "The password is currently set by %s."
+msgstr ""
 
 msgid "The password will also be accessible to other users via templates and in the ENC YAML output; disable the bmc_credentials_accessible setting to prevent access."
 msgstr "Otros usuarios también podrán acceder a la contraseña a través de plantillas y en el resultado YAML ENC; deshabilite la configuración de bmc_credentials_accessible para impedir el acceso."
@@ -9541,9 +9276,6 @@ msgstr "Tema"
 msgid "There are migrations pending in the system."
 msgstr "Hay migraciones pendientes en el sistema."
 
-msgid "There are no puppet environments set up on this puppet master. Please check the puppet master configuration."
-msgstr "No hay entornos Puppet configurados en este puppetmaster. Verifique la configuración de puppetmaster."
-
 msgid "There are orchestration modules with methods for configuration rebuild that have identical name: '%s'"
 msgstr "Hay módulos de orquestación con métodos para reconstrucción de la configuración que tienen el mismo nombre: '%s'."
 
@@ -9591,8 +9323,11 @@ msgstr "Esto <b>eliminará</b> las máquinas virtuales vinculadas y sus discos, 
 msgid "This IP address has already been reserved in External IPAM"
 msgstr "Esta dirección IP ya ha sido reservada en el IPAM externo"
 
-msgid "This Puppet class has no parameters in its signature."
-msgstr "Esta clase Puppet no tiene parámetros en su firma."
+msgid "This email was sent from Foreman identified by UUID %{uuid}"
+msgstr ""
+
+msgid "This email was sent from Foreman instance %{title} identified by %{uuid}"
+msgstr ""
 
 msgid "This generates no output. However if the closing tag was <code>&#37;></code> without the dash, it would generate a new line"
 msgstr ""
@@ -9694,12 +9429,6 @@ msgstr ""
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr "Esto generará un informe %s. Basado en su definición, puede tomar mucho tiempo para procesarlo."
 
-msgid "This will reset parameters of the class %s to their default values. Continue?"
-msgstr "Esto restablecerá los parámetros de la clase %s a los valores predeterminados. ¿Continuar?"
-
-msgid "This will set all parameters of the class %s as overridden. Continue?"
-msgstr "Se establecerán todos los parámetros de la clase %s. ¿Continuar?"
-
 msgid "Time"
 msgstr "Hora"
 
@@ -9718,10 +9447,16 @@ msgstr "Se ha excedido el tiempo de espera en la conexión con %s"
 msgid "Timezone to use for new users"
 msgstr "Zona horaria a utilizar para los nuevos usuarios"
 
+msgid "To access %s API, you need to install the Foreman Puppet plugin"
+msgstr ""
+
 msgid "To access /statistics API you need to install Foreman Statistics plugin"
 msgstr ""
 
 msgid "To access /trends API you need to install Foreman Statistics plugin"
+msgstr ""
+
+msgid "To access import_puppetclasses API you need to install the Foreman Puppet plugin"
 msgstr ""
 
 msgid "To change the default behavior, modify the enclosing mark with <code>-&#37;></code>:"
@@ -9744,14 +9479,8 @@ msgid ""
 "                groups\" then \"Refresh\"."
 msgstr "Para actualizar la lista de usuarios, haga clic en la pestaña \"Grupos externos\" y, luego, en \"Actualizar\"."
 
-msgid "To update the class signature, go to the Puppet Classes page and select \"Import\"."
-msgstr "Para actualizar la firma de clase, seleccione \"Importar\" en la página de clases Puppet."
-
 msgid "Today"
 msgstr "Hoy"
-
-msgid "Toggle"
-msgstr "Conmutar"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Token"
@@ -9859,12 +9588,6 @@ msgstr "Tipo de valor"
 
 msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
 msgstr "Tipo o protocolo, IPv4 o IPv6, se predetermina en IPv4"
-
-msgid "Types of validation values"
-msgstr "Tipos de valores de validación"
-
-msgid "Types of variable values"
-msgstr "Tipos de valores de variable"
 
 msgid "URL"
 msgstr "URL"
@@ -10006,9 +9729,6 @@ msgstr "No se encontró la plantilla %s"
 
 msgid "Unable to find user-data or cloud-init template for host %{host} running %{os}"
 msgstr ""
-
-msgid "Unable to generate output, Check log files"
-msgstr "No es posible generar salida, verifique los archivos de registro."
 
 msgid "Unable to get BMC providers"
 msgstr "No se pueden obtener los proveedores BMC"
@@ -10202,9 +9922,6 @@ msgstr "Función hash '%s' de contraseña no tiene soporte"
 msgid "Unsupported report status format"
 msgstr "Formato de estatus de informe no tiene soporte"
 
-msgid "Update"
-msgstr "Actualizar"
-
 msgid "Update :a_resource"
 msgstr "Actualizar :a_resource"
 
@@ -10313,6 +10030,9 @@ msgstr "Actualizar un usuario"
 msgid "Update a user group"
 msgstr "Actualizar un grupo de usuarios"
 
+msgid "Update all packages on the host"
+msgstr ""
+
 msgid "Update an HTTP Proxy"
 msgstr "Actualizar un proxy HTTP"
 
@@ -10352,6 +10072,9 @@ msgstr "Actualizar host"
 msgid "Update hostgroup from facts"
 msgstr "Actualizar al grupo de hosts en función de los eventos"
 
+msgid "Update packages"
+msgstr ""
+
 msgid "Update realm entry for %s"
 msgstr "Actualizar entrada de reino para %s"
 
@@ -10367,20 +10090,11 @@ msgstr "Actualizar el menú por defecto de PXE en todos los servidores TFTP conf
 msgid "Update value for %s setting"
 msgstr ""
 
-msgid "Update:"
-msgstr "Actualizar:"
-
-msgid "Updated"
-msgstr "Actualizado"
-
 msgid "Updated all hosts!"
 msgstr "¡Todos los hosts han sido actualizados!"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "Hosts actualizados: Disociados de las máquinas virtuales"
-
-msgid "Updated hosts: changed environment"
-msgstr "Hosts actualizados: se cambió el entorno"
 
 msgid "Updated hosts: changed host group"
 msgstr "Hosts actualizados: se cambió grupo de hosts"
@@ -10456,9 +10170,6 @@ msgstr "Usado"
 
 msgid "Used in iPXE environments."
 msgstr "Utilizado en entornos iPXE."
-
-msgid "Used to enforce certain values for the parameter values"
-msgstr "Utilizado para imponer ciertos valores para los valores del parámetro"
 
 msgid "Used when Grub2 loader is set, loads grub/bootx64.efi which loads content generated by this template."
 msgstr "Utilizado cuando está configurado el cargador Grub2, carga grub/bootx64.efi que carga contenido generado por esta plantilla."
@@ -10690,8 +10401,8 @@ msgstr "Las consolas de VNC no se admiten en VMware ESXi 6.5 y versiones posteri
 msgid "VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"
 msgstr "Cifrado de acceso a la consola de proxy de websocket VNC/SPICE (se requiere configurar websockets_ssl_key/cert)"
 
-msgid "Valid Host Group and Environment Combinations"
-msgstr "Combinaciones válidas de grupos de hosts y entornos"
+msgid "Valid Host Groups"
+msgstr ""
 
 msgid "Valid e-mail addresses delimited by \"%s\""
 msgstr "Direcciones de correo electrónico válidas delimitadas por \"%s\""
@@ -10707,9 +10418,6 @@ msgstr "Valor"
 
 msgid "Value for required input '%s' was not specified"
 msgstr "No se especificó el valor para la entrada requerida '%s'."
-
-msgid "Value to use when there is no match"
-msgstr "Valor a utilizar cuando no existen coincidencias"
 
 msgid "Value to use when there is no match."
 msgstr "Valor a utilizar cuando no existen coincidencias"
@@ -10851,14 +10559,8 @@ msgstr ""
 msgid ""
 "When editing a template, you must assign a list \\\n"
 "of operating systems which this template can be used with. Optionally, you can \\\n"
-"restrict a template to a list of host groups and/or environments."
+"restrict a template to a list of host groups."
 msgstr ""
-"Cuando edita una plantilla, debe asignar una lista \\\n"
-"de sistemas operativos con los que se puede usar esta plantilla. De manera opcional, puede  \\\n"
-"restringir una plantilla a una lista de grupos de hosts o entornos."
-
-msgid "When enabled the parameter is hidden in the UI"
-msgstr "Al habilitarse, el parámetro está oculto en la UI."
 
 msgid ""
 "When the role's associated %{taxonomies} are changed,<br> the change will propagate to all inheriting filters.\n"
@@ -10895,9 +10597,6 @@ msgstr "Indica si se debe mostrar o no un menú para acceder a funciones de labo
 
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "Independientemente de que el valor del parámetro de la clase sea administrado por Foreman"
-
-msgid "Whether the smart class parameter value is managed by Foreman"
-msgstr "Si el valor del parámetro de clase inteligente es administrado por Foreman"
 
 msgid "Whether to pull RSS notifications or not"
 msgstr "Si se deben extraer notificaciones RSS"
@@ -10985,9 +10684,6 @@ msgstr ""
 msgid "X509 Certification Authorities"
 msgstr "Autoridades de certificación X509"
 
-msgid "YAML"
-msgstr "YAML"
-
 msgid "Yes"
 msgstr "Sí"
 
@@ -11027,8 +10723,8 @@ msgstr "Está usando un navegador no compatible."
 msgid "You can add SSH public keys to a user in Foreman."
 msgstr "Puede agregar claves públicas SSH a un usuario de Foreman."
 
-msgid "You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
-msgstr "Puede encontrar Foreman en la red %{freenode} (irc.freenode.net). Para soporte básico, visite  #theforeman y para un chat específico de desarrollo, visite #theforeman-dev."
+msgid "You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
+msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
 msgstr "Puede seleccionar uno de los modos IPAM admitidos por el protocolo IP seleccionado:<br/><ul><li><strong>DHCP</strong> - gestionará la IP en DHCP a través de un proxy DHCP asignado, las IP autosugeridas vienen de DHCP <em>(IPv4)</em></li><<strong>Base de datos interna</strong> - usar la base de datos interna para autosugerir IP libre basada en otras interfaces en la misma subred respetando el rango si se especifica, útil principalmente con el modo de arranque estático <em>(IPv4, IPv6)</em>, conserva el orden natural</li><li><fuerte>Base de datos aleatoria</fuerte> - igual que la base de datos interna pero aleatoriza los resultados para prevenir las condiciones de carrera <em>(IPv4)</em></li><strong>EUI-64</strong> - asignará la dirección IPv6 basándose en la dirección MAC de la interfaz <em>(IPv6)</em></li><li><strong>IPAM externo</strong> - autosugerirá la siguiente dirección disponible a través de un plugin de proxy inteligente de IPAM externo (IPv4, IPv6)</li><li><strong>Ninguno</strong> - dejarle la gestión de  IP al usuario, sin autosugestión <em>(IPv4, IPv6)</em></li></ul>"
@@ -11153,8 +10849,14 @@ msgstr "ya existe"
 msgid "an organization"
 msgstr "una organización"
 
+msgid "and"
+msgstr "y"
+
 msgid "array"
 msgstr "array"
+
+msgid "auxiliary field"
+msgstr ""
 
 msgid "belongs to config group"
 msgstr "pertenece a un grupo de configuración"
@@ -11165,8 +10867,8 @@ msgstr "marcador"
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "dispositivo de inicio, dispositivos validos son disk, cdrom, pxe, bios"
 
-msgid "can only be set for array or hash"
-msgstr "solo puede establecerse para array o hash"
+msgid "can only be set for array, hash, json or yaml"
+msgstr ""
 
 msgid "can only be set for arrays that have merge_overrides set to true"
 msgstr "solo puede establecerse para arrays, cuyo parámetro merge_overrides se establezca como verdadero"
@@ -11321,9 +11023,6 @@ msgstr "p.ej., : https://ovirt.example.com/ovirt-engine/api"
 msgid "e.g. jpegPhoto"
 msgstr " p. ej., jpegPhoto"
 
-msgid "e.g. karmic, lucid, hw0910 etc"
-msgstr "p. ej.,  karmic, lucid, hw0910 etc"
-
 msgid "e.g. mail"
 msgstr "p. ej.,  mail"
 
@@ -11408,6 +11107,9 @@ msgstr "más instrucciones"
 msgid "global"
 msgstr "Global"
 
+msgid "global setting"
+msgstr ""
+
 msgid "groups base DN"
 msgstr "DN base para grupos"
 
@@ -11429,12 +11131,6 @@ msgstr "aquí"
 msgid "host"
 msgstr "huésped"
 
-msgid "host already has primary interface"
-msgstr "el host ya tiene una interfaz principal"
-
-msgid "host already has provision interface"
-msgstr "el host ya tiene una interfaz de aprovisionamiento"
-
 msgid "host group"
 msgstr "Grupo de hosts"
 
@@ -11443,6 +11139,9 @@ msgstr "ID de grupo de hosts"
 
 msgid "host must have one primary interface"
 msgstr "el host debe tener una interfaz principal"
+
+msgid "hostgroup"
+msgstr "grupo de host"
 
 msgid "hostname can contain only lowercase letters, numbers, dashes and dots according to RFC921, RFC952 and RFC1123"
 msgstr "el nombre de host solo puede incluir letras en minúscula, números, guiones y puntos, de acuerdo con RFC921, RFC952 y RFC1123"
@@ -11474,9 +11173,6 @@ msgstr "en curso"
 msgid "in progress"
 msgstr "en curso"
 
-msgid "included already from parent"
-msgstr "incluidos previamente por el padre"
-
 msgid "inherit"
 msgstr "heredar"
 
@@ -11485,6 +11181,9 @@ msgstr "entero"
 
 msgid "interface information"
 msgstr "información de interfaz"
+
+msgid "interface is already set on the host"
+msgstr ""
 
 msgid "invalid"
 msgstr "no válido"
@@ -11561,6 +11260,9 @@ msgstr "no está permitido"
 msgid "is not valid"
 msgstr "no es válido"
 
+msgid "is not valid."
+msgstr ""
+
 msgid "is too long (maximum is %s characters)"
 msgstr "es demasiado largo (el máximo es %s caracteres)"
 
@@ -11590,8 +11292,8 @@ msgstr "enlazar grupo de usuarios externos con este grupo de usuario"
 msgid "list"
 msgstr "lista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
-#. or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Español"
 
@@ -11651,9 +11353,6 @@ msgstr "debe especificar si 'desde' está definido"
 
 msgid "must be specified if to is defined"
 msgstr "debe especificar si 'a' está definido"
-
-msgid "must be true to edit the parameter"
-msgstr "Debe ser verdadero para modificar el parámetro"
 
 msgid "must belong to host's operating system"
 msgstr "debe pertenecer al sistema operativo del host"
@@ -11753,6 +11452,9 @@ msgstr "Organización"
 
 msgid "organizations"
 msgstr "Organizaciones"
+
+msgid "our templates documentation"
+msgstr ""
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "analizando tipo de parámetros '%s' desde una cadena en caso de que no se defina"
