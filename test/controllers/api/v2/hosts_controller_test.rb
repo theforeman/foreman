@@ -707,7 +707,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       facts['foreman_hostgroup'] = hostgroup.title
       post :facts, params: { :name => hostname, :facts => facts }
       assert_response :success
-      assert_equal hostgroup.root_pass, Host.find_by(:name => hostname).root_pass
+      host_pass = as_admin { Host.find_by(:name => hostname).root_pass }
+      assert_equal hostgroup.root_pass, host_pass
     end
 
     test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to import facts' do

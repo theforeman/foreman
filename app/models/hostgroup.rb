@@ -197,7 +197,7 @@ class Hostgroup < ApplicationRecord
     return self[:root_pass] if self[:root_pass].present?
     npw = nested_root_pw
     return npw if npw.present?
-    Setting[:root_pass]
+    crypt_pass(Setting[:root_pass], :root)
   end
 
   def explicit_pxe_loader
@@ -249,6 +249,11 @@ class Hostgroup < ApplicationRecord
 
   def render_template(template:, **params)
     template.render(host: self, **params)
+  end
+
+  def root_pass_present?
+    return true if self[:root_pass].present?
+    nested_root_pw
   end
 
   protected

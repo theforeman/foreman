@@ -968,7 +968,7 @@ class HostTest < ActiveSupport::TestCase
     h.save!
     assert h.root_pass.present?
     assert_equal h.hostgroup.root_pass, h.root_pass
-    assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host unmodified'
+    assert_nil h.read_attribute(:root_pass), 'should not copy root_pass to host unmodified'
   end
 
   test "should use hostgroup base64-windows root password without reencoding" do
@@ -984,7 +984,7 @@ class HostTest < ActiveSupport::TestCase
     h.save!
     assert h.root_pass.present?
     assert_equal h.hostgroup.root_pass, h.root_pass
-    assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host unmodified'
+    assert_nil h.read_attribute(:root_pass), 'should not copy root_pass to host unmodified'
   end
 
   test "should use hostgroup root password" do
@@ -995,7 +995,7 @@ class HostTest < ActiveSupport::TestCase
     assert h.save
     assert h.root_pass.present?
     assert_equal h.hostgroup.root_pass, h.root_pass
-    assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host'
+    assert_nil h.read_attribute(:root_pass), 'should not copy root_pass to host unmodified'
   end
 
   test "should use a nested hostgroup parent root password" do
@@ -1011,7 +1011,7 @@ class HostTest < ActiveSupport::TestCase
     assert h.save
     assert h.root_pass.present?
     assert_equal p.root_pass, h.root_pass
-    assert_equal p.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host'
+    assert_nil h.read_attribute(:root_pass), 'should not copy root_pass to host unmodified'
   end
 
   test "should use settings root password" do
@@ -1021,7 +1021,88 @@ class HostTest < ActiveSupport::TestCase
     assert h.save
     assert h.root_pass.present?
     assert_equal Setting[:root_pass], h.root_pass
-    assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
+    assert_nil h.read_attribute(:root_pass), 'should not copy root_pass to host'
+  end
+
+  test "should change password when hostgroup is changed" do
+    first_password = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    second_password = "$2$newone$hCkak1kaJPQILNmYbUXhD1"
+
+    h1 = FactoryBot.create(:hostgroup, :root_pass => first_password)
+    h2 = FactoryBot.create(:hostgroup, :root_pass => second_password)
+
+    host = FactoryBot.create(:host, :managed, :hostgroup => h1, :root_pass => nil)
+    assert host.save
+    assert host.root_pass.present?
+    assert_equal first_password, host.root_pass
+    assert_equal host.root_pass_source, 'hostgroup'
+
+    host.hostgroup = h2
+    assert host.save
+    assert host.root_pass.present?
+    assert_equal second_password, host.root_pass
+    assert_equal host.root_pass_source, 'hostgroup'
+  end
+
+  test "should change password when hostgroup is changed to hostgroup without password" do
+    first_password = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    Setting[:root_pass] = "$2$newone$hCkak1kaJPQILNmYbUXhD1"
+
+    h1 = FactoryBot.create(:hostgroup, :root_pass => first_password)
+    h2 = FactoryBot.create(:hostgroup, :root_pass => nil)
+
+    host = FactoryBot.create(:host, :managed, :hostgroup => h1, :root_pass => nil)
+    assert host.save
+    assert host.root_pass.present?
+    assert_equal first_password, host.root_pass
+    assert_equal host.root_pass_source, 'hostgroup'
+
+    host.hostgroup = h2
+    assert host.save
+    assert host.root_pass.present?
+    assert_equal Setting[:root_pass], host.root_pass
+    assert_equal host.root_pass_source, 'global setting'
+  end
+
+  test "should change password when hostgroup without password is changed to hostgroup with password" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    second_password = "$2$newone$hCkak1kaJPQILNmYbUXhD1"
+
+    h1 = FactoryBot.create(:hostgroup, :root_pass => nil)
+    h2 = FactoryBot.create(:hostgroup, :root_pass => second_password)
+
+    host = FactoryBot.create(:host, :managed, :hostgroup => h1, :root_pass => nil)
+    assert host.save
+    assert host.root_pass.present?
+    assert_equal Setting[:root_pass], host.root_pass
+    assert_equal host.root_pass_source, 'global setting'
+
+    host.hostgroup = h2
+    assert host.save
+    assert host.root_pass.present?
+    assert_equal second_password, host.root_pass
+    assert_equal host.root_pass_source, 'hostgroup'
+  end
+
+  test "should change password when hostgroup without password is changed to hostgroup with password and parent" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    second_password = "$2$newone$hCkak1kaJPQILNmYbUXhD1"
+
+    h1 = FactoryBot.create(:hostgroup, :root_pass => nil)
+    parent_h2 = FactoryBot.create(:hostgroup, :root_pass => second_password)
+    h2 = FactoryBot.create(:hostgroup, :parent => parent_h2, :root_pass => nil)
+
+    host = FactoryBot.create(:host, :managed, :hostgroup => h1, :root_pass => nil)
+    assert host.save
+    assert host.root_pass.present?
+    assert_equal Setting[:root_pass], host.root_pass
+    assert_equal host.root_pass_source, 'global setting'
+
+    host.hostgroup = h2
+    assert host.save
+    assert host.root_pass.present?
+    assert_equal second_password, host.root_pass
+    assert_equal host.root_pass_source, 'hostgroup'
   end
 
   test "should use settings root password when hostgroup has empty root password" do
@@ -1033,7 +1114,7 @@ class HostTest < ActiveSupport::TestCase
     assert_valid h
     assert h.root_pass.present?
     assert_equal Setting[:root_pass], h.root_pass
-    assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
+    assert_nil h.read_attribute(:root_pass), 'should not copy root_pass to host unmodified'
   end
 
   test "should validate pxe loader when provided" do
