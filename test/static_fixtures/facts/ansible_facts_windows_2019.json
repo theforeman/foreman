@@ -1,0 +1,295 @@
+{
+    "_type": "ansible",
+    "_timestamp": "2021-10-15 20:01:51 +0100",
+    "ansible_facts": {
+        "ansible_architecture": "64-bit",
+        "ansible_bios_date": "03/31/2014",
+        "ansible_bios_version": "rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org",
+        "ansible_date_time": {
+            "date": "2021-10-15",
+            "day": "15",
+            "epoch": "1634257769.06666",
+            "hour": "00",
+            "iso8601": "2021-10-15T07:29:29Z",
+            "iso8601_basic": "20211015T002929066664",
+            "iso8601_basic_short": "20211015T002929",
+            "iso8601_micro": "2021-10-15T07:29:29.066664Z",
+            "minute": "29",
+            "month": "10",
+            "second": "29",
+            "time": "00:29:29",
+            "tz": "Pacific Standard Time",
+            "tz_offset": "-07:00",
+            "weekday": "Friday",
+            "weekday_number": "5",
+            "weeknumber": "41",
+            "year": "2021"
+        },
+        "ansible_distribution": "Microsoft Windows Server 2019 Datacenter",
+        "ansible_distribution_major_version": "10",
+        "ansible_distribution_version": "10.0.17763.0",
+        "ansible_domain": "",
+        "ansible_env": {
+            "ALLUSERSPROFILE": "C:\\ProgramData",
+            "APPDATA": "C:\\Users\\Administrator\\AppData\\Roaming",
+            "COMPUTERNAME": "SERVERTEST",
+            "ChocolateyInstall": "C:\\ProgramData\\chocolatey",
+            "ChocolateyLastPathUpdate": "132783180372183235",
+            "ComSpec": "C:\\Windows\\system32\\cmd.exe",
+            "CommonProgramFiles": "C:\\Program Files\\Common Files",
+            "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+            "CommonProgramW6432": "C:\\Program Files\\Common Files",
+            "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+            "HOME": "C:\\Users\\Administrator",
+            "HOMEDRIVE": "C:",
+            "HOMEPATH": "\\Users\\Administrator",
+            "LOCALAPPDATA": "C:\\Users\\Administrator\\AppData\\Local",
+            "LOGNAME": "administrator",
+            "NUMBER_OF_PROCESSORS": "4",
+            "OS": "Windows_NT",
+            "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL",
+            "PROCESSOR_ARCHITECTURE": "AMD64",
+            "PROCESSOR_IDENTIFIER": "Intel64 Family 15 Model 6 Stepping 1, GenuineIntel",
+            "PROCESSOR_LEVEL": "15",
+            "PROCESSOR_REVISION": "0601",
+            "PROMPT": "administrator@SERVERTEST $P$G",
+            "PSExecutionPolicyPreference": "Unrestricted",
+            "PSModulePath": "C:\\Users\\Administrator\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules",
+            "PUBLIC": "C:\\Users\\Public",
+            "Path": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Puppet Labs\\Puppet\\bin;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps;",
+            "ProgramData": "C:\\ProgramData",
+            "ProgramFiles": "C:\\Program Files",
+            "ProgramFiles(x86)": "C:\\Program Files (x86)",
+            "ProgramW6432": "C:\\Program Files",
+            "SHELL": "c:\\windows\\system32\\cmd.exe",
+            "SSH_CLIENT": "192.168.1.6 57510 22",
+            "SSH_CONNECTION": "192.168.1.6 57510 192.168.1.134 22",
+            "SystemDrive": "C:",
+            "SystemRoot": "C:\\Windows",
+            "TEMP": "C:\\Users\\Administrator\\AppData\\Local\\Temp",
+            "TMP": "C:\\Users\\Administrator\\AppData\\Local\\Temp",
+            "USER": "administrator",
+            "USERDOMAIN": "WORKGROUP",
+            "USERNAME": "administrator",
+            "USERPROFILE": "C:\\Users\\Administrator",
+            "windir": "C:\\Windows"
+        },
+        "ansible_fqdn": "ServerTest",
+        "ansible_hostname": "ServerTest",
+        "ansible_interfaces": [
+            {
+                "connection_name": "Ethernet",
+                "default_gateway": "192.168.1.1",
+                "dns_domain": "pate.net",
+                "interface_index": 7,
+                "interface_name": "Intel(R) PRO/1000 MT Network Connection",
+                "macaddress": "EA:BD:66:75:FB:F3"
+            }
+        ],
+        "ansible_ip_addresses": [
+            "192.168.1.134",
+            "fe80::7536:b5c5:3e54:a3d"
+        ],
+        "ansible_kernel": "10.0.17763.0",
+        "ansible_lastboot": "2021-10-12 09:18:00Z",
+        "ansible_machine_id": "S-1-5-21-897534805-3419180225-3803408660",
+        "ansible_memtotal_mb": 16384,
+        "ansible_netbios_name": "SERVERTEST",
+        "ansible_nodename": "ServerTest",
+        "ansible_os_family": "Windows",
+        "ansible_os_name": "Microsoft Windows Server 2019 Datacenter",
+        "ansible_os_product_type": "server",
+        "ansible_owner_contact": "",
+        "ansible_owner_name": "Windows User",
+        "ansible_powershell_version": 5,
+        "ansible_processor": [
+            "GenuineIntel",
+            "Common KVM processor",
+            "GenuineIntel",
+            "Common KVM processor",
+            "GenuineIntel",
+            "Common KVM processor",
+            "GenuineIntel",
+            "Common KVM processor"
+        ],
+        "ansible_processor_cores": 2,
+        "ansible_processor_count": 2,
+        "ansible_processor_threads_per_core": 1,
+        "ansible_processor_vcpus": 4,
+        "ansible_product_name": "Standard PC (i440FX + PIIX, 1996)",
+        "ansible_product_serial": null,
+        "ansible_reboot_pending": null,
+        "ansible_swaptotal_mb": 0,
+        "ansible_system": "Win32NT",
+        "ansible_system_description": "",
+        "ansible_system_vendor": "QEMU",
+        "ansible_uptime_seconds": 227493,
+        "ansible_user_dir": "C:\\Users\\Administrator",
+        "ansible_user_gecos": "",
+        "ansible_user_id": "administrator",
+        "ansible_user_sid": "S-1-5-21-897534805-3419180225-3803408660-500",
+        "ansible_virtualization_role": "NA",
+        "ansible_virtualization_type": "NA",
+        "ansible_win_rm_certificate_expires": "2024-10-12 09:16:43",
+        "ansible_windows_domain": "WORKGROUP",
+        "ansible_windows_domain_member": false,
+        "ansible_windows_domain_role": "Stand-alone server",
+        "facter_aio_agent_version": "7.11.0",
+        "facter_dmi": {
+            "manufacturer": "SeaBIOS",
+            "product": {
+                "name": "Standard PC (i440FX + PIIX, 1996)",
+                "uuid": "71E70785-5713-4652-842C-B2B2BF0AFF1E"
+            }
+        },
+        "facter_env_windows_installdir": "C:\\Program Files\\Puppet Labs\\Puppet",
+        "facter_facterversion": "4.2.4",
+        "facter_fips_enabled": false,
+        "facter_identity": {
+            "privileged": true,
+            "user": "SERVERTEST\\Administrator"
+        },
+        "facter_is_virtual": false,
+        "facter_kernel": "windows",
+        "facter_kernelmajversion": "10.0",
+        "facter_kernelrelease": "10.0.17763",
+        "facter_kernelversion": "10.0.17763",
+        "facter_memory": {
+            "system": {
+                "available": "13.08 GiB",
+                "available_bytes": 14040780800,
+                "capacity": "18.27%",
+                "total": "16.00 GiB",
+                "total_bytes": 17179324416,
+                "used": "2.92 GiB",
+                "used_bytes": 3138543616
+            }
+        },
+        "facter_networking": {
+            "dhcp": "192.168.1.1",
+            "domain": "pate.net",
+            "fqdn": "ServerTest.pate.net",
+            "hostname": "ServerTest",
+            "interfaces": {
+                "Ethernet": {
+                    "bindings": [
+                        {
+                            "address": "192.168.1.134",
+                            "netmask": "255.255.255.0",
+                            "network": "192.168.1.0"
+                        }
+                    ],
+                    "bindings6": [
+                        {
+                            "address": "fe80::7536:b5c5:3e54:a3d",
+                            "netmask": "ffff:ffff:ffff:ffff::",
+                            "network": "fe80::",
+                            "scope6": "link"
+                        }
+                    ],
+                    "dhcp": "192.168.1.1",
+                    "ip": "192.168.1.134",
+                    "ip6": "fe80::7536:b5c5:3e54:a3d",
+                    "mac": "EA:BD:66:75:FB:F3",
+                    "mtu": 1500,
+                    "netmask": "255.255.255.0",
+                    "netmask6": "ffff:ffff:ffff:ffff::",
+                    "network": "192.168.1.0",
+                    "network6": "fe80::",
+                    "scope6": "link"
+                }
+            },
+            "ip": "192.168.1.134",
+            "ip6": "fe80::7536:b5c5:3e54:a3d",
+            "mac": "EA:BD:66:75:FB:F3",
+            "mtu": 1500,
+            "netmask": "255.255.255.0",
+            "netmask6": "ffff:ffff:ffff:ffff::",
+            "network": "192.168.1.0",
+            "network6": "fe80::",
+            "primary": "Ethernet",
+            "scope6": "link"
+        },
+        "facter_os": {
+            "architecture": "x64",
+            "family": "windows",
+            "hardware": "x86_64",
+            "name": "windows",
+            "release": {
+                "full": "2019",
+                "major": "2019"
+            },
+            "windows": {
+                "edition_id": "ServerDatacenter",
+                "installation_type": "Server",
+                "product_name": "Windows Server 2019 Datacenter",
+                "release_id": "1809",
+                "system32": "C:\\Windows\\system32"
+            }
+        },
+        "facter_path": "C:\\Program Files\\Puppet Labs\\Puppet\\puppet\\bin;C:\\Program Files\\Puppet Labs\\Puppet\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Puppet Labs\\Puppet\\bin;C:\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps;",
+        "facter_processors": {
+            "cores": 2,
+            "count": 4,
+            "isa": "x64",
+            "models": [
+                "Common KVM processor",
+                "Common KVM processor"
+            ],
+            "physicalcount": 2,
+            "threads": 1
+        },
+        "facter_ruby": {
+            "platform": "x64-mingw32",
+            "sitedir": "C:/Program Files/Puppet Labs/Puppet/puppet/lib/ruby/site_ruby/2.7.0",
+            "version": "2.7.3"
+        },
+        "facter_ssh": {
+            "dsa": {
+                "fingerprints": {
+                    "sha1": "SSHFP 2 1 76743c223902449f617b6db1de3d069edfc67378",
+                    "sha256": "SSHFP 2 2 c7d3f72673d5d12a476e2faddd211097221bd3464b25b455ad579ad37584c933"
+                },
+                "key": "AAAAB3NzaC1kc3MAAACBAIGx37otIaVcFzPBtTBt5yEvbFLXO59SWciBM12HA+X2NjNCD7SIp8bxUSE88ij8libXfpq9Vtww/7VQP50rDD2zwM/b9WH0QBVJ0j5KKhBQauBkQf0rw047iUZgRxSmq/qgdEsj6puIMHwFFhXnYQlBvyHFDqj7+BEUWpyyls5TAAAAFQDsXqiKuC3HW3/1AEa4xgIf/ficnwAAAIB6oRyXuPzw6jxBMEC2b+rS5lj0lZBrttAtTQqQQf2aLYlz3TjIXiPzCQPp/tK8TBTFQH0Ajvd8d1/KJwNGZiIHrlRWVw7ivkTjXElR0JweRl9qu+KosxcIYOVS3RHeipoBOay0q3A6bIEGyrx+3ix840xD9wbZRSSI0XavHQ4L3QAAAIARuybHHwFzYiM/6MvfxkmZSs2r99ETz+oTiBN9iIM6cNk4h/iuh0j7L20UqNE03WRTtv6X8FP93RLKowm9MgbQIYjeUOjBiTdijzSY57QRpMd2Gkaui5mtxLyEki4PCGJTlGl3nVD+z9pVN3TyaTr0mdQYUCQSPaLnjaSLss4SZg==",
+                "type": "ssh-dss"
+            },
+            "ecdsa": {
+                "fingerprints": {
+                    "sha1": "SSHFP 3 1 ce3fe506bdcb45a0b85ff7204ab2eb6964c4f80a",
+                    "sha256": "SSHFP 3 2 e1a8344d03e1feee579bd531d6b4a13a7e364ad0f67ecaacc62a31fdc966f3d1"
+                },
+                "key": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHR/MYF/1A0ASJvJEPWbes9JKxHvIPYnYXFFIzjM37v2TRcRkoXkUpUIfufBOeQZglsVEG8cyHXeWHprZ3iJ3PI=",
+                "type": "ecdsa-sha2-nistp256"
+            },
+            "ed25519": {
+                "fingerprints": {
+                    "sha1": "SSHFP 4 1 1db7e773cfd328d5709a16d52c9de1efeb50355f",
+                    "sha256": "SSHFP 4 2 f0fb5068c0afb3b6055ebf06c46f83d8a66902ef6cb769f548b43825dff9090a"
+                },
+                "key": "AAAAC3NzaC1lZDI1NTE5AAAAIIucdfCmsdVQ14j9LF52R+P65fBCyqcg2NukfwnArYlB",
+                "type": "ssh-ed25519"
+            },
+            "rsa": {
+                "fingerprints": {
+                    "sha1": "SSHFP 1 1 cae3c81286a0585f347e81a3c524dd1cad0119fe",
+                    "sha256": "SSHFP 1 2 384e1b7ca483189fde91691dc15533b22b31d5b7ee1a238145cb29aeb874a74e"
+                },
+                "key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDMuaMXHygJBr7cLjmEhPHFK3ld6a308eChryWbMjMw2lBz0MN4h9TUmha14FXEnnjSsamODkTy3maGD2lAe432E/z04qB8LH6Qu9+yO+nvKZzaRFEIxvr+oPZgD4i8bJMn1vi+G6BLMXVl+9xVa0w1H45JbqhZ8imfWD8q2rf9RjNzgxywS0KMj7ZSCX876ofY1Kz5RMqS2iwbkfGlyeCB10k/Q5zVqQnJQFiG0wvvozDXGWoPVhSKLzXE71QdDpQC+lWcGXJAQfrnUHEfiB6jDlk/lT6DAIh05ge9wZVmOa+9ubmJTW1pntebrUOQaH5bovd3us4g8wllbGZTMbD1",
+                "type": "ssh-rsa"
+            }
+        },
+        "facter_system_uptime": {
+            "days": 2,
+            "hours": 63,
+            "seconds": 227489,
+            "uptime": "2 days"
+        },
+        "facter_timezone": "Pacific Daylight Time",
+        "facter_virtual": "physical",
+        "gather_subset": [
+            "all"
+        ],
+        "module_setup": true
+    },
+    "changed": false
+}

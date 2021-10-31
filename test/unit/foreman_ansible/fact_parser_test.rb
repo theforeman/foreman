@@ -79,6 +79,53 @@ module ForemanAnsible
     end
   end
 
+  class WindowsFactParserTest < ActiveSupport::TestCase
+    setup do
+      facts_json = HashWithIndifferentAccess.new(read_json_fixture('/facts/ansible_facts_windows_2019.json'))
+      @facts_parser = AnsibleFactParser.new(facts_json)
+    end
+
+    test 'finds model' do
+      expect_where(Model, @facts_parser.facts[:ansible_product_name])
+      @facts_parser.model
+    end
+
+    test 'finds architecture' do
+      expect_where(Architecture, @facts_parser.facts[:ansible_architecture])
+      @facts_parser.architecture
+    end
+
+    test 'does not set environment' do
+      refute @facts_parser.environment
+    end
+
+    test 'calculates virtual reported data' do
+      refute @facts_parser.virtual
+    end
+
+    test 'calculates ram reported data' do
+      assert_equal 16384, @facts_parser.ram
+    end
+
+    test 'calculates sockets reported data' do
+      assert_equal 2, @facts_parser.sockets
+    end
+
+    test 'calculates cores reported data' do
+      assert_equal 2, @facts_parser.cores
+    end
+
+    private
+
+    def expect_where(model, fact_name)
+      sample_mock = mock
+      model.expects(:where).
+        with(:name => fact_name).
+        returns(sample_mock)
+      sample_mock.expects(:first_or_create)
+    end
+  end
+
   # Tests for Network parser
   class NetworkFactParserTest < ActiveSupport::TestCase
     setup do
@@ -209,7 +256,7 @@ module ForemanAnsible
   end
 
   # Tests for Windows parser
-  class WindowsFactParserTest < ActiveSupport::TestCase
+  class WindowsOSFactParserTest < ActiveSupport::TestCase
     context 'Windows 7' do
       setup do
         @facts_parser = AnsibleFactParser.new(
