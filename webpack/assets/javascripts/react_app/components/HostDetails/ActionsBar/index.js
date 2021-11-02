@@ -132,7 +132,7 @@ const ActionsBar = ({
       </Button>
       <Dropdown
         alignments={{ default: 'right' }}
-        toggle={<KebabToggle onToggle={onKebabToggle} />}
+        toggle={<KebabToggle id="hostdetails-kebab" onToggle={onKebabToggle} />}
         isOpen={kebabIsOpen}
         isPlain
         dropdownItems={dropdownItems.concat(registeredItems)}
