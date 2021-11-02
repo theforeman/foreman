@@ -28,6 +28,12 @@ class HostJSTest < IntegrationTestWithJavascript
   end
 
   describe "show page" do
+    test "switch to the new UI" do
+      visit host_path(@host)
+      click_link 'New UI'
+      find('h5', :text => @host.fqdn)
+    end
+
     test "has proper title and links" do
       visit hosts_path
       click_link @host.fqdn
@@ -74,6 +80,43 @@ class HostJSTest < IntegrationTestWithJavascript
       visit hosts_path
       click_link @host.fqdn
       find('h5', :text => @host.fqdn)
+    end
+
+    test "edit page" do
+      visit host_details_page_path(@host)
+      click_button 'Edit'
+      assert @host.hostname.start_with? page.find('#host_name').value
+    end
+
+    test "clone host" do
+      visit host_details_page_path(@host)
+      find('#hostdetails-kebab').click
+      click_button 'Clone'
+      assert_equal '', page.find('#host_name').value
+    end
+
+    test "delete host" do
+      host = FactoryBot.create(:host)
+      visit host_details_page_path(host)
+      find('#hostdetails-kebab').click
+      click_button 'Delete'
+      click_button 'Delete host'
+      assert_current_path hosts_path
+      assert_raises(ActiveRecord::RecordNotFound) do
+        Host.find(host.id)
+      end
+    end
+
+    test "all audit redirect to audit page" do
+      visit host_details_page_path(@host)
+      find('a', :text => /All audits/).click
+      assert_current_path audits_path
+    end
+
+    test "manage host statuses modal" do
+      visit host_details_page_path(@host)
+      find('a', :text => /Manage all statuses/).click
+      find('h1', :text => /Manage Host's Statuses/)
     end
 
     test "create new host and redirect to the new host details page" do
