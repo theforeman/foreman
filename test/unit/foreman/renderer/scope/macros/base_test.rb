@@ -146,6 +146,13 @@ class BaseMacrosTest < ActiveSupport::TestCase
     end
   end
 
+  test 'Allowed Hash methods' do
+    allowed = [:compact, :to_json]
+    allowed.each do |m|
+      assert Hash::Jail.allowed?(m), "Method #{m} is not available in Hash while should be allowed."
+    end
+  end
+
   context 'subnet helpers' do
     setup do
       host = FactoryBot.build(:host)

@@ -473,6 +473,24 @@ a.fetch(-1)              #=> 44
 a.fetch(4, "cat")        #=> "cat"'
           end
         end
+
+        module Hash
+          extend ApipieDSL::Module
+
+          apipie_class 'Array' do
+            sections only: %w[basic_ruby_methods]
+          end
+
+          apipie_method :to_json, 'Returns a JSON string representing the hash.' do
+            returns ::String
+            example '{ id: 1, name: "test" }.to_json  #=> {"id":"1","name":"test"}'
+          end
+
+          apipie_method :compact, 'Returns a new hash with the nil values/key pairs removed.' do
+            returns ::String
+            example '{ id: 1, name: nil }.compact  #=> { id: 1 }'
+          end
+        end
       end
     end
   end
