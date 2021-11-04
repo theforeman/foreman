@@ -52,8 +52,6 @@ Foreman::Application.configure do
       Bullet.rails_logger = true
       Bullet.add_footer = true
       Bullet.counter_cache_enable = false
-      Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Puppetclass", :association => :environments
-      Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Puppetclass", :association => :class_params
     end
   end
 
