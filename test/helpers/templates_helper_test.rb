@@ -15,4 +15,9 @@ class TemplatesHelperTest < ActionView::TestCase
     assert safemode_methods.any? { |x| x.first == "Host::Managed" }
     assert safemode_methods.any? { |x| x.second.include?("subnet") }
   end
+
+  test "resource_permission" do
+    assert resource_permission("JobInvocation"), :view_job_invocations
+    assert resource_permission("ForemanPlugin::PluginResource"), :view_plugin_resource
+  end
 end

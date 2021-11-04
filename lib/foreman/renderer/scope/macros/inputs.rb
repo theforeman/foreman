@@ -53,7 +53,7 @@ module Foreman
           end
 
           def resource_permission
-            "view_#{@input.resource_type.underscore.pluralize}".to_sym
+            "view_#{@input.resource_type.demodulize.underscore.pluralize}".to_sym
           end
 
           def find_resource
