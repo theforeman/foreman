@@ -16,12 +16,13 @@ import {
   UndoIcon,
   FileInvoiceIcon,
   BuildIcon,
+  TerminalIcon,
 } from '@patternfly/react-icons';
 import { visit } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
 import { selectKebabItems } from './Selectors';
 import { foremanUrl } from '../../../common/helpers';
-import { cancelBuild, deleteHost } from './actions';
+import { cancelBuild, deleteHost, isHostTurnOn } from './actions';
 import { useForemanSettings } from '../../../Root/Context/ForemanContext';
 import BuildModal from './BuildModal';
 
@@ -41,6 +42,8 @@ const ActionsBar = ({
   const onKebabToggle = isOpen => setKebab(isOpen);
   const { destroyVmOnHostDelete } = useForemanSettings();
   const registeredItems = useSelector(selectKebabItems, shallowEqual);
+  const isHostActive = useSelector(isHostTurnOn);
+
   const dispatch = useDispatch();
   const deleteHostHandler = () =>
     dispatch(deleteHost(hostId, computeId, destroyVmOnHostDelete));
@@ -81,6 +84,15 @@ const ActionsBar = ({
       {__('Delete')}
     </DropdownItem>,
     <DropdownSeparator key="sp-1" />,
+    <DropdownItem
+      onClick={() => visit(foremanUrl(`/hosts/${hostId}/console`))}
+      key="console"
+      isDisabled={!isHostActive}
+      component="button"
+      icon={<TerminalIcon />}
+    >
+      {__('Console')}
+    </DropdownItem>,
     <DropdownItem
       onClick={() => visit(foremanUrl(`/hosts/${hostId}/facts`))}
       key="fact"
