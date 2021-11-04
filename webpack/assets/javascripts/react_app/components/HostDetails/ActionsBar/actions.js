@@ -6,6 +6,8 @@ import { sprintf, translate as __ } from '../../../common/I18n';
 import { openConfirmModal } from '../../ConfirmModal';
 import { APIActions } from '../../../redux/API';
 import { HOST_DETAILS_KEY } from '../consts';
+import { selectAPIResponse } from '../../../redux/API/APISelectors';
+import { POWER_REQURST_KEY } from '../DetailsCard/PowerStatus/constants';
 
 export const deleteHost = (
   hostName,
@@ -102,4 +104,9 @@ export const cancelBuild = hostId => dispatch => {
       handleSuccess: () => dispatch(updateHost(hostId)),
     })
   );
+};
+
+export const isHostTurnOn = store => {
+  const { state } = selectAPIResponse(store, POWER_REQURST_KEY);
+  return state === 'on';
 };
