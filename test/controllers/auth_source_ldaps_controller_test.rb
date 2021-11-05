@@ -9,35 +9,32 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
   basic_edit_test
 
   def test_create_invalid
-    AuthSourceLdap.any_instance.stubs(:valid?).returns(false)
     post :create, params: { :auth_source_ldap => {:name => nil} }, session: set_session_user
-    assert_redirected_to auth_sources_url
+    assert_template 'new'
   end
 
   def test_create_valid
-    AuthSourceLdap.any_instance.stubs(:valid?).returns(true)
-    post :create, params: { :auth_source_ldap => {:name => AuthSourceLdap.unscoped.first.name} }, session: set_session_user
+    post :create, params: { :auth_source_ldap => FactoryBot.attributes_for(:auth_source_ldap) }, session: set_session_user
     assert_redirected_to auth_sources_url
   end
 
   def test_update_invalid
-    AuthSourceLdap.any_instance.stubs(:valid?).returns(false)
-    put :update, params: { :id => AuthSourceLdap.unscoped.first, :auth_source_ldap => {:name => AuthSourceLdap.unscoped.first.name} }, session: set_session_user
-    assert_redirected_to auth_sources_url
+    put :update, params: { :id => AuthSourceLdap.unscoped.first, :auth_source_ldap => {:name => nil} }, session: set_session_user
+    assert_template 'edit'
   end
 
   def test_formats_valid
     AuthSourceLdap.any_instance.stubs(:valid?).returns(false)
     put :update, params: { :id => AuthSourceLdap.unscoped.first.id, :format => "weird", :auth_source_ldap => {:name => AuthSourceLdap.unscoped.first.name} }, session: set_session_user
-    assert_redirected_to auth_sources_url
+    assert_template 'edit'
 
     wierd_id = "#{AuthSourceLdap.unscoped.first.id}.weird"
     put :update, params: { :id => wierd_id, :auth_source_ldap => {:name => AuthSourceLdap.unscoped.first.name} }, session: set_session_user
-    assert_redirected_to auth_sources_url
+    assert_template 'edit'
 
     parameterized_id = "#{AuthSourceLdap.unscoped.first.id}-#{AuthSourceLdap.unscoped.first.name.parameterize}"
     put :update, params: { :id => parameterized_id, :auth_source_ldap => {:name => AuthSourceLdap.unscoped.first.name} }, session: set_session_user
-    assert_redirected_to auth_sources_url
+    assert_template 'edit'
   end
 
   def test_update_valid
