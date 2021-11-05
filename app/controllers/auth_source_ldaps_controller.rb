@@ -12,7 +12,7 @@ class AuthSourceLdapsController < ApplicationController
     if @auth_source_ldap.save
       process_success :success_redirect => auth_sources_path
     else
-      process_error :redirect => auth_sources_path
+      process_error
     end
   end
 
@@ -23,7 +23,7 @@ class AuthSourceLdapsController < ApplicationController
     if @auth_source_ldap.update(auth_source_ldap_params)
       process_success :success_redirect => auth_sources_path
     else
-      process_error :redirect => auth_sources_path
+      process_error
     end
   end
 
