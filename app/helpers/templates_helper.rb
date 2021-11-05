@@ -92,11 +92,15 @@ module TemplatesHelper
   end
 
   def resource_value_options(resource_type)
-    return [] unless User.current.allowed_to?("view_#{resource_type.underscore.pluralize}".to_sym)
+    return [] unless User.current.allowed_to?(resource_permission(resource_type))
 
     resource_type.constantize
                  .all
                  .map { |r| [r.to_s, r.id] }
                  .sort
+  end
+
+  def resource_permission(resource_type)
+    "view_#{resource_type.demodulize.underscore.pluralize}".to_sym
   end
 end
