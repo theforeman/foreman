@@ -187,7 +187,7 @@ class SettingRegistry
   def _load_category_from_db(category_klass)
     category_klass.all.each do |set|
       # set.value can be user value, we have no way of telling the initial value
-      _add(set.name, type: set.settings_type.to_sym, category: category_klass.name, description: set.description, default: set.default, full_name: set.full_name, context: :deprecated, encrypted: set.encrypted)
+      _add(set.name, type: (set.settings_type || 'string').to_sym, category: category_klass.name, description: set.description, default: set.default, full_name: set.try(:full_name), context: :deprecated, encrypted: set.try(:encrypted))
     end
   end
 end
