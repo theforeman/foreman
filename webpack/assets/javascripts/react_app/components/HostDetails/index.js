@@ -40,6 +40,7 @@ import './HostDetails.scss';
 import { useAPI } from '../../common/hooks/API/APIHooks';
 import TabRouter from './Tabs/TabRouter';
 import ExperimentalAlert from './ExperimentalAlert';
+import RedirectToEmptyHostPage from './EmptyState';
 
 const HostDetails = ({
   match: {
@@ -79,6 +80,7 @@ const HostDetails = ({
       .split('?')[0] // Remove query params
   );
 
+  if (status === STATUS.ERROR) return <RedirectToEmptyHostPage hostname={id} />;
   return (
     <>
       <PageSection
