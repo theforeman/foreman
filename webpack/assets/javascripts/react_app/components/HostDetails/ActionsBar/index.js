@@ -35,6 +35,7 @@ const ActionsBar = ({
     destroy_hosts: canDestroy,
     create_hosts: canCreate,
     edit_hosts: canEdit,
+    build_hosts: canBuild,
   },
 }) => {
   const [kebabIsOpen, setKebab] = useState(false);
@@ -61,6 +62,7 @@ const ActionsBar = ({
       onClick={buildHandler}
       key="build"
       component="button"
+      isDisabled={!canBuild}
       icon={<BuildIcon />}
     >
       {isBuild ? __('Cancel build') : __('Build')}
@@ -170,7 +172,12 @@ ActionsBar.propTypes = {
 ActionsBar.defaultProps = {
   hostId: undefined,
   computeId: undefined,
-  permissions: { destroy_hosts: false, create_hosts: false, edit_hosts: false },
+  permissions: {
+    destroy_hosts: false,
+    create_hosts: false,
+    edit_hosts: false,
+    build_hosts: false,
+  },
   hasReports: false,
   isBuild: false,
 };
