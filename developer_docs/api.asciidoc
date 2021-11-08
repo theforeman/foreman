@@ -1,0 +1,190 @@
+[[api-v2-development]]
+= API v2 Development Guidelines
+:toc: right
+:toclevels: 5
+
+== ApiPie
+
+Foreman's API uses https://github.com/Apipie/apipie-rails[ApiPie] documentation framework. Our cli project https://github.com/theforeman/hammer-cli[Hammer] relies heavily on the data exported from the documentation. It is therefore important to keep the documentation consistent.
+
+Please see https://github.com/Apipie/apipie-rails#documentation[ApiPie's official documentation] to get to know the basics of it's dsl language.
+
+[[available-parameter-types]]
+=== Available parameter types
+
+ApiPie uses validators for checking parameter types. Although this feature is currently disabled on the server side it's still worth setting the validators correctly. Firstly the validator description propagates to the html rendered docs and makes it easier to understand the parameters (e.g. the docs list all acceptable values for enum types). Secondly hammer CLI reuses the validator information when validating command line options.
+
+There are some frequent validators that are worth mentioning:
+
+|===
+|Name|Validator|Description|Example usage
+
+|Type|String, Fixnum, :bool, ...
+|simply checks if the type matches
+|`param :name, String,
+  :required => true,
+  :desc => N_("Interface name")`
+
+|Enum
+|any array of values|check if parameter value is included in a given array
+|`param :mode, Nic::Bond::MODES`
+
+|Hash
+|Hash
+|allows to describe inner fields of the hash
+a|[source, ruby]
+param :interface, Hash do
+    param :mac, String
+    param :ip, String
+end
+
+|Array
+|Array
+|can check for types (:of) and values (:in) of the items
+a|[source, ruby]
+param :colors, Array,
+  :of => String,
+  :in => ["red", "green", "blue"]
+|===
+
+See https://github.com/Apipie/apipie-rails#validators[ApiPie's] docs more validators.
+
+[[required-options]]
+=== Required options
+
+Unfortunately ApiPie does not allow to specify conditional requirements or dependencies amongst the parameters. Only a single parameter can be required. This is an important thing to bear in mind. Only the parameters mandatory at any conditions can therefore be set as required.
+
+In cases when one parameter depends on another it is a good practice to mention the dependency in the description.
+
+[source, ruby]
+----
+# E.g.
+param :type, Nic::TYPES, :required => true, :desc => N_("Interface type, e.g: Nic::BMC")
+param :mode, Nic::Bond::MODES, :desc => N_("Bond mode of the interface, e.g. balance-rr. Only for bond interfaces.")
+----
+
+[[description-styles]]
+=== Description styles
+
+Both action and parameter descriptions should start with capital letters. Because of the lacking conditional requirements it is a good practise to put a note when the parameter is required or allowed only at certain circumstances.
+All descriptions must be wrapped with 'N_(...)' to mark them for translation. They are used for building CLI's help.
+
+[[available-param-groups]]
+=== Available param groups
+There are some predefined parameter groups for params commonly used accross the controllers.
+|===
+|group name|usage
+
+|`:pagination`
+|for index actions, contains fields: `page`, `per_page`
+
+|`:search_and_pagination`
+|for index actions, contains fields: `page`, `per_page`, `search`, `order`
+
+|`:taxonomies`
+|for creating/updating taxable resources, contains fields: `location_ids`, `organization_ids`
+
+|`:taxonomy_scope`
+| for index actions scoped in a taxonomy, contains fields: `location_id`, `organization_id`
+|===
+
+[source, ruby]
+----
+# Example usage:
+param_group :pagination, ::Api::V2::BaseController
+----
+
+[[nesting-of-parameters]]
+=== Nesting of parameters
+
+API parameters related to a resource (usually in create and update actions) need to be nested in a root node named by the resource.
+
+[source, json]
+----
+{
+  "architecture": {
+    "name": "i386"
+  }
+}
+----
+
+[[responses]]
+== Responses
+
+API uses https://github.com/nesquena/rabl/[RABL] templating language for describing the output.
+The templates are stored in `views/api/v2/`. All API output should be rendered via templates.
+
+[[template-file-organization]]
+=== Template file organization
+
+Each resource has two fundamental templates:
+
+* `base.json.rabl` - Basic info about the resource, contains usually only identifiers. It's used for rendering references to the resource.
+* `main.json.rabl` - Inherits from `base`, contains all attributes apart from references.
+
+In addition tho that resources typically define templates for standard controller actions:
+
+* `show.json.rabl` - Used for actions show and delete, inherits from `main` and adds references to related resources.
+* `index.json.rabl` - Used for listing, inherits from `main`.
+* `create.json.rabl` - Used for create and update actions, inherits from `show`.
+
+[[formatting-errors]]
+=== Formatting errors
+
+Errors have also their own rabl layout and templates. Please avoid rendering error jsons directly. Base controller's method
+render_error can help selecting correct rabl template.
+
+[source, ruby]
+----
+render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => @user.login })
+render_error('unprocessable_entity', :status => :unprocessable_entity)
+----
+
+Available error templates (placed in `views/api/v2/errors`) are:
+
+* `access_denied`
+* `not_found`
+* `param_error`
+* `standard_error`
+* `unauthorized`
+* `unprocessable_entity`
+* `unsupported_content_type`
+
+[[formatting-index-responses]]
+=== Formatting index responses
+
+Index responses use custom layout with some useful metadata. Standard controllers fill the metadata itself from received parameters and activerecord data.
+Corner cases may require to tweak the values by hand. Following controller variables can be set to change the default metadata values:
+
+[source, ruby]
+----
+# Pagination
+@total    # total number of items in the collection
+@per_page # entries per page, usually set by params[:per_page]
+@page     # number of the displayed page
+
+# Search
+@subtotal # only for searches, number of items found
+@search   # elastic search query
+
+# Ordering
+@order # 'ASC', 'DESC'
+@by    # field name
+----
+
+[[overriding-the-default-template-layout]]
+=== Overriding the default template layout
+Index layout is by default used only for actions named 'index'. You can force `rabl` to use the layout also in other actions that list resources:
+
+[source, ruby]
+----
+render :your_template_for_the_action, :layout => 'api/v2/layouts/index_layout'
+----
+
+[[adding-new-feature]]
+== Adding new feature
+
+* If you add a new UI feature or API feature, please make sure that this functionality is present in the corresponding counterpart.
+* Please think about the future: don't create too general names and please don't simplify parameter names too much. It's better to be explicit now than deal with overlapping and confusion later (don't use `environment` as a parameter name if the actual resource is called `FavoriteEnvironment`)
+If you add a new API endpoint, please be sure to create a corresponding `hammer` command if it makes sense (most of the time) or at least create a ticket for it in https://projects.theforeman.org/projects/hammer-cli/issues/new[Redmine].
+* Please, be sure the API docs actually match the endpoint, since users (including `hammer`) will rely on that information first.
