@@ -20,6 +20,7 @@ test_on:
   additional_packages = ['lsb-release', 'wget']
   additional_packages << host_param('additional-packages')
   additional_packages << python_package if ansible_enabled
+  additional_packages << 'eject' if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build?
   additional_packages = additional_packages.join(" ").split().uniq().join(" ")
 %>
 # Locale
