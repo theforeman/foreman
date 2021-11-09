@@ -71,7 +71,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
     subnet_mock.expects(:network).returns('192.168.0.0')
     subnet_mock.expects(:from).returns(nil)
 
-    proxy_dhcp.expects(:get).with('192.168.0.0/unused_ip').returns(fake_rest_client_response({:ip => '192.168.0.50'}))
+    proxy_dhcp.expects(:get).with('192.168.0.0/unused_ip', {query: ""}).returns(fake_rest_client_response({:ip => '192.168.0.50'}))
     assert_equal({'ip' => '192.168.0.50'}, proxy_dhcp.unused_ip(subnet_mock))
   end
 
@@ -87,12 +87,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
     subnet_mock.expects(:from).at_least_once.returns(from_mock)
     subnet_mock.expects(:to).at_least_once.returns(to_mock)
 
-    proxy_dhcp.expects(:get).with() do |path|
-      # Params built with a hash, so order can change
-      path.include?('192.168.0.0/unused_ip?') &&
-        path.include?('from=192.168.0.50') &&
-        path.include?('to=192.168.0.150')
-    end.returns(fake_rest_client_response({:ip => '192.168.0.50'}))
+    proxy_dhcp.expects(:get).with("192.168.0.0/unused_ip", { query: "from=192.168.0.50&to=192.168.0.150"}).returns(fake_rest_client_response({:ip => '192.168.0.50'}))
     assert_equal({'ip' => '192.168.0.50'}, proxy_dhcp.unused_ip(subnet_mock))
   end
 
@@ -101,7 +96,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
     subnet_mock.expects(:network).returns('192.168.0.0')
     subnet_mock.expects(:from).returns(nil)
 
-    proxy_dhcp.expects(:get).with('192.168.0.0/unused_ip?mac=00:11:22:33:44:55').returns(fake_rest_client_response({:ip => '192.168.0.50'}))
+    proxy_dhcp.expects(:get).with('192.168.0.0/unused_ip', { query: "mac=00:11:22:33:44:55"}).returns(fake_rest_client_response({:ip => '192.168.0.50'}))
     assert_equal({'ip' => '192.168.0.50'}, proxy_dhcp.unused_ip(subnet_mock, '00:11:22:33:44:55'))
   end
 end

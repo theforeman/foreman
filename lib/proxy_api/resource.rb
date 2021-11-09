@@ -65,11 +65,19 @@ module ProxyAPI
 
     # Perform GET operation on the supplied path
     def get(path = nil, payload = {})
+      query = payload.delete(:query)
+      Foreman::Deprecation.deprecation_warning("3.3", "passing additional headers to ProxyApi resource GET action") unless payload.empty?
+      final_uri = path || ""
+      if query
+        raise SyntaxError, 'path must be specified if the query does' unless path
+        query = URI.encode_www_form(query) unless query.is_a?(String)
+        final_uri += "?#{query}"
+      end
       with_logger do
         telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'get') do
           # This ensures that an extra "/" is not generated
           if path
-            resource[URI.escape(path)].get payload
+            resource[final_uri].get payload
           else
             resource.get payload
           end

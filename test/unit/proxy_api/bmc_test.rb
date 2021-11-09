@@ -142,27 +142,27 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "power function should create correct url for off?" do
     action = "off"
-    expected_path = "/127.0.0.1/chassis/power/#{action}?bmc_provider=a_provider"
-    data = @options.merge({:action => action})
+    path = "/127.0.0.1/chassis/power/#{action}"
+    query = { bmc_provider: "a_provider"}
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
-    @testbmc.expects(:get).with(expected_path, data).at_least_once
+    @testbmc.expects(:get).with(path, query: query).at_least_once
     @testbmc.power_off?(@options)
   end
   test "power function should create correct url for on?" do
     action = "on"
-    expected_path = "/127.0.0.1/chassis/power/#{action}?bmc_provider=a_provider"
-    data = @options.merge({:action => action})
+    path = "/127.0.0.1/chassis/power/#{action}"
+    query = { bmc_provider: "a_provider" }
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
-    @testbmc.expects(:get).with(expected_path, data).at_least_once
+    @testbmc.expects(:get).with(path, query: query).at_least_once
     @testbmc.power_on?(@options)
   end
 
   test "power function should create correct url for status" do
     action = "status"
-    expected_path = "/127.0.0.1/chassis/power/#{action}?bmc_provider=a_provider"
-    data = @options.merge({:action => action})
+    path = "/127.0.0.1/chassis/power/#{action}"
+    query = { bmc_provider: "a_provider" }
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
-    @testbmc.expects(:get).with(expected_path, data).at_least_once
+    @testbmc.expects(:get).with(path, query: query).at_least_once
     @testbmc.power_status(@options)
   end
 
@@ -185,46 +185,46 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
 
   test "identify function should create correct url for status" do
     action = "status"
-    expected_path = "/127.0.0.1/chassis/identify/#{action}?bmc_provider=a_provider"
-    data = @options.merge({:action => action})
+    path = "/127.0.0.1/chassis/identify/#{action}"
+    query = { bmc_provider: "a_provider" }
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
-    @testbmc.expects(:get).with(expected_path, data).at_least_once
+    @testbmc.expects(:get).with(path, query: query).at_least_once
     @testbmc.identify_status(@options)
   end
 
   test "lan function should create correct url for ip" do
     action = "ip"
-    expected_path = "/127.0.0.1/lan/#{action}?bmc_provider=a_provider"
-    data = @options.merge({:action => action})
+    path = "/127.0.0.1/lan/#{action}"
+    query = {bmc_provider: "a_provider" }
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
-    @testbmc.expects(:get).with(expected_path, data).at_least_once
+    @testbmc.expects(:get).with(path, query: query).at_least_once
     @testbmc.lan_ip(@options)
   end
 
   test "lan function should create correct url for netmask" do
     action = "netmask"
-    expected_path = "/127.0.0.1/lan/#{action}?bmc_provider=a_provider"
-    data = @options.merge({:action => action})
+    path = "/127.0.0.1/lan/#{action}"
+    query = { bmc_provider: "a_provider"}
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
-    @testbmc.expects(:get).with(expected_path, data).at_least_once
+    @testbmc.expects(:get).with(path, query: query).at_least_once
     @testbmc.lan_netmask(@options)
   end
 
   test "lan function should create correct url for gateway" do
     action = "gateway"
-    expected_path = "/127.0.0.1/lan/#{action}?bmc_provider=a_provider"
-    data = @options.merge({:action => action})
+    path = "/127.0.0.1/lan/#{action}"
+    query = {bmc_provider: "a_provider" }
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
-    @testbmc.expects(:get).with(expected_path, data).at_least_once
+    @testbmc.expects(:get).with(path, query: query).at_least_once
     @testbmc.lan_gateway(@options)
   end
 
   test "lan function should create correct url for mac" do
     action = "mac"
-    expected_path = "/127.0.0.1/lan/#{action}?bmc_provider=a_provider"
-    data = @options.merge({:action => action})
+    path = "/127.0.0.1/lan/#{action}"
+    query = { bmc_provider: "a_provider" }
     @testbmc.stubs(:get).returns(fake_rest_client_response(["fakedata"]))
-    @testbmc.expects(:get).with(expected_path, data).at_least_once
+    @testbmc.expects(:get).with(path, query: query).at_least_once
     @testbmc.lan_mac(@options)
   end
 
