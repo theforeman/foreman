@@ -66,6 +66,8 @@ const HostDetails = ({
     registerCoreTabs();
   }, []);
 
+  const activeTab = decodeURI(hash.slice(2).split('/')[0]);
+
   return (
     <>
       <PageSection
@@ -161,7 +163,7 @@ const HostDetails = ({
               style={{
                 width: window.innerWidth - (isNavCollapsed ? 95 : 220),
               }}
-              activeKey={hash.slice(2).split('/')[0]}
+              activeKey={activeTab}
             >
               {tabs.map(tab => (
                 <Tab key={tab} eventKey={tab} title={tab} />
