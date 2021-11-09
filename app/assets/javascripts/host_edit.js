@@ -573,17 +573,9 @@ $(document).on(
 );
 
 $(document).on('change', '.interface_domain', function() {
-  clearError(
-    $(this)
-      .closest('fieldset')
-      .find('.interface_ip')
-  );
-  clearError(
-    $(this)
-      .closest('fieldset')
-      .find('.interface_ip6')
-  );
   interface_domain_selected(this);
+  clearIpField('.interface_domain', '.interface_ip');
+  clearIpField('.interface_domain', '.interface_ip6');
   reload_host_params();
 });
 
