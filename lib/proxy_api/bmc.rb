@@ -50,7 +50,8 @@ module ProxyAPI
       case args[:action]
       when "on?", "off?", "status"
         args[:action].chop! if args[:action].include?('?')
-        response = parse(get(bmc_url_for_get('power', args[:action]), args))
+        full_path_as_hash = bmc_url_for_get('power', args[:action])
+        response = parse(get(full_path_as_hash[:path], query: full_path_as_hash[:query]))
         response.is_a?(Hash) ? response['result'] : response
       when "on", "off", "cycle", "soft"
         res = parse put(with_provider(args), bmc_url_for('power', args[:action]))
@@ -70,7 +71,8 @@ module ProxyAPI
       # put "/bmc/:host/chassis/identify/:action"
       case args[:action]
       when "status"
-        parse get(bmc_url_for_get('identify', args[:action]), args)
+        full_path_as_hash = bmc_url_for_get('identify', args[:action])
+        parse get(full_path_as_hash[:path], query: full_path_as_hash[:query])
       when "on", "off"
         parse put(with_provider(args), bmc_url_for('identify', args[:action]))
       else
@@ -87,7 +89,8 @@ module ProxyAPI
       # get "/bmc/:host/lan/:action"
       case args[:action]
       when "ip", "netmask", "mac", "gateway"
-        response = parse(get(bmc_url_for_get('lan', args[:action]), args))
+        full_path_as_hash = bmc_url_for_get('lan', args[:action])
+        response = parse(get(full_path_as_hash[:path], query: full_path_as_hash[:query]))
         response.is_a?(Hash) ? response['result'] : response
       else
         raise NoMethodError
@@ -111,9 +114,9 @@ module ProxyAPI
 
     def bmc_url_for_get(controller, action)
       if @provider
-        "#{bmc_url_for(controller, action)}?bmc_provider=#{@provider}"
+        {path: bmc_url_for(controller, action).to_s, query: { bmc_provider: @provider } }
       else
-        bmc_url_for(controller, action)
+        {path: bmc_url_for(controller, action) }
       end
     end
 

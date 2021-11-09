@@ -29,11 +29,11 @@ module ProxyAPI
         params[:to] = subnet.to
       end
       if params.any?
-        params = "?" + params.map { |e| e.join("=") }.join("&")
+        params = params.map { |e| e.join("=") }.join("&")
       else
         params = ""
       end
-      parse get("#{subnet.network}/unused_ip#{params}")
+      parse get("#{subnet.network}/unused_ip", query: params)
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to retrieve unused IP"))
     end

@@ -63,7 +63,7 @@ module ProxyAPI
     #     {"error": "Unable to connect to External IPAM server"}
     def next_ip(subnet, mac, group = "")
       raise "subnet cannot be nil" if subnet.nil?
-      response = parse get("/subnet/#{subnet}/next_ip?mac=#{mac}&group=#{URI.escape(group.to_s)}")
+      response = parse get("/subnet/#{subnet}/next_ip", query: { mac: mac, group: group})
       raise(response['error']) if response['error'].present?
       response['data']
     rescue => e
@@ -95,7 +95,7 @@ module ProxyAPI
     def add_ip_to_subnet(ip, subnet, group = "")
       raise "subnet cannot be nil" if subnet.nil?
       raise "ip cannot be nil" if ip.nil?
-      response = parse post({}, "/subnet/#{subnet}/#{ip}?group=#{URI.escape(group.to_s)}")
+      response = parse post({}, "/subnet/#{subnet}/#{ip}?group=#{CGI.escape(group.to_s)}")
       raise(response['error']) if response.is_a?(Hash) && response['error'].present?
       response
     rescue => e
@@ -145,7 +145,7 @@ module ProxyAPI
     #     {"error": "Unable to connect to External IPAM server"}
     def get_group(group)
       raise "group must be provided" if group.blank?
-      response = parse get("/groups/#{URI.escape(group)}")
+      response = parse get("/groups/#{CGI.escape(group)}")
       raise(response['error']) if response['error'].present?
       response
     rescue => e
@@ -172,7 +172,7 @@ module ProxyAPI
     #     {"error": "Unable to connect to External IPAM"}
     def get_subnets_by_group(group)
       raise "group must be provided" if group.blank?
-      response = parse get("/groups/#{URI.escape(group)}/subnets")
+      response = parse get("/groups/#{CGI.escape(group)}/subnets")
       raise(response['error']) if response.is_a?(Hash) && response['error'].present?
       response
     rescue => e
@@ -196,7 +196,7 @@ module ProxyAPI
     #     {"error": "Unable to connect to External IPAM server"}
     def get_subnet(subnet, group = "")
       raise "subnet cannot be nil" if subnet.nil?
-      response = parse get("/subnet/#{subnet}?group=#{URI.escape(group.to_s)}")
+      response = parse get("/subnet/#{subnet}", query: {group: group})
       raise(response['error']) if response['error'].present?
       response
     rescue => e
@@ -226,7 +226,7 @@ module ProxyAPI
     def ip_exists(ip, subnet, group = "")
       raise "subnet cannot be nil" if subnet.nil?
       raise "ip cannot be nil" if ip.nil?
-      response = parse get("/subnet/#{subnet}/#{ip}?group=#{URI.escape(group.to_s)}")
+      response = parse get("/subnet/#{subnet}/#{ip}", query: {group: group })
       raise(response['error']) if response.is_a?(Hash) && response['error'].present?
       response
     rescue => e
@@ -254,7 +254,7 @@ module ProxyAPI
     def delete_ip_from_subnet(ip, subnet, group = "")
       raise "subnet cannot be nil" if subnet.nil?
       raise "ip cannot be nil" if ip.nil?
-      response = parse delete("/subnet/#{subnet}/#{ip}?group=#{URI.escape(group.to_s)}")
+      response = parse delete("/subnet/#{subnet}/#{ip}?group=#{CGI.escape(group.to_s)}")
       raise(response['error']) if response.is_a?(Hash) && response['error'].present?
       response
     rescue => e

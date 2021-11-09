@@ -6,7 +6,7 @@ module ProxyAPI
     end
 
     def all(from = 0)
-      parse(get("?from_timestamp=#{from}"))
+      parse(get("", query: { from_timestamp: from }))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to fetch logs"))
     end
