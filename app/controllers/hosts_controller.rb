@@ -328,6 +328,7 @@ class HostsController < ApplicationController
   def forget_status
     status = @host.host_statuses.find(params[:status])
     status.delete
+    @host.refresh_global_status!
     respond_to do |format|
       format.html do
         redirect_to host_path(@host)

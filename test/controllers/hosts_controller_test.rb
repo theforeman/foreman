@@ -1049,6 +1049,15 @@ class HostsControllerTest < ActionController::TestCase
     refute host.host_statuses.include?(status)
   end
 
+  test "#forget_status refresh the global state" do
+    host = FactoryBot.create(:host, :managed)
+    failed_status = ::HostStatus::BuildStatus.create!(host_id: host.id)
+    failed_status.stubs(:to_global).returns(2)
+    failed_status.stubs(:relevant?).returns(true)
+    post :forget_status, params: {:id => host.id, :status => failed_status.id}, session: set_session_user
+    assert_equal 0, host.global_status
+  end
+
   test "#disassociate shows error when used on non-CR host" do
     host = FactoryBot.create(:host)
     @request.env["HTTP_REFERER"] = hosts_path
