@@ -573,18 +573,10 @@ $(document).on(
 );
 
 $(document).on('change', '.interface_domain', function() {
-  clearError(
-    $(this)
-      .closest('fieldset')
-      .find('.interface_ip')
-  );
-  clearError(
-    $(this)
-      .closest('fieldset')
-      .find('.interface_ip6')
-  );
-  interface_domain_selected(this);
-  reload_host_params();
+    interface_domain_selected(this);
+    clearIpField(this, '.interface_ip');
+    clearIpField(this, '.interface_ip6');
+    reload_host_params();
 });
 
 function clearIpField(parent, childclass) {
