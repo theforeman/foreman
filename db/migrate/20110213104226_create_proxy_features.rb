@@ -1,6 +1,4 @@
 class CreateProxyFeatures < ActiveRecord::Migration[4.2]
-  class Feature < ApplicationRecord; end
-
   def up
     # Create the tables
     create_table :features do |t|

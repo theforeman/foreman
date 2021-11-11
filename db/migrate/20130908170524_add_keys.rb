@@ -1,9 +1,8 @@
 class AddKeys < ActiveRecord::Migration[4.2]
   def change
     # turn off Foreign Key checks
-    if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
-      execute "SET CONSTRAINTS ALL DEFERRED;"
-    end
+    execute "SET CONSTRAINTS ALL DEFERRED;"
+
     add_foreign_key "architectures_operatingsystems", "architectures", :name => "architectures_operatingsystems_architecture_id_fk"
     add_foreign_key "architectures_operatingsystems", "operatingsystems", :name => "architectures_operatingsystems_operatingsystem_id_fk"
     add_foreign_key "audits", "users", :name => "audits_user_id_fk"

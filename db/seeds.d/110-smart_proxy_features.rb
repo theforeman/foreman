@@ -1,5 +1,5 @@
 # Proxy features
-proxy_features = ["TFTP", "DNS", "DHCP", "Puppet CA", "BMC", "Realm", "Facts", "Logs", "HTTPBoot", "External IPAM",
+proxy_features = ["Templates", "TFTP", "DNS", "DHCP", "Puppet CA", "BMC", "Realm", "Facts", "Logs", "HTTPBoot", "External IPAM",
                   "Registration"]
 
 proxy_features.each do |input|

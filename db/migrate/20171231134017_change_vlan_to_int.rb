@@ -1,8 +1,6 @@
 class ChangeVlanToInt < ActiveRecord::Migration[5.1]
   def up
-    Subnet.unscoped.where(vlanid: "").update_all(vlanid: nil)
-    opts = (connection.adapter_name.downcase == 'postgresql') ? {using: 'vlanid::integer'} : {}
-    change_column :subnets, :vlanid, :integer, opts
+    change_column :subnets, :vlanid, :integer, using: 'vlanid::integer'
   end
 
   def down
