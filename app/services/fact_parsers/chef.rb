@@ -1,5 +1,7 @@
-module ForemanChef
-  class FactParser < ::FactParser
+# frozen_string_literal: true
+
+module FactParsers
+  class Chef < AbstractFactParser
     VIRTUAL = /\A([a-z0-9]+)[:.](\d+)\Z/
     VIRTUAL_NAMES = /#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
 
@@ -96,7 +98,7 @@ module ForemanChef
     end
 
     def fact_name_class
-      ForemanChef::FactName
+      FactNames::Chef
     end
 
     def self.smart_proxy_features
@@ -140,7 +142,7 @@ module ForemanChef
     end
 
     def network_hash
-      @network_hash ||= ForemanChef::FactImporter::Sparser.new.unsparse(facts.select { |k, v| k.start_with?('network::interfaces::') }).try(:[], 'network') || {}
+      @network_hash ||= Utility::FactSparser.new.unsparse(facts.select { |k, v| k.start_with?('network::interfaces::') }).try(:[], 'network') || {}
     end
 
     def interfaces_hash

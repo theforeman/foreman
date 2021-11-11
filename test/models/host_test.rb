@@ -3334,7 +3334,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   def mock_parser(properties)
-    parser = PuppetFactParser.new(properties)
+    parser = FactParsers::Puppet.new(properties)
     parser.stubs(:class_name_humanized).returns('TestParser')
     parser
   end

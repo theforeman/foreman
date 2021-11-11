@@ -37,7 +37,7 @@ module FactImporters
     end
 
     def normalizer
-      return Normalizers::Katello if @type == Katello::RhsmFactName::FACT_TYPE
+      return Normalizers::Katello if @type == FactNames::Rhsm::FACT_TYPE
       Normalizers::Structured
     end
   end

@@ -545,9 +545,9 @@ module Host
 
     def interface_class(name)
       case name
-        when FactParser::BONDS
+        when FactParsers::AbstractFactParser::BONDS
           Nic::Bond
-        when FactParser::BRIDGES
+        when FactParsers::AbstractFactParser::BRIDGES
           Nic::Bridge
         else
           Nic::Managed

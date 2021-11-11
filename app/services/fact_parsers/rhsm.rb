@@ -1,8 +1,10 @@
-module Katello
-  REDHAT_ATOMIC_HOST_DISTRO_NAME = "Red Hat Enterprise Linux Atomic Host".freeze
-  REDHAT_ATOMIC_HOST_OS = "RedHat_Enterprise_Linux_Atomic_Host".freeze
+# frozen_string_literal: true
 
-  class RhsmFactParser < ::FactParser
+module FactParsers
+  REDHAT_ATOMIC_HOST_DISTRO_NAME = "Red Hat Enterprise Linux Atomic Host"
+  REDHAT_ATOMIC_HOST_OS = "RedHat_Enterprise_Linux_Atomic_Host"
+
+  class Rhsm < AbstractFactParser
     def architecture
       name = facts['lscpu.architecture'] || facts['uname.machine']
       name = "x86_64" if name == "amd64"
@@ -109,7 +111,7 @@ module Katello
     end
 
     def fact_name_class
-      Katello::RhsmFactName
+      FactNames::Rhsm
     end
 
     private

@@ -1,5 +1,7 @@
-module ForemanChef
-  class FactName < ::FactName
+# frozen_string_literal: true
+
+module FactNames
+  class Chef < FactName
     def origin
       'Chef'
     end

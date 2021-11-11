@@ -8,18 +8,18 @@ class FactParserTest < ActiveSupport::TestCase
   end
 
   test "bond regexp matches only bonds" do
-    assert_match FactParser::BONDS, 'bond0'
-    assert_match FactParser::BONDS, 'lagg0'
-    refute_match FactParser::BONDS, 'bond0.0'
-    refute_match FactParser::BONDS, 'bond0:0'
-    refute_match FactParser::BONDS, 'bond0.0:0'
+    assert_match FactParsers::AbstractFactParser::BONDS, 'bond0'
+    assert_match FactParsers::AbstractFactParser::BONDS, 'lagg0'
+    refute_match FactParsers::AbstractFactParser::BONDS, 'bond0.0'
+    refute_match FactParsers::AbstractFactParser::BONDS, 'bond0:0'
+    refute_match FactParsers::AbstractFactParser::BONDS, 'bond0.0:0'
   end
 
   test "bridge regexp matches bridges" do
-    assert_match FactParser::BRIDGES, 'br12'
-    assert_match FactParser::BRIDGES, 'br-ex'
-    assert_match FactParser::BRIDGES, 'virbr1'
-    refute_match FactParser::BRIDGES, 'bridge'
+    assert_match FactParsers::AbstractFactParser::BRIDGES, 'br12'
+    assert_match FactParsers::AbstractFactParser::BRIDGES, 'br-ex'
+    assert_match FactParsers::AbstractFactParser::BRIDGES, 'virbr1'
+    refute_match FactParsers::AbstractFactParser::BRIDGES, 'bridge'
   end
 
   test "#parse_interfaces? should answer based on current setttings" do
@@ -355,6 +355,6 @@ class FactParserTest < ActiveSupport::TestCase
   end
 
   def get_parser(facts = {})
-    FactParser.new(facts)
+    FactParsers::AbstractFactParser.new(facts)
   end
 end

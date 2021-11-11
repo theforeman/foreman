@@ -2,10 +2,10 @@ require 'test_helper'
 
 class FactParserRegistryTest < ActiveSupport::TestCase
   test "default parsers" do
-    assert_equal PuppetFactParser, Foreman::Plugin.fact_parser_registry[:puppet]
-    assert_equal PuppetFactParser, Foreman::Plugin.fact_parser_registry['puppet']
-    assert_equal PuppetFactParser, Foreman::Plugin.fact_parser_registry[:whatever]
-    assert_equal PuppetFactParser, Foreman::Plugin.fact_parser_registry['whatever']
+    assert_equal FactParsers::Puppet, Foreman::Plugin.fact_parser_registry[:puppet]
+    assert_equal FactParsers::Puppet, Foreman::Plugin.fact_parser_registry['puppet']
+    assert_equal FactParsers::Puppet, Foreman::Plugin.fact_parser_registry[:whatever]
+    assert_equal FactParsers::Puppet, Foreman::Plugin.fact_parser_registry['whatever']
   end
 
   test "register_custom_parser" do
@@ -44,7 +44,7 @@ class FactParserRegistryTest < ActiveSupport::TestCase
       assert_equal parser_two, Foreman::Plugin.fact_parser_registry[:anything]
     ensure
       Foreman::Plugin.fact_parser_registry.unregister(:parser)
-      Foreman::Plugin.fact_parser_registry.register(:pupper, PuppetFactParser, true)
+      Foreman::Plugin.fact_parser_registry.register(:pupper, FactParsers::Puppet, true)
     end
   end
 end

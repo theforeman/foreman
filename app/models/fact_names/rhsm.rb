@@ -1,5 +1,7 @@
-module Katello
-  class RhsmFactName < ::FactName
+# frozen_string_literal: true
+
+module FactNames
+  class Rhsm < FactName
     FACT_TYPE = :rhsm
 
     def set_name

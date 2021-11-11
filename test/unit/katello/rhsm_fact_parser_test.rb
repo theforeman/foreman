@@ -18,7 +18,7 @@ module Katello
         'net.interface.eth3.mac_address' => '00:00:00:00:00:14',
       }
     end
-    let(:parser) { RhsmFactParser.new(@facts) }
+    let(:parser) { FactParsers::Rhsm.new(@facts) }
 
     def test_virtual_interfaces
       assert parser.interfaces['eth0.1'][:virtual]

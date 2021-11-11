@@ -8,7 +8,7 @@ module ForemanAnsible
   class FactParserTest < ActiveSupport::TestCase
     setup do
       facts_json = HashWithIndifferentAccess.new(read_json_fixture('facts/ansible_facts.json'))
-      @facts_parser = AnsibleFactParser.new(facts_json)
+      @facts_parser = FactParsers::Ansible.new(facts_json)
     end
 
     test 'finds facter domain even if ansible_domain is empty' do
@@ -70,13 +70,13 @@ module ForemanAnsible
 
     test 'RHEL 7 OS is correctly mapped' do
       rhel7_facts = HashWithIndifferentAccess.new(read_json_fixture('facts/ansible_rhel_7_server.json'))
-      fact_parser = AnsibleFactParser.new(rhel7_facts)
+      fact_parser = FactParsers::Ansible.new(rhel7_facts)
       assert_equal fact_parser.os_name, 'RedHat'
     end
 
     test 'RHEL 8 OS is correctly mapped' do
       rhel8_facts = HashWithIndifferentAccess.new(read_json_fixture('facts/ansible_rhel_8.json'))
-      fact_parser = AnsibleFactParser.new(rhel8_facts)
+      fact_parser = FactParsers::Ansible.new(rhel8_facts)
       assert_equal fact_parser.os_name, 'RedHat'
     end
 
@@ -94,7 +94,7 @@ module ForemanAnsible
   class WindowsFactParserTest < ActiveSupport::TestCase
     setup do
       facts_json = HashWithIndifferentAccess.new(read_json_fixture('/facts/ansible_facts_windows_2019.json'))
-      @facts_parser = AnsibleFactParser.new(facts_json)
+      @facts_parser = FactParsers::Ansible.new(facts_json)
     end
 
     test 'finds model' do
@@ -141,7 +141,7 @@ module ForemanAnsible
   # Tests for Network parser
   class NetworkFactParserTest < ActiveSupport::TestCase
     setup do
-      @facts_parser = AnsibleFactParser.new(
+      @facts_parser = FactParsers::Ansible.new(
         HashWithIndifferentAccess.new(
           '_type' => 'ansible',
           '_timestamp' => '2018-10-29 20:01:51 +0100',
@@ -239,7 +239,7 @@ module ForemanAnsible
   # Tests for Debian parser
   class DebianFactParserTest < ActiveSupport::TestCase
     setup do
-      @facts_parser = AnsibleFactParser.new(
+      @facts_parser = FactParsers::Ansible.new(
         HashWithIndifferentAccess.new(
           '_type' => 'ansible',
           '_timestamp' => '2015-10-29 20:01:51 +0100',
@@ -271,7 +271,7 @@ module ForemanAnsible
   class WindowsOSFactParserTest < ActiveSupport::TestCase
     context 'Windows 7' do
       setup do
-        @facts_parser = AnsibleFactParser.new(
+        @facts_parser = FactParsers::Ansible.new(
           HashWithIndifferentAccess.new(
             '_type' => 'ansible',
             '_timestamp' => '2015-10-29 20:01:51 +0100',
@@ -306,7 +306,7 @@ module ForemanAnsible
 
     context 'Windows Server 2016' do
       setup do
-        @facts_parser = AnsibleFactParser.new(
+        @facts_parser = FactParsers::Ansible.new(
           HashWithIndifferentAccess.new(
             '_type' => 'ansible',
             '_timestamp' => '2015-10-29 20:01:51 +0100',

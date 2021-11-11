@@ -3,7 +3,7 @@ require 'test_helper'
 module Katello
   class NormalizerTest < ActiveSupport::TestCase
     def setup
-      @separator = RhsmFactName::SEPARATOR
+      @separator = FactNames::Rhsm::SEPARATOR
       @facts = {
         'interesting.key' => 'value_one',
         'another.interesting.key' => 'value_two',

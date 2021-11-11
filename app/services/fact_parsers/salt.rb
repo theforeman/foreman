@@ -1,5 +1,7 @@
-module ForemanSalt
-  class FactParser < ::FactParser
+# frozen_string_literal: true
+
+module FactParsers
+  class Salt < AbstractFactParser
     attr_reader :facts
 
     def operatingsystem
@@ -85,7 +87,7 @@ module ForemanSalt
     end
 
     def fact_name_class
-      ForemanSalt::FactName
+      FactNames::Salt
     end
 
     def self.smart_proxy_features

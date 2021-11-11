@@ -97,7 +97,7 @@ class BaseMacrosTest < ActiveSupport::TestCase
       chef_kernel_fact = FactoryBot.create(:fact_name, name: 'kernel::release', type: 'FactName::Chef')
       unrelated_fact = FactoryBot.create(:fact_name, name: 'os')
       puppet_and_salt_fact = FactoryBot.create(:fact_name, name: 'kernelrelease')
-      rhsm_fact = FactoryBot.create(:fact_name, name: 'uname::release', type: 'Katello::RhsmFactName')
+      rhsm_fact = FactoryBot.create(:fact_name, name: 'uname::release', type: 'FactName::Rhsm')
       FactoryBot.create(:fact_value, fact_name: ansible_kernel_fact, host: host, value: '1.2.3')
       FactoryBot.create(:fact_value, fact_name: chef_kernel_fact, host: host, value: '2.2.2')
       FactoryBot.create(:fact_value, fact_name: unrelated_fact, host: host, value: 'Fedora 29')

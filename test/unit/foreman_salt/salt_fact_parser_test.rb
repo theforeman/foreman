@@ -4,7 +4,7 @@ module ForemanSalt
   class SaltFactsParserTest < ActiveSupport::TestCase
     def setup
       grains = JSON.parse(File.read(File.join(Rails.root, 'test', 'static_fixtures', 'facts', 'grains_centos.json')))
-      @facts_parser = FactParser.new grains["facts"]
+      @facts_parser = FactParsers::Salt.new grains["facts"]
       User.current = users :admin
     end
 
