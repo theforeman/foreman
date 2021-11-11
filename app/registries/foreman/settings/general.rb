@@ -20,11 +20,6 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Number of records shown per page in Foreman"),
       default: 20,
       full_name: N_('Entries per page'))
-    setting('fix_db_cache',
-      type: :boolean,
-      description: N_('Fix DB cache on next Foreman restart'),
-      default: false,
-      full_name: N_('Fix DB cache'))
     setting('db_pending_seed',
       type: :boolean,
       description: N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"),

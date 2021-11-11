@@ -20,10 +20,5 @@ class CacheManager
     delete_old_permission_cache
     create_new_permission_cache
     create_new_filter_cache
-    CacheManager.set_cache_setting(false)
-  end
-
-  def self.set_cache_setting(value)
-    Setting['fix_db_cache'] = value
   end
 end
