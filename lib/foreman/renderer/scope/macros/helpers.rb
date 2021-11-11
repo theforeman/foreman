@@ -99,6 +99,15 @@ module Foreman
           def shell_escape(string)
             Shellwords.shellescape(string)
           end
+
+          apipie :method, 'Returns current date' do
+            keyword :format, String, desc: 'Format string to format date according to the directives in this string', default: '%F'
+            returns String
+            example '<%= current_date %> #=> "2021-11-11"'
+          end
+          def current_date(format: '%F')
+            Time.zone.today.strftime(format)
+          end
         end
       end
     end
