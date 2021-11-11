@@ -9,7 +9,5 @@ class CreateCachedUsergroupMembers < ActiveRecord::Migration[4.2]
 
     add_index :cached_usergroup_members, :user_id
     add_index :cached_usergroup_members, :usergroup_id
-
-    UsergroupMember.all.each(&:save!)
   end
 end

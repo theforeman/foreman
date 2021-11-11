@@ -1,21 +1,5 @@
 class RenameConfigTemplateToProvisioningTemplate < ActiveRecord::Migration[4.2]
-  PERMISSIONS = %w(view_templates create_templates edit_templates destroy_templates deploy_templates lock_templates)
-
   def up
-    old_name = 'ConfigTemplate'
-    new_name = 'ProvisioningTemplate'
-
-    Template.where(:type => old_name).update_all(:type => new_name)
-    Audit.where(:auditable_type => old_name).update_all(:auditable_type => new_name)
-    TaxableTaxonomy.where(:taxable_type => old_name).update_all(:taxable_type => new_name)
-    Permission.where(:resource_type => old_name).update_all(:resource_type => new_name)
-
-    PERMISSIONS.each do |from|
-      to = from.sub('templates', 'provisioning_templates')
-      say "renaming permission #{from} to #{to}"
-      Permission.where(:name => from).update_all(:name => to)
-    end
-
     %w(os_default_templates template_combinations config_templates_operatingsystems).each do |source_table|
       if foreign_key_exists?(source_table, :name => "#{source_table}_config_template_id_fk")
         remove_foreign_key source_table, :name => "#{source_table}_config_template_id_fk"
@@ -48,19 +32,5 @@ class RenameConfigTemplateToProvisioningTemplate < ActiveRecord::Migration[4.2]
     add_foreign_key 'os_default_templates', 'config_templates', :name => 'os_default_templates_config_template_id_fk'
     add_foreign_key 'template_combinations', 'config_templates', :name => 'template_combinations_config_template_id_fk'
     add_foreign_key 'config_templates_operatingsystems', 'config_templates', :name => 'config_templates_operatingsystems_config_template_id_fk'
-
-    PERMISSIONS.each do |to|
-      from = to.sub('provisioning_templates', 'templates')
-      say "renaming permission #{from} to #{to}"
-      Permission.where(:name => from).update_all(:name => to)
-    end
-
-    old_name = 'ConfigTemplate'
-    new_name = 'ProvisioningTemplate'
-
-    Template.where(:type => new_name).update_all(:type => old_name)
-    Audit.where(:auditable_type => new_name).update_all(:auditable_type => old_name)
-    TaxableTaxonomy.where(:taxable_type => new_name).update_all(:taxable_type => old_name)
-    Permission.where(:resource_type => new_name).update_all(:resource_type => old_name)
   end
 end

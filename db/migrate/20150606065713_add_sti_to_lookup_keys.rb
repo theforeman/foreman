@@ -5,7 +5,6 @@ class AddStiToLookupKeys < ActiveRecord::Migration[4.2]
   end
 
   def down
-    LookupKey.where(:type => "PuppetclassLookupKey").update_all(:is_param => true)
     remove_column :lookup_keys, :type
   end
 end

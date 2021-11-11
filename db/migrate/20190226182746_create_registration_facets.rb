@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CreateRegistrationFacets < ActiveRecord::Migration[5.1]
   def change
     create_table :registration_facets do |t|

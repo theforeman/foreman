@@ -12,8 +12,6 @@ class AddIpv6Subnet < ActiveRecord::Migration[4.2]
   end
 
   def self.down
-    Subnet::Ipv6.destroy_all
-
     change_column :subnets, :network, :string, :limit => 15
     change_column :subnets, :mask, :string, :limit => 15
     change_column :subnets, :gateway, :string
