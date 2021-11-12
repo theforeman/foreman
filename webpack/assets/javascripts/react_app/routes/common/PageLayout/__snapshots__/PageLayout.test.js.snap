@@ -65,6 +65,7 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
                 "bookmarks": Object {
                   "canCreate": true,
                   "documentationUrl": "/doc/url",
+                  "id": "searchBar",
                   "url": "/api/bookmarks",
                 },
                 "controller": "models",
@@ -155,6 +156,7 @@ exports[`render pageLayout w/search 1`] = `
                 "bookmarks": Object {
                   "canCreate": true,
                   "documentationUrl": "/doc/url",
+                  "id": "searchBar",
                   "url": "/api/bookmarks",
                 },
                 "controller": "models",
@@ -245,6 +247,7 @@ exports[`render pageLayout w/toolBar 1`] = `
                 "bookmarks": Object {
                   "canCreate": true,
                   "documentationUrl": "/doc/url",
+                  "id": "searchBar",
                   "url": "/api/bookmarks",
                 },
                 "controller": "models",
@@ -317,6 +320,7 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
                 "bookmarks": Object {
                   "canCreate": true,
                   "documentationUrl": "/doc/url",
+                  "id": "searchBar",
                   "url": "/api/bookmarks",
                 },
                 "controller": "models",
@@ -389,6 +393,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
                 "bookmarks": Object {
                   "canCreate": true,
                   "documentationUrl": "/doc/url",
+                  "id": "searchBar",
                   "url": "/api/bookmarks",
                 },
                 "controller": "models",

@@ -33,6 +33,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
       canCreate={true}
       controller="models"
       documentationUrl="/doc/url"
+      id="searchBar"
       onBookmarkClick={[Function]}
       searchQuery=""
       url="/api/bookmarks"

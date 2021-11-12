@@ -7,6 +7,7 @@ export const SearchBarProps = {
       useKeyShortcuts: true,
     },
     bookmarks: {
+      id: 'searchBar',
       url: '/api/bookmarks',
       canCreate: true,
       documentationUrl: '/doc/url',

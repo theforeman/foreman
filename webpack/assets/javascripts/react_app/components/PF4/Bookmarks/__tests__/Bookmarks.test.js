@@ -16,6 +16,7 @@ window.open = args => {
 const historyPush = jest.spyOn(history, 'push');
 
 const commonFixture = {
+  id: 'architectures',
   controller: 'architectures',
   onBookmarkClick: () => {},
   url: '/api/v2/architectures',
@@ -124,6 +125,8 @@ describe('Bookmarks', () => {
     expect(helpersNewWindow).toHaveBeenCalledWith('https://test-docs.com');
     expect(screen.queryAllByText('Documentation')).toHaveLength(1);
     expect(screen.queryAllByLabelText('loading bookmarks')).toHaveLength(0);
-    expect(screen.queryAllByText('Failed to load bookmarks: Random test error')).toHaveLength(1);
+    expect(
+      screen.queryAllByText('Failed to load bookmarks: Random test error')
+    ).toHaveLength(1);
   });
 });
