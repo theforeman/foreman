@@ -4,6 +4,7 @@ import Bookmarks from '../Bookmarks';
 import { STATUS } from '../../../constants';
 
 const commonFixture = {
+  id: 'architectures',
   controller: 'architectures',
   onBookmarkClick: () => {},
   url: '/api/v2/architectures',

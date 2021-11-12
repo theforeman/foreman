@@ -38,7 +38,7 @@ Object {
     },
     "bookmarksPF4": Object {},
     "foremanModals": Object {
-      "bookmarksModal": Object {
+      "bookmarksModal-searchBar": Object {
         "isOpen": false,
         "isSubmitting": false,
       },
@@ -68,7 +68,7 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "id": "bookmarksModal",
+        "id": "bookmarksModal-searchBar",
         "isOpen": false,
         "isSubmitting": false,
       },
@@ -110,7 +110,7 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "id": "bookmarksModal",
+        "id": "bookmarksModal-searchBar",
       },
       "type": "SET_MODAL_OPEN",
     },

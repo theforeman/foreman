@@ -15,6 +15,7 @@ import { stringifyParams } from '../../../common/urlHelpers';
 import { translate as __ } from '../../../common/I18n';
 
 const Bookmarks = ({
+  id,
   bookmarks,
   status,
   url,
@@ -59,6 +60,7 @@ const Bookmarks = ({
   return (
     <React.Fragment>
       <BookmarkModal
+        id={id}
         controller={controller}
         url={url}
         setModalClosed={setModalClosed}
@@ -84,6 +86,7 @@ const Bookmarks = ({
 };
 
 Bookmarks.propTypes = {
+  id: PropTypes.string.isRequired,
   controller: PropTypes.string.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,

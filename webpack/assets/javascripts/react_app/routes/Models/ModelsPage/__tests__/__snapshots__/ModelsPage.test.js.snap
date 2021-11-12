@@ -20,6 +20,7 @@ exports[`ModelsPage redering should render when loading 1`] = `
       "bookmarks": Object {
         "canCreate": true,
         "documentationUrl": "/links/manual/4.1.5Searching",
+        "id": "searchBar",
         "url": "/api/bookmarks",
       },
       "controller": "models",
@@ -97,6 +98,7 @@ exports[`ModelsPage redering should render with error 1`] = `
       "bookmarks": Object {
         "canCreate": true,
         "documentationUrl": "/links/manual/4.1.5Searching",
+        "id": "searchBar",
         "url": "/api/bookmarks",
       },
       "controller": "models",
@@ -179,6 +181,7 @@ exports[`ModelsPage redering should render with models 1`] = `
       "bookmarks": Object {
         "canCreate": true,
         "documentationUrl": "/links/manual/4.1.5Searching",
+        "id": "searchBar",
         "url": "/api/bookmarks",
       },
       "controller": "models",
@@ -256,6 +259,7 @@ exports[`ModelsPage redering should render with no data 1`] = `
       "bookmarks": Object {
         "canCreate": true,
         "documentationUrl": "/links/manual/4.1.5Searching",
+        "id": "searchBar",
         "url": "/api/bookmarks",
       },
       "controller": "models",
