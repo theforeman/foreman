@@ -6,13 +6,4 @@ module PaginationHelper
       render('common/pagination', collection: collection, options: options)
     end
   end
-
-  def react_pagination_props(collection = nil, classname = nil)
-    {
-      viewType: 'table',
-      itemCount: collection.total_entries,
-      perPage: Setting[:entries_per_page],
-      classNames: {pagination_classes: classname},
-    }
-  end
 end
