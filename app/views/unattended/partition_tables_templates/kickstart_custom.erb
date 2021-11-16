@@ -9,7 +9,10 @@ oses:
 - Fedora
 - RedHat
 - Rocky
-%>
+-%>
+<% if host_param('driverdisk_source') -%>
+driverdisk --source=<%= host_param('driverdisk_source') %>
+<% end -%>
 zerombr
 clearpart --all --initlabel
 <%

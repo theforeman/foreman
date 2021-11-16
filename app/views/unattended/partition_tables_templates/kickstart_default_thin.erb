@@ -9,7 +9,10 @@ oses:
 - RedHat
 - oVirt
 - RHVH
-%>
+-%>
+<% if host_param('driverdisk_source') -%>
+driverdisk --source=<%= host_param('driverdisk_source') %>
+<% end -%>
 zerombr
 clearpart --all --initlabel
 autopart --type=thinp <%= host_param('autopart_options') %>
