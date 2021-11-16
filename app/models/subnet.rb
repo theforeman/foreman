@@ -200,6 +200,8 @@ class Subnet < ApplicationRecord
 
   def ipaddr
     IPAddr.new("#{network}/#{mask}", family)
+  rescue IPAddr::InvalidAddressError => exception
+    raise ::Foreman::WrappedException.new exception, N_("Invalid address for subnet '#{network}/#{mask}'")
   end
 
   def cidr
