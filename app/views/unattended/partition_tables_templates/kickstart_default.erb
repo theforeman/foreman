@@ -8,7 +8,10 @@ oses:
 - Fedora
 - RedHat
 - Rocky
-%>
+-%>
+<% if host_param('driverdisk_source') -%>
+driverdisk --source=<%= host_param('driverdisk_source') %>
+<% end -%>
 <% if host_param('ignoredisk_options') %>
 ignoredisk <%= host_param('ignoredisk_options') %>
 <% end %>
