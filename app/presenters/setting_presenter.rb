@@ -75,7 +75,7 @@ class SettingPresenter
   end
 
   def category_name
-    category.to_s.gsub(/Setting::/, '')
+    category.delete_prefix('Setting::')
   end
 
   def select_values
