@@ -89,10 +89,12 @@ class SettingRegistry
 
   # Returns all the categories used for settings
   def categories
-    sticked_general = { 'general' => nil }
-    sticked_general.merge!(Hash[@settings.map { |_name, definition| [definition.category_name, definition.category_label] }])
-    sticked_general.delete('general') if sticked_general['general'].nil?
-    sticked_general
+    return @categories unless @categories.nil?
+    @categories = @settings.values.uniq(&:category).each_with_object({'general' => nil}) do |definition, memo|
+      memo[definition.category_name] = definition.category_label
+    end
+    @categories.delete('general') if @categories['general'].nil?
+    @categories
   end
 
   def category_settings(category)
@@ -117,6 +119,7 @@ class SettingRegistry
 
   def load_definitions
     @settings = {}
+    @categories = nil
 
     Setting.descendants.each do |cat_cls|
       if cat_cls.default_settings.empty?
