@@ -10,5 +10,9 @@ description: |
 #!/bin/sh
 
 echo "Calling Ansible AWX/Tower provisioning callback..."
+<% if host_param('ansible_extra_vars') -%>
+/usr/bin/curl -v -k -s -H 'Content-Type: application/json' --data '{"host_config_key":"<%= host_param('ansible_host_config_key') %>", "extra_vars": <%=host_param('ansible_extra_vars') %>}' https://<%= host_param('ansible_tower_fqdn') %>/api/v2/job_templates/<%= host_param('ansible_job_template_id') %>/callback/
+<% else -%>
 /usr/bin/curl -v -k -s --data "host_config_key=<%= host_param('ansible_host_config_key') %>" https://<%= host_param('ansible_tower_fqdn') %>/api/v2/job_templates/<%= host_param('ansible_job_template_id') %>/callback/
+<% end -%>
 echo "DONE"
