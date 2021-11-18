@@ -1,12 +1,12 @@
-return unless (ForemanInternal.table_exists? rescue(false)) && !Foreman.in_rake? && !Rails.env.test?
+Rails.application.config.after_initialize do
+  next unless (ForemanInternal.table_exists? rescue(false)) && !Foreman.in_rake? && !Rails.env.test?
 
-if ActiveRecord::Base.connection.migration_context.needs_migration?
-  Rails.logger.warn("Migrations pending, skipping seeding. Please run `foreman-rake db:migrate` manually.")
-  return
-end
+  if ActiveRecord::Base.connection.migration_context.needs_migration?
+    Rails.logger.warn("Migrations pending, skipping seeding. Please run `foreman-rake db:migrate` manually.")
+    next
+  end
 
-Foreman::Application.configure do |app|
-  config.after_initialize do
+  begin
     seeder = ForemanSeeder.new
 
     if seeder.hash_changed?
