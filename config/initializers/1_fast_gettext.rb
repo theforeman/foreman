@@ -1,6 +1,10 @@
 require 'fast_gettext'
 require 'gettext_i18n_rails'
 
+require "foreman/gettext/all_domains"
+require "foreman/gettext/debug"
+require "foreman/gettext/support"
+
 locale_dir = File.join(Rails.root, 'locale')
 locale_domain = 'foreman'
 
