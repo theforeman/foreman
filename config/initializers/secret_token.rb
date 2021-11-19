@@ -1,4 +1,4 @@
-require_dependency 'foreman/util'
+require 'foreman/util'
 include Foreman::Util
 
 unless Foreman::Application.config.secret_key_base
