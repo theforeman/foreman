@@ -123,6 +123,8 @@ class SettingRegistry
 
     Setting.descendants.each do |cat_cls|
       if cat_cls.default_settings.empty?
+        Foreman::Deprecation.deprecation_warning('3.3', "subclassing Setting is deprecated '#{cat_cls.name}' should be migrated to setting DSL "\
+                                                        'see https://github.com/theforeman/foreman/blob/develop/developer_docs/how_to_create_a_plugin.asciidoc#settings for details')
         next unless (Setting.table_exists? rescue(false))
         # Setting category uses really old way of doing things
         _load_category_from_db(cat_cls)
