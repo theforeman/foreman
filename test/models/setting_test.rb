@@ -379,17 +379,6 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "12345", setting.value
   end
 
-  test "parse attribute raises exception for undefined types" do
-    class CustomSetting < Setting
-      TYPES << "custom_type"
-    end
-
-    setting = CustomSetting.new(:name => "foo", :default => "default", :settings_type => "custom_type")
-    assert_raises(Foreman::Exception) do
-      setting.parse_string_value("some_value")
-    end
-  end
-
   test "create! can update category" do
     s = Setting.create!(:name => "foo", :value => "bar", :category => "Setting", :default => "bar", :description => "baz")
     assert_equal s.category, "Setting"
