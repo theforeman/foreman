@@ -136,6 +136,10 @@ description: |
   elsif nic_delay
     options.push("nicdelay=#{nic_delay} linksleep=#{nic_delay}")
   end
+
+  if host_param('append_kernel_options')
+    options.push("#{host_param('append_kernel_options')}")
+  end
 -%>
 <%# do not add newline after the next line %>
 <%= options.join(' ') -%>
