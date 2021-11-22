@@ -1,7 +1,10 @@
-require_relative 'concerns/audit_associations'
-
 class ApplicationRecord < ActiveRecord::Base
   extend ApipieDSL::Class
+  extend HostMix
+
+  include HasManyCommon
+  include StripWhitespace
+  include Parameterizable::ById
 
   apipie :prop_group, name: :basic_model_props do
     property :id, Integer, desc: "Numerical ID of the #{@meta[:friendly_name] || @meta[:class_scope]}"
