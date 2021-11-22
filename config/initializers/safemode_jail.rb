@@ -1,10 +1,3 @@
-class ActiveRecord::Base
-  extend Host::Hostmix
-  include HasManyCommon
-  include StripWhitespace
-  include Parameterizable::ById
-end
-
 # Permit safemode template rendering to have basic read-only access over
 # model relations
 class ActiveRecord::AssociationRelation::Jail < Safemode::Jail
@@ -21,4 +14,8 @@ end
 
 class ActiveRecord::Batches::BatchEnumerator::Jail < Safemode::Jail
   allow :each, :each_record, :map, :to_a, :first, :[], :size
+end
+
+class URI::Generic::Jail < Safemode::Jail
+  allow :host, :path, :port, :query, :scheme
 end
