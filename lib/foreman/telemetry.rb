@@ -1,6 +1,11 @@
 require 'singleton'
 require 'forwardable'
 
+require 'foreman/telemetry_sinks/metric_exporter_sink'
+require 'foreman/telemetry_sinks/prometheus_sink'
+require 'foreman/telemetry_sinks/rails_logger_sink'
+require 'foreman/telemetry_sinks/statsd_sink'
+
 module Foreman
   class Telemetry
     include Singleton
