@@ -38,4 +38,14 @@ class ApplicationRecord < ActiveRecord::Base
       @graphql_type || superclass.try(:graphql_type)
     end
   end
+
+  def <=>(other)
+    name <=> other.name
+  end
+
+  def id_and_type
+    "#{id}-#{self.class.table_name.humanize}"
+  end
+  alias_attribute :to_label, :name_method
+  alias_attribute :to_s, :to_label
 end

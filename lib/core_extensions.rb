@@ -6,16 +6,6 @@ class NilClass
 end
 
 class ActiveRecord::Base
-  def <=>(other)
-    name <=> other.name
-  end
-
-  def id_and_type
-    "#{id}-#{self.class.table_name.humanize}"
-  end
-  alias_attribute :to_label, :name_method
-  alias_attribute :to_s, :to_label
-
   def self.unconfigured?
     where(nil).reorder('').limit(1).pluck(base_class.primary_key).empty?
   end
