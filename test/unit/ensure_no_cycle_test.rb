@@ -8,7 +8,7 @@ class EnsureNoCycleTest < ActiveSupport::TestCase
     base.push Edge.new(3, 4)
     base.push Edge.new(3, 5)
     base.push Edge.new(2, 6)
-    @graph = ActiveRecord::Base::EnsureNoCycle.new(base, :source, :target)
+    @graph = EnsureNoCycle.new(base, :source, :target)
   end
 
   class Edge < OpenStruct
