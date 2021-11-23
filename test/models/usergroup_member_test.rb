@@ -102,7 +102,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "add new memership to the root" do
     setup_admins_scenario
 
-    ActiveRecord::Base::EnsureNoCycle.any_instance.expects(:ensure).once
+    EnsureNoCycle.any_instance.expects(:ensure).once
 
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
     basic_role = FactoryBot.create :role, :name => 'um_basic_role'
@@ -122,7 +122,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "add new memership to the middle of chain" do
     setup_admins_scenario
 
-    ActiveRecord::Base::EnsureNoCycle.any_instance.expects(:ensure).once
+    EnsureNoCycle.any_instance.expects(:ensure).once
 
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
     basic_role = FactoryBot.create :role, :name => 'um_basic_role'
@@ -142,7 +142,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "add new memership to the leaf" do
     setup_admins_scenario
 
-    ActiveRecord::Base::EnsureNoCycle.any_instance.expects(:ensure).once
+    EnsureNoCycle.any_instance.expects(:ensure).once
 
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
     basic_role = FactoryBot.create :role, :name => 'um_basic_role'
@@ -205,7 +205,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   end
 
   test "add new user memership" do
-    ActiveRecord::Base::EnsureNoCycle.any_instance.expects(:ensure).never
+    EnsureNoCycle.any_instance.expects(:ensure).never
 
     test_user1 = FactoryBot.create(:user, :login => 'test_user1')
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
