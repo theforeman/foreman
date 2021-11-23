@@ -80,11 +80,15 @@ module ForemanAnsible
         facts[:ansible_os_name].tr(" \n\t", '') ||
             facts[:ansible_distribution].tr(" \n\t", '')
       else
+        # RHEL 7 is marked as either RedHatEnterpriseServer or RedHatEnterpriseWorkstation, RHEL 8 is lsb id is RedHatEnterprise
+        # but we always consider it just RHEL on this level, workstation is differentiated below
         distribution = facts[:ansible_lsb].try(:[], 'id') || facts[:ansible_distribution]
 
-        if distribution == 'RedHat' &&
-            facts[:ansible_lsb].try(:[], 'id') == 'RedHatEnterpriseWorkstation'
-          distribution += '_Workstation'
+        case distribution
+        when 'RedHatEnterprise', 'RedHatEnterpriseServer'
+          distribution = 'RedHat'
+        when 'RedHatEnterpriseWorkstation'
+          distribution = 'RedHat_Workstation'
         end
 
         distribution
