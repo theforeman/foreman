@@ -1,7 +1,7 @@
 class ApplicationRecord < ActiveRecord::Base
   extend ApipieDSL::Class
-  extend HostMix
 
+  include HostMix
   include HasManyCommon
   include StripWhitespace
   include Parameterizable::ById
