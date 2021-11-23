@@ -68,6 +68,18 @@ module ForemanAnsible
       assert_nil @facts_parser.operatingsystem
     end
 
+    test 'RHEL 7 OS is correctly mapped' do
+      rhel7_facts = HashWithIndifferentAccess.new(read_json_fixture('facts/ansible_rhel_7_server.json'))
+      fact_parser = AnsibleFactParser.new(rhel7_facts)
+      assert_equal fact_parser.os_name, 'RedHat'
+    end
+
+    test 'RHEL 8 OS is correctly mapped' do
+      rhel8_facts = HashWithIndifferentAccess.new(read_json_fixture('facts/ansible_rhel_8.json'))
+      fact_parser = AnsibleFactParser.new(rhel8_facts)
+      assert_equal fact_parser.os_name, 'RedHat'
+    end
+
     private
 
     def expect_where(model, fact_name)
