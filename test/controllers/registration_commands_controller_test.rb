@@ -7,7 +7,12 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
 
       get :operatingsystem_template, params: { id: os.id }, session: set_session_user
       assert_response :success
-      assert_not_nil JSON.parse(@response.body)['template']['name']
+
+      response = JSON.parse(@response.body)['template']
+      template_name = Setting[:default_host_init_config_template]
+
+      assert_includes response['path'], Template.find_by(name: template_name).id.to_s
+      assert response['name'], template_name
     end
 
     test 'without template' do
@@ -15,8 +20,12 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
       os.os_default_templates = []
 
       get :operatingsystem_template, params: { id: os.id }, session: set_session_user
+
+      response = JSON.parse(@response.body)['template']
+
       assert_response :success
-      assert_nil JSON.parse(@response.body)['template']['name']
+      assert_includes response['os_path'], os.id.to_s
+      assert_nil response['name']
     end
   end
 
