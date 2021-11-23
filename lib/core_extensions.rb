@@ -10,24 +10,6 @@ class ActiveRecord::Base
     name <=> other.name
   end
 
-  def update_single_attribute(attribute, value)
-    connection.update(
-      "UPDATE #{self.class.quoted_table_name} SET " +
-      "#{connection.quote_column_name(attribute.to_s)} = #{quote_value(value)} " +
-      "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
-      "#{self.class.name} Attribute Update"
-    )
-  end
-
-  def update_multiple_attribute(attributes)
-    connection.update(
-      "UPDATE #{self.class.quoted_table_name} SET " +
-      attributes.map { |key, value| " #{connection.quote_column_name(key.to_s)} = #{quote_value(value)} " }.join(', ') +
-      "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
-      "#{self.class.name} Attribute Update"
-    )
-  end
-
   def id_and_type
     "#{id}-#{self.class.table_name.humanize}"
   end
