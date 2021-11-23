@@ -17,14 +17,15 @@ class RegistrationCommandsController < ApplicationController
 
   def operatingsystem_template
     os = Operatingsystem.authorized(:view_operatingsystems).find(params[:id])
-    template = os.has_default_template?(TemplateKind.find_by(name: 'host_init_config'))
+    template_kind = TemplateKind.find_by(name: 'host_init_config')
+    template = os.os_default_templates
+                 .find_by(template_kind: template_kind)&.provisioning_template
 
-    unless template
+    if template
+      render json: { template: { name: template.name, path: edit_provisioning_template_path(template) } }
+    else
       render json: { template: { name: nil, os_path: edit_operatingsystem_path(os)} }
-      return
     end
-
-    render json: { template: { name: template.name, path: edit_provisioning_template_path(template) } }
   end
 
   def create
