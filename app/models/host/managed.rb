@@ -659,12 +659,12 @@ autopart"', desc: 'to render the content of host partition table'
   def root_pass
     return self[:root_pass] if self[:root_pass].present?
     return hostgroup.try(:root_pass) if hostgroup.try(:root_pass).present?
-    Setting[:root_pass]
+    crypt_pass(Setting[:root_pass], :root)
   end
 
   def root_pass_source
-    return N_("host") if self[:root_pass].present?
-    return N_("hostgroup") if hostgroup.try(:root_pass).present?
+    return N_("host") if root_pass_present?
+    return N_("hostgroup") if hostgroup.try(:root_pass_present?)
     return N_("global setting") if Setting[:root_pass].present?
     nil
   end
@@ -1008,5 +1008,9 @@ autopart"', desc: 'to render the content of host partition table'
 
   def compute_resource_in_taxonomy
     validate_association_taxonomy(:compute_resource)
+  end
+
+  def root_pass_present?
+    self[:root_pass].present?
   end
 end

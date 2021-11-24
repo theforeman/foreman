@@ -40,7 +40,7 @@ module HostCommon
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
 
-    before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
+    before_save :check_puppet_ca_proxy_is_required?, :crypt_passwords
     before_save :set_lookup_value_matcher
 
     # Replacement of accepts_nested_attributes_for :lookup_values,
@@ -151,30 +151,31 @@ module HostCommon
     super || default_image_file
   end
 
-  def crypt_root_pass
-    # hosts will always copy and crypt the password from parents when saved, but hostgroups should
-    # only crypt if the attribute is stored, else will stay blank and inherit
-    unencrypted_pass = if is_a?(Hostgroup)
-                         self[:root_pass]
-                       else
-                         root_pass
-                       end
+  def crypt_passwords
+    self.root_pass = crypt_pass(self[:root_pass], :root)
+    self.grub_pass = crypt_pass(self[:grub_pass] || self[:root_pass], :grub)
+  end
 
-    if unencrypted_pass.present?
-      is_actually_encrypted = if (operatingsystem.try(:password_hash) == "Base64" || operatingsystem.try(:password_hash) == "Base64-Windows")
-                                password_base64_encrypted?
-                              elsif PasswordCrypt.crypt_gnu_compatible?
-                                unencrypted_pass.match('^\$\d+\$.+\$.+')
-                              else
-                                unencrypted_pass.starts_with?("$")
-                              end
+  def crypt_pass(unencrypted_pass, pass_kind)
+    return unless unencrypted_pass.present?
+    is_actually_encrypted = if operatingsystem.try(:password_hash) == "Base64" || operatingsystem.try(:password_hash) == "Base64-Windows"
+                              password_base64_encrypted?
+                            elsif PasswordCrypt.crypt_gnu_compatible?
+                              unencrypted_pass.match('^\$\d+\$.+\$.+')
+                            else
+                              unencrypted_pass.starts_with?("$")
+                            end
 
-      if is_actually_encrypted
-        self.root_pass = self.grub_pass = unencrypted_pass
-      else
-        self.root_pass = operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash)
-        self.grub_pass = PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
-      end
+    # Grub_pass and root_pass are the same, so return the right pass is correct everytime
+    return unencrypted_pass if is_actually_encrypted
+
+    case pass_kind
+    when :root
+      operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash)
+    when :grub
+      PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
+    else
+      raise "Incorrect type of password. Only one of :root, :grub is supported"
     end
   end
 
