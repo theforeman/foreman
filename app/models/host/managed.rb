@@ -162,7 +162,7 @@ class Host::Managed < Host::Base
     property :comment, String, desc: 'Returns comment/description of this host'
   end
   class Jail < ::Safemode::Jail
-    allow :id, :name, :created_at, :diskLayout, :puppetmaster, :puppet_server, :puppet_ca_server, :operatingsystem, :os, :ptable, :hostgroup,
+    allow :id, :name, :created_at, :diskLayout, :puppet_server, :puppet_ca_server, :operatingsystem, :os, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :subnet6, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :nil?, :indent, :primary_interface,
@@ -171,11 +171,6 @@ class Host::Managed < Host::Base
       :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used, :owner, :owner_type,
       :ssh_authorized_keys, :pxe_loader, :global_status, :get_status, :puppetca_token, :last_report, :build?, :smart_proxies, :host_param,
       :virtual, :ram, :sockets, :cores, :params, :pxe_loader_efi?, :comment
-
-    def puppetmaster
-      Foreman::Deprecation.deprecation_warning('3.0', 'Host#puppetmaster is deprecated, please use host_puppet_server macro instead')
-      @source.puppet_server
-    end
   end
 
   scope :recent, lambda { |interval = Setting[:outofsync_interval]|

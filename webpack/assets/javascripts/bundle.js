@@ -28,16 +28,6 @@ import * as lookupKeys from './foreman_lookup_keys';
 import './foreman_overrides';
 import './bundle_novnc';
 
-const numFieldsDeprecationOnly = {
-  initAll: () => {
-    window.tfm.tools.deprecate(
-      'initAll()',
-      'does nothing as of now, please stop calling it',
-      '3.2'
-    );
-  },
-};
-
 // Set the public path for dynamic imports
 if (process.env.NODE_ENV !== 'production') {
   /* eslint-disable-next-line */
@@ -53,7 +43,6 @@ window.tfm = Object.assign(window.tfm || {}, {
   hosts,
   httpProxies,
   toastNotifications,
-  numFields: numFieldsDeprecationOnly,
   reactMounter,
   editor,
   nav,

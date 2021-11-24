@@ -1,12 +1,5 @@
 require 'webpack-rails'
 module ReactjsHelper
-  def mount_react_component(name, selector, data = [], opts = {})
-    Foreman::Deprecation.deprecation_warning('2.5', 'use #react_component instead of #mount_react_component')
-    javascript_tag defer: 'defer' do
-      "$(tfm.reactMounter.mount('#{name}', '#{selector}', #{data}, #{opts[:flatten_data] || false}));".html_safe
-    end
-  end
-
   # Mount react component in views
   # Params:
   # +name+:: the component name from the componentRegistry

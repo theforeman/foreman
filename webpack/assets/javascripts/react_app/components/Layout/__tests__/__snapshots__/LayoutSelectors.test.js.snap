@@ -126,7 +126,3 @@ exports[`Layout selectors should return empty array of items 1`] = `Array []`;
 exports[`Layout selectors should return isCollapsed from selector 1`] = `false`;
 
 exports[`Layout selectors should return isLoading from selector 1`] = `true`;
-
-exports[`Layout selectors should return location from selector 1`] = `"loc1"`;
-
-exports[`Layout selectors should return organization from selector 1`] = `"org1"`;

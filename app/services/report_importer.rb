@@ -92,8 +92,8 @@ class ReportImporter
       msg   = log['log']['messages']['message']
       src   = log['log']['sources']['source']
 
-      message = Message.find_or_create msg
-      source  = Source.find_or_create src
+      message = Message.find_or_create_by(value: msg)
+      source  = Source.find_or_create_by(value: src)
 
       # Symbols get turned into strings via the JSON API, so convert back here if it matches
       # and expected log level. Log objects can't be created without one, so raise if not
