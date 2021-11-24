@@ -45,25 +45,6 @@ Apipie.configure do |config|
   config.default_locale = FastGettext.default_locale
   config.locale = ->(loc) { loc ? FastGettext.set_locale(loc) : FastGettext.locale }
 
-  substitutions = {
-    :operatingsystem_families => Operatingsystem.families.join(", "),
-    :providers => -> { ComputeResource.providers.keys.join(', ') },
-    :providers_requiring_url => -> { ComputeResource.providers_requiring_url },
-    :default_nic_type => InterfaceTypeMapper::DEFAULT_TYPE.humanized_name.downcase,
-    :template_kinds => -> { Rails.cache.fetch("template_kind_names", expires_in: 1.hour) { TemplateKind.pluck(:name).join(", ") } },
-    :host_rebuild_steps => -> { Host::Managed.valid_rebuild_only_values.join(', ') },
-  }
-
-  config.translate = lambda do |str, loc|
-    old_loc = FastGettext.locale
-    FastGettext.set_locale(loc)
-    if str
-      trans = _(str)
-      trans = trans % Hash[substitutions.map { |k, v| [k, v.respond_to?(:call) ? v.call : v] }]
-    end
-    FastGettext.set_locale(old_loc)
-    trans
-  end
   config.validate = false
   config.force_dsl = true
   config.reload_controllers = Rails.env.development?
@@ -71,6 +52,30 @@ Apipie.configure do |config|
   config.default_version = "v2"
   config.update_checksum = true
   config.checksum_path = ['/api/', '/apidoc/']
+end
+
+Rails.application.config.after_initialize do
+  Apipie.configure do |config|
+    substitutions = {
+      :operatingsystem_families => Operatingsystem.families.join(", "),
+      :providers => -> { ComputeResource.providers.keys.join(', ') },
+      :providers_requiring_url => -> { ComputeResource.providers_requiring_url },
+      :default_nic_type => InterfaceTypeMapper::DEFAULT_TYPE.humanized_name.downcase,
+      :template_kinds => -> { Rails.cache.fetch("template_kind_names", expires_in: 1.hour) { TemplateKind.pluck(:name).join(", ") } },
+      :host_rebuild_steps => -> { Host::Managed.valid_rebuild_only_values.join(', ') },
+    }
+
+    config.translate = lambda do |str, loc|
+      old_loc = FastGettext.locale
+      FastGettext.set_locale(loc)
+      if str
+        trans = _(str)
+        trans = trans % Hash[substitutions.map { |k, v| [k, v.respond_to?(:call) ? v.call : v] }]
+      end
+      FastGettext.set_locale(old_loc)
+      trans
+    end
+  end
 end
 
 # check apipie cache in dev mode
