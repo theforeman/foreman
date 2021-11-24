@@ -108,16 +108,11 @@ class Hostgroup < ApplicationRecord
     property :title, String, desc: 'Returns full title of this host group, e.g. Base/CentOS 7'
   end
   class Jail < Safemode::Jail
-    allow :id, :name, :diskLayout, :puppetmaster, :puppet_server, :operatingsystem, :architecture,
+    allow :id, :name, :diskLayout, :puppet_server, :operatingsystem, :architecture,
       :ptable, :url_for_boot, :params, :puppet_proxy, :puppet_ca_server,
       :os, :arch, :domain, :subnet, :subnet6, :hosts, :realm,
       :root_pass, :description, :pxe_loader, :title,
       :children, :parent
-
-    def puppetmaster
-      Foreman::Deprecation.deprecation_warning('3.0', 'Hostgroup#puppetmaster is deprecated, please use host_puppet_server macro instead')
-      @source.puppet_server
-    end
   end
 
   # TODO: add a method that returns the valid os for a hostgroup

@@ -159,19 +159,6 @@ module ApplicationHelper
     controller.respond_to?(:auto_complete_controller_name) ? controller.auto_complete_controller_name : controller_name
   end
 
-  def auto_complete_search(name, val, options = {})
-    Foreman::Deprecation.deprecation_warning('2.5', 'use #auto_complete_f, possibly with #form_with if you need to avoid of object scope')
-    options.merge!(
-      {
-        url: options[:full_path] || (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{name}",
-        controller: options[:path] || auto_complete_controller_name,
-        search_query: '',
-        use_key_shortcuts: options[:use_key_shortcuts] || false,
-      }
-    )
-    Tags::ReactInput.new(nil, name, self, options.merge(value: val, type: 'autocomplete', only_input: true)).render
-  end
-
   def sort(field, permitted: [], **kwargs)
     kwargs[:url_options] ||= current_url_params(permitted: permitted)
     super(field, kwargs)
@@ -196,37 +183,6 @@ module ApplicationHelper
 
   def edit_select(object, property, options = {})
     edit_inline(object, property, options.merge({:type => "select"}))
-  end
-
-  def flot_pie_chart(name, title, data, options = {})
-    Foreman::Deprecation.deprecation_warning('3.1', '#flot_pie_chart is now rendered by react Donut chart with default configuration. '\
-                                                    'Please render the Donut chart component directly.')
-    data = data.map { |k, v| [k.to_s.humanize, v] } if data.is_a?(Hash)
-    react_component('ChartBox', type: 'donut',
-                                status: 'RESOLVED',
-                                title: title,
-                                chart: {
-                                  data: data,
-                                  search: options[:search] ? hosts_path(search: options[:search]) : nil,
-                                })
-  end
-
-  def flot_chart(name, xaxis_label, yaxis_label, data, options = {})
-    Foreman::Deprecation.deprecation_warning('3.1', '#flot_chart is rendering its react version by default now. '\
-                                                    'Please move to rendering React Component directly.')
-    data = data.map { |k, v| {:label => k.to_s.humanize, :data => v} } if data.is_a?(Hash)
-    time = ['time'].concat(data[0][:data].map { |d| d.first })
-    data = data.map { |d_hash| [d_hash[:label]].concat(d_hash[:data].map { |d| d.second }) }
-    data.unshift(time)
-    react_component('AreaChart', id: name, xAxisLabel: xaxis_label, yAxisLabel: yaxis_label, data: data)
-  end
-
-  def flot_bar_chart(name, xaxis_label, yaxis_label, data, options = {})
-    Foreman::Deprecation.deprecation_warning('3.1', '#flot_bar_chart is rendering its react version now. '\
-                                                    'Please move to rendering React Component directly.')
-    content_tag(:div, id: name) do
-      react_component('BarChart', data: data, xAxisLabel: xaxis_label, yAxisLabel: yaxis_label)
-    end
   end
 
   def select_action_button(title, options = {}, *args)
@@ -401,11 +357,6 @@ module ApplicationHelper
     return true if params[:action] == 'clone'
     # check if the user set the field explicitly despite setting a hostgroup.
     params[:host] && params[:host][:hostgroup_id] && params[:host][field]
-  end
-
-  def notifications
-    Foreman::Deprecation.deprecation_warning('3.1', 'notifications method is deprecated, and instead, toasts alerts are handled in the root of the React app.')
-    nil
   end
 
   def toast_notifications_data

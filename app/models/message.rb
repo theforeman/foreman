@@ -8,11 +8,6 @@ class Message < ApplicationRecord
     value
   end
 
-  # DEPRECATED: use Rails method (no warning because this is called many times)
-  def self.find_or_create(value)
-    find_or_create_by(value: value)
-  end
-
   def skip_strip_attrs
     ['value']
   end

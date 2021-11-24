@@ -34,26 +34,6 @@ class TemplateInput < ApplicationRecord
     Foreman.input_types_registry.get(input_type).new if input_type
   end
 
-  def user_template_input?
-    Foreman::Deprecation.deprecation_warning('2.5', 'use #input_type or #input_type_instance to determine input type')
-    input_type == 'user'
-  end
-
-  def fact_template_input?
-    Foreman::Deprecation.deprecation_warning('2.5', 'use #input_type or #input_type_instance to determine input type')
-    input_type == 'fact'
-  end
-
-  def variable_template_input?
-    Foreman::Deprecation.deprecation_warning('2.5', 'use #input_type or #input_type_instance to determine input type')
-    input_type == 'variable'
-  end
-
-  def puppet_parameter_template_input?
-    Foreman::Deprecation.deprecation_warning('2.5', 'use #input_type or #input_type_instance to determine input type')
-    input_type == 'puppet_parameter'
-  end
-
   def preview(scope)
     resolver(scope).preview
   end

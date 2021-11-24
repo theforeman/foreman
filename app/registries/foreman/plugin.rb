@@ -77,11 +77,6 @@ module Foreman #:nodoc:
         end
       end
 
-      def medium_providers
-        Foreman::Deprecation.deprecation_warning('2.5', 'Plugin.medium_providers is deprecated, use Plugin.medium_providers_registry instead')
-        medium_providers_registry
-      end
-
       def def_field(*names)
         class_eval do
           names.each do |name|
@@ -577,10 +572,6 @@ module Foreman #:nodoc:
 
     def add_histogram_telemetry(name, description, instance_labels = [], buckets = Foreman::Telemetry::DEFAULT_BUCKETS)
       Foreman::Telemetry.instance.add_histogram(name, description, instance_labels, buckets)
-    end
-
-    def medium_providers
-      self.class.medium_providers
     end
 
     def smart_proxy_reference(hash)

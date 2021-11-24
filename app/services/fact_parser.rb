@@ -7,21 +7,6 @@ class FactParser
   VLANS = /\A([a-z0-9]+)\.([0-9]+)\Z/
   VIRTUAL_NAMES = /#{ALIASES}|#{VLANS}|#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
 
-  def self.parser_for(type)
-    Foreman::Deprecation.deprecation_warning('3.2', 'FactParser.parser_for() is deprecated, use FactParserRegistry[] instead')
-    Foreman::Plugin.fact_parser_registry[type]
-  end
-
-  def self.parsers
-    Foreman::Deprecation.deprecation_warning('3.2', 'FactParser.parsers is deprecated, use FactParserRegistry.parsers instead')
-    Foreman::Plugin.fact_parser_registry.parsers
-  end
-
-  def self.register_fact_parser(key, klass, default = false)
-    Foreman::Deprecation.deprecation_warning('3.2', 'FactParser.register_fact_parser() is deprecated, use FactParserRegistry.register() instead')
-    Foreman::Plugin.fact_parser_registry.register(key, klass, default)
-  end
-
   attr_reader :facts
 
   # facts are hash of fresh data coming from fact upload in following format

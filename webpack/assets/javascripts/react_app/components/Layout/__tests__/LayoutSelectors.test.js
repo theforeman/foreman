@@ -50,9 +50,6 @@ const fixtures = {
 
   'should return isLoading from selector': () => selectIsLoading(state),
   'should return isCollapsed from selector': () => selectIsCollapsed(state),
-  'should return location from selector': () => selectCurrentLocation(state),
-  'should return organization from selector': () =>
-    selectCurrentOrganization(state),
 };
 
 describe('Layout selectors', () => testSelectorsSnapshotWithFixtures(fixtures));
