@@ -166,33 +166,6 @@ class String
     index('<%')
   end
 
-  # TODO Remove me after Rails 6 upgrade: https://github.com/rails/rails/commit/4940cc49ddb361d584d51bc3eb4675ff8ece4a2b
-  def truncate_bytes(truncate_at, omission: "…")
-    omission ||= ""
-
-    if bytesize <= truncate_at
-      dup
-    elsif omission.bytesize > truncate_at
-      raise ArgumentError, "Omission #{omission.inspect} is #{omission.bytesize}, larger than the truncation length of #{truncate_at} bytes"
-    elsif omission.bytesize == truncate_at
-      omission.dup
-    else
-      self.class.new.tap do |cut|
-        cut_at = truncate_at - omission.bytesize
-
-        scan(/\X/) do |grapheme|
-          if cut.bytesize + grapheme.bytesize <= cut_at
-            cut << grapheme
-          else
-            break
-          end
-        end
-
-        cut << omission
-      end
-    end
-  end
-
   def integer?
     to_i.to_s == self
   end
