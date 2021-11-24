@@ -168,6 +168,8 @@ module Foreman #:nodoc:
       :renderer_variable_loaders, :host_ui_description, :ping_extension, :status_extension,
       :allowed_registration_vars, :observable_events
 
+    delegate :fact_importer_registry, :fact_parser_registry, :graphql_types_registry, :medium_providers_registry, :report_scanner_registry, :report_origin_registry, to: :class
+
     # Lists plugin's roles:
     # Foreman::Plugin.find('my_plugin').registered_roles
     delegate :registered_roles, :registered_permissions, :default_roles, :permissions, :permission_names, :to => :rbac_registry
@@ -202,22 +204,6 @@ module Foreman #:nodoc:
     def migrations_paths
       return [] unless engine
       engine.paths['db/migrate'].existent
-    end
-
-    def fact_importer_registry
-      self.class.fact_importer_registry
-    end
-
-    def fact_parser_registry
-      self.class.fact_parser_registry
-    end
-
-    def report_scanner_registry
-      self.class.report_scanner_registry
-    end
-
-    def report_origin_registry
-      self.class.report_origin_registry
     end
 
     def after_initialize
@@ -612,8 +598,6 @@ module Foreman #:nodoc:
     def register_status_extension(&block)
       @status_extension = block
     end
-
-    delegate :graphql_types_registry, to: :class
 
     def extend_graphql_type(type:, with_module: nil, &block)
       graphql_types_registry.register_extension(type: type, with_module: with_module, &block)
