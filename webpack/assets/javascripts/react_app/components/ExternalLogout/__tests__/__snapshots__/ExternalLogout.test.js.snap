@@ -43,11 +43,6 @@ exports[`ExternalLogout rendering renders ExternalLogout 1`] = `
               Welcome
             </h1>
             <p
-              id="version"
-            >
-              Version some version
-            </p>
-            <p
               id="login_text"
             >
               some caption
