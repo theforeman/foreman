@@ -64,18 +64,11 @@ exports[`LoginPage rendering renders LoginPage 1`] = `
     }
     header={
       Object {
-        "caption": <React.Fragment>
-          <h1
-            id="title"
-          >
-            Welcome
-          </h1>
-          <p
-            id="version"
-          >
-            Version some version
-          </p>
-        </React.Fragment>,
+        "caption": <h1
+          id="title"
+        >
+          Welcome
+        </h1>,
         "logoSrc": "/some-logo",
       }
     }

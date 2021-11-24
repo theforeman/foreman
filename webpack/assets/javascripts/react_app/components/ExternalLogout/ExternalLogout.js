@@ -23,7 +23,6 @@ const ExternalLogout = ({
               <img className="brand" src={logoSrc} alt="logo" />
               <div className="login-pf-caption">
                 <h1 id="title">{__('Welcome')}</h1>
-                {version && <p id="version">{`${__('Version')} ${version}`}</p>}
                 {caption && <p id="login_text">{caption}</p>}
               </div>
             </header>

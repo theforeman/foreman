@@ -26,12 +26,7 @@ const LoginPage = ({
         }}
         header={{
           logoSrc,
-          caption: (
-            <>
-              <h1 id="title">{__('Welcome')}</h1>
-              {version && <p id="version">{`${__('Version')} ${version}`}</p>}
-            </>
-          ),
+          caption: <h1 id="title">{__('Welcome')}</h1>,
         }}
         card={{
           title: __('Log in to your account'),

@@ -32,8 +32,8 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Smart Proxy request timeout'))
     setting('login_text',
       type: :text,
-      description: N_("Text to be shown in the login-page footer"),
-      default: nil,
+      description: N_("Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."),
+      default: N_("Version") + " $VERSION",
       full_name: N_('Login page footer text'))
     setting('host_power_status',
       type: :boolean,

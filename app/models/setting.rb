@@ -260,6 +260,10 @@ class Setting < ApplicationRecord
     s.readonly! if old_readonly
   end
 
+  def self.replace_keywords(keyword)
+    keyword&.gsub '$VERSION', SETTINGS[:version].version
+  end
+
   # Methods for loading default settings
 
   def self.default_settings
