@@ -104,6 +104,7 @@ class SettingManagerTest < ActiveSupport::TestCase
             validate: :email)
         end
       end
+      Foreman::SettingManager.validations.setup!
       Foreman.settings.load_definitions
       setting = Setting.new(name: 'validfoo', default: '-omited-', description: 'Omited', value: 'notanemail')
       assert_not setting.valid?
@@ -120,6 +121,7 @@ class SettingManagerTest < ActiveSupport::TestCase
           validates(:validfoo, email: true)
         end
       end
+      Foreman::SettingManager.validations.setup!
       Foreman.settings.load_definitions
       setting = Setting.new(name: 'validfoo', default: '-omited-', description: 'Omited', value: 'notanemail')
       assert_not setting.valid?
@@ -136,6 +138,7 @@ class SettingManagerTest < ActiveSupport::TestCase
             validate: /.*@include.com/)
         end
       end
+      Foreman::SettingManager.validations.setup!
       Foreman.settings.load_definitions
       setting = Setting.new(name: 'validfoo2', default: '-omited-', description: 'Omited', value: 'bar@notvalid.com')
       assert_not setting.valid?
@@ -152,6 +155,7 @@ class SettingManagerTest < ActiveSupport::TestCase
             validate: ->(value) { !value.nil? && value.starts_with?('bar') })
         end
       end
+      Foreman::SettingManager.validations.setup!
       Foreman.settings.load_definitions
       setting = Setting.new(name: 'validfoo3', default: '-omited-', description: 'Omited', value: 'notvalid@example.com')
       assert_not setting.valid?
