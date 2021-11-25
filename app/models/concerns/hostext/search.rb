@@ -251,6 +251,10 @@ module Hostext
               conditions << "hosts.hostgroup_id IN (#{param.hostgroup.subtree_ids.join(', ')})"
             when 'HostParameter'
               conditions << "hosts.id = #{param.reference_id}"
+            when 'OrganizationParameter'
+              conditions << "hosts.organization_id = #{param.reference_id}"
+            when 'LocationParameter'
+              conditions << "hosts.location_id = #{param.reference_id}"
             when 'SubnetParameter'
               conditions << "nics.subnet_id = #{param.reference_id} OR nics.subnet6_id = #{param.reference_id}"
           end
