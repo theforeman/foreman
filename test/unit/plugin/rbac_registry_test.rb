@@ -6,7 +6,7 @@ class RbacRegistryTest < ActiveSupport::TestCase
     destroy_hosts = "Destroy hosts"
     role_1 = Role.find_by :name => edit_hosts
     role_2 = Role.find_by :name => destroy_hosts
-    registry = Foreman::Plugin::RbacRegistry.new
+    registry = Foreman::Plugin::RbacRegistry.new(:test)
     registry.role_ids = [role_1.id, role_2.id]
     result = registry.registered_roles
     assert_equal 2, result.count
@@ -15,7 +15,7 @@ class RbacRegistryTest < ActiveSupport::TestCase
   end
 
   def test_registered_permissions
-    registry = Foreman::Plugin::RbacRegistry.new
+    registry = Foreman::Plugin::RbacRegistry.new(:test)
     registry.register :view_hosts, :resource_type => 'Host'
     registry.register :create_hosts, :resource_type => 'Host'
     result = registry.registered_permissions
@@ -27,7 +27,7 @@ class RbacRegistryTest < ActiveSupport::TestCase
   end
 
   def test_permissions
-    registry = Foreman::Plugin::RbacRegistry.new
+    registry = Foreman::Plugin::RbacRegistry.new(:test)
     registry.register :view_hosts, :resource_type => 'Host'
     result = registry.permissions
     assert_equal "Host", result[:view_hosts][:resource_type]

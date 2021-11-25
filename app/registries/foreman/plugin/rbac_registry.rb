@@ -3,7 +3,8 @@ module Foreman
     class RbacRegistry
       attr_accessor :role_ids, :default_roles, :registered_permissions
 
-      def initialize
+      def initialize(plugin_id)
+        @plugin_id = plugin_id
         @role_ids = []
         @registered_permissions = []
         @default_roles = {}
@@ -25,6 +26,10 @@ module Foreman
 
       def permission_names
         registered_permissions.map(&:first)
+      end
+
+      def setup!
+        # setup the plugin Rbac in DB
       end
     end
   end
