@@ -485,6 +485,8 @@ class PluginTest < ActiveSupport::TestCase
     Foreman::Plugin.register :test_plugin do
       add_resource_permissions_to_default_roles ["Test::Resource"], :except => [:create_test]
     end
+    Foreman::Plugin.find(:test_plugin).finalize_setup!
+
     manager = Role.find_by :name => "Manager"
     org_admin = Role.find_by :name => "Organization admin"
     viewer = Role.find_by :name => "Viewer"
@@ -499,6 +501,8 @@ class PluginTest < ActiveSupport::TestCase
     Foreman::Plugin.register :test_plugin do
       add_permissions_to_default_roles "Viewer" => [:misc_test]
     end
+    Foreman::Plugin.find(:test_plugin).finalize_setup!
+
     assert viewer.permissions.find_by :name => "misc_test"
   end
 
@@ -512,6 +516,8 @@ class PluginTest < ActiveSupport::TestCase
       end
       add_all_permissions_to_default_roles
     end
+    Foreman::Plugin.find(:test_plugin).finalize_setup!
+
     manager = Role.find_by :name => "Manager"
     viewer = Role.find_by :name => "Viewer"
     org_admin = Role.find_by :name => "Organization admin"

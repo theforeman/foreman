@@ -304,8 +304,8 @@ module Foreman #:nodoc:
     # This method gets called once the Foreman is fully initialized
     # It finalizes the plugin initialization process
     def finalize_setup!
-      ActiveSupport.run_load_hooks(@id, self)
       rbac_registry.setup!
+      ActiveSupport.run_load_hooks(@id, self)
     end
 
     # Adds setting definition
@@ -346,60 +346,31 @@ module Foreman #:nodoc:
       Foreman::AccessControl.map do |map|
         map.permission name, hash, options
       end
-
-      return false if pending_migrations || Rails.env.test?
-      Permission.where(:name => name).first_or_create(:resource_type => options[:resource_type])
     end
 
     # Add a new role if it doesn't exist
     def role(name, permissions, description = '')
-      default_roles[name] = permissions
-      return false if pending_migrations || Rails.env.test? || User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).nil?
-      Role.without_auditing do
-        Filter.without_auditing do
-          Plugin::RoleLock.new(id).register_role name, permissions, rbac_registry, description
-        end
-      end
-    rescue PermissionMissingException => e
-      Rails.logger.warn(_("Could not create role '%{name}': %{message}") % {:name => name, :message => e.message})
-      return false if Foreman.in_rake?
-      Rails.logger.error(_('Cannot continue because some permissions were not found, please run rake db:seed and retry'))
-      raise e
+      rbac_registry.register_role(name, permissions, description)
     end
 
     # Add plugin permissions to core's Manager and Viewer roles
     # Usage:
     # add_resource_permissions_to_default_roles ['MyPlugin::FirstResource', 'MyPlugin::SecondResource'], :except => [:skip_this_permission]
     def add_resource_permissions_to_default_roles(resources, opts = {})
-      return if Foreman.in_setup_db_rake? || !permission_table_exists?
-      Role.without_auditing do
-        Filter.without_auditing do
-          Plugin::RbacSupport.new.add_resource_permissions_to_default_roles resources, opts
-        end
-      end
+      rbac_registry.added_resource_permissions << [resources, opts]
     end
 
     # Add plugin permissions to Manager and Viewer roles. Use this for permissions without resource_type or to handle special cases
     # Usage:
     # add_permissions_to_default_roles 'Role Name' => [:first_permission, :second_permission]
     def add_permissions_to_default_roles(args)
-      return if Foreman.in_setup_db_rake? || !permission_table_exists?
-      Role.without_auditing do
-        Filter.without_auditing do
-          Plugin::RbacSupport.new.add_permissions_to_default_roles args
-        end
-      end
+      rbac_registry.modified_roles.merge!(args)
     end
 
     # Add plugin permissions to Manager and Viewer roles. Use this method if there are no special cases that need to be taken care of.
     # Otherwise add_permissions_to_default_roles or add_resource_permissions_to_default_roles might be the methods you are looking for.
     def add_all_permissions_to_default_roles
-      return if Foreman.in_setup_db_rake? || !permission_table_exists?
-      Role.without_auditing do
-        Filter.without_auditing do
-          Plugin::RbacSupport.new.add_all_permissions_to_default_roles(Permission.where(:name => @rbac_registry.permission_names))
-        end
-      end
+      rbac_registry.add_all_permissions_to_default_roles = true
     end
 
     def pending_migrations
@@ -628,12 +599,6 @@ module Foreman #:nodoc:
         send(:include, mod.to_s.constantize)
       end
       allowed_template_helpers(*(mod.public_instance_methods - Module.public_instance_methods))
-    end
-
-    def permission_table_exists?
-      exists = Permission.connection.table_exists?(Permission.table_name)
-      Rails.logger.debug("Not adding permissions from plugin #{@id} to default roles - permissions table not found") if !exists && !Rails.env.test?
-      exists
     end
   end
 end
