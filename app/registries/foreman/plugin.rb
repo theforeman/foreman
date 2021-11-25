@@ -308,6 +308,13 @@ module Foreman #:nodoc:
       end
     end
 
+    # This method gets called once the Foreman is fully initialized
+    # It finalizes the plugin initialization process
+    def finalize_setup!
+      ActiveSupport.run_load_hooks(@id, self)
+      # TBD - nothing so far
+    end
+
     # Adds setting definition
     #
     # ===== Example
