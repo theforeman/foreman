@@ -16,8 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require_dependency 'foreman/plugin/logging'
-require_dependency 'foreman/plugin/rbac_registry'
-require_dependency 'foreman/plugin/rbac_support'
 require_dependency 'foreman/plugin/report_scanner_registry'
 require_dependency 'foreman/plugin/report_origin_registry'
 require_dependency 'foreman/plugin/medium_providers_registry'
@@ -179,7 +177,7 @@ module Foreman #:nodoc:
     def initialize(id)
       @id = id.to_sym
       @logging = Plugin::Logging.new(@id)
-      @rbac_registry = Plugin::RbacRegistry.new
+      @rbac_registry = Plugin::RbacRegistry.new(@id)
       @provision_methods = {}
       @compute_resources = []
       @to_prepare_callbacks = []
@@ -312,7 +310,7 @@ module Foreman #:nodoc:
     # It finalizes the plugin initialization process
     def finalize_setup!
       ActiveSupport.run_load_hooks(@id, self)
-      # TBD - nothing so far
+      rbac_registry.setup!
     end
 
     # Adds setting definition
