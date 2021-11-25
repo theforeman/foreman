@@ -1896,6 +1896,24 @@ class HostTest < ActiveSupport::TestCase
       results = Host.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
       refute results.include?(host)
     end
+
+    test "can search hosts by organization parameter" do
+      host = FactoryBot.create(:host, :managed)
+      org = host.organization
+      org.organization_parameters << OrganizationParameter.create(:name => "test_param", :value => "true", :parameter_type => 'boolean')
+      parameter = org.organization_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
+      assert results.include?(host)
+    end
+
+    test "can search hosts by location parameter" do
+      host = FactoryBot.create(:host, :managed)
+      location = host.location
+      location.location_parameters << LocationParameter.create(:name => "test_param", :value => "true", :parameter_type => 'boolean')
+      parameter = location.location_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
+      assert results.include?(host)
+    end
   end
 
   test "can search hosts by current_user" do
