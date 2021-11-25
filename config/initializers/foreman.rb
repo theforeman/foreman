@@ -37,6 +37,12 @@ end
 Foreman::Plugin.initialize_default_registries
 Foreman::Plugin.medium_providers_registry.register MediumProviders::Default
 
+Rails.application.config.after_initialize do
+  Foreman::Plugin.registered_plugins.each do |_name, plugin|
+    plugin.finalize_setup!
+  end
+end
+
 Rails.application.config.to_prepare do
   # clear our users topbar cache
   # The users table may not be exist during initial migration of the database
