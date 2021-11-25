@@ -118,7 +118,7 @@ class RoleLockTest < ActiveSupport::TestCase
 
   test "should register role" do
     name = "Test Manager"
-    registry = Foreman::Plugin::RbacRegistry.new
+    registry = Foreman::Plugin::RbacRegistry.new(:foreman_test)
     assert_empty registry.role_ids
     @role_lock.register_role name, @permissions, registry
     refute_empty registry.role_ids
@@ -127,7 +127,7 @@ class RoleLockTest < ActiveSupport::TestCase
 
   test "should update description of register role" do
     name = "Test Manager"
-    registry = Foreman::Plugin::RbacRegistry.new
+    registry = Foreman::Plugin::RbacRegistry.new(:foreman_test)
     assert_empty registry.role_ids
     @role_lock.register_role name, @permissions, registry
     role = Role.find(registry.role_ids.first)
