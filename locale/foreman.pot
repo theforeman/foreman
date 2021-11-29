@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-29 22:04+0530\n"
-"PO-Revision-Date: 2021-10-29 22:04+0530\n"
+"POT-Creation-Date: 2021-11-29 17:32+0530\n"
+"PO-Revision-Date: 2021-11-29 17:32+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -73,22 +73,22 @@ msgstr ""
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:491
+#: ../app/assets/javascripts/host_edit.js:497
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:649
+#: ../app/assets/javascripts/host_edit.js:647
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:50
 #: ../app/views/hostgroups/_form.html.erb:57
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:815
+#: ../app/assets/javascripts/host_edit.js:813
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:949
+#: ../app/assets/javascripts/host_edit.js:947
 msgid "Manual configuration is needed."
 msgstr ""
 
@@ -136,7 +136,7 @@ msgstr ""
 #: ../app/helpers/hosts_helper.rb:374 ../app/helpers/hosts_helper.rb:376
 #: ../app/models/host_status/build_status.rb:27
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:54
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:63
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:68
 msgid "Build"
 msgstr ""
 
@@ -1280,12 +1280,12 @@ msgid "Clone a host group"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:103
-#: ../app/controllers/api/v2/hosts_controller.rb:316
+#: ../app/controllers/api/v2/hosts_controller.rb:319
 msgid "Rebuild orchestration config"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:105
-#: ../app/controllers/api/v2/hosts_controller.rb:318
+#: ../app/controllers/api/v2/hosts_controller.rb:321
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr ""
 
@@ -1294,12 +1294,12 @@ msgid "Operate on child hostgroup hosts"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:115
-#: ../app/controllers/api/v2/hosts_controller.rb:323
+#: ../app/controllers/api/v2/hosts_controller.rb:326
 msgid "Configuration successfully rebuilt."
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:118
-#: ../app/controllers/api/v2/hosts_controller.rb:325
+#: ../app/controllers/api/v2/hosts_controller.rb:328
 msgid "Configuration rebuild failed for: %s."
 msgstr ""
 
@@ -1463,23 +1463,23 @@ msgstr ""
 msgid "Overwrite existing host (true by default)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:152
+#: ../app/controllers/api/v2/hosts_controller.rb:155
 msgid "Update a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:168
+#: ../app/controllers/api/v2/hosts_controller.rb:171
 msgid "Delete a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:175
+#: ../app/controllers/api/v2/hosts_controller.rb:178
 msgid "Get ENC values of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:182
+#: ../app/controllers/api/v2/hosts_controller.rb:185
 msgid "Get status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:184
+#: ../app/controllers/api/v2/hosts_controller.rb:187
 msgid ""
 "status type, can be one of\n"
 "* global\n"
@@ -1487,119 +1487,119 @@ msgid ""
 "* build\n"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:193
+#: ../app/controllers/api/v2/hosts_controller.rb:196
 msgid "Returns string representing a host status of a given type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:200
-#: ../app/controllers/api/v2/hosts_controller.rb:218
+#: ../app/controllers/api/v2/hosts_controller.rb:203
+#: ../app/controllers/api/v2/hosts_controller.rb:221
 msgid "Status %s does not exist."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:204
+#: ../app/controllers/api/v2/hosts_controller.rb:207
 msgid "Clear sub-status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:206
+#: ../app/controllers/api/v2/hosts_controller.rb:209
 msgid ""
 "status type\n"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:212
+#: ../app/controllers/api/v2/hosts_controller.rb:215
 msgid "Clears a host sub-status of a given type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:216
+#: ../app/controllers/api/v2/hosts_controller.rb:219
 msgid "Cannot delete global status."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:224
+#: ../app/controllers/api/v2/hosts_controller.rb:227
 msgid "Get vm attributes of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:247
+#: ../app/controllers/api/v2/hosts_controller.rb:250
 msgid "Disassociate the host from a VM"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:254
+#: ../app/controllers/api/v2/hosts_controller.rb:257
 msgid "Run a power operation on host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:256
+#: ../app/controllers/api/v2/hosts_controller.rb:259
 msgid ""
 "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/"
 "reset), (state/status)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:260
+#: ../app/controllers/api/v2/hosts_controller.rb:263
 #: ../app/services/power_manager/power_status.rb:15
 msgid "Power operations are not enabled on this host."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:267
+#: ../app/controllers/api/v2/hosts_controller.rb:270
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:271
+#: ../app/controllers/api/v2/hosts_controller.rb:274
 msgid ""
 "Fetch the status of whether the host is powered on or not. Supported hosts are"
 " VMs and physical hosts with BMCs."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:281
+#: ../app/controllers/api/v2/hosts_controller.rb:284
 #: ../app/graphql/resolvers/host/power_status.rb:19
 msgid "Failed to fetch power status: %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:287
+#: ../app/controllers/api/v2/hosts_controller.rb:290
 msgid "Boot host from specified device"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:289
+#: ../app/controllers/api/v2/hosts_controller.rb:292
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:296
+#: ../app/controllers/api/v2/hosts_controller.rb:299
 msgid "Unknown device: available devices are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:302
+#: ../app/controllers/api/v2/hosts_controller.rb:305
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:303
+#: ../app/controllers/api/v2/hosts_controller.rb:306
 msgid "hostname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:304
+#: ../app/controllers/api/v2/hosts_controller.rb:307
 msgid "hash containing the facts for the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:305
+#: ../app/controllers/api/v2/hosts_controller.rb:308
 msgid "optional: certname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:306
+#: ../app/controllers/api/v2/hosts_controller.rb:309
 msgid "optional: the STI type of host to create"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:329
+#: ../app/controllers/api/v2/hosts_controller.rb:332
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:331
+#: ../app/controllers/api/v2/hosts_controller.rb:334
 msgid "Template kinds, available values: %{template_kinds}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:335
+#: ../app/controllers/api/v2/hosts_controller.rb:338
 msgid "No template with kind %{kind} for %{host}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:414
+#: ../app/controllers/api/v2/hosts_controller.rb:417
 msgid "Invalid type for host creation via facts: %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:417
+#: ../app/controllers/api/v2/hosts_controller.rb:420
 msgid "A problem occurred when detecting host type: %s"
 msgstr ""
 
@@ -2544,67 +2544,69 @@ msgstr ""
 msgid "Delete a realm"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:7
+#: ../app/controllers/api/v2/registration_commands_controller.rb:9
 msgid "Generate global registration command"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:9
+#: ../app/controllers/api/v2/registration_commands_controller.rb:11
 msgid "ID of the Organization to register the host in"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:10
+#: ../app/controllers/api/v2/registration_commands_controller.rb:12
 msgid "ID of the Location to register the host in"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:11
+#: ../app/controllers/api/v2/registration_commands_controller.rb:13
 msgid "ID of the Host group to register the host in"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:12
+#: ../app/controllers/api/v2/registration_commands_controller.rb:14
 msgid ""
 "ID of the Operating System to register the host in. Operating system must have"
 " a `host_init_config` template assigned"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:13
-msgid "ID of the Smart Proxy"
+#: ../app/controllers/api/v2/registration_commands_controller.rb:15
+msgid ""
+"ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and '"
+"Registration' features"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:14
+#: ../app/controllers/api/v2/registration_commands_controller.rb:16
 msgid ""
 "Set 'host_registration_insights' parameter for the host. If it is set to true,"
 " insights client will be installed and registered on Red Hat family operating "
 "systems"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:15
+#: ../app/controllers/api/v2/registration_commands_controller.rb:17
 msgid ""
 "Set 'host_registration_remote_execution' parameter for the host. If it is set "
 "to true, SSH keys will be installed on the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:16
+#: ../app/controllers/api/v2/registration_commands_controller.rb:18
 msgid "Expiration of the authorization token (in hours)"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:17
+#: ../app/controllers/api/v2/registration_commands_controller.rb:19
 msgid "Enable insecure argument for the initial curl"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:18
+#: ../app/controllers/api/v2/registration_commands_controller.rb:20
 #: ../app/controllers/api/v2/registration_controller.rb:24
 msgid ""
 "Packages to install on the host when registered. Can be set by `host_packages`"
 " parameter. Example: `pkg1 pkg2`"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:19
+#: ../app/controllers/api/v2/registration_commands_controller.rb:21
 #: ../app/controllers/api/v2/registration_controller.rb:25
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/UpdatePackages.js:19
 msgid "Update all packages on the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:20
+#: ../app/controllers/api/v2/registration_commands_controller.rb:22
 #: ../app/controllers/api/v2/registration_controller.rb:26
 msgid ""
 "Repository URL / details, for example for Debian OS family: 'deb http://deb.ex"
@@ -2612,12 +2614,12 @@ msgid ""
 "nt/latest/el8/x86_64/'"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:21
+#: ../app/controllers/api/v2/registration_commands_controller.rb:23
 #: ../app/controllers/api/v2/registration_controller.rb:27
 msgid "URL of the GPG key for the repository"
 msgstr ""
 
-#: ../app/controllers/api/v2/registration_commands_controller.rb:25
+#: ../app/controllers/api/v2/registration_commands_controller.rb:27
 msgid "Operating system doesn't have a 'host_init_config' template assigned."
 msgstr ""
 
@@ -3438,7 +3440,7 @@ msgid "The virtual machine is being deleted."
 msgstr ""
 
 #: ../app/controllers/compute_resources_vms_controller.rb:90
-#: ../app/controllers/hosts_controller.rb:358
+#: ../app/controllers/hosts_controller.rb:359
 msgid "Failed to set console: %s"
 msgstr ""
 
@@ -3599,25 +3601,25 @@ msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:23
-#: ../app/controllers/hosts_controller.rb:834
+#: ../app/controllers/hosts_controller.rb:835
 msgid "No proxy selected!"
 msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:29
-#: ../app/controllers/hosts_controller.rb:840
+#: ../app/controllers/hosts_controller.rb:841
 msgid "Invalid proxy selected!"
 msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:50
-#: ../app/controllers/hosts_controller.rb:861
+#: ../app/controllers/hosts_controller.rb:862
 msgid "Failed to set %{proxy_type} proxy for %{host}."
 msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:56
-#: ../app/controllers/hosts_controller.rb:867
+#: ../app/controllers/hosts_controller.rb:868
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}"
 msgstr ""
 
@@ -3630,7 +3632,7 @@ msgstr ""
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:61
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:76
-#: ../app/controllers/hosts_controller.rb:872
+#: ../app/controllers/hosts_controller.rb:873
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] ""
@@ -3654,6 +3656,10 @@ msgstr ""
 
 #: ../app/controllers/concerns/foreman/controller/registration.rb:94
 msgid "URL in :url parameter is missing a scheme, please set http:// or https://"
+msgstr ""
+
+#: ../app/controllers/concerns/foreman/controller/registration_commands.rb:56
+msgid "Proxy lacks one of the following features: 'Registration', 'Templates'"
 msgstr ""
 
 #: ../app/controllers/concerns/foreman/controller/taxonomies_controller.rb:127
@@ -3760,7 +3766,7 @@ msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:246
 #: ../app/controllers/hosts_controller.rb:249
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:90
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:95
 msgid "Canceled pending build for %s"
 msgstr ""
 
@@ -3778,165 +3784,165 @@ msgstr ""
 msgid "Failed to %{action} %{host}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:347
+#: ../app/controllers/hosts_controller.rb:348
 msgid "%{host} now boots from %{device}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:349
+#: ../app/controllers/hosts_controller.rb:350
 msgid "Failed to configure %{host} to boot from %{device}: %{e}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:365
+#: ../app/controllers/hosts_controller.rb:366
 msgid "Foreman now manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:367
+#: ../app/controllers/hosts_controller.rb:368
 msgid "Foreman now no longer manages the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:371
+#: ../app/controllers/hosts_controller.rb:372
 msgid "Failed to modify the build cycle for %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:378
+#: ../app/controllers/hosts_controller.rb:379
 msgid "%s has been disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:380
+#: ../app/controllers/hosts_controller.rb:381
 msgid "Host %s is not associated with a VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:396
+#: ../app/controllers/hosts_controller.rb:397
 msgid "No parameters were allocated to the selected hosts, can't mass assign"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:416
+#: ../app/controllers/hosts_controller.rb:417
 msgid "Updated all hosts!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:420
+#: ../app/controllers/hosts_controller.rb:421
 msgid "%s Parameters updated, see below for more information"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:430
+#: ../app/controllers/hosts_controller.rb:431
 msgid "No host group selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:441
+#: ../app/controllers/hosts_controller.rb:442
 msgid "Updated hosts: changed host group"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:452
+#: ../app/controllers/hosts_controller.rb:453
 msgid "No owner selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:463
+#: ../app/controllers/hosts_controller.rb:464
 msgid "Updated hosts: changed owner"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:475
+#: ../app/controllers/hosts_controller.rb:476
 msgid "Failed to set power state for %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:479
+#: ../app/controllers/hosts_controller.rb:480
 msgid "The power state of the selected hosts will be set to %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:505
+#: ../app/controllers/hosts_controller.rb:506
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/controllers/hosts_controller.rb:512
+#: ../app/controllers/hosts_controller.rb:513
 msgid "Configuration successfully rebuilt"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:529
+#: ../app/controllers/hosts_controller.rb:530
 msgid "Failed to redeploy %s."
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:538
+#: ../app/controllers/hosts_controller.rb:539
 msgid "The selected hosts were enabled for reboot and rebuild"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:540
+#: ../app/controllers/hosts_controller.rb:541
 msgid "The selected hosts will execute a build operation on next reboot"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:543
+#: ../app/controllers/hosts_controller.rb:544
 msgid "The following hosts failed the build operation: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:552
+#: ../app/controllers/hosts_controller.rb:553
 msgid "Destroyed selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:554
+#: ../app/controllers/hosts_controller.rb:555
 msgid "The following hosts were not deleted: %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:582
+#: ../app/controllers/hosts_controller.rb:583
 msgid "Updated hosts: Disassociated from VM"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:588
+#: ../app/controllers/hosts_controller.rb:589
 msgid "Hosts with errors"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:593
+#: ../app/controllers/hosts_controller.rb:594
 msgid "Active Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:598
+#: ../app/controllers/hosts_controller.rb:599
 msgid "Pending Hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:603
+#: ../app/controllers/hosts_controller.rb:604
 msgid "Hosts which didn't report in the last %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:608
+#: ../app/controllers/hosts_controller.rb:609
 msgid "Hosts with notifications disabled"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:729
+#: ../app/controllers/hosts_controller.rb:730
 msgid "invalid type: %s requested"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:734
+#: ../app/controllers/hosts_controller.rb:735
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:764
+#: ../app/controllers/hosts_controller.rb:765
 msgid "No hosts were found with that id, name or query filter"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:769
+#: ../app/controllers/hosts_controller.rb:770
 msgid "No hosts selected"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:776
+#: ../app/controllers/hosts_controller.rb:777
 msgid "Something went wrong while selecting hosts - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:789
+#: ../app/controllers/hosts_controller.rb:790
 msgid "%s selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:791
+#: ../app/controllers/hosts_controller.rb:792
 msgid "The following hosts were not %{action}: %{missed_hosts}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:818
+#: ../app/controllers/hosts_controller.rb:819
 msgid "No or invalid power state selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:869
+#: ../app/controllers/hosts_controller.rb:870
 msgid "The %{proxy_type} proxy of the selected hosts was cleared"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:884
+#: ../app/controllers/hosts_controller.rb:885
 msgid "No templates found"
 msgstr ""
 
@@ -4173,7 +4179,7 @@ msgstr ""
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
 #: ../webpack/assets/javascripts/dashboard/index.js:67
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:81
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:86
 #: ../webpack/assets/javascripts/react_app/components/common/table/components/DeleteButton.js:9
 #: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/components/ModelDeleteModal.js:25
 msgid "Delete"
@@ -4297,7 +4303,7 @@ msgstr ""
 #: ../db/seeds.d/170-notification_blueprints.rb:3
 #: ../db/seeds.d/170-notification_blueprints.rb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:23
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:78
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:80
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:42
 msgid "Hosts"
 msgstr ""
@@ -4458,6 +4464,7 @@ msgstr ""
 #: ../app/helpers/compute_resources_vms_helper.rb:20
 #: ../app/helpers/compute_resources_vms_helper.rb:278
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:27
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:96
 msgid "Console"
 msgstr ""
 
@@ -4910,7 +4917,7 @@ msgstr ""
 #: ../app/views/images/_list.html.erb:20
 #: ../app/views/operatingsystems/index.html.erb:16
 #: ../app/views/taxonomies/index.html.erb:28
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:131
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:145
 msgid "Edit"
 msgstr ""
 
@@ -4925,7 +4932,7 @@ msgstr ""
 #: ../app/views/operatingsystems/index.html.erb:17
 #: ../app/views/roles/index.html.erb:28
 #: ../app/views/taxonomies/index.html.erb:30
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:72
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:77
 msgid "Clone"
 msgstr ""
 
@@ -4934,7 +4941,7 @@ msgid "Clone this host"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:97
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:63
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:68
 msgid "Cancel build"
 msgstr ""
 
@@ -4956,9 +4963,8 @@ msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:137
 #: ../app/registries/foreman/settings/facts.rb:2
-#: ../app/registries/foreman/settings/facts.rb:105
 #: ../app/registries/menu/loader.rb:45
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:90
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:104
 msgid "Facts"
 msgstr ""
 
@@ -4972,7 +4978,7 @@ msgstr ""
 #: ../app/views/config_reports/index.html.erb:22
 #: ../db/seeds.d/170-notification_blueprints.rb:65
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:22
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:99
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:113
 msgid "Reports"
 msgstr ""
 
@@ -5094,7 +5100,7 @@ msgid "Allocation (GB)"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:322 ../app/helpers/lookup_keys_helper.rb:36
-#: ../app/registries/foreman/settings/facts.rb:81 ../app/services/ipam.rb:2
+#: ../app/registries/foreman/settings/facts.rb:88 ../app/services/ipam.rb:2
 msgid "None"
 msgstr ""
 
@@ -5525,7 +5531,7 @@ msgid "Refresh features"
 msgstr ""
 
 #: ../app/helpers/smart_proxies_helper.rb:89
-#: ../app/registries/foreman/settings/facts.rb:81
+#: ../app/registries/foreman/settings/facts.rb:88
 msgid "All"
 msgstr ""
 
@@ -6338,7 +6344,7 @@ msgid "This IP address has already been reserved in External IPAM"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/external_ipam.rb:26
-#: ../app/models/host/managed.rb:928
+#: ../app/models/host/managed.rb:903
 msgid "Some interfaces are invalid"
 msgstr ""
 
@@ -6626,62 +6632,62 @@ msgstr ""
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:534
+#: ../app/models/host/managed.rb:509
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:535
+#: ../app/models/host/managed.rb:510
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:691
+#: ../app/models/host/managed.rb:666
 #: ../app/models/parameters/host_parameter.rb:11
 msgid "host"
 msgstr ""
 
-#: ../app/models/host/managed.rb:692
+#: ../app/models/host/managed.rb:667
 msgid "hostgroup"
 msgstr ""
 
-#: ../app/models/host/managed.rb:693
+#: ../app/models/host/managed.rb:668
 msgid "global setting"
 msgstr ""
 
-#: ../app/models/host/managed.rb:713
+#: ../app/models/host/managed.rb:688
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:714
+#: ../app/models/host/managed.rb:689
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:759
+#: ../app/models/host/managed.rb:734
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:875
+#: ../app/models/host/managed.rb:850
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:953
+#: ../app/models/host/managed.rb:928
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:968
+#: ../app/models/host/managed.rb:943
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:973
+#: ../app/models/host/managed.rb:948
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:978 ../app/models/nic/interface.rb:138
+#: ../app/models/host/managed.rb:953 ../app/models/nic/interface.rb:138
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1027
+#: ../app/models/host/managed.rb:1002
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
@@ -7859,7 +7865,6 @@ msgid "OIDC Algorithm"
 msgstr ""
 
 #: ../app/registries/foreman/settings/cfgmgmt.rb:2
-#: ../app/registries/foreman/settings/cfgmgmt.rb:32
 #: ../app/registries/menu/loader.rb:48
 msgid "Config Management"
 msgstr ""
@@ -7906,26 +7911,6 @@ msgstr ""
 
 #: ../app/registries/foreman/settings/cfgmgmt.rb:27
 msgid "Always show configuration status"
-msgstr ""
-
-#: ../app/registries/foreman/settings/cfgmgmt.rb:35
-msgid ""
-"Duration in minutes after servers reporting via Puppet are classed as out of s"
-"ync."
-msgstr ""
-
-#: ../app/registries/foreman/settings/cfgmgmt.rb:37
-msgid "Puppet interval"
-msgstr ""
-
-#: ../app/registries/foreman/settings/cfgmgmt.rb:40
-msgid ""
-"Disable host configuration status turning to out of sync for %s after report d"
-"oes not arrive within configured interval"
-msgstr ""
-
-#: ../app/registries/foreman/settings/cfgmgmt.rb:42
-msgid "%s out of sync disabled"
 msgstr ""
 
 #: ../app/registries/foreman/settings/email.rb:2
@@ -8069,100 +8054,100 @@ msgstr ""
 msgid "Invalid sendmail location, use settings.yaml for arbitrary location"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:36
+#: ../app/registries/foreman/settings/facts.rb:43
 msgid "Foreman will create the host when new facts are received"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:38
+#: ../app/registries/foreman/settings/facts.rb:45
 msgid "Create new host when facts are uploaded"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:41
+#: ../app/registries/foreman/settings/facts.rb:48
 msgid ""
 "Hosts created after a puppet run will be placed in the location this fact dict"
 "ates. The content of this fact should be the full label of the location."
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:43
+#: ../app/registries/foreman/settings/facts.rb:50
 msgid "Location fact"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:46
+#: ../app/registries/foreman/settings/facts.rb:53
 msgid ""
 "Hosts created after a puppet run will be placed in the organization this fact "
 "dictates. The content of this fact should be the full label of the organizatio"
 "n."
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:48
+#: ../app/registries/foreman/settings/facts.rb:55
 msgid "Organization fact"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:51
+#: ../app/registries/foreman/settings/facts.rb:58
 msgid ""
 "Hosts created after a puppet run that did not send a location fact will be pla"
 "ced in this location"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:53
+#: ../app/registries/foreman/settings/facts.rb:60
 msgid "Default location"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:57
+#: ../app/registries/foreman/settings/facts.rb:64
 msgid ""
 "Hosts created after a puppet run that did not send a organization fact will be"
 " placed in this organization"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:59
+#: ../app/registries/foreman/settings/facts.rb:66
 msgid "Default organization"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:63
+#: ../app/registries/foreman/settings/facts.rb:70
 msgid "Foreman will update a host's hostgroup from its facts"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:65
+#: ../app/registries/foreman/settings/facts.rb:72
 msgid "Update hostgroup from facts"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:68
+#: ../app/registries/foreman/settings/facts.rb:75
 msgid "Stop updating Operating System from facts"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:70
+#: ../app/registries/foreman/settings/facts.rb:77
 msgid "Ignore facts for operating system"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:73
+#: ../app/registries/foreman/settings/facts.rb:80
 msgid "Stop updating domain values from facts"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:75
+#: ../app/registries/foreman/settings/facts.rb:82
 msgid "Ignore facts for domain"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:78
+#: ../app/registries/foreman/settings/facts.rb:85
 msgid "Foreman will update a host's subnet from its facts"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:80
+#: ../app/registries/foreman/settings/facts.rb:87
 msgid "Update subnets from facts"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:81
+#: ../app/registries/foreman/settings/facts.rb:88
 msgid "Provisioning only"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:84
+#: ../app/registries/foreman/settings/facts.rb:91
 msgid "Stop updating IP and MAC address values from facts (affects all interfaces)"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:86
+#: ../app/registries/foreman/settings/facts.rb:93
 msgid "Ignore interfaces facts for provisioning"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:89
+#: ../app/registries/foreman/settings/facts.rb:96
 msgid ""
 "Skip creating or updating host network interfaces objects with identifiers mat"
 "ching these values from incoming facts. You can use * wildcard to match identi"
@@ -8170,11 +8155,11 @@ msgid ""
 "ll stored in the DB, see the 'Exclude pattern' setting for more details."
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:91
+#: ../app/registries/foreman/settings/facts.rb:98
 msgid "Ignore interfaces with matching identifier"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:94
+#: ../app/registries/foreman/settings/facts.rb:101
 msgid ""
 "Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those"
 " facts won't be stored in foreman's database. You can use * wildcard to match "
@@ -8182,35 +8167,8 @@ msgid ""
 "::ignore or even a::ignore123::b"
 msgstr ""
 
-#: ../app/registries/foreman/settings/facts.rb:96
+#: ../app/registries/foreman/settings/facts.rb:103
 msgid "Exclude pattern for facts stored in foreman"
-msgstr ""
-
-#: ../app/registries/foreman/settings/facts.rb:108
-msgid "Foreman will default to this puppet environment if it cannot auto detect one"
-msgstr ""
-
-#: ../app/registries/foreman/settings/facts.rb:110
-msgid "Default Puppet environment"
-msgstr ""
-
-#: ../app/registries/foreman/settings/facts.rb:114
-msgid ""
-"Foreman will explicitly set the puppet environment in the ENC yaml output. Thi"
-"s will avoid conflicts between the environment in puppet.conf and the environm"
-"ent set in Foreman"
-msgstr ""
-
-#: ../app/registries/foreman/settings/facts.rb:116
-msgid "ENC environment"
-msgstr ""
-
-#: ../app/registries/foreman/settings/facts.rb:119
-msgid "Foreman will update a host's environment from its facts"
-msgstr ""
-
-#: ../app/registries/foreman/settings/facts.rb:121
-msgid "Update environment from facts"
 msgstr ""
 
 #: ../app/registries/foreman/settings/general.rb:2
@@ -8385,6 +8343,14 @@ msgstr ""
 
 #: ../app/registries/foreman/settings/general.rb:101
 msgid "Saved audits interval"
+msgstr ""
+
+#: ../app/registries/foreman/settings/general.rb:104
+msgid "Foreman will load the new UI for host details"
+msgstr ""
+
+#: ../app/registries/foreman/settings/general.rb:106
+msgid "New host details UI"
 msgstr ""
 
 #: ../app/registries/foreman/settings/notification.rb:2
@@ -12060,10 +12026,6 @@ msgstr ""
 msgid "Templates resolved for this operating system"
 msgstr ""
 
-#: ../app/views/hosts/_provisioning.html.erb:7
-msgid "%s Template"
-msgstr ""
-
 #: ../app/views/hosts/_resources.html.erb:3
 msgid "Number of Events"
 msgstr ""
@@ -15000,32 +14962,32 @@ msgid "No errors detected"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:14
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:18
 msgid "Host %s has been removed successfully"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:45
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:39
 msgid "Delete host?"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:46
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:40
 msgid "Delete host"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:74
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:79
 msgid "Host %s will be built next boot"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:107
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:121
 msgid "Legacy UI"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:120
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:134
 msgid "Share feedback"
 msgstr ""
 
@@ -15164,11 +15126,11 @@ msgstr ""
 msgid "Manage Host's Statuses"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:141
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:143
 msgid "Created %s by %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:145
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:147
 msgid "(updated %s)"
 msgstr ""
 
