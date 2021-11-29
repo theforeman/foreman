@@ -1,3 +1,31 @@
+2021-11-29	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.1.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2021-11-29	MariaAga <mariaaga@redhat.com>
+	* Fixes #33955 - Host detail page can't fully see build modal
+
+2021-11-29	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #33935 - Cache setting categories
+
+2021-11-29	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #33907 - Add current_date macro
+
+2021-11-29	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #33882 - refresh host's global status after clearing a sub status
+
+2021-11-29	Dominik Matoulek <domitea@gmail.com>
+	* Fixes #33656 - FactValue search by org and loc
+
+2021-11-29	Trent Anderson <trent.anderson82@gmail.com>
+	* Fixes #32602 - enables puppet 7 agent support
+
+2021-11-25	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #33979 - Registration - name & path to host_init_config template
+
+2021-11-24	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #33872 - disable build option when no permission
+
 2021-11-15	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.1.0-rc1
 
