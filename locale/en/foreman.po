@@ -54,9 +54,6 @@ msgstr[1] ""
 msgid "%s Parameters updated, see below for more information"
 msgstr ""
 
-msgid "%s Template"
-msgstr ""
-
 msgid "%s VM failed while processing: check logs for more details."
 msgid_plural "%s VMs failed while processing: check logs for more details."
 msgstr[0] ""
@@ -107,9 +104,6 @@ msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "%s out of sync disabled"
-msgstr ""
 
 msgid "%s selected hosts"
 msgstr ""
@@ -2168,9 +2162,6 @@ msgstr ""
 msgid "Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"
 msgstr ""
 
-msgid "Default Puppet environment"
-msgstr ""
-
 msgid "Default VNC Keyboard"
 msgstr ""
 
@@ -2477,9 +2468,6 @@ msgstr ""
 msgid "Disable all filters overriding"
 msgstr ""
 
-msgid "Disable host configuration status turning to out of sync for %s after report does not arrive within configured interval"
-msgstr ""
-
 msgid "Disable overriding"
 msgstr ""
 
@@ -2602,16 +2590,10 @@ msgstr ""
 msgid "Duration in minutes after servers are classed as out of sync. You can override this on hosts by adding a parameter \"outofsync_interval\"."
 msgstr ""
 
-msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
-msgstr ""
-
 msgid "EC2"
 msgstr ""
 
 msgid "EFI"
-msgstr ""
-
-msgid "ENC environment"
 msgstr ""
 
 msgid "ERROR or FATAL"
@@ -3401,16 +3383,13 @@ msgstr ""
 msgid "Foreman will create the host when new facts are received"
 msgstr ""
 
-msgid "Foreman will default to this puppet environment if it cannot auto detect one"
-msgstr ""
-
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr ""
 
 msgid "Foreman will evaluate host smart class parameters in this order by default"
 msgstr ""
 
-msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
+msgid "Foreman will load the new UI for host details"
 msgstr ""
 
 msgid "Foreman will not send this parameter in classification output."
@@ -3420,9 +3399,6 @@ msgid "Foreman will parse ERB in parameters value in the ENC output"
 msgstr ""
 
 msgid "Foreman will query the locally configured resolver instead of the SOA/NS authorities"
-msgstr ""
-
-msgid "Foreman will update a host's environment from its facts"
 msgstr ""
 
 msgid "Foreman will update a host's hostgroup from its facts"
@@ -4211,7 +4187,7 @@ msgstr ""
 msgid "ID of the Organization to register the host in."
 msgstr ""
 
-msgid "ID of the Smart Proxy"
+msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr ""
 
 msgid "ID of the user"
@@ -5855,6 +5831,9 @@ msgstr ""
 msgid "New filter"
 msgstr ""
 
+msgid "New host details UI"
+msgstr ""
+
 msgid "Next"
 msgstr ""
 
@@ -7094,6 +7073,9 @@ msgstr ""
 msgid "Proxy ID to use within this realm"
 msgstr ""
 
+msgid "Proxy lacks one of the following features: 'Registration', 'Templates'"
+msgstr ""
+
 msgid "Proxy reference should be { :relation => [:column_name, ...] }"
 msgstr ""
 
@@ -7140,9 +7122,6 @@ msgid "Puppet class"
 msgstr ""
 
 msgid "Puppet error state"
-msgstr ""
-
-msgid "Puppet interval"
 msgstr ""
 
 msgid "Puppet parameter"
@@ -9979,9 +9958,6 @@ msgid "Update an image"
 msgstr ""
 
 msgid "Update an operating system"
-msgstr ""
-
-msgid "Update environment from facts"
 msgstr ""
 
 msgid "Update external user group"
