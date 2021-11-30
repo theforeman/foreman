@@ -10,8 +10,10 @@ module Foreman
         FileUtils.mkdir_p(PROMETHEUS_STORE_DIR)
         # but clean it during startup as files will accumulate over time
         FileUtils.rm_f(Dir.glob("#{PROMETHEUS_STORE_DIR}/*.bin"))
-        Prometheus::Client.config.data_store =
-          Prometheus::Client::DataStores::DirectFileStore.new(dir: PROMETHEUS_STORE_DIR)
+        Prometheus::Client.config.data_store = Prometheus::Client::DataStores::DirectFileStore.new(
+          dir: PROMETHEUS_STORE_DIR,
+          proctitles: /^puma: cluster worker.*/
+        )
         @prom = ::Prometheus::Client.registry
       end
 
