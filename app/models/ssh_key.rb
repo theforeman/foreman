@@ -9,6 +9,7 @@ class SshKey < ApplicationRecord
   before_validation :generate_fingerprint
   before_validation :calculate_length
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name
   scoped_search :on => :user_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 

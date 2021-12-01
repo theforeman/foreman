@@ -12,6 +12,7 @@ class ComputeAttribute < ApplicationRecord
 
   delegate :provider_friendly_name, :to => :compute_resource
   scoped_search :on => [:name], :complete_value => true
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
   scoped_search :relation => :compute_resource, :on => :name, :rename => :compute_resource, :complete_value => true
   scoped_search :relation => :compute_profile, :on => :name, :rename => :compute_profile, :complete_value => true

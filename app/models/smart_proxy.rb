@@ -28,6 +28,7 @@ class SmartProxy < ApplicationRecord
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :url, :complete_value => :true
   scoped_search :relation => :features, :on => :name, :rename => :feature, :complete_value => :true

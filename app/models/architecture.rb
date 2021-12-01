@@ -15,6 +15,7 @@ class Architecture < ApplicationRecord
   validates :name, :presence => true, :uniqueness => true, :no_whitespace => true
 
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
   def bootfilename_efi
     case name

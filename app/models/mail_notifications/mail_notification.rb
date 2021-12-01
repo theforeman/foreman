@@ -7,6 +7,7 @@ class MailNotification < ApplicationRecord
   has_many :user_mail_notifications, :dependent => :destroy
   has_many :users, :through => :user_mail_notifications
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :description, :complete_value => true
   scoped_search :relation => :users, :on => :login, :complete_value => true, :rename => :user

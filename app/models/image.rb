@@ -13,6 +13,7 @@ class Image < ApplicationRecord
   validates :uuid, :presence => true, :uniqueness => {:scope => :compute_resource_id}
   validate :uuid_exists?
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => [:name, :username], :complete_value => true
   scoped_search :relation => :compute_resource, :on => :name, :complete_value => :true, :rename => "compute_resource"
   scoped_search :relation => :architecture, :on => :id, :rename => "architecture", :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER

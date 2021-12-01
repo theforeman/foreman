@@ -118,6 +118,7 @@ class User < ApplicationRecord
   after_create :welcome_mail
   after_create :set_default_widgets
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :login, :complete_value => :true
   scoped_search :on => :firstname, :complete_value => :true
   scoped_search :on => :lastname, :complete_value => :true

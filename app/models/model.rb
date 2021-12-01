@@ -16,6 +16,7 @@ class Model < ApplicationRecord
 
   default_scope -> { order('models.name') }
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => :true, :default_order => true
   scoped_search :on => :info
   scoped_search :on => :vendor_class, :complete_value => :true

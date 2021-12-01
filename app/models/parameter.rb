@@ -14,6 +14,7 @@ class Parameter < ApplicationRecord
   validate :validate_and_cast_value
   serialize :value
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :type, :complete_value => true
   scoped_search :on => :value, :complete_value => true
