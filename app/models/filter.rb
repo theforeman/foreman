@@ -40,6 +40,7 @@ class Filter < ApplicationRecord
   scope :unlimited, -> { where(:search => nil, :taxonomy_search => nil) }
   scope :limited, -> { where("search IS NOT NULL OR taxonomy_search IS NOT NULL") }
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :search, :complete_value => true
   scoped_search :on => :override, :complete_value => { :true => true, :false => false }
   scoped_search :on => :limited, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_limited, :only_explicit => true

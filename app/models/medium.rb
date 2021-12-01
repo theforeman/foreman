@@ -33,6 +33,7 @@ class Medium < ApplicationRecord
       order("media.name")
     end
   }
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => :true, :default_order => true
   scoped_search :on => :path, :complete_value => :true
   scoped_search :on => :os_family, :rename => "family", :complete_value => :true

@@ -66,6 +66,7 @@ module Nic
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
 
+    scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
     scoped_search :on => :mac, :complete_value => true, :only_explicit => true
     scoped_search :on => :ip, :complete_value => true, :only_explicit => true
     scoped_search :on => :name, :complete_value => true, :only_explicit => true

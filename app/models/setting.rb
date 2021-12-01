@@ -64,6 +64,7 @@ class Setting < ApplicationRecord
 
   scope :order_by, ->(attr) { except(:order).order(attr) }
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search on: :name, complete_value: :true, operators: ['=']
   scoped_search on: :description, complete_value: :true, operators: ['~']
 

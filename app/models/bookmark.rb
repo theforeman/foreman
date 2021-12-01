@@ -18,6 +18,7 @@ class Bookmark < ApplicationRecord
 
   scoped_search :on => :controller, :complete_value => true
   scoped_search :on => :name, :complete_value => true
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
   scope :my_bookmarks, lambda {
     where(public: true).or(where(owner: User.current))

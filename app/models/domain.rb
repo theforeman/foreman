@@ -40,7 +40,7 @@ class Domain < ApplicationRecord
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
 
   scoped_search :on => [:name, :fullname], :complete_value => true
-
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
   default_scope lambda {

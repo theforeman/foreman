@@ -19,6 +19,7 @@ class TemplateInput < ApplicationRecord
 
   belongs_to :template
   before_destroy :prevent_delete_if_template_is_locked
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :input_type, :complete_value => true
 

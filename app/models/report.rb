@@ -41,6 +41,7 @@ class Report < ApplicationRecord
       scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc, :rename => :reported, :only_explicit => true, :aliases => [:last_report]
       scoped_search :on => :host_id, :complete_value => false, :only_explicit => true
       scoped_search :on => :origin
+      scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
     end
     super
   end

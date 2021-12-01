@@ -46,6 +46,7 @@ class Operatingsystem < ApplicationRecord
 
   default_scope -> { order(:title) }
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name,        :complete_value => :true
   scoped_search :on => :major,       :complete_value => :true
   scoped_search :on => :minor,       :complete_value => :true

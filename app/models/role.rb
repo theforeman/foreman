@@ -73,6 +73,7 @@ class Role < ApplicationRecord
   validates :name, :presence => true, :uniqueness => true
   validates :builtin, :inclusion => { :in => 0..2 }
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :builtin, :complete_value => { :true => true, :false => false }
   scoped_search :on => :description, :complete_value => false

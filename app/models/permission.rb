@@ -7,6 +7,7 @@ class Permission < ApplicationRecord
 
   has_many :roles, :through => :filters
 
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :resource_type
 

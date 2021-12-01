@@ -34,6 +34,7 @@ class AuthSource < ApplicationRecord
   scoped_search :relation => :organizations, :on => :id, :rename => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
   scoped_search :on => :name, :complete_value => :true
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
   # audited gem uses class variable for audied_options so once child class define auditing of these associations
   # other auth sources definitions start failing, since organization_ids_changed? method is undefined there

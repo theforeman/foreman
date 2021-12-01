@@ -18,6 +18,7 @@ class ComputeProfile < ApplicationRecord
   validates :name, :presence => true, :uniqueness => true
 
   scoped_search :on => :name, :complete_value => true
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   default_scope -> { order('compute_profiles.name') }
 
   scope :visibles, -> { where(:id => ComputeAttribute.select(:compute_profile_id)) }

@@ -35,6 +35,7 @@ class Usergroup < ApplicationRecord
   default_scope -> { order('usergroups.name') }
   scope :visible, -> {}
   scope :except_current, ->(current) { where.not(:id => current.id) }
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => :true
   scoped_search :relation => :roles, :on => :name, :rename => :role, :complete_value => true
   scoped_search :relation => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
