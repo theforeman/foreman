@@ -10,6 +10,7 @@ begin
 
     namespace :setup do
       task :pre_ci do
+        ENV['USE_MEAN_TIME_REPORTER'] = '0'
         require 'minitest/ci'
         Minitest::Ci.report_dir = 'jenkins/reports/unit/'
       end
