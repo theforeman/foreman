@@ -1,12 +1,12 @@
 require 'test_helper'
 
 class ParameterFilterTest < ActiveSupport::TestCase
-  let(:klass) do
+  let(:klass1) do
     mock('Example').tap do |k|
       k.stubs(:name).returns('Example')
     end
   end
-  let(:filter) { Foreman::ParameterFilter.new(klass) }
+  let(:filter) { Foreman::ParameterFilter.new(klass1) }
   let(:ui_context) { Foreman::ParameterFilter::Context.new(:ui, 'examples', 'create') }
 
   test "permitting second-level attributes via permit(Symbol)" do
@@ -93,7 +93,7 @@ class ParameterFilterTest < ActiveSupport::TestCase
   context "with plugin registered filters" do
     test "permits plugin-added attribute" do
       plugin = mock('plugin')
-      plugin.expects(:parameter_filters).with(klass).returns([[:plugin_ext, :another]])
+      plugin.expects(:parameter_filters).with(klass1).returns([[:plugin_ext, :another]])
       Foreman::Plugin.expects(:all).returns([plugin])
       assert_equal({'plugin_ext' => 'b'}, filter.filter_params(params(:example => {:test => 'a', :plugin_ext => 'b'}), ui_context).to_h)
     end
@@ -101,7 +101,7 @@ class ParameterFilterTest < ActiveSupport::TestCase
     test "permits plugin-added attributes from blocks" do
       plugin = mock('plugin')
       rule = [proc { |ctx| ctx.permit(:plugin_ext) }]
-      plugin.expects(:parameter_filters).with(klass).returns([rule])
+      plugin.expects(:parameter_filters).with(klass1).returns([rule])
       Foreman::Plugin.expects(:all).returns([plugin])
       assert_equal({'plugin_ext' => 'b'}, filter.filter_params(params(:example => {:test => 'a', :plugin_ext => 'b'}), ui_context).to_h)
       refute_empty(rule)
