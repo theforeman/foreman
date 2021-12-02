@@ -58,6 +58,16 @@ namespace :purge do
     Filter.where.not(id: Filtering.distinct.select(:filter_id)).destroy_all
 
     Feature.where(name: 'Puppet').destroy_all
+
+    organizations = Organization.where("ignore_types LIKE '%Environment%'")
+    locations = Location.where("ignore_types LIKE '%Environment%'")
+
+    User.as_anonymous_admin do
+      (organizations + locations).each do |tax|
+        new_types = tax.ignore_types.reject { |type| type == "Environment" }
+        tax.update ignore_types: new_types
+      end
+    end
   end
 
   task all: ['purge:trends', 'purge:puppet']
