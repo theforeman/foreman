@@ -1,4 +1,3 @@
-require 'foreman/telemetry'
 # Foreman telemetry metrics registration.
 #
 # There are three types of telemetry measurements: counter, gauge, histogram. Each measurement has unique name
@@ -8,6 +7,17 @@ require 'foreman/telemetry'
 # Plugins can add own metrics through add_counter_telemetry, add_gauge_telemetry and add_histogram_telemetry.
 #
 telemetry = Foreman::Telemetry.instance
+
+# Foreman telemetry global setup.
+if SETTINGS[:telemetry] && (Rails.env.production? || Rails.env.development?)
+  telemetry.setup(SETTINGS[:telemetry])
+end
+
+# Register Rails notifications metrics
+telemetry.register_rails
+
+# Register Ruby VM metrics
+telemetry.register_ruby
 
 telemetry.add_counter(:http_requests, 'A counter of HTTP requests made', [:controller, :action, :status])
 telemetry.add_histogram(:http_request_total_duration, 'Total duration of controller action', [:controller, :action])
@@ -103,14 +113,3 @@ allowed_labels = {
   ],
 }
 telemetry.add_allowed_tags!(allowed_labels)
-
-# Foreman telemetry global setup.
-if SETTINGS[:telemetry] && (Rails.env.production? || Rails.env.development?)
-  telemetry.setup(SETTINGS[:telemetry])
-end
-
-# Register Rails notifications metrics
-telemetry.register_rails
-
-# Register Ruby VM metrics
-telemetry.register_ruby
