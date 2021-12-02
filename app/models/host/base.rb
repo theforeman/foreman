@@ -138,11 +138,6 @@ module Host
       host
     end
 
-    def import_facts(facts, source_proxy = nil)
-      Foreman::Deprecation.deprecation_warning('2.5', 'Use HostFactImporter#import_facts method instead of Host#import_facts')
-      HostFactImporter.new(self).import_facts(facts, source_proxy)
-    end
-
     def attributes_to_import_from_facts
       [:model]
     end
