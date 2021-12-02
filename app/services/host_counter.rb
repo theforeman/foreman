@@ -38,6 +38,6 @@ class HostCounter
       hosts_scope = hosts_scope.joins(:primary_interface)
       grouping.prepend("#{Nic::Base.table_name}.")
     end
-    hosts_scope.authorized(:view_hosts).group(grouping).count
+    hosts_scope.authorized(:view_hosts).group(ActiveRecord::Base.sanitize_sql(grouping)).count
   end
 end

@@ -16,7 +16,8 @@ module Foreman
           lock_id = generate_lock_id(lock_name)
           ActiveRecord::Base.transaction do
             Rails.logger.debug("Acquiring Advisory-Transaction-Lock '#{lock_name}' -> #{lock_id}")
-            ActiveRecord::Base.connection.execute("SELECT pg_advisory_xact_lock(#{lock_id})")
+            sql = ActiveRecord::Base.sanitize_sql("SELECT pg_advisory_xact_lock(#{lock_id})")
+            ActiveRecord::Base.connection.execute(sql)
             yield
           end
         else
@@ -31,10 +32,13 @@ module Foreman
           begin
             lock_id = generate_lock_id(lock_name)
             Rails.logger.debug("Acquiring Advisory-Session-Lock '#{lock_name}' -> #{lock_id}")
-            ActiveRecord::Base.connection.execute("SELECT pg_advisory_lock(#{lock_id})")
+
+            sql = ActiveRecord::Base.sanitize_sql("SELECT pg_advisory_lock(#{lock_id})")
+            ActiveRecord::Base.connection.execute(sql)
             yield
           ensure
-            ActiveRecord::Base.connection.execute("SELECT pg_advisory_unlock(#{lock_id})")
+            sql = ActiveRecord::Base.sanitize_sql("SELECT pg_advisory_unlock(#{lock_id})")
+            ActiveRecord::Base.connection.execute(sql)
           end
         else
           yield

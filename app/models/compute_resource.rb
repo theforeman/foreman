@@ -452,7 +452,7 @@ class ComputeResource < ApplicationRecord
     attributes = Array.wrap(attributes).map { |mac| Net::Validations.normalize_mac(mac) } if name == 'mac'
     Host.authorized(:view_hosts, Host).joins(:primary_interface).
       where(:nics => {:primary => true}).
-      where("nics.#{name}" => attributes).
+      where(ActiveRecord::Base.sanitize_sql("nics.#{name}") => attributes).
       readonly(false).
       first
   end

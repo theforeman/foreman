@@ -216,43 +216,47 @@ class Host::Managed < Host::Base
   # Host::Managed.with("failed") --> all reports which have a failed counter > 0
   # Host::Managed.with("failed",20) --> all reports which have a failed counter > 20
   scope :with, lambda { |*arg|
-    with_config_status.where("(host_status.status >> #{HostStatus::ConfigurationStatus.bit_mask(arg[0].to_s)}) > #{arg[1] || 0}")
+    cond = "(host_status.status >> #{HostStatus::ConfigurationStatus.bit_mask(arg[0].to_s)}) > #{arg[1] || 0}"
+    with_config_status.where(sanitize_sql(cond))
   }
 
   scope :with_error, lambda {
-    with_config_status.where("(host_status.status > 0) and (
+    cond = "(host_status.status > 0) and (
       #{HostStatus::ConfigurationStatus.is('failed')} or
       #{HostStatus::ConfigurationStatus.is('failed_restarts')}
-    )")
+      )"
+
+    with_config_status.where(sanitize_sql(cond))
   }
 
   scope :without_error, lambda {
-    with_config_status.where("
-      #{HostStatus::ConfigurationStatus.is_not('failed')} and
-      #{HostStatus::ConfigurationStatus.is_not('failed_restarts')}
-    ")
+    cond = "#{HostStatus::ConfigurationStatus.is_not('failed')} and
+      #{HostStatus::ConfigurationStatus.is_not('failed_restarts')}"
+
+    with_config_status.where(sanitize_sql(cond))
   }
 
   scope :with_changes, lambda {
-    with_config_status.where("(host_status.status > 0) and (
+    cond = "(host_status.status > 0) and (
       #{HostStatus::ConfigurationStatus.is('applied')} or
-      #{HostStatus::ConfigurationStatus.is('restarted')}
-    )")
+      #{HostStatus::ConfigurationStatus.is('restarted')})"
+    with_config_status.where(sanitize_sql(cond))
   }
 
   scope :without_changes, lambda {
-    with_config_status.where("
-      #{HostStatus::ConfigurationStatus.is_not('applied')} and
-      #{HostStatus::ConfigurationStatus.is_not('restarted')}
-    ")
+    cond = "#{HostStatus::ConfigurationStatus.is_not('applied')} and
+      #{HostStatus::ConfigurationStatus.is_not('restarted')}"
+
+    with_config_status.where(sanitize_sql(cond))
   }
 
   scope :with_pending_changes, lambda {
-    with_config_status.where("(host_status.status > 0) AND (#{HostStatus::ConfigurationStatus.is('pending')})")
+    cond = "(host_status.status > 0) AND (#{HostStatus::ConfigurationStatus.is('pending')})"
+    with_config_status.where(sanitize_sql(cond))
   }
 
   scope :without_pending_changes, lambda {
-    with_config_status.where(HostStatus::ConfigurationStatus.is_not('pending').to_s)
+    with_config_status.where(sanitize_sql(HostStatus::ConfigurationStatus.is_not('pending').to_s))
   }
 
   scope :successful, -> { without_changes.without_error.without_pending_changes }

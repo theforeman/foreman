@@ -95,7 +95,7 @@ class Report < ApplicationRecord
     loop do
       Report.transaction do
         batch_start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        report_ids = where(cond).reorder('').limit(batch_size).pluck(:id)
+        report_ids = where(sanitize_sql(cond)).reorder('').limit(batch_size).pluck(:id)
         if report_ids.count > 0
           log_count = Log.unscoped.where(:report_id => report_ids).reorder('').delete_all
           count = where(:id => report_ids).reorder('').delete_all
