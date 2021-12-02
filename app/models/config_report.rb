@@ -16,7 +16,8 @@ class ConfigReport < Report
   # Report.with("failed") --> all reports which have a failed counter > 0
   # Report.with("failed",20) --> all reports which have a failed counter > 20
   scope :with, lambda { |*arg|
-                 where("(#{report_status_column} >> #{HostStatus::ConfigurationStatus.bit_mask(arg[0].to_s)}) > #{arg[1] || 0}")
+                 cond = "(#{report_status_column} >> #{HostStatus::ConfigurationStatus.bit_mask(arg[0].to_s)}) > #{arg[1] || 0}"
+                 where(sanitize_sql(cond))
                }
 
   class << self

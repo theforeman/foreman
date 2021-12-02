@@ -82,7 +82,8 @@ module Foreman
         condition_hash.merge! opts[:condition_hash] if opts[:condition_hash]
         conditions = "resource_type = :resource_type"
         conditions << (" AND " + opts[:condition]) if opts[:condition]
-        all_permissions = Permission.where(conditions, condition_hash)
+        sanitized = ActiveRecord::Base.sanitize_sql_for_conditions([conditions, condition_hash])
+        all_permissions = Permission.where(sanitized)
         all_permissions.reject do |permission|
           permission_already_included? role, permission, opts
         end

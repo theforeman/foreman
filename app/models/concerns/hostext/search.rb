@@ -184,10 +184,11 @@ module Hostext
 
       def search_by_proxy(key, operator, value)
         proxy_cond = sanitize_sql_for_conditions(["smart_proxies.name #{operator} ?", value_to_sql(operator, value)])
+        joins_cond = sanitize_sql("LEFT JOIN smart_proxies ON smart_proxies.id IN (#{proxy_column_list})")
         host_ids = Host::Managed.reorder('')
                                 .authorized(:view_hosts, Host)
                                 .eager_load(proxy_join_tables)
-                                .joins("LEFT JOIN smart_proxies ON smart_proxies.id IN (#{proxy_column_list})")
+                                .joins(joins_cond)
                                 .where(proxy_cond)
                                 .distinct
                                 .pluck('hosts.id')
