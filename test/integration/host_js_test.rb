@@ -110,7 +110,7 @@ class HostJSTest < IntegrationTestWithJavascript
     test "all audit redirect to audit page" do
       visit host_details_page_path(@host)
       find('a', :text => /All audits/).click
-      assert_current_path audits_path
+      assert_current_path audits_path(search: "host=#{@host.fqdn}")
     end
 
     test "manage host statuses modal" do

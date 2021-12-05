@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Bullseye,
   DataList,
@@ -16,6 +17,7 @@ import {
   Title,
 } from '@patternfly/react-core';
 import URI from 'urijs';
+import { push } from 'connected-react-router';
 
 import { foremanUrl } from '../../../common/helpers';
 import { translate as __ } from '../../../common/I18n';
@@ -23,19 +25,18 @@ import { useAPI } from '../../../common/hooks/API/APIHooks';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
 import SkeletonLoader from '../../common/SkeletonLoader';
 import { STATUS } from '../../../constants';
-import { pushUrl } from '../../../../foreman_navigation';
 
 const NUMBER_OF_RECORDS = 3;
-const BASE_URL = '/audits';
 
 const AuditCard = ({ hostName }) => {
+  const dispatch = useDispatch();
   const hostSearch = `host=${hostName}`;
   const apiUrl = new URI({
-    path: foremanUrl(`/api/${BASE_URL}`),
+    path: foremanUrl('/api/audits'),
     query: { search: hostSearch, per_page: NUMBER_OF_RECORDS },
   }).toString();
   const uiUrl = new URI({
-    path: foremanUrl(BASE_URL),
+    path: foremanUrl('/audits'),
     query: { search: hostSearch },
   }).toString();
   const {
@@ -47,7 +48,7 @@ const AuditCard = ({ hostName }) => {
       <CardHeader>
         <CardTitle>{__('Recent Audits')}</CardTitle>
         <CardActions>
-          <a onClick={() => pushUrl(uiUrl)}> {__('All audits')}</a>
+          <a onClick={() => dispatch(push(uiUrl))}> {__('All audits')}</a>
         </CardActions>
       </CardHeader>
       <CardBody>
