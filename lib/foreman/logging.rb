@@ -117,6 +117,20 @@ module Foreman
       contents
     end
 
+    # Helper method useful for investigation when some code portions are slow.
+    # Logs a message into WARN app logger with log_duration tag for easier
+    # grepping. Only use for ad-hoc code investigation. For long-term
+    # performance metrics, use the Telemetry API. On Rails 7+ consider
+    # using Rails.benchmark instead of this method.
+    def log_duration(message)
+      before = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      yield
+    ensure
+      after = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      duration = ((after - before) * 1000).round(4)
+      Rails.logger.warn("log_duration: #{message}: #{duration} ms")
+    end
+
     private
 
     def load_config(environment, overrides = {})
