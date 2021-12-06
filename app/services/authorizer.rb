@@ -15,12 +15,12 @@ class Authorizer
     return true if user.admin?
 
     if subject.nil?
-      user.permissions.where(:name => permission).present?
+      user.permissions.exists?(:name => permission)
     else
       return collection_cache_lookup(subject, permission) if cache
 
       find_collection(subject.class, :permission => permission).
-        where(:id => subject.id).any?
+        exists?(subject.id)
     end
   end
 
