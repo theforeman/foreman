@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@theforeman/vendor": "^8.16.0",
+    "graphql-tag": "^2.11.0",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
     "react-intl": "^2.8.0"
@@ -47,6 +48,7 @@
     "expose-loader": "~0.6.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.9.0",
+    "graphql": "^15.5.0",
     "highlight.js": "~9.14.0",
     "node-sass": "^4.5.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
