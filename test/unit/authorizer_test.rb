@@ -177,14 +177,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
             auth = Authorizer.new(@user)
 
-            domains_collection = [domain1]
-            domains_collection.stubs(:where).
-              with(:id => domain1.id).returns([domain1])
-            domains_collection.stubs(:where).
-              with(:id => domain2.id).returns([])
-            domains_collection.stubs(:where).
-              with(:id => architecture.id).returns([])
-            auth.stubs(:find_collection).returns(domains_collection).
+            auth.stubs(:find_collection).returns(Domain.where(id: domain1.id)).
               times(cache ? 3 : 6)
             assert auth.can?(:view_domain, domain1, cache)
             refute auth.can?('view_domain', domain2, cache)
