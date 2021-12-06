@@ -7,8 +7,8 @@ module AuthorizerCache
 
   def collection_cache_lookup(subject, permission)
     collection = @cache[subject.class.to_s][permission] ||=
-      find_collection(subject.class, :permission => permission)
+      find_collection(subject.class, :permission => permission).pluck(:id)
 
-    collection.include?(subject)
+    collection.include?(subject.id)
   end
 end
