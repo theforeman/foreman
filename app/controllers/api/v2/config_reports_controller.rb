@@ -8,7 +8,7 @@ module Api
       before_action :setup_search_options, :only => [:index, :last]
       before_action :compatibility, :only => :create
 
-      add_smart_proxy_filters :create, :features => proc { ConfigReportImporter.authorized_smart_proxy_features }
+      add_smart_proxy_filters :create, :features => proc { ReportImporter.authorized_smart_proxy_features }
 
       api :GET, "/config_reports/", N_("List all reports")
       param_group :search_and_pagination, ::Api::V2::BaseController
