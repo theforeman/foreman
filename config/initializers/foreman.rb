@@ -58,4 +58,6 @@ Rails.application.config.to_prepare do
   Foreman.input_types_registry.register(InputType::UserInput)
   Foreman.input_types_registry.register(InputType::FactInput)
   Foreman.input_types_registry.register(InputType::VariableInput)
+
+  ReportImporter.register_smart_proxy_feature("Puppet")
 end
