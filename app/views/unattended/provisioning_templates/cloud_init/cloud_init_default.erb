@@ -22,7 +22,7 @@ description: |
   - enable-puppetlabs-repo: boolean (default=false)
   - enable-puppetlabs-puppet5-repo: boolean (default=false)
   - enable-puppetlabs-puppet6-repo: boolean (default=false)
-  - enable-puppetoffical-puppet7-repo: boolean (default=false)
+  - enable-official-puppet7-repo: boolean (default=false)
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -63,7 +63,7 @@ runcmd:
 <% end -%>
 - |
 <% if puppet_enabled %>
-<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-puppetofficial-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
 <%= indent(2) { snippet 'puppetlabs_repo' } %>
 <% end -%>
 <%= indent(2) { snippet 'puppet_setup' } %>
