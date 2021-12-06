@@ -147,6 +147,10 @@ module.exports = env => {
       ),
     },
 
+    resolveLoader: {
+      modules: resolveModules,
+    },
+
     module: {
       rules: [
         {
