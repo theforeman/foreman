@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import {
   ClipboardCopy,
@@ -41,15 +42,23 @@ class ErrorBoundary extends React.Component {
         <p>
           {__('There was a problem processing the request. Please try again.')}
         </p>
-        <p
-          dangerouslySetInnerHTML={{
-            __html: __(
-              `To report an issue <a target="_blank" rel="noopener noreferrer" href=${foremanUrl(
-                '/links/issues'
-              )}>click here</a>`
-            ),
-          }}
-        />
+        <p>
+          <FormattedMessage
+            id="report-issue"
+            defaultMessage={__('To report an issue {clickHere}')}
+            values={{
+              clickHere: (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={foremanUrl('/links/issues')}
+                >
+                  {__('click here')}
+                </a>
+              ),
+            }}
+          />
+        </p>
       </>
     );
 

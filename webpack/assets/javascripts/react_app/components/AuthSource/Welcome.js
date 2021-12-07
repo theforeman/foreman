@@ -1,19 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { translate as __ } from '../../common/I18n';
 import EmptyState from '../common/EmptyState';
 import { foremanUrl, getManualURL } from '../../common/helpers';
 
 export const WelcomeAuthSource = ({ canCreate }) => {
-  const content = __(
-    `The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>, <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>.`
-  );
   const description = (
     <>
       {__(
         'Foreman can use LDAP based service for user information and authentication.'
       )}
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <br />
+      <FormattedMessage
+        id="LDAP-providers"
+        defaultMessage={__(
+          'The authentication process currently requires an LDAP provider, such as {FreeIPA}, {OpenLDAP} or {Microsoft}.'
+        )}
+        values={{
+          FreeIPA: <em>FreeIPA</em>,
+          OpenLDAP: <em>OpenLDAP</em>,
+          Microsoft: <em>Microsoft&apos;s Active Directory</em>,
+        }}
+      />
+      <br />
       <a href={getManualURL('4.1.1LDAPAuthentication')}>
         {__('Learn more about LDAP authentication in the documentation.')}
       </a>
