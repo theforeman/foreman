@@ -9,10 +9,7 @@ begin
     task :units => ["jenkins:setup:minitest", 'rake:test:units']
 
     namespace :setup do
-      task :pre_ci do
-        ENV['USE_MEAN_TIME_REPORTER'] = '0'
-      end
-      minitest_plugins = [:pre_ci]
+      minitest_plugins = []
       minitest_plugins << 'robottelo:setup:minitest' if ENV['GENERATE_ROBOTTELO_REPORT'] == 'true'
       task :minitest => minitest_plugins
     end
