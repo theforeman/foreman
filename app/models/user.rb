@@ -175,12 +175,12 @@ class User < ApplicationRecord
     end
   end
 
-  def can?(permission, subject = nil)
+  def can?(permission, subject = nil, cache = true)
     if admin?
       true
     else
       @authorizer ||= Authorizer.new(self)
-      @authorizer.can?(permission, subject)
+      @authorizer.can?(permission, subject, cache)
     end
   end
 
