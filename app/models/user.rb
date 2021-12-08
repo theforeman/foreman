@@ -174,6 +174,7 @@ class User < ApplicationRecord
     end
   end
 
+  # See Authorizer#can? for parameter documentation
   def can?(permission, subject = nil, cache = true)
     if admin?
       true
