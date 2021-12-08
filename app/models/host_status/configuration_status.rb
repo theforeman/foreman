@@ -109,10 +109,11 @@ module HostStatus
     end
 
     def status_link
-      return nil if last_report.nil?
-      return nil unless User.current.can?(:view_config_reports, last_report)
+      return @config_status_link if defined?(@config_status_link)
+      return @config_status_link = nil if last_report.nil?
+      return @config_status_link = nil unless User.current.can?(:view_config_reports, last_report, false)
 
-      last_report && Rails.application.routes.url_helpers.config_report_path(last_report)
+      @config_status_link = last_report && Rails.application.routes.url_helpers.config_report_path(last_report)
     end
 
     private
