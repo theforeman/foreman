@@ -82,22 +82,11 @@ class Nic::BaseTest < ActiveSupport::TestCase
     refute nic.host_managed?
   end
 
-  test '#host_managed? returns false in non-unattended mode' do
-    nic = FactoryBot.build_stubbed(:nic_base)
-    nic.host = FactoryBot.build_stubbed(:host)
-    nic.host.managed = true
-    original, SETTINGS[:unattended] = SETTINGS[:unattended], false
-    refute nic.host_managed?
-    SETTINGS[:unattended] = original
-  end
-
   test '#host_managed? return true if associated host is managed in unattended mode' do
     nic = FactoryBot.build_stubbed(:nic_base)
     nic.host = FactoryBot.build_stubbed(:host)
     nic.host.managed = true
-    original, SETTINGS[:unattended] = SETTINGS[:unattended], true
     assert nic.host_managed?
-    SETTINGS[:unattended] = original
   end
 
   test 'nic requires a host' do

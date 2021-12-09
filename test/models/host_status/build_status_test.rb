@@ -27,13 +27,9 @@ class BuildStatusTest < ActiveSupport::TestCase
     end
   end
 
-  test '#relevant? is only for hosts in unattended mode' do
+  test '#relevant? is true regardless of managed flag' do
     @host.managed = true
     assert @status.relevant?
-
-    original, SETTINGS[:unattended] = SETTINGS[:unattended], false
-    refute @status.relevant?
-    SETTINGS[:unattended] = original
 
     @host.managed = false
     assert @status.relevant?

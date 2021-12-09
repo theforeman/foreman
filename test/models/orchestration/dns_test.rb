@@ -3,7 +3,6 @@ require 'test_helper'
 class DnsOrchestrationTest < ActiveSupport::TestCase
   def setup
     disable_orchestration
-    skip_without_unattended
   end
 
   context 'host without dns' do
@@ -52,17 +51,15 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     end
 
     test 'host should have dns' do
-      if unattended?
-        assert_valid @host
-        assert @host.dns?
-        refute @host.dns6?
-        assert @host.reverse_dns?
-        refute @host.reverse_dns6?
-        assert_not_nil @host.dns_record(:a)
-        assert_not_nil @host.dns_record(:ptr4)
-        assert_nil @host.dns_record(:aaaa)
-        assert_nil @host.dns_record(:ptr6)
-      end
+      assert_valid @host
+      assert @host.dns?
+      refute @host.dns6?
+      assert @host.reverse_dns?
+      refute @host.reverse_dns6?
+      assert_not_nil @host.dns_record(:a)
+      assert_not_nil @host.dns_record(:ptr4)
+      assert_nil @host.dns_record(:aaaa)
+      assert_nil @host.dns_record(:ptr6)
     end
 
     test 'host should have dns but not ptr' do
@@ -222,17 +219,15 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     end
 
     test 'host should have dns' do
-      if unattended?
-        assert_valid @host
-        refute @host.dns?
-        assert @host.dns6?
-        refute @host.reverse_dns?
-        assert @host.reverse_dns6?
-        assert_nil @host.dns_record(:a)
-        assert_nil @host.dns_record(:ptr4)
-        assert_not_nil @host.dns_record(:aaaa)
-        assert_not_nil @host.dns_record(:ptr6)
-      end
+      assert_valid @host
+      refute @host.dns?
+      assert @host.dns6?
+      refute @host.reverse_dns?
+      assert @host.reverse_dns6?
+      assert_nil @host.dns_record(:a)
+      assert_nil @host.dns_record(:ptr4)
+      assert_not_nil @host.dns_record(:aaaa)
+      assert_not_nil @host.dns_record(:ptr6)
     end
 
     test 'should rebuild dns' do
@@ -304,17 +299,15 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
     end
 
     test 'host should have dns' do
-      if unattended?
-        assert_valid @host
-        assert @host.dns?
-        assert @host.dns6?
-        assert @host.reverse_dns?
-        assert @host.reverse_dns6?
-        assert_not_nil @host.dns_record(:a)
-        assert_not_nil @host.dns_record(:ptr4)
-        assert_not_nil @host.dns_record(:aaaa)
-        assert_not_nil @host.dns_record(:ptr6)
-      end
+      assert_valid @host
+      assert @host.dns?
+      assert @host.dns6?
+      assert @host.reverse_dns?
+      assert @host.reverse_dns6?
+      assert_not_nil @host.dns_record(:a)
+      assert_not_nil @host.dns_record(:ptr4)
+      assert_not_nil @host.dns_record(:aaaa)
+      assert_not_nil @host.dns_record(:ptr6)
     end
 
     test 'should rebuild dns' do

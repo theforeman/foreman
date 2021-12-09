@@ -239,26 +239,6 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
-  context "when unattended is false" do
-    def setup
-      SETTINGS[:unattended] = false
-    end
-
-    def teardown
-      SETTINGS[:unattended] = true
-    end
-
-    test "should be able to save hosts with full domain" do
-      host = Host.create :name => "myhost.foo", :mac => "aabbccddeeff", :ip => "123.01.02.03"
-      assert_equal "myhost.foo", host.fqdn
-    end
-
-    test "should be able to save hosts with no domain" do
-      host = Host.create :name => "myhost", :mac => "aabbccddeeff", :ip => "123.01.02.03"
-      assert_equal "myhost", host.fqdn
-    end
-  end
-
   test "should be able to save host" do
     host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
       :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
@@ -678,12 +658,10 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not save if neither ptable or disk are defined when the host is managed" do
-    if unattended?
-      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
-        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :medium => media(:one),
-        :architecture => Architecture.first, :managed => true
-      refute_valid host
-    end
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
+      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :medium => media(:one),
+      :architecture => Architecture.first, :managed => true
+    refute_valid host
   end
 
   test "should save if neither ptable or disk are defined when the host is not managed" do
@@ -708,14 +686,12 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should not save if IP is not in the right subnet" do
-    if unattended?
-      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.5.2.3", :ptable => FactoryBot.create(:ptable),
-        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
-        :architecture => Architecture.first, :ip6 => "2001:db8::1", :subnet6 => subnets(:six)
-      refute host.valid?, "Host should be invalid: #{host.errors.messages}"
-      assert_includes host.errors.messages.keys, :"interfaces.ip"
-      assert_includes host.errors.messages.keys, :"interfaces.ip6"
-    end
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.5.2.3", :ptable => FactoryBot.create(:ptable),
+      :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
+      :architecture => Architecture.first, :ip6 => "2001:db8::1", :subnet6 => subnets(:six)
+    refute host.valid?, "Host should be invalid: #{host.errors.messages}"
+    assert_includes host.errors.messages.keys, :"interfaces.ip"
+    assert_includes host.errors.messages.keys, :"interfaces.ip6"
   end
 
   test "should not save if installation media is missing" do

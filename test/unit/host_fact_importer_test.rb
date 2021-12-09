@@ -9,46 +9,6 @@ class HostFactImporterTest < ActiveSupport::TestCase
     User.current = users :admin
   end
 
-  context "without unattended" do
-    setup do
-      SETTINGS[:unattended] = false
-    end
-
-    teardown do
-      SETTINGS[:unattended] = true
-    end
-
-    test 'should import facts' do
-      refute Host.find_by_name('sinn1636.lan')
-      raw = read_json_fixture('facts/facts_with_certname.json')
-      host = Host.import_host(raw['name'], 'puppet')
-      host.expects(:skip_orchestration!).never
-      host.expects(:enable_orchestration!).never
-      assert HostFactImporter.new(host).import_facts(raw['facts'])
-    end
-
-    test 'should import facts boot time to report data facet' do
-      refute Host.find_by_name('sinn1636.lan')
-      raw = read_json_fixture('facts/facts_with_certname.json')
-      first_boot_time = nil
-      host = nil
-      freeze_time do
-        host = Host.import_host(raw['name'], 'puppet')
-        assert HostFactImporter.new(host).import_facts(raw['facts'])
-        first_boot_time = host.reported_data.boot_time
-        refute_nil host.reported_data.boot_time
-        assert_equal Time.now - raw['facts']['uptime_seconds'].to_i.seconds, host.reported_data.boot_time
-      end
-
-      travel 1.minute do
-        # it gets updated if the facet exists
-        assert HostFactImporter.new(host).import_facts(raw['facts'])
-        second_boot_time = host.reported_data.boot_time
-        refute_equal first_boot_time, second_boot_time, "boot time didn't get updated during second import of facts"
-      end
-    end
-  end
-
   test "should import facts from json stream" do
     host = Host::Managed.new(:name => "sinn1636.lan")
     assert HostFactImporter.new(host).import_facts(read_json_fixture('facts/facts.json')['facts'])

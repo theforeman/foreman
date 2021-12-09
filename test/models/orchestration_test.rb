@@ -140,13 +140,6 @@ class OrchestrationTest < ActiveSupport::TestCase
     assert_equal @host2, @nic.host
   end
 
-  test '#valid? does not trigger cloning in !unattended mode' do
-    original, SETTINGS[:unattended] = SETTINGS[:unattended], false
-    @nic.expects(:setup_clone).never
-    @nic.valid?
-    SETTINGS[:unattended] = original
-  end
-
   context "when registering orchestration rebuild methods" do
     setup do
       @klass = Class.new(ApplicationRecord) do

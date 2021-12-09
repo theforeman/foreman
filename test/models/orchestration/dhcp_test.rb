@@ -3,7 +3,6 @@ require 'test_helper'
 class DhcpOrchestrationTest < ActiveSupport::TestCase
   def setup
     disable_orchestration
-    skip_without_unattended
   end
 
   test 'host_should_have_dhcp' do
