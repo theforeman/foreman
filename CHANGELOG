@@ -1,3 +1,40 @@
+2021-12-09	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.1.0
+
+2021-12-09	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #10413 - Deprecate setting unattended: false
+
+2021-12-08	Evgeni Golov <evgeni@golov.de>
+	* Fixes #34086 - explicitly depend on graphql-tag
+
+2021-12-08	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #34093 - Document Authorizer#can? and log huge cache loads
+	* Refs #34093 - Improve host config status performance
+	* Refs #34093 - Allow skipping cache from `User.can?`
+	* Refs #34093 - Minor authorizer clean ups
+	* Fixes #34093 - Don't eager load all authorized resources
+
+2021-12-08	Erik Berg <erikberg@usit.uio.no>
+	* Fixes #34088 - templates puppet repo parameters
+
+2021-12-08	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #33151 - translate host details tabs title
+
+2021-12-08	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #33929 - improve subnet network exception
+
+2021-12-07	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #34085 - fix 'all audits' link in host page
+
+2021-12-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #32461 - add endline in save_to_file
+
+2021-12-06	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #33897 - Puppet Environment in taxonomy ignore_types
+
+2021-11-29	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #34008 - Add org + loc params to scoped search
+
 2021-11-29	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.1.0-rc2
 	* i18n - extracting new, pulling from tx
