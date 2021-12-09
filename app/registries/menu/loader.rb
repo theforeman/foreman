@@ -58,21 +58,19 @@ module Menu
           menu.item :register_hosts,    :caption => N_('Register Host'),
                     :url => '/hosts/register',
                     :url_hash => { :controller => 'hosts', :action => 'create' }
-          if SETTINGS[:unattended]
-            menu.divider                :caption => N_('Provisioning Setup')
-            menu.item :architectures,   :caption => N_('Architectures')
-            menu.item :models,
-              :caption => N_('Hardware Models'),
-              :url => '/models',
-              :url_hash => { :controller => 'api/v2/models', :action => 'index' }
-            menu.item :media, :caption => N_('Installation Media')
-            menu.item :operatingsystems, :caption => N_('Operating Systems')
-            menu.divider :caption => N_('Templates')
-            menu.item :ptables, :caption => N_('Partition Tables'),
-                      :url_hash => { :controller => 'ptables', :action => 'index' }
-            menu.item :provisioning_templates, :caption => N_('Provisioning Templates'),
-                      :url_hash => { :controller => 'provisioning_templates', :action => 'index' }
-          end
+          menu.divider                :caption => N_('Provisioning Setup')
+          menu.item :architectures,   :caption => N_('Architectures')
+          menu.item :models,
+            :caption => N_('Hardware Models'),
+            :url => '/models',
+            :url_hash => { :controller => 'api/v2/models', :action => 'index' }
+          menu.item :media, :caption => N_('Installation Media')
+          menu.item :operatingsystems, :caption => N_('Operating Systems')
+          menu.divider :caption => N_('Templates')
+          menu.item :ptables, :caption => N_('Partition Tables'),
+                    :url_hash => { :controller => 'ptables', :action => 'index' }
+          menu.item :provisioning_templates, :caption => N_('Provisioning Templates'),
+                    :url_hash => { :controller => 'provisioning_templates', :action => 'index' }
         end
 
         menu.sub_menu :configure_menu,  :caption => N_('Configure'), :icon => 'fa fa-wrench' do
@@ -82,14 +80,12 @@ module Menu
 
         menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure'), :icon => 'pficon pficon-network' do
           menu.item :smart_proxies, :caption => N_('Smart Proxies')
-          if SETTINGS[:unattended]
-            menu.item :compute_resources, :caption => N_('Compute Resources')
-            menu.item :compute_profiles,  :caption => N_('Compute Profiles')
-            menu.item :subnets,           :caption => N_('Subnets')
-            menu.item :domains,           :caption => N_('Domains')
-            menu.item :http_proxies,      :caption => N_('HTTP Proxies')
-            menu.item :realms,            :caption => N_('Realms')
-          end
+          menu.item :compute_resources, :caption => N_('Compute Resources')
+          menu.item :compute_profiles,  :caption => N_('Compute Profiles')
+          menu.item :subnets,           :caption => N_('Subnets')
+          menu.item :domains,           :caption => N_('Domains')
+          menu.item :http_proxies,      :caption => N_('HTTP Proxies')
+          menu.item :realms,            :caption => N_('Realms')
         end
       end
 
