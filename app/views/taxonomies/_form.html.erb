@@ -10,28 +10,26 @@
       <% if User.current.allowed_to?(:view_smart_proxies) %>
         <li><a href="#smart_proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
       <% end %>
-      <% if SETTINGS[:unattended] %>
-        <% if User.current.allowed_to?(:view_subnets) %>
-          <li><a href="#subnets" data-toggle="tab"><%= _("Subnets") %></a></li>
-        <% end %>
-        <% if User.current.allowed_to?(:view_compute_resources) %>
-          <li><a href="#compute_resources" data-toggle="tab"><%= _("Compute Resources") %></a></li>
-        <% end %>
-        <% if User.current.allowed_to?(:view_media) %>
-          <li><a href="#media" data-toggle="tab"><%= _("Media") %></a></li>
-        <% end %>
-        <% if User.current.allowed_to?(:view_provisioning_templates) %>
-          <li><a href="#provisioning_templates" data-toggle="tab"><%= _("Provisioning Templates") %></a></li>
-        <% end %>
-        <% if User.current.allowed_to?(:view_ptales) %>
-          <li><a href="#ptables" data-toggle="tab"><%= _("Partition Tables") %></a></li>
-        <% end %>
-        <% if User.current.allowed_to?(:view_domains) %>
-          <li><a href="#domains" data-toggle="tab"><%= _("Domains") %></a></li>
-        <% end %>
-        <% if User.current.allowed_to?(:view_realms) %>
-          <li><a href="#realms" data-toggle="tab"><%= _("Realms") %></a></li>
-        <% end %>
+      <% if User.current.allowed_to?(:view_subnets) %>
+        <li><a href="#subnets" data-toggle="tab"><%= _("Subnets") %></a></li>
+      <% end %>
+      <% if User.current.allowed_to?(:view_compute_resources) %>
+        <li><a href="#compute_resources" data-toggle="tab"><%= _("Compute Resources") %></a></li>
+      <% end %>
+      <% if User.current.allowed_to?(:view_media) %>
+        <li><a href="#media" data-toggle="tab"><%= _("Media") %></a></li>
+      <% end %>
+      <% if User.current.allowed_to?(:view_provisioning_templates) %>
+        <li><a href="#provisioning_templates" data-toggle="tab"><%= _("Provisioning Templates") %></a></li>
+      <% end %>
+      <% if User.current.allowed_to?(:view_ptales) %>
+        <li><a href="#ptables" data-toggle="tab"><%= _("Partition Tables") %></a></li>
+      <% end %>
+      <% if User.current.allowed_to?(:view_domains) %>
+        <li><a href="#domains" data-toggle="tab"><%= _("Domains") %></a></li>
+      <% end %>
+      <% if User.current.allowed_to?(:view_realms) %>
+        <li><a href="#realms" data-toggle="tab"><%= _("Realms") %></a></li>
       <% end %>
       <% if User.current.allowed_to?(:view_hostgroups) %>
         <li><a href="#hostgroups" data-toggle="tab"><%= _("Host Groups") %></a></li>
@@ -64,15 +62,13 @@
       <%= show_resource_if_allowed(f, taxonomy, {:resource => :users, :association => User.except_admin}) %>
       <%= show_resource_if_allowed(f, taxonomy, :smart_proxies) %>
 
-      <% if SETTINGS[:unattended] %>
-        <%= show_resource_if_allowed(f, taxonomy, :subnets) %>
-        <%= show_resource_if_allowed(f, taxonomy, :compute_resources) %>
-        <%= show_resource_if_allowed(f, taxonomy, :media) %>
-        <%= show_resource_if_allowed(f, taxonomy, :provisioning_templates) %>
-        <%= show_resource_if_allowed(f, taxonomy, :ptables) %>
-        <%= show_resource_if_allowed(f, taxonomy, :domains) %>
-        <%= show_resource_if_allowed(f, taxonomy, :realms) %>
-      <% end %>
+      <%= show_resource_if_allowed(f, taxonomy, :subnets) %>
+      <%= show_resource_if_allowed(f, taxonomy, :compute_resources) %>
+      <%= show_resource_if_allowed(f, taxonomy, :media) %>
+      <%= show_resource_if_allowed(f, taxonomy, :provisioning_templates) %>
+      <%= show_resource_if_allowed(f, taxonomy, :ptables) %>
+      <%= show_resource_if_allowed(f, taxonomy, :domains) %>
+      <%= show_resource_if_allowed(f, taxonomy, :realms) %>
 
       <%= show_resource_if_allowed(f, taxonomy, :hostgroups) %>
 

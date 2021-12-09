@@ -10,7 +10,7 @@
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" id='host_tab' data-toggle="tab"><%= _('Host') %></a></li>
 
-      <% if SETTINGS[:unattended] and @host.managed %>
+      <% if @host.managed %>
         <% if authorized_for(:controller => "Compute::Resources::Vms", :action => :create) %>
           <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab"><%= _('Virtual Machine') %></a></li>
         <% end %>
@@ -59,7 +59,7 @@
             :user_set => user_set?(:compute_resource_id) },
           { :class => 'host-form-compute-resource-handle',
             :label => _('Deploy On'), :disabled => (!@host.new_record? || @host.uuid.present?), :'data-url' => compute_resource_selected_hosts_path,
-            :help_inline => :indicator } if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
+            :help_inline => :indicator } if @host.new_record? || @host.compute_resource_id %>
 
         <% if @host.new_record? && visible_compute_profiles(@host).any? %>
         <%# only show compute_profile select box for new hosts. It is not relevant for existing hosts as the VM attributes defined could
@@ -73,7 +73,7 @@
             },
             { :class => 'host-form-compute-resource-handle',
               :label => _("Compute profile"), :'data-url' => compute_resource_selected_hosts_path,
-              :help_inline => :indicator } if SETTINGS[:unattended] %>
+              :help_inline => :indicator } %>
         </div>
         <% end %>
 
@@ -102,7 +102,7 @@
         <%= render 'hosts/interfaces', :host => @host, :f => f %>
       </div>
 
-      <%= render('hosts/unattended', :f => f) if SETTINGS[:unattended] and @host.managed %>
+      <%= render('hosts/unattended', :f => f) if @host.managed %>
 
       <div class="tab-pane"  id="params">
 

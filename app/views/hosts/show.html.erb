@@ -31,7 +31,7 @@
     <ul id="host-show-tabs" class="nav nav-tabs">
       <li class="active"><a href="#properties" data-toggle="tab"><%= _('Properties') %></a></li>
       <li><a href="#metrics" data-toggle="tab"><%= _('Metrics') %></a></li>
-      <% if SETTINGS[:unattended] && @host.managed? %>
+      <% if @host.managed? %>
         <li><a href="#template" data-toggle="tab"><%= _('Templates') %></a></li>
       <% end %>
       <%  if @host.compute_resource_id %>
@@ -55,7 +55,7 @@
           <%= render :partial => "hosts/metrics", :locals => { :report_summary => @report_summary[@host.name][:metrics] } %>
         <% end %>
       </div>
-      <% if SETTINGS[:unattended] && @host.managed? %>
+      <% if @host.managed? %>
         <div class="tab-pane" id="template" data-ajax-url='<%= templates_host_path(@host)%>'>
           <%= spinner(_('Loading template information ...')) %>
         </div>
