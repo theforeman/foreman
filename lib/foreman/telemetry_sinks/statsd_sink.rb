@@ -26,7 +26,12 @@ module Foreman
 
       def increment_counter(name, value, tags)
         if @protocol == :datadog
-          StatsD.increment(name, value, tags: tags_in_statsd(tags))
+          if tags&.any?
+            # https://github.com/Shopify/statsd-instrument/issues/298
+            StatsD.increment(name, value, tags: tags_in_statsd(tags))
+          else
+            StatsD.increment(name, value)
+          end
         else
           StatsD.increment(name_tag_mapping(name, tags), value)
         end
@@ -34,7 +39,12 @@ module Foreman
 
       def set_gauge(name, value, tags)
         if @protocol == :datadog
-          StatsD.gauge(name, value, tags: tags_in_statsd(tags))
+          if tags&.any?
+            # https://github.com/Shopify/statsd-instrument/issues/298
+            StatsD.gauge(name, value, tags: tags_in_statsd(tags))
+          else
+            StatsD.gauge(name, value)
+          end
         else
           StatsD.gauge(name_tag_mapping(name, tags), value)
         end
@@ -42,7 +52,12 @@ module Foreman
 
       def observe_histogram(name, value, tags)
         if @protocol == :datadog
-          StatsD.measure(name, value, tags: tags_in_statsd(tags))
+          if tags&.any?
+            # https://github.com/Shopify/statsd-instrument/issues/298
+            StatsD.measure(name, value, tags: tags_in_statsd(tags))
+          else
+            StatsD.measure(name, value)
+          end
         else
           StatsD.measure(name_tag_mapping(name, tags), value)
         end
