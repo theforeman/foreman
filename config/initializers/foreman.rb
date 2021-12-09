@@ -9,7 +9,7 @@ require_dependency 'foreman/settings'
 
 # Other internal dependencies, may be autoloaded
 require 'net'
-require 'foreman/provision' if SETTINGS[:unattended]
+require 'foreman/provision'
 
 # in this phase, the classes are not fully loaded yet, load them
 Dir[
