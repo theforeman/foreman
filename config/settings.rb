@@ -12,12 +12,12 @@ SETTINGS[:version] = Foreman::Version.new
 SETTINGS.deep_merge!(Foreman::EnvSettingsLoader.new.to_h)
 
 # Force setting to true until all code using it is removed
-[:locations_enabled, :organizations_enabled].each do |setting|
+[:locations_enabled, :organizations_enabled, :unattended].each do |setting|
   SETTINGS[setting] = true
 end
 
 # default to true if missing
-[:unattended, :hsts_enabled].each do |setting|
+[:hsts_enabled].each do |setting|
   SETTINGS[setting] = SETTINGS.fetch(setting, true)
 end
 
