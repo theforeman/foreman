@@ -18,7 +18,7 @@ module HostDescriptionHelper
         { :action => [_('Disassociate Hosts'), multiple_disassociate_hosts_path], :priority => 600 },
         { :action => [_('Rebuild Config'), rebuild_config_hosts_path], :priority => 700 },
       ]
-      actions << { :action => [_('Build Hosts'), multiple_build_hosts_path], :priority => 110 } if SETTINGS[:unattended]
+      actions << { :action => [_('Build Hosts'), multiple_build_hosts_path], :priority => 110 }
       actions <<  { :action => [_('Assign Organization'), select_multiple_organization_hosts_path], :priority => 800 }
       actions <<  { :action => [_('Assign Location'), select_multiple_location_hosts_path], :priority => 900 }
       actions <<  { :action => [_('Change Owner'), select_multiple_owner_hosts_path], :priority => 1000 }

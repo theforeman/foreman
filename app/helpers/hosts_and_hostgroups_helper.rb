@@ -26,7 +26,7 @@ module HostsAndHostgroupsHelper
   def realm_field(f, can_override = false, override = false)
     # Don't show this if we have no Realms, otherwise always include blank
     # so the user can choose not to use a Realm on this host
-    return unless (SETTINGS[:unattended] == true) && @host.managed
+    return unless @host.managed
     realms = accessible_resource(f.object, :realm)
     return unless realms.present?
     select_f(f, :realm_id,

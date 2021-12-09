@@ -239,7 +239,7 @@ module HostsHelper
 
   def name_field(host)
     return if host.name.blank?
-    (SETTINGS[:unattended] && host.managed?) ? host.shortname : host.name
+    host.managed? ? host.shortname : host.name
   end
 
   def build_duration(host)
@@ -410,7 +410,7 @@ module HostsHelper
   end
 
   def power_status_visible?
-    SETTINGS[:unattended] && Setting[:host_power_status]
+    Setting[:host_power_status]
   end
 
   def host_breadcrumb
