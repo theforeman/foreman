@@ -16,7 +16,7 @@ module Orchestration::DHCP
     # The subnet boot mode is ignored as DHCP can be required for PXE or image provisioning
     # steps, while boot mode can be used in templates later.
     (host.nil? || host.managed?) && managed? && hostname.present? && ip_available? && mac_available? &&
-        !subnet.nil? && subnet.dhcp? && SETTINGS[:unattended] && (!provision? || operatingsystem.present?)
+        !subnet.nil? && subnet.dhcp? && (!provision? || operatingsystem.present?)
   end
 
   def generate_dhcp_task_id(action, interface = self)

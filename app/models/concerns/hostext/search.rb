@@ -87,17 +87,15 @@ module Hostext
       scoped_search :relation => :organization, :on => :title, :rename => :organization, :complete_value => true, :only_explicit => true
       scoped_search :on => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
-      if SETTINGS[:unattended]
-        scoped_search :relation => :subnet,          :on => :network,     :complete_value => false, :rename => :subnet
-        scoped_search :relation => :subnet,          :on => :name,        :complete_value => false, :rename => 'subnet.name'
-        scoped_search :relation => :subnet6,         :on => :network,     :complete_value => false, :rename => :subnet6
-        scoped_search :relation => :subnet6,         :on => :name,        :complete_value => false, :rename => 'subnet6.name'
-        scoped_search :on => :uuid,                                       :complete_value => true
-        scoped_search :on => :build,                                      :complete_value => {:true => true, :false => false}
-        scoped_search :on => :installed_at,                               :complete_value => true, :only_explicit => true
+      scoped_search :relation => :subnet,          :on => :network,     :complete_value => false, :rename => :subnet
+      scoped_search :relation => :subnet,          :on => :name,        :complete_value => false, :rename => 'subnet.name'
+      scoped_search :relation => :subnet6,         :on => :network,     :complete_value => false, :rename => :subnet6
+      scoped_search :relation => :subnet6,         :on => :name,        :complete_value => false, :rename => 'subnet6.name'
+      scoped_search :on => :uuid,                                       :complete_value => true
+      scoped_search :on => :build,                                      :complete_value => {:true => true, :false => false}
+      scoped_search :on => :installed_at,                               :complete_value => true, :only_explicit => true
 
-        scoped_search :relation => :provision_interface, :on => :mac, :complete_value => true
-      end
+      scoped_search :relation => :provision_interface, :on => :mac, :complete_value => true
 
       scoped_search :relation => :search_users, :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login', :operators => ['= ', '~ '], :ext_method => :search_by_user, :aliases => [:owner]
       scoped_search :relation => :search_users, :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname', :operators => ['= ', '~ '], :ext_method => :search_by_user

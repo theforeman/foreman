@@ -56,10 +56,6 @@ module HostStatus
       end
     end
 
-    def relevant?(options = {})
-      SETTINGS[:unattended]
-    end
-
     def waiting_for_build?
       host&.build
     end

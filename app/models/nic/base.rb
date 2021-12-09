@@ -225,11 +225,8 @@ module Nic
       []
     end
 
-    # we don't consider host as managed if we are in non-unattended mode
-    # in which case host managed? flag can be true but we should consider
-    # everything as unmanaged
     def host_managed?
-      host&.managed? && SETTINGS[:unattended]
+      host&.managed?
     end
 
     def require_ip4_validation?(from_compute = true)

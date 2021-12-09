@@ -12,7 +12,7 @@ module Orchestration::DNS
   def dns_ready?
     # host.managed? and managed? should always come first so that orchestration doesn't
     # even get tested for such objects
-    SETTINGS[:unattended] && (host.nil? || host.managed?) && managed? && hostname.present?
+    (host.nil? || host.managed?) && managed? && hostname.present?
   end
 
   def dns?

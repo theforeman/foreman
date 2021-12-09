@@ -82,7 +82,7 @@ module Orchestration
   # after validation callbacks status, as rails by default does
   # not care about their return status.
   def valid?(context = nil)
-    setup_clone if SETTINGS[:unattended]
+    setup_clone
     super
     orchestration_errors?
   end
@@ -120,10 +120,10 @@ module Orchestration
   end
 
   def without_orchestration(&block)
-    skip_orchestration! if SETTINGS[:unattended]
+    skip_orchestration!
     yield
   ensure
-    enable_orchestration! if SETTINGS[:unattended]
+    enable_orchestration!
   end
 
   private
