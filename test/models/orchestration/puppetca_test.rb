@@ -6,7 +6,6 @@ class PuppetCaOrchestrationTest < ActiveSupport::TestCase
     User.current = users(:one)
     disable_orchestration
     Setting[:manage_puppetca] = true
-    skip_without_unattended
   end
 
   def teardown

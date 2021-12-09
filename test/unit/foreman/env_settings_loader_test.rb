@@ -7,7 +7,6 @@ class EnvSettingsLoaderTest < ActiveSupport::TestCase
   context 'with all settings' do
     let(:env) do
       {
-        'FOREMAN_UNATTENDED' => 'true',
         'FOREMAN_REQUIRE_SSL' => 'true',
         'FOREMAN_SUPPORT_JSONP' => 'false',
         'FOREMAN_MARK_TRANSLATED' => 'false',
@@ -42,7 +41,6 @@ class EnvSettingsLoaderTest < ActiveSupport::TestCase
 
     test 'loads a settings hash' do
       expected = {
-        unattended: true,
         require_ssl: true,
         support_jsonp: false,
         mark_translated: false,

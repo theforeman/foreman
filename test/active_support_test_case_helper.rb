@@ -136,14 +136,6 @@ class ActiveSupport::TestCase
     User.current = @one
   end
 
-  def unattended?
-    SETTINGS[:unattended].nil? || SETTINGS[:unattended]
-  end
-
-  def skip_without_unattended
-    skip("unattended mode is disabled") unless unattended?
-  end
-
   def self.disable_orchestration
     # This disables the DNS/DHCP orchestration
     Resolv::DNS.any_instance.stubs(:getname).returns("foo.fqdn")

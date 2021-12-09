@@ -9,7 +9,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     end
 
     test 'should not have any tftp' do
-      skip_without_unattended
       assert_equal false, @host.tftp?
       assert_equal false, @host.tftp6?
       assert_nil @host.tftp
@@ -35,7 +34,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     end
 
     test 'should have tftp' do
-      skip_without_unattended
       assert @host.tftp?
       refute @host.tftp6?
       assert_not_nil @host.tftp
@@ -56,7 +54,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     end
 
     test "without pxe loader should not have tftp" do
-      skip_without_unattended
       @host.expects(:pxe_loader).returns('').at_least(1)
       assert_equal false, @host.tftp?
       assert_nil @host.tftp
@@ -69,7 +66,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     end
 
     test "should have ipv6 tftp" do
-      skip_without_unattended
       refute @host.tftp?
       assert @host.tftp6?
       assert_nil @host.tftp
@@ -97,7 +93,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     end
 
     test "host should have ipv4 and ipv6 tftp" do
-      skip_without_unattended
       assert @host.tftp?
       assert @host.tftp6?
       assert_not_nil @host.tftp
@@ -177,16 +172,13 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   end
 
   test 'unmanaged should not call methods after managed?' do
-    if unattended?
-      h = FactoryBot.create(:host)
-      Nic::Managed.any_instance.expects(:provision?).never
-      assert h.valid?
-      assert_equal false, h.tftp?
-    end
+    h = FactoryBot.create(:host)
+    Nic::Managed.any_instance.expects(:provision?).never
+    assert h.valid?
+    assert_equal false, h.tftp?
   end
 
   test "generate_pxe_template_for_pxelinux_build" do
-    return unless unattended?
     h = FactoryBot.build_stubbed(:host, :managed, :build => true,
                           :operatingsystem => operatingsystems(:redhat),
                           :architecture => architectures(:x86_64))
@@ -206,7 +198,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "generate_pxe_template_for_pxelinux_localboot" do
-    return unless unattended?
     h = FactoryBot.create(:host, :managed)
     as_admin do
       os = operatingsystems(:centos5_3)
@@ -234,7 +225,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "generate_default_pxe_template_for_pxelinux_localboot_from_setting" do
-    return unless unattended?
     template = FactoryBot.create(:provisioning_template, :name => 'my template',
                                                           :template => 'test content',
                                                           :template_kind => template_kinds(:pxelinux))
@@ -253,7 +243,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "generate_default_pxe_template_for_pxelinux_localboot_from_param" do
-    return unless unattended?
     template = FactoryBot.create(:provisioning_template, :name => 'my template',
                                                           :template => 'test content again',
                                                           :template_kind => template_kinds(:pxelinux))
@@ -272,7 +261,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   end
 
   test 'omit trying to generate a template for non-existing localboot template' do
-    return unless unattended?
     h = FactoryBot.create(:host, :managed)
     as_admin do
       os = operatingsystems(:vrp5)
@@ -311,34 +299,29 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     end
 
     test "should not fail without PXE loader" do
-      skip_without_unattended
       @host.interfaces.first.send(:validate_tftp)
       assert_nil @host.errors[:base].first
     end
 
     test "should not fail with None PXE loader" do
-      skip_without_unattended
       @host.pxe_loader = ""
       @host.interfaces.first.send(:validate_tftp)
       assert_nil @host.errors[:base].first
     end
 
     test "should fail without PXEGrub2 kind" do
-      skip_without_unattended
       @host.pxe_loader = "grub2/grubx64.efi"
       @host.interfaces.first.send(:validate_tftp)
       assert_match /^No PXEGrub2 templates were found.*/, @host.errors[:base].first
     end
 
     test "should fail without PXEGrub kind" do
-      skip_without_unattended
       @host.pxe_loader = "grub/bootx64.efi"
       @host.interfaces.first.send(:validate_tftp)
       assert_match /^No PXEGrub templates were found.*/, @host.errors[:base].first
     end
 
     test "should fail without PXELinux kind" do
-      skip_without_unattended
       @host.pxe_loader = "pxelinux.0"
       @host.interfaces.first.send(:validate_tftp)
       assert_match /^No PXELinux templates were found.*/, @host.errors[:base].first
@@ -360,7 +343,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "generate_pxelinux_template_for_suse_build" do
-    return unless unattended?
     h = FactoryBot.build_stubbed(:host, :managed, :build => true,
                           :operatingsystem => operatingsystems(:opensuse),
                           :architecture => architectures(:x86_64))
