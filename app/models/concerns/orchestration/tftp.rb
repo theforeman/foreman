@@ -15,7 +15,7 @@ module Orchestration::TFTP
   def tftp_ready?
     # host.managed? and managed? should always come first so that orchestration doesn't
     # even get tested for such objects
-    (host.nil? || host&.managed?) && managed && provision? && (host&.operatingsystem && host.pxe_loader.present?) && !image_build? && SETTINGS[:unattended]
+    (host.nil? || host&.managed?) && managed && provision? && (host&.operatingsystem && host.pxe_loader.present?) && !image_build?
   end
 
   def tftp?

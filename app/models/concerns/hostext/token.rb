@@ -15,7 +15,6 @@ module Hostext
     # this has to happen post validation and before the orchesration queue is starting to
     # process, as the token value is required within the tftp config file manipulations
     def refresh_token_on_build
-      return unless SETTINGS[:unattended]
       # new server in build mode
       set_token if new_record? && build?
       # existing server change build mode

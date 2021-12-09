@@ -295,66 +295,48 @@ class Host::Managed < Host::Base
   validates :location_id,     :presence => true, :if => proc { |host| host.managed? }
   validate :compute_resource_in_taxonomy, :if => proc { |host| host.managed? && host.compute_resource_id.present? }
 
-  if SETTINGS[:unattended]
-    # define before orchestration is included so we can prepare object before VM is tried to be deleted
-    before_destroy :disassociate!, :if => proc { |host| host.uuid && !Setting[:destroy_vm_on_host_delete] }
-    # handles all orchestration of smart proxies.
-    include Orchestration
-    # DHCP orchestration delegation
-    delegate :dhcp?, :dhcp_records, :to => :primary_interface
-    # DNS orchestration delegation
-    delegate :dns?, :dns6?, :reverse_dns?, :reverse_dns6?, :dns_record, :to => :primary_interface
-    # IP delegation
-    delegate :mac_based_ipam?, :required_ip_addresses_set?, :compute_provides_ip?, :ip_available?, :ip6_available?, :to => :primary_interface
-    include Orchestration::Compute
-    include Rails.application.routes.url_helpers
-    # TFTP orchestration delegation
-    delegate :tftp?, :tftp6?, :tftp, :tftp6, :generate_pxe_template, :to => :provision_interface
-    include Orchestration::Puppetca
-    include Orchestration::SSHProvision
-    include Orchestration::Realm
-    include HostTemplateHelpers
-    delegate :require_ip4_validation?, :require_ip6_validation?, :to => :provision_interface
+  # define before orchestration is included so we can prepare object before VM is tried to be deleted
+  before_destroy :disassociate!, :if => proc { |host| host.uuid && !Setting[:destroy_vm_on_host_delete] }
+  # handles all orchestration of smart proxies.
+  include Orchestration
+  # DHCP orchestration delegation
+  delegate :dhcp?, :dhcp_records, :to => :primary_interface
+  # DNS orchestration delegation
+  delegate :dns?, :dns6?, :reverse_dns?, :reverse_dns6?, :dns_record, :to => :primary_interface
+  # IP delegation
+  delegate :mac_based_ipam?, :required_ip_addresses_set?, :compute_provides_ip?, :ip_available?, :ip6_available?, :to => :primary_interface
+  include Orchestration::Compute
+  include Rails.application.routes.url_helpers
+  # TFTP orchestration delegation
+  delegate :tftp?, :tftp6?, :tftp, :tftp6, :generate_pxe_template, :to => :provision_interface
+  include Orchestration::Puppetca
+  include Orchestration::SSHProvision
+  include Orchestration::Realm
+  include HostTemplateHelpers
+  delegate :require_ip4_validation?, :require_ip6_validation?, :to => :provision_interface
 
-    validates :architecture_id, :presence => true, :if => proc { |host| host.managed }
-    validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
-                          :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
-                          :if => proc { |host| host.managed && !host.image_build? && build? }
-    validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
-                          :if => proc { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && !host.image_build? && host.build? }
-    validates :provision_method, :inclusion => {:in => proc { provision_methods }, :message => N_('is unknown')}, :if => proc { |host| host.managed? }
-    validates :medium_id, :presence => true,
-                          :if => proc { |host| host.validate_media? }
-    validates :medium_id, :inclusion => {:in => proc { |host| host.operatingsystem.medium_ids },
-                                         :message => N_('must belong to host\'s operating system')},
-                          :if => proc { |host| host.operatingsystem && host.medium }
-    validate :provision_method_in_capabilities
-    validate :short_name_periods
-    validate :check_interfaces
-    before_validation :set_compute_attributes, :on => :create, :if => proc { compute_attributes_empty? }
-    validate :check_if_provision_method_changed, :on => :update, :if => proc { |host| host.managed }
-    validates :uuid, uniqueness: { :allow_blank => true }
-  else
-    def fqdn
-      facts['fqdn'] || name
-    end
-
-    def compute?
-      false
-    end
-
-    def compute_provides?(attr)
-      false
-    end
-
-    def without_orchestration
-      yield
-    end
-  end
+  validates :architecture_id, :presence => true, :if => proc { |host| host.managed }
+  validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
+                        :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
+                        :if => proc { |host| host.managed && !host.image_build? && build? }
+  validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
+                        :if => proc { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && !host.image_build? && host.build? }
+  validates :provision_method, :inclusion => {:in => proc { provision_methods }, :message => N_('is unknown')}, :if => proc { |host| host.managed? }
+  validates :medium_id, :presence => true,
+                        :if => proc { |host| host.validate_media? }
+  validates :medium_id, :inclusion => {:in => proc { |host| host.operatingsystem.medium_ids },
+                                       :message => N_('must belong to host\'s operating system')},
+                        :if => proc { |host| host.operatingsystem && host.medium }
+  validate :provision_method_in_capabilities
+  validate :short_name_periods
+  validate :check_interfaces
+  before_validation :set_compute_attributes, :on => :create, :if => proc { compute_attributes_empty? }
+  validate :check_if_provision_method_changed, :on => :update, :if => proc { |host| host.managed }
+  validates :uuid, uniqueness: { :allow_blank => true }
 
   before_validation :set_hostgroup_defaults, :set_ip_address
   after_validation :ensure_associations
-  before_validation :set_certname, :if => proc { |h| h.managed? && Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
+  before_validation :set_certname, :if => proc { |h| h.managed? && Setting[:use_uuid_for_certificates] }
   after_validation :trigger_nic_orchestration, :if => proc { |h| h.managed? && h.changed? }, :on => :update
   before_validation :validate_dns_name_uniqueness
 
@@ -527,7 +509,7 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def can_be_built?
-    managed? && SETTINGS[:unattended] && !image_build? && !build?
+    managed? && !image_build? && !build?
   end
 
   def hostgroup_inherited_attributes
@@ -578,13 +560,10 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def inherited_attributes
-    inherited_attrs = %w{domain_id}
-    if SETTINGS[:unattended]
-      inherited_attrs.concat(%w{operatingsystem_id architecture_id compute_resource_id})
-      inherited_attrs << "subnet_id" unless compute_provides?(:ip)
-      inherited_attrs << "subnet6_id" unless compute_provides?(:ip6)
-      inherited_attrs.concat(%w{medium_id ptable_id pxe_loader}) unless image_build?
-    end
+    inherited_attrs = %w{domain_id operatingsystem_id architecture_id compute_resource_id}
+    inherited_attrs << "subnet_id" unless compute_provides?(:ip)
+    inherited_attrs << "subnet6_id" unless compute_provides?(:ip6)
+    inherited_attrs.concat(%w{medium_id ptable_id pxe_loader}) unless image_build?
     inherited_attrs
   end
 
@@ -597,7 +576,7 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def set_ip_address
-    return unless SETTINGS[:unattended] && (new_record? || managed?)
+    return unless new_record? || managed?
     interfaces.select { |nic| nic.managed }.each do |nic|
       nic.ip  = nic.subnet.unused_ip(mac).suggest_ip if nic.subnet.present? && nic.ip.blank?
       nic.ip6 = nic.subnet6.unused_ip(mac).suggest_ip if nic.subnet6.present? && nic.ip6.blank?
@@ -923,7 +902,7 @@ autopart"', desc: 'to render the content of host partition table'
   # checks if the host association is a valid association for this host
   def ensure_associations
     status = true
-    if SETTINGS[:unattended] && managed? && os && !image_build?
+    if managed? && os && !image_build?
       %w{ptable medium architecture}.each do |e|
         value = send(e.to_sym)
         next if value.blank?
@@ -953,7 +932,7 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def short_name_periods
-    errors.add(:name, _("must not include periods")) if (managed? && shortname && shortname.include?(".") && SETTINGS[:unattended])
+    errors.add(:name, _("must not include periods")) if (managed? && shortname && shortname.include?("."))
   end
 
   # we need this so when attribute like build changes we trigger tftp orchestration so token is updated on tftp
