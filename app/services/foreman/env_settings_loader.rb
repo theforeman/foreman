@@ -28,7 +28,6 @@ module Foreman
 
     def settings_map
       {
-        'FOREMAN_UNATTENDED' => [:boolean, :unattended],
         'FOREMAN_REQUIRE_SSL' => [:boolean, :require_ssl],
         'FOREMAN_SUPPORT_JSONP' => [:boolean, :support_jsonp],
         'FOREMAN_MARK_TRANSLATED' => [:boolean, :mark_translated],

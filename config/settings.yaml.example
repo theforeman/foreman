@@ -2,8 +2,6 @@
 # You must restart the Rack server after changing any of these values
 # because they are cached at startup.
 #
-:unattended: true
-
 :require_ssl: false
 
 #JSONP or "JSON with padding" is a complement to the base JSON data format.
