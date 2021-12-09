@@ -24,7 +24,7 @@ module SmartProxiesHelper
                                                            merge(:auth_object => proxy, :permission => 'view_smart_proxies_autosign', :authorizer => authorizer, :anchor => 'autosign'))
     end
 
-    if SETTINGS[:unattended] && proxy.has_feature?('DHCP')
+    if proxy.has_feature?('DHCP')
       actions << display_link_if_authorized(_("Import IPv4 subnets"), hash_for_import_subnets_path(:smart_proxy_id => proxy))
     end
 
