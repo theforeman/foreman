@@ -8,10 +8,8 @@
       <h4><%=_("System Status")%></h4>
       <ul class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#smart_proxies" data-toggle="tab"><%= _('Smart Proxies') %></a></li>
-        <% if SETTINGS[:unattended] %>
-          <li><a href="#available_providers" data-toggle="tab"><%= _('Available Providers') %></a></li>
-          <li><a href="#compute_resources" data-toggle="tab"><%= _('Compute Resources') %></a></li>
-        <% end %>
+        <li><a href="#available_providers" data-toggle="tab"><%= _('Available Providers') %></a></li>
+        <li><a href="#compute_resources" data-toggle="tab"><%= _('Compute Resources') %></a></li>
         <li><a href="#plugins" data-toggle="tab"><%= _('Plugins') %></a></li>
       </ul>
       <div class="tab-content">
@@ -41,55 +39,53 @@
             </table>
           <% end %>
         </div>
-        <% if SETTINGS[:unattended] %>
-          <div class="tab-pane" id="available_providers">
-            <table class="table table-striped">
+        <div class="tab-pane" id="available_providers">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th><%= _("Provider") %></th>
+                <th><%= _("Status") %></th>
+              </tr>
+            </thead>
+            <tbody>
+            <% @providers.sort_by { |prov| prov[:friendly_name].downcase }.each do |provider| %>
+              <tr>
+                <td><%= provider[:friendly_name] %></td>
+                <% if provider[:status] == :installed %>
+                  <td><div class="label label-success"><%= _('Installed') %></div></td>
+                <% else %>
+                  <td><div class="label label-default"><%= _('Not Installed') %></div></td>
+                <% end %>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <%= _('To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. ovirt).') %>
+        </div>
+        <div class="tab-pane" id="compute_resources">
+          <% if @compute_resources.empty? %>
+            <p class="ca"><%= _("No compute resource to show") %></p>
+          <% else %>
+            <table class="table table-striped table-fixed">
               <thead>
                 <tr>
-                  <th><%= _("Provider") %></th>
-                  <th><%= _("Status") %></th>
+                  <th class="col-md-4"><%= _("Name") %></th>
+                  <th class="col-md-4"><%= _("Type") %></th>
+                  <th class="col-md-4"><%= _("Status") %></th>
                 </tr>
               </thead>
               <tbody>
-              <% @providers.sort_by { |prov| prov[:friendly_name].downcase }.each do |provider| %>
+              <% @compute_resources.each do |compute| %>
                 <tr>
-                  <td><%= provider[:friendly_name] %></td>
-                  <% if provider[:status] == :installed %>
-                    <td><div class="label label-success"><%= _('Installed') %></div></td>
-                  <% else %>
-                    <td><div class="label label-default"><%= _('Not Installed') %></div></td>
-                  <% end %>
+                  <td class="ellipsis"><%= link_to(compute.name, compute) %></td>
+                  <td><%= compute.provider_friendly_name %></td>
+                  <td><div class="compute-status" data-url=<%= ping_compute_resource_path(compute) %>><%= spinner %></div></td>
                 </tr>
               <% end %>
               </tbody>
             </table>
-            <%= _('To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. ovirt).') %>
-          </div>
-          <div class="tab-pane" id="compute_resources">
-            <% if @compute_resources.empty? %>
-              <p class="ca"><%= _("No compute resource to show") %></p>
-            <% else %>
-              <table class="table table-striped table-fixed">
-                <thead>
-                  <tr>
-                    <th class="col-md-4"><%= _("Name") %></th>
-                    <th class="col-md-4"><%= _("Type") %></th>
-                    <th class="col-md-4"><%= _("Status") %></th>
-                  </tr>
-                </thead>
-                <tbody>
-                <% @compute_resources.each do |compute| %>
-                  <tr>
-                    <td class="ellipsis"><%= link_to(compute.name, compute) %></td>
-                    <td><%= compute.provider_friendly_name %></td>
-                    <td><div class="compute-status" data-url=<%= ping_compute_resource_path(compute) %>><%= spinner %></div></td>
-                  </tr>
-                <% end %>
-                </tbody>
-              </table>
-            <% end %>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
         <div class="tab-pane" id="plugins">
           <% if @plugins.empty? %>
             <p class="ca"><%= _("No plugins found") %></p>

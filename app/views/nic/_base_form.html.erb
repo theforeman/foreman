@@ -23,22 +23,20 @@
               :label_help_options => { :rel => 'popover-modal' },
               :class => :interface_name,
               :size => "col-md-8", :label_size => "col-md-3" %>
-<% if SETTINGS[:unattended] %>
-  <%= select_f f, :domain_id, accessible_resource(f.object, :domain), :id, :to_label,
-               { :include_blank => accessible_resource(f.object, :domain).any? ? true : _("No domains")},
-               { :disabled => accessible_resource(f.object, :domain).empty? ? true : false,
-                 :help_inline => :indicator,
-                 :class => 'interface_domain', :'data-url' => domain_selected_hosts_path,
-                 :size => "col-md-8", :label_size => "col-md-3" } %>
-  <%= nic_subnet_field f, :subnet_id, :"Subnet::Ipv4",
-                { :label => _("IPv4 Subnet"),
-                :label_help => _("IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."),
-                :label_help_options => { :rel => 'popover-modal' },
-                :class => 'interface_subnet' } %>
-  <%= nic_subnet_field f, :subnet6_id, :"Subnet::Ipv6",
-                { :label => _("IPv6 Subnet"),
-                :class => 'interface_subnet6' } %>
-<% end %>
+<%= select_f f, :domain_id, accessible_resource(f.object, :domain), :id, :to_label,
+             { :include_blank => accessible_resource(f.object, :domain).any? ? true : _("No domains")},
+             { :disabled => accessible_resource(f.object, :domain).empty? ? true : false,
+               :help_inline => :indicator,
+               :class => 'interface_domain', :'data-url' => domain_selected_hosts_path,
+               :size => "col-md-8", :label_size => "col-md-3" } %>
+<%= nic_subnet_field f, :subnet_id, :"Subnet::Ipv4",
+              { :label => _("IPv4 Subnet"),
+              :label_help => _("IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."),
+              :label_help_options => { :rel => 'popover-modal' },
+              :class => 'interface_subnet' } %>
+<%= nic_subnet_field f, :subnet6_id, :"Subnet::Ipv6",
+              { :label => _("IPv6 Subnet"),
+              :class => 'interface_subnet6' } %>
 <%= text_f f, :ip,
               :class => :interface_ip,
               :label => _("IPv4 Address"),
@@ -65,13 +63,11 @@
               },
               :size => "col-md-8", :label_size => "col-md-3" %>
 
-<% if SETTINGS[:unattended] %>
-  <%= checkbox_f f, :managed,
-                 :label_help => _("If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided.") + '<br/>' + _("The services to be configured are determined by the subnet and domain that are selected for this interface. If you want to manage<br/> only a subset of these services, change the %{subnet} and %{domain} proxies configuration. When a proxy is set to 'None', the corresponding") % { :subnet => link_to(_('subnet'), subnets_path, :target => :blank), :domain => link_to(_('domain'), domains_path, :target => :blank)} + '<br/>' + _("service configuration will be skipped.") + '<br/><br/>' + _("If the Managed flag is disabled, none of the services will be configured for this interface, even if it is configured for the subnet and domain.") + '<br/><br/>' + _("The Managed flag also determines whether the interface should be configured during host provisioning, so that the configuration remains after reboot."),
-                 :class => :interface_managed,
-                 :label_help_options => { :rel => 'popover-modal' },
-                 :size => "col-md-8", :label_size => "col-md-3" %>
-<% end %>
+<%= checkbox_f f, :managed,
+               :label_help => _("If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided.") + '<br/>' + _("The services to be configured are determined by the subnet and domain that are selected for this interface. If you want to manage<br/> only a subset of these services, change the %{subnet} and %{domain} proxies configuration. When a proxy is set to 'None', the corresponding") % { :subnet => link_to(_('subnet'), subnets_path, :target => :blank), :domain => link_to(_('domain'), domains_path, :target => :blank)} + '<br/>' + _("service configuration will be skipped.") + '<br/><br/>' + _("If the Managed flag is disabled, none of the services will be configured for this interface, even if it is configured for the subnet and domain.") + '<br/><br/>' + _("The Managed flag also determines whether the interface should be configured during host provisioning, so that the configuration remains after reboot."),
+               :class => :interface_managed,
+               :label_help_options => { :rel => 'popover-modal' },
+               :size => "col-md-8", :label_size => "col-md-3" %>
 <%= checkbox_f f, :primary,
                :label_help => _("The Primary interface is used for constructing the FQDN of the host.") + '<br/>' + _("This interface is also used for network communication during provisioning, e.g. downloading installation packages."),
                :label_help_options => { :rel => 'popover-modal' },

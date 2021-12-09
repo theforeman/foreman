@@ -2,11 +2,9 @@
   <%= base_errors_for @operatingsystem %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Operating System") %></a></li>
-    <% if SETTINGS[:unattended] %>
-      <li><a href="#ptable" data-toggle="tab"><%= _("Partition Table") %></a></li>
-      <li><a href="#media" data-toggle="tab"><%= _("Installation Media") %></a></li>
-      <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>
-    <% end -%>
+    <li><a href="#ptable" data-toggle="tab"><%= _("Partition Table") %></a></li>
+    <li><a href="#media" data-toggle="tab"><%= _("Installation Media") %></a></li>
+    <li><a href="#templates" data-toggle="tab"><%= _("Templates") %></a></li>
     <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
       <li><a href="#params" data-toggle="tab" id="params-tab"><%= _("Parameters") %></a></li>
     <% end %>
@@ -28,16 +26,14 @@
       <%= multiple_checkboxes f, :architectures, @operatingsystem, Architecture, :label => _("Architectures") %>
     </div>
 
-    <% if SETTINGS[:unattended] %>
-      <%= render('template_defaults', :f => f) %>
+    <%= render('template_defaults', :f => f) %>
 
-      <div class="tab-pane" id="ptable">
-        <%= multiple_checkboxes f, :ptables, @operatingsystem, os_habtm_family(Ptable, f.object), :label => _("Partition Tables") %>
-      </div>
-      <div class="tab-pane" id="media">
-        <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => _("Installation Media") %>
-      </div>
-    <% end %>
+    <div class="tab-pane" id="ptable">
+      <%= multiple_checkboxes f, :ptables, @operatingsystem, os_habtm_family(Ptable, f.object), :label => _("Partition Tables") %>
+    </div>
+    <div class="tab-pane" id="media">
+      <%= multiple_checkboxes f, :media, @operatingsystem,   os_habtm_family(Medium, f.object), :label => _("Installation Media") %>
+    </div>
     <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
       <div class="tab-pane" id="params">
         <%= render "common_parameters/parameters", { :f => f, :type => :os_parameters } %>

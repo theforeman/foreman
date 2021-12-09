@@ -4,10 +4,8 @@
 
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') %></a></li>
-    <% if SETTINGS[:unattended] %>
-      <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
-      <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
-    <% end %>
+    <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
+    <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
     <li><a href="#params" id='params-tab' data-url='' data-toggle="tab"><%= _('Parameters') %></a></li>
     <%= render_tab_header_for(:main_tabs, :subject => @hostgroup) %>
     <% if show_location_tab? %>
@@ -31,7 +29,7 @@
       <%= select_f f, :compute_resource_id, accessible_resource(@hostgroup, :compute_resource), :id, :to_label,
           { :include_blank => blank_or_inherit_f(f, :compute_resource, blank_value: _('Bare Metal')) },
           { :label => _('Deploy on'),
-            :help_inline => :indicator } if SETTINGS[:unattended] %>
+            :help_inline => :indicator } %>
 
       <%= select_f(f, :compute_profile_id, visible_compute_profiles(@hostgroup), :id, :name,
                        { :include_blank => blank_or_inherit_f(f, :compute_profile) },
@@ -49,7 +47,7 @@
         <%= select_f f, :subnet_id, domain_subnets(:"Subnet::Ipv4"), :id, :to_label,
                      { :include_blank => domain_subnets(:"Subnet::Ipv4").any? ? blank_or_inherit_f(f, :subnet) : _("No subnets") },
                      { :disabled => domain_subnets(:"Subnet::Ipv4").empty?,
-                       :data     => { :url     => SETTINGS[:unattended] ? freeip_subnets_path : '',
+                       :data     => { :url     => freeip_subnets_path,
                                       :subnets => subnets_ipam_data(:"Subnet::Ipv4").to_json },
                        :label    => _("IPv4 Subnet"),
                        :help_inline => :indicator } %>
