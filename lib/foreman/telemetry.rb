@@ -117,29 +117,27 @@ module Foreman
     end
 
     def increment_counter(name, value = 1, tags = {})
-      return unless allowed?(tags)
+      rename_disallowed!(tags)
       @sinks.each { |x| x.increment_counter("#{prefix}_#{name}", value, tags) }
     end
 
     def set_gauge(name, value, tags = {})
-      return unless allowed?(tags)
+      rename_disallowed!(tags)
       @sinks.each { |x| x.set_gauge("#{prefix}_#{name}", value, tags) }
     end
 
     def observe_histogram(name, value, tags = {})
-      return unless allowed?(tags)
+      rename_disallowed!(tags)
       @sinks.each { |x| x.observe_histogram("#{prefix}_#{name}", value, tags) }
     end
 
     private
 
-    def allowed?(tags)
-      result = true
+    def rename_disallowed!(tags)
       tags.each do |label, value|
         regexp = @allowed_tags[label]
-        result &&= !!regexp.match(value) if regexp
+        tags[label] = 'other' if regexp && !regexp.match(value&.to_s)
       end
-      result
     end
   end
 end

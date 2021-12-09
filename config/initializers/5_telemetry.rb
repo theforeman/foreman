@@ -41,6 +41,7 @@ telemetry.add_histogram(:report_importer_refresh, 'Total duration of report stat
 telemetry.add_counter(:audit_records_created, 'Number of audit records created in the DB', [:type])
 telemetry.add_counter(:audit_records_logged, 'Number of audit records sent into logger', [:type])
 telemetry.add_counter(:config_report_metric_count, 'Number of config report status metrics', [:metric])
+telemetry.add_counter(:authorizer_cache_records_fetched, 'Number of records fetched by authorizer cache', [:class])
 
 # To decrease amount of metrics, labels must be allowed explicitly
 allowed_labels = {
@@ -54,6 +55,16 @@ allowed_labels = {
     'hostgroups_controller',
     'hosts_controller',
     'notification_recipients_controller',
+  ],
+  action: [
+    'index',
+    'show',
+    'create',
+    'update',
+    'destroy',
+    'export',
+    'generate',
+    'facts',
   ],
   class: [
     'Architecture',
