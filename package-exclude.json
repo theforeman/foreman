@@ -1,8 +1,6 @@
 {
     "EXCLUDE_NPM_PACKAGES": [
         "@sheerun/mutationobserver-shim",
-        "@testing-library/jest-dom",
-        "@testing-library/react",
         "@theforeman/env",
         "@theforeman/eslint-plugin-foreman",
         "@theforeman/stories",
@@ -35,6 +33,7 @@
     "EXCLUDE_NPM_PREFIXES": [
         "@babel/eslint-",
         "@storybook/",
+        "@testing-library/",
         "enzyme",
         "eslint",
         "jest-",
