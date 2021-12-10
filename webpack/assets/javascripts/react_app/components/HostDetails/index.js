@@ -27,7 +27,6 @@ import {
   selectSlotMetadata,
 } from '../common/Slot/SlotSelectors';
 
-import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import { registerCoreTabs } from './Tabs';
 import { HOST_DETAILS_API_OPTIONS, TABS_SLOT_ID } from './consts';
@@ -54,7 +53,6 @@ const HostDetails = ({
     HOST_DETAILS_API_OPTIONS
   );
 
-  const isNavCollapsed = useSelector(selectIsCollapsed);
   const tabs = useSelector(
     state => selectFillsIDs(state, TABS_SLOT_ID),
     shallowEqual
@@ -82,17 +80,14 @@ const HostDetails = ({
         isFilled
         variant="light"
       >
-        <div style={{ marginLeft: '18px', marginRight: '18px' }}>
-          <Breadcrumb style={{ marginTop: '15px' }}>
+        <div style={{ margin: ' 0px 24px 16px', paddingTop: '16px' }}>
+          <Breadcrumb style={{ margin: '0 0 24px' }}>
             <BreadcrumbItem to="/hosts">{__('Hosts')}</BreadcrumbItem>
             <BreadcrumbItem isActive>
               {response.name || <Skeleton />}
             </BreadcrumbItem>
           </Breadcrumb>
-          {/* TODO: Replace all br with css */}
-          <br />
-          <br />
-          <Grid>
+          <Grid style={{ marginBottom: '8px' }}>
             <GridItem span={9}>
               <SkeletonLoader status={status || STATUS.PENDING}>
                 {response && (
@@ -166,12 +161,7 @@ const HostDetails = ({
             tabs={tabs}
             router={history}
           >
-            <Tabs
-              style={{
-                width: window.innerWidth - (isNavCollapsed ? 95 : 220),
-              }}
-              activeKey={activeTab}
-            >
+            <Tabs style={{ margin: '0 24px' }} activeKey={activeTab}>
               {tabs.map(tab => (
                 <Tab
                   key={tab}
