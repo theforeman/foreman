@@ -239,20 +239,6 @@ module ApplicationHelper
     end
   end
 
-  def readonly_field(object, property, options = {})
-    name       = "#{type}[#{property}]"
-    helper     = options[:helper]
-    value      = helper.nil? ? object.send(property) : send(helper, object)
-    klass      = options[:type]
-    title      = options[:title]
-
-    opts = { :title => title, :class => klass.to_s, :name => name, :value => value}
-
-    content_tag_for :span, object, opts do
-      h(value)
-    end
-  end
-
   def show_parent?(obj)
     minimum_count = obj.new_record? ? 0 : 1
     base = obj.class.respond_to?(:completer_scope) ? obj.class.completer_scope(nil) : obj.class

@@ -41,7 +41,6 @@ gem 'net-ping', :require => false
 gem 'activerecord-session_store', '>= 2.0.0', '< 3'
 gem 'sprockets', '~> 4.0'
 gem 'sprockets-rails', '~> 3.0'
-gem 'record_tag_helper', '~> 1.0'
 gem 'responders', '~> 3.0'
 gem 'roadie-rails', '~> 2.0'
 gem 'deacon', '~> 1.0'
