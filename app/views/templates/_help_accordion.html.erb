@@ -9,7 +9,7 @@
   <div id="<%= title.parameterize %>" class="panel-collapse collapse">
     <div class="panel-body">
       <% if !local_assigns.key?(:wrap_in_code) || wrap_in_code %>
-        <%= content_tag :code, contents %>
+        <code><%= contents %></code>
       <% else %>
         <%= contents %>
       <% end %>

@@ -32,8 +32,8 @@
       <%= will_paginate_with_info hosts, :more => " - "+_("<b class='select_count'>0</b> selected") %>
     </div>
   </div>
-  <%= content_tag(:div, :class => "form-actions") do %>
+  <div class="form-actions">
     <%= link_to(_("Cancel"), :back, :class => "btn btn-default") %>
     <%= f.submit(_("Assign to %s") % @taxonomy_type, :class => "btn btn-success") %>
-  <% end %>
+  </div>
 <% end %>

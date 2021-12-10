@@ -38,8 +38,10 @@ end %>
       <tr>
         <% unless params[:role_id] %>
           <td>
-            <%= content_tag('span', link_to_if_authorized(filter.role.name, hash_for_roles_path(:search => "name = #{filter.role.name}").
-                  merge(:auth_object => filter.role, :authorizer => @roles_authorizer))) %>
+            <span>
+            <%= link_to_if_authorized(filter.role.name, hash_for_roles_path(:search => "name = #{filter.role.name}").
+                  merge(:auth_object => filter.role, :authorizer => @roles_authorizer)) %>
+            </span>
           </td>
         <% end %>
         <td>
@@ -49,9 +51,11 @@ end %>
         <td><%= checked_icon filter.unlimited? %></td>
         <td><%= checked_icon filter.override? %></td>
         <td>
-          <%= content_tag('span', link_to_unless_locked(filter.search || _('N/A'), @role,
-                                                      hash_for_edit_filter_path(:id => filter, :role_id => @role).
-                                                              merge(:auth_object => filter, :authorizer => authorizer))) %>
+          <span>
+            <%= link_to_unless_locked(filter.search || _('N/A'), @role,
+                                      hash_for_edit_filter_path(:id => filter, :role_id => @role).
+                                      merge(:auth_object => filter, :authorizer => authorizer)) %>
+          </span>
         </td>
         <% if @role && !@role.locked? %>
           <td>

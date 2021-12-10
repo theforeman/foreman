@@ -15,9 +15,11 @@
            param_obj = inherited_parameters[name]
         %>
         <tr class="<%="override-param" if overriden %>">
-          <td class="ellipsis"><%= content_tag :span, name, :id => "name_#{name}"%>
+          <td class="ellipsis">
+            <span id="<%= "name_#{name}" %>"><%= name %></span>
           </td>
-          <td class="ellipsis"><%= content_tag :span, param_obj[:parameter_type], :id => "parameter_type_#{param_obj[:parameter_type]}"%>
+          <td class="ellipsis">
+            <span id="<%= "parameter_type_#{param_obj[:parameter_type]}"%>"></span>
           </td>
           <td><%= parameter_value_field param_obj %></td>
           <td>

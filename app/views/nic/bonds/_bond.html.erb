@@ -1,11 +1,11 @@
 <%= render 'nic/base_form', :f => f %>
 
-<%= content_tag :span, :class => 'bond_fields' do %>
+<span class="<%='bond_fields' %>">
   <%= selectable_f f, :mode, Nic::Bond::MODES, {}, :size => "col-md-8", :label_size => "col-md-3" %>
   <%= text_f f, :attached_devices, :label_help => _('comma separated interface identifiers'),
              :label_help_options => { :rel => 'popover-modal' }, :class => 'attached', :size => "col-md-8", :label_size => "col-md-3" %>
   <%= text_f f, :bond_options, :label_help => _('space separated options, e.g. miimon=100'),
              :label_help_options => { :rel => 'popover-modal' }, :size => "col-md-8", :label_size => "col-md-3" %>
-<% end %>
+</span>
 
 <%= render 'nic/provider_specific_form', :f => f %>

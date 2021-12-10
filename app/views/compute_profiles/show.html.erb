@@ -23,7 +23,7 @@
         <td><%= link_to(compute_resource.to_label, which_path) %></td>
         <td>
           <% set = compute_resource.compute_attributes.where(:compute_profile_id => @compute_profile.id).first %>
-          <%= set ? set.name : content_tag(:span, _("unspecified"), :class => 'gray') %>
+          <%= set ? set.name : "<span class='gray'>#{_("unspecified")}</span>".html_safe %>
         </td>
       </tr>
     <% end %>

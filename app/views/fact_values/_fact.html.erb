@@ -10,7 +10,7 @@
   <% end %>
   <td>
     <%= popover("", escaped_warning_context, {:data => {:title => escaped_warning_title, :placement => "top"}, :icon => "warning-triangle-o", :class => "pull-right" }) if is_escaped_value(fact.name) %>
-    <%= content_tag(:ol, fact_name(fact, parent), :class => "breadcrumb") %>
+    <ol class="breadcrumb"><%= fact_name(fact, parent) %></ol>
   </td>
   <td class="fact-col">
     <% unless fact.compose %>

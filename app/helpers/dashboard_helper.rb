@@ -37,8 +37,11 @@ module DashboardHelper
   end
 
   def widget_data(widget)
-    { :data => { :id    => widget.id,    :name  => _(widget.name), :row => widget.row, :col => widget.col,
-                 :sizex => widget.sizex, :sizey =>  widget.sizey } }
+    data = ["data-id='#{widget.id}'", "data-name='#{widget.name}'",
+            "data-row='#{widget.row}'", "data-col='#{widget.col}'",
+            "data-sizex='#{widget.sizex}'", "data-sizey='#{widget.sizey}'"]
+
+    data.join(' ').html_safe
   end
 
   def count_reports(hosts, options = {})

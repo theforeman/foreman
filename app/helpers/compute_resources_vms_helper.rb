@@ -45,11 +45,9 @@ module ComputeResourcesVmsHelper
   end
 
   def spice_data_attributes(console)
-    {
-      :encrypt  => console[:encrypt],
-      :port     => console[:port],
-      :password => console[:password],
-    }
+    ["data-encrypt='#{console[:encrypt]}'",
+     "data-port='#{console[:port]}'",
+     "data-password='#{console[:password]}'"].join(' ').html_safe
   end
 
   def libvirt_networks(compute_resource)

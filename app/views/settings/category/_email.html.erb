@@ -1,3 +1,3 @@
 <%= link_to_function(_("Test email"), "tfm.users.testMail(this, '#{test_mail_user_url(User.current)}')",
                      :title => _("Send a test message to the current user's email address to confirm the configuration is working."), :id => "test_mail_button", :class =>"btn btn-success") + hidden_spinner('', :id => 'test_indicator').html_safe %>
-<%= content_tag(:br) %>
+<br>

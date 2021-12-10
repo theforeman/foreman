@@ -10,7 +10,7 @@
     <div id='dashboard' class="dashboard gridster col-md-12">
       <ul>
         <% User.current.widgets.available.order(:id).each do |widget| %>
-          <%= content_tag(:li, widget_data(widget)) do %>
+          <li <%= widget_data(widget) %>>
             <div class='widget_control'>
               <a class='remove' data-url='<%= widget_path(widget) %>' onclick='tfm.dashboard.removeWidget(this)' >&times;</a>
             </div>
@@ -19,7 +19,7 @@
                 <%= spinner(_("%s widget loading...") % widget.name) %>
               </div>
             </div>
-          <% end %>
+          </li>
         <% end %>
       </ul>
     </div>

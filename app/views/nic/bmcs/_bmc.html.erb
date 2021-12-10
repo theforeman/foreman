@@ -1,6 +1,6 @@
 <%= render 'nic/base_form', :f => f %>
 
-<%= content_tag :span, :id => 'bmc_fields' do %>
+<span id="<%= 'bmc_fields' %>">
   <%= text_f f, :username, :size => "col-md-8", :label_size => "col-md-3" %>
   <%= password_f f, :password, :unset => action_name == "edit", :size => "col-md-8", :label_size => "col-md-3",
                     :label_help => _("The BMC password will be used by Foreman to access the host's BMC controller via a BMC-enabled smart proxy, if available.<br/>").html_safe +
@@ -12,8 +12,8 @@
                         :rel => 'popover-modal',
                         :'data-placement' => "top"
                      }
- %>
+  %>
   <%= selectable_f f, :provider, Nic::BMC::PROVIDERS, {}, :size => "col-md-8", :label_size => "col-md-3" %>
-<% end %>
+</span>
 
 <%= render 'nic/provider_specific_form', :f => f %>

@@ -1,3 +1,5 @@
 <%= render "compute_resources_vms/show/#{@compute_resource.provider.downcase}" %>
 
-<%= content_tag(:div, vm_power_actions(@host, @vm) + vm_console(@host, @vm) , :id=>'power_actions') %>
+<div id="power_actions">
+  <%= vm_power_actions(@host, @vm) + vm_console(@host, @vm) %>
+</div>

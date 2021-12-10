@@ -9,8 +9,8 @@
                :size => "col-md-8", :label_size => "col-md-3" %>
 
 <% hidden_class = f.object.virtual ? '' : 'hidden' %>
-<%= content_tag :div, :class => "virtual_form #{hidden_class}" do %>
+<div class="<%= "virtual_form #{hidden_class}" %>">
   <%= render 'nic/virtual_form', :f => f, :attached_to_required => true %>
-<% end %>
+</div>
 
 <%= render 'nic/provider_specific_form', :f => f %>
