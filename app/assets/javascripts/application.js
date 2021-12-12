@@ -69,10 +69,12 @@ function onContentLoad() {
 
   password_caps_lock_hint();
 
-  var tz = jstz.determine();
-  $.cookie('timezone', tz.name(), {
-    path: '/',
-    secure: location.protocol === 'https:',
+  tfm.i18n.intl.ready.then(function() {
+    var tz = jstz.determine();
+    $.cookie('timezone', tz.name(), {
+      path: '/',
+      secure: location.protocol === 'https:',
+    });
   });
 
   $('.full-value').SelectOnClick();
