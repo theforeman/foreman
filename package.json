@@ -23,7 +23,9 @@
   "dependencies": {
     "@theforeman/vendor": "^8.16.0",
     "graphql-tag": "^2.11.0",
-    "jed": "^1.1.1"
+    "intl": "~1.2.5",
+    "jed": "^1.1.1",
+    "react-intl": "^2.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",

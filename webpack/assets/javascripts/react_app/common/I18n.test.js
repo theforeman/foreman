@@ -1,7 +1,7 @@
 import Jed from 'jed';
-import { translate, ngettext } from './index';
+import { translate, ngettext } from './I18n';
 
-jest.unmock('./index');
+jest.unmock('./I18n');
 jest.unmock('jed');
 
 describe('gettext', () => {

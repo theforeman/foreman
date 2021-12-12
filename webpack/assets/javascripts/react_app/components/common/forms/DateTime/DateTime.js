@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { FieldLevelHelp } from 'patternfly-react';
 import { Field } from 'formik';
 import DateTimePicker from '../../DateTimePicker/DateTimePicker';
+
 import CommonForm from '../CommonForm';
-import { intl } from '../../../../common/I18n';
+import { documentLocale } from '../../../../common/I18n';
 import './DateTimeOverrides.scss';
 
 const DateTime = ({
@@ -18,7 +19,7 @@ const DateTime = ({
   value,
   initialError,
 }) => {
-  const currentLocale = locale || intl.locale;
+  const currentLocale = locale || documentLocale();
 
   return (
     <Field

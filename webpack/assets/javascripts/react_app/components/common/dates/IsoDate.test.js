@@ -4,6 +4,7 @@ import { mount } from '@theforeman/test';
 import React from 'react';
 import IsoDate from './IsoDate';
 import { i18nProviderWrapperFactory } from '../../../common/i18nProviderWrapperFactory';
+import { intl } from '../../../common/I18n';
 
 describe('Date', () => {
   const date = new Date('2017-10-13 00:54:55 -1100');
@@ -15,7 +16,10 @@ describe('Date', () => {
       <IntlDate date={date} defaultValue="Default value" />
     );
 
-    expect(wrapper.find('IsoDate')).toMatchSnapshot();
+    intl.ready.then(() => {
+      wrapper.update();
+      expect(wrapper.find('IsoDate')).toMatchSnapshot();
+    });
   });
 
   it('renders default value', () => {
@@ -23,6 +27,9 @@ describe('Date', () => {
       <IntlDate date={null} defaultValue="Default value" />
     );
 
-    expect(wrapper.find('IsoDate')).toMatchSnapshot();
+    intl.ready.then(() => {
+      wrapper.update();
+      expect(wrapper.find('IsoDate')).toMatchSnapshot();
+    });
   });
 });
