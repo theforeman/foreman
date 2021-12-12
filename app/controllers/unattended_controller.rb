@@ -111,7 +111,7 @@ class UnattendedController < ApplicationController
 
     return safe_render(template) if template
 
-    render_ipxe_message(message: _("iPXE default local boot template '%s' not found") % name)
+    render_ipxe_message(message: _("iPXE local boot template '%s' not found") % name)
   end
 
   def render_provisioning_template(type)
