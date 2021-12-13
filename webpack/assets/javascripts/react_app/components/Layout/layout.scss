@@ -34,9 +34,11 @@
 #react-app-root {
   .react-container {
     margin-right: auto;
-    margin-left: 200px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 24px 24px 0 24px;
+
+    section {
+      margin-top: -20px;
+    }
   }
 
   .nav-pf-vertical {

@@ -11,6 +11,21 @@ body {
   display: table-cell;
 }
 
+h1 {
+  margin-top: 0px;
+  margin-bottom: 8px;
+  font-family: 'RedHatDisplay';
+  font-weight: 400;
+}
+
+#rails-app-content {
+  padding: 0 24px;
+
+  #breadcrumb {
+    margin-top: -8px;
+  }
+}
+
 .base li {
   list-style: none;
   margin-left: 20px;
@@ -453,7 +468,12 @@ table {
   line-height: 2;
 }
 
-.navbar-editor > span > .select2-container .select2-choices .select2-search-field input,
+.navbar-editor
+  > span
+  > .select2-container
+  .select2-choices
+  .select2-search-field
+  input,
 .select2-container .select2-choice,
 .select2-container .select2-choices .select2-chosen {
   height: 24px;

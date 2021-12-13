@@ -2,7 +2,7 @@
 
 exports[`LayoutContainer rendering render LayoutContainer 1`] = `
 <div
-  className="react-container container-fluid nav-pf-persistent-secondary"
+  className="react-container container-pf-nav-pf-vertical nav-pf-persistent-secondary"
 >
   <li
     key="key"

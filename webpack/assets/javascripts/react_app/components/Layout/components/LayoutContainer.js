@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const LayoutContainer = ({ isCollapsed, children }) => {
-  const classes = 'react-container container-fluid nav-pf-persistent-secondary';
+  const classes =
+    'react-container container-pf-nav-pf-vertical nav-pf-persistent-secondary';
 
   useEffect(() => {
     if (isCollapsed) document.body.classList.add('collapsed-nav');
