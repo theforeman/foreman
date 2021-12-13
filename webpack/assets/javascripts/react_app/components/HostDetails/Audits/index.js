@@ -14,6 +14,7 @@ import {
   DataListItemCells,
   DataListText,
   DataListCell,
+  GridItem,
   Title,
 } from '@patternfly/react-core';
 import URI from 'urijs';
@@ -44,67 +45,73 @@ const AuditCard = ({ hostName }) => {
     status = STATUS.PENDING,
   } = useAPI('get', apiUrl);
   return (
-    <Card isHoverable>
-      <CardHeader>
-        <CardTitle>{__('Recent Audits')}</CardTitle>
-        <CardActions>
-          <a onClick={() => dispatch(push(uiUrl))}> {__('All audits')}</a>
-        </CardActions>
-      </CardHeader>
-      <CardBody>
-        <SkeletonLoader
-          skeletonProps={{ count: NUMBER_OF_RECORDS }}
-          status={status}
-          emptyState={
-            <Bullseye>
-              <Title headingLevel="h4"> {__('No Results found')} </Title>
-            </Bullseye>
-          }
-        >
-          {audits && (
-            <DataList isCompact>
-              {audits.map(
-                ({ user_name: user, created_at: timestamp, action, id }) => (
-                  <DataListItem key={id}>
-                    <DataListItemRow>
-                      <DataListItemCells
-                        dataListCells={[
-                          <DataListCell
-                            wrapModifier="truncate"
-                            key={`action-${id}`}
-                          >
-                            <DataListText tooltip={action}>
-                              {action}
-                            </DataListText>
-                          </DataListCell>,
-                          <DataListCell
-                            wrapModifier="truncate"
-                            key={`date-${id}`}
-                          >
-                            <RelativeDateTime date={timestamp} />
-                          </DataListCell>,
-                          <DataListCell
-                            wrapModifier="truncate"
-                            key={`user-${id}`}
-                          >
-                            <DataListText tooltip={user}>{user}</DataListText>
-                          </DataListCell>,
-                        ]}
-                      />
-                    </DataListItemRow>
-                  </DataListItem>
-                )
-              )}
-            </DataList>
-          )}
-        </SkeletonLoader>
-      </CardBody>
-    </Card>
+    <GridItem xl2={3} xl={4} md={6} lg={4}>
+      <Card isHoverable>
+        <CardHeader>
+          <CardTitle>{__('Recent Audits')}</CardTitle>
+          <CardActions>
+            <a onClick={() => dispatch(push(uiUrl))}> {__('All audits')}</a>
+          </CardActions>
+        </CardHeader>
+        <CardBody>
+          <SkeletonLoader
+            skeletonProps={{ count: NUMBER_OF_RECORDS }}
+            status={status}
+            emptyState={
+              <Bullseye>
+                <Title headingLevel="h4"> {__('No Results found')} </Title>
+              </Bullseye>
+            }
+          >
+            {audits && (
+              <DataList isCompact>
+                {audits.map(
+                  ({ user_name: user, created_at: timestamp, action, id }) => (
+                    <DataListItem key={id}>
+                      <DataListItemRow>
+                        <DataListItemCells
+                          dataListCells={[
+                            <DataListCell
+                              wrapModifier="truncate"
+                              key={`action-${id}`}
+                            >
+                              <DataListText tooltip={action}>
+                                {action}
+                              </DataListText>
+                            </DataListCell>,
+                            <DataListCell
+                              wrapModifier="truncate"
+                              key={`date-${id}`}
+                            >
+                              <RelativeDateTime date={timestamp} />
+                            </DataListCell>,
+                            <DataListCell
+                              wrapModifier="truncate"
+                              key={`user-${id}`}
+                            >
+                              <DataListText tooltip={user}>{user}</DataListText>
+                            </DataListCell>,
+                          ]}
+                        />
+                      </DataListItemRow>
+                    </DataListItem>
+                  )
+                )}
+              </DataList>
+            )}
+          </SkeletonLoader>
+        </CardBody>
+      </Card>
+    </GridItem>
   );
 };
 
 AuditCard.propTypes = {
-  hostName: PropTypes.string.isRequired,
+  hostName: PropTypes.string,
+};
+
+AuditCard.defaultProps = {
+  hostName: undefined,
 };
 
 export default AuditCard;
