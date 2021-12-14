@@ -605,7 +605,7 @@ Security/YAMLLoad:
 # SupportedStyles: inline, group
 Style/AccessModifierDeclarations:
   Exclude:
-    - 'lib/foreman/observable.rb'
+    - 'app/services/foreman/observable.rb'
 
 # Offense count: 203
 # Cop supports --auto-correct.
