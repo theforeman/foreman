@@ -121,8 +121,6 @@ Lint/UriEscapeUnescape:
   Exclude:
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/compute_resources_vms_helper.rb'
-    - 'lib/proxy_api/external_ipam.rb'
-    - 'lib/proxy_api/resource.rb'
     - 'test/unit/tasks/interfaces_test.rb'
 
 # Offense count: 2
@@ -293,8 +291,8 @@ Naming/MethodName:
     - 'app/models/environment.rb'
     - 'app/models/host/managed.rb'
     - 'app/models/hostgroup.rb'
+    - 'app/services/proxy_api/tftp.rb'
     - 'lib/net/dhcp/record.rb'
-    - 'lib/proxy_api/tftp.rb'
     - 'test/controllers/api/v2/table_preferences_controller_test.rb'
     - 'test/helpers/fact_values_helper_test.rb'
     - 'test/models/orchestration_test.rb'
