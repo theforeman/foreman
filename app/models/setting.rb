@@ -208,7 +208,7 @@ class Setting < ApplicationRecord
   def self.regexp_expand_wildcard_string(string, options = {})
     prefix = options[:prefix] || '\A'
     suffix = options[:suffix] || '\Z'
-    prefix + Regexp.escape(string).gsub('\*', '.*') + suffix
+    prefix + Regexp.escape(string).gsub('\*', '.*').gsub('\?', '.') + suffix
   end
 
   def self.convert_array_to_regexp(array, regexp_options = {})
