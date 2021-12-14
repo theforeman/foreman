@@ -414,6 +414,10 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal /\Aa.*\Z|\Ab.*\Z/, Setting.convert_array_to_regexp(['a*', 'b*'])
   end
 
+  test 'convert_array_to_regexp supports ? ' do
+    assert_equal true, Setting.convert_array_to_regexp(['on?????????????.*']).match?('on86bb6c1f143a4.3111')
+  end
+
   test "host's owner should be valid" do
     assert_raises(ActiveRecord::RecordInvalid) do
       Setting[:host_owner] = "xyz"
