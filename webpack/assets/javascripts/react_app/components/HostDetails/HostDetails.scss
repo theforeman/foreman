@@ -1,35 +1,70 @@
 .pf-gray-background {
-  background: #f0f0f0;
+  background: var(--pf-global--BackgroundColor--200);
 }
 
 .host-details-header-section {
   margin-left: -20px;
   margin-right: -20px;
-  background: white;
-}
+  background: var(--pf-global--BackgroundColor--100);
 
-.host-details-tab-item {
-  padding: 18px;
-  background: #f0f0f0;
-  .pf-c-card {
-    height: 100%;
+  .header-top {
+    margin: 0px 24px 16px;
+    padding-top: 16px;
+
+    .host-details-breadcrumb {
+      margin: 0 0 24px;
+    }
+
+    .hostname-skeleton-rapper {
+      margin-bottom: 8px;
+
+      .hostname-wrapper {
+        display: inline-flex;
+        max-width: 60%;
+        margin-right: 8px;
+
+        .hostname-truncate {
+          text-overflow: ellipsis;
+          max-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          display: inline-block;
+        }
+      }
+    }
   }
-}
 
-.hostname-truncate {
-  text-overflow: ellipsis;
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-}
+  .pf-c-alert {
+    margin: 16px 24px;
+  }
 
-.hostname-wrapper {
-  display: inline-flex;
-  max-width: 60%;
-  margin-right: 8px;
-}
+  .host-details-tabs {
+    margin: 0 24px;
+  }
 
-.host-details-header-section .pf-c-alert {
-  margin: 15px 24px;
+
+  .tab-width-138 {
+    max-width: calc(100vw - 138px); //These values may need to be increased for other browsers
+
+    @media screen and (max-width: 767px) {
+      max-width: calc(100vw - 64px);
+    }
+  }
+
+  .tab-width-263 {
+    max-width: calc(100vw - 263px); //These values may need to be increased for other browsers
+
+    @media screen and (max-width: 767px) {
+      max-width: calc(100vw - 64px);
+    }
+  }
+
+  .host-details-tab-item {
+    padding: 16px 24px;
+    background: var(--pf-global--BackgroundColor--200);
+
+    .pf-c-card {
+      height: 100%;
+    }
+  }
 }
