@@ -53,7 +53,6 @@ const HostDetails = ({
     `/api/hosts/${id}`,
     HOST_DETAILS_API_OPTIONS
   );
-
   const isNavCollapsed = useSelector(selectIsCollapsed);
   const tabs = useSelector(
     state => selectFillsIDs(state, TABS_SLOT_ID),
@@ -82,17 +81,14 @@ const HostDetails = ({
         isFilled
         variant="light"
       >
-        <div style={{ marginLeft: '18px', marginRight: '18px' }}>
-          <Breadcrumb style={{ marginTop: '15px' }}>
+        <div className="header-top">
+          <Breadcrumb className="host-details-breadcrumb">
             <BreadcrumbItem to="/hosts">{__('Hosts')}</BreadcrumbItem>
             <BreadcrumbItem isActive>
               {response.name || <Skeleton />}
             </BreadcrumbItem>
           </Breadcrumb>
-          {/* TODO: Replace all br with css */}
-          <br />
-          <br />
-          <Grid>
+          <Grid className="hostname-skeleton-rapper">
             <GridItem span={9}>
               <SkeletonLoader status={status || STATUS.PENDING}>
                 {response && (
@@ -167,10 +163,10 @@ const HostDetails = ({
             router={history}
           >
             <Tabs
-              style={{
-                width: window.innerWidth - (isNavCollapsed ? 95 : 220),
-              }}
               activeKey={activeTab}
+              className={`host-details-tabs tab-width-${
+                isNavCollapsed ? '138' : '263'
+              }`}
             >
               {tabs.map(tab => (
                 <Tab
