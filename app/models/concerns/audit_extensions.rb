@@ -23,7 +23,7 @@ module AuditExtensions
     end
 
     def self.humanize_class_name
-      _("Audit")
+      N_("Audit")
     end
 
     serialize :audited_changes
