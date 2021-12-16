@@ -72,17 +72,17 @@ end
 # load the corresponding bit of fog
 require 'fog/ovirt' if defined?(::OVIRT)
 
-require_dependency File.expand_path('../lib/foreman.rb', __dir__)
-require_dependency File.expand_path('../lib/timed_cached_store.rb', __dir__)
-require_dependency File.expand_path('../lib/foreman/exception', __dir__)
-require_dependency File.expand_path('../lib/core_extensions', __dir__)
-require_dependency File.expand_path('../lib/foreman/logging', __dir__)
-require_dependency File.expand_path('../lib/foreman/http_proxy', __dir__)
-require_dependency File.expand_path('../lib/foreman/middleware/catch_json_parse_errors', __dir__)
-require_dependency File.expand_path('../lib/foreman/middleware/logging_context_request', __dir__)
-require_dependency File.expand_path('../lib/foreman/middleware/logging_context_session', __dir__)
-require_dependency File.expand_path('../lib/foreman/middleware/telemetry', __dir__)
-require_dependency File.expand_path('../lib/foreman/middleware/libvirt_connection_cleaner', __dir__)
+require File.expand_path('../lib/foreman', __dir__)
+require File.expand_path('../lib/timed_cached_store', __dir__)
+require File.expand_path('../lib/foreman/exception', __dir__)
+require File.expand_path('../lib/core_extensions', __dir__)
+require File.expand_path('../lib/foreman/logging', __dir__)
+require File.expand_path('../lib/foreman/http_proxy', __dir__)
+require File.expand_path('../lib/foreman/middleware/catch_json_parse_errors', __dir__)
+require File.expand_path('../lib/foreman/middleware/logging_context_request', __dir__)
+require File.expand_path('../lib/foreman/middleware/logging_context_session', __dir__)
+require File.expand_path('../lib/foreman/middleware/telemetry', __dir__)
+require File.expand_path('../lib/foreman/middleware/libvirt_connection_cleaner', __dir__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../Gemfile.in', __dir__))
@@ -104,7 +104,6 @@ module Foreman
     # -- all .rb files in that directory are automatically loaded.
 
     # Autoloading
-    config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += %W(#{config.root}/app/models/power_manager)
     config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
