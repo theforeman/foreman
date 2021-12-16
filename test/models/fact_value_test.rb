@@ -12,11 +12,6 @@ class FactValueTest < ActiveSupport::TestCase
     end
   end
 
-  test ".build_facts_hash returns a hash with host name" do
-    hash = { @host.to_s => { @fact_name.name => @fact_value.value } }
-    assert_equal hash, FactValue.build_facts_hash([@fact_value])
-  end
-
   test "should return the count of each fact" do
     h = [{:label => "some value", :data => 1}]
     assert_equal h, FactValue.count_each("my_facting_name")
