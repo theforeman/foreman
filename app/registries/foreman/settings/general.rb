@@ -97,7 +97,7 @@ Foreman::SettingManager.define(:foreman) do
     setting('host_details_ui',
       type: :boolean,
       description: N_("Foreman will load the new UI for host details"),
-      default: false,
+      default: true,
       full_name: N_('New host details UI'))
   end
 end

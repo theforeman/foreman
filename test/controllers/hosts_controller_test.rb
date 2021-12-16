@@ -29,7 +29,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'create_valid' do
     Host.any_instance.stubs(:valid?).returns(true)
     post :create, params: { :host => {:name => "test"} }, session: set_session_user
-    assert_redirected_to host_url(assigns('host'))
+    assert_redirected_to host_details_page_url(assigns('host'))
   end
 
   test "should get index" do
@@ -101,7 +101,7 @@ class HostsControllerTest < ActionController::TestCase
         },
        }, session: set_session_user
     end
-    assert_redirected_to host_url(assigns['host'])
+    assert_redirected_to host_details_page_url(assigns['host'])
   end
 
   context "with libvirt" do
@@ -186,7 +186,7 @@ class HostsControllerTest < ActionController::TestCase
       assert new_host.puppet_proxy.present?
       assert_equal hostgroup.puppet_proxy, new_host.puppet_proxy
     end
-    assert_redirected_to host_url(assigns['host'])
+    assert_redirected_to host_details_page_url(assigns['host'])
   end
 
   test "should get edit" do
@@ -210,7 +210,7 @@ class HostsControllerTest < ActionController::TestCase
   def test_update_valid
     Host.any_instance.stubs(:valid?).returns(true)
     put :update, params: { :id => Host.first.name, :host => {:name => "Updated_#{Host.first.name}"} }, session: set_session_user
-    assert_redirected_to host_url(assigns(:host))
+    assert_redirected_to host_details_page_url(assigns(:host))
   end
 
   test "should destroy host" do
@@ -1432,7 +1432,7 @@ class HostsControllerTest < ActionController::TestCase
           host: { compute_attributes: { scsi_controllers: { 'scsiControllers' => scsi_controllers, 'volumes' => [volume_params] }.to_json } },
         }, session: set_session_user
 
-        assert_redirected_to host_path(@vmware_host.to_param)
+        assert_redirected_to host_details_page_path(@vmware_host.to_param)
       end
     end
   end
