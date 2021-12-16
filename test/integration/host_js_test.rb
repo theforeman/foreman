@@ -35,9 +35,7 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test "has proper title and links" do
-      visit hosts_path
-      click_link @host.fqdn
-      assert_breadcrumb_text(@host.fqdn)
+      visit host_path @host
       assert page.has_link?("Properties", :href => "#properties")
       assert page.has_link?("Metrics", :href => "#metrics")
       assert page.has_link?("Templates", :href => "#template")
@@ -76,6 +74,12 @@ class HostJSTest < IntegrationTestWithJavascript
       Setting[:host_details_ui] = false
     end
 
+    test "assert breadcrumbs" do
+      visit hosts_path
+      click_link @host.fqdn
+      find('.pf-c-breadcrumb__item', :text => @host.fqdn)
+    end
+
     test "new show page" do
       visit hosts_path
       click_link @host.fqdn
@@ -95,7 +99,7 @@ class HostJSTest < IntegrationTestWithJavascript
       assert_equal '', page.find('#host_name').value
     end
 
-    test "delete host" do
+    test "delete host redirects to hosts index" do
       host = FactoryBot.create(:host)
       visit host_details_page_path(host)
       find('#hostdetails-kebab').click
@@ -302,8 +306,8 @@ class HostJSTest < IntegrationTestWithJavascript
       select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
       close_interfaces_modal
-      click_on_submit
-      find('#host-show') # wait for host details page
+      click_button('Submit')
+      find('h5', :text => /myhost1*/)
 
       host = Host::Managed.search_for('name ~ "myhost1"').first
       assert_equal compute_resource.name, host.compute_resource.name
@@ -341,7 +345,8 @@ class HostJSTest < IntegrationTestWithJavascript
 
       close_interfaces_modal
 
-      click_on_submit
+      click_button('Submit')
+      find('h5', :text => /myhost1*/)
 
       host = Host::Managed.search_for('name ~ "myhost1"').first
       assert_equal hg.compute_resource.name, host.compute_resource.name
@@ -471,7 +476,7 @@ class HostJSTest < IntegrationTestWithJavascript
       assert page.has_selector?(id)
       page.find(id).click
       assert page.has_no_selector?(id)
-      click_on_submit
+      click_button('Submit')
 
       visit edit_host_path(host)
       switch_form_tab('Parameters')

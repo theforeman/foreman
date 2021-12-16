@@ -24,15 +24,6 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "destroy redirects to hosts index" do
-    disable_orchestration # Avoid DNS errors
-    visit hosts_path
-    click_link @host.fqdn
-    assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
-    first(:link, "Delete").click
-    assert_current_path hosts_path
-  end
-
   describe 'edit page' do
     test 'displays warning when vm not found by uuid' do
       ComputeResource.any_instance.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
