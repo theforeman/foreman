@@ -9,7 +9,6 @@ require_dependency 'foreman/settings'
 require_dependency 'fog_extensions'
 
 # Other internal dependencies, may be autoloaded
-require 'foreman/foreman_url_renderer'
 require 'net'
 require 'foreman/provision' if SETTINGS[:unattended]
 
