@@ -27,7 +27,7 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
     get :index, params: { :host_id => @host.name }
     assert_response :success
     fact_values   = ActiveSupport::JSON.decode(@response.body)['results']
-    expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => @host.id))
+    expected_hash = {@host.name => {"kernelversion" => "2.6.9"}}
     assert_equal expected_hash, fact_values
   end
 
@@ -35,7 +35,7 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
     get :index, params: { :host_id => @host.id }
     assert_response :success
     fact_values   = ActiveSupport::JSON.decode(@response.body)['results']
-    expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => @host.id))
+    expected_hash = {@host.name => {"kernelversion" => "2.6.9"}}
     assert_equal expected_hash, fact_values
   end
 
