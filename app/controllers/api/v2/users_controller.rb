@@ -59,6 +59,7 @@ module Api
         param :timezone, ActiveSupport::TimeZone.all.map(&:name), :required => false, :desc => N_("User's timezone")
         param :locale, FastGettext.available_locales, :required => false, :desc => N_("User's preferred locale")
         param :role_ids, Array, :require => false
+        param :mail_enabled, :bool, :desc => N_("Enable user E-mail")
         param_group :taxonomies, ::Api::V2::BaseController
       end
 
