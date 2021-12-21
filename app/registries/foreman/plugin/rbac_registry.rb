@@ -46,14 +46,14 @@ module Foreman
       end
 
       def setup_permissions!
-        return false if Rails.env.test? || Foreman.in_setup_db_rake? || !permission_table_exists?
+        return false if Foreman.in_setup_db_rake? || !permission_table_exists?
         registered_permissions.each do |(name, options)|
           Permission.where(:name => name).first_or_create(:resource_type => options[:resource_type])
         end
       end
 
       def setup_roles!
-        return false if Foreman.in_setup_db_rake? || Rails.env.test? || !permission_table_exists? || User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).nil?
+        return false if Foreman.in_setup_db_rake? || !permission_table_exists? || User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).nil?
         Role.without_auditing do
           Filter.without_auditing do
             default_roles.each do |name, permissions|
