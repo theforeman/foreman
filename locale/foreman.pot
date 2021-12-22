@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-22 15:17+0100\n"
-"PO-Revision-Date: 2021-12-22 15:17+0100\n"
+"POT-Creation-Date: 2021-12-22 15:18+0100\n"
+"PO-Revision-Date: 2021-12-22 15:18+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -88,6 +88,10 @@ msgstr ""
 msgid "Error generating IP: %s"
 msgstr ""
 
+#: ../app/assets/javascripts/host_edit.js:943
+msgid "Warning: This combination of loader and OS might not be able to boot."
+msgstr ""
+
 #: ../app/assets/javascripts/host_edit.js:947
 msgid "Manual configuration is needed."
 msgstr ""
@@ -111,6 +115,18 @@ msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:198
 msgid "Managed"
+msgstr ""
+
+#: ../app/assets/javascripts/host_edit_interfaces.js:269
+msgid ""
+"Some other interface is already set as primary. Are you sure you want to use t"
+"his one instead?"
+msgstr ""
+
+#: ../app/assets/javascripts/host_edit_interfaces.js:289
+msgid ""
+"Some other interface is already set as provisioning. Are you sure you want to "
+"use this one instead?"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:359
@@ -10525,6 +10541,7 @@ msgid "You are not authorized to perform this action."
 msgstr ""
 
 #: ../app/views/common/403.html.erb:11
+#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:53
 msgid ""
 "Please request one of the required permissions listed below from a Foreman adm"
 "inistrator:"
@@ -12378,6 +12395,7 @@ msgid "Disassociate host"
 msgstr ""
 
 #: ../app/views/hosts/index.html.erb:7
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:165
 msgid "Single host on this page is selected."
 msgid_plural "All %{per_page} hosts on this page are selected."
 msgstr[0] ""
@@ -12462,6 +12480,7 @@ msgid "Rebuild orchestration configuration"
 msgstr ""
 
 #: ../app/views/hosts/review_before_build.html.erb:3
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:96
 msgid "The following errors may prevent a successful build:"
 msgstr ""
 
@@ -14576,6 +14595,12 @@ msgstr ""
 msgid "Connected"
 msgstr ""
 
+#: ../webpack/assets/javascripts/bundle_novnc.js:59
+msgid ""
+"The connection was closed by the browser. please verify that the certificate a"
+"uthority is valid"
+msgstr ""
+
 #: ../webpack/assets/javascripts/bundle_novnc.js:91
 #: ../webpack/assets/javascripts/foreman_tools.js:51
 msgid "Loading..."
@@ -14587,6 +14612,10 @@ msgstr ""
 
 #: ../webpack/assets/javascripts/dashboard/index.js:63
 msgid "Remove widget"
+msgstr ""
+
+#: ../webpack/assets/javascripts/dashboard/index.js:64
+msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr ""
 
 #: ../webpack/assets/javascripts/dashboard/index.js:75
@@ -14619,6 +14648,10 @@ msgstr ""
 
 #: ../webpack/assets/javascripts/foreman_compute_resource.js:118
 msgid "Test connection was successful"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_compute_resource.js:125
+msgid "An error occurred while testing the connection: "
 msgstr ""
 
 #: ../webpack/assets/javascripts/foreman_editor.js:10
@@ -14703,13 +14736,48 @@ msgstr ""
 msgid "Please select hosts to perform action on."
 msgstr ""
 
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:144
+msgid "Single host is selected in total"
+msgid_plural "All <b> %d </b> hosts are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 #: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:151
 msgid "Undo selection"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/Architectures/Welcome.js:12
+msgid ""
+"Each entry represents a particular hardware architecture, most commonly <b>x86"
+"_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system fam"
+"ily, which includes <b>sparc</b> based systems."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Architectures/Welcome.js:16
+msgid ""
+"Before you proceed to using Foreman you should provide information about one o"
+"r more architectures."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Architectures/Welcome.js:20
+msgid ""
+"Each architecture can also be associated with more than one operating system a"
+"nd a selector block is provided to allow you to select valid combinations."
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/ShowInlineRequestUuid.js:11
 msgid "Request UUID"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/AuditsList/ShowInlineRequestUuid.js:19
+msgid ""
+"HTTP request UUID, clicking will filter audits for this request. It can also b"
+"e used for searching in application logs."
 msgstr ""
 
 #:
@@ -14737,8 +14805,22 @@ msgstr ""
 msgid "Filter audits for this resource only"
 msgstr ""
 
+#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:8
+msgid ""
+"The authentication process currently requires an LDAP provider, such as <em>Fr"
+"eeIPA</em>, <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:13
+msgid "Foreman can use LDAP based service for user information and authentication."
+msgstr ""
+
 #: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:18
 msgid "Learn more about LDAP authentication in the documentation."
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:21
+msgid "Foreman can use External service for user information and authentication."
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:26
@@ -14815,6 +14897,14 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:56
 #: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/Details.js:9
 msgid "Total"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:7
+msgid ""
+"If you wish to configure Puppet to forward its reports to Foreman, please foll"
+"ow <a href=${getManualURL( '3.5.4PuppetReports' )}>setting up reporting</a> an"
+"d <a href=${getWikiURL('Mail_Notifications')}>e-mail reporting</a>"
 msgstr ""
 
 #:
@@ -14957,6 +15047,16 @@ msgid "Review before build"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:68
+msgid "Build enables host {hostName} to rebuild on next boot"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:78
+msgid "This action will delete this host and all its data (i.e facts, report)"
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:90
 msgid "No errors detected"
 msgstr ""
@@ -14967,6 +15067,20 @@ msgid "Host %s has been removed successfully"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:26
+msgid ""
+"This will delete the VM and its disks. This behavior can be changed via global"
+" setting \"Destroy associated VM on host delete\"."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:29
+msgid ""
+"VM and its disks will not be deleted. This behavior can be changed via global "
+"setting \"Destroy associated VM on host delete\"."
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:39
 msgid "Delete host?"
 msgstr ""
@@ -14974,6 +15088,13 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:40
 msgid "Delete host"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:58
+msgid ""
+"Are you sure you want to delete host {host}? This action is irreversible. {cas"
+"cade}"
 msgstr ""
 
 #:
@@ -15054,6 +15175,11 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:85
 msgid "MAC address"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ExperimentalAlert.js:19
+msgid "This page redesign is experimental and under active development."
 msgstr ""
 
 #:
@@ -15170,8 +15296,18 @@ msgid "Any Location"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:20
+msgid "You are impersonating another user, click to stop the impersonation"
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:42
 msgid "Confirm Action"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:43
+msgid "You are about to stop impersonating other user. Are you sure?"
 msgstr ""
 
 #:
@@ -15314,6 +15450,13 @@ msgid "Setting was successfully updated."
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:53
+msgid ""
+"This setting is encrypted. Empty input field is displayed instead of the setti"
+"ng value."
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:100
 msgid "Not set"
 msgstr ""
@@ -15321,6 +15464,11 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:101
 msgid "Empty"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/SettingsTable/components/SettingCell.js:21
+msgid "This setting is defined in the configuration file %s and is read-only."
 msgstr ""
 
 #:
@@ -15356,6 +15504,13 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:42
 msgid "There was a problem processing the request. Please try again."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:46
+msgid ""
+"To report an issue <a target=\"_blank\" rel=\"noopener noreferrer\" href=${foreman"
+"Url( '/links/issues' )}>click here</a>"
 msgstr ""
 
 #:
@@ -15475,6 +15630,13 @@ msgid "Your New Personal Access Token"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/NewPersonalAccessToken.js:16
+msgid ""
+"Make sure to copy your new personal access token now. You won’t be able to see"
+" it again!"
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:21
 msgid "Cannot be in the past"
 msgstr ""
@@ -15515,6 +15677,13 @@ msgid "Inactive Personal Access Tokens"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:76
+msgid ""
+"Personal Access Tokens allow you to authenticate API requests without using yo"
+"ur password, e.g. "
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensActions.js:34
 msgid "Token was successfully revoked."
 msgstr ""
@@ -15547,6 +15716,12 @@ msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/redux/actions/common/forms.js:42
 msgid "Error submitting data:"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/redux/actions/common/forms.js:90
+msgid ""
+"Oh no! Something went wrong while submitting the form, the server returned the"
+" following error: %s"
 msgstr ""
 
 #:
@@ -15610,6 +15785,13 @@ msgid "Generating ..."
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:19
+msgid ""
+"There was an error while generating the command, see the logs for more informa"
+"tion."
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:26
 msgid "Registration command"
 msgstr ""
@@ -15622,6 +15804,11 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:22
 msgid "no"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:23
+msgid "Inherit from host parameter"
 msgstr ""
 
 #:
@@ -15640,8 +15827,28 @@ msgid "Setup REX"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:43
+msgid ""
+"Setup remote execution. If set to `Yes`, SSH keys will be installed on the reg"
+"istered host. The inherited value is based on the `host_registration_remote_ex"
+"ecution` parameter. It can be inherited e.g. from host group, operating system"
+", organization. When overridden, the selected value will be stored on host par"
+"ameter level."
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:63
 msgid "Setup Insights"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:68
+msgid ""
+"If set to `Yes`, Insights client will be installed and registered on Red Hat f"
+"amily operating systems. It has no effect on other OS families that do not sup"
+"port it. The inherited value is based on the `host_registration_insights` para"
+"meter. It can be inherited e.g. from host group, operating system, organizatio"
+"n. When overridden, the selected value will be stored on host parameter level."
 msgstr ""
 
 #:
@@ -15650,8 +15857,33 @@ msgid "Insecure"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Insecure.js:16
+msgid ""
+"If the target machine does not trust the host SSL certificate, the initial con"
+"nection could be subject to Man in the middle attack. If you accept the risk a"
+"nd do not require the server authenticity to be verified, you can enable insec"
+"ure argument for the initial curl. Note that all subsequent communication is t"
+"hen properly secured, because the initial request deploys the SSL certificate "
+"for the rest of the registration process."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/OperatingSystem.js:79
+msgid ""
+"Required for registration without subscription manager. Can be specified by ho"
+"st group."
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Packages.js:12
 msgid "Install packages"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Packages.js:19
+msgid ""
+"Install packages on the host when registered. Can be set by `host_packages` pa"
+"rameter"
 msgstr ""
 
 #:
@@ -15660,8 +15892,26 @@ msgid "Repository"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:23
+msgid ""
+"A repository to be added before the registration is performed. It can be usefu"
+"l to e.g. make the subscription-manager packages available for the purpose of "
+"the registration. For Red Hat family distributions, this should be the URL of "
+"the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's t"
+"he whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:38
 msgid "Repository GPG key URL"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:42
+msgid ""
+"If packages are GPG signed, the public key can be specified here to verify the"
+" packages signatures. It needs to be specified in the ascii form with the GPG "
+"public key header."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -15672,9 +15922,26 @@ msgid "Smart proxy"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/SmartProxy.js:26
+msgid ""
+"Only smart proxies with enabled `Templates` and `Registration` features are di"
+"splayed."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:29
+msgid "If no organization is set, the default organization of the user is assumed."
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:43
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:70
 msgid "Not specified"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:56
+msgid "If no location is set, the default location of the user is assumed."
 msgstr ""
 
 #:
@@ -15705,6 +15972,11 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:214
 msgid "Advanced"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:226
+msgid "There was an error while loading the data, see the logs for more information."
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:10
