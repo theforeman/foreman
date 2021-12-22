@@ -96,3 +96,13 @@ export const exportURL = () => {
   url.addQuery('format', 'csv');
   return `${url.pathname()}${url.search()}`;
 };
+
+export const createURL = () => {
+  const url = getURI();
+  return `${url.pathname()}/new`;
+};
+
+export const helpURL = () => {
+  const url = getURI();
+  return `${url.pathname()}/help`;
+};

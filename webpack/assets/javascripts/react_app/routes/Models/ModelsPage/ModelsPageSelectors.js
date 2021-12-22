@@ -11,7 +11,6 @@ export const response = {
   perPage: 0,
   search: '',
   sort: {},
-  canCreate: false,
   subtotal: 0,
   message: {},
 };
@@ -59,7 +58,5 @@ export const selectSort = state => {
   return sort;
 };
 
-export const selectCanCreate = state =>
-  selectModelsPageResponse(state).canCreate;
 export const selectSubtotal = state => selectModelsPageResponse(state).subtotal;
 export const selectMessage = state => selectModelsPageResponse(state).message;

@@ -8,13 +8,7 @@ import ModelDeleteModal from './ModelDeleteModal';
 import LoadingPage from '../../../common/LoadingPage';
 import { withRenderHandler } from '../../../../common/HOC';
 
-const ModelsPageContent = ({
-  models,
-  search,
-  sort,
-  fetchAndPush,
-  itemCount,
-}) => {
+const ModelsPageContent = ({ models, sort, fetchAndPush, itemCount }) => {
   const [toDelete, setToDelete] = useState({});
 
   return (
@@ -22,7 +16,6 @@ const ModelsPageContent = ({
       <ModelDeleteModal toDelete={toDelete} fetchAndPush={fetchAndPush} />
       <ModelsTable
         results={models}
-        search={search}
         sortBy={sort.by}
         sortOrder={sort.order}
         getTableItems={fetchAndPush}
@@ -36,14 +29,9 @@ const ModelsPageContent = ({
 
 ModelsPageContent.propTypes = {
   models: PropTypes.array.isRequired,
-  search: PropTypes.string,
   sort: PropTypes.object.isRequired,
   fetchAndPush: PropTypes.func.isRequired,
   itemCount: PropTypes.number.isRequired,
-};
-
-ModelsPageContent.defaultProps = {
-  search: '',
 };
 
 export default withRenderHandler({
