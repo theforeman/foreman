@@ -414,6 +414,9 @@ msgstr "Uma notificação quando um host relata uma configuração de erro"
 msgid "A problem occurred when detecting host type: %s"
 msgstr "Um problema ocorreu enquanto detectando tipo de host: %s"
 
+msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgstr ""
+
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
 msgstr "Um resumo do relatório de alterações de auditoria <br> Filtrado por consulta, se necessário"
 
@@ -699,6 +702,9 @@ msgstr "Um endereço de email é necessário, por favor atualize os dados de sua
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr "Ocorreu um erro ao tentar conexão com o LDAP, verifique se o host de origem de autenticação pode ser alcançado a partir do host Foreman e se está on-line."
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An error occurred."
 msgstr ""
 
@@ -767,6 +773,12 @@ msgstr "Você tem certeza que quer apagar esse host %s? Essa ação é irrevers�
 
 msgid "Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "Tem certeza de que deseja excluir o host %s? Isso excluirá a VM e seus discos, e essa ação é irreversível. Esse comportamento pode ser alterado por meio da configuração global \"Destruir VM associada na exclusão do host\"."
+
+msgid "Are you sure you want to delete host {host}? This action is irreversible. {cascade}"
+msgstr ""
+
+msgid "Are you sure you want to delete this widget from your dashboard?"
+msgstr ""
 
 msgid "Are you sure you want to log out?"
 msgstr "Você está certo que quer fazer logout?"
@@ -1150,6 +1162,9 @@ msgstr ""
 msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax might seem messy. ERB syntax ignores white space. One method of handling the indentation is to declare the ERB tag at the beginning of each new line and then use white space within the ERB tag to outline the relationships within the syntax, for example:"
 msgstr ""
 
+msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
+msgstr ""
+
 msgid "Blank template"
 msgstr "Modelo em branco"
 
@@ -1245,6 +1260,9 @@ msgstr "Compilar Padrão PXE"
 
 msgid "Build duration"
 msgstr "Duração da construção"
+
+msgid "Build enables host {hostName} to rebuild on next boot"
+msgstr ""
 
 msgid "Build errors"
 msgstr "Erros de construção"
@@ -2628,6 +2646,12 @@ msgstr "ERRO ou FATAL"
 msgid "EUI-64"
 msgstr "EUI-64"
 
+msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
+msgstr ""
+
+msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
+msgstr ""
+
 msgid "Each template type rendering capabilities slightly differ, e.g. a provisioning template is always rendered for a single host object and therefore a @host variable is defined. Another example is a report template, where report formatting specific macros are available."
 msgstr ""
 
@@ -3338,6 +3362,12 @@ msgstr "resumo de auditoria do Foreman "
 msgid "Foreman can store information about the networking setup of a host that it’s provisioning, which can be used to configure the virtual machine, assign the correct IP addresses and network resources, then configure the OS correctly during the provisioning process."
 msgstr "O Foreman pode armazenar informações sobre a configuração de rede de um host que está provisionando, o que pode ser usado para configurar a máquina virtual, atribuir o endereço IP e os recursos de rede corretos e, depois, configurar o SO corretamente durante o processo de provisionamento. "
 
+msgid "Foreman can use External service for user information and authentication."
+msgstr ""
+
+msgid "Foreman can use LDAP based service for user information and authentication."
+msgstr ""
+
 msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter."
 msgstr ""
 
@@ -3633,6 +3663,9 @@ msgstr "O boot de UEFI HTTP requer proxy com o recurso httpboot"
 
 msgid "HTTP boot requires proxy with httpboot feature and http_port exposed setting"
 msgstr "O boot de HTTP requer proxy com o recurso httpboot e a configuração http_port exposta"
+
+msgid "HTTP request UUID, clicking will filter audits for this request. It can also be used for searching in application logs."
+msgstr ""
 
 msgid "HTTP(S) proxy"
 msgstr "Proxy de HTTP(S)"
@@ -4397,8 +4430,20 @@ msgstr "Se o ERB é usado em um valor de parâmetro, a validação do valor ocor
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
 msgstr "Se verificado, surgirá um erro caso não haja valor padrão e nenhum coincidente fornecer um valor."
 
+msgid "If no location is set, the default location of the user is assumed."
+msgstr ""
+
+msgid "If no organization is set, the default organization of the user is assumed."
+msgstr ""
+
 msgid "If owner type is specified, owner must be specified too."
 msgstr "Se o tipo de proprietário for especificado, o proprietário também deverá ser especificado."
+
+msgid "If packages are GPG signed, the public key can be specified here to verify the packages signatures. It needs to be specified in the ascii form with the GPG public key header."
+msgstr ""
+
+msgid "If set to `Yes`, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it. The inherited value is based on the `host_registration_insights` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
+msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
 msgstr "Se definido, o relatório agendado será enviado por e-mail. Use '%s' para separar vários endereços de e-mail."
@@ -4410,6 +4455,9 @@ msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and 
 msgstr ""
 "Se o sinalizador gerenciado estiver ativado, os serviços externos como DHCP, DNS, e \n"
 " TFTP serão configurados de acordo com as informações fornecidas."
+
+msgid "If the target machine does not trust the host SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
+msgstr ""
 
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
 msgstr "Se o modelo der suporte à seleção de formato, o usuário poderá escolher o formato de sua preferência.<br> Tipicamente, o modelo precisa usar a macro report_render.<br><br>Se o uso dessa macro não for encontrado no modelo,<br> este campo será desabilitado e o formato de saída padrão será texto sem formatação.<br><br>Se o modelo der suporte à seleção de filtro, mas não usar a macro report_render,<br> para ativar este campo, adicione um comentário ao modelo mencionando o nome da macro, report_render."
@@ -4425,6 +4473,9 @@ msgstr ""
 
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "Se você acha que isso é um erro com o próprio Foreman, por favor, registre um novo problema com"
+
+msgid "If you wish to configure Puppet to forward its reports to Foreman, please follow <a href=${getManualURL( '3.5.4PuppetReports' )}>setting up reporting</a> and <a href=${getWikiURL('Mail_Notifications')}>e-mail reporting</a>"
+msgstr ""
 
 msgid "Ignore facts for domain"
 msgstr "Ignorar fatos do domínio"
@@ -4571,6 +4622,9 @@ msgstr ""
 msgid "Infrastructure"
 msgstr "Infraestrutura"
 
+msgid "Inherit from host parameter"
+msgstr ""
+
 msgid "Inherit parent (%s)"
 msgstr "Pai herdado (%s)"
 
@@ -4620,6 +4674,9 @@ msgid "Insecure"
 msgstr ""
 
 msgid "Install packages"
+msgstr ""
+
+msgid "Install packages on the host when registered. Can be set by `host_packages` parameter"
 msgstr ""
 
 msgid "Installation Media"
@@ -5566,6 +5623,9 @@ msgstr "MailNotification|Assinável"
 msgid "MailNotification|Subscription type"
 msgstr "MailNotification|Tipo de subscrição"
 
+msgid "Make sure to copy your new personal access token now. You won’t be able to see it again!"
+msgstr ""
+
 msgid "Manage"
 msgstr "Gerenciar"
 
@@ -6404,6 +6464,9 @@ msgstr "Nome do SO do facter; ex.: RedHat"
 msgid "Off"
 msgstr "Desligado"
 
+msgid "Oh no! Something went wrong while submitting the form, the server returned the following error: %s"
+msgstr ""
+
 msgid "Ok"
 msgstr "Ok"
 
@@ -6452,6 +6515,9 @@ msgstr "Somente uma declaração de um proxy é permitida"
 
 msgid "Only one volume can be bootable"
 msgstr "Somente um volume pode ser inicializável"
+
+msgid "Only smart proxies with enabled `Templates` and `Registration` features are displayed."
+msgstr ""
 
 msgid "Oops!!"
 msgstr "Oops!!"
@@ -6861,6 +6927,9 @@ msgid "Personal Access Token was successfully created."
 msgstr ""
 
 msgid "Personal Access Tokens"
+msgstr ""
+
+msgid "Personal Access Tokens allow you to authenticate API requests without using your password, e.g. "
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -7546,6 +7615,9 @@ msgstr "Solicitar UUID"
 msgid "Require SSL for smart proxies"
 msgstr "Solicitar SSL para proxies inteligentes"
 
+msgid "Required for registration without subscription manager. Can be specified by host group."
+msgstr ""
+
 msgid "Required unless user is in an external authentication source"
 msgstr "Exigido a menos que o usuário esteja em uma fonte de autenticação externa"
 
@@ -8131,6 +8203,9 @@ msgstr ""
 msgid "Setup REX"
 msgstr ""
 
+msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
+msgstr ""
+
 msgid "Share feedback"
 msgstr ""
 
@@ -8365,6 +8440,11 @@ msgstr "Assinar"
 msgid "Similar to the variable input type, however, it loads the value for a specific smart class parameter. The user must specify the Puppet class and the smart class parameter name when defining the input."
 msgstr ""
 
+msgid "Single host is selected in total"
+msgid_plural "All <b> %d </b> hosts are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Single host on this page is selected."
 msgid_plural "All %{per_page} hosts on this page are selected."
 msgstr[0] "Um único host está selecionado nesta página."
@@ -8455,6 +8535,12 @@ msgstr "Algumas interfaces são inválidas"
 
 msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "Algumas das interfaces são inválidas. Por favor verifique a tabela abaixo."
+
+msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
+msgstr ""
+
+msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
+msgstr ""
 
 msgid "Something went wrong"
 msgstr ""
@@ -9118,6 +9204,9 @@ msgstr ""
 msgid "The algorithm used to encode the JWT in the OpenID provider."
 msgstr "O algoritmo usado para codificar o JWT no provedor do OpenID."
 
+msgid "The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>, <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
+msgstr ""
+
 msgid "The authentication source of your external user groups could not connect to LDAP with the provided credentials. Please verify the credentials are still valid."
 msgstr "A origem de autenticação dos seus grupos externos de usuários não conseguiu se conectar ao LDAP com as credenciais fornecidas. Verifique se as credenciais  ainda são válidas."
 
@@ -9129,6 +9218,9 @@ msgstr "A classe do CPU fornecido nesta máquina. Usada principalmente por compi
 
 msgid "The class of the machine reported by the Open Boot Prom. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -i|cut -f2 -d,"
 msgstr "A classe da máquina reportada pela Open Boot Prom. Usada principalmente por compilações de Sparc Solaris e pode ser deixada em branco por outras arquiteturas. O valor pode ser determinado no Solaris via uname -i|cut -f2 "
+
+msgid "The connection was closed by the browser. please verify that the certificate authority is valid"
+msgstr ""
 
 msgid "The console is not available because the VM is not powered on"
 msgstr "O console não está disponível porque a VM não está ligada."
@@ -9321,6 +9413,12 @@ msgstr "Ocorreu um erro ao listar as MVs: %(status)s %(statusText)s"
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "Ocorreu um erro ao renderizar o modelo %{name}: %{error}"
 
+msgid "There was an error while generating the command, see the logs for more information."
+msgstr ""
+
+msgid "There was an error while loading the data, see the logs for more information."
+msgstr ""
+
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr "Nenhuma interface de ponte ativa foi localizada no libvirt, caso não haja suporte para listagem, o nome da ponte deve ser inserido manualmente (ex. br0) "
 
@@ -9335,6 +9433,9 @@ msgstr "Isso <b>excluirá</b> as VMs vinculadas e seus discos, e é irreversíve
 
 msgid "This IP address has already been reserved in External IPAM"
 msgstr "Esse endereço IP já foi reservado no IPAM externo"
+
+msgid "This action will delete this host and all its data (i.e facts, report)"
+msgstr ""
 
 msgid "This email was sent from Foreman identified by UUID %{uuid}"
 msgstr ""
@@ -9390,6 +9491,9 @@ msgstr "Isso pode ter ter sido causado pela indisponibilidade de algum serviço 
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "Isso pode levar algum tempo, já que todos os hosts, fatos e relatórios também <b>serão excluídos</b>. %s Esse comportamento pode ser alterado por meio da configuração global \"Destruir VM associada na exclusão do host\"."
 
+msgid "This page redesign is experimental and under active development."
+msgstr ""
+
 msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
 msgstr ""
 
@@ -9410,6 +9514,12 @@ msgstr "O serviço está disponivel para usuários não autenticados."
 
 msgid "This service is only available for authenticated users"
 msgstr "O serviço está disponivel somente para usuários autenticados."
+
+msgid "This setting is defined in the configuration file %s and is read-only."
+msgstr ""
+
+msgid "This setting is encrypted. Empty input field is displayed instead of the setting value."
+msgstr ""
 
 msgid "This template is locked and may not be removed."
 msgstr "Este modelo está travado e não pode ser removido."
@@ -9437,6 +9547,9 @@ msgid "This value is used also as the host's primary interface name."
 msgstr "Este valor também é usado como o nome de interface primário do host. "
 
 msgid "This will change the host power status, are you sure?"
+msgstr ""
+
+msgid "This will delete the VM and its disks. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
@@ -9484,6 +9597,9 @@ msgid ""
 msgstr ""
 "Para atualizar a lista de usuários, clique na guia \"Grupos\n"
 "                externos\" e, depois, em \"Atualizar\"."
+
+msgid "To report an issue <a target=\"_blank\" rel=\"noopener noreferrer\" href=${foremanUrl( '/links/issues' )}>click here</a>"
+msgstr ""
 
 msgid "Today"
 msgstr "Hoje"
@@ -10336,6 +10452,9 @@ msgstr "Atributos da VM (%s)"
 msgid "VM already associated with a host"
 msgstr "MV já está associada ao host"
 
+msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
+msgstr ""
+
 msgid "VM associated to host %s"
 msgstr "MV já está associada ao host %s"
 
@@ -10475,6 +10594,9 @@ msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
 msgstr[0] "Aviso! Isto removerá %{name} de %{number} usuário. Tem certeza?"
 msgstr[1] "Aviso! Isto removerá %{name} de %{number} usuários. Tem certeza?"
+
+msgid "Warning: This combination of loader and OS might not be able to boot."
+msgstr ""
 
 msgid "Warning: This will delete this host and all of its data!"
 msgstr "Aviso: Isto irá remover este host e todos os seus dados!"
@@ -10670,11 +10792,17 @@ msgstr ""
 msgid "You are about to delete %s. Are you sure?"
 msgstr ""
 
+msgid "You are about to stop impersonating other user. Are you sure?"
+msgstr ""
+
 msgid "You are about to unlock a locked template."
 msgstr "Você está prestes a desbloquear um modelo bloqueado. "
 
 msgid "You are already impersonating, click the impersonation icon in the top bar before starting a new impersonation."
 msgstr "Você já está representando, clique no ícone de representação na barra superior antes de iniciar uma nova representação."
+
+msgid "You are impersonating another user, click to stop the impersonation"
+msgstr ""
 
 msgid "You are not authorized to lock templates."
 msgstr "Você não está autorizado a bloquear modelos. "

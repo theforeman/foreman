@@ -377,6 +377,9 @@ msgstr "ホストが設定エラーをレポートする際の通知"
 msgid "A problem occurred when detecting host type: %s"
 msgstr "ホストタイプの検出時に問題が発生しました: %s"
 
+msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgstr ""
+
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
 msgstr "監査変更レポートの概要 <br> 必要に応じてクエリー別にフィルタリング"
 
@@ -662,6 +665,9 @@ msgstr "メールアドレスが必要です。アカウント詳細を更新し
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr "LDAP に接続を試行中にエラーが発生しました。認証ソースホストが Foreman ホストから到達でき、オンラインであることを確認してください。"
 
+msgid "An error occurred while testing the connection: "
+msgstr ""
+
 msgid "An error occurred."
 msgstr "エラーが発生しました。"
 
@@ -730,6 +736,12 @@ msgstr "ホスト %s を削除してもよろしいですか? この操作を取
 
 msgid "Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "ホスト %s を削除してもよろしいですか? これにより、仮想マシンとそのディスクが削除されます。この動作はグローバル設定「ホストの削除時に関連の仮想マシンを破棄」から変更できます。"
+
+msgid "Are you sure you want to delete host {host}? This action is irreversible. {cascade}"
+msgstr ""
+
+msgid "Are you sure you want to delete this widget from your dashboard?"
+msgstr ""
 
 msgid "Are you sure you want to log out?"
 msgstr "ログアウトしてもよろしいですか?"
@@ -1112,6 +1124,9 @@ msgstr "この操作はリスクを伴い、パフォーマンスおよびセキ
 msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax might seem messy. ERB syntax ignores white space. One method of handling the indentation is to declare the ERB tag at the beginning of each new line and then use white space within the ERB tag to outline the relationships within the syntax, for example:"
 msgstr "ERB タグの長さが異なるため、ERB 構文にインデントを入れると見にくい場合があります。ERB 構文は空白を無視します。インデントを処理する方法の 1 つは、新しい行の各行頭に ERB タグを宣言し、ERB タグ内の空白を使用して構文内の関係を説明することです。以下に例を示します。"
 
+msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
+msgstr ""
+
 msgid "Blank template"
 msgstr "空白のテンプレート"
 
@@ -1207,6 +1222,9 @@ msgstr "PXE デフォルトのビルド"
 
 msgid "Build duration"
 msgstr "ビルド期間"
+
+msgid "Build enables host {hostName} to rebuild on next boot"
+msgstr ""
 
 msgid "Build errors"
 msgstr "ビルドエラー"
@@ -2589,6 +2607,12 @@ msgstr "ERROR または FATAL"
 msgid "EUI-64"
 msgstr "EUI-64"
 
+msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
+msgstr ""
+
+msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
+msgstr ""
+
 msgid "Each template type rendering capabilities slightly differ, e.g. a provisioning template is always rendered for a single host object and therefore a @host variable is defined. Another example is a report template, where report formatting specific macros are available."
 msgstr "レンダリング機能はテンプレートタイプごとに若干異なります。たとえば、プロビジョニングは常に、単一ホストオブジェクト向けにレンダリングされるので、@host 変数が定義されます。別の例として、レポート形式固有のマクロが利用できるレポートのテンプレートもあります。"
 
@@ -3299,6 +3323,12 @@ msgstr "Foreman 監査概要"
 msgid "Foreman can store information about the networking setup of a host that it’s provisioning, which can be used to configure the virtual machine, assign the correct IP addresses and network resources, then configure the OS correctly during the provisioning process."
 msgstr "Foreman は、プロビジョニングしているホストのネットワーク設定の情報を保存でき、この情報を使用してプロビジョニングプロセス時の仮想マシンの設定、適切な IP アドレスとネットワークリソースの割り当て、また OS の正しい設定ができます。"
 
+msgid "Foreman can use External service for user information and authentication."
+msgstr ""
+
+msgid "Foreman can use LDAP based service for user information and authentication."
+msgstr ""
+
 msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter."
 msgstr "Foreman は、ドメインと DNS ゾーンを同じものと解釈するので、管理予定のサイトにあるマシンの形式がすべて hostname.somewhere.com の場合には、ドメインは somewhere.com になります。これにより、Foreman は Puppet 変数をドメイン/サイトに関連付けて、対象のサイトにあるマシンが作成した外部ノード要求に対して、この変数を自動的に追加できるようになります。完全名のフィールドは、ドメインを参照するレポートやその他のページで人が判読できるように使用されるだけでなく、外部ノードパラメーターとしても使用できます。"
 
@@ -3594,6 +3624,9 @@ msgstr "HTTP UEFI ブートには、httpboot 機能を備えたプロキシー�
 
 msgid "HTTP boot requires proxy with httpboot feature and http_port exposed setting"
 msgstr "HTTP ブートには、httpboot 機能と http_port 公開設定を備えたプロキシーが必要です"
+
+msgid "HTTP request UUID, clicking will filter audits for this request. It can also be used for searching in application logs."
+msgstr ""
 
 msgid "HTTP(S) proxy"
 msgstr "HTTP(S) プロキシー"
@@ -4356,8 +4389,20 @@ msgstr "ERB をパラメーター値で使用する場合、値は ENC 要求時
 msgid "If checked, will raise an error if there is no default value and no matcher provide a value."
 msgstr "チェックが付けられていると、デフォルト値がなく Matcher が値を指定しない場合にエラーが出されます。"
 
+msgid "If no location is set, the default location of the user is assumed."
+msgstr ""
+
+msgid "If no organization is set, the default organization of the user is assumed."
+msgstr ""
+
 msgid "If owner type is specified, owner must be specified too."
 msgstr "所有者タイプが指定されている場合は、所有者も指定する必要があります。"
+
+msgid "If packages are GPG signed, the public key can be specified here to verify the packages signatures. It needs to be specified in the ascii form with the GPG public key header."
+msgstr ""
+
+msgid "If set to `Yes`, Insights client will be installed and registered on Red Hat family operating systems. It has no effect on other OS families that do not support it. The inherited value is based on the `host_registration_insights` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
+msgstr ""
 
 msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
 msgstr "設定している場合には、スケジュールされたレポートがメールで配信されます。「%s」を使用して、複数のメールアドレスを区切ります。"
@@ -4367,6 +4412,9 @@ msgstr "管理フラグが無効になっている場合は、サービスがサ
 
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr "管理フラグが有効になっている場合は、DHCP、DNS、および TFTP といった外部サービスは、提供された情報に従って設定されます。"
+
+msgid "If the target machine does not trust the host SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
+msgstr ""
 
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
 msgstr "テンプレートで形式を選択できる場合には、任意の形式を選択できます。<br>通常、テンプレートは report_render マクロを使用する必要があります。<br><br>テンプレートでマクロが使用されていない場合には<br>このフィールドが無効になっており、出力形式がデフォルトのプレーンテキストに設定されています。<br><br>テンプレートでフィルターの選択をサポートしているが、report_render マクロを使用していない場合には、<br>report_render のマクロ名が記載されているテンプレートのコメントを追加して、このフィールドを有効にしてください。"
@@ -4382,6 +4430,9 @@ msgstr "この設定をファイルで変更する必要がある場合は、フ
 
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "これが Foreman 自体のエラーであると思われる場合は、新規の問題として提出してください。"
+
+msgid "If you wish to configure Puppet to forward its reports to Foreman, please follow <a href=${getManualURL( '3.5.4PuppetReports' )}>setting up reporting</a> and <a href=${getWikiURL('Mail_Notifications')}>e-mail reporting</a>"
+msgstr ""
 
 msgid "Ignore facts for domain"
 msgstr "ドメインのファクトを無視"
@@ -4528,6 +4579,9 @@ msgstr "更新された設定に関する情報"
 msgid "Infrastructure"
 msgstr "インフラストラクチャー"
 
+msgid "Inherit from host parameter"
+msgstr ""
+
 msgid "Inherit parent (%s)"
 msgstr "親の継承 (%s)"
 
@@ -4578,6 +4632,9 @@ msgstr "安全でない"
 
 msgid "Install packages"
 msgstr "パッケージのインストール"
+
+msgid "Install packages on the host when registered. Can be set by `host_packages` parameter"
+msgstr ""
 
 msgid "Installation Media"
 msgstr "インストールメディア"
@@ -5523,6 +5580,9 @@ msgstr "サブスクライブ可能"
 msgid "MailNotification|Subscription type"
 msgstr "サブスクリプションタイプ"
 
+msgid "Make sure to copy your new personal access token now. You won’t be able to see it again!"
+msgstr ""
+
 msgid "Manage"
 msgstr "管理"
 
@@ -6361,6 +6421,9 @@ msgstr "Facter からの OS 名 (例: RedHat)"
 msgid "Off"
 msgstr "オフ"
 
+msgid "Oh no! Something went wrong while submitting the form, the server returned the following error: %s"
+msgstr ""
+
 msgid "Ok"
 msgstr "OK"
 
@@ -6409,6 +6472,9 @@ msgstr "プロキシーの 1 つの宣言のみが許可されます"
 
 msgid "Only one volume can be bootable"
 msgstr "1 つのボリュームのみがブート可能です"
+
+msgid "Only smart proxies with enabled `Templates` and `Registration` features are displayed."
+msgstr ""
 
 msgid "Oops!!"
 msgstr "エラー!!"
@@ -6819,6 +6885,9 @@ msgstr "パーソナルアクセストークンが正常に作成されました
 
 msgid "Personal Access Tokens"
 msgstr "パーソナルアクセストークン"
+
+msgid "Personal Access Tokens allow you to authenticate API requests without using your password, e.g. "
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Personal access token"
@@ -7501,6 +7570,9 @@ msgstr "UUID の要求"
 msgid "Require SSL for smart proxies"
 msgstr "Smart Proxy に SSL を必要とする"
 
+msgid "Required for registration without subscription manager. Can be specified by host group."
+msgstr ""
+
 msgid "Required unless user is in an external authentication source"
 msgstr "ユーザーが外部認証ソースに含まれていない場合に必須"
 
@@ -8083,6 +8155,9 @@ msgstr "Insights の設定"
 msgid "Setup REX"
 msgstr "REX のセットアップ"
 
+msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
+msgstr ""
+
 msgid "Share feedback"
 msgstr ""
 
@@ -8317,6 +8392,11 @@ msgstr "サイン"
 msgid "Similar to the variable input type, however, it loads the value for a specific smart class parameter. The user must specify the Puppet class and the smart class parameter name when defining the input."
 msgstr "ただし、変数入力タイプと同様に、特定のスマートクラスパラメーターの値を読み込みます。ユーザーは、入力を定義する場合には Puppet クラスと、スマートクラスパラメーター名を指定する必要があります。"
 
+msgid "Single host is selected in total"
+msgid_plural "All <b> %d </b> hosts are selected."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Single host on this page is selected."
 msgid_plural "All %{per_page} hosts on this page are selected."
 msgstr[0] "このページのホストが 1 台選択されています。"
@@ -8406,6 +8486,12 @@ msgstr "一部のインターフェースが無効です"
 
 msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "一部のインターフェースが無効です。以下の表を確認してください。"
+
+msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
+msgstr ""
+
+msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
+msgstr ""
 
 msgid "Something went wrong"
 msgstr ""
@@ -9068,6 +9154,9 @@ msgstr "ERB タグ内の Ruby コードには通常、式が含まれます。�
 msgid "The algorithm used to encode the JWT in the OpenID provider."
 msgstr "OpenID プロバイダーで JWT をエンコードするために使用されるアルゴリズム。"
 
+msgid "The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>, <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
+msgstr ""
+
 msgid "The authentication source of your external user groups could not connect to LDAP with the provided credentials. Please verify the credentials are still valid."
 msgstr "外部ユーザーグループの認証ソースは、指定の認証情報で LDAP に接続できませんでした。認証情報がまだ有効であることを確認してください。"
 
@@ -9079,6 +9168,9 @@ msgstr "このマシンに搭載されている CPU のクラスです。ハー�
 
 msgid "The class of the machine reported by the Open Boot Prom. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -i|cut -f2 -d,"
 msgstr "Open Boot Prom でレポートされるマシンのクラスです。このベンダークラスは主に、Sparc Solaris ビルドで使用し、他のアーキテクチャーの場合は空白のままにしてください。この値は、Solaris で uname -i|cut -f2 -d, を実行して確認できます。"
+
+msgid "The connection was closed by the browser. please verify that the certificate authority is valid"
+msgstr ""
 
 msgid "The console is not available because the VM is not powered on"
 msgstr "仮想マシンの電源がオンになっていないため、コンソールは利用できません"
@@ -9269,6 +9361,12 @@ msgstr "%(status)s を表示中にエラーが発生しました: %(statusText)s
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "%{name} テンプレートのレンダリング中にエラーが発生しました: %{error}"
 
+msgid "There was an error while generating the command, see the logs for more information."
+msgstr ""
+
+msgid "There was an error while loading the data, see the logs for more information."
+msgstr ""
+
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr "libvirt にアクティブなブリッジインターフェースがありませんでした。一覧表示がサポートされていない場合は、手動でブリッジ名を入力できます (例: br0)"
 
@@ -9283,6 +9381,9 @@ msgstr "この操作では、リンクされている仮想マシンとそのデ
 
 msgid "This IP address has already been reserved in External IPAM"
 msgstr "この IP アドレスはすでに外部 IPAM で確保されています。"
+
+msgid "This action will delete this host and all its data (i.e facts, report)"
+msgstr ""
 
 msgid "This email was sent from Foreman identified by UUID %{uuid}"
 msgstr "このメールは UUID %{uuid} によって特定される Foreman から送信されました。"
@@ -9338,6 +9439,9 @@ msgstr "これは、必要なサービスが利用できない、API 呼び出�
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "ホスト、ファクト、レポートすべてが <b>削除されるので</b>、しばらく時間がかかる可能性があります。%sこの動きはグローバル設定「ホストの削除時に関連の仮想マシンを破棄」から変更できます。"
 
+msgid "This page redesign is experimental and under active development."
+msgstr ""
+
 msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
 msgstr "これは、<code><%</code> の機能と同じですが、テンプレートが実行されると、コード出力がテンプレートに挿入されます。これは変数の置き換えに便利です。以下に例を示します。"
 
@@ -9358,6 +9462,12 @@ msgstr "このサービスは未認証ユーザーが使用できます"
 
 msgid "This service is only available for authenticated users"
 msgstr "このサービスは認証ユーザーのみが使用できます"
+
+msgid "This setting is defined in the configuration file %s and is read-only."
+msgstr ""
+
+msgid "This setting is encrypted. Empty input field is displayed instead of the setting value."
+msgstr ""
 
 msgid "This template is locked and may not be removed."
 msgstr "このテンプレートはロックされており、削除することができません。"
@@ -9385,6 +9495,9 @@ msgid "This value is used also as the host's primary interface name."
 msgstr "この値は、ホストのプライマリーインターフェース名としても使用されます。"
 
 msgid "This will change the host power status, are you sure?"
+msgstr ""
+
+msgid "This will delete the VM and its disks. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
@@ -9432,6 +9545,9 @@ msgid ""
 msgstr ""
 "ユーザー一覧を更新するには、\"External groups\" タブ、\n"
 "                \"Refresh\" の順にクリックしてください。"
+
+msgid "To report an issue <a target=\"_blank\" rel=\"noopener noreferrer\" href=${foremanUrl( '/links/issues' )}>click here</a>"
+msgstr ""
 
 msgid "Today"
 msgstr "今日"
@@ -10283,6 +10399,9 @@ msgstr "VM 属性 (%s)"
 msgid "VM already associated with a host"
 msgstr "ホストにすでに関連付けられている VM"
 
+msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
+msgstr ""
+
 msgid "VM associated to host %s"
 msgstr "ホスト %s に関連付けられている VM"
 
@@ -10421,6 +10540,9 @@ msgstr "警告! "
 msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
 msgstr[0] "警告! これにより、%{number} 人のユーザーから %{name} が削除されます。続行してもよろしいでしょうか?"
+
+msgid "Warning: This combination of loader and OS might not be able to boot."
+msgstr ""
 
 msgid "Warning: This will delete this host and all of its data!"
 msgstr "警告: これにより、このホストとそのデータのすべてが削除されます!"
@@ -10622,11 +10744,17 @@ msgstr ""
 msgid "You are about to delete %s. Are you sure?"
 msgstr "%s を削除しようとしています。削除してもよろしいでしょうか?"
 
+msgid "You are about to stop impersonating other user. Are you sure?"
+msgstr ""
+
 msgid "You are about to unlock a locked template."
 msgstr "ロックされたテンプレートをロック解除します。"
 
 msgid "You are already impersonating, click the impersonation icon in the top bar before starting a new impersonation."
 msgstr "すでにユーザーを切り替えています。新たに別のユーザーに切り替える前に、トップバーのユーザーアイコンをクリックしてください。"
+
+msgid "You are impersonating another user, click to stop the impersonation"
+msgstr ""
 
 msgid "You are not authorized to lock templates."
 msgstr "テンプレートをロックする権限がありません。"
