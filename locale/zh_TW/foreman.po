@@ -24,9 +24,6 @@ msgstr ""
 msgid " Documentation"
 msgstr ""
 
-msgid " Remove"
-msgstr "移除"
-
 msgid " and it is highly recommended to also attach the foreman-debug output."
 msgstr ""
 
@@ -38,9 +35,6 @@ msgstr ""
 
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
-
-msgid "%s - Press Shift-F12 to release the cursor."
-msgstr "%s - 請點擊 Shift + F12 來釋放滑鼠"
 
 msgid "%s - The following hosts are about to be changed"
 msgstr "%s - 這些主機將要被變更"
@@ -60,9 +54,6 @@ msgstr[1] ""
 
 msgid "%s Parameters updated, see below for more information"
 msgstr "%s 參數已經更新, 請從下方取得更多資訊"
-
-msgid "%s Template"
-msgstr "%s 範本"
 
 msgid "%s VM failed while processing: check logs for more details."
 msgid_plural "%s VMs failed while processing: check logs for more details."
@@ -115,9 +106,6 @@ msgid_plural "%s months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "%s out of sync disabled"
-msgstr ""
-
 msgid "%s selected hosts"
 msgstr "%s 選擇的主機"
 
@@ -135,9 +123,6 @@ msgid "%s widget loading..."
 msgstr ""
 
 msgid "%s you had selected as your context has been deleted"
-msgstr ""
-
-msgid "%s, check the 'SSL CA file' in Settings > Authentication"
 msgstr ""
 
 msgid "%{action} %{vm}"
@@ -209,6 +194,9 @@ msgstr "%{match} 與目前的主機群組不相符"
 
 msgid "%{name} changed from %{label1} to %{label2}"
 msgstr "%{name} 已經從 %{label1} 變更為 %{label2}"
+
+msgid "%{name} value is a \"%{type}\", expected \"resource\" value type"
+msgstr ""
 
 msgid "%{object_name} is a %{object_class}, expected a subnet"
 msgstr ""
@@ -291,6 +279,9 @@ msgstr ""
 
 msgid "(optional) IAM Role for Fog to use when creating this image."
 msgstr "(選擇性) 當Fog 用來創建此VM時使用的 IAM 角色."
+
+msgid "(updated %s)"
+msgstr ""
 
 msgid "*Clear %s proxy*"
 msgstr "*清除 %s 代理*"
@@ -485,12 +476,6 @@ msgstr "新增卷冊"
 msgid "Add a CD-ROM drive to the virtual machine."
 msgstr ""
 
-msgid "Add a Puppet class to host"
-msgstr "新增 Puppet 類別至主機"
-
-msgid "Add a Puppet class to host group"
-msgstr "新增 Puppet 類別至主機群組"
-
 msgid "Add a template combination"
 msgstr "新增範本組合"
 
@@ -536,9 +521,6 @@ msgstr "額外運算資源特定的屬性。"
 msgid "Additional information about this host"
 msgstr "有關於這部主機的額外資訊"
 
-msgid "Address to connect to"
-msgstr ""
-
 msgid "Admin permissions required"
 msgstr "需要 Admin 權限"
 
@@ -581,9 +563,6 @@ msgstr "別名或 VLAN 裝置"
 msgid "All"
 msgstr "全部"
 
-msgid "All Audits"
-msgstr ""
-
 msgid "All Hosts"
 msgstr ""
 
@@ -591,6 +570,12 @@ msgid "All Reports"
 msgstr "所有報告"
 
 msgid "All Ruby code is enclosed within <code><&#37; &#37;></code> in an ERB template. The code is executed when the template is rendered. It can contain Ruby control flow structures as well as application-specific macros and variables. For example:"
+msgstr ""
+
+msgid "All Statuses are OK"
+msgstr ""
+
+msgid "All audits"
 msgstr ""
 
 msgid "All compute resources"
@@ -752,9 +737,6 @@ msgstr "確定要刪除主機 %s？這動作是不可逆的。"
 msgid "Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
-msgid "Are you sure you want to delete this widget from your dashboard?"
-msgstr "確定要從面板刪除此小工具？"
-
 msgid "Are you sure you want to log out?"
 msgstr ""
 
@@ -811,6 +793,12 @@ msgstr "指定組織"
 
 msgid "Assign Selected Hosts"
 msgstr "指定選擇的主機"
+
+msgid "Assign a host to the Foreman instance"
+msgstr ""
+
+msgid "Assign a host to the smart proxy"
+msgstr ""
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
@@ -1296,6 +1284,9 @@ msgstr ""
 msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
 msgstr ""
 
+msgid "Can not load datacenters due to an incorrect user name or password."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr "無法刪除內部管理帳號"
 
@@ -1377,8 +1368,8 @@ msgstr ""
 msgid "Certificate path for GCE only"
 msgstr ""
 
-msgid "Certificate that Foreman will use to encrypt websockets "
-msgstr "Foreman 會使用來加密 websocket 的憑證"
+msgid "Certificate path that Foreman will use to encrypt websockets"
+msgstr ""
 
 msgid "Certificates"
 msgstr "憑證"
@@ -1437,6 +1428,9 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
+msgid "Clear Host's Status"
+msgstr ""
+
 msgid "Clear sub-status of host"
 msgstr ""
 
@@ -1448,12 +1442,6 @@ msgstr "點選運算資源的連結來編輯其預設 VM 屬性。"
 
 msgid "Click to log in again"
 msgstr ""
-
-msgid "Click to remove %s"
-msgstr "點選以移除 %s"
-
-msgid "Click to remove config group"
-msgstr "點選以移除配置群組"
 
 msgid "Client Email"
 msgstr "客戶端電子郵件"
@@ -1617,14 +1605,6 @@ msgstr ""
 msgid "Config Retrieval"
 msgstr "配置擷取"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Config group"
-msgstr "配置群組"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "ConfigGroup|Name"
-msgstr "名稱"
-
 msgid "Configuration"
 msgstr "組態"
 
@@ -1667,8 +1647,8 @@ msgstr "偵測到了衝突"
 msgid "Connected"
 msgstr ""
 
-msgid "Connected (unencrypted) to: %s"
-msgstr "已連（未加密）至：%s"
+msgid "Connected to: %s"
+msgstr ""
 
 msgid "Connecting (unencrypted) to: %s"
 msgstr "正在連線（未加密）至：%s"
@@ -1718,7 +1698,7 @@ msgstr ""
 msgid "Cores per socket"
 msgstr "每個插槽的核心數"
 
-msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."
+msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). A higher value is safer but verification is slower, particularly for stateless API calls and UI logins. A password change is needed effect existing passwords."
 msgstr ""
 
 msgid "Could not add permissions to Manager and Viewer roles: %s"
@@ -1895,9 +1875,6 @@ msgstr ""
 msgid "Create a Personal Access Token for a user"
 msgstr ""
 
-msgid "Create a Puppet class"
-msgstr "建立 Puppet 類別"
-
 msgid "Create a bookmark"
 msgstr "建立書籤"
 
@@ -1909,9 +1886,6 @@ msgstr "建立運算設定檔"
 
 msgid "Create a compute resource"
 msgstr "建立運算資源"
-
-msgid "Create a config group"
-msgstr "建立配置群組"
 
 msgid "Create a default template combination for an operating system"
 msgstr "為作業系統建立預設範本"
@@ -1985,9 +1959,6 @@ msgstr "建立子網路"
 msgid "Create a template input"
 msgstr "建立範本輸入"
 
-msgid "Create a trend counter"
-msgstr ""
-
 msgid "Create a user"
 msgstr "建立使用者"
 
@@ -2003,9 +1974,6 @@ msgstr "建立 LDAP 認證來源"
 msgid "Create an architecture"
 msgstr "建立架構"
 
-msgid "Create an environment"
-msgstr "建立環境"
-
 msgid "Create an external user group linked to a user group"
 msgstr "建立連往使用者群組的外部使用者群組"
 
@@ -2018,13 +1986,13 @@ msgstr "在主機上建立介面"
 msgid "Create an operating system"
 msgstr "建立作業系統"
 
-msgid "Create an override value for a specific smart class parameter"
-msgstr "為特定的智慧型類別參數建立置換值"
-
 msgid "Create autosign entry"
 msgstr ""
 
 msgid "Create image"
+msgstr ""
+
+msgid "Create model"
 msgstr ""
 
 msgid "Create new boot volume from image"
@@ -2041,6 +2009,9 @@ msgstr "為 %s 建立領域項目"
 
 msgid "Created"
 msgstr "已建立"
+
+msgid "Created %s by %s"
+msgstr ""
 
 msgid "Creates a table preference for a given table"
 msgstr ""
@@ -2071,18 +2042,6 @@ msgstr ""
 
 msgid "DB pending seed"
 msgstr "DB 尚未處理的種子"
-
-msgid "DEPRECATED: Add a template combination"
-msgstr ""
-
-msgid "DEPRECATED: List template combination"
-msgstr ""
-
-msgid "DEPRECATED: Show template combination"
-msgstr ""
-
-msgid "DEPRECATED: Update template combination"
-msgstr ""
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -2174,7 +2133,7 @@ msgstr "預設值"
 msgid "Default 'Host initial configuration' template"
 msgstr ""
 
-msgid "Default 'Host initial configuration' template, automatically assigned when new operating system is created"
+msgid "Default 'Host initial configuration' template, automatically assigned when a new operating system is created"
 msgstr ""
 
 msgid "Default Behavior"
@@ -2197,9 +2156,6 @@ msgstr ""
 
 msgid "Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"
 msgstr ""
-
-msgid "Default Puppet environment"
-msgstr "預設 Puppet 環境"
 
 msgid "Default VNC Keyboard"
 msgstr ""
@@ -2282,9 +2238,6 @@ msgstr "刪除 %s 的 PuppetCA 憑證"
 msgid "Delete TFTP %{kind} config for %{host}"
 msgstr ""
 
-msgid "Delete a Puppet class"
-msgstr "刪除 Puppet 類別"
-
 msgid "Delete a Virtual Machine"
 msgstr ""
 
@@ -2296,9 +2249,6 @@ msgstr "刪除運算設定檔"
 
 msgid "Delete a compute resource"
 msgstr "刪除運算資源"
-
-msgid "Delete a config group"
-msgstr "刪除配置群組"
 
 msgid "Delete a default template combination for an operating system"
 msgstr "刪除一個作業系統的預設範本組合"
@@ -2381,9 +2331,6 @@ msgstr "刪除範本組合"
 msgid "Delete a template input"
 msgstr "刪除範本輸入"
 
-msgid "Delete a trend counter"
-msgstr ""
-
 msgid "Delete a user"
 msgstr "刪除使用者"
 
@@ -2423,9 +2370,6 @@ msgstr ""
 msgid "Delete an architecture"
 msgstr "刪除架構"
 
-msgid "Delete an environment"
-msgstr "刪除環境"
-
 msgid "Delete an external user group"
 msgstr "刪除外部使用者群組"
 
@@ -2435,14 +2379,17 @@ msgstr "刪除映像檔"
 msgid "Delete an operating system"
 msgstr "刪除作業系統"
 
-msgid "Delete an override value for a specific smart class parameter"
-msgstr "刪除特定智慧型類別參數的置換值"
-
 msgid "Delete autosign entry"
 msgstr ""
 
 msgid "Delete filter?"
 msgstr "刪除篩選器？"
+
+msgid "Delete host"
+msgstr ""
+
+msgid "Delete host?"
+msgstr ""
 
 msgid "Delete realm entry for %s"
 msgstr "刪除 %s 的領域項目"
@@ -2514,9 +2461,6 @@ msgid "Disable alerts for selected hosts"
 msgstr "停用所選主機的警示"
 
 msgid "Disable all filters overriding"
-msgstr ""
-
-msgid "Disable host configuration status turning to out of sync for %s after report does not arrive within configured interval"
 msgstr ""
 
 msgid "Disable overriding"
@@ -2635,10 +2579,10 @@ msgstr ""
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
 msgstr "偵測到重複的輸入：%{duplicated_inputs}"
 
-msgid "Duration in minutes after servers are classed as out of sync. You can override this on hosts by adding a parameter \"outofsync_interval\"."
+msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr ""
 
-msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
+msgid "Duration in minutes after servers are classed as out of sync. You can override this on hosts by adding a parameter \"outofsync_interval\"."
 msgstr ""
 
 msgid "EC2"
@@ -2646,9 +2590,6 @@ msgstr "EC2"
 
 msgid "EFI"
 msgstr ""
-
-msgid "ENC environment"
-msgstr "ENC 環境"
 
 msgid "ERROR or FATAL"
 msgstr "ERROR 或 FATAL"
@@ -2690,6 +2631,9 @@ msgid "Edit this host"
 msgstr ""
 
 msgid "Editor"
+msgstr ""
+
+msgid "Email"
 msgstr ""
 
 msgid "Email Preferences"
@@ -2767,10 +2711,6 @@ msgstr "IP 自動建議的結尾 IP 位址"
 msgid "Entries per page"
 msgstr "每頁的項目"
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment"
-msgstr "環境"
-
 msgid "Environment IDs"
 msgstr "環境 ID"
 
@@ -2785,10 +2725,6 @@ msgstr "包含了一個客戶端 SSL 憑證之驗證狀態的環境變數"
 
 msgid "Environments got deprecated from this endpoint."
 msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Environment|Name"
-msgstr "名稱"
 
 msgid "Error"
 msgstr "錯誤"
@@ -2828,6 +2764,9 @@ msgstr ""
 
 msgid "Error removing widget from dashboard."
 msgstr "從面板移除小工具時發生錯誤。"
+
+msgid "Error statuses"
+msgstr ""
 
 msgid "Error submitting data:"
 msgstr ""
@@ -3296,14 +3235,14 @@ msgstr "項目不相符時修正 %s"
 msgid "Fix All Mismatches"
 msgstr "修正所有不相符項目"
 
-msgid "Fix DB cache"
-msgstr "修正 DB 快取"
-
-msgid "Fix DB cache on next Foreman restart"
-msgstr "在下次 Foreman 重新啟動時修正 DB 快取"
-
 msgid "Fix Mismatches"
 msgstr "修正不相符的項目"
+
+msgid "Flag to indicate whether to include status or not"
+msgstr ""
+
+msgid "Flag to indicate whether to include version or not"
+msgstr ""
 
 msgid "Flavor"
 msgstr "類別"
@@ -3350,9 +3289,6 @@ msgstr ""
 msgid "For values of type search, this is the resource the value searches in"
 msgstr ""
 
-msgid "Force a Puppet agent run on the host"
-msgstr "強制 Puppet 代理程式在主機上執行"
-
 msgid "Foreman API v2 is currently the default API version."
 msgstr "目前 Foreman API v2 是預設的 API 版本。"
 
@@ -3386,6 +3322,10 @@ msgstr ""
 msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr ""
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Foreman internal"
+msgstr ""
+
 msgid "Foreman matchers will be inherited by children when evaluating smart class parameters for hostgroups, organizations and locations"
 msgstr ""
 
@@ -3394,6 +3334,10 @@ msgstr "Foreman 現在會為 %s 管理組建循環"
 
 msgid "Foreman now no longer manages the build cycle for %s"
 msgstr "Foreman 現在已不再會為 %s 管理組建循環"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Foreman register/registration facet"
+msgstr ""
 
 msgid "Foreman report creation time is <em>%s</em>"
 msgstr "Foreman 回報建立時間為 <em>%s</em>"
@@ -3422,7 +3366,7 @@ msgstr ""
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman 將會在佈建新主機時自動化憑證簽署"
 
-msgid "Foreman will block user login after this number of failed login attempts for 5 minutes from offending IP address. Set to 0 to disable bruteforce protection"
+msgid "Foreman will block user logins from an IP address after this number of failed login attempts for 5 minutes. Set to 0 to disable bruteforce protection"
 msgstr ""
 
 msgid "Foreman will create the host when a report is received"
@@ -3431,20 +3375,14 @@ msgstr "Foreman 將會在收到回報後建立主機"
 msgid "Foreman will create the host when new facts are received"
 msgstr "Foreman 將會在收到新詳情後建立主機"
 
-msgid "Foreman will default to this puppet environment if it cannot auto detect one"
-msgstr "若 Foreman 無法自動偵測 puppet 環境，就預設值它將會使用此 puppet 環境"
-
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr "Foreman 會偵測虛擬機器，如果佈建 script 最後產生了非零值的退出碼"
 
 msgid "Foreman will evaluate host smart class parameters in this order by default"
 msgstr ""
 
-msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
-msgstr "Foreman 將會明確設置 puppet 環境於 ENC yaml 輸出中。這將避免 puppet.conf 和 Foreman 中，環境之間的衝突。"
-
-msgid "Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."
-msgstr "Foreman 將會在 request-header 中以使用者名稱來對映使用者。若這設為 false 的話，OAuth 請求將會擁有管理權限。"
+msgid "Foreman will load the new UI for host details"
+msgstr ""
 
 msgid "Foreman will not send this parameter in classification output."
 msgstr ""
@@ -3454,9 +3392,6 @@ msgstr "Foreman 將會叵析在 ENC 輸出中之參數裡的 ERB"
 
 msgid "Foreman will query the locally configured resolver instead of the SOA/NS authorities"
 msgstr "Foreman 將會查詢本機配置的解析器，而非 SOA/NS 授權"
-
-msgid "Foreman will update a host's environment from its facts"
-msgstr "Foreman 會藉由主機的環境之詳情來更新它"
 
 msgid "Foreman will update a host's hostgroup from its facts"
 msgstr ""
@@ -3475,6 +3410,18 @@ msgstr "Foreman 將會使用隨機的 UUID 來進行憑證簽署，而非透過�
 
 msgid "Foreman will use the short hostname instead of the FQDN for creating new virtual machines"
 msgstr "Foreman 將會使用簡短的主機名稱而非 FQDN 來建立新的虛擬機器"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ForemanInternal|Key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ForemanInternal|Value"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "ForemanRegister::RegistrationFacet|Jwt secret"
+msgstr ""
 
 msgid "Form was successfully created."
 msgstr ""
@@ -3502,6 +3449,9 @@ msgstr "全螢幕"
 
 msgid "Function not available for %s"
 msgstr "%s 的功能不可用"
+
+msgid "Further Information"
+msgstr ""
 
 msgid "GMT time"
 msgstr "GMT 時間"
@@ -3572,8 +3522,8 @@ msgstr "取得控制面板詳細資料"
 msgid "Get default dashboard widgets"
 msgstr "取得預設面板小工具"
 
-msgid "Get statistics"
-msgstr "取得數據"
+msgid "Get hosts forming the smart proxy"
+msgstr ""
 
 msgid "Get status of host"
 msgstr "取得主機的狀態"
@@ -3695,6 +3645,12 @@ msgstr ""
 msgid "Hardware Models"
 msgstr "硬體型號"
 
+msgid "Hardware model"
+msgstr ""
+
+msgid "Hardware models"
+msgstr ""
+
 msgid "Has effect only for network based provisioning"
 msgstr ""
 
@@ -3740,11 +3696,17 @@ msgstr "紀錄"
 msgid "Host"
 msgstr "主機"
 
+msgid "Host %s has been removed successfully"
+msgstr ""
+
 msgid "Host %s is built"
 msgstr "主機 %s 已建立"
 
 msgid "Host %s is not associated with a VM"
 msgstr "主機 %s 不與任何 VM 相聯"
+
+msgid "Host %s will be built next boot"
+msgstr ""
 
 msgid "Host Configuration Chart"
 msgstr "主機配置圖表"
@@ -3779,7 +3741,13 @@ msgstr ""
 msgid "Host Parameters"
 msgstr ""
 
-msgid "Host Wizard"
+msgid "Host Status"
+msgstr ""
+
+msgid "Host Status Overview"
+msgstr ""
+
+msgid "Host Statuses"
 msgstr ""
 
 msgid "Host audit entries"
@@ -3788,12 +3756,12 @@ msgstr "主機稽核項目"
 msgid "Host built"
 msgstr ""
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Host config group"
-msgstr "主機配置群組"
-
 msgid "Host details"
 msgstr "主機詳細資訊"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Host facets/base"
+msgstr ""
 
 msgid "Host group"
 msgstr "主機群組"
@@ -3931,8 +3899,32 @@ msgid "Host::Base|Uuid"
 msgstr "UUID"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "HostConfigGroup|Host type"
-msgstr "主機類型"
+msgid "HostFacets::Base|Boot time"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostFacets::Base|Cores"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostFacets::Base|Disks total"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostFacets::Base|Foreman instance"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostFacets::Base|Ram"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostFacets::Base|Sockets"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "HostFacets::Base|Virtual"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "HostStatus::Status|Reported at"
@@ -4160,9 +4152,6 @@ msgstr "配置範本的 ID"
 msgid "ID of domain"
 msgstr "區域的 ID"
 
-msgid "ID of environment - DEPRECATED will have no effect"
-msgstr ""
-
 msgid "ID of host"
 msgstr "主機的 ID"
 
@@ -4229,7 +4218,7 @@ msgstr ""
 msgid "ID of the Organization to register the host in."
 msgstr ""
 
-msgid "ID of the Smart Proxy"
+msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr ""
 
 msgid "ID of the user"
@@ -4292,9 +4281,6 @@ msgstr "自動建議 IP 位址"
 msgid "IP addresses that should be excluded from suggestion"
 msgstr ""
 
-msgid "IP6 Address"
-msgstr ""
-
 msgid "IP:"
 msgstr "IP:"
 
@@ -4318,6 +4304,9 @@ msgstr ""
 msgid "IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."
 msgstr ""
 
+msgid "IPv4 address"
+msgstr ""
+
 msgid "IPv4 address of interface"
 msgstr ""
 
@@ -4336,6 +4325,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "IPv6 Subnet"
+msgstr ""
+
+msgid "IPv6 address"
 msgstr ""
 
 msgid "IPv6 address of interface"
@@ -4398,13 +4390,13 @@ msgstr ""
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "若您認為這是 Foreman 本身的錯誤，請提交錯誤"
 
-msgid "Ignore Puppet facts for provisioning"
-msgstr "忽略 Puppet 詳情給佈建用"
-
 msgid "Ignore facts for domain"
 msgstr ""
 
 msgid "Ignore facts for operating system"
+msgstr ""
+
+msgid "Ignore interfaces facts for provisioning"
 msgstr ""
 
 msgid "Ignore interfaces with matching identifier"
@@ -4485,12 +4477,6 @@ msgstr ""
 
 msgid "Import of facts failed for host %s"
 msgstr ""
-
-msgid "Import puppet classes from puppet proxy"
-msgstr ""
-
-msgid "Import puppet classes from puppet proxy for an environment"
-msgstr "為環境由 puppet 代理伺服器匯入 puppet 類別"
 
 msgid "Imported IPv4 Subnets"
 msgstr ""
@@ -4603,6 +4589,9 @@ msgstr ""
 msgid "Installation medium configuration"
 msgstr "安裝媒介配置"
 
+msgid "Installation token lifetime"
+msgstr ""
+
 msgid "Installed"
 msgstr "已安裝"
 
@@ -4667,6 +4656,9 @@ msgid "Invalid %{assoc} selection, you must select at least one of yours and hav
 msgstr ""
 
 msgid "Invalid Google JSON key. Please verify client email & private key options are present"
+msgstr ""
+
+msgid "Invalid HTTP(S) URL"
 msgstr ""
 
 msgid "Invalid architecture '%{arch}' for '%{os}'"
@@ -4834,13 +4826,13 @@ msgstr "最新的事件"
 msgid "Launch Console"
 msgstr ""
 
-msgid "Launch loading wizard"
-msgstr ""
-
 msgid "Learn more about External authentication in the documentation."
 msgstr ""
 
 msgid "Learn more about LDAP authentication in the documentation."
+msgstr ""
+
+msgid "Legacy UI"
 msgstr ""
 
 msgid "Length"
@@ -4875,24 +4867,6 @@ msgstr "列出所有 LDAP 的認證來源"
 
 msgid "List all Personal Access Tokens for a user"
 msgstr ""
-
-msgid "List all Puppet class IDs for host"
-msgstr "列出主機的所有 Puppet 類別 ID"
-
-msgid "List all Puppet class IDs for host group"
-msgstr "列出主機群組的所有 Puppet 類別 ID"
-
-msgid "List all Puppet classes"
-msgstr "列出所有 Puppet 類別"
-
-msgid "List all Puppet classes for a host"
-msgstr "列出主機的所有 Puppet 類別"
-
-msgid "List all Puppet classes for a host group"
-msgstr "列出主機的所有 Puppet 類別"
-
-msgid "List all Puppet classes for an environment"
-msgstr "列出環境的所有 Puppet 類別"
 
 msgid "List all SSH keys for a user"
 msgstr ""
@@ -4929,9 +4903,6 @@ msgstr "列出所有運算資源"
 
 msgid "List all email notifications for a user"
 msgstr ""
-
-msgid "List all environments"
-msgstr "列出所有環境"
 
 msgid "List all external user groups for LDAP authentication source"
 msgstr "列出 LDAP 認證來源的所有外部使用者群組"
@@ -5068,9 +5039,6 @@ msgstr "列出所有角色"
 msgid "List all settings"
 msgstr "列出所有設定"
 
-msgid "List all smart class parameters"
-msgstr "列出所有智慧型類別參數"
-
 msgid "List all smart proxies"
 msgstr "列出所有智慧型代理伺服器"
 
@@ -5149,15 +5117,6 @@ msgstr "列出作業系統的開機檔案"
 msgid "List default templates combinations for an operating system"
 msgstr "列出一個作業系統的預設範本組合"
 
-msgid "List environments of Puppet class"
-msgstr "列出 Puppet 類別的環境"
-
-msgid "List environments per location"
-msgstr "列出各個位置的環境"
-
-msgid "List environments per organization"
-msgstr "列出各個組織的環境"
-
 msgid "List external authentication sources"
 msgstr ""
 
@@ -5165,6 +5124,9 @@ msgid "List external authentication sources per location"
 msgstr ""
 
 msgid "List external authentication sources per organization"
+msgstr ""
+
+msgid "List hosts forming the Foreman instance"
 msgstr ""
 
 msgid "List hosts per location"
@@ -5200,9 +5162,6 @@ msgstr ""
 msgid "List of compute profiles"
 msgstr "運算設定檔清單"
 
-msgid "List of config groups"
-msgstr "配置群組清單"
-
 msgid "List of domains"
 msgstr "區域清單"
 
@@ -5218,35 +5177,20 @@ msgstr "各個子網路中的區域之清單"
 msgid "List of email notifications"
 msgstr "電子郵件通知之清單"
 
+msgid "List of host statuses"
+msgstr ""
+
 msgid "List of hostnames, IPv4, IPv6 addresses or subnets to be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
 msgstr ""
 
 msgid "List of hosts which answer to the provided query"
 msgstr "一列回應所提供之查詢的主機"
 
-msgid "List of override values for a specific smart class parameter"
-msgstr "特定智慧型類別參數的置換值之清單"
-
 msgid "List of realms"
 msgstr "領域清單"
 
 msgid "List of resources types that will be automatically associated"
 msgstr ""
-
-msgid "List of smart class parameters for a specific Puppet class"
-msgstr "特定 Puppet 類別的智慧型類別參數之清單"
-
-msgid "List of smart class parameters for a specific environment"
-msgstr "特定環境的智慧型類別參數之清單"
-
-msgid "List of smart class parameters for a specific environment/Puppet class combination"
-msgstr "特定環境/Puppet 類別組合的智慧型類別參數之清單"
-
-msgid "List of smart class parameters for a specific host"
-msgstr "特定主機的智慧型類別參數之清單"
-
-msgid "List of smart class parameters for a specific host group"
-msgstr "特定主機群組的智慧型類別參數之清單"
 
 msgid "List of subnets"
 msgstr "子網路清單"
@@ -5264,9 +5208,6 @@ msgid "List of table preferences for a user"
 msgstr ""
 
 msgid "List of timeouts (in seconds) for DNS lookup attempts such as the dns_lookup macro and DNS record conflict validation"
-msgstr ""
-
-msgid "List of trends counters"
 msgstr ""
 
 msgid "List of user selected columns"
@@ -5452,6 +5393,10 @@ msgid "LookupKey|Key type"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "LookupKey|Lookup values count"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge default"
 msgstr ""
 
@@ -5500,6 +5445,9 @@ msgstr "MAC"
 
 msgid "MAC Address"
 msgstr "MAC 位址"
+
+msgid "MAC address"
+msgstr ""
 
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr "介面卡的 MAC 位址。在空機上的管理介面所需。"
@@ -5582,6 +5530,9 @@ msgstr "管理"
 msgid "Manage Bookmarks"
 msgstr "管理書籤"
 
+msgid "Manage Host's Statuses"
+msgstr ""
+
 msgid "Manage Locations"
 msgstr "管理位置"
 
@@ -5590,6 +5541,9 @@ msgstr "管理組織"
 
 msgid "Manage PuppetCA"
 msgstr "管理 PuppetCA"
+
+msgid "Manage all statuses"
+msgstr ""
 
 msgid "Manage host"
 msgstr "管理主機"
@@ -5690,10 +5644,6 @@ msgid "Message"
 msgstr "訊息"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Message|Digest"
-msgstr "摘要"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Message|Value"
 msgstr "值"
 
@@ -5711,6 +5661,9 @@ msgstr ""
 
 msgid "Metrics"
 msgstr "計量"
+
+msgid "Migrate Reports to new format"
+msgstr ""
 
 msgid "Minutes Ago"
 msgstr "幾分鐘前"
@@ -5789,6 +5742,9 @@ msgstr ""
 msgid "N/A"
 msgstr "N/A"
 
+msgid "N/A statuses"
+msgstr ""
+
 msgid "NA"
 msgstr "NA"
 
@@ -5810,7 +5766,7 @@ msgstr "媒介名稱"
 msgid "Name of the OpenID Connect Audience that is being used for Authentication. In case of Keycloak this is the Client ID."
 msgstr ""
 
-msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (If you want to prevent the autocreation, keep unset)"
+msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created. Empty means no autocreation."
 msgstr ""
 
 msgid "Name of the host group"
@@ -5888,6 +5844,9 @@ msgstr "新增組織"
 msgid "New SSH key"
 msgstr ""
 
+msgid "New UI"
+msgstr ""
+
 msgid "New Virtual Machine"
 msgstr "新增虛擬機器"
 
@@ -5903,8 +5862,8 @@ msgstr ""
 msgid "New filter"
 msgstr "新增篩選器"
 
-msgid "New window"
-msgstr "新增視窗"
+msgid "New host details UI"
+msgstr ""
 
 msgid "Next"
 msgstr "下一步"
@@ -6031,6 +5990,9 @@ msgstr "沒有 TFTP 功能"
 msgid "No TFTP proxies defined, can't continue"
 msgstr "尚未定義 TFTP 協定，無法繼續"
 
+msgid "No VMs matched any host"
+msgstr ""
+
 msgid "No VMs matched any host."
 msgstr ""
 
@@ -6069,6 +6031,9 @@ msgstr "無電子郵件"
 
 msgid "No entries found"
 msgstr "找不到項目"
+
+msgid "No errors detected"
+msgstr ""
 
 msgid "No features found on this proxy, please make sure you enable at least one feature"
 msgstr "在此協定上找不到功能，請確認您啟用了至少一項功能"
@@ -6166,6 +6131,9 @@ msgstr "找不到智慧型代理伺服器。"
 msgid "No smart proxies to show"
 msgstr "沒有可顯示的智慧型代理伺服器"
 
+msgid "No statuses to show"
+msgstr ""
+
 msgid "No subnets"
 msgstr "無子網路"
 
@@ -6202,11 +6170,11 @@ msgstr "一般"
 msgid "Normally when setting up a Compute Resource, a key pair (private and public) is created for you automatically."
 msgstr ""
 
+msgid "Not Available"
+msgstr ""
+
 msgid "Not Installed"
 msgstr "未安裝"
-
-msgid "Not a valid URL for a HTTP proxy"
-msgstr ""
 
 msgid "Not implemented"
 msgstr "尚未實作"
@@ -6373,6 +6341,9 @@ msgstr ""
 msgid "OK"
 msgstr "確定"
 
+msgid "OK statuses"
+msgstr ""
+
 msgid "OS Image"
 msgstr "OS 映像檔"
 
@@ -6443,9 +6414,6 @@ msgstr "很抱歉發生了錯誤"
 
 msgid "Open"
 msgstr "開啟"
-
-msgid "Open Spice in a new window"
-msgstr "在新視窗中開啟 Spice"
 
 msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
 msgstr ""
@@ -6546,9 +6514,6 @@ msgstr ""
 msgid "Optional array of log hashes"
 msgstr "選用性的日誌雜湊陣列"
 
-msgid "Optional comma-delimited string containing either 'new', 'updated', or 'obsolete' that is used to limit the imported Puppet classes"
-msgstr "選用性的逗號分隔字串，包含了「new」、「updated」或是「obsolete」，以用來限制匯入的 Puppet 類別"
-
 msgid "Optional: Ending IP Address for IP auto suggestion"
 msgstr "選用性：IP 自動建議的結尾 IP 位址"
 
@@ -6612,9 +6577,6 @@ msgstr ""
 msgid "Override"
 msgstr "覆寫"
 
-msgid "Override Value"
-msgstr ""
-
 msgid "Override the default value of the Puppet class parameter."
 msgstr "覆寫 Puppet 類別參數的預設值。"
 
@@ -6627,8 +6589,17 @@ msgstr "概觀"
 msgid "Overwrite"
 msgstr "覆寫"
 
+msgid "Overwrite existing host (true by default)"
+msgstr ""
+
+msgid "Owned"
+msgstr ""
+
 msgid "Owned By"
 msgstr "擁有者："
+
+msgid "Owned: %s"
+msgstr ""
 
 msgid "Owner"
 msgstr "擁有者"
@@ -6712,6 +6683,10 @@ msgstr "名稱"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Priority"
 msgstr "優先順序"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Parameter|Searchable value"
+msgstr ""
 
 msgid "Parameter|Type"
 msgstr ""
@@ -6948,9 +6923,6 @@ msgstr "請稍候，您的需求正被處理…"
 msgid "Plugins"
 msgstr "外掛"
 
-msgid "Port to connect to"
-msgstr ""
-
 msgid "Possible values"
 msgstr ""
 
@@ -6963,7 +6935,13 @@ msgstr "電源"
 msgid "Power ON this machine"
 msgstr "開啟這部機器的電源"
 
+msgid "Power Status"
+msgstr ""
+
 msgid "Power a Virtual Machine"
+msgstr ""
+
+msgid "Power has been set to \"%s\" successfully"
 msgstr ""
 
 msgid "Power operations are not enabled on this host."
@@ -7032,7 +7010,7 @@ msgstr ""
 msgid "Private"
 msgstr "私有的"
 
-msgid "Private key file that Foreman will use to encrypt websockets "
+msgid "Private key file path that Foreman will use to encrypt websockets"
 msgstr ""
 
 msgid "Proceed to Edit"
@@ -7130,6 +7108,9 @@ msgstr "代理伺服器"
 msgid "Proxy ID to use within this realm"
 msgstr ""
 
+msgid "Proxy lacks one of the following features: 'Registration', 'Templates'"
+msgstr ""
+
 msgid "Proxy reference should be { :relation => [:column_name, ...] }"
 msgstr ""
 
@@ -7178,9 +7159,6 @@ msgstr "Puppet 類別"
 msgid "Puppet error state"
 msgstr ""
 
-msgid "Puppet interval"
-msgstr "Puppet 間隔"
-
 msgid "Puppet parameter"
 msgstr "Puppet 參數"
 
@@ -7189,14 +7167,6 @@ msgstr "Puppet 代理 ID"
 
 msgid "Puppet summary"
 msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass"
-msgstr "Puppetclass"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Puppetclass|Name"
-msgstr "名稱"
 
 msgid "Query"
 msgstr "查詢"
@@ -7272,6 +7242,9 @@ msgstr "名稱"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Realm|Realm type"
 msgstr "領域類型"
+
+msgid "Reboot"
+msgstr ""
 
 msgid "Reboot and build"
 msgstr "重新啟動與組建"
@@ -7373,12 +7346,6 @@ msgstr ""
 msgid "Remove Parameter"
 msgstr "移除參數"
 
-msgid "Remove a Puppet class from host"
-msgstr "從主機移除一個 Puppet 類別"
-
-msgid "Remove a Puppet class from host group"
-msgstr "從主機群組移除一個 Puppet 類別"
-
 msgid "Remove an email notification for a user"
 msgstr ""
 
@@ -7386,6 +7353,9 @@ msgid "Remove conflicting %{type} for %{host}"
 msgstr ""
 
 msgid "Remove tag"
+msgstr ""
+
+msgid "Remove widget"
 msgstr ""
 
 msgid "Removed %{from} to %{to}"
@@ -7470,6 +7440,9 @@ msgstr ""
 msgid "ReportTemplate|Snippet"
 msgstr ""
 
+msgid "Reported At"
+msgstr ""
+
 msgid "Reported at"
 msgstr "回報於"
 
@@ -7481,6 +7454,9 @@ msgstr ""
 
 msgid "Reports"
 msgstr "報告"
+
+msgid "Reports can be stored in more efficient way, data will need to be upgraded to the new format. Read more details in"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Metrics"
@@ -7523,6 +7499,9 @@ msgid "Required unless user is in an external authentication source"
 msgstr ""
 
 msgid "Required when user want to change own password"
+msgstr ""
+
+msgid "Reset"
 msgstr ""
 
 msgid "Reset PuppetCA certname for %s"
@@ -7568,6 +7547,9 @@ msgstr ""
 msgid "Resume"
 msgstr "復原"
 
+msgid "Return to last page"
+msgstr ""
+
 msgid "Returns string representing a host status of a given type"
 msgstr "傳回某個給定類型的主機狀態之字串"
 
@@ -7593,8 +7575,14 @@ msgstr ""
 msgid "Revert Local Changes"
 msgstr ""
 
+msgid "Revert template"
+msgstr ""
+
 msgid "Review"
 msgstr "檢視"
+
+msgid "Review before build"
+msgstr ""
 
 msgid "Review build status for %s"
 msgstr "檢視 %s 的組建狀態"
@@ -7603,6 +7591,9 @@ msgid "Revoke"
 msgstr "撤銷"
 
 msgid "Revoke a Personal Access Token for a user"
+msgstr ""
+
+msgid "Revoke personal access token"
 msgstr ""
 
 msgid "Revoked"
@@ -7685,6 +7676,9 @@ msgstr ""
 msgid "SMTP address"
 msgstr ""
 
+msgid "SMTP address to connect to"
+msgstr ""
+
 msgid "SMTP authentication"
 msgstr ""
 
@@ -7698,6 +7692,9 @@ msgid "SMTP password"
 msgstr ""
 
 msgid "SMTP port"
+msgstr ""
+
+msgid "SMTP port to connect to"
 msgstr ""
 
 msgid "SMTP username"
@@ -7718,14 +7715,20 @@ msgstr ""
 msgid "SSL CA file"
 msgstr "SSL CA 檔案"
 
-msgid "SSL CA file that Foreman will use to communicate with its proxies"
-msgstr "Foreman 將會使用來與其協定進行通訊的 SSL CA 檔案"
+msgid "SSL CA file not found, check the 'Server CA file' and 'SSL CA file' in Settings > Authentication"
+msgstr ""
+
+msgid "SSL CA file path that Foreman will use to communicate with its proxies"
+msgstr ""
+
+msgid "SSL CA file path that will be used in templates (to verify the connection to Foreman)"
+msgstr ""
 
 msgid "SSL Certificate path that Foreman would use to communicate with its proxies"
 msgstr "Foreman 將會使用來與其協定進行通訊的 SSL 憑證之路徑"
 
-msgid "SSL Private Key file that Foreman will use to communicate with its proxies"
-msgstr "Foreman 將會使用來與其協定進行通訊的 SSL 私密金鑰檔案"
+msgid "SSL Private Key path that Foreman will use to communicate with its proxies"
+msgstr ""
 
 msgid "SSL certificate"
 msgstr "SSL 憑證"
@@ -7773,6 +7776,9 @@ msgid "Save something and try again"
 msgstr "進行儲存並重新嘗試"
 
 msgid "Saved Bookmarks"
+msgstr ""
+
+msgid "Saved audits interval"
 msgstr ""
 
 msgid "Schedule generating of a report"
@@ -7951,6 +7957,9 @@ msgstr ""
 msgid "Sendmail location"
 msgstr ""
 
+msgid "Server CA file"
+msgstr ""
+
 msgid "Server group"
 msgstr ""
 
@@ -7981,6 +7990,9 @@ msgstr ""
 msgid "Set IP addresses for %s"
 msgstr ""
 
+msgid "Set a proxy for all outgoing HTTP(S) connections from Foreman. System-wide proxies must be configured at the operating system level."
+msgstr ""
+
 msgid "Set a randomly generated password on the VNC display connection"
 msgstr ""
 
@@ -8001,9 +8013,6 @@ msgstr "設定值解析的順序。"
 
 msgid "Set up compute instance %s"
 msgstr "設定運算事例 %s"
-
-msgid "Sets a proxy for all outgoing HTTP connections from Foreman. System-wide proxies must be configured at operating system level."
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
@@ -8071,6 +8080,12 @@ msgstr ""
 msgid "Setup REX"
 msgstr ""
 
+msgid "Share feedback"
+msgstr ""
+
+msgid "Share your feedback"
+msgstr ""
+
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "`foreman-rake db:seed` 是否應該在安裝程式模組下次運作時執行？"
 
@@ -8104,18 +8119,6 @@ msgstr ""
 msgid "Show a Personal Access Token for a user"
 msgstr ""
 
-msgid "Show a Puppet class"
-msgstr "顯示 Puppet 類別"
-
-msgid "Show a Puppet class for a host group"
-msgstr "顯示主機群組的 Puppet 類別"
-
-msgid "Show a Puppet class for an environment"
-msgstr "顯示環境的 Puppet 類別"
-
-msgid "Show a Puppet class for host"
-msgstr "顯示主機的 Puppet 類別"
-
 msgid "Show a bookmark"
 msgstr "顯示書籤"
 
@@ -8127,9 +8130,6 @@ msgstr "顯示運算設定檔"
 
 msgid "Show a compute resource"
 msgstr "顯示運算資源"
-
-msgid "Show a config group"
-msgstr "顯示配置群組"
 
 msgid "Show a default template combination for an operating system"
 msgstr "顯示一個作業系統的預設範本組合"
@@ -8197,17 +8197,11 @@ msgstr "顯示角色"
 msgid "Show a setting"
 msgstr "顯示設定"
 
-msgid "Show a smart class parameter"
-msgstr "顯示智慧類別參數"
-
 msgid "Show a smart proxy"
 msgstr "顯示智慧型代理伺服器"
 
 msgid "Show a subnet"
 msgstr "顯示子網路"
-
-msgid "Show a trend"
-msgstr ""
 
 msgid "Show a user"
 msgstr "顯示使用者"
@@ -8242,9 +8236,6 @@ msgstr "顯示稽核"
 msgid "Show an email notification"
 msgstr "顯示電子郵件通知"
 
-msgid "Show an environment"
-msgstr "顯示環境"
-
 msgid "Show an external authentication source"
 msgstr ""
 
@@ -8265,9 +8256,6 @@ msgstr ""
 
 msgid "Show an operating system"
 msgstr "顯示作業系統"
-
-msgid "Show an override value for a specific smart class parameter"
-msgstr "顯示特定智慧類別參數的置換值"
 
 msgid "Show available API links"
 msgstr "顯示可用的 API 連結"
@@ -8350,9 +8338,6 @@ msgstr "已跳過"
 msgid "Skipped|S"
 msgstr "S"
 
-msgid "Smart Class Parameter"
-msgstr "智慧類別參數"
-
 msgid "Smart Class Parameters"
 msgstr ""
 
@@ -8420,6 +8405,9 @@ msgstr "一些介面不合規定"
 msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "部分介面卡無法使用。請檢查下列表格。"
 
+msgid "Something went wrong"
+msgstr ""
+
 msgid "Something went wrong while changing host type - %s"
 msgstr "更改主機類型時發生了錯誤 - %s"
 
@@ -8443,10 +8431,6 @@ msgid "Source"
 msgstr "來源"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Source|Digest"
-msgstr "摘要"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Source|Value"
 msgstr "值"
 
@@ -8468,7 +8452,7 @@ msgstr ""
 msgid "Specify Matchers"
 msgstr ""
 
-msgid "Specify additional options to sendmail"
+msgid "Specify additional options to sendmail. Only used when the delivery method is set to sendmail."
 msgstr ""
 
 msgid "Specify authentication type, if required"
@@ -8512,8 +8496,8 @@ msgstr "狀態"
 msgid "Status %s does not exist."
 msgstr ""
 
-msgid "Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"
-msgstr "停止從 Puppet 詳情更新 IP 位址和 MAC 的值（影響所有介面）"
+msgid "Stop updating IP and MAC address values from facts (affects all interfaces)"
+msgstr ""
 
 msgid "Stop updating Operating System from facts"
 msgstr ""
@@ -8609,6 +8593,10 @@ msgid "Subnet|Dns secondary"
 msgstr "DNS 次要"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Externalipam group"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|From"
 msgstr "從"
 
@@ -8635,6 +8623,10 @@ msgstr "名稱"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Network"
 msgstr "網路"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Subnet|Nic delay"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet|Priority"
@@ -8707,6 +8699,12 @@ msgstr ""
 
 msgid "Supported Formats"
 msgstr "格式"
+
+msgid "Switch to previous version"
+msgstr ""
+
+msgid "Switch to the new host details UI"
+msgstr ""
 
 msgid "Synchronize group from authentication source"
 msgstr "從認證來源同步群組"
@@ -8865,11 +8863,19 @@ msgid "TemplateInput|Advanced"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TemplateInput|Default"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TemplateInput|Description"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TemplateInput|Fact name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TemplateInput|Hidden value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8939,6 +8945,10 @@ msgid "Template|Default"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Template|Description"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template|Locked"
 msgstr ""
 
@@ -8989,7 +8999,7 @@ msgstr "測試電子郵件"
 msgid "Tester"
 msgstr ""
 
-msgid "Text to be shown in the login-page footer"
+msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr ""
 
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
@@ -9135,7 +9145,7 @@ msgstr ""
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr ""
 
-msgid "The instance title is shown on the top navigation bar (requires reload of page)."
+msgid "The instance title is shown on the top navigation bar (requires a page reload)."
 msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
@@ -9152,7 +9162,7 @@ msgid_plural "The list is excluding %{count} %{link_start}physical hosts%{link_e
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "The location of the sendmail executable"
+msgid "The location of the sendmail executable. Only used when the delivery method is set to sendmail."
 msgstr ""
 
 msgid "The marked fields will need reviewing"
@@ -9182,9 +9192,6 @@ msgstr ""
 
 msgid "The power state of the selected hosts will be set to %s"
 msgstr "所選主機的電源狀態會被設定為 %s"
-
-msgid "The puppetrun feature has been removed, however you can use the Remote Execution Plugin to run Puppet commands"
-msgstr ""
 
 msgid "The realm name, e.g. EXAMPLE.COM"
 msgstr "領域名稱，例如 EXAMPLE.COM"
@@ -9246,6 +9253,9 @@ msgid "There may be more information in the server's logs."
 msgstr ""
 
 msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
+msgstr ""
+
+msgid "There was a problem processing the request. Please try again."
 msgstr ""
 
 msgid "There was an error creating the PXE file: %s"
@@ -9373,7 +9383,7 @@ msgstr ""
 msgid "This value is used also as the host's primary interface name."
 msgstr "這個值也用於主機的主介面名稱。"
 
-msgid "This will be one of our coolest pages."
+msgid "This will change the host power status, are you sure?"
 msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
@@ -9398,15 +9408,6 @@ msgid "Timezone to use for new users"
 msgstr ""
 
 msgid "To access %s API, you need to install the Foreman Puppet plugin"
-msgstr ""
-
-msgid "To access /statistics API you need to install Foreman Statistics plugin"
-msgstr ""
-
-msgid "To access /trends API you need to install Foreman Statistics plugin"
-msgstr ""
-
-msgid "To access import_puppetclasses API you need to install the Foreman Puppet plugin"
 msgstr ""
 
 msgid "To change the default behavior, modify the enclosing mark with <code>-&#37;></code>:"
@@ -9438,9 +9439,6 @@ msgstr "權杖"
 
 msgid "Token Expiry"
 msgstr ""
-
-msgid "Token duration"
-msgstr "權杖持續時間"
 
 msgid "Token expired"
 msgstr ""
@@ -9479,41 +9477,8 @@ msgid_plural "Total of %{hosts} hosts"
 msgstr[0] ""
 msgstr[1] ""
 
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Trend"
-msgstr "趨勢"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Trend counter"
-msgstr "趨勢計數器"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "TrendCounter|Count"
-msgstr "計數"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "TrendCounter|Interval end"
+msgid "Total: %s"
 msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "TrendCounter|Interval start"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Trend|Fact name"
-msgstr "詳情名稱"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Trend|Fact value"
-msgstr "詳情值"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Trend|Name"
-msgstr "名稱"
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-msgid "Trend|Trendable type"
-msgstr "趨勢類型"
 
 msgid "True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not"
 msgstr "True/False 標記代表主機是否受管理。請注意：這個值也能決定是否需要數個參數"
@@ -9794,6 +9759,12 @@ msgstr "websockets_encrypt 開啟時，無法取消設定 websockets_ssl_key"
 msgid "Unallowed template for dashboard widget: %s"
 msgstr "未經允許的面板小工具範本：%s"
 
+msgid "Unassign a given host from the Foreman instance"
+msgstr ""
+
+msgid "Unassign a given host from the smart proxy"
+msgstr ""
+
 msgid "Unattended URL"
 msgstr "無人看顧的 URL"
 
@@ -9851,6 +9822,9 @@ msgstr ""
 msgid "Unknown status: %s"
 msgstr ""
 
+msgid "Unkown '%{klass}' resource class"
+msgstr ""
+
 msgid "Unlock"
 msgstr "解鎖"
 
@@ -9878,9 +9852,6 @@ msgstr "更新一項資源(_R)"
 msgid "Update IP from built request"
 msgstr "從建立需求更新 IP"
 
-msgid "Update a Puppet class"
-msgstr "更新 Puppet 類別"
-
 msgid "Update a bookmark"
 msgstr "更新書籤"
 
@@ -9892,9 +9863,6 @@ msgstr "更新運算設定檔"
 
 msgid "Update a compute resource"
 msgstr "更新運算資源"
-
-msgid "Update a config group"
-msgstr "更新配置群組"
 
 msgid "Update a default template combination for an operating system"
 msgstr "更新作業系統的預設範本組合"
@@ -9962,9 +9930,6 @@ msgstr "更新角色"
 msgid "Update a setting"
 msgstr "更新設定"
 
-msgid "Update a smart class parameter"
-msgstr "更新智慧類別參數"
-
 msgid "Update a smart proxy"
 msgstr "更新智慧型代理伺服器"
 
@@ -9995,9 +9960,6 @@ msgstr "更新架構"
 msgid "Update an email notification for a user"
 msgstr ""
 
-msgid "Update an environment"
-msgstr "更新環境"
-
 msgid "Update an external authentication source"
 msgstr ""
 
@@ -10006,12 +9968,6 @@ msgstr "更新映像檔"
 
 msgid "Update an operating system"
 msgstr "更新作業系統"
-
-msgid "Update an override value for a specific smart class parameter"
-msgstr "更新特定智慧類別參數的置換值"
-
-msgid "Update environment from facts"
-msgstr "從詳情升級環境"
 
 msgid "Update external user group"
 msgstr "更新外部使用者群組"
@@ -10248,6 +10204,10 @@ msgid "User|Description"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "User|Disabled"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User|Firstname"
 msgstr "名"
 
@@ -10384,7 +10344,7 @@ msgstr "變數"
 msgid "Variables"
 msgstr "變數"
 
-msgid "Vendor Class"
+msgid "Vendor class"
 msgstr ""
 
 msgid "Verify"
@@ -10447,6 +10407,9 @@ msgstr "等待 %s 上線"
 msgid "Warning"
 msgstr "警告"
 
+msgid "Warning statuses"
+msgstr ""
+
 msgid "Warning!"
 msgstr "警告！"
 
@@ -10507,6 +10470,9 @@ msgid ""
 "When editing a template, you must assign a list \\\n"
 "of operating systems which this template can be used with. Optionally, you can \\\n"
 "restrict a template to a list of host groups."
+msgstr ""
+
+msgid "When enabled, Foreman will map users by username in request-header. If this is disabled, OAuth requests will have admin rights."
 msgstr ""
 
 msgid ""
@@ -10630,6 +10596,9 @@ msgstr ""
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "您即將在所有已配置的 TFTP 伺服器上更改預設的 PXE 選單 - 是否繼續？"
+
+msgid "You are about to clear %s status. Are you sure?"
+msgstr ""
 
 msgid "You are about to delete %s. Are you sure?"
 msgstr ""
@@ -10784,6 +10753,9 @@ msgstr "全部"
 msgid "already exists"
 msgstr "已存在"
 
+msgid "an error occurred: %s"
+msgstr ""
+
 msgid "an organization"
 msgstr "組織"
 
@@ -10795,9 +10767,6 @@ msgstr "陣列"
 
 msgid "auxiliary field"
 msgstr ""
-
-msgid "belongs to config group"
-msgstr "屬於配置群組"
 
 msgid "boolean"
 msgstr "布林值"
@@ -10978,9 +10947,6 @@ msgstr ""
 
 msgid "enabled"
 msgstr ""
-
-msgid "environment id"
-msgstr "環境 ID"
 
 msgid "expected a value of type %s"
 msgstr ""
@@ -11230,8 +11196,7 @@ msgstr "將外部使用者群組連上這個使用者群組"
 msgid "list"
 msgstr "清單"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "locale_name"
 
@@ -11411,12 +11376,6 @@ msgstr "實體 @ NAT %s"
 
 msgid "physical @ bridge %s"
 msgstr "實體 @ 橋接器 %s"
-
-msgid "plugin action 1"
-msgstr ""
-
-msgid "plugin action 2"
-msgstr ""
 
 msgid "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)"
 msgstr "電源動作，有效的動作為（on/start）、（off/stop）、（soft/reboot）、（cycle/reset）、（state/status）"

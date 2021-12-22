@@ -109,19 +109,11 @@ _('ComputeResource|User')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('ComputeResource|Uuid')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Config group')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('ConfigGroup|Name')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Domain')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Domain|Fullname')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Domain|Name')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Environment')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Environment|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('External usergroup')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -152,6 +144,16 @@ _('Filter|Override')
 _('Filter|Search')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Filter|Taxonomy search')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Foreman internal')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('ForemanInternal|Key')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('ForemanInternal|Value')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Foreman register/registration facet')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('ForemanRegister::RegistrationFacet|Jwt secret')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Build')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -199,9 +201,21 @@ _('Host::Base|Use image')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Uuid')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Host config group')
+_('Host facets/base')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('HostConfigGroup|Host type')
+_('HostFacets::Base|Boot time')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('HostFacets::Base|Cores')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('HostFacets::Base|Disks total')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('HostFacets::Base|Foreman instance')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('HostFacets::Base|Ram')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('HostFacets::Base|Sockets')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('HostFacets::Base|Virtual')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host status/status')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -283,6 +297,8 @@ _('LookupKey|Key')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('LookupKey|Key type')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('LookupKey|Lookup values count')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('LookupKey|Merge default')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('LookupKey|Merge overrides')
@@ -340,8 +356,6 @@ _('Medium|Os family')
 _('Medium|Path')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Message')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Message|Digest')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Message|Value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -453,6 +467,8 @@ _('Parameter|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Parameter|Priority')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Parameter|Searchable value')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Parameter|Value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Permission')
@@ -472,10 +488,6 @@ _('PersonalAccessToken|Name')
 _('PersonalAccessToken|Revoked')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('PersonalAccessToken|Token')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Puppetclass')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Puppetclass|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Realm')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -537,8 +549,6 @@ _('SmartProxyFeature|Settings')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Source')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Source|Digest')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Source|Value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Ssh key')
@@ -569,6 +579,8 @@ _('Subnet|Dns primary')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Dns secondary')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Subnet|Externalipam group')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|From')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Gateway')
@@ -582,6 +594,8 @@ _('Subnet|Mtu')
 _('Subnet|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Network')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Subnet|Nic delay')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Priority')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -615,6 +629,8 @@ _('Template')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template|Default')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Template|Description')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template|Locked')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template|Name')
@@ -631,9 +647,13 @@ _('Template input')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('TemplateInput|Advanced')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Default')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('TemplateInput|Description')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('TemplateInput|Fact name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Hidden value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('TemplateInput|Input type')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -665,24 +685,6 @@ _('Token|Expires')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Token|Value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Trend')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Trend|Fact name')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Trend|Fact value')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Trend|Name')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Trend|Trendable type')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('Trend counter')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('TrendCounter|Count')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('TrendCounter|Interval end')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-_('TrendCounter|Interval start')
-# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Upgrade task')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('UpgradeTask|Always run')
@@ -708,6 +710,8 @@ _('User|Admin')
 _('User|Avatar hash')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Description')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('User|Disabled')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User|Firstname')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
