@@ -1,42 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModelsPage redering should render when loading 1`] = `
-<PageLayout
-  beforeToolbarComponent={null}
-  breadcrumbOptions={null}
-  customBreadcrumbs={null}
-  header="Hardware models"
-  isLoading={false}
-  onBookmarkClick={[Function]}
-  onSearch={[Function]}
-  searchProps={
+<TableIndexPage
+  apiOptions={
     Object {
-      "autocomplete": Object {
-        "id": "searchBar",
-        "searchQuery": "",
-        "url": "models/auto_complete_search",
-        "useKeyShortcuts": true,
-      },
-      "bookmarks": Object {
-        "canCreate": true,
-        "documentationUrl": "/links/manual/4.1.5Searching",
-        "id": "searchBar",
-        "url": "/api/bookmarks",
-      },
-      "controller": "models",
+      "key": "MODELS",
     }
   }
-  searchQuery="name=foo"
-  searchable={false}
-  toolbarButtons={
-    <Link
-      to="/models/new"
-    >
-      <Button>
-        Create model
-      </Button>
-    </Link>
-  }
+  apiUrl="/api/models?include_permissions=true"
+  beforeToolbarComponent={null}
+  breadcrumbOptions={null}
+  controller="models"
+  creatable={true}
+  customActionButtons={Array []}
+  customCreateAction={null}
+  customExportURL=""
+  customHelpURL=""
+  customSearchProps={null}
+  cutsomToolbarItems={null}
+  exportable={false}
+  hasHelpPage={false}
+  header="Hardware models"
+  searchable={true}
 >
   <Component
     fetchAndPush={[Function]}
@@ -65,7 +50,6 @@ exports[`ModelsPage redering should render when loading 1`] = `
         },
       ]
     }
-    search="name=foo"
     sort={
       Object {
         "by": "defaultName",
@@ -73,46 +57,31 @@ exports[`ModelsPage redering should render when loading 1`] = `
       }
     }
   />
-</PageLayout>
+</TableIndexPage>
 `;
 
 exports[`ModelsPage redering should render with error 1`] = `
-<PageLayout
-  beforeToolbarComponent={null}
-  breadcrumbOptions={null}
-  customBreadcrumbs={null}
-  header="Hardware models"
-  isLoading={false}
-  onBookmarkClick={[Function]}
-  onSearch={[Function]}
-  searchProps={
+<TableIndexPage
+  apiOptions={
     Object {
-      "autocomplete": Object {
-        "id": "searchBar",
-        "searchQuery": "",
-        "url": "models/auto_complete_search",
-        "useKeyShortcuts": true,
-      },
-      "bookmarks": Object {
-        "canCreate": true,
-        "documentationUrl": "/links/manual/4.1.5Searching",
-        "id": "searchBar",
-        "url": "/api/bookmarks",
-      },
-      "controller": "models",
+      "key": "MODELS",
     }
   }
-  searchQuery="name=foo"
+  apiUrl="/api/models?include_permissions=true"
+  beforeToolbarComponent={null}
+  breadcrumbOptions={null}
+  controller="models"
+  creatable={true}
+  customActionButtons={Array []}
+  customCreateAction={null}
+  customExportURL=""
+  customHelpURL=""
+  customSearchProps={null}
+  cutsomToolbarItems={null}
+  exportable={false}
+  hasHelpPage={false}
+  header="Hardware models"
   searchable={true}
-  toolbarButtons={
-    <Link
-      to="/models/new"
-    >
-      <Button>
-        Create model
-      </Button>
-    </Link>
-  }
 >
   <Component
     fetchAndPush={[Function]}
@@ -146,7 +115,6 @@ exports[`ModelsPage redering should render with error 1`] = `
         },
       ]
     }
-    search="name=foo"
     sort={
       Object {
         "by": "defaultName",
@@ -154,46 +122,31 @@ exports[`ModelsPage redering should render with error 1`] = `
       }
     }
   />
-</PageLayout>
+</TableIndexPage>
 `;
 
 exports[`ModelsPage redering should render with models 1`] = `
-<PageLayout
-  beforeToolbarComponent={null}
-  breadcrumbOptions={null}
-  customBreadcrumbs={null}
-  header="Hardware models"
-  isLoading={false}
-  onBookmarkClick={[Function]}
-  onSearch={[Function]}
-  searchProps={
+<TableIndexPage
+  apiOptions={
     Object {
-      "autocomplete": Object {
-        "id": "searchBar",
-        "searchQuery": "",
-        "url": "models/auto_complete_search",
-        "useKeyShortcuts": true,
-      },
-      "bookmarks": Object {
-        "canCreate": true,
-        "documentationUrl": "/links/manual/4.1.5Searching",
-        "id": "searchBar",
-        "url": "/api/bookmarks",
-      },
-      "controller": "models",
+      "key": "MODELS",
     }
   }
-  searchQuery="name=foo"
+  apiUrl="/api/models?include_permissions=true"
+  beforeToolbarComponent={null}
+  breadcrumbOptions={null}
+  controller="models"
+  creatable={true}
+  customActionButtons={Array []}
+  customCreateAction={null}
+  customExportURL=""
+  customHelpURL=""
+  customSearchProps={null}
+  cutsomToolbarItems={null}
+  exportable={false}
+  hasHelpPage={false}
+  header="Hardware models"
   searchable={true}
-  toolbarButtons={
-    <Link
-      to="/models/new"
-    >
-      <Button>
-        Create model
-      </Button>
-    </Link>
-  }
 >
   <Component
     fetchAndPush={[Function]}
@@ -222,7 +175,6 @@ exports[`ModelsPage redering should render with models 1`] = `
         },
       ]
     }
-    search="name=foo"
     sort={
       Object {
         "by": "defaultName",
@@ -230,46 +182,31 @@ exports[`ModelsPage redering should render with models 1`] = `
       }
     }
   />
-</PageLayout>
+</TableIndexPage>
 `;
 
 exports[`ModelsPage redering should render with no data 1`] = `
-<PageLayout
-  beforeToolbarComponent={null}
-  breadcrumbOptions={null}
-  customBreadcrumbs={null}
-  header="Hardware models"
-  isLoading={false}
-  onBookmarkClick={[Function]}
-  onSearch={[Function]}
-  searchProps={
+<TableIndexPage
+  apiOptions={
     Object {
-      "autocomplete": Object {
-        "id": "searchBar",
-        "searchQuery": "",
-        "url": "models/auto_complete_search",
-        "useKeyShortcuts": true,
-      },
-      "bookmarks": Object {
-        "canCreate": true,
-        "documentationUrl": "/links/manual/4.1.5Searching",
-        "id": "searchBar",
-        "url": "/api/bookmarks",
-      },
-      "controller": "models",
+      "key": "MODELS",
     }
   }
-  searchQuery="name=foo"
+  apiUrl="/api/models?include_permissions=true"
+  beforeToolbarComponent={null}
+  breadcrumbOptions={null}
+  controller="models"
+  creatable={true}
+  customActionButtons={Array []}
+  customCreateAction={null}
+  customExportURL=""
+  customHelpURL=""
+  customSearchProps={null}
+  cutsomToolbarItems={null}
+  exportable={false}
+  hasHelpPage={false}
+  header="Hardware models"
   searchable={true}
-  toolbarButtons={
-    <Link
-      to="/models/new"
-    >
-      <Button>
-        Create model
-      </Button>
-    </Link>
-  }
 >
   <Component
     fetchAndPush={[Function]}
@@ -298,7 +235,6 @@ exports[`ModelsPage redering should render with no data 1`] = `
         },
       ]
     }
-    search="name=foo"
     sort={
       Object {
         "by": "defaultName",
@@ -306,5 +242,5 @@ exports[`ModelsPage redering should render with no data 1`] = `
       }
     }
   />
-</PageLayout>
+</TableIndexPage>
 `;

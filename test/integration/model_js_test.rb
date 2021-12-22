@@ -3,7 +3,7 @@ require 'integration_test_helper'
 class ModelIntegrationTest < IntegrationTestWithJavascript
   test "create new page" do
     visit models_path
-    click_on "Create model", class: 'pf-c-button'
+    click_on "Create new", class: 'pf-c-button'
     assert_current_path new_model_path
     fill_in "model_name", :with => "IBM 123"
     fill_in "model_hardware_model", :with => "IBMabcde"

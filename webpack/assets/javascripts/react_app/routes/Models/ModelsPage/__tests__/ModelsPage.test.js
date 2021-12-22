@@ -6,7 +6,6 @@ const props = {
   fetchAndPush: () => {},
   models,
   itemCount: models.length,
-  canCreate: true,
 };
 
 const fixtures = {
