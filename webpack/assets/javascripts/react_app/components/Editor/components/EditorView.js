@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
 import classNames from 'classnames';
-import 'brace/ext/searchbox';
+import 'ace-builds/src-min-noconflict/ext-searchbox';
 import { noop } from '../../../common/helpers';
 
 const EditorView = ({
@@ -30,7 +30,7 @@ const EditorView = ({
       hidden: !isSelected,
     })}
     readOnly={readOnly}
-    editorProps={{ $blockScrolling: Infinity }}
+    editorProps={{ $blockScrolling: Infinity, loadWorkerFromBlob: false }}
     showPrintMargin={false}
     debounceChangePeriod={250}
   />

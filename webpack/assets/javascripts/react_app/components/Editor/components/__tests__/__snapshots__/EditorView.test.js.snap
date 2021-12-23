@@ -8,10 +8,12 @@ exports[`EditorView EditorView renders EditorView 1`] = `
   editorProps={
     Object {
       "$blockScrolling": Infinity,
+      "loadWorkerFromBlob": false,
     }
   }
   enableBasicAutocompletion={false}
   enableLiveAutocompletion={false}
+  enableSnippets={false}
   focus={false}
   fontSize={12}
   height="500px"
@@ -56,10 +58,12 @@ exports[`EditorView EditorView renders EditorView w/vim&mask 1`] = `
   editorProps={
     Object {
       "$blockScrolling": Infinity,
+      "loadWorkerFromBlob": false,
     }
   }
   enableBasicAutocompletion={false}
   enableLiveAutocompletion={false}
+  enableSnippets={false}
   focus={false}
   fontSize={12}
   height="500px"

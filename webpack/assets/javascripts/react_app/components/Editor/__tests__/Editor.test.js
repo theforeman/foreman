@@ -1,9 +1,13 @@
 import React from 'react';
 import { mount } from '@theforeman/test';
-
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import Editor from '../Editor';
 import { editorOptions } from '../Editor.fixtures';
+import * as ace from 'ace-builds/src-noconflict/ace';
+
+ace.config.set('basePath', '/assets/ui/');
+ace.config.set('modePath', '');
+ace.config.set('themePath', '');
 
 const didMountStubs = () => ({
   changeState: jest.fn(),
