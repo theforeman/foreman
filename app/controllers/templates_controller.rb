@@ -87,11 +87,15 @@ class TemplatesController < ApplicationController
     else
       @template = resource_class.new(params[type_name_plural])
     end
-    base = @template.class.preview_host_collection
-    @host = params[:preview_host_id].present? ? base.find(params[:preview_host_id]) : base.first
-    if @host.nil?
-      render :plain => _('No host could be found for rendering the template'), :status => :not_found
-      return
+    scope = @template.host_init_config_template? ? Template : @template.class
+    base = scope.preview_host_collection
+
+    unless @template.registration_template?
+      @host = params[:preview_host_id].present? ? base.find(params[:preview_host_id]) : base.first
+      if @host.nil?
+        render :plain => _('No host could be found for rendering the template'), :status => :not_found
+        return
+      end
     end
     @template.template = params[:template]
 

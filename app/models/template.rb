@@ -206,11 +206,19 @@ class Template < ApplicationRecord
   end
 
   def support_single_host_render?
-    true
+    !registration_template?
   end
 
   def support_preview?
     true
+  end
+
+  def registration_template?
+    try(:template_kind)&.name == "registration"
+  end
+
+  def host_init_config_template?
+    try(:template_kind)&.name == "host_init_config"
   end
 
   private

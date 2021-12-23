@@ -211,6 +211,26 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_includes @response.body, 'parse error on value'
   end
 
+  test 'preview - registration' do
+    template = FactoryBot.create(:provisioning_template, template_kind: template_kinds(:registration))
+
+    post :preview, params: { :template => '<%= 1+1 -%>', :id => template }, session: set_session_user
+    assert_equal '2'.to_json, @response.body
+  end
+
+  test 'preview - host_init_config' do
+    template = FactoryBot.create(:provisioning_template, template_kind: template_kinds(:host_init_config))
+    host = FactoryBot.create(:host, managed: false)
+
+    # works for given host
+    post :preview, params: { :preview_host_id => host.id, :template => '<%= @host.name -%>', :id => template }, session: set_session_user
+    assert_equal host.hostname.to_s.to_json, @response.body
+
+    # without host specified it uses first one
+    post :preview, params: { :template => '<%= 1+1 -%>', :id => template }, session: set_session_user
+    assert_equal '2'.to_json, @response.body
+  end
+
   context 'templates combinations' do
     test 'can be added on template creation' do
       provisioning_template = {

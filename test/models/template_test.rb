@@ -502,4 +502,16 @@ data"
       end
     end
   end
+
+  test 'registration_template?' do
+    template = FactoryBot.build(:provisioning_template, template_kind: template_kinds(:registration))
+
+    assert template.registration_template?
+  end
+
+  test 'host_init_config_template?' do
+    template = FactoryBot.build(:provisioning_template, template_kind: template_kinds(:host_init_config))
+
+    assert template.host_init_config_template?
+  end
 end
