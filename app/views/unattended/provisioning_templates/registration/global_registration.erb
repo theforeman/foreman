@@ -148,7 +148,7 @@ if [ -f /etc/redhat-release ]; then
     chmod 644 $KATELLO_SERVER_CA_CERT
 
     # Prepare subscription-manager
-    <% if @force -%>
+    <% if truthy?(@force) -%>
     if [ -x "$(command -v subscription-manager)" ] ; then
       subscription-manager unregister || true
       subscription-manager clean
@@ -192,9 +192,9 @@ if [ -f /etc/redhat-release ]; then
       sed -i "/baseurl/a $full_refresh_config" $RHSM_CFG
     fi
 
-    subscription-manager register <%= '--force' if @force %> \
+    subscription-manager register <%= '--force' if truthy?(@force) %> \
       --org='<%= @organization.label %>' \
-      --activationkey='<%= activation_keys %>' || <%= @ignore_subman_errors ? 'true' : 'cleanup_and_exit 1' %>
+      --activationkey='<%= activation_keys %>' || <%= truthy?(@ignore_subman_errors) ? 'true' : 'cleanup_and_exit 1' %>
 
     register_katello_host | bash
 else
