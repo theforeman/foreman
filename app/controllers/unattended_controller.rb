@@ -67,12 +67,6 @@ class UnattendedController < ApplicationController
     render_provisioning_template(kind)
   end
 
-  protected
-
-  def require_ssl?
-    preview? ? super : unattended_ssl?
-  end
-
   private
 
   def preview?

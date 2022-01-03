@@ -1,13 +1,9 @@
 module Foreman::Controller::Puppet::HostsControllerExtensions
   extend ActiveSupport::Concern
 
-  PUPPETMASTER_ACTIONS = [:externalNodes, :lookup]
-
   MULTIPLE_EDIT_ACTIONS = %w(select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
 
   included do
-    add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
-
     before_action :find_multiple_for_puppet_host_extensions, :only => MULTIPLE_EDIT_ACTIONS
     before_action :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
 

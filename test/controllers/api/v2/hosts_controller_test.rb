@@ -776,26 +776,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_response :forbidden
     end
 
-    test 'when "require_ssl" is true, HTTP requests should not be able to import facts' do
-      User.current = users(:one) # use an unprivileged user, not apiadmin
-      Setting[:restrict_registered_smart_proxies] = true
-      SETTINGS[:require_ssl] = true
-
-      Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-      post :facts, params: { :name => hostname, :facts => facts }
-      assert_response :redirect
-    end
-
-    test 'when "require_ssl" is false, HTTP requests should be able to import facts' do
-      User.current = users(:one) # use an unprivileged user, not apiadmin
-      Setting[:restrict_registered_smart_proxies] = true
-      SETTINGS[:require_ssl] = false
-
-      Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-      post :facts, params: { :name => hostname, :facts => facts }
-      assert_response :success
-    end
-
     test "when a bad :type is requested, :unprocessable_entity is returned" do
       User.current = nil
       post :facts, params: { :name => hostname, :facts => facts, :type => "Host::Invalid" }, session: set_session_user

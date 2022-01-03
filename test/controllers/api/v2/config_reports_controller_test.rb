@@ -67,33 +67,6 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       post :create, params: { :config_report => create_a_puppet_transaction_report }
       assert_response :forbidden
     end
-
-    test 'when "require_ssl" is true, HTTP requests should not be able to create a report' do
-      Setting[:restrict_registered_smart_proxies] = true
-      SETTINGS[:require_ssl] = true
-
-      Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-      post :create, params: { :config_report => create_a_puppet_transaction_report }
-      assert_response :redirect
-    end
-
-    test 'when "require_ssl" is false, hosts without a registered smart proxy on should not be able to create a report' do
-      Setting[:restrict_registered_smart_proxies] = true
-      SETTINGS[:require_ssl] = false
-
-      Resolv.any_instance.stubs(:getnames).returns(['another.host'])
-      post :create, params: { :config_report => create_a_puppet_transaction_report }
-      assert_response :forbidden
-    end
-
-    test 'when "require_ssl" is false, HTTP requests should be able to create reports' do
-      Setting[:restrict_registered_smart_proxies] = true
-      SETTINGS[:require_ssl] = false
-
-      Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-      post :create, params: { :config_report => create_a_puppet_transaction_report }
-      assert_response :created
-    end
   end
 
   test "should get index" do

@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
 
   include Foreman::Controller::Flash
   include Foreman::Controller::Authorize
-  include Foreman::Controller::RequireSsl
 
   protect_from_forgery with: :exception # See ActionController::RequestForgeryProtection for details
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
