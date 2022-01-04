@@ -21,7 +21,7 @@ gem 'ldap_fluff', '>= 0.5.0', '< 1.0'
 gem 'apipie-rails', '>= 0.5.17', '< 0.6.0'
 gem 'apipie-dsl', '>= 2.2.6'
 # Pin rdoc to prevent updating bundled psych (https://github.com/ruby/rdoc/commit/ebe185c8775b2afe844eb3da6fa78adaa79e29a4)
-# Pin psych is needed for Rails 6.0, Rails 6.1 should work with Psych > 4
+# Rails 6.0 is incompatible with Psych 4, Rails 6.1 should work
 gem 'rdoc', '< 6.4'
 gem 'rabl', '~> 0.14.2'
 gem 'oauth', '>= 0.5.4', '< 1'
