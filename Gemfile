@@ -20,7 +20,9 @@ gem 'scoped_search', '>= 4.1.8', '< 5'
 gem 'ldap_fluff', '>= 0.5.0', '< 1.0'
 gem 'apipie-rails', '>= 0.5.17', '< 0.6.0'
 gem 'apipie-dsl', '>= 2.2.6'
-gem 'rdoc'
+# Pin rdoc to prevent updating bundled psych (https://github.com/ruby/rdoc/commit/ebe185c8775b2afe844eb3da6fa78adaa79e29a4)
+# Rails 6.0 is incompatible with Psych 4, Rails 6.1 should work
+gem 'rdoc', '< 6.4'
 gem 'rabl', '~> 0.14.2'
 gem 'oauth', '>= 0.5.4', '< 1'
 gem 'deep_cloneable', '>= 3', '< 4'
