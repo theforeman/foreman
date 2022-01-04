@@ -28,13 +28,17 @@ runcmd:
 
 - |
   if [ -f /usr/bin/dnf ]; then
-    dnf -y install puppet-agent
+    dnf -y install puppet
   else
-    yum -t -y install puppet-agent
+    yum -t -y install puppet
   fi
   
-  cat > /etc/puppetlabs/puppet/puppet.conf << EOF
+  cat > /etc/puppet/puppet.conf << EOF
   [main]
+  vardir = /var/lib/puppet
+  logdir = /var/log/puppet
+  rundir = /var/run/puppet
+  ssldir = \$vardir/ssl
   
   [agent]
   pluginsync      = true
@@ -51,7 +55,7 @@ runcmd:
   # export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
   export FACTER_is_installer=true
   # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
-  /opt/puppetlabs/bin/puppet agent --config /etc/puppetlabs/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
+  /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
 
 
 phone_home:
