@@ -54,7 +54,9 @@ module Foreman
         :format_time,
         :shell_escape,
         :join_with_line_break,
-        :current_date
+        :current_date,
+        :truthy?,
+        :falsy?
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [
