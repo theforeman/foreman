@@ -99,4 +99,14 @@ class HelpersTest < ActiveSupport::TestCase
 
     it { assert_equal escaped, scope.shell_escape(string) }
   end
+
+  describe '#truthy?' do
+    it { assert scope.truthy?('true') }
+    it { refute scope.truthy?('false') }
+  end
+
+  describe '#falsy?' do
+    it { assert scope.falsy?('false') }
+    it { refute scope.falsy?('true') }
+  end
 end

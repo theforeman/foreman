@@ -108,6 +108,26 @@ module Foreman
           def current_date(format: '%F')
             Time.zone.today.strftime(format)
           end
+
+          apipie :method, 'Checks whether a value is truthy or not' do
+            optional :value, Object, desc: 'Value to check'
+            returns one_of: [true, false], desc: 'Returns true if the value can be considered as truthy, false otherwise'
+            example "truthy?('1') #=> true"
+            example "truthy?('0') #=> false"
+          end
+          def truthy?(value = nil)
+            Foreman::Cast.to_bool(value) == true
+          end
+
+          apipie :method, 'Checks whether a value is falsy or not' do
+            optional :value, Object, desc: 'Value to check'
+            returns one_of: [true, false], desc: 'Returns true if the value can be considered as falsy, false otherwise'
+            example "falsy?('1') #=> false"
+            example "falsy?('0') #=> true"
+          end
+          def falsy?(value = nil)
+            Foreman::Cast.to_bool(value) == false
+          end
         end
       end
     end
