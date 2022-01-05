@@ -21,5 +21,5 @@ class URI::Generic::Jail < Safemode::Jail
 end
 
 class ActiveSupport::TimeWithZone::Jail < Safemode::Jail
-  allow *Safemode.core_jail_methods(Time).uniq
+  allow(*Safemode.core_jail_methods(Time).uniq)
 end
