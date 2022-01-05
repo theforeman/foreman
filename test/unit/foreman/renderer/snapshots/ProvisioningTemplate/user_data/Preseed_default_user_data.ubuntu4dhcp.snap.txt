@@ -28,10 +28,14 @@ echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
 
 
 apt-get update
-apt-get install -y puppet-agent
+apt-get install -y puppet
 
-cat > /etc/puppetlabs/puppet/puppet.conf << EOF
+cat > /etc/puppet/puppet.conf << EOF
 [main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = \$vardir/ssl
 
 [agent]
 pluginsync      = true
@@ -41,11 +45,16 @@ certname        = snapshot-ipv4-dhcp-ubuntu20
 EOF
 
 
+if [ -f "/etc/default/puppet" ]
+then
+/bin/sed -i 's/^START=no/START=yes/' /etc/default/puppet
+fi
+/usr/bin/puppet agent --enable
 
 # export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
 export FACTER_is_installer=true
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
-/opt/puppetlabs/bin/puppet agent --config /etc/puppetlabs/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
 systemctl enable puppet
 
 
