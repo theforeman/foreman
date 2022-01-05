@@ -1,6 +1,7 @@
 # The audit class is part of audited plugin
 module AuditExtensions
   extend ActiveSupport::Concern
+  include HasManyCommon
 
   REDACTED = N_('[redacted]')
 
