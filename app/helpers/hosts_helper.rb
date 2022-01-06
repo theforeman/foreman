@@ -202,7 +202,7 @@ module HostsHelper
     failed_restarts = [_("Skipped")]
     skipped = [_("Restarted")]
     @host.reports.recent(timerange).each do |r|
-      time            << r.reported_at.to_i * 1000
+      time            << r.reported_at.to_i
       applied         << r.applied
       failed          << r.failed
       restarted       << r.restarted
@@ -217,7 +217,7 @@ module HostsHelper
     config = [_("Config Retrieval")]
     runtime = [_("Runtime")]
     @host.reports.recent(timerange).each do |r|
-      time << r.reported_at.to_i * 1000
+      time << r.reported_at.to_i
       config  << r.config_retrieval
       runtime << r.runtime
     end
