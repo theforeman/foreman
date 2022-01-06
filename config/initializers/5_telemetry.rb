@@ -1,3 +1,5 @@
+require 'foreman/telemetry'
+
 # Foreman telemetry metrics registration.
 #
 # There are three types of telemetry measurements: counter, gauge, histogram. Each measurement has unique name
