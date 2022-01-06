@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { Grid, GridItem } from '@patternfly/react-core';
-
-import AuditCard from '../../Audits';
+import { Grid } from '@patternfly/react-core';
+import { registerCoreCards } from './CardsRegistry';
 import Slot from '../../../common/Slot';
-import DetailsCard from '../../DetailsCard';
 import { STATUS } from '../../../../constants';
-import AggregateStatus from '../../Status/AggregateStatusCard';
 import './Details.css';
 
 const DetailsTab = ({ response, status, hostName }) => {
@@ -14,25 +11,20 @@ const DetailsTab = ({ response, status, hostName }) => {
     //  This is a workaround for adding gray background inspiring pf4 desgin
     //  TODO: delete it when pf4 layout (Page copmponent) is implemented in foreman
     document.body.classList.add('pf-gray-background');
+    registerCoreCards();
     return () => document.body.classList.remove('pf-gray-background');
   }, []);
 
   return (
     <div className="host-details-tab-item details-tab">
       <Grid hasGutter>
-        <GridItem xl2={3} xl={4} md={6} lg={4} rowSpan={2}>
-          <DetailsCard {...response} status={status} hostName={hostName} />
-        </GridItem>
-        <GridItem xl2={3} xl={4} md={6} lg={4}>
-          <AggregateStatus
-            hostName={hostName}
-            permissions={response.permissions}
-          />
-        </GridItem>
-        <GridItem xl2={3} xl={4} md={6} lg={4}>
-          <AuditCard hostName={hostName} />
-        </GridItem>
-        <Slot hostDetails={response} id="details-cards" multi />
+        <Slot
+          hostDetails={response}
+          status={status}
+          hostName={hostName}
+          id="details-cards"
+          multi
+        />
       </Grid>
     </div>
   );

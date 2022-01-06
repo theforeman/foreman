@@ -7,6 +7,7 @@ import {
   CardBody,
   CardFooter,
   Bullseye,
+  GridItem,
 } from '@patternfly/react-core';
 
 import StatusesModal from './StatusesModal';
@@ -36,9 +37,11 @@ import './styles.scss';
 
 const AggregateStatusCard = ({
   hostName,
-  permissions: {
-    view_hosts: canViewStatuses,
-    forget_status_hosts: canForgetStatuses,
+  hostDetails: {
+    permissions: {
+      view_hosts: canViewStatuses,
+      forget_status_hosts: canForgetStatuses,
+    } = {},
   },
 }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -82,7 +85,7 @@ const AggregateStatusCard = ({
   };
 
   return (
-    <>
+    <GridItem xl2={3} xl={4} md={6} lg={4}>
       <Card className="card-pf-aggregate-status" isHoverable>
         <CardTitle>
           <span>
@@ -133,20 +136,25 @@ const AggregateStatusCard = ({
           setOpenModal(false);
         }}
       />
-    </>
+    </GridItem>
   );
 };
 
 AggregateStatusCard.propTypes = {
-  hostName: PropTypes.string.isRequired,
-  permissions: PropTypes.shape({
-    view_hosts: PropTypes.bool,
-    forget_status_hosts: PropTypes.bool,
+  hostName: PropTypes.string,
+  hostDetails: PropTypes.shape({
+    permissions: PropTypes.shape({
+      view_hosts: PropTypes.bool,
+      forget_status_hosts: PropTypes.bool,
+    }),
   }),
 };
 
 AggregateStatusCard.defaultProps = {
-  permissions: { statuses_hosts: false, forget_status_hosts: false },
+  hostName: undefined,
+  hostDetails: {
+    permissions: { statuses_hosts: false, forget_status_hosts: false },
+  },
 };
 
 export default AggregateStatusCard;
