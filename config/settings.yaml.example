@@ -31,7 +31,7 @@
 # so only change this if you know what you're doing.
 :hsts_enabled: true
 
-# Ruby on Rails version (available: 5.2, 6.0)
+# Ruby on Rails version (available: 6.0, 6.1)
 # Defaults to 6.0
 #:rails: 6.0
 
