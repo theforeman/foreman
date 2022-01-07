@@ -74,7 +74,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
       post :create, params: { :config_report => create_a_puppet_transaction_report }
-      assert_response :forbidden
+      assert_response :redirect
     end
 
     test 'when "require_ssl" is false, hosts without a registered smart proxy on should not be able to create a report' do

@@ -13,22 +13,6 @@ module Foreman::Controller::SmartProxyAuth
       skip_before_action :session_expiry, :update_activity_time, :only => actions
       before_action(:only => actions) { require_smart_proxy_or_login(options[:features]) }
       attr_reader :detected_proxy
-
-      cattr_accessor :smart_proxy_filter_actions
-      self.smart_proxy_filter_actions ||= []
-      self.smart_proxy_filter_actions.push(*actions)
-
-      prepend SmartProxyRequireSsl
-    end
-  end
-
-  module SmartProxyRequireSsl
-    def require_ssl?
-      if [self.smart_proxy_filter_actions].flatten.map(&:to_s).include?(action_name)
-        false
-      else
-        super
-      end
     end
   end
 
@@ -78,6 +62,7 @@ module Foreman::Controller::SmartProxyAuth
         logger.warn "No SSL cert with CN supplied - request from #{request.remote_ip}"
       end
     elsif SETTINGS[:require_ssl]
+      # This is theoretically unreachable branch since https://github.com/theforeman/foreman/pull/9020
       logger.warn "SSL is required - request from #{request.remote_ip}"
     else
       request_hosts = Resolv.new.getnames(request.remote_ip)

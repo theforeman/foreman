@@ -770,7 +770,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
       post :facts, params: { :name => hostname, :facts => facts }
-      assert_response :forbidden
+      assert_response :redirect
     end
 
     test 'when "require_ssl" is false, HTTP requests should be able to import facts' do
