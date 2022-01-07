@@ -106,7 +106,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
       post :create, params: { :config_report => create_a_puppet_transaction_report }
-      assert_response :forbidden
+      assert_response :redirect
     end
 
     test 'when "require_ssl_smart_proxies" is true and "require_ssl" is false, HTTP requests should be able to create reports' do
