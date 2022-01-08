@@ -33,53 +33,23 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       assert_response :unprocessable_entity
     end
 
-    test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to create a report' do
-      Setting[:restrict_registered_smart_proxies] = false
-      SETTINGS[:require_ssl] = false
-
-      Resolv.any_instance.stubs(:getnames).returns(['else.where'])
-      post :create, params: { :config_report => create_a_puppet_transaction_report }
-      assert_nil @controller.detected_proxy
-      assert_response :created
-    end
-
-    test 'hosts with a registered smart proxy on should create a report successfully' do
+    test 'hosts with a registered smart proxy and SSL cert should create a report successfully' do
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = false
 
       stub_smart_proxy_v2_features
       proxy = smart_proxies(:puppetmaster)
-      as_admin { proxy.update_attribute(:url, 'http://configreports.foreman') }
-      host = URI.parse(proxy.url).host
-      Resolv.any_instance.stubs(:getnames).returns([host])
+      as_admin { proxy.update_attribute(:url, 'https://puppet.example.com') }
+
+      @request.env['HTTPS'] = 'on'
+      @request.env['SSL_CLIENT_S_DN'] = 'CN=puppet.example.com'
+      @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
       post :create, params: { :config_report => create_a_puppet_transaction_report }
       assert_equal proxy, @controller.detected_proxy
       assert_response :created
     end
 
-    test 'hosts without a registered smart proxy on should not be able to create a report' do
-      Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = false
-
-      Resolv.any_instance.stubs(:getnames).returns(['another.host'])
-      post :create, params: { :config_report => create_a_puppet_transaction_report }
-      assert_response :forbidden
-    end
-
-    test 'hosts with a registered smart proxy and SSL cert should create a report successfully' do
-      Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
-
-      @request.env['HTTPS'] = 'on'
-      @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
-      @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
-      post :create, params: { :config_report => create_a_puppet_transaction_report }
-      assert_response :created
-    end
-
     test 'hosts without a registered smart proxy but with an SSL cert should not be able to create a report' do
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
 
       @request.env['HTTPS'] = 'on'
       @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
@@ -90,7 +60,6 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
 
     test 'hosts with an unverified SSL cert should not be able to create a report' do
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
 
       @request.env['HTTPS'] = 'on'
       @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
@@ -99,9 +68,8 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       assert_response :forbidden
     end
 
-    test 'when "require_ssl_smart_proxies" and "require_ssl" are true, HTTP requests should not be able to create a report' do
+    test 'when "require_ssl" is true, HTTP requests should not be able to create a report' do
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
       SETTINGS[:require_ssl] = true
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
@@ -109,10 +77,17 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       assert_response :forbidden
     end
 
-    test 'when "require_ssl_smart_proxies" is true and "require_ssl" is false, HTTP requests should be able to create reports' do
-      # since require_ssl_smart_proxies is only applicable to HTTPS connections, both should be set
+    test 'when "require_ssl" is false, hosts without a registered smart proxy on should not be able to create a report' do
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
+      SETTINGS[:require_ssl] = false
+
+      Resolv.any_instance.stubs(:getnames).returns(['another.host'])
+      post :create, params: { :config_report => create_a_puppet_transaction_report }
+      assert_response :forbidden
+    end
+
+    test 'when "require_ssl" is false, HTTP requests should be able to create reports' do
+      Setting[:restrict_registered_smart_proxies] = true
       SETTINGS[:require_ssl] = false
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])

@@ -80,11 +80,6 @@ attribute27:
   category: Setting
   default: "true"
   description: "Only known Smart Proxies may access features that use Smart Proxy authentication"
-attribute28:
-  name: require_ssl_smart_proxies
-  category: Setting
-  default: "true"
-  description: "Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)"
 attribute29:
   name: ssl_client_dn_env
   category: Setting
