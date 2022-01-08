@@ -43,7 +43,7 @@ module Foreman::Controller::SmartProxyAuth
                               SmartProxy.unscoped.with_features(*features)
                             end
 
-    if !Setting[:restrict_registered_smart_proxies] || auth_smart_proxy(allowed_smart_proxies, Setting[:require_ssl_smart_proxies])
+    if !Setting[:restrict_registered_smart_proxies] || auth_smart_proxy(allowed_smart_proxies)
       set_admin_user
       return true
     end
@@ -57,8 +57,7 @@ module Foreman::Controller::SmartProxyAuth
   end
 
   # Filter requests to only permit from hosts with a registered smart proxy
-  # Uses rDNS of the request to match proxy hostnames
-  def auth_smart_proxy(proxies = SmartProxy.unscoped.all, require_cert = true)
+  def auth_smart_proxy(proxies = SmartProxy.unscoped.all)
     request_hosts = nil
     if request.ssl?
       # If we have the client certficate in the request environment we can extract the dn and sans from there
@@ -75,11 +74,8 @@ module Foreman::Controller::SmartProxyAuth
         else
           logger.warn "SSL cert has not been verified (#{client_certificate.verify}) - request from #{request.remote_ip}, #{client_certificate.subject}"
         end
-      elsif require_cert
-        logger.warn "No SSL cert with CN supplied - request from #{request.remote_ip}"
       else
-        logger.warn "No SSL cert supplied, falling back to reverse DNS for hostname lookup - request from #{request.remote_ip}"
-        request_hosts = Resolv.new.getnames(request.remote_ip)
+        logger.warn "No SSL cert with CN supplied - request from #{request.remote_ip}"
       end
     elsif SETTINGS[:require_ssl]
       logger.warn "SSL is required - request from #{request.remote_ip}"

@@ -32,11 +32,6 @@ Foreman::SettingManager.define(:foreman) do
       description: N_('Only known Smart Proxies may access features that use Smart Proxy authentication'),
       default: true,
       full_name: N_('Restrict registered smart proxies'))
-    setting('require_ssl_smart_proxies',
-      type: :boolean,
-      description: N_('Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)'),
-      default: true,
-      full_name: N_('Require SSL for smart proxies'))
     setting('trusted_hosts',
       type: :array,
       description: N_('List of hostnames, IPv4, IPv6 addresses or subnets to be trusted in addition to Smart Proxies for access to fact/report importers and ENC output'),

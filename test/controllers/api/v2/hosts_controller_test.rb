@@ -722,28 +722,10 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    test 'hosts with a registered smart proxy on should import facts successfully' do
-      stub_smart_proxy_v2_features
-      proxy = smart_proxies(:puppetmaster)
-      proxy.update_attribute(:url, 'https://factsimporter.foreman')
-
-      User.current = users(:one) # use an unprivileged user, not apiadmin
-      Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = false
-
-      host = URI.parse(proxy.url).host
-      Resolv.any_instance.stubs(:getnames).returns([host])
-      post :facts, params: { :name => hostname, :facts => facts }
-      assert_equal proxy, @controller.detected_proxy
-      assert_response :success
-    end
-
     test 'hosts without a registered smart proxy on should not be able to import facts' do
       User.current = users(:one) # use an unprivileged user, not apiadmin
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = false
 
-      Resolv.any_instance.stubs(:getnames).returns(['another.host'])
       post :facts, params: { :name => hostname, :facts => facts }
       assert_response :forbidden
     end
@@ -751,7 +733,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     test 'hosts with a registered smart proxy and SSL cert should import facts successfully' do
       User.current = users(:one) # use an unprivileged user, not apiadmin
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
 
       @request.env['HTTPS'] = 'on'
       @request.env['SSL_CLIENT_S_DN'] = 'CN=else.where'
@@ -763,7 +744,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     test 'hosts without a registered smart proxy but with an SSL cert should not be able to import facts' do
       User.current = users(:one) # use an unprivileged user, not apiadmin
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
 
       @request.env['HTTPS'] = 'on'
       @request.env['SSL_CLIENT_S_DN'] = 'CN=another.host'
@@ -775,7 +755,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     test 'hosts with an unverified SSL cert should not be able to import facts' do
       User.current = users(:one) # use an unprivileged user, not apiadmin
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
 
       @request.env['HTTPS'] = 'on'
       @request.env['SSL_CLIENT_S_DN'] = 'CN=secure.host'
@@ -784,10 +763,9 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_response :forbidden
     end
 
-    test 'when "require_ssl_smart_proxies" and "require_ssl" are true, HTTP requests should not be able to import facts' do
+    test 'when "require_ssl" is true, HTTP requests should not be able to import facts' do
       User.current = users(:one) # use an unprivileged user, not apiadmin
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
       SETTINGS[:require_ssl] = true
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
@@ -795,11 +773,9 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_response :forbidden
     end
 
-    test 'when "require_ssl_smart_proxies" is true and "require_ssl" is false, HTTP requests should be able to import facts' do
+    test 'when "require_ssl" is false, HTTP requests should be able to import facts' do
       User.current = users(:one) # use an unprivileged user, not apiadmin
-      # since require_ssl_smart_proxies is only applicable to HTTPS connections, both should be set
       Setting[:restrict_registered_smart_proxies] = true
-      Setting[:require_ssl_smart_proxies] = true
       SETTINGS[:require_ssl] = false
 
       Resolv.any_instance.stubs(:getnames).returns(['else.where'])
