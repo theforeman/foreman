@@ -97,7 +97,7 @@ module Dashboard
     end
 
     def out_of_sync_enabled?
-      return true unless settings[:origin]
+      return true if !settings[:origin] || settings[:origin] == 'All'
       setting = Setting[:"#{settings[:origin].downcase}_out_of_sync_disabled"]
       setting.nil? ? true : !setting
     end
