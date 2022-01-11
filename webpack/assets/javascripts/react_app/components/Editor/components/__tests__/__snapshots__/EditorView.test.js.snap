@@ -10,7 +10,7 @@ exports[`EditorView EditorView renders EditorView 1`] = `
       "$blockScrolling": Infinity,
     }
   }
-  enableBasicAutocompletion={true}
+  enableBasicAutocompletion={false}
   enableLiveAutocompletion={false}
   focus={false}
   fontSize={12}
@@ -58,7 +58,7 @@ exports[`EditorView EditorView renders EditorView w/vim&mask 1`] = `
       "$blockScrolling": Infinity,
     }
   }
-  enableBasicAutocompletion={true}
+  enableBasicAutocompletion={false}
   enableLiveAutocompletion={false}
   focus={false}
   fontSize={12}

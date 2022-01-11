@@ -126,7 +126,6 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
     </Button>
   </OverlayTrigger>
   <EditorSettings
-    autocompletion={true}
     changeSetting={[Function]}
     keyBinding="Default"
     keyBindings={
@@ -136,7 +135,6 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
         "Vim",
       ]
     }
-    liveAutocompletion={false}
     mode="Ruby"
     modes={
       Array [
