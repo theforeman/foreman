@@ -53,8 +53,6 @@ const initialState = Immutable({
   showError: false,
   templateClass: '',
   theme: 'Monokai',
-  autocompletion: true,
-  liveAutocompletion: false,
   value: '',
 });
 

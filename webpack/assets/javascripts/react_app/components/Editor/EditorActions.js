@@ -36,8 +36,6 @@ import {
   selectHosts,
 } from './EditorSelectors';
 
-import { parseDocs } from './EditorHelpers';
-
 export const initializeEditor = initializeData => dispatch => {
   const {
     template,
@@ -50,7 +48,6 @@ export const initializeEditor = initializeData => dispatch => {
     isRendering,
     previewResult,
     showError,
-    dslCache,
   } = initializeData;
 
   const initialState = {};
@@ -69,7 +66,6 @@ export const initializeEditor = initializeData => dispatch => {
   if (isRendering) initialState.isRendering = false;
   if (previewResult !== '') initialState.previewResult = '';
   if (showError) initialState.showError = false;
-  parseDocs(dslCache);
   dispatch({
     type: EDITOR_INITIALIZE,
     payload: initialState,

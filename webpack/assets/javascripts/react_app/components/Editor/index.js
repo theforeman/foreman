@@ -29,8 +29,6 @@ import {
   selectSearchQuery,
   selectShowError,
   selectTheme,
-  selectAutocompletion,
-  selectLiveAutocompletion,
   selectValue,
 } from './EditorSelectors';
 
@@ -58,8 +56,6 @@ const mapStateToProps = state => ({
   selectedView: selectChosenView(state),
   showError: selectShowError(state),
   theme: selectTheme(state),
-  autocompletion: selectAutocompletion(state),
-  liveAutocompletion: selectLiveAutocompletion(state),
   value: selectValue(state),
 });
 

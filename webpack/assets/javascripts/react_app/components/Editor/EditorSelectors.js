@@ -11,9 +11,6 @@ export const selectKeyBind = state => selectEditor(state).keyBinding;
 export const selectEditorName = state => selectEditor(state).editorName;
 export const selectChosenView = state => selectEditor(state).selectedView;
 export const selectTheme = state => selectEditor(state).theme;
-export const selectAutocompletion = state => selectEditor(state).autocompletion;
-export const selectLiveAutocompletion = state =>
-  selectEditor(state).liveAutocompletion;
 export const selectDiffType = state => selectEditor(state).diffViewType;
 export const selectIsMaximized = state => selectEditor(state).isMaximized;
 export const selectIsMasked = state => selectEditor(state).isMasked;

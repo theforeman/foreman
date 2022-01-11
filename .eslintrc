@@ -161,8 +161,7 @@
           "xpi",
           "xyz",
           "yaml",
-          "cpu",
-          "Autocompletion"
+          "cpu"
         ],
         "minLength": 3
       }

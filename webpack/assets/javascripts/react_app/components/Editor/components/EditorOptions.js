@@ -46,8 +46,6 @@ class EditorOptions extends React.Component {
       template,
       theme,
       themes,
-      autocompletion,
-      liveAutocompletion,
       toggleMaskValue,
       toggleModal,
     } = this.props;
@@ -154,8 +152,6 @@ class EditorOptions extends React.Component {
           keyBinding={keyBinding}
           theme={theme}
           themes={themes}
-          autocompletion={autocompletion}
-          liveAutocompletion={liveAutocompletion}
         />
         <OverlayTrigger
           delayShow={500}
@@ -196,8 +192,6 @@ EditorOptions.propTypes = {
   template: PropTypes.string,
   theme: PropTypes.string.isRequired,
   themes: PropTypes.array.isRequired,
-  autocompletion: PropTypes.bool.isRequired,
-  liveAutocompletion: PropTypes.bool.isRequired,
   toggleMaskValue: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
 };

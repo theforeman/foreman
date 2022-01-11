@@ -17,7 +17,6 @@ exports[`Editor selectors should return componentHosts w/Empty Arr 1`] = `Array 
 
 exports[`Editor selectors should return editor 1`] = `
 Object {
-  "autocompletion": true,
   "changeDiffViewType": [Function],
   "changeEditorValue": [Function],
   "changeSetting": [Function],
@@ -85,7 +84,6 @@ Object {
     "Emacs",
     "Vim",
   ],
-  "liveAutocompletion": false,
   "mode": "Ruby",
   "modes": Array [
     "Text",

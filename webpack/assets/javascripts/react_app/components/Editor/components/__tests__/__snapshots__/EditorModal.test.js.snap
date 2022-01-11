@@ -135,12 +135,10 @@ exports[`EditorModal should render renders EditorModal editor 1`] = `
     componentClass="div"
   >
     <EditorView
-      autocompletion={true}
       className="editor ace_editor_modal"
       isMasked={false}
       isSelected={true}
       keyBinding="Default"
-      liveAutocompletion={false}
       mode="Ruby"
       name="editor"
       onChange={[Function]}
