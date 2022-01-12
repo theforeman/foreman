@@ -83,4 +83,9 @@ else
   echo "Host [<%= @host.name %>] successfully configured, but failed to set built status."
 fi
 
+<% if plugin_present?('katello') && @host.operatingsystem.family == 'Redhat' -%>
+subscription-manager facts --update
+
+<% end -%>
+
 exit 0
