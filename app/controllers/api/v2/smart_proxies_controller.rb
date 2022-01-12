@@ -65,6 +65,21 @@ module Api
         process_response @smart_proxy.refresh.blank? && @smart_proxy.save && @smart_proxy.reload
       end
 
+      api :POST, "/smart_proxies/:id/import_subnets", N_("Import subnets from Smart proxy")
+      param :id, String, :required => true
+
+      def import_subnets
+        proxy = SmartProxy.find(params[:id])
+        @subnets = Subnet::Ipv4.import(proxy)
+        if @subnets.nil?
+          render_error :custom_error, :status => :unprocessable_entity, :locals => {:message => 'Proxy does not have a DHCP feature'}
+        elsif @subnets.empty?
+          render :import_subnets, :status => :no_content
+        else
+          render :import_subnets, :status => :created
+        end
+      end
+
       def version
         render :version, :locals => {:success => true, :result => @smart_proxy.statuses[:version].version}
       rescue Foreman::Exception => e

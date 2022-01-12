@@ -473,6 +473,9 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :destroy_smart_proxies, {:smart_proxies => [:destroy],
                                           :"api/v2/smart_proxies" => [:destroy],
     }
+    map.permission :import_subnets, {:smart_proxies => [:import],
+                                     :"api/v2/smart_proxies" => [:import_subnets],
+    }
   end
 
   permission_set.security_block :smart_proxies_autosign do |map|
