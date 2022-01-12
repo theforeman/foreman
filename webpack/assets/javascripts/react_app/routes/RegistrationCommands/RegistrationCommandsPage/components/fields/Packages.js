@@ -17,7 +17,7 @@ const Packages = ({ packages, handlePackages, configParams, isLoading }) => (
     labelIcon={
       <LabelIcon
         text={__(
-          'Install packages on the host when registered. Can be set by `host_packages` parameter'
+          'Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`.'
         )}
       />
     }
