@@ -250,4 +250,48 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_match(/Exception message/, show_response['error']['message'])
   end
+
+  context 'import subnets' do
+    setup do
+      SmartProxy.expects(:find).with('foo').returns(mock('proxy'))
+    end
+
+    test 'import subnets failed' do
+      Subnet::Ipv4.expects(:import).returns(nil)
+      post :import_subnets, params: { :id => 'foo' }, session: set_session_user
+      assert_response :unprocessable_entity
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_match 'Proxy does not have a DHCP feature', show_response['error']['message']
+    end
+
+    test 'render no_content if subnets were not found' do
+      Subnet::Ipv4.expects(:import).returns([])
+      post :import_subnets, params: { :id => 'foo' }, session: set_session_user
+      assert_response :no_content
+    end
+
+    test 'import one subnet succeeded' do
+      subnet = FactoryBot.build_stubbed(:subnet_ipv4)
+      Subnet::Ipv4.expects(:import).returns([subnet])
+      post :import_subnets, params: { :id => 'foo' }, session: set_session_user
+      show_response = ActiveSupport::JSON.decode(@response.body)["results"].first
+      assert_response :created
+      assert_equal show_response["id"], subnet.id
+      assert_equal show_response["name"], subnet.name
+    end
+
+    test 'import subnets succeeded' do
+      subnet1 = FactoryBot.build_stubbed(:subnet_ipv4)
+      subnet2 = FactoryBot.build_stubbed(:subnet_ipv4)
+      Subnet::Ipv4.expects(:import).returns([subnet1, subnet2])
+      post :import_subnets, params: { :id => 'foo' }, session: set_session_user
+      show_response = ActiveSupport::JSON.decode(@response.body)["results"]
+      assert_response :created
+      assert_equal show_response.count, 2
+      assert_equal show_response.first["id"], subnet1.id
+      assert_equal show_response.first["name"], subnet1.name
+      assert_equal show_response.last["id"], subnet2.id
+      assert_equal show_response.last["name"], subnet2.name
+    end
+  end
 end

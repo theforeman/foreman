@@ -292,6 +292,7 @@ Foreman::Application.routes.draw do
           put :refresh, :on => :member
           get :version, :on => :member
           get :logs, :on => :member
+          post :import_subnets, :on => :member
           resources :autosign, :only => [:index, :create, :destroy]
           resources :hosts, :only => [:update, :index, :destroy], :controller => 'smart_proxy_hosts'
         end
