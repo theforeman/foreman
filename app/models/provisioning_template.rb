@@ -229,6 +229,18 @@ class ProvisioningTemplate < Template
     errors.add(:operatingsystems, N_("can't assign operating system to Registration template")) if operatingsystems.any?
   end
 
+  def support_single_host_render?
+    !registration_template?
+  end
+
+  def registration_template?
+    try(:template_kind)&.name == 'registration'
+  end
+
+  def host_init_config_template?
+    try(:template_kind)&.name == 'host_init_config'
+  end
+
   private
 
   def import_custom_data(options)

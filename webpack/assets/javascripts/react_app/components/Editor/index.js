@@ -30,6 +30,7 @@ import {
   selectShowError,
   selectTheme,
   selectValue,
+  selectTemplateKindId,
 } from './EditorSelectors';
 
 // map state to props
@@ -57,6 +58,7 @@ const mapStateToProps = state => ({
   showError: selectShowError(state),
   theme: selectTheme(state),
   value: selectValue(state),
+  templateKindId: selectTemplateKindId(state),
 });
 
 // map action dispatchers to props

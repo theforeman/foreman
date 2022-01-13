@@ -1,9 +1,11 @@
+<%= javascript_tag("$(document).on('ContentLoad', tfm.templateKind.initTemplateKind)"); %>
+
 <div class="tab-pane" id="template_type">
   <%= checkbox_f f, :snippet, :onchange => "tfm.templateInputs.snippetChanged(this)", :label=>_('Snippet'), :disabled => @template.locked? %>
 
   <div id="kind_selector" <%= display? @template.snippet %>>
     <%= select_f f, :template_kind_id, TemplateKind.all, :id, :to_s, {:include_blank => true, :selected => @template_kind_id},
-                 {:disabled => @template.locked?, :label => _("Type")} %>
+                 { :disabled => @template.locked?, :label => _("Type"), :onchange => "tfm.templateKind.inputOnChange(this)"} %>
   </div>
 </div>
 

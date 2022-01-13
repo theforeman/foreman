@@ -103,4 +103,10 @@ module TemplatesHelper
   def resource_permission(resource_type)
     "view_#{resource_type.demodulize.underscore.pluralize}".to_sym
   end
+
+  def template_class_name(template)
+    return 'Template' if template.registration_template? || template.host_init_config_template?
+
+    template.class.to_s
+  end
 end

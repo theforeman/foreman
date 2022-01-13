@@ -81,6 +81,7 @@ exports[`Editor rendering renders editor 1`] = `
     showImport={true}
     showPreview={true}
     template="<? />"
+    templateKindId=""
     theme="Monokai"
     themes={
       Array [

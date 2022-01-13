@@ -18,6 +18,7 @@ import * as editor from './foreman_editor';
 import * as nav from './foreman_navigation';
 import * as medium from './foreman_medium';
 import * as templateInputs from './foreman_template_inputs';
+import * as templateKind from './foreman_template_kind';
 import * as advancedFields from './foreman_advanced_fields';
 import * as configReportsModalDiff from './foreman_config_reports_modal_diff';
 import * as dashboard from './dashboard';
@@ -48,6 +49,7 @@ window.tfm = Object.assign(window.tfm || {}, {
   nav,
   medium,
   templateInputs,
+  templateKind,
   advancedFields,
   configReportsModalDiff,
   dashboard,
