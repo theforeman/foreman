@@ -7,6 +7,8 @@ import {
   Dropdown,
   DropdownSeparator,
   KebabToggle,
+  Split,
+  SplitItem,
 } from '@patternfly/react-core';
 import {
   DatabaseIcon,
@@ -25,6 +27,7 @@ import { foremanUrl } from '../../../common/helpers';
 import { cancelBuild, deleteHost, isHostTurnOn } from './actions';
 import { useForemanSettings } from '../../../Root/Context/ForemanContext';
 import BuildModal from './BuildModal';
+import Slot from '../../common/Slot';
 
 const ActionsBar = ({
   hostId,
@@ -137,20 +140,29 @@ const ActionsBar = ({
 
   return (
     <>
-      <Button
-        onClick={() => visit(foremanUrl(`/hosts/${hostId}/edit`))}
-        variant="secondary"
-        isDisabled={!canEdit}
-      >
-        {__('Edit')}
-      </Button>
-      <Dropdown
-        alignments={{ default: 'right' }}
-        toggle={<KebabToggle id="hostdetails-kebab" onToggle={onKebabToggle} />}
-        isOpen={kebabIsOpen}
-        isPlain
-        dropdownItems={dropdownItems.concat(registeredItems)}
-      />
+      <Split hasGutter>
+        <SplitItem>
+          <Slot hostId={hostId} id="_rex-host-features" />
+        </SplitItem>
+        <SplitItem>
+          <Button
+            onClick={() => visit(foremanUrl(`/hosts/${hostId}/edit`))}
+            variant="secondary"
+            isDisabled={!canEdit}
+          >
+            {__('Edit')}
+          </Button>
+          <Dropdown
+            alignments={{ default: 'right' }}
+            toggle={
+              <KebabToggle id="hostdetails-kebab" onToggle={onKebabToggle} />
+            }
+            isOpen={kebabIsOpen}
+            isPlain
+            dropdownItems={dropdownItems.concat(registeredItems)}
+          />
+        </SplitItem>
+      </Split>
       {isBuildModalOpen && (
         <BuildModal
           isModalOpen={isBuildModalOpen}
