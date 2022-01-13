@@ -114,7 +114,6 @@ exports[`EditorNavbar rendring renders EditorNavbar 1`] = `
         "Yaml",
       ]
     }
-    previewTemplate={[Function]}
     renderPath="/render/path"
     revertChanges={[Function]}
     selectedView="input"

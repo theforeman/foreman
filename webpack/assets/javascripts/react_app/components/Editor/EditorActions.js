@@ -26,6 +26,7 @@ import {
   EDITOR_HOST_SELECT_RESET,
   EDITOR_HOST_ARR,
   EDITOR_HOST_FILTERED_ARR,
+  EDITOR_CHANGE_KIND,
 } from './EditorConstants';
 
 import {
@@ -97,7 +98,7 @@ export const revertChanges = template => dispatch => {
   });
 };
 
-export const previewTemplate = ({ host, renderPath }) => async (
+export const previewTemplate = ({ host, renderPath, templateKindId }) => async (
   dispatch,
   getState
 ) => {
@@ -106,11 +107,11 @@ export const previewTemplate = ({ host, renderPath }) => async (
     dispatch({ type: EDITOR_HOST_SELECT_TOGGLE });
   const templateValue = selectValue(getState());
   const isErrorShown = selectShowError(getState());
-
   const params = {
     template: templateValue,
     /* eslint-disable camelcase */
     preview_host_id: id,
+    template_kind_id: templateKindId,
   };
   dispatch({ type: EDITOR_SHOW_LOADING });
   try {
@@ -212,12 +213,23 @@ export const onHostSearch = e => (dispatch, getState) => {
   );
 };
 
-export const fetchAndPreview = renderPath => async (dispatch, getState) => {
+export const fetchAndPreview = (
+  renderPath,
+  templateKindId,
+  skipHostFetch
+) => async (dispatch, getState) => {
   dispatch({ type: EDITOR_SHOW_LOADING });
+
+  if (skipHostFetch) {
+    dispatch(previewTemplate({ host: {}, renderPath, templateKindId }));
+    return;
+  }
+
   await dispatch(fetchHosts());
   const hosts = selectHosts(getState());
+
   if (hosts.length > 0)
-    dispatch(previewTemplate({ host: hosts[0], renderPath }));
+    dispatch(previewTemplate({ host: hosts[0], renderPath, templateKindId }));
   else dispatch({ type: EDITOR_HIDE_LOADING });
 };
 
@@ -273,3 +285,10 @@ export const onSearchClear = () => ({ type: EDITOR_HOST_SELECT_CLEAR });
 export const onHostSelectToggle = () => ({
   type: EDITOR_HOST_SELECT_TOGGLE,
 });
+
+export const changeTemplateKind = value => dispatch => {
+  dispatch({
+    type: EDITOR_CHANGE_KIND,
+    payload: value,
+  });
+};

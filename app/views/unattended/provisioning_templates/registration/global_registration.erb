@@ -16,7 +16,7 @@ description: |
 -%>
 
 # Rendered with following template parameters:
-<%= "# User: [#{@user.login}]" -%>
+<%= "# User: [#{@user.login}]" if @user -%>
 <%= "\n# Organization: [#{@organization.name}]" if @organization -%>
 <%= "\n# Location: [#{@location.name}]" if @location -%>
 <%= "\n# Host group: [#{@hostgroup.title}]" if @hostgroup -%>
@@ -171,9 +171,9 @@ if [ -f /etc/redhat-release ]; then
     # Configure subscription-manager
     test -f $RHSM_CFG.bak || cp $RHSM_CFG $RHSM_CFG.bak
     subscription-manager config \
-      --server.hostname="<%= @rhsm_url.host %>" \
-      --server.port="<%= @rhsm_url.port %>" \
-      --server.prefix="<%= @rhsm_url.path %>" \
+      --server.hostname="<%= @rhsm_url.host if @rhsm_url %>" \
+      --server.port="<%= @rhsm_url.port if @rhsm_url %>" \
+      --server.prefix="<%= @rhsm_url.path if @rhsm_url %>" \
       --rhsm.repo_ca_cert="$KATELLO_SERVER_CA_CERT" \
       --rhsm.baseurl="<%= @pulp_content_url %>"
 
@@ -193,7 +193,7 @@ if [ -f /etc/redhat-release ]; then
     fi
 
     subscription-manager register <%= '--force' if truthy?(@force) %> \
-      --org='<%= @organization.label %>' \
+      --org='<%= @organization.label if @organization %>' \
       --activationkey='<%= activation_keys %>' || <%= truthy?(@ignore_subman_errors) ? 'true' : 'cleanup_and_exit 1' %>
 
     register_katello_host | bash

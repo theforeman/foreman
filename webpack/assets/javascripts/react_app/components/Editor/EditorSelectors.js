@@ -4,6 +4,7 @@ import { EDITOR_HOST_ARR, EDITOR_HOST_FILTERED_ARR } from './EditorConstants';
 export const selectEditor = state => state.editor;
 
 export const selectValue = state => selectEditor(state).value;
+export const selectTemplateKindId = state => selectEditor(state).templateKindId;
 export const selectPreviewResult = state => selectEditor(state).previewResult;
 export const selectErrorText = state => selectEditor(state).errorText;
 export const selectMode = state => selectEditor(state).mode;

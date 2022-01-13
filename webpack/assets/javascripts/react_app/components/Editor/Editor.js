@@ -95,6 +95,7 @@ class Editor extends React.Component {
       toggleModal,
       toggleRenderView,
       value,
+      templateKindId,
     } = this.props;
 
     const editorViewProps = {
@@ -132,6 +133,7 @@ class Editor extends React.Component {
           theme={theme}
           keyBinding={keyBinding}
           value={value}
+          templateKindId={templateKindId}
           renderedEditorValue={renderedEditorValue}
           diffViewType={diffViewType}
           template={template}
@@ -270,6 +272,7 @@ Editor.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   toggleRenderView: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
+  templateKindId: PropTypes.string,
   renderedEditorValue: PropTypes.string.isRequired,
   isSelectOpen: PropTypes.bool.isRequired,
   searchQuery: PropTypes.string.isRequired,
@@ -278,6 +281,10 @@ Editor.propTypes = {
   onSearchClear: PropTypes.func.isRequired,
   isSearchingHosts: PropTypes.bool.isRequired,
   fetchAndPreview: PropTypes.func.isRequired,
+};
+
+Editor.defaultProps = {
+  templateKindId: '',
 };
 
 export default Editor;
