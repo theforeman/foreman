@@ -94,7 +94,7 @@ const HostDetails = ({
             </BreadcrumbItem>
           </Breadcrumb>
           <Grid className="hostname-skeleton-rapper">
-            <GridItem span={9}>
+            <GridItem span={8}>
               <SkeletonLoader status={status || STATUS.PENDING}>
                 {response && (
                   <>
@@ -126,7 +126,7 @@ const HostDetails = ({
                 )}
               </SkeletonLoader>
             </GridItem>
-            <GridItem offset={10} span={2}>
+            <GridItem offset={8} span={4}>
               <Flex>
                 <FlexItem align={{ default: 'alignRight' }}>
                   <ActionsBar
