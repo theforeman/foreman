@@ -7,7 +7,7 @@ description: |
   Script that can be manually downloaded to a server to reprovision it without booting from network.
   Grubby compatibility package must be installed. WARNING: It will immediately reconfigure
   bootloader and reprovision the node.
-    
+  
   Usage:
   curl https://foreman/unattended/script -o reprovision.sh
   bash reprovision.sh
@@ -20,4 +20,4 @@ INITRD="/boot/initrd.img"
 wget -O "$KERNEL" "<%= @host.url_for_boot(:kernel) %>"
 wget -O "$INITRD" "<%= @host.url_for_boot(:initrd) %>"
 
-grubby --add-kernel=$KERNEL --initrd=$INITRD  --copy-default --title "<%= @host.operatingsystem %>" --make-default  --args="ks=<%= foreman_url('provision')%>"
+grubby --add-kernel=$KERNEL --initrd=$INITRD  --copy-default --title "<%= @host.operatingsystem %>" --make-default  --args="inst.ks=<%= foreman_url('provision')%>"
