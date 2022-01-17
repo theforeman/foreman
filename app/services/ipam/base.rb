@@ -6,7 +6,7 @@ module IPAM
 
     delegate :logger, :to => :Rails
     attr_accessor :mac, :subnet, :excluded_ips, :block_ip_minutes
-    attr_reader :errors
+    attr_reader :errors, :ip_addr
 
     BLOCK_IP_MINUTES_DEFAULT = 30
 
@@ -17,13 +17,14 @@ module IPAM
       @mac = nil if @mac.try(:blank?)
       @errors = ActiveModel::Errors.new(self)
       @block_ip_minutes = opts.fetch(:block_ip_minutes, BLOCK_IP_MINUTES_DEFAULT)
+      @ip_addr = IPAddr.new("#{subnet.network}/#{subnet.mask}", subnet.family)
 
       normalize_mac!
     end
 
     def subnet_range
       @subnet_range ||= begin
-        subnet_range = IPAddr.new("#{subnet.network}/#{subnet.mask}", subnet.family).to_range
+        subnet_range = ip_addr.to_range
         # exclude first element - network
         from = subnet.from.present? ? IPAddr.new(subnet.from) : subnet_range.first(2).last
         # exclude last element - broadcast
@@ -31,6 +32,10 @@ module IPAM
         logger.debug "IPAM #{self.class.name} searching range #{from} - #{to}"
         (from..to)
       end
+    end
+
+    def ip_include?(ip)
+      ip_addr.include?(ip)
     end
 
     def suggest_new?
