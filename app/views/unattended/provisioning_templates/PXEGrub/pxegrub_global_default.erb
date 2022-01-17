@@ -31,7 +31,7 @@ timeout=20
   url = default_template_url(profile[:template], profile[:hostgroup])
   case profile[:pxe_type]
   when 'kickstart'
-    append = "ks=#{url} ksdevice=bootif network kssendmac ks.sendmac inst.ks.sendmac"
+    append = "inst.ks=#{url} ksdevice=bootif network inst.ks.sendmac"
   when 'preseed'
     locale = profile[:hostgroup].params['lang'] || 'en_US'
     append = "interface=auto url=#{url} ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=unassigned-hostname locale=#{locale} console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA"
