@@ -14,8 +14,6 @@ const ModelsPage = ({
   isLoading,
   hasData,
   models,
-  page,
-  perPage,
   sort,
   hasError,
   itemCount,
@@ -43,8 +41,6 @@ const ModelsPage = ({
     >
       <ModelsPageContent
         models={models}
-        page={page}
-        perPage={perPage}
         search={search}
         sort={sort}
         hasData={hasData}
@@ -64,8 +60,6 @@ ModelsPage.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   hasData: PropTypes.bool.isRequired,
   models: PropTypes.array.isRequired,
-  page: PropTypes.number,
-  perPage: PropTypes.number,
   sort: PropTypes.object.isRequired,
   hasError: PropTypes.bool.isRequired,
   itemCount: PropTypes.number.isRequired,
@@ -74,8 +68,6 @@ ModelsPage.propTypes = {
 };
 
 ModelsPage.defaultProps = {
-  page: null,
-  perPage: null,
   search: '',
   message: {},
 };

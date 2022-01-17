@@ -8,8 +8,6 @@ import { callOnMount, callOnPopState } from '../../../common/HOC';
 
 import {
   selectModels,
-  selectPage,
-  selectPerPage,
   selectSearch,
   selectSort,
   selectHasData,
@@ -22,8 +20,6 @@ import {
 
 const mapStateToProps = state => ({
   models: selectModels(state),
-  page: selectPage(state),
-  perPage: selectPerPage(state),
   search: selectSearch(state),
   sort: selectSort(state),
   isLoading: selectIsLoading(state),

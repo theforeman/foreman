@@ -290,18 +290,6 @@ table {
   min-height: 30px;
 }
 
-.pagination {
-  display: table-cell;
-  float: none;
-  vertical-align: bottom;
-}
-
-.audits-pagination {
-  margin-top: -15px !important;
-  margin-bottom: 10px;
-  border-top: 1px solid #d1d1d1 !important;
-}
-
 #interfaceModal {
   .modal-dialog {
     min-width: 1000px;
@@ -453,7 +441,12 @@ table {
   line-height: 2;
 }
 
-.navbar-editor > span > .select2-container .select2-choices .select2-search-field input,
+.navbar-editor
+  > span
+  > .select2-container
+  .select2-choices
+  .select2-search-field
+  input,
 .select2-container .select2-choice,
 .select2-container .select2-choices .select2-chosen {
   height: 24px;

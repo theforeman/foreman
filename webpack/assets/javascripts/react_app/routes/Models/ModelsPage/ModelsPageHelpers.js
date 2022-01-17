@@ -12,7 +12,7 @@ export const buildQuery = (query, state) => {
 
   return {
     page: query.page || selectPage(state),
-    perPage: query.perPage || selectPerPage(state),
+    perPage: query.per_page || selectPerPage(state),
     searchQuery:
       query.searchQuery === undefined ? selectSearch(state) : query.searchQuery,
     ...(querySort && { sort: querySort }),

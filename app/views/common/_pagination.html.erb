@@ -1,9 +1,7 @@
 <div id='pagination'> 
-  <%= react_component('Pagination', {
-    data: {
-      :viewType => 'table',
-      :classNames => options,
-      :itemCount => collection.total_entries,
-    }
+  <%= react_component('Pagination', { 
+    itemCount: collection.total_entries, 
+    className: options[:pagination_classes],
+    noSidePadding: true,
   }) %>
 </div>

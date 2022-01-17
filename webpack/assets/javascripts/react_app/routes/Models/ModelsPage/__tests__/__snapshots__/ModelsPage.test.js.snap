@@ -65,8 +65,6 @@ exports[`ModelsPage redering should render when loading 1`] = `
         },
       ]
     }
-    page={5}
-    perPage={42}
     search="name=foo"
     sort={
       Object {
@@ -148,8 +146,6 @@ exports[`ModelsPage redering should render with error 1`] = `
         },
       ]
     }
-    page={5}
-    perPage={42}
     search="name=foo"
     sort={
       Object {
@@ -226,8 +222,6 @@ exports[`ModelsPage redering should render with models 1`] = `
         },
       ]
     }
-    page={5}
-    perPage={42}
     search="name=foo"
     sort={
       Object {
@@ -304,8 +298,6 @@ exports[`ModelsPage redering should render with no data 1`] = `
         },
       ]
     }
-    page={5}
-    perPage={42}
     search="name=foo"
     sort={
       Object {

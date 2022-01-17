@@ -33,7 +33,8 @@ export const resultParams = {
 };
 
 export const queryParams = {
-  ...pageParams,
+  page: 5,
+  per_page: 42,
   ...querySearch,
   ...querySort,
 };

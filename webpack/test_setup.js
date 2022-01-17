@@ -3,7 +3,6 @@ jest.mock('./assets/javascripts/react_app/Root/Context/ForemanContext', () => ({
   useForemanVersion: () => 'mocked_version',
   useForemanSettings: () => ({ perPage: 5 }),
   useForemanDocUrl: () => '/url',
-  usePaginationOptions: () => [5, 10, 20, 50],
   useForemanLocation: () => ({ title: 'location' }),
   useForemanOrganization: () => ({ title: 'organization' }),
 }));
