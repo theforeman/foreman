@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import ModelsTable from '../../../../components/ModelsTable';
-import Pagination from '../../../../components/Pagination/PaginationWrapper';
+import Pagination from '../../../../components/Pagination';
 
 import ModelDeleteModal from './ModelDeleteModal';
 import LoadingPage from '../../../common/LoadingPage';
@@ -14,8 +14,6 @@ const ModelsPageContent = ({
   sort,
   fetchAndPush,
   itemCount,
-  page,
-  perPage,
 }) => {
   const [toDelete, setToDelete] = useState({});
 
@@ -31,13 +29,7 @@ const ModelsPageContent = ({
         setToDelete={setToDelete}
         id="models-table"
       />
-      <Pagination
-        viewType="list"
-        itemCount={itemCount}
-        pagination={{ page, perPage }}
-        onChange={fetchAndPush}
-        dropdownButtonId="models-page-pagination-dropdown"
-      />
+      <Pagination itemCount={itemCount} onChange={fetchAndPush} noSidePadding />
     </React.Fragment>
   );
 };
@@ -48,8 +40,6 @@ ModelsPageContent.propTypes = {
   sort: PropTypes.object.isRequired,
   fetchAndPush: PropTypes.func.isRequired,
   itemCount: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired,
-  perPage: PropTypes.number.isRequired,
 };
 
 ModelsPageContent.defaultProps = {

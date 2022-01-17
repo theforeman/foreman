@@ -104,7 +104,7 @@ export const fetchAndPush = params => (dispatch, getState) => {
 
 const buildQuery = (query, state) => ({
   page: query.page || selectAuditsSelectedPage(state),
-  perPage: query.perPage || selectAuditsPerPage(state),
+  perPage: query.per_page || selectAuditsPerPage(state),
   searchQuery:
     query.searchQuery === undefined
       ? selectAuditsSearch(state)

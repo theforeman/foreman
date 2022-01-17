@@ -15,7 +15,7 @@ class AuditJSTest < IntegrationTestWithJavascript
     test "Check per page settings in context" do
       Setting['entries_per_page'] = 8
       visit audits_path
-      per_page = page.find('#pagination-row-dropdown').text
+      per_page = page.find('.pf-c-pagination')['data-per-page']
       assert_equal per_page, '8'
     end
   end
