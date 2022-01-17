@@ -72,7 +72,12 @@ const HostDetails = ({
     registerCoreTabs();
   }, []);
 
-  const activeTab = decodeURI(hash.slice(2).split('/')[0]);
+  const activeTab = decodeURI(
+    hash
+      .slice(2)
+      .split('/')[0]
+      .split('?')[0] // Remove query params
+  );
 
   return (
     <>
