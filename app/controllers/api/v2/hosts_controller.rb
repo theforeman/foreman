@@ -139,9 +139,6 @@ module Api
         else
           @host = Host.new(host_attributes(host_params))
           @host.managed = true if (params[:host] && params[:host][:managed].nil?)
-
-          # Workaround to fix #33732 (do base64 encoding while creating a host via API)
-          @host.root_pass = @host.root_pass
         end
         apply_compute_profile(@host)
         @host.suggest_default_pxe_loader if params[:host] && params[:host][:pxe_loader].nil?

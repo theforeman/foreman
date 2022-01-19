@@ -272,6 +272,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal true, JSON.parse(@response.body)['build']
   end
 
+  test 'root_pass from setting is encrypted if no password is passed' do
+    Setting[:root_pass] = 'password'
+    post :create, params: { :host => valid_attrs }
+    host = Host.find(JSON.parse(@response.body)['id'])
+    assert_not_equal host.root_pass, 'password'
+    assert host.root_pass.starts_with?('$5$')
+  end
+
   test "should create host with host_parameters_attributes" do
     disable_orchestration
     attrs = [{"name" => "compute_resource_id", "value" => "1"}]
