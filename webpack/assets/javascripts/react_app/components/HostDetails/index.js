@@ -39,7 +39,6 @@ import { STATUS } from '../../constants';
 import './HostDetails.scss';
 import { useAPI } from '../../common/hooks/API/APIHooks';
 import TabRouter from './Tabs/TabRouter';
-import ExperimentalAlert from './ExperimentalAlert';
 import RedirectToEmptyHostPage from './EmptyState';
 
 const HostDetails = ({
@@ -160,7 +159,6 @@ const HostDetails = ({
             )}
           </SkeletonLoader>
         </div>
-        <ExperimentalAlert hostId={id} />
         {tabs && (
           <TabRouter
             response={response}
