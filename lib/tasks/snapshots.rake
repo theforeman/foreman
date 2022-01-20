@@ -23,8 +23,6 @@ namespace :snapshots do
       ::Foreman::Renderer::Source::Snapshot::SNAPSHOTS_DIRECTORY, '*')))
 
     DatabaseCleaner.cleaning do
-      ENV['FIXTURES'] = 'settings'
-      Rake::Task['db:fixtures:load'].invoke
       Foreman.settings.load
       Setting[:unattended_url] = "http://foreman.example.com"
       Setting[:foreman_url] = "http://foreman.example.com"

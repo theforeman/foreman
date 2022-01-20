@@ -1,8 +1,8 @@
 UI menu.c32
 MENU TITLE Booting local disk (ESC to stop)
 TIMEOUT 200
-ONTIMEOUT nil
-DEFAULT nil
+ONTIMEOUT local_chain_hd0
+DEFAULT local_chain_hd0
 
 LABEL local
   MENU LABEL Default local boot

@@ -84,36 +84,34 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
   end
 
   test "should not update setting" do
-    put :update, params: { :id => settings(:attributes1).to_param, :setting => { } }
+    Setting['foreman_url'] = 'http://cool-foreman.example.net'
+    put :update, params: { :id => 'foreman_url', :setting => { } }
     assert_response 422
   end
 
   test "should parse string values to integers" do
-    setting = Setting.where(:settings_type => 'integer').first
-    put :update, params: { :id => setting.to_param, :setting => { :value => "100" } }
+    put :update, params: { :id => 'entries_per_page', :setting => { :value => "100" } }
     assert_response :success
-    assert_equal 100, Setting[setting.name]
+    assert_equal 100, Setting['entries_per_page']
   end
 
   test "should accept integer values" do
-    setting = Setting.where(:settings_type => 'integer').first
-    put :update, params: { :id => setting.to_param, :setting => { :value => 120 } }
+    Setting['entries_per_page'] = 30
+    put :update, params: { :id => 'entries_per_page', :setting => { :value => 120 } }
     assert_response :success
-    assert_equal 120, Setting[setting.name]
+    assert_equal 120, Setting['entries_per_page']
   end
 
   test "should parse string values to ararys" do
-    setting = Setting.where(:settings_type => 'array').first
-    put :update, params: { :id => setting.to_param, :setting => { :value => "['baz','foo']" } }
+    put :update, params: { :id => 'excluded_facts', :setting => { :value => "['baz','foo']" } }
     assert_response :success
-    assert_equal ['baz', 'foo'], Setting[setting.name]
+    assert_equal ['baz', 'foo'], Setting['excluded_facts']
   end
 
   test "should accept array values" do
-    setting = Setting.where(:settings_type => 'array').first
-    put :update, params: { :id => setting.to_param, :setting => { :value => ['foo', 'bar'] } }
+    put :update, params: { :id => 'excluded_facts', :setting => { :value => ['foo', 'bar'] } }
     assert_response :success
-    assert_equal ['foo', 'bar'], Setting[setting.name]
+    assert_equal ['foo', 'bar'], Setting['excluded_facts']
   end
 
   test_attributes :pid => 'fb8b0bf1-b475-435a-926b-861aa18d31f1'
@@ -138,9 +136,8 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
 
   test "should update setting as system admin" do
     user = user_one_as_system_admin
-    setting = Setting.where(:settings_type => 'integer').first
     as_user user do
-      put :update, params: { :id => setting.to_param, :setting => { :value => "100" } }
+      put :update, params: { :id => 'entries_per_page', :setting => { :value => "100" } }
     end
     assert_response :success
   end

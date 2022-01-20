@@ -1,6 +1,6 @@
-set default=nil
+set default=local
 set timeout=20
-echo Default PXE local template entry is set to 'nil'
+echo Default PXE local template entry is set to 'local'
 
 insmod part_gpt
 insmod fat
