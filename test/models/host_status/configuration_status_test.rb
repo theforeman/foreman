@@ -164,13 +164,36 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     assert_equal [], Host.search_for('status.applied = 1')
   end
 
-  test 'overwrite outofsync_interval as host parameter' do
+  test 'overwrite puppet_interval as host parameter' do
     window = 30
-    Setting['outofsync_interval'] = 10
+    Setting['outofsync_interval'] = 25
     @status.reported_at = Time.now.utc - window.minutes
     assert @status.out_of_sync?
-    # should be not out of sync if Setting['outofsync_interval'] is overwritten by parameter
-    @host.params['outofsync_interval'] = 25
+    @status.last_report.origin = 'Puppet'
+    @host.params['puppet_interval'] = 35
+    refute @status.out_of_sync?
+  end
+
+  test 'fall back to outofsync_interval if no last_report.origin is specified' do
+    window = 30
+    Setting['outofsync_interval'] = 20
+    @status.reported_at = Time.now.utc - window.minutes
+    @status.last_report.origin = nil
+    assert @status.out_of_sync?
+
+    Setting['outofsync_interval'] = 40
+    refute @status.out_of_sync?
+  end
+
+  test 'fall back to outofsync_interval if last_report.origin but no last_report.origin interval specified' do
+    window = 30
+    Setting['outofsync_interval'] = 20
+    @status.reported_at = Time.now.utc - window.minutes
+    @status.last_report.origin = 'Puppet'
+    @host.params['puppet_interval'] = nil
+    assert @status.out_of_sync?
+
+    Setting['outofsync_interval'] = 40
     refute @status.out_of_sync?
   end
 end
