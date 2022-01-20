@@ -15,13 +15,13 @@ module Api
       end
 
       api :GET, '/register', N_('Render Global registration template')
-      param :organization_id, :number, desc: N_("ID of the Organization to register the host in.")
-      param :location_id, :number, desc: N_("ID of the Location to register the host in.")
-      param :hostgroup_id, :number, desc: N_("ID of the Host group to register the host in.")
-      param :operatingsystem_id, :number, desc: N_("ID of the Operating System to register the host in.")
-      param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems.")
-      param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host.")
-      param :packages, String, desc: N_("Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`.")
+      param :organization_id, :number, desc: N_("ID of the Organization to register the host in")
+      param :location_id, :number, desc: N_("ID of the Location to register the host in")
+      param :hostgroup_id, :number, desc: N_("ID of the Host group to register the host in")
+      param :operatingsystem_id, :number, desc: N_("ID of the Operating System to register the host in")
+      param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems")
+      param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host")
+      param :packages, String, desc: N_("Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`")
       param :update_packages, :bool, desc: N_("Update all packages on the host")
       param :repo, String, desc: N_("Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'")
       param :repo_gpg_key_url, String, desc: N_("URL of the GPG key for the repository")
@@ -59,7 +59,7 @@ module Api
         param :enabled, :bool, desc: N_("Include this host within Foreman reporting")
         param :managed, :bool, desc: N_("True/False flag whether a host is managed or unmanaged. Note: this value also determines whether several parameters are required or not")
         param :comment, String, desc: N_("Additional information about this host")
-        param :interfaces_attributes, Array, desc: N_("Host's network interfaces.") do
+        param :interfaces_attributes, Array, desc: N_("Host's network interfaces") do
           param_group :interface_attributes, ::Api::V2::InterfacesController
         end
         Facets.registered_facets.values.each do |facet_config|
@@ -70,8 +70,8 @@ module Api
           end
         end
       end
-      param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems.")
-      param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host.")
+      param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems")
+      param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host")
       def host
         begin
           ActiveRecord::Base.transaction do
