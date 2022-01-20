@@ -22,15 +22,17 @@ module HostStatus
     end
 
     def expected_report_interval
-      (reported_origin_interval + default_report_interval).minutes
+      (reported_origin_interval || default_report_interval).minutes
     end
 
     def reported_origin_interval
-      if last_report.origin &&
-         (interval = Setting[:"#{last_report.origin.downcase}_interval"])
-        interval.to_i
-      else
-        default_report_interval
+      if last_report.origin
+        if host.params.has_key? "#{last_report.origin.downcase}_interval"
+          interval = host.params["#{last_report.origin.downcase}_interval"]
+        else
+          interval = Setting[:"#{last_report.origin.downcase}_interval"]
+        end
+        interval
       end
     end
 
@@ -134,11 +136,7 @@ module HostStatus
     end
 
     def default_report_interval
-      if host.params.has_key? 'outofsync_interval'
-        host.params['outofsync_interval']
-      else
-        Setting[:outofsync_interval]
-      end
+      Setting[:outofsync_interval]
     end
 
     def out_of_sync_disabled?
