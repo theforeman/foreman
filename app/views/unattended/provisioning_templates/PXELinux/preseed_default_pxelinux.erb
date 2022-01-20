@@ -38,6 +38,9 @@ description: |
     options << "netcfg/use_vlan=true netcfg/vlan_id=#{@host.provision_interface.vlanid}"
   end
   options << "locale=#{host_param('lang') || 'en_US'}"
+  if host_param('pxe_kernel_options')
+    options << host_param('pxe_kernel_options')
+  end
   options = options.join(' ')
 -%>
 DEFAULT linux

@@ -41,6 +41,9 @@ description: |
   
   # send PXELinux "IPAPPEND 2" option along
   options.push("BOOTIF=01-$net_default_mac")
+  if host_param('pxe_kernel_options')
+    options << host_param('pxe_kernel_options')
+  end
 
   options = options.join(' ')
 
