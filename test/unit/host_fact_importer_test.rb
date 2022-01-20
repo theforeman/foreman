@@ -179,6 +179,8 @@ class HostFactImporterTest < ActiveSupport::TestCase
 
   test 'host taxonomies are set to a default when uploading facts' do
     Setting[:create_new_host_when_facts_are_uploaded] = true
+    Setting[:default_location] = taxonomies(:location1).title
+    Setting[:default_organization] = taxonomies(:organization1).title
     raw = read_json_fixture('facts/facts.json')
     host = Host.import_host(raw['name'])
     assert HostFactImporter.new(host).import_facts(raw['facts'])

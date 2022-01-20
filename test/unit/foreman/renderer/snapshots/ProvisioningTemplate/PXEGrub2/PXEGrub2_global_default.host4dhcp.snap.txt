@@ -1,6 +1,6 @@
-default=nil
+default=local
 timeout=20
-echo Default PXE global template entry is set to 'nil'
+echo Default PXE global template entry is set to 'local'
 
 echo "Trying /httpboot/grub2/grub.cfg-$net_default_mac"
 configfile "/httpboot/grub2/grub.cfg-$net_default_mac"
