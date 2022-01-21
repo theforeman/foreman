@@ -73,16 +73,20 @@ class TemplateInput < ApplicationRecord
   private
 
   def prevent_delete_if_template_is_locked
-    if template&.locked
+    if template_locked?
       errors.add(:base, _("Cannot delete template input as template is locked."))
       throw(:abort)
     end
   end
 
   def check_if_template_is_locked
-    if template&.locked && !ForemanSeeder.is_seeding
+    if template_locked?
       errors.add(:base, _('This template is locked. Please clone it to a new template to customize.'))
     end
+  end
+
+  def template_locked?
+    template&.locked && !ForemanSeeder.is_seeding
   end
 
   def input_type_related_validations
