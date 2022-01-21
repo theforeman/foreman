@@ -119,35 +119,79 @@ class HostJSTest < IntegrationTestWithJavascript
       find('h1', :text => /Manage Host's Statuses/)
     end
 
-    test "create new host and redirect to the new host details page" do
-      compute_resource = FactoryBot.create(:compute_resource, :libvirt)
-      os = FactoryBot.create(:ubuntu14_10, :with_associations)
-      Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
-      visit new_host_path
+    describe 'create and redirect' do
+      test 'redirects correctly with second nic being primary' do
+        compute_resource = FactoryBot.create(:compute_resource, :libvirt)
+        os = FactoryBot.create(:ubuntu14_10, :with_associations)
+        Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
+        visit new_host_path
 
-      fill_in 'host_name', :with => 'newhost1'
-      select2 'Organization 1', :from => 'host_organization_id'
-      wait_for_ajax
-      select2 'Location 1', :from => 'host_location_id'
-      wait_for_ajax
-      select2 compute_resource.name, :from => 'host_compute_resource_id'
+        fill_in 'host_name', :with => 'newhost1'
+        select2 'Organization 1', :from => 'host_organization_id'
+        wait_for_ajax
+        select2 'Location 1', :from => 'host_location_id'
+        wait_for_ajax
+        select2 compute_resource.name, :from => 'host_compute_resource_id'
 
-      click_link 'Operating System'
-      wait_for_ajax
-      select2 os.architectures.first.name, :from => 'host_architecture_id'
-      select2 os.title, :from => 'host_operatingsystem_id'
-      uncheck('host_build')
-      select2 os.media.first.name, :from => 'host_medium_id'
-      select2 os.ptables.first.name, :from => 'host_ptable_id'
-      fill_in 'host_root_pass', :with => '12345678'
+        click_link 'Operating System'
+        wait_for_ajax
+        select2 os.architectures.first.name, :from => 'host_architecture_id'
+        select2 os.title, :from => 'host_operatingsystem_id'
+        uncheck('host_build')
+        select2 os.media.first.name, :from => 'host_medium_id'
+        select2 os.ptables.first.name, :from => 'host_ptable_id'
+        fill_in 'host_root_pass', :with => '12345678'
 
-      switch_form_tab_to_interfaces
-      click_button 'Edit'
-      select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
-      fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
-      close_interfaces_modal
-      click_button('Submit')
-      find('h5', :text => /newhost1.*/) # wait for the new host details page
+        switch_form_tab_to_interfaces
+        page.find(:button, 'Edit').click
+        select2 domains(:mydomain).name, :from => "host_interfaces_attributes_0_domain_id"
+        fill_in "host_interfaces_attributes_0_ip", :with => '1.1.1.1'
+        close_interfaces_modal
+
+        page.find(:button, '+ Add Interface').click
+        interface_id = page.evaluate_script("$('#interfaceModal').data('current-id');")
+        fill_in "host_interfaces_attributes_#{interface_id}_name", :with => 'newhost2'
+        select2 domains(:mydomain).name, :from => "host_interfaces_attributes_#{interface_id}_domain_id"
+        fill_in "host_interfaces_attributes_#{interface_id}_ip", :with => '1.1.1.2'
+        accept_confirm do
+          find("#host_interfaces_attributes_#{interface_id}_primary").check
+        end
+        close_interfaces_modal
+        click_button('Submit')
+        find('h5', :text => /newhost2.*/) # wait for the new host details page
+      end
+
+      test "redirects correctly with append_domain_name_for_hosts turned off" do
+        Setting['append_domain_name_for_hosts'] = false
+        compute_resource = FactoryBot.create(:compute_resource, :libvirt)
+        os = FactoryBot.create(:ubuntu14_10, :with_associations)
+        Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
+        visit new_host_path
+
+        fill_in 'host_name', :with => 'newhost1'
+        select2 'Organization 1', :from => 'host_organization_id'
+        wait_for_ajax
+        select2 'Location 1', :from => 'host_location_id'
+        wait_for_ajax
+        select2 compute_resource.name, :from => 'host_compute_resource_id'
+
+        click_link 'Operating System'
+        wait_for_ajax
+        select2 os.architectures.first.name, :from => 'host_architecture_id'
+        select2 os.title, :from => 'host_operatingsystem_id'
+        uncheck('host_build')
+        select2 os.media.first.name, :from => 'host_medium_id'
+        select2 os.ptables.first.name, :from => 'host_ptable_id'
+        fill_in 'host_root_pass', :with => '12345678'
+
+        switch_form_tab_to_interfaces
+        page.find(:button, 'Edit').click
+        select2 domains(:mydomain).name, :from => "host_interfaces_attributes_0_domain_id"
+        fill_in "host_interfaces_attributes_0_ip", :with => '1.1.1.1'
+        close_interfaces_modal
+        click_button('Submit')
+        find('h5', :text => /newhost1/) # wait for the new host details page
+      end
     end
   end
 
