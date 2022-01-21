@@ -388,13 +388,21 @@ $(document).on('change', '.virtual', function() {
     .toggle(!is_virtual);
 });
 
-function update_fqdn() {
-  var host_name = $('#host_name').val();
+function construct_host_name() {
+  var host_name_el = $('#host_name')
+  var host_name = host_name_el.val();
+  if (host_name_el.data('appendDomainNameForHosts') === false) {
+    return host_name;
+  }
   var domain_name = primary_nic_form()
     .find('.interface_domain option:selected')
     .text();
+  return fqdn(host_name, domain_name);
+}
+
+function update_fqdn() {
+  var name = construct_host_name();
   var pathname = window.location.pathname;
-  var name = fqdn(host_name, domain_name);
   if (name.length > 0 && pathname === tfm.tools.foremanUrl('/hosts/new')) {
     name = __('Create Host') + ' | ' + name;
     tfm.store.dispatch('updateBreadcrumbTitle', name);
