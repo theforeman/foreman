@@ -22,7 +22,7 @@ module HostStatus
     end
 
     def expected_report_interval
-      (reported_origin_interval || default_report_interval).minutes
+      (reported_origin_interval.presence || default_report_interval).to_i.minutes
     end
 
     def reported_origin_interval
