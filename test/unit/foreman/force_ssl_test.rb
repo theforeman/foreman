@@ -12,18 +12,6 @@ class ForceSslTest < ActiveSupport::TestCase
     end
   end
 
-  describe 'adding allowed http actions' do
-    let(:path) { '/specifically/allowed' }
-
-    it 'allows http on given action' do
-      action = { controller: 'specifically', action: 'allowed' }
-      Foreman::ForceSsl.stubs(allowed_http_actions: [])
-      subject.expects(:path_for_action).returns('/specifically/allowed')
-      Foreman::ForceSsl.add_allowed_http_action!(action)
-      _(subject.allows_http?).must_equal true
-    end
-  end
-
   describe 'unattended urls' do
     let(:path) { '/unattended/something' }
 
