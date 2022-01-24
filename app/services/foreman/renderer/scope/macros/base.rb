@@ -121,8 +121,9 @@ module Foreman
 
           apipie :method, desc: 'Takes a block of code, runs it and prefixes the resulting text by given number of spaces' do
             desc "This is useful when rendering output is a whitespace sensitive format, such as YAML."
-            required :count, String, desc: 'the number of spaces'
-            keyword :skip1, String, desc: 'skips the first line prefixing, defaults to false', default: false
+            required :count, Integer, desc: 'The number of spaces'
+            keyword :skip1, [true, false], desc: 'Skips the first line prefixing, defaults to false', default: false
+            block 'Optional. Does nothing if no block is given', schema: '{ code }'
             returns String, desc: 'The indented text, that was the result of block of code'
             example "indent(2) { snippet('epel') } # => '  echo Installing yum repo\n  yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm'"
             example "indent(2) { snippet('epel', skip1: true) } # => 'echo Installing yum repo\n  yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm'"

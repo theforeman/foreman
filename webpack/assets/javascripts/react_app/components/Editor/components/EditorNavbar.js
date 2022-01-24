@@ -39,6 +39,8 @@ const EditorNavbar = ({
   template,
   theme,
   themes,
+  autocompletion,
+  liveAutocompletion,
   toggleMaskValue,
   toggleModal,
   toggleRenderView,
@@ -194,6 +196,8 @@ const EditorNavbar = ({
         keyBindings={keyBindings}
         theme={theme}
         themes={themes}
+        autocompletion={autocompletion}
+        liveAutocompletion={liveAutocompletion}
       />
     </div>
   );
@@ -217,6 +221,8 @@ EditorNavbar.propTypes = {
   isSelectOpen: PropTypes.bool.isRequired,
   keyBinding: PropTypes.string.isRequired,
   keyBindings: PropTypes.array.isRequired,
+  autocompletion: PropTypes.bool.isRequired,
+  liveAutocompletion: PropTypes.bool.isRequired,
   mode: PropTypes.string.isRequired,
   modes: PropTypes.array.isRequired,
   onHostSearch: PropTypes.func.isRequired,

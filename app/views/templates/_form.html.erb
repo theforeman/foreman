@@ -46,6 +46,7 @@
             </span>
           <% end %>
           <%= react_component('Editor', { data: {
+            dslCache: @dsl_cache.to_json,
             template: @template.template,
             locked: @template.locked,
             id: @template.id,

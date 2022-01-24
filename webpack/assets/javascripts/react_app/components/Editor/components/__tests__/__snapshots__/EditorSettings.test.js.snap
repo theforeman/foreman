@@ -204,6 +204,47 @@ exports[`EditorSettings renders EditorSettings 1`] = `
           </DropdownMenu>
         </ForwardRef>
       </div>
+      <div
+        className="cog-popover-dropdown"
+      >
+        <div
+          className="cog-popover-dropdown-title"
+        >
+          Autocompletion
+        </div>
+        <div
+          className="dropdown btn-group"
+        >
+          <input
+            checked={true}
+            id="autocompletion-checkbox"
+            name="autocompletion"
+            onChange={[Function]}
+            type="checkbox"
+          />
+        </div>
+      </div>
+      <div
+        className="cog-popover-dropdown"
+      >
+        <div
+          className="cog-popover-dropdown-title"
+        >
+          Live Autocompletion
+        </div>
+        <div
+          className="dropdown btn-group"
+        >
+          <input
+            checked={false}
+            disabled={false}
+            id="live-autocompletion-checkbox"
+            name="liveAutocompletion"
+            onChange={[Function]}
+            type="checkbox"
+          />
+        </div>
+      </div>
     </Popover>
   }
   placement="bottom"
@@ -435,6 +476,47 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
             </MenuItem>
           </DropdownMenu>
         </ForwardRef>
+      </div>
+      <div
+        className="cog-popover-dropdown"
+      >
+        <div
+          className="cog-popover-dropdown-title"
+        >
+          Autocompletion
+        </div>
+        <div
+          className="dropdown btn-group"
+        >
+          <input
+            checked={true}
+            id="autocompletion-checkbox"
+            name="autocompletion"
+            onChange={[Function]}
+            type="checkbox"
+          />
+        </div>
+      </div>
+      <div
+        className="cog-popover-dropdown"
+      >
+        <div
+          className="cog-popover-dropdown-title"
+        >
+          Live Autocompletion
+        </div>
+        <div
+          className="dropdown btn-group"
+        >
+          <input
+            checked={false}
+            disabled={false}
+            id="live-autocompletion-checkbox"
+            name="liveAutocompletion"
+            onChange={[Function]}
+            type="checkbox"
+          />
+        </div>
       </div>
     </Popover>
   }

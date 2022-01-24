@@ -19,6 +19,8 @@ const EditorSettings = ({
   modes,
   theme,
   themes,
+  autocompletion,
+  liveAutocompletion,
 }) => (
   <OverlayTrigger
     overlay={
@@ -74,6 +76,37 @@ const EditorSettings = ({
             </Dropdown.Menu>
           </Dropdown>
         </div>
+        <div className="cog-popover-dropdown">
+          <div className="cog-popover-dropdown-title">
+            {__('Autocompletion')}
+          </div>
+          <div className="dropdown btn-group">
+            <input
+              id="autocompletion-checkbox"
+              name="autocompletion"
+              type="checkbox"
+              checked={autocompletion}
+              onChange={e => changeSetting({ autocompletion: !autocompletion })}
+            />
+          </div>
+        </div>
+        <div className="cog-popover-dropdown">
+          <div className="cog-popover-dropdown-title">
+            {__('Live Autocompletion')}
+          </div>
+          <div className="dropdown btn-group">
+            <input
+              id="live-autocompletion-checkbox"
+              name="liveAutocompletion"
+              type="checkbox"
+              checked={liveAutocompletion}
+              disabled={!autocompletion}
+              onChange={e =>
+                changeSetting({ liveAutocompletion: !liveAutocompletion })
+              }
+            />
+          </div>
+        </div>
       </Popover>
     }
     placement="bottom"
@@ -95,6 +128,8 @@ EditorSettings.propTypes = {
   modes: PropTypes.array.isRequired,
   theme: PropTypes.string.isRequired,
   themes: PropTypes.array.isRequired,
+  autocompletion: PropTypes.bool.isRequired,
+  liveAutocompletion: PropTypes.bool.isRequired,
 };
 
 export default EditorSettings;
