@@ -2,20 +2,12 @@
 attributes66:
   name: delivery_method
   category: Setting
-  default: :test
   value: :test
-  description: 'Method used to deliver e-mail'
 attribute97:
   name: ct_command
   category: Setting
-  settings_type: 'array'
-  default: "['/usr/bin/cat']"
   value: "['/usr/bin/cat']"
-  description: "CoreOS Transpiler"
 attribute98:
   name: fcct_command
   category: Setting
-  settings_type: 'array'
-  default: "['/usr/bin/cat']"
   value: "['/usr/bin/cat']"
-  description: "Fedora CoreOS Transpiler"

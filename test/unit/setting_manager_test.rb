@@ -106,7 +106,7 @@ class SettingManagerTest < ActiveSupport::TestCase
       end
       Foreman::SettingManager.validations.setup!
       Foreman.settings.load_definitions
-      setting = Setting.new(name: 'validfoo', default: '-omited-', description: 'Omited', value: 'notanemail')
+      setting = Setting.new(name: 'validfoo', value: 'notanemail')
       assert_not setting.valid?
     end
 
@@ -123,7 +123,7 @@ class SettingManagerTest < ActiveSupport::TestCase
       end
       Foreman::SettingManager.validations.setup!
       Foreman.settings.load_definitions
-      setting = Setting.new(name: 'validfoo', default: '-omited-', description: 'Omited', value: 'notanemail')
+      setting = Setting.new(name: 'validfoo', value: 'notanemail')
       assert_not setting.valid?
     end
 
@@ -140,7 +140,7 @@ class SettingManagerTest < ActiveSupport::TestCase
       end
       Foreman::SettingManager.validations.setup!
       Foreman.settings.load_definitions
-      setting = Setting.new(name: 'validfoo2', default: '-omited-', description: 'Omited', value: 'bar@notvalid.com')
+      setting = Setting.new(name: 'validfoo2', value: 'bar@notvalid.com')
       assert_not setting.valid?
     end
 
@@ -157,7 +157,7 @@ class SettingManagerTest < ActiveSupport::TestCase
       end
       Foreman::SettingManager.validations.setup!
       Foreman.settings.load_definitions
-      setting = Setting.new(name: 'validfoo3', default: '-omited-', description: 'Omited', value: 'notvalid@example.com')
+      setting = Setting.new(name: 'validfoo3', value: 'notvalid@example.com')
       assert_not setting.valid?
     end
   end

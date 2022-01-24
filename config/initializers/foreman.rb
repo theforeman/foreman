@@ -18,18 +18,12 @@ end
 
 Foreman.settings.load_definitions
 
-# We may be executing something like rake db:migrate:reset, which destroys this table
-# only continue if the table exists
-# TODO: remove this, and postpone loading values to to_prepare
-if (Setting.table_exists? rescue(false))
-  Setting.descendants.each(&:load_defaults)
-  Foreman.settings.load_values
-end
-
 Foreman::Plugin.initialize_default_registries
 Foreman::Plugin.medium_providers_registry.register MediumProviders::Default
 
 Rails.application.config.after_initialize do
+  Foreman.settings.load_values unless Foreman.in_setup_db_rake? || !(Setting.table_exists? rescue false)
+
   Foreman::Plugin.registered_plugins.each do |_name, plugin|
     plugin.finalize_setup!
   end
