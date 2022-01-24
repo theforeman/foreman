@@ -11,7 +11,7 @@ exports[`EditorView EditorView renders EditorView 1`] = `
       "loadWorkerFromBlob": false,
     }
   }
-  enableBasicAutocompletion={false}
+  enableBasicAutocompletion={true}
   enableLiveAutocompletion={false}
   enableSnippets={false}
   focus={false}
@@ -61,7 +61,7 @@ exports[`EditorView EditorView renders EditorView w/vim&mask 1`] = `
       "loadWorkerFromBlob": false,
     }
   }
-  enableBasicAutocompletion={false}
+  enableBasicAutocompletion={true}
   enableLiveAutocompletion={false}
   enableSnippets={false}
   focus={false}

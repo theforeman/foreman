@@ -17,6 +17,7 @@ class TemplatesController < ApplicationController
 
   def new
     @template = resource_class.new
+    @dsl_cache = ApipieDSL.docs
   end
 
   # we can't use `clone` here, ActionController disables public method that are inherited and present in Base
@@ -28,6 +29,7 @@ class TemplatesController < ApplicationController
     @template.locked = false
     load_vars_from_template
     @template.valid?
+    @dsl_cache = ApipieDSL.docs
     render :action => :new
   end
 
@@ -45,12 +47,14 @@ class TemplatesController < ApplicationController
       process_success :object => @template
     else
       load_vars_from_template
+      @dsl_cache = ApipieDSL.docs
       process_error :object => @template
     end
   end
 
   def edit
     load_vars_from_template
+    @dsl_cache = ApipieDSL.docs
   end
 
   def update
@@ -59,6 +63,7 @@ class TemplatesController < ApplicationController
     else
       load_history
       load_vars_from_template
+      @dsl_cache = ApipieDSL.docs
       process_error :object => @template
     end
   end

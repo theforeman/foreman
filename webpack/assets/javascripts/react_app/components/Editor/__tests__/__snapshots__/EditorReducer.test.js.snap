@@ -2,6 +2,7 @@
 
 exports[`Editor reducer should handle EDITOR_CHANGE_DIFF_VIEW 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "unified",
   "editorName": "editor",
   "errorText": "",
@@ -16,6 +17,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -35,6 +37,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_CHANGE_SETTING 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -49,6 +52,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "html",
   "previewResult": "",
   "readOnly": false,
@@ -68,6 +72,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_CHANGE_STATE 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -82,6 +87,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -101,6 +107,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_CHANGE_TAB 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -115,6 +122,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -134,6 +142,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_DISMISS_ERROR 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -148,6 +157,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -167,6 +177,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_EXEC_PREVIEW 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -181,6 +192,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "</>",
   "readOnly": false,
@@ -200,6 +212,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_FETCH_HOST_PENDING 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -214,6 +227,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -233,6 +247,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_FETCH_HOST_RESOLVED 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -252,6 +267,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -271,6 +287,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_HIDE_LOADING 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -285,6 +302,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -304,6 +322,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_HOST_INITIAL_FETCH 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -323,6 +342,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -342,6 +362,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_HOST_SELECT_CLEAR 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -356,6 +377,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -375,6 +397,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_HOST_SELECT_RESET 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -389,6 +412,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -408,6 +432,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_HOST_SELECT_TOGGLE 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -422,6 +447,7 @@ Object {
   "isSelectOpen": true,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -441,6 +467,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_IMPORT_FILE 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -455,6 +482,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -474,6 +502,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_INITIALIZE 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -488,6 +517,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -507,6 +537,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_MODAL_TOGGLE 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -521,6 +552,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -540,6 +572,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_REVERT_CHANGES 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -554,6 +587,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -573,6 +607,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_SHOW_ERROR 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "error",
@@ -587,6 +622,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "error",
   "readOnly": false,
@@ -606,6 +642,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_SHOW_LOADING 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -620,6 +657,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -639,6 +677,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_TOGGLE_MASK 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -653,6 +692,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -672,6 +712,7 @@ Object {
 
 exports[`Editor reducer should handle EDITOR_TOGGLE_RENDER_VIEW 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -686,6 +727,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,
@@ -705,6 +747,7 @@ Object {
 
 exports[`Editor reducer should return the initial state 1`] = `
 Object {
+  "autocompletion": true,
   "diffViewType": "split",
   "editorName": "editor",
   "errorText": "",
@@ -719,6 +762,7 @@ Object {
   "isSelectOpen": false,
   "keyBinding": "Default",
   "kind": "",
+  "liveAutocompletion": false,
   "mode": "Ruby",
   "previewResult": "",
   "readOnly": false,

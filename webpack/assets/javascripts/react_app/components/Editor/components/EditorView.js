@@ -14,6 +14,8 @@ const EditorView = ({
   onChange,
   readOnly,
   theme,
+  autocompletion,
+  liveAutocompletion,
   value,
   isSelected,
 }) => (
@@ -33,11 +35,15 @@ const EditorView = ({
     editorProps={{ $blockScrolling: Infinity, loadWorkerFromBlob: false }}
     showPrintMargin={false}
     debounceChangePeriod={250}
+    enableBasicAutocompletion={autocompletion}
+    enableLiveAutocompletion={autocompletion && liveAutocompletion}
   />
 );
 EditorView.propTypes = {
   mode: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
+  autocompletion: PropTypes.bool.isRequired,
+  liveAutocompletion: PropTypes.bool.isRequired,
   keyBinding: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   readOnly: PropTypes.bool.isRequired,

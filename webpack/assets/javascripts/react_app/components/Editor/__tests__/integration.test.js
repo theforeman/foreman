@@ -6,12 +6,6 @@ import { editorOptions, serverRenderResponse } from '../Editor.fixtures';
 import Editor, { reducers } from '../index';
 import * as EditorActions from '../EditorActions'
 
-import * as ace from 'ace-builds/src-noconflict/ace';
-
-ace.config.set('basePath', '/assets/ui/');
-ace.config.set('modePath', '');
-ace.config.set('themePath', '');;
-
 jest.mock('../../../redux/API');
 
 describe('Editor integration test', () => {
