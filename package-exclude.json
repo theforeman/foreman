@@ -18,6 +18,7 @@
         "jest",
         "nock",
         "prettier",
+        "pretty-format",
         "raw-loader",
         "react-addons-test-utils",
         "react-dnd-test-backend",
@@ -28,7 +29,8 @@
         "redux-mock-store",
         "surge",
         "webpack-bundle-analyzer",
-        "webpack-dev-server"
+        "webpack-dev-server",
+        "webpack-dev-server-without-h2"
     ],
     "EXCLUDE_NPM_PREFIXES": [
         "@babel/eslint-",
