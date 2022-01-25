@@ -29,6 +29,15 @@ d-i partman/early_command string \
 # The presently available methods are: "regular", "lvm" and "crypto"
 d-i partman-auto/method string <%= partitioning_method %>
 
+<% if partitioning_method == 'crypto' -%>
+# Unattended 'crypto' partitioning method requires a passphrase.
+d-i partman-crypto/passphrase password <%= host_param('partitioning-crypto-passphrase') %>
+d-i partman-crypto/passphrase-again password <%= host_param('partitioning-crypto-passphrase') %>
+
+# When disk encryption is enabled, skip wiping the partitions beforehand.
+d-i partman-auto-crypto/erase_disks boolean <%= host_param_true?('partitioning-crypto-erase-disks') ? 'true' : 'false' %>
+
+<% end -%>
 # If one of the disks that are going to be automatically partitioned
 # contains an old LVM configuration, the user will normally receive a
 # warning. This can be preseeded away...
@@ -39,7 +48,7 @@ d-i partman-md/device_remove_md boolean true
 d-i partman-lvm/confirm boolean true
 d-i partman-lvm/confirm_nooverwrite boolean true
 
-<% if partitioning_method == 'lvm' -%>
+<% if partitioning_method == 'lvm' || partitioning_method == 'crypto' -%>
 # For LVM partitioning, you can select how much of the volume group to use
 # for logical volumes.
 d-i partman-auto-lvm/guided_size string max
