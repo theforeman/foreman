@@ -1,0 +1,44 @@
+<%#
+kind: PXELinux
+name: Preseed default cloud-init autoinstall PXELinux
+model: ProvisioningTemplate
+oses:
+- Ubuntu 20.04 live-server and hihger
+test_on:
+- ubuntu4dhcp
+-%>
+#
+# This file was deployed via '<%= template_name %>' template
+#
+# Supported host/hostgroup parameters:
+#
+# blacklist = module1, module2
+#   Blacklisted kernel modules
+#
+# lang = en_US
+#   System locale
+#
+<%
+  options = []
+  if host_param('blacklist')
+    options << host_param('blacklist').split(',').collect{|x| "#{x.strip}.blacklist=yes"}.join(' ')
+  end
+  if @host.operatingsystem.name == 'Debian'
+    options << "auto=true"
+    options << "domain=#{@host.domain}"
+  else
+    options << 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true'
+  end
+  if @host.provision_interface.vlanid.present?
+    options << "netcfg/use_vlan=true netcfg/vlan_id=#{@host.provision_interface.vlanid}"
+  end
+  options << "locale=#{host_param('lang') || 'en_US'}"
+  options = options.join(' ')
+-%>
+DEFAULT linux cloud-init autoinstall
+LABEL linux cloud-init autoinstall
+    KERNEL ubuntu/focal/vmlinuz
+    INITRD ubuntu/focal/initrd
+    APPEND ip=dhcp url=http://<%= @preseed_server %><%= @preseed_path %> autoinstall ds=nocloud-net;s=http://<%= @preseed_server %>/pub/preseed/autoinstall/<%= @host.shortname %>/ root=/dev/ram0 ramdisk_size=1500000 fsck.mode=skip
+
+<%= snippet_if_exists(template_name + " custom menu") %>
