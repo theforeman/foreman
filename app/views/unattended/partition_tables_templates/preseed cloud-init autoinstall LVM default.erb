@@ -1,0 +1,57 @@
+<%#
+kind: ptable
+name: preseed cloud-init autoinstall LVM default
+oses:
+- Ubuntu 20.04 live-server and higher
+-%>
+  storage:
+    config:
+    - {ptable: gpt,
+      path: /dev/sda, wipe: superblock, preserve: false, name: '', grub_device: true,
+      type: disk, id: disk-sda}
+    - {device: disk-sda, size: 1048576, flag: bios_grub, number: 1, preserve: false,
+      grub_device: false, type: partition, id: partition-3}
+    - {device: disk-sda, size: 1073741824, wipe: superblock, flag: '', number: 2,
+      preserve: false, grub_device: false, type: partition, id: partition-4}
+    - {fstype: xfs, volume: partition-4, preserve: false, type: format, id: format-3}
+    - {device: disk-sda, size: 4294967296, wipe: superblock, flag: swap, number: 3,
+      preserve: false, grub_device: false, type: partition, id: partition-5}
+    - {fstype: swap, volume: partition-5, preserve: false, type: format, id: format-4}
+    - {path: '', device: format-4, type: mount, id: mount-4}
+    - {device: disk-sda, size: 294594281472, wipe: superblock, flag: '', number: 4,
+      preserve: false, grub_device: false, type: partition, id: partition-6}
+    - name: vgroot
+      devices: [partition-6]
+      preserve: false
+      type: lvm_volgroup
+      id: lvm_volgroup-1
+    - {name: lv-root, volgroup: lvm_volgroup-1, size: 5368709120B, wipe: superblock,
+      preserve: false, type: lvm_partition, id: lvm_partition-2}
+    - {fstype: xfs, volume: lvm_partition-2, preserve: false, type: format, id: format-5}
+    - {path: /, device: format-5, type: mount, id: mount-5}
+    - {name: lv-home, volgroup: lvm_volgroup-1, size: 2147483648B, wipe: superblock,
+      preserve: false, type: lvm_partition, id: lvm_partition-3}
+    - {fstype: xfs, volume: lvm_partition-3, preserve: false, type: format, id: format-6}
+    - {path: /home, device: format-6, type: mount, id: mount-6}
+    - {name: lv-var, volgroup: lvm_volgroup-1, size: 5368709120B, wipe: superblock,
+      preserve: false, type: lvm_partition, id: lvm_partition-4}
+    - {fstype: xfs, volume: lvm_partition-4, preserve: false, type: format, id: format-7}
+    - {path: /var, device: format-7, type: mount, id: mount-7}
+    - {name: lv-var_log, volgroup: lvm_volgroup-1, size: 7516192768B, wipe: superblock,
+      preserve: false, type: lvm_partition, id: lvm_partition-5}
+    - {fstype: xfs, volume: lvm_partition-5, preserve: false, type: format, id: format-8}
+    - {path: /var/log, device: format-8, type: mount, id: mount-8}
+    - {name: lv-usr, volgroup: lvm_volgroup-1, size: 5368709120B, wipe: superblock,
+      preserve: false, type: lvm_partition, id: lvm_partition-6}
+    - {fstype: xfs, volume: lvm_partition-6, preserve: false, type: format, id: format-9}
+    - {path: /usr, device: format-9, type: mount, id: mount-9}
+    - {name: lv-opt, volgroup: lvm_volgroup-1, size: 1073741824B, wipe: superblock,
+      preserve: false, type: lvm_partition, id: lvm_partition-7}
+    - {fstype: xfs, volume: lvm_partition-7, preserve: false, type: format, id: format-10}
+    - {path: /opt, device: format-10, type: mount, id: mount-10}
+    - {name: lv-tmp, volgroup: lvm_volgroup-1, size: 2147483648B, wipe: superblock,
+      preserve: false, type: lvm_partition, id: lvm_partition-8}
+    - {fstype: xfs, volume: lvm_partition-8, preserve: false, type: format, id: format-11}
+    - {path: /tmp, device: format-11, type: mount, id: mount-11}
+    - {path: /boot, device: format-3, type: mount, id: mount-3}
+    swap: {swap: 0}
