@@ -1,3 +1,71 @@
+2022-01-26	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.1.1
+
+2022-01-26	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #34300 - correctly construct the fqdn for redirect
+	* Fixes #34289 - remove workaround for encoding root_pass
+
+2022-01-26	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #34299 - allow input deletion during seeding
+
+2022-01-26	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #34249 - Update subman facts after host registration
+
+2022-01-20	Stejskal Leos <github@stejskalleos.cz>
+	* Refs #34252 - Registration API - Remove dots from param descriptions
+
+2022-01-20	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #34252 - Missing example for 'Install packages' field
+
+2022-01-19	Jeremy Lenz <jlenz@redhat.com>
+	* Fixes #34271 - Ignore url query params when setting active tab
+
+2022-01-19	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #34265 - change more deprecated ks/sendmac Anaconda options
+
+2022-01-19	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #34250 - Insecure help text at Host Registration
+	* Fixes #34213 - truthy? and falsy? template helpers
+
+2022-01-19	rbertol <rudnei@redhat.com>
+	* Fixes #33942 - Allow extra vars for awx/tower on snippet template.
+
+2022-01-19	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #34142 - make the core cards arrangeable in new host page (#8995)
+	* Fixes #34223 - fix the missing username in audits
+
+2022-01-19	Bernhard Suttner <sbernhard@users.noreply.github.com>
+	* Fixes #30550,#28155 - Return valid vsphere folder (#9006)
+
+2022-01-19	Stejskal Leos <github@stejskalleos.cz>
+	* Fixes #34206 - Fix bool params in global registration template
+
+2022-01-11	Adam Cécile <acecile@letz-it.lu>
+	* Fixes #34214 - use host_param_true? to detect puppet6-repo
+
+2022-01-10	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #34026 - authorize puppet reports via Proxy
+	* Fixes #34122 - Report disallowed metric labels as other
+	* Refs #33968 - Fix the fix of Telemetry initializers
+
+2022-01-10	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #33968 - Fix loading of Foreman
+
+2022-01-10	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #34140 - remove reports warning
+
+2022-01-06	Ben Tucci <ben@trid.in>
+	* Fixes #33310 - Remove epoch shifting, as AreaChart already does this
+
+2022-01-05	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #34212 - pin rdoc < 6.4 to avoid psych dependency
+
+2021-12-21	adewar <andrewgdewar@gmail.com>
+	* Fixes #34129 - HostDetails - UX Review - Spacing
+
+2021-12-11	Marek Hulan <mhulan@redhat.com>
+	* Fixes #33981 - fix the RHEL OS name parsing
+
 2021-12-09	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.1.0
 
