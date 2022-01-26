@@ -36,6 +36,7 @@ Foreman::SettingManager.define(:foreman) do
       'vlinuxbr*',
       'vovsbr*',
       'br-int',
+      'vif*',
     ].freeze
 
     setting('create_new_host_when_facts_are_uploaded',
