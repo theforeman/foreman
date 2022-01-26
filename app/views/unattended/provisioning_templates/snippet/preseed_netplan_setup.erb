@@ -1,0 +1,114 @@
+<%#
+kind: snippet
+name: preseed_netplan_setup
+model: ProvisioningTemplate
+snippet: true
+description: this will configure your host networking, it configures your primary interface as well
+    as other NICs like BOND, BRIDGE, VLAN and Alias interfaces.
+oses:
+- Ubuntu 20.04 live-server and higher
+test_on:
+- ubuntu4dhcp
+-%>
+<% is_ubuntu = @host.operatingsystem.family == 'Debian' -%>
+<% os_major = @host.operatingsystem.major.to_i -%>
+<% os_minor = @host.operatingsystem.minor.to_i -%>
+<%- -%>
+<%# Begin Ubuntu 18.04 and newer uses netplan instead of /etc/network/interfaces -%>
+<%- if is_ubuntu && os_major >= 20 -%>
+<%- -%>
+<%- bonding_interfaces = [] -%>
+<%- bridged_interfaces = [] -%>
+<%- vlans_interfaces = [] -%>
+<%- -%>
+  network:
+    version: 2
+<%#
+##### Processing bond-interfaces #####
+-%>
+<%- found = false -%>
+<%- @host.bond_interfaces.each do | bond | -%>
+  <%- bonding_interfaces.push(bond.identifier) -%>
+  <%- if !found -%>
+  <%- found = true -%>
+    bonds:
+  <%- end -%>
+<%- result= snippet('preseed_netplan_generic_interface', :variables => {
+                  :interface => bond,
+                  :subnet => bond.subnet,
+                  :subnet6 => bond.subnet6,
+                  :dhcp => bond.subnet.nil? ? false : bond.subnet.dhcp_boot_mode?,
+                  :dhcp6 => bond.subnet6.nil? ? false : bond.subnet.dhcp_boot_mode? }) -%>
+  <%= result -%>
+        interfaces: <%= bond.attached_devices_identifiers %>
+        parameters:
+          mode: <%= bond.mode %>
+          <%- options = bond.bond_options.split() -%>
+          <%- options.each do | option | -%>
+          <%= option.gsub('=',': ') %>
+          <%- end -%>
+<% end -%>
+<%#
+##### Processing bridge interfaces #####
+-%>
+<%- found = false -%>
+<%- @host.bridge_interfaces.each do | bridge | -%>
+<%- next if bonding_interfaces.include?(bridge.identifier) -%>
+  <%- bridged_interfaces.push(bridge.identifier) -%>
+  <%- if !found -%>
+  <%- found = true -%>
+    bridges:
+  <%- end -%>
+<%- result= snippet('preseed_netplan_generic_interface', :variables => {
+                  :interface => bridge,
+                  :subnet => bridge.subnet,
+                  :subnet6 => bridge.subnet6,
+                  :dhcp => bridge.subnet.nil? ? false : bridge.subnet.dhcp_boot_mode?,
+                  :dhcp6 => bridge.subnet6.nil? ? false : bridge.subnet.dhcp_boot_mode? }) -%>
+  <%= result -%>
+<%- end -%>
+<%#
+##### Processing vlan interfaces #####
+-%>
+<%- found = false -%>
+<%- @host.managed_interfaces.each do | vlan | -%>
+<%- next if bonding_interfaces.include?(vlan.identifier) -%>
+<%- next if bridged_interfaces.include?(vlan.identifier) -%>
+<%- next if !vlan.virtual? -%>
+  <%- vlans_interfaces.push(vlan.identifier) -%>
+  <%- if !found -%>
+  <%- found = true -%>
+    vlans:
+  <%- end -%>
+<%- result= snippet('preseed_netplan_generic_interface', :variables => {
+                  :interface => vlan,
+                  :subnet => vlan.subnet,
+                  :subnet6 => vlan.subnet6,
+                  :dhcp => vlan.subnet.nil? ? false : vlan.subnet.dhcp_boot_mode?,
+                  :dhcp6 => vlan.subnet6.nil? ? false : vlan.subnet.dhcp_boot_mode? }) -%>
+  <%= result -%>
+        id: <%= vlan.tag %>
+        link: <%= vlan.attached_to %>
+<%- end -%>
+<%#
+##### Processing remaining interfaces (ethernets) #####
+-%>
+<%- found = false -%>
+<%- @host.managed_interfaces.each do | interface | -%>
+<%- next if bonding_interfaces.include?(interface.identifier) -%>
+<%- next if bridged_interfaces.include?(interface.identifier) -%>
+<%- next if vlans_interfaces.include?(interface.identifier) -%>
+  <%- interface_subnet = interface.subnet -%>
+  <%- if !found -%>
+  <%- found = true -%>
+    ethernets:
+  <%- end -%>
+<%- result= snippet('preseed_netplan_generic_interface', :variables => {
+                  :interface => interface,
+                  :subnet => interface.subnet,
+                  :subnet6 => interface.subnet6,
+                  :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?,
+                  :dhcp6 => interface.subnet6.nil? ? false : interface.subnet.dhcp_boot_mode? }) -%>
+  <%= result -%>
+<%- end -%>
+<%- end -%>
