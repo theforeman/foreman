@@ -113,7 +113,6 @@ class SettingRegistry
       # Creating missing records as we operate over the DB model while updating the setting
       _new_db_record(definition).save(validate: false)
       definition.updated_at = nil
-      definition.value ||= definition.default
     end
   end
 
@@ -150,7 +149,7 @@ class SettingRegistry
 
   def load_values(ignore_cache: false)
     # we are loading only known STIs as we load settings fairly early the first time and plugin classes might not be loaded yet.
-    settings = Setting.unscoped.where(category: known_categories)
+    settings = Setting.unscoped.where(category: known_categories).where.not(value: nil)
     settings = settings.where('updated_at >= ?', @values_loaded_at) unless ignore_cache || @values_loaded_at.nil?
     settings.each do |s|
       unless (definition = find(s.name))
