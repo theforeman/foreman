@@ -503,14 +503,17 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   def test_add_all_permissions_to_default_roles
+    # Plugin api does not save permissions in tests
+    Permission.where(:name => 'restricted').first_or_create()
     Foreman::Plugin.register :test_plugin do
       security_block :test_permission do
         permission :view_test, { :controller_name => [:test] }
         permission :edit_test, { :controller_name => [:test] }
         permission :create_test, { :controller_name => [:test] }
         permission :misc_test, { :controller_name => [:test] }
+        permission :restricted, { :controller_name => [:test] }
       end
-      add_all_permissions_to_default_roles
+      add_all_permissions_to_default_roles(except: [:restricted])
     end
     manager = Role.find_by :name => "Manager"
     viewer = Role.find_by :name => "Viewer"
@@ -529,6 +532,12 @@ class PluginTest < ActiveSupport::TestCase
       assert permission.roles.include?(org_admin)
       refute permission.roles.include?(viewer)
     end
+
+    permission = Permission.find_by(:name => 'restricted')
+    refute permission.roles.include?(manager)
+    refute permission.roles.include?(org_admin)
+    refute permission.roles.include?(viewer)
+    permission.destroy
   end
 
   def test_add_dashboard_widget
