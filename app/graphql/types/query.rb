@@ -83,8 +83,8 @@ module Types
     record_field :bookmark, Types::Bookmark
     collection_field :bookmarks, Types::Bookmark
 
-    record_field :setting, Types::Setting
-    collection_field :settings, Types::Setting
+    field :setting, Types::Setting, resolver: Resolvers::SettingResolver
+    field :settings, Types::Setting.connection_type, resolver: Resolvers::SettingsResolver
 
     record_field :configReport, Types::ConfigReport
     collection_field :configReports, Types::ConfigReport

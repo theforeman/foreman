@@ -18,6 +18,8 @@ module Queries
             node {
               id
               name
+              value
+              description
             }
           }
         }
@@ -30,7 +32,7 @@ module Queries
     test 'fetch settings' do
       assert_empty result['errors']
 
-      expected_count = Setting.count
+      expected_count = Foreman.settings.count
       assert_not_equal 0, expected_count
       assert_equal expected_count, data['totalCount']
       assert_equal expected_count, data['edges'].count

@@ -9,8 +9,6 @@ class Setting < ApplicationRecord
   include PermissionName
   self.inheritance_column = 'category'
 
-  graphql_type '::Types::Setting'
-
   TYPES = %w{integer boolean hash array string}
   FROZEN_ATTRS = %w{name category}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page outofsync_interval}
