@@ -2,7 +2,7 @@ module Foreman
   class Plugin
     class RbacRegistry
       attr_accessor :role_ids, :default_roles, :registered_permissions
-      attr_accessor :add_all_permissions_to_default_roles
+      attr_accessor :add_all_permissions_to_default_roles, :default_roles_permissions_blocklist
       attr_reader :modified_roles
       attr_reader :added_resource_permissions
 
@@ -13,6 +13,7 @@ module Foreman
         @default_roles = {}
         @default_role_descriptions = {}
         @modified_roles = {}
+        @default_roles_permissions_blocklist = []
         @added_resource_permissions = []
         @add_all_permissions_to_default_roles = false
       end
@@ -67,7 +68,10 @@ module Foreman
 
             next unless permission_table_exists?
             rbac_support = Plugin::RbacSupport.new
-            rbac_support.add_all_permissions_to_default_roles(Permission.where(name: permission_names)) if add_all_permissions_to_default_roles
+            if add_all_permissions_to_default_roles
+              filtered_permission_names = permission_names.reject { |p| @default_roles_permissions_blocklist.include? p }
+              rbac_support.add_all_permissions_to_default_roles(Permission.where(name: filtered_permission_names))
+            end
             rbac_support.add_permissions_to_default_roles(modified_roles) if modified_roles.any?
             added_resource_permissions.each do |(resources, opts)|
               rbac_support.add_resource_permissions_to_default_roles resources, opts

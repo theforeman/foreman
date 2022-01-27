@@ -513,8 +513,9 @@ class PluginTest < ActiveSupport::TestCase
         permission :edit_test, { :controller_name => [:test] }
         permission :create_test, { :controller_name => [:test] }
         permission :misc_test, { :controller_name => [:test] }
+        permission :restricted, { :controller_name => [:test] }
       end
-      add_all_permissions_to_default_roles
+      add_all_permissions_to_default_roles(except: [:restricted])
     end
     Foreman::Plugin.find(:test_plugin).finalize_setup!
 
@@ -535,6 +536,11 @@ class PluginTest < ActiveSupport::TestCase
       assert permission.roles.include?(org_admin)
       refute permission.roles.include?(viewer)
     end
+
+    permission = Permission.find_by(:name => 'restricted')
+    refute permission.roles.include?(manager)
+    refute permission.roles.include?(org_admin)
+    refute permission.roles.include?(viewer)
   end
 
   def test_add_dashboard_widget
