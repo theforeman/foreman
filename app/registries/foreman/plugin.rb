@@ -369,8 +369,9 @@ module Foreman #:nodoc:
 
     # Add plugin permissions to Manager and Viewer roles. Use this method if there are no special cases that need to be taken care of.
     # Otherwise add_permissions_to_default_roles or add_resource_permissions_to_default_roles might be the methods you are looking for.
-    def add_all_permissions_to_default_roles
+    def add_all_permissions_to_default_roles(except: [])
       rbac_registry.add_all_permissions_to_default_roles = true
+      rbac_registry.default_roles_permissions_blocklist = except
     end
 
     def pending_migrations
