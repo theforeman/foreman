@@ -729,9 +729,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       Setting[:restrict_registered_smart_proxies] = false
       SETTINGS[:require_ssl] = false
 
-      Resolv.any_instance.stubs(:getnames).returns(['else.where'])
+      @controller.expects(:auth_smart_proxy).never
       post :facts, params: { :name => hostname, :facts => facts }
-      assert_nil @controller.detected_proxy
       assert_response :success
     end
 
