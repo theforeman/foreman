@@ -16,6 +16,14 @@ module Katello
         'net.interface.eth2.permanent_mac_address' => '52:54:00:D8:27:F7',
         'net.interface.eth3.ipv4_address' => 'Unknown',
         'net.interface.eth3.mac_address' => '00:00:00:00:00:14',
+        'net.interface.eno1.ipv6_address.global' => '2001:db8::1105',
+        'net.interface.eno1.ipv6_address.global_list' => '2001:db8::1105',
+        'net.interface.eno1.ipv6_address.link' => 'fe80::62bc:d32c:f0c6:af7a',
+        'net.interface.eno1.ipv6_address.link_list' => 'fe80::62bc:d32c:f0c6:af7a',
+        'net.interface.eno1.ipv6_netmask.global' => '64',
+        'net.interface.eno1.ipv6_netmask.global_list' => '64',
+        'net.interface.eno1.ipv6_netmask.link' => '64',
+        'net.interface.eno1.ipv6_netmask.link_list' => '64',
       }
     end
     let(:parser) { RhsmFactParser.new(@facts) }
@@ -33,21 +41,26 @@ module Katello
     end
 
     def test_get_facts_for_interface_with_ip
-      expected_eth0 = {
+      expected = {
         'link' => true,
         'macaddress' => @facts['net.interface.eth0.mac_address'],
         'ipaddress' => @facts['net.interface.eth0.ipv4_address'],
-        'ipaddress6' => @facts['net.interface.eth0.ipv6_address.link'],
       }
-      assert_equal expected_eth0, parser.get_facts_for_interface('eth0')
+      assert_equal expected, parser.get_facts_for_interface('eth0')
+    end
+
+    def test_get_facts_for_interface_with_ip6
+      expected = {
+        'link' => true,
+        'ipaddress6' => @facts['net.interface.eno1.ipv6_address.global'],
+      }
+      assert_equal expected, parser.get_facts_for_interface('eno1')
     end
 
     def test_get_facts_for_interface_without_ip
       expected_eth2 = {
         'link' => true,
         'macaddress' => @facts['net.interface.eth2.permanent_mac_address'],
-        'ipaddress' => nil,
-        'ipaddress6' => nil,
       }
       assert_equal expected_eth2, parser.get_facts_for_interface('eth2')
     end
