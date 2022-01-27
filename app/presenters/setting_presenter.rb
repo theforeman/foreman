@@ -22,6 +22,16 @@ class SettingPresenter
     Setting.model_name
   end
 
+  # Value set through setter can be explicit nil
+  def value=(*attr)
+    @explicit_value = true
+    super
+  end
+
+  def explicit_value?
+    @explicit_value
+  end
+
   def model_name
     self.class.model_name
   end
@@ -51,7 +61,7 @@ class SettingPresenter
   end
 
   def value
-    SETTINGS.fetch(name.to_sym) { super }
+    SETTINGS.fetch(name.to_sym) { explicit_value? ? super : default }
   end
 
   def settings_type
@@ -80,5 +90,17 @@ class SettingPresenter
 
   def select_values
     Setting.select_collection_registry.collection_for name
+  end
+
+  private
+
+  # explicit value from mass assignment can not be nil
+  def _assign_attribute(k, v)
+    if k.to_s == 'value'
+      @explicit_value = !v.nil?
+      write_attribute(k, v)
+    else
+      super
+    end
   end
 end

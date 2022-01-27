@@ -43,18 +43,38 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should show individual record" do
-    get :show, params: { :id => settings(:attributes1).to_param }
-    assert_response :success
-    show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
-  end
+  describe '#show' do
+    test "should show default value" do
+      get :show, params: { :id => 'foreman_url' }
+      assert_response :success
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert !show_response.empty?
+      assert_equal Setting['foreman_url'], show_response['value']
+    end
 
-  test "validate show attributes" do
-    get :show, params: { :id => settings(:attributes1).to_param }
-    assert_response :success
-    show_response = ActiveSupport::JSON.decode(@response.body)
-    assert_include show_response.keys, 'updated_at'
+    test "should show set value" do
+      Setting['foreman_url'] = value = 'http://cool-foreman.example.net'
+      get :show, params: { :id => 'foreman_url' }
+      assert_response :success
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert !show_response.empty?
+      assert_equal value, show_response['value']
+    end
+
+    test "properly show overriden false value" do
+      Setting['host_power_status'] = value = false
+      get :show, params: { :id => 'host_power_status' }
+      assert_response :success
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal value, show_response['value']
+    end
+
+    test "validate show attributes" do
+      get :show, params: { :id => 'foreman_url' }
+      assert_response :success
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_include show_response.keys, 'updated_at'
+    end
   end
 
   test "should not update setting" do

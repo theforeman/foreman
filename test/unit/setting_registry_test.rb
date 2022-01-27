@@ -39,7 +39,7 @@ class SettingRegistryTest < ActiveSupport::TestCase
     end
 
     it "can be forced to load all values" do
-      registry.expects(:find).times(Setting.count)
+      registry.expects(:find).times(Setting.where.not(value: nil).count)
 
       registry.load_values(ignore_cache: true)
     end
@@ -57,6 +57,14 @@ class SettingRegistryTest < ActiveSupport::TestCase
     it 'provides default if no value defined' do
       assert_equal 5, registry['foo']
       assert_equal 5, registry[:foo]
+    end
+
+    it 'returns updated default' do
+      assert_equal default, registry['foo']
+      registry.instance_variable_set(:@settings, {})
+      registry._add('foo', type: :integer, category: 'Setting', default: 10, full_name: 'test foo', description: 'test foo', context: :test)
+      registry.load_values
+      assert_equal 10, registry['foo']
     end
 
     it 'saves the value on assignment' do
