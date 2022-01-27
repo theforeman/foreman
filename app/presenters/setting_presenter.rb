@@ -18,6 +18,10 @@ class SettingPresenter
 
   attr_accessor :collection
 
+  def self.graphql_type
+    '::Types::Setting'
+  end
+
   def self.model_name
     Setting.model_name
   end

@@ -20,7 +20,7 @@ module Queries
       GRAPHQL
     end
 
-    let(:setting) { Setting.find_by :name => 'access_unattended_without_build' }
+    let(:setting) { Foreman.settings.find('foreman_url') }
     let(:global_id) { Foreman::GlobalId.for(setting) }
     let(:variables) { { id: global_id } }
     let(:data) { result['data']['setting'] }

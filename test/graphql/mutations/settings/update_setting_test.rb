@@ -2,18 +2,16 @@ require 'test_helper'
 
 module Mutations
   module Settings
-    class UpdateSettingTest < ActiveSupport::TestCase
-      let(:setting) { settings(:attributes54) }
+    class UpdateSettingTest < GraphQLQueryTestCase
+      let(:setting) { Foreman.settings.find('administrator') }
       let(:global_id) { Foreman::GlobalId.for(setting) }
-      let(:new_value) { 'foo' }
+      let(:new_value) { 'foo@example.com' }
       let(:variables) { { id: global_id, value: new_value } }
-      let(:admin_context) { { current_user: FactoryBot.create(:user, :admin) } }
       let(:query) do
         <<-GRAPHQL
           mutation updateSettingMutation($id: ID!, $value: String!) {
             updateSetting(input: { id: $id, value: $value }) {
               setting {
-                id
                 name
                 value
               }
@@ -26,45 +24,77 @@ module Mutations
         GRAPHQL
       end
 
-      test "should update a setting" do
-        result = ForemanGraphqlSchema.execute(query, variables: variables, context: admin_context)
+      test "should update a setting by its GlobalId" do
         assert_empty result['errors']
         assert_empty result['data']['updateSetting']['errors']
-        setting.reload
         assert_equal new_value, setting.value
       end
 
-      test "should require a value" do
-        result = ForemanGraphqlSchema.execute(query, variables: { id: global_id }, context: admin_context)
-        assert_not_empty result['errors']
-        assert_equal "Variable value of type String! was provided invalid value", result['errors'].first['message']
+      context 'with name param' do
+        let(:variables) { { name: 'administrator', value: new_value } }
+        let(:query) do
+          <<-GRAPHQL
+            mutation updateSettingMutation($name: String!, $value: String!) {
+              updateSetting(input: { name: $name, value: $value }) {
+                setting {
+                  name
+                  value
+                }
+                errors {
+                  path
+                  message
+                }
+              }
+            }
+          GRAPHQL
+        end
+
+        test "should update a setting by its name" do
+          assert_empty result['errors']
+          assert_empty result['data']['updateSetting']['errors']
+          assert_equal new_value, setting.value
+        end
       end
 
-      test "should parse string values to integers" do
-        setting = Setting.where(:settings_type => 'integer').first
-        id = Foreman::GlobalId.for(setting)
-        result = ForemanGraphqlSchema.execute(query, variables: { id: id, value: '42' }, context: admin_context)
-        assert_empty result['errors']
-        setting.reload
-        assert_equal 42, setting.value
+      context 'without value' do
+        let(:variables) { { id: global_id } }
+
+        test "should require a value" do
+          assert_not_empty result['errors']
+          assert_equal "Variable value of type String! was provided invalid value", result['errors'].first['message']
+        end
       end
 
-      test "should parse string values to arrays" do
-        setting = Setting.where(:settings_type => 'array').first
-        id = Foreman::GlobalId.for(setting)
-        result = ForemanGraphqlSchema.execute(query, variables: { id: id, value: "['192.168.100.1', '192.168.42.1']" }, context: admin_context)
-        assert_empty result['errors']
-        setting.reload
-        assert_equal ['192.168.100.1', '192.168.42.1'], setting.value
-      end
+      describe 'parsing' do
+        context 'integers' do
+          let(:setting) { Foreman.settings.detect { |set| set.settings_type == 'integer' } }
+          let(:new_value) { '42' }
 
-      test "should parse string values to booleans" do
-        setting = Setting.where(:settings_type => 'boolean').first
-        id = Foreman::GlobalId.for(setting)
-        result = ForemanGraphqlSchema.execute(query, variables: { id: id, value: "true" }, context: admin_context)
-        assert_empty result['errors']
-        setting.reload
-        assert_equal true, setting.value
+          test "should parse string values to integers" do
+            assert_empty result['errors']
+            assert_equal 42, setting.value
+          end
+        end
+
+        context 'arrays' do
+          let(:setting) { Foreman.settings.detect { |set| set.settings_type == 'array' } }
+          let(:new_value) { "['192.168.100.1', '192.168.42.1']" }
+
+          test "should parse string values to arrays" do
+            assert_empty result['errors']
+            assert_equal ['192.168.100.1', '192.168.42.1'], setting.value
+          end
+        end
+
+        context 'boolean' do
+          let(:setting) { Foreman.settings.detect { |set| set.settings_type == 'boolean' } }
+          let(:new_value) { "true" }
+
+          test "should parse string values to booleans" do
+            assert_empty result['errors']
+            assert_equal true, setting.value
+          end
+        end
       end
     end
   end
