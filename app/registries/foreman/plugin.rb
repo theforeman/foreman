@@ -407,11 +407,12 @@ module Foreman #:nodoc:
 
     # Add plugin permissions to Manager and Viewer roles. Use this method if there are no special cases that need to be taken care of.
     # Otherwise add_permissions_to_default_roles or add_resource_permissions_to_default_roles might be the methods you are looking for.
-    def add_all_permissions_to_default_roles
+    def add_all_permissions_to_default_roles(except: [])
       return if Foreman.in_setup_db_rake? || !permission_table_exists?
       Role.without_auditing do
         Filter.without_auditing do
-          Plugin::RbacSupport.new.add_all_permissions_to_default_roles(Permission.where(:name => @rbac_registry.permission_names))
+          permission_names = @rbac_registry.permission_names - except
+          Plugin::RbacSupport.new.add_all_permissions_to_default_roles(Permission.where(:name => permission_names))
         end
       end
     end

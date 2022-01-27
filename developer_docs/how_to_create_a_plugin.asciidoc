@@ -288,6 +288,14 @@ end
 add_all_permissions_to_default_roles
 ----
 
+Alternatively, one can exclude specific permissions from being added to the
+default roles by using the following form instead
+
+[source, ruby]
+----
+add_all_permissions_to_default_roles(except: [:first_permission, :second_permission])
+----
+
 If you need more control over what needs to be added you can use the
 following:
 
