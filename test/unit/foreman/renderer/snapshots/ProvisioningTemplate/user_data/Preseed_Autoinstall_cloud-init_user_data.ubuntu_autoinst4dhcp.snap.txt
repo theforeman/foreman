@@ -28,6 +28,6 @@ autoinstall:
       name: lvm
   user-data:
     runcmd:
-      - wget -Y off http://foreman.some.host.fqdn/unattended/finish -O /tmp/finish.sh
+      - wget -Y off http://foreman.example.com/unattended/finish -O /tmp/finish.sh
       - chmod +x /tmp/finish.sh
       - /tmp/finish.sh

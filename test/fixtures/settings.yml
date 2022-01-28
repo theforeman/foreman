@@ -9,7 +9,6 @@ attributes2:
   name: foreman_url
   category: Setting
   default: http://foreman.example.com
-  value: http://foreman.some.host.fqdn
   description: The URL Foreman should point to in emails etc
 attributes3:
   name: root_pass
@@ -131,7 +130,6 @@ attributes43:
   name: unattended_url
   category: Setting
   default: http://foreman.example.com
-  value: http://foreman.some.host.fqdn
   description: The URL Foreman should point to in templates etc
 attributes44:
   name: default_organization

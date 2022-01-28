@@ -50,7 +50,7 @@ module Hostext
       test "#render_template" do
         provision_template = @host.provisioning_template({:kind => "provision"})
         rendered_template = @host.render_template(template: provision_template)
-        assert(rendered_template.include?("http://foreman.some.host.fqdn/unattended/finish"), "rendred template should parse foreman_url")
+        assert(rendered_template.include?("http://foreman.example.com/unattended/finish"), "rendred template should parse foreman_url")
       end
     end
 

@@ -354,12 +354,12 @@ class OperatingsystemTest < ActiveSupport::TestCase
   describe '#boot_filename' do
     test 'should be the ipxe unattended url for iPXE' do
       host = FactoryBot.build(:host, :managed, pxe_loader: 'iPXE Embedded')
-      assert_equal 'http://foreman.some.host.fqdn/unattended/iPXE', host.operatingsystem.boot_filename(host)
+      assert_equal 'http://foreman.example.com/unattended/iPXE', host.operatingsystem.boot_filename(host)
     end
 
     test 'should be the smart proxy ipxe unattended url for iPXE' do
       host = FactoryBot.build(:host, :managed, :with_tftp_and_httpboot_subnet, pxe_loader: 'iPXE Embedded')
-      assert_equal 'http://foreman.some.host.fqdn/unattended/iPXE', host.operatingsystem.boot_filename(host)
+      assert_equal 'http://foreman.example.com/unattended/iPXE', host.operatingsystem.boot_filename(host)
     end
 
     test 'should be the smart proxy and httpboot port for UEFI HTTP' do

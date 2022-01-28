@@ -18,7 +18,7 @@ class SshKeyTest < ActiveSupport::TestCase
     let(:ssh_key) { FactoryBot.build_stubbed(:ssh_key, :key => key, :user => user) }
 
     test 'should clean up ssh key' do
-      assert_equal 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIhRoL6PfBRs9YwW3r2/pYeLrxRzEZSUO3Go8JivxMsguEKjJ3byHDPvPpMHhKKSZD/HJY/A+2Ndqp0ElB+t2qs= sshkeytestuser@foreman.some.host.fqdn', ssh_key.to_export
+      assert_equal 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIhRoL6PfBRs9YwW3r2/pYeLrxRzEZSUO3Go8JivxMsguEKjJ3byHDPvPpMHhKKSZD/HJY/A+2Ndqp0ElB+t2qs= sshkeytestuser@foreman.example.com', ssh_key.to_export
     end
   end
 

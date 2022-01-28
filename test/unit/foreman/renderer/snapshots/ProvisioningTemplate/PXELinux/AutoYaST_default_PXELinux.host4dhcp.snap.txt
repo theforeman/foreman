@@ -2,4 +2,4 @@ DEFAULT linux
 
 LABEL linux
     KERNEL boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz
-    APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img ramdisk_size=65536 install=url --url http://mirror.centos.org/centos/7/os/x86_64 autoyast=http://foreman.some.host.fqdn/unattended/provision textmode=1 
+    APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img ramdisk_size=65536 install=url --url http://mirror.centos.org/centos/7/os/x86_64 autoyast=http://foreman.example.com/unattended/provision textmode=1 
