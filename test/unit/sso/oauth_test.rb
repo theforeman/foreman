@@ -4,6 +4,8 @@ class OauthTest < ActiveSupport::TestCase
   setup do
     User.current = nil
     Setting[:oauth_active] = true
+    Setting['oauth_consumer_key'] = 'oauth_key'
+    Setting['oauth_consumer_secret'] = 'oauth_secret'
   end
 
   test 'oauth available in good conditions' do

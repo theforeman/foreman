@@ -10,6 +10,10 @@ class OidcJwtValidateTest < ActiveSupport::TestCase
       exp = Time.now.to_i + 4 * 3600
       payload, headers = { "name": "jwt token", "iat": 1557224758, "exp": exp, "typ": "Bearer", "aud": "rest-client", "iss": "127.0.0.1"}, { kid: @jwk.kid }
 
+      Setting['oidc_jwks_url'] = 'https://keycloak.example.com/auth/realms/foreman/protocol/openid-connect/certs'
+      Setting['oidc_audience'] = 'rest-client'
+      Setting['oidc_issuer'] = '127.0.0.1'
+      Setting['oidc_algorithm'] = 'RS512'
       @token = JWT.encode(payload, @jwk.keypair, 'RS512', headers)
       @decoded_payload = payload.with_indifferent_access
     end

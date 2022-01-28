@@ -16,6 +16,7 @@ module RenderersSharedTests
         include Foreman::Renderer::Scope::Macros::Base
         include Foreman::Renderer::Scope::Macros::SnippetRendering
       end.send(:new, host: @host, source: source, variables: { x: 'test' })
+      Setting['foreman_url'] = 'http://foreman.example.net'
     end
 
     test "should evaluate template variables" do
@@ -31,12 +32,12 @@ module RenderersSharedTests
 
     test "foreman_server_fqdn helper method" do
       source = OpenStruct.new(content: '<%= foreman_server_fqdn %>')
-      assert_equal 'foreman.some.host.fqdn', renderer.render(source, @scope)
+      assert_equal 'foreman.example.net', renderer.render(source, @scope)
     end
 
     test "foreman_server_url helper method" do
       source = OpenStruct.new(content: '<%= foreman_server_url %>')
-      assert_equal 'http://foreman.some.host.fqdn', renderer.render(source, @scope)
+      assert_equal 'http://foreman.example.net', renderer.render(source, @scope)
     end
 
     test "plugin_present? finds existing plugin" do

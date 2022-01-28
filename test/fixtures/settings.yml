@@ -134,12 +134,16 @@ attributes43:
 attributes44:
   name: default_organization
   category: Setting
-  default: 'Organization 1'
+  settings_type: string
+  default: ''
+  value: 'Organization 1'
   description: 'Default organization when importing hosts'
 attributes45:
   name: default_location
   category: Setting
-  default: 'Location 1'
+  settings_type: string
+  default: ''
+  value: 'Location 1'
   description: 'Default location when importing hosts'
 attributes46:
   name: location_fact
@@ -159,12 +163,14 @@ attributes49:
 attributes50:
   name: oauth_consumer_key
   category: Setting
-  default: "oauth_key"
+  settings_type: string
+  default: ''
   description: "OAuth consumer key"
 attributes51:
   name: oauth_consumer_secret
   category: Setting
-  default: "oauth_secret"
+  settings_type: string
+  default: ''
   description: "OAuth consumer secret"
 attributes52:
   name: oauth_map_users
@@ -245,6 +251,7 @@ attributes66:
   name: delivery_method
   category: Setting
   default: :test
+  value: :test
   description: 'Method used to deliver e-mail'
 attributes67:
   name: smtp_address
@@ -390,7 +397,7 @@ attribute94:
 attribute95:
   name: default_host_init_config_template
   category: Setting
-  default: 'Linux host initial configuration'
+  default: 'Linux host_init_config default'
   description: "Default host initial configuration template"
 attribute96:
   name: server_ca_file
