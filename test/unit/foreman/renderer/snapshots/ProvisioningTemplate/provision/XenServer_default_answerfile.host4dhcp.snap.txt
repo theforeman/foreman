@@ -16,6 +16,6 @@ part swap  --recommended  <keymap>us</keymap>
   <timezone>UTC</timezone>
   <time-config-method>ntp</time-config-method>
   <script stage="installation-complete" type="url">
-    http://foreman.some.host.fqdn/unattended/finish
+    http://foreman.example.com/unattended/finish
   </script>
 </installation>

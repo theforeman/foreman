@@ -2,4 +2,4 @@ DEFAULT coreos
 
 LABEL coreos
     KERNEL boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz
-    APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img cloud-config-url=http://foreman.some.host.fqdn/unattended/provision
+    APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img cloud-config-url=http://foreman.example.com/unattended/provision

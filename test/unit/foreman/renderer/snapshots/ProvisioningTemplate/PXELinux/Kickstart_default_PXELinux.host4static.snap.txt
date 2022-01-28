@@ -7,7 +7,7 @@ ONTIMEOUT installer
 LABEL installer
 MENU LABEL Kickstart default PXELinux
 KERNEL boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz
-APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.some.host.fqdn/unattended/provision kssendmac ks.sendmac ip=192.168.42.42::192.168.42.1:255.255.255.0:snapshot-ipv4-static-el7:eth0:none nameserver=192.168.42.2 nameserver=192.168.42.3 fips=1
+APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.example.com/unattended/provision kssendmac ks.sendmac ip=192.168.42.42::192.168.42.1:255.255.255.0:snapshot-ipv4-static-el7:eth0:none nameserver=192.168.42.2 nameserver=192.168.42.3 fips=1
 
 IPAPPEND 2
 

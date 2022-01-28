@@ -1,4 +1,4 @@
-# foreman_url=http://foreman.some.host.fqdn/unattended/provision
+# foreman_url=http://foreman.example.com/unattended/provision
 DEFAULT freebsd
 
 LABEL freebsd

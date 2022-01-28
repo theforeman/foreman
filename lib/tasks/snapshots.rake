@@ -26,8 +26,8 @@ namespace :snapshots do
       ENV['FIXTURES'] = 'settings'
       Rake::Task['db:fixtures:load'].invoke
       Foreman.settings.load
-      Setting[:unattended_url] = "http://foreman.some.host.fqdn"
-      Setting[:foreman_url] = "http://foreman.some.host.fqdn"
+      Setting[:unattended_url] = "http://foreman.example.com"
+      Setting[:foreman_url] = "http://foreman.example.com"
 
       User.current = FactoryBot.build(:user, :admin)
       admin = FactoryBot.create(:user, :admin, password: 'password123', auth_source: FactoryBot.create(:auth_source_ldap))

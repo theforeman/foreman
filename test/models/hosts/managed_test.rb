@@ -236,7 +236,7 @@ module Host
       describe '#registration_url' do
         it 'generates a registration url' do
           ForemanRegister::RegistrationToken.stubs(:encode).returns('some-jwt-token')
-          assert_equal 'http://foreman.some.host.fqdn/foreman_register/hosts/register?token=some-jwt-token', host.registration_url
+          assert_equal 'http://foreman.example.com/foreman_register/hosts/register?token=some-jwt-token', host.registration_url
         end
       end
     end

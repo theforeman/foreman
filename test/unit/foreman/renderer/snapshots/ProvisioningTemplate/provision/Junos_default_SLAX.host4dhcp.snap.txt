@@ -175,10 +175,10 @@ match / {
 <func:function name="fmztp:dl_junos_conf">
 {
   expr jcs:syslog( $SYSLOG, $APPNAME, ": downloading new Junos conf...");
-  expr jcs:syslog( $SYSLOG, $APPNAME, ": URL: ", 'http://foreman.some.host.fqdn/unattended/finish');
+  expr jcs:syslog( $SYSLOG, $APPNAME, ": URL: ", 'http://foreman.example.com/unattended/finish');
 
   var $get = <file-copy> {
-    <source> 'http://foreman.some.host.fqdn/unattended/finish';
+    <source> 'http://foreman.example.com/unattended/finish';
     <destination> $JUNOS_CONF;
     <staging-directory> $TMPDIR;
   };
@@ -397,7 +397,7 @@ match / {
 
   expr jcs:syslog( $SYSLOG, $APPNAME, ": sending finish signal to foreman...");  
   var $do_foreman = <file-copy> {
-      <source> 'http://foreman.some.host.fqdn/unattended/provision';
+      <source> 'http://foreman.example.com/unattended/provision';
       <destination> "/tmp";
       <staging-directory> "/tmp";
   };

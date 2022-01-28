@@ -76,6 +76,6 @@ runcmd:
   /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
 
 phone_home:
-  url: http://foreman.some.host.fqdn/unattended/built
+  url: http://foreman.example.com/unattended/built
   post: []
   tries: 10
