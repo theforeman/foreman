@@ -181,7 +181,7 @@ global_registration:
   type: ProvisioningTemplate
 
 host_init_config:
-  name: Linux host initial configuration
+  name: Linux host_init_config default
   template: 'echo "Linux host initial configuration"'
   template_kind: host_init_config
   operatingsystems: centos5_3, redhat

@@ -20,6 +20,10 @@ class OpenidConnectTest < ActiveSupport::TestCase
     payload.with_indifferent_access
   end
 
+  setup do
+    Setting['oidc_issuer'] = '127.0.0.1'
+  end
+
   describe '#available?' do
     test 'returns true if its a OpenID Connect session' do
       controller_with_session =

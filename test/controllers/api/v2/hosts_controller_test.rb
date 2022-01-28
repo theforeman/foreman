@@ -625,6 +625,11 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     let (:facts) { fact_json['facts'] }
     let (:hostname) { fact_json['name'] }
 
+    setup do
+      Setting[:default_location] = 'Location 1'
+      Setting[:default_organization] = 'Organization 1'
+    end
+
     test "create valid node from json facts object without certname" do
       User.current = nil
       post :facts, params: { :name => hostname, :facts => facts }, session: set_session_user
