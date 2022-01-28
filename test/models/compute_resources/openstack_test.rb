@@ -21,6 +21,26 @@ module Foreman
         Fog.unmock!
       end
 
+      describe "url_for_fog" do
+        it "parses the hostname and port" do
+          @compute_resource = FactoryBot.build_stubbed(:openstack_cr)
+          @compute_resource.url = 'http://stack.example.com:5000/v3/auth/tokens'
+          assert_equal 'http://stack.example.com:5000', @compute_resource.send(:url_for_fog)
+
+          @compute_resource.url = 'http://stack.example.com:5000/identity/v3/auth/tokens'
+          assert_equal 'http://stack.example.com:5000/identity', @compute_resource.send(:url_for_fog)
+
+          @compute_resource.url = 'http://stack.example.com:5000/identity/v2/auth/tokens'
+          assert_equal 'http://stack.example.com:5000/identity', @compute_resource.send(:url_for_fog)
+
+          @compute_resource.url = 'http://stack.example.com/identity/v3/auth/tokens'
+          assert_equal 'http://stack.example.com:80/identity', @compute_resource.send(:url_for_fog)
+
+          @compute_resource.url = 'http://stack.example.com/auth/tokens'
+          assert_equal 'http://stack.example.com:80', @compute_resource.send(:url_for_fog)
+        end
+      end
+
       test "#associated_host matches any NIC" do
         host = FactoryBot.create(:host, :ip => '10.0.0.154')
         iface = mock('iface1', :floating_ip_address => '10.0.0.154', :private_ip_address => "10.1.1.1")
