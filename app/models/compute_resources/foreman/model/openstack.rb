@@ -262,7 +262,9 @@ module Foreman::Model
 
     def url_for_fog
       u = URI.parse(url)
-      "#{u.scheme}://#{u.host}:#{u.port}"
+      match_data = u.path.match(%r{(.*)\/v\d+.*})
+      path = match_data && (match_data[1] || '')
+      "#{u.scheme}://#{u.host}:#{u.port}#{path}"
     end
 
     def fog_credentials
