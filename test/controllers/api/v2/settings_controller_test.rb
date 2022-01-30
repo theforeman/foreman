@@ -7,11 +7,17 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
       @loc = FactoryBot.create(:location)
     end
 
-    test "should get index" do
-      get :index
+    test "should get all settings through index" do
+      Setting['host_power_status'] = false
+      get :index, params: { per_page: 'all' }
       assert_response :success
       settings = ActiveSupport::JSON.decode(@response.body)['results']
-      assert !settings.empty?
+      assert_equal Foreman.settings.count, settings.count
+      foreman_url = settings.detect { |s| s['name'] == 'foreman_url' }
+      assert_equal Setting['foreman_url'], foreman_url['value']
+      assert_equal Foreman.settings.find('foreman_url').default, foreman_url['default']
+      host_power_status = settings.detect { |s| s['name'] == 'host_power_status' }
+      assert_equal false, host_power_status['value']
     end
 
     test "should get index with organization and location params" do
@@ -25,7 +31,7 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
       get :index, params: { page: "1", per_page: "5"}
       assert_response :success
       settings = ActiveSupport::JSON.decode(@response.body)['results']
-      assert !settings.empty?
+      assert_equal 5, settings.count
     end
 
     context 'with globals set' do
