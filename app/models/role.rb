@@ -29,6 +29,7 @@ class Role < ApplicationRecord
   ORG_ADMIN = 'Organization admin'
   VIEWER = 'Viewer'
   SYSTEM_ADMIN = 'System admin'
+  SITE_MANAGER = 'Site manager'
 
   has_associated_audits
   scope :givable, -> { where(:builtin => 0).order(:name) }
