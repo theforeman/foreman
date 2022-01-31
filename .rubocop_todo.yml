@@ -66,7 +66,7 @@ Lint/BooleanSymbol:
 # Offense count: 5
 Lint/DuplicateMethods:
   Exclude:
-    - 'app/models/concerns/fog_extensions/openstack/server.rb'
+    - 'lib/fog_extensions/openstack/server.rb'
     - 'app/registries/foreman/plugin/report_scanner_registry.rb'
     - 'app/services/report_importer.rb'
     - 'test/models/concerns/exportable_test.rb'

@@ -1,7 +1,7 @@
 module FogExtensions
 end
 
-require 'concerns/fog_extensions/model'
+require 'fog_extensions/model'
 Fog::Model.include FogExtensions::Model if defined? Fog::Model
 
 # Fog is required by bundler, and depending on the group configuration,
