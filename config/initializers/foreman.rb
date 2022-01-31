@@ -6,7 +6,6 @@ require 'English'
 require_dependency 'foreman/access_permissions'
 require_dependency 'foreman/plugin'
 require_dependency 'foreman/settings'
-require_dependency 'fog_extensions'
 
 # Other internal dependencies, may be autoloaded
 require 'net'
