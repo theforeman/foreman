@@ -34,6 +34,10 @@ module Foreman
       new.ubuntu4dhcp
     end
 
+    def self.ubuntu_autoinst4dhcp
+      new.ubuntu_autoinst4dhcp
+    end
+
     def self.render_template(template, host_name = :host4dhcp)
       host_stub = send(host_name.to_sym)
       source = Foreman::Renderer::Source::Snapshot.new(template)
@@ -135,6 +139,14 @@ module Foreman
     end
 
     def ubuntu4dhcp
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_ubuntu18,
+        name: 'snapshot-ipv4-dhcp-ubuntu18',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        interfaces: [ipv4_interface])
+      define_host_params(host)
+    end
+
+    def ubuntu_autoinst4dhcp
       host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_ubuntu20,
         name: 'snapshot-ipv4-dhcp-ubuntu20',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
