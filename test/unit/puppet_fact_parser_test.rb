@@ -57,9 +57,9 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     end
 
     test "should allow OS version minor component to be nil" do
-      @importer = PuppetFactParser.new({'operatingsystem' => 'AnyOS', 'operatingsystemrelease' => '6'})
-      assert_equal "AnyOS 6", os.to_s
-      assert_equal '6', os.major
+      @importer = PuppetFactParser.new({'operatingsystem' => 'CentOS_Stream', 'operatingsystemrelease' => '8'})
+      assert_equal "CentOS_Stream 8", os.to_s
+      assert_equal '8', os.major
       assert_empty os.minor
       assert_os_idempotent
     end

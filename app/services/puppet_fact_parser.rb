@@ -6,8 +6,8 @@ class PuppetFactParser < FactParser
 
     if orel.present?
       major, minor = orel.split('.', 2)
-      major = major.to_s.gsub(/\D/, '')
-      minor = minor.to_s.gsub(/[^\d\.]/, '')
+      major = major.to_s.gsub(/\D/, '') || ''
+      minor = minor.to_s.gsub(/[^\d.]/, '') || ''
       args = {:name => os_name, :major => major, :minor => minor}
       os = Operatingsystem.find_or_initialize_by(args)
       if os_name[/debian|ubuntu/i] || os.family == 'Debian'

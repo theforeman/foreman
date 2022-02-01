@@ -23,7 +23,7 @@ class Operatingsystem < ApplicationRecord
     :reject_if => :reject_empty_provisioning_template
 
   validates :major, numericality: true, presence: { message: N_("Operating System version is required") }
-  validates :minor, format: { with: /\A\d+(\.\d+)*\z/, message: "Operating System minor version must be in N or N.N format" }, allow_blank: true
+  validates :minor, format: { with: /\A\d+(\.\d+)*\z/, message: "Operating System minor version must be in N or N.N format" }, allow_blank: true, allow_nil: false
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :operatingsystem
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
   accepts_nested_attributes_for :os_parameters, :allow_destroy => true
