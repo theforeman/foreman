@@ -1,50 +1,50 @@
-// raw data from Foreman's old parsing of reports, with some readable formtting
 {
-  "host": "rhel6n01.corp.com",
-  "reported_at": "2010-11-19 02:39:04 UTC",
-  "metrics": {
-  },
-  "status": {
-    "applied": 0,
-    "failed": 0,
-    "failed_restarts": 0,
-    "pending": 0,
-    "restarted": 0,
-    "skipped": 0
-  },
-  "logs": [
-    {
-      "log": {
-        "sources": {
-          "source": "Puppet"
-        },
-        "messages": {
-          "message": "Could not retrieve catalog from remote server: Error 400 on SERVER: Could not find node 'rhel6n01.corp.com'; cannot compile"
-        },
-        "level": "err"
-      }
-    },
-    {
-      "log": {
-        "sources": {
-          "source": "Puppet"
-        },
-        "messages": {
-          "message": "Using cached catalog"
-        },
-        "level": "notice"
-      }
-    },
-    {
-      "log": {
-        "sources": {
-          "source": "Puppet"
-        },
-        "messages": {
-          "message": "Could not retrieve catalog; skipping run"
-        },
-        "level": "err"
-      }
+    "config_report": {
+        "host": "report.example.com",
+        "logs": [
+            {
+                "log": {
+                    "level": "err",
+                    "messages": {
+                        "message": "Could not retrieve catalog from remote server: Error 400 on SERVER: Could not find node 'rhel6n01.corp.com'; cannot compile"
+                    },
+                    "sources": {
+                        "source": "Puppet"
+                    }
+                }
+            },
+            {
+                "log": {
+                    "level": "notice",
+                    "messages": {
+                        "message": "Using cached catalog"
+                    },
+                    "sources": {
+                        "source": "Puppet"
+                    }
+                }
+            },
+            {
+                "log": {
+                    "level": "err",
+                    "messages": {
+                        "message": "Could not retrieve catalog; skipping run"
+                    },
+                    "sources": {
+                        "source": "Puppet"
+                    }
+                }
+            }
+        ],
+        "metrics": {},
+        "reported_at": "2010-11-19 02:39:04 UTC",
+        "status": {
+            "applied": 0,
+            "failed": 0,
+            "failed_restarts": 0,
+            "pending": 0,
+            "restarted": 0,
+            "skipped": 0
+        }
     }
-  ]
 }

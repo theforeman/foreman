@@ -46,9 +46,8 @@ class HostsController < ApplicationController
     respond_to do |format|
       format.html do
         @hosts = search.includes(included_associations).paginate(:page => params[:page], :per_page => params[:per_page])
-        # SQL optimizations queries
-        @last_report_ids = ConfigReport.where(:host_id => @hosts.map(&:id)).group(:host_id).maximum(:id)
-        @last_reports = ConfigReport.where(:id => @last_report_ids.values)
+        # SQL optimization
+        preload_reports
         # rendering index page for non index page requests (out of sync hosts etc)
         @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.map(&:hostgroup_id).compact.uniq)
         render :index if title && (@title = title)
@@ -677,6 +676,11 @@ class HostsController < ApplicationController
   end
 
   private
+
+  def preload_reports
+    @last_report_ids = ConfigReport.where(:host_id => @hosts.map(&:id)).reorder('').group(:host_id).maximum(:id)
+    @last_reports = ConfigReport.where(:id => @last_report_ids.values)
+  end
 
   def resource_base
     @resource_base ||= Host.authorized(current_permission, Host)
