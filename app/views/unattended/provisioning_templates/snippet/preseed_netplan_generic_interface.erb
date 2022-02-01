@@ -1,0 +1,34 @@
+<%#
+name: preseed_netplan_generic_interface
+model: ProvisioningTemplate
+snippet: true
+model: ProvisioningTemplate
+kind: snippet
+oses:
+- Ubuntu
+-%>
+    <%= @interface.identifier %>:
+        dhcp4: <%= @dhcp %>
+        dhcp6: <%= @dhcp6 %>
+<%- if !@dhcp && !@subnet.nil? && !@interface.ip.nil? -%>
+        addresses: [ <%= @interface.ip %>/<%= @subnet.cidr %> ]
+<%-   if @subnet.gateway.present? -%>
+        gateway4: <%= @subnet.gateway %>
+<%-   end -%>
+<%-   if @interface.primary -%>
+        nameservers:
+          search: [ <%= @interface.domain %> ]
+          addresses: <%= @subnet.dns_servers %>
+<%-   end -%>
+<%- end -%>
+<%- if !@dhcp6 && !@subnet6.nil? && !@interface.ip6.nil? -%>
+        addresses: [ <%= @interface.ip6 %>/<%= @subnet6.cidr %> ]
+<%-   if @subnet6.gateway.present? -%>
+        gateway4: <%= @subnet6.gateway %>
+<%-   end -%>
+<%-   if @interface.primary -%>
+        nameservers:
+          search: [ <%= @interface.domain %> ]
+          addresses: <%= @subnet6.dns_servers %>
+<%-   end -%>
+<%- end -%>
