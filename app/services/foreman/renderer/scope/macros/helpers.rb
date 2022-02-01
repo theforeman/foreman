@@ -112,8 +112,17 @@ module Foreman
           apipie :method, 'Checks whether a value is truthy or not' do
             optional :value, Object, desc: 'Value to check'
             returns one_of: [true, false], desc: 'Returns true if the value can be considered as truthy, false otherwise'
+            example "truthy?(true) #=> true"
+            example "truthy?(false) #=> false"
+            example "truthy?('true') #=> true"
+            example "truthy?('false') #=> false"
+            example "truthy?(1) #=> true"
+            example "truthy?(0) #=> false"
             example "truthy?('1') #=> true"
             example "truthy?('0') #=> false"
+            example "truthy?('some-string') #=> false"
+            example "truthy?('') #=> false"
+            example "truthy?(nil) #=> false"
           end
           def truthy?(value = nil)
             Foreman::Cast.to_bool(value) == true
@@ -122,8 +131,17 @@ module Foreman
           apipie :method, 'Checks whether a value is falsy or not' do
             optional :value, Object, desc: 'Value to check'
             returns one_of: [true, false], desc: 'Returns true if the value can be considered as falsy, false otherwise'
+            example "falsy?(true) #=> false"
+            example "falsy?(false) #=> true"
+            example "falsy?('true') #=> false"
+            example "falsy?('false') #=> true"
+            example "falsy?(1) #=> false"
+            example "falsy?(0) #=> true"
             example "falsy?('1') #=> false"
             example "falsy?('0') #=> true"
+            example "falsy?('some-string') #=> false"
+            example "falsy?('') #=> true"
+            example "falsy?(nil) #=> true"
           end
           def falsy?(value = nil)
             Foreman::Cast.to_bool(value) == false
