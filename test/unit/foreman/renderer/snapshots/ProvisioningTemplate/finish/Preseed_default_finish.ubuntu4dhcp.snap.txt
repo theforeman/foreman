@@ -22,7 +22,7 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-certname        = snapshot-ipv4-dhcp-ubuntu20
+certname        = snapshot-ipv4-dhcp-ubuntu18
 
 EOF
 
