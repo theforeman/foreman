@@ -1,0 +1,8 @@
+#!/bin/bash
+BASEDIR=$(dirname $0)
+trap 'rm -f "$TMPFILE"' EXIT
+TMPFILE=$(mktemp) || exit 1
+for FILE in $BASEDIR/../test/static_fixtures/reports/*.json; do
+  cp $FILE $TMPFILE
+  python -m json.tool --sort-keys $TMPFILE $FILE
+done

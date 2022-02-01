@@ -1,44 +1,46 @@
 {
-  "host": "builder.fm.example.net",
-  "reported_at": "2013-09-06 16:55:23 UTC",
-  "logs": null,
-  "status": {
-    "failed_restarts": 0,
-    "skipped": 0,
-    "restarted": 0,
-    "pending": 0,
-    "failed": 0,
-    "applied": 1
-  },
-  "metrics": {
-    "resources": {
-      "skipped": 6,
-      "scheduled": 0,
-      "restarted": 0,
-      "out_of_sync": 1,
-      "failed_to_restart": 0,
-      "failed": 0,
-      "total": 52,
-      "changed": 1
-    },
-    "events": {
-      "success": 1,
-      "total": 1,
-      "failure": 0
-    },
-    "time": {
-      "kernel_parameter": 0.111702,
-      "filebucket": 0.000361,
-      "config_retrieval": 4.38487815856934,
-      "anchor": 0.001314,
-      "file": 1.536893,
-      "augeas": 0.381903,
-      "total": 6.63197715856934,
-      "package": 0.001708,
-      "service": 0.213218
-    },
-    "changes": {
-      "total": 1
+    "config_report": {
+        "host": "report.example.com",
+        "logs": null,
+        "metrics": {
+            "changes": {
+                "total": 1
+            },
+            "events": {
+                "failure": 0,
+                "success": 1,
+                "total": 1
+            },
+            "resources": {
+                "changed": 1,
+                "failed": 0,
+                "failed_to_restart": 0,
+                "out_of_sync": 1,
+                "restarted": 0,
+                "scheduled": 0,
+                "skipped": 6,
+                "total": 52
+            },
+            "time": {
+                "anchor": 0.001314,
+                "augeas": 0.381903,
+                "config_retrieval": 4.38487815856934,
+                "file": 1.536893,
+                "filebucket": 0.000361,
+                "kernel_parameter": 0.111702,
+                "package": 0.001708,
+                "service": 0.213218,
+                "total": 6.63197715856934
+            }
+        },
+        "reported_at": "2013-09-06 16:55:23 UTC",
+        "status": {
+            "applied": 1,
+            "failed": 0,
+            "failed_restarts": 0,
+            "pending": 0,
+            "restarted": 0,
+            "skipped": 0
+        }
     }
-  }
 }

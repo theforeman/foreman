@@ -1,46 +1,45 @@
-// raw data from Foreman's old parsing of reports, with some readable formtting
 {
-  "host": "a.host.domain",
-  "reported_at": "2009-10-21 05:14:54 UTC",
-  "status": {
-    "applied": 0,
-    "restarted": 0,
-    "failed": 0,
-    "failed_restarts": 0,
-    "skipped": 0,
-    "pending": 0
-  },
-  "metrics": {
-    "time": {
-      "config_retrieval": 13.6332910060883,
-      "cron": 0.0213279724121094,
-      "exec": 2.237300157547,
-      "file": 6.11497139930725,
-      "filebucket": 0.000134944915771484,
-      "host": 0.00245118141174316,
-      "mount": 0.141838073730469,
-      "package": 0.9647057056427,
-      "schedule": 0.000991106033325195,
-      "service": 3.46583986282349,
-      "total": 26.5871164798737,
-      "user": 0.00112104415893555,
-      "yumrepo": 0.0031440258026123
-    },
-    "resources": {
-      "applied": 0,
-      "failed": 0,
-      "failed_restarts": 0,
-      "out_of_sync": 0,
-      "restarted": 0,
-      "scheduled": 1368,
-      "skipped": 1,
-      "total": 1450
-    },
-    "changes": {
-      "total": 0
+    "config_report": {
+        "host": "report.example.com",
+        "logs": [],
+        "metrics": {
+            "changes": {
+                "total": 0
+            },
+            "resources": {
+                "applied": 0,
+                "failed": 0,
+                "failed_restarts": 0,
+                "out_of_sync": 0,
+                "restarted": 0,
+                "scheduled": 1368,
+                "skipped": 1,
+                "total": 1450
+            },
+            "time": {
+                "config_retrieval": 13.6332910060883,
+                "cron": 0.0213279724121094,
+                "exec": 2.237300157547,
+                "file": 6.11497139930725,
+                "filebucket": 0.000134944915771484,
+                "host": 0.00245118141174316,
+                "mount": 0.141838073730469,
+                "package": 0.9647057056427,
+                "schedule": 0.000991106033325195,
+                "service": 3.46583986282349,
+                "total": 26.5871164798737,
+                "user": 0.00112104415893555,
+                "yumrepo": 0.0031440258026123
+            }
+        },
+        "reported_at": "2009-10-21 05:14:54 UTC",
+        "status": {
+            "applied": 0,
+            "failed": 0,
+            "failed_restarts": 0,
+            "pending": 0,
+            "restarted": 0,
+            "skipped": 0
+        }
     }
-  },
-  "logs": [
-
-  ]
 }

@@ -184,7 +184,12 @@ class ActiveSupport::TestCase
 
   def read_json_fixture(file)
     json = File.expand_path(File.join('..', 'static_fixtures', file), __FILE__)
-    JSON.parse(File.read(json))
+    result = JSON.parse(File.read(json))
+    if file.start_with? "reports"
+      result["config_report"]
+    else
+      result
+    end
   end
 
   def assert_with_errors(condition, model)

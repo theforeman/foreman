@@ -1,0 +1,64 @@
+#!/bin/bash
+BASEDIR=$(dirname $0)
+URL=${URL:-http://localhost:5000}
+HOST=report.example.com
+TMP=/tmp/$(basename $0).tmp
+
+usage() {
+	echo "Usage:"
+	echo "  $0 -h               Display this help message"
+	echo "  $0 -u URL           Foreman URL ($URL)"
+	echo "  $0 -o HOSTNAME      Hostname ($HOST)"
+	echo "  $0 -f FILE          Fixture to upload"
+	echo "  $0 -a               Upload all fixtures"
+}
+
+while getopts "haf:u:o:" opt; do
+	case ${opt} in
+		u )
+			URL=$OPTARG
+			;;
+		f )
+			FILE=$OPTARG
+			;;
+		o )
+			HOST=$OPTARG
+			;;
+		a )
+			ALL=1
+			;;
+		h )
+			usage
+			exit 0
+			;;
+		\? )
+			echo "Invalid option: $OPTARG" 1>&2
+			usage
+			exit 1
+			;;
+		: )
+			echo "Invalid option: $OPTARG requires an argument" 1>&2
+			usage
+			exit 1
+			;;
+	esac
+done
+shift $((OPTIND -1))
+
+do_curl() {
+	cat "$1" | sed "s/\"reported_at\": *\"[^\"]*\"/\"reported_at\": \"$(date -Ru)\"/" | \
+		sed "s/\"host\": *\"[^\"]*\"/\"host\": \"$HOST\"/" > $TMP
+	curl -s -H "Content-Type: application/json" \
+		-X POST $URL/api/v2/config_reports \
+		--data-binary @$TMP -w " - $1: %{http_code}\n"
+	}
+
+if [[ -f "$FILE" ]]; then
+	do_curl "$FILE"
+elif [[ $ALL -eq 1 ]]; then
+	for FILE in $BASEDIR/test/static_fixtures/reports/skipped.json; do
+		do_curl "$FILE"
+	done
+else
+	usage
+fi
