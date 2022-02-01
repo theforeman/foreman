@@ -1,0 +1,33 @@
+#cloud-config
+autoinstall:
+  version: 1
+  apt:
+    geoip: false
+    preserve_sources_list: false
+    primary:
+      - arches: [amd64, i386]
+        uri: http://archive.ubuntu.com/ubuntu
+      - arches: [default]
+        uri: http://ports.ubuntu.com/ubuntu-ports
+  identity:
+    hostname: snapshot-ipv4-dhcp-ubuntu20
+    realname: root
+    username: root
+    password: "$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0"
+  keyboard: {layout: us, toggle: null, variant: ''}
+  locale: en_US.UTF-8
+  network:
+    version: 2
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: true
+  updates: security
+  storage:
+    layout:
+      name: lvm
+  user-data:
+    runcmd:
+      - wget -Y off http://foreman.some.host.fqdn/unattended/finish -O /tmp/finish.sh
+      - chmod +x /tmp/finish.sh
+      - /tmp/finish.sh

@@ -1,0 +1,25 @@
+#
+# This file was deployed via 'Preseed default PXELinux Autoinstall' template
+#
+# Supported host/hostgroup parameters:
+#
+# blacklist = module1, module2
+#   Blacklisted kernel modules
+#
+# lang = en_US
+#   System locale
+#
+#
+# WARNING
+#
+# Foreman will not download the kernel/initramdisk to PXE automatically. Please follow
+# the official Ubuntu documentation and extract the files from the LiveCD (DVD) manually
+# and optionally update the KERNEL and INITRD lines in this template.
+#
+DEFAULT linux cloud-init autoinstall
+LABEL linux cloud-init autoinstall
+    KERNEL ubuntu/focal/vmlinuz
+    INITRD ubuntu/focal/initrd
+    APPEND ip=dhcp url=http://archive.ubuntu.com:80/ubuntu autoinstall ds=nocloud-net;s=http://archive.ubuntu.com:80/pub/preseed/autoinstall// root=/dev/ram0 ramdisk_size=1500000 fsck.mode=skip
+
+

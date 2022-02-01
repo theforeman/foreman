@@ -1,0 +1,46 @@
+<%#
+kind: user_data
+name: Preseed Autoinstall cloud-init user data
+model: ProvisioningTemplate
+oses:
+- ubuntu
+test_on:
+- ubuntu_autoinst4dhcp
+-%>
+<%-
+username_to_create = host_param('username_to_create', 'root')
+realname_to_create = host_param('realname_to_create') || username_to_create
+password_to_create = host_param('password_to_create') || @host.root_pass
+-%>
+#cloud-config
+autoinstall:
+  version: 1
+  apt:
+    geoip: false
+    preserve_sources_list: false
+    primary:
+      - arches: [amd64, i386]
+        uri: http://archive.ubuntu.com/ubuntu
+      - arches: [default]
+        uri: http://ports.ubuntu.com/ubuntu-ports
+<%= indent(4) { snippet_if_exists(template_name + " custom apt") } -%>
+  identity:
+    hostname: <%= @host.name %>
+    realname: <%= realname_to_create %>
+    username: <%= username_to_create %>
+    password: "<%= password_to_create %>"
+  keyboard: {layout: us, toggle: null, variant: ''}
+  locale: en_US.UTF-8
+<%= snippet 'preseed_netplan_setup' -%>
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: true
+  updates: security
+<%= indent(2) { @host.diskLayout } -%>
+<%= indent(2) { snippet_if_exists(template_name + " custom root") } -%>
+  user-data:
+    runcmd:
+      - wget -Y off <%= @static ? "'#{foreman_url('finish', static: 'true')}'" : foreman_url('finish') %> -O /tmp/finish.sh
+      - chmod +x /tmp/finish.sh
+      - /tmp/finish.sh

@@ -26,6 +26,12 @@ FactoryBot.define do
       os_family { 'Debian' }
     end
 
+    trait :ubuntu_autoinstall do
+      sequence(:name) { |n| "ubuntu default autoinstall#{n}" }
+      layout { "storage:\n  layout:\n    name: lvm\n" }
+      os_family { 'Debian' }
+    end
+
     trait :suse do
       sequence(:name) { |n| "suse default#{n}" }
       layout { "<partitioning  config:type=\"list\">\n  <drive>\n    <device>/dev/hda</device>\n    <use>all</use>\n  </drive>\n</partitioning>" }
@@ -309,7 +315,12 @@ FactoryBot.define do
         operatingsystem { FactoryBot.build(:for_snapshots_debian_10) }
       end
 
+      factory :host_for_snapshots_ipv4_dhcp_ubuntu18 do
+        operatingsystem { FactoryBot.build(:for_snapshots_ubuntu_18) }
+      end
+
       factory :host_for_snapshots_ipv4_dhcp_ubuntu20 do
+        ptable { FactoryBot.build(:ptable, :ubuntu_autoinstall) }
         operatingsystem { FactoryBot.build(:for_snapshots_ubuntu_20) }
       end
     end

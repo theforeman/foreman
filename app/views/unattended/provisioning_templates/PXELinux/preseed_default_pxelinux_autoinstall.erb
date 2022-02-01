@@ -1,0 +1,51 @@
+<%#
+kind: PXELinux
+name: Preseed default PXELinux Autoinstall
+model: ProvisioningTemplate
+oses:
+- ubuntu
+test_on:
+- ubuntu_autoinst4dhcp
+-%>
+#
+# This file was deployed via '<%= template_name %>' template
+#
+# Supported host/hostgroup parameters:
+#
+# blacklist = module1, module2
+#   Blacklisted kernel modules
+#
+# lang = en_US
+#   System locale
+#
+<%
+  options = []
+  if host_param('blacklist')
+    options << host_param('blacklist').split(',').collect{|x| "#{x.strip}.blacklist=yes"}.join(' ')
+  end
+  if @host.operatingsystem.name == 'Debian'
+    options << "auto=true"
+    options << "domain=#{@host.domain}"
+  else
+    options << 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true'
+  end
+  if @host.provision_interface.vlanid.present?
+    options << "netcfg/use_vlan=true netcfg/vlan_id=#{@host.provision_interface.vlanid}"
+  end
+  options << "locale=#{host_param('lang') || 'en_US'}"
+  options = options.join(' ')
+-%>
+#
+# WARNING
+#
+# Foreman will not download the kernel/initramdisk to PXE automatically. Please follow
+# the official Ubuntu documentation and extract the files from the LiveCD (DVD) manually
+# and optionally update the KERNEL and INITRD lines in this template.
+#
+DEFAULT linux cloud-init autoinstall
+LABEL linux cloud-init autoinstall
+    KERNEL ubuntu/focal/vmlinuz
+    INITRD ubuntu/focal/initrd
+    APPEND ip=dhcp url=http://<%= @preseed_server %><%= @preseed_path %> autoinstall ds=nocloud-net;s=http://<%= @preseed_server %>/pub/preseed/autoinstall/<%= @host.shortname %>/ root=/dev/ram0 ramdisk_size=1500000 fsck.mode=skip
+
+<%= snippet_if_exists(template_name + " custom menu") %>

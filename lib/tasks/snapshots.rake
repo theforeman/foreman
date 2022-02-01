@@ -40,6 +40,11 @@ namespace :snapshots do
             FileUtils.mkdir_p(dir) unless File.directory?(dir)
 
             snapshot = Foreman::TemplateSnapshotService.render_template(template, host)
+            if snapshot =~ /^#cloud-config/
+              puts "Validating YAML #{snapshot_path}"
+              YAML.safe_load(snapshot)
+            end
+            puts "Writing #{snapshot_path}"
             File.write(snapshot_path, snapshot)
           end
         end
