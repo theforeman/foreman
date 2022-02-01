@@ -397,7 +397,7 @@ function construct_host_name() {
   var domain_name = primary_nic_form()
     .find('.interface_domain option:selected')
     .text();
-  return fqdn(host_name, domain_name);
+  return domain_name ? fqdn(host_name, domain_name) : host_name;
 }
 
 function update_fqdn() {
