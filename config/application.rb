@@ -319,7 +319,7 @@ module Foreman
         plugin.to_prepare_callbacks.each(&:call)
       end
 
-      Plugin.graphql_types_registry.realise_extensions
+      Plugin.graphql_types_registry.realise_extensions unless Foreman.in_setup_db_rake?
     end
 
     # Use the database for sessions instead of the cookie-based default
