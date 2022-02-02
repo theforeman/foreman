@@ -73,6 +73,7 @@ class PowerManagerTest < ActiveSupport::TestCase
   def actions_list(host)
     action_map = host.power.send(:action_map)
     actions = PowerManager::SUPPORTED_ACTIONS - action_map.keys.map { |k| k.to_s }
+
     action_map.each do |key, value|
       action_entry = value
       action_entry = {:action => value.to_sym} unless value.is_a?(Hash)

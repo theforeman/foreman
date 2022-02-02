@@ -18,11 +18,9 @@ module PowerManager
       super.deep_merge({
                          :start    => 'on',
                          :stop     => 'off',
-                         :poweroff => 'off',
-                         :reboot   => 'soft',
-                         :reset    => 'cycle',
-                         :state    => 'status',
-                         :ready?   => 'ready?',
+                         :poweroff => 'soft',
+                         :reboot   => 'cycle',
+                         :state    => { :action => 'status' },
                        })
     end
 

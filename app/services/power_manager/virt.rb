@@ -35,12 +35,9 @@ module PowerManager
 
     def action_map
       super.deep_merge({
-                         :on       => 'start',
-                         :off      => 'stop',
-                         :soft     => 'reboot',
-                         :cycle    => 'reset',
-                         :status   => {:action => :virt_state, :output => :state_output},
-                         :state    => {:action => :virt_state, :output => :state_output},
+                         :poweroff => 'soft',
+                         :status   => {:action => :virt_state, :output => :state_output, :default => nil},
+                         :state    => {:action => :virt_state, :output => :state_output, :default => nil},
                        })
     end
 

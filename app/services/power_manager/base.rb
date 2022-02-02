@@ -18,13 +18,11 @@ module PowerManager
     SUPPORTED_ACTIONS.each do |method|
       define_method method do # def start
         action_entry = find_action_entry(method)
-        method_to_call = action_entry[:action]
-        if method_to_call
-          result = send(method_to_call)
-        else
-          result = default_action(method.to_sym)
-        end
+
+        result = send(action_entry[:action]) if action_entry[:action]
+        result = default_action(action_entry[:default]) if action_entry[:default]
         result = send(action_entry[:output], result) if action_entry[:output]
+
         result
       end
     end
@@ -41,7 +39,7 @@ module PowerManager
 
     def action_map
       {
-        :status => { :output => :translate_status },
+        :status => { :default => 'status', :output => :translate_status },
       }
     end
 
@@ -58,9 +56,9 @@ module PowerManager
     attr_reader :host
 
     def find_action_entry(method)
-      action_entry = action_map[method.to_sym] || {} # create a valid entry
+      action_entry = action_map[method.to_sym] || method # create a valid entry
       # if action_map is in simple format (:key => 'method'), transform it to entry
-      action_entry = {:action => action_entry.to_sym} unless action_entry.is_a?(Hash)
+      action_entry = {:default => action_entry.to_sym} unless action_entry.is_a?(Hash)
       action_entry
     end
   end
