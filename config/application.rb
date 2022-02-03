@@ -301,6 +301,7 @@ module Foreman
       end
 
       Facets.register(HostFacets::ReportedDataFacet, :reported_data) do
+        api_view({ :list => 'api/v2/hosts/reported_data' })
         set_dependent_action :destroy
         template_compatibility_properties :cores, :virtual, :sockets, :ram, :uptime_seconds
       end
