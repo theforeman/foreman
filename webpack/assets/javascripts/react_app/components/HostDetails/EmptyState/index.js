@@ -9,7 +9,7 @@ const RedirectToEmptyHostPage = ({ hostname }) => (
     to={{
       pathname: '/page-not-found',
       state: {
-        refresh: true,
+        back: true,
         header: __('No host found'),
         body: sprintf(
           __(
