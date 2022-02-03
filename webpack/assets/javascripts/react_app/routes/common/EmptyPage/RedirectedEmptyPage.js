@@ -16,7 +16,7 @@ const RedirectedEmptyPage = ({ location: { state = {} } }) => {
     body = defaultState.body,
     action,
     secondayActions,
-    refresh = defaultState.refresh,
+    back = defaultState.back,
   } = state;
   const history = useHistory();
   const primaryAction = action && (
@@ -31,7 +31,7 @@ const RedirectedEmptyPage = ({ location: { state = {} } }) => {
       </Button>
     ));
 
-  const refreshButton = refresh && (
+  const backButton = back && (
     <Button onClick={() => history.goBack()} variant="link">
       {__('Return to the last page')}
     </Button>
@@ -47,7 +47,7 @@ const RedirectedEmptyPage = ({ location: { state = {} } }) => {
       secondaryActions={
         <>
           {renderSecondaryActions()}
-          {refreshButton}
+          {backButton}
         </>
       }
     />
@@ -58,7 +58,7 @@ RedirectedEmptyPage.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
       header: PropTypes.string,
-      refresh: PropTypes.bool,
+      back: PropTypes.bool,
       body: PropTypes.string,
       action: PropTypes.object,
       secondayActions: PropTypes.array,
@@ -69,7 +69,7 @@ RedirectedEmptyPage.propTypes = {
 RedirectedEmptyPage.defaultProps = {
   location: {
     state: {
-      refresh: true,
+      back: true,
       header: __('Resource not found'),
       body: __(
         'Something went wrong and the resource does not exist or there are access permissions needed. Please, contact your administrator if this issue continues'
