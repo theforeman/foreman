@@ -65,6 +65,9 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>
 
 <%= snippet 'preseed_networking_setup' -%>
+
+<%= snippet_if_exists(template_name + " custom late snippet") %>
+
 <%= snippet 'efibootmgr_netboot' -%>
 <%= snippet 'eject_cdrom' -%>
 <%= snippet 'built' -%>
