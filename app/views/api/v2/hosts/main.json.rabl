@@ -16,7 +16,7 @@ attributes :ip, :ip6, :last_report, :mac, :realm_id, :realm_name,
   :compute_resource_id, :compute_resource_name,
   :compute_profile_id, :compute_profile_name, :capabilities, :provision_method,
   :certname, :image_id, :image_name, :created_at, :updated_at,
-  :last_compile, :global_status, :global_status_label, :uptime_seconds, :tags, :bmc_available
+  :last_compile, :global_status, :global_status_label, :tags, :bmc_available
 attributes :organization_id, :organization_name
 attributes :location_id, :location_name
 
