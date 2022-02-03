@@ -47,7 +47,7 @@ exit_and_cancel_build() {
 set +e
 trap 'exit_and_cancel_build' ERR
 
-<% if host_puppet_server.present? -%>
+<% if !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet')) -%>
 <%= snippet 'puppetlabs_repo' %>
 <%= snippet 'puppet_setup' %>
 <% end -%>
