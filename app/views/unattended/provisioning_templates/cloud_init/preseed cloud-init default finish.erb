@@ -1,0 +1,95 @@
+<%#
+kind: finish
+name: cloud-init default finish
+model: ProvisioningTemplate
+oses:
+- Debian
+- Ubuntu
+test_on:
+- ubuntu4dhcp
+-%>
+<%-
+if host_param('kt_activation_keys')
+   subscription_manager_certpkg_url = subscription_manager_configuration_url(@host)
+   subscription_manager_atomic_url = subscription_manager_configuration_url(@host, false)
+   subscription_manager_org = @host.rhsm_organization_label
+   activation_key = host_param('kt_activation_keys')
+   redhat_install_host_tools = host_param_true?('redhat_install_host_tools', true)
+   redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
+else
+   subscription_manager_certpkg_url = host_param('subscription_manager_certpkg_url')
+   subscription_manager_atomic_url = host_param('subscription_manager_atomic_url')
+   subscription_manager_org = host_param('subscription_manager_org')
+   activation_key = host_param('activation_key')
+   redhat_install_host_tools = host_param_true?('redhat_install_host_tools')
+   redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
+end
+-%>
+<%
+  # safemode renderer does not support unary negation
+  puppet_enabled = host_puppet_server.present? || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
+  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
+-%>
+## host and domain name need setting as these values may have come from dhcp if pxe booting
+##
+
+/bin/sed -i "1i<%= @host.ip %>\t<%= @host.shortname %>.<%= @host.domain %> <%= @host.shortname %>" /etc/hosts
+
+<%- if @host.provision_method == 'image' && root_pass.present? -%>
+# Install the root password
+echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
+<%- end -%>
+<%= snippet_if_exists(template_name + " custom snippet") %>
+<% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<%= snippet 'freeipa_register' %>
+<% end -%>
+
+<%= snippet('cloud_init_remote_execution_ssh_keys') %>
+
+<%= snippet "blacklist_kernel_modules" %>
+
+<%- if chef_enabled %>
+<%= snippet 'chef_client' %>
+<%- end -%>
+# Install and configure puppet-agent
+<%- if puppet_enabled %>
+apt install -y alien
+wget http://<%= host_puppet_server %>/pub/katello-ca-consumer-latest.noarch.rpm -P /tmp/
+alien -i /tmp/katello-ca-consumer-latest.noarch.rpm
+<%- if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<%= snippet 'puppetlabs_repo' %>
+<%- end -%>
+<%= snippet 'puppet_setup' %>
+systemctl restart puppet
+<%- end -%>
+# Install subscription manager form Atix and register the host
+<%- if activation_key -%>
+wget --no-check-certificate -O /tmp/katello-rhsm-consumer https://<%= host_puppet_server %>/pub/katello-rhsm-consumer
+apt-get install -y python3-subscription-manager apt-transport-katello subscription-manager
+/bin/bash -x /tmp/katello-rhsm-consumer 2> /root/katello-rhsm-consumer.log
+  <%- if host_param('subscription_manager_username') && host_param('subscription_manager_password') -%>
+    <%- if host_param('subscription_manager_pool') -%>
+subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>' --force
+subscription-manager attach --pool='<%= host_param('subscription_manager_pool') %>' --force
+    <%- else -%>
+subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>' --auto-attach --force
+    <%- end -%>
+  <%- elsif activation_key -%>
+subscription-manager register --name="<%= @host.name %>" --org='<%= subscription_manager_org %>' --activationkey='<%= activation_key %>' --force
+  <%- else -%>
+echo "No activation key found: Not registering to subscription manager"
+  <%- end -%>
+mv /etc/apt/sources.list /etc/apt/foreman_backup_sources.list<% end %>
+<% if salt_enabled %>
+<%= snippet 'saltstack_setup' %>
+<% end -%>
+
+<%= snippet 'efibootmgr_netboot' -%>
+<%= snippet 'eject_cdrom' -%>
+<%= snippet 'built' -%>
+# Upgrade the system with the repos from the activation_key ( set parameter schedule_reboot to true in order to apply possible kernel-upgrades! )
+<%- if host_param('upgrade_system') -%>
+apt upgrade -y
+<%- end -%>
+<%= snippet 'schedule_reboot' -%>
