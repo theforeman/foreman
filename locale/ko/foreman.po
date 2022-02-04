@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-29 17:18+0000\n"
+"PO-Revision-Date: 2022-01-03 14:19+0000\n"
 "Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -738,7 +738,7 @@ msgid "Are you sure you want to delete host {host}? This action is irreversible.
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
-msgstr ""
+msgstr "이 위젯을 대시보드에서 삭제하시겠습니까?"
 
 msgid "Are you sure you want to log out?"
 msgstr ""
@@ -1122,7 +1122,7 @@ msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax 
 msgstr ""
 
 msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
-msgstr ""
+msgstr "Foreman을 사용하기 전 하나 이상의 아키텍처에 대한 정보를 지정해야 합니다. "
 
 msgid "Blank template"
 msgstr ""
@@ -2606,7 +2606,7 @@ msgid "EUI-64"
 msgstr ""
 
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
-msgstr ""
+msgstr "각 아키텍처는 하나 이상의 운영 체제에 연결할 수 있고 유효한 조합을 선택할 수 있도록 선택자 블록이 제공됩니다."
 
 msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
 msgstr ""
@@ -2648,7 +2648,7 @@ msgid "Editor"
 msgstr ""
 
 msgid "Email"
-msgstr ""
+msgstr "이메일 "
 
 msgid "Email Preferences"
 msgstr "이메일 기본 설정"
@@ -3327,7 +3327,7 @@ msgid "Foreman can use External service for user information and authentication.
 msgstr ""
 
 msgid "Foreman can use LDAP based service for user information and authentication."
-msgstr ""
+msgstr "Foreman은 사용자 정보 및 인증을 위해 LDAP 기반 서비스를 사용할 수 있습니다. "
 
 msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter."
 msgstr ""
@@ -3674,7 +3674,7 @@ msgid "Hardware model"
 msgstr ""
 
 msgid "Hardware models"
-msgstr ""
+msgstr "하드웨어 모델 "
 
 msgid "Has effect only for network based provisioning"
 msgstr ""
@@ -5443,7 +5443,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
-msgstr ""
+msgstr "검색 값 수 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge default"
@@ -5496,7 +5496,7 @@ msgid "MAC Address"
 msgstr "MAC 주소 "
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC 주소"
 
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr "인터페이스의 MAC 주소입니다. 베어 메탈에서 관리형 인터페이스에 필요합니다."
@@ -7305,7 +7305,7 @@ msgid "Realm|Realm type"
 msgstr "영역 유형 "
 
 msgid "Reboot"
-msgstr ""
+msgstr "다시 시작"
 
 msgid "Reboot and build"
 msgstr "다시 시작 및 빌드 "
@@ -7502,7 +7502,7 @@ msgid "ReportTemplate|Snippet"
 msgstr ""
 
 msgid "Reported At"
-msgstr ""
+msgstr "보고 일시"
 
 msgid "Reported at"
 msgstr "보고 "
@@ -8478,10 +8478,10 @@ msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "일부 인터페이스는 사용할 수 없습니다. 아래 표를 확인하십시오."
 
 msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "이미 다른 인터페이스가 기본 인터페이스로 설정되어 있습니다. 이 인터페이스를 대신 사용하시겠습니까?"
 
 msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "이미 다른 인터페이스가 프로비저닝 인터페이스로 설정되어 있습니다. 이 인터페이스를 대신 사용하시겠습니까?"
 
 msgid "Something went wrong"
 msgstr ""
@@ -10455,7 +10455,7 @@ msgid "Variables"
 msgstr "변수 "
 
 msgid "Vendor class"
-msgstr ""
+msgstr "벤더 클래스 "
 
 msgid "Verify"
 msgstr "확인 "
@@ -11314,7 +11314,8 @@ msgstr "외부 사용자 그룹이 이 사용자 그룹에 연결되어 있습�
 msgid "list"
 msgstr "목록"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "한국어"
 
