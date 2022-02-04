@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-11-10 13:02+0000\n"
-"Last-Translator: Amit Upadhye <aupadhye@redhat.com>\n"
+"PO-Revision-Date: 2022-01-03 14:19+0000\n"
+"Last-Translator: Claer <transiblu@claer.hammock.fr>\n"
 "Language-Team: French (http://www.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -710,7 +710,7 @@ msgid "An error happened trying to connect to LDAP, please verify the authentica
 msgstr "Une erreur s'est produite lors de la tentative de connexion à LDAP. Veuillez vérifier que l'hôte source de l'authentification est accessible depuis l'hôte Foreman et qu'il est en ligne."
 
 msgid "An error occurred while testing the connection: "
-msgstr ""
+msgstr "Une erreur s’est produite quand on a testé la connexion"
 
 msgid "An error occurred."
 msgstr "Une erreur s'est produite"
@@ -785,7 +785,7 @@ msgid "Are you sure you want to delete host {host}? This action is irreversible.
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
-msgstr ""
+msgstr "Êtes-vous sur de supprimer ce widget de votre tableau de bord ?"
 
 msgid "Are you sure you want to log out?"
 msgstr "Etes-vous certain de vouloir vous déconnecter ?"
@@ -1170,7 +1170,7 @@ msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax 
 msgstr "En raison de la longueur variable des balises ERB, l'indentation de la syntaxe ERB peut sembler désordonnée. La syntaxe ERB ignore l'espace blanc. Une méthode de traitement de l'indentation consiste à déclarer la balise ERB au début de chaque nouvelle ligne, puis à utiliser l'espace blanc à l'intérieur de la balise ERB pour souligner les relations au sein de la syntaxe, par exemple :"
 
 msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
-msgstr ""
+msgstr "Avant de poursuivre l'utilisation de Foreman, vous devez fournir les informations d'une ou plusieurs architectures"
 
 msgid "Blank template"
 msgstr "Modèle vide"
@@ -2654,7 +2654,7 @@ msgid "EUI-64"
 msgstr "EUI-64"
 
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
-msgstr ""
+msgstr "Chaque architecture peut-être associée à un ou plusieurs systèmes d'exploitation. De plus il est possible de restreindre les combinaisons valides."
 
 msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
 msgstr ""
@@ -3372,10 +3372,10 @@ msgid "Foreman can store information about the networking setup of a host that i
 msgstr "Foreman peut stocker des informations sur la configuration réseau d'un hôte qu'il provisionne. Elles peuvent servir à configurer la machine virtuelle, à attribuer les adresses IP correctes et les ressources réseau, et à configurer le système d'exploitation correctement pendant le processus d'attribution."
 
 msgid "Foreman can use External service for user information and authentication."
-msgstr ""
+msgstr "Foreman peut utiliser une Service externe pour l'authentification et les informations utilisateur"
 
 msgid "Foreman can use LDAP based service for user information and authentication."
-msgstr ""
+msgstr "Foreman peut utiliser des services basés sur LDAP pour l'authentification et les informations utilisateur"
 
 msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter."
 msgstr "Foreman considère qu'un domaine et une zone DNS sont la même chose. Autrement dit, si vous envisagez de gérer un site dont toutes les machines sont de la forme hostname. somewhere.com, alors le domaine est somewhere.com. Cela permet à Foreman d'associer une variable puppet à un domaine/site et d'ajouter automatiquement cette variable à toutes les demandes de nœuds externes faites par les machines de ce site. Le champ fullname est utilisé pour la lisibilité humaine dans les rapports et autres pages qui se réfèrent à des domaines, et également disponible comme paramètre de nœud externe."
@@ -3521,7 +3521,7 @@ msgid "Function not available for %s"
 msgstr "Fonction non disponible pour %s"
 
 msgid "Further Information"
-msgstr ""
+msgstr "Informations complémentaires"
 
 msgid "GMT time"
 msgstr "Heure UTC"
@@ -5500,7 +5500,7 @@ msgstr "Type de clé"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
-msgstr ""
+msgstr "Nombre de valeurs de recherche"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge default"
@@ -8544,10 +8544,10 @@ msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "Certaines interfaces ne sont pas valides. Veuillez vérifier le tableau ci-dessous."
 
 msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "Une autre interface est déjà définie comme primaire. Êtes-vous sûrs de vouloir utiliser celle-ci à la place ?"
 
 msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "Une autre interface est déjà définie pour le provisioning. Êtes-vous sûrs de vouloir utiliser celle-ci à la place ?"
 
 msgid "Something went wrong"
 msgstr ""
@@ -10603,7 +10603,7 @@ msgstr[0] "Attention ! Ceci va supprimer %{name} de l’utilisateur %{number}. �
 msgstr[1] "Attention ! Ceci va supprimer %{name} des utilisateurs %{number}. Êtes-vous sûr ?"
 
 msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
+msgstr "Avertissement : cette combinaison de chargeur et de système d'exploitation peut ne pas pouvoir démarrer."
 
 msgid "Warning: This will delete this host and all of its data!"
 msgstr "Attention : Cette action va supprimer l'hôte et toutes ses données !"
@@ -11404,7 +11404,8 @@ msgstr "joindre un group d'utilisateur externe avec ce groupe d'utilisateur"
 msgid "list"
 msgstr "liste"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Français"
 

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-29 17:18+0000\n"
-"Last-Translator: Andi Chandler <andi@gowling.com>\n"
+"PO-Revision-Date: 2022-01-03 14:19+0000\n"
+"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -744,7 +744,7 @@ msgid "Are you sure you want to delete host {host}? This action is irreversible.
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
-msgstr ""
+msgstr "Are you sure you want to delete this widget from your dashboard?"
 
 msgid "Are you sure you want to log out?"
 msgstr ""
@@ -5445,7 +5445,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
-msgstr ""
+msgstr "Number of values"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge default"
@@ -5498,7 +5498,7 @@ msgid "MAC Address"
 msgstr ""
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC address"
 
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr ""
@@ -7307,7 +7307,7 @@ msgid "Realm|Realm type"
 msgstr ""
 
 msgid "Reboot"
-msgstr ""
+msgstr "Reboot"
 
 msgid "Reboot and build"
 msgstr ""
@@ -11316,7 +11316,8 @@ msgstr ""
 msgid "list"
 msgstr ""
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "English (United Kingdom)"
 

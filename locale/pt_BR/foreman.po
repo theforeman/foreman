@@ -30,8 +30,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-29 17:18+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2022-01-03 14:19+0000\n"
+"Last-Translator: Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -703,7 +703,7 @@ msgid "An error happened trying to connect to LDAP, please verify the authentica
 msgstr "Ocorreu um erro ao tentar conexão com o LDAP, verifique se o host de origem de autenticação pode ser alcançado a partir do host Foreman e se está on-line."
 
 msgid "An error occurred while testing the connection: "
-msgstr ""
+msgstr "Ocorreu um erro ao testar a conexão: "
 
 msgid "An error occurred."
 msgstr ""
@@ -778,7 +778,7 @@ msgid "Are you sure you want to delete host {host}? This action is irreversible.
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
-msgstr ""
+msgstr "Você tem certeza que deseja remover esse widget do seu painel?"
 
 msgid "Are you sure you want to log out?"
 msgstr "Você está certo que quer fazer logout?"
@@ -1163,7 +1163,7 @@ msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax 
 msgstr ""
 
 msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
-msgstr ""
+msgstr "Antes de continuar a utilizar o Foreman você deve acrescentar informações sobre uma ou mais arquiteturas."
 
 msgid "Blank template"
 msgstr "Modelo em branco"
@@ -2435,7 +2435,7 @@ msgid "Delete filter?"
 msgstr "Apagar filtro?"
 
 msgid "Delete host"
-msgstr ""
+msgstr "Excluir host"
 
 msgid "Delete host?"
 msgstr ""
@@ -2647,7 +2647,7 @@ msgid "EUI-64"
 msgstr "EUI-64"
 
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
-msgstr ""
+msgstr "Cada arquitetura também pode ser associado a mais de um sistema operacional e um bloco seletor é fornecido para permitir que você selecione combinações válidas."
 
 msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
 msgstr ""
@@ -2689,7 +2689,7 @@ msgid "Editor"
 msgstr "Editor"
 
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 msgid "Email Preferences"
 msgstr "Preferências de email"
@@ -3363,10 +3363,10 @@ msgid "Foreman can store information about the networking setup of a host that i
 msgstr "O Foreman pode armazenar informações sobre a configuração de rede de um host que está provisionando, o que pode ser usado para configurar a máquina virtual, atribuir o endereço IP e os recursos de rede corretos e, depois, configurar o SO corretamente durante o processo de provisionamento. "
 
 msgid "Foreman can use External service for user information and authentication."
-msgstr ""
+msgstr "O Foreman pode utilizar um serviço externo para informações e autenticação de usuários."
 
 msgid "Foreman can use LDAP based service for user information and authentication."
-msgstr ""
+msgstr "Foreman pode utilizar um serviço LDAP para informação de usuário e autenticação."
 
 msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter."
 msgstr ""
@@ -3512,7 +3512,7 @@ msgid "Function not available for %s"
 msgstr "Função não disponível para %s"
 
 msgid "Further Information"
-msgstr ""
+msgstr "Mais informações"
 
 msgid "GMT time"
 msgstr "Hora GMT "
@@ -3713,7 +3713,7 @@ msgid "Hardware model"
 msgstr ""
 
 msgid "Hardware models"
-msgstr ""
+msgstr "Modelos de hardware"
 
 msgid "Has effect only for network based provisioning"
 msgstr "Tem efeito apenas para o provisionamento baseado em rede"
@@ -4372,7 +4372,7 @@ msgid "IPv4 Subnet with associated TFTP smart proxy is required for PXE based pr
 msgstr "É necessária uma sub-rede IPv4 com proxy inteligente TFTP associado para o provisionamento baseado em PXE."
 
 msgid "IPv4 address"
-msgstr ""
+msgstr "Endereço IPv4"
 
 msgid "IPv4 address of interface"
 msgstr "endereço IPv4 da interface"
@@ -4395,7 +4395,7 @@ msgid "IPv6 Subnet"
 msgstr "Subrede IPv6"
 
 msgid "IPv6 address"
-msgstr ""
+msgstr "Endereço IPv6"
 
 msgid "IPv6 address of interface"
 msgstr "endereço IPv6 da interface"
@@ -5493,7 +5493,7 @@ msgstr "LookupKey|Tipo de chave"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
-msgstr ""
+msgstr "Número de valores lookup"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge default"
@@ -5546,7 +5546,7 @@ msgid "MAC Address"
 msgstr "Endereço MAC"
 
 msgid "MAC address"
-msgstr ""
+msgstr "Endereço MAC"
 
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr "Endereço MAC da interface. Necessário para interfaces gerenciadas em bare metal."
@@ -7054,7 +7054,7 @@ msgid "Power ON this machine"
 msgstr "Ligar essa máquina"
 
 msgid "Power Status"
-msgstr ""
+msgstr "Estado de energia"
 
 msgid "Power a Virtual Machine"
 msgstr "Ligar uma máquina virtual"
@@ -7364,7 +7364,7 @@ msgid "Realm|Realm type"
 msgstr "Realm|Tipo de realm "
 
 msgid "Reboot"
-msgstr ""
+msgstr "Reiniciar"
 
 msgid "Reboot and build"
 msgstr "Reiniciar e compilar"
@@ -7561,7 +7561,7 @@ msgid "ReportTemplate|Snippet"
 msgstr "Modelo de relatório|Snippet"
 
 msgid "Reported At"
-msgstr ""
+msgstr "Relatado em "
 
 msgid "Reported at"
 msgstr "Relatar em"
@@ -8537,10 +8537,10 @@ msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "Algumas das interfaces são inválidas. Por favor verifique a tabela abaixo."
 
 msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "Uma outra interface já foi definida como primária. Tem certeza que deseja usar essa?"
 
 msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "Uma outra interface já foi definida para provisionamento. Tem certeza que deseja usar essa?"
 
 msgid "Something went wrong"
 msgstr ""
@@ -10519,7 +10519,7 @@ msgid "Variables"
 msgstr "Variáveis"
 
 msgid "Vendor class"
-msgstr ""
+msgstr "Classe de fornecedor"
 
 msgid "Verify"
 msgstr "Verificar"
@@ -10596,7 +10596,7 @@ msgstr[0] "Aviso! Isto removerá %{name} de %{number} usuário. Tem certeza?"
 msgstr[1] "Aviso! Isto removerá %{name} de %{number} usuários. Tem certeza?"
 
 msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
+msgstr "Aviso: essa combinação do carregador e do SO pode não conseguir inicializar."
 
 msgid "Warning: This will delete this host and all of its data!"
 msgstr "Aviso: Isto irá remover este host e todos os seus dados!"
@@ -11393,7 +11393,8 @@ msgstr "grupo de usuário externo com este grupo de usuário"
 msgid "list"
 msgstr "listar"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Português Brasil"
 

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-29 17:18+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2022-01-03 14:19+0000\n"
+"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Italian (http://www.transifex.com/foreman/foreman/language/it/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -1132,7 +1132,7 @@ msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax 
 msgstr ""
 
 msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
-msgstr ""
+msgstr "Per usare Foreman fornire prima le informazioni relative a una o più architetture."
 
 msgid "Blank template"
 msgstr ""
@@ -2616,7 +2616,7 @@ msgid "EUI-64"
 msgstr ""
 
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
-msgstr ""
+msgstr "Ogni architettura può essere associata con più di un sistema operativo, viene altresì fornito un blocco di selezione per permettere all'utente di selezionare le combinazioni valide."
 
 msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
 msgstr ""
@@ -2658,7 +2658,7 @@ msgid "Editor"
 msgstr ""
 
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 msgid "Email Preferences"
 msgstr ""
@@ -3332,7 +3332,7 @@ msgid "Foreman can use External service for user information and authentication.
 msgstr ""
 
 msgid "Foreman can use LDAP based service for user information and authentication."
-msgstr ""
+msgstr "Foreman è in grado di usare un servizio basato su LDAP per le informaioni e autenticazione."
 
 msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter."
 msgstr ""
@@ -3679,7 +3679,7 @@ msgid "Hardware model"
 msgstr ""
 
 msgid "Hardware models"
-msgstr ""
+msgstr "Modelli hardware"
 
 msgid "Has effect only for network based provisioning"
 msgstr ""
@@ -5451,7 +5451,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
-msgstr ""
+msgstr "Cerca numero valori"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge default"
@@ -5504,7 +5504,7 @@ msgid "MAC Address"
 msgstr "Indirizzo MAC"
 
 msgid "MAC address"
-msgstr ""
+msgstr "Indirizzo MAC"
 
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr ""
@@ -7313,7 +7313,7 @@ msgid "Realm|Realm type"
 msgstr "Area di autenticazione | Tipo di area di autenticazione"
 
 msgid "Reboot"
-msgstr ""
+msgstr "Riavvia"
 
 msgid "Reboot and build"
 msgstr "Riavvia e compila"
@@ -10464,7 +10464,7 @@ msgid "Variables"
 msgstr "Variabili"
 
 msgid "Vendor class"
-msgstr ""
+msgstr "Classe rivenditore"
 
 msgid "Verify"
 msgstr "Verifica"
@@ -11327,7 +11327,8 @@ msgstr "collega il gruppo di utenti esterno a questo gruppo"
 msgid "list"
 msgstr "elenco"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "locale_name"
 

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
+# Amit Upadhye <aupadhye@redhat.com>, 2021
 # ChrisLee <chris_lee@hiiir.com>, 2013
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2014
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2014
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-29 17:18+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2022-01-03 14:19+0000\n"
+"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -747,7 +748,7 @@ msgid "Are you sure you want to delete host {host}? This action is irreversible.
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
-msgstr ""
+msgstr "確定要從面板刪除此小工具？"
 
 msgid "Are you sure you want to log out?"
 msgstr ""
@@ -1132,7 +1133,7 @@ msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax 
 msgstr ""
 
 msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
-msgstr ""
+msgstr "在使用 Foreman 之前，您應提供有關於一或更多架構的相關資訊。"
 
 msgid "Blank template"
 msgstr ""
@@ -2616,7 +2617,7 @@ msgid "EUI-64"
 msgstr ""
 
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
-msgstr ""
+msgstr "各個架構皆可與超過一個作業系統相聯，並且提供了一個選取器區塊以讓您選擇有效的組合。"
 
 msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
 msgstr ""
@@ -2658,7 +2659,7 @@ msgid "Editor"
 msgstr ""
 
 msgid "Email"
-msgstr ""
+msgstr "電子郵件"
 
 msgid "Email Preferences"
 msgstr "電子郵件偏好設定"
@@ -3335,7 +3336,7 @@ msgid "Foreman can use External service for user information and authentication.
 msgstr ""
 
 msgid "Foreman can use LDAP based service for user information and authentication."
-msgstr ""
+msgstr "Foreman 能使用基於 LDAP 的服務來配置使用者資訊及驗證。"
 
 msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter."
 msgstr ""
@@ -3682,7 +3683,7 @@ msgid "Hardware model"
 msgstr ""
 
 msgid "Hardware models"
-msgstr ""
+msgstr "硬體型號"
 
 msgid "Has effect only for network based provisioning"
 msgstr ""
@@ -5451,7 +5452,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
-msgstr ""
+msgstr "查詢值計數"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge default"
@@ -5504,7 +5505,7 @@ msgid "MAC Address"
 msgstr "MAC 位址"
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC 位址"
 
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr "介面卡的 MAC 位址。在空機上的管理介面所需。"
@@ -7313,7 +7314,7 @@ msgid "Realm|Realm type"
 msgstr "領域類型"
 
 msgid "Reboot"
-msgstr ""
+msgstr "重新開機"
 
 msgid "Reboot and build"
 msgstr "重新啟動與組建"
@@ -7510,7 +7511,7 @@ msgid "ReportTemplate|Snippet"
 msgstr ""
 
 msgid "Reported At"
-msgstr ""
+msgstr "回報於"
 
 msgid "Reported at"
 msgstr "回報於"
@@ -8372,7 +8373,7 @@ msgid "Show the last report for a host"
 msgstr "顯示主機的最後報告"
 
 msgid "Showing %s to %s of %s entries"
-msgstr ""
+msgstr "显示 %s 条目的 %s 到 %s"
 
 msgid "Showing 0 to 0 of 0 entries"
 msgstr ""
@@ -8486,10 +8487,10 @@ msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "部分介面卡無法使用。請檢查下列表格。"
 
 msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "其它介面已設為主要。您是否確定要使用此介面？"
 
 msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "其它介面已設為佈建。您是否確定要使用此介面？"
 
 msgid "Something went wrong"
 msgstr ""
@@ -10464,7 +10465,7 @@ msgid "Variables"
 msgstr "變數"
 
 msgid "Vendor class"
-msgstr ""
+msgstr "供應商類別"
 
 msgid "Verify"
 msgstr "驗證"
@@ -11324,7 +11325,8 @@ msgstr "將外部使用者群組連上這個使用者群組"
 msgid "list"
 msgstr "清單"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "locale_name"
 

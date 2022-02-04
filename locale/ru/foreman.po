@@ -11,15 +11,16 @@
 # Denis Denis <stereodenis@gmail.com>, 2014
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2014-2015
 # Denis Denis <stereodenis@gmail.com>, 2014
-# Pavel Ershov <yosho1@yandex.ru>, 2021
+# KotUchoniy <yosho1@yandex.ru>, 2021
 # Vladimir Pavlov <v.pavlov@i-teco.ru>, 2015-2016
+# KotUchoniy <yosho1@yandex.ru>, 2022
 # Yulia <yulia.poyarkova@redhat.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-08-26 06:09+0000\n"
-"Last-Translator: Pavel Ershov <yosho1@yandex.ru>\n"
+"PO-Revision-Date: 2022-01-30 10:32+0000\n"
+"Last-Translator: KotUchoniy <yosho1@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -772,7 +773,7 @@ msgid "Are you sure you want to delete host {host}? This action is irreversible.
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
-msgstr ""
+msgstr "Вы действительно хотите удалить этот виджет из окна обзора?"
 
 msgid "Are you sure you want to log out?"
 msgstr ""
@@ -1159,7 +1160,7 @@ msgid "Because of the varying lengths of the ERB tags, indenting the ERB syntax 
 msgstr ""
 
 msgid "Before you proceed to using Foreman you should provide information about one or more architectures."
-msgstr ""
+msgstr "Прежде чем приступить к работе с Foreman, необходимо предоставить информацию об архитектуре."
 
 msgid "Blank template"
 msgstr ""
@@ -1261,13 +1262,13 @@ msgid "Build enables host {hostName} to rebuild on next boot"
 msgstr ""
 
 msgid "Build errors"
-msgstr ""
+msgstr "Ошибки сборки"
 
 msgid "Build from OS image"
 msgstr "Создать из образа ОС"
 
 msgid "Build in progress"
-msgstr ""
+msgstr "Выполняется сборка"
 
 msgid "Built-in variables"
 msgstr ""
@@ -2645,7 +2646,7 @@ msgid "EUI-64"
 msgstr ""
 
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
-msgstr ""
+msgstr "Для операционных систем можно настроить архитектуру. При настройке вы сможете выбрать подходящие комбинации."
 
 msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
 msgstr ""
@@ -2687,7 +2688,7 @@ msgid "Editor"
 msgstr "Редактор"
 
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 msgid "Email Preferences"
 msgstr "Почтовые предпочтения"
@@ -3366,7 +3367,7 @@ msgid "Foreman can use External service for user information and authentication.
 msgstr ""
 
 msgid "Foreman can use LDAP based service for user information and authentication."
-msgstr ""
+msgstr "Для идентификации пользователей Foreman может использовать сервисы на базе LDAP."
 
 msgid "Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter."
 msgstr ""
@@ -3713,7 +3714,7 @@ msgid "Hardware model"
 msgstr ""
 
 msgid "Hardware models"
-msgstr ""
+msgstr "Оборудование"
 
 msgid "Has effect only for network based provisioning"
 msgstr ""
@@ -3782,7 +3783,7 @@ msgid "Host Configuration Status"
 msgstr "Состояние конфигурации узлов"
 
 msgid "Host Configuration Status for %s"
-msgstr ""
+msgstr "Состояние конфигурации узла для %s"
 
 msgid "Host Fetch ${response}"
 msgstr ""
@@ -3843,7 +3844,7 @@ msgid "Host is not associated with an operating system"
 msgstr "Узел не связан с операционной системой"
 
 msgid "Host owner"
-msgstr ""
+msgstr "Владелец узла"
 
 msgid "Host owner is invalid"
 msgstr ""
@@ -4080,7 +4081,7 @@ msgid "Hosts in Build mode or with Build errors"
 msgstr "Узлы в режиме сборки или с ошибками сборки"
 
 msgid "Hosts in build mode"
-msgstr ""
+msgstr "Узлы в режиме сборки"
 
 msgid "Hosts in error state"
 msgstr "Узлы в состоянии ошибки"
@@ -5482,7 +5483,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
-msgstr ""
+msgstr "Число значений"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge default"
@@ -5535,7 +5536,7 @@ msgid "MAC Address"
 msgstr "MAC-адрес"
 
 msgid "MAC address"
-msgstr ""
+msgstr "MAC-адрес"
 
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr "MAC адрес интерфейса. Требуется для управления интерфейсами на голом железе."
@@ -5924,7 +5925,7 @@ msgid "New HTTP Proxy"
 msgstr "Новый HTTP-прокси"
 
 msgid "New Hosts"
-msgstr ""
+msgstr "Новые узлы"
 
 msgid "New Location"
 msgstr "Новое местоположение"
@@ -6061,7 +6062,7 @@ msgid "No Failed Features"
 msgstr ""
 
 msgid "No Hosts are in build mode or have build errors."
-msgstr ""
+msgstr "Нет узлов в режиме сборки или с ошибками сборки."
 
 msgid "No IPv4 subnets selected"
 msgstr "Не выбраны подсети IPv4"
@@ -7344,7 +7345,7 @@ msgid "Realm|Realm type"
 msgstr "Тип области"
 
 msgid "Reboot"
-msgstr ""
+msgstr "Перезагрузить"
 
 msgid "Reboot and build"
 msgstr "Перезагрузить и собрать"
@@ -7543,7 +7544,7 @@ msgid "ReportTemplate|Snippet"
 msgstr ""
 
 msgid "Reported At"
-msgstr ""
+msgstr "Получено"
 
 msgid "Reported at"
 msgstr "Получено"
@@ -8521,10 +8522,10 @@ msgid "Some of the interfaces are invalid. Please check the table below."
 msgstr "Обнаружены ошибки в настройках интерфейсов (см. таблицу)."
 
 msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "Другой интерфейс уже выбран как первичный. Вы действительно хотите его заменить?"
 
 msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr ""
+msgstr "Другой интерфейс выбран как подготовительный. Вы точно хотите его заменить?"
 
 msgid "Something went wrong"
 msgstr ""
@@ -9643,7 +9644,7 @@ msgid "True/False flag whether a host is managed or unmanaged. Note: this value 
 msgstr "Флаг True/False сообщает, является ли узел контролируемым. Кроме того, в зависимости от этого значения может потребоваться настроить дополнительные параметры."
 
 msgid "Trusted hosts"
-msgstr ""
+msgstr "Разрешенные узлы"
 
 msgid "Try going to %{href}"
 msgstr "Попробуйте пройти по %{href}"
@@ -10507,7 +10508,7 @@ msgid "Variables"
 msgstr "Переменные"
 
 msgid "Vendor class"
-msgstr ""
+msgstr "Класс производителя"
 
 msgid "Verify"
 msgstr "Подтверждение"
@@ -11372,7 +11373,8 @@ msgstr "связать внешнюю группу пользователей с
 msgid "list"
 msgstr "список"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Русский"
 
