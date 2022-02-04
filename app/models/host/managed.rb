@@ -29,7 +29,7 @@ class Host::Managed < Host::Base
   has_many :all_reports, :foreign_key => :host_id
 
   belongs_to :image
-  if defined? ForemanHostReports
+  if Foreman::Plugin.installed?('foreman_host_reports')
     has_many :host_statuses, -> { where("host_status.type != 'HostStatus::ConfigurationStatus' and host_status.type is not null") }, :class_name => 'HostStatus::Status', :foreign_key => 'host_id', :inverse_of => :host, :dependent => :delete_all
   else
     has_many :host_statuses, -> { where.not(type: nil) }, :class_name => 'HostStatus::Status', :foreign_key => 'host_id', :inverse_of => :host, :dependent => :destroy
