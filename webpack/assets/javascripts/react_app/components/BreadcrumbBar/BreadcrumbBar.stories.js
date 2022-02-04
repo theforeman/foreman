@@ -15,7 +15,7 @@ export const withOpenSwitcher = () => (
       isLoadingResources={boolean('is loading', false)}
       loadSwitcherResourcesByResource={action('load switcher data')}
       isSwitcherOpen={boolean('is switcher open', true)}
-      totalPages={number('total pages', 3)}
+      total={number('total pages', 3)}
       currentPage={number('current page', 2)}
       hasError={boolean('has error', false)}
       resourceSwitcherItems={[

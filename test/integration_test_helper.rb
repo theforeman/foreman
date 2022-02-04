@@ -31,6 +31,7 @@ end
 Capybara.configure do |config|
   config.javascript_driver      = ENV["JS_TEST_DRIVER"]&.to_sym || :selenium_chrome
   config.default_max_wait_time  = 20
+  config.enable_aria_label = true
 end
 
 class ActionDispatch::IntegrationTest

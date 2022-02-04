@@ -1,5 +1,5 @@
 import {
-  BREADCRUMB_BAR_TOGGLE_SWITCHER,
+  BREADCRUMB_BAR_OPEN_SWITCHER,
   BREADCRUMB_BAR_CLOSE_SWITCHER,
   BREADCRUMB_BAR_RESOURCES_REQUEST,
   BREADCRUMB_BAR_RESOURCES_SUCCESS,
@@ -12,9 +12,9 @@ import { resource, resourceList } from '../BreadcrumbBar.fixtures';
 
 const fixtures = {
   'should return the initial state': {},
-  'should handle BREADCRUMB_BAR_TOGGLE_SWITCHER': {
+  'should handle BREADCRUMB_BAR_OPEN_SWITCHER': {
     action: {
-      type: BREADCRUMB_BAR_TOGGLE_SWITCHER,
+      type: BREADCRUMB_BAR_OPEN_SWITCHER,
     },
   },
   'should handle BREADCRUMB_BAR_CLOSE_SWITCHER': {

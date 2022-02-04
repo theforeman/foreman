@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 
 import {
-  BREADCRUMB_BAR_TOGGLE_SWITCHER,
+  BREADCRUMB_BAR_OPEN_SWITCHER,
   BREADCRUMB_BAR_CLOSE_SWITCHER,
   BREADCRUMB_BAR_RESOURCES_REQUEST,
   BREADCRUMB_BAR_RESOURCES_SUCCESS,
@@ -45,7 +45,8 @@ export default (state = initialState, action) => {
         .set('resourceSwitcherItems', payload.items)
         .set('resourceUrl', payload.resourceUrl)
         .set('currentPage', payload.page)
-        .set('pages', payload.pages)
+        .set('total', payload.total)
+        .set('perPage', payload.perPage)
         .set('requestError', null)
         .set('isLoadingResources', false);
 
@@ -56,8 +57,8 @@ export default (state = initialState, action) => {
         .set('resourceUrl', payload.resourceUrl)
         .set('isLoadingResources', false);
 
-    case BREADCRUMB_BAR_TOGGLE_SWITCHER:
-      return state.set('isSwitcherOpen', !state.isSwitcherOpen);
+    case BREADCRUMB_BAR_OPEN_SWITCHER:
+      return state.set('isSwitcherOpen', true);
 
     case BREADCRUMB_BAR_CLOSE_SWITCHER:
       return state.set('isSwitcherOpen', false);

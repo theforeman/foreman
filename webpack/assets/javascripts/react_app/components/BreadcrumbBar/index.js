@@ -11,10 +11,11 @@ import {
   selectIsLoadingResources,
   selectHasError,
   selectCurrentPage,
-  selectTotalPages,
+  selectTotal,
   selectSearchQuery,
   selectRemoveSearchQuery,
   selectTitleReplacement,
+  selectPerPage,
 } from './BreadcrumbBarSelector';
 
 import BreadcrumbBar from './BreadcrumbBar';
@@ -27,10 +28,11 @@ const mapStateToProps = state => ({
   isLoadingResources: selectIsLoadingResources(state),
   hasError: selectHasError(state),
   currentPage: selectCurrentPage(state),
-  totalPages: selectTotalPages(state),
+  total: selectTotal(state),
   searchQuery: selectSearchQuery(state),
   removeSearchQuery: selectRemoveSearchQuery(state),
   titleReplacement: selectTitleReplacement(state),
+  perPage: selectPerPage(state),
 });
 
 // map action dispatchers to props

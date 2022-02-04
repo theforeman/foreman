@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BreadcrumbSwitcher } from 'patternfly-react';
 
 import { noop } from '../../common/helpers';
 import Breadcrumb from './components/Breadcrumb';
+import PF4BreadcrumbSwitcher from '../PF4/BreadcrumbSwitcher';
+import { BREADCRUMB_SWITCHER_PER_PAGE } from './BreadcrumbBarConstants';
 import './BreadcrumbBar.scss';
 
 class BreadcrumbBar extends React.Component {
@@ -16,7 +17,7 @@ class BreadcrumbBar extends React.Component {
       resourceSwitcherItems,
     } = this.props;
     const isUrlFormatValid = resourceSwitcherItems.length
-      ? resourceSwitcherItems[0].url ===
+      ? resourceSwitcherItems[0].href ===
         resource.switcherItemUrl?.replace(':id', resourceSwitcherItems[0].id)
       : true;
     if (
@@ -34,12 +35,12 @@ class BreadcrumbBar extends React.Component {
       isSwitchable,
       resource,
       currentPage,
-      totalPages,
+      total,
       resourceSwitcherItems,
       isLoadingResources,
       hasError,
       isSwitcherOpen,
-      toggleSwitcher,
+      openSwitcher,
       closeSwitcher,
       loadSwitcherResourcesByResource,
       searchQuery,
@@ -47,14 +48,9 @@ class BreadcrumbBar extends React.Component {
       searchDebounceTimeout,
       onSwitcherItemClick,
       titleReplacement,
+      perPage,
     } = this.props;
-
     const isTitle = breadcrumbItems.length === 1;
-    const options = ({ pageIncrement }) => ({
-      searchQuery,
-      page: Number(currentPage) + pageIncrement,
-    });
-
     const handleSwitcherItemClick = (e, href) => {
       closeSwitcher();
       onSwitcherItemClick(e, href);
@@ -69,33 +65,35 @@ class BreadcrumbBar extends React.Component {
           className="breadcrumbs-list"
         >
           {isSwitchable && (
-            <BreadcrumbSwitcher
-              open={isSwitcherOpen}
+            <PF4BreadcrumbSwitcher
+              isOpen={isSwitcherOpen}
               isLoading={isLoadingResources}
               hasError={hasError}
-              resources={resourceSwitcherItems}
+              items={resourceSwitcherItems}
               currentPage={currentPage}
-              totalPages={totalPages}
-              onTogglerClick={() => toggleSwitcher()}
+              total={total}
+              openSwitcher={openSwitcher}
               onHide={() => closeSwitcher()}
               onOpen={() => this.handleOpen()}
-              onSearchChange={event =>
+              onSetPage={pageNumber => {
                 loadSwitcherResourcesByResource(resource, {
-                  searchQuery: event.target.value,
+                  page: pageNumber,
+                  searchQuery,
+                  perPage,
+                });
+              }}
+              onSearchChange={searchTerm =>
+                loadSwitcherResourcesByResource(resource, {
+                  searchQuery: searchTerm,
+                  perPage,
                 })
               }
-              onNextPageClick={() =>
-                loadSwitcherResourcesByResource(
-                  resource,
-                  options({ pageIncrement: 1 })
-                )
-              }
-              onPrevPageClick={() =>
-                loadSwitcherResourcesByResource(
-                  resource,
-                  options({ pageIncrement: -1 })
-                )
-              }
+              onPerPageSelect={newPerPage => {
+                loadSwitcherResourcesByResource(resource, {
+                  perPage: newPerPage,
+                });
+              }}
+              perPage={perPage}
               searchValue={searchQuery}
               onSearchClear={() => removeSearchQuery(resource)}
               searchDebounceTimeout={searchDebounceTimeout}
@@ -121,18 +119,25 @@ BreadcrumbBar.propTypes = {
   searchDebounceTimeout: PropTypes.number,
   searchQuery: PropTypes.string,
   currentPage: PropTypes.number,
-  totalPages: PropTypes.number,
-  resourceSwitcherItems: BreadcrumbSwitcher.propTypes.resources,
+  total: PropTypes.number,
+  resourceSwitcherItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      name: PropTypes.string.isRequired,
+      href: PropTypes.string,
+    })
+  ),
   resourceUrl: PropTypes.string,
   isLoadingResources: PropTypes.bool,
   hasError: PropTypes.bool,
   isSwitcherOpen: PropTypes.bool,
   titleReplacement: PropTypes.string,
-  toggleSwitcher: PropTypes.func,
+  openSwitcher: PropTypes.func,
   closeSwitcher: PropTypes.func,
   loadSwitcherResourcesByResource: PropTypes.func,
   onSwitcherItemClick: PropTypes.func,
   removeSearchQuery: PropTypes.func,
+  perPage: PropTypes.number,
 };
 
 BreadcrumbBar.defaultProps = {
@@ -141,7 +146,7 @@ BreadcrumbBar.defaultProps = {
   breadcrumbItems: [],
   searchQuery: '',
   currentPage: null,
-  totalPages: 1,
+  total: 1,
   resourceSwitcherItems: [],
   resourceUrl: null,
   isLoadingResources: false,
@@ -149,11 +154,12 @@ BreadcrumbBar.defaultProps = {
   isSwitcherOpen: false,
   searchDebounceTimeout: 300,
   titleReplacement: null,
-  toggleSwitcher: noop,
+  openSwitcher: noop,
   closeSwitcher: noop,
   loadSwitcherResourcesByResource: noop,
   onSwitcherItemClick: noop,
   removeSearchQuery: noop,
+  perPage: BREADCRUMB_SWITCHER_PER_PAGE,
 };
 
 export default BreadcrumbBar;

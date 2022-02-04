@@ -14,6 +14,20 @@ Object {
 }
 `;
 
+exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_OPEN_SWITCHER 1`] = `
+Object {
+  "currentPage": null,
+  "isLoadingResources": false,
+  "isSwitcherOpen": true,
+  "pages": null,
+  "requestError": null,
+  "resourceSwitcherItems": Array [],
+  "resourceUrl": null,
+  "searchQuery": "",
+  "titleReplacement": null,
+}
+`;
+
 exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_RESOURCES_FAILURE 1`] = `
 Object {
   "currentPage": null,
@@ -61,7 +75,8 @@ Object {
   "currentPage": 1,
   "isLoadingResources": false,
   "isSwitcherOpen": false,
-  "pages": 2,
+  "pages": null,
+  "perPage": undefined,
   "requestError": null,
   "resourceSwitcherItems": Array [
     Object {
@@ -95,20 +110,7 @@ Object {
   "resourceUrl": "some/url",
   "searchQuery": "",
   "titleReplacement": null,
-}
-`;
-
-exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_TOGGLE_SWITCHER 1`] = `
-Object {
-  "currentPage": null,
-  "isLoadingResources": false,
-  "isSwitcherOpen": true,
-  "pages": null,
-  "requestError": null,
-  "resourceSwitcherItems": Array [],
-  "resourceUrl": null,
-  "searchQuery": "",
-  "titleReplacement": null,
+  "total": undefined,
 }
 `;
 

@@ -1,0 +1,25 @@
+.pf4-breadcrumb-switcher-popover {
+  .pf-c-menu {
+    box-shadow: none;
+  }
+  .pf-c-menu__footer {
+    padding: 0;
+
+    .pf-c-pagination {
+      padding: 0;
+      justify-content: center;
+    }
+  }
+  .breadcrumb-switcher-spinner {
+    margin: auto;
+    width: fit-content;
+  }
+  .breadcrumb-switcher-current-item a {
+    border-left-style: solid;
+    border-color: var(--pf-c-menu__item-select-icon--Color);
+    border-left-width: 4px;
+    background-color: var(
+      --pf-c-menu__header--c-menu__item--hover--BackgroundColor
+    );
+  }
+}

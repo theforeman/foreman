@@ -55,24 +55,23 @@ exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
     titleReplacement={null}
   >
     <BreadcrumbSwitcher
-      className=""
       currentPage={null}
       hasError={false}
       isLoading={false}
-      isPaginated={true}
+      isOpen={false}
+      items={Array []}
       onHide={[Function]}
-      onNextPageClick={[Function]}
       onOpen={[Function]}
-      onPrevPageClick={[Function]}
+      onPerPageSelect={[Function]}
       onResourceClick={[Function]}
       onSearchChange={[Function]}
       onSearchClear={[Function]}
-      onTogglerClick={[Function]}
-      open={false}
-      resources={Array []}
+      onSetPage={[Function]}
+      openSwitcher={[Function]}
+      perPage={10}
       searchDebounceTimeout={0}
       searchValue="some value"
-      totalPages={1}
+      total={1}
     />
   </Breadcrumb>
   <hr
@@ -97,7 +96,8 @@ Array [
       "switcherItemUrl": "some/url/:id",
     },
     Object {
-      "page": 3,
+      "page": 2,
+      "perPage": 10,
       "searchQuery": "some value",
     },
   ],
@@ -109,6 +109,7 @@ Array [
     },
     Object {
       "page": 1,
+      "perPage": 10,
       "searchQuery": "some value",
     },
   ],

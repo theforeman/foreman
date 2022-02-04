@@ -1,9 +1,8 @@
 import { flatten, get } from 'lodash';
-import { translate as __ } from '../../common/I18n';
 import { API } from '../../redux/API';
 
 import {
-  BREADCRUMB_BAR_TOGGLE_SWITCHER,
+  BREADCRUMB_BAR_OPEN_SWITCHER,
   BREADCRUMB_BAR_CLOSE_SWITCHER,
   BREADCRUMB_BAR_RESOURCES_REQUEST,
   BREADCRUMB_BAR_RESOURCES_SUCCESS,
@@ -12,8 +11,8 @@ import {
   BREADCRUMB_BAR_UPDATE_TITLE,
 } from './BreadcrumbBarConstants';
 
-export const toggleSwitcher = () => ({
-  type: BREADCRUMB_BAR_TOGGLE_SWITCHER,
+export const openSwitcher = () => ({
+  type: BREADCRUMB_BAR_OPEN_SWITCHER,
 });
 
 export const closeSwitcher = () => ({
@@ -34,10 +33,10 @@ export const updateBreadcrumbTitle = title => ({
 
 export const loadSwitcherResourcesByResource = (
   resource,
-  { page = 1, searchQuery = '' } = {}
+  { page = 1, searchQuery = '', perPage = 10 } = {}
 ) => async dispatch => {
   const { resourceUrl, nameField, switcherItemUrl } = resource;
-  const options = { page, searchQuery };
+  const options = { page, searchQuery, perPage };
   const beforeRequest = () =>
     dispatch({
       type: BREADCRUMB_BAR_RESOURCES_REQUEST,
@@ -60,7 +59,7 @@ export const loadSwitcherResourcesByResource = (
     const switcherItems = flatten(Object.values(data.results)).map(result => {
       const itemName = get(result, nameField);
       return {
-        name: __(itemName),
+        name: itemName,
         id: result.id,
         href: switcherItemUrl
           .replace(':id', result.id)
@@ -71,7 +70,8 @@ export const loadSwitcherResourcesByResource = (
     return {
       items: switcherItems,
       page: Number(data.page),
-      pages: Number(data.subtotal) / Number(data.per_page),
+      total: Number(data.subtotal),
+      perPage: Number(data.per_page),
     };
   };
   beforeRequest();
@@ -81,7 +81,7 @@ export const loadSwitcherResourcesByResource = (
       {},
       {
         page,
-        per_page: 10,
+        per_page: perPage,
         search: createSearch(nameField, searchQuery, resource.resourceFilter),
       }
     );

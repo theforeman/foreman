@@ -1,7 +1,7 @@
 import { API } from '../../../redux/API';
 import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
 import {
-  toggleSwitcher,
+  openSwitcher,
   closeSwitcher,
   loadSwitcherResourcesByResource,
   createSearch,
@@ -22,7 +22,7 @@ const runLoadSwitcherResourcesByResourceAction = (resourceMock, serverMock) => {
 };
 
 const fixtures = {
-  'should toggle-switcher': () => toggleSwitcher(),
+  'should toggle-switcher': () => openSwitcher(),
 
   'should close-switcher': () => closeSwitcher(),
 
