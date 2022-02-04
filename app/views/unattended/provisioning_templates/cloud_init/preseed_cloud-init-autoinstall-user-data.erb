@@ -1,0 +1,46 @@
+<%#
+kind: provision
+name: preseed_cloud-init-autoinstall-user-data
+model: ProvisioningTemplate
+oses:
+- Ubuntu 20.04 live-server and higher
+test_on:
+- ubuntu 20.04.3 live-server
+-%>
+<%-
+realname_to_create = host_param('realname_to_create')
+username_to_create = host_param('username_to_create')
+userpassword_to_create = host_param('userpassword_to_create')
+custom_sources_list = host_param('custom_sources_list')
+-%>
+#cloud-config
+autoinstall:
+<%= indent 2 do snippet_if_exists(template_name + " custom bootcmd") end -%>
+  apt:
+    geoip: false
+    preserve_sources_list: false
+<%- if custom_sources_list -%>
+<%= indent 4 do snippet 'preseed_cloud-init-autoinstall-user-data custom sources_list' end -%>
+<%- else -%>
+    primary:
+    - arches: [amd64, i386]
+      uri: http://archive.ubuntu.com/ubuntu
+    - arches: [default]
+      uri: http://ports.ubuntu.com/ubuntu-ports
+<%- end -%>
+  identity: {hostname: <%= @host.shortname %>, password: <%= userpassword_to_create %>,
+    realname: <%= realname_to_create %>, username: <%= username_to_create %>}
+  keyboard: {layout: us, toggle: null, variant: ''}
+  locale: en_US.UTF-8
+<%= snippet 'preseed_netplan_setup' -%>
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: true
+  user-data:
+    runcmd:
+      - wget -Y off <%= @static ? "'#{foreman_url('finish', static: 'true')}'" : foreman_url('finish') %> -O /tmp/finish.sh
+      - chmod +x /tmp/finish.sh
+      - /tmp/finish.sh
+  version: 1
+<%= @host.diskLayout %>
