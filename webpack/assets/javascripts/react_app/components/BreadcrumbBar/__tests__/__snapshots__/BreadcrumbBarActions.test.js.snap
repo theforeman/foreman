@@ -13,6 +13,7 @@ Array [
       "payload": Object {
         "options": Object {
           "page": 1,
+          "perPage": 10,
           "searchQuery": "",
         },
         "resourceUrl": "some/url",
@@ -39,6 +40,7 @@ Array [
       "payload": Object {
         "options": Object {
           "page": 1,
+          "perPage": 10,
           "searchQuery": "",
         },
         "resourceUrl": "some/url",
@@ -67,8 +69,9 @@ Array [
           },
         ],
         "page": 1,
-        "pages": 1.5,
+        "perPage": 2,
         "resourceUrl": "some/url",
+        "total": 3,
       },
       "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
     },
@@ -83,6 +86,7 @@ Array [
       "payload": Object {
         "options": Object {
           "page": 1,
+          "perPage": 10,
           "searchQuery": "",
         },
         "resourceUrl": "some/url",
@@ -111,8 +115,9 @@ Array [
           },
         ],
         "page": 1,
-        "pages": 1.5,
+        "perPage": 2,
         "resourceUrl": "some/url",
+        "total": 3,
       },
       "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
     },
@@ -122,6 +127,6 @@ Array [
 
 exports[`BreadcrumbBar actions should toggle-switcher 1`] = `
 Object {
-  "type": "BREADCRUMB_BAR_TOGGLE_SWITCHER",
+  "type": "BREADCRUMB_BAR_OPEN_SWITCHER",
 }
 `;

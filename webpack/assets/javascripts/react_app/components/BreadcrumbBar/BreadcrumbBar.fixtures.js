@@ -106,7 +106,7 @@ export const breadcrumbSwitcherLoaded = {
 export const breadcrumbSwitcherLoadedWithPagination = {
   ...breadcrumbSwitcherLoaded,
   currentPage: 2,
-  totalPages: 3,
+  total: 27,
 };
 
 export const breadcrumbSwitcherLoadedWithSearchQuery = {

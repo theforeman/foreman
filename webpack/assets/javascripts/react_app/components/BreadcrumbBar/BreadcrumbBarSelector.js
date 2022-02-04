@@ -11,10 +11,11 @@ export const selectHasError = state =>
   selectBreadcrumbBar(state).requestError != null;
 export const selectCurrentPage = state =>
   selectBreadcrumbBar(state).currentPage;
-export const selectTotalPages = state => selectBreadcrumbBar(state).pages;
+export const selectTotal = state => selectBreadcrumbBar(state).total;
 export const selectSearchQuery = state =>
   selectBreadcrumbBar(state).searchQuery;
 export const selectRemoveSearchQuery = state =>
   selectBreadcrumbBar(state).removeSearchQuery;
 export const selectTitleReplacement = state =>
   selectBreadcrumbBar(state).titleReplacement;
+export const selectPerPage = state => selectBreadcrumbBar(state).perPage;
