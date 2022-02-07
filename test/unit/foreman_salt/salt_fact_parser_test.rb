@@ -29,7 +29,7 @@ module ForemanSalt
       os = parser.operatingsystem
 
       assert os.present?
-      assert_equal 'CentOS_Stream', os.name
+      assert_equal 'CentOS', os.name
       assert_equal '8', os.major
       assert_empty os.minor
     end

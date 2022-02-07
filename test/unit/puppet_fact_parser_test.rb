@@ -208,7 +208,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     test "should correctly identify CentOS Stream" do
       parser = PuppetFactParser.new(centos_stream_facts)
       os = parser.operatingsystem
-      assert_equal 'CentOS_Stream', os.name
+      assert_equal 'CentOS', os.name
       assert_equal '8', os.major
       assert_empty os.minor
     end
@@ -216,7 +216,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     test "should correctly identify CentOS Stream by facter 2.5" do
       parser = PuppetFactParser.new(centos_stream_facts_facter_2)
       os = parser.operatingsystem
-      assert_equal 'CentOS_Stream', os.name
+      assert_equal 'CentOS', os.name
       assert_equal '8', os.major
       assert_empty os.minor
     end

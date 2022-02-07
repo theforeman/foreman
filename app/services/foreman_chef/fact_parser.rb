@@ -36,8 +36,7 @@ module ForemanChef
             minor = release[2..-1]
           end
         when 'centos'
-          # Centos Stream doesn't have minor version on need to replace blank spaces due to name restriction
-          os_name = facts.dig(:os_release, :name).tr(' ', '_') unless minor
+          os_name = 'CentOS'
       end
 
       begin

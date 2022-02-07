@@ -69,7 +69,7 @@ module Katello
         end
 
         if facts['distribution.name'] == 'CentOS Stream'
-          os_attributes[:name] = "CentOS_Stream"
+          os_attributes[:name] = "CentOS"
         end
 
         if facts['distribution.name'] == 'CentOS Linux'

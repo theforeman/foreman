@@ -6,8 +6,6 @@ module ForemanAnsible
     def operatingsystem
       args = { :name => os_name, :major => os_major, :minor => os_minor }
       args[:release_name] = os_release_name if os_name == 'Debian' || os_name == 'Ubuntu'
-      # for Ansible, the CentOS Stream can be identified by missing minor version only
-      args[:name] = "CentOS_Stream" if os_name == 'CentOS' && os_minor.blank?
       return @local_os if local_os(args).present?
       return @new_os if new_os(args).present?
       logger.debug do

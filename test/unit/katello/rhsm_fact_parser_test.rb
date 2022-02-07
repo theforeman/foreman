@@ -193,7 +193,7 @@ module Katello
       @facts['distribution.version'] = '8'
       @facts['distribution.id'] = '8'
 
-      assert_equal parser.operatingsystem.name, 'CentOS_Stream'
+      assert_equal parser.operatingsystem.name, 'CentOS'
       assert_equal parser.operatingsystem.major, '8'
       assert_equal parser.operatingsystem.minor, ''
     end

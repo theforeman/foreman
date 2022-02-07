@@ -88,17 +88,12 @@ module ForemanSalt
 
     def os_hash
       name = facts[:os]
-      (_, major, minor, sub) = /(\d+)\.?(\d+)?\.?(\d+)?/.match(facts[:osrelease]).to_a
-      minor = "" if minor.nil?
-      if name == 'CentOS Stream'
-        return { :name => name.tr(' ', '_'), :major => major, :minor => minor }
-      end
-      if name == 'CentOS' || name == 'CentOS Linux'
-        if sub
-          minor += '.' + sub
-        end
-        return { :name => 'CentOS', :major => major, :minor => minor }
-      end
+      name = 'CentOS' if ['CentOS', 'CentOS Stream', 'CentOS Linux'].include?(name)
+
+      match = /(?<major>\d+)(\.?(?<minor>\d+(\.\d+)?))?/.match(facts[:osrelease])
+      major = match[:major]
+      minor = match[:minor] || ""
+
       { :name => name, :major => major, :minor => minor }
     end
 
