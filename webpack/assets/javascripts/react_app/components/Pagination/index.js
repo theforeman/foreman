@@ -111,6 +111,7 @@ const Pagination = ({
       isCompact={variant === PaginationVariant.top}
       {...props}
       page={page}
+      variant={variant}
       perPage={perPage}
       onSetPage={_onSetPage}
       onPerPageSelect={_onPerPageSelect}
