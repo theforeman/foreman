@@ -80,7 +80,7 @@ module NestedAncestryCommon
   private
 
   def set_title
-    self.title = get_title if (name_changed? || ancestry_changed? || title.blank?)
+    self.title = get_title if (name_changed? || ancestry_changed? || self[:title].blank?)
   end
 
   def set_other_titles
