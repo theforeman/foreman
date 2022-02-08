@@ -369,8 +369,8 @@ module ApplicationHelper
   def app_metadata
     {
       UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url,
-      location: Location.current&.attributes&.slice('id', 'title'),
-      organization: Organization.current&.attributes&.slice('id', 'title'),
+      location: Location.current && { id: Location.current.id, title: Location.current.title },
+      organization: Organization.current && { id: Organization.current.id, title: Organization.current.title },
       user: User.current&.attributes&.slice('id', 'login', 'firstname', 'lastname', 'admin')
     }.compact
   end
