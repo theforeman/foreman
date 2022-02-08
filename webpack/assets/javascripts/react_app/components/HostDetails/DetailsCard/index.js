@@ -49,12 +49,7 @@ const DetailsCard = ({
         </CardActions>
       </CardHeader>
       <CardBody>
-        <DescriptionList
-          isAutoColumnWidths
-          columnModifier={{
-            default: '2Col',
-          }}
-        >
+        <DescriptionList>
           <DescriptionListGroup>
             <DescriptionListTerm>{__('IPv6 address')}</DescriptionListTerm>
             <DescriptionListDescription>
