@@ -126,6 +126,33 @@ FactoryBot.define do
       title { 'Debian Wheezy' }
     end
 
+    factory :ubuntu18_04, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '18' }
+      minor { '04' }
+      type { 'Debian' }
+      release_name { 'bionic' }
+      title { 'Ubuntu 18.04' }
+    end
+
+    factory :ubuntu20_04, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '20' }
+      minor { '04' }
+      type { 'Debian' }
+      release_name { 'focal' }
+      title { 'Ubuntu 20.04' }
+    end
+
+    factory :ubuntu21_10, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '21' }
+      minor { '10' }
+      type { 'Debian' }
+      release_name { 'impish' }
+      title { 'Ubuntu 21.10' }
+    end
+
     factory :suse, class: Suse do
       sequence(:name) { 'OpenSuse' }
       major { '11' }

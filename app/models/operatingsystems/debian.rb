@@ -2,8 +2,7 @@ class Debian < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
   def pxedir(medium_provider = nil)
-    # support ubuntu focal(20), which moved pxe files to legacy_image
-    if (guess_os == 'ubuntu' && major.to_i >= 20)
+    if (guess_os == 'ubuntu' && major.to_i >= 20 && major.to_i <= 21)
       'dists/$release/main/installer-$arch/current/legacy-images/netboot/' + guess_os + '-installer/$arch'
     else
       'dists/$release/main/installer-$arch/current/images/netboot/' + guess_os + '-installer/$arch'
@@ -19,10 +18,17 @@ class Debian < Operatingsystem
   end
 
   def boot_file_sources(medium_provider, &block)
-    super do |vars|
-      vars = yield(vars) if block_given?
+    if (guess_os == 'ubuntu' && major.to_i == 21 && minor.to_i == 10)
+      {
+        kernel: medium_provider.interpolate_vars("http://downloads.theforeman.org/netboot-files/ubuntu-21.10-$arch-linux").to_s,
+        initrd: medium_provider.interpolate_vars("http://downloads.theforeman.org/netboot-files/ubuntu-21.10-$arch-initrd.gz").to_s,
+      }
+    else
+      super do |vars|
+        vars = yield(vars) if block_given?
 
-      transform_vars(vars)
+        transform_vars(vars)
+      end
     end
   end
 
