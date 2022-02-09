@@ -24,7 +24,7 @@
              :url    => hash_for_setBuild_host_path(:id => @host).merge(:auth_object => @host, :permission => 'build_hosts'),
              :html   => { :id => 'build_form' } do |form|
 %>
-  <%= checkbox_f(form, :build, :help_text => _('Reboot now') % @host) if @host.supports_power_and_running? %>
+  <%= checkbox_f(form, :build, :help_text => _('Cycle now') % @host) if @host.supports_power_and_running? %>
   <div class="modal-footer">
     <%= modal_close %>
     <%= review_build_button(form, build_state(@build)) %>

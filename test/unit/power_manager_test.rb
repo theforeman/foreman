@@ -11,7 +11,7 @@ class PowerManagerTest < ActiveSupport::TestCase
     host.unstub(:queue_compute)
     host.stubs(:compute_resource).returns(compute_resource_mock)
 
-    (actions_list(host) - ['virt_state']).each do |action|
+    (actions_list(host) - ['virt_state', 'noop']).each do |action|
       vm_mock.expects(action.to_sym).at_least_once.returns(true)
     end
     vm_mock.expects('state').at_least_once.returns('On')
@@ -65,7 +65,7 @@ class PowerManagerTest < ActiveSupport::TestCase
 
     test "should respond correctly to status when compute resource is paused" do
       @vm_mock.expects(:state).at_least_once.returns('Paused')
-      result = @host.power.state
+      result = @host.power.status
       assert_equal 'off', result
     end
   end

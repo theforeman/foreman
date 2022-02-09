@@ -29,15 +29,24 @@ module PowerManager
       translate_status(result) # unknown output
     end
 
+    def noop
+      vm
+    end
+
     def default_action(action)
       vm.send(action)
     end
 
     def action_map
       super.deep_merge({
-                         :poweroff => 'soft',
-                         :status   => {:action => :virt_state, :output => :state_output, :default => nil},
-                         :state    => {:action => :virt_state, :output => :state_output, :default => nil},
+                         :on => 'start',
+                         :shutdown => 'shutdown',
+                         :stop => 'destroy',
+                         :reset => 'reset',
+                         :mgmt_warm_reset  => { :action => :noop },
+                         :mgmt_cold_reset  => { :action => :noop },
+                         :status    => { :action => :virt_state, :output => :state_output, :default => nil },
+                         :ready?   => 'ready?',
                        })
     end
 

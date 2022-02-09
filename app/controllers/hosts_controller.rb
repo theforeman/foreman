@@ -281,7 +281,7 @@ class HostsController < ApplicationController
 
   def bmc
     render :partial => 'bmc', :locals => {
-      status: helpers.power_status(@host.power.state),
+      status: helpers.power_status(@host.power.status),
       bmc_proxy: @host.bmc_proxy,
     }
   rescue Foreman::BMCFeatureException
@@ -518,14 +518,14 @@ class HostsController < ApplicationController
   end
 
   def submit_multiple_build
-    reboot = params[:host][:build] == '1' || false
+    reset = params[:host][:build] == '1' || false
 
     missed_hosts = @hosts.select do |host|
       success = true
       forward_url_options(host)
       begin
         host.setBuild
-        host.power.reset if host.supports_power_and_running? && reboot
+        host.power.reset if host.supports_power_and_running? && reset
       rescue => error
         message = _('Failed to redeploy %s.') % host
         Foreman::Logging.exception(message, error)
@@ -535,10 +535,10 @@ class HostsController < ApplicationController
     end
 
     if missed_hosts.empty?
-      if reboot
-        success _("The selected hosts were enabled for reboot and rebuild")
+      if reset
+        success _("The selected hosts were enabled for reset and rebuild")
       else
-        success _("The selected hosts will execute a build operation on next reboot")
+        success _("The selected hosts will execute a build operation on next start")
       end
     else
       error _("The following hosts failed the build operation: %s") % missed_hosts.map(&:name).to_sentence

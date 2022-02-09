@@ -16,11 +16,13 @@ module PowerManager
     # TODO: consider moving this to the proxy code, so we can just delegate like as with Virt.
     def action_map
       super.deep_merge({
-                         :start    => 'on',
+                         :on       => 'on',
                          :stop     => 'off',
-                         :poweroff => 'soft',
-                         :reboot   => 'cycle',
-                         :state    => { :action => 'status' },
+                         :shutdown => 'soft',
+                         :reset    => 'cycle',
+                         :mgmt_warm_reset => "reset_warm",
+                         :mgmt_cold_reset => "reset_cold",
+                         :ready?   => { :action => 'ready?' },
                        })
     end
 
