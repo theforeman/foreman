@@ -68,6 +68,7 @@ const Bookmarks = ({
       />
       <Dropdown
         isOpen={isDropdownOpen}
+        onSelect={() => setIsDropdownOpen(false)}
         toggle={
           <DropdownToggle
             onToggle={onToggle}
