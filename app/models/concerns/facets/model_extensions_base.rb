@@ -126,6 +126,23 @@ module Facets
         end
         entries
       end
+
+      private
+
+      # Overrides ActiveRecord::NestedAttributes#call_reject_if
+      # we want to reject empty attributes only for new facets
+      # the existing record is already fetched so checking the record itself doesn't create overhead
+      # it is fetched in nested_attributes in:
+      # https://github.com/rails/rails/blob/6bfc637659248df5d6719a86d2981b52662d9b50/activerecord/lib/active_record/nested_attributes.rb#L411
+      def call_reject_if(association_name, attributes)
+        is_facet_assoc = facet_definitions.detect { |definition| definition.name.to_s == association_name.to_s }
+        if is_facet_assoc
+          # reject only if record doesn't exist yet
+          send(association_name).nil? && super
+        else
+          super
+        end
+      end
     end
 
     private
