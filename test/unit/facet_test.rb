@@ -144,12 +144,20 @@ class FacetTest < ActiveSupport::TestCase
 
     test 'facets do not get created for nil attributes and viceversa' do
       saved_host = FactoryBot.build(:host)
-
       saved_host.update({'test_facet_attributes' => { 'my_attribute' => nil}})
       assert_nil saved_host.test_facet
 
-      saved_host.update({'test_facet_attributes' => { 'my_attribute' => "val"}})
+      saved_host.update({'test_facet_attributes' => { 'my_attribute' => 'val'}})
       assert_not_nil saved_host.test_facet
+    end
+
+    test 'facets do update with nil and empty attributes' do
+      saved_host = FactoryBot.build(:host)
+      saved_host.update({'test_facet_attributes' => { 'my_attribute' => 'val' }})
+
+      TestFacet.any_instance.expects(:my_attribute=).twice
+      saved_host.update({'test_facet_attributes' => { 'my_attribute' => nil }})
+      saved_host.update({'test_facet_attributes' => { 'my_attribute' => [] }})
     end
 
     test 'facet is not removed when associated host is deleted' do
