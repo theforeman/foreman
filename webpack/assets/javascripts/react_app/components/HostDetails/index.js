@@ -79,6 +79,11 @@ const HostDetails = ({
       .split('?')[0] // Remove query params
   );
 
+  const filteredTabs =
+    tabs?.filter(
+      tab => !slotMetadata?.[tab]?.hideTab?.({ hostDetails: response })
+    ) ?? [];
+
   if (status === STATUS.ERROR) return <RedirectToEmptyHostPage hostname={id} />;
   return (
     <>
@@ -173,7 +178,7 @@ const HostDetails = ({
                 isNavCollapsed ? '138' : '263'
               }`}
             >
-              {tabs.map(tab => (
+              {filteredTabs.map(tab => (
                 <Tab
                   key={tab}
                   eventKey={tab}
