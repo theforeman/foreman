@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-01-03 14:19+0000\n"
+"PO-Revision-Date: 2022-02-08 10:07+0000\n"
 "Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -1044,7 +1044,7 @@ msgid "Autosign"
 msgstr "자동 서명 "
 
 msgid "Autosign Entries"
-msgstr ""
+msgstr "자동 서명 항목 "
 
 msgid "Autosign entries"
 msgstr "자동 서명 항목"
@@ -2418,7 +2418,7 @@ msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
 msgid "Deploy on"
-msgstr ""
+msgstr "배포 "
 
 msgid "Deprecations"
 msgstr ""
@@ -3764,7 +3764,7 @@ msgid ""
 msgstr ""
 
 msgid "Host Parameters"
-msgstr ""
+msgstr "호스트 매개 변수 "
 
 msgid "Host Status"
 msgstr ""
@@ -5427,7 +5427,7 @@ msgstr "기본값 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Description"
-msgstr ""
+msgstr "설명 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Hidden value"
@@ -5435,11 +5435,11 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key"
-msgstr ""
+msgstr "키 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key type"
-msgstr ""
+msgstr "키 유형 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
@@ -5459,23 +5459,23 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
-msgstr ""
+msgstr "덮어쓰기 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Path"
-msgstr ""
+msgstr "경로 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Required"
-msgstr ""
+msgstr "필수 사항 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
-msgstr ""
+msgstr "검사기 규칙 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator type"
-msgstr ""
+msgstr "검사기 유형 "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
@@ -6004,7 +6004,7 @@ msgid "Nic::Base|Virtual"
 msgstr "가상 "
 
 msgid "No"
-msgstr ""
+msgstr "아니오  "
 
 msgid "No %s with BMC feature found, install one, enable BMC module and register it."
 msgstr ""
@@ -6489,7 +6489,7 @@ msgid "Operating System"
 msgstr "운영체제"
 
 msgid "Operating System Family"
-msgstr ""
+msgstr "운영 체제 제품군 "
 
 msgid "Operating System version is required"
 msgstr "운영 체제 버전이 필요합니다 "
@@ -6633,7 +6633,7 @@ msgid "Output format"
 msgstr ""
 
 msgid "Override"
-msgstr ""
+msgstr "덮어쓰기 "
 
 msgid "Override the default value of the Puppet class parameter."
 msgstr "Puppet 클래스 매개 변수의 기본값을 덮어씁니다."
@@ -6775,7 +6775,7 @@ msgid "Parent parameters"
 msgstr "부모 매개 변수"
 
 msgid "Partition Table"
-msgstr ""
+msgstr "파티션 테이블 "
 
 msgid "Partition Tables"
 msgstr "파티션 테이블 "
@@ -7390,7 +7390,7 @@ msgid "Remote execution job templates"
 msgstr ""
 
 msgid "Remove"
-msgstr ""
+msgstr "삭제 "
 
 msgid "Remove %{type} for %{host}"
 msgstr ""

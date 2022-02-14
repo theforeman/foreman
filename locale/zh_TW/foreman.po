@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-01-03 14:19+0000\n"
+"PO-Revision-Date: 2022-02-08 10:07+0000\n"
 "Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
@@ -1055,7 +1055,7 @@ msgid "Autosign"
 msgstr "Autosign"
 
 msgid "Autosign Entries"
-msgstr ""
+msgstr "Autosign 項目"
 
 msgid "Autosign entries"
 msgstr "Autosign 項目"
@@ -3773,7 +3773,7 @@ msgid ""
 msgstr ""
 
 msgid "Host Parameters"
-msgstr ""
+msgstr "主機參數"
 
 msgid "Host Status"
 msgstr ""
@@ -5436,7 +5436,7 @@ msgstr "預設值"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Description"
-msgstr ""
+msgstr "描述"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Hidden value"
@@ -5444,11 +5444,11 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key"
-msgstr ""
+msgstr "金鑰"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key type"
-msgstr ""
+msgstr "金鑰類型"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
@@ -5468,23 +5468,23 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
-msgstr ""
+msgstr "覆寫"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Path"
-msgstr ""
+msgstr "路徑"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Required"
-msgstr ""
+msgstr "必要"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
-msgstr ""
+msgstr "驗證程式規則"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator type"
-msgstr ""
+msgstr "驗證程式類型"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
@@ -6498,7 +6498,7 @@ msgid "Operating System"
 msgstr "作業系統"
 
 msgid "Operating System Family"
-msgstr ""
+msgstr "作業系統家族"
 
 msgid "Operating System version is required"
 msgstr "需提供作業系統版本"

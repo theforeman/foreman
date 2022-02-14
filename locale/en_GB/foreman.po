@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
+# Amit Upadhye <aupadhye@redhat.com>, 2022
 # Andi Chandler <andi@gowling.com>, 2016
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2013-2015
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2016-2017
@@ -10,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-01-03 14:19+0000\n"
+"PO-Revision-Date: 2022-02-08 10:06+0000\n"
 "Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
@@ -5429,7 +5430,7 @@ msgstr "Default value"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Description"
-msgstr ""
+msgstr "Description"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Hidden value"
@@ -5437,11 +5438,11 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key"
-msgstr ""
+msgstr "Parameter"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key type"
-msgstr ""
+msgstr "Parameter type"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
@@ -5461,23 +5462,23 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
-msgstr ""
+msgstr "Override"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Path"
-msgstr ""
+msgstr "Path"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Required"
-msgstr ""
+msgstr "Required"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
-msgstr ""
+msgstr "Validator rule"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator type"
-msgstr ""
+msgstr "Validator type"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
@@ -9160,7 +9161,7 @@ msgid "The class of CPU supplied in this machine. This is primarily used by Spar
 msgstr ""
 
 msgid "The class of the machine reported by the Open Boot Prom. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -i|cut -f2 -d,"
-msgstr "The class of the machine as reported by the OpenBoot PROM. This is primarily used by Solaris SPARC builds and can be left blank for other architectures. The value can be determined on Solaris via `uname -i|cut -f2 -d`."
+msgstr "The class of the machine as reported by the OpenBoot PROM. This is primarily used by Solaris SPARC builds and can be left blank for other architectures. The value can be determined on Solaris via `uname -i|cut -f2 -d`,"
 
 msgid "The connection was closed by the browser. please verify that the certificate authority is valid"
 msgstr ""

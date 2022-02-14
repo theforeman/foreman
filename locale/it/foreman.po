@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-01-03 14:19+0000\n"
+"PO-Revision-Date: 2022-02-08 10:07+0000\n"
 "Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Italian (http://www.transifex.com/foreman/foreman/language/it/)"
 "\n"
@@ -1054,7 +1054,7 @@ msgid "Autosign"
 msgstr "Autosign"
 
 msgid "Autosign Entries"
-msgstr ""
+msgstr "Autentica automaticamente le voci"
 
 msgid "Autosign entries"
 msgstr ""
@@ -2428,7 +2428,7 @@ msgid "Deploy TFTP %{kind} config for %{host}"
 msgstr ""
 
 msgid "Deploy on"
-msgstr ""
+msgstr "Implementare su"
 
 msgid "Deprecations"
 msgstr ""
@@ -3772,7 +3772,7 @@ msgstr ""
 "Questo sarà poi trattato come un template e sarà selezionabile durante la creazione di un nuovo host e assicurerà che l'host sia configurato in uno dei tuoi stati predefiniti."
 
 msgid "Host Parameters"
-msgstr ""
+msgstr "Parametri host"
 
 msgid "Host Status"
 msgstr ""
@@ -5435,7 +5435,7 @@ msgstr "Valore predefinito"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Description"
-msgstr ""
+msgstr "Descrizione"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Hidden value"
@@ -5443,11 +5443,11 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key"
-msgstr ""
+msgstr "Chiave"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key type"
-msgstr ""
+msgstr "Tipo di chiave "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
@@ -5467,23 +5467,23 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
-msgstr ""
+msgstr "Sovrascrivi"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Path"
-msgstr ""
+msgstr "Percorso"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Required"
-msgstr ""
+msgstr "Obbligatorio"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
-msgstr ""
+msgstr "Regola del convalidatore"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator type"
-msgstr ""
+msgstr "Tipo di convalidatore"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
@@ -6012,7 +6012,7 @@ msgid "Nic::Base|Virtual"
 msgstr "Nic::Base|Virtuale"
 
 msgid "No"
-msgstr ""
+msgstr "No"
 
 msgid "No %s with BMC feature found, install one, enable BMC module and register it."
 msgstr ""
@@ -6497,7 +6497,7 @@ msgid "Operating System"
 msgstr "Sistema Operativo"
 
 msgid "Operating System Family"
-msgstr ""
+msgstr "Famiglia sistema operativo"
 
 msgid "Operating System version is required"
 msgstr "È necessaria la versione del sistema operativo"
@@ -6641,7 +6641,7 @@ msgid "Output format"
 msgstr ""
 
 msgid "Override"
-msgstr ""
+msgstr "Override"
 
 msgid "Override the default value of the Puppet class parameter."
 msgstr ""
@@ -6783,7 +6783,7 @@ msgid "Parent parameters"
 msgstr ""
 
 msgid "Partition Table"
-msgstr ""
+msgstr "Tabella delle partizioni"
 
 msgid "Partition Tables"
 msgstr "Tabelle di partizioni"
@@ -7398,7 +7398,7 @@ msgid "Remote execution job templates"
 msgstr ""
 
 msgid "Remove"
-msgstr ""
+msgstr "Rimuovi"
 
 msgid "Remove %{type} for %{host}"
 msgstr ""

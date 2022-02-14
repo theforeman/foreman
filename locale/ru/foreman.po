@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-01-30 10:32+0000\n"
-"Last-Translator: KotUchoniy <yosho1@yandex.ru>\n"
+"PO-Revision-Date: 2022-02-08 10:07+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -473,7 +473,7 @@ msgid "Add Autosign entry"
 msgstr "Добавить запись для автоматической подписи"
 
 msgid "Add Combination"
-msgstr ""
+msgstr "Добавить комбинацию"
 
 msgid "Add Controller"
 msgstr "Добавить Контроллер"
@@ -1082,7 +1082,7 @@ msgid "Autosign"
 msgstr "Автоматическая подпись"
 
 msgid "Autosign Entries"
-msgstr ""
+msgstr "Записи авто связок"
 
 msgid "Autosign entries"
 msgstr "Автоматическая подпись"
@@ -5459,7 +5459,7 @@ msgstr "Значение поиска"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Avoid duplicates"
-msgstr ""
+msgstr "Избегать повторений"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Default value"
@@ -5467,7 +5467,7 @@ msgstr "По умолчанию"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Description"
-msgstr ""
+msgstr "Описание"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Hidden value"
@@ -5475,11 +5475,11 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key"
-msgstr ""
+msgstr "Ключ"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Key type"
-msgstr ""
+msgstr "Тип ключа"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Lookup values count"
@@ -5491,7 +5491,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Merge overrides"
-msgstr ""
+msgstr "Слить переопределения "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Omit"
@@ -5499,23 +5499,23 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Override"
-msgstr ""
+msgstr "Переопределить"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Path"
-msgstr ""
+msgstr "Путь"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Required"
-msgstr ""
+msgstr "Обязательный"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator rule"
-msgstr ""
+msgstr "Правило"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupKey|Validator type"
-msgstr ""
+msgstr "Тип"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "LookupValue|Match"
@@ -6044,7 +6044,7 @@ msgid "Nic::Base|Virtual"
 msgstr "Виртуальный"
 
 msgid "No"
-msgstr ""
+msgstr "Нет"
 
 msgid "No %s with BMC feature found, install one, enable BMC module and register it."
 msgstr ""
@@ -7432,7 +7432,7 @@ msgid "Remote execution job templates"
 msgstr ""
 
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 msgid "Remove %{type} for %{host}"
 msgstr ""
