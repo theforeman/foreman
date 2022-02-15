@@ -19,7 +19,7 @@ module ForemanChef
       os = parser.operatingsystem
 
       assert os.present?
-      assert_equal 'centos', os.name
+      assert_equal 'CentOS', os.name
       assert_equal '7', os.major
       assert_equal '7', os.minor
     end
@@ -29,7 +29,7 @@ module ForemanChef
       os = parser.operatingsystem
 
       assert os.present?
-      assert_equal 'centos', os.name
+      assert_equal 'CentOS', os.name
       assert_equal '8', os.major
       assert_equal '4', os.minor
     end
