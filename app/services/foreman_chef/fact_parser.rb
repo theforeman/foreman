@@ -37,7 +37,8 @@ module ForemanChef
           end
         when 'centos'
           # Centos Stream doesn't have minor version on need to replace blank spaces due to name restriction
-          os_name = facts.dig(:os_release, :name).tr(' ', '_') unless minor
+          # Also normalize CentOS / CentOS Linux
+          os_name = minor ? 'CentOS' : facts.dig(:os_release, :name).tr(' ', '_')
       end
 
       begin
