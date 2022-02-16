@@ -6,6 +6,8 @@ class FactParser
   ALIASES = /(\A[a-z0-9\.]+):([a-z0-9]+)\Z/
   VLANS = /\A([a-z0-9]+)\.([0-9]+)\Z/
   VIRTUAL_NAMES = /#{ALIASES}|#{VLANS}|#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
+  # spend 500ms per IP on primary interface lookup
+  PRIMARY_INTERFACE_RESOLVE_TIMEOUTS = [0.50]
 
   attr_reader :facts
 
@@ -126,15 +128,18 @@ class FactParser
   private
 
   def find_interface_by_name(host_name)
+    resolver = Resolv::DNS.new
+    resolver.timeouts = PRIMARY_INTERFACE_RESOLVE_TIMEOUTS
     interfaces.detect do |int, values|
       if (ip = values[:ipaddress]).present?
         begin
-          if Resolv::DNS.new.getnames(ip).any? { |name| name.to_s == host_name }
-            logger.debug { "resolved #{host_name} for #{ip}, #{int} is selected as primary" }
+          logger.debug { "Resolving fact '#{ip}' via DNS to match reported hostname #{host_name}" }
+          if resolver.getnames(ip).any? { |name| name.to_s == host_name }
+            logger.debug { "Match: '#{ip}', interface #{int} is selected as primary" }
             return [int, values]
           end
         rescue Resolv::ResolvError => e
-          logger.debug { "could not resolv name for #{ip} because of #{e} #{e.message}" }
+          logger.debug { "Could not resolv name for #{ip} because of #{e} #{e.message}" }
           nil
         end
       end

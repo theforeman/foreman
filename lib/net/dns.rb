@@ -22,7 +22,7 @@ module Net
       proxy = options.fetch(:proxy, nil)
       resolver = options.fetch(:resolver, Resolv::DNS.new)
       ipfamily = options.fetch(:ipfamily, Socket::AF_INET)
-      resolver.timeouts = Setting[:dns_timeout]
+      resolver.timeouts = options.fetch(:timeout, Setting[:dns_timeout])
 
       ipquery = IPAddr.new(query) rescue nil
       if ipquery&.ipv4?
