@@ -25,12 +25,6 @@ class UserdataController < ApplicationController
     render plain: data.map { |key, value| "#{key}: #{value}" }.join("\n")
   end
 
-  protected
-
-  def require_ssl?
-    unattended_ssl?
-  end
-
   private
 
   def render_userdata_template

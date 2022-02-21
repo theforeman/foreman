@@ -76,6 +76,7 @@ require File.expand_path('../lib/foreman', __dir__)
 require File.expand_path('../lib/timed_cached_store', __dir__)
 require File.expand_path('../lib/foreman/exception', __dir__)
 require File.expand_path('../lib/core_extensions', __dir__)
+require File.expand_path('../lib/foreman/force_ssl', __dir__)
 require File.expand_path('../lib/foreman/logging', __dir__)
 require File.expand_path('../lib/foreman/http_proxy', __dir__)
 require File.expand_path('../lib/foreman/middleware/catch_json_parse_errors', __dir__)
@@ -125,6 +126,13 @@ module Foreman
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+
+    config.force_ssl = SETTINGS[:require_ssl]
+    config.ssl_options = {
+      redirect: {
+        exclude: ->(request) { Foreman::ForceSsl.new(request).allows_http? },
+      },
+    }
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

@@ -2,7 +2,6 @@ module Api
   class GraphqlController < ActionController::Base
     include Foreman::ThreadSession::Cleaner
     include Foreman::Controller::Timezone
-    include Foreman::Controller::RequireSsl
     include Foreman::Controller::Session
     include Foreman::Controller::Authentication
     include Foreman::Controller::ApiCsrfProtection

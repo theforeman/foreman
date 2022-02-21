@@ -5,10 +5,5 @@
     6.1. To continue using the scoped relation, pass it into the block directly. To
     instead access the full set of models, as Rails 6.1 will, use `Puppetclass.unscoped`,
     or `Puppetclass.default_scoped` if a model has default scopes.
-- message: Controller-level `force_ssl` is deprecated and will be removed from Rails
-    6.1. Please enable `config.force_ssl` in your environment configuration to enable
-    the ActionDispatch::SSL middleware to more fully enforce that your application
-    communicate over HTTPS. If needed, you can use `config.ssl_options` to exempt
-    matching endpoints from being redirected to HTTPS.
 - message: Initialization autoloaded the constants
 - message: You are using a deprecated behavior, it will be removed in version 3.3, initial value of setting 'instance_id' should be created in a migration

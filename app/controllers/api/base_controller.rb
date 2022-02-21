@@ -2,7 +2,6 @@ module Api
   # TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
     include ApplicationShared
-    include Foreman::Controller::RequireSsl
     include Foreman::Controller::ApiCsrfProtection
     include Foreman::Controller::BruteforceProtection
 
