@@ -34,7 +34,9 @@ description: |
       <hostname><%= @host.name %></hostname>
 <% unless primary_interface_subnet.dhcp_boot_mode? -%>
       <dhcp_hostname config:type="boolean">false</dhcp_hostname>
+<% if os_major < 12 -%>
       <dhcp_resolv config:type="boolean">false</dhcp_resolv>
+<% end -%>
 <% if @host.domain -%>
       <domain><%= @host.domain -%></domain>
 <% end -%>
@@ -122,6 +124,16 @@ description: |
 <% if ! @dynamic -%>
   <%= @host.diskLayout %>
 <% end -%>
+<% if os_major >= 15 -%>
+  <services-manager>
+  <default_target>multi-user</default_target>
+  <services>
+    <enable config:type="list">
+      <service>sshd</service>
+    </enable>
+  </services>
+  </services-manager>
+<% else -%>
   <runlevel>
     <default>3</default>
     <services config:type="list">
@@ -132,6 +144,7 @@ description: |
     </services>
   </runlevel>
   <software>
+<% end -%>
 <% if os_major >= 15 -%>
     <products config:type="list">
       <product>SLES</product>
