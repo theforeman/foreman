@@ -11,7 +11,16 @@ description: |
   The output is deployed on the host's subnet TFTP proxy.
   See https://ipxe.org/scripting for more details
 -%>
-<% http_proxy_string = host_param('http-proxy') ? "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') : '' -%>
+
+<% if host_param('http-proxy') -%>
+  <% if host_param('http-proxy-port') -%>
+    <% http_proxy_string = "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') -%>
+  <% else -%>
+    <% http_proxy_string = "proxy=http://" + host_param('http-proxy') -%>
+  <% end -%>
+<% else -%>
+  <% http_proxy_string = '' -%>
+<% end -%>
 
 echo Trying to ping Gateway: ${netX/gateway}
 ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
