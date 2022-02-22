@@ -1,3 +1,26 @@
+2022-02-22	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.1.2
+
+2022-02-22	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #34375 - allow passing empty attributes for facets (#9083)
+	* Fixes #34371 - correctly construct fqdn for redirct
+
+2022-02-16	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #34416 - taxonomy title in ForemanContext
+
+2022-02-07	aabramov <aabramov@redhat.com>
+	* Fixes #34381 - Change example for --order
+
+2022-02-02	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #34330 - fix rhsm puppet parser for IPv6
+
+2022-02-02	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #34366 - skip GraphQL types enhancements in migrations
+
+2022-02-02	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #34351 - Allow Site manager role to be extended from plugins
+	* Fixes #34329 - Allow permissions to be excluded from default roles
+
 2022-01-26	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.1.1
 
