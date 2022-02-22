@@ -9,11 +9,20 @@ description: |
   The template to render PXELinux bootloader configuration for SLES and OpenSUSE distributions.
   The output is deployed on the host's subnet TFTP proxy.
 -%>
-<% http_proxy_string = host_param('http-proxy') ? "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') : '' -%>
+
+<% if host_param('http-proxy') -%>
+  <% if host_param('http-proxy-port') -%>
+    <% http_proxy_string = "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') -%>
+  <% else -%>
+    <% http_proxy_string = "proxy=http://" + host_param('http-proxy') -%>
+  <% end -%>
+<% else -%>
+  <% http_proxy_string = '' -%>
+<% end -%>
 
 DEFAULT linux
 
 LABEL linux
     KERNEL <%= @kernel %>
-    APPEND initrd=<%= @initrd %> ramdisk_size=65536 install=<%= @mediapath %> autoyast=<%= foreman_url('provision') %> textmode=1 <%= http_proxy_string -%>
+    APPEND initrd=<%= @initrd %> ramdisk_size=65536 install=<%= @mediapath %> autoyast=<%= foreman_url('provision') %> textmode=1 <%= http_proxy_string %>
 
