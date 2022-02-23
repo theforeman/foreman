@@ -11,8 +11,6 @@ import {
   GridItem,
   Badge,
   Title,
-  Breadcrumb,
-  BreadcrumbItem,
   Text,
   TextVariants,
   PageSection,
@@ -20,7 +18,6 @@ import {
   SplitItem,
 } from '@patternfly/react-core';
 
-import Skeleton from 'react-loading-skeleton';
 import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
 import {
   selectFillsIDs,
@@ -40,6 +37,8 @@ import './HostDetails.scss';
 import { useAPI } from '../../common/hooks/API/APIHooks';
 import TabRouter from './Tabs/TabRouter';
 import RedirectToEmptyHostPage from './EmptyState';
+import BreadcrumbBar from '../BreadcrumbBar';
+import { foremanUrl } from '../../common/helpers';
 
 const HostDetails = ({
   match: {
@@ -88,12 +87,29 @@ const HostDetails = ({
         variant="light"
       >
         <div className="header-top">
-          <Breadcrumb className="host-details-breadcrumb">
-            <BreadcrumbItem to="/hosts">{__('Hosts')}</BreadcrumbItem>
-            <BreadcrumbItem isActive>
-              {response.name || <Skeleton />}
-            </BreadcrumbItem>
-          </Breadcrumb>
+          <SkeletonLoader
+            skeletonProps={{ width: 300 }}
+            status={status || STATUS.PENDING}
+          >
+            {response.name && (
+              <BreadcrumbBar
+                isSwitchable
+                onSwitcherItemClick={(e, href) => {
+                  e.preventDefault();
+                  history.push(href);
+                }}
+                resource={{
+                  nameField: 'name',
+                  resourceUrl: '/api/v2/hosts?thin=true',
+                  switcherItemUrl: '/new/hosts/:name',
+                }}
+                breadcrumbItems={[
+                  { caption: __('Hosts'), url: foremanUrl('/hosts') },
+                  { caption: response.name },
+                ]}
+              />
+            )}
+          </SkeletonLoader>
           <Grid className="hostname-skeleton-rapper">
             <GridItem span={8}>
               <SkeletonLoader status={status || STATUS.PENDING}>
