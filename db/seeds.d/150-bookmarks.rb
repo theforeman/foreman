@@ -11,6 +11,6 @@ Bookmark.without_auditing do
     next if Bookmark.where(:controller => input[:controller], :name => input[:name]).exists?
     next if SeedHelper.audit_modified? Bookmark, input[:name], :controller => input[:controller]
     b = Bookmark.create({ :public => true }.merge(input))
-    raise "Unable to create bookmark: #{format_errors b}" if b.nil? || b.errors.any?
+    raise "Unable to create bookmark: #{SeedHelper.format_errors b}" if b.nil? || b.errors.any?
   end
 end

@@ -11,7 +11,7 @@ unless User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).present?
     user.admin = true
     user.auth_source = src_hidden
     original_user, User.current = User.current, user
-    raise "Unable to create anonymous admin user: #{format_errors user}" unless user.save
+    raise "Unable to create anonymous admin user: #{SeedHelper.format_errors user}" unless user.save
     User.current = original_user
   end
 end
@@ -23,7 +23,7 @@ unless User.unscoped.find_by_login(User::ANONYMOUS_CONSOLE_ADMIN).present?
     user.admin = true
     user.auth_source = src_hidden
     original_user, User.current = User.current, user
-    raise "Unable to create anonymous console admin user: #{format_errors user}" unless user.save
+    raise "Unable to create anonymous console admin user: #{SeedHelper.format_errors user}" unless user.save
     User.current = original_user
   end
 end
@@ -36,7 +36,7 @@ unless User.unscoped.find_by_login(User::ANONYMOUS_API_ADMIN).present?
     user.admin = true
     user.auth_source = src_hidden
     original_user, User.current = User.current, user
-    raise "Unable to create anonymous API user: #{format_errors user}" unless user.save
+    raise "Unable to create anonymous API user: #{SeedHelper.format_errors user}" unless user.save
     User.current = original_user
   end
 end
@@ -63,7 +63,7 @@ elsif User.unscoped.only_admin.except_hidden.none?
         user.password = random
         puts "Login credentials: #{user.login} / #{random}" unless Rails.env.test?
       end
-      raise "Unable to create admin user: #{format_errors user}" unless user.save
+      raise "Unable to create admin user: #{SeedHelper.format_errors user}" unless user.save
     end
   end
 else
