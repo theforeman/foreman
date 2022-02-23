@@ -5,6 +5,7 @@ class ReportsTest < ActiveSupport::TestCase
   setup do
     Rake.application.rake_require 'tasks/reports'
     Rake::Task.define_task(:environment)
+    Rake::Task.define_task(:"dynflow:client")
     Rake::Task['reports:daily'].reenable
 
     as_admin do

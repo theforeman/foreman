@@ -289,7 +289,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
         @template.instance_variable_set '@importing_metadata', { 'kind' => 'not existing kind name' }
         @template.send :import_custom_data, { :associate => 'always' }
         assert_nil @template.template_kind
-        assert_includes @template.errors.keys, :template_kind_id
+        assert_includes @template.errors.attribute_names, :template_kind_id
       end
     end
 
@@ -310,6 +310,6 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     template = FactoryBot.build(:provisioning_template, template: "a", template_kind: template_kind, operatingsystems: [os])
 
     refute template.valid?
-    assert_includes template.errors.keys, :operatingsystems
+    assert_includes template.errors.attribute_names, :operatingsystems
   end
 end

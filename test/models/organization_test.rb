@@ -38,7 +38,7 @@ class OrganizationTest < ActiveSupport::TestCase
     invalid_org_name_list.each do |name|
       organization = FactoryBot.build(:organization, :name => name)
       refute organization.valid?, "Validation succeeded for create with invalid name: '#{name}' length: #{name.length})"
-      assert_includes organization.errors.keys, :name
+      assert_includes organization.errors.attribute_names, :name
     end
   end
 
@@ -56,7 +56,7 @@ class OrganizationTest < ActiveSupport::TestCase
     invalid_org_name_list.each do |name|
       organization.name = name
       refute organization.valid?, "Validation succeeded for update with invalid name: '#{name}' length: #{name.length})"
-      assert_includes organization.errors.keys, :name
+      assert_includes organization.errors.attribute_names, :name
     end
   end
 end

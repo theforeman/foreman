@@ -11,6 +11,6 @@ class EmailValidator < ActiveModel::EachValidator
       Foreman::Logging.exception("Email address is invalid", exception)
       r = false
     end
-    record.errors[attribute] << (options[:message] || N_("is invalid")) unless r
+    record.errors.add(attribute, (options[:message] || N_("is invalid"))) unless r
   end
 end

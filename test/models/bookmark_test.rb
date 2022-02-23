@@ -48,7 +48,7 @@ class BookmarkTest < ActiveSupport::TestCase
     invalid_name_list.each do |name|
       bookmark.name = name
       refute bookmark.valid?, "Can update bookmark with invalid name #{name}"
-      assert_includes bookmark.errors.keys, :name
+      assert_includes bookmark.errors.attribute_names, :name
     end
   end
 

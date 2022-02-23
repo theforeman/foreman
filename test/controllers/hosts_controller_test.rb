@@ -1370,7 +1370,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'failed cancelBuild shows errors' do
     @request.env['HTTP_REFERER'] = hosts_path
     HostsController.any_instance.stubs(:resource_finder).returns(@host)
-    @host.errors[:test] << 'my error'
+    @host.errors.add(:test, 'my error')
     @host.interfaces = [] # force save failure
     get :cancelBuild, params: { id: @host.name }, session: set_session_user
 

@@ -38,7 +38,7 @@ class TemplateInputTest < ActiveSupport::TestCase
     template_input = TemplateInput.new(:name => "Ubuntu", :input_type => "user", :template_id => @report_template.id)
 
     refute template_input.valid?, "This template is locked. Please clone it to a new template to customize."
-    assert_includes template_input.errors.keys, :base
+    assert_includes template_input.errors.attribute_names, :base
   end
 
   test "Input should be created for unlocked template" do
@@ -59,7 +59,7 @@ class TemplateInputTest < ActiveSupport::TestCase
     template_input.update(:name => "#{old_name}_renamed")
 
     refute template_input.valid?, "This template is locked. Please clone it to a new template to customize."
-    assert_includes template_input.errors.keys, :base
+    assert_includes template_input.errors.attribute_names, :base
   end
 
   test "Input should not be destroyed for locked template" do

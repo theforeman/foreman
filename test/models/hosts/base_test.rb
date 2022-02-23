@@ -58,7 +58,7 @@ module Host
       host = Host::Base.new(:name => 'foo')
       host.interfaces = []
       refute host.valid?
-      assert_includes host.errors.keys, :interfaces
+      assert_includes host.errors.attribute_names, :interfaces
 
       host.interfaces = [FactoryBot.build_stubbed(:nic_managed, :primary => true, :host => host,
                                             :domain => FactoryBot.create(:domain))]

@@ -42,7 +42,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
     invalid_name_list.each do |name|
       compute_resource.name = name
       refute compute_resource.valid?, "Can update compute resource with invalid name #{name}"
-      assert_includes compute_resource.errors.keys, :name
+      assert_includes compute_resource.errors.attribute_names, :name
     end
   end
 

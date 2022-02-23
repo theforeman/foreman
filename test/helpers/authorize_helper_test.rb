@@ -4,6 +4,7 @@ class AuthorizeHelperTest < ActionView::TestCase
   HelperTestDummy = Class.new { include AuthorizeHelper }
   subject { HelperTestDummy.new }
   let(:authorizer) { mock('Authorizer') }
+  let(:controller_name) { 'test' }
 
   describe '#authorized_for' do
     describe 'permission inference' do

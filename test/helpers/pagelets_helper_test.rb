@@ -14,6 +14,10 @@ class PageletsHelperTest < ActionView::TestCase
     "test"
   end
 
+  def controller_name
+    "test"
+  end
+
   test "should find pagelets for page and mountpoint" do
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
       :name => "Name",

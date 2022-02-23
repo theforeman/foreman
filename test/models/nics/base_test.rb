@@ -62,7 +62,7 @@ class Nic::BaseTest < ActiveSupport::TestCase
     invalid_interfaces_names.each do |name|
       nic = FactoryBot.build_stubbed(:nic_managed, :name => name, :host => host)
       refute nic.valid?, "Can create nic with invalid name #{name}"
-      assert_includes nic.errors.keys, :name
+      assert_includes nic.errors.attribute_names, :name
     end
   end
 
@@ -92,7 +92,7 @@ class Nic::BaseTest < ActiveSupport::TestCase
   test 'nic requires a host' do
     nic = FactoryBot.build_stubbed(:nic_base)
     refute nic.valid?, "Can't be valid without a host: #{nic.errors.messages}"
-    assert_includes nic.errors.keys, :host
+    assert_includes nic.errors.attribute_names, :host
   end
 
   test 'nic is invalid when subnet types are wrong' do
@@ -104,8 +104,8 @@ class Nic::BaseTest < ActiveSupport::TestCase
     nic.subnet6 = subnetv4
 
     refute nic.valid?, "Can't be valid with invalid subnet types: #{nic.errors.messages}"
-    assert_includes nic.errors.keys, :subnet
-    assert_includes nic.errors.keys, :subnet6
+    assert_includes nic.errors.attribute_names, :subnet
+    assert_includes nic.errors.attribute_names, :subnet6
   end
 
   context '#matches_subnet?' do
@@ -253,7 +253,7 @@ class Nic::BaseTest < ActiveSupport::TestCase
       nic = FactoryBot.build_stubbed(:nic_managed, :subnet => subnet, :host => host)
       nic.mac = ""
       refute_valid nic
-      assert_includes nic.errors.keys, :mac
+      assert_includes nic.errors.attribute_names, :mac
       nic.mac = "00:00:00:00:00:00"
       assert_valid nic
     end
@@ -262,7 +262,7 @@ class Nic::BaseTest < ActiveSupport::TestCase
       nic = FactoryBot.build_stubbed(:nic_managed, :subnet6 => subnetv6, :host => host)
       nic.mac = ""
       refute_valid nic
-      assert_includes nic.errors.keys, :mac
+      assert_includes nic.errors.attribute_names, :mac
       nic.mac = "00:00:00:00:00:00"
       assert_valid nic
     end
@@ -272,7 +272,7 @@ class Nic::BaseTest < ActiveSupport::TestCase
       nic.domain = domains(:mydomain)
       nic.mac = ""
       refute_valid nic
-      assert_includes nic.errors.keys, :mac
+      assert_includes nic.errors.attribute_names, :mac
       nic.mac = "00:00:00:00:00:00"
       assert_valid nic
     end

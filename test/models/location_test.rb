@@ -33,7 +33,7 @@ class LocationTest < ActiveSupport::TestCase
     invalid_loc_name_list.each do |name|
       location = FactoryBot.build(:location, :name => name)
       refute location.valid?, "Can create location with invalid name #{name}"
-      assert_includes location.errors.keys, :name
+      assert_includes location.errors.attribute_names, :name
     end
   end
 
@@ -58,7 +58,7 @@ class LocationTest < ActiveSupport::TestCase
     invalid_loc_name_list.each do |name|
       location.name = name
       refute location.valid?, "Can update location with invalid name #{name}"
-      assert_includes location.errors.keys, :name
+      assert_includes location.errors.attribute_names, :name
     end
   end
 end

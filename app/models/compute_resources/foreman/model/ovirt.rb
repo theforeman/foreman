@@ -172,13 +172,13 @@ module Foreman::Model
     rescue => e
       case e.message
         when /404/
-          errors[:url] << e.message
+          errors.add(:url, e.message)
         when /302/
-          errors[:url] << _('HTTPS URL is required for API access')
+          errors.add(:url, _('HTTPS URL is required for API access'))
         when /401/
-          errors[:user] << e.message
+          errors.add(:user, e.message)
         else
-          errors[:base] << e.message
+          errors.add(:base, e.message)
       end
     end
 

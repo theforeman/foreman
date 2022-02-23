@@ -10,5 +10,5 @@ if File.exist?(settings_file)
   SETTINGS[:rails] = settings[:rails] if settings[:rails]
 end
 SETTINGS[:rails] = ENV['FOREMAN_RAILS'] if ENV.key?('FOREMAN_RAILS')
-SETTINGS[:rails] ||= '6.0'
+SETTINGS[:rails] ||= '6.1'
 SETTINGS[:rails] = '%.1f' % SETTINGS[:rails] if SETTINGS[:rails].is_a?(Float) # unquoted YAML value
