@@ -407,9 +407,13 @@ module Foreman::Model
       "VirtualLsiLogicController"
     end
 
+    # vSphere guest H/W versions
+    # see https://kb.vmware.com/s/article/1003746 for H/W versions table index
     def vm_hw_versions
       {
         'Default' => _("Default"),
+        'vmx-19' => '19 (ESXi 7.0 U2)',
+        'vmx-18' => '18 (ESXi 7.0 U1)',
         'vmx-17' => '17 (ESXi 7.0)',
         'vmx-15' => '15 (ESXi 6.7 U2)',
         'vmx-14' => '14 (ESXi 6.7)',
