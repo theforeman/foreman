@@ -83,7 +83,7 @@ const BreadcrumbSwitcher = ({
         key={id}
         itemId={id}
         to={href}
-        onClick={onResourceClick}
+        onClick={e => onResourceClick(e, href)}
         className={
           isActive(href, id, name) ? 'breadcrumb-switcher-current-item' : ''
         }
