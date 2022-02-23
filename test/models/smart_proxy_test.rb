@@ -8,7 +8,7 @@ class SmartProxyTest < ActiveSupport::TestCase
     invalid_name_list.each do |invalid_name|
       smart_proxy = FactoryBot.build(:smart_proxy, :name => invalid_name, :url => 'https://valid.url:4568')
       refute_valid smart_proxy
-      assert_includes smart_proxy.errors.keys, :name
+      assert_includes smart_proxy.errors.attribute_names, :name
     end
   end
 

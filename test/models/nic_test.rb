@@ -60,7 +60,7 @@ class NicTest < ActiveSupport::TestCase
     interface = FactoryBot.create(:nic_managed, :host => FactoryBot.create(:host))
     interface.type = 'Nic::BMC'
     interface.valid?
-    assert_includes interface.errors.keys, :type
+    assert_includes interface.errors.attribute_names, :type
   end
 
   test "managed nic should generate progress report uuid" do
@@ -140,8 +140,8 @@ class NicTest < ActiveSupport::TestCase
       nic.subnet6 = subnet6
 
       refute nic.valid?, "Can't be valid with mismatching taxonomy: #{nic.errors.messages}"
-      assert_includes nic.errors.keys, :subnet_id
-      assert_includes nic.errors.keys, :subnet6_id
+      assert_includes nic.errors.attribute_names, :subnet_id
+      assert_includes nic.errors.attribute_names, :subnet6_id
     end
   end
 
@@ -186,13 +186,13 @@ class NicTest < ActiveSupport::TestCase
   test "VLAN requires identifier" do
     nic = FactoryBot.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :tag => 5, :managed => true, :identifier => '')
     refute nic.valid?
-    assert_includes nic.errors.keys, :identifier
+    assert_includes nic.errors.attribute_names, :identifier
   end
 
   test "Alias requires identifier" do
     nic = FactoryBot.build(:nic_managed, :virtual => true, :attached_to => 'eth0', :managed => true, :identifier => '')
     refute nic.valid?
-    assert_includes nic.errors.keys, :identifier
+    assert_includes nic.errors.attribute_names, :identifier
   end
 
   test "#alias? detects alias based on virtual and identifier attributes" do
@@ -211,34 +211,34 @@ class NicTest < ActiveSupport::TestCase
     nic.host = FactoryBot.build_stubbed(:host)
     nic.subnet = FactoryBot.build_stubbed(:subnet_ipv4, :boot_mode => Subnet::BOOT_MODES[:dhcp])
     refute nic.valid?
-    assert_includes nic.errors.keys, :subnet_id
+    assert_includes nic.errors.attribute_names, :subnet_id
 
     nic.subnet.boot_mode = Subnet::BOOT_MODES[:static]
     nic.valid?
-    refute_includes nic.errors.keys, :subnet_id
+    refute_includes nic.errors.attribute_names, :subnet_id
 
     nic.managed = false
     nic.subnet.boot_mode = Subnet::BOOT_MODES[:dhcp]
     nic.valid?
-    refute_includes nic.errors.keys, :subnet_id
+    refute_includes nic.errors.attribute_names, :subnet_id
   end
 
   test "BMC does not require identifier" do
     nic = FactoryBot.build(:nic_bmc, :managed => true, :identifier => '')
     nic.valid?
-    refute_includes nic.errors.keys, :identifier
+    refute_includes nic.errors.attribute_names, :identifier
   end
 
   test "Bond requires identifier if managed" do
     nic = FactoryBot.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => true, :identifier => 'bond0')
     nic.valid?
-    refute_includes nic.errors.keys, :identifier
+    refute_includes nic.errors.attribute_names, :identifier
   end
 
   test "Bond does not require identifier if not managed" do
     nic = FactoryBot.build(:nic_bond, :attached_devices => 'eth0,eth1', :managed => false, :identifier => '')
     nic.valid?
-    refute_includes nic.errors.keys, :identifier
+    refute_includes nic.errors.attribute_names, :identifier
   end
 
   context 'physical?' do
@@ -290,13 +290,13 @@ class NicTest < ActiveSupport::TestCase
     test "bmc requires MAC address if managed" do
       bmc = FactoryBot.build(:nic_bmc, :managed => true, :mac => '')
       refute bmc.valid?
-      assert_includes bmc.errors.keys, :mac
+      assert_includes bmc.errors.attribute_names, :mac
     end
 
     test "bmc does not require MAC address if unmanaged" do
       bmc = FactoryBot.build(:nic_bmc, :managed => false, :mac => '')
       bmc.valid?
-      refute_includes bmc.errors.keys, :mac
+      refute_includes bmc.errors.attribute_names, :mac
     end
 
     context "on managed host" do
@@ -307,7 +307,7 @@ class NicTest < ActiveSupport::TestCase
       test "we can't destroy primary interface of managed host" do
         interface = @host.primary_interface
         refute interface.destroy
-        assert_includes interface.errors.keys, :primary
+        assert_includes interface.errors.attribute_names, :primary
       end
 
       test "we can destroy non primary interface of managed host" do
@@ -327,7 +327,7 @@ class NicTest < ActiveSupport::TestCase
       test "we can't destroy provision interface of managed host" do
         interface = @host.provision_interface
         refute interface.destroy
-        assert_includes interface.errors.keys, :provision
+        assert_includes interface.errors.attribute_names, :provision
       end
 
       test "we can destroy non provision interface of managed host" do
@@ -364,7 +364,7 @@ class NicTest < ActiveSupport::TestCase
         # factory already created primary interface
         interface = FactoryBot.build(:nic_managed, :primary => true, :host => @host)
         refute interface.save
-        assert_includes interface.errors.keys, :primary
+        assert_includes interface.errors.attribute_names, :primary
 
         interface.primary = false
         interface.name = ''
@@ -509,12 +509,12 @@ class NicTest < ActiveSupport::TestCase
     subnet6 = FactoryBot.create(:subnet_ipv6, :domains => [domain], :vlanid => 4)
     interface = FactoryBot.build(:nic_managed, :host => host, :name => 'nick', :subnet => subnet, :subnet6 => subnet6)
     refute_valid interface
-    assert_includes interface.errors.keys, :subnet_id
+    assert_includes interface.errors.attribute_names, :subnet_id
 
     subnet6 = FactoryBot.create(:subnet_ipv6, :domains => [domain], :vlanid => nil)
     interface = FactoryBot.build(:nic_managed, :host => host, :name => 'nick', :subnet => subnet, :subnet6 => subnet6)
     refute_valid interface
-    assert_includes interface.errors.keys, :subnet_id
+    assert_includes interface.errors.attribute_names, :subnet_id
   end
 
   test 'nic with both subnet and subnet6 should be valid if MTU is consistent between subnets' do
@@ -533,7 +533,7 @@ class NicTest < ActiveSupport::TestCase
     subnet6 = FactoryBot.create(:subnet_ipv6, :domains => [domain], :mtu => 1500)
     interface = FactoryBot.build(:nic_managed, :host => host, :name => 'nick', :subnet => subnet, :subnet6 => subnet6)
     refute_valid interface
-    assert_includes interface.errors.keys, :subnet_id
+    assert_includes interface.errors.attribute_names, :subnet_id
   end
 
   test 'test nic audit records should consider taxonomies from associated host' do

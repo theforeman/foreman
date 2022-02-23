@@ -74,10 +74,10 @@ module Mutations
     end
 
     def map_errors_to_path(resource)
-      resource.errors.map do |attribute, message|
+      resource.errors.map do |error|
         {
-          path: ['attributes', attribute.to_s.camelize(:lower)],
-          message: message,
+          path: ['attributes', error.attribute.to_s.camelize(:lower)],
+          message: error.message,
         }
       end
     end

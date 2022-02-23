@@ -1,7 +1,7 @@
 class SshKeyValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     if value && !valid_ssh_public_key?(value)
-      record.errors[attribute] << _('is not a valid public ssh key')
+      record.errors.add(attribute, _('is not a valid public ssh key'))
     end
   end
 

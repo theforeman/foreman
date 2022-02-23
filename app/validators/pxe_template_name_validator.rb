@@ -6,7 +6,7 @@ class PxeTemplateNameValidator < ActiveModel::EachValidator
       unless tmpl
         msg = _('is invalid. No provisioning template with name "%{name}" and kind "%{kind}" found. ') % { :name => value, :kind => template_kind }
         msg << _('Consult "Provisioning Templates" page to see what templates are available.')
-        record.errors[attribute] << msg
+        record.errors.add(attribute, msg)
       end
     end
   end

@@ -151,7 +151,7 @@ class LookupKeyTest < ActiveSupport::TestCase
   test "array key is invalid with string value without erb" do
     key = FactoryBot.build_stubbed(:lookup_key, :array, override: true, default_value: 'whatever')
     refute_valid key
-    assert_include key.errors.keys, :default_value
+    assert_include key.errors.attribute_names, :default_value
   end
 
   test "safe_value can be shown for key" do
@@ -232,7 +232,7 @@ class LookupKeyTest < ActiveSupport::TestCase
       lookup_key.parameter_type = data[:sc_type]
       lookup_key.default_value = data[:value]
       refute lookup_key.valid?, "Can update lookup key with invalid data #{data}"
-      assert_includes lookup_key.errors.keys, :default_value
+      assert_includes lookup_key.errors.attribute_names, :default_value
     end
   end
 

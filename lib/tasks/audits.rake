@@ -26,8 +26,12 @@ namespace :audits do
 
   task :anonymize => :environment do
     puts "Anonymizing audits older than #{before_date}. This might take a few minutes..."
-    count = get_audits.where.not(:remote_address => nil, :user_id => nil, :username => nil)
-      .update_all(:username => nil, :remote_address => nil, :user_id => nil)
+
+    count = get_audits_without_templates.where.not(remote_address: nil)
+                      .where.not(user_id: nil)
+                      .where.not(username: nil)
+                      .update_all(username: nil, remote_address: nil, user_id: nil)
+
     puts "Successfully anonymized #{count} audits!"
   end
 

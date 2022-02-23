@@ -6,7 +6,7 @@ class MacAddressValidator < ActiveModel::EachValidator
   end
 
   def make_invalid(record, attribute)
-    record.errors[attribute] << (options[:message] || _("is not a valid MAC address"))
+    record.errors.add(attribute, (options[:message] || _("is not a valid MAC address")))
     false
   end
 end

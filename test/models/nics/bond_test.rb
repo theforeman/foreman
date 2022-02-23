@@ -66,13 +66,13 @@ class BondTest < ActiveSupport::TestCase
   test 'identifier is required for managed bonds' do
     bond = FactoryBot.build(:nic_bond, :attached_devices => 'eth0,eth1,eth2', :managed => true, :identifier => '')
     refute bond.valid?
-    assert_includes bond.errors.keys, :identifier
+    assert_includes bond.errors.attribute_names, :identifier
   end
 
   test 'identifier is not required for unmanaged bonds' do
     bond = FactoryBot.build(:nic_bond, :attached_devices => 'eth0,eth1,eth2', :managed => false, :identifier => '')
     bond.valid?
-    refute_includes bond.errors.keys, :identifier
+    refute_includes bond.errors.attribute_names, :identifier
   end
 
   context '#children_mac_addresses' do

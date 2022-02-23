@@ -139,7 +139,7 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
       cr.send(:check_google_key_format_and_options)
 
       assert_not cr.valid?
-      assert_include cr.errors.keys, :key_path
+      assert_include cr.errors.attribute_names, :key_path
     end
 
     test 'fails when Google key is not a valid JSON' do
@@ -148,7 +148,7 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
         cr.send(:check_google_key_format_and_options)
 
         assert_not cr.valid?
-        assert_include cr.errors.keys, :key_path
+        assert_include cr.errors.attribute_names, :key_path
         assert_include cr.errors[:key_path], 'Certificate key is not a valid JSON'
       end
     end
@@ -159,7 +159,7 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
     cr.send(:validate_zone)
 
     assert_not cr.valid?
-    assert_include cr.errors.keys, :zone
+    assert_include cr.errors.attribute_names, :zone
     assert_include cr.errors[:zone], 'is not valid'
   end
 

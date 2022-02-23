@@ -32,7 +32,7 @@ class UsergroupTest < ActiveSupport::TestCase
     invalid_name_list.each do |name|
       usergroup.name = name
       refute usergroup.valid?, "Can update usergroup with invalid name #{name}"
-      assert_includes usergroup.errors.keys, :name
+      assert_includes usergroup.errors.attribute_names, :name
     end
   end
 
@@ -232,7 +232,8 @@ class UsergroupTest < ActiveSupport::TestCase
       LdapFluff.any_instance.stubs(:valid_group?).returns(false)
 
       refute @external.save
-      assert_equal @external.errors.first, [:name, 'is not found in the authentication source']
+      assert_equal @external.errors.first.attribute, :name
+      assert_equal @external.errors.first.message, 'is not found in the authentication source'
     end
 
     test "delete user if not in LDAP directory" do

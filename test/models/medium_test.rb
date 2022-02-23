@@ -45,7 +45,7 @@ class MediumTest < ActiveSupport::TestCase
     invalid_name_list.each do |name|
       medium.name = name
       refute medium.valid?, "Can update medium with invalid name #{name}"
-      assert_includes medium.errors.keys, :name
+      assert_includes medium.errors.attribute_names, :name
     end
   end
 

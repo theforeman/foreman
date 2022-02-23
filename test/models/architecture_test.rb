@@ -90,7 +90,7 @@ class ArchitectureTest < ActiveSupport::TestCase
     invalid_name_list.each do |name|
       architecture.name = name
       refute_valid architecture
-      assert_includes architecture.errors.keys, :name
+      assert_includes architecture.errors.attribute_names, :name
     end
   end
 

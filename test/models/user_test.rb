@@ -351,7 +351,7 @@ class UserTest < ActiveSupport::TestCase
     record.admin         = true
     assert_not record.save
     assert_not record.valid?
-    assert_includes record.errors.keys, :admin
+    assert_includes record.errors.attribute_names, :admin
     assert record.new_record?
   end
 
@@ -368,7 +368,7 @@ class UserTest < ActiveSupport::TestCase
     record.password_hash = "asd"
     refute record.save
     refute record.valid?
-    assert_includes record.errors.keys, :role_ids
+    assert_includes record.errors.attribute_names, :role_ids
     assert record.new_record?
   end
 
@@ -409,7 +409,7 @@ class UserTest < ActiveSupport::TestCase
     record.role_ids = [extra_role.id]
     refute record.save
     refute record.valid?
-    assert_includes record.errors.keys, :role_ids
+    assert_includes record.errors.attribute_names, :role_ids
   end
 
   test "user can assign role he has assigned himself" do
@@ -456,7 +456,7 @@ class UserTest < ActiveSupport::TestCase
     record.admin = true
     assert_not record.save
     assert_not record.valid?
-    assert_includes record.errors.keys, :admin
+    assert_includes record.errors.attribute_names, :admin
   end
 
   context "audits for password change" do
@@ -500,7 +500,7 @@ class UserTest < ActiveSupport::TestCase
     record = users(:admin)
     record.password = "123332211"
     assert_not record.valid?
-    assert_includes record.errors.keys, :password
+    assert_includes record.errors.attribute_names, :password
   end
 
   test "should be able to remove the admin flag when another admin exists" do

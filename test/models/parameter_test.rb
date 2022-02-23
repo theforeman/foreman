@@ -100,7 +100,7 @@ class ParameterTest < ActiveSupport::TestCase
     invalid_name_list.push('name with space').each do |name|
       parameter = FactoryBot.build(:parameter, :name => name, :subnet => subnets(:five))
       refute parameter.valid?, "Can create parameter with invalid name #{name}"
-      assert_includes parameter.errors.keys, :name
+      assert_includes parameter.errors.attribute_names, :name
     end
   end
 
@@ -109,7 +109,7 @@ class ParameterTest < ActiveSupport::TestCase
     invalid_name_list.push('name with space').each do |name|
       parameter.name = name
       refute parameter.valid?, "Can update parameter with invalid name #{name}"
-      assert_includes parameter.errors.keys, :name
+      assert_includes parameter.errors.attribute_names, :name
     end
   end
 

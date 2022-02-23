@@ -50,7 +50,7 @@ class HostTest < ActiveSupport::TestCase
     host.interfaces = [FactoryBot.create(:nic_managed, :primary => false, :provision => true, :host => host,
                                           :domain => FactoryBot.create(:domain))]
     refute host.valid?
-    assert_equal [:interfaces, :base], host.errors.keys
+    assert_equal [:interfaces, :base], host.errors.attribute_names
     assert_equal "An interface marked as primary is missing", host.errors[:base].first
   end
 
@@ -59,7 +59,7 @@ class HostTest < ActiveSupport::TestCase
     host.interfaces = [] # remove existing primary interface
     host.interfaces = [FactoryBot.create(:nic_managed, :primary => true, :provision => false, :host => host,
                                           :domain => FactoryBot.create(:domain))]
-    assert_equal [:interfaces, :base], host.errors.keys
+    assert_equal [:interfaces, :base], host.errors.attribute_names
     assert_equal "An interface marked as provision is missing", host.errors[:base].first
   end
 
@@ -69,7 +69,7 @@ class HostTest < ActiveSupport::TestCase
     host.interfaces = [FactoryBot.create(:nic_managed, :primary => false, :provision => false, :host => host,
                                           :domain => FactoryBot.create(:domain))]
     refute host.valid?
-    assert_equal [:interfaces, :base], host.errors.keys
+    assert_equal [:interfaces, :base], host.errors.attribute_names
     assert_equal "An interface marked as provision is missing", host.errors[:base].first
     assert_equal "An interface marked as primary is missing", host.errors[:base].last
   end
@@ -191,7 +191,7 @@ class HostTest < ActiveSupport::TestCase
     invalid_name_list.each do |name|
       host.name = name
       refute host.valid?, "Can update host with invalid name #{name}"
-      assert_includes host.errors.keys, :name
+      assert_includes host.errors.attribute_names, :name
     end
   end
 
@@ -200,7 +200,7 @@ class HostTest < ActiveSupport::TestCase
     RFauxFactory.gen_strings(256).values.each do |mac|
       host.interfaces.first.mac = mac
       refute host.valid?, "Can update host with invalid mac #{mac}"
-      assert_includes host.errors.keys, :'interfaces.mac'
+      assert_includes host.errors.attribute_names, :'interfaces.mac'
     end
   end
 
@@ -1557,8 +1557,8 @@ class HostTest < ActiveSupport::TestCase
     assert host.errors[:interfaces].present?
     nic.identifier = 'eth1'
     host.valid?
-    refute_includes nic.errors.keys, :identifier
-    refute_includes host.errors.keys, :interfaces
+    refute_includes nic.errors.attribute_names, :identifier
+    refute_includes host.errors.attribute_names, :interfaces
   end
 
   # Token tests

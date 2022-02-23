@@ -297,7 +297,7 @@ module HostsHelper
 
   # we ignore interfaces.conflict because they are always registered in host errors as well
   def conflict_objects(errors)
-    errors.keys.map(&:to_s).select { |key| key =~ /conflict$/ && key != 'interfaces.conflict' }.map(&:to_sym)
+    errors.attribute_names.map(&:to_s).select { |key| key =~ /conflict$/ && key != 'interfaces.conflict' }.map(&:to_sym)
   end
 
   def has_conflicts?(errors)

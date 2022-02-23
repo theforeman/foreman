@@ -50,7 +50,7 @@ class ComputeProfileTest < ActiveSupport::TestCase
     invalid_name_list.each do |name|
       compute_profile.name = name
       refute compute_profile.valid?, "Can update compute profile with invalid name #{name}"
-      assert_includes compute_profile.errors.keys, :name
+      assert_includes compute_profile.errors.attribute_names, :name
     end
   end
 end

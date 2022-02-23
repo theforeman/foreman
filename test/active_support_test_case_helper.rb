@@ -195,7 +195,7 @@ class ActiveSupport::TestCase
   def refute_with_errors(condition, model, field = nil, match = nil)
     refute condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
     if field
-      model_errors = model.errors.map { |a, m| model.errors.full_message(a, m) unless field == a }.compact
+      model_errors = model.errors.map { |error| error.full_message unless field == error.attribute }.compact
       assert model_errors.blank?, "#{model} contains #{model_errors}, it should not contain any"
       if match
         assert model.errors[field].find { |e| e.match(match) }.present?,

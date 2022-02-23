@@ -21,7 +21,7 @@ module Foreman::Controller::FilterParameters
   private
 
   def filter
-    ActionDispatch::Http::ParameterFilter.new(self.class.filter_parameters_options)
+    ActiveSupport::ParameterFilter.new(self.class.filter_parameters_options)
   end
 
   def needs_filtering?(params)

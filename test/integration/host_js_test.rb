@@ -478,7 +478,7 @@ class HostJSTest < IntegrationTestWithJavascript
         click_on('Change Group')
       end
       assert index_modal.visible?, "Modal window was shown"
-      page.find('#hostgroup_id').find("option[value='#{@host.hostgroup_id}']").select_option
+      page.find('#hostgroup_id').find("option[value='#{hostgroups(:common).id}']").select_option
 
       # remove hosts cookie on submit
       index_modal.find('.btn-primary').click

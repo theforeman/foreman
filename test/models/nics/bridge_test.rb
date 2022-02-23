@@ -18,12 +18,12 @@ class BridgeTest < ActiveSupport::TestCase
   test 'identifier is required for managed bridges' do
     bridge = FactoryBot.build(:nic_bridge, :managed => true, :identifier => '')
     refute bridge.valid?
-    assert_includes bridge.errors.keys, :identifier
+    assert_includes bridge.errors.attribute_names, :identifier
   end
 
   test 'identifier is not required for unmanaged bridges' do
     bridge = FactoryBot.build(:nic_bridge, :managed => false, :identifier => '')
     bridge.valid?
-    refute_includes bridge.errors.keys, :identifier
+    refute_includes bridge.errors.attribute_names, :identifier
   end
 end

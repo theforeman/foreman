@@ -560,9 +560,9 @@ class User < ApplicationRecord
     # If an invalid data returned from an authentication source for any attribute(s) then set its value as nil
     saved_attrs = {}
     unless user.valid?
-      user.errors.each do |attr|
-        saved_attrs[attr] = user[attr]
-        user[attr] = nil
+      user.errors.each do |error|
+        saved_attrs[error.attribute] = user[error.attribute]
+        user[error.attribute] = nil
       end
     end
 
