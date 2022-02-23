@@ -16,7 +16,7 @@ module AuthorizeHelper
     controller_name = controller.to_s.gsub(/::/, "_").underscore
     id              = options[:id]
     user_id         = options[:user_id].to_param
-    permission      = options.delete(:permission) || [action, controller_name].join('_')
+    permission      = options.delete(:permission) || [action, controller_name.split('/').last].join('_')
 
     if object.nil?
       user.allowed_to?({ :controller => controller_name, :action => action, :id => id, :user_id => user_id }) rescue false
