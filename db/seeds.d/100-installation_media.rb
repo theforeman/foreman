@@ -81,6 +81,6 @@ Medium.without_auditing do
     m = Medium.create input
     m.organizations = organizations
     m.locations = locations
-    raise "Unable to create medium: #{format_errors m}" if m.nil? || m.errors.any?
+    raise "Unable to create medium: #{SeedHelper.format_errors m}" if m.nil? || m.errors.any?
   end
 end

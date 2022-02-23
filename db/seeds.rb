@@ -7,6 +7,7 @@
 
 # define all helpers here
 def format_errors(model = nil)
+  Foreman::Deprecation.deprecation_warning('3.4', '`format_errors` is deprecated, use `SeedHelper.format_errors(model)` instead.')
   SeedHelper.format_errors(model)
 end
 
