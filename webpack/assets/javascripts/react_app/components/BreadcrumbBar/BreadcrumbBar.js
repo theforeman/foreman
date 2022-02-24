@@ -53,7 +53,11 @@ class BreadcrumbBar extends React.Component {
     const isTitle = breadcrumbItems.length === 1;
     const handleSwitcherItemClick = (e, href) => {
       closeSwitcher();
-      onSwitcherItemClick(e, href);
+      if (onSwitcherItemClick) {
+        onSwitcherItemClick(e, href);
+      } else {
+        window.location.href = href;
+      }
     };
 
     return (
@@ -157,7 +161,7 @@ BreadcrumbBar.defaultProps = {
   openSwitcher: noop,
   closeSwitcher: noop,
   loadSwitcherResourcesByResource: noop,
-  onSwitcherItemClick: noop,
+  onSwitcherItemClick: null,
   removeSearchQuery: noop,
   perPage: BREADCRUMB_SWITCHER_PER_PAGE,
 };
