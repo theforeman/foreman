@@ -1,3 +1,42 @@
+2022-02-25	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.0.2
+
+2022-01-24	Bastian Schmidt <schmidt@atix.de>
+	* Fixes #32919 - Add Salt Autosign grain to minion configuration
+
+2022-01-06	Ben Tucci <ben@trid.in>
+	* Fixes #33310 - Remove epoch shifting, as AreaChart already does this
+
+2022-01-05	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #34212 - pin rdoc < 6.4 to avoid psych dependency
+
+2021-12-09	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #10413 - Deprecate setting unattended: false
+
+2021-11-25	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #33979 - Registration - name & path to host_init_config template
+
+2021-11-18	Bernhard Suttner <suttner@atix.de>
+	* Fixes #31454 - make sure eject is installed on debian/ubuntu systems
+
+2021-11-18	Anna Vitova <avitova@avitova.remote.csb>
+	* Fixes #33793 - Template written twice
+
+2021-11-18	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #33637 - Correctly redirect hostgroup create page
+
+2021-11-18	Nadja Heitmann <nadjah@atix.de>
+	* Fixes #33539 - use correct deprecation
+
+2021-11-18	Jeremy Lenz <jlenz@redhat.com>
+	* Fixes #33514 - correct errorToast type
+
+2021-11-18	amtilghman <amtilghman@gmail.com>
+	* Fixes #33408 - Support all RHEL derivatives in registration
+
+2021-11-10	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #33861 - add default type for DB settings
+
 2021-10-26	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.0.1
 
