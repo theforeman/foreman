@@ -327,7 +327,10 @@ sed -e 's/DEFAULTKERNEL=kernel-uek/DEFAULTKERNEL=kernel/g' -i /etc/sysconfig/ker
 
 <%= snippet_if_exists(template_name + " custom post") %>
 
+<% if host_param_true?('host_registration_insights') -%>
 <%= snippet 'insights' -%>
+<% end -%>
+
 touch /tmp/foreman_built
 
 chvt 1

@@ -79,7 +79,10 @@ nodectl init
 <%= snippet 'redhat_register' %>
 <%= snippet 'kickstart_networking_setup' %>
 <%= snippet 'efibootmgr_netboot' %>
+<% if host_param_true?('host_registration_insights') -%>
 <%= snippet 'insights' -%>
+<% end -%>
+
 /usr/sbin/ntpdate -sub <%= host_param('ntp-server') || '0.fedora.pool.ntp.org' %>
 /usr/sbin/hwclock --systohc
 
