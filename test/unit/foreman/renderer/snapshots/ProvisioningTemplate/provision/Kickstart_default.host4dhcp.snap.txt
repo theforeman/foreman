@@ -159,6 +159,7 @@ systemctl enable ansible-callback
 
 
 
+
 touch /tmp/foreman_built
 
 chvt 1
