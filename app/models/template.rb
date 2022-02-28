@@ -88,15 +88,28 @@ class Template < ApplicationRecord
     self.template = text
     @importing_metadata = self.class.parse_metadata(text)
     Foreman::Logging.logger('app').debug "setting attributes for #{name} with id: #{id || 'N/A'}"
-    self.snippet = !!@importing_metadata[:snippet]
-    self.default = options[:default] unless options[:default].nil?
-    self.description = @importing_metadata[:description]
+    if self.class.valid_metadata(@importing_metadata)
+      self.snippet = !!@importing_metadata['snippet']
+      self.default = options[:default] unless options[:default].nil?
+      self.description = @importing_metadata['description']
+      if @importing_metadata['kind'] && @importing_metadata['kind'] != 'snippet'
+        template_kind = TemplateKind.find_by(name: @importing_metadata['kind'])
+        self.template_kind_id = template_kind.id unless template_kind.nil? || template_kind.id.nil?
+      end
+    end
     handle_lock_on_import(options)
 
     import_taxonomies(options)
     import_custom_data(options)
 
     self
+  end
+
+  def self.valid_metadata(metadata)
+    if (!metadata['kind'].nil? && metadata['kind'] != 'snippet') && (metadata['snippet'] == true)
+      raise Foreman::Exception.new(N_('When snippet is set as true, template kind shouldn\'t be present'))
+    end
+    true
   end
 
   # Set template attributes
@@ -127,7 +140,10 @@ class Template < ApplicationRecord
   #   :default - default flag value (false by default)
   def self.import!(name, text, options = {})
     template = import_without_save(name, text, options)
-    return template unless template.valid?
+    if template.valid?
+      template.save!
+      return template
+    end
     if options[:force]
       template.ignore_locking { template.save! }
     else

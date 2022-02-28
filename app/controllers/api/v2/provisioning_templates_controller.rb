@@ -67,6 +67,8 @@ module Api
       def import
         @provisioning_template = ProvisioningTemplate.import!(*import_attrs_for(:provisioning_template))
         process_response @provisioning_template
+      rescue ::Foreman::Exception => e
+        render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.message }
       end
 
       api :PUT, "/provisioning_templates/:id", N_("Update a provisioning template")

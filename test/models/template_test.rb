@@ -177,6 +177,31 @@ data"
       end
     end
 
+    describe '.valid_metadata' do
+      test 'raise error when snippet is true and template kind is present' do
+        template = <<~EOS
+          <%#
+          kind: provisioning
+          name: epel
+          model: ProvisioningTemplate
+          snippet: true
+          -%>
+          rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        EOS
+        exception = assert_raises(::Foreman::Exception) do
+          metadata = Template.parse_metadata(template)
+          Template.valid_metadata(metadata)
+        end
+        assert_match(/When snippet is set as true, template kind shouldn\'t be present/, exception.message)
+      end
+
+      test 'return true when valid metadata' do
+        metadata = Template.parse_metadata(@snippet_text)
+        result = Template.valid_metadata(metadata)
+        assert result
+      end
+    end
+
     describe '.import!' do
       test 'by default it does not ignore locking' do
         template = Minitest::Mock.new
@@ -191,6 +216,7 @@ data"
         template = Minitest::Mock.new
         template.expect(:valid?, true)
         template.expect(:ignore_locking, true)
+        template.expect(:save!, true)
         Template.expects(:import_without_save => template)
         Template.import!('test', '', { :force => true })
         template.verify
