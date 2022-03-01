@@ -86,7 +86,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_("Default PXE global template entry"))
     setting('default_pxe_item_local',
       type: :string,
-      description: N_("Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"),
+      description: N_("Default PXE menu item in local template - 'local', 'force_local_chain_hd0' or custom, use blank for template default"),
       default: nil,
       full_name: N_("Default PXE local template entry"))
     setting('intermediate_ipxe_script',

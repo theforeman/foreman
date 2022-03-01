@@ -2,7 +2,23 @@ insmod part_gpt
 insmod fat
 insmod chain
 
-menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
+menuentry 'Print warning and poweroff' --id local_chain_hd0 {
+  echo "This system was expected to boot from drive but it booted from network. While"
+  echo "this workflow works in BIOS, it is not suitable for EFI systems where chainbooting"
+  echo "is not reliable. Change the boot order to boot from drive. Some platforms are known"
+  echo "to set EFI boot order incorrectly, in that case change EFI configuration or use"
+  echo "efibootmgr to ensure the correct boot order. There are provisioning template snippets"
+  echo "available to do this automatically during provisioning (e.g. in kistart or preseed)."
+  echo
+  echo "To perform chainboot anyway, use the next boot menu item. To set it as default,"
+  echo "change the 'Default PXE local template entry' to 'force_local_chain_hd0'."
+  echo
+  echo "The system will poweroff in 2 minutes or press ESC to poweroff immediately."
+  sleep -i 120
+  halt
+}
+
+menuentry 'Chainload Grub2 EFI from ESP' --id force_local_chain_hd0 {
   echo "Chainloading Grub2 EFI from ESP, enabled devices for booting:"
   ls
   echo "Trying /EFI/fedora/shim.efi "
@@ -115,9 +131,9 @@ menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
   echo "1) NETWORK"
   echo "2) HDD"
   echo
-  echo "The system will halt in 2 minutes or press ESC to halt immediately."
+  echo "The system will poweroff in 2 minutes or press ESC to poweroff immediately."
   sleep -i 120
-  halt --no-apm
+  halt
 }
 
 menuentry 'Chainload into BIOS bootloader on first disk' --id local_chain_legacy_hd0 {
