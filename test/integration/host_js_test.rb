@@ -80,6 +80,14 @@ class HostJSTest < IntegrationTestWithJavascript
       find('.pf-c-breadcrumb__item', :text => @host.fqdn)
     end
 
+    test "switch between hosts" do
+      host = FactoryBot.create(:host)
+      visit host_details_page_path(host)
+      find('.pf4-breadcrumb-switcher button').click
+      find('a', :text => @host.name).click
+      find('h5', :text => @host.fqdn)
+    end
+
     test "new show page" do
       visit hosts_path
       click_link @host.fqdn

@@ -49,6 +49,7 @@ class BreadcrumbBar extends React.Component {
       onSwitcherItemClick,
       titleReplacement,
       perPage,
+      isPf4,
     } = this.props;
     const isTitle = breadcrumbItems.length === 1;
     const handleSwitcherItemClick = (e, href) => {
@@ -61,7 +62,7 @@ class BreadcrumbBar extends React.Component {
     };
 
     return (
-      <div className="breadcrumb-bar">
+      <div className={isPf4 ? 'breadcrumb-bar-pf4' : 'breadcrumb-bar'}>
         <Breadcrumb
           items={breadcrumbItems}
           isTitle={isTitle}
@@ -105,7 +106,7 @@ class BreadcrumbBar extends React.Component {
             />
           )}
         </Breadcrumb>
-        {!isTitle && <hr className="breadcrumb-line" />}
+        {!isTitle && !isPf4 && <hr className="breadcrumb-line" />}
       </div>
     );
   }
@@ -142,6 +143,7 @@ BreadcrumbBar.propTypes = {
   onSwitcherItemClick: PropTypes.func,
   removeSearchQuery: PropTypes.func,
   perPage: PropTypes.number,
+  isPf4: PropTypes.bool,
 };
 
 BreadcrumbBar.defaultProps = {
@@ -164,6 +166,7 @@ BreadcrumbBar.defaultProps = {
   onSwitcherItemClick: null,
   removeSearchQuery: noop,
   perPage: BREADCRUMB_SWITCHER_PER_PAGE,
+  isPf4: false,
 };
 
 export default BreadcrumbBar;
