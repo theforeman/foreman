@@ -11,17 +11,14 @@ description: |
   The output is deployed on the host's subnet TFTP proxy.
   See https://ipxe.org/scripting for more details
 -%>
-
-<% if host_param('http-proxy') -%>
-  <% if host_param('http-proxy-port') -%>
-    <% http_proxy_string = "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') -%>
-  <% else -%>
-    <% http_proxy_string = "proxy=http://" + host_param('http-proxy') -%>
-  <% end -%>
-<% else -%>
-  <% http_proxy_string = '' -%>
-<% end -%>
-
+<%
+extra_args = []
+if host_param('http-proxy') && host_param('http-proxy-port')
+  extra_args << "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port')
+elsif host_param('http-proxy')
+  extra_args << "proxy=http://" + host_param('http-proxy')
+end
+-%>
 echo Trying to ping Gateway: ${netX/gateway}
 ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
 echo Trying to ping DNS: ${netX/dns}
@@ -33,9 +30,9 @@ ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not availa
 
 <% subnet = @host.subnet -%>
 <% if subnet.respond_to?(:dhcp_boot_mode?) && subnet.dhcp_boot_mode? -%>
-kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1
+kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1 <%= extra_args.join(' ')%>
 <% else -%>
-kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=0 netsetup=-dhcp ifcfg=*="${netX/ip}/<%= @host.primary_interface.subnet.cidr -%>,${netX/gateway},${dns},<%= @host.domain %>" <%= http_proxy_string %>
+kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=0 netsetup=-dhcp ifcfg=*="${netX/ip}/<%= @host.primary_interface.subnet.cidr -%>,${netX/gateway},${dns},<%= @host.domain %>" <%= extra_args.join(' ')%>
 <% end -%>
 initrd <%= initrd %>
 boot
