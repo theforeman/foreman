@@ -445,8 +445,25 @@ extend_page "smart_proxies/show" do |cx|
   cx.add_pagelet :main_tabs, :name => "New tab", :partial => "smart_proxies/show/mypage_contents"
 end
 ----
-For more info and a list of possible extension points visit https://projects.theforeman.org/projects/foreman/wiki/Pagelets[Pagelets]
-documentation.
+
+If the mount point does not exist, it can be added in Foreman core by calling the `render_pagelets_for` method.
+The first argument is the name of the mount point that should be used when the pagelet is registered.
+Other arguments are optional.
+If data needs to be processed by the pagelet, it can be passed as second argument:
+----
+render_pagelets_for(:smart_proxy_title_actions, :subject => proxy)
+----
+
+Possible mount points:
+
+* smart_proxy_title_actions
+* details_content
+* overview_content
+* subnet_index_action_buttons
+* main_tab_fields
+* main_tabs
+* hosts_table_column_header
+* hosts_table_column_content
 
 [[using-react-in-plugins]]
 === Using React in plugins
