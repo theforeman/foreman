@@ -99,6 +99,7 @@ const HostDetails = ({
             {response.name && (
               <BreadcrumbBar
                 isSwitchable
+                isPf4
                 onSwitcherItemClick={(e, href) => {
                   e.preventDefault();
                   history.push(href);

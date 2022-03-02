@@ -8,16 +8,13 @@
 
   .breadcrumbs-list {
     display: block;
+  }
+}
 
-    .breadcrumb-switcher {
-      position: relative;
-      display: inline-block;
-      vertical-align: middle;
-      margin-left: 10px;
+.breadcrumb-bar-pf4 {
+  margin: 0 0 16px;
 
-      .spinner {
-        float: unset;
-      }
-    }
+  .breadcrumbs-list {
+    display: block;
   }
 }
