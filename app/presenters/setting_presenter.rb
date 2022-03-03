@@ -27,8 +27,14 @@ class SettingPresenter
   end
 
   # Value set through setter can be explicit nil
-  def value=(*attr)
+  def value_from_db=(value)
     @explicit_value = true
+    self.value = value
+  end
+
+  # Mass assigned value is not relevant if it is a nil
+  def value=(value)
+    @explicit_value = !value.nil?
     super
   end
 
@@ -94,17 +100,5 @@ class SettingPresenter
 
   def select_values
     Setting.select_collection_registry.collection_for name
-  end
-
-  private
-
-  # explicit value from mass assignment can not be nil
-  def _assign_attribute(k, v)
-    if k.to_s == 'value'
-      @explicit_value = !v.nil?
-      write_attribute(k, v)
-    else
-      super
-    end
   end
 end
