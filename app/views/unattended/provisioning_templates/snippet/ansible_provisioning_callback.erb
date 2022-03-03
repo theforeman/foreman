@@ -15,7 +15,7 @@ description: |
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   os_major = @host.operatingsystem.major.to_i
-  has_systemd = (@host.operatingsystem.name == 'Fedora' && os_major >= 20) || (rhel_compatible && os_major >= 7)
+  has_systemd = (@host.operatingsystem.name == 'Fedora' && os_major >= 20) || (rhel_compatible && os_major >= 7) || (@host.operatingsystem.name == 'Ubuntu' && os_major >= 15) || (@host.operatingsystem.name == 'Debian' && os_major >= 8)
 -%>
 <% if has_systemd -%>
 <%= save_to_file('/etc/systemd/system/ansible-callback.service',
