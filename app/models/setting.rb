@@ -66,6 +66,12 @@ class Setting < ApplicationRecord
   scoped_search on: :name, complete_value: :true, operators: ['=']
   scoped_search on: :description, complete_value: :true, operators: ['~']
 
+  def self.fully_migrated?
+    table_exists? && column_names.include?('category')
+  rescue => _e
+    false
+  end
+
   def self.config_file
     'settings.yaml'
   end

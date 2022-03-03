@@ -28,7 +28,7 @@ Foreman.settings.load_definitions
 
 # We may be executing something like rake db:migrate:reset, which destroys this table
 # only continue if the table exists
-if (Setting.table_exists? rescue(false))
+if Setting.fully_migrated?
   Setting.descendants.each(&:load_defaults)
   Foreman.settings.load_values
 end
@@ -47,7 +47,7 @@ Rails.application.config.to_prepare do
   # The users table may not be exist during initial migration of the database
   TopbarSweeper.expire_cache_all_users if (User.table_exists? rescue false)
 
-  if (Setting.table_exists? rescue(false))
+  if Setting.fully_migrated?
     # Force reload settings after all plugins have loaded and on code reload
     Dir[
       Rails.root.join('app', 'models', 'setting.rb'),
