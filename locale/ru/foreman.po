@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-02-08 10:07+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2022-02-15 19:19+0000\n"
+"Last-Translator: KotUchoniy <yosho1@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -626,7 +626,7 @@ msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr "Все узлы у которых не было %{single} теперь включены в %{name}"
 
 msgid "All hosts will show a configuration status even when a Puppet smart proxy is not assigned"
-msgstr "Показывать состояние конфигурации всех узлов, даже если они не связаны с капсулой Puppet"
+msgstr "Показывать состояние конфигурации всех узлов, даже если они не связаны с Смарт Прокси Puppet"
 
 msgid "All inputs defined for a single template must have a have unique name that is then used in ERB code. Inputs can optionally have a description that is rendered as an inline help when the template is rendered."
 msgstr ""
@@ -836,7 +836,7 @@ msgid "Assign a host to the Foreman instance"
 msgstr ""
 
 msgid "Assign a host to the smart proxy"
-msgstr ""
+msgstr "Назначить смарт прокси для узла"
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
@@ -1901,7 +1901,7 @@ msgid "Create SCSI controller"
 msgstr "Создать SCSI-контроллер"
 
 msgid "Create Smart Proxy"
-msgstr ""
+msgstr "Создать Смарт Прокси"
 
 msgid "Create Subnet"
 msgstr ""
@@ -1997,7 +1997,7 @@ msgid "Create a role"
 msgstr "Создать роль"
 
 msgid "Create a smart proxy"
-msgstr "Создать капсулу"
+msgstr "Создать смарт прокси"
 
 msgid "Create a subnet"
 msgstr "Создать подсеть"
@@ -2363,7 +2363,7 @@ msgid "Delete a role"
 msgstr "Удалить роль"
 
 msgid "Delete a smart proxy"
-msgstr "Удалить капсулу"
+msgstr "Удалить смарт прокси"
 
 msgid "Delete a subnet"
 msgstr "Удалить подсеть"
@@ -3178,7 +3178,7 @@ msgid "Failed|F"
 msgstr "О"
 
 msgid "Failure deploying via smart proxy %{proxy}: %{error}."
-msgstr "Не удалось развернуть через %{proxy}: %{error}."
+msgstr "Не удалось развернуть через смарт прокси %{proxy}: %{error}."
 
 msgid "Failure parsing %{template}: %{error}."
 msgstr "Не удалось разобрать %{template}: %{error}."
@@ -4367,7 +4367,7 @@ msgid "IPv4 Subnet"
 msgstr "Подсеть IPv4"
 
 msgid "IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."
-msgstr ""
+msgstr "Для подготовки на основе PXE требуется подсеть IPv4, связанная с смарт прокси TFTP."
 
 msgid "IPv4 address"
 msgstr ""
@@ -4778,7 +4778,7 @@ msgid "Invalid sendmail location, use settings.yaml for arbitrary location"
 msgstr ""
 
 msgid "Invalid smart-proxy id"
-msgstr "Неверный идентификатор капсулы"
+msgstr "Неверный идентификатор смарт прокси"
 
 msgid "Invalid tags, must be an array of maps with key and value properties"
 msgstr ""
@@ -6490,7 +6490,7 @@ msgid ""
 msgstr ""
 
 msgid "Only known Smart Proxies may access features that use Smart Proxy authentication"
-msgstr "Только известные капсулы могут выполнять функции капсулы аутентификации"
+msgstr "Только известные Смарт Прокси могут получать доступ к функциям  аутентификации Смарт Прокси"
 
 msgid "Only list ID and name of hosts"
 msgstr ""
@@ -6514,7 +6514,7 @@ msgid "Open"
 msgstr "Открыть"
 
 msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
-msgstr ""
+msgstr "Тайм-аут открытия и чтения HTTP-запросов от Foreman к Смарт Прокси (в секундах)"
 
 msgid "OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"
 msgstr ""
@@ -7390,7 +7390,7 @@ msgid "Refresh features"
 msgstr "Обновить функции"
 
 msgid "Refresh smart proxy features"
-msgstr "Обновить возможности капсулы"
+msgstr "Обновить возможности смарт прокси"
 
 msgid "Regenerate Report"
 msgstr "Пересоздать Отчёт"
@@ -8202,7 +8202,7 @@ msgid "Should the value be hidden from users? Useful for sensitive input values 
 msgstr ""
 
 msgid "Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?"
-msgstr "Должен ли интерфейс контролироваться капсулой DHCP и DNS? В этом случае он будет настроен во время подготовки узла."
+msgstr "Должен ли интерфейс контролироваться через DHCP и DNS смарт прокси и настраиваться во время инициализации."
 
 msgid "Should this interface be used for TFTP of PXELinux (or SSH for image-based hosts)? Each managed hosts needs to have one provision interface."
 msgstr "Должен ли интерфейс использоваться для сетевой загрузки по TFTP (или SSH на узлах, устанавливаемых из образа)? Каждый управляемый узел должен иметь один подготовительный интерфейс."
@@ -8307,7 +8307,7 @@ msgid "Show a setting"
 msgstr "Показать настройки"
 
 msgid "Show a smart proxy"
-msgstr "Показать капсулу"
+msgstr "Показать смарт прокси"
 
 msgid "Show a subnet"
 msgstr "Показать подсеть"
@@ -8461,20 +8461,20 @@ msgid "Smart Proxies"
 msgstr "Капсулы"
 
 msgid "Smart Proxy"
-msgstr "Капсула"
+msgstr "Смарт Прокси"
 
 msgid "Smart Proxy request timeout"
-msgstr ""
+msgstr "Тайм-аут запроса Смарт Прокси"
 
 msgid "Smart proxies provide a RESTful API to manage subsystems like DNS, DHCP, and TFTP."
-msgstr ""
+msgstr "Смарт Прокси предоставляют RESTful API для управления такими подсистемами, как DNS, DHCP и TFTP."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy"
-msgstr "Смарт-прокси"
+msgstr "Смарт прокси"
 
 msgid "Smart proxy IDs"
-msgstr "Код капсулы"
+msgstr "Идентификаторы смарт прокси"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Smart proxy feature"
@@ -9923,7 +9923,7 @@ msgid "Unassign a given host from the Foreman instance"
 msgstr ""
 
 msgid "Unassign a given host from the smart proxy"
-msgstr ""
+msgstr "Исключить данный узел из смарт прокси"
 
 msgid "Unattended URL"
 msgstr "URL сопровождения"
@@ -10091,7 +10091,7 @@ msgid "Update a setting"
 msgstr "Изменить настройки"
 
 msgid "Update a smart proxy"
-msgstr "Изменить капсулу"
+msgstr "Изменить смарт прокси"
 
 msgid "Update a subnet"
 msgstr "Изменить подсеть"
@@ -10223,10 +10223,10 @@ msgid "Use short name for VMs"
 msgstr "Краткие имена ВМ"
 
 msgid "Use the Puppetserver CA configured on this Smart Proxy"
-msgstr ""
+msgstr "Использовать УЦ Puppet-сервера, настроенный на этом Смарт Прокси"
 
 msgid "Use the Puppetserver configured on this Smart Proxy"
-msgstr ""
+msgstr "Использовать Puppet-сервер, настроенный на этом Смарт Прокси"
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "Использовать для авторизации (<i>дополнительно</i>)"

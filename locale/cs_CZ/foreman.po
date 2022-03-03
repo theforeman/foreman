@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
-# trendspotter <jirka.p@volny.cz>, 2020
+# Jiří Podhorecký <jirka.p@volny.cz>, 2020
 # Lukáš Zapletal, 2013
 # Ondřej Ezr <ezrik12@gmail.com>, 2021
 # Pavel Borecki <pavel.borecki@gmail.com>, 2018-2020
