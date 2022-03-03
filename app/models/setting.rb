@@ -349,7 +349,7 @@ class Setting < ApplicationRecord
     return unless Foreman.settings.ready?
     Foreman.settings.find(name)&.tap do |definition|
       definition.updated_at = updated_at
-      definition.value = value
+      definition.value_from_db = value
     end
   end
 end
