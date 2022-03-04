@@ -65,6 +65,7 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>
 
 <%= snippet 'preseed_networking_setup' -%>
+<%= snippet 'ansible_provisioning_callback' -%>
 <%= snippet 'efibootmgr_netboot' -%>
 <%= snippet 'eject_cdrom' -%>
 <%= snippet 'built' -%>
