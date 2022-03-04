@@ -18,6 +18,13 @@ module Resolvers
       base_class.include(Resolvers::Concerns::Collection)
     end
 
+    def association(association_name)
+      return unless model_class
+      base_class.tap do |c|
+        c.const_set('ASSOC_NAME', association_name)
+      end.include(Resolvers::Concerns::Association)
+    end
+
     private
 
     attr_reader :type

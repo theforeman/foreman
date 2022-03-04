@@ -16,13 +16,8 @@ module Types
       end
 
       def has_many(name, type, resolver: nil, **kwargs)
-        if resolver
-          field name, type.connection_type, resolver: resolver, **kwargs.except(:resolver)
-        else
-          field name, type.connection_type,
-            resolve: proc { |object| CollectionLoader.for(object.class, name).load(object) },
-            **kwargs.except(:resolver)
-        end
+        resolver ||= Resolvers::Generic.for(self).association(name)
+        field name, type.connection_type, resolver: resolver, **kwargs.except(:resolver)
       end
 
       def belongs_to(name, type, resolver: nil, foreign_key: nil, **kwargs)
@@ -46,6 +41,11 @@ module Types
         else
           @model_class ||= "::#{to_s.demodulize}".safe_constantize
         end
+      end
+
+      # Some objects are wrappers around models
+      def record_for(object)
+        object
       end
 
       private
