@@ -59,6 +59,17 @@ class Debian < Operatingsystem
     s.presence || description
   end
 
+  def pxe_file_names(medium_provider)
+    if (guess_os == 'ubuntu' && (major.to_i > 20 || major.to_i == 20 && minor.to_i >= 3))
+      {
+        kernel: 'vmlinuz',
+        initrd: 'initrd',
+      }
+    else
+      super
+    end
+  end
+
   private
 
   # tries to guess if this an ubuntu or a debian os
