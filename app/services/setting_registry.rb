@@ -130,13 +130,14 @@ class SettingRegistry
       else
         cat_cls.default_settings.each do |s|
           t = Setting.setting_type_from_value(s[:default]) || 'string'
-          _add(s[:name], s.except(:name).merge(type: t.to_sym, category: cat_cls.name, context: :deprecated))
+          opts = s.except(:name).merge(type: t.to_sym, category: cat_cls.name, context: :deprecated)
+          _add(s[:name], **opts)
         end
       end
     end
 
     Foreman::SettingManager.settings.each do |name, opts|
-      _add(name, opts)
+      _add(name, **opts)
     end
   end
 
