@@ -14,9 +14,10 @@ class LookupValue < ApplicationRecord
   before_validation :sanitize_match
 
   validate :ensure_match_uniqueness
-  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
+  validates :match, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX, :allow_nil => true
   validate :ensure_fqdn_exists, :ensure_hostgroup_exists, :ensure_matcher_exists
   validate :validate_value, :unless => proc { |p| p.omit }
+  before_save :ensure_matcher_presence
 
   attr_accessor :host_or_hostgroup
 
@@ -66,6 +67,15 @@ class LookupValue < ApplicationRecord
   end
 
   private
+
+  # On host.lookup_values.build() the match gets applied only after host is persisted
+  # we need to postpone validations to save phase as prior that matcher is nil
+  def ensure_matcher_presence
+    unless match.present?
+      errors.add(:match, :blank)
+      throw :abort
+    end
+  end
 
   # TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)
   def sanitize_match

@@ -145,9 +145,14 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_valid value
   end
 
-  test "lookup value should not allow for nil key" do
+  test "lookup value should not allow for blank key" do
     value = LookupValue.new(:value => true, :match => "", :lookup_key_id => boolean_lookup_key.id)
     refute_valid value
+  end
+
+  test "lookup value should not allow for nil key" do
+    value = LookupValue.new(:value => true, :match => nil, :lookup_key_id => boolean_lookup_key.id)
+    refute value.save
   end
 
   test "lookup value will be rejected for invalid key" do
