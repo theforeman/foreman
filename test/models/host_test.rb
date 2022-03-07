@@ -260,7 +260,7 @@ class HostTest < ActiveSupport::TestCase
         :subnet => subnets(:two), :architecture => architectures(:x86_64), :medium => media(:one),
         :organization => users(:one).organizations.first, :location => users(:one).locations.first,
         :disk => "empty partition",
-        :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_key.id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
+        :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_key.id, "value" => "some_value"}}
       end
     end
 
@@ -278,9 +278,8 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryBot.create(:host)
       lookup_key = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
       assert_difference('LookupValue.count') do
-        assert host.update!(:lookup_values_attributes => {:new_123456 =>
-                                                                     {:lookup_key_id => lookup_key.id, :value => true, :match => "fqdn=#{host.fqdn}",
-                                                                      :_destroy => 'false'}})
+        assert host.update!(:lookup_values_attributes => { :new_123456 => { :lookup_key_id => lookup_key.id, :value => true,
+                                                                            :_destroy => 'false'}})
       end
     end
 
@@ -291,9 +290,8 @@ class HostTest < ActiveSupport::TestCase
                                         :match => "fqdn=#{host.fqdn}", :value => '8080')
       host.reload
       assert_difference('LookupValue.count', -1) do
-        assert host.update!(:lookup_values_attributes => {'0' =>
-                                                                     {:lookup_key_id => lookup_key.id, :value => '8080', :match => "fqdn=#{host.fqdn}",
-                                                                      :id => lookup_value.id, :_destroy => 'true'}})
+        assert host.update!(:lookup_values_attributes => { '0' => { :lookup_key_id => lookup_key.id, :value => '8080',
+                                                                    :id => lookup_value.id, :_destroy => 'true' }})
       end
     end
 
@@ -304,9 +302,8 @@ class HostTest < ActiveSupport::TestCase
                                         :match => "fqdn=#{host.fqdn}", :value => '8080')
       host.reload
       assert_difference('LookupValue.count', 0) do
-        assert host.update!(:lookup_values_attributes => {'0' =>
-                                                                     {:lookup_key_id => lookup_key.id, :value => '80', :match => "fqdn=#{host.fqdn}",
-                                                                      :id => lookup_value.id, :_destroy => 'false'}})
+        assert host.update!(:lookup_values_attributes => { '0' => { :lookup_key_id => lookup_key.id, :value => '80',
+                                                                    :id => lookup_value.id, :_destroy => 'false'}})
       end
       assert_equal '80', lookup_value.reload.value
     end
@@ -318,10 +315,8 @@ class HostTest < ActiveSupport::TestCase
                                         :match => host.lookup_value_matcher, :value => YAML.dump(:foo => :bar))
       host.reload
       assert_difference('LookupValue.count', 0) do
-        assert host.update!(:lookup_values_attributes => {'0' =>
-                                                                     {:lookup_key_id => lookup_key.id.to_s, :value => YAML.dump(:updated => :value),
-                                                                      :match => host.lookup_value_matcher,
-                                                                      :id => lookup_value.id.to_s, :_destroy => 'false'}})
+        assert host.update!(:lookup_values_attributes => { '0' => { :lookup_key_id => lookup_key.id.to_s, :value => YAML.dump(:updated => :value),
+                                                                    :id => lookup_value.id.to_s, :_destroy => 'false'}})
       end
       assert_equal({:updated => :value}, lookup_value.reload.value)
     end
@@ -331,7 +326,6 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryBot.build(:host)
       host.attributes = {:lookup_values_attributes => {'0' =>
                                                        {:lookup_key_id => lookup_key.id.to_s, :value => '{"a":',
-                                                        :match => host.lookup_value_matcher,
                                                         :_destroy => 'false'}}}
       assert host.lookup_values.first.present?
       refute_valid host, :'lookup_values.value', /invalid hash/
@@ -2644,7 +2638,7 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryBot.create(:host)
       lkey = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
       assert_no_difference('LookupValue.count') do
-        host.lookup_values_attributes = {"new_123456" => {"lookup_key_id" => lkey.id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
+        host.lookup_values_attributes = {"new_123456" => {"lookup_key_id" => lkey.id, "value" => "some_value"}}
       end
 
       assert_difference('LookupValue.count', 1) do
@@ -2666,7 +2660,7 @@ class HostTest < ActiveSupport::TestCase
 
     test "destroy existing lookup values on host save" do
       lkey = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
-      host = FactoryBot.create(:host, :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lkey.id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}})
+      host = FactoryBot.create(:host, :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lkey.id, "value" => "some_value"}})
       lookup_value = host.lookup_values.first
       assert_no_difference('LookupValue.count') do
         host.lookup_values_attributes = {'0' => {'lookup_key_id' => lkey.id.to_s, 'id' => lookup_value.id.to_s, '_destroy' => '1'}}.with_indifferent_access

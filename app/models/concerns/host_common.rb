@@ -58,7 +58,7 @@ module HostCommon
             lookup_value.mark_for_destruction if mark_for_destruction
           end
         elsif !Foreman::Cast.to_bool(attr.delete(:_destroy))
-          lookup_values.build(attr.merge(:match => lookup_value_match, :host_or_hostgroup => self))
+          lookup_values.build(attr.merge(:host_or_hostgroup => self))
         end
       end
     end
