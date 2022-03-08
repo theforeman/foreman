@@ -138,6 +138,6 @@
 
     <%= hidden_field_tag 'bare_metal_capabilities', @host.bare_metal_capabilities, :disabled => true %>
     <%= f.hidden_field :overwrite? %>
-    <%= submit_or_cancel f, @host.overwrite?, :cancel_path => resource_prev_url_with_search_filters || (@host.new_record? ? hosts_path : host_path(:id => @host.name_was)) %>
+    <%= submit_or_cancel f, @host.overwrite?, :cancel_path => resource_prev_url_with_search_filters || (@host.new_record? ? hosts_path : current_host_details_path(@host)) %>
   <% end %>
 <% end %>
