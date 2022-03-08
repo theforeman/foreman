@@ -30,9 +30,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "encrypted value is saved encrypted when created" do
-    setting = Setting.create(:name => "foo", :value => 5, :default => 5, :description => "test foo", :encrypted => true)
-    setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
-    setting.value = "123456"
+    Setting.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    setting = Foreman.settings.set_user_value('root_pass', '123456')
     as_admin do
       assert setting.save
     end
@@ -40,40 +39,40 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "#value= with previously unencrypted value is encrypted when set" do
-    setting = Setting.create(name: 'encrypted', value: 'first', default: 'test', description: 'Test', encrypted: false)
-    setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
-    setting.encrypted = true
-    setting.value = 'new'
+    Setting['foreman_url'] = 'http://unencrypted-foreman.example.net'
+    Setting.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    Foreman.settings.find('foreman_url').encrypted = true
+    setting = Foreman.settings.set_user_value('foreman_url', 'http://new.example.net')
     assert_difference 'setting.audits.count' do
       as_admin { setting.save! }
     end
     assert_includes setting.read_attribute(:value), EncryptValue::ENCRYPTION_PREFIX
-    assert_equal 'new', setting.value
+    assert_equal 'http://new.example.net', setting.value
   end
 
   test "update an encrypted value should saved encrypted in db with audit, and decrypted while reading" do
-    setting = settings(:attributes63)
-    setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
-    setting.value = '123456'
+    Setting['foreman_url'] = 'http://unencrypted-foreman.example.net'
+    Setting.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    Foreman.settings.find('foreman_url').encrypted = true
+    setting = Foreman.settings.set_user_value('foreman_url', 'http://new.example.net')
     assert_difference 'setting.audits.count' do
       as_admin { assert setting.save }
     end
     assert setting.read_attribute(:value).include? EncryptValue::ENCRYPTION_PREFIX
-    assert_equal '123456', setting.value
+    assert_equal 'http://new.example.net', setting.value
   end
 
   test "#value= with unchanged value on encrypted setting does not modify DB or create audit" do
-    setting = Setting.create(name: 'encrypted', value: 'first', default: 'test', description: 'Test', encrypted: true)
-    setting.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
-    setting.value = 'new'
-    as_admin { setting.save! }
+    Setting.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    Setting['root_pass'] = 'somepass'
+    setting = Setting.find_by(name: 'root_pass')
     db_value = setting.read_attribute(:value)
     assert_includes db_value, EncryptValue::ENCRYPTION_PREFIX
     assert_no_difference 'setting.audits.count' do
-      setting.value = 'new'
+      setting.value = 'somepass'
       setting.save!
-      assert_equal db_value, setting.read_attribute(:value)
     end
+    assert_equal db_value, setting.read_attribute(:value)
   end
 
   test 'proxy the value get to the registry' do
