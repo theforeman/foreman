@@ -10,5 +10,6 @@
                                {:class => 'btn btn-default', :method => :put}) if @host.compute?)
    )
 %>
-
+<%# The next hidden div is a workaround for host redirect after a submit %>
+<div class='hidden' id='hidden-host-name'><%= @host.name %></div>
 <%= render :partial => 'hosts/form' %>
