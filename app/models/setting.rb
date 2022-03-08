@@ -106,7 +106,7 @@ class Setting < ApplicationRecord
   def value=(v)
     v = v.to_yaml unless v.nil?
     # the has_attribute is for enabling DB migrations on older versions
-    if has_attribute?(:encrypted) && encrypted
+    if setting_definition&.encrypted?
       # Don't re-write the attribute if the current encrypted value is identical to the new one
       current_value = self[:value]
       unless is_decryptable?(current_value) && decrypt_field(current_value) == v
@@ -342,9 +342,13 @@ class Setting < ApplicationRecord
     readonly! if !new_record? && has_readonly_value?
   end
 
-  def refresh_registry_value
+  def setting_definition
     return unless Foreman.settings.ready?
-    Foreman.settings.find(name)&.tap do |definition|
+    Foreman.settings.find(name)
+  end
+
+  def refresh_registry_value
+    setting_definition&.tap do |definition|
       definition.updated_at = updated_at
       definition.value = value
     end
