@@ -121,8 +121,7 @@ class ProvisioningTemplate < Template
   end
 
   def self.local_boot_name(kind)
-    local_boot_setting = Setting.find_by(:name => "local_boot_#{kind}")
-    return local_boot_setting.value if local_boot_setting && local_boot_setting.value.present?
+    return Setting["local_boot_#{kind}"] if Setting["local_boot_#{kind}"].present?
     local_boot_template_name = "#{kind} default local boot"
     Rails.logger.info "Could not find user defined local_boot template from Settings for #{kind}, falling back to #{local_boot_template_name}"
     local_boot_template_name
@@ -133,8 +132,7 @@ class ProvisioningTemplate < Template
   end
 
   def self.global_template_name_for(kind)
-    global_setting = Setting.find_by(:name => "global_#{kind}")
-    return global_setting.value if global_setting && global_setting.value.present?
+    return Setting["global_#{kind}"] if Setting["global_#{kind}"].present?
     global_template_name = global_default_name(kind)
     Rails.logger.info "Could not find user defined global template from Settings for #{kind}, falling back to #{global_template_name}"
     global_template_name
