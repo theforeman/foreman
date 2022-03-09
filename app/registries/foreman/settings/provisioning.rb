@@ -135,7 +135,7 @@ Foreman::SettingManager.define(:foreman) do
         default: ProvisioningTemplate.global_default_name(pxe_kind),
         full_name: N_("Global default %s template") % pxe_kind,
         collection: proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).pluck(:name).map { |name| [name, name] }] },
-        validates: :pxe_template_name)
+        validate: :pxe_template_name)
     end
     TemplateKind::PXE.each do |pxe_kind|
       setting("local_boot_#{pxe_kind}",
@@ -144,7 +144,7 @@ Foreman::SettingManager.define(:foreman) do
         default: ProvisioningTemplate.local_boot_name(pxe_kind),
         full_name: N_("Local boot %s template") % pxe_kind,
         collection: proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).pluck(:name).map { |name| [name, name] }] },
-        validates: :pxe_template_name)
+        validate: :pxe_template_name)
     end
 
     validates 'safemode_render', ->(value) { value || Setting[:bmc_credentials_accessible] }, message: N_("Unable to disable safemode_render when bmc_credentials_accessible is disabled")
