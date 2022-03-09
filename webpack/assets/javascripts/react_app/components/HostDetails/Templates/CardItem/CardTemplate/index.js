@@ -4,6 +4,7 @@ import {
   Card,
   CardActions,
   CardHeader,
+  CardExpandableContent,
   Dropdown,
   KebabToggle,
   CardTitle,
@@ -11,26 +12,37 @@ import {
   GridItem,
 } from '@patternfly/react-core';
 
-const CardItem = ({
+import { useLocalStorage } from '../../../../../common/hooks/Storage';
+import { useDidMountEffect } from '../../../../../common/hooks/Common';
+
+const CardTemplate = ({
   header,
   children,
+  expandable,
+  isExpandedGlobal,
   dropdownItems,
   overrideGridProps,
   overrideDropdownProps,
 }) => {
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
+  const [isExpanded, setExpanded] = useLocalStorage(header, true);
   const onDropdownToggle = isOpen => setDropdownVisibility(isOpen);
-
+  const onExpandCallback = () => setExpanded(prevState => !prevState);
   const onDropdownSelect = event => {
     setDropdownVisibility(prevState => !prevState);
     // https://github.com/eslint/eslint/issues/12822
     // eslint-disable-next-line no-unused-expressions
     overrideDropdownProps?.onSelect?.(event);
   };
+  useDidMountEffect(
+    () => isExpandedGlobal !== undefined && setExpanded(isExpandedGlobal),
+    [isExpandedGlobal]
+  );
+
   return (
     <GridItem xl2={3} xl={4} md={6} lg={4} {...overrideGridProps}>
-      <Card isHoverable>
-        <CardHeader>
+      <Card isExpanded={isExpanded} isSelectable>
+        <CardHeader onExpand={expandable && onExpandCallback}>
           {dropdownItems && (
             <CardActions>
               <Dropdown
@@ -46,25 +58,35 @@ const CardItem = ({
           )}
           <CardTitle>{header}</CardTitle>
         </CardHeader>
-        <CardBody>{children}</CardBody>
+        {expandable ? (
+          <CardExpandableContent>
+            <CardBody>{children}</CardBody>
+          </CardExpandableContent>
+        ) : (
+          <CardBody>{children}</CardBody>
+        )}
       </Card>
     </GridItem>
   );
 };
 
-CardItem.propTypes = {
+CardTemplate.propTypes = {
   header: PropTypes.node.isRequired,
+  isExpandedGlobal: PropTypes.bool,
   children: PropTypes.node,
   overrideGridProps: PropTypes.object,
   dropdownItems: PropTypes.arrayOf(PropTypes.node),
   overrideDropdownProps: PropTypes.object,
+  expandable: PropTypes.bool,
 };
 
-CardItem.defaultProps = {
+CardTemplate.defaultProps = {
   children: undefined,
   overrideGridProps: undefined,
   dropdownItems: undefined,
   overrideDropdownProps: {},
+  expandable: false,
+  isExpandedGlobal: false,
 };
 
-export default CardItem;
+export default CardTemplate;
