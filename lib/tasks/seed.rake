@@ -213,9 +213,9 @@ namespace :seed do
       Foreman::Logging.logger('permissions').level = Logger::ERROR
       Foreman::Logging.logger('audit').level = Logger::ERROR
       origin = ENV['origin'] || 'Puppet'
-      hosts = ENV['hosts'] || 10
-      reports = ENV['reports'] || 50
-      lines = ENV['lines'] || 100
+      hosts = (ENV['hosts'] || 10).to_i
+      reports = (ENV['reports'] || 50).to_i
+      lines = (ENV['lines'] || 100).to_i
       total_time = 0
       (1..reports).each do |i|
         host_id = i % hosts

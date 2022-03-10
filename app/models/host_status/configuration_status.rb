@@ -93,6 +93,8 @@ module HostStatus
     end
 
     def relevant?(options = {})
+      # Do not calculate global status from legacy configuration when plugin is present.
+      return false if Foreman::Plugin.installed?('foreman_host_reports')
       handle_options(options)
 
       host.configuration? || last_report.present? || Setting[:always_show_configuration_status]
