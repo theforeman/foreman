@@ -655,12 +655,17 @@ class HostsController < ApplicationController
   end
 
   def statuses
+    host_statuses = @host.host_statuses
+    # Do not show legacy configuration report when Host Report is installed.
+    if Foreman::Plugin.installed?('foreman_host_reports')
+      host_statuses = host_statuses.where("type != 'HostStatus::ConfigurationStatus'")
+    end
     statuses = {
       global: @host.global_status,
       captions: HostStatus.status_registry.map do |status_class|
         status_class.status_name
       end,
-      statuses: @host.host_statuses.map do |status|
+      statuses: host_statuses.map do |status|
         {
           id: status.id,
           name: status.name,
