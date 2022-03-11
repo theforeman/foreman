@@ -12,12 +12,6 @@ require 'net'
 require 'foreman/provision'
 
 # in this phase, the classes are not fully loaded yet, load them
-Dir[
-  Rails.root.join('app', 'models', 'setting.rb'),
-  Rails.root.join('app', 'models', 'setting', '*.rb'),
-].each do |f|
-  require_dependency(f)
-end
 
 Rails.application.config.before_initialize do
   # load topbar
@@ -28,10 +22,6 @@ Foreman.settings.load_definitions
 
 # We may be executing something like rake db:migrate:reset, which destroys this table
 # only continue if the table exists
-if (Setting.table_exists? rescue(false))
-  Setting.descendants.each(&:load_defaults)
-  Foreman.settings.load_values
-end
 
 Foreman::Plugin.initialize_default_registries
 Foreman::Plugin.medium_providers_registry.register MediumProviders::Default

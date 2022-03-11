@@ -125,38 +125,14 @@ class SettingRegistry
     @categories = nil
     @select_collection_registry = nil
 
-    Setting.descendants.each do |cat_cls|
-      if cat_cls.default_settings.empty?
-        Foreman::Deprecation.deprecation_warning('3.3', "subclassing Setting is deprecated '#{cat_cls.name}' should be migrated to setting DSL "\
-                                                        'see https://github.com/theforeman/foreman/blob/develop/developer_docs/how_to_create_a_plugin.asciidoc#settings for details')
-        next unless (Setting.table_exists? rescue(false))
-        # Setting category uses really old way of doing things
-        _load_category_from_db(cat_cls)
-      else
-        cat_cls.default_settings.each do |s|
-          t = Setting.setting_type_from_value(s[:default]) || 'string'
-          _add(s[:name], s.except(:name).merge(type: t.to_sym, category: cat_cls.name, context: :deprecated))
-        end
-      end
-    end
-
     Foreman::SettingManager.settings.each do |name, opts|
       _add(name, opts)
     end
   end
 
-  def known_categories
-    unless @known_descendants == Setting.descendants
-      @known_descendants = Setting.descendants
-      @known_categories = @known_descendants.map(&:name) << 'Setting'
-      @values_loaded_at = nil # force all values to be reloaded
-    end
-    @known_categories
-  end
-
   def load_values(ignore_cache: false)
     # we are loading only known STIs as we load settings fairly early the first time and plugin classes might not be loaded yet.
-    settings = Setting.unscoped.where(category: known_categories).where.not(value: nil)
+    settings = Setting.unscoped.where(category: 'Setting').where.not(value: nil)
     settings = settings.where('updated_at >= ?', @values_loaded_at) unless ignore_cache || @values_loaded_at.nil?
     settings.each do |s|
       unless (definition = find(s.name))
