@@ -99,6 +99,6 @@ class SettingPresenter
   end
 
   def select_values
-    Setting.select_collection_registry.collection_for name
+    Foreman.settings.select_collection_registry.collection_for name
   end
 end

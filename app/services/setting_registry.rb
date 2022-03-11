@@ -41,6 +41,10 @@ class SettingRegistry
     Foreman::Logging.logger('app')
   end
 
+  def select_collection_registry
+    @select_collection_registry ||= SettingSelectCollection.new
+  end
+
   def find(name)
     logger.warn("Setting is not initialized yet, requested value for #{name} will be always nil") unless ready?
     @settings[name.to_s]
@@ -119,6 +123,7 @@ class SettingRegistry
   def load_definitions
     @settings = {}
     @categories = nil
+    @select_collection_registry = nil
 
     Setting.descendants.each do |cat_cls|
       if cat_cls.default_settings.empty?
@@ -166,7 +171,7 @@ class SettingRegistry
   end
 
   def _add(name, category:, type:, default:, description:, full_name:, context:, value: nil, encrypted: false, collection: nil, options: {})
-    Setting.select_collection_registry.add(name, collection: collection, **options) if collection
+    select_collection_registry.add(name, collection: collection, **options) if collection
     Foreman::Deprecation.deprecation_warning('3.3', "initial value of setting '#{name}' should be created in a migration") if value
 
     @settings[name.to_s] = SettingPresenter.new({ name: name,
