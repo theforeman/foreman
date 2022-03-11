@@ -281,7 +281,7 @@ class Setting < ApplicationRecord
   end
 
   def self.select_collection_registry
-    @@select_collection ||= SettingSelectCollection.new
+    Foreman.settings.select_collection_registry
   end
 
   def self.set(name, description, default, full_name = nil, value = nil, options = {})
