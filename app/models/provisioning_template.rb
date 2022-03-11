@@ -121,21 +121,11 @@ class ProvisioningTemplate < Template
   end
 
   def self.local_boot_name(kind)
-    return Setting["local_boot_#{kind}"] if Setting["local_boot_#{kind}"].present?
-    local_boot_template_name = "#{kind} default local boot"
-    Rails.logger.info "Could not find user defined local_boot template from Settings for #{kind}, falling back to #{local_boot_template_name}"
-    local_boot_template_name
-  end
-
-  def self.global_default_name(kind)
-    "#{kind} global default"
+    Setting["local_boot_#{kind}"]
   end
 
   def self.global_template_name_for(kind)
-    return Setting["global_#{kind}"] if Setting["global_#{kind}"].present?
-    global_template_name = global_default_name(kind)
-    Rails.logger.info "Could not find user defined global template from Settings for #{kind}, falling back to #{global_template_name}"
-    global_template_name
+    Setting["global_#{kind}"]
   end
 
   def self.build_pxe_default
