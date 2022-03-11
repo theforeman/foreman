@@ -12,11 +12,11 @@ class PxeTemplateNameValidator < ActiveModel::EachValidator
   end
 
   def local_boot_templates
-    TemplateKind::PXE.map { |kind| ProvisioningTemplate.local_boot_name kind }
+    TemplateKind::PXE.map { |kind| Foreman::Provision.local_boot_default_name kind }
   end
 
   def global_default_templates
-    TemplateKind::PXE.map { |kind| ProvisioningTemplate.global_default_name kind }
+    TemplateKind::PXE.map { |kind| Foreman::Provision.global_default_name kind }
   end
 
   def exempt_templates

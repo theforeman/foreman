@@ -8,7 +8,7 @@ class TemplateKind < ApplicationRecord
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name
 
-  PXE = ["PXEGrub2", "PXELinux", "PXEGrub", "iPXE"]
+  PXE = Foreman::Provision::PXE_TEMPLATE_KINDS
 
   def self.default_template_labels
     {

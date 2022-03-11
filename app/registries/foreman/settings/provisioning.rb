@@ -1,3 +1,5 @@
+require 'foreman/provision'
+
 Foreman::SettingManager.define(:foreman) do
   category(:provisioning, N_('Provisioning')) do
     owner_select = proc do
@@ -128,20 +130,20 @@ Foreman::SettingManager.define(:foreman) do
 
     # We have following loop twice to keep the historical order.
     # TODO: First resolve the correct order and then optimize this loop.
-    TemplateKind::PXE.each do |pxe_kind|
+    Foreman::Provision::PXE_TEMPLATE_KINDS.each do |pxe_kind|
       setting("global_#{pxe_kind}",
         type: :string,
         description: N_("Global default %s template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades.") % pxe_kind,
-        default: ProvisioningTemplate.global_default_name(pxe_kind),
+        default: Foreman::Provision.global_default_name(pxe_kind),
         full_name: N_("Global default %s template") % pxe_kind,
         collection: proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).pluck(:name).map { |name| [name, name] }] },
         validate: :pxe_template_name)
     end
-    TemplateKind::PXE.each do |pxe_kind|
+    Foreman::Provision::PXE_TEMPLATE_KINDS.each do |pxe_kind|
       setting("local_boot_#{pxe_kind}",
         type: :string,
         description: N_("Template that will be selected as %s default for local boot.") % pxe_kind,
-        default: ProvisioningTemplate.local_boot_name(pxe_kind),
+        default: Foreman::Provision.local_boot_default_name(pxe_kind),
         full_name: N_("Local boot %s template") % pxe_kind,
         collection: proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).pluck(:name).map { |name| [name, name] }] },
         validate: :pxe_template_name)
