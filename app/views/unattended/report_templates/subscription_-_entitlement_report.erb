@@ -12,12 +12,12 @@ template_inputs:
   options: "no limit\r\n7\r\n30\r\n60\r\n90\r\n120\r\n180"
 require:
 - plugin: katello
-  version: 3.16.0
+  version: 4.5.0
 -%>
 <%- days_from_now = input('Days from Now') -%>
 <%- days_from_now = "" if days_from_now == 'no limit' -%>
 <%- should_filter = days_from_now.present? -%>
-<%- report_headers 'Host Name', 'Organization', 'Lifecycle Environment', 'Content View', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM', 'Cores', 'SLA', 'Products', 'Subscription Name', 'Subscription Type', 'Subscription Quantity', 'Subscriptions Consumed', 'Subscription SKU', 'Subscription Contract', 'Subscription Account', 'Subscription Start', 'Subscription End', 'Subscription Guest', 'Days Remaining' -%>
+<%- report_headers 'Host Name', 'Organization', 'Lifecycle Environment', 'Content View', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM', 'Cores', 'SLA', 'Products', 'Subscription Name', 'Subscription Type', 'Subscription Total Quantity', 'Subscription Total Consumed', 'Subscriptions Consumed by Host', 'Subscription SKU', 'Subscription Contract', 'Subscription Account', 'Subscription Start', 'Subscription End', 'Subscription Guest', 'Days Remaining' -%>
 <%- load_hosts(includes: [:lifecycle_environment, :operatingsystem, :architecture, :content_view, :organization, :reported_data, :subscription_facet, :pools => [:subscription]], -%>
 <%-   search: should_filter && "pools_expiring_in_days = #{days_from_now}" -%>
 <%- ).each_record do |host| -%>
@@ -39,8 +39,9 @@ require:
           'Products': host_products_names(host),
           'Subscription Name': sub_name(pool),
           'Subscription Type': pool.type,
-          'Subscription Quantity': pool.quantity,
-          'Subscriptions Consumed': pool.consumed,
+          'Subscription Total Quantity': pool.quantity,
+          'Subscription Total Consumed': pool.consumed,
+          'Subscriptions Consumed by Host': host.filtered_entitlement_quantity_consumed(pool),
           'Subscription SKU': sub_sku(pool),
           'Subscription Contract': pool.contract_number,
           'Subscription Account': pool.account_number,
