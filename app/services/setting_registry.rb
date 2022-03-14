@@ -37,6 +37,10 @@ class SettingRegistry
     @settings.any?
   end
 
+  def loaded?
+    !!@values_loaded_at
+  end
+
   def logger
     Foreman::Logging.logger('app')
   end
@@ -108,6 +112,7 @@ class SettingRegistry
   def load
     # add() all setting definitions
     load_definitions
+    Setting.descendants.each(&:load_defaults)
 
     # load all db values
     load_values(ignore_cache: true)
@@ -124,22 +129,6 @@ class SettingRegistry
     @settings = {}
     @categories = nil
     @select_collection_registry = nil
-
-    Setting.descendants.each do |cat_cls|
-      if cat_cls.default_settings.empty?
-        Foreman::Deprecation.deprecation_warning('3.3', "subclassing Setting is deprecated '#{cat_cls.name}' should be migrated to setting DSL "\
-                                                        'see https://github.com/theforeman/foreman/blob/develop/developer_docs/how_to_create_a_plugin.asciidoc#settings for details')
-        next unless (Setting.table_exists? rescue(false))
-        # Setting category uses really old way of doing things
-        _load_category_from_db(cat_cls)
-      else
-        cat_cls.default_settings.each do |s|
-          t = Setting.setting_type_from_value(s[:default]) || 'string'
-          opts = s.except(:name).merge(type: t.to_sym, category: cat_cls.name, context: :deprecated)
-          _add(s[:name], **opts)
-        end
-      end
-    end
 
     Foreman::SettingManager.settings.each do |name, opts|
       _add(name, **opts)
