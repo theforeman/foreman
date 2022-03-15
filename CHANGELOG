@@ -1,3 +1,25 @@
+2022-03-15	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.2.0
+	* i18n - extracting new, pulling from tx
+
+2022-03-14	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #34572 - fix invalid redirect after host edit
+
+2022-03-14	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #34573 - encrypt DSL setting values
+
+2022-03-09	Sayan Das <saydas@redhat.com>
+	* Fixes #34525 - Call insights snippet by honoring host_registration_insights param during system build
+
+2022-03-09	Nagoor Shaik <nshaik@redhat.com>
+	* Fixes #34498 - added RHEL9 and CentOS9 Guest OSes
+
+2022-03-09	Daniel Henninger <daniel@ncsu.edu>
+	* fixes #34388 - Add support for configuring puppet in UI, but skipping setup during preseed/kickstart.
+
+2022-03-09	Jason <ludovicus3@users.noreply.github.com>
+	* Fixes #34571 - Add Safemode Jail for ActiveSupport
+
 2022-03-03	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.2.0-rc2
 	* i18n - extracting new, pulling from tx
