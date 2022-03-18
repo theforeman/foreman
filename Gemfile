@@ -7,7 +7,7 @@ source 'https://rubygems.org'
 
 gem 'rails', case SETTINGS[:rails]
              when '6.0'
-               '~> 6.0.3.1'
+               '~> 6.0.4.7'
              when '6.1'
                '~> 6.1.4.4'
              else
