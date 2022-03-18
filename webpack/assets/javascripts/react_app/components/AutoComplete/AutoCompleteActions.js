@@ -11,6 +11,7 @@ import {
   AUTO_COMPLETE_RESET,
   AUTO_COMPLETE_DISABLED_CHANGE,
   AUTO_COMPLETE_CONTROLLER_CHANGE,
+  AUTO_COMPLETE_SET_QUERY,
   TRIGGERS,
 } from './AutoCompleteConstants';
 
@@ -192,6 +193,14 @@ export const updateController = (controller, url, id) => ({
     controller,
     url,
     trigger: TRIGGERS.CONTROLLER_CHANGED,
+    id,
+  },
+});
+
+export const setAutocompleteSearchQuery = (searchQuery, id) => ({
+  type: AUTO_COMPLETE_SET_QUERY,
+  payload: {
+    searchQuery,
     id,
   },
 });

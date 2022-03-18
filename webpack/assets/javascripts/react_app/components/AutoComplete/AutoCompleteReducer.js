@@ -8,6 +8,7 @@ import {
   AUTO_COMPLETE_DISABLED_CHANGE,
   AUTO_COMPLETE_CONTROLLER_CHANGE,
   TRIGGERS,
+  AUTO_COMPLETE_SET_QUERY,
 } from './AutoCompleteConstants';
 
 const initialAutocompleteState = {
@@ -92,6 +93,11 @@ export default (state = Immutable({}), action) => {
         controller,
         url,
         trigger,
+      });
+    case AUTO_COMPLETE_SET_QUERY:
+      return state.setIn([id], {
+        ...state[id],
+        searchQuery,
       });
     default:
       return state;
