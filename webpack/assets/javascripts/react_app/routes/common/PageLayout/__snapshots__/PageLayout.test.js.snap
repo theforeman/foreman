@@ -70,6 +70,7 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
                 },
                 "controller": "models",
               },
+              "setAutocompleteSearchQuery": [MockFunction],
             }
           }
           initialQuery=""
@@ -161,6 +162,7 @@ exports[`render pageLayout w/search 1`] = `
                 },
                 "controller": "models",
               },
+              "setAutocompleteSearchQuery": [MockFunction],
             }
           }
           initialQuery=""
@@ -252,6 +254,7 @@ exports[`render pageLayout w/toolBar 1`] = `
                 },
                 "controller": "models",
               },
+              "setAutocompleteSearchQuery": [MockFunction],
             }
           }
           initialQuery=""
@@ -325,6 +328,7 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
                 },
                 "controller": "models",
               },
+              "setAutocompleteSearchQuery": [MockFunction],
             }
           }
           initialQuery=""
@@ -398,6 +402,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
                 },
                 "controller": "models",
               },
+              "setAutocompleteSearchQuery": [MockFunction],
             }
           }
           initialQuery=""

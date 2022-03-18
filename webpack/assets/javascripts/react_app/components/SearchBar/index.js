@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import SearchBar from './SearchBar';
 import { selectAutocompleteSearchQuery } from '../AutoComplete/AutoCompleteSelectors';
+import { setAutocompleteSearchQuery } from '../AutoComplete/AutoCompleteActions';
 
 const mapStateToProps = (
   state,
@@ -13,4 +15,7 @@ const mapStateToProps = (
   searchQuery: selectAutocompleteSearchQuery(state, id),
 });
 
-export default connect(mapStateToProps)(SearchBar);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ setAutocompleteSearchQuery }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

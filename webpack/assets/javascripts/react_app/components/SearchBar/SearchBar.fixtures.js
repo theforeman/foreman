@@ -14,6 +14,7 @@ export const SearchBarProps = {
     },
     controller: 'models',
   },
+  setAutocompleteSearchQuery: jest.fn(),
 };
 
 export const mockResults = [
