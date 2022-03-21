@@ -1,0 +1,14 @@
+#!gpxe
+echo Trying to ping Gateway: ${netX/gateway}
+ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
+echo Trying to ping DNS: ${netX/dns}
+ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
+
+
+kernel http://archive.ubuntu.com/ubuntu/dists/focal/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux initrd=initrd.img interface=auto url=http://foreman.example.com/unattended/provision ramdisk_size=10800 root=/dev/rd/0 rw auto BOOTIF=01-${netX/mac:hexhyp} console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true locale=en_US netcfg/disable_dhcp=false locale=en_US hostname=snapshot-ipv4-dhcp-ubuntu18 domain=snap.example.com
+
+initrd http://archive.ubuntu.com/ubuntu/dists/focal/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz
+
+imgstat
+sleep 2
+boot

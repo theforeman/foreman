@@ -14,21 +14,19 @@ description: |
   The output is deployed on the host's subnet TFTP proxy.
   See https://ipxe.org/scripting for more details
 -%>
-<% if @host.operatingsystem.name == 'Debian' -%>
-  <%- keyboard_params = "auto=true" -%>
-<% else -%>
-  <%- keyboard_params = 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us' -%>
-<% end -%>
+<%
+  iface = @host.provision_interface
+  subnet4 = iface.subnet
+  subnet6 = iface.subnet6
 
-<% subnet = @host.subnet -%>
-<% if subnet.nil? || subnet.dhcp_boot_mode? -%>
-  <%- provision_url_suffix = '' -%>
-  <%- netcfg_args = '' -%>
-<% else -%>
-  <%- provision_url_suffix = (@host.token.nil? ? '?' : '&') + 'static=yes' -%>
-  <%- netcfg_args = 'netcfg/disable_dhcp=true netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true' -%>
-<% end -%>
-
+  if subnet4 && !subnet4.dhcp_boot_mode?
+    url = foreman_url('provision', static: '1')
+  elsif subnet6 && !subnet6.dhcp_boot_mode?
+    url = foreman_url('provision', static6: '1')
+  else
+    url = foreman_url('provision')
+  end
+-%>
 echo Trying to ping Gateway: ${netX/gateway}
 ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
 echo Trying to ping DNS: ${netX/dns}
@@ -38,7 +36,10 @@ ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not availa
 <% kernel = boot_files_uris[0] -%>
 <% initrd = boot_files_uris[1] -%>
 
-kernel <%= kernel %> initrd=initrd.img interface=auto url=<%= foreman_url('provision')%><%= provision_url_suffix %> ramdisk_size=10800 root=/dev/rd/0 rw auto BOOTIF=01-${netX/mac:hexhyp} hostname=<%= @host.name %> domain=<%= @host.domain %> <%= keyboard_params %> <%= pxe_kernel_options %> locale=<%= host_param('lang') || 'en_US' %> <%= netcfg_args %>
+kernel <%= kernel %> initrd=initrd.img interface=auto url=<%= url %> ramdisk_size=10800 root=/dev/rd/0 rw auto BOOTIF=01-${netX/mac:hexhyp} <%= snippet("preseed_kernel_options").strip %>
+
 initrd <%= initrd %>
 
+imgstat
+sleep 2
 boot
