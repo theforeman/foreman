@@ -1,18 +1,10 @@
 #
 # This file was deployed via 'Preseed default PXELinux' template
-#
-# Supported host/hostgroup parameters:
-#
-# blacklist = module1, module2
-#   Blacklisted kernel modules
-#
-# lang = en_US
-#   System locale
-#
+
 DEFAULT linux
 LABEL linux
     KERNEL boot/debian-mirror-RpV7E2zxrKHe-linux
-    APPEND initrd=boot/debian-mirror-RpV7E2zxrKHe-initrd.gz interface=auto url=http://foreman.example.com/unattended/provision ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=snapshot-ipv4-dhcp-deb10 auto=true domain=snap.example.com locale=en_US
+    APPEND initrd=boot/debian-mirror-RpV7E2zxrKHe-initrd.gz interface=auto url=http://foreman.example.com/unattended/provision ramdisk_size=10800 root=/dev/rd/0 rw auto auto=true locale=en_US netcfg/disable_dhcp=false locale=en_US hostname=snapshot-ipv4-dhcp-deb10 domain=snap.example.com
     IPAPPEND 2
 
 

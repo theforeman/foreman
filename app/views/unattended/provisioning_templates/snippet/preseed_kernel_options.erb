@@ -1,0 +1,51 @@
+<%#
+kind: snippet
+name: preseed_kernel_options
+model: ProvisioningTemplate
+snippet: true
+description: options for the kernel / preseed startup initialization
+-%>
+<%
+  is_debian = @host.operatingsystem.name == 'Debian'
+  hostname = @host.name
+  domain = @host.domain
+  iface = @host.provision_interface
+  subnet4 = iface.subnet
+  subnet6 = iface.subnet6
+  options = []
+
+  if host_param('blacklist')
+    options << host_param('blacklist').split(',').collect{|x| "#{x.strip}.blacklist=yes"}.join(' ')
+  end
+
+  if is_debian
+    options << "auto=true"
+  else
+    options << 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true'
+  end
+
+  if @host.provision_interface.vlanid.present?
+    options << "netcfg/use_vlan=true netcfg/vlan_id=#{@host.provision_interface.vlanid}"
+  end
+  options << "locale=#{host_param('lang') || 'en_US'}"
+
+  if subnet4 && subnet4.dhcp_boot_mode?
+    options << 'netcfg/disable_dhcp=false'
+  elsif subnet4 && !subnet4.dhcp_boot_mode?
+    options << 'netcfg/disable_dhcp=true netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true'
+  elsif subnet6 && subnet6.dhcp_boot_mode?
+    options << 'netcfg/disable_dhcp=false'
+  elsif subnet6 && !subnet6.dhcp_boot_mode?
+    options << 'netcfg/disable_dhcp=true netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true'
+  end
+
+  if host_param('pxe_kernel_options')
+    options << host_param('pxe_kernel_options')
+  end
+
+  options << "locale=#{host_param('lang') || 'en_US'}"
+  options << "hostname=#{hostname}"
+  options << "domain=#{domain}"
+%>
+<%# do not add newline after the next line %>
+<%= options.join(' ') -%>

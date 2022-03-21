@@ -1,0 +1,10 @@
+#!gpxe
+echo Trying to ping Gateway: ${netX/gateway}
+ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
+echo Trying to ping DNS: ${netX/dns}
+ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
+
+
+kernel http://mirror.centos.org/centos/7/os/x86_64/images/pxeboot/vmlinuz initrd=initrd.img splash=silent install=http://mirror.centos.org/centos/7/os/x86_64 autoyast=http://foreman.example.com/unattended/provision text-mode=1 useDHCP=1 
+initrd http://mirror.centos.org/centos/7/os/x86_64/images/pxeboot/initrd.img
+boot

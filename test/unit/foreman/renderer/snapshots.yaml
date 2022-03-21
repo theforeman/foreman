@@ -48,7 +48,6 @@ files:
   - finish/xenserver_default_finish.erb
   - provision/xenserver_default_answerfile.erb
   - PXELinux/xenserver_default_pxelinux.erb
-  - iPXE/ipxe_intermediate_script.erb
   - snippet/ansible_tower_callback_script.erb
   - snippet/ansible_tower_callback_service.erb
   - snippet/chef_client.erb
@@ -71,3 +70,9 @@ files:
   - snippet/saltstack_setup.erb
   - PXELinux/preseed_default_pxelinux_autoinstall.erb
   - user_data/preseed_autoinstall_cloud_init.erb
+  - iPXE/autoyast_default_ipxe.erb
+  - iPXE/ipxe_default_local_boot.erb
+  - iPXE/ipxe_global_default.erb
+  - iPXE/ipxe_intermediate_script.erb
+  - iPXE/kickstart_default_ipxe.erb
+  - iPXE/preseed_default_ipxe.erb

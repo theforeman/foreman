@@ -1,0 +1,12 @@
+#!gpxe
+
+echo Trying to ping Gateway: ${netX/gateway}
+ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
+echo Trying to ping DNS: ${netX/dns}
+ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
+
+kernel http://mirror.centos.org/centos/7/os/x86_64/images/pxeboot/vmlinuz initrd=initrd.img ks=http://foreman.example.com/unattended/provision?static=1  network ksdevice=bootif ks.device=bootif BOOTIF=01-00-f0-54-1a-7e-e0 ks=http://foreman.example.com/unattended/provision kssendmac ks.sendmac ip=${netX/ip}::${netX/gateway}:${netX/netmask}:snapshot-ipv6-static-el7:eth0:none nameserver=${dns} fips=1
+initrd http://mirror.centos.org/centos/7/os/x86_64/images/pxeboot/initrd.img
+imgstat
+sleep 2
+boot

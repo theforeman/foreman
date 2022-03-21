@@ -1,0 +1,4 @@
+#!ipxe
+
+# Skips booting from network and continues booting from next device
+exit 1

@@ -14,39 +14,11 @@ description: |
 -%>
 #
 # This file was deployed via '<%= template_name %>' template
-#
-# Supported host/hostgroup parameters:
-#
-# blacklist = module1, module2
-#   Blacklisted kernel modules
-#
-# lang = en_US
-#   System locale
-#
-<%
-  options = []
-  if host_param('blacklist')
-    options << host_param('blacklist').split(',').collect{|x| "#{x.strip}.blacklist=yes"}.join(' ')
-  end
-  if @host.operatingsystem.name == 'Debian'
-    options << "auto=true"
-    options << "domain=#{@host.domain}"
-  else
-    options << 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true'
-  end
-  if @host.provision_interface.vlanid.present?
-    options << "netcfg/use_vlan=true netcfg/vlan_id=#{@host.provision_interface.vlanid}"
-  end
-  options << "locale=#{host_param('lang') || 'en_US'}"
-  if host_param('pxe_kernel_options')
-    options << host_param('pxe_kernel_options')
-  end
-  options = options.join(' ')
--%>
+
 DEFAULT linux
 LABEL linux
     KERNEL <%= @kernel %>
-    APPEND initrd=<%= @initrd %> interface=auto url=<%= foreman_url('provision')%> ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=<%= @host.name %> <%= options %>
+    APPEND initrd=<%= @initrd %> interface=auto url=<%= foreman_url('provision')%> ramdisk_size=10800 root=/dev/rd/0 rw auto <%= snippet("preseed_kernel_options").strip %>
     IPAPPEND 2
 
 <%= snippet_if_exists(template_name + " custom menu") %>
