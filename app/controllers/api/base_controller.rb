@@ -52,6 +52,13 @@ module Api
 
     rescue_from Foreman::MaintenanceException, :with => :service_unavailable
 
+    rescue_from ActionDispatch::Http::Parameters::ParseError do |exception|
+      error_output = "There was a problem in the JSON you submitted: #{exception.cause.message}"
+      Rails.logger.debug(error_output)
+
+      render status: :bad_request, json: { status: 400, error: error_output }
+    end
+
     def get_resource(message = "Couldn't find resource")
       instance_variable_get(:"@#{resource_name}") || raise(message)
     end

@@ -76,7 +76,6 @@ require File.expand_path('../lib/core_extensions', __dir__)
 require File.expand_path('../lib/foreman/force_ssl', __dir__)
 require File.expand_path('../lib/foreman/logging', __dir__)
 require File.expand_path('../lib/foreman/http_proxy', __dir__)
-require File.expand_path('../lib/foreman/middleware/catch_json_parse_errors', __dir__)
 require File.expand_path('../lib/foreman/middleware/logging_context_request', __dir__)
 require File.expand_path('../lib/foreman/middleware/logging_context_session', __dir__)
 require File.expand_path('../lib/foreman/middleware/telemetry', __dir__)
@@ -197,9 +196,6 @@ module Foreman
 
     # Disable noisy logging of requests for assets
     config.assets.quiet = true
-
-    # Catching Invalid JSON Parse Errors with Rack Middleware
-    config.middleware.use Foreman::Middleware::CatchJsonParseErrors
 
     # When operating behind a reverse proxy, this provides a valid remote ip in request.remote_ip
     # the middleware is enabled by default however we minimize the trusted proxies list
