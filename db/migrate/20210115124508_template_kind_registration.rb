@@ -23,15 +23,16 @@ class TemplateKindRegistration < ActiveRecord::Migration[6.0]
     # and change registration association to the host_init_config
     template = ProvisioningTemplate.unscoped.find_by_name(Setting[:default_host_init_config_template])
     Operatingsystem.all.each do |os|
-      template.operatingsystems << os unless template.operatingsystems.include?(os)
+      template.operatingsystems << os if template && !template.operatingsystems.include?(os)
 
       os_default_registration = OsDefaultTemplate.find_by(template_kind: registration_kind, operatingsystem: os)
-      if os_default_registration
-        os_default_registration.update(template_kind_id: host_init_config_kind.id)
-      else
-        OsDefaultTemplate.create template_kind: host_init_config_kind,
+
+      os_default_registration&.update(template_kind_id: host_init_config_kind.id)
+
+      if template && !os_default_registration
+        OsDefaultTemplate.create(template_kind: host_init_config_kind,
                                  provisioning_template: template,
-                                 operatingsystem: os
+                                 operatingsystem: os)
       end
     end
   end
