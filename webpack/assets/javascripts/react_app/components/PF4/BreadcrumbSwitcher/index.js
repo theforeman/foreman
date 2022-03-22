@@ -84,9 +84,7 @@ const BreadcrumbSwitcher = ({
         itemId={id}
         to={href}
         onClick={e => onResourceClick(e, href)}
-        className={
-          isActive(href, id, name) ? 'breadcrumb-switcher-current-item' : ''
-        }
+        isSelected={isActive(href, id, name)}
       >
         <Tooltip content={__(name)}>
           <span>{__(name)}</span>
