@@ -31,6 +31,8 @@ import Slot from '../../common/Slot';
 
 const ActionsBar = ({
   hostId,
+  hostFriendlyId,
+  hostName,
   computeId,
   isBuild,
   hasReports,
@@ -72,7 +74,7 @@ const ActionsBar = ({
     </DropdownItem>,
     <DropdownItem
       isDisabled={!canCreate}
-      onClick={() => visit(foremanUrl(`/hosts/${hostId}/clone`))}
+      onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/clone`))}
       key="clone"
       component="button"
       icon={<CloneIcon />}
@@ -90,7 +92,7 @@ const ActionsBar = ({
     </DropdownItem>,
     <DropdownSeparator key="sp-1" />,
     <DropdownItem
-      onClick={() => visit(foremanUrl(`/hosts/${hostId}/console`))}
+      onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/console`))}
       key="console"
       isDisabled={!isHostActive}
       component="button"
@@ -99,7 +101,7 @@ const ActionsBar = ({
       {__('Console')}
     </DropdownItem>,
     <DropdownItem
-      onClick={() => visit(foremanUrl(`/hosts/${hostId}/facts`))}
+      onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/facts`))}
       key="fact"
       component="button"
       icon={<DatabaseIcon />}
@@ -108,7 +110,9 @@ const ActionsBar = ({
     </DropdownItem>,
     <DropdownItem
       isDisabled={!hasReports}
-      onClick={() => visit(foremanUrl(`/hosts/${hostId}/config_reports`))}
+      onClick={() =>
+        visit(foremanUrl(`/hosts/${hostFriendlyId}/config_reports`))
+      }
       key="report"
       component="button"
       icon={<FileInvoiceIcon />}
@@ -118,7 +122,7 @@ const ActionsBar = ({
     <DropdownSeparator key="sp-2" />,
     <DropdownItem
       icon={<UndoIcon />}
-      href={`/hosts/${hostId}`}
+      href={`/hosts/${hostFriendlyId}`}
       key="prev-version"
     >
       {__('Legacy UI')}
@@ -142,11 +146,11 @@ const ActionsBar = ({
     <>
       <Split hasGutter>
         <SplitItem>
-          <Slot hostId={hostId} id="_rex-host-features" />
+          <Slot hostId={hostId} hostName={hostName} id="_rex-host-features" />
         </SplitItem>
         <SplitItem>
           <Button
-            onClick={() => visit(foremanUrl(`/hosts/${hostId}/edit`))}
+            onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/edit`))}
             variant="secondary"
             isDisabled={!canEdit}
           >
@@ -167,7 +171,8 @@ const ActionsBar = ({
         <BuildModal
           isModalOpen={isBuildModalOpen}
           onClose={() => setBuildModal(false)}
-          hostId={hostId}
+          hostFriendlyId={hostFriendlyId}
+          hostName={hostName}
         />
       )}
     </>
@@ -175,7 +180,9 @@ const ActionsBar = ({
 };
 
 ActionsBar.propTypes = {
-  hostId: PropTypes.string,
+  hostId: PropTypes.number,
+  hostFriendlyId: PropTypes.string,
+  hostName: PropTypes.string,
   computeId: PropTypes.number,
   permissions: PropTypes.object,
   hasReports: PropTypes.bool,
@@ -183,6 +190,8 @@ ActionsBar.propTypes = {
 };
 ActionsBar.defaultProps = {
   hostId: undefined,
+  hostFriendlyId: undefined,
+  hostName: undefined,
   computeId: undefined,
   permissions: {
     destroy_hosts: false,
