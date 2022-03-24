@@ -22,14 +22,14 @@ import { buildHost } from './actions';
 import StatusIcon from '../Status/StatusIcon';
 import { ERROR_STATUS_STATE, OK_STATUS_STATE } from '../Status/Constants';
 
-const BuildModal = ({ isModalOpen, onClose, hostId }) => {
+const BuildModal = ({ isModalOpen, onClose, hostFriendlyId, hostName }) => {
   const [activeErrors, setActiveErrors] = useState();
   const errorsTree = useSelector(selectBuildErrorsTree);
   const noErrors = useSelector(selectNoErrorState);
   const dispach = useDispatch();
   const { status } = useAPI(
     'get',
-    foremanUrl(`/hosts/${hostId}/review_before_build`),
+    foremanUrl(`/hosts/${hostFriendlyId}/review_before_build`),
     API_OPTIONS
   );
   const onSelectError = (evt, treeViewItem) => {
@@ -47,7 +47,7 @@ const BuildModal = ({ isModalOpen, onClose, hostId }) => {
           key="confirm"
           variant="primary"
           onClick={() => {
-            dispach(buildHost(hostId));
+            dispach(buildHost(hostFriendlyId));
             onClose();
           }}
         >
@@ -63,7 +63,7 @@ const BuildModal = ({ isModalOpen, onClose, hostId }) => {
           <FormattedMessage
             id="build"
             values={{
-              hostName: <b>{hostId}</b>,
+              hostName: <b>{hostName}</b>,
             }}
             defaultMessage={__(
               'Build enables host {hostName} to rebuild on next boot'
@@ -115,7 +115,8 @@ const BuildModal = ({ isModalOpen, onClose, hostId }) => {
 };
 
 BuildModal.propTypes = {
-  hostId: PropTypes.string.isRequired,
+  hostFriendlyId: PropTypes.string.isRequired,
+  hostName: PropTypes.string.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };

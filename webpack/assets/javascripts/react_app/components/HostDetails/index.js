@@ -154,7 +154,9 @@ const HostDetails = ({
                 <FlexItem align={{ default: 'alignRight' }}>
                   <ActionsBar
                     computeId={response.compute_resource_id}
-                    hostId={id}
+                    hostFriendlyId={id}
+                    hostId={response.id}
+                    hostName={response.name}
                     permissions={response.permissions}
                     hasReports={!!response.last_report}
                     isBuild={response.build}
