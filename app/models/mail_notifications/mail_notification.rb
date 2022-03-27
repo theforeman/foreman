@@ -50,6 +50,11 @@ class MailNotification < ApplicationRecord
         mailer.constantize.send(method, *args, options.merge(:user => user)).deliver_now
       end
     else
+      if name.include? 'ansible'
+        args.last[:format] = 'ansible'
+      elsif name.include? 'puppet'
+        args.last[:format] = 'puppet'
+      end
       mailer.constantize.send(method, *args).deliver_now
     end
   end
