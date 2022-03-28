@@ -92,7 +92,7 @@ class Operatingsystem < ApplicationRecord
     property :password_hash, String, desc: 'Encrypted hash of the operating system password'
   end
   class Jail < Safemode::Jail
-    allow :id, :name, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath
+    allow :id, :name, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath, :bootfile
   end
 
   def self.title_name
@@ -224,6 +224,11 @@ class Operatingsystem < ApplicationRecord
     bootfile(medium_provider, :initrd)
   end
 
+  apipie :method, 'Returns path to various different bootfiles based on given medium provider and type' do
+    required :medium_provider, 'MediumProviders::Provider', 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
+    required :type, String, 'Bootfile type (like "kernel", "initrd", "bcd", "bootsdi", "bootwim", "xen")'
+    returns String, 'Path to the specific bootfile'
+  end
   def bootfile(medium_provider, type)
     unless medium_provider.is_a? MediumProviders::Provider
       raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)'))
