@@ -18,7 +18,7 @@ module Api
 
       def_param_group :search_and_pagination do
         param :search, String, :desc => N_("filter results")
-        param :order, String, :desc => N_("Sort and order by a searchable field, e.g. '&lt;field&gt; DESC'")
+        param :order, String, :desc => N_("Sort and order by a searchable field, e.g. '<field> DESC'")
         param_group :pagination, ::Api::V2::BaseController
       end
 
