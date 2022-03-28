@@ -39,7 +39,9 @@ Apipie.configure do |config|
   config.ignored = []
   config.ignored_by_recorder = %w[]
   config.doc_base_url = "/apidoc"
-  config.use_cache = Rails.env.production? || File.directory?(config.cache_dir)
+  # By default we disabled the cache, but if you need to speed the testing up, you can switch it to `true`.
+  # To speed up the generation of the cache, please use FOREMAN_APIPIE_LANGS=en bundle exec rake apipie:cache
+  config.use_cache = false
   # config.languages = [] # turn off localized API docs and CLI, useful for development
   config.languages = ENV['FOREMAN_APIPIE_LANGS'].try(:split, ' ') || FastGettext.available_locales
   config.default_locale = FastGettext.default_locale
@@ -47,8 +49,7 @@ Apipie.configure do |config|
 
   config.validate = false
   config.force_dsl = true
-  config.reload_controllers = Rails.env.development?
-  config.markup = Apipie::Markup::Markdown.new if Rails.env.development? && defined? Maruku
+  config.reload_controllers = false
   config.default_version = "v2"
   config.update_checksum = true
   config.checksum_path = ['/api/', '/apidoc/']
@@ -99,8 +100,6 @@ elsif Apipie.configuration.use_cache
   else
     warn "Apipie cache enabled but not present yet. Run apipie:cache rake task to speed up API calls."
   end
-else
-  warn "The Apipie cache is turned off. Enable it and run apipie:cache rake task to speed up API calls."
 end
 
 # special type of validator: we say that it's not specified
