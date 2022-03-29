@@ -35,7 +35,11 @@ export const loadSwitcherResourcesByResource = (
   resource,
   { page = 1, searchQuery = '', perPage = 10 } = {}
 ) => async dispatch => {
-  const { resourceUrl, nameField, switcherItemUrl } = resource;
+  const { resourceUrl, nameField } = resource;
+  let { switcherItemUrl } = resource;
+  if (switcherItemUrl.endsWith('/')) {
+    switcherItemUrl = switcherItemUrl.slice(0, -1);
+  }
   const options = { page, searchQuery, perPage };
   const beforeRequest = () =>
     dispatch({
