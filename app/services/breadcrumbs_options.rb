@@ -54,14 +54,12 @@ class BreadcrumbsOptions
   end
 
   def switcher_url_template
-    actual_action_name = (action_name == 'show') ? '' : action_name
     if respond_to?(resource_name + '_path')
       resource_path = try(resource_name + '_path', :id => ':id')
     else
       resource_path = "/#{controller_path}/:id"
     end
-
-    "#{resource_path}/#{actual_action_name}"
+    (action_name == 'show') ? resource_path : "#{resource_path}/#{action_name}"
   end
 
   def model_name_field
