@@ -300,26 +300,6 @@ module Foreman
         end
         child.helper helpers
       end
-
-      Facets.register(HostFacets::ReportedDataFacet, :reported_data) do
-        api_view({ :list => 'api/v2/hosts/reported_data' })
-        set_dependent_action :destroy
-        template_compatibility_properties :cores, :virtual, :sockets, :ram, :uptime_seconds
-      end
-      Facets.register(HostFacets::InfrastructureFacet, :infrastructure_facet) do
-        api_view({ :list => 'api/v2/hosts/infrastructure_facet' })
-        set_dependent_action :destroy
-      end
-
-      Facets.register(ForemanRegister::RegistrationFacet, :registration_facet) do
-        set_dependent_action :destroy
-      end
-
-      Plugin.all.each do |plugin|
-        plugin.to_prepare_callbacks.each(&:call)
-      end
-
-      Plugin.graphql_types_registry.realise_extensions unless Foreman.in_setup_db_rake?
     end
 
     # Use the database for sessions instead of the cookie-based default
