@@ -24,23 +24,33 @@ autoinstall:
       - arches: [default]
         uri: http://ports.ubuntu.com/ubuntu-ports
 <%= indent(4) { snippet_if_exists(template_name + " custom apt") } -%>
-  identity:
-    hostname: <%= @host.name %>
-    realname: <%= realname_to_create %>
-    username: <%= username_to_create %>
-    password: "<%= password_to_create %>"
+  user-data:
+    disable_root: false
+    fqdn: <%= @host.name %>
+    users:
+    - name: <%= username_to_create %>
+      gecos: <%= realname_to_create %>
+      lock-passwd: false
+      hashed_passwd: <%= password_to_create %>
+<% if !host_param('remote_execution_ssh_keys').blank? -%>
+<%   if host_param('remote_execution_ssh_keys').is_a?(String) -%>
+      ssh_authorized_keys: [<%= host_param('remote_execution_ssh_keys') %>]
+<%   else -%>
+      ssh_authorized_keys: <%= host_param('remote_execution_ssh_keys') %>
+<%   end -%>
+<% else -%>
+      ssh_authorized_keys: []
+<% end -%>
   keyboard: {layout: us, toggle: null, variant: ''}
   locale: en_US.UTF-8
 <%= snippet 'preseed_netplan_setup' -%>
   ssh:
     allow-pw: true
-    authorized-keys: []
     install-server: true
   updates: security
 <%= indent(2) { @host.diskLayout } -%>
 <%= indent(2) { snippet_if_exists(template_name + " custom root") } -%>
-  user-data:
-    runcmd:
-      - wget -Y off <%= @static ? "'#{foreman_url('finish', static: 'true')}'" : foreman_url('finish') %> -O /tmp/finish.sh
-      - chmod +x /tmp/finish.sh
-      - /tmp/finish.sh
+  late-commands:
+  - wget -Y off <%= @static ? "'#{foreman_url('finish', static: 'true')}'" : foreman_url('finish') %> -O /target/tmp/finish.sh
+  - curtin in-target -- chmod +x /tmp/finish.sh
+  - curtin in-target -- /tmp/finish.sh
