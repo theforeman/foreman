@@ -20,13 +20,6 @@ module Foreman::Controller::Parameters::ComputeResource
           :region,
           :gov_cloud
 
-        # gce
-        filter.permit :email,
-          :key_pair,
-          :key_path,
-          :project,
-          :zone
-
         # libvirt
         filter.permit :display_type,
           :uuid

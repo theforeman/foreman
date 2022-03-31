@@ -48,7 +48,6 @@ class ComputeResource < ApplicationRecord
       'EC2'       => 'Foreman::Model::EC2',
       'Vmware'    => 'Foreman::Model::Vmware',
       'Openstack' => 'Foreman::Model::Openstack',
-      'GCE'       => 'Foreman::Model::GCE',
     }
   end
 

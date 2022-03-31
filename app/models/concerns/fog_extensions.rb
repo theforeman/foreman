@@ -16,14 +16,6 @@ if Foreman::Model::EC2.available?
   Fog::AWS::Compute::Server.include FogExtensions::AWS::Server
 end
 
-if Foreman::Model::GCE.available?
-  require 'fog/google'
-  require 'fog/compute/google/models/machine_type'
-  Fog::Compute::Google::MachineType.prepend FogExtensions::Google::MachineType
-  require 'fog/compute/google/models/server'
-  Fog::Compute::Google::Server.include FogExtensions::Google::Server
-end
-
 if Foreman::Model::Libvirt.available?
   require 'fog/libvirt'
   require 'fog/libvirt/compute'
