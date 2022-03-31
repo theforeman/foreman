@@ -47,10 +47,6 @@ module Api
           param :display_type, %w(VNC SPICE), :desc => N_('for Libvirt and oVirt only')
           param :keyboard_layout, ComputeResource::ALLOWED_KEYBOARD_LAYOUTS, :desc => N_('for oVirt only')
           param :caching_enabled, :bool, :desc => N_('enable caching, for VMware only')
-          param :project, String, :desc => N_("Project id for GCE only")
-          param :email, String, :desc => N_("Email for GCE only")
-          param :key_path, String, :desc => N_("Certificate path for GCE only")
-          param :zone, String, :desc => N_("for GCE only")
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end
@@ -71,6 +67,7 @@ module Api
             @compute_resource = ComputeResource.new_provider(compute_resource_params.except(:datacenter))
             params[:compute_resource][:datacenter] = change_datacenter_to_uuid(params[:compute_resource][:datacenter])
           end
+
           @compute_resource = ComputeResource.new_provider(compute_resource_params)
         rescue Foreman::Exception => e
           render_exception(e, :status => :unprocessable_entity)

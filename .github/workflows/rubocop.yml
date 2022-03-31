@@ -1,7 +1,7 @@
 name: RuboCop
 on: [pull_request]
 env:
-  BUNDLE_WITHOUT: assets:console:development:dynflow_sidekiq:ec2:gce:journald:jsonp:libvirt:openid:openstack:ovirt:redis:service:telemetry:vmware
+  BUNDLE_WITHOUT: assets:console:development:dynflow_sidekiq:ec2:journald:jsonp:libvirt:openid:openstack:ovirt:redis:service:telemetry:vmware
 permissions:
   contents: read
 

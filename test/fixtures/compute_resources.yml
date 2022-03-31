@@ -53,17 +53,6 @@ ec2-another:
   uuid: 234234234324
   type: Foreman::Model::EC2
 
-gce:
-  name: gce123
-  description: yourcompute
-  url: us-central1-a
-  user: MyString
-  password: MyString
-  uuid: 78787878787
-  attrs:
-    :project: foo
-  type: Foreman::Model::GCE
-
 ovirt:
   name: Ovirt
   description: ovirt resource
