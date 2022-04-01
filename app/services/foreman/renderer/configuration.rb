@@ -9,6 +9,7 @@ module Foreman
         :snippet_if_exists,
         :indent,
         :foreman_server_fqdn, :foreman_server_url,
+        :foreman_request_addr,
         :log_debug, :log_info, :log_warn, :log_error, :log_fatal,
         :template_name,
         :dns_lookup,

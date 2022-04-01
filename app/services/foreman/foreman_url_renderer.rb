@@ -16,18 +16,16 @@ module Foreman
 
     apipie :method, 'Returns Foreman unattended URL' do
       desc 'Returns URL to Foreman or Smart Proxy depending on host.subnet.template proxy configuration.'
-      # optional object_of: String, desc: 'template kind (provision, script, ...)'
-      # optional object_of: Hash, desc: 'URL parameters, use key named :unencoded for parameters which must not be URL-encoded'
+      required :action, String, desc: 'template kind (provision, script, ...)'
+      optional :params, Hash, desc: 'URL parameters, which will be URL-escaped'
+      optional :unescaped_params, Hash, desc: 'URL parameters, which will be added raw - not URL-escaped'
       returns String, desc: "Rendered URL"
     end
     def foreman_url(action, params = {}, unescaped_params = {})
-      # Get basic stuff
-      config = URI.parse(Setting[:unattended_url])
-      url_options = foreman_url_options_from_settings_or_request(config)
-
-      host = @host
-      host = self if @host.nil? && self.class < Host::Base
-      template_proxy = host.try(:provision_interface).try(:subnet).try(:template_proxy)
+      options = foreman_url_options
+      config = options[:config]
+      host = options[:host]
+      url_options = options[:url_options]
 
       # Set token
       params[:token] = host.token.value if host.try(:build) && host.try(:token)
@@ -39,6 +37,34 @@ module Foreman
         raw_string += unescaped_params.map { |k, v| "#{k}=#{v}" }.join('&')
       end
 
+      url_options[:action] = action
+      url_options[:path] = config.path
+      render_foreman_url(host, url_options, params) + raw_string
+    end
+
+    apipie :method, 'Returns address part of Foreman unattended URL' do
+      desc 'Returns the "Foreman or Smart Proxy FQDN including port" part of the unattended URL, depending on host.subnet.template proxy configuration.'
+      returns String, desc: "Rendered request address"
+    end
+    def foreman_request_addr
+      url_options = foreman_url_options[:url_options]
+
+      result = url_options[:host]
+      result += ":#{url_options[:port]}" unless url_options[:port].to_s.empty? || url_options[:port] == 80
+      result
+    end
+
+    private
+
+    def foreman_url_options
+      # Get basic stuff
+      config = URI.parse(Setting[:unattended_url])
+      url_options = foreman_url_options_from_settings_or_request(config)
+
+      host = @host
+      host = self if @host.nil? && self.class < Host::Base
+      template_proxy = host.try(:provision_interface).try(:subnet).try(:template_proxy)
+
       # Use template_url from the request if set, but otherwise look for a Template
       # feature proxy, as PXE templates are written without an incoming request.
       url = @template_url
@@ -46,12 +72,8 @@ module Foreman
 
       url_options = foreman_url_options_from_url(url) if url.present?
 
-      url_options[:action] = action
-      url_options[:path] = config.path
-      render_foreman_url(host, url_options, params) + raw_string
+      { :config => config, :host => host, :url_options => url_options }
     end
-
-    private
 
     def foreman_url_options_from_settings_or_request(config)
       {
