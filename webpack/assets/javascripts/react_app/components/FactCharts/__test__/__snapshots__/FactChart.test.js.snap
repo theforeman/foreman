@@ -4,24 +4,9 @@ exports[`factCharts should render closed 1`] = `
 <div
   className="fact-chart"
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="viewChartTooltip-1"
-        placement="right"
-      >
-        Show distribution chart
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+  <Tooltip
+    content="Show distribution chart"
+    id="viewChartTooltip-1"
   >
     <Button
       active={false}
@@ -33,7 +18,7 @@ exports[`factCharts should render closed 1`] = `
     >
       View Chart
     </Button>
-  </OverlayTrigger>
+  </Tooltip>
 </div>
 `;
 
@@ -41,24 +26,9 @@ exports[`factCharts should render open 1`] = `
 <div
   className="fact-chart"
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="viewChartTooltip-1"
-        placement="right"
-      >
-        Show distribution chart
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+  <Tooltip
+    content="Show distribution chart"
+    id="viewChartTooltip-1"
   >
     <Button
       active={false}
@@ -70,7 +40,7 @@ exports[`factCharts should render open 1`] = `
     >
       View Chart
     </Button>
-  </OverlayTrigger>
+  </Tooltip>
   <Modal
     animation={true}
     autoFocus={true}

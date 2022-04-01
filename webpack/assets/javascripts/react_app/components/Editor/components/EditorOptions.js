@@ -2,14 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Button,
-  Icon,
-  OverlayTrigger,
-  FormControl,
-  Tooltip,
-} from 'patternfly-react';
+import { Button, Icon, FormControl } from 'patternfly-react';
 
+import { Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import { bindMethods } from '../../../common/helpers';
 import DiffRadioButtons from '../../DiffView/DiffRadioButtons';
@@ -63,12 +58,7 @@ class EditorOptions extends React.Component {
 
         <h4 id="divider">|</h4>
         {showHide && (
-          <OverlayTrigger
-            delayShow={500}
-            overlay={<Tooltip id="mask-tooltip">{__('Hide Content')}</Tooltip>}
-            placement="top"
-            trigger={['hover']}
-          >
+          <Tooltip content={__('Hide Content')} position={TooltipPosition.top}>
             <Button
               disabled={selectedView !== 'input'}
               className="editor-button"
@@ -78,18 +68,12 @@ class EditorOptions extends React.Component {
             >
               <Icon size="lg" type="fa" name={isMasked ? 'eye' : 'eye-slash'} />
             </Button>
-          </OverlayTrigger>
+          </Tooltip>
         )}
         {isDiff ? ( // fixing tooltip showing sometimes for disabled icon
-          <OverlayTrigger
-            delayShow={500}
-            overlay={
-              <Tooltip id="revert-tooltip">
-                {__('Revert Local Changes')}
-              </Tooltip>
-            }
-            placement="top"
-            trigger={['hover']}
+          <Tooltip
+            content={__('Revert Local Changes')}
+            position={TooltipPosition.top}
           >
             <Button
               className="editor-button"
@@ -108,7 +92,7 @@ class EditorOptions extends React.Component {
             >
               <Icon size="2x" type="pf" name="restart" />
             </Button>
-          </OverlayTrigger>
+          </Tooltip>
         ) : (
           <Button
             disabled
@@ -120,12 +104,7 @@ class EditorOptions extends React.Component {
           </Button>
         )}
         {showImport && (
-          <OverlayTrigger
-            delayShow={500}
-            overlay={<Tooltip id="import-tooltip">{__('Import File')}</Tooltip>}
-            placement="top"
-            trigger={['hover']}
-          >
+          <Tooltip content={__('Import File')} position={TooltipPosition.top}>
             <Button
               disabled={selectedView !== 'input'}
               className="import-button"
@@ -143,7 +122,7 @@ class EditorOptions extends React.Component {
                 onChange={importFile}
               />
             </Button>
-          </OverlayTrigger>
+          </Tooltip>
         )}
         <EditorSettings
           changeSetting={changeSetting}
@@ -157,12 +136,7 @@ class EditorOptions extends React.Component {
           autocompletion={autocompletion}
           liveAutocompletion={liveAutocompletion}
         />
-        <OverlayTrigger
-          delayShow={500}
-          overlay={<Tooltip id="fullscreen-tooltip">{__('Maximize')}</Tooltip>}
-          placement="top"
-          trigger={['hover']}
-        >
+        <Tooltip content={__('Maximize')} position={TooltipPosition.top}>
           <Button
             className="editor-button"
             id="fullscreen-btn"
@@ -171,7 +145,7 @@ class EditorOptions extends React.Component {
           >
             <Icon size="lg" type="fa" name="arrows-alt" />
           </Button>
-        </OverlayTrigger>
+        </Tooltip>
       </div>
     );
   }

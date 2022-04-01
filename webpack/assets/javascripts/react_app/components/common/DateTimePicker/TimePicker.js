@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  FormControl,
-  InputGroup,
-  Icon,
-  OverlayTrigger,
-  Popover,
-} from 'patternfly-react';
+import { FormControl, InputGroup, Icon } from 'patternfly-react';
+import { Popover } from '@patternfly/react-core';
 import TimeInput from './TimeComponents/TimeInput';
 
 class TimePicker extends React.Component {
@@ -37,9 +32,9 @@ class TimePicker extends React.Component {
   render() {
     const { locale } = this.props;
     const popover = (
-      <Popover
+      <div
+        className="row bootstrap-datetimepicker-widget timepicker-sbs"
         id="popover-date-picker"
-        className="bootstrap-datetimepicker-widget dropdown-menu"
       >
         <ul className="list-unstyled">
           <li className="picker-switch accordion-toggle">
@@ -57,16 +52,11 @@ class TimePicker extends React.Component {
             />
           </li>
         </ul>
-      </Popover>
+      </div>
     );
     return (
       <div>
-        <OverlayTrigger
-          trigger="click"
-          placement="top"
-          overlay={popover}
-          rootClose
-        >
+        <Popover bodyContent={popover}>
           <InputGroup className="input-group date-time-picker-pf">
             <FormControl
               aria-label="date-time-picker-input"
@@ -78,7 +68,7 @@ class TimePicker extends React.Component {
               <Icon type="fa" name="clock-o" />
             </InputGroup.Addon>
           </InputGroup>
-        </OverlayTrigger>
+        </Popover>
       </div>
     );
   }

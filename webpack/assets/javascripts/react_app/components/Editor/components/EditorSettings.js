@@ -1,13 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Popover,
-  Dropdown,
-  MenuItem,
-  Button,
-  Icon,
-  OverlayTrigger,
-} from 'patternfly-react';
+import { Dropdown, MenuItem, Button, Icon } from 'patternfly-react';
+import { Popover, PopoverPosition } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 
 const EditorSettings = ({
@@ -22,9 +16,14 @@ const EditorSettings = ({
   autocompletion,
   liveAutocompletion,
 }) => (
-  <OverlayTrigger
-    overlay={
-      <Popover placement="bottom" title={__('Settings')} id="cog-popover">
+  <Popover
+    id="cog-popover"
+    position={PopoverPosition.bottom}
+    enableFlip={false}
+    hasAutoWidth
+    headerContent={__('Settings')}
+    bodyContent={
+      <div>
         <div className="cog-popover-dropdown">
           <div className="cog-popover-dropdown-title">{__('Syntax')}</div>
           <Dropdown disabled={selectedView === 'preview'} id="mode-dropdown">
@@ -107,16 +106,13 @@ const EditorSettings = ({
             />
           </div>
         </div>
-      </Popover>
+      </div>
     }
-    placement="bottom"
-    trigger={['click']}
-    rootClose
   >
     <Button className="editor-button" id="cog-btn" bsStyle="link">
       <Icon size="lg" name="cog" />
     </Button>
-  </OverlayTrigger>
+  </Popover>
 );
 
 EditorSettings.propTypes = {

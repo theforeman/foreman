@@ -1,5 +1,6 @@
 import React from 'react';
-import { Icon, OverlayTrigger, Tooltip } from 'patternfly-react';
+import { Icon } from 'patternfly-react';
+import { Tooltip, TooltipPosition } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 
 const InstanceTitleViewer = ({ title }) => {
@@ -7,16 +8,14 @@ const InstanceTitleViewer = ({ title }) => {
     return null;
   }
 
-  const tooltip = <Tooltip id="tooltip">{title}</Tooltip>;
-
   return (
-    <OverlayTrigger
-      placement="bottom"
+    <Tooltip
+      position={TooltipPosition.bottom}
       id="instance-toggle-icon"
-      overlay={tooltip}
+      content={title}
     >
       <Icon type="fa" name="server small" />
-    </OverlayTrigger>
+    </Tooltip>
   );
 };
 

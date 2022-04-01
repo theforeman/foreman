@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, OverlayTrigger, Tooltip } from 'patternfly-react';
-import UUID from 'uuid/v1';
+import { Button } from 'patternfly-react';
+import { Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import './clipboard-copy.scss';
 
@@ -21,11 +21,10 @@ const ClipboardCopy = ({
         onChange={({ target: { value } }) => setText(value)}
         {...textareaProps}
       />
-      <OverlayTrigger
-        overlay={<Tooltip id={UUID()}>{successMessage}</Tooltip>}
-        placement="right"
-        trigger={['click']}
-        rootClose
+      <Tooltip
+        content={successMessage}
+        position={TooltipPosition.right}
+        trigger="click"
       >
         <Button
           onClick={() => navigator.clipboard.writeText(text)}
@@ -34,7 +33,7 @@ const ClipboardCopy = ({
         >
           {buttonText}
         </Button>
-      </OverlayTrigger>
+      </Tooltip>
     </div>
   );
 };

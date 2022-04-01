@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Tooltip, OverlayTrigger } from 'patternfly-react';
-
+import { Tooltip } from '@patternfly/react-core';
 import { translate as __ } from '../../common/I18n';
 
 import { deepPropsToCamelCase } from '../../common/helpers';
@@ -10,17 +9,12 @@ export const withTooltip = Component => componentProps => {
   const { tooltipId, tooltipText, ...rest } = componentProps;
 
   return (
-    <OverlayTrigger
-      overlay={<Tooltip id={tooltipId}>{tooltipText}</Tooltip>}
-      trigger={['hover', 'focus']}
-      placement="top"
-      rootClose={false}
-    >
-      {/* The span is needed because OverlayTrigger overrides child events */}
+    <Tooltip content={tooltipText}>
+      {/* The span is needed because Tooltip overrides child events */}
       <span>
         <Component {...rest} />
       </span>
-    </OverlayTrigger>
+    </Tooltip>
   );
 };
 

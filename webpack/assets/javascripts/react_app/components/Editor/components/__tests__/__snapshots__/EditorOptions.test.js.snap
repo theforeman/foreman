@@ -9,24 +9,9 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
   >
     |
   </h4>
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={500}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="mask-tooltip"
-        placement="right"
-      >
-        Hide Content
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-      ]
-    }
+  <Tooltip
+    content="Hide Content"
+    position="top"
   >
     <Button
       active={false}
@@ -44,25 +29,10 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
         type="fa"
       />
     </Button>
-  </OverlayTrigger>
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={500}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="revert-tooltip"
-        placement="right"
-      >
-        Revert Local Changes
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-      ]
-    }
+  </Tooltip>
+  <Tooltip
+    content="Revert Local Changes"
+    position="top"
   >
     <Button
       active={false}
@@ -80,25 +50,10 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
         type="pf"
       />
     </Button>
-  </OverlayTrigger>
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={500}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="import-tooltip"
-        placement="right"
-      >
-        Import File
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-      ]
-    }
+  </Tooltip>
+  <Tooltip
+    content="Import File"
+    position="top"
   >
     <Button
       active={false}
@@ -124,7 +79,7 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
         type="file"
       />
     </Button>
-  </OverlayTrigger>
+  </Tooltip>
   <EditorSettings
     autocompletion={true}
     changeSetting={[Function]}
@@ -158,24 +113,9 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
       ]
     }
   />
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={500}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="fullscreen-tooltip"
-        placement="right"
-      >
-        Maximize
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-      ]
-    }
+  <Tooltip
+    content="Maximize"
+    position="top"
   >
     <Button
       active={false}
@@ -193,6 +133,6 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
         type="fa"
       />
     </Button>
-  </OverlayTrigger>
+  </Tooltip>
 </div>
 `;

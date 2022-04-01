@@ -1,15 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EditorSettings renders EditorSettings 1`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  overlay={
-    <Popover
-      bsClass="popover"
-      id="cog-popover"
-      placement="bottom"
-      title="Settings"
-    >
+<Popover
+  bodyContent={
+    <div>
       <div
         className="cog-popover-dropdown"
       >
@@ -245,15 +239,13 @@ exports[`EditorSettings renders EditorSettings 1`] = `
           />
         </div>
       </div>
-    </Popover>
+    </div>
   }
-  placement="bottom"
-  rootClose={true}
-  trigger={
-    Array [
-      "click",
-    ]
-  }
+  enableFlip={false}
+  hasAutoWidth={true}
+  headerContent="Settings"
+  id="cog-popover"
+  position="bottom"
 >
   <Button
     active={false}
@@ -270,19 +262,13 @@ exports[`EditorSettings renders EditorSettings 1`] = `
       type="fa"
     />
   </Button>
-</OverlayTrigger>
+</Popover>
 `;
 
 exports[`EditorSettings renders EditorSettings w/preview 1`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  overlay={
-    <Popover
-      bsClass="popover"
-      id="cog-popover"
-      placement="bottom"
-      title="Settings"
-    >
+<Popover
+  bodyContent={
+    <div>
       <div
         className="cog-popover-dropdown"
       >
@@ -518,15 +504,13 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
           />
         </div>
       </div>
-    </Popover>
+    </div>
   }
-  placement="bottom"
-  rootClose={true}
-  trigger={
-    Array [
-      "click",
-    ]
-  }
+  enableFlip={false}
+  hasAutoWidth={true}
+  headerContent="Settings"
+  id="cog-popover"
+  position="bottom"
 >
   <Button
     active={false}
@@ -543,5 +527,5 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
       type="fa"
     />
   </Button>
-</OverlayTrigger>
+</Popover>
 `;
