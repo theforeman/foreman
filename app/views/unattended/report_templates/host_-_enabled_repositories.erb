@@ -1,0 +1,20 @@
+<%#
+name: Host - Enabled Repositories
+snippet: false
+model: ReportTemplate
+require:
+- plugin: katello
+  version: 4.5.0
+-%>
+<%- report_headers 'Host ID', 'Host Name', 'Repository Name', 'Package Count' -%>
+<%- load_hosts(includes: [:content_facet => :bound_repositories]).each_record do |host| -%>
+<%-   (host.bound_repositories || []).each do |repo| -%>
+<%-     report_row(
+          'Host ID': host.id,
+          'Host Name': host.name,
+          'Repository Name': repo,
+          'Package Count': repo.content_counts['rpm']
+      ) -%>
+<%-   end -%>
+<%- end -%>
+<%= report_render -%>
