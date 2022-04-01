@@ -2,25 +2,9 @@
 
 exports[`ImpersonateIcon should render 1`] = `
 <Fragment>
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="stop-impersonation"
-        placement="right"
-      >
-        You are impersonating another user, click to stop the impersonation
-      </Tooltip>
-    }
-    placement="bottom"
-    rootClose={false}
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+  <Tooltip
+    content="You are impersonating another user, click to stop the impersonation"
+    position="bottom"
   >
     <span
       className="nav-item-iconic"
@@ -33,7 +17,7 @@ exports[`ImpersonateIcon should render 1`] = `
         size="sm"
       />
     </span>
-  </OverlayTrigger>
+  </Tooltip>
   <MessageDialog
     accessibleDescription=""
     accessibleName=""

@@ -1,22 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UUID from 'uuid/v1';
-import { Icon, OverlayTrigger, Tooltip } from 'patternfly-react';
+import { Icon } from 'patternfly-react';
+import { Tooltip } from '@patternfly/react-core';
 import { noop } from '../../../common/helpers';
 import { translate as __ } from '../../../common/I18n';
 
 const AutoCompleteClearButton = ({ onClear }) => (
-  <OverlayTrigger
-    overlay={<Tooltip id={UUID()}>{__('Clear')}</Tooltip>}
-    placement="top"
-    trigger={['hover', 'focus']}
-  >
+  <Tooltip content={__('Clear')}>
     <Icon
       name="close"
       className="autocomplete-clear-button"
       onClick={onClear}
     />
-  </OverlayTrigger>
+  </Tooltip>
 );
 
 AutoCompleteClearButton.propTypes = {

@@ -1,31 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UUID from 'uuid/v1';
 import classNames from 'classnames';
-import { OverlayTrigger, Tooltip } from 'patternfly-react';
+import { Tooltip } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 
-const AutoCompleteFocusShortcut = ({ useKeyShortcuts }) => {
-  const tooltip = useKeyShortcuts && (
-    <Tooltip id={UUID()}>{__("Press ' / ' to focus on search")}</Tooltip>
-  );
-  return (
-    <OverlayTrigger
-      overlay={tooltip}
-      placement="top"
-      trigger={['hover', 'focus']}
+const AutoCompleteFocusShortcut = ({ useKeyShortcuts }) => (
+  <Tooltip content={useKeyShortcuts && __("Press ' / ' to focus on search")}>
+    <span
+      className={classNames(
+        'autocomplete-focus-shortcut',
+        !useKeyShortcuts ? 'hide' : ''
+      )}
     >
-      <span
-        className={classNames(
-          'autocomplete-focus-shortcut',
-          !useKeyShortcuts ? 'hide' : ''
-        )}
-      >
-        /
-      </span>
-    </OverlayTrigger>
-  );
-};
+      /
+    </span>
+  </Tooltip>
+);
 
 AutoCompleteFocusShortcut.propTypes = {
   useKeyShortcuts: PropTypes.bool,

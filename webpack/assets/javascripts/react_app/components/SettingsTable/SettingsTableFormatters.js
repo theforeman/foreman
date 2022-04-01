@@ -19,7 +19,7 @@ export const settingNameCellFormatter = (value, { rowData }) => {
 };
 
 export const settingValueCellFormatter = (value, { rowData: setting }) => {
-  const cssClasses = classNames('ellipsis', {
+  const cssClasses = classNames('ellipsis-pf-tooltip', {
     'editable-empty': !setting.value && setting.settingsType !== 'boolean',
     'masked-input': setting.encrypted,
     editable: !setting.readonly,

@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  FormControl,
-  InputGroup,
-  Icon,
-  OverlayTrigger,
-  Popover,
-} from 'patternfly-react';
+import { FormControl, InputGroup, Icon } from 'patternfly-react';
+import { Popover } from '@patternfly/react-core';
 import DateInput from './DateComponents/DateInput';
 import TodayButton from './DateComponents/TodayButton';
 import TimeInput from './TimeComponents/TimeInput';
@@ -61,29 +56,27 @@ class DateTimePicker extends React.Component {
     } = this.props;
     const { value, typeOfDateInput, isTimeTableOpen, hiddenValue } = this.state;
     const popover = (
-      <Popover
+      <div
+        className="row bootstrap-datetimepicker-widget timepicker-sbs"
         id={id}
-        className="bootstrap-datetimepicker-widget dropdown-menu timepicker-sbs"
       >
-        <div className="row">
-          <DateInput
-            date={value}
-            setSelected={this.setSelected}
-            locale={locale}
-            weekStartsOn={weekStartsOn}
-            className="col-md-6"
-            typeOfDateInput={typeOfDateInput}
-          />
-          <TimeInput
-            time={value}
-            setSelected={this.setSelected}
-            isTimeTableOpen={isTimeTableOpen}
-          />
-        </div>
+        <DateInput
+          date={value}
+          setSelected={this.setSelected}
+          locale={locale}
+          weekStartsOn={weekStartsOn}
+          className="col-md-6"
+          typeOfDateInput={typeOfDateInput}
+        />
+        <TimeInput
+          time={value}
+          setSelected={this.setSelected}
+          isTimeTableOpen={isTimeTableOpen}
+        />
         <li className="picker-switch accordion-toggle">
           <TodayButton setSelected={this.setSelected} />
         </li>
-      </Popover>
+      </div>
     );
     return (
       <div>
@@ -97,19 +90,15 @@ class DateTimePicker extends React.Component {
             value={hiddenValue && !required ? '' : formatDateTime(value)}
             onChange={e => this.setSelected(e.target.value)}
           />
-
-          <OverlayTrigger
-            trigger="click"
-            placement={placement}
-            overlay={popover}
-            rootClose
-            container={this}
-            onEnter={() => this.setState({ hiddenValue: false })}
+          <Popover
+            position={placement}
+            bodyContent={popover}
+            onShown={() => this.setState({ hiddenValue: false })}
           >
             <InputGroup.Addon className="date-time-picker-pf">
               <Icon type="fa" name="calendar" />
             </InputGroup.Addon>
-          </OverlayTrigger>
+          </Popover>
           {!required && (
             <InputGroup.Addon className="clear-button">
               <Icon type="fa" name="close" onClick={this.clearSelected} />
@@ -127,7 +116,7 @@ DateTimePicker.propTypes = {
   weekStartsOn: PropTypes.number,
   inputProps: PropTypes.object,
   id: PropTypes.string,
-  placement: OverlayTrigger.propTypes.placement,
+  placement: PropTypes.string,
   name: PropTypes.string,
   required: PropTypes.bool,
   onChange: PropTypes.func,

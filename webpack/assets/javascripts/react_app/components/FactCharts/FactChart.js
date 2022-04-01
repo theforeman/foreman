@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Button, OverlayTrigger, Tooltip } from 'patternfly-react';
+import { Modal, Button } from 'patternfly-react';
+import { Tooltip } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import { noop } from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
@@ -45,17 +46,14 @@ const FactChart = ({
     false
   );
 
-  const tooltip = (
-    <Tooltip id={`viewChartTooltip-${id}`}>
-      {__('Show distribution chart')}
-    </Tooltip>
-  );
-
   return (
     <div className="fact-chart">
-      <OverlayTrigger placement="top" overlay={tooltip}>
+      <Tooltip
+        id={`viewChartTooltip-${id}`}
+        content={__('Show distribution chart')}
+      >
         <Button onClick={openModal}>{__('View Chart')}</Button>
-      </OverlayTrigger>
+      </Tooltip>
       {modalToDisplay && (
         <Modal show onHide={closeModal}>
           <Modal.Header closeButton>

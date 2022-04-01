@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { EyeIcon } from '@patternfly/react-icons';
-import { OverlayTrigger, Tooltip, MessageDialog } from 'patternfly-react';
+import { MessageDialog } from 'patternfly-react';
+import { Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { translate as __ } from '../../../../common/I18n';
 
 import './ImpersonateIcon.scss';
@@ -14,22 +15,16 @@ const ImpersonateIcon = props => {
 
   return (
     <React.Fragment>
-      <OverlayTrigger
-        overlay={
-          <Tooltip id="stop-impersonation">
-            {__(
-              'You are impersonating another user, click to stop the impersonation'
-            )}
-          </Tooltip>
-        }
-        placement="bottom"
-        trigger={['hover', 'focus']}
-        rootClose={false}
+      <Tooltip
+        content={__(
+          'You are impersonating another user, click to stop the impersonation'
+        )}
+        position={TooltipPosition.bottom}
       >
         <span className="nav-item-iconic" onClick={toggleModal}>
           <EyeIcon className="blink-image" />
         </span>
-      </OverlayTrigger>
+      </Tooltip>
       <MessageDialog
         show={showModal}
         onHide={toggleModal}

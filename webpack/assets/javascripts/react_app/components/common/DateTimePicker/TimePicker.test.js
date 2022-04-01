@@ -1,15 +1,15 @@
 import React from 'react';
-import { shallow, mount } from '@theforeman/test';
+import { mount } from '@theforeman/test';
 import TimePicker from './TimePicker';
 
 test('TimePicker is working properly', () => {
-  const component = shallow(<TimePicker value="2/2/2   5:22:31 PM" />);
+  const component = mount(<TimePicker value="2/2/2   5:22:31 PM" />);
 
   expect(component.render()).toMatchSnapshot();
 });
 
 test('TimePicker is working properly with time only', () => {
-  const component = shallow(<TimePicker value="5:22:31 PM  " />);
+  const component = mount(<TimePicker value="5:22:31 PM  " />);
 
   expect(component.render()).toMatchSnapshot();
 });
