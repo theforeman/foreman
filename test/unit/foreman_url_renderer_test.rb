@@ -74,5 +74,17 @@ class ForemanUrlRendererTest < ActiveSupport::TestCase
       assert_equal "#{template_server_from_proxy}/unattended/#{action}?token=#{token}", renderer.foreman_url(action)
       assert_requested(:get, "https://template.proxy:8443/unattended/templateServer", times: 1)
     end
+
+    test "should render foreman request addr" do
+      Setting[:unattended_url] = 'http://www.example.com'
+      renderer.host = host
+      assert_equal "www.example.com", renderer.foreman_request_addr
+    end
+
+    test "should render template_url for foreman request addr" do
+      renderer.host = host
+      renderer.template_url = "http://www.example.com"
+      assert_equal "www.example.com", renderer.foreman_request_addr
+    end
   end
 end

@@ -16,7 +16,7 @@ ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command no
 echo Trying to ping DNS: ${netX/dns}
 ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
 
-set boot-url tftp://${next-server}/
+set boot-url tftp://<%= foreman_request_addr %>/
 kernel ${boot-url}<%= @host.operatingsystem.bootfile(medium_provider,:kernel) %>
 
 initrd <%= foreman_url('script') %> peSetup.cmd
