@@ -63,7 +63,7 @@ module ProxyAPI
     #     {"error": "Unable to connect to External IPAM server"}
     def next_ip(subnet, mac, group = "")
       raise "subnet cannot be nil" if subnet.nil?
-      response = parse get("/subnet/#{subnet}/next_ip", query: { mac: mac, group: group})
+      response = parse get("/subnet/#{subnet}/next_ip", query: { mac: mac, group: group })
       raise(response['error']) if response['error'].present?
       response['data']
     rescue => e
@@ -212,9 +212,9 @@ module ProxyAPI
     #
     # Responses:
     #   Response if IP is reserved:
-    #     true
+    #     {"result": true}
     #   Response if IP address is available
-    #     false
+    #     {"result": false}
     #   Response if missing required parameters:
     #     {"error": ["A 'cidr' parameter for the subnet must be provided(e.g. 100.10.10.0/24)", "Missing 'ip' parameter. An IPv4 address must be provided(e.g. 100.10.10.22)"]}
     #   Response if subnet not exists:
@@ -226,9 +226,14 @@ module ProxyAPI
     def ip_exists(ip, subnet, group = "")
       raise "subnet cannot be nil" if subnet.nil?
       raise "ip cannot be nil" if ip.nil?
-      response = parse get("/subnet/#{subnet}/#{ip}", query: {group: group })
+      response = parse get("/subnet/#{subnet}/#{ip}", query: { group: group })
       raise(response['error']) if response.is_a?(Hash) && response['error'].present?
-      response
+      if response.is_a?(Hash)
+        raise(response['error']) if response['error'].present?
+        response['result']
+      else # Foreman Proxy < 3.3 support
+        response
+      end
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to obtain IP address for subnet %{subnet} in External IPAM."), subnet: subnet)
     end
