@@ -27,23 +27,21 @@ insmod part_gpt
 insmod fat
 insmod chain
 
-menuentry 'Print warning and poweroff' --id local_chain_hd0 {
-  echo "This system was expected to boot from drive but it booted from network. While"
-  echo "this workflow works in BIOS, it is not suitable for EFI systems where chainbooting"
-  echo "is not reliable. Change the boot order to boot from drive. Some platforms are known"
-  echo "to set EFI boot order incorrectly, in that case change EFI configuration or use"
-  echo "efibootmgr to ensure the correct boot order. There are provisioning template snippets"
-  echo "available to do this automatically during provisioning (e.g. in kistart or preseed)."
-  echo
-  echo "To perform chainboot anyway, use the next boot menu item. To set it as default,"
-  echo "change the 'Default PXE local template entry' to 'force_local_chain_hd0'."
-  echo
-  echo "The system will poweroff in 2 minutes or press ESC to poweroff immediately."
-  sleep -i 120
-  halt
-}
+echo "VMWare hosts with QuickBoot feature enabled may not find the local ESP"
+echo "partition due to not initializing all the EFI devices. To workaround, upgrade"
+echo "to the latest grub2 (*) and uncomment "connectefi scsi" statement in the"
+echo "grub2_chainload template."
+echo
+echo "Virtual or physical hosts using Software RAID for the ESP partition may try"
+echo "booting on the Software RAID, which will fail. To workaround, upgrade to the"
+echo "latest grub2 (*) and add "--efidisk-only" argument to the "search" command in"
+echo "the grub2_chainload template."
+echo
+echo "(*) grub2-efi-x64-2.02-122.el8 (upstream doesn't have the patches yet)"
+echo
+#connectefi scsi
 
-menuentry 'Chainload Grub2 EFI from ESP' --id force_local_chain_hd0 {
+menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
   echo "Chainloading Grub2 EFI from ESP, enabled devices for booting:"
   ls
 <%
@@ -51,6 +49,7 @@ menuentry 'Chainload Grub2 EFI from ESP' --id force_local_chain_hd0 {
 -%>
   echo "Trying <%= path %> "
   unset chroot
+  # add --efidisk-only when using Software RAID
   search --file --no-floppy --set=chroot <%= path %>
   if [ -f ($chroot)<%= path %> ]; then
     chainloader ($chroot)<%= path %>
