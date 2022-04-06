@@ -12,7 +12,7 @@ describe('APIMiddleware', () => {
 
   it('should call apiRequest when action type is relevant', async () => {
     apiRequest.mockImplementation(jest.fn());
-    APIMiddleware()(jest.fn())({ type: API_OPERATIONS.GET });
+    APIMiddleware()(jest.fn())({ type: API_OPERATIONS.GET, payload: { key: 'TEST_KEY' } });
     expect(apiRequest).toBeCalled();
   });
 
@@ -20,7 +20,7 @@ describe('APIMiddleware', () => {
     const fakeStore = {};
     const fakeNext = jest.fn();
 
-    const action = { type: API_OPERATIONS.GET };
+    const action = { type: API_OPERATIONS.GET, payload: { key: 'TEST_KEY' } };
     APIMiddleware(fakeStore)(fakeNext)(action);
     expect(fakeNext).toHaveBeenCalledWith(action);
   });
