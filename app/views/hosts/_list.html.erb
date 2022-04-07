@@ -14,6 +14,7 @@
       <th class="hidden-tablet hidden-xs" width="15%"><%= sort :hostgroup, :as => _("Host group") %></th>
       <th class="hidden-tablet hidden-xs" width="10%"><%= sort :last_report, :as => _('Last report'), :default => 'DESC' %></th>
       <%= render_pagelets_for(:hosts_table_column_header) %>
+      <th class="hidden-tablet hidden-xs" width="7%"><%= sort :comment, :as => _('Comment') %></th>
       <th width="100px"><%= _('Actions') %></th>
     </tr>
   </thead>
@@ -36,6 +37,7 @@
         <td class="hidden-tablet hidden-xs"><%= label_with_link host.hostgroup, 23, @hostgroup_authorizer %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= last_report_column(host) %></td>
         <%= render_pagelets_for(:hosts_table_column_content, :subject => host) %>
+        <td class="hidden-tablet hidden-xs ca" title="<%= host.comment&.truncate(255) %>"><%= icon_text('comment', '') unless host.comment.empty? %></td>
         <td>
           <%= action_buttons(
                       display_link_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host, :authorizer => authorizer)),
