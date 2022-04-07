@@ -7,12 +7,15 @@ function override_param(item) {
   var param_value = param.find('[id^=value_]');
   var v = param_value.val();
 
-  $('#parameters')
-    .find('.btn-primary')
-    .click();
-  var new_param = $('#parameters')
-    .find('.fields')
-    .last();
+  var addParameterButton = $('#parameters').find('.btn-primary');
+  addParameterButton.click();
+  var directionOfAddedItems = addParameterButton.attr('direction');
+  var new_param = $('#parameters').find('.fields');
+  if(directionOfAddedItems === 'append'){
+    new_param = new_param.last();
+  } else {
+    new_param = new_param.first();
+  }
   new_param.find('[id$=_name]').val(n);
   new_param.find('[id$=_parameter_type]').val(parameter_type_val);
   new_param
