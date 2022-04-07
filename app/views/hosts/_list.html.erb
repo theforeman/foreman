@@ -10,6 +10,7 @@
       <th width="25%"><%= sort :name, :as => _('Name') %></th>
       <th class="hidden-xs" width="17%"><%= sort :os_title, :as => _("Operating system") %></th>
       <th class="hidden-tablet hidden-xs" width="10%"><%= sort :model, :as => _('Model') %></th>
+      <th class="hidden-tablet hidden-xs" width="8%"><%= sort :owner, :as => _('Owner') %></th>
       <th class="hidden-tablet hidden-xs" width="15%"><%= sort :hostgroup, :as => _("Host group") %></th>
       <th class="hidden-tablet hidden-xs" width="10%"><%= sort :last_report, :as => _('Last report'), :default => 'DESC' %></th>
       <%= render_pagelets_for(:hosts_table_column_header) %>
@@ -31,6 +32,7 @@
         </td>
         <td class="hidden-xs ellipsis"><%= (icon(host.operatingsystem, :size => "16x16") + " #{host.operatingsystem.to_label}").html_safe if host.operatingsystem %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= host.compute_resource_or_model %></td>
+        <td class="hidden-tablet hidden-xs ellipsis"><%= host_owner_column(host) %></td>
         <td class="hidden-tablet hidden-xs"><%= label_with_link host.hostgroup, 23, @hostgroup_authorizer %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= last_report_column(host) %></td>
         <%= render_pagelets_for(:hosts_table_column_content, :subject => host) %>
