@@ -45,7 +45,10 @@ module Api::V2::TaxonomiesController
                      else
                        taxonomy_class
                      end
-    @taxonomies = taxonomy_scope.send("my_#{taxonomies_plural}").search_for(*search_options).paginate(paginate_options)
+    @taxonomies = taxonomy_scope.send("my_#{taxonomies_plural}").search_for(*search_options)
+    if (paginate_options[:per_page] != 'all')
+      @taxonomies = @taxonomies.paginate(paginate_options)
+    end
     @total = taxonomy_scope.send("my_#{taxonomies_plural}").count
     instance_variable_set("@#{taxonomies_plural}", @taxonomies)
 
