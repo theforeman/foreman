@@ -1,5 +1,11 @@
-.card-pf-aggregate-status-notifications .aggregate-text {
+.card-pf-aggregate-status-notifications a.aggregate-text {
   font-size: 16px;
+  &:hover {
+    text-decoration: none;
+    span:last-child {
+      text-decoration: underline;
+    }
+  }
 }
 
 .disabled {

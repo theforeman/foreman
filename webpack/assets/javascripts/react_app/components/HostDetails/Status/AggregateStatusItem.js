@@ -16,9 +16,13 @@ const StatusItem = ({ status, amount, responseStatus, label, onClick }) => (
       >
         <SkeletonLoader skeletonProps={{ width: 30 }} status={responseStatus}>
           {status !== undefined && (
-            <span>
-              <StatusIcon statusNumber={status} /> {amount}
-            </span>
+            <>
+              <StatusIcon
+                statusNumber={status}
+                style={{ marginRight: '3px', position: 'relative', top: '4px' }}
+              />
+              <span style={{ marginRight: '0.5rem' }}>{amount}</span>
+            </>
           )}
         </SkeletonLoader>
       </a>
