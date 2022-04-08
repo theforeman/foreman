@@ -89,8 +89,13 @@ const AggregateStatusCard = ({
       <Card className="card-pf-aggregate-status" isHoverable>
         <CardTitle>
           <span>
-            {__('Host Status')}
-            {!isOKState && <StatusIcon statusNumber={global} />}
+            <span style={{ marginRight: '0.5rem' }}>{__('Host Status')}</span>
+            {!isOKState && (
+              <StatusIcon
+                statusNumber={global}
+                style={{ position: 'relative', top: '2px' }}
+              />
+            )}
           </span>
         </CardTitle>
         <CardBody style={{ height: '129px' }}>
@@ -100,7 +105,7 @@ const AggregateStatusCard = ({
             responseStatus={responseStatus}
           >
             <Bullseye>
-              <p className="card-pf-aggregate-status-notifications">
+              <span className="card-pf-aggregate-status-notifications">
                 {SUPPORTED_STATUSES.map(({ label, status }) => (
                   <AggregateStatusItem
                     key={`status-${label}`}
@@ -111,7 +116,7 @@ const AggregateStatusCard = ({
                     amount={statusesMapper(status).length}
                   />
                 ))}
-              </p>
+              </span>
             </Bullseye>
           </GlobalState>
         </CardBody>
