@@ -152,7 +152,7 @@ namespace :seed do
       * lines            => number of lines per report
 
       Example:
-        rake reports:generate hosts=20 reports=100 lines=200
+        rake seed:reports hosts=20 reports=100 lines=200
   END_DESC
   task :reports => :environment do
     def randn
