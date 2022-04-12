@@ -4,6 +4,7 @@ exports[`TaxonomyDropdown Search items 1`] = `
 Array [
   <ContextSelectorItem
     className="organizations_clear"
+    href={null}
     isDisabled={false}
     key="0"
     onClick={[Function]}
@@ -13,6 +14,7 @@ Array [
   </ContextSelectorItem>,
   <ContextSelectorItem
     className="organization_menuitem"
+    href={null}
     id="select_taxonomy_org1"
     isDisabled={true}
     key="1"
@@ -29,6 +31,7 @@ Array [
   </ContextSelectorItem>,
   <ContextSelectorItem
     className="organization_menuitem"
+    href={null}
     id="select_taxonomy_org2"
     isDisabled={false}
     key="2"
@@ -44,6 +47,7 @@ exports[`TaxonomyDropdown Search items 2`] = `
 Array [
   <ContextSelectorItem
     className="organizations_clear"
+    href={null}
     isDisabled={false}
     key="0"
     onClick={[Function]}
@@ -53,6 +57,7 @@ Array [
   </ContextSelectorItem>,
   <ContextSelectorItem
     className="organization_menuitem"
+    href={null}
     id="select_taxonomy_org1"
     isDisabled={true}
     key="1"
@@ -73,6 +78,7 @@ Array [
 exports[`TaxonomyDropdown rendering rendering 1`] = `
 <ContextSelector
   className="context-selector"
+  disableFocusTrap={false}
   footer={
     <ContextSelectorFooter>
       <Button
@@ -104,6 +110,7 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
 >
   <ContextSelectorItem
     className="organizations_clear"
+    href={null}
     isDisabled={false}
     key="0"
     onClick={[Function]}
@@ -113,6 +120,7 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
   </ContextSelectorItem>
   <ContextSelectorItem
     className="organization_menuitem"
+    href={null}
     id="select_taxonomy_org1"
     isDisabled={true}
     key="1"
@@ -129,6 +137,7 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
   </ContextSelectorItem>
   <ContextSelectorItem
     className="organization_menuitem"
+    href={null}
     id="select_taxonomy_org2"
     isDisabled={false}
     key="2"
