@@ -4,6 +4,7 @@ import HostDetails from './HostDetails';
 import RegistrationCommands from './RegistrationCommands';
 import HostStatuses from './HostStatuses';
 import EmptyPage from './common/EmptyPage/route';
+import FiltersForm from './FiltersForm';
 
 export const routes = [
   Audits,
@@ -12,4 +13,5 @@ export const routes = [
   RegistrationCommands,
   HostStatuses,
   EmptyPage,
+  ...FiltersForm,
 ];

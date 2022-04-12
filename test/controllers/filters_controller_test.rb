@@ -7,8 +7,6 @@ class FiltersControllerTest < ActionController::TestCase
   end
 
   basic_index_test('filters')
-  basic_new_test
-  basic_edit_test('filter')
   basic_pagination_per_page_test
   basic_pagination_rendered_test
 
@@ -31,18 +29,6 @@ class FiltersControllerTest < ActionController::TestCase
     refute_empty assigns(:filters)
     assert_equal Filter.search_for("role = #{role.name}").count, assigns(:filters).count
     assert_match "{&quot;caption&quot;:&quot;Roles&quot;,&quot;url&quot;:&quot;/roles&quot;},{&quot;caption&quot;:&quot;Manager filters&quot;}", @response.body
-  end
-
-  test "should create filter" do
-    assert_difference('Filter.count') do
-      post :create, params: {:filter => { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:access_dashboard).id] }}, session: set_session_user
-    end
-    assert_redirected_to filters_path
-  end
-
-  test "should update filter" do
-    put :update, params: {:id => filters(:destroy_hosts_1), :filter => { :permission_ids => [permissions(:access_dashboard).id] }}, session: set_session_user
-    assert_redirected_to filters_path
   end
 
   test "should destroy filter" do

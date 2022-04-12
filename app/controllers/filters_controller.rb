@@ -12,7 +12,11 @@ class FiltersController < ApplicationController
   end
 
   def new
-    @filter = resource_base.build
+    render 'react/index'
+  end
+
+  def edit
+    render 'react/index'
   end
 
   def create
@@ -22,10 +26,6 @@ class FiltersController < ApplicationController
     else
       process_error
     end
-  end
-
-  def edit
-    @filter = resource_base.includes(:permissions).find(params[:id])
   end
 
   def update

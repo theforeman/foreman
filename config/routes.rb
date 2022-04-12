@@ -278,7 +278,11 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :permissions, only: [:index]
+  resources :permissions, only: [:index] do
+    collection do
+      get 'show_resource_types_with_translations'
+    end
+  end
 
   resources :auth_source_ldaps, except: [:show, :index] do
     collection do
