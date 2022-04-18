@@ -2,6 +2,7 @@
 
 exports[`Slot-Fill Slot with a prop should be pass to a fill 1`] = `
 <Slot
+  deprecated={false}
   dispatch={[Function]}
   fills={
     Array [
@@ -10,6 +11,7 @@ exports[`Slot-Fill Slot with a prop should be pass to a fill 1`] = `
   }
   id="slot-9"
   multi={false}
+  replacedBy=""
   text="this prop should be taken"
 >
   <SlotComponent
@@ -26,10 +28,12 @@ exports[`Slot-Fill Slot with a prop should be pass to a fill 1`] = `
 
 exports[`Slot-Fill default slot 1`] = `
 <Slot
+  deprecated={false}
   dispatch={[Function]}
   fills={Array []}
   id="slot-4"
   multi={true}
+  replacedBy=""
 >
   <SlotComponent
     text="Default Value"
@@ -43,6 +47,7 @@ exports[`Slot-Fill default slot 1`] = `
 
 exports[`Slot-Fill multi slot with override props fill and component fill 1`] = `
 <Slot
+  deprecated={false}
   dispatch={[Function]}
   fills={
     Array [
@@ -55,6 +60,7 @@ exports[`Slot-Fill multi slot with override props fill and component fill 1`] = 
   }
   id="slot-10"
   multi={true}
+  replacedBy=""
 >
   <SlotComponent
     dispatch={[Function]}
@@ -78,6 +84,7 @@ exports[`Slot-Fill multi slot with override props fill and component fill 1`] = 
 
 exports[`Slot-Fill multiple slot with override props 1`] = `
 <Slot
+  deprecated={false}
   dispatch={[Function]}
   fills={
     Array [
@@ -93,6 +100,7 @@ exports[`Slot-Fill multiple slot with override props 1`] = `
   }
   id="slot-5"
   multi={true}
+  replacedBy=""
 >
   <SlotComponent
     dispatch={[Function]}
@@ -117,6 +125,7 @@ exports[`Slot-Fill multiple slot with override props 1`] = `
 
 exports[`Slot-Fill no multiple fills 1`] = `
 <Slot
+  deprecated={false}
   dispatch={[Function]}
   fills={
     Array [
@@ -125,6 +134,7 @@ exports[`Slot-Fill no multiple fills 1`] = `
   }
   id="slot-2"
   multi={false}
+  replacedBy=""
 >
   <PresentComponent
     dispatch={[Function]}
@@ -139,6 +149,7 @@ exports[`Slot-Fill no multiple fills 1`] = `
 
 exports[`Slot-Fill props fill 1`] = `
 <Slot
+  deprecated={false}
   dispatch={[Function]}
   fills={
     Array [
@@ -149,6 +160,7 @@ exports[`Slot-Fill props fill 1`] = `
   }
   id="slot-3"
   multi={false}
+  replacedBy=""
 >
   <SlotComponent
     dispatch={[Function]}
@@ -164,6 +176,7 @@ exports[`Slot-Fill props fill 1`] = `
 
 exports[`Slot-Fill render multiple fills 1`] = `
 <Slot
+  deprecated={false}
   dispatch={[Function]}
   fills={
     Array [
@@ -173,6 +186,7 @@ exports[`Slot-Fill render multiple fills 1`] = `
   }
   id="slot-1"
   multi={true}
+  replacedBy=""
 >
   <FirstComponent
     dispatch={[Function]}
@@ -239,6 +253,7 @@ Object {
 
 exports[`Slot-Fill slot with multi override props should take max weight 1`] = `
 <Slot
+  deprecated={false}
   dispatch={[Function]}
   fills={
     Array [
@@ -250,6 +265,7 @@ exports[`Slot-Fill slot with multi override props should take max weight 1`] = `
   }
   id="slot-6"
   multi={false}
+  replacedBy=""
 >
   <SlotComponent
     dispatch={[Function]}

@@ -25,6 +25,15 @@ const OverviewTab = ({ response, status, hostName }) => {
           id="host-overview-cards"
           multi
         />
+        <Slot
+          deprecated
+          replacedBy="host-overview-cards"
+          hostDetails={response}
+          status={status}
+          hostName={hostName}
+          id="details-cards"
+          multi
+        />
       </Grid>
     </div>
   );

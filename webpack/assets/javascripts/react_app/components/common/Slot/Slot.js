@@ -1,8 +1,25 @@
-import { cloneElement, isValidElement } from 'react';
+import { cloneElement, isValidElement, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Slot = ({ fills, id, multi, children = null, ...props }) => {
+const Slot = ({
+  fills,
+  id,
+  multi,
+  children = null,
+  deprecated,
+  replacedBy,
+  ...props
+}) => {
+  const [warned, setWarned] = useState(false);
   const addProps = object => {
+    if (deprecated && fills?.length && !warned) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `Slot with id '${id}' is deprecated and will be removed in the next release. Please use '${replacedBy}' instead.`
+      );
+      setWarned(true);
+    }
+
     if (multi && !object.key) {
       // eslint-disable-next-line no-console
       console.warn(
@@ -30,12 +47,16 @@ Slot.propTypes = {
   id: PropTypes.string.isRequired,
   multi: PropTypes.bool,
   children: PropTypes.node,
+  deprecated: PropTypes.bool,
+  replacedBy: PropTypes.string,
 };
 
 Slot.defaultProps = {
   fills: [],
   multi: false,
   children: undefined,
+  deprecated: false,
+  replacedBy: '',
 };
 
 export default Slot;

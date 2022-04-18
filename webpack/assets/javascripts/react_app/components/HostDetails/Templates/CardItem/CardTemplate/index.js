@@ -25,7 +25,10 @@ const CardTemplate = ({
   overrideDropdownProps,
 }) => {
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
-  const [isExpanded, setExpanded] = useLocalStorage(header, true);
+  const [isExpanded, setExpanded] = useLocalStorage(
+    `${header} card expanded`,
+    true
+  );
   const onDropdownToggle = isOpen => setDropdownVisibility(isOpen);
   const onExpandCallback = () => setExpanded(prevState => !prevState);
   const onDropdownSelect = event => {

@@ -50,7 +50,12 @@ const SystemPropertiesCard = ({
             emptyState={<DefaultLoaderEmptyState />}
           >
             {name && (
-              <ClipboardCopy isBlock variant="inline-compact">
+              <ClipboardCopy
+                isBlock
+                variant="inline-compact"
+                hoverTip={__('Copy to clipboard')}
+                clickTip={__('Copied to clipboard')}
+              >
                 {name}
               </ClipboardCopy>
             )}
