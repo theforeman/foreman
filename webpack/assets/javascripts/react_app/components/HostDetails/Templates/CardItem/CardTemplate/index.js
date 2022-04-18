@@ -13,7 +13,7 @@ import {
 } from '@patternfly/react-core';
 
 import { useLocalStorage } from '../../../../../common/hooks/Storage';
-import { useDidMountEffect } from '../../../../../common/hooks/Common';
+import { useDidUpdateEffect } from '../../../../../common/hooks/Common';
 
 const CardTemplate = ({
   header,
@@ -34,7 +34,7 @@ const CardTemplate = ({
     // eslint-disable-next-line no-unused-expressions
     overrideDropdownProps?.onSelect?.(event);
   };
-  useDidMountEffect(
+  useDidUpdateEffect(
     () => isExpandedGlobal !== undefined && setExpanded(isExpandedGlobal),
     [isExpandedGlobal]
   );
