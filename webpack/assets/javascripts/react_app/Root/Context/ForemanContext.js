@@ -9,6 +9,7 @@ const useForemanMetadata = () => useForemanContext()?.metadata || {};
 
 export const useForemanVersion = () => useForemanMetadata().version;
 export const useForemanSettings = () => useForemanMetadata().UISettings;
+export const useForemanUserSettings = () => useForemanMetadata().user_settings;
 export const useForemanDocUrl = () => useForemanMetadata().docUrl;
 export const useForemanOrganization = () => useForemanMetadata().organization;
 export const useForemanLocation = () => useForemanMetadata().location;
