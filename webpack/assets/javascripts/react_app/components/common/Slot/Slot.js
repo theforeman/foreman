@@ -15,7 +15,7 @@ const Slot = ({
     if (deprecated && fills?.length && !warned) {
       // eslint-disable-next-line no-console
       console.warn(
-        `Slot with id '${id}' is deprecated and will be removed in the next release. Please use '${replacedBy}' instead.`
+        `Slot with id '${id}' is deprecated and will be removed in version 3.4. Please use '${replacedBy}' instead.`
       );
       setWarned(true);
     }

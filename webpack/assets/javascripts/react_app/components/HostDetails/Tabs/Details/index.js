@@ -9,8 +9,8 @@ import { translate as __ } from '../../../../common/I18n';
 
 const DetailsTab = ({ response, status, hostName }) => {
   useEffect(() => {
-    //  This is a workaround for adding gray background inspiring pf4 desgin
-    //  TODO: delete it when pf4 layout (Page copmponent) is implemented in foreman
+    //  This is a workaround for adding a gray background inspired by PF4 design
+    //  TODO: delete it when PF4 layout (Page component) is implemented in Foreman
     document.body.classList.add('pf-gray-background');
     registerCoreCards();
     return () => document.body.classList.remove('pf-gray-background');

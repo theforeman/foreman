@@ -7,10 +7,10 @@ const getStorageValue = (key, defaultValue, storage) => {
 };
 
 /**
- * A custom hook that creates a memorized state in local storage
- * @param  {string} key a uniqe id for the state
+ * A custom hook that creates a memoized state in local storage
+ * @param  {string} key a unique id for the state
  * @param  {string} defaultValue a default value for the state
- * @param  {boolean} session using a session storage or local storage
+ * @param  {boolean} session whether to use session storage or local storage
  * @return {Array} returns an array that contains the state's value and the setter function
  */
 
