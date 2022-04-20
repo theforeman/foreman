@@ -368,18 +368,24 @@ module ApplicationHelper
 
   def app_metadata
     {
-      UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url,
+      UISettings: ui_settings,
+      version: SETTINGS[:version].short,
+      docUrl: documentation_url,
       location: Location.current && { id: Location.current.id, title: Location.current.title },
       organization: Organization.current && { id: Organization.current.id, title: Organization.current.title },
       user: User.current&.attributes&.slice('id', 'login', 'firstname', 'lastname', 'admin'),
       user_settings: {
         lab_features: Setting[:lab_features],
-      }
+      },
     }.compact
   end
 
   def ui_settings
-    { perPage: Setting['entries_per_page'], destroyVmOnHostDelete: Setting['destroy_vm_on_host_delete'] }
+    {
+      perPage: Setting['entries_per_page'],
+      destroyVmOnHostDelete: Setting['destroy_vm_on_host_delete'],
+      labFeatures: Setting[:lab_features],
+    }
   end
 
   def current_host_details_path(host)
