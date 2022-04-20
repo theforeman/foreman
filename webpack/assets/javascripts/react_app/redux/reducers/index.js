@@ -15,7 +15,6 @@ import { reducers as fillReducers } from '../../components/common/Fill';
 import { reducers as typeAheadSelectReducers } from '../../components/common/TypeAheadSelect';
 import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
 import { reducers as intervalReducers } from '../middlewares/IntervalMiddleware';
-import { reducers as bookmarksReducers } from '../../components/Bookmarks';
 import { reducers as bookmarksPF4Reducers } from '../../components/PF4/Bookmarks';
 import { reducers as modalReducers } from '../../components/ForemanModal';
 import { reducers as apiReducer } from '../API';
@@ -27,7 +26,6 @@ import { reducers as toastsListReducers } from '../../components/ToastsList';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
-    ...bookmarksReducers,
     ...bookmarksPF4Reducers,
     hosts,
     notifications,
