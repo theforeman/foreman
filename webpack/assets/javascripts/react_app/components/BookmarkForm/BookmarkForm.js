@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 
-import { noop } from '../../../../common/helpers';
-import ForemanForm from '../../../common/forms/ForemanForm';
-import TextField from '../../../common/forms/TextField';
-import { translate as __ } from '../../../../../react_app/common/I18n';
-import { maxLengthMsg, requiredMsg } from '../../../common/forms/validators';
+import { noop } from '../../common/helpers';
+import ForemanForm from '../common/forms/ForemanForm';
+import TextField from '../common/forms/TextField';
+import { translate as __ } from '../../common/I18n';
+import { maxLengthMsg, requiredMsg } from '../common/forms/validators';
 
 const BookmarkForm = ({
   url,

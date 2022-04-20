@@ -4,37 +4,6 @@ exports[`Bookmark form integration test should allow submission when fields fill
 Array [
   Array [
     Object {
-      "payload": Object {
-        "controller": "hosts",
-        "item": "Bookmark",
-      },
-      "response": Object {
-        "results": Array [
-          Object {
-            "controller": "hosts",
-            "id": 52,
-            "name": "1111",
-            "owner_id": 1,
-            "owner_type": "User",
-            "public": true,
-            "query": "abc",
-          },
-          Object {
-            "controller": "hosts",
-            "id": 54,
-            "name": "1122",
-            "owner_id": 1,
-            "owner_type": "User",
-            "public": true,
-            "query": "abc",
-          },
-        ],
-      },
-      "type": "BOOKMARKS_SUCCESS",
-    },
-  ],
-  Array [
-    Object {
       "key": "BOOKMARKS_FORM_SUBMITTED",
       "payload": Object {
         "url": "/api/v2/hosts",

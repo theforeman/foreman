@@ -2,24 +2,20 @@ import React from 'react';
 import uuidV1 from 'uuid/v1';
 import { IntegrationTestHelper } from '@theforeman/test';
 
-import API from '../../../../../redux/API/API';
-import { APIMiddleware } from '../../../../../redux/API';
+import API from '../../../redux/API/API';
+import { APIMiddleware } from '../../../redux/API';
 
 import BookmarkForm from '../index';
-import { reducers as bookmarksReducer } from '../../../index';
-import { reducers as autocompleteReducer } from '../../../../AutoComplete/index';
-import foremanModalsReducer from '../../../../ForemanModal/ForemanModalReducer';
+import { reducers as bookmarksReducer } from '../../PF4/Bookmarks/index';
+import { reducers as autocompleteReducer } from '../../AutoComplete/index';
+import foremanModalsReducer from '../../ForemanModal/ForemanModalReducer';
 import {
-  response,
   name,
   search,
   publik,
-  item,
   submitResponse,
-  controller,
   bookmarks,
-} from '../../../Bookmarks.fixtures';
-import { BOOKMARKS_SUCCESS } from '../../../BookmarksConstants';
+} from '../../PF4/Bookmarks/Bookmarks.fixtures';
 
 const reducers = {
   foremanModals: foremanModalsReducer,
@@ -27,7 +23,7 @@ const reducers = {
   ...autocompleteReducer,
 };
 
-jest.mock('../../../../../redux/API/API');
+jest.mock('../../../redux/API/API');
 jest.mock('uuid/v1');
 uuidV1.mockImplementation(() => '1547e1c0-309a-11e9-98f5-5f761412a4c2');
 
@@ -42,15 +38,6 @@ describe('Bookmark form integration test', () => {
     API.post.mockImplementation(async () => submitResponse);
 
     const testHelper = new IntegrationTestHelper(reducers, [APIMiddleware]);
-    testHelper.store.dispatch({
-      type: BOOKMARKS_SUCCESS,
-      payload: {
-        controller,
-        item,
-      },
-      response: response.data,
-    });
-
     const component = testHelper.mount(<BookmarkForm {...props} />);
 
     expect(

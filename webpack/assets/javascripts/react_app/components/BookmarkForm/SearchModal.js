@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ForemanModal from '../../ForemanModal';
-import { translate as __ } from '../../../common/I18n';
-import { noop } from '../../../common/helpers';
-import BookmarkForm from './BookmarkForm';
-import { getBookmarksModalId } from '../../PF4/Bookmarks/BookmarksHelpers';
+import ForemanModal from '../ForemanModal';
+import { translate as __ } from '../../common/I18n';
+import { noop } from '../../common/helpers';
+import BookmarkForm from './';
+import { getBookmarksModalId } from '../PF4/Bookmarks/BookmarksHelpers';
 
 const SearchModal = ({
   id,
