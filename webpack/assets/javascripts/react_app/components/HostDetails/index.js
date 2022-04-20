@@ -39,6 +39,7 @@ import TabRouter from './Tabs/TabRouter';
 import RedirectToEmptyHostPage from './EmptyState';
 import BreadcrumbBar from '../BreadcrumbBar';
 import { foremanUrl } from '../../common/helpers';
+import { useForemanSettings } from '../../Root/Context/ForemanContext';
 
 const HostDetails = ({
   match: {
@@ -66,10 +67,13 @@ const HostDetails = ({
   useEffect(() => {
     if (tabs?.length) dispatchEvent(new Event('resize'));
   }, [tabs]);
+  const hideDetailsTab = useForemanSettings()?.labFeatures === false;
 
   useEffect(() => {
-    registerCoreTabs();
-  }, []);
+    registerCoreTabs({
+      except: hideDetailsTab ? ['host-details-detail-tab'] : [],
+    });
+  }, [hideDetailsTab]);
 
   const activeTab = decodeURI(
     hash

@@ -12,6 +12,6 @@ const cards = [
 
 export const registerCoreCards = () => {
   cards.forEach(({ key, Component, weight }) => {
-    addGlobalFill('details-cards', key, <Component key={key} />, weight);
+    addGlobalFill('host-overview-cards', key, <Component key={key} />, weight);
   });
 };

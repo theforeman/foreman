@@ -4,9 +4,9 @@ import { Grid } from '@patternfly/react-core';
 import { registerCoreCards } from './CardsRegistry';
 import Slot from '../../../common/Slot';
 import { STATUS } from '../../../../constants';
-import './Details.css';
+import './styles.css';
 
-const DetailsTab = ({ response, status, hostName }) => {
+const OverviewTab = ({ response, status, hostName }) => {
   useEffect(() => {
     //  This is a workaround for adding gray background inspiring pf4 desgin
     //  TODO: delete it when pf4 layout (Page copmponent) is implemented in foreman
@@ -22,6 +22,15 @@ const DetailsTab = ({ response, status, hostName }) => {
           hostDetails={response}
           status={status}
           hostName={hostName}
+          id="host-overview-cards"
+          multi
+        />
+        <Slot
+          deprecated
+          replacedBy="host-overview-cards"
+          hostDetails={response}
+          status={status}
+          hostName={hostName}
           id="details-cards"
           multi
         />
@@ -30,15 +39,15 @@ const DetailsTab = ({ response, status, hostName }) => {
   );
 };
 
-DetailsTab.propTypes = {
+OverviewTab.propTypes = {
   response: PropTypes.object,
   status: PropTypes.string,
   hostName: PropTypes.string,
 };
 
-DetailsTab.defaultProps = {
+OverviewTab.defaultProps = {
   response: {},
   status: STATUS.PENDING,
   hostName: undefined,
 };
-export default DetailsTab;
+export default OverviewTab;
