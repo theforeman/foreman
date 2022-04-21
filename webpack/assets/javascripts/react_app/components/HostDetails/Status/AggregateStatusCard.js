@@ -89,7 +89,7 @@ const AggregateStatusCard = ({
       <Card className="card-pf-aggregate-status" isHoverable>
         <CardTitle>
           <span>
-            <span style={{ marginRight: '0.5rem' }}>{__('Host Status')}</span>
+            <span style={{ marginRight: '0.5rem' }}>{__('Host status')}</span>
             {!isOKState && (
               <StatusIcon
                 statusNumber={global}

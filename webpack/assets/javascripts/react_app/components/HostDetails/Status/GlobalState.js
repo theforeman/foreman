@@ -18,7 +18,7 @@ const GlobalState = ({
         <Title size="lg" headingLevel="h4">
           {cannotViewStatuses
             ? __('No statuses to show')
-            : __('All Statuses are OK')}
+            : __('All statuses are OK')}
         </Title>
       </EmptyState>
     );

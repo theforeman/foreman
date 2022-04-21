@@ -19,7 +19,7 @@ const StatusModal = ({
         headingLevel="h1"
         size={TitleSizes['2xl']}
       >
-        {__("Manage Host's Statuses")}
+        {__('Manage host statuses')}
       </Title>
     </>
   );

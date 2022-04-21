@@ -128,7 +128,7 @@ class HostJSTest < IntegrationTestWithJavascript
     test "manage host statuses modal" do
       visit host_details_page_path(@host)
       find('a', :text => /Manage all statuses/).click
-      find('h1', :text => /Manage Host's Statuses/)
+      find('h1', :text => /Manage host statuses/)
     end
 
     describe 'create and redirect' do

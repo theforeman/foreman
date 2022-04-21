@@ -15,9 +15,9 @@ const StatusTable = ({ hostName, statuses, canForgetStatuses }) => {
     const statusName = rowData[0]?.title?.props?.children || rowData[0];
     dispatch(
       openConfirmModal({
-        title: __("Clear Host's Status"),
+        title: __('Clear host status'),
         message: sprintf(
-          __('You are about to clear %s status. Are you sure?'),
+          __('You are about to clear the %s status. Are you sure?'),
           statusName
         ),
         isWarning: true,
@@ -30,7 +30,7 @@ const StatusTable = ({ hostName, statuses, canForgetStatuses }) => {
       })
     );
   };
-  const columns = [__('Name'), __('Status'), __('Reported At')];
+  const columns = [__('Name'), __('Status'), __('Reported at')];
   const rows = statuses?.map(
     ({ name, label, link, global, reported_at: reportedAt }) => [
       link ? { title: <a href={link}>{name}</a> } : name,
