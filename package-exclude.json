@@ -30,7 +30,8 @@
         "surge",
         "webpack-bundle-analyzer",
         "webpack-dev-server",
-        "webpack-dev-server-without-h2"
+        "webpack-dev-server-without-h2",
+        "tabbable"
     ],
     "EXCLUDE_NPM_PREFIXES": [
         "@babel/eslint-",

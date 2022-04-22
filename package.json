@@ -68,6 +68,7 @@
     "webpack": "^3.4.1",
     "webpack-bundle-analyzer": ">=3.3.2",
     "webpack-dev-server-without-h2": "^2.11.8",
-    "webpack-stats-plugin": "^0.1.5"
+    "webpack-stats-plugin": "^0.1.5",
+    "tabbable": "~5.2.0"
   }
 }
