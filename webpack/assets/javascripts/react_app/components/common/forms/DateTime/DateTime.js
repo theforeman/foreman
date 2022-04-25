@@ -5,7 +5,7 @@ import { Field } from 'formik';
 import DateTimePicker from '../../DateTimePicker/DateTimePicker';
 
 import CommonForm from '../CommonForm';
-import { documentLocale } from '../../../../common/I18n';
+import { intl } from '../../../../common/I18n';
 import './DateTimeOverrides.scss';
 
 const DateTime = ({
@@ -19,7 +19,7 @@ const DateTime = ({
   value,
   initialError,
 }) => {
-  const currentLocale = locale || documentLocale();
+  const currentLocale = locale || intl.locale;
 
   return (
     <Field
