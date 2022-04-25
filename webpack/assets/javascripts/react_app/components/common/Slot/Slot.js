@@ -19,7 +19,6 @@ const Slot = ({
       );
       setWarned(true);
     }
-
     if (multi && !object.key) {
       // eslint-disable-next-line no-console
       console.warn(

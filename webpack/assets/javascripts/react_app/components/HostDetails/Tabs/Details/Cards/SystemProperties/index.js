@@ -17,10 +17,8 @@ import LongDateTime from '../../../../../common/dates/LongDateTime';
 import { STATUS } from '../../../../../../constants';
 import RelativeDateTime from '../../../../../common/dates/RelativeDateTime';
 
-const SystemPropertiesCard = ({
-  status,
-  isExpandedGlobal,
-  hostDetails: {
+const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
+  const {
     name,
     uuid,
     model_name: model,
@@ -33,154 +31,160 @@ const SystemPropertiesCard = ({
     created_at: createdAt,
     updated_at: updateAt,
     reported_data: { boot_time: bootTime } = {},
-  },
-}) => (
-  <CardTemplate
-    overrideGridProps={{ rowSpan: 2 }}
-    header={__('System properties')}
-    expandable
-    isExpandedGlobal={isExpandedGlobal}
-  >
-    <DescriptionList isCompact>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Name')}</DescriptionListTerm>
-        <DescriptionListDescription>
-          <SkeletonLoader
-            status={status}
-            emptyState={<DefaultLoaderEmptyState />}
-          >
-            {name && (
-              <ClipboardCopy
-                isBlock
-                variant="inline-compact"
-                hoverTip={__('Copy to clipboard')}
-                clickTip={__('Copied to clipboard')}
-              >
-                {name}
-              </ClipboardCopy>
-            )}
-          </SkeletonLoader>
-        </DescriptionListDescription>
-      </DescriptionListGroup>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Domain')}</DescriptionListTerm>
-        <DescriptionListDescription>
-          <SkeletonLoader
-            status={status}
-            emptyState={<DefaultLoaderEmptyState />}
-          >
-            {domain && (
-              <ClipboardCopy isBlock variant="inline-compact">
-                {domain}
-              </ClipboardCopy>
-            )}
-          </SkeletonLoader>
-        </DescriptionListDescription>
-      </DescriptionListGroup>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('UUID')}</DescriptionListTerm>
-        <DescriptionListDescription>
-          <SkeletonLoader
-            status={status}
-            emptyState={<DefaultLoaderEmptyState />}
-          >
-            {uuid && (
-              <ClipboardCopy isBlock variant="inline-compact">
-                {uuid}
-              </ClipboardCopy>
-            )}
-          </SkeletonLoader>
-        </DescriptionListDescription>
-      </DescriptionListGroup>
-      <Slot id="host-details-tab-properties-1" multi />
-    </DescriptionList>
-    <Divider className="padded-divider" />
-    <DescriptionList
-      isCompact
-      columnModifier={{
-        default: '2Col',
-      }}
+  } = hostDetails;
+  return (
+    <CardTemplate
+      overrideGridProps={{ rowSpan: 2 }}
+      header={__('System properties')}
+      expandable
+      isExpandedGlobal={isExpandedGlobal}
     >
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Model')}</DescriptionListTerm>
-        <DescriptionListDescription>
-          <SkeletonLoader
-            status={status}
-            emptyState={<DefaultLoaderEmptyState />}
-          >
-            {model}
-          </SkeletonLoader>
-        </DescriptionListDescription>
-      </DescriptionListGroup>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Host group')}</DescriptionListTerm>
-        <DescriptionListDescription>
-          <SkeletonLoader
-            status={status}
-            emptyState={<DefaultLoaderEmptyState />}
-          >
-            {hostgroupName}
-          </SkeletonLoader>
-        </DescriptionListDescription>
-      </DescriptionListGroup>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Owner')}</DescriptionListTerm>
-        <DescriptionListDescription>
-          <SkeletonLoader
-            status={status}
-            emptyState={<DefaultLoaderEmptyState />}
-          >
-            {ownerName}
-          </SkeletonLoader>
-        </DescriptionListDescription>
-      </DescriptionListGroup>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Owner type')}</DescriptionListTerm>
-        <DescriptionListDescription>{ownerType}</DescriptionListDescription>
-      </DescriptionListGroup>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Location')}</DescriptionListTerm>
-        <DescriptionListDescription>{location}</DescriptionListDescription>
-      </DescriptionListGroup>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Organization')}</DescriptionListTerm>
-        <DescriptionListDescription>{organization}</DescriptionListDescription>
-      </DescriptionListGroup>
-      <Slot id="host-details-tab-properties-2" multi />
-    </DescriptionList>
-    <Divider className="padded-divider" />
-    <DescriptionList isCompact>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Created at')}</DescriptionListTerm>
-        <DescriptionListDescription>
-          {createdAt && <LongDateTime date={createdAt} />}
-        </DescriptionListDescription>
-      </DescriptionListGroup>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Updated at')}</DescriptionListTerm>
-        <DescriptionListDescription>
-          <SkeletonLoader
-            status={status}
-            emptyState={<DefaultLoaderEmptyState />}
-          >
-            {updateAt && <LongDateTime date={updateAt} />}
-          </SkeletonLoader>
-        </DescriptionListDescription>
-      </DescriptionListGroup>
-      <DescriptionListGroup>
-        <DescriptionListTerm>{__('Boot time')}</DescriptionListTerm>
-        <DescriptionListDescription>
-          <SkeletonLoader
-            status={status}
-            emptyState={<DefaultLoaderEmptyState />}
-          >
-            {bootTime && <RelativeDateTime date={bootTime} />}
-          </SkeletonLoader>
-        </DescriptionListDescription>
-      </DescriptionListGroup>
-    </DescriptionList>
-  </CardTemplate>
-);
+      <DescriptionList isCompact>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Name')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {name && (
+                <ClipboardCopy
+                  isBlock
+                  variant="inline-compact"
+                  hoverTip={__('Copy to clipboard')}
+                  clickTip={__('Copied to clipboard')}
+                >
+                  {name}
+                </ClipboardCopy>
+              )}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Domain')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {domain && (
+                <ClipboardCopy isBlock variant="inline-compact">
+                  {domain}
+                </ClipboardCopy>
+              )}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('UUID')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {uuid && (
+                <ClipboardCopy isBlock variant="inline-compact">
+                  {uuid}
+                </ClipboardCopy>
+              )}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+        <Slot
+          id="host-details-tab-properties-1"
+          multi
+          hostDetails={hostDetails}
+        />
+      </DescriptionList>
+      <Divider className="padded-divider" />
+      <DescriptionList
+        isCompact
+        columnModifier={{
+          default: '2Col',
+        }}
+      >
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Model')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {model}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Host group')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {hostgroupName}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Owner')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {ownerName}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Owner type')}</DescriptionListTerm>
+          <DescriptionListDescription>{ownerType}</DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Location')}</DescriptionListTerm>
+          <DescriptionListDescription>{location}</DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Organization')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            {organization}
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+      </DescriptionList>
+      <Divider className="padded-divider" />
+      <DescriptionList isCompact>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Created at')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            {createdAt && <LongDateTime date={createdAt} />}
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Updated at')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {updateAt && <LongDateTime date={updateAt} />}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Boot time')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {bootTime && <RelativeDateTime date={bootTime} />}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+      </DescriptionList>
+    </CardTemplate>
+  );
+};
 
 SystemPropertiesCard.propTypes = {
   status: PropTypes.string,
