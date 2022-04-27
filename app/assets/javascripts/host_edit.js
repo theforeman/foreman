@@ -172,11 +172,9 @@ function submit_with_all_params() {
     success: function(response, _responseStatus, _jqXHR) {
       // workaround for redirecting to the new host details page
       if (!response.includes('id="main"')) {
-        var is_new_host = $('form').attr('id').startsWith('new');
-        var hostname = is_new_host ? construct_host_name() : $('#hidden-host-name').text() 
-        return tfm.nav.pushUrl(tfm.tools.foremanUrl('/new/hosts/' + hostname));
+        return tfm.nav.pushUrl(tfm.tools.foremanUrl('/new/hosts/' + construct_host_name()));
       }
-   
+
       $('#host-progress').hide();
       $('#content').replaceWith($('#content', response));
       $(document.body).trigger('ContentLoad');

@@ -32,7 +32,10 @@
         <%= text_f f, :name, :size => "col-md-4", :value => name_field(@host),
             :input_group_btn => randomize_mac_link,
             :help_inline => _("This value is used also as the host's primary interface name."),
-            :data => { 'append_domain_name_for_hosts' => Setting[:append_domain_name_for_hosts] } %>
+            :data => { 'append_domain_name_for_hosts' => Setting[:append_domain_name_for_hosts],
+              'managed' => @host.managed?
+            }
+        %>
 
         <% if show_organization_tab?  %>
           <%= host_taxonomy_select(f, Organization) %>
