@@ -31,6 +31,10 @@ template_inputs:
   default: 'true'
   hidden_value: false
 model: ReportTemplate
+description: |
+  This report lists hosts that haven't checked in in the specified interval (by default
+  5 hours). By default it also includes hosts we don't have last check information for.
+  The check in is based on the subscription manager communication.
 require:
 - plugin: katello
 ￼ version: 3.16.0
