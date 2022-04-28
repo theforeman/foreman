@@ -97,6 +97,9 @@ module Foreman
   class PermissionMissingException < Foreman::Exception
   end
 
+  class SettingValueException < Foreman::Exception
+  end
+
   class LdapException < Foreman::WrappedException
   end
 

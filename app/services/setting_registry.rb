@@ -90,7 +90,7 @@ class SettingRegistry
     when db_record.settings_type
       db_record.value = value
     else
-      raise ::Foreman::Exception.new(N_('expected a value of type %s'), @setting.settings_type)
+      raise ::Foreman::SettingValueException.new(N_('expected a value of type %s'), @setting.settings_type)
     end
     db_record
   end
