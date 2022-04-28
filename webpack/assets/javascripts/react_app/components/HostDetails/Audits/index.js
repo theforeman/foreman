@@ -48,7 +48,7 @@ const AuditCard = ({ hostName }) => {
     <GridItem xl2={3} xl={4} md={6} lg={4}>
       <Card isHoverable>
         <CardHeader>
-          <CardTitle>{__('Recent Audits')}</CardTitle>
+          <CardTitle>{__('Recent audits')}</CardTitle>
           <CardActions>
             <a onClick={() => dispatch(push(uiUrl))}> {__('All audits')}</a>
           </CardActions>
