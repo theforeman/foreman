@@ -85,6 +85,14 @@ module HostsHelper
     opts
   end
 
+  def host_owner_column(host)
+    if host.owner_type == 'User'
+      icon_text('user', host.owner, :kind => 'fa')
+    elsif host.owner_type == 'Usergroup'
+      icon_text('users', host.owner, :kind => 'fa')
+    end
+  end
+
   # method that reformat the hostname column by adding the status icons
   def name_column(host)
     style = host_global_status_icon_class_for_host(host)
