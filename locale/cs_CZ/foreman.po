@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
+# Amit Upadhye <aupadhye@redhat.com>, 2022
 # trendspotter <jirka.p@volny.cz>, 2020
 # Lukáš Zapletal, 2013
 # Ondřej Ezr <ezrik12@gmail.com>, 2021
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-01-03 14:18+0000\n"
-"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
+"PO-Revision-Date: 2013-04-24 11:26+0000\n"
+"Last-Translator: Amit Upadhye <aupadhye@redhat.com>, 2022\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +132,7 @@ msgstr[2] "před %s týdny"
 msgstr[3] "před %s týdny"
 
 msgid "%s widget loading..."
-msgstr "načítání ovládacího prvku %s…"
+msgstr "načítání ovládacího prvku %s..."
 
 msgid "%s you had selected as your context has been deleted"
 msgstr ""
@@ -627,7 +628,7 @@ msgid "All mismatches between hosts and %s have been fixed"
 msgstr ""
 
 msgid "All mismatches between hosts and locations/organizations have been fixed"
-msgstr "Všechny neshody mezi hostiteli a místy / organizacemi byly opraveny"
+msgstr "Všechny neshody mezi hostiteli a místy/organizacemi byly opraveny"
 
 msgid "All partition tables"
 msgstr "Všechny tabulky rozdělení úložiště"
@@ -1160,7 +1161,7 @@ msgid "Bookmark this search"
 msgstr "Přidej hledaní jako záložku"
 
 msgid "Bookmark was successfully created."
-msgstr "Záložka úspěšně vytvořena"
+msgstr "Záložka úspěšně vytvořena."
 
 msgid "Bookmark was successfully updated"
 msgstr "Záložka byla úspěšně zaktualizována"
@@ -1780,7 +1781,7 @@ msgid "Could not refresh external usergroups: %{e} - %{message} - %{suggestion}"
 msgstr ""
 
 msgid "Could not resolve ID."
-msgstr "Identif. se nedaří přeložit"
+msgstr "Identif. se nedaří přeložit."
 
 msgid "Could not revoke Token: "
 msgstr ""
@@ -2814,7 +2815,7 @@ msgid "Error while trying to update resource: %s"
 msgstr ""
 
 msgid "Error! "
-msgstr "Chyba!"
+msgstr "Chyba! "
 
 msgid "Errors"
 msgstr "Chyby"
@@ -3068,7 +3069,7 @@ msgid "Failed to fetch power status: %s"
 msgstr ""
 
 msgid "Failed to fetch: "
-msgstr "Nepodařilo se získat:"
+msgstr "Nepodařilo se získat: "
 
 msgid "Failed to find compute attributes, please check if VM %s was deleted"
 msgstr "Nepodařilo se najít atributy výpočetního prostředku, zkontrolujte zda virt. stroj %s nebyl smazán"
@@ -3194,7 +3195,7 @@ msgid "Filter"
 msgstr ""
 
 msgid "Filter Host..."
-msgstr "Filtrovat stroj…"
+msgstr "Filtrovat stroj..."
 
 msgid "Filter audits for this resource only"
 msgstr "Filtrovat audity pouze pro tento prostředek"
@@ -5319,22 +5320,22 @@ msgid "Loading"
 msgstr ""
 
 msgid "Loading BMC information ..."
-msgstr "Načítání informací BMC…"
+msgstr "Načítání informací BMC..."
 
 msgid "Loading NICs information ..."
-msgstr "Načítání informací o síťovém rozhraní…"
+msgstr "Načítání informací o síťovém rozhraní..."
 
 msgid "Loading SSH keys information ..."
-msgstr "Načítání informací o SSH klíčích…"
+msgstr "Načítání informací o SSH klíčích..."
 
 msgid "Loading VM information ..."
 msgstr "Načítání informací o virt. stroji…"
 
 msgid "Loading filters ..."
-msgstr "Načítání filtrů…"
+msgstr "Načítání filtrů..."
 
 msgid "Loading host information ..."
-msgstr "Načítání informací o stroji…"
+msgstr "Načítání informací o stroji..."
 
 msgid "Loading images information ..."
 msgstr "Načítání informací o obrazu…"
