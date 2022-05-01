@@ -14,7 +14,6 @@ import {
   DatabaseIcon,
   TrashIcon,
   CloneIcon,
-  CommentIcon,
   UndoIcon,
   FileInvoiceIcon,
   BuildIcon,
@@ -126,19 +125,6 @@ const ActionsBar = ({
       key="prev-version"
     >
       {__('Legacy UI')}
-    </DropdownItem>,
-    <DropdownItem
-      icon={<CommentIcon />}
-      onClick={() =>
-        window.open(
-          'https://community.theforeman.org/t/foreman-3-0-new-host-detail-page-feedback/25281',
-          '_blank'
-        )
-      }
-      key="feedback"
-      component="button"
-    >
-      {__('Share feedback')}
     </DropdownItem>,
   ];
 
