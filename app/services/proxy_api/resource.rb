@@ -137,7 +137,7 @@ module ProxyAPI
 
       {
         :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(File.read(cert)),
-        :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
+        :ssl_client_key   =>  OpenSSL::PKey.read(File.read(hostprivkey)),
         :ssl_ca_file      =>  ca_cert,
         :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER,
       }
