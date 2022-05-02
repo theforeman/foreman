@@ -6,6 +6,25 @@ class ConfigReportsController < ApplicationController
 
   def index
     respond_to do |format|
+      format.json do
+        reports = resource_base_search_and_page(:host)
+        render json: {
+          itemCount: reports.count,
+          reports: reports.map do |r|
+            r.attributes.except('metrics', 'created_at', 'updated_at', 'status', 'type').merge(
+              can_delete: can_delete?(r),
+              can_view: can_view?(r),
+              origin: r.origin,
+              applied: r.applied,
+              restarted: r.restarted,
+              failed: r.failed,
+              failed_restarts: r.failed_restarts,
+              skipped: r.skipped,
+              pending: r.pending
+            )
+          end,
+        }, status: :ok
+      end
       format.html do
         @host = resource_finder(Host.authorized(:view_hosts), params[:host_id]) if params[:host_id]
         @config_reports = resource_base_search_and_page(:host)
@@ -48,5 +67,13 @@ class ConfigReportsController < ApplicationController
 
   def resource_base
     super.my_reports
+  end
+
+  def can_delete?(report)
+    authorized_for(auth_object: report, authorizer: authorizer, permission: "destroy_#{controller_permission}")
+  end
+
+  def can_view?(report)
+    authorized_for(auth_object: report, authorizer: authorizer, permission: "view_#{controller_permission}")
   end
 end
