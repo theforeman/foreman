@@ -4,6 +4,9 @@
   "license": "GPL-3.0",
   "description": "Foreman isn't really a node module, these are just dependencies needed to build the webpack bundle. 'dependencies' are the asset libraries in use and 'devDependencies' are used for the build process.",
   "private": true,
+  "engines": {
+    "node": "<16.0.0"
+  },
   "scripts": {
     "lint": "tfm-lint",
     "lint:spelling": "eslint ./webpack",
