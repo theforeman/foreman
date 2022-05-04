@@ -5,9 +5,9 @@ var path = require('path');
 var webpack = require('webpack');
 var ForemanVendorPlugin = require('@theforeman/vendor')
   .WebpackForemanVendorPlugin;
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var TerserPlugin = require('terser-webpack-plugin');
 var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
 var vendorEntry = require('./webpack.vendor');
@@ -62,6 +62,7 @@ module.exports = env => {
     process.env.RAILS_ENV === 'production' ||
     process.env.NODE_ENV === 'production';
 
+  const devMode = !production;
   var bundleEntry = path.join(
     __dirname,
     '..',
@@ -91,21 +92,18 @@ module.exports = env => {
       'webpack'
     );
     var jsFilename = production
-      ? env.pluginName + '/[name]-[chunkhash].js'
+      ? env.pluginName + '/[name]-[hash].js'
       : env.pluginName + '/[name].js';
-    var cssFilename = production
-      ? env.pluginName + '/[name]-[chunkhash].css'
-      : env.pluginName + '/[name].css';
     var chunkFilename = production
-      ? env.pluginName + '/[name]-[chunkhash].js'
+      ? env.pluginName + '/[name]-[hash].js'
       : env.pluginName + '/[name].js';
     var manifestFilename = env.pluginName + '/manifest.json';
   } else {
     var pluginEntries = plugins['entries'];
     var outputPath = path.join(__dirname, '..', 'public', 'webpack');
-    var jsFilename = production ? '[name]-[chunkhash].js' : '[name].js';
-    var cssFilename = production ? '[name]-[chunkhash].css' : '[name].css';
-    var chunkFilename = production ? '[name]-[chunkhash].js' : '[name].js';
+    var jsFilename = production ? '[name]-[hash].js' : '[name].js';
+    var cssFilename = production ? '[name]-[hash].css' : '[name].css';
+    var chunkFilename = production ? '[name]-[hash].js' : '[name].js';
     var manifestFilename = 'manifest.json';
   }
 
@@ -120,9 +118,13 @@ module.exports = env => {
   const supportedLanguagesRE = new RegExp(
     `/(${supportedLanguages().join('|')})$`
   );
-
+  const mode = production ? 'production' : 'development';
   var config = {
+    optimization: {
+      minimize: false, // disable uglify + tree shaking,
+    },
     entry: entry,
+    mode,
     output: {
       // Build assets directly in to public/webpack/, let webpack know
       // that all webpacked assets start with webpack/
@@ -160,24 +162,17 @@ module.exports = env => {
           },
         },
         {
-          test: /\.css$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: 'css-loader',
-          }),
+          test: /\.(sa|sc|c)ss$/,
+          use: [
+            devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+            'css-loader',
+            'postcss-loader',
+            'sass-loader',
+          ],
         },
         {
           test: /\.(png|gif|svg)$/,
           use: 'url-loader?limit=32767',
-        },
-        {
-          test: /\.scss$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader', // The backup style loader
-            use: production
-              ? 'css-loader!sass-loader'
-              : 'css-loader?sourceMap!sass-loader?sourceMap',
-          }),
         },
         {
           test: /\.(graphql|gql)$/,
@@ -189,7 +184,7 @@ module.exports = env => {
 
     plugins: [
       new ForemanVendorPlugin({
-        mode: production ? 'production' : 'development',
+        mode,
       }),
       // must match config.webpack.manifest_filename
       new StatsWriterPlugin({
@@ -207,10 +202,6 @@ module.exports = env => {
           );
         },
       }),
-      new ExtractTextPlugin({
-        filename: cssFilename,
-        allChunks: true,
-      }),
       new OptimizeCssAssetsPlugin({
         assetNameRegExp: /\.css$/g,
         cssProcessor: require('cssnano'),
@@ -227,7 +218,7 @@ module.exports = env => {
       }),
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify(production ? 'production' : 'development'),
+          NODE_ENV: JSON.stringify(mode),
           NOTIFICATIONS_POLLING: process.env.NOTIFICATIONS_POLLING,
           REDUX_LOGGER: process.env.REDUX_LOGGER,
         },
@@ -242,27 +233,20 @@ module.exports = env => {
         /react-intl\/locale-data/,
         supportedLanguagesRE
       ),
-    ],
+    ].concat(
+      devMode ? [] : [new MiniCssExtractPlugin()]
+    ),
   };
-
-  config.plugins.push(
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity,
-    })
-  );
 
   if (production) {
     config.plugins.push(
-      new webpack.NoEmitOnErrorsPlugin(),
-      new UglifyJsPlugin({
-        uglifyOptions: {
+      new TerserPlugin({
+        terserOptions: {
           compress: { warnings: false },
         },
         sourceMap: true,
       }),
       new SimpleNamedModulesPlugin(),
-      new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new CompressionPlugin()
     );
@@ -276,8 +260,9 @@ module.exports = env => {
       host: devServer.host,
       port: devServer.port,
       headers: { 'Access-Control-Allow-Origin': '*' },
-      hot: true,
-      stats: (process.env.WEBPACK_STATS || 'minimal'),
+      devMiddleware: {
+        stats: process.env.WEBPACK_STATS || 'minimal',
+      },
     };
     // Source maps
     config.devtool = 'inline-source-map';
