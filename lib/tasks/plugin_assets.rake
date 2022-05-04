@@ -53,7 +53,7 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
         ENV["NODE_ENV"] ||= 'production'
         webpack_bin = ::Rails.root.join('node_modules/webpack/bin/webpack.js')
         config_file = ::Rails.root.join(::Rails.configuration.webpack.config_file)
-        sh "node --max_old_space_size=2048 #{webpack_bin} --config #{config_file} --bail --env.pluginName=#{@plugin.id}"
+        sh "node --max_old_space_size=2048 #{webpack_bin} --config #{config_file} --env.pluginName=#{@plugin.id}" # TODO: add bail in webpack 5 https://github.com/webpack/webpack/issues/7993
       end
     end
   end
