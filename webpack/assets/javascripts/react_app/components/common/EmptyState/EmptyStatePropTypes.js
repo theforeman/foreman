@@ -18,8 +18,7 @@ export const emptyStatePatternPropTypes = {
     }),
     PropTypes.node,
   ]),
-  description: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
-    .isRequired,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   action: PropTypes.node,
   secondaryActions: PropTypes.node,
 };

@@ -11,6 +11,7 @@ import { get } from '../../../../redux/API';
 import {
   selectAPIStatus,
   selectAPIResponse,
+  selectAPIErrorMessage,
 } from '../../../../redux/API/APISelectors';
 import { useForemanSettings } from '../../../../Root/Context/ForemanContext';
 import ReportsTable from './ReportsTable';
@@ -25,6 +26,8 @@ const ReportsTab = ({ hostName, origin }) => {
   );
   const { perPage: settingsPerPage = 20 } = useForemanSettings() || {};
   const status = useSelector(state => selectAPIStatus(state, API_KEY));
+  const error = useSelector(state => selectAPIErrorMessage(state, API_KEY));
+
   const fetchReports = useCallback(
     ({ search: searchParam, per_page: perPageParam, page: pageParam } = {}) => {
       if (!hostName) return;
@@ -120,6 +123,7 @@ const ReportsTab = ({ hostName, origin }) => {
         <ReportsTable
           reports={reports}
           status={status}
+          error={error}
           fetchReports={fetchReports}
         />
       </GridItem>

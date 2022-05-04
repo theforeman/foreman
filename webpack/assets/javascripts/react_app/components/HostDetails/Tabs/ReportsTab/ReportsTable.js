@@ -8,19 +8,14 @@ import {
   Th,
   Td,
 } from '@patternfly/react-table';
-import {
-  EmptyState,
-  EmptyStateIcon,
-  Spinner,
-  Title,
-  Grid,
-} from '@patternfly/react-core';
+import { Spinner } from '@patternfly/react-core';
 import { SearchIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 import { STATUS } from '../../../../constants';
+import EmptyState from '../../../common/EmptyState';
 import { translate as __ } from '../../../../common/I18n';
 import { getColumns } from './helpers';
 
-const ReportsTable = ({ reports, status, fetchReports }) => {
+const ReportsTable = ({ reports, status, fetchReports, error }) => {
   const columns = getColumns(fetchReports);
   let tableBody = null;
   let tableHead = null;
@@ -54,42 +49,21 @@ const ReportsTable = ({ reports, status, fetchReports }) => {
       );
     } else {
       emptyState = (
-        <Grid>
-          <EmptyState>
-            <EmptyStateIcon icon={SearchIcon} />
-            <Title size="lg" headingLevel="h4">
-              {__('No results found')}
-            </Title>
-          </EmptyState>
-        </Grid>
+        <EmptyState icon={<SearchIcon />} header={__('No results found')} />
       );
     }
-  } else if (status === STATUS.FAILURE) {
+  } else if (status === STATUS.ERROR) {
     emptyState = (
-      <Grid>
-        <EmptyState>
-          <EmptyStateIcon
-            icon={
-              <ExclamationCircleIcon color="var(--pf-global--palette--red-200)" />
-            }
-          />
-          <Title size="lg" headingLevel="h4">
-            {__('Something went wrong')}
-          </Title>
-        </EmptyState>
-      </Grid>
+      <EmptyState
+        icon={
+          <ExclamationCircleIcon color="var(--pf-global--palette--red-200)" />
+        }
+        header={__('Something went wrong')}
+        description={error}
+      />
     );
   } else if (status === STATUS.PENDING) {
-    emptyState = (
-      <Grid>
-        <EmptyState>
-          <EmptyStateIcon variant="container" component={Spinner} />
-          <Title size="lg" headingLevel="h4">
-            {__('Loading')}
-          </Title>
-        </EmptyState>
-      </Grid>
-    );
+    emptyState = <EmptyState icon={<Spinner />} header={__('Loading')} />;
   }
 
   return (
@@ -106,12 +80,14 @@ const ReportsTable = ({ reports, status, fetchReports }) => {
 ReportsTable.propTypes = {
   reports: PropTypes.array,
   status: PropTypes.string,
+  error: PropTypes.string,
   fetchReports: PropTypes.func.isRequired,
 };
 
 ReportsTable.defaultProps = {
   reports: [],
   status: null,
+  error: null,
 };
 
 export default ReportsTable;
