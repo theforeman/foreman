@@ -21,8 +21,6 @@ import { openConfirmModal } from '../../../ConfirmModal';
 import { APIActions } from '../../../../redux/API';
 import { translate as __ } from '../../../../common/I18n';
 import RelativeDateTime from '../../../common/dates/RelativeDateTime';
-import PuppetPng from '../../../../../../images/Puppet.png';
-import AnsiblePng from '../../../../../../images/Ansible.png';
 
 const statusMapper = {
   failed: amount => (
@@ -64,29 +62,19 @@ export const statusFormatter = (statusName, response) => {
   return statusMapper[statusName](amount);
 };
 
-export const originFormatter = ({ origin }) => {
-  const style = { width: '15px', marginBottom: '3px' };
-  switch (origin) {
-    case 'Puppet':
-      return (
-        <>
-          <img alt="puppet-icon" src={PuppetPng} style={style} /> Puppet
-        </>
-      );
-    case 'Ansible':
-      return (
-        <>
-          <img alt="ansible-icon" src={AnsiblePng} style={style} /> Ansible
-        </>
-      );
-    default:
-      return (
-        <>
-          <img alt="ansible-icon" src={AnsiblePng} width="15" /> Ansible
-        </>
-      );
-  }
-};
+export const originFormatter = ({ origin: { src, label } }) =>
+  src ? (
+    <>
+      <img
+        alt={`${label}-icon`}
+        src={src}
+        style={{ width: '15px', marginBottom: '3px' }}
+      />{' '}
+      {label}
+    </>
+  ) : (
+    '--'
+  );
 
 export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
   const [isOpen, setOpen] = useState(false);

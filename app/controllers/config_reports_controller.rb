@@ -14,7 +14,7 @@ class ConfigReportsController < ApplicationController
             r.attributes.except('metrics', 'created_at', 'updated_at', 'status', 'type').merge(
               can_delete: can_delete?(r),
               can_view: can_view?(r),
-              origin: r.origin,
+              origin: origin_image_path(r),
               applied: r.applied,
               restarted: r.restarted,
               failed: r.failed,
@@ -75,5 +75,13 @@ class ConfigReportsController < ApplicationController
 
   def can_view?(report)
     authorized_for(auth_object: report, authorizer: authorizer, permission: "view_#{controller_permission}")
+  end
+
+  def origin_image_path(report)
+    @origin_image_paths ||= {
+      Ansible: helpers.image_path('Ansible.png'),
+      Puppet: helpers.image_path('Puppet.png'),
+    }
+    { src: @origin_image_paths[:"#{report.origin}"], label: report.origin }
   end
 end
