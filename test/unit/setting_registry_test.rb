@@ -173,6 +173,18 @@ class SettingRegistryTest < ActiveSupport::TestCase
       assert_equal 'foo', result.first.name
     end
 
+    it 'can find setting by "name ~ value"' do
+      result = registry.search_for('name ~ c_set_t').to_a
+      assert_equal 1, result.size
+      assert_equal 'desc_set_test', result.first.name
+    end
+
+    it 'can find setting by "name ~ value" in full_name' do
+      result = registry.search_for('name ~ "c_set_t"').to_a
+      assert_equal 1, result.size
+      assert_equal 'desc_set_test', result.first.name
+    end
+
     it 'can find setting by description' do
       result = registry.search_for('test f').to_a
       assert_equal 1, result.size

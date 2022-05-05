@@ -3,6 +3,12 @@
 
 <%= react_component('SettingRecords', { settings: grouped_settings(@settings) }) %>
 
+<% if @search_error %>
+<%= alert(class: 'alert-danger',
+        header: _('Search error'),
+        text: @search_error) %>
+<% end %>
+
 <ul class="nav nav-tabs" data-tabs="tabs">
   <% @settings.categories.each do |category, label| %>
     <li class="<%= 'active' if category == @settings.categories.keys.first %>">
