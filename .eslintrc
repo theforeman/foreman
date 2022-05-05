@@ -13,6 +13,7 @@
         "skipWords": [
           "2xl",
           "4xl",
+          "Ansible",
           "Autocompletion",
           "Borderless",
           "IPv4",

@@ -4,6 +4,7 @@ import { addGlobalFill } from '../../common/Fill/GlobalFill';
 import { DEFAULT_TAB, TABS_SLOT_ID } from '../consts';
 import OverviewTab from './Overview';
 import DetailTab from './Details';
+import ReportsTab from './ReportsTab';
 
 export const registerCoreTabs = ({ except = [] }) => {
   addGlobalFill(
@@ -21,6 +22,15 @@ export const registerCoreTabs = ({ except = [] }) => {
     {
       title: __('Details'),
       hideTab: () => except.includes('host-details-detail-tab'),
+    }
+  );
+  addGlobalFill(
+    TABS_SLOT_ID,
+    'Reports',
+    <ReportsTab key="host-details-reports-tab" />,
+    477,
+    {
+      title: __('Reports'),
     }
   );
 };
