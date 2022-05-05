@@ -79,10 +79,20 @@ class SettingPresenter
   end
 
   def matches_search_query?(query)
-    if (res = query.match(/name\s*=\s*(\S+)/))
-      name == ScopedSearch::QueryLanguage::Compiler.tokenize(query)[2]
-    elsif (res = query.match(/description\s*~\s*(\S+)/))
-      description.include? res[1]
+    tokenized = ScopedSearch::QueryLanguage::Compiler.tokenize(query)
+
+    if tokenized.include?(:and) || tokenized.include?(:or)
+      raise ::Foreman::Exception.new N_('Unsupported search operators :and / :or')
+    end
+
+    if query =~ /name\s*=\s*(\S+)/
+      name == tokenized.last
+    elsif query =~ /name\s*~\s*(\S+)/
+      search_value = tokenized.last
+      name.include?(search_value) || full_name&.include?(search_value)
+    elsif query =~ /description\s*~\s*(\S+)/
+      search_value = tokenized.last
+      description.include? search_value
     else
       description.include?(query) || name.include?(query) || full_name&.include?(query)
     end
