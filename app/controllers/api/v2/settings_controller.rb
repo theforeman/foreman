@@ -53,6 +53,8 @@ module Api
         end
         @setting = Foreman.settings.set_user_value(@setting.name, value)
         process_response @setting.save
+      rescue Foreman::SettingValueException => e
+        render_error :custom_error, :locals => { :message => e.message }, :status => :unprocessable_entity
       end
 
       def resource_scope(_options = {})

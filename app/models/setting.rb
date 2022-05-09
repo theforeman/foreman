@@ -140,7 +140,6 @@ class Setting < ApplicationRecord
 
       if boolean.nil?
         invalid_value_error _("must be boolean")
-        return false
       end
 
       self.value = boolean
@@ -150,7 +149,6 @@ class Setting < ApplicationRecord
         self.value = val.to_i
       else
         invalid_value_error _("must be integer")
-        return false
       end
 
     when "array"
@@ -159,11 +157,9 @@ class Setting < ApplicationRecord
           self.value = YAML.load(val.gsub(/(\,)(\S)/, "\\1 \\2"))
         rescue => e
           invalid_value_error e.to_s
-          return false
         end
       else
         invalid_value_error _("must be an array")
-        return false
       end
 
     when "string", nil
@@ -171,11 +167,14 @@ class Setting < ApplicationRecord
       self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip
 
     when "hash"
-      raise Foreman::Exception, "parsing hash from string is not supported"
+      raise Foreman::SettingValueException, N_("parsing hash from string is not supported")
 
     else
-      raise Foreman::Exception.new(N_("parsing settings type '%s' from string is not defined"), settings_type)
+      raise Foreman::SettingValueException.new(N_("parsing settings type '%s' from string is not defined"), settings_type)
 
+    end
+    if errors.present?
+      raise Foreman::SettingValueException.new(N_("error parsing value for setting '%s': %s"), name, errors.full_messages.join(", "))
     end
     true
   end

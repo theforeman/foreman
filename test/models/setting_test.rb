@@ -23,7 +23,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test 'should not strip setting value when parsing if we do not want to' do
-    setting = Setting.create(:name => 'not_stripped_test', :value => 'whatever', :setting_type => 'string')
+    setting = Setting.create(:name => 'not_stripped_test', :default => '', :description => 'not_stripped_test', :value => 'whatever', :setting_type => 'string')
     trailing_space_val = 'Local '
     setting.parse_string_value(trailing_space_val)
     assert_equal setting.value, trailing_space_val
@@ -423,8 +423,9 @@ class SettingTest < ActiveSupport::TestCase
 
   def check_parsed_value_failure(settings_type, string_value)
     setting = Setting.new(:name => "foo", :default => "default", :settings_type => settings_type)
-    setting.parse_string_value(string_value)
-
+    assert_raises Foreman::SettingValueException do
+      setting.parse_string_value(string_value)
+    end
     assert_equal "default", setting.value
     assert setting.errors[:value].join(";").include?("is invalid")
   end
