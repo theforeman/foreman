@@ -4,20 +4,6 @@ import componentRegistry from '../components/componentRegistry';
 
 export { default as registerReducer } from '../redux/reducers/registerReducer';
 
-export function mount(component, selector, data, flattenData = false) {
-  const reactNode = document.querySelector(selector);
-  if (reactNode) {
-    ReactDOM.unmountComponentAtNode(reactNode);
-
-    mountNode(component, reactNode, data, flattenData);
-  } else {
-    // eslint-disable-next-line no-console
-    console.log(
-      `Cannot find '${selector}' element for mounting the '${component}'`
-    );
-  }
-}
-
 function mountNode(component, reactNode, data, flattenData) {
   ReactDOM.render(
     componentRegistry.markup(component, {
@@ -67,18 +53,6 @@ class ReactComponentElement extends HTMLElement {
 
   connectedCallback() {
     this._render();
-  }
-
-  disconnectedCallback() {
-    try {
-      ReactDOM.unmountComponentAtNode(this.mountPoint);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(
-        `Unable to unmount foreman-react-component: ${this.componentName}`,
-        error
-      );
-    }
   }
 
   _render() {

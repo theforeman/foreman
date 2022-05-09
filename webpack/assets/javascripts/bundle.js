@@ -13,7 +13,6 @@ import * as users from './foreman_users';
 import * as sshKeys from './foreman_ssh_keys';
 import * as httpProxies from './foreman_http_proxies';
 import * as toastNotifications from './foreman_toast_notifications';
-import * as reactMounter from './react_app/common/MountingService';
 import * as editor from './foreman_editor';
 import * as nav from './foreman_navigation';
 import * as medium from './foreman_medium';
@@ -26,6 +25,7 @@ import * as spice from './spice';
 import * as autocomplete from './foreman_autocomplete';
 import * as typeAheadSelect from './foreman_type_ahead_select';
 import * as lookupKeys from './foreman_lookup_keys';
+import './react_app/common/MountingService';
 import './foreman_overrides';
 import './bundle_novnc';
 
@@ -44,7 +44,6 @@ window.tfm = Object.assign(window.tfm || {}, {
   hosts,
   httpProxies,
   toastNotifications,
-  reactMounter,
   editor,
   nav,
   medium,
