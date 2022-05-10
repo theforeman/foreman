@@ -55,6 +55,8 @@ class UserdataController < ApplicationController
       ip: request.remote_ip,
     }
 
+    query_params[:mac_list] = Foreman::UnattendedInstallation::MacListExtractor.new.extract_from_env(request.env, params: params)
+
     @host = Foreman::UnattendedInstallation::HostFinder.new(query_params: query_params).search
 
     return true if @host
