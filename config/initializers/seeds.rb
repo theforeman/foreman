@@ -1,7 +1,7 @@
 Rails.application.config.after_initialize do
   next unless (ForemanInternal.table_exists? rescue(false)) && !Foreman.in_rake? && !Rails.env.test?
 
-  if ActiveRecord::Base.connection.migration_context.needs_migration?
+  if ActiveRecord::Base.connection.migration_context.needs_migration? || Foreman::Plugin.all.any?(&:pending_migrations)
     Rails.logger.warn("Migrations pending, skipping seeding. Please run `foreman-rake db:migrate` manually.")
     next
   end
