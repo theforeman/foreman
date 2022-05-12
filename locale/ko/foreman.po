@@ -401,6 +401,9 @@ msgstr "API 문서 "
 msgid "About"
 msgstr "정보 "
 
+msgid "Absolute command path must be specified: %s"
+msgstr ""
+
 msgid "Access Key"
 msgstr "액세스 키"
 
@@ -566,9 +569,6 @@ msgstr "전체 보고서 "
 msgid "All Ruby code is enclosed within <code><&#37; &#37;></code> in an ERB template. The code is executed when the template is rendered. It can contain Ruby control flow structures as well as application-specific macros and variables. For example:"
 msgstr ""
 
-msgid "All Statuses are OK"
-msgstr ""
-
 msgid "All audits"
 msgstr ""
 
@@ -583,6 +583,9 @@ msgstr "전체 환경 "
 
 msgid "All host groups"
 msgstr "전체 호스트 그룹 "
+
+msgid "All hosts"
+msgstr "전체 호스트 "
 
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "전체 호스트 데이터는 위치 및 조직의 설정과 일치합니다."
@@ -622,6 +625,9 @@ msgstr "전체 영역 "
 
 msgid "All smart proxies"
 msgstr "모든 스마트 프록시 "
+
+msgid "All statuses OK"
+msgstr ""
 
 msgid "All subnets"
 msgstr "전체 서브넷 "
@@ -843,6 +849,9 @@ msgstr ""
 msgid "Association"
 msgstr "연결 "
 
+msgid "At least one command must be specified"
+msgstr ""
+
 msgid "At least one of the hosts couldn't be found"
 msgstr ""
 
@@ -1031,6 +1040,9 @@ msgstr "자동 새로 고침 끄기"
 msgid "Auto refresh on"
 msgstr "자동 새로 고침 켜기"
 
+msgid "Autocompletion"
+msgstr ""
+
 msgid "Automate Foreman via a simple and powerful API"
 msgstr ""
 
@@ -1066,6 +1078,9 @@ msgstr ""
 
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "값을 병합할 때 중복 값을 제외하시겠습니까(배열 유형만)?"
+
+msgid "BCrypt"
+msgstr ""
 
 msgid "BCrypt password cost"
 msgstr ""
@@ -1436,7 +1451,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-msgid "Clear Host's Status"
+msgid "Clear host status"
 msgstr ""
 
 msgid "Clear sub-status of host"
@@ -1453,9 +1468,6 @@ msgstr ""
 
 msgid "Client Email"
 msgstr "클라이언트 이메일 "
-
-msgid "Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)"
-msgstr "스마트 프록시를 식별하는 데 클라이언트 SSL 인증서 사용(:require_ssl도 활성화해야 함)"
 
 msgid "Clone"
 msgstr "복제 "
@@ -1492,6 +1504,18 @@ msgstr "클러스터"
 
 msgid "Cluster ID is required to list available networks"
 msgstr "사용 가능한 네트워크를 나열하려면 클러스터 ID가 필요합니다 "
+
+msgid "Command %s not executable"
+msgstr ""
+
+msgid "Command %s not found or unreadable"
+msgstr ""
+
+msgid "Command %{cmd} returned %{status}"
+msgstr ""
+
+msgid "Command must be array: %s"
+msgstr ""
 
 msgid "Comment"
 msgstr "코멘트 "
@@ -1694,6 +1718,9 @@ msgstr ""
 msgid "Continue?"
 msgstr "계속하시겠습니까?"
 
+msgid "Copied to clipboard"
+msgstr ""
+
 msgid "Copied!"
 msgstr ""
 
@@ -1703,8 +1730,14 @@ msgstr ""
 msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
 msgstr ""
 
+msgid "CoreOS Transpiler Command"
+msgstr ""
+
 msgid "Cores per socket"
 msgstr "소켓당 코어 수 "
+
+msgid "Cost value of PBKDF2 password hash function for internal auth-sources. A higher value is safer but verification is slower, particularly for stateless API calls and UI logins. A password change is needed effect existing passwords."
+msgstr ""
 
 msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). A higher value is safer but verification is slower, particularly for stateless API calls and UI logins. A password change is needed effect existing passwords."
 msgstr ""
@@ -2021,6 +2054,9 @@ msgstr "생성 일시 "
 msgid "Created %s by %s"
 msgstr ""
 
+msgid "Created at"
+msgstr "생성 일시 "
+
 msgid "Creates a table preference for a given table"
 msgstr ""
 
@@ -2036,7 +2072,7 @@ msgstr ""
 msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Del"
 
-msgid "Current Page"
+msgid "Current page"
 msgstr ""
 
 msgid "Current password"
@@ -2162,7 +2198,7 @@ msgstr ""
 msgid "Default PXE menu item in global template - 'local', 'discovery' or custom, use blank for template default"
 msgstr ""
 
-msgid "Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"
+msgid "Default PXE menu item in local template - 'local', 'force_local_chain_hd0' or custom, use blank for template default"
 msgstr ""
 
 msgid "Default VNC Keyboard"
@@ -2590,7 +2626,7 @@ msgstr "중복된 입력이 감지되었습니다: %{duplicated_inputs}"
 msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr ""
 
-msgid "Duration in minutes after servers are classed as out of sync. You can override this on hosts by adding a parameter \"outofsync_interval\"."
+msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
 msgstr ""
 
 msgid "EC2"
@@ -2608,7 +2644,7 @@ msgstr ""
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
 msgstr "각 아키텍처는 하나 이상의 운영 체제에 연결할 수 있고 유효한 조합을 선택할 수 있도록 선택자 블록이 제공됩니다."
 
-msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
+msgid "Each entry represents a particular hardware architecture, most commonly {x86_64} or {i386}. Foreman also supports the Solaris operating system family, which includes {sparc} based systems."
 msgstr ""
 
 msgid "Each template type rendering capabilities slightly differ, e.g. a provisioning template is always rendered for a single host object and therefore a @host variable is defined. Another example is a report template, where report formatting specific macros are available."
@@ -2703,6 +2739,9 @@ msgstr "안전 모드 설정 템플릿 렌터링을 활성화 (권장 사항)"
 
 msgid "Enable this host for provisioning"
 msgstr "프로비저닝을 위해 호스트 활성화 "
+
+msgid "Enable user's email"
+msgstr ""
 
 msgid "Enabled"
 msgstr "활성화됨 "
@@ -2847,6 +2886,9 @@ msgstr "전체 화면에서 나가기 "
 
 msgid "Expand nested items"
 msgstr "중첩된 항목을 확장 "
+
+msgid "Expand/Collapse  all"
+msgstr ""
 
 msgid "Expiration of the authorization token (in hours)"
 msgstr ""
@@ -3163,6 +3205,9 @@ msgstr ""
 msgid "Feature|Name"
 msgstr "이름 "
 
+msgid "Fedora CoreOS Transpiler Command"
+msgstr ""
+
 msgid "Fetch TFTP boot files for %s"
 msgstr "%s의 TFTP 부팅 파일 가져오기 "
 
@@ -3240,9 +3285,6 @@ msgid "Firmware"
 msgstr ""
 
 msgid "First"
-msgstr ""
-
-msgid "First Page"
 msgstr ""
 
 msgid "Fix %s on Mismatch"
@@ -3463,6 +3505,12 @@ msgstr "전체 감사 목록"
 msgid "Full name describing the domain"
 msgstr "도메인을 나타내는 전체 이름 "
 
+msgid "Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"
+msgstr ""
+
+msgid "Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"
+msgstr ""
+
 msgid "Full path to backing image used to create new volumes."
 msgstr "새 볼륨을 생성하는데 사용되는 백업 이미지로의 전체 경로입니다."
 
@@ -3471,9 +3519,6 @@ msgstr "전체 화면 "
 
 msgid "Function not available for %s"
 msgstr "%s에 사용할 수 없는 기능"
-
-msgid "Further Information"
-msgstr ""
 
 msgid "GMT time"
 msgstr "GMT 시간"
@@ -3587,6 +3632,18 @@ msgid "Global status changed from %{from} to %{to}"
 msgstr ""
 
 msgid "Global variables"
+msgstr ""
+
+msgid "Go to first page"
+msgstr ""
+
+msgid "Go to last page"
+msgstr ""
+
+msgid "Go to next page"
+msgstr ""
+
+msgid "Go to previous page"
 msgstr ""
 
 msgid "Good host reports in the last %s"
@@ -3766,9 +3823,6 @@ msgstr ""
 msgid "Host Parameters"
 msgstr "호스트 매개 변수 "
 
-msgid "Host Status"
-msgstr ""
-
 msgid "Host Status Overview"
 msgstr ""
 
@@ -3812,6 +3866,9 @@ msgstr ""
 msgid "Host reported time is <em>%s</em>"
 msgstr "호스트 보고 시간은 <em>%s</em>입니다 "
 
+msgid "Host status"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host status/status"
 msgstr ""
@@ -3820,6 +3877,9 @@ msgid "Host template"
 msgstr ""
 
 msgid "Host times seem to be adrift!"
+msgstr ""
+
+msgid "Host's network interfaces"
 msgstr ""
 
 msgid "Host's network interfaces."
@@ -4222,25 +4282,16 @@ msgstr "템플릿 ID "
 msgid "ID of the Host group to register the host in"
 msgstr ""
 
-msgid "ID of the Host group to register the host in."
-msgstr ""
-
 msgid "ID of the Location to register the host in"
 msgstr ""
 
-msgid "ID of the Location to register the host in."
-msgstr ""
-
-msgid "ID of the Operating System to register the host in."
+msgid "ID of the Operating System to register the host in"
 msgstr ""
 
 msgid "ID of the Operating System to register the host in. Operating system must have a `host_init_config` template assigned"
 msgstr ""
 
 msgid "ID of the Organization to register the host in"
-msgstr ""
-
-msgid "ID of the Organization to register the host in."
 msgstr ""
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
@@ -4412,7 +4463,7 @@ msgstr ""
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr ""
 
-msgid "If the target machine does not trust the host SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
+msgid "If the target machine does not trust the host SSL certificate, the initial connection could be subject to a man-in-the-middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
 msgstr ""
 
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
@@ -4430,7 +4481,7 @@ msgstr ""
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "이것이 Foreman 자체의 오류라고 생각되시면 새로운 문제로 제출하십시오"
 
-msgid "If you wish to configure Puppet to forward its reports to Foreman, please follow <a href=${getManualURL( '3.5.4PuppetReports' )}>setting up reporting</a> and <a href=${getWikiURL('Mail_Notifications')}>e-mail reporting</a>"
+msgid "If you wish to configure Puppet to forward its reports to Foreman, please follow {settingUpPuppetReports} and {emailReporting}"
 msgstr ""
 
 msgid "Ignore facts for domain"
@@ -4519,6 +4570,9 @@ msgid "Import as unmanaged Host"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
+msgstr ""
+
+msgid "Import subnets from Smart proxy"
 msgstr ""
 
 msgid "Imported IPv4 Subnets"
@@ -4624,9 +4678,6 @@ msgid "Insecure"
 msgstr ""
 
 msgid "Install packages"
-msgstr ""
-
-msgid "Install packages on the host when registered. Can be set by `host_packages` parameter"
 msgstr ""
 
 msgid "Installation Media"
@@ -4773,6 +4824,9 @@ msgstr ""
 msgid "It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead."
 msgstr "%{vendor}에서 제공하는 템플릿이며 덮어써질 수 있으므로 이 템플릿을 잠금 해제하는 것은 권장하지 않습니다. 복제하는 것이 좋습니다."
 
+msgid "Items per page"
+msgstr ""
+
 msgid "Iterating"
 msgstr ""
 
@@ -4852,9 +4906,6 @@ msgid "Language to use for new users"
 msgstr ""
 
 msgid "Last"
-msgstr ""
-
-msgid "Last Page"
 msgstr ""
 
 msgid "Last Report"
@@ -5292,6 +5343,9 @@ msgstr "템플릿 조합 목록 나열 "
 msgid "List template inputs"
 msgstr "템플릿 입력 나열"
 
+msgid "Live Autocompletion"
+msgstr ""
+
 msgid "Load Datacenters"
 msgstr "데이터 센터 로드 "
 
@@ -5582,9 +5636,6 @@ msgstr "관리 "
 msgid "Manage Bookmarks"
 msgstr "북마크 관리 "
 
-msgid "Manage Host's Statuses"
-msgstr ""
-
 msgid "Manage Locations"
 msgstr "위치 관리 "
 
@@ -5599,6 +5650,9 @@ msgstr ""
 
 msgid "Manage host"
 msgstr "호스트 관리 "
+
+msgid "Manage host statuses"
+msgstr ""
 
 msgid "Managed"
 msgstr "관리됨 "
@@ -5713,9 +5767,6 @@ msgstr ""
 
 msgid "Metrics"
 msgstr "메트릭스 "
-
-msgid "Migrate Reports to new format"
-msgstr ""
 
 msgid "Minutes Ago"
 msgstr "분 전 "
@@ -5878,9 +5929,6 @@ msgstr "새 %s"
 msgid "New Autosign Entry"
 msgstr "새 자동 서명 항목 "
 
-msgid "New Details Page"
-msgstr ""
-
 msgid "New HTTP Proxy"
 msgstr ""
 
@@ -5919,9 +5967,6 @@ msgstr ""
 
 msgid "Next"
 msgstr "다음"
-
-msgid "Next Page"
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attached devices"
@@ -6102,6 +6147,9 @@ msgstr "기록을 찾을 수 없음 "
 msgid "No host could be found for rendering the template"
 msgstr "템플릿을 렌더링할 호스트를 찾을 수 없습니다."
 
+msgid "No host found"
+msgstr ""
+
 msgid "No host found to associate this VM with"
 msgstr "이 VM에 연결된 호스트를 찾을 수 없음 "
 
@@ -6174,6 +6222,9 @@ msgstr "보고서가 없음 "
 msgid "No reports"
 msgstr "보고서가 없음 "
 
+msgid "No results found"
+msgstr ""
+
 msgid "No setting value provided."
 msgstr "제공된 설정 값이 없습니다."
 
@@ -6222,11 +6273,11 @@ msgstr "적절함"
 msgid "Normally when setting up a Compute Resource, a key pair (private and public) is created for you automatically."
 msgstr ""
 
-msgid "Not Available"
-msgstr ""
-
 msgid "Not Installed"
 msgstr "설치되지 않음 "
+
+msgid "Not available"
+msgstr ""
 
 msgid "Not implemented"
 msgstr "구현되지 않습니다"
@@ -6665,8 +6716,17 @@ msgstr "소유자 "
 msgid "Owner changed to %s"
 msgstr "소유자가 %s로 변경되었습니다 "
 
+msgid "Owner type"
+msgstr ""
+
 msgid "Owner type needs to be one of the following: %s"
 msgstr "소유자 유형은 다음 중 하나이어야 합니다: %s"
+
+msgid "PBKDF2 SHA1"
+msgstr ""
+
+msgid "PBKDF2 password cost"
+msgstr ""
 
 msgid "POAP PXE template"
 msgstr ""
@@ -6692,11 +6752,17 @@ msgstr ""
 msgid "PXELinux template"
 msgstr ""
 
-msgid "Packages to install on the host when registered. Can be set by `host_packages` parameter. Example: `pkg1 pkg2`"
+msgid "Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`"
+msgstr ""
+
+msgid "Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`."
 msgstr ""
 
 msgid "Page number, starting at 1"
 msgstr "1 부터 페이지 번호 "
+
+msgid "Pagination"
+msgstr ""
 
 msgid "Param name"
 msgstr "매개 변수 이름 "
@@ -6796,6 +6862,15 @@ msgid "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
 msgstr "oVirt, EC2, VMware, OpenStack의 암호. EC2의 비밀 키"
 
 msgid "Password has been changed"
+msgstr ""
+
+msgid "Password hash setting was not yet set"
+msgstr ""
+
+msgid "Password hashing algorithm"
+msgstr ""
+
+msgid "Password hashing algorithm. A password change is needed effect existing passwords."
 msgstr ""
 
 msgid "Password must be 8 characters or more"
@@ -7045,9 +7120,6 @@ msgid "Preview rendered provisioning template content"
 msgstr "렌더링된 프로비저닝 템플릿 컨텐츠 미리 보기"
 
 msgid "Previous"
-msgstr ""
-
-msgid "Previous Page"
 msgstr ""
 
 msgid "Primary"
@@ -7325,7 +7397,7 @@ msgstr "오케스트레이션 구성 다시 빌드"
 msgid "Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'."
 msgstr ""
 
-msgid "Recent Audits"
+msgid "Recent audits"
 msgstr ""
 
 msgid "Recreate"
@@ -7501,9 +7573,6 @@ msgstr ""
 msgid "ReportTemplate|Snippet"
 msgstr ""
 
-msgid "Reported At"
-msgstr "보고 일시"
-
 msgid "Reported at"
 msgstr "보고 "
 
@@ -7515,9 +7584,6 @@ msgstr ""
 
 msgid "Reports"
 msgstr "보고서 "
-
-msgid "Reports can be stored in more efficient way, data will need to be upgraded to the new format. Read more details in"
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Metrics"
@@ -7553,9 +7619,6 @@ msgstr ""
 msgid "Request UUID"
 msgstr ""
 
-msgid "Require SSL for smart proxies"
-msgstr "스마트 프록시에 대해 SSL 요구"
-
 msgid "Required for registration without subscription manager. Can be specified by host group."
 msgstr ""
 
@@ -7586,6 +7649,9 @@ msgstr "리소스 %{resource_name}을(를) ID '%{id}'로 찾을 수 없습니다
 msgid "Resource %{res} not found."
 msgstr "리소스 %{res}을(를) 찾을 수 없습니다."
 
+msgid "Resource not found"
+msgstr ""
+
 msgid "Resource pool"
 msgstr "리소스 풀"
 
@@ -7612,6 +7678,9 @@ msgid "Resume"
 msgstr "다시 시작 "
 
 msgid "Return to last page"
+msgstr ""
+
+msgid "Return to the last page"
 msgstr ""
 
 msgid "Returns string representing a host status of a given type"
@@ -7727,6 +7796,9 @@ msgstr "실행 "
 
 msgid "Runtime"
 msgstr "런타임 "
+
+msgid "SHA1"
+msgstr ""
 
 msgid "SMTP"
 msgstr "SMTP"
@@ -8042,13 +8114,7 @@ msgstr "서비스 "
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems"
 msgstr ""
 
-msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
-msgstr ""
-
 msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host"
-msgstr ""
-
-msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
 msgstr ""
 
 msgid "Set IP addresses for %s"
@@ -8148,9 +8214,6 @@ msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on th
 msgstr ""
 
 msgid "Share feedback"
-msgstr ""
-
-msgid "Share your feedback"
 msgstr ""
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
@@ -8486,6 +8549,9 @@ msgstr "이미 다른 인터페이스가 프로비저닝 인터페이스로 설�
 msgid "Something went wrong"
 msgstr ""
 
+msgid "Something went wrong and the resource does not exist or there are access permissions needed. Please, contact your administrator if this issue continues"
+msgstr ""
+
 msgid "Something went wrong while changing host type - %s"
 msgstr "호스트 유형을 변경하는 도중 문제가 발생했습니다 - %s"
 
@@ -8501,7 +8567,7 @@ msgstr "죄송합니다. 설정된 템플릿이 없습니다. "
 msgid "Sorry, these hosts do not have parameters assigned to them, you must add them first."
 msgstr "죄송합니다. 이 호스트에 할당된 매개 변수가 없습니다. 먼저 매개 변수를 추가해야 합니다. "
 
-msgid "Sort and order by a searchable field, e.g. 'id DESC'"
+msgid "Sort and order by a searchable field, e.g. '<field> DESC'"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8778,9 +8844,6 @@ msgstr ""
 msgid "Supported Formats"
 msgstr "지원되는 형식 "
 
-msgid "Switch to previous version"
-msgstr ""
-
 msgid "Switch to the new host details UI"
 msgstr ""
 
@@ -8798,6 +8861,9 @@ msgstr "시스템 정보 "
 
 msgid "System Status"
 msgstr "시스템 상태 "
+
+msgid "System properties"
+msgstr ""
 
 msgid "TFTP"
 msgstr "TFTP"
@@ -9145,7 +9211,7 @@ msgstr ""
 msgid "The algorithm used to encode the JWT in the OpenID provider."
 msgstr ""
 
-msgid "The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>, <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
+msgid "The authentication process currently requires an LDAP provider, such as {FreeIPA}, {OpenLDAP} or {Microsoft}."
 msgstr ""
 
 msgid "The authentication source of your external user groups could not connect to LDAP with the provided credentials. Please verify the credentials are still valid."
@@ -9218,6 +9284,9 @@ msgid "The full DNS domain name"
 msgstr "전체 DNS 도메인 이름 "
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
+msgstr ""
+
+msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
 msgstr ""
 
 msgid "The hostname of the LDAP server"
@@ -9431,9 +9500,6 @@ msgstr ""
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
-msgid "This page redesign is experimental and under active development."
-msgstr ""
-
 msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
 msgstr ""
 
@@ -9534,7 +9600,7 @@ msgid ""
 "                groups\" then \"Refresh\"."
 msgstr ""
 
-msgid "To report an issue <a target=\"_blank\" rel=\"noopener noreferrer\" href=${foremanUrl( '/links/issues' )}>click here</a>"
+msgid "To report an issue {clickHere}"
 msgstr ""
 
 msgid "Today"
@@ -9718,12 +9784,6 @@ msgstr "기능을 감지할 수 없습니다 "
 
 msgid "Unable to detect version"
 msgstr "버전을 감지할 수 없습니다"
-
-msgid "Unable to disable bmc_credentials_accessible when safemode_render is disabled"
-msgstr ""
-
-msgid "Unable to disable safemode_render when bmc_credentials_accessible is disabled"
-msgstr ""
 
 msgid "Unable to fetch TFTP boot file"
 msgstr "TFTP 부팅 파일을 가져올 수 없습니다 "
@@ -10105,6 +10165,9 @@ msgstr ""
 
 msgid "Updated all hosts!"
 msgstr "모든 호스트를 업데이트했습니다! "
+
+msgid "Updated at"
+msgstr "업데이트 일시 "
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "업데이트된 호스트: VM에서 연결 해제 "
@@ -10710,7 +10773,7 @@ msgstr ""
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "구성된 모든 TFTP 서버에 있는 기본 PXE 메뉴가 변경됩니다. 계속하시겠습니까?"
 
-msgid "You are about to clear %s status. Are you sure?"
+msgid "You are about to clear the %s status. Are you sure?"
 msgstr ""
 
 msgid "You are about to delete %s. Are you sure?"
@@ -10962,6 +11025,9 @@ msgstr ""
 msgid "clear"
 msgstr ""
 
+msgid "click here"
+msgstr ""
+
 msgid "clone"
 msgstr "복제 "
 
@@ -11036,6 +11102,9 @@ msgstr "선택한 서브넷과 일치하지 않습니다 "
 
 msgid "domain"
 msgstr "도메인 "
+
+msgid "e-mail reporting"
+msgstr "이메일 보고서 "
 
 msgid "e.g. admin@internal"
 msgstr "예: admin@internal"
@@ -11175,13 +11244,13 @@ msgstr "호스트의 호스트 이름 "
 msgid "hours"
 msgstr ""
 
-msgid "iPXE default local boot template '%s' not found"
-msgstr ""
-
 msgid "iPXE intermediate script"
 msgstr ""
 
 msgid "iPXE intermediate script '%s' not found"
+msgstr ""
+
+msgid "iPXE local boot template '%s' not found"
 msgstr ""
 
 msgid "iPXE template"
@@ -11297,6 +11366,9 @@ msgstr "알 수 없음 "
 
 msgid "issue tracker"
 msgstr "문제 추적기 "
+
+msgid "items"
+msgstr ""
 
 msgid "items selected. Uncheck to Clear"
 msgstr "항목이 선택되어 있습니다. 삭제하려면 선택 해제합니다 "
@@ -11448,9 +11520,6 @@ msgstr ""
 msgid "oVirt/RHEV template to use"
 msgstr "사용할 oVirt/RHEV 템플릿"
 
-msgid "of"
-msgstr ""
-
 msgid "off"
 msgstr "끄기 "
 
@@ -11567,6 +11636,9 @@ msgstr ""
 
 msgid "service configuration will be skipped."
 msgstr ""
+
+msgid "setting up reporting"
+msgstr "보고서 설정 중 "
 
 msgid "should be 8 characters or more"
 msgstr "8 자 이상이어야 합니다 "

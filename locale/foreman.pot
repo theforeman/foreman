@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-29 19:42+0530\n"
-"PO-Revision-Date: 2022-04-29 19:42+0530\n"
+"POT-Creation-Date: 2022-05-12 18:38+0530\n"
+"PO-Revision-Date: 2022-05-12 18:38+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -73,26 +73,26 @@ msgstr ""
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:498
+#: ../app/assets/javascripts/host_edit.js:496
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:648
+#: ../app/assets/javascripts/host_edit.js:646
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:48
 #: ../app/views/hostgroups/_form.html.erb:55
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:814
+#: ../app/assets/javascripts/host_edit.js:812
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:944
+#: ../app/assets/javascripts/host_edit.js:942
 msgid "Warning: This combination of loader and OS might not be able to boot."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:948
+#: ../app/assets/javascripts/host_edit.js:946
 msgid "Manual configuration is needed."
 msgstr ""
 
@@ -141,7 +141,7 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:407
+#: ../app/assets/javascripts/host_edit_interfaces.js:409
 #: ../app/registries/menu/loader.rb:56 ../app/views/hosts/index.html.erb:5
 #: ../app/views/hosts/new.html.erb:1 ../app/views/hosts/welcome.html.erb:3
 msgid "Create Host"
@@ -152,7 +152,7 @@ msgstr ""
 #: ../app/helpers/hosts_helper.rb:382 ../app/helpers/hosts_helper.rb:384
 #: ../app/models/host_status/build_status.rb:27
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:54
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:73
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:72
 msgid "Build"
 msgstr ""
 
@@ -1426,7 +1426,7 @@ msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:103
 #: ../app/controllers/api/v2/registration_controller.rb:59
-#: ../app/views/hosts/_form.html.erb:128
+#: ../app/views/hosts/_form.html.erb:131
 msgid "Include this host within Foreman reporting"
 msgstr ""
 
@@ -1447,7 +1447,7 @@ msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:107
 #: ../app/controllers/api/v2/registration_controller.rb:61
-#: ../app/views/hosts/_form.html.erb:133
+#: ../app/views/hosts/_form.html.erb:136
 msgid "Additional information about this host"
 msgstr ""
 
@@ -3690,7 +3690,7 @@ msgstr ""
 msgid "unable to find %{type} template for %{host} running %{os}"
 msgstr ""
 
-#: ../app/controllers/config_reports_controller.rb:37
+#: ../app/controllers/config_reports_controller.rb:56
 msgid "Successfully deleted report."
 msgstr ""
 
@@ -4189,7 +4189,8 @@ msgstr ""
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
 #: ../webpack/assets/javascripts/dashboard/index.js:67
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:91
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:90
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:112
 #: ../webpack/assets/javascripts/react_app/components/common/table/components/DeleteButton.js:9
 #: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/components/ModelDeleteModal.js:25
 msgid "Delete"
@@ -4204,6 +4205,7 @@ msgstr ""
 
 #: ../app/helpers/application_helper.rb:124
 #: ../app/helpers/provisioning_templates_helper.rb:13
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:107
 #: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:22
 msgid "Export"
 msgstr ""
@@ -4221,6 +4223,7 @@ msgstr ""
 #: ../app/helpers/application_helper.rb:250
 #: ../app/views/about/index.html.erb:121
 #: ../webpack/assets/javascripts/react_app/components/PF4/DocumentationLink/index.js:20
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:111
 #: ../webpack/assets/javascripts/react_app/components/common/DocumentationLink/index.js:19
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:196
 msgid "Documentation"
@@ -4421,7 +4424,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/ec2/_ec2_tag.html.erb:6
 #: ../app/views/lookup_keys/_values.html.erb:10
 #: ../app/views/lookup_keys/_values.html.erb:15
-#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingForm/SettingForm.js:43
+#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingForm/SettingForm.js:46
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:24
 msgid "Value"
 msgstr ""
@@ -4474,7 +4477,7 @@ msgstr ""
 #: ../app/helpers/compute_resources_vms_helper.rb:20
 #: ../app/helpers/compute_resources_vms_helper.rb:278
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:27
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:101
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:100
 msgid "Console"
 msgstr ""
 
@@ -4588,6 +4591,7 @@ msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:111 ../app/helpers/hosts_helper.rb:207
 #: ../app/views/config_reports/_list.html.erb:9
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:164
 msgid "Applied"
 msgstr ""
 
@@ -4598,6 +4602,7 @@ msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:113 ../app/helpers/hosts_helper.rb:211
 #: ../app/views/config_reports/_list.html.erb:10
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:159
 msgid "Restarted"
 msgstr ""
 
@@ -4609,6 +4614,7 @@ msgstr ""
 #: ../app/helpers/dashboard_helper.rb:115 ../app/helpers/hosts_helper.rb:208
 #: ../app/models/config_report.rb:80
 #: ../app/views/config_reports/_list.html.erb:11
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:149
 msgid "Failed"
 msgstr ""
 
@@ -4628,6 +4634,7 @@ msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:119 ../app/helpers/hosts_helper.rb:210
 #: ../app/views/config_reports/_list.html.erb:13
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:169
 msgid "Skipped"
 msgstr ""
 
@@ -4639,6 +4646,7 @@ msgstr ""
 #: ../app/helpers/dashboard_helper.rb:121
 #: ../app/models/host_status/configuration_status.rb:79
 #: ../app/views/config_reports/_list.html.erb:14
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:174
 msgid "Pending"
 msgstr ""
 
@@ -4938,7 +4946,7 @@ msgstr ""
 #: ../app/views/images/_list.html.erb:20
 #: ../app/views/operatingsystems/index.html.erb:16
 #: ../app/views/taxonomies/index.html.erb:28
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:157
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:143
 msgid "Edit"
 msgstr ""
 
@@ -4953,7 +4961,7 @@ msgstr ""
 #: ../app/views/operatingsystems/index.html.erb:17
 #: ../app/views/roles/index.html.erb:28
 #: ../app/views/taxonomies/index.html.erb:30
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:82
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:81
 msgid "Clone"
 msgstr ""
 
@@ -4962,7 +4970,7 @@ msgid "Clone this host"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:97
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:73
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:72
 msgid "Cancel build"
 msgstr ""
 
@@ -4985,7 +4993,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:137
 #: ../app/registries/foreman/settings/facts.rb:2
 #: ../app/registries/menu/loader.rb:45
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:109
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:108
 msgid "Facts"
 msgstr ""
 
@@ -4999,7 +5007,8 @@ msgstr ""
 #: ../app/views/config_reports/index.html.erb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:65
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:38
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:120
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:119
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:33
 msgid "Reports"
 msgstr ""
 
@@ -5083,6 +5092,7 @@ msgid "%s - The following hosts are about to be changed"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:209
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:154
 msgid "Failed restarts"
 msgstr ""
 
@@ -7051,27 +7061,35 @@ msgstr ""
 msgid "must be boolean"
 msgstr ""
 
-#: ../app/models/setting.rb:152
+#: ../app/models/setting.rb:151
 msgid "must be integer"
 msgstr ""
 
-#: ../app/models/setting.rb:165
+#: ../app/models/setting.rb:162
 msgid "must be an array"
 msgstr ""
 
-#: ../app/models/setting.rb:177
+#: ../app/models/setting.rb:170
+msgid "parsing hash from string is not supported"
+msgstr ""
+
+#: ../app/models/setting.rb:173
 msgid "parsing settings type '%s' from string is not defined"
 msgstr ""
 
-#: ../app/models/setting.rb:315
+#: ../app/models/setting.rb:177
+msgid "error parsing value for setting '%s': %s"
+msgstr ""
+
+#: ../app/models/setting.rb:314
 msgid "Host owner is invalid"
 msgstr ""
 
-#: ../app/models/setting.rb:319
+#: ../app/models/setting.rb:318
 msgid "is invalid: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:331
+#: ../app/models/setting.rb:330
 msgid "is not allowed to change"
 msgstr ""
 
@@ -7536,6 +7554,10 @@ msgstr ""
 
 #: ../app/models/usergroup_member.rb:37
 msgid "cannot contain itself as member"
+msgstr ""
+
+#: ../app/presenters/setting_presenter.rb:85
+msgid "Unsupported search operators :and / :or"
 msgstr ""
 
 #: ../app/registries/foreman/plugin.rb:228
@@ -8439,7 +8461,7 @@ msgid "Host owner"
 msgstr ""
 
 #: ../app/registries/foreman/settings/provisioning.rb:16
-#: ../app/views/hosts/_form.html.erb:125
+#: ../app/views/hosts/_form.html.erb:128
 msgid "Select an owner"
 msgstr ""
 
@@ -8879,7 +8901,7 @@ msgstr ""
 #: ../app/views/common_parameters/index.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:7
-#: ../app/views/hosts/_form.html.erb:114
+#: ../app/views/hosts/_form.html.erb:117
 msgid "Global Parameters"
 msgstr ""
 
@@ -10769,7 +10791,7 @@ msgstr ""
 #: ../app/views/compute_attributes/_form.html.erb:4
 #: ../app/views/compute_resources/show.html.erb:68
 #: ../app/views/hostgroups/_form.html.erb:36
-#: ../app/views/hosts/_form.html.erb:74 model_attributes.rb:88
+#: ../app/views/hosts/_form.html.erb:77 model_attributes.rb:88
 msgid "Compute profile"
 msgstr ""
 
@@ -11608,6 +11630,7 @@ msgid "Last report"
 msgstr ""
 
 #: ../app/views/config_reports/_list.html.erb:8
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:179
 msgid "Origin"
 msgstr ""
 
@@ -11742,7 +11765,7 @@ msgstr ""
 
 #: ../app/views/dashboard/index.html.erb:1
 #: ../app/views/smart_proxies/show.html.erb:8
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:14
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:15
 msgid "Overview"
 msgstr ""
 
@@ -11804,6 +11827,7 @@ msgstr ""
 
 #: ../app/views/fact_values/index.html.erb:19
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:33
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:144
 msgid "Reported at"
 msgstr ""
 
@@ -12033,7 +12057,7 @@ msgid "Parent"
 msgstr ""
 
 #: ../app/views/hostgroups/_form.html.erb:30
-#: ../app/views/hosts/_form.html.erb:56
+#: ../app/views/hosts/_form.html.erb:59
 msgid "Bare Metal"
 msgstr ""
 
@@ -12211,19 +12235,19 @@ msgstr ""
 msgid "This value is used also as the host's primary interface name."
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:61
+#: ../app/views/hosts/_form.html.erb:64
 msgid "Deploy On"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:116
+#: ../app/views/hosts/_form.html.erb:119
 msgid "Host Parameters"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:125
+#: ../app/views/hosts/_form.html.erb:128
 msgid "Owned By"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:131
+#: ../app/views/hosts/_form.html.erb:134
 msgid "Hardware Model"
 msgstr ""
 
@@ -12550,7 +12574,7 @@ msgstr ""
 #: ../app/views/smart_proxies/show.html.erb:21
 #: ../db/seeds.d/170-notification_blueprints.rb:12
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:43
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:22
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:23
 msgid "Details"
 msgstr ""
 
@@ -13628,6 +13652,10 @@ msgstr ""
 msgid ""
 "Send a test message to the current user's email address to confirm the configu"
 "ration is working."
+msgstr ""
+
+#: ../app/views/settings/index.html.erb:8
+msgid "Search error"
 msgstr ""
 
 #: ../app/views/smart_proxies/_form.html.erb:15
@@ -15177,13 +15205,8 @@ msgid "Host %s will be built next boot"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:128
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:127
 msgid "Legacy UI"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:141
-msgid "Share feedback"
 msgstr ""
 
 #:
@@ -15359,6 +15382,49 @@ msgstr ""
 msgid "Expand/Collapse  all"
 msgstr ""
 
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/ReportsTable.js:52
+#: ../webpack/assets/javascripts/react_app/components/PF4/BreadcrumbSwitcher/index.js:76
+msgid "No results found"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/ReportsTable.js:61
+#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:75
+msgid "Something went wrong"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/ReportsTable.js:66
+#: ../webpack/assets/javascripts/react_app/components/Loading/Loading.js:23
+msgid "Loading"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:86
+msgid "Delete report?"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:87
+msgid "Delete report"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:93
+msgid "Report was successfully deleted"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:95
+msgid "There was some issue deleting the report: ${error}"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:99
+msgid "Are you sure you want to delete this report? This action is irreversible."
+msgstr ""
+
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:180
 msgid "Created %s by %s"
 msgstr ""
@@ -15427,10 +15493,6 @@ msgstr ""
 msgid "Manage Locations"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/Loading/Loading.js:23
-msgid "Loading"
-msgstr ""
-
 #: ../webpack/assets/javascripts/react_app/components/LoginPage/LoginPage.js:32
 msgid "Log in to your account"
 msgstr ""
@@ -15465,13 +15527,13 @@ msgid "Hardware model"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/BreadcrumbSwitcher/index.js:76
-msgid "No results found"
+#: ../webpack/assets/javascripts/react_app/components/PF4/InlineEdit/InlineEdit.js:69
+msgid "None provided"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/InlineEdit/InlineEdit.js:69
-msgid "None provided"
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:101
+msgid "Create new"
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:56
@@ -15560,7 +15622,12 @@ msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingForm/SettingForm.js:28
-msgid "Setting was successfully updated."
+msgid "Setting updated."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingForm/SettingForm.js:32
+msgid "Error updating setting"
 msgstr ""
 
 #:
@@ -15628,11 +15695,6 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:66
 msgid "Return to last page"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:75
-msgid "Something went wrong"
 msgstr ""
 
 #:
@@ -15847,12 +15909,7 @@ msgid " Documentation"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/ModelsPage.js:27
-msgid "Create model"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/ModelsPage.js:33
+#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/ModelsPage.js:22
 msgid "Hardware models"
 msgstr ""
 

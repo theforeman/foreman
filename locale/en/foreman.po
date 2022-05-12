@@ -749,6 +749,9 @@ msgstr ""
 msgid "Are you sure you want to delete host {host}? This action is irreversible. {cascade}"
 msgstr ""
 
+msgid "Are you sure you want to delete this report? This action is irreversible."
+msgstr ""
+
 msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr ""
 
@@ -2040,7 +2043,7 @@ msgstr ""
 msgid "Create image"
 msgstr ""
 
-msgid "Create model"
+msgid "Create new"
 msgstr ""
 
 msgid "Create new boot volume from image"
@@ -2445,7 +2448,13 @@ msgstr ""
 msgid "Delete realm entry for %s"
 msgstr ""
 
+msgid "Delete report"
+msgstr ""
+
 msgid "Delete report for %s?"
+msgstr ""
+
+msgid "Delete report?"
 msgstr ""
 
 msgid "Deliver to e-mail addresses"
@@ -2829,6 +2838,9 @@ msgid "Error statuses"
 msgstr ""
 
 msgid "Error submitting data:"
+msgstr ""
+
+msgid "Error updating setting"
 msgstr ""
 
 msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authentication"
@@ -7566,6 +7578,9 @@ msgstr ""
 msgid "Report templates"
 msgstr ""
 
+msgid "Report was successfully deleted"
+msgstr ""
+
 msgid "ReportTemplate|Locked"
 msgstr ""
 
@@ -7940,6 +7955,9 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+msgid "Search error"
+msgstr ""
+
 msgid "Search fields"
 msgstr ""
 
@@ -8168,7 +8186,7 @@ msgstr ""
 msgid "Setting unique name"
 msgstr ""
 
-msgid "Setting was successfully updated."
+msgid "Setting updated."
 msgstr ""
 
 msgid "Settings"
@@ -8213,9 +8231,6 @@ msgid "Setup REX"
 msgstr ""
 
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
-msgstr ""
-
-msgid "Share feedback"
 msgstr ""
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
@@ -9432,6 +9447,9 @@ msgstr ""
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr ""
 
+msgid "There was some issue deleting the report: ${error}"
+msgstr ""
+
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr ""
 
@@ -10012,6 +10030,9 @@ msgid "Unsupported password hash function '%s'"
 msgstr ""
 
 msgid "Unsupported report status format"
+msgstr ""
+
+msgid "Unsupported search operators :and / :or"
 msgstr ""
 
 msgid "Update :a_resource"
@@ -11137,6 +11158,9 @@ msgstr ""
 msgid "enabled"
 msgstr ""
 
+msgid "error parsing value for setting '%s': %s"
+msgstr ""
+
 msgid "expected a value of type %s"
 msgstr ""
 
@@ -11546,6 +11570,9 @@ msgid "organizations"
 msgstr ""
 
 msgid "our templates documentation"
+msgstr ""
+
+msgid "parsing hash from string is not supported"
 msgstr ""
 
 msgid "parsing settings type '%s' from string is not defined"
