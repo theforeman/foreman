@@ -31,6 +31,9 @@ description: |
 /bin/sed -i "s/^search.*$/search <%= @host.domain %>/g" /etc/resolv.conf
 /bin/sed -i "s/.*dns-search.*/\tdns-search <%= @host.domain %>/g" /etc/network/interfaces
 /bin/sed -i "s/^<%= @host.ip %>.*/<%= @host.ip %>\t<%= @host.shortname %>.<%= @host.domain %>\t<%= @host.shortname %>/g" /etc/hosts
+<% end -%>
+
+<% unless !(@host.operatingsystem.name == "Ubuntu" && @host.operatingsystem.major.to_i > 20 || (@host.operatingsystem.major.to_i == 20 && @host.operatingsystem.minor.to_i >= 3)) || dhcp -%>
 /bin/echo <%= @host.shortname %> > /etc/hostname
 /bin/hostname  <%= @host.shortname %>.<%= @host.domain %>
 <% end -%>
