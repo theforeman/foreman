@@ -7,7 +7,7 @@ module Foreman::Controller::MigrationChecker
 
   def self.needs_migration?
     return @needs_migration unless @needs_migration.nil?
-    @needs_migration = ActiveRecord::Base.connection.migration_context.needs_migration?
+    @needs_migration = ::Foreman.pending_migrations?
   end
 
   private

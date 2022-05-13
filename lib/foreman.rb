@@ -26,6 +26,10 @@ module Foreman
     in_rake?('db:create', 'db:migrate', 'db:drop')
   end
 
+  def self.pending_migrations?
+    ActiveRecord::Base.connection.migration_context.needs_migration? || Foreman::Plugin.all.any?(&:pending_migrations)
+  end
+
   def self.instance_id
     Setting[:instance_id]
   end
