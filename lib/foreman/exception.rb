@@ -22,15 +22,22 @@ module Foreman
       @message
     end
 
-    def message
+    def message_translated
       # make sure it works without gettext too
       if Kernel.respond_to? :_
-        translated_msg = _(@message) % @params
+        _(@message) % @params
       else
         # use plain ruby interpolation
-        translated_msg = @message % @params
+        @message % @params
       end
-      "#{code} [#{self.class.name}]: #{translated_msg}"
+    end
+
+    def message
+      "#{code} [#{self.class.name}]: #{message_translated}"
+    end
+
+    def bare_message
+      message_translated
     end
 
     def to_s

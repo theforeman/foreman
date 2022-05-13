@@ -167,14 +167,14 @@ class Setting < ApplicationRecord
       self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip
 
     when "hash"
-      raise Foreman::SettingValueException, N_("parsing hash from string is not supported")
+      raise Foreman::SettingValueException, N_("Parsing a hash from a string is not supported")
 
     else
-      raise Foreman::SettingValueException.new(N_("parsing settings type '%s' from string is not defined"), settings_type)
+      raise Foreman::SettingValueException.new(N_("Parsing settings type '%s' from a string is not defined"), settings_type)
 
     end
     if errors.present?
-      raise Foreman::SettingValueException.new(N_("error parsing value for setting '%s': %s"), name, errors.full_messages.join(", "))
+      raise Foreman::SettingValueException.new(N_("Error parsing value for setting '%s': %s"), name, errors.full_messages.join(", "))
     end
     true
   end
