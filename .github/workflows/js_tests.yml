@@ -34,6 +34,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Use npm8
+        run: npm i -g npm@8 --registry=https://registry.npmjs.org
       - name: Generate npm dependencies package-lock
         run: npm install --package-lock-only --no-audit
       - name: Install npm dependencies

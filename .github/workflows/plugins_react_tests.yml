@@ -31,6 +31,8 @@ jobs:
           node-version: '12.x'
       # We could update the postinstall action for foreman to look for an environment variable for plugin webpack dirs
       # before kicking off the ruby script to find them, this would eliminate the ruby dep and running `npm install` in plugins.
+      - name: Use npm8
+        run: npm i -g npm@8 --registry=https://registry.npmjs.org
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7

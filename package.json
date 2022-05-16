@@ -30,8 +30,14 @@
     "jed": "^1.1.1",
     "react-intl": "^2.8.0"
   },
+  "peerDependencies": {
+    "react-dom": "^16.8.1"
+  },
+  "overrides": {
+    "@babel/types": "7.17.10"
+  },
   "devDependencies": {
-    "@babel/core": "^7.7.0",
+    "@babel/core": "7.17.10",
     "@theforeman/builder": "^10.1.0",
     "@theforeman/eslint-plugin-foreman": "^10.1.0",
     "@theforeman/stories": "^10.1.0",
@@ -58,20 +64,20 @@
     "prettier": "^1.19.1",
     "pretty-format": "26.6.2",
     "raw-loader": "^0.5.1",
-    "react-dnd-test-backend": "^9.4.0",
-    "react-dnd-test-utils": "^9.4.0",
+    "react-dnd-test-backend": "11.1.3",
+    "react-dnd-test-utils": "11.1.3",
     "react-remarkable": "^1.1.3",
     "redux-mock-store": "^1.2.2",
     "sass-loader": "~6.0.6",
     "style-loader": "^0.13.1",
     "stylelint": "^9.3.0",
     "stylelint-config-standard": "^18.0.0",
+    "tabbable": "~5.2.0",
     "uglifyjs-webpack-plugin": "^1.2.2",
     "url-loader": "^1.0.1",
     "webpack": "^3.4.1",
     "webpack-bundle-analyzer": ">=3.3.2",
     "webpack-dev-server-without-h2": "^2.11.8",
-    "webpack-stats-plugin": "^0.1.5",
-    "tabbable": "~5.2.0"
+    "webpack-stats-plugin": "^0.1.5"
   }
 }
