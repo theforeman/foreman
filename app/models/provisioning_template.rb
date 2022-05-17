@@ -29,6 +29,9 @@ class ProvisioningTemplate < Template
     :reject_if => :reject_template_combination_attributes?
   has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_provisioning_templates, :association_foreign_key => :operatingsystem_id, :foreign_key => :provisioning_template_id
   has_many :os_default_templates
+
+  has_many :render_statuses, foreign_key: :template_id, inverse_of: :provisioning_template, dependent: :destroy
+
   before_save :check_for_snippet_assoications
 
   validate :no_os_for_registration
@@ -231,6 +234,10 @@ class ProvisioningTemplate < Template
 
   def host_init_config_template?
     try(:template_kind)&.name == 'host_init_config'
+  end
+
+  def render_statuses_enabled?
+    !snippet?
   end
 
   private

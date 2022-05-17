@@ -724,6 +724,11 @@ destroy_lookup_values:
   resource_type: LookupValue
   created_at: "2023-10-31 15:43:36.594107"
   updated_at: "2023-10-31 15:43:36.594107"
+view_render_statuses:
+  name: view_render_statuses
+  resource_type: RenderStatus
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
 
 <% Foreman::Plugin.all.map(&:permissions).inject({}, :merge).each do |permission,attrs| %>
 <%= permission %>:

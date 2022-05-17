@@ -635,6 +635,11 @@ Foreman::AccessControl.map do |permission_set|
       :"api/v2/personal_access_tokens" => [:destroy]
   end
 
+  permission_set.security_block :render_statuses do |map|
+    map.permission :view_render_statuses,
+      :"api/v2/render_statuses" => [:index]
+  end
+
   permission_set.security_block :settings do |map|
     map.permission :view_settings, { :settings => [:index, :show, :auto_complete_search],
                                      :'api/v2/settings' => [:index, :show] }

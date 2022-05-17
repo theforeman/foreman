@@ -503,5 +503,31 @@ module RenderersSharedTests
         end
       end
     end
+
+    describe 'render statuses' do
+      let(:host) { FactoryBot.create(:host, :managed) }
+
+      context 'with valid template' do
+        let(:provisioning_template) { FactoryBot.create(:provisioning_template, template: '<%= @host.name %>') }
+
+        it 'calls render status service' do
+          Foreman::Renderer::RenderStatusService.expects(:success).once
+
+          provisioning_template.render(host: host, renderer: renderer)
+        end
+      end
+
+      context 'with invalid template' do
+        let(:provisioning_template) { FactoryBot.create(:provisioning_template, template: '<%- begin %>') }
+
+        it 'calls render status service' do
+          Foreman::Renderer::RenderStatusService.expects(:error).once
+
+          assert_raises(Foreman::Renderer::Errors::SyntaxError) do
+            provisioning_template.render(host: host, renderer: renderer)
+          end
+        end
+      end
+    end
   end
 end

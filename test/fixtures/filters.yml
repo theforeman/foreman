@@ -95,6 +95,8 @@ viewer_24:
   role_id: 5
 viewer_25:
   role_id: 5
+viewer_26:
+  role_id: 5
 default_role_1:
   role_id: 7
 destroy_hosts_1:

@@ -6,6 +6,7 @@ import {
   selectAPIStatus,
 } from '../../../redux/API/APISelectors';
 import { APIActions } from '../../../redux/API';
+import { foremanUrl } from '../../../common/helpers';
 
 /**
  * A custom hook that creates an API request
@@ -45,3 +46,12 @@ export const useAPI = (method, url, options = {}) => {
 
   return { response, status, key: keyState, setAPIOptions };
 };
+
+/**
+ * A custom hook that creates a url with search parameters
+ * @param  {string} base path
+ * @param  {object} optional search params
+ * @return {string} returns url address
+ */
+export const useForemanUrl = (path, params = {}) =>
+  [foremanUrl(path), new URLSearchParams(params)].filter(Boolean).join('?');

@@ -15,7 +15,9 @@ module Foreman
       end
 
       def self.render(source, scope)
-        result = new(source, scope).render
+        renderer_instance = new(source, scope)
+        result = renderer_instance.render
+
         digest = Digest::SHA256.hexdigest(result)
         if !scope.preview? && source.template&.log_render_results?
           Foreman::Logging.blob("Unattended render of '#{source.name}' = '#{digest}'", result,
@@ -24,7 +26,32 @@ module Foreman
             template_host_name: scope.host.try(:name),
             template_host_id: scope.host.try(:id))
         end
+
+        if !scope.preview? && source.template&.render_statuses_enabled?
+          Foreman::Renderer::RenderStatusService.success(
+            host: scope.host,
+            provisioning_template: source.template,
+            safemode: safemode
+          )
+        end
+
         result
+      rescue StandardError => e
+        if !scope.preview? && source.template&.render_statuses_enabled?
+          Foreman::Renderer::RenderStatusService.error(
+            host: scope.host,
+            provisioning_template: source.template,
+            safemode: safemode
+          )
+        end
+
+        raise e
+      end
+
+      def self.safemode
+        self::SAFEMODE
+      rescue NameError
+        raise NotImplementedError
       end
 
       private
