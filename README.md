@@ -39,17 +39,17 @@ Foreman is a mature project, deployed in [many organizations](https://projects.t
 * and so [much more](https://theforeman.org/documentation.html)
 
 # Screenshots
-![Hosts list](http://i.imgur.com/VMMLRd3.png)
-![New host](http://i.imgur.com/wl9MCyz.png)
-![EC2](http://imgur.com/x6gCogZ.png)
-![Provisioning templates](http://imgur.com/J3szFIu.png)
-![Subnets](http://imgur.com/isBcyGb.png)
-![Compute Resource](http://imgur.com/BetWNzW.png)
-![Edit Puppet class](http://imgur.com/0KDClmy.png)
-![Reports](http://imgur.com/NxlP7yo.png)
-![Statistics](http://imgur.com/DKGjtFQ.png)
-![Partition tables](http://imgur.com/Gg80lzg.png)
-![Installation media](http://imgur.com/BsYcvoM.png)
+![Hosts list](http://imgur.com/6aNhT4r.png)
+![New host](http://imgur.com/QzK9G8d.png)
+![New host page](http://imgur.com/TXE5GCR.png)
+![EC2](http://imgur.com/f261Ifo.png)
+![Provisioning templates](https://imgur.com/453Gyev.png)
+![Subnets](http://imgur.com/O2fPz4y.png)
+![Compute Resource](http://imgur.com/Zg1wO3x.png)
+![Edit Puppet class](http://imgur.com/GkLLFij.png)
+![Reports](http://imgur.com/cJsGkOm.png)
+![Partition tables](http://imgur.com/nyUICe3.png)
+![Installation media](http://imgur.com/iyohTlW.png)
 
 # Installation
 Read the [quickstart section](https://theforeman.org/manuals/latest/quickstart_guide.html#QuickstartGuide) of the manual. If you know your setup has some specific needs, read the [installation scenarios section](https://theforeman.org/manuals/latest/#3.2.3InstallationScenarios).
