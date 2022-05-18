@@ -114,12 +114,23 @@ model: ReportTemplate
 <%-   content_attrs = input('Content Attributes') == 'yes' -%>
 <%-   include_host_collections = input('Host Collections') == 'yes' -%>
 <%- end -%>
+<%- input_organization = input('Organization') == 'yes'
+    input_location = input('Location') == 'yes'
+    input_hostgroup = input('Host Group') == 'yes'
+    input_hostparameters = input('Host Parameters') == 'yes'
+    input_ipv4 = input('IPv4') == 'yes'
+    input_ipv6 = input('IPv6') == 'yes'
+    input_subnet = input('Subnet') == 'yes'
+    input_subnet6 = input('Subnet v6') == 'yes'
+    input_smartproxies = input('Smart Proxies') == 'yes'
+    input_facts = input('Facts') == 'yes'
+%>
 <%- interface_includes = [:subnet] -%>
-<%- interface_includes.push(:domain) if input('Host Parameters') == 'yes' -%>
+<%- interface_includes.push(:domain) if input_hostparameters -%>
 <%- includes = [:organization, :location, :hostgroup, { interfaces: interface_includes }] -%>
 <%- includes.push(:host_collections) if include_host_collections -%>
 <%- includes.push(:content_facet) if content_attrs -%>
-<%- includes.push(:operatingsystem) if input('Host Parameters') == 'yes' -%>
+<%- includes.push(:operatingsystem) if input_hostparameters -%>
 <%- load_hosts(search: input('Hosts'), includes: includes).each_record do |host| -%>
 <%-   content_facet = host_content_facet(host) if content_attrs -%>
 <%-   content_attribute_data = nil -%>
@@ -154,23 +165,23 @@ model: ReportTemplate
 -%>
 <%-   end -%>
 <%-   inventory_data = { 'id': host.id, 'name': host.name }
-      inventory_data.update('organization': host.organization) if input('Organization') == 'yes'
-      inventory_data.update('location': host.location) if input('Location') == 'yes'
+      inventory_data.update('organization': host.organization) if input_organization
+      inventory_data.update('location': host.location) if input_location
       hostgroup = host.hostgroup.title if host.hostgroup
-      inventory_data.update('host_group': hostgroup) if input('Host Group') == 'yes'
+      inventory_data.update('host_group': hostgroup) if input_hostgroup
       if include_host_collections
         host_collections = host.host_collections.map { |c| c.name } if host.host_collections
         inventory_data.update('host_collections': host_collections)
       end
-      inventory_data.update('host_parameters': host.params) if input('Host Parameters') == 'yes'
-      inventory_data.update('ipv4': host.ip) if input('IPv4') == 'yes'
-      inventory_data.update('ipv6': host.ip6) if input('IPv6') == 'yes'
-      inventory_data.update('subnet': host.subnet) if input('Subnet') == 'yes'
-      inventory_data.update('subnet6': host.subnet6) if input('Subnet v6') == 'yes'
+      inventory_data.update('host_parameters': host.params) if input_hostparameters
+      inventory_data.update('ipv4': host.ip) if input_ipv4
+      inventory_data.update('ipv6': host.ip6) if input_ipv6
+      inventory_data.update('subnet': host.subnet) if input_subnet
+      inventory_data.update('subnet6': host.subnet6) if input_subnet6
       smart_proxies = host.smart_proxies.map { |p| p.name } if host.smart_proxies
-      inventory_data.update('smart_proxies': smart_proxies) if input('Smart Proxies') == 'yes'
+      inventory_data.update('smart_proxies': smart_proxies) if input_smartproxies
       inventory_data.update('content_attributes': content_attribute_data) if content_attrs
-      inventory_data.update('facts': host.facts) if input('Facts') == 'yes'
+      inventory_data.update('facts': host.facts) if input_facts
       report_row(inventory_data)
 -%>
 <%- end -%>

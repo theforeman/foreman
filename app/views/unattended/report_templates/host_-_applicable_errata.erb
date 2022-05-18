@@ -22,8 +22,9 @@ require:
 ￼ version: 3.16.0
 -%>
 <%- report_headers 'Host', 'Operating System', 'Environment', 'Erratum', 'Type', 'Published', 'Applicable since', 'Severity', 'Packages', 'CVEs', 'Reboot suggested' -%>
+<%- errata_filter = input('Errata filter') %>
 <%- load_hosts(search: input('Hosts filter'), preload: [:operatingsystem, :lifecycle_environment]).each_record do |host| -%>
-<%-   host_applicable_errata_filtered(host, input('Errata filter')).each do |erratum| -%>
+<%-   host_applicable_errata_filtered(host, errata_filter).each do |erratum| -%>
 <%-     report_row(
           'Host': host.name,
           'Operating System': host.operatingsystem,
