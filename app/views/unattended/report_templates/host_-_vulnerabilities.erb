@@ -23,8 +23,9 @@ require:
   version: 4.3.0
 -%>
 <%- report_headers 'Host Name', 'Ref Id', 'Ref URL' -%>
+<%- without_errata = input('Without Errata Only') == 'yes' %>
 <%- load_hosts(includes: [:cves], search: input('Hosts filter')).each_record do |host| -%>
-<%- scope = input('Without Errata Only') == 'yes' ? host.cves_without_errata : host.cves -%>
+<%- scope = without_errata ? host.cves_without_errata : host.cves -%>
 <%-   scope.each do |cve| -%>
 <%-     report_row(
           'Host Name': host.name,
