@@ -7,7 +7,7 @@ kind: snippet
 oses:
 - Ubuntu
 -%>
-    <%= @interface.identifier %>:
+    <%= @interface.identifier.blank? ? 'ens160' : @interface.identifier %>:
         dhcp4: <%= @dhcp %>
         dhcp6: <%= @dhcp6 %>
 <%- if !@dhcp && !@subnet.nil? && !@interface.ip.nil? -%>
