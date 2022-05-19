@@ -34,6 +34,7 @@ test_on:
   end
   options << "locale=#{host_param('lang') || 'en_US'}"
   options = options.join(' ')
+  image_path = @preseed_path.sub(/\/?$/, '.iso')
 -%>
 #
 # WARNING
@@ -44,8 +45,8 @@ test_on:
 #
 DEFAULT linux cloud-init autoinstall
 LABEL linux cloud-init autoinstall
-    KERNEL ubuntu/focal/vmlinuz
-    INITRD ubuntu/focal/initrd
-    APPEND ip=dhcp url=http://<%= @preseed_server %><%= @preseed_path %> autoinstall ds=nocloud-net;s=http://<%= @preseed_server %>/pub/preseed/autoinstall/<%= @host.shortname %>/ root=/dev/ram0 ramdisk_size=1500000 fsck.mode=skip
+    KERNEL <%= @kernel %>
+    INITRD <%= @initrd %>
+    APPEND ip=dhcp url=http://<%= @preseed_server %><%= image_path %> autoinstall ds=nocloud-net;s=http://<%= foreman_request_addr %>/userdata/ root=/dev/ram0 ramdisk_size=1500000 fsck.mode=skip
 
 <%= snippet_if_exists(template_name + " custom menu") %>
