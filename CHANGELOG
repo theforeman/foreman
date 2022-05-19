@@ -1,3 +1,24 @@
+2022-05-19	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.1.3
+
+2022-04-27	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #34747 - override_param should consider direction
+
+2022-03-30	Nadja Heitmann <nadjah@atix.de>
+	* Fixes #34543 - Add mountpoints for hosts list
+
+2022-03-23	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #34661 - Registration migration with nil template
+
+2022-03-14	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #34572 - fix invalid redirect after host edit
+
+2022-03-14	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #34573 - encrypt DSL setting values
+
+2022-03-09	Sayan Das <saydas@redhat.com>
+	* Fixes #34525 - Call insights snippet by honoring host_registration_insights param during system build
+
 2022-02-22	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.1.2
 
