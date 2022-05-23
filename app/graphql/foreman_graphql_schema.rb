@@ -15,7 +15,12 @@ class ForemanGraphqlSchema < GraphQL::Schema
   end
 
   def self.id_from_object(object, type_definition, query_ctx)
-    Foreman::GlobalId.encode(type_definition.name, object.id)
+    name = if type_definition.respond_to?(:graphql_name)
+             type_definition.graphql_name
+           else
+             type_definition.name
+           end
+    Foreman::GlobalId.encode(name, object.id)
   end
 
   def self.object_from_id(id, query_ctx)

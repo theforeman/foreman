@@ -188,7 +188,7 @@ class GraphQLQueryTestCase < ActiveSupport::TestCase
 
   def assert_record(expected, actual, type_name: nil)
     assert_not_nil expected
-    type_name ||= ForemanGraphqlSchema.resolve_type(nil, expected, nil)&.name || expected.class.name
+    type_name ||= ForemanGraphqlSchema.resolve_type(nil, expected, nil)&.graphql_name || expected.class.name
     assert_equal Foreman::GlobalId.encode(type_name, expected.id), actual['id']
   end
 
@@ -197,7 +197,7 @@ class GraphQLQueryTestCase < ActiveSupport::TestCase
     assert_equal expected.count, actual['totalCount']
 
     expected_global_ids = expected.map do |r|
-      t_name = type_name || ForemanGraphqlSchema.resolve_type(nil, r, nil)&.name || r.class.name
+      t_name = type_name || ForemanGraphqlSchema.resolve_type(nil, r, nil)&.graphql_name || r.class.name
       Foreman::GlobalId.encode(t_name, r.id)
     end
     actual_global_ids = actual['edges'].map { |e| e['node']['id'] }

@@ -28,7 +28,7 @@ module Foreman
 
     def self.for(obj)
       type_definition = ForemanGraphqlSchema.resolve_type(nil, obj, nil)
-      encode(type_definition.name, obj.id)
+      encode(type_definition.graphql_name, obj.id)
     end
 
     def self.base64_encoded?(string)
