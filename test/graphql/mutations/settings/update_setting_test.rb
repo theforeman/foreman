@@ -61,7 +61,7 @@ module Mutations
 
         test "should require a value" do
           assert_not_empty result['errors']
-          assert_equal "Variable value of type String! was provided invalid value", result['errors'].first['message']
+          assert_equal "Variable $value of type String! was provided invalid value", result['errors'].first['message']
         end
       end
 

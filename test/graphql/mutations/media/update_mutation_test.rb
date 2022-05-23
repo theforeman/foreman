@@ -98,7 +98,7 @@ module Mutations
             result = ForemanGraphqlSchema.execute(query,
               variables: variables.reject { |key, value| key == :id },
               context: context)
-            assert_equal "Variable id of type ID! was provided invalid value", result['errors'].first['message']
+            assert_equal "Variable $id of type ID! was provided invalid value", result['errors'].first['message']
             assert_equal "Expected value to not be null", result['errors'].first['problems'].first['explanation']
           end
         end
@@ -110,7 +110,7 @@ module Mutations
               context: context)
             assert_equal 2, result['errors'].count
             errors = result['errors'].map { |hash| hash['message'] }
-            ["Variable name of type String! was provided invalid value", "Variable path of type String! was provided invalid value"].each do |msg|
+            ["Variable $name of type String! was provided invalid value", "Variable $path of type String! was provided invalid value"].each do |msg|
               assert errors.include? msg
             end
           end
@@ -122,7 +122,7 @@ module Mutations
               variables: variables.map { |key, value| (key == :osFamily) ? [key, 'foo'] : [key, value] }.to_h,
               context: context)
             assert_equal 1, result['errors'].count
-            assert_equal "Variable osFamily of type OsFamilyEnum was provided invalid value", result['errors'].first['message']
+            assert_equal "Variable $osFamily of type OsFamilyEnum was provided invalid value", result['errors'].first['message']
             assert_equal "Expected \"foo\" to be one of: #{Types::OsFamilyEnum.values.keys.join(', ')}", result['errors'].first['problems'].first['explanation']
           end
         end

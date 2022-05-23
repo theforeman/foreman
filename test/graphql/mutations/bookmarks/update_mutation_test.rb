@@ -64,7 +64,7 @@ module Mutations
             result = ForemanGraphqlSchema.execute(query,
               variables: variables.reject { |key, value| key == :id },
               context: context)
-            assert_equal "Variable id of type ID! was provided invalid value", result['errors'].first['message']
+            assert_equal "Variable $id of type ID! was provided invalid value", result['errors'].first['message']
             assert_equal "Expected value to not be null", result['errors'].first['problems'].first['explanation']
           end
         end
