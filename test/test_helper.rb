@@ -184,7 +184,7 @@ class GraphQLQueryTestCase < ActiveSupport::TestCase
   let(:variables) { {} }
   let(:context_user) { FactoryBot.create(:user, :admin) }
   let(:context) { { current_user: context_user } }
-  let(:result) { ForemanGraphqlSchema.execute(query, variables: variables, context: context) }
+  let(:result) { ForemanGraphqlSchema.execute(query, context: context, variables: variables) }
 
   def assert_record(expected, actual, type_name: nil)
     assert_not_nil expected
