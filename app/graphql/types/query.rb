@@ -15,8 +15,8 @@ module Types
     include ::Foreman::Plugin::GraphqlPluginFields
     realize_plugin_query_extensions
 
-    field :node, field: GraphQL::Relay::Node.field
-    field :nodes, field: GraphQL::Relay::Node.plural_field
+    include GraphQL::Types::Relay::HasNodeField
+    include GraphQL::Types::Relay::HasNodesField
 
     field :currentUser, Types::User, null: true, resolver: Resolvers::User::Current
 
