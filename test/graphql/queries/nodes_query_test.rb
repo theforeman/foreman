@@ -17,7 +17,7 @@ module Queries
       }
       GRAPHQL
 
-      result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+      result = ForemanGraphqlSchema.execute(query, context: context, variables: {})
 
       expected_model_attributes = {
         'id' => global_id,
@@ -40,7 +40,7 @@ module Queries
       }
       GRAPHQL
 
-      result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+      result = ForemanGraphqlSchema.execute(query, context: context, variables: {})
 
       expected_model_attributes = {
         'id' => global_id,
@@ -66,7 +66,7 @@ module Queries
       }
         GRAPHQL
 
-        result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+        result = ForemanGraphqlSchema.execute(query, context: context, variables: {})
 
         assert_empty result['errors']
         assert_nil result['data']['node']
