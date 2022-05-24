@@ -1,3 +1,28 @@
+2022-05-24	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.2.1
+
+2022-04-27	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #34747 - override_param should consider direction
+
+2022-04-13	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #34744 - Remove reports deprecation warning
+
+2022-04-12	Ondřej Ezr <oezr@redhat.com>
+	* Refs #34495 - update JS snapshots
+
+2022-04-12	MariaAga <mariaaga@redhat.com>
+	* Refs #34495 - Katello erros from Breadcrumb switcher
+	* Fixes #34495 - Breadcrumb switcher doesn't work with katello
+
+2022-04-01	Bernhard Suttner <suttner@atix.de>
+	* Fixes #34689 - bootfile should be useable in Jail
+
+2022-03-23	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #34661 - Registration migration with nil template
+
+2022-03-15	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #34360 - allow host deleting with host_reports plugin
+
 2022-03-15	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.2.0
 	* i18n - extracting new, pulling from tx
