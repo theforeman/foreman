@@ -47,8 +47,6 @@ description: |
   - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/sect-kickstart-syntax
   - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-commands-and-options-reference_installing-rhel-as-an-experienced-user
 -%>
-# This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
-
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   is_fedora = @host.operatingsystem.name == 'Fedora'
@@ -66,6 +64,17 @@ description: |
   iface = @host.provision_interface
   appstream_present = false
 -%>
+# This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
+# for <%= @host %> running <%= @host.operatingsystem.name %> <%= os_major %> <%= @arch %>
+# Organization: <%= @host.organization %>
+# Location: <%= @host.location %>
+<%
+if plugin_present?('katello')
+-%>
+# Lifecycle environment: <%= @host.lifecycle_environment %>
+# Content View: <%= @host.content_view %>
+# Content Source: <%= @host.content_source %>
+<% end -%>
 
 <% if (is_fedora && os_major < 29) || (rhel_compatible && os_major <= 7) -%>
 install

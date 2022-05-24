@@ -1,4 +1,9 @@
 
+# This preseed file was rendered from the Foreman provisioning template "Preseed default".
+# for snapshot-ipv4-dhcp-deb10 running Debian 10 
+# Organization: Organization 1
+# Location: Location 1
+
 # Locale
 d-i debian-installer/locale string en_US
 # country and keyboard settings are automatic. Keep them ...

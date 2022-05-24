@@ -26,6 +26,11 @@ description: |
   additional_packages << 'eject' if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build?
   additional_packages = additional_packages.join(" ").split().uniq().join(" ")
 %>
+# This preseed file was rendered from the Foreman provisioning template "<%= @template_name %>".
+# for <%= @host %> running <%= @host.operatingsystem.name %> <%= os_major %> <%= @arch %>
+# Organization: <%= @host.organization %>
+# Location: <%= @host.location %>
+
 # Locale
 d-i debian-installer/locale string <%= host_param('lang') || 'en_US' %>
 # country and keyboard settings are automatic. Keep them ...

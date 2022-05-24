@@ -1,5 +1,7 @@
 # This kickstart file was rendered from the Foreman provisioning template "Kickstart default".
-
+# for snapshot-ipv4-dhcp-el7 running CentOS 7 x86_64
+# Organization: Organization 1
+# Location: Location 1
 
 install
 
