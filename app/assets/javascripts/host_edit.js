@@ -1,5 +1,12 @@
 //= require parameter_override
 
+$(document).ready(function() {
+  var searchParams = new URLSearchParams(window.location.search);
+  if(searchParams.has('hostgroup_id')) {
+    var param = searchParams.get('hostgroup_id');
+    $('#host_hostgroup_id').val(param).trigger('change');
+  }
+});
 $(document).on('ContentLoad', function() {
   onHostEditLoad();
 });
