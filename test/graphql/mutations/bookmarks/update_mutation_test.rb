@@ -48,7 +48,7 @@ module Mutations
 
         test 'updates a bookmark' do
           assert_difference('::Bookmark.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_empty result['errors']
             assert_empty result['data']['updateBookmark']['errors']
           end
@@ -80,7 +80,7 @@ module Mutations
           context = { current_user: @user }
 
           assert_difference('Bookmark.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_not_empty result['errors']
           end
         end

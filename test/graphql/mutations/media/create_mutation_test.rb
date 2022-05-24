@@ -69,7 +69,7 @@ module Mutations
 
         test 'create a medium' do
           assert_difference('Medium.count', +1) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_empty result['errors']
             assert_empty result['data']['createMedium']['errors']
           end
@@ -78,13 +78,13 @@ module Mutations
 
         test 'should not create a medium twice' do
           assert_difference('Medium.count', +1) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_empty result['errors']
             assert_empty result['data']['createMedium']['errors']
           end
 
           assert_difference('Medium.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_includes result['data']['createMedium']['errors'], { "path" => ["attributes", "name"], "message" => "has already been taken" }
           end
         end
@@ -99,7 +99,7 @@ module Mutations
         test 'cannot create a medium' do
           context = { current_user: @user }
           assert_difference('::Medium.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_not_empty result['errors']
           end
         end

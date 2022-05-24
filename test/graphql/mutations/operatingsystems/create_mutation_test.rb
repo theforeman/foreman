@@ -79,7 +79,7 @@ module Mutations
           context = { current_user: user }
 
           assert_difference('Operatingsystem.count', +1) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_empty result['errors']
             res = result['data']['createOperatingsystem']
             assert_empty res['errors']
@@ -101,7 +101,7 @@ module Mutations
           context = { current_user: @user }
 
           assert_difference('::Operatingsystem.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_not_empty result['errors']
           end
         end

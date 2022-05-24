@@ -79,7 +79,7 @@ module Mutations
 
         test 'updates a medium' do
           assert_difference('::Medium.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_empty result['errors']
             assert_empty result['data']['updateMedium']['errors']
           end
@@ -96,8 +96,8 @@ module Mutations
         test 'should not update a medium without id' do
           assert_difference('Medium.count', 0) do
             result = ForemanGraphqlSchema.execute(query,
-              variables: variables.reject { |key, value| key == :id },
-              context: context)
+              context: context,
+              variables: variables.reject { |key, value| key == :id })
             assert_equal "Variable $id of type ID! was provided invalid value", result['errors'].first['message']
             assert_equal "Expected value to not be null", result['errors'].first['problems'].first['explanation']
           end
@@ -106,8 +106,8 @@ module Mutations
         test 'should not update a medium without required args' do
           assert_difference('Medium.count', 0) do
             result = ForemanGraphqlSchema.execute(query,
-              variables: variables.reject { |key, value| key == :name || key == :path },
-              context: context)
+              context: context,
+              variables: variables.reject { |key, value| key == :name || key == :path })
             assert_equal 2, result['errors'].count
             errors = result['errors'].map { |hash| hash['message'] }
             ["Variable $name of type String! was provided invalid value", "Variable $path of type String! was provided invalid value"].each do |msg|
@@ -119,8 +119,8 @@ module Mutations
         test 'should not update a medium with invalid os family' do
           assert_difference('Medium.count', 0) do
             result = ForemanGraphqlSchema.execute(query,
-              variables: variables.map { |key, value| (key == :osFamily) ? [key, 'foo'] : [key, value] }.to_h,
-              context: context)
+              context: context,
+              variables: variables.map { |key, value| (key == :osFamily) ? [key, 'foo'] : [key, value] }.to_h)
             assert_equal 1, result['errors'].count
             assert_equal "Variable $osFamily of type OsFamilyEnum was provided invalid value", result['errors'].first['message']
             assert_equal "Expected \"foo\" to be one of: #{Types::OsFamilyEnum.values.keys.join(', ')}", result['errors'].first['problems'].first['explanation']
@@ -141,7 +141,7 @@ module Mutations
           context = { current_user: @user }
 
           assert_difference('Medium.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_equal "Unauthorized. You do not have the required permission edit_media.", result['errors'].first['message']
           end
         end
