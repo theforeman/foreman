@@ -1,4 +1,9 @@
 
+# This preseed file was rendered from the Foreman provisioning template "Preseed default".
+# for snapshot-ipv4-dhcp-ubuntu18 running Ubuntu 18 
+# Organization: Organization 1
+# Location: Location 1
+
 # Locale
 d-i debian-installer/locale string en_US
 # country and keyboard settings are automatic. Keep them ...
