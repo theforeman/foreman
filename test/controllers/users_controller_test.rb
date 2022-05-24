@@ -227,6 +227,16 @@ class UsersControllerTest < ActionController::TestCase
     assert users(:admin).last_login_on.to_i >= time.to_i, 'User last login time was not updated'
   end
 
+  test "should not set taxonomies for external user" do
+    Setting['authorize_login_delegation'] = true
+    Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
+    users(:admin).update(default_organization_id: Organization.first.id)
+    @request.env['HTTP_REMOTE_USER'] = users(:admin).login
+    get :extlogin, session: {:user => users(:admin).id }
+    assert session['location_id'] == ''
+    assert session['organization_id'] == Organization.first.id
+  end
+
   test "should logout external user" do
     @sso = mock('dummy_sso')
     @sso.stubs(:authenticated?).returns(true)
