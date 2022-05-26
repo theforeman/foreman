@@ -21,7 +21,7 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       assert setting.save
     end
     a = Audit.where(auditable_type: 'Setting')
-    assert_equal "[redacted]", a.last.audited_changes["value"][1]
+    assert_equal "[redacted]", a.last.audited_changes["value"]
   end
 
   context "with multiple taxonomies" do

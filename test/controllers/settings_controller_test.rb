@@ -19,7 +19,7 @@ class SettingsControllerTest < ActionController::TestCase
   end
 
   test "does not render an old sti type setting" do
-    assert setting = Setting.create(:name => "foo", :default => "bar", :description => "test foo")
+    assert setting = Setting.create(:name => "foo")
     setting.send(:write_attribute, :category, "Setting::Invalid")
     get :index, session: set_session_user
     assert_no_match /id='Invalid'/, @response.body

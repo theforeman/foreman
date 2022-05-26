@@ -80,17 +80,16 @@ class SettingRegistry
     definition = find(name)
     raise ActiveRecord::RecordNotFound.new(_("Setting definition for '%s' not found, can not set") % name, Setting, name) unless definition
     db_record = _find_or_new_db_record(name)
-    db_record.send(:set_setting_type_from_value)
 
     type = value.class.to_s.downcase
     type = 'boolean' if type == "trueclass" || type == "falseclass"
     case type
     when 'string'
       db_record.parse_string_value(value)
-    when db_record.settings_type
+    when definition.settings_type
       db_record.value = value
     else
-      raise ::Foreman::SettingValueException.new(N_('expected a value of type %s'), @setting.settings_type)
+      raise ::Foreman::SettingValueException.new(N_('expected a value of type %s'), definition.settings_type)
     end
     db_record
   end
@@ -119,8 +118,6 @@ class SettingRegistry
 
     # create missing settings in the database
     @settings.except(*Setting.unscoped.all.pluck(:name)).each do |name, definition|
-      # Creating missing records as we operate over the DB model while updating the setting
-      _new_db_record(definition).save(validate: false)
       definition.updated_at = nil
     end
   end
@@ -182,19 +179,6 @@ class SettingRegistry
   end
 
   def _new_db_record(definition)
-    Setting.new(name: definition.name,
-                category: definition.category.safe_constantize&.name || 'Setting',
-                default: definition.default,
-                value: definition.value,
-                description: definition.description)
-  end
-
-  # ==== Load old defaults
-
-  def _load_category_from_db(category_klass)
-    category_klass.all.each do |set|
-      # set.value can be user value, we have no way of telling the initial value
-      _add(set.name, type: (set.settings_type || 'string').to_sym, category: category_klass.name, description: set.description, default: set.default, full_name: set.try(:full_name), context: :deprecated, encrypted: set.try(:encrypted))
-    end
+    Setting.new(name: definition.name, value: definition.value)
   end
 end

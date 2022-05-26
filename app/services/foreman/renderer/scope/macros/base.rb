@@ -41,7 +41,7 @@ module Foreman
           end
           def global_setting(name, blank_default = nil)
             raise FilteredGlobalSettingAccessed.new(name: name) if Setting[:safemode_render] && !Foreman::Renderer.config.allowed_global_settings.include?(name.to_sym)
-            setting = Setting.find_by_name(name.to_sym)
+            setting = Foreman.settings.find(name)
             (setting.settings_type != "boolean" && setting.value.blank?) ? blank_default : setting.value
           end
 

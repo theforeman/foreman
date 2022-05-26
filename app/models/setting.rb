@@ -1,7 +1,7 @@
 require 'resolv'
 
 class Setting < ApplicationRecord
-  audited :except => [:name, :description, :category, :settings_type, :full_name, :encrypted], :on => [:update]
+  audited :except => [:name, :category]
   extend FriendlyId
   friendly_id :name
   include ActiveModel::Validations
@@ -10,12 +10,10 @@ class Setting < ApplicationRecord
   self.inheritance_column = 'category'
 
   TYPES = %w{integer boolean hash array string}
-  FROZEN_ATTRS = %w{name category}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page outofsync_interval}
   # constant BLANK_ATTRS is deprecated and all settings without custom validation allow blank values
   # if you wish to validate non-empty arrays, please add validation through the new setting DSL
-  BLANK_ATTRS = %w{ host_owner trusted_hosts login_delegation_logout_url root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text oidc_audience oidc_issuer oidc_algorithm
-                    smtp_address smtp_domain smtp_user_name smtp_password smtp_openssl_verify_mode smtp_authentication sendmail_arguments sendmail_location http_proxy http_proxy_except_list default_locale default_timezone ssl_certificate ssl_ca_file server_ca_file ssl_priv_key default_pxe_item_global default_pxe_item_local oidc_jwks_url instance_title }
+  BLANK_ATTRS = %w{}
   ARRAY_HOSTNAMES = %w{trusted_hosts}
   URI_ATTRS = %w{foreman_url unattended_url}
   URI_BLANK_ATTRS = %w{login_delegation_logout_url}
@@ -33,11 +31,9 @@ class Setting < ApplicationRecord
   validates_lengths_from_database
 
   validates :name, :presence => true, :uniqueness => true
-  validates :description, :presence => true
   validates :value, :numericality => true, :length => {:maximum => 8}, :if => proc { |s| s.settings_type == "integer" }
   validates :value, :numericality => {:greater_than => 0}, :if => proc { |s| NONZERO_ATTRS.include?(s.name) }
-  validates :value, :inclusion => {:in => [true, false]}, :if => proc { |s| s.settings_type == "boolean" }
-  validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
+  validates :value, :inclusion => {:in => [true, false]}, :if => proc { |s| s.settings_type.to_s == "boolean" }, :allow_nil => true
   validates :value, :url_schema => ['http', 'https'], :if => proc { |s| URI_ATTRS.include?(s.name) }
 
   validates :value, :url_schema => ['http', 'https'], :if => proc { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
@@ -49,7 +45,6 @@ class Setting < ApplicationRecord
   validates_with ValueValidator, :if => proc { |s| Foreman.settings.ready? && s.respond_to?("validate_#{s.name}") }
   validates :value, :array_hostnames_ips => true, :if => proc { |s| ARRAY_HOSTNAMES.include? s.name }
   validates :value, :email => true, :if => proc { |s| EMAIL_ATTRS.include? s.name }
-  before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
   validate :validate_frozen_attributes
   # Custom validations are added from SettingManager class
@@ -66,12 +61,14 @@ class Setting < ApplicationRecord
   scoped_search on: :name, complete_value: :true, operators: ['=', '~']
   scoped_search on: :description, complete_value: :true, operators: ['~']
 
+  delegate :settings_type, :encrypted, :encrypted?, :default, to: :setting_definition, allow_nil: true
+
   def self.config_file
     'settings.yaml'
   end
 
   def self.live_descendants
-    disabled_plugins.order_by(:full_name)
+    disabled_plugins.order_by(:name)
   end
 
   # can't use our own settings
@@ -123,16 +120,6 @@ class Setting < ApplicationRecord
   end
   alias_method :value_before_type_cast, :value
 
-  def default
-    d = self[:default]
-    d.nil? ? nil : YAML.load(d)
-  end
-
-  def default=(v)
-    self[:default] = v.to_yaml
-  end
-  alias_method :default_before_type_cast, :default
-
   def parse_string_value(val)
     case settings_type
     when "boolean"
@@ -162,7 +149,7 @@ class Setting < ApplicationRecord
         invalid_value_error _("must be an array")
       end
 
-    when "string", nil
+    when "string", "text", nil
       # string is taken as default setting type for parsing
       self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip
 
@@ -177,29 +164,6 @@ class Setting < ApplicationRecord
       raise Foreman::SettingValueException.new(N_("Error parsing value for setting '%s': %s"), name, errors.full_messages.join(", "))
     end
     true
-  end
-
-  # in order to avoid code duplication, this method was introduced
-  def self.create_find_by_name(opts)
-    # self.name can be set by default scope, e.g. from first_or_create use
-    opts ||= { name: new.name }
-    opts.symbolize_keys!
-
-    s = Setting.find_by_name(opts[:name].to_s)
-    return create_existing(s, opts) if s
-
-    column_check(opts)
-    if block_given?
-      yield opts.merge!(value: readonly_value(opts[:name].to_sym) || opts[:value])
-    end
-  end
-
-  def self.create(opts)
-    create_find_by_name(opts) { super }
-  end
-
-  def self.create!(opts)
-    create_find_by_name(opts) { super }
   end
 
   def self.regexp_expand_wildcard_string(string, options = {})
@@ -223,38 +187,6 @@ class Setting < ApplicationRecord
   def read_attribute_before_type_cast(attr_name)
     return value if attr_name == :value
     super(attr_name)
-  end
-
-  def self.create_existing(s, opts)
-    bypass_readonly(s) do
-      attrs = column_check([:default, :description, :full_name, :encrypted])
-      to_update = Hash[opts.select { |k, v| attrs.include? k }]
-      to_update[:value] = readonly_value(s.name.to_sym) if s.has_readonly_value?
-      # default is converted to yaml so we need to convert the yaml here too,
-      # in order to check, if the update of default is needed
-      # if it is the same, we don't try to update default, it would trigger
-      # update query for every setting
-      to_update.delete(:default) if to_update[:default].to_yaml.strip == s[:default]
-      s.attributes = to_update
-      s.save(validate: false)
-      s.update_column :category, opts[:category] if s.category != opts[:category]
-      s.update_column :full_name, opts[:full_name] if column_check([:full_name]).present? && s.full_name != opts[:full_name]
-      raw_value = s.read_attribute(:value)
-      if s.is_encryptable?(raw_value) && attrs.include?(:encrypted) && opts[:encrypted]
-        s.update_column :value, s.encrypt_field(raw_value)
-      end
-      if s.is_decryptable?(raw_value) && attrs.include?(:encrypted) && !opts[:encrypted]
-        s.update_column :value, s.decrypt_field(raw_value)
-      end
-    end
-    s
-  end
-
-  def self.bypass_readonly(s, &block)
-    s.instance_variable_set("@readonly", false) if (old_readonly = s.readonly?)
-    yield(s)
-  ensure
-    s.readonly! if old_readonly
   end
 
   def self.replace_keywords(keyword)
@@ -299,10 +231,6 @@ class Setting < ApplicationRecord
     ActiveModel::Name.new(Setting)
   end
 
-  def self.column_check(opts)
-    opts.keep_if { |k, v| Setting.column_names.include?(k.to_s) }
-  end
-
   # End methods for loading default settings
 
   private
@@ -318,15 +246,11 @@ class Setting < ApplicationRecord
     errors.add(:value, _("is invalid: %s") % error)
   end
 
-  def set_setting_type_from_value
-    self.settings_type ||= self.class.setting_type_from_value(default)
-  end
-
   def validate_frozen_attributes
     return true if new_record?
     changed_attributes.each do |c, old|
       # Allow settings_type to change at first (from nil) since it gets populated during validation
-      if FROZEN_ATTRS.include?(c.to_s) || (c.to_s == :settings_type && !old.nil?)
+      if c.to_s == 'name'
         errors.add(c, _("is not allowed to change"))
         return false
       end
@@ -335,7 +259,7 @@ class Setting < ApplicationRecord
   end
 
   def clear_value_when_default
-    if self[:value] == self[:default]
+    if value == default
       self[:value] = nil
     end
   end

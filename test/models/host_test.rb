@@ -445,8 +445,6 @@ class HostTest < ActiveSupport::TestCase
       Setting[:create_new_host_when_report_is_uploaded] = true
       ConfigReport.import read_json_fixture("reports/no-logs.json")
       assert Host.find_by_name('report.example.com')
-      Setting[:create_new_host_when_report_is_uploaded] =
-        Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
     end
   end
 
@@ -455,8 +453,6 @@ class HostTest < ActiveSupport::TestCase
     assert_equal false, Setting[:create_new_host_when_report_is_uploaded]
     ConfigReport.import read_json_fixture("reports/no-logs.json")
     host = Host.find_by_name('report.example.com')
-    Setting[:create_new_host_when_report_is_uploaded] =
-      Setting.find_by_name("create_new_host_when_facts_are_uploaded").default
     assert_nil host
   end
 
