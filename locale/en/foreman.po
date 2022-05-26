@@ -2831,6 +2831,9 @@ msgstr ""
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
+msgid "Error parsing value for setting '%s': %s"
+msgstr ""
+
 msgid "Error removing widget from dashboard."
 msgstr ""
 
@@ -6852,6 +6855,12 @@ msgid "Parent is already selected"
 msgstr ""
 
 msgid "Parent parameters"
+msgstr ""
+
+msgid "Parsing a hash from a string is not supported"
+msgstr ""
+
+msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
 msgid "Partition Table"
@@ -11158,9 +11167,6 @@ msgstr ""
 msgid "enabled"
 msgstr ""
 
-msgid "error parsing value for setting '%s': %s"
-msgstr ""
-
 msgid "expected a value of type %s"
 msgstr ""
 
@@ -11570,12 +11576,6 @@ msgid "organizations"
 msgstr ""
 
 msgid "our templates documentation"
-msgstr ""
-
-msgid "parsing hash from string is not supported"
-msgstr ""
-
-msgid "parsing settings type '%s' from string is not defined"
 msgstr ""
 
 msgid "pending"

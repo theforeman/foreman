@@ -1566,7 +1566,7 @@ msgstr "计算配置文件"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Compute resource"
-msgstr "计算资源"
+msgstr "運算設定檔"
 
 msgid "Compute resource ID"
 msgstr "计算资源 ID"
@@ -2656,7 +2656,7 @@ msgid "Eager zero"
 msgstr "Eager zero"
 
 msgid "Edit"
-msgstr "编辑"
+msgstr "編輯"
 
 msgid "Edit %s"
 msgstr "编辑 %s"
@@ -3016,7 +3016,7 @@ msgid "FactValue|Value"
 msgstr "FactValue"
 
 msgid "Facts"
-msgstr "Fact"
+msgstr "詳情"
 
 msgid "Facts Values"
 msgstr "Fact 值"
@@ -11405,7 +11405,7 @@ msgstr "json"
 
 msgid "last %s day"
 msgid_plural "last %s days"
-msgstr[0] "最后%s天"
+msgstr[0] "最后 %s 天"
 
 msgid "link external user group with this user group"
 msgstr "将外部用户组与这个用户组关联"
