@@ -1,3 +1,13 @@
+2022-05-26	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.3.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2022-05-26	Jeremy Lenz <jlenz@redhat.com>
+	* Fixes #34921 - Fix SettingValueException error message
+
+2022-05-13	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #34913 - Take plugins into consideration when checking pending migrations
+
 2022-05-12	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.3.0-rc1
 	* i18n - extracting new, pulling from tx
