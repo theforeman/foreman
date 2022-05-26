@@ -22,6 +22,7 @@ description: |
   - ntp-server: string (default=undef)
   - package_upgrade: boolean (default=true)
   - salt_master: string (default=undef)
+  - enable-remote-execution-pull: boolean (default=false)
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -70,6 +71,12 @@ fi
 <% end -%>
 
 <%= snippet('remote_execution_ssh_keys') %>
+
+<% if plugin_present?('katello') && host_param_true?('enable-remote-execution-pull') -%>
+<%= save_to_file('/root/remote_execution_pull_setup.sh', snippet('remote_execution_pull_setup')) %>
+chmod +x /root/remote_execution_pull_setup.sh
+/root/remote_execution_pull_setup.sh
+<% end -%>
 
 <%= snippet "blacklist_kernel_modules" %>
 
