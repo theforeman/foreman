@@ -5,7 +5,6 @@ ApipieDSL.configure do |config|
   config.app_name = 'Foreman'
   config.app_info = 'The Foreman is aimed to be a single address for all machines life cycle management.'
   config.doc_base_url = '/templates_doc'
-  config.markup = ApipieDSL::Markup::Markdown.new if Rails.env.development? && defined? Maruku
   config.dsl_classes_matchers = [
     "#{Rails.root}/app/models/**/*.rb",
     "#{Rails.root}/lib/foreman/renderer/**/*.rb",
@@ -14,7 +13,7 @@ ApipieDSL.configure do |config|
   # TODO enable?
   config.validate = false
 
-  config.use_cache = Rails.env.production? || File.directory?(config.cache_dir)
+  config.use_cache = false
   # config.languages = [] # turn off localized DSL docs, useful for development
   config.languages = ENV['FOREMAN_APIPIE_LANGS'].try(:split, ' ') || FastGettext.available_locales
   config.default_locale = FastGettext.default_locale
