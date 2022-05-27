@@ -36,10 +36,10 @@ module LookupKeysHelper
     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e), e] }, f.object.validator_type), {:include_blank => _("None")},
       { :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class => "without_select2",
         :onchange => 'validatorTypeSelected(this)',
-        :label_help => _("<dl>" +
-          "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +
-          "<dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd>" +
-          "</dl>").html_safe,
+        :label_help => _(
+          "<b>List</b> A list of the allowed values separated by comma, specified in the Validator rule field. The default value and all input values must then be one of the specified allowed value.<br/>" +
+          "<b>Regexp</b> Validates the default value and all input values with the regular expression in the Validator rule field. E.g. <code>[0-9]+\.[0-9]+</code><br/>"
+        ).html_safe,
         :label_help_options => { :title => _("Validation types") } }
   end
 
