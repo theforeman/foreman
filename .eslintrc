@@ -30,6 +30,7 @@
           "checkbox",
           "clearbutton",
           "clearfix",
+          "comms",
           "consts",
           "cpu",
           "csrf",
