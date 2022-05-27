@@ -34,9 +34,21 @@ description: |
   # tell Anaconda what to pass off to kickstart server
   # both current and legacy syntax provided
   if (is_fedora && os_major >= 33) || (rhel_compatible && os_major >= 9)
-    options.push("inst.ks=#{foreman_url('provision')}", "inst.ks.sendmac")
+    if subnet4 && !subnet4.dhcp_boot_mode?
+      options.push("inst.ks=#{foreman_url('provision', static: '1')}")
+    elsif subnet6 && !subnet6.dhcp_boot_mode?
+      options.push("inst.ks=#{foreman_url('provision', static6: '1')}")
+    else
+      options.push("inst.ks=#{foreman_url('provision')}", "inst.ks.sendmac")
+    end
   else
-    options.push("ks=#{foreman_url('provision')}", "kssendmac", "ks.sendmac")
+    if subnet4 && !subnet4.dhcp_boot_mode?
+      options.push("ks=#{foreman_url('provision', static: '1')}")
+    elsif subnet6 && !subnet6.dhcp_boot_mode?
+      options.push("ks=#{foreman_url('provision', static6: '1')}")
+    else
+      options.push("ks=#{foreman_url('provision')}", "kssendmac", "ks.sendmac")
+    end  
   end
 
   # networking credentials
