@@ -1,0 +1,35 @@
+<%#
+name: Windows configure ansible
+snippet: true
+model: ProvisioningTemplate
+-%>
+
+ <% if host_param('create_ansible_user') %>
+   powershell /c "set-localuser -name <%= host_param('ansible_user') %> -passwordneverexpires 1"
+ <% end %>
+ powershell /c "Enable-PSRemoting"
+ <% if host_param('ansible_port') == 5985 %>
+   netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" new enable=yes
+   cmd /c "winrm set winrm/config/service @{AllowUnencrypted=\"true \"}"
+   cmd /c "winrm set winrm/config/client/auth @{Basic=\"true\"}"
+   cmd /c "winrm set winrm/config/service/auth @{Basic=\"true\"}"
+ <% end %>
+ <% if host_param('ansible_port') == '5986' %>
+   netsh advfirewall firewall add rule name="Windows Remote Management (HTTPs-In)" dir=in localport=5986 protocol=TCP action=allow
+   powershell /C "$thumbprint = New-SelfSignedCertificate -certstorelocation cert:\localmachine\my -dnsname <%= @host -%> -KeyLength 4096; New-WSManInstance -ResourceURI winrm/config/Listener -SelectorSet @{Address='*';Transport='HTTPS'} -ValueSet @{CertificateThumbprint=$thumbprint.Thumbprint;Hostname='<%= @host -%>'}"
+
+   <% if host_param('ansible_winrm_transport')  == 'credssp' %>
+   powershell /c "Enable-WSManCredSSP -Role Server -Force"
+   <% end %>
+
+   <% unless host_param('ansible_winrm_enable_http') %>
+   netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" new enable=no
+   <% end %>
+   <% unless host_param('ansible_winrm_enable_unencrypted') %>
+   cmd /c "winrm set winrm/config/service @{AllowUnencrypted=\"false\"}"
+   <% end %>
+   <% unless host_param('ansible_winrm_transport')  == 'basic' %>
+   cmd /c "winrm set winrm/config/client/auth @{Basic=\"false\"}"
+   cmd /c "winrm set winrm/config/service/auth @{Basic=\"false\"}"
+   <% end %>
+<% end %>

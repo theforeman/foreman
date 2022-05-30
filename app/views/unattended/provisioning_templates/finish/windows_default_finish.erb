@@ -8,31 +8,28 @@ oses:
 - Windows Server 2012
 - Windows Server 2012 R2
 - Windows
-description: |
-  A finish template executed at the end of Windows provisioning. For more information, please
-  see https://community.theforeman.org/t/windows-provisioning-made-easy/16756
-
-  This template accepts the following parameters:
-  - windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
-  - windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
-  - localAdminAccountDisabled: false
-  - ntpServer: time.windows.com,other.time.server
-  - domainAdminAccount: joinuser@domain.com # please do not use the domain administrator
-  - domainAdminAccountPasswd: Password for the domain Admin account
-  - computerOU: OU=Computers,CN=domain,CN=com # Place the computer account in specified Organizational Unit
-  - computerDomain: domain.com # domain to join
-  - machinePassword: used for unsecure domain join. needs precrated computer object (New-ADComputer)
-  - foremanDebug: false
-  - skip-puppet-setup: boolean (default=false)
-
-  Information about unsecure domain join
-  https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/add-computer?view=powershell-5.1#example-9--add-a-computer-to-a-domain-using-predefined-computer-credentials
--%>
+# Parameters are expected to be set in Foreman (globally or per group/host)
+params:
+- windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
+- windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
+- localAdminAccountDisabled: false
+- ntpServer: time.windows.com,other.time.server
+- domainAdminAccount: joinuser@domain.com # please do not use the domain administrator
+- domainAdminAccountPasswd: Password for the domain Admin account
+- computerOU: OU=Computers,CN=domain,CN=com # Place the computer account in specified Organizational Unit
+- computerDomain: domain.com # domain to join
+- machinePassword: used for unsecure domain join. needs precrated computer object (New-ADComputer)
+%>
+<%#
+# Information about unsecure domain join
+# https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/add-computer?view=powershell-5.1#example-9--add-a-computer-to-a-domain-using-predefined-computer-credentials
+%>
 <%
   # safemode renderer does not support unary negation
-  puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
-  salt_enabled = host_param('salt_master') ? true : false
-  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || host_param('force-puppet') && host_param('force-puppet') == 'true'
+  network_location = host_param('networklocation') ? host_param('networklocation') : 'Private'
+  foreman_Debug = host_param('foremanDebug') ? host_param('foremanDebug') : 'false'
 %>
 
 @echo off
@@ -44,12 +41,10 @@ description: |
 <% if @host.pxe_build? %>
   set ctr=0
   set nettimeout=10
+<% end -%>
 
-  (echo Updating time)
-  (sc config w32time start= auto)
-  sc start w32time
-  ::ipconfig /renew
-
+  <%= snippet 'Windows network simon' %>
+  
   <% if host_param('ntpServer') %>
     echo setting time server
     w32tm /config /manualpeerlist:<%= host_param('ntpServer') %> /syncfromflags:manual /update
@@ -70,63 +65,75 @@ description: |
       <% end %>
     <% end %>
   <% end %>
+  
+  powershell /c "powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
 
   <% if host_param('localAdminAccountDisabled') %>
     echo Disabling %tempAdminUser%
     net user %tempAdminUser% %tempAdminUser% /active:no
   <% end %>
 
-  <% if host_param('ansible_port') == 5985 or host_param('ansible_winrm_scheme') == 'http' %>
-    cmd /c winrm set winrm/config/service @{AllowUnencrypted="true"}
+  <% if host_param('http-proxy').present? -%>
+    cmd /C "netsh winhttp set proxy <%= host_param('http-proxy') %>:<%= host_param('http-proxy-port') %>"
+  <% end %>
+  
+  <% unless host_param('computerDomain') %>
+    powershell /c "Get-NetConnectionProfile -InterfaceAlias \"Ethernet0\" | Set-NetConnectionProfile -NetworkCategory <%= network_location %>"
   <% end %>
 
-  <% if host_param('ansible_winrm_transport') == 'basic' %>
-    cmd /c winrm set winrm/config/client/auth @{Basic="true"}
-    cmd /c winrm set winrm/config/service/auth @{Basic="true"}
+  <% if host_param('ansible_user').present? %>
+    <%= snippet("Windows configure ansible simon") %>
   <% end %>
 
-  <% if host_param('ansible_winrm_transport') == 'credssp' %>
-    cmd /c winrm set winrm/config/client/auth @{CredSSP="true"}
-    cmd /c winrm set winrm/config/service/auth @{CredSSP="true"}
+  <% if host_param('ping') %>
+    cmd /c "netsh advfirewall firewall add rule name=\"Enable IPv4 ICMP\" dir=in protocol=icmpv4 action=allow"
   <% end %>
-
-  <% if host_param('ansible_winrm_transport') == 'certificate' %>
-    cmd /c winrm set winrm/config/client/auth @{Certificate="true"}
-    cmd /c winrm set winrm/config/service/auth @{Certificate="true"}
+  
+  <% if host_param('remote_desktop') %>
+    cmd /c "netsh advfirewall firewall set rule group=\"remote desktop\" new enable=Yes"
+    cmd /c "netsh advfirewall firewall set rule group=\"remotedesktop\" new enable=Yes"
   <% end %>
-
-  <%= snippet 'Windows network' %>
-
-  <% if foreman_url('user_data') %>
-    echo execute user data script
-    IF EXIST c:\deploy\user_data.ps1 powershell.exe -OutputFormat text -command c:\deploy\user_data.ps1
-  <% end -%>
 
   <% if puppet_enabled %>
+    echo get puppet installer 
+    powershell /c "wget <%= host_param('win_puppet_source') %> -O C:\puppet-agent-x64-latest.msi"
+    echo configure puppet
+    powershell /c "md C:\ProgramData\PuppetLabs\puppet\etc"
+    powershell /c "echo \"[main]\" | out-file C:\ProgramData\PuppetLabs\puppet\etc\puppet.conf -encoding utf8"
+    powershell /c "echo \"server=http://<%= foreman_server_fqdn %>" | add-content C:\ProgramData\PuppetLabs\puppet\etc\puppet.conf -encoding utf8"
+    powershell /c "echo \"autoflush=true\" | add-content C:\ProgramData\PuppetLabs\puppet\etc\puppet.conf -encoding utf8"
     echo Installing puppet
-    start /w "" msiexec /qn /i C:\extras\puppet.msi PUPPET_AGENT_STARTUP_MODE=Manual PUPPET_MASTER_SERVER=<%= host_puppet_server -%> PUPPET_AGENT_ACCOUNT_DOMAIN=<%= @host.domain -%> PUPPET_AGENT_ACCOUNT_USER=administrator PUPPET_AGENT_ACCOUNT_PASSWORD="<%= host_param('domainAdminAccountPasswd') -%>"
-    echo set puppet to auto start
-    sc config puppet start= auto
-    sc query puppet
-  <% end%>
+    start /wait "" msiexec /qn /i C:\puppet-agent-x64-latest.msi PUPPET_MASTER_SERVER=<%= @host.puppetmaster -%> PUPPET_AGENT_ENVIRONMENT=<%= @host.environment -%>
+  <% end %>
 
-  <% if host_param('foremanDebug') != true %>
+  <% unless host_param('noupdates') %>
+    echo Updating System
+    powershell /c "& {$Updates = (Start-WUScan); Install-WUUpdates -Updates $Updates}"
+    powershell /c "& {$Updates = (Start-WUScan); Install-WUUpdates -Updates $Updates}"
+    powershell /c "wuauclt.exe /updatenow"
+  <% end %>
 
-    echo reboot in 15sec
-    start /b shutdown /r /t 15
+  <% unless foreman_Debug %>
+    echo rebooting in 60 sec
+    shutdown /r /t 60
 
     echo Safely remove wimaging files
-    sdelete.exe -accepteula -p 2 -r c:\wimaging
-    sdelete.exe -accepteula -p 2 -r c:\minint
+    rd /s /q c:\wimaging
     sdelete.exe -accepteula -p 2 c:\Windows\Panther\unattend.xml
     sdelete.exe -accepteula -p 2 C:\Windows\Setup\Scripts\SetupComplete.cmd
+    
+    echo remove leftover directories
+    rd /s /q c:\MININT
+    rd /s /q c:\drivers
+    rd /s /q c:\updates
 
-    echo Safely remove leftover directories
-    sdelete.exe -accepteula -p 2 -r c:\drivers
-    sdelete.exe -accepteula -p 2 -r c:\updates
-
-    echo Safely removing c:\deploy
-    cd /
-    sdelete.exe -accepteula -p 2 -r c:\deploy
+    <% if puppet_enabled %>
+        echo Safely remove Puppet installer
+        sdelete.exe -accepteula -p 2 C:\puppet-agent-x64-latest.msi
+    <% end %>    
+  
+    echo remove deploy directory
+    cd c:\
+    rd /s /q c:\deploy
+    
   <% end -%>
-<% end -%>
