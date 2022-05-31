@@ -81,6 +81,15 @@ require File.expand_path('../lib/foreman/middleware/logging_context_session', __
 require File.expand_path('../lib/foreman/middleware/telemetry', __dir__)
 require File.expand_path('../lib/foreman/middleware/libvirt_connection_cleaner', __dir__)
 
+# Ensure ApplicationRecord is loaded early and can be used inside migrations.
+# Can probably be removed once we migrate to Zeitwerk.
+require File.expand_path('../app/models/concerns/host_mix', __dir__)
+require File.expand_path('../app/models/concerns/has_many_common', __dir__)
+require File.expand_path('../app/models/concerns/strip_whitespace', __dir__)
+require File.expand_path('../app/models/concerns/parameterizable', __dir__)
+require File.expand_path('../app/models/concerns/audit_associations', __dir__)
+require File.expand_path('../app/models/application_record', __dir__)
+
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../Gemfile.in', __dir__))
     BundlerExt.system_require(File.expand_path('../Gemfile.in', __dir__), :jsonp)
