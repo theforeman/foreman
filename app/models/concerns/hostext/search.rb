@@ -220,12 +220,13 @@ module Hostext
           os_z ||= 0
           operator_addition1 = (operator.length == 1) ? "=" : ""
           operator_addition2 = (operator == "=") ? "=" : ""
-          if os_y.to_i.public_send(operator + operator_addition1, y.to_i)
-            if os_y == y
-              if os_z.to_i.public_send(operator + operator_addition2, z.to_i)
-                operatingsystem_ids.append(os.id)
-              end
-            else
+          operator = '!=' if operator == '<>'
+          if operator =~ /ILIKE/
+            match = os.minor =~ /#{value}/
+            match = !match if operator.start_with?('NOT')
+            operatingsystem_ids.append(os.id) if match
+          elsif os_y.to_i.public_send(operator + operator_addition1, y.to_i)
+            if os_y != y || os_z.to_i.public_send(operator + operator_addition2, z.to_i)
               operatingsystem_ids.append(os.id)
             end
           end

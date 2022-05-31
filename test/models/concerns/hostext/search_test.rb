@@ -213,6 +213,30 @@ module Hostext
           assert_equal(0, result.count)
           assert_empty result
         end
+
+        test 'searching os_minor != 5 returns correct host' do
+          os1 = FactoryBot.create(:operatingsystem, :major => '6', :minor => '5')
+          FactoryBot.create(:host, :operatingsystem => os1)
+          result = Host.search_for("os_minor != 5")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+        end
+
+        test 'searching os_minor ~ 6 returns correct host' do
+          os1 = FactoryBot.create(:operatingsystem, :major => '6', :minor => '5.3.21')
+          FactoryBot.create(:host, :operatingsystem => os1)
+          result = Host.search_for("os_minor ~ 6")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+        end
+
+        test 'searching os_minor !~ 5 returns correct host' do
+          os1 = FactoryBot.create(:operatingsystem, :major => '6', :minor => '5.3.21')
+          FactoryBot.create(:host, :operatingsystem => os1)
+          result = Host.search_for("os_minor !~ 5")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+        end
       end
 
       context "search by build status" do
