@@ -4,7 +4,7 @@ import { compose, bindActionCreators } from 'redux';
 import ModelsPage from './ModelsPage';
 import * as actions from './ModelsPageActions';
 
-import { callOnMount, callOnPopState } from '../../../common/HOC';
+import { callOnPopState } from '../../../common/HOC';
 
 import {
   selectModels,
@@ -30,6 +30,5 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  callOnMount(({ initializeModels }) => initializeModels()),
   callOnPopState(({ initializeModels }) => initializeModels())
 )(ModelsPage);
