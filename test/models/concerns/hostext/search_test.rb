@@ -237,6 +237,14 @@ module Hostext
           assert_equal(1, result.count)
           assert_equal(host.id, result.first.id)
         end
+
+        test 'searching os_major ~ 7 returns correct host' do
+          os1 = FactoryBot.create(:operatingsystem, :major => '6', :minor => '5.3.21')
+          FactoryBot.create(:host, :operatingsystem => os1)
+          result = Host.search_for("os_major ~ 7")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+        end
       end
 
       context "search by build status" do
