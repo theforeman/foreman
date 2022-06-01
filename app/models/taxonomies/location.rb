@@ -4,6 +4,8 @@ class Location < Taxonomy
   include Foreman::ThreadSession::LocationModel
   include Parameterizable::ByIdName
 
+  FORBIDDEN_NAMES = ['any location']
+
   has_and_belongs_to_many :organizations, :join_table => 'locations_organizations', :validate => false
   has_many_hosts :dependent => :nullify
   before_destroy EnsureNotUsedBy.new(:hosts)
@@ -21,6 +23,14 @@ class Location < Taxonomy
   scope :my_locations, lambda { |user = User.current|
     user.admin? ? all : where(id: user.location_and_child_ids)
   }
+
+  validate :is_reserved_name?
+
+  def is_reserved_name?
+    return unless FORBIDDEN_NAMES.include?(name&.downcase)
+
+    errors.add(:name, "#{name} is reserved.")
+  end
 
   def dup
     new = super
