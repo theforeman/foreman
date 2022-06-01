@@ -105,6 +105,7 @@ export function activateTooltips(elParam = 'body') {
 
 export function initTypeAheadSelect(input) {
   input.select2({
+    formatNoMatches: __('No matches found'),
     ajax: {
       url: input.data('url'),
       dataType: 'json',

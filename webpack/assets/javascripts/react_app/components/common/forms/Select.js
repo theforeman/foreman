@@ -15,7 +15,10 @@ class Select extends React.Component {
     const { allowClear } = this.props;
 
     if ($.fn.select2) {
-      $(this.select).select2({ allowClear });
+      $(this.select).select2({
+        allowClear,
+        formatNoMatches: __('No matches found'),
+      });
     }
   }
 
