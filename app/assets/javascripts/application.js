@@ -485,7 +485,10 @@ function activate_select2(container, allowClear) {
     .find('select:not(.without_select2)')
     .not('.form_template select')
     .not('#interfaceForms select')
-    .select2({ allowClear: allowClear });
+    .select2({
+      allowClear: allowClear,
+      formatNoMatches: __('No matches found'),
+    });
 }
 
 function setError(field, text) {
