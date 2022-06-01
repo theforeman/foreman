@@ -5,8 +5,10 @@ import {
   ContextSelectorItem,
   ContextSelectorFooter,
   Button,
+  Grid,
+  GridItem,
 } from '@patternfly/react-core';
-import { CheckIcon } from '@patternfly/react-icons';
+import { CheckIcon, GlobeIcon, BuildingIcon } from '@patternfly/react-icons';
 import { foremanUrl } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
 import './TaxonomyDropdown.scss';
@@ -17,8 +19,8 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   const manageTaxonomyURL = foremanUrl(`/${taxonomyType}s`);
   const anyTaxonomyText =
     taxonomyType === 'organization'
-      ? __('Any Organization')
-      : __('Any Location');
+      ? __('Any organization')
+      : __('Any location');
 
   const [searchValue, setSearchValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -49,6 +51,12 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   };
 
   const selectedIcon = <CheckIcon size="sm" className="current-taxonomy-v" />;
+  const anyIcon =
+    taxonomyType === 'organization' ? (
+      <BuildingIcon style={{ marginRight: '5px', marginTop: '3px' }} />
+    ) : (
+      <GlobeIcon style={{ marginRight: '5px', marginTop: '3px' }} />
+    );
 
   const anyTaxonomyItem = (
     <ContextSelectorItem
@@ -59,8 +67,13 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
       }}
       isDisabled={!currentTaxonomy}
     >
-      {!currentTaxonomy && selectedIcon}
-      {anyTaxonomyText}
+      <Grid hasGutter>
+        <GridItem span={1}>{anyIcon}</GridItem>
+        <GridItem span={9} style={{ textAlign: 'left' }}>
+          {anyTaxonomyText}
+        </GridItem>
+        <GridItem span={2}>{!currentTaxonomy && selectedIcon}</GridItem>
+      </Grid>
     </ContextSelectorItem>
   );
   const footer = (
@@ -81,7 +94,14 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   return (
     <ContextSelector
       id={id}
-      toggleText={currentTaxonomy || anyTaxonomyText}
+      toggleText={
+        currentTaxonomy || (
+          <>
+            {anyIcon}
+            {anyTaxonomyText}
+          </>
+        )
+      }
       onSearchInputChange={onSearchInputChange}
       isOpen={isOpen}
       searchInputValue={searchValue}
@@ -105,8 +125,14 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
           }}
           isDisabled={title === currentTaxonomy}
         >
-          {title === currentTaxonomy && selectedIcon}
-          {title}
+          <Grid hasGutter>
+            <GridItem span={10} style={{ textAlign: 'left' }}>
+              {title}
+            </GridItem>
+            <GridItem span={1}>
+              {title === currentTaxonomy && selectedIcon}
+            </GridItem>
+          </Grid>
         </ContextSelectorItem>
       ))}
     </ContextSelector>

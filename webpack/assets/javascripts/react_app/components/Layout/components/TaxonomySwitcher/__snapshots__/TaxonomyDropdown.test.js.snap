@@ -10,7 +10,38 @@ Array [
     onClick={[Function]}
     sendRef={[Function]}
   >
-    Any Organization
+    <Grid
+      hasGutter={true}
+    >
+      <GridItem
+        span={1}
+      >
+        <BuildingIcon
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+          style={
+            Object {
+              "marginRight": "5px",
+              "marginTop": "3px",
+            }
+          }
+        />
+      </GridItem>
+      <GridItem
+        span={9}
+        style={
+          Object {
+            "textAlign": "left",
+          }
+        }
+      >
+        Any organization
+      </GridItem>
+      <GridItem
+        span={2}
+      />
+    </Grid>
   </ContextSelectorItem>,
   <ContextSelectorItem
     className="organization_menuitem"
@@ -21,13 +52,30 @@ Array [
     onClick={[Function]}
     sendRef={[Function]}
   >
-    <CheckIcon
-      className="current-taxonomy-v"
-      color="currentColor"
-      noVerticalAlign={false}
-      size="sm"
-    />
-    org1
+    <Grid
+      hasGutter={true}
+    >
+      <GridItem
+        span={10}
+        style={
+          Object {
+            "textAlign": "left",
+          }
+        }
+      >
+        org1
+      </GridItem>
+      <GridItem
+        span={1}
+      >
+        <CheckIcon
+          className="current-taxonomy-v"
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+        />
+      </GridItem>
+    </Grid>
   </ContextSelectorItem>,
   <ContextSelectorItem
     className="organization_menuitem"
@@ -38,7 +86,23 @@ Array [
     onClick={[Function]}
     sendRef={[Function]}
   >
-    org2
+    <Grid
+      hasGutter={true}
+    >
+      <GridItem
+        span={10}
+        style={
+          Object {
+            "textAlign": "left",
+          }
+        }
+      >
+        org2
+      </GridItem>
+      <GridItem
+        span={1}
+      />
+    </Grid>
   </ContextSelectorItem>,
 ]
 `;
@@ -53,7 +117,38 @@ Array [
     onClick={[Function]}
     sendRef={[Function]}
   >
-    Any Organization
+    <Grid
+      hasGutter={true}
+    >
+      <GridItem
+        span={1}
+      >
+        <BuildingIcon
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+          style={
+            Object {
+              "marginRight": "5px",
+              "marginTop": "3px",
+            }
+          }
+        />
+      </GridItem>
+      <GridItem
+        span={9}
+        style={
+          Object {
+            "textAlign": "left",
+          }
+        }
+      >
+        Any organization
+      </GridItem>
+      <GridItem
+        span={2}
+      />
+    </Grid>
   </ContextSelectorItem>,
   <ContextSelectorItem
     className="organization_menuitem"
@@ -64,13 +159,30 @@ Array [
     onClick={[Function]}
     sendRef={[Function]}
   >
-    <CheckIcon
-      className="current-taxonomy-v"
-      color="currentColor"
-      noVerticalAlign={false}
-      size="sm"
-    />
-    org1
+    <Grid
+      hasGutter={true}
+    >
+      <GridItem
+        span={10}
+        style={
+          Object {
+            "textAlign": "left",
+          }
+        }
+      >
+        org1
+      </GridItem>
+      <GridItem
+        span={1}
+      >
+        <CheckIcon
+          className="current-taxonomy-v"
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+        />
+      </GridItem>
+    </Grid>
   </ContextSelectorItem>,
 ]
 `;
@@ -116,7 +228,38 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
     onClick={[Function]}
     sendRef={[Function]}
   >
-    Any Organization
+    <Grid
+      hasGutter={true}
+    >
+      <GridItem
+        span={1}
+      >
+        <BuildingIcon
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+          style={
+            Object {
+              "marginRight": "5px",
+              "marginTop": "3px",
+            }
+          }
+        />
+      </GridItem>
+      <GridItem
+        span={9}
+        style={
+          Object {
+            "textAlign": "left",
+          }
+        }
+      >
+        Any organization
+      </GridItem>
+      <GridItem
+        span={2}
+      />
+    </Grid>
   </ContextSelectorItem>
   <ContextSelectorItem
     className="organization_menuitem"
@@ -127,13 +270,30 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
     onClick={[Function]}
     sendRef={[Function]}
   >
-    <CheckIcon
-      className="current-taxonomy-v"
-      color="currentColor"
-      noVerticalAlign={false}
-      size="sm"
-    />
-    org1
+    <Grid
+      hasGutter={true}
+    >
+      <GridItem
+        span={10}
+        style={
+          Object {
+            "textAlign": "left",
+          }
+        }
+      >
+        org1
+      </GridItem>
+      <GridItem
+        span={1}
+      >
+        <CheckIcon
+          className="current-taxonomy-v"
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+        />
+      </GridItem>
+    </Grid>
   </ContextSelectorItem>
   <ContextSelectorItem
     className="organization_menuitem"
@@ -144,7 +304,23 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
     onClick={[Function]}
     sendRef={[Function]}
   >
-    org2
+    <Grid
+      hasGutter={true}
+    >
+      <GridItem
+        span={10}
+        style={
+          Object {
+            "textAlign": "left",
+          }
+        }
+      >
+        org2
+      </GridItem>
+      <GridItem
+        span={1}
+      />
+    </Grid>
   </ContextSelectorItem>
 </ContextSelector>
 `;
