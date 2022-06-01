@@ -119,9 +119,10 @@ const BreadcrumbSwitcher = ({
         showClose={false}
         appendTo={() => document.querySelector('.pf4-breadcrumb-switcher')}
         position="bottom"
+        enableFlip={false}
         bodyContent={
           <div>
-            <Menu>
+            <Menu isScrollable>
               <MenuInput>
                 <SearchInput
                   value={searchValue}

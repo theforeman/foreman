@@ -1,4 +1,11 @@
 .pf4-breadcrumb-switcher-popover {
+  .pf-c-pagination,
+  .pf-c-pagination.pf-m-bottom .pf-c-options-menu,
+  .pf-c-pagination.pf-m-bottom .pf-c-pagination__nav,
+  .pf-c-menu__list,
+  .pf-c-menu__list-item{
+    visibility: unset;
+  }
   .pf-c-menu__footer {
     padding: 0;
 
