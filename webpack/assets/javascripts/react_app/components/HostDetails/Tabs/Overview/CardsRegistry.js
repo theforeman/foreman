@@ -13,7 +13,7 @@ const cards = [
     weight: 3800,
   },
   { key: '[core]-detail-card', Component: DetailsCard, weight: 3400 },
-  { key: '[core]-audit-card', Component: AuditCard, weight: 3000 },
+  { key: '[core]-audit-card', Component: AuditCard, weight: 2400 },
 ];
 
 export const registerCoreCards = () => {
