@@ -179,6 +179,8 @@ class SettingRegistry
   end
 
   def _new_db_record(definition)
-    Setting.new(name: definition.name, value: definition.value)
+    Setting.new(name: definition.name,
+                value: definition.value,
+                category: definition.category.safe_constantize&.name || 'Setting')
   end
 end
