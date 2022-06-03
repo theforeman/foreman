@@ -80,7 +80,7 @@ module UINotifications
 
     def load_rss_feed
       uri = URI.parse(@url)
-      Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
+      ::Foreman::HttpProxy::NetHttpExt.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
         request = Net::HTTP::Get.new(uri.request_uri)
         request.initialize_http_header({"User-Agent" => rss_user_agent})
         result = http.request(request)
