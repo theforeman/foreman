@@ -17,6 +17,7 @@ module ProxyAPI
         },
         :user => args[:user],
         :password => args[:password],
+        :force_direct => true,
       }
 
       # We authenticate only if we are using SSL
