@@ -91,7 +91,7 @@ task :config => :environment do
 
     # just a single key was passed: print the value
     def run_single_key
-      setting = Setting.find_by_name(@key)
+      setting = Foreman.settings.find(@key)
       puts format_value(setting.settings_type, setting.value)
     end
 
@@ -99,22 +99,26 @@ task :config => :environment do
     def run_key_values
       @keys.each do |key|
         value = @key_values[key]
-        setting = Setting.find_by_name(key)
+        setting = Foreman.settings.find(key)
         if value == :unset
-          setting.value = nil
+          val = nil
         elsif complex_type?(setting.settings_type)
-          setting.value = typecast_value(setting.settings_type, value)
+          val = typecast_value(setting.settings_type, value)
         else
-          parse_and_set_string(setting, value)
+          val = value
         end
 
-        validate_and_save(setting)
+        record = Foreman.settings.set_user_value(key, val)
+        validate_and_save(record)
+      rescue ::Foreman::SettingValueException => _e
+        STDERR.puts("ERROR: Invalid value #{val} for setting '#{key} (type=#{setting.settings_type})'")
+        exit 2
       end
     end
 
     # no options: just print all the values
     def run_all
-      Setting.all.each do |setting|
+      Foreman.settings.each do |setting|
         puts "#{setting.name}: #{format_value(setting.settings_type, setting.value)}"
       end
     end
@@ -144,22 +148,16 @@ task :config => :environment do
       end
     end
 
-    def validate_and_save(setting)
-      if setting.valid?
-        setting.save! unless @dry
-        @changed_settings << setting
+    def validate_and_save(record)
+      if record.valid?
+        record.save! unless @dry
+        @changed_settings << record
       else
-        STDERR.puts("ERROR: Invalid value #{setting.value} for #{setting} - #{setting.errors.full_messages}")
+        STDERR.puts("ERROR: Invalid value #{record.value} for #{record} - #{record.errors.full_messages}")
         exit 2
       end
-      print "#{setting.name}: "
-      puts format_value(setting.settings_type, setting.value)
-    end
-
-    def parse_and_set_string(setting, string)
-      return if setting.parse_string_value(string)
-      STDERR.puts("ERROR: Invalid value #{string} for #{setting} - #{setting.errors.full_messages}")
-      exit 2
+      print "#{record.name}: "
+      puts format_value(record.settings_type, record.value)
     end
   end
 
