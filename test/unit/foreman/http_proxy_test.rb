@@ -130,24 +130,21 @@ class HTTPProxyTest < ActiveSupport::TestCase
   end
 
   describe 'Net::HTTP extension' do
-    let(:net_http) { Net::HTTP.new(request_host) }
+    let(:net_http) { Foreman::HttpProxy::NetHttpExt.new(request_host) }
 
     setup do
-      Net::HTTP.class_eval { prepend Foreman::HttpProxy::NetHttpExtension } if Net::HTTP.ancestors.first != Foreman::HttpProxy::NetHttpExtension
       net_http.stubs(:http_proxy).returns(http_proxy)
       net_http.stubs(:proxy_http_request?).returns(true)
     end
 
     test 'set @data[:proxy] to proxy' do
-      stub_request(:get, "http://#{request_host}/features").to_return(status: 200, body: "", headers: {})
-      net_http.request(Net::HTTP::Get.new("/features"))
-      assert_equal URI.parse(http_proxy), net_http.instance_variable_get(:@proxy_address)
-      assert_equal Foreman::HttpProxy::NetHttpExtension, Net::HTTP.ancestors.first
+      assert net_http.proxy?
+      assert_equal URI.parse(http_proxy), net_http.instance_variable_get(:@foreman_proxy_uri)
     end
 
     test 'rescues requests and mentions proxy' do
-      stub_request(:get, "http://#{request_host}/features").to_raise("AnException")
-      assert_raises_with_message StandardError.new, "AnException" do
+      stub_request(:get, "http://#{request_host}/features")
+      assert_raises_with_message StandardError.new, "Failed to open TCP connection" do
         net_http.request(Net::HTTP::Get.new("/features"))
       end
     end

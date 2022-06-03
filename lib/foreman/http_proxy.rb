@@ -66,5 +66,5 @@ module Foreman
 end
 
 require_dependency File.expand_path('http_proxy/excon_connection_extension', __dir__)
-require_dependency File.expand_path('http_proxy/net_http_extension', __dir__)
+require_dependency File.expand_path('http_proxy/net_http_ext', __dir__)
 require_dependency File.expand_path('http_proxy/rest_client_extension', __dir__)
