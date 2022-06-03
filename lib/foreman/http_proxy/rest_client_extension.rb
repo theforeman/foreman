@@ -2,6 +2,7 @@ module Foreman
   module HttpProxy
     module RestClientExtension
       def proxy_uri
+        return if @args[:force_direct]
         if proxy_http_request?(@proxy, @uri.hostname, @uri.scheme)
           log_proxied_request("RestClient", http_proxy, @uri.hostname)
           return URI.parse(http_proxy)
