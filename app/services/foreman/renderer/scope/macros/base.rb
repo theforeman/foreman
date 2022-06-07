@@ -404,6 +404,20 @@ module Foreman
             end
           end
 
+          apipie :method, 'Returns previous revision of a record as tracked in the audit' do
+            desc 'Returns the same object if there is no previous revision'
+            required :record, ApplicationRecord, desc: 'Record to get previous revision for'
+            returns ApplicationRecord
+            raises error: Foreman::Exception, desc: 'when the provided record is not auditable'
+            example 'previous_revision(host_with_new_name).name # => "previous-name"'
+          end
+          def previous_revision(record)
+            record.revision(:previous)
+          rescue NoMethodError => e
+            Foreman::Logging.logger('templates').error(e)
+            raise Foreman::Exception.new(_('%s is not auditable') % record.class)
+          end
+
           private
 
           def validate_subnet(subnet)

@@ -66,6 +66,17 @@ class BaseMacrosTest < ActiveSupport::TestCase
     assert_equal '', @scope.pxe_kernel_options
   end
 
+  describe '#previous_revision' do
+    test "should return previous revision of a host" do
+      host = FactoryBot.build(:host)
+      host.name = 'oldname'
+      host.save!
+      host.update(name: 'newname')
+      host.save!
+      assert_equal 'oldname', @scope.previous_revision(host).name
+    end
+  end
+
   describe '#host_uptime_seconds' do
     test 'should return host uptime in seconds' do
       host = FactoryBot.create(:host)

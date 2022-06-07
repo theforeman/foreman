@@ -59,7 +59,8 @@ module Foreman
         :join_with_line_break,
         :current_date,
         :truthy?,
-        :falsy?
+        :falsy?,
+        :previous_revision
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [
