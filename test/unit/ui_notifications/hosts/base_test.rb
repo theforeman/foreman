@@ -26,11 +26,6 @@ class UINotificationsHostsTest < ActiveSupport::TestCase
     assert_nil audience
   end
 
-  test 'deliver! should not run if audience is nil' do
-    host.owner = nil
-    assert !base.deliver!
-  end
-
   describe 'deliver notification to host owner' do
     test 'owner is single user' do
       host.owner = FactoryBot.build(:user)

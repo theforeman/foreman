@@ -83,28 +83,6 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
       assert_equal 1, response['notifications'].size
       assert_equal "#{host} has been provisioned successfully", response['notifications'][0]["text"]
     end
-
-    test "notification when host has no owner" do
-      host = FactoryBot.create(:host, :managed)
-      assert host.update_attribute(:owner_id, nil)
-      Host::Managed.where(:owner_id => nil).update_all(:owner_type => nil) # owner type must be set by hack because of sti.rb
-      host.reload
-      assert host.update_attribute(:build, false)
-      assert_nil host.owner
-
-      setup_user 'edit', 'hosts'
-      host.stub :owner_suggestion, nil do
-        assert host.built
-      end
-
-      as_admin do
-        get :index, params: { :format => 'json' }, session: set_session_user
-      end
-      assert_response :success
-      response = ActiveSupport::JSON.decode(@response.body)
-      assert_equal 1, response['notifications'].size
-      assert_equal "#{host} has no owner set", response['notifications'][0]["text"]
-    end
   end
 
   test 'group mark as read' do
