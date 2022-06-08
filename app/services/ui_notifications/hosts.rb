@@ -1,16 +1,6 @@
 module UINotifications
   module Hosts
     class Base < UINotifications::Base
-      def deliver!
-        unless subject.owner
-          logger.warn("Invalid owner for #{subject}, unable to send notifications")
-          # add notification for missing owner
-          UINotifications::Hosts::MissingOwner.deliver!(subject)
-          return false
-        end
-        super
-      end
-
       protected
 
       def audience

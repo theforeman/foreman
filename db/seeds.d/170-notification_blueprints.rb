@@ -20,20 +20,6 @@ blueprints = [
     level: 'info',
   },
   {
-    group: N_('Hosts'),
-    name: 'host_missing_owner',
-    message: N_('%{subject} has no owner set'),
-    level: 'warning',
-    actions:
-    {
-      links:
-      [
-        path_method: :edit_host_path,
-        title: N_('Update host'),
-      ],
-    },
-  },
-  {
     group: N_('Community'),
     name: 'rss_post',
     level: 'info',
