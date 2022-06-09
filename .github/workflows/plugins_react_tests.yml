@@ -35,16 +35,22 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: ./projects/foreman
+      - name: Generate Foreman npm dependencies package-lock
+        run: npm install --package-lock-only --no-audit
+        working-directory: ${{ github.workspace }}/projects/foreman
       - name: Install Foreman npm dependencies
-        run: npm install
+        run: npm ci --no-audit
         working-directory: ${{ github.workspace }}/projects/foreman
       - name: Checkout ${{ matrix.repo }}
         uses: actions/checkout@v2
         with:
           repository: ${{ matrix.org }}/${{ matrix.repo }}
           path: ./projects/${{ matrix.repo }}
+      - name: Generate ${{ matrix.repo }} npm dependencies package-lock
+        run: npm install --package-lock-only --no-audit
+        working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}
       - name: Install ${{ matrix.repo }} npm dependencies
-        run: npm install
+        run: npm ci --no-audit
         working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}
       - name: Run ${{ matrix.plugin_repo }} tests
         run: npm test

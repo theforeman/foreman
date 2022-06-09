@@ -28,8 +28,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Generate npm dependencies package-lock
+        run: npm install --package-lock-only --no-audit
       - name: Install npm dependencies
-        run: npm install
+        run: npm ci --no-audit
       - name: Run linter
         run: npm run lint
       - name: Run Spellcheck (only warnings)
