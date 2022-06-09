@@ -94,6 +94,12 @@ class ActiveSupport::TestCase
   prepend TestCaseRailsLoggerExtensions
   setup :setup_dns_stubs
 
+  parallelize(workers: 2)
+
+  parallelize_setup do |worker|
+    setup_test_facets
+  end
+
   class << self
     alias_method :test, :it
   end
