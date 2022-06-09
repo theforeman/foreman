@@ -9673,7 +9673,7 @@ msgid "Try going to %{href}"
 msgstr "尝试进入 %{href}"
 
 msgid "Type"
-msgstr "类型"
+msgstr "類型"
 
 msgid "Type of name generator"
 msgstr "名称生成器类型"

@@ -263,7 +263,7 @@ msgid "%{taxonomy} stored in session with id %{id} not found"
 msgstr ""
 
 msgid "%{taxonomy} with id %{id} not found"
-msgstr ""
+msgstr "%{taxonomy} с идентификатором %{id} не найден"
 
 msgid "%{type} %{conflicts} already exists"
 msgstr ""
@@ -536,7 +536,7 @@ msgid "Add widgets"
 msgstr "Добавить виджеты"
 
 msgid "Added %{from} to %{to}"
-msgstr ""
+msgstr "Добавлено %{from} до %{to}"
 
 msgid "Adding would cause a cycle!"
 msgstr "Добавление приведет к зацикливанию."
@@ -707,7 +707,7 @@ msgid "An error occurred while testing the connection: "
 msgstr ""
 
 msgid "An error occurred."
-msgstr ""
+msgstr "Произошла ошибка."
 
 msgid "An example of a control flow terminal is an if condition or for each cycle. Macros are functions called by their name without specifying any object, e.g. %{load_hosts} or %{input}. See all available macros %{all_macros}. Example of object class is an %{integer}, String, %{host}, %{subnet}, %{user}. Calling a method on an object is denoted by <code>.</code>. For example <code>@host.fqdn</code> expression is an instance variable that holds and evaluates to an object of a Host, on which the fqdn method is called. To find the list of all available methods on objects, see the documentation for each template type."
 msgstr ""
@@ -1412,7 +1412,7 @@ msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
 msgid "Cannot resolve network type for %s"
-msgstr ""
+msgstr "Не удается определить тип сети для %s"
 
 msgid "Caps lock ON"
 msgstr "Включен Caps lock"
@@ -1826,13 +1826,13 @@ msgid "Could not locate CA certificate."
 msgstr "Сертификат центра сертификации не найден."
 
 msgid "Could not recreate a new SSH key"
-msgstr ""
+msgstr "Не удалось пересоздать новый SSH-ключ"
 
 msgid "Could not refresh external usergroups: %{e} - %{message} - %{suggestion}"
 msgstr ""
 
 msgid "Could not resolve ID."
-msgstr ""
+msgstr "Не удалось определить идентификатор."
 
 msgid "Could not revoke Token: "
 msgstr "Не удалось отозвать токен:"
@@ -1853,7 +1853,7 @@ msgid "Create Architecture"
 msgstr ""
 
 msgid "Create Autosign Entry"
-msgstr ""
+msgstr "Добавить имя для Автоматического подписывания"
 
 msgid "Create Bookmark"
 msgstr ""
@@ -2279,7 +2279,7 @@ msgid "Default value"
 msgstr "Исходное значение"
 
 msgid "Default value for the setting"
-msgstr ""
+msgstr "Значение по умолчанию для параметра"
 
 msgid "Default value for user input"
 msgstr ""
@@ -2781,7 +2781,7 @@ msgid "Enable this host for provisioning"
 msgstr "Разрешить подготовку узла"
 
 msgid "Enable user's email"
-msgstr ""
+msgstr "Включить электронную почту пользователя"
 
 msgid "Enabled"
 msgstr "Включено"
@@ -2889,28 +2889,28 @@ msgid "Errors: %s"
 msgstr "Ошибки: %s"
 
 msgid "Example value is <code>CN=Users,DC=example,DC=COM</code>"
-msgstr ""
+msgstr "Пример значения <code>CN=Users,DC=example,DC=COM</code>"
 
 msgid "Example value is <code>CN=Users,DC=example,DC=com</code>"
-msgstr ""
+msgstr "Пример значения <code>CN=Users,DC=example,DC=com</code>"
 
 msgid "Example value is <code>DOMAIN\\foreman</code>"
-msgstr ""
+msgstr "Пример значения <code>DOMAIN\\foreman</code>"
 
 msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
-msgstr ""
+msgstr "Пример значения <code>cn=groups,cn=accounts,dc=example,dc=com</code> или <code>cn=ng,cn=compat,dc=example,dc=com</code>, если Вы используете сетевые группы"
 
 msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
+msgstr "Пример значения <code>cn=users,cn=accounts,dc=example,dc=com</code>"
 
 msgid "Example value is <code>dc=example,dc=com</code>"
-msgstr ""
+msgstr "Пример значения <code>dc=example,dc=com</code>"
 
 msgid "Example value is <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
+msgstr "Пример значения <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
 
 msgid "Example value is <code>uid=foreman,dc=example,dc=com</code>"
-msgstr ""
+msgstr "Пример значения <code>uid=foreman,dc=example,dc=com</code>"
 
 msgid "Examples"
 msgstr "Примеры"
@@ -2991,7 +2991,7 @@ msgid "External user group"
 msgstr "Внешняя группа пользователей"
 
 msgid "External user group %{name} could not be refreshed."
-msgstr ""
+msgstr "Не удалось обновить внешнюю группу пользователей %{name}."
 
 msgid "External user group %{name} refreshed"
 msgstr "Внешняя группа пользователя %{name} обновлена"
@@ -3669,7 +3669,7 @@ msgid "Global setting %{name} is not accessible in safe-mode"
 msgstr ""
 
 msgid "Global status changed from %{from} to %{to}"
-msgstr ""
+msgstr "Глобальный статус изменен с %{from} на %{to}"
 
 msgid "Global variables"
 msgstr ""
@@ -4613,7 +4613,7 @@ msgid "Import of facts failed for host %s"
 msgstr "Не удалось импортировать факты с узла %s"
 
 msgid "Import subnets from Smart proxy"
-msgstr ""
+msgstr "Импорт подсетей из Смарт прокси"
 
 msgid "Imported IPv4 Subnets"
 msgstr "Импртированные IPv4-подсети"
@@ -4664,10 +4664,10 @@ msgid "Independent - Persistent"
 msgstr ""
 
 msgid "Information about the setting"
-msgstr ""
+msgstr "Информация о параметре"
 
 msgid "Information about the updated setting"
-msgstr ""
+msgstr "Информация об обновленном параметре"
 
 msgid "Infrastructure"
 msgstr "Инфраструктура"
@@ -5285,7 +5285,7 @@ msgid "List of HTTP Proxies"
 msgstr "Список HTTP прокси"
 
 msgid "List of all settings"
-msgstr ""
+msgstr "Список всех параметров"
 
 msgid "List of compute attributes"
 msgstr ""
@@ -6227,7 +6227,7 @@ msgid "No networks found."
 msgstr "Сети не найдены"
 
 msgid "No new IPv4 subnets found"
-msgstr ""
+msgstr "Новых подсетей IPv4 не обнаружено"
 
 msgid "No options available for selected Architecture"
 msgstr "Отсутствуют параметры, доступные для выбранной архитектуры"
@@ -6902,7 +6902,7 @@ msgid "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
 msgstr "Пароль для oVirt, EC2, VMware, OpenStack. Секретный ключ для EC2"
 
 msgid "Password has been changed"
-msgstr ""
+msgstr "Пароль был изменен"
 
 msgid "Password hash setting was not yet set"
 msgstr ""
@@ -8197,7 +8197,7 @@ msgid "Setting '%s' is already defined, please avoid collisions"
 msgstr ""
 
 msgid "Setting current value. If this setting is encypted, the value will not be returned"
-msgstr ""
+msgstr "Текущее значение параметра. Если этот параметр зашифрован, значение не будет показано"
 
 msgid "Setting definition for '%s' not found, can not set"
 msgstr ""
@@ -8576,7 +8576,7 @@ msgid "Sockets"
 msgstr "Сокеты"
 
 msgid "Some imported user account details cannot be saved: %s"
-msgstr ""
+msgstr "Некоторые импортированные данные учетной записи пользователя не могут быть сохранены: %s"
 
 msgid "Some interfaces are invalid"
 msgstr "Некоторые интерфейсы не верны"
@@ -9000,7 +9000,7 @@ msgid "Template Type"
 msgstr "Тип шаблона"
 
 msgid "Template content changed %s"
-msgstr ""
+msgstr "Изменено содержимое шаблона %s"
 
 msgid "Template diff"
 msgstr "Различия шаблонов"
@@ -9264,7 +9264,7 @@ msgid "The authentication source of your external user groups could not connect 
 msgstr "Источнику аутентификации внешних групп пользователей не удалось подключиться к LDAP с предоставленными учетными данными. Пожалуйста, убедитесь, что учетные данные все еще действительны."
 
 msgid "The category of setting"
-msgstr ""
+msgstr "Категория настроек"
 
 msgid "The class of CPU supplied in this machine. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -m"
 msgstr "Класс процессора. Используется сборками Sparc Solaris и может быть оставлен пустым для других архитектур. Чтобы проверить это значение на Solaris, выполните «uname -m»"
@@ -9339,7 +9339,7 @@ msgid "The hostname of the LDAP server"
 msgstr "Имя сервера LDAP"
 
 msgid "The human readable name of settings category"
-msgstr ""
+msgstr "Удобочитаемое название категории настроек"
 
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr ""
@@ -9682,7 +9682,7 @@ msgid "Token|Value"
 msgstr "Значение"
 
 msgid "Too many tries, please try again in a few minutes."
-msgstr ""
+msgstr "Слишком много попыток, пожалуйста, повторите попытку через несколько минут."
 
 msgid "Too short"
 msgstr "Слишком короткий"
@@ -9989,7 +9989,7 @@ msgid "Unattended URL"
 msgstr "URL сопровождения"
 
 msgid "Unauthorized. You do not have the required permission %s."
-msgstr ""
+msgstr "Неавторизованный пользователь. У вас нет необходимых разрешений %s."
 
 msgid "Undefined setting '%{setting}'"
 msgstr ""
@@ -10040,7 +10040,7 @@ msgid "Unknown records found in the database"
 msgstr ""
 
 msgid "Unknown status: %s"
-msgstr ""
+msgstr "Неизвестный статус: %s"
 
 msgid "Unkown '%{klass}' resource class"
 msgstr ""
@@ -10335,7 +10335,7 @@ msgid "User input"
 msgstr "Ввод пользователя"
 
 msgid "User is disabled"
-msgstr ""
+msgstr "Пользователь отключен"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
@@ -10562,7 +10562,7 @@ msgid "Value type, defaults to plain"
 msgstr "Тип значения, по умолчанию обычный"
 
 msgid "Value type, that the setting accepts"
-msgstr ""
+msgstr "Тип значения, который принимает параметр"
 
 msgid "Variable"
 msgstr "Переменная"
@@ -10917,7 +10917,7 @@ msgid "You don't seem to have any reports."
 msgstr "Нет отчетов."
 
 msgid "You have already logged in"
-msgstr ""
+msgstr "Вы уже вошли в систему"
 
 msgid "You impersonated user %s, to cancel the session, click the impersonation icon in the top bar."
 msgstr ""
@@ -10962,7 +10962,7 @@ msgid "Zone"
 msgstr "Зона"
 
 msgid "[empty]"
-msgstr ""
+msgstr "[пусто]"
 
 msgid "[redacted]"
 msgstr ""
@@ -11532,7 +11532,7 @@ msgid "name already exists"
 msgstr ""
 
 msgid "name of the table"
-msgstr ""
+msgstr "название таблицы"
 
 msgid "nil allowed"
 msgstr "нулевое разрешение"

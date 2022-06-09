@@ -2514,7 +2514,7 @@ msgid "Disable overriding"
 msgstr "上書きの無効化"
 
 msgid "Disabled"
-msgstr "無効化"
+msgstr "無効"
 
 msgid "Disabled alerts"
 msgstr "無効なアラート"

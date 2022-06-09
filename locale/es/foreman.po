@@ -3286,7 +3286,7 @@ msgstr "Nombre de campo"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
-msgstr "Filtro"
+msgstr "过滤器"
 
 msgid "Filter Host..."
 msgstr "Filtrar hosts…"
@@ -5998,7 +5998,7 @@ msgid "Network type"
 msgstr "Tipo de red"
 
 msgid "Never"
-msgstr "Nunca"
+msgstr "决不"
 
 msgid "New %s"
 msgstr "Nuevo"
@@ -7493,7 +7493,7 @@ msgid "Redirect your users to this url on logout (authorize_login_delegation sho
 msgstr "Redirigir usuarios a esta URL en la desconexión (también debe activarse authorize_login_delegation)"
 
 msgid "Refresh"
-msgstr "Actualizar"
+msgstr "刷新"
 
 msgid "Refresh Cache"
 msgstr "Actualizar caché"
@@ -7550,7 +7550,7 @@ msgid "Remote execution job templates"
 msgstr "Plantillas de trabajo de ejecución remota"
 
 msgid "Remove"
-msgstr "Eliminar"
+msgstr "移除"
 
 msgid "Remove %{type} for %{host}"
 msgstr "Eliminar %{type} para %{host}"

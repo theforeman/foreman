@@ -6357,7 +6357,7 @@ msgid "Not Installed"
 msgstr "Não instalado"
 
 msgid "Not available"
-msgstr ""
+msgstr "Não disponível"
 
 msgid "Not implemented"
 msgstr "Não implantado"
