@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'patternfly-react';
+import { Button, Icon } from 'patternfly-react';
 import { Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import './clipboard-copy.scss';
@@ -11,16 +11,23 @@ const ClipboardCopy = ({
   buttonText,
   textareaProps,
   buttonProps,
+  hideTextarea,
+  withCopyIcon,
 }) => {
   const [text, setText] = useState(defaultText);
 
+  const clipboardClass = hideTextarea === false ? 'clipboard-copy' : '';
+  const iconMarginLeft = buttonText === '' ? '0px' : '5px';
+
   return (
-    <div className="clipboard-copy">
-      <textarea
-        defaultValue={text}
-        onChange={({ target: { value } }) => setText(value)}
-        {...textareaProps}
-      />
+    <div className={clipboardClass}>
+      {hideTextarea === false ? (
+        <textarea
+          defaultValue={text}
+          onChange={({ target: { value } }) => setText(value)}
+          {...textareaProps}
+        />
+      ) : null}
       <Tooltip
         content={successMessage}
         position={TooltipPosition.right}
@@ -32,6 +39,13 @@ const ClipboardCopy = ({
           {...buttonProps}
         >
           {buttonText}
+          {withCopyIcon && (
+            <Icon
+              style={{ marginLeft: iconMarginLeft }}
+              type="fa"
+              name="copy"
+            />
+          )}
         </Button>
       </Tooltip>
     </div>
@@ -44,6 +58,8 @@ ClipboardCopy.propTypes = {
   successMessage: PropTypes.string,
   textareaProps: PropTypes.object,
   buttonProps: PropTypes.object,
+  hideTextarea: PropTypes.bool,
+  withCopyIcon: PropTypes.bool,
 };
 
 ClipboardCopy.defaultProps = {
@@ -51,6 +67,8 @@ ClipboardCopy.defaultProps = {
   successMessage: __('Copied!'),
   textareaProps: {},
   buttonProps: {},
+  hideTextarea: false,
+  withCopyIcon: false,
 };
 
 export default ClipboardCopy;
