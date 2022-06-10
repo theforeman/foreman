@@ -125,6 +125,11 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
+        <Slot
+          id="host-details-tab-properties-2"
+          multi
+          hostDetails={hostDetails}
+        />
         <DescriptionListGroup>
           <DescriptionListTerm>{__('Owner')}</DescriptionListTerm>
           <DescriptionListDescription>
