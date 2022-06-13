@@ -120,7 +120,6 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
     config.autoload_paths += %W(#{config.root}/app/models/mail_notifications)
-    config.autoload_paths += %W(#{config.root}/app/graphql)
 
     # Custom directories that will only be loaded once
     # Should only contain classes with class-level data set by initializers (registries etc.)
@@ -128,7 +127,6 @@ module Foreman
 
     # Eager load all classes under lib directory
     config.eager_load_paths += ["#{config.root}/lib"]
-    config.eager_load_paths -= ["#{config.root}/app/graphql"]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
