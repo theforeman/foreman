@@ -424,9 +424,10 @@ class ComputeResource < ApplicationRecord
     self.url = url.chomp("/") unless url.empty?
   end
 
-  def random_password
+  def random_password(characters = 16)
     return nil unless set_console_password?
-    SecureRandom.hex(8)
+    # characters returned by base64 are 4/3 of size, so limit to size
+    SecureRandom.base64(characters)[0..characters - 1]
   end
 
   def nested_attributes_for(type, opts)

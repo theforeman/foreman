@@ -586,7 +586,7 @@ module Foreman::Model
     end
 
     def vnc_console(vm)
-      values = { :port => unused_vnc_port(vm.hypervisor), :password => random_password, :enabled => true }
+      values = { :port => unused_vnc_port(vm.hypervisor), :password => random_password(8), :enabled => true }
       vm.config_vnc(values)
       WsProxy.start(:host => vm.hypervisor, :host_port => values[:port], :password => values[:password]).merge(:type => 'vnc')
     end
