@@ -9,6 +9,9 @@ on:
       - 'config/webpack.config.js'
       - '.github/workflows/plugins_react_tests.yml'
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
