@@ -45,7 +45,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
   test "random_password should return a string when set_console_password is true" do
     cr = compute_resources(:mycompute)
     cr.set_console_password = 1
-    assert_match /^[[:alnum:]]+$/, cr.send(:random_password) # Can't call protected methods directly
+    assert_match /^[[[:alnum:]]+=\/]+$/, cr.send(:random_password) # Can't call protected methods directly
   end
 
   test "attrs[:setpw] is set to nil if compute resource is not Libvirt or VMWare" do
