@@ -2,6 +2,9 @@ name: Assert Single Commit (non-blocking)
 
 on: pull_request
 
+permissions:
+  contents: read
+
 jobs:
   build:
     steps:
