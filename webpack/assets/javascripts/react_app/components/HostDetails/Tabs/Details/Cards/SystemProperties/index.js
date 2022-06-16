@@ -13,9 +13,7 @@ import CardTemplate from '../../../../Templates/CardItem/CardTemplate';
 import Slot from '../../../../../common/Slot';
 import SkeletonLoader from '../../../../../common/SkeletonLoader';
 import DefaultLoaderEmptyState from '../../../../DetailsCard/DefaultLoaderEmptyState';
-import LongDateTime from '../../../../../common/dates/LongDateTime';
 import { STATUS } from '../../../../../../constants';
-import RelativeDateTime from '../../../../../common/dates/RelativeDateTime';
 
 const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
   const {
@@ -28,9 +26,6 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
     domain_name: domain,
     hostgroup_name: hostgroupName,
     owner_type: ownerType,
-    created_at: createdAt,
-    updated_at: updateAt,
-    reported_data: { boot_time: bootTime } = {},
   } = hostDetails;
   return (
     <CardTemplate
@@ -60,6 +55,29 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
+        <Slot
+          id="host-details-tab-properties-1"
+          multi
+          hostDetails={hostDetails}
+        />
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('BIOS UUID')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {uuid && (
+                <ClipboardCopy isBlock variant="inline-compact">
+                  {uuid}
+                </ClipboardCopy>
+              )}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+      </DescriptionList>
+      <Divider className="padded-divider" />
+      <DescriptionList isCompact isHorizontal>
         <DescriptionListGroup>
           <DescriptionListTerm>{__('Domain')}</DescriptionListTerm>
           <DescriptionListDescription>
@@ -75,34 +93,7 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
-        <DescriptionListGroup>
-          <DescriptionListTerm>{__('UUID')}</DescriptionListTerm>
-          <DescriptionListDescription>
-            <SkeletonLoader
-              status={status}
-              emptyState={<DefaultLoaderEmptyState />}
-            >
-              {uuid && (
-                <ClipboardCopy isBlock variant="inline-compact">
-                  {uuid}
-                </ClipboardCopy>
-              )}
-            </SkeletonLoader>
-          </DescriptionListDescription>
-        </DescriptionListGroup>
-        <Slot
-          id="host-details-tab-properties-1"
-          multi
-          hostDetails={hostDetails}
-        />
-      </DescriptionList>
-      <Divider className="padded-divider" />
-      <DescriptionList
-        isCompact
-        columnModifier={{
-          default: '2Col',
-        }}
-      >
+
         <DescriptionListGroup>
           <DescriptionListTerm>{__('Model')}</DescriptionListTerm>
           <DescriptionListDescription>
@@ -114,6 +105,11 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
+        <Slot
+          id="host-details-tab-properties-2"
+          multi
+          hostDetails={hostDetails}
+        />
         <DescriptionListGroup>
           <DescriptionListTerm>{__('Host group')}</DescriptionListTerm>
           <DescriptionListDescription>
@@ -125,13 +121,8 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
-        <Slot
-          id="host-details-tab-properties-2"
-          multi
-          hostDetails={hostDetails}
-        />
         <DescriptionListGroup>
-          <DescriptionListTerm>{__('Owner')}</DescriptionListTerm>
+          <DescriptionListTerm>{__('Host owner')}</DescriptionListTerm>
           <DescriptionListDescription>
             <SkeletonLoader
               status={status}
@@ -146,45 +137,14 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
           <DescriptionListDescription>{ownerType}</DescriptionListDescription>
         </DescriptionListGroup>
         <DescriptionListGroup>
-          <DescriptionListTerm>{__('Location')}</DescriptionListTerm>
-          <DescriptionListDescription>{location}</DescriptionListDescription>
-        </DescriptionListGroup>
-        <DescriptionListGroup>
           <DescriptionListTerm>{__('Organization')}</DescriptionListTerm>
           <DescriptionListDescription>
             {organization}
           </DescriptionListDescription>
         </DescriptionListGroup>
-      </DescriptionList>
-      <Divider className="padded-divider" />
-      <DescriptionList isCompact>
         <DescriptionListGroup>
-          <DescriptionListTerm>{__('Created at')}</DescriptionListTerm>
-          <DescriptionListDescription>
-            {createdAt && <LongDateTime date={createdAt} />}
-          </DescriptionListDescription>
-        </DescriptionListGroup>
-        <DescriptionListGroup>
-          <DescriptionListTerm>{__('Updated at')}</DescriptionListTerm>
-          <DescriptionListDescription>
-            <SkeletonLoader
-              status={status}
-              emptyState={<DefaultLoaderEmptyState />}
-            >
-              {updateAt && <LongDateTime date={updateAt} />}
-            </SkeletonLoader>
-          </DescriptionListDescription>
-        </DescriptionListGroup>
-        <DescriptionListGroup>
-          <DescriptionListTerm>{__('Boot time')}</DescriptionListTerm>
-          <DescriptionListDescription>
-            <SkeletonLoader
-              status={status}
-              emptyState={<DefaultLoaderEmptyState />}
-            >
-              {bootTime && <RelativeDateTime date={bootTime} />}
-            </SkeletonLoader>
-          </DescriptionListDescription>
+          <DescriptionListTerm>{__('Location')}</DescriptionListTerm>
+          <DescriptionListDescription>{location}</DescriptionListDescription>
         </DescriptionListGroup>
       </DescriptionList>
     </CardTemplate>
