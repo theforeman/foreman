@@ -54,7 +54,10 @@ trap 'exit_and_cancel_build' ERR
 
 <% if host_param_true?('host_registration_remote_execution') -%>
 <%= snippet 'remote_execution_ssh_keys' %>
+<% end -%>
 
+<% if plugin_present?('katello') && host_param_true?('host_registration_remote_execution_pull') -%>
+<%= snippet 'remote_execution_pull_setup' %>
 <% end -%>
 
 <%= install_packages(host_param('host_packages')) -%>

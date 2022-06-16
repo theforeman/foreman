@@ -268,6 +268,7 @@ const RegistrationCommandsPage = () => {
                   onChange={handlePluginValue}
                   handleInvalidField={handleInvalidField}
                   isLoading={isLoading}
+                  configParams={configParams}
                   multi
                 />
               </div>
@@ -315,6 +316,7 @@ const RegistrationCommandsPage = () => {
                   onChange={handlePluginValue}
                   handleInvalidField={handleInvalidField}
                   isLoading={isLoading}
+                  configParams={configParams}
                   multi
                 />
               </div>

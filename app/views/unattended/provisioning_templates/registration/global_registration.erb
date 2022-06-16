@@ -23,6 +23,7 @@ description: |
 <%= "\n# Operating system: [#{@operatingsystem}]" if @operatingsystem -%>
 <%= "\n# Setup Insights: [#{@setup_insights}]" unless @setup_insights.nil? -%>
 <%= "\n# Setup remote execution: [#{@setup_remote_execution}]" unless @setup_remote_execution.nil? -%>
+<%= "\n# Setup remote execution pull: [#{@setup_remote_execution_pull}]" unless @setup_remote_execution_pull.nil? -%>
 <%= "\n# Remote execution interface: [#{@remote_execution_interface}]" if @remote_execution_interface.present? -%>
 <%= "\n# Packages: [#{@packages}]" if @packages.present? -%>
 <%= "\n# Update packages: [#{@update_packages}]" unless @update_packages.nil? -%>
@@ -121,6 +122,7 @@ if [ -f /etc/redhat-release ]; then
 <%= "          --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
 <%= "          --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
 <%= "          --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
+<%= "          --data 'setup_remote_execution_pull=#{@setup_remote_execution_pull}' \\\n" unless @setup_remote_execution_pull.nil? -%>
 <%= "          --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
 <%= "          --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
 
