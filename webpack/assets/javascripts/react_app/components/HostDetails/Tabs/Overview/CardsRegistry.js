@@ -10,7 +10,7 @@ const cards = [
   {
     key: '[core]-recent-comms-card',
     Component: RecentCommunicationCard,
-    weight: 3800,
+    weight: 3000,
   },
   { key: '[core]-detail-card', Component: DetailsCard, weight: 3400 },
   { key: '[core]-audit-card', Component: AuditCard, weight: 2400 },
