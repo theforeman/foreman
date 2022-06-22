@@ -45,7 +45,10 @@ const CardTemplate = ({
   return (
     <GridItem xl2={3} xl={4} md={6} lg={4} {...overrideGridProps}>
       <Card isExpanded={isExpanded} isSelectable>
-        <CardHeader onExpand={expandable && onExpandCallback}>
+        <CardHeader
+          onExpand={expandable && onExpandCallback}
+          isToggleRightAligned
+        >
           {dropdownItems && (
             <CardActions>
               <Dropdown
