@@ -26,7 +26,7 @@ jobs:
             org: theforeman
     steps:
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '12.x'
       # We could update the postinstall action for foreman to look for an environment variable for plugin webpack dirs
