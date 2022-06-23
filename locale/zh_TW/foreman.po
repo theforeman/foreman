@@ -411,6 +411,9 @@ msgstr "API 文件"
 msgid "About"
 msgstr "相關資訊"
 
+msgid "Absolute command path must be specified: %s"
+msgstr ""
+
 msgid "Access Key"
 msgstr "存取授權碼"
 
@@ -576,9 +579,6 @@ msgstr "所有報告"
 msgid "All Ruby code is enclosed within <code><&#37; &#37;></code> in an ERB template. The code is executed when the template is rendered. It can contain Ruby control flow structures as well as application-specific macros and variables. For example:"
 msgstr ""
 
-msgid "All Statuses are OK"
-msgstr ""
-
 msgid "All audits"
 msgstr ""
 
@@ -593,6 +593,9 @@ msgstr "所有環境"
 
 msgid "All host groups"
 msgstr "所有主機群組"
+
+msgid "All hosts"
+msgstr "所有主機"
 
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr "所有與位置和組織配置相符的主機資料。"
@@ -632,6 +635,9 @@ msgstr "所有領域"
 
 msgid "All smart proxies"
 msgstr "所有智慧代理"
+
+msgid "All statuses OK"
+msgstr ""
 
 msgid "All subnets"
 msgstr "所有子網路"
@@ -854,6 +860,9 @@ msgstr ""
 msgid "Association"
 msgstr "相聯性"
 
+msgid "At least one command must be specified"
+msgstr ""
+
 msgid "At least one of the hosts couldn't be found"
 msgstr ""
 
@@ -1042,6 +1051,9 @@ msgstr "關閉自動更新"
 msgid "Auto refresh on"
 msgstr "開啟自動更新"
 
+msgid "Autocompletion"
+msgstr ""
+
 msgid "Automate Foreman via a simple and powerful API"
 msgstr ""
 
@@ -1077,6 +1089,9 @@ msgstr ""
 
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "合併值時避免重複（僅及於陣列類型）？"
+
+msgid "BCrypt"
+msgstr ""
 
 msgid "BCrypt password cost"
 msgstr ""
@@ -1447,7 +1462,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-msgid "Clear Host's Status"
+msgid "Clear host status"
 msgstr ""
 
 msgid "Clear sub-status of host"
@@ -1464,9 +1479,6 @@ msgstr ""
 
 msgid "Client Email"
 msgstr "客戶端電子郵件"
-
-msgid "Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)"
-msgstr "客戶端 SSL 憑證會被使用來識別智慧代理（:require_ssl 也應啟用）"
 
 msgid "Clone"
 msgstr "複製"
@@ -1503,6 +1515,18 @@ msgstr "叢集"
 
 msgid "Cluster ID is required to list available networks"
 msgstr "必須提供叢集 ID 以列出可用的網路"
+
+msgid "Command %s not executable"
+msgstr ""
+
+msgid "Command %s not found or unreadable"
+msgstr ""
+
+msgid "Command %{cmd} returned %{status}"
+msgstr ""
+
+msgid "Command must be array: %s"
+msgstr ""
 
 msgid "Comment"
 msgstr "備註"
@@ -1705,6 +1729,9 @@ msgstr ""
 msgid "Continue?"
 msgstr "繼續？"
 
+msgid "Copied to clipboard"
+msgstr ""
+
 msgid "Copied!"
 msgstr ""
 
@@ -1714,8 +1741,14 @@ msgstr ""
 msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
 msgstr ""
 
+msgid "CoreOS Transpiler Command"
+msgstr ""
+
 msgid "Cores per socket"
 msgstr "每個插槽的核心數"
+
+msgid "Cost value of PBKDF2 password hash function for internal auth-sources. A higher value is safer but verification is slower, particularly for stateless API calls and UI logins. A password change is needed effect existing passwords."
+msgstr ""
 
 msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). A higher value is safer but verification is slower, particularly for stateless API calls and UI logins. A password change is needed effect existing passwords."
 msgstr ""
@@ -2032,6 +2065,9 @@ msgstr "已建立"
 msgid "Created %s by %s"
 msgstr ""
 
+msgid "Created at"
+msgstr "建立於"
+
 msgid "Creates a table preference for a given table"
 msgstr ""
 
@@ -2047,7 +2083,7 @@ msgstr ""
 msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Del"
 
-msgid "Current Page"
+msgid "Current page"
 msgstr ""
 
 msgid "Current password"
@@ -2173,7 +2209,7 @@ msgstr ""
 msgid "Default PXE menu item in global template - 'local', 'discovery' or custom, use blank for template default"
 msgstr ""
 
-msgid "Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"
+msgid "Default PXE menu item in local template - 'local', 'force_local_chain_hd0' or custom, use blank for template default"
 msgstr ""
 
 msgid "Default VNC Keyboard"
@@ -2601,7 +2637,7 @@ msgstr "偵測到重複的輸入：%{duplicated_inputs}"
 msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr ""
 
-msgid "Duration in minutes after servers are classed as out of sync. You can override this on hosts by adding a parameter \"outofsync_interval\"."
+msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
 msgstr ""
 
 msgid "EC2"
@@ -2619,7 +2655,7 @@ msgstr ""
 msgid "Each architecture can also be associated with more than one operating system and a selector block is provided to allow you to select valid combinations."
 msgstr "各個架構皆可與超過一個作業系統相聯，並且提供了一個選取器區塊以讓您選擇有效的組合。"
 
-msgid "Each entry represents a particular hardware architecture, most commonly <b>x86_64</b> or <b>i386</b>. Foreman also supports the Solaris operating system family, which includes <b>sparc</b> based systems."
+msgid "Each entry represents a particular hardware architecture, most commonly {x86_64} or {i386}. Foreman also supports the Solaris operating system family, which includes {sparc} based systems."
 msgstr ""
 
 msgid "Each template type rendering capabilities slightly differ, e.g. a provisioning template is always rendered for a single host object and therefore a @host variable is defined. Another example is a report template, where report formatting specific macros are available."
@@ -2714,6 +2750,9 @@ msgstr "啟用安全模式配置範本轉譯（建議）"
 
 msgid "Enable this host for provisioning"
 msgstr "啟用這部主機以進行佈建"
+
+msgid "Enable user's email"
+msgstr ""
 
 msgid "Enabled"
 msgstr "已啟用"
@@ -2858,6 +2897,9 @@ msgstr "退出全螢幕"
 
 msgid "Expand nested items"
 msgstr "展開巢狀的項目"
+
+msgid "Expand/Collapse  all"
+msgstr ""
 
 msgid "Expiration of the authorization token (in hours)"
 msgstr ""
@@ -3172,6 +3214,9 @@ msgstr ""
 msgid "Feature|Name"
 msgstr "名稱"
 
+msgid "Fedora CoreOS Transpiler Command"
+msgstr ""
+
 msgid "Fetch TFTP boot files for %s"
 msgstr "為 %s 擷取 TFTP 開機檔案"
 
@@ -3249,9 +3294,6 @@ msgid "Firmware"
 msgstr ""
 
 msgid "First"
-msgstr ""
-
-msgid "First Page"
 msgstr ""
 
 msgid "Fix %s on Mismatch"
@@ -3472,6 +3514,12 @@ msgstr "完整稽核清單"
 msgid "Full name describing the domain"
 msgstr "描述區域的完整名稱"
 
+msgid "Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"
+msgstr ""
+
+msgid "Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"
+msgstr ""
+
 msgid "Full path to backing image used to create new volumes."
 msgstr "使用來建立新卷冊的支援映像檔之完整路徑。"
 
@@ -3480,9 +3528,6 @@ msgstr "全螢幕"
 
 msgid "Function not available for %s"
 msgstr "%s 的功能不可用"
-
-msgid "Further Information"
-msgstr ""
 
 msgid "GMT time"
 msgstr "GMT 時間"
@@ -3596,6 +3641,18 @@ msgid "Global status changed from %{from} to %{to}"
 msgstr ""
 
 msgid "Global variables"
+msgstr ""
+
+msgid "Go to first page"
+msgstr ""
+
+msgid "Go to last page"
+msgstr ""
+
+msgid "Go to next page"
+msgstr ""
+
+msgid "Go to previous page"
 msgstr ""
 
 msgid "Good host reports in the last %s"
@@ -3775,9 +3832,6 @@ msgstr ""
 msgid "Host Parameters"
 msgstr "主機參數"
 
-msgid "Host Status"
-msgstr ""
-
 msgid "Host Status Overview"
 msgstr ""
 
@@ -3821,6 +3875,9 @@ msgstr ""
 msgid "Host reported time is <em>%s</em>"
 msgstr "主機回報時間為 <em>%s</em>"
 
+msgid "Host status"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host status/status"
 msgstr ""
@@ -3829,6 +3886,9 @@ msgid "Host template"
 msgstr ""
 
 msgid "Host times seem to be adrift!"
+msgstr ""
+
+msgid "Host's network interfaces"
 msgstr ""
 
 msgid "Host's network interfaces."
@@ -4231,25 +4291,16 @@ msgstr "範本 ID"
 msgid "ID of the Host group to register the host in"
 msgstr ""
 
-msgid "ID of the Host group to register the host in."
-msgstr ""
-
 msgid "ID of the Location to register the host in"
 msgstr ""
 
-msgid "ID of the Location to register the host in."
-msgstr ""
-
-msgid "ID of the Operating System to register the host in."
+msgid "ID of the Operating System to register the host in"
 msgstr ""
 
 msgid "ID of the Operating System to register the host in. Operating system must have a `host_init_config` template assigned"
 msgstr ""
 
 msgid "ID of the Organization to register the host in"
-msgstr ""
-
-msgid "ID of the Organization to register the host in."
 msgstr ""
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
@@ -4421,7 +4472,7 @@ msgstr ""
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr ""
 
-msgid "If the target machine does not trust the host SSL certificate, the initial connection could be subject to Man in the middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
+msgid "If the target machine does not trust the host SSL certificate, the initial connection could be subject to a man-in-the-middle attack. If you accept the risk and do not require the server authenticity to be verified, you can enable insecure argument for the initial curl. Note that all subsequent communication is then properly secured, because the initial request deploys the SSL certificate for the rest of the registration process."
 msgstr ""
 
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
@@ -4439,7 +4490,7 @@ msgstr ""
 msgid "If you feel this is an error with Foreman itself, please open a new issue with"
 msgstr "若您認為這是 Foreman 本身的錯誤，請提交錯誤"
 
-msgid "If you wish to configure Puppet to forward its reports to Foreman, please follow <a href=${getManualURL( '3.5.4PuppetReports' )}>setting up reporting</a> and <a href=${getWikiURL('Mail_Notifications')}>e-mail reporting</a>"
+msgid "If you wish to configure Puppet to forward its reports to Foreman, please follow {settingUpPuppetReports} and {emailReporting}"
 msgstr ""
 
 msgid "Ignore facts for domain"
@@ -4528,6 +4579,9 @@ msgid "Import as unmanaged Host"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
+msgstr ""
+
+msgid "Import subnets from Smart proxy"
 msgstr ""
 
 msgid "Imported IPv4 Subnets"
@@ -4633,9 +4687,6 @@ msgid "Insecure"
 msgstr ""
 
 msgid "Install packages"
-msgstr ""
-
-msgid "Install packages on the host when registered. Can be set by `host_packages` parameter"
 msgstr ""
 
 msgid "Installation Media"
@@ -4782,6 +4833,9 @@ msgstr ""
 msgid "It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead."
 msgstr "不建議解鎖這個範本，因為它是由 %{vendor} 所提供，可以被覆寫。請考慮完整複製之。"
 
+msgid "Items per page"
+msgstr ""
+
 msgid "Iterating"
 msgstr ""
 
@@ -4861,9 +4915,6 @@ msgid "Language to use for new users"
 msgstr ""
 
 msgid "Last"
-msgstr ""
-
-msgid "Last Page"
 msgstr ""
 
 msgid "Last Report"
@@ -5301,6 +5352,9 @@ msgstr "列出範本組合"
 msgid "List template inputs"
 msgstr "列出範本輸入"
 
+msgid "Live Autocompletion"
+msgstr ""
+
 msgid "Load Datacenters"
 msgstr "載入資料中心"
 
@@ -5591,9 +5645,6 @@ msgstr "管理"
 msgid "Manage Bookmarks"
 msgstr "管理書籤"
 
-msgid "Manage Host's Statuses"
-msgstr ""
-
 msgid "Manage Locations"
 msgstr "管理位置"
 
@@ -5608,6 +5659,9 @@ msgstr ""
 
 msgid "Manage host"
 msgstr "管理主機"
+
+msgid "Manage host statuses"
+msgstr ""
 
 msgid "Managed"
 msgstr "已管理"
@@ -5722,9 +5776,6 @@ msgstr ""
 
 msgid "Metrics"
 msgstr "計量"
-
-msgid "Migrate Reports to new format"
-msgstr ""
 
 msgid "Minutes Ago"
 msgstr "幾分鐘前"
@@ -5887,9 +5938,6 @@ msgstr "新增 %s"
 msgid "New Autosign Entry"
 msgstr "新增 Autosign 項目"
 
-msgid "New Details Page"
-msgstr ""
-
 msgid "New HTTP Proxy"
 msgstr ""
 
@@ -5928,9 +5976,6 @@ msgstr ""
 
 msgid "Next"
 msgstr "下一步"
-
-msgid "Next Page"
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Nic::Base|Attached devices"
@@ -6111,6 +6156,9 @@ msgstr "找不到歷史記錄"
 msgid "No host could be found for rendering the template"
 msgstr "找不到主機可轉譯範本"
 
+msgid "No host found"
+msgstr ""
+
 msgid "No host found to associate this VM with"
 msgstr "找不到與此 VM 相聯的主機"
 
@@ -6183,6 +6231,9 @@ msgstr "無報告"
 msgid "No reports"
 msgstr "無報告"
 
+msgid "No results found"
+msgstr ""
+
 msgid "No setting value provided."
 msgstr "未提供設定值。"
 
@@ -6231,11 +6282,11 @@ msgstr "一般"
 msgid "Normally when setting up a Compute Resource, a key pair (private and public) is created for you automatically."
 msgstr ""
 
-msgid "Not Available"
-msgstr ""
-
 msgid "Not Installed"
 msgstr "未安裝"
+
+msgid "Not available"
+msgstr ""
 
 msgid "Not implemented"
 msgstr "尚未實作"
@@ -6674,8 +6725,17 @@ msgstr "擁有者"
 msgid "Owner changed to %s"
 msgstr "擁有者已更改為 %s"
 
+msgid "Owner type"
+msgstr ""
+
 msgid "Owner type needs to be one of the following: %s"
 msgstr "擁有者類型需要是以下其中之一：%s"
+
+msgid "PBKDF2 SHA1"
+msgstr ""
+
+msgid "PBKDF2 password cost"
+msgstr ""
 
 msgid "POAP PXE template"
 msgstr ""
@@ -6701,11 +6761,17 @@ msgstr ""
 msgid "PXELinux template"
 msgstr ""
 
-msgid "Packages to install on the host when registered. Can be set by `host_packages` parameter. Example: `pkg1 pkg2`"
+msgid "Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`"
+msgstr ""
+
+msgid "Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`."
 msgstr ""
 
 msgid "Page number, starting at 1"
 msgstr "頁數，從 1 開始"
+
+msgid "Pagination"
+msgstr ""
 
 msgid "Param name"
 msgstr "參數名稱"
@@ -6805,6 +6871,15 @@ msgid "Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2"
 msgstr "Ovirt、EC2、Vmware、Openstack 的密碼。EC2 的祕密金鑰"
 
 msgid "Password has been changed"
+msgstr ""
+
+msgid "Password hash setting was not yet set"
+msgstr ""
+
+msgid "Password hashing algorithm"
+msgstr ""
+
+msgid "Password hashing algorithm. A password change is needed effect existing passwords."
 msgstr ""
 
 msgid "Password must be 8 characters or more"
@@ -7054,9 +7129,6 @@ msgid "Preview rendered provisioning template content"
 msgstr "預覽已轉譯的範本內容"
 
 msgid "Previous"
-msgstr ""
-
-msgid "Previous Page"
 msgstr ""
 
 msgid "Primary"
@@ -7334,7 +7406,7 @@ msgstr "重建協調配置"
 msgid "Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'."
 msgstr ""
 
-msgid "Recent Audits"
+msgid "Recent audits"
 msgstr ""
 
 msgid "Recreate"
@@ -7510,9 +7582,6 @@ msgstr ""
 msgid "ReportTemplate|Snippet"
 msgstr ""
 
-msgid "Reported At"
-msgstr "回報於"
-
 msgid "Reported at"
 msgstr "回報於"
 
@@ -7524,9 +7593,6 @@ msgstr ""
 
 msgid "Reports"
 msgstr "報告"
-
-msgid "Reports can be stored in more efficient way, data will need to be upgraded to the new format. Read more details in"
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report|Metrics"
@@ -7562,9 +7628,6 @@ msgstr ""
 msgid "Request UUID"
 msgstr ""
 
-msgid "Require SSL for smart proxies"
-msgstr "智慧型代理伺服器需要 SSL"
-
 msgid "Required for registration without subscription manager. Can be specified by host group."
 msgstr ""
 
@@ -7595,6 +7658,9 @@ msgstr "資源 %{resource_name} 無法透過 ID '%{id}' 找到"
 msgid "Resource %{res} not found."
 msgstr "找不到資源 %{res}。"
 
+msgid "Resource not found"
+msgstr ""
+
 msgid "Resource pool"
 msgstr "資源集區"
 
@@ -7621,6 +7687,9 @@ msgid "Resume"
 msgstr "復原"
 
 msgid "Return to last page"
+msgstr ""
+
+msgid "Return to the last page"
 msgstr ""
 
 msgid "Returns string representing a host status of a given type"
@@ -7736,6 +7805,9 @@ msgstr "執行於"
 
 msgid "Runtime"
 msgstr "Runtime"
+
+msgid "SHA1"
+msgstr ""
 
 msgid "SMTP"
 msgstr "SMTP"
@@ -8051,13 +8123,7 @@ msgstr "服務"
 msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems"
 msgstr ""
 
-msgid "Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems."
-msgstr ""
-
 msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host"
-msgstr ""
-
-msgid "Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host."
 msgstr ""
 
 msgid "Set IP addresses for %s"
@@ -8157,9 +8223,6 @@ msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on th
 msgstr ""
 
 msgid "Share feedback"
-msgstr ""
-
-msgid "Share your feedback"
 msgstr ""
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
@@ -8495,6 +8558,9 @@ msgstr "其它介面已設為佈建。您是否確定要使用此介面？"
 msgid "Something went wrong"
 msgstr ""
 
+msgid "Something went wrong and the resource does not exist or there are access permissions needed. Please, contact your administrator if this issue continues"
+msgstr ""
+
 msgid "Something went wrong while changing host type - %s"
 msgstr "更改主機類型時發生了錯誤 - %s"
 
@@ -8510,7 +8576,7 @@ msgstr "抱歉，未配置任何範本。"
 msgid "Sorry, these hosts do not have parameters assigned to them, you must add them first."
 msgstr "抱歉，這些主機尚未被指定參數，您必須先加入參數。"
 
-msgid "Sort and order by a searchable field, e.g. 'id DESC'"
+msgid "Sort and order by a searchable field, e.g. '<field> DESC'"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8787,9 +8853,6 @@ msgstr ""
 msgid "Supported Formats"
 msgstr "格式"
 
-msgid "Switch to previous version"
-msgstr ""
-
 msgid "Switch to the new host details UI"
 msgstr ""
 
@@ -8807,6 +8870,9 @@ msgstr "系統資訊"
 
 msgid "System Status"
 msgstr "系統狀態"
+
+msgid "System properties"
+msgstr ""
 
 msgid "TFTP"
 msgstr "TFTP"
@@ -9154,7 +9220,7 @@ msgstr ""
 msgid "The algorithm used to encode the JWT in the OpenID provider."
 msgstr ""
 
-msgid "The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>, <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
+msgid "The authentication process currently requires an LDAP provider, such as {FreeIPA}, {OpenLDAP} or {Microsoft}."
 msgstr ""
 
 msgid "The authentication source of your external user groups could not connect to LDAP with the provided credentials. Please verify the credentials are still valid."
@@ -9227,6 +9293,9 @@ msgid "The full DNS domain name"
 msgstr "完整的 DNS 區域名稱"
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
+msgstr ""
+
+msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
 msgstr ""
 
 msgid "The hostname of the LDAP server"
@@ -9441,9 +9510,6 @@ msgstr ""
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
-msgid "This page redesign is experimental and under active development."
-msgstr ""
-
 msgid "This provides the same functionality as <code><%</code> but when the template is executed, the code output is inserted into the template. This is useful for variable substitution, for example:"
 msgstr ""
 
@@ -9544,7 +9610,7 @@ msgid ""
 "                groups\" then \"Refresh\"."
 msgstr ""
 
-msgid "To report an issue <a target=\"_blank\" rel=\"noopener noreferrer\" href=${foremanUrl( '/links/issues' )}>click here</a>"
+msgid "To report an issue {clickHere}"
 msgstr ""
 
 msgid "Today"
@@ -9728,12 +9794,6 @@ msgstr "無法偵測功能"
 
 msgid "Unable to detect version"
 msgstr "無法偵測版本"
-
-msgid "Unable to disable bmc_credentials_accessible when safemode_render is disabled"
-msgstr ""
-
-msgid "Unable to disable safemode_render when bmc_credentials_accessible is disabled"
-msgstr ""
 
 msgid "Unable to fetch TFTP boot file"
 msgstr "無法截取 TFTP 開機檔案"
@@ -10115,6 +10175,9 @@ msgstr ""
 
 msgid "Updated all hosts!"
 msgstr "更新所有主機！"
+
+msgid "Updated at"
+msgstr "更新於"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "更新主機：解除與 VM 之間的相聯性"
@@ -10720,7 +10783,7 @@ msgstr ""
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "您即將在所有已配置的 TFTP 伺服器上更改預設的 PXE 選單 - 是否繼續？"
 
-msgid "You are about to clear %s status. Are you sure?"
+msgid "You are about to clear the %s status. Are you sure?"
 msgstr ""
 
 msgid "You are about to delete %s. Are you sure?"
@@ -10972,6 +11035,9 @@ msgstr ""
 msgid "clear"
 msgstr ""
 
+msgid "click here"
+msgstr ""
+
 msgid "clone"
 msgstr "複製"
 
@@ -11046,6 +11112,9 @@ msgstr "與選擇的子網路不符"
 
 msgid "domain"
 msgstr "網域"
+
+msgid "e-mail reporting"
+msgstr "電子郵件回報"
 
 msgid "e.g. admin@internal"
 msgstr "例如 admin@internal"
@@ -11185,13 +11254,13 @@ msgstr "主機的主機名稱"
 msgid "hours"
 msgstr ""
 
-msgid "iPXE default local boot template '%s' not found"
-msgstr ""
-
 msgid "iPXE intermediate script"
 msgstr ""
 
 msgid "iPXE intermediate script '%s' not found"
+msgstr ""
+
+msgid "iPXE local boot template '%s' not found"
 msgstr ""
 
 msgid "iPXE template"
@@ -11307,6 +11376,9 @@ msgstr "不明"
 
 msgid "issue tracker"
 msgstr "問題追蹤器"
+
+msgid "items"
+msgstr ""
 
 msgid "items selected. Uncheck to Clear"
 msgstr "項目已選擇。請反選以清除"
@@ -11459,9 +11531,6 @@ msgstr ""
 msgid "oVirt/RHEV template to use"
 msgstr "要使用的 oVirt/RHEV 範本"
 
-msgid "of"
-msgstr "/"
-
 msgid "off"
 msgstr "關閉"
 
@@ -11578,6 +11647,9 @@ msgstr ""
 
 msgid "service configuration will be skipped."
 msgstr ""
+
+msgid "setting up reporting"
+msgstr "設定回報"
 
 msgid "should be 8 characters or more"
 msgstr "必須包含 8 或更多個字元"
