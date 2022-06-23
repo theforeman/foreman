@@ -270,9 +270,10 @@ module Api
 
       api :GET, '/hosts/:id/power', N_('Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs.')
       param :id, :identifier_dottable, required: true
+      param :timeout, String, required: false, desc: N_("Timeout to retrieve the power status of the host in seconds. Default is 3 seconds.")
 
       def power_status
-        render json: PowerManager::PowerStatus.new(host: @host).power_state
+        render json: PowerManager::PowerStatus.new(host: @host).power_state(params[:timeout])
       rescue => e
         Foreman::Logging.exception("Failed to fetch power status", e)
 
