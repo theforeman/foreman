@@ -79,6 +79,31 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "id": "searchBar",
+        "trigger": "CONTROLLER_CHANGED",
+        "url": "model/auto_complete_search",
+      },
+      "type": "AUTO_COMPLETE_CONTROLLER_CHANGE",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
+        "error": null,
+        "id": "searchBar",
+        "searchQuery": "",
+        "status": "PENDING",
+        "trigger": "INPUT_CLEAR",
+        "url": "model/auto_complete_search",
+      },
+      "type": "AUTO_COMPLETE_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
         "error": null,
         "id": "searchBar",
         "searchQuery": "result",
