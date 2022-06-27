@@ -83,7 +83,7 @@ class User < ApplicationRecord
 
   validates :mail, :email => true, :allow_blank => true
   validates :mail, :presence => true, :on => :update,
-                   :if => proc { |u| !AuthSourceHidden.where(:id => u.auth_source_id).any? && (u.mail_was.present? || (User.current == u && !User.current.hidden?)) }
+            :if => proc { |u| !AuthSourceHidden.where(:id => u.auth_source_id).any? && (u.mail_enabled || (User.current == u && !User.current.hidden?)) }
 
   validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => proc { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale

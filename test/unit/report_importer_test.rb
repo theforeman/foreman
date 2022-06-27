@@ -47,7 +47,7 @@ class ReportImporterTest < ActiveSupport::TestCase
 
   context 'with user owner' do
     setup do
-      @owner = as_admin { FactoryBot.create(:user, :admin, :with_mail) }
+      @owner = as_admin { FactoryBot.create(:user, :admin, :with_mail, :mail_enabled => true) }
       @host = FactoryBot.create(:host, :owner => @owner)
     end
 
@@ -64,6 +64,21 @@ class ReportImporterTest < ActiveSupport::TestCase
 
     test 'when owner is not subscribed to notifications, no mail should be sent on error' do
       @owner.mail_notifications = []
+      assert_no_difference 'ActionMailer::Base.deliveries.size' do
+        report = read_json_fixture('reports/errors.json')
+        report["host"] = @host.name
+        TestReportImporter.import report
+      end
+    end
+  end
+
+  context 'with user owner with mail disabled' do
+    setup do
+      @owner = as_admin { FactoryBot.create(:user, :admin, :with_mail, :mail_enabled => false) }
+      @host = FactoryBot.create(:host, :owner => @owner)
+    end
+
+    test 'when owner has mail disabled, no mail should be sent on error' do
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
         report = read_json_fixture('reports/errors.json')
         report["host"] = @host.name

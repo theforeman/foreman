@@ -62,6 +62,7 @@ admin:
   firstname: Admin
   lastname: User
   mail: admin@someware.com
+  mail_enabled: true
   admin: true
   last_login_on: 2009-10-12 21:50:04
   auth_source: internal
