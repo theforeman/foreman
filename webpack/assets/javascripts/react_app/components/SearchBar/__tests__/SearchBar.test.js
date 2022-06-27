@@ -1,4 +1,7 @@
+import React from 'react';
 import SearchBar from '../SearchBar';
+import { Provider } from 'react-redux';
+import store from '../../../redux';
 import { SearchBarProps } from '../SearchBar.fixtures';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
@@ -7,6 +10,11 @@ const fixtures = {
 };
 describe('AutoComplete', () => {
   describe('rendering', () => {
-    testComponentSnapshotsWithFixtures(SearchBar, fixtures);
+    const searchBar = () => (
+      <Provider store={store}>
+        <SearchBar {...SearchBarProps} />
+      </Provider>
+    );
+    testComponentSnapshotsWithFixtures(searchBar, fixtures);
   });
 });
