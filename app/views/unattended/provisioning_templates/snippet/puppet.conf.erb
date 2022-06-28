@@ -12,7 +12,7 @@ description: |
   os_family = @host.operatingsystem.family
   os_name   = @host.operatingsystem.name
 
-  aio_enabled = host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6') || host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppet5')
+  aio_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6') || host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppet5')
   aio_available = os_family == 'Debian' || os_family == 'Redhat' || os_name == 'SLES'
 
   if os_family == 'Windows'
