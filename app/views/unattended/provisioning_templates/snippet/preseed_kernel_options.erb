@@ -10,12 +10,22 @@ description: options for the kernel / preseed startup initialization
   hostname = @host.name
   domain = @host.domain
   iface = @host.provision_interface
+  mac = @host.provision_interface.mac
   subnet4 = iface.subnet
   subnet6 = iface.subnet6
   options = []
 
   if host_param('blacklist')
     options << host_param('blacklist').split(',').collect{|x| "#{x.strip}.blacklist=yes"}.join(' ')
+  end
+
+  if mac
+    # hardware type is always 01 (ethernet) unless specified otherwise
+    if @ipxe_net
+      options << "BOOTIF=01-${netX/mac:hexhyp}"
+    else
+      options << "BOOTIF=#{host_param("hardware_type", "01")}-#{mac.gsub(':', '-')}"
+    end
   end
 
   if is_debian
@@ -27,16 +37,25 @@ description: options for the kernel / preseed startup initialization
   if @host.provision_interface.vlanid.present?
     options << "netcfg/use_vlan=true netcfg/vlan_id=#{@host.provision_interface.vlanid}"
   end
-  options << "locale=#{host_param('lang') || 'en_US'}"
 
   if subnet4 && subnet4.dhcp_boot_mode?
     options << 'netcfg/disable_dhcp=false'
   elsif subnet4 && !subnet4.dhcp_boot_mode?
-    options << 'netcfg/disable_dhcp=true netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true'
+    if @ipxe_net
+      options << 'netcfg/disable_dhcp=true netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true'
+    else
+      dns_servers = subnet4.dns_servers.join(' ')
+      options << "netcfg/disable_dhcp=true netcfg/get_ipaddress=#{iface.ip} netcfg/get_netmask=#{subnet4.mask} netcfg/get_gateway=#{subnet4.gateway} netcfg/get_nameservers=\"#{dns_servers}\" netcfg/confirm_static=true"
+    end
   elsif subnet6 && subnet6.dhcp_boot_mode?
     options << 'netcfg/disable_dhcp=false'
   elsif subnet6 && !subnet6.dhcp_boot_mode?
-    options << 'netcfg/disable_dhcp=true netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true'
+    if @ipxe_net
+      options << 'netcfg/disable_dhcp=true netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true'
+    else
+      dns_servers = subnet6.dns_servers.join(' ')
+      options << "netcfg/disable_dhcp=true netcfg/get_ipaddress=#{iface.ip6} netcfg/get_netmask=#{subnet6.mask} netcfg/get_gateway=#{subnet6.gateway} netcfg/get_nameservers=\"#{dns_servers}\" netcfg/confirm_static=true"
+    end
   end
 
   if host_param('pxe_kernel_options')
