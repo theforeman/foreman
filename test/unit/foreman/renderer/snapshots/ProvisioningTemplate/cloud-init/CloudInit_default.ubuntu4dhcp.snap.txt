@@ -71,6 +71,9 @@ runcmd:
   # export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
   export FACTER_is_installer=true
   # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+  # You can select specific tag(s) with the "run-puppet-in-installer-tags" parameter
+  # or set a full puppet run by setting "run-puppet-in-installer" = true
+  echo "Performing initial puppet run for --tags no_such_tag"
   /usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
   systemctl enable puppet
 

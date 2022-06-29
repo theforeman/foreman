@@ -4,12 +4,13 @@ name: puppet_setup
 model: ProvisioningTemplate
 snippet: true
 description: |
-  Bootstraps the Puppet agent and performs one empty run to create a certificate request.
+  Bootstraps the Puppet agent and performs one run to create a certificate request.
 
   In more details it installs a Puppet agent, creates the necessary configuration files,
-  enables the Puppet agent service and performs  a single run with non existing tag. That
-  results in an empty run only used for the agent  detecting it's missing a client certificate
-  so it asks for a new one at the host's Puppet CA.
+  enables the Puppet agent service and performs a single run with a specified tag.
+  By default the tag `no_such_tag` is used to generate an empty run.
+  An empty run can be used for the agent to detect it's missing a client certificate
+  and ask for a new one from the host's Puppet CA.
 -%>
 <%
 os_family = @host.operatingsystem.family
@@ -17,6 +18,12 @@ os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
 aio_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6') || host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppet5')
+
+if host_param('run-puppet-in-installer-tags')
+  puppet_tags = host_param('run-puppet-in-installer-tags')
+else
+  puppet_tags = 'no_such_tag'
+end
 
 if os_family == 'Freebsd'
   freebsd_package = host_param_true?('enable-puppet6') ? 'puppet6' : 'puppet5'
@@ -144,11 +151,13 @@ mkdir -p /run/systemd/system
 $env:FACTER_is_installer = $TRUE
 
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+# You can select specific tag(s) with the "run-puppet-in-installer-tags" parameter
+# or set a full puppet run by setting "run-puppet-in-installer" = true
 $puppet_agent_args = @(
   "agent",
   "--config", "<%= etc_path %>\puppet.conf",
   "--onetime",
-  <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : '"--tags no_such_tag",' %>
+  <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : "\"--tags #{puppet_tags}\"," %>
   <%= host_puppet_server.blank? ? '' : "\"--server #{host_puppet_server}\"," %>
   "--no-daemonize"
 )
@@ -156,9 +165,16 @@ Start-Process '<%= bin_path %>\puppet' -ArgumentList $puppet_agent_args -Wait -N
 <% else -%>
 export FACTER_is_installer=true
 # passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
-<%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : '--tags no_such_tag' %> <%= host_puppet_server.blank? ? '' : "--server #{host_puppet_server}" %> --no-daemonize
+# You can select specific tag(s) with the "run-puppet-in-installer-tags" parameter
+# or set a full puppet run by setting "run-puppet-in-installer" = true
+<% if host_param_true?('run-puppet-in-installer') || @full_puppet_run -%>
+echo "Performing initial full puppet run"
+<% else -%>
+echo "Performing initial puppet run for --tags <%= puppet_tags %>"
+<% end -%>
+<%= bin_path %>/puppet agent --config <%= etc_path %>/puppet.conf --onetime <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : "--tags #{puppet_tags}" %> <%= host_puppet_server.blank? ? '' : "--server #{host_puppet_server}" %> --no-daemonize
 <% if os_family == 'Suse' || (os_name == 'Debian' && os_major > 8) || (os_name == 'Ubuntu' && os_major >= 15) -%>
-<% if os_family == 'Suse'  -%>
+<% if os_family == 'Suse' -%>
 <%= bin_path %>/puppet resource service puppet enable=true
 <% else -%>
 systemctl enable puppet
