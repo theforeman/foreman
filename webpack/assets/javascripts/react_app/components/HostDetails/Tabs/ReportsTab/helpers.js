@@ -139,50 +139,51 @@ export const reportToShowFormatter = ({ reported_at, can_view, id }) => (
   </Button>
 );
 
-export const getColumns = fetchReports => [
-  {
-    title: __('Reported at'),
-    formatter: reportToShowFormatter,
-    width: 20,
-  },
-  {
-    title: __('Failed'),
-    formatter: response => statusFormatter('failed', response),
-    width: 10,
-  },
-  {
-    title: __('Failed restarts'),
-    formatter: response => statusFormatter('failed_restarts', response),
-    width: 10,
-  },
-  {
-    title: __('Restarted'),
-    formatter: response => statusFormatter('restarted', response),
-    width: 10,
-  },
-  {
-    title: __('Applied'),
-    formatter: response => statusFormatter('applied', response),
-    width: 10,
-  },
-  {
-    title: __('Skipped'),
-    formatter: response => statusFormatter('skipped', response),
-    width: 10,
-  },
-  {
-    title: __('Pending'),
-    formatter: response => statusFormatter('pending', response),
-    width: 10,
-  },
-  {
-    title: __('Origin'),
-    formatter: originFormatter,
-    width: 10,
-  },
-  {
-    title: null,
-    formatter: data => ActionFormatter(data, fetchReports),
-    width: 10,
-  },
-];
+export const getColumns = (fetchReports, origin) => {
+  const columns = [
+    {
+      title: __('Reported at'),
+      formatter: reportToShowFormatter,
+    },
+    {
+      title: __('Failed'),
+      formatter: response => statusFormatter('failed', response),
+    },
+    {
+      title: __('Failed restarts'),
+      formatter: response => statusFormatter('failed_restarts', response),
+    },
+    {
+      title: __('Restarted'),
+      formatter: response => statusFormatter('restarted', response),
+    },
+    {
+      title: __('Applied'),
+      formatter: response => statusFormatter('applied', response),
+    },
+    {
+      title: __('Skipped'),
+      formatter: response => statusFormatter('skipped', response),
+    },
+    {
+      title: __('Pending'),
+      formatter: response => statusFormatter('pending', response),
+    },
+    {
+      title: null,
+      formatter: data => ActionFormatter(data, fetchReports),
+    },
+  ];
+
+  /** if the table is being filtered already with a specific origin,
+   there is no need to show that origin column.
+  */
+  if (!origin) {
+    columns.splice(-2, 0, {
+      title: __('Origin'),
+      formatter: originFormatter,
+    });
+  }
+
+  return columns;
+};

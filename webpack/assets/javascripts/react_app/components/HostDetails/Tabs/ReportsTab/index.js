@@ -124,6 +124,7 @@ const ReportsTab = ({ hostName, origin }) => {
           reports={reports}
           status={status}
           error={error}
+          origin={origin}
           fetchReports={fetchReports}
         />
       </GridItem>
