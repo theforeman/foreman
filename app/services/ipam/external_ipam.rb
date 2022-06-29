@@ -1,5 +1,5 @@
 module IPAM
-  class ExternalIpam < Base
+  class ExternalIPAM < Base
     delegate :external_ipam_proxy, :to => :subnet
 
     def suggest_ip

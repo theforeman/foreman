@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PuppetReportScannerTest < ActiveSupport::TestCase
-  subject { Foreman::PuppetReportScanner }
+  subject { Foreman::ReportScanner::PuppetReportScanner }
 
   describe '.identify_origin' do
     it 'returns Puppet if puppet_report' do

@@ -9,7 +9,7 @@ class IPAMTest < ActiveSupport::TestCase
       fake_proxy = mock("dhcp_proxy")
       fake_proxy.stubs(:unused_ip => {'ip' => '192.168.1.25'})
       subnet.stubs(:dhcp_proxy => fake_proxy)
-      ipam = IPAM::Dhcp.new(:subnet => subnet, :mac => '00:11:22:33:44:55')
+      ipam = IPAM::DHCP.new(:subnet => subnet, :mac => '00:11:22:33:44:55')
       assert_equal '192.168.1.25', ipam.suggest_ip
     end
   end

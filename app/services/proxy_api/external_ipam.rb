@@ -1,7 +1,7 @@
 require 'uri'
 
 module ProxyAPI
-  class ExternalIpam < ProxyAPI::Resource
+  class ExternalIPAM < ProxyAPI::Resource
     def initialize(args)
       @url = args[:url] + "/ipam"
       super args

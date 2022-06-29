@@ -1,10 +1,8 @@
-require_dependency File.expand_path('../../../services/report_scanner/puppet_report_scanner', __dir__)
-
 module Foreman
   class Plugin
     class ReportScannerRegistry
       DEFAULT_REPORT_SCANNERS = [
-        ::Foreman::PuppetReportScanner,
+        ::Foreman::ReportScanner::PuppetReportScanner,
       ].freeze
 
       attr_accessor :report_scanners
