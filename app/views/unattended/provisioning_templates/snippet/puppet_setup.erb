@@ -49,8 +49,8 @@ else
 fi
 <% elsif os_family == 'Suse' -%>
 <% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
-rpmkeys --import http://yum.puppet.com/RPM-GPG-KEY-puppetlabs
-rpmkeys --import http://yum.puppet.com/RPM-GPG-KEY-puppet
+rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppetlabs
+rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppet
 <% end -%>
 <% if @host.provision_method == 'image' -%>
 /usr/bin/zypper -n install <%= linux_package %>
