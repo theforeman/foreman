@@ -15,8 +15,8 @@ import EmptyState from '../../../common/EmptyState';
 import { translate as __ } from '../../../../common/I18n';
 import { getColumns } from './helpers';
 
-const ReportsTable = ({ reports, status, fetchReports, error }) => {
-  const columns = getColumns(fetchReports);
+const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
+  const columns = getColumns(fetchReports, origin);
   let tableBody = null;
   let tableHead = null;
   let emptyState = null;
@@ -81,6 +81,7 @@ ReportsTable.propTypes = {
   reports: PropTypes.array,
   status: PropTypes.string,
   error: PropTypes.string,
+  origin: PropTypes.string,
   fetchReports: PropTypes.func.isRequired,
 };
 
@@ -88,6 +89,7 @@ ReportsTable.defaultProps = {
   reports: [],
   status: null,
   error: null,
+  origin: null,
 };
 
 export default ReportsTable;
