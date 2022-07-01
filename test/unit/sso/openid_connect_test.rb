@@ -29,7 +29,7 @@ class OpenidConnectTest < ActiveSupport::TestCase
       controller_with_session =
         api_controller({:sso_method => 'SSO::OpenidConnect'})
       subject = SSO::OpenidConnect.new(controller_with_session)
-      assert_equal subject.available?, true
+      assert_equal true, subject.available?
     end
 
     test 'if its OpenIDConnect session,' \
@@ -37,28 +37,36 @@ class OpenidConnectTest < ActiveSupport::TestCase
       controller_with_session =
         api_controller({:sso_method => 'SSO::OpenidConnect'})
       subject = SSO::OpenidConnect.new(controller_with_session)
-      assert_equal subject.available?, true
+      assert_equal true, subject.available?
       assert_nil controller_with_session.session[:sso_method]
     end
 
     test 'returns false when not a api_request and no oidc header is passed' do
       subject = SSO::OpenidConnect.new(non_api_controller)
-      assert_equal subject.available?, false
+      assert_equal false, subject.available?
     end
 
-    test 'returns true when not a api_request and a oidc header is passed' do
+    test 'returns true when not a api_request and a JWT oidc access token is passed' do
       token = JWT.encode(payload, nil, 'none')
       controller = non_api_controller(nil, {'HTTP_OIDC_ACCESS_TOKEN' => token.to_s})
-      SSO::Base.any_instance.stubs(:http_token).returns(token)
       subject = SSO::OpenidConnect.new(controller)
-      assert_equal subject.available?, true
+      assert_equal true, subject.available?
+    end
+
+    test 'returns true when not a api_request and a plain oidc access token with id_token payload is passed' do
+      controller = non_api_controller(nil, {
+        'HTTP_OIDC_ACCESS_TOKEN' => '593fb2dfc385a1550ec43ddd60edbf6c',
+        'HTTP_OIDC_ID_TOKEN_PAYLOAD' => JSON.generate(payload),
+      })
+      subject = SSO::OpenidConnect.new(controller)
+      assert_equal true, subject.available?
     end
 
     test "returns true when api request contain valid JWT token" do
       token = JWT.encode(payload, nil, 'none')
       controller = api_controller(nil, {:authorization => "Bearer #{token}"})
       subject = SSO::OpenidConnect.new(controller)
-      assert_equal subject.available?, true
+      assert_equal true, subject.available?
     end
 
     test "returns false when api request contain invalid JWT issuer" do
@@ -67,35 +75,36 @@ class OpenidConnectTest < ActiveSupport::TestCase
       token = JWT.encode(invalid_payload, nil, 'none')
       controller = api_controller(nil, {:authorization => "Bearer #{token}"})
       subject = SSO::OpenidConnect.new(controller)
-      assert_equal subject.available?, false
+      assert_equal false, subject.available?
     end
 
     test "returns false when api request contain nil JWT token" do
       token = JWT.encode(nil, nil, 'none')
       controller = api_controller(nil, {:authorization => "Bearer #{token}"})
       subject = SSO::OpenidConnect.new(controller)
-      assert_equal subject.available?, false
+      assert_equal false, subject.available?
     end
 
     test "returns false if api request does not contain JWT token" do
       controller = api_controller()
       subject = SSO::OpenidConnect.new(controller)
-      assert_equal subject.available?, false
+      assert_equal false, subject.available?
     end
   end
 
-  describe "#authenticated?" do
+  describe "#authenticated? with keycloak oidc provider" do
     let(:subject) do
       token = JWT.encode(payload, nil, 'none')
       SSO::OpenidConnect.new api_controller({}, {:authorization => "Bearer #{token}"})
     end
 
-    test "it authenticates and sets user when currect user does not exists" do
+    test "it authenticates and creates user when current user does not exist" do
       User.current = nil
-      OidcJwt.any_instance.stubs(:decode).returns(decoded_payload)
-      assert_equal subject.authenticated?, true
+      assert_equal true, subject.authenticated?
       assert subject.current_user.is_a?(User)
-      assert_equal subject.current_user.login, decoded_payload['preferred_username']
+      assert_equal decoded_payload['preferred_username'], subject.current_user.login
+      assert_equal "#{decoded_payload['given_name']} #{decoded_payload['family_name']}", subject.current_user.name
+      assert_equal decoded_payload['email'], subject.current_user.mail
     end
 
     test "it accepts group parameter in payload and authenticates the user" do
@@ -110,6 +119,33 @@ class OpenidConnectTest < ActiveSupport::TestCase
       assert subject.authenticated?
 
       assert_equal payload['groups'].first, subject.current_user.usergroups.first.name
+    end
+  end
+
+  describe "#authenticated? with gitlab oidc provider" do
+    let(:gitlab_id_token_payload) do
+      { "iss": "127.0.0.1",
+        "nickname": "test_username",
+        "email": "test_email@example.com" }
+    end
+    let(:gitlab_userinfo_json) do
+      { "name": "test name" }
+    end
+    let(:subject) do
+      SSO::OpenidConnect.new non_api_controller({}, {
+        'HTTP_OIDC_ACCESS_TOKEN' => '593fb2dfc385a1550ec43ddd60edbf6c',
+        'HTTP_OIDC_ID_TOKEN_PAYLOAD' => JSON.generate(gitlab_id_token_payload),
+        'HTTP_OIDC_USERINFO_JSON' => JSON.generate(gitlab_userinfo_json),
+      })
+    end
+
+    test "it authenticates and creates user when current user does not exist" do
+      User.current = nil
+      assert_equal true, subject.authenticated?
+      assert subject.current_user.is_a?(User)
+      assert_equal 'test_username', subject.current_user.login
+      assert_equal 'test name ', subject.current_user.name
+      assert_equal 'test_email@example.com', subject.current_user.mail
     end
   end
 

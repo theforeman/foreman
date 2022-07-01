@@ -12,7 +12,7 @@ module SSO
     def available?
       return false unless Setting['authorize_login_delegation']
       return false if controller.api_request? && !(Setting['authorize_login_delegation_api'])
-      return false if http_token.present?
+      return false if http_oidc_access_token.present?
       return false if controller.api_request? && request.env[CAS_USERNAME].blank?
       true
     end

@@ -15,10 +15,10 @@ class ApacheTest < ActiveSupport::TestCase
     Setting["authorize_login_delegation"] = true
     assert apache.available?
 
-    SSO::Base.any_instance.stubs(:http_token).returns('JWT')
+    SSO::Base.any_instance.stubs(:http_oidc_access_token).returns('JWT')
     assert !apache.available?
-    # reset the return value for http_token method to nil.
-    SSO::Base.any_instance.stubs(:http_token).returns(nil)
+    # reset the return value for http_oidc_access_token method to nil.
+    SSO::Base.any_instance.stubs(:http_oidc_access_token).returns(nil)
 
     Setting["authorize_login_delegation"] = false
     assert !apache.available?

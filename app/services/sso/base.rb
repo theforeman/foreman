@@ -46,7 +46,8 @@ module SSO
       User.unscoped.except_hidden.find_by_login(user)
     end
 
-    def http_token
+    # OIDC access token as set by apache mod_auth_openidc.
+    def http_oidc_access_token
       request.env[OIDC_ACCESS_TOKEN]
     end
   end
