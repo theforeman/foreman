@@ -5,8 +5,11 @@ group :test do
   gem 'minitest-reporters', '~> 1.4', :require => false
   gem 'minitest-retry', '~> 0.0', :require => false
   gem 'minitest-spec-rails', '~> 6.0'
+  # Lock rack-test until some of below deps are fixed
+  gem 'rack-test', '< 2'
   gem 'capybara', '~> 3.33', :require => false
   gem 'show_me_the_cookies', '~> 5.0', :require => false
+  # End of possible broken deps
   gem 'database_cleaner', '~> 1.3', :require => false
   gem 'launchy', '~> 2.4'
   gem 'facterdb', '~> 1.7'
