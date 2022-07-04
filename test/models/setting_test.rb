@@ -30,7 +30,7 @@ class SettingTest < ActiveSupport::TestCase
 
   test "encrypted value is saved encrypted when created" do
     Setting.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
-    setting = Foreman.settings.set_user_value('root_pass', '123456')
+    setting = Foreman.settings.set_user_value('root_pass', '12345678')
     as_admin do
       assert setting.save
     end
@@ -72,6 +72,12 @@ class SettingTest < ActiveSupport::TestCase
       setting.save!
     end
     assert_equal db_value, setting.read_attribute(:value)
+  end
+
+  test "root_pass should be at least 8 characters long" do
+    assert_raises(ActiveRecord::RecordInvalid) do
+      Setting[:root_pass] = "1234567"
+    end
   end
 
   test 'proxy the value get to the registry' do
