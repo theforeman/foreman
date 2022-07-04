@@ -16,7 +16,7 @@ class AuditExtensionsTest < ActiveSupport::TestCase
 
   test "audit's change is filtered when data is encrypted" do
     Setting.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
-    setting = Foreman.settings.set_user_value('root_pass', '654321')
+    setting = Foreman.settings.set_user_value('root_pass', '87654321')
     as_admin do
       assert setting.save
     end
