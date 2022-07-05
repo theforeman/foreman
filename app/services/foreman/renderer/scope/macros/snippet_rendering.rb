@@ -23,7 +23,7 @@ module Foreman
 
           apipie :method, 'Renders a snippet if it exists in template source, e.g. database' do
             desc 'Same to snippet but does not fail and continues the main rendering if the given snippet was not found'
-            required :name, String, desc: 'Name of the snippet template to render'
+            required :name, [String, Array], desc: 'Name of the snippet template to render'
             optional :options, Hash, desc: 'The only supported key is +variables+, which can contain a Hash. Every key of such Hash will be registered as instance variable, e.g. key +enable_ntp+ will be available as +@enable_ntp+',
                                      default: {}
             returns String, desc: 'evaluated ERB of the snippet'
@@ -33,7 +33,12 @@ module Foreman
             see 'snippet', description: 'Snippet#snippet', scope: Foreman::Renderer::Scope::Macros::SnippetRendering
           end
           def snippet_if_exists(name, options = {})
-            snippet(name, { silent: true }, variables: options[:variables] || {})
+            if name.is_a?(Array)
+              tpl_name = name.find { |tpl| snippet_exists(tpl) } || ''
+            else
+              tpl_name = name
+            end
+            snippet(tpl_name, { silent: true }, variables: options[:variables] || {})
           end
 
           apipie :method, 'Renders a string, which is a result of rendering other template snippet' do
@@ -45,7 +50,7 @@ module Foreman
               The snippet rendering happens in the same context as the main template rendering, meaning all instance
               variables and macros are available in that snippet. Variables passed to this snippet are available
               only during the snippet rendering.'
-            required :name, String, desc: 'Name of the snippet template to render'
+            required :name, [String, Array], desc: 'Name of the snippet template to render'
             optional :options, Hash, desc: 'Rendering options, the only supported option is +variables+ which can also be set by specific keyword argument',
                                      default: {}
             optional :variables, Hash, desc: 'Every key will be registered as instance variable, e.g. key +enable_ntp+ will be available as +@enable_ntp+',
@@ -57,9 +62,15 @@ module Foreman
             example "snippet('ntp_server', variables: { :enable_ntp => true) } # => '...'"
           end
           def snippet(name, options = {}, variables: {})
-            template = source.find_snippet(name)
+            if name.is_a?(Array)
+              tpl_name = name.find { |tpl| snippet_exists(tpl) } || ''
+            else
+              tpl_name = name
+            end
+
+            template = source.find_snippet(tpl_name)
             unless template
-              raise "The specified snippet '#{name}' does not exist, or is not a snippet." unless options[:silent]
+              raise "The specified snippet '#{tpl_name}' does not exist, or is not a snippet." unless options[:silent]
               return
             end
 
@@ -73,7 +84,7 @@ module Foreman
               Foreman::Logging.exception('Error while rendering a snippet', e)
               raise
             rescue StandardError => exc
-              e = ::Foreman::Exception.new(N_("The snippet '%{name}' threw an error: %{exc}"), { :name => name, :exc => exc })
+              e = ::Foreman::Exception.new(N_("The snippet '%{tpl_name}' threw an error: %{exc}"), { :name => tpl_name, :exc => exc })
               e.set_backtrace exc.backtrace
               raise e
             end
