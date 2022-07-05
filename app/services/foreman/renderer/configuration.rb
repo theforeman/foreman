@@ -7,6 +7,7 @@ module Foreman
         :foreman_url,
         :snippet, :snippets,
         :snippet_if_exists,
+        :snippet_exists,
         :indent,
         :foreman_server_fqdn, :foreman_server_url,
         :foreman_request_addr,

@@ -10,6 +10,17 @@ module Foreman
             sections only: %w[all provisioning]
           end
 
+          apipie :method, 'Checks if a snippet exitsts in template source, e.g. database' do
+            desc 'Checks if a snippet exists, does not render template.'
+            required :name, String, desc: 'Name of the snippet template to check for'
+            returns [true, false], desc: 'presence of the snippet'
+            example "snippet_exist('motd') # => true"
+            see 'snippet', description: 'Snippet#snippet', scope: Foreman::Renderer::Scope::Macros::SnippetRendering
+          end
+          def snippet_exists(name)
+            source.find_snippet(name).present?
+          end
+
           apipie :method, 'Renders a snippet if it exists in template source, e.g. database' do
             desc 'Same to snippet but does not fail and continues the main rendering if the given snippet was not found'
             required :name, String, desc: 'Name of the snippet template to render'
