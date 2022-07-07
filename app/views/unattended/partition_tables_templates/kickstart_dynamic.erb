@@ -30,6 +30,10 @@ this way.
 -%>
 #Dynamic (do not remove this line)
 
+<% unless snippet_if_exists(template_name + " custom partition table").blank? -%>
+# output must be written to /tmp/diskpart.cfg
+<%= snippet_if_exists(template_name + " custom partition table") %>
+<% else -%>
 MEMORY=$((`grep MemTotal: /proc/meminfo | sed 's/^MemTotal: *//'|sed 's/ .*//'` / 1024))
 if [ "$MEMORY" -lt 2048 ]; then
     SWAP_MEMORY=$(($MEMORY * 2))
@@ -48,3 +52,4 @@ part /boot --fstype ext4 --size 200 --asprimary
 part swap --size "$SWAP_MEMORY"
 part / --fstype ext4 --size 1024 --grow
 EOF
+<% end -%>
