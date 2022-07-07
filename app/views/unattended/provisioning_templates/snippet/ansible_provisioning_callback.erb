@@ -19,12 +19,12 @@ description: |
 -%>
 <% if has_systemd -%>
 <%= save_to_file('/etc/systemd/system/ansible-callback.service',
-                 snippet('ansible_tower_callback_service')) %>
+                 snippet([['custom ansible_tower_callback_service', 'ansible_tower_callback_service']])) %>
 # Runs during first boot, removes itself
 systemctl enable ansible-callback
 <% else -%>
 # Assume systemd is not available
-<%= save_to_file('/root/ansible_provisioning_call.sh', snippet('ansible_tower_callback_script')) %>
+<%= save_to_file('/root/ansible_provisioning_call.sh', snippet([['custom ansible_tower_callback_script', 'ansible_tower_callback_script']])) %>
 (chmod +x /root/ansible_provisioning_call.sh; crontab -u root -l 2>/dev/null; echo "@reboot /root/ansible_provisioning_call.sh" ) | crontab -u root -
 <% end -%>
 <% end -%>

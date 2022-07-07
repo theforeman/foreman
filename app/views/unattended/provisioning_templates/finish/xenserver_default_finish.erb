@@ -9,5 +9,5 @@ description: |
   is complete. It reboots the machine afterwards. Meant for use with XenServer or Citrix Hypervisor
 -%>
 #!/bin/bash
-<%= snippet 'built' %>
-<%= snippet 'schedule_reboot' -%>
+<%= snippet([['custom built', 'built']]) %>
+<%= snippet([['custom schedule_reboot', 'schedule_reboot']]) -%>

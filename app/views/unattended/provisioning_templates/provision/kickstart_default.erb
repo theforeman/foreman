@@ -259,7 +259,7 @@ wget
 <% end -%>
 @Core
 <% if host_param_true?('fips_enabled') -%>
-<%=   snippet 'fips_packages' %>
+<%=   snippet([['custom fips_packages', 'fips_packages']]) %>
 <% end -%>
 <%= section_end %>
 
@@ -293,20 +293,22 @@ exec < /dev/tty3 > /dev/tty3
 chvt 3
 (
 logger "Starting anaconda <%= @host %> postinstall"
-<%= snippet 'kickstart_networking_setup' %>
+<%= snippet_if_exists(template_name + " custom post early") -%>
 
-<%= snippet 'ntp' %>
+<%= snippet([['custom kickstart_networking_setup', 'kickstart_networking_setup']]) %>
 
-<%= snippet 'yum_proxy' %>
+<%= snippet([['custom ntp', 'ntp']]) %>
+
+<%= snippet([['custom yum_proxy', 'yum_proxy']]) %>
 
 <% if rhel_compatible && host_param_true?('enable-epel') -%>
-<%= snippet 'epel' -%>
+<%= snippet([['custom epel', 'epel']]) -%>
 <% end -%>
 
-<%= snippet 'redhat_register' if rhel_compatible && os_major < 9 -%>
+<%= snippet([['custom redhat_register', 'redhat_register']]) if rhel_compatible && os_major < 9 -%>
 
 <% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
-<%= snippet 'freeipa_register' %>
+<%= snippet([['custom freeipa_register', 'freeipa_register']]) %>
 <% end -%>
 
 <% unless host_param_false?('package_upgrade') -%>
@@ -318,29 +320,29 @@ else
 fi
 <% end -%>
 
-<%= snippet('remote_execution_ssh_keys') %>
+<%= snippet([['custom remote_execution_ssh_keys', 'remote_execution_ssh_keys']]) %>
 
 <% if plugin_present?('katello') && host_param_true?('enable-remote-execution-pull') -%>
-<%= save_to_file('/root/remote_execution_pull_setup.sh', snippet('remote_execution_pull_setup'), verbatim: true) %>
+<%= save_to_file('/root/remote_execution_pull_setup.sh', snippet([['custom remote_execution_pull_setup', 'remote_execution_pull_setup']]), verbatim: true) %>
 chmod +x /root/remote_execution_pull_setup.sh
 /root/remote_execution_pull_setup.sh
 <% end -%>
 
-<%= snippet "blacklist_kernel_modules" %>
+<%= snippet([['custom blacklist_kernel_modules', 'blacklist_kernel_modules']]) %>
 
 <% if chef_enabled %>
-<%= snippet 'chef_client' %>
+<%= snippet([['custom chef_client', 'chef_client']]) %>
 <% end -%>
 
 <% if puppet_enabled %>
 <% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')|| host_param_true?('enable-puppetlabs-puppet5-repo') -%>
-<%= snippet 'puppetlabs_repo' %>
+<%= snippet([['custom puppetlabs_repo', 'puppetlabs_repo']]) %>
 <% end -%>
-<%= snippet 'puppet_setup' %>
+<%= snippet([['custom puppet_setup', 'puppet_setup']]) %>
 <% end -%>
 
 <% if salt_enabled %>
-<%= snippet 'saltstack_setup' %>
+<%= snippet([['custom saltstack_setup', 'saltstack_setup']]) %>
 <% end -%>
 
 <% if @host.operatingsystem.name == 'OracleLinux' && host_param_true?('disable-uek') -%>
@@ -349,13 +351,13 @@ yum -t -y remove kernel-uek*
 sed -e 's/DEFAULTKERNEL=kernel-uek/DEFAULTKERNEL=kernel/g' -i /etc/sysconfig/kernel
 <% end -%>
 
-<%= snippet('ansible_provisioning_callback') %>
+<%= snippet([['custom ansible_provisioning_callback', 'ansible_provisioning_callback']]) %>
 
-<%= snippet 'efibootmgr_netboot' %>
+<%= snippet([['custom efibootmgr_netboot', 'efibootmgr_netboot']]) %>
 
 <%= snippet_if_exists(template_name + " custom post") %>
 
-<%= snippet 'insights' if host_param_true?('host_registration_insights') && os_major < 9 -%>
+<%= snippet([['custom insights', 'insights']]) if host_param_true?('host_registration_insights') && os_major < 9 -%>
 
 touch /tmp/foreman_built
 
@@ -377,14 +379,14 @@ The last post section halts Anaconda to prevent endless loop in case HTTP reques
 %post --erroronfail --log=/root/install-callhome.post.log
 <% end -%>
 
-<%= snippet 'eject_cdrom' -%>
+<%= snippet([['custom eject_cdrom', 'eject_cdrom']]) -%>
 
 if test -f /tmp/foreman_built; then
   echo "calling home: build is done!"
-  <%= indent(2, skip1: true) { snippet('built', :variables => { :endpoint => 'built', :method => 'POST', :body_file => '/root/install.post.log' }) } -%>
+  <%= indent(2, skip1: true) { snippet([['custom built', 'built']], :variables => { :endpoint => 'built', :method => 'POST', :body_file => '/root/install.post.log' }) } -%>
 else
   echo "calling home: build failed!"
-  <%= indent(2, skip1: true) { snippet('built', :variables => { :endpoint => 'failed', :method => 'POST', :body_file => '/root/install.post.log' }) } -%>
+  <%= indent(2, skip1: true) { snippet([['custom built', 'built']], :variables => { :endpoint => 'failed', :method => 'POST', :body_file => '/root/install.post.log' }) } -%>
 fi
 
 sync

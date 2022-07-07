@@ -13,20 +13,20 @@ description: |
 -%>
 #!/bin/sh
 
-<%= snippet 'fix_hosts' %>
+<%= snippet([['custom fix_hosts', 'fix_hosts']]) %>
 
 apt-get update >/dev/null 2>/dev/null
 apt-get -y install puppet >/dev/null 2>/dev/null
 
 
 cat > /etc/puppet/puppet.conf << EOF
-<%= snippet 'puppet.conf' -%>
+<%= snippet([['custom puppet.conf', 'puppet.conf']]) -%>
 EOF
 
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= host_puppet_server %> --no-daemonize
 /sbin/chkconfig puppetd on
 
-<%= snippet 'built' %>
-<%= snippet 'schedule_reboot' -%>
+<%= snippet([['custom built', 'built']]) %>
+<%= snippet([['custom schedule_reboot', 'schedule_reboot']]) -%>
 
 exit 0

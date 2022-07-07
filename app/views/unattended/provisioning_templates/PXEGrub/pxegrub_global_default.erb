@@ -22,9 +22,9 @@ description: |
 default=<%= default_item %>
 timeout=20
 
-<%= snippet "pxegrub_chainload", variables: {paths: paths} %>
+<%= snippet([['custom pxegrub_chainload', 'pxegrub_chainload']], variables: {paths: paths}) %>
 
-<%= snippet "pxegrub_discovery" %>
+<%= snippet([['custom pxegrub_discovery', 'pxegrub_discovery']]) %>
 
 <% unless @profiles.nil? -%>
 <% for profile in @profiles

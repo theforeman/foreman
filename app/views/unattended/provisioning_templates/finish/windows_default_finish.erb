@@ -95,7 +95,7 @@ description: |
     cmd /c winrm set winrm/config/service/auth @{Certificate="true"}
   <% end %>
 
-  <%= snippet 'Windows network' %>
+  <%= snippet([['custom Windows network', 'Windows network']]) %>
 
   <% if foreman_url('user_data') %>
     echo execute user data script

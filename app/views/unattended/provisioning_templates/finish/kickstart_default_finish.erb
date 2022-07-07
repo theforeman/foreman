@@ -34,7 +34,7 @@ description: |
 
 <%= snippet_if_exists(template_name + " custom pre") -%>
 <% if @host.subnet.respond_to?(:dhcp_boot_mode?) -%>
-<%= snippet 'kickstart_networking_setup' %>
+<%= snippet([['custom kickstart_networking_setup', 'kickstart_networking_setup']]) %>
 <% if (rhel_compatible && os_major >= 8) -%>
 systemctl restart NetworkManager
 <% else -%>
@@ -47,18 +47,18 @@ service network restart
 echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>
 
-<%= snippet 'yum_proxy' %>
+<%= snippet([['custom yum_proxy', 'yum_proxy']]) %>
 
-<%= snippet 'ntp' %>
+<%= snippet([['custom ntp', 'ntp']]) %>
 
 <% if rhel_compatible && host_param_true?('enable-epel') -%>
-<%= snippet 'epel' -%>
+<%= snippet([['custom epel', 'epel']]) -%>
 <% end -%>
 
-<%= snippet 'redhat_register' %>
+<%= snippet([['custom redhat_register', 'redhat_register']]) %>
 
 <% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
-<%= snippet 'freeipa_register' %>
+<%= snippet([['custom freeipa_register', 'freeipa_register']]) %>
 <% end -%>
 
 <% unless host_param_false?('package_upgrade') -%>
@@ -70,40 +70,40 @@ else
 fi
 <% end -%>
 
-<%= snippet('remote_execution_ssh_keys') %>
+<%= snippet([['custom remote_execution_ssh_keys', 'remote_execution_ssh_keys']]) %>
 
 <% if plugin_present?('katello') && host_param_true?('enable-remote-execution-pull') -%>
-<%= save_to_file('/root/remote_execution_pull_setup.sh', snippet('remote_execution_pull_setup'), verbatim: true) %>
+<%= save_to_file('/root/remote_execution_pull_setup.sh', snippet([['custom remote_execution_pull_setup', 'remote_execution_pull_setup']]), verbatim: true) %>
 chmod +x /root/remote_execution_pull_setup.sh
 /root/remote_execution_pull_setup.sh
 <% end -%>
 
-<%= snippet "blacklist_kernel_modules" %>
+<%= snippet([['custom blacklist_kernel_modules', 'blacklist_kernel_modules']]) %>
 
 <%= snippet_if_exists(template_name + " custom post") -%>
 <% if chef_enabled %>
-<%= snippet 'chef_client' %>
+<%= snippet([['custom chef_client', 'chef_client']]) %>
 <% end -%>
 
 <% if puppet_enabled %>
 <% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
-<%= snippet 'puppetlabs_repo' %>
+<%= snippet([['custom puppetlabs_repo', 'puppetlabs_repo']]) %>
 <% end -%>
-<%= snippet 'puppet_setup' %>
+<%= snippet([['custom puppet_setup', 'puppet_setup']]) %>
 <% end -%>
 
 <% if salt_enabled %>
-<%= snippet 'saltstack_setup' %>
+<%= snippet([['custom saltstack_setup', 'saltstack_setup']]) %>
 <% end -%>
 
 <% if host_param_true?('ansible_tower_provisioning') -%>
-<%= save_to_file('/root/ansible_provisioning_call.sh', snippet('ansible_tower_callback_script')) %>
+<%= save_to_file('/root/ansible_provisioning_call.sh', snippet([['custom ansible_tower_callback_script', 'ansible_tower_callback_script']])) %>
 chmod +x /root/ansible_provisioning_call.sh
 /root/ansible_provisioning_call.sh
 <% end -%>
 
 sync
 
-<%= snippet 'schedule_reboot' -%>
+<%= snippet([['custom schedule_reboot', 'schedule_reboot']]) -%>
 
 exit 0

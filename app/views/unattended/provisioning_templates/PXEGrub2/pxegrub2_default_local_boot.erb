@@ -12,5 +12,5 @@ set default=<%= global_setting("default_pxe_item_local", "local") %>
 set timeout=20
 echo Default PXE local template entry is set to '<%= global_setting("default_pxe_item_local", "local") %>'
 
-<%= snippet "pxegrub2_chainload" %>
-<%= snippet "pxegrub2_discovery" %>
+<%= snippet([['custom pxegrub2_chainload', 'pxegrub2_chainload']]) %>
+<%= snippet([['custom pxegrub2_discovery', 'pxegrub2_discovery']]) %>

@@ -80,21 +80,21 @@ Start-Process 'msiexec.exe' -ArgumentList $puppet_install_args -Wait -NoNewWindo
 <% end -%>
 
 <% if os_family == 'Windows' -%>
-$puppet_conf = @("<%= snippet 'puppet.conf' %>".Replace("`n","`r`n"))
+$puppet_conf = @("<%= snippet([['custom puppet.conf', 'puppet.conf']]) %>".Replace("`n","`r`n"))
 Out-File -FilePath <%= etc_path %>\puppet.conf -InputObject $puppet_conf
 <% else -%>
 cat > <%= etc_path %>/puppet.conf << EOF
-<%= snippet 'puppet.conf' %>
+<%= snippet([['custom puppet.conf', 'puppet.conf']]) %>
 EOF
 <% end -%>
 
 <% if @host.puppetca_token.present? -%>
 <% if os_family == 'Windows' -%>
-$csr_attributes = @("<%= snippet 'csr_attributes.yaml' %>".Replace("`n","`r`n"))
+$csr_attributes = @("<%= snippet([['custom csr_attributes.yaml', 'csr_attributes.yaml']]) %>".Replace("`n","`r`n"))
 Out-File -FilePath <%= etc_path %>\csr_attributes.yaml -InputObject $csr_attributes
 <% else -%>
 cat > <%= etc_path %>/csr_attributes.yaml << EOF
-<%= snippet 'csr_attributes.yaml' %>
+<%= snippet([['custom csr_attributes.yaml', 'csr_attributes.yaml']]) %>
 EOF
 <% end -%>
 <% end -%>

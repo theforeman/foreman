@@ -9,7 +9,7 @@ description: |
   This is typically used by other templates and snippets that pass interface
   object to be configured. It is not expected to be used directly.
 -%>
-<%= snippet('kickstart_ifcfg_generic_interface', :variables => {
+<%= snippet([['custom kickstart_ifcfg_generic_interface', 'kickstart_ifcfg_generic_interface']], :variables => {
                   :interface => @interface,
                   :subnet => @subnet,
                   :subnet6 => @subnet6,

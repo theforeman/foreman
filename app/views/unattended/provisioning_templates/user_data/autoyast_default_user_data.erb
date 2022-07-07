@@ -19,27 +19,27 @@ description: |
 #!/bin/bash
 
 <%# Cloud instances frequently have incorrect hosts data %>
-<%= snippet 'fix_hosts' %>
+<%= snippet([['custom fix_hosts', 'fix_hosts']]) %>
 
 <% if @host.provision_method == 'image' && root_pass.present? -%>
 # Install the root password
 echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>
 
-<%= snippet('remote_execution_ssh_keys') %>
+<%= snippet([['custom remote_execution_ssh_keys', 'remote_execution_ssh_keys']]) %>
 
-<%= snippet "blacklist_kernel_modules" %>
+<%= snippet([['custom blacklist_kernel_modules', 'blacklist_kernel_modules']]) %>
 
 <% if puppet_enabled %>
 <% if host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
-<%= snippet 'puppetlabs_repo' %>
+<%= snippet([['custom puppetlabs_repo', 'puppetlabs_repo']]) %>
 <% end -%>
-<%= snippet 'puppet_setup' %>
+<%= snippet([['custom puppet_setup', 'puppet_setup']]) %>
 <% end -%>
 
 <% if salt_enabled %>
-<%= snippet 'saltstack_setup' %>
+<%= snippet([['custom saltstack_setup', 'saltstack_setup']]) %>
 <% end -%>
 
 # UserData still needs to mark the build as finished
-<%= snippet 'built' %>
+<%= snippet([['custom built', 'built' ]])%>

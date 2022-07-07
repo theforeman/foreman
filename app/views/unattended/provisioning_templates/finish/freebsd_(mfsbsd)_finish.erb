@@ -44,14 +44,14 @@ pkg update > /root/install/pkg_update.txt
 pkg upgrade -y > /root/install/pkg_upgrade.txt
 
 <% if puppet_enabled %>
-<%= snippet 'puppet_setup' %>
+<%= snippet([['custom puppet_setup', 'puppet_setup']]) %>
 <% end -%>
 
 <% if salt_enabled %>
-<%= snippet 'saltstack_setup' %>
+<%= snippet([['custom saltstack_setup', 'saltstack_setup']]) %>
 <% end -%>
-<%= snippet('remote_execution_ssh_keys') %>
+<%= snippet([['custom remote_execution_ssh_keys', 'remote_execution_ssh_keys']]) %>
 
-<%= snippet 'schedule_reboot' -%>
+<%= snippet([['custom schedule_reboot', 'schedule_reboot']]) -%>
 
 exit 0

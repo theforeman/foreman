@@ -30,7 +30,7 @@ oses:
   <%- found = true -%>
     bonds:
   <%- end -%>
-<%- result= snippet('preseed_netplan_generic_interface', :variables => {
+<%- result= snippet([['custom preseed_netplan_generic_interface', 'preseed_netplan_generic_interface']], :variables => {
                   :interface => bond,
                   :subnet => bond.subnet,
                   :subnet6 => bond.subnet6,
@@ -56,7 +56,7 @@ oses:
   <%- found = true -%>
     bridges:
   <%- end -%>
-<%- result= snippet('preseed_netplan_generic_interface', :variables => {
+<%- result= snippet([['custom preseed_netplan_generic_interface', 'preseed_netplan_generic_interface']], :variables => {
                   :interface => bridge,
                   :subnet => bridge.subnet,
                   :subnet6 => bridge.subnet6,
@@ -77,7 +77,7 @@ oses:
   <%- found = true -%>
     vlans:
   <%- end -%>
-<%- result= snippet('preseed_netplan_generic_interface', :variables => {
+<%- result= snippet([['custom preseed_netplan_generic_interface', 'preseed_netplan_generic_interface']], :variables => {
                   :interface => vlan,
                   :subnet => vlan.subnet,
                   :subnet6 => vlan.subnet6,
@@ -100,7 +100,7 @@ oses:
   <%- found = true -%>
     ethernets:
   <%- end -%>
-<%- result= snippet('preseed_netplan_generic_interface', :variables => {
+<%- result= snippet([['custom preseed_netplan_generic_interface', 'preseed_netplan_generic_interface']], :variables => {
                   :interface => interface,
                   :subnet => interface.subnet,
                   :subnet6 => interface.subnet6,

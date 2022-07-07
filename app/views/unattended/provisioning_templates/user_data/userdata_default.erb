@@ -64,23 +64,23 @@ package_upgrade: true
 runcmd:
 <% if rhel_compatible -%>
 - |
-<%= indent(2) { snippet('epel') } %>
+<%= indent(2) { snippet([['custom epel', 'epel']]) } %>
 <% end -%>
 - |
-<%= indent(2) { snippet('remote_execution_ssh_keys') } %>
+<%= indent(2) { snippet([['custom remote_execution_ssh_keys', 'remote_execution_ssh_keys']]) } %>
 <% if chef_enabled -%>
 - |
-<%= indent(2) { snippet('chef_client') } %>
+<%= indent(2) { snippet([['custom chef_client', 'chef_client']]) } %>
 <% end -%>
 <% if puppet_enabled -%>
 - |
-<%= indent(2) { snippet('puppetlabs_repo') } %>
+<%= indent(2) { snippet([['custom puppetlabs_repo', 'puppetlabs_repo']]) } %>
 - |
-<%= indent(2) { snippet('puppet_setup') } %>
+<%= indent(2) { snippet([['custom puppet_setup', 'puppet_setup']]) } %>
 <% end -%>
 <% if salt_enabled -%>
 - |
-<%= indent(2) { snippet('saltstack_setup') } %>
+<%= indent(2) { snippet([['custom saltstack_setup', 'saltstack_setup']]) } %>
 <% end -%>
 
 <%# Contact Foreman to confirm instance is built -%>

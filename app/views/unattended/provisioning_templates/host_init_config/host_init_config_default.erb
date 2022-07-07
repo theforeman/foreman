@@ -51,22 +51,22 @@ set +e
 trap 'exit_and_cancel_build' ERR
 
 <% if !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet')) -%>
-<%= snippet 'puppetlabs_repo' %>
-<%= snippet 'puppet_setup' %>
+<%= snippet([['custom puppetlabs_repo', 'puppetlabs_repo']]) %>
+<%= snippet([['custom puppet_setup', 'puppet_setup']]) %>
 <% end -%>
 
 <% if host_param_true?('host_registration_remote_execution') -%>
-<%= snippet 'remote_execution_ssh_keys' %>
+<%= snippet([['custom remote_execution_ssh_keys', 'remote_execution_ssh_keys']]) %>
 <% end -%>
 
 <% if plugin_present?('katello') && host_param_true?('host_registration_remote_execution_pull') -%>
-<%= snippet 'remote_execution_pull_setup' %>
+<%= snippet([['custom remote_execution_pull_setup', 'remote_execution_pull_setup']]) %>
 <% end -%>
 
 <%= install_packages(host_param('host_packages')) -%>
 
 <% if host_param_true?('host_registration_insights') -%>
-<%= snippet 'insights' %>
+<%= snippet([['custom insights', 'insights']]) %>
 
 <% end -%>
 
@@ -87,7 +87,7 @@ fi
 <% end -%>
 <%= update_packages if host_param_true?('host_update_packages') -%>
 
-<%= snippet_if_exists('host_init_config_post') -%>
+<%= snippet_if_exists([['custom host_init_config_post', 'host_init_config_post']]) -%>
 
 # Call home to exit build mode
 

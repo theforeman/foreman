@@ -46,7 +46,7 @@ autoinstall:
     toggle: null
     variant: ''
   locale: <%= host_param('lang', 'en_US') %>.UTF-8
-<%= snippet 'preseed_netplan_setup' -%>
+<%= snippet([['custom preseed_netplan_setup', 'preseed_netplan_setup']]) -%>
   ssh:
     allow-pw: true
     install-server: true

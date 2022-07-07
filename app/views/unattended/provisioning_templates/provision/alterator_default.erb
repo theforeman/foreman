@@ -12,7 +12,7 @@ description: |
 <% if @metadata.to_s == '/vm-profile.scm' -%>
 <%= @host.diskLayout %>
 <% elsif @metadata.to_s == '/pkg-groups.tar' -%>
-<%= snippet 'alterator_pkglist' %>
+<%= snippet([['custom alterator_pkglist', 'alterator_pkglist']]) %>
 <% else -%>
 ("/sysconfig-base/language" action "write" lang ("<%= host_param('lang') || 'en_US' %>"))
 ("/sysconfig-base/kbd" action "write" layout "ctrl_shift_toggle")

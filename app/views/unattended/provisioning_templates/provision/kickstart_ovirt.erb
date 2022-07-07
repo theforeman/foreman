@@ -76,11 +76,11 @@ reboot
 
 %post --log=/root/ks.post.log --erroronfail
 nodectl init
-<%= snippet 'redhat_register' %>
-<%= snippet 'kickstart_networking_setup' %>
-<%= snippet 'efibootmgr_netboot' %>
+<%= snippet([['custom redhat_register', 'redhat_register']]) %>
+<%= snippet([['custom kickstart_networking_setup', 'kickstart_networking_setup']]) %>
+<%= snippet([['custom efibootmgr_netboot', 'efibootmgr_netboot']]) %>
 <% if host_param_true?('host_registration_insights') -%>
-<%= snippet 'insights' -%>
+<%= snippet([['custom insights', 'insights']]) -%>
 <% end -%>
 
 /usr/sbin/ntpdate -sub <%= host_param('ntp-server') || '0.fedora.pool.ntp.org' %>

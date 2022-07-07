@@ -189,22 +189,22 @@ cp /etc/resolv.conf /mnt/etc
 
 <%= snippet_if_exists(template_name + " custom pre") -%>
 
-<%= snippet('remote_execution_ssh_keys') %>
+<%= snippet([['custom remote_execution_ssh_keys', 'remote_execution_ssh_keys']]) %>
 
-<%= snippet "blacklist_kernel_modules" %>
+<%= snippet([['custom blacklist_kernel_modules', 'blacklist_kernel_modules']]) %>
 
 <% if puppet_enabled -%>
-<%= snippet 'puppet_setup' %>
+<%= snippet([['custom puppet_setup', 'puppet_setup']]) %>
 <% end -%>
 
 <% if salt_enabled %>
-<%= snippet 'saltstack_setup' %>
+<%= snippet([['custom saltstack_setup', 'saltstack_setup']]) %>
 <% end -%>
 
 <%= snippet_if_exists(template_name + " custom post") -%>
 
-<%= snippet 'eject_cdrom' -%>
-<%= snippet 'built' -%>
+<%= snippet([['custom eject_cdrom', 'eject_cdrom']]) -%>
+<%= snippet([['custom built', 'built']]) -%>
 
 rm /etc/resolv.conf
 ]]>
