@@ -7,7 +7,13 @@ kind: snippet
 oses:
 - Ubuntu
 -%>
-    <%= @interface.identifier.blank? ? 'ens160' : @interface.identifier %>:
+<%- if @interface.identifier.blank? -%>
+    id0:
+        match:
+          macaddress: "<%= @host.mac %>"
+<%- else -%>
+    <%= @interface.identifier %>:
+<%- end -%>
         dhcp4: <%= @dhcp %>
         dhcp6: <%= @dhcp6 %>
 <%- if !@dhcp && !@subnet.nil? && !@interface.ip.nil? -%>
