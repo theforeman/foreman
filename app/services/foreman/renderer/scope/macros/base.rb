@@ -418,6 +418,15 @@ module Foreman
             raise Foreman::Exception.new(_('%s is not auditable') % record.class)
           end
 
+          apipie :method, 'Returns a short version of Foreman' do
+            desc 'Returns a string representing the short version (X.Y) of Foreman'
+            returns String
+            example 'foreman_short_version # => "3.4"'
+          end
+          def foreman_short_version
+            Foreman::Version.new.short
+          end
+
           private
 
           def validate_subnet(subnet)
