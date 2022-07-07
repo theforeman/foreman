@@ -60,7 +60,8 @@ module Foreman
         :current_date,
         :truthy?,
         :falsy?,
-        :previous_revision
+        :previous_revision,
+        :foreman_short_version
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [
