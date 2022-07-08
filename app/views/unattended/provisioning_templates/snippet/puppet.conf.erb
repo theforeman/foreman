@@ -47,10 +47,14 @@ pluginsync      = true
 report          = true
 <%- if host_puppet_ca_server.present? -%>
 ca_server       = <%= host_puppet_ca_server %>
+<%- elsif host_param('puppet_ca_server').present? -%>
+ca_server       = <%= host_param('puppet_ca_server') %>
 <%- end -%>
 certname        = <%= @host.certname %>
 <%- if host_puppet_server.present? -%>
 server          = <%= host_puppet_server %>
+<%- elsif host_param('puppet_server').present? -%>
+server       = <%= host_param('puppet_server') %>
 <%- end -%>
 <%- if host_puppet_environment.present? -%>
 environment     = <%= host_puppet_environment %>
