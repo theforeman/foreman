@@ -99,6 +99,26 @@ menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
     sleep 2
     boot
   fi
+  echo "Trying /EFI/rocky/shim.efi "
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/rocky/shim.efi
+  if [ -f ($chroot)/EFI/rocky/shim.efi ]; then
+    chainloader ($chroot)/EFI/rocky/shim.efi
+    echo "Found /EFI/rocky/shim.efi at $chroot, attempting to chainboot it..."
+    sleep 2
+    boot
+  fi
+  echo "Trying /EFI/rocky/grubx64.efi "
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/rocky/grubx64.efi
+  if [ -f ($chroot)/EFI/rocky/grubx64.efi ]; then
+    chainloader ($chroot)/EFI/rocky/grubx64.efi
+    echo "Found /EFI/rocky/grubx64.efi at $chroot, attempting to chainboot it..."
+    sleep 2
+    boot
+  fi
   echo "Trying /EFI/debian/grubx64.efi "
   unset chroot
   # add --efidisk-only when using Software RAID
