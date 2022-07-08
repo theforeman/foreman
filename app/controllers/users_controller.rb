@@ -209,13 +209,15 @@ class UsersController < ApplicationController
   def login_user(user)
     logger.info("User '#{user.login}' logged in from '#{request.ip}'")
     session[:user]         = user.id
-    uri                    = session.to_hash.with_indifferent_access[:original_uri]
+    uri                    = homepage(user)
     session[:original_uri] = nil
+
     store_default_taxonomy(user, 'organization') unless session.has_key?(:organization_id)
     store_default_taxonomy(user, 'location') unless session.has_key?(:location_id)
     TopbarSweeper.expire_cache
     telemetry_increment_counter(:successful_ui_logins)
-    redirect_to (uri || hosts_path)
+
+    redirect_to uri
   end
 
   def parameter_filter_context
@@ -239,5 +241,13 @@ class UsersController < ApplicationController
     raise exception unless request.post? && action_name == 'login'
     inline_warning _("CSRF protection token expired, please log in again")
     redirect_to login_users_path
+  end
+
+  def homepage(user)
+    original_uri = session.to_hash.with_indifferent_access[:original_uri]
+
+    return user.homepage if original_uri == '/' || original_uri.nil?
+
+    original_uri
   end
 end

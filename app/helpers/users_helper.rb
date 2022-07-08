@@ -48,4 +48,9 @@ module UsersHelper
   def mail_notification_query_builder(mail_notification, f)
     render :partial => "#{mail_notification}_query_builder", :locals => {:f => f, :mailer => mail_notification.name } if mail_notification.queryable?
   end
+
+  def homepages
+    items = Menu::Manager.to_hash(:top_menu).map { |item| item[:children] }.flatten.keep_if { |item| item[:homepage] }
+    items.map { |item| [item[:name], item[:url]] }
+  end
 end

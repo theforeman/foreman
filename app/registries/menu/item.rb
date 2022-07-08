@@ -1,6 +1,6 @@
 module Menu
   class Item < Node
-    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options
+    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options, :homepage
 
     def initialize(name, options)
       raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -19,6 +19,7 @@ module Menu
       @last = options[:last] || false
       @context =  options[:engine] || Rails.application
       @exact = options[:exact] || false
+      @homepage = options[:homepage] || false
       super @name.to_sym
     end
 
@@ -26,7 +27,7 @@ module Menu
       if @condition.present?
         return unless @condition.call
       end
-      {type: :item, exact: @exact, html_options: @html_options, name: @caption || @name, url: url} if authorized?
+      { type: :item, exact: @exact, html_options: @html_options, name: @caption || @name, url: url, homepage: @homepage } if authorized?
     end
 
     def url

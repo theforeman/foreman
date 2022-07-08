@@ -222,7 +222,7 @@ class UsersControllerTest < ActionController::TestCase
     time = Time.zone.now
     @request.env['HTTP_REMOTE_USER'] = users(:admin).login
     get :extlogin, session: {:user => users(:admin).id }
-    assert_redirected_to hosts_path
+    assert_redirected_to users(:admin).homepage
     users(:admin).reload
     assert users(:admin).last_login_on.to_i >= time.to_i, 'User last login time was not updated'
   end
@@ -270,7 +270,7 @@ class UsersControllerTest < ActionController::TestCase
     SSO::FormIntercept.any_instance.stubs(:authenticated?).returns(true)
     SSO::FormIntercept.any_instance.stubs(:current_user).returns(users(:admin))
     post :login, params: { :login => {:login => 'ares', :password => 'password_that_does_not_match'} }
-    assert_redirected_to hosts_path
+    assert_redirected_to '/'
   end
 
   test 'non admin user should edit itself' do
@@ -333,7 +333,7 @@ class UsersControllerTest < ActionController::TestCase
   test "#login sets the session user and bumps last log in time" do
     time = Time.zone.now
     post :login, params: { :login => {'login' => users(:admin).login, 'password' => 'secret'} }
-    assert_redirected_to hosts_path
+    assert_redirected_to users(:admin).homepage
     assert_equal users(:admin).id, session[:user]
     users(:admin).reload
     assert users(:admin).last_login_on.to_i >= time.to_i, 'User last login on was not updated'
@@ -389,7 +389,7 @@ class UsersControllerTest < ActionController::TestCase
     AuthSourceLdap.any_instance.stubs(:organizations).returns([taxonomies(:organization1)])
     AuthSourceLdap.any_instance.stubs(:locations).returns([taxonomies(:location1)])
     post :login, params: { :login => {'login' => 'ldap-user', 'password' => 'password'} }
-    assert_redirected_to hosts_path
+    assert_redirected_to '/'
     assert_match /mail.*invalid/i, flash[:warning]
 
     # Subsequent redirects to the user edit page should preserve the warning
@@ -401,6 +401,13 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
     assert_match /mail.*invalid/i, flash[:warning]
     assert_match /An email address is required/, flash[:error]
+  end
+
+  test "redirect after login to user's homepage" do
+    u = FactoryBot.create(:user, homepage: '/templates/provisioning_templates')
+
+    post :login, params: { :login => {'login' => u.login, 'password' => u.password} }
+    assert_redirected_to u.homepage
   end
 
   test "test email was deliver an email successfully" do

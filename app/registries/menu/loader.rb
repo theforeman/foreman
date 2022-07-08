@@ -52,12 +52,12 @@ module Menu
         end
 
         menu.sub_menu :hosts_menu,      :caption => N_('Hosts'), :icon => 'fa fa-server' do
-          menu.item :hosts,             :caption => N_('All Hosts')
+          menu.item :hosts,             :caption => N_('All Hosts'), :homepage => true
           menu.item :newhost,           :caption => N_('Create Host'),
-                    :url_hash => {:controller => '/hosts', :action => 'new'}
+                    :url_hash => {:controller => '/hosts', :action => 'new'}, :homepage => true
           menu.item :register_hosts,    :caption => N_('Register Host'),
                     :url => '/hosts/register',
-                    :url_hash => { :controller => 'hosts', :action => 'create' }
+                    :url_hash => { :controller => 'hosts', :action => 'create' }, :homepage => true
           menu.divider                :caption => N_('Provisioning Setup')
           menu.item :architectures,   :caption => N_('Architectures')
           menu.item :models,
@@ -70,7 +70,7 @@ module Menu
           menu.item :ptables, :caption => N_('Partition Tables'),
                     :url_hash => { :controller => 'ptables', :action => 'index' }
           menu.item :provisioning_templates, :caption => N_('Provisioning Templates'),
-                    :url_hash => { :controller => 'provisioning_templates', :action => 'index' }
+                    :url_hash => { :controller => 'provisioning_templates', :action => 'index' }, :homepage => true
         end
 
         menu.sub_menu :configure_menu,  :caption => N_('Configure'), :icon => 'fa fa-wrench' do

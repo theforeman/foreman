@@ -19,6 +19,7 @@ module Foreman::Controller::Parameters::User
           :password_confirmation,
           :timezone,
           :disabled,
+          :homepage,
           :user_mail_notifications_attributes => [user_mail_notification_params_filter]
 
         filter.permit do |ctx|
