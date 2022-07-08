@@ -11,7 +11,7 @@ description: |
 <%
   # Grub1 only supports numeric default statement, this allows conversion to number. First define
   # array of directories we will search for EFI booloaders:
-  paths = ["fedora", "redhat", "centos", "debian", "ubuntu", "sles", "opensuse", "Microsoft", "EFI"]
+  paths = ["fedora", "redhat", "centos", "rocky", "debian", "ubuntu", "sles", "opensuse", "Microsoft", "EFI"]
   # Add remaining entries to it and use this to convert to number:
   items = paths.push("local_chain_hd0", "discovery")
   # Read default setting but since "local" is missing, use the first path available.

@@ -56,6 +56,11 @@ Medium.without_auditing do
       :path => "https://github.com/rancher/os/releases/download/v$version",
     },
     {
+      :name => "Rocky Linux",
+      :os_family => "Redhat",
+      :path => "https://download.rockylinux.org/pub/rocky/$version/BaseOS/$arch/os",
+    },
+    {
       :name => "CoreOS mirror",
       :os_family => "Coreos",
       :path => "http://$release-temporary-archive.release.core-os.net",
