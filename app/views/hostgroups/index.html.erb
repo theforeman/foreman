@@ -12,26 +12,22 @@
     </tr>
   </thead>
   <tbody>
-    <% @hostgroups.each do |hostgroup| %>
-      <tr>
-        <td>
-          <%= label_with_link(hostgroup, 150, authorizer) %>
-        </td>
-        <td>
-          <%= link_to hosts_count[hostgroup], hosts_path(:search => %Q[hostgroup_fullname = "#{hostgroup.title}"]) %>
-        </td>
-        <td>
-          <%= link_to hostgroup.children_hosts_count, hosts_path(:search => %Q[parent_hostgroup = "#{hostgroup.title}"]) %>
-        </td>
-        <td>
-          <%= action_buttons(
-                      display_link_if_authorized(_('Nest'),    hash_for_nest_hostgroup_path(:id => hostgroup)),
-                      display_link_if_authorized((link_to _('Create Host'), new_host_path(hostgroup_id: hostgroup.id))),
-                      display_link_if_authorized(_('Clone'),   hash_for_clone_hostgroup_path(:id => hostgroup)),
-                      display_delete_if_authorized(hash_for_hostgroup_path(:id => hostgroup).merge(:auth_object => hostgroup, :authorizer => authorizer), :data => { :confirm => warning_message(hostgroup) })) %>
-        </td>
-      </tr>
-    <% end %>
+  <% @hostgroups.each do |hostgroup| %>
+    <tr>
+      <td>
+        <%= label_with_link(hostgroup, 150, authorizer) %>
+      </td>
+      <td>
+        <%= link_to hosts_count[hostgroup], hosts_path(:search => %Q[hostgroup_fullname = "#{hostgroup.title}"]) %>
+      </td>
+      <td>
+        <%= link_to hostgroup.children_hosts_count, hosts_path(:search => %Q[parent_hostgroup = "#{hostgroup.title}"]) %>
+      </td>
+      <td>
+        <%= hostgroup_actions_dropdown(hostgroup) %>
+      </td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
 

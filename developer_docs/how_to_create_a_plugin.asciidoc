@@ -1649,6 +1649,42 @@ end
 ----
 
 
+[[extending-hostgroup-ui]]
+=== Extending hostgroup UI
+
+[[extending-hostgroup-ui-index-actions]]
+==== Adding actions to the index page
+A plugin can add items to the `Actions` dropdown in the table on the hostgroups overview page.
+
+Adding an item to the actions dropdown requires adding a helper with a method that accepts a hostgroup as an argument and
+returns a list of hashes, where each hash will
+have two predefined fields: `:action` and `:priority`.
+The `:action`  item should be an HTML element (probably a link) that will be embedded as an item in the dropdown.
+The `:priority` value would be used by the
+system to define the order of the items to show. The lower the priority, the
+higher the item will show.
+
+In plugin helper (`my_plugin_helper.rb`):
+[source, ruby]
+----
+def my_plugin_hostgroups_actions(hostgroup)
+  [
+    { :action => display_link_if_authorized('new_action', {other_properties}), :priority => 20 }
+  ]
+end
+----
+
+Now we have to register our new helper in `register.rb`:
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  describe_hostgroup do
+    hostgroup_actions_provider :my_plugin_hostgroups_actions
+  end
+end
+----
+
+
 [[settings]]
 === Settings
 
