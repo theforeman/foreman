@@ -19,6 +19,7 @@ description: |
   mac = @host.provision_interface.mac
   subnet4 = iface.subnet
   subnet6 = iface.subnet6
+  dual_stack_fallback = host_param('dual_stack_provision_fallback')
   options = []
 
   if rhel_compatible && os_major < 8
@@ -52,7 +53,15 @@ description: |
   end
 
   # networking credentials
-  raise("Dual-stack provisioning not supported") if subnet4 && subnet6
+  if subnet4 && subnet6
+    if dual_stack_fallback == 'IPv4'
+      subnet6 = false
+    elsif dual_stack_fallback == 'IPv6'
+      subnet4 = false
+    else
+      raise("Dual-stack provisioning not supported, set parameter 'dual_stack_provision_fallback'")
+    end
+  end
   options.push("dualstack!") if subnet4 && subnet6
   if subnet4 && subnet4.dhcp_boot_mode?
     options.push("ip=dhcp") if rhel_compatible && major >= 7
