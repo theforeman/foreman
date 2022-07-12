@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { Button } from '@patternfly/react-core';
@@ -7,7 +6,6 @@ import { SearchIcon } from '@patternfly/react-icons';
 import AutoComplete from '../AutoComplete';
 import Bookmarks from '../PF4/Bookmarks';
 import { changeQuery } from '../../common/urlHelpers';
-import { updateController } from '../AutoComplete/AutoCompleteActions';
 import './search-bar.scss';
 
 const SearchBar = props => {
@@ -19,11 +17,6 @@ const SearchBar = props => {
     onBookmarkClick,
     setAutocompleteSearchQuery,
   } = props;
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(updateController(controller, autocomplete.url, 'searchBar'));
-  }, [dispatch, controller, autocomplete.url]);
 
   return (
     <div className="pf-c-search-input">

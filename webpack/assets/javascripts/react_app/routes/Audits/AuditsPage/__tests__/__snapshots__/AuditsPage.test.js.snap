@@ -12,7 +12,7 @@ exports[`AuditsPage rendering render audits page 1`] = `
   searchProps={
     Object {
       "autocomplete": Object {
-        "id": "searchBar",
+        "id": "searchBar-audits",
         "searchQuery": "",
         "url": "audits/auto_complete_search",
         "useKeyShortcuts": true,
@@ -20,7 +20,7 @@ exports[`AuditsPage rendering render audits page 1`] = `
       "bookmarks": Object {
         "canCreate": true,
         "documentationUrl": "/links/manual/4.1.5Searching",
-        "id": "searchBar",
+        "id": "searchBar-audits",
         "url": "/api/bookmarks",
       },
       "controller": "audits",
@@ -84,7 +84,7 @@ exports[`AuditsPage rendering render audits page w/empty audits 1`] = `
   searchProps={
     Object {
       "autocomplete": Object {
-        "id": "searchBar",
+        "id": "searchBar-audits",
         "searchQuery": "",
         "url": "audits/auto_complete_search",
         "useKeyShortcuts": true,
@@ -92,7 +92,7 @@ exports[`AuditsPage rendering render audits page w/empty audits 1`] = `
       "bookmarks": Object {
         "canCreate": true,
         "documentationUrl": "/links/manual/4.1.5Searching",
-        "id": "searchBar",
+        "id": "searchBar-audits",
         "url": "/api/bookmarks",
       },
       "controller": "audits",
@@ -158,7 +158,7 @@ exports[`AuditsPage rendering render audits page w/error 1`] = `
   searchProps={
     Object {
       "autocomplete": Object {
-        "id": "searchBar",
+        "id": "searchBar-audits",
         "searchQuery": "",
         "url": "audits/auto_complete_search",
         "useKeyShortcuts": true,
@@ -166,7 +166,7 @@ exports[`AuditsPage rendering render audits page w/error 1`] = `
       "bookmarks": Object {
         "canCreate": true,
         "documentationUrl": "/links/manual/4.1.5Searching",
-        "id": "searchBar",
+        "id": "searchBar-audits",
         "url": "/api/bookmarks",
       },
       "controller": "audits",
@@ -232,7 +232,7 @@ exports[`AuditsPage rendering render loading audits page 1`] = `
   searchProps={
     Object {
       "autocomplete": Object {
-        "id": "searchBar",
+        "id": "searchBar-audits",
         "searchQuery": "",
         "url": "audits/auto_complete_search",
         "useKeyShortcuts": true,
@@ -240,7 +240,7 @@ exports[`AuditsPage rendering render loading audits page 1`] = `
       "bookmarks": Object {
         "canCreate": true,
         "documentationUrl": "/links/manual/4.1.5Searching",
-        "id": "searchBar",
+        "id": "searchBar-audits",
         "url": "/api/bookmarks",
       },
       "controller": "audits",

@@ -21,7 +21,7 @@ const store = mockStore({
       },
     },
   },
-  autocomplete: { searchBar: { url: '/test/', searchQuery: 'name=test' } },
+  autocomplete: { 'searchBar-testController': { url: '/test/', searchQuery: 'name=test' } },
   foremanModals: {
     modal2: { isOpen: false },
   },
@@ -79,7 +79,7 @@ describe('TableIndexPage', () => {
     );
 
     expect(screen.queryAllByText('I am before the toolbar')).toHaveLength(1);
-    
+
     expect(screen.getByDisplayValue('name=test')).toBeInTheDocument();
     expect(screen.queryAllByText('Test Title')).toHaveLength(1);
     expect(screen.queryAllByText('Custom button')).toHaveLength(1);

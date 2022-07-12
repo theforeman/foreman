@@ -8,7 +8,7 @@ export const STATUS = {
 
 export const getControllerSearchProps = (
   controller,
-  id = 'searchBar',
+  id = `searchBar-${controller}`,
   canCreate = true
 ) => ({
   controller,
