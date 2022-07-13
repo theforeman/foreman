@@ -7,12 +7,15 @@ module Api
       before_action :find_resource, :only => [:destroy, :update, :show]
 
       api :GET, "/users/:user_id/table_preferences", N_("List of table preferences for a user")
+      param :user_id, String, :desc => N_("ID of the user"), :required => true
+      param_group :search_and_pagination, ::Api::V2::BaseController
       def index
         @table_preferences = @user.table_preferences
       end
 
       api :GET, "/users/:user_id/table_preferences/:name", N_("Table preference details of a given table")
-      param :name, String, :required => true
+      param :user_id, String, :desc => N_("ID of the user"), :required => true
+      param :name, String, :desc => N_("Name of the table"), :required => true
       def show
         if @table_preference.blank?
           @table_preference = TablePreference.new(:user => @user, :name => params[:name])
@@ -20,10 +23,9 @@ module Api
       end
 
       def_param_group :table_preference do
-        param :table_preferences, Hash, :required => true do
-          param :name, String, :required => true, :desc => N_("Name of the table")
-          param :columns, Array, :desc => N_("List of user selected columns")
-        end
+        param :user_id, String, :desc => N_('ID of the user'), :required => true
+        param :name, String, :desc => N_("Name of the table"), :required => true
+        param :columns, Array, :desc => N_("List of user selected columns")
       end
 
       api :POST, "/users/:user_id/table_preferences/", N_("Creates a table preference for a given table")
@@ -40,7 +42,8 @@ module Api
       end
 
       api :DELETE, "/users/:user_id/table_preferences/:name/", N_("Delete a table preference for a given table")
-      param :name, String, :required => true, :desc => N_("name of the table")
+      param :user_id, String, :desc => N_("ID of the user"), :required => true
+      param :name, String, :required => true, :desc => N_("Name of the table")
       def destroy
         process_response @table_preference.destroy
       end
