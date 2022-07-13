@@ -175,6 +175,17 @@ module Foreman
     # like if you have constraints or database-specific column types
     config.active_record.schema_format = :sql
 
+    # Starting 6.1.6.1 Rails forced users to explicitly list all the classes
+    # that are allowed to be loaded by Psych
+    # (https://github.com/rails/rails/pull/45584#issuecomment-1183255990)
+    config.active_record.yaml_column_permitted_classes = [
+      Symbol,
+      Time,
+      ActiveSupport::HashWithIndifferentAccess,
+      ActiveSupport::TimeZone,
+      ActiveSupport::TimeWithZone,
+    ]
+
     # enables JSONP support in the Rack middleware
     config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
 
