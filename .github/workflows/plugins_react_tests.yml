@@ -29,8 +29,25 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '12.x'
-      # We could update the postinstall action for foreman to look for an environment variable for plugin webpack dirs
-      # before kicking off the ruby script to find them, this would eliminate the ruby dep and running `npm install` in plugins.
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 6
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
@@ -38,23 +55,17 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: ./projects/foreman
-      - name: Generate Foreman npm dependencies package-lock
-        run: npm install --package-lock-only --no-audit
-        working-directory: ${{ github.workspace }}/projects/foreman
-      - name: Install Foreman npm dependencies
-        run: npm ci --no-audit
+      - name: Install dependencies
+        run: pnpm recursive install
         working-directory: ${{ github.workspace }}/projects/foreman
       - name: Checkout ${{ matrix.repo }}
         uses: actions/checkout@v3
         with:
           repository: ${{ matrix.org }}/${{ matrix.repo }}
           path: ./projects/${{ matrix.repo }}
-      - name: Generate ${{ matrix.repo }} npm dependencies package-lock
-        run: npm install --package-lock-only --no-audit
-        working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}
       - name: Install ${{ matrix.repo }} npm dependencies
-        run: npm ci --no-audit
+        run: pnpm recursive install
         working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}
       - name: Run ${{ matrix.plugin_repo }} tests
-        run: npm test
+        run: pnpm test
         working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}

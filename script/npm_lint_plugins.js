@@ -14,7 +14,7 @@ function pluginDefinesLint(pluginPath) {
 
 packageJsonDirs().forEach(pluginPath => {
   if (pluginDefinesLint(pluginPath)) {
-    childProcess.spawn('npm', ['run', 'lint'], {
+    childProcess.spawn('pnpm', ['run', 'lint'], {
       env: process.env,
       cwd: pluginPath,
       stdio: 'inherit',

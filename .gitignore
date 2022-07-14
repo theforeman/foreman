@@ -55,3 +55,4 @@ npm-debug.log
 .solargraph.yml
 .nvmrc
 mkmf.log
+pnpm-lock.yaml
