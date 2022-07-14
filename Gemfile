@@ -6,12 +6,10 @@ require_relative 'config/boot_settings'
 source 'https://rubygems.org'
 
 gem 'rails', case SETTINGS[:rails]
-             when '6.0'
-               '~> 6.0.4.7'
              when '6.1'
                '~> 6.1.6.1'
              else
-               raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"\
+               raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"
              end
 
 gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
