@@ -16,6 +16,12 @@ if host_param('http-proxy') && host_param('http-proxy-port')
 elsif host_param('http-proxy')
   extra_args << "proxy=http://" + host_param('http-proxy')
 end
+subnet = @host.subnet
+unless subnet.respond_to?(:dhcp_boot_mode?) and subnet.dhcp_boot_mode?
+  extra_args << "useDHCP=0"
+  extra_args << "netsetup=-dhcp"
+  extra_args << "ifcfg=*=#{@host.primary_interface.ip}/#{@host.primary_interface.subnet.cidr},#{@host.primary_interface.subnet.gateway},#{@host.primary_interface.subnet.dns_primary},#{@host.domain}"
+end
 -%>
 DEFAULT linux
 
