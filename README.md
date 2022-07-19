@@ -66,7 +66,7 @@ Plugins are tools to extend and modify the functionality of Foreman. They are im
 The [plugins page](https://theforeman.org/plugins/) lists all available plugins and has more information about how to install and develop them.
 
 # Similarly Named Project
-There is a similarly named project on Github called [foreman](https://github.com/ddollar/foreman) (a CLI tool for running processes). 
+There is a similarly named project on Github called [foreman](https://github.com/ddollar/foreman) (a CLI tool for running processes).
 We've left a note about it here, to help people in case that's the one they're looking for, but ended up here.
 
 # How to contribute?
@@ -112,3 +112,5 @@ The following files and directories are exceptions:
 All rights reserved.
 
 The [LICENSE](LICENSE) file contains the full text of the GNU GPL v3 license, along with the text for all additional licenses referenced above.
+
+
