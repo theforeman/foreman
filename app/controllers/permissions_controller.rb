@@ -15,7 +15,7 @@ class PermissionsController < ApplicationController
                              show_locations = show_location_tab? && resource_class.allows_location_filtering?
                            end
                            {
-                             :translation => _(resource_class || resource),
+                             :translation => _(resource_class.try(:humanize_class_name) || resource),
                              :name => resource,
                              :granular => granular,
                              :search_path => search_path(resource),

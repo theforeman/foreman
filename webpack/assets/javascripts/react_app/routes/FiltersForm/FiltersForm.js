@@ -113,7 +113,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
             setIsUnlimited(false);
           }
         }}
-        defaultType={data.resource_type_label}
+        defaultType={data.resource_type}
       />
 
       <SelectPermissions
@@ -248,7 +248,6 @@ FiltersForm.propTypes = {
   isNew: PropTypes.bool.isRequired,
   data: PropTypes.shape({
     search: PropTypes.string,
-    resource_type_label: PropTypes.string,
     'unlimited?': PropTypes.bool,
     'override?': PropTypes.bool,
     id: PropTypes.number,
