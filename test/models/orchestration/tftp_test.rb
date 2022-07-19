@@ -360,4 +360,43 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     assert_equal expected.strip, template
     assert h.build
   end
+
+  describe "test #setTFTPBootFiles" do
+    setup do
+      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_dual_stack_orchestration, :build => true)
+      arch = FactoryBot.build_stubbed(:architecture)
+      @medium = FactoryBot.build_stubbed(:medium, :name => 'Great OS Local', :path => 'http://my-example.com/official/great/os.iso')
+      @host.architecture = arch
+      @host.operatingsystem = FactoryBot.build_stubbed(:debian7_0, :media => [@medium], :architectures => [arch])
+      @host.medium = @medium
+    end
+
+    test "should download system image" do
+      ProxyAPI::TFTP.any_instance.stubs(:fetch_system_image).returns(200)
+      Nic::Managed.any_instance.expects(:poll_fetch_system_image).once
+      Nic::Managed.any_instance.expects(:poll_fetch_system_image).returns(true)
+      @host.provision_interface.send(:setTFTPBootFiles)
+    end
+
+    test "should fail system image download due to timeout" do
+      ProxyAPI::TFTP.any_instance.stubs(:fetch_system_image).returns(202)
+      Nic::Managed.any_instance.expects(:poll_fetch_system_image).once
+      Nic::Managed.any_instance.expects(:poll_fetch_system_image).returns(true)
+      @host.provision_interface.send(:setTFTPBootFiles)
+    end
+
+    test "should fail system image download due to timeout locked server" do
+      ProxyAPI::TFTP.any_instance.stubs(:fetch_system_image).returns(402)
+      Nic::Managed.any_instance.expects(:poll_fetch_system_image).once
+      Nic::Managed.any_instance.expects(:poll_fetch_system_image).returns(false)
+      @host.provision_interface.send(:setTFTPBootFiles)
+    end
+
+    test "should fail system image download due to proxy error" do
+      ProxyAPI::TFTP.any_instance.stubs(:fetch_system_image).returns(501)
+      Nic::Managed.any_instance.expects(:poll_fetch_system_image).once
+      Nic::Managed.any_instance.expects(:poll_fetch_system_image).returns(false)
+      @host.provision_interface.send(:setTFTPBootFiles)
+    end
+  end
 end

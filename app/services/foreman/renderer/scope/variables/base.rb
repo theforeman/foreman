@@ -12,7 +12,7 @@ module Foreman
           delegate :diskLayout, :disk_layout_source, :medium, :architecture, :ptable, :use_image, :arch,
             :image_file, :default_image_file, to: :host, allow_nil: true
           delegate :mediumpath, :additional_media, :supports_image, :major, :preseed_path, :preseed_server,
-            :xen, :kernel, :initrd, to: :operatingsystem, allow_nil: true
+            :xen, :kernel, :initrd, :system_image_path, to: :operatingsystem, allow_nil: true
           delegate :name, to: :architecture, allow_nil: true, prefix: true
           delegate :content, to: :disk_layout_source, allow_nil: true, prefix: true
 
@@ -97,6 +97,7 @@ module Foreman
 
           def pxe_config
             return unless @medium_provider
+            @system_image_path = system_image_path(@medium_provider)
             @kernel = kernel(@medium_provider)
             @initrd = initrd(@medium_provider)
             @kernel_uri, @initrd_uri = operatingsystem.boot_files_uri(@medium_provider)

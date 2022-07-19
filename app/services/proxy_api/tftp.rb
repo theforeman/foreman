@@ -38,6 +38,22 @@ module ProxyAPI
       raise ProxyException.new(url, e, N_("Unable to fetch TFTP boot file"))
     end
 
+    # Requests that the proxy downloads and extracts an image from the media's source
+    # [+args+] : Hash containing
+    #   :url       => String containing the URL of the image to download
+    #   :path      => String containing the location on the smart proxy to store the image
+    #   :files     => Array of Strings containing boot file paths to extract from the image
+    #   :tftp_path => String containing the location within the TFTP tree to store the files
+    # Returns       : Integer response status
+    def fetch_system_image(args)
+      response = post(args, "fetch_system_image")
+      response.code
+    rescue RestClient::Locked
+      423
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to fetch and extract TFTP system image"))
+    end
+
     # returns the TFTP boot server for this proxy
     def bootServer
       if (response = parse(get("serverName"))) && response["serverName"].present?

@@ -101,6 +101,7 @@ module Foreman
         :static,
         :template_name,
         :xen,
+        :system_image_path,
       ]
 
       DEFAULT_ALLOWED_GLOBAL_SETTINGS = [

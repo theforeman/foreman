@@ -16,9 +16,19 @@ test_on:
   mac = @host.provision_interface.mac
   subnet4 = iface.subnet
   subnet6 = iface.subnet6
-  image_path = @preseed_path.sub(/\/?$/, '.iso')
   userdata_option = "ds=nocloud-net;s=http://#{foreman_request_addr}/userdata/#{mac ? mac + '/' : ''}"
   options = []
+
+  if @preseed_path.downcase.end_with?('.iso')
+    # Ubuntu image download is handled by the Smart Proxy
+    image_path = @system_image_path
+    tftp = @host.subnet.tftp
+    image_host = "#{tftp}:#{tftp.tftp_http_port}"
+  else
+    # Ubuntu image was downloaded and extracted manually
+    image_path = @preseed_path.sub(/\/?$/, '.iso')
+    image_host = foreman_request_addr.split(':').first
+  end
 
   if host_param('blacklist')
     options << host_param('blacklist').split(',').collect{|x| "#{x.strip}.blacklist=yes"}.join(' ')
@@ -39,7 +49,7 @@ test_on:
   options << 'ramdisk_size=1500000'
   options << 'fsck.mode=skip'
   options << 'autoinstall'
-  options << "url=http://#{@preseed_server}#{image_path}"
+  options << "url=http://#{image_host}#{image_path}"
   options << 'cloud-config-url=/dev/null'
   if @add_userdata_quotes
     options << "\"#{userdata_option}\""

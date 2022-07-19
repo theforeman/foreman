@@ -109,6 +109,14 @@ class SmartProxy < ApplicationRecord
     smart_proxy_feature_by_name(feature).try(:settings).try(:[], setting)
   end
 
+  def tftp_http_port
+    setting(:TFTP, 'http_port')
+  end
+
+  def tftp_http_port!
+    tftp_http_port || raise(::Foreman::Exception.new(N_("HTTP boot requires proxy with httpboot feature and http_port exposed setting")))
+  end
+
   def httpboot_http_port
     setting(:HTTPBoot, 'http_port')
   end
@@ -202,12 +210,14 @@ class SmartProxy < ApplicationRecord
     sections only: %w[all additional]
     prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'Smart Proxy' }
     property :hostname, String, desc: 'Returns name of the host with proxy'
+    property :tftp_http_port, Integer, desc: 'Returns proxy port for TFTP boot images'
+    property :tftp_http_port!, Integer, desc: 'Same as tftp_http_port, but raises Foreman::Exception if no port is set'
     property :httpboot_http_port, Integer, desc: 'Returns proxy port for HTTP boot'
     property :httpboot_http_port!, Integer, desc: 'Same as httpboot_http_port, but raises Foreman::Exception if no port is set'
     property :httpboot_https_port, Integer, desc: 'Returns proxy port for HTTPS boot'
     property :httpboot_https_port!, Integer, desc: 'Same as httpboot_https_port, but raises Foreman::Exception if no port is set'
   end
   class Jail < ::Safemode::Jail
-    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!, :url
+    allow :id, :name, :hostname, :tftp_http_port, :httpboot_http_port, :httpboot_https_port, :tftp_http_port!, :httpboot_http_port!, :httpboot_https_port!, :url
   end
 end

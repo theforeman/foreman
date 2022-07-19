@@ -111,10 +111,25 @@ module Orchestration::TFTP
     logger.info "Fetching required TFTP boot files for #{host.name}"
     valid = []
 
-    host.operatingsystem.pxe_files(host.medium_provider).each do |bootfile_info|
-      bootfile_info.each do |prefix, path|
-        valid << each_unique_feasible_tftp_proxy do |proxy|
-          proxy.fetch_boot_file(:prefix => prefix.to_s, :path => path)
+    # Check host.medium_provider path for iso image
+    is_image_path = File.extname(host.medium_uri.to_s).downcase.end_with?(".iso")
+
+    valid << each_unique_feasible_tftp_proxy do |proxy|
+      bootfiles = host.operatingsystem.pxe_files(host.medium_provider)
+      if is_image_path
+        max_request_timeout = Setting[:proxy_request_timeout]
+        image_url = host.medium_uri.to_s
+        tftp_files = pxe_files_from_bootfiles(bootfiles, image_url)
+        tftp_dst = pxe_dst_from_bootfiles(bootfiles)
+        image_dst = host.operatingsystem.system_image_path(host.medium_provider, true, false)
+        image_status = poll_fetch_system_image(proxy, image_url, image_dst, tftp_files, tftp_dst, max_request_timeout)
+        logger.error "Timeout fetching system image #{image_url}. See smart proxy log for details." unless image_status
+        image_status
+      else
+        bootfiles.each do |bootfile_info|
+          bootfile_info.each do |prefix, path|
+            proxy.fetch_boot_file(:prefix => prefix.to_s, :path => path)
+          end
         end
       end
     end
@@ -196,5 +211,33 @@ module Orchestration::TFTP
       yield(proxy)
     end
     results.all?
+  end
+
+  # Extract pxe files from bootfiles
+  def pxe_files_from_bootfiles(bootfiles, image_url)
+    pxe_files = []
+    bootfiles.each { |pxe_url| pxe_files.append(pxe_url.values.first.delete_prefix(image_url)) }
+    pxe_files
+  end
+
+  # Extract pxe destination file name from bootfiles
+  def pxe_dst_from_bootfiles(bootfiles)
+    bootfiles.first.keys.first
+  end
+
+  def poll_fetch_system_image(proxy, image_url, image_dst, tftp_files, tftp_dst, max_request_time)
+    retries = poll_system_image_retries
+    pause_time = max_request_time / poll_system_image_retries
+    request_status = proxy.fetch_system_image(:url => image_url, :path => image_dst, :files => tftp_files, :tftp_path => tftp_dst)
+    until retries <= 0 || request_status == 200
+      sleep(pause_time)
+      request_status = proxy.fetch_system_image(:url => image_url, :path => image_dst, :files => tftp_files, :tftp_path => tftp_dst)
+      retries -= 1
+    end
+    request_status == 200
+  end
+
+  def poll_system_image_retries
+    10
   end
 end

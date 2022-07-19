@@ -92,7 +92,7 @@ class Operatingsystem < ApplicationRecord
     property :password_hash, String, desc: 'Encrypted hash of the operating system password'
   end
   class Jail < Safemode::Jail
-    allow :id, :name, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath, :bootfile
+    allow :id, :name, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath, :bootfile, :system_image_path
   end
 
   def self.title_name
@@ -234,6 +234,27 @@ class Operatingsystem < ApplicationRecord
       raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)'))
     end
     pxe_prefix(medium_provider) + "-" + pxe_file_names(medium_provider)[type.to_sym]
+  end
+
+  apipie :method, 'Returns path to system image based on given medium provider' do
+    required :medium_provider, 'MediumProviders::Provider', 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
+    # optional :include_suffix, Boolean, 'Include the .iso file suffix if true (defaults true)'
+    # optional :include_base_path, Boolean, 'Include the Smart Proxy base address if true (defaults true)'
+    returns String, 'Path to the system image file'
+  end
+  def system_image_path(medium_provider, include_suffix = true, include_base_path = true)
+    unless medium_provider.is_a? MediumProviders::Provider
+      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)'))
+    end
+    include_base_path ? base_path = system_image_base_path : base_path = ""
+    include_suffix ? suffix = ".iso" : suffix = ""
+
+    "#{base_path}#{name.downcase}/#{medium_provider.unique_id}#{suffix}"
+  end
+
+  # Base path for system_image url
+  def system_image_base_path
+    "/tftp/system_image/"
   end
 
   # Does this OS family support a build variant that is constructed from a prebuilt archive
