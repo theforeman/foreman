@@ -143,8 +143,8 @@ description: |
       </service>
     </services>
   </runlevel>
-  <software>
 <% end -%>
+  <software>
 <% if os_major >= 15 -%>
     <products config:type="list">
       <product>SLES</product>
@@ -242,6 +242,22 @@ rm /etc/resolv.conf
       </script>
     </chroot-scripts>
   </scripts>
+<% if os_major >= 15 -%>
+  <firewall>
+    <enable_firewall config:type="boolean">true</enable_firewall>
+    <log_denied_packets>off</log_denied_packets>
+    <default_zone>public</default_zone>
+    <zones config:type="list">
+      <zone>
+        <name>public</name>
+        <services config:type="list">
+          <service>ssh</service>
+          <service>dhcpv6-client</service>
+        </services>
+      </zone>
+    </zones>
+  </firewall>
+<% end -%>
   <keyboard>
     <keymap>english-us</keymap>
   </keyboard>
@@ -257,7 +273,7 @@ rm /etc/resolv.conf
         <product_dir>/Module-Basesystem</product_dir>
         <product>sle-module-basesystem</product>
       </listentry>
-  <% if os_minor >= 1 && host_param('sle-module-basesystem-url') -%>
+  <% if os_minor >= 1 && os_minor < 4 && host_param('sle-module-basesystem-url') -%>
       <listentry>
         <media_url><%= host_param('sle-module-basesystem-url') %></media_url>
         <product_dir>/Module-Python2</product_dir>
