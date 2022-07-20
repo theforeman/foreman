@@ -1,0 +1,60 @@
+<%#
+kind: kexec
+name: Discovery Red Hat kexec
+model: ProvisioningTemplate
+oses:
+- CentOS 4
+- CentOS 5
+- CentOS 6
+- CentOS 7
+- Fedora 21
+- Fedora 22
+- Fedora 23
+- Fedora 24
+- RedHat 4
+- RedHat 5
+- RedHat 6
+- RedHat 7
+description: |
+  This template is used to pass command line options to kexec when reloading
+  kernel on a discovered host instead of rebooting. This is useful in PXE-less
+  environments. The template must generate JSON format with the following items
+  "kernel", "initram", "append" and "extra". The kexec command is composed in
+  the following way:
+
+  kexec --force --debug --append=$append --initrd=$initram $extra $kernel
+
+  Please read kexec(8) man page for more information about semantics.
+  Extra options like --reset-vga can be set via "extra" array.
+require:
+- plugin: foreman_discovery
+￼ version: 22.0.0
+-%>
+<%
+  mac = @host.facts['discovery_bootif']
+  bootif = host_param("hardware_type", "01") + '-' + mac.gsub(':', '-') if mac
+  ip_cidr = @host.facts['discovery_ip_cidr']
+  ip = @host.facts['discovery_ip']
+  mask = @host.facts['discovery_netmask']
+  gw = @host.facts['discovery_gateway']
+  dns = @host.facts['discovery_dns']
+  options = ["nomodeset"]
+  options << @host.facts['append']
+  options << "inst.stage2=#{@host.operatingsystem.medium_uri(@host)}" if @host.operatingsystem.name.match(/Atomic/i)
+  if @host.operatingsystem.name != 'Fedora' && @host.operatingsystem.major.to_i >= 7 && host_param_true?('fips_enabled')
+    options.push('fips=1')
+  end
+  extra = []
+  extra << "--kexec-file-syscall" if @host.pxe_loader.include?('SecureBoot')
+-%>
+{
+"kernel": "<%= @kernel_uri %>",
+"initram": "<%= @initrd_uri %>",
+<% if (@host.operatingsystem.name == 'Fedora' and @host.operatingsystem.major.to_i > 16) or
+  (@host.operatingsystem.name != 'Fedora' and @host.operatingsystem.major.to_i >= 7) -%>
+  "append": "inst.ks=<%= foreman_url('provision') + "&static=yes" %> inst.ks.sendmac <%= "ip=#{ip}::#{gw}:#{mask}:::none nameserver=#{dns} ksdevice=bootif BOOTIF=#{bootif} nomodeset nokaslr " + options.compact.join(' ') %>",
+<% else -%>
+  "append": "inst.ks=<%= foreman_url('provision') + "&static=yes" %> kssendmac nicdelay=5 <%= "ip=#{ip} netmask=#{mask} gateway=#{gw} dns=#{dns} ksdevice=#{mac} BOOTIF=#{bootif} nomodeset nokaslr " + options.compact.join(' ') %>",
+<% end -%>
+"extra": <%= extra %>
+}
