@@ -158,7 +158,7 @@ module Foreman #:nodoc:
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
       :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
-      :renderer_variable_loaders, :host_ui_description, :ping_extension, :status_extension,
+      :renderer_variable_loaders, :host_ui_description, :hostgroup_ui_description, :ping_extension, :status_extension,
       :allowed_registration_vars, :observable_events
 
     delegate :fact_importer_registry, :fact_parser_registry, :graphql_types_registry, :medium_providers_registry, :report_scanner_registry, :report_origin_registry, to: :class
@@ -581,6 +581,10 @@ module Foreman #:nodoc:
 
     def describe_host(&block)
       @host_ui_description = UI.describe_host(&block)
+    end
+
+    def describe_hostgroup(&block)
+      @hostgroup_ui_description = UI.describe_hostgroup(&block)
     end
 
     def extend_allowed_registration_vars(var)
