@@ -429,6 +429,102 @@ widget_name". The content of the widget should be in the path:
   app/views/dashboard/_<widget_name>.html.erb
 ....
 
+[[selectable-columns]]
+=== Selectable columns
+
+_Requires Foreman 3.4 or higher, set `requires_foreman '>= 3.4'` in engine.rb or
+register.rb._
+
+[[adding-selectable-columns]]
+===== Adding selectable columns to index pages
+
+Index pages always contain a table with a certain set of columns.
+Since Foreman 3.4 some pages have this set extendable, e.g. hosts index page,
+and provide users a way to select which columns are meant to be displayed. For
+the list of available tables with selectable columns, please refer to
+config/initializers/foreman_register.rb file.
+
+
+If you want to add more selectable columns to an existing page in Foreman,
+please the following syntax in
+`Foreman::Plugin.register :foreman_plugin do ... end` block:
+
+[source, ruby]
+----
+selectable_columns :table do
+  category :id, label: N_('Category name'), default: true do
+    column :key,
+           th: {
+             label: N_('Column name'),
+             sortable: true,
+             default_sort: 'DESC',
+             width: '10%',
+             class: 'hidden ca'
+           },
+           td: {
+             class: 'hidden ca',
+             attr_callbacks: {
+               title: ->(record) { record.value }
+             },
+             callback: ->(record) { record.value }
+           }
+  end
+end
+----
+
+Where for `category`:
+
+* `id`: [Symbol] (Required) Internal id of the category. Used to find an existing or define a new one.
+* `label`: [String] (Optional) Translated string with category name. Required only for new categories.
+* `default`: [Boolean] (Optional) Flag whether this category should be visible to users by default. Default: `false`.
+
+Where for `column`:
+
+* `key`: [Symbol] (Required) Record attribute's name. Used to make column sortable and selectable.
+* `th`: [Hash] (Required) Column header definition. Please, see below for further information.
+* `td`: [Hash] (Required) Column data definition. Please, see below for further information.
+
+Where for `th`:
+
+* `label`: [String] (Required) Translated string with column name to be shown.
+* `sortable`: [Boolean] (Optional) Makes column sortable. Default: `false`.
+* `default_sort`: [String] (Optional) Defines default sort order. Default: `'ASC'`
+
+Where for `td`:
+
+* `callback`: [Lambda] (Required) A callback that will be used to process data to be shown.
+* `attr_callbacks`: [Hash] (Optional) Only use if you need to process values for HTML attributes dynamically.
+
+You can also define HTML attributes for `<th>` and `<td>` tags. Some common are
+listed below, but you can use your own.
+_Note: all except `:callback`, `:sortable`, `:default_sort`, `:attr_callbacks`
+are considered as HTML tag attributes.
+
+* `width`: [String] (Optional) Width of the column.
+* `class`: [String] (Optional) Space-separated list of CSS classes to use for the column.
+
+[[creaing-selectable-columns]]
+===== Creating selectable columns on index pages
+
+If you want to not only extend existing pages, but to also have pages with
+selectable columns in the plugin itself, you can use
+`Foreman::SelectableColumns::Storage` directly. In this case everything the same
+except you no longer need to use plugin's DSL, but the storage itself to define
+your tables:
+
+[source, ruby]
+----
+# in your initializer
+Foreman::SelectableColumns::Storage.define(:table) do
+  category ...
+end
+----
+
+To use your columns in views, please use
+
+* `render_selected_column_ths(table: controller_name)`: Renders all selectable column <th> tags for table.
+* `render_selected_column_tds(record, table: controller_name)`: Renders all selectable column <td> tags for table.
+
 [[adding-a-pagelet]]
 === Adding a Pagelet
 

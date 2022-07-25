@@ -16,6 +16,12 @@ module Foreman
           tables[name] = table
         end
 
+        def register(name, &block)
+          Foreman::Logging.logger('selectable columns').info _('Table %s is not defined, ignoring.') % name unless tables[name]
+
+          tables[name].instance_eval(&block)
+        end
+
         def defined_for(table)
           tables[table].reduce({}) do |defined, category|
             defined.update(category.label => category.map { |c| { c[:key] => c[:th][:label] } })
