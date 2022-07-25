@@ -145,16 +145,16 @@ class UserTest < ActiveSupport::TestCase
     assert_valid FactoryBot.build_stubbed(:user, :mail => nil)
   end
 
-  test "mail is optional if mail is currently nil" do
-    u = FactoryBot.create(:user, :mail => nil)
+  test "mail is optional if mail is not enabled" do
+    u = FactoryBot.create(:user, :mail => nil, :mail_enabled => false)
     u.firstname = 'Bob'
     assert_valid u
   end
 
-  test "mail is require when mail isn't currently nil" do
-    u = FactoryBot.create(:user, :mail => "foo@bar.com")
-    u.mail = nil
-    refute_valid u, :mail
+  test "mail address is required if mail is enabled" do
+    u = FactoryBot.create(:user, :mail => nil, :mail_enabled => true)
+    u.firstname = 'Bob'
+    refute u.valid?
   end
 
   test "mail is required for own user" do

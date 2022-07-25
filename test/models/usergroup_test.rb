@@ -201,7 +201,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test "receipients_for provides subscribers of notification recipients" do
-    users = [FactoryBot.create(:user, :with_mail_notification), FactoryBot.create(:user)]
+    users = [FactoryBot.create(:user, :with_mail_notification, :mail_enabled => true), FactoryBot.create(:user)]
     notification = users[0].mail_notifications.first.name
     usergroup = FactoryBot.create(:usergroup)
     usergroup.users << users
