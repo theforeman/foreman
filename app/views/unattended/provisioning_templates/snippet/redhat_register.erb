@@ -108,19 +108,27 @@ description: |
   echo "Starting the subscription-manager registration process"
 
   <% if !atomic %>
-    if [ -f /usr/bin/dnf ]; then
-      dnf -y install subscription-manager
-    else
-      yum -t -y install subscription-manager
+    # Avoid timeout accessing unreachable repo on air gapped infrastructure,
+    #  assuming subscription-manager is installed in custom packages section.
+    if ! rpm --query --quiet subscription-manager ; then
+      if [ -f /usr/bin/dnf ]; then
+        dnf -y install subscription-manager
+      else
+        yum -t -y install subscription-manager
+      fi
     fi
   <% end %>
 
   <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) %>
     <%- if !atomic %>
-      if [ -f /usr/bin/dnf ]; then
-        dnf -y install subscription-manager-syspurpose
-      else
-        yum -t -y install subscription-manager-syspurpose
+      # Avoid timeout accessing unreachable repo on air gapped infrastructure,
+      #  assuming subscription-manager-syspurpose is installed in custom packages section.
+      if ! rpm --query --quiet subscription-manager-syspurpose ; then
+        if [ -f /usr/bin/dnf ]; then
+          dnf -y install subscription-manager-syspurpose
+        else
+          yum -t -y install subscription-manager-syspurpose
+        fi
       fi
     <%- end %>
 
