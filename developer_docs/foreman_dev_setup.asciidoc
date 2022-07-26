@@ -163,6 +163,54 @@ To step through the code, you can use the following commands:
 == Installing ChromeDriver
 https://chromedriver.chromium.org/[ChromeDriver] is a separate executable that Selenium WebDriver uses to control Chrome. We use ChromeDriver to run the integration tests for Foreman.
 
+[[plugins]]
+== Installing plugins
+In order to use a plugin, you'll need to install its gem.
+
+From source code:
+[source, ruby]
+....
+cd foreman
+echo "gem '<PLUGIN_NAME>', path: '../PLUGIN_PATH'" >> bundler.d/<PLUGIN_NAME>.local.rb
+....
+
+From github:
+[source, ruby]
+....
+cd foreman
+echo "gem '<PLUGIN_NAME>', git: 'https://github.com/theforeman/<PLUGIN_NAME>.git'" >> bundler.d/<PLUGIN_NAME>.local.rb
+....
+
+Then run `bundle install` from foreman to install the plugin and its dependencies.
+In case there are node modules dependencies that don't exist in foreman,
+you will need to install them in the plugin via `npm install`.
+Another option is to re-run `npm install` in foreman,
+which will trigger in the end a postinstall script that will install all node modules of plugins.
+
+After you've installed the dependencies,
+run `bundle exec rake db:migrate` and `bundle exec rake db:seed` to update the database scheme.
+
+=== Running tests in plugins
+Make sure to run plugins tests from the Foreman directory.
+In order to run rubocop test in the plugin, use the following command:
+[source, ruby]
+....
+bundle exec rake <PLUGIN_NAME>:rubocop
+....
+
+To run all of the plugin's tests:
+[source, ruby]
+....
+bundle exec rake webpack:compile # only needed if you have integration tests that uses JS
+bundle exec rake test:<PLUGIN_NAME>
+....
+
+To run a specific plugin's test:
+[source, ruby]
+....
+bundle exec rake test TEST="../<PLUGIN_PATH>/test/PATH/TO/TEST"
+....
+
 [[Forklift]]
 == Forklift
 https://github.com/theforeman/forklift[Forklift] provides tools to create Foreman+Katello environments for development, testing, and production configurations. Follow the https://github.com/theforeman/forklift/blob/master/docs/vagrant.md[installation guide].
