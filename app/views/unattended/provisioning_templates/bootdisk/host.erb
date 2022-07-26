@@ -1,0 +1,83 @@
+<%#
+name: Boot disk iPXE - host
+snippet: false
+model: ProvisioningTemplate
+kind: Bootdisk
+description: |
+  Example foreman_bootdisk host template
+  This template is rendered for use inside a host-specific boot disk.
+require:
+- plugin: foreman_bootdisk
+￼ version: 20.0.0
+-%>
+#!ipxe
+
+<%
+interface = @host.provision_interface
+bootdisk_raise(N_('Host has no provisioning interface defined')) unless interface
+bootdisk_raise(N_('Host has no IPv4 or IPv6 address defined')) unless interface.ip.present? || interface.ip6.present?
+bootdisk_raise(N_('Host has no subnet defined')) unless interface.subnet || interface.subnet6
+bootdisk_raise(N_('Host has no domain defined')) unless interface.domain
+if interface.ip.present? && interface.subnet
+  ip = interface.ip
+  subnet = interface.subnet
+elsif interface.ip6.present? && interface.subnet6
+  ip = interface.ip6
+  subnet = interface.subnet6
+  bootdisk_raise(N_('Host bootdisk does not work with static IPv6'))
+else
+  bootdisk_raise(N_('Both IP and Subnet must be set'))
+end
+
+mask = subnet.mask
+gw = subnet.gateway
+dns = subnet.dns_servers.first
+%>
+
+echo Foreman Bootdisk: Host image (<%= @host.name %>)
+
+# loop over net* until the host's MAC matches
+<% (0..32).each do |i| -%>
+:net<%= i %>
+isset ${net<%= i -%>/mac} || goto no_nic
+echo net<%= i -%> is a ${net<%= i -%>/chip} with MAC ${net<%= i -%>/mac}
+iseq ${net<%= i -%>/mac} <%= interface.mac -%> || goto net<%= i+1 %>
+set idx:int32 <%= i %>
+goto loop_success
+<% end -%>
+
+:loop_success
+echo Configuring net${idx} for static IP address <%= ip %>
+ifopen net${idx}
+# netX = last opened NIC
+set netX/ip <%= ip %>
+set netX/netmask <%= mask %>
+<% if gw.present? %>
+set netX/gateway <%= gw %>
+<% end %>
+ifstat net${idx}
+route
+
+# Note: When multiple DNS servers are specified, only the first
+# server will be used. See: http://ipxe.org/cfg/dns
+<% if dns.present? -%>
+echo Using DNS <%= dns %>
+set dns <%= dns %>
+set domain <%= interface.domain.to_s %>
+<% end %>
+
+echo Trying to ping Gateway: ${netX/gateway}
+ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
+<% if dns.present? -%>
+echo Trying to ping DNS: ${netX/dns}
+ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
+<% end %>
+
+# Chainload from Foreman rather than embedding OS info here, so the behaviour
+# is entirely dynamic.
+chain <%= bootdisk_chain_url %>
+exit 0
+
+:no_nic
+echo Cannot find interface with MAC <%= interface.mac %>, spawning shell
+shell

@@ -1,0 +1,79 @@
+<%#
+name: Boot disk Grub2 EFI - generic host
+snippet: false
+model: ProvisioningTemplate
+kind: Bootdisk
+description: |
+  Boot disk Grub2 EFI - generic host
+require:
+- plugin: foreman_bootdisk
+￼ version: 20.0.0
+-%>
+#
+# Boot disk Grub2 EFI - generic host
+#
+#set debug="http,efinet,net"
+#set debug=all
+echo "Foreman Bootdisk: 'Boot disk Grub2 EFI - generic host' template"
+echo
+echo "********************************************************"
+echo " REQUIREMENTS:"
+echo " * SUBNET GENERIC IMAGE ONLY (host image not supported)"
+echo " * HOST PARAM default_grub_install_entry set to efi_http"
+echo " * PROXY WITH HTTPBOOT FEATURE"
+echo " * HTTP UEFI BOOT ONLY (Legacy/PXE not supported)"
+echo " * IPv4 ONLY (IPv6 not tested, change the template)"
+echo " * HTTP ONLY (change the template for HTTPS)"
+echo " * ISC DHCP (other servers not tested)"
+echo " * GRUB FROM RHEL 8.3+/7.9+ (when generating the image)"
+echo " * EFI HTTP or HTTPS grub entry must be selected in menu"
+echo " * DNS must resolve proxy hostname via DNS proxy if set"
+echo "*******************************************************"
+sleep 5
+<%
+# possible values are: "http" or "https"
+proxy_proto = "http"
+
+@subnet || bootdisk_raise("Generic disk not supported for EFI, use subnet disk")
+@subnet.template? || bootdisk_raise("Requires a proxy with template feature")
+proxy_port = if proxy_proto == "http"
+  @subnet.httpboot.httpboot_http_port
+else
+  @subnet.httpboot.httpboot_https_port
+end
+# Workaround for "no DNS server configured" https://bugzilla.redhat.com/show_bug.cgi?id=1842509
+proxy_httpboot_host = dns_lookup(@subnet.httpboot.hostname)
+proxy_template_host = dns_lookup(@subnet.template.hostname)
+-%>
+echo
+net_ls_cards
+echo "Configuring ALL cards via BOOTP/IPv4"
+net_bootp
+# uncomment here for IPv6 support (not tested)
+#echo "Configuring ALL cards via BOOTP/IPv6"
+#net_ipv6_autoconf
+net_ls_addr
+net_ls_routes
+net_ls_dns
+echo Trying to ping proxy_httpboot_host: <%= proxy_httpboot_host %>
+ping --count 1 <%= proxy_httpboot_host %> || echo Ping to proxy_httpboot_host failed or ping command not available.
+echo Trying to ping proxy_template_host: <%= proxy_template_host %>
+ping --count 1 <%= proxy_template_host %> || echo Ping to proxy_template_host failed or ping command not available.
+sleep 5
+set root=(<%= proxy_proto %>,<%= proxy_httpboot_host %>:<%= proxy_port %>)
+# The variable will not survive configfile fetch, therefore absolute path
+# must be used in the chainloaded template.
+# https://bugzilla.redhat.com/show_bug.cgi?id=1842893
+set http_path=/httpboot/
+set default=efi_<%= proxy_proto %>
+<% (0..32).each do |i| -%>
+  echo "Trying efinet<%= i %> via <%= proxy_proto %>://<%= proxy_template_host %>:<%= proxy_port %>/unattended/PXEGrub2?mac=$net_efinet<%= i %>_dhcp_mac"
+  set net_default_mac=$net_efinet<%= i %>_dhcp_mac
+  sleep 5
+  configfile (<%= proxy_proto %>,<%= proxy_template_host %>:<%= proxy_port %>)/unattended/PXEGrub2?mac=$net_efinet<%= i %>_dhcp_mac
+<% end -%>
+
+echo "Could not find a host with PXEGrub2 template and one of the MAC addresses!"
+echo "The system will poweroff in few minutes..."
+sleep 500
+poweroff

@@ -1,0 +1,54 @@
+<%#
+name: Boot disk iPXE - generic host
+snippet: false
+model: ProvisioningTemplate
+kind: Bootdisk
+description: |
+  Example foreman_bootdisk generic host template
+ 
+  This template is generic, but it will chainload to Foreman so expects the
+  host to be registered already.
+ 
+  It loops through all interfaces using DHCP, requesting a template from
+  Foreman in the hope that one of the MACs or IPs matches.
+require:
+- plugin: foreman_bootdisk
+￼ version: 20.0.0
+-%>
+#!ipxe
+
+echo Foreman Bootdisk: Generic image
+
+# loop over net* until we can get a template
+<% url = bootdisk_chain_url %>
+<% (0..32).each do |i| -%>
+:net<%= i %>
+isset ${net<%= i -%>/mac} || goto no_nic
+echo net<%= i -%> is a ${net<%= i -%>/chip} with MAC ${net<%= i -%>/mac}
+dhcp net<%= i %> || goto net<%= i+1 %>
+chain <%= url %>${net<%= i -%>/mac} || goto net<%= i+1 %>
+exit 0
+<% end -%>
+echo Failed to chainload from any network interface, fallback to static.
+ifstat
+
+:no_nic
+echo -n Enter interface name to boot from (e.g. net0):  && read interface
+isset ${${interface}/mac} && goto get_static_ip
+echo Interface ${interface} is not initialized, try again
+goto no_nic
+
+:get_static_ip
+ifopen ${interface}
+echo Please enter IP details for ${interface}
+echo
+echo -n IP address      :  && read ${interface}/ip
+echo -n Subnet mask     :  && read ${interface}/netmask
+echo -n Default gateway :  && read ${interface}/gateway
+echo -n DNS server      :  && read dns
+chain <%= url %>${${interface}/mac} || goto boot_failure
+exit 0
+
+:boot_failure
+echo Cannot continue, spawning shell
+shell

@@ -25,6 +25,8 @@ class TemplateKind < ApplicationRecord
       "cloud-init" => N_("Cloud-init template"),
       "host_init_config" => N_("Host initial configuration template"),
       "registration" => N_("Registration template"),
+      "kexec" => N_("Discovery Kexec"),
+      "Bootdisk" => N_("Boot disk"),
     }
   end
 

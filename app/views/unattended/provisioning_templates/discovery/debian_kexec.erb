@@ -1,0 +1,45 @@
+<%#
+kind: kexec
+name: Discovery Debian kexec
+model: ProvisioningTemplate
+oses:
+- Debian
+- Ubuntu
+description: |
+  This template is used to pass command line options to kexec when reloading
+  kernel on a discovered host instead of rebooting. This is useful in PXE-less
+  environments. The template must generate JSON format with the following items
+  "kernel", "initram", "append" and "extra". The kexec command is composed in
+  the following way:
+
+  kexec --force --debug --append=$append --initrd=$initram $extra $kernel
+
+  Please read kexec(8) man page for more information about semantics.
+  Extra options like --reset-vga can be set via "extra" array.
+require:
+- plugin: foreman_discovery
+￼ version: 22.0.0
+-%>
+<%
+  mac = @host.facts['discovery_bootif']
+  bootif = host_param("hardware_type", "01") + '-' + mac.gsub(':', '-') if mac
+  ip_cidr = @host.facts['discovery_ip_cidr']
+  ip = @host.facts['discovery_ip']
+  mask = @host.facts['discovery_netmask']
+  gw = @host.facts['discovery_gateway']
+  dns = @host.facts['discovery_dns']
+  options = ["nomodeset", "nokaslr", "auto=true"]
+  options << @host.facts['append']
+  options << "domain=#{@host.domain}"
+  options << 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true'
+  options << "locale=#{host_param('lang') || 'en_US'}"
+  options << "inst.stage2=#{@host.operatingsystem.medium_uri(@host)}" if @host.operatingsystem.name.match(/Atomic/i)
+  extra = []
+  extra << "--kexec-file-syscall" if @host.pxe_loader.include?('SecureBoot')
+-%>
+{
+"kernel": "<%= @kernel_uri %>",
+"initram": "<%= @initrd_uri %>",
+"append": "url=<%= foreman_url('provision') + "&static=yes" %> interface=<%= mac %> netcfg/get_ipaddress=<%= ip %> netcfg/get_netmask=<%= mask %> netcfg/get_gateway=<%= gw %> netcfg/get_nameservers=<%= dns %> netcfg/disable_dhcp=true netcfg/get_hostname=<%= @host.name %> BOOTIF=<%= bootif %> <%= options.compact.join(' ') %>",
+"extra": <%= extra %>
+}
