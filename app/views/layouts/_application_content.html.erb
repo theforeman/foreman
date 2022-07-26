@@ -14,6 +14,12 @@
           <%= yield(:search_bar) %>&nbsp;
       </div>
       <div id="title_action" class= <%= searchable? ? "col-md-6" : "col-md-8" %>>
+        <% if filter_columns? %>
+        <div class="pull-left">
+          <%= mount_column_selector %>
+            <%= yield(:column_selector) %>&nbsp;
+        </div>
+        <% end %>
         <div class="btn-toolbar pull-right">
           <%=h yield(:title_actions) %>
         </div>

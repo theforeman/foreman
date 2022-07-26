@@ -66,7 +66,7 @@ module Pagelets
       end
 
       def with_profile(id, label, opts, &block)
-        profile = Profile.new(id, label, self, opts)
+        profile = Profile.new(id.to_s, label, self, opts)
         profile.instance_exec(&block)
         profile.pagelets.each do |pagelet|
           add_pagelet(*pagelet)
