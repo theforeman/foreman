@@ -10,6 +10,9 @@ description: |
   on the template of host_init_config kind.
 -%>
 #!/bin/sh
+
+# Make sure, all command output can be parsed (e.g. from subscription-manager)
+export LC_ALL=C LANG=C
 <%
     headers = ["-H 'Authorization: Bearer #{@auth_token}'"]
     activation_keys = [(@hostgroup.params['kt_activation_keys'] if @hostgroup), @activation_keys].compact.join(',')
@@ -36,8 +39,8 @@ description: |
 
 
 if ! [ $(id -u) = 0 ]; then
-    echo "Please run as root"
-    exit 1
+  echo "Please run as root"
+  exit 1
 fi
 
 <%= snippet 'pkg_manager' %>
@@ -57,18 +60,28 @@ echo '#'
 echo '# Adding repository'
 echo '#'
 
-if [ -f /etc/redhat-release ]; then
-  cat << EOF > /etc/yum.repos.d/foreman_registration.repo
+
+if [ x$PKG_MANAGER = xdnf -o x$PKG_MANAGER = xyum -o x$PKG_MANAGER = xzypper ]; then
+  cat << EOF > /tmp/foreman_registration.repo
 [foreman_register]
 name=foreman_register
 baseurl=<%= shell_escape @repo %>
 enabled=1
-gpgcheck=<%= @repo_gpg_key_url.present? ? 1 : 0 %>
-gpgkey=<%= shell_escape @repo_gpg_key_url %>
+type=rpm-md
 EOF
-
-  echo "Building yum metadata cache, this may take a few minutes"
-  $PKG_MANAGER makecache
+<% if @repo_gpg_key_url.present? -%>
+  echo gpgcheck=1 >> /tmp/foreman_registration.repo
+  echo gpgkey=<%= shell_escape @repo_gpg_key_url %> >> /tmp/foreman_registration.repo
+<% else -%>
+  echo gpgcheck=0 >> /tmp/foreman_registration.repo
+<% end -%>
+  if [ x$PKG_MANAGER = xdnf -o x$PKG_MANAGER = xyum ]; then
+    mv -f /tmp/foreman_registration.repo /etc/yum.repos.d/foreman_registration.repo
+    echo "Building yum metadata cache, this may take a few minutes"
+    $PKG_MANAGER makecache
+  else
+    zypper --quiet --non-interactive addrepo /tmp/foreman_registration.repo
+  fi
 elif [ -f /etc/debian_version ]; then
   cat << EOF > /etc/apt/sources.list.d/foreman_registration.list
 <%= shell_escape @repo %>

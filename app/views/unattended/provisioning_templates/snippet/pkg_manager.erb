@@ -35,6 +35,6 @@ elif [ -f /etc/debian_version ]; then
   PKG_MANAGER='apt-get'
 elif [ -f /etc/arch-release ]; then
   PKG_MANAGER='pacman'
-elif [ x$ID = xopensuse-tumbleweed ]; then
+elif [ x$ID = xopensuse-tumbleweed -o x$ID = xsles ]; then
   PKG_MANAGER='zypper'
 fi
