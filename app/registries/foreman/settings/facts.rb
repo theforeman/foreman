@@ -37,6 +37,7 @@ Foreman::SettingManager.define(:foreman) do
       'vovsbr*',
       'br-int',
       'vif*',
+      'cali*',
     ].freeze
 
     setting('create_new_host_when_facts_are_uploaded',
