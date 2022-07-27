@@ -3,7 +3,7 @@
 :toc: right
 :toclevels: 5
 
-Installing the latest development code:
+=== Installing the latest development code
 Foreman uses Bundler to install dependencies and get up and running. This is the preferred way to get Foreman if you want to benefit from the latest improvements. By using the git repository you can also upgrade more easily. You will need to have Bundler installed manually for now (check your distribution repositories, or install it via rubygems).
 
 [[prerequisites]]
@@ -131,6 +131,33 @@ All rake tasks are available with the following command:
 ....
 bundle exec rake -T
 ....
+
+[[Pry]]
+== Debugging Foreman with Pry
+https://github.com/pry/pry[Pry] is a runtime developer console and IRB (interactive Ruby) alternative with powerful introspection capabilities.
+You can use use Pry as a developer console or as a debugger.
+Pry gem is required by Foreman, meaning that Bundler installs it for you.
+
+To invoke the debugger, place `binding.pry` somewhere in your code as follows:
+[source, ruby]
+....
+require 'pry'; binding.pry
+....
+When the Ruby interpreter hits that code, execution stops, and you can type in commands to debug the state of the program.
+
+=== Useful Pry Commands
+* `pry` -Opens the Pry console in your terminal
+* `exit` -Exits current loop
+* `exit!` -Exits Pry console
+
+=== Stepping
+To step through the code, you can use the following commands:
+
+* `break`: Manage breakpoints.
+* `step`: Step execution into the next line or method. Takes an optional numeric argument to step multiple times.
+* `next`: Step over to the next line within the same frame. Also takes an optional numeric argument to step multiple lines.
+* `finish`: Execute until current stack frame returns.
+* `continue`: Continue program execution and end the Pry session.
 
 [[ChromeDriver]]
 == Installing ChromeDriver
