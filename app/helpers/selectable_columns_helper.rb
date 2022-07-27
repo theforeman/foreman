@@ -1,7 +1,7 @@
 module SelectableColumnsHelper
-  def render_selected_column_ths(table: controller_name)
+  def render_selected_column_ths
     result = ""
-    Foreman::SelectableColumns::Storage.selected_by(User.current, table.to_s).each do |column|
+    @selected_columns.each do |column|
       result += render(
         'common/selectable_column_th',
         attributes: attributes(column[:th]),
@@ -12,9 +12,9 @@ module SelectableColumnsHelper
     result.html_safe
   end
 
-  def render_selected_column_tds(record, table: controller_name)
+  def render_selected_column_tds(record)
     result = ""
-    Foreman::SelectableColumns::Storage.selected_by(User.current, table.to_s).each do |column|
+    @selected_columns.each do |column|
       result += render(
         'common/selectable_column_td',
         attributes: attributes(column[:td]),

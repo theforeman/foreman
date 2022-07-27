@@ -522,8 +522,8 @@ end
 
 To use your columns in views, please use
 
-* `render_selected_column_ths(table: controller_name)`: Renders all selectable column <th> tags for table.
-* `render_selected_column_tds(record, table: controller_name)`: Renders all selectable column <td> tags for table.
+* `render_selected_column_ths`: Renders all selectable column <th> tags for table.
+* `render_selected_column_tds(record)`: Renders all selectable column <td> tags for table.
 
 [[adding-a-pagelet]]
 === Adding a Pagelet

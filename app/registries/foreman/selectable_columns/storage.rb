@@ -9,7 +9,7 @@ module Foreman
         end
 
         def define(name, &block)
-          Foreman::Logging.logger('app').warn _('Table %s is already defined, ignoring.') % name if tables[name]
+          return Foreman::Logging.logger('app').warn _('Table %s is already defined, ignoring.') % name if tables[name]
 
           table = SelectableColumns::Table.new(name)
           table.instance_eval(&block)
@@ -17,18 +17,27 @@ module Foreman
         end
 
         def register(name, &block)
-          Foreman::Logging.logger('app').warn _('Table %s is not defined, ignoring.') % name unless tables[name]
+          return Foreman::Logging.logger('app').warn _('Table %s is not defined, ignoring.') % name unless tables[name]
 
           tables[name].instance_eval(&block)
         end
 
+        # This is for UI data mostly
         def defined_for(table)
-          tables[table].reduce({}) do |defined, category|
-            defined.update(category.label => category.map { |c| { c[:key] => c[:th][:label] } })
+          return Foreman::Logging.logger('app').warn _('Table %s is not defined, ignoring.') % table unless tables[table]
+
+          tables[table].map do |category|
+            {
+              id: category.id,
+              name: category.label,
+              columns: category.map { |c| { id: c[:key], name: c[:th][:label] } },
+            }
           end
         end
 
         def selected_by(user, table)
+          return unless tables[table]
+
           selected_keys = user.table_preferences.find_by(name: table)&.columns&.sort
           if selected_keys
             tables[table].select { |category| (category.keys & selected_keys).any? }
