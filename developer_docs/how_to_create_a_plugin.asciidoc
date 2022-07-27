@@ -503,7 +503,7 @@ are considered as HTML tag attributes.
 * `width`: [String] (Optional) Width of the column.
 * `class`: [String] (Optional) Space-separated list of CSS classes to use for the column.
 
-[[creaing-selectable-columns]]
+[[creating-selectable-columns]]
 ===== Creating selectable columns on index pages
 
 If you want to not only extend existing pages, but to also have pages with

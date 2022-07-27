@@ -9,7 +9,7 @@ module Foreman
         end
 
         def define(name, &block)
-          Foreman::Logging.logger('selectable columns').info _('Table %s is already defined, ignoring.') % name if tables[name]
+          Foreman::Logging.logger('app').warn _('Table %s is already defined, ignoring.') % name if tables[name]
 
           table = SelectableColumns::Table.new(name)
           table.instance_eval(&block)
@@ -17,7 +17,7 @@ module Foreman
         end
 
         def register(name, &block)
-          Foreman::Logging.logger('selectable columns').info _('Table %s is not defined, ignoring.') % name unless tables[name]
+          Foreman::Logging.logger('app').warn _('Table %s is not defined, ignoring.') % name unless tables[name]
 
           tables[name].instance_eval(&block)
         end
