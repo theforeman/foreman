@@ -468,6 +468,7 @@ selectable_columns :table do
              },
              callback: ->(record) { record.value }
            }
+    use_column :key, from :category_id
   end
 end
 ----
@@ -494,6 +495,11 @@ Where for `td`:
 
 * `callback`: [Lambda] (Required) A callback that will be used to process data to be shown.
 * `attr_callbacks`: [Hash] (Optional) Only use if you need to process values for HTML attributes dynamically.
+
+Where for `use_column`:
+
+* `key`: [Symbol] (Required) Key of the defined column to include in the current category.
+* `from`: [Symbol] (Required) ID of the category defining the column to use. Category must be in the same table.
 
 You can also define HTML attributes for `<th>` and `<td>` tags. Some common are
 listed below, but you can use your own.

@@ -30,7 +30,7 @@ module Foreman
             {
               id: category.id,
               name: category.label,
-              columns: category.map { |c| { id: c[:key], name: c[:th][:label] } },
+              columns: category.columns.map { |c| { id: c[:key], name: c[:th][:label] } },
             }
           end
         end
@@ -39,13 +39,17 @@ module Foreman
           return unless tables[table]
 
           selected_keys = user.table_preferences.find_by(name: table)&.columns&.sort
-          if selected_keys
-            tables[table].select { |category| (category.keys & selected_keys).any? }
-                         .flatten
-                         .select { |col| selected_keys.include?(col[:key]) }
-          else
-            tables[table].select { |category| category.default? }.flatten
-          end
+          result = if selected_keys
+                     tables[table].select { |category| (category.keys & selected_keys).any? }
+                                  .map(&:columns)
+                                  .flatten
+                                  .select { |col| selected_keys.include?(col[:key]) }
+                   else
+                     tables[table].select { |category| category.default? }
+                                  .map(&:columns)
+                                  .flatten
+                   end
+          result.uniq
         end
       end
     end

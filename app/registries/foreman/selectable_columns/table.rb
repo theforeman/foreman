@@ -9,7 +9,7 @@ module Foreman
       end
 
       def category(id, label: _('General'), default: false, &block)
-        category = find_or_create(id.to_sym, label, default)
+        category = find_or_create(id.to_s, label, default)
         category.instance_eval(&block)
       end
 
@@ -18,7 +18,7 @@ module Foreman
       def find_or_create(id, label, default)
         category = find { |c| c.id == id }
         unless category
-          category = Category.new(id, label, default: default)
+          category = Category.new(id, label, self, default: default)
           self << category
         end
         category
