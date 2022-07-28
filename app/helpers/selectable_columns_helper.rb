@@ -29,7 +29,7 @@ module SelectableColumnsHelper
   def attr_from_callbacks(callbacks, subject)
     return unless callbacks
 
-    callbacks.reduce([]) { |m, (k, v)| m << "#{k}=\"#{instance_exec(subject, &v)}\"" }
+    callbacks.map { |(k, v)| "#{k}=\"#{instance_exec(subject, &v)}\"" }
              .join(' ')
              .html_safe
   end
