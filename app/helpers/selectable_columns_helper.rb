@@ -37,7 +37,7 @@ module SelectableColumnsHelper
   private
 
   def attributes(th_or_td)
-    th_or_td.except(:callback, :sortable, :default_sort, :attr_callbacks)
+    th_or_td.except(:callback, :sortable, :default_sort, :attr_callbacks, :label)
             .map { |(k, v)| "#{k}=\"#{v}\"" }
             .join(' ')
             .html_safe
