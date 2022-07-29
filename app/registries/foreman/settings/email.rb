@@ -79,7 +79,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Sendmail location'),
       collection: proc { SENDMAIL_LOCATIONS.zip(SENDMAIL_LOCATIONS).to_h })
 
-    validates 'email_subject_prefix', length: { maximum: 255 }
-    validates 'sendmail_location', ->(value) { value.blank? || SENDMAIL_LOCATIONS.include?(value) }, message: N_("Invalid sendmail location, use settings.yaml for arbitrary location")
+    validates('email_subject_prefix', { length: { maximum: 255 } })
+    validates('sendmail_location', ->(value) { value.blank? || SENDMAIL_LOCATIONS.include?(value) }, message: N_("Invalid sendmail location, use settings.yaml for arbitrary location"))
   end
 end
