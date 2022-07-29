@@ -32,6 +32,7 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
       overrideGridProps={{ rowSpan: 2 }}
       header={__('System properties')}
       expandable
+      masonryLayout
       isExpandedGlobal={isExpandedGlobal}
     >
       <DescriptionList isCompact>
