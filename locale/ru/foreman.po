@@ -67,13 +67,17 @@ msgstr "Обновлено параметров: %s. Подробную инфо
 
 msgid "%s VM failed while processing: check logs for more details."
 msgid_plural "%s VMs failed while processing: check logs for more details."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Сбой %s виртуальной машин во время обработки: для получения более подробной информации проверьте журналы."
+msgstr[1] "Сбой %s виртуальных машин во время обработки: для получения более подробной информации проверьте журналы."
+msgstr[2] "Сбой %s виртуальных машин во время обработки: для получения более подробной информации проверьте журналы."
+msgstr[3] "Сбой %s виртуальных машин во время обработки: для получения более подробной информации проверьте журналы."
 
 msgid "%s VM was associated to a host."
 msgid_plural "%s VMs were each associated to hosts."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s ВМ была связана с узлом."
+msgstr[1] "%s ВМ были связаны с узлом."
+msgstr[2] "%s ВМ были связаны с уздлом."
+msgstr[3] "%s ВМ были связаны с узлами"
 
 msgid "%s ago"
 msgstr "%s назад"
@@ -635,7 +639,7 @@ msgid "All inputs defined for a single template must have a have unique name tha
 msgstr ""
 
 msgid "All items"
-msgstr "Все"
+msgstr "Все элементы"
 
 msgid "All media"
 msgstr "Все носители"
@@ -882,7 +886,7 @@ msgid "Associated Host"
 msgstr ""
 
 msgid "Associating VMs is not supported for this compute resource"
-msgstr ""
+msgstr "Связывание виртуальных машин не поддерживается для этого вычислительного ресурса"
 
 msgid "Association"
 msgstr "Ассоциации"
@@ -1325,7 +1329,7 @@ msgid "CSRF protection token expired, please log in again"
 msgstr ""
 
 msgid "Cache refreshing is not supported for %s"
-msgstr ""
+msgstr "Обновление кэша не поддерживается для %s"
 
 msgid "Cache slow calls to VMWare to speed up page rendering"
 msgstr ""
@@ -3621,7 +3625,7 @@ msgid "Get DSL reference for templates writing"
 msgstr ""
 
 msgid "Get ENC values of host"
-msgstr ""
+msgstr "Получить значения ENC хоста"
 
 msgid "Get dashboard details"
 msgstr "Получить подробную сводку о состоянии узлов"
@@ -3886,7 +3890,7 @@ msgid "Host group"
 msgstr "Группа узлов"
 
 msgid "Host group IDs"
-msgstr "Код группы узлов"
+msgstr "Идентификатор группы узлов"
 
 msgid "Host group description"
 msgstr "Описание группы узлов"
@@ -3920,7 +3924,7 @@ msgid "Host times seem to be adrift!"
 msgstr ""
 
 msgid "Host's network interfaces"
-msgstr ""
+msgstr "Сетевые интерфейсы узла"
 
 msgid "Host's network interfaces."
 msgstr "Сетевые интерфейсы узла."
@@ -5318,7 +5322,7 @@ msgid "List of email notifications"
 msgstr "Список всех почтовых уведомлений"
 
 msgid "List of host statuses"
-msgstr ""
+msgstr "Список статусов узла"
 
 msgid "List of hostnames, IPv4, IPv6 addresses or subnets to be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
 msgstr "Список имен, IPv4, IPv6-адресов или подсетей для разрешения доступа к импорту фактов/отчётов и выводу ENC в дополнение к Смарт Прокси"
@@ -6128,10 +6132,10 @@ msgid "No TFTP proxies defined, can't continue"
 msgstr "Для продолжения необходимо определить прокси TFTP. "
 
 msgid "No VMs matched any host"
-msgstr ""
+msgstr "Ни одна ВМ не соответствует ни одному узлу"
 
 msgid "No VMs matched any host."
-msgstr ""
+msgstr "Ни одна ВМ не соответствует ни одному узлу."
 
 msgid "No active impersonate session."
 msgstr ""
@@ -6595,7 +6599,7 @@ msgid "Operating system ID"
 msgstr "Код операционной системы"
 
 msgid "Operating system IDs"
-msgstr "Коды операционных систем"
+msgstr "Идентификаторы операционных систем"
 
 msgid "Operating system default"
 msgstr "Стандартный для операционной системы"
@@ -6712,7 +6716,7 @@ msgid "Out of sync"
 msgstr "Не синхронизирован"
 
 msgid "Out of sync hosts"
-msgstr "Не синхронизированы"
+msgstr "Несинхронизированные узлы"
 
 msgid "Out of sync hosts with alerts enabled"
 msgstr "Несинхронизированные узлы с включенными предупреждениями"
@@ -6739,7 +6743,7 @@ msgid "Overwrite"
 msgstr "Перезаписать"
 
 msgid "Overwrite existing host (true by default)"
-msgstr ""
+msgstr "Перезаписать существующий хост (по умолчанию true)"
 
 msgid "Owned"
 msgstr ""
@@ -7453,7 +7457,7 @@ msgid "Refresh Cache"
 msgstr ""
 
 msgid "Refresh Compute Resource Cache"
-msgstr ""
+msgstr "Обновить кэш вычислительных ресурсов"
 
 msgid "Refresh external user group"
 msgstr "Обновить внешнюю группу пользователей"
@@ -8103,7 +8107,7 @@ msgid "Selected image does not belong to %s"
 msgstr "Выбранный образ не принадлежит %s"
 
 msgid "Selected items"
-msgstr "Выбранные"
+msgstr "Выбранные элементы"
 
 msgid "Selected resource type does not support granular filtering, therefore you can't configure granularity"
 msgstr "Для выбранного типа ресурса дополнительные фильтры недоступны"
@@ -8612,7 +8616,7 @@ msgid "Sorry, these hosts do not have parameters assigned to them, you must add 
 msgstr "Сначала необходимо настроить параметры для этих узлов."
 
 msgid "Sort and order by a searchable field, e.g. '<field> DESC'"
-msgstr ""
+msgstr "Сортировка и упорядочивание по полю с возможностью поиска, например '<field> DESC'"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Source"
@@ -8682,7 +8686,7 @@ msgid "Status"
 msgstr "Состояние"
 
 msgid "Status %s does not exist."
-msgstr ""
+msgstr "Статуса %s не существует."
 
 msgid "Stop updating IP and MAC address values from facts (affects all interfaces)"
 msgstr ""
@@ -8865,7 +8869,7 @@ msgid "Successfully refreshed features from %s."
 msgstr "Функции %s успешно обновлены."
 
 msgid "Successfully refreshed the cache."
-msgstr ""
+msgstr "Кэш успешно обновлен."
 
 msgid "Successfully updated %s."
 msgstr "Обновление %s завершено."
@@ -9204,7 +9208,7 @@ msgid "The %{proxy_type} proxy of the selected hosts was cleared."
 msgstr "Прокси %{proxy_type} был удален для выбранных узлов."
 
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}"
-msgstr ""
+msgstr "%{proxy_type}  для прокси выбранных узлов было установлено значение %{proxy_name}"
 
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
 msgstr "%{proxy_name} был настроен как %{proxy_type} для выбранных узлов."
@@ -10648,7 +10652,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
+msgstr "Предупреждение: Эта комбинация загрузчика и операционной системы может не загрузиться."
 
 msgid "Warning: This will delete this host and all of its data!"
 msgstr "Предупреждение: Это может удалить этот узел и всю его информацию!"
@@ -11238,7 +11242,7 @@ msgid "for oVirt only"
 msgstr "только для oVirt"
 
 msgid "for oVirt only, ID or Name of quota to use"
-msgstr ""
+msgstr "только для oVirt, Идентификатор или Имя используемой квоты"
 
 msgid "for oVirt, VMware Datacenter"
 msgstr "для oVirt, VMware Datacenter"
