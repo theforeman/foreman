@@ -41,8 +41,11 @@ autoinstall:
 <% else -%>
       ssh_authorized_keys: []
 <% end -%>
-  keyboard: {layout: us, toggle: null, variant: ''}
-  locale: en_US.UTF-8
+  keyboard:
+    layout: <%= host_param('keyboard', 'us') %>
+    toggle: null
+    variant: ''
+  locale: <%= host_param('lang', 'en_US') %>.UTF-8
 <%= snippet 'preseed_netplan_setup' -%>
   ssh:
     allow-pw: true

@@ -18,7 +18,10 @@ autoinstall:
       lock-passwd: false
       hashed_passwd: $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
       ssh_authorized_keys: []
-  keyboard: {layout: us, toggle: null, variant: ''}
+  keyboard:
+    layout: us
+    toggle: null
+    variant: ''
   locale: en_US.UTF-8
   network:
     version: 2
