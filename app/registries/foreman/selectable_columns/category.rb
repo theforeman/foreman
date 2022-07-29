@@ -17,6 +17,8 @@ module Foreman
       end
 
       def use_column(key, from:)
+        return if from.to_s == @id
+
         @columns_to_use[from] ||= []
         @columns_to_use[from] << key.to_s
       end
@@ -45,8 +47,8 @@ module Foreman
       # Thus, saving once computed result.
       def foreign_columns
         @foreign_columns ||= @columns_to_use.keys.map do |category_id|
-          @table.find { |cat| cat.id == category_id }.select { |col| @columns_to_use[category_id].include?(col[:key]) }
-        end.flatten
+          @table.find { |cat| cat.id == category_id }&.select { |col| @columns_to_use[category_id].include?(col[:key]) }
+        end.flatten.compact
       end
     end
   end

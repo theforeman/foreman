@@ -21,4 +21,33 @@ class CategoryTest < ActiveSupport::TestCase
 
     assert_not_empty category2.columns
   end
+
+  test 'should ignore non-existing category for re-usage' do
+    shared_table = table
+    category2 = Foreman::SelectableColumns::Category.new('test2', 'Test2', shared_table)
+    category2.use_column :key, from: :test3
+    shared_table.concat([category2])
+
+    assert_empty category2.columns
+  end
+
+  test 'should ignore non-existing column for re-usage' do
+    shared_table = table
+    category1 = Foreman::SelectableColumns::Category.new('test', 'Test', shared_table)
+    category1.column :key, th: {}, td: {}
+    category2 = Foreman::SelectableColumns::Category.new('test2', 'Test2', shared_table)
+    category2.use_column :key2, from: :test
+    shared_table.concat([category1, category2])
+
+    assert_empty category2.columns
+  end
+
+  test 'should ignore itself for re-usage' do
+    shared_table = table
+    category2 = Foreman::SelectableColumns::Category.new('test2', 'Test2', shared_table)
+    category2.use_column :key, from: :test2
+    shared_table.concat([category2])
+
+    assert_empty category2.columns
+  end
 end
