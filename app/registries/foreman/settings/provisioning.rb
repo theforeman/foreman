@@ -20,7 +20,7 @@ Foreman::SettingManager.define(:foreman) do
       default: nil,
       full_name: N_('Root password'),
       encrypted: true)
-    validates 'root_pass', length: { minimum: 8 }, allow_blank: true
+    validates('root_pass', { length: { minimum: 8 }, allow_blank: true })
 
     setting('unattended_url',
       type: :string,
