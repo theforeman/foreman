@@ -5,8 +5,8 @@
 # Translators:
 # Amit Upadhye <aupadhye@redhat.com>, 2021
 # Marc Fité <marc@fite.cat>, 2013
-# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017
-# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2015-2016
+# Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2017
+# Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
