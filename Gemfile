@@ -1,17 +1,9 @@
 # foreman plugins import this file therefore __FILE__ cannot be used
 FOREMAN_GEMFILE = __FILE__ unless defined? FOREMAN_GEMFILE
 
-require_relative 'config/boot_settings'
-
 source 'https://rubygems.org'
 
-gem 'rails', case SETTINGS[:rails]
-             when '6.1'
-               '~> 6.1.6.1'
-             else
-               raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"
-             end
-
+gem 'rails', '~> 6.1.6.1'
 gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
 gem 'audited', '>= 4.9.0', '< 5'
 gem 'will_paginate', '>= 3.1.7', '< 4'
