@@ -15,7 +15,7 @@ gem 'rails', case SETTINGS[:rails]
 gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
 gem 'audited', '>= 4.9.0', '< 5'
 gem 'will_paginate', '~> 3.3'
-gem 'ancestry', '>= 3.0.7', '< 4', '!= 3.2.0'
+gem 'ancestry', '~> 4.0'
 gem 'scoped_search', '>= 4.1.8', '< 5'
 gem 'ldap_fluff', '>= 0.5.0', '< 1.0'
 gem 'apipie-rails', '>= 0.5.17', '< 0.6.0'
