@@ -20,7 +20,7 @@ module Foreman
       end
     end
 
-    def save(*args)
+    def save(*args, **kwargs)
       type_changed = type_changed?
       self.class.instance_variable_set("@finder_needs_type_condition", :false) if type_changed
       super
