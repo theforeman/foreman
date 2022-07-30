@@ -8,7 +8,7 @@ class ForceSslTest < ActiveSupport::TestCase
 
   describe 'general urls' do
     it 'do not allow http' do
-      _(subject.allows_http?).must_equal false
+      refute subject.allows_http?
     end
   end
 
@@ -21,14 +21,14 @@ class ForceSslTest < ActiveSupport::TestCase
       end
 
       it 'allows http' do
-        _(subject.allows_http?).must_equal true
+        assert subject.allows_http?
       end
 
       context 'with preview params' do
         let(:params) { { 'spoof' => true } }
 
         it 'doesnt allow http for previews' do
-          _(subject.allows_http?).must_equal false
+          refute subject.allows_http?
         end
       end
     end
@@ -39,7 +39,7 @@ class ForceSslTest < ActiveSupport::TestCase
       end
 
       it 'does not allow http' do
-        _(subject.allows_http?).must_equal false
+        refute subject.allows_http?
       end
     end
   end

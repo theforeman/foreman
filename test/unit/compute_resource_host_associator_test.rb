@@ -24,9 +24,9 @@ class ComputeResourceHostAssociatorTest < ActiveSupport::TestCase
 
     associator.associate_hosts
 
-    _(host_without_vm.uuid).must_equal(vm1.identity)
-    _(associator.hosts).must_equal([host_without_vm])
-    _(associator.fail_count).must_equal 0
+    assert_equal(vm1.identity, host_without_vm.uuid)
+    assert_equal([host_without_vm], associator.hosts)
+    assert_equal(0, associator.fail_count)
   end
 
   test 'rescues from errors occurred during the associated_host call ===' do
@@ -37,6 +37,6 @@ class ComputeResourceHostAssociatorTest < ActiveSupport::TestCase
 
     associator.associate_hosts
 
-    _(associator.fail_count).must_equal 1
+    assert_equal(1, associator.fail_count)
   end
 end
