@@ -1,5 +1,4 @@
 require 'test_helper'
-require "mocha/setup"
 
 class ProxyApiBmcTest < ActiveSupport::TestCase
   def setup
