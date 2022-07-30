@@ -1,4 +1,4 @@
-class AddStiToSettings < ActiveRecord::Migration[4.2]
+class AddSTIToSettings < ActiveRecord::Migration[4.2]
   def up
     add_index :settings, :category
   end

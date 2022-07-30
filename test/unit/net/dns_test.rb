@@ -2,7 +2,7 @@ require 'test_helper'
 require 'net'
 require 'net/dns'
 
-class DnsTest < ActiveSupport::TestCase
+class DNSTest < ActiveSupport::TestCase
   setup do
     @proxy = smart_proxies(:one)
   end

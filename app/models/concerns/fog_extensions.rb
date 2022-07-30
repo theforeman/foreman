@@ -43,7 +43,8 @@ if Foreman::Model::Openstack.available?
   Fog::OpenStack::Compute::Flavor.include FogExtensions::Openstack::Flavor
 end
 
-if Foreman::Model::Vmware.available?
+# TODO: Why is this undefined while other models are?
+if true || Foreman::Model::Vmware.available?
   require 'fog/vsphere'
   require 'fog/vsphere/models/compute/cluster'
   require 'fog/vsphere/models/compute/network'

@@ -1,4 +1,4 @@
-class AddBmcToSubnet < ActiveRecord::Migration[6.0]
+class AddBMCToSubnet < ActiveRecord::Migration[6.0]
   def change
     add_column :subnets, :bmc_id, :integer
 

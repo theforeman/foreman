@@ -5,7 +5,7 @@ module Nic
     include Orchestration::DNS
     include Orchestration::TFTP
     include Orchestration::ExternalIPAM
-    include DnsInterface
+    include DNSInterface
     include InterfaceCloning
 
     include Exportable

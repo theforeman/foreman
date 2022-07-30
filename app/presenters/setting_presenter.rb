@@ -1,3 +1,5 @@
+require_dependency 'hidden_value'
+
 class SettingPresenter
   include ActiveModel::Model
   include ActiveModel::Attributes

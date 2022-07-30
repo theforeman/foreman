@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ForemanUrlRendererTest < ActiveSupport::TestCase
+class ForemanURLRendererTest < ActiveSupport::TestCase
   setup do
     disable_orchestration
   end
@@ -8,7 +8,7 @@ class ForemanUrlRendererTest < ActiveSupport::TestCase
   class Renderer
     include ActionView::Helpers
     include ActionDispatch::Routing
-    include ::Foreman::ForemanUrlRenderer
+    include ::Foreman::ForemanURLRenderer
 
     attr_accessor :host, :template_url
   end

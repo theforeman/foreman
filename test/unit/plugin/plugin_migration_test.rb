@@ -2,7 +2,7 @@ require 'test_helper'
 require 'generators/plugin/migration_generator'
 
 class PluginMigrationTest < Rails::Generators::TestCase
-  tests Plugin::MigrationGenerator
+  tests Generators::Plugin::MigrationGenerator
 
   destination File.join(Dir.tmpdir, "/migration_generator_test/core")
 

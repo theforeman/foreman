@@ -1,3 +1,7 @@
+# For the autoloader
+module CoreExtensions
+end
+
 # Add an empty method to nil. Now no need for if x and x.empty?. Just x.empty?
 class NilClass
   def empty?

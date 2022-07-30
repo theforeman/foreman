@@ -43,6 +43,6 @@ module Foreman
   end
 
   def self.settings
-    SettingRegistry.instance
+    ::SettingRegistry.instance
   end
 end
