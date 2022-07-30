@@ -13,7 +13,7 @@ gem 'rails', case SETTINGS[:rails]
              end
 
 gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
-gem 'audited', '>= 4.9.0', '< 5'
+gem 'audited', '~> 5.0'
 gem 'will_paginate', '~> 3.3'
 gem 'ancestry', '>= 3.0.7', '< 4', '!= 3.2.0'
 gem 'scoped_search', '>= 4.1.8', '< 5'
