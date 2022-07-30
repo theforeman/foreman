@@ -2,7 +2,7 @@ module Foreman
   module Renderer
     class UnsafeModeRenderer < BaseRenderer
       def render
-        erb = ERB.new(source_content, nil, '-')
+        erb = ERB.new(source_content, trim_mode: '-')
         erb.location = source_name, 0
         erb.result(get_binding)
       rescue ::SyntaxError => e

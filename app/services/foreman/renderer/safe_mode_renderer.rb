@@ -3,7 +3,7 @@ module Foreman
     class SafeModeRenderer < BaseRenderer
       def render
         box = Safemode::Box.new(scope, allowed_helpers, source_name)
-        erb = ERB.new(source_content, nil, '-')
+        erb = ERB.new(source_content, trim_mode: '-')
         box.eval(erb.src, allowed_variables)
       rescue ::Racc::ParseError => e
         new_e = SyntaxError.new(name: source_name, message: e.message)
