@@ -67,25 +67,25 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
 
     it 'maps operating system to ovirt operating systems' do
       @compute_resource.stubs(:available_operating_systems).returns(@os_hashes)
-      _(@compute_resource.determine_os_type(@host)).must_equal "other_linux"
+      assert_equal "other_linux", @compute_resource.determine_os_type(@host)
 
       @host.operatingsystem = operatingsystems(:redhat)
-      _(@compute_resource.determine_os_type(@host)).must_equal "rhel_6"
+      assert_equal "rhel_6", @compute_resource.determine_os_type(@host)
 
       @host.architecture = architectures(:x86_64)
-      _(@compute_resource.determine_os_type(@host)).must_equal "rhel_6x64"
+      assert_equal "rhel_6x64", @compute_resource.determine_os_type(@host)
 
       @host.operatingsystem = operatingsystems(:ubuntu1210)
-      _(@compute_resource.determine_os_type(@host)).must_equal "ubuntu_12_10"
+      assert_equal "ubuntu_12_10", @compute_resource.determine_os_type(@host)
 
       @host.operatingsystem = FactoryBot.create(:operatingsystem)
-      _(@compute_resource.determine_os_type(@host)).must_equal "other"
+      assert_equal "other", @compute_resource.determine_os_type(@host)
     end
 
     it 'respects host param ovirt_ostype' do
       @compute_resource.stubs(:available_operating_systems).returns(@os_hashes)
       @host.stubs(:params).returns({'ovirt_ostype' => 'some_os'})
-      _(@compute_resource.determine_os_type(@host)).must_equal "some_os"
+      assert_equal "some_os", @compute_resource.determine_os_type(@host)
     end
 
     it 'caches the operating systems in the compute resource' do
@@ -115,7 +115,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
 
     it 'passes api_version v4 by default' do
       Fog::Compute.expects(:new).with do |options|
-        _(options[:api_version]).must_equal 'v4'
+        assert_equal 'v4', options[:api_version]
       end.returns(@client_mock)
       @compute_resource.send(:client)
     end

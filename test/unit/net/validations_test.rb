@@ -4,21 +4,21 @@ require 'net'
 class ValidationsTest < ActiveSupport::TestCase
   describe "validate_mac" do
     test "nil is not valid" do
-      Net::Validations.validate_mac(nil).must_be_same_as false
+      refute Net::Validations.validate_mac(nil)
     end
 
     test "48-bit MAC address is valid" do
-      Net::Validations.validate_mac("aa:bb:cc:dd:ee:ff").must_be_same_as true
+      assert Net::Validations.validate_mac("aa:bb:cc:dd:ee:ff")
     end
 
     test "64-bit MAC address is valid" do
-      Net::Validations.validate_mac("aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd").must_be_same_as true
+      assert Net::Validations.validate_mac("aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd")
     end
 
     test "MAC address is not valid" do
-      Net::Validations.validate_mac("aa:bb:cc:dd:ee").must_be_same_as false
-      Net::Validations.validate_mac("aa:bb:cc:dd:ee:ff:gg:11").must_be_same_as false
-      Net::Validations.validate_mac("aa:bb:cc:dd:ee:zz").must_be_same_as false
+      refute Net::Validations.validate_mac("aa:bb:cc:dd:ee")
+      refute Net::Validations.validate_mac("aa:bb:cc:dd:ee:ff:gg:11")
+      refute Net::Validations.validate_mac("aa:bb:cc:dd:ee:zz")
     end
   end
 
@@ -119,7 +119,7 @@ class ValidationsTest < ActiveSupport::TestCase
     let(:hostname) { "this.is.an.example.com" }
 
     test "should normalize incorrect case" do
-      Net::Validations.normalize_hostname("ThIs.Is.An.eXaMPlE.CoM").must_equal(hostname)
+      assert_equal(hostname, Net::Validations.normalize_hostname("ThIs.Is.An.eXaMPlE.CoM"))
     end
   end
 
@@ -128,15 +128,15 @@ class ValidationsTest < ActiveSupport::TestCase
       let(:mac) { "aa:bb:cc:dd:ee:ff" }
 
       test "should normalize dash separated format" do
-        Net::Validations.normalize_mac("aa-bb-cc-dd-ee-ff").must_equal(mac)
+        assert_equal(mac, Net::Validations.normalize_mac("aa-bb-cc-dd-ee-ff"))
       end
 
       test "should normalize condensed format" do
-        Net::Validations.normalize_mac("aabbccddeeff").must_equal(mac)
+        assert_equal(mac, Net::Validations.normalize_mac("aabbccddeeff"))
       end
 
       test "should keep colon separated format" do
-        Net::Validations.normalize_mac("aa:bb:cc:dd:ee:ff").must_equal(mac)
+        assert_equal(mac, Net::Validations.normalize_mac("aa:bb:cc:dd:ee:ff"))
       end
     end
 
@@ -144,15 +144,15 @@ class ValidationsTest < ActiveSupport::TestCase
       let(:mac) { "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd" }
 
       test "should normalize dash separated format" do
-        Net::Validations.normalize_mac("aa-bb-cc-dd-ee-ff-00-11-22-33-44-55-66-77-88-99-aa-bb-cc-dd").must_equal(mac)
+        assert_equal(mac, Net::Validations.normalize_mac("aa-bb-cc-dd-ee-ff-00-11-22-33-44-55-66-77-88-99-aa-bb-cc-dd"))
       end
 
       test "should normalize condensed format" do
-        Net::Validations.normalize_mac("aabbccddeeff00112233445566778899aabbccdd").must_equal(mac)
+        assert_equal(mac, Net::Validations.normalize_mac("aabbccddeeff00112233445566778899aabbccdd"))
       end
 
       test "should keep colon separated format" do
-        Net::Validations.normalize_mac("aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd").must_equal(mac)
+        assert_equal(mac, Net::Validations.normalize_mac("aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd"))
       end
     end
 

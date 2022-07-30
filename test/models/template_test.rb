@@ -480,15 +480,15 @@ data"
       end
 
       it 'exports name' do
-        _(erb).must_match(/^name: #{exportable_template.name}$/)
+        assert_match(/^name: #{exportable_template.name}$/, erb)
       end
 
       it 'includes template inputs' do
-        _(erb).must_match(/^template_inputs:$/)
+        assert_match(/^template_inputs:$/, erb)
       end
 
       it 'includes template contents' do
-        _(erb).must_include exportable_template.template
+        assert_includes(erb, exportable_template.template)
       end
 
       it 'is importable' do
