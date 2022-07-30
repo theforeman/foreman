@@ -33,8 +33,8 @@ class User < ApplicationRecord
   before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
 
   belongs_to :auth_source
-  belongs_to :default_organization, :class_name => 'Organization'
-  belongs_to :default_location,     :class_name => 'Location'
+  belongs_to :default_organization, :class_name => 'Organization', :optional => true
+  belongs_to :default_location,     :class_name => 'Location', :optional => true
 
   has_many :auditable_changes, :class_name => '::Audit', :as => :user
   has_many :direct_hosts,      :class_name => 'Host',    :as => :owner

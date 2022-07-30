@@ -60,7 +60,7 @@ class Role < ApplicationRecord
   has_many :permissions, :through => :filters
 
   has_many :cloned_roles, :class_name => 'Role', :foreign_key => 'cloned_from_id', :dependent => :nullify
-  belongs_to :cloned_from, :class_name => 'Role'
+  belongs_to :cloned_from, :class_name => 'Role', :optional => true
 
   # these associations are not used by Taxonomix but serve as a pattern for role filters
   # we intentionally don't include Taxonomix since roles are not taxable, we only need these relations
