@@ -217,8 +217,8 @@ module RenderersSharedTests
       subject { renderer.render(source, @scope) }
 
       let(:source) { OpenStruct.new(content: '<%= foreman_server_ca_cert %>') }
-      let(:cert_path) { Rails.root.join('test/static_fixtures/certificates/example.com.crt') }
-      let(:cert_2_path) { Rails.root.join('test/static_fixtures/certificates/example2.com.crt') }
+      let(:cert_path) { Rails.root.join('test/static_fixtures/certificates/example.com.crt').to_s }
+      let(:cert_2_path) { Rails.root.join('test/static_fixtures/certificates/example2.com.crt').to_s }
       let(:cert_file_content) { File.read(cert_path) }
       let(:cert_2_file_content) { File.read(cert_2_path) }
 
