@@ -10,7 +10,7 @@ Foreman::Application.configure do
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs. Don't rely on the data there!
-  config.cache_classes = true
+  config.cache_classes = false
 
   # Eager load currently cannot be set due to: https://projects.theforeman.org/issues/31977
   config.eager_load = false
