@@ -161,7 +161,7 @@ module ApplicationHelper
 
   def sort(field, permitted: [], **kwargs)
     kwargs[:url_options] ||= current_url_params(permitted: permitted)
-    super(field, kwargs)
+    super(field, **kwargs)
   end
 
   def help_button

@@ -6,7 +6,7 @@ module Foreman
         attr_reader :template_input_values
 
         def initialize(template_input_values: {}, **params)
-          super(params)
+          super(**params)
           @template_input_values = template_input_values
         end
       end
