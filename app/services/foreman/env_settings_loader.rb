@@ -35,7 +35,6 @@ module Foreman
         'FOREMAN_WEBPACK_DEV_SERVER_HTTPS' => [:boolean, :webpack_dev_server_https],
         'FOREMAN_ASSETS_DEBUG' => [:boolean, :assets_debug],
         'FOREMAN_HSTS_ENABLED' => [:boolean, :hsts_enabled],
-        'FOREMAN_RAILS' => [:string, :rails],
         'FOREMAN_DOMAIN' => [:string, :domain],
         'FOREMAN_FQDN' => [:string, :fqdn],
         'FOREMAN_CORS_DOMAINS' => [:list, :cors_domains],

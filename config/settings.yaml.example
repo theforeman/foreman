@@ -29,10 +29,6 @@
 # so only change this if you know what you're doing.
 :hsts_enabled: true
 
-# Ruby on Rails version (available: 6.1)
-# Defaults to 6.1
-#:rails: 6.1
-
 # Local administrative settings for application domain, fqdn, foreman URL,
 # administrator email address etc. If you don't have a Puppet provisioning
 # system you may want to change to setup your project on your local machine.
