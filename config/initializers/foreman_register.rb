@@ -6,8 +6,6 @@ Pagelets::Manager.with_key 'hosts/show' do |mgr|
 end
 
 Foreman::SelectableColumns::Storage.define(:hosts) do
-  common_th_class = 'hidden-tablet hidden-xs'
-  common_td_class = common_th_class + ' ellipsis'
   category :general, default: true do
     column :name, th: { label: _('Name'), sortable: true, width: '25%' },
                   td: { class: 'ellipsis', callback: ->(host) { name_column(host) } }

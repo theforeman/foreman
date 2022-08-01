@@ -23,6 +23,14 @@ module Foreman
         @columns_to_use[from] << key.to_s
       end
 
+      def common_th_class
+        'hidden-tablet hidden-xs'
+      end
+
+      def common_td_class
+        common_th_class + ' ellipsis'
+      end
+
       # This instance can be updated after it was created by DSL, but
       #   only at the initialization time.
       # This method is only for actual runtime usage,
