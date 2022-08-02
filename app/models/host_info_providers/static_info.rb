@@ -4,8 +4,8 @@ module HostInfoProviders
       # Static parameters
       param = {}
 
-      param["hostname"] = host.shortname unless host.shortname.nil?
-      param["fqdn"] = host.fqdn unless host.fqdn.nil?
+      param["foreman_hostname"] = host.shortname unless host.shortname.nil?
+      param["foreman_fqdn"] = host.fqdn unless host.fqdn.nil?
       param["hostgroup"] = host.hostgroup.to_label unless host.hostgroup.nil?
       param["comment"] = host.comment if host.comment.present?
       param["root_pw"] = host.root_pass unless (!host.operatingsystem.nil? && host.operatingsystem.password_hash == 'Base64')
