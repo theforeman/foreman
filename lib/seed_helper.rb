@@ -102,6 +102,7 @@ class SeedHelper
 
     def import_raw_template(contents, vendor = 'Foreman')
       metadata = Template.parse_metadata(contents)
+      raise "Metadata could not be parsed, it seems to be empty" if metadata.empty?
       raise "Attribute 'name' is required in metadata in order to seed the template" if metadata['name'].nil?
       raise "Attribute 'model' is required in metadata in order to seed the template" if metadata['model'].nil?
 
@@ -138,6 +139,9 @@ class SeedHelper
     def import_templates(template_paths, vendor = 'Foreman')
       template_paths.each do |path|
         import_raw_template(File.read(path), vendor)
+      rescue RuntimeError => e
+        Foreman::Logging.exception("Error in seeding the template #{path.inspect} metadata #{e.message}", e)
+        raise e
       end
     end
 
