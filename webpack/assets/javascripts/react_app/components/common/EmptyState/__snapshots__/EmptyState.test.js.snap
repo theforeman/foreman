@@ -4,11 +4,11 @@ exports[`Default Empty State should render documentation when given a url 1`] = 
 <Provider
   store={
     Object {
+      "@@observable": [Function],
       "dispatch": [Function],
       "getState": [Function],
       "replaceReducer": [Function],
       "subscribe": [Function],
-      Symbol(Symbol.observable): [Function],
     }
   }
 >
@@ -31,11 +31,11 @@ exports[`Default Empty State should render secondary actions 1`] = `
 <Provider
   store={
     Object {
+      "@@observable": [Function],
       "dispatch": [Function],
       "getState": [Function],
       "replaceReducer": [Function],
       "subscribe": [Function],
-      Symbol(Symbol.observable): [Function],
     }
   }
 >

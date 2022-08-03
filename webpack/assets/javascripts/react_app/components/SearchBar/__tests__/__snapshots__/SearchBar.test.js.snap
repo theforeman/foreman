@@ -8,7 +8,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
       "getState": [Function],
       "replaceReducer": [Function],
       "subscribe": [Function],
-      Symbol(Symbol.observable): [Function],
+      Symbol(observable): [Function],
     }
   }
 >

@@ -36,8 +36,8 @@ exports[`ForemanForm render foreman form with fields 1`] = `
   validationSchema={
     ObjectSchema {
       "_blacklist": RefSet {
-        "list": Array [],
-        "refs": Array [],
+        "list": Set {},
+        "refs": Map {},
       },
       "_conditions": Array [],
       "_defaultDefault": [Function],
@@ -56,14 +56,14 @@ exports[`ForemanForm render foreman form with fields 1`] = `
       "_type": "object",
       "_typeError": [Function],
       "_whitelist": RefSet {
-        "list": Array [],
-        "refs": Array [],
+        "list": Set {},
+        "refs": Map {},
       },
       "fields": Object {
         "name": StringSchema {
           "_blacklist": RefSet {
-            "list": Array [],
-            "refs": Array [],
+            "list": Set {},
+            "refs": Map {},
           },
           "_conditions": Array [],
           "_deps": Array [],
@@ -78,8 +78,8 @@ exports[`ForemanForm render foreman form with fields 1`] = `
           "_type": "string",
           "_typeError": [Function],
           "_whitelist": RefSet {
-            "list": Array [],
-            "refs": Array [],
+            "list": Set {},
+            "refs": Map {},
           },
           "tests": Array [
             [Function],
@@ -91,8 +91,8 @@ exports[`ForemanForm render foreman form with fields 1`] = `
         },
         "surname": StringSchema {
           "_blacklist": RefSet {
-            "list": Array [],
-            "refs": Array [],
+            "list": Set {},
+            "refs": Map {},
           },
           "_conditions": Array [],
           "_deps": Array [],
@@ -107,8 +107,8 @@ exports[`ForemanForm render foreman form with fields 1`] = `
           "_type": "string",
           "_typeError": [Function],
           "_whitelist": RefSet {
-            "list": Array [],
-            "refs": Array [],
+            "list": Set {},
+            "refs": Map {},
           },
           "tests": Array [
             [Function],

@@ -15,8 +15,8 @@ exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
   validationSchema={
     ObjectSchema {
       "_blacklist": RefSet {
-        "list": Array [],
-        "refs": Array [],
+        "list": Set {},
+        "refs": Map {},
       },
       "_conditions": Array [],
       "_defaultDefault": [Function],
@@ -35,14 +35,14 @@ exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
       "_type": "object",
       "_typeError": [Function],
       "_whitelist": RefSet {
-        "list": Array [],
-        "refs": Array [],
+        "list": Set {},
+        "refs": Map {},
       },
       "fields": Object {
         "name": StringSchema {
           "_blacklist": RefSet {
-            "list": Array [],
-            "refs": Array [],
+            "list": Set {},
+            "refs": Map {},
           },
           "_conditions": Array [],
           "_deps": Array [],
@@ -59,8 +59,8 @@ exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
           "_type": "string",
           "_typeError": [Function],
           "_whitelist": RefSet {
-            "list": Array [],
-            "refs": Array [],
+            "list": Set {},
+            "refs": Map {},
           },
           "tests": Array [
             [Function],
@@ -74,8 +74,8 @@ exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
         },
         "query": StringSchema {
           "_blacklist": RefSet {
-            "list": Array [],
-            "refs": Array [],
+            "list": Set {},
+            "refs": Map {},
           },
           "_conditions": Array [],
           "_deps": Array [],
@@ -91,8 +91,8 @@ exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
           "_type": "string",
           "_typeError": [Function],
           "_whitelist": RefSet {
-            "list": Array [],
-            "refs": Array [],
+            "list": Set {},
+            "refs": Map {},
           },
           "tests": Array [
             [Function],
