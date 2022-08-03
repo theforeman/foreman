@@ -100,10 +100,10 @@ class HostTemplateTest < ActiveSupport::TestCase
     end
 
     test 'should render puppet_server parameter when puppet_server not defined' do
-      host = stub()
+      host = stub(puppet_server: '')
       @scope.instance_variable_set('@host', host)
-      @scope.expects(:host_param).with('puppet_server').returns('myserver.example.com')
-      assert_equal @scope.host_puppet_server, 'myserver.example.com'
+      @scope.expects(:host_param).with('puppet_server').returns('from_param.example.com')
+      assert_equal @scope.host_puppet_server, 'from_param.example.com'
     end
   end
 
@@ -115,10 +115,10 @@ class HostTemplateTest < ActiveSupport::TestCase
     end
 
     test 'should render puppet_ca_server parameter when puppet_ca_server not defined' do
-      host = stub()
+      host = stub(puppet_ca_server: '')
       @scope.instance_variable_set('@host', host)
-      @scope.expects(:host_param).with('puppet_ca_server').returns('myserver.example.com')
-      assert_equal @scope.host_puppet_ca_server, 'myserver.example.com'
+      @scope.expects(:host_param).with('puppet_ca_server').returns('from_param.example.com')
+      assert_equal @scope.host_puppet_ca_server, 'from_param.example.com'
     end
   end
 

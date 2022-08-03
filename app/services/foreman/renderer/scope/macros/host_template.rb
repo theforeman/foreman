@@ -57,7 +57,7 @@ module Foreman
           end
           def host_puppet_server
             check_host
-            host.try(:puppet_server) || host_param('puppet_server')
+            host.try(:puppet_server).presence || host_param('puppet_server')
           end
 
           apipie :method, 'Returns Puppet CA server\'s hostname configured through the ENC or the puppet_ca_server host parameter' do
@@ -65,7 +65,7 @@ module Foreman
           end
           def host_puppet_ca_server
             check_host
-            host.try(:puppet_ca_server) || host_param('puppet_ca_server')
+            host.try(:puppet_ca_server).presence || host_param('puppet_ca_server')
           end
 
           apipie :method, 'Returns the Puppet environment configured configured through the ENC or the puppet_environment host parameter' do
