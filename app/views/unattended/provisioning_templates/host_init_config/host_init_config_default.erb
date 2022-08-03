@@ -67,9 +67,19 @@ trap 'exit_and_cancel_build' ERR
 
 <% end -%>
 
-<% if plugin_present?('katello') && @host.operatingsystem.family == 'Redhat' -%>
-echo "Refreshing subscription data"
-subscription-manager refresh
+<% if plugin_present?('katello') -%>
+if command -v subscription-manager &>/dev/null; then
+  echo "Refreshing subscription data"
+  subscription-manager refresh
+fi
+
+<% if host_param_true?('redhat_install_host_tools') -%>
+<%= install_packages('katello-host-tools') -%>
+<% end -%>
+
+<% if host_param_true?('redhat_install_host_tracer_tools') -%>
+<%= install_packages('katello-host-tools-tracer') -%>
+<% end -%>
 
 <% end -%>
 <%= update_packages if host_param_true?('host_update_packages') -%>
