@@ -22,7 +22,6 @@ namespace :webpack do
     unless File.exist?(config_file)
       raise "Can't find our webpack config file at #{config_file}"
     end
-
-    sh "node --max_old_space_size=#{max_old_space_size} #{webpack_bin} --config #{config_file} --bail"
+    sh "node --max_old_space_size=#{max_old_space_size} #{webpack_bin} --config #{config_file}" # TODO: add bail in webpack 5 https://github.com/webpack/webpack/issues/7993
   end
 end

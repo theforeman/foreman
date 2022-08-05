@@ -303,11 +303,6 @@ module ApplicationHelper
     @hosts_count ||= HostCounter.new(resource_name)
   end
 
-  def webpack_dev_server
-    return unless Rails.configuration.webpack.dev_server.enabled
-    javascript_include_tag "#{@dev_server}/webpack-dev-server.js"
-  end
-
   def accessible_resource_records(resource, order = :name)
     klass = resource.to_s.classify.constantize
     klass = klass.with_taxonomy_scope_override(@location, @organization) if klass.include? Taxonomix
