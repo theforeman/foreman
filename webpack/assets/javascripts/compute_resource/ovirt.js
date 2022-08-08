@@ -236,6 +236,10 @@ export function datacenterSelected(item) {
 export function vnicSelected(item) {
   const selectedVnicProfile = $(item).val();
   if (selectedVnicProfile) {
+    const itemId = $(item).attr('id');
+    const nicId = itemId.match(/_([0-9]*)_vnic_profile/)[1];
+    const idNetwork = `id$=_${nicId}_network`;
+
     const vnicOptions = JSON.parse(
       $('select[id$=_vnic_profile]')[1].getAttribute('data-profiles')
     );
@@ -249,7 +253,7 @@ export function vnicSelected(item) {
     const networkObj = networkOptions.filter(
       network => network.id === vnicNetwork.id
     )[0];
-    const networkSelect = $('select[id$=_network]');
+    const networkSelect = $(`select[${idNetwork}]`);
     networkSelect.empty();
     networkSelect.append(
       $('<option />')
