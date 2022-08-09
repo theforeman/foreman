@@ -24,7 +24,7 @@
         <td align='center'><%= locked_icon role.locked?, _("This role is locked for editing.") %>
         <td class='col-md-1'>
           <% links = [display_link_if_authorized(_('Filters'),    hash_for_filters_path(:role_id => role)),
-                      display_link_unless_locked(_('Add filter'), hash_for_new_filter_path(:role_id => role), role),
+                      display_link_unless_locked(_('Add filter'), hash_for_new_filters_path(:role_id => role), role),
                       display_link_if_authorized(_('Clone'), hash_for_clone_role_path(:id => role))] %>
 
           <% links.push(display_delete_if_authorized(hash_for_role_path(:id => role),

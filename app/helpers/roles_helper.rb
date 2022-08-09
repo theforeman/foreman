@@ -22,7 +22,7 @@ module RolesHelper
   end
 
   def new_link_unless_locked(name, path_hash, role)
-    new_link name, path_hash if role && !role.locked?
+    link_to name, "/filters/new?role_id=#{role.id}", {class: "btn btn-primary"} if role && !role.locked?
   end
 
   def delete_role_confirmation(role)
