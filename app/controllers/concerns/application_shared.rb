@@ -140,8 +140,4 @@ module ApplicationShared
     end
     determined_taxonomy
   end
-
-  def find_selected_columns
-    @selected_columns = Foreman::SelectableColumns::Storage.selected_by(User.current, controller_name)
-  end
 end

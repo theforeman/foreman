@@ -329,10 +329,6 @@ module Foreman #:nodoc:
       SettingManager.define(id, &block)
     end
 
-    def selectable_columns(table, &block)
-      Foreman::SelectableColumns::Storage.register(table, &block)
-    end
-
     def security_block(name, &block)
       @security_block = name
       instance_eval(&block)
