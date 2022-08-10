@@ -21,6 +21,11 @@ Medium.without_auditing do
       :path => "http://mirror.centos.org/centos/$major-stream/BaseOS/$arch/os",
     },
     {
+      :name => "CentOS Stream 9 mirror",
+      :os_family => "Redhat",
+      :path => "http://mirror.stream.centos.org/$major-stream/BaseOS/$arch/os",
+    },
+    {
       :name => "Debian mirror",
       :os_family => "Debian",
       :path => "http://ftp.debian.org/debian",
