@@ -10,6 +10,10 @@ description: |
   on the template of host_init_config kind.
 -%>
 #!/bin/sh
+
+# Make sure, all command output can be parsed (e.g. from subscription-manager)
+export LC_ALL=C LANG=C
+
 <%
     headers = ["-H 'Authorization: Bearer #{@auth_token}'"]
     activation_keys = [(@hostgroup.params['kt_activation_keys'] if @hostgroup), @activation_keys].compact.join(',')
