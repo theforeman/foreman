@@ -361,7 +361,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :view_media,    {:media => [:index, :show, :auto_complete_search, :welcome],
                                    :"api/v2/media" => [:index, :show],
     }
-    map.permission :create_media,  {:media => [:new, :create],
+    map.permission :create_media,  {:media => [:new, :create, :clone],
                                    :"api/v2/media" => [:create],
     }
     map.permission :edit_media,    {:media => [:edit, :update],

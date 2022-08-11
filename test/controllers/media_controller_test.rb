@@ -58,4 +58,18 @@ class MediaControllerTest < ActionController::TestCase
     get :index, session: set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
+
+  test 'user should be able to clone media' do
+    medium = media(:solaris10)
+    setup_user
+    get :clone, params: { :id => medium.id }, session: set_session_user
+    assert_response :success
+  end
+
+  test 'user without create_media permission can\'t clone media' do
+    medium = media(:solaris10)
+    setup_user
+    get :clone, params: { :id => medium.id }, session: set_session_user.merge(:user => users(:one).id)
+    assert_response :forbidden
+  end
 end
