@@ -33,6 +33,8 @@ class HostsController < ApplicationController
   before_action :set_host_type, :only => [:update]
   before_action :find_multiple, :only => MULTIPLE_ACTIONS
   before_action :validate_power_action, :only => :update_multiple_power_state
+  # index action is already included in ApplicationController
+  before_action(:only => SEARCHABLE_ACTIONS.without('index')) { find_selected_columns }
 
   helper :hosts, :reports, :interfaces
 
