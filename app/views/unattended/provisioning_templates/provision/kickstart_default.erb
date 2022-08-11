@@ -229,6 +229,9 @@ key --skip
 <%= @host.diskLayout %>
 <% end -%>
 
+<# TODO conditionals whether rhsm kickstart is supported #>
+<%= snippet('redhat_kickstart_rhsm') %>
+
 text
 reboot
 
@@ -292,6 +295,7 @@ logger "Starting anaconda <%= @host %> postinstall"
 <%= snippet 'epel' -%>
 <% end -%>
 
+<# TODO only if rhsm is unsupported #>
 <%= snippet 'redhat_register' %>
 
 <% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>

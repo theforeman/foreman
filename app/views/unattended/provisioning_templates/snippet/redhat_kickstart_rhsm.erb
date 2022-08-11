@@ -1,0 +1,49 @@
+<%- if host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons') %>
+<%-
+  syspurpose_args = []
+  ['role', 'usage', 'sla'].each do |arg|
+    if (value = host_param("syspurpose_#{arg}")
+      syspurpose_args << "--#{arg}=\"#{value}\""
+    end
+  end
+  if syspurpose_args.any?
+-%>
+syspurpose <%= syspurpose_args.join(' ') %>
+<% end -%>
+<%-
+  rhsm_args = []
+  if host_param('kt_activation_keys')
+    subscription_manager_certpkg_url = subscription_manager_configuration_url(@host)
+    subscription_manager_org = @host.rhsm_organization_label
+    activation_key = host_param('kt_activation_keys')
+  else
+    subscription_manager_certpkg_url = host_param('subscription_manager_certpkg_url')
+    subscription_manager_org = host_param('subscription_manager_org')
+    activation_key = host_param('activation_key')
+  end
+
+  # kickstart only supports activation keys
+  if activation_key
+    rhsm_args << "--organization=\"#{subscription_manager_org}\""
+    rhsm_args << "--activation-key=\"#{activation_key}\""
+    # TODO add --connect-to-insights if desired
+
+    if (http_proxy = host_param('http-proxy'))
+      if (http_proxy_user = host_param('http-proxy-user'))
+        if (http_proxy_password = host_param('http-proxy-password'))
+          http_proxy = "#{http_proxy_user}:#{http_proxy_password}@#{http_proxy}"
+        else
+          # TODO: is no password valid?
+          http_proxy = "#{http_proxy_user}:@#{http_proxy}"
+        end
+      end
+      if (http_proxy_port = host_param('http-proxy-port'))
+        http_proxy += ":#{http_proxy_port}"
+      end
+    end
+  end
+
+  if rhsm_args.any?
+-%>
+rhsm <%= rhsm_args.join(' ') %>
+<% end -%>
