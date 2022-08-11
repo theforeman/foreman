@@ -8,6 +8,7 @@ module Pagelets
       @priority = priority
       @opts = opts
       @opts[:onlyif] ||= proc { true }
+      @opts[:profiles] ||= []
     end
 
     def <=>(other)

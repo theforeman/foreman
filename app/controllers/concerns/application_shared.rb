@@ -140,4 +140,8 @@ module ApplicationShared
     end
     determined_taxonomy
   end
+
+  def find_selected_columns
+    @selected_columns = User.current.table_preferences.find_by(name: controller_name)&.columns&.sort
+  end
 end

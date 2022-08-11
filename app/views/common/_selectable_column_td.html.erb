@@ -1,0 +1,1 @@
+<td <%= html_attributes(pagelet.opts, subject) %>><%= instance_exec(subject, &pagelet.opts[:callback]) %></td>
