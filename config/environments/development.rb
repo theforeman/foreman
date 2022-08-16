@@ -58,5 +58,9 @@ Foreman::Application.configure do
   # Allow disabling the webpack dev server from the settings
   config.webpack.dev_server.enabled = SETTINGS.fetch(:webpack_dev_server, true)
   config.webpack.dev_server.https = SETTINGS.fetch(:webpack_dev_server_https, false)
+
+  config.hosts += SETTINGS[:hosts]
   config.hosts << SETTINGS[:fqdn]
+  # Backporting from Rails 7.0
+  config.hosts += (ENV['RAILS_DEVELOPMENT_HOSTS'] || '').split(',')
 end
