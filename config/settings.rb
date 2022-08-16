@@ -26,6 +26,8 @@ unless SETTINGS[:domain] && SETTINGS[:fqdn]
   SETTINGS[:fqdn] ||= Facter.value(:fqdn)
 end
 
+SETTINGS[:hosts] ||= []
+
 # Load plugin config, if any
 Dir["#{__dir__}/settings.plugins.d/*.yaml"].each do |f|
   SETTINGS.merge! YAML.load(ERB.new(File.read(f)).result)

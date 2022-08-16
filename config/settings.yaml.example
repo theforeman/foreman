@@ -35,6 +35,12 @@
 :domain: 'localdomain.net'
 :fqdn: 'localhost.localdomain.net'
 
+# Configure hostnames for ActionDispatch::HostAuthorization
+# Only hostnames are supported. Regular expressions and IP addresses/ranges are not.
+# https://guides.rubyonrails.org/v6.1/configuring.html#configuring-middleware
+:hosts:
+# - host.example.com
+
 # List of Domains allowed for Cross-Origin Resource Sharing
 # :cors_domains:
 #   - https://foreman.example.com
