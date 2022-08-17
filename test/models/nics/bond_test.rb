@@ -15,14 +15,14 @@ class BondTest < ActiveSupport::TestCase
     assert bond.virtual
   end
 
-  test 'attached devices are stripped and downcased' do
+  test 'attached devices are stripped, case is preserved due to identifiers like on HPE Superdome Flex 280' do
     bond = FactoryBot.build_stubbed(:nic_bond, :attached_devices => 'Eth0, ETH1 ,   eth2    ')
-    assert_equal "eth0,eth1,eth2", bond.attached_devices
+    assert_equal "Eth0,ETH1,eth2", bond.attached_devices
   end
 
   test 'attached devices can be also specified as an array' do
     bond = FactoryBot.build_stubbed(:nic_bond, :attached_devices => ['Eth0', 'ETH1 ', '   eth2    '])
-    assert_equal "eth0,eth1,eth2", bond.attached_devices
+    assert_equal "Eth0,ETH1,eth2", bond.attached_devices
   end
 
   test 'attached devices interfaces can be accessed as an array' do
