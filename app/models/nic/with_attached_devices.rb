@@ -4,7 +4,7 @@ module Nic::WithAttachedDevices
 
   SEPARATOR = ','
   included do
-    validates :attached_devices, :format => { :with => /\A[a-z0-9#{SEPARATOR}.:_-]+\Z/ }, :allow_blank => true
+    validates :attached_devices, :format => { :with => /\A[A-Za-z0-9#{SEPARATOR}.:_-]+\Z/ }, :allow_blank => true
     validates :identifier, :presence => true, :if => :managed?
 
     before_validation :ensure_virtual
@@ -18,7 +18,7 @@ module Nic::WithAttachedDevices
 
   def attached_devices=(devices)
     devices = devices.split(SEPARATOR) if devices.is_a?(String)
-    super(devices.map { |i| i.downcase.strip }.join(SEPARATOR))
+    super(devices.map { |i| i.strip }.join(SEPARATOR))
   end
 
   def attached_devices_identifiers
