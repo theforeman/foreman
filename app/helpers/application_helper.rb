@@ -234,6 +234,8 @@ module ApplicationHelper
   def avatar_image_tag(user, html_options = {})
     if user.avatar_hash.present?
       image_tag("avatars/#{user.avatar_hash}.jpg", html_options)
+    elsif user.disabled?
+      icon_text("ban", "", :kind => "fa", :class => html_options[:class], :title => _("This user is disabled and won't be able to perform any actions. You can edit the user to enable them again."))
     else
       icon_text("user #{html_options[:class]}", "", :kind => "fa")
     end
