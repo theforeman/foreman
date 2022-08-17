@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Grid, Flex, FlexItem, Button } from '@patternfly/react-core';
+import { Flex, FlexItem, Button } from '@patternfly/react-core';
 import { registerCoreCards } from './CardRegistry';
 import Slot from '../../../common/Slot';
 import { STATUS } from '../../../../constants';
 import '../Overview/styles.css';
+import './styles.css';
 import { translate as __ } from '../../../../common/I18n';
 
 const DetailsTab = ({ response, status, hostName }) => {
@@ -19,17 +20,21 @@ const DetailsTab = ({ response, status, hostName }) => {
 
   return (
     <div className="host-details-tab-item details-tab">
-      <Flex>
+      <Flex style={{ marginBottom: '1rem' }}>
         <FlexItem align={{ default: 'alignRight' }}>
           <Button
             onClick={() => setExpandedGlobal(prev => !prev)}
             variant="link"
           >
-            {__('Expand/Collapse  all')}
+            {__('Expand/Collapse all')}
           </Button>
         </FlexItem>
       </Flex>
-      <Grid hasGutter>
+      <Flex
+        direction={{ default: 'column' }}
+        flexWrap={{ default: 'wrap' }}
+        className="details-tab-flex-container"
+      >
         <Slot
           hostDetails={response}
           status={status}
@@ -38,7 +43,7 @@ const DetailsTab = ({ response, status, hostName }) => {
           isExpandedGlobal={isExpandedGlobal}
           multi
         />
-      </Grid>
+      </Flex>
     </div>
   );
 };

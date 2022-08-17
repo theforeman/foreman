@@ -10,6 +10,7 @@ import {
   CardTitle,
   CardBody,
   GridItem,
+  FlexItem,
 } from '@patternfly/react-core';
 
 import { useLocalStorage } from '../../../../../common/hooks/Storage';
@@ -23,6 +24,7 @@ const CardTemplate = ({
   dropdownItems,
   overrideGridProps,
   overrideDropdownProps,
+  masonryLayout,
 }) => {
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
   const [isExpanded, setExpanded] = useLocalStorage(
@@ -41,10 +43,22 @@ const CardTemplate = ({
     () => isExpandedGlobal !== undefined && setExpanded(isExpandedGlobal),
     [isExpandedGlobal]
   );
+  const CardContainer = masonryLayout ? FlexItem : GridItem;
+  const gridWidthProps = masonryLayout
+    ? {}
+    : {
+        xl2: 3,
+        xl: 4,
+        md: 6,
+        lg: 4,
+      };
+  const cardProps = masonryLayout
+    ? { style: { width: '24rem', marginTop: '-0.8rem' } }
+    : {};
 
   return (
-    <GridItem xl2={3} xl={4} md={6} lg={4} {...overrideGridProps}>
-      <Card isExpanded={isExpanded} isSelectable>
+    <CardContainer {...gridWidthProps} {...overrideGridProps}>
+      <Card isExpanded={isExpanded} {...cardProps} isSelectable>
         <CardHeader
           onExpand={expandable && onExpandCallback}
           isToggleRightAligned
@@ -72,7 +86,7 @@ const CardTemplate = ({
           <CardBody>{children}</CardBody>
         )}
       </Card>
-    </GridItem>
+    </CardContainer>
   );
 };
 
@@ -84,6 +98,7 @@ CardTemplate.propTypes = {
   dropdownItems: PropTypes.arrayOf(PropTypes.node),
   overrideDropdownProps: PropTypes.object,
   expandable: PropTypes.bool,
+  masonryLayout: PropTypes.bool,
 };
 
 CardTemplate.defaultProps = {
@@ -93,6 +108,7 @@ CardTemplate.defaultProps = {
   overrideDropdownProps: {},
   expandable: false,
   isExpandedGlobal: false,
+  masonryLayout: false,
 };
 
 export default CardTemplate;
