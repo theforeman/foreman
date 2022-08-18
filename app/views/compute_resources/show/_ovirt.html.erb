@@ -14,3 +14,11 @@
   <td><%= _("Default VNC Keyboard") %></td>
   <td><%= @compute_resource.keyboard_layout %></td>
 </tr>
+<% if show_rhev_deprecation? %>
+<tr>
+  <td>&nbsp;</td>
+  <td colspan="2">
+    <%= rhev_deprecation_alert %>
+  </td>
+</tr>
+<% end %>

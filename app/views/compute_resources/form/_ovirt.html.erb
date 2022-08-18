@@ -1,3 +1,13 @@
+<% if show_rhev_deprecation? %>
+<div class="clearfix">
+  <div class="form-group ">
+    <label class="col-md-2 control-label">&nbsp;</label>
+    <div class="col-md-8">
+      <%= rhev_deprecation_alert %>
+    </div>
+  </div>
+</div>
+<% end %>
 
 <%= text_f f, :url, :size => "col-md-8", :help_block => _("e.g. https://ovirt.example.com/ovirt-engine/api"), :help_inline => documentation_button('5.2.7oVirt/RHEVNotes') %>
 <%= text_f f, :user, :help_block => _("e.g. admin@internal") %>

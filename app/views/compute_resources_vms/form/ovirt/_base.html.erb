@@ -1,3 +1,13 @@
+<% if show_rhev_deprecation? %>
+<div class="clearfix">
+  <div class="form-group ">
+    <label class="col-md-2 control-label">&nbsp;</label>
+    <div class="col-md-8">
+      <%= rhev_deprecation_alert %>
+    </div>
+  </div>
+</div>
+<% end %>
 
 <%= text_f f, :name, :label => _('Name'), :label_size => "col-md-3" if show_vm_name? %>
 <% clusters = compute_resource.clusters %>
