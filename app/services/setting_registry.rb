@@ -159,7 +159,6 @@ class SettingRegistry
 
   def _add(name, category:, type:, default:, description:, full_name:, context:, value: nil, encrypted: false, collection: nil, options: {})
     select_collection_registry.add(name, collection: collection, **options) if collection
-    Foreman::Deprecation.deprecation_warning('3.3', "initial value of setting '#{name}' should be created in a migration") if value
 
     @settings[name.to_s] = SettingPresenter.new({ name: name,
                                                   context: context,

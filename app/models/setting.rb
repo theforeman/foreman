@@ -201,8 +201,7 @@ class Setting < ApplicationRecord
 
   def self.load_defaults
     return false unless table_exists?
-    Foreman::Deprecation.deprecation_warning('3.4', "subclassing Setting is deprecated '#{name}' should be migrated to setting DSL "\
-                                                    'see https://github.com/theforeman/foreman/blob/develop/developer_docs/how_to_create_a_plugin.asciidoc#settings for details')
+
     default_settings.each do |s|
       t = Setting.setting_type_from_value(s[:default]) || 'string'
       kwargs = s.except(:name).merge(type: t.to_sym, category: name, context: :deprecated)

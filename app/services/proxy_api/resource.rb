@@ -67,7 +67,6 @@ module ProxyAPI
     # Perform GET operation on the supplied path
     def get(path = nil, payload = {})
       query = payload.delete(:query)
-      Foreman::Deprecation.deprecation_warning("3.3", "passing additional headers to ProxyApi resource GET action") unless payload.empty?
       final_uri = path || ""
       if query
         raise SyntaxError, 'path must be specified if the query does' unless path

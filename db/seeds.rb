@@ -6,10 +6,5 @@
 # Please ensure that all templates are submitted to community-templates, then they will be synced in.
 
 # define all helpers here
-def format_errors(model = nil)
-  Foreman::Deprecation.deprecation_warning('3.4', '`format_errors` is deprecated, use `SeedHelper.format_errors(model)` instead.')
-  SeedHelper.format_errors(model)
-end
-
 seeder = ForemanSeeder.new
 seeder.execute
