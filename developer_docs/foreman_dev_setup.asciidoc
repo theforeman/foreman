@@ -3,7 +3,7 @@
 :toc: right
 :toclevels: 5
 
-=== Installing the latest development code
+== Installing the latest development code
 Foreman uses Bundler to install dependencies and get up and running. This is the preferred way to get Foreman if you want to benefit from the latest improvements. By using the git repository you can also upgrade more easily. You will need to have Bundler installed manually for now (check your distribution repositories, or install it via rubygems).
 
 [[prerequisites]]

@@ -1,0 +1,138 @@
+= Ansible devel setup
+:toc: right
+:toclevels: 5
+
+[[prerequisites]]
+== Prerequisites
+
+* https://github.com/theforeman/foreman/blob/develop/developer_docs/foreman_dev_setup.asciidoc[Foreman devel setup]
+* https://github.com/theforeman/foreman/blob/develop/developer_docs/smart_proxy_dev_setup.asciidoc[Smart Proxy devel setup]
+* https://github.com/theforeman/foreman/blob/develop/developer_docs/remote_execution_dev_setup.asciidoc[Remote Execution devel setup]
+* Installed https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html[Ansible]
+* Installed https://ansible-runner.readthedocs.io/en/stable/install/[Ansible Runner]
+* Running machine that can be connected to via SSH (key authentication is best)
+
+[[foreman-plugin]]
+== Foreman plugin
+
+Download https://github.com/theforeman/foreman_ansible[foreman_ansible] plugin
+[source, bash]
+....
+git clone https://github.com/theforeman/foreman_ansible.git
+....
+
+Enable `foreman_ansible` plugin
+[source, ruby]
+....
+# bundler.d/ansible.local.rb
+
+gem 'foreman_ansible', path: '/path/to/foreman_ansible'
+....
+
+Install plugin dependencies & migrate database
+[source, bash]
+....
+bundle install
+npm install
+
+bundle exec rails db:migrate
+....
+
+
+[[smart-proxy-plugin]]
+== Smart Proxy plugin
+Add plugin gems
+
+[source, bash]
+....
+# /path/to/smart-proxy/bundler.d/ansible.local.rb
+
+gem 'smart_proxy_ansible', git: 'https://github.com/theforeman/smart_proxy_ansible.git'
+....
+
+Install gems
+[source, bash]
+....
+bundle install
+....
+
+Enable feature
+
+[source, yaml]
+....
+# config/settings.d/ansible.yml
+# See https://github.com/theforeman/smart_proxy_ansible/blob/master/settings.d/ansible.yml.example
+# all configuration options
+---
+:enabled: true
+....
+
+
+Run all services
+[source, bash]
+....
+# In Foreman folder
+bundle exec foreman start
+bundle exec rake dynflow:executor
+
+# In Smart Proxy folder
+bundle exec bin/smart-proxy
+# => [I] Successfully initialized 'ansible'
+....
+
+[[foreman-collection]]
+== Foreman collection
+
+`theforeman.foreman` collection contains Ansible Modules to manage Foreman and Katello installations.
+
+Install https://docs.ansible.com/ansible/latest/collections/theforeman/foreman/index.html[Foreman Collection]
+
+[source, bash]
+....
+ansible-galaxy collection install theforeman.foreman
+....
+
+Copy the default configuration to user's HOME
+
+[source, bash]
+....
+cp /etc/ansible/ansible.cfg ~/.ansible.cfg
+....
+
+
+Add theforeman.foreman.foreman callback plugin to a callback plugin whitelist
+
+[source, bash]
+....
+ansible -i ,localhost -c local -m ini_file -a 'path=~/.ansible.cfg state=present section=defaults option=callback_whitelist value=theforeman.foreman.foreman' localhost
+ansible -i ,localhost -c local -m ini_file -a 'path=~/.ansible.cfg state=present section=callback_foreman option=url value=http://localhost:3000' localhost
+....
+
+Create simple playbook `ping_playbook.yml`
+
+[source, yaml]
+....
+---
+- name: Ping Playbook
+  hosts: all
+  become: yes
+  become_user: root
+  gather_facts: true
+  tasks:
+    - name: Show host's hostname
+      debug:
+        msg: "{{ ansible_ssh_host }}"
+....
+
+And run it against the host from prerequisities
+[source, bash]
+....
+ansible-playbook -i,<domain-of-the-host-you-want-to-register> -u root -k ping_playbook.yml
+....
+
+Check that callback works and host has been created in the Foreman
+
+[[importing-roles]]
+== Importing roles
+* Go to _Infrastructure > Smart Proxies_ > Smart Proxy and refresh features
+* In _Configure > Roles_ import all roles
