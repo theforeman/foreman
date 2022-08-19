@@ -1,0 +1,148 @@
+= Smart Proxy devel setup
+:toc: right
+:toclevels: 5
+
+[[prerequisites]]
+== Prerequisites
+https://github.com/theforeman/smart-proxy[Smart Proxy] will run with the following requirements (aside from rubygem dependencies):
+
+* Ruby `>= 2.7.0`
+
+[[installation]]
+== Installation
+
+[source, bash]
+....
+git clone https://github.com/theforeman/smart-proxy
+cd smart-proxy
+cp config/settings.yml.example config/settings.yml
+bundle install
+....
+
+[[configuration]]
+== Configuration
+
+By default, Smart Proxy does not listen on any port and SSL is not configured, so uncomment the `http_port` configuration value:
+
+[source, bash]
+....
+# config/settings.yaml
+:http_port: 8080
+:foreman_url: http://localhost:3000
+:bind_host: ['*']
+....
+
+To elevate authorization for Foreman, either the remote IP address or DNS hostname, or both, must be in the trusted_hosts list. This depends on how your system connects to the proxy (IPv4 or IPv6) and also on how the remote IP address is reverse-resolved. The following list of trusted entries should do the trick:
+
+[source, bash]
+....
+grep -A10 trusted_hosts config/settings.yaml
+:trusted_hosts:
+- localhost
+- localhost4
+- localhost6
+- 127.0.0.1
+- ::1
+- your_host_name
+- your_host_name.with.full.domain.com
+....
+
+[[running-proxy]]
+== Running proxy
+[source, bash]
+....
+bundle exec bin/smart-proxy
+....
+
+[[smart-proxy-in-foreman]]
+== Smart Proxy in Foreman
+Add proxy in Foreman UI (_Infrastructure > Smart Proxies_)
+
+[source, bash]
+....
+Name: localhost
+URL: http://localhost:8080
+....
+
+[[features-and-plugins]]
+== Features and plugins
+Smart Proxy starts with almost no features enabled. Each feature must be individually configured. Most of the features (which are essentially build-in plugins) and external plugins (these live in separate git repositories) require some backend system configuration so this is out of scope for this guide.
+
+Here is how you can enable a simple feature which requires no configuration or a backend system:
+
+[source, bash]
+....
+cd smart-proxy
+cp config/settings.d/logs.yml.example config/settings.d/logs.yml
+grep :enabled config/settings.d/logs.yml
+:enabled: true
+....
+
+And here is how you can enable a simple (external) plugin without a backend system:
+
+[source, bash]
+....
+cd smart-proxy
+grep shellhooks bundler.d/shellhooks.local.rb
+gem "smart_proxy_shellhooks", path: "../smart_proxy_shellhooks/"
+
+git clone https://github.com/theforeman/smart_proxy_shellhooks ../smart_proxy_shellhooks
+cp ../smart_proxy_shellhooks/settings.d/shellhooks.yml.example \
+  config/settings.d/shellhooks.yml
+grep enabled config/settings.d/shellhooks.yml
+:enabled: true
+....
+
+[[ssl]]
+== SSL (optional)
+To configure SSL, generate a CA cert, a server cert and a client cert with a common name listed in trusted hosts configuration.
+
+Assuming the following files:
+
+* `ca.crt` - CA cert
+* `server.{crt,pem,key}` - server SSL cert
+* `client-localhost.{crt,pem,key}` - client SSL cert
+
+Then configure Foreman (via _Administer - Settings_) as follows:
+
+* SSL CA cert: `ca.pem`
+* SSL cert: `client-localhost.pem`
+* SSL key: `client-localhost.key`
+
+And configure smart-proxy as:
+[source, bash]
+....
+grep ^:ssl config/settings.yml
+:ssl_ca_file: "ca.pem"
+:ssl_certificate: "server.pem"
+:ssl_private_key: "server.key"
+
+grep ^:https_port config/settings.yml
+:https_port: 8443
+....
+
+Then you can add Smart Proxy in Foreman UI as `https://localhost:8443`.
+
+[[troubleshooting]]
+== Troubleshooting
+
+`krb5` error while running `bundle install`
+[source, bash]
+....
+Error while installing proxy:
+checking for krb5.h... no
+checking for -lkrb5... no
+warning: com_err not found, usually a dependency for kadm5clnt
+checking for kadm5/admin.h... no
+*** extconf.rb failed ***
+Could not create Makefile due to some reason, probably lack of necessary
+libraries and/or headers.  Check the mkmf.log file for more details.  You may
+need configuration options.
+....
+
+If you won\'t need Kerberos authentication, you can run:
+
+[source, bash]
+....
+bundle install --without krb5
+....

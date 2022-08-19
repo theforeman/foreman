@@ -1,0 +1,157 @@
+= Remote Execution devel setup
+:toc: right
+:toclevels: 5
+
+[[prerequisites]]
+== Prerequisites
+
+* https://github.com/theforeman/foreman/blob/develop/developer_docs/foreman_dev_setup.asciidoc[Foreman devel setup]
+* https://github.com/theforeman/foreman/blob/develop/developer_docs/smart_proxy_dev_setup.asciidoc[Smart Proxy devel setup]
+* Host that can be connected to via SSH (with SSH key authentication)
+
+[[foreman-plugin]]
+== Foreman plugin
+
+Download https://github.com/theforeman/foreman_remote_execution[foreman_remote_execution] plugin
+[source, bash]
+....
+git clone https://github.com/theforeman/foreman_remote_execution.git
+....
+
+Enable plugin
+[source, ruby]
+....
+# bundler.d/remote_execution.local.rb
+
+gem 'foreman_remote_execution', path: '/path/to/foreman_remote_execution'
+....
+
+Install plugin dependencies & migrate database
+[source, bash]
+....
+bundle install
+npm install
+
+bundle exec rails db:migrate
+....
+
+Create initializer for Dynflow running as separate process
+[source, ruby]
+....
+# config/initializers/foreman_tasks.rb
+
+if defined?(ForemanTasks) && Rails.env != 'test'
+  ForemanTasks.dynflow.config.remote = true
+end
+....
+
+[[smart-proxy]]
+== Smart Proxy
+
+Add https://github.com/theforeman/smart_proxy_dynflow[smart_proxy_dynflow] and  https://github.com/theforeman/smart_proxy_remote_execution_ssh[smart_proxy_remote_execution_ssh] gems
+
+[source, bash]
+....
+
+# /path/to/smart-proxy/bundler.d/remote_execution.local.rb
+
+gem 'smart_proxy_dynflow', git: 'https://github.com/theforeman/smart_proxy_dynflow.git'
+gem 'smart_proxy_remote_execution_ssh', git: 'https://github.com/theforeman/smart_proxy_remote_execution_ssh.git'
+....
+
+Install dependencies
+[source, bash]
+....
+bundle install
+....
+
+Enable features
+
+[source, yaml]
+....
+# config/settings.d/dynflow.yml
+# See https://github.com/theforeman/smart_proxy_dynflow/blob/master/settings.d/dynflow.yml.example
+# for all configuration options
+---
+:enabled: true
+
+# config/settings.d/remote_execution_ssh.yml
+# See https://github.com/theforeman/smart_proxy_remote_execution_ssh/blob/master/settings.d/remote_execution_ssh.yml.example
+# for all configuration options
+---
+:enabled: true
+....
+
+Run proxy and check that features have been enabled
+[source, bash]
+....
+2022-08-17T12:26:52  [I] Successfully initialized 'dynflow'
+2022-08-17T12:26:52  [I] Successfully initialized 'ssh'
+2022-08-17T12:26:52  [I] Successfully initialized 'foreman_proxy'
+....
+
+In Foreman on the detail of Smart Proxy click refresh and verify that `Script` (or `SSH`) and `Dynflow` features have been succesfully loaded.
+
+[[run]]
+== Run all servicies
+[source, bash]
+....
+# In Foreman folder
+bundle exec foreman start
+bundle exec rake dynflow:executor
+
+# In Smart Proxy folder
+bundle exec bin/smart-proxy
+....
+
+[[configuring-foreman]]
+== Configuring Foreman
+
+In _Administer > Settings > Remote execution_
+
+* Set `Connect by IP` to `yes` so you don't to have care about DNS
+* Optional: Set `default SSH password` that will be used for SSH connection. If you don't set the password, Remote Execution will try to authenticate with SSH keys
+
+[[try-if-it-works]]
+== Try if it works
+
+* In Foreman `console` create new host, with IP of the host from prerequisities
+
+[source, ruby]
+....
+Host.create(name: 'rex-test', managed: false, build: false, organization: Organization.find_by(name: 'Default Organization'), location: Location.find_by(name: 'Default Location'), ip: 'machine-ip4')
+....
+
+* In Foreman UI go to _Hosts > All Hosts_, select the `rex-test` and choose `Schedule Remote Job`
+* As command use for example `date` or `cat /etc/os-release`
+* Run job
+
+You can see the result for the host viewing the detail in the table at the bottom of job invocation page.
+
+[[troubleshooting]]
+== Troubleshooting
+=== Starting Smart Proxy - Missing SSH keys
+[source, bash]
+....
+Error while running proxy
+Error details for Couldn't enable 'ssh': <RuntimeError>: Ssh public key file /home/<your account>/.ssh/id_rsa_foreman_proxy doesn't exist.
+....
+
+Fix:
+[source, bash]
+....
+cd ~/.ssh
+ln -s id_rsa.pub ~/.ssh/id_rsa_foreman_proxy.pub
+ln -s id_rsa ~/.ssh/id_rsa_foreman_proxy
+....
+
+=== SSH debuging
+**Smart Proxy**
+[source, bash]
+....
+# config/settings.d/remote_execution_ssh.yml
+:ssh_log_level: debug
+
+# config/settings.yml
+:log_level: DEBUG
+....
