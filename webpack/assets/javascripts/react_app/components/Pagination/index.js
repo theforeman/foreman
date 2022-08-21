@@ -50,7 +50,14 @@ const Pagination = ({
     }
     setPerPage(current => nextPerPage || current || settingsPerPage);
     setPage(current => nextPage || current);
-  }, [search, propsPage, propsPerPage, settingsPerPage, updateParamsByUrl]);
+  }, [
+    search,
+    propsPage,
+    propsPerPage,
+    settingsPerPage,
+    updateParamsByUrl,
+    perPage,
+  ]);
 
   const paginationTitles = {
     items: __('items'),
