@@ -1,3 +1,3 @@
 group :redis do
-  gem 'redis', '~> 4.0'
+  gem 'redis', '~> 4.5.0'
 end
