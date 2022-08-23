@@ -1,3 +1,3 @@
 collection @available_networks
 
-attribute :name, :id
+attribute :name, :id, :datacenter, :virtualswitch, :vlanid
