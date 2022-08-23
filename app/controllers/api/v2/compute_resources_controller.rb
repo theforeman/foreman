@@ -144,7 +144,7 @@ module Api
       param :id, :identifier, :required => true
       param :cluster_id, String
       def available_networks
-        @available_networks = @compute_resource.available_networks(params[:cluster_id].presence)
+        @available_networks = @compute_resource.available_networks(cluster_id)
         @total = @available_networks&.size
         render :available_networks, :layout => 'api/v2/layouts/index_layout'
       end
@@ -160,7 +160,7 @@ module Api
       param :id, :identifier, :required => true
       param :cluster_id, String, :required => true
       def available_resource_pools
-        @available_resource_pools = @compute_resource.available_resource_pools({ :cluster_id => params[:cluster_id] })
+        @available_resource_pools = @compute_resource.available_resource_pools({ :cluster_id => cluster_id })
         @total = @available_resource_pools&.size
         render :available_resource_pools, :layout => 'api/v2/layouts/index_layout'
       end
@@ -183,7 +183,7 @@ module Api
           Foreman::Deprecation.api_deprecation_warning("use /compute_resources/:id/storage_domain/:storage_domain_id endpoind instead")
           @available_storage_domains = [@compute_resource.storage_domain(params[:storage_domain])]
         else
-          @available_storage_domains = @compute_resource.available_storage_domains(params[:cluster_id].presence)
+          @available_storage_domains = @compute_resource.available_storage_domains(cluster_id)
         end
         @total = @available_storage_domains&.size
         render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
@@ -207,7 +207,7 @@ module Api
           Foreman::Deprecation.api_deprecation_warning("use /compute_resources/:id/storage_pod/:storage_pod_id endpoind instead")
           @available_storage_pods = [@compute_resource.storage_pod(params[:storage_pod])]
         else
-          @available_storage_pods = @compute_resource.available_storage_pods(params[:cluster_id].presence)
+          @available_storage_pods = @compute_resource.available_storage_pods(cluster_id)
         end
         @total = @available_storage_pods&.size
         render :available_storage_pods, :layout => 'api/v2/layouts/index_layout'
@@ -294,6 +294,10 @@ module Api
       end
 
       private
+
+      def cluster_id
+        params[:cluster_id].present? && CGI.unescape(params[:cluster_id])
+      end
 
       def action_permission
         case params[:action]
