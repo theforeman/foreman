@@ -1657,12 +1657,14 @@ end
 A plugin can add items to the `Actions` dropdown in the table on the hostgroups overview page.
 
 Adding an item to the actions dropdown requires adding a helper with a method that accepts a hostgroup as an argument and
-returns a list of hashes, where each hash will
-have two predefined fields: `:action` and `:priority`.
-The `:action`  item should be an HTML element (probably a link) that will be embedded as an item in the dropdown.
-The `:priority` value would be used by the
-system to define the order of the items to show. The lower the priority, the
-higher the item will show.
+returns a list of hashes, where each hash will have two predefined fields: `:action` and `:priority`.
+The `:action` item should be an HTML element (probably a link) that will be embedded as an item in the dropdown.
+The `:priority` value would be used by the system to define the order of the items to show.
+The lower the priority, the higher the item will show.
+
+There is also an option to add action with a disabled link by passing the `:action` as a hash.
+This hash has two values: `:content` which contains the HTML link as before, and `:options` which contains a hash with the HTML options to be added to the action’s `li` tag.
+See the second example below.
 
 In plugin helper (`my_plugin_helper.rb`):
 [source, ruby]
@@ -1670,6 +1672,7 @@ In plugin helper (`my_plugin_helper.rb`):
 def my_plugin_hostgroups_actions(hostgroup)
   [
     { :action => display_link_if_authorized('new_action', {other_properties}), :priority => 20 }
+    { :action => { :content => display_link_if_authorized('new_action', {other_properties}), :options => { :class => 'disabled' } }, :priority => 20 }
   ]
 end
 ----

@@ -225,9 +225,18 @@ module ApplicationHelper
 
     content_tag(:div, :class => "btn-group") do
       primary + link_to(content_tag(:span, '', :class => 'caret'), '#', :class => "btn btn-default #{'btn-sm' if primary =~ /btn-sm/} dropdown-toggle", :'data-toggle' => 'dropdown') +
-      content_tag(:ul, :class => "dropdown-menu pull-right") do
-        args.map { |option| content_tag(:li, option) }.join(" ").html_safe
-      end
+        content_tag(:ul, :class => "dropdown-menu pull-right") do
+          args.map do |option|
+            tag_options = nil
+            if option.is_a?(Hash)
+              content = option[:content]
+              tag_options = option[:options]
+            else
+              content = option
+            end
+            content_tag(:li, content, tag_options)
+          end.join(" ").html_safe
+        end
     end
   end
 
