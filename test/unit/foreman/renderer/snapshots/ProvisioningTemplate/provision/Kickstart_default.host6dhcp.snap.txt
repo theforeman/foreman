@@ -11,7 +11,6 @@ url --url http://mirror.centos.org/centos/7/os/x86_64
 lang en_US.UTF-8
 selinux --enforcing
 keyboard us
-skipx
 
 network --device=00-f0-54-1a-7e-e0 --hostname snapshot-ipv6-dhcp-el7 --noipv6 --bootproto dhcp --mtu=1342 --nameserver=2001:db8:42::8,2001:db8:42::4
 
@@ -32,6 +31,7 @@ part /boot --fstype ext3 --size=100 --asprimary
 part /     --fstype ext3 --size=1024 --grow
 part swap  --recommended
 
+skipx
 text
 reboot
 
