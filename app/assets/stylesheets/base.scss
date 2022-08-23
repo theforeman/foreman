@@ -615,3 +615,7 @@ code.transparent {
   overflow-y: auto;
   max-width: 175px;
 }
+
+td .dropdown-menu > li > a.disabled:hover, td .dropdown-menu > li > a.disabled:focus {
+  cursor: pointer;
+}
