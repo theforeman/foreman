@@ -100,7 +100,7 @@ end
 
 module Foreman
   class Application < Rails::Application
-    config.load_defaults 5.0
+    config.load_defaults 5.1
 
     # Rails 5.0 changed this to true, but a lot of code depends on this
     config.active_record.belongs_to_required_by_default = false
