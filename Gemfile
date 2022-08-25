@@ -16,7 +16,7 @@ gem 'apipie-dsl', '>= 2.2.6'
 # Rails 6.0 is incompatible with Psych 4, Rails 6.1 should work
 gem 'rdoc', '< 6.4'
 gem 'rabl', '>= 0.15.0', '< 1'
-gem 'oauth', '>= 0.5.4', '< 1'
+gem 'oauth', '~> 1.0'
 gem 'deep_cloneable', '>= 3', '< 4'
 gem 'validates_lengths_from_database', '~> 0.5'
 gem 'friendly_id', '>= 5.4.2', '< 6'
