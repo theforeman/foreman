@@ -18,7 +18,7 @@ class ExternalUsergroupTest < ActiveSupport::TestCase
   test 'update_usergroups matches LDAP gids with external user groups case insensitively' do
     setup_ldap_stubs
 
-    @auth_source_ldap.expects(:valid_group?).with('IPAUSERS').returns(true)
+    @auth_source_ldap.expects(:valid_group?).with('IPAUSERS').returns(true).twice
     external = FactoryBot.create(:external_usergroup, :auth_source => @auth_source_ldap, :name => 'IPAUSERS')
     ldap_user = FactoryBot.create(:user, :login => 'JohnSmith', :mail => 'a@b.com', :auth_source => @auth_source_ldap)
     AuthSourceLdap.any_instance.expects(:users_in_group).with('IPAUSERS').returns(['JohnSmith'])

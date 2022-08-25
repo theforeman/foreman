@@ -2500,8 +2500,8 @@ class HostTest < ActiveSupport::TestCase
     refute_nil host.provision_interface
     primary = host.primary_interface
 
-    nic = FactoryBot.build_stubbed(:nic_managed, :host => host, :mac => '00:00:00:AA:BB:CC', :ip => '192.168.0.1',
-                            :name => 'host2', :domain => host.domain)
+    nic = FactoryBot.build(:nic_managed, :host => host, :mac => '00:00:00:AA:BB:CC', :ip => '192.168.0.1',
+                           :name => 'host2', :domain => host.domain)
     nic.primary = true
     nic.provision = true
 
