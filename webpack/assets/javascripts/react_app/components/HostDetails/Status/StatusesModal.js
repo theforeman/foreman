@@ -15,6 +15,7 @@ const StatusModal = ({
   const header = (
     <>
       <Title
+        ouiaId="statuses-modal-title"
         id="statuses-modal-header"
         headingLevel="h1"
         size={TitleSizes['2xl']}
@@ -26,6 +27,7 @@ const StatusModal = ({
 
   return (
     <Modal
+      ouiaId="statuses-modal"
       width="50%"
       aria-label="statuses modal"
       isOpen={isOpen}

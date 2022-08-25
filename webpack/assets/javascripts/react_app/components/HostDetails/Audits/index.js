@@ -46,7 +46,7 @@ const AuditCard = ({ hostName }) => {
   } = useAPI('get', apiUrl);
   return (
     <GridItem xl2={3} xl={4} md={6} lg={4}>
-      <Card>
+      <Card ouiaId="audit-card">
         <CardHeader>
           <CardTitle>{__('Recent audits')}</CardTitle>
           <CardActions>
@@ -59,7 +59,9 @@ const AuditCard = ({ hostName }) => {
             status={status}
             emptyState={
               <Bullseye>
-                <Title headingLevel="h4"> {__('No Results found')} </Title>
+                <Title ouiaId="no-results-title" headingLevel="h4">
+                  {__('No Results found')}
+                </Title>
               </Bullseye>
             }
           >

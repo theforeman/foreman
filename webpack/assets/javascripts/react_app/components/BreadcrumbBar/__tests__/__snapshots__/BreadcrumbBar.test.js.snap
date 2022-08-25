@@ -22,6 +22,7 @@ exports[`BreadcrumbBar rendering renders breadcrumb-bar 1`] = `
         },
       ]
     }
+    ouiaId="breadcrumbs-list"
     titleReplacement={null}
   />
   <hr
@@ -52,6 +53,7 @@ exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
         },
       ]
     }
+    ouiaId="breadcrumbs-list"
     titleReplacement={null}
   >
     <BreadcrumbSwitcher

@@ -61,6 +61,7 @@ const StatusTable = ({ hostName, statuses, canForgetStatuses }) => {
     <Table
       style={{ height: 'auto' }}
       aria-label="statuses-table"
+      ouiaId="statuses-table"
       variant="compact"
       borders="compactBorderless"
       cells={columns}

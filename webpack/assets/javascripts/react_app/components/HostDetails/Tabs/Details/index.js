@@ -23,6 +23,7 @@ const DetailsTab = ({ response, status, hostName }) => {
       <Flex style={{ marginBottom: '1rem' }}>
         <FlexItem align={{ default: 'alignRight' }}>
           <Button
+            ouiaId="expand-button"
             onClick={() => setExpandedGlobal(prev => !prev)}
             variant="link"
           >

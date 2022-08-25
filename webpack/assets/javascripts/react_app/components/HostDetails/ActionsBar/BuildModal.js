@@ -38,12 +38,14 @@ const BuildModal = ({ isModalOpen, onClose, hostFriendlyId, hostName }) => {
 
   return (
     <Modal
+      ouiaId="review-build-modal"
       variant={ModalVariant.medium}
       title={__('Review before build')}
       isOpen={isModalOpen}
       onClose={onClose}
       actions={[
         <Button
+          ouiaId="confirm-button"
           key="confirm"
           variant="primary"
           onClick={() => {
@@ -53,7 +55,12 @@ const BuildModal = ({ isModalOpen, onClose, hostFriendlyId, hostName }) => {
         >
           {__('Build')}
         </Button>,
-        <Button key="cancel" variant="link" onClick={onClose}>
+        <Button
+          ouiaId="cancel-button"
+          key="cancel"
+          variant="link"
+          onClick={onClose}
+        >
           {__('Cancel')}
         </Button>,
       ]}
@@ -73,6 +80,7 @@ const BuildModal = ({ isModalOpen, onClose, hostFriendlyId, hostName }) => {
 
         <StackItem>
           <Alert
+            ouiaId="warning-alert"
             variant="warning"
             isInline
             title={__(

@@ -63,6 +63,7 @@ const ActionsBar = ({
   };
   const dropdownItems = [
     <DropdownItem
+      ouiaId="build-dropdown-item"
       onClick={buildHandler}
       key="build"
       component="button"
@@ -72,6 +73,7 @@ const ActionsBar = ({
       {isBuild ? __('Cancel build') : __('Build')}
     </DropdownItem>,
     <DropdownItem
+      ouiaId="clone-dropdown-item"
       isDisabled={!canCreate}
       onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/clone`))}
       key="clone"
@@ -81,6 +83,7 @@ const ActionsBar = ({
       {__('Clone')}
     </DropdownItem>,
     <DropdownItem
+      ouiaId="delete-dropdown-item"
       isDisabled={!canDestroy}
       onClick={deleteHostHandler}
       key="delete"
@@ -89,8 +92,9 @@ const ActionsBar = ({
     >
       {__('Delete')}
     </DropdownItem>,
-    <DropdownSeparator key="sp-1" />,
+    <DropdownSeparator key="sp-1" ouiaId="dropdown-separator-1" />,
     <DropdownItem
+      ouiaId="console-dropdown-item"
       onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/console`))}
       key="console"
       isDisabled={!isHostActive}
@@ -100,6 +104,7 @@ const ActionsBar = ({
       {__('Console')}
     </DropdownItem>,
     <DropdownItem
+      ouiaId="fact-dropdown-item"
       onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/facts`))}
       key="fact"
       component="button"
@@ -108,6 +113,7 @@ const ActionsBar = ({
       {__('Facts')}
     </DropdownItem>,
     <DropdownItem
+      ouiaId="report-dropdown-item"
       isDisabled={!hasReports}
       onClick={() =>
         visit(foremanUrl(`/hosts/${hostFriendlyId}/config_reports`))
@@ -118,8 +124,9 @@ const ActionsBar = ({
     >
       {__('Reports')}
     </DropdownItem>,
-    <DropdownSeparator key="sp-2" />,
+    <DropdownSeparator key="sp-2" ouiaId="dropdown-separator-2" />,
     <DropdownItem
+      ouiaId="pre-version-dropdown-item"
       icon={<UndoIcon />}
       href={`/hosts/${hostFriendlyId}`}
       key="prev-version"
@@ -143,6 +150,7 @@ const ActionsBar = ({
             {__('Edit')}
           </Button>
           <Dropdown
+            ouiaId="kebab-dropdown"
             alignments={{ default: 'right' }}
             toggle={
               <KebabToggle id="hostdetails-kebab" onToggle={onKebabToggle} />

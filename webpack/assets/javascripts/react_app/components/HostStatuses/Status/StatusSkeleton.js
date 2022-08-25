@@ -5,7 +5,7 @@ import GlobalStatusIcon from './GlobalStatusIcon';
 
 const StatusSkeleton = () => (
   <GridItem sm={12} xl2={6}>
-    <Card className="pf-c-alert pf-m-success">
+    <Card ouiaId="status-card-skeleton" className="pf-c-alert pf-m-success">
       <CardHeader
         onExpand={() => {}}
         toggleButtonProps={{

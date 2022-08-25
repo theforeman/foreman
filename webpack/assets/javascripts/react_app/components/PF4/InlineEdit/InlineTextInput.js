@@ -29,6 +29,7 @@ const InlineTextInput = ({
           ref={inputRef}
           type="text"
           aria-label={`${attribute} text input`}
+          ouiaId={`${attribute}-text-input`}
         />
       )}
     </>

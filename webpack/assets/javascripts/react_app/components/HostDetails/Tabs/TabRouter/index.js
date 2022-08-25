@@ -10,7 +10,7 @@ const TabRouter = ({ children, tabs, hostName, response, status, router }) => (
   <HashRouter>
     <>
       <TabsWithHashHistory tabs={children} />
-      <Switch>
+      <Switch ouiaId="tab-router-switch">
         <Route path="/" exact>
           <Redirect to={`/${DEFAULT_TAB}`} />
         </Route>

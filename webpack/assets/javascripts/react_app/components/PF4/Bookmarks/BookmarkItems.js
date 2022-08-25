@@ -14,15 +14,28 @@ import DocumentationUrl from '../DocumentationLink';
 export const addBookmarkItem = ({ canCreate, setModalOpen }) =>
   canCreate && (
     <DropdownGroup key="group 1">
-      <DropdownItem key="newBookmark" id="newBookmark" onClick={setModalOpen}>
+      <DropdownItem
+        ouiaId="new-bookmark-dropdown-item"
+        key="newBookmark"
+        id="newBookmark"
+        onClick={setModalOpen}
+      >
         <PlusIcon /> {__('Bookmark this search')}
       </DropdownItem>
-      <DropdownSeparator key="separator" />
+      <DropdownSeparator
+        ouiaId="new-bookmark-dropdown-separator"
+        key="separator"
+      />
     </DropdownGroup>
   );
 
 const pendingItem = (
-  <DropdownItem key="spinner" className="loader-root" isDisabled>
+  <DropdownItem
+    ouiaId="spinner-dropdown-item"
+    key="spinner"
+    className="loader-root"
+    isDisabled
+  >
     <Spinner size="xs" aria-label="loading bookmarks" />
   </DropdownItem>
 );
@@ -30,17 +43,21 @@ const pendingItem = (
 const bookmarksList = ({ bookmarks, onBookmarkClick }) =>
   (bookmarks.length > 0 &&
     bookmarks.map(({ name, query }) => (
-      <DropdownItem key={name} onClick={() => onBookmarkClick(query)}>
+      <DropdownItem
+        ouiaId={`${name}-dropdown-item`}
+        key={name}
+        onClick={() => onBookmarkClick(query)}
+      >
         <EllipisWithTooltip>{name}</EllipisWithTooltip>
       </DropdownItem>
     ))) || (
-    <DropdownItem key="not found" isDisabled>
+    <DropdownItem ouiaId="not-found-dropdown-item" key="not found" isDisabled>
       {__('None found')}
     </DropdownItem>
   );
 
 const errorItem = errors => (
-  <DropdownItem key="bookmarks-errors" isDisabled>
+  <DropdownItem ouiaId="error-dropdown-item" key="bookmarks-errors" isDisabled>
     <EllipisWithTooltip>
       {sprintf('Failed to load bookmarks: %s', errors)}
     </EllipisWithTooltip>
@@ -70,9 +87,13 @@ export const manageBookmarksItem = ({
   documentationUrl,
 }) => (
   <DropdownGroup key="manage bookmarks">
-    <DropdownSeparator key="separator" />
+    <DropdownSeparator
+      ouiaId="manage-bookmarks-dropdown-separator"
+      key="separator"
+    />
     {canCreate && (
       <DropdownItem
+        ouiaId="manage-bookmarks-dropdown-item"
         key="manageBookmarks"
         id="manageBookmarks"
         onClick={onClick}

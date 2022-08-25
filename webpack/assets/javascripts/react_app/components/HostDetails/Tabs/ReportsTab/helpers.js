@@ -104,6 +104,7 @@ export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
   };
   const dropdownItems = [
     <DropdownItem
+      ouiaId="action-dropdown-item"
       key="action"
       component="button"
       onClick={dispatchConfirm}
@@ -116,6 +117,7 @@ export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
     <Flex>
       <FlexItem align={{ default: 'alignRight' }}>
         <Dropdown
+          ouiaId="action-dropdown"
           onSelect={v => setOpen(!v)}
           toggle={<KebabToggle onToggle={setOpen} id="toggle-action" />}
           isOpen={isOpen}
@@ -129,6 +131,7 @@ export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
 
 export const reportToShowFormatter = ({ reported_at, can_view, id }) => (
   <Button
+    ouiaId="report-to-show-button"
     variant="link"
     component="a"
     isInline

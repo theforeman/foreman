@@ -6,7 +6,11 @@ import { newWindowOnClick } from '../../../common/helpers';
 import { translate as __ } from '../../../../react_app/common/I18n';
 
 const DocumentationLink = ({ href, children }) => (
-  <DropdownItem key="documentationUrl" onClick={newWindowOnClick(href)}>
+  <DropdownItem
+    ouiaId="doc-url-dropdown"
+    key="documentationUrl"
+    onClick={newWindowOnClick(href)}
+  >
     <QuestionCircleIcon /> {children}
   </DropdownItem>
 );

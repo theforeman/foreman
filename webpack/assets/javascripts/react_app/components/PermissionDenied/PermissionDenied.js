@@ -28,7 +28,7 @@ const PermissionDenied = ({ missingPermissions, texts, backHref }) => {
       </ul>
       <p>
         <a href={backHref}>
-          <Button>{__('Back')}</Button>
+          <Button ouiaId="back-button">{__('Back')}</Button>
         </a>
       </p>
     </div>

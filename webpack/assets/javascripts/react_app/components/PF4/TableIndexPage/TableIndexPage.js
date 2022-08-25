@@ -131,12 +131,14 @@ const TableIndexPage = ({
       )}
       <PageSection variant={PageSectionVariants.light}>
         <TextContent>
-          <Text component="h1">{header}</Text>
+          <Text ouiaId="header-text" component="h1">
+            {header}
+          </Text>
         </TextContent>
       </PageSection>
       {beforeToolbarComponent}
       <PageSection variant={PageSectionVariants.light}>
-        <Toolbar className="table-toolbar">
+        <Toolbar ouiaId="table-toolbar" className="table-toolbar">
           <ToolbarContent>
             {searchable && (
               <ToolbarGroup>

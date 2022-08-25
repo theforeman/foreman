@@ -5,7 +5,12 @@ import { sprintf, translate as __ } from '../../../common/I18n';
 import './ModalProgressBar.scss';
 
 const ModalProgressBar = ({ show, container, title, progress }) => (
-  <Modal id="modal-progress-bar" show={show} container={container}>
+  <Modal
+    id="modal-progress-bar"
+    ouiaId="modal-progress-bar"
+    show={show}
+    container={container}
+  >
     <Modal.Header>
       <Modal.Title>{title}</Modal.Title>
     </Modal.Header>
