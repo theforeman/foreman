@@ -1,3 +1,17 @@
+2022-08-25	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.4.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2022-08-25	Shim Shtein <sshtein@redhat.com>
+	* Fixes #35361 - Add hidden columns back for compatibility
+
+2022-08-25	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #35361 - Make columns on host index page selectable
+
+2022-08-25	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #35264 - Unpin net-ssh dependency
+	* Fixes #35371 - Update show_me_the_cookies to 6.x
+
 2022-08-11	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.4.0-rc1
 
