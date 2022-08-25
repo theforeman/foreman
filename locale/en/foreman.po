@@ -380,7 +380,7 @@ msgstr ""
 msgid "A problem occurred when detecting host type: %s"
 msgstr ""
 
-msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
 msgstr ""
 
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
@@ -6811,6 +6811,9 @@ msgstr ""
 msgid "Page number, starting at 1"
 msgstr ""
 
+msgid "Pagelet with %s key is not found"
+msgstr ""
+
 msgid "Pagination"
 msgstr ""
 
@@ -7670,6 +7673,9 @@ msgid "Repository GPG key URL"
 msgstr ""
 
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
+
+msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr ""
 
 msgid "Represents the host object for which the template is rendered."

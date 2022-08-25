@@ -120,6 +120,9 @@ msgstr "%s es un atributo desconocido"
 msgid "%s is not a valid DNS record type"
 msgstr "%s no es un tipo de registro DNS válido"
 
+msgid "%s is not auditable"
+msgstr ""
+
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "Hace %s minuto"
@@ -251,9 +254,6 @@ msgstr "%{subject} ha sido borrado con éxito"
 
 msgid "%{subject} has been provisioned successfully"
 msgstr "%{subject} se ha aprovisionado correctamente"
-
-msgid "%{subject} has no owner set"
-msgstr "%{subject} no tiene dueño establecido"
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} tareas han fallado con el error: %{e}"
@@ -399,11 +399,11 @@ msgstr "Resumen de auditoría de Foreman"
 msgid "<b>Foreman</b> test email"
 msgstr "Correo electrónico de prueba de Foreman"
 
+msgid "<b>List</b> A list of the allowed values separated by comma, specified in the Validator rule field. The default value and all input values must then be one of the specified allowed value.<br/><b>Regexp</b> Validates the default value and all input values with the regular expression in the Validator rule field. E.g. <code>[0-9]+\\.[0-9]+</code><br/>"
+msgstr ""
+
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr "Fuente"
-
-msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
-msgstr "<dl><dt>Lista</dt> <dd>Una lista de los valores permitidos, especificados en el campo de la regla del Validador.</dd><dt>Regexp</dt> <dd>Valida la entrada con la expresión regular en el campo de regla del Validador.</dd></dl>"
 
 msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr "<dl><dt>String</dt> <dd>Todo se convierte en un string.</dd><dt>Boolean</dt> <dd>Se acepta la representación común de valores booleanos.</dd><dt>Integer</dt> <dd>Sólo números enteros, pueden ser negativos.</dd><dt>Real</dt> <dd>Se acepta cualquier entrada numérica.</dd><dt>Array</dt> <dd>Una entrada JSON o YAML válida, que debe evaluarse como un array.</dd><dt>Hash</dt> <dd>Una entrada JSON o YAML válida, que debe evaluarse como un objeto/mapa/dict/hash.</dd><dt>YAML</dt> <dd>Cualquier entrada YAML válida.</dd><dt>JSON</dt> <dd>Cualquier entrada JSON válida.</dd></dl>"
@@ -763,6 +763,12 @@ msgstr "Cualquier Lugar"
 msgid "Any Organization"
 msgstr "Cualquier organización"
 
+msgid "Any location"
+msgstr ""
+
+msgid "Any organization"
+msgstr ""
+
 msgid "Append domain names to the host"
 msgstr "Anexar nombres de dominio  al host"
 
@@ -804,6 +810,9 @@ msgstr "¿Está seguro de que desea eliminar el host %s? Esto eliminará la máq
 
 msgid "Are you sure you want to delete host {host}? This action is irreversible. {cascade}"
 msgstr "¿Está seguro de que desea eliminar el host %s? Esta acción es irreversible."
+
+msgid "Are you sure you want to delete this report? This action is irreversible."
+msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr "¿Esta seguro de que desea eliminar este asistente de su tablero?"
@@ -1155,6 +1164,9 @@ msgstr "La sal BCrypt '%s' no es válida"
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "BIOS UUID"
+msgstr ""
+
 msgid "BMC"
 msgstr "BMC"
 
@@ -1254,6 +1266,9 @@ msgstr "Modo de arranque"
 msgid "Boot device"
 msgstr "Dispositivo de arranque"
 
+msgid "Boot disk"
+msgstr "Disco de arranque"
+
 msgid "Boot from volume"
 msgstr "Iniciar desde volumen"
 
@@ -1268,6 +1283,9 @@ msgstr "Tiempo de arranque"
 
 msgid "Bootable"
 msgstr "De arranque"
+
+msgid "Both IP and Subnet must be set"
+msgstr "Tanto la IP como la subred deben estar configuradas"
 
 msgid "Bridge"
 msgstr "Puente"
@@ -2097,8 +2115,8 @@ msgstr "Crear entrada de autofirmado"
 msgid "Create image"
 msgstr "Crear imagen"
 
-msgid "Create model"
-msgstr "Crear modelo"
+msgid "Create new"
+msgstr ""
 
 msgid "Create new boot volume from image"
 msgstr "Crear nuevo volumen de inicio desde la imagen"
@@ -2117,9 +2135,6 @@ msgstr "Creado"
 
 msgid "Created %s by %s"
 msgstr "Creado %s por %s"
-
-msgid "Created at"
-msgstr "Creado"
 
 msgid "Creates a table preference for a given table"
 msgstr "Crea una preferencia de tabla para una determinada tabla"
@@ -2502,8 +2517,14 @@ msgstr "Borrar hosts"
 msgid "Delete realm entry for %s"
 msgstr "Borrar entrada de reino para %s"
 
+msgid "Delete report"
+msgstr ""
+
 msgid "Delete report for %s?"
 msgstr "¿Borrar informe de %s?"
+
+msgid "Delete report?"
+msgstr ""
 
 msgid "Deliver to e-mail addresses"
 msgstr "Entregar a direcciones de correo electrónico"
@@ -2597,6 +2618,9 @@ msgstr "Disociar los hosts seleccionados de sus máquinas virtuales."
 
 msgid "Disconnected"
 msgstr "Desconectado"
+
+msgid "Discovery Kexec"
+msgstr ""
 
 msgid "Disk"
 msgstr "Disco"
@@ -2880,6 +2904,9 @@ msgstr "Error al cargar la información de las interfaces: %s"
 msgid "Error loading scheduler hint filters information: %s"
 msgstr "Error al cargar la información de los filtros de indicación del programador: %s"
 
+msgid "Error parsing value for setting '%s': %s"
+msgstr ""
+
 msgid "Error removing widget from dashboard."
 msgstr "Error al eliminar el asistente del tablero"
 
@@ -2888,6 +2915,9 @@ msgstr "Estados de error"
 
 msgid "Error submitting data:"
 msgstr "Error al enviar datos:"
+
+msgid "Error updating setting"
+msgstr ""
 
 msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authentication"
 msgstr "Error al conectarse a '%{name}' servidor LDAP en '%{url}' durante la autenticación"
@@ -3203,11 +3233,10 @@ msgstr "Ocurrió un error al actualizar el caché."
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Falló al retirar certificados de %{name}: %{e}"
 
-msgid "Failed to retrieve power status for %{host} within %{timeout} second."
-msgid_plural "Failed to retrieve power status for %{host} within %{timeout} seconds."
-msgstr[0] "No se pudo recuperar el estado de encendido para %{host} en %{timeout} segundo."
-msgstr[1] "No se pudo recuperar el estado de encendido para %{host} en %{timeout} segundos."
-msgstr[2] "No se pudo recuperar el estado de encendido para %{host} en %{timeout} segundos."
+msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
+msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to save widget positions."
 msgstr "No se pudieron guardar las posiciones del asistente."
@@ -3901,6 +3930,9 @@ msgstr "Estados de los anfitriones"
 msgid "Host audit entries"
 msgstr "Registros de auditoría de host"
 
+msgid "Host bootdisk does not work with static IPv6"
+msgstr "El disco de arranque del host no funciona con IPv6 estática"
+
 msgid "Host built"
 msgstr "Host compilado"
 
@@ -3919,6 +3951,18 @@ msgstr "ID de grupos de host"
 
 msgid "Host group description"
 msgstr "Descripción del grupo de hosts"
+
+msgid "Host has no IPv4 or IPv6 address defined"
+msgstr "El host no tiene definida una dirección IPv4 o IPv6"
+
+msgid "Host has no domain defined"
+msgstr "El host no tiene dominio definido"
+
+msgid "Host has no provisioning interface defined"
+msgstr "El host no tiene interfaz de provisión definido"
+
+msgid "Host has no subnet defined"
+msgstr "El host no tiene subred definida"
 
 msgid "Host initial configuration template"
 msgstr "Plantilla de configuración inicial del host"
@@ -6251,6 +6295,9 @@ msgstr "No se han recibido informes interesantes en la última semana"
 msgid "No logs to show"
 msgstr "No hay registros para mostrar"
 
+msgid "No matches found"
+msgstr ""
+
 msgid "No matching records found"
 msgstr "No se han encontrado registros coincidentes"
 
@@ -6922,6 +6969,12 @@ msgstr "El padre ya está seleccionado"
 msgid "Parent parameters"
 msgstr "Parámetros padre"
 
+msgid "Parsing a hash from a string is not supported"
+msgstr ""
+
+msgid "Parsing settings type '%s' from a string is not defined"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "Tabla de partición"
 
@@ -7486,6 +7539,9 @@ msgstr "Recepción de datos vm para el host '%{host}' del recurso informático u
 msgid "Recent audits"
 msgstr "Auditorías recientes"
 
+msgid "Recent communication"
+msgstr ""
+
 msgid "Recreate"
 msgstr "Recrear"
 
@@ -7651,6 +7707,9 @@ msgstr "Informe no encontrado, asegúrese de que ha utilizado el job_id correcto
 
 msgid "Report templates"
 msgstr "Plantillas de reporte"
+
+msgid "Report was successfully deleted"
+msgstr ""
 
 msgid "ReportTemplate|Locked"
 msgstr "ReportTemplate|Locked"
@@ -8028,6 +8087,9 @@ msgstr "Plantilla de script"
 msgid "Search"
 msgstr "Buscar"
 
+msgid "Search error"
+msgstr ""
+
 msgid "Search fields"
 msgstr "Campos de búsqueda"
 
@@ -8257,8 +8319,8 @@ msgstr "Establecer el nombre completo legible para el usuario"
 msgid "Setting unique name"
 msgstr "Establecer un nombre único"
 
-msgid "Setting was successfully updated."
-msgstr "La configuración se ha actualizado correctamente."
+msgid "Setting updated."
+msgstr ""
 
 msgid "Settings"
 msgstr "Configuraciones"
@@ -8303,9 +8365,6 @@ msgstr "Configurar REX"
 
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
 msgstr "Configurar la ejecución remota. Si se establece como `Sí`, las claves SSH se instalarán en el host registrado. El valor heredado se basa en el parámetro `host_registration_remote_execution`. Puede heredarse, por ejemplo, del grupo de hosts, del sistema operativo o de la organización. Si se anula, el valor seleccionado se almacenará en el nivel de parámetros del host."
-
-msgid "Share feedback"
-msgstr "Compartir opiniones"
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "¿Debería ejecutarse `foreman-rake db:seed` la próxima vez que se ejecuten los módulos del instalador?"
@@ -9527,6 +9586,9 @@ msgstr "Se ha producido un error al cargar los datos, consulte los registros par
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr "No había ninguna interfaz de puente activa en libvirt, si no soporta el listado, puede ingresar el nombre del puente de forma manual (e.g. br0)"
 
+msgid "There was some issue deleting the report: ${error}"
+msgstr ""
+
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr "Se garantiza que funcionan a través de la representación de modo seguro para asegurarse de que una plantilla no pueda hacer nada perjudicial."
 
@@ -9671,6 +9733,9 @@ msgstr "Tiempo en segundos antes de que se agote el tiempo de espera del aprovis
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "Se ha excedido el tiempo de espera en la conexión con %s"
+
+msgid "Timeout to retrieve the power status of the host in seconds. Default is 3 seconds."
+msgstr ""
 
 msgid "Timezone to use for new users"
 msgstr "Zona horaria a utilizar para los nuevos usuarios"
@@ -10112,6 +10177,9 @@ msgstr "Función hash '%s' de contraseña no tiene soporte"
 msgid "Unsupported report status format"
 msgstr "Formato de estatus de informe no tiene soporte"
 
+msgid "Unsupported search operators :and / :or"
+msgstr ""
+
 msgid "Update :a_resource"
 msgstr "Actualizar :a_resource"
 
@@ -10238,9 +10306,6 @@ msgstr "Actualizar un sistema operativo"
 msgid "Update external user group"
 msgstr "Actualizar grupo de usuarios externos"
 
-msgid "Update host"
-msgstr "Actualizar host"
-
 msgid "Update hostgroup from facts"
 msgstr "Actualizar al grupo de hosts en función de los eventos"
 
@@ -10264,9 +10329,6 @@ msgstr "Actualizar el valor de la configuración de %s "
 
 msgid "Updated all hosts!"
 msgstr "¡Todos los hosts han sido actualizados!"
-
-msgid "Updated at"
-msgstr "Actualizado"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "Hosts actualizados: Disociados de las máquinas virtuales"
@@ -11592,9 +11654,6 @@ msgstr " debe configurar un host  y un puerto"
 msgid "name already exists"
 msgstr "el nombre ya existe"
 
-msgid "name of the table"
-msgstr "nombre de la tabla"
-
 msgid "nil allowed"
 msgstr "nil permitido"
 
@@ -11666,9 +11725,6 @@ msgstr "Organizaciones"
 
 msgid "our templates documentation"
 msgstr "la documentación de nuestras plantillas"
-
-msgid "parsing settings type '%s' from string is not defined"
-msgstr "analizando tipo de parámetros '%s' desde una cadena en caso de que no se defina"
 
 msgid "pending"
 msgstr "pendiente"
