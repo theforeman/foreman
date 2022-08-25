@@ -68,6 +68,7 @@ class BreadcrumbBar extends React.Component {
           isTitle={isTitle}
           titleReplacement={titleReplacement}
           className="breadcrumbs-list"
+          ouiaId="breadcrumbs-list"
         >
           {isSwitchable && (
             <PF4BreadcrumbSwitcher

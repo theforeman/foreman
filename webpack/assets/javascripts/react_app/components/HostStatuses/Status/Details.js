@@ -30,6 +30,7 @@ const Details = ({ data }) => {
 
   return (
     <Table
+      ouiaId="host-statuses-table"
       aria-label="Host Statuses"
       variant="compact"
       cells={columns}

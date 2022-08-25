@@ -51,6 +51,7 @@ const PowerStatusDropDown = ({ hostID, hasPowerPermission, isBmc }) => {
         onClick={() => changePowerHandler(state)}
         isDisabled={state === currentState}
         key={state}
+        ouiaId={`dropdown-${state}`}
       >
         {supportedPowerStates[state]}
       </DropdownItem>
@@ -62,12 +63,14 @@ const PowerStatusDropDown = ({ hostID, hasPowerPermission, isBmc }) => {
   return (
     <Tooltip content={statusText || title}>
       <Dropdown
+        ouiaId="power-status-dropdown"
         isOpen={isOpen}
         onSelect={onDropdownSelect}
         isPlain
         dropdownItems={dropdownItems()}
         toggle={
           <DropdownToggle
+            ouiaId="power-status-dropdown-toggle"
             isDisabled={!hasPowerPermission || currentState === 'na'}
             onToggle={onToggle}
           >

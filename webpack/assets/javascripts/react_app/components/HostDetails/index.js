@@ -129,6 +129,7 @@ const HostDetails = ({
                       <SkeletonLoader status={status || STATUS.PENDING}>
                         {response && (
                           <Title
+                            ouiaId="hostname-truncate-title"
                             className="hostname-truncate"
                             headingLevel="h5"
                             size="2xl"
@@ -174,7 +175,7 @@ const HostDetails = ({
             status={status || STATUS.PENDING}
           >
             {response && (
-              <Text component={TextVariants.span}>
+              <Text ouiaId="date-text" component={TextVariants.span}>
                 <RelativeDateTime date={response.created_at} defaultValue="N/A">
                   {date =>
                     sprintf(__('Created %s by %s'), date, response.owner_name)
@@ -196,6 +197,7 @@ const HostDetails = ({
             router={history}
           >
             <Tabs
+              ouiaId="host-details-tabs"
               activeKey={activeTab}
               className={`host-details-tabs tab-width-${
                 isNavCollapsed ? '138' : '263'

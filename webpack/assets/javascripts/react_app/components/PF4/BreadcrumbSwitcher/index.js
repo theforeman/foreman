@@ -122,7 +122,7 @@ const BreadcrumbSwitcher = ({
         enableFlip={false}
         bodyContent={
           <div>
-            <Menu isScrollable>
+            <Menu ouiaId="breadcrumb-menu" isScrollable>
               <MenuInput>
                 <SearchInput
                   value={searchValue}
@@ -140,6 +140,7 @@ const BreadcrumbSwitcher = ({
               </MenuContent>
               <MenuFooter>
                 <Pagination
+                  ouiaId="breadcrumb-pagination"
                   itemCount={total}
                   page={currentPage}
                   perPage={perPage}
@@ -153,7 +154,11 @@ const BreadcrumbSwitcher = ({
           </div>
         }
       >
-        <Button variant="plain" aria-label="open breadcrumb switcher">
+        <Button
+          ouiaId="breadcrumb-button"
+          variant="plain"
+          aria-label="open breadcrumb switcher"
+        >
           <ExchangeAltIcon />
         </Button>
       </Popover>

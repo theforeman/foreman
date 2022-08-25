@@ -25,7 +25,7 @@ const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
     if (reports.length) {
       tableHead = (
         <Thead>
-          <Tr>
+          <Tr ouiaId="row-header">
             {columns.map(({ width, title }, columnIndex) => (
               <Th key={columnIndex} width={width}>
                 {title}
@@ -37,7 +37,7 @@ const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
       tableBody = (
         <Tbody>
           {reports.map((row, rowIndex) => (
-            <Tr key={rowIndex}>
+            <Tr key={rowIndex} ouiaId={`row-${rowIndex}`}>
               {columns.map(({ title, formatter }, cellIndex) => (
                 <Td key={`${rowIndex}_${cellIndex}`} dataLabel={title}>
                   {formatter(row)}
@@ -68,7 +68,11 @@ const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
 
   return (
     <React.Fragment>
-      <TableComposable aria-label="Reports table" variant="compact">
+      <TableComposable
+        aria-label="Reports table"
+        ouiaId="reports-table"
+        variant="compact"
+      >
         {tableHead}
         {tableBody}
       </TableComposable>

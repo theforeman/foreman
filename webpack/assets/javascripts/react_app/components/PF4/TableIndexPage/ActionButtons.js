@@ -21,6 +21,7 @@ export const ActionButtons = ({ buttons: originalButtons }) => {
   return (
     <>
       <Button
+        ouiaId="action-buttons-button"
         component={firstButton.action?.href ? 'a' : undefined}
         {...firstButton.action}
       >
@@ -28,6 +29,7 @@ export const ActionButtons = ({ buttons: originalButtons }) => {
       </Button>
       {buttons.length > 0 && (
         <Dropdown
+          ouiaId="action-buttons-dropdown"
           toggle={
             <KebabToggle
               aria-label="toggle action dropdown"
@@ -38,6 +40,7 @@ export const ActionButtons = ({ buttons: originalButtons }) => {
           isPlain
           dropdownItems={buttons.map(button => (
             <DropdownItem
+              ouiaId={`${button.title}-dropdown-item`}
               key={button.title}
               title={button.title}
               {...button.action}

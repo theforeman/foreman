@@ -30,7 +30,11 @@ const HostStatuses = () => {
     <PageSection padding className="host-statuses-page">
       <Grid hasGutter>
         <GridItem span={12}>
-          <Title headingLevel="h5" size="xl">
+          <Title
+            ouiaId="host-status-overview-title"
+            headingLevel="h5"
+            size="xl"
+          >
             {__('Host Status Overview')}
           </Title>
         </GridItem>

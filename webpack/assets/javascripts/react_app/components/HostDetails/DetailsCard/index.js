@@ -38,7 +38,7 @@ const DetailsCard = ({
   },
 }) => (
   <GridItem xl2={3} xl={4} md={6} lg={4} rowSpan={2}>
-    <Card>
+    <Card ouiaId="details-card">
       <CardHeader>
         <CardTitle>{__('Details')}</CardTitle>
         <CardActions>

@@ -24,6 +24,7 @@ exports[`ModalProgressBar renders a modal progress bar 1`] = `
     }
   }
   onHide={[Function]}
+  ouiaId="modal-progress-bar"
   renderBackdrop={[Function]}
   restoreFocus={true}
   show={true}

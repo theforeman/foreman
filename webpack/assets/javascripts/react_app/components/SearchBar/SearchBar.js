@@ -30,6 +30,7 @@ const SearchBar = props => {
           controller={controller}
         />
         <Button
+          ouiaId="autocomplete-search-button"
           id="btn-search"
           variant="control"
           aria-label="search button for search input"

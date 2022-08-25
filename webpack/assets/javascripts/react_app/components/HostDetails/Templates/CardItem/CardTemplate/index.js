@@ -58,7 +58,7 @@ const CardTemplate = ({
 
   return (
     <CardContainer {...gridWidthProps} {...overrideGridProps}>
-      <Card isExpanded={isExpanded} {...cardProps}>
+      <Card isExpanded={isExpanded} ouiaId="card-template" {...cardProps}>
         <CardHeader
           onExpand={expandable && onExpandCallback}
           isToggleRightAligned
@@ -66,6 +66,7 @@ const CardTemplate = ({
           {dropdownItems && (
             <CardActions>
               <Dropdown
+                ouiaId="template-card-dropdown"
                 toggle={<KebabToggle onToggle={onDropdownToggle} />}
                 isOpen={dropdownVisibility}
                 dropdownItems={dropdownItems}

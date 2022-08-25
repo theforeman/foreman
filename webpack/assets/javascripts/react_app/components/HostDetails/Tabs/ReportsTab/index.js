@@ -114,6 +114,7 @@ const ReportsTab = ({ hostName, origin }) => {
       </GridItem>
       <GridItem span={6}>
         <Pagination
+          ouiaId="pagination-top"
           variant="top"
           itemCount={itemCount}
           onChange={onPaginationChange}
@@ -130,6 +131,7 @@ const ReportsTab = ({ hostName, origin }) => {
       </GridItem>
       <GridItem>
         <Pagination
+          ouiaId="pagination-bottom"
           variant="bottom"
           itemCount={itemCount}
           onChange={onPaginationChange}

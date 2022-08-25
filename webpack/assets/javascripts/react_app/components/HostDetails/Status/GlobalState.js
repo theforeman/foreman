@@ -19,7 +19,7 @@ const GlobalState = ({
           icon={cannotViewStatuses ? BanIcon : CheckCircleIcon}
           color={cannotViewStatuses ? undefined : successColor.value}
         />
-        <Title size="lg" headingLevel="h4">
+        <Title ouiaId="global-state-title" size="lg" headingLevel="h4">
           {cannotViewStatuses
             ? __('No statuses to show')
             : __('All statuses OK')}

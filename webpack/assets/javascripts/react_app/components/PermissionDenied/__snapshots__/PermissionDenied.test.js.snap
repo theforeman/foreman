@@ -46,6 +46,7 @@ exports[`PermissionDenied rendering should render with custom props 1`] = `
         bsClass="btn"
         bsStyle="default"
         disabled={false}
+        ouiaId="back-button"
       >
         Back
       </Button>
@@ -100,6 +101,7 @@ exports[`PermissionDenied rendering should render with default props 1`] = `
         bsClass="btn"
         bsStyle="default"
         disabled={false}
+        ouiaId="back-button"
       >
         Back
       </Button>

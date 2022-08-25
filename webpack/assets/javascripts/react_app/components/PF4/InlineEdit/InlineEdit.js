@@ -43,6 +43,7 @@ const InlineEdit = ({ onSave, value, textArea, attribute }) => {
         </SplitItem>
         <SplitItem>
           <Button
+            ouiaId={`submit-${attribute}-button`}
             aria-label={`submit ${attribute}`}
             variant="plain"
             onClick={onSubmit}
@@ -52,6 +53,7 @@ const InlineEdit = ({ onSave, value, textArea, attribute }) => {
         </SplitItem>
         <SplitItem>
           <Button
+            ouiaId={`clear-${attribute}-button`}
             aria-label={`clear ${attribute}`}
             variant="plain"
             onClick={onClear}
@@ -65,12 +67,17 @@ const InlineEdit = ({ onSave, value, textArea, attribute }) => {
   return (
     <Split>
       <SplitItem>
-        <Text aria-label={`${attribute} text value`} component={TextVariants.p}>
+        <Text
+          aria-label={`${attribute} text value`}
+          ouiaId={`${attribute}-text`}
+          component={TextVariants.p}
+        >
           {inputValue || <i>{__('None provided')}</i>}
         </Text>
       </SplitItem>
       <SplitItem>
         <Button
+          ouiaId={`edit-${attribute}-button`}
           className="foreman-edit-icon"
           aria-label={`edit ${attribute}`}
           variant="plain"
