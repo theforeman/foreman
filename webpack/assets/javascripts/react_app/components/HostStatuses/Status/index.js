@@ -57,7 +57,7 @@ const Status = ({ name }) => {
 
   return (
     <GridItem sm={12} xl2={6}>
-      <Card className={cardClass} isExpanded={expanded} isHoverable>
+      <Card className={cardClass} isExpanded={expanded}>
         <CardHeader
           onExpand={(_event, _id) => setExpanded(!expanded)}
           toggleButtonProps={{
