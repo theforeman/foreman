@@ -3,20 +3,21 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Bullseye,
-  DataList,
   Card,
   CardActions,
   CardHeader,
   CardTitle,
   CardBody,
-  DataListItem,
-  DataListItemRow,
-  DataListItemCells,
-  DataListText,
-  DataListCell,
   GridItem,
   Title,
 } from '@patternfly/react-core';
+import {
+  TableComposable,
+  TableText,
+  Tr,
+  Tbody,
+  Td,
+} from '@patternfly/react-table';
 import URI from 'urijs';
 import { push } from 'connected-react-router';
 
@@ -64,40 +65,34 @@ const AuditCard = ({ hostName }) => {
             }
           >
             {audits && (
-              <DataList isCompact>
-                {audits.map(
-                  ({ user_name: user, created_at: timestamp, action, id }) => (
-                    <DataListItem key={id}>
-                      <DataListItemRow>
-                        <DataListItemCells
-                          dataListCells={[
-                            <DataListCell
-                              wrapModifier="truncate"
-                              key={`action-${id}`}
-                            >
-                              <DataListText tooltip={action}>
-                                {action}
-                              </DataListText>
-                            </DataListCell>,
-                            <DataListCell
-                              wrapModifier="truncate"
-                              key={`date-${id}`}
-                            >
-                              <RelativeDateTime date={timestamp} />
-                            </DataListCell>,
-                            <DataListCell
-                              wrapModifier="truncate"
-                              key={`user-${id}`}
-                            >
-                              <DataListText tooltip={user}>{user}</DataListText>
-                            </DataListCell>,
-                          ]}
-                        />
-                      </DataListItemRow>
-                    </DataListItem>
-                  )
-                )}
-              </DataList>
+              <TableComposable
+                aria-label="audits table"
+                variant="compact"
+                borders="compactBorderless"
+              >
+                <Tbody>
+                  {audits.map(
+                    ({
+                      user_name: user,
+                      created_at: timestamp,
+                      action,
+                      id,
+                    }) => (
+                      <Tr key={id}>
+                        <Td modifier="truncate" key={`action-${id}`}>
+                          <TableText tooltip={action}>{action}</TableText>
+                        </Td>
+                        <Td modifier="truncate" key={`date-${id}`}>
+                          <RelativeDateTime date={timestamp} />
+                        </Td>
+                        <Td modifier="truncate" key={`user-${id}`}>
+                          <TableText tooltip={user}>{user}</TableText>
+                        </Td>
+                      </Tr>
+                    )
+                  )}
+                </Tbody>
+              </TableComposable>
             )}
           </SkeletonLoader>
         </CardBody>
