@@ -167,7 +167,6 @@ SystemPropertiesCard.propTypes = {
     domain_name: PropTypes.string,
     created_at: PropTypes.string,
     updated_at: PropTypes.string,
-    reported_data: PropTypes.object,
   }),
 };
 
@@ -186,7 +185,6 @@ SystemPropertiesCard.defaultProps = {
     domain_name: undefined,
     created_at: undefined,
     updated_at: undefined,
-    reported_data: { boot_time: undefined },
   },
 };
 
