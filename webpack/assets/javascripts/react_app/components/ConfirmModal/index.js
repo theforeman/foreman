@@ -53,6 +53,7 @@ const ConfirmModal = () => {
 
   return (
     <Modal
+      ouiaId="app-confirm-modal"
       id="app-confirm-modal"
       aria-label="application confirm modal"
       variant={ModalVariant.small}
