@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   Flex,
   FlexItem,
@@ -9,7 +10,7 @@ import {
   Tab,
   Tabs,
   GridItem,
-  Badge,
+  Label,
   Title,
   Text,
   TextVariants,
@@ -143,10 +144,42 @@ const HostDetails = ({
                         <HostGlobalStatus hostName={id} />
                       </SplitItem>
                       <SplitItem>
-                        <Badge> {response?.operatingsystem_name}</Badge>
+                        <Label
+                          isCompact
+                          color="blue"
+                          render={({ className, content, componentRef }) => (
+                            <Link
+                              to={`/hosts?search=os_title="${response?.operatingsystem_name}"`}
+                              className={className}
+                              innerRef={componentRef}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {content}
+                            </Link>
+                          )}
+                        >
+                          {response?.operatingsystem_name}
+                        </Label>
                       </SplitItem>
                       <SplitItem>
-                        <Badge>{response?.architecture_name}</Badge>
+                        <Label
+                          isCompact
+                          color="blue"
+                          render={({ className, content, componentRef }) => (
+                            <Link
+                              to={`/hosts?search=architecture=${response?.architecture_name}`}
+                              className={className}
+                              innerRef={componentRef}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {content}
+                            </Link>
+                          )}
+                        >
+                          {response?.architecture_name}
+                        </Label>
                       </SplitItem>
                     </Split>
                   </>
