@@ -10,7 +10,7 @@ gem 'will_paginate', '~> 3.3'
 gem 'ancestry', '~> 4.0'
 gem 'scoped_search', '>= 4.1.10', '< 5'
 gem 'ldap_fluff', '>= 0.5.0', '< 1.0'
-gem 'apipie-rails', '>= 0.5.17', '< 0.6.0'
+gem 'apipie-rails', '~> 0.8.0'
 gem 'apipie-dsl', '>= 2.2.6'
 # Pin rdoc to prevent updating bundled psych (https://github.com/ruby/rdoc/commit/ebe185c8775b2afe844eb3da6fa78adaa79e29a4)
 # Rails 6.0 is incompatible with Psych 4, Rails 6.1 should work
