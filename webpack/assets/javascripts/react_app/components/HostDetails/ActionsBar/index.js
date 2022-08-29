@@ -53,6 +53,16 @@ const ActionsBar = ({
   const deleteHostHandler = () =>
     dispatch(deleteHost(hostId, computeId, destroyVmOnHostDelete));
 
+  const isConsoleDisabled = !(computeId && isHostActive);
+  const determineTooltip = () => {
+    if (isConsoleDisabled) {
+      if (computeId) {
+        return __('Console disabled as the host is powered off.');
+      }
+      return __('Compute resource does not support the console function.');
+    }
+    return undefined;
+  };
   const buildHandler = () => {
     if (isBuild) {
       dispatch(cancelBuild(hostId));
@@ -97,7 +107,8 @@ const ActionsBar = ({
       ouiaId="console-dropdown-item"
       onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/console`))}
       key="console"
-      isDisabled={!isHostActive}
+      isAriaDisabled={isConsoleDisabled}
+      tooltip={determineTooltip()}
       component="button"
       icon={<TerminalIcon />}
     >
