@@ -8,7 +8,6 @@ exports[`Status renders Status 1`] = `
   <Card
     className="pf-c-alert pf-m-danger"
     isExpanded={false}
-    isHoverable={true}
   >
     <CardHeader
       onExpand={[Function]}

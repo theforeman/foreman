@@ -46,7 +46,7 @@ const AuditCard = ({ hostName }) => {
   } = useAPI('get', apiUrl);
   return (
     <GridItem xl2={3} xl={4} md={6} lg={4}>
-      <Card isHoverable>
+      <Card>
         <CardHeader>
           <CardTitle>{__('Recent audits')}</CardTitle>
           <CardActions>

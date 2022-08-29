@@ -58,7 +58,7 @@ const CardTemplate = ({
 
   return (
     <CardContainer {...gridWidthProps} {...overrideGridProps}>
-      <Card isExpanded={isExpanded} {...cardProps} isSelectable>
+      <Card isExpanded={isExpanded} {...cardProps}>
         <CardHeader
           onExpand={expandable && onExpandCallback}
           isToggleRightAligned

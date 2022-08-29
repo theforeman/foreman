@@ -86,7 +86,7 @@ const AggregateStatusCard = ({
 
   return (
     <GridItem xl2={3} xl={4} md={6} lg={4}>
-      <Card className="card-pf-aggregate-status" isHoverable>
+      <Card className="card-pf-aggregate-status">
         <CardTitle>
           <span>
             <span style={{ marginRight: '0.5rem' }}>{__('Host status')}</span>
