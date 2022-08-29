@@ -41,13 +41,15 @@ class WsProxy
     end
     # execute websockify proxy
     begin
-      cmd  = "#{ws_proxy} --daemon --idle-timeout=#{idle_timeout} --timeout=#{timeout} #{port} #{host}:#{host_port}"
+      cmd  = "websockify --daemon --idle-timeout=#{idle_timeout} --timeout=#{timeout} #{port} #{host}:#{host_port}"
       cmd += " --ssl-target" if ssl_target
       if Setting[:websockets_encrypt]
         cmd += " --cert #{Setting[:websockets_ssl_cert]}" if Setting[:websockets_ssl_cert]
         cmd += " --key #{Setting[:websockets_ssl_key]}" if Setting[:websockets_ssl_key]
       end
       execute(cmd)
+    rescue Errno::ENOENT
+      raise ::Foreman::Exception.new(N_('Websockify was not found'))
     rescue PortInUse
       # fallback just in case of race condition
       port += 1
@@ -62,10 +64,6 @@ class WsProxy
   end
 
   private
-
-  def ws_proxy
-    "#{Rails.root}/extras/noVNC/websockify.py"
-  end
 
   def defaults
     {
