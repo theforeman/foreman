@@ -104,7 +104,6 @@ The following files and directories are exceptions:
 
 * app/views/unattended/ztp/provision.erb is (c) 2013, Juniper Networks under 2-clause BSD license.
 * lib/tasks/convert.rake is (c) 2008, Matson Systems, Inc. under Revised BSD license.
-* extras/noVNC/websockify is (c) 2011, Joel Martin under LGPL v3 license.
 * vendor/assets/fonts/ is (c) 2011-2016, Red Hat Inc. under SIL Open Font License v1.1 or LGPL v2.1 licenses.
 * vendor/assets/javascripts/jquery.flot.axislabels.js is (c) 2010 Xuan Luo under MIT license.
 * app/assets/images/RancherOS.png is (c) 2018 Rancher Labs, Inc.
