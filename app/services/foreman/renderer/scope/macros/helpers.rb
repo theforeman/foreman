@@ -120,12 +120,12 @@ module Foreman
             example "truthy?(0) #=> false"
             example "truthy?('1') #=> true"
             example "truthy?('0') #=> false"
-            example "truthy?('some-string') #=> false"
+            example "truthy?('some-string') #=> true"
             example "truthy?('') #=> false"
             example "truthy?(nil) #=> false"
           end
           def truthy?(value = nil)
-            Foreman::Cast.to_bool(value) == true
+            ActiveRecord::Type::Boolean.new.deserialize(value) == true
           end
 
           apipie :method, 'Checks whether a value is falsy or not' do
@@ -144,7 +144,7 @@ module Foreman
             example "falsy?(nil) #=> true"
           end
           def falsy?(value = nil)
-            Foreman::Cast.to_bool(value) == false
+            ActiveRecord::Type::Boolean.new.deserialize(value) == false
           end
         end
       end

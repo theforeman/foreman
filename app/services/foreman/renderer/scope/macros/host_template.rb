@@ -88,7 +88,7 @@ module Foreman
           def host_param_true?(name, default_value = false)
             check_host
             value = host.params.fetch(name, default_value)
-            Foreman::Cast.to_bool(value) == true
+            ActiveRecord::Type::Boolean.new.deserialize(value) == true
           end
 
           apipie :method, 'Checks whether a parameter value is falsy or not' do
@@ -103,7 +103,7 @@ module Foreman
           def host_param_false?(name, default_value = true)
             check_host
             value = host.params.fetch(name, default_value)
-            Foreman::Cast.to_bool(value) == false
+            ActiveRecord::Type::Boolean.new.deserialize(value) == false
           end
 
           apipie :method, 'Returns root user\'s encrypted password for the host' do

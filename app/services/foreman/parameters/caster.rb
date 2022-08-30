@@ -55,7 +55,7 @@ module Foreman
 
       def cast_boolean
         return nil if value == ""
-        val = Foreman::Cast.to_bool(value)
+        val = ActiveRecord::Type::Boolean.new.deserialize(value)
         return val if [true, false].include?(val)
         raise TypeError
       end

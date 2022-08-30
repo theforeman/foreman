@@ -1,6 +1,8 @@
 module Foreman
   module Cast
     def self.to_bool(value)
+      Foreman::Deprecation.deprecation_warning("3.6", "The method to_bool will be repaced by rails implementation.")
+
       case value
 
       when String

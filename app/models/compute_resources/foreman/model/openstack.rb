@@ -79,11 +79,11 @@ module Foreman::Model
     end
 
     def allow_external_network
-      Foreman::Cast.to_bool(attrs[:allow_external_network])
+      ActiveRecord::Type::Boolean.new.deserialize(attrs[:allow_external_network])
     end
 
     def allow_external_network=(enabled)
-      attrs[:allow_external_network] = Foreman::Cast.to_bool(enabled)
+      attrs[:allow_external_network] = ActiveRecord::Type::Boolean.new.deserialize(enabled)
     end
 
     def test_connection(options = {})
@@ -156,7 +156,7 @@ module Foreman::Model
     end
 
     def create_vm(args = {})
-      boot_from_volume(args) if Foreman::Cast.to_bool(args[:boot_from_volume])
+      boot_from_volume(args) if ActiveRecord::Type::Boolean.new.deserialize(args[:boot_from_volume])
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
@@ -234,7 +234,7 @@ module Foreman::Model
       floating_ip_network = vm_attrs['network']
       normalized['floating_ip_network'] = floating_ip_network.empty? ? nil : floating_ip_network
 
-      normalized['boot_from_volume'] = to_bool(vm_attrs['boot_from_volume'])
+      normalized['boot_from_volume'] = ActiveRecord::Type::Boolean.new.deserialize(vm_attrs['boot_from_volume'])
 
       boot_volume_size = memory_gb_to_bytes(vm_attrs['size_gb'])
       if (boot_volume_size == 0)

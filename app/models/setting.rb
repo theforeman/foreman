@@ -123,7 +123,7 @@ class Setting < ApplicationRecord
   def parse_string_value(val)
     case settings_type
     when "boolean"
-      boolean = Foreman::Cast.to_bool(val)
+      boolean = ActiveRecord::Type::Boolean.new.deserialize(val)
 
       if boolean.nil?
         invalid_value_error _("must be boolean")
