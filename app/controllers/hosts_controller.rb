@@ -525,6 +525,7 @@ class HostsController < ApplicationController
       success = true
       forward_url_options(host)
       begin
+        host.built(false) if host.build? && host.token_expired?
         host.setBuild
         host.power.reset if host.supports_power_and_running? && reboot
       rescue => error
