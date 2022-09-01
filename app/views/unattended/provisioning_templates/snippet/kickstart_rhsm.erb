@@ -1,0 +1,30 @@
+<%#
+kind: snippet
+name: kickstart_rhsm
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Generate Anaconda RHSM configuration for Red Hat OS registration
+test_on:
+- rhel9_dhcp
+-%>
+<%
+  subman_keys = host_param('kt_activation_keys') || host_param('activation_key')
+  subman_org = host_param('subscription_manager_org')
+  subman_registration = host_param_true?('subscription_manager') || subman_keys
+  subman_hostname = " --server-hostname #{@host.content_source.rhsm_url.host}" if (plugin_present?('katello') && @host.content_source)
+  subman_rhsm_baseurl = " --rhsm-baseurl #{@host.content_source.pulp_content_url}" if (plugin_present?('katello') && @host.content_source)
+  subman_insights = ' --connect-to-insights' if host_param_true?('host_registration_insights')
+
+  sys_role = " --role '#{host_param('syspurpose_role')}'" if host_param('syspurpose_role')
+  sys_usage = " --usage '#{host_param('syspurpose_usage')}'" if host_param('syspurpose_usage')
+  sys_sla = " --sla '#{host_param('syspurpose_sla')}'" if host_param('syspurpose_sla')
+  sys_addons = " #{host_param('syspurpose_addons').split(',')
+                                                  .map { |add_on| "--addon '#{add_on.strip}'" }.join(" ")}" if host_param('syspurpose_addons')
+-%>
+<% if subman_registration -%>
+rhsm --organization="<%= subman_org %>" --activation-key="<%= subman_keys %>"<%= subman_hostname -%><%= subman_rhsm_baseurl -%><%= subman_insights -%>
+<% end -%>
+<%- if host_param('syspurpose_role') %>
+syspurpose<%= sys_role %><%= sys_usage %><%= sys_sla %><%= sys_addons %>
+<% end -%>

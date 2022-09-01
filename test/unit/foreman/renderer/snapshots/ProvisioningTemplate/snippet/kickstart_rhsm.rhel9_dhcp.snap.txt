@@ -1,0 +1,2 @@
+rhsm --organization="Org" --activation-key="key" --connect-to-insights
+syspurpose --role 'Red Hat Enterprise Linux Server' --usage 'Development/Test' --sla 'Self-Support' --addon 'first addon' --addon 'second addon' --addon 'third addon'

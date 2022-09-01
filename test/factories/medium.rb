@@ -11,6 +11,11 @@ FactoryBot.define do
       path { 'http://mirror.centos.org/centos/$major/os/x86_64' }
     end
 
+    factory :rhel_for_snapshots do
+      name { "RHEL Mirror" }
+      path { 'http://mirror.example.com/rhel/$major/os/x86_64' }
+    end
+
     factory :debian_for_snapshots do
       name { "Debian Mirror" }
       path { 'http://ftp.debian.org/debian' }

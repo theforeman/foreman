@@ -1,22 +1,21 @@
 # This kickstart file was rendered from the Foreman provisioning template "Kickstart default".
-# for snapshot-ipv4-static-el7 running CentOS 7 x86_64
+# for snapshot-ipv4-dhcp-rhel9 running RHEL 9 x86_64
 # Organization: Organization 1
 # Location: Location 1
 
-install
 
-url --url http://mirror.centos.org/centos/7/os/x86_64
+url --url http://mirror.example.com/rhel/9/os/x86_64
 
 
 lang en_US.UTF-8
 selinux --enforcing
 keyboard us
 
-network --device=00-f0-54-1a-7e-e0 --hostname snapshot-ipv4-static-el7 --noipv6 --bootproto static --ip=192.168.42.42 --netmask=255.255.255.0 --gateway=192.168.42.1 --mtu=1242 --nameserver=192.168.42.2,192.168.42.3
+network --device=00-f0-54-1a-7e-e0 --hostname snapshot-ipv4-dhcp-rhel9 --noipv6 --bootproto dhcp --mtu=1142 --nameserver=192.168.42.2,192.168.42.3
 
 rootpw --iscrypted $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
 firewall --service=ssh
-authconfig --useshadow --passalgo=sha256 --kickstart
+authselect --useshadow --passalgo=sha256 --kickstart
 timezone --utc UTC 
 
 services --disabled gpm,sendmail,cups,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd
@@ -30,6 +29,8 @@ clearpart --all    --initlabel
 part /boot --fstype ext3 --size=100 --asprimary
 part /     --fstype ext3 --size=1024 --grow
 part swap  --recommended
+rhsm --organization="Org" --activation-key="key" --connect-to-insights
+syspurpose --role 'Red Hat Enterprise Linux Server' --usage 'Development/Test' --sla 'Self-Support' --addon 'first addon' --addon 'second addon' --addon 'third addon'
 
 skipx
 text
@@ -39,9 +40,8 @@ reboot
 
 yum
 dhclient
-ntp
--chrony
-wget
+chrony
+-ntp
 @Core
 dracut-fips
 -prelink
@@ -65,28 +65,22 @@ chvt 1
 exec < /dev/tty3 > /dev/tty3
 chvt 3
 (
-logger "Starting anaconda snapshot-ipv4-static-el7 postinstall"
+logger "Starting anaconda snapshot-ipv4-dhcp-rhel9 postinstall"
 
 
 
 
 
 echo "Updating system time"
-yum -y install ntpdate
-  systemctl enable --now ntpd
+systemctl enable --now chronyd
+/usr/bin/chronyc -a makestep
 /usr/sbin/hwclock --systohc
 
 
 
 
 
-rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-
-
-
-
-
-
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
 
 
@@ -121,7 +115,7 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-certname        = snapshot-ipv4-static-el7
+certname        = snapshot-ipv4-dhcp-rhel9
 
 EOF
 
