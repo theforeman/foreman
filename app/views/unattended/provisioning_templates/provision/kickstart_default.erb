@@ -15,6 +15,7 @@ test_on:
 - host4and6dhcp
 - host4static
 - host6static
+- rhel9_dhcp
 description: |
   The provisioning template for kickstart based distributions. The output is fetched by Anaconda installer during
   the network based installation. To customize the installation, modify the host parameters.
@@ -229,6 +230,7 @@ key --skip
 <% else -%>
 <%= @host.diskLayout %>
 <% end -%>
+<%= snippet('kickstart_rhsm') if rhel_compatible && os_major >= 9 -%>
 
 <% if host_param_true?('use_graphical_installer') -%>
 graphical
@@ -298,7 +300,7 @@ logger "Starting anaconda <%= @host %> postinstall"
 <%= snippet 'epel' -%>
 <% end -%>
 
-<%= snippet 'redhat_register' %>
+<%= snippet 'redhat_register' if rhel_compatible && os_major < 9 -%>
 
 <% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
 <%= snippet 'freeipa_register' %>
@@ -344,9 +346,7 @@ sed -e 's/DEFAULTKERNEL=kernel-uek/DEFAULTKERNEL=kernel/g' -i /etc/sysconfig/ker
 
 <%= snippet_if_exists(template_name + " custom post") %>
 
-<% if host_param_true?('host_registration_insights') -%>
-<%= snippet 'insights' -%>
-<% end -%>
+<%= snippet 'insights' if host_param_true?('host_registration_insights') && os_major < 9 -%>
 
 touch /tmp/foreman_built
 
