@@ -90,7 +90,6 @@ rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 
 
-
 # update all the base packages from the updates repository
 if [ -f /usr/bin/dnf ]; then
   dnf -y update

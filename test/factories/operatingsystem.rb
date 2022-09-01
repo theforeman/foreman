@@ -191,6 +191,17 @@ FactoryBot.define do
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
     end
 
+    factory :for_snapshots_rhel9, class: Redhat do
+      name { 'RHEL' }
+      major { '9' }
+      minor { '0' }
+      type { 'Redhat' }
+      title { 'Red Hat Enterprise Linux 9.0' }
+      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
+      media { [FactoryBot.build(:rhel_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
     factory :altlinux, class: Altlinux do
       sequence(:name) { 'Altlinux' }
       major { '8' }

@@ -55,6 +55,7 @@ files:
   - snippet/epel.erb
   - snippet/fix_hosts.erb
   - snippet/freeipa_register.erb
+  - snippet/kickstart_rhsm.erb
   - snippet/preseed_networking_setup.erb
   - snippet/puppet.conf.erb
   - snippet/puppet_setup.erb
