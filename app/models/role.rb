@@ -78,6 +78,7 @@ class Role < ApplicationRecord
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :builtin, :complete_value => { :true => true, :false => false }
   scoped_search :on => :description, :complete_value => false
+  scoped_search :on => :locked, :ext_method => :search_by_locked, :complete_value => { :true => true, :false => false }, :operators => ['= '], :only_explicit => true
   scoped_search :relation => :permissions, :on => :name, :complete_value => true, :rename => :permission, :only_explicit => true, :ext_method => :search_by_permission
 
   class << self
@@ -248,6 +249,14 @@ class Role < ApplicationRecord
     role_ids = '-1' if role_ids.empty?
     role_condition = "id IN (#{role_ids})"
     role_condition = "id NOT IN (#{role_ids})" if ['<>', 'NOT ILIKE', 'NOT IN'].include?(operator)
+    {:conditions => role_condition}
+  end
+
+  def self.search_by_locked(key, operator, value)
+    role_condition = "origin IS NOT NULL AND builtin <> #{BUILTIN_DEFAULT_ROLE}"
+    if value == 'false'
+      role_condition = "NOT (#{role_condition})"
+    end
     {:conditions => role_condition}
   end
 

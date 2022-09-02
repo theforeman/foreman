@@ -12,7 +12,7 @@ import { translate as __ } from '../../common/I18n';
 export const SelectRole = ({ role, setRole }) => {
   const {
     response: { results = [] },
-  } = useAPI('get', '/api/v2/roles?per_page=all');
+  } = useAPI('get', '/api/v2/roles?per_page=all&search=locked=false');
   const [isOpen, setIsOpen] = useState(false);
   return (
     <FormGroup label={__('Role')} isRequired>

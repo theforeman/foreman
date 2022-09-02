@@ -79,7 +79,7 @@ const editProps = {
 
 jest.mock('../../redux/API/API', () => ({
   get: async url => {
-    if (url === '/api/v2/roles?per_page=all') {
+    if (url === '/api/v2/roles?per_page=all&search=locked=false') {
       return {
         data: {
           total: 3,

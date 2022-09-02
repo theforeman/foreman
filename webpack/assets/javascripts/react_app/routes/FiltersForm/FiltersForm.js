@@ -26,6 +26,7 @@ import { EMPTY_RESOURCE_TYPE, SEARCH_ID } from './FiltersFormConstants';
 import { Taxonomies } from './Taxonomies';
 import { APIActions } from '../../redux/API';
 import { selectAutocompleteSearchQuery } from '../../components/AutoComplete/AutoCompleteSelectors';
+import { addToast } from '../../components/ToastsList';
 
 export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
   const [role, setRole] = useState(roleId);
@@ -71,7 +72,17 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
       handleSuccess: () => {
         history.push(`/filters?role_id=${roleId}`);
       },
-      errorToast: ({ message }) => message,
+      handleError: ({ response }) => {
+        dispatch(
+          addToast({
+            sticky: true,
+            type: 'danger',
+            // eslint-disable-next-line camelcase
+            message: response?.data?.error?.full_messages[0] || '',
+            key: 'role_edit_failure',
+          })
+        );
+      },
       params,
     };
     if (isNew) {
