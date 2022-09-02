@@ -1,0 +1,230 @@
+[[provisioning-setup]]
+= Provisioning setup
+:toc: right
+:toclevels: 5
+
+Guide how to set up bare metal provisioning development setup on Fedora with Libvirt.
+
+[[enabling-virtualization]]
+== Enabling virtualization
+[source, console]
+....
+egrep '^flags.*(vmx|svm)' /proc/cpuinfo
+....
+If this command results in nothing printed, your system does not support the relevant virtualization extensions, or you have to enable virtualization in the BIOS.
+
+[[tftp-configuration]]
+== TFTP configuration
+[source, console]
+....
+dnf install -y syslinux
+mkdir -p /var/lib/tftpboot
+mkdir -p /var/lib/tftpboot/{boot,grub,grub2,pxelinux.cfg}
+cp /usr/share/syslinux/{pxelinux.0,menu.c32,chain.c32,ldlinux.c32,libcom32.c32,libutil.c32} /var/lib/tftpboot
+
+# Change file owner to your account
+chown your-account:your-group -R /var/lib/tftpboot
+....
+
+[[libvirt-configuration]]
+== Libvirt configuration
+Install Libvirt
+[source, console]
+....
+dnf install @virtualization
+....
+
+Check that `libvirtd` is running
+[source, console]
+....
+systemctl enable --now libvirtd
+systemctl status libvirtd
+....
+
+Edit Libvirt `default` network
+[source, xml]
+....
+# virsh net-edit default
+
+<network xmlns:dnsmasq='http://libvirt.org/schemas/network/dnsmasq/1.0'>
+  <name>default</name>
+  <uuid>your-uuid</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr0' stp='on' delay='0'/>
+  <mac address='your-mac'/>
+  <domain name='local.test' localOnly='yes'/>
+  <dns>
+    <host ip='192.168.122.1'>
+      <hostname>foreman.local.test</hostname>
+    </host>
+  </dns>
+  <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <tftp root='/var/lib/tftpboot'/>
+    <dhcp>
+      <range start='192.168.122.2' end='192.168.122.254'/>
+      <bootp file='pxelinux.0'/>
+    </dhcp>
+  </ip>
+  <dnsmasq:options>
+    <dnsmasq:option value="auth-soa=2021050401,hostmaster.local.test,1200,120,604800"/>
+    <dnsmasq:option value="local=/local.test/"/>
+    <dnsmasq:option value="log-queries"/>
+  </dnsmasq:options>
+</network>
+....
+
+Reload network configuration
+[source, console]
+....
+virsh net-destroy default
+virsh net-start default
+....
+
+[[network-configuration]]
+== Network configuration
+Configure `dnsmasq` hook configuration for Libvirt
+[source, bash]
+....
+mkdir -p /etc/libvirt/hooks/network
+curl -o /etc/libvirt/hooks/network/network.py https://gist.githubusercontent.com/ekohl/e487422d4aaad8ab176c19ec713b700a/raw/06c25f22aa0c1cf7178f09f9a3e7afd2f22c8ed5/network.py
+....
+
+In Firewall configure `vibr0` to `trusted` zone
+
+[source, console]
+....
+firewall-cmd --change-interface virbr0 --zone trusted
+firewall-cmd --change-interface virbr0 --zone trusted --permanent
+nmcli connection modify virbr0 connection.zone trusted
+....
+
+Configure network manager
+[source]
+....
+# /etc/NetworkManager/NetworkManager.conf
+
+[main]
+dns=dnsmasq
+....
+
+Delete the `/etc/resolv.conf` symlink
+[source, bash]
+....
+rm /etc/resolv.conf
+....
+
+Add `foreman.local.test` to `/etc/hosts`
+
+[source]
+....
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 foreman.local.test
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6 foreman.local.test
+0.0.0.0     foreman.local.test
+....
+
+Restart computer
+
+[[smart-proxy-configuration]]
+== Smart Proxy configuration
+
+See https://github.com/theforeman/smart-proxy/developer_docs/provisioning_setup.asciidoc[Smart Proxy Provisioning Setup]
+
+[[foreman-configuration]]
+== Foreman configuration
+* _Infrastructure > Domains_ - Create `local.test`, set DNS proxy to your local proxy
+* _Infrastructure > Smart Proxies_ - Verify that all features are correctly loaded
+* _Infrastructure > Smart Proxies_ - Import IPv4 subnets & create new `default` subnet
+* _Infrastructure > Subnets_ Edit `default` subnet
+[source]
+....
+Name: default
+Network Address: 192.168.122.0
+Network Prefix: 24
+Network Mask: 255.255.255.0
+Gateway Address: 192.168.122.1
+Primary DNS server: 192.168.122.1
+IPAM: DHCP
+Start of IP range: 192.168.122.2
+End of IP range: 192.168.122.254
+MTU: 1500
+Boot mode: DHCP
+
+Proxies tab: Set all to your smart-proxy
+Domains tab: local.test
+....
+* _Hosts > Operating Systems_ - Create new OS
+[source]
+....
+Name: CentOS_Stream
+Major Version: 9
+Family: Red Hat
+Architectures: x86_64
+Partition table: Kickstart default
+Installation media: CentOS Stream 9 mirror
+....
+* _Hosts > Provisioning templates_ - Assign templates to the OS
+  . PXELinux template: `Kickstart default PXELinux` (`name = "Kickstart default PXELinux"`)
+  . Provisioning template: `Kickstart default` (`name = "Kickstart default"`)
+  . Finish template: `Kickstart default finish` (`name = "Kickstart default finish"`)
+* _Hosts > Operating Systems_ - Set default templates and partition table for the OS
+* _Infrastructure > Compute Resources_ - Create compute resource for Libvirt
+[source]
+....
+Name: Libvirt
+Provider: Libvirt
+URL: qemu:///system
+
+# In case you want to use ssh:
+# URL: qemu+ssh://your-account@192.168.122.1/system
+(Test connection)
+....
+
+[[provisioning-machine]]
+== Provisioning machine
+=== Machine in Libvirt
+Create a new VM in Libvirt (Virtual Machine Manager)
+```
+How to install OS: Manual install
+OS: CentOS Stream 9
+Memory: min 4096
+CPUs: min 2
+Customize configuration before installation: yes
+```
+In configuration remember the `MAC` address and set boot options to boot from the network first.
+
+=== Create a host in Foreman
+[source]
+....
+# Host tab
+Deploy on: Bare metal
+
+# Operating system tab
+Architecture: x86_64
+OS: CentOS Stream 9
+Build mode: true
+Media: OS media
+Partition table: OS table
+
+Root password: changeme
+Provisioning templates: Check that all templates are loaded
+
+# Configure interface
+MAC Address: MAC from Libvirt
+Domain: local.test
+IPv4 Subnet: default
+IPv4 Address: Check that IP has been assigned (Smart Proxy must be running)
+....
+
+After the host is created in Foreman, restart the VM in Virtual Network Manager and see the provisioning process.
+
+[[troubleshooting]]
+== Troubleshooting
+
+**Permission denied while accessing `pxelinux.0`**
+Solution:
+[source, console]
+....
+restorecon -R /var/lib/tftpboot
+....
+
+For more troubleshooting tips see https://community.theforeman.org/t/debugging-provisioning/32952[Debugging provisioning]
