@@ -336,6 +336,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   def pxe_file_names(medium_provider)
+    raise(::Foreman::Exception.new(N_("Operating System has no family, can't load PXE files"))) unless family
     family.constantize::PXEFILES
   end
 
