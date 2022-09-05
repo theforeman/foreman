@@ -21,7 +21,7 @@ export const ActionButtons = ({ buttons: originalButtons }) => {
   return (
     <>
       <Button
-        component={firstButton.action?.href ? 'a' : null}
+        component={firstButton.action?.href ? 'a' : undefined}
         {...firstButton.action}
       >
         {firstButton.title}
