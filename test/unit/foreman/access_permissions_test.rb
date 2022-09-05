@@ -53,7 +53,9 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     "api/graphql/execute",
 
     # ping
-    "api/v2/ping/ping"
+    "api/v2/ping/ping",
+
+    "api/v2/users/extlogin"
   ]
 
   MAY_SKIP_AUTHORIZED = ["about/index", "react/index", "api/v2/ping/ping"]
