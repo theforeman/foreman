@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
 import { useHistory } from 'react-router-dom';
+import { isEqual } from 'lodash';
 import URI from 'urijs';
 
 import {
@@ -51,7 +52,8 @@ const TableIndexPage = ({
   cutsomToolbarItems,
   children,
 }) => {
-  const [params, setParams] = useState({});
+  const defaultParams = {};
+  const [params, setParams] = useState(defaultParams);
   const history = useHistory();
   const { location: { search } = {} } = history || {};
   const {
@@ -70,12 +72,12 @@ const TableIndexPage = ({
     let newSearch;
     if (search !== undefined) {
       const urlParams = new URLSearchParams(search);
-      newSearch = urlParams.get('search');
+      newSearch = urlParams.get('search') || '';
     } else {
       newSearch = getURIsearch();
     }
-    setParams({ search: newSearch });
-  }, [search, apiSearchQuery]);
+    if (!isEqual(newSearch, search)) setParams({ search: newSearch });
+  }, [search]);
 
   const setSearch = newSearch => {
     if (history) {
@@ -90,7 +92,9 @@ const TableIndexPage = ({
     setSearch({ search: newSearch, page: 1 });
   };
   useEffect(() => {
-    setAPIOptions({ ...apiOptions, params });
+    if (!isEqual(defaultParams, params)) {
+      setAPIOptions({ ...apiOptions, params });
+    }
     // Adding to the deps apiOptions creates an endless loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.search, params.page, params.perPage]);
