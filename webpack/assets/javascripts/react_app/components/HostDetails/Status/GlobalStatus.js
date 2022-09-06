@@ -9,7 +9,7 @@ import { HOST_STATUSES_KEY } from './Constants';
 import { APIActions } from '../../../redux/API';
 import { selectAPIResponse } from '../../../redux/API/APISelectors';
 
-const GlobalStatus = ({ hostName }) => {
+const GlobalStatus = ({ hostName, canForgetStatuses }) => {
   const [modalStatus, setModalStatus] = useState(false);
   const dispatch = useDispatch();
 
@@ -41,6 +41,7 @@ const GlobalStatus = ({ hostName }) => {
         onClose={() => {
           setModalStatus(false);
         }}
+        canForgetStatuses={canForgetStatuses}
       />
     </>
   );
@@ -48,6 +49,7 @@ const GlobalStatus = ({ hostName }) => {
 
 GlobalStatus.propTypes = {
   hostName: PropTypes.string.isRequired,
+  canForgetStatuses: PropTypes.bool.isRequired,
 };
 
 export default GlobalStatus;

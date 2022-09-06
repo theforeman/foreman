@@ -141,7 +141,12 @@ const HostDetails = ({
                     </div>
                     <Split style={{ display: 'inline-flex' }} hasGutter>
                       <SplitItem>
-                        <HostGlobalStatus hostName={id} />
+                        <HostGlobalStatus
+                          hostName={id}
+                          canForgetStatuses={
+                            !!response?.permissions?.forget_status_hosts
+                          }
+                        />
                       </SplitItem>
                       <SplitItem>
                         <Label
