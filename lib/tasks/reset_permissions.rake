@@ -22,6 +22,7 @@ namespace :permissions do
       user.password = password
       if user.save
         puts "Reset to user: #{user.login}, password: #{password}"
+        puts "WARNING: You need to change the password for hammer in ~/.hammer/cli.modules.d/foreman.yml manually!"
       else
         puts user.errors.full_messages.join(", ")
       end
