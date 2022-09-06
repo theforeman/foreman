@@ -1,7 +1,7 @@
 class RegistrationCommandsController < ApplicationController
   include Foreman::Controller::RegistrationCommands
 
-  before_action :find_smart_proxy, if: -> { registration_params['smart_proxy_id'] }, only: [:create]
+  before_action :find_smart_proxy, if: -> { registration_params['smart_proxy_id'].presence }, only: [:create]
 
   def form_data
     render json: {
