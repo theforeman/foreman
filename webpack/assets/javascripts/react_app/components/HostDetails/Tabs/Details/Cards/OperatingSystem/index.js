@@ -26,6 +26,7 @@ const OperatingSystemCard = ({ status, isExpandedGlobal, hostDetails }) => {
       header={__('Operating system')}
       expandable
       isExpandedGlobal={isExpandedGlobal}
+      masonryLayout
     >
       <DescriptionList isCompact isHorizontal>
         <DescriptionListGroup>
