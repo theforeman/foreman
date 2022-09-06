@@ -16,7 +16,15 @@ namespace :snapshots do
         nil
       end
     end
+
+    module BaseMacrosStub
+      def dns_lookup(_name_or_ip)
+        'foreman.example.com'
+      end
+    end
+
     ::Foreman::Plugin.singleton_class.send :prepend, PluginSnapshotStub
+    ::Foreman::Renderer::Scope::Base.prepend BaseMacrosStub
 
     # clean the snapshot directory in order to delete renamed ones and keep it clean
     FileUtils.rm_rf(Dir.glob(File.join(
