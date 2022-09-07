@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
+  Button,
   DescriptionList,
   DescriptionListTerm,
   DescriptionListGroup,
@@ -12,14 +13,17 @@ import {
   CardBody,
   ClipboardCopy,
   Divider,
+  Flex,
+  FlexItem,
   GridItem,
 } from '@patternfly/react-core';
-import { UserIcon } from '@patternfly/react-icons';
+import { PencilAltIcon, UserIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
 import SkeletonLoader from '../../common/SkeletonLoader';
 import { STATUS } from '../../../constants';
 import DefaultLoaderEmptyState from './DefaultLoaderEmptyState';
 import PowerStatusDropDown from './PowerStatus/PowerStatusDropDown';
+import { foremanUrl } from '../../../common/helpers';
 
 import './styles.scss';
 
@@ -34,6 +38,7 @@ const DetailsCard = ({
     owner_id: ownerID,
     owner_name: ownerName,
     hostgroup_name: hostgroupName,
+    hostgroup_id: hostgroupId,
     permissions: { power_hosts: hasPowerPermission } = {},
   },
 }) => (
@@ -106,7 +111,40 @@ const DetailsCard = ({
                 emptyState={<DefaultLoaderEmptyState />}
                 status={status}
               >
-                {hostgroupName}
+                {hostgroupId && (
+                  <Flex
+                    justifyContent={{ default: 'justifyContentSpaceBetween' }}
+                  >
+                    <FlexItem>
+                      <Button
+                        component="a"
+                        href={foremanUrl(
+                          `/hosts?search=hostgroup="${hostgroupName}"`
+                        )}
+                        variant="link"
+                        target="_blank"
+                        isInline
+                      >
+                        {hostgroupName}
+                      </Button>
+                    </FlexItem>
+                    <FlexItem>
+                      <Button
+                        component="a"
+                        href={foremanUrl(
+                          `/hostgroups/${hostgroupId}-${(
+                            hostgroupName || ''
+                          ).replace('.', '-')}/edit`
+                        )}
+                        variant="plain"
+                        target="_blank"
+                        isInline
+                      >
+                        <PencilAltIcon />
+                      </Button>
+                    </FlexItem>
+                  </Flex>
+                )}
               </SkeletonLoader>
             </DescriptionListDescription>
           </DescriptionListGroup>
@@ -148,6 +186,7 @@ DetailsCard.propTypes = {
   hostDetails: PropTypes.shape({
     comment: PropTypes.string,
     hostgroup_name: PropTypes.string,
+    hostgroup_id: PropTypes.number,
     ip: PropTypes.string,
     ip6: PropTypes.string,
     mac: PropTypes.string,
@@ -163,6 +202,7 @@ DetailsCard.defaultProps = {
   hostDetails: {
     comment: undefined,
     hostgroup_name: undefined,
+    hostgroup_id: undefined,
     ip: undefined,
     ip6: undefined,
     mac: undefined,
