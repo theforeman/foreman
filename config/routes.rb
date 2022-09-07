@@ -374,7 +374,11 @@ Foreman::Application.routes.draw do
       end
     end
   end
+
   resources :media, except: [:show] do
+    member do
+      get 'clone'
+    end
     collection do
       get 'auto_complete_search'
     end
