@@ -24,16 +24,22 @@ const CardTemplate = ({
   overrideDropdownProps,
   masonryLayout,
 }) => {
-  const { cardExpandStates, dispatch } = useContext(CardExpansionContext);
+  const { cardExpandStates, dispatch, cardIds } = useContext(
+    CardExpansionContext
+  );
+  const cardId = cardIds?.find(id => id.includes(header));
+  if (cardIds && !cardId) {
+    throw new Error(
+      `Unable to find a fill for the card: ${header}. Please use the same name for the card header and the fill key.`
+    );
+  }
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
-  const isExpanded =
-    expandable && cardExpandStates[`${header} card expanded`] === true;
+  const isExpanded = expandable && cardExpandStates[`${cardId}`] === true;
   const onDropdownToggle = isOpen => setDropdownVisibility(isOpen);
-  // const onExpandCallback = () => setExpanded(!isExpanded);
   const onExpandCallback = () =>
     dispatch({
       type: isExpanded ? 'collapse' : 'expand',
-      key: `${header} card expanded`,
+      key: `${cardId}`,
     });
   const onDropdownSelect = event => {
     setDropdownVisibility(prevState => !prevState);

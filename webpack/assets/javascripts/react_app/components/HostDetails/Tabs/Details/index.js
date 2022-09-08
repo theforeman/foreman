@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { Flex, FlexItem, Button } from '@patternfly/react-core';
 import { registerCoreCards } from './CardRegistry';
 import Slot from '../../../common/Slot';
@@ -7,16 +8,9 @@ import { STATUS } from '../../../../constants';
 import '../Overview/styles.css';
 import './styles.css';
 import { translate as __ } from '../../../../common/I18n';
+import { selectFillsIDs } from '../../../common/Slot/SlotSelectors';
 
 export const CardExpansionContext = React.createContext({});
-
-const initialState = {
-  'System properties card expanded': true,
-  'Operating system card expanded': true,
-  'Registration details card expanded': true,
-  'HW properties card expanded': true,
-  'Installed products card expanded': true,
-};
 
 function cardExpansionReducer(state, action) {
   // A React reducer, not a Redux one!
@@ -31,8 +25,21 @@ function cardExpansionReducer(state, action) {
         ...state,
         [action.key]: false,
       };
-    case 'expandAll':
-      return initialState;
+    case 'add':
+      if (state[action.key] === undefined) {
+        return {
+          ...state,
+          [action.key]: true,
+        };
+      }
+      return state;
+    case 'expandAll': {
+      const expandedState = {};
+      Object.keys(state).forEach(key => {
+        expandedState[key] = true;
+      });
+      return expandedState;
+    }
     case 'collapseAll': {
       const collapsedState = {};
       Object.keys(state).forEach(key => {
@@ -54,9 +61,30 @@ const DetailsTab = ({ response, status, hostName }) => {
     return () => document.body.classList.remove('pf-gray-background');
   }, []);
 
+  const cardIds = useSelector(state =>
+    selectFillsIDs(state, 'host-tab-details-cards')
+  );
+
+  const getInitialState = keys => {
+    const state = {};
+    if (!keys) return state;
+    keys.forEach(key => {
+      const value = localStorage.getItem(`${key} card expanded`);
+      if (value !== null && value !== undefined) {
+        state[key] = value === 'true';
+      } else {
+        state[key] = true;
+      }
+    });
+    return state;
+  };
+
+  // React calls getInitialState(cardIds) to get the initial state
+  // This ensures card states persist when you switch tabs
   const [cardExpandStates, dispatch] = useReducer(
     cardExpansionReducer,
-    initialState
+    cardIds,
+    getInitialState
   );
   const areAllCardsExpanded = Object.values(cardExpandStates).every(
     value => value === true
@@ -66,22 +94,29 @@ const DetailsTab = ({ response, status, hostName }) => {
 
   const collapseAllCards = () => dispatch({ type: 'collapseAll' });
 
+  const cardCount = useRef(cardIds?.length || 0);
+
   // On mount, get values from localStorage and set them in state
   useEffect(() => {
-    Object.keys(initialState).forEach(key => {
-      const value = localStorage.getItem(key);
-      if (value !== null) {
-        dispatch({ type: value === 'true' ? 'expand' : 'collapse', key });
-      }
-    });
-  }, []);
+    if (cardIds?.length && cardIds.length !== cardCount.current) {
+      cardIds.forEach(key => {
+        const value = localStorage.getItem(`${key} card expanded`);
+        if (value !== null && value !== undefined) {
+          dispatch({ type: value === 'true' ? 'expand' : 'collapse', key });
+        } else {
+          dispatch({ type: 'add', key });
+        }
+      });
+      cardCount.current = cardIds.length;
+    }
+  }, [cardIds]);
 
   // On unmount, save the values to local storage
   // eslint-disable-next-line arrow-body-style
   useEffect(() => {
     return () =>
       Object.entries(cardExpandStates).forEach(([key, value]) =>
-        localStorage.setItem(key, value)
+        localStorage.setItem(`${key} card expanded`, value)
       );
   });
 
@@ -107,7 +142,9 @@ const DetailsTab = ({ response, status, hostName }) => {
         flexWrap={{ default: 'wrap' }}
         className="details-tab-flex-container"
       >
-        <CardExpansionContext.Provider value={{ cardExpandStates, dispatch }}>
+        <CardExpansionContext.Provider
+          value={{ cardExpandStates, dispatch, cardIds }}
+        >
           <Slot
             hostDetails={response}
             status={status}
