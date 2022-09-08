@@ -15,7 +15,7 @@ import SkeletonLoader from '../../../../../common/SkeletonLoader';
 import DefaultLoaderEmptyState from '../../../../DetailsCard/DefaultLoaderEmptyState';
 import { STATUS } from '../../../../../../constants';
 
-const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
+const SystemPropertiesCard = ({ status, hostDetails }) => {
   const {
     name,
     uuid,
@@ -33,7 +33,6 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
       header={__('System properties')}
       expandable
       masonryLayout
-      isExpandedGlobal={isExpandedGlobal}
     >
       <DescriptionList isCompact>
         <DescriptionListGroup>
@@ -154,7 +153,6 @@ const SystemPropertiesCard = ({ status, isExpandedGlobal, hostDetails }) => {
 
 SystemPropertiesCard.propTypes = {
   status: PropTypes.string,
-  isExpandedGlobal: PropTypes.bool,
   hostDetails: PropTypes.shape({
     hostgroup_name: PropTypes.string,
     model_name: PropTypes.string,
@@ -172,7 +170,6 @@ SystemPropertiesCard.propTypes = {
 
 SystemPropertiesCard.defaultProps = {
   status: STATUS.PENDING,
-  isExpandedGlobal: false,
   hostDetails: {
     name: undefined,
     model_name: undefined,
