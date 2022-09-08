@@ -38,16 +38,12 @@ end
 
 if host_param_true?('enable-puppetlabs-repo')
   repo_name = 'puppet-release'
-  repo_subdir = ''
 elsif host_param_true?('enable-official-puppet7-repo')
   repo_name = 'puppet7-release'
-  repo_subdir = ''
 elsif host_param_true?('enable-puppetlabs-puppet6-repo')
   repo_name = 'puppet6-release'
-  repo_subdir = ''
 elsif host_param_true?('enable-puppetlabs-puppet5-repo')
   repo_name = 'puppet5-release'
-  repo_subdir = ''
 end
 -%>
 <% if repo_name -%>
