@@ -1,3 +1,16 @@
+2022-09-08	Amit Upadhye <upadhyeammit@gmail.com>
+	* Release 3.4.0
+
+2022-09-08	Bernhard Suttner <sbernhard@users.noreply.github.com>
+	* Fixes #35203 - bulk rebuild host if token expired (#9316)
+
+2022-09-08	Matěj Mudra <54201410+Dyrkon@users.noreply.github.com>
+	* Fixes #35151 - Add CentOS Stream 9 installation medium (#9346)
+	* Fixes #31966 - Add warning for foreman-rake permissions:reset task (#9395)
+
+2022-09-08	Adam Ruzicka <a.ruzicka@outlook.com>
+	* Fixes #35472 - Try restarting yggdrasild before enabling it
+
 2022-08-25	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.4.0-rc2
 	* i18n - extracting new, pulling from tx
