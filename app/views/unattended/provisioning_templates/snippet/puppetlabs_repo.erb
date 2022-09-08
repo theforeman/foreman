@@ -48,7 +48,7 @@ end
 -%>
 <% if repo_name -%>
 <% if os_family == 'Redhat' || os_name == 'SLES' -%>
-rpm -Uvh<%= http_proxy %><%= http_port %> https://<%= repo_host %>/<%= repo_subdir %><%= repo_name %>-<%= repo_os %>-<%= os_major %>.noarch.rpm
+rpm -Uvh<%= http_proxy %><%= http_port %> https://<%= repo_host %>/<%= repo_name %>-<%= repo_os %>-<%= os_major %>.noarch.rpm
 <% elsif os_family == 'Debian' -%>
 apt-get update
 apt-get -y install ca-certificates
