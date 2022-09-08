@@ -15,19 +15,14 @@ import DefaultLoaderEmptyState from '../../../../DetailsCard/DefaultLoaderEmptyS
 import { STATUS } from '../../../../../../constants';
 import RelativeDateTime from '../../../../../common/dates/RelativeDateTime';
 
-const OperatingSystemCard = ({ status, isExpandedGlobal, hostDetails }) => {
+const OperatingSystemCard = ({ status, hostDetails }) => {
   const {
     architecture_name: architectureName,
     operatingsystem_name: osName,
     reported_data: { boot_time: bootTime } = {},
   } = hostDetails;
   return (
-    <CardTemplate
-      header={__('Operating system')}
-      expandable
-      masonryLayout
-      isExpandedGlobal={isExpandedGlobal}
-    >
+    <CardTemplate header={__('Operating system')} expandable masonryLayout>
       <DescriptionList isCompact isHorizontal>
         <DescriptionListGroup>
           <DescriptionListTerm>{__('Architecture')}</DescriptionListTerm>
@@ -89,7 +84,6 @@ const OperatingSystemCard = ({ status, isExpandedGlobal, hostDetails }) => {
 
 OperatingSystemCard.propTypes = {
   status: PropTypes.string,
-  isExpandedGlobal: PropTypes.bool,
   hostDetails: PropTypes.shape({
     architecture_name: PropTypes.string,
     operatingsystem_name: PropTypes.string,
@@ -99,7 +93,6 @@ OperatingSystemCard.propTypes = {
 
 OperatingSystemCard.defaultProps = {
   status: STATUS.PENDING,
-  isExpandedGlobal: false,
   hostDetails: {
     architecture_name: undefined,
     operatingsystem_name: undefined,
