@@ -79,6 +79,8 @@ const AggregateStatusCard = ({
     warnStatus.length === 0 &&
     errorStatus.length === 0;
 
+  const allStatusesCleared = isOKState && okStatuses.length === 0;
+
   const hadleIconClick = type => {
     setChosenType(type);
     setOpenModal(true);
@@ -103,6 +105,7 @@ const AggregateStatusCard = ({
             cannotViewStatuses={!canViewStatuses}
             isOKState={isOKState}
             responseStatus={responseStatus}
+            allStatusesCleared={allStatusesCleared}
           >
             <Bullseye>
               <span className="card-pf-aggregate-status-notifications">
