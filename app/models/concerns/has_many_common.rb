@@ -42,18 +42,17 @@ module HasManyCommon
     end
 
     #### has_many ####
-    def has_many(*args)
-      options = args.last.is_a?(Hash) ? args.last : {}
-      has_many_names_for(args.first, options)
+    def has_many(name, scope = nil, **kwargs, &extension)
+      has_many_names_for(name)
       super
     end
 
-    def has_and_belongs_to_many(association, options = {})
-      has_many_names_for(association, options)
+    def has_and_belongs_to_many(name, scope = nil, **kwargs, &extension)
+      has_many_names_for(name)
       super
     end
 
-    def has_many_names_for(association, options)
+    def has_many_names_for(association)
       assoc = association.to_s.tableize.singularize
 
       # SETTER _names= method
@@ -71,15 +70,14 @@ module HasManyCommon
     end
 
     #### belongs_to ####
-    def belongs_to(*args)
-      options = args.last.is_a?(Hash) ? args.last : {}
-      belongs_to_name_for(args.first, options)
-      super
+    def belongs_to(name, scope = nil, name_accessor: nil, **kwargs)
+      belongs_to_name_for(name, name_accessor)
+      super(name, scope, **kwargs)
     end
 
-    def belongs_to_name_for(association, options)
+    def belongs_to_name_for(association, name_accessor)
       assoc = association.to_s.tableize.singularize
-      assoc_name = options.delete(:name_accessor) || "#{assoc}_name"
+      assoc_name = name_accessor || "#{assoc}_name"
 
       # SETTER _name= method
       define_method "#{assoc_name}=" do |name_value|

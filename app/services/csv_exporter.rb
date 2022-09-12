@@ -8,7 +8,7 @@ module CsvExporter
     context = Foreman::ThreadSession::Context.get
 
     Enumerator.new do |csv|
-      Foreman::ThreadSession::Context.set(context)
+      Foreman::ThreadSession::Context.set(**context)
       csv << CSV.generate_line(header)
       cols = columns.map { |c| c.to_s.split('.').map(&:to_sym) }
       resources.uncached do
