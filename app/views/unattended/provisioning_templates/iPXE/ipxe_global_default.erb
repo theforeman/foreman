@@ -5,7 +5,8 @@ name: iPXE global default
 snippet: false
 description: |
   The template to render iPXE bootloader configuration for unknown hosts.
-  The output is deployed on the host's subnet TFTP proxy.
+  The output is used for unknown hosts (typically discovery flow) and it
+  is not deployed to the TFTP proxy (unlike other default templates).
   Do not associate or change the name.
 -%>
 #!ipxe
