@@ -147,7 +147,7 @@ class UnattendedController < ApplicationController
 
   def load_host_details
     query_params = params
-    query_params[:ip] = request.remote_ip
+    query_params[:ip] = ipxe_request? ? request.forwarded_for&.first || request.remote_ip : request.remote_ip
     query_params[:mac_list] = Foreman::UnattendedInstallation::MacListExtractor.new.extract_from_env(request.env, params: params)
     query_params[:built] = ['built', 'failed'].include? action_name
 
