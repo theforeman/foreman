@@ -102,6 +102,15 @@ module Api
 
       private
 
+      def action_permission
+        case params[:action]
+        when 'bootfiles'
+          :view
+        else
+          super
+        end
+      end
+
       def allowed_nested_id
         %w(architecture_id medium_id ptable_id provisioning_template_id)
       end
