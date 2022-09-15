@@ -17,12 +17,12 @@ module Foreman
     end
 
     def self.decode(node_id)
-      raise InvalidGlobalIdException.new(node_id) unless base64_encoded?(node_id)
+      raise InvalidGlobalIdException.new(node_id, 'Not base64 encoded') unless base64_encoded?(node_id)
       decoded = Base64.decode64(node_id)
       version, payload = decoded.split(VERSION_SEPARATOR, 2)
-      raise InvalidGlobalIdException.new(node_id) unless version.present? && payload.present?
+      raise InvalidGlobalIdException.new(node_id, "Version [#{version}] and payload [#{payload}]") unless version.present? && payload.present?
       type_name, object_value = payload.split(ID_SEPARATOR, 2)
-      raise InvalidGlobalIdException.new(node_id) unless type_name.present? && object_value.present?
+      raise InvalidGlobalIdException.new(node_id, "Type name [#{type_name}] and object value [#{object_value}]") unless type_name.present? && object_value.present?
       [version.to_i, type_name, object_value]
     end
 
@@ -36,8 +36,8 @@ module Foreman
     end
 
     class InvalidGlobalIdException < Foreman::Exception
-      def initialize(gid)
-        super("Invalid Global ID '#{gid}'. Can not decode.")
+      def initialize(gid, cause)
+        super("Invalid Global ID '#{gid}'. Can not decode: #{cause}.")
       end
     end
   end

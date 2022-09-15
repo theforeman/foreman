@@ -99,7 +99,7 @@ module Mutations
               context: context,
               variables: variables.reject { |key, value| key == :id })
             assert_equal "Variable $id of type ID! was provided invalid value", result['errors'].first['message']
-            assert_equal "Expected value to not be null", result['errors'].first['problems'].first['explanation']
+            assert_equal "Expected value to not be null", result['errors'].first['extensions']['problems'].first['explanation']
           end
         end
 
@@ -123,7 +123,7 @@ module Mutations
               variables: variables.map { |key, value| (key == :osFamily) ? [key, 'foo'] : [key, value] }.to_h)
             assert_equal 1, result['errors'].count
             assert_equal "Variable $osFamily of type OsFamilyEnum was provided invalid value", result['errors'].first['message']
-            assert_equal "Expected \"foo\" to be one of: #{Types::OsFamilyEnum.values.keys.join(', ')}", result['errors'].first['problems'].first['explanation']
+            assert_equal "Expected \"foo\" to be one of: #{Types::OsFamilyEnum.values.keys.join(', ')}", result['errors'].first['extensions']['problems'].first['explanation']
           end
         end
       end

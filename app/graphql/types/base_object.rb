@@ -24,14 +24,14 @@ module Types
         if resolver
           field name, type, resolver: resolver, **kwargs.except(:resolver, :foreign_key)
         else
-          field name, type,
-            resolve: (proc do |object|
-                        reflection = object.class.reflect_on_association(name)
-                        foreign_key ||= reflection.foreign_key
-                        target_class = reflection&.polymorphic? ? object.public_send(reflection.foreign_type).constantize : type.model_class
-                        RecordLoader.for(target_class).load(object.send(foreign_key))
-                      end),
-          **kwargs.except(:resolver, :foreign_key)
+          resolver_method = "resolve_#{name}".to_sym
+          define_method(resolver_method) do
+            reflection = object.class.reflect_on_association(name)
+            foreign_key ||= reflection.foreign_key
+            target_class = reflection&.polymorphic? ? object.public_send(reflection.foreign_type).constantize : type.model_class
+            RecordLoader.for(target_class).load(object.send(foreign_key))
+          end
+          field name, type, resolver_method: resolver_method, **kwargs.except(:resolver, :foreign_key)
         end
       end
 

@@ -65,7 +65,7 @@ module Mutations
               context: context,
               variables: variables.reject { |key, value| key == :id })
             assert_equal "Variable $id of type ID! was provided invalid value", result['errors'].first['message']
-            assert_equal "Expected value to not be null", result['errors'].first['problems'].first['explanation']
+            assert_equal "Expected value to not be null", result['errors'].first['extensions']['problems'].first['explanation']
           end
         end
       end

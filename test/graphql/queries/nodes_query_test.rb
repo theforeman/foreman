@@ -2,13 +2,13 @@ require 'test_helper'
 
 module Queries
   class NodesQueryTest < GraphQLQueryTestCase
-    let(:model) { FactoryBot.create(:model) }
+    let(:model) { as_admin { FactoryBot.create(:model) } }
     let(:global_id) { Foreman::GlobalId.for(model) }
 
     test 'fetching node by relay global id' do
       query = <<-GRAPHQL
-      query getNode {
-        node(id: #{global_id}) {
+      query($id: ID!) {
+        node(id: $id) {
           id
           ... on Model {
             name
@@ -17,7 +17,7 @@ module Queries
       }
       GRAPHQL
 
-      result = ForemanGraphqlSchema.execute(query, context: context, variables: {})
+      result = ForemanGraphqlSchema.execute(query, context: context, variables: { id: global_id })
 
       expected_model_attributes = {
         'id' => global_id,
@@ -30,8 +30,8 @@ module Queries
 
     test 'fetching multiple nodes by relay global id' do
       query = <<-GRAPHQL
-      query getNodes {
-        nodes(ids: [#{global_id}]) {
+      query($ids: [ID!]!) {
+        nodes(ids: $ids) {
           id
           ... on Model {
             name
@@ -40,7 +40,7 @@ module Queries
       }
       GRAPHQL
 
-      result = ForemanGraphqlSchema.execute(query, context: context, variables: {})
+      result = ForemanGraphqlSchema.execute(query, context: context, variables: { ids: [global_id] })
 
       expected_model_attributes = {
         'id' => global_id,
@@ -56,8 +56,8 @@ module Queries
 
       test 'does not fetch the record' do
         query = <<-GRAPHQL
-      query getNode {
-        node(id: #{global_id}) {
+      query($id: ID!) {
+        node(id: $id) {
           id
           ... on Model {
             name
@@ -66,7 +66,7 @@ module Queries
       }
         GRAPHQL
 
-        result = ForemanGraphqlSchema.execute(query, context: context, variables: {})
+        result = ForemanGraphqlSchema.execute(query, context: context, variables: { id: global_id })
 
         assert_empty result['errors']
         assert_nil result['data']['node']
