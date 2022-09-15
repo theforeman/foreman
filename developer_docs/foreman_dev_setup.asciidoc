@@ -132,6 +132,52 @@ All rake tasks are available with the following command:
 bundle exec rake -T
 ....
 
+=== Running tests in Foreman
+Make sure to run tests from the Foreman directory.
+
+==== RuboCop Tests
+To run RuboCop test, use the following command:
+[source, shell]
+....
+bundle exec rubocop [<path_to_file>]
+....
+
+You can also run RuboCop in an https://docs.rubocop.org/rubocop/usage/autocorrect.html[autocorrect mode], where it will try to automatically fix the problems it found in your code:
+[source, shell]
+....
+bundle exec rubocop --auto-correct # (only when it's safe)
+bundle exec rubocop --auto-correct-all # (safe and unsafe)
+....
+
+==== Foreman Tests
+To run Foreman's tests:
+[source, shell]
+....
+bundle exec rake test [TEST=<path_to_file>]
+....
+
+To run a specific test:
+[source, shell]
+....
+bundle exec rails test <path_to_file>:<test_line_number>
+....
+
+===== Foreman Integration Tests
+To run Foreman's integration tests you need to have https://github.com/theforeman/foreman/blob/develop/developer_docs/foreman_dev_setup.asciidoc#ChromeDriver[ChromeDriver] installed on your machine.
+
+Foreman's integration tests use the https://github.com/teamcapybara/capybara[Capybara] test framework. For more information about the Capybara DSL check out the https://rubydoc.info/github/teamcapybara/capybara/master[Capybara API].
+
+Adding `DEBUG_JS_TEST=1` to the test run, will open a web browser and run the tests in chrome.
+
+To run Foreman's integration tests:
+[source, shell]
+....
+npm install # make sure to install npm dependencies for webpack
+bundle exec rake webpack:compile
+bundle exec rake test TEST=test/integration/<test_file> [DEBUG_JS_TEST=1]
+....
+
+
 [[Pry]]
 == Debugging Foreman with Pry
 https://github.com/pry/pry[Pry] is a runtime developer console and IRB (interactive Ruby) alternative with powerful introspection capabilities.
@@ -161,7 +207,7 @@ To step through the code, you can use the following commands:
 
 [[ChromeDriver]]
 == Installing ChromeDriver
-https://chromedriver.chromium.org/[ChromeDriver] is a separate executable that Selenium WebDriver uses to control Chrome. We use ChromeDriver to run the integration tests for Foreman.
+https://chromedriver.chromium.org/[ChromeDriver] is a separate executable that Selenium WebDriver uses to control Chrome. We use ChromeDriver to run the integration tests in Foreman.
 
 [[plugins]]
 == Installing plugins
@@ -201,6 +247,7 @@ bundle exec rake <PLUGIN_NAME>:rubocop
 To run all of the plugin's tests:
 [source, ruby]
 ....
+npm install # make sure to install npm dependencies for webpack
 bundle exec rake webpack:compile # only needed if you have integration tests that uses JS
 bundle exec rake test:<PLUGIN_NAME>
 ....
