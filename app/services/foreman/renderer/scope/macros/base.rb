@@ -112,10 +112,11 @@ module Foreman
             example "save_to_file('/etc/motd', \"hello\\nworld\\n\") # => 'cat << EOF > /etc/motd\\nhello\\nworld\\nEOF'"
           end
           def save_to_file(filename, content)
+            content = content.lines.map { |line| ' ' + line }.join()
             if !content || content.ends_with?("\n")
-              "cat << EOF > #{filename}\n#{content}EOF"
+              "cat << EOF | sed 's/^ //' > #{filename}\n#{content}EOF"
             else
-              "cat << EOF > #{filename}\n#{content}\nEOF"
+              "cat << EOF | sed 's/^ //' > #{filename}\n#{content}\nEOF"
             end
           end
 

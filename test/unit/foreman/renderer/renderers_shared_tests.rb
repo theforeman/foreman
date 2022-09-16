@@ -138,7 +138,7 @@ module RenderersSharedTests
     test "should render a save_to_file macro" do
       source = OpenStruct.new(content: '<%= save_to_file("/etc/puppet/puppet.conf", "[main]\nserver=example.com\n") %>')
       assert_nothing_raised do
-        assert_equal("cat << EOF > /etc/puppet/puppet.conf\n[main]\nserver=example.com\nEOF", renderer.render(source, @scope))
+        assert_equal("cat << EOF | sed 's/^ //' > /etc/puppet/puppet.conf\n [main]\n server=example.com\nEOF", renderer.render(source, @scope))
       end
     end
 
