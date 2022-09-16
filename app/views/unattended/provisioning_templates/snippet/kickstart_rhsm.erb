@@ -10,8 +10,8 @@ test_on:
 -%>
 <%
   subman_keys = host_param('kt_activation_keys') || host_param('activation_key')
-  subman_org = host_param('subscription_manager_org')
-  subman_registration = host_param_true?('subscription_manager') || subman_keys
+  subman_org = (plugin_present?('katello') && @host.rhsm_organization_label) || host_param('subscription_manager_org')
+  subman_registration = host_param_true?('subscription_manager') || subman_keys.present?
   subman_hostname = " --server-hostname #{@host.content_source.rhsm_url.host}" if (plugin_present?('katello') && @host.content_source)
   subman_rhsm_baseurl = " --rhsm-baseurl #{@host.content_source.pulp_content_url}" if (plugin_present?('katello') && @host.content_source)
   subman_insights = ' --connect-to-insights' if host_param_true?('host_registration_insights')
