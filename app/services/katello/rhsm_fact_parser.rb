@@ -76,7 +76,7 @@ module Katello
           os_attributes[:name] = "CentOS"
         end
 
-        ::Operatingsystem.find_by(os_attributes) || ::Operatingsystem.create!(os_attributes)
+        ::Operatingsystem.find_or_create_by(os_attributes)
       end
     end
 
