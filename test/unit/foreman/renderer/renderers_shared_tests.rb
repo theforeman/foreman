@@ -383,7 +383,7 @@ module RenderersSharedTests
     end
 
     describe 'input_resource macro' do
-      let(:template) { FactoryBot.build(:provisioning_template, template: 'resource: <%= input_resource("ress") -%>') }
+      let(:template) { FactoryBot.build(:provisioning_template, template: "resource_id: '<%= input_resource('ress').id -%>'") }
       let(:template_inputs) { [FactoryBot.build(:template_input, name: 'ress', value_type: 'resource', resource_type: 'Hostgroup')] }
       let(:source) { Foreman::Renderer::Source::Database.new(template) }
 
@@ -398,14 +398,14 @@ module RenderersSharedTests
         test "preview" do
           assert_nothing_raised do
             result = renderer.render(source, preview_scope)
-            assert_equal "resource: #{hostgroups(:common).id}", result
+            assert_equal "resource_id: ''", result
           end
         end
 
         test "render" do
           assert_nothing_raised do
             result = renderer.render(source, real_scope)
-            assert_equal "resource: #{hostgroups(:common)}", result
+            assert_equal "resource_id: '#{hostgroups(:common).id}'", result
           end
         end
       end
@@ -416,7 +416,7 @@ module RenderersSharedTests
         test "preview" do
           assert_nothing_raised do
             result = renderer.render(source, preview_scope)
-            assert_equal 'resource: 0', result
+            assert_equal "resource_id: ''", result
           end
         end
 
@@ -432,10 +432,10 @@ module RenderersSharedTests
         let(:scope_args) { { host: @host, source: source, template_input_values: { 'ress' => 0 } } }
 
         test "preview" do
-          assert_nothing_raised do
-            result = renderer.render(source, preview_scope)
-            assert_equal 'resource: 0', result
+          e = assert_raises Foreman::Renderer::Errors::UnknownResource do
+            renderer.render(source, preview_scope)
           end
+          assert_includes e.message, "Unkown 'NotExistingResource' resource class"
         end
 
         test "render" do
@@ -454,7 +454,7 @@ module RenderersSharedTests
           as_user(users(:one)) do
             assert_nothing_raised do
               result = renderer.render(source, preview_scope)
-              assert_equal "resource: #{images(:one).id}", result
+              assert_equal "resource_id: ''", result
             end
           end
         end
@@ -474,7 +474,7 @@ module RenderersSharedTests
         test "preview" do
           assert_nothing_raised do
             result = renderer.render(source, preview_scope)
-            assert_equal "resource: $USER_INPUT[ress]", result
+            assert_equal "resource_id: ''", result
           end
         end
 
