@@ -465,6 +465,37 @@ Possible mount points:
 * hosts_table_column_header
 * hosts_table_column_content
 
+[[extending-hosts-table-with-pagelets]]
+==== Extending hosts table with pagelets
+
+Hosts table on the index page can be extended using two predefined pagelets:
+[source, ruby]
+----
+add_pagelet :hosts_table_column_header, key: :name, label: _('Name'), sortable: true, width: '25%'
+add_pagelet :hosts_table_column_content, key: :name, class: 'ellipsis', callback: ->(host) { name_column(host) }
+----
+notice that `key` is mandatory, since we will present it to the user when selecting columns.
+
+`hosts_table_column_header` supports the following attributes:
+
+* `key` - the name that will be used to choose the column
+* `label` - a string that will be shown in the header row
+* `sortable` - true/false value that indicates whether the column should support sorting
+* `width` - width percentage of the column
+* `class` - additional html classes to put on the `<th>` element
+* `attr_callbacks` - a hash where the key is the name of html attribute, and the value is a function in the form `->(host) { attribute_value }`
+* `callback` - a function that receives the host model and returns html content for the `<th>` element: `->(host) { "<span>...</span>".html_safe }`
+
+`hosts_table_column_content` supports the following attributes:
+
+* `key` - the name that will be used to choose the column
+* `width` - width percentage of the column
+* `class` - additional html classes to put on the `<th>` element
+* `attr_callbacks` - a hash where the key is the name of html attribute, and the value is a function in the form `->(host) { attribute_value }`
+* `callback` - a function that receives the host model and returns html content for the `<th>` element: `->(host) { "<span>...</span>".html_safe }`
+
+You can find usage of those pagelets in the https://github.com/theforeman/foreman/blob/fd2d3f160ca7db0d56cac1e61ce6a474b5cf7def/config/initializers/foreman_register.rb#L8[core repository]
+
 [[using-react-in-plugins]]
 === Using React in plugins
 
