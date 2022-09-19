@@ -3,20 +3,28 @@
 
 <%= subnet_type_f f %>
 <%= text_f f, :network, :label => _("Network Address") %>
-<%= text_f f, :cidr, :label => _("Network Prefix"), :help_inline => _("Prefix length for this subnet, e.g. 24") %>
+<%= text_f f, :cidr, :label => _("Network Prefix"),
+                 :label_help => (_("While it is possible to define the same DHCP range in Foreman, it's usually good practice to select a range from outside the pool defined in the installer, but still in the subnet") + ".<br/>" +
+                                    _("For the example above, it is recommended to define the DHCP range from 10.0.0.1 to 10.0.0.99 in the Foreman UI which gives the following IP address distribution:") + "<br/>" +
+                                    "<li>" + _("10.0.0.1 - 10.0.0.99 - addresses reserved during bare-metal provisioning by Foreman") + "</li></ul>" +
+                                    "<li>" + _("10.0.0.100 - 10.0.200 - addresses for dynamic clients in the subnet (discovered hosts, unmanaged hosts)") + "</li></ul><br/>" +
+                                    _("More about this in ") + "<a href=" + documentation_url('3.2.3InstallationScenarios') + ">" + _("manual") + "</a>.").html_safe,
+                 :label_help_options => { :title => _("DHCP range in Foreman"), :'data-placement' => 'top' },
+                 :help_inline => _("Prefix length for this subnet, e.g. 24") %>
 <%= text_f f, :mask, :label => _("Network Mask"), :help_inline => _("Netmask for this subnet"), :wrapper_class => "form-group #{'hide' unless f.object.show_mask?}" %>
 <%= text_f f, :gateway, :label => _("Gateway Address"), :help_inline => _("Optional: Gateway for this subnet") %>
 <%= text_f f, :dns_primary, :label => _("Primary DNS Server"), :help_inline => _("Optional: Primary DNS for this subnet") %>
 <%= text_f f, :dns_secondary, :label => _("Secondary DNS Server"), :help_inline => _("Optional: Secondary DNS for this subnet") %>
 <%= selectable_f f, :ipam, subnet_ipam_modes(f.object.type), {}, :data => {'disable-auto-suggest-on' => [IPAM::MODES[:none], IPAM::MODES[:eui64], IPAM::MODES[:external_ipam]], 'enable-ipam-group-on' => [IPAM::MODES[:external_ipam]]},
                  :label => _('IPAM'),
-                 :label_help => _("You can select one of the IPAM modes supported by the selected IP protocol:<br/>" +
-                                   "<ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li>" +
-                                   "<li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li>" +
-                                   "<li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li>" +
-                                   "<li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li>" +
-                                   "<li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li>" +
-                                   "<li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>").html_safe,
+                 :label_help => (_("You can select one of the IPAM modes supported by the selected IP protocol:") + "<br/>" +
+                                   "<ul><li><strong>DHCP</strong> - " + _("will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP") + " <em>(IPv4)</em></li>" +
+                                   "<li><strong>" + _("Internal DB") + "</strong> - " + _("use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode") + 
+                                   " <em>(IPv4, IPv6)</em>, " + _("preserves natural ordering") + "</li>" +
+                                   "<li><strong>" + _("Random DB") + "</strong> - " + _("same as Internal DB but randomizes results to prevent race conditions") + " <em>(IPv4)</em></li>" +
+                                   "<li><strong>" + _("EUI-64") + "</strong> - " + _("will assign the IPv6 address based on the MAC address of the interface") + " <em>(IPv6)</em></li>" +
+                                   "<li><strong>" + _("External IPAM") + "</strong> - " + _("will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)") + "</li>" +
+                                   "<li><strong>" + _("None") + "</strong> - " + _("leave IP management solely on user, no auto-suggestion") + " <em>(IPv4, IPv6)</em></li></ul>").html_safe,
                  :label_help_options => { :title => _("IP Address Management"), :'data-placement' => 'top' }%>
 <div id='ipam_options' class ='<%= f.object.ipam_needs_range? ? "" : "hide" %>'>
   <%= text_f f, :from, :help_inline => _("Optional: Starting IP Address for IP auto suggestion") %>
