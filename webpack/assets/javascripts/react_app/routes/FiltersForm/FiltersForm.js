@@ -48,6 +48,10 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (isUnlimited) dispatch(updateDisability(true, SEARCH_ID));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
     if (data.search)
       dispatch(setAutocompleteSearchQuery(data.search, SEARCH_ID));
     // workaround a bug - initial search query is ignored
@@ -60,7 +64,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
     const params = {
       filter: {
         role_id: role,
-        search: autocompleteQuery,
+        search: isUnlimited ? null : autocompleteQuery,
         unlimited: isUnlimited,
         override: isOverride,
         permission_ids: chosenPermissions,
@@ -215,7 +219,6 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
           </FormGroup>
           <FormGroup label={__('Search')} className="filter-form-search">
             <SearchBar
-              disabled={!isUnlimited}
               initialQuery={data.search}
               data={{
                 controller: type.name,
