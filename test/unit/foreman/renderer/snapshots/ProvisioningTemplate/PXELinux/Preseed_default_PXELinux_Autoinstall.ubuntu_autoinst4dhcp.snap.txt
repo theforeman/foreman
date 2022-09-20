@@ -18,8 +18,8 @@
 #
 DEFAULT linux cloud-init autoinstall
 LABEL linux cloud-init autoinstall
-    KERNEL boot/ubuntu-mirror-rf32u3HGTMZf-vmlinuz
-    INITRD boot/ubuntu-mirror-rf32u3HGTMZf-initrd
+    KERNEL boot/ubuntu-mirror-c5UKFnM0aX6y-vmlinuz
+    INITRD boot/ubuntu-mirror-c5UKFnM0aX6y-initrd
     APPEND ip=dhcp url=http://archive.ubuntu.com:80/ubuntu.iso autoinstall ds=nocloud-net;s=http://foreman.example.com/userdata/ root=/dev/ram0 ramdisk_size=1500000 fsck.mode=skip
 
 
