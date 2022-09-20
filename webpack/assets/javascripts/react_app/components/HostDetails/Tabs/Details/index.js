@@ -10,7 +10,7 @@ import { translate as __ } from '../../../../common/I18n';
 
 export const CardExpansionContext = React.createContext({});
 
-function cardExpansionReducer(state, action) {
+const cardExpansionReducer = (state, action) => {
   // A React reducer, not a Redux one!
   switch (action.type) {
     case 'expand':
@@ -46,9 +46,9 @@ function cardExpansionReducer(state, action) {
       return collapsedState;
     }
     default:
-      throw new Error();
+      throw new Error(`invalid card expansion type: ${action.type}`);
   }
-}
+};
 
 const DetailsTab = ({ response, status, hostName }) => {
   useEffect(() => {
