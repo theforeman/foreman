@@ -1,0 +1,59 @@
+<%#
+kind: kexec
+name: Discovery Ubuntu kexec Autoinstall
+model: ProvisioningTemplate
+oses:
+  - Ubuntu
+description: |
+  This template is used to pass command line options to kexec when reloading
+  kernel on a discovered host instead of rebooting. This is useful in PXE-less
+  environments. The template must generate JSON format with the following items
+  "kernel", "initram", "append" and "extra". The kexec command is composed in
+  the following way:
+
+  kexec --force --debug --append=$append --initrd=$initram $extra $kernel
+
+  Please read kexec(8) man page for more information about semantics.
+  Extra options like --reset-vga can be set via "extra" array.
+require:
+  - plugin: foreman_discovery
+    version: 19.0.1
+-%>
+<%
+  mac = @host.facts['discovery_bootif']
+  bootif = host_param("hardware_type", "01") + '-' + mac.gsub(':', '-') if mac
+  ip_cidr = @host.facts['discovery_ip_cidr']
+  ip = @host.facts['discovery_ip']
+  mask = @host.facts['discovery_netmask']
+  gw = @host.facts['discovery_gateway']
+  dns = @host.facts['discovery_dns']
+  identifier = @host.facts['discovery_identifier']
+  image_path = @preseed_path.sub(/\/?$/, '.iso')
+  options = ["nomodeset", "nokaslr", "auto=true"]
+  options << @host.facts['append']
+  options << "domain=#{@host.domain}"
+  options << 'console-setup/ask_detect=false'
+  options << 'console-setup/layout=USA'
+  options << 'console-setup/variant=USA'
+  options << 'keyboard-configuration/layoutcode=us'
+  options << 'localechooser/translation/warn-light=true'
+  options << 'localechooser/translation/warn-severe=true'
+  options << "locale=#{host_param('lang') || 'en_US'}"
+  options << "ip=#{ip}::#{gw}:#{mask}:#{@host.name}:#{identifier}:none:#{dns}"
+  options << "BOOTIF=#{bootif}"
+  options << "url=http://#{@preseed_server}#{image_path}"
+  options << 'autoinstall'
+  options << "ds=nocloud-net;s=http://#{foreman_request_addr}/userdata/"
+  options << 'root=/dev/ram0'
+  options << 'ramdisk_size=1500000'
+  options << 'fsck.mode=skip'
+  options << 'cloud-config-url=/dev/null'
+  options << "inst.stage2=#{@host.operatingsystem.medium_uri(@host)}" if @host.operatingsystem.name.match(/Atomic/i)
+-%>
+{
+  "kernel": "<%= @kernel_uri %>",
+  "initram": "<%= @initrd_uri %>",
+  "append": "<%= options.compact.join(' ') %>",
+  "extra": []
+}
+
