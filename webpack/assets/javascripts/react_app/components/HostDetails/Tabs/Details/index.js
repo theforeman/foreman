@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useReducer, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useReducer, useCallback } from 'react';
 import { Flex, FlexItem, Button } from '@patternfly/react-core';
 import { registerCoreCards } from './CardRegistry';
 import Slot from '../../../common/Slot';
@@ -8,7 +7,6 @@ import { STATUS } from '../../../../constants';
 import '../Overview/styles.css';
 import './styles.css';
 import { translate as __ } from '../../../../common/I18n';
-import { selectFillsIDs } from '../../../common/Slot/SlotSelectors';
 
 export const CardExpansionContext = React.createContext({});
 
@@ -61,31 +59,7 @@ const DetailsTab = ({ response, status, hostName }) => {
     return () => document.body.classList.remove('pf-gray-background');
   }, []);
 
-  const cardIds = useSelector(state =>
-    selectFillsIDs(state, 'host-tab-details-cards')
-  );
-
-  const getInitialState = keys => {
-    const state = {};
-    if (!keys) return state;
-    keys.forEach(key => {
-      const value = localStorage.getItem(`${key} card expanded`);
-      if (value !== null && value !== undefined) {
-        state[key] = value === 'true';
-      } else {
-        state[key] = true;
-      }
-    });
-    return state;
-  };
-
-  // React calls getInitialState(cardIds) to get the initial state
-  // This ensures card states persist when you switch tabs
-  const [cardExpandStates, dispatch] = useReducer(
-    cardExpansionReducer,
-    cardIds,
-    getInitialState
-  );
+  const [cardExpandStates, dispatch] = useReducer(cardExpansionReducer, {});
   const areAllCardsExpanded = Object.values(cardExpandStates).every(
     value => value === true
   );
@@ -94,22 +68,15 @@ const DetailsTab = ({ response, status, hostName }) => {
 
   const collapseAllCards = () => dispatch({ type: 'collapseAll' });
 
-  const cardCount = useRef(cardIds?.length || 0);
-
   // On mount, get values from localStorage and set them in state
-  useEffect(() => {
-    if (cardIds?.length && cardIds.length !== cardCount.current) {
-      cardIds.forEach(key => {
-        const value = localStorage.getItem(`${key} card expanded`);
-        if (value !== null && value !== undefined) {
-          dispatch({ type: value === 'true' ? 'expand' : 'collapse', key });
-        } else {
-          dispatch({ type: 'add', key });
-        }
-      });
-      cardCount.current = cardIds.length;
+  const initializeCardFromLocalStorage = useCallback(key => {
+    const value = localStorage.getItem(`${key} card expanded`);
+    if (value !== null && value !== undefined) {
+      dispatch({ type: value === 'true' ? 'expand' : 'collapse', key });
+    } else {
+      dispatch({ type: 'add', key });
     }
-  }, [cardIds]);
+  }, []);
 
   // On unmount, save the values to local storage
   // eslint-disable-next-line arrow-body-style
@@ -143,7 +110,11 @@ const DetailsTab = ({ response, status, hostName }) => {
         className="details-tab-flex-container"
       >
         <CardExpansionContext.Provider
-          value={{ cardExpandStates, dispatch, cardIds }}
+          value={{
+            cardExpandStates,
+            dispatch,
+            registerCard: initializeCardFromLocalStorage,
+          }}
         >
           <Slot
             hostDetails={response}

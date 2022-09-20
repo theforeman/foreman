@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Card,
   CardActions,
@@ -24,18 +24,16 @@ const CardTemplate = ({
   overrideDropdownProps,
   masonryLayout,
 }) => {
-  const { cardExpandStates, dispatch, cardIds } = useContext(
+  const { cardExpandStates, dispatch, registerCard } = useContext(
     CardExpansionContext
   );
-  const cardId = cardIds?.find(id => id.includes(header));
-  if (cardIds && !cardId) {
-    throw new Error(
-      `Unable to find a fill for the card: ${header}. Please use the same name for the card header and the fill key.`
-    );
-  }
+  const cardId = header;
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
   const isExpanded = expandable && cardExpandStates[`${cardId}`] === true;
   const onDropdownToggle = isOpen => setDropdownVisibility(isOpen);
+  useEffect(() => {
+    if (expandable) registerCard(cardId);
+  }, [cardId, registerCard, expandable]);
   const onExpandCallback = () =>
     dispatch({
       type: isExpanded ? 'collapse' : 'expand',
