@@ -100,6 +100,7 @@ fi
 
 
 
+
 echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
 
 
