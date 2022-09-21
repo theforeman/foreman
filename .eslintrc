@@ -12,6 +12,7 @@
         "ignoreRequire": false,
         "skipWords": [
           "2xl",
+          "45vh",
           "4xl",
           "Ansible",
           "Autocompletion",

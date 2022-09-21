@@ -269,16 +269,22 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :filters, except: [:show] do
+  resources :filters, except: [:show, :new, :edit] do
     member do
       patch 'disable_overriding'
+      get 'edit', to: 'react#index'
     end
     collection do
+      get 'new', to: 'react#index', as: 'new'
       get 'auto_complete_search'
     end
   end
 
-  resources :permissions, only: [:index]
+  resources :permissions, only: [:index] do
+    collection do
+      get 'show_resource_types_with_translations'
+    end
+  end
 
   resources :auth_source_ldaps, except: [:show, :index] do
     collection do

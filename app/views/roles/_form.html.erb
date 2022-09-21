@@ -50,7 +50,7 @@
           <%= spinner(_('Loading filters ...')) %>
         </div>
         <hr>
-        <%= link_to_if_authorized(_("New filter"), hash_for_new_filter_path(:role_id => @role),
+        <%= link_to_if_authorized(_("New filter"), hash_for_new_filters_path(:role_id => @role),
                                   { :class => 'btn btn-success pull-right'} ) %>
         <%= link_to_if_authorized(_('Disable all filters overriding'), hash_for_disable_filters_overriding_role_path(:id => @role),
                                   :method => :patch, :class => 'btn btn-default pull-right') %>

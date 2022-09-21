@@ -1,8 +1,0 @@
-<%= breadcrumbs(
-  items: [
-    (@role.present? ? {caption: _('Roles'), url: (roles_path if authorized_for(hash_for_roles_path))} : {caption: _("Filters"), url: filters_path}),
-    ({caption: _("%s filters") % @role.to_s, url: filters_path(role_id: @role.id)} if @role.present?),
-    {caption: _('Create Filter')},
-  ].compact
-) %>
-<%= render 'form' %>
