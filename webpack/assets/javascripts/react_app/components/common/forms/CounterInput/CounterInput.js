@@ -29,6 +29,7 @@ const CounterInput = ({
       setError(null);
       setWarning(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recommendedMaxValue, max, innerValue]);
 
   const handleChange = v => {
