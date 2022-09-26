@@ -135,19 +135,19 @@ echo "Performing initial puppet run for --tags no_such_tag"
 
 
 
-cat << EOF > /etc/systemd/system/ansible-callback.service
-[Unit]
-Description=Provisioning callback to Ansible Tower
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/curl -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
-ExecStartPost=/usr/bin/systemctl disable ansible-callback
-
-[Install]
-WantedBy=multi-user.target
+cat << EOF | sed 's/^ //' > /etc/systemd/system/ansible-callback.service
+ [Unit]
+ Description=Provisioning callback to Ansible Tower
+ Wants=network-online.target
+ After=network-online.target
+ 
+ [Service]
+ Type=oneshot
+ ExecStart=/usr/bin/curl -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
+ ExecStartPost=/usr/bin/systemctl disable ansible-callback
+ 
+ [Install]
+ WantedBy=multi-user.target
 EOF
 # Runs during first boot, removes itself
 systemctl enable ansible-callback
