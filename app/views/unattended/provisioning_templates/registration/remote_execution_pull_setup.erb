@@ -66,20 +66,24 @@ else
 fi
 
 # start the yggdrasild service
-echo "Starting yggdrasild..."
-systemctl try-restart yggdrasild
-systemctl enable --now yggdrasild
+if systemctl is-enabled yggdrasild 2>/dev/null && [ -n "$YGGDRASIL_RESTART_DELAY" ] && [ "$YGGDRASIL_RESTART_DELAY" -gt 0 ]; then
+    systemd-run --on-active="$YGGDRASIL_RESTART_DELAY" --collect --no-block systemctl restart yggdrasild
+else
+    echo "Starting yggdrasild..."
+    systemctl try-restart yggdrasild
+    systemctl enable --now yggdrasild
 
-# check status of yggdrasild and fail if it is not running
-# possible failure reason: incorrect protocol (should be tcp:// or mqtt://) or port (should be 1883)
-# also, cert-file and key-file must be valid
-# and broker must be running on the server
-yggdrasil status
+    # check status of yggdrasild and fail if it is not running
+    # possible failure reason: incorrect protocol (should be tcp:// or mqtt://) or port (should be 1883)
+    # also, cert-file and key-file must be valid
+    # and broker must be running on the server
+    yggdrasil status
 
-if ! systemctl is-active --quiet yggdrasild; then
-    echo ""
-    echo "yggdrasild failed to start! Check configuration in $CONFIGTOML and make sure the broker is running on the server."
-    exit $?
+    if ! systemctl is-active --quiet yggdrasild; then
+        echo ""
+        echo "yggdrasild failed to start! Check configuration in $CONFIGTOML and make sure the broker is running on the server."
+        exit $?
+    fi
 fi
 
 echo "Remote execution pull provider successfully configured!"
