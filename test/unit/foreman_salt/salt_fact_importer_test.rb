@@ -18,7 +18,7 @@ module ForemanSalt
       imported_fact = FactName.find_by_name('a')
       assert_equal 'a', imported_fact.name
       assert_equal 'Salt', imported_fact.origin
-      assert_equal 'icons16x16/stub/black-s.png', imported_fact.icon_path
+      assert_equal 'Salt.png', imported_fact.icon_path
     end
   end
 end
