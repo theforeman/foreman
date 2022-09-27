@@ -339,6 +339,20 @@ module Api
         end
       end
 
+      api :GET, "/hosts/:id/templates", N_("Get provisioning templates for the host")
+      param :id, :identifier_dottable, :required => true
+      def templates
+        edit_provisioning_templates = authorized_for(:controller => 'provisioning_templates', :action => 'edit')
+        templates = TemplateKind.order(:name).map do |kind|
+          @host.provisioning_template(:kind => kind.name)
+        end.compact
+        if templates.empty?
+          not_found(_("No templates found for %{host}") % {:host => @host.to_label})
+        else
+          render :json => { :templates => templates, :edit_provisioning_templates => edit_provisioning_templates }, :status => :ok
+        end
+      end
+
       private
 
       def apply_compute_profile(host)
@@ -381,7 +395,7 @@ module Api
             :console
           when 'disassociate', 'forget_status'
             :edit
-          when 'vm_compute_attributes', 'get_status', 'template', 'enc'
+          when 'vm_compute_attributes', 'get_status', 'template', 'enc', 'templates'
             :view
           when 'rebuild_config'
             :build
