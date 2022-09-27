@@ -8,7 +8,7 @@ module ForemanSalt
     end
 
     def icon_path
-      'icons16x16/stub/black-s.png'
+      'Salt.png'
     end
   end
 end
