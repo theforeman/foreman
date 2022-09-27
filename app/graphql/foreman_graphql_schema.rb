@@ -36,6 +36,7 @@ class ForemanGraphqlSchema < GraphQL::Schema
 
   def self.resolve_type(_, object, _)
     klass = object.class
-    klass.try(:graphql_type)&.safe_constantize || types[klass.name]
+    custom_name = klass.name.gsub('::', '_')
+    klass.try(:graphql_type)&.safe_constantize || types[klass.name] || types[custom_name]
   end
 end

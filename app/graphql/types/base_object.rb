@@ -37,6 +37,7 @@ module Types
 
       def model_class(new_model_class = nil)
         if new_model_class
+          ensure_resolvable_type(new_model_class)
           @model_class = new_model_class
         else
           @model_class ||= "::#{to_s.demodulize}".safe_constantize
@@ -52,6 +53,14 @@ module Types
 
       def nullable?(attribute)
         !GraphqlAttribute.for(model_class).required?(attribute)
+      end
+
+      def ensure_resolvable_type(klass)
+        if klass.respond_to?(:graphql_type)
+          klass.graphql_type(to_s) unless klass.graphql_type
+        else
+          graphql_name(klass.name.gsub('::', '_'))
+        end
       end
     end
   end
