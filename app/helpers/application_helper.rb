@@ -396,6 +396,7 @@ module ApplicationHelper
       perPage: Setting['entries_per_page'],
       destroyVmOnHostDelete: Setting['destroy_vm_on_host_delete'],
       labFeatures: Setting[:lab_features],
+      safeMode: Setting[:safemode_render],
     }
   end
 
