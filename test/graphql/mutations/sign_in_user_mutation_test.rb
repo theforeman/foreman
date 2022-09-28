@@ -41,7 +41,7 @@ module Mutations
     end
 
     test 'signs a user in' do
-      result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+      result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
       assert_empty result['errors']
 
       data = result['data']['signInUser']
@@ -55,7 +55,7 @@ module Mutations
     test 'does not sign a user in when the credentials are wrong' do
       variables[:password] = 'wrong-password'
 
-      result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+      result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
       assert_empty result['errors']
 
       assert_nil result['data']['signInUser']

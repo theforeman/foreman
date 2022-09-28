@@ -48,7 +48,7 @@ module Mutations
 
         test 'updates a bookmark' do
           assert_difference('::Bookmark.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_empty result['errors']
             assert_empty result['data']['updateBookmark']['errors']
           end
@@ -62,10 +62,10 @@ module Mutations
         test 'should not update a bookmark without id' do
           assert_difference('Bookmark.count', 0) do
             result = ForemanGraphqlSchema.execute(query,
-              variables: variables.reject { |key, value| key == :id },
-              context: context)
-            assert_equal "Variable id of type ID! was provided invalid value", result['errors'].first['message']
-            assert_equal "Expected value to not be null", result['errors'].first['problems'].first['explanation']
+              context: context,
+              variables: variables.reject { |key, value| key == :id })
+            assert_equal "Variable $id of type ID! was provided invalid value", result['errors'].first['message']
+            assert_equal "Expected value to not be null", result['errors'].first['extensions']['problems'].first['explanation']
           end
         end
       end
@@ -80,7 +80,7 @@ module Mutations
           context = { current_user: @user }
 
           assert_difference('Bookmark.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_not_empty result['errors']
           end
         end

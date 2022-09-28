@@ -33,7 +33,7 @@ module Mutations
           medium
 
           assert_difference('::Medium.count', -1) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_empty result['errors']
             assert_empty result['data']['deleteMedium']['errors']
             assert_equal medium_id, result['data']['deleteMedium']['id']
@@ -52,7 +52,7 @@ module Mutations
           context = { current_user: @user }
 
           assert_difference('Medium.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_not_empty result['errors']
             assert_includes result['errors'].map { |error| error['message'] }.to_sentence, 'Unauthorized.'
           end

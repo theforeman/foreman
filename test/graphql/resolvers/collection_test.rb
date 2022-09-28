@@ -5,7 +5,7 @@ class CollectionResolverTest < ActiveSupport::TestCase
   let(:context) { { current_user: User.current } }
   let(:object) { nil }
   let(:resolver_class) { Resolvers::Generic.for(type).collection }
-  let(:resolver) { resolver_class.new(object: object, context: context) }
+  let(:resolver) { resolver_class.new(object: object, context: context, field: nil) }
   let(:model1) { FactoryBot.create(:model, name: 'Example 1') }
   let(:model2) { FactoryBot.create(:model, name: 'Example 2') }
 

@@ -3,27 +3,27 @@ require 'test_helper'
 module Mutations
   module Hosts
     class CreateMutationTest < GraphQLQueryTestCase
-      let(:tax_location) { FactoryBot.create(:location) }
+      let(:tax_location) { as_admin { FactoryBot.create(:location) } }
       let(:location_id) { Foreman::GlobalId.for(tax_location) }
-      let(:organization) { FactoryBot.create(:organization) }
+      let(:organization) { as_admin { FactoryBot.create(:organization) } }
       let(:organization_id) { Foreman::GlobalId.for(organization) }
-      let(:architecture) { FactoryBot.create(:architecture) }
+      let(:architecture) { as_admin { FactoryBot.create(:architecture) } }
       let(:architecture_id) { Foreman::GlobalId.for(architecture) }
-      let(:subnet) { FactoryBot.create(:subnet_ipv4, network: '192.0.2.0', locations: [tax_location], organizations: [organization]) }
+      let(:subnet) { as_admin { FactoryBot.create(:subnet_ipv4, network: '192.0.2.0', locations: [tax_location], organizations: [organization]) } }
       let(:subnet_id) { Foreman::GlobalId.for(subnet) }
-      let(:medium) { FactoryBot.create(:medium, locations: [tax_location], organizations: [organization]) }
+      let(:medium) { as_admin { FactoryBot.create(:medium, locations: [tax_location], organizations: [organization]) } }
       let(:medium_id) { Foreman::GlobalId.for(medium) }
-      let(:ptable) { FactoryBot.create(:ptable, locations: [tax_location], organizations: [organization]) }
+      let(:ptable) { as_admin { FactoryBot.create(:ptable, locations: [tax_location], organizations: [organization]) } }
       let(:ptable_id) { Foreman::GlobalId.for(ptable) }
-      let(:operatingsystem) { FactoryBot.create(:operatingsystem, media: [medium], ptables: [ptable], architectures: [architecture]) }
+      let(:operatingsystem) { as_admin { FactoryBot.create(:operatingsystem, media: [medium], ptables: [ptable], architectures: [architecture]) } }
       let(:operatingsystem_id) { Foreman::GlobalId.for(operatingsystem) }
-      let(:compute_resource) { FactoryBot.create(:compute_resource, :vmware, locations: [tax_location], organizations: [organization]) }
+      let(:compute_resource) { as_admin { FactoryBot.create(:compute_resource, :vmware, locations: [tax_location], organizations: [organization]) } }
       let(:compute_resource_id) { Foreman::GlobalId.encode('ComputeResource', compute_resource.id) }
-      let(:compute_profile) { FactoryBot.create(:compute_profile, :with_compute_attribute, compute_resource: compute_resource) }
+      let(:compute_profile) { as_admin { FactoryBot.create(:compute_profile, :with_compute_attribute, compute_resource: compute_resource) } }
       let(:compute_profile_id) { Foreman::GlobalId.for(compute_profile) }
-      let(:domain) { FactoryBot.create(:domain, subnets: [subnet], locations: [tax_location], organizations: [organization]) }
+      let(:domain) { as_admin { FactoryBot.create(:domain, subnets: [subnet], locations: [tax_location], organizations: [organization]) } }
       let(:domain_id) { Foreman::GlobalId.for(domain) }
-      let(:owner) { FactoryBot.create(:user, locations: [tax_location], organizations: [organization]) }
+      let(:owner) { as_admin { FactoryBot.create(:user, locations: [tax_location], organizations: [organization]) } }
       let(:owner_id) { Foreman::GlobalId.for(owner) }
       let(:mac) { '00:11:22:33:44:55' }
       let(:ip) { '192.0.2.1' }

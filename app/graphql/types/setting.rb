@@ -8,9 +8,9 @@ module Types
     field :value, String
     field :description, String
     field :category, String
-    field :settingsType, String
+    field :settingsType, String, method: :settings_type
     field :default, String
-    field :fullName, String
+    field :fullName, String, method: :full_name
     field :encrypted, Boolean, method: :encrypted?
     field :updated_at, GraphQL::Types::ISO8601DateTime
 

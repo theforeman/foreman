@@ -17,18 +17,23 @@ module Foreman
     end
 
     def self.decode(node_id)
-      raise InvalidGlobalIdException unless base64_encoded?(node_id)
+      raise InvalidGlobalIdException.new(node_id, 'Not base64 encoded') unless base64_encoded?(node_id)
       decoded = Base64.decode64(node_id)
       version, payload = decoded.split(VERSION_SEPARATOR, 2)
-      raise InvalidGlobalIdException unless version.present? && payload.present?
+      raise InvalidGlobalIdException.new(node_id, "Version [#{version}] and payload [#{payload}]") unless version.present? && payload.present?
       type_name, object_value = payload.split(ID_SEPARATOR, 2)
-      raise InvalidGlobalIdException unless type_name.present? && object_value.present?
+      raise InvalidGlobalIdException.new(node_id, "Type name [#{type_name}] and object value [#{object_value}]") unless type_name.present? && object_value.present?
       [version.to_i, type_name, object_value]
     end
 
     def self.for(obj)
       type_definition = ForemanGraphqlSchema.resolve_type(nil, obj, nil)
-      encode(type_definition.name, obj.id)
+      name = if type_definition.respond_to?(:graphql_name)
+               type_definition.graphql_name
+             else
+               type_definition.name
+             end
+      encode(name, obj.id)
     end
 
     def self.base64_encoded?(string)
@@ -36,8 +41,8 @@ module Foreman
     end
 
     class InvalidGlobalIdException < Foreman::Exception
-      def initialize
-        super('Invalid Global ID. Can not decode.')
+      def initialize(gid, cause)
+        super("Invalid Global ID '#{gid}'. Can not decode: #{cause}.")
       end
     end
   end

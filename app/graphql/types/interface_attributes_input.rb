@@ -11,7 +11,7 @@ module Types
     argument :provision, Boolean, required: false
     argument :managed, Boolean, required: false
     argument :attached_to, [String], required: false,
-      prepare: ->(value, ctx) { value.join(', ') }
+      prepare: ->(value, ctx) { value }
     argument :compute_attributes, Types::RawJson, required: false
   end
 end

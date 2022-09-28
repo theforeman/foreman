@@ -6,8 +6,8 @@ module Types
     timestamps
     field :name, String
     field :info, String
-    field :vendorClass, String
-    field :hardwareModel, String
+    field :vendorClass, String, method: :vendor_class
+    field :hardwareModel, String, method: :hardware_model
 
     has_many :hosts, Types::Host
   end

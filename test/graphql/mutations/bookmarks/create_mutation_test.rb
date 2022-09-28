@@ -43,7 +43,7 @@ module Mutations
 
         test 'create a bookmark' do
           assert_difference('Bookmark.count', +1) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_empty result['errors']
             assert_empty result['data']['createBookmark']['errors']
           end
@@ -52,13 +52,13 @@ module Mutations
 
         test 'should not create a bookmark twice' do
           assert_difference('Bookmark.count', +1) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_empty result['errors']
             assert_empty result['data']['createBookmark']['errors']
           end
 
           assert_difference('Bookmark.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_includes result['data']['createBookmark']['errors'], { "path" => ["attributes", "name"], "message" => "has already been taken" }
           end
         end
@@ -73,7 +73,7 @@ module Mutations
         test 'cannot create a medium' do
           context = { current_user: @user }
           assert_difference('::Bookmark.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+            result = ForemanGraphqlSchema.execute(query, context: context, variables: variables)
             assert_not_empty result['errors']
           end
         end

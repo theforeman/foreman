@@ -28,7 +28,7 @@ module Queries
       GRAPHQL
     end
 
-    let(:host) { FactoryBot.create(:host, :with_model) }
+    let(:host) { as_admin { FactoryBot.create(:host, :with_model) } }
     let(:model) { host.model }
 
     let(:global_id) { Foreman::GlobalId.for(model) }

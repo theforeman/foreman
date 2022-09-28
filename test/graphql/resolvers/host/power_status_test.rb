@@ -3,7 +3,7 @@ require 'test_helper'
 class HostPowerStatusResolverTest < ActiveSupport::TestCase
   let(:context) { { current_user: User.current } }
   let(:host) { FactoryBot.create(:host, compute_resource: FactoryBot.create(:vmware_cr)) }
-  let(:resolver) { Resolvers::Host::PowerStatus.new(object: host, context: context) }
+  let(:resolver) { Resolvers::Host::PowerStatus.new(object: host, context: context, field: nil) }
 
   setup { Fog.mock! }
   teardown { Fog.unmock! }
