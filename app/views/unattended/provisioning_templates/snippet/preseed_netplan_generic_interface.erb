@@ -16,25 +16,36 @@ oses:
 <%- end -%>
         dhcp4: <%= @dhcp %>
         dhcp6: <%= @dhcp6 %>
-<%- if !@dhcp && !@subnet.nil? && !@interface.ip.nil? -%>
-        addresses: [ <%= @interface.ip %>/<%= @subnet.cidr %> ]
-<%-   if @subnet.gateway.present? -%>
+<%-
+static_v4 = !@dhcp && !@subnet.nil? && !@interface.ip.nil?
+static_v6 = !@dhcp6 && !@subnet6.nil? && !@interface.ip6.nil?
+-%>
+<%- if static_v4 || static_v6 -%>
+        addresses:
+<%-   if static_v4 -%>
+          - <%= @interface.ip %>/<%= @subnet.cidr %>
+<%-   end -%>
+<%-   if static_v6 -%>
+          - <%= @interface.ip6 %>/<%= @subnet6.cidr %>
+<%-   end -%>
+<%-   if static_v4 && @subnet.gateway.present? -%>
         gateway4: <%= @subnet.gateway %>
 <%-   end -%>
-<%-   if @interface.primary -%>
+<%-   if static_v6 && @subnet6.gateway.present? -%>
+        gateway6: <%= @subnet6.gateway %>
+<%-   end -%>
+<%- if @interface.primary -%>
         nameservers:
           search: [ <%= @interface.domain %> ]
-          addresses: <%= @subnet.dns_servers %>
+          addresses:
+<%- if static_v4 -%>
+<%-   @subnet.dns_servers.each do |dns_server| -%>
+            - <%= dns_server %>
+<%-   end -%>
+<%-   end -%>
+<%- if static_v6 -%>
+<%-   @subnet6.dns_servers.each do |dns6_server| -%>
+            - <%= dns6_server %>
 <%-   end -%>
 <%- end -%>
-<%- if !@dhcp6 && !@subnet6.nil? && !@interface.ip6.nil? -%>
-        addresses: [ <%= @interface.ip6 %>/<%= @subnet6.cidr %> ]
-<%-   if @subnet6.gateway.present? -%>
-        gateway4: <%= @subnet6.gateway %>
-<%-   end -%>
-<%-   if @interface.primary -%>
-        nameservers:
-          search: [ <%= @interface.domain %> ]
-          addresses: <%= @subnet6.dns_servers %>
-<%-   end -%>
 <%- end -%>
