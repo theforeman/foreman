@@ -108,15 +108,21 @@ module Foreman
               a line end, if not an extra trailing line end is appended automatically."
             required :filename, String, desc: 'the file path to store the content to'
             required :content, String, desc: 'content to be stored'
+            keyword :verbatim, [true, false], desc: 'Controls whether the file should be put on disk as-is or if variables should be replaced by shell before the file is written out', default: false
             returns String, desc: 'String representing the shell command'
-            example "save_to_file('/etc/motd', \"hello\\nworld\\n\") # => 'cat << EOF > /etc/motd\\nhello\\nworld\\nEOF'"
+            example "save_to_file('/etc/motd', \"hello\\nworld\\n\") # => 'cat << EOF-0e4f089a > /etc/motd\\nhello\\nworld\\nEOF-0e4f089a'"
           end
-          def save_to_file(filename, content)
-            content = content.lines.map { |line| ' ' + line }.join()
-            if !content || content.ends_with?("\n")
-              "cat << EOF | sed 's/^ //' > #{filename}\n#{content}EOF"
+          def save_to_file(filename, content, verbatim: false)
+            filename = filename.shellescape
+            delimiter = 'EOF-' + Digest::SHA512.hexdigest(filename)[0..7]
+            if content.empty?
+              "cp /dev/null #{filename}"
+            elsif verbatim
+              content = Base64.encode64(content)
+              "cat << #{delimiter} | base64 -d > #{filename}\n#{content}#{delimiter}"
             else
-              "cat << EOF | sed 's/^ //' > #{filename}\n#{content}\nEOF"
+              content += "\n" unless content.end_with?("\n")
+              "cat << #{delimiter} > #{filename}\n#{content}#{delimiter}"
             end
           end
 
