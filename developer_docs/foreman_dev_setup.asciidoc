@@ -3,9 +3,6 @@
 :toc: right
 :toclevels: 5
 
-== Installing the latest development code
-Foreman uses Bundler to install dependencies and get up and running. This is the preferred way to get Foreman if you want to benefit from the latest improvements. By using the git repository you can also upgrade more easily. You will need to have Bundler installed manually for now (check your distribution repositories, or install it via rubygems).
-
 [[prerequisites]]
 == Prerequisites
 Foreman will run with the following requirements (aside from rubygem dependencies):
@@ -16,6 +13,9 @@ Foreman will run with the following requirements (aside from rubygem dependencie
 * PostgreSQL 13
 
 It’s recommended to install https://github.com/rbenv/rbenv[rbenv] or https://github.com/rvm/rvm[rvm] to manage ruby, and https://github.com/nvm-sh/nvm[nvm] to manage node and npm on your system.
+* For Fedora users, you can use this https://developer.fedoraproject.org/start/sw/web-app/rails.html[guide] for installing: rbenv, Ruby & Bundler.
+(There is no need to install Rails, as it is installed by Bundler when running `bundle install` from Foreman directory).
+
 Before installing PostgreSQL, check first that you don't already have it installed (by running `rpm -q postgresql`).
 
 You will want to make sure that you have postgresql-devel installed so the database gems can install properly.
@@ -45,6 +45,20 @@ gem install bundler
 bundle install
 npm install
 ....
+
+* In case you get this error:
+...
+An error occurred while installing pg (1.4.1), and Bundler cannot continue.
+Make sure that `gem install pg -v '1.4.1' --source 'https://rubygems.org/'` succeeds before bundling.
+...
+
+Run the following command:
+....
+gem install pg -v '1.4.3' -- --with-pg-config=/usr/pgsql-13/bin/pg_config
+....
+
+*Good to Notice:* 
+Foreman uses Bundler to install dependencies and get up and running. This is the preferred way to get Foreman if you want to benefit from the latest improvements. By using the git repository you can also upgrade more easily.
 
 [[Database]]
 == Setting the database
