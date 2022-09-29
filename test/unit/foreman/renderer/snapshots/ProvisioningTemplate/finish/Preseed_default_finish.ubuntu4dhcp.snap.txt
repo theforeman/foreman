@@ -58,20 +58,20 @@ allow-hotplug $real
 iface $real inet dhcp
 EOF
 
-cat << EOF | sed 's/^ //' > /etc/systemd/system/ansible-callback.service
- [Unit]
- Description=Provisioning callback to Ansible Tower
- Wants=network-online.target
- After=network-online.target
- 
- [Service]
- Type=oneshot
- ExecStart=/usr/bin/curl -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
- ExecStartPost=/usr/bin/systemctl disable ansible-callback
- 
- [Install]
- WantedBy=multi-user.target
-EOF
+cat << EOF-2929810d > /etc/systemd/system/ansible-callback.service
+[Unit]
+Description=Provisioning callback to Ansible Tower
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/curl -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
+ExecStartPost=/usr/bin/systemctl disable ansible-callback
+
+[Install]
+WantedBy=multi-user.target
+EOF-2929810d
 # Runs during first boot, removes itself
 systemctl enable ansible-callback
 if [ -x /usr/bin/curl ]; then

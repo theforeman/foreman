@@ -87,13 +87,13 @@ echo "Performing initial puppet run for --tags no_such_tag"
 
 
 
-    cat << EOF | sed 's/^ //' > /tmp/ansible_provisioning_call.sh
- #!/bin/sh
- 
- echo "Calling Ansible AWX/Tower provisioning callback..."
- /usr/bin/curl -v -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
- echo "DONE"
-EOF
+    cat << EOF-d592f4ed > /tmp/ansible_provisioning_call.sh
+#!/bin/sh
+
+echo "Calling Ansible AWX/Tower provisioning callback..."
+/usr/bin/curl -v -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
+echo "DONE"
+EOF-d592f4ed
     /bin/sh /tmp/ansible_provisioning_call.sh
 
 # UserData still needs to mark the build as finished
