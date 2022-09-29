@@ -9,7 +9,6 @@ class UsersController < ApplicationController
   skip_before_action :require_mail, :only => [:edit, :update, :logout, :stop_impersonation]
   skip_before_action :require_login, :check_user_enabled, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_action :authorize, :only => [:extlogin, :impersonate, :stop_impersonation]
-  skip_before_action :set_taxonomy, :only => :extlogin
   before_action      :require_admin, :only => :impersonate
   after_action       :update_activity_time, :only => :login
   before_action      :verify_active_session, :only => :login
@@ -154,6 +153,8 @@ class UsersController < ApplicationController
 
   def extlogin
     if session[:user]
+      session.delete('organization_id')
+      session.delete('location_id')
       user = User.find_by_id(session[:user])
       login_user(user)
       user.post_successful_login
