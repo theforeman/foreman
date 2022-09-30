@@ -243,7 +243,9 @@ reboot<% if host_param_true?('install_reboot_kexec') %> --kexec<% end %>
 %packages
 <%= snippet_if_exists(template_name + " custom packages") %>
 yum
+<% if os_major < 8 -%>
 dhclient
+<% end -%>
 <% if use_ntp -%>
 ntp
 -chrony

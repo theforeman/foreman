@@ -39,7 +39,6 @@ reboot
 %packages
 
 yum
-dhclient
 chrony
 -ntp
 @Core
