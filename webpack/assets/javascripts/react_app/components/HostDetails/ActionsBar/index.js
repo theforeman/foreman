@@ -143,6 +143,7 @@ const ActionsBar = ({
         </SplitItem>
         <SplitItem>
           <Button
+            ouiaId="host-edit-button"
             onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/edit`))}
             variant="secondary"
             isDisabled={!canEdit}
