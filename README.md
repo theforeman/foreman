@@ -74,7 +74,8 @@ Generally, follow the [Foreman guidelines](https://theforeman.org/contribute.htm
 * [Follow the rules](https://theforeman.org/contribute.html#SubmitPatches) about commit message style and create a Redmine issue. Doing this right will help reviewers to get your contribution merged faster.
 * We have a [development handbook](https://theforeman.org/handbook.html) to help developers understand how Foreman developers code.
 * [Rubocop](https://github.com/bbatsov/rubocop) will analyze your code, you can run it locally with `rake rubocop`.
-* All of our pull requests run the full test suite in our [Jenkins CI system](https://ci.theforeman.org/). Please include tests in your pull requests for any additions or changes in functionality
+* All of our pull requests run the full test suite in our [Jenkins CI system](https://ci.theforeman.org/). Please include tests in your pull requests for any additions or changes in functionality.
+* Please have a look at [Contributing.md](https://github.com/theforeman/foreman/blob/develop/CONTRIBUTING.md) for more information.
 
 # Media
 We keep a repository of talks, tutorials, articles about everything in the Foreman ecosystem in the [media section](https://theforeman.org/media.html) of our web. If you want to get yours published, just submit a pull request to [theforeman.org repository](https://github.com/theforeman/theforeman.org)
