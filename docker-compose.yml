@@ -7,9 +7,9 @@ services:
       - POSTGRES_DATABASE=foreman
       - PGDATA=/var/lib/postgresql/data/pgdata
     hostname: db.example.com
-    image: postgres:10
+    image: postgres:12
     ports:
-      - 5432
+      - '5432'
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 5432 || exit 1"]
