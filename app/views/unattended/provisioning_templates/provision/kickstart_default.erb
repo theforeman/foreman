@@ -319,7 +319,7 @@ fi
 <%= snippet('remote_execution_ssh_keys') %>
 
 <% if plugin_present?('katello') && host_param_true?('enable-remote-execution-pull') -%>
-<%= save_to_file('/root/remote_execution_pull_setup.sh', snippet('remote_execution_pull_setup')) %>
+<%= save_to_file('/root/remote_execution_pull_setup.sh', snippet('remote_execution_pull_setup'), verbatim: true) %>
 chmod +x /root/remote_execution_pull_setup.sh
 /root/remote_execution_pull_setup.sh
 <% end -%>
