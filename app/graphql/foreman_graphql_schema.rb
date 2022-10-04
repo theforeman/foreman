@@ -27,7 +27,7 @@ class ForemanGraphqlSchema < GraphQL::Schema
     return unless id.present?
 
     _, model_class_name, item_id = Foreman::GlobalId.decode(id)
-    model_class = ForemanGraphqlSchema.types.keys.find { |t| t == model_class_name }&.safe_constantize
+    model_class = ForemanGraphqlSchema.types.fetch(model_class_name)&.model_class
 
     return unless model_class
 
