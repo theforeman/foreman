@@ -17,32 +17,42 @@ const SmartProxy = ({
   smartProxies,
   handleSmartProxy,
   isLoading,
-}) => (
-  <FormGroup
-    label={__('Smart proxy')}
-    fieldId="reg_smart_proxy"
-    labelIcon={
-      <LabelIcon
-        text={__(
-          'Only smart proxies with enabled `Templates` and `Registration` features are displayed.'
-        )}
-      />
-    }
-  >
-    <FormSelect
-      value={smartProxyId}
-      onChange={v => handleSmartProxy(v)}
-      className="without_select2"
-      id="reg_smart_proxy"
-      isDisabled={isLoading || smartProxies.length === 0}
+}) => {
+  const smartProxyUrl = () => {
+    if (!smartProxyId) return '';
+
+    const proxy = smartProxies.filter(p => `${p.id}` === smartProxyId)[0];
+    return proxy?.url;
+  };
+
+  return (
+    <FormGroup
+      label={__('Smart proxy')}
+      fieldId="reg_smart_proxy"
+      labelIcon={
+        <LabelIcon
+          text={__(
+            'Only smart proxies with enabled `Templates` and `Registration` features are displayed.'
+          )}
+        />
+      }
+      helperText={smartProxyUrl()}
     >
-      {emptyOption(smartProxies.length)}
-      {smartProxies.map((sp, i) => (
-        <FormSelectOption key={i} value={sp.id} label={sp.name} />
-      ))}
-    </FormSelect>
-  </FormGroup>
-);
+      <FormSelect
+        value={smartProxyId}
+        onChange={v => handleSmartProxy(v)}
+        className="without_select2"
+        id="reg_smart_proxy"
+        isDisabled={isLoading || smartProxies.length === 0}
+      >
+        {emptyOption(smartProxies.length)}
+        {smartProxies.map((sp, i) => (
+          <FormSelectOption key={i} value={sp.id} label={sp.name} />
+        ))}
+      </FormSelect>
+    </FormGroup>
+  );
+};
 
 SmartProxy.propTypes = {
   smartProxyId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

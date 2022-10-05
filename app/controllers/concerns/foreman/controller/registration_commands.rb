@@ -5,7 +5,7 @@ module Foreman::Controller::RegistrationCommands
 
   def command
     args_query = "?#{registration_args.to_query}"
-    "curl -sS #{insecure} '#{endpoint}#{args_query if args_query != '?'}' #{command_headers} | bash"
+    "curl -sS #{insecure} '#{registration_url(@smart_proxy)}#{args_query if args_query != '?'}' #{command_headers} | bash"
   end
 
   def registration_args
@@ -19,10 +19,12 @@ module Foreman::Controller::RegistrationCommands
     registration_params['insecure'] ? '--insecure' : ''
   end
 
-  def endpoint
-    return global_registration_url if registration_params['smart_proxy_id'].blank?
+  def registration_url(proxy = nil)
+    return global_registration_url unless proxy
 
-    "#{@smart_proxy.url}/register"
+    url = proxy.setting('Registration', 'registration_url').presence || proxy.url
+
+    "#{url}/register"
   end
 
   def command_headers
