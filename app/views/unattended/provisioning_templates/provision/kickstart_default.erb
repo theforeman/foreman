@@ -44,6 +44,7 @@ description: |
   - fips_enabled: boolean (default=false)
   - encrypt_grub: boolean (default=false)
   - use_graphical_installer: boolean (default=false)
+  - enable-remote-execution-pull: boolean (default=false)
 
   Reference links:
   - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
@@ -316,6 +317,12 @@ fi
 <% end -%>
 
 <%= snippet('remote_execution_ssh_keys') %>
+
+<% if plugin_present?('katello') && host_param_true?('enable-remote-execution-pull') -%>
+<%= save_to_file('/root/remote_execution_pull_setup.sh', snippet('remote_execution_pull_setup'), verbatim: true) %>
+chmod +x /root/remote_execution_pull_setup.sh
+/root/remote_execution_pull_setup.sh
+<% end -%>
 
 <%= snippet "blacklist_kernel_modules" %>
 
