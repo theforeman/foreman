@@ -52,7 +52,10 @@ class RegistrationCommandsController < ApplicationController
   end
 
   def smart_proxies
-    SmartProxy.with_features('Templates') & SmartProxy.with_features('Registration')
+    proxies = SmartProxy.with_features('Templates') & SmartProxy.with_features('Registration')
+    proxies.map do |proxy|
+      { id: proxy.id, name: proxy.name, url: registration_url(proxy) }
+    end
   end
 
   # Extension point for plugins
