@@ -14,12 +14,10 @@ From **provisioning** and **configuration** to **orchestration** and **monitorin
 * ServerFault tag: [Foreman](https://serverfault.com/questions/tagged/foreman)
 * Issues: [Redmine](https://projects.theforeman.org/issues)
 * Wiki: [Foreman wiki](https://projects.theforeman.org/projects/foreman/wiki/About)
-* Community and support: We use [Libera.Chat](https://libera.chat) IRC channels
+* Forum: [Foreman Community](https://community.theforeman.org)
+* Chat: We use [Libera.Chat](https://libera.chat) IRC channels
     * #theforeman for general support
     * #theforeman-dev for development chat
-* Mailing lists:
-    * [foreman-users](https://groups.google.com/forum/?fromgroups#!forum/foreman-users)
-    * [foreman-dev](https://groups.google.com/forum/?fromgroups#!forum/foreman-dev)
 
 Using [Puppet](https://www.theforeman.org/manuals/latest/#4.2ManagingPuppet), [Ansible](https://theforeman.org/plugins/foreman_ansible/), [Chef](https://theforeman.org/plugins/foreman_chef/), [Salt](https://theforeman.org/plugins/foreman_salt/) and Foreman's [smart proxy](https://www.theforeman.org/manuals/latest/#4.3SmartProxies) architecture, you can easily automate repetitive tasks, quickly deploy applications, and proactively manage change, both on-premise with VMs and bare-metal or in the cloud.
 
