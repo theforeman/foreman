@@ -1,3 +1,54 @@
+2022-10-06	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.3.1
+
+2022-10-05	Chris Roberts <chrobert@redhat.com>
+	* Fixes #35438 - Unescape cluster on compute resource controller
+
+2022-09-28	Adam Ruzicka <a.ruzicka@outlook.com>
+	* Fixes #34949 - Do not set taxonomies during extlogin
+	* Fixes #34996 - Ignore http proxies when talking to smart proxies
+
+2022-09-28	Amit Upadhye <upadhyeammit@gmail.com>
+	* Refs #34941 - Fix PXELinux autoinstall ubuntu template tests
+
+2022-09-28	Matěj Mudra <54201410+Dyrkon@users.noreply.github.com>
+	* Fixes #31966 - Add warning for foreman-rake permissions:reset task (#9395)
+	* Fixes #35151 - Add CentOS Stream 9 installation medium (#9346)
+
+2022-09-28	Shim Shtein <sshtein@redhat.com>
+	* Fixes #35289 - Add cali* interfaces to ignore list
+	* Fixes #35132 - Make audits host detection regex more strict
+
+2022-09-28	Bernhard Suttner <sbernhard@users.noreply.github.com>
+	* Fixes #35203 - bulk rebuild host if token expired (#9316)
+
+2022-09-28	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #35126 - Hide reports "Origin" column when table is already filtered by origin
+
+2022-09-28	Bastian Schmidt <schmidt@atix.de>
+	* Fixes #34941 - Enable Ubuntu Autoinstall smart proxy deployment
+
+2022-09-09	Adam Ruzicka <a.ruzicka@outlook.com>
+	* Fixes #35472 - Try restarting yggdrasild before enabling it
+
+2022-09-08	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #35371 - Update show_me_the_cookies to 6.x
+
+2022-09-08	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #34987 - Force 1 call on first load for TableIndexPage
+
+2022-08-17	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #35051 - Registration - always use LC_ALL=C LANG=C
+
+2022-08-04	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #34969 - Set up REX pull on client setup (#9235) (#9335)
+
+2022-07-20	Garret Rumohr <garretr@gmail.com>
+	* Fixes #34975 - Removed ks=. is supplied by kernel options snippet (#9238)
+
+2022-07-11	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #35083 - add power status timeout param
+
 2022-06-09	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.3.0
 	* i18n - extracting new, pulling from tx
