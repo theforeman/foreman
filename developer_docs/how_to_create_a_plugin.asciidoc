@@ -464,6 +464,8 @@ Possible mount points:
 * main_tabs
 * hosts_table_column_header
 * hosts_table_column_content
+* tab_headers
+* tab_content
 
 [[using-react-in-plugins]]
 === Using React in plugins
