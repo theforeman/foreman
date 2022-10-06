@@ -12,6 +12,8 @@
     <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Template") %></a></li>
     <li><a href="#template_inputs" data-toggle="tab"><%= _("Inputs") %></a></li>
     <%= render "#{@type_name_plural}/custom_tab_headers" unless type == 'ptable'%>
+    <%= render_pagelets_for(:tab_headers, :subject => @template) %>
+
     <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
@@ -191,6 +193,7 @@
     </div>
 
     <%= render "custom_tabs", :f => f unless type == 'ptable'%>
+    <%= render_pagelets_for(:tab_content, :subject => @template, :f => f) %>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @template %>
 
     <%= submit_or_cancel f, false, :cancel_path => template_path_for(@template.class) %>
