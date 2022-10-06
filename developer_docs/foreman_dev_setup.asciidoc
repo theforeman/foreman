@@ -48,13 +48,13 @@ npm install
 
 * In case you get this error:
 ...
-An error occurred while installing pg (1.4.1), and Bundler cannot continue.
-Make sure that `gem install pg -v '1.4.1' --source 'https://rubygems.org/'` succeeds before bundling.
+An error occurred while installing pg (PG_VERSION), and Bundler cannot continue.
+Make sure that `gem install pg -v '{PG_VERSION}' --source 'https://rubygems.org/'` succeeds before bundling.
 ...
 
 Run the following command:
 ....
-gem install pg -v '1.4.3' -- --with-pg-config=/usr/pgsql-13/bin/pg_config
+gem install pg -v '{PG_VERSION}' -- --with-pg-config=/usr/pgsql-13/bin/pg_config
 ....
 
 *Good to Notice:* 
