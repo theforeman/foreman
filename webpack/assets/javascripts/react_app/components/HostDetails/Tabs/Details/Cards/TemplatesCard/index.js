@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@patternfly/react-core';
 import { PencilAltIcon } from '@patternfly/react-icons';
@@ -10,6 +10,7 @@ import SkeletonLoader from '../../../../../common/SkeletonLoader';
 import DefaultLoaderEmptyState from '../../../../DetailsCard/DefaultLoaderEmptyState';
 import CardTemplate from '../../../../Templates/CardItem/CardTemplate';
 import { STATUS } from '../../../../../../constants';
+import { ReviewModal } from './ReviewModal';
 
 const TemplatesCard = ({ hostName }) => {
   const templatesUrl = foremanUrl(`/api/hosts/${hostName}/templates`);
@@ -22,6 +23,12 @@ const TemplatesCard = ({ hostName }) => {
     status,
   } = useAPI('get', templatesUrl);
   const editTemplateUrl = id => `/templates/provisioning_templates/${id}/edit`;
+  const [currentTemplate, setCurrentTemplate] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const onReviewClick = template => {
+    setCurrentTemplate(template);
+    setIsModalOpen(true);
+  };
   if (!templates?.length) return null;
   return (
     <CardTemplate
@@ -33,13 +40,26 @@ const TemplatesCard = ({ hostName }) => {
         emptyState={<DefaultLoaderEmptyState />}
         status={status || STATUS.PENDING}
       >
+        {currentTemplate && (
+          <ReviewModal
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            hostName={hostName}
+            template={currentTemplate}
+          />
+        )}
         <TableComposable aria-label="templates table" variant="compact">
           <Tbody>
             {templates?.map(template => (
               <Tr key={template.name}>
                 <Td /* to remove padding */ />
                 <Td dataLabel={TemplateTypeTitle} noPadding>
-                  {template.name}
+                  <Button
+                    variant="link"
+                    onClick={() => onReviewClick(template)}
+                  >
+                    {template.name}
+                  </Button>
                 </Td>
                 {editTemplatePermission && (
                   <Td>

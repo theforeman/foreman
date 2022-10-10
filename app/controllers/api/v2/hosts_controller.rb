@@ -344,7 +344,7 @@ module Api
       def templates
         edit_provisioning_templates = authorized_for(:controller => 'provisioning_templates', :action => 'edit')
         templates = TemplateKind.order(:name).map do |kind|
-          @host.provisioning_template(:kind => kind.name)
+          @host.provisioning_template(:kind => kind.name)&.as_json&.merge(:kind => kind.name)
         end.compact
         if templates.empty?
           not_found(_("No templates found for %{host}") % {:host => @host.to_label})
