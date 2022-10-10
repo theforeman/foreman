@@ -40,6 +40,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def <=>(other)
+    return nil unless respond_to? :name
     name <=> other.try(:name)
   end
 
