@@ -52,7 +52,7 @@ module Api
         process_response @ptable.save
       end
 
-      api :POST, "/ptables/import", N_("Import a provisioning template")
+      api :POST, "/ptables/import", N_("Import a partition table")
       param :ptable, Hash, :required => true, :action_aware => true do
         param :name, String, :required => true, :desc => N_("template name")
         param :template, String, :required => true, :desc => N_("template contents including metadata")
