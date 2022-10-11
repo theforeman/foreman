@@ -81,6 +81,7 @@ module Hostext
       scoped_search :relation => :reported_data, :on => :sockets, :rename => 'reported.sockets', :only_explicit => true
       scoped_search :relation => :reported_data, :on => :cores, :rename => 'reported.cores', :only_explicit => true
       scoped_search :relation => :reported_data, :on => :disks_total, :rename => 'reported.disks_total', :only_explicit => true
+      scoped_search :relation => :reported_data, :on => :kernel_version, :rename => 'reported.kernel_version', :only_explicit => true
 
       scoped_search :relation => :location, :on => :title, :rename => :location, :complete_value => true, :only_explicit => true
       scoped_search :on => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER

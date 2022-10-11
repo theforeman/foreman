@@ -152,6 +152,11 @@ class PuppetFactParser < FactParser
     facts['disks']&.values&.sum { |disk| disk&.fetch('size_bytes', 0).to_i }
   end
 
+  def kernel_version
+    # Facter 3.0 introduced the os.kernel fact
+    facts.dig(:os, :kernel, :release).presence || facts[:kernelrelease].presence
+  end
+
   private
 
   # remove when dropping support for facter < 3.0

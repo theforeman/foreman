@@ -510,6 +510,10 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
             assert_kind_of expected, subject.ram
           end
 
+          test "#kernel_version" do
+            assert_kind_of String, subject.kernel_version
+          end
+
           test "#disks_total" do
             if facterversion.to_i >= 3
               assert_kind_of Integer, subject.disks_total
