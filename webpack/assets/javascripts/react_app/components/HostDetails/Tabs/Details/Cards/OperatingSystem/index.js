@@ -19,7 +19,7 @@ const OperatingSystemCard = ({ status, isExpandedGlobal, hostDetails }) => {
   const {
     architecture_name: architectureName,
     operatingsystem_name: osName,
-    reported_data: { boot_time: bootTime } = {},
+    reported_data: { boot_time: bootTime, kernel_version: kernelVersion } = {},
   } = hostDetails;
   return (
     <CardTemplate
@@ -79,6 +79,17 @@ const OperatingSystemCard = ({ status, isExpandedGlobal, hostDetails }) => {
               emptyState={<DefaultLoaderEmptyState />}
             >
               {bootTime && <RelativeDateTime date={bootTime} />}
+            </SkeletonLoader>
+          </DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup>
+          <DescriptionListTerm>{__('Kernel release')}</DescriptionListTerm>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {kernelVersion}
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
