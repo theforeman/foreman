@@ -1,0 +1,41 @@
+<%#
+kind: PXEGrub2
+name: Preseed default PXEGrub2 Autoinstall
+model: ProvisioningTemplate
+oses:
+- Ubuntu
+test_on:
+- ubuntu_autoinst4dhcp
+%>
+#
+# This file was deployed via '<%= template_name %>' template
+#
+# Supported host/hostgroup parameters:
+#
+# blacklist = module1, module2
+#   Blacklisted kernel modules
+#
+# lang = en_US
+#   System locale
+#
+<%
+  efi_suffix = 'efi'
+  image_path = @preseed_path.sub(/\/?$/, '.iso')
+  options = []
+  options << 'ramdisk_size=1500000'
+  options << 'root=/dev/rd/0 rw auto'
+  options << "url=http://#{@preseed_server}#{image_path}"
+  options << 'cloud-config-url=/dev/null'
+  options << 'autoinstall'
+-%>
+
+set default=0
+set timeout=<%= host_param('loader_timeout') || 10 %>
+
+menuentry '<%= template_name %>' {
+  linux<%= efi_suffix %> <%= @kernel %> <%= options.compact.join(' ') %> "ds=nocloud-net;s=http://<%= foreman_request_addr %>/userdata/" <%= snippet('preseed_kernel_options_autoinstall').strip %>
+  initrd<%= efi_suffix %> <%= @initrd %>
+}
+
+<%= snippet_if_exists(template_name + " custom menu") %>
+

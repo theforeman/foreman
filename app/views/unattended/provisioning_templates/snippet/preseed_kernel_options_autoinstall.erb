@@ -1,0 +1,40 @@
+<%#
+kind: snippet
+name: preseed_kernel_options_autoinstall
+model: ProvisioningTemplate
+snippet: true
+description: options for the kernel / preseed startup initialization 
+-%>
+<%
+  hostname = @host.name
+  domain = @host.domain
+  iface = @host.provision_interface
+  mac = @host.provision_interface.mac
+  subnet4 = iface.subnet
+  subnet6 = iface.subnet6
+  options = []
+
+  if host_param('blacklist')
+    options << host_param('blacklist').split(',').collect{|x| "#{x.strip}.blacklist=yes"}.join(' ')
+  end
+  if @host.provision_interface.vlanid.present?
+    options << "netcfg/use_vlan=true netcfg/vlan_id=#{@host.provision_interface.vlanid}"
+  end
+  if subnet4 && subnet4.dhcp_boot_mode?
+    options << 'ip=dhcp'
+  elsif subnet4 && !subnet4.dhcp_boot_mode?
+    options << "ip=#{iface.ip}::#{subnet4.gateway}:#{subnet4.mask}:#{hostname}:#{iface.identifier}:none:#{subnet4.dns_servers.join(':')}"
+  elsif subnet6 && subnet6.dhcp_boot_mode?
+    options << 'ip=dhcp'
+  elsif subnet6 && !subnet6.dhcp_boot_mode?
+    options << "ip=[#{iface.ip6}]::[#{subnet6.gateway}]:[#{subnet6.mask}]:#{hostname}:#{iface.identifier}:none:[#{subnet6.dns_servers.join(']:[')}]"
+  end
+
+  options << 'console-setup/ask_detect=false'
+  options << 'localechooser/translation/warn-light=true'
+  options << 'localechooser/translation/warn-severe=true'
+  options << "hostname=#{hostname}"
+  options << "domain=#{domain}"
+%>
+<%# do not add newline after the next line %>
+<%= options.join(' ') -%>

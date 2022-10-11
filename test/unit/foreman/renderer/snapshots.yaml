@@ -57,6 +57,7 @@ files:
   - snippet/freeipa_register.erb
   - snippet/kickstart_rhsm.erb
   - snippet/preseed_networking_setup.erb
+  - snippet/preseed_kernel_options_autoinstall.erb
   - snippet/puppet.conf.erb
   - snippet/puppet_setup.erb
   - snippet/pxegrub2_chainload.erb
@@ -70,6 +71,7 @@ files:
   - snippet/saltstack_minion.erb
   - snippet/saltstack_setup.erb
   - PXELinux/preseed_default_pxelinux_autoinstall.erb
+  - PXEGrub2/preseed_default_pxegrub2_autoinstall.erb
   - user_data/preseed_autoinstall_cloud_init.erb
   - iPXE/autoyast_default_ipxe.erb
   - iPXE/ipxe_default_local_boot.erb
