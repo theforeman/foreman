@@ -441,4 +441,23 @@ module HostsHelper
       }
     end
   end
+
+  def virtual?(host)
+    return unless host.reported_data
+
+    host.reported_data.virtual ? _('Yes') : _('No')
+  end
+
+  def humanize_bytes(number, from: nil)
+    return unless number
+
+    number = case from
+             when :mega
+               number * 1_000_000
+             else
+               number
+             end
+
+    number_to_human_size(number)
+  end
 end
