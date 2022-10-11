@@ -16,7 +16,7 @@ class ForemanGraphqlSchema < GraphQL::Schema
 
   def self.id_from_object(object, type_definition, query_ctx)
     name = if type_definition.respond_to?(:graphql_name)
-             type_definition.graphql_name
+             type_definition.graphql_name.gsub('_', '::')
            else
              type_definition.name
            end
@@ -27,7 +27,7 @@ class ForemanGraphqlSchema < GraphQL::Schema
     return unless id.present?
 
     _, model_class_name, item_id = Foreman::GlobalId.decode(id)
-    model_class = ForemanGraphqlSchema.types.fetch(model_class_name)&.model_class
+    model_class = ForemanGraphqlSchema.types.fetch(model_class_name.gsub('::', '_'))&.model_class
 
     return unless model_class
 
