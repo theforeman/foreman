@@ -9,6 +9,8 @@ Pagelets::Manager.with_key 'hosts/_list' do |ctx|
   ctx.with_profile :general, _('General'), default: true do
     common_th_class = 'hidden-tablet hidden-xs'
     common_td_class = common_th_class + ' ellipsis'
+    add_pagelet :hosts_table_column_header, key: :power_status, label: _('Power'), sortable: false, width: '80px', class: 'ca'
+    add_pagelet :hosts_table_column_content, key: :power_status, class: 'ca', callback: ->(host) { react_component('PowerStatus', id: host.id, url: power_api_host_path(host)) }
     add_pagelet :hosts_table_column_header, key: :name, label: _('Name'), sortable: true, width: '25%', locked: true
     add_pagelet :hosts_table_column_content, key: :name, class: 'ellipsis', callback: ->(host) { name_column(host) }, locked: true
     add_pagelet :hosts_table_column_header, key: :os_title, label: _('Operating system'), sortable: true, width: '17%', class: 'hidden-xs'

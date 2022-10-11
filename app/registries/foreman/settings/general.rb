@@ -35,11 +35,6 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."),
       default: N_("Version") + " $VERSION",
       full_name: N_('Login page footer text'))
-    setting('host_power_status',
-      type: :boolean,
-      description: N_("Show power status on host index page. This feature calls to compute resource providers which may lead to decreased performance on host listing page."),
-      default: true,
-      full_name: N_('Show host power status'))
     setting('http_proxy',
       type: :string,
       description: N_('Set a proxy for all outgoing HTTP(S) connections from Foreman. System-wide proxies must be configured at the operating system level.'),
