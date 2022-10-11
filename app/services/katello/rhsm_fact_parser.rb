@@ -116,6 +116,10 @@ module Katello
       facts['cpu.core(s)_per_socket']
     end
 
+    def kernel_version
+      facts['uname.release']
+    end
+
     private
 
     def get_rhsm_ip(interface)

@@ -3,5 +3,5 @@ glue(@facet) do
 end
 
 child(@facet => :reported_data) do
-  attributes :boot_time, :cores, :sockets, :disks_total
+  attributes :boot_time, :cores, :sockets, :disks_total, :kernel_version
 end

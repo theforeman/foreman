@@ -9,6 +9,7 @@ module HostFacets
         sockets: parser.sockets,
         cores: parser.cores,
         disks_total: parser.disks_total,
+        kernel_version: parser.kernel_version,
       }.compact
       facet.save if facet.changed?
     end

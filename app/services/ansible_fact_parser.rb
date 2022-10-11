@@ -90,6 +90,10 @@ class AnsibleFactParser < FactParser
     facts['ansible_processor_cores'].to_i
   end
 
+  def kernel_version
+    facts['ansible_kernel']
+  end
+
   private
 
   def ansible_interfaces
