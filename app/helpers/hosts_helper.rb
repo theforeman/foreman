@@ -417,10 +417,6 @@ module HostsHelper
     end
   end
 
-  def power_status_visible?
-    Setting[:host_power_status]
-  end
-
   def host_breadcrumb
     breadcrumbs(resource_url: "/api/v2/hosts?thin=true'")
   end
