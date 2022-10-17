@@ -51,6 +51,9 @@ npm install
 An error occurred while installing pg (PG_VERSION), and Bundler cannot continue.
 Make sure that `gem install pg -v '{PG_VERSION}' --source 'https://rubygems.org/'` succeeds before bundling.
 ...
+* In case you get this error while `bundle install` caused by `ruby-libvirt` gem:
+`extconf.rb:37:in `<main>': libvirt library not found in default locations (RuntimeError)`. Try to find the `pkgconfig`, it may be in a different location than `/usr/lib64/pkgconfig`. Try to use this command: `export PKG_CONFIG_PATH=/usr/lib64/pkgconfig`.
+
 
 Run the following command:
 ....
