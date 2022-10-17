@@ -51,7 +51,7 @@ const ActionsBar = ({
 
   const dispatch = useDispatch();
   const deleteHostHandler = () =>
-    dispatch(deleteHost(hostId, computeId, destroyVmOnHostDelete));
+    dispatch(deleteHost(hostName, computeId, destroyVmOnHostDelete));
 
   const buildHandler = () => {
     if (isBuild) {
