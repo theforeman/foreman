@@ -19,6 +19,13 @@ threads ENV.fetch('FOREMAN_PUMA_THREADS_MIN', 0).to_i, ENV.fetch('FOREMAN_PUMA_T
 #
 workers ENV.fetch('FOREMAN_PUMA_WORKERS', 2).to_i
 
+# Puma worker timeout.
+#
+# It's not recommended to change this, since it can mask real
+# bugs or incorrect tuning. This is not a request timeout.
+#
+worker_timeout ENV.fetch('FOREMAN_PUMA_WORKER_TIMEOUT').to_i if ENV.key?('FOREMAN_PUMA_WORKER_TIMEOUT')
+
 # In clustered mode, Puma can "preload" your application. This loads all the
 # application code prior to forking. Preloading reduces total memory usage of
 # your application via an operating system feature called copy-on-write
