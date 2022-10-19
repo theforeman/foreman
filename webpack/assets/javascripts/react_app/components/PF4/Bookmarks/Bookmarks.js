@@ -43,19 +43,19 @@ const Bookmarks = ({
   };
 
   const dropdownItems = [
-    addBookmarkItem({ canCreate, setModalOpen }),
+    canCreate && addBookmarkItem({ setModalOpen }),
     savedBookmarksItems({
       bookmarks,
       onBookmarkClick,
       status,
       errors,
     }),
-    manageBookmarksItem({
-      canCreate,
-      onClick: manageBookmarks,
-      documentationUrl,
-    }),
-  ];
+    canCreate &&
+      manageBookmarksItem({
+        onClick: manageBookmarks,
+        documentationUrl,
+      }),
+  ].filter(i => i);
 
   return (
     <React.Fragment>

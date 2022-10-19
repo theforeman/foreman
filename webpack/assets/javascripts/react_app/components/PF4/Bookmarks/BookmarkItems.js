@@ -11,23 +11,22 @@ import { sprintf, translate as __ } from '../../../common/I18n';
 import { STATUS } from '../../../constants';
 import DocumentationUrl from '../DocumentationLink';
 
-export const addBookmarkItem = ({ canCreate, setModalOpen }) =>
-  canCreate && (
-    <DropdownGroup key="group 1">
-      <DropdownItem
-        ouiaId="new-bookmark-dropdown-item"
-        key="newBookmark"
-        id="newBookmark"
-        onClick={setModalOpen}
-      >
-        <PlusIcon /> {__('Bookmark this search')}
-      </DropdownItem>
-      <DropdownSeparator
-        ouiaId="new-bookmark-dropdown-separator"
-        key="separator"
-      />
-    </DropdownGroup>
-  );
+export const addBookmarkItem = ({ setModalOpen }) => (
+  <DropdownGroup key="create-bookmark">
+    <DropdownItem
+      ouiaId="new-bookmark-dropdown-item"
+      key="newBookmark"
+      id="newBookmark"
+      onClick={setModalOpen}
+    >
+      <PlusIcon /> {__('Bookmark this search')}
+    </DropdownItem>
+    <DropdownSeparator
+      ouiaId="new-bookmark-dropdown-separator"
+      key="separator"
+    />
+  </DropdownGroup>
+);
 
 const pendingItem = (
   <DropdownItem
@@ -81,26 +80,22 @@ export const savedBookmarksItems = ({
   </DropdownGroup>
 );
 
-export const manageBookmarksItem = ({
-  canCreate,
-  onClick,
-  documentationUrl,
-}) => (
+export const manageBookmarksItem = ({ onClick, documentationUrl }) => (
   <DropdownGroup key="manage bookmarks">
     <DropdownSeparator
       ouiaId="manage-bookmarks-dropdown-separator"
       key="separator"
     />
-    {canCreate && (
-      <DropdownItem
-        ouiaId="manage-bookmarks-dropdown-item"
-        key="manageBookmarks"
-        id="manageBookmarks"
-        onClick={onClick}
-      >
-        {__('Manage Bookmarks')}
-      </DropdownItem>
-    )}
+
+    <DropdownItem
+      ouiaId="manage-bookmarks-dropdown-item"
+      key="manageBookmarks"
+      id="manageBookmarks"
+      onClick={onClick}
+    >
+      {__('Manage Bookmarks')}
+    </DropdownItem>
+
     <DocumentationUrl href={documentationUrl} />
   </DropdownGroup>
 );
