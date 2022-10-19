@@ -308,6 +308,7 @@ Foreman::Application.routes.draw do
           get :power, :on => :member, :action => :power_status
           put :power, :on => :member
           put :rebuild_config, :on => :member
+          get :inherited_parameters, :on => :member
           post :facts, :on => :collection
           resources :audits, :only => :index
           resources :facts, :only => :index, :controller => :fact_values

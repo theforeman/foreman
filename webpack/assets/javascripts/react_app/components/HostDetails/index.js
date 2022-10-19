@@ -51,7 +51,7 @@ const HostDetails = ({
 }) => {
   const { response, status } = useAPI(
     'get',
-    `/api/hosts/${id}`,
+    `/api/hosts/${id}?show_hidden_parameters=true`,
     HOST_DETAILS_API_OPTIONS
   );
   const isNavCollapsed = useSelector(selectIsCollapsed);
