@@ -26,6 +26,10 @@ attributes :configuration_status => :puppet_status
 # to avoid renaming model_name to match accessors
 attributes :hardware_model_name => :model_name
 
+node :compute_resource_provider do |host|
+  host.compute_resource&.provider&.downcase
+end
+
 HostStatus.status_registry.each do |status_class|
   attributes "#{status_class.humanized_name}_status", "#{status_class.humanized_name}_status_label", :if => @object.get_status(status_class).relevant?
 end
