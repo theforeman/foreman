@@ -434,6 +434,15 @@ module Foreman
             Foreman::Version.new.short
           end
 
+          apipie :method, 'Returns a short version of Foreman as a product' do
+            desc 'Returns a string representing the short version (X.Y) of Foreman as a product'
+            returns String
+            example 'product_short_version # => "3.4"'
+          end
+          def product_short_version
+            Foreman::Version.new.short
+          end
+
           private
 
           def validate_subnet(subnet)

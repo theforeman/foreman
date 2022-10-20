@@ -61,7 +61,8 @@ module Foreman
         :truthy?,
         :falsy?,
         :previous_revision,
-        :foreman_short_version
+        :foreman_short_version,
+        :product_short_version
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [
