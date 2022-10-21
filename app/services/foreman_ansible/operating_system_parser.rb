@@ -79,8 +79,7 @@ module ForemanAnsible
 
     def os_name
       if facts[:ansible_os_family] == 'Windows'
-        facts[:ansible_os_name].tr(" \n\t", '') ||
-            facts[:ansible_distribution].tr(" \n\t", '')
+        windows_os_name.tr(" \n\t", '')
       else
         # RHEL 7 is marked as either RedHatEnterpriseServer or RedHatEnterpriseWorkstation, RHEL 8 is lsb id is RedHatEnterprise
         # but we always consider it just RHEL on this level, workstation is differentiated below
@@ -99,10 +98,14 @@ module ForemanAnsible
 
     def os_description
       if facts[:ansible_os_family] == 'Windows'
-        facts[:ansible_os_name].strip || facts[:ansible_distribution].strip
+        windows_os_name
       else
         facts[:ansible_lsb] && facts[:ansible_lsb]['description']
       end
+    end
+
+    def windows_os_name
+      (facts[:ansible_os_name] || facts[:ansible_distribution] || 'Microsoft Windows').strip
     end
   end
 end

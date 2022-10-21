@@ -337,6 +337,37 @@ module ForemanAnsible
         assert os.valid?
       end
     end
+
+    context 'Windows Server 2016 without admin privileges' do
+      setup do
+        @facts_parser = AnsibleFactParser.new(
+          HashWithIndifferentAccess.new(
+            '_type' => 'ansible',
+            '_timestamp' => '2015-10-29 20:01:51 +0100',
+            'ansible_facts' => {
+              'ansible_architecture' => '64-Bit',
+              'ansible_distribution_major_version' => '10',
+              'ansible_distribution_version' => '10.0.14393.0',
+              'ansible_os_family' => 'Windows',
+              'ansible_system' => 'Win32NT',
+              'ansible_win_rm_certificate_expires' => '2021-01-23 15:08:48',
+              'ansible_windows_domain' => 'example.com',
+            }
+          )
+        )
+      end
+
+      test 'parses Windows Server correctly' do
+        os = @facts_parser.operatingsystem
+        assert_equal '10', os.major
+        assert_equal '10.0.143930', os.release
+        assert_equal '0.143930', os.minor
+        assert_equal 'Windows', os.family
+        assert_equal 'Microsoft Windows', os.description
+        assert_equal 'MicrosoftWindows', os.name
+        assert os.valid?
+      end
+    end
   end
 
   class CentOSStreamFactParserTest < ActiveSupport::TestCase
