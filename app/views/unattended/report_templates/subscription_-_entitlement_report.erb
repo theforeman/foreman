@@ -12,21 +12,21 @@ template_inputs:
   options: "no limit\r\n7\r\n30\r\n60\r\n90\r\n120\r\n180"
 require:
 - plugin: katello
-  version: 4.5.0
+  version: 4.8.0
 -%>
 <%- days_from_now = input('Days from Now') -%>
 <%- days_from_now = "" if days_from_now == 'no limit' -%>
 <%- should_filter = days_from_now.present? -%>
 <%- report_headers 'Host Name', 'Organization', 'Lifecycle Environment', 'Content View', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM', 'Cores', 'SLA', 'Products', 'Subscription Name', 'Subscription Type', 'Subscription Total Quantity', 'Subscription Total Consumed', 'Subscriptions Consumed by Host', 'Subscription SKU', 'Subscription Contract', 'Subscription Account', 'Subscription Start', 'Subscription End', 'Subscription Guest', 'Days Remaining' -%>
-<%- load_hosts(includes: [:lifecycle_environment, :operatingsystem, :architecture, :content_view, :organization, :reported_data, :subscription_facet, :pools => [:subscription]], -%>
+<%- load_hosts(includes: [:operatingsystem, :architecture, :content_view_environments, :organization, :reported_data, :subscription_facet, :pools => [:subscription]], -%>
 <%-   search: should_filter && "pools_expiring_in_days = #{days_from_now}" -%>
 <%- ).each_record do |host| -%>
 <%-   host.pools.expiring_in_days(days_from_now).sort_by { |p| p.end_date }.each do |pool| -%>
 <%-     report_row(
           'Host Name': host.name,
           'Organization': host.organization,
-          'Lifecycle Environment': host.lifecycle_environment,
-          'Content View': host.content_view,
+          'Lifecycle Environment': host.single_lifecycle_environment.name,
+          'Content View': host.single_content_view.name,
           'Host Collections': host_collections_names(host),
           'Virtual': host.virtual,
           'Guest of Host': host.hypervisor_host,
