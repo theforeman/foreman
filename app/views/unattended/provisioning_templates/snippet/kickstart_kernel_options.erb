@@ -36,19 +36,19 @@ description: |
   # both current and legacy syntax provided
   if (is_fedora && os_major >= 33) || (rhel_compatible && os_major >= 9)
     if subnet4 && !subnet4.dhcp_boot_mode?
-      options.push("inst.ks=#{foreman_url('provision', static: '1')}")
+      options.push("inst.ks=#{foreman_url('provision', static: '1').gsub("&", "\\\\&")}")
     elsif subnet6 && !subnet6.dhcp_boot_mode?
-      options.push("inst.ks=#{foreman_url('provision', static6: '1')}")
+      options.push("inst.ks=#{foreman_url('provision', static6: '1').gsub("&", "\\\\&")}")
     else
-      options.push("inst.ks=#{foreman_url('provision')}", "inst.ks.sendmac")
+      options.push("inst.ks=#{foreman_url('provision').gsub("&", "\\\\&")}", "inst.ks.sendmac")
     end
   else
     if subnet4 && !subnet4.dhcp_boot_mode?
-      options.push("ks=#{foreman_url('provision', static: '1')}")
+      options.push("ks=#{foreman_url('provision', static: '1').gsub("&", "\\\\&")}")
     elsif subnet6 && !subnet6.dhcp_boot_mode?
-      options.push("ks=#{foreman_url('provision', static6: '1')}")
+      options.push("ks=#{foreman_url('provision', static6: '1').gsub("&", "\\\\&")}")
     else
-      options.push("ks=#{foreman_url('provision')}", "kssendmac", "ks.sendmac")
+      options.push("ks=#{foreman_url('provision').gsub("&", "\\\\&")}", "kssendmac", "ks.sendmac")
     end  
   end
 
