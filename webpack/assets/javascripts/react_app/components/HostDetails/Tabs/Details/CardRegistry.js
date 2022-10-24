@@ -3,10 +3,12 @@ import { addGlobalFill } from '../../../common/Fill/GlobalFill';
 import Properties from '../Details/Cards/SystemProperties';
 import OperatingSystem from '../Details/Cards/OperatingSystem';
 import TemplatesCard from '../Details/Cards/TemplatesCard';
+import ProvisioningCard from '../Details/Cards/Provisioning';
 
 const cards = [
   { key: '[core] System properties', Component: Properties, weight: 4000 },
   { key: '[core] Operating systems', Component: OperatingSystem, weight: 3000 },
+  { key: '[core] Provisioning', Component: ProvisioningCard, weight: 2900 },
   {
     key: '[core] Templates',
     Component: TemplatesCard,
