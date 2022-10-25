@@ -31,6 +31,10 @@ elif [ -f /etc/redhat-release ] ; then
   else
     PKG_MANAGER='yum'
   fi
+elif [ -f /etc/amazon-linux-release ]; then
+  PKG_MANAGER='dnf'
+elif [ -f /etc/system-release ]; then
+  PKG_MANAGER='yum'                                  
 elif [ -f /etc/debian_version ]; then
   PKG_MANAGER='apt-get'
 elif [ -f /etc/arch-release ]; then
