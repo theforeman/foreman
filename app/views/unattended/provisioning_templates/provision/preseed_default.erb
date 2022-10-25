@@ -31,6 +31,8 @@ description: |
 # Organization: <%= @host.organization %>
 # Location: <%= @host.location %>
 
+<%= snippet_if_exists(template_name + " custom pre") -%>
+
 # Locale
 d-i debian-installer/locale string <%= host_param('lang') || 'en_US' %>
 # country and keyboard settings are automatic. Keep them ...
@@ -159,5 +161,7 @@ popularity-contest popularity-contest/participate boolean false
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
 d-i finish-install/reboot_in_progress note
+
+<%= snippet_if_exists(template_name + " custom post") -%>
 
 d-i preseed/late_command string wget -Y off <%= @static ? "'#{foreman_url('finish', static: 'true')}'" : foreman_url('finish') %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh

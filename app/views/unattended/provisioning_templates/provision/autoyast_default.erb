@@ -187,6 +187,8 @@ cp /etc/resolv.conf /mnt/etc
         <source><![CDATA[
 /bin/hostname <%= @host.name %>
 
+<%= snippet_if_exists(template_name + " custom pre") -%>
+
 <%= snippet('remote_execution_ssh_keys') %>
 
 <%= snippet "blacklist_kernel_modules" %>
@@ -198,6 +200,8 @@ cp /etc/resolv.conf /mnt/etc
 <% if salt_enabled %>
 <%= snippet 'saltstack_setup' %>
 <% end -%>
+
+<%= snippet_if_exists(template_name + " custom post") -%>
 
 <%= snippet 'eject_cdrom' -%>
 <%= snippet 'built' -%>

@@ -27,6 +27,8 @@ set -e
 
 echo "# Running [<%= @host.name %>] host initial configuration"
 
+<%= snippet_if_exists('host_init_config_pre') -%>
+
 <% if built_https -%>
 SSL_CA_CERT=$(mktemp)
 cat << EOF > $SSL_CA_CERT
