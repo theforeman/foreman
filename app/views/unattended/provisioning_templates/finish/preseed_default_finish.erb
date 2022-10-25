@@ -26,6 +26,7 @@ description: |
 <% else -%>
   <%- dhcp = subnet.dhcp_boot_mode? -%>
 <% end -%>
+<%= snippet_if_exists(template_name + " custom pre") -%>
 <% unless dhcp -%>
 # host and domain name need setting as these values may have come from dhcp if pxe booting
 /bin/sed -i "s/^search.*$/search <%= @host.domain %>/g" /etc/resolv.conf
@@ -52,6 +53,7 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 
 <%= snippet "blacklist_kernel_modules" %>
 
+<%= snippet_if_exists(template_name + " custom post") -%>
 <% if chef_enabled %>
 <%= snippet 'chef_client' %>
 <% end -%>
