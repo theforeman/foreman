@@ -25,7 +25,7 @@ module Api
       def_param_group :table_preference do
         param :user_id, String, :desc => N_('ID of the user'), :required => true
         param :name, String, :desc => N_("Name of the table"), :required => true
-        param :columns, Array, :desc => N_("List of user selected columns")
+        param :columns, Array, :desc => N_("List of user selected columns"), :required => true
       end
 
       api :POST, "/users/:user_id/table_preferences/", N_("Creates a table preference for a given table")
