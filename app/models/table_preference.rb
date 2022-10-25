@@ -4,7 +4,7 @@ class TablePreference < ApplicationRecord
   include Parameterizable::ByIdName
 
   belongs_to :user
-  validates :user_id, :name, :presence => true
+  validates :user_id, :name, :columns, :presence => true
   serialize :columns
   validates_lengths_from_database
 end
