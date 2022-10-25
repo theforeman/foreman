@@ -39,8 +39,7 @@ module Foreman
             raise UndefinedInput.new(s: name) unless @input
             raise WrongInputValueType.new(name: name, type: @input.value_type) if @input.value_type != 'resource'
 
-            return @input.preview(self) if preview?
-
+            return resource_klass.new if preview?
             find_resource
           end
 
