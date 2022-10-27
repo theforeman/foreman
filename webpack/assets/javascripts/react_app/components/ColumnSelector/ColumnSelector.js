@@ -71,18 +71,13 @@ const ColumnSelector = props => {
     setModalOpen(!isModalOpen);
   };
 
-  const isDisabled = () => {
-    const hasPartialCheck = selectedColumns.map(
-      item => item.checkProps.checked
-    );
-    return hasPartialCheck.every(el => el === false);
-  };
-
   const updateCheckBox = (treeViewItem, checked = true) => {
     treeViewItem.checkProps.checked = checked;
     if (treeViewItem.children) {
       treeViewItem.children.forEach(item => {
-        item.checkProps.checked = checked;
+        if (!item.checkProps.disabled) {
+          item.checkProps.checked = checked;
+        }
       });
     }
   };
@@ -154,7 +149,6 @@ const ColumnSelector = props => {
             <Button
               key="save"
               variant="primary"
-              isDisabled={isDisabled()}
               onClick={() => updateTablePreference()}
             >
               {__('Save')}

@@ -13,6 +13,7 @@ exports[`ColumnSelector should render 1`] = `
             Object {
               "checkProps": Object {
                 "checked": true,
+                "locked": true,
               },
               "key": "name",
               "name": "Name",

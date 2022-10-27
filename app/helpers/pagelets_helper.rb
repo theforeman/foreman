@@ -87,6 +87,7 @@ module PageletsHelper
       {
         key: pt.opts[:key],
         label: pt.opts[:label],
+        locked: pt.opts[:locked],
         profiles: pt.profiles,
         checked: @selected_columns ? @selected_columns.include?(pt.opts[:key].to_s) : pt.profiles.any? { |profile| profile.default? },
       }
@@ -118,7 +119,7 @@ module PageletsHelper
           category_view[:children] << {
             name: column[:label],
             key: column[:key],
-            checkProps: { checked: column[:checked] },
+            checkProps: { disabled: column[:locked], checked: column[:locked] || column[:checked] },
           }
         end
       end
