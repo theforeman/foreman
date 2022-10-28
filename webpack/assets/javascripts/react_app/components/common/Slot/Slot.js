@@ -8,6 +8,7 @@ const Slot = ({
   children = null,
   deprecated,
   replacedBy,
+  versionDeadline, // version deadline for depracation
   ...props
 }) => {
   const [warned, setWarned] = useState(false);
@@ -15,7 +16,7 @@ const Slot = ({
     if (deprecated && fills?.length && !warned) {
       // eslint-disable-next-line no-console
       console.warn(
-        `Slot with id '${id}' is deprecated and will be removed in version 3.4. Please use '${replacedBy}' instead.`
+        `Slot with id '${id}' is deprecated and will be removed in version ${versionDeadline}. Please use '${replacedBy}' instead.`
       );
       setWarned(true);
     }
@@ -48,6 +49,7 @@ Slot.propTypes = {
   children: PropTypes.node,
   deprecated: PropTypes.bool,
   replacedBy: PropTypes.string,
+  versionDeadline: PropTypes.string,
 };
 
 Slot.defaultProps = {
@@ -56,6 +58,7 @@ Slot.defaultProps = {
   children: undefined,
   deprecated: false,
   replacedBy: '',
+  versionDeadline: undefined,
 };
 
 export default Slot;
