@@ -155,6 +155,10 @@ module ApplicationHelper
     end
   end
 
+  def filter_columns?
+    controller_name == 'hosts' && controller.action_name == 'index'
+  end
+
   def auto_complete_controller_name
     controller.respond_to?(:auto_complete_controller_name) ? controller.auto_complete_controller_name : controller_name
   end

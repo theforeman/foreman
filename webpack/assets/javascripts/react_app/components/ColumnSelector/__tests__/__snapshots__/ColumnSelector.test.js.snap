@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColumnSelector should render 1`] = `
+<ColumnSelector
+  data={
+    Object {
+      "categories": Array [
+        Object {
+          "checkProps": Object {
+            "checked": true,
+          },
+          "children": Array [
+            Object {
+              "checkProps": Object {
+                "checked": true,
+                "locked": true,
+              },
+              "key": "name",
+              "name": "Name",
+            },
+            Object {
+              "checkProps": Object {
+                "checked": true,
+              },
+              "key": "os_title",
+              "name": "Operating system",
+            },
+            Object {
+              "checkProps": Object {
+                "checked": true,
+              },
+              "key": "model",
+              "name": "Model",
+            },
+            Object {
+              "checkProps": Object {
+                "checked": true,
+              },
+              "key": "owner",
+              "name": "Owner",
+            },
+            Object {
+              "checkProps": Object {
+                "checked": true,
+              },
+              "key": "hostgroup",
+              "name": "Host group",
+            },
+            Object {
+              "checkProps": Object {
+                "checked": true,
+              },
+              "key": "last_report",
+              "name": "Last report",
+            },
+            Object {
+              "checkProps": Object {
+                "checked": true,
+              },
+              "key": "comment",
+              "name": "Comment",
+            },
+          ],
+          "defaultExpanded": true,
+          "key": "general",
+          "name": "General",
+        },
+      ],
+      "controller": "hosts",
+      "hasPreference": true,
+      "url": "api/users/4/table_preferences",
+    }
+  }
+/>
+`;

@@ -8,7 +8,7 @@ module Pagelets
 
     def filter(opts = {})
       result = if opts[:selected]
-                 items.select { |pagelet| opts[:selected].include?(pagelet.key.to_s) }
+                 items.select { |pagelet| pagelet.locked || opts[:selected].include?(pagelet.key.to_s) }
                else
                  items.select do |pagelet|
                    pagelet.profiles.empty? ? true : pagelet.profiles.any? { |profile| profile.default? }

@@ -67,7 +67,67 @@ module PageletsHelper
     sort col[:key], as: col[:label], default: col[:default_sort] || 'ASC'
   end
 
+  def mount_column_selector
+    url = "#{api_users_path}/#{User.current[:id]}/table_preferences"
+    react_component("ColumnSelector", data:
+      {
+        url: url,
+        controller: controller_name,
+        categories: columns_view,
+        hasPreference: @selected_columns.present?,
+      }
+    )
+  end
+
   private
+
+  def defined_columns
+    Pagelets::Manager.pagelets_at('hosts/_list', :hosts_table_column_header).map do |pt|
+      next unless pt.opts[:key]
+      {
+        key: pt.opts[:key],
+        label: pt.opts[:label],
+        locked: pt.opts[:locked],
+        profiles: pt.profiles,
+        checked: @selected_columns ? @selected_columns.include?(pt.opts[:key].to_s) : pt.profiles.any? { |profile| profile.default? },
+      }
+    end.compact
+  end
+
+  def defined_categories(columns)
+    columns.map { |col| col[:profiles] }.flatten.uniq { |pl| pl.id }
+  end
+
+  def all_checked?(category)
+    return true if category.all? { |column| column[:checkProps][:checked] }
+    category.any? { |column| column[:checkProps][:checked] } ? nil : false
+  end
+
+  def columns_view
+    categories = []
+    columns = defined_columns
+    defined_categories(columns).each do |category|
+      category_view = {
+        name: category.label,
+        key: category.id,
+        defaultExpanded: category.id == 'general',
+        checkProps: {},
+        children: [],
+      }
+      columns.each do |column|
+        if column[:profiles].map(&:id).include?(category_view[:key])
+          category_view[:children] << {
+            name: column[:label],
+            key: column[:key],
+            checkProps: { disabled: column[:locked], checked: column[:locked] || column[:checked] },
+          }
+        end
+      end
+      category_view[:checkProps][:checked] = all_checked?(category_view[:children])
+      categories << category_view
+    end
+    categories
+  end
 
   def filter_opts(opts = {})
     opts.merge(
