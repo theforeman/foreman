@@ -29,10 +29,10 @@ const CardTemplate = ({
   );
   const cardId = header;
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
-  const isExpanded = expandable && cardExpandStates[`${cardId}`] === true;
+  const isExpanded = expandable && cardExpandStates?.[`${cardId}`] === true;
   const onDropdownToggle = isOpen => setDropdownVisibility(isOpen);
   useEffect(() => {
-    if (expandable) registerCard(cardId);
+    if (expandable && registerCard) registerCard(cardId);
   }, [cardId, registerCard, expandable]);
   const onExpandCallback = () =>
     dispatch({
