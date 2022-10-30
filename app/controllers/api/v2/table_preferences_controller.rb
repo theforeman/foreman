@@ -31,14 +31,14 @@ module Api
       api :POST, "/users/:user_id/table_preferences/", N_("Creates a table preference for a given table")
       param_group :table_preference
       def create
-        @table_preference = @user.table_preferences.build(:name => params[:name], :columns => params[:columns])
+        @table_preference = @user.table_preferences.build(:name => params[:name], :columns => params[:columns]&.uniq)
         process_response @table_preference.save
       end
 
       api :PUT, "/users/:user_id/table_preferences/:name", N_("Updates a table preference for a given table")
       param_group :table_preference
       def update
-        process_response @table_preference.update(:columns => params[:columns])
+        process_response @table_preference.update(:columns => params[:columns]&.uniq)
       end
 
       api :DELETE, "/users/:user_id/table_preferences/:name/", N_("Delete a table preference for a given table")
