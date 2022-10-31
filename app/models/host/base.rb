@@ -42,6 +42,9 @@ module Host
 
     include PxeLoaderSuggestion
 
+    belongs_to :creator, :class_name => 'User'
+    before_create :set_creator_id
+
     default_scope -> { where(taxonomy_conditions) }
 
     def self.taxonomy_conditions
@@ -611,6 +614,10 @@ module Host
       else
         true
       end
+    end
+
+    def set_creator_id
+      self.creator_id = User.current.id if User&.current&.id
     end
   end
 end
