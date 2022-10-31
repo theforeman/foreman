@@ -34,8 +34,10 @@ end
 # To play nice with sd_notify, we need to mark the process as ready before it
 # attempts to acquire the lock.
 if Sidekiq.options[:dynflow_executor]
+  msg = 'orchestrator in passive mode'
+  Rails.logger.info(msg)
+  Sidekiq::SdNotify.status(msg)
   Sidekiq::SdNotify.ready
-  Sidekiq::SdNotify.status('orchestrator in passive mode')
 end
 ::Rails.application.dynflow.initialize!
 msg = "Everything ready for world: #{::Rails.application.dynflow.world.id}"
