@@ -41,6 +41,7 @@ import RedirectToEmptyHostPage from './EmptyState';
 import BreadcrumbBar from '../BreadcrumbBar';
 import { foremanUrl } from '../../common/helpers';
 import { useForemanSettings } from '../../Root/Context/ForemanContext';
+import { CardExpansionContextWrapper } from './CardExpansionContext';
 
 const HostDetails = ({
   match: {
@@ -227,29 +228,31 @@ const HostDetails = ({
           </SkeletonLoader>
         </div>
         {tabs && (
-          <TabRouter
-            response={response}
-            hostName={id}
-            status={status}
-            tabs={tabs}
-            router={history}
-          >
-            <Tabs
-              ouiaId="host-details-tabs"
-              activeKey={activeTab}
-              className={`host-details-tabs tab-width-${
-                isNavCollapsed ? '138' : '263'
-              }`}
+          <CardExpansionContextWrapper>
+            <TabRouter
+              response={response}
+              hostName={id}
+              status={status}
+              tabs={tabs}
+              router={history}
             >
-              {filteredTabs.map(tab => (
-                <Tab
-                  key={tab}
-                  eventKey={tab}
-                  title={slotMetadata?.[tab]?.title || tab}
-                />
-              ))}
-            </Tabs>
-          </TabRouter>
+              <Tabs
+                ouiaId="host-details-tabs"
+                activeKey={activeTab}
+                className={`host-details-tabs tab-width-${
+                  isNavCollapsed ? '138' : '263'
+                }`}
+              >
+                {filteredTabs.map(tab => (
+                  <Tab
+                    key={tab}
+                    eventKey={tab}
+                    title={slotMetadata?.[tab]?.title || tab}
+                  />
+                ))}
+              </Tabs>
+            </TabRouter>
+          </CardExpansionContextWrapper>
         )}
       </PageSection>
     </>
