@@ -157,6 +157,10 @@ class PuppetFactParser < FactParser
     facts.dig(:os, :kernel, :release).presence || facts[:kernelrelease].presence
   end
 
+  def bios
+    {:vendor => facts.dig('dmi', 'bios', 'vendor') || facts['bios_vendor'], :version => facts.dig('dmi', 'bios', 'version') || facts['bios_version'], :release_date => facts.dig('dmi', 'bios', 'release_date') || facts['bios_release_date']}
+  end
+
   private
 
   # remove when dropping support for facter < 3.0

@@ -514,6 +514,12 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
             assert_kind_of String, subject.kernel_version
           end
 
+          test "#bios" do
+            assert_kind_of String, subject.bios[:vendor]
+            assert_kind_of String, subject.bios[:version]
+            assert_kind_of String, subject.bios[:release_date]
+          end
+
           test "#disks_total" do
             if facterversion.to_i >= 3
               assert_kind_of Integer, subject.disks_total

@@ -10,6 +10,9 @@ module HostFacets
         cores: parser.cores,
         disks_total: parser.disks_total,
         kernel_version: parser.kernel_version,
+        bios_vendor: parser.bios[:vendor],
+        bios_release_date: parser.bios[:release_date],
+        bios_version: parser.bios[:version],
       }.compact
       facet.save if facet.changed?
     end

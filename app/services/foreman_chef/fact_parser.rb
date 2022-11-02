@@ -99,6 +99,14 @@ module ForemanChef
       Time.zone.now.to_i - facts['system_uptime::seconds'].to_i
     end
 
+    def bios
+      {
+        :vendor => facts['dmi::bios::all_records::vendor'],
+        :version => facts['dmi::bios::all_records::version'],
+        :release_date => facts['dmi::bios::all_records::release_date'],
+      }
+    end
+
     private
 
     def logger
