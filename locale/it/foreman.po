@@ -100,6 +100,9 @@ msgstr "%s è un attributo sconosciuto"
 msgid "%s is not a valid DNS record type"
 msgstr ""
 
+msgid "%s is not auditable"
+msgstr ""
+
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s minuto fa"
@@ -230,9 +233,6 @@ msgstr ""
 msgid "%{subject} has been provisioned successfully"
 msgstr ""
 
-msgid "%{subject} has no owner set"
-msgstr ""
-
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "Il compito %{task} è fallito con il seguente errore: %{e}"
 
@@ -354,11 +354,11 @@ msgstr ""
 msgid "<b>Foreman</b> test email"
 msgstr ""
 
+msgid "<b>List</b> A list of the allowed values separated by comma, specified in the Validator rule field. The default value and all input values must then be one of the specified allowed value.<br/><b>Regexp</b> Validates the default value and all input values with the regular expression in the Validator rule field. E.g. <code>[0-9]+\\.[0-9]+</code><br/>"
+msgstr ""
+
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr "<b>Source:</b> %{type} %{name}"
-
-msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
-msgstr "<dl><dt>Elenco</dt> <dd>Un elenco di valori accettati, specificati nel campo Convalidatore regola.</dd><dt>Regexp</dt> <dd>Convalida l'input con l'espressione regolare nel campo Convalidatore regola.</dd></dl>"
 
 msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr ""
@@ -716,6 +716,12 @@ msgstr "Qualsiasi localizzazione"
 msgid "Any Organization"
 msgstr "Qualsiasi organizzazione"
 
+msgid "Any location"
+msgstr ""
+
+msgid "Any organization"
+msgstr ""
+
 msgid "Append domain names to the host"
 msgstr ""
 
@@ -756,6 +762,9 @@ msgid "Are you sure you want to delete host %s? This will delete the VM and its 
 msgstr ""
 
 msgid "Are you sure you want to delete host {host}? This action is irreversible. {cascade}"
+msgstr ""
+
+msgid "Are you sure you want to delete this report? This action is irreversible."
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
@@ -1108,6 +1117,9 @@ msgstr ""
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "BIOS UUID"
+msgstr ""
+
 msgid "BMC"
 msgstr "BMC"
 
@@ -1207,6 +1219,9 @@ msgstr ""
 msgid "Boot device"
 msgstr "Dispositivo d'avvio"
 
+msgid "Boot disk"
+msgstr "Disco d'avvio"
+
 msgid "Boot from volume"
 msgstr ""
 
@@ -1221,6 +1236,9 @@ msgstr ""
 
 msgid "Bootable"
 msgstr "Avviabile"
+
+msgid "Both IP and Subnet must be set"
+msgstr ""
 
 msgid "Bridge"
 msgstr "Bridge"
@@ -2050,7 +2068,7 @@ msgstr "Crea auto firma"
 msgid "Create image"
 msgstr ""
 
-msgid "Create model"
+msgid "Create new"
 msgstr ""
 
 msgid "Create new boot volume from image"
@@ -2070,9 +2088,6 @@ msgstr "Creato"
 
 msgid "Created %s by %s"
 msgstr ""
-
-msgid "Created at"
-msgstr "Creato"
 
 msgid "Creates a table preference for a given table"
 msgstr ""
@@ -2455,8 +2470,14 @@ msgstr ""
 msgid "Delete realm entry for %s"
 msgstr "Rimuovi la voce dell'area di autenticazione per %s"
 
+msgid "Delete report"
+msgstr ""
+
 msgid "Delete report for %s?"
 msgstr "Cancellare il riporto per %s?"
+
+msgid "Delete report?"
+msgstr ""
 
 msgid "Deliver to e-mail addresses"
 msgstr ""
@@ -2549,6 +2570,9 @@ msgid "Disassociate the selected hosts from their VMs"
 msgstr "Rimuovere associazione degli host selezionati dalle rispettive VM"
 
 msgid "Disconnected"
+msgstr ""
+
+msgid "Discovery Kexec"
 msgstr ""
 
 msgid "Disk"
@@ -2832,6 +2856,9 @@ msgstr "Errore nel caricamento delle informazioni sulle interfacce"
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
+msgid "Error parsing value for setting '%s': %s"
+msgstr ""
+
 msgid "Error removing widget from dashboard."
 msgstr ""
 
@@ -2839,6 +2866,9 @@ msgid "Error statuses"
 msgstr ""
 
 msgid "Error submitting data:"
+msgstr ""
+
+msgid "Error updating setting"
 msgstr ""
 
 msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authentication"
@@ -3152,8 +3182,8 @@ msgstr "Impossibile aggiornare la cache."
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "Impossibile rimuovere i certificati per %{name}: %{e}"
 
-msgid "Failed to retrieve power status for %{host} within %{timeout} second."
-msgid_plural "Failed to retrieve power status for %{host} within %{timeout} seconds."
+msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
+msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -3847,6 +3877,9 @@ msgstr ""
 msgid "Host audit entries"
 msgstr "Voci per la verifica dell'host"
 
+msgid "Host bootdisk does not work with static IPv6"
+msgstr ""
+
 msgid "Host built"
 msgstr ""
 
@@ -3865,6 +3898,18 @@ msgstr "ID gruppo di host"
 
 msgid "Host group description"
 msgstr "Descrizione del gruppo di host"
+
+msgid "Host has no IPv4 or IPv6 address defined"
+msgstr ""
+
+msgid "Host has no domain defined"
+msgstr "L'host non presenta alcun dominio"
+
+msgid "Host has no provisioning interface defined"
+msgstr ""
+
+msgid "Host has no subnet defined"
+msgstr "L'host non presenta alcuna sottorete"
 
 msgid "Host initial configuration template"
 msgstr ""
@@ -6189,6 +6234,9 @@ msgstr "Nessun riporto di rilievo ricevuto durante la scorsa settimana"
 msgid "No logs to show"
 msgstr "Nessun log da mostrare"
 
+msgid "No matches found"
+msgstr ""
+
 msgid "No matching records found"
 msgstr ""
 
@@ -6855,6 +6903,12 @@ msgstr "Il genitore è stato già selezionato"
 msgid "Parent parameters"
 msgstr ""
 
+msgid "Parsing a hash from a string is not supported"
+msgstr ""
+
+msgid "Parsing settings type '%s' from a string is not defined"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "Tabella delle partizioni"
 
@@ -7415,6 +7469,9 @@ msgstr ""
 msgid "Recent audits"
 msgstr ""
 
+msgid "Recent communication"
+msgstr ""
+
 msgid "Recreate"
 msgstr ""
 
@@ -7577,6 +7634,9 @@ msgid "Report not found, please ensure you used the correct job_id"
 msgstr ""
 
 msgid "Report templates"
+msgstr ""
+
+msgid "Report was successfully deleted"
 msgstr ""
 
 msgid "ReportTemplate|Locked"
@@ -7953,6 +8013,9 @@ msgstr ""
 msgid "Search"
 msgstr "Cerca"
 
+msgid "Search error"
+msgstr ""
+
 msgid "Search fields"
 msgstr ""
 
@@ -8181,7 +8244,7 @@ msgstr ""
 msgid "Setting unique name"
 msgstr ""
 
-msgid "Setting was successfully updated."
+msgid "Setting updated."
 msgstr ""
 
 msgid "Settings"
@@ -8226,9 +8289,6 @@ msgid "Setup REX"
 msgstr ""
 
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
-msgstr ""
-
-msgid "Share feedback"
 msgstr ""
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
@@ -9446,6 +9506,9 @@ msgstr ""
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr ""
 
+msgid "There was some issue deleting the report: ${error}"
+msgstr ""
+
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr ""
 
@@ -9590,6 +9653,9 @@ msgstr ""
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "Si è verificato un Timeout durante la comunicazione con %s"
+
+msgid "Timeout to retrieve the power status of the host in seconds. Default is 3 seconds."
+msgstr ""
 
 msgid "Timezone to use for new users"
 msgstr ""
@@ -10030,6 +10096,9 @@ msgstr "Funzione di cifratura della password non supportata '%s'"
 msgid "Unsupported report status format"
 msgstr "Formato stato riporto non supportato"
 
+msgid "Unsupported search operators :and / :or"
+msgstr ""
+
 msgid "Update :a_resource"
 msgstr "Aggiorna :a_resource"
 
@@ -10156,9 +10225,6 @@ msgstr "Aggiorna un sistema operativo"
 msgid "Update external user group"
 msgstr "Aggiorna un gruppo di utenti esterno"
 
-msgid "Update host"
-msgstr ""
-
 msgid "Update hostgroup from facts"
 msgstr ""
 
@@ -10182,9 +10248,6 @@ msgstr ""
 
 msgid "Updated all hosts!"
 msgstr "Tutti gli host aggiornati!"
-
-msgid "Updated at"
-msgstr "Aggiornato"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "Host aggiornati: Non associati con la VM"
@@ -11494,9 +11557,6 @@ msgstr "impostare host e porta"
 msgid "name already exists"
 msgstr ""
 
-msgid "name of the table"
-msgstr ""
-
 msgid "nil allowed"
 msgstr "permesso nil"
 
@@ -11568,9 +11628,6 @@ msgstr "organizzazioni"
 
 msgid "our templates documentation"
 msgstr ""
-
-msgid "parsing settings type '%s' from string is not defined"
-msgstr "non è stato definito il processo d'analisi delle impostazioni '%s' dalla stringa"
 
 msgid "pending"
 msgstr "in attesa"

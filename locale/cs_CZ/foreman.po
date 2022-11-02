@@ -102,6 +102,9 @@ msgstr "%s není známý atribut"
 msgid "%s is not a valid DNS record type"
 msgstr ""
 
+msgid "%s is not auditable"
+msgstr ""
+
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "před %s minutou"
@@ -234,9 +237,6 @@ msgstr "%{subject} byl úspěšně smazán"
 msgid "%{subject} has been provisioned successfully"
 msgstr ""
 
-msgid "%{subject} has no owner set"
-msgstr "%{subject} nemá nastaveného vlastníka"
-
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "úloha %{task} se nezdařila z důvodu následující chyby: %{e}"
 
@@ -358,10 +358,10 @@ msgstr ""
 msgid "<b>Foreman</b> test email"
 msgstr ""
 
-msgid "<b>Source:</b> %{type} %{name}"
+msgid "<b>List</b> A list of the allowed values separated by comma, specified in the Validator rule field. The default value and all input values must then be one of the specified allowed value.<br/><b>Regexp</b> Validates the default value and all input values with the regular expression in the Validator rule field. E.g. <code>[0-9]+\\.[0-9]+</code><br/>"
 msgstr ""
 
-msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
+msgid "<b>Source:</b> %{type} %{name}"
 msgstr ""
 
 msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
@@ -720,6 +720,12 @@ msgstr "Libovolné umístění"
 msgid "Any Organization"
 msgstr "Libovolná organizace"
 
+msgid "Any location"
+msgstr ""
+
+msgid "Any organization"
+msgstr ""
+
 msgid "Append domain names to the host"
 msgstr ""
 
@@ -760,6 +766,9 @@ msgid "Are you sure you want to delete host %s? This will delete the VM and its 
 msgstr ""
 
 msgid "Are you sure you want to delete host {host}? This action is irreversible. {cascade}"
+msgstr ""
+
+msgid "Are you sure you want to delete this report? This action is irreversible."
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
@@ -1111,6 +1120,9 @@ msgstr ""
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "BIOS UUID"
+msgstr ""
+
 msgid "BMC"
 msgstr "BMC"
 
@@ -1210,6 +1222,9 @@ msgstr "Režim zavádění"
 msgid "Boot device"
 msgstr "Zaváděcí zařízení"
 
+msgid "Boot disk"
+msgstr "Disk pro zavádění systému"
+
 msgid "Boot from volume"
 msgstr "Nastartovat ze svazku"
 
@@ -1224,6 +1239,9 @@ msgstr ""
 
 msgid "Bootable"
 msgstr "Bootovatelné"
+
+msgid "Both IP and Subnet must be set"
+msgstr "Je třeba, aby byla nastavená jak IP adresa, tak podsíť"
 
 msgid "Bridge"
 msgstr "Most"
@@ -2053,7 +2071,7 @@ msgstr "Vytvořit položku automatického přihlášení"
 msgid "Create image"
 msgstr "Vytvořit obraz"
 
-msgid "Create model"
+msgid "Create new"
 msgstr ""
 
 msgid "Create new boot volume from image"
@@ -2073,9 +2091,6 @@ msgstr "Vytvořeno"
 
 msgid "Created %s by %s"
 msgstr ""
-
-msgid "Created at"
-msgstr "Vytvořeno v"
 
 msgid "Creates a table preference for a given table"
 msgstr ""
@@ -2458,8 +2473,14 @@ msgstr ""
 msgid "Delete realm entry for %s"
 msgstr ""
 
+msgid "Delete report"
+msgstr ""
+
 msgid "Delete report for %s?"
 msgstr "Smazat výkaz pro %s?"
+
+msgid "Delete report?"
+msgstr ""
 
 msgid "Deliver to e-mail addresses"
 msgstr "Doručit na e-mailové adresy"
@@ -2553,6 +2574,9 @@ msgstr "Zrušit přiřazení označených hostitelů od jejich virt. strojů"
 
 msgid "Disconnected"
 msgstr "Odpojeno"
+
+msgid "Discovery Kexec"
+msgstr ""
 
 msgid "Disk"
 msgstr "Disk"
@@ -2835,6 +2859,9 @@ msgstr ""
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
+msgid "Error parsing value for setting '%s': %s"
+msgstr ""
+
 msgid "Error removing widget from dashboard."
 msgstr ""
 
@@ -2843,6 +2870,9 @@ msgstr ""
 
 msgid "Error submitting data:"
 msgstr "Chyba při odesílání dat:"
+
+msgid "Error updating setting"
+msgstr ""
 
 msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authentication"
 msgstr ""
@@ -3155,8 +3185,8 @@ msgstr "Nepodařilo se zaktualizovat mezipaměť."
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr ""
 
-msgid "Failed to retrieve power status for %{host} within %{timeout} second."
-msgid_plural "Failed to retrieve power status for %{host} within %{timeout} seconds."
+msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
+msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -3847,6 +3877,9 @@ msgstr ""
 msgid "Host audit entries"
 msgstr ""
 
+msgid "Host bootdisk does not work with static IPv6"
+msgstr ""
+
 msgid "Host built"
 msgstr ""
 
@@ -3865,6 +3898,18 @@ msgstr "Identifikátory skupiny strojů"
 
 msgid "Host group description"
 msgstr ""
+
+msgid "Host has no IPv4 or IPv6 address defined"
+msgstr "Pro stroj není definována žádná IPv4 nebo IPv6 adresa"
+
+msgid "Host has no domain defined"
+msgstr "Stroj nemá určenou žádnou doménu"
+
+msgid "Host has no provisioning interface defined"
+msgstr ""
+
+msgid "Host has no subnet defined"
+msgstr "Stroj nemá určenou žádnou podsíť"
 
 msgid "Host initial configuration template"
 msgstr ""
@@ -6189,6 +6234,9 @@ msgstr "V uplynulém týdnu neobdrženy žádné zajímavé výkazy"
 msgid "No logs to show"
 msgstr "Žádná loga ke zobrazení"
 
+msgid "No matches found"
+msgstr ""
+
 msgid "No matching records found"
 msgstr ""
 
@@ -6855,6 +6903,12 @@ msgstr "Nadřazené už je vybráno"
 msgid "Parent parameters"
 msgstr "Nadřazené parametry"
 
+msgid "Parsing a hash from a string is not supported"
+msgstr ""
+
+msgid "Parsing settings type '%s' from a string is not defined"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "Tabulka rozdělení úložiště"
 
@@ -7415,6 +7469,9 @@ msgstr ""
 msgid "Recent audits"
 msgstr ""
 
+msgid "Recent communication"
+msgstr ""
+
 msgid "Recreate"
 msgstr "Vytvořit znovu"
 
@@ -7577,6 +7634,9 @@ msgid "Report not found, please ensure you used the correct job_id"
 msgstr "Výkaz nenalezen, ověřte, že jste použili správný identifikátor výkazu (job_id)"
 
 msgid "Report templates"
+msgstr ""
+
+msgid "Report was successfully deleted"
 msgstr ""
 
 msgid "ReportTemplate|Locked"
@@ -7953,6 +8013,9 @@ msgstr "Šablona skriptu"
 msgid "Search"
 msgstr "Hledat"
 
+msgid "Search error"
+msgstr ""
+
 msgid "Search fields"
 msgstr ""
 
@@ -8181,7 +8244,7 @@ msgstr ""
 msgid "Setting unique name"
 msgstr ""
 
-msgid "Setting was successfully updated."
+msgid "Setting updated."
 msgstr ""
 
 msgid "Settings"
@@ -8226,9 +8289,6 @@ msgid "Setup REX"
 msgstr ""
 
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
-msgstr ""
-
-msgid "Share feedback"
 msgstr ""
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
@@ -9447,6 +9507,9 @@ msgstr ""
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr ""
 
+msgid "There was some issue deleting the report: ${error}"
+msgstr ""
+
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr ""
 
@@ -9589,6 +9652,9 @@ msgstr ""
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "Při komunikaci s %s došlo k překročení časového limitu odpovědi"
+
+msgid "Timeout to retrieve the power status of the host in seconds. Default is 3 seconds."
+msgstr ""
 
 msgid "Timezone to use for new users"
 msgstr "Časová zóna, kterou použít pro nové uživatele"
@@ -10029,6 +10095,9 @@ msgstr "Nepodporovaná funkce otisku hesla „%s“"
 msgid "Unsupported report status format"
 msgstr "Nepodporovaný formát hlášení stavu"
 
+msgid "Unsupported search operators :and / :or"
+msgstr ""
+
 msgid "Update :a_resource"
 msgstr ""
 
@@ -10155,9 +10224,6 @@ msgstr "Aktualizovat operační systém"
 msgid "Update external user group"
 msgstr ""
 
-msgid "Update host"
-msgstr "Aktualizovat hostitele"
-
 msgid "Update hostgroup from facts"
 msgstr ""
 
@@ -10181,9 +10247,6 @@ msgstr ""
 
 msgid "Updated all hosts!"
 msgstr "Aktualizovány všechny stroje!"
-
-msgid "Updated at"
-msgstr "Aktualizováno v"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr ""
@@ -11491,9 +11554,6 @@ msgstr "je třeba nastavit stroj a port"
 msgid "name already exists"
 msgstr ""
 
-msgid "name of the table"
-msgstr ""
-
 msgid "nil allowed"
 msgstr ""
 
@@ -11564,9 +11624,6 @@ msgid "organizations"
 msgstr "organizace"
 
 msgid "our templates documentation"
-msgstr ""
-
-msgid "parsing settings type '%s' from string is not defined"
 msgstr ""
 
 msgid "pending"
