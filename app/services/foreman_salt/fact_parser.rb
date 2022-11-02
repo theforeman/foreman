@@ -84,6 +84,10 @@ module ForemanSalt
       true
     end
 
+    def bios
+      {:version => facts[:bios_version], :release_date => facts[:biosreleasedate]}
+    end
+
     private
 
     def os_hash

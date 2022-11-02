@@ -94,6 +94,10 @@ class AnsibleFactParser < FactParser
     facts['ansible_kernel']
   end
 
+  def bios
+    facts.dig('facter_dmi', 'bios') || {}
+  end
+
   private
 
   def ansible_interfaces

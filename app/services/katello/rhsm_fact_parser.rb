@@ -120,6 +120,14 @@ module Katello
       facts['uname.release']
     end
 
+    def bios
+      {
+        :vendor => facts['dmi::bios::all_records::vendor'],
+        :version => facts['dmi::bios::all_records::version'],
+        :release_date => facts['dmi::bios::all_records::release_date'],
+      }
+    end
+
     private
 
     def get_rhsm_ip(interface)

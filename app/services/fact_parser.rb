@@ -129,6 +129,11 @@ class FactParser
   def kernel_version
   end
 
+  # @return [Hash] bios information
+  def bios
+    {}
+  end
+
   private
 
   def find_interface_by_name(host_name)
