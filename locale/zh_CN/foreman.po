@@ -95,6 +95,9 @@ msgstr "%s 为未知属性"
 msgid "%s is not a valid DNS record type"
 msgstr "%s 不是有效的 DNS 记录类型"
 
+msgid "%s is not auditable"
+msgstr ""
+
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s 分钟前"
@@ -214,9 +217,6 @@ msgstr "%{subject} 已被成功删除"
 
 msgid "%{subject} has been provisioned successfully"
 msgstr "%{subject} 已被成功置备"
-
-msgid "%{subject} has no owner set"
-msgstr "%{subject} 没有所有者设置"
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} 任务失败，错误为: %{e}"
@@ -340,11 +340,11 @@ msgstr "<b>Foreman</b> 审核概述"
 msgid "<b>Foreman</b> test email"
 msgstr "<b>Foreman</b> 测试电子邮件"
 
+msgid "<b>List</b> A list of the allowed values separated by comma, specified in the Validator rule field. The default value and all input values must then be one of the specified allowed value.<br/><b>Regexp</b> Validates the default value and all input values with the regular expression in the Validator rule field. E.g. <code>[0-9]+\\.[0-9]+</code><br/>"
+msgstr ""
+
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr "<b>源：</b> %{type} %{name}"
-
-msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
-msgstr "<dl><dt>列表</dt> <dd>允许的值列表，在 Validator 规则项中提供。</dd><dt>Regexp</dt> <dd>使用 Validator 规则项中的正则表达式验证输入。</dd></dl>"
 
 msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
@@ -704,6 +704,12 @@ msgstr "任意位置"
 msgid "Any Organization"
 msgstr "任意机构"
 
+msgid "Any location"
+msgstr ""
+
+msgid "Any organization"
+msgstr ""
+
 msgid "Append domain names to the host"
 msgstr "将域名附加到主机"
 
@@ -745,6 +751,9 @@ msgstr "您确定要删除主机 %s 吗? 这将会删除虚拟机和它的磁盘
 
 msgid "Are you sure you want to delete host {host}? This action is irreversible. {cascade}"
 msgstr "确定要删除主机 {host} 吗？这个操作时不可逆的。{cascade}"
+
+msgid "Are you sure you want to delete this report? This action is irreversible."
+msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr "您确定要从仪表板上删除此小部件吗？"
@@ -798,7 +807,7 @@ msgid "Assign Hosts to %s"
 msgstr "将主机分配到 %s"
 
 msgid "Assign Location"
-msgstr "指定位置"
+msgstr "分配位置"
 
 msgid "Assign Organization"
 msgstr "指定机构"
@@ -1094,6 +1103,9 @@ msgstr "BCrypt salt '%s' 无效"
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "BIOS UUID"
+msgstr "BIOS UUID"
+
 msgid "BMC"
 msgstr "BMC"
 
@@ -1193,6 +1205,9 @@ msgstr "引导模式"
 msgid "Boot device"
 msgstr "引导设备"
 
+msgid "Boot disk"
+msgstr "開機磁碟"
+
 msgid "Boot from volume"
 msgstr "使用卷引导"
 
@@ -1207,6 +1222,9 @@ msgstr "引导时间"
 
 msgid "Bootable"
 msgstr "可引导的"
+
+msgid "Both IP and Subnet must be set"
+msgstr "必须设置 IP 和子网"
 
 msgid "Bridge"
 msgstr "桥接"
@@ -2036,8 +2054,8 @@ msgstr "创建自动签名条目"
 msgid "Create image"
 msgstr "创建镜像"
 
-msgid "Create model"
-msgstr "创建型号"
+msgid "Create new"
+msgstr ""
 
 msgid "Create new boot volume from image"
 msgstr "使用映象创建新引导卷"
@@ -2056,9 +2074,6 @@ msgstr "创建"
 
 msgid "Created %s by %s"
 msgstr "由 %s 建立 %s"
-
-msgid "Created at"
-msgstr "建立于"
 
 msgid "Creates a table preference for a given table"
 msgstr "为一个指定的表创建表偏好"
@@ -2441,8 +2456,14 @@ msgstr "删除主机？"
 msgid "Delete realm entry for %s"
 msgstr "为 %s 删除 realm 条目"
 
+msgid "Delete report"
+msgstr ""
+
 msgid "Delete report for %s?"
 msgstr "删除 %s 的报告？"
+
+msgid "Delete report?"
+msgstr ""
 
 msgid "Deliver to e-mail addresses"
 msgstr "传递到电子邮件地址"
@@ -2536,6 +2557,9 @@ msgstr "取消所选主机与其 VM 的关联"
 
 msgid "Disconnected"
 msgstr "断开的"
+
+msgid "Discovery Kexec"
+msgstr ""
 
 msgid "Disk"
 msgstr "磁盘"
@@ -2817,6 +2841,9 @@ msgstr "载入接口信息出错：%s"
 msgid "Error loading scheduler hint filters information: %s"
 msgstr "加载调度程序提示过滤器信息时出错：%s"
 
+msgid "Error parsing value for setting '%s': %s"
+msgstr ""
+
 msgid "Error removing widget from dashboard."
 msgstr "从仪表板中删除挂件出错。"
 
@@ -2825,6 +2852,9 @@ msgstr "错误状态"
 
 msgid "Error submitting data:"
 msgstr "提交数据时出错："
+
+msgid "Error updating setting"
+msgstr ""
 
 msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authentication"
 msgstr "认证期间，在连接到 '%{name}' LDAP 服务器（'%{url}'）时出错。"
@@ -3138,9 +3168,10 @@ msgstr "无法刷新缓存。"
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "删除 %{name} 的证书失败：%{e}"
 
-msgid "Failed to retrieve power status for %{host} within %{timeout} second."
-msgid_plural "Failed to retrieve power status for %{host} within %{timeout} seconds."
-msgstr[0] "无法在 %{timeout} 秒内检索 %{host} 的电源状态。"
+msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
+msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to save widget positions."
 msgstr "儲存小工具的位置失败。"
@@ -3776,7 +3807,7 @@ msgid "History"
 msgstr "历史"
 
 msgid "Host"
-msgstr "主办"
+msgstr "主机"
 
 msgid "Host %s has been removed successfully"
 msgstr "主机 %s 已被成功删除"
@@ -3835,6 +3866,9 @@ msgstr "主机状态"
 msgid "Host audit entries"
 msgstr "主机审计项"
 
+msgid "Host bootdisk does not work with static IPv6"
+msgstr "主机启动盘不适用于静态 IPv6"
+
 msgid "Host built"
 msgstr "主机构建"
 
@@ -3853,6 +3887,18 @@ msgstr "主机组 ID"
 
 msgid "Host group description"
 msgstr "主机组描述"
+
+msgid "Host has no IPv4 or IPv6 address defined"
+msgstr "主机未定义 IPv4 或 IPv6 地址"
+
+msgid "Host has no domain defined"
+msgstr "主機尚未定義區域"
+
+msgid "Host has no provisioning interface defined"
+msgstr "没有为主机定义预配接口"
+
+msgid "Host has no subnet defined"
+msgstr "主機尚未定義子網路"
 
 msgid "Host initial configuration template"
 msgstr "主机初始配置模板"
@@ -4346,7 +4392,7 @@ msgid "IP"
 msgstr "IP"
 
 msgid "IP Address"
-msgstr "IP地址"
+msgstr "IP 地址"
 
 msgid "IP Address Management"
 msgstr "IP 地址管理"
@@ -5741,7 +5787,7 @@ msgid "Medium|Path"
 msgstr "路径"
 
 msgid "Memory"
-msgstr "记忆"
+msgstr "内存"
 
 msgid "Memory (MB)"
 msgstr "内存 (MB)"
@@ -6180,6 +6226,9 @@ msgstr "上周没有收到任何需要查看的报告"
 
 msgid "No logs to show"
 msgstr "无日志显示"
+
+msgid "No matches found"
+msgstr ""
 
 msgid "No matching records found"
 msgstr "未能找到匹配的记录"
@@ -6852,6 +6901,12 @@ msgstr "父项已选择"
 msgid "Parent parameters"
 msgstr "父参数"
 
+msgid "Parsing a hash from a string is not supported"
+msgstr ""
+
+msgid "Parsing settings type '%s' from a string is not defined"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "分区表"
 
@@ -6998,7 +7053,7 @@ msgid "Plain"
 msgstr "Plain"
 
 msgid "Please Confirm"
-msgstr "請確認"
+msgstr "请确认"
 
 msgid "Please Select an Image"
 msgstr "请选择介质"
@@ -7416,6 +7471,9 @@ msgstr "从使用的计算资源 '%{compute_resource}' 中接收主机 '%{host}'
 msgid "Recent audits"
 msgstr ""
 
+msgid "Recent communication"
+msgstr ""
+
 msgid "Recreate"
 msgstr "再次创建"
 
@@ -7577,6 +7635,9 @@ msgstr "找不到报告，请确保您使用了正确的 job_id"
 
 msgid "Report templates"
 msgstr "报告模板"
+
+msgid "Report was successfully deleted"
+msgstr ""
 
 msgid "ReportTemplate|Locked"
 msgstr "锁定"
@@ -7950,6 +8011,9 @@ msgstr "脚本模版"
 msgid "Search"
 msgstr "搜索"
 
+msgid "Search error"
+msgstr ""
+
 msgid "Search fields"
 msgstr "搜索字段"
 
@@ -8177,8 +8241,8 @@ msgstr "设置完整的用户可读名称"
 msgid "Setting unique name"
 msgstr "设置唯一名称"
 
-msgid "Setting was successfully updated."
-msgstr "设置被成功更新"
+msgid "Setting updated."
+msgstr ""
 
 msgid "Settings"
 msgstr "设置"
@@ -8223,9 +8287,6 @@ msgstr "设置 REX"
 
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
 msgstr "设置远程执行。如果设置为 `Yes`，则 SSH 密钥将安装在注册的主机上。继承的值基于 `host_registration_remote_execution` 参数。它可以被继承，例如来自主机组，操作系统，组织。。被覆盖时，所选值将存储在主机参数级别。"
-
-msgid "Share feedback"
-msgstr "分享反馈"
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "是否应在下次运行安装程序模块时执行 `foreman-rake db:seed`？"
@@ -9438,6 +9499,9 @@ msgstr "加载数据时出现错误，请参阅日志以了解更多信息。"
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr "在 libvirt 里没有找到活动的桥接口，如果它不支持列表，您可以手动输入桥名称（如 br0）。"
 
+msgid "There was some issue deleting the report: ${error}"
+msgstr ""
+
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr "这些方法通过安全模式渲染保证可行，确保模板不会进行有害操作。"
 
@@ -9583,6 +9647,9 @@ msgstr "SSH 置备超时的时间（以秒为单位）"
 msgid "Timeout has occurred while communicating with %s"
 msgstr "与 %s 通讯时出现超时"
 
+msgid "Timeout to retrieve the power status of the host in seconds. Default is 3 seconds."
+msgstr ""
+
 msgid "Timezone to use for new users"
 msgstr "新用户使用的时区"
 
@@ -9673,7 +9740,7 @@ msgid "Try going to %{href}"
 msgstr "尝试进入 %{href}"
 
 msgid "Type"
-msgstr "類型"
+msgstr "类型"
 
 msgid "Type of name generator"
 msgstr "名称生成器类型"
@@ -9727,7 +9794,7 @@ msgid "UUID"
 msgstr "UUID"
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
-msgstr "用來追蹤協調流程任務狀態的 UUID，GET /api/orchestration/:UUID/tasks"
+msgstr "用于跟踪编配任务状态的 UUID，GET /api/orchestration/:UUID/tasks"
 
 msgid "Unable to access key"
 msgstr "无法访问密钥"
@@ -10023,6 +10090,9 @@ msgstr "不支持的密码哈希功能 '%s'"
 msgid "Unsupported report status format"
 msgstr "不支持的报告状态格式"
 
+msgid "Unsupported search operators :and / :or"
+msgstr ""
+
 msgid "Update :a_resource"
 msgstr "更新：a_resource"
 
@@ -10149,9 +10219,6 @@ msgstr "更新操作系统"
 msgid "Update external user group"
 msgstr "更新外部使用者群組"
 
-msgid "Update host"
-msgstr "更新主机"
-
 msgid "Update hostgroup from facts"
 msgstr "从 fact 更新主机组"
 
@@ -10175,9 +10242,6 @@ msgstr "为 %s 设置更新值"
 
 msgid "Updated all hosts!"
 msgstr "更新所有主机！"
-
-msgid "Updated at"
-msgstr "更新於"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "已更新主机：取消与 VM 的关联"
@@ -10228,7 +10292,7 @@ msgid "UpgradeTask|Task name"
 msgstr "升级任务|任务名"
 
 msgid "Upload facts for a host, creating the host if required"
-msgstr "上载主机的事实，并根据需要创建主机"
+msgstr "为主机上传 fact，需要时会创建主机"
 
 msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr "使用 /v2 或 /v3 来强制 API 版本，例如 http://openstack:5000/v2.0/tokens 或 http://openstack:5000/v3/auth/tokens"
@@ -11398,7 +11462,7 @@ msgid "items"
 msgstr ""
 
 msgid "items selected. Uncheck to Clear"
-msgstr "已選取項目。反選以清除"
+msgstr "选择的项。取消选中以清除"
 
 msgid "json"
 msgstr "json"
@@ -11499,9 +11563,6 @@ msgstr "必须设置主机和端口"
 msgid "name already exists"
 msgstr "名称已存在"
 
-msgid "name of the table"
-msgstr "表的名称"
-
 msgid "nil allowed"
 msgstr "允许 nil"
 
@@ -11573,9 +11634,6 @@ msgstr "机构"
 
 msgid "our templates documentation"
 msgstr "我们的模板文档"
-
-msgid "parsing settings type '%s' from string is not defined"
-msgstr "未定义根据字符串解析设置类型 '%s'"
 
 msgid "pending"
 msgstr "待定"

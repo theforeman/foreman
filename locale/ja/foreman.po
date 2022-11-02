@@ -95,6 +95,9 @@ msgstr "%s は不明な属性です"
 msgid "%s is not a valid DNS record type"
 msgstr "%s は有効な DNS レコードタイプではありません"
 
+msgid "%s is not auditable"
+msgstr ""
+
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s 分前"
@@ -214,9 +217,6 @@ msgstr "%{subject} は正常に削除されました"
 
 msgid "%{subject} has been provisioned successfully"
 msgstr "%{subject} は正常にプロビジョニングされました"
-
-msgid "%{subject} has no owner set"
-msgstr "%{subject} には所有者セットがありません"
 
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} タスクは以下のエラーで失敗しました: %{e}"
@@ -340,11 +340,11 @@ msgstr "<b>Foreman</b> 監査概要"
 msgid "<b>Foreman</b> test email"
 msgstr "<b>Foreman</b> テストメール"
 
+msgid "<b>List</b> A list of the allowed values separated by comma, specified in the Validator rule field. The default value and all input values must then be one of the specified allowed value.<br/><b>Regexp</b> Validates the default value and all input values with the regular expression in the Validator rule field. E.g. <code>[0-9]+\\.[0-9]+</code><br/>"
+msgstr ""
+
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr "<b>ソース:</b> %{type} %{name}"
-
-msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
-msgstr "<dl><dt>List</dt> <dd>許容値の一覧。バリデータールールフィールドで指定します。</dd><dt>Regexp</dt> <dd>バリデータールールフィールドで正規表現を使用して入力を検証します。</dd></dl>"
 
 msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr "<dl><dt>String</dt> <dd>すべて文字列に変換されます。</dd><dt>Boolean</dt> <dd>ブール値の一般的な表記を使用できます。</dd><dt>Integer</dt> <dd>整数のみ。負の数も指定できます。</dd><dt>Real</dt> <dd>数値を入力できます。</dd><dt>Array</dt> <dd>有効な JSON または YAML 入力。配列に対して評価する必要があります。</dd><dt>Hash</dt> <dd>有効な JSON または YAML 入力。オブジェクト/マップ/ディクショナリー/ハッシュに対して評価する必要があります。</dd><dt>YAML</dt> <dd>有効な YAML 入力。</dd><dt>JSON</dt> <dd>有効な JSON 入力。</dd></dl>"
@@ -704,6 +704,12 @@ msgstr "任意のロケーション"
 msgid "Any Organization"
 msgstr "任意の組織"
 
+msgid "Any location"
+msgstr ""
+
+msgid "Any organization"
+msgstr ""
+
 msgid "Append domain names to the host"
 msgstr "ホストへのドメイン名の追加"
 
@@ -745,6 +751,9 @@ msgstr "ホスト %s を削除してもよろしいですか? これにより、
 
 msgid "Are you sure you want to delete host {host}? This action is irreversible. {cascade}"
 msgstr "ホスト {host} を削除してもよろしいですか? この操作を取り消すことはできません。{cascade}"
+
+msgid "Are you sure you want to delete this report? This action is irreversible."
+msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr "ダッシュボードからこのウィジェットを削除してもよろしいですか?"
@@ -1094,6 +1103,9 @@ msgstr "BCrypt salt '%s' は無効です"
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "BIOS UUID"
+msgstr "BIOS UUID"
+
 msgid "BMC"
 msgstr "BMC"
 
@@ -1193,6 +1205,9 @@ msgstr "ブートモード"
 msgid "Boot device"
 msgstr "ブートデバイス"
 
+msgid "Boot disk"
+msgstr "ブートディスク"
+
 msgid "Boot from volume"
 msgstr "ボリュームからの起動"
 
@@ -1207,6 +1222,9 @@ msgstr "起動時間"
 
 msgid "Bootable"
 msgstr "ブート可能"
+
+msgid "Both IP and Subnet must be set"
+msgstr "IP とサブネットの両方を設定する必要があります"
 
 msgid "Bridge"
 msgstr "ブリッジ"
@@ -2036,8 +2054,8 @@ msgstr "自動署名エントリーの作成"
 msgid "Create image"
 msgstr "イメージの作成"
 
-msgid "Create model"
-msgstr "モデルの作成"
+msgid "Create new"
+msgstr ""
 
 msgid "Create new boot volume from image"
 msgstr "イメージから新規起動ボリュームを作成"
@@ -2056,9 +2074,6 @@ msgstr "作成日時"
 
 msgid "Created %s by %s"
 msgstr "%s により %s を作成済み"
-
-msgid "Created at"
-msgstr "作成:"
 
 msgid "Creates a table preference for a given table"
 msgstr "特定のテーブルの設定を作成します"
@@ -2441,8 +2456,14 @@ msgstr "ホストを削除しますか?"
 msgid "Delete realm entry for %s"
 msgstr "%s のレルムエントリーの削除"
 
+msgid "Delete report"
+msgstr ""
+
 msgid "Delete report for %s?"
 msgstr "%s のレポートを削除しますか?"
+
+msgid "Delete report?"
+msgstr ""
 
 msgid "Deliver to e-mail addresses"
 msgstr "メールアドレスに送信"
@@ -2536,6 +2557,9 @@ msgstr "選択ホストの VM との関連付けを解除"
 
 msgid "Disconnected"
 msgstr "切断"
+
+msgid "Discovery Kexec"
+msgstr ""
 
 msgid "Disk"
 msgstr "ディスク"
@@ -2817,6 +2841,9 @@ msgstr "インターフェース情報のロード中にエラーが発生しま
 msgid "Error loading scheduler hint filters information: %s"
 msgstr "スケジューラーヒントフィルター情報のロード中にエラーが発生しました: %s"
 
+msgid "Error parsing value for setting '%s': %s"
+msgstr ""
+
 msgid "Error removing widget from dashboard."
 msgstr "ダッシュボードからウィジェットを削除する際にエラーが発生しました。"
 
@@ -2825,6 +2852,9 @@ msgstr "エラーのステータス"
 
 msgid "Error submitting data:"
 msgstr "データ送信時にエラーが発生しました:"
+
+msgid "Error updating setting"
+msgstr ""
 
 msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authentication"
 msgstr "認証中に '%{url}' で '%{name}' LDAP サーバーへの接続でエラー"
@@ -3138,9 +3168,10 @@ msgstr "キャッシュの更新に失敗しました。"
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "%{name} の証明書の削除に失敗しました: %{e}"
 
-msgid "Failed to retrieve power status for %{host} within %{timeout} second."
-msgid_plural "Failed to retrieve power status for %{host} within %{timeout} seconds."
-msgstr[0] "%{timeout} 秒以内に %{host} の電源状態を取得できませんでした。"
+msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
+msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to save widget positions."
 msgstr "ウィジェットの位置の保存に失敗しました。"
@@ -3835,6 +3866,9 @@ msgstr "ホストのステータス"
 msgid "Host audit entries"
 msgstr "ホスト監査エントリー"
 
+msgid "Host bootdisk does not work with static IPv6"
+msgstr "ホストのブートディスクは静的 IPv6 で機能しません"
+
 msgid "Host built"
 msgstr "ホストのビルド"
 
@@ -3853,6 +3887,18 @@ msgstr "ホストグループ ID"
 
 msgid "Host group description"
 msgstr "ホストグループの説明"
+
+msgid "Host has no IPv4 or IPv6 address defined"
+msgstr "ホストには IPv4 または IPv6 アドレスが定義されていません"
+
+msgid "Host has no domain defined"
+msgstr "ホストにはドメインが定義されていません"
+
+msgid "Host has no provisioning interface defined"
+msgstr "ホストにプロビジョニングインターフェースが定義されていません"
+
+msgid "Host has no subnet defined"
+msgstr "ホストにはサブネットが定義されていません"
 
 msgid "Host initial configuration template"
 msgstr "ホストの初期設定テンプレート:"
@@ -6181,6 +6227,9 @@ msgstr "関連するレポートを過去一週間受信していません"
 msgid "No logs to show"
 msgstr "表示するログがありません"
 
+msgid "No matches found"
+msgstr ""
+
 msgid "No matching records found"
 msgstr "一致するレコードが見つかりません"
 
@@ -6852,6 +6901,12 @@ msgstr "親はすでに選択されています"
 msgid "Parent parameters"
 msgstr "親パラメーター"
 
+msgid "Parsing a hash from a string is not supported"
+msgstr ""
+
+msgid "Parsing settings type '%s' from a string is not defined"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "パーティションテーブル"
 
@@ -7416,6 +7471,9 @@ msgstr "使用されているコンピュートリソース '%{compute_resource}
 msgid "Recent audits"
 msgstr ""
 
+msgid "Recent communication"
+msgstr ""
+
 msgid "Recreate"
 msgstr "再作成"
 
@@ -7577,6 +7635,9 @@ msgstr "レポートが見つかりません。正しい job_id を使用して�
 
 msgid "Report templates"
 msgstr "レポートテンプレート"
+
+msgid "Report was successfully deleted"
+msgstr ""
 
 msgid "ReportTemplate|Locked"
 msgstr "ロック済み"
@@ -7950,6 +8011,9 @@ msgstr "スクリプトテンプレート"
 msgid "Search"
 msgstr "検索"
 
+msgid "Search error"
+msgstr ""
+
 msgid "Search fields"
 msgstr "検索フィールド"
 
@@ -8177,8 +8241,8 @@ msgstr "ユーザーが判読できる完全な名前の設定"
 msgid "Setting unique name"
 msgstr "一意の名前の設定"
 
-msgid "Setting was successfully updated."
-msgstr "設定が正常に更新されました。"
+msgid "Setting updated."
+msgstr ""
 
 msgid "Settings"
 msgstr "設定"
@@ -8223,9 +8287,6 @@ msgstr "REX のセットアップ"
 
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
 msgstr "リモート実行をセットアップします。「はい」に設定すると、SSH キーが登録されたホストにインストールされます。継承される値は、「host_registration_remote_execution」パラメーターに基づきます。これは、ホストグループ、オペレーティングシステム、組織などから継承することができます。上書きされると、選択した値がホストパラメーターレベルで保存されます。"
-
-msgid "Share feedback"
-msgstr "フィードバックの共有"
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "インストーラーモジュールの次回実行時に `foreman-rake db:seed` を実行する必要がありますか?"
@@ -9438,6 +9499,9 @@ msgstr "データの読み込み中にエラーが発生しました。詳細に
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr "libvirt にアクティブなブリッジインターフェースがありませんでした。一覧表示がサポートされていない場合は、手動でブリッジ名を入力できます (例: br0)"
 
+msgid "There was some issue deleting the report: ${error}"
+msgstr ""
+
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr "テンプレートが危害を加えないように、セーフモードのレンダリングで操作が行われるようにします。"
 
@@ -9582,6 +9646,9 @@ msgstr "SSH プロビジョニングがタイムアウトするまでの時間 (
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "%s との通信中にタイムアウトが発生しました"
+
+msgid "Timeout to retrieve the power status of the host in seconds. Default is 3 seconds."
+msgstr ""
 
 msgid "Timezone to use for new users"
 msgstr "新しいユーザーに使用するタイムゾーン"
@@ -10023,6 +10090,9 @@ msgstr "サポート対象外のパスワードのハッシュ関数 '%s'"
 msgid "Unsupported report status format"
 msgstr "サポートされていないレポートのステータス形式"
 
+msgid "Unsupported search operators :and / :or"
+msgstr ""
+
 msgid "Update :a_resource"
 msgstr ":a_resource の更新"
 
@@ -10149,9 +10219,6 @@ msgstr "オペレーティングシステムの更新"
 msgid "Update external user group"
 msgstr "外部ユーザーグループの更新"
 
-msgid "Update host"
-msgstr "ホストの更新"
-
 msgid "Update hostgroup from facts"
 msgstr "ファクトからのホストグループの更新"
 
@@ -10175,9 +10242,6 @@ msgstr "%s 設定値の更新"
 
 msgid "Updated all hosts!"
 msgstr "すべてのホストを更新しました!"
-
-msgid "Updated at"
-msgstr "更新:"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "更新済みホスト: VM との関連付けの解除"
@@ -11499,9 +11563,6 @@ msgstr "ホストとポートを設定する必要があります"
 msgid "name already exists"
 msgstr "名前はすでに存在します"
 
-msgid "name of the table"
-msgstr "テーブル名"
-
 msgid "nil allowed"
 msgstr "Nil が許可されます"
 
@@ -11573,9 +11634,6 @@ msgstr "組織"
 
 msgid "our templates documentation"
 msgstr "使用中のテンプレートドキュメント"
-
-msgid "parsing settings type '%s' from string is not defined"
-msgstr "文字列からの設定タイプ '%s' の解析が定義されていません"
 
 msgid "pending"
 msgstr "保留"

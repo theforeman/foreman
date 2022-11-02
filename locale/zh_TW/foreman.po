@@ -97,6 +97,9 @@ msgstr "%s 乃不明的屬性"
 msgid "%s is not a valid DNS record type"
 msgstr ""
 
+msgid "%s is not auditable"
+msgstr ""
+
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] ""
@@ -223,9 +226,6 @@ msgstr ""
 msgid "%{subject} has been provisioned successfully"
 msgstr ""
 
-msgid "%{subject} has no owner set"
-msgstr ""
-
 msgid "%{task} task failed with the following error: %{e}"
 msgstr "%{task} 此任務因為以下錯誤而執行失敗 : %{e}"
 
@@ -347,11 +347,11 @@ msgstr "<b>Foreman</b> 稽核摘要"
 msgid "<b>Foreman</b> test email"
 msgstr "<b>Foreman</b> 測試電子郵件"
 
+msgid "<b>List</b> A list of the allowed values separated by comma, specified in the Validator rule field. The default value and all input values must then be one of the specified allowed value.<br/><b>Regexp</b> Validates the default value and all input values with the regular expression in the Validator rule field. E.g. <code>[0-9]+\\.[0-9]+</code><br/>"
+msgstr ""
+
 msgid "<b>Source:</b> %{type} %{name}"
 msgstr "<b>來源：</b> %{type} %{name}"
-
-msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
-msgstr "<dl><dt>列表</dt> <dd>一個可以允許加入驗證規則欄位的值列表.</dd><dt>正規表示法</dt> <dd>在驗證規則欄位中利用正規表示法來驗證輸入值.</dd></dl>"
 
 msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
 msgstr ""
@@ -711,6 +711,12 @@ msgstr "任何位置"
 msgid "Any Organization"
 msgstr "任何組織"
 
+msgid "Any location"
+msgstr ""
+
+msgid "Any organization"
+msgstr ""
+
 msgid "Append domain names to the host"
 msgstr ""
 
@@ -751,6 +757,9 @@ msgid "Are you sure you want to delete host %s? This will delete the VM and its 
 msgstr ""
 
 msgid "Are you sure you want to delete host {host}? This action is irreversible. {cascade}"
+msgstr ""
+
+msgid "Are you sure you want to delete this report? This action is irreversible."
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
@@ -1102,6 +1111,9 @@ msgstr ""
 msgid "BIOS"
 msgstr "BIOS"
 
+msgid "BIOS UUID"
+msgstr ""
+
 msgid "BMC"
 msgstr "BMC"
 
@@ -1201,6 +1213,9 @@ msgstr ""
 msgid "Boot device"
 msgstr "開機裝置"
 
+msgid "Boot disk"
+msgstr "開機磁碟"
+
 msgid "Boot from volume"
 msgstr "從卷冊啟動"
 
@@ -1215,6 +1230,9 @@ msgstr ""
 
 msgid "Bootable"
 msgstr "可開機"
+
+msgid "Both IP and Subnet must be set"
+msgstr ""
 
 msgid "Bridge"
 msgstr "橋接"
@@ -2044,7 +2062,7 @@ msgstr ""
 msgid "Create image"
 msgstr ""
 
-msgid "Create model"
+msgid "Create new"
 msgstr ""
 
 msgid "Create new boot volume from image"
@@ -2064,9 +2082,6 @@ msgstr "已建立"
 
 msgid "Created %s by %s"
 msgstr ""
-
-msgid "Created at"
-msgstr "建立於"
 
 msgid "Creates a table preference for a given table"
 msgstr ""
@@ -2449,8 +2464,14 @@ msgstr ""
 msgid "Delete realm entry for %s"
 msgstr "刪除 %s 的領域項目"
 
+msgid "Delete report"
+msgstr ""
+
 msgid "Delete report for %s?"
 msgstr "刪除 %s 的報告？"
+
+msgid "Delete report?"
+msgstr ""
 
 msgid "Deliver to e-mail addresses"
 msgstr ""
@@ -2543,6 +2564,9 @@ msgid "Disassociate the selected hosts from their VMs"
 msgstr "將所選主機與其 VM 的相聯性解除"
 
 msgid "Disconnected"
+msgstr ""
+
+msgid "Discovery Kexec"
 msgstr ""
 
 msgid "Disk"
@@ -2826,6 +2850,9 @@ msgstr "載入介面資訊失敗：%s"
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
+msgid "Error parsing value for setting '%s': %s"
+msgstr ""
+
 msgid "Error removing widget from dashboard."
 msgstr "從面板移除小工具時發生錯誤。"
 
@@ -2833,6 +2860,9 @@ msgid "Error statuses"
 msgstr ""
 
 msgid "Error submitting data:"
+msgstr ""
+
+msgid "Error updating setting"
 msgstr ""
 
 msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authentication"
@@ -3146,8 +3176,8 @@ msgstr ""
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "移除 %{name} 的憑證失敗：%{e}"
 
-msgid "Failed to retrieve power status for %{host} within %{timeout} second."
-msgid_plural "Failed to retrieve power status for %{host} within %{timeout} seconds."
+msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
+msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -3841,6 +3871,9 @@ msgstr ""
 msgid "Host audit entries"
 msgstr "主機稽核項目"
 
+msgid "Host bootdisk does not work with static IPv6"
+msgstr ""
+
 msgid "Host built"
 msgstr ""
 
@@ -3859,6 +3892,18 @@ msgstr "主機群組 ID"
 
 msgid "Host group description"
 msgstr ""
+
+msgid "Host has no IPv4 or IPv6 address defined"
+msgstr ""
+
+msgid "Host has no domain defined"
+msgstr "主機尚未定義區域"
+
+msgid "Host has no provisioning interface defined"
+msgstr "主機沒有網路卡"
+
+msgid "Host has no subnet defined"
+msgstr "主機尚未定義子網路"
 
 msgid "Host initial configuration template"
 msgstr ""
@@ -6183,6 +6228,9 @@ msgstr "上個禮拜未收到有趣的報告"
 msgid "No logs to show"
 msgstr "沒有可顯示的日誌"
 
+msgid "No matches found"
+msgstr ""
+
 msgid "No matching records found"
 msgstr ""
 
@@ -6849,6 +6897,12 @@ msgstr "父項已選擇"
 msgid "Parent parameters"
 msgstr "父參數"
 
+msgid "Parsing a hash from a string is not supported"
+msgstr ""
+
+msgid "Parsing settings type '%s' from a string is not defined"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "分割表"
 
@@ -7409,6 +7463,9 @@ msgstr ""
 msgid "Recent audits"
 msgstr ""
 
+msgid "Recent communication"
+msgstr ""
+
 msgid "Recreate"
 msgstr ""
 
@@ -7571,6 +7628,9 @@ msgid "Report not found, please ensure you used the correct job_id"
 msgstr ""
 
 msgid "Report templates"
+msgstr ""
+
+msgid "Report was successfully deleted"
 msgstr ""
 
 msgid "ReportTemplate|Locked"
@@ -7947,6 +8007,9 @@ msgstr ""
 msgid "Search"
 msgstr "搜尋"
 
+msgid "Search error"
+msgstr ""
+
 msgid "Search fields"
 msgstr ""
 
@@ -8175,7 +8238,7 @@ msgstr ""
 msgid "Setting unique name"
 msgstr ""
 
-msgid "Setting was successfully updated."
+msgid "Setting updated."
 msgstr ""
 
 msgid "Settings"
@@ -8220,9 +8283,6 @@ msgid "Setup REX"
 msgstr ""
 
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
-msgstr ""
-
-msgid "Share feedback"
 msgstr ""
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
@@ -9441,6 +9501,9 @@ msgstr ""
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr ""
 
+msgid "There was some issue deleting the report: ${error}"
+msgstr ""
+
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr ""
 
@@ -9583,6 +9646,9 @@ msgstr ""
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "與 %s 進行通訊時發生了逾時錯誤"
+
+msgid "Timeout to retrieve the power status of the host in seconds. Default is 3 seconds."
+msgstr ""
 
 msgid "Timezone to use for new users"
 msgstr ""
@@ -10023,6 +10089,9 @@ msgstr "不受支援的密碼雜湊功能「%s」"
 msgid "Unsupported report status format"
 msgstr "不受支援的報告狀態格式"
 
+msgid "Unsupported search operators :and / :or"
+msgstr ""
+
 msgid "Update :a_resource"
 msgstr "更新一項資源(_R)"
 
@@ -10149,9 +10218,6 @@ msgstr "更新作業系統"
 msgid "Update external user group"
 msgstr "更新外部使用者群組"
 
-msgid "Update host"
-msgstr ""
-
 msgid "Update hostgroup from facts"
 msgstr ""
 
@@ -10175,9 +10241,6 @@ msgstr ""
 
 msgid "Updated all hosts!"
 msgstr "更新所有主機！"
-
-msgid "Updated at"
-msgstr "更新於"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "更新主機：解除與 VM 之間的相聯性"
@@ -11483,9 +11546,6 @@ msgstr "必須設置主機和連接埠"
 msgid "name already exists"
 msgstr ""
 
-msgid "name of the table"
-msgstr ""
-
 msgid "nil allowed"
 msgstr "允許 nil"
 
@@ -11557,9 +11617,6 @@ msgstr "組織"
 
 msgid "our templates documentation"
 msgstr ""
-
-msgid "parsing settings type '%s' from string is not defined"
-msgstr "未定義由字串叵析的設定類型「%s」"
 
 msgid "pending"
 msgstr "正在處理"
