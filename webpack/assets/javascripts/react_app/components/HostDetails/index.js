@@ -217,7 +217,10 @@ const HostDetails = ({
               <Text ouiaId="date-text" component={TextVariants.span}>
                 <RelativeDateTime date={response.created_at} defaultValue="N/A">
                   {date =>
-                    sprintf(__('Created %s by %s'), date, response.owner_name)
+                    sprintf(__('Created %(date)s by %(owner)s'), {
+                      date,
+                      owner: response.owner_name,
+                    })
                   }
                 </RelativeDateTime>{' '}
                 <RelativeDateTime date={response.updated_at} defaultValue="N/A">
