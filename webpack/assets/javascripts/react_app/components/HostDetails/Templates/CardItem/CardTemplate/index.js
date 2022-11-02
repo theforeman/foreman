@@ -13,7 +13,7 @@ import {
   FlexItem,
 } from '@patternfly/react-core';
 
-import { CardExpansionContext } from '../../../Tabs/Details';
+import { CardExpansionContext } from '../../../CardExpansionContext';
 
 const CardTemplate = ({
   header,
