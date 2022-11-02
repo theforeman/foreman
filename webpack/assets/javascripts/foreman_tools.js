@@ -39,12 +39,11 @@ export function activateDatatables() {
   const language = {
     searchPlaceholder: __('Filter...'),
     emptyTable: __('No data available in table'),
-    info: sprintf(
-      __('Showing %s to %s of %s entries'),
-      '_START_',
-      '_END_',
-      '_TOTAL_'
-    ),
+    info: sprintf(__('Showing %(start)s to %(end)s of %(total)s entries'), {
+      start: '_START_',
+      end: '_END_',
+      total: '_TOTAL_',
+    }),
     infoEmpty: __('Showing 0 to 0 of 0 entries'),
     infoFiltered: sprintf(__('(filtered from %s total entries)'), '_MAX_'),
     lengthMenu: sprintf(__('Show %s entries'), '_MENU_'),
