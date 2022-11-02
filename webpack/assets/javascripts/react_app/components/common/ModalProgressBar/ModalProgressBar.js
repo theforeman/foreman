@@ -18,7 +18,7 @@ const ModalProgressBar = ({ show, container, title, progress }) => (
       <ProgressBar
         active
         now={progress}
-        label={sprintf(__(`${progress}%% Complete`))}
+        label={sprintf(__('%s%% Complete'), progress)}
       />
     </Modal.Body>
   </Modal>
