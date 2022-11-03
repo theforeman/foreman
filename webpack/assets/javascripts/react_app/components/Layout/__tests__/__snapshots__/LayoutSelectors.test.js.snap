@@ -24,11 +24,13 @@ Object {
         Object {
           "exact": true,
           "name": "Dashboard",
+          "title": "Dashboard",
           "type": "item",
           "url": "/",
         },
         Object {
           "name": "Facts",
+          "title": "Facts",
           "type": "item",
           "url": "/fact_values",
         },
@@ -41,6 +43,7 @@ Object {
       "children": Array [
         Object {
           "name": "All Hosts",
+          "title": "All Hosts",
           "type": "item",
           "url": "/hosts/new",
         },

@@ -92,11 +92,13 @@ exports[`Layout rendering renders layout 1`] = `
                   Object {
                     "exact": true,
                     "name": "Dashboard",
+                    "title": "Dashboard",
                     "type": "item",
                     "url": "/",
                   },
                   Object {
                     "name": "Facts",
+                    "title": "Facts",
                     "type": "item",
                     "url": "/fact_values",
                   },
@@ -109,6 +111,7 @@ exports[`Layout rendering renders layout 1`] = `
                 "children": Array [
                   Object {
                     "name": "All Hosts",
+                    "title": "All Hosts",
                     "type": "item",
                     "url": "/hosts/new",
                   },

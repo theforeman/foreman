@@ -44,7 +44,7 @@ export const combineMenuItems = data => {
   data.menu.forEach(item => {
     const translatedChildren = item.children.map(child => ({
       ...child,
-      name: isEmpty(child.name) ? child.name : __(child.name),
+      title: isEmpty(child.name) ? child.name : __(child.name),
     }));
 
     const translatedItem = {
@@ -65,7 +65,8 @@ export const combineMenuItems = data => {
 
 const createOrgItem = orgs => {
   const anyOrg = {
-    name: __('Any Organization'),
+    name: 'Any Organization',
+    title: __('Any Organization'),
     onClick: () => {
       window.location.assign(foremanUrl('/organizations/clear'));
     },
@@ -76,6 +77,7 @@ const createOrgItem = orgs => {
     const childObject = {
       type: org.type,
       name: org.title,
+      title: org.title,
       onClick: () => {
         window.location.assign(org.href);
       },
@@ -96,7 +98,8 @@ const createOrgItem = orgs => {
 
 const createLocationItem = locations => {
   const anyLoc = {
-    name: __('Any Location'),
+    name: 'Any Location',
+    title: __('Any Location'),
     onClick: () => {
       window.location.assign(foremanUrl('/locations/clear'));
     },
@@ -107,6 +110,7 @@ const createLocationItem = locations => {
     const childObject = {
       type: loc.type,
       name: loc.title,
+      title: loc.title,
       onClick: () => {
         window.location.assign(loc.href);
       },

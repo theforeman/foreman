@@ -42,12 +42,14 @@ const monitorChildren = [
   {
     type: 'item',
     name: 'Dashboard',
+    title: 'Dashboard',
     exact: true,
     url: '/',
   },
   {
     type: 'item',
     name: 'Facts',
+    title: 'Facts',
     url: '/fact_values',
   },
 ];
@@ -56,6 +58,7 @@ const hostsChildren = [
   {
     type: 'item',
     name: 'All Hosts',
+    title: 'All Hosts',
     url: '/hosts/new',
   },
 ];

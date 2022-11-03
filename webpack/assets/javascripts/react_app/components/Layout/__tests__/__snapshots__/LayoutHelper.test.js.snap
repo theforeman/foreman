@@ -7,11 +7,13 @@ Array [
       Object {
         "exact": true,
         "name": "Dashboard",
+        "title": "Dashboard",
         "type": "item",
         "url": "/",
       },
       Object {
         "name": "Facts",
+        "title": "Facts",
         "type": "item",
         "url": "/fact_values",
       },
@@ -25,6 +27,7 @@ Array [
     "children": Array [
       Object {
         "name": "All Hosts",
+        "title": "All Hosts",
         "type": "item",
         "url": "/hosts/new",
       },
@@ -37,12 +40,12 @@ Array [
   Object {
     "children": Array [
       Object {
-        "name": undefined,
+        "title": undefined,
         "type": "item",
         "url": "/nameless",
       },
       Object {
-        "name": undefined,
+        "title": undefined,
         "type": "divider",
       },
     ],
@@ -56,15 +59,18 @@ Array [
       Object {
         "name": "Any Organization",
         "onClick": [Function],
+        "title": "Any Organization",
       },
       Object {
         "name": "org1",
         "onClick": [Function],
+        "title": "org1",
         "type": undefined,
       },
       Object {
         "name": "org2",
         "onClick": [Function],
+        "title": "org2",
         "type": undefined,
       },
     ],
@@ -78,20 +84,24 @@ Array [
       Object {
         "name": "Any Location",
         "onClick": [Function],
+        "title": "Any Location",
       },
       Object {
         "name": "yaml",
         "onClick": [Function],
+        "title": "yaml",
         "type": undefined,
       },
       Object {
         "name": "london",
         "onClick": [Function],
+        "title": "london",
         "type": undefined,
       },
       Object {
         "name": "norway",
         "onClick": [Function],
+        "title": "norway",
         "type": undefined,
       },
     ],
