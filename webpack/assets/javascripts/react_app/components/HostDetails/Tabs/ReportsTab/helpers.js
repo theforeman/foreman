@@ -19,7 +19,7 @@ import {
 } from '@patternfly/react-icons';
 import { openConfirmModal } from '../../../ConfirmModal';
 import { APIActions } from '../../../../redux/API';
-import { translate as __ } from '../../../../common/I18n';
+import { sprintf, translate as __ } from '../../../../common/I18n';
 import RelativeDateTime from '../../../common/dates/RelativeDateTime';
 
 const statusMapper = {
@@ -92,7 +92,10 @@ export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
               key: `report-${id}-DELETE`,
               successToast: success => __('Report was successfully deleted'),
               errorToast: error =>
-                __(`There was some issue deleting the report: ${error}`),
+                sprintf(
+                  __('There was some issue deleting the report: %s'),
+                  error
+                ),
               handleSuccess: fetchReports,
             })
           ),
