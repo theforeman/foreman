@@ -68,8 +68,8 @@ You can override the default `successToast` or `errorToast` functions if needed:
     onSubmit={(values, actions) =>
       submitForm({
         ...otherProps,
-        successToast: response => __(`a custom success message with ${response.data.item}`),
-        errorToast: error => __(`a custom error message with ${error.response.data.error.item}`),
+        successToast: response => sprintf(__('a custom success message with %s'), response.data.item),
+        errorToast: error => sprintf(__('a custom error message with %s'), error.response.data.error.item),
       })
     }
   >
