@@ -1,6 +1,6 @@
 import { debounce, toString } from 'lodash';
 import { API } from '../../redux/API';
-import { translate as __ } from '../../common/I18n';
+import { sprintf, translate as __ } from '../../common/I18n';
 
 import {
   EDITOR_CHANGE_DIFF_VIEW,
@@ -183,7 +183,7 @@ const createHostAPIRequest = async (query, array, url, dispatch, getState) => {
       type: EDITOR_SHOW_ERROR,
       payload: {
         showError: true,
-        errorText: __(`Host Fetch ${response}`),
+        errorText: sprintf(__('Host Fetch %s'), response),
         previewResult: __('Error during rendering, Return to Editor tab.'),
       },
     });

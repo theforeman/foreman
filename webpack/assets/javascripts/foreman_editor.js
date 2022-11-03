@@ -2,7 +2,7 @@ import { API } from './react_app/redux/API';
 import store from './react_app/redux';
 
 import * as editorActions from './react_app/components/Editor/EditorActions';
-import { translate as __ } from './react_app/common/I18n';
+import { sprintf, translate as __ } from './react_app/common/I18n';
 import { openConfirmModal } from './foreman_tools';
 
 export const revertTemplate = ({ dataset: { version, url } }) => {
@@ -15,7 +15,7 @@ export const revertTemplate = ({ dataset: { version, url } }) => {
         document.getElementById('primary_tab').click();
         store.dispatch(editorActions.changeEditorValue(response.data));
       } catch (err) {
-        alert(__(`Revert Failed, ${err}`));
+        alert(sprintf(__('Revert Failed, %s'), err));
       }
     },
   });
