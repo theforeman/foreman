@@ -120,7 +120,7 @@ module Foreman
       #     end
       #   end
       #
-      def setting(name, default:, description:, type:, full_name: nil, value: nil, collection: nil, encrypted: false, validate: nil, **options)
+      def setting(name, default:, description:, type:, full_name: nil, collection: nil, encrypted: false, validate: nil, **options)
         raise ::Foreman::Exception.new(N_("Setting '%s' is already defined, please avoid collisions"), name) if storage.key?(name.to_s)
         raise ::Foreman::Exception.new(N_("Setting '%s' has an invalid type definition. Please use a valid type."), name) unless available_types.include?(type)
         storage[name.to_s] = {
@@ -130,7 +130,6 @@ module Foreman
           default: default,
           description: description,
           full_name: full_name,
-          value: value,
           collection: collection,
           encrypted: encrypted,
           options: options,

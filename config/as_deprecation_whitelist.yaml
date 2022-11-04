@@ -1,4 +1,3 @@
 ---
 - message: Initialization autoloaded the constants
-- message: You are using a deprecated behavior, it will be removed in version 3.3, initial value of setting 'instance_id' should be created in a migration
 - message: DatabaseConfig#config will be removed in 6.2.0 in favor of DatabaseConfigurations#configuration_hash which returns a hash with symbol keys

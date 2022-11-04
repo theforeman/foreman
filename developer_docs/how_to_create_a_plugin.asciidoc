@@ -1816,7 +1816,7 @@ If you want the setting to have initial value please use migration to seed it.
 ```
 class SeedInitialFooSettingValue < ActiveRecord::Migration[6.0]
   def up
-    Setting.find_or_create(name: 'foo').update(value: Foreman.uuid)
+    Setting.find_or_create_by(name: 'foo', category: 'Setting').update(value: Foreman.uuid)
   end
 end
 ```
