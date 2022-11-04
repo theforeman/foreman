@@ -6,11 +6,24 @@ oses:
 - ubuntu
 test_on:
 - ubuntu_autoinst4dhcp
+description: |
+  The provisioning template for Autoinstall based distributions. To customize the installation,
+  modify the host parameters
+
+  This template accepts the following parameters:
+  - lang: string (default="en_US.UTF-8")
+  - keyboard: string (default="us")
+  - package_upgrade: boolean (default=true)
+  - remote_execution_ssh_keys: string (default="")
+  - username_to_create: string (default="root")
+  - realname_to_create: string (default=username_to_create)
+  - password_to_create: string (default=@host.root_pass)
 -%>
 <%-
 username_to_create = host_param('username_to_create', 'root')
 realname_to_create = host_param('realname_to_create') || username_to_create
 password_to_create = host_param('password_to_create') || @host.root_pass
+enable_auto_update = (host_param_true?('package_upgrade') && !host_param('kt_activation_keys'))
 -%>
 #cloud-config
 autoinstall:
@@ -23,6 +36,10 @@ autoinstall:
         uri: http://archive.ubuntu.com/ubuntu
       - arches: [default]
         uri: http://ports.ubuntu.com/ubuntu-ports
+<% unless enable_auto_update -%>
+    disable_components: [multiverse]
+    disable_suites: [backports,security,updates] 
+<% end -%>
 <%= indent(4) { snippet_if_exists(template_name + " custom apt") } -%>
   user-data:
     disable_root: false
