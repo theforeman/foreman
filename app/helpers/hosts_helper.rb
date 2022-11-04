@@ -453,7 +453,7 @@ module HostsHelper
 
     number = case from
              when :mega
-               number * 1_000_000
+               number * 1.megabyte
              else
                number
              end
