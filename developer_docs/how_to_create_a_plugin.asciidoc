@@ -1810,15 +1810,12 @@ The `:text` type supports markdown and usage of such setting should expect markd
 
 ==== Initial setting value
 
-If you want the setting to have initial value please use migration to seed it.
+In most cases, a setting should only have a default defined via the DSL, not an initial value.
+If you really need the setting to have an initial value, please use a seed to set it.
 
 [source, ruby]
 ```
-class SeedInitialFooSettingValue < ActiveRecord::Migration[6.0]
-  def up
-    Setting.find_or_create(name: 'foo').update(value: Foreman.uuid)
-  end
-end
+Setting[:instance_id] = Foreman.uuid unless Setting.where(name: 'instance_id').exists?
 ```
 
 ==== Validate setting values
