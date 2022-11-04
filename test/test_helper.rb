@@ -112,10 +112,6 @@ class ActiveSupport::TestCase
     Foreman::Plugin.send(:clear)
   end
 
-  def restore_plugins
-    Foreman::Deprecation.deprecation_warning('2.5', '`teardown :restore_plugins` is deprecated, plugin restoration is automated when `setup :clear_plugins` is used')
-  end
-
   def after_teardown
     super
 
