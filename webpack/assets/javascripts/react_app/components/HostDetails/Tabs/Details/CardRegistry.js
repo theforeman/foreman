@@ -3,6 +3,7 @@ import { addGlobalFill } from '../../../common/Fill/GlobalFill';
 import Properties from '../Details/Cards/SystemProperties';
 import OperatingSystem from '../Details/Cards/OperatingSystem';
 import Bios from '../Details/Cards/Bios';
+import NetworkingInterfaces from '../Details/Cards/NetworkingInterfaces';
 import TemplatesCard from '../Details/Cards/TemplatesCard';
 import ProvisioningCard from '../Details/Cards/Provisioning';
 
@@ -15,6 +16,11 @@ const cards = [
     key: '[core] Templates',
     Component: TemplatesCard,
     weight: 200,
+  },
+  {
+    key: '[core] Network interfaces',
+    Component: NetworkingInterfaces,
+    weight: 100,
   },
 ];
 
