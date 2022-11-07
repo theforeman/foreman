@@ -42,6 +42,7 @@ import BreadcrumbBar from '../BreadcrumbBar';
 import { foremanUrl } from '../../common/helpers';
 import { useForemanSettings } from '../../Root/Context/ForemanContext';
 import { CardExpansionContextWrapper } from './CardExpansionContext';
+import Head from '../Head';
 
 const HostDetails = ({
   match: {
@@ -92,6 +93,9 @@ const HostDetails = ({
   if (status === STATUS.ERROR) return <RedirectToEmptyHostPage hostname={id} />;
   return (
     <>
+      <Head>
+        <title>{id}</title>
+      </Head>
       <PageSection
         className="host-details-header-section"
         isFilled
