@@ -10,6 +10,7 @@ import SkeletonLoader from '../common/SkeletonLoader';
 import { STATUS } from '../../constants';
 import { API_OPTIONS } from './HostStatusesConstants';
 import { selectHostStatusesNames } from './HostStatusesSelectors';
+import Head from '../Head/index';
 
 import './HostStatuses.scss';
 
@@ -27,24 +28,29 @@ const HostStatuses = () => {
   const statuses = useSelector(state => selectHostStatusesNames(state));
 
   return (
-    <PageSection padding className="host-statuses-page">
-      <Grid hasGutter>
-        <GridItem span={12}>
-          <Title
-            ouiaId="host-status-overview-title"
-            headingLevel="h5"
-            size="xl"
-          >
-            {__('Host Status Overview')}
-          </Title>
-        </GridItem>
-        <SkeletonLoader customSkeleton={<Skeleton />} status={status}>
-          {statuses.map((name, i) => (
-            <Status key={i} name={name} />
-          ))}
-        </SkeletonLoader>
-      </Grid>
-    </PageSection>
+    <>
+      <Head>
+        <title>{__('Host Statuses')}</title>
+      </Head>
+      <PageSection padding className="host-statuses-page">
+        <Grid hasGutter>
+          <GridItem span={12}>
+            <Title
+              ouiaId="host-status-overview-title"
+              headingLevel="h5"
+              size="xl"
+            >
+              {__('Host Status Overview')}
+            </Title>
+          </GridItem>
+          <SkeletonLoader customSkeleton={<Skeleton />} status={status}>
+            {statuses.map((name, i) => (
+              <Status key={i} name={name} />
+            ))}
+          </SkeletonLoader>
+        </Grid>
+      </PageSection>
+    </>
   );
 };
 
