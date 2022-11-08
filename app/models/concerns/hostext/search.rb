@@ -68,6 +68,8 @@ module Hostext
 
       scoped_search :relation => :primary_interface, :on => :ip, :complete_value => true
       scoped_search :relation => :interfaces, :on => :ip, :complete_value => true, :rename => :has_ip, :only_explicit => true
+      scoped_search :relation => :primary_interface, :on => :ip6, :complete_value => true
+      scoped_search :relation => :interfaces, :on => :ip6, :complete_value => true, :rename => :has_ip6, :only_explicit => true
       scoped_search :relation => :interfaces, :on => :mac, :complete_value => true, :rename => :has_mac, :only_explicit => true
 
       scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
