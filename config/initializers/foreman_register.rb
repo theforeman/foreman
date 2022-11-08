@@ -26,6 +26,16 @@ Pagelets::Manager.with_key 'hosts/_list' do |ctx|
     add_pagelet :hosts_table_column_header, key: :comment, label: _('Comment'), sortable: true, width: '7%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :comment, class: common_th_class + ' ca', attr_callbacks: { title: ->(host) { host.comment&.truncate(255) } }, callback: ->(host) { icon_text('comment', '') unless host.comment.empty? }
   end
+  ctx.with_profile :network_data, _('Network'), default: false do
+    common_th_class = 'hidden-tablet hidden-xs'
+    common_td_class = common_th_class + ' ellipsis'
+    add_pagelet :hosts_table_column_header, key: :ip, label: _('IPv4 address'), sortable: true, width: '10%', class: common_th_class, priority: 200
+    add_pagelet :hosts_table_column_content, key: :ip, callback: ->(host) { host.ip }, class: common_td_class, priority: 200
+    add_pagelet :hosts_table_column_header, key: :ip6, label: _('IPv6 address'), sortable: true, width: '13%', class: common_th_class, priority: 200
+    add_pagelet :hosts_table_column_content, key: :ip6, callback: ->(host) { host.ip6 }, class: common_td_class, priority: 200
+    add_pagelet :hosts_table_column_header, key: :mac, label: _('MAC address'), sortable: true, width: '10%', class: common_th_class, priority: 200
+    add_pagelet :hosts_table_column_content, key: :mac, callback: ->(host) { host.mac }, class: common_td_class, priority: 200
+  end
   ctx.with_profile :reported_data, _('Reported data'), default: false do
     common_th_class = 'hidden-tablet hidden-xs'
     common_td_class = common_th_class + ' ellipsis'
