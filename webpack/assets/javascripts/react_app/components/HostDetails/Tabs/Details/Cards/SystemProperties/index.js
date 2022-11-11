@@ -146,6 +146,11 @@ const SystemPropertiesCard = ({ status, hostDetails }) => {
           <DescriptionListTerm>{__('Location')}</DescriptionListTerm>
           <DescriptionListDescription>{location}</DescriptionListDescription>
         </DescriptionListGroup>
+        <Slot
+          id="host-details-tab-properties-3"
+          multi
+          hostDetails={hostDetails}
+        />
       </DescriptionList>
     </CardTemplate>
   );
