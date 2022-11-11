@@ -14,11 +14,10 @@ class IntlLoader {
 
   async init() {
     await this.fetchIntl();
-    addLocaleData(
-      await import(
-        /* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${this.locale}`
-      )
+    const localeData = await import(
+      /* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${this.locale}`
     );
+    addLocaleData(localeData.default);
     return true;
   }
 
