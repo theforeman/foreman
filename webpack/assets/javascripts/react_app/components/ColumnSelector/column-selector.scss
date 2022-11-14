@@ -11,3 +11,11 @@
 .pf-c-tree-view {
   padding-top: 0px
 }
+
+#btn-select-columns{
+  @media (max-width: 1530px) {
+    .columns-selector-text {
+      display: none;
+    }
+  }
+}

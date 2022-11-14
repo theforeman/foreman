@@ -134,8 +134,9 @@ const ColumnSelector = props => {
           iconPosition="left"
           className="columns-selector"
           onClick={() => toggleModal()}
+          title={__('Manage columns')}
         >
-          {__('Manage columns')}
+          <span className="columns-selector-text">{__('Manage columns')}</span>
         </Button>
         <Modal
           variant={ModalVariant.small}
