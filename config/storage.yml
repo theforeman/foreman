@@ -1,0 +1,10 @@
+filesystem:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+
+local:
+  service: PostgreSQL
+
+temp_folder:
+  service: Disk
+  root: <%= Dir.mktmpdir('test_active_storage') %>

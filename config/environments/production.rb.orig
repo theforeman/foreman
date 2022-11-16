@@ -78,8 +78,10 @@ Foreman::Application.configure do |app|
   # Log denied attributes into logger
   config.action_controller.action_on_unpermitted_parameters = :log
 
+<<<<<<< HEAD
+  config.hosts += SETTINGS[:hosts]
+=======
   # Use :local ActiveStorage provider
   config.active_storage.service = :local
-
-  config.hosts += SETTINGS[:hosts]
+>>>>>>> fcc3986bf (Fixes #35330 - Add support for ActiveStorage and PostgreSQL adapter)
 end

@@ -49,6 +49,8 @@ gem 'jwt', '>= 2.2.2', '< 3.0'
 gem 'graphql', '~> 1.13.0'
 gem 'graphql-batch'
 
+gem 'active_storage-postgresql', '~> 0.3.0'
+
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   instance_eval(Bundler.read_file(bundle))
 end

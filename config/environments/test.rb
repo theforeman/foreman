@@ -66,6 +66,13 @@ Foreman::Application.configure do
 
   config.webpack.dev_server.enabled = false
 
+  # Use :temp_folder ActiveStorage provider
+  config.active_storage.service = :temp_folder
+
+  Minitest.after_run do
+    FileUtils.rm_rf(ActiveStorage::Blob.service.root) if ActiveStorage::Blob.service&.root
+  end
+
   # Whitelist all plugin engines by default from raising errors on deprecation warnings for
   # compatibility, allow them to override it by adding an ASDT configuration file.
   config.after_initialize do
