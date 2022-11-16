@@ -44,6 +44,9 @@ Foreman::Application.configure do
   # include query source line when sql logging is enabled
   config.active_record.verbose_query_logs = Foreman::Logging.logger('sql')
 
+  # Use :local ActiveStorage provider
+  config.active_storage.service = :local
+
   if defined?(Bullet)
     config.after_initialize do
       Bullet.enable = true

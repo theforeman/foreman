@@ -78,5 +78,8 @@ Foreman::Application.configure do |app|
   # Log denied attributes into logger
   config.action_controller.action_on_unpermitted_parameters = :log
 
+  # Use :local ActiveStorage provider
+  config.active_storage.service = :local
+
   config.hosts += SETTINGS[:hosts]
 end

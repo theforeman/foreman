@@ -18,6 +18,18 @@ Foreman::AccessControl.map do |permission_set|
       :bookmarks => [:index, :show, :auto_complete_search, :welcome],
       :"api/v2/bookmarks" => [:index, :show],
     }, :public => true
+    # file URLs are short-lived, hence can be public
+    map.permission :files,
+      {
+        :"active_storage/postgresql" => [:show, :update],
+        :"active_storage/representations/proxy" => [:show],
+        :"active_storage/direct_uploads" => [:create],
+        :"active_storage/representations/redirect" => [:show],
+        :"active_storage/disk" => [:show, :update],
+        :"active_storage/blobs/redirect" => [:show],
+        :"active_storage/blobs/proxy" => [:show],
+      },
+      :public => true
   end
 
   permission_set.security_block :architectures do |map|
