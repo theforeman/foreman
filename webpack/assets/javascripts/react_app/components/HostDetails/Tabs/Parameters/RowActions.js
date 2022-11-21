@@ -32,7 +32,7 @@ export const RowActions = ({ hostId, param }) => {
       onClick: () => {
         dispatch(
           openConfirmModal({
-            title: `${__('Delete ')} ${param.name}`,
+            title: sprintf(__('Delete %s'), param.name),
             message: __(
               'This will change the delete the parameter, are you sure?'
             ),

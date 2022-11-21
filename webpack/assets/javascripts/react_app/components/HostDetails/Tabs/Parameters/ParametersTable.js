@@ -25,7 +25,7 @@ export const ParametersTable = ({
   editHostsPermission,
 }) => {
   const [editingRow, setEditingRow] = useState(-1);
-  const { perPage: settingsPerPage = 20 } = useForemanSettings() || {};
+  const { perPage: settingsPerPage } = useForemanSettings() || {};
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(settingsPerPage);
   const [showNewRow, setShowNewRow] = useState(false);
