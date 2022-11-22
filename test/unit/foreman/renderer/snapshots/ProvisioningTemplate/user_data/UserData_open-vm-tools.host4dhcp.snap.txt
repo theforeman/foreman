@@ -2,7 +2,7 @@
 identity:
   LinuxPrep:
     domain: snap.example.com
-    hostName: 
+    hostName: snapshot-ipv4-dhcp-el7
     hwClockUTC: true
     timeZone: UTC
 

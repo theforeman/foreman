@@ -144,6 +144,33 @@ FactoryBot.define do
     sequence(:ip) { |n| ip_from_subnet(subnet, n) }
   end
 
+  trait :with_v4_dhcp do
+    ip { '192.168.42.42' }
+    subnet { FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots) }
+  end
+
+  trait :with_v4_static do
+    ip { '192.168.42.42' }
+    subnet { FactoryBot.build(:subnet_ipv4_static_for_snapshots) }
+  end
+
+  trait :with_v6_dhcp do
+    ip6 { '2001:db8:42::42' }
+    subnet6 { FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots) }
+  end
+
+  trait :with_v6_static do
+    ip6 { '2001:db8:42::42' }
+    subnet6 { FactoryBot.build(:subnet_ipv6_static_for_snapshots) }
+  end
+
+  factory :nic_for_snapshots, parent: :nic_managed, class: Nic::Managed do
+    primary { true }
+    provision { true }
+    identifier { 'eth0' }
+    mac { '00-f0-54-1a-7e-e0' }
+  end
+
   factory :model do
     sequence(:name) { |n| "hal900#{n}" }
   end
@@ -167,6 +194,9 @@ FactoryBot.define do
       end
 
       set_nic_attributes(host, deferred_nic_attrs, evaluator)
+      # these are hacks as otherwise those attributes return nil
+      host.define_singleton_method(:managed_interfaces) { interfaces }
+      host.define_singleton_method(:shortname) { name.split('.').first }
     end
 
     trait :with_build do
@@ -333,7 +363,6 @@ FactoryBot.define do
       hostname { name }
       managed { true }
       domain { FactoryBot.build(:domain_for_snapshots) }
-      subnet { FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots) }
       pxe_loader { "PXELinux BIOS" }
       architecture { operatingsystem.try(:architectures).try(:first) }
       medium { operatingsystem.try(:media).try(:first) }

@@ -5,7 +5,7 @@ clearpart --all    --initlabel
 part /boot --fstype ext3 --size=100 --asprimary
 part /     --fstype ext3 --size=1024 --grow
 part swap  --recommended  <keymap>us</keymap>
-  <hostname></hostname>
+  <hostname>snapshot-ipv4-dhcp-el7</hostname>
   <root-password type="hash">$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0</root-password>
   <source type="url">url --url http://mirror.centos.org/centos/7/os/x86_64</source>
   <admin-interface name="eth0" proto="dhcp">

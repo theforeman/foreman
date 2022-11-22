@@ -1,9 +1,9 @@
-echo "" > /etc/hostname
+echo "snapshot-ipv4-dhcp-el7" > /etc/hostname
 
-hostname 
+hostname snapshot-ipv4-dhcp-el7
 
 cat > /etc/hosts << EOF
-127.0.0.1   snapshot-ipv4-dhcp-el7  localhost localhost.localdomain
+127.0.0.1   snapshot-ipv4-dhcp-el7 snapshot-ipv4-dhcp-el7 localhost localhost.localdomain
 ::1     ip6-localhost ip6-loopback
 fe00::0 ip6-localnet
 ff00::0 ip6-mcastprefix

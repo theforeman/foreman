@@ -15,6 +15,10 @@ for /f "delims=" %%a in ('ipconfig /all') do (
             set mac=!mac:-=:!
             call :tolower mac
 
+            if "00-f0-54-1a-7e-e0"=="!mac!" (
+                                    echo DHCP is active
+                                                    netsh interface set interface name="!name!" newname="eth0"
+                                                                    )
         )
     )
 )

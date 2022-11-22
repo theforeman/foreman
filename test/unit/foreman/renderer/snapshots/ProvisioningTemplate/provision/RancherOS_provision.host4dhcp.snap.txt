@@ -1,5 +1,5 @@
 #cloud-config
-hostname: 
+hostname: snapshot-ipv4-dhcp-el7
 rancher:
   network:
     dns:
