@@ -11,7 +11,7 @@ lang en_US.UTF-8
 selinux --enforcing
 keyboard us
 
-network --device=00-f0-54-1a-7e-e0 --hostname snapshot-ipv4-dhcp-rocky8 --noipv6 --mtu=1142 --bootproto dhcp --nameserver=192.168.42.2,192.168.42.3
+network --device=00-f0-54-1a-7e-e0 --hostname snapshot-ipv4-dhcp-rocky8 --noipv6 --mtu=1342 --bootproto dhcp --nameserver=192.168.42.2,192.168.42.3
 
 rootpw --iscrypted $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
 firewall --service=ssh

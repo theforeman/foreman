@@ -16,12 +16,6 @@
       </searchlist>
     </dns>
     <interfaces config:type="list">
-      <interface>
-        <bootproto>dhcp</bootproto>
-        <device>eth0</device>
-        <usercontrol>no</usercontrol>
-        <startmode>auto</startmode>
-      </interface>
     </interfaces>
   </networking>
       <ntp-client>

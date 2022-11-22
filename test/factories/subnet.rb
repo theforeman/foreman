@@ -92,56 +92,53 @@ FactoryBot.define do
       association :bmc, :ignore_validations, :factory => :bmc_smart_proxy, :name => "snapshot-proxy-bmc", :url => "http://localhost:8005"
     end
 
-    factory :subnet_ipv4_dhcp_for_snapshots, :class => Subnet::Ipv4 do
+    trait :snapshot do
+      domains { [FactoryBot.build(:domain_for_snapshots)] }
+      proxies_for_snapshots
+    end
+
+    trait :ipv4 do
       network { '192.168.42.0' }
       mask { '255.255.255.0' }
+      gateway { '192.168.42.1' }
+      dns_primary { '192.168.42.2' }
+      dns_secondary { '192.168.42.3' }
+    end
+
+    trait :ipv6 do
+      network { '2001:db8:42::' }
+      mask { 'ffff:ffff:ffff::' }
+      gateway { '2001:db8:42::1' }
+      dns_primary { '2001:db8:42::8' }
+      dns_secondary { '2001:db8:42::4' }
+    end
+
+    trait :dhcp do
+      boot_mode { :DHCP }
+    end
+
+    trait :static do
+      boot_mode { :Static }
+    end
+
+    factory :subnet_ipv4_dhcp_for_snapshots, class: Subnet::Ipv4, traits: [:snapshot, :ipv4, :dhcp] do
       name { 'snapshot-ipv4-dhcp' }
-      gateway { '192.168.42.1' }
-      dns_primary { '192.168.42.2' }
-      dns_secondary { '192.168.42.3' }
-      mtu { '1142' }
-      boot_mode { :DHCP }
-      domains { [FactoryBot.build(:domain_for_snapshots)] }
-      proxies_for_snapshots
-    end
-
-    factory :subnet_ipv4_static_for_snapshots, :class => Subnet::Ipv4 do
-      network { '192.168.42.0' }
-      mask { '255.255.255.0' }
-      name { 'snapshot-ipv4-static' }
-      gateway { '192.168.42.1' }
-      dns_primary { '192.168.42.2' }
-      dns_secondary { '192.168.42.3' }
-      mtu { '1242' }
-      boot_mode { :Static }
-      domains { [FactoryBot.build(:domain_for_snapshots)] }
-      proxies_for_snapshots
-    end
-
-    factory :subnet_ipv6_dhcp_for_snapshots, :class => Subnet::Ipv6 do
-      network { '2001:db8:42::' }
-      mask { 'ffff:ffff:ffff::' }
-      name { 'snapshot-ipv6-dhcp' }
-      gateway { '2001:db8:42::1' }
-      dns_primary { '2001:db8:42::8' }
-      dns_secondary { '2001:db8:42::4' }
       mtu { '1342' }
-      boot_mode { :DHCP }
-      domains { [FactoryBot.build(:domain_for_snapshots)] }
-      proxies_for_snapshots
     end
 
-    factory :subnet_ipv6_static_for_snapshots, :class => Subnet::Ipv6 do
-      network { '2001:db8:42::' }
-      mask { 'ffff:ffff:ffff::' }
-      name { 'snapshot-ipv6-static' }
-      gateway { '2001:db8:42::1' }
-      dns_primary { '2001:db8:42::8' }
-      dns_secondary { '2001:db8:42::4' }
+    factory :subnet_ipv4_static_for_snapshots, class: Subnet::Ipv4, traits: [:snapshot, :ipv4, :static] do
+      name { 'snapshot-ipv4-static' }
       mtu { '1442' }
-      boot_mode { :Static }
-      domains { [FactoryBot.build(:domain_for_snapshots)] }
-      proxies_for_snapshots
+    end
+
+    factory :subnet_ipv6_dhcp_for_snapshots, class: Subnet::Ipv6, traits: [:snapshot, :ipv6, :dhcp] do
+      name { 'snapshot-ipv6-dhcp' }
+      mtu { '1342' }
+    end
+
+    factory :subnet_ipv6_static_for_snapshots, class: Subnet::Ipv6, traits: [:snapshot, :ipv6, :static] do
+      name { 'snapshot-ipv6-static' }
+      mtu { '1442' }
     end
   end
 end

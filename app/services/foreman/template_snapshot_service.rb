@@ -6,56 +6,8 @@ module Foreman
       new.templates
     end
 
-    def self.host4dhcp
-      new.host4dhcp
-    end
-
-    def self.host6dhcp
-      new.host6dhcp
-    end
-
-    def self.host4and6dhcp
-      new.host4and6dhcp
-    end
-
-    def self.host4static
-      new.host4static
-    end
-
-    def self.host6static
-      new.host6static
-    end
-
-    def self.debian4dhcp
-      new.debian4dhcp
-    end
-
-    def self.ubuntu4dhcp
-      new.ubuntu4dhcp
-    end
-
-    def self.ubuntu_autoinst4dhcp
-      new.ubuntu_autoinst4dhcp
-    end
-
-    def self.rhel9_dhcp
-      new.rhel9_dhcp
-    end
-
-    def self.rocky8_dhcp
-      new.rocky8_dhcp
-    end
-
-    def self.rocky9_dhcp
-      new.rocky9_dhcp
-    end
-
-    def self.windows10_dhcp
-      new.windows10_dhcp
-    end
-
     def self.render_template(template, host_name = :host4dhcp)
-      host_stub = send(host_name.to_sym)
+      host_stub = new.send(host_name.to_sym)
       source = Foreman::Renderer::Source::Snapshot.new(template)
       scope = Foreman::Renderer.get_scope(host: host_stub, source: source)
       Foreman::Renderer.render(source, scope)
@@ -67,6 +19,7 @@ module Foreman
 
     def define_host_params(host)
       host_params = {
+        "dual_stack_provision_fallback" => "IPv6",
         "enable-epel" => "true",
         "package_upgrade" => "true",
         "ansible_tower_provisioning" => "true",
@@ -94,126 +47,88 @@ module Foreman
       host
     end
 
-    def ipv4_interface
-      FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
-        mac: '00-f0-54-1a-7e-e0',
-        ip: '192.168.42.42')
-    end
-
-    def ipv6_interface
-      FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
-        mac: '00-f0-54-1a-7e-e0',
-        ip: '2001:db8:42::42')
-    end
-
-    def ipv46_interface
-      FactoryBot.build(:nic_primary_and_provision, identifier: 'eth0',
-        mac: '00-f0-54-1a-7e-e0',
-        ip: '192.168.42.42',
-        ip6: '2001:db8:42::42')
-    end
-
     def host4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7,
         name: 'snapshot-ipv4-dhcp-el7',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
-      host.define_singleton_method(:managed_interfaces) { interfaces }
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
       define_host_params(host)
     end
 
     def host4static
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7,
         name: 'snapshot-ipv4-static-el7',
-        subnet: FactoryBot.build(:subnet_ipv4_static_for_snapshots),
-        interfaces: [ipv4_interface])
-      host.define_singleton_method(:managed_interfaces) { interfaces }
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_static)])
       define_host_params(host)
     end
 
     def host6dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7,
         name: 'snapshot-ipv6-dhcp-el7',
-        subnet: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
-        interfaces: [ipv6_interface])
-      host.define_singleton_method(:managed_interfaces) { interfaces }
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v6_dhcp)])
       define_host_params(host)
     end
 
     def host6static
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7,
         name: 'snapshot-ipv6-static-el7',
-        subnet: FactoryBot.build(:subnet_ipv6_static_for_snapshots),
-        interfaces: [ipv6_interface])
-      host.define_singleton_method(:managed_interfaces) { interfaces }
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v6_static)])
       define_host_params(host)
     end
 
     def host4and6dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7,
         name: 'snapshot-ipv4-6-dhcp-el7',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        subnet6: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
-        interfaces: [ipv46_interface])
-      host.define_singleton_method(:managed_interfaces) { interfaces }
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp, :with_v6_dhcp)])
       define_host_params(host)
     end
 
     def debian4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_deb10,
+      host = FactoryBot.build(:host_for_snapshots, :with_deb10,
         name: 'snapshot-ipv4-dhcp-deb10',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
-      host.define_singleton_method(:managed_interfaces) { interfaces }
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
       define_host_params(host)
     end
 
     def ubuntu4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_ubuntu18,
+      host = FactoryBot.build(:host_for_snapshots, :with_ubuntu18,
         name: 'snapshot-ipv4-dhcp-ubuntu18',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
       define_host_params(host)
     end
 
     def ubuntu_autoinst4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_ubuntu20,
+      host = FactoryBot.build(:host_for_snapshots, :with_ubuntu20,
         name: 'snapshot-ipv4-dhcp-ubuntu20',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
       define_host_params(host)
     end
 
     def rhel9_dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rhel9,
+      host = FactoryBot.build(:host_for_snapshots, :with_rhel9,
         name: 'snapshot-ipv4-dhcp-rhel9',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
-      host.define_singleton_method(:managed_interfaces) { interfaces }
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
       define_host_params(host)
     end
 
     def rocky8_dhcp
       host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky8,
         name: 'snapshot-ipv4-dhcp-rocky8',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
       define_host_params(host)
     end
 
     def rocky9_dhcp
       host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky9,
         name: 'snapshot-ipv4-dhcp-rocky9',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
       define_host_params(host)
     end
 
     def windows10_dhcp
       host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_windows10,
         name: 'snapshot-ipv4-dhcp-windows10',
-        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
-        interfaces: [ipv4_interface])
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
       define_host_params(host)
     end
 

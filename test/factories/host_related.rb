@@ -60,6 +60,8 @@ FactoryBot.define do
       os_family { 'Debian' }
     end
 
+    factory :ptable_ubuntu_autoinstall, traits: [:ubuntu_autoinstall]
+
     trait :suse do
       sequence(:name) { |n| "suse default#{n}" }
       layout { "<partitioning  config:type=\"list\">\n  <drive>\n    <device>/dev/hda</device>\n    <use>all</use>\n  </drive>\n</partitioning>" }
@@ -142,6 +144,33 @@ FactoryBot.define do
     provision { true }
     sequence(:mac) { |n| "00:53:67:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| ip_from_subnet(subnet, n) }
+  end
+
+  trait :with_v4_dhcp do
+    ip { '192.168.42.42' }
+    subnet factory: :subnet_ipv4_dhcp_for_snapshots
+  end
+
+  trait :with_v4_static do
+    ip { '192.168.42.42' }
+    subnet factory: :subnet_ipv4_static_for_snapshots
+  end
+
+  trait :with_v6_dhcp do
+    ip6 { '2001:db8:42::42' }
+    subnet6 factory: :subnet_ipv6_dhcp_for_snapshots
+  end
+
+  trait :with_v6_static do
+    ip6 { '2001:db8:42::42' }
+    subnet6 factory: :subnet_ipv6_static_for_snapshots
+  end
+
+  factory :nic_for_snapshots, parent: :nic_managed, class: Nic::Managed do
+    primary { true }
+    provision { true }
+    identifier { 'eth0' }
+    mac { '00-f0-54-1a-7e-e0' }
   end
 
   factory :model do
@@ -328,12 +357,11 @@ FactoryBot.define do
       end
     end
 
-    factory :host_for_snapshots_base do
+    factory :host_for_snapshots do
       name { 'snapshot-ipv4-dhcp-el7' }
       hostname { name }
       managed { true }
-      domain { FactoryBot.build(:domain_for_snapshots) }
-      subnet { FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots) }
+      domain factory: :domain_for_snapshots
       pxe_loader { "PXELinux BIOS" }
       architecture { operatingsystem.try(:architectures).try(:first) }
       medium { operatingsystem.try(:media).try(:first) }
@@ -341,25 +369,29 @@ FactoryBot.define do
       root_pass { '$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0' }
       certname { name }
 
-      factory :host_for_snapshots_ipv4_dhcp_el7 do
-        operatingsystem { FactoryBot.build(:for_snapshots_centos_7_0) }
+      trait :with_c7 do
+        name { 'snapshot-c7' }
+        operatingsystem factory: :for_snapshots_centos_7_0
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_deb10 do
-        operatingsystem { FactoryBot.build(:for_snapshots_debian_10) }
+      trait :with_deb10 do
+        name { 'snapshot-d10' }
+        operatingsystem factory: :for_snapshots_debian_10
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_ubuntu18 do
-        operatingsystem { FactoryBot.build(:for_snapshots_ubuntu_18) }
+      trait :with_ubuntu18 do
+        name { 'snapshot-u18' }
+        operatingsystem factory: :for_snapshots_ubuntu_18
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_ubuntu20 do
-        ptable { FactoryBot.build(:ptable, :ubuntu_autoinstall) }
-        operatingsystem { FactoryBot.build(:for_snapshots_ubuntu_20) }
+      trait :with_ubuntu20 do
+        name { 'snapshot-u20' }
+        ptable factory: :ptable_ubuntu_autoinstall
+        operatingsystem factory: :for_snapshots_ubuntu_20
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_rhel9 do
-        operatingsystem { FactoryBot.build(:for_snapshots_rhel9) }
+      trait :with_rhel9 do
+        operatingsystem factory: :for_snapshots_rhel9
       end
 
       factory :host_for_snapshots_ipv4_dhcp_rocky8 do
