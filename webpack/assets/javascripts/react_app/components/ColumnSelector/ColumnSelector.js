@@ -80,6 +80,20 @@ const ColumnSelector = props => {
         }
       });
     }
+    selectedColumns.forEach(category => {
+      category.children.forEach(column => {
+        if (treeViewItem.key === column.key && !column.checkProps.disabled) {
+          column.checkProps.checked = checked;
+        }
+        if (treeViewItem.children) {
+          treeViewItem.children.forEach(item => {
+            if (item.key === column.key && !column.checkProps.disabled) {
+              column.checkProps.checked = checked;
+            }
+          });
+        }
+      });
+    });
   };
 
   const onCheck = (evt, treeViewItem) => {
