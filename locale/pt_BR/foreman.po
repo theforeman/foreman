@@ -50,9 +50,6 @@ msgstr ""
 msgid "\"preview\" or \"real\", this can be used to change the behavior for previewing the template"
 msgstr ""
 
-msgid "${progress}%% Complete"
-msgstr "${progress}%% concluído(s)"
-
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr "%(name)s (livre: %(free)s, prov.: %(prov)s, total: %(total)s)"
 
@@ -64,9 +61,6 @@ msgid_plural "%s Active Features"
 msgstr[0] "%s filtro ativo"
 msgstr[1] "%s recurso ativo"
 msgstr[2] "%s recurso ativo"
-
-msgid "%s Filters"
-msgstr "%s filtros"
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -157,6 +151,9 @@ msgstr "Widget %s carregando..."
 
 msgid "%s you had selected as your context has been deleted"
 msgstr "%s que você selecionou como seu contexto foi excluído"
+
+msgid "%s%% Complete"
+msgstr ""
 
 msgid "%{action} %{vm}"
 msgstr "%{action} %{vm}"
@@ -323,6 +320,12 @@ msgstr "*Limpar %s proxy*"
 msgid "*Clear host group*"
 msgstr "*Apagar grupo de host*"
 
+msgid "10.0.0.1 - 10.0.0.99 - addresses reserved during bare-metal provisioning by Foreman"
+msgstr ""
+
+msgid "10.0.0.100 - 10.0.200 - addresses for dynamic clients in the subnet (discovered hosts, unmanaged hosts)"
+msgstr ""
+
 msgid ": activate to sort column ascending"
 msgstr ""
 
@@ -438,7 +441,7 @@ msgstr "Uma notificação quando um host relata uma configuração de erro"
 msgid "A problem occurred when detecting host type: %s"
 msgstr "Um problema ocorreu enquanto detectando tipo de host: %s"
 
-msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
 msgstr ""
 
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
@@ -691,6 +694,9 @@ msgid "All smart proxies"
 msgstr "Todos os proxies inteligentes"
 
 msgid "All statuses OK"
+msgstr ""
+
+msgid "All statuses cleared"
 msgstr ""
 
 msgid "All subnets"
@@ -1151,6 +1157,9 @@ msgstr "Provedores disponíveis"
 msgid "Available input types"
 msgstr ""
 
+msgid "Available options"
+msgstr ""
+
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "Evitar valores duplicados quando mesclando-os (somente tipo de matriz)?"
 
@@ -1520,6 +1529,9 @@ msgstr "Escolher provedor"
 msgid "Choose a server type"
 msgstr "Escolha um tipo de servidor"
 
+msgid "Chosen options"
+msgstr ""
+
 msgid "Class"
 msgstr "Classe"
 
@@ -1588,6 +1600,9 @@ msgstr "Cluster"
 
 msgid "Cluster ID is required to list available networks"
 msgstr "ID do Cluster necessária para listar redes disponíveis."
+
+msgid "Collapse all cards"
+msgstr ""
 
 msgid "Command %s not executable"
 msgstr ""
@@ -2135,7 +2150,10 @@ msgstr "Criar entrada de realm para %s"
 msgid "Created"
 msgstr "Criado(a)"
 
-msgid "Created %s by %s"
+msgid "Created %(date)s by %(owner)s"
+msgstr ""
+
+msgid "Created role successfully"
 msgstr ""
 
 msgid "Creates a table preference for a given table"
@@ -2194,6 +2212,9 @@ msgstr "Conflito de DHCP lease detectado."
 
 msgid "DHCP not supported for this NIC"
 msgstr "DHCP não é suportado por esta interface de rede"
+
+msgid "DHCP range in Foreman"
+msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "Registro DHCP %s já existe"
@@ -2771,6 +2792,9 @@ msgstr "Editar propriedades"
 msgid "Edit this host"
 msgstr "Editar esse host"
 
+msgid "Edited role successfully"
+msgstr ""
+
 msgid "Editor"
 msgstr "Editor"
 
@@ -2906,7 +2930,7 @@ msgstr "Erro ao carregar informações das interfaces: %s"
 msgid "Error loading scheduler hint filters information: %s"
 msgstr "Erro ao carregar informações de filtros dicas do agendador: %s"
 
-msgid "Error parsing value for setting '%s': %s"
+msgid "Error parsing value for setting '%(name)s': %(error)s"
 msgstr ""
 
 msgid "Error removing widget from dashboard."
@@ -2981,11 +3005,11 @@ msgstr "Excluir padrão para fatos armazenados no Foreman"
 msgid "Exit Full Screen"
 msgstr "Sair da tela cheia"
 
+msgid "Expand all cards"
+msgstr ""
+
 msgid "Expand nested items"
 msgstr "Expandir itens aninhados"
-
-msgid "Expand/Collapse  all"
-msgstr ""
 
 msgid "Expiration of the authorization token (in hours)"
 msgstr ""
@@ -3341,8 +3365,8 @@ msgstr "Filtro..."
 msgid "Filters"
 msgstr "Filtros"
 
-msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, <br> the filter can override the set of its organizations and locations. Later role changes will not affect such filter.<br> After disabling the override field, the role organizations and locations apply again."
-msgstr "Filtros herdam organizações e locais associados à função por padrão. Se o campo de substituição estiver habilitado, <br> o filtro poderá substituir o conjunto de seus locais e organizações. <br> Após desabilitar o campo de substituição, as organizações e os locais da função valerão novamente."
+msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, the filter can override the set of its organizations and locations. Later role changes will not affect such filter.After disabling the override field, the role organizations and locations apply again."
+msgstr ""
 
 msgid "Filters overriding has been disabled"
 msgstr "A substituição de filtros foi desativada"
@@ -3439,6 +3463,9 @@ msgstr "Para mais informações "
 
 msgid "For more information please see "
 msgstr "Para mais informações, consulte "
+
+msgid "For the example above, it is recommended to define the DHCP range from 10.0.0.1 to 10.0.0.99 in the Foreman UI which gives the following IP address distribution:"
+msgstr ""
 
 msgid "For values of type search, this is the resource the value searches in"
 msgstr "Para valores de pesquisa de tipo, este é o recurso no qual o valor é pesquisado"
@@ -3688,6 +3715,9 @@ msgstr "Obter widgets de painel padrão "
 msgid "Get hosts forming the smart proxy"
 msgstr ""
 
+msgid "Get provisioning templates for the host"
+msgstr ""
+
 msgid "Get status of host"
 msgstr "Obter status do host"
 
@@ -3898,8 +3928,8 @@ msgstr "Status da configuração do host"
 msgid "Host Configuration Status for %s"
 msgstr "Status da configuração do host para %s"
 
-msgid "Host Fetch ${response}"
-msgstr "Obtenção de host ${response}"
+msgid "Host Fetch %s"
+msgstr ""
 
 msgid "Host Group / Environment"
 msgstr "Grupo de hosts/ambiente"
@@ -4587,8 +4617,8 @@ msgstr ""
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
 msgstr "Se o modelo der suporte à seleção de formato, o usuário poderá escolher o formato de sua preferência.<br> Tipicamente, o modelo precisa usar a macro report_render.<br><br>Se o uso dessa macro não for encontrado no modelo,<br> este campo será desabilitado e o formato de saída padrão será texto sem formatação.<br><br>Se o modelo der suporte à seleção de filtro, mas não usar a macro report_render,<br> para ativar este campo, adicione um comentário ao modelo mencionando o nome da macro, report_render."
 
-msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly."
-msgstr "Se o campo ilimitado estiver habilitado, o filtro será aplicado a todos os recursos do tipo selecionado. Se o campo ilimitado </br> estiver desabilitado, será possível especificar um filtro adicional usando a sintaxe de pesquisa do Foreman no campo de pesquisa.</br> Se a função estiver associada a organizações ou locais, os filtros não serão considerados ilimitados,</br> pois eles terão um escopo correspondente."
+msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited  field is disabled, you can specify further filtering using Foreman search syntax in the search field. If the role is associated with organizations or locations, the filters are not considered unlimited as they are scoped accordingly."
+msgstr ""
 
 msgid "If this setting has list of possible values, this includes the list of the values."
 msgstr ""
@@ -4971,6 +5001,9 @@ msgstr "Segredo Jwt"
 msgid "JwtSecret|Token"
 msgstr "JwtSecret|Token"
 
+msgid "Kernel release"
+msgstr ""
+
 msgid "Key"
 msgstr "Chave"
 
@@ -5061,6 +5094,9 @@ msgstr ""
 
 msgid "Length"
 msgstr "Comprimento"
+
+msgid "Less than a second"
+msgstr "Menos de um segundo"
 
 msgid "Level"
 msgstr "Nível"
@@ -5772,6 +5808,9 @@ msgstr "Gerenciar PuppetCA"
 msgid "Manage all statuses"
 msgstr ""
 
+msgid "Manage columns"
+msgstr ""
+
 msgid "Manage host"
 msgstr "Gerenciar host"
 
@@ -5947,6 +5986,9 @@ msgstr "Monitor"
 
 msgid "Monthly"
 msgstr "Mensal"
+
+msgid "More about this in "
+msgstr ""
 
 msgid "Must be unique"
 msgstr "Deve ser único"
@@ -6373,6 +6415,9 @@ msgstr "Nenhum modelo do tipo %{kind} para %{host}"
 msgid "No templates found"
 msgstr "Nenhum modelo localizado "
 
+msgid "No templates found for %{host}"
+msgstr ""
+
 msgid "No templates found for this host."
 msgstr "Não foi encontrado nenhum modelo para este host."
 
@@ -6574,6 +6619,9 @@ msgstr "OK"
 msgid "OK statuses"
 msgstr ""
 
+msgid "OS"
+msgstr "SO"
+
 msgid "OS Image"
 msgstr "Imagem S.O."
 
@@ -6659,6 +6707,9 @@ msgstr "Abrir"
 msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
 msgstr "Tempo limite de abertura e leitura para solicitações HTTP do Foreman para o Proxy Inteligente (em segundos)"
 
+msgid "Open in a new tab"
+msgstr ""
+
 msgid "OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"
 msgstr "URL JSON Web Key Set(JWKS) do OpenID Connect. Tipicamente, https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs quando o Keycloak é utilizado como provedor de OpenID"
 
@@ -6673,6 +6724,9 @@ msgstr "Sistema Operacional"
 
 msgid "Operating System Family"
 msgstr "Família do sistema operacional"
+
+msgid "Operating System has no family, can't load PXE files"
+msgstr ""
 
 msgid "Operating System version is required"
 msgstr "Versão do sistema operacional é necessária"
@@ -6824,6 +6878,9 @@ msgstr "Substituir o valor padrão do parâmetro de classe do Puppet. "
 msgid "Override this value"
 msgstr "Substituir esse valor"
 
+msgid "Override?"
+msgstr "Substituir?"
+
 msgid "Overview"
 msgstr "Visão Geral"
 
@@ -6892,6 +6949,9 @@ msgstr ""
 
 msgid "Page number, starting at 1"
 msgstr "Número de página, iniciando em 1"
+
+msgid "Pagelet with %s key is not found"
+msgstr ""
 
 msgid "Pagination"
 msgstr ""
@@ -7760,6 +7820,9 @@ msgstr ""
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr ""
 
+msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
+
 msgid "Represents the host object for which the template is rendered."
 msgstr ""
 
@@ -7798,6 +7861,9 @@ msgstr "Recurso %{resource_name} não encontrado pelo id '%{id}'"
 
 msgid "Resource %{res} not found."
 msgstr "Recurso %{res} não foi encontrado."
+
+msgid "Resource Type"
+msgstr ""
 
 msgid "Resource not found"
 msgstr ""
@@ -7854,8 +7920,8 @@ msgstr[2] "Registros DNS IPv6 reversos"
 msgid "Revert"
 msgstr "Reverter"
 
-msgid "Revert Failed, ${err}"
-msgstr "Falha ao reverter, ${err}"
+msgid "Revert Failed, %s"
+msgstr ""
 
 msgid "Revert Local Changes"
 msgstr "Reverter alterações locais"
@@ -8000,6 +8066,9 @@ msgstr "Chaves SSH para: %s"
 msgid "SSH timeout"
 msgstr "Tempo limite SSH"
 
+msgid "SSL CA Certificate to use if authentication is required."
+msgstr ""
+
 msgid "SSL CA file"
 msgstr "Arquivo CA SSL"
 
@@ -8044,6 +8113,12 @@ msgstr "Métodos de modo de segurança"
 
 msgid "Safe mode methods and variables"
 msgstr "Métodos e variáveis de modo de segurança"
+
+msgid "Safe mode off"
+msgstr ""
+
+msgid "Safe mode on"
+msgstr ""
 
 msgid "Safemode"
 msgstr ""
@@ -8143,6 +8218,9 @@ msgstr "Selecionar todos os itens nesta página"
 
 msgid "Select an owner"
 msgstr "Selecione um proprietário"
+
+msgid "Select columns to display in the table."
+msgstr ""
 
 msgid "Select compute resources"
 msgstr "Selecionar recursos de computação"
@@ -8549,17 +8627,11 @@ msgstr "Exibir tabela de distribuição"
 msgid "Show full value"
 msgstr "Exibir valor completo"
 
-msgid "Show host power status"
-msgstr "Mostrar status de energia do host"
-
 msgid "Show linked external user groups"
 msgstr "Exibir grupos de usuários externos conectados"
 
 msgid "Show log messages:"
 msgstr "Exibir mensagens de logs:"
-
-msgid "Show power status on host index page. This feature calls to compute resource providers which may lead to decreased performance on host listing page."
-msgstr "Mostrar status de energia na página de índice do host. Este recurso chama provedores de recurso de computação, o que pode levar a um desempenho reduzido na página de listagem do host."
 
 msgid "Show provisioning template details"
 msgstr "Exibir detalhes do modelo de provisionamento"
@@ -8579,7 +8651,7 @@ msgstr "Exibir o usuário atualmente conectado"
 msgid "Show the last report for a host"
 msgstr "Exibir o último relatório para um host"
 
-msgid "Showing %s to %s of %s entries"
+msgid "Showing %(start)s to %(end)s of %(total)s entries"
 msgstr ""
 
 msgid "Showing 0 to 0 of 0 entries"
@@ -9589,7 +9661,7 @@ msgstr ""
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr "Nenhuma interface de ponte ativa foi localizada no libvirt, caso não haja suporte para listagem, o nome da ponte deve ser inserido manualmente (ex. br0) "
 
-msgid "There was some issue deleting the report: ${error}"
+msgid "There was some issue deleting the report: %s"
 msgstr ""
 
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
@@ -9706,6 +9778,9 @@ msgstr ""
 
 msgid "This templates requires a host to render but none was specified"
 msgstr "Esse modelo exige que um host seja renderizado mas nenhum foi especificado."
+
+msgid "This user is disabled and won't be able to perform any actions. You can edit the user to enable them again."
+msgstr ""
 
 msgid "This value is not hidden"
 msgstr "Este valor não está oculto"
@@ -10161,6 +10236,9 @@ msgstr "Status desconhecido: %s"
 msgid "Unkown '%{klass}' resource class"
 msgstr ""
 
+msgid "Unlimited?"
+msgstr "Ilimitado?"
+
 msgid "Unlock"
 msgstr "Desbloquear"
 
@@ -10406,6 +10484,9 @@ msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "Use esta conta para autenticação, <i>opcional</i>"
+
+msgid "Use to authenticate against external authentication source"
+msgstr ""
 
 msgid "Used"
 msgstr "Usado"
@@ -10710,6 +10791,9 @@ msgstr "Visualizar em Foreman:"
 msgid "View list"
 msgstr "Visualizar lista"
 
+msgid "View provisioning template {openTemplate}."
+msgstr ""
+
 msgid "Virtual (NAT)"
 msgstr "Virtual (NAT)"
 
@@ -10788,6 +10872,9 @@ msgstr "Chave SSL de websockets"
 msgid "Websockets encryption"
 msgstr "Criptografia de websockets"
 
+msgid "Websockify was not found"
+msgstr ""
+
 msgid "Weekly"
 msgstr "Semanal"
 
@@ -10862,6 +10949,9 @@ msgstr "Se deve enviar notificações RSS ou não"
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "A qual é um offset de <b>%s</b>"
+
+msgid "While it is possible to define the same DHCP range in Foreman, it's usually good practice to select a range from outside the pool defined in the installer, but still in the subnet"
+msgstr ""
 
 msgid ""
 "While rendering the template in preview mode, the input either loads the value or uses a placeholder\n"
@@ -10994,10 +11084,8 @@ msgstr "Você pode adicionar chaves SSH públicas a um usuário no Foreman."
 msgid "You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
 msgstr ""
 
-msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
+msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
 msgstr ""
-"É possível selecionar um dos modos IPAM suportados pelo protocolo IP selecionado:<br/><ul><li><strong>DHCP</strong> - gerenciará o IP em DHCP por meio do proxy DHCP atribuído; os IPs sugeridos automaticamente vêm de DHCP <em>(IPv4)</em></li><li><strong>Banco de dados interno</strong> - use o banco de dados interno para sugerir IPs livres automaticamente com base em outras interfaces na mesma sub-rede, respeitando o intervalo se especificado; útil principalmente com o modo de inicialização estática  <em>(IPv4, IPv6)</em>, preserva a ordem natural</li><li><strong>Banco de dados aleatório</strong> - o mesmo que o banco de dados interno, mas torna os resultados aleatórios para evitar condições de corrida<em>(IPv4)</em></li><li><strong>EUI-64</strong> - atribuirá o endereço IPv6 com base no endereço MAC da interface \n"
-"<em>(IPv6)</em></li><li><strong>IPAM externo</strong> - sugerirá automaticamente o endereço disponível seguinte por meio de um plugin de Proxy Inteligente do IPAM externo(IPv4, IPv6)</li><li><strong>Nenhum</strong> - deixa o gerenciamento de IP somente a cargo do usuário, sem sugestão automática <em>(IPv4, IPv6)</em></li></ul>"
 
 msgid "You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman."
 msgstr "Você pode usar %{community_forums} para pedir ajuda ou conselhos, participar de discussões a respeito de desafios ou ideias que você teve com o Foreman."
@@ -11563,6 +11651,9 @@ msgstr[0] "Último %s dia"
 msgstr[1] "últimos %s dias"
 msgstr[2] "últimos %s dias"
 
+msgid "leave IP management solely on user, no auto-suggestion"
+msgstr ""
+
 msgid "link external user group with this user group"
 msgstr "grupo de usuário externo com este grupo de usuário"
 
@@ -11588,6 +11679,9 @@ msgstr "faz o padrão do modelo, o que significa que ele será automaticamente a
 
 msgid "managed host must have one provision interface"
 msgstr "host gerenciado deve ter uma interface de provisão "
+
+msgid "manual"
+msgstr ""
 
 msgid "message"
 msgstr "mensagem"
@@ -11748,6 +11842,9 @@ msgstr "ação de energia , as ações são válidos ( on / start ) , ( off / st
 msgid "poweroff"
 msgstr "desligar"
 
+msgid "preserves natural ordering"
+msgstr ""
+
 msgid "ready?"
 msgstr "Pronto?"
 
@@ -11804,6 +11901,12 @@ msgstr "reiniciar"
 
 msgid "revoked"
 msgstr "revogado"
+
+msgid "same as Internal DB but randomizes results to prevent race conditions"
+msgstr ""
+
+msgid "seconds"
+msgstr "segundos"
 
 msgid "select an owner"
 msgstr "selecione um proprietário"
@@ -11941,6 +12044,9 @@ msgstr "Use grupos de rede NIS, em vez de grupos POSIX. Aplicável somente quand
 msgid "use if you want update locked templates"
 msgstr "use se você deseja atualizar modelos bloquados"
 
+msgid "use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode"
+msgstr ""
+
 msgid "using %s"
 msgstr "usando %s"
 
@@ -11964,6 +12070,15 @@ msgstr "virtual anexado a %s"
 
 msgid "was not found"
 msgstr "não encontrado"
+
+msgid "will assign the IPv6 address based on the MAC address of the interface"
+msgstr ""
+
+msgid "will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)"
+msgstr ""
+
+msgid "will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP"
+msgstr ""
 
 msgid "with given ID not found"
 msgstr "com ID determinada não encontrada"
