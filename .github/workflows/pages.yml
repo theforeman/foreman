@@ -1,0 +1,48 @@
+name: Deploy storybook to Pages
+
+on:
+  push:
+    branches: ['develop']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - name: Generate npm dependencies package-lock
+        run: npm install --package-lock-only --no-audit
+      - name: Install npm dependencies
+        run: npm ci --no-audit
+
+      - name: Build storybook
+        run: npm run build-storybook
+      - name: Set up Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: .storybook-dist
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
