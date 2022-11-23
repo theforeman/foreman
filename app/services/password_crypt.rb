@@ -8,9 +8,8 @@ class PasswordCrypt
   end
 
   def self.generate_linux_salt
-    # Linux crypt accepts maximum 16 [a-zA-Z0-9./] characters, on Ruby 2.5+ use alphanumeric
-    # method, on older rubies let's use safe base64 downgraded to base63
-    SecureRandom.respond_to?(:alphanumeric) ? SecureRandom.alphanumeric(16) : SecureRandom.base64(12).tr('+=', '..')
+    # Linux crypt accepts maximum 16 [a-zA-Z0-9./] characters
+    SecureRandom.alphanumeric(16)
   end
 
   def self.passw_crypt(passwd, hash_alg = 'SHA256')
