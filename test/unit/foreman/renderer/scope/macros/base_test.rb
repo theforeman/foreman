@@ -217,9 +217,9 @@ class BaseMacrosTest < ActiveSupport::TestCase
       assert_equal command, "cat << #{delimiter} | base64 -d > /tmp/test\n#{base64}#{delimiter}"
     end
 
-    test "should properly escape filename" do
-      command = @scope.save_to_file('/tmp/a file with spaces', nil)
-      assert_equal command, 'cp /dev/null /tmp/a\ file\ with\ spaces'
+    test "should ignore escaping of filename by default" do
+      command = @scope.save_to_file('/tmp/ifcfg-$sanitized_real', nil)
+      assert_equal command, 'cp /dev/null /tmp/ifcfg-$sanitized_real'
     end
   end
 end
