@@ -101,11 +101,11 @@ class SettingPresenter
   # ----- UI helpers ------
 
   def category_label
-    Foreman::SettingManager.categories[category] || category.safe_constantize&.humanized_category || category_name
+    Foreman::SettingManager.categories[category] || category_name
   end
 
   def category_name
-    category.delete_prefix('Setting::')
+    category
   end
 
   def select_values

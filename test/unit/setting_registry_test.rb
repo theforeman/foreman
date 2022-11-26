@@ -5,7 +5,7 @@ class SettingRegistryTest < ActiveSupport::TestCase
   let(:default) { 5 }
   let(:setting_value) { nil }
   let(:setting_memo) { {} }
-  let(:setting) { Setting.create(name: 'foo', category: 'Setting') }
+  let(:setting) { Setting.create(name: 'foo') }
 
   setup do
     registry._add('foo', type: :integer, category: 'Setting', default: default, full_name: 'test foo', description: 'test foo', context: :test)
