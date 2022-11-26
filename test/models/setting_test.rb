@@ -372,29 +372,11 @@ class SettingTest < ActiveSupport::TestCase
     assert !setting.save
   end
 
-  test 'orders settings alphabetically' do
-    a_name = 'a_foo'
-    b_name = 'b_foo'
-    c_name = 'c_foo'
-    FactoryBot.create(:setting, :name => b_name, :value => 'whatever')
-    FactoryBot.create(:setting, :name => a_name, :value => 'whatever')
-    FactoryBot.create(:setting, :name => c_name, :value => 'whatever')
-    settings = Setting.live_descendants.select(&:name)
-    a_foo = settings.index { |item| item.name == a_name }
-    b_foo = settings.index { |item| item.name == b_name }
-    c_foo = settings.index { |item| item.name == c_name }
-    assert a_foo
-    assert b_foo
-    assert c_foo
-    assert a_foo < b_foo
-    assert b_foo < c_foo
-  end
-
   test "should update login page footer text with multiple valid long values" do
     setting = Setting.create(name: 'login_text')
     RFauxFactory.gen_strings(1000).values.each do |value|
       setting.value = value
-      assert setting.valid?, "Can't update discovery_prefix setting with valid value #{value}"
+      assert setting.valid?, "Can't update login_text setting with valid value #{value}"
     end
   end
 end

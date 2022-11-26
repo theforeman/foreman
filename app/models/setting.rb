@@ -1,13 +1,12 @@
 require 'resolv'
 
 class Setting < ApplicationRecord
-  audited :except => [:name, :category]
+  audited :except => [:name]
   extend FriendlyId
   friendly_id :name
   include ActiveModel::Validations
   include EncryptValue
   include PermissionName
-  self.inheritance_column = 'category'
 
   TYPES = %w{integer boolean hash array string}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page outofsync_interval}
@@ -52,9 +51,6 @@ class Setting < ApplicationRecord
   after_save :refresh_registry_value
   default_scope -> { order(:name) }
 
-  # Filer out settings from disabled plugins
-  scope :disabled_plugins, -> { where(:category => %w[Setting].concat(descendants.map(&:to_s))) unless Rails.env.development? }
-
   scope :order_by, ->(attr) { except(:order).order(attr) }
 
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
@@ -67,17 +63,9 @@ class Setting < ApplicationRecord
     'settings.yaml'
   end
 
-  def self.live_descendants
-    disabled_plugins.order_by(:name)
-  end
-
   # can't use our own settings
   def self.per_page
     20
-  end
-
-  def self.humanized_category
-    nil
   end
 
   def self.[](name)
@@ -206,7 +194,7 @@ class Setting < ApplicationRecord
                                                     'see https://github.com/theforeman/foreman/blob/develop/developer_docs/how_to_create_a_plugin.asciidoc#settings for details')
     default_settings.each do |s|
       t = Setting.setting_type_from_value(s[:default]) || 'string'
-      kwargs = s.except(:name).merge(type: t.to_sym, category: name, context: :deprecated)
+      kwargs = s.except(:name).merge(type: t.to_sym, category: name.delete_prefix('Setting::'), context: :deprecated)
       Foreman.settings._add(s[:name], **kwargs)
     end
     true

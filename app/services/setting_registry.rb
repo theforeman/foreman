@@ -132,18 +132,9 @@ class SettingRegistry
     end
   end
 
-  def known_categories
-    unless @known_descendants == Setting.descendants
-      @known_descendants = Setting.descendants
-      @known_categories = @known_descendants.map(&:name) << 'Setting'
-      @values_loaded_at = nil # force all values to be reloaded
-    end
-    @known_categories
-  end
-
   def load_values(ignore_cache: false)
     # we are loading only known STIs as we load settings fairly early the first time and plugin classes might not be loaded yet.
-    settings = Setting.unscoped.where(category: known_categories)
+    settings = Setting.unscoped
     settings = settings.where('updated_at >= ?', @values_loaded_at) unless ignore_cache || @values_loaded_at.nil?
     settings.each do |s|
       unless (definition = find(s.name))
@@ -179,8 +170,6 @@ class SettingRegistry
   end
 
   def _new_db_record(definition)
-    Setting.new(name: definition.name,
-                value: definition.value,
-                category: definition.category.safe_constantize&.name || 'Setting')
+    Setting.new(name: definition.name, value: definition.value)
   end
 end
