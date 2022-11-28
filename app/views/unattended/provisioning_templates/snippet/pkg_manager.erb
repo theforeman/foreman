@@ -13,16 +13,6 @@ if [ -f /etc/os-release ] ; then
   . /etc/os-release
 fi
 
-# Get OS package manager
-# ---
-# apt-get   Debian
-#           Ubuntu
-# dnf       Fedora
-#           RHEL family version > 7
-# yum       RHEL family version < 8
-# pacman    Arch
-# zypper    openSUSE Tumbleweed
-
 if [ -f /etc/fedora-release ]; then
   PKG_MANAGER='dnf'
 elif [ -f /etc/redhat-release ] ; then
