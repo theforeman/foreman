@@ -1,3 +1,21 @@
+2022-11-28	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.4.1
+
+2022-10-31	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #35331 - Use Anaconda rhsm in kickstart for RHEL 9
+
+2022-10-27	Matt Darcy <matt@projecthugo.co.uk>
+	* Fixes #35466 - Correct repo location of puppet-release files
+
+2022-10-26	Adam Ruzicka <aruzicka@redhat.com>
+	* Refs #34949 - Do not set taxonomies during extlogin
+
+2022-10-05	Chris Roberts <chrobert@redhat.com>
+	* Fixes #35438 - Unescape cluster on compute resource controller
+
+2022-09-28	Adam Ruzicka <a.ruzicka@outlook.com>
+	* Fixes #34949 - Do not set taxonomies during extlogin
+
 2022-09-08	Amit Upadhye <upadhyeammit@gmail.com>
 	* Release 3.4.0
 
