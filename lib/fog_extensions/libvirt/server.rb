@@ -50,8 +50,13 @@ module FogExtensions
 
       def select_nic(fog_nics, nic)
         nic_attrs = nic.compute_attributes
-        match =   fog_nics.detect { |fn| fn.network == nic_attrs['network'] } # grab any nic on the same network
-        match ||= fog_nics.detect { |fn| fn.bridge  == nic_attrs['bridge']  } # no network? try a bridge...
+        match = nil
+        unless nic_attrs['network'].nil?
+          match =   fog_nics.detect { |fn| fn.network == nic_attrs['network'] } # grab any nic on the same network
+        end
+        unless nic_attrs['bridge'].nil?
+          match ||= fog_nics.detect { |fn| fn.bridge  == nic_attrs['bridge'] } # no network? try a bridge...
+        end
         match
       end
     end
