@@ -353,6 +353,12 @@ module Api
         end
       end
 
+      api :GET, "/hosts/:id/inherited_parameters", N_("Get all inherited parameters for a host")
+      param :id, :identifier_dottable, :required => true
+      def inherited_parameters
+        render :json => {params: @host.host_inherited_params_objects}, :status => :ok
+      end
+
       private
 
       def apply_compute_profile(host)
@@ -395,7 +401,7 @@ module Api
             :console
           when 'disassociate', 'forget_status'
             :edit
-          when 'vm_compute_attributes', 'get_status', 'template', 'enc', 'templates'
+          when 'vm_compute_attributes', 'get_status', 'template', 'enc', 'templates', 'inherited_parameters'
             :view
           when 'rebuild_config'
             :build
@@ -406,7 +412,7 @@ module Api
 
       def parent_permission(child_permission)
         case child_permission.to_s
-          when 'power', 'boot', 'console', 'vm_compute_attributes', 'get_status', 'template', 'enc', 'rebuild_config'
+          when 'power', 'boot', 'console', 'vm_compute_attributes', 'get_status', 'template', 'enc', 'rebuild_config', 'inherited_parameters'
             'view'
           when 'disassociate'
             'edit'

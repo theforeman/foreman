@@ -235,7 +235,7 @@ Foreman::AccessControl.map do |permission_set|
                                                :templates, :overview, :nics, :get_power_state, :preview_host_collection, :welcome, :statuses],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:host_template, :hostgroup_template],
-                                     :"api/v2/hosts" => [:index, :show, :get_status, :vm_compute_attributes, :template, :templates, :enc],
+                                     :"api/v2/hosts" => [:index, :show, :get_status, :vm_compute_attributes, :template, :templates, :enc, :inherited_parameters],
                                      :"api/v2/interfaces" => [:index, :show],
                                      :"api/v2/host_statuses" => [:index],
                                      :locations =>  [:mismatches],
@@ -297,6 +297,7 @@ Foreman::AccessControl.map do |permission_set|
                                    :common_parameters => [:index, :show, :auto_complete_search, :welcome],
                                    :"api/v2/common_parameters" => [:index, :show],
                                    :"api/v2/parameters" => [:index, :show],
+                                   :"api/v2/hosts" => [:inherited_parameters],
                                }
     map.permission :create_params, { :host_editing => [:create_params],
                                      :common_parameters => [:new, :create],

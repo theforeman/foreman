@@ -5,6 +5,7 @@ import { DEFAULT_TAB, TABS_SLOT_ID } from '../consts';
 import OverviewTab from './Overview';
 import DetailTab from './Details';
 import ReportsTab from './ReportsTab';
+import ParametersTab from './Parameters';
 
 export const registerCoreTabs = ({ except = [] }) => {
   addGlobalFill(
@@ -31,6 +32,15 @@ export const registerCoreTabs = ({ except = [] }) => {
     477,
     {
       title: __('Reports'),
+    }
+  );
+  addGlobalFill(
+    TABS_SLOT_ID,
+    'Parameters',
+    <ParametersTab key="host-details-parameters-tab" />,
+    850,
+    {
+      title: __('Parameters'),
     }
   );
 };
