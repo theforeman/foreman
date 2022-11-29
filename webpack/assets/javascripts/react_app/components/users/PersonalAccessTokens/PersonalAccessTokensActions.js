@@ -13,7 +13,7 @@ import {
 export const getPersonalAccessTokens = ({ url }) => dispatch => {
   const uri = new URI(url);
   // eslint-disable-next-line camelcase
-  uri.setSearch({ per_page: 9999 });
+  uri.setSearch({ per_page: 'all' });
 
   ajaxRequestAction({
     dispatch,

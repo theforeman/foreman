@@ -15,7 +15,7 @@ import Head from '../Head/index';
 import './HostStatuses.scss';
 
 const HostStatuses = () => {
-  const url = foremanUrl('/api/v2/host_statuses?per_page=99');
+  const url = foremanUrl('/api/v2/host_statuses?per_page=all');
   const { status = STATUS.PENDING } = useAPI('get', url, API_OPTIONS);
 
   const Skeleton = () => (
