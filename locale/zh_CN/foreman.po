@@ -35,9 +35,6 @@ msgstr " 还强烈推荐附加 foreman-debug 输出结果。"
 msgid "\"preview\" or \"real\", this can be used to change the behavior for previewing the template"
 msgstr "“预览”或“真实”，可用于更改预览模板的行为"
 
-msgid "${progress}%% Complete"
-msgstr "${progress}%% 完成"
-
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr "%(name)s （可用：%(free)s ，置备：%(prov)s ，总计：%(total)s ）"
 
@@ -47,9 +44,6 @@ msgstr "%s - 以下主机即将更改"
 msgid "%s Active Feature"
 msgid_plural "%s Active Features"
 msgstr[0] "%s 活跃功能"
-
-msgid "%s Filters"
-msgstr "%s 过滤器"
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -122,6 +116,9 @@ msgstr "正在加载 %s 小程序..."
 
 msgid "%s you had selected as your context has been deleted"
 msgstr "您已选择作为上下文的 %s 已删除"
+
+msgid "%s%% Complete"
+msgstr ""
 
 msgid "%{action} %{vm}"
 msgstr "%{action} %{vm}"
@@ -280,6 +277,12 @@ msgstr "*清除 %s 代理服务器*"
 msgid "*Clear host group*"
 msgstr "*主机组清除*"
 
+msgid "10.0.0.1 - 10.0.0.99 - addresses reserved during bare-metal provisioning by Foreman"
+msgstr ""
+
+msgid "10.0.0.100 - 10.0.200 - addresses for dynamic clients in the subnet (discovered hosts, unmanaged hosts)"
+msgstr ""
+
 msgid ": activate to sort column ascending"
 msgstr "：激活以对列进行升序排序"
 
@@ -377,8 +380,8 @@ msgstr "当主机报告一个配置错误时的通知"
 msgid "A problem occurred when detecting host type: %s"
 msgstr "删除主机类型时出现错误：%s"
 
-msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
-msgstr "在注册前要添加的软件仓库。例如，可以使 subscription-manager 软件包可用于注册。对于红帽系列发行版本，这应该是程序仓库的 URL，例如 'http://rpm.example.com/'。对于 Debian OS 系列，它是整个列表文件内容，例如 'deb http://deb.example.com/ buster 1.0'。"
+msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgstr ""
 
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
 msgstr "审计改变报告概述 <br> 如果需要，可以使用查询过滤"
@@ -630,6 +633,9 @@ msgid "All smart proxies"
 msgstr "所有智能代理服务器"
 
 msgid "All statuses OK"
+msgstr ""
+
+msgid "All statuses cleared"
 msgstr ""
 
 msgid "All subnets"
@@ -1088,6 +1094,9 @@ msgstr "可用供应商"
 msgid "Available input types"
 msgstr "可用的输入类型"
 
+msgid "Available options"
+msgstr ""
+
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "合并时是否避免重复值（只适用于阵列类型）？"
 
@@ -1403,15 +1412,6 @@ msgstr "打开大写锁"
 msgid "Certificate Name"
 msgstr "证书名称"
 
-msgid "Certificate Path"
-msgstr "证书路径"
-
-msgid "Certificate key is not a valid JSON"
-msgstr "证书密钥不是有效的 JSON"
-
-msgid "Certificate path for GCE only"
-msgstr "仅 GCE 的证书路径"
-
 msgid "Certificate path that Foreman will use to encrypt websockets"
 msgstr "Foreman 用于加密 websocket 的证书"
 
@@ -1457,6 +1457,9 @@ msgstr "选择一个提供者"
 msgid "Choose a server type"
 msgstr "选择服务器类型"
 
+msgid "Chosen options"
+msgstr ""
+
 msgid "Class"
 msgstr "类"
 
@@ -1486,9 +1489,6 @@ msgstr "点击计算资源链接编辑器默认 VM 属性。"
 
 msgid "Click to log in again"
 msgstr "点击重新登录"
-
-msgid "Client Email"
-msgstr "客户端电子邮件"
 
 msgid "Clone"
 msgstr "克隆"
@@ -1525,6 +1525,9 @@ msgstr "簇"
 
 msgid "Cluster ID is required to list available networks"
 msgstr "列出可用网络需要集群 ID"
+
+msgid "Collapse all cards"
+msgstr ""
 
 msgid "Command %s not executable"
 msgstr ""
@@ -1753,6 +1756,9 @@ msgstr "核心和代理版本不匹配。foreman: %{foreman_version}，foreman-p
 
 msgid "CoreOS Transpiler Command"
 msgstr ""
+
+msgid "Cores"
+msgstr "内核"
 
 msgid "Cores per socket"
 msgstr "每個插槽的核心數"
@@ -2072,8 +2078,11 @@ msgstr "为 %s 创建 realm 条目"
 msgid "Created"
 msgstr "创建"
 
-msgid "Created %s by %s"
-msgstr "由 %s 建立 %s"
+msgid "Created %s"
+msgstr ""
+
+msgid "Created role successfully"
+msgstr ""
 
 msgid "Creates a table preference for a given table"
 msgstr "为一个指定的表创建表偏好"
@@ -2131,6 +2140,9 @@ msgstr "探测到 DCHP 租赁冲突"
 
 msgid "DHCP not supported for this NIC"
 msgstr "此网卡不支持 DHCP"
+
+msgid "DHCP range in Foreman"
+msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "DHCP 记录 %s 已存在"
@@ -2573,6 +2585,9 @@ msgstr "磁盘接口"
 msgid "Disk name"
 msgstr "磁盘名称"
 
+msgid "Disks total space"
+msgstr ""
+
 msgid "Display"
 msgstr "顯示"
 
@@ -2703,8 +2718,14 @@ msgstr "编辑参数"
 msgid "Edit Properties"
 msgstr "编辑属性"
 
+msgid "Edit interfaces"
+msgstr ""
+
 msgid "Edit this host"
 msgstr "编辑此主机"
+
+msgid "Edited role successfully"
+msgstr ""
 
 msgid "Editor"
 msgstr "编辑器"
@@ -2717,9 +2738,6 @@ msgstr "电子邮件首选项"
 
 msgid "Email address is missing"
 msgstr "缺少电子邮件地址"
-
-msgid "Email for GCE only"
-msgstr "仅用于 GCE 的电子邮件"
 
 msgid "Email reply address"
 msgstr "电子邮件回复地址"
@@ -2841,7 +2859,7 @@ msgstr "载入接口信息出错：%s"
 msgid "Error loading scheduler hint filters information: %s"
 msgstr "加载调度程序提示过滤器信息时出错：%s"
 
-msgid "Error parsing value for setting '%s': %s"
+msgid "Error parsing value for setting '%(name)s': %(error)s"
 msgstr ""
 
 msgid "Error removing widget from dashboard."
@@ -2916,11 +2934,11 @@ msgstr "foreman 中存储的详情的排除模式"
 msgid "Exit Full Screen"
 msgstr "退出全屏"
 
+msgid "Expand all cards"
+msgstr ""
+
 msgid "Expand nested items"
 msgstr "展开嵌套的项目"
-
-msgid "Expand/Collapse  all"
-msgstr ""
 
 msgid "Expiration of the authorization token (in hours)"
 msgstr "授权令牌过期（小时）。"
@@ -3276,8 +3294,8 @@ msgstr "过滤器......"
 msgid "Filters"
 msgstr "过滤器"
 
-msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, <br> the filter can override the set of its organizations and locations. Later role changes will not affect such filter.<br> After disabling the override field, the role organizations and locations apply again."
-msgstr "过滤器默认继承与角色关联的机构和位置。如果启用了覆盖字段，<br>过滤器可以覆盖其机构和位置的集合。以后的角色更改将不会影响此类过滤器。<br>禁用覆盖字段后，角色机构和位置将再次应用。"
+msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, the filter can override the set of its organizations and locations. Later role changes will not affect such filter.After disabling the override field, the role organizations and locations apply again."
+msgstr ""
 
 msgid "Filters overriding has been disabled"
 msgstr "过滤器覆盖已被禁用"
@@ -3374,6 +3392,9 @@ msgstr "更多详情"
 
 msgid "For more information please see "
 msgstr "查看详情 "
+
+msgid "For the example above, it is recommended to define the DHCP range from 10.0.0.1 to 10.0.0.99 in the Foreman UI which gives the following IP address distribution:"
+msgstr ""
 
 msgid "For values of type search, this is the resource the value searches in"
 msgstr "对于类型搜索的值，这是值搜索的资源"
@@ -3623,6 +3644,9 @@ msgstr "获取默认仪表板小程序"
 msgid "Get hosts forming the smart proxy"
 msgstr "获取组成智能代理的主机"
 
+msgid "Get provisioning templates for the host"
+msgstr ""
+
 msgid "Get status of host"
 msgstr "获取主机状态"
 
@@ -3682,9 +3706,6 @@ msgstr "在过去 %s 内的报告良好的主机"
 
 msgid "Good host with reports"
 msgstr "带有报告的良好主机"
-
-msgid "Google Project ID"
-msgstr "Google Project ID"
 
 msgid "Group not found in the configured External IPAM instance"
 msgstr "在配置的外部 IPAM 实例中找不到组"
@@ -3833,8 +3854,8 @@ msgstr "主机配置状态"
 msgid "Host Configuration Status for %s"
 msgstr "%s 的主机配置状态"
 
-msgid "Host Fetch ${response}"
-msgstr "主机获取 $${response}"
+msgid "Host Fetch %s"
+msgstr ""
 
 msgid "Host Group / Environment"
 msgstr "主机组 / 环境"
@@ -4459,6 +4480,9 @@ msgstr "接口的 IPv6 地址"
 msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr "IPv6 地址，如果使用带有 DHCP 代理的子网则不需要"
 
+msgid "IPv6 subnet"
+msgstr ""
+
 msgid "IRC"
 msgstr "IRC"
 
@@ -4516,8 +4540,8 @@ msgstr ""
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
 msgstr "如果模板支持格式选择，则用户可以选择首选格式。<br>通常，模板需要使用 report_render 宏。<br><br>如果在模板中未找到此宏的用法，<br>该字段被禁用<br><br>如果模板支持过滤器选择，但不使用 report_render 宏，<br>为了启用此字段，请在模板上添加注释来提及 report_render 宏名称。"
 
-msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly."
-msgstr "如果启用了无限制字段，则过滤器将应用于所选类型的所有资源。如果禁用了无限</br>字段，则可以在搜索字段中使用 Foreman 搜索语法指定进一步的过滤。</br>如果角色与机构或位置相关联，则不将过滤器视为无限</br>它们的范围相应。"
+msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited  field is disabled, you can specify further filtering using Foreman search syntax in the search field. If the role is associated with organizations or locations, the filters are not considered unlimited as they are scoped accordingly."
+msgstr ""
 
 msgid "If this setting has list of possible values, this includes the list of the values."
 msgstr "如果此设置包含可能值的列表，则其中包括值的列表。"
@@ -4808,9 +4832,6 @@ msgstr "缺少间隔或订阅选项"
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr "无效的 %{assoc} 选择，必须至少选择一个，并获得 '%{perm}' 权限。"
 
-msgid "Invalid Google JSON key. Please verify client email & private key options are present"
-msgstr "无效的 Google JSON 密钥。请验证是否存在客户电子邮件和私钥选项"
-
 msgid "Invalid HTTP(S) URL"
 msgstr "无效的 HTTP(S) URL"
 
@@ -4899,6 +4920,12 @@ msgstr "Jwt secret"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "JwtSecret|Token"
 msgstr "JwtSecret|Token"
+
+msgid "Kernel release"
+msgstr ""
+
+msgid "Kernel version"
+msgstr ""
 
 msgid "Key"
 msgstr "密钥"
@@ -4990,6 +5017,9 @@ msgstr "旧 UI"
 
 msgid "Length"
 msgstr "长度"
+
+msgid "Less than a second"
+msgstr "不到一秒"
 
 msgid "Level"
 msgstr "等级"
@@ -5405,9 +5435,6 @@ msgstr "加载数据中心"
 msgid "Load Regions"
 msgstr "加载区"
 
-msgid "Load Zones"
-msgstr "加载区域"
-
 msgid "Loading"
 msgstr "加载"
 
@@ -5701,6 +5728,9 @@ msgstr "管理 PuppetCA"
 msgid "Manage all statuses"
 msgstr "管理所有状态"
 
+msgid "Manage columns"
+msgstr ""
+
 msgid "Manage host"
 msgstr "管理主机"
 
@@ -5877,6 +5907,9 @@ msgstr "监控"
 msgid "Monthly"
 msgstr "每月"
 
+msgid "More about this in "
+msgstr ""
+
 msgid "Must be unique"
 msgstr "必须是唯一的"
 
@@ -5972,6 +6005,9 @@ msgstr "CIDR 表示法中的网络前缀"
 
 msgid "Network type"
 msgstr "网络类型"
+
+msgid "Networking interfaces"
+msgstr ""
 
 msgid "Never"
 msgstr "决不"
@@ -6236,6 +6272,12 @@ msgstr "未能找到匹配的记录"
 msgid "No matching server groups found"
 msgstr "没有找到匹配的服务器组"
 
+msgid "No name"
+msgstr ""
+
+msgid "No network interfaces"
+msgstr ""
+
 msgid "No networks"
 msgstr "没有网络"
 
@@ -6301,6 +6343,9 @@ msgstr "没有对于 %{host} 的模板类型 %{kind}"
 
 msgid "No templates found"
 msgstr "没有发现模板"
+
+msgid "No templates found for %{host}"
+msgstr ""
 
 msgid "No templates found for this host."
 msgstr "未发现这台主机的模板。"
@@ -6503,6 +6548,9 @@ msgstr "好"
 msgid "OK statuses"
 msgstr "正常状态"
 
+msgid "OS"
+msgstr "OS"
+
 msgid "OS Image"
 msgstr "操作系统镜像"
 
@@ -6588,6 +6636,9 @@ msgstr "打开"
 msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
 msgstr "从 Foreman 到 Smart Proxy 的 HTTP 请求的打开和读取超时（以秒为单位）"
 
+msgid "Open in a new tab"
+msgstr ""
+
 msgid "OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"
 msgstr "OpenID Connect JSON Web Key Set(JWKS) URL。在使用 Keycloak 作为一个 OpenID 供应商时，通常为 https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs"
 
@@ -6602,6 +6653,9 @@ msgstr "操作系统"
 
 msgid "Operating System Family"
 msgstr "操作系统"
+
+msgid "Operating System has no family, can't load PXE files"
+msgstr ""
 
 msgid "Operating System version is required"
 msgstr "必须指定操作系统版本"
@@ -6753,6 +6807,9 @@ msgstr "替代 Puppet 分类参数的默认值"
 msgid "Override this value"
 msgstr "重设此值"
 
+msgid "Override?"
+msgstr "覆盖？"
+
 msgid "Overview"
 msgstr "概况"
 
@@ -6821,6 +6878,9 @@ msgstr ""
 
 msgid "Page number, starting at 1"
 msgstr "页数，从 1 开始"
+
+msgid "Pagelet with %s key is not found"
+msgstr ""
 
 msgid "Pagination"
 msgstr ""
@@ -7230,9 +7290,6 @@ msgstr "项目域 ID"
 msgid "Project domain name"
 msgstr "项目域名"
 
-msgid "Project id for GCE only"
-msgstr "只适用于 GCE 的项目 ID"
-
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr "项目名称（v3）或租户名称（v2）。可以通过 CLI 或 RC 文件检索。"
 
@@ -7384,6 +7441,9 @@ msgstr "查询本地名称服务器"
 msgid "Quota ID"
 msgstr "配额 ID"
 
+msgid "RAM"
+msgstr ""
+
 msgid "REPLACE locations with given ids"
 msgstr "使用给定 id 替换位置"
 
@@ -7515,6 +7575,9 @@ msgstr "注册模板"
 
 msgid "Registration token is missing or invalid."
 msgstr "注册令牌丢失或无效。"
+
+msgid "Release date"
+msgstr ""
 
 msgid "Relevant only for audit summary notification"
 msgstr "仅与审核摘要通知有关"
@@ -7657,6 +7720,9 @@ msgstr "报告于 %s"
 msgid "Reported by %s"
 msgstr "由 %s 报告"
 
+msgid "Reported data"
+msgstr ""
+
 msgid "Reports"
 msgstr "报表"
 
@@ -7684,6 +7750,9 @@ msgstr "仓库 GPG 密钥 URL"
 
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr "仓库 URL / 详情，例如，对于 Debian OS 系列：'deb http://deb.example.com/ buster 1.0'，对于 Red Hat OS 系列：'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+
+msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
 msgstr "代表模板呈现的主机对象。"
@@ -7723,6 +7792,9 @@ msgstr "无法根据 ID '%{id}' 找到 %{resource_name}"
 
 msgid "Resource %{res} not found."
 msgstr "未找到资源 %{res}。"
+
+msgid "Resource Type"
+msgstr ""
 
 msgid "Resource not found"
 msgstr ""
@@ -7775,8 +7847,8 @@ msgstr[0] "反向 IPv6 DNS 记录"
 msgid "Revert"
 msgstr "还原"
 
-msgid "Revert Failed, ${err}"
-msgstr "还原失败，$${err}"
+msgid "Revert Failed, %s"
+msgstr ""
 
 msgid "Revert Local Changes"
 msgstr "恢复本地更改"
@@ -7921,6 +7993,9 @@ msgstr "%s 的 SSH 密钥"
 msgid "SSH timeout"
 msgstr "SSH 超时"
 
+msgid "SSL CA Certificate to use if authentication is required."
+msgstr ""
+
 msgid "SSL CA file"
 msgstr "SSL CA 文件"
 
@@ -7965,6 +8040,12 @@ msgstr "安全模式方法"
 
 msgid "Safe mode methods and variables"
 msgstr "安全模式方法和变量"
+
+msgid "Safe mode off"
+msgstr ""
+
+msgid "Safe mode on"
+msgstr ""
 
 msgid "Safemode"
 msgstr "安全模式"
@@ -8064,6 +8145,9 @@ msgstr "选择本页所有项"
 
 msgid "Select an owner"
 msgstr "选择所有者"
+
+msgid "Select columns to display in the table."
+msgstr ""
 
 msgid "Select compute resources"
 msgstr "选择计算资源"
@@ -8468,17 +8552,11 @@ msgstr "显示分布图"
 msgid "Show full value"
 msgstr "显示全值"
 
-msgid "Show host power status"
-msgstr "显示主机电源状态"
-
 msgid "Show linked external user groups"
 msgstr "显示链接的外部用户组"
 
 msgid "Show log messages:"
 msgstr "顯示日誌訊息："
-
-msgid "Show power status on host index page. This feature calls to compute resource providers which may lead to decreased performance on host listing page."
-msgstr "在主机索引页中显示电源状态。此功能会调用计算资源提供程序，可能会导致主机列表页性能降低。"
 
 msgid "Show provisioning template details"
 msgstr "显示置备模板的详情"
@@ -8498,8 +8576,8 @@ msgstr "显示当前登录的用户"
 msgid "Show the last report for a host"
 msgstr "显示主机的最后报告"
 
-msgid "Showing %s to %s of %s entries"
-msgstr "显示 %s 条目的 %s 到 %s"
+msgid "Showing %(start)s to %(end)s of %(total)s entries"
+msgstr ""
 
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "显示 0 条目中的 0 到 0"
@@ -9307,9 +9385,6 @@ msgstr "数据删除无法撤消，确定要继续吗？"
 msgid "The default administrator email address"
 msgstr "管理员默认邮箱"
 
-msgid "The file path where your JSON file is located"
-msgstr "JSON 文件所在的文件路径"
-
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "最终条目，操作系统默认值，可以通过编辑 %s 页设置。"
 
@@ -9499,7 +9574,7 @@ msgstr "加载数据时出现错误，请参阅日志以了解更多信息。"
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr "在 libvirt 里没有找到活动的桥接口，如果它不支持列表，您可以手动输入桥名称（如 br0）。"
 
-msgid "There was some issue deleting the report: ${error}"
+msgid "There was some issue deleting the report: %s"
 msgstr ""
 
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
@@ -9616,6 +9691,9 @@ msgstr ""
 
 msgid "This templates requires a host to render but none was specified"
 msgstr "此模板要求使用主机进行渲染，但未指定任何主机"
+
+msgid "This user is disabled and won't be able to perform any actions. You can edit the user to enable them again."
+msgstr ""
 
 msgid "This value is not hidden"
 msgstr "此值不隐藏"
@@ -9795,9 +9873,6 @@ msgstr "UUID"
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr "用于跟踪编配任务状态的 UUID，GET /api/orchestration/:UUID/tasks"
-
-msgid "Unable to access key"
-msgstr "无法访问密钥"
 
 msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
 msgstr "无法将 IP %{ip} 添加到外部 IPAM 中的子网 %{subnet}。"
@@ -10069,6 +10144,9 @@ msgstr "未知状态：%s"
 msgid "Unkown '%{klass}' resource class"
 msgstr "未知的 '%{klass}' 资源类型"
 
+msgid "Unlimited?"
+msgstr "無限制？"
+
 msgid "Unlock"
 msgstr "开锁"
 
@@ -10314,6 +10392,9 @@ msgstr "使用在此智能代理上配置的 Puppetserver"
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "使用此账号进行验证， <i>optional</i>"
+
+msgid "Use to authenticate against external authentication source"
+msgstr ""
 
 msgid "Used"
 msgstr "用过的"
@@ -10591,6 +10672,9 @@ msgstr "变量"
 msgid "Variables"
 msgstr "变量"
 
+msgid "Vendor"
+msgstr "供应商"
+
 msgid "Vendor class"
 msgstr "供应商类别"
 
@@ -10617,6 +10701,12 @@ msgstr "在 Foreman 中查看："
 
 msgid "View list"
 msgstr "查看列表"
+
+msgid "View provisioning template {openTemplate}."
+msgstr ""
+
+msgid "Virtual"
+msgstr "虚拟"
 
 msgid "Virtual (NAT)"
 msgstr "虚拟 （NAT）"
@@ -10693,6 +10783,9 @@ msgstr "Websockets SSL 密钥"
 
 msgid "Websockets encryption"
 msgstr "Websockets 加密"
+
+msgid "Websockify was not found"
+msgstr ""
 
 msgid "Weekly"
 msgstr "每周"
@@ -10771,6 +10864,9 @@ msgstr "是否获取 RSS 通知"
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "<b>%s</b> 的偏移。"
+
+msgid "While it is possible to define the same DHCP range in Foreman, it's usually good practice to select a range from outside the pool defined in the installer, but still in the subnet"
+msgstr ""
 
 msgid ""
 "While rendering the template in preview mode, the input either loads the value or uses a placeholder\n"
@@ -10906,8 +11002,8 @@ msgstr "您可以给 Foreman 中的用户添加 SSH 公钥。"
 msgid "You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
 msgstr "您可以在 %{liberachat} (irc.libera.chat) 网络中找到 Foreman。常规支持请进入 #theforema，具体与开发相关的探讨，请进入 visit #theforeman-dev。"
 
-msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
-msgstr "您可以选择被所选 IP 协议支持的一个 IPAM 模式：<br/><ul><li><strong>DHCP</strong> - 在 DHCP 中管理 IP。通过分配的 DHCP 代理，从 DHCP 自动推荐使用 IP<em>(IPv4)</em></li><li><strong>Internal DB</strong> - 使用内部 DB 来自动推荐可用的 IP，基于相应范围内（如果指定）的相同子网中的其他接口。主要用于静态引导模式 <em>(IPv4, IPv6)</em>，保留自然顺序</li><li><strong>Random DB</strong> - 与 Internal DB 相似，单会被结果进行随机化以防止条件竞争问题<em>(IPv4)</em></li><li><strong>EUI-64</strong> - 基于接口的 MAC 地址分配 IPv6 地址 <em>(IPv6)</em></li><li><strong>External IPAM</strong> - 通过 External IPAM Smart-proxy 插件 (IPv4, IPv6) 自动推荐下一个可用的地址</li><li><strong>None</strong> - 完全由用户管理 IP 地址，不会自动推荐 <em>(IPv4, IPv6)</em></li></ul>"
+msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
+msgstr ""
 
 msgid "You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman."
 msgstr "您可以通过 %{community_forums} 请求帮助或建议，参与到与 Foreman 相关的讨论中。"
@@ -10993,9 +11089,6 @@ msgstr "会话已过期，请重新登录。"
 msgid "ZTP PXE template"
 msgstr "ZTP PXE 模板"
 
-msgid "Zone"
-msgstr "区"
-
 msgid "[empty]"
 msgstr "[空]"
 
@@ -11046,6 +11139,9 @@ msgstr "boolean"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "启动设备，有效设备是磁盘，cdrom，pxe，BIOS"
+
+msgid "by %s"
+msgstr ""
 
 msgid "can only be set for array, hash, json or yaml"
 msgstr "仅能为阵列、哈希、json 或 yaml 设置"
@@ -11133,9 +11229,6 @@ msgstr "社区论坛"
 
 msgid "compresed"
 msgstr "压缩的"
-
-msgid "console is not available at this time because the instance is powered off"
-msgstr "控制台目前不可用，因为实例已关闭"
 
 msgid "contains special characters"
 msgstr "包含特殊字符"
@@ -11250,9 +11343,6 @@ msgstr "过滤..."
 
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
 msgstr "对于 AzureRm 例如 'eastus'，仅适用于 EC2。对于 EC2 GovCloud 区域使用 '%s'"
-
-msgid "for GCE only"
-msgstr "仅适用于 GCE"
 
 msgid "for Libvirt and VMware only"
 msgstr "仅适用于 Libvirt 和 VMware"
@@ -11471,6 +11561,9 @@ msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] "最后 %s 天"
 
+msgid "leave IP management solely on user, no auto-suggestion"
+msgstr ""
+
 msgid "link external user group with this user group"
 msgstr "将外部用户组与这个用户组关联"
 
@@ -11496,6 +11589,9 @@ msgstr "把模块设为默认意味着它将自动与新创建的机构和位置
 
 msgid "managed host must have one provision interface"
 msgstr "管理的主机必须有一个预配接口"
+
+msgid "manual"
+msgstr ""
 
 msgid "message"
 msgstr "信息"
@@ -11656,6 +11752,9 @@ msgstr "電源動作，有效的動作為（on/start）、（off/stop）、（so
 msgid "poweroff"
 msgstr "关闭"
 
+msgid "preserves natural ordering"
+msgstr ""
+
 msgid "ready?"
 msgstr "准备好了么?"
 
@@ -11713,11 +11812,14 @@ msgstr "重置"
 msgid "revoked"
 msgstr "撤销"
 
+msgid "same as Internal DB but randomizes results to prevent race conditions"
+msgstr ""
+
+msgid "seconds"
+msgstr "秒"
+
 msgid "select an owner"
 msgstr "选择所有者"
-
-msgid "selected image does not exist"
-msgstr "所选镜像不存在"
 
 msgid "service configuration will be skipped."
 msgstr "服务配置将被跳过。"
@@ -11849,6 +11951,9 @@ msgstr "使用 NIS 网络组代替 posix 组，仅在 server_type 为 posix 或 
 msgid "use if you want update locked templates"
 msgstr "在您希望更新锁定的模板时使用"
 
+msgid "use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode"
+msgstr ""
+
 msgid "using %s"
 msgstr "使用 %s"
 
@@ -11872,6 +11977,15 @@ msgstr "虚拟附加到 %s"
 
 msgid "was not found"
 msgstr "没有找到"
+
+msgid "will assign the IPv6 address based on the MAC address of the interface"
+msgstr ""
+
+msgid "will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)"
+msgstr ""
+
+msgid "will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP"
+msgstr ""
 
 msgid "with given ID not found"
 msgstr "没有找到指定 ID"

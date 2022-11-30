@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-04 11:48+0000\n"
-"PO-Revision-Date: 2022-11-04 11:48+0000\n"
+"POT-Creation-Date: 2022-11-30 12:30+0100\n"
+"PO-Revision-Date: 2022-11-30 12:30+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -104,12 +104,14 @@ msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:29
 #: ../app/models/nic/managed.rb:64
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:23
 msgid "Interface"
 msgstr ""
 
 #: ../app/assets/javascripts/host_edit_interfaces.js:186
 #: ../app/helpers/hosts_helper.rb:64 ../app/helpers/hosts_helper.rb:372
 #: ../app/views/taxonomies/_form.html.erb:6
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:58
 msgid "Primary"
 msgstr ""
 
@@ -731,161 +733,145 @@ msgstr ""
 msgid "enable caching, for VMware only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:50
-msgid "Project id for GCE only"
-msgstr ""
-
-#: ../app/controllers/api/v2/compute_resources_controller.rb:51
-msgid "Email for GCE only"
-msgstr ""
-
-#: ../app/controllers/api/v2/compute_resources_controller.rb:52
-msgid "Certificate path for GCE only"
-msgstr ""
-
-#: ../app/controllers/api/v2/compute_resources_controller.rb:53
-msgid "for GCE only"
-msgstr ""
-
-#: ../app/controllers/api/v2/compute_resources_controller.rb:65
+#: ../app/controllers/api/v2/compute_resources_controller.rb:61
 msgid "Create a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:83
+#: ../app/controllers/api/v2/compute_resources_controller.rb:80
 msgid "Update a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:97
+#: ../app/controllers/api/v2/compute_resources_controller.rb:94
 msgid "Delete a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:104
+#: ../app/controllers/api/v2/compute_resources_controller.rb:101
 msgid "List available images for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:110
+#: ../app/controllers/api/v2/compute_resources_controller.rb:107
 msgid "List available clusters for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:118
+#: ../app/controllers/api/v2/compute_resources_controller.rb:115
 msgid "List available flavors for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:126
+#: ../app/controllers/api/v2/compute_resources_controller.rb:123
 msgid "List available folders for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:134
+#: ../app/controllers/api/v2/compute_resources_controller.rb:131
 msgid "List available zone for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:142
+#: ../app/controllers/api/v2/compute_resources_controller.rb:139
 msgid "List available networks for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:143
+#: ../app/controllers/api/v2/compute_resources_controller.rb:140
 msgid "List available networks for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:152
+#: ../app/controllers/api/v2/compute_resources_controller.rb:149
 msgid "List available vnic profiles for a compute resource, for oVirt only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:159
+#: ../app/controllers/api/v2/compute_resources_controller.rb:156
 msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:168
-#: ../app/controllers/api/v2/compute_resources_controller.rb:176
+#: ../app/controllers/api/v2/compute_resources_controller.rb:165
+#: ../app/controllers/api/v2/compute_resources_controller.rb:173
 msgid "List attributes for a given storage domain"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:175
-#: ../app/controllers/api/v2/compute_resources_controller.rb:177
+#: ../app/controllers/api/v2/compute_resources_controller.rb:172
+#: ../app/controllers/api/v2/compute_resources_controller.rb:174
 msgid "List storage domains for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:192
-#: ../app/controllers/api/v2/compute_resources_controller.rb:200
+#: ../app/controllers/api/v2/compute_resources_controller.rb:189
+#: ../app/controllers/api/v2/compute_resources_controller.rb:197
 msgid "List attributes for a given storage pod"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:199
-#: ../app/controllers/api/v2/compute_resources_controller.rb:201
+#: ../app/controllers/api/v2/compute_resources_controller.rb:196
+#: ../app/controllers/api/v2/compute_resources_controller.rb:198
 msgid "List storage pods for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:216
+#: ../app/controllers/api/v2/compute_resources_controller.rb:213
 msgid "List available security groups for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:224
+#: ../app/controllers/api/v2/compute_resources_controller.rb:221
 msgid "Associate VMs to Hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:239
+#: ../app/controllers/api/v2/compute_resources_controller.rb:236
 msgid "Associating VMs is not supported for this compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:243
+#: ../app/controllers/api/v2/compute_resources_controller.rb:240
 msgid "Refresh Compute Resource Cache"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:248
+#: ../app/controllers/api/v2/compute_resources_controller.rb:245
 #: ../app/controllers/compute_resources_controller.rb:97
 msgid "Successfully refreshed the cache."
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:250
+#: ../app/controllers/api/v2/compute_resources_controller.rb:247
 #: ../app/controllers/compute_resources_controller.rb:102
 msgid "Failed to refresh the cache."
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:253
+#: ../app/controllers/api/v2/compute_resources_controller.rb:250
 #: ../app/controllers/compute_resources_controller.rb:108
 msgid "Cache refreshing is not supported for %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:257
+#: ../app/controllers/api/v2/compute_resources_controller.rb:254
 msgid "List available virtual machines for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:263
+#: ../app/controllers/api/v2/compute_resources_controller.rb:260
 msgid "Show a virtual machine"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:270
+#: ../app/controllers/api/v2/compute_resources_controller.rb:267
 msgid "Virtual machine was not found by id %{vm_id}"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:277
+#: ../app/controllers/api/v2/compute_resources_controller.rb:274
 msgid "Power a Virtual Machine"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:284
+#: ../app/controllers/api/v2/compute_resources_controller.rb:281
 msgid "%{action} %{vm}"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:284
+#: ../app/controllers/api/v2/compute_resources_controller.rb:281
 msgid "stopping"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:284
+#: ../app/controllers/api/v2/compute_resources_controller.rb:281
 msgid "starting"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:289
+#: ../app/controllers/api/v2/compute_resources_controller.rb:286
 msgid "Delete a Virtual Machine"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:313
+#: ../app/controllers/api/v2/compute_resources_controller.rb:310
 #: ../app/controllers/compute_resources_controller.rb:60
 msgid "%s VM failed while processing: check logs for more details."
 msgid_plural "%s VMs failed while processing: check logs for more details."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:317
+#: ../app/controllers/api/v2/compute_resources_controller.rb:314
 msgid "No VMs matched any host"
 msgstr ""
 
@@ -3763,6 +3749,12 @@ msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:16
+#: ../app/models/compute_resources/foreman/model/vmware.rb:207
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:25
+msgid "BIOS"
+msgstr ""
+
+#: ../app/controllers/hosts_controller.rb:16
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:45
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:45
 msgid "Disk"
@@ -3774,11 +3766,6 @@ msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:16
 msgid "PXE"
-msgstr ""
-
-#: ../app/controllers/hosts_controller.rb:16
-#: ../app/models/compute_resources/foreman/model/vmware.rb:207
-msgid "BIOS"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:91
@@ -4276,14 +4263,14 @@ msgstr ""
 msgid "None found"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:290
+#: ../app/helpers/application_helper.rb:290 ../app/helpers/hosts_helper.rb:444
 #: ../app/views/users/logout.html.erb:3
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:29
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:64
 msgid "Yes"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:290
+#: ../app/helpers/application_helper.rb:290 ../app/helpers/hosts_helper.rb:444
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:30
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:66
 msgid "No"
@@ -4356,7 +4343,7 @@ msgstr ""
 #: ../app/views/taxonomies/index.html.erb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:3
 #: ../db/seeds.d/170-notification_blueprints.rb:17
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:119
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:123
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:42
 msgid "Hosts"
 msgstr ""
@@ -4624,20 +4611,15 @@ msgstr ""
 msgid "Disabled alerts"
 msgstr ""
 
-#. TRANSLATORS: initial character of Applied
-#: ../app/helpers/dashboard_helper.rb:111
-msgid "Applied|A"
-msgstr ""
-
 #: ../app/helpers/dashboard_helper.rb:111 ../app/helpers/hosts_helper.rb:207
 #: ../app/views/config_reports/_list.html.erb:9
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:167
 msgid "Applied"
 msgstr ""
 
-#. TRANSLATORS: initial character of Restarted
-#: ../app/helpers/dashboard_helper.rb:113
-msgid "Restarted|R"
+#. TRANSLATORS: initial character of Applied
+#: ../app/helpers/dashboard_helper.rb:111
+msgid "Applied|A"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:113 ../app/helpers/hosts_helper.rb:211
@@ -4646,9 +4628,9 @@ msgstr ""
 msgid "Restarted"
 msgstr ""
 
-#. TRANSLATORS: initial character of Failed
-#: ../app/helpers/dashboard_helper.rb:115
-msgid "Failed|F"
+#. TRANSLATORS: initial character of Restarted
+#: ../app/helpers/dashboard_helper.rb:113
+msgid "Restarted|R"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:115 ../app/helpers/hosts_helper.rb:208
@@ -4656,6 +4638,11 @@ msgstr ""
 #: ../app/views/config_reports/_list.html.erb:11
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:155
 msgid "Failed"
+msgstr ""
+
+#. TRANSLATORS: initial character of Failed
+#: ../app/helpers/dashboard_helper.rb:115
+msgid "Failed|F"
 msgstr ""
 
 #. TRANSLATORS: initial characters of Failed Restarts
@@ -4667,15 +4654,15 @@ msgstr ""
 msgid "Failed Restarts"
 msgstr ""
 
-#. TRANSLATORS: initial character of Skipped
-#: ../app/helpers/dashboard_helper.rb:119
-msgid "Skipped|S"
-msgstr ""
-
 #: ../app/helpers/dashboard_helper.rb:119 ../app/helpers/hosts_helper.rb:210
 #: ../app/views/config_reports/_list.html.erb:13
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:171
 msgid "Skipped"
+msgstr ""
+
+#. TRANSLATORS: initial character of Skipped
+#: ../app/helpers/dashboard_helper.rb:119
+msgid "Skipped|S"
 msgstr ""
 
 #. TRANSLATORS: initial character of Pending
@@ -4758,7 +4745,7 @@ msgstr ""
 #: ../app/views/hosts/_assign_hosts.html.erb:36
 #: ../app/views/hosts/_interfaces.html.erb:64
 #: ../app/views/hosts/_list.html.erb:56
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:157
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:158
 #: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:48
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/CancelBtn.js:23
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:64
@@ -4943,6 +4930,7 @@ msgid "Host group"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:76
+#: ../config/initializers/foreman_register.rb:48
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:70
 msgid "Boot time"
 msgstr ""
@@ -5877,64 +5865,42 @@ msgstr ""
 msgid "%s is an unknown attribute"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:79
+#: ../app/models/compute_resource.rb:78
 msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:89
+#: ../app/models/compute_resource.rb:88
 msgid "must provide a provider"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:93
+#: ../app/models/compute_resource.rb:92
 msgid "unknown provider"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:244
+#: ../app/models/compute_resource.rb:243
 msgid "%s console is not supported at this time"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:253 ../app/models/compute_resource.rb:257
-#: ../app/models/compute_resource.rb:261 ../app/models/compute_resource.rb:269
-#: ../app/models/compute_resource.rb:273 ../app/models/compute_resource.rb:277
-#: ../app/models/compute_resource.rb:281 ../app/models/compute_resource.rb:285
-#: ../app/models/compute_resource.rb:289 ../app/models/compute_resource.rb:293
-#: ../app/models/compute_resource.rb:297 ../app/models/compute_resource.rb:301
-#: ../app/models/compute_resource.rb:305 ../app/models/compute_resource.rb:311
+#: ../app/models/compute_resource.rb:252 ../app/models/compute_resource.rb:256
+#: ../app/models/compute_resource.rb:260 ../app/models/compute_resource.rb:268
+#: ../app/models/compute_resource.rb:272 ../app/models/compute_resource.rb:276
+#: ../app/models/compute_resource.rb:280 ../app/models/compute_resource.rb:284
+#: ../app/models/compute_resource.rb:288 ../app/models/compute_resource.rb:292
+#: ../app/models/compute_resource.rb:296 ../app/models/compute_resource.rb:300
+#: ../app/models/compute_resource.rb:304 ../app/models/compute_resource.rb:310
 msgid "Not implemented for %s"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:420
+#: ../app/models/compute_resource.rb:419
 msgid "Not implemented"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:476
+#: ../app/models/compute_resource.rb:475
 msgid "cannot be changed"
 msgstr ""
 
 #: ../app/models/compute_resources/foreman/model/ec2.rb:71
 msgid "Invalid tags, must be an array of maps with key and value properties"
-msgstr ""
-
-#: ../app/models/compute_resources/foreman/model/gce.rb:112
-msgid "selected image does not exist"
-msgstr ""
-
-#: ../app/models/compute_resources/foreman/model/gce.rb:243
-msgid "console is not available at this time because the instance is powered off"
-msgstr ""
-
-#: ../app/models/compute_resources/foreman/model/gce.rb:306
-msgid "Unable to access key"
-msgstr ""
-
-#: ../app/models/compute_resources/foreman/model/gce.rb:309
-msgid ""
-"Invalid Google JSON key. Please verify client email & private key options are "
-"present"
-msgstr ""
-
-#: ../app/models/compute_resources/foreman/model/gce.rb:312
-msgid "Certificate key is not a valid JSON"
 msgstr ""
 
 #: ../app/models/compute_resources/foreman/model/libvirt.rb:103
@@ -6063,6 +6029,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:20
 #: ../app/views/compute_resources_vms/form/vmware/_network.html.erb:9
 #: ../app/views/hostgroups/_form.html.erb:7 ../app/views/hosts/_bmc.html.erb:22
+#: ../config/initializers/foreman_register.rb:29
 msgid "Network"
 msgstr ""
 
@@ -6948,6 +6915,7 @@ msgstr ""
 
 #: ../app/models/nic/bmc.rb:31 ../app/models/subnet.rb:83
 #: ../app/views/hosts/show.html.erb:41
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:25
 msgid "BMC"
 msgstr ""
 
@@ -6962,6 +6930,7 @@ msgid "Bond"
 msgstr ""
 
 #: ../app/models/nic/bridge.rb:6
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:24
 msgid "Bridge"
 msgstr ""
 
@@ -7212,10 +7181,12 @@ msgid "could not be calculated"
 msgstr ""
 
 #: ../app/models/subnet.rb:7
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:77
 msgid "IPv4"
 msgstr ""
 
 #: ../app/models/subnet.rb:7
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:83
 msgid "IPv6"
 msgstr ""
 
@@ -8372,6 +8343,7 @@ msgstr ""
 #: ../app/views/about/index.html.erb:26 ../app/views/about/index.html.erb:99
 #: ../app/views/smart_proxies/plugins/_plugin_version.html.erb:2
 #: ../app/views/smart_proxies/show.html.erb:43
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:40
 msgid "Version"
 msgstr ""
 
@@ -8877,6 +8849,7 @@ msgid "Dashboard"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:42
+#: ../webpack/assets/javascripts/react_app/components/HostStatuses/index.js:33
 msgid "Host Statuses"
 msgstr ""
 
@@ -9174,13 +9147,13 @@ msgstr ""
 msgid "Unkown '%{klass}' resource class"
 msgstr ""
 
-#: ../app/services/foreman/renderer/scope/macros/base.rb:376
+#: ../app/services/foreman/renderer/scope/macros/base.rb:379
 msgid ""
 "SSL CA file not found, check the 'Server CA file' and 'SSL CA file' in Setting"
 "s > Authentication"
 msgstr ""
 
-#: ../app/services/foreman/renderer/scope/macros/base.rb:425
+#: ../app/services/foreman/renderer/scope/macros/base.rb:428
 msgid "%s is not auditable"
 msgstr ""
 
@@ -10636,7 +10609,7 @@ msgid "New Autosign Entry"
 msgstr ""
 
 #: ../app/views/autosign/_form.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:154
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:155
 msgid "Save"
 msgstr ""
 
@@ -10942,30 +10915,6 @@ msgstr ""
 
 #: ../app/views/compute_resources/form/_ec2.html.erb:10
 msgid "Load Regions"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_gce.html.erb:3
-msgid "Google Project ID"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_gce.html.erb:4
-msgid "Client Email"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_gce.html.erb:5
-msgid "Certificate Path"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_gce.html.erb:5
-msgid "The file path where your JSON file is located"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_gce.html.erb:8
-msgid "Zone"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_gce.html.erb:9
-msgid "Load Zones"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_libvirt.html.erb:1
@@ -11289,6 +11238,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:15
 #: ../app/views/hosts/_bmc_missing_proxy.html.erb:10
 #: ../app/views/hosts/_nics.html.erb:35 ../app/views/subnets/_form.html.erb:5
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:96
 #: model_attributes.rb:572
 msgid "Subnet"
 msgstr ""
@@ -11487,6 +11437,7 @@ msgid "Cores per socket"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:40
+#: ../config/initializers/foreman_register.rb:42
 msgid "Sockets"
 msgstr ""
 
@@ -12189,6 +12140,7 @@ msgid "Netmask"
 msgstr ""
 
 #: ../app/views/hosts/_bmc.html.erb:35
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:89
 msgid "MAC"
 msgstr ""
 
@@ -12313,6 +12265,7 @@ msgstr ""
 
 #: ../app/views/hosts/_interfaces.html.erb:18
 #: ../app/views/hosts/_nics.html.erb:30
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:71
 msgid "FQDN"
 msgstr ""
 
@@ -12352,6 +12305,7 @@ msgstr ""
 
 #: ../app/views/hosts/_nics.html.erb:18
 #: ../app/views/subnets/_fields.html.erb:39
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:125
 msgid "MTU"
 msgstr ""
 
@@ -12499,6 +12453,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../app/views/hosts/multiple_build.html.erb:4
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:59
 msgid "Provision"
 msgstr ""
 
@@ -12759,7 +12714,6 @@ msgid "Destroy"
 msgstr ""
 
 #: ../app/views/images/form/_ec2.html.erb:1
-#: ../app/views/images/form/_gce.html.erb:1
 #: ../app/views/images/form/_libvirt.html.erb:1
 #: ../app/views/images/form/_openstack.html.erb:1
 #: ../app/views/images/form/_ovirt.html.erb:1
@@ -12770,7 +12724,6 @@ msgid ""
 msgstr ""
 
 #: ../app/views/images/form/_ec2.html.erb:3
-#: ../app/views/images/form/_gce.html.erb:3
 #: ../app/views/images/form/_libvirt.html.erb:3
 #: ../app/views/images/form/_openstack.html.erb:3
 #: ../app/views/images/form/_ovirt.html.erb:2
@@ -14599,6 +14552,45 @@ msgstr ""
 msgid "Are you sure you want to log out?"
 msgstr ""
 
+#: ../config/initializers/foreman_register.rb:32
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:74
+msgid "IPv4 address"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:34
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:59
+msgid "IPv6 address"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:36
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:89
+msgid "MAC address"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:39
+msgid "Reported data"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:44
+msgid "Cores"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:46
+msgid "RAM"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:50
+msgid "Virtual"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:52
+msgid "Disks total space"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:54
+msgid "Kernel version"
+msgstr ""
+
 #: ../db/seeds.d/160-mail_notifications.rb:8
 msgid "Puppet summary"
 msgstr ""
@@ -15076,13 +15068,14 @@ msgid "No data available"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:138
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:142
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:137
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:139
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:143
 msgid "Manage columns"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:146
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:147
 msgid "Select columns to display in the table."
 msgstr ""
 
@@ -15375,21 +15368,6 @@ msgid "Reset"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:59
-msgid "IPv6 address"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:74
-msgid "IPv4 address"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:89
-msgid "MAC address"
-msgstr ""
-
-#:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/EmptyState/index.js:13
 msgid "No host found"
 msgstr ""
@@ -15469,6 +15447,41 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusesModal.js:23
 msgid "Manage host statuses"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:28
+msgid "Vendor"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:52
+msgid "Release date"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:56
+msgid "No name"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:111
+msgid "IPv6 subnet"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/index.js:19
+msgid "Networking interfaces"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/index.js:24
+msgid "No network interfaces"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/index.js:47
+msgid "Edit interfaces"
 msgstr ""
 
 #:
@@ -15590,11 +15603,11 @@ msgstr ""
 msgid "Are you sure you want to delete this report? This action is irreversible."
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:220
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:224
 msgid "Created %(date)s by %(owner)s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:227
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:231
 msgid "(updated %s)"
 msgstr ""
 
@@ -15619,7 +15632,7 @@ msgstr ""
 msgid "Owned: %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/index.js:38
+#: ../webpack/assets/javascripts/react_app/components/HostStatuses/index.js:43
 msgid "Host Status Overview"
 msgstr ""
 

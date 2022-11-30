@@ -32,9 +32,6 @@ msgstr ""
 msgid "\"preview\" or \"real\", this can be used to change the behavior for previewing the template"
 msgstr ""
 
-msgid "${progress}%% Complete"
-msgstr "${progress}%% dokončeno"
-
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
 
@@ -47,9 +44,6 @@ msgstr[0] "%s aktivní funkce"
 msgstr[1] "%s aktivní funkce"
 msgstr[2] "%s aktivních funkcí"
 msgstr[3] "%s aktivní funkce"
-
-msgid "%s Filters"
-msgstr "%s filtrů"
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -138,6 +132,9 @@ msgid "%s widget loading..."
 msgstr "načítání ovládacího prvku %s..."
 
 msgid "%s you had selected as your context has been deleted"
+msgstr ""
+
+msgid "%s%% Complete"
 msgstr ""
 
 msgid "%{action} %{vm}"
@@ -301,6 +298,12 @@ msgstr ""
 msgid "*Clear host group*"
 msgstr ""
 
+msgid "10.0.0.1 - 10.0.0.99 - addresses reserved during bare-metal provisioning by Foreman"
+msgstr ""
+
+msgid "10.0.0.100 - 10.0.200 - addresses for dynamic clients in the subnet (discovered hosts, unmanaged hosts)"
+msgstr ""
+
 msgid ": activate to sort column ascending"
 msgstr ""
 
@@ -393,7 +396,7 @@ msgstr ""
 msgid "A problem occurred when detecting host type: %s"
 msgstr "Vyskytl se problém při zjišťování typu hostitele: %s"
 
-msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
 msgstr ""
 
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
@@ -646,6 +649,9 @@ msgid "All smart proxies"
 msgstr "Všechny smart proxy"
 
 msgid "All statuses OK"
+msgstr ""
+
+msgid "All statuses cleared"
 msgstr ""
 
 msgid "All subnets"
@@ -1105,6 +1111,9 @@ msgstr "Poskytovatelé k dispozici"
 msgid "Available input types"
 msgstr ""
 
+msgid "Available options"
+msgstr ""
+
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr ""
 
@@ -1420,15 +1429,6 @@ msgstr ""
 msgid "Certificate Name"
 msgstr "Název certifikátu"
 
-msgid "Certificate Path"
-msgstr "Popis umístění certifikátu"
-
-msgid "Certificate key is not a valid JSON"
-msgstr ""
-
-msgid "Certificate path for GCE only"
-msgstr ""
-
 msgid "Certificate path that Foreman will use to encrypt websockets"
 msgstr ""
 
@@ -1474,6 +1474,9 @@ msgstr "Zvolit poskytovatele"
 msgid "Choose a server type"
 msgstr "Zvolte typ serveru"
 
+msgid "Chosen options"
+msgstr ""
+
 msgid "Class"
 msgstr "Třída"
 
@@ -1503,9 +1506,6 @@ msgstr ""
 
 msgid "Click to log in again"
 msgstr "Kliknutím se opětovně přihlásíte"
-
-msgid "Client Email"
-msgstr "E-mail klienta"
 
 msgid "Clone"
 msgstr "Klonovat"
@@ -1541,6 +1541,9 @@ msgid "Cluster"
 msgstr ""
 
 msgid "Cluster ID is required to list available networks"
+msgstr ""
+
+msgid "Collapse all cards"
 msgstr ""
 
 msgid "Command %s not executable"
@@ -1770,6 +1773,9 @@ msgstr ""
 
 msgid "CoreOS Transpiler Command"
 msgstr ""
+
+msgid "Cores"
+msgstr "Jádra"
 
 msgid "Cores per socket"
 msgstr "Jader na patici"
@@ -2089,7 +2095,10 @@ msgstr ""
 msgid "Created"
 msgstr "Vytvořeno"
 
-msgid "Created %s by %s"
+msgid "Created %s"
+msgstr ""
+
+msgid "Created role successfully"
 msgstr ""
 
 msgid "Creates a table preference for a given table"
@@ -2148,6 +2157,9 @@ msgstr "Byl zjištěn střet DHCP zápůjček"
 
 msgid "DHCP not supported for this NIC"
 msgstr "DHCP není pro toto síťové rozhraní podporováno"
+
+msgid "DHCP range in Foreman"
+msgstr ""
 
 msgid "DHCP records %s already exists"
 msgstr "DHCP záznamy %s už existují"
@@ -2590,6 +2602,9 @@ msgstr ""
 msgid "Disk name"
 msgstr "Název disku"
 
+msgid "Disks total space"
+msgstr ""
+
 msgid "Display"
 msgstr "Zobrazení"
 
@@ -2721,8 +2736,14 @@ msgstr "Upravit parametry"
 msgid "Edit Properties"
 msgstr "Upravit vlastnosti"
 
+msgid "Edit interfaces"
+msgstr ""
+
 msgid "Edit this host"
 msgstr "Upravit tento stroj"
+
+msgid "Edited role successfully"
+msgstr ""
 
 msgid "Editor"
 msgstr "Editor"
@@ -2735,9 +2756,6 @@ msgstr "Předvolby e-mailu"
 
 msgid "Email address is missing"
 msgstr "Chybí e-mailová adresa"
-
-msgid "Email for GCE only"
-msgstr ""
 
 msgid "Email reply address"
 msgstr ""
@@ -2859,7 +2877,7 @@ msgstr ""
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
-msgid "Error parsing value for setting '%s': %s"
+msgid "Error parsing value for setting '%(name)s': %(error)s"
 msgstr ""
 
 msgid "Error removing widget from dashboard."
@@ -2934,11 +2952,11 @@ msgstr ""
 msgid "Exit Full Screen"
 msgstr "Opustit režim na celou obrazovku"
 
+msgid "Expand all cards"
+msgstr ""
+
 msgid "Expand nested items"
 msgstr "Rozbalit vnořené položky"
-
-msgid "Expand/Collapse  all"
-msgstr ""
 
 msgid "Expiration of the authorization token (in hours)"
 msgstr ""
@@ -3293,7 +3311,7 @@ msgstr "Filtrovat…"
 msgid "Filters"
 msgstr "Filtry"
 
-msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, <br> the filter can override the set of its organizations and locations. Later role changes will not affect such filter.<br> After disabling the override field, the role organizations and locations apply again."
+msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, the filter can override the set of its organizations and locations. Later role changes will not affect such filter.After disabling the override field, the role organizations and locations apply again."
 msgstr ""
 
 msgid "Filters overriding has been disabled"
@@ -3387,6 +3405,9 @@ msgid "For more information"
 msgstr "Pro více informací"
 
 msgid "For more information please see "
+msgstr ""
+
+msgid "For the example above, it is recommended to define the DHCP range from 10.0.0.1 to 10.0.0.99 in the Foreman UI which gives the following IP address distribution:"
 msgstr ""
 
 msgid "For values of type search, this is the resource the value searches in"
@@ -3637,6 +3658,9 @@ msgstr ""
 msgid "Get hosts forming the smart proxy"
 msgstr ""
 
+msgid "Get provisioning templates for the host"
+msgstr ""
+
 msgid "Get status of host"
 msgstr "Získat stav stroje"
 
@@ -3696,9 +3720,6 @@ msgstr ""
 
 msgid "Good host with reports"
 msgstr ""
-
-msgid "Google Project ID"
-msgstr "Identif. Google Project"
 
 msgid "Group not found in the configured External IPAM instance"
 msgstr ""
@@ -3847,7 +3868,7 @@ msgstr "Stav nastavení stroje"
 msgid "Host Configuration Status for %s"
 msgstr ""
 
-msgid "Host Fetch ${response}"
+msgid "Host Fetch %s"
 msgstr ""
 
 msgid "Host Group / Environment"
@@ -4472,6 +4493,9 @@ msgstr "IPv6 adresa rozhraní"
 msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr ""
 
+msgid "IPv6 subnet"
+msgstr ""
+
 msgid "IRC"
 msgstr ""
 
@@ -4529,7 +4553,7 @@ msgstr ""
 msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
 msgstr ""
 
-msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly."
+msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited  field is disabled, you can specify further filtering using Foreman search syntax in the search field. If the role is associated with organizations or locations, the filters are not considered unlimited as they are scoped accordingly."
 msgstr ""
 
 msgid "If this setting has list of possible values, this includes the list of the values."
@@ -4815,9 +4839,6 @@ msgstr ""
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr ""
 
-msgid "Invalid Google JSON key. Please verify client email & private key options are present"
-msgstr ""
-
 msgid "Invalid HTTP(S) URL"
 msgstr ""
 
@@ -4905,6 +4926,12 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "JwtSecret|Token"
+msgstr ""
+
+msgid "Kernel release"
+msgstr ""
+
+msgid "Kernel version"
 msgstr ""
 
 msgid "Key"
@@ -4997,6 +5024,9 @@ msgstr ""
 
 msgid "Length"
 msgstr "Délka"
+
+msgid "Less than a second"
+msgstr ""
 
 msgid "Level"
 msgstr "Úroveň"
@@ -5412,9 +5442,6 @@ msgstr "Načíst datacentra"
 msgid "Load Regions"
 msgstr "Načíst oblasti"
 
-msgid "Load Zones"
-msgstr "Načíst zóny"
-
 msgid "Loading"
 msgstr ""
 
@@ -5708,6 +5735,9 @@ msgstr ""
 msgid "Manage all statuses"
 msgstr ""
 
+msgid "Manage columns"
+msgstr ""
+
 msgid "Manage host"
 msgstr "Spravovat stroj"
 
@@ -5884,6 +5914,9 @@ msgstr ""
 msgid "Monthly"
 msgstr ""
 
+msgid "More about this in "
+msgstr ""
+
 msgid "Must be unique"
 msgstr ""
 
@@ -5979,6 +6012,9 @@ msgstr ""
 
 msgid "Network type"
 msgstr "Typ sítě"
+
+msgid "Networking interfaces"
+msgstr ""
 
 msgid "Never"
 msgstr "Nikdy"
@@ -6243,6 +6279,12 @@ msgstr ""
 msgid "No matching server groups found"
 msgstr ""
 
+msgid "No name"
+msgstr ""
+
+msgid "No network interfaces"
+msgstr ""
+
 msgid "No networks"
 msgstr "Žádné sítě"
 
@@ -6308,6 +6350,9 @@ msgstr ""
 
 msgid "No templates found"
 msgstr "Nenalezeny žádné šablony"
+
+msgid "No templates found for %{host}"
+msgstr ""
 
 msgid "No templates found for this host."
 msgstr ""
@@ -6510,6 +6555,9 @@ msgstr "OK"
 msgid "OK statuses"
 msgstr ""
 
+msgid "OS"
+msgstr "Oper. systém"
+
 msgid "OS Image"
 msgstr "Obraz operačního systému"
 
@@ -6590,6 +6638,9 @@ msgstr "Otevřít"
 msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
 msgstr ""
 
+msgid "Open in a new tab"
+msgstr ""
+
 msgid "OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"
 msgstr ""
 
@@ -6603,6 +6654,9 @@ msgid "Operating System"
 msgstr "Operační systém"
 
 msgid "Operating System Family"
+msgstr ""
+
+msgid "Operating System has no family, can't load PXE files"
 msgstr ""
 
 msgid "Operating System version is required"
@@ -6755,6 +6809,9 @@ msgstr ""
 msgid "Override this value"
 msgstr "Přebít tuto hodnotu"
 
+msgid "Override?"
+msgstr "Přepsat?"
+
 msgid "Overview"
 msgstr "Přehled"
 
@@ -6823,6 +6880,9 @@ msgstr ""
 
 msgid "Page number, starting at 1"
 msgstr "Číslo stránky, začíná od jedničky"
+
+msgid "Pagelet with %s key is not found"
+msgstr ""
 
 msgid "Pagination"
 msgstr ""
@@ -7230,9 +7290,6 @@ msgstr "Identifikátor domény projektu"
 msgid "Project domain name"
 msgstr ""
 
-msgid "Project id for GCE only"
-msgstr ""
-
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
@@ -7382,6 +7439,9 @@ msgstr ""
 msgid "Quota ID"
 msgstr "Identifikátor kvóty"
 
+msgid "RAM"
+msgstr ""
+
 msgid "REPLACE locations with given ids"
 msgstr ""
 
@@ -7512,6 +7572,9 @@ msgid "Registration template"
 msgstr ""
 
 msgid "Registration token is missing or invalid."
+msgstr ""
+
+msgid "Release date"
 msgstr ""
 
 msgid "Relevant only for audit summary notification"
@@ -7657,6 +7720,9 @@ msgstr ""
 msgid "Reported by %s"
 msgstr "Nahlásil %s"
 
+msgid "Reported data"
+msgstr ""
+
 msgid "Reports"
 msgstr "Výkazy"
 
@@ -7683,6 +7749,9 @@ msgid "Repository GPG key URL"
 msgstr ""
 
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
+
+msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
@@ -7723,6 +7792,9 @@ msgstr ""
 
 msgid "Resource %{res} not found."
 msgstr "Prostředek %{res} nenalezen."
+
+msgid "Resource Type"
+msgstr ""
 
 msgid "Resource not found"
 msgstr ""
@@ -7777,7 +7849,7 @@ msgstr[1] ""
 msgid "Revert"
 msgstr "Vrátit zpět"
 
-msgid "Revert Failed, ${err}"
+msgid "Revert Failed, %s"
 msgstr ""
 
 msgid "Revert Local Changes"
@@ -7923,6 +7995,9 @@ msgstr "SSH klíče pro: %s"
 msgid "SSH timeout"
 msgstr "Časový limit SSH"
 
+msgid "SSL CA Certificate to use if authentication is required."
+msgstr ""
+
 msgid "SSL CA file"
 msgstr ""
 
@@ -7966,6 +8041,12 @@ msgid "Safe mode methods"
 msgstr ""
 
 msgid "Safe mode methods and variables"
+msgstr ""
+
+msgid "Safe mode off"
+msgstr ""
+
+msgid "Safe mode on"
 msgstr ""
 
 msgid "Safemode"
@@ -8066,6 +8147,9 @@ msgstr ""
 
 msgid "Select an owner"
 msgstr "Vybrat vlastníka"
+
+msgid "Select columns to display in the table."
+msgstr ""
 
 msgid "Select compute resources"
 msgstr "Vybrat výpočetní prostředky"
@@ -8471,17 +8555,11 @@ msgstr "Zobrazit distribuční graf"
 msgid "Show full value"
 msgstr "Zobrazit celou hodnotu"
 
-msgid "Show host power status"
-msgstr "Zobrazit stav napájení hostitele"
-
 msgid "Show linked external user groups"
 msgstr ""
 
 msgid "Show log messages:"
 msgstr "Zobrazit zprávy záznamu událostí:"
-
-msgid "Show power status on host index page. This feature calls to compute resource providers which may lead to decreased performance on host listing page."
-msgstr ""
 
 msgid "Show provisioning template details"
 msgstr ""
@@ -8501,7 +8579,7 @@ msgstr ""
 msgid "Show the last report for a host"
 msgstr ""
 
-msgid "Showing %s to %s of %s entries"
+msgid "Showing %(start)s to %(end)s of %(total)s entries"
 msgstr ""
 
 msgid "Showing 0 to 0 of 0 entries"
@@ -9313,9 +9391,6 @@ msgstr ""
 msgid "The default administrator email address"
 msgstr "Výchozí e-mailová adresa správce"
 
-msgid "The file path where your JSON file is located"
-msgstr "Popis umístění, ve kterém se váš JSON soubor nachází"
-
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr ""
 
@@ -9507,7 +9582,7 @@ msgstr ""
 msgid "There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)"
 msgstr ""
 
-msgid "There was some issue deleting the report: ${error}"
+msgid "There was some issue deleting the report: %s"
 msgstr ""
 
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
@@ -9621,6 +9696,9 @@ msgid ""
 msgstr ""
 
 msgid "This templates requires a host to render but none was specified"
+msgstr ""
+
+msgid "This user is disabled and won't be able to perform any actions. You can edit the user to enable them again."
 msgstr ""
 
 msgid "This value is not hidden"
@@ -9799,9 +9877,6 @@ msgid "UUID"
 msgstr ""
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
-msgstr ""
-
-msgid "Unable to access key"
 msgstr ""
 
 msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
@@ -10074,6 +10149,9 @@ msgstr "Neznámý stav: %s"
 msgid "Unkown '%{klass}' resource class"
 msgstr ""
 
+msgid "Unlimited?"
+msgstr "Neomezeno?"
+
 msgid "Unlock"
 msgstr "Odemknout"
 
@@ -10318,6 +10396,9 @@ msgid "Use the Puppetserver configured on this Smart Proxy"
 msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
+msgstr ""
+
+msgid "Use to authenticate against external authentication source"
 msgstr ""
 
 msgid "Used"
@@ -10596,6 +10677,9 @@ msgstr "Proměnná"
 msgid "Variables"
 msgstr "Proměnné"
 
+msgid "Vendor"
+msgstr "Výrobce"
+
 msgid "Vendor class"
 msgstr "Třída výrobce"
 
@@ -10622,6 +10706,12 @@ msgstr "Zobrazit ve Foreman:"
 
 msgid "View list"
 msgstr "Zobrazit seznam"
+
+msgid "View provisioning template {openTemplate}."
+msgstr ""
+
+msgid "Virtual"
+msgstr "Virtuální"
 
 msgid "Virtual (NAT)"
 msgstr "Virtuální (NAT)"
@@ -10700,6 +10790,9 @@ msgstr ""
 msgid "Websockets encryption"
 msgstr ""
 
+msgid "Websockify was not found"
+msgstr ""
+
 msgid "Weekly"
 msgstr ""
 
@@ -10768,6 +10861,9 @@ msgstr ""
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "Které je posunem <b>%s</b>"
+
+msgid "While it is possible to define the same DHCP range in Foreman, it's usually good practice to select a range from outside the pool defined in the installer, but still in the subnet"
+msgstr ""
 
 msgid ""
 "While rendering the template in preview mode, the input either loads the value or uses a placeholder\n"
@@ -10894,7 +10990,7 @@ msgstr "Ve Formean je možné přidat k uživateli veřejné části SSH klíč�
 msgid "You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
 msgstr ""
 
-msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
+msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
 msgstr ""
 
 msgid "You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman."
@@ -10981,9 +11077,6 @@ msgstr "Platnost sezení skončila, přihlaste se znovu"
 msgid "ZTP PXE template"
 msgstr ""
 
-msgid "Zone"
-msgstr "Zóna"
-
 msgid "[empty]"
 msgstr "[prázdné]"
 
@@ -11033,6 +11126,9 @@ msgid "boolean"
 msgstr ""
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
+msgstr ""
+
+msgid "by %s"
 msgstr ""
 
 msgid "can only be set for array, hash, json or yaml"
@@ -11121,9 +11217,6 @@ msgstr "komunitní diskuzní fóra"
 
 msgid "compresed"
 msgstr "komprimováno"
-
-msgid "console is not available at this time because the instance is powered off"
-msgstr ""
 
 msgid "contains special characters"
 msgstr "obsahuje speciální znaky"
@@ -11237,9 +11330,6 @@ msgid "filter..."
 msgstr "filtrovat…"
 
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
-msgstr ""
-
-msgid "for GCE only"
 msgstr ""
 
 msgid "for Libvirt and VMware only"
@@ -11462,6 +11552,9 @@ msgstr[1] "uplynulé %s dny"
 msgstr[2] "uplynulých %s dnů"
 msgstr[3] "uplynulé %s dny"
 
+msgid "leave IP management solely on user, no auto-suggestion"
+msgstr ""
+
 msgid "link external user group with this user group"
 msgstr "propojit tuto a externí skupinu uživatelů"
 
@@ -11486,6 +11579,9 @@ msgid "makes the template default meaning it will be automatically associated wi
 msgstr ""
 
 msgid "managed host must have one provision interface"
+msgstr ""
+
+msgid "manual"
 msgstr ""
 
 msgid "message"
@@ -11647,6 +11743,9 @@ msgstr ""
 msgid "poweroff"
 msgstr "vypnout"
 
+msgid "preserves natural ordering"
+msgstr ""
+
 msgid "ready?"
 msgstr "připraveno?"
 
@@ -11704,11 +11803,14 @@ msgstr ""
 msgid "revoked"
 msgstr "odvoláno"
 
+msgid "same as Internal DB but randomizes results to prevent race conditions"
+msgstr ""
+
+msgid "seconds"
+msgstr "sekund"
+
 msgid "select an owner"
 msgstr "vybrat vlastníka"
-
-msgid "selected image does not exist"
-msgstr "vybraný obraz neexistuje"
 
 msgid "service configuration will be skipped."
 msgstr "nastavení služby bude přeskočeno."
@@ -11835,6 +11937,9 @@ msgstr ""
 msgid "use if you want update locked templates"
 msgstr ""
 
+msgid "use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode"
+msgstr ""
+
 msgid "using %s"
 msgstr "s použitím %s"
 
@@ -11858,6 +11963,15 @@ msgstr ""
 
 msgid "was not found"
 msgstr "nebylo nalezeno"
+
+msgid "will assign the IPv6 address based on the MAC address of the interface"
+msgstr ""
+
+msgid "will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)"
+msgstr ""
+
+msgid "will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP"
+msgstr ""
 
 msgid "with given ID not found"
 msgstr ""
