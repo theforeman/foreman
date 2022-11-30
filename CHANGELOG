@@ -1,3 +1,30 @@
+2022-11-30	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.5.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2022-11-28	Sayan Das <saydas@redhat.com>
+	* Refs #35530 - Dont use shellescape on the filename
+
+2022-11-23	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #35578 - Fix netplan interface template syntax (#9515)
+
+2022-11-21	pkoprda <peto.koprda@gmail.com>
+	* Fixes #35733 - Add network category to selectable columns
+	* Fixes #35673 - Do not allow create empty table preference
+
+2022-11-21	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #35758 - Allow latest Rails 6.1
+
+2022-11-21	Lucy Fu <lufu@redhat.com>
+	* Fixes #35745 - Add Virtual guests to System properties card
+
+2022-11-21	MariaAga <mariaaga@redhat.com>
+	* Fixes #35751 - Hide Manage columns text in small screens
+
+2022-11-21	Karolina Malyjurkova <kmalyjur@redhat.com>
+	* Fixes #34219 - Add page title to Host Detail
+	* Fixes #35724 - Add page title to Host Statuses
+
 2022-11-08	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.5.0-rc1
 
