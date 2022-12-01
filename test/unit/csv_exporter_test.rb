@@ -46,7 +46,7 @@ class CsvExporterTest < ActiveSupport::TestCase
   test 'calls nested methods on records' do
     host = FactoryBot.create(:host)
     result = CsvExporter.export(Host::Managed, [:name, 'location.name'])
-    assert_equal "Name,Location.Name\n", result.next
+    assert_equal "Name,Location - Name\n", result.next
     assert_equal "#{host.name},#{host.location.name}\n", result.next
     assert_raises StopIteration do
       result.next

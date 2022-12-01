@@ -487,6 +487,8 @@ notice that `key` is mandatory, since we will present it to the user when select
 * `class` - additional html classes to put on the `<th>` element
 * `attr_callbacks` - a hash where the key is the name of html attribute, and the value is a function in the form `->(host) { attribute_value }`
 * `callback` - a function that receives the host model and returns html content for the `<th>` element: `->(host) { "<span>...</span>".html_safe }`
+* `export_key` - a string that is used to derive exported column's name and value from. Passing `reported_data.sockets` results into header called `Reported Data - Sockets` and value corresponding to the result of calling `host&.reported_data&.sockets`. Alternatively, for cases where WebUI columns aggregate multiple values, this can be an array of strings to split the values into their own columns in the export.
+* `export_data` - An instance (or an array of instances) of CsvExporter::ExportDefinition to be used when the data to be exported cannot be retrieved by a series of calls from the exported object. A lambda can be passed into it with the callback keyword argument. First positional argument is the key, a label can be derived from it unless provided explicitly with the label keyword argument.
 
 `hosts_table_column_content` supports the following attributes:
 
