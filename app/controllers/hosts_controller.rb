@@ -912,7 +912,7 @@ class HostsController < ApplicationController
   end
 
   def csv_columns
-    [:name, :operatingsystem, :compute_resource_or_model, :hostgroup, :last_report]
+    User.current.table_preferences.find_by(name: controller_name)&.columns&.map { |col| col == 'os_title' ? 'operatingsystem' : col }
   end
 
   def origin_intervals_query(compare_with)

@@ -39,12 +39,13 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should get csv index with data" do
-    host = FactoryBot.create(:host, :with_hostgroup, :on_compute_resource, :with_reports)
+    User.current.table_preferences.create(name: 'hosts', columns: ['name', 'os_title', 'model', 'owner', 'hostgroup', 'last_report'])
+    host = FactoryBot.create(:host, :with_model, :with_hostgroup, :with_reports)
     get :index, params: { :format => 'csv', :search => "name = #{host.name}" }, session: set_session_user
     assert_response :success
     buf = response.stream.instance_variable_get(:@buf)
-    assert_equal "Name,Operatingsystem,Compute Resource Or Model,Hostgroup,Last Report\n", buf.next
-    assert_equal "#{host.name},#{host.operatingsystem},#{host.compute_resource.name},#{host.hostgroup},#{host.last_report}\n", buf.next
+    assert_equal "Name,Operatingsystem,Model,Owner,Hostgroup,Last Report\n", buf.next
+    assert_equal "#{host.name},#{host.operatingsystem},#{host.model},#{host.owner.name},#{host.hostgroup},#{host.last_report}\n", buf.next
     assert_raises StopIteration do
       buf.next
     end
