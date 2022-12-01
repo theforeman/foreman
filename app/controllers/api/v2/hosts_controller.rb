@@ -273,16 +273,7 @@ module Api
       param :timeout, String, required: false, desc: N_("Timeout to retrieve the power status of the host in seconds. Default is 3 seconds.")
 
       def power_status
-        render json: PowerManager::PowerStatus.new(host: @host).power_state(params[:timeout])
-      rescue => e
-        Foreman::Logging.exception("Failed to fetch power status", e)
-
-        resp = {
-          id: @host.id,
-          statusText: _("Failed to fetch power status: %s") % e,
-        }
-
-        render json: resp.merge(PowerManager::PowerStatus::HOST_POWER[:na])
+        render json: PowerManager::PowerStatus.safe_power_state(@host, timeout: params[:timeout])
       end
 
       api :PUT, "/hosts/:id/boot", N_("Boot host from specified device")

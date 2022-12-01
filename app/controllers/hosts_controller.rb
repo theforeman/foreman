@@ -912,7 +912,9 @@ class HostsController < ApplicationController
   end
 
   def csv_columns
-    [:name, :operatingsystem, :compute_resource_or_model, :hostgroup, :last_report]
+    Pagelets::Manager.pagelets_at("hosts/_list", 'hosts_table_column_header', filter: { selected: @selected_columns })
+      .map { |pagelet| pagelet.opts[:export_data] || pagelet.opts[:export_key] || pagelet.opts[:key] }
+      .flatten
   end
 
   def origin_intervals_query(compare_with)
