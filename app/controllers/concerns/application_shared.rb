@@ -118,7 +118,7 @@ module ApplicationShared
     end
 
     # If the id is an integer or parameterized string, scope by it
-    return base_scope.where(id: resource_id.to_i) if resource_id.integer? || resource_id.start_with?(/\d+-/)
+    return base_scope.where(id: resource_id.to_i) if resource_id.integer? || (resource_id.respond_to?(:start_with?) && resource_id.start_with?(/\d+-/))
 
     # The parameter doesn't match any supported format, return empty scope
     base_scope.none
