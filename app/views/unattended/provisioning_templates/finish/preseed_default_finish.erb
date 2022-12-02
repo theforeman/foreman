@@ -54,6 +54,12 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <%= snippet "blacklist_kernel_modules" %>
 
 <%= snippet_if_exists(template_name + " custom post") -%>
+
+<% unless host_param('kernel_parameters').nil? -%>
+# Allow overriding the default kernel parameters
+  sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=".*"/GRUB_CMDLINE_LINUX_DEFAULT="<%= host_param('kernel_parameters') %>"/g' /etc/default/grub && update-grub
+
+<% end -%>
 <% if chef_enabled %>
 <%= snippet 'chef_client' %>
 <% end -%>
