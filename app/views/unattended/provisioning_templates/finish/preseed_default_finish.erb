@@ -54,24 +54,24 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <%= snippet "blacklist_kernel_modules" %>
 
 <%= snippet_if_exists(template_name + " custom post") -%>
-
 <% unless host_param('kernel_parameters').nil? -%>
+
 # Allow overriding the default kernel parameters
   sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=".*"/GRUB_CMDLINE_LINUX_DEFAULT="<%= host_param('kernel_parameters') %>"/g' /etc/default/grub && update-grub
-
 <% end -%>
-<% if chef_enabled %>
+<% if chef_enabled -%>
+
 <%= snippet 'chef_client' %>
 <% end -%>
+<% if puppet_enabled -%>
 
-<% if puppet_enabled %>
 <% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
 <%= snippet 'puppetlabs_repo' %>
 <% end -%>
 <%= snippet 'puppet_setup' %>
 <% end -%>
+<% if salt_enabled -%>
 
-<% if salt_enabled %>
 <%= snippet 'saltstack_setup' %>
 <% end -%>
 
