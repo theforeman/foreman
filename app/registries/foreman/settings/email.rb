@@ -21,7 +21,7 @@ Foreman::SettingManager.define(:foreman) do
     setting('delivery_method',
       type: :string,
       description: N_("Method used to deliver email"),
-      default: 'sendmail',
+      default: Rails.env.test? ? 'test' : 'sendmail',
       full_name: N_('Delivery method'),
       collection: proc { {:sendmail => _("Sendmail"), :smtp => _("SMTP")} })
     setting('smtp_enable_starttls_auto',

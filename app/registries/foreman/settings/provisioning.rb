@@ -122,12 +122,12 @@ Foreman::SettingManager.define(:foreman) do
     setting('ct_command',
       type: :array,
       description: N_("Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"),
-      default: [which('ct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
+      default: Rails.env.test? ? ['/usr/bin/cat'] : [which('ct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
       full_name: N_("CoreOS Transpiler Command"))
     setting('fcct_command',
       type: :array,
       description: N_("Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"),
-      default: [which('fcct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
+      default: Rails.env.test? ? ['/usr/bin/cat'] : [which('fcct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
       full_name: N_("Fedora CoreOS Transpiler Command"))
 
     # We have following loop twice to keep the historical order.
