@@ -4,16 +4,7 @@ exports[`InputFactory rendering renders AutoComplete 1`] = `
 <FormControl
   bsClass="form-control"
   className=""
-  componentClass={
-    Object {
-      "$$typeof": Symbol(react.memo),
-      "Error": [Function],
-      "WrappedComponent": [Function],
-      "compare": null,
-      "displayName": "Connect(AutoComplete)",
-      "type": [Function],
-    }
-  }
+  componentClass={[Function]}
   controller="bookmarks"
   disabled={false}
   id="form-search"

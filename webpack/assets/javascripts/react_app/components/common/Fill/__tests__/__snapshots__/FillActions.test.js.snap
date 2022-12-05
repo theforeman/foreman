@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AutoComplete actions should regiser a component 1`] = `
+exports[`Fill actions should regiser a component 1`] = `
 Array [
   Array [
     Object {
@@ -16,7 +16,7 @@ Array [
 ]
 `;
 
-exports[`AutoComplete actions should unregiser a component 1`] = `
+exports[`Fill actions should unregiser a component 1`] = `
 Array [
   Array [
     Object {

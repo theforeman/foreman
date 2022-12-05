@@ -23,7 +23,6 @@ const AuditsPage = ({
     searchQuery={searchQuery}
     isLoading={isLoading && hasData}
     onSearch={search => fetchAndPush({ searchQuery: search, page: 1 })}
-    onBookmarkClick={search => fetchAndPush({ searchQuery: search, page: 1 })}
     toolbarButtons={
       <Button
         component="a"

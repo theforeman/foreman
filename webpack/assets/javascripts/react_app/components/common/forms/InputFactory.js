@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormControl } from 'patternfly-react';
 
 import { noop } from '../../../common/helpers';
-import AutoComplete from '../../AutoComplete';
+import SearchBar from '../../SearchBar';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
 import OrderableSelect from './OrderableSelect';
@@ -13,7 +13,7 @@ import TimePicker from '../DateTimePicker/TimePicker';
 import Select from './Select';
 
 const inputComponents = {
-  autocomplete: AutoComplete,
+  autocomplete: SearchBar,
   select: Select,
   date: DatePicker,
   dateTime: DateTimePicker,

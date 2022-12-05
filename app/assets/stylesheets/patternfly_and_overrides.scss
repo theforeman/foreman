@@ -40,11 +40,6 @@ textarea.form-control {
   max-width: 1400px; // Max width as per suggested by Patternfly
 }
 
-.autocomplete-clear {
-  z-index: 3;
-  position: relative;
-}
-
 #login {
   max-width: 100%;
 }
@@ -313,14 +308,6 @@ a.btn-info span {
   width: 750px;
   max-width: 90%;
   margin: 0 auto;
-}
-
-#search-form {
-  .dropdown-menu > li > a {
-    max-width: 658px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 }
 
 // Color origin: pf-orange-400

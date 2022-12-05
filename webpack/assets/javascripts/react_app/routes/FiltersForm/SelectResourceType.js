@@ -15,6 +15,7 @@ export const SelectResourceType = ({
   setType,
   setIsGranular,
   defaultType,
+  setAutocompleteQuery,
 }) => {
   const apiOption = useMemo(
     () => {
@@ -63,6 +64,7 @@ export const SelectResourceType = ({
             onClick={() => {
               setType(EMPTY_RESOURCE_TYPE);
               setIsGranular(false);
+              setAutocompleteQuery('');
             }}
             key={EMPTY_RESOURCE_TYPE.name}
             value={EMPTY_RESOURCE_TYPE.translation}
@@ -72,6 +74,7 @@ export const SelectResourceType = ({
               onClick={() => {
                 setType(option);
                 setIsGranular(option.granular);
+                setAutocompleteQuery('');
               }}
               key={option.name}
               value={option.translation}
@@ -93,6 +96,7 @@ SelectResourceType.propTypes = {
   setType: PropTypes.func.isRequired,
   setIsGranular: PropTypes.func.isRequired,
   defaultType: PropTypes.string,
+  setAutocompleteQuery: PropTypes.func.isRequired,
 };
 
 SelectResourceType.defaultProps = {

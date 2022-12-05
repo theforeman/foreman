@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Form,
   FormGroup,
@@ -13,11 +13,6 @@ import {
 import { HelpIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../common/I18n';
 import SearchBar from '../../components/SearchBar';
-import {
-  setAutocompleteSearchQuery,
-  updateDisability,
-  updateController,
-} from '../../components/AutoComplete/AutoCompleteActions';
 import './FilterForm.scss';
 import { SelectPermissions } from './SelectPermissions';
 import { SelectResourceType } from './SelectResourceType';
@@ -25,7 +20,6 @@ import { SelectRole } from './SelectRole';
 import { EMPTY_RESOURCE_TYPE, SEARCH_ID } from './FiltersFormConstants';
 import { Taxonomies } from './Taxonomies';
 import { APIActions } from '../../redux/API';
-import { selectAutocompleteSearchQuery } from '../../components/AutoComplete/AutoCompleteSelectors';
 import { addToast } from '../../components/ToastsList';
 
 export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
@@ -46,20 +40,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
     show_locations: showLocations = false,
   } = type;
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (isUnlimited) dispatch(updateDisability(true, SEARCH_ID));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    if (data.search)
-      dispatch(setAutocompleteSearchQuery(data.search, SEARCH_ID));
-    // workaround a bug - initial search query is ignored
-  }, [data.search, dispatch]);
-
-  const autocompleteQuery = useSelector(state =>
-    selectAutocompleteSearchQuery(state, SEARCH_ID)
-  );
+  const [autocompleteQuery, setAutocompleteQuery] = useState(data.search || '');
   const submit = async () => {
     const params = {
       filter: {
@@ -120,7 +101,6 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
         type={type}
         setType={newType => {
           setType(newType);
-          dispatch(updateController(newType, newType.search_path, SEARCH_ID));
         }}
         setIsGranular={val => {
           setIsGranular(val);
@@ -129,6 +109,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
           }
         }}
         defaultType={data.resource_type}
+        setAutocompleteQuery={setAutocompleteQuery}
       />
 
       <SelectPermissions
@@ -209,8 +190,8 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
             <Checkbox
               isChecked={isUnlimited}
               onChange={checked => {
+                setAutocompleteQuery('');
                 setIsUnlimited(checked);
-                dispatch(updateDisability(checked, SEARCH_ID));
               }}
               aria-label="is unlimited"
               id="unlimited-check"
@@ -223,10 +204,14 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
               data={{
                 controller: type.name,
                 autocomplete: {
+                  searchQuery: autocompleteQuery,
                   id: SEARCH_ID,
                   url: type.search_path,
                 },
+                disabled: isUnlimited,
               }}
+              onSearch={null}
+              onSearchChange={setAutocompleteQuery}
             />
           </FormGroup>
         </>

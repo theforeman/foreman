@@ -108,7 +108,6 @@ const ReportsTab = ({ hostName, origin }) => {
             controller: 'config_reports',
           }}
           onSearch={search => fetchReports({ search, page: 1 })}
-          onBookmarkClick={search => fetchReports({ search, page: 1 })}
           initialQuery={getUrlParams().search}
         />
       </GridItem>

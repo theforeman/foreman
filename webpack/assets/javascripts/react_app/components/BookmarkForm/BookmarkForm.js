@@ -1,22 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-
+import { useDispatch } from 'react-redux';
 import { noop } from '../../common/helpers';
 import ForemanForm from '../common/forms/ForemanForm';
 import TextField from '../common/forms/TextField';
 import { translate as __ } from '../../common/I18n';
 import { maxLengthMsg, requiredMsg } from '../common/forms/validators';
+import { submitForm } from '../../redux/actions/common/forms';
 
 const BookmarkForm = ({
   url,
-  submitForm,
   controller,
   onCancel,
-  initialValues,
+  searchQuery,
   setModalClosed,
   bookmarks,
 }) => {
+  const dispatch = useDispatch();
   const existsNamesRegex = new RegExp(
     `^(?!(${bookmarks.map(({ name }) => name).join('|')})$).+`
   );
@@ -34,19 +35,24 @@ const BookmarkForm = ({
   });
 
   const handleSubmit = (values, actions) =>
-    submitForm({
-      url,
-      values: { ...values, controller },
-      item: 'Bookmarks',
-      message: __('Bookmark was successfully created.'),
-      successCallback: setModalClosed,
-      actions,
-    });
+    dispatch(
+      submitForm({
+        url,
+        values: { ...values, controller },
+        item: 'Bookmarks',
+        message: __('Bookmark was successfully created.'),
+        successCallback: setModalClosed,
+        actions,
+      })
+    );
 
   return (
     <ForemanForm
       onSubmit={handleSubmit}
-      initialValues={initialValues}
+      initialValues={{
+        public: true,
+        query: searchQuery,
+      }}
       validationSchema={bookmarkFormSchema}
       onCancel={onCancel}
     >
@@ -65,12 +71,11 @@ const BookmarkForm = ({
 
 BookmarkForm.propTypes = {
   onCancel: PropTypes.func,
-  submitForm: PropTypes.func.isRequired,
   controller: PropTypes.string.isRequired,
-  initialValues: PropTypes.object.isRequired,
   url: PropTypes.string.isRequired,
   setModalClosed: PropTypes.func.isRequired,
   bookmarks: PropTypes.array,
+  searchQuery: PropTypes.string.isRequired,
 };
 
 BookmarkForm.defaultProps = {

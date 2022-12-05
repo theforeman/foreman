@@ -1,0 +1,15 @@
+@import '~@theforeman/vendor/scss/variables';
+
+.autocomplete-search {
+  width: 100%;
+  &.disabled-autocomplete-search .pf-c-input-group{
+    color: var(--pf-global--disabled-color--100);
+    background-color: var(--pf-global--disabled-color--300);
+    cursor: not-allowed;
+    border-color: var(--pf-global--disabled-color--300);
+  }
+}
+
+.foreman-search-bar {
+  display: flex;
+}
