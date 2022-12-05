@@ -27,6 +27,7 @@ const Bookmarks = ({
   onBookmarkClick,
   setModalOpen,
   setModalClosed,
+  searchQuery,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -41,12 +42,15 @@ const Bookmarks = ({
     const query = stringifyParams({ searchQuery: `controller=${controller}` });
     history.push({ pathname: '/bookmarks', search: query });
   };
-
+  const _onBookmarkClick = newQuery => {
+    onBookmarkClick(newQuery);
+    setIsDropdownOpen(false);
+  };
   const dropdownItems = [
     canCreate && addBookmarkItem({ setModalOpen }),
     savedBookmarksItems({
       bookmarks,
-      onBookmarkClick,
+      onBookmarkClick: _onBookmarkClick,
       status,
       errors,
     }),
@@ -65,6 +69,7 @@ const Bookmarks = ({
         url={url}
         setModalClosed={setModalClosed}
         bookmarks={bookmarks}
+        searchQuery={searchQuery}
       />
       <Dropdown
         ouiaId="bookmarks-dropdown"
@@ -101,6 +106,7 @@ Bookmarks.propTypes = {
   getBookmarks: PropTypes.func,
   setModalOpen: PropTypes.func.isRequired,
   setModalClosed: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
 };
 
 Bookmarks.defaultProps = {

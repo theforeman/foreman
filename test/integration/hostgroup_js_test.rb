@@ -63,7 +63,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
 
     click_button "Submit"
     # wait for submit to finish
-    page.find('#search-bar')
+    page.find('.foreman-search-bar')
 
     group.locations.reload
 

@@ -29,12 +29,13 @@ const SubstringWrapper = ({ children, substring, Element }) => {
 
 SubstringWrapper.propTypes = {
   children: PropTypes.string.isRequired,
-  substring: PropTypes.string.isRequired,
+  substring: PropTypes.string,
   Element: PropTypes.node,
 };
 
 SubstringWrapper.defaultProps = {
   Element: 'b',
+  substring: '',
 };
 
 export default SubstringWrapper;

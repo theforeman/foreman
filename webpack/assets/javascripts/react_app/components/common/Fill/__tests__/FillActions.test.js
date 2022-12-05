@@ -10,5 +10,5 @@ const fixtures = {
     unregisterFillComponent('slot-id', 'fill-id'),
 };
 
-describe('AutoComplete actions', () =>
+describe('Fill actions', () =>
   testActionSnapshotWithFixtures(fixtures));

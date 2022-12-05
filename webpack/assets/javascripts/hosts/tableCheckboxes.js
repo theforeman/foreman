@@ -108,9 +108,6 @@ $(document).on('ContentLoad', () => {
   }
   toggleActions();
   updateCounter();
-  $('#search-form').submit(() => {
-    resetSelection();
-  });
 
   // updates the form URL based on the action selection
   $('#confirmation-modal .secondary').click(() => {

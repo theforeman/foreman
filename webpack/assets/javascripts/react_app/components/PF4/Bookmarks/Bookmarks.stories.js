@@ -34,6 +34,7 @@ export const defaultStory = () => (
         status="RESOLVED"
         setModalOpen={() => null}
         setModalClosed={() => null}
+        searchQuery=""
       />
     </Story>
   </Provider>
@@ -55,6 +56,7 @@ export const pendingStory = () => (
         status="PENDING"
         setModalOpen={() => null}
         setModalClosed={() => null}
+        searchQuery=""
       />
     </Story>
   </Provider>
@@ -77,6 +79,7 @@ export const errorStory = () => (
         errors="Some error!"
         setModalOpen={() => null}
         setModalClosed={() => null}
+        searchQuery=""
       />
     </Story>
   </Provider>

@@ -5,6 +5,6 @@ class SearchBarTest < IntegrationTestWithJavascript
     visit bookmarks_path
     # needs to be interactive element
     find('table thead').find('a', text: 'Name').send_keys("/")
-    assert find('.search-input.focus')
+    assert_includes(page.evaluate_script("document.activeElement.classList"), "pf-c-search-input__text-input")
   end
 end

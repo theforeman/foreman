@@ -6,7 +6,6 @@ import { fireEvent, screen, render, act } from '@testing-library/react';
 import Bookmarks from '../Bookmarks';
 import { STATUS } from '../../../../constants';
 import history from '../../../../history';
-import * as helpers from '../../../../common/helpers';
 
 const helpersNewWindow = jest.fn();
 window.open = args => {
@@ -27,6 +26,7 @@ const commonFixture = {
   bookmarks: [],
   setModalOpen: jest.fn(),
   setModalClosed: jest.fn(),
+  searchQuery: 'query',
 };
 
 describe('Bookmarks', () => {

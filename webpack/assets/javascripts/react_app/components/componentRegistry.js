@@ -20,7 +20,6 @@ import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
 import FactChart from './FactCharts';
 import Pagination from './Pagination';
-import AutoComplete from './AutoComplete';
 import SearchBar from './SearchBar';
 import ColumnSelector from './ColumnSelector';
 import Layout from './Layout';
@@ -120,7 +119,7 @@ const coreComponets = [
   { name: 'ReactApp', type: ReactApp },
   { name: 'SearchBar', type: SearchBar },
   { name: 'ColumnSelector', type: ColumnSelector },
-  { name: 'AutoComplete', type: AutoComplete },
+  { name: 'AutoComplete', type: SearchBar },
   { name: 'AreaChart', type: AreaChart },
   { name: 'DonutChart', type: DonutChart },
   { name: 'LineChart', type: LineChart },

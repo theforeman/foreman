@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
 import { useHistory } from 'react-router-dom';
@@ -22,6 +22,7 @@ import {
   helpURL,
   changeQuery,
   getURIsearch,
+  getURI,
 } from '../../../common/urlHelpers';
 import { translate as __ } from '../../../common/I18n';
 
@@ -52,52 +53,38 @@ const TableIndexPage = ({
   cutsomToolbarItems,
   children,
 }) => {
-  const defaultParams = {};
-  const [params, setParams] = useState(defaultParams);
   const history = useHistory();
-  const { location: { search } = {} } = history || {};
+  const { location: { search: historySearch } = {} } = history || {};
+  const urlParams = new URLSearchParams(historySearch);
+  const urlParamsSearch = urlParams.get('search') || '';
+  const search = urlParamsSearch || getURIsearch();
   const {
     response: { search: apiSearchQuery, can_create: canCreate },
     status = STATUS.PENDING,
     setAPIOptions,
-  } = useAPI('get', apiUrl, { ...apiOptions, params });
+  } = useAPI('get', apiUrl, { ...apiOptions, params: { search } });
 
   const memoDefaultSearchProps = useMemo(
     () => getControllerSearchProps(controller),
     [controller]
   );
   const searchProps = customSearchProps || memoDefaultSearchProps;
-
-  useEffect(() => {
-    let newSearch;
-    if (search !== undefined) {
-      const urlParams = new URLSearchParams(search);
-      newSearch = urlParams.get('search') || '';
-    } else {
-      newSearch = getURIsearch();
-    }
-    if (!isEqual(newSearch, search)) setParams({ search: newSearch });
-  }, [search]);
-
-  const setSearch = newSearch => {
+  searchProps.autocomplete.searchQuery = search;
+  const onSearch = newSearch => {
+    const params = { search: newSearch, page: 1 };
     if (history) {
       const uri = new URI();
-      uri.setSearch(newSearch);
+      uri.removeSearch('search');
+      uri.addSearch(params);
       history.push({ search: uri.search() });
     } else {
-      changeQuery(params);
+      const uri = new URI(getURI());
+      uri.removeSearch('search');
+      uri.addSearch(params);
+      changeQuery(uri.search());
     }
+    if (!isEqual(newSearch, search)) setAPIOptions({ params });
   };
-  const onSearch = newSearch => {
-    setSearch({ search: newSearch, page: 1 });
-  };
-  useEffect(() => {
-    if (!isEqual(defaultParams, params)) {
-      setAPIOptions({ ...apiOptions, params });
-    }
-    // Adding to the deps apiOptions creates an endless loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.search, params.page, params.perPage]);
 
   const actionButtons = [
     creatable &&
@@ -147,7 +134,6 @@ const TableIndexPage = ({
                     data={searchProps}
                     initialQuery={apiSearchQuery}
                     onSearch={onSearch}
-                    onBookmarkClick={onSearch}
                   />
                 </ToolbarItem>
                 {status === STATUS.PENDING && (

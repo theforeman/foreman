@@ -18,7 +18,6 @@
 // link reports.js
 //= link taxonomy_edit.js
 // link gettext/all.js
-//= link filters.js
 //= link subnets.js
 //= link proxy_status.js
 //= link about.js

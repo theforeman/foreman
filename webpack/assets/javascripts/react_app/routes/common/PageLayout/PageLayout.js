@@ -12,7 +12,6 @@ const PageLayout = ({
   searchProps,
   searchQuery,
   onSearch,
-  onBookmarkClick,
   customBreadcrumbs,
   breadcrumbOptions,
   toolbarButtons,
@@ -40,10 +39,11 @@ const PageLayout = ({
         <Col className="title_filter" md={searchable ? 6 : 4}>
           {searchable && (
             <SearchBar
-              data={searchProps}
-              initialQuery={searchQuery}
+              data={{
+                ...searchProps,
+                autocomplete: { ...searchProps.autocomplete, searchQuery },
+              }}
               onSearch={onSearch}
-              onBookmarkClick={onBookmarkClick}
             />
           )}
           &nbsp;
@@ -108,7 +108,6 @@ PageLayout.propTypes = {
   }),
   toolbarButtons: PropTypes.node,
   onSearch: PropTypes.func,
-  onBookmarkClick: PropTypes.func,
   searchQuery: PropTypes.string,
   beforeToolbarComponent: PropTypes.node,
   isLoading: PropTypes.bool,
@@ -123,8 +122,6 @@ PageLayout.defaultProps = {
   breadcrumbOptions: null,
   isLoading: false,
   onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
-  onBookmarkClick: searchQuery =>
-    changeQuery({ search: searchQuery.trim(), page: 1 }),
   beforeToolbarComponent: null,
 };
 

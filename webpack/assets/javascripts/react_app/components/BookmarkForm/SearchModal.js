@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ForemanModal from '../ForemanModal';
 import { translate as __ } from '../../common/I18n';
 import { noop } from '../../common/helpers';
-import BookmarkForm from './';
+import BookmarkForm from './BookmarkForm';
 import { getBookmarksModalId } from '../PF4/Bookmarks/BookmarksHelpers';
 
 const SearchModal = ({
@@ -14,6 +14,7 @@ const SearchModal = ({
   controller,
   url,
   bookmarks,
+  searchQuery,
 }) => (
   <ForemanModal
     id={getBookmarksModalId(id)}
@@ -28,6 +29,7 @@ const SearchModal = ({
       setModalClosed={setModalClosed}
       onCancel={setModalClosed}
       bookmarks={bookmarks}
+      searchQuery={searchQuery}
     />
   </ForemanModal>
 );
@@ -40,6 +42,7 @@ SearchModal.propTypes = {
   onEnter: PropTypes.func,
   setModalClosed: PropTypes.func.isRequired,
   bookmarks: PropTypes.array,
+  searchQuery: PropTypes.string.isRequired,
 };
 
 SearchModal.defaultProps = {

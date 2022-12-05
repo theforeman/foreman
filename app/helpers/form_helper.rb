@@ -211,7 +211,6 @@ module FormHelper
   # * <tt>:url</tt> - path where the search results should be fetched from.
   # * <tt>:disabled</tt> - If set to true, the user will not be able to use this input.
   # * <tt>:search_query</tt> - Default search query.
-  # * <tt>:use_key_shortcuts</tt> - If set to true, keyboard shortcuts are enabled on the field.
   #
   # ==== Examples
   #   form_for(@user) do |f|
@@ -219,15 +218,15 @@ module FormHelper
   #   end
   #   # => <AutoComplete id="user_country" name="user[country]" url="/api/countries/auto_complete_country" searchQuery="Czech" />
   def autocomplete_f(f, attr, options = {})
-    options.merge!(
-      {
+    options[:data] = {
+      autocomplete: {
+        searchQuery: options[:search_query] || f.object&.search || '',
         url: options[:full_path] || (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{attr}",
-        controller: options[:path] || auto_complete_controller_name,
-        search_query: options[:search_query] || f.object&.search || '',
-        use_key_shortcuts: options[:use_key_shortcuts] || false,
-      }
-    )
-
+      },
+      controller: options[:path] || auto_complete_controller_name,
+      disabled: options[:disabled] || false,
+    }
+    options[:onSearch] = nil
     react_form_input('autocomplete', f, attr, options)
   end
 
