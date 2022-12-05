@@ -13,7 +13,7 @@ Pagelets::Manager.with_key 'hosts/_list' do |ctx|
     add_pagelet :hosts_table_column_content, key: :power_status, class: 'ca', callback: ->(host) { react_component('PowerStatus', id: host.id, url: power_api_host_path(host)) }
     add_pagelet :hosts_table_column_header, key: :name, label: _('Name'), sortable: true, width: '25%', locked: true
     add_pagelet :hosts_table_column_content, key: :name, class: 'ellipsis', callback: ->(host) { name_column(host) }, locked: true
-    add_pagelet :hosts_table_column_header, key: :os_title, label: _('Operating system'), sortable: true, width: '17%', class: 'hidden-xs'
+    add_pagelet :hosts_table_column_header, key: :os_title, label: _('OS'), sortable: true, width: '17%', class: 'hidden-xs', attr_callbacks: { title: ->(host) { _('Operating system') } }
     add_pagelet :hosts_table_column_content, key: :os_title, class: 'hidden-xs ellipsis', callback: ->(host) { (icon(host.operatingsystem, size: "16x16") + " #{host.operatingsystem.to_label}").html_safe if host.operatingsystem }
     add_pagelet :hosts_table_column_header, key: :owner, label: _('Owner'), sortable: true, width: '8%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :owner, class: common_td_class, callback: ->(host) { host_owner_column(host) }
@@ -29,11 +29,11 @@ Pagelets::Manager.with_key 'hosts/_list' do |ctx|
   ctx.with_profile :network_data, _('Network'), default: false do
     common_th_class = 'hidden-tablet hidden-xs'
     common_td_class = common_th_class + ' ellipsis'
-    add_pagelet :hosts_table_column_header, key: :ip, label: _('IPv4 address'), sortable: true, width: '10%', class: common_th_class, priority: 200
+    add_pagelet :hosts_table_column_header, key: :ip, label: _('IPv4'), sortable: true, width: '10%', class: common_th_class, attr_callbacks: { title: ->(host) { _('IPv4 address') } }, priority: 200
     add_pagelet :hosts_table_column_content, key: :ip, callback: ->(host) { host.ip }, class: common_td_class, priority: 200
-    add_pagelet :hosts_table_column_header, key: :ip6, label: _('IPv6 address'), sortable: true, width: '13%', class: common_th_class, priority: 200
+    add_pagelet :hosts_table_column_header, key: :ip6, label: _('IPv6'), sortable: true, width: '13%', class: common_th_class, attr_callbacks: { title: ->(host) { _('IPv6 address') } }, priority: 200
     add_pagelet :hosts_table_column_content, key: :ip6, callback: ->(host) { host.ip6 }, class: common_td_class, priority: 200
-    add_pagelet :hosts_table_column_header, key: :mac, label: _('MAC address'), sortable: true, width: '10%', class: common_th_class, priority: 200
+    add_pagelet :hosts_table_column_header, key: :mac, label: _('MAC'), sortable: true, width: '10%', class: common_th_class, attr_callbacks: { title: ->(host) { _('MAC address') } }, priority: 200
     add_pagelet :hosts_table_column_content, key: :mac, callback: ->(host) { host.mac }, class: common_td_class, priority: 200
   end
   ctx.with_profile :reported_data, _('Reported data'), default: false do
@@ -49,7 +49,7 @@ Pagelets::Manager.with_key 'hosts/_list' do |ctx|
     add_pagelet :hosts_table_column_content, key: :ram, callback: ->(host) { humanize_bytes(host.reported_data&.ram, from: :mega) }, class: common_td_class
     add_pagelet :hosts_table_column_header, key: :virtual, label: _('Virtual'), width: '5%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :virtual, callback: ->(host) { virtual?(host) }, class: common_td_class
-    add_pagelet :hosts_table_column_header, key: :disks_total, label: _('Disks total space'), width: '8%', class: common_th_class
+    add_pagelet :hosts_table_column_header, key: :disks_total, label: _('Disks space'), width: '8%', class: common_th_class, attr_callbacks: { title: ->(host) { _('Disks total space') } }
     add_pagelet :hosts_table_column_content, key: :disks_total, callback: ->(host) { humanize_bytes(host.reported_data&.disks_total) }, class: common_td_class
     add_pagelet :hosts_table_column_header, key: :kernel_version, label: _('Kernel version'), width: '12%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :kernel_version, callback: ->(host) { host.reported_data&.kernel_version }, class: common_td_class
