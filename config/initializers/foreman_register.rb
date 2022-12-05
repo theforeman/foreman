@@ -20,7 +20,7 @@ Pagelets::Manager.with_key 'hosts/_list' do |ctx|
     add_pagelet :hosts_table_column_header, key: :hostgroup, label: _('Host group'), sortable: true, width: '15%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :hostgroup, class: common_th_class, callback: ->(host) { label_with_link host.hostgroup, 23, @hostgroup_authorizer }
     add_pagelet :hosts_table_column_header, key: :boot_time, label: _('Boot time'), sortable: true, width: '10%', class: common_th_class
-    add_pagelet :hosts_table_column_content, key: :boot_time, callback: ->(host) { date_time_relative(host.reported_data&.boot_time) }, class: common_td_class
+    add_pagelet :hosts_table_column_content, key: :boot_time, callback: ->(host) { date_time_unless_empty(host.reported_data&.boot_time) }, class: common_td_class
     add_pagelet :hosts_table_column_header, key: :last_report, label: _('Last report'), sortable: true, default_sort: 'DESC', width: '10%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :last_report, class: common_td_class, callback: ->(host) { last_report_column(host) }
     add_pagelet :hosts_table_column_header, key: :comment, label: _('Comment'), sortable: true, width: '7%', class: common_th_class

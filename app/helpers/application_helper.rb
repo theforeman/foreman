@@ -41,6 +41,11 @@ module ApplicationHelper
     ((time > Time.now.utc) ? _('in %s') : _('%s ago')) % time_ago_in_words(time)
   end
 
+  def date_time_unless_empty(time)
+    return ''.html_safe unless time
+    date_time_relative(time)
+  end
+
   def iana_timezone
     Time.zone&.tzinfo&.name || 'UTC'
   end
