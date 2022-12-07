@@ -12,8 +12,18 @@ import CardTemplate from '../../../../Templates/CardItem/CardTemplate';
 import { STATUS } from '../../../../../../constants';
 import { ReviewModal } from './ReviewModal';
 
-const TemplatesCard = ({ hostName }) => {
-  const templatesUrl = foremanUrl(`/api/hosts/${hostName}/templates`);
+const TemplatesCard = ({ hostDetails }) => {
+  const {
+    id,
+    managed,
+    name,
+  } = hostDetails;
+
+  if (!managed) {
+    return null;
+  }
+
+  const templatesUrl = foremanUrl(`/api/hosts/${id}/templates`);
   const TemplateTypeTitle = __('Template type');
   const {
     response: {
@@ -44,7 +54,7 @@ const TemplatesCard = ({ hostName }) => {
           <ReviewModal
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
-            hostName={hostName}
+            hostName={name}
             template={currentTemplate}
           />
         )}
@@ -86,9 +96,13 @@ const TemplatesCard = ({ hostName }) => {
 export default TemplatesCard;
 
 TemplatesCard.propTypes = {
-  hostName: PropTypes.string,
+  hostDetails: PropTypes.shape({
+    id: PropTypes.number,
+    managed: PropTypes.bool,
+    name: PropTypes.string,
+  }),
 };
 
 TemplatesCard.defaultProps = {
-  hostName: undefined,
+  hostDetails: {},
 };
