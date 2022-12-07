@@ -10,7 +10,6 @@ import {
   CardTitle,
   CardBody,
   GridItem,
-  FlexItem,
 } from '@patternfly/react-core';
 
 import { CardExpansionContext } from '../../../CardExpansionContext';
@@ -45,7 +44,7 @@ const CardTemplate = ({
     // eslint-disable-next-line no-unused-expressions
     overrideDropdownProps?.onSelect?.(event);
   };
-  const CardContainer = masonryLayout ? FlexItem : GridItem;
+  const CardContainer = masonryLayout ? 'div' : GridItem;
   const gridWidthProps = masonryLayout
     ? {}
     : {
@@ -54,13 +53,14 @@ const CardTemplate = ({
         md: 6,
         lg: 4,
       };
-  const cardProps = masonryLayout
-    ? { style: { width: '24rem', marginTop: '-0.8rem' } }
-    : {};
 
   return (
-    <CardContainer {...gridWidthProps} {...overrideGridProps}>
-      <Card isExpanded={isExpanded} ouiaId="card-template" {...cardProps}>
+    <CardContainer
+      {...gridWidthProps}
+      {...overrideGridProps}
+      className="masonry-item"
+    >
+      <Card isExpanded={isExpanded} ouiaId="card-template">
         <CardHeader
           onExpand={expandable && onExpandCallback}
           isToggleRightAligned

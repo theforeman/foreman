@@ -1,0 +1,9 @@
+.masonry-root {
+  columns: 24rem;
+  column-gap: 1rem;
+  .masonry-item {
+    margin-bottom: 2rem;
+    display: inline-block;
+    width: 100%;
+  }
+}
