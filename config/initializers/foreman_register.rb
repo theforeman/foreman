@@ -53,11 +53,11 @@ Pagelets::Manager.with_key 'hosts/_list' do |ctx|
     add_pagelet :hosts_table_column_content, key: :disks_total, callback: ->(host) { humanize_bytes(host.reported_data&.disks_total) }, class: common_td_class
     add_pagelet :hosts_table_column_header, key: :kernel_version, label: _('Kernel version'), width: '12%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :kernel_version, callback: ->(host) { host.reported_data&.kernel_version }, class: common_td_class
-    add_pagelet :hosts_table_column_header, key: :bios_vendor, label: _('Bios vendor'), width: '8%', class: common_th_class
+    add_pagelet :hosts_table_column_header, key: :bios_vendor, label: _('BIOS vendor'), width: '8%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :bios_vendor, callback: ->(host) { host.reported_data&.bios_vendor }, class: common_td_class
-    add_pagelet :hosts_table_column_header, key: :bios_release_date, label: _('Bios release date'), width: '10%', class: common_th_class
+    add_pagelet :hosts_table_column_header, key: :bios_release_date, label: _('BIOS release date'), width: '10%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :bios_release_date, callback: ->(host) { host.reported_data&.bios_release_date }, class: common_td_class
-    add_pagelet :hosts_table_column_header, key: :bios_version, label: _('Bios version'), width: '12%', class: common_th_class
+    add_pagelet :hosts_table_column_header, key: :bios_version, label: _('BIOS version'), width: '12%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :bios_version, callback: ->(host) { host.reported_data&.bios_version }, class: common_td_class
   end
 end
