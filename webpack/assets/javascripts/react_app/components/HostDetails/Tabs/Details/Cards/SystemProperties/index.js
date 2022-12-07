@@ -18,7 +18,6 @@ import { STATUS } from '../../../../../../constants';
 const SystemPropertiesCard = ({ status, hostDetails }) => {
   const {
     name,
-    uuid,
     model_name: model,
     location_name: location,
     organization_name: organization,
@@ -60,21 +59,6 @@ const SystemPropertiesCard = ({ status, hostDetails }) => {
           multi
           hostDetails={hostDetails}
         />
-        <DescriptionListGroup>
-          <DescriptionListTerm>{__('BIOS UUID')}</DescriptionListTerm>
-          <DescriptionListDescription>
-            <SkeletonLoader
-              status={status}
-              emptyState={<DefaultLoaderEmptyState />}
-            >
-              {uuid && (
-                <ClipboardCopy isBlock variant="inline-compact">
-                  {uuid}
-                </ClipboardCopy>
-              )}
-            </SkeletonLoader>
-          </DescriptionListDescription>
-        </DescriptionListGroup>
       </DescriptionList>
       <Divider className="padded-divider" />
       <DescriptionList isCompact isHorizontal>
@@ -166,7 +150,6 @@ SystemPropertiesCard.propTypes = {
     owner_name: PropTypes.string,
     owner_type: PropTypes.string,
     name: PropTypes.string,
-    uuid: PropTypes.string,
     domain_name: PropTypes.string,
     created_at: PropTypes.string,
     updated_at: PropTypes.string,
@@ -183,7 +166,6 @@ SystemPropertiesCard.defaultProps = {
     hostgroup_name: undefined,
     owner_type: undefined,
     owner_name: undefined,
-    uuid: undefined,
     domain_name: undefined,
     created_at: undefined,
     updated_at: undefined,
