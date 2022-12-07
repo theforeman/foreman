@@ -5,7 +5,7 @@ import { registerCoreCards } from './CardRegistry';
 import Slot from '../../../common/Slot';
 import { STATUS } from '../../../../constants';
 import '../Overview/styles.css';
-import './styles.css';
+import './DetailsCard.scss';
 import { translate as __ } from '../../../../common/I18n';
 import { CardExpansionContext } from '../../CardExpansionContext';
 
@@ -33,7 +33,7 @@ const DetailsTab = ({ response, status, hostName }) => {
   return (
     <div className="host-details-tab-item details-tab">
       <Flex style={{ marginBottom: '1rem' }}>
-        <FlexItem align={{ default: 'alignRight' }}>
+        <FlexItem align={{ default: 'alignLeft' }}>
           <Button
             ouiaId="expand-button"
             onClick={areAllCardsExpanded ? collapseAllCards : expandAllCards}
@@ -43,11 +43,7 @@ const DetailsTab = ({ response, status, hostName }) => {
           </Button>
         </FlexItem>
       </Flex>
-      <Flex
-        direction={{ default: 'column' }}
-        flexWrap={{ default: 'wrap' }}
-        className="details-tab-flex-container"
-      >
+      <div className="masonry-root">
         <Slot
           hostDetails={response}
           status={status}
@@ -55,7 +51,7 @@ const DetailsTab = ({ response, status, hostName }) => {
           id="host-tab-details-cards"
           multi
         />
-      </Flex>
+      </div>
     </div>
   );
 };

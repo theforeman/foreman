@@ -1,5 +1,0 @@
-.details-tab-flex-container {
-  max-height: min(1000px, calc(100vh - 225px));
-  width: 24rem;
-  gap: 1.2rem;
-}
