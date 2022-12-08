@@ -39,8 +39,8 @@ reboot
 
 yum
 dhclient
-ntp
--chrony
+chrony
+-ntp
 wget
 @Core
 dracut-fips
@@ -72,8 +72,8 @@ logger "Starting anaconda snapshot-ipv6-static-el7 postinstall"
 
 
 echo "Updating system time"
-yum -y install ntpdate
-  systemctl enable --now ntpd
+systemctl enable --now chronyd
+/usr/bin/chronyc -a makestep
 /usr/sbin/hwclock --systohc
 
 
