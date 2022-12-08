@@ -148,14 +148,19 @@ module ApplicationHelper
     ('<span class="glyphicon glyphicon-lock" title="%s"/>' % hovertext).html_safe if condition
   end
 
+  def no_permissions?
+    !User.current || @welcome || @missing_permissions
+  end
+
   def searchable?
-    return false if !User.current || @welcome || @missing_permissions
+    return false if no_permissions?
     if (controller.action_name == "index") || (defined?(SEARCHABLE_ACTIONS) && SEARCHABLE_ACTIONS.include?(controller.action_name))
       controller.respond_to?(:auto_complete_search)
     end
   end
 
   def filter_columns?
+    return false if no_permissions?
     controller_name == 'hosts' && controller.action_name == 'index'
   end
 
