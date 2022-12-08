@@ -23,6 +23,18 @@ namespace :snapshots do
       end
     end
 
+    module Foreman
+      class CommandRunner
+        def initialize(_command_and_args, stdin)
+          @stdin = stdin
+        end
+
+        def run!
+          @stdin
+        end
+      end
+    end
+
     ::Foreman::Plugin.singleton_class.send :prepend, PluginSnapshotStub
     ::Foreman::Renderer::Scope::Base.prepend BaseMacrosStub
 
@@ -34,6 +46,7 @@ namespace :snapshots do
       Foreman.settings.load
       Setting[:unattended_url] = "http://foreman.example.com"
       Setting[:foreman_url] = "http://foreman.example.com"
+      Setting[:ct_command] = [Rails.root.to_s]
 
       User.current = FactoryBot.build(:user, :admin)
       admin = FactoryBot.create(:user, :admin, password: 'password123', auth_source: FactoryBot.create(:auth_source_ldap))
