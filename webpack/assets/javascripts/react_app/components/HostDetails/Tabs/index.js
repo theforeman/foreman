@@ -7,7 +7,7 @@ import DetailTab from './Details';
 import ReportsTab from './ReportsTab';
 import ParametersTab from './Parameters';
 
-export const registerCoreTabs = ({ except = [] }) => {
+export const registerCoreTabs = () => {
   addGlobalFill(
     TABS_SLOT_ID,
     DEFAULT_TAB,
@@ -20,10 +20,7 @@ export const registerCoreTabs = ({ except = [] }) => {
     'Details',
     <DetailTab key="host-details-detail-tab" />,
     4000,
-    {
-      title: __('Details'),
-      hideTab: () => except.includes('host-details-detail-tab'),
-    }
+    { title: __('Details') }
   );
   addGlobalFill(
     TABS_SLOT_ID,
