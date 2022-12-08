@@ -23,8 +23,8 @@ runcmd:
 - |
   
   echo "Updating system time"
-  yum -y install ntpdate
-    systemctl enable --now ntpd
+  systemctl enable --now chronyd
+  /usr/bin/chronyc -a makestep
   /usr/sbin/hwclock --systohc
 - |
   rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
