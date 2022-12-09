@@ -20,6 +20,7 @@ module Hostext
       scoped_search :on => :owner_type,    :complete_value => true, :only_explicit => true
       scoped_search :on => :owner_id,      :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :on => :id,            :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+      scoped_search :on => :pxe_loader, :complete_value => Operatingsystem.all_loaders_map.to_h { |k, _v| [k.tr(' ', '_').to_sym, k] }.except(:None), :only_explicit => true, :operators => ['=']
 
       scoped_search :relation => :last_report_object, :on => :origin, :only_explicit => true
 
