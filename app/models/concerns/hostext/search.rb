@@ -15,7 +15,7 @@ module Hostext
       scoped_search :on => :last_report,   :complete_value => true, :only_explicit => true
       scoped_search :on => :created_at,    :complete_value => true, :only_explicit => true
       scoped_search :on => :comment,       :complete_value => true
-      scoped_search :on => :enabled,       :complete_value => {:true => true, :false => false}, :rename => :'status.enabled'
+      scoped_search :on => :enabled,       :complete_value => {:true => true, :false => false}, :rename => :'status.enabled', :aliases => [:'configuration_status.enabled']
       scoped_search :on => :managed,       :complete_value => {:true => true, :false => false}
       scoped_search :on => :owner_type,    :complete_value => true, :only_explicit => true
       scoped_search :on => :owner_id,      :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
@@ -23,13 +23,13 @@ module Hostext
 
       scoped_search :relation => :last_report_object, :on => :origin, :only_explicit => true
 
-      scoped_search :relation => :configuration_status_object, :on => :status, :offset => 0, :word_size => ConfigReport::BIT_NUM * 4, :rename => :'status.interesting', :complete_value => {:true => true, :false => false}, :only_explicit => true
-      scoped_search_status "applied",         :relation => :configuration_status_object, :on => :status, :rename => :'status.applied'
-      scoped_search_status "restarted",       :relation => :configuration_status_object, :on => :status, :rename => :'status.restarted'
-      scoped_search_status "failed",          :relation => :configuration_status_object, :on => :status, :rename => :'status.failed'
-      scoped_search_status "failed_restarts", :relation => :configuration_status_object, :on => :status, :rename => :'status.failed_restarts'
-      scoped_search_status "skipped",         :relation => :configuration_status_object, :on => :status, :rename => :'status.skipped'
-      scoped_search_status "pending",         :relation => :configuration_status_object, :on => :status, :rename => :'status.pending'
+      scoped_search :relation => :configuration_status_object, :on => :status, :offset => 0, :word_size => ConfigReport::BIT_NUM * 4, :rename => :'status.interesting', :complete_value => {:true => true, :false => false}, :only_explicit => true, :aliases => [:'configuration_status.interesting']
+      scoped_search_status "applied",         :relation => :configuration_status_object, :on => :status, :rename => :'status.applied', :aliases => ['configuration_status.applied']
+      scoped_search_status "restarted",       :relation => :configuration_status_object, :on => :status, :rename => :'status.restarted', :aliases => ['configuration_status.restarted']
+      scoped_search_status "failed",          :relation => :configuration_status_object, :on => :status, :rename => :'status.failed', :aliases => ['configuration_status.failed']
+      scoped_search_status "failed_restarts", :relation => :configuration_status_object, :on => :status, :rename => :'status.failed_restarts', :aliases => ['configuration_status.failed_restarts']
+      scoped_search_status "skipped",         :relation => :configuration_status_object, :on => :status, :rename => :'status.skipped', :aliases => ['configuration_status.skipped']
+      scoped_search_status "pending",         :relation => :configuration_status_object, :on => :status, :rename => :'status.pending', :aliases => ['configuration_status.pending']
 
       scoped_search :relation => :build_status_object, :on => :status, :rename => :build_status, :only_explicit => true, :operators => ['=', '!=', '<>'], :complete_value => {
         built: HostStatus::BuildStatus::BUILT,
