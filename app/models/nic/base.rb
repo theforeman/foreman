@@ -8,6 +8,7 @@ module Nic
     encrypts :password
 
     self.table_name = 'nics'
+    self.abstract_class = true
 
     validates_lengths_from_database
 
