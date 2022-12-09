@@ -1460,6 +1460,37 @@ my_host.refresh_statuses
 The method refreshes *all* statuses by default, this is usually not what
 you want so provide status for refresh.
 
+For each status, the user should be able to search host by it's possible values.
+Your plugin must extend the `Host::Managed` object. Here is an example of how
+such extension definition could look like.
+
+[source, ruby]
+----
+module ForemanRemoteExecution
+  module HostExtensions
+    def self.prepended(base)
+      base.instance_eval do
+         # We need to make sure, there's a AR relation we'd be searching on, because the class name can't be determined by the
+         # association name, it needs to be specified explicitly (as a string). Similarly for the foreign key.
+         has_one :execution_status_object, :class_name => 'HostStatus::ExecutionStatus', :foreign_key => 'host_id'
+         
+         # Then we define the searching, the relation is the association name we define on a line above
+         # :rename key indicates the term user will use to search hosts for a given state, the convention is $feature_status
+         # :complete_value must be a hash with symbolized keys specifying all possible state values, otherwise the autocompletion
+         # would only offer values that are already in the database, however it's not guaranteed that user have hosts covering
+         # the whole set of values, that's why the explicit list is necessary. That way user can easily search of all hosts with
+         # "error" even though no host has such status.
+         scoped_search :relation => :execution_status_object, :on => :status,
+                       :rename => :execution_status,
+                       :complete_value => { :ok => HostStatus::ExecutionStatus::OK, :error => HostStatus::ExecutionStatus::ERROR }
+      end
+    end
+  end
+end
+----
+
+For more information about searching capabilities, check the [scoped_search](https://github.com/wvanbergen/scoped_search) gem documentation.
+
 [source, ruby]
 ----
 my_host.refresh_statuses([HostStatus.find_status_by_humanized_name("statusname")])
