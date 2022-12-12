@@ -40,7 +40,7 @@
           <td><%= "#{nic.bridge} - #{nic.mac} (#{nic.model})" %></td>
         </tr>
       <% end %>
-      <% @vm.volumes.each do |vol| %>
+      <% @vm.volumes.compact.each do |vol| %>
         <tr>
           <td><%= _('Disk') %></td>
           <td><%= _("using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool") % { :allocation => vol.allocation, :capacity => vol.capacity, :pool_name => vol.pool_name } %></td>

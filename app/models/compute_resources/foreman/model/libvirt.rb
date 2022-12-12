@@ -54,7 +54,7 @@ module Foreman::Model
 
     # we default to destroy the VM's storage as well.
     def destroy_vm(uuid, args = { })
-      find_vm_by_uuid(uuid).destroy({ :destroy_volumes => true }.merge(args))
+      find_vm_by_uuid(uuid).destroy({ destroy_volumes: true, flags: 0 }.merge(args))
     rescue ActiveRecord::RecordNotFound
       true
     end
