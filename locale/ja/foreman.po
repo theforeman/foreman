@@ -4481,7 +4481,7 @@ msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr "IPv6 アドレス。DHCP プロキシーでサブネットを使用する場合は不要です"
 
 msgid "IPv6 subnet"
-msgstr ""
+msgstr "IPv6 サブネット"
 
 msgid "IRC"
 msgstr "IRC"
@@ -5998,7 +5998,7 @@ msgid "Network can't be blank"
 msgstr "ネットワークを空白にすることはできません"
 
 msgid "Network interfaces"
-msgstr "ネットワークインターフェース"
+msgstr "ネットワークインターフェイス"
 
 msgid "Network prefix in CIDR notation"
 msgstr "CIDR 表記のネットワークプレフィックス"
