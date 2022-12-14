@@ -13,11 +13,13 @@ namespace :purge do
 
   desc 'Clean up all Trends data'
   task trends: :environment do
-    ::CleanupHelper.clean_trends
+    success = ::CleanupHelper.clean_trends
+    raise("Trends data could not be purged") unless success
   end
 
   task puppet: :environment do
-    ::CleanupHelper.clean_puppet
+    success = ::CleanupHelper.clean_puppet
+    raise("Puppet data could not be purged") unless success
   end
 
   task all: ['purge:foreman_docker', 'purge:trends', 'purge:puppet']
