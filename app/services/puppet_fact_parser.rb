@@ -248,11 +248,14 @@ class PuppetFactParser < FactParser
       # Archlinux is a rolling release, so it has no releases. 1.0 is always used
       '1.0'
     when /Debian/i
-      return "99" if distro_codename =~ /sid/
       release = os_release_full
       case release
-      when 'bullseye/sid' # Debian Bullseye testing will be 11
-        '11'
+      when 'bookworm/sid' # Debian Bookworm will be 12
+        '12'
+      when 'trixie/sid' # Debian Trixie will be 13
+        '13'
+      when 'forky/sid' # Debian Forky will be 14
+        '14'
       else
         release
       end
