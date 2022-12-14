@@ -7,6 +7,11 @@ class CleanupHelper
     end
 
     def clean_trends
+      if Foreman::Plugin.find(:foreman_statistics)
+        warn('You have the Statistics plugin installed, uninstall it first to purge trends data')
+        return false
+      end
+
       ActiveRecord::Base.connection.drop_table(:trend_counters, if_exists: true)
       ActiveRecord::Base.connection.drop_table(:trends, if_exists: true)
       # Migration names: create_trends create_trend_counters add_range_to_trend_counters add_trend_counter_created_at_unique_constraint
@@ -15,10 +20,15 @@ class CleanupHelper
       perms.each { |perm| perm.filters.destroy_all }
       perms.destroy_all
       Setting.where(name: 'max_trend').delete_all
+
+      true
     end
 
     def clean_puppet
-      raise('You have the Puppet plugin installed, uninstall it first to purge puppet data') if Foreman::Plugin.find(:foreman_puppet)
+      if Foreman::Plugin.find(:foreman_puppet)
+        warn('You have the Puppet plugin installed, uninstall it first to purge puppet data')
+        return false
+      end
 
       if ActiveRecord::Base.connection.column_exists?(:template_combinations, :environment_id)
         ActiveRecord::Base.connection.remove_reference(:template_combinations, :environment)
@@ -69,6 +79,8 @@ class CleanupHelper
           tax.update ignore_types: new_types
         end
       end
+
+      true
     end
   end
 end
