@@ -1,3 +1,35 @@
+2022-12-14	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.5.0
+	* i18n - extracting new, pulling from tx
+
+2022-12-13	Paul Donohue <git@PaulSD.com>
+	* Fixes #35326 - Rename hostname/fqdn ENC vars to avoid conflicts
+
+2022-12-13	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #35836 - Drop "BIOS" UUID field
+	* Refs #35796 - Reduce empty lines
+
+2022-12-13	tux93 <tux93@users.noreply.github.com>
+	* Fixes #35796 - Allow overriding default kernel parameters (#9525)
+
+2022-12-13	Bernhard Suttner <suttner@atix.de>
+	* Fixes #35674 - Add more custom pre/post snippet hooks
+
+2022-12-13	Samir Jha <sjha4@ncsu.edu>
+	* Fixes #35816 - ISE when passing org_id as an array
+
+2022-12-13	pkoprda <peto.koprda@gmail.com>
+	* Fixes #35757 - Same columns should have the same status
+
+2022-12-13	MariaAga <mariaaga@redhat.com>
+	* Fixes #35744 - Date components are not translated
+
+2022-12-13	Elkin Aguas <elkinaguas@gmail.com>
+	* Fixes #35648 - Fixes API documentation typo
+
+2022-12-13	Kamil Szubrycht <kamil.szubrycht@ironin.pl>
+	* Refs #32685 - Keep modulized model name in Global ID
+
 2022-11-30	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.5.0-rc2
 	* i18n - extracting new, pulling from tx
