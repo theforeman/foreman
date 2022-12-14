@@ -32,6 +32,7 @@ blueprints = [
         external: true,
       ],
     },
+    expires_in: 30.days,
   },
   {
     group: N_('Deprecations'),
