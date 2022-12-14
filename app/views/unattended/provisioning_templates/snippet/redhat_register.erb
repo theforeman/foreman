@@ -82,7 +82,8 @@ description: |
 <% if registration_type == 'subscription_manager' %>
   <%
     atomic = @host.operatingsystem.respond_to?(:atomic) ? @host.operatingsystem.atomic? : host_param_true?('atomic')
-    redhat_install_agent = host_param_true?('redhat_install_agent', katello_agent_enabled?)
+    redhat_install_agent_fallback = plugin_present?('katello') && katello_agent_enabled?
+    redhat_install_agent = host_param_true?('redhat_install_agent', redhat_install_agent_fallback)
 
     if host_param('kt_activation_keys')
       subscription_manager_certpkg_url = subscription_manager_configuration_url(@host)
