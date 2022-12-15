@@ -14,7 +14,8 @@ function hidden_value_control() {
   });
 }
 
-function replace_value_control(link) {
+function replace_value_control(link, tag_type) {
+  var tag_type = tag_type || 'a'
   var link = $(link);
   link
     .find('.glyphicon')
@@ -27,7 +28,7 @@ function replace_value_control(link) {
   link
     .parent()
     .parent()
-    .find('a.pull-left')
+    .find(tag_type + '.pull-left')
     .toggleClass('hide');
 }
 
