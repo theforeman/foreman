@@ -2874,7 +2874,7 @@ msgid "Error loading scheduler hint filters information: %s"
 msgstr "განრიგის მინიშნების ფილტრების ინფორმაციის ჩატვირთვის შეცდომა: %s"
 
 msgid "Error parsing value for setting '%(name)s': %(error)s"
-msgstr ""
+msgstr "შეცდომა პარამეტრის ('%(name)s') მნიშვნელობის დამუშავებისას: %(error)s"
 
 msgid "Error removing widget from dashboard."
 msgstr "სამუშაო დაფიდან ვიჯეტის წაშლის შეცდომა."
@@ -6967,7 +6967,7 @@ msgid "Parsing a hash from a string is not supported"
 msgstr "სტრიქონიდან ჰეშის დამუშავების მხარდაჭერა არ არსებობს"
 
 msgid "Parsing settings type '%s' from a string is not defined"
-msgstr ""
+msgstr "პარამეტრების ტიპის (%s) სტრიქონიდან დამუშავების მხარდაჭერა არ არსებობს"
 
 msgid "Partition Table"
 msgstr "დანაყოფების ცხრილი"
@@ -7165,7 +7165,7 @@ msgid "Please save the role first. You can edit it later to add filters"
 msgstr "ჯერ ეს როლი შეინახეთ. ფილტრების დასამატებლად მისი ჩასწორება მოგვიანებითაც შეგიძლიათ"
 
 msgid "Please save the user first before assigning mail notifications."
-msgstr ""
+msgstr "ელფოსტის გაფრთხილებების მინიჭებამდე, გთხოვთ, შეინახოთ მომხმარებელი."
 
 msgid "Please select a cluster"
 msgstr "აირჩიეთ კლასტერი"
@@ -7754,7 +7754,7 @@ msgid "Repository URL / details, for example for Debian OS family: 'deb http://d
 msgstr "რეპოზიტორიის URL / დეტალები, მაგალითად, Debian OS ოჯახისთვის: 'deb http://deb.example.com/ buster 1.0', Red Hat OS ოჯახისთვის: 'http://yum.theforeman.org/client/latest/el8 /x86_64/'"
 
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
-msgstr ""
+msgstr "რეპოზიტორიის URL / დეტალები, მაგალითად, Debian OS ოჯახისთვის: 'deb http://deb.example.com/ buster 1.0', Red Hat და SUSE OS ოჯახისთვის: 'http://yum.theforeman.org/client/latest/el8 /x86_64/'"
 
 msgid "Represents the host object for which the template is rendered."
 msgstr "წარმოადგენს ჰოსტის ობიექტს, რომლისთვისაც შაბლონი დარენდერდება."
@@ -8322,7 +8322,7 @@ msgid "Setting current value. If this setting is encypted, the value will not be
 msgstr "მიმდინარე მნიშვნელობის დაყენება. თუ პარამეტრი დაშიფრულია, მნიშვნელობა არ დაბრუნდება"
 
 msgid "Setting definition for '%s' not found, can not set"
-msgstr ""
+msgstr "პარამეტრის აღწერა '%s'-სთვის არ არსებობს და დაყენება შეუძლებელია"
 
 msgid "Setting full user readable name"
 msgstr "სრული ადამიანის მიერ წაკითხვადი სახელის დაყენება"
@@ -9701,7 +9701,7 @@ msgid "This templates requires a host to render but none was specified"
 msgstr "შაბლონს დასარენდერებლად ჰოსტი ესაჭიროება, რომელიც არ არსებობს"
 
 msgid "This user is disabled and won't be able to perform any actions. You can edit the user to enable them again."
-msgstr ""
+msgstr "ეს მომხმარებელი გამორთულია ქმედებებს ვერ შეასრულებს. მომხმარებელი შეგიძლიათ ჩართოთ."
 
 msgid "This value is not hidden"
 msgstr "მნიშვნელობა დამალული არაა"

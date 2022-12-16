@@ -1116,9 +1116,6 @@ msgstr ""
 msgid "BIOS"
 msgstr ""
 
-msgid "BIOS UUID"
-msgstr ""
-
 msgid "BMC"
 msgstr ""
 
@@ -4626,6 +4623,9 @@ msgid "Import IPv4 subnets"
 msgstr ""
 
 msgid "Import VM %s"
+msgstr ""
+
+msgid "Import a partition table"
 msgstr ""
 
 msgid "Import a provisioning template"

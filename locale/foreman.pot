@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-30 12:30+0100\n"
-"PO-Revision-Date: 2022-11-30 12:30+0100\n"
+"POT-Creation-Date: 2022-12-16 17:36+0100\n"
+"PO-Revision-Date: 2022-12-16 17:36+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -2453,7 +2453,6 @@ msgid "Create a provisioning template"
 msgstr ""
 
 #: ../app/controllers/api/v2/provisioning_templates_controller.rb:59
-#: ../app/controllers/api/v2/ptables_controller.rb:55
 msgid "Import a provisioning template"
 msgstr ""
 
@@ -2523,6 +2522,10 @@ msgstr ""
 
 #: ../app/controllers/api/v2/ptables_controller.rb:47
 msgid "Create a partition table"
+msgstr ""
+
+#: ../app/controllers/api/v2/ptables_controller.rb:55
+msgid "Import a partition table"
 msgstr ""
 
 #: ../app/controllers/api/v2/ptables_controller.rb:76
@@ -4745,7 +4748,7 @@ msgstr ""
 #: ../app/views/hosts/_assign_hosts.html.erb:36
 #: ../app/views/hosts/_interfaces.html.erb:64
 #: ../app/views/hosts/_list.html.erb:56
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:158
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:172
 #: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:48
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/CancelBtn.js:23
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:64
@@ -4857,7 +4860,7 @@ msgstr ""
 #: ../app/views/domains/_form.html.erb:4
 #: ../app/views/hostgroups/_form.html.erb:45
 #: ../app/views/subnets/_form.html.erb:25
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:82
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:66
 #: model_attributes.rb:112
 msgid "Domain"
 msgstr ""
@@ -4924,7 +4927,7 @@ msgstr ""
 #: ../app/views/hosts/_selected_hosts.html.erb:13
 #: ../config/initializers/foreman_register.rb:22
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:108
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:114
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:98
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/HostGroup.js:14
 msgid "Host group"
 msgstr ""
@@ -4942,7 +4945,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:77
 #: ../app/views/hosts/_selected_hosts.html.erb:16
 #: ../app/views/hosts/select_multiple_location.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:146
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:130
 #: taxonomies.rb:10
 msgid "Location"
 msgstr ""
@@ -4950,7 +4953,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:78
 #: ../app/views/hosts/_selected_hosts.html.erb:19
 #: ../app/views/hosts/select_multiple_organization.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:140
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:124
 #: taxonomies.rb:11
 msgid "Organization"
 msgstr ""
@@ -8492,7 +8495,7 @@ msgstr ""
 
 #: ../app/registries/foreman/settings/provisioning.rb:14
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:152
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:125
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:109
 msgid "Host owner"
 msgstr ""
 
@@ -9751,7 +9754,7 @@ msgstr ""
 #: ../config/initializers/foreman_register.rb:14
 #: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:53
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:33
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:39
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:38
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:35
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:17
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:60
@@ -10609,7 +10612,7 @@ msgid "New Autosign Entry"
 msgstr ""
 
 #: ../app/views/autosign/_form.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:155
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:169
 msgid "Save"
 msgstr ""
 
@@ -12289,7 +12292,7 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/hosts/_list.html.erb:11
 #: ../config/initializers/foreman_register.rb:18
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:98
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:82
 #: model_attributes.rb:362
 msgid "Model"
 msgstr ""
@@ -15068,14 +15071,14 @@ msgid "No data available"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:137
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:139
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:143
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:151
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:153
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:157
 msgid "Manage columns"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:147
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:161
 msgid "Select columns to display in the table."
 msgstr ""
 
@@ -15505,28 +15508,23 @@ msgid "seconds"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:33
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:32
 msgid "System properties"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:49
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:48
 #: ../webpack/assets/javascripts/react_app/components/common/ClipboardCopy/index.js:66
 msgid "Copy to clipboard"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:50
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:49
 msgid "Copied to clipboard"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:64
-msgid "BIOS UUID"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:136
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:120
 msgid "Owner type"
 msgstr ""
 
