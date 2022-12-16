@@ -1,3 +1,23 @@
+2022-12-16	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.5.1
+	* i18n - extracting new, pulling from tx
+	* Refs #35862 - Pin to fog-vsphere 3.5.x
+
+2022-12-16	Ondrej Ezr <oezr@redhat.com>
+	* Fixes #35871 - purge trends only when statistics not installed
+
+2022-12-16	Alexander Olofsson <alexander.olofsson@liu.se>
+	* Fixes #35868 - Stop using Katello unconditionally
+
+2022-12-16	Bastian Schmidt <schmidt@atix.de>
+	* Fixes #35719 - Preseed Autoinstall auto updates
+
+2022-12-16	Evgeni Golov <evgeni@golov.de>
+	* Fixes #35865 - Update future Debian release names and versions
+
+2022-12-16	MariaAga <mariaaga@redhat.com>
+	* Fixes #35819 - Details tab cards have horizontal scroll
+
 2022-12-14	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.5.0
 	* i18n - extracting new, pulling from tx
