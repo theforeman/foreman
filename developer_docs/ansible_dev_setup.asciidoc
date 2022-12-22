@@ -67,6 +67,11 @@ Enable feature
 :enabled: true
 ....
 
+Create symlink for `ansible-runner-environment`
+[source, bash]
+....
+sudo ln -s /path/to/gem/smart_proxy_ansible/bin/ansible-runner-environment.sh /usr/libexec/foreman-proxy/ansible-runner-environment
+....
 
 Run all services
 [source, bash]
