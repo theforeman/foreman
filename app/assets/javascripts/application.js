@@ -12,8 +12,8 @@ $(function() {
 
 // Prevents all links with the disabled attribute set to "disabled"
 // from being clicked.
-var handleDisabledClick = function(event, element){
-  var disabled = element.disabled || $(element).attr('disabled') === 'disabled';
+const handleDisabledClick = (event, element) => {
+  const disabled = element.disabled || $(element).attr('disabled') === 'disabled';
   if (disabled) event.preventDefault();
   return !disabled;
 }
