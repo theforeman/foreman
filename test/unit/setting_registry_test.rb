@@ -5,7 +5,7 @@ class SettingRegistryTest < ActiveSupport::TestCase
   let(:default) { 5 }
   let(:setting_value) { nil }
   let(:setting_memo) { {} }
-  let(:setting) { Setting.create(name: 'foo') }
+  let(:setting) { Setting.create(name: 'foo', category: 'Setting') }
 
   setup do
     registry._add('foo', type: :integer, category: 'Setting', default: default, full_name: 'test foo', description: 'test foo', context: :test)
@@ -32,7 +32,6 @@ class SettingRegistryTest < ActiveSupport::TestCase
     end
 
     it "updates definitions for changed settings" do
-      skip 'the update_at is not precise enough'
       setting.update(value: 100)
       registry.expects(:find).once
 
