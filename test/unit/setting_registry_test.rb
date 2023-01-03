@@ -38,8 +38,17 @@ class SettingRegistryTest < ActiveSupport::TestCase
       registry.load_values
     end
 
+    it "updates definitions for settings which were changed to their default values" do
+      setting.update(value: 100)
+      registry.load_values
+
+      setting.update(value: nil)
+      registry.expects(:find).once
+      assert registry.load_values
+    end
+
     it "can be forced to load all values" do
-      registry.expects(:find).times(Setting.where.not(value: nil).count)
+      registry.expects(:find).times(Setting.count)
 
       registry.load_values(ignore_cache: true)
     end
