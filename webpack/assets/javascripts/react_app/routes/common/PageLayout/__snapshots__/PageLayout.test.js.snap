@@ -56,6 +56,7 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
           data={
             Object {
               "autocomplete": Object {
+                "apiParams": Object {},
                 "id": "searchBar",
                 "searchQuery": "",
                 "url": "model/auto_complete_search",
@@ -145,6 +146,7 @@ exports[`render pageLayout w/search 1`] = `
           data={
             Object {
               "autocomplete": Object {
+                "apiParams": Object {},
                 "id": "searchBar",
                 "searchQuery": "",
                 "url": "model/auto_complete_search",
@@ -234,6 +236,7 @@ exports[`render pageLayout w/toolBar 1`] = `
           data={
             Object {
               "autocomplete": Object {
+                "apiParams": Object {},
                 "id": "searchBar",
                 "searchQuery": "",
                 "url": "model/auto_complete_search",
@@ -305,6 +308,7 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
           data={
             Object {
               "autocomplete": Object {
+                "apiParams": Object {},
                 "id": "searchBar",
                 "searchQuery": "",
                 "url": "model/auto_complete_search",
@@ -376,6 +380,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
           data={
             Object {
               "autocomplete": Object {
+                "apiParams": Object {},
                 "id": "searchBar",
                 "searchQuery": "",
                 "url": "model/auto_complete_search",

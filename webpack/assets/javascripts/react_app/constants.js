@@ -9,13 +9,15 @@ export const STATUS = {
 export const getControllerSearchProps = (
   controller,
   id = `searchBar-${controller}`,
-  canCreate = true
+  canCreate = true,
+  apiParams = {}
 ) => ({
   controller,
   autocomplete: {
     id,
     searchQuery: '',
     url: `${controller}/auto_complete_search`,
+    apiParams: apiParams,
     useKeyShortcuts: true,
   },
   bookmarks: {
