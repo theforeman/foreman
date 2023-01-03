@@ -1,6 +1,7 @@
 export const SearchBarProps = {
   data: {
     autocomplete: {
+      apiParams: {},
       searchQuery: null,
       url: 'model/auto_complete_search',
       id: 'searchBar',

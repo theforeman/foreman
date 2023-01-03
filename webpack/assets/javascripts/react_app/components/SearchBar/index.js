@@ -10,7 +10,7 @@ import { noop } from '../../common/helpers';
 
 const SearchBar = ({
   data: {
-    autocomplete: { url, searchQuery } = { url: '' },
+    autocomplete: { url, searchQuery, apiParams } = { url: '' },
     controller,
     bookmarks,
     disabled,
@@ -21,20 +21,20 @@ const SearchBar = ({
 }) => {
   const [search, setSearch] = useState(initialQuery || searchQuery || '');
   const { response, status, setAPIOptions } = useAPI('get', url, {
-    params: { search },
+    params: { ...apiParams, search },
   });
   const [prevSearch, setPrevSearch] = useState(searchQuery);
   if (searchQuery !== prevSearch) {
     setPrevSearch(searchQuery);
     if (searchQuery !== search) {
       setSearch(searchQuery || '');
-      setAPIOptions({ params: { search: searchQuery || '' } });
+      setAPIOptions({ params: { ...apiParams, search: searchQuery || '' } });
     }
   }
   const _onSearchChange = newValue => {
     onSearchChange(newValue);
     setSearch(newValue);
-    setAPIOptions({ params: { search: newValue } });
+    setAPIOptions({ params: { ...apiParams, search: newValue } });
   };
   const error =
     status === STATUS.ERROR || response?.[0]?.error
