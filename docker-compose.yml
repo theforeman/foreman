@@ -56,7 +56,7 @@ services:
 
   worker:
     <<: *app_base
-    command: bundle exec sidekiq -r ./extras/dynflow-sidekiq.rb -c 15 -q default,remote_execution
+    command: bundle exec sidekiq -r ./extras/dynflow-sidekiq.rb -c 15 -q default,1 -q remote_execution,1
     ports: []
 
   redis-cache:
