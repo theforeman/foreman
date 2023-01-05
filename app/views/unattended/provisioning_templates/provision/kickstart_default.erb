@@ -75,8 +75,8 @@ description: |
 <%
 if plugin_present?('katello')
 -%>
-# Lifecycle environment: <%= @host.lifecycle_environment %>
-# Content View: <%= @host.content_view %>
+# Lifecycle environment: <%= @host.single_lifecycle_environment %>
+# Content View: <%= @host.single_content_view %>
 # Content Source: <%= @host.content_source %>
 <% end -%>
 
