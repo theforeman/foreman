@@ -31,7 +31,7 @@ services:
       - FOREMAN_FQDN=foreman.example.com
       - FOREMAN_DOMAIN=example.com
       - FOREMAN_RAILS_CACHE_STORE_TYPE=redis
-      - FOREMAN_RAILS_CACHE_STORE_URLS=redis://redis:6379/0
+      - FOREMAN_RAILS_CACHE_STORE_URLS=redis://redis-cache:6379/0
       - DYNFLOW_REDIS_URL=redis://redis-tasks:6379/0
       - REDIS_PROVIDER=DYNFLOW_REDIS_URL
     hostname: foreman.example.com
