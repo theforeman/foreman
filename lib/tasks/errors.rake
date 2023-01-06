@@ -15,33 +15,11 @@ namespace :errors do
 
   task :fetch_log => :environment do
     request_id = ENV['request_id']
-    logfile = ENV['log_file'] || 'production.log' # default file where we want to find is production.log
     unless request_id
       puts "Can't find log without request_id"
       exit(1)
     end
-    type = Foreman::Logging.config[:type]
-    unless type == 'file'
-      puts "This rake task only support log file, you're using #{type}"
-      puts "You can search the logs in #{type} for request_id #{request_id}"
-      exit(1)
-    end
-    if Foreman::Logging.config[:layout] != 'multiline_request_pattern'
-      puts "Warning: Logging layout is not multiline_request_pattern."
-      puts "This output of this command can be incomplete."
-    end
-    file_path = File.join(Foreman::Logging.log_directory, logfile)
-    unless File.exist?(file_path)
-      puts "Can't find log file #{file_path}"
-      exit(1)
-    end
-    result = `grep "#{request_id}" "#{file_path}"`
-    if result.empty?
-      puts "Can't find log for request_id"
-      exit(1)
-    end
-    puts result
-    puts "\n"
+
     puts "Foreman version: #{Foreman::Version.new.full}"
     unless (plugins = Foreman::Plugin.all).empty?
       puts "Plugins: "
@@ -49,5 +27,48 @@ namespace :errors do
         puts " - #{plugin.name} #{plugin.version}"
       end
     end
+    puts
+
+    type = Foreman::Logging.config[:type]
+    lines = case type
+            when 'file'
+              logfile = ENV['log_file'] || 'production.log' # default file where we want to find is production.log
+              if Foreman::Logging.config[:layout] != 'multiline_request_pattern'
+                puts "Warning: Logging layout is not multiline_request_pattern."
+                puts "This output of this command can be incomplete."
+              end
+              file_path = File.join(Foreman::Logging.log_directory, logfile)
+              unless File.exist?(file_path)
+                puts "Can't find log file #{file_path}"
+                exit(1)
+              end
+              result = `grep "#{request_id}" "#{file_path}"`
+              if result.empty?
+                puts "Can't find log for request_id"
+                exit(1)
+              end
+              result
+            when 'journald'
+              require 'open3'
+              require 'etc'
+
+              cmd = ['journalctl', "REQUEST=#{request_id}"]
+              stdout, stderr, _status = Open3.capture3(cmd)
+
+              if stdout.include?('No entries')
+                puts "Can't find log for request_id"
+                exit(1)
+              elsif stderr.include?('No journal files were opened due to insufficient permissions.')
+                puts "User #{Etc.getpwuid(Process.euid).name} could not access system journal due to missing privileges."
+                puts "Please run the following command as a user with access to the system journal."
+                print cmd.join(' ')
+              end
+              stdout
+            else
+              puts "This rake task only supports retrieving logs from a log file or journald, you're using #{type}"
+              puts "You can search the logs in #{type} for request_id #{request_id}"
+              exit(1)
+            end
+    puts lines
   end
 end
