@@ -81,7 +81,15 @@ module TemplatesHelper
       elsif input_type == 'search'
         input_type = 'autocomplete'
         resource_type = input.resource_type&.tableize
-        options.merge!(resource_type: resource_type, use_key_shortcuts: false, url: search_path(resource_type))
+        options[:data] = {
+          autocomplete: {
+            searchQuery: options[:search_query] || f.object&.value || '',
+            controller: options[:path] || auto_complete_controller_name,
+            disabled: options[:disabled] || false,
+            url: search_path(resource_type),
+          },
+        }
+        options[:onSearch] = nil
       end
       react_form_input(input_type, f, :value, options)
     end
