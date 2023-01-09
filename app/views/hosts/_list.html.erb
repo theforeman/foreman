@@ -4,7 +4,6 @@
   <thead>
     <tr>
       <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onchange => "tfm.hosts.table.toggleCheck()", :'check-title' => _("Select all items on this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
-      <th hidden="true" class="ca" width="80px"><%= _('Power') %></th>
       <%= render_pagelets_for(:hosts_table_column_header) %>
       <th hidden="true" width="25%"><%= sort :name, :as => _('Name') %></th>
       <th hidden="true" class="hidden-xs" width="17%"><%= sort :os_title, :as => _("Operating system") %></th>
@@ -21,9 +20,6 @@
       <tr>
         <td class="ca">
           <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'tfm.hosts.table.hostChecked(this)' %>
-        </td>
-        <td hidden="true" class="ca">
-          <%= react_component('PowerStatus', id: host.id, url: power_api_host_path(host)) %>
         </td>
         <%= render_pagelets_for(:hosts_table_column_content, :subject => host) %>
         <td hidden="true" class="ellipsis"><%= name_column(host) %></td>
