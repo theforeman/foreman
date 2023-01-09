@@ -21,7 +21,7 @@ export const SearchAutocomplete = ({
 
   const _onSearch = searchValue => {
     setIsAutocompleteOpen(false);
-    onSearch(searchValue);
+    onSearch && onSearch(searchValue);
   };
   const onClear = () => {
     onSearchChange('');
