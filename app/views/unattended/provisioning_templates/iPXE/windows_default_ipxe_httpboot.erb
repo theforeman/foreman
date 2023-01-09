@@ -1,0 +1,23 @@
+<%#
+kind: iPXE
+name: Windows default iPXE httpboot
+model: ProvisioningTemplate
+oses:
+- Windows
+description: |
+  The template to render iPXE installation script for Windows
+  The output is deployed on the host's subnet TFTP proxy.
+  See https://ipxe.org/scripting for more details
+-%>
+#!ipxe
+
+set boot-url http://<%= foreman_request_addr %>/httpboot/
+kernel ${boot-url}<%= @host.operatingsystem.bootfile(medium_provider,:kernel) %>
+
+initrd <%= foreman_url('script') %> peSetup.cmd
+
+initrd ${boot-url}<%= @host.operatingsystem.bootfile(medium_provider,:bcd) %> BCD
+initrd ${boot-url}<%= @host.operatingsystem.bootfile(medium_provider,:bootsdi) %> boot.sdi
+initrd ${boot-url}<%= @host.operatingsystem.bootfile(medium_provider,:bootwim) %> boot.wim
+
+boot
