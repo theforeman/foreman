@@ -4,7 +4,25 @@ name: kickstart_rhsm
 model: ProvisioningTemplate
 snippet: true
 description: |
-  Generate Anaconda RHSM configuration for Red Hat OS registration
+  Generate Anaconda RHSM configuration for registration.
+
+  Parameters for use with subscription-manager:
+    activation_key = <key>                      Activation key string
+    subscription_manager = 'true'               You're going to use subscription-manager
+    subscription_manager_org = <org name>       Organization name, if required
+    http-proxy = <host>                         Proxy hostname to be used for registration
+    http-proxy-port = <port>                    Proxy port to be used for registration
+    http-proxy-user = <user>                    Proxy user to be used for registration
+    http-proxy-password = <password>            Proxy password to be used for registration
+    syspurpose_role                             Sets the system purpose role
+    syspurpose_usage                            Sets the system purpose usage
+    syspurpose_sla                              Sets the system purpose SLA
+    syspurpose_addons                           Sets the system purpose add-ons. Separate multiple
+                                                values with commas.
+  Optional Parameters (When using Satellite or a different Katello instance):
+    rhsm_host = <hostname>                      Hostname of another katello or satellite instance.
+    pulp_content_url =                          The baseurl of that other katello or satellite
+      <https://hostname/pulp/repos>             instance.
 test_on:
 - rhel9_dhcp
 -%>
@@ -14,8 +32,22 @@ test_on:
   subman_registration = host_param_true?('subscription_manager') || subman_keys.present?
   subman_hostname = " --server-hostname #{@host.content_source.rhsm_url.host}" if (plugin_present?('katello') && @host.content_source)
   subman_rhsm_baseurl = " --rhsm-baseurl #{@host.content_source.pulp_content_url}" if (plugin_present?('katello') && @host.content_source)
+  subman_hostname = " --server-hostname #{host_param('rhsm_host')}" if host_param('rhsm_host')
+  subman_rhsm_baseurl = " --rhsm-baseurl #{host_param('pulp_content_url')}" if host_param('pulp_content_url')
   subman_insights = ' --connect-to-insights' if host_param_true?('host_registration_insights')
-
+  if host_param('http-proxy')
+    subman_proxy = ' --proxy='
+    subman_proxy_auth = host_param('http-proxy-user') if host_param('http-proxy-user')
+    subman_proxy_auth += ':' + host_param('http-proxy-password') if host_param("http-proxy-password")
+    if host_param("http-proxy") ~ /:\/\// 
+      proxy_proto = host_param("http-proxy")[0,(host_param("http-proxy") ~ /:\/\//)] + '://'
+      proxy_path = host_param("http-proxy")[(host_param("http-proxy") ~ /:\/\//) + 3..-1]
+    end
+    subman_proxy += proxy_proto if proxy_proto
+    subman_proxy += subman_proxy_auth + '@' if subman_proxy_auth
+    subman_proxy += host_param("http-proxy") || proxy_path
+    subman_proxy += ':' +  host_param("http-proxy-port") if host_param("http-proxy-port") 
+  end
   sys_role = " --role '#{host_param('syspurpose_role')}'" if host_param('syspurpose_role')
   sys_usage = " --usage '#{host_param('syspurpose_usage')}'" if host_param('syspurpose_usage')
   sys_sla = " --sla '#{host_param('syspurpose_sla')}'" if host_param('syspurpose_sla')
@@ -23,7 +55,7 @@ test_on:
                                                   .map { |add_on| "--addon '#{add_on.strip}'" }.join(" ")}" if host_param('syspurpose_addons')
 -%>
 <% if subman_registration -%>
-rhsm --organization="<%= subman_org %>" --activation-key="<%= subman_keys %>"<%= subman_hostname -%><%= subman_rhsm_baseurl -%><%= subman_insights -%>
+rhsm --organization="<%= subman_org %>" --activation-key="<%= subman_keys %>"<%= subman_hostname -%><%= subman_rhsm_baseurl -%><%= subman_insights -%><%= subman_proxy -%>
 <% end -%>
 <%- if host_param('syspurpose_role') %>
 syspurpose<%= sys_role %><%= sys_usage %><%= sys_sla %><%= sys_addons %>
