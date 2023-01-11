@@ -7,6 +7,7 @@ import BarChart from './common/charts/BarChart';
 import DonutChart from './common/charts/DonutChart';
 import LineChart from './common/charts/LineChart';
 import PowerStatus from './hosts/powerStatus/';
+import PowerStatusDropDown from './HostDetails/DetailsCard/PowerStatus/PowerStatusDropDown';
 import NotificationContainer from './notifications/';
 import ToastsList from './ToastsList/';
 import RelativeDateTime from './common/dates/RelativeDateTime';
@@ -124,6 +125,7 @@ const coreComponets = [
   { name: 'DonutChart', type: DonutChart },
   { name: 'LineChart', type: LineChart },
   { name: 'PowerStatus', type: PowerStatus },
+  { name: 'PowerStatusDropDown', type: PowerStatusDropDown },
   { name: 'NotificationContainer', type: NotificationContainer },
   { name: 'ToastNotifications', type: ToastsList },
   { name: 'StorageContainer', type: StorageContainer },

@@ -106,7 +106,7 @@ export const cancelBuild = hostId => dispatch => {
   );
 };
 
-export const isHostTurnOn = store => {
-  const { state } = selectAPIResponse(store, POWER_REQURST_KEY);
+export const isHostTurnOn = hostId => store => {
+  const { state } = selectAPIResponse(store, `${POWER_REQURST_KEY}_${hostId}`);
   return state === 'on';
 };

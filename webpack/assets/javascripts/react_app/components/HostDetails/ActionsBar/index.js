@@ -47,7 +47,7 @@ const ActionsBar = ({
   const onKebabToggle = isOpen => setKebab(isOpen);
   const { destroyVmOnHostDelete } = useForemanSettings();
   const registeredItems = useSelector(selectKebabItems, shallowEqual);
-  const isHostActive = useSelector(isHostTurnOn);
+  const isHostActive = useSelector(isHostTurnOn(hostId));
 
   const dispatch = useDispatch();
   const deleteHostHandler = () =>

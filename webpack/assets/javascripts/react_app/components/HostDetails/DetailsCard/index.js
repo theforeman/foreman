@@ -31,6 +31,7 @@ const DetailsCard = ({
   status,
   hostName,
   hostDetails: {
+    id: hostID,
     ip,
     ip6,
     mac,
@@ -48,7 +49,7 @@ const DetailsCard = ({
         <CardTitle>{__('Details')}</CardTitle>
         <CardActions>
           <PowerStatusDropDown
-            hostID={hostName}
+            hostID={hostID || hostName}
             hasPowerPermission={hasPowerPermission}
           />
         </CardActions>
@@ -184,6 +185,7 @@ DetailsCard.propTypes = {
   hostName: PropTypes.string,
   status: PropTypes.string,
   hostDetails: PropTypes.shape({
+    id: PropTypes.number,
     comment: PropTypes.string,
     hostgroup_name: PropTypes.string,
     hostgroup_id: PropTypes.number,
@@ -200,6 +202,7 @@ DetailsCard.defaultProps = {
   hostName: undefined,
   status: STATUS.PENDING,
   hostDetails: {
+    id: undefined,
     comment: undefined,
     hostgroup_name: undefined,
     hostgroup_id: undefined,

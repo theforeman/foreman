@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Dropdown,
   DropdownToggle,
@@ -8,28 +8,51 @@ import {
   Tooltip,
 } from '@patternfly/react-core';
 
+import { get } from '../../../../redux/API';
 import { foremanUrl } from '../../../../common/helpers';
-import { useAPI } from '../../../../common/hooks/API/APIHooks';
 import { translate as __ } from '../../../../common/I18n';
 import PowerStatusIcon from './PowerStatusIcon';
 import {
   POWER_REQUEST_OPTIONS,
   BASE_POWER_STATES,
   SUPPORTED_POWER_STATES,
+  POWER_REQURST_KEY,
 } from './constants';
 import { changeHostPower } from './actions';
 import { openConfirmModal } from '../../../ConfirmModal';
+import {
+  selectState,
+  selectTitle,
+  selectResponseStatus,
+} from './PowerStatusSelectors';
 
 import '../styles.scss';
 
-const PowerStatusDropDown = ({ hostID, hasPowerPermission, isBmc }) => {
-  const powerURL = foremanUrl(`/api/hosts/${hostID}/power`);
-  const {
-    response: { state: currentState, title, statusText },
-    status: responseStatus,
-  } = useAPI('get', powerURL, POWER_REQUEST_OPTIONS);
-
+const PowerStatusDropDown = ({
+  hostID,
+  hasPowerPermission,
+  isBmc,
+  iconSize,
+}) => {
   const dispatch = useDispatch();
+
+  const key = `${POWER_REQURST_KEY}_${hostID}`;
+  const currentState = useSelector(store => selectState(store, key));
+  const title = useSelector(store => selectTitle(store, key));
+  const responseStatus = useSelector(store => selectResponseStatus(store, key));
+
+  useEffect(() => {
+    dispatch(
+      get(
+        {
+          key,
+          url: foremanUrl(`/api/hosts/${hostID}/power`),
+        },
+        POWER_REQUEST_OPTIONS
+      )
+    );
+  }, [hostID, key, dispatch]);
+
   const [isOpen, setOpen] = useState(false);
   const changePowerHandler = targetState => {
     dispatch(
@@ -61,7 +84,7 @@ const PowerStatusDropDown = ({ hostID, hasPowerPermission, isBmc }) => {
   const onDropdownSelect = event => setOpen(false);
   const onToggle = open => setOpen(open);
   return (
-    <Tooltip content={statusText || title}>
+    <Tooltip content={title}>
       <Dropdown
         ouiaId="power-status-dropdown"
         isOpen={isOpen}
@@ -76,7 +99,7 @@ const PowerStatusDropDown = ({ hostID, hasPowerPermission, isBmc }) => {
           >
             <PowerStatusIcon
               state={currentState}
-              title={title}
+              size={iconSize}
               responseStatus={responseStatus}
             />
           </DropdownToggle>
@@ -88,13 +111,15 @@ const PowerStatusDropDown = ({ hostID, hasPowerPermission, isBmc }) => {
 
 PowerStatusDropDown.propTypes = {
   hasPowerPermission: PropTypes.bool,
-  hostID: PropTypes.string.isRequired,
+  hostID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   isBmc: PropTypes.bool,
+  iconSize: PropTypes.string,
 };
 
 PowerStatusDropDown.defaultProps = {
   hasPowerPermission: false,
   isBmc: false,
+  iconSize: 'md',
 };
 
 export default PowerStatusDropDown;

@@ -4,7 +4,7 @@ import { POWER_REQURST_KEY, SUPPORTED_POWER_STATES } from './constants';
 
 export const changeHostPower = (state, hostID) =>
   put({
-    key: POWER_REQURST_KEY,
+    key: `${POWER_REQURST_KEY}_${hostID}`,
     params: { power_action: state },
     url: `/api/hosts/${hostID}/power`,
     errorToast: err => sprintf(__('an error occurred: %s'), err),
