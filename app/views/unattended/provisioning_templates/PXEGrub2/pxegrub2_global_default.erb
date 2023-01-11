@@ -28,8 +28,8 @@ echo Default PXE global template entry is set to '<%= global_setting("default_px
     raise("PXE type #{profile[:pxe_type]} not supported by template #{template_name}")
   end %>
 menuentry '<%= "#{profile[:hostgroup]} - #{profile[:template]}" %>' {
-  linuxefi <%= profile[:kernel] %> <%= append %>
-  initrdefi <%= profile[:initrd] %>
+  linux <%= profile[:kernel] %> <%= append %>
+  initrd <%= profile[:initrd] %>
 }
 <% end %>
 <% end -%>
