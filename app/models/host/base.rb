@@ -609,8 +609,12 @@ module Host
     end
 
     def password_base64_encrypted?
-      if root_pass_changed?
-        root_pass == hostgroup.try(:read_attribute, :root_pass)
+      hostgroup_root_pass = hostgroup.try(:read_attribute, :root_pass)
+
+      if self[:root_pass].blank? && hostgroup_root_pass.blank?
+        false
+      elsif root_pass_changed?
+        root_pass == hostgroup_root_pass
       else
         true
       end
