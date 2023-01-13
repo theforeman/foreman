@@ -1083,6 +1083,24 @@ class HostTest < ActiveSupport::TestCase
     assert_nil h.read_attribute(:root_pass), 'should not copy root_pass to host unmodified'
   end
 
+  test "should use settings root password for windows when hostgroup has empty root password" do
+    password = "HelloWorld"
+    Setting[:root_pass] = password.dup
+    g = FactoryBot.create(:hostgroup, :with_domain, :with_os, :root_pass => "")
+    h = FactoryBot.create(:host, :managed, :hostgroup => g)
+
+    g.operatingsystem.update_attribute(:password_hash, 'Base64-Windows')
+    g.save
+    h.root_pass = ""
+    h.save
+
+    assert_valid h
+    assert h.root_pass.present?
+    assert_equal Setting[:root_pass], password, 'should not modify Setting[:root_pass]'
+    assert_equal h.root_pass, 'SABlAGwAbABvAFcAbwByAGwAZABBAGQAbQBpAG4AaQBzAHQAcgBhAHQAbwByAFAAYQBzAHMAdwBvAHIAZAA='
+    assert_nil h.read_attribute(:root_pass), 'should not copy root_pass to host unmodified'
+  end
+
   test "should validate pxe loader when provided" do
     host = Host.create :name => "myhostpxe", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => true, :pxe_loader => "PXELinux BIOS", :location => taxonomies(:location1), :organization => taxonomies(:organization1)
     assert_equal "x86_64", host.architecture.name

@@ -273,7 +273,7 @@ class Hostgroup < ApplicationRecord
   end
 
   def password_base64_encrypted?
-    !root_pass_changed?
+    !(self[:root_pass].blank? && nested_root_pw.blank?) && !root_pass_changed?
   end
 
   def validate_subnet_types
