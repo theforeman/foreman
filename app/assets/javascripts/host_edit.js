@@ -530,6 +530,9 @@ function onHostEditLoad() {
   $('#params-tab').on('shown', function() {
     mark_params_override();
   });
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    $('a[rel="popover"]').popover("destroy");
+  });
   if ($('#supports_update') && !$('#supports_update').data('supports-update'))
     disable_vm_form_fields();
   pxeLoaderCompatibilityCheck();
