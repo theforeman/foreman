@@ -22,3 +22,4 @@
 //= link proxy_status.js
 //= link about.js
 //= link parameter_override.js
+//= link templates.js
