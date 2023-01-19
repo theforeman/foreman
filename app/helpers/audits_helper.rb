@@ -7,7 +7,7 @@ module AuditsHelper
     return _("N/A") if change.nil?
     case name
       when "ancestry"
-        label = change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue _("NA") }.join('/')
+        label = change.blank? ? "" : change.split('/').map { |i| Hostgroup.find(i).name rescue _("N/A") }.join('/')
       when 'last_login_on'
         label = change.to_s(:short)
       when /.*_id$/
