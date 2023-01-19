@@ -7,6 +7,7 @@ description: |
   The list of kernel options for initrd appended to the bootloader kernel line on Red Hat compatible distributions.
   Typically renders to a string with the url where to fetch the OS installer answer files, e.g.
     network ksdevice=bootif ks.device=bootif BOOTIF=01-52-54-00-8b-a3-86 inst.ks=http://foreman.example.com/unattended/provision inst.ks.sendmac ip=dhcp nameserver=192.168.122.1
+  Custom options can be added by setting the array parameter kickstart_kernel_custom_options
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -20,6 +21,8 @@ description: |
   subnet4 = iface.subnet
   subnet6 = iface.subnet6
   dual_stack_fallback = host_param('dual_stack_provision_fallback')
+
+  custom_options = [host_param('kickstart_kernel_custom_options')].flatten.compact
   options = []
 
   if rhel_compatible && os_major < 8
@@ -157,6 +160,9 @@ description: |
   elsif nic_delay
     options.push("nicdelay=#{nic_delay} linksleep=#{nic_delay}")
   end
+
+  # add user specified custom options if specified (noop if not)
+  options.concat(custom_options)
 -%>
 <%# do not add newline after the next line %>
 <%= options.join(' ') -%>
