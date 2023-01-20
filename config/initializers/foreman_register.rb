@@ -22,6 +22,6 @@ Pagelets::Manager.with_key 'hosts/_list' do |ctx|
     add_pagelet :hosts_table_column_header, key: :last_report, label: _('Last report'), sortable: true, default_sort: 'DESC', width: '10%', class: common_th_class
     add_pagelet :hosts_table_column_content, key: :last_report, class: common_td_class, callback: ->(host) { last_report_column(host) }
     add_pagelet :hosts_table_column_header, key: :comment, label: _('Comment'), sortable: true, width: '7%', class: common_th_class
-    add_pagelet :hosts_table_column_content, key: :comment, class: common_th_class + ' ca', attr_callbacks: { title: ->(host) { host.comment&.truncate(255) } }, callback: ->(host) { icon_text('comment', '') unless host.comment.empty? }
+    add_pagelet :hosts_table_column_content, key: :comment, class: common_th_class + ' ca', attr_callbacks: { title: ->(host) { h host.comment&.truncate(255) } }, callback: ->(host) { icon_text('comment', '') unless host.comment.empty? }
   end
 end
