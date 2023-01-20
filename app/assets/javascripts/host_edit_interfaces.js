@@ -57,7 +57,6 @@ function save_interface_modal() {
   interface_hidden.append(modal_form);
 
   close_interface_modal();
-  sync_primary_name(false);
   update_interface_table();
   update_fqdn();
 }
