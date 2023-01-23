@@ -29,7 +29,7 @@ $(document).on('ContentLoad', function() {
     $('#build-review').click();
   });
 
-  const action_buttons = $('.btn-toolbar a')
+  var action_buttons = $('.btn-toolbar a')
     .not('.dropdown-toggle')
     .not('.dropdown-toggle > a');
   var wait_msg = $('#processing_message');
@@ -40,7 +40,9 @@ $(document).on('ContentLoad', function() {
     show: false,
   });
 
-  const is_in_array = (val, arr) => arr.indexOf(val) > -1;
+  var is_in_array = function(val, arr) {
+    return arr.indexOf(val) > -1;
+  };
 
   action_buttons.on('click', function() {
     if (this.id === 'delete-button' && !confirm($(this).attr('data-message')))
