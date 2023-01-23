@@ -14,7 +14,8 @@ function hidden_value_control() {
   });
 }
 
-function replace_value_control(link, tag_type = a) {
+function replace_value_control(link, tag_type) {
+  var tag_type = tag_type || 'a'
   var link = $(link);
   link
     .find('.glyphicon')
