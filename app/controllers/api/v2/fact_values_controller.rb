@@ -15,8 +15,7 @@ module Api
           no_timestamp_facts.
           search_for(*search_options).paginate(paginate_options).
           joins(:fact_name, :host).
-          select(:value, 'fact_names.name as factname', 'hosts.name as hostname')
-
+          pluck(:value, 'fact_names.name', 'hosts.name')
         @fact_values = build_facts_hash(values)
       end
 
@@ -28,11 +27,7 @@ module Api
       private
 
       def build_facts_hash(facts)
-        hash = Hash.new { |h, k| h[k] = {} }
-        facts.each do |fact|
-          hash[fact.hostname][fact.factname] = fact.value
-        end
-        hash
+        facts.each_with_object({}) { |(value, factname, hostname), h| (h[hostname] ||= {})[factname] = value }
       end
     end
   end
