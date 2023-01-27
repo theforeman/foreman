@@ -42,7 +42,6 @@ dhclient
 chrony
 -ntp
 wget
-@Core
 dracut-fips
 -prelink
 
