@@ -55,7 +55,7 @@ RUN bundle install && \
 RUN \
   make -C locale all-mo && \
   mv -v db/schema.rb.nulldb db/schema.rb && \
-  bundle exec rake assets:clean assets:precompile apipie:cache:index
+  bundle exec rake assets:clean assets:precompile
 
 RUN npm install --no-optional && \
   ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js && npm run analyze && \
