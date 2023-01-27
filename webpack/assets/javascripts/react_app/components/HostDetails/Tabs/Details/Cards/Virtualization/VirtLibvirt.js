@@ -45,7 +45,7 @@ const VirtLibvirt = ({ vm }) => (
     {Object.values(vm.volumes_attributes).map((vol, index) => (
       <DescriptionListGroup key={`volume-${index}`}>
         <DescriptionListTerm>{__('Disk capacity')}</DescriptionListTerm>
-        <DescriptionListDescription>{`${vol.vol.capacity} GB`}</DescriptionListDescription>
+        <DescriptionListDescription>{`${vol.capacity} GB`}</DescriptionListDescription>
         <DescriptionListTerm>{__('Storage pool')}</DescriptionListTerm>
         <DescriptionListDescription>{vol.pool_name}</DescriptionListDescription>
         <DescriptionListTerm>{__('Disk allocation')}</DescriptionListTerm>
