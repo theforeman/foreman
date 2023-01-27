@@ -41,7 +41,6 @@ reboot
 yum
 chrony
 -ntp
-@Core
 dracut-fips
 -prelink
 
