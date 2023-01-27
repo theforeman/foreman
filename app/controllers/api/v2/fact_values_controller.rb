@@ -15,7 +15,7 @@ module Api
           no_timestamp_facts.
           search_for(*search_options).paginate(paginate_options).
           joins(:fact_name, :host).
-          select(:value, 'fact_names.name as factname', 'hosts.name as hostname')
+          select(:value, :fact_name_id, 'fact_names.name as factname', 'hosts.name as hostname')
 
         @fact_values = build_facts_hash(values)
       end
