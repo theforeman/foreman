@@ -6,6 +6,7 @@ ENV FOREMAN_FQDN=foreman.example.com
 ENV FOREMAN_DOMAIN=example.com
 
 RUN \
+  dnf upgrade -y && \
   dnf module enable ruby:${RUBY_VERSION} nodejs:${NODEJS_VERSION} -y && \
   dnf install -y postgresql-libs ruby{,gems} rubygem-{rake,bundler} npm nc hostname && \
   dnf clean all
