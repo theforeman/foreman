@@ -18,7 +18,9 @@ class Organization < Taxonomy
 
   scope :completer_scope, ->(opts) { my_organizations }
 
-  scoped_search :on => :id, :validator => ScopedSearch::Validators::INTEGER, :rename => 'organization_id', :only_explicit => true
+  scoped_search :on => :id, :validator => ScopedSearch::Validators::INTEGER, :rename => 'organization_id', :only_explicit => true,
+                :value_translation => ->(value) { value == 'assigned' ? my_organizations.pluck(:id) : value },
+                :special_values => %w(assigned)
 
   scope :my_organizations, lambda { |user = User.current|
     user.admin? ? all : where(id: user.organization_and_child_ids)
