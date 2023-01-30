@@ -18,13 +18,14 @@ class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
-    props.history.listen(() => {
-      if (this.state.hasError) {
-        this.setState({
-          hasError: false,
-        });
-      }
-    });
+    props.history &&
+      props.history.listen(() => {
+        if (this.state.hasError) {
+          this.setState({
+            hasError: false,
+          });
+        }
+      });
   }
 
   componentDidCatch(error, info) {
@@ -32,10 +33,11 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    const { history, children } = this.props;
+    const { history, children, fallback } = this.props;
     const { hasError, error, info } = this.state;
 
     if (!hasError) return children;
+    if (fallback) return fallback();
 
     const description = (
       <>
@@ -93,7 +95,12 @@ ErrorBoundary.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  history: PropTypes.object.isRequired,
+  history: PropTypes.object,
+  fallback: PropTypes.func,
+};
+ErrorBoundary.defaultProps = {
+  history: undefined,
+  fallback: undefined,
 };
 
 export default ErrorBoundary;
