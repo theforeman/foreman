@@ -40,6 +40,6 @@ require:
 {
 "kernel": "<%= @kernel_uri %>",
 "initram": "<%= @initrd_uri %>",
-"append": "url=<%= foreman_url('provision') + "&static=yes" %> interface=<%= mac %> netcfg/get_ipaddress=<%= ip %> netcfg/get_netmask=<%= mask %> netcfg/get_gateway=<%= gw %> netcfg/get_nameservers=<%= dns %> netcfg/disable_dhcp=true netcfg/get_hostname=<%= @host.name %> BOOTIF=<%= bootif %> <%= options.compact.join(' ') %>",
+"append": "url=<%= foreman_url('provision', { static: 'yes' })%> interface=<%= mac %> netcfg/get_ipaddress=<%= ip %> netcfg/get_netmask=<%= mask %> netcfg/get_gateway=<%= gw %> netcfg/get_nameservers=<%= dns %> netcfg/disable_dhcp=true netcfg/get_hostname=<%= @host.name %> BOOTIF=<%= bootif %> <%= options.compact.join(' ') %>",
 "extra": <%= extra %>
 }
