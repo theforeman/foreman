@@ -60,7 +60,7 @@ const CardTemplate = ({
       {...overrideGridProps}
       className="masonry-item"
     >
-      <Card isExpanded={isExpanded} ouiaId="card-template">
+      <Card isExpanded={isExpanded} ouiaId={`card-template-${cardId}`}>
         <CardHeader
           onExpand={expandable && onExpandCallback}
           isToggleRightAligned
