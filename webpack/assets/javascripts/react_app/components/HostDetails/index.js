@@ -243,13 +243,18 @@ const HostDetails = ({
                   isNavCollapsed ? '138' : '263'
                 }`}
               >
-                {filteredTabs.map(tab => (
-                  <Tab
-                    key={tab}
-                    eventKey={tab}
-                    title={slotMetadata?.[tab]?.title || tab}
-                  />
-                ))}
+                {filteredTabs.map(tab => {
+                  const tabID = `${tab.toLowerCase()}-tab`;
+                  return (
+                    <Tab
+                      key={tab}
+                      id={tabID}
+                      ouiaId={tabID}
+                      eventKey={tab}
+                      title={slotMetadata?.[tab]?.title || tab}
+                    />
+                  );
+                })}
               </Tabs>
             </TabRouter>
           </CardExpansionContextWrapper>
