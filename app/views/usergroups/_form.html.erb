@@ -6,6 +6,7 @@
     <% if AuthSource.non_internal.present? %>
       <li><a href="#external" data-toggle="tab"><%= _("External Groups") %></a></li>
     <% end %>
+    <%= render_tab_header_for(:main_tabs, :subject => @usergroup, :form => f) %>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
@@ -71,6 +72,7 @@
         </div>
       </div>
     <% end %>
+    <%= render_tab_content_for(:main_tabs, :subject => @usergroup, :form => f) %>
   </div>
   <%= submit_or_cancel f %>
 <% end %>
