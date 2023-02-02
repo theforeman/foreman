@@ -43,6 +43,7 @@ import BreadcrumbBar from '../BreadcrumbBar';
 import { foremanUrl } from '../../common/helpers';
 import { CardExpansionContextWrapper } from './CardExpansionContext';
 import Head from '../Head';
+import { useForemanSettings } from '../../Root/Context/ForemanContext';
 
 const HostDetails = ({
   match: {
@@ -51,6 +52,7 @@ const HostDetails = ({
   location: { hash },
   history,
 }) => {
+  const { displayFqdnForHosts } = useForemanSettings();
   const { response, status } = useAPI(
     'get',
     `/api/hosts/${id}?show_hidden_parameters=true`,
@@ -112,7 +114,11 @@ const HostDetails = ({
               }}
               breadcrumbItems={[
                 { caption: __('Hosts'), url: foremanUrl('/hosts') },
-                { caption: response.name },
+                {
+                  caption: displayFqdnForHosts
+                    ? response.name
+                    : response.name?.replace(`.${response.domain_name}`, ''),
+                },
               ]}
             />
           )}
@@ -136,7 +142,12 @@ const HostDetails = ({
                           headingLevel="h5"
                           size="2xl"
                         >
-                          {response.name}
+                          {displayFqdnForHosts
+                            ? response.name
+                            : response.name?.replace(
+                                `.${response.domain_name}`,
+                                ''
+                              )}
                         </Title>
                       )}
                     </SkeletonLoader>

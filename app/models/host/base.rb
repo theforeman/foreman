@@ -118,6 +118,7 @@ module Host
       :domain=, :domain_id=, :domain_name=, :to => :primary_interface
 
     attr_writer :updated_virtuals
+
     def updated_virtuals
       @updated_virtuals ||= []
     end
@@ -365,6 +366,14 @@ module Host
 
     def render_template(template:, **params)
       template.render(host: self, **params)
+    end
+
+    def to_label
+      if Setting[:display_fqdn_for_hosts]
+        name
+      else
+        name.split('.')[0]
+      end
     end
 
     private

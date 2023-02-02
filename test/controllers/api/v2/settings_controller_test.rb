@@ -8,7 +8,7 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     end
 
     test "should get all settings through index" do
-      Setting['append_domain_name_for_hosts'] = false
+      Setting['display_fqdn_for_hosts'] = false
       get :index, params: { per_page: 'all' }
       assert_response :success
       settings = ActiveSupport::JSON.decode(@response.body)['results']
@@ -16,8 +16,8 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
       foreman_url = settings.detect { |s| s['name'] == 'foreman_url' }
       assert_equal Setting['foreman_url'], foreman_url['value']
       assert_equal Foreman.settings.find('foreman_url').default, foreman_url['default']
-      append_domain_name_for_hosts = settings.detect { |s| s['name'] == 'append_domain_name_for_hosts' }
-      assert_equal false, append_domain_name_for_hosts['value']
+      display_fqdn_for_hosts = settings.detect { |s| s['name'] == 'display_fqdn_for_hosts' }
+      assert_equal false, display_fqdn_for_hosts['value']
     end
 
     test "should get index with organization and location params" do
@@ -68,8 +68,8 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     end
 
     test "properly show overriden false value" do
-      Setting['append_domain_name_for_hosts'] = value = false
-      get :show, params: { :id => 'append_domain_name_for_hosts' }
+      Setting['display_fqdn_for_hosts'] = value = false
+      get :show, params: { :id => 'display_fqdn_for_hosts' }
       assert_response :success
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal value, show_response['value']

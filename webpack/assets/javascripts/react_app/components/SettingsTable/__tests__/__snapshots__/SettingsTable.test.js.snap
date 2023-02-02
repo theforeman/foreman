@@ -88,7 +88,7 @@ exports[`SettingsTable should render 1`] = `
         "encrypted": false,
         "fullName": "Append domain names to the host",
         "id": 177,
-        "name": "append_domain_name_for_hosts",
+        "name": "display_fqdn_for_hosts",
         "readonly": false,
         "selectValues": null,
         "settingsType": "boolean",

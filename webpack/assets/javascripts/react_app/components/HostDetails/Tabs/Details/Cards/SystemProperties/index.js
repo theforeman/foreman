@@ -14,8 +14,10 @@ import Slot from '../../../../../common/Slot';
 import SkeletonLoader from '../../../../../common/SkeletonLoader';
 import DefaultLoaderEmptyState from '../../../../DetailsCard/DefaultLoaderEmptyState';
 import { STATUS } from '../../../../../../constants';
+import { useForemanSettings } from '../../../../../../Root/Context/ForemanContext';
 
 const SystemPropertiesCard = ({ status, hostDetails }) => {
+  const { displayFqdnForHosts } = useForemanSettings();
   const {
     name,
     model_name: model,
@@ -48,7 +50,7 @@ const SystemPropertiesCard = ({ status, hostDetails }) => {
                   hoverTip={__('Copy to clipboard')}
                   clickTip={__('Copied to clipboard')}
                 >
-                  {name}
+                  {displayFqdnForHosts ? name : name?.replace(`.${domain}`, '')}
                 </ClipboardCopy>
               )}
             </SkeletonLoader>

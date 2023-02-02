@@ -58,7 +58,7 @@ export const settings = [
     updatedAt: '2018-01-22 14:03:38 +0100',
     readonly: false,
     id: 177,
-    name: 'append_domain_name_for_hosts',
+    name: 'display_fqdn_for_hosts',
     fullName: 'Append domain names to the host',
     selectValues: null,
     value: true,
@@ -250,7 +250,7 @@ export const withHashSelection = settings.find(
   item => item.name === 'global_PXELinux'
 );
 export const boolSetting = settings.find(
-  item => item.name === 'append_domain_name_for_hosts'
+  item => item.name === 'display_fqdn_for_hosts'
 );
 export const arraySetting = settings.find(
   item => item.name === 'http_proxy_except_list'
