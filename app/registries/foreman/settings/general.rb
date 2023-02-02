@@ -51,11 +51,11 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Whether or not to show a menu to access experimental lab features (requires reload of page)"),
       default: false,
       full_name: N_('Show Experimental Labs'))
-    setting('append_domain_name_for_hosts',
+    setting('display_fqdn_for_hosts',
       type: :boolean,
-      description: N_('Foreman will append domain names when new hosts are provisioned'),
+      description: N_('Display names of hosts as FQDNs. If disabled, only display names of hosts as hostnames.'),
       default: true,
-      full_name: N_('Append domain names to the host'))
+      full_name: N_('Display FQDN for hosts'))
     setting('outofsync_interval',
       type: :integer,
       description: N_('Duration in minutes after servers are classed as out of sync. ' \

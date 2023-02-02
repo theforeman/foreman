@@ -391,9 +391,6 @@ $(document).on('change', '.virtual', function() {
 function construct_host_name() {
   var host_name_el = $('#host_name')
   var host_name = host_name_el.val();
-  if (host_name_el.data('appendDomainNameForHosts') === false) {
-    return host_name;
-  }
   var domain_name = primary_nic_form()
     .find('.interface_domain option:selected')
     .text();

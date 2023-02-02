@@ -173,8 +173,8 @@ class HostJSTest < IntegrationTestWithJavascript
         find('h5', :text => /newhost2.*/) # wait for the new host details page
       end
 
-      test "redirects correctly with append_domain_name_for_hosts turned off" do
-        Setting['append_domain_name_for_hosts'] = false
+      test "redirects correctly with display_fqdn_for_hosts turned off" do
+        Setting['display_fqdn_for_hosts'] = false
         compute_resource = FactoryBot.create(:compute_resource, :libvirt)
         os = FactoryBot.create(:ubuntu14_10, :with_associations)
         Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)

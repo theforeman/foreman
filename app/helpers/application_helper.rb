@@ -414,6 +414,7 @@ module ApplicationHelper
       destroyVmOnHostDelete: Setting['destroy_vm_on_host_delete'],
       labFeatures: Setting[:lab_features],
       safeMode: Setting[:safemode_render],
+      displayFqdnForHosts: Setting[:display_fqdn_for_hosts],
     }
   end
 

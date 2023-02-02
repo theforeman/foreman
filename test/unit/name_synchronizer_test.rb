@@ -27,7 +27,7 @@ class NameSynchronizerName < ActiveSupport::TestCase
 
   context "synchronizer build from host on shortnames" do
     before do
-      Setting[:append_domain_name_for_hosts] = false
+      Setting[:display_fqdn_for_hosts] = false
     end
     test "#sync_required? detects difference between names" do
       refute_equal @host.name, @host.primary_interface.shortname

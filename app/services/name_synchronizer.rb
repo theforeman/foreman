@@ -25,6 +25,6 @@ class NameSynchronizer
   private
 
   def interface_name
-    Setting[:append_domain_name_for_hosts] ? @interface.name : @interface.shortname
+    @interface.name
   end
 end
