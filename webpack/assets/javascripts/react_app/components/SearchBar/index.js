@@ -18,6 +18,7 @@ const SearchBar = ({
   initialQuery,
   onSearch,
   onSearchChange,
+  name,
 }) => {
   const [search, setSearch] = useState(initialQuery || searchQuery || '');
   const { response, status, setAPIOptions } = useAPI('get', url, {
@@ -51,6 +52,7 @@ const SearchBar = ({
         onSearch={onSearch}
         disabled={disabled}
         error={error}
+        name={name}
       />
       {!isEmpty(bookmarks) && (
         <Bookmarks
@@ -85,12 +87,14 @@ SearchBar.propTypes = {
   initialQuery: PropTypes.string,
   onSearch: PropTypes.func,
   onSearchChange: PropTypes.func,
+  name: PropTypes.string,
 };
 
 SearchBar.defaultProps = {
   initialQuery: '',
   onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
   onSearchChange: noop,
+  name: null,
 };
 
 export default SearchBar;

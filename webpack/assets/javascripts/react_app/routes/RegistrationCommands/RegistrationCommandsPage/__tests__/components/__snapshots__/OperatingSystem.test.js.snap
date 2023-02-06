@@ -15,6 +15,7 @@ exports[`RegistrationCommandsPage fields - OperatingSystem renders 1`] = `
     className="without_select2"
     id="reg_os"
     isDisabled={true}
+    isIconSprite={false}
     isRequired={false}
     onBlur={[Function]}
     onChange={[Function]}

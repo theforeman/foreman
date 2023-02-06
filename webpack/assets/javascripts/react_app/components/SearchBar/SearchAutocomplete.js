@@ -13,6 +13,7 @@ export const SearchAutocomplete = ({
   onSearch,
   disabled,
   error,
+  name,
 }) => {
   const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(false);
   const searchWrapperRef = useRef(null);
@@ -115,6 +116,7 @@ export const SearchAutocomplete = ({
         isDisabled={disabled}
         placeholder={__('Search')}
         resetButtonLabel={__('Reset search')}
+        name={name}
       />
     </div>
   );
@@ -146,10 +148,12 @@ SearchAutocomplete.propTypes = {
   onSearch: PropTypes.func,
   disabled: PropTypes.bool,
   error: PropTypes.string,
+  name: PropTypes.string,
 };
 
 SearchAutocomplete.defaultProps = {
   onSearch: null,
   disabled: false,
   error: null,
+  name: null,
 };

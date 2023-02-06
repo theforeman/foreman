@@ -205,6 +205,7 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
     </ContextSelectorFooter>
   }
   id="organization-dropdown"
+  isFlipEnabled={true}
   isOpen={false}
   isPlain={false}
   isText={false}
@@ -214,11 +215,13 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
   onSelect={[Function]}
   onToggle={[Function]}
   ouiaSafe={true}
+  removeFindDomNode={false}
   screenReaderLabel="Selected Taxonomy:"
   searchButtonAriaLabel="Search menu items"
   searchInputPlaceholder="Search"
   searchInputValue=""
   toggleText="org1"
+  zIndex={9999}
 >
   <ContextSelectorItem
     className="organizations_clear"
