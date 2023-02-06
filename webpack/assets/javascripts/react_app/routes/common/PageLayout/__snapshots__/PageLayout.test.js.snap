@@ -71,6 +71,7 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
             }
           }
           initialQuery=""
+          name={null}
           onSearch={[MockFunction]}
           onSearchChange={[Function]}
         />
@@ -160,6 +161,7 @@ exports[`render pageLayout w/search 1`] = `
             }
           }
           initialQuery=""
+          name={null}
           onSearch={[MockFunction]}
           onSearchChange={[Function]}
         />
@@ -249,6 +251,7 @@ exports[`render pageLayout w/toolBar 1`] = `
             }
           }
           initialQuery=""
+          name={null}
           onSearch={[MockFunction]}
           onSearchChange={[Function]}
         />
@@ -320,6 +323,7 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
             }
           }
           initialQuery=""
+          name={null}
           onSearch={[MockFunction]}
           onSearchChange={[Function]}
         />
@@ -391,6 +395,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
             }
           }
           initialQuery=""
+          name={null}
           onSearch={[MockFunction]}
           onSearchChange={[Function]}
         />

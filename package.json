@@ -24,7 +24,7 @@
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
-    "@theforeman/vendor": "^10.1.0",
+    "@theforeman/vendor": "^12.0.1",
     "graphql-tag": "^2.11.0",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
@@ -32,11 +32,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
-    "@theforeman/builder": "^10.1.0",
-    "@theforeman/eslint-plugin-foreman": "^10.1.0",
-    "@theforeman/stories": "^10.1.0",
-    "@theforeman/test": "^10.1.0",
-    "@theforeman/vendor-dev": "^10.1.0",
+    "@theforeman/builder": "^12.0.1",
+    "@theforeman/eslint-plugin-foreman": "^12.0.1",
+    "@theforeman/stories": "^12.0.1",
+    "@theforeman/test": "^12.0.1",
+    "@theforeman/vendor-dev": "^12.0.1",
     "@types/jest": "<27.0.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",

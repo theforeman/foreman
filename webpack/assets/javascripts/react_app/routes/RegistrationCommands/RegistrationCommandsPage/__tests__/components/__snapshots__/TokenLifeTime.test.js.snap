@@ -30,9 +30,11 @@ exports[`RegistrationCommandsPage fields - TokenLifeTime renders 1`] = `
     <InputGroupText>
       <Checkbox
         className=""
+        component="div"
         id="reg_unlimited_token_life_time"
         isChecked={false}
         isDisabled={false}
+        isRequired={false}
         isValid={true}
         label="unlimited"
         onChange={[Function]}

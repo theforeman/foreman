@@ -9,6 +9,7 @@ exports[`RegistrationCommandsPage fields - HostGroup renders 1`] = `
     className="without_select2"
     id="reg_host_group"
     isDisabled={false}
+    isIconSprite={false}
     isRequired={false}
     onBlur={[Function]}
     onChange={[Function]}
