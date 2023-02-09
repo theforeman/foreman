@@ -195,7 +195,6 @@ time to update plugins.
 [[plugin-package-repos]]
 === Plugin package repos
 
-
 Foreman operates a set of plugin repos that are enabled by default, in
 addition to our core repos. We package lots of plugins for Foreman, the
 smart proxy and Hammer in these through
@@ -204,24 +203,195 @@ they're easily installable for end users.
 
 If you'd like to get your plugin packaged, first release it to
 rubygems.org, sticking to the recommended naming conventions as closely
-as possible. Next, send a pull request to foreman-packaging's
+as possible. To prepare this add to your plugin's changelog and increase
+the version, tag a release at github, then build and push the gem to
+rubygems.
+This could look like the following example.
+
+[source,bash]
+----
+vi lib/foreman_plugin_template/version.rb
+module ForemanPluginTemplate
+  VERSION = '0.0.1'.freeze
+end
+git commit -m "Release 0.0.1"
+git tag -a 0.0.1 -m "Release 0.0.1"
+git push origin main --follow-tags
+gem build foreman_plugin_template.gemspec
+gem push foreman_plugin_template-0.0.1.gem
+----
+
+To ensure integrity of the release you can also sign the tag. This is
+done by using `git tag -s` requiring a GPG key.
+
+Next, send a pull request to foreman-packaging's
 deb/develop and/or rpm/develop branches creating the package - see the
 README.md files in each branch, and other plugins for examples.
+The steps for this are automated as much as possible, so it should be
+quite easy. Fork the repository to your account and then follow the
+instructions in the README.md what should look similar to the example.
+
+[source,bash]
+----
+git clone https://github.com/youraccountname/foreman-packaging.git
+cd foreman-packaging
+git checkout -b rpm/develop-foreman_plugin_template-0.0.1 rpm/develop
+./add_gem_package.sh foreman_plugin_template
+vi packages/plugins/rubygem-foreman_plugin_template/foreman_plugin_template.spec
+# FIXME:
+#   1. Edit foreman requirement(s) and specify minimum version
+#   2. Delete these lines
+#
+...
+%global foreman_min_version FIXME
+...
+git add packages/plugins/rubygem-foreman_plugin_template/foreman_plugin_template.spec
+git commit --amend --no-edit
+git push -u origin HEAD
+----
+
+If your plugin introduces new dependencies, please open a separate pull
+request in a similar way containing all the dependencies before the
+actual pull request for your plugin.
 
 There's a separate repo per major version of Foreman (nightly, 1.11,
-1.10 etc.) and we update nightly plus the last three stable releases at
-any one time. When packaging a plugin update, it can go to any of these
-repos that you'd like it in - just tell the maintainers when opening a
-packaging PR. Make sure that you're comfortable with the compatibility
+1.10 etc.) and we update nightly plus the last two stable releases at
+any one time. It is also possible to push to the third last one for fixing
+upgrade problems. When packaging a plugin update, it can go to any of these
+repos that you'd like it in - just open a new pull request after the one 
+being merged to develop by cherrypicking it. 
+Make sure that you're comfortable with the compatibility
 level of the update, knowing which releases it can safely be run on
 _and_ which it should be updated in. Users on the very old stable
 releases might not expect to receive a new major version of a plugin
 with significant changes, even if it runs OK.
 
+[source,bash]
+----
+cd foreman-packaging
+git log rpm/develop
+commit 8ea39891ccb969e24c7a7de6a0d31c2400a21190 (HEAD -> rpm/develop, origin/rpm/develop)
+Author: Your Name <your_email>
+Date:   Sun Feb 5 04:09:33 2023 +0000
+
+    Add foreman_plugin_template package
+
+...
+git checkout -b rpm/3.5-foreman_plugin_template-0.0.1 rpm/3.5
+git cherrypick -x 8ea39891ccb969e24c7a7de6a0d31c2400a21190
+git push origin rpm/3.5-foreman_plugin_template-0.0.1
+----
+
 Lastly, it's helpful for maintainers to open up pull requests for
 packaging updates when making a release to share the workload with the
 regular packaging maintainers. (The regular packagers are also likely to
 be unfamiliar with the plugin and which releases it's appropriate for.)
+
+The workflow is similar to adding it initially.
+
+[source,bash]
+----
+cd foreman_plugin_template
+vi lib/foreman_plugin_template/version.rb
+module ForemanPluginTemplate
+  VERSION = '0.0.2'.freeze
+end
+git commit -m "Release 0.0.2"
+git tag -a 0.0.2 -m "Release 0.0.2"
+git push origin main --follow-tags
+gem build foreman_plugin_template.gemspec
+gem push foreman_plugin_template-0.0.2.gem
+
+cd foreman-packaging
+git add remote upstream https://github.com/theforeman/foreman-packaging.git
+git checkout rpm/develop
+git pull upstream rpm/develop
+git checkout -b rpm/develop-foreman_plugin_template-0.0.2
+./bump_rpm.sh rubygem-foreman_plugin_template
+git push origin rpm/develop-foreman_plugin_template-0.0.2
+----
+
+There is also some automation for this now, trying to keep up with
+releases of plugins and dependencies, but a manual pull request is still
+preferred as plugin developers will know when backports are also needed.
+
+[[puppet-module]]
+=== Puppet module
+
+The next step would be to add your plugin to the puppet module allowing
+for an automated installation. Also fork the repository 
+https://github.com/theforeman/puppet-foreman[puppet-foreman] to your
+account so you can create a pull request. Then you can follow the example.
+
+[source,bash]
+----
+git clone https://github.com/youraccount/puppet-foreman.git
+cd puppet-foreman
+git checkout -b feature/foreman_plugin_template
+vi manifests/plugin/plugin_template.pp
+# = Foreman Plugin Template plugin
+#
+# This class installs plugin_template plugin
+#
+class foreman::plugin::plugin_template {
+  foreman::plugin { 'plugin_template':
+  }
+}
+git add manifests/plugin/plugin_template.pp
+git commit -m "Add foreman plugin for plugin_template"
+----
+
+[[installer-support]]
+=== Installer Support
+
+Last but not least you should add support to the installer for more
+awareness and better user experience. To do so a pull request to
+https://github.com/theforeman/foreman-installer[foreman-installer]
+is needed. This can be done while the one for the puppet module is still
+open, but CI will fail until merged.
+
+[source,bash]
+----
+git clone https://github.com/youraccount/foreman-installer.git
+cd foreman-installer
+git checkout -b feature/foreman_plugin_template
+vi config/foreman-answers.yaml
+...
+foreman::plugin::plugin_template: false
+...
+vi config/katello-answers.yaml
+...
+foreman::plugin::plugin_template: false
+...
+./bin/create-migration add-foreman_plugin_template config/foreman.migrations config/katello.migrations << EOF
+answers['foreman::plugin::plugin_template'] ||= false
+EOF
+vi spec/fixtures/pulpcore-migration-dont-use-content-plugins-on-upgrades/katello-answers-after.yaml
+...
+foreman::plugin::plugin_template: false
+...
+vi spec/fixtures/pulpcore-migration-rpm-only/katello-answers-after.yaml
+...
+foreman::plugin::plugin_template: false
+...
+vi spec/fixtures/pulpcore-migration/katello-answers-after.yaml
+...
+foreman::plugin::plugin_template: false
+...
+git add config/foreman-answers.yaml config/katello-answers.yaml \
+ config/foreman.migrations/20230209143000_foreman_plugin_template.rb \
+ config/katello.migrations/20230209143000_foreman_plugin_template.rb \
+ spec/fixtures/pulpcore-migration-dont-use-content-plugins-on-upgrades/katello-answers-after.yaml \
+ spec/fixtures/pulpcore-migration-rpm-only/katello-answers-after.yaml \
+ spec/fixtures/pulpcore-migration/katello-answers-after.yaml
+git commit -m "Add Foreman plugin_template plugin"
+git push origin feature/foreman_plugin_template
+----
+
+Please keep the alphabetical order of the plugins.
+
+If some plugin is only valid for a Katello installation, you can omit
+the file `foreman-answers.yaml` and under `foreman.migrations`.
 
 [[code-examples]]
 == Code examples
