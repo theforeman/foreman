@@ -154,13 +154,9 @@ if [ x$ID = xol ]; then
   $PKG_MANAGER_INSTALL --setopt=obsoletes=0 subscription-manager
 fi
 
-# Prepare SSL certificate
-mkdir -p /etc/rhsm/ca
-cp -f $SSL_CA_CERT $KATELLO_SERVER_CA_CERT
-chmod 644 $KATELLO_SERVER_CA_CERT
-
-# Prepare subscription-manager
 <% if truthy?(@force) -%>
+# Unregister host and remove all local system and subscription data
+
 if [ -x "$(command -v subscription-manager)" ] ; then
   subscription-manager unregister || true
   subscription-manager clean
@@ -169,6 +165,12 @@ fi
 $PKG_MANAGER_REMOVE katello-ca-consumer\*
 <% end -%>
 
+# Prepare SSL certificate
+mkdir -p /etc/rhsm/ca
+cp -f $SSL_CA_CERT $KATELLO_SERVER_CA_CERT
+chmod 644 $KATELLO_SERVER_CA_CERT
+
+# Prepare subscription-manager
 if ! [ -x "$(command -v subscription-manager)" ] ; then
   $PKG_MANAGER_INSTALL subscription-manager
 else
