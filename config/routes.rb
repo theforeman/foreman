@@ -552,6 +552,9 @@ Foreman::Application.routes.draw do
 
   match 'host_statuses' => 'react#index', :via => :get
   constraints(id: /[^\/]+/) do
+    get 'new/hosts/:id/content', to: redirect('new/hosts/%{id}#/Content')
+  end
+  constraints(id: /[^\/]+/) do
     match 'new/hosts/:id' => 'react#index', :via => :get, :as => :host_details_page
   end
   get 'page-not-found' => 'react#index'
