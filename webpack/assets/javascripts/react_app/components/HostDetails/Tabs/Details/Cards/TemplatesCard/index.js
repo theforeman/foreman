@@ -18,6 +18,7 @@ const TemplatesCard = ({ hostName }) => {
   const {
     response: {
       templates,
+      view_provisioning_templates: viewTemplatePermission,
       edit_provisioning_templates: editTemplatePermission,
     },
     status,
@@ -55,6 +56,7 @@ const TemplatesCard = ({ hostName }) => {
                 <Td /* to remove padding */ />
                 <Td dataLabel={TemplateTypeTitle} noPadding>
                   <Button
+                    isDisabled={!viewTemplatePermission}
                     variant="link"
                     onClick={() => onReviewClick(template)}
                   >

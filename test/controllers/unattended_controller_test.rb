@@ -144,7 +144,9 @@ class UnattendedControllerTest < ActionController::TestCase
         @host_param = FactoryBot.create(:host_parameter, :host => @rh_host, :name => 'my_param')
         @secret_param = FactoryBot.create(:host_parameter, :host => @rh_host, :name => 'secret_param')
         @rh_host.provisioning_template(:kind => :provision).update_attribute(:template, "params: <%= host_param('my_param') %>, <%= host_param('secret_param') %>")
-        setup_user 'view', 'hosts'
+        setup_user 'view', 'hosts' do |user|
+          user.roles.last.add_permissions! :view_provisioning_templates
+        end
         setup_user 'view', 'params', 'name = my_param'
         users(:one).organizations << @rh_host.organization
         users(:one).locations << @rh_host.location
@@ -197,12 +199,26 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :unprocessable_entity
     end
 
-    test 'should render a template to user with valid filter' do
+    test "should not render a template to user w/o permission view_provisioning_templates" do
       @rh_host.update(build: false)
 
       user = FactoryBot.build(:user, :with_mail, :admin => false,
                                 :organizations => [@org], :locations => [@loc])
       user_role = roles(:destroy_hosts)
+      user.roles << user_role
+      user.save
+
+      get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text' }, session: set_session_user(user)
+      assert_response :forbidden
+    end
+
+    test 'should render a template to user with valid filter' do
+      @rh_host.update(build: false)
+
+      user = FactoryBot.build(:user, :with_mail, :admin => false,
+                                :organizations => [@org], :locations => [@loc])
+      user_role = FactoryBot.build(:role)
+      user_role.add_permissions!(:view_provisioning_templates)
       user.roles << user_role
       user.save
 
@@ -220,7 +236,8 @@ class UnattendedControllerTest < ActionController::TestCase
       @rh_host.update(build: false)
 
       user = FactoryBot.create(:user, :with_mail, :admin => false)
-      user_role = roles(:destroy_hosts)
+      user_role = FactoryBot.build(:role)
+      user_role.add_permissions!(:view_provisioning_templates)
       user.roles << user_role
       user.save
 
