@@ -5,9 +5,9 @@
 <table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
-      <th class="col-md-8"><%= sort :name, :as => s_('Name') %></th>
-      <th><%= _('URL') %></th>
-      <th><%= _('Actions') %></th>
+      <th class="col-md-4"><%= sort :name, :as => s_('Name') %></th>
+      <th class="col-md-6"><%= _('URL') %></th>
+      <th class="col-md-2"><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
@@ -16,8 +16,8 @@
         <td class="ellipsis">
           <%= link_to_if_authorized (http_proxy.name), hash_for_edit_http_proxy_path(:id => http_proxy).merge(:auth_object => http_proxy, :authorizer => authorizer) %>
         </td>
-        <td><%= http_proxy.url %></td>
-        <td class="col-md-1">
+        <td class="ellipsis"><%= http_proxy.url %></td>
+        <td>
           <%= action_buttons(display_delete_if_authorized hash_for_http_proxy_path(:id => http_proxy).merge(:auth_object => http_proxy, :authorizer => authorizer), :data => { :confirm => _("Delete %s?") % http_proxy.name }) %>
         </td>
       </tr>
