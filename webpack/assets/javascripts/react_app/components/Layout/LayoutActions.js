@@ -2,14 +2,12 @@ import {
   LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_CHANGE_ACTIVE,
   LAYOUT_EXPAND,
   LAYOUT_COLLAPSE,
 } from './LayoutConstants';
 
 export const initializeLayout = ({
   items,
-  activeMenu,
   isCollapsed,
   organization,
   location,
@@ -17,7 +15,6 @@ export const initializeLayout = ({
   type: LAYOUT_INITIALIZE,
   payload: {
     items,
-    activeMenu,
     isCollapsed,
     organization,
     location,
@@ -30,13 +27,6 @@ export const showLoading = () => ({
 
 export const hideLoading = () => ({
   type: LAYOUT_HIDE_LOADING,
-});
-
-export const changeActiveMenu = ({ title }) => ({
-  type: LAYOUT_CHANGE_ACTIVE,
-  payload: {
-    activeMenu: title,
-  },
 });
 
 export const expandLayoutMenus = () => ({

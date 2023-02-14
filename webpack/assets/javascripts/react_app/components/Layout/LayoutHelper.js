@@ -187,9 +187,7 @@ export const layoutPropTypes = {
   children: PropTypes.node,
   isLoading: PropTypes.bool,
   isCollapsed: PropTypes.bool,
-  activeMenu: PropTypes.string,
   navigate: PropTypes.func,
-  changeActiveMenu: PropTypes.func,
   expandLayoutMenus: PropTypes.func,
   collapseLayoutMenus: PropTypes.func,
   items: PropTypes.arrayOf(
@@ -217,9 +215,7 @@ export const layoutDefaultProps = {
   data: {},
   isLoading: false,
   isCollapsed: false,
-  activeMenu: '',
   navigate: noop,
-  changeActiveMenu: noop,
   expandLayoutMenus: noop,
   collapseLayoutMenus: noop,
 };

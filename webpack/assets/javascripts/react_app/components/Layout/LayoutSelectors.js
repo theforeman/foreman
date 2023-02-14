@@ -4,7 +4,6 @@ import { noop } from '../../common/helpers';
 export const selectLayout = state => state.layout;
 
 export const selectMenuItems = state => selectLayout(state).items;
-export const selectActiveMenu = state => selectLayout(state).activeMenu;
 export const selectIsLoading = state => selectLayout(state).isLoading;
 export const selectIsCollapsed = state => selectLayout(state).isCollapsed;
 
