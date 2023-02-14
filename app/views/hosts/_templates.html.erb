@@ -6,27 +6,29 @@
     </tr>
   </thead>
   <tbody>
-    <% @templates.each do |template| %>
+    <% @templates.each do |template|
+       can_preview = authorized_for(:permission => :view_provisioning_templates, :auth_object => template, :authorizer => authorizer)
+    -%>
       <tr id=<%= "template_#{template.id}" %>>
         <td><%= _(template.template_kind.to_s) %></td>
         <td><%= action_buttons(display_link_if_authorized(_("Edit"),
                                                           hash_for_edit_provisioning_template_path(id: template.to_param),
                                                           rel: "external"),
-                               link_to(_("Review"),
-                                       url_for(controller: '/unattended',
-                                               action: 'host_template',
-                                               kind: template.template_kind.name,
-                                               hostname: @host.name),
-                                       rel: 'external',
-                                       "data-provisioning-template": true),
-                               !Setting[:safemode_render] && link_to(_("Safemode Review"),
-                                       url_for(controller: '/unattended',
-                                               action: 'host_template',
-                                               kind: template.template_kind.name,
-                                               hostname: @host.name,
-                                               force_safemode: true),
-                                       rel: 'external',
-                                       "data-provisioning-template": true)) %>
+                               can_preview && link_to(_("Review"),
+                                         url_for(controller: '/unattended',
+                                                 action: 'host_template',
+                                                 kind: template.template_kind.name,
+                                                 hostname: @host.name),
+                                         rel: 'external',
+                                         "data-provisioning-template": true),
+                               !Setting[:safemode_render] && can_preview && link_to(_("Safemode Review"),
+                                         url_for(controller: '/unattended',
+                                                 action: 'host_template',
+                                                 kind: template.template_kind.name,
+                                                 hostname: @host.name,
+                                                 force_safemode: true),
+                                         rel: 'external',
+                                         "data-provisioning-template": true)) %>
         </td>
       </tr>
     <% end %>

@@ -333,6 +333,7 @@ module Api
       api :GET, "/hosts/:id/templates", N_("Get provisioning templates for the host")
       param :id, :identifier_dottable, :required => true
       def templates
+        view_provisioning_templates = authorized_for(:controller => 'provisioning_templates', :action => 'show')
         edit_provisioning_templates = authorized_for(:controller => 'provisioning_templates', :action => 'edit')
         templates = TemplateKind.order(:name).map do |kind|
           @host.provisioning_template(:kind => kind.name)&.as_json&.merge(:kind => kind.name)
@@ -340,7 +341,11 @@ module Api
         if templates.empty?
           not_found(_("No templates found for %{host}") % {:host => @host.to_label})
         else
-          render :json => { :templates => templates, :edit_provisioning_templates => edit_provisioning_templates }, :status => :ok
+          render :json => {
+            :templates => templates,
+            :view_provisioning_templates => view_provisioning_templates,
+            :edit_provisioning_templates => edit_provisioning_templates,
+          }, :status => :ok
         end
       end
 
