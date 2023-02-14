@@ -160,7 +160,6 @@ const serverUser = {
 
 export const layoutMock = {
   items: PFitems,
-  activeMenu: 'Monitor',
   data: {
     menu: [...hashItemsA, ...hashItemNameless],
     locations,
@@ -172,6 +171,7 @@ export const layoutMock = {
     stop_impersonation_url: '/users/stop_impersonation',
     instance_title: 'Production',
   },
+  setFlyoutActiveItem: jest.fn(),
 };
 
 export const noItemsMock = {
@@ -188,6 +188,5 @@ export const hasTaxonomiesMock = {
 export const userDropdownProps = {
   user: serverUser,
   notification_url: '/',
-  changeActiveMenu: jest.fn(),
   isOpen: true,
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   PageHeaderTools,
   PageHeaderToolsGroup,
@@ -11,7 +12,9 @@ import ImpersonateIcon from '../ImpersonateIcon';
 import {
   layoutPropTypes,
   layoutDefaultProps,
-  dataPropType,
+  locationPropType,
+  organizationPropType,
+  userPropType,
 } from '../../LayoutHelper';
 import InstanceTitleViewer from './InstanceTitleViewer';
 import './HeaderToolbar.scss';
@@ -24,7 +27,6 @@ const HeaderToolbar = ({
   stop_impersonation_url: stopImpersonationUrl,
   instance_title: instanceTitle,
   isLoading,
-  changeActiveMenu,
 }) => (
   <PageHeaderTools id="data-toolbar">
     <PageHeaderToolsGroup className="header-tool-item-hidden-lg">
@@ -48,23 +50,24 @@ const HeaderToolbar = ({
       )}
 
       <PageHeaderToolsItem className="header-tool-item-hidden-lg user-nav-item">
-        <UserDropdowns
-          notificationUrl={notificationUrl}
-          user={user}
-          changeActiveMenu={changeActiveMenu}
-        />
+        <UserDropdowns notificationUrl={notificationUrl} user={user} />
       </PageHeaderToolsItem>
     </PageHeaderToolsGroup>
   </PageHeaderTools>
 );
 HeaderToolbar.propTypes = {
-  ...dataPropType,
+  stop_impersonation_url: PropTypes.string.isRequired,
+  instance_title: PropTypes.string,
+  locations: locationPropType.isRequired,
+  orgs: organizationPropType.isRequired,
+  notification_url: PropTypes.string.isRequired,
+  user: userPropType,
   isLoading: layoutPropTypes.isLoading,
-  changeActiveMenu: layoutPropTypes.changeActiveMenu,
 };
 
 HeaderToolbar.defaultProps = {
+  instance_title: null,
+  user: {},
   isLoading: layoutDefaultProps.isLoading,
-  changeActiveMenu: layoutDefaultProps.changeActiveMenu,
 };
 export default HeaderToolbar;
