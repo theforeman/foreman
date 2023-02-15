@@ -81,7 +81,9 @@ module Dashboard
 
     def recent_hosts
       if settings[:origin] && settings[:origin] != 'All'
-        hosts.recent(Setting[:"#{settings[:origin].downcase}_interval"])
+        setting = :"#{settings[:origin].downcase}_interval"
+        interval = SettingRegistry.instance.find(setting)&.value
+        hosts.recent(interval)
       else
         hosts.recent
       end
@@ -98,7 +100,7 @@ module Dashboard
 
     def out_of_sync_enabled?
       return true if !settings[:origin] || settings[:origin] == 'All'
-      setting = Setting[:"#{settings[:origin].downcase}_out_of_sync_disabled"]
+      setting = SettingRegistry.instance.find(:"#{settings[:origin].downcase}_out_of_sync_disabled")&.value
       setting.nil? ? true : !setting
     end
   end

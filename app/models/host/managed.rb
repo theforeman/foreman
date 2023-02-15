@@ -182,7 +182,7 @@ class Host::Managed < Host::Base
   }
 
   scope :out_of_sync_for, lambda { |report_origin|
-    interval = Setting[:"#{report_origin.downcase}_interval"] || Setting[:outofsync_interval]
+    interval = SettingRegistry.instance.find(:"#{report_origin.downcase}_interval")&.value || Setting[:outofsync_interval]
     with_last_report_exceeded(interval.to_i.minutes)
       .not_disabled
       .with_last_report_origin(report_origin)
@@ -440,7 +440,7 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def origin_interval
-    Setting[:"#{last_report.origin.downcase}_interval"] || 0
+    SettingRegistry.instance.find(:"#{last_report.origin.downcase}_interval")&.value || 0
   end
 
   def disabled?
