@@ -143,7 +143,7 @@ module HostStatus
 
     def out_of_sync_disabled?
       if last_report.origin
-        Setting[:"#{last_report.origin.downcase}_out_of_sync_disabled"]
+        SettingRegistry.instance.find(:"#{last_report.origin.downcase}_out_of_sync_disabled")&.value
       else
         false
       end

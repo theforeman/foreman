@@ -204,6 +204,6 @@ module DashboardHelper
 
   def origin_setting(origin, name)
     return nil unless origin
-    Setting[:"#{origin.downcase}_#{name}"]
+    SettingRegistry.instance.find(:"#{origin.downcase}_#{name}")&.value
   end
 end
