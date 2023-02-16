@@ -51,7 +51,11 @@ export const SearchAutocomplete = ({
   useEffect(() => {
     const handleMenuKeys = event => {
       // keyboard shortcut to focus the search, will not focus if the key is typed into an input
-      if (event.key === '/' && event.target.tagName !== 'INPUT') {
+      if (
+        event.key === '/' &&
+        event.target.tagName !== 'INPUT' &&
+        event.target.tagName !== 'TEXTAREA'
+      ) {
         event.preventDefault();
         searchInputRef.current.focus();
       }
