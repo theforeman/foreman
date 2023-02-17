@@ -500,6 +500,9 @@ msgstr "Afegeix el grup d'usuaris externs"
 msgid "Add filter"
 msgstr "Afegeix un filtre"
 
+msgid "Add parameter"
+msgstr ""
+
 msgid "Add tag"
 msgstr ""
 
@@ -1119,7 +1122,13 @@ msgstr ""
 msgid "BIOS"
 msgstr "BIOS"
 
-msgid "BIOS UUID"
+msgid "BIOS release date"
+msgstr ""
+
+msgid "BIOS vendor"
+msgstr ""
+
+msgid "BIOS version"
 msgstr ""
 
 msgid "BMC"
@@ -1419,15 +1428,6 @@ msgstr "Bloq Maj està activat"
 msgid "Certificate Name"
 msgstr "Nom del certificat"
 
-msgid "Certificate Path"
-msgstr ""
-
-msgid "Certificate key is not a valid JSON"
-msgstr ""
-
-msgid "Certificate path for GCE only"
-msgstr ""
-
 msgid "Certificate path that Foreman will use to encrypt websockets"
 msgstr ""
 
@@ -1505,9 +1505,6 @@ msgstr ""
 
 msgid "Click to log in again"
 msgstr ""
-
-msgid "Client Email"
-msgstr "Coreu electrònic del client"
 
 msgid "Clone"
 msgstr "Clona"
@@ -1615,6 +1612,9 @@ msgid "Compute resource IDs"
 msgstr "Els ID dels recursos computacionals"
 
 msgid "Compute resource destination unreachable"
+msgstr ""
+
+msgid "Compute resource does not support the console function."
 msgstr ""
 
 msgid "Compute resource update for %s"
@@ -1728,6 +1728,9 @@ msgstr ""
 msgid "Connecting (unencrypted) to: %s"
 msgstr "S'està connectant (sense xifratge) a: %s"
 
+msgid "Connection state"
+msgstr ""
+
 msgid "Connection to compute resource refused"
 msgstr ""
 
@@ -1738,6 +1741,9 @@ msgid "Console"
 msgstr "Consola"
 
 msgid "Console Passwords"
+msgstr ""
+
+msgid "Console disabled as the host is powered off."
 msgstr ""
 
 msgid "Console output may be out of date"
@@ -1774,6 +1780,9 @@ msgid "Core and proxy versions do not match. foreman: %{foreman_version}, forema
 msgstr ""
 
 msgid "CoreOS Transpiler Command"
+msgstr ""
+
+msgid "Cores"
 msgstr ""
 
 msgid "Cores per socket"
@@ -2094,7 +2103,13 @@ msgstr ""
 msgid "Created"
 msgstr ""
 
-msgid "Created %(date)s by %(owner)s"
+msgid "Created %s"
+msgstr ""
+
+msgid "Created at"
+msgstr ""
+
+msgid "Created parameter %s"
 msgstr ""
 
 msgid "Created role successfully"
@@ -2179,6 +2194,9 @@ msgid "DNS Proxy ID to use within this subnet"
 msgstr ""
 
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
+msgstr ""
+
+msgid "DNS name"
 msgstr ""
 
 msgid "DNS proxy ID to use within this domain"
@@ -2309,6 +2327,9 @@ msgstr ""
 
 msgid "Delete"
 msgstr "Suprimeix"
+
+msgid "Delete %s"
+msgstr ""
 
 msgid "Delete %s?"
 msgstr "Voleu suprimir %s?"
@@ -2595,10 +2616,25 @@ msgstr "Disc"
 msgid "Disk Mode"
 msgstr ""
 
+msgid "Disk allocation"
+msgstr ""
+
+msgid "Disk capacity"
+msgstr ""
+
 msgid "Disk interface"
 msgstr ""
 
 msgid "Disk name"
+msgstr ""
+
+msgid "Disk path"
+msgstr ""
+
+msgid "Disks space"
+msgstr ""
+
+msgid "Disks total space"
 msgstr ""
 
 msgid "Display"
@@ -2732,8 +2768,14 @@ msgstr "Edita els paràmetres"
 msgid "Edit Properties"
 msgstr "Edita les propietats"
 
+msgid "Edit interfaces"
+msgstr ""
+
 msgid "Edit this host"
 msgstr "Editeu aquest amfitrió"
+
+msgid "Edited parameter %s"
+msgstr ""
 
 msgid "Edited role successfully"
 msgstr ""
@@ -2749,9 +2791,6 @@ msgstr "Preferències de correu electrònic"
 
 msgid "Email address is missing"
 msgstr "Falta l'adreça de correu electrònic"
-
-msgid "Email for GCE only"
-msgstr ""
 
 msgid "Email reply address"
 msgstr "Adreça de correu electrònic de resposta"
@@ -2898,6 +2937,9 @@ msgid "Error while trying to update resource: %s"
 msgstr ""
 
 msgid "Error! "
+msgstr ""
+
+msgid "Error:"
 msgstr ""
 
 msgid "Errors"
@@ -3334,6 +3376,9 @@ msgstr ""
 msgid "Filter|Unlimited"
 msgstr "Il·limitat"
 
+msgid "Find by name"
+msgstr ""
+
 msgid "Find or create a host and render the 'Host initial configuration' template"
 msgstr ""
 
@@ -3358,6 +3403,9 @@ msgstr ""
 msgid "Fix Mismatches"
 msgstr ""
 
+msgid "Fixed IP"
+msgstr ""
+
 msgid "Flag to indicate whether to include status or not"
 msgstr ""
 
@@ -3366,6 +3414,12 @@ msgstr ""
 
 msgid "Flavor"
 msgstr "Gust"
+
+msgid "Flavor ID"
+msgstr ""
+
+msgid "Floating IP"
+msgstr ""
 
 msgid "Floating IP network"
 msgstr ""
@@ -3648,6 +3702,9 @@ msgstr ""
 msgid "Get ENC values of host"
 msgstr "Obté els valors ENC de l'amfitrió"
 
+msgid "Get all inherited parameters for a host"
+msgstr ""
+
 msgid "Get dashboard details"
 msgstr "Obté els detalls del tauler"
 
@@ -3719,9 +3776,6 @@ msgstr "Amfitrions amb bons informes en els últims %s"
 
 msgid "Good host with reports"
 msgstr ""
-
-msgid "Google Project ID"
-msgstr "ID de projecte de Google"
 
 msgid "Group not found in the configured External IPAM instance"
 msgstr ""
@@ -3832,6 +3886,9 @@ msgid "Hide all values for this parameter."
 msgstr ""
 
 msgid "Hide this value"
+msgstr ""
+
+msgid "Hide value"
 msgstr ""
 
 msgid "Highly Available"
@@ -4495,6 +4552,9 @@ msgstr "Adreça IPv6 de la interfície"
 msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr ""
 
+msgid "IPv6 subnet"
+msgstr ""
+
 msgid "IRC"
 msgstr "IRC"
 
@@ -4638,6 +4698,9 @@ msgid "Import IPv4 subnets"
 msgstr "Importa les subxarxes IPv4"
 
 msgid "Import VM %s"
+msgstr ""
+
+msgid "Import a partition table"
 msgstr ""
 
 msgid "Import a provisioning template"
@@ -4838,9 +4901,6 @@ msgstr ""
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr ""
 
-msgid "Invalid Google JSON key. Please verify client email & private key options are present"
-msgstr ""
-
 msgid "Invalid HTTP(S) URL"
 msgstr ""
 
@@ -4930,7 +4990,13 @@ msgstr ""
 msgid "JwtSecret|Token"
 msgstr ""
 
+msgid "Kernel ID"
+msgstr ""
+
 msgid "Kernel release"
+msgstr ""
+
+msgid "Kernel version"
 msgstr ""
 
 msgid "Key"
@@ -4998,6 +5064,9 @@ msgid "Last Report"
 msgstr "Últim informe"
 
 msgid "Last Used"
+msgstr ""
+
+msgid "Last configuration report"
 msgstr ""
 
 msgid "Last report"
@@ -5441,9 +5510,6 @@ msgstr "Carrega centres de dades"
 msgid "Load Regions"
 msgstr "Carrega les regions"
 
-msgid "Load Zones"
-msgstr ""
-
 msgid "Loading"
 msgstr "S'està carregant"
 
@@ -5773,6 +5839,9 @@ msgstr ""
 msgid "Maximize"
 msgstr ""
 
+msgid "Maximum"
+msgstr ""
+
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr ""
 
@@ -5949,6 +6018,9 @@ msgstr "ND"
 msgid "NIC"
 msgstr "NIC"
 
+msgid "NIC name"
+msgstr ""
+
 msgid "NIC type"
 msgstr "Tipus de NIC"
 
@@ -5957,6 +6029,9 @@ msgstr "Les NIC"
 
 msgid "Name"
 msgstr "Nom"
+
+msgid "Name can't contain spaces"
+msgstr ""
 
 msgid "Name of media"
 msgstr "Nom dels mitjans"
@@ -6014,6 +6089,9 @@ msgstr ""
 
 msgid "Network type"
 msgstr "Tipus de xarxa"
+
+msgid "Networking interfaces"
+msgstr ""
 
 msgid "Never"
 msgstr "Mai"
@@ -6278,6 +6356,12 @@ msgstr ""
 msgid "No matching server groups found"
 msgstr ""
 
+msgid "No name"
+msgstr ""
+
+msgid "No network interfaces"
+msgstr ""
+
 msgid "No networks"
 msgstr "Sense xarxes"
 
@@ -6354,6 +6438,9 @@ msgid "No templates found!"
 msgstr "No s'ha trobat cap plantilla!"
 
 msgid "No user mail notification to update. Use the create action"
+msgstr ""
+
+msgid "No value"
 msgstr ""
 
 msgid "None"
@@ -6793,6 +6880,12 @@ msgstr "Interval dels desincronitzats"
 msgid "Output format"
 msgstr ""
 
+msgid "Overall status"
+msgstr ""
+
+msgid "Overridden"
+msgstr ""
+
 msgid "Override"
 msgstr "Redefineix"
 
@@ -6886,6 +6979,9 @@ msgstr "Nom del paràmetre"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter"
 msgstr "Paràmetre"
+
+msgid "Parameter %s deleted"
+msgstr ""
 
 msgid "Parameter %{name} is not set for host %{host}"
 msgstr ""
@@ -7229,9 +7325,6 @@ msgstr "El prefix a afegir a tots els correus electrònics de sortida"
 msgid "Prepare post installation script for %s"
 msgstr "Prepara el script de post-instal·lació per %s"
 
-msgid "Press ' / ' to focus on search"
-msgstr ""
-
 msgid "Preview"
 msgstr "Vista prèvia"
 
@@ -7265,6 +7358,12 @@ msgstr ""
 msgid "Private"
 msgstr "Privada"
 
+msgid "Private DNS name"
+msgstr ""
+
+msgid "Private IP address"
+msgstr ""
+
 msgid "Private key file path that Foreman will use to encrypt websockets"
 msgstr ""
 
@@ -7281,9 +7380,6 @@ msgid "Project domain ID"
 msgstr ""
 
 msgid "Project domain name"
-msgstr ""
-
-msgid "Project id for GCE only"
 msgstr ""
 
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
@@ -7384,6 +7480,9 @@ msgstr "Fragment"
 msgid "Public"
 msgstr "Pública"
 
+msgid "Public IP address"
+msgstr ""
+
 msgid "Public SSH key"
 msgstr "Clau SSH pública"
 
@@ -7434,6 +7533,9 @@ msgstr "Consulta als servidors de noms locals"
 
 msgid "Quota ID"
 msgstr "ID de quota"
+
+msgid "RAM"
+msgstr ""
 
 msgid "REPLACE locations with given ids"
 msgstr "SUBSTITUEIX les ubicacions amb els ID donats"
@@ -7565,6 +7667,9 @@ msgid "Registration template"
 msgstr ""
 
 msgid "Registration token is missing or invalid."
+msgstr ""
+
+msgid "Release date"
 msgstr ""
 
 msgid "Relevant only for audit summary notification"
@@ -7710,6 +7815,9 @@ msgstr ""
 msgid "Reported by %s"
 msgstr ""
 
+msgid "Reported data"
+msgstr ""
+
 msgid "Reports"
 msgstr "Informes"
 
@@ -7763,6 +7871,9 @@ msgid "Reset"
 msgstr ""
 
 msgid "Reset PuppetCA certname for %s"
+msgstr ""
+
+msgid "Reset search"
 msgstr ""
 
 msgid "Reset to default"
@@ -7906,6 +8017,9 @@ msgstr ""
 
 msgid "Root Password Hash"
 msgstr "Resum de la contrasenya de root"
+
+msgid "Root device type"
+msgstr ""
 
 msgid "Root password"
 msgstr "Contrasenya de root"
@@ -8104,6 +8218,9 @@ msgstr "DNS secundari per aquesta subxarxa"
 
 msgid "Secret Key"
 msgstr "Clau secreta"
+
+msgid "Security Groups"
+msgstr ""
 
 msgid "Security groups"
 msgstr "Grups de seguretat"
@@ -8823,6 +8940,9 @@ msgstr "Fort"
 msgid "Submit"
 msgstr "Envia"
 
+msgid "Submit edit"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Subxarxa"
@@ -9378,9 +9498,6 @@ msgstr ""
 msgid "The default administrator email address"
 msgstr "L'adreça de correu electrònic per defecte de l'administrador"
 
-msgid "The file path where your JSON file is located"
-msgstr ""
-
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "L'última de les entrades, valor predeterminat del sistema operatiu, es pot establir amb l'edició de la pàgina del %s."
 
@@ -9697,6 +9814,9 @@ msgstr ""
 msgid "This value is used also as the host's primary interface name."
 msgstr "Aquest valor també s'utilitza com el nom de la interfície principal de l'amfitrió."
 
+msgid "This will change the delete the parameter, are you sure?"
+msgstr ""
+
 msgid "This will change the host power status, are you sure?"
 msgstr ""
 
@@ -9868,9 +9988,6 @@ msgstr "UUID"
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr ""
-
-msgid "Unable to access key"
-msgstr "No es pot accedir a la clau"
 
 msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
 msgstr ""
@@ -10670,6 +10787,9 @@ msgstr "Variable"
 msgid "Variables"
 msgstr "Variables"
 
+msgid "Vendor"
+msgstr ""
+
 msgid "Vendor class"
 msgstr "Classe del fabricant"
 
@@ -10700,6 +10820,9 @@ msgstr "Visualitza la llista"
 msgid "View provisioning template {openTemplate}."
 msgstr ""
 
+msgid "Virtual"
+msgstr ""
+
 msgid "Virtual (NAT)"
 msgstr "Virtual (NAT)"
 
@@ -10722,6 +10845,9 @@ msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr ""
 
 msgid "Virtual machine was not found by id %{vm_id}"
+msgstr ""
+
+msgid "Virtualization"
 msgstr ""
 
 msgid "Vnic Profile"
@@ -11064,9 +11190,6 @@ msgstr "La vostra sessió ha vençut, si us plau, inicieu la sessió de nou"
 msgid "ZTP PXE template"
 msgstr ""
 
-msgid "Zone"
-msgstr "Zona"
-
 msgid "[empty]"
 msgstr ""
 
@@ -11116,6 +11239,9 @@ msgid "boolean"
 msgstr "booleà"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
+msgstr ""
+
+msgid "by %s"
 msgstr ""
 
 msgid "can only be set for array, hash, json or yaml"
@@ -11205,9 +11331,6 @@ msgstr ""
 msgid "compresed"
 msgstr ""
 
-msgid "console is not available at this time because the instance is powered off"
-msgstr ""
-
 msgid "contains special characters"
 msgstr ""
 
@@ -11292,6 +11415,9 @@ msgstr "p.ex. sn"
 msgid "e.g. uid"
 msgstr "p.ex. uid"
 
+msgid "edit"
+msgstr ""
+
 msgid "enable caching, for VMware only"
 msgstr ""
 
@@ -11320,9 +11446,6 @@ msgid "filter..."
 msgstr ""
 
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
-msgstr ""
-
-msgid "for GCE only"
 msgstr ""
 
 msgid "for Libvirt and VMware only"
@@ -11552,8 +11675,7 @@ msgstr "enllaça el grup d'usuaris externs amb aquest grup d'usuaris"
 msgid "list"
 msgstr "llista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "Català"
 
@@ -11713,6 +11835,9 @@ msgstr "organitzacions"
 msgid "our templates documentation"
 msgstr ""
 
+msgid "override"
+msgstr ""
+
 msgid "pending"
 msgstr "pendent"
 
@@ -11802,9 +11927,6 @@ msgstr ""
 
 msgid "select an owner"
 msgstr "selecciona un propietari"
-
-msgid "selected image does not exist"
-msgstr ""
 
 msgid "service configuration will be skipped."
 msgstr ""

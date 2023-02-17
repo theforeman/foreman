@@ -497,6 +497,9 @@ msgstr ""
 msgid "Add filter"
 msgstr ""
 
+msgid "Add parameter"
+msgstr ""
+
 msgid "Add tag"
 msgstr ""
 
@@ -1116,7 +1119,13 @@ msgstr ""
 msgid "BIOS"
 msgstr ""
 
-msgid "BIOS UUID"
+msgid "BIOS release date"
+msgstr ""
+
+msgid "BIOS vendor"
+msgstr ""
+
+msgid "BIOS version"
 msgstr ""
 
 msgid "BMC"
@@ -1602,6 +1611,9 @@ msgstr ""
 msgid "Compute resource destination unreachable"
 msgstr ""
 
+msgid "Compute resource does not support the console function."
+msgstr ""
+
 msgid "Compute resource update for %s"
 msgstr ""
 
@@ -1713,6 +1725,9 @@ msgstr ""
 msgid "Connecting (unencrypted) to: %s"
 msgstr ""
 
+msgid "Connection state"
+msgstr ""
+
 msgid "Connection to compute resource refused"
 msgstr ""
 
@@ -1723,6 +1738,9 @@ msgid "Console"
 msgstr ""
 
 msgid "Console Passwords"
+msgstr ""
+
+msgid "Console disabled as the host is powered off."
 msgstr ""
 
 msgid "Console output may be out of date"
@@ -2085,6 +2103,12 @@ msgstr ""
 msgid "Created %s"
 msgstr ""
 
+msgid "Created at"
+msgstr ""
+
+msgid "Created parameter %s"
+msgstr ""
+
 msgid "Created role successfully"
 msgstr ""
 
@@ -2167,6 +2191,9 @@ msgid "DNS Proxy ID to use within this subnet"
 msgstr ""
 
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
+msgstr ""
+
+msgid "DNS name"
 msgstr ""
 
 msgid "DNS proxy ID to use within this domain"
@@ -2296,6 +2323,9 @@ msgid "Delay network activity during install for X seconds"
 msgstr ""
 
 msgid "Delete"
+msgstr ""
+
+msgid "Delete %s"
 msgstr ""
 
 msgid "Delete %s?"
@@ -2583,10 +2613,22 @@ msgstr ""
 msgid "Disk Mode"
 msgstr ""
 
+msgid "Disk allocation"
+msgstr ""
+
+msgid "Disk capacity"
+msgstr ""
+
 msgid "Disk interface"
 msgstr ""
 
 msgid "Disk name"
+msgstr ""
+
+msgid "Disk path"
+msgstr ""
+
+msgid "Disks space"
 msgstr ""
 
 msgid "Disks total space"
@@ -2727,6 +2769,9 @@ msgid "Edit interfaces"
 msgstr ""
 
 msgid "Edit this host"
+msgstr ""
+
+msgid "Edited parameter %s"
 msgstr ""
 
 msgid "Edited role successfully"
@@ -2889,6 +2934,9 @@ msgid "Error while trying to update resource: %s"
 msgstr ""
 
 msgid "Error! "
+msgstr ""
+
+msgid "Error:"
 msgstr ""
 
 msgid "Errors"
@@ -3325,6 +3373,9 @@ msgstr ""
 msgid "Filter|Unlimited"
 msgstr ""
 
+msgid "Find by name"
+msgstr ""
+
 msgid "Find or create a host and render the 'Host initial configuration' template"
 msgstr ""
 
@@ -3349,6 +3400,9 @@ msgstr ""
 msgid "Fix Mismatches"
 msgstr ""
 
+msgid "Fixed IP"
+msgstr ""
+
 msgid "Flag to indicate whether to include status or not"
 msgstr ""
 
@@ -3356,6 +3410,12 @@ msgid "Flag to indicate whether to include version or not"
 msgstr ""
 
 msgid "Flavor"
+msgstr ""
+
+msgid "Flavor ID"
+msgstr ""
+
+msgid "Floating IP"
 msgstr ""
 
 msgid "Floating IP network"
@@ -3636,6 +3696,9 @@ msgstr ""
 msgid "Get ENC values of host"
 msgstr ""
 
+msgid "Get all inherited parameters for a host"
+msgstr ""
+
 msgid "Get dashboard details"
 msgstr ""
 
@@ -3817,6 +3880,9 @@ msgid "Hide all values for this parameter."
 msgstr ""
 
 msgid "Hide this value"
+msgstr ""
+
+msgid "Hide value"
 msgstr ""
 
 msgid "Highly Available"
@@ -4628,6 +4694,9 @@ msgstr ""
 msgid "Import VM %s"
 msgstr ""
 
+msgid "Import a partition table"
+msgstr ""
+
 msgid "Import a provisioning template"
 msgstr ""
 
@@ -4915,6 +4984,9 @@ msgstr ""
 msgid "JwtSecret|Token"
 msgstr ""
 
+msgid "Kernel ID"
+msgstr ""
+
 msgid "Kernel release"
 msgstr ""
 
@@ -4986,6 +5058,9 @@ msgid "Last Report"
 msgstr ""
 
 msgid "Last Used"
+msgstr ""
+
+msgid "Last configuration report"
 msgstr ""
 
 msgid "Last report"
@@ -5758,6 +5833,9 @@ msgstr ""
 msgid "Maximize"
 msgstr ""
 
+msgid "Maximum"
+msgstr ""
+
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr ""
 
@@ -5934,6 +6012,9 @@ msgstr ""
 msgid "NIC"
 msgstr ""
 
+msgid "NIC name"
+msgstr ""
+
 msgid "NIC type"
 msgstr ""
 
@@ -5941,6 +6022,9 @@ msgid "NICs"
 msgstr ""
 
 msgid "Name"
+msgstr ""
+
+msgid "Name can't contain spaces"
 msgstr ""
 
 msgid "Name of media"
@@ -6348,6 +6432,9 @@ msgid "No templates found!"
 msgstr ""
 
 msgid "No user mail notification to update. Use the create action"
+msgstr ""
+
+msgid "No value"
 msgstr ""
 
 msgid "None"
@@ -6787,6 +6874,12 @@ msgstr ""
 msgid "Output format"
 msgstr ""
 
+msgid "Overall status"
+msgstr ""
+
+msgid "Overridden"
+msgstr ""
+
 msgid "Override"
 msgstr ""
 
@@ -6879,6 +6972,9 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter"
+msgstr ""
+
+msgid "Parameter %s deleted"
 msgstr ""
 
 msgid "Parameter %{name} is not set for host %{host}"
@@ -7223,9 +7319,6 @@ msgstr ""
 msgid "Prepare post installation script for %s"
 msgstr ""
 
-msgid "Press ' / ' to focus on search"
-msgstr ""
-
 msgid "Preview"
 msgstr ""
 
@@ -7257,6 +7350,12 @@ msgid "Prioritize Attribute Order"
 msgstr ""
 
 msgid "Private"
+msgstr ""
+
+msgid "Private DNS name"
+msgstr ""
+
+msgid "Private IP address"
 msgstr ""
 
 msgid "Private key file path that Foreman will use to encrypt websockets"
@@ -7373,6 +7472,9 @@ msgid "Ptable|Snippet"
 msgstr ""
 
 msgid "Public"
+msgstr ""
+
+msgid "Public IP address"
 msgstr ""
 
 msgid "Public SSH key"
@@ -7765,6 +7867,9 @@ msgstr ""
 msgid "Reset PuppetCA certname for %s"
 msgstr ""
 
+msgid "Reset search"
+msgstr ""
+
 msgid "Reset to default"
 msgstr ""
 
@@ -7905,6 +8010,9 @@ msgid "Role|Origin"
 msgstr ""
 
 msgid "Root Password Hash"
+msgstr ""
+
+msgid "Root device type"
 msgstr ""
 
 msgid "Root password"
@@ -8103,6 +8211,9 @@ msgid "Secondary DNS for this subnet"
 msgstr ""
 
 msgid "Secret Key"
+msgstr ""
+
+msgid "Security Groups"
 msgstr ""
 
 msgid "Security groups"
@@ -8821,6 +8932,9 @@ msgid "Strong"
 msgstr ""
 
 msgid "Submit"
+msgstr ""
+
+msgid "Submit edit"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -9690,6 +9804,9 @@ msgid "This value is not hidden"
 msgstr ""
 
 msgid "This value is used also as the host's primary interface name."
+msgstr ""
+
+msgid "This will change the delete the parameter, are you sure?"
 msgstr ""
 
 msgid "This will change the host power status, are you sure?"
@@ -10722,6 +10839,9 @@ msgstr ""
 msgid "Virtual machine was not found by id %{vm_id}"
 msgstr ""
 
+msgid "Virtualization"
+msgstr ""
+
 msgid "Vnic Profile"
 msgstr ""
 
@@ -11287,6 +11407,9 @@ msgstr ""
 msgid "e.g. uid"
 msgstr ""
 
+msgid "edit"
+msgstr ""
+
 msgid "enable caching, for VMware only"
 msgstr ""
 
@@ -11702,6 +11825,9 @@ msgid "organizations"
 msgstr ""
 
 msgid "our templates documentation"
+msgstr ""
+
+msgid "override"
 msgstr ""
 
 msgid "pending"

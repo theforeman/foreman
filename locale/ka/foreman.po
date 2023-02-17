@@ -506,6 +506,9 @@ msgstr "გარე მომხმარებლის ჯგუფის დ
 msgid "Add filter"
 msgstr "ფილტრის დამატება"
 
+msgid "Add parameter"
+msgstr ""
+
 msgid "Add tag"
 msgstr "ჭდის დამატება"
 
@@ -1125,8 +1128,14 @@ msgstr "BCrypt-ის მარილი '%s' არასწორია"
 msgid "BIOS"
 msgstr "BIOS"
 
-msgid "BIOS UUID"
-msgstr "BIOS UUID"
+msgid "BIOS release date"
+msgstr ""
+
+msgid "BIOS vendor"
+msgstr ""
+
+msgid "BIOS version"
+msgstr ""
 
 msgid "BMC"
 msgstr "BMC"
@@ -1425,15 +1434,6 @@ msgstr "Caps Lock ჩართულია"
 msgid "Certificate Name"
 msgstr "სერტიფიკატის სახელი"
 
-msgid "Certificate Path"
-msgstr "სერტიფიკატის ბილიკი"
-
-msgid "Certificate key is not a valid JSON"
-msgstr "სერტიფიკატის გასაღები სწორ JSON-ს არ წარმოადგენს"
-
-msgid "Certificate path for GCE only"
-msgstr "სერტიფიკატის ბილიკი მხოლოდ GCE-სთვის"
-
 msgid "Certificate path that Foreman will use to encrypt websockets"
 msgstr "ბილიკი სერტიფიკატამდე, რომელსაც Foreman-ი ვებსოკეტების დასაშიფრად გამოიყენებს"
 
@@ -1511,9 +1511,6 @@ msgstr "ვმ-ის ნაგულისხმები ატრიბუტ
 
 msgid "Click to log in again"
 msgstr "თავიდან შესასვლელად დააწკაპუნეთ"
-
-msgid "Client Email"
-msgstr "კლიენტის ელფოსტა"
 
 msgid "Clone"
 msgstr "კლონირება"
@@ -1622,6 +1619,9 @@ msgstr "გამოთვლითი რესურსის ID-ები"
 
 msgid "Compute resource destination unreachable"
 msgstr "გამოთვლითი რესურსის დანიშნულება მიუწვდომელია"
+
+msgid "Compute resource does not support the console function."
+msgstr ""
 
 msgid "Compute resource update for %s"
 msgstr "%s-ის გამოთვლითი რესურსის განახლება"
@@ -1734,6 +1734,9 @@ msgstr "მიერთებულია %s-თან"
 msgid "Connecting (unencrypted) to: %s"
 msgstr "მიერთება (დაუშიფრავი): %s"
 
+msgid "Connection state"
+msgstr ""
+
 msgid "Connection to compute resource refused"
 msgstr "გამოთვლით რესურსამდე წვდომა უარყოფილია"
 
@@ -1745,6 +1748,9 @@ msgstr "კონსოლი"
 
 msgid "Console Passwords"
 msgstr "კონსოლის პაროლები"
+
+msgid "Console disabled as the host is powered off."
+msgstr ""
 
 msgid "Console output may be out of date"
 msgstr "კონსოლზე გამოტანილი შეიძლება მოძველებული იყოს"
@@ -1781,6 +1787,9 @@ msgstr "ბირთვისა და პროქსის ვერსიე
 
 msgid "CoreOS Transpiler Command"
 msgstr "CoreOS-ის ტრანსპილერის ბრძანება"
+
+msgid "Cores"
+msgstr ""
 
 msgid "Cores per socket"
 msgstr "ბირთვი თითო სოკეტზე"
@@ -2100,8 +2109,14 @@ msgstr "რეალმის ჩანაწერის შექმნა %s 
 msgid "Created"
 msgstr "შექმნილია"
 
-msgid "Created %(date)s by %(owner)s"
-msgstr "შექმნის თარიღი %(date)s ავტორი %(owner)s"
+msgid "Created %s"
+msgstr ""
+
+msgid "Created at"
+msgstr ""
+
+msgid "Created parameter %s"
+msgstr ""
 
 msgid "Created role successfully"
 msgstr "როლი წარმატებით შეიქმნა"
@@ -2186,6 +2201,9 @@ msgstr "ამ ქვექსელში გამოყენებული 
 
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
 msgstr "DNS პროქსი ამ ქვექსელში გამოსაყენებლად PTR ჩანაწერების სამართავად, გაითვალისწინეთ, რომ A და AAAA ჩანაწერები დომენის DNS პროქსის მეშვეობით იმართება"
+
+msgid "DNS name"
+msgstr ""
 
 msgid "DNS proxy ID to use within this domain"
 msgstr "ამ დომენში გამოყენებული DNS  პროქსის ID"
@@ -2315,6 +2333,9 @@ msgstr "დაყენებისას ქსელის აქტივო�
 
 msgid "Delete"
 msgstr "წაშლა"
+
+msgid "Delete %s"
+msgstr ""
 
 msgid "Delete %s?"
 msgstr "წავშალო \"%s\"?"
@@ -2601,11 +2622,26 @@ msgstr "დისკი"
 msgid "Disk Mode"
 msgstr "დისკის რეჟიმი"
 
+msgid "Disk allocation"
+msgstr ""
+
+msgid "Disk capacity"
+msgstr ""
+
 msgid "Disk interface"
 msgstr "დისკის ინტერფეისი"
 
 msgid "Disk name"
 msgstr "დისკის სახელი"
+
+msgid "Disk path"
+msgstr ""
+
+msgid "Disks space"
+msgstr ""
+
+msgid "Disks total space"
+msgstr ""
 
 msgid "Display"
 msgstr "ჩვენება"
@@ -2738,8 +2774,14 @@ msgstr "პარამეტრების ჩასწორება"
 msgid "Edit Properties"
 msgstr "თვისებების ჩასწორება"
 
+msgid "Edit interfaces"
+msgstr ""
+
 msgid "Edit this host"
 msgstr "ჰოსტის ჩასწორება"
+
+msgid "Edited parameter %s"
+msgstr ""
 
 msgid "Edited role successfully"
 msgstr "როლი წარმატებით ჩასწორდა"
@@ -2755,9 +2797,6 @@ msgstr "ელფოსტის გამართვა"
 
 msgid "Email address is missing"
 msgstr "დაამატეთ ელფოსტის მისამართი"
-
-msgid "Email for GCE only"
-msgstr "ელფოსტა მხოლოდ GCE-სთვის"
 
 msgid "Email reply address"
 msgstr "ელფოსტის საპასუხო მისამართი"
@@ -2905,6 +2944,9 @@ msgstr "რესურსის განახლების შეცდო�
 
 msgid "Error! "
 msgstr "შეცდომა! "
+
+msgid "Error:"
+msgstr ""
 
 msgid "Errors"
 msgstr "შედომები"
@@ -3342,6 +3384,9 @@ msgstr "ტაქსონომიის ძებნა"
 msgid "Filter|Unlimited"
 msgstr "ულიმიტო"
 
+msgid "Find by name"
+msgstr ""
+
 msgid "Find or create a host and render the 'Host initial configuration' template"
 msgstr "იპოვეთ ან შექმენით ჰოსტი და დაარენდერეთ „მასპინძლის საწყისი კონფიგურაციის“ შაბლონი"
 
@@ -3366,6 +3411,9 @@ msgstr "ყველა შეუსაბამობის გასწორ�
 msgid "Fix Mismatches"
 msgstr "შეუსაბამობების გასწორება"
 
+msgid "Fixed IP"
+msgstr ""
+
 msgid "Flag to indicate whether to include status or not"
 msgstr "ალამი, რომელის განსაზღვრავს, შეიცავს სტატუსს თუ არა"
 
@@ -3374,6 +3422,12 @@ msgstr "ალამი, რომელიც განსაზღვრავ
 
 msgid "Flavor"
 msgstr "ტიპი"
+
+msgid "Flavor ID"
+msgstr ""
+
+msgid "Floating IP"
+msgstr ""
 
 msgid "Floating IP network"
 msgstr "მცურავი IP ქსელი"
@@ -3653,6 +3707,9 @@ msgstr "შაბლონების ჩაწერისთვის DSL მ
 msgid "Get ENC values of host"
 msgstr "ჰოსტის ENC მნიშვნელობების მიღება"
 
+msgid "Get all inherited parameters for a host"
+msgstr ""
+
 msgid "Get dashboard details"
 msgstr "სამუშაო დაფის დეტალების მიღება"
 
@@ -3724,9 +3781,6 @@ msgstr "ჰოსტის კარგი ანგარიშები ბო
 
 msgid "Good host with reports"
 msgstr "კარგი ჰოსტი ანგარიშებით"
-
-msgid "Google Project ID"
-msgstr "Google-ის პროექტის ID"
 
 msgid "Group not found in the configured External IPAM instance"
 msgstr "IPAM-ის მორგებულ გარე გაშვებულ ასლში ჯგუფი არ არსებობს"
@@ -3838,6 +3892,9 @@ msgstr "პარამეტრის ყველა მნიშვნელ�
 
 msgid "Hide this value"
 msgstr "მნიშვნელობის დამალვა"
+
+msgid "Hide value"
+msgstr ""
 
 msgid "Highly Available"
 msgstr "მაღალი წვდომადობის"
@@ -4500,6 +4557,9 @@ msgstr "ინტერფეისის IPv6 მისამართი"
 msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr "IPv6 მისამართი. საჭირო არაა, თუ ქვექსელს DHCP პროქსით იყენებთ"
 
+msgid "IPv6 subnet"
+msgstr ""
+
 msgid "IRC"
 msgstr "IRC"
 
@@ -4644,6 +4704,9 @@ msgstr "IPv4 ქვექსელების შემოტანა"
 
 msgid "Import VM %s"
 msgstr "ვმ-ის შემოტანა %s"
+
+msgid "Import a partition table"
+msgstr ""
 
 msgid "Import a provisioning template"
 msgstr "მუშაობისთვის მომზადების შაბლონის შემოტანა"
@@ -4843,9 +4906,6 @@ msgstr "გამოწერის ან ინტერვალის პა
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr "არასწორი %{assoc} არჩევანი, თქვენ უნდა აირჩიოთ მინიმუმ ერთი თქვენი და გქონდეთ „%{perm}“ წვდომა."
 
-msgid "Invalid Google JSON key. Please verify client email & private key options are present"
-msgstr "Google-ის არასწორი JSON გასაღები. შეამოწმეთ არსებობს თუ არა კლიენტის ელფოსტა და პირადი გასაღები"
-
 msgid "Invalid HTTP(S) URL"
 msgstr "არასწორი HTTP(S) URL"
 
@@ -4935,8 +4995,14 @@ msgstr "Jwt საიდუმლო"
 msgid "JwtSecret|Token"
 msgstr "კოდი"
 
+msgid "Kernel ID"
+msgstr ""
+
 msgid "Kernel release"
 msgstr "ბირთვის რელიზი"
+
+msgid "Kernel version"
+msgstr ""
 
 msgid "Key"
 msgstr "გასაღები"
@@ -5004,6 +5070,9 @@ msgstr "ბოლო ანგარიში"
 
 msgid "Last Used"
 msgstr "ბოლოს გამოყენებული"
+
+msgid "Last configuration report"
+msgstr ""
 
 msgid "Last report"
 msgstr "ბოლო ანგარიშის დრო"
@@ -5446,9 +5515,6 @@ msgstr "მდც-ების ჩატვირთვა"
 msgid "Load Regions"
 msgstr "რეგიონების ჩატვირთვა"
 
-msgid "Load Zones"
-msgstr "ზონების ჩატვირთვა"
-
 msgid "Loading"
 msgstr "იტვირთება"
 
@@ -5778,6 +5844,9 @@ msgstr "შესატყვისების მემკვიდრეო�
 msgid "Maximize"
 msgstr "გადიდება"
 
+msgid "Maximum"
+msgstr ""
+
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr ""
 
@@ -5954,6 +6023,9 @@ msgstr "NA"
 msgid "NIC"
 msgstr "NIC"
 
+msgid "NIC name"
+msgstr ""
+
 msgid "NIC type"
 msgstr "NIC-ის ტიპი"
 
@@ -5962,6 +6034,9 @@ msgstr "NIC-ები"
 
 msgid "Name"
 msgstr "სახელი"
+
+msgid "Name can't contain spaces"
+msgstr ""
 
 msgid "Name of media"
 msgstr "მედიის სახელი"
@@ -6019,6 +6094,9 @@ msgstr "ქსელის პრეფიქსი ან CIDR ნოტაც�
 
 msgid "Network type"
 msgstr "ქსელის ტიპი"
+
+msgid "Networking interfaces"
+msgstr ""
 
 msgid "Never"
 msgstr "არასდროს"
@@ -6283,6 +6361,12 @@ msgstr "შესაბამისი ჩანაწერების გა�
 msgid "No matching server groups found"
 msgstr "სერვერების შესატყვისი ჯგუფი არ არსებობს"
 
+msgid "No name"
+msgstr ""
+
+msgid "No network interfaces"
+msgstr ""
+
 msgid "No networks"
 msgstr "ქსელების გარეშე"
 
@@ -6360,6 +6444,9 @@ msgstr "შაბლონების გარეშე!"
 
 msgid "No user mail notification to update. Use the create action"
 msgstr "მომხმარებლს განსაახლებელი ელფოსტის გარეშე. გამოიყენეთ შექმნის ქმედება"
+
+msgid "No value"
+msgstr ""
 
 msgid "None"
 msgstr "არაა"
@@ -6800,6 +6887,12 @@ msgstr "დაუსინქრონიზებლობის ინტე�
 msgid "Output format"
 msgstr "გამოტანის ფორმატი"
 
+msgid "Overall status"
+msgstr ""
+
+msgid "Overridden"
+msgstr ""
+
 msgid "Override"
 msgstr "გადაფარვა"
 
@@ -6893,6 +6986,9 @@ msgstr "პარამეტრის სახელი"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter"
 msgstr "პარამეტრი"
+
+msgid "Parameter %s deleted"
+msgstr ""
 
 msgid "Parameter %{name} is not set for host %{host}"
 msgstr "პარამეტრი %{name} ჰოსტისთვის %{host} დაყენებული არაა"
@@ -7236,9 +7332,6 @@ msgstr "ყველა გამავალი ელფოსტისთვ�
 msgid "Prepare post installation script for %s"
 msgstr "%s-თვის დაყენების შემდეგი სკრიპტების მომზადება"
 
-msgid "Press ' / ' to focus on search"
-msgstr "ძებნაზე ფოკუსისთვის დააწექით '/'-ს"
-
 msgid "Preview"
 msgstr "მინიატურა"
 
@@ -7272,6 +7365,12 @@ msgstr "ატიბუტების მიმდევრობის პრ�
 msgid "Private"
 msgstr "პირადი"
 
+msgid "Private DNS name"
+msgstr ""
+
+msgid "Private IP address"
+msgstr ""
+
 msgid "Private key file path that Foreman will use to encrypt websockets"
 msgstr "ბილიკი პირადი გასაღების ფაილამდე, რომელსაც Foreman-ი ვებსოკეტების დასაშიფრად გამოიყენებს"
 
@@ -7289,9 +7388,6 @@ msgstr "პროექტის დომენის ID"
 
 msgid "Project domain name"
 msgstr "პროექტის დომენის სახელი"
-
-msgid "Project id for GCE only"
-msgstr "პროექტის ID მხოლოდ GCE-სთვის"
 
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
@@ -7393,6 +7489,9 @@ msgstr "ნაწყვეტი"
 msgid "Public"
 msgstr "საჯარო"
 
+msgid "Public IP address"
+msgstr ""
+
 msgid "Public SSH key"
 msgstr "საჯარო SSH გასაღები"
 
@@ -7443,6 +7542,9 @@ msgstr "ლოკალურ DNS სერვერებზე მოთხო
 
 msgid "Quota ID"
 msgstr "კვოტის ID"
+
+msgid "RAM"
+msgstr ""
 
 msgid "REPLACE locations with given ids"
 msgstr "მდებარეობების მითითებული ID-ებით ჩანაცვლება"
@@ -7575,6 +7677,9 @@ msgstr "რეგისტრაციის შაბლონი"
 
 msgid "Registration token is missing or invalid."
 msgstr "რეგისტრაციის კოდი აკლია ან არასწორია."
+
+msgid "Release date"
+msgstr ""
 
 msgid "Relevant only for audit summary notification"
 msgstr "შესაბამისია მხოლოდ აუდიტის შემაჯამებელი შეტყობინებისთვის"
@@ -7719,6 +7824,9 @@ msgstr "ანგარიშის დრო %s "
 msgid "Reported by %s"
 msgstr "ანგარიშის გამომგზავნელი: %s"
 
+msgid "Reported data"
+msgstr ""
+
 msgid "Reports"
 msgstr "ანგარიშები"
 
@@ -7773,6 +7881,9 @@ msgstr "განულება"
 
 msgid "Reset PuppetCA certname for %s"
 msgstr "PuppetCA-ის სერტიფიკატის თავიდან დაყენება %s-სთვის"
+
+msgid "Reset search"
+msgstr ""
 
 msgid "Reset to default"
 msgstr "ნაგულისხმებ მნიშვნელობაზე დაბრუნება"
@@ -7915,6 +8026,9 @@ msgstr "საწყისი"
 
 msgid "Root Password Hash"
 msgstr "Root-ის პაროლის ჰეში"
+
+msgid "Root device type"
+msgstr ""
 
 msgid "Root password"
 msgstr "Root-ის პაროლი"
@@ -8113,6 +8227,9 @@ msgstr "ქვექსელის მეორადი DNS"
 
 msgid "Secret Key"
 msgstr "საიდუმლო გასაღები"
+
+msgid "Security Groups"
+msgstr ""
 
 msgid "Security groups"
 msgstr "უსაფრთხოების ჯგუფები"
@@ -8832,6 +8949,9 @@ msgstr "ძლიერი"
 msgid "Submit"
 msgstr "გაგზავნა"
 
+msgid "Submit edit"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "ქვექსელი"
@@ -9387,9 +9507,6 @@ msgstr "მონაცემების წაშლის დაბრუნ�
 msgid "The default administrator email address"
 msgstr "ადმინისტრატორის ელფოსტის ნაგულისხმები მისამართი"
 
-msgid "The file path where your JSON file is located"
-msgstr "ბილიკი თქვენს JSON ფაილამდე"
-
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "საბოლოო ჩანაწერი, ოპერაციული სისტემის ნაგულისხმები, შეიძლება დაყენდეს %s გვერდის რედაქტირებით."
 
@@ -9706,6 +9823,9 @@ msgstr "მნიშვნელობა დამალული არაა"
 msgid "This value is used also as the host's primary interface name."
 msgstr "მნიშვნელობა ასევე გამოყენებული იქნება, როგორც ჰოსტის ძირითადი ინტერფეისი."
 
+msgid "This will change the delete the parameter, are you sure?"
+msgstr ""
+
 msgid "This will change the host power status, are you sure?"
 msgstr "ჰოსტის კვების სტატუსი შეიცვლება. დარწმუნებული ბრძანდებით?"
 
@@ -9879,9 +9999,6 @@ msgstr "UUID"
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr "UUID ორკესტრის ამოცანების სტატუსის თვალყურის დევნებისთვის, GET /api/orchestration/:UUID/tasks"
-
-msgid "Unable to access key"
-msgstr "გასაღებთან სწვდომის შეცდომა"
 
 msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
 msgstr ""
@@ -10681,6 +10798,9 @@ msgstr "ცვლადი"
 msgid "Variables"
 msgstr "ცვლადები"
 
+msgid "Vendor"
+msgstr ""
+
 msgid "Vendor class"
 msgstr "მომწოდებლის კლასი"
 
@@ -10711,6 +10831,9 @@ msgstr "სიის ნახვა"
 msgid "View provisioning template {openTemplate}."
 msgstr ""
 
+msgid "Virtual"
+msgstr ""
+
 msgid "Virtual (NAT)"
 msgstr "ვირტუალური (NAT)"
 
@@ -10734,6 +10857,9 @@ msgstr "ვირტუალური მანქანის პარამ�
 
 msgid "Virtual machine was not found by id %{vm_id}"
 msgstr "ვირტუალური მანქანა ID-ით ვერ მოიძებნა %{vm_id}"
+
+msgid "Virtualization"
+msgstr ""
 
 msgid "Vnic Profile"
 msgstr "VNIC-ის პროფილი"
@@ -11081,9 +11207,6 @@ msgstr "სესიას ვადა გაუვიდა. საჭირ�
 msgid "ZTP PXE template"
 msgstr "ZTP PXE -ის შაბლონი"
 
-msgid "Zone"
-msgstr "ზონა"
-
 msgid "[empty]"
 msgstr "[ცარიელი]"
 
@@ -11134,6 +11257,9 @@ msgstr "ლოგიკური"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "ჩატვირთვადი მოწყობილობა. სწორი ვარიანტებია დისკი, cdrom, pxe, bios"
+
+msgid "by %s"
+msgstr ""
 
 msgid "can only be set for array, hash, json or yaml"
 msgstr "შეიძლება იყოს მხოლოდ მასივი, ჰეში, json ან yaml"
@@ -11222,9 +11348,6 @@ msgstr "ფორუმები"
 msgid "compresed"
 msgstr "შეკუმშული"
 
-msgid "console is not available at this time because the instance is powered off"
-msgstr "კონსოლი ამჟამად მიუწვდომელია. გაშვებული ასლი გამორთულია"
-
 msgid "contains special characters"
 msgstr "შეიცავს სპეციალურ სიმბოლოებს"
 
@@ -11309,6 +11432,9 @@ msgstr "მაგ: sn"
 msgid "e.g. uid"
 msgstr "მაგ: uid"
 
+msgid "edit"
+msgstr ""
+
 msgid "enable caching, for VMware only"
 msgstr "ქეშის ჩართვა, მხოლოდ VMware-სთვის"
 
@@ -11338,9 +11464,6 @@ msgstr "გაფილტვრა..."
 
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
 msgstr "azureRm-ისთვის მაგ. \"eastus\" და მხოლოდ EC2-ისთვის. გამოიყენეთ „%s“ EC2 GovCloud რეგიონისთვის"
-
-msgid "for GCE only"
-msgstr "მხოლოდ GCE-სთვის"
 
 msgid "for Libvirt and VMware only"
 msgstr "მხოლოდ Libvirt და VMware-სთვის"
@@ -11569,8 +11692,7 @@ msgstr "გარე მომხმარებლების ჯგუფი�
 msgid "list"
 msgstr "სია"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "ენის_სახელი"
 
@@ -11730,6 +11852,9 @@ msgstr "ორგანიზაციები"
 msgid "our templates documentation"
 msgstr "შაბლონების ჩვენი დოკუმენტაცია"
 
+msgid "override"
+msgstr ""
+
 msgid "pending"
 msgstr "pending"
 
@@ -11819,9 +11944,6 @@ msgstr "წამი"
 
 msgid "select an owner"
 msgstr "აირჩიეთ მფლობელი"
-
-msgid "selected image does not exist"
-msgstr "მონიშნული ასლი არ არსებობს"
 
 msgid "service configuration will be skipped."
 msgstr "სერვისის კონფიგურაცია გამოტოვებული იქნება."

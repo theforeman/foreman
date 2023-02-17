@@ -494,6 +494,9 @@ msgstr "添加外部用户组"
 msgid "Add filter"
 msgstr "增加过滤"
 
+msgid "Add parameter"
+msgstr ""
+
 msgid "Add tag"
 msgstr "添加标签"
 
@@ -1112,8 +1115,14 @@ msgstr "BCrypt salt '%s' 无效"
 msgid "BIOS"
 msgstr "BIOS"
 
-msgid "BIOS UUID"
-msgstr "BIOS UUID"
+msgid "BIOS release date"
+msgstr ""
+
+msgid "BIOS vendor"
+msgstr ""
+
+msgid "BIOS version"
+msgstr ""
 
 msgid "BMC"
 msgstr "BMC"
@@ -1412,15 +1421,6 @@ msgstr "打开大写锁"
 msgid "Certificate Name"
 msgstr "证书名称"
 
-msgid "Certificate Path"
-msgstr "证书路径"
-
-msgid "Certificate key is not a valid JSON"
-msgstr "证书密钥不是有效的 JSON"
-
-msgid "Certificate path for GCE only"
-msgstr "仅 GCE 的证书路径"
-
 msgid "Certificate path that Foreman will use to encrypt websockets"
 msgstr "Foreman 用于加密 websocket 的证书"
 
@@ -1498,9 +1498,6 @@ msgstr "点击计算资源链接编辑器默认 VM 属性。"
 
 msgid "Click to log in again"
 msgstr "点击重新登录"
-
-msgid "Client Email"
-msgstr "客户端电子邮件"
 
 msgid "Clone"
 msgstr "克隆"
@@ -1609,6 +1606,9 @@ msgstr "運算資源 ID"
 
 msgid "Compute resource destination unreachable"
 msgstr "计算资源目的地不可访问"
+
+msgid "Compute resource does not support the console function."
+msgstr ""
 
 msgid "Compute resource update for %s"
 msgstr "%s 的计算资源更新"
@@ -1721,6 +1721,9 @@ msgstr "已连接到：%s"
 msgid "Connecting (unencrypted) to: %s"
 msgstr "（未加密）连接到：%s"
 
+msgid "Connection state"
+msgstr ""
+
 msgid "Connection to compute resource refused"
 msgstr "连接到计算资源被拒绝"
 
@@ -1732,6 +1735,9 @@ msgstr "控制台"
 
 msgid "Console Passwords"
 msgstr "控制台密码"
+
+msgid "Console disabled as the host is powered off."
+msgstr ""
 
 msgid "Console output may be out of date"
 msgstr "控制台输出可能已过期"
@@ -1767,6 +1773,9 @@ msgid "Core and proxy versions do not match. foreman: %{foreman_version}, forema
 msgstr "核心和代理版本不匹配。foreman: %{foreman_version}，foreman-proxy: %{proxy_version}"
 
 msgid "CoreOS Transpiler Command"
+msgstr ""
+
+msgid "Cores"
 msgstr ""
 
 msgid "Cores per socket"
@@ -2087,7 +2096,13 @@ msgstr "为 %s 创建 realm 条目"
 msgid "Created"
 msgstr "创建"
 
-msgid "Created %(date)s by %(owner)s"
+msgid "Created %s"
+msgstr ""
+
+msgid "Created at"
+msgstr ""
+
+msgid "Created parameter %s"
 msgstr ""
 
 msgid "Created role successfully"
@@ -2173,6 +2188,9 @@ msgstr "要在此子网中使用的 DNS 代理 ID"
 
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
 msgstr "要在此子网中用于管理 PTR 记录的 DNS 代理。请注意，A 和 AAAA 记录通过域 DNS 代理进行管理"
+
+msgid "DNS name"
+msgstr ""
 
 msgid "DNS proxy ID to use within this domain"
 msgstr "要在此域中使用的 DNS 代理 ID"
@@ -2302,6 +2320,9 @@ msgstr "在安装过程中将网络活动延迟 X 秒"
 
 msgid "Delete"
 msgstr "刪除"
+
+msgid "Delete %s"
+msgstr ""
 
 msgid "Delete %s?"
 msgstr "刪除 %s?"
@@ -2588,11 +2609,26 @@ msgstr "磁盘"
 msgid "Disk Mode"
 msgstr "磁盘模式"
 
+msgid "Disk allocation"
+msgstr ""
+
+msgid "Disk capacity"
+msgstr ""
+
 msgid "Disk interface"
 msgstr "磁盘接口"
 
 msgid "Disk name"
 msgstr "磁盘名称"
+
+msgid "Disk path"
+msgstr ""
+
+msgid "Disks space"
+msgstr ""
+
+msgid "Disks total space"
+msgstr ""
 
 msgid "Display"
 msgstr "顯示"
@@ -2724,8 +2760,14 @@ msgstr "编辑参数"
 msgid "Edit Properties"
 msgstr "编辑属性"
 
+msgid "Edit interfaces"
+msgstr ""
+
 msgid "Edit this host"
 msgstr "编辑此主机"
+
+msgid "Edited parameter %s"
+msgstr ""
 
 msgid "Edited role successfully"
 msgstr ""
@@ -2741,9 +2783,6 @@ msgstr "电子邮件首选项"
 
 msgid "Email address is missing"
 msgstr "缺少电子邮件地址"
-
-msgid "Email for GCE only"
-msgstr "仅用于 GCE 的电子邮件"
 
 msgid "Email reply address"
 msgstr "电子邮件回复地址"
@@ -2891,6 +2930,9 @@ msgstr "更新资源时出错：%s"
 
 msgid "Error! "
 msgstr "错误！"
+
+msgid "Error:"
+msgstr ""
 
 msgid "Errors"
 msgstr "错误"
@@ -3327,6 +3369,9 @@ msgstr "分类搜索"
 msgid "Filter|Unlimited"
 msgstr "无限"
 
+msgid "Find by name"
+msgstr ""
+
 msgid "Find or create a host and render the 'Host initial configuration' template"
 msgstr "查找或创建主机并呈现 'Host initial configuration' 模板"
 
@@ -3351,6 +3396,9 @@ msgstr "修复所有不匹配"
 msgid "Fix Mismatches"
 msgstr "修复不匹配"
 
+msgid "Fixed IP"
+msgstr ""
+
 msgid "Flag to indicate whether to include status or not"
 msgstr "指定是否包含状态的标记"
 
@@ -3359,6 +3407,12 @@ msgstr "指明是否包含版本的标记"
 
 msgid "Flavor"
 msgstr "Flavor"
+
+msgid "Flavor ID"
+msgstr ""
+
+msgid "Floating IP"
+msgstr ""
 
 msgid "Floating IP network"
 msgstr "浮动IP"
@@ -3641,6 +3695,9 @@ msgstr "获取 DSL 参考以编写模板"
 msgid "Get ENC values of host"
 msgstr "获取主机的 ENC 值"
 
+msgid "Get all inherited parameters for a host"
+msgstr ""
+
 msgid "Get dashboard details"
 msgstr "获得仪表板的详情"
 
@@ -3712,9 +3769,6 @@ msgstr "在过去 %s 内的报告良好的主机"
 
 msgid "Good host with reports"
 msgstr "带有报告的良好主机"
-
-msgid "Google Project ID"
-msgstr "Google Project ID"
 
 msgid "Group not found in the configured External IPAM instance"
 msgstr "在配置的外部 IPAM 实例中找不到组"
@@ -3826,6 +3880,9 @@ msgstr "隐藏这个参数的所有值。"
 
 msgid "Hide this value"
 msgstr "隐藏此值"
+
+msgid "Hide value"
+msgstr ""
 
 msgid "Highly Available"
 msgstr "高可用性"
@@ -4489,6 +4546,9 @@ msgstr "接口的 IPv6 地址"
 msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr "IPv6 地址，如果使用带有 DHCP 代理的子网则不需要"
 
+msgid "IPv6 subnet"
+msgstr ""
+
 msgid "IRC"
 msgstr "IRC"
 
@@ -4633,6 +4693,9 @@ msgstr "导入 IPv4 子网"
 
 msgid "Import VM %s"
 msgstr "导入虚拟机 %s"
+
+msgid "Import a partition table"
+msgstr ""
 
 msgid "Import a provisioning template"
 msgstr "导入预配模板"
@@ -4838,9 +4901,6 @@ msgstr "缺少间隔或订阅选项"
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr "无效的 %{assoc} 选择，必须至少选择一个，并获得 '%{perm}' 权限。"
 
-msgid "Invalid Google JSON key. Please verify client email & private key options are present"
-msgstr "无效的 Google JSON 密钥。请验证是否存在客户电子邮件和私钥选项"
-
 msgid "Invalid HTTP(S) URL"
 msgstr "无效的 HTTP(S) URL"
 
@@ -4930,7 +4990,13 @@ msgstr "Jwt secret"
 msgid "JwtSecret|Token"
 msgstr "JwtSecret|Token"
 
+msgid "Kernel ID"
+msgstr ""
+
 msgid "Kernel release"
+msgstr ""
+
+msgid "Kernel version"
 msgstr ""
 
 msgid "Key"
@@ -4999,6 +5065,9 @@ msgstr "最新的报告"
 
 msgid "Last Used"
 msgstr "最后使用的"
+
+msgid "Last configuration report"
+msgstr ""
 
 msgid "Last report"
 msgstr "最后的报告"
@@ -5441,9 +5510,6 @@ msgstr "加载数据中心"
 msgid "Load Regions"
 msgstr "加载区"
 
-msgid "Load Zones"
-msgstr "加载区域"
-
 msgid "Loading"
 msgstr "加载"
 
@@ -5773,6 +5839,9 @@ msgstr "匹配器继承"
 msgid "Maximize"
 msgstr "最大化"
 
+msgid "Maximum"
+msgstr ""
+
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr "结构化子树中的最大密钥数，统计信息存储在 foreman::dropped_subtree_facts 中"
 
@@ -5949,6 +6018,9 @@ msgstr "不适用"
 msgid "NIC"
 msgstr "NIC"
 
+msgid "NIC name"
+msgstr ""
+
 msgid "NIC type"
 msgstr "NIC 类型"
 
@@ -5957,6 +6029,9 @@ msgstr "NIC"
 
 msgid "Name"
 msgstr "名称"
+
+msgid "Name can't contain spaces"
+msgstr ""
 
 msgid "Name of media"
 msgstr "介质名称"
@@ -6014,6 +6089,9 @@ msgstr "CIDR 表示法中的网络前缀"
 
 msgid "Network type"
 msgstr "网络类型"
+
+msgid "Networking interfaces"
+msgstr ""
 
 msgid "Never"
 msgstr "决不"
@@ -6278,6 +6356,12 @@ msgstr "未能找到匹配的记录"
 msgid "No matching server groups found"
 msgstr "没有找到匹配的服务器组"
 
+msgid "No name"
+msgstr ""
+
+msgid "No network interfaces"
+msgstr ""
+
 msgid "No networks"
 msgstr "没有网络"
 
@@ -6355,6 +6439,9 @@ msgstr "没有发现模板"
 
 msgid "No user mail notification to update. Use the create action"
 msgstr "没有要更新的用户邮件通知。使用创建操作"
+
+msgid "No value"
+msgstr ""
 
 msgid "None"
 msgstr "没有"
@@ -6798,6 +6885,12 @@ msgstr "非同步间隔"
 msgid "Output format"
 msgstr "输出格式"
 
+msgid "Overall status"
+msgstr ""
+
+msgid "Overridden"
+msgstr ""
+
 msgid "Override"
 msgstr "覆盖"
 
@@ -6891,6 +6984,9 @@ msgstr "参数名称"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter"
 msgstr "参数"
+
+msgid "Parameter %s deleted"
+msgstr ""
 
 msgid "Parameter %{name} is not set for host %{host}"
 msgstr "没有为主机 %{host} 设置参数 %{name}"
@@ -7236,9 +7332,6 @@ msgstr "在所有寄出的电子邮件中添加的前缀"
 msgid "Prepare post installation script for %s"
 msgstr "为 %s 准备后安装脚本"
 
-msgid "Press ' / ' to focus on search"
-msgstr "按 ' / ' 聚焦搜索"
-
 msgid "Preview"
 msgstr "预览"
 
@@ -7272,6 +7365,12 @@ msgstr "排列属性优先顺序"
 msgid "Private"
 msgstr "私密"
 
+msgid "Private DNS name"
+msgstr ""
+
+msgid "Private IP address"
+msgstr ""
+
 msgid "Private key file path that Foreman will use to encrypt websockets"
 msgstr "Foreman 用于加密 websocket 的私钥文件"
 
@@ -7289,9 +7388,6 @@ msgstr "项目域 ID"
 
 msgid "Project domain name"
 msgstr "项目域名"
-
-msgid "Project id for GCE only"
-msgstr "只适用于 GCE 的项目 ID"
 
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr "项目名称（v3）或租户名称（v2）。可以通过 CLI 或 RC 文件检索。"
@@ -7393,6 +7489,9 @@ msgstr "片段"
 msgid "Public"
 msgstr "公共的"
 
+msgid "Public IP address"
+msgstr ""
+
 msgid "Public SSH key"
 msgstr "发布 SSH 密钥"
 
@@ -7443,6 +7542,9 @@ msgstr "查询本地名称服务器"
 
 msgid "Quota ID"
 msgstr "配额 ID"
+
+msgid "RAM"
+msgstr ""
 
 msgid "REPLACE locations with given ids"
 msgstr "使用给定 id 替换位置"
@@ -7575,6 +7677,9 @@ msgstr "注册模板"
 
 msgid "Registration token is missing or invalid."
 msgstr "注册令牌丢失或无效。"
+
+msgid "Release date"
+msgstr ""
 
 msgid "Relevant only for audit summary notification"
 msgstr "仅与审核摘要通知有关"
@@ -7717,6 +7822,9 @@ msgstr "报告于 %s"
 msgid "Reported by %s"
 msgstr "由 %s 报告"
 
+msgid "Reported data"
+msgstr ""
+
 msgid "Reports"
 msgstr "报表"
 
@@ -7771,6 +7879,9 @@ msgstr "重置"
 
 msgid "Reset PuppetCA certname for %s"
 msgstr "为 %s 重置 PuppetCA 证书名"
+
+msgid "Reset search"
+msgstr ""
 
 msgid "Reset to default"
 msgstr "重置为默认"
@@ -7911,6 +8022,9 @@ msgstr "角色|来源"
 
 msgid "Root Password Hash"
 msgstr "根用户密码哈希"
+
+msgid "Root device type"
+msgstr ""
 
 msgid "Root password"
 msgstr "Root 密碼"
@@ -8109,6 +8223,9 @@ msgstr "这个子网的辅 DNS"
 
 msgid "Secret Key"
 msgstr "密钥"
+
+msgid "Security Groups"
+msgstr ""
 
 msgid "Security groups"
 msgstr "安全组"
@@ -8825,6 +8942,9 @@ msgstr "強固"
 msgid "Submit"
 msgstr "提交"
 
+msgid "Submit edit"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "子网"
@@ -9379,9 +9499,6 @@ msgstr "数据删除无法撤消，确定要继续吗？"
 msgid "The default administrator email address"
 msgstr "管理员默认邮箱"
 
-msgid "The file path where your JSON file is located"
-msgstr "JSON 文件所在的文件路径"
-
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "最终条目，操作系统默认值，可以通过编辑 %s 页设置。"
 
@@ -9698,6 +9815,9 @@ msgstr "此值不隐藏"
 msgid "This value is used also as the host's primary interface name."
 msgstr "还将这个值作为主机主接口名使用。"
 
+msgid "This will change the delete the parameter, are you sure?"
+msgstr ""
+
 msgid "This will change the host power status, are you sure?"
 msgstr "这将更改主机电源状态，确定吗？"
 
@@ -9870,9 +9990,6 @@ msgstr "UUID"
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr "用于跟踪编配任务状态的 UUID，GET /api/orchestration/:UUID/tasks"
-
-msgid "Unable to access key"
-msgstr "无法访问密钥"
 
 msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
 msgstr "无法将 IP %{ip} 添加到外部 IPAM 中的子网 %{subnet}。"
@@ -10672,6 +10789,9 @@ msgstr "变量"
 msgid "Variables"
 msgstr "变量"
 
+msgid "Vendor"
+msgstr ""
+
 msgid "Vendor class"
 msgstr "供应商类别"
 
@@ -10702,6 +10822,9 @@ msgstr "查看列表"
 msgid "View provisioning template {openTemplate}."
 msgstr ""
 
+msgid "Virtual"
+msgstr ""
+
 msgid "Virtual (NAT)"
 msgstr "虚拟 （NAT）"
 
@@ -10725,6 +10848,9 @@ msgstr "不能在 %s 中的现有机器中编辑虚拟机"
 
 msgid "Virtual machine was not found by id %{vm_id}"
 msgstr "根据 id %{vm_id} 找不到虚拟机"
+
+msgid "Virtualization"
+msgstr ""
 
 msgid "Vnic Profile"
 msgstr "Vnic 配置集"
@@ -11083,9 +11209,6 @@ msgstr "会话已过期，请重新登录。"
 msgid "ZTP PXE template"
 msgstr "ZTP PXE 模板"
 
-msgid "Zone"
-msgstr "区"
-
 msgid "[empty]"
 msgstr "[空]"
 
@@ -11136,6 +11259,9 @@ msgstr "boolean"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "启动设备，有效设备是磁盘，cdrom，pxe，BIOS"
+
+msgid "by %s"
+msgstr ""
 
 msgid "can only be set for array, hash, json or yaml"
 msgstr "仅能为阵列、哈希、json 或 yaml 设置"
@@ -11224,9 +11350,6 @@ msgstr "社区论坛"
 msgid "compresed"
 msgstr "压缩的"
 
-msgid "console is not available at this time because the instance is powered off"
-msgstr "控制台目前不可用，因为实例已关闭"
-
 msgid "contains special characters"
 msgstr "包含特殊字符"
 
@@ -11311,6 +11434,9 @@ msgstr "例如：sn"
 msgid "e.g. uid"
 msgstr "例如：uid"
 
+msgid "edit"
+msgstr ""
+
 msgid "enable caching, for VMware only"
 msgstr "启用缓存，仅适用于 VMware"
 
@@ -11340,9 +11466,6 @@ msgstr "过滤..."
 
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
 msgstr "对于 AzureRm 例如 'eastus'，仅适用于 EC2。对于 EC2 GovCloud 区域使用 '%s'"
-
-msgid "for GCE only"
-msgstr "仅适用于 GCE"
 
 msgid "for Libvirt and VMware only"
 msgstr "仅适用于 Libvirt 和 VMware"
@@ -11570,8 +11693,7 @@ msgstr "将外部用户组与这个用户组关联"
 msgid "list"
 msgstr "列出"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "简体中文"
 
@@ -11731,6 +11853,9 @@ msgstr "机构"
 msgid "our templates documentation"
 msgstr "我们的模板文档"
 
+msgid "override"
+msgstr ""
+
 msgid "pending"
 msgstr "待定"
 
@@ -11820,9 +11945,6 @@ msgstr "秒"
 
 msgid "select an owner"
 msgstr "选择所有者"
-
-msgid "selected image does not exist"
-msgstr "所选镜像不存在"
 
 msgid "service configuration will be skipped."
 msgstr "服务配置将被跳过。"
