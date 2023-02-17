@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-23 16:07+0100\n"
-"PO-Revision-Date: 2022-11-23 16:07+0100\n"
+"POT-Creation-Date: 2023-02-17 19:48+0100\n"
+"PO-Revision-Date: 2023-02-17 19:48+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -83,22 +83,22 @@ msgstr ""
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:653
+#: ../app/assets/javascripts/host_edit.js:656
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:48
 #: ../app/views/hostgroups/_form.html.erb:55
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:819
+#: ../app/assets/javascripts/host_edit.js:822
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:949
+#: ../app/assets/javascripts/host_edit.js:952
 msgid "Warning: This combination of loader and OS might not be able to boot."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:953
+#: ../app/assets/javascripts/host_edit.js:956
 msgid "Manual configuration is needed."
 msgstr ""
 
@@ -162,7 +162,7 @@ msgstr ""
 #: ../app/helpers/hosts_helper.rb:382 ../app/helpers/hosts_helper.rb:384
 #: ../app/models/host_status/build_status.rb:27
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:56
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:73
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:83
 msgid "Build"
 msgstr ""
 
@@ -1621,11 +1621,15 @@ msgstr ""
 msgid "No templates found for %{host}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:429
+#: ../app/controllers/api/v2/hosts_controller.rb:356
+msgid "Get all inherited parameters for a host"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_controller.rb:435
 msgid "Invalid type for host creation via facts: %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:432
+#: ../app/controllers/api/v2/hosts_controller.rb:438
 msgid "A problem occurred when detecting host type: %s"
 msgstr ""
 
@@ -2453,7 +2457,6 @@ msgid "Create a provisioning template"
 msgstr ""
 
 #: ../app/controllers/api/v2/provisioning_templates_controller.rb:59
-#: ../app/controllers/api/v2/ptables_controller.rb:55
 msgid "Import a provisioning template"
 msgstr ""
 
@@ -2523,6 +2526,10 @@ msgstr ""
 
 #: ../app/controllers/api/v2/ptables_controller.rb:47
 msgid "Create a partition table"
+msgstr ""
+
+#: ../app/controllers/api/v2/ptables_controller.rb:55
+msgid "Import a partition table"
 msgstr ""
 
 #: ../app/controllers/api/v2/ptables_controller.rb:76
@@ -3749,14 +3756,9 @@ msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:16
-#: ../app/models/compute_resources/foreman/model/vmware.rb:207
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:25
-msgid "BIOS"
-msgstr ""
-
-#: ../app/controllers/hosts_controller.rb:16
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:45
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:45
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:59
 msgid "Disk"
 msgstr ""
 
@@ -3766,6 +3768,12 @@ msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:16
 msgid "PXE"
+msgstr ""
+
+#: ../app/controllers/hosts_controller.rb:16
+#: ../app/models/compute_resources/foreman/model/vmware.rb:207
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:25
+msgid "BIOS"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:91
@@ -4190,7 +4198,7 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:56 ../app/helpers/audits_helper.rb:7
+#: ../app/helpers/application_helper.rb:61 ../app/helpers/audits_helper.rb:7
 #: ../app/helpers/audits_helper.rb:40 ../app/helpers/audits_helper.rb:73
 #: ../app/helpers/compute_resources_vms_helper.rb:38
 #: ../app/helpers/fact_values_helper.rb:5
@@ -4206,71 +4214,72 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:96
+#: ../app/helpers/application_helper.rb:101
 #: ../app/helpers/host_description_helper.rb:123
 #: ../app/views/common/confirm_class_clean_up.html.erb:8
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
 #: ../webpack/assets/javascripts/dashboard/index.js:67
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:93
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:103
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:31
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:116
 #: ../webpack/assets/javascripts/react_app/components/common/table/components/DeleteButton.js:9
 #: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/components/ModelDeleteModal.js:25
 msgid "Delete"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:99 ../app/helpers/bmc_helper.rb:18
+#: ../app/helpers/application_helper.rb:104 ../app/helpers/bmc_helper.rb:18
 #: ../app/helpers/bmc_helper.rb:26
 #: ../app/helpers/compute_resources_vms_helper.rb:5
 #: ../app/views/images/_list.html.erb:21
 msgid "Are you sure?"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:124
+#: ../app/helpers/application_helper.rb:129
 #: ../app/helpers/provisioning_templates_helper.rb:13
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:111
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:98
 #: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:22
 msgid "Export"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:125
+#: ../app/helpers/application_helper.rb:130
 #: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:21
 msgid "Export to CSV"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:172
-#: ../app/views/templates/_form.html.erb:22
+#: ../app/helpers/application_helper.rb:182
+#: ../app/views/templates/_form.html.erb:25
 msgid "Help"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:251
+#: ../app/helpers/application_helper.rb:261
 msgid ""
 "This user is disabled and won't be able to perform any actions. You can edit t"
 "he user to enable them again."
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:265
+#: ../app/helpers/application_helper.rb:275
 #: ../app/views/about/index.html.erb:121
 #: ../webpack/assets/javascripts/react_app/components/PF4/DocumentationLink/index.js:24
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:115
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:102
 #: ../webpack/assets/javascripts/react_app/components/common/DocumentationLink/index.js:19
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:196
 msgid "Documentation"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:270
+#: ../app/helpers/application_helper.rb:280
 #: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:54
 msgid "None found"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:290 ../app/helpers/hosts_helper.rb:444
+#: ../app/helpers/application_helper.rb:300 ../app/helpers/hosts_helper.rb:444
 #: ../app/views/users/logout.html.erb:3
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:29
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:64
 msgid "Yes"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:290 ../app/helpers/hosts_helper.rb:444
+#: ../app/helpers/application_helper.rb:300 ../app/helpers/hosts_helper.rb:444
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:30
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:66
 msgid "No"
@@ -4343,7 +4352,7 @@ msgstr ""
 #: ../app/views/taxonomies/index.html.erb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:3
 #: ../db/seeds.d/170-notification_blueprints.rb:17
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:123
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:118
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:42
 msgid "Hosts"
 msgstr ""
@@ -4451,6 +4460,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/ec2/_ec2_tag.html.erb:6
 #: ../app/views/lookup_keys/_values.html.erb:10
 #: ../app/views/lookup_keys/_values.html.erb:15
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:5
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingForm/SettingForm.js:46
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:24
 msgid "Value"
@@ -4504,7 +4514,7 @@ msgstr ""
 #: ../app/helpers/compute_resources_vms_helper.rb:20
 #: ../app/helpers/compute_resources_vms_helper.rb:278
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:27
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:104
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:115
 msgid "Console"
 msgstr ""
 
@@ -4611,15 +4621,20 @@ msgstr ""
 msgid "Disabled alerts"
 msgstr ""
 
+#. TRANSLATORS: initial character of Applied
+#: ../app/helpers/dashboard_helper.rb:111
+msgid "Applied|A"
+msgstr ""
+
 #: ../app/helpers/dashboard_helper.rb:111 ../app/helpers/hosts_helper.rb:207
 #: ../app/views/config_reports/_list.html.erb:9
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:167
 msgid "Applied"
 msgstr ""
 
-#. TRANSLATORS: initial character of Applied
-#: ../app/helpers/dashboard_helper.rb:111
-msgid "Applied|A"
+#. TRANSLATORS: initial character of Restarted
+#: ../app/helpers/dashboard_helper.rb:113
+msgid "Restarted|R"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:113 ../app/helpers/hosts_helper.rb:211
@@ -4628,9 +4643,9 @@ msgstr ""
 msgid "Restarted"
 msgstr ""
 
-#. TRANSLATORS: initial character of Restarted
-#: ../app/helpers/dashboard_helper.rb:113
-msgid "Restarted|R"
+#. TRANSLATORS: initial character of Failed
+#: ../app/helpers/dashboard_helper.rb:115
+msgid "Failed|F"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:115 ../app/helpers/hosts_helper.rb:208
@@ -4638,11 +4653,6 @@ msgstr ""
 #: ../app/views/config_reports/_list.html.erb:11
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:155
 msgid "Failed"
-msgstr ""
-
-#. TRANSLATORS: initial character of Failed
-#: ../app/helpers/dashboard_helper.rb:115
-msgid "Failed|F"
 msgstr ""
 
 #. TRANSLATORS: initial characters of Failed Restarts
@@ -4654,15 +4664,15 @@ msgstr ""
 msgid "Failed Restarts"
 msgstr ""
 
+#. TRANSLATORS: initial character of Skipped
+#: ../app/helpers/dashboard_helper.rb:119
+msgid "Skipped|S"
+msgstr ""
+
 #: ../app/helpers/dashboard_helper.rb:119 ../app/helpers/hosts_helper.rb:210
 #: ../app/views/config_reports/_list.html.erb:13
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:171
 msgid "Skipped"
-msgstr ""
-
-#. TRANSLATORS: initial character of Skipped
-#: ../app/helpers/dashboard_helper.rb:119
-msgid "Skipped|S"
 msgstr ""
 
 #. TRANSLATORS: initial character of Pending
@@ -4741,42 +4751,43 @@ msgstr ""
 msgid "Choose a new file:"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:244 ../app/views/autosign/_form.html.erb:4
+#: ../app/helpers/form_helper.rb:243 ../app/views/autosign/_form.html.erb:4
 #: ../app/views/hosts/_assign_hosts.html.erb:36
 #: ../app/views/hosts/_interfaces.html.erb:64
-#: ../app/views/hosts/_list.html.erb:56
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:158
+#: ../app/views/hosts/_list.html.erb:52
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:172
 #: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:48
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/CancelBtn.js:23
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:64
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:157
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:36
 #: ../webpack/assets/javascripts/react_app/components/common/RedirectCancelButton/RedirectCancelButton.js:11
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:19
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:251
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:236
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:39
 msgid "Cancel"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:247 ../app/views/hosts/_conflicts.html.erb:23
+#: ../app/helpers/form_helper.rb:246 ../app/views/hosts/_conflicts.html.erb:23
 msgid "Overwrite"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:247 ../app/views/hosts/_list.html.erb:57
+#: ../app/helpers/form_helper.rb:246 ../app/views/hosts/_list.html.erb:53
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitBtn.js:25
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:14
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:248
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:233
 msgid "Submit"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:330
+#: ../app/helpers/form_helper.rb:329
 msgid "no value"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:335
+#: ../app/helpers/form_helper.rb:334
 msgid "Inherit parent (%s)"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:339
+#: ../app/helpers/form_helper.rb:338
 msgid "Remove Parameter"
 msgstr ""
 
@@ -4857,7 +4868,7 @@ msgstr ""
 #: ../app/views/domains/_form.html.erb:4
 #: ../app/views/hostgroups/_form.html.erb:45
 #: ../app/views/subnets/_form.html.erb:25
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:82
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:66
 #: model_attributes.rb:112
 msgid "Domain"
 msgstr ""
@@ -4881,7 +4892,7 @@ msgid "IPv6 Address"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:70
-#: ../app/views/hosts/_list.html.erb:15
+#: ../app/views/hosts/_list.html.erb:14
 #: ../config/initializers/foreman_register.rb:26
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:167
 msgid "Comment"
@@ -4920,17 +4931,17 @@ msgstr ""
 #: ../app/views/host_mailer/_active_hosts.html.erb:6
 #: ../app/views/host_mailer/_nonactive_hosts.html.erb:6
 #: ../app/views/hosts/_assign_hosts.html.erb:14
-#: ../app/views/hosts/_list.html.erb:13
+#: ../app/views/hosts/_list.html.erb:12
 #: ../app/views/hosts/_selected_hosts.html.erb:13
-#: ../config/initializers/foreman_register.rb:22
+#: ../config/initializers/foreman_register.rb:20
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:108
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:114
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:98
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/HostGroup.js:14
 msgid "Host group"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:76
-#: ../config/initializers/foreman_register.rb:48
+#: ../config/initializers/foreman_register.rb:22
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:70
 msgid "Boot time"
 msgstr ""
@@ -4942,7 +4953,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:77
 #: ../app/views/hosts/_selected_hosts.html.erb:16
 #: ../app/views/hosts/select_multiple_location.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:146
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:130
 #: taxonomies.rb:10
 msgid "Location"
 msgstr ""
@@ -4950,7 +4961,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:78
 #: ../app/views/hosts/_selected_hosts.html.erb:19
 #: ../app/views/hosts/select_multiple_organization.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:140
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:124
 #: taxonomies.rb:11
 msgid "Organization"
 msgstr ""
@@ -4959,9 +4970,9 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:82
 #: ../app/views/dashboard/_hosts_in_build_mode_widget_host_list.html.erb:4
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:5
-#: ../app/views/hosts/_list.html.erb:12
+#: ../app/views/hosts/_list.html.erb:11
 #: ../app/views/hosts/select_multiple_owner.html.erb:6
-#: ../config/initializers/foreman_register.rb:20
+#: ../config/initializers/foreman_register.rb:18
 msgid "Owner"
 msgstr ""
 
@@ -4978,13 +4989,13 @@ msgstr ""
 #: ../app/views/compute_resources/show.html.erb:7
 #: ../app/views/filters/index.html.erb:59
 #: ../app/views/hosts/_interfaces.html.erb:33
-#: ../app/views/hosts/_list.html.erb:38
+#: ../app/views/hosts/_list.html.erb:34
 #: ../app/views/hosts/_templates.html.erb:12
 #: ../app/views/hosts/review_before_build.html.erb:6
 #: ../app/views/images/_list.html.erb:20
 #: ../app/views/operatingsystems/index.html.erb:16
 #: ../app/views/taxonomies/index.html.erb:28
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:151
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:162
 msgid "Edit"
 msgstr ""
 
@@ -4995,11 +5006,11 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:94
 #: ../app/helpers/hostgroup_description_helper.rb:10
 #: ../app/helpers/provisioning_templates_helper.rb:12
-#: ../app/views/hosts/_list.html.erb:39 ../app/views/media/index.html.erb:31
+#: ../app/views/hosts/_list.html.erb:35 ../app/views/media/index.html.erb:31
 #: ../app/views/operatingsystems/index.html.erb:17
 #: ../app/views/roles/index.html.erb:28
 #: ../app/views/taxonomies/index.html.erb:30
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:83
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:93
 msgid "Clone"
 msgstr ""
 
@@ -5008,7 +5019,7 @@ msgid "Clone this host"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:97
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:73
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:83
 msgid "Cancel build"
 msgstr ""
 
@@ -5031,7 +5042,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:137
 #: ../app/registries/foreman/settings/facts.rb:2
 #: ../app/registries/menu/loader.rb:45
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:113
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:124
 msgid "Facts"
 msgstr ""
 
@@ -5043,10 +5054,10 @@ msgstr ""
 #: ../app/registries/menu/loader.rb:47
 #: ../app/views/config_reports/index.html.erb:12
 #: ../app/views/config_reports/index.html.erb:17
-#: ../db/seeds.d/170-notification_blueprints.rb:51
+#: ../db/seeds.d/170-notification_blueprints.rb:52
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:38
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:125
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:33
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:136
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:31
 msgid "Reports"
 msgstr ""
 
@@ -5257,6 +5268,7 @@ msgid "Image"
 msgstr ""
 
 #: ../app/helpers/images_helper.rb:10
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:59
 msgid "Image ID"
 msgstr ""
 
@@ -5578,7 +5590,7 @@ msgstr ""
 #: ../app/views/filters/index.html.erb:32
 #: ../app/views/hostgroups/index.html.erb:11
 #: ../app/views/hosts/_interfaces.html.erb:19
-#: ../app/views/hosts/_list.html.erb:16 ../app/views/hosts/_metrics.html.erb:5
+#: ../app/views/hosts/_list.html.erb:15 ../app/views/hosts/_metrics.html.erb:5
 #: ../app/views/http_proxies/index.html.erb:10
 #: ../app/views/images/_list.html.erb:9
 #: ../app/views/key_pairs/index.html.erb:10
@@ -5751,21 +5763,21 @@ msgstr ""
 msgid "remove template input"
 msgstr ""
 
-#: ../app/helpers/templates_helper.rb:91
+#: ../app/helpers/templates_helper.rb:99
 msgid "Plain"
 msgstr ""
 
-#: ../app/helpers/templates_helper.rb:91
-#: ../webpack/assets/javascripts/react_app/components/AutoComplete/AutoComplete.js:266
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:220
+#: ../app/helpers/templates_helper.rb:99
+#: ../webpack/assets/javascripts/react_app/components/SearchBar/SearchAutocomplete.js:121
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:201
 msgid "Search"
 msgstr ""
 
-#: ../app/helpers/templates_helper.rb:91
+#: ../app/helpers/templates_helper.rb:99
 msgid "Date"
 msgstr ""
 
-#: ../app/helpers/templates_helper.rb:91
+#: ../app/helpers/templates_helper.rb:99
 #: ../app/views/config_reports/_output.html.erb:5
 #: ../app/views/host_mailer/_error_states.html.erb:6 apipie.rb:6
 msgid "Resource"
@@ -6030,6 +6042,8 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/vmware/_network.html.erb:9
 #: ../app/views/hostgroups/_form.html.erb:7 ../app/views/hosts/_bmc.html.erb:22
 #: ../config/initializers/foreman_register.rb:29
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:20
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:49
 msgid "Network"
 msgstr ""
 
@@ -6038,7 +6052,7 @@ msgid "Floppy"
 msgstr ""
 
 #: ../app/models/compute_resources/foreman/model/vmware.rb:416
-#: ../app/views/templates/_form.html.erb:32
+#: ../app/views/templates/_form.html.erb:35
 msgid "Default"
 msgstr ""
 
@@ -7090,39 +7104,39 @@ msgstr ""
 msgid "some permissions were not found: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:129
+#: ../app/models/setting.rb:117
 msgid "must be boolean"
 msgstr ""
 
-#: ../app/models/setting.rb:138
+#: ../app/models/setting.rb:126
 msgid "must be integer"
 msgstr ""
 
-#: ../app/models/setting.rb:149
+#: ../app/models/setting.rb:137
 msgid "must be an array"
 msgstr ""
 
-#: ../app/models/setting.rb:157
+#: ../app/models/setting.rb:145
 msgid "Parsing a hash from a string is not supported"
 msgstr ""
 
-#: ../app/models/setting.rb:160
+#: ../app/models/setting.rb:148
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
-#: ../app/models/setting.rb:164
+#: ../app/models/setting.rb:152
 msgid "Error parsing value for setting '%(name)s': %(error)s"
 msgstr ""
 
-#: ../app/models/setting.rb:243
+#: ../app/models/setting.rb:231
 msgid "Host owner is invalid"
 msgstr ""
 
-#: ../app/models/setting.rb:247
+#: ../app/models/setting.rb:235
 msgid "is invalid: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:255
+#: ../app/models/setting.rb:243
 msgid "is not allowed to change"
 msgstr ""
 
@@ -7180,12 +7194,12 @@ msgstr ""
 msgid "could not be calculated"
 msgstr ""
 
-#: ../app/models/subnet.rb:7
+#: ../app/models/subnet.rb:7 ../config/initializers/foreman_register.rb:32
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:77
 msgid "IPv4"
 msgstr ""
 
-#: ../app/models/subnet.rb:7
+#: ../app/models/subnet.rb:7 ../config/initializers/foreman_register.rb:34
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:83
 msgid "IPv6"
 msgstr ""
@@ -8492,7 +8506,7 @@ msgstr ""
 
 #: ../app/registries/foreman/settings/provisioning.rb:14
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:152
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:125
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:109
 msgid "Host owner"
 msgstr ""
 
@@ -8766,8 +8780,8 @@ msgstr ""
 #: ../app/views/smart_proxies/index.html.erb:10
 #: ../app/views/subnets/_form.html.erb:12
 #: ../app/views/taxonomies/_form.html.erb:38
-#: ../app/views/templates/_form.html.erb:17 ../app/views/users/_form.html.erb:9
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:119
+#: ../app/views/templates/_form.html.erb:20 ../app/views/users/_form.html.erb:9
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:123
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/Taxonomies.js:27
 #: taxonomies.rb:14
 msgid "Locations"
@@ -8786,9 +8800,9 @@ msgstr ""
 #: ../app/views/smart_proxies/index.html.erb:11
 #: ../app/views/subnets/_form.html.erb:15
 #: ../app/views/taxonomies/_form.html.erb:41
-#: ../app/views/templates/_form.html.erb:20
+#: ../app/views/templates/_form.html.erb:23
 #: ../app/views/users/_form.html.erb:12
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:88
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:90
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/Taxonomies.js:17
 #: taxonomies.rb:15
 msgid "Organizations"
@@ -8825,7 +8839,7 @@ msgstr ""
 #: ../app/registries/menu/loader.rb:32 ../app/views/bookmarks/index.html.erb:1
 #: ../app/views/bookmarks/welcome.html.erb:1
 #: ../app/views/bookmarks/welcome.html.erb:6
-#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/Bookmarks.js:76
+#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/Bookmarks.js:81
 msgid "Bookmarks"
 msgstr ""
 
@@ -9147,13 +9161,13 @@ msgstr ""
 msgid "Unkown '%{klass}' resource class"
 msgstr ""
 
-#: ../app/services/foreman/renderer/scope/macros/base.rb:376
+#: ../app/services/foreman/renderer/scope/macros/base.rb:379
 msgid ""
 "SSL CA file not found, check the 'Server CA file' and 'SSL CA file' in Setting"
 "s > Authentication"
 msgstr ""
 
-#: ../app/services/foreman/renderer/scope/macros/base.rb:425
+#: ../app/services/foreman/renderer/scope/macros/base.rb:428
 msgid "%s is not auditable"
 msgstr ""
 
@@ -9321,7 +9335,7 @@ msgstr ""
 msgid "Unable to find IP address for '%s'"
 msgstr ""
 
-#: ../app/services/password_crypt.rb:17
+#: ../app/services/password_crypt.rb:16
 msgid "Unsupported password hash function '%s'"
 msgstr ""
 
@@ -9615,12 +9629,12 @@ msgid "Report \"%s\" is ready to download"
 msgstr ""
 
 #: ../app/services/ui_notifications/report_finished.rb:36
-#: ../db/seeds.d/170-notification_blueprints.rb:61
+#: ../db/seeds.d/170-notification_blueprints.rb:62
 msgid "Download Report"
 msgstr ""
 
 #: ../app/services/ui_notifications/report_finished.rb:40
-#: ../db/seeds.d/170-notification_blueprints.rb:65
+#: ../db/seeds.d/170-notification_blueprints.rb:66
 msgid "Regenerate Report"
 msgstr ""
 
@@ -9743,15 +9757,18 @@ msgstr ""
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:10
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:10
 #: ../app/views/fact_values/index.html.erb:16
-#: ../app/views/hosts/_list.html.erb:9
+#: ../app/views/hosts/_list.html.erb:8
 #: ../app/views/hosts/_selected_hosts.html.erb:10
 #: ../app/views/http_proxies/index.html.erb:8
 #: ../app/views/key_pairs/index.html.erb:8
 #: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:6
 #: ../config/initializers/foreman_register.rb:14
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:53
+#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:59
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:33
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:39
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:38
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:14
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:14
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:3
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:35
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:17
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:60
@@ -9798,6 +9815,7 @@ msgstr ""
 #: ../app/views/provisioning_templates/_custom_tab_headers.html.erb:1
 #: ../app/views/provisioning_templates/_custom_tabs.html.erb:8
 #: ../app/views/report_templates/_custom_tab_headers.html.erb:1
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:4
 msgid "Type"
 msgstr ""
 
@@ -9809,7 +9827,7 @@ msgstr ""
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:250
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:279
 #: ../app/views/compute_resources/show.html.erb:38
-#: ../app/views/templates/_form.html.erb:67
+#: ../app/views/templates/_form.html.erb:70
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:31
 #: apipie.rb:7
 msgid "Description"
@@ -9976,8 +9994,8 @@ msgstr ""
 
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:20
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:272
-#: ../app/views/templates/_form.html.erb:13
-#: ../app/views/templates/_form.html.erb:144
+#: ../app/views/templates/_form.html.erb:14
+#: ../app/views/templates/_form.html.erb:147
 msgid "Inputs"
 msgstr ""
 
@@ -10035,6 +10053,7 @@ msgstr ""
 #: ../app/views/operatingsystems/_form.html.erb:9
 #: ../app/views/subnets/_form.html.erb:9
 #: ../app/views/taxonomies/_form.html.erb:44
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:40
 msgid "Parameters"
 msgstr ""
 
@@ -10266,7 +10285,7 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:249
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:16
-#: ../app/views/templates/_form.html.erb:12 model_attributes.rb:628
+#: ../app/views/templates/_form.html.erb:13 model_attributes.rb:628
 msgid "Template"
 msgstr ""
 
@@ -10609,7 +10628,7 @@ msgid "New Autosign Entry"
 msgstr ""
 
 #: ../app/views/autosign/_form.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:155
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:169
 msgid "Save"
 msgstr ""
 
@@ -10745,7 +10764,7 @@ msgstr ""
 #: ../app/views/common/os_selection/_architecture.html.erb:4
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:8
 #: ../app/views/hosts/_assign_hosts.html.erb:12
-#: ../app/views/hosts/_list.html.erb:10
+#: ../app/views/hosts/_list.html.erb:9
 #: ../config/initializers/foreman_register.rb:16
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:25
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:74
@@ -11008,6 +11027,7 @@ msgstr ""
 
 #: ../app/views/compute_resources/form/_ovirt.html.erb:6
 #: ../app/views/compute_resources/form/_vmware.html.erb:5
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:14
 msgid "Datacenter"
 msgstr ""
 
@@ -11208,6 +11228,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:1
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:2
 #: ../app/views/compute_resources_vms/form/rackspace/_base.html.erb:1
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:43
 msgid "Flavor"
 msgstr ""
 
@@ -11227,6 +11248,8 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:9
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:13
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:13
 msgid "Availability zone"
 msgstr ""
 
@@ -11245,11 +11268,12 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:22
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:17
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:49
 msgid "Security groups"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:32
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:61
+#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:67
 msgid "Public"
 msgstr ""
 
@@ -11279,6 +11303,7 @@ msgid "Remove tag"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:3
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:18
 msgid "Machine type"
 msgstr ""
 
@@ -11298,6 +11323,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:4
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:4
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:5
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:42
 msgid "CPUs"
 msgstr ""
 
@@ -11312,6 +11338,9 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:6
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:28
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:22
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:30
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:26
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:22
 msgid "Memory"
 msgstr ""
 
@@ -11352,10 +11381,12 @@ msgid "NIC type"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_volume.html.erb:2
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:49
 msgid "Storage pool"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:15
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:39
 msgid "Tenant"
 msgstr ""
 
@@ -11405,6 +11436,7 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:8
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:16
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:18
 msgid "Cluster"
 msgstr ""
 
@@ -11433,11 +11465,14 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:37
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:6
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:15
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:18
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:46
 msgid "Cores per socket"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:40
-#: ../config/initializers/foreman_register.rb:42
+#: ../config/initializers/foreman_register.rb:44
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:22
 msgid "Sockets"
 msgstr ""
 
@@ -11447,6 +11482,7 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:60
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:33
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:37
 msgid "Keyboard"
 msgstr ""
 
@@ -11496,6 +11532,7 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:9
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:16
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:52
 msgid "Firmware"
 msgstr ""
 
@@ -11574,19 +11611,21 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_gce.html.erb:5
 #: ../app/views/compute_resources_vms/index/_openstack.html.erb:5
 #: ../app/views/puppetca/_list.html.erb:8
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:45
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:31
 msgid "State"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:6
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:6
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:7
-#: ../app/views/hosts/_list.html.erb:7
 #: ../app/views/hosts/select_multiple_power_state.html.erb:9
 #: ../config/initializers/foreman_register.rb:12
 msgid "Power"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:9
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:56
 msgid "Hypervisor"
 msgstr ""
 
@@ -11610,11 +11649,13 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:20
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:14
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:22
 msgid "VCPU(s)"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:24
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:18
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:26
 msgid "UUID"
 msgstr ""
 
@@ -11624,11 +11665,13 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:33
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:27
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:32
 msgid "Display"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:39
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:39
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:39
 msgid "NIC"
 msgstr ""
 
@@ -11642,6 +11685,7 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:54
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:50
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:46
 msgid "Running on"
 msgstr ""
 
@@ -11650,11 +11694,12 @@ msgid "using %s"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:20
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:72
 msgid "Annotation notes"
 msgstr ""
 
 #: ../app/views/config_reports/_list.html.erb:7
-#: ../app/views/hosts/_list.html.erb:14
+#: ../app/views/hosts/_list.html.erb:13
 #: ../config/initializers/foreman_register.rb:24
 msgid "Last report"
 msgstr ""
@@ -11753,6 +11798,7 @@ msgstr ""
 
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:6
 #: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:9
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:49
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:20
 msgid "Created"
 msgstr ""
@@ -11795,7 +11841,7 @@ msgstr ""
 
 #: ../app/views/dashboard/index.html.erb:1
 #: ../app/views/smart_proxies/show.html.erb:8
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:15
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:16
 msgid "Overview"
 msgstr ""
 
@@ -12140,6 +12186,7 @@ msgid "Netmask"
 msgstr ""
 
 #: ../app/views/hosts/_bmc.html.erb:35
+#: ../config/initializers/foreman_register.rb:36
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:89
 msgid "MAC"
 msgstr ""
@@ -12287,14 +12334,14 @@ msgid "items selected. Uncheck to Clear"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/hosts/_list.html.erb:11
-#: ../config/initializers/foreman_register.rb:18
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:98
+#: ../app/views/hosts/_list.html.erb:10
+#: ../config/initializers/foreman_register.rb:42
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:82
 #: model_attributes.rb:362
 msgid "Model"
 msgstr ""
 
-#: ../app/views/hosts/_list.html.erb:51
+#: ../app/views/hosts/_list.html.erb:47
 msgid "Please Confirm"
 msgstr ""
 
@@ -12439,14 +12486,14 @@ msgid "Disassociate host"
 msgstr ""
 
 #: ../app/views/hosts/index.html.erb:7
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:165
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:162
 msgid "Single host on this page is selected."
 msgid_plural "All %{per_page} hosts on this page are selected."
 msgstr[0] ""
 msgstr[1] ""
 
 #: ../app/views/hosts/index.html.erb:9
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:173
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:170
 msgid "Select this host"
 msgid_plural "Select all <b> %{total} </b> hosts"
 msgstr[0] ""
@@ -14133,36 +14180,36 @@ msgstr ""
 msgid "All hosts data matches configurations for locations and organizations."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:15
+#: ../app/views/templates/_form.html.erb:18
 msgid "History"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:38
+#: ../app/views/templates/_form.html.erb:41
 msgid ""
 "The template is associated to at least one host in build mode. To apply the ch"
 "ange, disable and enable build mode on hosts to update the live templates or c"
 "hoose to %s their configuration from 'Select Action' menu"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:38
+#: ../app/views/templates/_form.html.erb:41
 msgid "recreate"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:69
+#: ../app/views/templates/_form.html.erb:72
 msgid "Audit Comment"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:70
+#: ../app/views/templates/_form.html.erb:73
 msgid ""
 "The Audit Comment field is saved with the template auditing to document the te"
 "mplate changes"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:75
+#: ../app/views/templates/_form.html.erb:78
 msgid "Template inputs"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:76
+#: ../app/views/templates/_form.html.erb:79
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
 "  based on template type, it allows to fetch the value from host facts, \\\n"
@@ -14175,94 +14222,94 @@ msgid ""
 "ring.</p>"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:91
+#: ../app/views/templates/_form.html.erb:94
 msgid "Add Input"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:91
+#: ../app/views/templates/_form.html.erb:94
 msgid "add a input for this template"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:101
+#: ../app/views/templates/_form.html.erb:104
 msgid "Template syntax"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:102
+#: ../app/views/templates/_form.html.erb:105
 msgid "Templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:103
+#: ../app/views/templates/_form.html.erb:106
 msgid ""
 "The following table and example snippet shows global methods, variables and cl"
 "ass methods and how to use them."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:104
+#: ../app/views/templates/_form.html.erb:107
 msgid ""
 "These are guaranteed to work via the safe mode rendering, to ensure a template"
 " can do nothing harmful."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:106
+#: ../app/views/templates/_form.html.erb:109
 msgid ""
 "To enable safe mode, navigate to Settings page and enable Safemode rendering o"
 "ption."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:108
+#: ../app/views/templates/_form.html.erb:111
 msgid "For more info visit:"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:110
+#: ../app/views/templates/_form.html.erb:113
 msgid "our templates documentation"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:110
+#: ../app/views/templates/_form.html.erb:113
 msgid "and"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:112
+#: ../app/views/templates/_form.html.erb:115
 msgid "DSL (Domain Specific Language) documentation"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:114 apipie.rb:22
+#: ../app/views/templates/_form.html.erb:117 apipie.rb:22
 msgid "Examples"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:116
+#: ../app/views/templates/_form.html.erb:119
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/ExpansiveView.js:101
 msgid "Comments"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:119
+#: ../app/views/templates/_form.html.erb:122
 msgid "In-line code syntax"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:124
+#: ../app/views/templates/_form.html.erb:127
 msgid "Printing data"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:127
+#: ../app/views/templates/_form.html.erb:130
 msgid "Variables"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:130
+#: ../app/views/templates/_form.html.erb:133
 msgid "Calling methods on objects"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:133
+#: ../app/views/templates/_form.html.erb:136
 msgid "Safe mode methods"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:136
+#: ../app/views/templates/_form.html.erb:139
 msgid "Global macros"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:139
+#: ../app/views/templates/_form.html.erb:142
 msgid "Iterating"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:146
+#: ../app/views/templates/_form.html.erb:149
 msgid ""
 "Once you define a template input in Inputs tab and save the template, it can b"
 "e used in the ERB.\n"
@@ -14272,7 +14319,7 @@ msgid ""
 "ugh input called cpus."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:153
+#: ../app/views/templates/_form.html.erb:156
 msgid ""
 "While rendering the template in preview mode, the input either loads the value"
 " or uses a placeholder\n"
@@ -14287,23 +14334,23 @@ msgid ""
 "                Note that the fact name can differ from input name."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:166
+#: ../app/views/templates/_form.html.erb:169
 msgid "Safe mode methods and variables"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:170
+#: ../app/views/templates/_form.html.erb:173
 msgid "Class"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:171
+#: ../app/views/templates/_form.html.erb:174
 msgid "Allowed methods or members"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:176
+#: ../app/views/templates/_form.html.erb:179
 msgid "Global methods (macros)"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:180
+#: ../app/views/templates/_form.html.erb:183
 msgid "Global variables"
 msgstr ""
 
@@ -14552,6 +14599,11 @@ msgstr ""
 msgid "Are you sure you want to log out?"
 msgstr ""
 
+#: ../config/initializers/foreman_register.rb:16
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:47
+msgid "OS"
+msgstr ""
+
 #: ../config/initializers/foreman_register.rb:32
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:74
 msgid "IPv4 address"
@@ -14564,6 +14616,8 @@ msgstr ""
 
 #: ../config/initializers/foreman_register.rb:36
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:89
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:53
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:36
 msgid "MAC address"
 msgstr ""
 
@@ -14571,11 +14625,11 @@ msgstr ""
 msgid "Reported data"
 msgstr ""
 
-#: ../config/initializers/foreman_register.rb:44
+#: ../config/initializers/foreman_register.rb:46
 msgid "Cores"
 msgstr ""
 
-#: ../config/initializers/foreman_register.rb:46
+#: ../config/initializers/foreman_register.rb:48
 msgid "RAM"
 msgstr ""
 
@@ -14584,11 +14638,27 @@ msgid "Virtual"
 msgstr ""
 
 #: ../config/initializers/foreman_register.rb:52
+msgid "Disks space"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:52
 msgid "Disks total space"
 msgstr ""
 
 #: ../config/initializers/foreman_register.rb:54
 msgid "Kernel version"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:56
+msgid "BIOS vendor"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:58
+msgid "BIOS release date"
+msgstr ""
+
+#: ../config/initializers/foreman_register.rb:60
+msgid "BIOS version"
 msgstr ""
 
 #: ../db/seeds.d/160-mail_notifications.rb:8
@@ -14657,24 +14727,24 @@ msgstr ""
 msgid "RSS post message goes here"
 msgstr ""
 
-#: ../db/seeds.d/170-notification_blueprints.rb:37
-#: ../db/seeds.d/170-notification_blueprints.rb:44
+#: ../db/seeds.d/170-notification_blueprints.rb:38
+#: ../db/seeds.d/170-notification_blueprints.rb:45
 msgid "Deprecations"
 msgstr ""
 
-#: ../db/seeds.d/170-notification_blueprints.rb:40
+#: ../db/seeds.d/170-notification_blueprints.rb:41
 msgid ""
 "The %{setting} setting has been deprecated and will be removed in version %{ve"
 "rsion}"
 msgstr ""
 
-#: ../db/seeds.d/170-notification_blueprints.rb:47
+#: ../db/seeds.d/170-notification_blueprints.rb:48
 msgid ""
 "Support for %{feature} has been deprecated and will be removed in version %{ve"
 "rsion}"
 msgstr ""
 
-#: ../db/seeds.d/170-notification_blueprints.rb:53
+#: ../db/seeds.d/170-notification_blueprints.rb:54
 msgid "Report is ready to download"
 msgstr ""
 
@@ -14930,13 +15000,13 @@ msgstr ""
 msgid "Please select hosts to perform action on."
 msgstr ""
 
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:144
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:141
 msgid "Single host is selected in total"
 msgid_plural "All <b> %d </b> hosts are selected."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:151
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:148
 msgid "Undo selection"
 msgstr ""
 
@@ -15026,33 +15096,22 @@ msgid "Create LDAP Authentication Source"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/AutoComplete/components/AutoCompleteClearButton.js:9
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:51
-msgid "Clear"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/AutoComplete/components/AutoCompleteFocusShortcut.js:8
-msgid "Press ' / ' to focus on search"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:29
+#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:30
 msgid "name already exists"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:41
+#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:43
 msgid "Bookmark was successfully created."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:58
+#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:64
 msgid "Query"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/SearchModal.js:47
+#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/SearchModal.js:50
 msgid "Create Bookmark"
 msgstr ""
 
@@ -15068,14 +15127,14 @@ msgid "No data available"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:137
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:139
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:143
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:151
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:153
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:157
 msgid "Manage columns"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:147
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:161
 msgid "Select columns to display in the table."
 msgstr ""
 
@@ -15313,7 +15372,17 @@ msgid "Host %s will be built next boot"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:134
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:60
+msgid "Console disabled as the host is powered off."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:62
+msgid "Compute resource does not support the console function."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:145
 msgid "Legacy UI"
 msgstr ""
 
@@ -15385,8 +15454,20 @@ msgid "All hosts"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/RecentCommunicationCard/index.js:16
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/RecentCommunicationCard/index.js:18
 msgid "Recent communication"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/RecentCommunicationCard/index.js:22
+msgid "Last configuration report"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/RecentCommunicationCard/index.js:32
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:25
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:29
+msgid "Never"
 msgstr ""
 
 #:
@@ -15445,6 +15526,11 @@ msgid "You are about to clear the %s status. Are you sure?"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:51
+msgid "Clear"
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusesModal.js:23
 msgid "Manage host statuses"
 msgstr ""
@@ -15485,11 +15571,6 @@ msgid "Edit interfaces"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:47
-msgid "OS"
-msgstr ""
-
-#:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:81
 msgid "Kernel release"
 msgstr ""
@@ -15505,28 +15586,25 @@ msgid "seconds"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:33
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:32
 msgid "System properties"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:49
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:48
+#: ../webpack/assets/javascripts/react_app/components/SearchBar/AutoCompleteMenu.js:22
 #: ../webpack/assets/javascripts/react_app/components/common/ClipboardCopy/index.js:66
 msgid "Copy to clipboard"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:50
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:49
+#: ../webpack/assets/javascripts/react_app/components/SearchBar/AutoCompleteMenu.js:23
 msgid "Copied to clipboard"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:64
-msgid "BIOS UUID"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:136
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:120
 msgid "Owner type"
 msgstr ""
 
@@ -15551,6 +15629,102 @@ msgid "Safe mode off"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:19
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:30
+msgid "Public IP address"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:25
+msgid "DNS name"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:29
+msgid "Private IP address"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:35
+msgid "Private DNS name"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:41
+msgid "Kernel ID"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:53
+msgid "Root device type"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:63
+msgid "Flavor ID"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:67
+msgid "Security Groups"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:32
+msgid "Maximum"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:47
+msgid "Disk capacity"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:51
+msgid "Disk allocation"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:53
+msgid "Disk path"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:22
+msgid "Floating IP"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:24
+msgid "Fixed IP"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:35
+msgid "Created at"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:45
+msgid "NIC name"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:60
+msgid "Connection state"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:66
+msgid "Overall status"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:42
+msgid "Virtualization"
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/index.js:30
 msgid "Collapse all cards"
 msgstr ""
@@ -15558,6 +15732,83 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/index.js:31
 msgid "Expand all cards"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:61
+msgid "Created parameter %s"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:76
+msgid "Edited parameter %s"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:88
+msgid "Name can't contain spaces"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:146
+msgid "Hide value"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:171
+msgid "Submit edit"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:6
+#: model_attributes.rb:550
+msgid "Source"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersTable.js:81
+msgid "Find by name"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersTable.js:93
+msgid "Add parameter"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:18
+msgid "Parameter %s deleted"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:35
+msgid "Delete %s"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:36
+msgid "This will change the delete the parameter, are you sure?"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ViewTableRow.js:18
+msgid "No value"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ViewTableRow.js:37
+msgid "Overridden"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ViewTableRow.js:54
+msgid "edit"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ViewTableRow.js:54
+msgid "override"
 msgstr ""
 
 #:
@@ -15603,15 +15854,15 @@ msgstr ""
 msgid "Are you sure you want to delete this report? This action is irreversible."
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:223
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:218
 msgid "Created %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:226
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:221
 msgid "by %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:229
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:224
 msgid "(updated %s)"
 msgstr ""
 
@@ -15640,11 +15891,12 @@ msgstr ""
 msgid "Host Status Overview"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:68
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:69
 msgid "Any Organization"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:99
+#:
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:102
 msgid "Any Location"
 msgstr ""
 
@@ -15737,7 +15989,7 @@ msgid "None provided"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:105
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:92
 msgid "Create new"
 msgstr ""
 
@@ -15818,6 +16070,16 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:52
 msgid "Passwords do not match"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/SearchBar/AutoCompleteMenu.js:25
+msgid "Error:"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/SearchBar/SearchAutocomplete.js:122
+msgid "Reset search"
 msgstr ""
 
 #:
@@ -16088,12 +16350,6 @@ msgid "Revoked"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:25
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:29
-msgid "Never"
-msgstr ""
-
-#:
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:21
 msgid "Expired"
 msgstr ""
@@ -16119,7 +16375,7 @@ msgid "Hard disk"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:36
+#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:35
 msgid " Documentation"
 msgstr ""
 
@@ -16128,27 +16384,25 @@ msgstr ""
 msgid "Edit %s Resource Filter"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:97
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:78
 msgid "Created role successfully"
 msgstr ""
 
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:106
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:87
 msgid "Edited role successfully"
 msgstr ""
 
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:115
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:96
 msgid "Selected role"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:141
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:122
 msgid "Override?"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:146
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:127
 msgid ""
 "Filters inherit organizations and locations associated with the role by defaul"
 "t. If override field is enabled, the filter can override the set of its organi"
@@ -16157,12 +16411,12 @@ msgid ""
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:187
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:168
 msgid "Unlimited?"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:192
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:173
 msgid ""
 "If the unlimited field is enabled, the filter applies to all resources of the "
 "selected type. If the unlimited  field is disabled, you can specify further fi"
@@ -16172,7 +16426,7 @@ msgid ""
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:236
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:221
 msgid ""
 "Selected resource type does not support granular filtering, therefore you can'"
 "t configure granularity"
@@ -16186,7 +16440,7 @@ msgid "Permission"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/SelectResourceType.js:46
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/SelectResourceType.js:47
 msgid "Resource Type"
 msgstr ""
 
@@ -17693,11 +17947,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:548
 msgid "SmartProxyFeature|Settings"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: model_attributes.rb:550
-msgid "Source"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages

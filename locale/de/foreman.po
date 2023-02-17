@@ -541,6 +541,9 @@ msgstr "Externe Benutzergruppe hinzufügen"
 msgid "Add filter"
 msgstr "Filter hinzufügen"
 
+msgid "Add parameter"
+msgstr ""
+
 msgid "Add tag"
 msgstr "Tag hinzufügen"
 
@@ -1160,8 +1163,14 @@ msgstr "BCrypt-Salt '%s' ist ungültig"
 msgid "BIOS"
 msgstr "BIOS"
 
-msgid "BIOS UUID"
-msgstr "BIOS UUID"
+msgid "BIOS release date"
+msgstr ""
+
+msgid "BIOS vendor"
+msgstr ""
+
+msgid "BIOS version"
+msgstr ""
 
 msgid "BMC"
 msgstr "BMC"
@@ -1460,15 +1469,6 @@ msgstr "Caps-Lock AN"
 msgid "Certificate Name"
 msgstr "Zertifikatsname"
 
-msgid "Certificate Path"
-msgstr "Zertifikats-Pfad"
-
-msgid "Certificate key is not a valid JSON"
-msgstr "Zertifikatschlüssel ist kein gültiger JSON"
-
-msgid "Certificate path for GCE only"
-msgstr "Zertifikats-Pfad for GCE nur"
-
 msgid "Certificate path that Foreman will use to encrypt websockets"
 msgstr ""
 
@@ -1546,9 +1546,6 @@ msgstr "Klicken Sie auf den Link einer Rechenressource, um dessen Standard-VM-At
 
 msgid "Click to log in again"
 msgstr "Klicken Sie hier, um sich erneut anzumelden"
-
-msgid "Client Email"
-msgstr "Client-E-Mail"
 
 msgid "Clone"
 msgstr "Klon"
@@ -1657,6 +1654,9 @@ msgstr "Rechenressourcen-Kennungen"
 
 msgid "Compute resource destination unreachable"
 msgstr "Ziel der Compute-Ressource nicht erreichbar"
+
+msgid "Compute resource does not support the console function."
+msgstr ""
 
 msgid "Compute resource update for %s"
 msgstr "Rechenessourcenaktualisierung für %s"
@@ -1769,6 +1769,9 @@ msgstr ""
 msgid "Connecting (unencrypted) to: %s"
 msgstr "Verbinde (unverschlüsselt) mit: %s"
 
+msgid "Connection state"
+msgstr ""
+
 msgid "Connection to compute resource refused"
 msgstr "Verbindung zur Rechenressource abgelehnt"
 
@@ -1780,6 +1783,9 @@ msgstr "Konsole"
 
 msgid "Console Passwords"
 msgstr "Konsolen-Passwörter"
+
+msgid "Console disabled as the host is powered off."
+msgstr ""
 
 msgid "Console output may be out of date"
 msgstr "Konsolen-Ausgabe könnte veraltet sein"
@@ -1815,6 +1821,9 @@ msgid "Core and proxy versions do not match. foreman: %{foreman_version}, forema
 msgstr "Foreman Core und Proxy Versionen stimmen nicht überein. Foreman: %{foreman_version}, Foreman-Proxy: %{proxy_version}"
 
 msgid "CoreOS Transpiler Command"
+msgstr ""
+
+msgid "Cores"
 msgstr ""
 
 msgid "Cores per socket"
@@ -2135,7 +2144,13 @@ msgstr "Realm-Eintrag für %s erstellen"
 msgid "Created"
 msgstr "Erstellt"
 
-msgid "Created %(date)s by %(owner)s"
+msgid "Created %s"
+msgstr ""
+
+msgid "Created at"
+msgstr ""
+
+msgid "Created parameter %s"
 msgstr ""
 
 msgid "Created role successfully"
@@ -2221,6 +2236,9 @@ msgstr "DNS-Proxy Kennung zur Verwendung in diesem Subnetz"
 
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
 msgstr "DNS-Proxy der in diesem Subnetz für die Verwaltung von PTR Einträgen verwendet werden soll. Bitte beachten, dass A und AAAA Einträge vom DNS-Proxy der Domäne verwaltet werden"
+
+msgid "DNS name"
+msgstr ""
 
 msgid "DNS proxy ID to use within this domain"
 msgstr "DNS-Proxy Kennung zur Verwendung in dieser Domäne"
@@ -2350,6 +2368,9 @@ msgstr "Netzwerkaktivität während der Installation um X Sekunden verzögern"
 
 msgid "Delete"
 msgstr "Löschen"
+
+msgid "Delete %s"
+msgstr ""
 
 msgid "Delete %s?"
 msgstr "%s löschen?"
@@ -2636,11 +2657,26 @@ msgstr "Festplatte"
 msgid "Disk Mode"
 msgstr "Disk Modus"
 
+msgid "Disk allocation"
+msgstr ""
+
+msgid "Disk capacity"
+msgstr ""
+
 msgid "Disk interface"
 msgstr "Disk-Schnittstelle"
 
 msgid "Disk name"
 msgstr "Disk Name"
+
+msgid "Disk path"
+msgstr ""
+
+msgid "Disks space"
+msgstr ""
+
+msgid "Disks total space"
+msgstr ""
 
 msgid "Display"
 msgstr "Anzeige"
@@ -2773,8 +2809,14 @@ msgstr "Parameter bearbeiten"
 msgid "Edit Properties"
 msgstr "Eigenschaften bearbeiten"
 
+msgid "Edit interfaces"
+msgstr ""
+
 msgid "Edit this host"
 msgstr "Diesen Host bearbeiten"
+
+msgid "Edited parameter %s"
+msgstr ""
 
 msgid "Edited role successfully"
 msgstr ""
@@ -2790,9 +2832,6 @@ msgstr "E-Mail-Einstellungen"
 
 msgid "Email address is missing"
 msgstr "E-Mail Adresse fehlt"
-
-msgid "Email for GCE only"
-msgstr "Email für GCE nur"
 
 msgid "Email reply address"
 msgstr "E-Mail-Antwort-Adresse"
@@ -2940,6 +2979,9 @@ msgstr "Fehler während der Aktualisierung der Ressource: %s"
 
 msgid "Error! "
 msgstr "Fehler! "
+
+msgid "Error:"
+msgstr ""
 
 msgid "Errors"
 msgstr "Fehler"
@@ -3377,6 +3419,9 @@ msgstr "Taxonomiesuche"
 msgid "Filter|Unlimited"
 msgstr "Unbegrenzt"
 
+msgid "Find by name"
+msgstr ""
+
 msgid "Find or create a host and render the 'Host initial configuration' template"
 msgstr "Suchen oder erstellen Sie einen Host und rendern Sie die Vorlage Host initial configuration\""
 
@@ -3401,6 +3446,9 @@ msgstr "Alle Fehlzuweisungen beheben"
 msgid "Fix Mismatches"
 msgstr "Fehlzuweisungen beheben"
 
+msgid "Fixed IP"
+msgstr ""
+
 msgid "Flag to indicate whether to include status or not"
 msgstr ""
 
@@ -3409,6 +3457,12 @@ msgstr ""
 
 msgid "Flavor"
 msgstr "Variante"
+
+msgid "Flavor ID"
+msgstr ""
+
+msgid "Floating IP"
+msgstr ""
 
 msgid "Floating IP network"
 msgstr "Gleitendes IP-Netzwerk"
@@ -3691,6 +3745,9 @@ msgstr "Holen Sie sich eine DSL-Referenz zum Schreiben von Vorlagen"
 msgid "Get ENC values of host"
 msgstr "ENC Werte des Host abrufen"
 
+msgid "Get all inherited parameters for a host"
+msgstr ""
+
 msgid "Get dashboard details"
 msgstr "Übersichtsseitendetails abholen"
 
@@ -3762,9 +3819,6 @@ msgstr "Gute Systemberichte in den letzten %s"
 
 msgid "Good host with reports"
 msgstr "Fehlerfreie Hosts mit Berichten"
-
-msgid "Google Project ID"
-msgstr "Google Projektkennung"
 
 msgid "Group not found in the configured External IPAM instance"
 msgstr "Gruppe in der konfigurierten externen IPAM-Instanz nicht gefunden"
@@ -3876,6 +3930,9 @@ msgstr "Alle Werte für diesen Parameter verbergen."
 
 msgid "Hide this value"
 msgstr "Diesen Wert verbergen"
+
+msgid "Hide value"
+msgstr ""
 
 msgid "Highly Available"
 msgstr "Hochverfügbar"
@@ -4541,6 +4598,9 @@ msgstr "IPv6-Adresse der Schnittstelle"
 msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr "IPv6-Adresse, nicht erforderlich bei Verwendung eines Subnetzes mit DHCP-Proxy"
 
+msgid "IPv6 subnet"
+msgstr ""
+
 msgid "IRC"
 msgstr "IRC"
 
@@ -4685,6 +4745,9 @@ msgstr "IPv4-Subnetze importieren"
 
 msgid "Import VM %s"
 msgstr "Importiere VM %s"
+
+msgid "Import a partition table"
+msgstr ""
 
 msgid "Import a provisioning template"
 msgstr "Import einer Bereitstellungsvorlage"
@@ -4890,9 +4953,6 @@ msgstr "Intervall oder Subskriptions-Option fehlen"
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr "Ungültige Auswahl von %{assoc}. Sie müssen mindestens eine von Ihren auswählen und '%{perm}' Rechte besitzen."
 
-msgid "Invalid Google JSON key. Please verify client email & private key options are present"
-msgstr "Ungültiger Google JSON-Schlüssel. Bitte überprüfen Sie, ob die E-Mail- und privaten Schlüsseloptionen des Kunden vorhanden sind"
-
 msgid "Invalid HTTP(S) URL"
 msgstr "Ungültige HTTP(S) URL"
 
@@ -4982,7 +5042,13 @@ msgstr "Jwt-Geheimnis"
 msgid "JwtSecret|Token"
 msgstr "Token"
 
+msgid "Kernel ID"
+msgstr ""
+
 msgid "Kernel release"
+msgstr ""
+
+msgid "Kernel version"
 msgstr ""
 
 msgid "Key"
@@ -5051,6 +5117,9 @@ msgstr "Letzter Bericht"
 
 msgid "Last Used"
 msgstr "Zuletzt verwendet"
+
+msgid "Last configuration report"
+msgstr ""
 
 msgid "Last report"
 msgstr "Letzter Bericht"
@@ -5493,9 +5562,6 @@ msgstr "Datacenter laden"
 msgid "Load Regions"
 msgstr "Lade Regionen"
 
-msgid "Load Zones"
-msgstr "Zonen laden"
-
 msgid "Loading"
 msgstr "Lade"
 
@@ -5825,6 +5891,9 @@ msgstr "Matchers-Vererbung"
 msgid "Maximize"
 msgstr "Maximieren"
 
+msgid "Maximum"
+msgstr ""
+
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr "Maximale Anzahl von Schlüsseln im strukturierten Teilbaum, Statistiken gespeichert in foreman::dropped_subtree_facts"
 
@@ -6001,6 +6070,9 @@ msgstr "Nicht verfügbar"
 msgid "NIC"
 msgstr "NIC"
 
+msgid "NIC name"
+msgstr ""
+
 msgid "NIC type"
 msgstr "NIC-Typ"
 
@@ -6009,6 +6081,9 @@ msgstr "Netzwerkkarten"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Name can't contain spaces"
+msgstr ""
 
 msgid "Name of media"
 msgstr "Name des Mediums"
@@ -6066,6 +6141,9 @@ msgstr "Netzwerkpräfix in CIDR-Notation"
 
 msgid "Network type"
 msgstr "Netzwerktyp"
+
+msgid "Networking interfaces"
+msgstr ""
 
 msgid "Never"
 msgstr "Nie"
@@ -6330,6 +6408,12 @@ msgstr "Keine übereinstimmenden Aufzeichnungen gefunden"
 msgid "No matching server groups found"
 msgstr "Keine übereinstimmenden Servergruppen gefunden"
 
+msgid "No name"
+msgstr ""
+
+msgid "No network interfaces"
+msgstr ""
+
 msgid "No networks"
 msgstr "Keine Netzwerke"
 
@@ -6407,6 +6491,9 @@ msgstr "Keine Vorlagen gefunden!"
 
 msgid "No user mail notification to update. Use the create action"
 msgstr "Keine User-Mail-Benachrichtigung zum updaten. Benutze die Create-Aktion"
+
+msgid "No value"
+msgstr ""
 
 msgid "None"
 msgstr "Keine"
@@ -6850,6 +6937,12 @@ msgstr "\"nicht synchronisiert\" Intervall"
 msgid "Output format"
 msgstr "Ausgabeformat"
 
+msgid "Overall status"
+msgstr ""
+
+msgid "Overridden"
+msgstr ""
+
 msgid "Override"
 msgstr "Überschreiben"
 
@@ -6943,6 +7036,9 @@ msgstr "Parametername"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter"
 msgstr "Parameter"
+
+msgid "Parameter %s deleted"
+msgstr ""
 
 msgid "Parameter %{name} is not set for host %{host}"
 msgstr "Parameter %{name} nicht gesetzt für Host %{host}"
@@ -7288,9 +7384,6 @@ msgstr "Präfix, das allen ausgehenden E-Mails angefügt werden soll"
 msgid "Prepare post installation script for %s"
 msgstr "Bereite Nachinstallationsskript für %s vor"
 
-msgid "Press ' / ' to focus on search"
-msgstr "Drücke '/' um Suche zu fokusieren"
-
 msgid "Preview"
 msgstr "Vorschau"
 
@@ -7324,6 +7417,12 @@ msgstr "Priorisiere Eigenschaft-Reihenfolge"
 msgid "Private"
 msgstr "Privat"
 
+msgid "Private DNS name"
+msgstr ""
+
+msgid "Private IP address"
+msgstr ""
+
 msgid "Private key file path that Foreman will use to encrypt websockets"
 msgstr ""
 
@@ -7341,9 +7440,6 @@ msgstr "Projektdomänen-ID"
 
 msgid "Project domain name"
 msgstr "Projektdomänenname"
-
-msgid "Project id for GCE only"
-msgstr "Project Kennung für GCE nur"
 
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr "Projektname (v3) oder Mandantenname (v2). Kann über CLI oder RC-Datei abgerufen werden."
@@ -7445,6 +7541,9 @@ msgstr "Snippet"
 msgid "Public"
 msgstr "Öffentlich"
 
+msgid "Public IP address"
+msgstr ""
+
 msgid "Public SSH key"
 msgstr "Öffentliche SSH-Schlüssel"
 
@@ -7495,6 +7594,9 @@ msgstr "Lokale Namenserver abfragen"
 
 msgid "Quota ID"
 msgstr "Kontingentkennung"
+
+msgid "RAM"
+msgstr ""
 
 msgid "REPLACE locations with given ids"
 msgstr "Standorte durch angegebene Kennungen ERSETZEN"
@@ -7627,6 +7729,9 @@ msgstr "Registrierungsvorlage"
 
 msgid "Registration token is missing or invalid."
 msgstr "Registrierungstoken fehlt oder ist ungültig."
+
+msgid "Release date"
+msgstr ""
 
 msgid "Relevant only for audit summary notification"
 msgstr "Relevant nur für Audit Zusammenfassungs-Benachrichtigungen"
@@ -7771,6 +7876,9 @@ msgstr "Berichtet um %s "
 msgid "Reported by %s"
 msgstr "Berichtet von %s"
 
+msgid "Reported data"
+msgstr ""
+
 msgid "Reports"
 msgstr "Berichte"
 
@@ -7825,6 +7933,9 @@ msgstr "Zurücksetzen"
 
 msgid "Reset PuppetCA certname for %s"
 msgstr "PuppetCA Zertifikatsname für %s zurücksetzen "
+
+msgid "Reset search"
+msgstr ""
 
 msgid "Reset to default"
 msgstr "Rücksetzen auf Standardeinstellungen"
@@ -7967,6 +8078,9 @@ msgstr "Ursprung"
 
 msgid "Root Password Hash"
 msgstr "Root-Passwort-Hash"
+
+msgid "Root device type"
+msgstr ""
 
 msgid "Root password"
 msgstr "Root-Passwort"
@@ -8165,6 +8279,9 @@ msgstr "Sekundärer DNS für dieses Subnetz"
 
 msgid "Secret Key"
 msgstr "Geheimer Schlüssel"
+
+msgid "Security Groups"
+msgstr ""
 
 msgid "Security groups"
 msgstr "Sicherheitsgruppen"
@@ -8884,6 +9001,9 @@ msgstr "Stark"
 msgid "Submit"
 msgstr "Absenden"
 
+msgid "Submit edit"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Subnet"
 msgstr "Subnetz"
@@ -9439,9 +9559,6 @@ msgstr "Die Datenlöschung kann nicht rückgängig gemacht werden. Möchten Sie 
 msgid "The default administrator email address"
 msgstr "Die Email-Adresse des Standard-Administrators"
 
-msgid "The file path where your JSON file is located"
-msgstr "Der Dateipfad, an dem sich Ihre JSON-Datei befindet"
-
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "Der letzte Eintrag, Betriebssystemvorgabe, kann durch die Seite %s geändert werden."
 
@@ -9760,6 +9877,9 @@ msgstr "Dieser Wert ist nicht versteckt"
 msgid "This value is used also as the host's primary interface name."
 msgstr "Dieser Wert wird auch als Name für die Primärschnittstelle des Hosts verwendet."
 
+msgid "This will change the delete the parameter, are you sure?"
+msgstr ""
+
 msgid "This will change the host power status, are you sure?"
 msgstr ""
 
@@ -9933,9 +10053,6 @@ msgstr "UUID"
 
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr "UUID zum Tracken des Status der Orchestrierungsaufgaben, GET /api/orchestration/:UUID/tasks"
-
-msgid "Unable to access key"
-msgstr "Fehler beim Zugriff auf Schlüssel"
 
 msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
 msgstr "IP %{ip} kann nicht zum Subnetz %{subnet} in externem IPAM hinzugefügt werden."
@@ -10735,6 +10852,9 @@ msgstr "Variable"
 msgid "Variables"
 msgstr "Variablen"
 
+msgid "Vendor"
+msgstr ""
+
 msgid "Vendor class"
 msgstr "Herstellerklasse"
 
@@ -10765,6 +10885,9 @@ msgstr "Liste anzeigen"
 msgid "View provisioning template {openTemplate}."
 msgstr ""
 
+msgid "Virtual"
+msgstr ""
+
 msgid "Virtual (NAT)"
 msgstr "Virtuell (NAT)"
 
@@ -10788,6 +10911,9 @@ msgstr "Die Einstellungen der VM können nicht auf einem vorhandenen Rechner in 
 
 msgid "Virtual machine was not found by id %{vm_id}"
 msgstr "Virtuelle-Maschine wurde nicht gefunden für Kennung %{vm_id}"
+
+msgid "Virtualization"
+msgstr ""
 
 msgid "Vnic Profile"
 msgstr "Vnic Profile"
@@ -11147,9 +11273,6 @@ msgstr "Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an"
 msgid "ZTP PXE template"
 msgstr "ZTP-PXE-Vorlage"
 
-msgid "Zone"
-msgstr "Zone"
-
 msgid "[empty]"
 msgstr "[leer]"
 
@@ -11200,6 +11323,9 @@ msgstr "Boolean"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "Boot Device, gültige Geräte sind Festplatte, CD-Rom, PXE, BIOS"
+
+msgid "by %s"
+msgstr ""
 
 msgid "can only be set for array, hash, json or yaml"
 msgstr "kann nur für Array, Hash, Json oder Yaml gesetzt werden"
@@ -11288,9 +11414,6 @@ msgstr "Community Foren"
 msgid "compresed"
 msgstr "komprimiert"
 
-msgid "console is not available at this time because the instance is powered off"
-msgstr "Konsole ist derzeit nicht verfügbar, da die Instanz ausgeschaltet ist"
-
 msgid "contains special characters"
 msgstr "enthält Sonderzeichen"
 
@@ -11375,6 +11498,9 @@ msgstr "z.B. sn"
 msgid "e.g. uid"
 msgstr "z.B. UID"
 
+msgid "edit"
+msgstr ""
+
 msgid "enable caching, for VMware only"
 msgstr "Caching aktivieren, nur für VMware"
 
@@ -11404,9 +11530,6 @@ msgstr "Filter ..."
 
 msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region"
 msgstr "Für AzureRm z.B. 'eastus' and for EC2 only. Benutze '%s' für EC2 GovCloud Region"
-
-msgid "for GCE only"
-msgstr "nur für GCE"
 
 msgid "for Libvirt and VMware only"
 msgstr "nur für Libvirt und VMware"
@@ -11635,8 +11758,7 @@ msgstr "externe Benutzergruppe mit dieser Benutzergruppe verknüpfen"
 msgid "list"
 msgstr "Liste"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "Deutsch"
 
@@ -11796,6 +11918,9 @@ msgstr "Organisationen"
 msgid "our templates documentation"
 msgstr "unsere Vorlagendokumentation"
 
+msgid "override"
+msgstr ""
+
 msgid "pending"
 msgstr "ausstehend"
 
@@ -11885,9 +12010,6 @@ msgstr "Sekunden"
 
 msgid "select an owner"
 msgstr "Wähle einen Besitzer"
-
-msgid "selected image does not exist"
-msgstr "ausgewähltes Bild existiert nicht"
 
 msgid "service configuration will be skipped."
 msgstr "Service Konfiguration wird ausgelassen"
