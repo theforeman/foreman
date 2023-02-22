@@ -9,7 +9,7 @@
   <tbody>
     <% hosts.each do |host| %>
       <tr>
-        <td class="ellipsis"><%= link_to host.name, host_path(host) %></td>
+        <td class="ellipsis"><%= link_to host.name, current_host_details_path(host) %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= safe_join([icon(host.operatingsystem, :size => '16x16'), host.operatingsystem.to_label]) if host.operatingsystem.present? %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= host.owner %></td>
         <td class="hidden-tablet hidden-xs ellipsis"><%= date_time_relative(host.created_at) %></td>
