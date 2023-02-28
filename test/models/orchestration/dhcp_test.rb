@@ -6,7 +6,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test 'host_should_have_dhcp' do
-    h = FactoryBot.create(:host, :with_dhcp_orchestration)
+    h = FactoryBot.create(:host, :with_tftp_orchestration)
     assert h.valid?
     assert h.dhcp?, 'host.dhcp? does not return true'
     assert_equal 1, h.dhcp_records.size
@@ -50,7 +50,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "DHCP record contains jumpstart attributes" do
-    h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration,
+    h = FactoryBot.build_stubbed(:host, :with_tftp_orchestration,
       :model => FactoryBot.create(:model, :vendor_class => 'Sun-Fire-V210'))
     h.expects(:jumpstart?).at_least_once.returns(true)
     h.os.expects(:dhcp_record_type).at_least_once.returns(Net::DHCP::SparcRecord)
@@ -63,7 +63,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "DHCP record contains ztp attributes" do
-    h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration)
+    h = FactoryBot.build_stubbed(:host, :with_tftp_orchestration)
     h.os.expects(:pxe_type).at_least_once.returns("ZTP")
     h.os.expects(:dhcp_record_type).at_least_once.returns(Net::DHCP::ZTPRecord)
     h.os.expects(:ztp_arguments).at_least_once.with(h).returns(:vendor => 'huawei', :firmware => {:core => "firmware.cc", :web => "web.7z"})
@@ -77,7 +77,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "DHCP record fallback if ZTP OS has no ztp attributes" do
-    h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration)
+    h = FactoryBot.build_stubbed(:host, :with_tftp_orchestration)
     h.os.expects(:pxe_type).at_least_once.returns("ZTP")
     h.valid?
     assert_equal 1, h.provision_interface.dhcp_records.size
@@ -182,7 +182,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with bond interface' do
     let(:subnet) do
-      FactoryBot.build(:subnet_ipv4, :dhcp, :with_taxonomies)
+      FactoryBot.build(:subnet_ipv4, :dhcp, :tftp, :with_taxonomies)
     end
     let(:interfaces) do
       [
@@ -366,24 +366,26 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   test "when an existing host triggers a 'rebuild', its dhcp records should be updated if no dhcp records are found" do
     Net::DHCP::Record.any_instance.stubs(:valid?).returns(false)
     h = as_admin do
-      FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:f1")
+      FactoryBot.create(:host, :with_tftp_orchestration, :mac => "aa:bb:cc:dd:ee:f1")
     end
 
     h.build = true
     assert h.valid?, h.errors.messages.to_s
-    assert_equal ["dhcp_remove_aa:bb:cc:dd:ee:f1", "dhcp_create_aa:bb:cc:dd:ee:f1"], h.queue.task_ids
+    assert_includes h.queue.task_ids, "dhcp_remove_aa:bb:cc:dd:ee:f1"
+    assert_includes h.queue.task_ids, "dhcp_create_aa:bb:cc:dd:ee:f1"
   end
 
   test "when an existing host trigger a 'rebuild', its dhcp records should not be updated if valid dhcp records are found" do
     Net::DHCP::Record.any_instance.stubs(:valid?).returns(true)
     h = as_admin do
-      FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:f1")
+      FactoryBot.create(:host, :with_tftp_orchestration, :mac => "aa:bb:cc:dd:ee:f1")
     end
 
     h.build = true
     assert h.valid?
     assert h.errors.empty?
-    assert_equal ["dhcp_create_aa:bb:cc:dd:ee:f1"], h.queue.task_ids
+    assert_includes h.queue.task_ids, "dhcp_create_aa:bb:cc:dd:ee:f1"
+    assert_not_includes h.queue.task_ids, "dhcp_remove_aa:bb:cc:dd:ee:f1"
   end
 
   test "when an existing host change its bmc mac address, its dhcp record should be updated" do

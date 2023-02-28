@@ -5,7 +5,8 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   context 'host without tftp orchestration' do
     setup do
-      @host = FactoryBot.create(:host)
+      os = FactoryBot.create(:rhel9)
+      @host = FactoryBot.create(:host, :operatingsystem => os)
     end
 
     test 'should not have any tftp' do
@@ -30,7 +31,8 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with ipv4 tftp' do
     setup do
-      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_orchestration, :build => true)
+      os = FactoryBot.create(:rhel9)
+      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_orchestration, :build => true, :operatingsystem => os)
     end
 
     test 'should have tftp' do
@@ -62,7 +64,8 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with ipv6 tftp' do
     setup do
-      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_v6_orchestration, :build => true)
+      os = FactoryBot.create(:rhel9)
+      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_v6_orchestration, :build => true, :operatingsystem => os)
     end
 
     test "should have ipv6 tftp" do
@@ -89,7 +92,8 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
   context 'host with ipv4 and ipv6 tftp' do
     setup do
-      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_dual_stack_orchestration, :build => true)
+      os = FactoryBot.create(:rhel9)
+      @host = FactoryBot.build_stubbed(:host, :managed, :with_tftp_dual_stack_orchestration, :build => true, :operatingsystem => os)
     end
 
     test "host should have ipv4 and ipv6 tftp" do
@@ -145,6 +149,9 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
         ),
       ]
     end
+    let(:os) do
+      FactoryBot.create(:rhel9)
+    end
     let(:host) do
       FactoryBot.create(:host,
         :with_tftp_orchestration,
@@ -152,19 +159,36 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
         :interfaces => interfaces,
         :build => true,
         :location => subnet.locations.first,
-        :organization => subnet.organizations.first)
+        :organization => subnet.organizations.first,
+        :operatingsystem => os)
     end
 
     test '#setTFTP should provision tftp for all bond child macs' do
       ProxyAPI::TFTP.any_instance.expects(:set).with(
         'PXEGrub2',
         '00:53:67:ab:dd:00',
-        :pxeconfig => 'Template'
+        {
+          :pxeconfig => 'Template',
+          :targetos => os.name.downcase.to_s,
+          :major => host.operatingsystem.major,
+          :minor => host.operatingsystem.minor,
+          :arch => host.arch.name,
+          :bootfilename_efi => host.arch.bootfilename_efi,
+          :build => host.build?,
+        }
       ).once
       ProxyAPI::TFTP.any_instance.expects(:set).with(
         'PXEGrub2',
         '00:53:67:ab:dd:01',
-        :pxeconfig => 'Template'
+        {
+          :pxeconfig => 'Template',
+          :targetos => os.name.downcase.to_s,
+          :major => host.operatingsystem.major,
+          :minor => host.operatingsystem.minor,
+          :arch => host.arch.name,
+          :bootfilename_efi => host.arch.bootfilename_efi,
+          :build => host.build?,
+        }
       ).once
       host.provision_interface.stubs(:generate_pxe_template).returns('Template')
       host.provision_interface.send(:setTFTP, 'PXEGrub2')
