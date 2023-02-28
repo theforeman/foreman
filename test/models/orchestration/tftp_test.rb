@@ -145,6 +145,9 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
         ),
       ]
     end
+    let(:os) do
+      FactoryBot.create(:rhel9)
+    end
     let(:host) do
       FactoryBot.create(:host,
         :with_tftp_orchestration,
@@ -152,19 +155,32 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
         :interfaces => interfaces,
         :build => true,
         :location => subnet.locations.first,
-        :organization => subnet.organizations.first)
+        :organization => subnet.organizations.first,
+        :operatingsystem => os)
     end
 
     test '#setTFTP should provision tftp for all bond child macs' do
       ProxyAPI::TFTP.any_instance.expects(:set).with(
         'PXEGrub2',
         '00:53:67:ab:dd:00',
-        :pxeconfig => 'Template'
+        {
+          :pxeconfig => 'Template',
+          :targetos => os.name.downcase.to_s,
+          :release => host.operatingsystem.release,
+          :arch => host.arch.name,
+          :bootfile_suffix => host.arch.bootfilename_efi,
+        }
       ).once
       ProxyAPI::TFTP.any_instance.expects(:set).with(
         'PXEGrub2',
         '00:53:67:ab:dd:01',
-        :pxeconfig => 'Template'
+        {
+          :pxeconfig => 'Template',
+          :targetos => os.name.downcase.to_s,
+          :release => host.operatingsystem.release,
+          :arch => host.arch.name,
+          :bootfile_suffix => host.arch.bootfilename_efi,
+        }
       ).once
       host.provision_interface.stubs(:generate_pxe_template).returns('Template')
       host.provision_interface.send(:setTFTP, 'PXEGrub2')
