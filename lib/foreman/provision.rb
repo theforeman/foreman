@@ -1,5 +1,5 @@
 module Foreman::Provision
-  PXE_TEMPLATE_KINDS = ["PXEGrub2", "PXELinux", "PXEGrub", "iPXE"]
+  PXE_TEMPLATE_KINDS = ["PXEGrub2", "PXELinux", "PXEGrub", "PXEGrub2TargetOS", "iPXE"]
 
   def self.local_boot_default_name(kind)
     "#{kind} default local boot"

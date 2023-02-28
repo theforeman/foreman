@@ -82,12 +82,20 @@ module Orchestration::TFTP
   # Adds the host to the forward and reverse TFTP zones
   # +returns+ : Boolean true on success
   def setTFTP(kind)
-    content = generate_pxe_template(kind)
+    if kind.to_s == "PXEGrub2TargetOS"
+      content = generate_pxe_template("PXEGrub2".to_sym)
+    else
+      content = generate_pxe_template(kind)
+    end
     if content
       logger.info "Deploying TFTP #{kind} configuration for #{host.name}"
       each_unique_feasible_tftp_proxy do |proxy|
         mac_addresses_for_provisioning.each do |mac_addr|
-          proxy.set(kind, mac_addr, :pxeconfig => content)
+          targetos = nil
+          if kind.to_s == "PXEGrub2TargetOS"
+            targetos = host.operatingsystem.name.downcase
+          end
+          proxy.set(kind, mac_addr, {:pxeconfig => content, :targetos => targetos})
         end
       end
     else
@@ -132,6 +140,9 @@ module Orchestration::TFTP
     return unless tftp? || tftp6?
     return unless host.operatingsystem
     pxe_kind = host.operatingsystem.pxe_loader_kind(host)
+    if pxe_kind.to_s == "PXEGrub2TargetOS"
+       pxe_kind = "PXEGrub2".to_sym
+    end
     if pxe_kind && host.provisioning_template({:kind => pxe_kind}).nil?
       failure _("No %{template_kind} templates were found for this host, make sure you define at least one in your %{os} settings or change PXE loader") %
         { :template_kind => pxe_kind, :os => host.operatingsystem }
@@ -146,7 +157,11 @@ module Orchestration::TFTP
   end
 
   def queue_tftp_create
+    pxe_kind = host.operatingsystem.pxe_loader_kind(host)
     host.operatingsystem.template_kinds.each do |kind|
+      if kind.to_s == "PXEGrub2" && pxe_kind.to_s == "PXEGrub2TargetOS"
+        queue.create(:name => _("Deploy TFTP SecureBoot %{kind} config for %{host}") % {:kind => kind, :host => self}, :priority => 20, :action => [self, :setTFTP, pxe_kind])
+      end
       queue.create(:name => _("Deploy TFTP %{kind} config for %{host}") % {:kind => kind, :host => self}, :priority => 20, :action => [self, :setTFTP, kind])
     end
     return unless build

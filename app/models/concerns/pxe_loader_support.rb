@@ -5,6 +5,7 @@ module PxeLoaderSupport
   PXE_KINDS = {
     :PXELinux => /^(pxelinux.*|PXELinux (BIOS|UEFI))$/,
     :PXEGrub => /^(grub\/|Grub UEFI).*/,
+    :PXEGrub2TargetOS => /^(Grub2 UEFI SecureBoot \(target OS\))$/,
     :PXEGrub2 => /^(grub2\/|Grub2 (BIOS|UEFI|ELF)|http.*grub2\/).*/,
     :iPXE => /^((iPXE|http.*\/ipxe-).*|ipxe\.efi|undionly\.kpxe)$/,
   }.with_indifferent_access.freeze
@@ -28,6 +29,7 @@ module PxeLoaderSupport
         "Grub2 ELF" => "grub2/grub#{precision}.elf",
         "Grub2 UEFI" => "grub2/grub#{precision}.efi",
         "Grub2 UEFI SecureBoot" => "grub2/shim#{precision}.efi",
+        "Grub2 UEFI SecureBoot (target OS)" => "grub2/@@subdir@@/shim#{precision}.efi",
         "Grub2 UEFI HTTP" => "http://#{httpboot_host}/httpboot/grub2/grub#{precision}.efi",
         "Grub2 UEFI HTTPS" => "https://#{httpboot_host}/httpboot/grub2/grub#{precision}.efi",
         "Grub2 UEFI HTTPS SecureBoot" => "https://#{httpboot_host}/httpboot/grub2/shim#{precision}.efi",

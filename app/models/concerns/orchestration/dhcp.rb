@@ -125,6 +125,10 @@ module Orchestration::DHCP
     if provision?
       dhcp_attr[:nextServer] = boot_server unless host.pxe_loader == 'None'
       filename = operatingsystem.boot_filename(host)
+      if filename.include? "@@subdir@@"
+        mac = host.mac.downcase
+        filename = filename.gsub("@@subdir@@", mac.tr(':', '-').downcase)
+      end
       dhcp_attr[:filename] = filename if filename.present?
       if jumpstart?
         jumpstart_arguments = os.jumpstart_params host, model.vendor_class
