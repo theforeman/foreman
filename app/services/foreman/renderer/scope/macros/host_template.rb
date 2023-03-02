@@ -73,7 +73,7 @@ module Foreman
           end
           def host_puppet_environment
             check_host
-            host.respond_to?(:environment) ? host.environment : host_param('puppet_environment')
+            host.try(:environment).presence || host_param('puppet_environment')
           end
 
           apipie :method, 'Checks whether a parameter value is truthly or not' do
