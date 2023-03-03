@@ -124,19 +124,23 @@ module Foreman
 
       DEFAULT_ALLOWED_LOADERS = Foreman::Renderer::Scope::Macros::Loaders::LOADERS.map(&:first)
 
+      DEFAULT_DUPLICATE_FINDERS = [:duplicate_hosts]
+
       def initialize
         @allowed_variables = DEFAULT_ALLOWED_VARIABLES
         @allowed_global_settings = DEFAULT_ALLOWED_GLOBAL_SETTINGS
         @allowed_generic_helpers = DEFAULT_ALLOWED_GENERIC_HELPERS
         @allowed_host_helpers = DEFAULT_ALLOWED_HOST_HELPERS
         @allowed_loaders = DEFAULT_ALLOWED_LOADERS
+        @allowed_duplicate_finders = DEFAULT_DUPLICATE_FINDERS
       end
 
       attr_accessor :allowed_variables, :allowed_global_settings,
-        :allowed_generic_helpers, :allowed_host_helpers, :allowed_loaders
+        :allowed_generic_helpers, :allowed_host_helpers, :allowed_loaders,
+        :allowed_duplicate_finders
 
       def allowed_helpers
-        allowed_generic_helpers + allowed_host_helpers + allowed_loaders
+        allowed_generic_helpers + allowed_host_helpers + allowed_loaders + allowed_duplicate_finders
       end
     end
   end

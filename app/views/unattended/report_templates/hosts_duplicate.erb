@@ -1,0 +1,35 @@
+<%#
+name: Hosts - Duplicate
+snippet: false
+template_inputs:
+- name: attribute
+  required: true
+  input_type: user
+  description: Host attribute to group by
+  options: "Name\r\nFQDN\r\nIP\r\nIPv6\r\nMAC\r\nUUID"
+  advanced: false
+  value_type: plain
+  hidden_value: false
+model: ReportTemplate
+-%>
+<% attribute = case input('attribute')
+     when "IP"
+      'nics.ip'
+     when "IPv6"
+      'nics.ip6'
+     when "MAC"
+      'nics.mac'
+     when "UUID"
+      'uuid'
+     else
+      'name'
+  end
+-%>
+<%- report_headers 'Attribute', 'Count' -%>
+<%- duplicate_hosts(attribute).each do |value, count| -%>
+<%- report_row({
+      input('attribute') => value,
+      'Count': count
+    }) -%>
+<%- end -%>
+<%= report_render -%>
