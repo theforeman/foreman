@@ -1,0 +1,90 @@
+<%#
+kind: user_data
+name: Windows default user data
+model: ProvisioningTemplate
+oses:
+- Windows Server 2016
+- Windows Server 2019
+- Windows 10 Pro
+-%>
+<%-
+  pm_set = @host.puppet_server.present?
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  network_location = host_param('networklocation') ? host_param('networklocation') : 'private'
+  powershell = '%SystemRoot%\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe -ExecutionPolicy Unrestricted -NoLogo -NoProfile'
+-%>
+---
+identity:
+  Sysprep:
+    guiRunOnce:
+      commandList:
+        - "<%= powershell %> -NonInteractive -Command \"invoke-webrequest -Uri <%= foreman_url("built") %>\""
+        <% if host_param('remote_desktop') %>
+        - "<%= powershell %> -NonInteractive -Command \"netsh advfirewall firewall set rule group=\"remote desktop\" new enable=Yes\""
+        - "<%= powershell %> -NonInteractive -Command \"netsh advfirewall firewall set rule group=\"remotedesktop\" new enable=Yes\""
+        <% end %>
+        <% if host_param('ping') %>
+        - "<%= powershell %> -NonInteractive -Command \"netsh advfirewall firewall add rule name=\"Enable IPv4 ICMP\" dir=in protocol=icmpv4 action=allow\""
+        <% end %>
+        <% if host_param('ansible_port') == 5985 or host_param('ansible_winrm_scheme') == 'http' or host_param('ansible_winrm_transport') == 'basic' or host_param('ansible_winrm_transport') == 'credssp' or host_param('ansible_winrm_transport') == 'certificate' %>
+        - "<%= powershell %> -NonInteractive -Command \"Set-NetConnectionProfile -InterfaceAlias Ethernet0 -NetworkCategory \"<%= network_location %>\"\""
+        - "<%= powershell %> -NonInteractive -Command \"Enable-PSRemoting\""
+        <% end %>
+        <% if host_param('ansible_port') == 5985 or host_param('ansible_winrm_scheme') == 'http' %>
+        - "<%= powershell %> -NonInteractive -Command \"netsh advfirewall firewall add rule name=\\\"WinRM-HTTP\\\" dir=in localport=5985 protocol=TCP action=allow\""
+        - "<%= powershell %> -NonInteractive -Command \"winrm set winrm/config/service '@{AllowUnencrypted=\\\"true\\\"}'\""
+        <% end %>
+        <% if host_param('ansible_winrm_transport') == 'basic' %>
+        - "<%= powershell %> -NonInteractive -Command \"winrm set winrm/config/client/auth '@{Basic=\\\"true\\\"}'\""
+        - "<%= powershell %> -NonInteractive -Command \"winrm set winrm/config/service/auth '@{Basic=\\\"true\\\"}'\""
+        <% end %>
+        <% if host_param('ansible_winrm_transport') == 'credssp' %>
+        - "<%= powershell %> -NonInteractive -Command \"winrm set winrm/config/client/auth '@{CredSSP=\\\"true\\\"}'\""
+        - "<%= powershell %> -NonInteractive -Command \"winrm set winrm/config/service/auth '@{CredSSP=\\\"true\\\"}'\""
+        <% end %>
+        <% if host_param('ansible_winrm_transport') == 'certificate' %>
+        - "<%= powershell %> -NonInteractive -Command \"winrm set winrm/config/client/auth '@{Certificate=\\\"true\\\"}'\""
+        - "<%= powershell %> -NonInteractive -Command \"winrm set winrm/config/service/auth '@{Certificate=\\\"true\\\"}'\""
+        <% end %>
+        <% if puppet_enabled %>
+        - "<%= powershell %> -Command \"invoke-webrequest -Uri <%= host_param('win_puppet_source') %> -OutFile C:\\puppet-agent-x64-latest.msi\""
+        - "<%= powershell %> -Command \"md C:\\ProgramData\\PuppetLabs\\puppet\\etc\""
+        - "<%= powershell %> -Command \"echo \"[main]\" | out-file C:\\ProgramData\\PuppetLabs\\puppet\\etc\\puppet.conf -encoding utf8\""
+        - "<%= powershell %> -Command \"echo \"server=http://<%= foreman_server_fqdn %>:8000/unattended/built?token=cae2cc74-1394-4acb-ad16-1011020b9bbe\" | add-content C:\\ProgramData\\PuppetLabs\\puppet\\etc\\puppet.conf -encoding utf8\""
+        - "<%= powershell %> -Command \"echo \"autoflush=true\" | add-content C:\\ProgramData\\PuppetLabs\\puppet\\etc\\puppet.conf -encoding utf8\""
+        - "<%= powershell %> -Command \"start /wait \"\" msiexec /qn /norestart /i C:\\puppet-agent-x64-latest.msi PUPPET_MASTER_SERVER=<%= @host.puppet_server %>\""
+        - "<%= powershell %> -Command \"sdelete.exe -accepteula -p 2 C:\\puppet-agent-x64-latest.msi\""
+        <% end %>
+    guiUnattended:
+      autoLogon: true
+      autoLogonCount: 1
+      password:
+        plainText: true
+        value: <%= host_param('win_password') %>
+      timeZone: 110
+    identification:
+      joinWorkgroup: 'WORKGROUP'
+    licenseFilePrintData:
+      autoMode: 'perSeat'
+    userData:
+      computerName: <%= @host.shortname %>
+      fullName: 'IT'
+      orgName: <%= @host.organization %>
+      productId: "<%= host_param('windowsLicenseKey').to_s %>"
+nicSettingMap:
+  - adapter:
+      dnsDomain: <%= @host.domain %>
+      dnsServerList:
+        - <%= @host.subnet.dns_primary %>
+      gateway:
+        - <%= @host.subnet.gateway %>
+      ip: <%= @host.ip %>
+      subnetMask: <%= @host.subnet.mask %>
+globalIPSettings:
+  dnsServerList:
+    - <%= @host.subnet.dns_primary %>
+  dnsSuffixList:
+    - <%= @host.domain %>
+options:
+  changeSID: true
+  deleteAccounts: false
