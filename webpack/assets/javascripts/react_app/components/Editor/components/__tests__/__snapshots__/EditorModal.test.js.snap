@@ -52,7 +52,7 @@ exports[`EditorModal should render renders EditorModal diff 1`] = `
         type="pf"
       />
     </Button>
-    <DiffRadioButtons
+    <DiffToggle
       changeState={[Function]}
       stateView="split"
     />

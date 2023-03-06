@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { noop } from '../../../common/helpers';
 import DiffView from '../../DiffView/DiffView';
-import DiffRadioButtons from '../../DiffView/DiffRadioButtons';
+import DiffToggle from '../../DiffView/DiffToggle';
 
 import './diffmodal.scss';
 
@@ -28,7 +28,7 @@ const DiffModal = ({
       >
         <Icon type="pf" name="close" />
       </Button>
-      <DiffRadioButtons changeState={changeViewType} stateView={diffViewType} />
+      <DiffToggle changeState={changeViewType} stateView={diffViewType} />
     </Modal.Header>
     <Modal.Body className="diff-modal-body">
       <div id="diff-table">

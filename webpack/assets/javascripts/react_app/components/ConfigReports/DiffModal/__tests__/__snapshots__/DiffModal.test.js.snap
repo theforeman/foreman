@@ -51,7 +51,7 @@ exports[`DiffModal rendering... renders diffModal 1`] = `
         type="pf"
       />
     </Button>
-    <DiffRadioButtons
+    <DiffToggle
       changeState={[Function]}
       stateView="split"
     />

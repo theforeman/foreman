@@ -31,7 +31,7 @@
   }
 
   .modal-header {
-    #diff-radio-buttons {
+    #diff-toggle-buttons {
       margin-bottom: unset;
       margin-right: 15px;
 
@@ -161,9 +161,9 @@
   #editor-dropdowns {
     float: right;
 
-    #diff-radio-buttons {
+    #diff-toggle-buttons {
       float: left;
-      margin-right: 5px;
+      margin-right: 12px;
 
       button {
         outline: none;
@@ -180,11 +180,11 @@
       user-select: none;
     }
 
-    button:enabled :not(#diff-radio-buttons) {
+    button:enabled :not(#diff-toggle-buttons) {
       color: #1e1d24;
     }
 
-    button:hover:enabled :not(#diff-radio-buttons) {
+    button:hover:enabled :not(#diff-toggle-buttons) {
       color: rgb(75, 79, 94) !important;
     }
   }
