@@ -3,7 +3,7 @@ import { Modal, Icon, Button } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
 import EditorView from './EditorView';
-import DiffRadioButtons from '../../DiffView/DiffRadioButtons';
+import DiffToggle from '../../DiffView/DiffToggle';
 import DiffView from '../../DiffView/DiffView';
 
 const EditorModal = ({
@@ -40,7 +40,7 @@ const EditorModal = ({
         <Icon type="pf" name="close" />
       </Button>
       {selectedView === 'diff' && (
-        <DiffRadioButtons
+        <DiffToggle
           stateView={diffViewType}
           changeState={viewType => changeDiffViewType(viewType)}
         />

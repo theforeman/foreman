@@ -7,7 +7,7 @@ import { Button, Icon, FormControl } from 'patternfly-react';
 import { Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import { bindMethods } from '../../../common/helpers';
-import DiffRadioButtons from '../../DiffView/DiffRadioButtons';
+import DiffToggle from '../../DiffView/DiffToggle';
 import EditorSettings from './EditorSettings';
 
 class EditorOptions extends React.Component {
@@ -50,7 +50,7 @@ class EditorOptions extends React.Component {
     return (
       <div id="editor-dropdowns">
         {selectedView === 'diff' && (
-          <DiffRadioButtons
+          <DiffToggle
             stateView={diffViewType}
             changeState={viewType => changeDiffViewType(viewType)}
           />

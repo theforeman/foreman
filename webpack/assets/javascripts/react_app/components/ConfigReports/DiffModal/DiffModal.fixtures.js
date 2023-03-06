@@ -1,6 +1,6 @@
 import { noop } from '../../../common/helpers';
 
-import { patch } from '../../DiffView/DiffView.fixtures'
+import { patch } from '../../DiffView/Diff.fixtures';
 
 export const diffModalMock = {
   diff: patch,

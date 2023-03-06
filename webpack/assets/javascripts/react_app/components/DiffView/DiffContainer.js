@@ -1,42 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { bindMethods } from '../../common/helpers';
 
 import DiffView from './DiffView';
-import DiffRadioButtons from './DiffRadioButtons';
+import DiffToggle from './DiffToggle';
+import { SPLIT } from './DiffConsts';
+
 import './diffview.scss';
 
-class DiffContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    bindMethods(this, ['changeState']);
-    this.state = {
-      viewType: 'split',
-    };
-  }
+const DiffContainer = ({ patch, oldText, newText, className }) => {
+  const [viewType, setViewType] = useState(SPLIT);
 
-  changeState(viewType) {
-    this.setState({ viewType });
-  }
-
-  render() {
-    const { patch, oldText, newText, className } = this.props;
-    const { viewType } = this.state;
-    return (
-      <div id="diff-container" className={className}>
-        <DiffRadioButtons changeState={this.changeState} stateView={viewType} />
-        <div id="diff-table">
-          <DiffView
-            patch={patch}
-            oldText={oldText}
-            newText={newText}
-            viewType={viewType}
-          />
-        </div>
+  return (
+    <div id="diff-container" className={className}>
+      <DiffToggle changeState={setViewType} stateView={viewType} />
+      <div id="diff-table" role="table" aria-label="diff-table">
+        <DiffView
+          patch={patch}
+          oldText={oldText}
+          newText={newText}
+          viewType={viewType}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 DiffContainer.propTypes = {
   oldText: PropTypes.string,
