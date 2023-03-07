@@ -170,6 +170,9 @@ description: |
 <% if spacewalk_enabled -%>
       <package>rhn-setup</package>
 <% end -%>
+<% if host_param('additional-packages').present? -%>
+      <%= host_param('additional-packages').split(" ").collect{|x| "<package>#{x}</package>" }.join("\n") %>
+<% end -%>
     </packages>
   </software>
   <users config:type="list">
