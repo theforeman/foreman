@@ -45,6 +45,7 @@ description: |
   - encrypt_grub: boolean (default=false)
   - use_graphical_installer: boolean (default=false)
   - enable-remote-execution-pull: boolean (default=false)
+  - additional-packages: string (default=undef)
 
   Reference links:
   - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
@@ -259,6 +260,9 @@ wget
 <% end -%>
 <% if host_param_true?('fips_enabled') -%>
 <%=   snippet 'fips_packages' %>
+<% end -%>
+<% if host_param('additional-packages').present? -%>
+<%= host_param('additional-packages').split(" ").join("\n") %>
 <% end -%>
 <%= section_end %>
 
