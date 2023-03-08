@@ -11,7 +11,6 @@ oses:
 - Ubuntu
 -%>
 <% os_major = @host.operatingsystem.major.to_i -%>
-<% os_minor = @host.operatingsystem.minor.to_i -%>
 <%- -%>
 <%# Begin Ubuntu 18.04 and newer uses netplan instead of /etc/network/interfaces -%>
 <%- if os_major >= 20 -%>
@@ -34,7 +33,7 @@ oses:
                   :interface => bond,
                   :subnet => bond.subnet,
                   :subnet6 => bond.subnet6,
-                  :dhcp => bond.subnet.nil? ? false : bond.subnet.dhcp_boot_mode?,
+                  :dhcp => bond.subnet.nil? ? true : bond.subnet.dhcp_boot_mode?,
                   :dhcp6 => bond.subnet6.nil? ? false : bond.subnet.dhcp_boot_mode? }) -%>
   <%= result -%>
         interfaces: <%= bond.attached_devices_identifiers %>
@@ -60,7 +59,7 @@ oses:
                   :interface => bridge,
                   :subnet => bridge.subnet,
                   :subnet6 => bridge.subnet6,
-                  :dhcp => bridge.subnet.nil? ? false : bridge.subnet.dhcp_boot_mode?,
+                  :dhcp => bridge.subnet.nil? ? true : bridge.subnet.dhcp_boot_mode?,
                   :dhcp6 => bridge.subnet6.nil? ? false : bridge.subnet.dhcp_boot_mode? }) -%>
   <%= result -%>
 <%- end -%>
@@ -81,7 +80,7 @@ oses:
                   :interface => vlan,
                   :subnet => vlan.subnet,
                   :subnet6 => vlan.subnet6,
-                  :dhcp => vlan.subnet.nil? ? false : vlan.subnet.dhcp_boot_mode?,
+                  :dhcp => vlan.subnet.nil? ? true : vlan.subnet.dhcp_boot_mode?,
                   :dhcp6 => vlan.subnet6.nil? ? false : vlan.subnet.dhcp_boot_mode? }) -%>
   <%= result -%>
         id: <%= vlan.tag %>
@@ -95,7 +94,6 @@ oses:
 <%- next if bonding_interfaces.include?(interface.identifier) -%>
 <%- next if bridged_interfaces.include?(interface.identifier) -%>
 <%- next if vlans_interfaces.include?(interface.identifier) -%>
-  <%- interface_subnet = interface.subnet -%>
   <%- if !found -%>
   <%- found = true -%>
     ethernets:
@@ -104,7 +102,7 @@ oses:
                   :interface => interface,
                   :subnet => interface.subnet,
                   :subnet6 => interface.subnet6,
-                  :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?,
+                  :dhcp => interface.subnet.nil? ? true : interface.subnet.dhcp_boot_mode?,
                   :dhcp6 => interface.subnet6.nil? ? false : interface.subnet.dhcp_boot_mode? }) -%>
   <%= result -%>
 <%- end -%>
