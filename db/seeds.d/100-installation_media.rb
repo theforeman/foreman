@@ -66,6 +66,11 @@ Medium.without_auditing do
       :path => "https://download.rockylinux.org/pub/rocky/$version/BaseOS/$arch/os",
     },
     {
+      :name => "AlmaLinux",
+      :os_family => "Redhat",
+      :path => "https://repo.almalinux.org/almalinux/$version/BaseOS/$arch/os/",
+    },
+    {
       :name => "CoreOS mirror",
       :os_family => "Coreos",
       :path => "http://$release-temporary-archive.release.core-os.net",
