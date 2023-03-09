@@ -13,7 +13,7 @@ namespace :webpack do
     ENV["NODE_ENV"] ||= 'production'
     webpack_bin = ::Rails.root.join(::Rails.configuration.webpack.binary)
     config_file = ::Rails.root.join(::Rails.configuration.webpack.config_file)
-    max_old_space_size = "2048"
+    max_old_space_size = "8128"
 
     unless File.exist?(webpack_bin)
       raise "Can't find our webpack executable at #{webpack_bin} - have you run `npm install`?"

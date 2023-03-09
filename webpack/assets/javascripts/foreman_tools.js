@@ -12,6 +12,7 @@ import { showLoading, hideLoading } from './foreman_navigation';
 
 import store from './react_app/redux';
 import { openConfirmModal as coreOpenConfirmModal } from './react_app/components/ConfirmModal';
+import { importRemote } from '@module-federation/utilities';
 
 export const openConfirmModal = options =>
   store.dispatch(coreOpenConfirmModal(options));
@@ -165,4 +166,8 @@ export function highlightTabErrors() {
     .first()
     .find('.form-control')
     .focus();
-}
+};
+
+export function loadPluginModule(url, scope, module) {
+  importRemote({ url, scope, module });
+};

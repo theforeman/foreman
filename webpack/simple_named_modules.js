@@ -14,22 +14,24 @@ class SimpleNamedModulesPlugin {
     this.options = options || {};
   }
 
-  apply(compiler) {
-    compiler.plugin("compilation", (compilation) => {
-      compilation.plugin("before-module-ids", (modules) => {
+	apply(compiler) {
+		const { root } = compiler;
+		compiler.hooks.compilation.tap("SimpleNamedModuleIdsPlugin", compilation => {
+			compilation.hooks.optimizeModuleIds.tap("SimpleNamedModuleIdsPlugin", (modules) => {
+				const chunkGraph = compilation.chunkGraph;
+				const context = this.options.context
+					? this.options.context
+					: compiler.context;
+
         modules.forEach((module) => {
-          if(module.id === null && module.libIdent) {
-            module.id = module.libIdent({
-              context: this.options.context || compiler.options.context
-            });
-            if (module.id.includes('node_modules')) {
-              module.id = module.id.slice(module.id.indexOf('node_modules'))
-            }
+          var moduleId = chunkGraph.getModuleId(module);
+          if (moduleId && moduleId.toString().includes('node_modules')) {
+            chunkGraph.setModuleId(m, moduleId.slice(moduleId.indexOf('node_modules')));
           }
         });
-      });
-    });
-  }
+			});
+		});
+	}
 }
 
 module.exports = SimpleNamedModulesPlugin;

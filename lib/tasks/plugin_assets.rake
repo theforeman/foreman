@@ -1,3 +1,5 @@
+require 'shellwords'
+
 desc 'Compile plugin assets - called via rake plugin:assets:precompile[plugin_name]'
 task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
   # This task will generate assets for a plugin and namespace them in
@@ -43,8 +45,8 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
     class PluginWebpackTask
       attr_accessor :plugin
 
-      def initialize(plugin_id)
-        @plugin = Foreman::Plugin.find(plugin_id) or raise("Unable to find registered plugin #{plugin_id}")
+      def initialize(plugin_id, plugin: nil)
+        @plugin = plugin || Foreman::Plugin.find(plugin_id) or raise("Unable to find registered plugin #{plugin_id}")
       end
 
       def compile
@@ -53,7 +55,19 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
         ENV["NODE_ENV"] ||= 'production'
         webpack_bin = ::Rails.root.join('node_modules/webpack/bin/webpack.js')
         config_file = ::Rails.root.join(::Rails.configuration.webpack.config_file)
-        sh "node --max_old_space_size=2048 #{webpack_bin} --config #{config_file} --env.pluginName=#{@plugin.id}" # TODO: add bail in webpack 5 https://github.com/webpack/webpack/issues/7993
+        sh "node --max_old_space_size=2048 #{webpack_bin} --config #{config_file} #{webpack_plugin_env}" # TODO: add bail in webpack 5 https://github.com/webpack/webpack/issues/7993
+      end
+
+      def plugin_config
+        {
+          name: @plugin.id,
+          root: @plugin.engine.paths.path.to_s,
+          entries: @plugin.global_js_files.join(',')
+        }.compact_blank
+      end
+
+      def webpack_plugin_env
+        plugin_config.map { |prop, value| "--env plugin.#{prop}=#{Shellwords.escape(value)}" }.join(' ')
       end
     end
   end
@@ -65,6 +79,12 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
     task = Foreman::PluginWebpackTask.new(args[:plugin])
     task.compile
   else
-    puts "You must specify the name of the plugin (e.g. rake plugin:assets:precompile['my_plugin'])"
+    # puts "You must specify the name of the plugin (e.g. rake plugin:assets:precompile['my_plugin'])"
+    puts "Plugin not specified, compiling all webpack plugins"
+
+    Foreman::Plugin.with_webpack.each do |plugin|
+      task = Foreman::PluginWebpackTask.new(nil, plugin: plugin)
+      task.compile
+    end
   end
 end

@@ -11,7 +11,18 @@ module ReactjsHelper
     content_tag('foreman-react-component', '', :name => name, :data => { props: props })
   end
 
+  def webpack_root_url(plugin)
+    "/assets/#{plugin.name}"
+  end
+
+  def load_plugin_module_script(plugin, prefix = nil)
+    # This should match webpack.config.js entries for plugin's federated module entry point.
+    entry_point = [prefix, 'index'].compact.join('_')
+    "window.tfm.tools.loadPluginModule(url: ""#{webpack_root_url(plugin)}"", scope: ""#{plugin.name}"", module: ""./#{entry_point}"");"
+  end
+
   def webpacked_plugins_with_global_css
+    javascript_include_tag('foreman-vendor')
     global_css_tags(global_plugins_list).join.html_safe
   end
 
@@ -24,7 +35,9 @@ module ReactjsHelper
   end
 
   def webpacked_plugins_css_for(*plugin_names)
-    css_tags_for(select_requested_plugins(plugin_names)).join.html_safe
+    # No need to load CSS separately, since it should be referenced from the corresponding JS file.
+
+    # css_tags_for(select_requested_plugins(plugin_names)).join.html_safe
   end
 
   def select_requested_plugins(plugin_names)
@@ -38,31 +51,39 @@ module ReactjsHelper
   end
 
   def js_tags_for(requested_plugins)
-    requested_plugins.map do |plugin|
-      javascript_include_tag(*webpack_asset_paths(plugin.to_s, :extension => 'js'))
+    javascript_tag do
+      requested_plugins.map do |plugin|
+        load_plugin_module_script(plugin)
+      end.join("\n")
     end
   end
 
   def global_js_tags(requested_plugins)
-    requested_plugins.map do |plugin|
-      plugin[:files].map do |file|
-        javascript_include_tag(*webpack_asset_paths("#{plugin[:id]}:#{file}", :extension => 'js'), :defer => "defer")
-      end
+    javascript_tag(defer: 'defer') do
+      requested_plugins.map do |plugin|
+        plugin[:files].map do |file|
+          load_plugin_module_script(plugin, file)
+        end.join("\n")
+      end.join("\n")
     end
   end
 
   def global_css_tags(requested_plugins)
-    requested_plugins.map do |plugin|
-      plugin[:files].map do |file|
-        stylesheet_link_tag(*webpack_asset_paths("#{plugin[:id]}:#{file}", :extension => 'css'))
-      end
-    end
+    # No need to load CSS separately, since it should be referenced from the corresponding JS file.
+
+    # requested_plugins.map do |plugin|
+    #   plugin[:files].map do |file|
+    #     stylesheet_link_tag(*webpack_asset_paths("#{plugin[:id]}:#{file}", :extension => 'css'))
+    #   end
+    # end
   end
 
   def css_tags_for(requested_plugins)
-    requested_plugins.map do |plugin|
-      stylesheet_link_tag(*webpack_asset_paths(plugin.to_s, :extension => 'css'))
-    end
+    # No need to load CSS separately, since it should be referenced from the corresponding JS file.
+
+    # requested_plugins.map do |plugin|
+    #   stylesheet_link_tag(*webpack_asset_paths(plugin.to_s, :extension => 'css'))
+    # end
   end
 
   private

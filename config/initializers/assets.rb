@@ -22,7 +22,15 @@ Foreman::Application.configure do |app|
   # Precompile additional assets
   config.assets.precompile += FastGettext.default_available_locales.map { |loc| "locale/#{loc}/app.js" }
 
-  # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
+  # add webpack's output core dir
+  config.assets.paths << File.join(Rails.root, 'public', 'webpack')
+
+  # add plugin's webpack output dir
+  Foreman::Plugin.with_webpack.each do |plugin|
+    config.assets.paths << File.join(plugin.path, 'public', 'webpack')
+  end
+
+    # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
   config.after_initialize do
     if (manifest_file = Dir.glob("#{Rails.root}/public/assets/.sprockets-manifest*.json").first)
       foreman_manifest = JSON.parse(File.read(manifest_file))
@@ -61,27 +69,28 @@ Foreman::Application.configure do |app|
     # manifests. This is the main foreman manifest and all plugins that may
     # have one. We then store this in the webpack-rails manifest using our
     # monkey patched function.
-    unless config.webpack.dev_server.enabled
-      if (webpack_manifest_file = Dir.glob("#{Rails.root}/public/webpack/manifest.json").first)
-        webpack_manifest = JSON.parse(File.read(webpack_manifest_file))
+    # unless config.webpack.dev_server.enabled
+    #   if (webpack_manifest_file = Dir.glob("#{Rails.root}/public/webpack/manifest.json").first)
+    #     webpack_manifest = JSON.parse(File.read(webpack_manifest_file))
 
-        Foreman::Plugin.with_webpack.each do |plugin|
-          manifest_path = plugin.webpack_manifest_path
-          next unless manifest_path
+    #     Foreman::Plugin.with_webpack.each do |plugin|
+    #       manifest_path = plugin.webpack_manifest_path
+    #       next unless manifest_path
 
-          Rails.logger.debug { "Loading #{plugin.id} webpack asset manifest from #{manifest_path}" }
-          assets = JSON.parse(File.read(manifest_path))
+    #       Rails.logger.debug { "Loading #{plugin.id} webpack asset manifest from #{manifest_path}" }
+    #       assets = JSON.parse(File.read(manifest_path))
 
-          plugin_id = plugin.id.to_s
-          assets['assetsByChunkName'].each do |chunk, filename|
-            if chunk == plugin_id || chunk.start_with?("#{plugin_id}:")
-              webpack_manifest['assetsByChunkName'][chunk] = filename
-            end
-          end
-        end
+    #       plugin_id = plugin.id.to_s
+    #       assets['assetsByChunkName'].each do |chunk, filename|
+    #         if chunk == plugin_id || chunk.start_with?("#{plugin_id}:")
+    #           webpack_manifest['assetsByChunkName'][chunk] = filename
+    #         end
+    #       end
+    #     end
 
-        Webpack::Rails::Manifest.manifest = webpack_manifest
-      end
-    end
+    #     Webpack::Rails::Manifest.manifest = webpack_manifest
+    #   end
+    # end
+
   end
 end

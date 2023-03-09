@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Pf4DualList } from './index';
+import { Pf4DualList } from './index.js';
 import { useAPI } from '../../../common/hooks/API/APIHooks';
 
 export const DualListWithIds = ({

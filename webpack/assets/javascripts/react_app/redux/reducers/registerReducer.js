@@ -1,6 +1,6 @@
 import forceSingleton from '../../common/forceSingleton';
 import store from '../index';
-import { combineReducersAsync } from './index';
+import { combineReducersAsync } from './index.js';
 
 const asyncReducers = forceSingleton('async_reducers', () => ({}));
 
