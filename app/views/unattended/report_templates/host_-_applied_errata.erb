@@ -53,7 +53,7 @@ require:
 - plugin: katello
   version: 3.12.0
 -%>
-<%- report_headers 'date', 'hostname', 'erratum_id', 'erratum_type', 'status' -%>
+<%- report_headers 'date', 'hostname', 'erratum_id', 'erratum_type', 'issued', 'status' -%>
 <%- load_errata_applications(filter_errata_type: input('Filter Errata Type'),
                              include_last_reboot: input('Include Last Reboot'),
                              since: input('Since'),
