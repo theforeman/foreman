@@ -1,3 +1,19 @@
+2023-03-10	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.6.0-rc2
+
+2023-03-09	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #36153 - host_puppet_environment ignores host param
+
+2023-03-09	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #36139 - Respect old/new host details in spice/vnc
+	* Fixes #36135 - Correct host links in dashboard
+
+2023-03-09	Evgeni Golov <evgeni@golov.de>
+	* do not explicitly enable the ruby module in packit
+
+2023-03-09	pkoprda <peto.koprda@gmail.com>
+	* Fixes #35837 - Allow non admin users update table preferences
+
 2023-02-23	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.6.0-rc1
 
