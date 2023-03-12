@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, MenuItem, Button, Icon } from 'patternfly-react';
-import { Popover, PopoverPosition } from '@patternfly/react-core';
+import {
+  Popover,
+  PopoverPosition,
+  Tooltip,
+  TooltipPosition,
+} from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 
 const EditorSettings = ({
@@ -109,9 +114,11 @@ const EditorSettings = ({
       </div>
     }
   >
-    <Button className="editor-button" id="cog-btn" bsStyle="link">
-      <Icon size="lg" name="cog" />
-    </Button>
+    <Tooltip content={__('Settings')} position={TooltipPosition.top}>
+      <Button className="editor-button" id="cog-btn" bsStyle="link">
+        <Icon size="lg" name="cog" />
+      </Button>
+    </Tooltip>
   </Popover>
 );
 
