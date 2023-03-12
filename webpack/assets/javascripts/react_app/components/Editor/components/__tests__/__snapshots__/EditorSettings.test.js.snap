@@ -247,21 +247,26 @@ exports[`EditorSettings renders EditorSettings 1`] = `
   id="cog-popover"
   position="bottom"
 >
-  <Button
-    active={false}
-    block={false}
-    bsClass="btn"
-    bsStyle="link"
-    className="editor-button"
-    disabled={false}
-    id="cog-btn"
+  <Tooltip
+    content="Settings"
+    position="top"
   >
-    <Icon
-      name="cog"
-      size="lg"
-      type="fa"
-    />
-  </Button>
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="link"
+      className="editor-button"
+      disabled={false}
+      id="cog-btn"
+    >
+      <Icon
+        name="cog"
+        size="lg"
+        type="fa"
+      />
+    </Button>
+  </Tooltip>
 </Popover>
 `;
 
@@ -512,20 +517,25 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
   id="cog-popover"
   position="bottom"
 >
-  <Button
-    active={false}
-    block={false}
-    bsClass="btn"
-    bsStyle="link"
-    className="editor-button"
-    disabled={false}
-    id="cog-btn"
+  <Tooltip
+    content="Settings"
+    position="top"
   >
-    <Icon
-      name="cog"
-      size="lg"
-      type="fa"
-    />
-  </Button>
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="link"
+      className="editor-button"
+      disabled={false}
+      id="cog-btn"
+    >
+      <Icon
+        name="cog"
+        size="lg"
+        type="fa"
+      />
+    </Button>
+  </Tooltip>
 </Popover>
 `;
