@@ -1,3 +1,44 @@
+2023-03-13	Eric D. Helms <ericdhelms@gmail.com>
+	* Release 3.5.2
+
+2023-03-12	Adam Ruzicka <aruzicka@redhat.com>
+	* Refs #34305 - Fix load_values test
+	* Fixes #35894 - Properly detect setting changes
+	* Fixes #35866 - Make RSS notification expire after 1 month
+
+2023-03-12	Karolina Malyjurkova <kmalyjur@redhat.com>
+	* Fixes #35762 - No host error after editing host's interfaces
+
+2023-03-12	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #36019 - Pass URL params to foreman_url as hash
+
+2023-03-12	Markus Bucher <bucher@atix.de>
+	* Fixes #35946 - windows pass-crypt modifies input
+
+2023-03-12	nofar <nalfassi@redhat.com>
+	* Fixes #35876 - Add tag_type parameter to replace_value_control
+
+2023-03-12	Johann Grabmann <1290836+jograb@users.noreply.github.com>
+	* Refs #34975 - fix kickstart_kernel_options.erb escaping
+
+2023-03-10	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #36153 - host_puppet_environment ignores host param
+
+2023-02-28	MariaAga <mariaaga@redhat.com>
+	* Fixes #35839 - Move Details tab out of experimental labs
+
+2023-01-31	Evgeni Golov <evgeni@golov.de>
+	* Refs #35593 - call dnf upgrade to keep the container uptodate
+
+2023-01-28	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #35593 - Use CentOS 8 Stream for container
+
+2023-01-27	Markus Bucher <bucher@atix.de>
+	* Fixes #35977 - html_escape host-comment in index
+
+2023-01-19	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #35893 - Pin to audited 5.0.x
+
 2022-12-16	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.5.1
 	* i18n - extracting new, pulling from tx
