@@ -75,8 +75,6 @@ function fetchNetworks(url, clusterId) {
       $.each(response.results, (idx, value) => {
         $networkOptions.append(new Option(value.name, value.id, false, false));
       });
-
-      window.update_interface_table();
     },
     complete() {
       hideSpinner();
