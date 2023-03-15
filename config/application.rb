@@ -184,6 +184,7 @@ module Foreman
       ActiveSupport::HashWithIndifferentAccess,
       ActiveSupport::TimeZone,
       ActiveSupport::TimeWithZone,
+      Sequel::SQL::Blob,
     ]
 
     # enables JSONP support in the Rack middleware
