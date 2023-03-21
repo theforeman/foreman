@@ -1,3 +1,15 @@
+2023-03-21	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.6.0
+
+2023-03-21	girijaasoni <gisoni@redhat.com>
+	* Fixes #36018 - Added ellipsis for URL overflow in HTTP Proxy
+
+2023-03-21	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #36129 - Force ellipsis on all columns
+
+2023-03-21	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #35949 - move select_multiple_puppet_proxy to the puppet plugin
+
 2023-03-10	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.6.0-rc2
 
