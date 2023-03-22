@@ -105,7 +105,7 @@ class Setting < ApplicationRecord
   def value
     v = self[:value]
     v = decrypt_field(v)
-    v.nil? ? default : YAML.load(v)
+    v.nil? ? default : YAML.safe_load(v, permitted_classes: [Symbol, Pathname])
   end
   alias_method :value_before_type_cast, :value
 
@@ -130,7 +130,7 @@ class Setting < ApplicationRecord
     when "array"
       if val =~ /\A\[.*\]\Z/
         begin
-          self.value = YAML.load(val.gsub(/(\,)(\S)/, "\\1 \\2"))
+          self.value = YAML.safe_load(val.gsub(/(\,)(\S)/, "\\1 \\2"))
         rescue => e
           invalid_value_error e.to_s
         end

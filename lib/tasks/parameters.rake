@@ -24,7 +24,7 @@ namespace :parameters do
   task :cast_key_types_and_values => :environment do
     def override_key_type_and_value(param)
       key_type_name = 'string'
-      value = YAML.load param.value
+      value = YAML.safe_load param.value
       key_type_name = value.is_a?(Hash) ? 'yaml' : find_key_type(value)
 
       # Avoid updating parameter with true/false when param.value

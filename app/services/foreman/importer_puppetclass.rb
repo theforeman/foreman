@@ -29,7 +29,7 @@ class Foreman::ImporterPuppetclass
         begin
           return "json" if JSON.load value
         rescue
-          return "yaml" if YAML.load value
+          return "yaml" if YAML.safe_load value
         end
       end
       "string"

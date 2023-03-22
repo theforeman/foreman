@@ -177,7 +177,7 @@ class LookupKey < ApplicationRecord
     begin
       JSON.load value
     rescue
-      YAML.load value
+      YAML.safe_load(value, permitted_classes: [Symbol])
     end
   end
 
