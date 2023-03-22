@@ -804,7 +804,7 @@ module Foreman::Model
     end
 
     def valid_cloudinit_for_customspec?(cloudinit)
-      parsed = YAML.load(cloudinit)
+      parsed = YAML.safe_load(cloudinit)
       return false if parsed.nil?
       return true if parsed.is_a?(Hash)
       raise Foreman::Exception.new('The user-data template must be a hash in YAML format for VM customization to work.')

@@ -107,13 +107,13 @@ module Foreman
       end
 
       def cast_yaml
-        YAML.load value
+        YAML.safe_load(value, permitted_classes: [Symbol])
       end
 
       def load_yaml_or_json
         return value unless value.is_a? String
         begin
-          YAML.load value
+          YAML.safe_load(value, permitted_classes: [Symbol])
         rescue Psych::SyntaxError
           JSON.load value
         end
