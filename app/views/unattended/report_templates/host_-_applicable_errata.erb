@@ -16,15 +16,23 @@ template_inputs:
   description: Limit the report only on errata found by this search query. Keep empty
     for report on all available errata.
   advanced: false
+- name: Installability
+  required: true
+  input_type: user
+  description: Select Applicable to show all applicable errata. Select Installable to show errata that are in the host's content view environment(s) and can thus be installed.
+  advanced: false
+  value_type: plain
+  options: "applicable\r\ninstallable"
+  default: "applicable"
 model: ReportTemplate
 require:
 - plugin: katello
-￼ version: 4.8.0
+￼ version: 4.9.0
 -%>
-<%- report_headers 'Host', 'Operating System', 'Environment', 'Erratum', 'Type', 'Published', 'Applicable since', 'Severity', 'Packages', 'CVEs', 'Reboot suggested' -%>
+<%- report_headers 'Host', 'Operating System', 'Environment', 'Erratum', 'Type', 'Published', 'Available since', 'Severity', 'Packages', 'CVEs', 'Reboot suggested' -%>
 <%- errata_filter = input('Errata filter') %>
 <%- load_hosts(search: input('Hosts filter'), preload: [:operatingsystem]).each_record do |host| -%>
-<%-   host_applicable_errata_filtered(host, errata_filter).each do |erratum| -%>
+<%-   (input('Installability') == 'applicable' ? host_applicable_errata_filtered(host, errata_filter) : host_installable_errata_filtered(host, errata_filter)).each do |erratum| -%>
 <%-     report_row(
           'Host': host.name,
           'Operating System': host.operatingsystem,
@@ -32,7 +40,7 @@ require:
           'Erratum': erratum.errata_id,
           'Type': erratum.errata_type,
           'Published': erratum.issued,
-          'Applicable since': erratum.created_at,
+          'Available since': erratum.created_at,
           'Severity': erratum.severity,
           'Packages': erratum.package_names,
           'CVEs': erratum.cves.map { |c| c.cve_id },
