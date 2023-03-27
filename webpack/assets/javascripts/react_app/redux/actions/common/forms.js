@@ -68,12 +68,13 @@ export const submitForm = ({
   successToast,
   actions,
   successCallback,
+  handleError,
 }) => {
   verifyProps(item, params);
   return dispatch => {
     const uniqueAPIKey = `${item.toUpperCase()}_FORM_SUBMITTED`;
 
-    const handleError = error => onError(error, actions);
+    const defaultHandleError = error => onError(error, actions);
 
     const handleSuccess = ({ data }) => {
       successCallback();
@@ -100,7 +101,7 @@ export const submitForm = ({
         headers,
         params,
         actionTypes,
-        handleError,
+        handleError: handleError || defaultHandleError,
         handleSuccess,
         successToast: successToast || defaultSuccessToast,
         errorToast: errorToast || defaultErrorToast,
