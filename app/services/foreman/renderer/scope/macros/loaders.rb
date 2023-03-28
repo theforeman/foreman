@@ -45,6 +45,19 @@ module Foreman
               example "<% #{name}.each_record do |#{model.to_s.downcase}| %>
   <%= #{model.to_s.downcase}.id %>, <%= #{model.to_s.downcase}.#{model == User ? 'login' : 'name'} %>
 <% end %>", desc: "Prints #{model.to_s.downcase} id and #{model == User ? 'login' : 'name'} of each #{model.to_s.downcase}"
+              example <<~EXAMPLE
+                # Joins - for comparing and filtering data
+                Host.joins(:interfaces).where("nics.mac = ?", "<mac>")
+
+                # Preload - for loading associated data
+                Host.preload(:interfaces)
+
+                # Includes - for loading, comparing and filtering data with associated data
+                Host.includes(:interfaces).where(interfaces: { mac: "<mac>" })
+
+                # For more information, please refer official Rails documentation:
+                # https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations", desc: "Join, Preload and Includes
+              EXAMPLE
               example_for :load_hosts, "<% load_hosts(search: 'domain = example.com', includes: [ :interfaces ]).each_record do |host| %>
   <%= host.name %>, <%= host.interfaces.map { |i| i.mac }.join(', ') %>
 <% end %>", desc: 'Prints host name and MACs of each host'
