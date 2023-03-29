@@ -21,7 +21,9 @@ require:
 -%>
 <%- packages = [] -%>
 <%- hosts = load_hosts(search: "name ^ (#{input('Host 1')}, #{input('Host 2')})").to_a.flatten -%>
-<%- if hosts.length != 2 -%>
+<%- if (input('Host 1') == input('Host 2')) -%>
+<%-   raise _("You are trying to compare the same host.") -%>
+<%- elsif hosts.length != 2 -%>
 <%-   raise _("At least one of the hosts couldn't be found") -%>
 <%- else -%>
 <%-   host1 = hosts.first -%>
