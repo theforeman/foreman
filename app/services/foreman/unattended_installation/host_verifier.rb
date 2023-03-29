@@ -30,7 +30,7 @@ module Foreman
 
         errors << {
           message: N_('%{controller}: provisioning token for host %{host} expired'),
-          type: :precondition_failed,
+          type: :unauthorized,
           params: { host: @host.name, controller: controller_name },
         }
 

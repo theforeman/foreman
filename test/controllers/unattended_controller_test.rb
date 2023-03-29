@@ -377,7 +377,7 @@ class UnattendedControllerTest < ActionController::TestCase
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       @ub_host.create_token(:value => "expired_token", :expires => Time.now.utc - 1.minute)
       get :host_template, params: { :kind => 'provision'}
-      assert_response :precondition_failed
+      assert_response :unauthorized
     end
 
     test "should not find host by ip if token is present" do
