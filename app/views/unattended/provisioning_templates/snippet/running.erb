@@ -1,0 +1,27 @@
+<%#
+kind: snippet
+name: running
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Sends 'running' request to Foreman to indicate that the host is running.
+-%>
+<%
+  endpoint = @endpoint || 'change-status'
+  method = @method || 'GET'
+  base_url = foreman_url(endpoint)
+  url = base_url.split('?').first + '/' + @host.mac + '/' + 4.to_s
+  curl_opts = ["-H 'Content-Type: text/plain'"]
+  wget_opts = ["--header 'Content-Type: text/plain'"]
+  if url.start_with?('https')
+    curl_opts << "--insecure"
+    wget_opts << "--no-check-certificate"
+  end
+-%>
+if [ -x /usr/bin/curl ]; then
+/usr/bin/curl -o /dev/null --noproxy \* <%= curl_opts.join(' ') %> --silent '<%= url %>'
+elif [ -x /usr/bin/wget ]; then
+/usr/bin/wget -q -O /dev/null --no-proxy --method <%= method %> <%= wget_opts.join(' ') %> '<%= url %>'
+else
+wget -q -O /dev/null --header 'Content-Type: text/plain' '<%= url %>'
+fi

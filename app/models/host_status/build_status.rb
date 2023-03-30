@@ -4,8 +4,9 @@ module HostStatus
     TOKEN_EXPIRED = 2
     BUILD_FAILED = 3
     BUILT = 0
+    RUNNING = 4
 
-    OK_STATUSES = [PENDING, BUILT]
+    OK_STATUSES = [PENDING, BUILT, RUNNING]
     WARN_STATUSES = []
     ERROR_STATUSES = [TOKEN_EXPIRED, BUILD_FAILED]
 
@@ -14,6 +15,7 @@ module HostStatus
       TOKEN_EXPIRED => N_("Token expired"),
       BUILD_FAILED => N_("Installation error"),
       BUILT => N_("Installed"),
+      RUNNING => N_("Host running"),
     }.freeze
 
     SEARCH = {
@@ -21,6 +23,7 @@ module HostStatus
       TOKEN_EXPIRED => 'build_status = token_expired',
       BUILD_FAILED => 'build_status = build_failed',
       BUILT => 'build_status = built',
+      RUNNING => 'build_status = running',
     }.freeze
 
     def self.status_name

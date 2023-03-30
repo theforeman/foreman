@@ -472,6 +472,7 @@ Foreman::Application.routes.draw do
   post 'unattended/failed/(:id(:format))', controller: 'unattended', action: 'failed', format: 'text'
   # get for all unattended scripts
   get 'unattended/(:kind/(:id(:format)))', controller: 'unattended', action: 'host_template', format: 'text'
+  get 'unattended/change-status/:mac/:status', controller: 'unattended', action: 'change_host_status', format: 'text'
 
   get 'userdata/(:mac)/user-data', controller: 'userdata', action: 'userdata', format: 'text'
   get 'userdata/(:mac)/meta-data', controller: 'userdata', action: 'metadata', format: 'text'

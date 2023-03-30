@@ -11,7 +11,7 @@ class UnattendedController < ApplicationController
 
   before_action :permissions_check, if: -> { preview? }, only: [:host_template, :hostgroup_template]
   before_action :set_admin_user, unless: -> { preview? }
-  before_action :load_host_details, only: [:host_template, :built, :failed]
+  before_action :load_host_details, only: [:host_template, :built, :failed, :change_host_status]
 
   # all of our requests should be returned in text/plain
   after_action :set_content_type
@@ -41,6 +41,15 @@ class UnattendedController < ApplicationController
     @host.build_errors += "\n\nOutput trimmed\n" if body_length >= MAX_BUILT_BODY
     logger.warn { "Log lines from the OS installer:\n#{@host.build_errors}" }
     head(@host.built ? :created : :conflict)
+  end
+
+  def change_host_status
+    return unless verify_found_host
+    return unless params[:status].to_i >= 0 and params[:status].to_i <= 4
+
+    status = @host.host_statuses.detect{|i| i.type == HostStatus::BuildStatus.to_s}
+    status.update(status: params[:status].to_i)
+    head(:ok)
   end
 
   def hostgroup_template
