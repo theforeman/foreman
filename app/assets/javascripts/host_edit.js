@@ -176,10 +176,10 @@ function submit_with_all_params() {
     type: 'POST',
     url: $('form').attr('action'),
     data: serializeForm(),
-    success: function(response, _responseStatus, _jqXHR) {
+    success: function(response, _responseStatus, jqXHR) {
       // workaround for redirecting to the new host details page
       if (!response.includes('id="main"')) {
-        return tfm.nav.pushUrl(tfm.tools.foremanUrl('/new/hosts/' + construct_host_name()));
+        return tfm.nav.pushUrl(tfm.tools.foremanUrl(jqXHR.getResponseHeader('X-Request-Path')));
       }
 
       $('#host-progress').hide();
