@@ -112,7 +112,6 @@
   # prefix for all metrics
   :prefix: 'fm_rails'
   # prometheus endpoint is at /metrics
-  # warning: ruby client library currently does not supprt multi-process web servers
   :prometheus:
     :enabled: false
   # works with statsd_exporter too, use the rake task to generate config
