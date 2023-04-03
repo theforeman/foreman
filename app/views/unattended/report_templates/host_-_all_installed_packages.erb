@@ -24,6 +24,14 @@ require:
         'Package NVREA': pkg.nvrea
       )-%>
 <%    end -%>
+<%    host.installed_debs.each do |pkg| -%>
+<%-   report_row(
+        'Host': host.name,
+        'Package Name': pkg.name,
+        'Package Version': pkg.version,
+        'Package Architecture': pkg.architecture
+      )-%>
+<%    end -%>
 <%  end -%>
 <%= report_render -%>
 ---
