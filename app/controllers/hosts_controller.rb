@@ -64,6 +64,7 @@ class HostsController < ApplicationController
   def show
     respond_to do |format|
       format.html do
+        response.headers['X-Request-Path'] = request.path
         # filter graph time range
         @range = (params["range"].empty? ? 7 : params["range"].to_i)
 
