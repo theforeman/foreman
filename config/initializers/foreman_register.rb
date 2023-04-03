@@ -8,11 +8,11 @@ end
 Pagelets::Manager.with_key 'hosts/_list' do |ctx|
   ctx.with_profile :general, _('General'), default: true do
     common_class = 'hidden-tablet hidden-xs ellipsis'
-    add_pagelet :hosts_table_column_header, key: :power_status, label: _('Power'), sortable: false, width: '80px', class: 'ca',
+    add_pagelet :hosts_table_column_header, key: :power_status, label: _('Power'), sortable: false, width: '80px', class: 'ca hidden-xs',
                 export_data: CsvExporter::ExportDefinition.new(:power_status, callback: ->(host) { PowerManager::PowerStatus.safe_power_state(host)[:state] })
-    add_pagelet :hosts_table_column_content, key: :power_status, class: 'ca', callback: ->(host) { react_component('PowerStatus', id: host.id, url: power_api_host_path(host)) }
+    add_pagelet :hosts_table_column_content, key: :power_status, class: 'ca hidden-xs', callback: ->(host) { react_component('PowerStatus', id: host.id, url: power_api_host_path(host)) }
     add_pagelet :hosts_table_column_header, key: :name, label: _('Name'), sortable: true, width: '24%', locked: true
-    add_pagelet :hosts_table_column_content, key: :name, callback: ->(host) { name_column(host) }, locked: true, class: common_class
+    add_pagelet :hosts_table_column_content, key: :name, callback: ->(host) { name_column(host) }, locked: true, class: 'ellipsis'
     add_pagelet :hosts_table_column_header, key: :os_title, label: _('OS'), sortable: true, width: '17%', attr_callbacks: { title: ->(host) { _('Operating system') } }, export_key: 'operatingsystem', class: common_class
     add_pagelet :hosts_table_column_content, key: :os_title, callback: ->(host) { (icon(host.operatingsystem, size: "16x16") + " #{host.operatingsystem.to_label}").html_safe if host.operatingsystem }, class: common_class
     add_pagelet :hosts_table_column_header, key: :owner, label: _('Owner'), sortable: true, width: '8%', class: common_class
