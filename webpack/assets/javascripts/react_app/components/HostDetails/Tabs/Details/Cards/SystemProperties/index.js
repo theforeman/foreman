@@ -118,17 +118,36 @@ const SystemPropertiesCard = ({ status, hostDetails }) => {
         </DescriptionListGroup>
         <DescriptionListGroup>
           <DescriptionListTerm>{__('Owner type')}</DescriptionListTerm>
-          <DescriptionListDescription>{ownerType}</DescriptionListDescription>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {ownerType}
+            </SkeletonLoader>
+          </DescriptionListDescription>
         </DescriptionListGroup>
         <DescriptionListGroup>
           <DescriptionListTerm>{__('Organization')}</DescriptionListTerm>
           <DescriptionListDescription>
-            {organization}
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {organization}
+            </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
         <DescriptionListGroup>
           <DescriptionListTerm>{__('Location')}</DescriptionListTerm>
-          <DescriptionListDescription>{location}</DescriptionListDescription>
+          <DescriptionListDescription>
+            <SkeletonLoader
+              status={status}
+              emptyState={<DefaultLoaderEmptyState />}
+            >
+              {location}
+            </SkeletonLoader>
+          </DescriptionListDescription>
         </DescriptionListGroup>
         <Slot
           id="host-details-tab-properties-3"
