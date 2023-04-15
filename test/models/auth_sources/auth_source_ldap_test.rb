@@ -19,7 +19,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   should allow_value("key=#{'a' * 256}").for(:ldap_filter)
   should validate_length_of(:name).is_at_most(60)
   should validate_length_of(:host).is_at_most(60)
-  should validate_length_of(:account_password).is_at_most(60)
+  should validate_length_of(:account_password).is_at_most(69)
   should validate_length_of(:account).is_at_most(255)
   should validate_length_of(:base_dn).is_at_most(255)
   should validate_length_of(:attr_login).is_at_most(30)
