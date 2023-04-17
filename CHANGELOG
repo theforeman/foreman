@@ -1,3 +1,18 @@
+2023-04-17	ianballou <ianballou67@gmail.com>
+	* Release 3.5.3
+
+2023-04-14	Dan R. K. Ports <dan@drkp.net>
+	* Refs #35578: preseed_netplan_generic_interface with DHCP interface
+
+2023-03-29	vijaysawant <vijaysawant36@gmail.com>
+	* Fixes #36225 - fix Host Details path in config report
+
+2023-03-21	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #35949 - move select_multiple_puppet_proxy to the puppet plugin
+
+2023-03-14	nofaralfasi <nalfassi@redhat.com>
+	* Fixes #35990 - fix search fact_values via API
+
 2023-03-13	Eric D. Helms <ericdhelms@gmail.com>
 	* Release 3.5.2
 
