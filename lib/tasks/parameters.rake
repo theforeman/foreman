@@ -23,7 +23,6 @@ namespace :parameters do
   END_DESC
   task :cast_key_types_and_values => :environment do
     def override_key_type_and_value(param)
-      key_type_name = 'string'
       value = YAML.safe_load param.value
       key_type_name = value.is_a?(Hash) ? 'yaml' : find_key_type(value)
 
