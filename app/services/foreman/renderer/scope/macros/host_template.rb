@@ -124,7 +124,8 @@ module Foreman
           end
           def grub_pass
             return '' unless host_param_true?('encrypt_grub')
-            host.grub_pass.start_with?('$1$') ? "--md5pass=#{host.grub_pass}" : "--iscrypted --password=#{host.grub_pass}"
+            param_grub_pass = host_param('grub_pass')
+            param_grub_pass.start_with?('$1$') ? "--md5pass=#{param_grub_pass}" : "--iscrypted --password=#{param_grub_pass}"
           end
 
           apipie :method, 'Returns console Kickstart option for bootloader' do
