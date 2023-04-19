@@ -37,7 +37,6 @@ const ConfigParams = ({
     <>
       <FormGroup
         label={__('Setup REX')}
-        isRequired
         labelIcon={
           <LabelIcon
             text={__(
@@ -61,7 +60,6 @@ const ConfigParams = ({
       </FormGroup>
       <FormGroup
         label={__('Setup Insights')}
-        isRequired
         fieldId="registration_setup_insights"
         labelIcon={
           <LabelIcon

@@ -4,7 +4,6 @@ exports[`RegistrationCommandsPage fields - Taxonomies renders 1`] = `
 <Fragment>
   <FormGroup
     fieldId="reg_organization"
-    isRequired={true}
     label="Organization"
     labelIcon={
       <LabelIcon
@@ -32,7 +31,6 @@ exports[`RegistrationCommandsPage fields - Taxonomies renders 1`] = `
   </FormGroup>
   <FormGroup
     fieldId="reg_location"
-    isRequired={true}
     label="Location"
     labelIcon={
       <LabelIcon

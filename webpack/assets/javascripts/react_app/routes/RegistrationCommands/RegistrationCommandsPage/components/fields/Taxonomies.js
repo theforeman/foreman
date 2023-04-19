@@ -22,7 +22,6 @@ const Taxonomies = ({
   <>
     <FormGroup
       label="Organization"
-      isRequired
       fieldId="reg_organization"
       labelIcon={
         <LabelIcon
@@ -49,7 +48,6 @@ const Taxonomies = ({
 
     <FormGroup
       label="Location"
-      isRequired
       fieldId="reg_location"
       labelIcon={
         <LabelIcon
