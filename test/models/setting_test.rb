@@ -174,6 +174,11 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "must be comma separated", setting.errors[:value].first
   end
 
+  test "trusted_hosts accepts values with spaces" do
+    setting = Setting.create(name: 'trusted_hosts', value: ["localhost ", " remotehost"])
+    assert_equal ["localhost", "remotehost"], setting.value
+  end
+
   test "foreman_url must have valid formant" do
     assert Setting.create(name: 'foreman_url', value: 'http://test.example.org')
     setting = Setting.find_by_name("foreman_url")

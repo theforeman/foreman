@@ -46,6 +46,7 @@ class Setting < ApplicationRecord
   validates :value, :email => true, :if => proc { |s| EMAIL_ATTRS.include? s.name }
   before_save :clear_value_when_default
   validate :validate_frozen_attributes
+  before_validation :remove_whitespaces, :if => proc { |s| s.settings_type == "array" }
   # Custom validations are added from SettingManager class
   after_find :readonly_when_overridden
   after_save :refresh_registry_value
@@ -267,5 +268,9 @@ class Setting < ApplicationRecord
       definition.updated_at = updated_at
       definition.value_from_db = value
     end
+  end
+
+  def remove_whitespaces
+    self[:value] = value.each { |a| a.strip! if a.respond_to? :strip! }
   end
 end
