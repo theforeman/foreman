@@ -11,7 +11,7 @@ class OidcJwtValidateTest < ActiveSupport::TestCase
       payload, headers = { "name": "jwt token", "iat": 1557224758, "exp": exp, "typ": "Bearer", "aud": "rest-client", "iss": "127.0.0.1"}, { kid: @jwk.kid }
 
       Setting['oidc_jwks_url'] = 'https://keycloak.example.com/auth/realms/foreman/protocol/openid-connect/certs'
-      Setting['oidc_audience'] = 'rest-client'
+      Setting['oidc_audience'] = ['rest-client']
       Setting['oidc_issuer'] = '127.0.0.1'
       Setting['oidc_algorithm'] = 'RS512'
       @token = JWT.encode(payload, @jwk.keypair, 'RS512', headers)
@@ -44,13 +44,13 @@ class OidcJwtValidateTest < ActiveSupport::TestCase
     end
 
     test 'if audience is not valid' do
-      Setting['oidc_audience'] = "no-client"
+      Setting['oidc_audience'] = ["no-client"]
       stub_request(:get, Setting['oidc_jwks_url'])
         .to_return(body: {"keys": [@jwk.export]}.to_json)
       actual = OidcJwtValidate.new(@token).decoded_payload
       expected = nil
       assert_nil expected, actual
-      Setting['oidc_audience'] = "rest-client"
+      Setting['oidc_audience'] = ["rest-client"]
     end
 
     test 'if token has expired' do
