@@ -60,7 +60,7 @@ class ActionDispatch::IntegrationTest
 
   def assert_new_button(index_path, new_link_text, new_path)
     visit index_path
-    click_link(new_link_text)
+    click_link(new_link_text, :class => /^((?!pf-c-nav__link).)*$/)
     assert_current_path new_path
   end
 
@@ -207,8 +207,8 @@ class ActionDispatch::IntegrationTest
 
   def refute_available_organization_menu(organization)
     within('.location-menu') do
-      first('a:first-of-type').hover
-      within('.location-menu>div>ul', visible: :all) do
+      first('button').click
+      within('.location-menu section ul ul', visible: :all) do
         assert page.has_no_link?(organization)
       end
     end
@@ -254,8 +254,8 @@ class ActionDispatch::IntegrationTest
 
   def select_organization_menu(organization)
     within('.organization-menu') do
-      first('a:first-of-type').hover
-      find("span.list-group-item-value", text: organization).click
+      first('button').click
+      find("li.pf-c-nav__item", text: organization).click
     end
   end
 

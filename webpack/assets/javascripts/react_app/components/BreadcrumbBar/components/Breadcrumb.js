@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import {
   Breadcrumb as PfBreadcrumb,
   BreadcrumbItem,
+  TextContent,
+  Text,
 } from '@patternfly/react-core';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import './Breadcrumbs.scss';
@@ -17,9 +19,9 @@ const Breadcrumb = ({
 }) => {
   if (isTitle) {
     return (
-      <div className="form-group">
-        <h1>{items[0].caption}</h1>
-      </div>
+      <TextContent>
+        <Text component="h1">{items[0].caption}</Text>
+      </TextContent>
     );
   }
 

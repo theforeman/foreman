@@ -1,30 +1,34 @@
 <div id="main">
   <div id="content">
     <div id="breadcrumb">
-      <% if content_for?(:breadcrumbs) %>
-        <%= yield(:breadcrumbs) %>
-      <% else %>
-        <%= mount_breadcrumbs %>
-      <% end %>
+      <section class="pf-c-page__main-breadcrumb">
+        <% if content_for?(:breadcrumbs) %>
+          <%= yield(:breadcrumbs) %>
+        <% else %>
+          <%= mount_breadcrumbs %>
+        <% end %>
+      </section>
     </div>
     <%= yield(:before_search_bar) %>
-    <div class="row">
+    <div class="pf-c-page__main-section pf-m-light title_filter_parent">
       <div class="title_filter <%= searchable? ? " col-md-6 " : "col-md-4 " %>">
         <%= mount_search_bar if searchable? %>
-          <%= yield(:search_bar) %>&nbsp;
+        <%= yield(:search_bar) %>&nbsp;
       </div>
       <div id="title_action" class= <%= searchable? ? "col-md-6" : "col-md-8" %>>
         <% if filter_columns? %>
-        <div class="pull-left">
-          <%= mount_column_selector %>
+          <div class="pull-left">
+            <%= mount_column_selector %>
             <%= yield(:column_selector) %>&nbsp;
-        </div>
+          </div>
         <% end %>
         <div class="btn-toolbar pull-right">
           <%=h yield(:title_actions) %>
         </div>
       </div>
     </div>
-    <%= yield %>
+    <div class="pf-c-page__main-section pf-m-light">
+      <%= yield %>
+    </div>
   </div>
 </div>

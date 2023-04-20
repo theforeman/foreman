@@ -22,7 +22,7 @@ import {
   useForemanVersion,
 } from '../../../Root/Context/ForemanContext';
 import { STATUS } from '../../../constants';
-import Head from '../../../components/Head';
+import PageLayout from '../../common/PageLayout/PageLayout';
 import Slot from '../../../components/common/Slot';
 
 import {
@@ -173,10 +173,7 @@ const RegistrationCommandsPage = () => {
   }, [dispatch, hostGroupId, operatingSystemId]);
 
   return (
-    <>
-      <Head>
-        <title>{__('Register Host')}</title>
-      </Head>
+    <PageLayout header={__('Register Host')} searchable={false}>
       <Form
         onSubmit={e => handleSubmit(e)}
         className="registration_commands_form"
@@ -344,7 +341,7 @@ const RegistrationCommandsPage = () => {
           </GridItem>
         </Grid>
       </Form>
-    </>
+    </PageLayout>
   );
 };
 

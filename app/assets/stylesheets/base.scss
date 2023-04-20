@@ -2,13 +2,40 @@ html {
   height: 100%;
   width: 100%;
   display: table;
+}
+
+#rails-app-content {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   overflow: auto;
+  height: calc(100% - 70px);
+  margin-left: 250px;
+  &.pf-c-page {
+    display: block;
+    grid-template-columns: unset;
+    grid-template-areas: unset;
+  }
 }
 
 body {
   height: 100%;
   width: 100%;
-  display: table-cell;
+}
+
+#react-app-root {
+  height: 100%;
+  width: 100%;
+  .pf-c-page {
+    // pf grid rule stops at @media (min-width: 1200px)
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-template-areas:
+      'header header'
+      'nav main';
+  }
 }
 
 .base li {
@@ -143,8 +170,12 @@ select {
   padding-bottom: 9px;
 }
 
-.title_filter {
-  padding-right: 8px;
+.title_filter_parent {
+  overflow: hidden; // so that the parent will have a height
+  padding-bottom: 0;
+  .title_filter {
+    padding-left: 0;
+  }
 }
 
 #title_action {
@@ -621,6 +652,7 @@ code.transparent {
   max-width: 175px;
 }
 
-td .dropdown-menu > li > a.disabled:hover, td .dropdown-menu > li > a.disabled:focus {
+td .dropdown-menu > li > a.disabled:hover,
+td .dropdown-menu > li > a.disabled:focus {
   cursor: pointer;
 }

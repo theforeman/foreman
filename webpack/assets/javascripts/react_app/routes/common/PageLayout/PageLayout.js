@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Spinner } from 'patternfly-react';
+import { Col, Spinner } from 'patternfly-react';
+import {
+  PageSection,
+  PageSectionVariants,
+  TextContent,
+  Text,
+} from '@patternfly/react-core';
 import { changeQuery } from '../../../common/urlHelpers';
-
 import BreadcrumbBar from '../../../components/BreadcrumbBar';
 import SearchBar from '../../../components/SearchBar';
 import Head from '../../../components/Head';
@@ -18,50 +23,58 @@ const PageLayout = ({
   header,
   beforeToolbarComponent,
   isLoading,
+  pageSectionType,
   children,
 }) => (
-  <div id="main">
-    <div id="react-content">
-      <Head>
-        <title>{header}</title>
-      </Head>
+  <>
+    <Head>
+      <title>{header}</title>
+    </Head>
+    <PageSection variant={PageSectionVariants.light} type="breadcrumb">
       <div id="breadcrumb">
         {!breadcrumbOptions && (
-          <div className="row form-group">
-            <h1 className="col-md-8">{header}</h1>
-          </div>
+          <TextContent>
+            <Text component="h1">{header}</Text>
+          </TextContent>
         )}
         {customBreadcrumbs ||
           (breadcrumbOptions && <BreadcrumbBar {...breadcrumbOptions} />)}
       </div>
-      {beforeToolbarComponent}
-      <Row>
-        <Col className="title_filter" md={searchable ? 6 : 4}>
-          {searchable && (
-            <SearchBar
-              data={{
-                ...searchProps,
-                autocomplete: { ...searchProps.autocomplete, searchQuery },
-              }}
-              onSearch={onSearch}
-            />
-          )}
-          &nbsp;
-        </Col>
-        <Col id="title_action" md={searchable ? 6 : 8}>
-          <div className="btn-toolbar pull-right">
-            {isLoading && (
-              <div id="toolbar-spinner">
-                <Spinner loading size="sm" />
-              </div>
+    </PageSection>
+
+    {(searchable || beforeToolbarComponent || isLoading || toolbarButtons) && (
+      <PageSection variant={PageSectionVariants.light}>
+        {beforeToolbarComponent}
+        <div>
+          <Col className="title_filter" md={searchable ? 6 : 4}>
+            {searchable && (
+              <SearchBar
+                data={{
+                  ...searchProps,
+                  autocomplete: { ...searchProps.autocomplete, searchQuery },
+                }}
+                onSearch={onSearch}
+              />
             )}
-            {toolbarButtons}
-          </div>
-        </Col>
-      </Row>
+            &nbsp;
+          </Col>
+          <Col id="title_action" md={searchable ? 6 : 8}>
+            <div className="btn-toolbar pull-right">
+              {isLoading && (
+                <div id="toolbar-spinner">
+                  <Spinner loading size="sm" />
+                </div>
+              )}
+              {toolbarButtons}
+            </div>
+          </Col>
+        </div>
+      </PageSection>
+    )}
+    <PageSection variant={PageSectionVariants.light} type={pageSectionType}>
       {children}
-    </div>
-  </div>
+    </PageSection>
+  </>
 );
 
 PageLayout.propTypes = {
@@ -111,6 +124,7 @@ PageLayout.propTypes = {
   searchQuery: PropTypes.string,
   beforeToolbarComponent: PropTypes.node,
   isLoading: PropTypes.bool,
+  pageSectionType: PropTypes.string,
 };
 
 PageLayout.defaultProps = {
@@ -123,6 +137,7 @@ PageLayout.defaultProps = {
   isLoading: false,
   onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
   beforeToolbarComponent: null,
+  pageSectionType: 'default',
 };
 
 export default PageLayout;

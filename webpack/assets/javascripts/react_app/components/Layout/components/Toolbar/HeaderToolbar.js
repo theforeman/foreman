@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  PageHeaderTools,
-  PageHeaderToolsGroup,
-  PageHeaderToolsItem,
+  Toolbar,
+  ToolbarContent,
+  ToolbarGroup,
+  ToolbarItem,
 } from '@patternfly/react-core';
 import TaxonomySwitcher from '../TaxonomySwitcher/TaxonomySwitcher';
 import UserDropdowns from './UserDropdowns';
@@ -28,32 +29,34 @@ const HeaderToolbar = ({
   instance_title: instanceTitle,
   isLoading,
 }) => (
-  <PageHeaderTools id="data-toolbar">
-    <PageHeaderToolsGroup className="header-tool-item-hidden-lg">
-      <TaxonomySwitcher
-        locations={locations.available_locations || []}
-        organizations={orgs.available_organizations || []}
-        isLoading={isLoading}
-      />
-    </PageHeaderToolsGroup>
-    <PageHeaderToolsGroup>
-      <PageHeaderToolsItem>
-        <InstanceTitleViewer title={instanceTitle} />
-      </PageHeaderToolsItem>
-      <PageHeaderToolsItem className="notifications_container">
-        <NotificationContainer data={{ url: notificationUrl }} />
-      </PageHeaderToolsItem>
-      {user.impersonated_by && (
-        <PageHeaderToolsItem className="impersonation-item">
-          <ImpersonateIcon stopImpersonationUrl={stopImpersonationUrl} />
-        </PageHeaderToolsItem>
-      )}
+  <Toolbar id="data-toolbar" isFullHeight isStatic>
+    <ToolbarContent>
+      <ToolbarGroup className="header-tool-item-hidden-lg">
+        <TaxonomySwitcher
+          locations={locations.available_locations || []}
+          organizations={orgs.available_organizations || []}
+          isLoading={isLoading}
+        />
+      </ToolbarGroup>
+      <ToolbarGroup alignment={{ default: 'alignRight' }}>
+        <ToolbarItem>
+          <InstanceTitleViewer title={instanceTitle} />
+        </ToolbarItem>
+        <ToolbarItem className="notifications_container">
+          <NotificationContainer data={{ url: notificationUrl }} />
+        </ToolbarItem>
+        {user.impersonated_by && (
+          <ToolbarItem className="impersonation-item">
+            <ImpersonateIcon stopImpersonationUrl={stopImpersonationUrl} />
+          </ToolbarItem>
+        )}
 
-      <PageHeaderToolsItem className="header-tool-item-hidden-lg user-nav-item">
-        <UserDropdowns notificationUrl={notificationUrl} user={user} />
-      </PageHeaderToolsItem>
-    </PageHeaderToolsGroup>
-  </PageHeaderTools>
+        <ToolbarItem className="header-tool-item-hidden-lg user-nav-item">
+          <UserDropdowns notificationUrl={notificationUrl} user={user} />
+        </ToolbarItem>
+      </ToolbarGroup>
+    </ToolbarContent>
+  </Toolbar>
 );
 HeaderToolbar.propTypes = {
   stop_impersonation_url: PropTypes.string.isRequired,

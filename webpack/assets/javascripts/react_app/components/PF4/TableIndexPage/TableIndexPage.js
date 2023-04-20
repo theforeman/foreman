@@ -107,7 +107,7 @@ const TableIndexPage = ({
   ].filter(item => item);
 
   return (
-    <div className="pf-c-page foreman-page">
+    <div className="foreman-page">
       <Head>
         <title>{header}</title>
       </Head>

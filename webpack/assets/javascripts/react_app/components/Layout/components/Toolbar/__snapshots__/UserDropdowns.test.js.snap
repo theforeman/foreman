@@ -8,7 +8,6 @@ exports[`UserDropdown render 1`] = `
       <DropdownItem
         className="user_menuitem"
         href="/"
-        onClick={[Function]}
         ouiaId="user-dropdown-item-0"
       >
         My Account

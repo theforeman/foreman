@@ -1,19 +1,7 @@
 @import '../../../../common/variables.scss';
 
 #data-toolbar {
-  grid-column: 2 / 3;
-  margin-left: 0;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-  .pf-c-page__header-tools-item {
-    margin-left: 10px;
-  }
-
-  .pf-c-spinner {
-    margin-left: 10px;
-  }
+  background-color: unset;
   @media (max-width: $header-max-width) {
     justify-content: flex-end;
 
@@ -23,12 +11,22 @@
   }
 }
 
-@media (max-width: 768px) {
-  .navbar-pf-vertical {
-    display: flex;
+.pf-c-masthead__brand {
+  padding-right: 15px;
 
-    .pf-c-page__header {
-      grid-template-columns: 1fr 3fr;
-    }
+  &:hover {
+    text-decoration: none;
+  }
+
+  .pf-c-brand {
+    height: 34px;
+  }
+
+  .navbar-brand-txt span {
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   }
 }

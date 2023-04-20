@@ -15,6 +15,7 @@ import {
   Text,
   TextVariants,
   PageSection,
+  PageSectionVariants,
   Split,
   SplitItem,
 } from '@patternfly/react-core';
@@ -91,174 +92,173 @@ const HostDetails = ({
       <Head>
         <title>{id}</title>
       </Head>
+      <PageSection variant={PageSectionVariants.light} type="breadcrumb">
+        <SkeletonLoader
+          skeletonProps={{ width: 300 }}
+          status={status || STATUS.PENDING}
+        >
+          {response.name && (
+            <BreadcrumbBar
+              isSwitchable
+              isPf4
+              onSwitcherItemClick={(e, href) => {
+                e.preventDefault();
+                history.push(href);
+              }}
+              resource={{
+                nameField: 'name',
+                resourceUrl: '/api/v2/hosts?thin=true',
+                switcherItemUrl: '/new/hosts/:name',
+              }}
+              breadcrumbItems={[
+                { caption: __('Hosts'), url: foremanUrl('/hosts') },
+                { caption: response.name },
+              ]}
+            />
+          )}
+        </SkeletonLoader>
+      </PageSection>
       <PageSection
         className="host-details-header-section"
-        isFilled
-        variant="light"
+        variant={PageSectionVariants.light}
       >
-        <div className="header-top">
-          <SkeletonLoader
-            skeletonProps={{ width: 300 }}
-            status={status || STATUS.PENDING}
-          >
-            {response.name && (
-              <BreadcrumbBar
-                isSwitchable
-                isPf4
-                onSwitcherItemClick={(e, href) => {
-                  e.preventDefault();
-                  history.push(href);
-                }}
-                resource={{
-                  nameField: 'name',
-                  resourceUrl: '/api/v2/hosts?thin=true',
-                  switcherItemUrl: '/new/hosts/:name',
-                }}
-                breadcrumbItems={[
-                  { caption: __('Hosts'), url: foremanUrl('/hosts') },
-                  { caption: response.name },
-                ]}
-              />
-            )}
-          </SkeletonLoader>
-          <Grid className="hostname-skeleton-rapper">
-            <GridItem span={8}>
-              <SkeletonLoader status={status || STATUS.PENDING}>
-                {response && (
-                  <>
-                    <div className="hostname-wrapper">
-                      <SkeletonLoader status={status || STATUS.PENDING}>
-                        {response && (
-                          <Title
-                            ouiaId="hostname-truncate-title"
-                            className="hostname-truncate"
-                            headingLevel="h5"
-                            size="2xl"
+        <Grid className="hostname-skeleton-rapper">
+          <GridItem span={8}>
+            <SkeletonLoader status={status || STATUS.PENDING}>
+              {response && (
+                <>
+                  <div className="hostname-wrapper">
+                    <SkeletonLoader status={status || STATUS.PENDING}>
+                      {response && (
+                        <Title
+                          ouiaId="hostname-truncate-title"
+                          className="hostname-truncate"
+                          headingLevel="h5"
+                          size="2xl"
+                        >
+                          {response.name}
+                        </Title>
+                      )}
+                    </SkeletonLoader>
+                  </div>
+                  <Split style={{ display: 'inline-flex' }} hasGutter>
+                    <SplitItem>
+                      <HostGlobalStatus
+                        hostName={id}
+                        canForgetStatuses={
+                          !!response?.permissions?.forget_status_hosts
+                        }
+                      />
+                    </SplitItem>
+                    <SplitItem>
+                      <Label
+                        isCompact
+                        color="blue"
+                        render={({ className, content, componentRef }) => (
+                          <Link
+                            to={`/hosts?search=os_title="${response?.operatingsystem_name}"`}
+                            className={className}
+                            innerRef={componentRef}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
-                            {response.name}
-                          </Title>
+                            {content}
+                          </Link>
                         )}
-                      </SkeletonLoader>
-                    </div>
-                    <Split style={{ display: 'inline-flex' }} hasGutter>
-                      <SplitItem>
-                        <HostGlobalStatus
-                          hostName={id}
-                          canForgetStatuses={
-                            !!response?.permissions?.forget_status_hosts
-                          }
-                        />
-                      </SplitItem>
-                      <SplitItem>
-                        <Label
-                          isCompact
-                          color="blue"
-                          render={({ className, content, componentRef }) => (
-                            <Link
-                              to={`/hosts?search=os_title="${response?.operatingsystem_name}"`}
-                              className={className}
-                              innerRef={componentRef}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {content}
-                            </Link>
-                          )}
-                        >
-                          {response?.operatingsystem_name}
-                        </Label>
-                      </SplitItem>
-                      <SplitItem>
-                        <Label
-                          isCompact
-                          color="blue"
-                          render={({ className, content, componentRef }) => (
-                            <Link
-                              to={`/hosts?search=architecture=${response?.architecture_name}`}
-                              className={className}
-                              innerRef={componentRef}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {content}
-                            </Link>
-                          )}
-                        >
-                          {response?.architecture_name}
-                        </Label>
-                      </SplitItem>
-                    </Split>
-                  </>
-                )}
-              </SkeletonLoader>
-            </GridItem>
-            <GridItem offset={8} span={4}>
-              <Flex>
-                <FlexItem align={{ default: 'alignRight' }}>
-                  <ActionsBar
-                    computeId={response.compute_resource_id}
-                    hostFriendlyId={id}
-                    hostId={response.id}
-                    hostName={response.name}
-                    permissions={response.permissions}
-                    isBuild={response.build}
-                  />
-                </FlexItem>
-              </Flex>
-            </GridItem>
-          </Grid>
-          <SkeletonLoader
-            skeletonProps={{ width: 400 }}
-            status={status || STATUS.PENDING}
-          >
-            {response && (
-              <Text ouiaId="date-text" component={TextVariants.span}>
-                <RelativeDateTime date={response.created_at} defaultValue="N/A">
-                  {date => sprintf(__('Created %s'), date)}
-                </RelativeDateTime>{' '}
-                {response.creator
-                  ? `${sprintf(__('by %s'), response.creator)}`
-                  : ''}{' '}
-                <RelativeDateTime date={response.updated_at} defaultValue="N/A">
-                  {date => sprintf(__('(updated %s)'), date)}
-                </RelativeDateTime>
-              </Text>
-            )}
-          </SkeletonLoader>
-        </div>
-        {tabs && (
-          <CardExpansionContextWrapper>
-            <TabRouter
-              response={response}
-              hostName={id}
-              status={status}
-              tabs={tabs}
-              router={history}
-            >
-              <Tabs
-                ouiaId="host-details-tabs"
-                activeKey={activeTab}
-                className={`host-details-tabs tab-width-${
-                  isNavCollapsed ? '138' : '263'
-                }`}
-              >
-                {filteredTabs.map(tab => {
-                  const tabID = `${tab.toLowerCase()}-tab`;
-                  return (
-                    <Tab
-                      key={tab}
-                      id={tabID}
-                      ouiaId={tabID}
-                      eventKey={tab}
-                      title={slotMetadata?.[tab]?.title || tab}
-                    />
-                  );
-                })}
-              </Tabs>
-            </TabRouter>
-          </CardExpansionContextWrapper>
-        )}
+                      >
+                        {response?.operatingsystem_name}
+                      </Label>
+                    </SplitItem>
+                    <SplitItem>
+                      <Label
+                        isCompact
+                        color="blue"
+                        render={({ className, content, componentRef }) => (
+                          <Link
+                            to={`/hosts?search=architecture=${response?.architecture_name}`}
+                            className={className}
+                            innerRef={componentRef}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {content}
+                          </Link>
+                        )}
+                      >
+                        {response?.architecture_name}
+                      </Label>
+                    </SplitItem>
+                  </Split>
+                </>
+              )}
+            </SkeletonLoader>
+          </GridItem>
+          <GridItem offset={8} span={4}>
+            <Flex>
+              <FlexItem align={{ default: 'alignRight' }}>
+                <ActionsBar
+                  computeId={response.compute_resource_id}
+                  hostFriendlyId={id}
+                  hostId={response.id}
+                  hostName={response.name}
+                  permissions={response.permissions}
+                  isBuild={response.build}
+                />
+              </FlexItem>
+            </Flex>
+          </GridItem>
+        </Grid>
+        <SkeletonLoader
+          skeletonProps={{ width: 400 }}
+          status={status || STATUS.PENDING}
+        >
+          {response && (
+            <Text ouiaId="date-text" component={TextVariants.span}>
+              <RelativeDateTime date={response.created_at} defaultValue="N/A">
+                {date => sprintf(__('Created %s'), date)}
+              </RelativeDateTime>{' '}
+              {response.creator
+                ? `${sprintf(__('by %s'), response.creator)}`
+                : ''}{' '}
+              <RelativeDateTime date={response.updated_at} defaultValue="N/A">
+                {date => sprintf(__('(updated %s)'), date)}
+              </RelativeDateTime>
+            </Text>
+          )}
+        </SkeletonLoader>
       </PageSection>
+      {tabs && (
+        <CardExpansionContextWrapper>
+          <TabRouter
+            response={response}
+            hostName={id}
+            status={status}
+            tabs={tabs}
+            router={history}
+          >
+            <Tabs
+              ouiaId="host-details-tabs"
+              activeKey={activeTab}
+              className={`host-details-tabs tab-width-${
+                isNavCollapsed ? '138' : '263'
+              }`}
+            >
+              {filteredTabs.map(tab => {
+                const tabID = `${tab.toLowerCase()}-tab`;
+                return (
+                  <Tab
+                    key={tab}
+                    id={tabID}
+                    ouiaId={tabID}
+                    eventKey={tab}
+                    title={slotMetadata?.[tab]?.title || tab}
+                  />
+                );
+              })}
+            </Tabs>
+          </TabRouter>
+        </CardExpansionContextWrapper>
+      )}
     </>
   );
 };
