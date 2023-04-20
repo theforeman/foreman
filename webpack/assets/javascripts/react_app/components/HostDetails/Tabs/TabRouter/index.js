@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { PageSection } from '@patternfly/react-core';
 import { HashRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { STATUS } from '../../../../constants';
 import Slot from '../../../common/Slot';
@@ -8,31 +9,35 @@ import TabsWithHashHistory from './Tabs';
 
 const TabRouter = ({ children, tabs, hostName, response, status, router }) => (
   <HashRouter>
-    <>
+    <PageSection
+      variant="light"
+      padding={{ default: 'noPadding' }}
+      className="host-details-tabs-section"
+    >
       <TabsWithHashHistory tabs={children} />
-      <Switch ouiaId="tab-router-switch">
-        <Route path="/" exact>
-          <Redirect to={`/${DEFAULT_TAB}`} />
-        </Route>
-        {tabs.map(tab => (
-          <Route
-            key={tab}
-            path={`/${tab}`}
-            render={props => (
-              <Slot
-                hostName={hostName}
-                response={response}
-                status={status}
-                id="host-details-page-tabs"
-                fillID={tab}
-                router={router}
-                {...props}
-              />
-            )}
-          />
-        ))}
-      </Switch>
-    </>
+    </PageSection>
+    <Switch ouiaId="tab-router-switch">
+      <Route path="/" exact>
+        <Redirect to={`/${DEFAULT_TAB}`} />
+      </Route>
+      {tabs.map(tab => (
+        <Route
+          key={tab}
+          path={`/${tab}`}
+          render={props => (
+            <Slot
+              hostName={hostName}
+              response={response}
+              status={status}
+              id="host-details-page-tabs"
+              fillID={tab}
+              router={router}
+              {...props}
+            />
+          )}
+        />
+      ))}
+    </Switch>
   </HashRouter>
 );
 

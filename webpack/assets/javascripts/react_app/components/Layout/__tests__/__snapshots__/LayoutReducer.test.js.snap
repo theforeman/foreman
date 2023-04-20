@@ -1,17 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Layout reducer should handle LAYOUT_CHANGE_ACTIVE 1`] = `
-Object {
-  "activeMenu": "Monitor",
-  "isCollapsed": false,
-  "isLoading": false,
-  "items": Array [],
-}
-`;
-
 exports[`Layout reducer should handle LAYOUT_COLLAPSE 1`] = `
 Object {
-  "activeMenu": "initialActive",
   "isCollapsed": true,
   "isLoading": false,
   "items": Array [],
@@ -20,7 +10,6 @@ Object {
 
 exports[`Layout reducer should handle LAYOUT_EXPAND 1`] = `
 Object {
-  "activeMenu": "initialActive",
   "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
@@ -29,7 +18,6 @@ Object {
 
 exports[`Layout reducer should handle LAYOUT_HIDE_LOADING 1`] = `
 Object {
-  "activeMenu": "initialActive",
   "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
@@ -38,7 +26,6 @@ Object {
 
 exports[`Layout reducer should handle LAYOUT_INITIALIZE 1`] = `
 Object {
-  "activeMenu": "some-menu",
   "currentLocation": "some location",
   "currentOrganization": "some organization",
   "isCollapsed": true,
@@ -49,7 +36,6 @@ Object {
 
 exports[`Layout reducer should handle LAYOUT_SHOW_LOADING 1`] = `
 Object {
-  "activeMenu": "initialActive",
   "isCollapsed": false,
   "isLoading": true,
   "items": Array [],
@@ -58,7 +44,6 @@ Object {
 
 exports[`Layout reducer should return the initial state 1`] = `
 Object {
-  "activeMenu": "initialActive",
   "isCollapsed": false,
   "isLoading": false,
   "items": Array [],

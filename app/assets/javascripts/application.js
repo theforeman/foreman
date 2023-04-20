@@ -423,7 +423,7 @@ function set_fullscreen(element) {
     .before("<span id='fullscreen-placeholder'></span>")
     .data('position', $(window).scrollTop())
     .addClass('fullscreen')
-    .appendTo($('.container-pf-nav-pf-vertical'))
+    .appendTo($('#rails-app-content'))
     .resize()
     .after(exit_button);
   $('#content').addClass('hidden');

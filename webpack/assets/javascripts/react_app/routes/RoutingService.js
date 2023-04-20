@@ -55,4 +55,5 @@ const updatePath = newPath => {
 const removeRailsContent = () => {
   const railsContainer = document.getElementById('rails-app-content');
   if (railsContainer) railsContainer.remove();
+  document.body.classList.add('react-page');
 };

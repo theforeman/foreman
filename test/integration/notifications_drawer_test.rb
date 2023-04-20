@@ -47,7 +47,7 @@ class NotificationsDrawerIntegrationTest < IntegrationTestWithJavascript
 
   def navigate_somewhere_with_turbolinks
     # check the outside click with turbolinks
-    page.find('a.navbar-brand').click
+    page.find('a.pf-c-masthead__brand').click
     # wait for loader to dissapear
     page.has_no_selector?('div.spinner')
   end
