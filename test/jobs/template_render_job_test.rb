@@ -20,7 +20,7 @@ class TemplateRenderJobTest < ActiveJob::TestCase
 
     it 'render report and delivers it to mail' do
       mailer = mock('mailer')
-      mailer.expects('deliver_now')
+      mailer.expects('deliver_later')
       composer_params = { 'foo' => 'bar', 'send_mail' => true, 'mail_to' => 'test@example.org', 'gzip' => true }
 
       ReportComposer.any_instance.expects('render').returns('result')

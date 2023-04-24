@@ -28,7 +28,7 @@ class ApplicationMailerTest < ActiveSupport::TestCase
   end
 
   def mail(to = 'nobody@example.com', subject = 'Danger, Will Robinson!')
-    TestMailer.test(to, subject).deliver_now
+    TestMailer.test(to, subject).deliver_later
     ActionMailer::Base.deliveries.last
   end
 

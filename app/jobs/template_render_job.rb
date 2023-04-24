@@ -12,7 +12,7 @@ class TemplateRenderJob < ApplicationJob
       result = composer.render
       end_time = Time.now
       if composer.send_mail?
-        ReportMailer.report(composer_params, result, start: start_time, end: end_time).deliver_now
+        ReportMailer.report(composer_params, result, start: start_time, end: end_time).deliver_later
       else
         StoredValue.write(provider_job_id, result, expire_at: Time.now + 1.day)
         UINotifications::ReportFinished.new(composer, provider_job_id).deliver!

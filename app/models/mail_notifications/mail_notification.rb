@@ -47,10 +47,10 @@ class MailNotification < ApplicationRecord
     if args.last.is_a?(Hash) && args.last.has_key?(:users)
       options = args.pop
       options.delete(:users).each do |user|
-        mailer.constantize.send(method, *args, options.merge(:user => user)).deliver_now
+        mailer.constantize.send(method, *args, options.merge(:user => user)).deliver_later
       end
     else
-      mailer.constantize.send(method, *args).deliver_now
+      mailer.constantize.send(method, *args).deliver_later
     end
   end
 end
