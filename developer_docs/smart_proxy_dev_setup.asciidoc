@@ -26,7 +26,7 @@ By default, Smart Proxy does not listen on any port and SSL is not configured, s
 
 [source, bash]
 ....
-# config/settings.yaml
+# config/settings.yml
 :http_port: 8080
 :foreman_url: http://localhost:3000
 :bind_host: ['*']
