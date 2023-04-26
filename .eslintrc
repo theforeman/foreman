@@ -42,6 +42,8 @@
           "debian",
           "decrement", // should be removed once https://github.com/aotaduy/eslint-plugin-spellcheck/issues/67 is resolved.
           "devs",
+          "dgettext",
+          "dngettext",
           "donut",
           "dow",
           "dropdown",
@@ -93,6 +95,7 @@
           "navitem",
           "netgroups",
           "networksurl",
+          "ngettext",
           "nic",
           "nfs",
           "nonpersistent",

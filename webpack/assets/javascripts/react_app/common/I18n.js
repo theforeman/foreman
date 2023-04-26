@@ -45,6 +45,16 @@ const cheveronSuffix = () => (window.I18N_MARK ? '\u00AB' : '');
 
 export const documentLocale = () => langAttr;
 
+const unwrapLocaleDomains = (locales, locale) => {
+  const result = locales[locale];
+  Object.entries(locales).forEach(([key, localeData]) => {
+    if (locale in localeData && 'domain' in localeData[locale]) {
+      result.locale_data[key] = localeData[locale].locale_data[key];
+    }
+  });
+  return result;
+};
+
 const getLocaleData = () => {
   const locales = window.locales || {};
   const locale = documentLocale().replace(/-/g, '_');
@@ -56,16 +66,39 @@ const getLocaleData = () => {
     );
     return { domain: 'app', locale_data: { app: { '': {} } } };
   }
-
-  return locales[locale];
+  return unwrapLocaleDomains(locales, locale);
 };
 
 export const jed = forceSingleton('Jed', () => new Jed(getLocaleData()));
 
+export const strictJed = forceSingleton('strictJed', () => {
+  const options = {
+    ...jed.options,
+    missing_key_callback: (_key, _domain) => {
+      throw new Error('Key not found');
+    },
+  };
+  return new Jed(options);
+});
+
+const multidomain = (strict, fallback) => (...args) => {
+  // eslint-disable-next-line no-unused-vars
+  for (const domain of Object.keys(strictJed.options.locale_data)) {
+    try {
+      return strictJed[strict](domain, ...args);
+    } catch {} // eslint-disable-line no-empty
+  }
+  return jed[fallback](...args);
+};
+
+export const multidomainTranslate = multidomain('dgettext', 'gettext');
+
+export const multidomainngettext = multidomain('dngettext', 'ngettext');
+
 export const translate = (...args) =>
-  `${cheveronPrefix()}${jed.gettext(...args)}${cheveronSuffix()}`;
+  `${cheveronPrefix()}${multidomainTranslate(...args)}${cheveronSuffix()}`;
 export const ngettext = (...args) =>
-  `${cheveronPrefix()}${jed.ngettext(...args)}${cheveronSuffix()}`;
+  `${cheveronPrefix()}${multidomainngettext(...args)}${cheveronSuffix()}`;
 
 export const { sprintf } = jed;
 

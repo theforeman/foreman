@@ -51,6 +51,38 @@ begin
 
     Rake::Task['gettext:find'].invoke
   end
+
+  desc 'Convert plugin strings to json - called via rake plugin:po_to_json[plugin_name]'
+  task 'plugin:po_to_json', [:engine] => [:environment] do |t, args|
+    unless args[:engine]
+      puts "You must specify the name of the plugin (e.g. rake plugin:po_to_json['my_plugin'])"
+      exit 1
+    end
+
+    plugin = Foreman::Plugin.find(args[:engine]) or raise("Unable to find registered plugin #{args[:engine]}")
+    engine = plugin.engine
+    domain = plugin.gettext_domain
+
+    raise "Plugin '#{plugin.name}' does not have translations registered'" unless domain
+
+    module GettextI18nRailsJs::Task
+      def locale_path
+        @locale_path
+      end
+    end
+
+    GettextI18nRailsJs.config.jed_options = {
+      pretty: false,
+      domain: domain,
+      variable: "locales['#{domain}']",
+      variable_locale_scope: false,
+    }
+    GettextI18nRailsJs.config.domain = domain
+    GettextI18nRailsJs.config.rails_engine = engine
+
+    GettextI18nRailsJs::Task.instance_variable_set(:@locale_path, engine.root)
+    GettextI18nRailsJs::Task.po_to_json
+  end
 rescue LoadError
   # gettext unavailable
   # this can happen as gettext is a development-only dependency used in
