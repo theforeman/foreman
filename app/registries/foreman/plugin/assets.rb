@@ -51,6 +51,15 @@ module Foreman
           p.start_with?("#{id}/") || p.start_with?("#{id.to_s.tr('-', '_')}/")
         end
 
+        if gettext_domain
+          prefix = 'locale/'
+          suffix = "#{gettext_domain}.js"
+          locale_assets, outside_prefix = outside_prefix.partition do |p|
+            p.start_with?(prefix) && p.end_with?(suffix)
+          end
+          new_assets += locale_assets
+        end
+
         if outside_prefix.present?
           Rails.logger.debug "Plugin #{id} has assets outside of its namespace, these will be ignored: #{outside_prefix.join(', ')}"
         end

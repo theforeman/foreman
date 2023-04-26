@@ -2477,6 +2477,23 @@ gemspec file list. The .po and .mo files are important in development
 and production environments respectively, so must both be shipped in the
 gem.
 
+[[registering-translations]]
+=== Registering Translations
+_Requires Foreman 3.7 or higher, set `requires_foreman '>= 3.7'` in
+engine.rb_
+
+If your plugin has translations, you can register its gettext domain to have the
+translations processed properly. The `domain` keyword argument can be omitted,
+in which case the domain will be derived from plugin name.
+
+[source, ruby]
+....
+Foreman::Plugin.register :sample_plugin do
+  # other code here
+  register_gettext domain: "sample_plugin"
+end
+....
+
 [[translating-template-kind]]
 === Translating Template Kind
 
