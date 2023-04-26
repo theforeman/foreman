@@ -32,6 +32,7 @@
       <% end %>
     </script>
     <%= javascript_include_tag "locale/#{FastGettext.locale}/app" %>
+    <%= locale_js_tags %>
     <%= javascript_include_tag *webpack_asset_paths('foreman-vendor', :extension => 'js') %>
     <%= javascript_include_tag *webpack_asset_paths('vendor', :extension => 'js') %>
     <%= javascript_include_tag *webpack_asset_paths('bundle', :extension => 'js') %>

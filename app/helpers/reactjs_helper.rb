@@ -65,6 +65,16 @@ module ReactjsHelper
     end
   end
 
+  def locale_js_tags
+    locale = FastGettext.locale
+    ::Foreman::Plugin.all.filter_map do |plugin|
+      domain = plugin.gettext_domain
+      if domain && (FastGettext.translation_repositories[domain]&.available_locales || []).include?(locale)
+        javascript_include_tag("locale/#{locale}/#{domain}")
+      end
+    end.join.html_safe
+  end
+
   private
 
   def global_plugins_list

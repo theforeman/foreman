@@ -2387,6 +2387,7 @@ folder):
 $ mkdir ../foreman_plugin/locale
 $ mkdir ../foreman_plugin/locale/en
 $ rake plugin:gettext[foreman_plugin]
+$ rake plugin:po_to_json[foreman_plugin]
 ----
 
 This should create locale/foreman_plugin.pot file. Edit the header
@@ -2455,7 +2456,9 @@ the latest updates:
 `make -C locale tx-update`
 2.  In the Foreman dir, merge the updates into the PO files:
 `rake plugin:gettext[foreman_plugin]`
-3.  In the plugin dir, rebuild the MO files: `make -C locale mo-files`
+3.  In the Foreman dir, generate files with translations for use in frontend:
+`rake plugin:po_to_json[foreman_plugin]`
+4.  In the plugin dir, rebuild the MO files: `make -C locale mo-files`
 
 These files should be .gitignored:
 
@@ -2467,6 +2470,7 @@ locale/*/*.po.time_stamp
 These files must be committed to git:
 
 ....
+app/assets/javascripts/locale/**/*.js
 locale/foreman_plugin.pot +
 locale/*/foreman_plugin.po +
 locale/*/LC_MESSAGES/foreman_plugin.mo
