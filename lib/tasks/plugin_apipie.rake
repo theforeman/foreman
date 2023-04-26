@@ -5,11 +5,9 @@ task 'plugin:apipie:cache', :engine do |t, args|
     # the need of a database being setup
     Rails.application.initialize!
 
-    path_name = args[:engine].tr('-', '_')
-    @engine = "#{path_name.camelize}::Engine".constantize
+    plugin = Foreman::Plugin.find(args[:engine]) or raise("Unable to find registered plugin #{args[:engine]}")
+    @engine = plugin.engine
     @engine_root = @engine.root
-
-    plugin = Foreman::Plugin.find(args[:engine])
 
     Apipie.configuration.ignored = plugin.apipie_ignored_controllers || []
     api_controllers = plugin.apipie_documented_controllers || ["#{@engine_root}/app/controllers/#{path_name}/api/*.rb"]

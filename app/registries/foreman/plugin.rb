@@ -159,7 +159,7 @@ module Foreman #:nodoc:
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
       :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
       :renderer_variable_loaders, :host_ui_description, :hostgroup_ui_description, :ping_extension, :status_extension,
-      :allowed_registration_vars, :observable_events
+      :allowed_registration_vars, :observable_events, :gettext_domain, :locale_path
 
     delegate :fact_importer_registry, :fact_parser_registry, :graphql_types_registry, :medium_providers_registry, :report_scanner_registry, :report_origin_registry, to: :class
 
@@ -188,6 +188,8 @@ module Foreman #:nodoc:
       @status_extension = nil
       @allowed_registration_vars = []
       @observable_events = []
+      @gettext_domain = nil
+      @locale_path = nil
     end
 
     def engine
@@ -565,6 +567,11 @@ module Foreman #:nodoc:
 
     def register_status_extension(&block)
       @status_extension = block
+    end
+
+    def register_gettext(domain: nil)
+      @gettext_domain = domain || @id.to_s
+      @locale_path = engine.root.join('locale')
     end
 
     def extend_graphql_type(type:, with_module: nil, &block)

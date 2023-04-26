@@ -20,15 +20,22 @@ begin
     end
   end
 
-  desc 'Extract plugin strings - called via rake plugin:gettext[plugin_name]'
-  task 'plugin:gettext', :engine do |t, args|
-    @domain = args[:engine]
-    @engine = "#{@domain.camelize}::Engine".constantize
-    @engine_root = @engine.root
+  desc 'Extract plugin strings - called via rake plugin:gettext[engine]'
+  task 'plugin:gettext', [:engine] => [:environment] do |t, args|
+    unless args[:engine]
+      puts "You must specify the name of the plugin (e.g. rake plugin:gettext['my_plugin'])"
+      exit 1
+    end
+
+    @plugin = Foreman::Plugin.find(args[:engine]) or raise("Unable to find registered plugin #{args[:engine]}")
+    @engine = @plugin.engine
+    @domain = @plugin.gettext_domain
+
+    raise "Plugin '#{@plugin.name}' does not have translations registered'" unless @domain
 
     namespace :gettext do
       def locale_path
-        "#{@engine_root}/locale"
+        @plugin.locale_path
       end
 
       def files_to_translate
@@ -40,7 +47,7 @@ begin
       end
     end
 
-    Foreman::Gettext::Support.add_text_domain @domain, "#{@engine_root}/locale"
+    Foreman::Gettext::Support.add_text_domain @domain, @plugin.locale_path
 
     Rake::Task['gettext:find'].invoke
   end
