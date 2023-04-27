@@ -65,6 +65,7 @@ Enable feature
 # all configuration options
 ---
 :enabled: true
+:working_dir: '/path/to/empty/working/directory'
 ....
 
 Set path to `ansible-runner-environment`
