@@ -1,6 +1,7 @@
+#!gpxe
 <%#
-kind: PXELinux
-name: Preseed default PXELinux Autoinstall
+kind: iPXE
+name: Preseed default iPXE Autoinstall
 model: ProvisioningTemplate
 oses:
 - ubuntu
@@ -24,10 +25,15 @@ test_on:
 # the official Ubuntu documentation and extract the files from the LiveCD (DVD) manually
 # and optionally update the KERNEL and INITRD lines in this template.
 #
-DEFAULT linux cloud-init autoinstall
-LABEL linux cloud-init autoinstall
-    KERNEL <%= @kernel %>
-    INITRD <%= @initrd %>
-    APPEND root=/dev/ram0 <%= snippet('preseed_kernel_options_autoinstall').strip %>
 
-<%= snippet_if_exists(template_name + " custom menu") %>
+<% boot_files_uris = @host.operatingsystem.boot_files_uri(medium_provider) -%>
+<% kernel = boot_files_uris[0] -%>
+<% initrd = boot_files_uris[1] -%>
+
+kernel <%= kernel %> initrd=initrd root=/dev/rd/0 rw auto <%= snippet('preseed_kernel_options_autoinstall').strip %>
+
+initrd <%= initrd %>
+
+imgstat
+sleep 2
+boot

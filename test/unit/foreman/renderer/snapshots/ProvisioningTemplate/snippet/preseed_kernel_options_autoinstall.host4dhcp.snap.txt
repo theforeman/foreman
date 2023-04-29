@@ -1,3 +1,0 @@
-
-
-ip=dhcp console-setup/ask_detect=false localechooser/translation/warn-light=true localechooser/translation/warn-severe=true hostname=snapshot-ipv4-dhcp-el7 domain=snap.example.com

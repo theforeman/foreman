@@ -9,7 +9,6 @@
 # lang = en_US
 #   System locale
 #
-#
 # WARNING
 #
 # Foreman will not download the kernel/initramdisk to PXE automatically. Please follow
@@ -20,6 +19,6 @@ DEFAULT linux cloud-init autoinstall
 LABEL linux cloud-init autoinstall
     KERNEL boot/ubuntu-mirror-rf32u3HGTMZf-vmlinuz
     INITRD boot/ubuntu-mirror-rf32u3HGTMZf-initrd
-    APPEND root=/dev/ram0 ramdisk_size=1500000 fsck.mode=skip url=http://archive.ubuntu.com:80/ubuntu.iso cloud-config-url=/dev/null ds=nocloud-net;s=http://foreman.example.com/userdata/ autoinstall ip=dhcp console-setup/ask_detect=false localechooser/translation/warn-light=true localechooser/translation/warn-severe=true hostname=snapshot-ipv4-dhcp-ubuntu20 domain=snap.example.com
+    APPEND root=/dev/ram0 ip=dhcp ramdisk_size=1500000 fsck.mode=skip autoinstall url=http://archive.ubuntu.com:80/ubuntu.iso cloud-config-url=/dev/null ds=nocloud-net;s=http://foreman.example.com/userdata/00-f0-54-1a-7e-e0/ console-setup/ask_detect=false locale=en_US localechooser/translation/warn-light=true localechooser/translation/warn-severe=true hostname=snapshot-ipv4-dhcp-ubuntu20 domain=snap.example.com
 
 

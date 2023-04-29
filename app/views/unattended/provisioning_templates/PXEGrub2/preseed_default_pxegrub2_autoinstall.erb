@@ -20,20 +20,13 @@ test_on:
 #
 <%
   efi_suffix = 'efi'
-  image_path = @preseed_path.sub(/\/?$/, '.iso')
-  options = []
-  options << 'ramdisk_size=1500000'
-  options << 'root=/dev/rd/0 rw auto'
-  options << "url=http://#{@preseed_server}#{image_path}"
-  options << 'cloud-config-url=/dev/null'
-  options << 'autoinstall'
 -%>
 
 set default=0
 set timeout=<%= host_param('loader_timeout') || 10 %>
 
 menuentry '<%= template_name %>' {
-  linux<%= efi_suffix %> <%= @kernel %> <%= options.compact.join(' ') %> "ds=nocloud-net;s=http://<%= foreman_request_addr %>/userdata/" <%= snippet('preseed_kernel_options_autoinstall').strip %>
+  linux<%= efi_suffix %> <%= @kernel %> root=/dev/rd/0 rw auto <%= snippet('preseed_kernel_options_autoinstall', variables: {add_userdata_quotes: true}).strip %>
   initrd<%= efi_suffix %> <%= @initrd %>
 }
 

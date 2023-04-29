@@ -79,3 +79,4 @@ files:
   - iPXE/ipxe_intermediate_script.erb
   - iPXE/kickstart_default_ipxe.erb
   - iPXE/preseed_default_ipxe.erb
+  - iPXE/preseed_default_ipxe_autoinstall.erb
