@@ -1,0 +1,3 @@
+
+
+ip=dhcp ramdisk_size=1500000 fsck.mode=skip autoinstall url=http://archive.ubuntu.com:80/ubuntu.iso cloud-config-url=/dev/null ds=nocloud-net;s=http://foreman.example.com/userdata/00-f0-54-1a-7e-e0/ console-setup/ask_detect=false locale=en_US localechooser/translation/warn-light=true localechooser/translation/warn-severe=true hostname=snapshot-ipv4-dhcp-ubuntu20 domain=snap.example.com

@@ -3,7 +3,11 @@ kind: snippet
 name: preseed_kernel_options_autoinstall
 model: ProvisioningTemplate
 snippet: true
-description: options for the kernel / preseed startup initialization 
+description: options for the kernel / preseed startup initialization
+oses:
+- ubuntu
+test_on:
+- ubuntu_autoinst4dhcp
 -%>
 <%
   hostname = @host.name
@@ -12,6 +16,8 @@ description: options for the kernel / preseed startup initialization
   mac = @host.provision_interface.mac
   subnet4 = iface.subnet
   subnet6 = iface.subnet6
+  image_path = @preseed_path.sub(/\/?$/, '.iso')
+  userdata_option = "ds=nocloud-net;s=http://#{foreman_request_addr}/userdata/#{mac ? mac + '/' : ''}"
   options = []
 
   if host_param('blacklist')
@@ -30,7 +36,18 @@ description: options for the kernel / preseed startup initialization
     options << "ip=[#{iface.ip6}]::[#{subnet6.gateway}]:[#{subnet6.mask}]:#{hostname}:#{iface.identifier}:none:[#{subnet6.dns_servers.join(']:[')}]"
   end
 
+  options << 'ramdisk_size=1500000'
+  options << 'fsck.mode=skip'
+  options << 'autoinstall'
+  options << "url=http://#{@preseed_server}#{image_path}"
+  options << 'cloud-config-url=/dev/null'
+  if @add_userdata_quotes
+    options << "\"#{userdata_option}\""
+  else
+    options << userdata_option
+  end
   options << 'console-setup/ask_detect=false'
+  options << "locale=#{host_param('lang') || 'en_US'}"
   options << 'localechooser/translation/warn-light=true'
   options << 'localechooser/translation/warn-severe=true'
   options << "hostname=#{hostname}"
