@@ -1,10 +1,10 @@
 import React from 'react';
-import { Spinner } from 'patternfly-react';
+import { Spinner } from '@patternfly/react-core';
 import './loadingpage.scss';
 
 const LoadingPage = () => (
   <div id="loading-page">
-    <Spinner loading size="lg" />
+    <Spinner isSVG size="xl" aria-label="Loading Page" />
   </div>
 );
 
