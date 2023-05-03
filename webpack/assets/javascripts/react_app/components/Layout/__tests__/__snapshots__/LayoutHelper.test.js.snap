@@ -168,21 +168,3 @@ Array [
   },
 ]
 `;
-
-exports[`LayoutHelper should getActiveMenuItem(Hosts, "/hosts/new") 1`] = `
-Object {
-  "title": "Hosts",
-}
-`;
-
-exports[`LayoutHelper should getActiveMenuItem(Monitor, null) 1`] = `
-Object {
-  "title": "Monitor",
-}
-`;
-
-exports[`LayoutHelper should getActiveMenuItem(null) 1`] = `
-Object {
-  "title": "",
-}
-`;

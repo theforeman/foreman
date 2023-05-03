@@ -55,7 +55,7 @@ class ActionDispatch::IntegrationTest
   end
 
   def assert_breadcrumb_text(text)
-    assert page.has_selector?(:xpath, "//div[@id='breadcrumb']//*[contains(.,'#{text}')]"), "#{text} was expected in the div[id='breadcrumb'] tag, but was not found"
+    assert page.has_selector?(:xpath, "//section//div[contains(@class, 'breadcrumb-bar') or contains(@id, 'breadcrumb')]  //*[contains(.,'#{text}')]"), "#{text} was expected in //section//div[contains(@class, 'breadcrumb-bar') or contains(@id, 'breadcrumb')], but was not found"
   end
 
   def assert_new_button(index_path, new_link_text, new_path)
@@ -208,7 +208,7 @@ class ActionDispatch::IntegrationTest
   def refute_available_organization_menu(organization)
     within('.location-menu') do
       first('button').click
-      within('.location-menu section ul ul', visible: :all) do
+      within('.location-menu section ul', visible: :all) do
         assert page.has_no_link?(organization)
       end
     end

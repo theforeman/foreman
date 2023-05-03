@@ -1,5 +1,4 @@
 import { snakeCase } from 'lodash';
-import { noop } from '../../common/helpers';
 
 export const selectLayout = state => state.layout;
 
@@ -39,5 +38,5 @@ const childToMenuItem = (child, currentLocation, currentOrganization) => ({
       : '',
   href: child.url || '#',
   preventHref: true,
-  onClick: child.onClick || noop,
+  onClick: child.onClick || null,
 });

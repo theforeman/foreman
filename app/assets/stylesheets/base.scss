@@ -13,14 +13,23 @@ html {
   overflow: auto;
   height: calc(100% - 70px);
   margin-left: 250px;
+  .rails-table-toolbar {
+    padding-bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
   &.pf-c-page {
     display: block;
     grid-template-columns: unset;
     grid-template-areas: unset;
   }
+
 }
 
 body {
+  position: absolute; // needed for firefox 100% height bug
+  overflow: auto;
   height: 100%;
   width: 100%;
 }
@@ -170,15 +179,14 @@ select {
   padding-bottom: 9px;
 }
 
-.title_filter_parent {
-  overflow: hidden; // so that the parent will have a height
-  padding-bottom: 0;
-  .title_filter {
-    padding-left: 0;
-  }
+.title_filter {
+  flex-grow: 1;
+  padding-left: 0;
 }
 
 #title_action {
+  flex-grow: 1;
+  display: flex;
   padding-left: 8px;
   padding-bottom: 12px;
 }
