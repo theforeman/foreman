@@ -4,11 +4,6 @@
   .nav a {
     font-size: 13px;
   }
-
-  .user-icon {
-    margin-right: 10px;
-  }
-
   .active > a,
   .open > a {
     background: linear-gradient(
@@ -25,4 +20,7 @@
 
 .pf-c-masthead {
   background: var(--pf-c-masthead--BackgroundColor) image-url('navbar.png');
+  .user-icon {
+    margin-right: 10px;
+  }
 }

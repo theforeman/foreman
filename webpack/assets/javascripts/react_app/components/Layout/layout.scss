@@ -31,6 +31,7 @@
 
 .pf-c-nav {
   .nav-title-icon {
+    pointer-events: none;
     padding-right: 10px;
   }
   .nav-title {
@@ -46,16 +47,9 @@
     // in small screens, the expandable items have css to add a second border
     border-bottom: none;
   }
-}
-
-.pf-c-nav {
-  .nav-title-icon {
-    pointer-events: none;
-    padding-right: 10px;
-  }
-
-  .nav-title {
-    pointer-events: none;
+  
+  .pf-m-expandable>.pf-c-nav__link{
+    text-align: left;
   }
 }
 

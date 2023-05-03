@@ -279,6 +279,7 @@ function updateCounter() {
 
   item.attr('data-original-title', title);
   item.tooltip({
+    container: 'body',
     trigger: 'hover',
   });
   return false;

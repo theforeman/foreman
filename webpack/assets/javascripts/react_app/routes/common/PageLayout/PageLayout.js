@@ -45,7 +45,7 @@ const PageLayout = ({
     {(searchable || beforeToolbarComponent || isLoading || toolbarButtons) && (
       <PageSection variant={PageSectionVariants.light}>
         {beforeToolbarComponent}
-        <div>
+        <div className="title_filter_parent">
           <Col className="title_filter" md={searchable ? 6 : 4}>
             {searchable && (
               <SearchBar
@@ -56,9 +56,8 @@ const PageLayout = ({
                 onSearch={onSearch}
               />
             )}
-            &nbsp;
           </Col>
-          <Col id="title_action" md={searchable ? 6 : 8}>
+          <Col md={searchable ? 6 : 8}>
             <div className="btn-toolbar pull-right">
               {isLoading && (
                 <div id="toolbar-spinner">

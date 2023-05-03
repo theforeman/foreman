@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // eslint bug - https://github.com/eslint/eslint/issues/12117
 
 import { isEmpty } from 'lodash';
@@ -22,21 +21,6 @@ export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
 
 export const getCurrentPath = () =>
   removeLastSlashFromPath(window.location.pathname);
-
-export const getActiveMenuItem = (items, path = getCurrentPath()) => {
-  for (const item of items) {
-    for (const child of item.children) {
-      if (child.exact) {
-        if (path === child.url) return { title: item.name };
-      } else if (path.startsWith(child.url)) return { title: item.name };
-    }
-  }
-  return { title: '' };
-};
-
-export const handleMenuClick = (primary, activeMenu, changeActive) => {
-  if (primary.title !== __(activeMenu)) changeActive(primary);
-};
 
 export const combineMenuItems = data => {
   const items = [];

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
@@ -6,7 +6,6 @@ import {
   NavList,
   NavItem,
   NavExpandable,
-  NavGroup,
   NavItemSeparator,
 } from '@patternfly/react-core';
 import { getCurrentPath } from './LayoutHelper';
@@ -19,20 +18,23 @@ const titleWithIcon = (title, iconClass) => (
 );
 
 const Navigation = ({
+  navigate,
   items,
   navigationActiveItem,
   setNavigationActiveItem,
 }) => {
-  const clearTimerRef = useRef();
-  useEffect(
-    () => () => {
-      if (clearTimerRef.current) clearTimeout(clearTimerRef.current);
-    },
-    []
-  );
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+    };
+  }, []);
 
   const onMouseOver = index => {
-    clearTimeout(clearTimerRef.current);
     if (navigationActiveItem !== index) {
       setNavigationActiveItem(index);
     }
@@ -50,10 +52,9 @@ const Navigation = ({
     });
   });
 
-  const getGroupedItems = useMemo(
+  const groupedItems = useMemo(
     () =>
       items.map(({ subItems, ...rest }) => {
-        const { pathname } = window.location;
         const groups = [];
         let currIndex = 0;
         if (subItems.length) {
@@ -69,7 +70,7 @@ const Navigation = ({
             } else {
               groups[currIndex].groupItems.push({
                 ...sub,
-                isActive: pathname === sub.href.split('?')[0],
+                isActive: currentPath === sub.href.split('?')[0],
               });
             }
           });
@@ -77,10 +78,18 @@ const Navigation = ({
         return { ...rest, groups };
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items.length]
+    [items.length, currentPath]
   );
 
-  const groupedItems = getGroupedItems;
+  const clickAndNavigate = (_onClick, href) => {
+    if (_onClick && typeof _onClick === 'function') {
+      _onClick();
+    } else {
+      navigate(href);
+    }
+
+    setCurrentPath(href);
+  };
   return (
     <Nav id="foreman-nav">
       <NavList>
@@ -103,36 +112,34 @@ const Navigation = ({
             >
               {groups.map((group, groupIndex) =>
                 groupIndex === 0 ? (
-                  <NavGroup key={0} title={group.title}>
-                    {group.groupItems.map(
-                      (
-                        {
-                          id,
-                          title: subItemTitle,
-                          className: subItemClassName,
-                          href,
-                          onClick,
-                          isActive,
-                        },
-                        groupItemsIndex
-                      ) => (
-                        <React.Fragment key={id}>
-                          <NavItem
-                            className={subItemClassName}
-                            id={id}
-                            to={href}
-                            onClick={onClick}
-                            isActive={isActive}
-                          >
-                            {subItemTitle}
-                          </NavItem>
-                          {groupItemsIndex !== group.groupItems.length - 1 && (
-                            <NavItemSeparator />
-                          )}
-                        </React.Fragment>
-                      )
-                    )}
-                  </NavGroup>
+                  group.groupItems.map(
+                    (
+                      {
+                        id,
+                        title: subItemTitle,
+                        className: subItemClassName,
+                        href,
+                        onClick,
+                        isActive,
+                      },
+                      groupItemsIndex
+                    ) => (
+                      <React.Fragment key={id}>
+                        <NavItem
+                          className={subItemClassName}
+                          id={id}
+                          // to={href}
+                          onClick={() => clickAndNavigate(onClick, href)}
+                          isActive={isActive}
+                        >
+                          {subItemTitle}
+                        </NavItem>
+                        {groupItemsIndex !== group.groupItems.length - 1 && (
+                          <NavItemSeparator />
+                        )}
+                      </React.Fragment>
+                    )
+                  )
                 ) : (
                   <React.Fragment key={groupIndex}>
                     <NavItemSeparator />
@@ -159,7 +166,7 @@ const Navigation = ({
                               className={subItemClassName}
                               id={id}
                               to={href}
-                              onClick={onClick}
+                              onClick={() => clickAndNavigate(onClick, href)}
                               isActive={isActive}
                             >
                               {subItemTitle}
@@ -184,6 +191,7 @@ const Navigation = ({
 };
 
 Navigation.propTypes = {
+  navigate: PropTypes.func.isRequired,
   items: PropTypes.array.isRequired,
   navigationActiveItem: PropTypes.number,
   setNavigationActiveItem: PropTypes.func.isRequired,
