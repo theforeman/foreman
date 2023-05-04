@@ -1433,9 +1433,6 @@ msgstr "소유자 변경"
 msgid "Change Power State"
 msgstr "전원 상태 변경"
 
-msgid "Change Puppet CA"
-msgstr "Puppet CA 변경"
-
 msgid "Change the password"
 msgstr "암호 변경"
 
@@ -2944,28 +2941,10 @@ msgstr "오류만 "
 msgid "Errors: %s"
 msgstr "오류: %s"
 
-msgid "Example value is <code>CN=Users,DC=example,DC=COM</code>"
-msgstr ""
-
-msgid "Example value is <code>CN=Users,DC=example,DC=com</code>"
-msgstr ""
-
-msgid "Example value is <code>DOMAIN\\foreman</code>"
+msgid "Example value is <code>%s</code>"
 msgstr ""
 
 msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
-msgstr ""
-
-msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>uid=foreman,dc=example,dc=com</code>"
 msgstr ""
 
 msgid "Examples"
@@ -6004,9 +5983,6 @@ msgstr "해당 없음 "
 msgid "N/A statuses"
 msgstr ""
 
-msgid "NA"
-msgstr "해당 없음 "
-
 msgid "NIC"
 msgstr "NIC"
 
@@ -8851,6 +8827,9 @@ msgstr ""
 msgid "Specify authentication type, if required"
 msgstr ""
 
+msgid "Split"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ssh key"
 msgstr ""
@@ -10205,6 +10184,9 @@ msgstr ""
 msgid "Unhide this value"
 msgstr "이 값 숨기기 취소"
 
+msgid "Unified"
+msgstr ""
+
 msgid "Unknown"
 msgstr "알 수 없음 "
 
@@ -11032,9 +11014,6 @@ msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"
 " User groups enable users to log into Foreman and be automatically granted permissions.\n"
 " A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
-msgstr ""
-
-msgid "Writing ERB Templates"
 msgstr ""
 
 msgid "Writing ERB templates"
@@ -11948,9 +11927,6 @@ msgstr "공백으로 구분된 옵션 (예: miimon=100)"
 msgid "specified template \"%s\" kind was not found"
 msgstr ""
 
-msgid "split"
-msgstr ""
-
 msgid "start"
 msgstr "시작 "
 
@@ -12016,9 +11992,6 @@ msgstr ""
 
 msgid "unable to sign a non pending certificate"
 msgstr "보류 중이 아닌 인증서에 서명할 수 없습니다 "
-
-msgid "unified"
-msgstr ""
 
 msgid "unknown network_type"
 msgstr ""

@@ -1506,9 +1506,6 @@ msgstr "Changer le propriétaire"
 msgid "Change Power State"
 msgstr "Changement de l'état d'alimentation"
 
-msgid "Change Puppet CA"
-msgstr "Changer le CA Puppet"
-
 msgid "Change the password"
 msgstr "Changer le mot de passe"
 
@@ -3018,29 +3015,11 @@ msgstr "Seulement les erreurs"
 msgid "Errors: %s"
 msgstr "Erreurs : %s"
 
-msgid "Example value is <code>CN=Users,DC=example,DC=COM</code>"
-msgstr "Exemple <code>CN=Users,DC=example,DC=COM</code>"
-
-msgid "Example value is <code>CN=Users,DC=example,DC=com</code>"
-msgstr "Exemple <code>CN=Users,DC=example,DC=com</code>"
-
-msgid "Example value is <code>DOMAIN\\foreman</code>"
-msgstr "Exemple <code>DOMAIN\\foreman</code>"
+msgid "Example value is <code>%s</code>"
+msgstr ""
 
 msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
 msgstr "Exemple <code>cn=groups,cn=accounts,dc=example,dc=com</code> ou <code>cn=ng,cn=compat,dc=example,dc=com</code> si vous utilisez netgroups"
-
-msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr "Exemple <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-
-msgid "Example value is <code>dc=example,dc=com</code>"
-msgstr "Exemple <code>dc=example,dc=com</code>"
-
-msgid "Example value is <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr "Exemple <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-
-msgid "Example value is <code>uid=foreman,dc=example,dc=com</code>"
-msgstr "Exemple <code>uid=foreman,dc=example,dc=com</code>"
 
 msgid "Examples"
 msgstr "Exemples"
@@ -6090,9 +6069,6 @@ msgstr "Sans objet"
 msgid "N/A statuses"
 msgstr "Statuts N/A"
 
-msgid "NA"
-msgstr "N/A"
-
 msgid "NIC"
 msgstr "NIC"
 
@@ -8953,6 +8929,9 @@ msgstr "Spécifie des options supplémentaires pour sendmail. Utilisé uniquemen
 msgid "Specify authentication type, if required"
 msgstr "Indiquer le type d'authentification, si besoin est"
 
+msgid "Split"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ssh key"
 msgstr "Clé ssh"
@@ -10316,6 +10295,9 @@ msgstr "Annuler la sélection"
 msgid "Unhide this value"
 msgstr "Réafficher cette valeur"
 
+msgid "Unified"
+msgstr ""
+
 msgid "Unknown"
 msgstr "Inconnu"
 
@@ -11163,9 +11145,6 @@ msgstr ""
 "Avec les groupes d'utilisateurs, vous pouvez regrouper vos utilisateurs et leur attribuer des rôles sur une base de groupe.\n"
 " Les groupes d'utilisateurs permettent aux utilisateurs de se connecter à Foreman et de se voir accorder automatiquement des autorisations.\n"
 "Un groupe d'utilisateurs Foreman peut être associé à un groupe stocké dans un serveur LDAP, de sorte que l'appartenance au groupe LDAP ajoute automatiquement l'utilisateur au groupe d'utilisateurs Foreman."
-
-msgid "Writing ERB Templates"
-msgstr "Rédaction des modèles ERB"
 
 msgid "Writing ERB templates"
 msgstr "Rédaction des modèles ERB"
@@ -12080,9 +12059,6 @@ msgstr "Options séparées par des espaces. Ex : miimon=100"
 msgid "specified template \"%s\" kind was not found"
 msgstr "le type de modèle spécifié « %s » est introuvable"
 
-msgid "split"
-msgstr "split"
-
 msgid "start"
 msgstr "Démarrage"
 
@@ -12149,9 +12125,6 @@ msgstr "Impossible de trouver le modèle %{type} pour %{host} exécutant %{os}"
 
 msgid "unable to sign a non pending certificate"
 msgstr "Impossible de signer un certificat qui n'est pas en attente"
-
-msgid "unified"
-msgstr "unifiée"
 
 msgid "unknown network_type"
 msgstr "network_type inconnu"

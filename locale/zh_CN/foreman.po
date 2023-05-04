@@ -1436,9 +1436,6 @@ msgstr "更改所有者"
 msgid "Change Power State"
 msgstr "更改电源状态"
 
-msgid "Change Puppet CA"
-msgstr "更改 Puppet CA"
-
 msgid "Change the password"
 msgstr "更改密码"
 
@@ -2946,29 +2943,11 @@ msgstr "错误"
 msgid "Errors: %s"
 msgstr "错误：%s"
 
-msgid "Example value is <code>CN=Users,DC=example,DC=COM</code>"
-msgstr "示例值为 <code>CN=Users,DC=example,DC=com</code>"
-
-msgid "Example value is <code>CN=Users,DC=example,DC=com</code>"
-msgstr "示例值为 <code>CN=Users,DC=example,DC=com</code>"
-
-msgid "Example value is <code>DOMAIN\\foreman</code>"
-msgstr "示例值为 <code>DOMAIN\\foreman</code>"
+msgid "Example value is <code>%s</code>"
+msgstr ""
 
 msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
 msgstr "如果您使用网络组，示例值为 <code>cn=groups,cn=accounts,dc=example,dc=com</code> 或 <code>cn=ng,cn=compat,dc=example,dc=com</code>"
-
-msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr "示例值为 <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-
-msgid "Example value is <code>dc=example,dc=com</code>"
-msgstr "示例值为 <code>dc=example,dc=com</code>"
-
-msgid "Example value is <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr "示例值为 <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-
-msgid "Example value is <code>uid=foreman,dc=example,dc=com</code>"
-msgstr "示例值为 <code>uid=foreman,dc=example,dc=com</code>"
 
 msgid "Examples"
 msgstr "实例"
@@ -6012,9 +5991,6 @@ msgstr "不适用"
 msgid "N/A statuses"
 msgstr "不适用状态"
 
-msgid "NA"
-msgstr "不适用"
-
 msgid "NIC"
 msgstr "NIC"
 
@@ -8861,6 +8837,9 @@ msgstr "指定 sendmail 的附加选项。只有将发送方法设置为 sendmai
 msgid "Specify authentication type, if required"
 msgstr "指定身份验证类型（若需要）"
 
+msgid "Split"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ssh key"
 msgstr "Ssh 密钥"
@@ -10216,6 +10195,9 @@ msgstr "撤销选择"
 msgid "Unhide this value"
 msgstr "取消隐藏该值"
 
+msgid "Unified"
+msgstr ""
+
 msgid "Unknown"
 msgstr "未知的"
 
@@ -11061,9 +11043,6 @@ msgstr ""
 "通过用户组，您可以将用户分组并在组的基础上为他们分配角色。\n"
 " 用户组使用户能够登录到 Foreman 并被自动授予权限。\n"
 " Foreman 用户组可以与 LDAP 服务器中存储的组相关联，因此 LDAP 组的成员资格会自动将用户添加到 Foreman 用户组中。"
-
-msgid "Writing ERB Templates"
-msgstr "编写 ERB 模板"
 
 msgid "Writing ERB templates"
 msgstr "编写 ERB 模板"
@@ -11976,9 +11955,6 @@ msgstr "使用空格分开的选项，例如：miimon=100"
 msgid "specified template \"%s\" kind was not found"
 msgstr "未找到指定的模板 \"%s\" 类型"
 
-msgid "split"
-msgstr "分裂"
-
 msgid "start"
 msgstr "开始"
 
@@ -12045,9 +12021,6 @@ msgstr "无法找到用于运行 %{os} 的 %{host} 的 %{type} 模板"
 
 msgid "unable to sign a non pending certificate"
 msgstr "无法签署未处于待处理阶段的证书"
-
-msgid "unified"
-msgstr "统一"
 
 msgid "unknown network_type"
 msgstr "未知 network_type"

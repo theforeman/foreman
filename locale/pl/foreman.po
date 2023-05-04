@@ -1461,9 +1461,6 @@ msgstr "Zmień właściciela"
 msgid "Change Power State"
 msgstr "Zmień stan zasilania"
 
-msgid "Change Puppet CA"
-msgstr "Zmień Puppet CA"
-
 msgid "Change the password"
 msgstr "Zmień hasło"
 
@@ -2974,28 +2971,10 @@ msgstr "Tylko błędy"
 msgid "Errors: %s"
 msgstr "Błędy: %s"
 
-msgid "Example value is <code>CN=Users,DC=example,DC=COM</code>"
-msgstr ""
-
-msgid "Example value is <code>CN=Users,DC=example,DC=com</code>"
-msgstr ""
-
-msgid "Example value is <code>DOMAIN\\foreman</code>"
+msgid "Example value is <code>%s</code>"
 msgstr ""
 
 msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
-msgstr ""
-
-msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>uid=foreman,dc=example,dc=com</code>"
 msgstr ""
 
 msgid "Examples"
@@ -6034,9 +6013,6 @@ msgstr "N/A"
 msgid "N/A statuses"
 msgstr ""
 
-msgid "NA"
-msgstr "NA"
-
 msgid "NIC"
 msgstr "NIC"
 
@@ -8881,6 +8857,9 @@ msgstr ""
 msgid "Specify authentication type, if required"
 msgstr ""
 
+msgid "Split"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ssh key"
 msgstr ""
@@ -10240,6 +10219,9 @@ msgstr ""
 msgid "Unhide this value"
 msgstr "Odkryj wartość"
 
+msgid "Unified"
+msgstr ""
+
 msgid "Unknown"
 msgstr "Nieznany"
 
@@ -11067,9 +11049,6 @@ msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"
 " User groups enable users to log into Foreman and be automatically granted permissions.\n"
 " A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
-msgstr ""
-
-msgid "Writing ERB Templates"
 msgstr ""
 
 msgid "Writing ERB templates"
@@ -11986,9 +11965,6 @@ msgstr "Opcje oddzielone odstępem, np. miiom=100"
 msgid "specified template \"%s\" kind was not found"
 msgstr ""
 
-msgid "split"
-msgstr ""
-
 msgid "start"
 msgstr "start"
 
@@ -12054,9 +12030,6 @@ msgstr ""
 
 msgid "unable to sign a non pending certificate"
 msgstr "nie można podpisać bez stanu certyfikatu oczekującego"
-
-msgid "unified"
-msgstr ""
 
 msgid "unknown network_type"
 msgstr ""
