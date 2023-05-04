@@ -1444,9 +1444,6 @@ msgstr "改變擁有者"
 msgid "Change Power State"
 msgstr "改變電源狀態"
 
-msgid "Change Puppet CA"
-msgstr "改變 Puppet CA"
-
 msgid "Change the password"
 msgstr "更改密碼"
 
@@ -2955,28 +2952,10 @@ msgstr "只有錯誤"
 msgid "Errors: %s"
 msgstr "錯誤：%s"
 
-msgid "Example value is <code>CN=Users,DC=example,DC=COM</code>"
-msgstr ""
-
-msgid "Example value is <code>CN=Users,DC=example,DC=com</code>"
-msgstr ""
-
-msgid "Example value is <code>DOMAIN\\foreman</code>"
+msgid "Example value is <code>%s</code>"
 msgstr ""
 
 msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
-msgstr ""
-
-msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>uid=foreman,dc=example,dc=com</code>"
 msgstr ""
 
 msgid "Examples"
@@ -6013,9 +5992,6 @@ msgstr "N/A"
 msgid "N/A statuses"
 msgstr ""
 
-msgid "NA"
-msgstr "NA"
-
 msgid "NIC"
 msgstr "NIC"
 
@@ -8860,6 +8836,9 @@ msgstr ""
 msgid "Specify authentication type, if required"
 msgstr ""
 
+msgid "Split"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ssh key"
 msgstr ""
@@ -10215,6 +10194,9 @@ msgstr ""
 msgid "Unhide this value"
 msgstr "取消隱藏此值"
 
+msgid "Unified"
+msgstr ""
+
 msgid "Unknown"
 msgstr "不明"
 
@@ -11042,9 +11024,6 @@ msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"
 " User groups enable users to log into Foreman and be automatically granted permissions.\n"
 " A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
-msgstr ""
-
-msgid "Writing ERB Templates"
 msgstr ""
 
 msgid "Writing ERB templates"
@@ -11959,9 +11938,6 @@ msgstr "以空格隔開的選項，例如 miimon=100"
 msgid "specified template \"%s\" kind was not found"
 msgstr ""
 
-msgid "split"
-msgstr ""
-
 msgid "start"
 msgstr "起始"
 
@@ -12027,9 +12003,6 @@ msgstr ""
 
 msgid "unable to sign a non pending certificate"
 msgstr "無法簽署一個非處理中的憑證"
-
-msgid "unified"
-msgstr ""
 
 msgid "unknown network_type"
 msgstr ""

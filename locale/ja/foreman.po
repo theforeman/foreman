@@ -1436,9 +1436,6 @@ msgstr "所有者の変更"
 msgid "Change Power State"
 msgstr "電源状態の変更"
 
-msgid "Change Puppet CA"
-msgstr "Puppet CA の変更"
-
 msgid "Change the password"
 msgstr "パスワードの変更"
 
@@ -2946,29 +2943,11 @@ msgstr "エラーのみ"
 msgid "Errors: %s"
 msgstr "エラー: %s"
 
-msgid "Example value is <code>CN=Users,DC=example,DC=COM</code>"
-msgstr "指定できる値の例として <code>CN=Users,DC=example,DC=COM</code> などがあります"
-
-msgid "Example value is <code>CN=Users,DC=example,DC=com</code>"
-msgstr "指定できる値の例として <code>CN=Users,DC=example,DC=com</code> などがあります"
-
-msgid "Example value is <code>DOMAIN\\foreman</code>"
-msgstr "指定できる値の例として <code>DOMAIN\\foreman</code> などがあります"
+msgid "Example value is <code>%s</code>"
+msgstr ""
 
 msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
 msgstr "ネットグループを使用する場合、指定できる値の例として <code>cn=groups,cn=accounts,dc=example,dc=com</code> または <code>cn=ng,cn=compat,dc=example,dc=com</code> などがあります"
-
-msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr "指定できる値の例として <code>cn=users,cn=accounts,dc=example,dc=com</code> などがあります"
-
-msgid "Example value is <code>dc=example,dc=com</code>"
-msgstr "指定できる値の例として <code>dc=example,dc=com</code> などがあります"
-
-msgid "Example value is <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr "指定できる値の例として <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code> などがあります"
-
-msgid "Example value is <code>uid=foreman,dc=example,dc=com</code>"
-msgstr "指定できる値の例として <code>uid=foreman,dc=example,dc=com</code> などがあります"
 
 msgid "Examples"
 msgstr "例"
@@ -6012,9 +5991,6 @@ msgstr "N/A"
 msgid "N/A statuses"
 msgstr "N/A のステータス"
 
-msgid "NA"
-msgstr "NA"
-
 msgid "NIC"
 msgstr "NIC"
 
@@ -8861,6 +8837,9 @@ msgstr "sendmail の追加オプションを指定します。配信方法が se
 msgid "Specify authentication type, if required"
 msgstr "認証タイプを指定します (必要な場合)"
 
+msgid "Split"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ssh key"
 msgstr "SSH キー"
@@ -10216,6 +10195,9 @@ msgstr "元に戻す"
 msgid "Unhide this value"
 msgstr "この値の非表示設定を解除"
 
+msgid "Unified"
+msgstr ""
+
 msgid "Unknown"
 msgstr "不明"
 
@@ -11061,9 +11043,6 @@ msgstr ""
 "ユーザーグループを使うと、ユーザーをグループ化し、グループベースでユーザーにロールを割り当てることができます。\n"
 " ユーザーグループにより、ユーザーは Foreman にログインでき、自動的にパーミッションが割り当てられます。\n"
 " Foreman ユーザーグループは LDAP サーバーに保存されるグループに関連付けられるため、LDAP グループのメンバーシップはユーザーを Foreman ユーザーグループに自動的に追加します。"
-
-msgid "Writing ERB Templates"
-msgstr "ERB テンプレートの作成"
 
 msgid "Writing ERB templates"
 msgstr "ERB テンプレートの作成"
@@ -11976,9 +11955,6 @@ msgstr "スペース区切りのオプション (例: miimon=100)"
 msgid "specified template \"%s\" kind was not found"
 msgstr "指定されたテンプレート \"%s\" の種類が見つかりませんでした"
 
-msgid "split"
-msgstr "分割"
-
 msgid "start"
 msgstr "開始"
 
@@ -12045,9 +12021,6 @@ msgstr "%{os} を実行中の %{host} の %{type} テンプレートが見つか
 
 msgid "unable to sign a non pending certificate"
 msgstr "保留中ではない証明書に署名できません"
-
-msgid "unified"
-msgstr "統一"
 
 msgid "unknown network_type"
 msgstr "不明な network_type"

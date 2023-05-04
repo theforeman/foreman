@@ -1450,9 +1450,6 @@ msgstr ""
 msgid "Change Power State"
 msgstr ""
 
-msgid "Change Puppet CA"
-msgstr ""
-
 msgid "Change the password"
 msgstr ""
 
@@ -2961,28 +2958,10 @@ msgstr "Solo errori"
 msgid "Errors: %s"
 msgstr "Errori: %s"
 
-msgid "Example value is <code>CN=Users,DC=example,DC=COM</code>"
-msgstr ""
-
-msgid "Example value is <code>CN=Users,DC=example,DC=com</code>"
-msgstr ""
-
-msgid "Example value is <code>DOMAIN\\foreman</code>"
+msgid "Example value is <code>%s</code>"
 msgstr ""
 
 msgid "Example value is <code>cn=groups,cn=accounts,dc=example,dc=com</code> or <code>cn=ng,cn=compat,dc=example,dc=com</code> if you use netgroups"
-msgstr ""
-
-msgid "Example value is <code>cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>uid=foreman,cn=users,cn=accounts,dc=example,dc=com</code>"
-msgstr ""
-
-msgid "Example value is <code>uid=foreman,dc=example,dc=com</code>"
 msgstr ""
 
 msgid "Examples"
@@ -6019,9 +5998,6 @@ msgstr "N/A"
 msgid "N/A statuses"
 msgstr ""
 
-msgid "NA"
-msgstr "NA"
-
 msgid "NIC"
 msgstr "NIC"
 
@@ -8866,6 +8842,9 @@ msgstr ""
 msgid "Specify authentication type, if required"
 msgstr ""
 
+msgid "Split"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Ssh key"
 msgstr ""
@@ -10222,6 +10201,9 @@ msgstr ""
 msgid "Unhide this value"
 msgstr ""
 
+msgid "Unified"
+msgstr ""
+
 msgid "Unknown"
 msgstr "Sconosciuto"
 
@@ -11052,9 +11034,6 @@ msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"
 " User groups enable users to log into Foreman and be automatically granted permissions.\n"
 " A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
-msgstr ""
-
-msgid "Writing ERB Templates"
 msgstr ""
 
 msgid "Writing ERB templates"
@@ -11970,9 +11949,6 @@ msgstr "opzioni separate da spazi, es. miimon=100."
 msgid "specified template \"%s\" kind was not found"
 msgstr "il tipo di template specificato \"%s\" non è stato trovato"
 
-msgid "split"
-msgstr ""
-
 msgid "start"
 msgstr "inizio"
 
@@ -12039,9 +12015,6 @@ msgstr "impossibile trovare il template %{type} per %{host} su %{os}"
 
 msgid "unable to sign a non pending certificate"
 msgstr "impossibile firmare un certificato non in attesa"
-
-msgid "unified"
-msgstr ""
 
 msgid "unknown network_type"
 msgstr ""
