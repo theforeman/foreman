@@ -126,7 +126,7 @@ description: |
     if (is_fedora && os_major < 17) || (rhel_compatible && os_major < 7)
       options.push("vlanid=#{iface.tag}")
     else
-      options.push("vlan=vlan#{iface.tag}:#{iface.attached_to}")
+      options.push("vlan=#{iface.attached_to}.#{iface.tag}:#{iface.attached_to}")
     end
   end
 
