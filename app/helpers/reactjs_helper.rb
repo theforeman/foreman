@@ -46,7 +46,7 @@ module ReactjsHelper
   def global_js_tags(requested_plugins)
     requested_plugins.map do |plugin|
       plugin[:files].map do |file|
-        javascript_include_tag(*webpack_asset_paths("#{plugin[:id]}:#{file}", :extension => 'js'), :defer => "defer")
+        javascript_include_tag(*webpack_asset_paths("#{plugin[:id]}:#{file}", :extension => 'js'))
       end
     end
   end

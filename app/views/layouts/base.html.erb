@@ -33,6 +33,11 @@
     </script>
     <%= javascript_include_tag "locale/#{FastGettext.locale}/app" %>
     <%= locale_js_tags %>
+    
+    <%= yield(:head) %>
+  </head>
+
+  <body class="pf-m-redhat-font">
     <%= javascript_include_tag *webpack_asset_paths('foreman-vendor', :extension => 'js') %>
     <%= javascript_include_tag *webpack_asset_paths('vendor', :extension => 'js') %>
     <%= javascript_include_tag *webpack_asset_paths('bundle', :extension => 'js') %>
@@ -40,17 +45,13 @@
     <%= webpacked_plugins_with_global_js %>
     <%= webpack_dev_server %>
     <%= yield(:javascripts) %>
-
     <script type="text/javascript">
       <%= yield(:inline_javascripts) %>
     </script>
 
-    <%= yield(:head) %>
-  </head>
-
-  <body class="pf-m-redhat-font">
     <!--[if lte IE 9]>
       <%= _('You are using an unsupported browser.') %>
+      <%= _('See list of supported browsers: %s') % documentation_url("3.1.4BrowserCompatibility") %>
     <![endif]-->
     <% if User.current %>
       <% cache(TopbarSweeper.fragment_name, :skip_digest => true) do %>
