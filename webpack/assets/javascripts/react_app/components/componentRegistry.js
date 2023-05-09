@@ -18,7 +18,6 @@ import InputFactory from './common/forms/InputFactory';
 import StorageContainer from './hosts/storage/vmware/';
 import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
-import FactChart from './FactCharts';
 import Pagination from './Pagination';
 import SearchBar from './SearchBar';
 import ColumnSelector from './ColumnSelector';
@@ -129,7 +128,6 @@ const coreComponets = [
   { name: 'StorageContainer', type: StorageContainer },
   { name: 'PasswordStrength', type: PasswordStrength },
   { name: 'BreadcrumbBar', type: BreadcrumbBar },
-  { name: 'FactChart', type: FactChart },
   { name: 'Pagination', type: Pagination },
   { name: 'Layout', type: Layout },
   { name: 'EmptyState', type: EmptyState },
