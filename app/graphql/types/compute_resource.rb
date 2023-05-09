@@ -8,7 +8,7 @@ module Types
     field :description, String
     field :url, String
     field :provider, Types::ProviderEnum
-    field :provider_friendly_name, Types::ProviderFriendlyNameEnum
+    field :provider_friendly_name, String
 
     has_many :compute_attributes, Types::ComputeAttribute
     has_many :hosts, Types::Host
