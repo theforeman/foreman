@@ -2,7 +2,11 @@ require 'test_helper'
 
 module Best
   module Provider
-    class MyBest < ::ComputeResource; end
+    class MyBest < ::ComputeResource
+      def self.provider_friendly_name
+        "My Best"
+      end
+    end
   end
 end
 
@@ -35,7 +39,7 @@ module Types
     end
 
     test 'contains registered providers from plugins' do
-      assert_includes enum.values.keys, 'MyBest'
+      assert_includes enum.values.keys, 'My_Best'
     end
   end
 end

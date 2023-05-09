@@ -13,5 +13,9 @@ module Types
     has_many :compute_attributes, Types::ComputeAttribute
     has_many :hosts, Types::Host
     has_many :networks, Types::Networks::Union, resolver: Resolvers::ComputeResource::Networks
+
+    def provider_friendly_name
+      object.provider_friendly_name.tr(' ', '_')
+    end
   end
 end
