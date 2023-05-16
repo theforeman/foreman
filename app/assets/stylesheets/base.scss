@@ -274,6 +274,11 @@ table {
 .fact-col {
   max-width: 500px;
   white-space: normal;
+  font-family: monospace;
+}
+
+.parameter-value {
+  font-family: monospace;
 }
 
 .fact-origin {

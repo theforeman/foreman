@@ -17,7 +17,7 @@
     <% for common_parameter in @common_parameters %>
       <tr id="<%= dom_id(common_parameter) %>_row">
         <td class="ellipsis"><%= link_to_if_authorized common_parameter, hash_for_edit_common_parameter_path(:id => common_parameter).merge(:auth_object => common_parameter, :authorizer => authorizer, :permission => 'edit_params') %></td>
-        <td class='ellipsis'>
+        <td class='ellipsis parameter-value' >
           <%= common_parameter.hidden_value? ? common_parameter.hidden_value : common_parameter.value %>
         </td>
         <td class='ellipsis'><%= common_parameter.parameter_type %></td>
