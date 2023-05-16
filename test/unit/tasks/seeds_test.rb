@@ -230,4 +230,18 @@ class SeedsTest < ActiveSupport::TestCase
     tmpl_kind = TemplateKind.unscoped.find_by_name('iPXE')
     assert_equal "Used in iPXE environments.", tmpl_kind.description
   end
+
+  context 'instance_id setting' do
+    test 'sets new value for non-existing setting' do
+      refute Setting.where(name: 'instance_id').exists?
+      Setting.expects(:[]=).with(:instance_id, anything)
+      seed('190-instance_id.rb')
+    end
+
+    test 'does not change value for existing setting' do
+      Setting[:instance_id] = Foreman.uuid
+      Setting.expects(:[]=).with(:instance_id, anything).never
+      seed('190-instance_id.rb')
+    end
+  end
 end
