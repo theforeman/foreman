@@ -1,14 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ComponentWrapper should render config reports 1`] = `
-<Row
-  bsClass="row"
-  componentClass="div"
->
-  <Col
-    bsClass="col"
-    componentClass="div"
-    md={5}
+<Grid>
+  <GridItem
+    span={4}
   >
     <ChartBox
       chart={
@@ -31,12 +26,10 @@ exports[`ComponentWrapper should render config reports 1`] = `
       title="Report Metrics"
       type="donut"
     />
-  </Col>
-  <Col
-    bsClass="col"
+  </GridItem>
+  <GridItem
     className="bar-chart-medium-width"
-    componentClass="div"
-    md={5}
+    span={6}
   >
     <ChartBox
       chart={
@@ -59,11 +52,9 @@ exports[`ComponentWrapper should render config reports 1`] = `
       title="Report Status"
       type="bar"
     />
-  </Col>
-  <Col
-    bsClass="col"
-    componentClass="div"
-    md={2}
+  </GridItem>
+  <GridItem
+    span={2}
   >
     <table
       className="report-chart"
@@ -93,6 +84,6 @@ exports[`ComponentWrapper should render config reports 1`] = `
         </tr>
       </tfoot>
     </table>
-  </Col>
-</Row>
+  </GridItem>
+</Grid>
 `;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col } from 'patternfly-react';
+import { Grid, GridItem } from '@patternfly/react-core';
 import classNames from 'classnames';
 import ChartBox from '../ChartBox/ChartBox';
 import { translate as __ } from '../../common/I18n';
@@ -30,25 +30,25 @@ const ConfigReports = props => {
   };
 
   return (
-    <Row>
-      <Col md={5}>
+    <Grid>
+      <GridItem span={4}>
         <ChartBox
           {...chartBoxProps}
           type="donut"
           chart={{ data: metricsChartData, id: 'report-metrics' }}
           title={__('Report Metrics')}
         />
-      </Col>
+      </GridItem>
 
-      <Col md={5} className="bar-chart-medium-width">
+      <GridItem span={6} className="bar-chart-medium-width">
         <ChartBox
           {...chartBoxProps}
           type="bar"
           chart={{ data: statusChartData, id: 'report-status' }}
           title={__('Report Status')}
         />
-      </Col>
-      <Col md={2}>
+      </GridItem>
+      <GridItem span={2}>
         <table className={classNames(tableClasses, 'report-chart')}>
           <tbody>{tableData.map((metric, i) => createRow(metric, i))}</tbody>
           <tfoot>
@@ -58,8 +58,8 @@ const ConfigReports = props => {
             </tr>
           </tfoot>
         </table>
-      </Col>
-    </Row>
+      </GridItem>
+    </Grid>
   );
 };
 
