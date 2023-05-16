@@ -2,30 +2,17 @@
 
 exports[`ChartBox error 1`] = `
 <Card
-  accented={true}
-  aggregated={false}
-  aggregatedMini={false}
-  cardRef={null}
   className="chart-box"
   key="2"
-  matchHeight={false}
 >
-  <CardHeading
-    className=""
-  >
+  <CardHeader>
     <CardTitle
       className="pointer panel-title"
     >
-      <EllipisWithTooltip>
-         
-        some title
-         
-      </EllipisWithTooltip>
+      some title
     </CardTitle>
-  </CardHeading>
-  <CardBody
-    className=""
-  >
+  </CardHeader>
+  <CardBody>
     <Loader
       spinnerSize="lg"
       status="PENDING"
@@ -50,36 +37,55 @@ exports[`ChartBox error 1`] = `
         msg="some error"
       />
     </Loader>
+    <Modal
+      actions={Array []}
+      appendTo={[Function]}
+      aria-describedby=""
+      aria-label=""
+      aria-labelledby=""
+      className="chart-box-modal"
+      hasNoBodyWrapper={false}
+      isOpen={false}
+      onClose={[Function]}
+      ouiaSafe={true}
+      showClose={true}
+      title="some title"
+      titleIconVariant={null}
+      titleLabel=""
+      variant="small"
+    >
+      <DonutChart
+        config="regular"
+        key="2-chart"
+        noDataMsg="No data available"
+        onclick={[Function]}
+        searchUrl={null}
+        title={
+          Object {
+            "precision": 1,
+            "type": "percent",
+          }
+        }
+        unloadData={false}
+      />
+    </Modal>
   </CardBody>
 </Card>
 `;
 
 exports[`ChartBox pending 1`] = `
 <Card
-  accented={true}
-  aggregated={false}
-  aggregatedMini={false}
-  cardRef={null}
   className="chart-box"
   key="2"
-  matchHeight={false}
 >
-  <CardHeading
-    className=""
-  >
+  <CardHeader>
     <CardTitle
       className="pointer panel-title"
     >
-      <EllipisWithTooltip>
-         
-        some title
-         
-      </EllipisWithTooltip>
+      some title
     </CardTitle>
-  </CardHeading>
-  <CardBody
-    className=""
-  >
+  </CardHeader>
+  <CardBody>
     <Loader
       spinnerSize="lg"
       status="PENDING"
@@ -104,23 +110,48 @@ exports[`ChartBox pending 1`] = `
         msg="some error"
       />
     </Loader>
+    <Modal
+      actions={Array []}
+      appendTo={[Function]}
+      aria-describedby=""
+      aria-label=""
+      aria-labelledby=""
+      className="chart-box-modal"
+      hasNoBodyWrapper={false}
+      isOpen={false}
+      onClose={[Function]}
+      ouiaSafe={true}
+      showClose={true}
+      title="some title"
+      titleIconVariant={null}
+      titleLabel=""
+      variant="small"
+    >
+      <DonutChart
+        config="regular"
+        key="2-chart"
+        noDataMsg="No data available"
+        onclick={[Function]}
+        searchUrl={null}
+        title={
+          Object {
+            "precision": 1,
+            "type": "percent",
+          }
+        }
+        unloadData={false}
+      />
+    </Modal>
   </CardBody>
 </Card>
 `;
 
 exports[`ChartBox resolved 1`] = `
 <Card
-  accented={true}
-  aggregated={false}
-  aggregatedMini={false}
-  cardRef={null}
   className="chart-box"
   key="2"
-  matchHeight={false}
 >
-  <CardHeading
-    className=""
-  >
+  <CardHeader>
     <CardTitle
       className="pointer panel-title"
       data-placement="top"
@@ -128,16 +159,10 @@ exports[`ChartBox resolved 1`] = `
       onClick={[Function]}
       title="sone tooltip"
     >
-      <EllipisWithTooltip>
-         
-        some title
-         
-      </EllipisWithTooltip>
+      some title
     </CardTitle>
-  </CardHeading>
-  <CardBody
-    className=""
-  >
+  </CardHeader>
+  <CardBody>
     <Loader
       spinnerSize="lg"
       status="PENDING"
@@ -170,6 +195,46 @@ exports[`ChartBox resolved 1`] = `
         msg="some error"
       />
     </Loader>
+    <Modal
+      actions={Array []}
+      appendTo={[Function]}
+      aria-describedby=""
+      aria-label=""
+      aria-labelledby=""
+      className="chart-box-modal"
+      hasNoBodyWrapper={false}
+      isOpen={false}
+      onClose={[Function]}
+      ouiaSafe={true}
+      showClose={true}
+      title="some title"
+      titleIconVariant={null}
+      titleLabel=""
+      variant="small"
+    >
+      <DonutChart
+        config="regular"
+        data={
+          Array [
+            Array [
+              1,
+              2,
+            ],
+          ]
+        }
+        key="2-chart"
+        noDataMsg="No data available"
+        onclick={[Function]}
+        searchUrl={null}
+        title={
+          Object {
+            "precision": 1,
+            "type": "percent",
+          }
+        }
+        unloadData={false}
+      />
+    </Modal>
   </CardBody>
 </Card>
 `;

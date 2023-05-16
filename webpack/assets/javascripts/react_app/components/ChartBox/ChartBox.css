@@ -1,3 +1,8 @@
-.pointer {
-  cursor: pointer;
+.chart-box {
+  .pointer {
+    cursor: pointer;
+  }
+}
+.chart-box-modal .pf-c-modal-box__body {
+  text-align: center;
 }
