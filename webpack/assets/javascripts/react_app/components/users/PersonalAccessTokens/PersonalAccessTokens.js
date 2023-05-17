@@ -12,7 +12,7 @@ import {
   selectTokens,
 } from './PersonalAccessTokensSelectors';
 import NewPersonalAccessToken from './NewPersonalAccessToken';
-import PersonalAccessTokenForm from './PersonalAccessTokenForm';
+import PersonalAccessTokenModal from './PersonalAccessTokenModal';
 import PersonalAccessTokensList from './PersonalAccessTokensList';
 import { translate as __ } from '../../../common/I18n';
 import { foremanUrl } from '../../../common/helpers';
@@ -52,7 +52,7 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
       />
       {tokens.length > 0 ? (
         <Fragment>
-          {canCreate && <PersonalAccessTokenForm url={url} />}
+          {canCreate && <PersonalAccessTokenModal url={url} />}
           <PersonalAccessTokensList
             title={__('Active Personal Access Tokens')}
             tokens={tokens.filter(token => token['active?'])}
@@ -81,7 +81,7 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
                     '/api/v2/hosts'
                   )}`}</code>
                 </p>
-                {canCreate && <PersonalAccessTokenForm url={url} />}
+                {canCreate && <PersonalAccessTokenModal url={url} />}
               </td>
             </tr>
           </tbody>
