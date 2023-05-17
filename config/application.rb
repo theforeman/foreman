@@ -348,10 +348,7 @@ module Foreman
 
     initializer(:register_gettext, :after => :load_config_initializers) do |app|
       ::Foreman::Plugin.all.select { |p| p.gettext_domain }.each do |plugin|
-        domain = plugin.gettext_domain
-        Foreman::Gettext::Support.add_text_domain domain, plugin.locale_path
-
-        app.config.assets.precompile += FastGettext.default_available_locales.map { |locale| "locale/#{locale}/#{domain}.js" }
+        Foreman::Gettext::Support.add_text_domain plugin.gettext_domain, plugin.locale_path
       end
     end
 

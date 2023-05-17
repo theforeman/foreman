@@ -70,7 +70,7 @@ module ReactjsHelper
     ::Foreman::Plugin.all.filter_map do |plugin|
       domain = plugin.gettext_domain
       if domain && (FastGettext.translation_repositories[domain]&.available_locales || []).include?(locale)
-        javascript_include_tag("locale/#{locale}/#{domain}")
+        javascript_include_tag("#{plugin.name}/locale/#{locale}/#{domain}")
       end
     end.join.html_safe
   end
