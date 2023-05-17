@@ -77,6 +77,7 @@ begin
       variable: "locales['#{domain}']",
       variable_locale_scope: false,
     }
+    GettextI18nRailsJs.config.output_path = File.join('app', 'assets', 'javascripts', plugin.name, 'locale')
     GettextI18nRailsJs.config.domain = domain
     GettextI18nRailsJs.config.rails_engine = engine
 
