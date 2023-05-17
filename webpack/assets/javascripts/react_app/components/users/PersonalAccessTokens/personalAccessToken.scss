@@ -1,0 +1,22 @@
+.token-modal {
+  overflow: auto;
+
+  .add-personal-access-token-form {
+    overflow: auto;
+
+    .token-expires-radio label {
+      width: 100%;
+    }
+    .token-expires-radio input {
+      align-self: center;
+    }
+    .token-expires-radio-title {
+      width: 80px;
+      display: inline-block;
+      align-self: center;
+    }
+    .token-expires-radio-wrapper {
+      display: flex;
+    }
+  }
+}
