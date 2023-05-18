@@ -1,8 +1,8 @@
 import {
   column,
   headerFormatterWithProps,
-  cellFormatter,
   cellFormatterWithProps,
+  translatedCellFormatter,
 } from '../common/table';
 import { translate as __ } from '../../common/I18n';
 
@@ -30,7 +30,7 @@ const createSettingsTableSchema = [
     'description',
     __('Description'),
     [headerFormatterWithProps],
-    [cellFormatter]
+    [translatedCellFormatter]
   ),
 ];
 

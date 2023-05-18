@@ -2,6 +2,7 @@ export {
   headerFormatterWithProps,
   cellFormatterWithProps,
 } from './formatterWithProps';
+export { default as translatedCellFormatter } from './translatedCellFormatter';
 export { default as cellFormatter } from './cellFormatter';
 export { default as ellipsisCellFormatter } from './ellipsisCellFormatter';
 export { default as nameCellFormatter } from './nameCellFormatter';
