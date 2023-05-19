@@ -72,7 +72,7 @@ begin
     end
 
     GettextI18nRailsJs.config.jed_options = {
-      pretty: false,
+      pretty: true,
       domain: domain,
       variable: "locales['#{domain}']",
       variable_locale_scope: false,
