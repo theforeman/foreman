@@ -24,6 +24,7 @@ module Foreman
         :user_auth_source_name,
         :all_host_statuses,
         :all_host_statuses_hash,
+        :all_host_statuses_labels_hash,
         :host_status,
         :preview?,
         :raise,
