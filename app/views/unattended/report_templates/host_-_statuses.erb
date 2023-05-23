@@ -10,13 +10,21 @@ template_inputs:
   advanced: false
   value_type: search
   resource_type: Host
+- name: Output style
+  required: false
+  input_type: user
+  description: Select 'Human-readable' to show statuses as they would appear in the web UI, or 'Machine-readable' to show numeric statuses.
+  options: "Human-readable\r\nMachine-readable"
+  advanced: false
+  default: Human-readable
 model: ReportTemplate
 -%>
 <%- report_headers 'Name', 'Global' -%>
+<%- machine_readable = input('Output style') == 'Machine-readable' -%>
 <%- load_hosts(search: input('hosts'), includes: :host_statuses).each_record do |host| -%>
 <%-   report_row({
         'Name': host.name,
-        'Global': host.global_status
-      }.merge(all_host_statuses_hash(host))) -%>
+        'Global': machine_readable ? host.global_status : host.global_status_label
+      }.merge(machine_readable ? all_host_statuses_hash(host) : all_host_statuses_labels_hash(host))) -%>
 <%- end -%>
 <%= report_render -%>

@@ -214,6 +214,16 @@ module Foreman
             all_host_statuses.map { |status| [status.status_name, host_status(host, status.status_name).status] }.to_h
           end
 
+          apipie :method, 'Returns hash representing all statuses for a given host in human-readable format' do
+            required :host, 'Host::Managed', desc: 'a host object to get the statuses for'
+            returns object_of: Hash, desc: 'Hash representing all statuses for a given host in human-readable format'
+            example 'all_host_statuses_labels(@host) # => {"Addons"=>"Unknown", "Build"=>"Installed", "Compliance"=>"Not applicable", "Configuration"=>"No reports", "Errata"=>"Security errata applicable", "Execution"=>"Last execution succeeded", "Role"=>"Unknown", "Service Level"=>"Unknown", "Subscription"=>"Simple Content Access", "System Purpose"=>"Unknown", "Traces"=>"No processes require restarting", "Usage"=>"Unknown"}'
+            example "<%- load_hosts.each_record do |host| -%>\n<%= host.name -%>, <%=   all_host_statuses_labels(host)['Subscription'] %>\n<%- end -%>"
+          end
+          def all_host_statuses_labels_hash(host)
+            all_host_statuses.map { |status| [status.status_name, host_status(host, status.status_name).to_label] }.to_h
+          end
+
           apipie :method, 'Returns a specific status for a given host' do
             desc "The return value is a human readable representation of the status.
               For details about the number meaning, see documentation for every status class."
