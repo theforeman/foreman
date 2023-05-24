@@ -15,7 +15,6 @@ import {
   TrashIcon,
   CloneIcon,
   UndoIcon,
-  FileInvoiceIcon,
   BuildIcon,
   TerminalIcon,
 } from '@patternfly/react-icons';
@@ -34,7 +33,6 @@ const ActionsBar = ({
   hostName,
   computeId,
   isBuild,
-  hasReports,
   permissions: {
     destroy_hosts: canDestroy,
     create_hosts: canCreate,
@@ -123,18 +121,6 @@ const ActionsBar = ({
     >
       {__('Facts')}
     </DropdownItem>,
-    <DropdownItem
-      ouiaId="report-dropdown-item"
-      isDisabled={!hasReports}
-      onClick={() =>
-        visit(foremanUrl(`/hosts/${hostFriendlyId}/config_reports`))
-      }
-      key="report"
-      component="button"
-      icon={<FileInvoiceIcon />}
-    >
-      {__('Reports')}
-    </DropdownItem>,
     <DropdownSeparator key="sp-2" ouiaId="dropdown-separator-2" />,
     <DropdownItem
       ouiaId="pre-version-dropdown-item"
@@ -191,7 +177,6 @@ ActionsBar.propTypes = {
   hostName: PropTypes.string,
   computeId: PropTypes.number,
   permissions: PropTypes.object,
-  hasReports: PropTypes.bool,
   isBuild: PropTypes.bool,
 };
 ActionsBar.defaultProps = {
@@ -205,7 +190,6 @@ ActionsBar.defaultProps = {
     edit_hosts: false,
     build_hosts: false,
   },
-  hasReports: false,
   isBuild: false,
 };
 
