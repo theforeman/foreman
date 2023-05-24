@@ -201,7 +201,6 @@ const HostDetails = ({
                     hostId={response.id}
                     hostName={response.name}
                     permissions={response.permissions}
-                    hasReports={!!response.last_report}
                     isBuild={response.build}
                   />
                 </FlexItem>
