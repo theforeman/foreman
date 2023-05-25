@@ -7,6 +7,13 @@ import { getLineChartConfig } from '../../../../../services/charts/LineChartServ
 
 import MessageBox from '../../MessageBox';
 
+/* Data format example:
+  data={[
+      ['red', [5, 7, 9], '#AA4643'],
+      ['green', [2, 4, 6], '#89A54E'],
+      ['x', [1557014400000, 1559779200000, 1562457600000], null],
+    ]}
+*/
 const LineChart = ({
   data,
   title,

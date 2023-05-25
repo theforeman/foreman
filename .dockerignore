@@ -49,7 +49,6 @@ vendor/ruby
 package-lock.json
 npm-debug.log
 .vscode
-.yo-rc.json
 out*
 .byebug_history
 .gitignore

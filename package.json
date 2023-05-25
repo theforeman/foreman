@@ -16,12 +16,8 @@
     "test:watch": "tfm-test --watchAll",
     "test:current": "tfm-test --watch",
     "publish-coverage": "tfm-publish-coverage",
-    "stories": "./script/npm-fix-foreman-stories.sh && tfm-stories",
-    "build-storybook": "./script/npm-fix-foreman-stories.sh && tfm-build-stories",
-    "deploy-storybook": "cross-env NODE_ENV=storybook NODE_OPTIONS=--max_old_space_size=8192 storybook-to-ghpages",
     "postinstall": "./script/npm_install_plugins.js",
-    "analyze": "./script/webpack-analyze",
-    "create-react-component": "yo react-domain"
+    "analyze": "./script/webpack-analyze"
   },
   "dependencies": {
     "@theforeman/vendor": "^12.0.1",
@@ -34,7 +30,6 @@
     "@babel/core": "^7.7.0",
     "@theforeman/builder": "^12.0.1",
     "@theforeman/eslint-plugin-foreman": "^12.0.1",
-    "@theforeman/stories": "^12.0.1",
     "@theforeman/test": "^12.0.1",
     "@theforeman/vendor-dev": "^12.0.1",
     "@types/jest": "<27.0.0",

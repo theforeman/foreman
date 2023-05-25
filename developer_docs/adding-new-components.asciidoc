@@ -1,0 +1,116 @@
+
+[[adding-new-react-components]]
+
+# Adding new React components
+
+## Component Storage
+
+Components are stored in the webpack/assets/javascripts/react_app/components/ directory. Each component should be placed in its own subfolder that follows the structure outlined below:
+
+```
+─ components/<COMPONENT_NAME>/
+   ├─ <COMPONENT_NAME>.js            ┈ react component
+   ├─ <COMPONENT_NAME>.scss          ┈ styles if needed
+   ├─ <COMPONENT_NAME>.fixtures.js   ┈ constants for testing, initial state, etc.
+   ├─ <COMPONENT_NAME>.test.js       ┈ test file for the component
+   ├─ components/                    ┈ folder for nested components if needed
+```
+
+React coponent files are limited to 100 lines of code. If you need to write more code, consider splitting the component into multiple components and/or wrapping the react component with an index file that will preform any general logic, api calls.
+
+If you are creating a component that uses legacy Redux actions and reducers, the structure should be as follows:
+
+```
+─ components/<COMPONENT_NAME>/
+   ├─ <COMPONENT_NAME>.js            ┈ pure react component
+   ├─ <COMPONENT_NAME>.scss          ┈ styles if needed
+   ├─ <COMPONENT_NAME>Actions.js     ┈ redux actions
+   ├─ <COMPONENT_NAME>Reducer.js     ┈ redux reducer
+   ├─ <COMPONENT_NAME>Selectors.js   ┈ reselect selectors
+   ├─ <COMPONENT_NAME>Constants.js   ┈ constants such as action types
+   ├─ <COMPONENT_NAME>.fixtures.js   ┈ constants for testing, initial state, etc.
+   ├─ components/                    ┈ folder for nested components if needed
+   ├─ __tests__/                     ┈ folder for tests
+   ╰─ index.js                       ┈ redux connected file
+```
+
+## Testing
+
+### Testing components
+
+Please use React-Testing-Library for tests. It's a library that helps you test your components in a way that resembles how they are used by the end user. It's a good idea to read the https://testing-library.com/docs/guiding-principles[guiding principles] of the library. 
+
+### Running the tests
+
+All tests can be executed with `npm test`.
+
+If you want to run only a single test run `npm test \-- <path to test file>`. For example `npm test \-- BreadcrumbBar.test.js`.
+
+Linter (code style checking) can be executed with `npm run lint`. You can run it with parameter `--fix` to let it automatically fix the discovered issues. You need to pass the parameter to eslint, so run the command like this `npm run lint \-- --fix`.
+
+## Making it available from ERB
+
+If you want your component to be available for mounting into ERB templates, it must be added to [the component registry](https://github.com/theforeman/foreman/blob/develop/webpack/assets/javascripts/react_app/components/componentRegistry.js#L60-L71).
+
+Then, you can mount it with the `react_component` helper:
+
+```ruby
+react_component(component_name, props)
+```
+
+**Example:**
+
+```erb
+<div id="my-cool-power-status">
+  <%= react_component('PowerStatus', id: host.id, url: power_host_path(host.id), errorText: 'N/A') %>
+</div>
+```
+
+will render the following HTML:
+
+```html
+<div id="my-cool-power-status">
+  <foreman-react-component
+    name="PowerStatus"
+    data-props="<%= {
+      id: host.id,
+      url: power_host_path(host.id),
+      errorText: 'N/A',
+    }.to_json %>"
+  ></foreman-react-component>
+</div>
+```
+
+(Note that the React component is rendered as a [web component](https://developer.mozilla.org/en-US/docs/Web/Web_Components).)
+
+### Changing the props from legacy JS
+
+We allow changing the root component props from the legacy JS.
+Be aware, that this will re-render the component.
+This feature should only be used for limited use cases:
+
+1. A legacy JS library/component needs to talk to a React component, AND
+1. The component is simple enough that it wouldn't otherwise make sense to store its data in the Redux store.
+
+We will use a method `reactProps` that our web component exposes and get the current props.
+Then we will change this props and use `reactProps=` setter that will trigger the rerender.
+
+
+```js
+var myCoolPowerElement = document.getElementById("my-cool-power-status").getElementsByTagName('foreman-react-component')[0];
+var newProps = myCoolPowerElement.reactProps;
+
+newProps.errorText = 'MyNewErrorText';
+myCoolPowerElement.reactProps = newProps;
+
+```
+
+
+*Note* that you can also directly set the data: `element.dataset.props = JSON.stringify({new: 'prop'});`
+or even the attribute: `element.setAttribute('data-props', JSON.stringify({new: 'prop'}));`
+
+Both of these need a JSON string as a new value to work.
+
+## Before you start writing a new component
+
+It's worth checking [PatternFly](https://www.patternfly.org) to make sure such component doesn't exist yet. Also consider if your component is universal enough to be used in other projects. In such case it might make sense to add it to PatternFly instead.

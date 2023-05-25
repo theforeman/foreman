@@ -3,6 +3,18 @@ import { Button, Icon } from 'patternfly-react';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../common/I18n';
 
+/**
+ * A component that explains to the user about the permissions needed to perform an operation.
+ * @param {Object} props - The props object.
+ * @param {string[]} [props.missingPermissions=['unknown']] - An array of strings representing the missing permissions.
+ * @param {Object} [props.texts={}] - An object containing text strings for the component.
+ * @param {string} [props.texts.notAuthorizedMsg='You are not authorized to perform this action.'] - The message to display when the user is not authorized to perform the action.
+ * @param {string} [props.texts.permissionDeniedMsg='Permission denied'] - The message to display when the user does not have the required permissions.
+ * @param {string} [props.texts.pleaseRequestMsg='Please request one of the required permissions listed below from a Foreman administrator:'] - The message to display instructing the user to request the required permissions.
+ * @param {string} [props.backHref='/'] - The URL to navigate to when the user clicks the back button.
+ * @returns {ReactNode} The rendered `PermissionDenied` component.
+ */
+
 const PermissionDenied = ({ missingPermissions, texts, backHref }) => {
   const { notAuthorizedMsg, permissionDeniedMsg, pleaseRequestMsg } = texts;
   return (

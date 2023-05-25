@@ -6,6 +6,30 @@ import ForemanModalHeader from './subcomponents/ForemanModalHeader';
 import ForemanModalFooter from './subcomponents/ForemanModalFooter';
 import { extractModalNodes } from './helpers';
 
+/**
+ * A modal component that provides a standardized layout and context for modals in Foreman.
+ * Should not be used in new components. use Patternfy 4 Modal instead.
+ * @param {string} id - The ID of the modal.
+ * @param {string} [title=''] - The title of the modal. will not be used if a custom header is provided.
+ * @param {boolean} [isOpen=false] - Whether the modal is open or not.
+ * @param {function} onClose - The function to call when the modal is closed.
+ * @param {boolean} [isSubmitting=false] - Whether the modal is currently submitting data or not.
+ * @param {Object} [submitProps={}] - Additional props to pass down to the submit button in the footer.
+ * @param {ReactNode} [children=null] - The child nodes of the modal.
+ * @returns {ReactNode} The rendered modal component.
+ */
+/*
+  Usage example for a custom header and footer:
+  <ForemanModal id="custom">
+    <ForemanModal.Header>
+      <h3>This is a custom header! :)</h3>
+    </ForemanModal.Header>
+    body content
+    <ForemanModal.Footer>
+      Custom footer
+    </ForemanModal.Footer>
+  </ForemanModal>
+*/
 const ForemanModal = props => {
   const {
     id,
