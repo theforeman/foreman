@@ -26,13 +26,13 @@ static_v6 = !@dhcp6 && !@subnet6.nil? && !@interface.ip6.nil?
           - <%= @interface.ip %>/<%= @subnet.cidr %>
 <%-   end -%>
 <%-   if static_v6 -%>
-          - <%= @interface.ip6 %>/<%= @subnet6.cidr %>
+          - "<%= @interface.ip6 %>/<%= @subnet6.cidr %>"
 <%-   end -%>
 <%-   if static_v4 && @subnet.gateway.present? -%>
         gateway4: <%= @subnet.gateway %>
 <%-   end -%>
 <%-   if static_v6 && @subnet6.gateway.present? -%>
-        gateway6: <%= @subnet6.gateway %>
+        gateway6: "<%= @subnet6.gateway %>"
 <%-   end -%>
 <%-   if @interface.primary -%>
         nameservers:
@@ -45,7 +45,7 @@ static_v6 = !@dhcp6 && !@subnet6.nil? && !@interface.ip6.nil?
 <%-     end -%>
 <%-     if static_v6 -%>
 <%-       @subnet6.dns_servers.each do |dns6_server| -%>
-            - <%= dns6_server %>
+            - "<%= dns6_server %>"
 <%-       end -%>
 <%-     end -%>
 <%-   end -%>
