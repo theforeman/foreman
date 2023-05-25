@@ -50,7 +50,6 @@ public/webpack
 package-lock.json
 npm-debug.log
 .vscode
-.yo-rc.json
 .vendor/
 .solargraph.yml
 .nvmrc

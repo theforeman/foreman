@@ -3,7 +3,7 @@ export default [
   ['column2', 50],
 ];
 
-export const mockStoryData = {
+export const mockData = {
   donut: {
     width: 15,
     label: {

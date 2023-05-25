@@ -3,7 +3,6 @@
         "@sheerun/mutationobserver-shim",
         "@theforeman/env",
         "@theforeman/eslint-plugin-foreman",
-        "@theforeman/stories",
         "@theforeman/test",
         "@theforeman/vendor-dev",
         "@theforeman/find-foreman",
@@ -36,7 +35,6 @@
     ],
     "EXCLUDE_NPM_PREFIXES": [
         "@babel/eslint-",
-        "@storybook/",
         "@testing-library/",
         "enzyme",
         "eslint",

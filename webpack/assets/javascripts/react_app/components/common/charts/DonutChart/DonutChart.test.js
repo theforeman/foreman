@@ -1,14 +1,14 @@
 import { shallow } from '@theforeman/test';
 import React from 'react';
-import { mockStoryData, emptyData } from './DonutChart.fixtures';
+import { mockData, emptyData } from './DonutChart.fixtures';
 import DonutChart from './';
 import * as chartService from '../../../../../services/charts/DonutChartService';
 
 jest.unmock('./');
 describe('renders DonutChart', () => {
   it('render donut chart', () => {
-    chartService.getDonutChartConfig = jest.fn(() => mockStoryData);
-    const wrapper = shallow(<DonutChart data={mockStoryData} />);
+    chartService.getDonutChartConfig = jest.fn(() => mockData);
+    const wrapper = shallow(<DonutChart data={mockData} />);
 
     expect(wrapper).toMatchSnapshot();
   });
