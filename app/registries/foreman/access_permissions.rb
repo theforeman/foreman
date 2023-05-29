@@ -10,7 +10,7 @@ Foreman::AccessControl.map do |permission_set|
       :notification_recipients => [:index, :update, :destroy, :update_group_as_read, :destroy_group],
       :"api/v2/table_preferences" => [:show, :create, :update, :destroy, :index],
     }, :public => true
-    map.permission :api_status, { :"api/v2/home" => [:status]}, :public => true
+    map.permission :api_status, { :"api/v2/home" => [:status, :index]}, :public => true
     map.permission :about_index, { :about => [:index] }, :public => true
     map.permission :user_menu, { :user_menus => [:menu] }, :public => true
     map.permission :links, { :links => [:show] }, :public => true
