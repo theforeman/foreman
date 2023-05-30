@@ -13,8 +13,8 @@
                 :data => {
                   :disable_with => "<i class='fa fa-spinner fa-spin'></i> #{_('Opening VMRC Console')}..."
                 }) %>
-    <% if @host %>
-      <%= link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _('Back to host'), :class => 'btn btn-default btn-lg') %>
+    <% if @host && authorized_for(hash_for_host_path(@host)) %>
+      <%= link_to(_("Back to host"), current_host_details_path(:id => @host), :title => _('Back to host'), :class => 'btn btn-default btn-lg') %>
     <% end %>
   </div>
 </div>
