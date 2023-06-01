@@ -65,9 +65,8 @@ Foreman::SettingManager.define(:foreman) do
     setting('instance_id',
       type: :string,
       description: N_("Foreman instance ID, uniquely identifies this Foreman instance."),
-      default: 'uuid',
-      full_name: N_('Foreman UUID'),
-      value: Foreman.uuid)
+      default: nil,
+      full_name: N_('Foreman UUID'))
     setting('default_locale',
       type: :string,
       description: N_("Language to use for new users"),
