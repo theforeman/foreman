@@ -159,7 +159,7 @@ module Foreman #:nodoc:
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
       :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
       :renderer_variable_loaders, :host_ui_description, :hostgroup_ui_description, :ping_extension, :status_extension,
-      :allowed_registration_vars, :observable_events, :gettext_domain, :locale_path
+      :allowed_registration_vars, :observable_events, :gettext_domain, :locale_path, :preload_scopes
 
     delegate :fact_importer_registry, :fact_parser_registry, :graphql_types_registry, :medium_providers_registry, :report_scanner_registry, :report_origin_registry, to: :class
 
@@ -190,6 +190,7 @@ module Foreman #:nodoc:
       @observable_events = []
       @gettext_domain = nil
       @locale_path = nil
+      @preload_scopes = {}
     end
 
     def engine
@@ -600,6 +601,11 @@ module Foreman #:nodoc:
 
     def extend_observable_events(events)
       (@observable_events << events).flatten!.uniq!
+    end
+
+    def extend_preload_scopes(model, scopes)
+      @preload_scopes[model.to_s] ||= []
+      (@preload_scopes[model.to_s] << scopes).flatten!.uniq!
     end
 
     delegate :subscribe, to: ActiveSupport::Notifications
