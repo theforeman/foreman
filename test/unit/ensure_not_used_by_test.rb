@@ -48,7 +48,7 @@ class EnsureNotUsedByTest < ActiveSupport::TestCase
   end
 
   test "hostgroup should be deleted if not used by host" do
-    hostgroup = FactoryBot.build(:hostgroup, :organizations => [@org1, @org2])
+    hostgroup = FactoryBot.create(:hostgroup, :organizations => [@org1, @org2])
     FactoryBot.build(:host, :organization => @org2)
 
     as_user @user do

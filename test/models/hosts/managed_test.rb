@@ -184,6 +184,21 @@ module Host
           end
         end
       end
+
+      describe 'host_destroyed hook' do
+        test 'can reference dependent object' do
+          host = FactoryBot.build(:host, :managed)
+          host.interfaces.build(mac: '66:55:44:33:22:11', identifier: 'eth0')
+          host.save!
+          ActiveSupport::Notifications.subscribed(callback, 'host_destroyed.event.foreman') do
+            callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
+              payload[:object].interfaces.first.mac == '66:55:44:33:22:11'
+            end
+
+            host.destroy!
+          end
+        end
+      end
     end
 
     describe 'AR hooks' do
