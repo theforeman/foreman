@@ -1,3 +1,13 @@
+2023-06-06	ianballou <ianballou67@gmail.com>
+	* Release 3.7.0-rc3
+	* i18n - extracting new, pulling from tx
+
+2023-06-02	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #36450 - Respect old/new host details in log/vmrc
+
+2023-06-02	Lucy Fu <lufu@redhat.com>
+	* Refs #35649 - improve the error handling for Virtualization card
+
 2023-05-24	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.7.0-rc2
 
