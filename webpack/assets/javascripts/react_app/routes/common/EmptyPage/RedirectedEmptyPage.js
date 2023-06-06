@@ -20,19 +20,32 @@ const RedirectedEmptyPage = ({ location: { state = {} } }) => {
   } = state;
   const history = useHistory();
   const primaryAction = action && (
-    <Button onClick={() => visit(action.url)} variant="primary">
+    <Button
+      ouiaId="redirected-empty-page-primary-action"
+      onClick={() => visit(action.url)}
+      variant="primary"
+    >
       {action.title}
     </Button>
   );
   const renderSecondaryActions = () =>
     secondayActions?.map(({ title, url }) => (
-      <Button key={title} onClick={() => visit(url)} variant="link">
+      <Button
+        ouiaId="redirected-empty-page-secondary-action"
+        key={title}
+        onClick={() => visit(url)}
+        variant="link"
+      >
         {title}
       </Button>
     ));
 
   const backButton = back && (
-    <Button onClick={() => history.goBack()} variant="link">
+    <Button
+      ouiaId="redirected-empty-page-back-button"
+      onClick={() => history.goBack()}
+      variant="link"
+    >
       {__('Return to the last page')}
     </Button>
   );

@@ -126,7 +126,11 @@ export const SearchAutocomplete = ({
   );
 
   const autocomplete = (
-    <Menu ref={autocompleteRef} onSelect={error ? null : onSelect}>
+    <Menu
+      ouiaId="search-autocomplete-menu"
+      ref={autocompleteRef}
+      onSelect={error ? null : onSelect}
+    >
       {!disabled && (
         <MenuContent>
           <AutoCompleteMenu results={results} error={error} />

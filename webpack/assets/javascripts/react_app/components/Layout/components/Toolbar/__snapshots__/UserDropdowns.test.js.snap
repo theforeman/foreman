@@ -9,20 +9,25 @@ exports[`UserDropdown render 1`] = `
         className="user_menuitem"
         href="/"
         onClick={[Function]}
+        ouiaId="user-dropdown-item-0"
       >
         My Account
       </DropdownItem>,
-      <DropdownSeparator />,
+      <DropdownSeparator
+        ouiaId="user-dropdown-separator"
+      />,
     ]
   }
   isOpen={true}
   isPlain={true}
   notification_url="/"
   onSelect={[Function]}
+  ouiaId="user-info-dropdown"
   position="right"
   toggle={
     <DropdownToggle
       onToggle={[Function]}
+      ouiaId="user-dropdown-toggle"
     >
       <UserAltIcon
         className="user-icon"

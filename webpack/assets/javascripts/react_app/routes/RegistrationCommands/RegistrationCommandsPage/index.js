@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -184,7 +185,9 @@ const RegistrationCommandsPage = () => {
         <Grid hasGutter>
           <GridItem span={12} />
           <GridItem span={6}>
-            <Title headingLevel="h1">{__('Register Host')}</Title>
+            <Title ouiaId="title-register-host" headingLevel="h1">
+              {__('Register Host')}
+            </Title>
           </GridItem>
           <GridItem span={6}>
             <a
@@ -199,6 +202,7 @@ const RegistrationCommandsPage = () => {
 
           <GridItem span={12}>
             <Tabs
+              ouiaId="tabs-register-host"
               activeKey={activeTab}
               onSelect={(e, tab) => changeTab(e, tab)}
             >
@@ -222,6 +226,7 @@ const RegistrationCommandsPage = () => {
             <>
               <GridItem span={4}>
                 <Alert
+                  ouiaId="alert-register-host-error"
                   variant="danger"
                   title={__(
                     'There was an error while loading the data, see the logs for more information.'
@@ -232,7 +237,12 @@ const RegistrationCommandsPage = () => {
             </>
           )}
           <GridItem span={4}>
-            <TabContent eventKey={0} id="generalSection" ref={generalTabRef}>
+            <TabContent
+              ouiaId="tab-content-register-host-general"
+              eventKey={0}
+              id="generalSection"
+              ref={generalTabRef}
+            >
               <div className="pf-c-form">
                 <General
                   organizationId={organizationId}
@@ -275,6 +285,7 @@ const RegistrationCommandsPage = () => {
             </TabContent>
 
             <TabContent
+              ouiaId="tab-content-register-host-advanced"
               eventKey={1}
               id="advancedSection"
               ref={advancedTabRef}

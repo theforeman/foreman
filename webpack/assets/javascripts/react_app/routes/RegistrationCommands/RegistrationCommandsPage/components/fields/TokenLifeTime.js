@@ -46,6 +46,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
     >
       <InputGroup>
         <TextInput
+          ouiaId="reg_token_life_time_input"
           value={value}
           type="number"
           min={minValue}
@@ -58,6 +59,7 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
         <InputGroupText>{__('hours')}</InputGroupText>
         <InputGroupText>
           <Checkbox
+            ouiaId="reg_unlimited_token_life_time"
             label={__('unlimited')}
             onChange={() => setValue(value === 'unlimited' ? 4 : 'unlimited')}
             id="reg_unlimited_token_life_time"

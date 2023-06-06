@@ -117,6 +117,7 @@ const DetailsCard = ({
                   >
                     <FlexItem>
                       <Button
+                        ouiaId="host-group-link"
                         component="a"
                         href={foremanUrl(
                           `/hosts?search=hostgroup="${hostgroupName}"`
@@ -130,6 +131,7 @@ const DetailsCard = ({
                     </FlexItem>
                     <FlexItem>
                       <Button
+                        ouiaId="host-group-edit-link"
                         component="a"
                         href={foremanUrl(
                           `/hostgroups/${hostgroupId}-${(

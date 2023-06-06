@@ -84,6 +84,7 @@ const OperatingSystem = ({
       fieldId="reg_os"
     >
       <FormSelect
+        ouiaId="os-select"
         value={operatingSystemId}
         onChange={v => handleOperatingSystem(v)}
         className="without_select2"

@@ -40,6 +40,7 @@ const NetworkingInterfacesCard = ({
     </SkeletonLoader>
     {editPermission && (
       <Button
+        ouiaId="edit-interfaces-button"
         variant="link"
         component="a"
         href={`/hosts/${name}/edit#interfaces`}

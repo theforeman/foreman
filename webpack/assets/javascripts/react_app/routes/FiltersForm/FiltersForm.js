@@ -142,6 +142,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
           }
         >
           <Checkbox
+            ouiaId="override-checkbox"
             isChecked={isOverride}
             onChange={checked => {
               setIsOverride(checked);
@@ -188,6 +189,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
             }
           >
             <Checkbox
+              ouiaId="unlimited-checkbox"
               isChecked={isUnlimited}
               onChange={checked => {
                 setAutocompleteQuery('');
@@ -217,6 +219,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
         </>
       ) : (
         <Alert
+          ouiaId="granular-filtering-alert"
           variant="info"
           title={__(
             "Selected resource type does not support granular filtering, therefore you can't configure granularity"
@@ -226,13 +229,18 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
 
       <ActionGroup>
         <Button
+          ouiaId="filters-submit-button"
           variant="primary"
           isDisabled={!chosenPermissions.length}
           onClick={submit}
         >
           {__('Submit')}
         </Button>
-        <Button onClick={() => history.goBack()} variant="link">
+        <Button
+          ouiaId="filters-cancel-button"
+          onClick={() => history.goBack()}
+          variant="link"
+        >
           {__('Cancel')}
         </Button>
       </ActionGroup>

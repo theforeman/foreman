@@ -39,6 +39,7 @@ const SmartProxy = ({
       helperText={smartProxyUrl()}
     >
       <FormSelect
+        ouiaId="reg_smart_proxy"
         value={smartProxyId}
         onChange={v => handleSmartProxy(v)}
         className="without_select2"

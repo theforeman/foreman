@@ -25,6 +25,7 @@ const AuditsPage = ({
     onSearch={search => fetchAndPush({ searchQuery: search, page: 1 })}
     toolbarButtons={
       <Button
+        ouiaId="audits-documentation-button"
         component="a"
         className="btn-docs"
         href={getManualURL('4.1.4Auditing')}
