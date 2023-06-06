@@ -49,13 +49,21 @@ const TemplatesCard = ({ hostName }) => {
             template={currentTemplate}
           />
         )}
-        <TableComposable aria-label="templates table" variant="compact">
+        <TableComposable
+          ouiaId="provisioning-templates-table"
+          aria-label="templates table"
+          variant="compact"
+        >
           <Tbody>
             {templates?.map(template => (
-              <Tr key={template.name}>
+              <Tr
+                ouiaId={`provisioning-templates-table-row-${template.name}`}
+                key={template.name}
+              >
                 <Td /* to remove padding */ />
                 <Td dataLabel={TemplateTypeTitle} noPadding>
                   <Button
+                    ouiaId={`provisioning-templates-table-row-${template.name}-name`}
                     isDisabled={!viewTemplatePermission}
                     variant="link"
                     onClick={() => onReviewClick(template)}
@@ -66,6 +74,7 @@ const TemplatesCard = ({ hostName }) => {
                 {editTemplatePermission && (
                   <Td>
                     <Button
+                      ouiaId={`provisioning-templates-table-row-${template.name}-edit`}
                       component="a"
                       key="edit"
                       href={editTemplateUrl(template.id)}

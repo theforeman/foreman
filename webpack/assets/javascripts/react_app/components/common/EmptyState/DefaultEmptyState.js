@@ -24,6 +24,7 @@ const DefaultEmptyState = props => {
 
   const ActionButton = action ? (
     <Button
+      ouiaId="empty-state-action-button"
       component="a"
       onClick={() => actionButtonClickHandler(action)}
       variant="primary"
@@ -35,6 +36,7 @@ const DefaultEmptyState = props => {
   const SecondaryButton = secondaryActions
     ? secondaryActions.map(({ title, url, onClick }) => (
         <Button
+          ouiaId="empty-state-secondary-action-button"
           component="a"
           key={`sec-button-${title}`}
           onClick={() => actionButtonClickHandler({ url, onClick })}

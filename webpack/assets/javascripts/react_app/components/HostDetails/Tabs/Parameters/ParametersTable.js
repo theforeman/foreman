@@ -74,7 +74,7 @@ export const ParametersTable = ({
   };
   return (
     <>
-      <Toolbar>
+      <Toolbar ouiaId="parameters-table-toolbar">
         <ToolbarContent>
           <ToolbarItem variant="search-filter">
             <SearchInput
@@ -89,7 +89,7 @@ export const ParametersTable = ({
             />
           </ToolbarItem>
           <ToolbarItem>
-            <Button onClick={() => setShowNewRow(true)}>
+            <Button ouiaId="add-parameter" onClick={() => setShowNewRow(true)}>
               {__('Add parameter')}
             </Button>
           </ToolbarItem>
@@ -109,12 +109,13 @@ export const ParametersTable = ({
         </ToolbarContent>
       </Toolbar>
       <TableComposable
+        ouiaId="parameters-table"
         id="parameters-table"
         aria-label="Parameters table"
         variant="compact"
       >
         <Thead>
-          <Tr>
+          <Tr ouiaId="parameters-table-header">
             <Th sort={pfSortParams(columnNames.name)}>{columnNames.name}</Th>
             <Th>{columnNames.type}</Th>
             <Th>{columnNames.value}</Th>

@@ -57,7 +57,7 @@ const EmptyStatePattern = props => {
       <span className="empty-state-icon">
         <EmptyStateIcon />
       </span>
-      <Title headingLevel="h5" size="4xl">
+      <Title ouiaId="empty-state-header" headingLevel="h5" size="4xl">
         {header}
       </Title>
       <EmptyStateBody>

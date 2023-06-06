@@ -37,7 +37,7 @@ const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
       tableBody = (
         <Tbody>
           {reports.map((row, rowIndex) => (
-            <Tr key={rowIndex} ouiaId={`row-${rowIndex}`}>
+            <Tr key={rowIndex} ouiaId={`reports-row-${rowIndex}`}>
               {columns.map(({ title, formatter }, cellIndex) => (
                 <Td key={`${rowIndex}_${cellIndex}`} dataLabel={title}>
                   {formatter(row)}

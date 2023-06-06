@@ -96,6 +96,7 @@ const NICDescriptionList = ({ status, foremanInterface }) => {
                 <DescriptionListTerm>{__('Subnet')}</DescriptionListTerm>
                 <DescriptionListDescription>
                   <Button
+                    ouiaId="subnet-link"
                     variant="link"
                     component="a"
                     isInline
@@ -111,6 +112,7 @@ const NICDescriptionList = ({ status, foremanInterface }) => {
                 <DescriptionListTerm>{__('IPv6 subnet')}</DescriptionListTerm>
                 <DescriptionListDescription>
                   <Button
+                    ouiaId="subnet6-link"
                     variant="link"
                     component="a"
                     isInline

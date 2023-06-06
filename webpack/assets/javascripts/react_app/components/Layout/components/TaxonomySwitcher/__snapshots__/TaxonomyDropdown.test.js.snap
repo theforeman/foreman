@@ -198,6 +198,7 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
         component="a"
         href="/organizations"
         isSmall={true}
+        ouiaId="manage-taxonomy-button-organization"
         variant="secondary"
       >
         Manage Organizations
@@ -214,6 +215,7 @@ exports[`TaxonomyDropdown rendering rendering 1`] = `
   onSearchInputChange={[Function]}
   onSelect={[Function]}
   onToggle={[Function]}
+  ouiaId="taxonomy-context-selector-organization"
   ouiaSafe={true}
   removeFindDomNode={false}
   screenReaderLabel="Selected Taxonomy:"

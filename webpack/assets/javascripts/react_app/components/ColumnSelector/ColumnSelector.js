@@ -142,6 +142,7 @@ const ColumnSelector = props => {
     <div className="pf-c-select-input">
       <div className="pf-c-input-group" id="column-selector">
         <Button
+          ouiaId="manage-columns-button"
           id="btn-select-columns"
           variant="link"
           icon={<ColumnsIcon />}
@@ -153,6 +154,7 @@ const ColumnSelector = props => {
           <span className="columns-selector-text">{__('Manage columns')}</span>
         </Button>
         <Modal
+          ouiaId="manage-columns-modal"
           variant={ModalVariant.small}
           title={__('Manage columns')}
           isOpen={isModalOpen}
@@ -162,13 +164,19 @@ const ColumnSelector = props => {
           position="top"
           actions={[
             <Button
+              ouiaId="save-columns-button"
               key="save"
               variant="primary"
               onClick={() => updateTablePreference()}
             >
               {__('Save')}
             </Button>,
-            <Button key="cancel" variant="secondary" onClick={toggleModal}>
+            <Button
+              ouiaId="cancel-columns-button"
+              key="cancel"
+              variant="secondary"
+              onClick={toggleModal}
+            >
               {__('Cancel')}
             </Button>,
           ]}

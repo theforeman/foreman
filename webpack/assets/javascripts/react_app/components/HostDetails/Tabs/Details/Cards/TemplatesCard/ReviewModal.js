@@ -28,6 +28,7 @@ export const ReviewModal = ({
   const { response, status } = useAPI('get', url);
   return (
     <Modal
+      ouiaId="review-modal"
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
       variant="large"
@@ -36,6 +37,7 @@ export const ReviewModal = ({
           {template.name}{' '}
           <Tooltip content={__('Open in a new tab')}>
             <Button
+              ouiaId="open-in-new-tab-button"
               aria-label="Open in a new tab"
               component="a"
               isInline
@@ -55,6 +57,7 @@ export const ReviewModal = ({
           values={{
             openTemplate: (
               <Button
+                ouiaId="open-template-edit-button"
                 aria-label="Open template edit page"
                 component="a"
                 key="edit-template"
@@ -79,6 +82,7 @@ export const ReviewModal = ({
           }}
         >
           <Switch
+            ouiaId="safe-mode-switch"
             id="safe-mode-switch"
             label={__('Safe mode on')}
             labelOff={__('Safe mode off')}

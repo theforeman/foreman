@@ -30,9 +30,10 @@ const UserDropdowns = ({
 
   const userDropdownItems = user.user_dropdown[0].children.map((item, i) =>
     item.type === 'divider' ? (
-      <DropdownSeparator key={i} />
+      <DropdownSeparator ouiaId="user-dropdown-separator" key={i} />
     ) : (
       <DropdownItem
+        ouiaId={`user-dropdown-item-${i}`}
         key={i}
         className="user_menuitem"
         href={item.url}
@@ -49,12 +50,16 @@ const UserDropdowns = ({
   return (
     userInfo && (
       <Dropdown
+        ouiaId="user-info-dropdown"
         isPlain
         position="right"
         onSelect={onDropdownSelect}
         isOpen={userDropdownOpen}
         toggle={
-          <DropdownToggle onToggle={onDropdownToggle}>
+          <DropdownToggle
+            ouiaId="user-dropdown-toggle"
+            onToggle={onDropdownToggle}
+          >
             <UserAltIcon className="user-icon" />
             {userInfo.name}
           </DropdownToggle>
