@@ -79,6 +79,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   const footer = (
     <ContextSelectorFooter>
       <Button
+        ouiaId={`manage-taxonomy-button-${taxonomyType}`}
         isSmall
         component="a"
         className={taxonomyType}
@@ -93,6 +94,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   );
   return (
     <ContextSelector
+      ouiaId={`taxonomy-context-selector-${taxonomyType}`}
       id={id}
       toggleText={
         currentTaxonomy || (

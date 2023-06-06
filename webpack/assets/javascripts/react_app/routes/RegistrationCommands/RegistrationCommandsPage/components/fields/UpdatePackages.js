@@ -13,6 +13,7 @@ const UpdatePackages = ({
 }) => (
   <FormGroup fieldId="reg_update_packages">
     <Checkbox
+      ouiaId="update-all-packages-checkbox"
       label={
         <span>
           {__('Update packages')}{' '}

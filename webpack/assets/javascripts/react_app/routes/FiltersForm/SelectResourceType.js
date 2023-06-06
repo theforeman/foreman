@@ -46,6 +46,7 @@ export const SelectResourceType = ({
   return (
     <FormGroup label={__('Resource Type')} isRequired>
       <Select
+        ouiaId="resource-type-select"
         className="without_select2"
         maxHeight="45vh"
         variant={SelectVariant.typeahead}

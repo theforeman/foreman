@@ -23,6 +23,7 @@ const RecentCommunicationCard = ({ hostName, hostDetails }) => {
           </DescriptionListTerm>
           <DescriptionListDescription>
             <Button
+              ouiaId="last-report-button"
               variant="link"
               component="a"
               isInline

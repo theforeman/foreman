@@ -15,6 +15,7 @@ exports[`RegistrationCommandsPage fields - Repository renders 1`] = `
       id="reg_repo"
       isDisabled={false}
       onChange={[Function]}
+      ouiaId="red_repo"
       type="text"
       value=""
     />
@@ -32,6 +33,7 @@ exports[`RegistrationCommandsPage fields - Repository renders 1`] = `
       id="reg_gpg_key_url"
       isDisabled={false}
       onChange={[Function]}
+      ouiaId="reg_gpg_key_url"
       type="text"
       value=""
     />

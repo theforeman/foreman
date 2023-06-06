@@ -19,6 +19,7 @@ exports[`RegistrationCommandsPage fields - TokenLifeTime renders 1`] = `
       max={999999}
       min={1}
       onChange={[Function]}
+      ouiaId="reg_token_life_time_input"
       type="number"
       validated="default"
       value={4}
@@ -37,6 +38,7 @@ exports[`RegistrationCommandsPage fields - TokenLifeTime renders 1`] = `
         isValid={true}
         label="unlimited"
         onChange={[Function]}
+        ouiaId="reg_unlimited_token_life_time"
         ouiaSafe={true}
       />
     </InputGroupText>

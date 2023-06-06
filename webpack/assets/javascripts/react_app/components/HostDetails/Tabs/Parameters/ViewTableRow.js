@@ -29,7 +29,7 @@ export const ViewParametersTableRow = ({
   hostId,
   editHostsPermission,
 }) => (
-  <Tr key={rowIndex}>
+  <Tr ouiaId={`view-parameter-row-${rowIndex}`} key={rowIndex}>
     <Td dataLabel={columnNames.name}>
       <>
         {param.override && (
@@ -55,6 +55,7 @@ export const ViewParametersTableRow = ({
           }
         >
           <Button
+            ouiaId={`view-parameters-table-row-edit-${rowIndex}`}
             aria-label={
               param.associated_type === HOST_PARAM
                 ? `edit ${param.name}`

@@ -26,6 +26,7 @@ const ToastsList = ({ railsMessages }) => {
   const toastsList = Object.entries(messages).map(
     ([key, { type, message, link, sticky, ...toastProps }]) => (
       <Alert
+        ouiaId={`toast-item-${key}`}
         key={key}
         title={toastTitle(message, toastType(type))}
         variant={toastType(type)}

@@ -9,6 +9,7 @@ import { translate as __ } from '../../../../../common/I18n';
 const Insecure = ({ insecure, handleInsecure, isLoading }) => (
   <FormGroup fieldId="reg_insecure">
     <Checkbox
+      ouiaId="reg_insecure"
       label={
         <span>
           {__('Insecure')}{' '}
