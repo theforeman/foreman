@@ -15,6 +15,7 @@ const Command = ({ apiStatus, command }) => {
     case STATUS.ERROR:
       return (
         <Alert
+          ouiaId="registration-alert-command"
           variant="danger"
           title={__(
             'There was an error while generating the command, see the logs for more information.'

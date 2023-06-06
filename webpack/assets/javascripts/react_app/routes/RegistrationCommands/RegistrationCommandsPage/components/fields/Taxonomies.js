@@ -32,6 +32,7 @@ const Taxonomies = ({
       }
     >
       <FormSelect
+        ouiaId="reg_organization"
         value={organizationId}
         onChange={v => handleOrganization(v)}
         className="without_select2"
@@ -58,6 +59,7 @@ const Taxonomies = ({
       }
     >
       <FormSelect
+        ouiaId="reg_location"
         value={locationId}
         onChange={v => handleLocation(v)}
         className="without_select2"

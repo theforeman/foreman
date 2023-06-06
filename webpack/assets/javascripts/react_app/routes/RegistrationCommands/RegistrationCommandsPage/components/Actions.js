@@ -11,6 +11,7 @@ const Actions = ({ isLoading, isGenerating, handleSubmit, invalidFields }) => (
   <>
     <ActionGroup style={{ marginTop: '50px' }}>
       <Button
+        ouiaId="registration_generate_btn"
         variant="primary"
         id="generate_btn"
         onClick={e => handleSubmit(e)}
@@ -22,7 +23,9 @@ const Actions = ({ isLoading, isGenerating, handleSubmit, invalidFields }) => (
 
       {/* Can't use <RedirectCancelButton> due to infinitive loop */}
       <Link to={foremanUrl('/hosts')}>
-        <Button variant="link">{__('Cancel')}</Button>
+        <Button ouiaId="registration-cancel-button" variant="link">
+          {__('Cancel')}
+        </Button>
       </Link>
     </ActionGroup>
   </>

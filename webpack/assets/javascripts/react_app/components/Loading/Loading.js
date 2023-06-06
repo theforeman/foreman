@@ -19,7 +19,7 @@ const Loading = ({ textSize, iconSize, showText }) => {
       <EmptyState>
         <EmptyStateIcon variant="container" component={LoadingSpinner} />
         {showText && (
-          <Title size={textSize} headingLevel="h4">
+          <Title ouiaId="loading-title" size={textSize} headingLevel="h4">
             {__('Loading')}
           </Title>
         )}

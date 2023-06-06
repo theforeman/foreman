@@ -32,6 +32,7 @@ const OperatingSystemCard = ({ status, hostDetails }) => {
               emptyState={<DefaultLoaderEmptyState />}
             >
               <Button
+                ouiaId="host-architecture-button"
                 variant="link"
                 component="a"
                 isInline
@@ -51,6 +52,7 @@ const OperatingSystemCard = ({ status, hostDetails }) => {
               emptyState={<DefaultLoaderEmptyState />}
             >
               <Button
+                ouiaId="host-os-button"
                 variant="link"
                 component="a"
                 isInline

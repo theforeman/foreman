@@ -80,7 +80,7 @@ export const EditParametersTableRow = ({
     }
   };
   return (
-    <Tr key={rowIndex}>
+    <Tr ouiaId={`edit-parameters-table-row-${rowIndex}`} key={rowIndex}>
       <Td dataLabel={columnNames.name}>
         <Form>
           <FormGroup
@@ -88,6 +88,7 @@ export const EditParametersTableRow = ({
             helperTextInvalid={__("Name can't contain spaces")}
           >
             <TextInput
+              ouiaId={`edit-parameters-table-row-name-${rowIndex}`}
               validated={name.includes(' ') ? 'error' : null}
               aria-label={`${param.name} name text`}
               value={name}
@@ -99,6 +100,7 @@ export const EditParametersTableRow = ({
       </Td>
       <Td dataLabel={columnNames.type}>
         <Select
+          ouiaId={`edit-parameters-table-row-type-${rowIndex}`}
           variant={SelectVariant.single}
           aria-label={`Select ${param.name} type`}
           onToggle={setSelectIsOpen}
@@ -118,6 +120,7 @@ export const EditParametersTableRow = ({
         <>
           {type === 'boolean' ? (
             <Select
+              ouiaId={`edit-parameters-table-row-boolean-${rowIndex}`}
               variant={SelectVariant.single}
               aria-label={`Select ${param.name} value`}
               onToggle={setSelectValueIsOpen}
@@ -133,6 +136,7 @@ export const EditParametersTableRow = ({
             </Select>
           ) : (
             <TextArea
+              ouiaId={`edit-parameters-table-row-value-${rowIndex}`}
               aria-label={`${param.name} value text`}
               value={typeof value === 'object' ? JSON.stringify(value) : value}
               onChange={setValue}
@@ -143,6 +147,7 @@ export const EditParametersTableRow = ({
             />
           )}
           <Checkbox
+            ouiaId={`edit-parameters-table-row-hide-${rowIndex}`}
             label={__('Hide value')}
             isChecked={isHide}
             onChange={setIsHide}
@@ -156,6 +161,7 @@ export const EditParametersTableRow = ({
           <>
             <Tooltip content={__('Cancel')}>
               <Button
+                ouiaId={`edit-parameters-table-row-cancel-${rowIndex}`}
                 aria-label={`cancel ${param.name} edit`}
                 variant="plain"
                 onClick={() => {
@@ -170,6 +176,7 @@ export const EditParametersTableRow = ({
             </Tooltip>
             <Tooltip content={__('Submit edit')}>
               <Button
+                ouiaId={`edit-parameters-table-row-submit-${rowIndex}`}
                 aria-label={`submit ${param.name} edit`}
                 variant="plain"
                 onClick={() => {

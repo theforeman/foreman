@@ -71,6 +71,7 @@ const AuditCard = ({ hostName }) => {
                 aria-label="audits table"
                 variant="compact"
                 borders="compactBorderless"
+                ouiaId="audits-table"
               >
                 <Tbody>
                   {audits.map(
@@ -80,7 +81,7 @@ const AuditCard = ({ hostName }) => {
                       action,
                       id,
                     }) => (
-                      <Tr key={id}>
+                      <Tr key={id} ouiaId={`audit-${id}`}>
                         <Td modifier="truncate" key={`action-${id}`}>
                           <TableText tooltip={action}>{action}</TableText>
                         </Td>

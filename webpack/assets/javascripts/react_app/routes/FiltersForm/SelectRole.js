@@ -17,6 +17,7 @@ export const SelectRole = ({ role, setRole }) => {
   return (
     <FormGroup label={__('Role')} isRequired>
       <Select
+        ouiaId="select-role"
         className="without_select2"
         maxHeight="45vh"
         variant={SelectVariant.typeahead}

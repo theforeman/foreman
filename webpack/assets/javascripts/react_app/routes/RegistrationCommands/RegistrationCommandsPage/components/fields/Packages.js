@@ -24,6 +24,7 @@ const Packages = ({ packages, handlePackages, configParams, isLoading }) => (
     fieldId="reg_packages"
   >
     <TextInput
+      ouiaId="reg_packages"
       id="reg_packages"
       value={packages}
       type="text"

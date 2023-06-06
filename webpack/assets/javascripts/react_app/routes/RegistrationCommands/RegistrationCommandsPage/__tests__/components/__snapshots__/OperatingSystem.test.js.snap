@@ -20,6 +20,7 @@ exports[`RegistrationCommandsPage fields - OperatingSystem renders 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
+    ouiaId="os-select"
     ouiaSafe={true}
     validated="default"
     value={0}

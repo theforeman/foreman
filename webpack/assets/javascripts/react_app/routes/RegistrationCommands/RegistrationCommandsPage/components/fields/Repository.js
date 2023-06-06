@@ -27,6 +27,7 @@ const Repository = ({
       }
     >
       <TextInput
+        ouiaId="red_repo"
         id="reg_repo"
         value={repo}
         type="text"
@@ -46,6 +47,7 @@ const Repository = ({
       }
     >
       <TextInput
+        ouiaId="reg_gpg_key_url"
         id="reg_gpg_key_url"
         value={repoGpgKeyUrl}
         type="text"
