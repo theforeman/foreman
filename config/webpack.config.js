@@ -167,7 +167,7 @@ module.exports = env => {
           }),
         },
         {
-          test: /\.(png|gif|svg)$/,
+          test: /\.(png|gif|svg|ttf|woff(2)?|eot)$/,
           use: 'url-loader?limit=32767',
         },
         {
