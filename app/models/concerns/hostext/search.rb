@@ -202,15 +202,6 @@ module Hostext
         {:conditions => "hosts.id IN (#{host_ids})"}
       end
 
-      def search_cast_facts(key, operator, value)
-        in_query = FactValue.unscoped.joins(:fact_name).select(:host_id).
-                    where("#{FactName.table_name}.name = ?", key.split('.', 2).last).
-                    where(cast_facts(FactValue.table_name, key, operator, value)).to_sql
-        {
-          :conditions => "#{Host::Managed.table_name}.id in (#{in_query})",
-        }
-      end
-
       def search_by_os_major(key, operator, value)
         column, value = if operator =~ /LIKE/
                           ['major', value]
