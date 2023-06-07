@@ -89,7 +89,10 @@ export const ParametersTable = ({
             />
           </ToolbarItem>
           <ToolbarItem>
-            <Button ouiaId="add-parameter" onClick={() => setShowNewRow(true)}>
+            <Button
+              ouiaId="add-parameter-btn"
+              onClick={() => setShowNewRow(true)}
+            >
               {__('Add parameter')}
             </Button>
           </ToolbarItem>
