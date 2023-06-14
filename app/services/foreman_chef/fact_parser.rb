@@ -9,6 +9,8 @@ module ForemanChef
       # if we have no release information we can't assign OS properly (e.g. missing redhat-lsb)
       if release.nil?
         major, minor = 1, nil
+      elsif os_name == 'Ubuntu'
+        major, minor = release, nil
       else
         major, minor = release.split('.')
       end

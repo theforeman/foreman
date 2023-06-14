@@ -55,7 +55,13 @@ module Katello
       return nil if name.nil? || version.nil?
 
       os_name = distribution_to_puppet_os(name)
-      major, minor = version.split('.')
+      version_splits = version.split('.')
+      if name =~ /ubuntu/i
+        major = "#{version_splits[0]}.#{version_splits[1]}"
+        minor = version_splits[2] if version_splits.length == 3
+      else
+        major, minor = version_splits
+      end
       unless facts['ignore_os']
         os_attributes = {:major => major, :minor => minor || '', :name => os_name}
 

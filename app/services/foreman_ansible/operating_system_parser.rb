@@ -55,6 +55,8 @@ module ForemanAnsible
           (facts[:ansible_distribution_major_version][%r{\/sid}i] ||
            facts[:ansible_distribution_major_version] == 'n/a')
         debian_os_major_sid
+      elsif os_name == 'Ubuntu'
+        facts[:ansible_distribution_major_version]
       else
         facts[:ansible_distribution_major_version] ||
             facts[:ansible_lsb] && facts[:ansible_lsb]['major_release'] ||
@@ -68,8 +70,12 @@ module ForemanAnsible
     end
 
     def os_minor
-      _, minor = os_release&.split('.', 2) ||
+      if os_name == 'Ubuntu'
+        minor = nil
+      else
+        _, minor = os_release&.split('.', 2) ||
           (facts[:version].split('R') if os_name == 'junos')
+      end
       # Until Foreman supports os.minor as something that's not a number,
       # we should remove the extra dots in the version. E.g:
       # '6.1.7601.65536' becomes '6.1.760165536'
