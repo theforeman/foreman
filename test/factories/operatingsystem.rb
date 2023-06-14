@@ -108,6 +108,24 @@ FactoryBot.define do
       title { 'Ubuntu Utopic' }
     end
 
+    factory :ubuntu22_04, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '22.04' }
+      minor { '' }
+      type { 'Debian' }
+      release_name { 'jammy' }
+      title { 'Ubuntu Jammy' }
+    end
+
+    factory :ubuntu22_04_3, class: Debian do
+      sequence(:name) { 'Ubuntu' }
+      major { '22.04' }
+      minor { '3' }
+      type { 'Debian' }
+      release_name { 'jammy' }
+      title { 'Ubuntu Jammy' }
+    end
+
     factory :debian7_0, class: Debian do
       sequence(:name) { 'Debian' }
       major { '7' }

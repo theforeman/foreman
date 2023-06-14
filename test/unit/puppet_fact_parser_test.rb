@@ -772,6 +772,23 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       end
     end
 
+    describe 'Ubuntu 18.04' do
+      let(:os_name) { 'Ubuntu' }
+      let(:os_major) { '18.04' }
+
+      ['2.5', '4.1'].each do |facterversion|
+        describe "Facter #{facterversion}" do
+          let(:facterversion) { facterversion }
+
+          test "should correctly identify Ubuntu 18.04" do
+            assert_equal 'Ubuntu', subject.send(:os_name)
+            assert_equal '18.04', subject.send(:os_major_version)
+            assert_nil subject.send(:os_minor_version)
+          end
+        end
+      end
+    end
+
     describe 'Windows 2012' do
       let(:os_name) { 'windows' }
       let(:os_major) { '2012' }

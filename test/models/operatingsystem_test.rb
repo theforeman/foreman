@@ -56,6 +56,20 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert operating_system.to_s == operating_system.to_label
   end
 
+  test "should find Ubuntu 22.04 by fullname string" do
+    FactoryBot.create(:ubuntu22_04)
+    str = "Ubuntu 22.04"
+    os = Operatingsystem.find_by_to_label(str)
+    assert_equal str, os.fullname
+  end
+
+  test "should find Ubuntu 22.04.3 by fullname string" do
+    FactoryBot.create(:ubuntu22_04_3)
+    str = "Ubuntu 22.04.3"
+    os = Operatingsystem.find_by_to_label(str)
+    assert_equal str, os.fullname
+  end
+
   test "should find by fullname string" do
     str = "Redhat 6.1"
     os = Operatingsystem.find_by_to_label(str)
