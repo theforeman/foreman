@@ -20,8 +20,7 @@ redhat:
 
 ubuntu1010:
   name: Ubuntu
-  major: 10
-  minor: 10
+  major: '10.10'
   release_name: rn10
   type: Debian
   media: ubuntu

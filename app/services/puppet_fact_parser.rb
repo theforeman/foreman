@@ -5,9 +5,14 @@ class PuppetFactParser < FactParser
     orel = os_release.dup
 
     if orel.present?
-      major, minor = orel.split('.', 2)
-      major = major.to_s.gsub(/\D/, '')
-      minor = minor.to_s.gsub(/[^\d\.]/, '')
+      if os_name =~ /ubuntu/i
+        major = os_major_version
+        minor = os_minor_version
+      else
+        major, minor = orel.split('.', 2)
+        major = major.to_s.gsub(/\D/, '')
+        minor = minor.to_s.gsub(/[^\d\.]/, '')
+      end
       args = {:name => os_name, :major => major, :minor => minor}
       os = Operatingsystem.find_or_initialize_by(args)
       if os_name[/debian|ubuntu/i] || os.family == 'Debian'
@@ -225,6 +230,14 @@ class PuppetFactParser < FactParser
   rescue StandardError => e
     logger.error { "Failed to read the OS name: #{e}" }
     raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
+  end
+
+  def os_major_version
+    facts.dig(:os, :release, :major)
+  end
+
+  def os_minor_version
+    facts.dig(:os, :release, :minor)
   end
 
   def os_release

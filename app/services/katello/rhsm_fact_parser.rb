@@ -52,7 +52,7 @@ module Katello
       return nil if name.nil? || version.nil?
 
       os_name = distribution_to_puppet_os(name)
-      major, minor = version.split('.')
+      (major, minor) = ::Operatingsystem.os_major_minor_from_version_str(os_name, version)
       unless facts['ignore_os']
         os_attributes = {:major => major, :minor => minor || '', :name => os_name}
 
