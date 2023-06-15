@@ -3,7 +3,7 @@ module Connections
     field :total_count, Integer, null: false
 
     def total_count
-      object.nodes.size
+      object.items&.size || 0
     end
   end
 end
