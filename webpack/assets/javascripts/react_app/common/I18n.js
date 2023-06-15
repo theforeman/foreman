@@ -55,6 +55,21 @@ const unwrapLocaleDomains = (locales, locale) => {
   return result;
 };
 
+const mergeLocaleData = locale => {
+  const result = {};
+  Object.entries(locale.locale_data).forEach(([domain, translations]) => {
+    Object.entries(translations).forEach(([source, translated]) => {
+      if (
+        result[source] === undefined ||
+        (result[source] === [''] && translated !== [''])
+      ) {
+        result[source] = translated;
+      }
+    });
+  });
+  return result;
+};
+
 const getLocaleData = () => {
   const locales = window.locales || {};
   const locale = documentLocale().replace(/-/g, '_');
@@ -66,39 +81,21 @@ const getLocaleData = () => {
     );
     return { domain: 'app', locale_data: { app: { '': {} } } };
   }
-  return unwrapLocaleDomains(locales, locale);
+
+  const unwrapped = unwrapLocaleDomains(locales, locale);
+  unwrapped.locale_data = {
+    ...unwrapped.locale_data,
+    app: mergeLocaleData(unwrapped),
+  };
+  return unwrapped;
 };
 
 export const jed = forceSingleton('Jed', () => new Jed(getLocaleData()));
 
-export const strictJed = forceSingleton('strictJed', () => {
-  const options = {
-    ...jed.options,
-    missing_key_callback: (_key, _domain) => {
-      throw new Error('Key not found');
-    },
-  };
-  return new Jed(options);
-});
-
-const multidomain = (strict, fallback) => (...args) => {
-  // eslint-disable-next-line no-unused-vars
-  for (const domain of Object.keys(strictJed.options.locale_data)) {
-    try {
-      return strictJed[strict](domain, ...args);
-    } catch {} // eslint-disable-line no-empty
-  }
-  return jed[fallback](...args);
-};
-
-export const multidomainTranslate = multidomain('dgettext', 'gettext');
-
-export const multidomainngettext = multidomain('dngettext', 'ngettext');
-
 export const translate = (...args) =>
-  `${cheveronPrefix()}${multidomainTranslate(...args)}${cheveronSuffix()}`;
+  `${cheveronPrefix()}${jed.gettext(...args)}${cheveronSuffix()}`;
 export const ngettext = (...args) =>
-  `${cheveronPrefix()}${multidomainngettext(...args)}${cheveronSuffix()}`;
+  `${cheveronPrefix()}${jed.ngettext(...args)}${cheveronSuffix()}`;
 
 export const { sprintf } = jed;
 
