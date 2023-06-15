@@ -45,10 +45,11 @@ EOF
 <% interface_subnet6 = interface.subnet6 -%>
 <% interface_dhcp6 = interface_subnet6.nil? ? true : interface_subnet6.dhcp_boot_mode? -%>
 <% next if !interface.managed? || (interface_subnet.nil? && interface_subnet6.nil?) || interface.primary -%>
-real=`ip -o link | awk '/<%= interface.mac -%>/ {print $2;}' | sed s/:$//`
 <% virtual = interface.virtual? -%>
-<% if virtual -%>
-real=`echo <%= interface.identifier -%> | sed s/<%= interface.attached_to -%>/$real/`
+<% if interface.virtual? -%>
+    real="<%= interface.attached_to -%>"
+<% else -%>
+    real=`ip -o link | awk '/<%= interface.mac -%>/ {print $2;}' | sed s/:$//`
 <% end -%>
 
 cat << EOF >> /etc/network/interfaces
