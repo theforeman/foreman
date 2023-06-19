@@ -24,7 +24,14 @@
         <td class="ellipsis"><%= subnet.domains.map(&:name).to_sentence %></td>
         <td><%= subnet.vlanid %></td>
         <td class="ellipsis"><%= subnet.dhcp %></td>
-        <td><%= link_to_if_authorized(hosts_count[subnet], hash_for_hosts_path(:search => "subnet.name=\"#{subnet}\"")) %>
+        <td>
+          <%=
+            # TODO: https://projects.theforeman.org/issues/36517 this only works for IPv4
+            count = hosts_count[subnet]
+            search_key = subnet.type == 'Subnet::Ipv6' ? 'subnet6.name' : 'subnet.name'
+            link_to_if_authorized(count, hash_for_hosts_path(:search => "#{search_key}=\"#{subnet}\""))
+          %>
+        </td>
         <td class="col-md-1">
           <%= action_buttons(display_delete_if_authorized(
                                hash_for_subnet_path(:id => subnet).
