@@ -18,7 +18,11 @@ description: |
   salt_enabled = host_param('salt_master') ? true : false
   os_major = @host.operatingsystem.major.to_i
   squeeze_or_older = (@host.operatingsystem.name == 'Debian' && os_major <= 6)
-  python_package = (@host.operatingsystem.name == 'Ubuntu' && os_major >= 20) ? 'python3' : 'python'
+  python_package = case
+                   when (@host.operatingsystem.name == 'Ubuntu' && os_major < 20) then 'python'
+                   when (@host.operatingsystem.name == 'Debian' && os_major < 11) then 'python'
+                   else 'python3'
+                   end
 
   additional_packages = ['lsb-release', 'wget']
   additional_packages << host_param('additional-packages')
