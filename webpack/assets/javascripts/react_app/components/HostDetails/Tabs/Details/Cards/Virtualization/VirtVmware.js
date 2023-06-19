@@ -48,6 +48,38 @@ const VirtVmware = ({ vm }) => (
         {vm.corespersocket}
       </DescriptionListDescription>
     </DescriptionListGroup>
+    {Object.values(vm.disks).map((disk, index) => (
+      <DescriptionListGroup key={`disk-${index}`}>
+        <DescriptionListTerm>{__('Disk label')}</DescriptionListTerm>
+        <DescriptionListDescription>{disk.label}</DescriptionListDescription>
+        <DescriptionListTerm>{__('Disk capacity')}</DescriptionListTerm>
+        <DescriptionListDescription>
+          {NumberToHumanSize(disk.capacity, {
+            strip_insignificant_zeros: true,
+          })}
+        </DescriptionListDescription>
+      </DescriptionListGroup>
+    ))}
+    {Object.values(vm.partitions).map((partition, index) => (
+      <DescriptionListGroup key={`partition-${index}`}>
+        <DescriptionListTerm>{__('Partition path')}</DescriptionListTerm>
+        <DescriptionListDescription>
+          {partition.path}
+        </DescriptionListDescription>
+        <DescriptionListTerm>{__('Partition capacity')}</DescriptionListTerm>
+        <DescriptionListDescription>
+          {NumberToHumanSize(partition.capacity, {
+            strip_insignificant_zeros: true,
+          })}
+        </DescriptionListDescription>
+        <DescriptionListTerm>{__('Partition allocation')}</DescriptionListTerm>
+        <DescriptionListDescription>
+          {NumberToHumanSize(partition.capacity - partition.free, {
+            strip_insignificant_zeros: true,
+          })}
+        </DescriptionListDescription>
+      </DescriptionListGroup>
+    ))}
     <DescriptionListGroup>
       <DescriptionListTerm>{__('Firmware')}</DescriptionListTerm>
       <DescriptionListDescription>{vm.firmware}</DescriptionListDescription>
