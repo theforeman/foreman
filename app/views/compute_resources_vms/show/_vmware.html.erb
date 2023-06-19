@@ -9,6 +9,18 @@
       <%= prop :datacenter %>
       <%= prop :cluster %>
       <%= prop :memory %>
+      <% @vm.disks.each do |vol| %>
+        <tr>
+          <td><%= _("Disk '%s'") % vol[:label] %></td>
+          <td><%= _("%{capacity}") % { :capacity => number_to_human_size(vol[:capacity])} %></td>
+        </tr>
+      <% end %>
+      <% @vm.partitions.each do |part| %>
+        <tr>
+          <td><%= _("Partition '%s'") % part[:path] %></td>
+          <td><%= _("using %{allocation} out of %{capacity}") % { :allocation => number_to_human_size(part[:capacity]-part[:free]), :capacity => number_to_human_size(part[:capacity])} %></td>
+        </tr>
+      <% end %>
       <%= prop :public_ip_address %>
       <%= prop :mac %>
       <%= prop :cpus %>
