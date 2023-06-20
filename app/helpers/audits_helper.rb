@@ -257,9 +257,32 @@ module AuditsHelper
     reflection_obj ? reflection_obj&.klass : nil
   end
 
+  def find_owner_class(key, change, audit)
+    type = nil
+    if audit.audited_changes.has_key?('owner_type')
+      type = audit.audited_changes['owner_type']
+      if audit.action == 'update'
+        idx = audit.audited_changes['owner_id'].index(change)
+        type = audit.audited_changes['owner_type'][idx]
+      end
+    else
+      previous = Audit.where(auditable_type: audit.auditable_type, auditable_id: audit.auditable_id)
+                   .where("id < ?", audit.id)
+                   .where("audited_changes LIKE '%owner_type:%'")
+                   .first
+      type = previous.audited_changes['owner_type']
+      type = type.last if previous.action == 'update'
+    end
+    type.constantize
+  end
+
   def find_associated_records_using_key(key, change, audit)
     auditable_class = find_auditable_type_class(audit)
-    association_class = key_to_association_class(key, auditable_class)
+    association_class = if key == 'owner_id'
+                          find_owner_class(key, change, audit)
+                        else
+                          key_to_association_class(key, auditable_class)
+                        end
 
     if association_class
       if key =~ /_ids$/
