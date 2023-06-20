@@ -1,3 +1,12 @@
+2023-06-20	ianballou <ianballou67@gmail.com>
+	* Release 3.7.0
+
+2023-06-16	Adam Ruzicka <aruzicka@redhat.com>
+	* Refs #36330 - Use merged translations
+
+2023-06-08	Girija Soni <gisoni@redhat.com>
+	* Fixes #36481 - Set the ouiaID of add parameter button
+
 2023-06-06	ianballou <ianballou67@gmail.com>
 	* Release 3.7.0-rc3
 	* i18n - extracting new, pulling from tx
