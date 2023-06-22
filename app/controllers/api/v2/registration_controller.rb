@@ -92,7 +92,11 @@ module Api
           return
         end
 
-        @host.setBuild
+        # Do not rebuild managed hosts
+        # Hosts registered with subscription-manager are created
+        # as a Host::Managed, but have @host.managed? => false
+        # https://projects.theforeman.org/issues/36393
+        @host.setBuild unless @host.managed?
         safe_render(@template)
       end
 
