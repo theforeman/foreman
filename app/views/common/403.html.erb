@@ -11,5 +11,7 @@
     <%= _("Please request one of the required permissions listed below from a Foreman administrator:") %></br>
     <%= content_tag(:ul, permissions.join.html_safe, class: 'list-unstyled') %>
   </p>
+  <% unless request.xhr? %>
   <p><%= link_to(_('Back'), main_app.root_path, :class => 'btn btn-default') %></p>
+  <% end %>
 </div>

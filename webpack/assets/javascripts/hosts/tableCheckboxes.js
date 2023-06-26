@@ -231,6 +231,7 @@ function getBulkParam() {
 export function buildModal(element, url) {
   const data = getBulkParam();
   const title = $(element).attr('data-dialog-title');
+
   $('#confirmation-modal .modal-header h4').text(title);
   $('#confirmation-modal .modal-body')
     .empty()
@@ -242,11 +243,16 @@ export function buildModal(element, url) {
     (response, status, xhr) => {
       $('#loading').hide();
       $('#submit_multiple').val('');
-      if (isMultple()) $('#multiple-modal-alert').show();
-      const b = $('#confirmation-modal .btn-primary');
-      if ($(response).find('#content form select').length > 0)
-        b.addClass('disabled').attr('disabled', true);
-      else b.removeClass('disabled').attr('disabled', false);
+
+      if (status !== 'error') {
+        if (isMultple()) $('#multiple-modal-alert').show();
+        const b = $('#confirmation-modal .btn-primary');
+        if ($(response).find('#content form select').length > 0)
+          b.addClass('disabled').attr('disabled', true);
+        else b.removeClass('disabled').attr('disabled', false);
+      } else {
+        $('.modal-body').html(xhr.responseText);
+      }
     }
   );
   return false;
