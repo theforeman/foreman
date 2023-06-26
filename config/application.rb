@@ -100,6 +100,30 @@ end
 
 module Foreman
   class Application < Rails::Application
+    config.load_defaults '6.1'
+
+    # Rails 5.0 changed this to true, but a lot of code depends on this
+    config.active_record.belongs_to_required_by_default = false
+
+    # Rails 5.1 changed this to false, re-enabling this due to https://github.com/theforeman/foreman/pull/9711/files#r1247901552
+    config.assets.unknown_asset_fallback = true
+
+    # Rails 5.2 changed this to true, but we already do this in app/controllers/application_controller.rb#7
+    # We don't use this default because it's applied to ActionController::Base, thus to all inherited controllers
+    # But for API controllers we use a modification: app/controllers/concerns/foreman/controller/api_csrf_protection.rb#7
+    config.action_controller.default_protect_from_forgery = false
+    # Rails 5.2 changed this to true, but the only thing it does currently (as of Rails 7.0) is
+    # changing default cipher from aes-256-cbc to aes-256-gcm.
+    # Leaving this disabled, since the application worked with aes-256-cbc.
+    # Failed tests on aes-256-gcm require revisit application to ensure we can do the switch.
+    config.active_support.use_authenticated_message_encryption = false
+    config.action_dispatch.use_authenticated_cookie_encryption = false
+
+    # Rails 6.0 changed this to :zeitwerk
+    config.autoloader = :classic
+
+    # Rails 6.1 changed this to true, but apparently our codebase is not ready for bidirectional associations
+    config.active_record.has_many_inversing = false
     # Setup additional routes by loading all routes file from routes directory
     Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
       config.paths['config/routes.rb'] << route_file
