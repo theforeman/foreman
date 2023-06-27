@@ -32,12 +32,32 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_match /my_plugin/, url
     end
 
+    test '#documentation_url and new docs page' do
+      url = documentation_url('TestSection', { type: 'plugin_manual', name: 'foreman_my_plugin', version: '1.2' })
+
+      assert_match %r{links/plugin_manual/TestSection\?name=foreman_my_plugin&version=1\.2}, url
+    end
+
+    test '#documentation_url and new docs page' do
+      url = documentation_url('TestSection', { type: 'docs', chapter: 'test_chapter' })
+
+      assert_match %r{links/docs/TestSection\?chapter=test_chapter}, url
+    end
+
     test '#documentation_button forwards options to #documentation_url' do
       expects(:icon_text).returns('http://nowhere.com')
       expects(:link_to).returns('<a>test</a>'.html_safe)
       expects(:documentation_url).with('2.2PluginSection', { :root_url => 'http://www.theforeman.org/my_plugin/v0.1/index.html#' })
 
       documentation_button '2.2PluginSection', :root_url => 'http://www.theforeman.org/my_plugin/v0.1/index.html#'
+    end
+
+    test '#documentation_button forwards plugin manual options to #documentation_url' do
+      expects(:icon_text).returns('http://nowhere.com')
+      expects(:link_to).returns('<a>test</a>'.html_safe)
+      expects(:documentation_url).with('2.2PluginSection', { type: 'plugin_manual', name: 'foreman_my_plugin', version: '1.2' })
+
+      documentation_button '2.2PluginSection', type: 'plugin_manual', name: 'foreman_my_plugin', version: '1.2'
     end
   end
 
