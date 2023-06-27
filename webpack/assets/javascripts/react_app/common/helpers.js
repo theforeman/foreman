@@ -158,10 +158,21 @@ export const stringIsPositiveNumber = value => {
 
 /**
  * Get manual url based on version
- * @param {String} section - section id for foreman documetation
+ * @param {String} section - section id for foreman documentation
  */
 export const getManualURL = section => foremanUrl(`/links/manual/${section}`);
 export const getWikiURL = section => foremanUrl(`/links/wiki/${section}`);
+
+/**
+ * Get the documentation URL
+ * @param {String} guide - The guide containing the documentation
+ * @param {String} chapter - Optional chapter within the guide
+ * @returns {String}
+ */
+export const getDocsURL = (guide, chapter = null) => {
+  const url = foremanUrl(`/links/docs/${guide}`);
+  return chapter ? `{url}?chapter={encodeURIComponent(chapter)}` : url;
+};
 
 /**
  * Transform the Date object to date string accepted in the server

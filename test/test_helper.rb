@@ -188,6 +188,17 @@ class ActionController::TestCase
   def disable_webpack
     Webpack::Rails::Manifest.stubs(:asset_paths).returns([])
   end
+
+  def with_temporary_settings(**kwargs)
+    old_settings = SETTINGS.slice(*kwargs.keys)
+    begin
+      SETTINGS.update(kwargs)
+
+      yield
+    ensure
+      SETTINGS.update(old_settings)
+    end
+  end
 end
 
 class GraphQLQueryTestCase < ActiveSupport::TestCase

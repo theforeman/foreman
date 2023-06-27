@@ -25,7 +25,16 @@ class LinksController < ApplicationController
       'https://projects.theforeman.org/projects/foreman/issues'
     when 'vmrc'
       'https://www.vmware.com/go/download-vmrc'
+    when 'docs'
+      params.require(:section)
+      guide, chapter, flavor = params.permit(:section, :chapter, :flavor).values_at(:section, :chapter, :flavor)
+      flavor ||= self.class.new_docs_flavor
+      docs_url(guide: guide, chapter: chapter, flavor: flavor)
     end
+  end
+
+  def self.new_docs_flavor
+    Foreman::Plugin.installed?('katello') ? 'katello' : SETTINGS[:docs_os_flavor]
   end
 
   private
@@ -47,6 +56,14 @@ class LinksController < ApplicationController
   def documentation_url(section = "", options = {})
     root_url = options[:root_url] || foreman_org_path("manuals/#{SETTINGS[:version].short}/index.html#")
     root_url + (section || '')
+  end
+
+  # For new documentation at docs.theforeman.org
+  def docs_url(guide:, flavor:, chapter: nil)
+    version = SETTINGS[:version].tag == 'develop' ? 'nightly' : SETTINGS[:version].short
+    chapter_hash = "##{chapter}" if chapter
+
+    "https://docs.theforeman.org/#{version}/#{guide}/index-#{flavor}.html#{chapter_hash}"
   end
 
   def plugin_documentation_url

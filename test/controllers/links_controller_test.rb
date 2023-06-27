@@ -70,5 +70,50 @@ class LinksControllerTest < ActionController::TestCase
       assert_redirected_to /15.0/
       assert_redirected_to /Usage/
     end
+
+    test 'new docs on nightly' do
+      get :show, params: {
+        type: 'docs',
+        section: 'TestSection',
+        chapter: 'TestChapter',
+      }
+
+      assert_redirected_to %r{https://docs\.theforeman\.org/nightly/TestSection/index-(foreman-(deb|el)|katello)\.html#TestChapter}
+    end
+
+    test 'new docs on a stable release' do
+      with_temporary_settings(version: Foreman::Version.new('3.9.1')) do
+        get :show, params: {
+          type: 'docs',
+          section: 'TestSection',
+          chapter: 'TestChapter',
+        }
+
+        assert_redirected_to %r{https://docs\.theforeman\.org/3\.9/TestSection/index-(foreman-(deb|el)|katello)\.html#TestChapter}
+      end
+    end
+
+    describe '#new_docs_flavor' do
+      test 'on Enterprise Linux' do
+        Foreman::Plugin.stubs(:installed?).with('katello').returns(false)
+        with_temporary_settings(docs_os_flavor: 'foreman-el') do
+          assert_equal(LinksController.new_docs_flavor, 'foreman-el')
+        end
+      end
+
+      test 'on Debian' do
+        Foreman::Plugin.stubs(:installed?).with('katello').returns(false)
+        with_temporary_settings(docs_os_flavor: 'foreman-deb') do
+          assert_equal(LinksController.new_docs_flavor, 'foreman-deb')
+        end
+      end
+
+      test 'on Enterprise Linux with Katello' do
+        Foreman::Plugin.stubs(:installed?).with('katello').returns(true)
+        with_temporary_settings(docs_os_flavor: 'foreman-el') do
+          assert_equal(LinksController.new_docs_flavor, 'katello')
+        end
+      end
+    end
   end
 end

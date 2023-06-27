@@ -15,10 +15,10 @@ import {
 } from '@patternfly/react-core';
 
 import { translate as __ } from '../../../common/I18n';
+import { getDocsURL } from '../../../common/helpers';
 import {
   useForemanOrganization,
   useForemanLocation,
-  useForemanVersion,
 } from '../../../Root/Context/ForemanContext';
 import { STATUS } from '../../../constants';
 import PageLayout from '../../common/PageLayout/PageLayout';
@@ -38,7 +38,6 @@ import {
   selectPluginData,
 } from './RegistrationCommandsPageSelectors';
 import { dataAction, commandAction } from './RegistrationCommandsPageActions';
-import { docUrl } from './RegistrationCommandsPageConstants';
 
 import General from './components/General';
 import Advanced from './components/Advanced';
@@ -52,7 +51,6 @@ const RegistrationCommandsPage = () => {
   // Context
   const currentOrganization = useForemanOrganization();
   const currentLocation = useForemanLocation();
-  const foremanVersion = useForemanVersion();
 
   // Form tabs
   const [activeTab, setActiveTab] = useState(0);
@@ -180,7 +178,10 @@ const RegistrationCommandsPage = () => {
           ouiaId="register-host-documentation-button"
           component="a"
           className="btn-docs"
-          href={docUrl(foremanVersion)}
+          href={getDocsURL(
+            'Managing_Hosts',
+            'registering-a-host_managing-hosts'
+          )}
           rel="noreferrer"
           target="_blank"
           variant="secondary"

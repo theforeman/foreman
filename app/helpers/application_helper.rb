@@ -305,8 +305,8 @@ module ApplicationHelper
     editable(object, property, {:type => type, :title => title, :value => value, :class => klass, :source => select_values, :url => update_url, :placeholder => placeholder}.compact)
   end
 
-  def documentation_url(section = "", options = {})
-    main_app.external_link_url(options.merge(type: 'manual', params: { section: section }))
+  def documentation_url(section = nil, type: 'manual', **options)
+    main_app.external_link_url(type: type, section: section, params: options)
   end
 
   def spinner(text = '', options = {})

@@ -10,6 +10,11 @@ SETTINGS[:version] = Foreman::Version.new
 # Load settings from env variables
 SETTINGS.deep_merge!(Foreman::EnvSettingsLoader.new.to_h)
 
+# foreman-documentation builds different flavors for Debian and Enterprise
+# Linux. It also builds for Katello, but we can't detect that here so the key
+# is docs_os_flavor instead of docs_flavor.
+SETTINGS[:docs_os_flavor] ||= File.exist?('/etc/debian_version') ? 'foreman-deb' : 'foreman-el'
+
 # Force setting to true until all code using it is removed
 [:locations_enabled, :organizations_enabled, :unattended].each do |setting|
   SETTINGS[setting] = true
