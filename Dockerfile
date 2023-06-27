@@ -58,7 +58,7 @@ RUN \
   mv -v db/schema.rb.nulldb db/schema.rb && \
   bundle exec rake assets:clean assets:precompile
 
-RUN npm install --no-optional && \
+RUN npm install --no-audit --no-optional && \
   ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js && \
 # cleanups
   rm -rf public/webpack/stats.json ./node_modules vendor/ruby/*/cache vendor/ruby/*/gems/*/node_modules bundler.d/nulldb.rb db/schema.rb && \
