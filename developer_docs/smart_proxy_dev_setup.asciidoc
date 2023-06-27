@@ -36,7 +36,7 @@ To elevate authorization for Foreman, either the remote IP address or DNS hostna
 
 [source, bash]
 ....
-grep -A10 trusted_hosts config/settings.yaml
+grep -A10 trusted_hosts config/settings.yml
 :trusted_hosts:
 - localhost
 - localhost4
