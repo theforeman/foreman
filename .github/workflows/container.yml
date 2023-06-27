@@ -1,0 +1,16 @@
+name: Container build
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build container
+        uses: docker/build-push-action@v4
+        with:
+          tags: quay.io/foreman/foreman:pr
