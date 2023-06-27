@@ -58,18 +58,27 @@ description: |
 <% if dhcp -%>
       <interface>
         <bootproto>dhcp</bootproto>
+<% if os_major >= 15 and os_minor >= 5 -%>
+        <name><%= interface.primary ? primary_interface_identifier : interface.identifier -%></name>
+<% else -%>
         <device><%= interface.primary ? primary_interface_identifier : interface.identifier -%></device>
-        <startmode>auto</startmode>
         <usercontrol>no</usercontrol>
+<% end -%>
+        <startmode>auto</startmode>
       </interface>
 <% else -%>
       <interface>
         <bootproto>static</bootproto>
+<% if os_major >= 15 and os_minor >= 5 -%>
+        <name><%= interface.primary ? primary_interface_identifier : interface.identifier -%></name>
+        <ipaddr><%= interface.ip -%>/<%= interface.subnet.cidr -%></ipaddr>
+<% else -%>
         <device><%= interface.primary ? primary_interface_identifier : interface.identifier -%></device>
         <ipaddr><%= interface.ip -%></ipaddr>
         <netmask><%= interface.subnet.mask -%></netmask>
-        <startmode>onboot</startmode>
         <usercontrol>no</usercontrol>
+<% end -%>
+        <startmode>auto</startmode>
       </interface>
 <% end -%>
 <% end -%>
