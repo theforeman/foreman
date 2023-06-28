@@ -81,7 +81,9 @@ const Navigation = ({
     [items.length, currentPath]
   );
 
-  const clickAndNavigate = (_onClick, href) => {
+  const clickAndNavigate = (_onClick, href, event) => {
+    if (event.ctrlKey) return;
+    event.preventDefault();
     if (_onClick && typeof _onClick === 'function') {
       _onClick();
     } else {
@@ -128,8 +130,10 @@ const Navigation = ({
                         <NavItem
                           className={subItemClassName}
                           id={id}
-                          // to={href}
-                          onClick={() => clickAndNavigate(onClick, href)}
+                          to={href}
+                          onClick={event =>
+                            clickAndNavigate(onClick, href, event)
+                          }
                           isActive={isActive}
                         >
                           {subItemTitle}
@@ -166,7 +170,9 @@ const Navigation = ({
                               className={subItemClassName}
                               id={id}
                               to={href}
-                              onClick={() => clickAndNavigate(onClick, href)}
+                              onClick={event =>
+                                clickAndNavigate(onClick, href, event)
+                              }
                               isActive={isActive}
                             >
                               {subItemTitle}
