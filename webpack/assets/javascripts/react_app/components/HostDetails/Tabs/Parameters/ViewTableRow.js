@@ -71,7 +71,11 @@ export const ViewParametersTableRow = ({
         </Tooltip>
       </Td>
     )}
-    <RowActions hostId={hostId} param={param} />
+    <RowActions
+      hostId={hostId}
+      param={param}
+      editHostsPermission={editHostsPermission}
+    />
   </Tr>
 );
 

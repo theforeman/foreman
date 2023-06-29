@@ -191,7 +191,11 @@ export const EditParametersTableRow = ({
           </>
         </Td>
       )}
-      <RowActions hostId={hostId} param={param} />
+      <RowActions
+        hostId={hostId}
+        param={param}
+        editHostsPermission={editHostsPermission}
+      />
     </Tr>
   );
 };
