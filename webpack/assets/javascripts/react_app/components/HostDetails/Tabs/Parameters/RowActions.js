@@ -8,7 +8,7 @@ import { HOST_PARAM } from './ParametersConstants';
 import { openConfirmModal } from '../../../ConfirmModal';
 import { updateHost } from '../../ActionsBar/actions';
 
-export const RowActions = ({ hostId, param }) => {
+export const RowActions = ({ hostId, param, editHostsPermission }) => {
   const dispatch = useDispatch();
   const onDelete = () =>
     dispatch(
@@ -27,23 +27,24 @@ export const RowActions = ({ hostId, param }) => {
       })
     );
   const rowActions = [
-    param.associated_type === HOST_PARAM && {
-      title: __('Delete'),
-      onClick: () => {
-        dispatch(
-          openConfirmModal({
-            title: sprintf(__('Delete %s'), param.name),
-            message: __(
-              'This will change the delete the parameter, are you sure?'
-            ),
-            isWarning: true,
-            onConfirm: () => {
-              onDelete();
-            },
-          })
-        );
+    editHostsPermission &&
+      param.associated_type === HOST_PARAM && {
+        title: __('Delete'),
+        onClick: () => {
+          dispatch(
+            openConfirmModal({
+              title: sprintf(__('Delete %s'), param.name),
+              message: __(
+                'This will change the delete the parameter, are you sure?'
+              ),
+              isWarning: true,
+              onConfirm: () => {
+                onDelete();
+              },
+            })
+          );
+        },
       },
-    },
   ].filter(a => a);
   return (
     <Td isActionCell className="parameters-actions">
@@ -63,4 +64,5 @@ RowActions.propTypes = {
     associated_type: PropTypes.string,
   }).isRequired,
   hostId: PropTypes.number.isRequired,
+  editHostsPermission: PropTypes.bool.isRequired,
 };

@@ -89,12 +89,14 @@ export const ParametersTable = ({
             />
           </ToolbarItem>
           <ToolbarItem>
-            <Button
-              ouiaId="add-parameter-btn"
-              onClick={() => setShowNewRow(true)}
-            >
-              {__('Add parameter')}
-            </Button>
+            {editHostsPermission && (
+              <Button
+                ouiaId="add-parameter-btn"
+                onClick={() => setShowNewRow(true)}
+              >
+                {__('Add parameter')}
+              </Button>
+            )}
           </ToolbarItem>
           <ToolbarItem>
             {status === STATUS.PENDING && <Spinner loading size="sm" />}
