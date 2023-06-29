@@ -20,7 +20,9 @@ const Breadcrumb = ({
   if (isTitle) {
     return (
       <TextContent>
-        <Text component="h1">{items[0].caption}</Text>
+        <Text ouiaId="breadcrumb_title" component="h1">
+          {items[0].caption}
+        </Text>
       </TextContent>
     );
   }

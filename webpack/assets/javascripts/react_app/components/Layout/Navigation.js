@@ -91,11 +91,12 @@ const Navigation = ({
     setCurrentPath(href);
   };
   return (
-    <Nav id="foreman-nav">
+    <Nav id="foreman-nav" ouiaId="foreman-nav">
       <NavList>
         {groupedItems.map(({ title, iconClass, groups, className }, index) => (
           <React.Fragment key={index}>
             <NavExpandable
+              ouiaId={`nav-expandable-${index}`}
               title={titleWithIcon(title, iconClass)}
               groupId="nav-expandable-group-1"
               isActive={
@@ -126,6 +127,7 @@ const Navigation = ({
                     ) => (
                       <React.Fragment key={id}>
                         <NavItem
+                          ouiaId={`nav-item-${id}`}
                           className={subItemClassName}
                           id={id}
                           // to={href}
@@ -144,6 +146,7 @@ const Navigation = ({
                   <React.Fragment key={groupIndex}>
                     <NavItemSeparator />
                     <NavExpandable
+                      ouiaId={`nav-expandable-${index}-${groupIndex}`}
                       title={group.title}
                       isExpanded={group.groupItems.some(
                         ({ isActive }) => isActive
@@ -163,6 +166,7 @@ const Navigation = ({
                         ) => (
                           <React.Fragment key={id}>
                             <NavItem
+                              ouiaId={`nav-item-${id}`}
                               className={subItemClassName}
                               id={id}
                               to={href}

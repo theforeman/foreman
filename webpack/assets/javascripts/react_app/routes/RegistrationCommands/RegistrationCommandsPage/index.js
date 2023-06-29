@@ -204,6 +204,7 @@ const RegistrationCommandsPage = () => {
               onSelect={(e, tab) => changeTab(e, tab)}
             >
               <Tab
+                ouiaId="tab-general"
                 eventKey={0}
                 title={<TabTitleText>{__('General')}</TabTitleText>}
                 tabContentId="generalTab"
@@ -211,6 +212,7 @@ const RegistrationCommandsPage = () => {
               />
 
               <Tab
+                ouiaId="tab-advanced"
                 eventKey={1}
                 title={<TabTitleText>{__('Advanced')}</TabTitleText>}
                 tabContentId="advancedTab"

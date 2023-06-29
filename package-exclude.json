@@ -3,6 +3,7 @@
         "@sheerun/mutationobserver-shim",
         "@theforeman/env",
         "@theforeman/eslint-plugin-foreman",
+        "@theforeman/eslint-plugin-rules",
         "@theforeman/stories",
         "@theforeman/test",
         "@theforeman/vendor-dev",
