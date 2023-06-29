@@ -16,12 +16,13 @@ import {
 import { useForemanSettings } from '../../../../Root/Context/ForemanContext';
 import ReportsTable from './ReportsTable';
 import { getControllerSearchProps } from '../../../../constants';
+import PermissionDenied from '../../../PermissionDenied';
 
 const ReportsTab = ({ hostName, origin }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const API_KEY = `get-reports-${hostName}`;
-  const { reports, itemCount } = useSelector(state =>
+  const { reports, itemCount, response } = useSelector(state =>
     selectAPIResponse(state, API_KEY)
   );
   const { perPage: settingsPerPage = 20 } = useForemanSettings() || {};
@@ -98,7 +99,9 @@ const ReportsTab = ({ hostName, origin }) => {
     },
     [history]
   );
-
+  if (response?.status === 403) {
+    return <PermissionDenied missingPermissions={['view_config_reports']} />;
+  }
   return (
     <Grid id="new_host_details_insights_tab" hasGutter style={{ padding: 24 }}>
       <GridItem span={6}>
