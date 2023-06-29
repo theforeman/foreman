@@ -5,6 +5,7 @@ exports[`HeaderToolbar rendering render HeaderToolbar 1`] = `
   id="data-toolbar"
   isFullHeight={true}
   isStatic={true}
+  ouiaId="data-toolbar"
 >
   <ToolbarContent
     isExpanded={false}

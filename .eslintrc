@@ -1,5 +1,9 @@
 {
-  "plugins": ["@theforeman/foreman", "spellcheck"],
+  "plugins": [
+    "@theforeman/foreman",
+    "spellcheck",
+    "@theforeman/rules"
+  ],
   "extends": "plugin:@theforeman/foreman/core",
   "rules": {
     "spellcheck/spell-checker": [
@@ -185,6 +189,7 @@
         ],
         "minLength": 3
       }
-    ]
+    ],
+    "@theforeman/rules/require-ouiaid": ["error"]
   }
 }

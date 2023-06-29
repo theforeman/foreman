@@ -29,7 +29,7 @@ const HeaderToolbar = ({
   instance_title: instanceTitle,
   isLoading,
 }) => (
-  <Toolbar id="data-toolbar" isFullHeight isStatic>
+  <Toolbar ouiaId="data-toolbar" id="data-toolbar" isFullHeight isStatic>
     <ToolbarContent>
       <ToolbarGroup className="header-tool-item-hidden-lg">
         <TaxonomySwitcher

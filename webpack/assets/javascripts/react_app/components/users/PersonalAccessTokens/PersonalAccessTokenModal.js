@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -138,10 +139,16 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
 
   return (
     <>
-      <Button variant="primary" isSmall onClick={() => setIsModalOpen(true)}>
+      <Button
+        ouiaId="add-personal-access-token-button"
+        variant="primary"
+        isSmall
+        onClick={() => setIsModalOpen(true)}
+      >
         {__('Add Personal Access Token')}
       </Button>
       <Modal
+        ouiaId="new-token-modal"
         id="new-token-modal"
         className="token-modal"
         variant={ModalVariant.small}
@@ -150,6 +157,7 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
         onClose={closeModal}
         actions={[
           <Button
+            ouiaId="confirm-button"
             id="confirm-button"
             key="confirm"
             variant="primary"
@@ -169,6 +177,7 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
             {__('Confirm')}
           </Button>,
           <Button
+            ouiaId="cancel-button"
             key="cancel"
             variant="link"
             onClick={closeModal}
@@ -190,6 +199,7 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
             helperTextInvalid={nameHelperText()}
           >
             <TextInput
+              ouiaId="personal-token-name"
               aria-label="personal access token name input"
               id="personal-token-name"
               isRequired
@@ -216,6 +226,7 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
             <div className="pf-c-form">
               <FormGroup fieldId="token-expires-never">
                 <Radio
+                  ouiaId="expires-never"
                   isChecked={endsNever}
                   onChange={() => {
                     clearDateTimeState();
@@ -228,6 +239,7 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
               </FormGroup>
               <FormGroup fieldId="token-expires-datetime">
                 <Radio
+                  ouiaId="expires-at"
                   isChecked={!endsNever}
                   onChange={() => {
                     setEndsNever(false);

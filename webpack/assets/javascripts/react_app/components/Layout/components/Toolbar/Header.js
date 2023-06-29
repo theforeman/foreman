@@ -25,7 +25,7 @@ const Header = ({
 }) => (
   <Masthead display={{ default: 'inline' }}>
     <MastheadToggle>
-      <Button onClick={onNavToggle} variant="plain">
+      <Button ouiaId="nav-toggle" onClick={onNavToggle} variant="plain">
         <BarsIcon />
       </Button>
     </MastheadToggle>

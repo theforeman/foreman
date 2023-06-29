@@ -34,7 +34,9 @@ const PageLayout = ({
       <div id="breadcrumb">
         {!breadcrumbOptions && (
           <TextContent>
-            <Text component="h1">{header}</Text>
+            <Text ouiaId="breadcrumb_title" component="h1">
+              {header}
+            </Text>
           </TextContent>
         )}
         {customBreadcrumbs ||
