@@ -21,6 +21,7 @@ describe('getAttributesToPost', () => {
       'location_id',
       'ptable_id',
       'medium_id',
+      'pxe_loader',
     ]);
   });
 
@@ -32,6 +33,7 @@ describe('getAttributesToPost', () => {
       'location_id',
       'ptable_id',
       'medium_id',
+      'pxe_loader',
       'foo',
     ]);
   });
