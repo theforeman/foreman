@@ -35,6 +35,7 @@ export function getAttributesToPost(componentType) {
       'location_id',
       'ptable_id',
       'medium_id',
+      'pxe_loader',
     ],
     medium: ['medium_id', 'operatingsystem_id', 'architecture_id'],
     image: ['medium_id', 'operatingsystem_id', 'architecture_id', 'model_id'],

@@ -117,6 +117,7 @@
           "ptable",
           "puppetclass",
           "puppetclasses",
+          "pxe_loader",
           "Pv",
           "qcow2",
           "rbt",
