@@ -115,17 +115,14 @@ const Navigation = ({
               {groups.map((group, groupIndex) =>
                 groupIndex === 0 ? (
                   group.groupItems.map(
-                    (
-                      {
-                        id,
-                        title: subItemTitle,
-                        className: subItemClassName,
-                        href,
-                        onClick,
-                        isActive,
-                      },
-                      groupItemsIndex
-                    ) => (
+                    ({
+                      id,
+                      title: subItemTitle,
+                      className: subItemClassName,
+                      href,
+                      onClick,
+                      isActive,
+                    }) => (
                       <React.Fragment key={id}>
                         <NavItem
                           className={subItemClassName}
@@ -138,9 +135,6 @@ const Navigation = ({
                         >
                           {subItemTitle}
                         </NavItem>
-                        {groupItemsIndex !== group.groupItems.length - 1 && (
-                          <NavItemSeparator />
-                        )}
                       </React.Fragment>
                     )
                   )
@@ -154,17 +148,14 @@ const Navigation = ({
                       )}
                     >
                       {group.groupItems.map(
-                        (
-                          {
-                            id,
-                            title: subItemTitle,
-                            className: subItemClassName,
-                            href,
-                            onClick,
-                            isActive,
-                          },
-                          groupItemsIndex
-                        ) => (
+                        ({
+                          id,
+                          title: subItemTitle,
+                          className: subItemClassName,
+                          href,
+                          onClick,
+                          isActive,
+                        }) => (
                           <React.Fragment key={id}>
                             <NavItem
                               className={subItemClassName}
@@ -177,10 +168,6 @@ const Navigation = ({
                             >
                               {subItemTitle}
                             </NavItem>
-                            {groupItemsIndex !==
-                              group.groupItems.length - 1 && (
-                              <NavItemSeparator />
-                            )}
                           </React.Fragment>
                         )
                       )}
