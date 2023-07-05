@@ -68,7 +68,6 @@ description: |
 
     spacewalk_host = <hostname>                 Hostname of Spacewalk server
 -%>
-
 <%
   # Katello or subscription-manager:
   if host_param_true?('subscription_manager') || host_param('kt_activation_keys')
@@ -77,9 +76,8 @@ description: |
   elsif host_param('spacewalk_host')
     registration_type = 'spacewalk'
   end if
-%>
-
-<% if registration_type == 'subscription_manager' %>
+-%>
+<% if registration_type == 'subscription_manager' -%>
   <%
     atomic = @host.operatingsystem.respond_to?(:atomic) ? @host.operatingsystem.atomic? : host_param_true?('atomic')
     redhat_install_agent_fallback = plugin_present?('katello') && katello_agent_enabled?
@@ -100,7 +98,7 @@ description: |
       redhat_install_host_tools = host_param_true?('redhat_install_host_tools')
       redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
     end
-  %>
+  -%>
 
   echo "##############################################################"
   echo "################# SUBSCRIPTION MANAGER #######################"
@@ -108,7 +106,7 @@ description: |
   echo
   echo "Starting the subscription-manager registration process"
 
-  <% if !atomic %>
+  <% if !atomic -%>
     # Avoid timeout accessing unreachable repo on air gapped infrastructure,
     #  assuming subscription-manager is installed in custom packages section.
     if ! rpm --query --quiet subscription-manager ; then
@@ -118,7 +116,7 @@ description: |
         yum -t -y install subscription-manager
       fi
     fi
-  <% end %>
+  <% end -%>
 
   <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) %>
     <%- if !atomic %>
@@ -153,40 +151,40 @@ description: |
     fi
   <% end %>
 
-  <% if host_param('http-proxy') %>
+  <% if host_param('http-proxy') -%>
     subscription-manager config --server.proxy_hostname='<%= host_param("http-proxy") %>'
-    <% if host_param('http-proxy-user') %>
+    <% if host_param('http-proxy-user') -%>
       subscription-manager config --server.proxy_user='<%= host_param("http-proxy-user") %>'
     <% end %>
-    <% if host_param('http-proxy-password') %>
+    <% if host_param('http-proxy-password') -%>
       subscription-manager config --server.proxy_password='<%= host_param("http-proxy-password") %>'
     <% end %>
-    <% if host_param('http-proxy-port') %>
+    <% if host_param('http-proxy-port') -%>
       subscription-manager config --server.proxy_port='<%= host_param("http-proxy-port") %>'
     <% end %>
   <% end %>
 
-  <% if atomic %>
+  <% if atomic -%>
     curl -s <%= subscription_manager_atomic_url %> | IS_ATOMIC=true bash
-  <% elsif subscription_manager_certpkg_url %>
+  <% elsif subscription_manager_certpkg_url -%>
     rpm -Uvh <%= subscription_manager_certpkg_url %>
   <% end %>
 
-  <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') %>
-    <% if host_param('subscription_manager_pool') %>
+  <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') -%>
+    <% if host_param('subscription_manager_pool') -%>
       subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
       subscription-manager attach --pool='<%= host_param('subscription_manager_pool') %>'
-    <% else %>
+    <% else -%>
       subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>' --auto-attach
-    <% end %>
+    <% end -%>
 
-  <% elsif activation_key %>
+  <% elsif activation_key -%>
     subscription-manager register --name="<%= @host.name %>" --org='<%= subscription_manager_org %>' --activationkey='<%= activation_key %>'
-  <% else %>
+  <% else -%>
     echo "No activation key found: Not registering to subscription manager"
-  <% end %>
+  <% end -%>
 
-  <% if host_param_true?('only_subscription_manager_repos') %>
+  <% if host_param_true?('only_subscription_manager_repos') -%>
     for subman_config_file in /etc/yum/pluginconf.d/subscription-manager.conf /etc/dnf/plugins/subscription-manager.conf; do
       if [ -f $subman_config_file ]; then
         egrep -q "^disable_system_repos=" $subman_config_file
@@ -198,51 +196,49 @@ description: |
         fi
       fi
     done
-  <% end %>
+  <% end -%>
 
   <% if host_param_true?('subscription_manager_auto_attach', false) -%>
     subscription-manager attach --auto
 
   <% end -%>
-  <% if host_param('subscription_manager_repos') %>
+  <% if host_param('subscription_manager_repos') -%>
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
     <%= "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(/,\s*/, ' --enable ')}" %>
-  <% end %>
+  <% end -%>
 
-  <% if host_param('subscription_manager_override_repos_cost') %>
+  <% if host_param('subscription_manager_override_repos_cost') -%>
     for repo in $(subscription-manager repos --list-enabled | grep "Repo ID:" | awk -F' ' '{ print $3 }'); do
       <%= "subscription-manager repo-override --list --repo $repo | grep 'cost:' &>/dev/null || subscription-manager repo-override --repo $repo --add=cost:#{host_param('subscription_manager_override_repos_cost')}" %>
     done
-  <% end %>
+  <% end -%>
 
-  <% if !atomic %>
-    <% if redhat_install_agent || redhat_install_host_tools || redhat_install_host_tracer_tools %>
+  <% if !atomic -%>
+    <% if redhat_install_agent || redhat_install_host_tools || redhat_install_host_tracer_tools -%>
        if [ -f /usr/bin/dnf ]; then
          PACKAGE_MAN="dnf -y"
        else
          PACKAGE_MAN="yum -t -y"
        fi
-    <% end %>
+    <% end -%>
 
-    <% if redhat_install_agent %>
+    <% if redhat_install_agent -%>
       $PACKAGE_MAN install katello-agent
-    <% elsif redhat_install_host_tools %>
+    <% elsif redhat_install_host_tools -%>
       $PACKAGE_MAN install katello-host-tools
     <% end %>
 
-    <% if redhat_install_host_tracer_tools %>
+    <% if redhat_install_host_tracer_tools -%>
       $PACKAGE_MAN install katello-host-tools-tracer
     <% end %>
   <% end %>
-<% end %>
-
-<% if registration_type == 'spacewalk' %>
+<% elsif registration_type == 'spacewalk' -%>
   echo "##############################################################"
   echo "################ SPACEWALK REGISTRATION ######################"
   echo "##############################################################"
 
-  <% if host_param('activation_key') %>
+  <% if host_param('activation_key') -%>
     rhn_activation_key="<%= host_param('activation_key') -%>"
     satellite_hostname="<%= host_param('spacewalk_host') -%>"
     rhn_cert_file="RHN-ORG-TRUSTED-SSL-CERT"
@@ -293,14 +289,14 @@ description: |
         echo "registration successful."
     fi
 
-    <% if host_param_true?('redhat_install_agent') %>
+    <% if host_param_true?('redhat_install_agent') -%>
     if [ -f /usr/bin/dnf ]; then
       dnf -y install osad
     else
       yum -t -y install osad
     fi
-    <% end %>
-  <% else %>
+    <% end -%>
+  <% else -%>
     echo "No activation key found: Not registering"
-  <% end %>
-<% end %>
+  <% end -%>
+<% end -%>
