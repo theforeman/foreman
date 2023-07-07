@@ -34,7 +34,7 @@
       <% end %>
       <%= textarea_f f, :description, :rows=> 5, :size => "col-md-4" %>
 
-      <%= selectable_f(f, :locale, FastGettext.human_available_locales,
+      <%= selectable_f(f, :locale, Foreman::Gettext::Support.human_available_locales,
                         { :include_blank => _('Browser locale') } , { :label => _('Language') } ) %>
 
       <%= time_zone_select_f(f, :timezone, Time.find_zone(@user.timezone) || Time.find_zone!('UTC'), { :include_blank => _('Browser timezone') }) %>
