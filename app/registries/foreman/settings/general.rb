@@ -1,5 +1,5 @@
 Foreman::SettingManager.define(:foreman) do
-  locales = -> { Hash['' => _("Browser locale")].merge(Hash[FastGettext.human_available_locales.map { |lang| [lang[1], lang[0]] }]) }
+  locales = -> { Hash['' => _("Browser locale")].merge(Hash[Foreman::Gettext::Support.human_available_locales.map { |lang| [lang[1], lang[0]] }]) }
   timezones = -> { Hash['' => _("Browser timezone")].merge(Hash[ActiveSupport::TimeZone.all.map { |tz| [tz.name, "(GMT #{tz.formatted_offset}) #{tz.name}"] }]) }
 
   category(:general, N_('General')) do

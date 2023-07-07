@@ -3,6 +3,9 @@ require 'fast_gettext'
 module Foreman
   module Gettext
     module Support
+      @locales = nil
+      @mutex = Mutex.new
+
       def self.detect_locale_type
         if Rails.env.development?
           :po
@@ -44,29 +47,21 @@ module Foreman
 
       # Loading all available locales to get the language translation is slow
       # (2 seconds for 20 languages), so let's lazy load that.
-      FastGettext.class_eval do
-        attr_accessor :mutex, :locales
-
-        self.mutex = Mutex.new
-
-        def human_available_locales
-          original_locale = FastGettext.locale
-          mutex.synchronize do
-            return locales if locales
-            Rails.logger.debug "Loading and caching all available locales"
-            locales = []
-            FastGettext.default_available_locales.sort.each do |locale|
-              FastGettext.locale = locale
-              # TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
-              human_locale = _("locale_name")
-              human_locale = locale if human_locale == "locale_name"
-              locales << [human_locale, locale]
-            end
-            locales
+      def self.human_available_locales
+        original_locale = FastGettext.locale
+        @mutex.synchronize do
+          return @locales if @locales
+          Rails.logger.debug "Loading and caching all available locales"
+          @locales = FastGettext.default_available_locales.sort.map do |locale|
+            FastGettext.locale = locale
+            # TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+            human_locale = _("locale_name")
+            human_locale = locale if human_locale == "locale_name"
+            [human_locale, locale]
           end
-        ensure
-          FastGettext.locale = original_locale
         end
+      ensure
+        FastGettext.locale = original_locale
       end
     end
   end
