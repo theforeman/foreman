@@ -10,7 +10,7 @@ module Hostext
       validates :owner_type, :inclusion =>
                                {:in => OWNER_TYPES,
                                :allow_blank => true,
-                               :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', '))}
+                               :message     => (N_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', '))}
       validate :validate_owner
       validate :owner_taxonomies_match, :if => proc { |host| host.owner.is_a?(User) }
     end
