@@ -313,7 +313,7 @@ class Host::Managed < Host::Base
   delegate :require_ip4_validation?, :require_ip6_validation?, :to => :provision_interface
 
   validates :architecture_id, :presence => true, :if => proc { |host| host.managed }
-  validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
+  validates :root_pass, :length => {:minimum => 8, :message => N_('should be 8 characters or more')},
                         :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
                         :if => proc { |host| host.managed && !host.image_build? && build? }
   validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
