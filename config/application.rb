@@ -134,7 +134,6 @@ module Foreman
     # -- all .rb files in that directory are automatically loaded.
 
     # Autoloading
-    config.autoload_paths += %W(#{config.root}/app/models/power_manager)
     config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
     config.autoload_paths += %W(#{config.root}/app/models/fact_names)
