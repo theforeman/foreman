@@ -31,9 +31,11 @@ module Api::V2::TaxonomiesController
       param :subnet_ids, Array, N_("Subnet IDs"), :required => false
       param :parent_id, :number, :desc => N_('Parent ID'), :required => false
       param :ignore_types, Array, N_("List of resources types that will be automatically associated"), :required => false
-      resource_name = (param_name == :location) ? 'organization' : 'location'
-      resource_ids = "#{resource_name}_ids".to_sym
-      param resource_ids, Array, N_("Associated %{resource} IDs") % { resource: _(resource_name) }, :required => false
+      if param_name == :location
+        param :organization_ids, Array, N_("Associated organization IDs"), :required => false
+      else
+        param :location_ids, Array, N_("Associated location IDs"), :required => false
+      end
     end
   end
 
