@@ -1,3 +1,4 @@
+---
 # See the documentation for more information:
 # https://packit.dev/docs/configuration/
 
@@ -5,11 +6,11 @@ specfile_path: foreman.spec
 
 # add or remove files that should be synced
 files_to_sync:
-    - foreman.spec
-    - foreman.logrotate
-    - foreman.cron.d
-    - foreman.tmpfiles
-    - .packit.yaml
+  - foreman.spec
+  - foreman.logrotate
+  - foreman.cron.d
+  - foreman.tmpfiles
+  - .packit.yaml
 
 # name in upstream package repository or registry (e.g. in PyPI)
 upstream_package_name: foreman
@@ -18,10 +19,10 @@ downstream_package_name: foreman
 
 actions:
   post-upstream-clone:
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.spec -O foreman.spec"
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.logrotate -O foreman.logrotate"
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.cron.d -O foreman.cron.d"
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.tmpfiles -O foreman.tmpfiles"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/3.7/packages/foreman/foreman/foreman.spec -O foreman.spec"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/3.7/packages/foreman/foreman/foreman.logrotate -O foreman.logrotate"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/3.7/packages/foreman/foreman/foreman.cron.d -O foreman.cron.d"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/3.7/packages/foreman/foreman/foreman.tmpfiles -O foreman.tmpfiles"
   get-current-version: "sed 's/-develop//' VERSION"
 
 jobs:
@@ -31,7 +32,7 @@ jobs:
       centos-stream-8:
         additional_modules: "foreman:el8,nodejs:12"
         additional_repos:
-          - http://koji.katello.org/releases/yum/foreman-nightly/el8/x86_64/
+          - http://koji.katello.org/releases/yum/foreman-3.7/el8/x86_64/
     module_hotfixes: true
 
 srpm_build_deps:
