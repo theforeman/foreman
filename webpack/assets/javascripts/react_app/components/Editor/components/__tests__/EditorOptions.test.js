@@ -1,46 +1,39 @@
 import React from 'react';
 import { mount } from '@theforeman/test';
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
 
 import EditorOptions from '../EditorOptions';
-import { editorOptions, showBooleans } from '../../Editor.fixtures';
+import { editorOptions, showBooleans, inputEditorContextValue, diffEditorContextValue } from '../../Editor.fixtures';
+import { EditorContext } from '../../EditorContext';
 
 const props = { ...editorOptions, ...showBooleans, isDiff: true };
 
-const fixtures = {
-  'renders EditorOptions': props,
-};
-
 describe('EditorOptions', () => {
-  describe('EditorOptions', () =>
-    testComponentSnapshotsWithFixtures(EditorOptions, fixtures));
-
-  describe('simulate onClick', () => {
+  it('simulate onClick', () => {
     const toggleMaskValue = jest.fn();
-    const changeTab = jest.fn();
     const revertChanges = jest.fn();
     jest.mock('../EditorOptions');
     window.confirm = jest.fn(() => true);
 
     const diffWrapper = mount(
-      <EditorOptions
-        {...props}
-        changeTab={changeTab}
-        toggleMaskValue={toggleMaskValue}
-        revertChanges={revertChanges}
-        isDiff
-        selectedView="diff"
-      />
+      <EditorContext.Provider value={diffEditorContextValue}>
+        <EditorOptions
+          {...props}
+          toggleMaskValue={toggleMaskValue}
+          revertChanges={revertChanges}
+          isDiff
+        />
+      </EditorContext.Provider>
     );
 
     const inputWrapper = mount(
-      <EditorOptions
-        {...props}
-        changeTab={changeTab}
-        toggleMaskValue={toggleMaskValue}
-        revertChanges={revertChanges}
-        isDiff
-      />
+      <EditorContext.Provider value={inputEditorContextValue}>
+        <EditorOptions
+          {...props}
+          toggleMaskValue={toggleMaskValue}
+          revertChanges={revertChanges}
+          isDiff
+        />
+      </EditorContext.Provider>
     );
 
     diffWrapper
@@ -57,7 +50,9 @@ describe('EditorOptions', () => {
       .simulate('click');
 
     expect(toggleMaskValue).toHaveBeenCalledTimes(1);
-    expect(changeTab).toHaveBeenCalledTimes(1);
+    expect(revertChanges).toHaveBeenCalledTimes(1);
+    expect(diffEditorContextValue.setSelectedView).toHaveBeenCalledTimes(1);
+    expect(diffEditorContextValue.setSelectedView).toHaveBeenCalledWith("input");
     expect(window.confirm).toHaveBeenCalledTimes(1);
   });
 });

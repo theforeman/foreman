@@ -35,17 +35,6 @@ Array [
 ]
 `;
 
-exports[`Editor actions should changeTab 1`] = `
-Array [
-  Array [
-    Object {
-      "payload": "diff",
-      "type": "EDITOR_CHANGE_TAB",
-    },
-  ],
-]
-`;
-
 exports[`Editor actions should dismissErrorToast 1`] = `
 Array [
   Array [
@@ -77,7 +66,6 @@ Array [
           "id": "",
           "name": "",
         },
-        "selectedView": "input",
         "showError": false,
         "templateClass": undefined,
         "value": "<? />",
@@ -102,7 +90,6 @@ Array [
           "id": "",
           "name": "",
         },
-        "selectedView": "input",
         "showError": false,
         "templateClass": undefined,
         "value": "<? />",

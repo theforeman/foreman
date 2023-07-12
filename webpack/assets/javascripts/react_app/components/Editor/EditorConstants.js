@@ -35,3 +35,13 @@ export const EDITOR_MODES = [
   'Xml',
   'Yaml',
 ];
+
+// EditorContext selectedView Constants:
+
+export const INPUT = 'input';
+export const DIFF = 'diff';
+export const PREVIEW = 'preview';
+
+// ToolbarItems Alignments
+export const ALIGN_LEFT = 'alignLeft';
+export const ALIGN_RIGHT = 'alignRight';

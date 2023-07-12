@@ -2,6 +2,7 @@
 
 exports[`EditorHostSelect should render renders EditorHostSelect 1`] = `
 <div
+  aria-label="Host selection menu option"
   className=""
   id="editor-select-container"
 >
@@ -44,6 +45,7 @@ exports[`EditorHostSelect should render renders EditorHostSelect 1`] = `
 
 exports[`EditorHostSelect should render renders EditorHostSelect loading 1`] = `
 <div
+  aria-label="Host selection menu option"
   className=""
   id="editor-select-container"
 >
