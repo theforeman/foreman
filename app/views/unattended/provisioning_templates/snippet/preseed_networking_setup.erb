@@ -45,7 +45,6 @@ EOF
 <% interface_subnet6 = interface.subnet6 -%>
 <% interface_dhcp6 = interface_subnet6.nil? ? true : interface_subnet6.dhcp_boot_mode? -%>
 <% next if !interface.managed? || (interface_subnet.nil? && interface_subnet6.nil?) || interface.primary -%>
-<% virtual = interface.virtual? -%>
 <% if interface.virtual? -%>
     real="<%= interface.attached_to -%>"
 <% else -%>
