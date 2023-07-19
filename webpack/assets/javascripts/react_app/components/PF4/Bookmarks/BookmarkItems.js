@@ -1,5 +1,4 @@
 import React from 'react';
-import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
 import { PlusIcon } from '@patternfly/react-icons';
 import {
   DropdownItem,
@@ -10,6 +9,7 @@ import {
 import { sprintf, translate as __ } from '../../../common/I18n';
 import { STATUS } from '../../../constants';
 import DocumentationUrl from '../DocumentationLink';
+import './bookmarks.scss';
 
 export const addBookmarkItem = ({ setModalOpen }) => (
   <DropdownGroup key="create-bookmark">
@@ -39,27 +39,40 @@ const pendingItem = (
   </DropdownItem>
 );
 
-const bookmarksList = ({ bookmarks, onBookmarkClick }) =>
-  (bookmarks.length > 0 &&
-    bookmarks.map(({ name, query }) => (
-      <DropdownItem
-        ouiaId={`${name}-dropdown-item`}
-        key={name}
-        onClick={() => onBookmarkClick(query)}
-      >
-        <EllipisWithTooltip>{name}</EllipisWithTooltip>
+const bookmarksList = ({ bookmarks, onBookmarkClick }) => {
+  const hasLongerName = bookmarks.some(bookmark => bookmark.name.length > 90);
+
+  return (
+    (bookmarks.length > 0 &&
+      bookmarks.map(({ name, query }) => (
+        <DropdownItem
+          ouiaId={`${name}-dropdown-item`}
+          className={`bookmarks-dropdown-item ${
+            hasLongerName ? 'adapt-long-bookmark' : ''
+          }`}
+          key={name}
+          onClick={() => onBookmarkClick(query)}
+        >
+          {name}
+        </DropdownItem>
+      ))) || (
+      <DropdownItem ouiaId="not-found-dropdown-item" key="not found" isDisabled>
+        {__('None found')}
       </DropdownItem>
-    ))) || (
-    <DropdownItem ouiaId="not-found-dropdown-item" key="not found" isDisabled>
-      {__('None found')}
-    </DropdownItem>
+    )
   );
+};
 
 const errorItem = errors => (
-  <DropdownItem ouiaId="error-dropdown-item" key="bookmarks-errors" isDisabled>
-    <EllipisWithTooltip>
-      {sprintf('Failed to load bookmarks: %s', errors)}
-    </EllipisWithTooltip>
+  <DropdownItem
+    ouiaId="error-dropdown-item"
+    className={`bookmarks-dropdown-item ${
+      errors.length > 90 ? 'adapt-long-bookmark' : ''
+    }`}
+    key="bookmarks-errors"
+    isDisabled
+  >
+    {sprintf('Failed to load bookmarks: %s', errors)}
   </DropdownItem>
 );
 

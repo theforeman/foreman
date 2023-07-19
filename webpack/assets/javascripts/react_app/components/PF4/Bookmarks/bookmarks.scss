@@ -1,0 +1,26 @@
+@import '~@theforeman/vendor/scss/variables';
+
+.bookmarks-dropdown-item {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: nowrap;
+}
+
+.bookmarks-dropdown-item.adapt-long-bookmark {
+  width: 450px;
+  white-space: normal;
+}
+
+@media only screen and (min-width: $pf-global--breakpoint--xl) {
+  .bookmarks-dropdown-item.adapt-long-bookmark {
+    width: 600px;
+    white-space: normal;
+  }
+}
+
+@media only screen and (min-width: $pf-global--breakpoint--2xl) {
+  .bookmarks-dropdown-item.adapt-long-bookmark {
+    width: 700px;
+    white-space: normal;
+  }
+}
