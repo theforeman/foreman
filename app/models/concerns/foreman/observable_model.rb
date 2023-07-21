@@ -26,13 +26,19 @@ module Foreman
           destroy: :destroyed,
         }.each do |k, v|
           hook_name = "#{model_name}_#{v}".to_sym
-          set_hook hook_name, namespace: namespace, on: k, payload: payload, &blk
+          set_hook hook_name, namespace: namespace, on: k, payload: payload, **options, &blk
         end
       end
     end
 
     def event_payload_for(payload, block_argument, blk)
       super || { object: self }
+    end
+
+    def anonymous_admin_context?
+      [
+        ::User::ANONYMOUS_ADMIN, ::User::ANONYMOUS_API_ADMIN, ::User::ANONYMOUS_CONSOLE_ADMIN
+      ].include?(::Logging.mdc.context['user_login'])
     end
   end
 end
