@@ -26,6 +26,37 @@ class LinksControllerTest < ActionController::TestCase
       assert_redirected_to /my_plugin/
     end
 
+    test '#documentation_url receives an allowed root_url domain' do
+      ['theforeman.org', 'redhat.com', 'orcharhino.com'].each do |domain|
+        get :show, params: {
+          type: 'manual',
+          root_url: "http://#{domain}",
+        }
+
+        assert_redirected_to /#{domain}/
+      end
+    end
+
+    test '#documentation_url receives an allowed root_url subdomain' do
+      ['theforeman.org', 'redhat.com', 'orcharhino.com'].each do |domain|
+        get :show, params: {
+          type: 'manual',
+          root_url: "http://some-sub.#{domain}",
+        }
+
+        assert_redirected_to /some-sub.#{domain}/
+      end
+    end
+
+    test '#documentation_url receives a forbidden root_url option' do
+      get :show, params: {
+        type: 'manual',
+        root_url: 'http://www.example.invalid',
+      }
+
+      assert_response :not_found
+    end
+
     test '#plugin_documentation_url returns foreman docs url for a plugin with a version and a given section' do
       get :show, params: {
         type: 'plugin_manual',

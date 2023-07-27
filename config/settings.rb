@@ -28,6 +28,8 @@ end
 
 SETTINGS[:hosts] ||= []
 
+SETTINGS[:trusted_redirect_domains] ||= ['theforeman.org', 'redhat.com', 'orcharhino.com'].freeze
+
 # Load plugin config, if any
 Dir["#{__dir__}/settings.plugins.d/*.yaml"].each do |f|
   SETTINGS.merge! YAML.load(ERB.new(File.read(f)).result)
