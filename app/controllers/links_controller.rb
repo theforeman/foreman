@@ -1,5 +1,6 @@
 class LinksController < ApplicationController
   skip_before_action :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => :show
+  before_action :validate_root_url
 
   def show
     url = external_url(type: params[:type], options: params)
@@ -28,6 +29,16 @@ class LinksController < ApplicationController
   end
 
   private
+
+  def validate_root_url
+    unless params[:root_url].nil?
+      root_uri = URI.parse(params[:root_url])
+      unless SETTINGS[:trusted_redirect_domains].include?(root_uri.host) || SETTINGS[:trusted_redirect_domains].any? { |d| root_uri.host.end_with?(".#{d}") }
+        logger.warn "Denied access to forbidden root_url: #{params[:root_url]}"
+        not_found
+      end
+    end
+  end
 
   def foreman_org_path(sub_path)
     "https://theforeman.org/#{sub_path}"
