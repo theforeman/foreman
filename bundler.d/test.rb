@@ -12,7 +12,7 @@ group :test do
   gem 'facterdb', '~> 1.7'
   gem 'factory_bot_rails', '~> 5.0', :require => false
   gem 'selenium-webdriver', :require => false
-  gem 'shoulda-matchers', '>= 4.0', '< 4.4'
+  gem 'shoulda-matchers', '~> 5.0'
   gem 'shoulda-context', '~> 1.2'
   gem 'as_deprecation_tracker', '~> 1.6'
   gem 'rails-controller-testing', '~> 1.0'
