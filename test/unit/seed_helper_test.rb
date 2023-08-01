@@ -137,7 +137,7 @@ class SeedHelperTest < ActiveSupport::TestCase
       type.stubs(:unscoped).returns(unscoped_mock)
     end
 
-    let(:metadata) do
+    let(:template_metadata) do
       {
         'name' => 'Test template',
         'model' => 'ProvisioningTemplate',
@@ -147,25 +147,25 @@ class SeedHelperTest < ActiveSupport::TestCase
 
     it 'requires name in metadata' do
       ex = assert_raises RuntimeError do
-        SeedHelper.import_raw_template(get_template(metadata.except('name')))
+        SeedHelper.import_raw_template(get_template(template_metadata.except('name')))
       end
       assert_match("Attribute 'name' is required", ex.message)
     end
 
     it 'requires template model in metadata' do
       ex = assert_raises RuntimeError do
-        SeedHelper.import_raw_template(get_template(metadata.except('model')))
+        SeedHelper.import_raw_template(get_template(template_metadata.except('model')))
       end
       assert_match("Attribute 'model' is required", ex.message)
     end
 
     it 'skips templates that have been changed' do
       SeedHelper.expects(:audit_modified?).with(ProvisioningTemplate, 'Test template').returns(true)
-      assert_nil SeedHelper.import_raw_template(get_template(metadata))
+      assert_nil SeedHelper.import_raw_template(get_template(template_metadata))
     end
 
     it 'skips template that have unknown model' do
-      assert_nil SeedHelper.import_raw_template(get_template(metadata.merge({'model' => 'unknown'})))
+      assert_nil SeedHelper.import_raw_template(get_template(template_metadata.merge({'model' => 'unknown'})))
     end
 
     it 'skips templates that require a missing plugin' do
@@ -174,7 +174,7 @@ class SeedHelperTest < ActiveSupport::TestCase
           'plugin' => 'unknown_plugin',
         }],
       }
-      assert_nil SeedHelper.import_raw_template(get_template(metadata.merge(requirements)))
+      assert_nil SeedHelper.import_raw_template(get_template(template_metadata.merge(requirements)))
     end
 
     it 'skips templates that require a plugin in higher version' do
@@ -185,7 +185,7 @@ class SeedHelperTest < ActiveSupport::TestCase
         }],
       }
       Foreman::Plugin.expects(:find).with('some_plugin').returns(mock(:version => '1.9'))
-      assert_nil SeedHelper.import_raw_template(get_template(metadata.merge(requirements)))
+      assert_nil SeedHelper.import_raw_template(get_template(template_metadata.merge(requirements)))
     end
 
     it 'accepts prereleases to satisty version condition ' do
@@ -196,7 +196,7 @@ class SeedHelperTest < ActiveSupport::TestCase
         }],
       }
       Foreman::Plugin.expects(:find).with('some_plugin').returns(mock(:version => '2.0.1.rc2'))
-      refute_nil SeedHelper.import_raw_template(get_template(metadata.merge(requirements)))
+      refute_nil SeedHelper.import_raw_template(get_template(template_metadata.merge(requirements)))
     end
 
     it 'imports the template and sets taxonomies' do
@@ -206,7 +206,7 @@ class SeedHelperTest < ActiveSupport::TestCase
       mock_taxonomies(Organization, orgs)
       mock_taxonomies(Location, locs)
 
-      tpl = SeedHelper.import_raw_template(get_template(metadata))
+      tpl = SeedHelper.import_raw_template(get_template(template_metadata))
       assert(tpl.valid?)
       assert(tpl.persisted?)
       assert_equal(orgs, tpl.organizations)
@@ -214,7 +214,7 @@ class SeedHelperTest < ActiveSupport::TestCase
     end
 
     it 'sets correct vendor' do
-      tpl = SeedHelper.import_raw_template(get_template(metadata), 'SomePlugin')
+      tpl = SeedHelper.import_raw_template(get_template(template_metadata), 'SomePlugin')
       assert_equal('SomePlugin', tpl.vendor)
     end
 
@@ -225,7 +225,7 @@ class SeedHelperTest < ActiveSupport::TestCase
       mock_taxonomies(Organization, orgs)
       mock_taxonomies(Location, locs)
 
-      tpl = SeedHelper.import_raw_template(get_template(metadata.merge({'name' => 'MyScript'})))
+      tpl = SeedHelper.import_raw_template(get_template(template_metadata.merge({'name' => 'MyScript'})))
       assert_equal([], tpl.organizations)
       assert_equal([], tpl.locations)
     end
@@ -237,7 +237,7 @@ class SeedHelperTest < ActiveSupport::TestCase
       mock_taxonomies(Organization, orgs)
       mock_taxonomies(Location, locs)
 
-      template_body = get_template(metadata.merge({'name' => 'MyScript'}))
+      template_body = get_template(template_metadata.merge({'name' => 'MyScript'}))
 
       tpl = SeedHelper.import_raw_template(template_body)
       assert(tpl.valid?)

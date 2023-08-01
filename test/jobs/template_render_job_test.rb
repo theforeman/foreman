@@ -9,7 +9,7 @@ class TemplateRenderJobTest < ActiveJob::TestCase
     end
 
     it 'render report and stores it' do
-      composer = MiniTest::Mock.new
+      composer = Minitest::Mock.new
       composer.expect('render', 'result')
       composer.expect('send_mail?', false)
       ReportComposer.expects('new').with('foo' => 'bar', 'gzip' => false).returns(composer)
