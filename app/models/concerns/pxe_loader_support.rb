@@ -70,9 +70,11 @@ module PxeLoaderSupport
   # Suggested PXE loader when template kind is available (PXEGrub2, then PXELinux, then PXEGrub in this order)
   def preferred_loader
     associated_templates = os_default_templates.map(&:template_kind).compact.map(&:name)
+
     template_kinds.each do |loader|
       return PREFERRED_KINDS[loader] if associated_templates.include? loader
     end
-    nil
+
+    ''
   end
 end

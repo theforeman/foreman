@@ -6,7 +6,7 @@
   %>
     <%= selectable_f f, :pxe_loader,
       loaders.to_a, {
-        :include_blank => pxe_loader_selected,
+        :include_blank => false,
         :selected => pxe_loader_selected == true ? f.object.pxe_loader : pxe_loader_selected
       },
       :label => _('PXE loader'),

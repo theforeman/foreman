@@ -729,8 +729,9 @@ autopart"', desc: 'to render the content of host partition table'
     self[:pxe_loader].presence
   end
 
+  # @return [String] The name of the PXE loader to be used or empty string if none
   def pxe_loader
-    explicit_pxe_loader || hostgroup.try(:pxe_loader)
+    explicit_pxe_loader || hostgroup.try(:pxe_loader) || ''
   end
 
   def pxe_loader_efi?

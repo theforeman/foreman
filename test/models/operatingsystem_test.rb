@@ -258,11 +258,11 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   test "should not have preferred pxe loader for an OS without architecture associated" do
-    assert_nil Operatingsystem.new.preferred_loader
+    assert_empty Operatingsystem.new.preferred_loader
   end
 
   test "should have preferred pxe loader for an Solaris OS without any templates" do
-    assert_nil Solaris.new.preferred_loader
+    assert_empty Solaris.new.preferred_loader
   end
 
   test "should have preferred pxe loader for OS with PXELinux template" do

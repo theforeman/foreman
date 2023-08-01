@@ -10,7 +10,7 @@ class PxeLoaderSuggestionTest < ActiveSupport::TestCase
 
     test 'host does not suggest PXEloader when OS is not set' do
       @host.suggest_default_pxe_loader
-      assert_nil @host.pxe_loader
+      assert_empty @host.pxe_loader
     end
 
     test 'host suggests default PXEloader for OS' do
@@ -56,7 +56,7 @@ class PxeLoaderSuggestionTest < ActiveSupport::TestCase
 
     test 'hostgroup does not suggest PXEloader when OS is not set' do
       @hostgroup.suggest_default_pxe_loader
-      assert_nil @hostgroup.pxe_loader
+      assert_empty @hostgroup.pxe_loader
     end
 
     test 'hostgroup suggests default PXEloader for OS' do
@@ -70,6 +70,19 @@ class PxeLoaderSuggestionTest < ActiveSupport::TestCase
       @hostgroup.update_attribute(:parent_id, parent.id)
       @hostgroup.suggest_default_pxe_loader
       assert_equal 'PXELinux UEFI', @hostgroup.pxe_loader
+    end
+  end
+
+  context 'validations' do
+    def setup
+      @os = FactoryBot.create(:operatingsystem)
+      @host = FactoryBot.create(:host, operatingsystem: @os)
+      Operatingsystem.any_instance.stubs(:preferred_loader).returns('')
+    end
+
+    test 'always returns string' do
+      @os.os_parameters.create!(:name => 'pxe-loader', :value => '')
+      assert_empty @host.pxe_loader
     end
   end
 end

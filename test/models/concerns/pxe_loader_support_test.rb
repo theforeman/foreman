@@ -139,18 +139,18 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
     test "is none for zero template kinds and templates" do
       @subject.expects(:template_kinds).returns([])
       @subject.expects(:os_default_templates).returns([])
-      assert_nil @subject.preferred_loader
+      assert_empty @subject.preferred_loader
     end
 
     test "is none for zero templates" do
       @subject.expects(:os_default_templates).returns([])
-      assert_nil @subject.preferred_loader
+      assert_empty @subject.preferred_loader
     end
 
     test "is none for zero template kinds" do
       @subject.expects(:template_kinds).returns([])
       @subject.expects(:os_default_templates).returns([@template_pxelinux, @template_pxegrub, @template_pxegrub2])
-      assert_nil @subject.preferred_loader
+      assert_empty @subject.preferred_loader
     end
 
     test "is PXELinux for all associated template kinds" do
