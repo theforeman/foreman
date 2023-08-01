@@ -1,10 +1,10 @@
 group :test do
-  gem 'mocha', '~> 1.11'
+  gem 'mocha', '~> 2.1'
   gem 'single_test', '~> 0.6'
-  gem 'minitest', '~> 5.1', '< 5.19'
+  gem 'minitest', '~> 5.1'
   gem 'minitest-reporters', '~> 1.4', :require => false
   gem 'minitest-retry', '~> 0.0', :require => false
-  gem 'minitest-spec-rails', '~> 6.0'
+  gem 'minitest-spec-rails', '~> 7.1'
   gem 'capybara', '~> 3.33', :require => false
   gem 'show_me_the_cookies', '~> 6.0', :require => false
   gem 'database_cleaner', '~> 1.3', :require => false

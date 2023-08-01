@@ -6,7 +6,7 @@ class StoredValuesCleanupJobTest < ActiveJob::TestCase
   end
 
   it 'removes expired stored values and enqueue itself' do
-    scope = MiniTest::Mock.new
+    scope = Minitest::Mock.new
     scope.expect('destroy_all', nil)
     StoredValue.expects(:expired).with(0).returns(scope)
     @job.perform_now

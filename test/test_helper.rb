@@ -25,7 +25,7 @@ WebMock.disable_net_connect!(allow_localhost: true)
 # Configure shoulda
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
-    with.test_framework :minitest_4
+    with.test_framework :minitest
     with.library :rails
   end
 end
