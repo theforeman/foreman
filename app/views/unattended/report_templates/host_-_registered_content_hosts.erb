@@ -21,7 +21,7 @@ template_inputs:
 model: ReportTemplate
 require:
 - plugin: katello
-￼ version: 4.9.0
+  version: 4.9.0
 -%>
 <%- if input('Installability') == 'applicable' -%>
     <%- report_headers 'Name', 'Ip', 'Operating System', 'Subscriptions', 'Applicable Errata', 'Owner', 'Kernel', 'Latest kernel available' -%>

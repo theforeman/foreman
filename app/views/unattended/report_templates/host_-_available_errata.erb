@@ -1,5 +1,5 @@
 <%#
-name: Host - Applicable Errata
+name: Host - Available Errata
 snippet: false
 template_inputs:
 - name: Hosts filter
@@ -27,7 +27,7 @@ template_inputs:
 model: ReportTemplate
 require:
 - plugin: katello
-￼ version: 4.9.0
+  version: 4.9.0
 -%>
 <%- report_headers 'Host', 'Operating System', 'Environment', 'Erratum', 'Type', 'Published', 'Available since', 'Severity', 'Packages', 'CVEs', 'Reboot suggested' -%>
 <%- errata_filter = input('Errata filter') %>
