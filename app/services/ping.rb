@@ -4,11 +4,14 @@ class Ping
 
   class << self
     def ping
-      {
+      response = {
         'foreman': {
           database: ping_database,
         },
       }.merge(plugins_ping)
+
+      response[:foreman][:cache] = ping_cache if redis_cache_store?
+      response
     end
 
     def statuses
@@ -45,6 +48,39 @@ class Ping
         active: ActiveRecord::Base.connection.active?,
         duration_ms: duration_ms(start),
       }
+    end
+
+    def ping_cache
+      response = {}
+
+      if redis_cache_store?
+        redis = Rails.cache.redis
+        response[:servers] = []
+
+        if redis.respond_to?(:nodes)
+          nodes = redis.nodes
+        else
+          nodes = [redis]
+        end
+
+        nodes.each do |node|
+          start = current_time
+
+          begin
+            node.ping
+            status = STATUS_OK
+          rescue Redis::CannotConnectError
+            status = STATUS_FAIL
+          ensure
+            response[:servers] << {
+              status: status,
+              duration_ms: duration_ms(start),
+            }
+          end
+        end
+      end
+
+      response
     end
 
     def statuses_compute_resources
@@ -105,6 +141,14 @@ class Ping
 
     def current_time
       Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond)
+    end
+
+    def cache_store
+      Rails.application.config.cache_store
+    end
+
+    def redis_cache_store?
+      cache_store.is_a?(Array) && cache_store.first == :redis_cache_store
     end
   end
 end
