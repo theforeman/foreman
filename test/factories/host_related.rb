@@ -462,6 +462,27 @@ FactoryBot.define do
       end
     end
 
+    trait :with_separate_provision_interface_dualstack do
+      interfaces do
+        [
+          FactoryBot.build(
+            :nic_managed,
+            :primary => true,
+            :provision => false,
+            :domain => FactoryBot.build(:domain)
+          ),
+          FactoryBot.build(
+            :nic_managed,
+            :primary => false,
+            :provision => true,
+            :domain => FactoryBot.build(:domain),
+            :subnet => FactoryBot.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]),
+            :subnet6 => FactoryBot.build(:subnet_ipv6, :tftp, locations: [location], organizations: [organization])
+          ),
+        ]
+      end
+    end
+
     trait :with_tftp_v6_subnet do
       subnet6 { FactoryBot.build(:subnet_ipv6, :tftp, locations: [location], organizations: [organization]) }
     end

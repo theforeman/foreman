@@ -42,14 +42,51 @@ class BaseMacrosTest < ActiveSupport::TestCase
     end
   end
 
-  test "foreman_url should respect proxy with Templates feature" do
-    host = FactoryBot.build(:host, :with_separate_provision_interface, :with_dhcp_orchestration)
-    host.provision_interface.subnet.template = FactoryBot.build(:template_smart_proxy)
-    ProxyAPI::Template.any_instance.stubs(:template_url).returns(host.provision_interface.subnet.template.url)
+  test "foreman_url should respect proxy with Templates feature over ipv4" do
+    host = FactoryBot.build(:host, :with_separate_provision_interface_dualstack)
+
+    v4_template_proxy = Minitest::Mock.new()
+    v4_template_proxy.expect(:present?, true)
+    v4_template_proxy.expect(:template_url, 'http://192.0.2.1')
+    host.provision_interface.subnet.stubs(:template_proxy).returns(v4_template_proxy)
+
+    host.provision_interface.subnet6.stubs(:template_proxy).returns(nil)
 
     @scope.instance_variable_set('@host', host)
 
-    assert_match(host.provision_interface.subnet.template.url, @scope.foreman_url('provision'))
+    assert_match('http://192.0.2.1/', @scope.foreman_url('provision'))
+  end
+
+  test "foreman_url should respect proxy with Templates feature over ipv6" do
+    host = FactoryBot.build(:host, :with_separate_provision_interface_dualstack)
+
+    host.provision_interface.subnet.stubs(:template_proxy).returns(nil)
+
+    v6_template_proxy = Minitest::Mock.new()
+    v6_template_proxy.expect(:present?, true)
+    v6_template_proxy.expect(:template_url, 'http://[2001:db8::1]')
+    host.provision_interface.subnet6.stubs(:template_proxy).returns(v6_template_proxy)
+
+    @scope.instance_variable_set('@host', host)
+
+    assert_match('http://[2001:db8::1]/', @scope.foreman_url('provision'))
+  end
+
+  test "foreman_url prefer proxy with Templates feature over ipv6" do
+    host = FactoryBot.build(:host, :with_separate_provision_interface_dualstack)
+
+    v4_template_proxy = Minitest::Mock.new()
+    v4_template_proxy.expect(:present?, true)
+    host.provision_interface.subnet.stubs(:template_proxy).returns(v4_template_proxy)
+
+    v6_template_proxy = Minitest::Mock.new()
+    v6_template_proxy.expect(:present?, true)
+    v6_template_proxy.expect(:template_url, 'http://[2001:db8::1]/')
+    host.provision_interface.subnet6.stubs(:template_proxy).returns(v6_template_proxy)
+
+    @scope.instance_variable_set('@host', host)
+
+    assert_match('http://[2001:db8::1]/', @scope.foreman_url('provision'))
   end
 
   test "foreman_url should run with @host as nil" do
