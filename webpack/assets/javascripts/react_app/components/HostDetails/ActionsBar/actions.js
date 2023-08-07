@@ -65,7 +65,7 @@ export const deleteHost = (
 };
 
 export const updateHost = hostId => dispatch => {
-  const url = foremanUrl(`/api/hosts/${hostId}`);
+  const url = foremanUrl(`/api/hosts/${hostId}?show_hidden_parameters=true`);
   dispatch(
     APIActions.get({
       url,
