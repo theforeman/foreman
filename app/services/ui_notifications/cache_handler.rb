@@ -7,7 +7,7 @@ module UINotifications
 
     # JSON Payload
     def payload
-      result = cache.read(cache_key)
+      result = cache.read(cache_key, raw: true)
       if result
         logger.debug("Cache Hit: notification, reading cache for #{cache_key}")
         return result
