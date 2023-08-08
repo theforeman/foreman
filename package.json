@@ -31,6 +31,7 @@
     "react-intl": "^2.8.0"
   },
   "devDependencies": {
+    "@adobe/css-tools": "~4.2.0",
     "@babel/core": "^7.7.0",
     "@theforeman/builder": "^10.1.0",
     "@theforeman/eslint-plugin-foreman": "^10.1.0",
