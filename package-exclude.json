@@ -33,6 +33,7 @@
         "webpack-dev-server",
         "webpack-dev-server-without-h2",
         "tabbable",
+        "@adobe/css-tools",
 	"sass"
     ],
     "EXCLUDE_NPM_PREFIXES": [
