@@ -31,7 +31,8 @@
         "webpack-bundle-analyzer",
         "webpack-dev-server",
         "webpack-dev-server-without-h2",
-        "tabbable"
+        "tabbable",
+        "@adobe/css-tools"
     ],
     "EXCLUDE_NPM_PREFIXES": [
         "@babel/eslint-",
