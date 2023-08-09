@@ -639,4 +639,11 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :edit_settings, { :settings => [:update],
                                      :'api/v2/settings' => [:update] }
   end
+
+  permission_set.security_block :lookup_values do |map|
+    map.permission :view_lookup_values, {:lookup_values => [:index]}
+    map.permission :create_lookup_values, {:lookup_values => [:create]}
+    map.permission :edit_lookup_values, {:lookup_values => [:update]}
+    map.permission :destroy_lookup_values, {:lookup_values => [:destroy]}
+  end
 end
