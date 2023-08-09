@@ -24,13 +24,28 @@ test_on:
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   os_major = @host.operatingsystem.major.to_i
 
-  if (rhel_compatible && os_major < 7) || !@host.pxe_loader_efi?
-    # Grub EFI commands are RHEL7+ only (prevents "Kernel is too old") or for non-EFI arch
-    linuxcmd = "linux"
-    initrdcmd = "initrd"
-  else
+  if rhel_compatible && os_major == 7 && ['i386','x86_64'].include?(@host.architecture.to_s) && @host.pxe_loader_efi?
+    #
+    # The linuxefi and initrdefi commands, despite their names, are specific to
+    # x86 and its "EFI Handover Protocol." They do not exist in upstream Grub
+    # and have been added to Fedora's since Fedora 17.
+    #
+    # https://docs.kernel.org/arch/x86/boot.html#efi-handover-protocol-deprecated
+    # https://src.fedoraproject.org/rpms/grub2/blob/f39/f/0004-Add-support-for-Linux-EFI-stub-loading.patch
+    #
+    # EL6's kernel did not support EFI Handover ("kernel too old"). EL7's does,
+    # and its Grubby generates {linux,initrd}efi commands (excluding aarch64),
+    # but that ends in EL8's BLS support.
+    #
+    # https://projects.theforeman.org/issues/24026
+    # https://git.centos.org/rpms/grubby/blob/c7/f/SOURCES/0008-Use-the-correct-load-commands-for-aarch64-efi.patch
+    # https://git.centos.org/rpms/grub2/blob/c8s/f/SOURCES/0207-blscfg-Get-rid-of-the-linuxefi-linux16-linux-distinc.patch
+    #
     linuxcmd = "linuxefi"
     initrdcmd = "initrdefi"
+  else
+    linuxcmd = "linux"
+    initrdcmd = "initrd"
   end
 -%>
 
