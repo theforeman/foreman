@@ -11,11 +11,6 @@ Medium.without_auditing do
       :path => "http://mirror.centos.org/centos/$major/os/$arch",
     },
     {
-      :name => "CentOS 8 mirror",
-      :os_family => "Redhat",
-      :path => "http://mirror.centos.org/centos/$major/BaseOS/$arch/kickstart",
-    },
-    {
       :name => "CentOS Stream",
       :os_family => "Redhat",
       :path => "http://mirror.centos.org/centos/$major-stream/BaseOS/$arch/os",
