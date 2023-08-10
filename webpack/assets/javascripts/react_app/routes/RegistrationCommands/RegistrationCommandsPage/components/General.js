@@ -6,6 +6,7 @@ import HostGroup from './fields/HostGroup';
 import OperatingSystem from './fields/OperatingSystem';
 import SmartProxy from './fields/SmartProxy';
 import Insecure from './fields/Insecure';
+import DownloadUtility, { DownloadUtilities } from './fields/DownloadUtility';
 
 const General = ({
   organizationId,
@@ -28,6 +29,8 @@ const General = ({
   handleInsecure,
   handleInvalidField,
   isLoading,
+  downloadUtility,
+  handleDownloadUtility,
 }) => (
   <>
     <Taxonomies
@@ -65,6 +68,12 @@ const General = ({
       isLoading={isLoading}
     />
 
+    <DownloadUtility
+      downloadUtility={downloadUtility}
+      handleDownloadUtility={handleDownloadUtility}
+      isLoading={isLoading}
+    />
+
     <Insecure
       insecure={insecure}
       handleInsecure={handleInsecure}
@@ -97,6 +106,8 @@ General.propTypes = {
   handleInsecure: PropTypes.func.isRequired,
   handleInvalidField: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  downloadUtility: PropTypes.oneOf(DownloadUtilities),
+  handleDownloadUtility: PropTypes.func.isRequired,
 };
 
 General.defaultProps = {
@@ -111,6 +122,7 @@ General.defaultProps = {
   operatingSystemId: undefined,
   operatingSystemTemplate: undefined,
   smartProxyId: undefined,
+  downloadUtility: DownloadUtilities[0],
 };
 
 export default General;

@@ -80,7 +80,8 @@ module Foreman
         :host_puppet_environment,
         :host_enc,
         :install_packages,
-        :update_packages
+        :update_packages,
+        :generate_web_request
       ]
 
       DEFAULT_ALLOWED_VARIABLES = [
