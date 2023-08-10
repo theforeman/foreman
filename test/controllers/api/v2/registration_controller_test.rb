@@ -26,6 +26,7 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
         location_id: taxonomies(:location1).id,
         hostgroup_id: hostgroups(:common).id,
         operatingsystem_id: operatingsystems(:centos5_3).id,
+        download_utility: 'wget',
       }
 
       get :global, params: params, session: set_session_user
@@ -38,6 +39,7 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
       assert_equal operatingsystems(:centos5_3), vars[:operatingsystem]
       assert_equal users(:admin), vars[:user]
       assert_equal register_url, vars[:registration_url].to_s
+      assert_equal 'wget', vars[:download_utility].to_s
     end
 
     test "should not pass unpermitted params to template" do

@@ -41,6 +41,7 @@ module Foreman::Controller::Registration
       packages: params['packages'],
       update_packages: params['update_packages'],
       repo_data: repo_data,
+      download_utility: params['download_utility'],
     }
 
     params.permit(permitted)

@@ -33,6 +33,11 @@ exports[`RegistrationCommandsPage - General renders 1`] = `
     smartProxies={Array []}
     smartProxyId={0}
   />
+  <DownloadUtility
+    downloadUtility="curl"
+    handleDownloadUtility={[Function]}
+    isLoading={false}
+  />
   <Insecure
     handleInsecure={[Function]}
     insecure={false}
