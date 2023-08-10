@@ -14,7 +14,7 @@ description: |
 # Make sure, all command output can be parsed (e.g. from subscription-manager)
 export LC_ALL=C LANG=C
 <%
-    headers = ["-H 'Authorization: Bearer #{@auth_token}'"]
+    headers = ["--header 'Authorization: Bearer #{@auth_token}'"]
     activation_keys = [(@hostgroup.params['kt_activation_keys'] if @hostgroup), @activation_keys].compact.join(',')
 -%>
 
@@ -36,6 +36,7 @@ export LC_ALL=C LANG=C
 <%= "\n# Ignore subman errors: [#{@ignore_subman_errors}]" unless @ignore_subman_errors.nil? -%>
 <%= "\n# Lifecycle environment id: [#{@lifecycle_environment_id}]" if @lifecycle_environment_id.present? -%>
 <%= "\n# Activation keys: [#{activation_keys}]" if activation_keys.present? -%>
+<%= "\n# Download utility: [#{@download_utility}]" unless @download_utility.nil? -%>
 
 
 if ! [ $(id -u) = 0 ]; then
@@ -55,6 +56,8 @@ cleanup_and_exit() {
   rm -f $SSL_CA_CERT
   exit $1
 }
+
+<% utility = dl_utility(@download_utility) -%>
 
 <% unless @repo.blank? -%>
 echo '#'
@@ -87,7 +90,7 @@ elif [ -f /etc/debian_version ]; then
   <%= save_to_file('/etc/apt/sources.list.d/foreman_registration.list', @repo) %>
 <% if @repo_gpg_key_url.present? -%>
   apt-get -y install ca-certificates gpg
-  curl --silent --show-error --output /etc/apt/trusted.gpg.d/client.asc <%= shell_escape @repo_gpg_key_url %>
+  <%= utility[:gpg_key_download_command]-%> /etc/apt/trusted.gpg.d/client.asc <%= shell_escape @repo_gpg_key_url %>
 <% end -%>
   apt-get update
 
@@ -98,21 +101,21 @@ fi
 <% end -%>
 
 register_host() {
-  curl --silent --show-error --cacert $SSL_CA_CERT --request POST <%= @registration_url %> \
-       <%= headers.join(' ') %> \
-       --data "host[name]=$(hostname --fqdn)" \
-       --data "host[build]=false" \
-       --data "host[managed]=false" \
-<%= "       --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
-<%= "       --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
-<%= "       --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
-<%= "       --data 'host[operatingsystem_id]=#{@operatingsystem.id}' \\\n" if @operatingsystem -%>
-<%= "       --data host[interfaces_attributes][0][identifier]=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
-<%= "       --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
-<%= "       --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
-<%= "       --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
-<%= "       --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
-<%= "       --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
+  <%= utility[:registration_command]-%> $SSL_CA_CERT <%= @registration_url %> \
+    <%= headers.join(' ') %> \
+<%= "    #{utility[:data_key]} \"host[name]=$(hostname --fqdn)\" \\\n" -%>
+<%= "    #{utility[:data_key]} \"host[build]=false\" \\\n" -%>
+<%= "    #{utility[:data_key]} \"host[managed]=false\" \\\n" -%>
+<%= "    #{utility[:data_key]} 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
+<%= "    #{utility[:data_key]} 'host[location_id]=#{@location.id}' \\\n" if @location -%>
+<%= "    #{utility[:data_key]} 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
+<%= "    #{utility[:data_key]} 'host[operatingsystem_id]=#{@operatingsystem.id}' \\\n" if @operatingsystem -%>
+<%= "    #{utility[:data_key]} host[interfaces_attributes][0][identifier]=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
+<%= "    #{utility[:data_key]} 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
+<%= "    #{utility[:data_key]} 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
+<%= "    #{utility[:data_key]} remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
+<%= "    #{utility[:data_key]} packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
+<%= "    #{utility[:data_key]} 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
 
 }
 
@@ -122,21 +125,21 @@ echo "#"
 
 <% if plugin_present?('katello') && activation_keys.present? -%>
 register_katello_host(){
-    UUID=$(subscription-manager identity | grep --max-count 1 --only-matching '\([[:xdigit:]]\{8\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{12\}\)')
-    curl --silent --show-error --cacert $KATELLO_SERVER_CA_CERT --request POST "<%= @registration_url %>" \
-         <%= headers.join(' ') %> \
-         --data "uuid=$UUID" \
-         --data "host[build]=false" \
-<%= "      --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
-<%= "      --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
-<%= "      --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
-<%= "      --data 'host[lifecycle_environment_id]=#{@lifecycle_environment_id}' \\\n" if @lifecycle_environment_id.present? -%>
-<%= "      --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
-<%= "      --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
-<%= "      --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
-<%= "      --data 'setup_remote_execution_pull=#{@setup_remote_execution_pull}' \\\n" unless @setup_remote_execution_pull.nil? -%>
-<%= "      --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
-<%= "      --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
+  UUID=$(subscription-manager identity | grep --max-count 1 --only-matching '\([[:xdigit:]]\{8\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{12\}\)')
+  <%= utility[:registration_command]-%> $KATELLO_SERVER_CA_CERT "<%= @registration_url %>" \
+    <%= headers.join(' ') %> \
+<%= "    #{utility[:data_key]} \"uuid=$UUID\" \\\n" -%>
+<%= "    #{utility[:data_key]} \"host[build]=false\" \\\n" -%>
+<%= "    #{utility[:data_key]} 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
+<%= "    #{utility[:data_key]} 'host[location_id]=#{@location.id}' \\\n" if @location -%>
+<%= "    #{utility[:data_key]} 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
+<%= "    #{utility[:data_key]} 'host[lifecycle_environment_id]=#{@lifecycle_environment_id}' \\\n" if @lifecycle_environment_id.present? -%>
+<%= "    #{utility[:data_key]} 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
+<%= "    #{utility[:data_key]} 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
+<%= "    #{utility[:data_key]} remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
+<%= "    #{utility[:data_key]} 'setup_remote_execution_pull=#{@setup_remote_execution_pull}' \\\n" unless @setup_remote_execution_pull.nil? -%>
+<%= "    #{utility[:data_key]} packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
+<%= "    #{utility[:data_key]} 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
 
 }
 

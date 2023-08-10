@@ -8,7 +8,7 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       response = ActiveSupport::JSON.decode(@response.body)['registration_command']
 
       assert_includes response, "curl -sS  'http://test.host/register'"
-      assert_includes response, "-H 'Authorization: Bearer"
+      assert_includes response, "--header 'Authorization: Bearer"
     end
 
     test 'with params' do
@@ -64,6 +64,33 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
     test 'with proxy without required features' do
       post :create, params: { smart_proxy_id: smart_proxies(:one).id }
       assert_response :unprocessable_entity
+    end
+
+    test 'using wget' do
+      params = {
+        download_utility: 'wget',
+      }
+
+      post :create, params: params
+      assert_response :success
+
+      response = ActiveSupport::JSON.decode(@response.body)['registration_command']
+      assert_includes response, "wget --no-verbose -O-  'http://test.host/register?download_utility=wget'"
+      assert_includes response, "--header 'Authorization: Bearer"
+    end
+
+    test 'using wget with insecure option' do
+      params = {
+        download_utility: 'wget',
+        insecure: true,
+      }
+
+      post :create, params: params
+      assert_response :success
+
+      response = ActiveSupport::JSON.decode(@response.body)['registration_command']
+      assert_includes response, "wget --no-verbose -O- --no-check-certificate 'http://test.host/register?download_utility=wget'"
+      assert_includes response, "--header 'Authorization: Bearer"
     end
   end
 end

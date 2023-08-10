@@ -32,6 +32,7 @@ module Foreman::Controller::Registration
       update_packages: params['update_packages'],
       repo: params['repo'],
       repo_gpg_key_url: params['repo_gpg_key_url'],
+      download_utility: params['download_utility'],
     }
 
     params.permit(permitted)
