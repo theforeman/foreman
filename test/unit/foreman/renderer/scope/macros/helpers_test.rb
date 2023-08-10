@@ -109,4 +109,54 @@ class HelpersTest < ActiveSupport::TestCase
     it { assert scope.falsy?('false') }
     it { refute scope.falsy?('true') }
   end
+
+  describe '#generate_web_request' do
+    it "generate curl get request" do
+      utility = "curl"
+      url = "https://www.example.com/keys/client.asc"
+      output_file = "/etc/apt/trusted.gpg.d/client1.asc"
+      expected_request = "curl --silent --show-error https://www.example.com/keys/client.asc \\\n" \
+                         "  --output /etc/apt/trusted.gpg.d/client1.asc"
+      assert_equal expected_request, scope.generate_web_request(utility: utility, url: url, output_file: output_file)
+    end
+
+    it "generate curl post request" do
+      utility = "curl"
+      url = "https://www.example.com/register"
+      ssl_ca_cert = "/etc/ssl/custom_certs/ca_cert.crt"
+      headers = ["--header \'Authorization: Bearer my_token\'"]
+      params = ["host[build]=false", "host[organization_id]=1"]
+      expected_request = "curl --silent --show-error https://www.example.com/register \\\n" \
+                         "  --cacert /etc/ssl/custom_certs/ca_cert.crt \\\n" \
+                         "  --request POST \\\n" \
+                         "  --header 'Authorization: Bearer my_token' \\\n" \
+                         "  --data host[build]=false \\\n" \
+                         "  --data host[organization_id]=1"
+      assert_equal expected_request, scope.generate_web_request(utility: utility, url: url, ssl_ca_cert: ssl_ca_cert, headers: headers, params: params)
+    end
+
+    it "generate wget get request" do
+      utility = "wget"
+      url = "https://www.example.com/keys/client.asc"
+      output_file = "/etc/apt/trusted.gpg.d/client1.asc"
+      expected_request = "wget --no-verbose --no-hsts https://www.example.com/keys/client.asc \\\n" \
+                         "  --output-document /etc/apt/trusted.gpg.d/client1.asc"
+      assert_equal expected_request, scope.generate_web_request(utility: utility, url: url, output_file: output_file)
+    end
+
+    it "generate wget post request" do
+      utility = "wget"
+      url = "https://www.example.com/register"
+      ssl_ca_cert = "/etc/ssl/custom_certs/ca_cert.crt"
+      headers = ["--header \'Authorization: Bearer my_token\'"]
+      params = ["host[build]=false", "host[organization_id]=1"]
+      expected_request = "wget --no-verbose --no-hsts https://www.example.com/register \\\n" \
+                         "  --ca-certificate /etc/ssl/custom_certs/ca_cert.crt \\\n" \
+                         "  --output-document - \\\n" \
+                         "  --header 'Authorization: Bearer my_token' \\\n" \
+                         "  --post-data host[build]=false\\&host[organization_id]=1"
+
+      assert_equal expected_request, scope.generate_web_request(utility: utility, url: url, ssl_ca_cert: ssl_ca_cert, headers: headers, params: params)
+    end
+  end
 end

@@ -44,6 +44,7 @@ import Advanced from './components/Advanced';
 import Actions from './components/Actions';
 import Command from './components/Command';
 import './RegistrationCommandsPage.scss';
+import { DownloadUtilities } from './components/fields/DownloadUtility';
 
 const RegistrationCommandsPage = () => {
   const dispatch = useDispatch();
@@ -94,6 +95,7 @@ const RegistrationCommandsPage = () => {
   const [repoData, setRepoData] = useState([]);
   const [repoDataInternal, setRepoDataInternal] = useState([]);
   const [invalidFields, setInvalidFields] = useState([]);
+  const [downloadUtility, setDownloadUtility] = useState(DownloadUtilities[0]);
 
   // Command
   const command = useSelector(selectCommand);
@@ -134,6 +136,7 @@ const RegistrationCommandsPage = () => {
       packages,
       repoData,
       updatePackages,
+      downloadUtility,
       ...pluginValues,
     };
 
@@ -280,6 +283,8 @@ const RegistrationCommandsPage = () => {
                   handleInvalidField={handleInvalidField}
                   invalidFields={invalidFields}
                   isLoading={isLoading}
+                  downloadUtility={downloadUtility}
+                  handleDownloadUtility={setDownloadUtility}
                 />
 
                 <Slot

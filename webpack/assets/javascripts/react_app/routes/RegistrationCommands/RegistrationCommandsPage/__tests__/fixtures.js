@@ -1,4 +1,5 @@
 import { STATUS } from '../../../../constants';
+import { DownloadUtilities } from '../components/fields/DownloadUtility'
 
 export const generalComponentProps = {
   organizationId: 0,
@@ -21,6 +22,8 @@ export const generalComponentProps = {
   handleInsecure: () => {},
   handleInvalidField: () => {},
   isLoading: false,
+  downloadUtility: DownloadUtilities.curl,
+  handleDownloadUtility: () => {},
 };
 export const advancedComponentProps = {
   configParams: {},
@@ -95,6 +98,12 @@ export const packagesProps = {
 export const updatePackagesProps = {
   updatePackages: false,
   handleUpdatePackages: () => {},
+  isLoading: false,
+};
+
+export const downloadUtilityProps = {
+  downloadUtility: DownloadUtilities.curl,
+  handleDownloadUtility: () => {},
   isLoading: false,
 };
 

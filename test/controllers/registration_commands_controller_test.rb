@@ -37,6 +37,7 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
         hostgroupId: hostgroups(:common).id,
         operatingsystemId: operatingsystems(:redhat).id,
         update_packages: true,
+        download_utility: 'wget',
       }
       post :create, params: params, session: set_session_user
       command = JSON.parse(@response.body)['command']
@@ -46,6 +47,7 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
       assert_includes command, 'hostgroupId='
       assert_includes command, 'operatingsystemId='
       assert_includes command, 'update_packages=true'
+      assert_includes command, 'download_utility=wget'
     end
 
     test 'with params ignored in URL' do
@@ -61,7 +63,7 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
       post :create, params: params, session: set_session_user
       command = JSON.parse(@response.body)['command']
 
-      assert_includes command, "curl -sS --insecure '#{proxy.url}/register"
+      assert_includes command, "curl --silent --show-error  --insecure '#{proxy.url}/register"
       refute command.include?('smart_proxy_id')
       refute command.include?('insecure=true')
       refute command.include?('jwt_expiration')

@@ -155,6 +155,32 @@ module Foreman
           def falsy?(value = nil)
             Foreman::Cast.to_bool(value) == false
           end
+
+          apipie :method, 'Generate a web request' do
+            keyword :utility, String, desc: 'The utility to use for the web request ("curl" or "wget").'
+            keyword :url, String, desc: 'The URL for the web request.'
+            keyword :ssl_ca_cert, String, desc: 'The path to the SSL certificate.', default: nil
+            keyword :headers, Array, of: String, desc: 'Array containing the headers for the web request starting with "--header".', default: nil
+            keyword :params, Array, of: String, desc: 'Array containing the POST parameters for the web request.', default: nil
+            keyword :output_file, String, desc: 'The path were the result of the web request will be stored.', default: nil
+            returns String, desc: 'The web request.'
+            example 'generate_web_request(utility: "curl", url: "https://www.example.com/register", ssl_ca_cert: "/etc/ssl/custom_certs/ca_cert.crt", headers: ["--header \'Authorization: Bearer <my_token>\'"], params: ["host[build]=false", "host[organization_id]=1"])'
+            example 'generate_web_request(utility: "curl", url: "https://www.example.com/keys/client.asc", output_file: "/etc/apt/trusted.gpg.d/client1.asc")'
+          end
+          def generate_web_request(utility:, url:, ssl_ca_cert: nil, headers: nil, params: nil, output_file: nil)
+            utility = Foreman.download_utilities.fetch(utility || 'curl')
+            command = ["#{utility[:download_command]} #{url}"]
+            command << "#{utility[:ca_cert]} #{ssl_ca_cert}" if ssl_ca_cert
+            command << utility[:request_type_post] if params && utility[:request_type_post]
+            if output_file
+              command << "#{utility[:output_file]} #{output_file}"
+            elsif utility[:output_pipe]
+              command << utility[:output_pipe]
+            end
+            headers&.each { |header| command << header }
+            utility[:format_params].call(params).each { |param| command << param } if params
+            command.join(" \\\n  ")
+          end
         end
       end
     end
