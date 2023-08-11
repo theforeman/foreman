@@ -1,3 +1,30 @@
+2023-08-11	Griffin Sullivan <gsulliva@redhat.com>
+	* Release 3.6.2
+
+2023-08-10	Girija Soni <gisoni@redhat.com>
+	* Refs #36537 - Drop description from setting search
+
+2023-08-08	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #36393 - Do not rebuild managed hosts in registration
+
+2023-07-31	Samir Jha <sjha4@ncsu.edu>
+	* Fixes #36617 - Pin minitest < 5.19 to resolve test failures
+
+2023-07-26	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Correct packit config for 3.6-stable branch
+
+2023-07-12	MariaAga <mariaaga@redhat.com>
+	* Fixes #36263 - hosts names are hidden in small screens
+
+2023-05-23	Samir Jha <samirjha1525@gmail.com>
+	* Fixes #36305 - Pin sass version to 1.60.z to avoid node 14 dependency
+
+2023-05-23	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #36265 - Make redirect when editing host tad more reliable
+
+2023-03-29	vijaysawant <vijaysawant36@gmail.com>
+	* Fixes #36225 - fix Host Details path in config report
+
 2023-03-28	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.6.1
 
