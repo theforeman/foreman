@@ -36,6 +36,7 @@ test_on:
     options << "ip=[#{iface.ip6}]::[#{subnet6.gateway}]:[#{subnet6.mask}]:#{hostname}:#{iface.identifier}:none:[#{subnet6.dns_servers.join(']:[')}]"
   end
 
+  options << "BOOTIF=#{mac}" if mac
   options << 'ramdisk_size=1500000'
   options << 'fsck.mode=skip'
   options << 'autoinstall'
