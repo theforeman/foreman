@@ -59,11 +59,33 @@ class PersonalAccessTokenTest < ActiveSupport::TestCase
       assert_includes PersonalAccessToken.active.where(:user => user), token
       refute_includes PersonalAccessToken.inactive.where(:user => user), token
       token.expires_at = Date.yesterday
-      token.save
+      token.save(validate: false)
       assert_equal true, token.expires?
       assert_equal false, token.active?
       assert_includes PersonalAccessToken.inactive.where(:user => user), token
       refute_includes PersonalAccessToken.active.where(:user => user), token
+    end
+
+    test 'bogus dates expiry dates are not accepted' do
+      token.expires_at = '2023-08-34T12:00:00.000Z'
+      refute token.valid?
+      err, * = token.errors['expires_at']
+      assert_match(/Could not parse timestamp/, err)
+    end
+
+    test 'dates in the past are not accepted' do
+      token.expires_at = '1970-01-01T12:00:00.000Z'
+      refute token.valid?
+      err, * = token.errors['expires_at']
+      assert_match(/cannot be in the past/, err)
+    end
+
+    test 'token with date in the past can be updated' do
+      token.expires_at = Date.yesterday
+      assert token.save(validate: false)
+      token.name = token.name + '1'
+      token.expires_at = Date.yesterday
+      assert token.valid?
     end
   end
 end
