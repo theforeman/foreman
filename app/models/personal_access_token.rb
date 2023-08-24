@@ -19,6 +19,8 @@ class PersonalAccessToken < ApplicationRecord
   scope :inactive, -> { where(revoked: true).or(where("expires_at < ?", Time.current.utc)) }
 
   attr_accessor :token_value
+  validate :expires_at_in_future
+  validate :valid_expires_at
 
   def self.authenticate_user(user, token)
     token = active.find_by(user: user, token: hash_token(user, token, :pbkdf2sha1)) ||
@@ -75,5 +77,22 @@ class PersonalAccessToken < ApplicationRecord
 
   def used?
     last_used_at.present?
+  end
+
+  def expires_at=(value)
+    @expires_at_raw = value
+    super
+  end
+
+  def valid_expires_at
+    if @expires_at_raw && expires_at.nil?
+      errors.add(:expires_at, _("Could not parse timestamp '%{timestamp}'") % { timestamp: @expires_at_raw })
+    end
+  end
+
+  def expires_at_in_future
+    if changes.key?('expires_at') && expires_at.present? && expires_at < Time.zone.now
+      errors.add(:expires_at, _("cannot be in the past"))
+    end
   end
 end

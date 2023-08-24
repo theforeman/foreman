@@ -1176,7 +1176,12 @@ class UserTest < ActiveSupport::TestCase
       token.save
       token_value
     end
-    let(:expired_token) { FactoryBot.create(:personal_access_token, :user => user, :expires_at => 4.weeks.ago) }
+    let(:expired_token) do
+      token = FactoryBot.create(:personal_access_token, :user => user)
+      token.expires_at = 4.weeks.ago
+      token.save(validate: false)
+      token
+    end
     let(:expired_token_value) do
       token_value = expired_token.generate_token
       expired_token.save
