@@ -362,7 +362,11 @@ sed -e 's/DEFAULTKERNEL=kernel-uek/DEFAULTKERNEL=kernel/g' -i /etc/sysconfig/ker
 
 touch /tmp/foreman_built
 
+<% if host_param_true?('use_graphical_installer') -%>
+chvt 6
+<% else -%>
 chvt 1
+<% end -%>
 ) 2>&1 | tee /root/install.post.log
 <%= section_end %>
 
