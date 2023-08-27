@@ -231,7 +231,10 @@ module ApplicationHelper
     return if args.blank?
 
     # single button
-    return content_tag(:span, args[0].html_safe, :class => 'btn btn-sm btn-default') if args.length == 1
+    if args.length == 1
+      action = args[0].is_a?(Hash) ? args[0][:content] : args[0]
+      return content_tag(:span, action.html_safe, :class => 'btn btn-sm btn-default')
+    end
 
     # multiple buttons
     primary = args.delete_at(0).html_safe
