@@ -664,3 +664,7 @@ td .dropdown-menu > li > a.disabled:hover,
 td .dropdown-menu > li > a.disabled:focus {
   cursor: pointer;
 }
+
+span.btn a.disabled {
+ color: #8b8d8f;
+}
