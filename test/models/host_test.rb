@@ -1684,6 +1684,54 @@ class HostTest < ActiveSupport::TestCase
     assert_equal hosts.count, 0
   end
 
+  test "can build a hash of all host facts" do
+    host = FactoryBot.create(:host, :with_facts, :fact_count => 22)
+    assert_equal host.facts.keys.length, 22
+  end
+
+  test "can build a hash of specific host facts" do
+    host = FactoryBot.create(:host, :with_facts, :fact_count => 5)
+    assert_equal host.facts(host.fact_names.map(&:name).first(3)).keys.length, 3
+  end
+
+  test "makes only one SQL query when you pass specific fact names" do
+    host = FactoryBot.create(:host, :with_facts, :fact_count => 5)
+    fact_names = host.fact_names.map(&:name).first(3)
+    assert_sql_queries(1) do
+      host.facts_hash(fact_names)
+    end
+  end
+
+  test "makes one SQL query per host.facts_hash" do
+    host = FactoryBot.create(:host, :with_facts, :fact_count => 5)
+    fact_names = host.fact_names.map(&:name).first(2)
+    assert_sql_queries(2) do
+      host.facts_hash[fact_names[0]]
+      host.facts_hash[fact_names[1]]
+    end
+  end
+
+  test "facts caches facts_hash" do
+    host = FactoryBot.create(:host, :with_facts, :fact_count => 5)
+    fact_names = host.fact_names.map(&:name).first(2)
+    assert_sql_queries(1) do
+      host.facts[fact_names[0]]
+      host.facts[fact_names[1]]
+      host.facts[fact_names[0]]
+      host.facts[fact_names[1]]
+    end
+  end
+
+  test "facts does not cache if you pass fact names" do
+    host = FactoryBot.create(:host, :with_facts, :fact_count => 5)
+    fact_names = host.fact_names.map(&:name).first(2)
+    assert_sql_queries(3) do
+      host.facts(fact_names)
+      host.facts(fact_names)
+      host.facts(fact_names)
+    end
+  end
+
   test "can search hosts by numeric and string facts" do
     host = FactoryBot.create(:host, :hostname => 'num001.example.com')
     HostFactImporter.new(host).import_facts({
