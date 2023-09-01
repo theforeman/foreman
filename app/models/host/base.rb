@@ -214,19 +214,32 @@ module Host
       desc 'Note that available facts depend on what facts have been uploaded to Foreman,
            typical sources are Puppet facter, subscription manager etc.
            The facts can be out of date, this macro only provides access to the value stored in the database.'
+      optional :fact_names, Array, desc: 'A list of fact names to return. If empty all facts are returned'
       returns Hash, desc: 'A hash of facts, keys are fact names, values are fact values'
       example '@host.facts # => { "hardwareisa"=>"x86_64", "kernel"=>"Linux", "virtual"=>"physical", ... }', desc: 'Getting all host facts'
       example '@host.facts["uptime"] # => "30 days"', desc: 'Getting specific fact value, +uptime+ in this case'
       aliases :facts
     end
-    def facts_hash
-      hash = {}
-      fact_values.includes(:fact_name).collect do |fact|
-        hash[fact.fact_name.name] = fact.value
-      end
-      hash
+    def facts_hash(*fact_names)
+      # keep it to one SQL query
+      query = if fact_names.present?
+                fact_values.joins(:fact_name).where(fact_names: {name: fact_names}).pluck('fact_names.name', :value)
+              else
+                fact_values.joins(:fact_name).pluck('fact_names.name', :value)
+              end
+      query.to_h # { fact_name.name => fact_value.value}
     end
-    alias_method :facts, :facts_hash
+
+    def facts(*fact_names)
+      if fact_names.blank?
+        Rails.cache.fetch("hosts/#{id}/facts", :expires_in => 1.minute) do
+          Rails.logger.debug "Caching facts for #{name}"
+          facts_hash
+        end
+      else
+        facts_hash(*fact_names)
+      end
+    end
 
     def ==(comparison_object)
       super ||
