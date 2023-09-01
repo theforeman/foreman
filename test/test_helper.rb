@@ -119,6 +119,16 @@ class ActiveSupport::TestCase
     Foreman::Plugin.send(:clear, @plugins_backup, @registries_backup)
     @clear_plugins = nil
   end
+
+  def assert_sql_queries(num_of_queries, match = /SELECT/)
+    queries = []
+    ActiveSupport::Notifications.subscribe("sql.active_record") do |_name, _start, _finish, _id, payload|
+      queries << payload[:sql] if payload[:sql] =~ match
+    end
+    yield
+    ActiveSupport::Notifications.unsubscribe("sql.active_record")
+    assert_equal num_of_queries, queries.size, "Expected #{num_of_queries} queries, but got #{queries.size}"
+  end
 end
 
 class ActionView::TestCase
