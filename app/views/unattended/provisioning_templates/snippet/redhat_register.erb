@@ -94,25 +94,14 @@ description: |
   echo
   echo "Starting the subscription-manager registration process"
 
-  # Avoid timeout accessing unreachable repo on air gapped infrastructure,
-  #  assuming subscription-manager is installed in custom packages section.
-  if ! rpm --query --quiet subscription-manager ; then
-    if [ -f /usr/bin/dnf ]; then
-      dnf -y install subscription-manager
-    else
-      yum -t -y install subscription-manager
-    fi
-  fi
+  # Set up subscription-manager
+  <%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'provisioning' }).strip -%>
 
   <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) %>
     # Avoid timeout accessing unreachable repo on air gapped infrastructure,
     #  assuming subscription-manager-syspurpose is installed in custom packages section.
     if ! rpm --query --quiet subscription-manager-syspurpose ; then
-      if [ -f /usr/bin/dnf ]; then
-        dnf -y install subscription-manager-syspurpose
-      else
-        yum -t -y install subscription-manager-syspurpose
-      fi
+      $PKG_MANAGER_INSTALL subscription-manager-syspurpose
     fi
 
     if [ -f /usr/sbin/syspurpose ]; then
@@ -147,11 +136,7 @@ description: |
       subscription-manager config --server.proxy_port='<%= host_param("http-proxy-port") %>'
     <% end %>
   <% end %>
-
-  <% if subscription_manager_certpkg_url %>
-    rpm -Uvh <%= subscription_manager_certpkg_url %>
-  <% end %>
-
+  
   <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') %>
     <% if host_param('subscription_manager_pool') %>
       subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
@@ -196,20 +181,12 @@ description: |
     done
   <% end %>
 
-  <% if redhat_install_host_tools || redhat_install_host_tracer_tools %>
-     if [ -f /usr/bin/dnf ]; then
-       PACKAGE_MAN="dnf -y"
-     else
-       PACKAGE_MAN="yum -t -y"
-     fi
-  <% end %>
-
   <% if redhat_install_host_tools %>
-    $PACKAGE_MAN install katello-host-tools
+    $PKG_MANAGER_INSTALL katello-host-tools
   <% end %>
 
   <% if redhat_install_host_tracer_tools %>
-    $PACKAGE_MAN install katello-host-tools-tracer
+    $PKG_MANAGER_INSTALL katello-host-tools-tracer
   <% end %>
 <% end %>
 
