@@ -78,7 +78,11 @@ const ChartBox = ({
   );
 
   return (
-    <Card className={classNames('chart-box', className)} key={chart.id}>
+    <Card
+      className={classNames('chart-box', className)}
+      key={chart.id}
+      ouiaId={`chart-${chart.id}`}
+    >
       <CardHeader>
         <CardTitle className="pointer panel-title" {...headerProps}>
           {title}
@@ -87,6 +91,7 @@ const ChartBox = ({
       <CardBody>
         <Loader status={status}>{[panelChart, error]}</Loader>
         <Modal
+          ouiaId={`chart-${chart.id}-modal`}
           className="chart-box-modal"
           variant={ModalVariant.small}
           title={title}
