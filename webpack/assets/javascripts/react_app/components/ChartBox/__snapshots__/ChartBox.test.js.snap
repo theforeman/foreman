@@ -4,6 +4,7 @@ exports[`ChartBox error 1`] = `
 <Card
   className="chart-box"
   key="2"
+  ouiaId="chart-2"
 >
   <CardHeader>
     <CardTitle
@@ -47,6 +48,7 @@ exports[`ChartBox error 1`] = `
       hasNoBodyWrapper={false}
       isOpen={false}
       onClose={[Function]}
+      ouiaId="chart-2-modal"
       ouiaSafe={true}
       showClose={true}
       title="some title"
@@ -77,6 +79,7 @@ exports[`ChartBox pending 1`] = `
 <Card
   className="chart-box"
   key="2"
+  ouiaId="chart-2"
 >
   <CardHeader>
     <CardTitle
@@ -120,6 +123,7 @@ exports[`ChartBox pending 1`] = `
       hasNoBodyWrapper={false}
       isOpen={false}
       onClose={[Function]}
+      ouiaId="chart-2-modal"
       ouiaSafe={true}
       showClose={true}
       title="some title"
@@ -150,6 +154,7 @@ exports[`ChartBox resolved 1`] = `
 <Card
   className="chart-box"
   key="2"
+  ouiaId="chart-2"
 >
   <CardHeader>
     <CardTitle
@@ -205,6 +210,7 @@ exports[`ChartBox resolved 1`] = `
       hasNoBodyWrapper={false}
       isOpen={false}
       onClose={[Function]}
+      ouiaId="chart-2-modal"
       ouiaSafe={true}
       showClose={true}
       title="some title"
