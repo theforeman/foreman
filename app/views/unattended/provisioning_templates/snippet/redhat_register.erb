@@ -8,9 +8,6 @@ description: |
 
   General parameters:
 
-    redhat_install_agent = [true|false]         Install the management agent.  For Spacewalk,
-                                                this is OSAD.  For Katello, this is katello-agent.
-
     redhat_install_host_tools = [true|false]    Install the katello-host-tools yum/dnf plugins.
 
     redhat_install_host_tracer_tools = [true|false]  Install the katello-host-tools Tracer yum/dnf plugin.
@@ -82,8 +79,6 @@ description: |
 <% if registration_type == 'subscription_manager' %>
   <%
     atomic = @host.operatingsystem.respond_to?(:atomic) ? @host.operatingsystem.atomic? : host_param_true?('atomic')
-    redhat_install_agent_fallback = plugin_present?('katello') && katello_agent_enabled?
-    redhat_install_agent = host_param_true?('redhat_install_agent', redhat_install_agent_fallback)
 
     if host_param('kt_activation_keys')
       subscription_manager_certpkg_url = subscription_manager_configuration_url(@host)
@@ -217,7 +212,7 @@ description: |
   <% end %>
 
   <% if !atomic %>
-    <% if redhat_install_agent || redhat_install_host_tools || redhat_install_host_tracer_tools %>
+    <% if redhat_install_host_tools || redhat_install_host_tracer_tools %>
        if [ -f /usr/bin/dnf ]; then
          PACKAGE_MAN="dnf -y"
        else
@@ -225,9 +220,7 @@ description: |
        fi
     <% end %>
 
-    <% if redhat_install_agent %>
-      $PACKAGE_MAN install katello-agent
-    <% elsif redhat_install_host_tools %>
+    <% if redhat_install_host_tools %>
       $PACKAGE_MAN install katello-host-tools
     <% end %>
 
@@ -293,13 +286,6 @@ description: |
         echo "registration successful."
     fi
 
-    <% if host_param_true?('redhat_install_agent') %>
-    if [ -f /usr/bin/dnf ]; then
-      dnf -y install osad
-    else
-      yum -t -y install osad
-    fi
-    <% end %>
   <% else %>
     echo "No activation key found: Not registering"
   <% end %>
