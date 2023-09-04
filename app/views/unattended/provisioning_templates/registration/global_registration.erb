@@ -43,6 +43,7 @@ if ! [ $(id -u) = 0 ]; then
   exit 1
 fi
 
+# Select package manager for the OS (sets the $PKG_MANAGER* variables)
 <%= snippet 'pkg_manager' %>
 
 SSL_CA_CERT=$(mktemp)
@@ -139,73 +140,8 @@ register_katello_host(){
 
 }
 
-KATELLO_SERVER_CA_CERT=/etc/rhsm/ca/katello-server-ca.pem
-RHSM_CFG=/etc/rhsm/rhsm.conf
-
-# Backup rhsm.conf
-if [ -f $RHSM_CFG ] ; then
-  test -f $RHSM_CFG.bak || cp $RHSM_CFG $RHSM_CFG.bak
-fi
-
-# rhn-client-tools conflicts with subscription-manager package
-# since rhn tools replaces subscription-manager, we need to explicitly
-# install subscription-manager after the rhn tools cleanup
-if [ x$ID = xol ]; then
-  $PKG_MANAGER_REMOVE rhn-client-tools
-  $PKG_MANAGER_INSTALL --setopt=obsoletes=0 subscription-manager
-fi
-
-<% if truthy?(@force) -%>
-# Unregister host and remove all local system and subscription data
-
-if [ -x "$(command -v subscription-manager)" ] ; then
-  subscription-manager unregister || true
-  subscription-manager clean
-fi
-
-$PKG_MANAGER_REMOVE katello-ca-consumer\* > /dev/null 2>&1
-<% end -%>
-
-# Prepare SSL certificate
-mkdir -p /etc/rhsm/ca
-cp -f $SSL_CA_CERT $KATELLO_SERVER_CA_CERT
-chmod 644 $KATELLO_SERVER_CA_CERT
-
-# Prepare subscription-manager
-if ! [ -x "$(command -v subscription-manager)" ] ; then
-  $PKG_MANAGER_INSTALL subscription-manager
-else
-  $PKG_MANAGER_UPGRADE subscription-manager > /dev/null 2>&1
-fi
-
-if ! [ -f $RHSM_CFG ] ; then
-  echo "'$RHSM_CFG' not found, cannot configure subscription-manager"
-  cleanup_and_exit 1
-fi
-
-# Configure subscription-manager
-test -f $RHSM_CFG.bak || cp $RHSM_CFG $RHSM_CFG.bak
-subscription-manager config \
-  --server.hostname="<%= @rhsm_url.host if @rhsm_url %>" \
-  --server.port="<%= @rhsm_url.port if @rhsm_url %>" \
-  --server.prefix="<%= @rhsm_url.path if @rhsm_url %>" \
-  --rhsm.repo_ca_cert="$KATELLO_SERVER_CA_CERT" \
-  --rhsm.baseurl="<%= @pulp_content_url %>"
-
-# Older versions of subscription manager may not recognize
-# report_package_profile and package_profile_on_trans options.
-# So set them separately and redirect out & error to /dev/null
-# to fail silently.
-subscription-manager config --rhsm.package_profile_on_trans=1 > /dev/null 2>&1 || true
-subscription-manager config --rhsm.report_package_profile=1 > /dev/null 2>&1 || true
-
-# Configuration for EL6
-if grep --quiet full_refresh_on_yum $RHSM_CFG; then
-  sed -i "s/full_refresh_on_yum\s*=.*$/full_refresh_on_yum = 1/g" $RHSM_CFG
-else
-  full_refresh_config="#config for on-premise management\nfull_refresh_on_yum = 1"
-  sed -i "/baseurl/a $full_refresh_config" $RHSM_CFG
-fi
+# Set up subscription-manager
+<%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'registration' }).strip -%>
 
 subscription-manager register <%= '--force' if truthy?(@force) %> \
   --org='<%= @organization.label if @organization %>' \
