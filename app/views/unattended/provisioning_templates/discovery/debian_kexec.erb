@@ -33,7 +33,6 @@ require:
   options << "domain=#{@host.domain}"
   options << 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true'
   options << "locale=#{host_param('lang') || 'en_US'}"
-  options << "inst.stage2=#{@host.operatingsystem.medium_uri(@host)}" if @host.operatingsystem.name.match(/Atomic/i)
   extra = []
   extra << "--kexec-file-syscall" if @host.pxe_loader.include?('SecureBoot')
 -%>

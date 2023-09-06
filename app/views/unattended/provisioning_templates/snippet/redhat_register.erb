@@ -15,8 +15,6 @@ description: |
     activation_key = <key>                      Activation key string, not needed if using
                                                 subscription-manager with username/password
 
-    atomic = [true|false]                       Whether or not this system is Atomic
-
   Parameters for use with subscription-manager (Red Hat CDN, Satellite, or Katello)
 
     subscription_manager = 'true'               You're going to use subscription-manager
@@ -28,9 +26,6 @@ description: |
     subscription_manager_password = <password>  Password for subscription-manager
 
     subscription_manager_certpkg_url = <url>    Custom certificate package URL
-
-    subscription_manager_atomic_url = <url>     Script used for configuring Atomic servers
-                                                for subscription-manager
 
     subscription_manager_org = <org name>       Organization name, if required
 
@@ -78,18 +73,14 @@ description: |
 
 <% if registration_type == 'subscription_manager' %>
   <%
-    atomic = @host.operatingsystem.respond_to?(:atomic) ? @host.operatingsystem.atomic? : host_param_true?('atomic')
-
     if host_param('kt_activation_keys')
       subscription_manager_certpkg_url = subscription_manager_configuration_url(@host)
-      subscription_manager_atomic_url = subscription_manager_configuration_url(@host, false)
       subscription_manager_org = @host.rhsm_organization_label
       activation_key = host_param('kt_activation_keys')
       redhat_install_host_tools = host_param_true?('redhat_install_host_tools', true)
       redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
     else
       subscription_manager_certpkg_url = host_param('subscription_manager_certpkg_url')
-      subscription_manager_atomic_url = host_param('subscription_manager_atomic_url')
       subscription_manager_org = host_param('subscription_manager_org')
       activation_key = host_param('activation_key')
       redhat_install_host_tools = host_param_true?('redhat_install_host_tools')
@@ -103,30 +94,26 @@ description: |
   echo
   echo "Starting the subscription-manager registration process"
 
-  <% if !atomic %>
-    # Avoid timeout accessing unreachable repo on air gapped infrastructure,
-    #  assuming subscription-manager is installed in custom packages section.
-    if ! rpm --query --quiet subscription-manager ; then
-      if [ -f /usr/bin/dnf ]; then
-        dnf -y install subscription-manager
-      else
-        yum -t -y install subscription-manager
-      fi
+  # Avoid timeout accessing unreachable repo on air gapped infrastructure,
+  #  assuming subscription-manager is installed in custom packages section.
+  if ! rpm --query --quiet subscription-manager ; then
+    if [ -f /usr/bin/dnf ]; then
+      dnf -y install subscription-manager
+    else
+      yum -t -y install subscription-manager
     fi
-  <% end %>
+  fi
 
   <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) %>
-    <%- if !atomic %>
-      # Avoid timeout accessing unreachable repo on air gapped infrastructure,
-      #  assuming subscription-manager-syspurpose is installed in custom packages section.
-      if ! rpm --query --quiet subscription-manager-syspurpose ; then
-        if [ -f /usr/bin/dnf ]; then
-          dnf -y install subscription-manager-syspurpose
-        else
-          yum -t -y install subscription-manager-syspurpose
-        fi
+    # Avoid timeout accessing unreachable repo on air gapped infrastructure,
+    #  assuming subscription-manager-syspurpose is installed in custom packages section.
+    if ! rpm --query --quiet subscription-manager-syspurpose ; then
+      if [ -f /usr/bin/dnf ]; then
+        dnf -y install subscription-manager-syspurpose
+      else
+        yum -t -y install subscription-manager-syspurpose
       fi
-    <%- end %>
+    fi
 
     if [ -f /usr/sbin/syspurpose ]; then
       <%- if host_param('syspurpose_role') %>
@@ -161,9 +148,7 @@ description: |
     <% end %>
   <% end %>
 
-  <% if atomic %>
-    curl -s <%= subscription_manager_atomic_url %> | IS_ATOMIC=true bash
-  <% elsif subscription_manager_certpkg_url %>
+  <% if subscription_manager_certpkg_url %>
     rpm -Uvh <%= subscription_manager_certpkg_url %>
   <% end %>
 
@@ -211,22 +196,20 @@ description: |
     done
   <% end %>
 
-  <% if !atomic %>
-    <% if redhat_install_host_tools || redhat_install_host_tracer_tools %>
-       if [ -f /usr/bin/dnf ]; then
-         PACKAGE_MAN="dnf -y"
-       else
-         PACKAGE_MAN="yum -t -y"
-       fi
-    <% end %>
+  <% if redhat_install_host_tools || redhat_install_host_tracer_tools %>
+     if [ -f /usr/bin/dnf ]; then
+       PACKAGE_MAN="dnf -y"
+     else
+       PACKAGE_MAN="yum -t -y"
+     fi
+  <% end %>
 
-    <% if redhat_install_host_tools %>
-      $PACKAGE_MAN install katello-host-tools
-    <% end %>
+  <% if redhat_install_host_tools %>
+    $PACKAGE_MAN install katello-host-tools
+  <% end %>
 
-    <% if redhat_install_host_tracer_tools %>
-      $PACKAGE_MAN install katello-host-tools-tracer
-    <% end %>
+  <% if redhat_install_host_tracer_tools %>
+    $PACKAGE_MAN install katello-host-tools-tracer
   <% end %>
 <% end %>
 

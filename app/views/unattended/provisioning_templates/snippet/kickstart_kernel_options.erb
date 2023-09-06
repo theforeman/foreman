@@ -130,12 +130,7 @@ description: |
     end
   end
 
-  # optional repository for Atomic
-  if @host.operatingsystem.name.match(/Atomic/i)
-    options.push("inst.repo=#{medium_uri}")
-  end
-
-  if @host.operatingsystem.name.match(/Atomic/i) || host_param('kickstart_liveimg')
+  if host_param('kickstart_liveimg')
     options.push("inst.stage2=#{medium_uri}")
   end
 

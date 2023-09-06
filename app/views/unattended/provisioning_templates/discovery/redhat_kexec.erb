@@ -40,7 +40,6 @@ require:
   dns = @host.facts['discovery_dns']
   options = ["nomodeset"]
   options << @host.facts['append']
-  options << "inst.stage2=#{@host.operatingsystem.medium_uri(@host)}" if @host.operatingsystem.name.match(/Atomic/i)
   if @host.operatingsystem.name != 'Fedora' && @host.operatingsystem.major.to_i >= 7 && host_param_true?('fips_enabled')
     options.push('fips=1')
   end
