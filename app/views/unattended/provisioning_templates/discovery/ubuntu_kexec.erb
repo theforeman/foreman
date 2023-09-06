@@ -48,7 +48,6 @@ require:
   options << 'ramdisk_size=1500000'
   options << 'fsck.mode=skip'
   options << 'cloud-config-url=/dev/null'
-  options << "inst.stage2=#{@host.operatingsystem.medium_uri(@host)}" if @host.operatingsystem.name.match(/Atomic/i)
 -%>
 {
   "kernel": "<%= @kernel_uri %>",

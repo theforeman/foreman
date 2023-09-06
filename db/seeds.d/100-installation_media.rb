@@ -31,11 +31,6 @@ Medium.without_auditing do
       :path => "http://dl.fedoraproject.org/pub/fedora/linux/releases/$major/Server/$arch/os/",
     },
     {
-      :name => "Fedora Atomic mirror",
-      :os_family => "Redhat",
-      :path => "http://dl.fedoraproject.org/pub/alt/atomic/stable/Cloud_Atomic/$arch/os/",
-    },
-    {
       :name => "FreeBSD mirror",
       :os_family => "Freebsd",
       :path => "http://ftp.freebsd.org/pub/FreeBSD/releases/$arch/$version-RELEASE/",

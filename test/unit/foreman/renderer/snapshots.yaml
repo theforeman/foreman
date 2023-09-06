@@ -14,7 +14,6 @@ files:
   - PXELinux/pxelinux_chain_ipxe_undi.erb
   - provision/alterator_default.erb
   - finish/alterator_default_finish.erb
-  - provision/atomic_kickstart_default.erb
   - provision/autoyast_default.erb
   - provision/autoyast_sles_default.erb
   - PXELinux/autoyast_default_pxelinux.erb
