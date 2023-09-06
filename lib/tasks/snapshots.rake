@@ -7,6 +7,9 @@ namespace :snapshots do
       exit
     end
 
+    # make sure to load fixtures before running:
+    Rake::Task['db:fixtures:load'].invoke
+
     require 'database_cleaner'
     require 'factory_bot_rails'
 
