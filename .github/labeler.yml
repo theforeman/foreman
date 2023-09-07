@@ -1,0 +1,15 @@
+---
+Docs:
+  - developer_docs/**
+
+GraphQL:
+  - app/graphql/**
+
+Legacy JS:
+  - app/assets/javascripts/**
+
+Templates:
+  - app/views/unattended/**
+
+UI:
+  - webpack/**
