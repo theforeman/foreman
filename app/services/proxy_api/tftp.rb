@@ -59,5 +59,21 @@ module ProxyAPI
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to create default TFTP boot menu"))
     end
+
+    # Prune old TFTP entries
+    # [+age+] : The age of a file in seconds
+    # Returns : Integer the number of files pruned or nil if it's not
+    # implemented
+    def prune(age)
+      args = {
+        age: age,
+      }
+      parse(post(args, "prune"))
+    rescue RestClient::ResourceNotFound
+      # Not implemented
+      nil
+    rescue => e
+      raise ProxyException.new(url, e, N_("Unable to prune old TFTP files"))
+    end
   end
 end
