@@ -1,0 +1,33 @@
+---
+name: 'Close inactive and impasse PRs'
+on:
+  schedule:
+    - cron: '30 1 * * *'
+
+permissions:
+  pull-requests: write
+
+jobs:
+  inactive-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v8
+        with:
+          days-before-pr-stale: 90
+          days-before-issue-stale: -1
+          days-before-issue-close: -1
+          close-pr-message: Thank you for your contribution! This PR has been inactive for 3 months, closing for now. Feel free to reopen when you return to it. This is an automated process.
+          close-pr-label: Inactive
+          only-labels: "Waiting on contributor"
+
+  impasse-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v8
+        with:
+          days-before-pr-stale: 30
+          days-before-issue-stale: -1
+          days-before-issue-close: -1
+          close-pr-message: Thank you for your contribution! This PR has reached an impasse with no new activity for 1 month, closing for now. Feel free to reopen if you feel an agreement can be reached. This is an automated process.
+          close-pr-label: Inactive
+          only-labels: "Reached an impasse"
