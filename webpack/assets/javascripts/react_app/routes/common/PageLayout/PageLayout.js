@@ -24,6 +24,7 @@ const PageLayout = ({
   beforeToolbarComponent,
   isLoading,
   pageSectionType,
+  hideTitle,
   children,
 }) => (
   <>
@@ -32,7 +33,7 @@ const PageLayout = ({
     </Head>
     <PageSection variant={PageSectionVariants.light} type="breadcrumb">
       <div id="breadcrumb">
-        {!breadcrumbOptions && (
+        {!breadcrumbOptions && !hideTitle && (
           <TextContent>
             <Text ouiaId="breadcrumb_title" component="h1">
               {header}
@@ -126,6 +127,7 @@ PageLayout.propTypes = {
   beforeToolbarComponent: PropTypes.node,
   isLoading: PropTypes.bool,
   pageSectionType: PropTypes.string,
+  hideTitle: PropTypes.bool,
 };
 
 PageLayout.defaultProps = {

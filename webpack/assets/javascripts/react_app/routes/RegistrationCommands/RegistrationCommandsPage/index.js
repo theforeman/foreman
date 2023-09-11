@@ -173,7 +173,7 @@ const RegistrationCommandsPage = () => {
   }, [dispatch, hostGroupId, operatingSystemId]);
 
   return (
-    <PageLayout header={__('Register Host')} searchable={false}>
+    <PageLayout header={__('Register Host')} searchable={false} hideTitle={true}>
       <Form
         onSubmit={e => handleSubmit(e)}
         className="registration_commands_form"
