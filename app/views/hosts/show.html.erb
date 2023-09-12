@@ -34,7 +34,7 @@
       <% if @host.managed? %>
         <li><a href="#template" data-toggle="tab"><%= _('Templates') %></a></li>
       <% end %>
-      <%  if @host.compute_resource_id %>
+      <%  if @host.compute_resource_id && @host.uuid %>
         <li><a href="#vm" data-toggle="tab"><%= _('VM') %></a></li>
       <% end %>
       <% if @host.bmc_available? %>
