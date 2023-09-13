@@ -81,7 +81,7 @@ class Debian < Operatingsystem
   def is_subiquity?
     return false if guess_os != "ubuntu"
     return false if major.to_i < 20
-    return false if major.to_i == 20 && minor.to_i <= 2
+    return false if major.to_i == 20 && minor.present? && minor.to_i <= 2
     true # Ubuntu release 20.04.3 or newer
   end
 
