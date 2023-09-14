@@ -196,10 +196,6 @@ module Foreman::Model
       client.nodes.first
     end
 
-    def associated_host(vm)
-      associate_by("mac", vm.interfaces.map(&:mac))
-    end
-
     def vm_compute_attributes_for(uuid)
       vm_attrs = super
       if vm_attrs[:memory_size].nil?
@@ -327,6 +323,12 @@ module Foreman::Model
       if vol.capacity.to_s.empty? || /\A\d+G?\Z/.match(vol.capacity.to_s).nil?
         raise Foreman::Exception.new(N_("Please specify volume size. You may optionally use suffix 'G' to specify volume size in gigabytes."))
       end
+    end
+
+    private
+
+    def associate_by(vm, host = nil)
+      super("mac", vm.interfaces.map(&:mac), host)
     end
   end
 end

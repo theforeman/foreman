@@ -143,10 +143,6 @@ module Foreman::Model
       false
     end
 
-    def associated_host(vm)
-      associate_by("ip", [vm.public_ip_address, vm.private_ip_address])
-    end
-
     def user_data_supported?
       true
     end
@@ -178,6 +174,10 @@ module Foreman::Model
     end
 
     private
+
+    def associate_by(vm, host = nil)
+      super("ip", [vm.public_ip_address, vm.private_ip_address], host)
+    end
 
     def subnet_implies_is_vpc?(args)
       args[:subnet_id].present?
