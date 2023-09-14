@@ -200,10 +200,6 @@ module Foreman::Model
       vm.console.body.merge({'timestamp' => Time.now.utc})
     end
 
-    def associated_host(vm)
-      associate_by("ip", [vm.floating_ip_address, vm.private_ip_address].compact)
-    end
-
     def flavor_name(flavor_ref)
       client.flavors.get(flavor_ref).try(:name)
     end
@@ -259,6 +255,10 @@ module Foreman::Model
     end
 
     private
+
+    def associate_by(vm, host = nil)
+      super("ip", [vm.floating_ip_address, vm.private_ip_address].compact, host)
+    end
 
     def url_for_fog
       u = URI.parse(url)

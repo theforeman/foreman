@@ -15,6 +15,17 @@ class ComputeResourceHostAssociator
     end
   end
 
+  def associate_host(host)
+    vm = compute_resource.associated_vm(host)
+    if vm.present?
+      host.associate!(compute_resource, vm)
+      @hosts << host
+    end
+  rescue StandardError => e
+    @fail_count += 1
+    Foreman::Logging.exception("Could not associate host #{host}", e)
+  end
+
   private
 
   def associate_vm(vm)
