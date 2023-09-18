@@ -1,8 +1,20 @@
-.foreman-page {
+#foreman-page {
   .table-toolbar {
     padding: 0;
-    .pf-c-toolbar__content{
+    .pf-c-toolbar__content {
       padding: 0;
+    }
+    .toolbar-search {
+      flex-grow: 1;
+    }
+    .autocomplete-search {
+      max-width: 600px;
+    }
+  }
+  .pf-c-toolbar__group {
+    flex-grow: 1;
+    &.pf-m-align-right{
+      justify-content: flex-end;
     }
   }
 }

@@ -12,4 +12,7 @@
 
 .foreman-search-bar {
   display: flex;
+  .pf-c-dropdown.pf-m-align-right {
+    width: unset;
+  }
 }

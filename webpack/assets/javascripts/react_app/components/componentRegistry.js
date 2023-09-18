@@ -28,7 +28,6 @@ import ChartBox from './ChartBox/ChartBox';
 import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
-import ModelsTable from './ModelsTable';
 import TemplateGenerator from './TemplateGenerator';
 import Editor from './Editor';
 import LoginPage from './LoginPage';
@@ -173,7 +172,6 @@ const coreComponets = [
   },
   { name: 'FormField', type: FormField },
   { name: 'InputFactory', type: InputFactory },
-  { name: 'ModelsTable', type: ModelsTable },
   { name: 'Editor', type: Editor },
 
   // Report templates

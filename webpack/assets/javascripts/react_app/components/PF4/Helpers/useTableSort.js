@@ -9,7 +9,16 @@ export const useTableSort = ({
 }) => {
   const translatedInitialSortColumnName = initialSortColumnName
     ? __(initialSortColumnName)
-    : allColumns[0];
+    : Object.keys(columnsToSortParams)[0];
+
+  const [activeSortColumn, setActiveSortColumn] = useState(
+    translatedInitialSortColumnName
+  );
+  const [activeSortDirection, setActiveSortDirection] = useState('asc');
+
+  if (Object.keys(columnsToSortParams).length === 0) {
+    return {};
+  }
   if (
     !Object.keys(columnsToSortParams).includes(translatedInitialSortColumnName)
   ) {
@@ -17,11 +26,6 @@ export const useTableSort = ({
       `translatedInitialSortColumnName '${translatedInitialSortColumnName}' must also be defined in columnsToSortParams`
     );
   }
-  const [activeSortColumn, setActiveSortColumn] = useState(
-    translatedInitialSortColumnName
-  );
-  const [activeSortDirection, setActiveSortDirection] = useState('asc');
-
   if (!allColumns.includes(activeSortColumn)) {
     setActiveSortColumn(translatedInitialSortColumnName);
   }
@@ -30,7 +34,7 @@ export const useTableSort = ({
   const onSort = (_event, index, direction) => {
     setActiveSortColumn(allColumns?.[index]);
     setActiveSortDirection(direction);
-    _onSort(_event, index, direction);
+    _onSort && _onSort(_event, index, direction);
   };
 
   // Patternfly sort params to pass to the <Th> component.

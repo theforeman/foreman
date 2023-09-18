@@ -9,7 +9,7 @@ import { column } from './column';
 /**
  * Generate a sortable column for a patternfly-3 table.
  * See more in http://patternfly-react.surge.sh/patternfly-3/
- * See an example: ModelsTableSchema
+ * See an example: SettingsTableSchema.js
  * @param  {String} property                 the property name of the table.
  * @param  {String} label                    the column label.
  * @param  {Number} mdWidth                  column size on medium devices. Note: using bootstrap
