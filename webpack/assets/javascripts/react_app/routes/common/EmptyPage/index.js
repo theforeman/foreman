@@ -20,10 +20,10 @@ EmptyPage.propTypes = {
 };
 
 EmptyPage.defaultProps = {
-  message: PropTypes.shape({
+  message: {
     type: 'empty',
     text: 'No Results',
-  }),
+  },
 };
 
 export default EmptyPage;

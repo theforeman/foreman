@@ -3,8 +3,6 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { fireEvent, screen, render, act } from '@testing-library/react';
-// import * as api from 'foremanReact/redux/API';
-// import * as routerSelectors from 'foremanReact/routes/RouterSelector';
 import TableIndexPage from './TableIndexPage';
 import { breadcrumbBar } from '../../../components/BreadcrumbBar/BreadcrumbBar.fixtures';
 import '@testing-library/jest-dom';

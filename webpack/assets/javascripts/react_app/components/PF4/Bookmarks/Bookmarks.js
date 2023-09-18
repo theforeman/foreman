@@ -72,6 +72,7 @@ const Bookmarks = ({
         searchQuery={searchQuery}
       />
       <Dropdown
+        position="right"
         ouiaId="bookmarks-dropdown"
         isOpen={isDropdownOpen}
         onSelect={() => setIsDropdownOpen(false)}

@@ -1,7 +1,7 @@
 /**
  * Generate a column for a patternfly-3 table.
  * See more in http://patternfly-react.surge.sh/patternfly-3/
- * See an example: components ModelsTableSchema
+ * See an example: components SettingsTableSchema.js
  * @param  {String} property  the property name of the table.
  * @param  {String} label     the column label.
  * @param  {Array} headFormat array of functions that format the header. Read more about format

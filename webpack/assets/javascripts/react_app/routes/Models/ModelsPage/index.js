@@ -1,34 +1,41 @@
-import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import React from 'react';
 
-import ModelsPage from './ModelsPage';
-import * as actions from './ModelsPageActions';
+import { translate as __ } from '../../../common/I18n';
+import TableIndexPage from '../../../components/PF4/TableIndexPage/TableIndexPage';
+import { MODELS_API_PATH, API_REQUEST_KEY } from '../constants';
 
-import { callOnPopState } from '../../../common/HOC';
+const ModelsPage = () => {
+  const columns = {
+    name: {
+      title: __('Name'),
+      wrapper: ({ can_edit: canEdit, id, name }) =>
+        canEdit ? (
+          <a href={`/models/${id}/edit`}>{name}</a>
+        ) : (
+          <span>{name}</span>
+        ),
+      isSorted: true,
+    },
+    vendor_class: {
+      title: __('Vendor class'),
+    },
+    hardware_model: {
+      title: __('Hardware model'),
+    },
+    hosts_count: {
+      title: __('Hosts'),
+    },
+  };
+  return (
+    <TableIndexPage
+      apiUrl={MODELS_API_PATH}
+      apiOptions={{ key: API_REQUEST_KEY }}
+      header={__('Hardware models')}
+      controller="models"
+      isDeleteable
+      columns={columns}
+    />
+  );
+};
 
-import {
-  selectModels,
-  selectSort,
-  selectHasData,
-  selectHasError,
-  selectIsLoading,
-  selectSubtotal,
-  selectMessage,
-} from './ModelsPageSelectors';
-
-const mapStateToProps = state => ({
-  models: selectModels(state),
-  sort: selectSort(state),
-  isLoading: selectIsLoading(state),
-  hasData: selectHasData(state),
-  hasError: selectHasError(state),
-  itemCount: selectSubtotal(state),
-  message: selectMessage(state),
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  callOnPopState(({ initializeModels }) => initializeModels())
-)(ModelsPage);
+export default ModelsPage;
