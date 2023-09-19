@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import {
   Alert,
+  Button,
   Form,
   Grid,
   GridItem,
@@ -11,9 +12,7 @@ import {
   Tabs,
   TabContent,
   TabTitleText,
-  Title,
 } from '@patternfly/react-core';
-import { HelpIcon } from '@patternfly/react-icons';
 
 import { translate as __ } from '../../../common/I18n';
 import {
@@ -173,30 +172,29 @@ const RegistrationCommandsPage = () => {
   }, [dispatch, hostGroupId, operatingSystemId]);
 
   return (
-    <PageLayout header={__('Register Host')} searchable={false}>
+    <PageLayout
+      header={__('Register Host')}
+      searchable={false}
+      toolbarButtons={
+        <Button
+          ouiaId="register-host-documentation-button"
+          component="a"
+          className="btn-docs"
+          href={docUrl(foremanVersion)}
+          rel="noreferrer"
+          target="_blank"
+          variant="secondary"
+        >
+          {__(' Documentation')}
+        </Button>
+      }
+    >
       <Form
         onSubmit={e => handleSubmit(e)}
         className="registration_commands_form"
         isHorizontal
       >
         <Grid hasGutter>
-          <GridItem span={12} />
-          <GridItem span={6}>
-            <Title ouiaId="title-register-host" headingLevel="h1">
-              {__('Register Host')}
-            </Title>
-          </GridItem>
-          <GridItem span={6}>
-            <a
-              href={docUrl(foremanVersion)}
-              target="_blank"
-              rel="noreferrer"
-              className="pf-c-button pf-m-secondary pf-m-small pull-right"
-            >
-              <HelpIcon /> {__('Documentation')}
-            </a>
-          </GridItem>
-
           <GridItem span={12}>
             <Tabs
               ouiaId="tabs-register-host"
@@ -210,7 +208,6 @@ const RegistrationCommandsPage = () => {
                 tabContentId="generalTab"
                 tabContentRef={generalTabRef}
               />
-
               <Tab
                 ouiaId="tab-advanced"
                 eventKey={1}
