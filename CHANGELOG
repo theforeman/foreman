@@ -1,3 +1,12 @@
+2023-09-19	Griffin Sullivan <gsulliva@redhat.com>
+	* Release 3.8.0-rc2
+
+2023-09-11	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Use actions/labeler to apply directory labels
+
+2023-09-07	nofaralfasi <nalfassi@redhat.com>
+	* Fixes #36703 - Enhance handling of hash-based actions for single buttons
+
 2023-09-05	Griffin Sullivan <gsulliva@redhat.com>
 	* Release 3.8.0-rc1
 
