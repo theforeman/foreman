@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Spinner } from 'patternfly-react';
@@ -25,58 +26,74 @@ const PageLayout = ({
   isLoading,
   pageSectionType,
   children,
-}) => (
-  <>
-    <Head>
-      <title>{header}</title>
-    </Head>
-    <PageSection variant={PageSectionVariants.light} type="breadcrumb">
-      <div id="breadcrumb">
-        {!breadcrumbOptions && (
-          <TextContent>
-            <Text ouiaId="breadcrumb_title" component="h1">
-              {header}
-            </Text>
-          </TextContent>
-        )}
-        {customBreadcrumbs ||
-          (breadcrumbOptions && <BreadcrumbBar {...breadcrumbOptions} />)}
-      </div>
-    </PageSection>
+}) => {
+  const title = (
+    <TextContent>
+      <Text ouiaId="breadcrumb_title" component="h1">
+        {header}
+      </Text>
+    </TextContent>
+  );
 
-    {(searchable || beforeToolbarComponent || isLoading || toolbarButtons) && (
-      <PageSection variant={PageSectionVariants.light}>
-        {beforeToolbarComponent}
-        <div className="title_filter_parent">
-          <Col className="title_filter" md={searchable ? 6 : 4}>
-            {searchable && (
-              <SearchBar
-                data={{
-                  ...searchProps,
-                  autocomplete: { ...searchProps.autocomplete, searchQuery },
-                }}
-                onSearch={onSearch}
-              />
-            )}
-          </Col>
-          <Col md={searchable ? 6 : 8}>
-            <div className="btn-toolbar pull-right">
-              {isLoading && (
-                <div id="toolbar-spinner">
-                  <Spinner loading size="sm" />
-                </div>
+  return (
+    <>
+      <Head>
+        <title>{header}</title>
+      </Head>
+
+      {(customBreadcrumbs || breadcrumbOptions) && (
+        <PageSection variant={PageSectionVariants.light} type="breadcrumb">
+          <div id="breadcrumb">
+            {customBreadcrumbs ||
+              (breadcrumbOptions && <BreadcrumbBar {...breadcrumbOptions} />)}
+          </div>
+        </PageSection>
+      )}
+
+      {(searchable || !toolbarButtons) && (
+        <PageSection variant={PageSectionVariants.light} type="breadcrumb">
+          <div id="breadcrumb">{title}</div>
+        </PageSection>
+      )}
+
+      {(searchable ||
+        beforeToolbarComponent ||
+        isLoading ||
+        toolbarButtons) && (
+        <PageSection variant={PageSectionVariants.light}>
+          {beforeToolbarComponent}
+          <div className="title_filter_parent">
+            <Col className="title_filter" md={6}>
+              {!searchable && title}
+              {searchable && (
+                <SearchBar
+                  data={{
+                    ...searchProps,
+                    autocomplete: { ...searchProps.autocomplete, searchQuery },
+                  }}
+                  onSearch={onSearch}
+                />
               )}
-              {toolbarButtons}
-            </div>
-          </Col>
-        </div>
+            </Col>
+            <Col md={6}>
+              <div className="btn-toolbar pull-right">
+                {isLoading && (
+                  <div id="toolbar-spinner">
+                    <Spinner loading size="sm" />
+                  </div>
+                )}
+                {toolbarButtons}
+              </div>
+            </Col>
+          </div>
+        </PageSection>
+      )}
+      <PageSection variant={PageSectionVariants.light} type={pageSectionType}>
+        {children}
       </PageSection>
-    )}
-    <PageSection variant={PageSectionVariants.light} type={pageSectionType}>
-      {children}
-    </PageSection>
-  </>
-);
+    </>
+  );
+};
 
 PageLayout.propTypes = {
   children: PropTypes.node.isRequired,
