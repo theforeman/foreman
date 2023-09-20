@@ -15,7 +15,8 @@ module Foreman
           end
           def transpile_coreos_linux_config(input, validate_input = true, validate_output = false)
             YAML.safe_load(input) if validate_input
-            result = Foreman::CommandRunner.new(Setting[:ct_command], input).run!
+            ct_command = [Setting[:ct_location]] + Setting[:ct_arguments]
+            result = Foreman::CommandRunner.new(ct_command, input).run!
             JSON.parse(result) if validate_output
             result
           end
@@ -29,7 +30,8 @@ module Foreman
             example "transpile_coreos_linux_config(\"---\\nyaml: blah\") #=> JSON"
           end
           def transpile_fedora_coreos_config(input)
-            Foreman::CommandRunner.new(Setting[:fcct_command], input).run!
+            fcct_command = [Setting[:fcct_location]] + Setting[:fcct_arguments]
+            Foreman::CommandRunner.new(fcct_command, input).run!
           end
         end
       end
