@@ -2,6 +2,9 @@ require 'foreman/provision'
 
 Foreman::SettingManager.define(:foreman) do
   category(:provisioning, N_('Provisioning')) do
+    CT_LOCATIONS = %w(/usr/bin/ct /usr/local/bin/ct)
+    FCCT_LOCATIONS = %w(/usr/bin/fcct /usr/local/bin/fcct)
+
     owner_select = proc do
       [{:name => _("Users"), :class => 'user', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'login'},
        {:name => _("Usergroups"), :class => 'usergroup', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'name'}]
@@ -119,16 +122,28 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Default 'Host initial configuration' template, automatically assigned when a new operating system is created"),
       default: 'Linux host_init_config default',
       full_name: N_("Default 'Host initial configuration' template"))
-    setting('ct_command',
+    setting('ct_location',
+      type: :string,
+      description: N_("Full path to CoreOS transpiler (ct)"),
+      default: CT_LOCATIONS.first,
+      full_name: N_("CoreOS Transpiler Command"),
+      collection: proc { CT_LOCATIONS.zip(CT_LOCATIONS).to_h })
+    setting('ct_arguments',
       type: :array,
-      description: N_("Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"),
-      default: [which('ct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
-      full_name: N_("CoreOS Transpiler Command"))
-    setting('fcct_command',
+      description: N_("CoreOS transpiler (ct) arguments as an comma-separated array"),
+      default: ['--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
+      full_name: N_("CoreOS Transpiler Command Arguments"))
+    setting('fcct_location',
+      type: :string,
+      description: N_("Full path to Fedora CoreOS transpiler (fcct)"),
+      default: FCCT_LOCATIONS.first,
+      full_name: N_("Fedora CoreOS Transpiler Command"),
+      collection: proc { FCCT_LOCATIONS.zip(FCCT_LOCATIONS).to_h })
+    setting('fcct_arguments',
       type: :array,
-      description: N_("Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"),
-      default: [which('fcct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
-      full_name: N_("Fedora CoreOS Transpiler Command"))
+      description: N_("Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"),
+      default: ['--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
+      full_name: N_("Fedora CoreOS Transpiler Command Arguments"))
 
     # We have following loop twice to keep the historical order.
     # TODO: First resolve the correct order and then optimize this loop.
