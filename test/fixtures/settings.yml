@@ -3,8 +3,14 @@ attributes66:
   name: delivery_method
   value: :test
 attribute97:
-  name: ct_command
-  value: "['/usr/bin/cat']"
+  name: ct_location
+  value: "/usr/bin/cat"
 attribute98:
-  name: fcct_command
-  value: "['/usr/bin/cat']"
+  name: fcct_location
+  value: "/usr/bin/cat"
+attribute99:
+  name: ct_arguments
+  value: []
+attribute100:
+  name: fcct_arguments
+  value: []

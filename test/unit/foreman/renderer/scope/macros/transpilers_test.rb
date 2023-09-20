@@ -19,7 +19,7 @@ class TranspilersTest < ActiveSupport::TestCase
 
   describe '#transpile_coreos_linux_config' do
     test 'should call the transpiler' do
-      Foreman::CommandRunner.any_instance.expects(:capture3).with(Setting[:ct_command], "IGNORE")
+      Foreman::CommandRunner.any_instance.expects(:capture3).with([Setting[:ct_location]] + Setting[:ct_arguments], "IGNORE")
         .returns(["JSON", "", @success])
 
       assert_equal "JSON", @scope.transpile_coreos_linux_config("IGNORE")
@@ -28,7 +28,7 @@ class TranspilersTest < ActiveSupport::TestCase
 
   describe '#transpile_fedora_coreos_config' do
     test 'should call the transpiler' do
-      Foreman::CommandRunner.any_instance.expects(:capture3).with(Setting[:fcct_command], "IGNORE")
+      Foreman::CommandRunner.any_instance.expects(:capture3).with([Setting[:fcct_location]] + Setting[:fcct_arguments], "IGNORE")
         .returns(["JSON", "", @success])
 
       assert_equal "JSON", @scope.transpile_fedora_coreos_config("IGNORE")
