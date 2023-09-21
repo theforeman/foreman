@@ -446,7 +446,7 @@ class UsersControllerTest < ActionController::TestCase
 
   context "when user is logged in" do
     test "#login redirects to previous url" do
-      @previous_url = "/bookmarks"
+      @previous_url = "http://test.host/bookmarks"
       get :login, session: set_session_user
       request.env['HTTP_REFERER'] = @previous_url
 
