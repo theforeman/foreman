@@ -336,7 +336,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_back_or_to(url)
-    redirect_back(fallback_location: url)
+    redirect_back(fallback_location: url, allow_other_host: false)
   end
 
   def saved_redirect_url_or(default)
