@@ -15,5 +15,5 @@ if [ $# -eq 0 ]; then
 elif [ "$USERNAME" = foreman ]; then
   RUBYOPT=-W0 RAILS_ENV=production $CMD "$@"
 else
-  su foreman -s /bin/bash -c 'RUBYOPT=-W0 RAILS_ENV=production "$0" "$@"' -- $CMD "$@"
+  runuser - foreman -s /bin/bash -c 'RUBYOPT=-W0 RAILS_ENV=production "$0" "$@"' -- $CMD "$@"
 fi
