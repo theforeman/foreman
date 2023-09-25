@@ -112,13 +112,20 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
     return true;
   };
 
+  const formatExpiration = () => {
+    if (endsNever) {
+      return null;
+    }
+    return `${date} ${time}`;
+  };
+
   const handleSubmit = () => {
     if (isDateTimeInFuture() && isDateValid && isTimeValid) {
       dispatch(
         APIActions.post({
           key: PERSONAL_ACCESS_TOKEN_FORM_SUBMITTED,
           url,
-          params: { name, expires_at: `${date} ${time}`, controller },
+          params: { name, expires_at: formatExpiration(), controller },
           handleSuccess: ({ data }) => {
             closeModal();
             dispatch({
