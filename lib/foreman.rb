@@ -23,7 +23,7 @@ module Foreman
   end
 
   def self.in_setup_db_rake?
-    in_rake?('db:create', 'db:migrate', 'db:drop')
+    in_rake?('db:create', 'db:migrate', 'db:drop', 'db:abort_if_pending_migrations')
   end
 
   def self.pending_migrations?
