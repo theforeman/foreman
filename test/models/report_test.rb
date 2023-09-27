@@ -126,6 +126,38 @@ class ReportTest < ActiveSupport::TestCase
       assert_equal({}, report.metrics)
     end
 
+    test '#metrics loads string with HashWithIndifferentAccess' do
+      report = Report.new
+      report[:metrics] = '---
+        events: !ruby/hash:ActiveSupport::HashWithIndifferentAccess
+          total: 1
+          success: 1
+          failure: 0'
+      assert_nothing_raised { report.metrics }
+      assert_equal({'total' => 1, 'success' => 1, 'failure' => 0}, report.metrics['events'])
+    end
+
+    test '#metrics loads string with Symbol' do
+      report = Report.new
+      report[:metrics] = '---
+        :events:
+          :total: 1
+          :success: 1
+          :failure: 0'
+      assert_nothing_raised { report.metrics }
+      assert_equal({'total' => 1, 'success' => 1, 'failure' => 0}, report.metrics['events'])
+    end
+
+    test '#metrics fails loading string with incorrect content' do
+      report = Report.new
+      report[:metrics] = '---
+        events: !ruby/object:OpenStruct
+          foo: bar'
+      assert_raises(Psych::DisallowedClass) do
+        report.metrics
+      end
+    end
+
     test 'can view host reports as non-admin user' do
       report = FactoryBot.create(:config_report)
       setup_user('view', 'hosts', "name = #{report.host.name}")
