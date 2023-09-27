@@ -62,7 +62,7 @@ class Report < ApplicationRecord
   # extracts serialized metrics and keep them as a hash_with_indifferent_access
   def metrics
     return {} if self[:metrics].nil?
-    YAML.safe_load(read_metrics, permitted_classes: [ActiveSupport::HashWithIndifferentAccess]).with_indifferent_access
+    YAML.safe_load(read_metrics, permitted_classes: [ActiveSupport::HashWithIndifferentAccess, Symbol]).with_indifferent_access
   end
 
   # serialize metrics as YAML
