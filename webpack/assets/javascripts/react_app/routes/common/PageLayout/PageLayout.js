@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Spinner } from 'patternfly-react';
@@ -64,7 +63,7 @@ const PageLayout = ({
           {beforeToolbarComponent}
           <div className="title_filter_parent">
             <Col className="title_filter" md={6}>
-              {!searchable && title}
+              {!searchable && toolbarButtons && title}
               {searchable && (
                 <SearchBar
                   data={{
