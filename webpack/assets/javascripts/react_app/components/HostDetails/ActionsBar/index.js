@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   Button,
@@ -26,6 +26,8 @@ import { cancelBuild, deleteHost, isHostTurnOn } from './actions';
 import { useForemanSettings } from '../../../Root/Context/ForemanContext';
 import BuildModal from './BuildModal';
 import Slot from '../../common/Slot';
+
+export const ForemanActionsBarContext = createContext();
 
 const ActionsBar = ({
   hostId,
@@ -147,16 +149,18 @@ const ActionsBar = ({
           >
             {__('Edit')}
           </Button>
-          <Dropdown
-            ouiaId="kebab-dropdown"
-            alignments={{ default: 'right' }}
-            toggle={
-              <KebabToggle id="hostdetails-kebab" onToggle={onKebabToggle} />
-            }
-            isOpen={kebabIsOpen}
-            isPlain
-            dropdownItems={dropdownItems.concat(registeredItems)}
-          />
+          <ForemanActionsBarContext.Provider value={{ onKebabToggle }}>
+            <Dropdown
+              ouiaId="kebab-dropdown"
+              alignments={{ default: 'right' }}
+              toggle={
+                <KebabToggle id="hostdetails-kebab" onToggle={onKebabToggle} />
+              }
+              isOpen={kebabIsOpen}
+              isPlain
+              dropdownItems={dropdownItems.concat(registeredItems)}
+            />
+          </ForemanActionsBarContext.Provider>
         </SplitItem>
       </Split>
       {isBuildModalOpen && (
