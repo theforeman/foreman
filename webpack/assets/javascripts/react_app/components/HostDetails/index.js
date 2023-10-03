@@ -40,10 +40,12 @@ import { useAPI } from '../../common/hooks/API/APIHooks';
 import TabRouter from './Tabs/TabRouter';
 import RedirectToEmptyHostPage from './EmptyState';
 import BreadcrumbBar from '../BreadcrumbBar';
-import { foremanUrl } from '../../common/helpers';
 import { CardExpansionContextWrapper } from './CardExpansionContext';
 import Head from '../Head';
-import { useForemanSettings } from '../../Root/Context/ForemanContext';
+import {
+  useForemanSettings,
+  useForemanHostsPageUrl,
+} from '../../Root/Context/ForemanContext';
 
 const HostDetails = ({
   match: {
@@ -59,6 +61,7 @@ const HostDetails = ({
     HOST_DETAILS_API_OPTIONS
   );
   const isNavCollapsed = useSelector(selectIsCollapsed);
+  const hostsIndexUrl = useForemanHostsPageUrl();
   const tabs = useSelector(
     state => selectFillsIDs(state, TABS_SLOT_ID),
     shallowEqual
@@ -113,7 +116,7 @@ const HostDetails = ({
                 switcherItemUrl: '/new/hosts/:name',
               }}
               breadcrumbItems={[
-                { caption: __('Hosts'), url: foremanUrl('/hosts') },
+                { caption: __('Hosts'), url: hostsIndexUrl },
                 {
                   caption: displayFqdnForHosts
                     ? response.name

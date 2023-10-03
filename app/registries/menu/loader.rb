@@ -52,7 +52,13 @@ module Menu
         end
 
         menu.sub_menu :hosts_menu,      :caption => N_('Hosts'), :icon => 'fa fa-server' do
-          menu.item :hosts,             :caption => N_('All Hosts')
+          menu.item :hosts, :caption => N_('All Hosts'),
+                :if => proc { !Setting[:new_hosts_page] }
+          menu.item :newhosts, :caption => N_('All Hosts'),
+                :if => proc { Setting[:new_hosts_page] },
+                :url => '/new/hosts',
+                :url_hash => { :controller => 'api/v2/hosts', :action => 'index' }
+
           menu.item :newhost,           :caption => N_('Create Host'),
                     :url_hash => {:controller => '/hosts', :action => 'new'}
           menu.item :register_hosts,    :caption => N_('Register Host'),

@@ -684,6 +684,14 @@ class HostsController < ApplicationController
     render :json => statuses
   end
 
+  def hosts_path(*args)
+    if Setting[:new_hosts_page]
+      new_hosts_index_page_path(*args)
+    else
+      super
+    end
+  end
+
   private
 
   def preload_reports

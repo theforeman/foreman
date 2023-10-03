@@ -415,10 +415,19 @@ module ApplicationHelper
       labFeatures: Setting[:lab_features],
       safeMode: Setting[:safemode_render],
       displayFqdnForHosts: Setting[:display_fqdn_for_hosts],
+      displayNewHostsPage: Setting[:new_hosts_page],
     }
   end
 
   def current_host_details_path(host)
     Setting['host_details_ui'] ? host_details_page_path(host) : host_path(host)
+  end
+
+  def hosts_path(*args)
+    if Setting[:new_hosts_page]
+      new_hosts_index_page_path(*args)
+    else
+      super
+    end
   end
 end

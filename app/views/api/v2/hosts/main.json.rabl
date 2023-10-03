@@ -2,8 +2,9 @@ object @host
 
 extends "api/v2/hosts/base"
 extends "api/v2/smart_proxies/children_nodes"
+extends "api/v2/layouts/permissions"
 
-# we need to cache results with @last_reports, rabl can't pass custom parameters to attriute methods
+# we need to cache results with @last_reports, rabl can't pass custom parameters to attribute methods
 @object.global_status_label(:last_reports => @last_reports)
 @object.configuration_status(:last_reports => @last_reports)
 @object.configuration_status_label(:last_reports => @last_reports)
