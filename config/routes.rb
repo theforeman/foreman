@@ -551,9 +551,12 @@ Foreman::Application.routes.draw do
   end
 
   match 'host_statuses' => 'react#index', :via => :get
+  match 'new/hosts/auto_complete_search', :via => :get, :to => 'hosts#auto_complete_search', :as => "auto_complete_search_hosts_new"
   constraints(id: /[^\/]+/) do
     match 'new/hosts/:id' => 'react#index', :via => :get, :as => :host_details_page
   end
+  match 'new/hosts/' => 'react#index', :via => :get, :as => :new_hosts_index_page
+
   get 'page-not-found' => 'react#index'
   get 'links/:type(/:section)' => 'links#show', :as => 'external_link', :constraints => { section: %r{.*} }
 end
