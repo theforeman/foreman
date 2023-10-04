@@ -71,7 +71,7 @@ module ForemanAnsible
 
     def os_minor
       if os_name == 'Ubuntu'
-        minor = nil
+        _, _, minor = os_release&.split('.', 3)
       else
         _, minor = os_release&.split('.', 2) ||
           (facts[:version].split('R') if os_name == 'junos')
