@@ -44,6 +44,33 @@ class ConfigReportsControllerTest < ActionController::TestCase
     assert_equal 1, response.body.lines.size
   end
 
+  test 'Ansible origin and icon are identified' do
+    FactoryBot.create(:config_report, origin: 'Ansible')
+    get :index, params: {format: :json}, session: set_session_user
+    parsed = YAML.safe_load(response.body)
+    assert_response :success
+    assert_equal 'Ansible', parsed['reports'][0]['origin']['label']
+    assert_match %r{/assets/Ansible-[0-9a-f]+.png}, parsed['reports'][0]['origin']['src']
+  end
+
+  test 'Puppet origin and icon are identified' do
+    FactoryBot.create(:config_report, origin: 'Puppet')
+    get :index, params: {format: :json}, session: set_session_user
+    parsed = YAML.safe_load(response.body)
+    assert_response :success
+    assert_equal 'Puppet', parsed['reports'][0]['origin']['label']
+    assert_match %r{/assets/Puppet-[0-9a-f]+.png}, parsed['reports'][0]['origin']['src']
+  end
+
+  test 'Salt origin and icon are identified' do
+    FactoryBot.create(:config_report, origin: 'Salt')
+    get :index, params: {format: :json}, session: set_session_user
+    parsed = YAML.safe_load(response.body)
+    assert_response :success
+    assert_equal 'Salt', parsed['reports'][0]['origin']['label']
+    assert_match %r{/assets/Salt-[0-9a-f]+.png}, parsed['reports'][0]['origin']['src']
+  end
+
   def test_show
     get :show, params: { :id => report.id }, session: set_session_user
     assert_template 'show'
