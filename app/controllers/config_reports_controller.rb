@@ -81,6 +81,7 @@ class ConfigReportsController < ApplicationController
     @origin_image_paths ||= {
       Ansible: helpers.image_path('Ansible.png'),
       Puppet: helpers.image_path('Puppet.png'),
+      Salt: helpers.image_path('Salt.png'),
     }
     { src: @origin_image_paths[:"#{report.origin}"], label: report.origin }
   end
