@@ -170,8 +170,11 @@ class Operatingsystem < ApplicationRecord
     os = find_by_description(str.to_s)
     return os if os
     a = str.split(" ")
-    if a[0] =~ /ubuntu/i
-      b = a[1], nil if a[1]
+    if a[0] == 'Ubuntu'
+      if a[1]
+        x, y, minor = a[1].split('.', 3)
+        b = ["#{x}.#{y}", minor]
+      end
     else
       b = a[1].split('.') if a[1]
     end
