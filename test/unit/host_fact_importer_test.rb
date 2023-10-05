@@ -349,4 +349,19 @@ class HostFactImporterTest < ActiveSupport::TestCase
       assert_equal 'br_customer', host.primary_interface.identifier
     end
   end
+
+  describe 'events' do
+    let(:callback) { -> {} }
+
+    it 'fires a host_facts_updated event on success import' do
+      host = FactoryBot.create(:host, :managed)
+      ActiveSupport::Notifications.subscribed(callback, 'host_facts_updated.event.foreman') do
+        callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
+          payload[:object].operatingsystem.name == 'CentOS'
+        end
+
+        HostFactImporter.new(host).import_facts(operatingsystemrelease: '6.7', operatingsystem: 'CentOS')
+      end
+    end
+  end
 end

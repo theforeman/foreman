@@ -21,7 +21,6 @@ class Host::Managed < Host::Base
   include HostInfoExtensions
   include HostParams
   include Facets::ManagedHostExtensions
-  include Foreman::ObservableModel
   include ::ForemanRegister::HostExtensions
 
   has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'

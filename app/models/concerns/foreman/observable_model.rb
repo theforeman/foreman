@@ -33,6 +33,11 @@ module Foreman
         end
       end
 
+      def register_custom_hook(hook_name, namespace: Foreman::Observable::DEFAULT_NAMESPACE)
+        event_name = Foreman::Observable.event_name_for(hook_name, namespace: namespace)
+        self.event_subscription_hooks |= [event_name]
+      end
+
       def preload_scopes_builder
         @preload_scopes_builder ||= Foreman::PreloadScopesBuilder.new(self)
       end
