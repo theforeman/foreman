@@ -399,18 +399,6 @@ class ComputeResource < ApplicationRecord
     vm_attrs
   end
 
-  def associated_host(vm)
-    associate_by(vm)
-  end
-
-  def associated_vm(host)
-    vms(:eager_loading => true).each do |vm|
-      if associate_by(vm, host)
-        return vm
-      end
-    end
-  end
-
   protected
 
   def memory_gb_to_bytes(memory_size)
@@ -460,13 +448,18 @@ class ComputeResource < ApplicationRecord
     end.compact
   end
 
-  def associate_by(name, attributes, host = nil)
+  def associate_by(name, attributes)
     attributes = Array.wrap(attributes).map { |mac| Net::Validations.normalize_mac(mac) } if name == 'mac'
-    host_query = Host.authorized(:view_hosts, Host)
-    if host
-      host_query = host_query.where(:id => host.id)
-    end
-    host_query.joins(:primary_interface).
+    Host.authorized(:view_hosts, Host).joins(:primary_interface).
+      where(:nics => {:primary => true}).
+      where(ActiveRecord::Base.sanitize_sql("nics.#{name}") => attributes).
+      readonly(false).
+      first
+  end
+
+  def associate_by_host(name, attributes, host)
+    attributes = Array.wrap(attributes).map { |mac| Net::Validations.normalize_mac(mac) } if name == 'mac'
+    Host.authorized(:view_hosts, Host).where(:id => host.id).joins(:primary_interface).
       where(:nics => {:primary => true}).
       where(ActiveRecord::Base.sanitize_sql("nics.#{name}") => attributes).
       readonly(false).

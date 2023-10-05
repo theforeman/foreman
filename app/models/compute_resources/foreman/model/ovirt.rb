@@ -408,6 +408,14 @@ module Foreman::Model
       false
     end
 
+    def associated_host(vm)
+      associate_by("mac", vm.interfaces.map(&:mac))
+    end
+
+    def associated_vm(host)
+      vms(:eager_loading => true).find { |vm| associate_by_host("mac", vm.interfaces.map(&:mac), host) }
+    end
+
     def self.provider_friendly_name
       "oVirt"
     end
@@ -565,10 +573,6 @@ module Foreman::Model
     end
 
     private
-
-    def associate_by(vm, host = nil)
-      super("mac", vm.interfaces.map(&:mac), host)
-    end
 
     def update_available_operating_systems
       return false if errors.any?
