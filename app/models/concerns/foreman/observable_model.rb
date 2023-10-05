@@ -29,6 +29,11 @@ module Foreman
           set_hook hook_name, namespace: namespace, on: k, payload: payload, **options, &blk
         end
       end
+
+      def register_custom_hook(hook_name, namespace: Foreman::Observable::DEFAULT_NAMESPACE)
+        event_name = Foreman::Observable.event_name_for(hook_name, namespace: namespace)
+        self.event_subscription_hooks |= [event_name]
+      end
     end
 
     def event_payload_for(payload, block_argument, blk)
