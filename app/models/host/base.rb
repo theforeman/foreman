@@ -214,7 +214,7 @@ module Host
       desc 'Note that available facts depend on what facts have been uploaded to Foreman,
            typical sources are Puppet facter, subscription manager etc.
            The facts can be out of date, this macro only provides access to the value stored in the database.'
-      optional :fact_names, Array, desc: 'A list of fact names to return. If empty all facts are returned'
+      list :fact_names, desc: 'A list of fact names to return. If empty all facts are returned'
       returns Hash, desc: 'A hash of facts, keys are fact names, values are fact values'
       example '@host.facts # => { "hardwareisa"=>"x86_64", "kernel"=>"Linux", "virtual"=>"physical", ... }', desc: 'Getting all host facts'
       example '@host.facts["uptime"] # => "30 days"', desc: 'Getting specific fact value, +uptime+ in this case'
