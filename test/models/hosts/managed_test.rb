@@ -136,6 +136,7 @@ module Host
           'build_entered.event.foreman',
           'build_exited.event.foreman',
           'status_changed.event.foreman',
+          'host_facts_updated.event.foreman',
         ]
 
         assert_same_elements expected, Host::Managed.event_subscription_hooks

@@ -10,6 +10,7 @@ module Host
     include Hostext::Ownership
     include Foreman::TelemetryHelper
     include Facets::BaseHostExtensions
+    include Foreman::ObservableModel
 
     self.table_name = :hosts
     extend FriendlyId
@@ -46,6 +47,8 @@ module Host
     before_create :set_creator_id
 
     default_scope -> { where(taxonomy_conditions) }
+
+    register_custom_hook :host_facts_updated
 
     def self.taxonomy_conditions
       conditions = {}
