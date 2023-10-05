@@ -126,7 +126,7 @@ module Api
         if @host.compute_resource
           associator = ComputeResourceHostAssociator.new(@host.compute_resource)
           associator.associate_host(@host)
-        elsif
+        else
           ComputeResource.all.each do |compute_resource|
             associator = ComputeResourceHostAssociator.new(compute_resource)
             associator.associate_host(@host)
