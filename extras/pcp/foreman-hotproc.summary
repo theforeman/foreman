@@ -1,0 +1,16 @@
+#pmlogconf-setup 2.0
+ident   foreman hotproc metrics
+probe   hotproc.control.config != "" ? include : exclude
+        hotproc.psinfo.psargs
+        hotproc.psinfo.cnswap
+        hotproc.psinfo.nswap
+        hotproc.psinfo.rss
+        hotproc.psinfo.vsize
+        hotproc.psinfo.cstime
+        hotproc.psinfo.cutime
+        hotproc.psinfo.stime
+        hotproc.psinfo.utime
+        hotproc.io.write_bytes
+        hotproc.io.read_bytes
+        hotproc.schedstat.cpu_time
+        hotproc.fd.count
