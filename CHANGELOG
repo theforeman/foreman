@@ -1,3 +1,34 @@
+2023-10-10	Griffin Sullivan <gsulliva@redhat.com>
+	* Release 3.8.0
+
+2023-10-05	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #36796 - Make host_facts_updated event visible
+	* Refs #36715 - Update fact_names description for facts_hash
+
+2023-10-03	Maximilian Kolb <kolb@atix.de>
+	* Fixes #36791 - Fix typo in variable name
+
+2023-10-03	Jeremy Lenz <jlenz@redhat.com>
+	* Fixes #36715 - Speed up host fact retrieval
+
+2023-10-03	Evgeni Golov <evgeni@golov.de>
+	* Fixes #36774 - count db:abort_if_pending_migrations as setup task
+
+2023-10-03	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #36717 - Remove katello-agent leftovers from redhat-register.erb
+
+2023-10-03	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #36517 - Correct host search for IPv6 on subnet list
+
+2023-10-03	Alexey Masolov <amasolov@redhat.com>
+	* Fixes #36361 - Change vlan interface notation
+
+2023-09-28	Evgeni Golov <evgeni@golov.de>
+	* Fixes #36759 - only call allowed transpilers
+
+2023-09-28	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #36768: Prevent redirection to other hosts via HTTP referer header
+
 2023-09-19	Griffin Sullivan <gsulliva@redhat.com>
 	* Release 3.8.0-rc2
 
