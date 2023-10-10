@@ -27,6 +27,7 @@ export const Table = ({
   setParams,
   url,
   isPending,
+  isEmbedded,
 }) => {
   const columnsToSortParams = {};
   Object.keys(columns).forEach(key => {
@@ -140,6 +141,7 @@ export const Table = ({
           perPage={params.perPage}
           itemCount={itemCount}
           onChange={onPagination}
+          updateParamsByUrl={!isEmbedded}
         />
       )}
     </>
@@ -162,6 +164,7 @@ Table.propTypes = {
   setParams: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,
   isPending: PropTypes.bool.isRequired,
+  isEmbedded: PropTypes.bool,
 };
 
 Table.defaultProps = {
@@ -170,4 +173,5 @@ Table.defaultProps = {
   itemCount: 0,
   getActions: null,
   results: [],
+  isEmbedded: false,
 };
