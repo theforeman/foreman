@@ -11,7 +11,7 @@
 
 <% if @settings.empty? -%>
   <%= render plain: _('No entries found') %>
-<%else -%>
+<% else -%>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <% @settings.categories.each do |category, label| %>
       <li class="<%= 'active' if category == @settings.categories.keys.first %>">
