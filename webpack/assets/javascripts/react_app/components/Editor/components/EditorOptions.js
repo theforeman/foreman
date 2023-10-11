@@ -1,14 +1,14 @@
 /* eslint-disable no-alert */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Button, Icon, FormControl } from 'patternfly-react';
-
 import { Tooltip, TooltipPosition } from '@patternfly/react-core';
+import store from '../../../../react_app/redux';
 import { translate as __ } from '../../../common/I18n';
 import { bindMethods } from '../../../common/helpers';
 import DiffToggle from '../../DiffView/DiffToggle';
 import EditorSettings from './EditorSettings';
+import { openConfirmModal } from '../../ConfirmModal';
 
 class EditorOptions extends React.Component {
   constructor(props) {
@@ -79,14 +79,19 @@ class EditorOptions extends React.Component {
               className="editor-button"
               id="undo-btn"
               onClick={() => {
-                if (
-                  window.confirm(
-                    'Are you sure you would like to revert all changes?'
-                  )
-                ) {
-                  revertChanges(template);
-                  if (selectedView !== 'input') changeTab('input');
-                }
+                store.dispatch(
+                  openConfirmModal({
+                    title: __('Revert Local Changes'),
+                    message: __(
+                      'Are you sure you would like to revert all changes?'
+                    ),
+                    isWarning: true,
+                    onConfirm: () => {
+                      revertChanges(template);
+                      if (selectedView !== 'input') changeTab('input');
+                    },
+                  })
+                );
               }}
               bsStyle="link"
             >
