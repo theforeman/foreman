@@ -19,7 +19,11 @@ test_on:
 #   System locale
 #
 <%
-  efi_suffix = 'efi'
+  if ['i386','x86_64'].include?(@host.architecture.to_s) && @host.pxe_loader_efi?
+    efi_suffix = 'efi'
+  else
+    efi_suffix = ''
+  end
 -%>
 
 set default=0
