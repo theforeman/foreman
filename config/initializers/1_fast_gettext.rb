@@ -19,9 +19,6 @@ FastGettext.default_text_domain = locale_domain
 FastGettext.default_locale = "en"
 FastGettext.locale = "en"
 
-# work in all domains context by default (for plugins)
-include FastGettext::TranslationMultidomain
-
 # Keep TRANSLATORS comments
 Rails.application.config.gettext_i18n_rails.xgettext = %w[--add-comments=TRANSLATORS:]
 # Disable fuzzy .po merging
@@ -32,5 +29,6 @@ Rails.application.config.gettext_i18n_rails.msgmerge = %w[--no-fuzzy-matching]
 if SETTINGS[:mark_translated] && !Rails.env.test?
   include Foreman::Gettext::Debug
 else
+  # work in all domains context by default (for plugins)
   include Foreman::Gettext::AllDomains
 end
