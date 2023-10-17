@@ -19,13 +19,7 @@ ApipieDSL.configure do |config|
   config.default_locale = FastGettext.default_locale
   config.locale = ->(loc) { loc ? FastGettext.set_locale(loc) : FastGettext.locale }
 
-  config.translate = lambda do |str, loc|
-    old_loc = FastGettext.locale
-    FastGettext.set_locale(loc)
-    trans = _(str) if str
-    FastGettext.set_locale(old_loc)
-    trans
-  end
+  config.translate = ->(str, loc) { str ? FastGettext.with_locale(loc) { _(str) } : nil }
   config.help_layout = 'apipie_dsl/apipie_dsls/help.html.erb'
 end
 
@@ -66,14 +60,9 @@ Rails.application.config.after_initialize do
     }
 
     config.translate = lambda do |str, loc|
-      old_loc = FastGettext.locale
-      FastGettext.set_locale(loc)
       if str
-        trans = _(str)
-        trans = trans % Hash[substitutions.map { |k, v| [k, v.respond_to?(:call) ? v.call : v] }]
+        FastGettext.with_locale(loc) { _(str) % substitutions.transform_values { |v| v.respond_to?(:call) ? v.call : v } }
       end
-      FastGettext.set_locale(old_loc)
-      trans
     end
   end
 end
