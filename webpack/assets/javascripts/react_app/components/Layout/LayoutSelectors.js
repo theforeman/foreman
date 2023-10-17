@@ -36,7 +36,6 @@ const childToMenuItem = (child, currentLocation, currentOrganization) => ({
     child.title === currentLocation || child.title === currentOrganization
       ? 'mobile-active'
       : '',
-  href: child.url || '#',
-  preventHref: true,
+  href: child.url,
   onClick: child.onClick || null,
 });

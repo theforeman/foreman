@@ -137,6 +137,11 @@
       <p id="copyright-p"><%= (_("Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}") % {:version => SETTINGS[:version], :copyright => "&copy;", :year=>DateTime.now.year, :author=>mail_to("ohadlevy@gmail.com", "Ohad Levy" )}).html_safe %></p>
       <p id="instance-id-p"><%= _("Instance %{uuid}") % {:uuid => Foreman.instance_id} %></p>
     </div>
+    <div class="stats-well" id="copyright-div">
+      <h4><%= _("Shortcuts") %> </h4>
+      <p><kbd>/</kbd> <%= _("To focus the page search bar") %></p>
+      <p><kbd>CTRL + SHIFT + F</kbd> <%= _("To focus the navigation search bar") %></p>
+    </div>
   </div>
   <%= slot('aboutFooterSlot', true) %>
 </div>
