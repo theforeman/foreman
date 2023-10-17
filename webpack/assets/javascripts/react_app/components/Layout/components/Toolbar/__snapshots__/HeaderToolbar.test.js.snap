@@ -110,6 +110,13 @@ exports[`HeaderToolbar rendering render HeaderToolbar 1`] = `
                       "onClick": [MockFunction],
                       "title": "Cc",
                     },
+                    Object {
+                      "href": "/ac",
+                      "id": "menu_item_ac",
+                      "isDivider": false,
+                      "onClick": [MockFunction],
+                      "title": "Ac",
+                    },
                   ],
                   "icon": "fa fa-user",
                   "name": "User",

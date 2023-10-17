@@ -23,7 +23,7 @@ class ConfigReportJSTest < IntegrationTestWithJavascript
     report
     visit config_reports_path
     click_link(report.host.name)
-    has_selector?(".pf-c-text-input-group__text-input", text: "host = #{report.host.name}", wait: 3)
-    assert_equal "host = #{report.host.name}", find('.pf-c-text-input-group__text-input').value
+    has_selector?(".foreman-search-bar .pf-c-text-input-group__text-input", text: "host = #{report.host.name}", wait: 3)
+    assert_equal "host = #{report.host.name}", find('.foreman-search-bar .pf-c-text-input-group__text-input').value
   end
 end
