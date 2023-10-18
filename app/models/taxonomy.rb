@@ -37,7 +37,7 @@ class Taxonomy < ApplicationRecord
       scoped_search :on => :description, :complete_enabled => :false, :only_explicit => true
       scoped_search :on => :id, :validator => ScopedSearch::Validators::INTEGER
 
-      apipie :class, desc: "A class representing #{model_name.human} object" do
+      apipie :class do
         sections only: %w[all additional]
         name_exl, title_exl = class_scope.model_name.human == 'Location' ? ['Europe', 'Europe/Prague'] : ['Red Hat', 'Red Hat/Engineering']
         prop_group :basic_model_props, ApplicationRecord, meta: { example: name_exl }

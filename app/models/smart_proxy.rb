@@ -196,7 +196,7 @@ class SmartProxy < ApplicationRecord
     end
   end
 
-  apipie :class, desc: "A class representing #{model_name.human} object" do
+  apipie :class do
     name 'Smart Proxy'
     refs 'SmartProxy'
     sections only: %w[all additional]

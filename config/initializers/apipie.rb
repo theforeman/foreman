@@ -27,6 +27,11 @@ ApipieDSL.configure do |config|
     trans
   end
   config.help_layout = 'apipie_dsl/apipie_dsls/help.html.erb'
+  config.default_class_description = lambda do |model|
+    return nil unless model.respond_to?(:model_name)
+    _("A class representing %s object") % model.model_name.human
+  end
+  config.reload_dsl = false
 end
 
 Apipie.configure do |config|
