@@ -36,11 +36,11 @@ class Ping
     private
 
     def duration_ms(start)
-      ((Time.new - start) * 1000).round.to_s
+      (current_time - start).to_s
     end
 
     def ping_database
-      start = Time.now
+      start = current_time
       {
         active: ActiveRecord::Base.connection.active?,
         duration_ms: duration_ms(start),
@@ -50,7 +50,7 @@ class Ping
     def statuses_compute_resources
       results = []
       ComputeResource.all.index.map do |resource|
-        start = Time.now
+        start = current_time
         errors = resource.ping
         results << {
           name: resource.name,
@@ -65,7 +65,7 @@ class Ping
     def statuses_smart_proxies
       results = []
       SmartProxy.all.includes(:features).map do |proxy|
-        start = Time.now
+        start = current_time
         begin
           version = proxy.statuses[:version].version['version']
           features = proxy.statuses[:version].version['modules']
@@ -101,6 +101,10 @@ class Ping
         next all if plugin.status_extension.nil?
         all.update({ "#{plugin.name}": plugin.status_extension.call })
       end
+    end
+
+    def current_time
+      Process.clock_gettime(Process::CLOCK_MONOTONIC, :millisecond)
     end
   end
 end
