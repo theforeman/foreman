@@ -124,7 +124,7 @@ class Subnet < ApplicationRecord
 
   set_crud_hooks :subnet
 
-  apipie :class, "A class representing #{model_name.human} object" do
+  apipie :class do
     sections only: %w[all additional]
     refs 'Subnet::Ipv4', 'Subnet::Ipv6'
     prop_group :basic_model_props, ApplicationRecord

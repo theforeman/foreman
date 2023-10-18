@@ -83,7 +83,7 @@ class Hostgroup < ApplicationRecord
     where(conditions)
   }
 
-  apipie :class, "A class representing #{model_name.human} object" do
+  apipie :class do
     prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'host group' }
     property :architecture, 'Architecture', desc: 'Returns architecture to be used on hosts within this host group'
     property :arch, 'Architecture', desc: 'Returns architecture to be used on hosts within this host group'

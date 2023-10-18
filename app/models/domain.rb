@@ -51,7 +51,7 @@ class Domain < ApplicationRecord
 
   set_crud_hooks :domain
 
-  apipie :class, desc: "A class representing #{model_name.human} object" do
+  apipie :class do
     sections only: %w[all additional]
     prop_group :basic_model_props, ApplicationRecord, meta: { example: 'example.com' }
     property :fullname, String, desc: 'User name for this domain, e.g. "Primary domain for our company"'
