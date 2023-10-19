@@ -315,7 +315,7 @@ module Foreman
       config.cache_store = options
       Foreman::Logging.logger('app').info "Rails cache backend: Redis"
     else
-      config.cache_store = :file_store, Rails.root.join('tmp', 'cache')
+      config.cache_store = :file_store, Rails.root.join('tmp', 'cache/')
       Foreman::Logging.logger('app').info "Rails cache backend: File"
     end
 
