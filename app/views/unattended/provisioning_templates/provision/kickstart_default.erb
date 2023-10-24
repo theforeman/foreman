@@ -360,6 +360,7 @@ sed -e 's/DEFAULTKERNEL=kernel-uek/DEFAULTKERNEL=kernel/g' -i /etc/sysconfig/ker
 <%= snippet_if_exists(template_name + " custom post") %>
 
 <%= snippet 'insights' if host_param_true?('host_registration_insights') && os_major < 9 -%>
+<%= snippet 'disk_enc_clevis_tang' if host_param('disk_enc_tang_servers') -%>
 
 touch /tmp/foreman_built
 
