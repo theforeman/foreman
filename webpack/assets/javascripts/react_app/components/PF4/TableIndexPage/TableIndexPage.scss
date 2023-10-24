@@ -1,20 +1,32 @@
 #foreman-page {
-  .table-toolbar {
-    padding: 0;
-    .pf-c-toolbar__content {
+  .table-title-section {
+    padding-bottom: 0;
+  }
+  .table-toolbar-section {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    .table-toolbar {
       padding: 0;
+      .pf-c-toolbar__content {
+        padding: 0;
+      }
+      .toolbar-search {
+        flex-grow: 1;
+      }
+      .autocomplete-search {
+        max-width: 600px;
+      }
     }
-    .toolbar-search {
+    .pf-c-toolbar__group {
       flex-grow: 1;
-    }
-    .autocomplete-search {
-      max-width: 600px;
+      &.pf-m-align-right {
+        justify-content: flex-end;
+      }
     }
   }
-  .pf-c-toolbar__group {
-    flex-grow: 1;
-    &.pf-m-align-right{
-      justify-content: flex-end;
-    }
+  .table-section {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 }

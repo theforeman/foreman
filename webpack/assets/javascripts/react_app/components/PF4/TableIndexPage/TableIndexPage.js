@@ -193,7 +193,10 @@ const TableIndexPage = ({
           <BreadcrumbBar {...breadcrumbOptions} />
         </PageSection>
       )}
-      <PageSection variant={PageSectionVariants.light}>
+      <PageSection
+        variant={PageSectionVariants.light}
+        className="table-title-section"
+      >
         <TextContent>
           <Text ouiaId="header-text" component="h1">
             {header}
@@ -201,7 +204,10 @@ const TableIndexPage = ({
         </TextContent>
       </PageSection>
       {beforeToolbarComponent}
-      <PageSection variant={PageSectionVariants.light}>
+      <PageSection
+        variant={PageSectionVariants.light}
+        className="table-toolbar-section"
+      >
         <Toolbar ouiaId="table-toolbar" className="table-toolbar">
           <ToolbarContent>
             {searchable && (
@@ -245,7 +251,10 @@ const TableIndexPage = ({
           </ToolbarContent>
         </Toolbar>
       </PageSection>
-      <PageSection variant={PageSectionVariants.light}>
+      <PageSection
+        variant={PageSectionVariants.light}
+        className="table-section"
+      >
         {children || (
           <Table
             params={params}

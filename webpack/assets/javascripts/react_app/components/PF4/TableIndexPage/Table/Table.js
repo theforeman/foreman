@@ -82,7 +82,7 @@ export const Table = ({
         url={url}
         refreshData={refreshData}
       />
-      <TableComposable variant="compact" ouiaId="table">
+      <TableComposable variant="compact" ouiaId="table" isStriped>
         <Thead>
           <Tr ouiaId="table-header">
             {showCheckboxes && <Th key="checkbox-th" />}
@@ -127,7 +127,7 @@ export const Table = ({
             </Tr>
           )}
           {results.map((result, rowIndex) => (
-            <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`}>
+            <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
               {showCheckboxes && <RowSelectTd rowData={result} />}
               {columnNamesKeys.map(k => (
                 <Td key={k} dataLabel={columnNames[k]}>
