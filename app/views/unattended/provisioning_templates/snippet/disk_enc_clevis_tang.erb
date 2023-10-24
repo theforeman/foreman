@@ -1,0 +1,89 @@
+<%#
+kind: snippet
+name: disk_enc_clevis_tang
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Binds encrypted root directory ('/') utilizing Clevis to Tang server(s) for
+  decryption. The first parent device containing a LUKS container will be used.
+  The temporary passphrase will be removed afterwards. Currently, only Red Hat
+  family and Ubuntu operating systems are supported.
+-%>
+<%
+  passphrase = host_param('disk_enc_passphrase', 'linux')
+  tang_server_list = []
+  packages_redhat = "clevis clevis-luks clevis-systemd clevis-dracut"
+  packages_ubuntu = "clevis clevis-luks clevis-systemd clevis-initramfs"
+
+  unless host_param('disk_enc_tang_servers').blank?
+    if host_param('disk_enc_tang_servers').is_a?(String)
+      tang_server_list = [host_param('disk_enc_tang_servers')]
+    else
+      tang_server_list = host_param('disk_enc_tang_servers')
+    end
+  end
+-%>
+
+<% if (@host.operatingsystem.family == 'Redhat' || @host.operatingsystem.name == 'Ubuntu') && unless tang_server_list.blank? -%>
+
+cat > /tmp/rootdir-luks-device.sh << "EOF"
+#!/bin/sh
+#
+# Author Jan Löser <loeser@atix.de>
+# Published under the GNU Public Licence 3
+#
+# This scripts tries to find the 1st LUKS device for / (root directory).
+#
+set -o pipefail
+
+rootdev=$(df / --output=source | tail -n1)
+targetdev=$(readlink -f $rootdev)
+slavedev=$targetdev
+
+while : ; do
+    /sbin/cryptsetup luksDump $slavedev &>/dev/null && echo $slavedev && exit 0
+    set -e
+    slave=$(find /sys/class/block/$(basename $slavedev)/slaves -type l | head -n1)
+    slavedev=$(find /dev -name "$(basename $slave)" | head -n1)
+    set +e
+done
+
+exit 1
+EOF
+
+# needs bash here because Ubuntu's sh (dash) doesn't support `-o pipefail` option
+luksdev=$(bash /tmp/rootdir-luks-device.sh)
+
+if [[ -n "$luksdev" ]]; then
+  echo "LUKS device found for '/': $luksdev"
+
+<% if @host.operatingsystem.family == 'Redhat' -%>
+  $PKG_MANAGER_INSTALL <%= packages_redhat %>
+<% elsif @host.operatingsystem.name == 'Ubuntu' -%>
+  $PKG_MANAGER_INSTALL <%= packages_ubuntu %>
+<% end -%>
+
+<% for tang_server in tang_server_list -%>
+  echo '<%= passphrase %>' | clevis luks bind -y -k - -d $luksdev tang '{"url": "<%= tang_server %>"}'
+  if [[ $? -ne 0 ]]; then
+    echo "---"
+    echo "There was an error during Clevis LUKS bind of '$luksdev' to Tang server '<%= tang_server %>'."
+    echo "System halted."
+    sleep infinity
+  fi
+<% end -%>
+  echo '<%= passphrase %>' | cryptsetup luksRemoveKey $luksdev
+  systemctl enable clevis-luks-askpass.path
+  systemctl enable remote-cryptsetup.target
+
+<% if @host.operatingsystem.family == 'Redhat' -%>
+  dracut --verbose --force --hostonly-cmdline --regenerate-all
+<% elsif @host.operatingsystem.name == 'Ubuntu' -%>
+  update-initramfs -u -k 'all'
+<% end -%>
+
+else
+  echo "No LUKS device found!"
+fi
+
+<% end -%>

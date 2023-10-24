@@ -1,0 +1,18 @@
+<%#
+kind: ptable
+name: Kickstart default encrypted
+model: Ptable
+oses:
+- AlmaLinux
+- RedHat
+- Rocky
+-%>
+<% if host_param('driverdisk_source') -%>
+driverdisk --source=<%= host_param('driverdisk_source') %>
+<% end -%>
+<% if host_param('ignoredisk_options') -%>
+ignoredisk <%= host_param('ignoredisk_options') %>
+<% end -%>
+zerombr
+clearpart --all --initlabel
+autopart --encrypted --passphrase="<%= host_param('disk_enc_passphrase', 'linux') %>" <%= host_param('autopart_options') %>
