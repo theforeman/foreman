@@ -28,7 +28,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '12.x'
+          node-version: '14.x'
       # We could update the postinstall action for foreman to look for an environment variable for plugin webpack dirs
       # before kicking off the ruby script to find them, this would eliminate the ruby dep and running `npm install` in plugins.
       - uses: ruby/setup-ruby@v1
