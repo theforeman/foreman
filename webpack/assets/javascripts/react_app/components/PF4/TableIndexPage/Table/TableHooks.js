@@ -227,7 +227,7 @@ export const useBulkSelect = ({
   const fetchBulkParams = ({
     idColumnName = idColumn,
     selectAllQuery = '',
-  }) => {
+  } = {}) => {
     const searchQueryWithExclusionSet = () => {
       const query = [
         searchQuery,

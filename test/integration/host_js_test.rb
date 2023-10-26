@@ -112,7 +112,7 @@ class HostJSTest < IntegrationTestWithJavascript
       visit host_details_page_path(host)
       find('#hostdetails-kebab').click
       click_button 'Delete'
-      click_button 'Delete host'
+      find('button.pf-c-button.pf-m-danger').click # the red delete button, not the menu item
       assert_current_path hosts_path
       assert_raises(ActiveRecord::RecordNotFound) do
         Host.find(host.id)

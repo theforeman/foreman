@@ -387,7 +387,7 @@ module Api
         'create'
       when 'edit', 'update'
         'edit'
-      when 'destroy'
+      when 'destroy', 'bulk_destroy'
         'destroy'
       when 'index', 'show', 'status'
         'view'

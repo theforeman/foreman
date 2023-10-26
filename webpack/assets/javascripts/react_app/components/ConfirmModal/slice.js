@@ -11,9 +11,11 @@ const confirmModalSlice = createSlice({
       const {
         title = '',
         message = '',
+        id = 'app-confirm-modal',
         onConfirm = noop,
         onCancel = noop,
         isWarning = false,
+        isDireWarning = false,
         confirmButtonText = null,
         modalProps = {},
       } = action.payload;
@@ -21,10 +23,12 @@ const confirmModalSlice = createSlice({
         isOpen: true,
         title,
         message,
+        id,
         onConfirm,
         onCancel,
         modalProps,
         isWarning,
+        isDireWarning,
         confirmButtonText,
       };
     },

@@ -205,7 +205,7 @@ describe('Table', () => {
       </Provider>
     );
     expect(screen.queryAllByText('items')).toHaveLength(0);
-    expect(screen.queryAllByText('No Results')).toHaveLength(1);
+    expect(screen.queryAllByText('No Results')).toHaveLength(0);
     expect(screen.queryAllByText('Loading...')).toHaveLength(1);
   });
 });

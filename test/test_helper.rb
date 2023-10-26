@@ -129,6 +129,10 @@ class ActiveSupport::TestCase
     ActiveSupport::Notifications.unsubscribe("sql.active_record")
     assert_equal num_of_queries, queries.size, "Expected #{num_of_queries} queries, but got #{queries.size}"
   end
+
+  def assert_equal_arrays(array1, array2)
+    assert_equal array1.sort, array2.sort
+  end
 end
 
 class ActionView::TestCase
