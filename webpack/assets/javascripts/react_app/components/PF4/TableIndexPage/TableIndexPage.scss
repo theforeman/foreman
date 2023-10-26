@@ -29,4 +29,14 @@
     padding-left: 0;
     padding-right: 0;
   }
+  .pf-c-toolbar__group {
+    flex-grow: 1;
+    &.pf-m-align-right{
+      justify-content: flex-end;
+    }
+    &:first-child {
+      margin-right: auto;
+      width: min-content;
+    }
+  }
 }

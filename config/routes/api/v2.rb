@@ -3,6 +3,8 @@ Foreman::Application.routes.draw do
   namespace :api, :defaults => {:format => 'json'} do
     # new v2 routes that point to v2
     scope "(:apiv)", :module => :v2, :defaults => {:apiv => 'v2'}, :apiv => /v2/, :constraints => ApiConstraints.new(:version => 2, :default => true) do
+      match 'hosts/bulk', :to => 'hosts_bulk_actions#bulk_destroy', :via => [:delete]
+
       resources :architectures, :except => [:new, :edit] do
         constraints(:id => /[^\/]+/) do
           resources :hosts, :except => [:new, :edit]

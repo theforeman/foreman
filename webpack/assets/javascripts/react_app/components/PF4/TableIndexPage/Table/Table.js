@@ -69,7 +69,7 @@ export const Table = ({
         onClick: () => onDeleteClick({ id, name }),
         isDisabled: !canDelete,
       },
-      getActions && getActions({ id, name, ...item }),
+      ...((getActions && getActions({ id, name, canDelete, ...item })) ?? []),
     ].filter(Boolean);
   const columnNamesKeys = Object.keys(columns);
   const RowSelectTd = rowSelectTd;
@@ -105,7 +105,7 @@ export const Table = ({
               <Td colSpan={100}>
                 <EmptyPage
                   message={{
-                    type: 'empty',
+                    type: 'loading',
                     text: __('Loading...'),
                   }}
                 />
