@@ -11,7 +11,7 @@ TimeoutSec=300
 PrivateTmp=true
 Environment=RAILS_ENV=production
 Environment=DYNFLOW_SIDEKIQ_SCRIPT=/usr/share/foreman/extras/dynflow-sidekiq.rb
-Environment=DYNFLOW_REDIS_URL=redis://localhost:6379/0
+Environment=DYNFLOW_REDIS_URL=redis://localhost:6379/6
 Environment=REDIS_PROVIDER=DYNFLOW_REDIS_URL
 # Greatly reduce Ruby memory fragmentation and heap usage
 # https://www.mikeperham.com/2018/04/25/taming-rails-memory-bloat/

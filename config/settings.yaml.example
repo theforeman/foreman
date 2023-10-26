@@ -141,7 +141,7 @@
 # :rails_cache_store:
 #   :type: redis
 #   :urls:
-#    - redis://localhost:8479/0
+#    - redis://localhost:8479/4
 #   :options:
 #     :compress: true
 #     :namespace: foreman
