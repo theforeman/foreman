@@ -12,27 +12,36 @@ permissions:
   contents: read
 
 jobs:
+  setup_matrix:
+    name: Setup matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.build_matrix.outputs.matrix }}
+    steps:
+      - name: Build test matrix
+        id: build_matrix
+        uses: theforeman/gha-matrix-builder@v0
+
   test:
     permissions:
       checks: write  # for coverallsapp/github-action to create new checks
       contents: read  # for actions/checkout to fetch code
     runs-on: ubuntu-latest
+    needs: setup_matrix
     timeout-minutes: 20
     strategy:
       fail-fast: false
-      matrix:
-        node-version:
-          - 14
+      matrix: ${{ fromJson(needs.setup_matrix.outputs.matrix) }}
     steps:
       - name: Checkout Foreman
         uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
-      - name: Setup Node
+          ruby-version: ${{ matrix.ruby }}
+      - name: Setup Node ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node }}
       - name: Generate npm dependencies package-lock
         run: npm install --package-lock-only --no-audit
       - name: Install npm dependencies
