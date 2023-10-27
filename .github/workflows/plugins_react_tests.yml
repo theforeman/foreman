@@ -13,48 +13,60 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  setup_matrix:
+    name: Setup matrix
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.build_matrix.outputs.matrix }}
+    steps:
+      - name: Build test matrix
+        id: build_matrix
+        uses: theforeman/gha-matrix-builder@v0
+
+  test:
+    name: ${{ matrix.plugin }} with Ruby ${{ matrix.ruby }} and Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    needs: setup_matrix
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - repo: katello
-            org: Katello
-          - repo: foreman-tasks
-            org: theforeman
+        ruby: ${{ fromJson(needs.setup_matrix.outputs.matrix).ruby }}
+        node: ${{ fromJson(needs.setup_matrix.outputs.matrix).node }}
+        plugin:
+          - theforeman/foreman-tasks
+          - Katello/katello
     steps:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '14.x'
+          node-version: ${{ matrix.node }}
       # We could update the postinstall action for foreman to look for an environment variable for plugin webpack dirs
       # before kicking off the ruby script to find them, this would eliminate the ruby dep and running `npm install` in plugins.
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: ${{ matrix.ruby }}
       - name: Checkout Foreman
         uses: actions/checkout@v4
         with:
-          path: ./projects/foreman
+          path: ${{ github.workspace }}/projects/foreman
       - name: Generate Foreman npm dependencies package-lock
         run: npm install --package-lock-only --no-audit
         working-directory: ${{ github.workspace }}/projects/foreman
       - name: Install Foreman npm dependencies
         run: npm ci --no-audit
         working-directory: ${{ github.workspace }}/projects/foreman
-      - name: Checkout ${{ matrix.repo }}
+      - name: Checkout ${{ matrix.plugin }}
         uses: actions/checkout@v4
         with:
-          repository: ${{ matrix.org }}/${{ matrix.repo }}
-          path: ./projects/${{ matrix.repo }}
-      - name: Generate ${{ matrix.repo }} npm dependencies package-lock
+          repository: ${{ matrix.plugin }}
+          path: ${{ github.workspace }}/projects/plugin
+      - name: Generate ${{ matrix.plugin }} npm dependencies package-lock
         run: npm install --package-lock-only --no-audit
-        working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}
-      - name: Install ${{ matrix.repo }} npm dependencies
+        working-directory: ${{ github.workspace }}/projects/plugin
+      - name: Install ${{ matrix.plugin }} npm dependencies
         run: npm ci --no-audit
-        working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}
-      - name: Run ${{ matrix.plugin_repo }} tests
+        working-directory: ${{ github.workspace }}/projects/plugin
+      - name: Run ${{ matrix.plugin }} tests
         run: npm test
-        working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}
+        working-directory: ${{ github.workspace }}/projects/plugin
