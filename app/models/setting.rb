@@ -56,11 +56,16 @@ class Setting < ApplicationRecord
 
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search on: :name, complete_value: :true, operators: ['=', '~']
+  scoped_search on: :description, operators: ['~'], ext_method: :search_description
 
   delegate :settings_type, :encrypted, :encrypted?, :default, to: :setting_definition, allow_nil: true
 
   def self.config_file
     'settings.yaml'
+  end
+
+  def self.search_description(_key, _operator, _value)
+    {}
   end
 
   # can't use our own settings
