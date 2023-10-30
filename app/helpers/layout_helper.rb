@@ -51,7 +51,8 @@ module LayoutHelper
       user: fetch_user, brand: 'foreman',
       root: main_app.root_path,
       locations: fetch_locations, orgs: fetch_organizations,
-      instance_title: Setting[:instance_title]
+      instance_title: Setting[:instance_title],
+      instance_color: Setting[:instance_color]
     }
   end
 

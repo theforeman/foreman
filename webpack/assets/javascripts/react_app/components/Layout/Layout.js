@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Page, PageSidebar } from '@patternfly/react-core';
+import { Page, PageSidebar, Flex, FlexItem } from '@patternfly/react-core';
 import { layoutPropTypes, layoutDefaultProps } from './LayoutHelper';
+import { InstanceBanner } from './components/InstanceBanner';
 import Header from './components/Toolbar/Header';
 import Navigation from './Navigation';
 import './layout.scss';
@@ -29,28 +30,44 @@ const Layout = ({
   };
   return (
     <>
-      <Page
-        mainContainerId="foreman-main-container"
-        header={
-          <Header data={data} onNavToggle={onNavToggle} isLoading={isLoading} />
-        }
-        id="foreman-page"
-        sidebar={
-          <PageSidebar
-            isNavOpen={!isCollapsed}
-            nav={
-              <Navigation
-                items={items}
-                navigate={navigate}
-                navigationActiveItem={navigationActiveItem}
-                setNavigationActiveItem={setNavigationActiveItem}
+      <Flex
+        direction={{ default: 'column' }}
+        flexWrap={{ default: 'nowrap' }}
+        spaceItems={{ default: 'spaceItemsNone' }}
+        style={{ height: '100%' }}
+      >
+        <FlexItem>
+          <InstanceBanner data={data} />
+        </FlexItem>
+        <FlexItem grow={{ default: 'grow' }} style={{ minHeight: 0 }}>
+          <Page
+            mainContainerId="foreman-main-container"
+            header={
+              <Header
+                data={data}
+                onNavToggle={onNavToggle}
+                isLoading={isLoading}
               />
             }
-          />
-        }
-      >
-        {children}
-      </Page>
+            id="foreman-page"
+            sidebar={
+              <PageSidebar
+                isNavOpen={!isCollapsed}
+                nav={
+                  <Navigation
+                    items={items}
+                    navigate={navigate}
+                    navigationActiveItem={navigationActiveItem}
+                    setNavigationActiveItem={setNavigationActiveItem}
+                  />
+                }
+              />
+            }
+          >
+            {children}
+          </Page>
+        </FlexItem>
+      </Flex>
     </>
   );
 };

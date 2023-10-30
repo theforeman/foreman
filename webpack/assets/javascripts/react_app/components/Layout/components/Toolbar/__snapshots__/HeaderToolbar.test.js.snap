@@ -53,11 +53,6 @@ exports[`HeaderToolbar rendering render HeaderToolbar 1`] = `
         }
       }
     >
-      <ToolbarItem>
-        <InstanceTitleViewer
-          title="Production"
-        />
-      </ToolbarItem>
       <ToolbarItem
         className="notifications_container"
       >

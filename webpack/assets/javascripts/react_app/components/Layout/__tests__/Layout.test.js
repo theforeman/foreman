@@ -31,5 +31,6 @@ describe('Layout', () => {
     expect(screen.getByText('Monitor')).toBeVisible();
     expect(screen.getByText('Dashboard')).not.toBeVisible();
     expect(screen.getByText('All Hosts')).toBeVisible();
+    expect(screen.getByText('Production')).toBeVisible();
   });
 });
