@@ -17,7 +17,6 @@ import {
   organizationPropType,
   userPropType,
 } from '../../LayoutHelper';
-import InstanceTitleViewer from './InstanceTitleViewer';
 import './HeaderToolbar.scss';
 
 const HeaderToolbar = ({
@@ -26,7 +25,6 @@ const HeaderToolbar = ({
   notification_url: notificationUrl,
   user,
   stop_impersonation_url: stopImpersonationUrl,
-  instance_title: instanceTitle,
   isLoading,
 }) => (
   <Toolbar ouiaId="data-toolbar" id="data-toolbar" isFullHeight isStatic>
@@ -39,9 +37,6 @@ const HeaderToolbar = ({
         />
       </ToolbarGroup>
       <ToolbarGroup alignment={{ default: 'alignRight' }}>
-        <ToolbarItem>
-          <InstanceTitleViewer title={instanceTitle} />
-        </ToolbarItem>
         <ToolbarItem className="notifications_container">
           <NotificationContainer data={{ url: notificationUrl }} />
         </ToolbarItem>
@@ -60,7 +55,6 @@ const HeaderToolbar = ({
 );
 HeaderToolbar.propTypes = {
   stop_impersonation_url: PropTypes.string.isRequired,
-  instance_title: PropTypes.string,
   locations: locationPropType.isRequired,
   orgs: organizationPropType.isRequired,
   notification_url: PropTypes.string.isRequired,
@@ -69,7 +63,6 @@ HeaderToolbar.propTypes = {
 };
 
 HeaderToolbar.defaultProps = {
-  instance_title: null,
   user: {},
   isLoading: layoutDefaultProps.isLoading,
 };

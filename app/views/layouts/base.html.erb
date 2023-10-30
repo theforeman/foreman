@@ -59,7 +59,7 @@
       <% end %>
       <div
         id="rails-app-content"
-        class="pf-c-page"
+        class="pf-c-page <%= Foreman.settings.find('instance_title') ? 'user-banner-present' : '' %>"
       >
 
       <%= yield(:content) %>

@@ -86,9 +86,14 @@ Foreman::SettingManager.define(:foreman) do
       collection: timezones)
     setting('instance_title',
       type: :string,
-      description: N_("The instance title is shown on the top navigation bar (requires a page reload)."),
+      description: N_("The instance title is shown above the header in a banner (requires a page reload)."),
       default: nil,
       full_name: N_('Instance title'))
+    setting('instance_color',
+      type: :string,
+      description: N_("Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."),
+      default: '#000000',
+      full_name: N_('Instance color'))
     setting('audits_period',
       type: :integer,
       description: N_('Duration in days to preserve audits for. Leave empty to disable the audits cleanup.'),
