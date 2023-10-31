@@ -704,6 +704,26 @@ revoke_personal_access_tokens:
   resource_type: PersonalAccessToken
   created_at: "2014-01-07 15:09:32.783442"
   updated_at: "2014-01-07 15:09:32.783442"
+view_lookup_values:
+  name: view_lookup_values
+  resource_type: LookupValue
+  created_at: "2023-10-31 15:43:36.594107"
+  updated_at: "2023-10-31 15:43:36.594107"
+create_lookup_values:
+  name: create_lookup_values
+  resource_type: LookupValue
+  created_at: "2023-10-31 15:43:36.594107"
+  updated_at: "2023-10-31 15:43:36.594107"
+edit_lookup_values:
+  name: edit_lookup_values
+  resource_type: LookupValue
+  created_at: "2023-10-31 15:43:36.594107"
+  updated_at: "2023-10-31 15:43:36.594107"
+destroy_lookup_values:
+  name: destroy_lookup_values
+  resource_type: LookupValue
+  created_at: "2023-10-31 15:43:36.594107"
+  updated_at: "2023-10-31 15:43:36.594107"
 
 <% Foreman::Plugin.all.map(&:permissions).inject({}, :merge).each do |permission,attrs| %>
 <%= permission %>:
