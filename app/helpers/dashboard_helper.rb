@@ -79,7 +79,7 @@ module DashboardHelper
 
     {
       data: state_labels.map { |key, label| [label, report[key], report_color[key]] },
-      searchUrl: hosts_path(search: '~VAL~'),
+      searchUrl: current_hosts_path(search: '~VAL~'),
       searchFilters: state_filters.each_with_object({}) do |(key, filter), filters|
         filters[state_labels[key]] = search_filter_with_origin(filter, options[:origin], within_interval.include?(key), ignore_interval.include?(key))
       end,
@@ -96,7 +96,7 @@ module DashboardHelper
     content_tag :li do
       content_tag(:span, raw('&nbsp;'), :class => 'label', :style => "background-color:" + report_color[counter]) +
       raw('&nbsp;') +
-      link_to(name, hosts_path(:search => search), :class => "dashboard-links") +
+      link_to(name, current_hosts_path(:search => search), :class => "dashboard-links") +
       content_tag(:h4, @data.report[counter])
     end
   end

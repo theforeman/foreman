@@ -223,18 +223,18 @@ class HostsControllerTest < ActionController::TestCase
 
   test "when host is not saved after setBuild, the flash should inform it" do
     Host.any_instance.stubs(:setBuild).returns(false)
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
 
     put :setBuild, params: { :id => @host.name }, session: set_session_user
     assert_response :found
-    assert_redirected_to hosts_path
+    assert_redirected_to current_hosts_path
     assert_not_nil flash[:error]
     assert flash[:error] =~ /Failed to enable #{@host} for installation/
   end
 
   context "when host is saved after setBuild" do
     setup do
-      @request.env['HTTP_REFERER'] = hosts_path
+      @request.env['HTTP_REFERER'] = current_hosts_path
     end
 
     teardown do
@@ -246,7 +246,7 @@ class HostsControllerTest < ActionController::TestCase
       Host::Managed.any_instance.stubs(:setBuild).returns(true)
       put :setBuild, params: { :id => @host.name }, session: set_session_user
       assert_response :found
-      assert_redirected_to hosts_path
+      assert_redirected_to current_hosts_path
       assert_not_nil flash[:success]
       assert flash[:success] == "Enabled #{@host} for rebuild on next boot"
     end
@@ -263,7 +263,7 @@ class HostsControllerTest < ActionController::TestCase
 
       put :setBuild, params: { :id => @host.name, :host => {:build => '1'} }, session: set_session_user
       assert_response :found
-      assert_redirected_to hosts_path
+      assert_redirected_to current_hosts_path
       assert_not_nil flash[:success]
       assert_equal(flash[:success], "Enabled #{@host} for reboot and rebuild")
     end
@@ -280,7 +280,7 @@ class HostsControllerTest < ActionController::TestCase
       put :setBuild, params: { :id => @host.name, :host => {:build => '1'} }, session: set_session_user
       @host.power.reset
       assert_response :found
-      assert_redirected_to hosts_path
+      assert_redirected_to current_hosts_path
       assert_not_nil flash[:success]
       assert_equal(flash[:success], "Enabled #{@host} for rebuild on next boot, but failed to power cycle the host")
     end
@@ -304,7 +304,7 @@ class HostsControllerTest < ActionController::TestCase
         @host.power.reset
       end
       assert_response :found
-      assert_redirected_to hosts_path
+      assert_redirected_to current_hosts_path
       assert_not_nil flash[:success]
       assert_equal(flash[:success], "Enabled #{@host} for rebuild on next boot")
     end
@@ -445,7 +445,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'multiple hostgroup change by host ids' do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     # check that we have hosts and their hostgroup is empty
     hosts = FactoryBot.create_list(:host, 2)
     hosts.each { |host| assert_nil host.hostgroup }
@@ -461,7 +461,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'multiple hostgroup change by host names' do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     hosts = FactoryBot.create_list(:host, 2)
     host_names = hosts.map(&:name)
     # check that we have hosts and their hostgroup is empty
@@ -485,7 +485,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "user with edit host rights with update owner should change owner" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     setup_user_and_host "edit"
     assert_equal users(:admin).id_and_type, @host1.is_owned_by
     assert_equal users(:admin).id_and_type, @host2.is_owned_by
@@ -506,7 +506,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should change the power of multiple hosts" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     setup_multiple_compute_resource
 
     params = { :host_ids => [@host1.id, @host2.id],
@@ -573,7 +573,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test "should change the puppet ca proxy" do
-      @request.env['HTTP_REFERER'] = hosts_path
+      @request.env['HTTP_REFERER'] = current_hosts_path
 
       proxy = as_admin { FactoryBot.create(:smart_proxy, :features => [FactoryBot.create(:feature, :puppetca)]) }
 
@@ -593,7 +593,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test "should clear the puppet ca proxy" do
-      @request.env['HTTP_REFERER'] = hosts_path
+      @request.env['HTTP_REFERER'] = current_hosts_path
 
       params = { :host_ids => @hosts.map(&:id),
                  :proxy => { :proxy_id => "" } }
@@ -779,7 +779,7 @@ class HostsControllerTest < ActionController::TestCase
     def multiple_hosts_submit_request(method, ids, success, params = {})
       post :"submit_multiple_#{method}", params: params.merge({:host_ids => ids}), session: set_session_user
       assert_response :found
-      assert_redirected_to hosts_path
+      assert_redirected_to current_hosts_path
       assert_equal success, flash[:success]
     end
   end
@@ -804,7 +804,7 @@ class HostsControllerTest < ActionController::TestCase
 
   # Pessimistic - Location
   test "update multiple location fails on pessimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     location = taxonomies(:location1)
     post :update_multiple_location, params: {
       :location => {:id => location.id, :optimistic_import => "no"},
@@ -814,7 +814,7 @@ class HostsControllerTest < ActionController::TestCase
     assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
   end
   test "update multiple location does not update location of hosts if fails on pessimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     location = taxonomies(:location1)
     assert_difference "location.hosts.count", 0 do
       post :update_multiple_location, params: {
@@ -824,7 +824,7 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
   test "update multiple location does not import taxable_taxonomies rows if fails on pessimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     location = taxonomies(:location1)
     assert_difference "location.taxable_taxonomies.count", 0 do
       post :update_multiple_location, params: {
@@ -836,7 +836,7 @@ class HostsControllerTest < ActionController::TestCase
 
   # Optimistic - Location
   test "update multiple location updates location of hosts if succeeds on optimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     location = taxonomies(:location1)
     cnt_hosts_location = location.hosts.count
     assert_difference "location.hosts.count", (Host.unscoped.count - cnt_hosts_location) do
@@ -849,7 +849,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal "Updated hosts: Changed Location", flash[:success]
   end
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     location = taxonomies(:location1)
     domain = FactoryBot.create(:domain, :locations => [taxonomies(:location2)])
     hosts = FactoryBot.create_list(:host, 2, :domain => domain, :location => taxonomies(:location2))
@@ -863,7 +863,7 @@ class HostsControllerTest < ActionController::TestCase
 
   # Pessimistic - organization
   test "update multiple organization fails on pessimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     organization = taxonomies(:organization1)
     post :update_multiple_organization, params: {
       :organization => {:id => organization.id, :optimistic_import => "no"},
@@ -873,7 +873,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
   end
   test "update multiple organization does not update organization of hosts if fails on pessimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     organization = taxonomies(:organization1)
     assert_difference "organization.hosts.count", 0 do
       post :update_multiple_organization, params: {
@@ -883,7 +883,7 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
   test "update multiple organization does not import taxable_taxonomies rows if fails on pessimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     organization = taxonomies(:organization1)
     assert_difference "organization.taxable_taxonomies.count", 0 do
       post :update_multiple_organization, params: {
@@ -895,7 +895,7 @@ class HostsControllerTest < ActionController::TestCase
 
   # Optimistic - Organization
   test "update multiple organization succeeds on optimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     organization = taxonomies(:organization1)
     post :update_multiple_organization, params: {
       :organization => {:id => organization.id, :optimistic_import => "yes"},
@@ -905,7 +905,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal "Updated hosts: Changed Organization", flash[:success]
   end
   test "update multiple organization succeeds with search" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     organization1 = taxonomies(:organization1)
     organization2 = taxonomies(:organization2)
     hosts = FactoryBot.create_list(:host, 2, :managed, organization: organization1)
@@ -921,7 +921,7 @@ class HostsControllerTest < ActionController::TestCase
     assert hosts.all? { |host| host.organization == organization2 }
   end
   test "update multiple organization updates organization of hosts if succeeds on optimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     organization = taxonomies(:organization1)
     cnt_hosts_organization = organization.hosts.count
     assert_difference "organization.hosts.count", (Host.unscoped.count - cnt_hosts_organization) do
@@ -932,7 +932,7 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
   test "update multiple organization imports taxable_taxonomies rows if succeeds on optimistic import" do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     organization = taxonomies(:organization1)
     domain = FactoryBot.create(:domain, :organizations => [taxonomies(:organization2)])
     hosts = FactoryBot.create_list(:host, 2, :domain => domain, :organization => taxonomies(:organization2))
@@ -1033,13 +1033,13 @@ class HostsControllerTest < ActionController::TestCase
 
   test "select multiple action with empty host_ids should redirect to hosts page" do
     post :multiple_parameters, params: {:host_ids => []}, session: set_session_user, xhr: true
-    assert_response :redirect, hosts_path
+    assert_response :redirect, current_hosts_path
     assert_not_nil flash[:error]
   end
 
   test "select multiple action with not exists host_ids should redirect to hosts page" do
     post :multiple_parameters, params: {:host_ids => [-1, 2]}, session: set_session_user, xhr: true
-    assert_response :redirect, hosts_path
+    assert_response :redirect, current_hosts_path
     assert_not_nil flash[:error]
   end
 
@@ -1061,17 +1061,17 @@ class HostsControllerTest < ActionController::TestCase
 
   test "#disassociate shows error when used on non-CR host" do
     host = FactoryBot.create(:host)
-    @request.env["HTTP_REFERER"] = hosts_path
+    @request.env["HTTP_REFERER"] = current_hosts_path
     put :disassociate, params: { :id => host.to_param }, session: set_session_user
-    assert_response :redirect, hosts_path
+    assert_response :redirect, current_hosts_path
     assert_not_nil flash[:error]
   end
 
   test "#disassociate removes UUID and CR association from host" do
     host = FactoryBot.create(:host, :on_compute_resource)
-    @request.env["HTTP_REFERER"] = hosts_path
+    @request.env["HTTP_REFERER"] = current_hosts_path
     put :disassociate, params: { :id => host.to_param }, session: set_session_user
-    assert_response :redirect, hosts_path
+    assert_response :redirect, current_hosts_path
     host.reload
     refute host.uuid
     refute host.compute_resource_id
@@ -1097,7 +1097,7 @@ class HostsControllerTest < ActionController::TestCase
   test '#update_multiple_disassociate' do
     host = FactoryBot.create(:host, :on_compute_resource)
     post :update_multiple_disassociate, params: { :host_ids => [host.id], :host_names => [host.name] }, session: set_session_user
-    assert_response :redirect, hosts_path
+    assert_response :redirect, current_hosts_path
     assert_not_nil flash[:success]
     host.reload
     refute host.uuid
@@ -1177,26 +1177,26 @@ class HostsControllerTest < ActionController::TestCase
 
   context 'test submit multiple rebuild config' do
     def test_submit_multiple_rebuild_config_optimistic
-      @request.env['HTTP_REFERER'] = hosts_path
+      @request.env['HTTP_REFERER'] = current_hosts_path
       Host.any_instance.expects(:recreate_config).returns({"TFTP" => true, "DHCP" => true, "DNS" => true})
       h = as_admin { FactoryBot.create(:host) }
 
       post :submit_rebuild_config, params: { :host_ids => [h.id] }, session: set_session_user
 
       assert_response :found
-      assert_redirected_to hosts_path
+      assert_redirected_to current_hosts_path
       assert_not_nil flash[:success]
     end
 
     def test_submit_multiple_rebuild_config_pessimistic
-      @request.env['HTTP_REFERER'] = hosts_path
+      @request.env['HTTP_REFERER'] = current_hosts_path
       Host.any_instance.expects(:recreate_config).returns({"TFTP" => false, "DHCP" => false, "DNS" => false})
       h = as_admin { FactoryBot.create(:host) }
 
       post :submit_rebuild_config, params: { :host_ids => [h.id] }, session: set_session_user
 
       assert_response :found
-      assert_redirected_to hosts_path
+      assert_redirected_to current_hosts_path
       assert_not_nil flash[:error]
     end
   end
@@ -1369,7 +1369,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test 'failed cancelBuild shows errors' do
-    @request.env['HTTP_REFERER'] = hosts_path
+    @request.env['HTTP_REFERER'] = current_hosts_path
     HostsController.any_instance.stubs(:resource_finder).returns(@host)
     @host.errors.add(:test, 'my error')
     @host.interfaces = [] # force save failure
@@ -1510,7 +1510,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test "after deleting host search filter should remain as it is" do
-      hosts_search_path = hosts_path(search: "hostgroup_name = #{@hostgroup1.name}")
+      hosts_search_path = current_hosts_path(search: "hostgroup_name = #{@hostgroup1.name}")
       @request.session["redirect_to_url_hosts"] = hosts_search_path
 
       delete :destroy, params: { :id => @managed_host1.id }, session: set_session_user
@@ -1520,7 +1520,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test "after deleting host, it should redirect to hosts page if no session" do
       delete :destroy, params: { :id => @managed_host1.id }, session: set_session_user
-      assert_redirected_to hosts_path
+      assert_redirected_to current_hosts_path
       assert_not Host.exists?(@managed_host1.id)
     end
   end
@@ -1541,6 +1541,10 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   private
+
+  def current_hosts_path(*args)
+    ApplicationHelper.current_hosts_path(*args)
+  end
 
   def initialize_host
     User.current = users(:admin)

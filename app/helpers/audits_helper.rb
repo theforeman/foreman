@@ -199,7 +199,7 @@ module AuditsHelper
       items: [
         {
           caption: _("Hosts"),
-          url: (hosts_path if authorized_for(hash_for_hosts_path)),
+          url: (current_hosts_path if authorized_for(hash_for_hosts_path)),
         },
         {
           caption: @host.name,

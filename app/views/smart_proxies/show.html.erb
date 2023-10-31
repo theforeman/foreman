@@ -77,7 +77,7 @@
             <strong><%= _('Hosts managed') %></strong>
           </div>
           <div class="col-md-8">
-            <%= link_to @smart_proxy.hosts_count, hosts_path(:search => "smart_proxy = \"#{@smart_proxy.name}\"") %>
+            <%= link_to @smart_proxy.hosts_count, current_hosts_path(:search => "smart_proxy = \"#{@smart_proxy.name}\"") %>
           </div>
         </div>
         <% if @smart_proxy.has_feature?('Logs') %>

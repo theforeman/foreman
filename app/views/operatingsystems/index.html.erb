@@ -19,7 +19,7 @@
       %>
       <tr>
         <td class="ellipsis"><%= link_to_if_authorized(os_name(operatingsystem), hash_for_edit_operatingsystem_path(:id => operatingsystem).merge(:auth_object => operatingsystem, :authorizer => authorizer)) %></td>
-        <td><%= link_to hosts_count[operatingsystem], hosts_path(:search => "os_id = #{operatingsystem.id}") %></td>
+        <td><%= link_to hosts_count[operatingsystem], current_hosts_path(:search => "os_id = #{operatingsystem.id}") %></td>
         <td>
           <%= action_buttons(edit_btn, clone_btn, delete_btn) %>
         </td>
