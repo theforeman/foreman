@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       update_sub_hostgroups_owners
 
-      process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => hosts_path } : { :success_redirect => users_path })
+      process_success((editing_self? && !current_user.allowed_to?({:controller => 'users', :action => 'index'})) ? { :success_redirect => helpers.current_hosts_path } : { :success_redirect => users_path })
     else
       process_error
     end
@@ -86,7 +86,7 @@ class UsersController < ApplicationController
       success _("You impersonated user %s, to cancel the session, click the impersonation icon in the top bar.") % user.name
       Audit.create :auditable_type => 'User', :auditable_id => user.id, :user_id => User.current.id, :action => 'impersonate', :audited_changes => {}
       logger.info "User #{User.current.name} impersonated #{user.name}"
-      redirect_to hosts_path
+      redirect_to helpers.current_hosts_path
     else
       info _("You are already impersonating, click the impersonation icon in the top bar before starting a new impersonation.")
       redirect_to users_path
@@ -217,7 +217,7 @@ class UsersController < ApplicationController
     store_default_taxonomy(user, 'location') unless session.has_key?(:location_id)
     TopbarSweeper.expire_cache
     telemetry_increment_counter(:successful_ui_logins)
-    redirect_to (uri || hosts_path)
+    redirect_to (uri || helpers.current_hosts_path)
   end
 
   def parameter_filter_context
@@ -230,9 +230,9 @@ class UsersController < ApplicationController
       # Prevent a redirect loop in case the previous page was login page -
       # e.g when csrf token expired but user already logged in from another tab
       if request.headers["Referer"] == login_users_url
-        redirect_to hosts_path and return
+        redirect_to helpers.current_hosts_path and return
       end
-      redirect_back_or_to hosts_path
+      redirect_back_or_to helpers.current_hosts_path
       nil
     end
   end

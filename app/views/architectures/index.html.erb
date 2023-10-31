@@ -16,7 +16,7 @@
       <td class='ellipsis'><%= link_to_if_authorized(architecture.name,
                                                      hash_for_edit_architecture_path(:id => architecture).merge(:auth_object => architecture, :authorizer => authorizer)) %></td>
       <td class="ellipsis"><%= architecture.operatingsystems.map(&:to_label).to_sentence %></td>
-      <td><%= link_to hosts_count[architecture], hosts_path(:search => "architecture = #{architecture}") %>
+      <td><%= link_to hosts_count[architecture], current_hosts_path(:search => "architecture = #{architecture}") %>
       <td>
         <%= action_buttons(display_delete_if_authorized hash_for_architecture_path(:id => architecture).merge(:auth_object => architecture, :authorizer => authorizer),
           :data => { :confirm => _("Delete %s?") % architecture.name } ) %>

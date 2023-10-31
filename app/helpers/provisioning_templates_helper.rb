@@ -55,7 +55,7 @@ module ProvisioningTemplatesHelper
 
   def building_hosts_path(template)
     oses = template.operatingsystem_ids.map { |id| "os_id = #{id}" }.join(" or ")
-    hosts_path(:search => "build = true and ( #{oses} )")
+    current_hosts_path(:search => "build = true and ( #{oses} )")
   end
 
   def how_templates_are_determined

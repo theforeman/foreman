@@ -18,10 +18,10 @@
         <%= label_with_link(hostgroup, 150, authorizer) %>
       </td>
       <td>
-        <%= link_to hosts_count[hostgroup], hosts_path(:search => %Q[hostgroup_fullname = "#{hostgroup.title}"]) %>
+        <%= link_to hosts_count[hostgroup], current_hosts_path(:search => %Q[hostgroup_fullname = "#{hostgroup.title}"]) %>
       </td>
       <td>
-        <%= link_to hostgroup.children_hosts_count, hosts_path(:search => %Q[parent_hostgroup = "#{hostgroup.title}"]) %>
+        <%= link_to hostgroup.children_hosts_count, current_hosts_path(:search => %Q[parent_hostgroup = "#{hostgroup.title}"]) %>
       </td>
       <td>
         <%= hostgroup_actions_dropdown(hostgroup) %>

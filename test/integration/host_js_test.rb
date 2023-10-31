@@ -75,7 +75,7 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test "assert breadcrumbs" do
-      visit hosts_path
+      visit current_hosts_path
       click_link @host.fqdn
       find('.pf-c-breadcrumb__item', :text => @host.fqdn)
     end
@@ -89,7 +89,7 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test "new show page" do
-      visit hosts_path
+      visit current_hosts_path
       click_link @host.fqdn
       find('h5', :text => @host.fqdn)
     end
@@ -113,7 +113,7 @@ class HostJSTest < IntegrationTestWithJavascript
       find('#hostdetails-kebab').click
       click_button 'Delete'
       find('button.pf-c-button.pf-m-danger').click # the red delete button, not the menu item
-      assert_current_path hosts_path
+      assert_current_path current_hosts_path
       assert_raises(ActiveRecord::RecordNotFound) do
         Host.find(host.id)
       end
@@ -218,42 +218,42 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test "index page" do
-      assert_index_page(hosts_path, "Hosts", "Create Host")
+      assert_index_page(current_hosts_path, "Hosts", "Create Host")
     end
 
     test 'hosts counter should refer to per_page value first (max prespective)' do
       Setting[:entries_per_page] = 2
-      visit hosts_path(per_page: 3)
+      visit current_hosts_path(per_page: 3)
       check 'check_all'
       assert page.has_text?(:all, "All 3 hosts on this page are selected")
     end
 
     test 'hosts counter should refer to per_page value first (min prespective)' do
       Setting[:entries_per_page] = 3
-      visit hosts_path(per_page: 2)
+      visit current_hosts_path(per_page: 2)
       check 'check_all'
       assert page.has_text?(:all, "All 2 hosts on this page are selected")
     end
 
     test 'hosts counter should refer to setting- entries_per_page when there is no per_page value' do
       Setting[:entries_per_page] = 3
-      visit hosts_path()
+      visit current_hosts_path()
       check 'check_all'
       assert page.has_text?(:all, "All 3 hosts on this page are selected")
     end
 
     test 'cookie should exist after checking all, cookie should clear after search' do
       Setting[:entries_per_page] = 3
-      visit hosts_path()
+      visit current_hosts_path()
       check 'check_all'
       assert_not_nil get_me_the_cookie('_ForemanSelectedhosts')
-      visit hosts_path(search: "name = abc")
+      visit current_hosts_path(search: "name = abc")
       assert_nil get_me_the_cookie('_ForemanSelectedhosts')
     end
 
     test 'bulk select all hosts' do
       Setting[:entries_per_page] = 3
-      visit hosts_path(per_page: 2)
+      visit current_hosts_path(per_page: 2)
       check 'check_all'
       assert page.has_text?(:all, "Select all 3 hosts")
       find('#multiple-alert > .text > a').click
@@ -263,7 +263,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
   describe "create new host page" do
     test "default primary interface is in the overview table" do
-      assert_new_button(hosts_path, "Create Host", new_host_path)
+      assert_new_button(current_hosts_path, "Create Host", new_host_path)
 
       # switch to interfaces tab
       page.find(:link, "Interfaces").click
@@ -458,7 +458,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
   describe "hosts index multiple actions" do
     test 'show action buttons' do
-      visit hosts_path
+      visit current_hosts_path
       check 'check_all'
 
       # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
@@ -482,20 +482,20 @@ class HostJSTest < IntegrationTestWithJavascript
 
       # remove hosts cookie on submit
       index_modal.find('.btn-primary').click
-      assert_current_path hosts_path
+      assert_current_path current_hosts_path
       assert_empty(get_me_the_cookie('_ForemanSelectedhosts'))
     end
 
     test 'redirect js with parameter in URL' do
-      path1 = hosts_path(param1: 'val1')
-      path2 = hosts_path(param1: 'val1', param2: 'val2')
+      path1 = current_hosts_path(param1: 'val1')
+      path2 = current_hosts_path(param1: 'val1', param2: 'val2')
 
-      visit hosts_path
+      visit current_hosts_path
       check 'check_all'
       page.execute_script("tfm.hosts.table.buildRedirect('#{path1}')")
       assert(current_url.include?("#{path1}&host_ids"))
 
-      visit hosts_path
+      visit current_hosts_path
       check 'check_all'
       page.execute_script("tfm.hosts.table.buildRedirect('#{path2}')")
       assert(current_url.include?("#{path2}&host_ids"))

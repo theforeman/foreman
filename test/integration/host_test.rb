@@ -9,13 +9,13 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "index page with search" do
-    visit hosts_path(search: "name = #{@host.name}")
-    assert page.has_link?('Export', href: hosts_path(format: 'csv', search: "name = #{@host.name}"))
+    visit current_hosts_path(search: "name = #{@host.name}")
+    assert page.has_link?('Export', href: current_hosts_path(format: 'csv', search: "name = #{@host.name}"))
   end
 
   describe "create new host page" do
     test "tabs are present" do
-      assert_new_button(hosts_path, "Create Host", new_host_path)
+      assert_new_button(current_hosts_path, "Create Host", new_host_path)
       assert page.has_link?("Host", :href => "#primary")
       assert page.has_link?("Interfaces", :href => "#network")
       assert page.has_link?("Operating System", :href => "#os")

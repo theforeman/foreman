@@ -50,6 +50,23 @@ module ApplicationHelper
     Time.zone&.tzinfo&.name || 'UTC'
   end
 
+  def current_hosts_path(*args)
+    ApplicationHelper.current_hosts_path(*args)
+  end
+
+  def self.current_hosts_path(*args)
+    @url_helpers ||= Rails.application.routes.url_helpers
+    if Setting[:new_hosts_page]
+      @url_helpers.new_hosts_index_page_path(*args)
+    else
+      @url_helpers.hosts_path(*args)
+    end
+  end
+
+  def current_host_details_path(host)
+    Setting['host_details_ui'] ? host_details_page_path(host) : host_path(host)
+  end
+
   protected
 
   def generate_date_id
@@ -417,17 +434,5 @@ module ApplicationHelper
       displayFqdnForHosts: Setting[:display_fqdn_for_hosts],
       displayNewHostsPage: Setting[:new_hosts_page],
     }
-  end
-
-  def current_host_details_path(host)
-    Setting['host_details_ui'] ? host_details_page_path(host) : host_path(host)
-  end
-
-  def hosts_path(*args)
-    if Setting[:new_hosts_page]
-      new_hosts_index_page_path(*args)
-    else
-      super
-    end
   end
 end

@@ -58,7 +58,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
         "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
         failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map { |h, err| "#{h} (#{err})" }.to_sentence}
     end
-    redirect_back_or_to hosts_path
+    redirect_back_or_to helpers.current_hosts_path
   end
 
   def handle_proxy_messages(errors, proxy, proxy_type)

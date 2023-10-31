@@ -63,21 +63,21 @@ module HostDescriptionHelper
     fields << { :field => [_("Build duration"), build_duration(host)], :priority => 90 }
     fields << { :field => [_("Build errors"), link_to("Logs from OS installer", build_errors_host_path(:id => host.id))], :priority => 91 } if host.build_errors.present?
     fields << { :field => [_("Token"), host.token || _("N/A")], :priority => 92 } if User.current.admin
-    fields << { :field => [_("Domain"), link_to(host.domain, hosts_path(:search => "domain = #{host.domain}"))], :priority => 100 } if host.domain.present?
-    fields << { :field => [_("Realm"), link_to(host.realm, hosts_path(:search => "realm = #{host.realm}"))], :priority => 200 } if host.realm.present?
+    fields << { :field => [_("Domain"), link_to(host.domain, current_hosts_path(:search => "domain = #{host.domain}"))], :priority => 100 } if host.domain.present?
+    fields << { :field => [_("Realm"), link_to(host.realm, current_hosts_path(:search => "realm = #{host.realm}"))], :priority => 200 } if host.realm.present?
     fields << { :field => [_("IP Address"), host.ip], :priority => 300 } if host.ip.present?
     fields << { :field => [_("IPv6 Address"), host.ip6], :priority => 400 } if host.ip6.present?
     fields << { :field => [_("Comment"), host.comment], :priority => 500 } if host.comment.present?
     fields << { :field => [_("MAC Address"), host.mac], :priority => 600 } if host.mac.present?
-    fields << { :field => [_("Architecture"), link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}"))], :priority => 700 } if host.arch.present?
-    fields << { :field => [_("Operating System"), link_to(host.operatingsystem.to_label, hosts_path(:search => %{os_title = "#{host.operatingsystem.title}"}))], :priority => 800 } if host.operatingsystem.present?
+    fields << { :field => [_("Architecture"), link_to(host.arch, current_hosts_path(:search => "architecture = #{host.arch}"))], :priority => 700 } if host.arch.present?
+    fields << { :field => [_("Operating System"), link_to(host.operatingsystem.to_label, current_hosts_path(:search => %{os_title = "#{host.operatingsystem.title}"}))], :priority => 800 } if host.operatingsystem.present?
     fields << { :field => [_("PXE Loader"), host.pxe_loader], :priority => 900 } if host.operatingsystem.present? && !host.image_build?
-    fields << { :field => [_("Host group"), link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"}))], :priority => 1000 } if host.hostgroup.present?
+    fields << { :field => [_("Host group"), link_to(host.hostgroup, current_hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"}))], :priority => 1000 } if host.hostgroup.present?
     fields << { :field => [_("Boot time"), (boot_time = host&.reported_data&.boot_time) ? date_time_relative(boot_time) : _('Not reported')], :priority => 1100 }
-    fields << { :field => [_("Location"), link_to(host.location.title, hosts_path(:search => "location = \"#{host.location}\""))], :priority => 1200 } if host.location.present?
-    fields << { :field => [_("Organization"), link_to(host.organization.title, hosts_path(:search => "organization = \"#{host.organization}\""))], :priority => 1300 } if host.organization.present?
+    fields << { :field => [_("Location"), link_to(host.location.title, current_hosts_path(:search => "location = \"#{host.location}\""))], :priority => 1200 } if host.location.present?
+    fields << { :field => [_("Organization"), link_to(host.organization.title, current_hosts_path(:search => "organization = \"#{host.organization}\""))], :priority => 1300 } if host.organization.present?
     if host.owner_type == "User"
-      fields << { :field => [_("Owner"), (link_to(host.owner, hosts_path(:search => %{user.login = "#{host.owner.login}"})) if host.owner)], :priority => 1400 }
+      fields << { :field => [_("Owner"), (link_to(host.owner, current_hosts_path(:search => %{user.login = "#{host.owner.login}"})) if host.owner)], :priority => 1400 }
     else
       fields << { :field => [_("Owner"), host.owner], :priority => 1400 }
     end

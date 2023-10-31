@@ -12,7 +12,7 @@ module HostFinders
 
   def go_to_interfaces_tab
     # go to New Host page
-    assert_new_button(hosts_path, "Create Host", new_host_path)
+    assert_new_button(current_hosts_path, "Create Host", new_host_path)
     # switch to interfaces tab
     switch_form_tab_to_interfaces
   end
@@ -55,5 +55,9 @@ module HostFinders
 
   def click_on_inherit(attribute, prefix: 'host_')
     find("##{prefix}#{attribute}_id + .input-group-btn .btn").click
+  end
+
+  def current_hosts_path(*args)
+    ApplicationHelper.current_hosts_path(*args)
   end
 end

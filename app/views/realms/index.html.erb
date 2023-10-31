@@ -14,7 +14,7 @@
     <% @realms.each do |realm| %>
     <tr>
       <td class="ellipsis"><%= link_to_if_authorized realm.name, hash_for_edit_realm_path(:id => realm)%></td>
-      <td><%= link_to hosts_count[realm], hosts_path(:search => "realm = #{realm}") %>
+      <td><%= link_to hosts_count[realm], current_hosts_path(:search => "realm = #{realm}") %>
       <td class="col-md-1"><%= action_buttons display_delete_if_authorized hash_for_realm_path(:id => realm), :data => { :confirm => _("Delete %s?") % realm.name } %></td>
     </tr>
     <% end %>

@@ -31,7 +31,7 @@ module Foreman::Controller::TaxonomyMultiple
     # simple validations
     if params[type].nil? || (id = params[type][:id]).blank?
       error "No #{type.to_s.classify} selected!"
-      redirect_to(hosts_path)
+      redirect_to(helpers.current_hosts_path)
       return
     end
 
@@ -46,11 +46,11 @@ module Foreman::Controller::TaxonomyMultiple
         @hosts.update_all("#{type}_id".to_sym => taxonomy.id)
       else
         error "Cannot update #{taxonomy.type} to #{taxonomy.name} because of mismatch in settings"
-        redirect_back_or_to hosts_path
+        redirect_back_or_to helpers.current_hosts_path
         return
       end
     end
     success "Updated hosts: Changed #{type.to_s.classify}"
-    redirect_back_or_to hosts_path
+    redirect_back_or_to helpers.current_hosts_path
   end
 end
