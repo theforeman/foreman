@@ -1,3 +1,33 @@
+2023-11-01	Griffin Sullivan <gsulliva@redhat.com>
+	* Release 3.7.1
+
+2023-11-01	Ian Ballou <ianballou67@gmail.com>
+	* Fixes #36587 - rename Host - Applicable Errata report * ...and fix comment typos
+
+2023-10-17	Evgeni Golov <evgeni@golov.de>
+	* add a JSON representation of supported ecosystems
+
+2023-09-11	nofaralfasi <nalfassi@redhat.com>
+	* Fixes #36703 - Enhance handling of hash-based actions for single buttons
+
+2023-09-11	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Use actions/labeler to apply directory labels
+
+2023-08-10	Girija Soni <gisoni@redhat.com>
+	* Refs #36537 - Drop description from setting search
+
+2023-08-09	MariaAga <mariaaga@redhat.com>
+	* Fixes #36470 - Add missing ouia-ids to all pf4
+
+2023-08-08	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #36393 - Do not rebuild managed hosts in registration
+
+2023-08-03	Samir Jha <sjha4@ncsu.edu>
+	* Fixes #36617 - Pin minitest < 5.19 to resolve test failures
+
+2023-07-26	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Correct packit config for 3.7-stable branch
+
 2023-06-20	ianballou <ianballou67@gmail.com>
 	* Release 3.7.0
 
