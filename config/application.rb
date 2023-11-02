@@ -56,7 +56,7 @@ else
       end
     end
     Bundler.require(*Rails.groups)
-    optional_bundler_groups = %w[assets ec2 fog libvirt openstack ovirt vmware]
+    optional_bundler_groups = %w[assets ec2 fog libvirt openstack ovirt vmware redis]
     optional_bundler_groups.each do |group|
       Bundler.require(group)
     rescue LoadError
@@ -303,8 +303,6 @@ module Foreman
     # config.cache_store = TimedCachedStore.new
     rails_cache_settings = SETTINGS[:rails_cache_store]
     if (rails_cache_settings && rails_cache_settings[:type] == 'redis')
-      require 'redis'
-
       options = [:redis_cache_store]
       redis_urls = Array.wrap(rails_cache_settings[:urls])
 
