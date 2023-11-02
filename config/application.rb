@@ -303,6 +303,8 @@ module Foreman
     # config.cache_store = TimedCachedStore.new
     rails_cache_settings = SETTINGS[:rails_cache_store]
     if (rails_cache_settings && rails_cache_settings[:type] == 'redis')
+      require 'redis'
+
       options = [:redis_cache_store]
       redis_urls = Array.wrap(rails_cache_settings[:urls])
 
