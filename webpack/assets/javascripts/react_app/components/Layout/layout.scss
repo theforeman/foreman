@@ -2,6 +2,8 @@
 @import '../../common/variables.scss';
 
 .react-page #foreman-main-container {
+  overflow-x: auto;
+  white-space: normal;
   height: 100%;
 }
 #foreman-main-container {
