@@ -177,6 +177,10 @@ if test -f /tmp/foreman_built; then
   else
     wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/built'
   fi
+  
+  if [ -x "$(command -v subscription-manager)" ] ; then
+    subscription-manager facts --update
+  fi
 else
   echo "calling home: build failed!"
   if [ -x /usr/bin/curl ]; then
@@ -185,6 +189,10 @@ else
     /usr/bin/wget -q -O /dev/null --no-proxy --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log 'http://foreman.example.com/unattended/failed'
   else
     wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/failed'
+  fi
+  
+  if [ -x "$(command -v subscription-manager)" ] ; then
+    subscription-manager facts --update
   fi
 fi
 

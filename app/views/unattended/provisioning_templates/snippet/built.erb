@@ -31,3 +31,7 @@ elif [ -x /usr/bin/wget ]; then
 else
   wget -q -O /dev/null --header 'Content-Type: text/plain' '<%= url %>'
 fi
+
+if [ -x "$(command -v subscription-manager)" ] ; then
+  subscription-manager facts --update
+fi
