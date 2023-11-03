@@ -29,7 +29,7 @@ jobs:
     trigger: pull_request
     targets:
       centos-stream-8:
-        additional_modules: "foreman:el8,nodejs:14"
+        additional_modules: "foreman-devel:el8"
         additional_repos:
           - http://koji.katello.org/releases/yum/foreman-nightly/el8/x86_64/
     module_hotfixes: true
