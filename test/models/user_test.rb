@@ -172,6 +172,27 @@ class UserTest < ActiveSupport::TestCase
     assert_valid u
   end
 
+  test ".with_enabled_email gives only the right users" do
+    # Mail enabled
+    u1 = FactoryBot.create(:user, :mail => 'foo@bar.baz', :mail_enabled => nil)
+    u2 = FactoryBot.create(:user, :mail => 'foo@bar.baz', :mail_enabled => '')
+    assert User.with_enabled_email.where(login: [u1, u2].map(&:login)).empty?
+
+    # Mail missing
+    u1 = FactoryBot.create(:user, :mail => '', :mail_enabled => true)
+    u2 = FactoryBot.create(:user, :mail => nil, :mail_enabled => true)
+    assert User.with_enabled_email.where(login: [u1, u2].map(&:login)).empty?
+
+    # Disabled
+    u1 = FactoryBot.create(:user, :mail => 'foo@bar.baz', :mail_enabled => true, :disabled => false)
+    u2 = FactoryBot.create(:user, :mail => 'foo@bar.baz', :mail_enabled => true, :disabled => nil)
+    u3 = FactoryBot.create(:user, :mail => 'foo@bar.baz', :mail_enabled => true, :disabled => true)
+    actual = User.with_enabled_email.where(login: [u1, u2, u3].map(&:login))
+    assert_includes actual, u1
+    assert_includes actual, u2
+    assert_equal actual.count, 2
+  end
+
   test 'login should also be unique across usergroups' do
     Usergroup.expects(:where).with(:name => 'foo').returns(['fakeusergroup'])
     u = FactoryBot.build_stubbed(:user, :auth_source => auth_sources(:one),
