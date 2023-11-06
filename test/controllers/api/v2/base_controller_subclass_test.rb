@@ -129,4 +129,16 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
     msg << "There may be more information in the server's logs."
     assert_equal JSON.parse(response.body)['error']['message'], msg
   end
+
+  test "adds permissions to index node" do
+    @controller.stubs(:index_node_permissions).returns({:test_permission => true})
+    result = @controller.index_node_permissions_snippet
+    assert_equal result, "\"test_permission\": true"
+  end
+
+  test "correctly handles nested hashes in index_node_permissions" do
+    @controller.stubs(:index_node_permissions).returns({:test_permission => {:nested => true}})
+    result = @controller.index_node_permissions_snippet
+    assert_equal result, "\"test_permission\": {\"nested\":true}"
+  end
 end
