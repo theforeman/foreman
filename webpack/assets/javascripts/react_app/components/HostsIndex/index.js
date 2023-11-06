@@ -213,7 +213,8 @@ const HostsIndex = () => {
           <SplitItem>
             <Slot
               id="_all-hosts-schedule-a-job"
-              hostSearch={selectedCount && fetchBulkParams()}
+              hostSearch={selectedCount ? fetchBulkParams() : null}
+              hostResponse={response}
               selectedCount={selectedCount}
             />
           </SplitItem>
