@@ -139,6 +139,8 @@ class User < ApplicationRecord
     end
   }
 
+  scope :with_enabled_email, -> { where(disabled: [nil, false], mail_enabled: true).where.not(mail: ['', nil]) }
+
   dirty_has_many_associations :roles
 
   attr_exportable :firstname, :lastname, :mail, :description, :fullname, :name => ->(user) { user.login }, :ssh_authorized_keys => ->(user) { user.ssh_keys.map(&:to_export_hash) }
