@@ -11,6 +11,12 @@
   }
 }
 
+.pf-c-toolbar#data-toolbar {
+  // Override for unupdated plugins that use unupdated foreman CSS
+  display: grid;
+  justify-content: normal;
+}
+
 .pf-c-masthead__brand {
   padding-right: 15px;
 
