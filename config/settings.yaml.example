@@ -145,3 +145,7 @@
 #   :options:
 #     :compress: true
 #     :namespace: foreman
+
+# set to :allow_authorized to not run rack-mini-profiler on all pages
+# see https://github.com/MiniProfiler/rack-mini-profiler#access-control-in-non-development-environments
+# :profiler_authorization_mode: :allow_all
