@@ -34,7 +34,7 @@ class InterfacesTest < ActiveSupport::TestCase
     end
 
     assert_match /cleaned 0 interfaces/, stdout
-    encoded_hostname = URI.encode("(#{host.name})")
+    encoded_hostname = CGI.escape("(#{host.name})")
     assert_match /#{encoded_hostname}/, stdout
     assert_match /ignored interface set as primary/, stdout
   end
@@ -49,9 +49,9 @@ class InterfacesTest < ActiveSupport::TestCase
     end
 
     assert_match /cleaned 0 interfaces/, stdout
-    encoded_hostname = URI.encode("(#{host.name})")
+    encoded_hostname = CGI.escape("(#{host.name})")
     assert_match /#{encoded_hostname}/, stdout
-    query = URI.decode(stdout.match(/^.*search=(.*?%29)/)[1]).tr('+', ' ')
+    query = CGI.unescape(stdout.match(/^.*search=(.*?%29)/)[1]).tr('+', ' ')
     assert_equal host.id, Host.search_for(query).first.id
     assert_match /ignored interface set as provision/, stdout
   end
