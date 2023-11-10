@@ -118,7 +118,7 @@ class SettingManagerTest < ActiveSupport::TestCase
             default: 'bar@example.com',
             description: 'This is nicely described foo setting',
             full_name: 'Foo setting')
-          validates(:validfoo, email: true)
+          validates(:validfoo, { email: true })
         end
       end
       Foreman::SettingManager.validations.setup!
