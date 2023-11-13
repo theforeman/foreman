@@ -92,6 +92,8 @@ class DateTimePicker extends React.Component {
           />
           <Popover
             position={placement}
+            className="container"
+            style={{ minWidth: '50em', width: '33%'}}
             bodyContent={popover}
             onShown={() => this.setState({ hiddenValue: false })}
           >
