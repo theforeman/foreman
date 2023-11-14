@@ -54,4 +54,22 @@ class HttpProxiesControllerTest < ActionController::TestCase
     assert_includes @model.reload.locations.pluck(:id), location_id
     assert_includes @model.reload.organizations.pluck(:id), organization_id
   end
+
+  def test_test_connection_success
+    controller = HttpProxiesController.new
+    controller.stubs(:http_proxy_params).returns({ url: 'https://some_url'})
+    controller.stubs(:params).returns({test_url: "https://some.where.com"})
+    RestClient::Request.stubs(:execute).returns(['example', 1])
+    controller.expects(:render).with(:json => {:status => "success", :message => "HTTP Proxy connection successful."}, :status => :ok)
+    controller.test_connection
+  end
+
+  def test_test_connection_failure
+    controller = HttpProxiesController.new
+    controller.stubs(:http_proxy_params).returns({ url: 'https://some_url'})
+    controller.stubs(:params).returns({test_url: "https://some.where.com"})
+    RestClient::Request.stubs(:execute).raises(StandardError.new('some error'))
+    controller.expects(:render).with(:json => {:status => 'failure', :message => "some error"}, :status => :unprocessable_entity)
+    controller.test_connection
+  end
 end
