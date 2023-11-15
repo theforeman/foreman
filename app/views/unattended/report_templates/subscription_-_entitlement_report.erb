@@ -17,7 +17,7 @@ require:
 <%- days_from_now = input('Days from Now') -%>
 <%- days_from_now = "" if days_from_now == 'no limit' -%>
 <%- should_filter = days_from_now.present? -%>
-<%- report_headers 'Host Name', 'Organization', 'Lifecycle Environment', 'Content View', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Usage', 'Release Version', 'Products', 'Last Checkin', 'Subscription Name', 'Subscription Type', 'Subscription Total Quantity', 'Subscription Total Consumed', 'Subscriptions Consumed by Host', 'Subscription SKU', 'Subscription Contract', 'Subscription Account', 'Subscription Start', 'Subscription End', 'Subscription Guest', 'Days Remaining' -%>
+<%- report_headers 'Host Name', 'Organization', 'Lifecycle Environment', 'Content View', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Role Status', 'Usage', 'Usage Status', 'Release Version', 'Products', 'Last Checkin', 'Subscription Name', 'Subscription Type', 'Subscription Total Quantity', 'Subscription Total Consumed', 'Subscriptions Consumed by Host', 'Subscription SKU', 'Subscription Contract', 'Subscription Account', 'Subscription Start', 'Subscription End', 'Subscription Guest', 'Days Remaining' -%>
 <%- load_hosts(includes: [:operatingsystem, :architecture, :content_view_environments, :organization, :reported_data, :subscription_facet, :pools => [:subscription]], -%>
 <%-   search: should_filter && "pools_expiring_in_days = #{days_from_now}" -%>
 <%- ).each_record do |host| -%>
