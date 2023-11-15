@@ -12,23 +12,53 @@ Foreman will run with the following requirements (aside from rubygem dependencie
 * NPM 6.x
 * PostgreSQL 10+ (12+ recommended)
 
-It’s recommended to install https://github.com/rbenv/rbenv[rbenv] or https://github.com/rvm/rvm[rvm] to manage ruby, and https://github.com/nvm-sh/nvm[nvm] to manage node and npm on your system.
-* For Fedora users, you can use this https://developer.fedoraproject.org/start/sw/web-app/rails.html[guide] for installing: rbenv, Ruby & Bundler.
-(There is no need to install Rails, as it is installed by Bundler when running `bundle install` from Foreman directory).
+https://github.com/rbenv/rbenv[rbenv] or https://github.com/rvm/rvm[RVM] can be used to install compatible Ruby versions. Similarly, https://github.com/nvm-sh/nvm[nvm] can be used to manage node and npm on your system.
 
-Before installing PostgreSQL, check first that you don't already have it installed (by running `rpm -q postgresql`).
+=== Fedora
 
-You will want to make sure that you have postgresql-devel installed so the database gems can install properly.
-Also, you would also need gcc, ruby-devel, libxml-devel, libxslt-devel and libvirt-devel packages.
+Fedora ships with a too new Ruby. It's recommended to install https://github.com/rbenv/rbenv[rbenv] to install a compatible version:
 
-For Fedora, CentOS or RHEL, you can issue the following commands to install all required packages:
+[source, bash]
+....
+sudo dnf install rbenv ruby-build-rbenv nodejs
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+source ~/.bashrc
+rbenv install 2.7.6
+....
+
+https://github.com/rvm/rvm[RVM] can also be used.
+
+=== Enterprise Linux 8
+
+By default EL8 ships with older versions, but newer modules are available:
+
+[source, bash]
+....
+dnf module enable ruby:2.7
+dnf module enable postgresql:12
+dnf module enable nodejs:14
+....
+
+Now install the development packages:
+
 [source, bash]
 ....
 dnf groupinstall "Development Tools" "Development Libraries"
-dnf -y install gcc-c++ git ruby ruby-devel rubygems \
+dnf -y install gcc-c++ git ruby ruby-devel rubygem-bundler \
     libvirt-devel postgresql-devel openssl-devel \
     libxml2-devel libxslt-devel zlib-devel \
-    readline-devel systemd-devel tar libcurl-devel
+    readline-devel systemd-devel tar libcurl-devel nodejs
+....
+
+=== PostgreSQL
+
+Use the following steps to set up PostgreSQL on RPM based distributions:
+
+[source, bash]
+....
+sudo dnf install postgresql
+sudo postgresql-setup --initdb
+sudo -u postgres createuser --createdb $USER
 ....
 
 [[Setup]]
@@ -41,7 +71,19 @@ cd foreman
 cp config/settings.yaml.example config/settings.yaml
 cp config/database.yml.example config/database.yml
 git remote add upstream git@github.com:theforeman/foreman.git
-gem install bundler
+....
+
+If you're using rbenv, now you can configure it to locally use Ruby 2.7:
+
+[source, bash]
+....
+rbenv local 2.7.6
+....
+
+Now you can install the dependencies:
+
+[source, bash]
+....
 bundle install
 npm install
 ....
@@ -68,35 +110,13 @@ Foreman uses Bundler to install dependencies and get up and running. This is the
 It is important that config/database.yml is set to use the correct database in the “development” block.
 Rails (and subsequently Foreman) will use these connection settings under “development” to manage the database it uses and setup the necessary schema.
 
-If the default version of the database.yml file isn't working for you, try editing it with the following:
-[source, ruby]
-....
-development:
- adapter: postgresql
- host: localhost
- username: postgres
- password: password
- pool: 5
- database: foreman_development
-
-test:
- adapter: postgresql
- host: localhost
- username: postgres
- password: password
- pool: 5
- database: foreman_test
-....
-
-Set up database schema, precompile assets and locales:
+Set up database schema:
 [source, ruby]
 ....
 bundle exec rake db:create # if not already created
 bundle exec rake db:migrate
-bundle exec rake db:seed
+SEED_ADMIN_PASSWORD=changeme bundle exec rake db:seed
 ....
-
-The db:seed step will print out the default admin password, record this in order to log in later.
 
 The previous commands will create databases only for the development environment, for test environment you need to run also:
 [source, ruby]
