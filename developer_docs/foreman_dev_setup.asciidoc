@@ -10,7 +10,7 @@ Foreman will run with the following requirements (aside from rubygem dependencie
 * Ruby 2.7.x
 * NodeJS 14
 * NPM 6.x
-* PostgreSQL 13
+* PostgreSQL 10+ (12+ recommended)
 
 It’s recommended to install https://github.com/rbenv/rbenv[rbenv] or https://github.com/rvm/rvm[rvm] to manage ruby, and https://github.com/nvm-sh/nvm[nvm] to manage node and npm on your system.
 * For Fedora users, you can use this https://developer.fedoraproject.org/start/sw/web-app/rails.html[guide] for installing: rbenv, Ruby & Bundler.
