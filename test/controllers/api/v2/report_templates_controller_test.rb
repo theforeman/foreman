@@ -172,6 +172,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     template = ActiveSupport::JSON.decode(@response.body)
     assert_equal(template['name'], 'MyClone')
     assert_equal(template['template'], original_report_template.template)
+    assert_equal(template['cloned_from_id'], original_report_template.id)
     refute_equal(template['id'], original_report_template.id)
   end
 

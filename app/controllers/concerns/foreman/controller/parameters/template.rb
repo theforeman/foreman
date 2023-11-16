@@ -13,6 +13,7 @@ module Foreman::Controller::Parameters::Template
         :template,
         :template_kind, :template_kind_id, :template_kind_name,
         :vendor,
+        :cloned_from_id,
         :template_inputs_attributes => [template_input_params_filter]
     end
   end

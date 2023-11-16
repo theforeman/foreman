@@ -3,6 +3,7 @@ class Template < ApplicationRecord
   attr_accessor :modify_locked, :modify_default
 
   has_many :template_inputs, :dependent => :destroy, :foreign_key => 'template_id', :autosave => true
+  belongs_to :cloned_from, class_name: 'Template'
 
   accepts_nested_attributes_for :template_inputs, :allow_destroy => true
 
@@ -24,6 +25,8 @@ class Template < ApplicationRecord
   before_save :remove_trailing_chars
 
   attr_exportable :name, :description, :snippet, :template_inputs, :model => ->(template) { template.class.to_s }
+
+  scoped_search relation: :cloned_from, on: :cloned_from_id, complete_value: false
 
   apipie :class do
     sections only: %w[all additional]
