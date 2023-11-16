@@ -2,7 +2,7 @@ object @provisioning_template
 
 extends "api/v2/provisioning_templates/main"
 
-attributes :template, :locked
+attributes :template, :locked, :cloned_from_id
 
 child :template_combinations do
   extends "api/v2/template_combinations/base"

@@ -110,7 +110,9 @@ module Api
       param_group :provisioning_template_clone, :as => :create
 
       def clone
+        original = @provisioning_template
         @provisioning_template = @provisioning_template.clone
+        @provisioning_template.cloned_from = original
         load_vars_from_template
         @provisioning_template.name = params[:provisioning_template][:name]
         process_response @provisioning_template.save

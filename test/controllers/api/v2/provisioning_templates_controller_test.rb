@@ -125,6 +125,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     template = ActiveSupport::JSON.decode(@response.body)
     assert_equal(template['name'], 'MyClone')
     assert_equal(template['template'], original_provisioning_template.template)
+    assert_equal(template['cloned_from_id'], original_provisioning_template.id)
   end
 
   test 'clone name should not be blank' do
