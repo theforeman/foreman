@@ -3,6 +3,7 @@ class Template < ApplicationRecord
   attr_accessor :modify_locked, :modify_default
 
   has_many :template_inputs, :dependent => :destroy, :foreign_key => 'template_id', :autosave => true
+  belongs_to :cloned_from, class_name: 'Template'
 
   accepts_nested_attributes_for :template_inputs, :allow_destroy => true
 
