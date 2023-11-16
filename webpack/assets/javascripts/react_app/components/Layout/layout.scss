@@ -61,6 +61,8 @@
         word-break: break-word;
       }
     }
+    min-width: 0;
+    margin: 0;
     --pf-c-menu__list-item--hover--BackgroundColor: var(
       --pf-global--BackgroundColor--200
     );
