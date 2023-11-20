@@ -6,6 +6,7 @@
  * The GlobalID contains a version number, model class and the id itself, put
  * together into a single string and encoded as base64.
  */
+import { Buffer } from 'buffer';
 
 const idSeparator = '-';
 const versionSeparator = ':';
