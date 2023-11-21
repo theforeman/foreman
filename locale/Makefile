@@ -38,7 +38,7 @@ uniq-po:
 	done
 
 tx-pull: $(EDITFILES)
-	tx pull -f
+	cd .. && tx pull -f
 
 # Extract strings and update the .pot, prepare .edit.po files
 extract-strings:

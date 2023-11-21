@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
 "Last-Translator: Amit Upadhye <aupadhye@redhat.com>, 2021\n"
-"Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
+"Language-Team: Catalan (http://app.transifex.com/foreman/foreman/language/ca/)"
 "\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1780,7 +1780,7 @@ msgid "CoreOS Transpiler Command"
 msgstr ""
 
 msgid "Cores"
-msgstr ""
+msgstr "Nuclis"
 
 msgid "Cores per socket"
 msgstr ""
@@ -2104,7 +2104,7 @@ msgid "Created %s"
 msgstr ""
 
 msgid "Created at"
-msgstr ""
+msgstr "Es va crear el"
 
 msgid "Created parameter %s"
 msgstr ""
@@ -2194,7 +2194,7 @@ msgid "DNS Proxy to use within this subnet for managing PTR records, note that A
 msgstr ""
 
 msgid "DNS name"
-msgstr ""
+msgstr "Nom DNS"
 
 msgid "DNS proxy ID to use within this domain"
 msgstr ""
@@ -10803,7 +10803,7 @@ msgid "View provisioning template {openTemplate}."
 msgstr ""
 
 msgid "Virtual"
-msgstr ""
+msgstr "Virtual"
 
 msgid "Virtual (NAT)"
 msgstr "Virtual (NAT)"
@@ -11654,7 +11654,8 @@ msgstr "enllaça el grup d'usuaris externs amb aquest grup d'usuaris"
 msgid "list"
 msgstr "llista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Català"
 
@@ -11815,7 +11816,7 @@ msgid "our templates documentation"
 msgstr ""
 
 msgid "override"
-msgstr ""
+msgstr "sobreescriu"
 
 msgid "pending"
 msgstr "pendent"

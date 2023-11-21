@@ -14,15 +14,15 @@
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2013-2014
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2013,2016
 # Eike Stehr <estehr@gmail.com>, 2015
-# Ettore Atalan <atalanttore@googlemail.com>, 2014-2017,2020,2022
+# Ettore Atalan <atalanttore@googlemail.com>, 2014-2017,2020,2022-2023
 # Hannes Schaller <admin@cyberkov.at>, 2013
 # Jörg Dreffein, 2022
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
 # Markus Bucher <bucher@atix.de>, 2019-2020
 # Martin Zimmermann <martin.zimmermann@gmx.com>, 2018
 # Oliver Freyermuth <o.freyermuth@googlemail.com>, 2019
-# Patrick Dolinic, 2021
-# Patrick Dolinic, 2021
+# pdolinic, 2021
+# pdolinic, 2021
 # Paul Puschmann, 2013
 # abf90805572190d649c59f7a021d76cb, 2013-2014
 # ppuschmann, 2013
@@ -42,8 +42,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2014-2017,2020,20"
-"22\n"
-"Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
+"22-2023\n"
+"Language-Team: German (http://app.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1821,7 +1821,7 @@ msgid "CoreOS Transpiler Command"
 msgstr ""
 
 msgid "Cores"
-msgstr ""
+msgstr "Kerne"
 
 msgid "Cores per socket"
 msgstr "Kerne pro Socket"
@@ -2145,7 +2145,7 @@ msgid "Created %s"
 msgstr ""
 
 msgid "Created at"
-msgstr ""
+msgstr "Erstellt um"
 
 msgid "Created parameter %s"
 msgstr ""
@@ -2235,7 +2235,7 @@ msgid "DNS Proxy to use within this subnet for managing PTR records, note that A
 msgstr "DNS-Proxy der in diesem Subnetz für die Verwaltung von PTR Einträgen verwendet werden soll. Bitte beachten, dass A und AAAA Einträge vom DNS-Proxy der Domäne verwaltet werden"
 
 msgid "DNS name"
-msgstr ""
+msgstr "DNS-Name"
 
 msgid "DNS proxy ID to use within this domain"
 msgstr "DNS-Proxy Kennung zur Verwendung in dieser Domäne"
@@ -4379,7 +4379,7 @@ msgid "Hypervisor"
 msgstr "Hypervisor"
 
 msgid "ID assigned to generating job by the schedule command"
-msgstr "ID zugeteilt zum Generierungs-Job durch den Schedule-Befehl"
+msgstr "Kennung, die dem Erzeugungsauftrag durch den Befehl Schedule zugewiesen wurde"
 
 msgid "ID of LDAP authentication source"
 msgstr "Kennung der Authentifizierungsquelle"
@@ -6917,7 +6917,7 @@ msgid "Overall status"
 msgstr ""
 
 msgid "Overridden"
-msgstr ""
+msgstr "Überschreiben"
 
 msgid "Override"
 msgstr "Überschreiben"
@@ -7572,7 +7572,7 @@ msgid "Quota ID"
 msgstr "Kontingentkennung"
 
 msgid "RAM"
-msgstr ""
+msgstr "RAM"
 
 msgid "REPLACE locations with given ids"
 msgstr "Standorte durch angegebene Kennungen ERSETZEN"
@@ -7726,7 +7726,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Remote execution job templates"
-msgstr "Jobvorlagen für Remote-Ausführung"
+msgstr "Auftragsvorlagen für Remote-Ausführung"
 
 msgid "Remove"
 msgstr "Entfernen"
@@ -8257,7 +8257,7 @@ msgid "Secret Key"
 msgstr "Geheimer Schlüssel"
 
 msgid "Security Groups"
-msgstr ""
+msgstr "Sicherheitsgruppen"
 
 msgid "Security groups"
 msgstr "Sicherheitsgruppen"
@@ -10497,7 +10497,7 @@ msgstr "Aktualisiert eine Tabelleneinstellung für eine bestimmte Tabelle"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
-msgstr "Task aktualisieren"
+msgstr "Aufgabe aktualisieren"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "UpgradeTask|Always run"
@@ -10835,7 +10835,7 @@ msgid "Variables"
 msgstr "Variablen"
 
 msgid "Vendor"
-msgstr ""
+msgstr "Hersteller"
 
 msgid "Vendor class"
 msgstr "Herstellerklasse"
@@ -10868,7 +10868,7 @@ msgid "View provisioning template {openTemplate}."
 msgstr ""
 
 msgid "Virtual"
-msgstr ""
+msgstr "Virtuell"
 
 msgid "Virtual (NAT)"
 msgstr "Virtuell (NAT)"
@@ -11737,7 +11737,8 @@ msgstr "externe Benutzergruppe mit dieser Benutzergruppe verknüpfen"
 msgid "list"
 msgstr "Liste"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Deutsch"
 

@@ -4,6 +4,7 @@
 #
 # Translators:
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2016
+# Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2023
 # Michał Foryt <michal.foryt@gmail.com>, 2016
 # sziolkow <sziolkow@gmail.com>, 2014
 msgid ""
@@ -11,8 +12,9 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
-"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4, 2016\n"
-"Language-Team: Polish (http://www.transifex.com/foreman/foreman/language/pl/)\n"
+"Last-Translator: Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarde"
+"n.nl>, 2023\n"
+"Language-Team: Polish (http://app.transifex.com/foreman/foreman/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1798,7 +1800,7 @@ msgid "CoreOS Transpiler Command"
 msgstr ""
 
 msgid "Cores"
-msgstr ""
+msgstr "Rdzeni"
 
 msgid "Cores per socket"
 msgstr "Rdzeni na socket"
@@ -2212,7 +2214,7 @@ msgid "DNS Proxy to use within this subnet for managing PTR records, note that A
 msgstr ""
 
 msgid "DNS name"
-msgstr ""
+msgstr "Nazwa DNS"
 
 msgid "DNS proxy ID to use within this domain"
 msgstr ""
@@ -11682,7 +11684,8 @@ msgstr "Link zewnętrzny grupy użytkowników z tej grupy użytkowników"
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "locale_name"
 
@@ -11843,7 +11846,7 @@ msgid "our templates documentation"
 msgstr ""
 
 msgid "override"
-msgstr ""
+msgstr "nadpisz"
 
 msgid "pending"
 msgstr "w toku"
