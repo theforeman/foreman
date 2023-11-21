@@ -30,7 +30,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
 "Last-Translator: nefeli <vidakovic@gmail.com>, 2014\n"
-"Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
+"Language-Team: Spanish (http://app.transifex.com/foreman/foreman/language/es/)"
 "\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1834,7 +1834,7 @@ msgid "CoreOS Transpiler Command"
 msgstr "Comando del transpilador de CoreOS"
 
 msgid "Cores"
-msgstr ""
+msgstr "Núcleos"
 
 msgid "Cores per socket"
 msgstr "Núcleos por socket"
@@ -2158,7 +2158,7 @@ msgid "Created %s"
 msgstr ""
 
 msgid "Created at"
-msgstr ""
+msgstr "Creado"
 
 msgid "Created parameter %s"
 msgstr ""
@@ -2248,7 +2248,7 @@ msgid "DNS Proxy to use within this subnet for managing PTR records, note that A
 msgstr "Proxy DNS para usar con esta subred para administrar registros PTR. Tenga en cuenta que los registros A y AAAA se administran a través del proxy DNS de dominio"
 
 msgid "DNS name"
-msgstr ""
+msgstr "Nombre DNS"
 
 msgid "DNS proxy ID to use within this domain"
 msgstr "ID de proxy DNS a utilizar dentro de este dominio"
@@ -2383,7 +2383,7 @@ msgid "Delete %s"
 msgstr ""
 
 msgid "Delete %s?"
-msgstr "Borrar"
+msgstr "Borrar %s?"
 
 msgid "Delete :a_resource"
 msgstr "Borrar :a_resource"
@@ -2800,7 +2800,7 @@ msgid "Edit"
 msgstr "Editar"
 
 msgid "Edit %s"
-msgstr "Editar"
+msgstr "Editar %s"
 
 msgid "Edit %s Resource Filter"
 msgstr "Editar %s Filtro de recursos"
@@ -3287,7 +3287,7 @@ msgid "Failed to save widget positions."
 msgstr "No se pudieron guardar las posiciones del asistente."
 
 msgid "Failed to set %{proxy_type} proxy for %{host}."
-msgstr "Fallo al establecer %{proxy_type} proxy para %{host}."
+msgstr "Error al establecer %{proxy_type} proxy para %{host}."
 
 msgid "Failed to set IP for %{name}: %{e}"
 msgstr "Fallo al establecer la IP para %{name}: %{e}"
@@ -6933,7 +6933,7 @@ msgid "Overall status"
 msgstr ""
 
 msgid "Overridden"
-msgstr ""
+msgstr "Reemplazado"
 
 msgid "Override"
 msgstr "Sobrescribir"
@@ -7747,7 +7747,7 @@ msgid "Remote execution job templates"
 msgstr "Plantillas de trabajo de ejecución remota"
 
 msgid "Remove"
-msgstr "移除"
+msgstr "Eliminar"
 
 msgid "Remove %{type} for %{host}"
 msgstr "Eliminar %{type} para %{host}"
@@ -8277,7 +8277,7 @@ msgid "Secret Key"
 msgstr "Clave secreta"
 
 msgid "Security Groups"
-msgstr ""
+msgstr "Grupos de Seguridad"
 
 msgid "Security groups"
 msgstr "Grupos de Seguridad"
@@ -9478,10 +9478,10 @@ msgid "The %{proxy_type} proxy of the selected hosts was cleared"
 msgstr "El %{proxy_type} proxy de los hosts seleccionados fue borrado"
 
 msgid "The %{proxy_type} proxy of the selected hosts was cleared."
-msgstr "El %{proxy_type} proxy de los hosts seleccionados fue borrado."
+msgstr "Se ha borrado el proxy %{proxy_type} de los hosts seleccionados."
 
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}"
-msgstr "El %{proxy_type} proxy de los hosts seleccionados se estableció en %{proxy_name}"
+msgstr "El %{proxy_type} proxy de los hosts seleccionados se estableció en %.{proxy_name}"
 
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}."
 msgstr "El proxy %{proxy_type} de los hosts seleccionados se estableció en %{proxy_name}."
@@ -9562,7 +9562,7 @@ msgid "The default administrator email address"
 msgstr "La dirección de correo electrónico predeterminada del administrador"
 
 msgid "The final entry, Operating System default, can be set by editing the %s page."
-msgstr "La última entrada, sistema operativo predeterminado, puede configurarse al editar la página %s."
+msgstr "La última entrada, Sistema Operativo por defecto, puede configurarse editando la página %s."
 
 msgid "The following IPv4 subnets have been found. Please review the details before creating them."
 msgstr "Se encontraron las siguientes subredes de IPv4. Examine los detalles antes de crearlas."
@@ -10859,7 +10859,7 @@ msgid "Variables"
 msgstr "Variables"
 
 msgid "Vendor"
-msgstr ""
+msgstr "Vendedor"
 
 msgid "Vendor class"
 msgstr "Clase de proveedor"
@@ -10892,7 +10892,7 @@ msgid "View provisioning template {openTemplate}."
 msgstr ""
 
 msgid "Virtual"
-msgstr ""
+msgstr "Virtual"
 
 msgid "Virtual (NAT)"
 msgstr "Virtual (NAT)"
@@ -11763,7 +11763,8 @@ msgstr "enlazar grupo de usuarios externos con este grupo de usuario"
 msgid "list"
 msgstr "lista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Español"
 
@@ -11924,7 +11925,7 @@ msgid "our templates documentation"
 msgstr "la documentación de nuestras plantillas"
 
 msgid "override"
-msgstr ""
+msgstr "sobrescribir"
 
 msgid "pending"
 msgstr "pendiente"
@@ -12180,7 +12181,7 @@ msgid "with given ID not found"
 msgstr "con el ID determinado no se encontró"
 
 msgid "with id %{object_id} doesn't exist or is not assigned to proper organization and/or location"
-msgstr "con ID %{object_id} no existe o no está asignado a la organización o ubicación adecuada"
+msgstr "con id %{object_id} no existe o no está asignado a la organización y/o ubicación adecuada"
 
 msgid "yaml"
 msgstr "YAML"

@@ -1,8 +1,11 @@
 [main]
-host = https://www.transifex.com
+host = https://app.transifex.com
 
-[foreman.foreman]
-file_filter = locale/<lang>/foreman.edit.po
-source_file = locale/foreman.pot
-source_lang = en
-type = PO
+[o:foreman:p:foreman:r:foreman]
+file_filter            = locale/<lang>/foreman.edit.po
+source_file            = locale/foreman.pot
+source_lang            = en
+type                   = PO
+replace_edited_strings = false
+keep_translations      = false
+

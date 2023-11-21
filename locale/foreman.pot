@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-04 16:25+0000\n"
-"PO-Revision-Date: 2023-05-04 16:25+0000\n"
+"POT-Creation-Date: 2023-11-28 11:31-0500\n"
+"PO-Revision-Date: 2023-11-28 11:31-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -18,25 +18,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../app/assets/javascripts/application.js:51
+#: ../app/assets/javascripts/application.js:49
 msgid "Failed to fetch: "
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:215
+#: ../app/assets/javascripts/application.js:213
 msgid "Sorry but no templates were configured."
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:346
+#: ../app/assets/javascripts/application.js:344
 #: ../app/models/config_report.rb:82
 msgid "Success"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:350
+#: ../app/assets/javascripts/application.js:348
 #: ../app/helpers/layout_helper.rb:158 ../app/models/host_status/global.rb:9
 msgid "Warning"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:354
+#: ../app/assets/javascripts/application.js:352
 #: ../app/controllers/application_controller.rb:377
 #: ../app/helpers/dashboard_helper.rb:61 ../app/helpers/layout_helper.rb:164
 #: ../app/models/host_status/configuration_status.rb:73
@@ -45,15 +45,15 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:390
+#: ../app/assets/javascripts/application.js:388
 msgid "Unknown power state"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:417
+#: ../app/assets/javascripts/application.js:415
 msgid "Exit Full Screen"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:490
+#: ../app/assets/javascripts/application.js:488
 #: ../webpack/assets/javascripts/foreman_tools.js:107
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:20
 msgid "No matches found"
@@ -150,9 +150,9 @@ msgstr ""
 msgid "physical"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:407
+#: ../app/assets/javascripts/host_edit_interfaces.js:404
 #: ../app/helpers/hostgroup_description_helper.rb:9
-#: ../app/registries/menu/loader.rb:56 ../app/views/hosts/index.html.erb:5
+#: ../app/registries/menu/loader.rb:62 ../app/views/hosts/index.html.erb:5
 #: ../app/views/hosts/new.html.erb:1 ../app/views/hosts/welcome.html.erb:3
 msgid "Create Host"
 msgstr ""
@@ -259,31 +259,31 @@ msgstr ""
 msgid "There may be more information in the server's logs."
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:207
+#: ../app/controllers/api/base_controller.rb:208
 #: ../app/controllers/concerns/foreman/controller/authentication.rb:27
 #: ../app/controllers/concerns/foreman/controller/authentication.rb:37
 #: ../app/controllers/users_controller.rb:137
 msgid "User account is disabled, please contact your administrator"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:221
+#: ../app/controllers/api/base_controller.rb:222
 msgid "Admin permissions required"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:350
+#: ../app/controllers/api/base_controller.rb:351
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:363
+#: ../app/controllers/api/base_controller.rb:364
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:395
+#: ../app/controllers/api/base_controller.rb:396
 #: ../app/controllers/application_controller.rb:179
 msgid "unknown permission for %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:406
+#: ../app/controllers/api/base_controller.rb:407
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -579,7 +579,7 @@ msgstr ""
 
 #: ../app/controllers/api/v2/common_parameters_controller.rb:28
 #: ../app/controllers/api/v2/hostgroups_controller.rb:55
-#: ../app/controllers/api/v2/hosts_controller.rb:99
+#: ../app/controllers/api/v2/hosts_controller.rb:100
 #: ../app/controllers/api/v2/parameters_controller.rb:65
 #: ../app/controllers/api/v2/registration_controller.rb:55
 msgid "Type of value"
@@ -1026,10 +1026,10 @@ msgstr ""
 
 #: ../app/controllers/api/v2/domains_controller.rb:38
 #: ../app/controllers/api/v2/hostgroups_controller.rb:31
-#: ../app/controllers/api/v2/hosts_controller.rb:64
+#: ../app/controllers/api/v2/hosts_controller.rb:65
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:37
 #: ../app/controllers/api/v2/subnets_controller.rb:29
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:60
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:62
 msgid "Display hidden parameter values"
 msgstr ""
 
@@ -1155,11 +1155,11 @@ msgstr ""
 msgid "Delete a filter"
 msgstr ""
 
-#: ../app/controllers/api/v2/home_controller.rb:7
+#: ../app/controllers/api/v2/home_controller.rb:6
 msgid "Show available API links"
 msgstr ""
 
-#: ../app/controllers/api/v2/home_controller.rb:14
+#: ../app/controllers/api/v2/home_controller.rb:13
 msgid "Show status"
 msgstr ""
 
@@ -1180,7 +1180,7 @@ msgid "List all host groups per organization"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:18
-#: ../app/controllers/api/v2/hosts_controller.rb:35
+#: ../app/controllers/api/v2/hosts_controller.rb:36
 msgid "Array of extra information types to include"
 msgstr ""
 
@@ -1217,7 +1217,7 @@ msgid "Architecture ID"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:45
-#: ../app/controllers/api/v2/hosts_controller.rb:86
+#: ../app/controllers/api/v2/hosts_controller.rb:87
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
 
@@ -1252,7 +1252,7 @@ msgid "Array of parameters"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:53
-#: ../app/controllers/api/v2/hosts_controller.rb:97
+#: ../app/controllers/api/v2/hosts_controller.rb:98
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:25
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:51
 #: ../app/controllers/api/v2/registration_controller.rb:53
@@ -1260,7 +1260,7 @@ msgid "Name of the parameter"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:54
-#: ../app/controllers/api/v2/hosts_controller.rb:98
+#: ../app/controllers/api/v2/hosts_controller.rb:99
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:26
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:52
 #: ../app/controllers/api/v2/registration_controller.rb:54
@@ -1292,12 +1292,12 @@ msgid "Clone a host group"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:103
-#: ../app/controllers/api/v2/hosts_controller.rb:308
+#: ../app/controllers/api/v2/hosts_controller.rb:309
 msgid "Rebuild orchestration config"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:105
-#: ../app/controllers/api/v2/hosts_controller.rb:310
+#: ../app/controllers/api/v2/hosts_controller.rb:311
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr ""
 
@@ -1306,36 +1306,66 @@ msgid "Operate on child hostgroup hosts"
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:115
-#: ../app/controllers/api/v2/hosts_controller.rb:315
+#: ../app/controllers/api/v2/hosts_controller.rb:316
 msgid "Configuration successfully rebuilt."
 msgstr ""
 
 #: ../app/controllers/api/v2/hostgroups_controller.rb:118
-#: ../app/controllers/api/v2/hosts_controller.rb:317
+#: ../app/controllers/api/v2/hosts_controller.rb:318
 msgid "Configuration rebuild failed for: %s."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:27
-msgid "List all hosts"
+#: ../app/controllers/api/v2/hosts_bulk_actions_controller.rb:10
+msgid "ID of the organization"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_bulk_actions_controller.rb:11
+msgid "Hosts to include in the action"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_bulk_actions_controller.rb:12
+msgid "Search string describing which hosts to perform the action on"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_bulk_actions_controller.rb:13
+msgid "List of host ids to perform the action on"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_bulk_actions_controller.rb:15
+msgid ""
+"Hosts to explicitly exclude in the action. All other hosts will be included in"
+" the action, unless an included parameter is passed as well."
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_bulk_actions_controller.rb:18
+msgid "List of host ids to exclude and not perform the action on"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_bulk_actions_controller.rb:22
+msgid "Delete multiple hosts"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:28
-msgid "List all hosts for a host group"
+msgid "List all hosts"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:29
-msgid "List hosts per location"
+msgid "List all hosts for a host group"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:30
-msgid "List hosts per organization"
+msgid "List hosts per location"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:31
-msgid "Only list ID and name of hosts"
+msgid "List hosts per organization"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:32
+msgid "Only list ID and name of hosts"
+msgstr ""
+
+#: ../app/controllers/api/v2/hosts_controller.rb:33
 #: ../app/controllers/api/v2/parameters_controller.rb:25
 #: ../app/controllers/api/v2/parameters_controller.rb:49
 #: ../app/controllers/api/v2/parameters_controller.rb:77
@@ -1346,7 +1376,7 @@ msgstr ""
 msgid "ID of host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:33
+#: ../app/controllers/api/v2/hosts_controller.rb:34
 #: ../app/controllers/api/v2/parameters_controller.rb:28
 #: ../app/controllers/api/v2/parameters_controller.rb:52
 #: ../app/controllers/api/v2/parameters_controller.rb:80
@@ -1356,7 +1386,7 @@ msgstr ""
 msgid "ID of location"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:34
+#: ../app/controllers/api/v2/hosts_controller.rb:35
 #: ../app/controllers/api/v2/parameters_controller.rb:29
 #: ../app/controllers/api/v2/parameters_controller.rb:53
 #: ../app/controllers/api/v2/parameters_controller.rb:81
@@ -1366,132 +1396,132 @@ msgstr ""
 msgid "ID of organization"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:62
+#: ../app/controllers/api/v2/hosts_controller.rb:63
 msgid "Show a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:76
+#: ../app/controllers/api/v2/hosts_controller.rb:77
 msgid "not required if using a subnet with DHCP proxy"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:77
+#: ../app/controllers/api/v2/hosts_controller.rb:78
 #: ../app/controllers/api/v2/registration_controller.rb:46
 msgid ""
 "required for managed host that is bare metal, not required if it's a virtual m"
 "achine"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:78
 #: ../app/controllers/api/v2/hosts_controller.rb:79
-#: ../app/controllers/api/v2/hosts_controller.rb:84
-#: ../app/controllers/api/v2/hosts_controller.rb:88
+#: ../app/controllers/api/v2/hosts_controller.rb:80
+#: ../app/controllers/api/v2/hosts_controller.rb:85
+#: ../app/controllers/api/v2/hosts_controller.rb:89
 #: ../app/controllers/api/v2/registration_controller.rb:47
 #: ../app/controllers/api/v2/registration_controller.rb:48
 #: ../app/controllers/api/v2/registration_controller.rb:49
 msgid "required if host is managed and value is not inherited from host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:85
+#: ../app/controllers/api/v2/hosts_controller.rb:86
 msgid ""
 "required if not imaged based provisioning and host is managed and value is not"
 " inherited from host group"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:87
+#: ../app/controllers/api/v2/hosts_controller.rb:88
 msgid "required if host is managed and custom partition has not been defined"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:89
+#: ../app/controllers/api/v2/hosts_controller.rb:90
 msgid "nil means host is bare metal"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:90
+#: ../app/controllers/api/v2/hosts_controller.rb:91
 msgid ""
 "required if host is managed and value is not inherited from host group or defa"
 "ult password in settings"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:94
+#: ../app/controllers/api/v2/hosts_controller.rb:95
 msgid "Host's owner type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:96
+#: ../app/controllers/api/v2/hosts_controller.rb:97
 #: ../app/controllers/api/v2/registration_controller.rb:52
 msgid "Host's parameters (array or indexed hash)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:103
+#: ../app/controllers/api/v2/hosts_controller.rb:104
 #: ../app/controllers/api/v2/registration_controller.rb:59
 #: ../app/views/hosts/_form.html.erb:129
 msgid "Include this host within Foreman reporting"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:104
+#: ../app/controllers/api/v2/hosts_controller.rb:105
 msgid "The method used to provision the host."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:105
+#: ../app/controllers/api/v2/hosts_controller.rb:106
 #: ../app/controllers/api/v2/registration_controller.rb:60
 msgid ""
 "True/False flag whether a host is managed or unmanaged. Note: this value also "
 "determines whether several parameters are required or not"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:106
+#: ../app/controllers/api/v2/hosts_controller.rb:107
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:107
+#: ../app/controllers/api/v2/hosts_controller.rb:108
 #: ../app/controllers/api/v2/registration_controller.rb:61
 #: ../app/views/hosts/_form.html.erb:134
 msgid "Additional information about this host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:110
+#: ../app/controllers/api/v2/hosts_controller.rb:111
 msgid "Host's network interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:111
+#: ../app/controllers/api/v2/hosts_controller.rb:112
 #: ../app/controllers/api/v2/interfaces_controller.rb:80
 #: ../app/controllers/api/v2/interfaces_controller.rb:89
 msgid "ID of interface"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:114
+#: ../app/controllers/api/v2/hosts_controller.rb:115
 msgid "Additional compute resource specific attributes."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:118
+#: ../app/controllers/api/v2/hosts_controller.rb:119
 #: ../app/controllers/api/v2/registration_controller.rb:67
 msgid "Parameters for host's %s facet"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:126
+#: ../app/controllers/api/v2/hosts_controller.rb:127
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/EmptyState/index.js:26
 msgid "Create a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:129
+#: ../app/controllers/api/v2/hosts_controller.rb:130
 msgid "Overwrite existing host (true by default)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:152
+#: ../app/controllers/api/v2/hosts_controller.rb:153
 msgid "Update a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:168
+#: ../app/controllers/api/v2/hosts_controller.rb:169
 msgid "Delete a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:175
+#: ../app/controllers/api/v2/hosts_controller.rb:176
 msgid "Get ENC values of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:182
+#: ../app/controllers/api/v2/hosts_controller.rb:183
 msgid "Get status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:184
+#: ../app/controllers/api/v2/hosts_controller.rb:185
 msgid ""
 "status type, can be one of\n"
 "* global\n"
@@ -1499,132 +1529,132 @@ msgid ""
 "* build\n"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:193
+#: ../app/controllers/api/v2/hosts_controller.rb:194
 msgid "Returns string representing a host status of a given type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:200
-#: ../app/controllers/api/v2/hosts_controller.rb:218
+#: ../app/controllers/api/v2/hosts_controller.rb:201
+#: ../app/controllers/api/v2/hosts_controller.rb:219
 msgid "Status %s does not exist."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:204
+#: ../app/controllers/api/v2/hosts_controller.rb:205
 msgid "Clear sub-status of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:206
+#: ../app/controllers/api/v2/hosts_controller.rb:207
 msgid ""
 "status type\n"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:212
+#: ../app/controllers/api/v2/hosts_controller.rb:213
 msgid "Clears a host sub-status of a given type"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:216
+#: ../app/controllers/api/v2/hosts_controller.rb:217
 msgid "Cannot delete global status."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:224
+#: ../app/controllers/api/v2/hosts_controller.rb:225
 msgid "Get vm attributes of host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:247
+#: ../app/controllers/api/v2/hosts_controller.rb:248
 msgid "Disassociate the host from a VM"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:254
+#: ../app/controllers/api/v2/hosts_controller.rb:255
 msgid "Run a power operation on host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:256
+#: ../app/controllers/api/v2/hosts_controller.rb:257
 msgid ""
 "power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/"
 "reset), (state/status)"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:260
+#: ../app/controllers/api/v2/hosts_controller.rb:261
 #: ../app/services/power_manager/power_status.rb:17
 msgid "Power operations are not enabled on this host."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:267
+#: ../app/controllers/api/v2/hosts_controller.rb:268
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:271
+#: ../app/controllers/api/v2/hosts_controller.rb:272
 msgid ""
 "Fetch the status of whether the host is powered on or not. Supported hosts are"
 " VMs and physical hosts with BMCs."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:273
+#: ../app/controllers/api/v2/hosts_controller.rb:274
 msgid ""
 "Timeout to retrieve the power status of the host in seconds. Default is 3 seco"
 "nds."
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:279
+#: ../app/controllers/api/v2/hosts_controller.rb:280
 msgid "Boot host from specified device"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:281
+#: ../app/controllers/api/v2/hosts_controller.rb:282
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:288
+#: ../app/controllers/api/v2/hosts_controller.rb:289
 msgid "Unknown device: available devices are %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:294
+#: ../app/controllers/api/v2/hosts_controller.rb:295
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:295
+#: ../app/controllers/api/v2/hosts_controller.rb:296
 msgid "hostname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:296
+#: ../app/controllers/api/v2/hosts_controller.rb:297
 msgid "hash containing the facts for the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:297
+#: ../app/controllers/api/v2/hosts_controller.rb:298
 msgid "optional: certname of the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:298
+#: ../app/controllers/api/v2/hosts_controller.rb:299
 msgid "optional: the STI type of host to create"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:321
+#: ../app/controllers/api/v2/hosts_controller.rb:322
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:323
+#: ../app/controllers/api/v2/hosts_controller.rb:324
 msgid "Template kinds, available values: %{template_kinds}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:327
+#: ../app/controllers/api/v2/hosts_controller.rb:328
 msgid "No template with kind %{kind} for %{host}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:333
+#: ../app/controllers/api/v2/hosts_controller.rb:334
 msgid "Get provisioning templates for the host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:342
+#: ../app/controllers/api/v2/hosts_controller.rb:343
 msgid "No templates found for %{host}"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:352
+#: ../app/controllers/api/v2/hosts_controller.rb:353
 msgid "Get all inherited parameters for a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:431
+#: ../app/controllers/api/v2/hosts_controller.rb:432
 msgid "Invalid type for host creation via facts: %s"
 msgstr ""
 
-#: ../app/controllers/api/v2/hosts_controller.rb:434
+#: ../app/controllers/api/v2/hosts_controller.rb:435
 msgid "A problem occurred when detecting host type: %s"
 msgstr ""
 
@@ -2641,7 +2671,7 @@ msgstr ""
 
 #: ../app/controllers/api/v2/registration_commands_controller.rb:21
 #: ../app/controllers/api/v2/registration_controller.rb:25
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/UpdatePackages.js:19
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/UpdatePackages.js:20
 msgid "Update all packages on the host"
 msgstr ""
 
@@ -3488,6 +3518,14 @@ msgstr ""
 msgid "Error - %{message}"
 msgstr ""
 
+#: ../app/controllers/concerns/api/v2/bulk_hosts_extension.rb:17
+msgid "No hosts have been specified"
+msgstr ""
+
+#: ../app/controllers/concerns/api/v2/bulk_hosts_extension.rb:37
+msgid "No hosts matched search, or action unauthorized for selected hosts."
+msgstr ""
+
 #: ../app/controllers/concerns/api/v2/extracted_puppet_controller.rb:20
 msgid "To access %s API, you need to install the Foreman Puppet plugin"
 msgstr ""
@@ -3544,31 +3582,35 @@ msgstr ""
 msgid "List of resources types that will be automatically associated"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:36
-msgid "Associated %{resource} IDs"
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:35
+msgid "Associated organization IDs"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:40
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:37
+msgid "Associated location IDs"
+msgstr ""
+
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:42
 msgid "List all :resource_id"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:59
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:61
 msgid "Show :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:67
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:69
 msgid "Create :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:75
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:77
 msgid "Update :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:85
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:87
 msgid "Delete :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:90
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:92
 #: ../app/controllers/concerns/foreman/controller/taxonomies_controller.rb:96
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr ""
@@ -3633,25 +3675,25 @@ msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:19
-#: ../app/controllers/hosts_controller.rb:848
+#: ../app/controllers/hosts_controller.rb:856
 msgid "No proxy selected!"
 msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:25
-#: ../app/controllers/hosts_controller.rb:854
+#: ../app/controllers/hosts_controller.rb:862
 msgid "Invalid proxy selected!"
 msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:46
-#: ../app/controllers/hosts_controller.rb:875
+#: ../app/controllers/hosts_controller.rb:883
 msgid "Failed to set %{proxy_type} proxy for %{host}."
 msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:52
-#: ../app/controllers/hosts_controller.rb:881
+#: ../app/controllers/hosts_controller.rb:889
 msgid "The %{proxy_type} proxy of the selected hosts was set to %{proxy_name}"
 msgstr ""
 
@@ -3664,7 +3706,7 @@ msgstr ""
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:57
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:72
-#: ../app/controllers/hosts_controller.rb:886
+#: ../app/controllers/hosts_controller.rb:894
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] ""
@@ -3800,7 +3842,7 @@ msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:248
 #: ../app/controllers/hosts_controller.rb:251
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:95
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:94
 msgid "Canceled pending build for %s"
 msgstr ""
 
@@ -3940,43 +3982,43 @@ msgstr ""
 msgid "Hosts with notifications disabled"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:743
+#: ../app/controllers/hosts_controller.rb:751
 msgid "invalid type: %s requested"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:748
+#: ../app/controllers/hosts_controller.rb:756
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:778
+#: ../app/controllers/hosts_controller.rb:786
 msgid "No hosts were found with that id, name or query filter"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:783
+#: ../app/controllers/hosts_controller.rb:791
 msgid "No hosts selected"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:790
+#: ../app/controllers/hosts_controller.rb:798
 msgid "Something went wrong while selecting hosts - %s"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:803
+#: ../app/controllers/hosts_controller.rb:811
 msgid "%s selected hosts"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:805
+#: ../app/controllers/hosts_controller.rb:813
 msgid "The following hosts were not %{action}: %{missed_hosts}"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:832
+#: ../app/controllers/hosts_controller.rb:840
 msgid "No or invalid power state selected!"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:883
+#: ../app/controllers/hosts_controller.rb:891
 msgid "The %{proxy_type} proxy of the selected hosts was cleared"
 msgstr ""
 
-#: ../app/controllers/hosts_controller.rb:898
+#: ../app/controllers/hosts_controller.rb:906
 msgid "No templates found"
 msgstr ""
 
@@ -4221,11 +4263,16 @@ msgstr ""
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
 #: ../webpack/assets/javascripts/dashboard/index.js:67
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:39
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:103
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:31
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:32
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:116
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:45
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:149
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:168
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:48
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:68
 #: ../webpack/assets/javascripts/react_app/components/common/table/components/DeleteButton.js:9
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/components/ModelDeleteModal.js:25
 msgid "Delete"
 msgstr ""
 
@@ -4238,7 +4285,7 @@ msgstr ""
 
 #: ../app/helpers/application_helper.rb:129
 #: ../app/helpers/provisioning_templates_helper.rb:13
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:98
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:180
 #: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:22
 msgid "Export"
 msgstr ""
@@ -4253,34 +4300,33 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:261
+#: ../app/helpers/application_helper.rb:264
 msgid ""
 "This user is disabled and won't be able to perform any actions. You can edit t"
 "he user to enable them again."
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:275
+#: ../app/helpers/application_helper.rb:278
 #: ../app/views/about/index.html.erb:121
 #: ../webpack/assets/javascripts/react_app/components/PF4/DocumentationLink/index.js:24
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:102
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:184
 #: ../webpack/assets/javascripts/react_app/components/common/DocumentationLink/index.js:19
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:196
 msgid "Documentation"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:280
-#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:54
+#: ../app/helpers/application_helper.rb:283
+#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:60
 msgid "None found"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:300 ../app/helpers/hosts_helper.rb:444
+#: ../app/helpers/application_helper.rb:303 ../app/helpers/hosts_helper.rb:444
 #: ../app/views/users/logout.html.erb:3
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:29
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:64
 msgid "Yes"
 msgstr ""
 
-#: ../app/helpers/application_helper.rb:300 ../app/helpers/hosts_helper.rb:444
+#: ../app/helpers/application_helper.rb:303 ../app/helpers/hosts_helper.rb:444
 #: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:30
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:66
 msgid "No"
@@ -4331,7 +4377,7 @@ msgid "Removed %{from} to %{to}"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/audits_helper.rb:126 ../app/helpers/audits_helper.rb:344
+#: ../app/helpers/audits_helper.rb:126 ../app/helpers/audits_helper.rb:367
 #: ../app/registries/menu/loader.rb:13 ../app/views/users/_form.html.erb:6
 #: model_attributes.rb:706
 msgid "User"
@@ -4349,8 +4395,10 @@ msgstr ""
 #: ../app/views/taxonomies/index.html.erb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:3
 #: ../db/seeds.d/170-notification_blueprints.rb:17
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:118
-#: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:42
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:119
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:209
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:251
+#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:26
 msgid "Hosts"
 msgstr ""
 
@@ -4361,14 +4409,14 @@ msgstr ""
 msgid "Audits"
 msgstr ""
 
-#: ../app/helpers/audits_helper.rb:364
+#: ../app/helpers/audits_helper.rb:387
 #: ../app/views/config_reports/show.html.erb:19
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/__tests__/AuditsList.fixtures.js:12
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/__tests__/AuditsList.fixtures.js:56
 msgid "Host details"
 msgstr ""
 
-#: ../app/helpers/audits_helper.rb:365
+#: ../app/helpers/audits_helper.rb:388
 msgid "Associated Host"
 msgstr ""
 
@@ -4732,16 +4780,18 @@ msgstr ""
 #: ../app/views/hosts/_assign_hosts.html.erb:36
 #: ../app/views/hosts/_interfaces.html.erb:64
 #: ../app/views/hosts/_list.html.erb:52
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:172
-#: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:48
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:180
+#: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:55
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/CancelBtn.js:23
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:64
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:157
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:162
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:36
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:56
 #: ../webpack/assets/javascripts/react_app/components/common/RedirectCancelButton/RedirectCancelButton.js:11
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:19
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:236
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:39
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:193
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:244
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:27
 msgid "Cancel"
 msgstr ""
 
@@ -4752,7 +4802,7 @@ msgstr ""
 #: ../app/helpers/form_helper.rb:246 ../app/views/hosts/_list.html.erb:53
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitBtn.js:25
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:14
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:233
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:237
 msgid "Submit"
 msgstr ""
 
@@ -4845,7 +4895,7 @@ msgstr ""
 #: ../app/views/domains/_form.html.erb:4
 #: ../app/views/hostgroups/_form.html.erb:45
 #: ../app/views/subnets/_form.html.erb:25
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:66
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:68
 #: model_attributes.rb:112
 msgid "Domain"
 msgstr ""
@@ -4871,7 +4921,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:70
 #: ../app/views/hosts/_list.html.erb:14
 #: ../config/initializers/foreman_register.rb:26
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:167
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:169
 msgid "Comment"
 msgstr ""
 
@@ -4912,14 +4962,14 @@ msgstr ""
 #: ../app/views/hosts/_selected_hosts.html.erb:13
 #: ../config/initializers/foreman_register.rb:20
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:108
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:98
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:100
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/HostGroup.js:14
 msgid "Host group"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:76
 #: ../config/initializers/foreman_register.rb:22
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:70
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:72
 msgid "Boot time"
 msgstr ""
 
@@ -4930,7 +4980,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:77
 #: ../app/views/hosts/_selected_hosts.html.erb:16
 #: ../app/views/hosts/select_multiple_location.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:142
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:144
 #: taxonomies.rb:10
 msgid "Location"
 msgstr ""
@@ -4938,7 +4988,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:78
 #: ../app/views/hosts/_selected_hosts.html.erb:19
 #: ../app/views/hosts/select_multiple_organization.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:131
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:133
 #: taxonomies.rb:11
 msgid "Organization"
 msgstr ""
@@ -4972,7 +5022,7 @@ msgstr ""
 #: ../app/views/images/_list.html.erb:20
 #: ../app/views/operatingsystems/index.html.erb:16
 #: ../app/views/taxonomies/index.html.erb:28
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:162
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:150
 msgid "Edit"
 msgstr ""
 
@@ -5033,7 +5083,6 @@ msgstr ""
 #: ../app/views/config_reports/index.html.erb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:52
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:38
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:136
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:31
 msgid "Reports"
 msgstr ""
@@ -5069,7 +5118,7 @@ msgstr ""
 #: ../app/views/http_proxies/index.html.erb:21
 #: ../app/views/media/index.html.erb:29
 #: ../app/views/operatingsystems/index.html.erb:18
-#: ../app/views/realms/index.html.erb:18 ../app/views/subnets/index.html.erb:32
+#: ../app/views/realms/index.html.erb:18 ../app/views/subnets/index.html.erb:39
 #: ../app/views/taxonomies/index.html.erb:31
 #: ../app/views/usergroups/index.html.erb:24
 msgid "Delete %s?"
@@ -5238,7 +5287,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:23
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:13
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:77
-#: ../app/views/compute_resources_vms/form/rackspace/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:49
 #: model_attributes.rb:260
 msgid "Image"
@@ -5253,7 +5301,7 @@ msgstr ""
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
-#: ../app/helpers/images_helper.rb:18 ../app/registries/menu/loader.rb:83
+#: ../app/helpers/images_helper.rb:18 ../app/registries/menu/loader.rb:89
 #: ../app/views/about/index.html.erb:12
 #: ../app/views/compute_attributes/edit.html.erb:4
 #: ../app/views/compute_attributes/new.html.erb:5
@@ -5373,12 +5421,13 @@ msgid "Hide this value"
 msgstr ""
 
 #: ../app/helpers/pagination_helper.rb:4
+#: ../app/views/settings/index.html.erb:13
 msgid "No entries found"
 msgstr ""
 
 #: ../app/helpers/provisioning_templates_helper.rb:17
 #: ../app/views/report_templates/generate.html.erb:52
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:34
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:21
 msgid "Generate"
 msgstr ""
 
@@ -5559,7 +5608,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:10
 #: ../app/views/config_reports/_list.html.erb:15
 #: ../app/views/domains/index.html.erb:10
-#: ../app/views/fact_values/index.html.erb:20
 #: ../app/views/filters/index.html.erb:32
 #: ../app/views/hostgroups/index.html.erb:11
 #: ../app/views/hosts/_interfaces.html.erb:19
@@ -5583,7 +5631,6 @@ msgstr ""
 #: ../app/views/usergroups/_form.html.erb:40
 #: ../app/views/usergroups/index.html.erb:11
 #: ../app/views/users/index.html.erb:15
-#: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:50
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:23
 msgid "Actions"
 msgstr ""
@@ -5742,7 +5789,7 @@ msgstr ""
 
 #: ../app/helpers/templates_helper.rb:99
 #: ../webpack/assets/javascripts/react_app/components/SearchBar/SearchAutocomplete.js:121
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:201
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:203
 msgid "Search"
 msgstr ""
 
@@ -6388,7 +6435,7 @@ msgid "This IP address has already been reserved in External IPAM"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/external_ipam.rb:26
-#: ../app/models/host/managed.rb:881
+#: ../app/models/host/managed.rb:882
 msgid "Some interfaces are invalid"
 msgstr ""
 
@@ -6641,98 +6688,100 @@ msgstr ""
 msgid "is locked for user modifications."
 msgstr ""
 
-#: ../app/models/host/base.rb:582
+#: ../app/models/host/base.rb:607
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:588
+#: ../app/models/host/base.rb:613
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:607
+#: ../app/models/host/base.rb:632
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:270
+#: ../app/models/host/managed.rb:271
 msgid "invalid time range"
 msgstr ""
 
-#: ../app/models/host/managed.rb:315 ../app/models/hostgroup.rb:26
+#: ../app/models/host/managed.rb:316 ../app/models/hostgroup.rb:26
 msgid "should be 8 characters or more"
 msgstr ""
 
-#: ../app/models/host/managed.rb:316
+#: ../app/models/host/managed.rb:317
 msgid "should not be blank - consider setting a global or host group default"
 msgstr ""
 
-#: ../app/models/host/managed.rb:318
+#: ../app/models/host/managed.rb:319
 msgid "can't be blank unless a custom partition has been defined"
 msgstr ""
 
-#: ../app/models/host/managed.rb:320
+#: ../app/models/host/managed.rb:321
 msgid "is unknown"
 msgstr ""
 
-#: ../app/models/host/managed.rb:324
+#: ../app/models/host/managed.rb:325
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:490
+#: ../app/models/host/managed.rb:491
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:491
+#: ../app/models/host/managed.rb:492
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:644
+#: ../app/models/host/managed.rb:645
 #: ../app/models/parameters/host_parameter.rb:11
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:39
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:66
 msgid "host"
 msgstr ""
 
-#: ../app/models/host/managed.rb:645
+#: ../app/models/host/managed.rb:646
 msgid "hostgroup"
 msgstr ""
 
-#: ../app/models/host/managed.rb:646
+#: ../app/models/host/managed.rb:647
 msgid "global setting"
 msgstr ""
 
-#: ../app/models/host/managed.rb:666
+#: ../app/models/host/managed.rb:667
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:667
+#: ../app/models/host/managed.rb:668
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:712
+#: ../app/models/host/managed.rb:713
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:828
+#: ../app/models/host/managed.rb:829
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:906
+#: ../app/models/host/managed.rb:907
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:921
+#: ../app/models/host/managed.rb:922
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:926
+#: ../app/models/host/managed.rb:927
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:931 ../app/models/nic/interface.rb:137
+#: ../app/models/host/managed.rb:932 ../app/models/nic/interface.rb:137
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:980
+#: ../app/models/host/managed.rb:981
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
@@ -7003,6 +7052,14 @@ msgstr ""
 msgid "subnet"
 msgstr ""
 
+#: ../app/models/personal_access_token.rb:89
+msgid "Could not parse timestamp '%{timestamp}'"
+msgstr ""
+
+#: ../app/models/personal_access_token.rb:95
+msgid "cannot be in the past"
+msgstr ""
+
 #: ../app/models/provisioning_template.rb:106
 msgid "Must provide template kind"
 msgstr ""
@@ -7077,39 +7134,39 @@ msgstr ""
 msgid "some permissions were not found: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:118
+#: ../app/models/setting.rb:117
 msgid "must be boolean"
 msgstr ""
 
-#: ../app/models/setting.rb:127
+#: ../app/models/setting.rb:126
 msgid "must be integer"
 msgstr ""
 
-#: ../app/models/setting.rb:138
+#: ../app/models/setting.rb:137
 msgid "must be an array"
 msgstr ""
 
-#: ../app/models/setting.rb:146
+#: ../app/models/setting.rb:145
 msgid "Parsing a hash from a string is not supported"
 msgstr ""
 
-#: ../app/models/setting.rb:149
+#: ../app/models/setting.rb:148
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
-#: ../app/models/setting.rb:153
+#: ../app/models/setting.rb:152
 msgid "Error parsing value for setting '%(name)s': %(error)s"
 msgstr ""
 
-#: ../app/models/setting.rb:232
+#: ../app/models/setting.rb:231
 msgid "Host owner is invalid"
 msgstr ""
 
-#: ../app/models/setting.rb:236
+#: ../app/models/setting.rb:235
 msgid "is invalid: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:244
+#: ../app/models/setting.rb:243
 msgid "is not allowed to change"
 msgstr ""
 
@@ -7248,7 +7305,7 @@ msgid ""
 "AAAA records are managed via Domain DNS proxy"
 msgstr ""
 
-#: ../app/models/subnet.rb:77 ../app/registries/menu/loader.rb:69
+#: ../app/models/subnet.rb:77 ../app/registries/menu/loader.rb:75
 #: ../app/views/hosts/show.html.erb:35
 #: ../app/views/operatingsystems/_form.html.erb:7
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/constants.js:3
@@ -7590,21 +7647,21 @@ msgstr ""
 msgid "Unsupported search operators :and / :or"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:228
+#: ../app/registries/foreman/plugin.rb:231
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:238
+#: ../app/registries/foreman/plugin.rb:241
 msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:242
+#: ../app/registries/foreman/plugin.rb:245
 msgid ""
 "%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{pl"
 "ugin_version}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:430
+#: ../app/registries/foreman/plugin.rb:433
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
@@ -7643,7 +7700,7 @@ msgstr ""
 #: ../app/views/smart_proxies/plugins/_puppet_ca.html.erb:2
 #: ../app/views/users/_form.html.erb:69
 #: ../config/initializers/foreman_register.rb:9
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:207
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:208
 msgid "General"
 msgstr ""
 
@@ -8369,73 +8426,85 @@ msgid "Show Experimental Labs"
 msgstr ""
 
 #: ../app/registries/foreman/settings/general.rb:56
-msgid "Foreman will append domain names when new hosts are provisioned"
+msgid ""
+"Whether or not to show the new overview page for All Hosts (requires reload of"
+" page)"
 msgstr ""
 
 #: ../app/registries/foreman/settings/general.rb:58
-msgid "Append domain names to the host"
+msgid "Show New Host Overview Page"
 msgstr ""
 
 #: ../app/registries/foreman/settings/general.rb:61
+msgid ""
+"Display names of hosts as FQDNs. If disabled, only display names of hosts as h"
+"ostnames."
+msgstr ""
+
+#: ../app/registries/foreman/settings/general.rb:63
+msgid "Display FQDN for hosts"
+msgstr ""
+
+#: ../app/registries/foreman/settings/general.rb:66
 msgid ""
 "Duration in minutes after servers are classed as out of sync. This setting is "
 "overridden by specific settings from config management tools (e.g. puppet_inte"
 "val, ansible_interval)."
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:64
+#: ../app/registries/foreman/settings/general.rb:69
 msgid "Out of sync interval"
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:67
+#: ../app/registries/foreman/settings/general.rb:72
 msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:69
+#: ../app/registries/foreman/settings/general.rb:74
 msgid "Foreman UUID"
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:73
+#: ../app/registries/foreman/settings/general.rb:77
 msgid "Language to use for new users"
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:75
+#: ../app/registries/foreman/settings/general.rb:79
 msgid "Default language"
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:79
+#: ../app/registries/foreman/settings/general.rb:83
 msgid "Timezone to use for new users"
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:81
+#: ../app/registries/foreman/settings/general.rb:85
 msgid "Default timezone"
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:85
+#: ../app/registries/foreman/settings/general.rb:89
 msgid ""
 "The instance title is shown on the top navigation bar (requires a page reload)"
 "."
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:87
+#: ../app/registries/foreman/settings/general.rb:91
 msgid "Instance title"
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:90
+#: ../app/registries/foreman/settings/general.rb:94
 msgid ""
 "Duration in days to preserve audits for. Leave empty to disable the audits cle"
 "anup."
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:92
+#: ../app/registries/foreman/settings/general.rb:96
 msgid "Saved audits interval"
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:95
+#: ../app/registries/foreman/settings/general.rb:99
 msgid "Foreman will load the new UI for host details"
 msgstr ""
 
-#: ../app/registries/foreman/settings/general.rb:97
+#: ../app/registries/foreman/settings/general.rb:101
 msgid "New host details UI"
 msgstr ""
 
@@ -8461,7 +8530,7 @@ msgstr ""
 msgid "RSS URL"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:6
+#: ../app/registries/foreman/settings/provisioning.rb:9
 #: ../app/registries/menu/loader.rb:29 ../app/views/ssh_keys/new.html.erb:6
 #: ../app/views/taxonomies/_form.html.erb:8
 #: ../app/views/usergroups/_form.html.erb:27
@@ -8469,174 +8538,174 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:7
+#: ../app/registries/foreman/settings/provisioning.rb:10
 msgid "Usergroups"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:12
+#: ../app/registries/foreman/settings/provisioning.rb:15
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:14
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:152
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:109
+#: ../app/registries/foreman/settings/provisioning.rb:17
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:154
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:111
 msgid "Host owner"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:16
+#: ../app/registries/foreman/settings/provisioning.rb:19
 #: ../app/views/hosts/_form.html.erb:126
 msgid "Select an owner"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:19
+#: ../app/registries/foreman/settings/provisioning.rb:22
 msgid "Default encrypted root password on provisioned hosts"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:21
+#: ../app/registries/foreman/settings/provisioning.rb:24
 msgid "Root password"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:27
+#: ../app/registries/foreman/settings/provisioning.rb:30
 msgid ""
 "URL hosts will retrieve templates from during build, when it starts with https"
 " unattended/userdata controllers cannot be accessed via HTTP"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:29
+#: ../app/registries/foreman/settings/provisioning.rb:32
 msgid "Unattended URL"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:32
+#: ../app/registries/foreman/settings/provisioning.rb:35
 msgid "Enable safe mode config templates rendering (recommended)"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:34
+#: ../app/registries/foreman/settings/provisioning.rb:37
 msgid "Safemode rendering"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:37
+#: ../app/registries/foreman/settings/provisioning.rb:40
 msgid "Allow access to unattended URLs without build mode being used"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:39
+#: ../app/registries/foreman/settings/provisioning.rb:42
 msgid "Access unattended without build"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:42
+#: ../app/registries/foreman/settings/provisioning.rb:45
 msgid ""
 "Foreman will query the locally configured resolver instead of the SOA/NS autho"
 "rities"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:44
+#: ../app/registries/foreman/settings/provisioning.rb:47
 msgid "Query local nameservers"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:47
+#: ../app/registries/foreman/settings/provisioning.rb:50
 msgid ""
 "Time in minutes installation tokens should be valid for, 0 to disable token ge"
 "neration"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:49
+#: ../app/registries/foreman/settings/provisioning.rb:52
 msgid "Installation token lifetime"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:52
+#: ../app/registries/foreman/settings/provisioning.rb:55
 msgid "Time in seconds before SSH provisioning times out"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:54
+#: ../app/registries/foreman/settings/provisioning.rb:57
 msgid "SSH timeout"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:57
+#: ../app/registries/foreman/settings/provisioning.rb:60
 msgid ""
 "The IP address that should be used for the console listen address when provisi"
 "oning new virtual machines via Libvirt"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:59
+#: ../app/registries/foreman/settings/provisioning.rb:62
 msgid "Libvirt default console address"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:62
+#: ../app/registries/foreman/settings/provisioning.rb:65
 msgid "Foreman will update the host IP with the IP that made the built request"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:64
+#: ../app/registries/foreman/settings/provisioning.rb:67
 msgid "Update IP from built request"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:67
+#: ../app/registries/foreman/settings/provisioning.rb:70
 msgid ""
 "Foreman will use the short hostname instead of the FQDN for creating new virtu"
 "al machines"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:69
+#: ../app/registries/foreman/settings/provisioning.rb:72
 msgid "Use short name for VMs"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:72
+#: ../app/registries/foreman/settings/provisioning.rb:75
 msgid ""
 "List of timeouts (in seconds) for DNS lookup attempts such as the dns_lookup m"
 "acro and DNS record conflict validation"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:74
+#: ../app/registries/foreman/settings/provisioning.rb:77
 msgid "DNS timeout"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:77
+#: ../app/registries/foreman/settings/provisioning.rb:80
 msgid ""
 "Foreman will delete virtual machine if provisioning script ends with non zero "
 "exit code"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:79
+#: ../app/registries/foreman/settings/provisioning.rb:82
 msgid "Clean up failed deployment"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:82
+#: ../app/registries/foreman/settings/provisioning.rb:85
 msgid ""
 "Random gives unique names, MAC-based are longer but stable (and only works wit"
 "h bare-metal)"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:84
+#: ../app/registries/foreman/settings/provisioning.rb:87
 msgid "Type of name generator"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:88
+#: ../app/registries/foreman/settings/provisioning.rb:91
 msgid ""
 "Default PXE menu item in global template - 'local', 'discovery' or custom, use"
 " blank for template default"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:90
+#: ../app/registries/foreman/settings/provisioning.rb:93
 msgid "Default PXE global template entry"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:93
+#: ../app/registries/foreman/settings/provisioning.rb:96
 msgid ""
 "Default PXE menu item in local template - 'local', 'force_local_chain_hd0' or "
 "custom, use blank for template default"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:95
+#: ../app/registries/foreman/settings/provisioning.rb:98
 msgid "Default PXE local template entry"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:98
+#: ../app/registries/foreman/settings/provisioning.rb:101
 msgid "Intermediate iPXE script for unattended installations"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:100
+#: ../app/registries/foreman/settings/provisioning.rb:103
 msgid "iPXE intermediate script"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:104
+#: ../app/registries/foreman/settings/provisioning.rb:107
 msgid ""
 "Destroy associated VM on host delete. When enabled, VMs linked to Hosts will b"
 "e deleted on Compute Resource. When disabled, VMs are unlinked when the host i"
@@ -8644,87 +8713,101 @@ msgid ""
 " imported back to Foreman again. This does not automatically power off the VM"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:106
+#: ../app/registries/foreman/settings/provisioning.rb:109
 msgid "Destroy associated VM on host delete"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:109
+#: ../app/registries/foreman/settings/provisioning.rb:112
 msgid ""
 "Maximum amount of keys in structured subtree, statistics stored in foreman::dr"
 "opped_subtree_facts"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:111
+#: ../app/registries/foreman/settings/provisioning.rb:114
 msgid "Maximum structured facts"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:114
+#: ../app/registries/foreman/settings/provisioning.rb:117
 msgid "Global Registration template"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:116
+#: ../app/registries/foreman/settings/provisioning.rb:119
 msgid "Default Global registration template"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:119
+#: ../app/registries/foreman/settings/provisioning.rb:122
 msgid ""
 "Default 'Host initial configuration' template, automatically assigned when a n"
 "ew operating system is created"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:121
+#: ../app/registries/foreman/settings/provisioning.rb:124
 msgid "Default 'Host initial configuration' template"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:124
-msgid "Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"
-msgstr ""
-
-#: ../app/registries/foreman/settings/provisioning.rb:126
-msgid "CoreOS Transpiler Command"
+#: ../app/registries/foreman/settings/provisioning.rb:127
+msgid "Full path to CoreOS transpiler (ct)"
 msgstr ""
 
 #: ../app/registries/foreman/settings/provisioning.rb:129
-msgid ""
-"Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separa"
-"ted array"
+msgid "CoreOS Transpiler Command"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:131
-msgid "Fedora CoreOS Transpiler Command"
+#: ../app/registries/foreman/settings/provisioning.rb:133
+msgid "CoreOS transpiler (ct) arguments as an comma-separated array"
+msgstr ""
+
+#: ../app/registries/foreman/settings/provisioning.rb:135
+msgid "CoreOS Transpiler Command Arguments"
 msgstr ""
 
 #: ../app/registries/foreman/settings/provisioning.rb:138
+msgid "Full path to Fedora CoreOS transpiler (fcct)"
+msgstr ""
+
+#: ../app/registries/foreman/settings/provisioning.rb:140
+msgid "Fedora CoreOS Transpiler Command"
+msgstr ""
+
+#: ../app/registries/foreman/settings/provisioning.rb:144
+msgid "Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"
+msgstr ""
+
+#: ../app/registries/foreman/settings/provisioning.rb:146
+msgid "Fedora CoreOS Transpiler Command Arguments"
+msgstr ""
+
+#: ../app/registries/foreman/settings/provisioning.rb:153
 msgid ""
 "Global default %s template. This template gets deployed to all configured TFTP"
 " servers. It will not be affected by upgrades."
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:140
+#: ../app/registries/foreman/settings/provisioning.rb:155
 msgid "Global default %s template"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:147
+#: ../app/registries/foreman/settings/provisioning.rb:162
 msgid "Template that will be selected as %s default for local boot."
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:149
+#: ../app/registries/foreman/settings/provisioning.rb:164
 msgid "Local boot %s template"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:160
+#: ../app/registries/foreman/settings/provisioning.rb:175
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:162
+#: ../app/registries/foreman/settings/provisioning.rb:177
 msgid "Manage PuppetCA"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:165
+#: ../app/registries/foreman/settings/provisioning.rb:180
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr ""
 
-#: ../app/registries/foreman/settings/provisioning.rb:167
+#: ../app/registries/foreman/settings/provisioning.rb:182
 msgid "Use UUID for certificates"
 msgstr ""
 
@@ -8754,7 +8837,7 @@ msgstr ""
 #: ../app/views/subnets/_form.html.erb:12
 #: ../app/views/taxonomies/_form.html.erb:38
 #: ../app/views/templates/_form.html.erb:20 ../app/views/users/_form.html.erb:9
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:123
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:107
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/Taxonomies.js:27
 #: taxonomies.rb:14
 msgid "Locations"
@@ -8775,7 +8858,7 @@ msgstr ""
 #: ../app/views/taxonomies/_form.html.erb:41
 #: ../app/views/templates/_form.html.erb:23
 #: ../app/views/users/_form.html.erb:12
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:90
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:74
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/Taxonomies.js:17
 #: taxonomies.rb:15
 msgid "Organizations"
@@ -8848,22 +8931,21 @@ msgstr ""
 msgid "Report Templates"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:55
+#: ../app/registries/menu/loader.rb:55 ../app/registries/menu/loader.rb:57
 msgid "All Hosts"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:58 ../app/views/hosts/index.html.erb:2
+#: ../app/registries/menu/loader.rb:64 ../app/views/hosts/index.html.erb:2
 #: ../app/views/hosts/welcome.html.erb:3
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:177
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:187
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:174
 msgid "Register Host"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:61
+#: ../app/registries/menu/loader.rb:67
 msgid "Provisioning Setup"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:62
+#: ../app/registries/menu/loader.rb:68
 #: ../app/views/architectures/index.html.erb:1
 #: ../app/views/architectures/welcome.html.erb:1
 #: ../app/views/operatingsystems/_form.html.erb:26
@@ -8871,17 +8953,17 @@ msgstr ""
 msgid "Architectures"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:64
+#: ../app/registries/menu/loader.rb:70
 msgid "Hardware Models"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:67 ../app/views/media/index.html.erb:1
+#: ../app/registries/menu/loader.rb:73 ../app/views/media/index.html.erb:1
 #: ../app/views/operatingsystems/_form.html.erb:6
 #: ../app/views/operatingsystems/_form.html.erb:35
 msgid "Installation Media"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:68
+#: ../app/registries/menu/loader.rb:74
 #: ../app/views/architectures/_form.html.erb:4
 #: ../app/views/architectures/index.html.erb:8
 #: ../app/views/media/index.html.erb:12
@@ -8892,7 +8974,7 @@ msgstr ""
 msgid "Operating Systems"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:70
+#: ../app/registries/menu/loader.rb:76
 #: ../app/views/operatingsystems/_form.html.erb:32
 #: ../app/views/ptables/index.html.erb:1
 #: ../app/views/ptables/welcome.html.erb:1
@@ -8901,7 +8983,7 @@ msgstr ""
 msgid "Partition Tables"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:72
+#: ../app/registries/menu/loader.rb:78
 #: ../app/views/hosts/_operating_system.html.erb:32
 #: ../app/views/provisioning_templates/index.html.erb:1
 #: ../app/views/provisioning_templates/welcome.html.erb:1
@@ -8910,18 +8992,18 @@ msgstr ""
 msgid "Provisioning Templates"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:76
+#: ../app/registries/menu/loader.rb:82
 msgid "Configure"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:77 ../app/views/hostgroups/index.html.erb:1
+#: ../app/registries/menu/loader.rb:83 ../app/views/hostgroups/index.html.erb:1
 #: ../app/views/hostgroups/welcome.html.erb:1
 #: ../app/views/hostgroups/welcome.html.erb:9
 #: ../app/views/taxonomies/_form.html.erb:35
 msgid "Host Groups"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:78
+#: ../app/registries/menu/loader.rb:84
 #: ../app/views/common_parameters/index.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:7
@@ -8929,11 +9011,11 @@ msgstr ""
 msgid "Global Parameters"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:81
+#: ../app/registries/menu/loader.rb:87
 msgid "Infrastructure"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:82 ../app/views/about/index.html.erb:10
+#: ../app/registries/menu/loader.rb:88 ../app/views/about/index.html.erb:10
 #: ../app/views/smart_proxies/index.html.erb:1
 #: ../app/views/smart_proxies/welcome.html.erb:1
 #: ../app/views/smart_proxies/welcome.html.erb:7
@@ -8941,7 +9023,7 @@ msgstr ""
 msgid "Smart Proxies"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:84
+#: ../app/registries/menu/loader.rb:90
 #: ../app/views/compute_attributes/edit.html.erb:12
 #: ../app/views/compute_attributes/new.html.erb:13
 #: ../app/views/compute_profiles/index.html.erb:1
@@ -8950,7 +9032,7 @@ msgstr ""
 msgid "Compute Profiles"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:85
+#: ../app/registries/menu/loader.rb:91
 #: ../app/views/smart_proxies/plugins/_dhcp.html.erb:7
 #: ../app/views/subnets/index.html.erb:1
 #: ../app/views/subnets/welcome.html.erb:1
@@ -8959,7 +9041,7 @@ msgstr ""
 msgid "Subnets"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:86 ../app/views/domains/index.html.erb:1
+#: ../app/registries/menu/loader.rb:92 ../app/views/domains/index.html.erb:1
 #: ../app/views/domains/welcome.html.erb:1
 #: ../app/views/domains/welcome.html.erb:7
 #: ../app/views/smart_proxies/plugins/_dns.html.erb:7
@@ -8968,14 +9050,14 @@ msgstr ""
 msgid "Domains"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:87
+#: ../app/registries/menu/loader.rb:93
 #: ../app/views/http_proxies/index.html.erb:1
 #: ../app/views/http_proxies/welcome.html.erb:1
 #: ../app/views/http_proxies/welcome.html.erb:7
 msgid "HTTP Proxies"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:88 ../app/views/realms/index.html.erb:1
+#: ../app/registries/menu/loader.rb:94 ../app/views/realms/index.html.erb:1
 #: ../app/views/realms/welcome.html.erb:1
 #: ../app/views/realms/welcome.html.erb:7
 #: ../app/views/smart_proxies/plugins/_realm.html.erb:7
@@ -8983,7 +9065,7 @@ msgstr ""
 msgid "Realms"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:93
+#: ../app/registries/menu/loader.rb:99
 msgid "Lab Features"
 msgstr ""
 
@@ -9135,13 +9217,13 @@ msgstr ""
 msgid "Unkown '%{klass}' resource class"
 msgstr ""
 
-#: ../app/services/foreman/renderer/scope/macros/base.rb:379
+#: ../app/services/foreman/renderer/scope/macros/base.rb:389
 msgid ""
 "SSL CA file not found, check the 'Server CA file' and 'SSL CA file' in Setting"
 "s > Authentication"
 msgstr ""
 
-#: ../app/services/foreman/renderer/scope/macros/base.rb:428
+#: ../app/services/foreman/renderer/scope/macros/base.rb:438
 msgid "%s is not auditable"
 msgstr ""
 
@@ -9594,6 +9676,14 @@ msgstr ""
 msgid "unable to sign a non pending certificate"
 msgstr ""
 
+#: ../app/services/sso/jwt.rb:23
+msgid "JWT SSO: Expired JWT token."
+msgstr ""
+
+#: ../app/services/sso/jwt.rb:27
+msgid "JWT SSO: Failed to decode JWT."
+msgstr ""
+
 #: ../app/services/tax_host.rb:131
 msgid "expecting %s used by hosts or inherited (check mismatches report)."
 msgstr ""
@@ -9739,14 +9829,15 @@ msgstr ""
 #: ../config/initializers/foreman_register.rb:14
 #: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:59
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:33
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:38
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:40
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:14
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:14
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:3
-#: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:35
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:40
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:17
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:60
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:199
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:19
+#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:10
 msgid "Name"
 msgstr ""
 
@@ -9888,6 +9979,18 @@ msgstr ""
 
 #: ../app/views/about/index.html.erb:138
 msgid "Instance %{uuid}"
+msgstr ""
+
+#: ../app/views/about/index.html.erb:141
+msgid "Shortcuts"
+msgstr ""
+
+#: ../app/views/about/index.html.erb:142
+msgid "To focus the page search bar"
+msgstr ""
+
+#: ../app/views/about/index.html.erb:143
+msgid "To focus the navigation search bar"
 msgstr ""
 
 #: ../app/views/api/v2/errors/access_denied.json.rabl:3
@@ -10551,6 +10654,7 @@ msgstr ""
 
 #: ../app/views/auth_source_ldaps/_ldap_card_kebab.html.erb:6
 #: ../app/views/compute_resources_vms/new.html.erb:14
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:238
 msgid "Create"
 msgstr ""
 
@@ -10599,7 +10703,7 @@ msgid "New Autosign Entry"
 msgstr ""
 
 #: ../app/views/autosign/_form.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:169
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:172
 msgid "Save"
 msgstr ""
 
@@ -10631,17 +10735,16 @@ msgid ""
 msgstr ""
 
 #: ../app/views/common/403.html.erb:3 ../app/views/common/403.html.erb:8
-#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:52
 msgid "Permission denied"
 msgstr ""
 
 #: ../app/views/common/403.html.erb:10
-#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:51
+#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:9
 msgid "You are not authorized to perform this action."
 msgstr ""
 
 #: ../app/views/common/403.html.erb:11
-#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:53
+#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:11
 msgid ""
 "Please request one of the required permissions listed below from a Foreman adm"
 "inistrator:"
@@ -10649,7 +10752,6 @@ msgstr ""
 
 #: ../app/views/common/403.html.erb:14 ../app/views/common/404.html.erb:4
 #: ../app/views/common/500.html.erb:2 ../app/views/common/503.html.erb:2
-#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:31
 msgid "Back"
 msgstr ""
 
@@ -11198,7 +11300,6 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:1
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:2
-#: ../app/views/compute_resources_vms/form/rackspace/_base.html.erb:1
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:43
 msgid "Flavor"
 msgstr ""
@@ -11435,7 +11536,7 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:37
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:6
-#: ../app/views/compute_resources_vms/show/_vmware.html.erb:15
+#: ../app/views/compute_resources_vms/show/_vmware.html.erb:27
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:18
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:46
 msgid "Cores per socket"
@@ -11493,17 +11594,13 @@ msgstr ""
 msgid "Only one volume can be bootable"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/rackspace/_base.html.erb:8
-msgid "Please Select an Image"
-msgstr ""
-
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:8
 msgid "Memory (MB)"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:9
-#: ../app/views/compute_resources_vms/show/_vmware.html.erb:16
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:52
+#: ../app/views/compute_resources_vms/show/_vmware.html.erb:28
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:84
 msgid "Firmware"
 msgstr ""
 
@@ -11596,7 +11693,7 @@ msgid "Power"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:9
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:56
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:88
 msgid "Hypervisor"
 msgstr ""
 
@@ -11656,7 +11753,7 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:54
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:50
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:46
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:57
 msgid "Running on"
 msgstr ""
 
@@ -11664,8 +11761,24 @@ msgstr ""
 msgid "using %s"
 msgstr ""
 
+#: ../app/views/compute_resources_vms/show/_vmware.html.erb:14
+msgid "Disk '%s'"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/show/_vmware.html.erb:15
+msgid "%{capacity}"
+msgstr ""
+
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:20
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:72
+msgid "Partition '%s'"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/show/_vmware.html.erb:21
+msgid "using %{allocation} out of %{capacity}"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/show/_vmware.html.erb:32
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:104
 msgid "Annotation notes"
 msgstr ""
 
@@ -12307,7 +12420,7 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/hosts/_list.html.erb:10
 #: ../config/initializers/foreman_register.rb:40
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:82
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:84
 #: model_attributes.rb:362
 msgid "Model"
 msgstr ""
@@ -12323,7 +12436,7 @@ msgstr ""
 
 #: ../app/views/hosts/_nics.html.erb:18
 #: ../app/views/subnets/_fields.html.erb:39
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:125
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:127
 msgid "MTU"
 msgstr ""
 
@@ -12405,14 +12518,14 @@ msgstr ""
 msgid "Generated %s ago"
 msgstr ""
 
-#: ../app/views/hosts/console/log.html.erb:3
+#: ../app/views/hosts/console/log.html.erb:4
 #: ../app/views/hosts/console/spice.html.erb:5
 #: ../app/views/hosts/console/vmrc.html.erb:17
 #: ../app/views/hosts/console/vnc.html.erb:5
 msgid "Back to host"
 msgstr ""
 
-#: ../app/views/hosts/console/log.html.erb:7
+#: ../app/views/hosts/console/log.html.erb:9
 msgid "Console output may be out of date"
 msgstr ""
 
@@ -12805,8 +12918,12 @@ msgstr ""
 msgid "New SSH key"
 msgstr ""
 
-#: ../app/views/layouts/base.html.erb:52
+#: ../app/views/layouts/base.html.erb:53
 msgid "You are using an unsupported browser."
+msgstr ""
+
+#: ../app/views/layouts/base.html.erb:54
+msgid "See list of supported browsers: %s"
 msgstr ""
 
 #: ../app/views/layouts/login.html.erb:1
@@ -13417,7 +13534,7 @@ msgid "Valid from"
 msgstr ""
 
 #: ../app/views/puppetca/_list.html.erb:10
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:66
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:220
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:21
 msgid "Expires"
 msgstr ""
@@ -14367,6 +14484,11 @@ msgstr ""
 
 #:
 #: ../app/views/unattended/report_templates/host_-_compare_content_hosts_packages.erb:5
+msgid "You are trying to compare the same host."
+msgstr ""
+
+#:
+#: ../app/views/unattended/report_templates/host_-_compare_content_hosts_packages.erb:7
 msgid "At least one of the hosts couldn't be found"
 msgstr ""
 
@@ -14570,8 +14692,12 @@ msgstr ""
 msgid "Are you sure you want to log out?"
 msgstr ""
 
+#: ../config/initializers/apipie.rb:26
+msgid "A class representing %s object"
+msgstr ""
+
 #: ../config/initializers/foreman_register.rb:16
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:47
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:48
 msgid "OS"
 msgstr ""
 
@@ -14838,6 +14964,7 @@ msgstr ""
 
 #: ../webpack/assets/javascripts/bundle_novnc.js:91
 #: ../webpack/assets/javascripts/foreman_tools.js:50
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:109
 msgid "Loading..."
 msgstr ""
 
@@ -14902,8 +15029,9 @@ msgid "Revert Failed, %s"
 msgstr ""
 
 #: ../webpack/assets/javascripts/foreman_overrides.js:18
-#: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:40
+#: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:47
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:35
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:184
 msgid "Confirm"
 msgstr ""
 
@@ -15086,26 +15214,25 @@ msgstr ""
 msgid "Create Bookmark"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/ChartBox/ChartBox.js:127
+#: ../webpack/assets/javascripts/react_app/components/ChartBox/ChartBox.js:124
 #: ../webpack/assets/javascripts/react_app/components/ChartBox/index.js:71
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:27
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:37
 #: ../webpack/assets/javascripts/react_app/components/common/charts/AreaChart/index.js:48
 #: ../webpack/assets/javascripts/react_app/components/common/charts/BarChart/index.js:55
 #: ../webpack/assets/javascripts/react_app/components/common/charts/DonutChart/index.js:53
-#: ../webpack/assets/javascripts/react_app/components/common/charts/LineChart/index.js:57
+#: ../webpack/assets/javascripts/react_app/components/common/charts/LineChart/index.js:64
 msgid "No data available"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:151
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:153
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:157
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:152
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:154
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:159
 msgid "Manage columns"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:161
+#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:163
 msgid "Select columns to display in the table."
 msgstr ""
 
@@ -15140,6 +15267,10 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:26
 msgid "e-mail reporting"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:63
+msgid "I understand that this action cannot be undone."
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/DiffView/DiffToggle.js:15
@@ -15248,33 +15379,6 @@ msgid "Click to log in again"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:37
-msgid "Request Failed"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:53
-msgid "Show distribution chart"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:55
-msgid "View Chart"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:61
-msgid "Fact distribution chart - %s "
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:65
-msgid "(%s host)"
-msgid_plural "(%s hosts)"
-msgstr[0] ""
-msgstr[1] ""
-
-#:
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitOrCancelActions.js:30
 msgid "Failed to submit the request."
 msgstr ""
@@ -15300,43 +15404,38 @@ msgid "No errors detected"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:18
-msgid "Host %s has been removed successfully"
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:17
+msgid "Host %s deleted"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:26
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:25
 msgid ""
 "This will delete the VM and its disks. This behavior can be changed via global"
-" setting \"Destroy associated VM on host delete\"."
+" setting \\\"Destroy associated VM on host delete\\\"."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:29
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:28
 msgid ""
 "VM and its disks will not be deleted. This behavior can be changed via global "
-"setting \"Destroy associated VM on host delete\"."
+"setting \\\"Destroy associated VM on host delete\\\"."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:39
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:38
 msgid "Delete host?"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:40
-msgid "Delete host"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:58
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:57
 msgid ""
 "Are you sure you want to delete host {host}? This action is irreversible. {cas"
 "cade}"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:79
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:78
 msgid "Host %s will be built next boot"
 msgstr ""
 
@@ -15351,7 +15450,8 @@ msgid "Compute resource does not support the console function."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:145
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:133
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:197
 msgid "Legacy UI"
 msgstr ""
 
@@ -15392,7 +15492,7 @@ msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/PowerStatus/actions.js:13
-msgid "Power has been set to \"%s\" successfully"
+msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr ""
 
 #:
@@ -15433,7 +15533,8 @@ msgid "Last configuration report"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/RecentCommunicationCard/index.js:32
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/RecentCommunicationCard/index.js:33
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:244
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:25
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:29
 msgid "Never"
@@ -15520,7 +15621,7 @@ msgid "No name"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:111
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:112
 msgid "IPv6 subnet"
 msgstr ""
 
@@ -15535,12 +15636,12 @@ msgid "No network interfaces"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/index.js:47
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/index.js:48
 msgid "Edit interfaces"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:81
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:83
 msgid "Kernel release"
 msgstr ""
 
@@ -15555,45 +15656,45 @@ msgid "seconds"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:32
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:34
 msgid "System properties"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:48
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:50
 #: ../webpack/assets/javascripts/react_app/components/SearchBar/AutoCompleteMenu.js:22
 #: ../webpack/assets/javascripts/react_app/components/common/ClipboardCopy/index.js:66
 msgid "Copy to clipboard"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:49
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:51
 #: ../webpack/assets/javascripts/react_app/components/SearchBar/AutoCompleteMenu.js:23
 msgid "Copied to clipboard"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:120
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:122
 msgid "Owner type"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:37
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:38
 msgid "Open in a new tab"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:71
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:74
 msgid "View provisioning template {openTemplate}."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:83
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:87
 msgid "Safe mode on"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:84
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:88
 msgid "Safe mode off"
 msgstr ""
 
@@ -15645,6 +15746,7 @@ msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:47
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:55
 msgid "Disk capacity"
 msgstr ""
 
@@ -15679,27 +15781,59 @@ msgid "NIC name"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:60
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:53
+msgid "Disk label"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:65
+msgid "Partition path"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:69
+msgid "Partition capacity"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:75
+msgid "Partition allocation"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:92
 msgid "Connection state"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:66
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:98
 msgid "Overall status"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:42
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:46
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/ReportsTable.js:61
+#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:77
+msgid "Something went wrong"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:47
+msgid "There was an error loading this content."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:52
 msgid "Virtualization"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/index.js:30
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/index.js:25
 msgid "Collapse all cards"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/index.js:31
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/index.js:26
 msgid "Expand all cards"
 msgstr ""
 
@@ -15719,12 +15853,12 @@ msgid "Name can't contain spaces"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:146
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:151
 msgid "Hide value"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:171
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:177
 msgid "Submit edit"
 msgstr ""
 
@@ -15741,7 +15875,7 @@ msgid "Find by name"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersTable.js:93
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersTable.js:97
 msgid "Add parameter"
 msgstr ""
 
@@ -15751,12 +15885,12 @@ msgid "Parameter %s deleted"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:35
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:36
 msgid "Delete %s"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:36
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:37
 msgid "This will change the delete the parameter, are you sure?"
 msgstr ""
 
@@ -15787,14 +15921,9 @@ msgid "No results found"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/ReportsTable.js:61
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:75
-msgid "Something went wrong"
-msgstr ""
-
-#:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/ReportsTable.js:66
 #: ../webpack/assets/javascripts/react_app/components/Loading/Loading.js:23
+#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:11
 msgid "Loading"
 msgstr ""
 
@@ -15823,15 +15952,15 @@ msgstr ""
 msgid "Are you sure you want to delete this report? This action is irreversible."
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:218
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:232
 msgid "Created %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:221
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:235
 msgid "by %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:224
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:238
 msgid "(updated %s)"
 msgstr ""
 
@@ -15860,13 +15989,55 @@ msgstr ""
 msgid "Host Status Overview"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:69
-msgid "Any Organization"
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:15
+msgid "%s hosts deleted"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:102
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:22
+msgid "For hosts with compute resources, this will delete the VM and its disks."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:25
+msgid "For hosts with compute resources, VMs and their disks will not be deleted."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:40
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:67
+msgid "hosts"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:76
+msgid "Provisioning settings"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:81
+msgid ""
+"{hostsCount} will be deleted. This action is irreversible. {br}{br} {cascade} "
+"{br}{br} This behavior can be changed via global setting \\\"Destroy associated "
+"VM on host delete\\\" in {settings}.{br}{br}"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:228
+msgid "Register"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:53
+msgid "Any Organization"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:86
 msgid "Any Location"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Layout/NavigationSearch.js:183
+msgid "Search and go"
 msgstr ""
 
 #:
@@ -15895,12 +16066,12 @@ msgid "Any location"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/TaxonomySwitcher/TaxonomyDropdown.js:89
+#: ../webpack/assets/javascripts/react_app/components/Layout/components/TaxonomySwitcher/TaxonomyDropdown.js:90
 msgid "Manage Organizations"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/TaxonomySwitcher/TaxonomyDropdown.js:90
+#: ../webpack/assets/javascripts/react_app/components/Layout/components/TaxonomySwitcher/TaxonomyDropdown.js:91
 msgid "Manage Locations"
 msgstr ""
 
@@ -15928,27 +16099,17 @@ msgid "Specified value is higher than recommended maximum %s"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:38
-msgid "Vendor class"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:39
-msgid "Hardware model"
-msgstr ""
-
-#:
 #: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:22
 msgid "Bookmark this search"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:72
+#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:85
 msgid "Saved Bookmarks"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:96
+#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:109
 msgid "Manage Bookmarks"
 msgstr ""
 
@@ -15958,7 +16119,37 @@ msgid "None provided"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:92
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:27
+msgid "%s was successfully deleted"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:35
+msgid "Confirm Deletion"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:60
+msgid "You are about to delete %s. Are you sure?"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/SelectAllCheckbox/index.js:82
+msgid "Select none"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/SelectAllCheckbox/index.js:91
+msgid "Select page"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/SelectAllCheckbox/index.js:104
+msgid "Select all"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:174
 msgid "Create new"
 msgstr ""
 
@@ -16042,6 +16233,11 @@ msgid "Passwords do not match"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:32
+msgid "Permission Denied"
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/SearchBar/AutoCompleteMenu.js:25
 msgid "Error:"
 msgstr ""
@@ -16114,22 +16310,22 @@ msgid "documentation"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:43
+#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:45
 msgid "There was a problem processing the request. Please try again."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:48
+#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:50
 msgid "To report an issue {clickHere}"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:56
+#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:58
 msgid "click here"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:66
+#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:68
 msgid "Return to last page"
 msgstr ""
 
@@ -16257,23 +16453,58 @@ msgid ""
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:21
-msgid "Cannot be in the past"
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:95
+msgid "Fill out the name"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:36
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:97
+msgid "Name has already been taken"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:137
 msgid "Personal Access Token was successfully created."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:46
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:155
 msgid "Add Personal Access Token"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenForm.js:49
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:162
 msgid "Create Personal Access Token"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:229
+msgid "Cannot be in the past"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:230
+msgid "Fill out the date and time"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:260
+msgid "At"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:272
+msgid "Enter valid date: YYYY-MM-DD"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:292
+msgid "HH:MM:SS"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:294
+msgid "Enter valid time: HH:MM:SS"
 msgstr ""
 
 #:
@@ -16344,7 +16575,8 @@ msgid "Hard disk"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:35
+#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:36
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:189
 msgid " Documentation"
 msgstr ""
 
@@ -16380,12 +16612,12 @@ msgid ""
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:168
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:169
 msgid "Unlimited?"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:173
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:174
 msgid ""
 "If the unlimited field is enabled, the filter applies to all resources of the "
 "selected type. If the unlimited  field is disabled, you can specify further fi"
@@ -16395,7 +16627,7 @@ msgid ""
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:221
+#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:224
 msgid ""
 "Selected resource type does not support granular filtering, therefore you can'"
 "t configure granularity"
@@ -16413,24 +16645,16 @@ msgstr ""
 msgid "Resource Type"
 msgstr ""
 
-#:
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/ModelsPage.js:22
+#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:20
+msgid "Vendor class"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:23
+msgid "Hardware model"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:33
 msgid "Hardware models"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/components/ModelDeleteModal.js:14
-msgid "Confirm Hardware Model Deletion"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/components/ModelDeleteModal.js:19
-msgid "Hardware Model %s was successfully deleted"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/components/ModelDeleteModal.js:29
-msgid "You are about to delete %s. Are you sure?"
 msgstr ""
 
 #:
@@ -16454,19 +16678,19 @@ msgid "No OS from host group"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:34
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:21
 msgid "Generating ..."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:19
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:20
 msgid ""
 "There was an error while generating the command, see the logs for more informa"
 "tion."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:26
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:27
 msgid "Registration command"
 msgstr ""
 
@@ -16511,12 +16735,12 @@ msgid ""
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:62
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:63
 msgid "Setup Insights"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:66
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:67
 msgid ""
 "If set to `Yes`, Insights client will be installed and registered on Red Hat f"
 "amily operating systems. It has no effect on other OS families that do not sup"
@@ -16526,12 +16750,12 @@ msgid ""
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Insecure.js:14
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Insecure.js:15
 msgid "Insecure"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Insecure.js:16
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Insecure.js:17
 msgid ""
 "If the target machine does not trust the host SSL certificate, the initial con"
 "nection could be subject to a man-in-the-middle attack. If you accept the risk"
@@ -16577,12 +16801,12 @@ msgid ""
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:38
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:39
 msgid "Repository GPG key URL"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:42
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:43
 msgid ""
 "If packages are GPG signed, the public key can be specified here to verify the"
 " packages signatures. It needs to be specified in the ascii form with the GPG "
@@ -16609,13 +16833,13 @@ msgid "If no organization is set, the default organization of the user is assume
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:42
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:68
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:43
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:70
 msgid "Not specified"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:54
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:55
 msgid "If no location is set, the default location of the user is assumed."
 msgstr ""
 
@@ -16630,48 +16854,48 @@ msgid "Expiration of the authorization token."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:58
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:59
 msgid "hours"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:61
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:63
 msgid "unlimited"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/UpdatePackages.js:18
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/UpdatePackages.js:19
 msgid "Update packages"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:214
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:215
 msgid "Advanced"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:226
+#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:228
 msgid "There was an error while loading the data, see the logs for more information."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/RedirectedEmptyPage.js:36
+#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/RedirectedEmptyPage.js:49
 msgid "Return to the last page"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/RedirectedEmptyPage.js:73
+#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/RedirectedEmptyPage.js:86
 msgid "Resource not found"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/RedirectedEmptyPage.js:74
+#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/RedirectedEmptyPage.js:87
 msgid ""
 "Something went wrong and the resource does not exist or there are access permi"
 "ssions needed. Please, contact your administrator if this issue continues"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:10
+#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:9
 msgid "No Results"
 msgstr ""
 
