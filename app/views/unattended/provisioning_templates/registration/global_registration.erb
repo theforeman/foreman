@@ -163,7 +163,7 @@ if [ -x "$(command -v subscription-manager)" ] ; then
   subscription-manager clean
 fi
 
-$PKG_MANAGER_REMOVE katello-ca-consumer\*
+$PKG_MANAGER_REMOVE katello-ca-consumer\* > /dev/null 2>&1
 <% end -%>
 
 # Prepare SSL certificate
@@ -175,7 +175,7 @@ chmod 644 $KATELLO_SERVER_CA_CERT
 if ! [ -x "$(command -v subscription-manager)" ] ; then
   $PKG_MANAGER_INSTALL subscription-manager
 else
-  $PKG_MANAGER_UPGRADE subscription-manager
+  $PKG_MANAGER_UPGRADE subscription-manager > /dev/null 2>&1
 fi
 
 if ! [ -f $RHSM_CFG ] ; then
