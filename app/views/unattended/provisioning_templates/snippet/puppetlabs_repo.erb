@@ -38,6 +38,8 @@ end
 
 if host_param_true?('enable-puppetlabs-repo')
   repo_name = 'puppet-release'
+elsif host_param_true?('enable-official-puppet8-repo')
+  repo_name = 'puppet8-release'
 elsif host_param_true?('enable-official-puppet7-repo')
   repo_name = 'puppet7-release'
 elsif host_param_true?('enable-puppetlabs-puppet6-repo')
