@@ -25,6 +25,14 @@ module Api
         @total = @resource_types.size
         render :resource_types, :layout => 'api/v2/layouts/index_layout'
       end
+
+      api :GET, "/permissions/current_permissions", N_("List all permissions for current user")
+      def current_permissions
+        @user = User.current
+        @current_permissions = @user.admin? ? Permission.all : @user.permissions
+        @total = @current_permissions.size
+        render :current_permissions, :layout => 'api/v2/layouts/index_layout'
+      end
     end
   end
 end
