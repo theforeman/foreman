@@ -18,6 +18,7 @@ Foreman::AccessControl.map do |permission_set|
       :bookmarks => [:index, :show, :auto_complete_search, :welcome],
       :"api/v2/bookmarks" => [:index, :show],
     }, :public => true
+    map.permission :current_permissions, { :"api/v2/permissions" => [:current_permissions] }, :public => true
   end
 
   permission_set.security_block :architectures do |map|

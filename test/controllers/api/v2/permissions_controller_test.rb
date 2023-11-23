@@ -22,4 +22,10 @@ class Api::V2::PermissionsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:resource_types)
     assert_response_not_empty
   end
+
+  test "should list current user permissions" do
+    get :current_permissions
+    assert_not_nil assigns(:current_permissions)
+    assert_response_not_empty
+  end
 end

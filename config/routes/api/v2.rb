@@ -158,6 +158,7 @@ Foreman::Application.routes.draw do
       resources :permissions, :only => [:index, :show] do
         collection do
           get :resource_types
+          get :current_permissions
         end
       end
 
