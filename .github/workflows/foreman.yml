@@ -10,6 +10,10 @@ env:
   DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: true
   BUNDLE_WITHOUT: "console:development:journald"
 
+concurrency:
+  group: ${{ github.ref_name }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   setup_matrix:
     name: Setup matrix
