@@ -56,6 +56,7 @@ class Setting < ApplicationRecord
 
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search on: :name, complete_value: :true, operators: ['=', '~']
+  scoped_search on: :description, complete_value: :true, operators: ['~']
 
   delegate :settings_type, :encrypted, :encrypted?, :default, to: :setting_definition, allow_nil: true
 
@@ -66,6 +67,10 @@ class Setting < ApplicationRecord
   # can't use our own settings
   def self.per_page
     20
+  end
+
+  def self.complete_for(search_query, opts = {})
+    SettingRegistry::SettingCompleter.auto_complete(Foreman.settings, scoped_search_definition, search_query, opts)
   end
 
   def self.[](name)
