@@ -86,7 +86,7 @@ class SettingPresenter
     end
 
     if query =~ /name\s*=\s*(\S+)/
-      name == tokenized.last
+      name == tokenized.last || full_name == tokenized.last
     elsif query =~ /name\s*~\s*(\S+)/
       search_value = tokenized.last
       name.include?(search_value) || full_name&.include?(search_value)

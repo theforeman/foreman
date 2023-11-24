@@ -1,6 +1,49 @@
 class SettingRegistry
   include Singleton
   include Enumerable
+  extend ScopedSearch::ClassMethods
+
+  class SettingCompleter < ScopedSearch::AutoCompleteBuilder
+    def initialize(registry, definition, query, options)
+      @registry = registry
+      super(definition, query, options)
+    end
+
+    def self.auto_complete(registry, definition, query, options)
+      return [] if (query.nil? || definition.nil? || !definition.respond_to?(:fields))
+
+      new(registry, definition, query, options).build_autocomplete_options
+    end
+
+    def is_query_valid
+      true
+    end
+
+    def complete_value
+      if last_token_is(COMPARISON_OPERATORS)
+        token = tokens[tokens.size - 2]
+        val = ''
+      else
+        token = tokens[tokens.size - 3]
+        val = tokens[tokens.size - 1]
+      end
+      field = definition.field_by_name(token)
+      return [] unless field&.complete_value
+      complete_value_from_db(field, val)
+    end
+
+    def complete_value_from_db(field, val)
+      count = 20
+      if field.field == :name
+        results = @registry.filter_map { |set| ((set.full_name =~ /\s/) ? "\"#{set.full_name.gsub('"', '\"')}\"" : set.full_name) if set.name.include?(val) || set.full_name&.include?(val) }
+        results.first(count)
+      elsif field.field == :description
+        []
+      else
+        raise ScopedSearch::QueryNotSupported, "Value '#{val}' is not valid for field '#{field.field}'"
+      end
+    end
+  end
 
   def self.subset_registry(subset)
     new(subset)
