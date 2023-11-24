@@ -18,6 +18,6 @@ group :test do
   gem 'rails-controller-testing', '~> 1.0'
   gem 'rfauxfactory', '~> 0.1', '>= 0.1.5'
   gem 'robottelo_reporter', '~> 0.1'
-  gem 'theforeman-rubocop', '~> 0.0.6', require: false
+  gem 'theforeman-rubocop', '~> 0.1.2', require: false
   gem 'webmock'
 end
