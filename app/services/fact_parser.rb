@@ -92,7 +92,7 @@ class FactParser
   end
 
   def parse_interfaces?
-    support_interfaces_parsing? && !Setting['ignore_puppet_facts_for_provisioning']
+    support_interfaces_parsing? && !Setting['ignore_puppet_facts_for_provisioning'] && !has_duplicate_mac?
   end
 
   def class_name_humanized
@@ -135,6 +135,14 @@ class FactParser
   end
 
   private
+
+  # Return if multiple interfaces have the same MAC address
+  # This can happen on Azure and Foreman can't parse that since a MAC is
+  # supposed to uniquely identify an interface in Foreman
+  # https://bugzilla.redhat.com/show_bug.cgi?id=2088782
+  def has_duplicate_mac?
+    interfaces.group_by { |_interface, facts| facts['macaddress'] }.any? { |_mac, interfaces| interfaces.length > 1 }
+  end
 
   def find_interface_by_name(host_name)
     resolver = Resolv::DNS.new
