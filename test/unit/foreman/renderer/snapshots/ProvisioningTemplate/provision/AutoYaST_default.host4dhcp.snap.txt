@@ -18,7 +18,7 @@
     <interfaces config:type="list">
     </interfaces>
   </networking>
-      <ntp-client>
+  <ntp-client>
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
       <peer>
@@ -146,6 +146,19 @@ rm /etc/resolv.conf
         </source>
       </script>
     </chroot-scripts>
+    <pre-scripts config:type="list">
+      <script>
+        <filename>puppet-keys.sh</filename>
+        <interpreter>shell</interpreter>
+        <notification>Retrieving Puppet repository keys ...</notification>
+        <source><![CDATA[
+rpmkeys --import http://yum.puppet.com/RPM-GPG-KEY-puppet
+rpmkeys --import http://yum.puppet.com/RPM-GPG-KEY-puppetlabs
+rpmkeys --import http://yum.puppet.com/RPM-GPG-KEY-puppet-20250406
+]]>
+        </source>
+      </script>
+    </pre-scripts>
   </scripts>
   <keyboard>
     <keymap>english-us</keymap>
@@ -154,4 +167,8 @@ rm /etc/resolv.conf
     <hwclock>UTC</hwclock>
     <timezone>Etc/UTC</timezone>
   </timezone>
+  <add-on>
+    <add_on_products config:type="list">
+    </add_on_products>
+  </add-on>
 </profile>

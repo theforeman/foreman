@@ -9,9 +9,11 @@ description: |
 -%>
 <%
   # safemode renderer does not support unary negation
+  aio_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-puppet5') || %w[official-puppet7 puppetlabs-puppet6 puppetlabs-puppet5].any? { |repo| host_param_true?("enable-#{repo}-repo") }
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
   salt_enabled = host_param('salt_master') ? true : false
   os_major = @host.operatingsystem.major.to_i
+  os_minor = @host.operatingsystem.minor.to_i
   primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
   primary_interface_subnet = @host.primary_interface.subnet
 -%>
@@ -29,7 +31,9 @@ description: |
       <hostname><%= @host.name %></hostname>
 <% unless primary_interface_subnet.dhcp_boot_mode? -%>
       <dhcp_hostname config:type="boolean">false</dhcp_hostname>
+<% if os_major < 12 -%>
       <dhcp_resolv config:type="boolean">false</dhcp_resolv>
+<% end -%>
 <% if @host.domain -%>
       <domain><%= @host.domain -%></domain>
 <% end -%>
@@ -96,8 +100,19 @@ description: |
     </routing>
 <% end -%>
   </networking>
-  <%# NTP client configuration has incompatible changes in Leap 15 -%>
-  <% if os_major <= 12 || os_major == 42 -%>
+<% if os_major >= 15 -%>
+  <ntp-client>
+    <ntp_policy>auto</ntp_policy>
+    <ntp_servers config:type="list">
+      <ntp_server>
+        <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
+        <iburst config:type="boolean">false</iburst>
+        <offline config:type="boolean">true</offline>
+      </ntp_server>
+    </ntp_servers>
+    <ntp_sync>15</ntp_sync>
+  </ntp-client>
+<% else -%>
   <ntp-client>
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
@@ -111,22 +126,20 @@ description: |
     <start_at_boot config:type="boolean">true</start_at_boot>
     <start_in_chroot config:type="boolean">true</start_in_chroot>
   </ntp-client>
-<% else -%>
-  <ntp-client>
-   <ntp_policy>auto</ntp_policy>
-   <ntp_servers config:type="list">
-    <ntp_server>
-     <iburst config:type="boolean">false</iburst>
-     <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
-     <offline config:type="boolean">true</offline>
-    </ntp_server>
-   </ntp_servers>
-   <ntp_sync>systemd</ntp_sync>
-   </ntp-client>
 <% end -%>
 <% if ! @dynamic -%>
   <%= @host.diskLayout %>
 <% end -%>
+<% if os_major >= 15 -%>
+  <services-manager>
+    <default_target>multi-user</default_target>
+    <services>
+      <enable config:type="list">
+        <service>sshd</service>
+      </enable>
+    </services>
+  </services-manager>
+<% else -%>
   <runlevel>
     <default>3</default>
     <services config:type="list">
@@ -136,8 +149,11 @@ description: |
       </service>
     </services>
   </runlevel>
+<% end -%>
   <software>
+<% if os_major < 15 -%>
     <base>default</base>
+<% end -%>
     <patterns config:type="list">
       <pattern>base</pattern>
       <pattern>enhanced_base</pattern>
@@ -147,7 +163,11 @@ description: |
     <packages config:type="list">
       <package>lsb-release</package>
 <% if puppet_enabled -%>
+<% if aio_enabled -%>
+      <package>puppet-agent</package>
+<% else -%>
       <package>rubygem-puppet</package>
+<% end -%>
 <% end -%>
 <% if host_param('additional-packages').present? -%>
       <%= host_param('additional-packages').split(" ").collect{|x| "<package>#{x}</package>" }.join("\n") %>
@@ -223,7 +243,43 @@ rm /etc/resolv.conf
         </source>
       </script>
     </chroot-scripts>
+<% if puppet_enabled -%>
+    <pre-scripts config:type="list">
+      <script>
+        <filename>puppet-keys.sh</filename>
+        <interpreter>shell</interpreter>
+        <notification>Retrieving Puppet repository keys ...</notification>
+        <source><![CDATA[
+<%
+  # Pull Puppetlabs RPM keys manually, automatic Zypper handling with key IDs does not work
+  puppet_repo_url_base = 'http://yum.puppet.com'
+
+  %w[puppet puppetlabs puppet-20250406].each { |key|
+-%>
+rpmkeys --import http://yum.puppet.com/RPM-GPG-KEY-<%= key %>
+<% } -%>
+]]>
+        </source>
+      </script>
+    </pre-scripts>
+<% end -%>
   </scripts>
+<% if os_major >= 15 -%>
+  <firewall>
+    <enable_firewall config:type="boolean">true</enable_firewall>
+    <log_denied_packets>off</log_denied_packets>
+    <default_zone>public</default_zone>
+    <zones config:type="list">
+      <zone>
+        <name>public</name>
+        <services config:type="list">
+          <service>ssh</service>
+          <service>dhcpv6-client</service>
+        </services>
+      </zone>
+    </zones>
+  </firewall>
+<% end -%>
   <keyboard>
     <keymap>english-us</keymap>
   </keyboard>
@@ -231,4 +287,28 @@ rm /etc/resolv.conf
     <hwclock>UTC</hwclock>
     <timezone><%= host_param('time-zone') || 'Etc/UTC' %></timezone>
   </timezone>
+  <add-on>
+    <add_on_products config:type="list">
+<% if puppet_enabled && aio_enabled -%>
+<%
+  puppet_repo_url_base = 'http://yum.puppet.com'
+  if host_param_true?('enable-official-puppet7-repo')
+    puppet_repo_url = "#{puppet_repo_url_base}/puppet7/sles/#{os_major}/#{@host.architecture}/"
+  elsif host_param_true?('enable-puppetlabs-puppet6-repo')
+    puppet_repo_url = "#{puppet_repo_url_base}/puppet6/sles/#{os_major}/#{@host.architecture}/"
+  elsif host_param_true?('enable-puppetlabs-puppet5-repo')
+    puppet_repo_url = "#{puppet_repo_url_base}/puppet5/sles/#{os_major}/#{@host.architecture}/"
+  else
+    puppet_repo_url = "#{puppet_repo_url_base}/puppet/sles/#{os_major}/#{@host.architecture}/"
+  end
+%>
+      <listentry>
+        <media_url><![CDATA[<%= puppet_repo_url %>]]></media_url>
+        <name>puppet</name>
+        <product>puppet</product>
+        <product_dir>/</product_dir>
+      </listentry>
+<% end -%>
+    </add_on_products>
+  </add-on>
 </profile>
