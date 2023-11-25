@@ -5,7 +5,7 @@ name: AutoYaST default iPXE
 model: ProvisioningTemplate
 oses:
 - SLES
-- OpenSUSE
+- openSUSE
 description: |
   The template to render iPXE installation script for SLES and OpenSUSE
   The output is deployed on the host's subnet TFTP proxy.
@@ -18,6 +18,15 @@ if host_param('http-proxy') && host_param('http-proxy-port')
 elsif host_param('http-proxy')
   extra_args << "proxy=http://" + host_param('http-proxy')
 end
+
+subnet = @host.subnet
+if subnet.respond_to?(:dhcp_boot_mode?) && subnet.dhcp_boot_mode?
+  extra_args << "useDHCP=1"
+else
+  extra_args << "netsetup=-dhcp"
+  extra_args << "ifcfg=*=\"${netX/ip}/#{@host.primary_interface.subnet.cidr},${netX/gateway},${dns},#{@host.domain}\""
+end
+extra_args << "BOOTIF=01-${netX/mac:hexhyp}"
 -%>
 echo Trying to ping Gateway: ${netX/gateway}
 ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
@@ -28,11 +37,6 @@ ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not availa
 <% kernel = boot_files_uris[0] -%>
 <% initrd = boot_files_uris[1] -%>
 
-<% subnet = @host.subnet -%>
-<% if subnet.respond_to?(:dhcp_boot_mode?) && subnet.dhcp_boot_mode? -%>
-kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1 <%= extra_args.join(' ')%>
-<% else -%>
-kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=0 netsetup=-dhcp ifcfg=*="${netX/ip}/<%= @host.primary_interface.subnet.cidr -%>,${netX/gateway},${dns},<%= @host.domain %>" <%= extra_args.join(' ')%>
-<% end -%>
-initrd <%= initrd %>
+kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 <%= extra_args.join(' ')%>
+initrd --name initrd.img <%= initrd %>
 boot
