@@ -11,42 +11,36 @@ import {
 import { translate as __ } from '../../common/I18n';
 
 export const NavigationSearch = ({ items, clickAndNavigate }) => {
-  const navLinks = {};
   let parent = null;
+  const navLinksArray = [];
   items.forEach(item => {
     item.subItems.forEach(group => {
       if (group.isDivider) {
         parent = group.title;
       } else {
-        navLinks[group.title] = {
+        navLinksArray.push({
           ...group,
           parents: [item.title, parent].filter(Boolean),
-        };
+        });
       }
     });
     parent = null;
   });
 
-  const navItems = Object.keys(navLinks);
-  const menuNav = navItem => (
+  const navItems = navLinksArray.map(item => item.title);
+  const menuNav = ({ id, title, href, onClick, parents }, key) => (
     <MenuItem
-      to={navLinks[navItem].href}
-      onClick={event =>
-        clickAndNavigate(
-          navLinks[navItem].onClick,
-          navLinks[navItem].href,
-          event
-        )
-      }
-      itemId={navItem}
-      key={navItem}
-      description={[...navLinks[navItem].parents, navItem].join(' > ')}
+      to={href}
+      onClick={event => clickAndNavigate(onClick, href, event)}
+      itemId={`${id}_${key}`}
+      key={`${id}_${key}`}
+      description={[...parents, title].join(' > ')}
     >
-      {navItem}
+      {title}
     </MenuItem>
   );
   const [autocompleteOptions, setAutocompleteOptions] = useState(
-    navItems.slice(0, 10).map(menuNav)
+    navLinksArray.slice(0, 10).map(menuNav)
   );
   const [value, setValue] = useState('');
 
@@ -69,8 +63,10 @@ export const NavigationSearch = ({ items, clickAndNavigate }) => {
       // When the value of the search input changes, build a list of no more than 10 autocomplete options.
       // Options which start with the search input value are listed first, followed by options which contain
       // the search input value.
-      let options = navItems
-        .filter(option => option.toLowerCase().includes(newValue.toLowerCase()))
+      let options = navLinksArray
+        .filter(({ title }) =>
+          title.toLowerCase().includes(newValue.toLowerCase())
+        )
         .map(menuNav);
       if (options.length > 10) {
         options = options.slice(0, 10);
@@ -190,11 +186,10 @@ export const NavigationSearch = ({ items, clickAndNavigate }) => {
           option.toLowerCase().includes(value.toLowerCase())
         );
         if (firstItem) {
-          clickAndNavigate(
-            navLinks[firstItem].onClick,
-            navLinks[firstItem].href,
-            event
+          const navLink = navLinksArray.find(
+            ({ title }) => title === firstItem
           );
+          clickAndNavigate(navLink.onClick, navLink.href, event);
         }
       }}
     />

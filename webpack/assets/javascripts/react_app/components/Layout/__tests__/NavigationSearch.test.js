@@ -4,7 +4,20 @@ import { NavigationSearch } from '../NavigationSearch';
 import { PFitems } from '../Layout.fixtures';
 
 describe('NavigationSearch', () => {
-  const items = PFitems;
+  const items = [
+    ...PFitems,
+    {
+      title: 'test',
+      initialActive: true,
+      iconClass: 'fa fa-tachometer',
+      subItems:   [{
+        title: 'Aa', // duplicate title to test filtering
+        isDivider: false,
+        href: '/aaa',
+        id: 'menu_item_aa',
+      }],
+    },
+  ];
   it('should display autocomplete options when input is typed', async () => {
     const {
       queryAllByRole,
@@ -21,6 +34,6 @@ describe('NavigationSearch', () => {
     await act(async () => {
       await fireEvent.change(input, { target: { value: 'a' } });
     });
-    expect(queryAllByRole('menuitem')).toHaveLength(2);
+    expect(queryAllByRole('menuitem')).toHaveLength(3);
   });
 });
