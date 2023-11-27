@@ -51,31 +51,27 @@ export const NavigationSearch = ({ items, clickAndNavigate }) => {
 
   const onClear = () => {
     setValue('');
+    setAutocompleteOptions(navLinksArray.slice(0, 10).map(menuNav));
   };
 
   const onChange = newValue => {
+    // When the value of the search input changes, build a list of no more than 10 autocomplete options.
+    let options = navLinksArray
+      .filter(({ title }) =>
+        title.toLowerCase().includes(newValue.toLowerCase())
+      )
+      .map(menuNav);
+    if (options.length > 10) {
+      options = options.slice(0, 10);
+    }
+
+    setAutocompleteOptions(options);
     if (
       newValue !== '' &&
       searchInputRef?.current?.contains(document.activeElement)
     ) {
-      setIsAutocompleteOpen(true);
-
-      // When the value of the search input changes, build a list of no more than 10 autocomplete options.
-      // Options which start with the search input value are listed first, followed by options which contain
-      // the search input value.
-      let options = navLinksArray
-        .filter(({ title }) =>
-          title.toLowerCase().includes(newValue.toLowerCase())
-        )
-        .map(menuNav);
-      if (options.length > 10) {
-        options = options.slice(0, 10);
-      }
-
       // The menu is hidden if there are no options
       setIsAutocompleteOpen(options.length > 0);
-
-      setAutocompleteOptions(options);
     } else {
       setIsAutocompleteOpen(false);
     }
