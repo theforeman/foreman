@@ -2,7 +2,11 @@
 name: Foreman
 
 on:
-  - pull_request
+  pull_request:
+  push:
+    branches:
+      - 'develop'
+      - '*-stable'
 
 env:
   RAILS_ENV: test
