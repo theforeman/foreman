@@ -14,5 +14,8 @@
   </div>
   <div id="spice-screen" class="console-screen"> </div>
 <% end %>
-
-<script type="text/javascript"> tfm.spice.startSpice() </script>
+<% content_for(:javascripts) do -%>
+  <script type="text/javascript">
+    tfm.spice.startSpice()
+  </script>
+<% end -%>
