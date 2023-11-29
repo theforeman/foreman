@@ -72,13 +72,15 @@ class LinksControllerTest < ActionController::TestCase
     end
 
     test 'new docs on nightly' do
-      get :show, params: {
-        type: 'docs',
-        section: 'TestSection',
-        chapter: 'TestChapter',
-      }
+      with_temporary_settings(version: Foreman::Version.new('3.10-develop')) do
+        get :show, params: {
+          type: 'docs',
+          section: 'TestSection',
+          chapter: 'TestChapter',
+        }
 
-      assert_redirected_to %r{https://docs\.theforeman\.org/nightly/TestSection/index-(foreman-(deb|el)|katello)\.html#TestChapter}
+        assert_redirected_to %r{https://docs\.theforeman\.org/nightly/TestSection/index-(foreman-(deb|el)|katello)\.html#TestChapter}
+      end
     end
 
     test 'new docs on a stable release' do
