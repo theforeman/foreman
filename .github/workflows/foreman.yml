@@ -32,18 +32,10 @@ jobs:
   rubocop:
     name: Rubocop
     needs: setup_matrix
-    runs-on: ubuntu-latest
-    env:
-      BUNDLE_WITHOUT: assets:console:development:dynflow_sidekiq:ec2:journald:jsonp:libvirt:openid:openstack:ovirt:redis:service:telemetry:vmware
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ fromJson(needs.setup_matrix.outputs.matrix).ruby[0] }}
-          bundler-cache: true
-      - name: Run rubocop
-        run: bundle exec rubocop -P
+    uses: theforeman/actions/.github/workflows/rubocop.yml@v0
+    with:
+      ruby: ${{ fromJson(needs.setup_matrix.outputs.matrix).ruby[0] }}
+      command: bundle exec rubocop --parallel
 
   tests:
     name: "${{ matrix.task }} - Ruby ${{ matrix.ruby }} and Node ${{ matrix.node }} on PostgreSQL ${{ matrix.postgresql }}"
