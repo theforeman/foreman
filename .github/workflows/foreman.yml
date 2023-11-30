@@ -70,6 +70,7 @@ jobs:
           - 'test:graphql'
           - 'webpack:compile test:integration'
           - 'db:seed'
+          - 'assets:precompile RAILS_ENV=production DATABASE_URL=nulldb://nohost'
     steps:
       - run: sudo apt-get update
       - run: sudo apt-get -qq -y install build-essential libcurl4-openssl-dev zlib1g-dev libpq-dev libvirt-dev
