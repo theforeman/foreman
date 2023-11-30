@@ -5,6 +5,10 @@ on: pull_request
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.ref_name }}-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   container:
     runs-on: ubuntu-latest
