@@ -18,15 +18,25 @@ redhat:
   media: one
   title: 'RHEL 6.1'
 
-ubuntu1010:
+debian12:
+  name: Debian
+  major: 12
+  minor: ''
+  release_name: rn12
+  type: Debian
+  media: debian
+  architectures: x86_64
+  title: 'Debian 12'
+
+ubuntu2204:
   name: Ubuntu
-  major: 10
-  minor: 10
-  release_name: rn10
+  major: 22.04
+  minor: 3
+  release_name: rn22_04
   type: Debian
   media: ubuntu
   architectures: x86_64
-  title: 'Ubuntu 10.10'
+  title: 'Ubuntu 22.04.3'
 
 ubuntu1210:
   name: Ubuntu

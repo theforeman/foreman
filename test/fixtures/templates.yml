@@ -19,7 +19,7 @@ mystring2:
   name: MyString2
   template: provision script <%%= foreman_url("finish") %> static:<%%= @static.inspect %>
   template_kind: provision
-  operatingsystems: centos5_3, redhat, ubuntu1010
+  operatingsystems: centos5_3, redhat, ubuntu2204
   locked: false
   type: ProvisioningTemplate
 
@@ -27,7 +27,7 @@ myfinish:
   name: MyFinish
   template: finish for <%%= @host.name %>
   template_kind: finish
-  operatingsystems: centos5_3, redhat, ubuntu1010
+  operatingsystems: centos5_3, redhat, ubuntu2204
   locked: false
   type: ProvisioningTemplate
 
@@ -35,7 +35,7 @@ pxekickstart:
   name: centos5_3_pxelinux
   template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ks=<%%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
   template_kind: pxelinux
-  operatingsystems: centos5_3, redhat, ubuntu1010
+  operatingsystems: centos5_3, redhat, ubuntu2204
   locked: false
   type: ProvisioningTemplate
 

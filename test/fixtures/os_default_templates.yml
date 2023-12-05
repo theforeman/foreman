@@ -32,17 +32,17 @@ six:
 seven:
   provisioning_template: mystring2
   template_kind: provision
-  operatingsystem: ubuntu1010
+  operatingsystem: ubuntu2204
 
 eight:
   provisioning_template: pxekickstart
   template_kind: PXELinux
-  operatingsystem: ubuntu1010
+  operatingsystem: ubuntu2204
 
 nine:
   provisioning_template: myfinish
   template_kind: finish
-  operatingsystem: ubuntu1010
+  operatingsystem: ubuntu2204
 
 ten:
   provisioning_template: pxeautoyast

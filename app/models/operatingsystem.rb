@@ -169,18 +169,23 @@ class Operatingsystem < ApplicationRecord
   def self.find_by_to_label(str)
     os = find_by_description(str.to_s)
     return os if os
-    a = str.split(" ")
-    if a[0] == 'Ubuntu'
-      if a[1]
-        x, y, minor = a[1].split('.', 3)
-        b = ["#{x}.#{y}", minor]
+
+    name, version = str.split(" ")
+
+    cond = {:name => name}
+
+    if version
+      if name == 'Ubuntu'
+        x, y, minor = version.split('.', 3)
+        major = "#{x}.#{y}"
+      else
+        major, minor = version.split('.')
       end
-    else
-      b = a[1].split('.') if a[1]
+
+      cond[:major] = major if major
+      cond[:minor] = minor if minor
     end
-    cond = {:name => a[0]}
-    cond[:major] = b[0] if b && b[0]
-    cond[:minor] = b[1] if b && b[1]
+
     find_by(cond)
   end
 
