@@ -15,4 +15,7 @@
   .pf-c-dropdown.pf-m-align-right {
     width: unset;
   }
+  .pf-c-dropdown { 
+    width: unset; // just in case Katello overrides it
+  }
 }
