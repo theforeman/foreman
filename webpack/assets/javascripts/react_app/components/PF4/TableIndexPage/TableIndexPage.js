@@ -231,7 +231,10 @@ const TableIndexPage = ({
               </ToolbarGroup>
             )}
             {actionButtons.length > 0 && (
-              <ToolbarGroup alignment={{ default: 'alignLeft' }}>
+              <ToolbarGroup
+                alignment={{ default: 'alignLeft' }}
+                className="table-toolbar-actions"
+              >
                 <ToolbarItem>
                   <ActionButtons buttons={actionButtons} />
                 </ToolbarItem>
