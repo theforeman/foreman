@@ -1,3 +1,16 @@
+2023-12-05	Griffin Sullivan <gsulliva@redhat.com>
+	* Release 3.9.0-rc3
+
+2023-12-05	Stejskal Leos <github@stejskalleos.cz>
+	* Fixes #36938 - Ignore output of some commands in Global Registration
+
+2023-12-04	MariaAga <mariaaga@redhat.com>
+	* Fixes #36949 - Clear nav search doesn't clear results
+	* Fixes #36948 - Nav Search doesnt show ansible roles
+
+2023-12-04	nofaralfasi <nalfassi@redhat.com>
+	* Fixes #36747 - create new snippet for subscription-manager setup
+
 2023-11-30	Griffin Sullivan <gsulliva@redhat.com>
 	* Release 3.9.0-rc2
 
