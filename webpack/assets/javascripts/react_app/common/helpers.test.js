@@ -10,6 +10,7 @@ import {
   stringIsPositiveNumber,
   formatDate,
   formatDateTime,
+  getDocsURL,
 } from './helpers';
 
 describe('isoCompatibleDate', () => {
@@ -128,5 +129,22 @@ describe('formatDateTime', () => {
   it('should return datetime string', () => {
     const date = new Date('2020-03-06 14:00');
     expect(formatDateTime(date)).toEqual('2020-03-06 14:00:00');
+  });
+});
+
+describe('getDocsURL', () => {
+  it('should return URL with guide and chapter', () => {
+    const guide = 'Managing_Hosts';
+    const chapter = 'registering-a-host_managing-hosts';
+    const expectedUrl = '/links/docs/Managing_Hosts?chapter=registering-a-host_managing-hosts';
+
+    expect(getDocsURL(guide, chapter)).toEqual(expectedUrl);
+  });
+
+  it('should return URL with guide only when chapter is not provided', () => {
+    const guide = 'Managing_Hosts';
+    const expectedUrl = '/links/docs/Managing_Hosts';
+
+    expect(getDocsURL(guide)).toEqual(expectedUrl);
   });
 });
