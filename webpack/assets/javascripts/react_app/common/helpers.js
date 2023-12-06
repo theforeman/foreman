@@ -171,7 +171,7 @@ export const getWikiURL = section => foremanUrl(`/links/wiki/${section}`);
  */
 export const getDocsURL = (guide, chapter = null) => {
   const url = foremanUrl(`/links/docs/${guide}`);
-  return chapter ? `{url}?chapter={encodeURIComponent(chapter)}` : url;
+  return chapter ? `${url}?chapter=${encodeURIComponent(chapter)}` : url;
 };
 
 /**
