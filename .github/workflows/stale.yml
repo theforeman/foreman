@@ -11,7 +11,7 @@ jobs:
   inactive-prs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v8
+      - uses: actions/stale@v9
         with:
           days-before-pr-stale: 90
           days-before-issue-stale: -1
@@ -23,7 +23,7 @@ jobs:
   impasse-prs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v8
+      - uses: actions/stale@v9
         with:
           days-before-pr-stale: 30
           days-before-issue-stale: -1
