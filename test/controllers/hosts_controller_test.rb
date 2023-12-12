@@ -462,7 +462,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'multiple hostgroup change by host names' do
     @request.env['HTTP_REFERER'] = current_hosts_path
-    hosts = FactoryBot.create_list(:host, 2)
+    hosts = FactoryBot.create_list(:host, 2, :domain => domains(:mydomain))
     host_names = hosts.map(&:name)
     # check that we have hosts and their hostgroup is empty
     host_names.each do |name|

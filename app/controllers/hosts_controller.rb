@@ -434,11 +434,10 @@ class HostsController < ApplicationController
       redirect_to(select_multiple_hostgroup_hosts_path)
       return
     end
-    hg = Hostgroup.find_by_id(id)
     # update the hosts
     @hosts.each do |host|
-      host.hostgroup = hg
-      host.save(:validate => false)
+      attributes = host.apply_inherited_attributes("hostgroup_id" => id)
+      host.update(attributes)
     end
 
     success _('Updated hosts: changed host group')
