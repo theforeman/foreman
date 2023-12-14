@@ -20,7 +20,7 @@
     "analyze": "./script/webpack-analyze"
   },
   "dependencies": {
-    "@theforeman/vendor": "^12.0.1",
+    "@theforeman/vendor": "12.2.0",
     "graphql-tag": "^2.11.0",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
@@ -29,11 +29,11 @@
   "devDependencies": {
     "@adobe/css-tools": "~4.2.0",
     "@babel/core": "^7.7.0",
-    "@theforeman/builder": "^12.0.1",
-    "@theforeman/eslint-plugin-foreman": "^12.0.1",
+    "@theforeman/builder": "12.2.0",
+    "@theforeman/eslint-plugin-foreman": "12.2.0",
     "@theforeman/eslint-plugin-rules": "^12.0.2",
-    "@theforeman/test": "^12.0.1",
-    "@theforeman/vendor-dev": "^12.0.1",
+    "@theforeman/test": "12.2.0",
+    "@theforeman/vendor-dev": "12.2.0",
     "@types/jest": "<27.0.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
