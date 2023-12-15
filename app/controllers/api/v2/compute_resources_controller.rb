@@ -268,6 +268,10 @@ module Api
         end
         attributes = @vm.attributes.deep_symbolize_keys
         attributes[:provider] = @compute_resource.provider
+        if attributes[:provider] == "Vmware"
+          attributes[:mac_addresses] = @vm.mac_addresses
+          attributes[:mac] = @vm.mac
+        end
         render :json => attributes.as_json(:except => [:label_fingerprint, :fingerprint, :parent])
       end
 
