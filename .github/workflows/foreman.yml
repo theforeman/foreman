@@ -83,7 +83,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Archive Gemfile.lock
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Gemfile-ruby-${{ matrix.ruby }}-node-${{ matrix.node }}-pg-${{ matrix.postgresql }}.lock
           path: Gemfile.lock
@@ -103,7 +103,7 @@ jobs:
         run: npm install --package-lock-only --no-audit
         if: contains(matrix.task, 'compile')
       - name: Archive package-lock.json
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: package-lock-ruby-${{ matrix.ruby }}-node-${{ matrix.node }}-pg-${{ matrix.postgresql }}.json
           path: package-lock.json
