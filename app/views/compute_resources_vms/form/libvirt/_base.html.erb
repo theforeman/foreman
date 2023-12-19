@@ -3,7 +3,6 @@
 <div id="cpus_input">
   <%= counter_f(f, :cpus, label: _('CPUs'), disabled: !new_vm, recommended_max_value: compute_resource.max_cpu_count) %>
 </div>
-<%= select_f f, :cpu_mode, Foreman::Model::Libvirt::CPU_MODES, :to_s, :to_s, { }, :label => _("CPU mode"), :label_size => "col-md-2" %>
 <%= byte_size_f(f, :memory, disabled: !new_vm, label: _('Memory'), recommended_max_value: compute_resource.max_memory.to_i) %>
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
