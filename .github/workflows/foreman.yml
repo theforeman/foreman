@@ -71,6 +71,7 @@ jobs:
           - 'webpack:compile test:integration'
           - 'db:seed'
           - 'assets:precompile RAILS_ENV=production DATABASE_URL=nulldb://nohost'
+          - 'test:external'
     steps:
       - run: sudo apt-get update
       - run: sudo apt-get -qq -y install build-essential libcurl4-openssl-dev zlib1g-dev libpq-dev libvirt-dev
@@ -110,6 +111,11 @@ jobs:
       - name: Install NPM packages
         run: npm ci --no-audit
         if: contains(matrix.task, 'compile')
+      - name: Install external test dependencies
+        run: |
+          pip3 install pykickstart
+          sudo apt-get -qq -y install --no-install-recommends grub-common
+        if: contains(matrix.task, 'external')
       - name: Prepare test env
         run: |
           bundle exec rake db:create

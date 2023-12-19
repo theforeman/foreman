@@ -12,8 +12,10 @@ class GrubSyntaxTest < ActiveSupport::TestCase
   private
 
   def grub_check(file)
-    skip unless find_executable 'grub2-script-check'
-    output = `grub2-script-check "#{file}" 2>&1`
+    grub_script_check = find_executable 'grub2-script-check'
+    grub_script_check ||= find_executable 'grub-script-check'
+    skip unless grub_script_check
+    output = `#{grub_script_check} "#{file}" 2>&1`
     status = $CHILD_STATUS
     assert_empty output
     assert status.success?
