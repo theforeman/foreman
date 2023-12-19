@@ -26,6 +26,10 @@ module Nic
     alias_method :network, :subnet_network
     alias_method :network6, :subnet6_network
 
+    class Jail < Nic::Base::Jail
+      allow :mtu, :vlanid, :bridge?, :alias?
+    end
+
     def vlanid
       # Determine a vlanid according to the following cascading rules:
       # 1. if the interface has a tag, use that as the vlanid

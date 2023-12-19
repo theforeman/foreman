@@ -114,85 +114,22 @@ selinux --<%= host_param('selinux-mode') || host_param('selinux') || 'enforcing'
 keyboard <%= host_param('keyboard') || 'us' %>
 
 <%
-  network_options = []
-  nameservers = []
-  subnet4 = iface.subnet
-  subnet6 = iface.subnet6
-
-  # device and hostname
-  if iface.bond? && rhel_compatible && os_major >= 6
-    network_options.push("--device=#{iface.identifier}")
-  else
-    network_options.push("--device=#{iface.mac || iface.identifier}")
-  end
-  network_options.push("--hostname #{@host.name}")
-
-  # single stack
-  if subnet4 && !subnet6
-    network_options.push("--noipv6")
-  elsif !subnet4 && subnet6
-    network_options.push("--noipv4")
-  end
-
-  # dual stack MTU check
-  raise("IPv4 and IPv6 subnets have different MTU") if subnet4 && subnet6 && subnet4.mtu.present? && subnet6.mtu.present? && subnet4.mtu != subnet6.mtu
-
-  # IPv4
-  if (subnet4 && !subnet4.dhcp_boot_mode?) || @static
-    network_options.push("--bootproto static")
-    network_options.push("--ip=#{iface.ip}")
-    network_options.push("--netmask=#{subnet4.mask}")
-    network_options.push("--gateway=#{subnet4.gateway}")
-  elsif subnet4 && subnet4.dhcp_boot_mode?
-    network_options.push("--bootproto dhcp")
-  end
-  if subnet4
-    nameservers.concat(subnet4.dns_servers)
-    network_options.push("--mtu=#{subnet4.mtu}") if subnet4.mtu.present?
-  end
-
-  # IPv6
-  if rhel_compatible && os_major >= 6
-    if (subnet6 && !subnet6.dhcp_boot_mode?) || @static6
-      network_options.push("--ipv6=#{iface.ip6}/#{subnet6.cidr}")
-      network_options.push("--ipv6gateway=#{subnet6.gateway}")
-    elsif subnet6 && subnet6.dhcp_boot_mode?
-      if host_param_true?('use-slaac')
-        network_options.push("--ipv6 auto")
-      else
-        network_options.push("--ipv6 dhcp")
-      end
-    end
-    if subnet6
-      nameservers.concat(subnet6.dns_servers)
-      network_options.push("--mtu=#{subnet6.mtu}") if subnet6.mtu.present?
-    end
-  end
-
-  # bond
-  if iface.bond? && rhel_compatible && os_major >= 6
-    bond_slaves = iface.attached_devices_identifiers.join(',')
-    network_options.push("--bondslaves=#{bond_slaves}")
-    network_options.push("--bondopts=mode=#{iface.mode},#{iface.bond_options.tr(' ', ',')}")
-  end
-
-  # VLAN (only on physical is recognized)
-  if iface.virtual? && iface.tag.present? && iface.attached_to.present?
-    if rhel_compatible && os_major == 6
-      network_options.push("--vlanid=#{iface.tag}")
-    else
-      network_options.push("--interfacename=vlan#{iface.tag}")
-    end
-  end
-
-  # DNS
-  if nameservers.size > 0
-    network_options.push("--nameserver=#{nameservers.join(',')}")
-  else
-    network_options.push("--nodns")
-  end
+# start with provisioning interface, then other non-bond non-bridge interfaces and the bonds + bridges at the end
+@host.interfaces.reject{ |iface| iface.bmc? }.sort_by { |iface| (iface.bond? || iface.bridge?) ? 0 : iface.provision? ? 20 : 10 }.each do |iface|
 -%>
-network <%= network_options.join(' ') %>
+<%= snippet(
+      'kickstart_network_interface',
+      variables: {
+        iface: iface,
+        host: @host,
+        use_slaac: host_param_true?('use-slaac'),
+        static: @static,
+        static6: @static6
+      }
+    ) -%>
+<%
+end
+-%>
 
 rootpw --iscrypted <%= root_pass %>
 <% if host_param_true?('disable-firewall') -%>
@@ -300,8 +237,6 @@ exec < /dev/tty3 > /dev/tty3
 chvt 3
 (
 logger "Starting anaconda <%= @host %> postinstall"
-<%= snippet 'kickstart_networking_setup' %>
-
 <%= snippet 'ntp' %>
 
 <%= snippet 'yum_proxy' %>
