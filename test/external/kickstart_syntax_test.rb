@@ -2,9 +2,14 @@ require "test_helper"
 require "English"
 
 class KickstartSyntaxTest < ActiveSupport::TestCase
-  # Kickstart snapshots are generated only for EL7
-  ["RHEL7"].each do |version|
-    Dir.glob('test/unit/foreman/renderer/snapshots/ProvisioningTemplate/provision/*Kickstart*').each do |file|
+  ksfiles = Dir.glob('test/unit/foreman/renderer/snapshots/ProvisioningTemplate/provision/*Kickstart*')
+  ksfiles_rhel9 = ksfiles.select { |ks| ks.match?('rhel9') }
+  ksfiles_rhel7 = ksfiles - ksfiles_rhel9
+
+  versions = {'RHEL7' => ksfiles_rhel7, 'RHEL9' => ksfiles_rhel9}
+
+  versions.each do |version, files|
+    files.each do |file|
       context version do
         test file do
           ksvalidator(file, version)
@@ -19,7 +24,7 @@ class KickstartSyntaxTest < ActiveSupport::TestCase
     skip unless find_executable 'ksvalidator'
     output = `ksvalidator --version #{version} '#{file}' 2>&1`
     status = $CHILD_STATUS
-    assert_empty output
+    assert_empty output.strip.sub(/Checking kickstart file [^ ]+/, '')
     assert status.success?
   end
 end
