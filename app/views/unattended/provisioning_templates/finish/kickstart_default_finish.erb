@@ -33,14 +33,6 @@ description: |
 %>
 
 <%= snippet_if_exists(template_name + " custom pre") -%>
-<% if @host.subnet.respond_to?(:dhcp_boot_mode?) -%>
-<%= snippet 'kickstart_networking_setup' %>
-<% if (rhel_compatible && os_major >= 8) -%>
-systemctl restart NetworkManager
-<% else -%>
-service network restart
-<% end -%>
-<% end -%>
 
 <% if @host.provision_method == 'image' && root_pass.present? -%>
 # Install the root password
