@@ -123,6 +123,10 @@ module Foreman
         :update_ip_from_built_request,
       ]
 
+      DEFAULT_ALLOWED_KICKSTART_METHODS = [
+        :kickstart_network,
+      ]
+
       DEFAULT_ALLOWED_LOADERS = Foreman::Renderer::Scope::Macros::Loaders::LOADERS.map(&:first)
 
       def initialize
@@ -131,13 +135,15 @@ module Foreman
         @allowed_generic_helpers = DEFAULT_ALLOWED_GENERIC_HELPERS
         @allowed_host_helpers = DEFAULT_ALLOWED_HOST_HELPERS
         @allowed_loaders = DEFAULT_ALLOWED_LOADERS
+        @allowed_kickstart_methods = DEFAULT_ALLOWED_KICKSTART_METHODS
       end
 
       attr_accessor :allowed_variables, :allowed_global_settings,
-        :allowed_generic_helpers, :allowed_host_helpers, :allowed_loaders
+        :allowed_generic_helpers, :allowed_host_helpers, :allowed_loaders,
+        :allowed_kickstart_methods
 
       def allowed_helpers
-        allowed_generic_helpers + allowed_host_helpers + allowed_loaders
+        allowed_generic_helpers + allowed_host_helpers + allowed_loaders + allowed_kickstart_methods
       end
     end
   end

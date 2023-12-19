@@ -121,7 +121,7 @@ module Nic
       allow :id, :subnet, :subnet6, :virtual?, :physical?, :mac, :ip, :ip6, :identifier, :attached_to,
         :link, :tag, :domain, :vlanid, :mtu, :bond_options, :attached_devices, :mode,
         :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac,
-        :children_mac_addresses, :nic_delay, :fqdn, :shortname, :type, :managed?, :bond?, :bridge?, :bmc?
+        :children_mac_addresses, :nic_delay, :fqdn, :shortname, :type, :managed?, :bond?, :bridge?, :bmc?, :provision?
     end
 
     # include STI inheritance column in audits

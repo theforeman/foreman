@@ -105,6 +105,7 @@ module Foreman
         name: 'snapshot-ipv4-dhcp-el7',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
+      host.stubs(:managed_interfaces).returns(host.interfaces)
       define_host_params(host)
     end
 
@@ -113,6 +114,7 @@ module Foreman
         name: 'snapshot-ipv4-static-el7',
         subnet: FactoryBot.build(:subnet_ipv4_static_for_snapshots),
         interfaces: [ipv4_interface])
+      host.stubs(:managed_interfaces).returns(host.interfaces)
       define_host_params(host)
     end
 
@@ -121,6 +123,7 @@ module Foreman
         name: 'snapshot-ipv6-dhcp-el7',
         subnet: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
         interfaces: [ipv6_interface])
+      host.stubs(:managed_interfaces).returns(host.interfaces)
       define_host_params(host)
     end
 
@@ -129,6 +132,7 @@ module Foreman
         name: 'snapshot-ipv6-static-el7',
         subnet: FactoryBot.build(:subnet_ipv6_static_for_snapshots),
         interfaces: [ipv6_interface])
+      host.stubs(:managed_interfaces).returns(host.interfaces)
       define_host_params(host)
     end
 
@@ -138,6 +142,7 @@ module Foreman
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         subnet6: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
         interfaces: [ipv46_interface])
+      host.stubs(:managed_interfaces).returns(host.interfaces)
       define_host_params(host)
     end
 
@@ -146,6 +151,7 @@ module Foreman
         name: 'snapshot-ipv4-dhcp-deb10',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
+      host.stubs(:managed_interfaces).returns(host.interfaces)
       define_host_params(host)
     end
 
@@ -170,6 +176,7 @@ module Foreman
         name: 'snapshot-ipv4-dhcp-rhel9',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
+      host.stubs(:managed_interfaces).returns(host.interfaces)
       define_host_params(host)
     end
 
