@@ -117,8 +117,6 @@ keyboard <%= host_param('keyboard') || 'us' %>
 <%= kickstart_network(
       iface,
       host: @host,
-      rhel_compatible: rhel_compatible,
-      os_major: os_major,
       use_slaac: host_param_true?('use-slaac'),
       static: @static,
       static6: @static6) %>

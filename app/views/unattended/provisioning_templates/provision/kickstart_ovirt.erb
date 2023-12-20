@@ -52,16 +52,12 @@ end
 liveimg --url=<%= liveimg_url %>
 
 <%
-rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
-os_major = @host.operatingsystem.major.to_i
 # start with provisioning interface, then other non-bond interfaces and the bonds at the end
 @host.managed_interfaces.sort_by { |iface| iface.bond? 0 : iface.provision? 20 : 10 }.each |iface| do
 %>
   <%= kickstart_network(
         iface,
         host: @host,
-        rhel_compatible: rhel_compatible,
-        os_major: os_major,
         use_slaac: false,
         static: @static,
         static6: @static6) %>

@@ -1,6 +1,33 @@
 require 'test_helper'
 
-class KickstartTest < ActiveSupport::TestCase
+class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
+  def renderer
+    @renderer ||= Foreman::Renderer::SafeModeRenderer
+  end
+
+  def render_template(iface, host:, use_slaac:, static:, static6:)
+    @snippet ||= File.read(File.expand_path('../../../../../app/views/unattended/provisioning_templates/snippet/kickstart_network_interface.erb', __dir__))
+
+    source = OpenStruct.new(
+      name: 'Test',
+      content: @snippet
+    )
+
+    scope = Class.new(Foreman::Renderer::Scope::Provisioning).send(
+      :new,
+      host: host,
+      source: source,
+      variables: {
+        iface: iface,
+        host: host,
+        use_slaac: use_slaac,
+        static: static,
+        static6: static6,
+      })
+
+    renderer.render(source, scope)
+  end
+
   setup do
     os = FactoryBot.create(:for_snapshots_rhel9, :with_provision, :with_associations)
 
@@ -9,23 +36,11 @@ class KickstartTest < ActiveSupport::TestCase
         FactoryBot.build(:nic_managed, :primary => true),
         FactoryBot.build(:nic_managed, :provision => true),
       ])
-
-    template = OpenStruct.new(
-      name: 'Test',
-      template: 'Test'
-    )
-    source = Foreman::Renderer::Source::Database.new(
-      template
-    )
-    @scope = Class.new(Foreman::Renderer::Scope::Base) do
-      include Foreman::Renderer::Scope::Macros::Kickstart
-    end.send(:new, host: @host, source: source)
-    # HostInfo.stubs(:providers).returns([HostDummyEncInfo])
   end
 
   describe '#network' do
     test 'should return a network line for an interface' do
-      actual = @scope.kickstart_network(
+      actual = render_template(
         @host.managed_interfaces.first,
         host: @host,
         use_slaac: false,
@@ -39,7 +54,10 @@ class KickstartTest < ActiveSupport::TestCase
     test 'should skip non-managed interfaces' do
       iface = FactoryBot.build(:nic_base, :primary => true)
 
-      actual = @scope.kickstart_network(
+      require 'pry-byebug'
+      binding.pry
+
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -60,7 +78,7 @@ class KickstartTest < ActiveSupport::TestCase
         bond_options: 'option_a=foo option_b=bar'
       )
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -84,7 +102,7 @@ class KickstartTest < ActiveSupport::TestCase
 
       iface.subnet6 = nil
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -104,7 +122,7 @@ class KickstartTest < ActiveSupport::TestCase
 
       iface.subnet = nil
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -122,7 +140,7 @@ class KickstartTest < ActiveSupport::TestCase
         subnet: FactoryBot.build(:subnet_ipv4_static_for_snapshots)
       )
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -144,7 +162,7 @@ class KickstartTest < ActiveSupport::TestCase
         subnet: FactoryBot.build(:subnet_ipv4_with_domains)
       )
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -163,7 +181,7 @@ class KickstartTest < ActiveSupport::TestCase
         subnet6: FactoryBot.build(:subnet_ipv6_static_for_snapshots)
       )
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -182,7 +200,7 @@ class KickstartTest < ActiveSupport::TestCase
         subnet6: FactoryBot.build(:subnet_ipv6_with_domains)
       )
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -201,7 +219,7 @@ class KickstartTest < ActiveSupport::TestCase
         subnet6: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots)
       )
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: true,
@@ -222,7 +240,7 @@ class KickstartTest < ActiveSupport::TestCase
         attached_to: 'test_iface1'
       )
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -242,7 +260,7 @@ class KickstartTest < ActiveSupport::TestCase
         subnet: FactoryBot.build(:subnet_ipv4_static_for_snapshots)
       )
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -262,7 +280,7 @@ class KickstartTest < ActiveSupport::TestCase
         subnet: FactoryBot.build(:subnet_ipv4)
       )
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
@@ -295,7 +313,7 @@ class KickstartTest < ActiveSupport::TestCase
 
       iface.domain = FactoryBot.build(:domain, name: 'test.com')
 
-      actual = @scope.kickstart_network(
+      actual = render_template(
         iface,
         host: @host,
         use_slaac: false,
