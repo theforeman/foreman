@@ -9,7 +9,7 @@ class PuppetFactParser < FactParser
         major = os_major_version
         minor = os_minor_version
       else
-        major, minor = orel.split('.')
+        major, minor = orel.split('.', 2)
         major = major.to_s.gsub(/\D/, '')
         minor = minor.to_s.gsub(/[^\d\.]/, '')
       end
