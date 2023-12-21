@@ -17,7 +17,7 @@ description: |
                         :interface => bond,
                         :subnet => bond.subnet,
                         :subnet6 => bond.subnet6,
-                        :dhcp => bond.subnet.nil? ? false : bond.subnet.dhcp_boot_mode? }) -%>
+                        :dhcp => bond.subnet&.dhcp_boot_mode? }) -%>
 <%=   save_to_file('/etc/sysconfig/network-scripts/ifcfg-$sanitized_real', ifcfg) %>
 
 <%-   @host.interfaces_with_identifier(bond.attached_devices_identifiers).each do |interface| -%>
@@ -47,7 +47,7 @@ description: |
                         :subnet => interface.subnet,
                         :subnet6 => interface.subnet6,
                         :bonding_interfaces => bonding_interfaces,
-                        :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?,
+                        :dhcp => interface.subnet&.dhcp_boot_mode?,
                         :attached_to_bond => interface_identifier.present? }) %>
 <%=   save_to_file('/etc/sysconfig/network-scripts/ifcfg-$sanitized_real', ifcfg) %>
 <%- end %>

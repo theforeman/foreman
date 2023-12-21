@@ -34,8 +34,8 @@ oses:
                   :interface => bond,
                   :subnet => bond.subnet,
                   :subnet6 => bond.subnet6,
-                  :dhcp => bond.subnet.nil? ? false : bond.subnet.dhcp_boot_mode?,
-                  :dhcp6 => bond.subnet6.nil? ? false : bond.subnet.dhcp_boot_mode? }) -%>
+                  :dhcp => bond.subnet&.dhcp_boot_mode?,
+                  :dhcp6 => bond.subnet&.dhcp_boot_mode? }) -%>
   <%= result -%>
         interfaces: <%= bond.attached_devices_identifiers %>
         parameters:
@@ -60,8 +60,8 @@ oses:
                   :interface => bridge,
                   :subnet => bridge.subnet,
                   :subnet6 => bridge.subnet6,
-                  :dhcp => bridge.subnet.nil? ? false : bridge.subnet.dhcp_boot_mode?,
-                  :dhcp6 => bridge.subnet6.nil? ? false : bridge.subnet.dhcp_boot_mode? }) -%>
+                  :dhcp => bridge.subnet&.dhcp_boot_mode?,
+                  :dhcp6 => bridge.subnet6&.dhcp_boot_mode? }) -%>
   <%= result -%>
 <%- end -%>
 <%#
@@ -81,8 +81,8 @@ oses:
                   :interface => vlan,
                   :subnet => vlan.subnet,
                   :subnet6 => vlan.subnet6,
-                  :dhcp => vlan.subnet.nil? ? false : vlan.subnet.dhcp_boot_mode?,
-                  :dhcp6 => vlan.subnet6.nil? ? false : vlan.subnet.dhcp_boot_mode? }) -%>
+                  :dhcp => vlan.subnet&.dhcp_boot_mode?,
+                  :dhcp6 => vlan.subnet6&.dhcp_boot_mode? }) -%>
   <%= result -%>
         id: <%= vlan.tag %>
         link: <%= vlan.attached_to %>
@@ -104,8 +104,8 @@ oses:
                   :interface => interface,
                   :subnet => interface.subnet,
                   :subnet6 => interface.subnet6,
-                  :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?,
-                  :dhcp6 => interface.subnet6.nil? ? false : interface.subnet.dhcp_boot_mode? }) -%>
+                  :dhcp => interface.subnet.dhcp_boot_mode?,
+                  :dhcp6 => interface.subnet6&.dhcp_boot_mode? }) -%>
   <%= result -%>
 <%- end -%>
 <%- end -%>
