@@ -460,7 +460,7 @@ module Foreman::Model
       firmware_type = args.delete(:firmware_type)
       args[:firmware] = firmware_mapping(firmware_type) if args[:firmware] == 'automatic'
 
-      args.reject! { |k, v| v.nil? }
+      args.compact!
       args
     end
 

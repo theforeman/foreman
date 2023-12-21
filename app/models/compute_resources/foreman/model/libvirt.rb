@@ -146,7 +146,7 @@ module Foreman::Model
         opts[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
       end
 
-      opts.reject! { |k, v| v.nil? }
+      opts.compact!
 
       opts[:boot_order] = %w[hd]
       opts[:boot_order].unshift 'network' unless attr[:image_id]
