@@ -146,8 +146,7 @@ description: |
     options.push('fips=1')
   end
 
-  nic_delay = subnet4 ? subnet4.nic_delay : nil
-  nic_delay ||= subnet6 ? subnet6.nic_delay : nil
+  nic_delay = subnet4&.nic_delay || subnet6&.nic_delay
   if nic_delay && rhel_compatible && major >= 7
     ["dhcp", "iflink", "ifup", "route", "ipv6dad", "ipv6auto", "carrier"].each do |type|
       options.push("rd.net.timeout.#{type}=#{nic_delay}")
