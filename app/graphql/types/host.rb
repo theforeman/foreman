@@ -7,6 +7,7 @@ module Types
     global_id_field :id
     timestamps
     field :name, String
+    field :display_name, String, method: :to_label
     field :build, Boolean
     field :managed, Boolean
     field :ip, String
