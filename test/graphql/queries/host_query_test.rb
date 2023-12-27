@@ -12,6 +12,7 @@ module Queries
           createdAt
           updatedAt
           name
+          displayName
           build
           managed
           ip
@@ -116,6 +117,7 @@ module Queries
       assert_equal host.created_at.utc.iso8601, data['createdAt']
       assert_equal host.updated_at.utc.iso8601, data['updatedAt']
       assert_equal host.name, data['name']
+      assert_equal host.to_label, data['displayName']
       assert_equal host.build, data['build']
       assert_equal host.managed, data['managed']
       assert_equal host.ip, data['ip']
