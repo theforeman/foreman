@@ -22,6 +22,7 @@ module Foreman::Controller::Parameters::Registration
           :managed,
           :comment,
           :uuid,
+          :owner_id,
           interfaces: [nic_interface_params_filter],
           interfaces_attributes: [nic_interface_params_filter],
           host_parameters_attributes: [parameter_params_filter(HostParameter)]

@@ -18,9 +18,10 @@ module Foreman::Controller::Registration
     location = Location.authorized(:view_locations).find(params['location_id']) if params['location_id'].present?
     host_group = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id']) if params["hostgroup_id"].present?
     operatingsystem = Operatingsystem.authorized(:view_operatingsystems).find(params['operatingsystem_id']) if params["operatingsystem_id"].present?
+    user = User.authorized(:view_users).find(params['owner_id']) if params['owner_id'].present?
 
     context = {
-      user: User.current,
+      user: (user || User.current),
       auth_token: api_authorization_token,
       organization: (organization || User.current.default_organization || User.current.my_organizations.first),
       location: (location || User.current.default_location || User.current.my_locations.first),

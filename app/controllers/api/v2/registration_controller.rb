@@ -19,6 +19,7 @@ module Api
       param :location_id, :number, desc: N_("ID of the Location to register the host in")
       param :hostgroup_id, :number, desc: N_("ID of the Host group to register the host in")
       param :operatingsystem_id, :number, desc: N_("ID of the Operating System to register the host in")
+      param :owner_id, :number, desc: N_("ID of the user who generated the registration command")
       param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems")
       param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host")
       param :packages, String, desc: N_("Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`")
@@ -41,6 +42,7 @@ module Api
         param :name, String, required: true
         param :location_id, :number, required: true
         param :organization_id, :number, required: true
+        param :owner_id, :number, desc: N_("ID of the user who generated the registration command")
         param :ip, String, desc: N_("IPv4 address, not required if using a subnet with DHCP proxy")
         param :ip6, String, desc: N_("IPv6 address, not required if using a subnet with DHCP proxy")
         param :mac, String, desc: N_("required for managed host that is bare metal, not required if it's a virtual machine")
@@ -117,7 +119,6 @@ module Api
         host_attributes = @host.apply_inherited_attributes(host_params('host'))
 
         @host.assign_attributes(host_attributes)
-        @host.owner = User.current
         @host.save!
       end
 
