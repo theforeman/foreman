@@ -47,7 +47,7 @@ users:
   groups: users
   shell: /bin/bash
   sudo: ['ALL=(ALL) ALL']
-  lock-passwd: false
+  lock_passwd: false
   passwd: <%= @host.root_pass %>
 <% end -%>
 <% if host_param('ssh_authorized_keys') -%>

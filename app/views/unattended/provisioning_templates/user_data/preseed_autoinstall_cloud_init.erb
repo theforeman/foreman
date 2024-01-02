@@ -47,7 +47,7 @@ autoinstall:
     users:
     - name: <%= username_to_create %>
       gecos: <%= realname_to_create %>
-      lock-passwd: false
+      lock_passwd: false
       hashed_passwd: <%= password_to_create %>
 <% if !host_param('remote_execution_ssh_keys').blank? -%>
 <%   if host_param('remote_execution_ssh_keys').is_a?(String) -%>

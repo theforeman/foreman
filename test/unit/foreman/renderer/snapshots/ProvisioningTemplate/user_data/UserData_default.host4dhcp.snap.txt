@@ -12,7 +12,7 @@ users:
   groups: users
   shell: /bin/bash
   sudo: ['ALL=(ALL) ALL']
-  lock-passwd: false
+  lock_passwd: false
   passwd: $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
 
 package_upgrade: true
