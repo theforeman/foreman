@@ -1,15 +1,20 @@
 ---
 Docs:
-  - developer_docs/**
+  - changed-files:
+    - any-glob-to-any-file: developer_docs/**
 
 GraphQL:
-  - app/graphql/**
+  - changed-files:
+    - any-glob-to-any-file: app/graphql/**
 
 Legacy JS:
-  - app/assets/javascripts/**
+  - changed-files:
+    - any-glob-to-any-file: app/assets/javascripts/**
 
 Templates:
-  - app/views/unattended/**
+  - changed-files:
+    - any-glob-to-any-file: app/views/unattended/**
 
 UI:
-  - webpack/**
+  - changed-files:
+    - any-glob-to-any-file: webpack/**
