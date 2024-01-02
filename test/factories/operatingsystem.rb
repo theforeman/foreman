@@ -158,8 +158,8 @@ FactoryBot.define do
       major { '10' }
       minor { '0' }
       type { 'Debian' }
-      release_name { 'wheezy' }
-      title { 'Debian Wheezy' }
+      release_name { 'buster' }
+      title { 'Debian Buster' }
       architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
       media { [FactoryBot.build(:debian_for_snapshots)] }
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
@@ -171,8 +171,8 @@ FactoryBot.define do
       major { '18' }
       minor { '04' }
       type { 'Debian' }
-      release_name { 'focal' }
-      title { 'Ubuntu Focal' }
+      release_name { 'bionic' }
+      title { 'Ubuntu Bionic' }
       architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
       media { [FactoryBot.build(:ubuntu_for_snapshots)] }
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }

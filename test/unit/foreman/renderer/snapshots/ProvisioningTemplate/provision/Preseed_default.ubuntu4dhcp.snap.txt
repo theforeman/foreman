@@ -26,9 +26,9 @@ d-i mirror/country string manual
 d-i mirror/http/hostname string archive.ubuntu.com:80
 d-i mirror/http/directory string /ubuntu
 d-i mirror/http/proxy string
-d-i mirror/codename string focal
-d-i mirror/suite string focal
-d-i mirror/udeb/suite string focal
+d-i mirror/codename string bionic
+d-i mirror/suite string bionic
+d-i mirror/udeb/suite string bionic
 
 # Time settings
 d-i clock-setup/utc boolean true

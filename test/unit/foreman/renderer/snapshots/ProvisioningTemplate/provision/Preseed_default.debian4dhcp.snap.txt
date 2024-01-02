@@ -26,9 +26,9 @@ d-i mirror/country string manual
 d-i mirror/http/hostname string ftp.debian.org:80
 d-i mirror/http/directory string /debian
 d-i mirror/http/proxy string
-d-i mirror/codename string wheezy
-d-i mirror/suite string wheezy
-d-i mirror/udeb/suite string wheezy
+d-i mirror/codename string buster
+d-i mirror/suite string buster
+d-i mirror/udeb/suite string buster
 
 # Time settings
 d-i clock-setup/utc boolean true
