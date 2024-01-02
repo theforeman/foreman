@@ -1,3 +1,0 @@
-
-
-BOOTIF=01-00-f0-54-1a-7e-e0 console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us localechooser/translation/warn-light=true localechooser/translation/warn-severe=true netcfg/disable_dhcp=false locale=en_US hostname=snapshot-ipv4-dhcp-el7 domain=snap.example.com
