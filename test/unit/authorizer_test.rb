@@ -131,7 +131,7 @@ class AuthorizerTest < ActiveSupport::TestCase
             collection = auth.find_collection(Domain, :permission => :edit_domains)
             assert_equal [domain4], collection
             collection = auth.find_collection(Domain, :permission => :delete_domains)
-            assert_equal [], collection
+            assert_empty collection
             collection = auth.find_collection(Domain)
             assert_equal [domain2, domain3, domain4], collection
 

@@ -180,7 +180,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
       test 'adds volumes_attributes when they were missing' do
         normalized = cr.normalize_vm_attrs({})
 
-        assert_equal({}, normalized['volumes_attributes'])
+        assert_empty(normalized['volumes_attributes'])
       end
 
       test 'normalizes volumes_attributes' do
@@ -213,7 +213,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
       test 'adds interfaces_attributes when they were missing' do
         normalized = cr.normalize_vm_attrs({})
 
-        assert_equal({}, normalized['interfaces_attributes'])
+        assert_empty(normalized['interfaces_attributes'])
       end
 
       test 'normalizes interfaces_attributes' do

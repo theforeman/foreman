@@ -156,7 +156,7 @@ class SeedsTest < ActiveSupport::TestCase
 
   test "no audits are recorded" do
     seed
-    assert_equal [], Audit.all
+    assert_empty Audit.all
   end
 
   test "seed organization when environment SEED_ORGANIZATION specified" do
@@ -213,16 +213,16 @@ class SeedsTest < ActiveSupport::TestCase
     access_permissions = Foreman::AccessControl.permissions.reject(&:public?).reject(&:plugin?).map(&:name).map(&:to_s)
     seeded_permissions = Permission.pluck('permissions.name')
     # Check all access control have a matching seeded permission
-    assert_equal [], access_permissions - seeded_permissions
+    assert_empty access_permissions - seeded_permissions
     # Check all seeded permissions have a matching access control
     # except for 'escalate_roles' as it is not tied to a controller action
-    assert_equal [], seeded_permissions - access_permissions - ['escalate_roles']
+    assert_empty seeded_permissions - access_permissions - ['escalate_roles']
   end
 
   test "viewer role contains all view permissions except for settings" do
     seed('020-permissions_list.rb', '030-permissions.rb', '020-roles_list.rb', '040-roles.rb')
     view_permissions = Permission.all.select { |permission| permission.name.match(/view/) && permission.name != 'view_settings' }
-    assert_equal [], view_permissions - Role.unscoped.find_by_name('Viewer').permissions
+    assert_empty view_permissions - Role.unscoped.find_by_name('Viewer').permissions
   end
 
   test "adds description to template kind" do

@@ -49,8 +49,8 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
       assert tmplt.save
     end
     assert_nil tmplt.template_kind
-    assert_equal [], tmplt.hostgroups
-    assert_equal [], tmplt.template_combinations
+    assert_empty tmplt.hostgroups
+    assert_empty tmplt.template_combinations
   end
 
   # If the template is not a snippet is should require the specific declaration

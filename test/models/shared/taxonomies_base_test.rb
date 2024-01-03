@@ -323,7 +323,7 @@ module TaxonomiesBaseTest
       # inherit parameter from parent
       taxonomy = taxonomy_class.create :name => "floor1", :parent_id => taxonomies(:"#{taxonomy_name}1").id
       parent_params = taxonomies(:"#{taxonomy_name}1").public_send("#{taxonomy_name}_parameters")
-      assert_equal [], taxonomy.public_send("#{taxonomy_name}_parameters")
+      assert_empty taxonomy.public_send("#{taxonomy_name}_parameters")
       assert_equal Hash[tax_param, parent_params.first.value], taxonomy.parameters
     end
 
@@ -333,7 +333,7 @@ module TaxonomiesBaseTest
       # inherit parameter from parent
       child_taxonomy = taxonomy_class.create :name => "floor1", :parent_id => taxonomies(:"#{taxonomy_name}1").id
       parent_params = taxonomies(:"#{taxonomy_name}1").public_send("#{taxonomy_name}_parameters")
-      assert_equal [], child_taxonomy.public_send("#{taxonomy_name}_parameters")
+      assert_empty child_taxonomy.public_send("#{taxonomy_name}_parameters")
 
       # new parameter on child taxonomy
       child_taxonomy.public_send("#{taxonomy_name}_parameters").create(:name => "child_param", :value => "123")
@@ -348,7 +348,7 @@ module TaxonomiesBaseTest
       # inherit parameter from parent
       child_taxonomy = taxonomy_class.create :name => "floor1", :parent_id => taxonomies(:"#{taxonomy_name}1").id
       parent_params = taxonomies(:"#{taxonomy_name}1").public_send("#{taxonomy_name}_parameters")
-      assert_equal [], child_taxonomy.public_send("#{taxonomy_name}_parameters")
+      assert_empty child_taxonomy.public_send("#{taxonomy_name}_parameters")
 
       # new parameter on child taxonomy
       child_taxonomy.public_send("#{taxonomy_name}_parameters").create(:name => "child_param", :value => "123")
@@ -366,7 +366,7 @@ module TaxonomiesBaseTest
 
     test "#params_objects should return ancestors parameters" do
       taxonomy = taxonomy_class.create :name => "floor1", :parent_id => taxonomies(:"#{taxonomy_name}1").id
-      assert_equal [], taxonomy.public_send("#{taxonomy_name}_parameters")
+      assert_empty taxonomy.public_send("#{taxonomy_name}_parameters")
       assert_equal [taxonomies(:"#{taxonomy_name}1").public_send("#{taxonomy_name}_parameters")], taxonomy.params_objects
     end
 

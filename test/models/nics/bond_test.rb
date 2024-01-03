@@ -57,10 +57,10 @@ class BondTest < ActiveSupport::TestCase
     assert_equal %w(eth2), bond.attached_devices_identifiers
 
     assert bond.remove_slave('eth2')
-    assert_equal [], bond.attached_devices_identifiers
+    assert_empty bond.attached_devices_identifiers
 
     assert bond.remove_slave('eth2')
-    assert_equal [], bond.attached_devices_identifiers
+    assert_empty bond.attached_devices_identifiers
   end
 
   test 'identifier is required for managed bonds' do
