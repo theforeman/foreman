@@ -58,7 +58,7 @@ class OvirtTest < ActiveSupport::TestCase
     record.stubs(:client).returns(client)
     record.test_connection
     assert_equal ['404 error'], record.errors[:url]
-    assert_equal [], record.errors[:base]
+    assert_empty record.errors[:base]
   end
 
   test "test_connection should fail if not authorized for datacenters (401)" do
@@ -68,7 +68,7 @@ class OvirtTest < ActiveSupport::TestCase
     record.stubs(:client).returns(client)
     record.test_connection
     assert_equal ['401 error'], record.errors[:user]
-    assert_equal [], record.errors[:base]
+    assert_empty record.errors[:base]
   end
 
   test "test_connection should succeed with HTTP url" do
@@ -78,7 +78,7 @@ class OvirtTest < ActiveSupport::TestCase
     # returned by oVirt when HTTP is valid and we POST to /api
     RestClient.expects(:post).raises(StandardError.new('406 Not Acceptable'))
     assert record.test_connection
-    assert_equal [], record.errors[:base]
+    assert_empty record.errors[:base]
   end
 
   test "test_connection should succeed with HTTPS url" do
@@ -98,6 +98,6 @@ class OvirtTest < ActiveSupport::TestCase
     RestClient.expects(:post).raises(StandardError.new('302 Found'))
     record.test_connection
     assert_match /HTTPS/, record.errors[:url].first
-    assert_equal [], record.errors[:base]
+    assert_empty record.errors[:base]
   end
 end

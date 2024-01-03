@@ -138,8 +138,8 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_response :success
     cloned_role = Role.find_by :name => new_name
     assert cloned_role
-    assert_equal [], cloned_role.organizations
-    assert_equal [], cloned_role.locations
+    assert_empty cloned_role.organizations
+    assert_empty cloned_role.locations
   end
 
   context "with organization and locations" do
@@ -223,8 +223,8 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
       assert @org, updated_role.organizations.first
       assert @loc, updated_role.locations.first
       updated_filter = Filter.find_by :id => filter.id
-      assert_equal [], updated_filter.organizations
-      assert_equal [], updated_filter.locations
+      assert_empty updated_filter.organizations
+      assert_empty updated_filter.locations
     end
   end
 

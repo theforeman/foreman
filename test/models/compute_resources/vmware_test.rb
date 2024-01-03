@@ -267,7 +267,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     end
 
     test "converts empty hash" do
-      assert_equal({}, @cr.parse_args(HashWithIndifferentAccess.new))
+      assert_empty(@cr.parse_args(HashWithIndifferentAccess.new))
     end
 
     test "converts form attrs to fog attrs" do
@@ -459,7 +459,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     end
 
     test "converts empty hash" do
-      assert_equal({}, @cr.parse_networks(HashWithIndifferentAccess.new))
+      assert_empty(@cr.parse_networks(HashWithIndifferentAccess.new))
     end
 
     test "converts form network name to network ID" do

@@ -34,7 +34,7 @@ class ProxyStatusLogsTest < ActiveSupport::TestCase
 
   test 'it returns an empty buffer' do
     ProxyAPI::Logs.any_instance.expects(:all).returns(@empty_buffer)
-    assert_equal([], @status.logs.log_entries)
+    assert_empty(@status.logs.log_entries)
   end
 
   test 'it aggregates data' do

@@ -166,13 +166,13 @@ data"
 
       test 'it ignores other erb tags' do
         assert_nothing_raised do
-          assert_equal({}, Template.parse_metadata('<% puts 1 %>'))
+          assert_empty(Template.parse_metadata('<% puts 1 %>'))
         end
       end
 
       test 'it does not fail on invalid metadata, it just silently ignores them' do
         assert_nothing_raised do
-          assert_equal({}, Template.parse_metadata("<%#\n: %>"))
+          assert_empty(Template.parse_metadata("<%#\n: %>"))
         end
       end
     end

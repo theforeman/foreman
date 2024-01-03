@@ -150,7 +150,7 @@ class SubnetTest < ActiveSupport::TestCase
 
     test 'should display an empty list if no dns servers are present' do
       subnet = FactoryBot.create(:subnet_ipv4)
-      assert_equal [], subnet.dns_servers
+      assert_empty subnet.dns_servers
     end
   end
 

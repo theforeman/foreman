@@ -51,8 +51,8 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       domain = FactoryBot.create(:domain, :with_auditing, :locations => [], :organizations => [])
       audit = domain.audits.last
       assert_equal 'create', audit.action
-      assert_equal [], audit.location_ids
-      assert_equal [], audit.organization_ids
+      assert_empty audit.location_ids
+      assert_empty audit.organization_ids
 
       domain.name = 'blablabla' # needed for a new audit to be generated
       domain.locations = [@loc]
@@ -92,8 +92,8 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       host = FactoryBot.create(:host, :with_auditing, :location => nil, :organization => nil)
       audit = host.audits.last
       assert_equal 'create', audit.action
-      assert_equal [], audit.location_ids
-      assert_equal [], audit.organization_ids
+      assert_empty audit.location_ids
+      assert_empty audit.organization_ids
 
       host.location_id = @loc.id
       host.organization_id = @org.id

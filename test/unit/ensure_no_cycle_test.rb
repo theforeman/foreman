@@ -43,7 +43,7 @@ class EnsureNoCycleTest < ActiveSupport::TestCase
 
     found = []
     assert @graph.tsort_each_child(4) { |node| found.push node }
-    assert_equal [], found
+    assert_empty found
   end
 
   test "#ensure detects cycle and raises an exception" do
