@@ -6,6 +6,10 @@ class SmartProxyHostExtensionsTest < ActiveSupport::TestCase
     ProxyReferenceRegistry.references = nil
 
     class ProxyReferrer
+      # SmartProxyHostExtensions is expected to be included into a ActiveRecord model
+      def self.scope(...)
+      end
+
       include SmartProxyHostExtensions
       smart_proxy_reference :test_reference => [:test]
       smart_proxy_reference :test_reference => [:another_test]
