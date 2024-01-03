@@ -1,3 +1,13 @@
+2024-01-03	Griffin Sullivan <gsulliva@redhat.com>
+	* Release 3.9.1
+
+2023-12-19	mariaaga <mariaaga@redhat.com>
+	* Fixes #36963 - Table index new button far in large screens
+
+2023-12-19	MariaAga <mariaaga@redhat.com>
+	* Fixes #36896 - override plugin toolbar css
+	* Fixes #36966 - broken link in Register Host documentation
+
 2023-12-19	Griffin Sullivan <gsulliva@redhat.com>
 	* Release 3.9.0
 
