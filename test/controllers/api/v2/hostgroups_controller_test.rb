@@ -101,7 +101,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
   test_attributes :pid => '86eca603-2cdd-4563-b6f6-aaa5cea1a723'
   test "should update puppet_proxy" do
     host_group = FactoryBot.create(:hostgroup)
-    assert host_group.puppet_proxy_id.nil?
+    assert_nil host_group.puppet_proxy_id
     puppet_proxy = smart_proxies(:puppetmaster)
     put :update, params: { :id => host_group.id, :hostgroup => { :puppet_proxy_id => puppet_proxy.id } }
     assert_response :success

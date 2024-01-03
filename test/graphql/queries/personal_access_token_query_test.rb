@@ -40,7 +40,7 @@ module Queries
       assert_equal personal_access_token.updated_at.utc.iso8601, data['updatedAt']
       assert_equal personal_access_token.name, data['name']
       assert_equal personal_access_token.expires_at.utc.iso8601, data['expiresAt']
-      assert_equal nil, data['lastUsedAt']
+      assert_nil data['lastUsedAt']
       assert_equal personal_access_token.revoked?, data['revoked']
       assert_equal personal_access_token.expires?, data['expires']
       assert_equal personal_access_token.active?, data['active']
