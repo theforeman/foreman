@@ -1,6 +1,10 @@
 module SmartProxyHostExtensions
   extend ActiveSupport::Concern
 
+  included do
+    scope :with_smart_proxies, -> { eager_load(ProxyReferenceRegistry.smart_proxy_references.select(&:join?).map(&:join_relation)) }
+  end
+
   module ClassMethods
     # registers a reference to a proxy
     def smart_proxy_reference(hash)
@@ -8,7 +12,7 @@ module SmartProxyHostExtensions
     end
 
     def smart_proxy_ids(hosts_scope = Host::Managed.all)
-      hosts_scope.eager_load(proxy_join_tables).pluck(proxy_column_list).flatten.uniq.compact
+      hosts_scope.with_smart_proxies.pluck(proxy_column_list).flatten.uniq.compact
     end
 
     # table names containing reference to a proxy
