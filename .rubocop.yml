@@ -85,3 +85,7 @@ Style/PreferredHashMethods:
 
 Minitest/AssertEmptyLiteral:
   Enabled: true
+
+Minitest/AssertNil:
+  Enabled: true
+

@@ -2436,7 +2436,7 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host)
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:foo => 'bar'})
     copy = host.clone
-    assert copy.compute_attributes.nil?
+    assert_nil copy.compute_attributes
   end
 
   test 'facts are deleted when build set to true' do
