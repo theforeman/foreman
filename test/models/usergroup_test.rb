@@ -116,7 +116,7 @@ class UsergroupTest < ActiveSupport::TestCase
     assert_equal [@h2, @h3, @h6].sort, @u3.hosts.sort
     assert_equal [@h6], @u4.hosts
     assert_equal [@h2, @h4, @h6].sort, @u5.hosts.sort
-    assert_equal [], @u6.hosts
+    assert_empty @u6.hosts
   end
 
   test "addresses should be retrieved from recursive/complex usergroup definitions" do

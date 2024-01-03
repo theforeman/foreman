@@ -37,7 +37,7 @@ class ForemanLoggingTest < ActiveSupport::TestCase
       log.debug("Must not be logged")
       assert_equal 3, log.local_level
       assert_equal 0, log.level
-      assert_equal [], appender.readlines
+      assert_empty appender.readlines
     end
     assert_equal 0, logger.level
   end
@@ -49,7 +49,7 @@ class ForemanLoggingTest < ActiveSupport::TestCase
     logger.appenders = [appender]
     logger.silence_logger do |log|
       log.warn("Must not be logged as well")
-      assert_equal [], appender.readlines
+      assert_empty appender.readlines
     end
   end
 

@@ -19,7 +19,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h = FactoryBot.create(:host)
     assert h.valid?
     assert_equal false, h.dhcp?
-    assert_equal [], h.dhcp_records
+    assert_empty h.dhcp_records
   end
 
   test 'unmanaged should not call methods after managed?' do

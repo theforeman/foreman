@@ -82,3 +82,6 @@ Style/ParenthesesAroundCondition:
 
 Style/PreferredHashMethods:
   Enabled: false
+
+Minitest/AssertEmptyLiteral:
+  Enabled: true

@@ -241,7 +241,7 @@ class Nic::BaseTest < ActiveSupport::TestCase
 
   test '#children_mac_addresses defaults to empty array' do
     nic = FactoryBot.build_stubbed(:nic_base)
-    assert_equal [], nic.children_mac_addresses
+    assert_empty nic.children_mac_addresses
   end
 
   describe 'MAC validation' do

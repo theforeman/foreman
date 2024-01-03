@@ -71,7 +71,7 @@ class ReportTest < ActiveSupport::TestCase
 
       user_role.owner.update(:locations => [locs.first], :organizations => [orgs.first])
       as_user user_role.owner do
-        assert_equal [], Report.my_reports.map(&:id).sort
+        assert_empty Report.my_reports.map(&:id).sort
       end
 
       user_role.owner.update(:locations => [locs.last], :organizations => [orgs.last])
@@ -118,12 +118,12 @@ class ReportTest < ActiveSupport::TestCase
 
     test '#metrics with metrics should return empty hash' do
       report = ConfigReport.import read_json_fixture('reports/empty.json')
-      assert_equal({}, report.metrics)
+      assert_empty(report.metrics)
       report = ConfigReport.import read_json_fixture('reports/no-logs.json')
       refute_equal({}, report.metrics)
       assert_equal({'success' => 1, 'total' => 1, 'failure' => 0}, report.metrics['events'])
       report = TestReport.new
-      assert_equal({}, report.metrics)
+      assert_empty(report.metrics)
     end
 
     test '#metrics loads string with HashWithIndifferentAccess' do

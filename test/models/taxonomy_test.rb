@@ -27,7 +27,7 @@ class TaxonomyTest < ActiveSupport::TestCase
     org1 = FactoryBot.build_stubbed(:organization)
     org2 = FactoryBot.build_stubbed(:organization)
     assert_nil Taxonomy.expand(nil)
-    assert_equal [], Taxonomy.expand([])
+    assert_empty Taxonomy.expand([])
     assert_equal org1, Taxonomy.expand(org1)
     assert_equal [org1, org2], Taxonomy.expand([org1, org2])
   end
@@ -48,8 +48,8 @@ class TaxonomyTest < ActiveSupport::TestCase
     # we have to run on specific taxonomy because my_* is defined only in Organization and Location
     user = FactoryBot.create(:user, :organizations => [])
     as_user(user) do
-      assert_equal [], Organization.expand(nil)
-      assert_equal [], Organization.expand([])
+      assert_empty Organization.expand(nil)
+      assert_empty Organization.expand([])
     end
   end
 

@@ -42,7 +42,7 @@ class FactValueTest < ActiveSupport::TestCase
     assert_equal [@child_value], result
 
     result = FactValue.with_fact_parent_id(@child_name.id)
-    assert_equal [], result
+    assert_empty result
   end
 
   test "should return search results if search free text is fact name" do
@@ -182,7 +182,7 @@ class FactValueTest < ActiveSupport::TestCase
           users(:one).locations = [@locs.first]
           users(:one).organizations = [@orgs.first]
 
-          assert_equal [], FactValue.my_facts.map(&:id).sort
+          assert_empty FactValue.my_facts.map(&:id).sort
         end
 
         test 'user can view host taxonomy, my_facts contains host facts' do

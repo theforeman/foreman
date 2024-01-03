@@ -12,7 +12,7 @@ class ReportImporterTest < ActiveSupport::TestCase
   test 'it should import reports with no metrics' do
     r = TestReportImporter.import(read_json_fixture('reports/empty.json'))
     assert r
-    assert_equal({}, r.metrics)
+    assert_empty(r.metrics)
   end
 
   test 'it should import reports where logs is nil' do

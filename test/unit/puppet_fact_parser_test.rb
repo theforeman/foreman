@@ -394,7 +394,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     parser = get_parser(host.facts_hash)
 
     result = parser.ipmi_interface
-    assert_equal({}, result)
+    assert_empty(result)
 
     FactoryBot.create(:fact_value,
       :fact_name => FactoryBot.create(:fact_name, :name => 'ipmi_ipaddress'),

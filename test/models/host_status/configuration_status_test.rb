@@ -161,7 +161,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     @status.save
     assert_equal [@host], Host.search_for('status.applied = 0')
     assert_equal [@host], Host.search_for('status.applied = false')
-    assert_equal [], Host.search_for('status.applied = 1')
+    assert_empty Host.search_for('status.applied = 1')
   end
 
   test 'overwrite puppet_interval as host parameter' do

@@ -41,7 +41,7 @@ class PageletManagerTest < ActiveSupport::TestCase
   test '#clear removes all pagelets' do
     manager.add_pagelet("test", :point, :partial => "original")
     manager.clear
-    assert_equal [], manager.pagelets_at("test", :point)
+    assert_empty manager.pagelets_at("test", :point)
   end
 
   test '#dup fully isolates pagelet state' do
