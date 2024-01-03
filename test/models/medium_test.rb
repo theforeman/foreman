@@ -83,7 +83,7 @@ class MediumTest < ActiveSupport::TestCase
 
     assert medium.destroy
     host.reload
-    assert host.medium.nil?
+    assert_nil host.medium
   end
 
   test "should not destroy if medium has hosts that are in build mode" do

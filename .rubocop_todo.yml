@@ -181,12 +181,6 @@ Minitest/AssertMatch:
     - 'test/controllers/unattended_controller_test.rb'
     - 'test/helpers/pagelets_helper_test.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Minitest/AssertNil:
-  Exclude:
-    - 'test/graphql/queries/personal_access_token_query_test.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 Minitest/AssertRespondTo:

@@ -124,7 +124,7 @@ class HostFactImporterTest < ActiveSupport::TestCase
 
   test 'should find a host by certname not fqdn when provided' do
     Host.new(:name => 'sinn1636.fail', :certname => 'sinn1636.lan.cert', :mac => 'e4:1f:13:cc:36:58').save(:validate => false)
-    assert Host.find_by_name('sinn1636.fail').ip.nil?
+    assert_nil Host.find_by_name('sinn1636.fail').ip
     # hostname in the json is sinn1636.lan, so if the facts have been updated for
     # this host, it's a successful identification by certname
     raw = read_json_fixture('facts/facts_with_certname.json')
