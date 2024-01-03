@@ -291,7 +291,7 @@ module ApplicationHelper
   end
 
   def documentation_button(section = "", options = {})
-    url = documentation_url section, options
+    url = documentation_url(section, **options)
     link_to(icon_text('help', _('Documentation'), :kind => 'pficon'),
       url, :rel => 'external noopener noreferrer', :class => 'btn btn-default btn-docs', :target => '_blank')
   end
