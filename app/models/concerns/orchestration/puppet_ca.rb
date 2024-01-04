@@ -4,6 +4,7 @@ module Orchestration::PuppetCA
 
   included do
     attr_reader :puppetca
+
     after_validation :initialize_puppetca, :unless => :skip_orchestration?
     after_validation :queue_puppetca
     before_destroy :initialize_puppetca, :queue_puppetca_destroy

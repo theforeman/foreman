@@ -98,3 +98,6 @@ Layout/SpaceAroundOperators:
 
 Style/OptionalBooleanParameter:
   Enabled: false
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true

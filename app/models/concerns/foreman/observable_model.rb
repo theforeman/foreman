@@ -5,6 +5,7 @@ module Foreman
 
     included do
       attr_reader :preloaded_object
+
       class_attribute :event_subscription_hooks
       self.event_subscription_hooks ||= []
     end

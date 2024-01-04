@@ -4,6 +4,7 @@ class PuppetFactImporterTest < ActiveSupport::TestCase
   include FactImporterIsolation
 
   attr_reader :host, :importer
+
   setup do
     @host = FactoryBot.create(:host)
     FactoryBot.build(:fact_value, :value => '2.6.9', :host => @host,
