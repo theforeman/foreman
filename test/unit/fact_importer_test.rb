@@ -5,6 +5,7 @@ class FactImporterTest < ActiveSupport::TestCase
   include FactImporterIsolation
 
   attr_reader :importer
+
   class CustomFactName < FactName; end
   class CustomImporter < FactImporter
     def fact_name_class

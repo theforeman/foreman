@@ -38,6 +38,7 @@ module NestedAncestryCommon
 
   module ClassMethods
     attr_reader :nested_attribute_fields
+
     def nested_attribute_for(*fields)
       @nested_attribute_fields = fields
       @nested_attribute_fields.each do |field|

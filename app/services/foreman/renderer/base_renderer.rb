@@ -30,6 +30,7 @@ module Foreman
       private
 
       attr_reader :source, :scope
+
       delegate :name, :content, to: :source, prefix: true
     end
   end

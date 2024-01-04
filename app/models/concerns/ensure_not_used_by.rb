@@ -2,6 +2,7 @@
 # TODO: it would deserve its own folder
 class EnsureNotUsedBy
   attr_reader :klasses
+
   def initialize(*attribute)
     @klasses = attribute
   end

@@ -22,6 +22,7 @@ class BreadcrumbsOptions
   delegate :logger, :to => :Rails
   delegate :resource_name, :resource_class, :controller_path, :resource_path, :to => :controller
   attr_reader :controller, :action_name, :page_header, :options
+
   def index_item
     begin
       class_name = resource_class.to_s

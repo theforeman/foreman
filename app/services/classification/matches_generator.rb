@@ -6,6 +6,7 @@ module Classification
     end
 
     attr_reader :host, :keys
+
     def initialize(host, keys)
       @host = host
       @keys = keys

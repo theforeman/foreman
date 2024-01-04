@@ -1,5 +1,6 @@
 class HostBuildStatus
   attr_reader :host, :state, :errors
+
   delegate :available_template_kinds, :smart_proxies, :to => :host
   VALIDATION_TYPES = [:host, :templates, :proxies]
 

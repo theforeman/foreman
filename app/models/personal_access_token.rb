@@ -19,6 +19,7 @@ class PersonalAccessToken < ApplicationRecord
   scope :inactive, -> { where(revoked: true).or(where("expires_at < ?", Time.current.utc)) }
 
   attr_accessor :token_value
+
   validate :expires_at_in_future
   validate :valid_expires_at
 
