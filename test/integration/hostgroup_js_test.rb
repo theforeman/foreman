@@ -25,7 +25,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     click_button 'Submit'
 
     hostgroup = Hostgroup.where(:name => "myhostgroup1").first
-    refute hostgroup.nil?
+    refute_nil hostgroup
     assert_equal os.id, hostgroup.operatingsystem_id
     assert page.has_current_path? hostgroups_path
   end
