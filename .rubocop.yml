@@ -101,3 +101,6 @@ Style/OptionalBooleanParameter:
 
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: true
