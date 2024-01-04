@@ -103,6 +103,14 @@ const Navigation = ({
     [items, currentPath, currentLocation, currentOrganization]
   );
 
+  const [currentExpanded, setCurrentExpanded] = useState(
+    subItemToItemMap[pathFragment(getCurrentPath())]
+  );
+  useEffect(() => {
+    setCurrentExpanded(subItemToItemMap[pathFragment(getCurrentPath())]);
+    // we only want to run this when we get new items from the API to set the default expanded item, which is the current location
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length]);
   if (!items.length) return null;
 
   const clickAndNavigate = (_onClick, href, event) => {
@@ -125,17 +133,21 @@ const Navigation = ({
             <NavExpandable
               ouiaId={`nav-expandable-${index}`}
               title={titleWithIcon(title, iconClass)}
-              groupId="nav-expandable-group-1"
+              groupId={`nav-expandable-group-${title}`}
               isActive={
                 subItemToItemMap[pathFragment(getCurrentPath())] === title
               }
-              isExpanded={
-                subItemToItemMap[pathFragment(getCurrentPath())] === title
-              }
+              isExpanded={currentExpanded === title}
               className={className}
               onClick={() => onMouseOver(index)}
               onFocus={() => {
                 onMouseOver(index);
+              }}
+              onExpand={() => {
+                // if the current expanded item is the same as the clicked item, collapse it
+                const isExpanded = currentExpanded === title;
+                // only have 1 item expanded at a time
+                setCurrentExpanded(isExpanded ? null : title);
               }}
             >
               {groups.map((group, groupIndex) =>
