@@ -1735,13 +1735,13 @@ class HostTest < ActiveSupport::TestCase
   test "can search hosts by numeric and string facts" do
     host = FactoryBot.create(:host, :hostname => 'num001.example.com')
     HostFactImporter.new(host).import_facts({
-                                              :architecture => "x86_64",
+      :architecture => "x86_64",
                                               :interfaces => 'eth0',
                                               :operatingsystem => 'RedHat-test',
                                               :operatingsystemrelease => '6.2',
                                               :memory_mb => "64498",
                                               :custom_fact => "find_me",
-                                            })
+    })
 
     hosts = Host::Managed.search_for("facts.memory_mb > 112889")
     assert_equal hosts.count, 0
@@ -2590,14 +2590,14 @@ class HostTest < ActiveSupport::TestCase
 
   test '#initialize respects primary interface attributes and sets provision to the same if missing' do
     h = Host.new(:interfaces_attributes => {
-                   '0' => {'_destroy' => '0',
-                           :type => 'Nic::Managed',
-                           :mac => 'ff:ff:ff:aa:aa:aa',
-                           :managed => '1',
-                           :primary => '1',
-                           :provision => '0',
-                           :virtual => '0'},
-                 })
+      '0' => {'_destroy' => '0',
+              :type => 'Nic::Managed',
+              :mac => 'ff:ff:ff:aa:aa:aa',
+              :managed => '1',
+              :primary => '1',
+              :provision => '0',
+              :virtual => '0'},
+    })
     refute_nil h.primary_interface
     refute_nil h.provision_interface
     assert_equal 'ff:ff:ff:aa:aa:aa', h.primary_interface.mac
@@ -2606,13 +2606,13 @@ class HostTest < ActiveSupport::TestCase
 
   test '#initialize respects primary and provision interface attributes' do
     h = Host.new(:interfaces_attributes => {
-                   '0' => {'_destroy' => '0',
-                           :type => 'Nic::Managed',
-                           :mac => 'ff:ff:ff:aa:aa:aa',
-                           :managed => '1',
-                           :primary => '1',
-                           :provision => '0',
-                           :virtual => '0'},
+      '0' => {'_destroy' => '0',
+              :type => 'Nic::Managed',
+              :mac => 'ff:ff:ff:aa:aa:aa',
+              :managed => '1',
+              :primary => '1',
+              :provision => '0',
+              :virtual => '0'},
               '1' => {'_destroy' => '0',
                       :type => 'Nic::Managed',
                       :mac => 'aa:aa:aa:ff:ff:ff',
@@ -2620,7 +2620,7 @@ class HostTest < ActiveSupport::TestCase
                       :primary => '0',
                       :provision => '1',
                       :virtual => '0'},
-                 })
+    })
     refute_nil h.primary_interface
     refute_nil h.provision_interface
     assert_equal 'ff:ff:ff:aa:aa:aa', h.primary_interface.mac
