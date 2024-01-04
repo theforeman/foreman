@@ -1,5 +1,6 @@
 class OidcJwtValidate
   attr_reader :decoded_token
+
   delegate :logger, to: :Rails
 
   def initialize(jwt_token)

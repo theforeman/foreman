@@ -23,6 +23,7 @@ class User < ApplicationRecord
 
   validates_lengths_from_database :except => [:firstname, :lastname, :format, :mail, :login]
   attr_accessor :password_confirmation, :current_password
+
   attribute :password
 
   after_save :ensure_default_role

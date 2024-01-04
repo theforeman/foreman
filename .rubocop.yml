@@ -82,3 +82,6 @@ Style/PreferredHashMethods:
 
 Layout/SpaceAroundOperators:
   Enabled: true
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
