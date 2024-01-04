@@ -89,3 +89,5 @@ Minitest/AssertEmptyLiteral:
 Minitest/AssertNil:
   Enabled: true
 
+Minitest/RefuteNil:
+  Enabled: true
