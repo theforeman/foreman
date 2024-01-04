@@ -91,6 +91,9 @@ Minitest/AssertEmptyLiteral:
   Enabled: true
 
 Minitest/RefuteNil:
+  Enabled: false
+
+Layout/SpaceAroundOperators:
   Enabled: true
 
 Style/OptionalBooleanParameter:
