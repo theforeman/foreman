@@ -48,10 +48,10 @@ if User.unscoped.find_by_login(admin_login).present?
 elsif User.unscoped.only_admin.except_hidden.none?
   User.without_auditing do
     User.as_anonymous_admin do
-      user = User.new(:login     => admin_login,
-                      :firstname => ENV['SEED_ADMIN_FIRST_NAME'] || "Admin",
-                      :lastname  => ENV['SEED_ADMIN_LAST_NAME'] || "User",
-                      :mail      => (ENV['SEED_ADMIN_EMAIL'] || Setting[:administrator]).try(:dup))
+      user = User.new(:login => admin_login,
+        :firstname => ENV['SEED_ADMIN_FIRST_NAME'] || "Admin",
+        :lastname  => ENV['SEED_ADMIN_LAST_NAME'] || "User",
+        :mail      => (ENV['SEED_ADMIN_EMAIL'] || Setting[:administrator]).try(:dup))
       user.admin = true
       user.auth_source = src_internal
       user.locale = ENV['SEED_ADMIN_LOCALE'] if ENV['SEED_ADMIN_LOCALE'].present?

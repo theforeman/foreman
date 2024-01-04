@@ -1551,17 +1551,17 @@ class HostsControllerTest < ActionController::TestCase
   def initialize_host
     User.current = users(:admin)
     disable_orchestration
-    @host = Host.create(:name               => "myfullhost",
-                        :mac                => "aabbecddeeff",
-                        :ip                 => "2.3.4.99",
-                        :domain_id          => domains(:mydomain).id,
-                        :operatingsystem_id => operatingsystems(:redhat).id,
-                        :architecture_id    => architectures(:x86_64).id,
-                        :subnet_id          => subnets(:one).id,
-                        :disk               => "empty partition",
-                        :root_pass          => "123456789",
-                        :location_id        => taxonomies(:location1).id,
-                        :organization_id    => taxonomies(:organization1).id
+    @host = Host.create(:name => "myfullhost",
+      :mac                => "aabbecddeeff",
+      :ip                 => "2.3.4.99",
+      :domain_id          => domains(:mydomain).id,
+      :operatingsystem_id => operatingsystems(:redhat).id,
+      :architecture_id    => architectures(:x86_64).id,
+      :subnet_id          => subnets(:one).id,
+      :disk               => "empty partition",
+      :root_pass          => "123456789",
+      :location_id        => taxonomies(:location1).id,
+      :organization_id    => taxonomies(:organization1).id
                        )
   end
 end

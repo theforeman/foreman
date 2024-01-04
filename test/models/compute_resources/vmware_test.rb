@@ -22,15 +22,15 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     volumes_attributes    = { "new_volumes" => { "size_gb" => "10", "_delete" => ""},
                               "0"           => { "size_gb" => "1",  "_delete" => ""}}
 
-    attrs_in = HashWithIndifferentAccess.new("cpus"                  => "1",
-                                             "interfaces_attributes" => interfaces_attributes,
-                                             "volumes_attributes"    => volumes_attributes)
+    attrs_in = HashWithIndifferentAccess.new("cpus" => "1",
+      "interfaces_attributes" => interfaces_attributes,
+      "volumes_attributes"    => volumes_attributes)
 
-    attrs_parsed = HashWithIndifferentAccess.new("cpus"                  => "1",
-                                                 "interfaces_attributes" => {"new_interfaces" => {"type" => "VirtualE1000", "network" => "Test network", "_delete" => ""},
-                                                                            "0" => {"type" => "VirtualVmxnet3", "network" => "Test network", "_delete" => ""}},
-                                                 "volumes_attributes"    => {"new_volumes" => {"size_gb" => "10", "_delete" => ""},
-                                                                             "0" => {"size_gb" => "1", "_delete" => ""}})
+    attrs_parsed = HashWithIndifferentAccess.new("cpus" => "1",
+      "interfaces_attributes" => {"new_interfaces" => {"type" => "VirtualE1000", "network" => "Test network", "_delete" => ""},
+                                 "0" => {"type" => "VirtualVmxnet3", "network" => "Test network", "_delete" => ""}},
+      "volumes_attributes"    => {"new_volumes" => {"size_gb" => "10", "_delete" => ""},
+                                  "0" => {"size_gb" => "1", "_delete" => ""}})
 
     mock_vm = mock('vm')
     mock_vm.expects(:save).returns(mock_vm)

@@ -793,12 +793,12 @@ module Foreman::Model
     end
 
     def build_vmrc_uri(host, vmid, ticket)
-      uri = URI::Generic.build(:scheme   => 'vmrc',
-                               :userinfo => "clone:#{ticket}",
-                               :host     => host,
-                               :port     => 443,
-                               :path     => '/',
-                               :query    => "moid=#{vmid}").to_s
+      uri = URI::Generic.build(:scheme => 'vmrc',
+        :userinfo => "clone:#{ticket}",
+        :host     => host,
+        :port     => 443,
+        :path     => '/',
+        :query    => "moid=#{vmid}").to_s
       # VMRC doesn't like brackets around IPv6 addresses
       uri.sub(/(.*)\[/, '\1').sub(/(.*)\]/, '\1')
     end

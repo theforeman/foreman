@@ -79,3 +79,6 @@ Style/ParenthesesAroundCondition:
 
 Style/PreferredHashMethods:
   Enabled: false
+
+Layout/SpaceAroundOperators:
+  Enabled: true

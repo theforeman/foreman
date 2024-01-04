@@ -103,11 +103,11 @@ class SeedsTest < ActiveSupport::TestCase
 
     test 'with environment overrides' do
       assert_difference 'User.unscoped.where(:login => "seed_test").count', 1 do
-        with_env('SEED_ADMIN_USER'       => 'seed_test',
-                 'SEED_ADMIN_PASSWORD'   => 'seed_secret',
-                 'SEED_ADMIN_FIRST_NAME' => 'Seed',
-                 'SEED_ADMIN_LAST_NAME'  => 'Test',
-                 'SEED_ADMIN_EMAIL'      => 'seed@example.net') do
+        with_env('SEED_ADMIN_USER' => 'seed_test',
+          'SEED_ADMIN_PASSWORD'   => 'seed_secret',
+          'SEED_ADMIN_FIRST_NAME' => 'Seed',
+          'SEED_ADMIN_LAST_NAME'  => 'Test',
+          'SEED_ADMIN_EMAIL'      => 'seed@example.net') do
           seed
         end
       end
