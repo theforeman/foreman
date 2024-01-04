@@ -104,3 +104,6 @@ Layout/EmptyLinesAroundAttributeAccessor:
 
 Layout/EmptyLineBetweenDefs:
   Enabled: true
+
+Layout/FirstHashElementIndentation:
+  Enabled: false
