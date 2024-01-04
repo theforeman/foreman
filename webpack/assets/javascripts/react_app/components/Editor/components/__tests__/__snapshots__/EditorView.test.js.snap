@@ -52,7 +52,7 @@ exports[`EditorView EditorView renders EditorView 1`] = `
 
 exports[`EditorView EditorView renders EditorView w/vim&mask 1`] = `
 <ReactAce
-  className=" mask-editor"
+  className="mask-editor"
   cursorStart={1}
   debounceChangePeriod={250}
   editorProps={
