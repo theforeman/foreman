@@ -85,3 +85,6 @@ Layout/SpaceAroundOperators:
 
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: true

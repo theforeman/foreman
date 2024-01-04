@@ -20,9 +20,11 @@ require 'pagelets_test_helper'
 
 module Awesome
   module Provider; class MyAwesome < ::ComputeResource; end; end
+
   def self.register_smart_proxy(name, options = {})
   end
 end
+
 module Awesome; class FakeFacet; end; end
 
 module Test
