@@ -107,6 +107,7 @@ namespace :db do
         self.inheritance_column = :_type_disabled
         extend ClassWorkarounds
       end
+
       class DevelopmentModelClass < ActiveRecord::Base # rubocop:disable Rails/ApplicationRecord
         # disable STI
         self.inheritance_column = :_type_disabled
