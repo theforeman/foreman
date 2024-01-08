@@ -6,7 +6,6 @@ Requires=foreman.socket
 StartLimitIntervalSec=120
 StartLimitBurst=5
 
-
 [Service]
 Type=notify
 User=foreman
