@@ -87,7 +87,7 @@ elif [ -f /etc/debian_version ]; then
   <%= save_to_file('/etc/apt/sources.list.d/foreman_registration.list', @repo) %>
 <% if @repo_gpg_key_url.present? -%>
   apt-get -y install ca-certificates gpg
-  curl --silent --show-error <%= shell_escape @repo_gpg_key_url %> | apt-key add -
+  curl --silent --show-error --output /etc/apt/trusted.gpg.d/client.asc <%= shell_escape @repo_gpg_key_url %>
 <% end -%>
   apt-get update
 
