@@ -3,6 +3,9 @@ Description=Foreman
 Documentation=https://theforeman.org
 After=network.target remote-fs.target nss-lookup.target
 Requires=foreman.socket
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
 
 [Service]
 Type=notify
