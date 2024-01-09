@@ -272,7 +272,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
 
     result = h.send(:generate_pxe_template, :ZTP)
     assert result.blank?
-    assert h.errors.empty?
+    assert_empty h.errors
   end
 
   test 'should rebuild tftp IPv4' do

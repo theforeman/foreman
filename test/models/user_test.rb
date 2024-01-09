@@ -176,12 +176,12 @@ class UserTest < ActiveSupport::TestCase
     # Mail enabled
     u1 = FactoryBot.create(:user, :mail => 'foo@bar.baz', :mail_enabled => nil)
     u2 = FactoryBot.create(:user, :mail => 'foo@bar.baz', :mail_enabled => '')
-    assert User.with_enabled_email.where(login: [u1, u2].map(&:login)).empty?
+    assert_empty User.with_enabled_email.where(login: [u1, u2].map(&:login))
 
     # Mail missing
     u1 = FactoryBot.create(:user, :mail => '', :mail_enabled => true)
     u2 = FactoryBot.create(:user, :mail => nil, :mail_enabled => true)
-    assert User.with_enabled_email.where(login: [u1, u2].map(&:login)).empty?
+    assert_empty User.with_enabled_email.where(login: [u1, u2].map(&:login))
 
     # Disabled
     u1 = FactoryBot.create(:user, :mail => 'foo@bar.baz', :mail_enabled => true, :disabled => false)

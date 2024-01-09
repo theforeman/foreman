@@ -87,7 +87,7 @@ class OvirtTest < ActiveSupport::TestCase
     record.stubs(:datacenters).returns(['example', 1])
     RestClient.expects(:post).never()
     assert record.test_connection
-    assert record.errors.empty?
+    assert_empty record.errors
   end
 
   test "test_connection should detect 302 HTTPS redirect with HTTP url and fail" do

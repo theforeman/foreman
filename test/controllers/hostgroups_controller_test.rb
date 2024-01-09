@@ -99,7 +99,7 @@ class HostgroupsControllerTest < ActionController::TestCase
       put :update, params: { :commit => "Update", :id => hostgroup.id, :hostgroup => {:root_pass => '', :name => hostgroup.name} }, session: set_session_user
     end
     hostgroup = Hostgroup.find(hostgroup.id)
-    assert hostgroup.root_pass.empty?
+    assert_empty hostgroup.root_pass
   end
 
   test "hostgroup rename changes matcher" do
