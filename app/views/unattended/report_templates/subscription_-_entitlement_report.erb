@@ -27,8 +27,8 @@ require:
 <%-       report_row(
             'Host Name': host.name,
             'Organization': host.organization,
-            'Lifecycle Environment': host.single_lifecycle_environment.name,
-            'Content View': host.single_content_view.name,
+            'Lifecycle Environment': host.single_lifecycle_environment&.name,
+            'Content View': host.single_content_view&.name,
             'Host Collections': host_collections_names(host),
             'Virtual': host.virtual,
             'Guest of Host': host.hypervisor_host,
