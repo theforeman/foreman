@@ -15,7 +15,7 @@ class Token::BuildTest < ActiveSupport::TestCase
     host.create_token(:value => 'aaaaaa', :expires => Time.now.utc + 1.minute)
     assert_instance_of Token::Build, host.token
     host.token = nil
-    assert Token.where(:value => 'aaaaaa', :host_id => host.id).empty?
+    assert_empty Token.where(:value => 'aaaaaa', :host_id => host.id)
   end
 
   test "a host cannot delete tokens for other hosts" do

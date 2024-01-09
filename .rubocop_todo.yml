@@ -139,10 +139,6 @@ Lint/Void:
     - 'app/models/nic/base.rb'
     - 'app/services/name_generator.rb'
 
-# Offense count: 28
-# Cop supports --auto-correct.
-Minitest/AssertEmpty:
-  Enabled: false
 
 # Offense count: 26
 # Cop supports --auto-correct.

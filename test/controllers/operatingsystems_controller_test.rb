@@ -108,7 +108,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     test 'valid fields' do
       get :index, params: { :search => 'name = centos' }, session: set_session_user
       assert_response :success
-      assert flash.empty?
+      assert_empty flash
     end
 
     test 'invalid fields' do

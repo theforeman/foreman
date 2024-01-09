@@ -96,7 +96,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     setup_user "edit"
     put :update, params: { :id => @compute_resource.to_param, :compute_resource => {:name => "editing_self", :password => ''} }, session: set_session_user
     @compute_resource = ComputeResource.unscoped.find(@compute_resource.id)
-    assert @compute_resource.password.empty?
+    assert_empty @compute_resource.password
   end
 
   test "should not get edit when restricted" do
@@ -162,7 +162,7 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     test 'valid fields' do
       get :index, params: { :search => 'name = openstack' }, session: set_session_user
       assert_response :success
-      assert flash.empty?
+      assert_empty flash
     end
 
     test 'invalid fields' do

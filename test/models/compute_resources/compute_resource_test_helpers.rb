@@ -124,6 +124,6 @@ module ComputeResourceTestHelpers
     unexpected_names = normalized_keys - (normalized_keys & allowed_vm_attr_names)
     msg = "Some unexpected attributes detected: #{unexpected_names.join(', ')}."
     msg += "\nMake user you can't use one of names that already exist. If not, please extend ComputeResourceTestHelpers.allowed_vm_attr_names."
-    assert(unexpected_names.empty?, msg)
+    assert_empty(unexpected_names, msg)
   end
 end

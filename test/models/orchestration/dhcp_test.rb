@@ -382,7 +382,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
     h.build = true
     assert h.valid?
-    assert h.errors.empty?
+    assert_empty h.errors
     assert_equal ["dhcp_create_aa:bb:cc:dd:ee:f1"], h.queue.task_ids
   end
 
