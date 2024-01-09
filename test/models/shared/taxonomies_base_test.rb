@@ -298,7 +298,7 @@ module TaxonomiesBaseTest
       taxonomy = taxonomy_class.create :name => "rack1", :parent_id => parent.id
       # no hosts were assigned to taxonomy, so no missing ids need to be selected
       taxonomy.need_to_be_selected_ids.each do |k, v|
-        assert v.empty?
+        assert_empty v
       end
     end
 

@@ -25,7 +25,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:hostgroups)
     hostgroups = ActiveSupport::JSON.decode(@response.body)
     assert !hostgroups.empty?
-    assert hostgroups['results'].select { |h| h.has_key?('parameters') }.empty?
+    assert_empty hostgroups['results'].select { |h| h.has_key?('parameters') }
   end
 
   test "should get index with parameters" do

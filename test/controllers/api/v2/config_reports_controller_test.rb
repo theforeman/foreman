@@ -131,7 +131,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:config_reports)
     reports = ActiveSupport::JSON.decode(@response.body)
-    assert reports['results'].empty?
+    assert_empty reports['results']
     assert_equal 0, reports['results'].count
   end
 

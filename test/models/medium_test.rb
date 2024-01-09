@@ -56,7 +56,7 @@ class MediumTest < ActiveSupport::TestCase
 
     test "can't be blank" do
       @medium.path = '  '
-      assert @medium.path.strip.empty?
+      assert_empty @medium.path.strip
       refute_valid @medium
     end
 

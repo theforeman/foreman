@@ -438,7 +438,7 @@ data"
       test 'should initialize a new template' do
         template = ProvisioningTemplate.find_without_collision(:name, 'new template')
         assert template.new_record?
-        assert template.errors.empty?
+        assert_empty template.errors
       end
 
       test 'should return existing template in current context' do

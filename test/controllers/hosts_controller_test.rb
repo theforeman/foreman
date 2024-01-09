@@ -761,7 +761,7 @@ class HostsControllerTest < ActionController::TestCase
 
     test 'destroy' do
       multiple_hosts_submit_request('destroy', [@host1.id, @host2.id], 'Destroyed selected hosts')
-      assert Host.where(:id => [@host1.id, @host2.id]).empty?
+      assert_empty Host.where(:id => [@host1.id, @host2.id])
     end
 
     test 'disable notifications' do
@@ -968,7 +968,7 @@ class HostsControllerTest < ActionController::TestCase
   test 'blank root password submitted in host does erase existing password' do
     put :update, params: { :commit => "Update", :id => @host.name, :host => {:root_pass => '' } }, session: set_session_user
     @host = Host.find(@host.id)
-    assert @host.root_pass.empty?
+    assert_empty @host.root_pass
   end
 
   test "host should get bmc status" do
@@ -996,7 +996,7 @@ class HostsControllerTest < ActionController::TestCase
     assert bmc1.save
     put :update, params: { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => ''} } } }, session: set_session_user
     @host = Host.find(@host.id)
-    assert @host.interfaces.bmc.first.password.empty?
+    assert_empty @host.interfaces.bmc.first.password
   end
 
   # To test that work-around for Rails bug - https://github.com/rails/rails/issues/11031

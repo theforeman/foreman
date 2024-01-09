@@ -79,7 +79,7 @@ class RoleLockTest < ActiveSupport::TestCase
     refute find_role("Customized CRUD hosts")
     original_role = find_role(original_name)
     assert_equal original_role.id, role.id
-    assert original_role.permission_diff(perms).empty?
+    assert_empty original_role.permission_diff(perms)
   end
 
   test "should process existing role with origin and removed permissions" do
@@ -91,7 +91,7 @@ class RoleLockTest < ActiveSupport::TestCase
     refute find_role("Customized CRUD hosts")
     original_role = find_role(original_name)
     assert_equal original_role.id, role.id
-    assert original_role.permission_diff(perms).empty?
+    assert_empty original_role.permission_diff(perms)
   end
 
   test "should process existing role with unchanged permissions list" do
