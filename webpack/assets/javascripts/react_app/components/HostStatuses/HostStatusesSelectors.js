@@ -35,10 +35,10 @@ export const selectHostStatusWarnOwnedPath = (state, statusName) =>
   selectHostStatus(state, statusName)?.warn_owned_path;
 
 export const selectHostStatusErrorTotalPath = (state, statusName) =>
-  selectHostStatus(state, statusName)?.error_owned_path;
+  selectHostStatus(state, statusName)?.error_total_path;
 
 export const selectHostStatusErrorOwnedPath = (state, statusName) =>
-  selectHostStatus(state, statusName)?.error_total_path;
+  selectHostStatus(state, statusName)?.error_owned_path;
 /* eslint-enable camelcase */
 
 export const selectHostStatusTotalPaths = (state, statusName) => ({
