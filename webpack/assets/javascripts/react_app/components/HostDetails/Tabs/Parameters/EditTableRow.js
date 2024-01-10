@@ -79,6 +79,20 @@ export const EditParametersTableRow = ({
       );
     }
   };
+
+  const onSelect = (event, selection, isPlaceholder) => {
+    if (isPlaceholder) clearSelection();
+    else {
+      setValue(selection);
+      setSelectValueIsOpen(false);
+    }
+  };
+
+  const clearSelection = () => {
+    setValue('');
+    setSelectValueIsOpen(false);
+  };
+
   return (
     <Tr ouiaId={`edit-parameters-table-row-${rowIndex}`} key={rowIndex}>
       <Td dataLabel={columnNames.name}>
@@ -124,13 +138,11 @@ export const EditParametersTableRow = ({
               variant={SelectVariant.single}
               aria-label={`Select ${param.name} value`}
               onToggle={setSelectValueIsOpen}
-              selections={value.toString()}
+              selections={value?.toString()}
               isOpen={selectValueIsOpen}
-              onSelect={(event, selection) => {
-                setSelectValueIsOpen(false);
-                setValue(selection === 'true');
-              }}
+              onSelect={onSelect}
             >
+              <SelectOption value="select" isPlaceholder />
               <SelectOption value="true" />
               <SelectOption value="false" />
             </Select>
