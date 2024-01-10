@@ -62,7 +62,7 @@ Array [
 
 exports[`HostStatusesSelectors selectors selects selectHostStatusOwnedPaths 1`] = `
 Object {
-  "errorOwnedPath": "/hosts?search=status+%3D+error",
+  "errorOwnedPath": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+error",
   "okOwnedPath": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+ok",
   "warnOwnedPath": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+warn",
 }
@@ -70,7 +70,7 @@ Object {
 
 exports[`HostStatusesSelectors selectors selects selectHostStatusTotalPaths 1`] = `
 Object {
-  "errorTotalPath": "/hosts?search=owner+%3D+current_user+AND+%28status+%3D+error",
+  "errorTotalPath": "/hosts?search=status+%3D+error",
   "okTotalPath": "/hosts?search=status+%3D+ok",
   "warnTotalPath": "/hosts?search=status+%3D+warn",
 }
