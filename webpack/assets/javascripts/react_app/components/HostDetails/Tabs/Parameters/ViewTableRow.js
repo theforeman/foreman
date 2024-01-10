@@ -11,11 +11,13 @@ const getValue = param => {
   if (param['hidden_value?']) {
     return '••••••••';
   }
-  if (param.parameter_type === 'boolean') {
-    return param.value.toString();
-  }
-  if (!param.value)
+  if (param.value === null)
     return <span className="disabled-text">{__('No value')}</span>;
+
+  if (param.parameter_type === 'boolean') {
+    return param?.value?.toString();
+  }
+
   if (['json', 'yaml', 'array', 'hash'].includes(param.parameter_type)) {
     return JSON.stringify(param.value);
   }
