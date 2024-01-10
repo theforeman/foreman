@@ -110,11 +110,11 @@ class HostStatusPresenter
   private
 
   def total_data
-    status_class.group(:status).count
+    status_class.joins(:host).merge(Host.authorized).group(:status).count
   end
 
   def owned_data
-    status_class.where(host_id: Host::Managed.search_for('owner = current_user').select(:id)).group(:status).count
+    status_class.joins(:host).merge(Host::Managed.authorized.search_for('owner = current_user').reorder('')).group(:status).count
   end
 
   def total_queries
