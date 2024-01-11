@@ -5,7 +5,6 @@ module Api
       include Foreman::Controller::RegistrationCommands
 
       before_action :find_smart_proxy, if: -> { registration_params['smart_proxy_id'] }
-
       api :POST, "/registration_commands", N_("Generate global registration command")
       param :registration_command, Hash, required: false, action_aware: true do
         param :organization_id, :number, desc: N_("ID of the Organization to register the host in")
@@ -15,7 +14,7 @@ module Api
         param :smart_proxy_id, :number, desc: N_("ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features")
         param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems")
         param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host")
-        param :jwt_expiration, :number, desc: N_("Expiration of the authorization token (in hours)")
+        param :jwt_expiration, :number, desc: N_("Expiration of the authorization token (in hours), 0 means 'unlimited'.")
         param :insecure, :bool, desc: N_("Enable insecure argument for the initial curl")
         param :packages, String, desc: N_("Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`")
         param :update_packages, :bool, desc: N_("Update all packages on the host")
