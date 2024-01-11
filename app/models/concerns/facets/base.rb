@@ -40,11 +40,11 @@ module Facets
       # Change attributes that will be sent to an facet based on inherited values from the hostgroup.
       def inherited_attributes(hostgroup, facet_attributes)
         _, facet_config = Facets.find_facet_by_class(self, :host)
+        return facet_attributes unless facet_config.has_hostgroup_configuration? && hostgroup
 
-        if facet_config.has_hostgroup_configuration? && hostgroup
-          facet_attributes = hostgroup.inherited_facet_attributes(facet_config)
+        hostgroup.inherited_facet_attributes(facet_config).merge(facet_attributes || {}) do |key, left, right|
+          facet_attributes.include?(key) ? right : left
         end
-        facet_attributes
       end
 
       # Use this method to populate host's fields based on fact values exposed by the importer.
