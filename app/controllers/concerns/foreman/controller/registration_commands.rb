@@ -5,7 +5,7 @@ module Foreman::Controller::RegistrationCommands
 
   def command
     args_query = "?#{registration_args.to_query}"
-    "curl -sS #{insecure} '#{registration_url(@smart_proxy)}#{args_query if args_query != '?'}' #{command_headers} | bash"
+    "set -o pipefail && curl -sS #{insecure} '#{registration_url(@smart_proxy)}#{args_query if args_query != '?'}' #{command_headers} | bash"
   end
 
   def registration_args
