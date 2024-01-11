@@ -298,5 +298,41 @@ class FacetTest < ActiveSupport::TestCase
 
       assert_equal({'to_inherit' => 'val1'}, actual['hostgroup_facet_attributes'])
     end
+
+    test 'hostgroup facet does not override attributes from host' do
+      Facets.register :hostgroup_facet do
+        configure_host TestFacet
+        configure_hostgroup TestHostgroupFacet
+      end
+
+      host = Host::Managed.new
+      hostgroup = FactoryBot.create(:hostgroup, :hostgroup_facet => TestHostgroupFacet.new)
+
+      TestHostgroupFacet.stubs(:attributes_to_inherit).returns([])
+      TestHostgroupFacet.inherit_attributes :to_inherit
+      TestHostgroupFacet.any_instance.stubs(:attributes).returns({:to_inherit => 'val1'})
+
+      actual = host.apply_inherited_attributes('hostgroup' => hostgroup, 'hostgroup_facet_attributes' => { 'to_inherit' => 'val3' })
+
+      assert_equal({'to_inherit' => 'val3'}, actual['hostgroup_facet_attributes'])
+    end
+
+    test 'hostgroup facet does not override nil attributes from host' do
+      Facets.register :hostgroup_facet do
+        configure_host TestFacet
+        configure_hostgroup TestHostgroupFacet
+      end
+
+      host = Host::Managed.new
+      hostgroup = FactoryBot.create(:hostgroup, :hostgroup_facet => TestHostgroupFacet.new)
+
+      TestHostgroupFacet.stubs(:attributes_to_inherit).returns([])
+      TestHostgroupFacet.inherit_attributes :to_inherit
+      TestHostgroupFacet.any_instance.stubs(:attributes).returns({:to_inherit => 'val1'})
+
+      actual = host.apply_inherited_attributes('hostgroup' => hostgroup, 'hostgroup_facet_attributes' => { 'to_inherit' => nil })
+
+      assert_equal({'to_inherit' => nil}, actual['hostgroup_facet_attributes'])
+    end
   end
 end
