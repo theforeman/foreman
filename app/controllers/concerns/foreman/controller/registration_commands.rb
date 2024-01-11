@@ -3,6 +3,10 @@ module Foreman::Controller::RegistrationCommands
 
   private
 
+  MIN_VALUE = 0
+  MAX_VALUE = 999999
+  DEFAULT_VALUE = 4
+
   def command
     args_query = "?#{registration_args.to_query}"
     "set -o pipefail && curl -sS #{insecure} '#{registration_url(@smart_proxy)}#{args_query if args_query != '?'}' #{command_headers} | bash"
@@ -27,17 +31,40 @@ module Foreman::Controller::RegistrationCommands
     "#{url}/register"
   end
 
+  def invalid_expiration_error
+    raise ::Foreman::Exception.new(N_("Invalid value '%s' for jwt_expiration. The value must be between %s and %s. 0 means 'unlimited'."), registration_params['jwt_expiration'], MIN_VALUE, MAX_VALUE)
+  end
+
+  def jwt_expiration_param
+    param = registration_params['jwt_expiration'] || DEFAULT_VALUE
+    @jwt_expiration_param ||= begin
+      if param == 'unlimited'
+        0
+      elsif Float(param, exception: false)
+        param.to_i
+      else
+        invalid_expiration_error
+      end
+    end
+  end
+
+  def expiration_unlimited?
+    jwt_expiration_param == 0
+  end
+
+  def expiration_valid?
+    jwt_expiration_param.between?(MIN_VALUE, MAX_VALUE)
+  end
+
   def command_headers
     jwt_args = {
       scope: [{ controller: :registration, actions: [:global, :host] }],
     }
-
-    if registration_params['jwt_expiration'].present?
-      jwt_args[:expiration] = registration_params['jwt_expiration'].to_i.hours.to_i if registration_params['jwt_expiration'] != 'unlimited'
+    if expiration_valid?
+      jwt_args[:expiration] = jwt_expiration_param.hours.to_i unless expiration_unlimited?
     else
-      jwt_args[:expiration] = 4.hours.to_i
+      invalid_expiration_error
     end
-
     "-H 'Authorization: Bearer #{User.current.jwt_token!(**jwt_args)}'"
   end
 

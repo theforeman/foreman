@@ -119,6 +119,31 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
 
         refute JwtToken.new(parsed_token).decode['exp']
       end
+
+      test '0' do
+        post :create, params: { jwt_expiration: 0 }, session: set_session_user
+        command = JSON.parse(@response.body)['command']
+        parsed_token = command.scan(/(?<=Bearer )(.*)(?=.*)(?=\')/).flatten[0]
+        refute JwtToken.new(parsed_token).decode['exp']
+      end
+
+      test 'value greater than 999999' do
+        assert_raise Foreman::Exception do
+          post :create, params: { jwt_expiration: 1000000 }, session: set_session_user
+        end
+      end
+
+      test 'value less than 0' do
+        assert_raise Foreman::Exception do
+          post :create, params: { jwt_expiration: -1 }, session: set_session_user
+        end
+      end
+
+      test 'strings except unlimited' do
+        assert_raise Foreman::Exception do
+          post :create, params: { jwt_expiration: 'unlimiteded' }, session: set_session_user
+        end
+      end
     end
   end
 
