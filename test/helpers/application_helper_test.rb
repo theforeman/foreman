@@ -33,13 +33,13 @@ class ApplicationHelperTest < ActionView::TestCase
     end
 
     test '#documentation_url and new docs page' do
-      url = documentation_url('TestSection', { type: 'plugin_manual', name: 'foreman_my_plugin', version: '1.2' })
+      url = documentation_url('TestSection', type: 'plugin_manual', name: 'foreman_my_plugin', version: '1.2')
 
       assert_match %r{links/plugin_manual/TestSection\?name=foreman_my_plugin&version=1\.2}, url
     end
 
     test '#documentation_url and new docs page' do
-      url = documentation_url('TestSection', { type: 'docs', chapter: 'test_chapter' })
+      url = documentation_url('TestSection', type: 'docs', chapter: 'test_chapter')
 
       assert_match %r{links/docs/TestSection\?chapter=test_chapter}, url
     end
