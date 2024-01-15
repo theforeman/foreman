@@ -232,8 +232,10 @@ class Setting < ApplicationRecord
   def validate_host_owner
     owner_type_and_id = value
     return if owner_type_and_id.blank?
-    owner = OwnerClassifier.new(owner_type_and_id).user_or_usergroup
-    errors.add(:value, _("Host owner is invalid")) if owner.nil?
+
+    OwnerClassifier.classify_owner(owner_type_and_id)
+  rescue ArgumentError, ActiveRecord::RecordNotFound => e
+    errors.add(:value, e.message)
   end
 
   def invalid_value_error(error)

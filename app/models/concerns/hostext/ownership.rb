@@ -38,13 +38,13 @@ module Hostext
     # supports a simple user, or a usergroup
     # selection parameter is expected to be an ActiveRecord id_and_type method (see Foreman's AR extentions).
     def is_owned_by=(selection)
-      owner = OwnerClassifier.new(selection).user_or_usergroup
+      owner = OwnerClassifier.classify_owner(selection)
       self.owner = owner
     end
 
     def owner_suggestion
       owner_id_and_type = Setting[:host_owner]
-      owner = OwnerClassifier.new(owner_id_and_type).user_or_usergroup
+      owner = OwnerClassifier.classify_owner(owner_id_and_type)
       self.owner || owner || User.current
     end
 
