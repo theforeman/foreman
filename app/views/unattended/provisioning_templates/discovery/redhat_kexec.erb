@@ -44,7 +44,7 @@ require:
     options.push('fips=1')
   end
   extra = []
-  extra << "--kexec-file-syscall" if @host.pxe_loader.include?('SecureBoot')
+  extra << "--kexec-file-syscall" if @host.pxe_loader&.include?('SecureBoot')
 -%>
 {
 "kernel": "<%= @kernel_uri %>",
