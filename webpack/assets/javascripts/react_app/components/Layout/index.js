@@ -18,25 +18,27 @@ import { getIsNavbarCollapsed } from './LayoutSessionStorage';
 import {
   useForemanOrganization,
   useForemanLocation,
+  useForemanSettings,
 } from '../../Root/Context/ForemanContext';
 
 import Layout from './Layout';
 
 const ConnectedLayout = ({ children, data }) => {
   const dispatch = useDispatch();
+  const { displayNewHostsPage } = useForemanSettings();
 
   const currentLocation = useForemanLocation()?.title;
   const currentOrganization = useForemanOrganization()?.title;
   useEffect(() => {
     dispatch(
       initializeLayout({
-        items: combineMenuItems(data),
+        items: combineMenuItems(data, displayNewHostsPage),
         isCollapsed: getIsNavbarCollapsed(),
         organization: data.orgs.current_org,
         location: data.locations.current_location,
       })
     );
-  }, [data, dispatch]);
+  }, [data, dispatch, displayNewHostsPage]);
 
   const isNavCollapsed = useSelector(state => selectIsCollapsed(state));
   useEffect(() => {

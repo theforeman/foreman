@@ -53,7 +53,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Show Experimental Labs'))
     setting('new_hosts_page',
       type: :boolean,
-      description: N_("Whether or not to show the new overview page for All Hosts (requires reload of page)"),
+      description: N_("Whether or not to show the new overview page for All Hosts"),
       default: false,
       full_name: N_('Show New Host Overview Page'))
     setting('display_fqdn_for_hosts',

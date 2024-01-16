@@ -79,7 +79,7 @@ const Navigation = ({
         return { ...rest, groups };
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items.length, currentPath]
+    [items, currentPath]
   );
 
   const [currentExpanded, setCurrentExpanded] = useState(

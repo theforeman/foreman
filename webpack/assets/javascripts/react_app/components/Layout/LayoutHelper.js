@@ -8,6 +8,8 @@ import {
   noop,
   foremanUrl,
 } from '../../common/helpers';
+import { NAV_MENU_ALL_HOST } from './LayoutConstants';
+import { getHostsPageUrl } from '../../Root/Context/ForemanContext';
 
 export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
   const taxonomyId = availableTaxonomies.find(
@@ -22,14 +24,20 @@ export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
 export const getCurrentPath = () =>
   removeLastSlashFromPath(window.location.pathname);
 
-export const combineMenuItems = data => {
+export const combineMenuItems = (data, displayNewHostsPage) => {
   const items = [];
 
   data.menu.forEach(item => {
-    const translatedChildren = item.children.map(child => ({
-      ...child,
-      title: isEmpty(child.name) ? child.name : __(child.name),
-    }));
+    const translatedChildren = item.children.map(child => {
+      const newChild = {
+        ...child,
+        title: isEmpty(child.name) ? child.name : __(child.name),
+      };
+      if (child.name === NAV_MENU_ALL_HOST) {
+        newChild.url = getHostsPageUrl(displayNewHostsPage);
+      }
+      return newChild;
+    });
 
     const translatedItem = {
       ...item,
