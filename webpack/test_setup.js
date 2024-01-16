@@ -11,6 +11,8 @@ jest.mock('./assets/javascripts/react_app/Root/Context/ForemanContext', () => ({
   useForemanDocUrl: () => '/url',
   useForemanLocation: () => ({ title: 'location' }),
   useForemanOrganization: () => ({ title: 'organization' }),
+  getHostsPageUrl: displayNewHostsPage =>
+    displayNewHostsPage ? '/new/hosts' : '/hosts',
 }));
 jest.mock('./assets/javascripts/react_app/common/I18n');
 jest.mock('./assets/javascripts/foreman_tools', () => ({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ConnectedRouter } from 'connected-react-router';
 import { ApolloProvider } from '@apollo/client';
@@ -13,7 +13,8 @@ import ErrorBoundary from '../components/common/ErrorBoundary';
 import ConfirmModal from '../components/ConfirmModal';
 
 const ReactApp = ({ layout, metadata, toasts }) => {
-  const contextData = { metadata };
+  const [context, setContext] = useState({ metadata });
+  const contextData = { context, setContext };
   const ForemanContext = getForemanContext(contextData);
 
   return (
