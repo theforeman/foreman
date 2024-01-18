@@ -51,6 +51,7 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
   test "create compute profile" do
     visit compute_profiles_path()
     click_on("Create Compute Profile")
+    page.driver.browser.file_detector = nil if page.driver.browser.respond_to?(:file_detector=)
     fill_in('compute_profile_name', :with => 'test')
     click_on("Submit")
     assert click_link(compute_resources(:ovirt).to_s)
