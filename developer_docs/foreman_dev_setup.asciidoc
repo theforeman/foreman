@@ -60,7 +60,7 @@ Run the following command:
 gem install pg -v '{PG_VERSION}' -- --with-pg-config=/usr/pgsql-13/bin/pg_config
 ....
 
-*Good to Notice:* 
+*Good to Notice:*
 Foreman uses Bundler to install dependencies and get up and running. This is the preferred way to get Foreman if you want to benefit from the latest improvements. By using the git repository you can also upgrade more easily.
 
 [[Database]]
@@ -93,7 +93,7 @@ Set up database schema, precompile assets and locales:
 ....
 bundle exec rake db:create # if not already created
 bundle exec rake db:migrate
-bundle exec rake db:seed
+SEED_ADMIN_PASSWORD=your_pass bundle exec rake db:seed
 ....
 
 The db:seed step will print out the default admin password, record this in order to log in later.
