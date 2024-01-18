@@ -20,18 +20,63 @@ Minitest::Retry.on_consistent_failure do |klass, test_name|
 end
 
 Selenium::WebDriver::Chrome::Service.driver_path = ENV['TESTDRIVER_PATH'] || Foreman::Util.which('chromedriver', Rails.root.join('node_modules', '.bin'))
-Capybara.register_driver :selenium_chrome do |app|
+
+javascript_driver = ENV.fetch("JS_TEST_DRIVER") { ENV['DEBUG_JS_TEST'] ? :selenium_chrome : :selenium_chrome_headless }.to_sym
+
+def chrome_options
   options = Selenium::WebDriver::Chrome::Options.new
-  options.args << '--disable-gpu'
-  options.args << '--no-sandbox'
   options.args << '--window-size=1024,768'
-  options.args << '--headless' unless ENV['DEBUG_JS_TEST'] == '1'
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  options.args += ENV.fetch('ADDITIONAL_CHROME_OPTIONS', '').split(';')
+  options
 end
+
+if javascript_driver == :selenium_chrome_remote
+  ShowMeTheCookies.register_adapter(:selenium_chrome_remote, ShowMeTheCookies::SeleniumChrome)
+
+  Capybara.register_driver :selenium_chrome_remote do |app|
+    selenium_remote_host = ENV.fetch('SELENIUM_REMOTE_HOST')
+    selenium_remote_port = ENV.fetch('SELENIUM_REMOTE_PORT', 4444)
+    Capybara::Selenium::Driver.new(
+      app,
+      browser: :remote,
+      url: "http://#{selenium_remote_host}:#{selenium_remote_port}/wd/hub",
+      options: chrome_options)
+  end
+elsif javascript_driver == :selenium_chrome_headless
+  options = chrome_options
+  options.args << '--headless'
+  Capybara.register_driver :selenium_chrome_headless do |app|
+    Capybara::Selenium::Driver.new(
+      app,
+      browser: :chrome,
+      options: options)
+  end
+else
+  Capybara.register_driver javascript_driver do |app|
+    Capybara::Selenium::Driver.new(
+      app,
+      browser: :chrome,
+      options: chrome_options)
+  end
+end
+
 Capybara.configure do |config|
-  config.javascript_driver      = ENV["JS_TEST_DRIVER"]&.to_sym || :selenium_chrome
-  config.default_max_wait_time  = 20
+  config.javascript_driver = javascript_driver
+  config.default_max_wait_time = 20
   config.enable_aria_label = true
+  if ENV.fetch("JS_TEST_DRIVER", nil) == 'selenium_chrome_remote'
+    app_host = ENV.fetch('APP_SERVER_HOST') do
+      Socket.ip_address_list
+        .find(&:ipv4_private?)
+        .ip_address
+    end
+    app_port = ENV.fetch('APP_SERVER_PORT', "8080")
+    config.server_port = app_port
+    # application server
+    config.server_host = "0.0.0.0"
+    # address used by selenium host to connect to application server
+    config.app_host = "http://#{app_host}:#{app_port}"
+  end
 end
 
 class ActionDispatch::IntegrationTest
@@ -46,6 +91,12 @@ class ActionDispatch::IntegrationTest
 
   # Stop ActiveRecord from wrapping tests in transactions
   self.use_transactional_tests = false
+
+  # see: https://stackoverflow.com/questions/70441796/selenium-webdriver-for-aws-device-farm-error-when-sending-period-keystroke-t
+
+  def work_around_selenium_file_detector_bug
+    page.driver.browser.file_detector = nil if page.driver.browser.respond_to?(:file_detector=)
+  end
 
   def assert_index_page(index_path, title_text, new_link_text = nil, has_search = true, has_pagination = true)
     visit index_path
@@ -299,7 +350,7 @@ class ActionDispatch::IntegrationTest
   end
 
   def login_admin
-    visit('/users/login') if Capybara.current_driver == :selenium_chrome
+    visit('/users/login') if Capybara.current_driver.to_s.include? "selenium"
     SSO.register_method(TestSSO)
     set_request_user(:admin)
   end

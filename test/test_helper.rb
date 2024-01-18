@@ -20,7 +20,11 @@ require 'test_report_helper'
 FactoryBot.use_parent_strategy = false
 
 # Do not allow network connections and external processes
-WebMock.disable_net_connect!(allow_localhost: true)
+if ENV.fetch('SELENIUM_REMOTE_HOST', nil)
+  WebMock.disable_net_connect!(allow_localhost: true, allow: ENV['SELENIUM_REMOTE_HOST'])
+else
+  WebMock.disable_net_connect!(allow_localhost: true)
+end
 
 # Configure shoulda
 Shoulda::Matchers.configure do |config|
