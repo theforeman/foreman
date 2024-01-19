@@ -99,6 +99,9 @@ Layout/SpaceAroundOperators:
 Style/OptionalBooleanParameter:
   Enabled: false
 
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
 
