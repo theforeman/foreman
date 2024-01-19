@@ -128,7 +128,6 @@ Array [
     "iconClass": "fa fa-tachometer",
     "subItems": Array [
       Object {
-        "className": "mobile-active",
         "href": "/",
         "id": "menu_item_dashboard",
         "isDivider": false,
@@ -136,7 +135,6 @@ Array [
         "title": undefined,
       },
       Object {
-        "className": "mobile-active",
         "href": "/fact_values",
         "id": "menu_item_facts",
         "isDivider": false,
@@ -144,7 +142,6 @@ Array [
         "title": undefined,
       },
       Object {
-        "className": "mobile-active",
         "href": "/audits",
         "id": "menu_item_audits",
         "isDivider": false,
@@ -152,7 +149,6 @@ Array [
         "title": undefined,
       },
       Object {
-        "className": "mobile-active",
         "href": undefined,
         "id": "menu_item_reports",
         "isDivider": true,
@@ -160,7 +156,6 @@ Array [
         "title": undefined,
       },
       Object {
-        "className": "mobile-active",
         "href": "/config_reports?search=eventful+%3D+true",
         "id": "menu_item_config_management",
         "isDivider": false,
@@ -168,7 +163,6 @@ Array [
         "title": undefined,
       },
       Object {
-        "className": "mobile-active",
         "href": "/templates/report_templates",
         "id": "menu_item_report_templates",
         "isDivider": false,
@@ -183,7 +177,6 @@ Array [
     "iconClass": "fa fa-server",
     "subItems": Array [
       Object {
-        "className": "mobile-active",
         "href": "/hosts",
         "id": "menu_item_all_hosts",
         "isDivider": false,
@@ -191,7 +184,6 @@ Array [
         "title": undefined,
       },
       Object {
-        "className": "mobile-active",
         "href": "/hosts/new",
         "id": "menu_item_create_host",
         "isDivider": false,
@@ -199,7 +191,6 @@ Array [
         "title": undefined,
       },
       Object {
-        "className": "mobile-active",
         "href": undefined,
         "id": "menu_item_provisioning_setup",
         "isDivider": true,
@@ -207,7 +198,6 @@ Array [
         "title": undefined,
       },
       Object {
-        "className": "mobile-active",
         "href": "/architectures",
         "id": "menu_item_architectures",
         "isDivider": false,
@@ -222,7 +212,6 @@ Array [
     "iconClass": "fa fa-wrench",
     "subItems": Array [
       Object {
-        "className": "mobile-active",
         "href": "/hostgroups",
         "id": "menu_item_host_groups",
         "isDivider": false,
@@ -230,7 +219,6 @@ Array [
         "title": undefined,
       },
       Object {
-        "className": "mobile-active",
         "href": "/common_parameters",
         "id": "menu_item_global_parameters",
         "isDivider": false,
