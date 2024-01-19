@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'models/compute_resources/compute_resource_test_helpers'
 
-class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
+class Foreman::Model::OvirtTest < ActiveSupport::TestCase
   include ComputeResourceTestHelpers
 
   should validate_presence_of(:url)
