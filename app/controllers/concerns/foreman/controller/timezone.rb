@@ -8,6 +8,9 @@ module Foreman
         client_timezone  = User.current.try(:timezone) || cookies[:timezone]
         Time.zone        = client_timezone if client_timezone.present?
         yield
+      rescue ArgumentError
+        Time.zone = ActiveSupport::TimeZone['UTC']
+        yield
       ensure
         # Reset timezone for the next thread
         Time.zone = default_timezone
