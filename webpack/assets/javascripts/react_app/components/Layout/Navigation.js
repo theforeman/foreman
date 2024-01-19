@@ -103,11 +103,25 @@ const Navigation = ({
     [items, currentPath, currentLocation, currentOrganization]
   );
 
+  const [currentExpandedSecondary, setCurrentExpandedSecondary] = useState(
+    null
+  );
   const [currentExpanded, setCurrentExpanded] = useState(
     subItemToItemMap[pathFragment(getCurrentPath())]
   );
   useEffect(() => {
     setCurrentExpanded(subItemToItemMap[pathFragment(getCurrentPath())]);
+    groupedItems.some(({ groups }) =>
+      groups.some(({ groupItems, title }) =>
+        groupItems.some(({ href }) => {
+          if (href === pathFragment(getCurrentPath())) {
+            setCurrentExpandedSecondary(title);
+            return true;
+          }
+          return false;
+        })
+      )
+    );
     // we only want to run this when we get new items from the API to set the default expanded item, which is the current location
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length]);
@@ -146,6 +160,8 @@ const Navigation = ({
               onExpand={() => {
                 // if the current expanded item is the same as the clicked item, collapse it
                 const isExpanded = currentExpanded === title;
+                // close the Secondary nav if it's open
+                if (isExpanded) setCurrentExpandedSecondary(null);
                 // only have 1 item expanded at a time
                 setCurrentExpanded(isExpanded ? null : title);
               }}
@@ -183,9 +199,14 @@ const Navigation = ({
                     <NavExpandable
                       ouiaId={`nav-expandable-${index}-${groupIndex}`}
                       title={group.title}
-                      isExpanded={group.groupItems.some(
-                        ({ isActive }) => isActive
-                      )}
+                      isExpanded={currentExpandedSecondary === group.title}
+                      onExpand={() => {
+                        setCurrentExpandedSecondary(
+                          currentExpandedSecondary === group.title
+                            ? null
+                            : group.title
+                        );
+                      }}
                     >
                       {group.groupItems.map(
                         ({
