@@ -32,10 +32,6 @@ const childToMenuItem = (child, currentLocation, currentOrganization) => ({
   id: `menu_item_${snakeCase(child.name)}`,
   title: child.title,
   isDivider: child.type === 'divider',
-  className:
-    child.title === currentLocation || child.title === currentOrganization
-      ? 'mobile-active'
-      : '',
   href: child.url,
   onClick: child.onClick || null,
 });

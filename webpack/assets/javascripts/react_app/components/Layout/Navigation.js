@@ -10,6 +10,10 @@ import {
 } from '@patternfly/react-core';
 import { getCurrentPath } from './LayoutHelper';
 import { NavigationSearch } from './NavigationSearch';
+import {
+  useForemanOrganization,
+  useForemanLocation,
+} from '../../Root/Context/ForemanContext';
 
 const titleWithIcon = (title, iconClass) => (
   <div>
@@ -53,9 +57,12 @@ const Navigation = ({
     });
   });
 
+  const currentLocation = useForemanLocation()?.title;
+  const currentOrganization = useForemanOrganization()?.title;
+
   const groupedItems = useMemo(
     () =>
-      items.map(({ subItems, ...rest }) => {
+      items.map(({ className, subItems, ...rest }) => {
         const groups = [];
         let currIndex = 0;
         if (subItems.length) {
@@ -69,17 +76,31 @@ const Navigation = ({
               groups.push({ title: sub.title, groupItems: [] });
               currIndex++;
             } else {
+              const isCurrentLocation =
+                className.includes('location-menu') &&
+                (sub.title === currentLocation ||
+                  (currentLocation === undefined &&
+                    sub.id === 'menu_item_any_location'));
+              const isCurrentOrganization =
+                className.includes('organization-menu') &&
+                (sub.title === currentOrganization ||
+                  (currentOrganization === undefined &&
+                    sub.id === 'menu_item_any_organization'));
+
               groups[currIndex].groupItems.push({
                 ...sub,
-                isActive: currentPath === sub.href?.split('?')[0],
+                isActive:
+                  (currentPath && currentPath === sub.href?.split('?')[0]) ||
+                  isCurrentLocation ||
+                  isCurrentOrganization,
               });
             }
           });
         }
-        return { ...rest, groups };
+        return { ...rest, groups, className };
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items.length, currentPath]
+    [items, currentPath, currentLocation, currentOrganization]
   );
 
   if (!items.length) return null;
