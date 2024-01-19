@@ -37,7 +37,7 @@ describe('BreadcrumbBar', () => {
       expect(props.closeSwitcher.mock.calls).toHaveLength(0);
       expect(props.loadSwitcherResourcesByResource.mock.calls).toHaveLength(0);
 
-      act(async () =>
+      await act(async () =>
         fireEvent.click(screen.getByLabelText('open breadcrumb switcher'))
       );
       expect(props.openSwitcher.mock.calls).toHaveLength(1);

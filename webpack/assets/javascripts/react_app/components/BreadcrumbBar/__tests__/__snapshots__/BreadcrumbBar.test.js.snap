@@ -98,7 +98,7 @@ Array [
       "switcherItemUrl": "some/url/:id",
     },
     Object {
-      "page": 2,
+      "page": 3,
       "perPage": 10,
       "searchQuery": "some value",
     },
@@ -110,7 +110,7 @@ Array [
       "switcherItemUrl": "some/url/:id",
     },
     Object {
-      "page": 1,
+      "page": 2,
       "perPage": 10,
       "searchQuery": "some value",
     },
