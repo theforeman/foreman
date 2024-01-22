@@ -164,6 +164,7 @@ const Navigation = ({
                 if (isExpanded) setCurrentExpandedSecondary(null);
                 // only have 1 item expanded at a time
                 setCurrentExpanded(isExpanded ? null : title);
+                setCurrentExpandedSecondary(null);
               }}
             >
               {groups.map((group, groupIndex) =>
