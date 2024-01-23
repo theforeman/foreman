@@ -49,3 +49,7 @@
     }
   }
 }
+
+.host-details-tabs-section + .pf-c-tabs {
+   overflow: visible;
+}
