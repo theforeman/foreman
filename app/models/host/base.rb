@@ -90,11 +90,12 @@ module Host
     # initializer and we set name when we are sure that we have primary interface
     # we can't create primary interface before calling super because args may contain nested
     # interface attributes
-    def initialize(*args)
+    def initialize(attributes = nil, &block)
       values_for_primary_interface = {}
-      build_values_for_primary_interface!(values_for_primary_interface, args)
+      attributes = attributes&.with_indifferent_access
+      build_values_for_primary_interface!(values_for_primary_interface, attributes)
 
-      super(*args)
+      super(attributes, &block)
 
       build_required_interfaces
       update_primary_interface_attributes(values_for_primary_interface)
@@ -401,19 +402,17 @@ module Host
       addr.to_s
     end
 
-    def build_values_for_primary_interface!(values_for_primary_interface, args)
-      new_attrs = args.shift
-      unless new_attrs.nil?
-        new_attrs = new_attrs.with_indifferent_access
-        values_for_primary_interface[:name] = NameGenerator.new.next_random_name unless new_attrs.has_key?(:name)
+    def build_values_for_primary_interface!(values_for_primary_interface, attributes)
+      unless attributes.nil?
+        values_for_primary_interface[:name] = NameGenerator.new.next_random_name unless attributes.has_key?(:name)
         PRIMARY_INTERFACE_ATTRIBUTES.each do |attr|
-          values_for_primary_interface[attr] = new_attrs.delete(attr) if new_attrs.has_key?(attr)
+          values_for_primary_interface[attr] = attributes.delete(attr) if attributes.has_key?(attr)
         end
 
-        model_name = new_attrs.delete(:model_name)
-        new_attrs[:hardware_model_name] = model_name if model_name.present?
+        model_name = attributes.delete(:model_name)
+        attributes[:hardware_model_name] = model_name if model_name.present?
 
-        args.unshift(new_attrs)
+        attributes
       end
     end
 

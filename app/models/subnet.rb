@@ -422,9 +422,9 @@ class Subnet < ApplicationRecord
     end
 
     # This casts Subnet to Subnet::Ipv4 if no type is set
-    def new(*attributes, &block)
-      type = attributes.first.with_indifferent_access.delete(:type) if attributes.first.is_a?(Hash)
-      return Subnet::Ipv4.new(*attributes, &block) if self == Subnet && type.nil?
+    def new(attributes = nil, &block)
+      type = attributes.with_indifferent_access.delete(:type) if attributes.is_a?(Hash)
+      return Subnet::Ipv4.new(attributes, &block) if self == Subnet && type.nil?
       super
     end
 
