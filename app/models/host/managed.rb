@@ -73,9 +73,8 @@ class Host::Managed < Host::Base
 
   include PxeLoaderValidator
 
-  def initialize(*args)
-    args.unshift(apply_inherited_attributes(args.shift, false))
-    super(*args)
+  def initialize(attributes = nil, &block)
+    super(apply_inherited_attributes(attributes, false), &block)
   end
 
   def build_hooks
