@@ -52,8 +52,8 @@ module ForemanAnsible
       _, minor_fact = @facts_parser.
                       facts['ansible_distribution_version'].split('.')
       Operatingsystem.expects(:where).
-        with(:name => @facts_parser.facts['ansible_distribution'],
-             :major => major_fact, :minor => minor_fact || '').
+        with({ :name => @facts_parser.facts['ansible_distribution'],
+             :major => major_fact, :minor => minor_fact || '' }).
         returns(sample_mock)
       sample_mock.expects(:first)
       @facts_parser.operatingsystem

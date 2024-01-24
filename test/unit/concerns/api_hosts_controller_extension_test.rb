@@ -9,7 +9,7 @@ class ApiHostsControllerExtensionTest < ActiveSupport::TestCase
 
   test 'adds permissions_check filter when using #check_permissions_for dsl' do
     @klass.stubs :foo
-    @klass.expects(:before_action).with(:permissions_check, {:only => [:foo]})
+    @klass.expects(:before_action).with(:permissions_check, :only => [:foo])
     @klass.check_permissions_for [:foo]
   end
 

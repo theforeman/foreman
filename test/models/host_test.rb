@@ -3242,7 +3242,7 @@ class HostTest < ActiveSupport::TestCase
       bmc_proxy_stub = stub('bmc_proxy')
       @host.expects(:bmc_available?).returns(true)
       @host.expects(:bmc_proxy).returns(bmc_proxy_stub)
-      bmc_proxy_stub.expects(:boot).with(:function => 'bootdevice', :device => 'bios').returns(true)
+      bmc_proxy_stub.expects(:boot).with({ :function => 'bootdevice', :device => 'bios' }).returns(true)
       assert @host.ipmi_boot('bios')
     end
   end

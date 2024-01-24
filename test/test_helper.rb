@@ -30,6 +30,10 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Mocha.configure do |config|
+  config.strict_keyword_argument_matching = true
+end
+
 # Use our custom test runner, and register a fake plugin to skip a specific test
 Foreman::Plugin.register :skip_test do
   tests_to_skip "CustomRunnerTest" => ["custom runner is working"]

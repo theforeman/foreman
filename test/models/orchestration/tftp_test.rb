@@ -159,12 +159,12 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       ProxyAPI::TFTP.any_instance.expects(:set).with(
         'PXEGrub2',
         '00:53:67:ab:dd:00',
-        {:pxeconfig => 'Template'}
+        :pxeconfig => 'Template'
       ).once
       ProxyAPI::TFTP.any_instance.expects(:set).with(
         'PXEGrub2',
         '00:53:67:ab:dd:01',
-        {:pxeconfig => 'Template'}
+        :pxeconfig => 'Template'
       ).once
       host.provision_interface.stubs(:generate_pxe_template).returns('Template')
       host.provision_interface.send(:setTFTP, 'PXEGrub2')

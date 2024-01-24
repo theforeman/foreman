@@ -47,7 +47,7 @@ class ApplicationHelperTest < ActionView::TestCase
     test '#documentation_button forwards options to #documentation_url' do
       expects(:icon_text).returns('http://nowhere.com')
       expects(:link_to).returns('<a>test</a>'.html_safe)
-      expects(:documentation_url).with('2.2PluginSection', { :root_url => 'http://www.theforeman.org/my_plugin/v0.1/index.html#' })
+      expects(:documentation_url).with('2.2PluginSection', :root_url => 'http://www.theforeman.org/my_plugin/v0.1/index.html#')
 
       documentation_button '2.2PluginSection', :root_url => 'http://www.theforeman.org/my_plugin/v0.1/index.html#'
     end
@@ -55,7 +55,7 @@ class ApplicationHelperTest < ActionView::TestCase
     test '#documentation_button forwards plugin manual options to #documentation_url' do
       expects(:icon_text).returns('http://nowhere.com')
       expects(:link_to).returns('<a>test</a>'.html_safe)
-      expects(:documentation_url).with('2.2PluginSection', { type: 'plugin_manual', name: 'foreman_my_plugin', version: '1.2' })
+      expects(:documentation_url).with('2.2PluginSection', type: 'plugin_manual', name: 'foreman_my_plugin', version: '1.2')
 
       documentation_button '2.2PluginSection', type: 'plugin_manual', name: 'foreman_my_plugin', version: '1.2'
     end

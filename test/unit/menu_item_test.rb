@@ -52,7 +52,7 @@ class MenuItemTest < ActiveSupport::TestCase
 
   def test_menu_item_uses_url_hash_by_default
     item = Menu::Item.new(:test_good_menu, :url_hash => {:controller => 'test', :action => 'index'}, :after => :me)
-    ActionDispatch::Routing::RouteSet.any_instance.expects(:url_for).with(:controller => 'test', :action => 'index', :only_path => true).returns('/url')
+    ActionDispatch::Routing::RouteSet.any_instance.expects(:url_for).with({ :controller => 'test', :action => 'index', :only_path => true }).returns('/url')
     assert_equal '/url', item.url
   end
 
