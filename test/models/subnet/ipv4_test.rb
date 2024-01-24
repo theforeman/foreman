@@ -162,14 +162,14 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
         stubs(:subnets => [{ 'network' => '192.168.11.0',
                               'netmask' => '255.255.255.0',
                               'options' => dhcp_options }])
-      Subnet.expects(:new).with(:network => "192.168.11.0",
+      Subnet.expects(:new).with({:network => "192.168.11.0",
                                 :mask => "255.255.255.0",
                                 :gateway => "192.168.11.1",
                                 :dns_primary => "192.168.11.1",
                                 :dns_secondary => "8.8.8.8",
                                 :from => "192.168.11.0",
                                 :to => "192.168.11.200",
-                                :dhcp => @mock_proxy)
+                                :dhcp => @mock_proxy})
       Subnet::Ipv4.import(@mock_proxy)
     end
 
@@ -177,9 +177,9 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
       ProxyAPI::DHCP.any_instance.
         stubs(:subnets => [{ 'network' => '192.168.11.0',
                               'netmask' => '255.255.255.0' }])
-      Subnet.expects(:new).with(:network => "192.168.11.0",
+      Subnet.expects(:new).with({:network => "192.168.11.0",
                                 :mask => "255.255.255.0",
-                                :dhcp => @mock_proxy)
+                                :dhcp => @mock_proxy})
       Subnet::Ipv4.import(@mock_proxy)
     end
   end

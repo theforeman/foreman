@@ -1423,8 +1423,10 @@ class HostsControllerTest < ActionController::TestCase
         end
 
         Host::Managed.any_instance.expects('compute_attributes=').with(
-          'scsi_controllers' => scsi_controllers,
-          'volumes_attributes' => { '0' => volume_attributes }
+          {
+            'scsi_controllers' => scsi_controllers,
+            'volumes_attributes' => { '0' => volume_attributes },
+          }
         )
 
         put :update, params: {
