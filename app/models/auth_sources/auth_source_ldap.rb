@@ -20,7 +20,7 @@ require 'timeout'
 
 class AuthSourceLdap < AuthSource
   SERVER_TYPES = { :free_ipa => 'FreeIPA', :active_directory => 'Active Directory',
-                   :posix    => 'POSIX'}
+                   :posix    => 'POSIX', :netiq => "NetIQ"}
 
   extend FriendlyId
   friendly_id :name
