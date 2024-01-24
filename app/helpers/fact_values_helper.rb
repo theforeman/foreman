@@ -60,7 +60,7 @@ module FactValuesHelper
           url: (fact_values_path if authorized_for(hash_for_fact_values_path)),
         },
         {
-          caption: params[:host_id],
+          caption: Setting[:display_fqdn_for_hosts] ? params[:host_id].split('.')[0] : params[:host_id],
         },
       ],
       resource_url: api_hosts_path(thin: true),

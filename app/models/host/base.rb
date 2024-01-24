@@ -370,11 +370,8 @@ module Host
     end
 
     def to_label
-      if Setting[:display_fqdn_for_hosts]
-        name
-      else
-        name.split('.')[0]
-      end
+      return name if Setting[:display_fqdn_for_hosts]
+      name.split('.')[0]
     end
 
     private
