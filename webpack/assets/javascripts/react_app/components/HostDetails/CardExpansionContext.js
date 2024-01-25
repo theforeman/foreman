@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useReducer, useCallback } from 'react';
+import forceSingleton from '../../common/forceSingleton';
 
-export const CardExpansionContext = React.createContext({});
+export const CardExpansionContext = forceSingleton('CardExpansionContext', () =>
+  React.createContext({})
+);
 
 const cardExpansionReducer = (state, action) => {
   // A React reducer, not a Redux one!

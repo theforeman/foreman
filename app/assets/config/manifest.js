@@ -1,3 +1,4 @@
+//= link late_load.js
 //= link_tree ../../../vendor/assets/fonts
 //= link_tree ../images
 //= link application.css

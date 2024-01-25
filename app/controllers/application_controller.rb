@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
   before_action :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_action :authorize
   before_action :welcome, :find_selected_columns, :only => :index, :unless => :api_request?
-  prepend_before_action :allow_webpack, if: -> { Rails.configuration.webpack.dev_server.enabled }
   around_action :set_timezone
 
   attr_reader :original_search_parameter
@@ -397,21 +396,6 @@ class ApplicationController < ActionController::Base
 
   def parameter_filter_context
     Foreman::ParameterFilter::Context.new(:ui, controller_name, params[:action])
-  end
-
-  def allow_webpack
-    webpack_csp = {
-      script_src: [webpack_server], connect_src: [webpack_server],
-      style_src: [webpack_server], img_src: [webpack_server],
-      font_src: ["data: #{webpack_server}"], default_src: [webpack_server]
-    }
-
-    append_content_security_policy_directives(webpack_csp)
-  end
-
-  def webpack_server
-    port = Rails.configuration.webpack.dev_server.port
-    @dev_server ||= "#{request.protocol}#{request.host}:#{port}"
   end
 
   class << self

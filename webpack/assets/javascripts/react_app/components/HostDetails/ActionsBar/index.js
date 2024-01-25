@@ -27,7 +27,12 @@ import { useForemanSettings } from '../../../Root/Context/ForemanContext';
 import BuildModal from './BuildModal';
 import Slot from '../../common/Slot';
 
-export const ForemanActionsBarContext = createContext();
+import forceSingleton from '../../../common/forceSingleton';
+
+export const ForemanActionsBarContext = forceSingleton(
+  'ActionsBarContext',
+  () => createContext()
+);
 
 const ActionsBar = ({
   hostId,

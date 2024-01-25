@@ -1,16 +1,16 @@
 import ReactDOM from 'react-dom';
-import store from '../redux';
-import componentRegistry from '../components/componentRegistry';
+import React from 'react';
+import { AwaitedMount } from './AwaitedMount';
 
 export { default as registerReducer } from '../redux/reducers/registerReducer';
 
 function mountNode(component, reactNode, data, flattenData) {
   ReactDOM.render(
-    componentRegistry.markup(component, {
-      data,
-      store,
-      flattenData,
-    }),
+    <AwaitedMount
+      component={component}
+      data={data}
+      flattenData={flattenData}
+    />,
     reactNode
   );
 }

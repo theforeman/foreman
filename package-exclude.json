@@ -30,8 +30,6 @@
         "redux-mock-store",
         "surge",
         "webpack-bundle-analyzer",
-        "webpack-dev-server",
-        "webpack-dev-server-without-h2",
         "tabbable",
         "@adobe/css-tools",
 	"sass"
