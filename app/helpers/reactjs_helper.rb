@@ -1,4 +1,5 @@
-require 'webpack-rails'
+require 'json'
+
 module ReactjsHelper
   # Mount react component in views
   # Params:
@@ -11,10 +12,6 @@ module ReactjsHelper
     content_tag('foreman-react-component', '', :name => name, :data => { props: props })
   end
 
-  def webpacked_plugins_with_global_css
-    global_css_tags(global_plugins_list).join.html_safe
-  end
-
   def webpacked_plugins_js_for(*plugin_names)
     js_tags_for(select_requested_plugins(plugin_names)).join.html_safe
   end
@@ -24,7 +21,26 @@ module ReactjsHelper
   end
 
   def webpacked_plugins_css_for(*plugin_names)
-    css_tags_for(select_requested_plugins(plugin_names)).join.html_safe
+    Foreman::Deprecation.deprecation_warning('3.12', '`webpacked_plugins_css_for` is deprecated, plugin css is already loaded.')
+    nil
+  end
+
+  def read_webpack_manifest
+    JSON.parse(Rails.root.join('public/webpack/manifest.json').read)
+  end
+
+  def get_webpack_foreman_vendor_js
+    Rails.cache.fetch('webpack_foreman_vendor_js', expires_in: 1.minute) do
+      data = read_webpack_manifest
+      foreman_vendor_js = data['assetsByChunkName']['foreman-vendor'].find { |value| value.end_with?('.js') }
+      javascript_include_tag("/webpack/#{foreman_vendor_js}")
+    end
+  end
+
+  def get_webpack_foreman_vendor_css
+    data = read_webpack_manifest
+    foreman_vendor_css = data['assetsByChunkName']['foreman-vendor'].find { |value| value.end_with?('.css') }
+    stylesheet_link_tag("/webpack/#{foreman_vendor_css}")
   end
 
   def select_requested_plugins(plugin_names)
@@ -39,30 +55,23 @@ module ReactjsHelper
 
   def js_tags_for(requested_plugins)
     requested_plugins.map do |plugin|
-      javascript_include_tag(*webpack_asset_paths(plugin.to_s, :extension => 'js'))
+      name = plugin.to_s.tr('-', '_')
+      javascript_tag("window.tfm.tools.loadPluginModule('/webpack/#{name}','#{name}','./index');".html_safe)
     end
   end
 
   def global_js_tags(requested_plugins)
     requested_plugins.map do |plugin|
       plugin[:files].map do |file|
-        javascript_include_tag(*webpack_asset_paths("#{plugin[:id]}:#{file}", :extension => 'js'))
-      end
-    end
-  end
-
-  def global_css_tags(requested_plugins)
-    requested_plugins.map do |plugin|
-      plugin[:files].map do |file|
-        stylesheet_link_tag(*webpack_asset_paths("#{plugin[:id]}:#{file}", :extension => 'css'))
+        name = plugin[:id].to_s.tr('-', '_')
+        javascript_tag("window.tfm.tools.loadPluginModule('/webpack/#{name}','#{name}','./#{file}_index');".html_safe)
       end
     end
   end
 
   def css_tags_for(requested_plugins)
-    requested_plugins.map do |plugin|
-      stylesheet_link_tag(*webpack_asset_paths(plugin.to_s, :extension => 'css'))
-    end
+    Foreman::Deprecation.deprecation_warning('3.12', '`css_tags_for` is deprecated, No need to load CSS separately, since it should be referenced from the corresponding JS file.')
+    []
   end
 
   def locale_js_tags

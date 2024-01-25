@@ -36,8 +36,8 @@ class ReactjsHelperTest < ActionView::TestCase
 
   test "should create js for plugins with webpacked js" do
     res = webpacked_plugins_js_for(:foreman_react, :foreman_angular)
-    assert res.include?('webpack/foreman_react.js')
-    assert res.include?('webpack/foreman_angular.js')
+    assert res.include?('webpack/foreman_react')
+    assert res.include?('webpack/foreman_angular')
   end
 
   test "should be able to load global js in foreman core" do
@@ -46,6 +46,6 @@ class ReactjsHelperTest < ActionView::TestCase
     end
 
     res = webpacked_plugins_with_global_js
-    assert res.include?('webpack/plugin_with_global_js:some_global_file.js')
+    assert res.include?("'/webpack/plugin_with_global_js','plugin_with_global_js','./some_global_file_index'")
   end
 end

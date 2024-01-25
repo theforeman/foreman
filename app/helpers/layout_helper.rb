@@ -99,6 +99,29 @@ module LayoutHelper
     content_for(:javascripts) { javascript_include_tag(*args) }
   end
 
+  def javascript_include_tag(*params, **kwargs)
+    # Workaround for overriding javascript load with webpack_asset_paths, should be removed when webpack_asset_paths is removed
+    if kwargs[:source] == "webpack_asset_paths"
+      kwargs[:webpacked]
+    else
+      super(*params, **kwargs)
+    end
+  end
+
+  # @deprecated Previously provided by webpack-rails
+  def webpack_asset_paths(plugin_name, extension: 'js')
+    if extension == 'js'
+      Foreman::Deprecation.deprecation_warning('3.12', '`webpack_asset_paths` is deprecated, use `content_for(:javascripts) { webpacked_plugins_js_for(plugin_name) }` instead.')
+      [{
+        source: 'webpack_asset_paths',
+        webpacked: webpacked_plugins_js_for(plugin_name.to_sym),
+      }]
+    elsif extension == 'css'
+      Foreman::Deprecation.deprecation_warning('3.12', '`webpack_asset_paths` is deprecated and not needed for css assets.')
+      nil
+    end
+  end
+
   # The target should have class="collapse [out|in]" out means collapsed on load and in means expanded.
   # Target must also have a unique id.
   def collapsing_header(title, target, collapsed = '')

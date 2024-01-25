@@ -51,9 +51,8 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
         return unless File.exist?("#{@plugin.path}/webpack")
         return unless File.exist?("#{@plugin.path}/package.json")
         ENV["NODE_ENV"] ||= 'production'
-        webpack_bin = ::Rails.root.join('node_modules/webpack/bin/webpack.js')
-        config_file = ::Rails.root.join(::Rails.configuration.webpack.config_file)
-        sh "node --max_old_space_size=2048 #{webpack_bin} --config #{config_file} --bail --env.pluginName=#{@plugin.id}"
+        config_file = Rails.root.join('config', 'webpack.config.js')
+        sh "npx --max_old_space_size=2048 webpack --config #{config_file} --bail --env pluginName=#{@plugin.id}"
       end
     end
   end

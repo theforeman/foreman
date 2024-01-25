@@ -11,15 +11,6 @@
 # Mark translated strings with X characters (for developers)
 :mark_translated: false
 
-# Use the webpack development server? set to false to disable (for developers)
-# Make sure to run `rake webpack:compile` if disabled.
-:webpack_dev_server: true
-
-# If you run Foreman in development behind some proxy or use HTTPS you need
-# to enable HTTPS for webpack dev server too, otherwise you'd get mixed content
-# errors in your browser
-:webpack_dev_server_https: false
-
 # Assets in development are not bundled/minified
 # Do not set this to false if you plan to edit assets (css, js, etc.)
 :assets_debug: false

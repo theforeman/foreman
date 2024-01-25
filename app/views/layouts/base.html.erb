@@ -10,10 +10,8 @@
 
     <%= favicon_link_tag "favicon.ico"%>
 
-    <%= stylesheet_link_tag *webpack_asset_paths('foreman-vendor', :extension => 'css') %>
-    <%= stylesheet_link_tag *webpack_asset_paths('bundle', :extension => 'css') %>
+    <%= get_webpack_foreman_vendor_css %>
     <%= stylesheet_link_tag 'application' %>
-    <%= webpacked_plugins_with_global_css %>
     <%= yield(:stylesheets) %>
 
     <%= csrf_meta_tags %>
@@ -38,13 +36,17 @@
   </head>
 
   <body class='<%= body_css_classes %>'>
-    <%= javascript_include_tag *webpack_asset_paths('foreman-vendor', :extension => 'js') %>
-    <%= javascript_include_tag *webpack_asset_paths('vendor', :extension => 'js') %>
-    <%= javascript_include_tag *webpack_asset_paths('bundle', :extension => 'js') %>
+    <%= get_webpack_foreman_vendor_js %>
+    <%= javascript_include_tag('/webpack/vendor.js') %>
+    <%= javascript_include_tag('/webpack/bundle.js') %>
+
     <%= javascript_include_tag 'application' %>
     <%= webpacked_plugins_with_global_js %>
-    <%= webpack_dev_server %>
-    <%= yield(:javascripts) %>
+    <%= javascript_include_tag('late_load') %>
+    <script type="text/javascript">
+      const html = "<%= escape_javascript(yield(:javascripts)) %>"
+      load_dynamic_javascripts(html);
+    </script>
     <script type="text/javascript">
       <%= yield(:inline_javascripts) %>
     </script>
