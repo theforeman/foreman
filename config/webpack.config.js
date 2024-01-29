@@ -228,6 +228,7 @@ const pluginConfig = function(plugin) {
   configModules.unshift(path.resolve(__dirname, '..', 'node_modules'));
   // add plugin's node_modules to the reslver list
   configModules.push(path.resolve(pluginRoot, 'node_modules'));
+  configModules.push('node_modules/');
   config.resolve.modules = configModules;
 
   //get the list of webpack plugins
