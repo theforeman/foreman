@@ -40,6 +40,7 @@
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
+    "buffer": "^5.7.1",
     "cross-env": "^5.2.0",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^4.2.2",
