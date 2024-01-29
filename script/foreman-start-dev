@@ -1,3 +1,3 @@
 #!/bin/sh
-FILTERED_WEBPACK_OPTS=$(echo $WEBPACK_OPTS | sed -e 's/--key [^ ]*//g' -e 's/--public [^ ]*//g' -e 's/--https [^ ]*//g' -e 's/--cert [^ ]*//g' -e 's/--cacert [^ ]*//g') && npx webpack --config config/webpack.config.js --watch $FILTERED_WEBPACK_OPTS &
+FILTERED_WEBPACK_OPTS=$(echo $WEBPACK_OPTS | sed -e 's/--key [^ ]*//g' -e 's/--public [^ ]*//g' -e 's/--https [^ ]*//g' -e 's/--cert [^ ]*//g' -e 's/--cacert [^ ]*//g' -e 's/--host [^ ]*//g') && npx webpack --config config/webpack.config.js --watch $FILTERED_WEBPACK_OPTS &
 ./bin/rails server -b \[::\] "$@"
