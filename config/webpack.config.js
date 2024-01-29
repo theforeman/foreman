@@ -81,15 +81,6 @@ const commonConfig = function() {
           __dirname,
           '../webpack/assets/javascripts/react_app'
         ),
-        '@theforeman/vendor': path.join(
-          __dirname,
-          '..',
-          '..',
-          'foreman',
-          'node_modules',
-          '@theforeman',
-          'vendor'
-        ),
       },
     },
     resolveLoader: {
