@@ -33,6 +33,11 @@
 
 .pf-c-nav {
   .nav-title-icon {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+  .nav-icon {
     pointer-events: none;
     padding-right: 10px;
   }
