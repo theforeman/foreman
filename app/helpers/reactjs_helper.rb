@@ -17,7 +17,7 @@ module ReactjsHelper
   end
 
   def webpacked_plugins_with_global_js
-    global_js_tags(global_plugins_list).join.html_safe
+    global_js_tags(Foreman::Plugin.with_global_js).join.html_safe
   end
 
   def webpacked_plugins_css_for(*plugin_names)
@@ -62,8 +62,14 @@ module ReactjsHelper
 
   def global_js_tags(requested_plugins)
     requested_plugins.map do |plugin|
-      plugin[:files].map do |file|
-        name = plugin[:id].to_s.tr('-', '_')
+      # Was this ever intended as a plugin api?
+      if plugin.is_a?(Hash)
+        Foreman::Deprecation.deprecation_warning('3.12', '`global_js_tags` with hashes is deprecated. Pass in Foreman::Plugin instances')
+        plugin = Foreman::Plugin.find(plugin['id'])
+      end
+
+      plugin.global_js_files.map do |file|
+        name = plugin.id.to_s.tr('-', '_')
         javascript_tag("window.tfm.tools.loadPluginModule('/webpack/#{name}','#{name}','./#{file}_index');".html_safe)
       end
     end
@@ -82,11 +88,5 @@ module ReactjsHelper
         javascript_include_tag("#{plugin.name}/locale/#{locale}/#{domain}")
       end
     end.join.html_safe
-  end
-
-  private
-
-  def global_plugins_list
-    Foreman::Plugin.with_global_js.map { |plugin| { id: plugin.id, files: plugin.global_js_files } }
   end
 end
