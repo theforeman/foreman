@@ -30,8 +30,14 @@ module Foreman
         File.file?(manifest_path) ? manifest_path : nil
       end
 
+      def webpack_remote_entry
+        webpack_id = id.to_s.tr('-', '_')
+        remote_entry_path = File.join(path, 'public', 'webpack', webpack_id, "#{webpack_id}_remoteEntry.js")
+        File.file?(remote_entry_path) ? remote_entry_path : nil
+      end
+
       def uses_webpack?
-        path && (File.file?(File.join(path, 'webpack', 'index.js')) || webpack_manifest_path.present?)
+        path && (File.file?(File.join(path, 'webpack', 'index.js')) || webpack_manifest_path.present? || webpack_remote_entry.present?)
       end
 
       private
