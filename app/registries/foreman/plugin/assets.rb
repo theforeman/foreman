@@ -48,7 +48,7 @@ module Foreman
         # automatically detect and include them. Requires manual configuration
         # to use this unsupported layout.
         new_assets, outside_prefix = new_assets.partition do |p|
-          p.start_with?("#{id}/") || p.start_with?("#{id.to_s.tr('-', '_')}/")
+          p.start_with?("#{id}/")
         end
 
         if outside_prefix.present?

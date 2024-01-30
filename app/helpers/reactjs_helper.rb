@@ -55,7 +55,7 @@ module ReactjsHelper
 
   def js_tags_for(requested_plugins)
     requested_plugins.map do |plugin|
-      name = plugin.to_s.tr('-', '_')
+      name = plugin.normalized_id
       javascript_tag("window.tfm.tools.loadPluginModule('/webpack/#{name}','#{name}','./index');".html_safe)
     end
   end
@@ -69,7 +69,7 @@ module ReactjsHelper
       end
 
       plugin.global_js_files.map do |file|
-        name = plugin.id.to_s.tr('-', '_')
+        name = plugin.normalized_id
         javascript_tag("window.tfm.tools.loadPluginModule('/webpack/#{name}','#{name}','./#{file}_index');".html_safe)
       end
     end

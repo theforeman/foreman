@@ -69,7 +69,7 @@ Foreman::Application.configure do
   config.after_initialize do
     Foreman::Plugin.all.each do |plugin|
       unless File.exist?(File.join(plugin.path, 'config', 'as_deprecation_whitelist.yaml'))
-        ASDeprecationTracker.whitelist.add(engine: plugin.id.to_s.tr('-', '_'))
+        ASDeprecationTracker.whitelist.add(engine: plugin.normalized_id)
       end
     end
     ASDeprecationTracker.resume!

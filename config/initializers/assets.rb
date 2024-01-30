@@ -18,14 +18,8 @@ Foreman::Application.configure do |app|
       foreman_manifest = JSON.parse(File.read(manifest_file))
 
       Foreman::Plugin.all.each do |plugin|
-        # Manifests may be stored under the engine installation or under the Foreman app root, then
-        # either with just the plugin name or with hyphens replaced with underscores.
-        possible_manifests = [plugin.path, app.root].map do |root_dir|
-          [File.join(root_dir, "public/assets/#{plugin.id}/#{plugin.id}.json"),
-           File.join(root_dir, "public/assets/#{plugin.id.to_s.tr('-', '_')}/#{plugin.id.to_s.tr('-', '_')}.json")]
-        end.flatten
-
-        if (manifest_path = possible_manifests.detect { |path| File.file?(path) })
+        path = File.join(root_dir, 'public', 'assets', plugin.normalized_id, "#{plugin.normalized_id}.json")
+        if File.file?(path)
           Rails.logger.debug { "Loading #{plugin.id} precompiled asset manifest from #{manifest_path}" }
           assets = JSON.parse(File.read(manifest_path))
 

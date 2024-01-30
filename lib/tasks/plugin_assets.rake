@@ -30,7 +30,7 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
       end
 
       def manifest_path
-        File.join(output, plugin.id.to_s, "#{plugin.id}.json")
+        File.join(output, plugin.normalized_id, "#{plugin.normalized_id}.json")
       end
 
       def manifest
@@ -52,7 +52,7 @@ task 'plugin:assets:precompile', [:plugin] => [:environment] do |t, args|
         return unless File.exist?("#{@plugin.path}/package.json")
         ENV["NODE_ENV"] ||= 'production'
         config_file = Rails.root.join('config', 'webpack.config.js')
-        sh "npx --max_old_space_size=2048 webpack --config #{config_file} --bail --env pluginName=#{@plugin.id}"
+        sh "npx --max_old_space_size=2048 webpack --config #{config_file} --bail --env pluginName=#{@plugin.normalized_id}"
       end
     end
   end
