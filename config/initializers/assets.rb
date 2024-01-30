@@ -29,8 +29,8 @@ Foreman::Application.configure do |app|
           Rails.logger.debug { "Loading #{plugin.id} precompiled asset manifest from #{manifest_path}" }
           assets = JSON.parse(File.read(manifest_path))
 
-          foreman_manifest['files']  = foreman_manifest['files'].merge(assets.fetch('files', {}))
-          foreman_manifest['assets'] = foreman_manifest['assets'].merge(assets.fetch('assets', {}))
+          foreman_manifest['files'].merge!(assets.fetch('files', {}))
+          foreman_manifest['assets'].merge!(assets.fetch('assets', {}))
         end
       end
 
