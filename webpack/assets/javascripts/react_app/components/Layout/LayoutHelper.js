@@ -41,7 +41,7 @@ export const combineMenuItems = (data, displayNewHostsPage) => {
 
     const translatedItem = {
       ...item,
-      name: __(item.name),
+      name: item.name === 'User' ? data.user.current_user.name : __(item.name),
       children: translatedChildren,
       // Hiding user if not on Mobile view
       className: item.name === 'User' ? 'hidden-nav-lg' : '',

@@ -16,8 +16,8 @@ import {
 } from '../../Root/Context/ForemanContext';
 
 const titleWithIcon = (title, iconClass) => (
-  <div>
-    <span className={classNames(iconClass, 'nav-title-icon')} />
+  <div className="nav-title-icon">
+    <span className={classNames(iconClass, 'nav-icon')} />
     <span className="nav-title">{title}</span>
   </div>
 );
