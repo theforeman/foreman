@@ -50,7 +50,6 @@
     "eslint-plugin-spellcheck": "0.0.17",
     "graphql": "^15.5.0",
     "highlight.js": "~9.14.0",
-    "node-sass": "^8.0.0",
     "path-browserify": "^1.0.1",
     "prettier": "^1.19.1",
     "pretty-format": "26.6.2",

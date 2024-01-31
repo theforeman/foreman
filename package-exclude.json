@@ -31,8 +31,7 @@
         "surge",
         "webpack-bundle-analyzer",
         "tabbable",
-        "@adobe/css-tools",
-	"sass"
+        "@adobe/css-tools"
     ],
     "EXCLUDE_NPM_PREFIXES": [
         "@babel/eslint-",
