@@ -43,6 +43,8 @@ EOF
     if [ x$ID = xol ]; then
       $PKG_MANAGER_REMOVE rhn-client-tools
       $PKG_MANAGER_INSTALL --setopt=obsoletes=0 subscription-manager
+    elif [ -f /etc/debian_version ]; then
+      $PKG_MANAGER_INSTALL subscription-manager
     fi
 
     <% if truthy?(@force) -%>
@@ -52,7 +54,9 @@ EOF
         subscription-manager clean
       fi
 
-      $PKG_MANAGER_REMOVE katello-ca-consumer\* > /dev/null 2>&1
+      if ![ -f /etc/debian_version ]; then
+        $PKG_MANAGER_REMOVE katello-ca-consumer\* > /dev/null 2>&1
+      fi
     <% end -%>
   <% end -%>
 
@@ -131,13 +135,22 @@ else
 fi
 
 <% if @subman_setup_scenario == 'provisioning' && plugin_present?('katello') -%>
-  CA_TRUST_ANCHORS=/etc/pki/ca-trust/source/anchors
+  if [ -f /etc/debian_version ]; then
+    CA_TRUST_ANCHORS=/usr/local/share/ca-certificates/
+  else
+    CA_TRUST_ANCHORS=/etc/pki/ca-trust/source/anchors
+  fi
 
   # Add the Katello CA certificate to the system-wide CA certificate store
   if [ -d $CA_TRUST_ANCHORS ]; then
-    update-ca-trust enable
-    cp $KATELLO_SERVER_CA_CERT $CA_TRUST_ANCHORS
-    update-ca-trust
+    if [ -f /etc/debian_version ]; then
+      cp $KATELLO_SERVER_CA_CERT $CA_TRUST_ANCHORS
+      update-ca-certificates
+    else
+      update-ca-trust enable
+      cp $KATELLO_SERVER_CA_CERT $CA_TRUST_ANCHORS
+      update-ca-trust
+    fi
   fi
 <% end -%>
 
