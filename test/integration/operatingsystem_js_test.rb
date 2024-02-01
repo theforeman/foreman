@@ -6,13 +6,15 @@ class OperatingsystemJSTest < IntegrationTestWithJavascript
   end
 
   test "delete operating system" do
-    os = FactoryBot.create(:operatingsystem, name: 'aaa')
+    os_name = 'aaa'
+    os_xpath = "//tr[contains(.,'#{os_name}')]"
+    os = FactoryBot.create(:operatingsystem, name: os_name)
     visit operatingsystems_path
-    first_row = find("table > tbody > tr:nth-child(1)")
-    assert_equal os.title, first_row.find("td:nth-child(1)").text.strip
+    os_row = find("table > tbody").find(:xpath, os_xpath)
+    assert_equal os.title, os_row.find("td:nth-child(1)").text.strip
     assert has_no_css?("#app-confirm-modal")
 
-    actions = first_row.find("td:nth-child(3) > div")
+    actions = os_row.find("td:nth-child(3) > div")
     actions.find("a.dropdown-toggle").click
     actions.find("ul > li > a.delete").click
 
@@ -25,8 +27,7 @@ class OperatingsystemJSTest < IntegrationTestWithJavascript
     confirm_button.click
     assert has_no_css?("#app-confirm-modal")
 
-    first_row = find("table > tbody > tr:nth-child(1)")
-    assert_not_equal os.title, first_row.find("td:nth-child(1)").text.strip
+    assert find("table > tbody").has_no_xpath?(os_xpath)
     refute Operatingsystem.find_by_name(os.name).present?
   end
 end
