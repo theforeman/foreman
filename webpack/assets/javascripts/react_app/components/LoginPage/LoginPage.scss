@@ -4,7 +4,7 @@ $caption_font_weight: 600;
 $background_image: url('../LoginPage/background.svg');
 
 #login-page {
-  height: 100%;
+  min-height: 100vh;
 
   .login-pf-page-footer-link[href*='foreman-login-footer-text'] {
     pointer-events: none;
@@ -12,6 +12,7 @@ $background_image: url('../LoginPage/background.svg');
   }
 
   .login-pf {
+    min-height: 100vh;
     background: none;
     background-image: $background_image;
     background-size: contain;
