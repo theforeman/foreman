@@ -12,7 +12,7 @@ require 'minitest/retry'
 require 'selenium/webdriver'
 require 'test_report_helper'
 
-retry_count = (ENV['MINITEST_RETRY_COUNT'] || 3).to_i rescue 1
+retry_count = 1
 Minitest::Retry.use!(retry_count: retry_count) if retry_count > 1
 
 Minitest::Retry.on_consistent_failure do |klass, test_name|
