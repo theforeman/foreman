@@ -24,6 +24,7 @@ Capybara.register_driver :selenium_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.args << '--disable-gpu'
   options.args << '--no-sandbox'
+  options.args << '--disable-dev-shm-usage'
   options.args << '--window-size=1024,768'
   options.args << '--headless' unless ENV['DEBUG_JS_TEST'] == '1'
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
