@@ -26,7 +26,10 @@ class ForemanSeeder
   end
 
   def templates
-    SeedHelper.report_templates + SeedHelper.provisioning_templates + SeedHelper.partition_tables_templates
+    SeedHelper.report_templates +
+    SeedHelper.provisioning_templates +
+    SeedHelper.partition_tables_templates +
+    SeedHelper.plugin_templates
   end
 
   def hash

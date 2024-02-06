@@ -159,7 +159,7 @@ module Foreman #:nodoc:
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
       :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
       :renderer_variable_loaders, :host_ui_description, :hostgroup_ui_description, :ping_extension, :status_extension,
-      :allowed_registration_vars, :observable_events, :gettext_domain, :locale_path, :preload_scopes
+      :allowed_registration_vars, :observable_events, :gettext_domain, :locale_path, :preload_scopes, :template_dirs
 
     delegate :fact_importer_registry, :fact_parser_registry, :graphql_types_registry, :medium_providers_registry, :report_scanner_registry, :report_origin_registry, to: :class
 
@@ -177,6 +177,7 @@ module Foreman #:nodoc:
       @compute_resources = []
       @to_prepare_callbacks = []
       @template_labels = {}
+      @template_dirs = []
       @parameter_filters = {}
       @smart_proxies = {}
       @controller_action_scopes = {}
@@ -606,6 +607,15 @@ module Foreman #:nodoc:
     def extend_preload_scopes(model, scopes)
       @preload_scopes[model.to_s] ||= []
       (@preload_scopes[model.to_s] << scopes).flatten!.uniq!
+    end
+
+    # Register dirs with templates for the db:seed task
+    # Usage:
+    # register_template_dirs(["#{ForemanPlugin::Engine.root}/path/to/templates"])
+    def register_template_dirs(dirs)
+      raise ::Foreman::Exception.new(N_("[dirs] must be an array!")) unless dirs.is_a?(Array)
+
+      @template_dirs.concat(dirs)
     end
 
     delegate :subscribe, to: ActiveSupport::Notifications
