@@ -21,6 +21,7 @@ class SmartProxyJSTest < IntegrationTestWithJavascript
 
   test "edit page" do
     visit smart_proxies_path
+    wait_for_ajax
     click_link "DHCP Proxy"
     click_link "Edit"
     fill_in "smart_proxy_name", :with => "DHCP Secure"
