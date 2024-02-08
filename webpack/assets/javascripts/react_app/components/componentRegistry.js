@@ -113,7 +113,7 @@ const componentRegistry = {
   },
 };
 
-const coreComponets = [
+const coreComponents = [
   { name: 'ReactApp', type: ReactApp },
   { name: 'SearchBar', type: SearchBar },
   { name: 'ColumnSelector', type: ColumnSelector },
@@ -182,6 +182,8 @@ const coreComponets = [
   { name: 'WelcomeArchitecture', type: WelcomeArchitecture },
 ];
 
-componentRegistry.registerMultiple(coreComponets);
+if (!componentRegistry.registry[coreComponents[0].name]) {
+  componentRegistry.registerMultiple(coreComponents);
+}
 
 export default componentRegistry;
