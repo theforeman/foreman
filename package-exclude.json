@@ -28,7 +28,8 @@
         "surge",
         "webpack-bundle-analyzer",
         "tabbable",
-        "@adobe/css-tools"
+        "@adobe/css-tools",
+        "victory-core"
     ],
     "EXCLUDE_NPM_PREFIXES": [
         "@babel/eslint-",
