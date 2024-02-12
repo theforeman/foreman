@@ -66,9 +66,16 @@ def invalid_name_list
     "\t",
   ]
 end
+
 module ReactjsHelper
   def read_webpack_manifest
-    {"assetsByChunkName" => {"foreman-vendor" => ["foreman-vendor.js", "foreman-vendor.css"]}}
+    manifest = Rails.root.join('public/webpack/manifest.json')
+    if manifest.exist?
+      JSON.parse(manifest.read)
+    else
+      # Stubbed method to deal with a missing manifest for controller tests
+      {"assetsByChunkName" => {"foreman-vendor" => ["foreman-vendor.js", "foreman-vendor.css"]}}
+    end
   end
 end
 
