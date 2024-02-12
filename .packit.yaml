@@ -32,6 +32,10 @@ jobs:
         additional_modules: "foreman-devel:el8"
         additional_repos:
           - https://yum.theforeman.org/releases/nightly/el8/x86_64/
+      rhel-9:
+        additional_modules: "foreman-devel:el9"
+        additional_repos:
+          - https://yum.theforeman.org/releases/nightly/el9/x86_64/
     module_hotfixes: true
 
 srpm_build_deps:
