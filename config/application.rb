@@ -321,7 +321,7 @@ module Foreman
 
     if config.public_file_server.enabled
       ::Rails::Engine.subclasses.map(&:instance).each do |engine|
-        if File.exist?("#{engine.root}/public/assets")
+        if File.exist?("#{engine.root}/public/assets") || File.exist?("#{engine.root}/public/webpack")
           config.middleware.use ::ActionDispatch::Static, "#{engine.root}/public"
         end
       end
