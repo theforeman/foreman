@@ -59,17 +59,20 @@ module Foreman
             The only argument it accepts is a record definition. This is typically called in some **each** loop. Calling
             this at least once is important so we know what columns are to be rendered in this report.
             Calling this macro adds a record to the rendering queue."
-          required :row_data, Hash, desc: 'Data in form of hash, keys are column names, values are values for this record'
+          optional :row_data, Hash, desc: 'Data in form of hash, keys are column names, values are values for this record', default: {}
+          kwlist :row_data_kw, desc: 'Data in form of key: value list, keys are column names, values are values for this record'
           returns Array, desc: 'Currently registered report data'
           example "report_row(:name => 'host1.example.com', :ip => '192.168.0.2')"
           example "<%- load_hosts.each_record do |host|\n  report_row(:name => host.name, :ip => host.ip)\nend -%>"
         end
-        def report_row(row_data)
-          new_headers = row_data.keys
+        # accept either a hash or kwargs for compatibility with Ruby 2.7 & 3
+        def report_row(row_data = {}, **row_data_kws)
+          data = row_data_kws.transform_keys(&:to_s).merge(row_data.transform_keys(&:to_s))
+          new_headers = data.keys
           if @report_headers.size < new_headers.size
-            @report_headers |= new_headers.map(&:to_s)
+            @report_headers |= new_headers
           end
-          @report_data << row_data.values
+          @report_data << data.values
         end
 
         def apply_order!(order)
