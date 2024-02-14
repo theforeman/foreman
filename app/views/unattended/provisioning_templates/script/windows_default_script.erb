@@ -4,16 +4,17 @@ name: Windows peSetup.cmd
 model: ProvisioningTemplate
 oses:
 - Windows
-description: |
-  The provisioning template used for Windows
-  You can create and assign a "user_data" ProvisioningTemplate as powershell to execute some custom code
-  See https://community.theforeman.org/t/windows-provisioning-made-easy/16756/
-  params:
-  - wimImageName: Windows 8.1 Pro # name of wim image to apply
--%>
+# Parameters are expected to be set in Foreman (globally or per group/host)
+params:
+- wimImageName: Windows 8.1 Pro # name of wim image to apply
+- windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
+- windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
+%>
 <%
-  proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port') || 3128}" : nil
+  iface = @host.provision_interface
+  proxy_uri = host_param('http-proxy') ? "#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
   proxy_string = proxy_uri ? "-e http_proxy=#{proxy_uri}" : ''
+  foreman_Debug = host_param('foremanDebug') ? host_param('foremanDebug') : 'false'
 %>
 @setlocal enableextensions enabledelayedexpansion
 @echo off
@@ -21,13 +22,25 @@ set WGET=wget64.exe
 
 <%= @host.diskLayout %>
 
+
+<% if iface.subnet && !iface.subnet.dhcp_boot_mode? %>
+echo set network config for static interfaces
+    netsh interface ip set address name="Ethernet0" static "<%= iface.ip %>" "<%= iface.subnet.mask %>" "<%= iface.subnet.gateway %>"
+    net stop "DHCP-Client"
+    net stop "DHCP Client"
+    net start "DNS-Client"
+    net start "DNS Client"
+    ping -n "<%= iface.subnet.gateway %>"
+    netsh interface ip set dns name="Ethernet0" static "<%= iface.subnet.dns_primary %>"
+<% end %>
+
 echo Started downloading main WIM
 
-%WGET% <%= proxy_string %> "<%= medium_uri %>/sources/images.ini" -O X:\images.ini
+%WGET% <%= proxy_string %> "<%= medium_uri %>sources/images.ini" -O X:\images.ini
 if %ERRORLEVEL% == 0 goto :lookup_image
 
 echo WARNING: Couldn't download the images.ini, falling back to legacy mode!
-%WGET% <%= proxy_string %> "<%= medium_uri %>/sources/install.wim" -O C:\install.wim
+%WGET% <%= proxy_string %> "<%= medium_uri %>sources/install.wim" -O C:\install.wim
 goto :install
 
 :lookup_image
@@ -39,14 +52,15 @@ for /f "usebackq delims=" %%a in ("!file!") do (
             set currkey=%%b
             set currval=%%c
             if "x!key!"=="x!currkey!" (
-                %WGET% <%= proxy_string %> "<%= medium_uri %>/sources/!currval!" -O C:\install.wim
+                %WGET% <%= proxy_string %> <%= medium_uri %>sources/!currval! -O C:\install.wim
             )
         )
     )
 )
 
 :install
-echo Writing install image to partition while downloading additional files
+echo Writing install image to partition while downloading additional files,
+echo this will take some time
 
 (
    start /min cmd /C "echo Write the install image to the partition
@@ -62,7 +76,7 @@ echo Writing install image to partition while downloading additional files
    start /min cmd /C "echo Downloading finsh script and activating SetupComplete.cmd
                 md c:\deploy
                 %WGET% --no-verbose <%= foreman_url("finish") -%> -O C:\deploy\foreman-finish.bat"
-) | pause
+) | pause >nul
 
 echo Creating a temp staging folder for DISM
 md c:\MININT\Scratch
@@ -74,7 +88,7 @@ IF not exist %PantherDirectory% (mkdir %PantherDirectory%)
 echo Finalizing installation...
 
 echo Downloading custom theme
-%WGET%  -P C:\Windows\Web\ -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= medium_uri %>/theme/
+%WGET% <%= proxy_string %> -P C:\Windows\Web\ -r -np -nH --cut-dirs=3 -R index.html -q --level=0 "<%= medium_uri %>/theme/"
 
 echo Stage the Unattend.xml file for dism to apply
 echo Downloading unattend.xml
@@ -89,9 +103,8 @@ copy x:\windows\system32\sdelete.exe C:\Windows\
 IF not exist C:\Windows\Setup\Scripts (md C:\Windows\Setup\Scripts)
 echo call C:\deploy\foreman-finish.bat ^> c:\foreman.log 2^>^&1 > C:\Windows\Setup\Scripts\SetupComplete.cmd
 
-<% if foreman_url('user_data') %>
-echo Downloading user data script
-%WGET% <%= foreman_url('user_data') %> -O c:\deploy\user_data.ps1
+<% unless foreman_Debug %>
+sdelete.exe -accepteula -p 2 c:\foreman.log
 <% end -%>
 
 echo Apply Drivers
