@@ -39,6 +39,7 @@ autoinstall:
 <% unless enable_auto_update -%>
     disable_components: [multiverse]
     disable_suites: [backports,security,updates] 
+    fallback: offline-install
 <% end -%>
 <%= indent(4) { snippet_if_exists(template_name + " custom apt") } -%>
   user-data:
@@ -47,7 +48,7 @@ autoinstall:
     users:
     - name: <%= username_to_create %>
       gecos: <%= realname_to_create %>
-      lock-passwd: false
+      lock_passwd: false
       hashed_passwd: <%= password_to_create %>
 <% if !host_param('remote_execution_ssh_keys').blank? -%>
 <%   if host_param('remote_execution_ssh_keys').is_a?(String) -%>
@@ -55,8 +56,6 @@ autoinstall:
 <%   else -%>
       ssh_authorized_keys: <%= host_param('remote_execution_ssh_keys') %>
 <%   end -%>
-<% else -%>
-      ssh_authorized_keys: []
 <% end -%>
   keyboard:
     layout: <%= host_param('keyboard', 'us') %>

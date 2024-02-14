@@ -15,9 +15,8 @@ autoinstall:
     users:
     - name: root
       gecos: root
-      lock-passwd: false
+      lock_passwd: false
       hashed_passwd: $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
-      ssh_authorized_keys: []
   keyboard:
     layout: us
     toggle: null
