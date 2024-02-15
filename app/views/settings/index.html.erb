@@ -15,7 +15,7 @@
   <ul class="nav nav-tabs" data-tabs="tabs">
     <% @settings.categories.each do |category, label| %>
       <li class="<%= 'active' if category == @settings.categories.keys.first %>">
-        <a href="#<%= category %>" data-toggle="tab"><%= _(label) %></a>
+        <a href="#<%= category %>_settings_tab" data-toggle="tab"><%= _(label) %></a>
       </li>
     <% end %>
   </ul>
@@ -23,7 +23,7 @@
 
 <div class="tab-content">
   <% @settings.categories.each do |category, _label| %>
-    <div class="tab-pane<%= ' active' if category == @settings.categories.keys.first %>" id='<%= category %>' >
+    <div class="tab-pane<%= ' active' if category == @settings.categories.keys.first %>" id='<%= category %>_settings_tab' >
       <%= render_if_partial_exists "settings/category/#{category.downcase}", category %>
 
       <%= react_component('SettingsTable', { category: category }) %>

@@ -3,11 +3,11 @@ require 'integration_test_helper'
 class SettingJSTest < IntegrationTestWithJavascript
   test "index page" do
     assert_index_page(settings_path, "Settings", false, true, false)
-    assert page.has_link?("General", :href => "#general")
-    assert page.has_link?("Provisioning", :href => "#provisioning")
-    assert page.has_link?("Facts", :href => "#facts")
-    assert page.has_link?("Config Management", :href => "#cfgmgmt")
-    assert page.has_link?("Authentication", :href => "#auth")
+    assert page.has_link?("General", :href => "#general_settings_tab")
+    assert page.has_link?("Provisioning", :href => "#provisioning_settings_tab")
+    assert page.has_link?("Facts", :href => "#facts_settings_tab")
+    assert page.has_link?("Config Management", :href => "#cfgmgmt_settings_tab")
+    assert page.has_link?("Authentication", :href => "#auth_settings_tab")
   end
 
   test "humanized tab label for setting category" do
@@ -27,6 +27,6 @@ class SettingJSTest < IntegrationTestWithJavascript
     Foreman.settings.load
 
     assert_index_page(settings_path, "Settings", false, true, false)
-    assert page.has_link?("My Pretty Setting Label", :href => "#category_label_test")
+    assert page.has_link?("My Pretty Setting Label", :href => "#category_label_test_settings_tab")
   end
 end
