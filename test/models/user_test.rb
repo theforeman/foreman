@@ -347,9 +347,9 @@ class UserTest < ActiveSupport::TestCase
   test "user with create permissions should be able to create" do
     setup_user "create"
     record = User.new :login => "dummy", :mail => "j@j.com",
-                      :auth_source_id => AuthSourceInternal.first.id,
-                      :organizations => User.current.organizations,
-                      :locations => User.current.locations
+      :auth_source_id => AuthSourceInternal.first.id,
+      :organizations => User.current.organizations,
+      :locations => User.current.locations
     record.password_hash = "asd"
     assert record.save
     assert record.valid?
@@ -374,8 +374,8 @@ class UserTest < ActiveSupport::TestCase
       create_role = Role.find_by_name 'create_users'
       extra_role = Role.where(:name => "foobar").first_or_create
       record = User.new :login => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id,
-                        :role_ids => [extra_role.id, create_role.id].map(&:to_s),
-                        :organizations => users(:one).organizations, :locations => users(:one).locations
+        :role_ids => [extra_role.id, create_role.id].map(&:to_s),
+        :organizations => users(:one).organizations, :locations => users(:one).locations
     end
     record.password_hash = "asd"
     refute record.save
@@ -388,10 +388,10 @@ class UserTest < ActiveSupport::TestCase
     setup_user "create"
     create_role          = Role.find_by_name 'create_users'
     record               = User.new(:login => "dummy", :mail => "j@j.com",
-                                    :auth_source_id => AuthSourceInternal.first.id,
-                                    :role_ids => [create_role.id.to_s],
-                                    :organizations => User.current.organizations,
-                                    :locations => User.current.locations)
+      :auth_source_id => AuthSourceInternal.first.id,
+      :role_ids => [create_role.id.to_s],
+      :organizations => User.current.organizations,
+      :locations => User.current.locations)
     record.password_hash = "asd"
     assert record.valid?
     assert record.save
@@ -402,10 +402,10 @@ class UserTest < ActiveSupport::TestCase
     as_admin do
       extra_role           = Role.where(:name => "foobar").first_or_create
       record               = User.new(:login => "dummy", :mail => "j@j.com",
-                                      :auth_source_id => AuthSourceInternal.first.id,
-                                      :role_ids => [extra_role.id.to_s],
-                                      :organizations => User.current.organizations,
-                                      :locations => User.current.locations)
+        :auth_source_id => AuthSourceInternal.first.id,
+        :role_ids => [extra_role.id.to_s],
+        :organizations => User.current.organizations,
+        :locations => User.current.locations)
       record.password_hash = "asd"
       record.admin         = true
       assert record.save

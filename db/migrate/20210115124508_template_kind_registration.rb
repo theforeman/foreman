@@ -31,8 +31,8 @@ class TemplateKindRegistration < ActiveRecord::Migration[6.0]
 
       if template && !os_default_registration
         OsDefaultTemplate.create(template_kind: host_init_config_kind,
-                                 provisioning_template: template,
-                                 operatingsystem: os)
+          provisioning_template: template,
+          operatingsystem: os)
       end
     end
   end

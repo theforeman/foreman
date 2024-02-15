@@ -23,9 +23,9 @@ module Foreman::Controller::ExternalUsergroupsErrors
     group.errors.add(
       :base,
       _("Could not refresh external usergroups: %{e} - %{message} - %{suggestion}") %
-      { :e => exception.class,
-        :message => exception.to_s,
-        :suggestion => suggestion_external_group(exception) }
+        { :e => exception.class,
+          :message => exception.to_s,
+          :suggestion => suggestion_external_group(exception) }
     )
   end
 end

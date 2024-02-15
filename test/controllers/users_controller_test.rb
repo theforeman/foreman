@@ -466,8 +466,8 @@ class UsersControllerTest < ActionController::TestCase
   context 'default taxonomies' do
     test 'accessing a regular page sets default taxonomies' do
       users(:one).update(:default_location_id => taxonomies(:location1).id,
-                                    :default_organization_id => taxonomies(:organization1).id,
-                                    :password                => 'changeme')
+        :default_organization_id => taxonomies(:organization1).id,
+        :password                => 'changeme')
 
       get :index, session: set_session_user(:one)
       assert_equal session['organization_id'], users(:one).default_organization_id
@@ -476,7 +476,7 @@ class UsersControllerTest < ActionController::TestCase
 
     test 'users can update their own default taxonomies' do
       users(:one).update(:locations => [taxonomies(:location1)],
-                                    :organizations => [taxonomies(:organization1)])
+        :organizations => [taxonomies(:organization1)])
 
       put :update, params: { :id   => users(:one).id,
                              :user => { :default_location_id => taxonomies(:location1).id,

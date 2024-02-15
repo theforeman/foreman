@@ -339,7 +339,7 @@ class DHCPOrchestrationTest < ActiveSupport::TestCase
     as_admin do
       h = FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:ff")
       Nic::BMC.create!(:host_id => h.id, :mac => "da:aa:aa:ab:db:bb", :domain_id => h.domain_id,
-                       :ip => h.ip.succ, :subnet_id => h.subnet_id, :name => "bmc-#{h}", :provider => 'IPMI')
+        :ip => h.ip.succ, :subnet_id => h.subnet_id, :name => "bmc-#{h}", :provider => 'IPMI')
     end
     h.reload
     bmc = h.interfaces.bmc.first
@@ -391,7 +391,7 @@ class DHCPOrchestrationTest < ActiveSupport::TestCase
     as_admin do
       h = FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:f1")
       Nic::BMC.create! :host => h, :mac => "aa:aa:aa:ab:bd:bb", :ip => h.ip.succ, :domain => h.domain,
-                       :subnet => h.subnet, :name => "bmc1-#{h}", :provider => 'IPMI'
+        :subnet => h.subnet, :name => "bmc1-#{h}", :provider => 'IPMI'
     end
     h = Host.find(h.id)
     bmc = h.interfaces.bmc.first
@@ -406,7 +406,7 @@ class DHCPOrchestrationTest < ActiveSupport::TestCase
     as_admin do
       h = FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:aa:ad:ab:bb:cc")
       Nic::BMC.create!(:host => h, :mac => "aa:aa:ad:ab:bb:bb", :domain => h.domain, :subnet => h.subnet,
-                       :name => "bmc-it", :provider => 'IPMI', :ip => h.ip.succ)
+        :name => "bmc-it", :provider => 'IPMI', :ip => h.ip.succ)
     end
     h.reload
     h.mac = next_mac(h.mac)

@@ -99,7 +99,7 @@ class ProvisioningTemplate < Template
 
   def clone
     deep_clone(:include => [:operatingsystems, :organizations, :locations],
-                    :except => [:name, :locked, :default, :vendor])
+      :except => [:name, :locked, :default, :vendor])
   end
 
   def self.find_template(opts = {})

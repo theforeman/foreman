@@ -49,14 +49,14 @@ class HostgroupTest < ActiveSupport::TestCase
     # and overrides.
     pid = Time.now.to_i
     top = Hostgroup.new(:name => "topA",
-                        :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1"},
-                                                          pid += 1 => {"name" => "topB", "value" => "1"},
-                                                          pid += 1 => {"name" => "topC", "value" => "1"}})
+      :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1"},
+                                        pid += 1 => {"name" => "topB", "value" => "1"},
+                                        pid += 1 => {"name" => "topC", "value" => "1"}})
     assert top.save
 
     second = Hostgroup.new(:name => "SecondA", :parent_id => top.id,
-                           :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "2"},
-                                                             pid += 1 => {"name" => "secondA", "value" => "2"}})
+      :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "2"},
+                                        pid += 1 => {"name" => "secondA", "value" => "2"}})
     assert second.save
 
     assert second.parameters.include? "topA"
@@ -69,8 +69,8 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal "2", second.parameters["secondA"]
 
     third = Hostgroup.new(:name => "ThirdA", :parent_id => second.id,
-                          :group_parameters_attributes => { pid += 1 => {"name" => "topB", "value" => "3"},
-                                                            pid +  1 => {"name" => "topA", "value" => "3"}})
+      :group_parameters_attributes => { pid += 1 => {"name" => "topB", "value" => "3"},
+                                        pid +  1 => {"name" => "topA", "value" => "3"}})
     assert third.save
 
     assert third.parameters.include? "topA"

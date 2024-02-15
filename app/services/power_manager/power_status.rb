@@ -47,7 +47,7 @@ module PowerManager
 
       result[:statusText] = n_("Failed to retrieve power status for %{host} within %{req_timeout} second.",
         "Failed to retrieve power status for %{host} within %{req_timeout} seconds.", req_timeout) %
-                              {host: host, req_timeout: req_timeout}
+          {host: host, req_timeout: req_timeout}
       result
     end
   end

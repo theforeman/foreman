@@ -27,7 +27,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
     Fog.mock!
     ComputeResource.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
     compute_resource = ComputeResource.new_provider(:name => "new12345", :provider => "EC2", :url => "eu-west-1",
-                                                    :user => "username", :password => "abcdef")
+      :user => "username", :password => "abcdef")
     as_admin do
       assert compute_resource.save!
     end
@@ -275,9 +275,9 @@ class ComputeResourceTest < ActiveSupport::TestCase
       require 'fog/ovirt/models/compute/volume'
 
       volume1 = Fog::Ovirt::Compute::Volume.new(:storage_domain => '', :size_gb => '1', :bootable => 'false',
-                                             :sparse => 'true', :wipe_after_delete => 'true', :name => 'disk1')
+        :sparse => 'true', :wipe_after_delete => 'true', :name => 'disk1')
       volume2 = Fog::Ovirt::Compute::Volume.new(:storage_domain => '', :size_gb => '1', :bootable => 'false',
-                                             :sparse => 'true', :wipe_after_delete => 'true', :name => 'disk2')
+        :sparse => 'true', :wipe_after_delete => 'true', :name => 'disk2')
 
       @vm.stubs(:volumes).returns([volume1, volume2])
 

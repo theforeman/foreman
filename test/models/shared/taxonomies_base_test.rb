@@ -66,7 +66,7 @@ module TaxonomiesBaseTest
       domain = FactoryBot.build(:domain)
       cr_one = compute_resources(:one)
       cr_one.update(:"#{taxonomy_name.pluralize}" => [taxonomy],
-                    :"#{opposite_taxonomy.pluralize}" => [])
+        :"#{opposite_taxonomy.pluralize}" => [])
       FactoryBot.create(:host,
         :compute_resource => cr_one,
         :domain           => domain,

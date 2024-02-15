@@ -408,7 +408,7 @@ class Host::Managed < Host::Base
   def disk_layout_source
     @disk_layout_source ||= if disk.present?
                               Foreman::Renderer::Source::String.new(name: 'Custom disk layout',
-                                                                    content: disk.tr("\r", ''))
+                                content: disk.tr("\r", ''))
                             elsif ptable.present?
                               Foreman::Renderer::Source::Database.new(ptable)
                             end
