@@ -5,27 +5,39 @@ template_inputs:
 - name: Subscriptions filter
   required: false
   input_type: user
-  description: Search query to filter subscription entitlements. E.g. `quantity >
-    0` to exclude subscriptions with unlimited entitlements. Keep unset for all subscriptions.
+  description: Search query to filter subscriptions. E.g. `quantity >
+    0` to exclude unlimited subscriptions. Keep unset for all subscriptions.
   advanced: false
+- name: Days from Now
+  required: true
+  input_type: user
+  description: "Show subscriptions expiring in <= this many days.  Select 'no limit' to show all subscriptions."
+  advanced: false
+  value_type: plain
+  options: "no limit\r\n7\r\n30\r\n60\r\n90\r\n120\r\n180"
+  default: "no limit"
 model: ReportTemplate
 require:
 - plugin: katello
-￼ version: 3.16.0
+  version: 4.12.0
 -%>
+<%- days_from_now = input('Days from Now') -%>
+<%- days_from_now = "" if days_from_now == 'no limit' -%>
+<%- should_filter = days_from_now.present? -%>
 <%- report_headers 'ID', 'Name', 'Available', 'Quantity', 'SKU', 'Contract number' -%>
-<%- load_pools(search: input('Subscriptions filter'), includes: [:subscription, :products, :organization]).each_record do |pool| -%>
-<%-   report_row(
-        'ID': pool.id,
-        'Name': pool.name,
-        'Available': pool.available,
-        'Quantity': pool.quantity,
-        'SKU': pool.product_id,
-        'Contract number': pool.contract_number,
-        'Account number': pool.account_number,
-        'Start date': pool.start_date,
-        'End date': pool.end_date,
-        'Organization': pool.organization.name
-      ) -%>
+<%- load_pools(search: input('Subscriptions filter'), includes: [:subscription, :products, :organization], expiring_in_days: should_filter ? days_from_now : nil).each_record do |pool| -%>
+  <%-   report_row(
+          'ID': pool.id,
+          'Name': pool.name,
+          'Available': pool.available,
+          'Quantity': pool.quantity,
+          'SKU': pool.product_id,
+          'Contract number': pool.contract_number,
+          'Account number': pool.account_number,
+          'Start date': pool.start_date,
+          'End date': pool.end_date,
+          'Days Remaining': pool.days_until_expiration,
+          'Organization': pool.organization.name
+        ) -%>
 <%- end -%>
 <%= report_render -%>
