@@ -194,8 +194,8 @@ module Foreman
             protocol = uri.scheme
 
             url_for(:only_path => false, :action => :hostgroup_template, :controller => '/unattended',
-                    :id => template.name, :hostgroup => hostgroup.title, :protocol => protocol,
-                    :host => host, :port => port)
+              :id => template.name, :hostgroup => hostgroup.title, :protocol => protocol,
+              :host => host, :port => port)
           end
 
           apipie :method, 'Returns an array of all possible host status classes sorted alphabetically by status name' do

@@ -256,11 +256,11 @@ class HostTest < ActiveSupport::TestCase
       User.current.roles << [roles(:manager)]
       assert_difference(-> { LookupValue.unscoped.count }, 1) do
         assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "3.3.4.3",
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :medium => media(:one),
-        :organization => users(:one).organizations.first, :location => users(:one).locations.first,
-        :disk => "empty partition",
-        :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_key.id, "value" => "some_value"}}
+          :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+          :subnet => subnets(:two), :architecture => architectures(:x86_64), :medium => media(:one),
+          :organization => users(:one).organizations.first, :location => users(:one).locations.first,
+          :disk => "empty partition",
+          :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_key.id, "value" => "some_value"}}
       end
     end
 
@@ -357,12 +357,12 @@ class HostTest < ActiveSupport::TestCase
     host.interfaces = []
     host.populate_fields_from_facts(
       mock_parser(:domain => 'example.com',
-                  :operatingsystem => 'RedHat',
-                  :operatingsystemrelease => '6.2',
-                  :macaddress_eth0 => '00:00:11:22:11:22',
-                  :ipaddress_eth0 => '192.168.0.1',
-                  :ipaddress6_eth0 => '2001:db8::1',
-                  :interfaces => 'eth0'),
+        :operatingsystem => 'RedHat',
+        :operatingsystemrelease => '6.2',
+        :macaddress_eth0 => '00:00:11:22:11:22',
+        :ipaddress_eth0 => '192.168.0.1',
+        :ipaddress6_eth0 => '2001:db8::1',
+        :interfaces => 'eth0'),
       'puppet',
       nil)
     assert_equal 'example.com', host.domain.name

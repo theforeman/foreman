@@ -46,11 +46,11 @@ module CommonParametersHelper
     html_class += " masked-input" if hidden
 
     input = f.text_area(field, options.merge(:disabled => disabled,
-                                             :class => html_class,
-                                             :rows => 1,
-                                             :id => dom_id(f.object) + '_value',
-                                             :placeholder => _("Value"),
-                                             :value => f.object.value_before_type_cast))
+      :class => html_class,
+      :rows => 1,
+      :id => dom_id(f.object) + '_value',
+      :placeholder => _("Value"),
+      :value => f.object.value_before_type_cast))
 
     input_group(input, input_group_btn(hidden_toggle(f.object.hidden_value?), fullscreen_button("$(this).closest('.input-group').find('input,textarea')")))
   end

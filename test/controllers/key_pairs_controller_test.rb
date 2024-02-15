@@ -26,8 +26,8 @@ class KeyPairsControllerTest < ActionController::TestCase
 
   test "should recreate a key pair" do
     Foreman::Model::EC2.any_instance.stubs(:recreate).returns(KeyPair.create(:name => "foreman-#{Foreman.uuid}",
-                                                                             :secret => "shhh",
-                                                                             :compute_resource_id => @compute_resource.id))
+      :secret => "shhh",
+      :compute_resource_id => @compute_resource.id))
     key_pair = FactoryBot.create(:key_pair)
     key_pair.compute_resource = @compute_resource
     post :create, params: { :compute_resource_id => @compute_resource.to_param }, session: set_session_user
@@ -46,8 +46,8 @@ class KeyPairsControllerTest < ActionController::TestCase
 
   test "should create a key pair" do
     Foreman::Model::EC2.any_instance.stubs(:recreate).returns(KeyPair.create(:name => "foreman-#{Foreman.uuid}",
-                                                                             :secret => "shhh",
-                                                                             :compute_resource_id => @compute_resource.id))
+      :secret => "shhh",
+      :compute_resource_id => @compute_resource.id))
 
     post :create, params: { :compute_resource_id => @compute_resource.to_param }, session: set_session_user
     assert_response :redirect

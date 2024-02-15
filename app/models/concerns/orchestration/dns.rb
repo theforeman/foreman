@@ -65,7 +65,7 @@ module Orchestration::DNS
     DNSInterface::RECORD_TYPES.each do |record_type|
       if dns_feasible?(record_type)
         queue.create(:name   => _("Create %{type} for %{host}") % {:host => self, :type => dns_class(record_type).human}, :priority => 10,
-                     :action => [self, :set_dns_record, record_type])
+          :action => [self, :set_dns_record, record_type])
       end
     end
   end
@@ -75,7 +75,7 @@ module Orchestration::DNS
     DNSInterface::RECORD_TYPES.each do |record_type|
       if old.dns_feasible?(record_type)
         queue.create(:name   => _("Remove %{type} for %{host}") % {:host => old, :type => dns_class(record_type).human }, :priority => 9,
-                     :action => [old, :del_dns_record, record_type])
+          :action => [old, :del_dns_record, record_type])
       end
     end
     queue_dns_create
@@ -86,7 +86,7 @@ module Orchestration::DNS
     DNSInterface::RECORD_TYPES.each do |record_type|
       if dns_feasible?(record_type)
         queue.create(:name   => _("Remove %{type} for %{host}") % {:host => self, :type => dns_class(record_type).human}, :priority => 1,
-                     :action => [self, :del_dns_record, record_type])
+          :action => [self, :del_dns_record, record_type])
       end
     end
   end
@@ -98,7 +98,7 @@ module Orchestration::DNS
     DNSInterface::RECORD_TYPES.each do |record_type|
       if dns_feasible?(record_type) && dns_record(record_type) && dns_record(record_type).conflicting?
         queue.create(:name   => _("Remove conflicting %{type} for %{host}") % {:host => self, :type => dns_class(record_type).human}, :priority => 0,
-                     :action => [self, :del_conflicting_dns_record, record_type])
+          :action => [self, :del_conflicting_dns_record, record_type])
       end
     end
   end

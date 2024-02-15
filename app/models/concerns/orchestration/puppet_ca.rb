@@ -66,14 +66,14 @@ module Orchestration::PuppetCA
 
   def queue_puppetca_certname_reset
     post_queue.create(:name => _("Reset PuppetCA certname for %s") % self, :priority => 49,
-                      :action => [self, :resetCertname])
+      :action => [self, :resetCertname])
   end
 
   def queue_puppetca_create
     post_queue.create(:name => _("Cleanup PuppetCA certificates for %s") % self, :priority => 51,
-                      :action => [self, :delCertificate])
+      :action => [self, :delCertificate])
     post_queue.create(:name => _("Enable PuppetCA autosigning for %s") % self, :priority => 55,
-                      :action => [self, :setAutosign])
+      :action => [self, :setAutosign])
   end
 
   def queue_puppetca_update
@@ -97,13 +97,13 @@ module Orchestration::PuppetCA
     return unless puppetca? && errors.empty?
     return unless Setting[:manage_puppetca]
     post_queue.create(:name => _("Delete PuppetCA certificates for %s") % self, :priority => 59,
-                      :action => [self, :delCertificate])
+      :action => [self, :delCertificate])
     queue_puppetca_autosign_destroy
     true
   end
 
   def queue_puppetca_autosign_destroy
     post_queue.create(:name => _("Disable PuppetCA autosigning for %s") % self, :priority => 50,
-                      :action => [self, :delAutosign])
+      :action => [self, :delAutosign])
   end
 end

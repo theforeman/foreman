@@ -206,10 +206,10 @@ class Filter < ApplicationRecord
       errors.add(
         :permissions,
         _('must be of same resource type (%{types}) - Role (%{role})') %
-        {
-          types: types.join(','),
-          role: role.name,
-        }
+          {
+            types: types.join(','),
+            role: role.name,
+          }
       )
     end
   end

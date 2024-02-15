@@ -139,8 +139,8 @@ module LayoutHelper
   def base_errors_for(obj)
     if obj.errors[:base].present?
       alert :header => _("Unable to save"),
-            :class  => 'alert-danger base in fade',
-            :text   => obj.errors[:base].map { |e| '<li>'.html_safe + e + '</li>'.html_safe }.join.html_safe
+        :class  => 'alert-danger base in fade',
+        :text   => obj.errors[:base].map { |e| '<li>'.html_safe + e + '</li>'.html_safe }.join.html_safe
     end
   end
 
@@ -249,7 +249,7 @@ module LayoutHelper
     content_tag(:div, :class => "#{association}_fields_template form_template", :style => "display: none;") do
       form_builder.fields_for(association, options[:object], :child_index => "new_#{association}") do |f|
         render(:partial => options[:partial], :layout => options[:layout],
-               :locals => { options[:form_builder_local] => f }.merge(options[:form_builder_attrs]))
+          :locals => { options[:form_builder_local] => f }.merge(options[:form_builder_attrs]))
       end
     end
   end

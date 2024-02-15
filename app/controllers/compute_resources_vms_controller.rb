@@ -24,7 +24,7 @@ class ComputeResourcesVmsController < ApplicationController
           render :partial => "compute_resources_vms/index/#{@compute_resource.provider.downcase}.json"
         else
           render :json => _('JSON VM listing is not supported for this compute resource.'),
-                 :status => :not_implemented
+            :status => :not_implemented
         end
       end
     end

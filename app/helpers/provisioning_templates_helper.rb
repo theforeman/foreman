@@ -60,16 +60,16 @@ module ProvisioningTemplatesHelper
 
   def how_templates_are_determined
     alert(:class => 'alert-info', :header => _('How templates are determined'),
-          :text => ('<p>' + _("When editing a template, you must assign a list \
+      :text => ('<p>' + _("When editing a template, you must assign a list \
 of operating systems which this template can be used with. Optionally, you can \
 restrict a template to a list of host groups.") + '</p>' +
 '<p>' + _("When a Host requests a template (e.g. during provisioning), Foreman \
 will select the best match from the available templates of that type, in the \
 following order:") + '</p>' + '<ul>' +
-    '<li>' + _("Host group") + '</li>' +
-    '<li>' + _("Operating system default") + '</li>' +
-    '</ul>' +
-    (_("The final entry, Operating System default, can be set by editing the %s page.") %
-     (link_to _("Operating System"), operatingsystems_path))).html_safe)
+'<li>' + _("Host group") + '</li>' +
+'<li>' + _("Operating system default") + '</li>' +
+'</ul>' +
+(_("The final entry, Operating System default, can be set by editing the %s page.") %
+ (link_to _("Operating System"), operatingsystems_path))).html_safe)
   end
 end

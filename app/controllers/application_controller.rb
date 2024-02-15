@@ -146,7 +146,7 @@ class ApplicationController < ActionController::Base
       process_error(:redirect => :back, :error_msg => exception.message)
     else
       process_error(:render => { :plain => exception.message },
-                    :error_msg => exception.message)
+        :error_msg => exception.message)
     end
   end
 

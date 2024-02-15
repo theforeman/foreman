@@ -23,7 +23,7 @@ module Host
 
     test "should make hostname lowercase" do
       host = Host::Base.new(:name => 'MYHOST',
-                            :domain => FactoryBot.create(:domain, :name => "mydomainlowercase.net"))
+        :domain => FactoryBot.create(:domain, :name => "mydomainlowercase.net"))
       host.valid?
       assert_equal "myhost.mydomainlowercase.net", host.name
     end

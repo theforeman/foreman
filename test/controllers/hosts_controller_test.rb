@@ -974,7 +974,7 @@ class HostsControllerTest < ActionController::TestCase
   test "host should get bmc status" do
     @host.stubs(:bmc_proxy).returns(nil)
     @host.interfaces.create(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
-                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
     @host.power.stubs(:state).returns("on")
     get :bmc, params: { :id => @host.id }, session: set_session_user
     assert_response :success
@@ -982,7 +982,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "host update without BMC paasword in the params does not erase existing password" do
     bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
-                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
     assert bmc1.save
     old_password = bmc1.password
     put :update, params: { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id} } } }, session: set_session_user
@@ -992,7 +992,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'blank BMC password submitted in host does erase existing password' do
     bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
-                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
     assert bmc1.save
     put :update, params: { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => ''} } } }, session: set_session_user
     @host = Host.find(@host.id)
@@ -1002,7 +1002,7 @@ class HostsControllerTest < ActionController::TestCase
   # To test that work-around for Rails bug - https://github.com/rails/rails/issues/11031
   test "BMC password updates successful even if attrs serialized field is the only dirty field" do
     bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
-                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
     assert bmc1.save
     new_password = "topsecret"
     put :update, params: { :commit => "Update", :id => @host.name, :host => {:interfaces_attributes => {"0" => {:id => bmc1.id, :password => new_password, :mac => bmc1.mac} } } }, session: set_session_user
@@ -1552,17 +1552,17 @@ class HostsControllerTest < ActionController::TestCase
   def initialize_host
     User.current = users(:admin)
     disable_orchestration
-    @host = Host.create(:name               => "myfullhost",
-                        :mac                => "aabbecddeeff",
-                        :ip                 => "2.3.4.99",
-                        :domain_id          => domains(:mydomain).id,
-                        :operatingsystem_id => operatingsystems(:redhat).id,
-                        :architecture_id    => architectures(:x86_64).id,
-                        :subnet_id          => subnets(:one).id,
-                        :disk               => "empty partition",
-                        :root_pass          => "123456789",
-                        :location_id        => taxonomies(:location1).id,
-                        :organization_id    => taxonomies(:organization1).id
+    @host = Host.create(:name => "myfullhost",
+      :mac                => "aabbecddeeff",
+      :ip                 => "2.3.4.99",
+      :domain_id          => domains(:mydomain).id,
+      :operatingsystem_id => operatingsystems(:redhat).id,
+      :architecture_id    => architectures(:x86_64).id,
+      :subnet_id          => subnets(:one).id,
+      :disk               => "empty partition",
+      :root_pass          => "123456789",
+      :location_id        => taxonomies(:location1).id,
+      :organization_id    => taxonomies(:organization1).id
                        )
   end
 end

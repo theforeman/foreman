@@ -33,7 +33,7 @@ class NotificationRecipientsController < Api::V2::BaseController
     count = NotificationRecipient.
       joins(:notification_blueprint).
       where(user_id: User.current.id,
-            notification_blueprints: { group: params[:group]}).
+        notification_blueprints: { group: params[:group]}).
       delete_all
 
     logger.debug("deleted #{count} notification recipents for group #{params[:group]}")
