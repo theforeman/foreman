@@ -6,9 +6,9 @@ class HostBuildStatusTest < ActiveSupport::TestCase
     stub_smart_proxy_v2_features
     User.current = users(:admin)
     @host = Host.new(:name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => FactoryBot.build(:ptable), :medium => media(:one),
-                    :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
-                    :architecture => architectures(:x86_64), :managed => true,
-                    :owner_type => "User", :root_pass => "xybxa6JUkz63w")
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one),
+      :architecture => architectures(:x86_64), :managed => true,
+      :owner_type => "User", :root_pass => "xybxa6JUkz63w")
     # bypass host.valid?
     HostBuildStatus.any_instance.stubs(:host_status).returns(true)
   end

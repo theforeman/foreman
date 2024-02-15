@@ -65,7 +65,7 @@ module Resolvers
 
         if has_taxonomix?
           taxonomy_ids = taxonomy_ids_for_filter(location_id: location_id, organization_id: organization_id,
-                                                 location: location, organization: organization)
+            location: location, organization: organization)
           filters << taxonomy_id_filter(taxonomy_ids) if taxonomy_ids.any?
         end
 

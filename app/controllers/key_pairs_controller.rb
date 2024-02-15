@@ -18,7 +18,7 @@ class KeyPairsController < ApplicationController
   def create
     if @compute_resource.recreate
       process_success :success_msg => _('Successfully recreated'),
-                      :success_redirect => compute_resource_path(@compute_resource)
+        :success_redirect => compute_resource_path(@compute_resource)
     else
       process_error :error_msg => _('Could not recreate a new SSH key')
     end
@@ -29,7 +29,7 @@ class KeyPairsController < ApplicationController
     return not_found unless key_to_delete
     if @compute_resource.delete_key_from_resource(key_to_delete)
       process_success :success_msg => _('Successfully delete %s') % key_to_delete,
-                      :success_redirect => compute_resource_path(@compute_resource)
+        :success_redirect => compute_resource_path(@compute_resource)
     else
       process_error :error_msg => _('Could not delete %s') % key_to_delete
     end

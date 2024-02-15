@@ -34,7 +34,7 @@ class DhcpTest < ActiveSupport::TestCase
 
   test "record should have dhcp attributes" do
     record = Net::DHCP::Record.new(:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff",
-                                 :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
+      :network => "127.0.0.0", :ip => "127.0.0.1", "proxy" => smart_proxies(:one))
     assert_equal({:hostname => "test", :mac => "aa:bb:cc:dd:ee:ff", :network => "127.0.0.0", :ip => "127.0.0.1", :related_macs => []}, record.send(:attrs))
   end
 
@@ -74,8 +74,8 @@ class DhcpTest < ActiveSupport::TestCase
     ProxyAPI::Resource.any_instance.stubs(:parse).with('lease').returns(proxy_lease)
     ProxyAPI::Resource.any_instance.stubs(:parse).with('').returns([])
     record1 = Net::DHCP::Record.new(:hostname => "test1", :mac => "aa:bb:cc:dd:ee:ff",
-                                    :network => "127.0.0.0", :ip => "127.0.0.2",
-                                    "proxy" => subnets(:one).dhcp_proxy)
+      :network => "127.0.0.0", :ip => "127.0.0.2",
+      "proxy" => subnets(:one).dhcp_proxy)
     assert record1.conflicts.present?
   end
 
@@ -86,16 +86,16 @@ class DhcpTest < ActiveSupport::TestCase
     ProxyAPI::Resource.any_instance.stubs(:parse).with('lease').returns(proxy_lease)
     ProxyAPI::Resource.any_instance.stubs(:parse).with('').returns([])
     record1 = Net::DHCP::Record.new(:hostname => "test1", :mac => "aa:bb:cc:dd:ee:ff",
-                                    :network => "127.0.0.0", :ip => "127.0.0.1",
-                                    "proxy" => subnets(:one).dhcp_proxy)
-    assert record1.conflicts.empty?
+      :network => "127.0.0.0", :ip => "127.0.0.1",
+      "proxy" => subnets(:one).dhcp_proxy)
+    assert_empty record1.conflicts
   end
 
   test "dhcp record validation should return false when proxy returns nil" do
     ProxyAPI::DHCP.any_instance.stubs(:record).returns(nil)
     record1 = Net::DHCP::Record.new(:hostname => "test1", :mac => "aa:bb:cc:dd:ee:ff",
-                                    :network => "127.0.0.0", :ip => "127.0.0.1",
-                                    "proxy" => subnets(:one).dhcp_proxy)
+      :network => "127.0.0.0", :ip => "127.0.0.1",
+      "proxy" => subnets(:one).dhcp_proxy)
     refute record1.valid?
   end
 
@@ -104,8 +104,8 @@ class DhcpTest < ActiveSupport::TestCase
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.1").returns(@lease1_array)
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/mac/aa:bb:cc:dd:ee:02").raises(RestClient::ResourceNotFound, 'Record not found')
     record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:02",
-                                    :network => "127.0.0.0", :ip => "127.0.0.1",
-                                    "proxy" => subnets(:one).dhcp_proxy)
+      :network => "127.0.0.0", :ip => "127.0.0.1",
+      "proxy" => subnets(:one).dhcp_proxy)
     refute record1.conflicts.empty?
     refute record1.valid?
   end
@@ -115,8 +115,8 @@ class DhcpTest < ActiveSupport::TestCase
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.1").returns(@lease1_array)
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.2").raises(RestClient::ResourceNotFound, 'Record not found')
     record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:01",
-                                    :network => "127.0.0.0", :ip => "127.0.0.2",
-                                    "proxy" => subnets(:one).dhcp_proxy)
+      :network => "127.0.0.0", :ip => "127.0.0.2",
+      "proxy" => subnets(:one).dhcp_proxy)
     refute record1.conflicts.empty?
     refute record1.valid?
   end
@@ -135,9 +135,9 @@ class DhcpTest < ActiveSupport::TestCase
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.1").returns(@lease1_array)
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.2").returns(lease2_array)
     record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:01",
-                                    :network => "127.0.0.0", :ip => "127.0.0.2",
-                                    "proxy" => subnets(:one).dhcp_proxy)
-    assert record1.conflicts.empty?
+      :network => "127.0.0.0", :ip => "127.0.0.2",
+      "proxy" => subnets(:one).dhcp_proxy)
+    assert_empty record1.conflicts
     assert record1.valid?
   end
 
@@ -156,8 +156,8 @@ class DhcpTest < ActiveSupport::TestCase
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.2").returns(existing_lease_array)
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.1").returns(@lease1_array)
     rec = Net::DHCP::Record.new(:hostname => "a_host1", :mac => "aa:bb:cc:dd:ee:01",
-                                    :network => "127.0.0.0", :ip => "127.0.0.1",
-                                    "proxy" => subnets(:one).dhcp_proxy)
+      :network => "127.0.0.0", :ip => "127.0.0.1",
+      "proxy" => subnets(:one).dhcp_proxy)
     assert_equal "lease", subnets(:one).dhcp_proxy.record("127.0.0.0", "aa:bb:cc:dd:ee:01").type
     assert_equal "lease", subnets(:one).dhcp_proxy.records_by_ip("127.0.0.0", "127.0.0.2").first.type
     assert rec.conflicts.empty?
@@ -178,8 +178,8 @@ class DhcpTest < ActiveSupport::TestCase
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.2").returns(existing_lease_array)
     ProxyAPI::Resource.any_instance.stubs(:get).with("127.0.0.0/ip/127.0.0.1").returns(@lease1_array)
     rec = Net::DHCP::Record.new(:hostname => "a_host1", :mac => "aa:bb:cc:dd:ee:01",
-                                    :network => "127.0.0.0", :ip => "127.0.0.1",
-                                    "proxy" => subnets(:one).dhcp_proxy)
+      :network => "127.0.0.0", :ip => "127.0.0.1",
+      "proxy" => subnets(:one).dhcp_proxy)
     assert_equal "reservation", subnets(:one).dhcp_proxy.record("127.0.0.0", "aa:bb:cc:dd:ee:01").type
     assert_equal "reservation", subnets(:one).dhcp_proxy.records_by_ip("127.0.0.0", "127.0.0.2").first.type
     refute rec.conflicts.empty?

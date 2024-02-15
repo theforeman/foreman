@@ -173,7 +173,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     get_test_vm
     @test_vm.class.any_instance.expects(:stop).raises(Fog::Errors::Error.new('Power error'))
     @request.env['HTTP_REFERER'] = compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param,
-                                                            :id => @test_vm.identity)
+      :id => @test_vm.identity)
     get :power, params: { :format => 'json', :id => @test_vm.uuid, :compute_resource_id => @compute_resource.to_param }, session: set_session_user
     assert_match /Power error/, flash[:error]
     assert_redirected_to @request.env['HTTP_REFERER']

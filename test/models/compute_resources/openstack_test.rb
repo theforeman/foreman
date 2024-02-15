@@ -52,7 +52,7 @@ module Foreman
         @compute_resource.stubs(:key_pair).returns(mocked_key_pair)
         @compute_resource.expects(:boot_from_volume).never
         @compute_resource.create_vm(:boot_from_volume => 'false', :nics => [""],
-                                    :flavor_ref => 'foo_flavor', :image_ref => 'foo_image')
+          :flavor_ref => 'foo_flavor', :image_ref => 'foo_image')
       end
 
       describe "formatting hints" do

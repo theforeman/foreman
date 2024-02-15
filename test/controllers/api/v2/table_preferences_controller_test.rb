@@ -29,7 +29,7 @@ class Api::V2::TablePreferencesControllerTest < ActionController::TestCase
   def test_should_show_columns_correctly
     resource = resources.first
     TablePreference.create!(user: User.current,
-                       name: resource, columns: expected_columns)
+      name: resource, columns: expected_columns)
     get :show, params: {user_id: User.current.id, id: resource}
     assert_response :success
     actual_columns = ActiveSupport::JSON.decode(@response.body)["columns"]
@@ -49,7 +49,7 @@ class Api::V2::TablePreferencesControllerTest < ActionController::TestCase
     resource = resources.first
     current_user = User.current
     TablePreference.create!(user: User.current,
-                       name: resource, columns: expected_columns)
+      name: resource, columns: expected_columns)
 
     put :update, params: {user_id: User.current.id, id: resource, columns: expected_columns}
     assert_response :success
@@ -62,9 +62,9 @@ class Api::V2::TablePreferencesControllerTest < ActionController::TestCase
     resource2 = resources[1]
     current_user = User.current
     TablePreference.create!(user: User.current,
-                       name: resource1, columns: expected_columns)
+      name: resource1, columns: expected_columns)
     TablePreference.create!(user: User.current,
-                       name: resource2, columns: expected_columns)
+      name: resource2, columns: expected_columns)
 
     delete :destroy, params: { user_id: User.current.id, id: resource1}
     assert_response :success

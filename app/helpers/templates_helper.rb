@@ -2,7 +2,7 @@ module TemplatesHelper
   def snippet_message(template)
     return unless template.snippet
     alert(:class => 'alert-info', :header => '',
-          :text => _("Not relevant for snippet"))
+      :text => _("Not relevant for snippet"))
   end
 
   def default_template_description

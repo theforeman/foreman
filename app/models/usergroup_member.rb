@@ -49,8 +49,8 @@ class UsergroupMember < ApplicationRecord
   def add_new_cache
     find_all_affected_users.each do |user|
       find_all_user_roles.each do |user_role|
-        CachedUserRole.create!(:user      => user, :role => user_role.role,
-                               :user_role => user_role)
+        CachedUserRole.create!(:user => user, :role => user_role.role,
+          :user_role => user_role)
       end
 
       find_all_usergroups.each do |group|
