@@ -179,7 +179,7 @@ const coreConfig = function() {
         loader: 'style-loader',
         options: {
           injectType: 'singletonStyleTag',
-          attributes: { id: 'foreman_core' },
+          attributes: { id: 'foreman_core_css' },
         },
       },
       'css-loader',
@@ -249,7 +249,7 @@ const pluginConfig = function(plugin) {
         loader: 'style-loader',
         options: {
           injectType: 'singletonStyleTag',
-          attributes: { id: pluginName },
+          attributes: { id: `${pluginName}_css` },
         },
       },
       'css-loader',
