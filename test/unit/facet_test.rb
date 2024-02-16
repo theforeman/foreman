@@ -278,6 +278,16 @@ class FacetTest < ActiveSupport::TestCase
     test 'hostgroup and facet are connected two-way' do
       assert_equal @hostgroup, @facet.hostgroup
     end
+
+    test 'a cloned hostgroup also clones facets' do
+      @hostgroup.name = "test"
+      @hostgroup.hostgroup_facet.id = 42
+      cloned_hg = @hostgroup.clone
+      cloned_facet = cloned_hg.hostgroup_facet
+      assert_nil cloned_facet.id
+      refute_equal cloned_facet.id, @hostgroup.hostgroup_facet.id
+      assert_equal cloned_facet.attributes.except("id"), @facet.attributes.except("id")
+    end
   end
 
   context 'host and hostgroup relationship' do
