@@ -41,9 +41,15 @@ class HostgroupsController < ApplicationController
   def clone
     new = @hostgroup.clone
     load_vars_for_ajax
+    # Clone all its facets
+    @hostgroup.facet_definitions.map(&:name).each do |facet_name|
+      original_facet = @hostgroup.send(facet_name)
+      # example: new.foo_facet = original_facet.clone
+      new.send("#{facet_name}=", original_facet.clone) if original_facet.present?
+    end
     new.valid?
     @hostgroup = new
-    info _("The following fields would need reviewing")
+    info _("Some fields may need reviewing")
     render :action => :new
   end
 
