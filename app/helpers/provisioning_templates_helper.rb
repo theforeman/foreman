@@ -72,4 +72,23 @@ following order:") + '</p>' + '<ul>' +
     (_("The final entry, Operating System default, can be set by editing the %s page.") %
      (link_to _("Operating System"), operatingsystems_path))).html_safe)
   end
+
+  def download_utility(utility)
+    {
+      'curl' => {
+        :data_key => '--data',
+        :download => 'curl -sS',
+        :gpg_key_download_command => 'curl --silent --show-error --output',
+        :insecure => '--insecure',
+        :registration_command => 'curl --silent --show-error --request POST --cacert',
+      },
+      'wget' => {
+        :data_key => '--post-data',
+        :download => 'wget --no-verbose -O-',
+        :gpg_key_download_command => 'wget --no-verbose -O',
+        :insecure => '--no-check-certificate',
+        :registration_command => 'wget --no-verbose -O- --ca-certificate',
+      },
+    }.freeze[utility || 'curl']
+  end
 end

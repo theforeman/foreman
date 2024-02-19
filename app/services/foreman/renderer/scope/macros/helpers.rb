@@ -4,6 +4,7 @@ module Foreman
       module Macros
         module Helpers
           include Foreman::Renderer::Errors
+          include ProvisioningTemplatesHelper
           extend ApipieDSL::Module
 
           apipie :class, desc: 'Helper macros to use within a template' do
@@ -145,6 +146,16 @@ module Foreman
           end
           def falsy?(value = nil)
             Foreman::Cast.to_bool(value) == false
+          end
+
+          apipie :method, 'Returns a dictionary of command patterns for supported download utilities that are used to execute the utilities during host registration.' do
+            required :utility, String, desc: 'The download utility to use.'
+            returns Hash, desc: 'The dictionary of command patterns for the download utility.'
+            example "dl_utility('curl')"
+            example "dl_utility('wget')"
+          end
+          def dl_utility(utility)
+            download_utility(utility)
           end
         end
       end

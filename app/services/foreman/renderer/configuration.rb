@@ -79,7 +79,8 @@ module Foreman
         :host_puppet_environment,
         :host_enc,
         :install_packages,
-        :update_packages
+        :update_packages,
+        :dl_utility
       ]
 
       DEFAULT_ALLOWED_VARIABLES = [

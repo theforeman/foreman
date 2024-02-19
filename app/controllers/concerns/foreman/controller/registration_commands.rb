@@ -1,5 +1,6 @@
 module Foreman::Controller::RegistrationCommands
   extend ActiveSupport::Concern
+  include ProvisioningTemplatesHelper
 
   private
 
@@ -9,7 +10,7 @@ module Foreman::Controller::RegistrationCommands
 
   def command
     args_query = "?#{registration_args.to_query}"
-    "set -o pipefail && curl -sS #{insecure} '#{registration_url(@smart_proxy)}#{args_query if args_query != '?'}' #{command_headers} | bash"
+    "set -o pipefail && #{utility[:download]} #{insecure} '#{registration_url(@smart_proxy)}#{args_query if args_query != '?'}' #{command_headers} | bash"
   end
 
   def registration_args
@@ -19,8 +20,12 @@ module Foreman::Controller::RegistrationCommands
                        .permit!
   end
 
+  def utility
+    download_utility(registration_params['download_utility'])
+  end
+
   def insecure
-    registration_params['insecure'] ? '--insecure' : ''
+    registration_params['insecure'] ? utility[:insecure] : ''
   end
 
   def registration_url(proxy = nil)
@@ -65,7 +70,7 @@ module Foreman::Controller::RegistrationCommands
     else
       invalid_expiration_error
     end
-    "-H 'Authorization: Bearer #{User.current.jwt_token!(**jwt_args)}'"
+    "--header 'Authorization: Bearer #{User.current.jwt_token!(**jwt_args)}'"
   end
 
   def host_config_params

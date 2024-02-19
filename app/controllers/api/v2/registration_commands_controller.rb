@@ -20,6 +20,7 @@ module Api
         param :update_packages, :bool, desc: N_("Update all packages on the host")
         param :repo, String, desc: N_("Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'")
         param :repo_gpg_key_url, String, desc: N_("URL of the GPG key for the repository")
+        param :download_utility, ["curl", "wget"], desc: N_("The download utility to use for host registration")
       end
       def create
         unless os_with_template?

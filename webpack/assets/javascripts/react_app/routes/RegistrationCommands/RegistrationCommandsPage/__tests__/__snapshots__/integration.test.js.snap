@@ -8,6 +8,7 @@ Object {
         "payload": Object {
           "key": "REGISTRATION_COMMANDS",
           "params": Object {
+            "downloadUtility": undefined,
             "hostgroupId": undefined,
             "insecure": false,
             "jwtExpiration": 4,
