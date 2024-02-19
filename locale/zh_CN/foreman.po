@@ -83,6 +83,9 @@ msgstr "%s 过滤器"
 msgid "%s has been disassociated from VM"
 msgstr "%s 已从虚拟机取消关联"
 
+msgid "%s hosts deleted"
+msgstr ""
+
 msgid "%s is an unknown attribute"
 msgstr "%s 为未知属性"
 
@@ -107,6 +110,9 @@ msgid "%s warning message"
 msgid_plural "%s warning messages"
 msgstr[0] "%s 警告信息"
 
+msgid "%s was successfully deleted"
+msgstr ""
+
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s 周前"
@@ -125,6 +131,9 @@ msgstr "%{action} %{vm}"
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} API 文档主页"
+
+msgid "%{capacity}"
+msgstr ""
 
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
@@ -255,10 +264,6 @@ msgstr "在 '%{resource}' 中未找到 '%{host}'"
 msgid "'%{loader}' is not one of %{loaders}"
 msgstr "%{loader} 不是 %{loaders} 其中之一"
 
-msgid "(%s host)"
-msgid_plural "(%s hosts)"
-msgstr[0] "（%s 主机）"
-
 msgid "(Miscellaneous)"
 msgstr "（杂项）"
 
@@ -354,6 +359,9 @@ msgstr "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean<
 
 msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
 msgstr "必须在“代理”选项卡中选择启用了外部 IPAM 功能的智能代理。"
+
+msgid "A class representing %s object"
+msgstr ""
 
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
 msgstr "计算配置文件用于表达特定计算资源上创建的虚拟机的一组默认值（可映射至运算符定义的标签）。这表示管理员可以表达‘小’、‘中’或‘大’在给定安装上存在的所有单个计算资源上的含义等等。"
@@ -719,9 +727,6 @@ msgstr ""
 msgid "Any organization"
 msgstr ""
 
-msgid "Append domain names to the host"
-msgstr "将域名附加到主机"
-
 msgid "Applicable Operating Systems"
 msgstr "适用的操作系统"
 
@@ -858,17 +863,23 @@ msgstr "将 VM 关联到 Foreman 主机"
 msgid "Associate VMs to Hosts"
 msgstr "将虚拟机与主机关联"
 
-msgid "Associated %{resource} IDs"
-msgstr "关联的 %{resource} ID"
-
 msgid "Associated Host"
 msgstr "关联主机"
+
+msgid "Associated location IDs"
+msgstr ""
+
+msgid "Associated organization IDs"
+msgstr ""
 
 msgid "Associating VMs is not supported for this compute resource"
 msgstr "该计算资源不支持关联虚拟机"
 
 msgid "Association"
 msgstr "组合"
+
+msgid "At"
+msgstr "位于"
 
 msgid "At least one command must be specified"
 msgstr ""
@@ -1700,8 +1711,8 @@ msgstr "确认"
 msgid "Confirm Action"
 msgstr "确认操作"
 
-msgid "Confirm Hardware Model Deletion"
-msgstr "确认删除硬件型号。"
+msgid "Confirm Deletion"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "冲突 - %s"
@@ -1772,6 +1783,12 @@ msgstr "核心和代理版本不匹配。foreman: %{foreman_version}，foreman-p
 msgid "CoreOS Transpiler Command"
 msgstr ""
 
+msgid "CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "CoreOS transpiler (ct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Cores"
 msgstr "内核"
 
@@ -1828,6 +1845,9 @@ msgstr "无法创建报告，检查错误信息"
 
 msgid "Could not locate CA certificate."
 msgstr "无法定位 CA 证书。"
+
+msgid "Could not parse timestamp '%{timestamp}'"
+msgstr ""
 
 msgid "Could not recreate a new SSH key"
 msgstr "无法重新创建新 SSH 密钥"
@@ -2486,11 +2506,11 @@ msgstr "删除自动签名条目"
 msgid "Delete filter?"
 msgstr "删除过滤器？"
 
-msgid "Delete host"
-msgstr "删除主机"
-
 msgid "Delete host?"
 msgstr "删除主机？"
+
+msgid "Delete multiple hosts"
+msgstr ""
 
 msgid "Delete realm entry for %s"
 msgstr "为 %s 删除 realm 条目"
@@ -2603,6 +2623,9 @@ msgstr ""
 msgid "Disk"
 msgstr "磁盘"
 
+msgid "Disk '%s'"
+msgstr ""
+
 msgid "Disk Mode"
 msgstr "磁盘模式"
 
@@ -2614,6 +2637,9 @@ msgstr ""
 
 msgid "Disk interface"
 msgstr "磁盘接口"
+
+msgid "Disk label"
+msgstr ""
 
 msgid "Disk name"
 msgstr "磁盘名称"
@@ -2630,6 +2656,9 @@ msgstr ""
 msgid "Display"
 msgstr "顯示"
 
+msgid "Display FQDN for hosts"
+msgstr ""
+
 msgid "Display Type"
 msgstr "显示类型"
 
@@ -2641,6 +2670,9 @@ msgstr "显示隐藏的参数值"
 
 msgid "Display hidden values"
 msgstr "显示隐藏值"
+
+msgid "Display names of hosts as FQDNs. If disabled, only display names of hosts as hostnames."
+msgstr ""
 
 msgid "Display the templates that will be used to provision this host"
 msgstr "显示的模板将被用来提供主机"
@@ -2846,6 +2878,12 @@ msgstr "包含注解，它会在模板呈现期间被忽略："
 
 msgid "Ending IP Address for IP auto suggestion"
 msgstr "为 IP 自动提示功能提供 IP 地址结尾"
+
+msgid "Enter valid date: YYYY-MM-DD"
+msgstr ""
+
+msgid "Enter valid time: HH:MM:SS"
+msgstr ""
 
 msgid "Entries per page"
 msgstr "每页的条目数"
@@ -3055,9 +3093,6 @@ msgstr "FQDN"
 
 msgid "Fact Values"
 msgstr "Fact 值"
-
-msgid "Fact distribution chart - %s "
-msgstr "事实分布图 - %s"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
@@ -3284,6 +3319,12 @@ msgstr "名称"
 msgid "Fedora CoreOS Transpiler Command"
 msgstr ""
 
+msgid "Fedora CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Fetch TFTP boot files for %s"
 msgstr "为 %s 获取 TFTP 引导文件"
 
@@ -3292,6 +3333,12 @@ msgstr "获取主机电源是否打开的状态。支持的主机是 VM 和具�
 
 msgid "Field name"
 msgstr "项名称"
+
+msgid "Fill out the date and time"
+msgstr ""
+
+msgid "Fill out the name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
@@ -3417,6 +3464,12 @@ msgstr ""
 msgid "For example, this can be useful to configure all the Host NICs."
 msgstr "例如，这对于配置所有主机 NIC 很有用。"
 
+msgid "For hosts with compute resources, VMs and their disks will not be deleted."
+msgstr ""
+
+msgid "For hosts with compute resources, this will delete the VM and its disks."
+msgstr ""
+
 msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
 msgstr "对于使用完成模板、基于镜像的置备，此接口的 IP 将被用作 SSH 目标。"
 
@@ -3515,9 +3568,6 @@ msgstr "Foreman 测试电子邮件"
 msgid "Foreman ticketing system"
 msgstr "Foreman ticketing 系统"
 
-msgid "Foreman will append domain names when new hosts are provisioned"
-msgstr "配置新主机后，Foreman 将会附加域名"
-
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman 会在供应新主机时自动进行证书签署"
 
@@ -3596,10 +3646,10 @@ msgstr "完整审核列表"
 msgid "Full name describing the domain"
 msgstr "用于描述域的全名"
 
-msgid "Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"
+msgid "Full path to CoreOS transpiler (ct)"
 msgstr ""
 
-msgid "Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"
+msgid "Full path to Fedora CoreOS transpiler (fcct)"
 msgstr ""
 
 msgid "Full path to backing image used to create new volumes."
@@ -3761,6 +3811,9 @@ msgstr "客体 OS"
 msgid "HELO/EHLO domain"
 msgstr "HELO/EHLO 域"
 
+msgid "HH:MM:SS"
+msgstr ""
+
 msgid "HTTP Proxies"
 msgstr "HTTP 代理服务器"
 
@@ -3814,9 +3867,6 @@ msgstr "硬盘"
 
 msgid "Hardware Model"
 msgstr "硬件型号"
-
-msgid "Hardware Model %s was successfully deleted"
-msgstr "硬件型号 %s 已成功删除"
 
 msgid "Hardware Models"
 msgstr "硬件型号"
@@ -3875,8 +3925,8 @@ msgstr "历史"
 msgid "Host"
 msgstr "主机"
 
-msgid "Host %s has been removed successfully"
-msgstr "主机 %s 已被成功删除"
+msgid "Host %s deleted"
+msgstr ""
 
 msgid "Host %s is built"
 msgstr "主机 %s 被构建"
@@ -4239,6 +4289,12 @@ msgstr "有待应用更改且已启用警告的主机"
 msgid "Hosts that had performed modifications without error"
 msgstr "主机已进行了修改，未发生错误"
 
+msgid "Hosts to explicitly exclude in the action. All other hosts will be included in the action, unless an included parameter is passed as well."
+msgstr ""
+
+msgid "Hosts to include in the action"
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "禁用 Foreman 报告功能的主机"
 
@@ -4328,6 +4384,9 @@ msgstr "Http 代理服务器|用户名"
 msgid "Hypervisor"
 msgstr "虚拟机监控程序（Hypervisor）"
 
+msgid "I understand that this action cannot be undone."
+msgstr ""
+
 msgid "ID assigned to generating job by the schedule command"
 msgstr "通过schedule 命令分配给生成作业的 ID"
 
@@ -4411,6 +4470,9 @@ msgstr "在其中注册主机的机构 ID"
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "智能代理 ID。此代理必须同时启用\"模板\"和\"注册\"功能"
+
+msgid "ID of the organization"
+msgstr ""
 
 msgid "ID of the user"
 msgstr "用户 ID"
@@ -4961,6 +5023,12 @@ msgstr "这个计算资源不支持 JSON VM 列表"
 msgid "JSON object of the scheduler hint"
 msgstr "调度程序提示的 JSON 对象"
 
+msgid "JWT SSO: Expired JWT token."
+msgstr ""
+
+msgid "JWT SSO: Failed to decode JWT."
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Jwt secret"
 msgstr "Jwt secret"
@@ -5413,6 +5481,12 @@ msgstr "每个子网的域列表"
 
 msgid "List of email notifications"
 msgstr "电子邮件通知列表"
+
+msgid "List of host ids to exclude and not perform the action on"
+msgstr ""
+
+msgid "List of host ids to perform the action on"
+msgstr ""
 
 msgid "List of host statuses"
 msgstr "主机状态列表"
@@ -6009,6 +6083,9 @@ msgstr "名称"
 msgid "Name can't contain spaces"
 msgstr ""
 
+msgid "Name has already been taken"
+msgstr ""
+
 msgid "Name of media"
 msgstr "介质名称"
 
@@ -6310,6 +6387,12 @@ msgstr "没有主机不匹配！"
 
 msgid "No hosts available."
 msgstr "无可用主机。"
+
+msgid "No hosts have been specified"
+msgstr ""
+
+msgid "No hosts matched search, or action unauthorized for selected hosts."
+msgstr ""
 
 msgid "No hosts selected"
 msgstr "未选择主机"
@@ -7039,11 +7122,23 @@ msgstr ""
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
+msgid "Partition '%s'"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "分区表"
 
 msgid "Partition Tables"
 msgstr "分区表"
+
+msgid "Partition allocation"
+msgstr ""
+
+msgid "Partition capacity"
+msgstr ""
+
+msgid "Partition path"
+msgstr ""
 
 msgid "Partition table ID"
 msgstr "分割表 ID"
@@ -7125,6 +7220,9 @@ msgstr "待处理|P"
 msgid "Permission"
 msgstr "权限"
 
+msgid "Permission Denied"
+msgstr ""
+
 msgid "Permission denied"
 msgstr "没有权限"
 
@@ -7186,9 +7284,6 @@ msgstr "Plain"
 
 msgid "Please Confirm"
 msgstr "请确认"
-
-msgid "Please Select an Image"
-msgstr "请选择介质"
 
 msgid "Please check the proxy is configured and running on the host."
 msgstr "请检查代理是否已配置并在此主机上运行"
@@ -7278,8 +7373,8 @@ msgstr "电源状态"
 msgid "Power a Virtual Machine"
 msgstr "开启一个虚拟主机"
 
-msgid "Power has been set to \"%s\" successfully"
-msgstr "电源状态已成功设置为 \"%s\""
+msgid "Power has been set to \\\"%s\\\" successfully"
+msgstr ""
 
 msgid "Power operations are not enabled on this host."
 msgstr "此主机上没有启用电源操作。"
@@ -7412,6 +7507,9 @@ msgstr "置备运行 NX-OS 的交换机。"
 
 msgid "Provisioning only"
 msgstr "只针对于置备"
+
+msgid "Provisioning settings"
+msgstr ""
 
 msgid "Provisioning template"
 msgstr "置备模版"
@@ -7642,6 +7740,9 @@ msgstr "重新生成报告"
 msgid "Region"
 msgstr "区域"
 
+msgid "Register"
+msgstr ""
+
 msgid "Register Host"
 msgstr "注册主机"
 
@@ -7834,9 +7935,6 @@ msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
 msgstr "代表模板呈现的主机对象。"
-
-msgid "Request Failed"
-msgstr "请求失败"
 
 msgid "Request UUID"
 msgstr "请求 UUID"
@@ -8176,6 +8274,9 @@ msgstr "脚本模版"
 msgid "Search"
 msgstr "搜索"
 
+msgid "Search and go"
+msgstr ""
+
 msgid "Search error"
 msgstr ""
 
@@ -8184,6 +8285,9 @@ msgstr "搜索字段"
 
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr "搜索可能会失败或给您错误的结果，因为它包含特殊字符，这些特殊字符是查询关键字，例如 < and >"
+
+msgid "Search string describing which hosts to perform the action on"
+msgstr ""
 
 msgid "Search your logs for request-id"
 msgstr "在日志中搜索请求 ID"
@@ -8206,6 +8310,9 @@ msgstr "安全组"
 msgid "Security groups"
 msgstr "安全组"
 
+msgid "See list of supported browsers: %s"
+msgstr ""
+
 msgid "Select Action"
 msgstr "选择操作"
 
@@ -8226,6 +8333,9 @@ msgstr "选择机构"
 
 msgid "Select a period"
 msgstr "选择一个时期"
+
+msgid "Select all"
+msgstr ""
 
 msgid "Select all items on this page"
 msgstr "选择本页所有项"
@@ -8266,8 +8376,14 @@ msgstr "选择位置"
 msgid "Select media"
 msgstr "选择介质"
 
+msgid "Select none"
+msgstr ""
+
 msgid "Select organizations"
 msgstr "选择机构"
+
+msgid "Select page"
+msgstr ""
 
 msgid "Select partition tables"
 msgstr "选择分区表"
@@ -8459,6 +8575,9 @@ msgstr "设置 REX"
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
 msgstr "设置远程执行。如果设置为 `Yes`，则 SSH 密钥将安装在注册的主机上。继承的值基于 `host_registration_remote_execution` 参数。它可以被继承，例如来自主机组，操作系统，组织。。被覆盖时，所选值将存储在主机参数级别。"
 
+msgid "Shortcuts"
+msgstr ""
+
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "是否应在下次运行安装程序模块时执行 `foreman-rake db:seed`？"
 
@@ -8488,6 +8607,9 @@ msgstr "显示区别"
 
 msgid "Show Experimental Labs"
 msgstr "显示实验室"
+
+msgid "Show New Host Overview Page"
+msgstr ""
 
 msgid "Show a Personal Access Token for a user"
 msgstr "显示用户的个人访问令牌"
@@ -8632,9 +8754,6 @@ msgstr "显示操作系统"
 
 msgid "Show available API links"
 msgstr "显示可用 API 链接"
-
-msgid "Show distribution chart"
-msgstr "显示分布图"
 
 msgid "Show full value"
 msgstr "显示全值"
@@ -9655,6 +9774,9 @@ msgstr "列出 %{listing} 时出错：%{errors}"
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "列出虚拟机时出错：%(status)s%(statusText)s"
 
+msgid "There was an error loading this content."
+msgstr ""
+
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "呈现 %{name} 模板时出错：%{error}"
 
@@ -9800,8 +9922,8 @@ msgstr ""
 msgid "This will change the host power status, are you sure?"
 msgstr "这将更改主机电源状态，确定吗？"
 
-msgid "This will delete the VM and its disks. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "这将会删除虚拟机和它的磁盘，这个行为可以通过全局设置 \"Destroy associated VM on host delete\" 进行改变。"
+msgid "This will delete the VM and its disks. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
+msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr "这将生成一个报告 %s。根据其定义，可能需要很长时间才能处理。"
@@ -9841,6 +9963,12 @@ msgstr "要启用供应商，可以安装 OS 软件包（比如 foreman-libvirt�
 
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
 msgstr "要启用安全模式，请前往“设置”页面，再启用“安全模式渲染”选项。"
+
+msgid "To focus the navigation search bar"
+msgstr ""
+
+msgid "To focus the page search bar"
+msgstr ""
 
 msgid "To launch the VMRC console, you need the VMRC software installed."
 msgstr "要启动 VMRC 控制台，您需要先安装 VMRC 软件。"
@@ -10705,8 +10833,8 @@ msgstr "VM 属性（%s）"
 msgid "VM already associated with a host"
 msgstr "VM 已经与主机关联"
 
-msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "虚拟机和它的磁盘不会被删除，这个行为可以通过全局设置 \"Destroy associated VM on host delete\" 进行改变。"
+msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
+msgstr ""
 
 msgid "VM associated to host %s"
 msgstr "与主机 %s 关联的虚拟机"
@@ -10791,9 +10919,6 @@ msgstr "版本 %{version}  %{copyright} 2009-%{year} Paul Kelly 和 %{author}"
 
 msgid "Very strong"
 msgstr "很强"
-
-msgid "View Chart"
-msgstr "查看图表"
 
 msgid "View in Foreman:"
 msgstr "在 Foreman 中查看："
@@ -10958,6 +11083,9 @@ msgstr "此模板是否被锁定用于编辑"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr "是否显示用于访问实验室功能的菜单（需要重新加载页面）"
 
+msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgstr ""
+
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "分类参数值是否由 Foreman 管理。"
 
@@ -11088,6 +11216,9 @@ msgstr "您没有执行这个操作的授权。"
 
 msgid "You are trying access the preferences of a different user"
 msgstr "您正在试图访问一个不同用户的偏好"
+
+msgid "You are trying to compare the same host."
+msgstr ""
 
 msgid "You are trying to delete your own account"
 msgstr "您要删除您自己的账户"
@@ -11295,6 +11426,9 @@ msgstr "非管理员用户无法更改"
 
 msgid "cannot be changed on an internal protected account"
 msgstr "不能再内部保护账户中进行更改"
+
+msgid "cannot be in the past"
+msgstr ""
 
 msgid "cannot be removed from an internal protected account"
 msgstr "不能从内部包保护账户中删除"
@@ -11523,6 +11657,9 @@ msgstr "根据 RFC921、RFC952 和 RFC1123，主机名只能包含小写字母�
 
 msgid "hostname of the host"
 msgstr "主机的主机名"
+
+msgid "hosts"
+msgstr "主机"
 
 msgid "hours"
 msgstr "小时"
@@ -12059,6 +12196,9 @@ msgstr "使用 %s"
 msgid "using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
 msgstr "使用 %{allocation} GB（共 %{capacity} GB），%{pool_name} 存储池"
 
+msgid "using %{allocation} out of %{capacity}"
+msgstr ""
+
 msgid "valid"
 msgstr "有效"
 
@@ -12103,3 +12243,6 @@ msgstr "无法分配您选择的一些角色"
 
 msgid "you can't change administrator flag"
 msgstr "无法更改管理员标签"
+
+msgid "{hostsCount} will be deleted. This action is irreversible. {br}{br} {cascade} {br}{br} This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\" in {settings}.{br}{br}"
+msgstr ""

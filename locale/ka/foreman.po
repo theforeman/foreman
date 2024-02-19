@@ -80,6 +80,9 @@ msgstr "%s ფილტრი"
 msgid "%s has been disassociated from VM"
 msgstr "%s-ის ასოციაცია ვმ-დან მოხსნილია"
 
+msgid "%s hosts deleted"
+msgstr "%s ჰოსტი წაიშალა"
+
 msgid "%s is an unknown attribute"
 msgstr "%s უცნობი ატრიბუტია"
 
@@ -107,6 +110,9 @@ msgid_plural "%s warning messages"
 msgstr[0] "გაფრთხილების %s შეტყობინება"
 msgstr[1] "გაფრთხილების %s შეტყობინება"
 
+msgid "%s was successfully deleted"
+msgstr "%s წარმატებით წაიშალა"
+
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s კვირის წინ"
@@ -126,6 +132,9 @@ msgstr "%{action} %{vm}"
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} API-ის დოკუმენტაცია"
+
+msgid "%{capacity}"
+msgstr "%{capacity}"
 
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
@@ -259,11 +268,6 @@ msgstr "'%{resource}'-ზე '%{host}'  არ არსებობს"
 msgid "'%{loader}' is not one of %{loaders}"
 msgstr "'%{loader}' არაა ერთერეთი %{loaders}-დან"
 
-msgid "(%s host)"
-msgid_plural "(%s hosts)"
-msgstr[0] "(%s ჰოსტი)"
-msgstr[1] "(%s ჰოსტი)"
-
 msgid "(Miscellaneous)"
 msgstr "(სხვადასხვა)"
 
@@ -368,6 +372,9 @@ msgstr "<dl><dt>სტრიქონი</dt><dd> ყველაფერი �
 
 msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
 msgstr "პროქსიების ჩანართში არჩეული უნდა იყოს ჭკვიანი პროქსი ჩართული გარე IPAM ფუნქციით."
+
+msgid "A class representing %s object"
+msgstr "კლასი, რომელიც %s ობიექტს წარმოადგენს"
 
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
 msgstr ""
@@ -731,9 +738,6 @@ msgstr "ნებისმიერი მდებარეობა"
 msgid "Any organization"
 msgstr "ნებისმიერი ორგანიზაცია"
 
-msgid "Append domain names to the host"
-msgstr "ჰოსტისთვის დომენის სახელის მიწერა"
-
 msgid "Applicable Operating Systems"
 msgstr "შესაბამისი ოპერაციული სისტემები"
 
@@ -777,7 +781,7 @@ msgid "Are you sure you want to delete this report? This action is irreversible.
 msgstr "დარწმუნებული ხართ, რომ გსურთ წაშალოთ ეს ანგარიში? ეს ქმედება შეუქცევადია."
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
-msgstr ""
+msgstr "დარწმუნებული ბრძანდებით, რომ გნებავთ, ეს ვიჯეტი თქვენი სამუშაო დაფიდან წაშალოთ?"
 
 msgid "Are you sure you want to log out?"
 msgstr "დარწმუნებული ბრძანდებით, რომ გნებავთ, გახვიდეთ?"
@@ -871,17 +875,23 @@ msgstr "ვმ-ების Foreman-ის ჰოსტებთან ასო
 msgid "Associate VMs to Hosts"
 msgstr "ვმ-ების ჰოსტებთან ასოცირება"
 
-msgid "Associated %{resource} IDs"
-msgstr "ასოცირებული  %{resource} ID-ები"
-
 msgid "Associated Host"
 msgstr "ასოცირებული ჰოსტი"
+
+msgid "Associated location IDs"
+msgstr "ასოცირებული მდებარეობის ID-ები"
+
+msgid "Associated organization IDs"
+msgstr "ასოცირებული ორგანიზაციის ID-ები"
 
 msgid "Associating VMs is not supported for this compute resource"
 msgstr "VM-ების დაკავშირება არ არის მხარდაჭერილი ამ გამოთვლითი რესურსისთვის"
 
 msgid "Association"
 msgstr "ასოცირება"
+
+msgid "At"
+msgstr "დრო"
 
 msgid "At least one command must be specified"
 msgstr "საჭიროა სულ ცოტა, ერთი ბრძანების მითთება"
@@ -1713,8 +1723,8 @@ msgstr "დადასტურება"
 msgid "Confirm Action"
 msgstr "ქმედების დადასტურება"
 
-msgid "Confirm Hardware Model Deletion"
-msgstr "დაადასტურეთ აპარატურის მოდელის წაშლა"
+msgid "Confirm Deletion"
+msgstr "წაშლის დადასტურება"
 
 msgid "Conflict - %s"
 msgstr "კონფლიქტი - %s"
@@ -1785,6 +1795,12 @@ msgstr "ბირთვისა და პროქსის ვერსიე
 msgid "CoreOS Transpiler Command"
 msgstr "CoreOS-ის ტრანსპილერის ბრძანება"
 
+msgid "CoreOS Transpiler Command Arguments"
+msgstr "CoreOS ტრანსპილერის ბრძანების არგუმენტები"
+
+msgid "CoreOS transpiler (ct) arguments as an comma-separated array"
+msgstr "სრული ბილიკი CoreOS-ის ტრანსპილერამდე (ct) მძიმით გამოყოფილი არგუმენტების მასივის სახით"
+
 msgid "Cores"
 msgstr "ბირთვები"
 
@@ -1841,6 +1857,9 @@ msgstr "ანგარიშის გენერაციის სეცდ�
 
 msgid "Could not locate CA certificate."
 msgstr "CA სერტიფიკატის პოვნა შეუძლებელია."
+
+msgid "Could not parse timestamp '%{timestamp}'"
+msgstr "ვერ დავამუშავე დროის შტამპი '%{timestamp}'"
 
 msgid "Could not recreate a new SSH key"
 msgstr "ახალი SSH გასაღების შექმნის შეცდომა"
@@ -2499,11 +2518,11 @@ msgstr "თვითხელმოწერადი ჩანაწერი�
 msgid "Delete filter?"
 msgstr "წავშალო ფილტრი?"
 
-msgid "Delete host"
-msgstr "ჰოსტის წაშლა"
-
 msgid "Delete host?"
 msgstr "წავშალო ჰოსტი?"
+
+msgid "Delete multiple hosts"
+msgstr "ბევრი ჰოსტის წაშლა"
 
 msgid "Delete realm entry for %s"
 msgstr "რეალმის ჩანაწერის წაშლა %s -სთვის"
@@ -2616,6 +2635,9 @@ msgstr "Kexec-ის აღმოჩენა"
 msgid "Disk"
 msgstr "დისკი"
 
+msgid "Disk '%s'"
+msgstr "დისკი '%s'"
+
 msgid "Disk Mode"
 msgstr "დისკის რეჟიმი"
 
@@ -2627,6 +2649,9 @@ msgstr "დისკის მოცულობა"
 
 msgid "Disk interface"
 msgstr "დისკის ინტერფეისი"
+
+msgid "Disk label"
+msgstr "დისკის ჭდე"
 
 msgid "Disk name"
 msgstr "დისკის სახელი"
@@ -2643,6 +2668,9 @@ msgstr "დისკების ჯამური სივრცე"
 msgid "Display"
 msgstr "ჩვენება"
 
+msgid "Display FQDN for hosts"
+msgstr "ჰოსტებისთვის FQDN-ის ჩვენება"
+
 msgid "Display Type"
 msgstr "ეკრანის ტიპი"
 
@@ -2654,6 +2682,9 @@ msgstr "დამალული პარამეტრების მნი�
 
 msgid "Display hidden values"
 msgstr "დამალული მნიშვნელობების ჩვენება"
+
+msgid "Display names of hosts as FQDNs. If disabled, only display names of hosts as hostnames."
+msgstr ""
 
 msgid "Display the templates that will be used to provision this host"
 msgstr "ამ ჰოსტის სამუშაოდ მომზადებისთვის გამოყენებული შაბლონების ჩვენება"
@@ -2860,6 +2891,12 @@ msgstr "შეიცავს კომენტარს, რომელიც
 
 msgid "Ending IP Address for IP auto suggestion"
 msgstr "IP-ის ავტომატური რჩევის ბოლო მისამართი"
+
+msgid "Enter valid date: YYYY-MM-DD"
+msgstr "შეიყვანეთ სწორი თარიღი: წწწწ-თთ-დდ"
+
+msgid "Enter valid time: HH:MM:SS"
+msgstr "შეიყვანეთ სწორი დრო: სს:წწ:წწ"
 
 msgid "Entries per page"
 msgstr "ჩანაწერი/გვ"
@@ -3069,9 +3106,6 @@ msgstr "FQDN"
 
 msgid "Fact Values"
 msgstr "ფაქტის მნიშვნელობები"
-
-msgid "Fact distribution chart - %s "
-msgstr "ფაქტების განაწილების გრაფიკი - %s "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
@@ -3299,6 +3333,12 @@ msgstr "სახელი"
 msgid "Fedora CoreOS Transpiler Command"
 msgstr "Fedora CoreOS-ის ტრანსპილერის ბრძანება"
 
+msgid "Fedora CoreOS Transpiler Command Arguments"
+msgstr "Fedora CoreOS-ის ტრანსპილერის ბრძანების არგუმენტები"
+
+msgid "Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"
+msgstr "სრული ბილიკი Fedora CoreOS-ის ტრანსპილერამდე (fcct) მძიმით გამოყოფილი არგუმენტების მასივის სახით"
+
 msgid "Fetch TFTP boot files for %s"
 msgstr "%s-თვის TFTP-ით ჩასატვირთი ფაილების გამოთხოვა"
 
@@ -3307,6 +3347,12 @@ msgstr "მიიღეთ სტატუსი, ჩართულია თ�
 
 msgid "Field name"
 msgstr "ველის სახელი"
+
+msgid "Fill out the date and time"
+msgstr "შეავსეთ თარიღი და დრო"
+
+msgid "Fill out the name"
+msgstr "შეავსეთ სახელი"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
@@ -3429,6 +3475,12 @@ msgstr ""
 msgid "For example, this can be useful to configure all the Host NICs."
 msgstr "შეიძლება გამოგადგეთ ჰოსტის ყველა NIC-ის მორგებისას."
 
+msgid "For hosts with compute resources, VMs and their disks will not be deleted."
+msgstr "გამოთვლითი რესურსების მქონე ჰოსტებისთვის, ვმ-ები და მათი დისკები არ წაიშლება."
+
+msgid "For hosts with compute resources, this will delete the VM and its disks."
+msgstr "გამოთვლითი რესურსების მქონე ჰოსტებისთვის ეს ვმ-ს და მის დისკებს წაშლის."
+
 msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
 msgstr ""
 
@@ -3527,9 +3579,6 @@ msgstr "Foreman-ს სატესტო ელფოსტა"
 msgid "Foreman ticketing system"
 msgstr "Foreman-ის ბილეთებს სისტემა"
 
-msgid "Foreman will append domain names when new hosts are provisioned"
-msgstr "ახალი ჰოსტების სამუშაოდ მომზადებისას Foreman-ი მათ სახელს დომენს მიაწერს"
-
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
 
@@ -3608,11 +3657,11 @@ msgstr "აუდიტები სრული სია"
 msgid "Full name describing the domain"
 msgstr "დომენის სრული სახელის აღწერა"
 
-msgid "Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"
-msgstr "სრული ბილიკი CoreOS-ის ტრანსპილერამდე (ct) მძიმით გამოყოფილი არგუმენტების მასივის დართვით"
+msgid "Full path to CoreOS transpiler (ct)"
+msgstr "სრული ბილიკი CoreOS-ის ტრანსპილერამდე (ct)"
 
-msgid "Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"
-msgstr "სრული ბილიკი Fedora CoreOS-ის ტრანსპილერამდე (fcct) მძიმით გამოყოფილი არგუმენტების მასივის დართვით"
+msgid "Full path to Fedora CoreOS transpiler (fcct)"
+msgstr "სრული ბილიკი Fedora CoreOS-ის ტრანსპილერამდე (fcct)"
 
 msgid "Full path to backing image used to create new volumes."
 msgstr "ბილიკი ახალი ტომების შესაქმნელი შაბლონური ასლის ფაილამდე."
@@ -3773,6 +3822,9 @@ msgstr "სტუმარი ოს-ი"
 msgid "HELO/EHLO domain"
 msgstr "HELO/EHLO დომენი"
 
+msgid "HH:MM:SS"
+msgstr "სს:წწ:წწ"
+
 msgid "HTTP Proxies"
 msgstr "HTTP პროქსიები"
 
@@ -3826,9 +3878,6 @@ msgstr "მყარიდისკი"
 
 msgid "Hardware Model"
 msgstr "აპარატურის მოდელი"
-
-msgid "Hardware Model %s was successfully deleted"
-msgstr "აპარატურის მოდელი %s წარმატებით წაიშალა"
 
 msgid "Hardware Models"
 msgstr "აპარატურის მოდელები"
@@ -3887,8 +3936,8 @@ msgstr "ისტორია"
 msgid "Host"
 msgstr "ჰოსტი"
 
-msgid "Host %s has been removed successfully"
-msgstr "ჰოსტი წარმატებით წაიშალა: %s"
+msgid "Host %s deleted"
+msgstr "ჰოსტი %s წაიშალა"
 
 msgid "Host %s is built"
 msgstr "ჰოსტი აგებულია: %s"
@@ -4248,6 +4297,12 @@ msgstr "ჰოსტები, რომლებსაც დარჩენი
 msgid "Hosts that had performed modifications without error"
 msgstr "ჰოსტები, რომლებმაც ცვლილებები შეცდომების გარეშე ჩაატარეს"
 
+msgid "Hosts to explicitly exclude in the action. All other hosts will be included in the action, unless an included parameter is passed as well."
+msgstr ""
+
+msgid "Hosts to include in the action"
+msgstr "ჰოსტები, რომლებზეც ქმედებები გადატარდება"
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "ჰოსტები, რომლებზეც Foreman-ის ანგარიშები გამორთულია"
 
@@ -4337,6 +4392,9 @@ msgstr "მომხმარებლის სახელი"
 msgid "Hypervisor"
 msgstr "ჰაიპერვაიზორი"
 
+msgid "I understand that this action cannot be undone."
+msgstr "მე მესმის, რომ ეს ქმედება შეუქცევადია."
+
 msgid "ID assigned to generating job by the schedule command"
 msgstr "განრიგის ბრძანების მიერ გენერირებადი დავალებისთვის მინიჭებული ID"
 
@@ -4420,6 +4478,9 @@ msgstr "ორგანიზაციის ID, რომელშიც ჰო
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "ჭკვიანი პროქსის ID. პროქზე ჩართული უნდა იყოს ორივე თვისება, \"შაბლონები\" და \"რეგისტრაცია\""
+
+msgid "ID of the organization"
+msgstr "ორგანიზაციის ID"
 
 msgid "ID of the user"
 msgstr "მომხმარებლის ID"
@@ -4966,6 +5027,12 @@ msgstr "ვმ-ების JSON სია ამ გამოთვლით �
 msgid "JSON object of the scheduler hint"
 msgstr "მგეგმავის მინიშნების JSON ობიექტ"
 
+msgid "JWT SSO: Expired JWT token."
+msgstr "JWT SSO: ვადაგასული JWT კოდი."
+
+msgid "JWT SSO: Failed to decode JWT."
+msgstr "JWT SSO: JWT-ის გაშიფვრა ჩავარდა."
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Jwt secret"
 msgstr "Jwt საიდუმლო"
@@ -5418,6 +5485,12 @@ msgstr "დომენების სია თითოეულ ქვექ
 
 msgid "List of email notifications"
 msgstr "ელფოსტის შეტყობინებების სია"
+
+msgid "List of host ids to exclude and not perform the action on"
+msgstr "ქმედების გადატარებისას ამოსაღები ჰოსტების ID-ების სია"
+
+msgid "List of host ids to perform the action on"
+msgstr "ქმედების გადასატარებელი ჰოსტების ID-ების სია"
 
 msgid "List of host statuses"
 msgstr "ყველა ჰოსტის სტატუსის სია"
@@ -6014,6 +6087,9 @@ msgstr "სახელი"
 msgid "Name can't contain spaces"
 msgstr "სახელი არ შეიძლება შეიცავდეს გამოტოვებებს"
 
+msgid "Name has already been taken"
+msgstr "სახელი უკვე დაკავებულია"
+
 msgid "Name of media"
 msgstr "მედიის სახელი"
 
@@ -6315,6 +6391,12 @@ msgstr "შეუსაბამო ჰოსტის გარეშე!"
 
 msgid "No hosts available."
 msgstr "ჰოსტების გარეშე."
+
+msgid "No hosts have been specified"
+msgstr "ჰოსტები მითითებული არაა"
+
+msgid "No hosts matched search, or action unauthorized for selected hosts."
+msgstr "ძებნას ჰოსტები არ დაემთხვა, ან ქმედება მონიშნული ჰოსტებისთვის ავტორიზებული არაა."
 
 msgid "No hosts selected"
 msgstr "ჰოსტები მონიშნული არაა"
@@ -7041,11 +7123,23 @@ msgstr "სტრიქონიდან ჰეშის დამუშავ�
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr "პარამეტრების ტიპის (%s) სტრიქონიდან დამუშავების მხარდაჭერა არ არსებობს"
 
+msgid "Partition '%s'"
+msgstr "დანაყოფი '%s'"
+
 msgid "Partition Table"
 msgstr "დანაყოფების ცხრილი"
 
 msgid "Partition Tables"
 msgstr "დანაყოფის ცხრილები"
+
+msgid "Partition allocation"
+msgstr "დანაყოფის გამოყოფა"
+
+msgid "Partition capacity"
+msgstr "დანაყოფის მოცულობა"
+
+msgid "Partition path"
+msgstr "დანაყოფის ბილიკი"
 
 msgid "Partition table ID"
 msgstr "დანაყოფების ცხრილის ID"
@@ -7127,6 +7221,9 @@ msgstr "P"
 msgid "Permission"
 msgstr "წვდომა"
 
+msgid "Permission Denied"
+msgstr "წვდომა აკრძალულია"
+
 msgid "Permission denied"
 msgstr "წვდომა აკრძალულია"
 
@@ -7188,9 +7285,6 @@ msgstr "უბრალო"
 
 msgid "Please Confirm"
 msgstr "დაადასტურეთ"
-
-msgid "Please Select an Image"
-msgstr "აირჩიეთ ასლი"
 
 msgid "Please check the proxy is configured and running on the host."
 msgstr "დარწმუნდით, ჰოსტზე პროქსი მორგებული და გაშვებულია, თუ არა."
@@ -7278,8 +7372,8 @@ msgstr "კვების სტატუსი"
 msgid "Power a Virtual Machine"
 msgstr "ვირტუალური მანქანის ჩართვა"
 
-msgid "Power has been set to \"%s\" successfully"
-msgstr "კვების სტატუსი წარმატებით იქნა დაყენებული ჰოსტზე: %s"
+msgid "Power has been set to \\\"%s\\\" successfully"
+msgstr "კვების სტატუსი წარმატებით იქნა დაყენებული ჰოსტზე: \\\"%s\"\\"
 
 msgid "Power operations are not enabled on this host."
 msgstr "ამ ჰოსტისთვის კვების ოპერაციები ჩართული არაა."
@@ -7412,6 +7506,9 @@ msgstr "NX-OS-გაშვებული კომუტატორები�
 
 msgid "Provisioning only"
 msgstr "მხოლოდ მუშაობისთვის მომზადებისთვის"
+
+msgid "Provisioning settings"
+msgstr "სამუშაოდ მომზადების მორგება"
 
 msgid "Provisioning template"
 msgstr "მუშაობისთვის მომზადების შაბლონი"
@@ -7642,6 +7739,9 @@ msgstr "ანგარიშის თავიდან გენერაც�
 msgid "Region"
 msgstr "რეგიონი"
 
+msgid "Register"
+msgstr "რესგისტრაცია"
+
 msgid "Register Host"
 msgstr "ჰოსტის რეგისტრაცია"
 
@@ -7836,9 +7936,6 @@ msgstr "რეპოზიტორიის URL / დეტალები, მ
 
 msgid "Represents the host object for which the template is rendered."
 msgstr "წარმოადგენს ჰოსტის ობიექტს, რომლისთვისაც შაბლონი დარენდერდება."
-
-msgid "Request Failed"
-msgstr "მოთხოვნის შეცდომა"
 
 msgid "Request UUID"
 msgstr "მოთხოვნის UUID"
@@ -8180,6 +8277,9 @@ msgstr "სკრიპტის შაბლონი"
 msgid "Search"
 msgstr "_ძებნა"
 
+msgid "Search and go"
+msgstr "ძებნა და გადასვლა"
+
 msgid "Search error"
 msgstr "ძებნის შეცდომა"
 
@@ -8188,6 +8288,9 @@ msgstr "ძებნის ველები"
 
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr "ძიებამ შეიძლება ვერ შეძლოს ან მოგცეთ არასწორი შედეგები, რადგან ის შეიცავს სპეციალურ სიმბოლოებს, რომლებიც არის მოთხოვნის საკვანძო სიტყვები, როგორიცაა < და >"
+
+msgid "Search string describing which hosts to perform the action on"
+msgstr "ქმედების გადასატარებელი ჰოსტების მოსაძებნი სტრიქონი"
 
 msgid "Search your logs for request-id"
 msgstr "ჟურნალში request-id -ის მოძებნა"
@@ -8210,6 +8313,9 @@ msgstr "უსაფრთხოების ჯგუფები"
 msgid "Security groups"
 msgstr "უსაფრთხოების ჯგუფები"
 
+msgid "See list of supported browsers: %s"
+msgstr "იხილეთ მხარდაჭერილი ბრაუზერების სია: %s"
+
 msgid "Select Action"
 msgstr "აირჩიეთ ქმედება"
 
@@ -8230,6 +8336,9 @@ msgstr "აირჩიეთ ორგანიზაცია"
 
 msgid "Select a period"
 msgstr "აირჩიეთ დროის შუალედი"
+
+msgid "Select all"
+msgstr "ყველას მონიშვნა"
 
 msgid "Select all items on this page"
 msgstr "ამ გვერდზე ყველა ჩანაწერის მონიშვნა"
@@ -8270,8 +8379,14 @@ msgstr "აირჩეთ მდებარეობები"
 msgid "Select media"
 msgstr "აირჩიეთ მედია"
 
+msgid "Select none"
+msgstr "მონიშვნის მოხსნა"
+
 msgid "Select organizations"
 msgstr "აირჩეთ ორგანიზაციები"
+
+msgid "Select page"
+msgstr "აირჩიეთ გვერდი"
 
 msgid "Select partition tables"
 msgstr "აირჩიეთ დანაყოფის ცხრილი"
@@ -8464,6 +8579,9 @@ msgstr "REX-ის მორგება"
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
 msgstr ""
 
+msgid "Shortcuts"
+msgstr "მალსახმობები"
+
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr ""
 
@@ -8493,6 +8611,9 @@ msgstr "სხვაობის ჩვენება"
 
 msgid "Show Experimental Labs"
 msgstr "ექსპერიმენტალური ლაბების ჩვენება"
+
+msgid "Show New Host Overview Page"
+msgstr "ახალი ჰოსტის მიმოხილვის გვერდის ჩვენება"
 
 msgid "Show a Personal Access Token for a user"
 msgstr "მომხმარებლის წვდომის პირადი კოდის ჩვენება"
@@ -8637,9 +8758,6 @@ msgstr "ოპერაციული სისტემის ჩვენე�
 
 msgid "Show available API links"
 msgstr "ყველა ხელმისაწვდომი API-ის ბმულის ჩვენება"
-
-msgid "Show distribution chart"
-msgstr "განაწილების გრაფიკის ჩვენება"
 
 msgid "Show full value"
 msgstr "სრული მნიშვნელობის ჩვენება"
@@ -9663,6 +9781,9 @@ msgstr "სიის შეცდომა %{listing}: %{errors}"
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "შეცდომა ვმ-ების სიის მიღებისას: %(status)s %(statusText)s"
 
+msgid "There was an error loading this content."
+msgstr "ამ შემცველობის ჩატვირთვის შეცდომა."
+
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "შაბლონის (%{name}) რენდერის შეცდომა: %{error}"
 
@@ -9808,8 +9929,8 @@ msgstr "ეს წაშლის პარამეტრს შეცვლი
 msgid "This will change the host power status, are you sure?"
 msgstr "ჰოსტის კვების სტატუსი შეიცვლება. დარწმუნებული ბრძანდებით?"
 
-msgid "This will delete the VM and its disks. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "წაშლება ვმ და მისი დისკები. ქცევის შეცვლა შეგიძლიათ გლობალური პარამეტრით \"ჰოსტის წაშლისას ასოცირებული ვმ-ების წაშლა\"."
+msgid "This will delete the VM and its disks. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
+msgstr "წაიშლება ვმ და მისი დისკები. ქცევის შეცვლა შეგიძლიათ გლობალური პარამეტრით \\\"ჰოსტის წაშლისას ასოცირებული ვმ-ების წაშლა\\\"."
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr ""
@@ -9849,6 +9970,12 @@ msgstr ""
 
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
 msgstr ""
+
+msgid "To focus the navigation search bar"
+msgstr "ნავიგაციის ძებნის ზოლზე გადასართავად"
+
+msgid "To focus the page search bar"
+msgstr "გვერდის ძებნის ზოლზე გადასართავად"
 
 msgid "To launch the VMRC console, you need the VMRC software installed."
 msgstr "VMRC კონსოლის გასაშვებად საჭიროა VMRC პროგრამა გეყენოთ."
@@ -10714,8 +10841,8 @@ msgstr "ვმ-ის ატრიბუტები (%s)"
 msgid "VM already associated with a host"
 msgstr "ვმ-ი უკვე ასოცირებულია ჰოსტთან"
 
-msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "ვმ და მისი დისკები არ წაიშლება. ქცევის შეცვლა შეგიძლიათ გლობალური პარამეტრით \"ჰოსტის წაშლისას ასოცირებული ვმ-ების წაშლა\"."
+msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
+msgstr "ვმ და მისი დისკები არ წაიშლება. ქცევის შეცვლა შეგიძლიათ გლობალური პარამეტრით \\\"ჰოსტის წაშლისას ასოცირებული ვმ-ების წაშლა\\\"."
 
 msgid "VM associated to host %s"
 msgstr "ვმ-ი ასოცირდა ჰოსტთან"
@@ -10800,9 +10927,6 @@ msgstr "ვერსია %{version}  %{copyright} 2009-%{year} Paul Kelly and 
 
 msgid "Very strong"
 msgstr "ძალიან ძლიერი"
-
-msgid "View Chart"
-msgstr "დიაგრამის ნახვა"
 
 msgid "View in Foreman:"
 msgstr "Foreman-ში ნახვა:"
@@ -10965,6 +11089,9 @@ msgstr "დაიბლოკება თუ არა შაბლონი �
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr ""
 
+msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgstr ""
+
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "იმართება თუ არა კლასის პარამეტრის მნიშვნელობა Foreman-ის მიერ."
 
@@ -11086,6 +11213,9 @@ msgstr "ამ ქმედებისთვის საჭირო ავტ
 
 msgid "You are trying access the preferences of a different user"
 msgstr "ცდილობთ შეხვიდეთ სხვა მომხმარებლის პარამეტრებში"
+
+msgid "You are trying to compare the same host."
+msgstr ""
 
 msgid "You are trying to delete your own account"
 msgstr "ცდილობთ საკუთარი ანგარიშის წაშლას"
@@ -11293,6 +11423,9 @@ msgstr "არა-ადმინისტრატორს შეცვლა 
 
 msgid "cannot be changed on an internal protected account"
 msgstr "ვერ შეცვლით შიდა დაცულ ანგარშზე"
+
+msgid "cannot be in the past"
+msgstr "წარსულში ვერ იქნება"
 
 msgid "cannot be removed from an internal protected account"
 msgstr "ვერ წაშლით შიდა დაცული ანგარიშიდან"
@@ -11522,6 +11655,9 @@ msgstr ""
 msgid "hostname of the host"
 msgstr "ჰოსტის სახელი"
 
+msgid "hosts"
+msgstr "ჰოსტი"
+
 msgid "hours"
 msgstr "საათი"
 
@@ -11749,7 +11885,7 @@ msgid "must not include periods"
 msgstr "წერტილებს არ უნდა შეიცავდეს"
 
 msgid "must only contain alphanumeric or underscore characters"
-msgstr ""
+msgstr "უნდა შეიცავდეს, მხოლოდ, ალფარიცხვით ან ხაზგახსმის სიმბოლოებს"
 
 msgid "must provide a provider"
 msgstr "მომწოდებლის არჩევა აუცილებელია"
@@ -12058,6 +12194,9 @@ msgstr "%s-ის გამოყენება"
 msgid "using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
 msgstr "გამოიყენება %{allocation} გბ %{capacity} გბ-დან, %{pool_name} საცავის პული"
 
+msgid "using %{allocation} out of %{capacity}"
+msgstr "გამოიყენება %{allocation} %{capacity}-დან"
+
 msgid "valid"
 msgstr "სწორი"
 
@@ -12102,3 +12241,6 @@ msgstr "ზოგიერთი მონიშნული როლის მ
 
 msgid "you can't change administrator flag"
 msgstr "ადმინისტრატორის ალმის შეცვლა არ შეგიძლიათ"
+
+msgid "{hostsCount} will be deleted. This action is irreversible. {br}{br} {cascade} {br}{br} This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\" in {settings}.{br}{br}"
+msgstr "{hostsCount} წაიშლება. ქმედება შეუქცევადია. {br}{br} {cascade} {br}{br} ამ ქცევის შეცვლა შეგიძლიათ გლობალური პარამეტრით \\\"ჰოსტის წაშლისას ასოცირებული ვმ-ის განადგურება\\\" გვერდზე {settings}.{br}{br}"
