@@ -90,6 +90,9 @@ msgstr "%s filtrů"
 msgid "%s has been disassociated from VM"
 msgstr ""
 
+msgid "%s hosts deleted"
+msgstr ""
+
 msgid "%s is an unknown attribute"
 msgstr "%s není známý atribut"
 
@@ -121,6 +124,9 @@ msgid_plural "%s warning messages"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%s was successfully deleted"
+msgstr ""
+
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "před %s týdnem"
@@ -142,6 +148,9 @@ msgstr "%{action} %{vm}"
 
 msgid "%{app_name} API documentation homepage"
 msgstr "domovská stránka dokumentace aplikačního programového rozhraní pro %{app_name}"
+
+msgid "%{capacity}"
+msgstr ""
 
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
@@ -275,11 +284,6 @@ msgstr "„%{host}“ nenalezeno na „%{resource}“"
 msgid "'%{loader}' is not one of %{loaders}"
 msgstr "„%{loader}“ není jedno z %{loaders}"
 
-msgid "(%s host)"
-msgid_plural "(%s hosts)"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "(Miscellaneous)"
 msgstr "(různé)"
 
@@ -371,6 +375,9 @@ msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</
 msgstr ""
 
 msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
+msgstr ""
+
+msgid "A class representing %s object"
 msgstr ""
 
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
@@ -735,9 +742,6 @@ msgstr ""
 msgid "Any organization"
 msgstr ""
 
-msgid "Append domain names to the host"
-msgstr ""
-
 msgid "Applicable Operating Systems"
 msgstr "Použitelné operační systémy"
 
@@ -875,10 +879,13 @@ msgstr "Přiřadit virt. stroje k Foreman hostitelům"
 msgid "Associate VMs to Hosts"
 msgstr "Přiřadit virt. stroje k hostitelům"
 
-msgid "Associated %{resource} IDs"
+msgid "Associated Host"
 msgstr ""
 
-msgid "Associated Host"
+msgid "Associated location IDs"
+msgstr ""
+
+msgid "Associated organization IDs"
 msgstr ""
 
 msgid "Associating VMs is not supported for this compute resource"
@@ -886,6 +893,9 @@ msgstr ""
 
 msgid "Association"
 msgstr "Přiřazení"
+
+msgid "At"
+msgstr "V"
 
 msgid "At least one command must be specified"
 msgstr ""
@@ -1717,7 +1727,7 @@ msgstr "Potvrdit"
 msgid "Confirm Action"
 msgstr "Potvrďte akci"
 
-msgid "Confirm Hardware Model Deletion"
+msgid "Confirm Deletion"
 msgstr ""
 
 msgid "Conflict - %s"
@@ -1789,6 +1799,12 @@ msgstr ""
 msgid "CoreOS Transpiler Command"
 msgstr ""
 
+msgid "CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "CoreOS transpiler (ct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Cores"
 msgstr "Jádra"
 
@@ -1844,6 +1860,9 @@ msgid "Could not generate the report, check the form for error messages"
 msgstr ""
 
 msgid "Could not locate CA certificate."
+msgstr ""
+
+msgid "Could not parse timestamp '%{timestamp}'"
 msgstr ""
 
 msgid "Could not recreate a new SSH key"
@@ -2503,10 +2522,10 @@ msgstr ""
 msgid "Delete filter?"
 msgstr "Smazat filtr?"
 
-msgid "Delete host"
-msgstr "Smazat stroj"
-
 msgid "Delete host?"
+msgstr ""
+
+msgid "Delete multiple hosts"
 msgstr ""
 
 msgid "Delete realm entry for %s"
@@ -2620,6 +2639,9 @@ msgstr ""
 msgid "Disk"
 msgstr "Disk"
 
+msgid "Disk '%s'"
+msgstr ""
+
 msgid "Disk Mode"
 msgstr "Režim disku"
 
@@ -2630,6 +2652,9 @@ msgid "Disk capacity"
 msgstr ""
 
 msgid "Disk interface"
+msgstr ""
+
+msgid "Disk label"
 msgstr ""
 
 msgid "Disk name"
@@ -2647,6 +2672,9 @@ msgstr ""
 msgid "Display"
 msgstr "Zobrazení"
 
+msgid "Display FQDN for hosts"
+msgstr ""
+
 msgid "Display Type"
 msgstr "Typ zobrazení"
 
@@ -2658,6 +2686,9 @@ msgstr "Zobrazit hodnoty skrytého parametru"
 
 msgid "Display hidden values"
 msgstr "Zobrazit skryté hodnoty"
+
+msgid "Display names of hosts as FQDNs. If disabled, only display names of hosts as hostnames."
+msgstr ""
 
 msgid "Display the templates that will be used to provision this host"
 msgstr "Zobrazit šablony které budou použity pro providování tohoto stroje"
@@ -2864,6 +2895,12 @@ msgstr ""
 
 msgid "Ending IP Address for IP auto suggestion"
 msgstr "Koncová IP adresa pro automatické doporučování IP adres"
+
+msgid "Enter valid date: YYYY-MM-DD"
+msgstr ""
+
+msgid "Enter valid time: HH:MM:SS"
+msgstr ""
 
 msgid "Entries per page"
 msgstr "Položek na stránku"
@@ -3073,9 +3110,6 @@ msgstr ""
 
 msgid "Fact Values"
 msgstr "Hodnoty faktu"
-
-msgid "Fact distribution chart - %s "
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
@@ -3301,6 +3335,12 @@ msgstr "Feature|Název"
 msgid "Fedora CoreOS Transpiler Command"
 msgstr ""
 
+msgid "Fedora CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Fetch TFTP boot files for %s"
 msgstr ""
 
@@ -3309,6 +3349,12 @@ msgstr ""
 
 msgid "Field name"
 msgstr "Název kolonky"
+
+msgid "Fill out the date and time"
+msgstr ""
+
+msgid "Fill out the name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
@@ -3431,6 +3477,12 @@ msgstr ""
 msgid "For example, this can be useful to configure all the Host NICs."
 msgstr ""
 
+msgid "For hosts with compute resources, VMs and their disks will not be deleted."
+msgstr ""
+
+msgid "For hosts with compute resources, this will delete the VM and its disks."
+msgstr ""
+
 msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
 msgstr ""
 
@@ -3529,9 +3581,6 @@ msgstr ""
 msgid "Foreman ticketing system"
 msgstr ""
 
-msgid "Foreman will append domain names when new hosts are provisioned"
-msgstr ""
-
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr ""
 
@@ -3610,10 +3659,10 @@ msgstr ""
 msgid "Full name describing the domain"
 msgstr "Úplný název popisující doménu"
 
-msgid "Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"
+msgid "Full path to CoreOS transpiler (ct)"
 msgstr ""
 
-msgid "Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"
+msgid "Full path to Fedora CoreOS transpiler (fcct)"
 msgstr ""
 
 msgid "Full path to backing image used to create new volumes."
@@ -3775,6 +3824,9 @@ msgstr "Operační systém v hostovi"
 msgid "HELO/EHLO domain"
 msgstr ""
 
+msgid "HH:MM:SS"
+msgstr ""
+
 msgid "HTTP Proxies"
 msgstr "HTTP proxy"
 
@@ -3828,9 +3880,6 @@ msgstr "Pevný disk"
 
 msgid "Hardware Model"
 msgstr "Model hardware"
-
-msgid "Hardware Model %s was successfully deleted"
-msgstr ""
 
 msgid "Hardware Models"
 msgstr "Modely hardware"
@@ -3889,7 +3938,7 @@ msgstr "Historie"
 msgid "Host"
 msgstr "Stroj"
 
-msgid "Host %s has been removed successfully"
+msgid "Host %s deleted"
 msgstr ""
 
 msgid "Host %s is built"
@@ -4250,6 +4299,12 @@ msgstr "Stroje, na kterých čekají na uplatnění změny a které mají zapnut
 msgid "Hosts that had performed modifications without error"
 msgstr "Stroje které provedly úpravy bez chyb"
 
+msgid "Hosts to explicitly exclude in the action. All other hosts will be included in the action, unless an included parameter is passed as well."
+msgstr ""
+
+msgid "Hosts to include in the action"
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr ""
 
@@ -4339,6 +4394,9 @@ msgstr "HttpProxy|Uživatelské jméno"
 msgid "Hypervisor"
 msgstr "Hypervizor"
 
+msgid "I understand that this action cannot be undone."
+msgstr ""
+
 msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
@@ -4421,6 +4479,9 @@ msgid "ID of the Organization to register the host in"
 msgstr ""
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
+msgstr ""
+
+msgid "ID of the organization"
 msgstr ""
 
 msgid "ID of the user"
@@ -4968,6 +5029,12 @@ msgstr "Vypsání virt. strojů ve formátu JSON není tímto výpočetním pros
 msgid "JSON object of the scheduler hint"
 msgstr ""
 
+msgid "JWT SSO: Expired JWT token."
+msgstr ""
+
+msgid "JWT SSO: Failed to decode JWT."
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Jwt secret"
 msgstr ""
@@ -5419,6 +5486,12 @@ msgid "List of domains per subnet"
 msgstr ""
 
 msgid "List of email notifications"
+msgstr ""
+
+msgid "List of host ids to exclude and not perform the action on"
+msgstr ""
+
+msgid "List of host ids to perform the action on"
 msgstr ""
 
 msgid "List of host statuses"
@@ -6016,6 +6089,9 @@ msgstr "Název"
 msgid "Name can't contain spaces"
 msgstr ""
 
+msgid "Name has already been taken"
+msgstr ""
+
 msgid "Name of media"
 msgstr "Název média"
 
@@ -6317,6 +6393,12 @@ msgstr ""
 
 msgid "No hosts available."
 msgstr "Nejsou k dispozici žádné stroje."
+
+msgid "No hosts have been specified"
+msgstr ""
+
+msgid "No hosts matched search, or action unauthorized for selected hosts."
+msgstr ""
 
 msgid "No hosts selected"
 msgstr "Nejsou vybrány žádné stroje"
@@ -7041,11 +7123,23 @@ msgstr ""
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
+msgid "Partition '%s'"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "Tabulka rozdělení úložiště"
 
 msgid "Partition Tables"
 msgstr "Tabulky rozdělení úložiště"
+
+msgid "Partition allocation"
+msgstr ""
+
+msgid "Partition capacity"
+msgstr ""
+
+msgid "Partition path"
+msgstr ""
 
 msgid "Partition table ID"
 msgstr ""
@@ -7127,6 +7221,9 @@ msgstr ""
 msgid "Permission"
 msgstr "Oprávnění"
 
+msgid "Permission Denied"
+msgstr ""
+
 msgid "Permission denied"
 msgstr "Oprávnění odepřeno"
 
@@ -7188,9 +7285,6 @@ msgstr ""
 
 msgid "Please Confirm"
 msgstr "Potvrďte"
-
-msgid "Please Select an Image"
-msgstr "Vyberte obraz"
 
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Zkontrolujte zda je na hostiteli nastavená a spuštěná proxy."
@@ -7278,7 +7372,7 @@ msgstr ""
 msgid "Power a Virtual Machine"
 msgstr ""
 
-msgid "Power has been set to \"%s\" successfully"
+msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr ""
 
 msgid "Power operations are not enabled on this host."
@@ -7411,6 +7505,9 @@ msgid "Provisioning for switches running NX-OS."
 msgstr ""
 
 msgid "Provisioning only"
+msgstr ""
+
+msgid "Provisioning settings"
 msgstr ""
 
 msgid "Provisioning template"
@@ -7640,6 +7737,9 @@ msgstr ""
 msgid "Region"
 msgstr "Oblast"
 
+msgid "Register"
+msgstr ""
+
 msgid "Register Host"
 msgstr "Zaregistrovat stroj"
 
@@ -7833,9 +7933,6 @@ msgid "Repository URL / details, for example for Debian OS family: 'deb http://d
 msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
-msgstr ""
-
-msgid "Request Failed"
 msgstr ""
 
 msgid "Request UUID"
@@ -8178,6 +8275,9 @@ msgstr "Šablona skriptu"
 msgid "Search"
 msgstr "Hledat"
 
+msgid "Search and go"
+msgstr ""
+
 msgid "Search error"
 msgstr ""
 
@@ -8185,6 +8285,9 @@ msgid "Search fields"
 msgstr ""
 
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
+msgstr ""
+
+msgid "Search string describing which hosts to perform the action on"
 msgstr ""
 
 msgid "Search your logs for request-id"
@@ -8208,6 +8311,9 @@ msgstr ""
 msgid "Security groups"
 msgstr "Skupiny zabezpečení"
 
+msgid "See list of supported browsers: %s"
+msgstr ""
+
 msgid "Select Action"
 msgstr "Vybrat akci"
 
@@ -8228,6 +8334,9 @@ msgstr "Vybrat organizaci"
 
 msgid "Select a period"
 msgstr "Vybrat periodu"
+
+msgid "Select all"
+msgstr ""
 
 msgid "Select all items on this page"
 msgstr ""
@@ -8268,8 +8377,14 @@ msgstr "Vybrat umístění"
 msgid "Select media"
 msgstr "Vybrat médium"
 
+msgid "Select none"
+msgstr ""
+
 msgid "Select organizations"
 msgstr "Vybrat organizace"
+
+msgid "Select page"
+msgstr ""
 
 msgid "Select partition tables"
 msgstr "Vybrat tabulky rozdělení úložiště"
@@ -8462,6 +8577,9 @@ msgstr ""
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
 msgstr ""
 
+msgid "Shortcuts"
+msgstr ""
+
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr ""
 
@@ -8490,6 +8608,9 @@ msgid "Show Diff"
 msgstr "Zobrazit rozdíl"
 
 msgid "Show Experimental Labs"
+msgstr ""
+
+msgid "Show New Host Overview Page"
 msgstr ""
 
 msgid "Show a Personal Access Token for a user"
@@ -8635,9 +8756,6 @@ msgstr "Zobrazit operační systém"
 
 msgid "Show available API links"
 msgstr ""
-
-msgid "Show distribution chart"
-msgstr "Zobrazit distribuční graf"
 
 msgid "Show full value"
 msgstr "Zobrazit celou hodnotu"
@@ -9663,6 +9781,9 @@ msgstr "Došlo k chybě při vypisování %{listing}: %{errors}"
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "Došlo k chybě při vypisování virt. strojů: %(status)s %(statusText)s"
 
+msgid "There was an error loading this content."
+msgstr ""
+
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr ""
 
@@ -9806,7 +9927,7 @@ msgstr ""
 msgid "This will change the host power status, are you sure?"
 msgstr ""
 
-msgid "This will delete the VM and its disks. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
+msgid "This will delete the VM and its disks. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
 msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
@@ -9846,6 +9967,12 @@ msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt
 msgstr ""
 
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
+msgstr ""
+
+msgid "To focus the navigation search bar"
+msgstr ""
+
+msgid "To focus the page search bar"
 msgstr ""
 
 msgid "To launch the VMRC console, you need the VMRC software installed."
@@ -10710,7 +10837,7 @@ msgstr "Atributy virt. stroje (%s)"
 msgid "VM already associated with a host"
 msgstr "Virt. stroj už je přiřazený k hostiteli"
 
-msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
+msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
 msgstr ""
 
 msgid "VM associated to host %s"
@@ -10796,9 +10923,6 @@ msgstr "Verze %{version}  %{copyright} 2009-%{year} Paul Kelly a %{author}"
 
 msgid "Very strong"
 msgstr "Velmi silné"
-
-msgid "View Chart"
-msgstr "Zobrazit graf"
 
 msgid "View in Foreman:"
 msgstr "Zobrazit ve Foreman:"
@@ -10955,6 +11079,9 @@ msgstr "Zda šablona je či není uzamčena pro úpravy"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr ""
 
+msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgstr ""
+
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr ""
 
@@ -11075,6 +11202,9 @@ msgid "You are not authorized to perform this action."
 msgstr ""
 
 msgid "You are trying access the preferences of a different user"
+msgstr ""
+
+msgid "You are trying to compare the same host."
 msgstr ""
 
 msgid "You are trying to delete your own account"
@@ -11283,6 +11413,9 @@ msgstr ""
 
 msgid "cannot be changed on an internal protected account"
 msgstr "není možné změnit na interním chráněném účtu"
+
+msgid "cannot be in the past"
+msgstr ""
 
 msgid "cannot be removed from an internal protected account"
 msgstr "není možné odebrat z interního chráněného účtu"
@@ -11511,6 +11644,9 @@ msgstr ""
 
 msgid "hostname of the host"
 msgstr "název stroje hostitele"
+
+msgid "hosts"
+msgstr "stroje"
 
 msgid "hours"
 msgstr ""
@@ -12045,6 +12181,9 @@ msgstr "s použitím %s"
 msgid "using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
 msgstr "používá se %{allocation} GB z %{capacity} GB, %{pool_name} fondu úložiště"
 
+msgid "using %{allocation} out of %{capacity}"
+msgstr ""
+
 msgid "valid"
 msgstr "platný"
 
@@ -12088,4 +12227,7 @@ msgid "you can't assign some of roles you selected"
 msgstr ""
 
 msgid "you can't change administrator flag"
+msgstr ""
+
+msgid "{hostsCount} will be deleted. This action is irreversible. {br}{br} {cascade} {br}{br} This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\" in {settings}.{br}{br}"
 msgstr ""

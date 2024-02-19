@@ -108,6 +108,9 @@ msgstr "Filtros"
 msgid "%s has been disassociated from VM"
 msgstr "%s ya no está asociado a la máquina virtual"
 
+msgid "%s hosts deleted"
+msgstr ""
+
 msgid "%s is an unknown attribute"
 msgstr "%s es un atributo desconocido"
 
@@ -138,6 +141,9 @@ msgstr[0] "%s mensaje de advertencia"
 msgstr[1] "%s mensajes de advertencia"
 msgstr[2] "%s mensajes de advertencia"
 
+msgid "%s was successfully deleted"
+msgstr ""
+
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "Hace %s semana"
@@ -158,6 +164,9 @@ msgstr "%{action} %{vm}"
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} Página de inicio de la documentación de la API"
+
+msgid "%{capacity}"
+msgstr ""
 
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
@@ -294,12 +303,6 @@ msgstr "'%{host}' no se encuentra en '%{resource}'"
 msgid "'%{loader}' is not one of %{loaders}"
 msgstr "'%{loader}' no es uno de %{loaders}"
 
-msgid "(%s host)"
-msgid_plural "(%s hosts)"
-msgstr[0] "(%s host)"
-msgstr[1] "(%s hosts)"
-msgstr[2] "(%s hosts)"
-
 msgid "(Miscellaneous)"
 msgstr "(Varios)"
 
@@ -413,6 +416,9 @@ msgstr "<dl><dt>String</dt> <dd>Todo se convierte en un string.</dd><dt>Boolean<
 
 msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
 msgstr "En la pestaña de proxies se debe seleccionar un proxy inteligente con una función de IPAM externo activada."
+
+msgid "A class representing %s object"
+msgstr ""
 
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
 msgstr "Un perfil de cómputo es una forma de expresar un conjunto de valores predeterminados para las MV creadas en un recurso de cómputo específico que se pueden asignar a una etiqueta definida por el operador.  Esto significa que el administrador puede expresar, por ejemplo, lo que significa 'Small', 'Medium' o 'Large' ('pequeño', 'mediano' o 'grande') en todos los recursos de cómputo individuales de una instalación determinada."
@@ -778,9 +784,6 @@ msgstr ""
 msgid "Any organization"
 msgstr ""
 
-msgid "Append domain names to the host"
-msgstr "Anexar nombres de dominio  al host"
-
 msgid "Applicable Operating Systems"
 msgstr "Sistemas operativos aplicables"
 
@@ -919,17 +922,23 @@ msgstr "Asociar máquinas virtuales a hosts de Foreman"
 msgid "Associate VMs to Hosts"
 msgstr "Asociar máquinas virtuales a hosts"
 
-msgid "Associated %{resource} IDs"
-msgstr "Asociado %{resource} IDs"
-
 msgid "Associated Host"
 msgstr "Host asociado"
+
+msgid "Associated location IDs"
+msgstr ""
+
+msgid "Associated organization IDs"
+msgstr ""
 
 msgid "Associating VMs is not supported for this compute resource"
 msgstr "La asociación de MV no se admite para este recurso de cómputo."
 
 msgid "Association"
 msgstr "Asociación"
+
+msgid "At"
+msgstr "En"
 
 msgid "At least one command must be specified"
 msgstr "Se debe especificar al menos un comando"
@@ -1761,8 +1770,8 @@ msgstr "Confirmar"
 msgid "Confirm Action"
 msgstr "Confirmar la acción"
 
-msgid "Confirm Hardware Model Deletion"
-msgstr "Confirmar la eliminación del modelo de hardware"
+msgid "Confirm Deletion"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "Conflicto - %s"
@@ -1833,6 +1842,12 @@ msgstr "Las versiones del núcleo y del proxy no coinciden. foreman: %{foreman_v
 msgid "CoreOS Transpiler Command"
 msgstr "Comando del transpilador de CoreOS"
 
+msgid "CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "CoreOS transpiler (ct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Cores"
 msgstr "Núcleos"
 
@@ -1889,6 +1904,9 @@ msgstr "No se pudo generar el informe; revise el formulario para ver los mensaje
 
 msgid "Could not locate CA certificate."
 msgstr "No se pudo ubicar el certificado CA."
+
+msgid "Could not parse timestamp '%{timestamp}'"
+msgstr ""
 
 msgid "Could not recreate a new SSH key"
 msgstr "No fue posible recrear una nueva clave SSH"
@@ -2547,11 +2565,11 @@ msgstr "Eliminar entrada de autofirmado"
 msgid "Delete filter?"
 msgstr "¿Borrar el filtro?"
 
-msgid "Delete host"
-msgstr "Borrar hosts"
-
 msgid "Delete host?"
 msgstr "Borrar hosts"
+
+msgid "Delete multiple hosts"
+msgstr ""
 
 msgid "Delete realm entry for %s"
 msgstr "Borrar entrada de reino para %s"
@@ -2664,6 +2682,9 @@ msgstr ""
 msgid "Disk"
 msgstr "Disco"
 
+msgid "Disk '%s'"
+msgstr ""
+
 msgid "Disk Mode"
 msgstr "Modo de disco"
 
@@ -2675,6 +2696,9 @@ msgstr ""
 
 msgid "Disk interface"
 msgstr "Interfaz de disco"
+
+msgid "Disk label"
+msgstr ""
 
 msgid "Disk name"
 msgstr "Nombre de disco"
@@ -2691,6 +2715,9 @@ msgstr ""
 msgid "Display"
 msgstr "Mostrar"
 
+msgid "Display FQDN for hosts"
+msgstr ""
+
 msgid "Display Type"
 msgstr "Mostrar tipo"
 
@@ -2702,6 +2729,9 @@ msgstr "Mostrar valores de parámetros ocultos"
 
 msgid "Display hidden values"
 msgstr "Mostrar valores ocultos"
+
+msgid "Display names of hosts as FQDNs. If disabled, only display names of hosts as hostnames."
+msgstr ""
 
 msgid "Display the templates that will be used to provision this host"
 msgstr "Mostrar las plantillas que se van a utilizar para aprovisionar este host"
@@ -2909,6 +2939,12 @@ msgstr "Encierra un comentario que se ignora durante la representación de la pl
 
 msgid "Ending IP Address for IP auto suggestion"
 msgstr "Dirección IP final para sugerencias"
+
+msgid "Enter valid date: YYYY-MM-DD"
+msgstr ""
+
+msgid "Enter valid time: HH:MM:SS"
+msgstr ""
 
 msgid "Entries per page"
 msgstr "Entradas por página"
@@ -3118,9 +3154,6 @@ msgstr "FQDN"
 
 msgid "Fact Values"
 msgstr "Valores de eventos"
-
-msgid "Fact distribution chart - %s "
-msgstr "Cuadro de distribución de eventos "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
@@ -3349,6 +3382,12 @@ msgstr "Nombre"
 msgid "Fedora CoreOS Transpiler Command"
 msgstr "Comando Transpiler de Fedora CoreOS"
 
+msgid "Fedora CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Fetch TFTP boot files for %s"
 msgstr "Recolectar archivos de arranque TFTP para %s"
 
@@ -3357,6 +3396,12 @@ msgstr "Obtener el estado de si el huésped está encendido o no. Los hosts admi
 
 msgid "Field name"
 msgstr "Nombre de campo"
+
+msgid "Fill out the date and time"
+msgstr ""
+
+msgid "Fill out the name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
@@ -3481,6 +3526,12 @@ msgstr ""
 msgid "For example, this can be useful to configure all the Host NICs."
 msgstr "Por ejemplo, esto puede ser útil para configurar todos los NICs del Host."
 
+msgid "For hosts with compute resources, VMs and their disks will not be deleted."
+msgstr ""
+
+msgid "For hosts with compute resources, this will delete the VM and its disks."
+msgstr ""
+
 msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
 msgstr "En el caso del aprovisionamiento basado en imágenes que utiliza una plantilla de finalización, se utilizará el IP de la interfaz como el destino de SSH."
 
@@ -3579,9 +3630,6 @@ msgstr "Correo electrónico de prueba de Foreman"
 msgid "Foreman ticketing system"
 msgstr "Sistema de tiquetes Foreman"
 
-msgid "Foreman will append domain names when new hosts are provisioned"
-msgstr "Foreman anexará nombres de dominio cuando se aprovisionen los hosts nuevos"
-
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman automatizará la firma de certificados tras el aprovisionamiento de un nuevo host"
 
@@ -3660,11 +3708,11 @@ msgstr "Lista completa de auditorías"
 msgid "Full name describing the domain"
 msgstr "Nombre completo que describe el dominio"
 
-msgid "Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"
-msgstr "Ruta completa al transpilador CoreOS (ct) con argumentos como una matriz separada por comas"
+msgid "Full path to CoreOS transpiler (ct)"
+msgstr ""
 
-msgid "Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"
-msgstr "Ruta completa al transpilador de Fedora CoreOS (fcct) con argumentos como una matriz separada por comas"
+msgid "Full path to Fedora CoreOS transpiler (fcct)"
+msgstr ""
 
 msgid "Full path to backing image used to create new volumes."
 msgstr "Ruta completa a la imagen de respaldo que se usa para crear nuevos volúmenes."
@@ -3825,6 +3873,9 @@ msgstr "Sistema operativo invitado"
 msgid "HELO/EHLO domain"
 msgstr "Dominio HELO/EHLO"
 
+msgid "HH:MM:SS"
+msgstr ""
+
 msgid "HTTP Proxies"
 msgstr "Proxis HTTP"
 
@@ -3878,9 +3929,6 @@ msgstr "Disco duro"
 
 msgid "Hardware Model"
 msgstr "Modelo del hardware"
-
-msgid "Hardware Model %s was successfully deleted"
-msgstr "El modelo de hardware %s ha sido eliminado con éxito"
 
 msgid "Hardware Models"
 msgstr "Modelos de hardware"
@@ -3939,8 +3987,8 @@ msgstr "Historial"
 msgid "Host"
 msgstr "host"
 
-msgid "Host %s has been removed successfully"
-msgstr "El host %s ha sido eliminado con éxito"
+msgid "Host %s deleted"
+msgstr ""
 
 msgid "Host %s is built"
 msgstr "Anfitrión %s se construye"
@@ -4303,6 +4351,12 @@ msgstr "Hosts que tenían cambios pendientes con alertas habilitadas"
 msgid "Hosts that had performed modifications without error"
 msgstr "Hosts que han realizado modificaciones sin errores"
 
+msgid "Hosts to explicitly exclude in the action. All other hosts will be included in the action, unless an included parameter is passed as well."
+msgstr ""
+
+msgid "Hosts to include in the action"
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "Hosts en los que los informes de Foreman están deshabilitados"
 
@@ -4392,6 +4446,9 @@ msgstr "HttpProxy|Nombre de usuario"
 msgid "Hypervisor"
 msgstr "Hipervisor"
 
+msgid "I understand that this action cannot be undone."
+msgstr ""
+
 msgid "ID assigned to generating job by the schedule command"
 msgstr "ID asignado a la generación del trabajo por el comando de programación"
 
@@ -4475,6 +4532,9 @@ msgstr "ID de la Organización en la que se va a registrar el host"
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "ID del Proxy Inteligente. Este Proxy debe tener activadas las funciones \"Plantillas\" y \"Registro\"."
+
+msgid "ID of the organization"
+msgstr ""
 
 msgid "ID of the user"
 msgstr "ID del usuario"
@@ -5029,6 +5089,12 @@ msgstr "La lista JSON VM no se admite en este recurso de computación."
 msgid "JSON object of the scheduler hint"
 msgstr "Objeto JSON del indicador de programador"
 
+msgid "JWT SSO: Expired JWT token."
+msgstr ""
+
+msgid "JWT SSO: Failed to decode JWT."
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Jwt secret"
 msgstr "Jwt secreto"
@@ -5481,6 +5547,12 @@ msgstr "Lista de dominios por subred"
 
 msgid "List of email notifications"
 msgstr "Lista de notificaciones por correo electrónico"
+
+msgid "List of host ids to exclude and not perform the action on"
+msgstr ""
+
+msgid "List of host ids to perform the action on"
+msgstr ""
 
 msgid "List of host statuses"
 msgstr "Lista de estados de los anfitriones"
@@ -6077,6 +6149,9 @@ msgstr "Nombre"
 msgid "Name can't contain spaces"
 msgstr ""
 
+msgid "Name has already been taken"
+msgstr ""
+
 msgid "Name of media"
 msgstr "Nombre de medio"
 
@@ -6378,6 +6453,12 @@ msgstr "¡Ningún hosts es discordante!"
 
 msgid "No hosts available."
 msgstr "No hay hosts disponibles."
+
+msgid "No hosts have been specified"
+msgstr ""
+
+msgid "No hosts matched search, or action unauthorized for selected hosts."
+msgstr ""
 
 msgid "No hosts selected"
 msgstr "Ningún host seleccionado"
@@ -7107,11 +7188,23 @@ msgstr ""
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
+msgid "Partition '%s'"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "Tabla de partición"
 
 msgid "Partition Tables"
 msgstr "Tablas de particiones"
+
+msgid "Partition allocation"
+msgstr ""
+
+msgid "Partition capacity"
+msgstr ""
+
+msgid "Partition path"
+msgstr ""
 
 msgid "Partition table ID"
 msgstr "ID de la tabla de particiones"
@@ -7193,6 +7286,9 @@ msgstr "P"
 msgid "Permission"
 msgstr "Permiso"
 
+msgid "Permission Denied"
+msgstr ""
+
 msgid "Permission denied"
 msgstr "Permiso negado"
 
@@ -7254,9 +7350,6 @@ msgstr "Sin formato"
 
 msgid "Please Confirm"
 msgstr "Confirmar"
-
-msgid "Please Select an Image"
-msgstr "Seleccione una imagen"
 
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Verificar si el Proxy está configurado y ejecutándose en el host."
@@ -7346,8 +7439,8 @@ msgstr "Estado de energía"
 msgid "Power a Virtual Machine"
 msgstr "Encender una máquina virtual"
 
-msgid "Power has been set to \"%s\" successfully"
-msgstr "La energía se ha ajustado a \"%s\" con éxito"
+msgid "Power has been set to \\\"%s\\\" successfully"
+msgstr ""
 
 msgid "Power operations are not enabled on this host."
 msgstr "Las operaciones de encendido no están habilitadas en este host."
@@ -7480,6 +7573,9 @@ msgstr "Aprovisionamiento para switches que ejecutan NX-OS"
 
 msgid "Provisioning only"
 msgstr "Solo para aprovisionamiento"
+
+msgid "Provisioning settings"
+msgstr ""
 
 msgid "Provisioning template"
 msgstr "Plantilla de aprovisionamiento"
@@ -7710,6 +7806,9 @@ msgstr "Generar informe"
 msgid "Region"
 msgstr "Región"
 
+msgid "Register"
+msgstr ""
+
 msgid "Register Host"
 msgstr "Registrar host"
 
@@ -7906,9 +8005,6 @@ msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
 msgstr "Representa el objeto anfitrión para el que se renderiza la plantilla."
-
-msgid "Request Failed"
-msgstr "Error en la solicitud"
 
 msgid "Request UUID"
 msgstr "Solicitar UUID"
@@ -8252,6 +8348,9 @@ msgstr "Plantilla de script"
 msgid "Search"
 msgstr "Buscar"
 
+msgid "Search and go"
+msgstr ""
+
 msgid "Search error"
 msgstr ""
 
@@ -8260,6 +8359,9 @@ msgstr "Campos de búsqueda"
 
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr "La búsqueda puede fallar o dar resultados erróneos ya que contiene caracteres especiales que son palabras clave de consulta como < y >"
+
+msgid "Search string describing which hosts to perform the action on"
+msgstr ""
 
 msgid "Search your logs for request-id"
 msgstr "Busque en sus registros el request-id"
@@ -8282,6 +8384,9 @@ msgstr "Grupos de Seguridad"
 msgid "Security groups"
 msgstr "Grupos de Seguridad"
 
+msgid "See list of supported browsers: %s"
+msgstr ""
+
 msgid "Select Action"
 msgstr "Seleccionar una acción"
 
@@ -8302,6 +8407,9 @@ msgstr "Seleccionar organización"
 
 msgid "Select a period"
 msgstr "Seleccionar un período"
+
+msgid "Select all"
+msgstr "Seleccionar todo"
 
 msgid "Select all items on this page"
 msgstr "Seleccionar todos los elementos de esta página"
@@ -8342,8 +8450,14 @@ msgstr "Seleccionar ubicaciones"
 msgid "Select media"
 msgstr "Seleccionar medios"
 
+msgid "Select none"
+msgstr ""
+
 msgid "Select organizations"
 msgstr "Seleccionar organizaciones"
+
+msgid "Select page"
+msgstr ""
 
 msgid "Select partition tables"
 msgstr "Seleccionar tablas de particiones"
@@ -8537,6 +8651,9 @@ msgstr "Configurar REX"
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
 msgstr "Configurar la ejecución remota. Si se establece como `Sí`, las claves SSH se instalarán en el host registrado. El valor heredado se basa en el parámetro `host_registration_remote_execution`. Puede heredarse, por ejemplo, del grupo de hosts, del sistema operativo o de la organización. Si se anula, el valor seleccionado se almacenará en el nivel de parámetros del host."
 
+msgid "Shortcuts"
+msgstr ""
+
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "¿Debería ejecutarse `foreman-rake db:seed` la próxima vez que se ejecuten los módulos del instalador?"
 
@@ -8566,6 +8683,9 @@ msgstr "Mostrar diferencias"
 
 msgid "Show Experimental Labs"
 msgstr "Mostrar laboratorios experimentales"
+
+msgid "Show New Host Overview Page"
+msgstr ""
 
 msgid "Show a Personal Access Token for a user"
 msgstr "Mostrar un token de acceso personal para un usuario"
@@ -8710,9 +8830,6 @@ msgstr "Mostrar un sistema operativo"
 
 msgid "Show available API links"
 msgstr "Mostrar enlaces disponibles del API"
-
-msgid "Show distribution chart"
-msgstr "Mostrar cuadro de distribución"
 
 msgid "Show full value"
 msgstr "Mostrar valor completo"
@@ -9742,6 +9859,9 @@ msgstr "Hubo un error al listar %{listing}: %{errors}"
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "Hubo un error al listar las máquinas virtuales: %(status)s %(statusText)s"
 
+msgid "There was an error loading this content."
+msgstr ""
+
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "Se ha producido un error en la representación de la plantilla %{name}: %{error}"
 
@@ -9887,8 +10007,8 @@ msgstr ""
 msgid "This will change the host power status, are you sure?"
 msgstr "Esto cambiará el estado de energía del host, ¿estás seguro?"
 
-msgid "This will delete the VM and its disks. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "Esto eliminará la VM y sus discos. Este comportamiento se puede cambiar a través de la configuración global \"Destruir la VM asociada al eliminar el host\"."
+msgid "This will delete the VM and its disks. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
+msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr "Esto generará un informe %s. Basado en su definición, puede tomar mucho tiempo para procesarlo."
@@ -9928,6 +10048,12 @@ msgstr "Para activar un proveedor, instalar el paquete del SO (p.e. foreman-libv
 
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
 msgstr "Para habilitar el modo seguro, diríjase a la página Configuración y habilite la opción de representación de modo seguro."
+
+msgid "To focus the navigation search bar"
+msgstr ""
+
+msgid "To focus the page search bar"
+msgstr ""
 
 msgid "To launch the VMRC console, you need the VMRC software installed."
 msgstr "Para lanzar la consola VMRC, debe instalar el software de VMRC."
@@ -10792,8 +10918,8 @@ msgstr "Atributos de máquina virtual"
 msgid "VM already associated with a host"
 msgstr "La máquina virtual ya está asociada a este host"
 
-msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "La VM y sus discos no serán eliminados. Este comportamiento se puede cambiar a través de la configuración global \"Destruir la VM asociada al eliminar el host\"."
+msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
+msgstr ""
 
 msgid "VM associated to host %s"
 msgstr "Máquinas virtuales asociadas al host %s"
@@ -10878,9 +11004,6 @@ msgstr "Versión %{version} %{copyright} 2009-%{year} Paul Kelly y %{author}"
 
 msgid "Very strong"
 msgstr "Muy fuerte"
-
-msgid "View Chart"
-msgstr "Ver gráfico"
 
 msgid "View in Foreman:"
 msgstr "Ver en Foreman:"
@@ -11047,6 +11170,9 @@ msgstr "Si la plantilla está bloqueada o no para edición"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr "Indica si se debe mostrar o no un menú para acceder a funciones de laboratorios experimentales (requiere recargar la página)"
 
+msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgstr ""
+
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "Independientemente de que el valor del parámetro de la clase sea administrado por Foreman"
 
@@ -11177,6 +11303,9 @@ msgstr "No está autorizado para realizar esta acción."
 
 msgid "You are trying access the preferences of a different user"
 msgstr "Está intentando acceder a las preferencias de un usuario diferente"
+
+msgid "You are trying to compare the same host."
+msgstr ""
 
 msgid "You are trying to delete your own account"
 msgstr "Está intentando borrar su propia cuenta"
@@ -11384,6 +11513,9 @@ msgstr "no puede ser modificado por un usuario que no sea administrador"
 
 msgid "cannot be changed on an internal protected account"
 msgstr "no se puede cambiar en una cuenta interna protegida"
+
+msgid "cannot be in the past"
+msgstr ""
 
 msgid "cannot be removed from an internal protected account"
 msgstr "no se puede quitar de una cuenta protegida interna"
@@ -11612,6 +11744,9 @@ msgstr "el nombre de host solo puede incluir letras en minúscula, números, gui
 
 msgid "hostname of the host"
 msgstr "nombre de host del host"
+
+msgid "hosts"
+msgstr "Hosts"
 
 msgid "hours"
 msgstr "horas"
@@ -12150,6 +12285,9 @@ msgstr "mediante"
 msgid "using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
 msgstr "utilizando %{allocation} GB de %{capacity} GB, %{pool_name} pool de almacenamiento"
 
+msgid "using %{allocation} out of %{capacity}"
+msgstr ""
+
 msgid "valid"
 msgstr "válido"
 
@@ -12194,3 +12332,6 @@ msgstr "no se pueden asignar algunos de los roles seleccionados"
 
 msgid "you can't change administrator flag"
 msgstr " no se puede cambiar el indicador de administrador"
+
+msgid "{hostsCount} will be deleted. This action is irreversible. {br}{br} {cascade} {br}{br} This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\" in {settings}.{br}{br}"
+msgstr ""

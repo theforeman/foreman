@@ -102,6 +102,9 @@ msgstr ""
 msgid "%s has been disassociated from VM"
 msgstr "%s больше не связан с виртуальной машиной"
 
+msgid "%s hosts deleted"
+msgstr ""
+
 msgid "%s is an unknown attribute"
 msgstr "неизвестный атрибут %s"
 
@@ -135,6 +138,9 @@ msgstr[1] "%s предупреждения"
 msgstr[2] "%s предупреждений"
 msgstr[3] "%s предупреждений"
 
+msgid "%s was successfully deleted"
+msgstr ""
+
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s неделю назад"
@@ -156,6 +162,9 @@ msgstr "%{action} %{vm}"
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} домашняя страница документации по API"
+
+msgid "%{capacity}"
+msgstr ""
 
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
@@ -293,11 +302,6 @@ msgstr "'%{host}' не найден в '%{resource}'"
 msgid "'%{loader}' is not one of %{loaders}"
 msgstr ""
 
-msgid "(%s host)"
-msgid_plural "(%s hosts)"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "(Miscellaneous)"
 msgstr "(другое)"
 
@@ -389,6 +393,9 @@ msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</
 msgstr "<dl><dt>String</dt> <dd>Все преобразуется в string.</dd><dt>Boolean</dt> <dd>Принято общее представление логических значений.</dd><dt>Integer</dt> <dd>Только целые числа могут быть отрицательными.</dd><dt>Real</dt> <dd>Принимает любое число.</dd><dt>Array</dt> <dd>Допускается ввод данных JSON или YAML, которые должны быть преобразованы в массив.</dd><dt>Hash</dt> <dd>Допускается ввод данных JSON или YAML, которые должны быть преобразованы в object/map/dict/hash.</dd><dt>YAML</dt> <dd>Любые действительные данные YAML.</dd><dt>JSON</dt> <dd>Любые действительные данные JSON.</dd></dl>"
 
 msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
+msgstr ""
+
+msgid "A class representing %s object"
 msgstr ""
 
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
@@ -755,9 +762,6 @@ msgstr ""
 msgid "Any organization"
 msgstr ""
 
-msgid "Append domain names to the host"
-msgstr ""
-
 msgid "Applicable Operating Systems"
 msgstr ""
 
@@ -897,10 +901,13 @@ msgstr "Связать виртуальные машины с узлами Forem
 msgid "Associate VMs to Hosts"
 msgstr "Связать ВМ с узлами"
 
-msgid "Associated %{resource} IDs"
+msgid "Associated Host"
 msgstr ""
 
-msgid "Associated Host"
+msgid "Associated location IDs"
+msgstr ""
+
+msgid "Associated organization IDs"
 msgstr ""
 
 msgid "Associating VMs is not supported for this compute resource"
@@ -908,6 +915,9 @@ msgstr "Связывание виртуальных машин не поддер
 
 msgid "Association"
 msgstr "Ассоциации"
+
+msgid "At"
+msgstr "в"
 
 msgid "At least one command must be specified"
 msgstr ""
@@ -1739,8 +1749,8 @@ msgstr "Подтвердить"
 msgid "Confirm Action"
 msgstr "Подтвердите Действие"
 
-msgid "Confirm Hardware Model Deletion"
-msgstr "Подтвердите удаление Модели Оборудования"
+msgid "Confirm Deletion"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "Конфликт - %s"
@@ -1811,6 +1821,12 @@ msgstr ""
 msgid "CoreOS Transpiler Command"
 msgstr ""
 
+msgid "CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "CoreOS transpiler (ct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Cores"
 msgstr "Ядра"
 
@@ -1867,6 +1883,9 @@ msgstr ""
 
 msgid "Could not locate CA certificate."
 msgstr "Сертификат центра сертификации не найден."
+
+msgid "Could not parse timestamp '%{timestamp}'"
+msgstr ""
 
 msgid "Could not recreate a new SSH key"
 msgstr "Не удалось пересоздать новый SSH-ключ"
@@ -2525,10 +2544,10 @@ msgstr "Удалить запись автоматической подписи"
 msgid "Delete filter?"
 msgstr "Удалить фильтр?"
 
-msgid "Delete host"
+msgid "Delete host?"
 msgstr ""
 
-msgid "Delete host?"
+msgid "Delete multiple hosts"
 msgstr ""
 
 msgid "Delete realm entry for %s"
@@ -2642,6 +2661,9 @@ msgstr ""
 msgid "Disk"
 msgstr "Диск"
 
+msgid "Disk '%s'"
+msgstr ""
+
 msgid "Disk Mode"
 msgstr "Режим диска"
 
@@ -2652,6 +2674,9 @@ msgid "Disk capacity"
 msgstr ""
 
 msgid "Disk interface"
+msgstr ""
+
+msgid "Disk label"
 msgstr ""
 
 msgid "Disk name"
@@ -2669,6 +2694,9 @@ msgstr ""
 msgid "Display"
 msgstr "Показать"
 
+msgid "Display FQDN for hosts"
+msgstr ""
+
 msgid "Display Type"
 msgstr ""
 
@@ -2680,6 +2708,9 @@ msgstr "Показать скрытые значения параметров"
 
 msgid "Display hidden values"
 msgstr "Показать скрытые значения"
+
+msgid "Display names of hosts as FQDNs. If disabled, only display names of hosts as hostnames."
+msgstr ""
 
 msgid "Display the templates that will be used to provision this host"
 msgstr "Показать подготовительные шаблоны"
@@ -2889,6 +2920,12 @@ msgstr ""
 msgid "Ending IP Address for IP auto suggestion"
 msgstr "Заключительный IP-адрес для автоматического предложения адресов"
 
+msgid "Enter valid date: YYYY-MM-DD"
+msgstr ""
+
+msgid "Enter valid time: HH:MM:SS"
+msgstr ""
+
 msgid "Entries per page"
 msgstr "Записей на странице"
 
@@ -3097,9 +3134,6 @@ msgstr "FQDN"
 
 msgid "Fact Values"
 msgstr "Значения фактов"
-
-msgid "Fact distribution chart - %s "
-msgstr "Диаграмма распределения фактов - %s"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
@@ -3327,6 +3361,12 @@ msgstr "Имя"
 msgid "Fedora CoreOS Transpiler Command"
 msgstr ""
 
+msgid "Fedora CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Fetch TFTP boot files for %s"
 msgstr "Получить загрузочные файлы TFTP для %s"
 
@@ -3334,6 +3374,12 @@ msgid "Fetch the status of whether the host is powered on or not. Supported host
 msgstr ""
 
 msgid "Field name"
+msgstr ""
+
+msgid "Fill out the date and time"
+msgstr ""
+
+msgid "Fill out the name"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -3460,6 +3506,12 @@ msgstr ""
 msgid "For example, this can be useful to configure all the Host NICs."
 msgstr ""
 
+msgid "For hosts with compute resources, VMs and their disks will not be deleted."
+msgstr ""
+
+msgid "For hosts with compute resources, this will delete the VM and its disks."
+msgstr ""
+
 msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
 msgstr ""
 
@@ -3558,9 +3610,6 @@ msgstr "Проверочное сообщение Foreman"
 msgid "Foreman ticketing system"
 msgstr "Система отслеживания задач Foreman"
 
-msgid "Foreman will append domain names when new hosts are provisioned"
-msgstr ""
-
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Автоматизировать процесс подписи сертификатов при подготовке новых узлов"
 
@@ -3639,10 +3688,10 @@ msgstr "Полный список аудитов"
 msgid "Full name describing the domain"
 msgstr "Описательное имя домена"
 
-msgid "Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"
+msgid "Full path to CoreOS transpiler (ct)"
 msgstr ""
 
-msgid "Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"
+msgid "Full path to Fedora CoreOS transpiler (fcct)"
 msgstr ""
 
 msgid "Full path to backing image used to create new volumes."
@@ -3804,6 +3853,9 @@ msgstr "Гостевая ОС"
 msgid "HELO/EHLO domain"
 msgstr ""
 
+msgid "HH:MM:SS"
+msgstr ""
+
 msgid "HTTP Proxies"
 msgstr ""
 
@@ -3857,9 +3909,6 @@ msgstr ""
 
 msgid "Hardware Model"
 msgstr "Модель оборудования"
-
-msgid "Hardware Model %s was successfully deleted"
-msgstr "Модель оборудования %s была успешно удалена"
 
 msgid "Hardware Models"
 msgstr "Оборудование"
@@ -3918,7 +3967,7 @@ msgstr "Журнал"
 msgid "Host"
 msgstr "Узел"
 
-msgid "Host %s has been removed successfully"
+msgid "Host %s deleted"
 msgstr ""
 
 msgid "Host %s is built"
@@ -4279,6 +4328,12 @@ msgstr "Узлы с включенными предупреждениями, о�
 msgid "Hosts that had performed modifications without error"
 msgstr "Узлы с успешными изменениями"
 
+msgid "Hosts to explicitly exclude in the action. All other hosts will be included in the action, unless an included parameter is passed as well."
+msgstr ""
+
+msgid "Hosts to include in the action"
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "Узлы, на которых отчеты Foreman отключены"
 
@@ -4368,6 +4423,9 @@ msgstr ""
 msgid "Hypervisor"
 msgstr "Гипервизор"
 
+msgid "I understand that this action cannot be undone."
+msgstr ""
+
 msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
@@ -4451,6 +4509,9 @@ msgstr ""
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "Идентификатор Смарт Прокси. Для этого прокси должны быть включенные функции \"Шаблоны\" и \"Регистрация\""
+
+msgid "ID of the organization"
+msgstr ""
 
 msgid "ID of the user"
 msgstr ""
@@ -4997,6 +5058,12 @@ msgstr "Вывод списка виртуальных машин в форма�
 msgid "JSON object of the scheduler hint"
 msgstr ""
 
+msgid "JWT SSO: Expired JWT token."
+msgstr ""
+
+msgid "JWT SSO: Failed to decode JWT."
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Jwt secret"
 msgstr ""
@@ -5449,6 +5516,12 @@ msgstr "Список доменов по подсетям"
 
 msgid "List of email notifications"
 msgstr "Список всех почтовых уведомлений"
+
+msgid "List of host ids to exclude and not perform the action on"
+msgstr ""
+
+msgid "List of host ids to perform the action on"
+msgstr ""
 
 msgid "List of host statuses"
 msgstr "Список статусов узла"
@@ -6045,6 +6118,9 @@ msgstr "Имя"
 msgid "Name can't contain spaces"
 msgstr ""
 
+msgid "Name has already been taken"
+msgstr ""
+
 msgid "Name of media"
 msgstr "Имя носителя"
 
@@ -6346,6 +6422,12 @@ msgstr "Нет несоответствий."
 
 msgid "No hosts available."
 msgstr "Нет доступных узлов."
+
+msgid "No hosts have been specified"
+msgstr ""
+
+msgid "No hosts matched search, or action unauthorized for selected hosts."
+msgstr ""
 
 msgid "No hosts selected"
 msgstr "Узлы не выбраны"
@@ -7070,11 +7152,23 @@ msgstr ""
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
+msgid "Partition '%s'"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "Таблица Разделов"
 
 msgid "Partition Tables"
 msgstr "Таблицы разделов"
+
+msgid "Partition allocation"
+msgstr ""
+
+msgid "Partition capacity"
+msgstr ""
+
+msgid "Partition path"
+msgstr ""
 
 msgid "Partition table ID"
 msgstr "Код таблицы разделов"
@@ -7156,6 +7250,9 @@ msgstr "ОЖ"
 msgid "Permission"
 msgstr "Разрешение"
 
+msgid "Permission Denied"
+msgstr ""
+
 msgid "Permission denied"
 msgstr "Отказано в разрешении"
 
@@ -7217,9 +7314,6 @@ msgstr ""
 
 msgid "Please Confirm"
 msgstr "Подтвердите"
-
-msgid "Please Select an Image"
-msgstr "Выберите образ"
 
 msgid "Please check the proxy is configured and running on the host."
 msgstr "Убедитесь, что прокси настроен и активен на узле."
@@ -7307,7 +7401,7 @@ msgstr ""
 msgid "Power a Virtual Machine"
 msgstr ""
 
-msgid "Power has been set to \"%s\" successfully"
+msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr ""
 
 msgid "Power operations are not enabled on this host."
@@ -7440,6 +7534,9 @@ msgid "Provisioning for switches running NX-OS."
 msgstr ""
 
 msgid "Provisioning only"
+msgstr ""
+
+msgid "Provisioning settings"
 msgstr ""
 
 msgid "Provisioning template"
@@ -7669,6 +7766,9 @@ msgstr "Пересоздать Отчёт"
 msgid "Region"
 msgstr "Регион"
 
+msgid "Register"
+msgstr ""
+
 msgid "Register Host"
 msgstr "Зарегистрировать узел"
 
@@ -7865,9 +7965,6 @@ msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
 msgstr ""
-
-msgid "Request Failed"
-msgstr "Запрос не удался"
 
 msgid "Request UUID"
 msgstr ""
@@ -8209,6 +8306,9 @@ msgstr "Шаблон сценариев"
 msgid "Search"
 msgstr "Поиск"
 
+msgid "Search and go"
+msgstr ""
+
 msgid "Search error"
 msgstr ""
 
@@ -8217,6 +8317,9 @@ msgstr ""
 
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr "Поиск может завершиться неудачно или дать неправильные результаты, так как он содержит специальные символы, которые являются ключевыми словами запроса, такими как < и >"
+
+msgid "Search string describing which hosts to perform the action on"
+msgstr ""
 
 msgid "Search your logs for request-id"
 msgstr ""
@@ -8239,6 +8342,9 @@ msgstr ""
 msgid "Security groups"
 msgstr "Группы безопасности"
 
+msgid "See list of supported browsers: %s"
+msgstr ""
+
 msgid "Select Action"
 msgstr "Действия"
 
@@ -8259,6 +8365,9 @@ msgstr "Выберите организацию"
 
 msgid "Select a period"
 msgstr "Выберите интервал"
+
+msgid "Select all"
+msgstr ""
 
 msgid "Select all items on this page"
 msgstr "Выбрать все элементы на странице"
@@ -8299,8 +8408,14 @@ msgstr "Выберите местоположение"
 msgid "Select media"
 msgstr "Выберите носитель"
 
+msgid "Select none"
+msgstr ""
+
 msgid "Select organizations"
 msgstr "Выберите организации"
+
+msgid "Select page"
+msgstr ""
 
 msgid "Select partition tables"
 msgstr "Выберите таблицы разделов"
@@ -8493,6 +8608,9 @@ msgstr ""
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
 msgstr ""
 
+msgid "Shortcuts"
+msgstr ""
+
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "Выполнить «foreman-rake db:seed» при следующем запуске модулей установки"
 
@@ -8521,6 +8639,9 @@ msgid "Show Diff"
 msgstr "Показать различия"
 
 msgid "Show Experimental Labs"
+msgstr ""
+
+msgid "Show New Host Overview Page"
 msgstr ""
 
 msgid "Show a Personal Access Token for a user"
@@ -8666,9 +8787,6 @@ msgstr "Показать операционную систему"
 
 msgid "Show available API links"
 msgstr "Показать ссылки доступных API"
-
-msgid "Show distribution chart"
-msgstr "Показать график распределения"
 
 msgid "Show full value"
 msgstr "Показать полностью"
@@ -9702,6 +9820,9 @@ msgstr ""
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "Произошла ошибка при получении списка виртуальных машин: %(status)s %(statusText)s"
 
+msgid "There was an error loading this content."
+msgstr ""
+
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "Произошла ошибка при формировании шаблона %{name}: %{error}"
 
@@ -9845,7 +9966,7 @@ msgstr ""
 msgid "This will change the host power status, are you sure?"
 msgstr ""
 
-msgid "This will delete the VM and its disks. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
+msgid "This will delete the VM and its disks. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
 msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
@@ -9885,6 +10006,12 @@ msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt
 msgstr "Чтобы добавить новый компонент, установите соответствующий пакет (например, foreman-libvirt) или включите необходимую пакетную группу (например, ovirt)"
 
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
+msgstr ""
+
+msgid "To focus the navigation search bar"
+msgstr ""
+
+msgid "To focus the page search bar"
 msgstr ""
 
 msgid "To launch the VMRC console, you need the VMRC software installed."
@@ -10751,7 +10878,7 @@ msgstr "Атрибуты виртуальной машины (%s)"
 msgid "VM already associated with a host"
 msgstr "Виртуальная машина уже связана с узлом"
 
-msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
+msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
 msgstr ""
 
 msgid "VM associated to host %s"
@@ -10837,9 +10964,6 @@ msgstr ""
 
 msgid "Very strong"
 msgstr "Очень сильный"
-
-msgid "View Chart"
-msgstr "Просмотреть Диаграмму"
 
 msgid "View in Foreman:"
 msgstr "Показать в Foreman:"
@@ -10999,6 +11123,9 @@ msgstr "Блокирование шаблона для редактирован�
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr ""
 
+msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgstr ""
+
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "Разрешает Foreman контролировать значение параметра"
 
@@ -11119,6 +11246,9 @@ msgid "You are not authorized to perform this action."
 msgstr "Недостаточно полномочий для выполнения операции"
 
 msgid "You are trying access the preferences of a different user"
+msgstr ""
+
+msgid "You are trying to compare the same host."
 msgstr ""
 
 msgid "You are trying to delete your own account"
@@ -11327,6 +11457,9 @@ msgstr "не может быть изменен пользователем не 
 
 msgid "cannot be changed on an internal protected account"
 msgstr "не может меняться для внутренней защищенной учетной записи"
+
+msgid "cannot be in the past"
+msgstr ""
 
 msgid "cannot be removed from an internal protected account"
 msgstr "не может быть удален из внутренней защищенной учетной записи"
@@ -11555,6 +11688,9 @@ msgstr ""
 
 msgid "hostname of the host"
 msgstr "имя узла"
+
+msgid "hosts"
+msgstr "узлу(ам)"
 
 msgid "hours"
 msgstr ""
@@ -12093,6 +12229,9 @@ msgstr "использует %s"
 msgid "using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
 msgstr "занято %{allocation} из %{capacity} ГБ (в %{pool_name})"
 
+msgid "using %{allocation} out of %{capacity}"
+msgstr ""
+
 msgid "valid"
 msgstr "действителен"
 
@@ -12137,3 +12276,6 @@ msgstr "вы не можете связать некоторые роли, ко�
 
 msgid "you can't change administrator flag"
 msgstr "вы не можете изменить административный флаг"
+
+msgid "{hostsCount} will be deleted. This action is irreversible. {br}{br} {cascade} {br}{br} This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\" in {settings}.{br}{br}"
+msgstr ""

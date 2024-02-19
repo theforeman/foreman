@@ -83,6 +83,9 @@ msgstr "%s フィルター"
 msgid "%s has been disassociated from VM"
 msgstr "%s の VM との関連付けが解除されました"
 
+msgid "%s hosts deleted"
+msgstr ""
+
 msgid "%s is an unknown attribute"
 msgstr "%s は不明な属性です"
 
@@ -107,6 +110,9 @@ msgid "%s warning message"
 msgid_plural "%s warning messages"
 msgstr[0] "%s 件の警告メッセージ"
 
+msgid "%s was successfully deleted"
+msgstr ""
+
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
 msgstr[0] "%s 週間前"
@@ -125,6 +131,9 @@ msgstr "%{action} %{vm}"
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} API ドキュメントホームページ"
+
+msgid "%{capacity}"
+msgstr ""
 
 msgid "%{config_type} rebuild failed for host: %{host_names}."
 msgid_plural "%{config_type} rebuild failed for hosts: %{host_names}."
@@ -255,10 +264,6 @@ msgstr "'%{resource}' で '%{host}' が見つかりません"
 msgid "'%{loader}' is not one of %{loaders}"
 msgstr "'%{loader}' は %{loaders} の 1 つではありません"
 
-msgid "(%s host)"
-msgid_plural "(%s hosts)"
-msgstr[0] "(ホスト %s 台)"
-
 msgid "(Miscellaneous)"
 msgstr "(その他)"
 
@@ -354,6 +359,9 @@ msgstr "<dl><dt>String</dt> <dd>すべて文字列に変換されます。</dd><
 
 msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
 msgstr "プロキシータブでは、外部の IPAM 機能が有効な Smart Proxy を選択する必要があります。"
+
+msgid "A class representing %s object"
+msgstr ""
 
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
 msgstr "コンピューティングプロファイルとは、オペレータ定義のラベルにマッピング可能な特定のコンピューティングリソース上で作成された VM のデフォルトのセットを表現する方法です。つまり、管理者は、特定のインストールに存在するす各コンピューティングリソース上で、「小」、「中」または「大」の意味を表すことができます。"
@@ -719,9 +727,6 @@ msgstr ""
 msgid "Any organization"
 msgstr ""
 
-msgid "Append domain names to the host"
-msgstr "ホストへのドメイン名の追加"
-
 msgid "Applicable Operating Systems"
 msgstr "適用可能なオペレーティングシステム"
 
@@ -858,17 +863,23 @@ msgstr "仮想マシンの Foreman ホストへの関連付け"
 msgid "Associate VMs to Hosts"
 msgstr "VM のホストへの関連付け"
 
-msgid "Associated %{resource} IDs"
-msgstr "関連付けられている %{resource} の ID"
-
 msgid "Associated Host"
 msgstr "関連付けられているホスト"
+
+msgid "Associated location IDs"
+msgstr ""
+
+msgid "Associated organization IDs"
+msgstr ""
 
 msgid "Associating VMs is not supported for this compute resource"
 msgstr "このコンピュートリソースでは、関連する VM がサポートされていません"
 
 msgid "Association"
 msgstr "関連付け"
+
+msgid "At"
+msgstr "場所"
 
 msgid "At least one command must be specified"
 msgstr ""
@@ -1700,8 +1711,8 @@ msgstr "確認"
 msgid "Confirm Action"
 msgstr "アクションの確認"
 
-msgid "Confirm Hardware Model Deletion"
-msgstr "ハードウェアモデルの削除確定"
+msgid "Confirm Deletion"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "競合 - %s"
@@ -1772,6 +1783,12 @@ msgstr "コアとプロキシーのバージョンが一致しません。%{fore
 msgid "CoreOS Transpiler Command"
 msgstr ""
 
+msgid "CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "CoreOS transpiler (ct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Cores"
 msgstr "コア数"
 
@@ -1828,6 +1845,9 @@ msgstr "レポートを生成できませんでした。エラーメッセージ
 
 msgid "Could not locate CA certificate."
 msgstr "CA 証明書を見つけることができませんでした。"
+
+msgid "Could not parse timestamp '%{timestamp}'"
+msgstr ""
 
 msgid "Could not recreate a new SSH key"
 msgstr "新規の SSH キーを再作成できませんでした"
@@ -2486,11 +2506,11 @@ msgstr "自動署名エントリーの削除"
 msgid "Delete filter?"
 msgstr "フィルターを削除しますか?"
 
-msgid "Delete host"
-msgstr "ホストの削除"
-
 msgid "Delete host?"
 msgstr "ホストを削除しますか?"
+
+msgid "Delete multiple hosts"
+msgstr ""
 
 msgid "Delete realm entry for %s"
 msgstr "%s のレルムエントリーの削除"
@@ -2603,6 +2623,9 @@ msgstr ""
 msgid "Disk"
 msgstr "ディスク"
 
+msgid "Disk '%s'"
+msgstr ""
+
 msgid "Disk Mode"
 msgstr "ディスクモード"
 
@@ -2614,6 +2637,9 @@ msgstr ""
 
 msgid "Disk interface"
 msgstr "ディスクのインターフェース"
+
+msgid "Disk label"
+msgstr ""
 
 msgid "Disk name"
 msgstr "ディスク名"
@@ -2630,6 +2656,9 @@ msgstr ""
 msgid "Display"
 msgstr "表示"
 
+msgid "Display FQDN for hosts"
+msgstr ""
+
 msgid "Display Type"
 msgstr "ディスプレイのタイプ"
 
@@ -2641,6 +2670,9 @@ msgstr "非表示のパラメーター値の表示"
 
 msgid "Display hidden values"
 msgstr "非表示の値の表示"
+
+msgid "Display names of hosts as FQDNs. If disabled, only display names of hosts as hostnames."
+msgstr ""
 
 msgid "Display the templates that will be used to provision this host"
 msgstr "このホストのプロビジョニングに使用されるテンプレートを表示"
@@ -2846,6 +2878,12 @@ msgstr "テンプレートのレンダリング時に無視されるコメント
 
 msgid "Ending IP Address for IP auto suggestion"
 msgstr "IP 自動補完の終了 IP アドレス"
+
+msgid "Enter valid date: YYYY-MM-DD"
+msgstr ""
+
+msgid "Enter valid time: HH:MM:SS"
+msgstr ""
 
 msgid "Entries per page"
 msgstr "1 ページあたりのエントリー"
@@ -3055,9 +3093,6 @@ msgstr "FQDN"
 
 msgid "Fact Values"
 msgstr "ファクト値"
-
-msgid "Fact distribution chart - %s "
-msgstr "ファクト分布チャート: %s "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact name"
@@ -3284,6 +3319,12 @@ msgstr "名前"
 msgid "Fedora CoreOS Transpiler Command"
 msgstr ""
 
+msgid "Fedora CoreOS Transpiler Command Arguments"
+msgstr ""
+
+msgid "Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"
+msgstr ""
+
 msgid "Fetch TFTP boot files for %s"
 msgstr "%s の TFTP ブートファイルの取得"
 
@@ -3292,6 +3333,12 @@ msgstr "ホストの電源がオンかどうかのステータスを取得しま
 
 msgid "Field name"
 msgstr "フィールド名"
+
+msgid "Fill out the date and time"
+msgstr ""
+
+msgid "Fill out the name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
@@ -3417,6 +3464,12 @@ msgstr ""
 msgid "For example, this can be useful to configure all the Host NICs."
 msgstr "たとえば、ホストの NIC すべてを設定する場合に便利です。"
 
+msgid "For hosts with compute resources, VMs and their disks will not be deleted."
+msgstr ""
+
+msgid "For hosts with compute resources, this will delete the VM and its disks."
+msgstr ""
+
 msgid "For image based provisioning using finish template, this interface's IP will be used as the SSH target."
 msgstr "最終テンプレートを使用したイメージベースのプロビジョニングには、このインターフェースの IP が SSH ターゲットとして使用されます。"
 
@@ -3515,9 +3568,6 @@ msgstr "Foreman テストメール"
 msgid "Foreman ticketing system"
 msgstr "Foreman チケットシステム"
 
-msgid "Foreman will append domain names when new hosts are provisioned"
-msgstr "Foreman は、新規ホストのプロビジョニング時にドメインを追加します"
-
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman は、新規ホストのプロビジョニング時に証明書の署名を自動化します"
 
@@ -3596,10 +3646,10 @@ msgstr "完全な監査の一覧"
 msgid "Full name describing the domain"
 msgstr "ドメインを表す完全名"
 
-msgid "Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"
+msgid "Full path to CoreOS transpiler (ct)"
 msgstr ""
 
-msgid "Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"
+msgid "Full path to Fedora CoreOS transpiler (fcct)"
 msgstr ""
 
 msgid "Full path to backing image used to create new volumes."
@@ -3761,6 +3811,9 @@ msgstr "ゲスト OS"
 msgid "HELO/EHLO domain"
 msgstr "HELO/EHLO ドメイン"
 
+msgid "HH:MM:SS"
+msgstr ""
+
 msgid "HTTP Proxies"
 msgstr "HTTP プロキシー"
 
@@ -3814,9 +3867,6 @@ msgstr "ハードディスク"
 
 msgid "Hardware Model"
 msgstr "ハードウェアモデル"
-
-msgid "Hardware Model %s was successfully deleted"
-msgstr "ハードウェアモデル %s は正常に削除されました"
 
 msgid "Hardware Models"
 msgstr "ハードウェアモデル"
@@ -3875,8 +3925,8 @@ msgstr "履歴"
 msgid "Host"
 msgstr "ホスト"
 
-msgid "Host %s has been removed successfully"
-msgstr "ホスト %s が正常に削除されました"
+msgid "Host %s deleted"
+msgstr ""
 
 msgid "Host %s is built"
 msgstr "ホスト %s が構築されました"
@@ -4239,6 +4289,12 @@ msgstr "変更が保留中で、アラートが有効なホスト"
 msgid "Hosts that had performed modifications without error"
 msgstr "エラーなしで変更を実行したホスト"
 
+msgid "Hosts to explicitly exclude in the action. All other hosts will be included in the action, unless an included parameter is passed as well."
+msgstr ""
+
+msgid "Hosts to include in the action"
+msgstr ""
+
 msgid "Hosts which Foreman reporting is disabled"
 msgstr "Foreman レポート機能が無効なホスト"
 
@@ -4328,6 +4384,9 @@ msgstr "ユーザー名"
 msgid "Hypervisor"
 msgstr "ハイパーバイザー"
 
+msgid "I understand that this action cannot be undone."
+msgstr ""
+
 msgid "ID assigned to generating job by the schedule command"
 msgstr "生成されたジョブに schedule コマンドで割り当てられた ID"
 
@@ -4411,6 +4470,9 @@ msgstr "ホストを登録する組織の ID"
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "Smart Proxy の ID。このプロキシーは、「Templates」と「Registration」機能の両方を有効にしている必要があります。"
+
+msgid "ID of the organization"
+msgstr ""
 
 msgid "ID of the user"
 msgstr "ユーザーの ID"
@@ -4961,6 +5023,12 @@ msgstr "このコンピュートリソースには JSON VM の一覧表示がサ
 msgid "JSON object of the scheduler hint"
 msgstr "スケジューラーヒントの JSON オブジェクト"
 
+msgid "JWT SSO: Expired JWT token."
+msgstr ""
+
+msgid "JWT SSO: Failed to decode JWT."
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Jwt secret"
 msgstr "Jwt シークレット"
@@ -5413,6 +5481,12 @@ msgstr "サブネットごとのドメインの一覧"
 
 msgid "List of email notifications"
 msgstr "メール通知の一覧"
+
+msgid "List of host ids to exclude and not perform the action on"
+msgstr ""
+
+msgid "List of host ids to perform the action on"
+msgstr ""
 
 msgid "List of host statuses"
 msgstr "ホストステータスの一覧表示"
@@ -6009,6 +6083,9 @@ msgstr "名前"
 msgid "Name can't contain spaces"
 msgstr ""
 
+msgid "Name has already been taken"
+msgstr ""
+
 msgid "Name of media"
 msgstr "メディアの名前"
 
@@ -6310,6 +6387,12 @@ msgstr "不一致のホストはありません!"
 
 msgid "No hosts available."
 msgstr "利用可能なホストがありません"
+
+msgid "No hosts have been specified"
+msgstr ""
+
+msgid "No hosts matched search, or action unauthorized for selected hosts."
+msgstr ""
 
 msgid "No hosts selected"
 msgstr "ホストが選択されていません"
@@ -7039,11 +7122,23 @@ msgstr ""
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
+msgid "Partition '%s'"
+msgstr ""
+
 msgid "Partition Table"
 msgstr "パーティションテーブル"
 
 msgid "Partition Tables"
 msgstr "パーティションテーブル"
+
+msgid "Partition allocation"
+msgstr ""
+
+msgid "Partition capacity"
+msgstr ""
+
+msgid "Partition path"
+msgstr ""
 
 msgid "Partition table ID"
 msgstr "パーティションテーブル ID"
@@ -7125,6 +7220,9 @@ msgstr "P"
 msgid "Permission"
 msgstr "パーミッション"
 
+msgid "Permission Denied"
+msgstr ""
+
 msgid "Permission denied"
 msgstr "パーミッションが拒否されました。"
 
@@ -7186,9 +7284,6 @@ msgstr "Plain"
 
 msgid "Please Confirm"
 msgstr "確認してください"
-
-msgid "Please Select an Image"
-msgstr "イメージを選択してください"
 
 msgid "Please check the proxy is configured and running on the host."
 msgstr "プロキシーが設定され、ホスト上で実行されていることを確認してください。"
@@ -7278,8 +7373,8 @@ msgstr "電源状態"
 msgid "Power a Virtual Machine"
 msgstr "仮想マシンの電源をオンにする"
 
-msgid "Power has been set to \"%s\" successfully"
-msgstr "電源が正常に \"%s\" に設定されました。"
+msgid "Power has been set to \\\"%s\\\" successfully"
+msgstr ""
 
 msgid "Power operations are not enabled on this host."
 msgstr "このホストでは電源操作が有効ではありません。"
@@ -7412,6 +7507,9 @@ msgstr "NX-OS を実行するスイッチのプロビジョニング"
 
 msgid "Provisioning only"
 msgstr "プロビジョニングのみ"
+
+msgid "Provisioning settings"
+msgstr ""
 
 msgid "Provisioning template"
 msgstr "テンプレートのプロビジョニング"
@@ -7642,6 +7740,9 @@ msgstr "レポートの再生成"
 msgid "Region"
 msgstr "リージョン"
 
+msgid "Register"
+msgstr ""
+
 msgid "Register Host"
 msgstr "ホストの登録"
 
@@ -7834,9 +7935,6 @@ msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
 msgstr "テンプレートをレンダリングするホストオブジェクトを表します。"
-
-msgid "Request Failed"
-msgstr "要求が失敗しました"
 
 msgid "Request UUID"
 msgstr "リクエスト UUID"
@@ -8176,6 +8274,9 @@ msgstr "スクリプトテンプレート"
 msgid "Search"
 msgstr "検索"
 
+msgid "Search and go"
+msgstr ""
+
 msgid "Search error"
 msgstr ""
 
@@ -8184,6 +8285,9 @@ msgstr "検索フィールド"
 
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr "クエリーキーワードである特殊文字 (例: < and >) が含まれているため、検索が失敗したり、誤った結果が表示されたりする場合があります"
+
+msgid "Search string describing which hosts to perform the action on"
+msgstr ""
 
 msgid "Search your logs for request-id"
 msgstr "ログで request-id を検索します"
@@ -8206,6 +8310,9 @@ msgstr ""
 msgid "Security groups"
 msgstr "セキュリティーグループ"
 
+msgid "See list of supported browsers: %s"
+msgstr ""
+
 msgid "Select Action"
 msgstr "アクションの選択"
 
@@ -8226,6 +8333,9 @@ msgstr "組織の選択"
 
 msgid "Select a period"
 msgstr "期間の選択"
+
+msgid "Select all"
+msgstr ""
 
 msgid "Select all items on this page"
 msgstr "このページ内のすべての項目を選択"
@@ -8266,8 +8376,14 @@ msgstr "ロケーションの選択"
 msgid "Select media"
 msgstr "メディアの選択"
 
+msgid "Select none"
+msgstr ""
+
 msgid "Select organizations"
 msgstr "組織の選択"
+
+msgid "Select page"
+msgstr ""
 
 msgid "Select partition tables"
 msgstr "パーティションテーブルの選択"
@@ -8459,6 +8575,9 @@ msgstr "REX のセットアップ"
 msgid "Setup remote execution. If set to `Yes`, SSH keys will be installed on the registered host. The inherited value is based on the `host_registration_remote_execution` parameter. It can be inherited e.g. from host group, operating system, organization. When overridden, the selected value will be stored on host parameter level."
 msgstr "リモート実行をセットアップします。「はい」に設定すると、SSH キーが登録されたホストにインストールされます。継承される値は、「host_registration_remote_execution」パラメーターに基づきます。これは、ホストグループ、オペレーティングシステム、組織などから継承することができます。上書きされると、選択した値がホストパラメーターレベルで保存されます。"
 
+msgid "Shortcuts"
+msgstr ""
+
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "インストーラーモジュールの次回実行時に `foreman-rake db:seed` を実行する必要がありますか?"
 
@@ -8488,6 +8607,9 @@ msgstr "差分の表示"
 
 msgid "Show Experimental Labs"
 msgstr "実験的ラボの表示"
+
+msgid "Show New Host Overview Page"
+msgstr ""
 
 msgid "Show a Personal Access Token for a user"
 msgstr "ユーザーのパーソナルアクセストークンを表示"
@@ -8632,9 +8754,6 @@ msgstr "オペレーティングシステムの表示"
 
 msgid "Show available API links"
 msgstr "利用可能な API リンクの表示"
-
-msgid "Show distribution chart"
-msgstr "分布チャートの表示"
 
 msgid "Show full value"
 msgstr "完全な値の表示"
@@ -9655,6 +9774,9 @@ msgstr "%{listing} の一覧表示の際にエラーが発生しました: %{err
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "%(status)s を表示中にエラーが発生しました: %(statusText)s"
 
+msgid "There was an error loading this content."
+msgstr ""
+
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "%{name} テンプレートのレンダリング中にエラーが発生しました: %{error}"
 
@@ -9800,8 +9922,8 @@ msgstr ""
 msgid "This will change the host power status, are you sure?"
 msgstr "これにより、ホストの電源状態が変更されます。よろしいですか?"
 
-msgid "This will delete the VM and its disks. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "これにより、仮想マシンとそのディスクが削除されます。この動作はグローバル設定「ホストの削除時に関連付けられている仮想マシンを破棄」から変更できます。"
+msgid "This will delete the VM and its disks. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
+msgstr ""
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr "これにより、レポート %s が生成されます。レポートの定義によっては処理時間が長くなる可能性があります。"
@@ -9841,6 +9963,12 @@ msgstr "プロバイダーを有効にするには、OS パッケージ (例: fo
 
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
 msgstr "セーフモードを有効にするには、設定ページに移動し、Safemode レンダリングオプションを有効にします。"
+
+msgid "To focus the navigation search bar"
+msgstr ""
+
+msgid "To focus the page search bar"
+msgstr ""
 
 msgid "To launch the VMRC console, you need the VMRC software installed."
 msgstr "VMRC コンソールを起動するには、VMRC ソフトウェアをインストールする必要があります。"
@@ -10705,8 +10833,8 @@ msgstr "VM 属性 (%s)"
 msgid "VM already associated with a host"
 msgstr "ホストにすでに関連付けられている VM"
 
-msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
-msgstr "仮想マシンとそのディスクは削除されません。この動作はグローバル設定「ホストの削除時に関連付けられている仮想マシンを破棄」から変更できます。"
+msgid "VM and its disks will not be deleted. This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\"."
+msgstr ""
 
 msgid "VM associated to host %s"
 msgstr "ホスト %s に関連付けられている VM"
@@ -10791,9 +10919,6 @@ msgstr "バージョン %{version}  %{copyright} 2009-%{year} Paul Kelly およ�
 
 msgid "Very strong"
 msgstr "非常に強い"
-
-msgid "View Chart"
-msgstr "チャートの表示"
 
 msgid "View in Foreman:"
 msgstr "Foreman での表示:"
@@ -10958,6 +11083,9 @@ msgstr "テンプレートの編集機能をロックするかどうか"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr "実験的なラボ機能にアクセスするためのメニューの表示または非表示 (ページのリロードが必要)"
 
+msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgstr ""
+
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "クラスパラメーター値が Foreman によって管理されているかどうか。"
 
@@ -11088,6 +11216,9 @@ msgstr "このアクションを実行する権限がありません。"
 
 msgid "You are trying access the preferences of a different user"
 msgstr "別ユーザーの設定にアクセスしようとしています"
+
+msgid "You are trying to compare the same host."
+msgstr ""
 
 msgid "You are trying to delete your own account"
 msgstr "ご自身のアカウントを削除しようとしています"
@@ -11295,6 +11426,9 @@ msgstr "管理者以外のユーザーによって変更することはできま
 
 msgid "cannot be changed on an internal protected account"
 msgstr "内部で保護されたアカウントでは変更できません"
+
+msgid "cannot be in the past"
+msgstr ""
 
 msgid "cannot be removed from an internal protected account"
 msgstr "内部で保護されたアカウントから削除できません"
@@ -11523,6 +11657,9 @@ msgstr "ホスト名には、RFC921、RFC952、RFC1123 に準拠し、小文字�
 
 msgid "hostname of the host"
 msgstr "ホストのホスト名"
+
+msgid "hosts"
+msgstr "ホスト"
 
 msgid "hours"
 msgstr "時間"
@@ -12059,6 +12196,9 @@ msgstr "%s を使用中"
 msgid "using %{allocation} GB out of %{capacity} GB, %{pool_name} storage pool"
 msgstr "%{capacity} GB の内 %{allocation} GB を使用中。%{pool_name} ストレージプール"
 
+msgid "using %{allocation} out of %{capacity}"
+msgstr ""
+
 msgid "valid"
 msgstr "有効"
 
@@ -12103,3 +12243,6 @@ msgstr "選択したロールの一部を割り当てることはできません
 
 msgid "you can't change administrator flag"
 msgstr "管理者フラグを変更することはできません"
+
+msgid "{hostsCount} will be deleted. This action is irreversible. {br}{br} {cascade} {br}{br} This behavior can be changed via global setting \\\"Destroy associated VM on host delete\\\" in {settings}.{br}{br}"
+msgstr ""
