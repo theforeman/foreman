@@ -149,7 +149,7 @@ class BaseMacrosTest < ActiveSupport::TestCase
       FactoryBot.create(:fact_value, fact_name: ansible_kernel_fact, host: host, value: '1.2.3')
       FactoryBot.create(:fact_value, fact_name: chef_kernel_fact, host: host, value: '2.2.2')
       FactoryBot.create(:fact_value, fact_name: unrelated_fact, host: host, value: 'Fedora 29')
-      assert_equal '1.2.3', @scope.host_kernel_release(host)
+      assert_equal '2.2.2', @scope.host_kernel_release(host)
       FactoryBot.create(:fact_value, fact_name: puppet_and_salt_fact, host: host, value: '4.5.6')
       assert_equal '4.5.6', @scope.host_kernel_release(host.reload)
       FactoryBot.create(:fact_value, fact_name: rhsm_fact, host: rhsm_host, value: '7.8.9')
