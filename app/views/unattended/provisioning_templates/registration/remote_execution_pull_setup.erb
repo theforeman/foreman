@@ -21,7 +21,7 @@ set -e
 
 echo "Getting configuration from subscription-manager..."
 KPPTEMPFILE=$(mktemp kpp_tempfile_XXXXXXXX)
-trap "rm -f $KPPTEMPFILE" ERR EXIT
+trap "rm -f $KPPTEMPFILE" EXIT
 subscription-manager config --list > $KPPTEMPFILE
 CONSUMER_CERT_DIR=$(grep 'consumercertdir' $KPPTEMPFILE | cut -d= -f2 | xargs | sed 's/[][]//g')
 CERT_FILE=$CONSUMER_CERT_DIR/cert.pem
