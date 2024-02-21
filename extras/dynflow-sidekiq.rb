@@ -27,6 +27,8 @@ end
   Sidekiq.options[:dynflow_world] = world
 end
 
+::Sidekiq.strict_args!(false)
+
 # To be able to ensure ordering, dynflow requires that there is only one
 # orchestrator active at the same time.
 # This is enforced by orchestrators contending a lock in redis, calls to
