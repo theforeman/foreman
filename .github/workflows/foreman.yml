@@ -114,13 +114,13 @@ jobs:
       - name: Install Chromedriver
         uses: nanasess/setup-chromedriver@v2
         with:
-          chromedriver-version: '120.0.6099.109'
+          chromedriver-version: '122.0.6261.57'
         if: contains(matrix.task, 'compile')
       - name: Install Chrome
         id: setup-chrome
         uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: '120.0.6099.109'
+          chrome-version: '122.0.6261.57'
         if: contains(matrix.task, 'compile')
       - run: |
           sudo apt-get purge -y google-chrome-stable
