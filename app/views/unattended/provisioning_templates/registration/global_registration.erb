@@ -56,6 +56,8 @@ cleanup_and_exit() {
   exit $1
 }
 
+<%= snippet_if_exists('before_registration') -%>
+
 <% unless @repo.blank? -%>
 echo '#'
 echo '# Adding repository'
@@ -151,5 +153,7 @@ register_katello_host | bash
 <% else -%>
 register_host | bash
 <% end -%>
+
+<%= snippet_if_exists('after_registration') -%>
 
 cleanup_and_exit
