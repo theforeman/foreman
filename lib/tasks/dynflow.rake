@@ -13,10 +13,10 @@ namespace :dynflow do
 
   def dynflow_persistence
     @persistence ||= begin
-                       config = Dynflow::Rails::Configuration.new
-                       config.db_pool_size = 1 # To prevent automatic detection
-                       config.send(:initialize_persistence, nil, :migrate => false, :logger => Foreman::Logging.logger('sql'))
-                     end
+      config = Dynflow::Rails::Configuration.new
+      config.db_pool_size = 1 # To prevent automatic detection
+      config.send(:initialize_persistence, nil, :migrate => false, :logger => Foreman::Logging.logger('sql'))
+    end
   end
 
   task :migrate => :environment do
