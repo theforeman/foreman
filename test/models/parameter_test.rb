@@ -114,7 +114,7 @@ class ParameterTest < ActiveSupport::TestCase
   end
 
   test "should create subnet parameter with valid names" do
-    RFauxFactory.gen_strings().values.each do |name|
+    RFauxFactory.gen_strings().each_value do |name|
       parameter = FactoryBot.build(:parameter, :name => name, :value => '123', :subnet => subnets(:five))
       assert parameter.valid?, "Can't create parameter with valid name #{name}"
     end

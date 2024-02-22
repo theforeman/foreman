@@ -76,7 +76,7 @@ class FactCleanerTest < ActiveSupport::TestCase
       facts = data.good_facts.merge(data.ignored_facts)
       fact_records = []
 
-      facts.keys.each do |fact_name|
+      facts.each_key do |fact_name|
         fact_records << FactoryBot.create(:fact_name, :name => fact_name)
       end
 
@@ -100,7 +100,7 @@ class FactCleanerTest < ActiveSupport::TestCase
     facts = importer.send(:facts)
     fact_records = []
 
-    facts.keys.each do |fact_name|
+    facts.each_key do |fact_name|
       fact_records << FactoryBot.create(:fact_name, :name => fact_name)
     end
 

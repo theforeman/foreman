@@ -18,7 +18,7 @@ module Facets
     end
 
     def populate_facet_fields(parser, type, source_proxy)
-      Facets.registered_facets.values.each do |facet_config|
+      Facets.registered_facets.each_value do |facet_config|
         facet_config.model.populate_fields_from_facts(self, parser, type, source_proxy)
       end
     end

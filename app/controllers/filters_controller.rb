@@ -66,7 +66,7 @@ class FiltersController < ApplicationController
   def setup_search_options
     @original_search_parameter = params[:search]
     params[:search] ||= ""
-    params.keys.each do |param|
+    params.each_key do |param|
       if param =~ /role_id$/
         if (role = Role.find_by_id(params[param])).present?
           query = "role_id = #{role.id}"

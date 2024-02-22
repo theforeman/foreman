@@ -14,7 +14,7 @@ class HostMailer < ApplicationMailer
 
     total_metrics = load_metrics(host_data)
     total = 0
-    total_metrics.values.each { |v| total += v }
+    total_metrics.each_value { |v| total += v }
 
     @hosts = host_data
     @timerange = time
