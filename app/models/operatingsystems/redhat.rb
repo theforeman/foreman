@@ -1,17 +1,8 @@
 class Redhat < Operatingsystem
   PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
 
-  # Baseline taken from https://docs.fedoraproject.org/en-US/quick-docs/fedora-and-red-hat-enterprise-linux/index.html
-  FEDORA_MAPPING = [
-    [13, 6],
-    [19, 7],
-    [28, 8],
-    [34, 9],
-    [39, 10],
-  ]
-
   class Jail < Operatingsystem::Jail
-    allow :meets_requirement
+    allow :fedora?, :rhel_compatible?
   end
 
   # outputs kickstart installation medium based on the medium type (NFS or URL)

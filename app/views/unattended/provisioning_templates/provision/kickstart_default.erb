@@ -111,15 +111,19 @@ selinux --<%= host_param('selinux-mode') || host_param('selinux') || 'enforcing'
 keyboard <%= host_param('keyboard') || 'us' %>
 
 <%
-# start with provisioning interface, then other non-bond interfaces and the bonds at the end
-@host.managed_interfaces.sort_by { |iface| iface.bond? ? 0 : iface.provision? ? 20 : 10 }.each do |iface|
+# start with provisioning interface, then other non-bond non-bridge interfaces and the bonds + bridges at the end
+@host.interfaces.reject{ |iface| iface.bmc? }.sort_by { |iface| (iface.bond? || iface.bridge?) ? 0 : iface.provision? ? 20 : 10 }.each do |iface|
 -%>
-<%= kickstart_network(
-      iface,
-      host: @host,
-      use_slaac: host_param_true?('use-slaac'),
-      static: @static,
-      static6: @static6) %>
+<%= snippet(
+      'kickstart_network_interface',
+      variables: {
+        iface: iface,
+        host: @host,
+        use_slaac: host_param_true?('use-slaac'),
+        static: @static,
+        static6: @static6
+      }
+    ) -%>
 <%
 end
 -%>

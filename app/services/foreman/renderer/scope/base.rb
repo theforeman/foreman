@@ -9,7 +9,6 @@ module Foreman
         include Foreman::Renderer::Scope::Macros::TemplateLogging
         include Foreman::Renderer::Scope::Macros::SnippetRendering
         include Foreman::Renderer::Scope::Macros::Transpilers
-        include Foreman::Renderer::Scope::Macros::Kickstart
 
         def self.inherited(child_class)
           loaders.each { |loader| child_class.register_loader(loader) }

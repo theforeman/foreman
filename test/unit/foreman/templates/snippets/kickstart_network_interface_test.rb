@@ -6,7 +6,7 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
   end
 
   def render_template(iface, host:, use_slaac:, static:, static6:)
-    @snippet ||= File.read(File.expand_path('../../../../../app/views/unattended/provisioning_templates/snippet/kickstart_network_interface.erb', __dir__))
+    @snippet ||= File.read(Rails.root.join('app', 'views', 'unattended', 'provisioning_templates', 'snippet', 'kickstart_network_interface.erb'))
 
     source = OpenStruct.new(
       name: 'Test',
@@ -52,10 +52,7 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
     end
 
     test 'should skip non-managed interfaces' do
-      iface = FactoryBot.build(:nic_base, :primary => true)
-
-      require 'pry-byebug'
-      binding.pry
+      iface = FactoryBot.build(:nic_base, primary: true, managed: false)
 
       actual = render_template(
         iface,
@@ -65,7 +62,7 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
         static6: false
       )
 
-      assert_nil actual
+      assert_empty actual
     end
 
     test 'should create bond interface' do
@@ -86,11 +83,34 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
         static6: false
       )
 
-      assert_match(/bondslaves/, actual)
-      assert_match(/bonded_slave1/, actual)
-      assert_match(/bonded_slave2/, actual)
-      assert_match(/mode=test_mode,/, actual)
-      assert_match(/,option_a=foo,option_b=bar/, actual)
+      assert_not_nil(bondslaves_match = /--bondslaves=([^ ]*)/.match(actual))
+      assert_match(/bonded_slave1/, bondslaves_match[1])
+      assert_match(/bonded_slave2/, bondslaves_match[1])
+      assert_not_nil(bondopts_match = /--bondopts=([^ ]*)/.match(actual))
+      assert_match(/mode=test_mode,/, bondopts_match[1])
+      assert_match(/,option_a=foo,option_b=bar/, bondopts_match[1])
+    end
+
+    test 'should create bridge interface' do
+      iface = FactoryBot.build(
+        :nic_bridge,
+        primary: true,
+        identifier: 'test_bridge',
+        attached_devices: ['bridged_slave1', 'bridged_slave2'],
+        attrs: {bridge: true}
+      )
+
+      actual = render_template(
+        iface,
+        host: @host,
+        use_slaac: false,
+        static: false,
+        static6: false
+      )
+
+      assert_not_nil(bridgeslaves_match = /--bridgeslaves=([^ ]*)/.match(actual))
+      assert_match(/bridged_slave1/, bridgeslaves_match[1])
+      assert_match(/bridged_slave2/, bridgeslaves_match[1])
     end
 
     test 'should set correct noipv6 flag' do
@@ -151,8 +171,8 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       assert_match(/--ip/, actual)
       assert_match(/--netmask/, actual)
       assert_match(/--gateway/, actual)
-      assert_match(/--bootproto/, actual)
-      assert_match(/static/, actual)
+      assert_not_nil(bootproto_match = /--bootproto ([^ ]*)/.match(actual))
+      assert_match(/static/, bootproto_match[1])
     end
 
     test 'should use dhcp ipv4 configuration' do
@@ -170,15 +190,16 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
         static6: false
       )
 
-      assert_match(/--bootproto/, actual)
-      assert_match(/dhcp/, actual)
+      assert_not_nil(bootproto_match = /--bootproto ([^ ]*)/.match(actual))
+      assert_match(/dhcp/, bootproto_match[1])
     end
 
     test 'should use static ipv6 configuration' do
       iface = FactoryBot.build(
         :nic_managed,
         primary: true,
-        subnet6: FactoryBot.build(:subnet_ipv6_static_for_snapshots)
+        subnet6: FactoryBot.build(:subnet_ipv6_static_for_snapshots),
+        ip6: '2001:db8:42::2'
       )
 
       actual = render_template(
@@ -189,8 +210,11 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
         static6: true
       )
 
-      assert_match(/--ipv6=/, actual)
-      assert_match(/--ipv6gateway=/, actual)
+      assert_not_nil(ipv6_match = %r{--ipv6=([^/]*)/([^ ]*)}.match(actual))
+      assert_match(iface.ip6, ipv6_match[1])
+      assert_match(iface.subnet6.cidr.to_s, ipv6_match[2])
+      assert_not_nil(gateway_match = /--ipv6gateway=([^ ]*)/.match(actual))
+      assert_match(iface.subnet6.gateway, gateway_match[1])
     end
 
     test 'should use dhcp ipv6 configuration' do
@@ -208,8 +232,8 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
         static6: false
       )
 
-      assert_match(/--ipv6/, actual)
-      assert_match(/dhcp/, actual)
+      assert_not_nil(ipv6_match = /--ipv6 ([^ ]*)/.match(actual))
+      assert_match(/dhcp/, ipv6_match[1])
     end
 
     test 'should use auto ipv6 configuration' do
@@ -227,8 +251,8 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
         static6: false
       )
 
-      assert_match(/--ipv6/, actual)
-      assert_match(/auto/, actual)
+      assert_not_nil(ipv6_match = /--ipv6 ([^ ]*)/.match(actual))
+      assert_match(/auto/, ipv6_match[1])
     end
 
     test 'should set vlan options' do
@@ -248,9 +272,10 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
         static6: false
       )
 
-      assert_match(/--vlanid/, actual)
-      assert_match(/333/, actual)
-      assert_match(/--interfacename/, actual)
+      assert_not_nil(vlan_match = /--vlanid=([^ ]*)/.match(actual))
+      assert_match(/333/, vlan_match[1])
+      assert_not_nil(interfacename_match = /--interfacename=([^ ]*)/.match(actual))
+      assert_match(/vlan333/, interfacename_match[1])
     end
 
     test 'should set DNS servers' do
@@ -268,9 +293,10 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
         static6: false
       )
 
-      assert_match(/--nameserver/, actual)
-      assert_match(/192.168.42.2/, actual)
-      assert_match(/192.168.42.3/, actual)
+      assert_not_nil(nameserver_match = /--nameserver=([^ ]*)/.match(actual))
+      # order is not promised for nameserver list
+      assert_match(/192.168.42.2/, nameserver_match[1])
+      assert_match(/192.168.42.3/, nameserver_match[1])
     end
 
     test 'should set nodns flag' do
@@ -321,8 +347,8 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
         static6: false
       )
 
-      assert_match(/--ipv4-dns-search/, actual)
-      assert_match(/test.com/, actual)
+      assert_not_nil(dns_search_match = /--ipv4-dns-search=([^ ]*)/.match(actual))
+      assert_match(/test.com/, dns_search_match[1])
     end
   end
 end

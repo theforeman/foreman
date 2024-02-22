@@ -7,10 +7,10 @@ kind: snippet
 description: |
   Generates network directive for a given interface. It is not expected to be used directly.
 -%>
-
-<%# Variables: iface, host, use_slaac, static, static6 -%>
-
-<%if @iface.managed? %>
+<%#
+  # Variables: iface, host, use_slaac, static, static6
+-%>
+<%if @iface.managed? -%>
 <%
 network_options = []
 nameservers = []
@@ -18,7 +18,7 @@ subnet4 = @iface.subnet
 subnet6 = @iface.subnet6
 
 # device and hostname
-if @iface.bond?
+if @iface.bond? || @iface.bridge?
   network_options.push("--device=#{@iface.identifier}")
 else
   network_options.push("--device=#{@iface.mac || @iface.identifier}")
@@ -26,17 +26,16 @@ end
 network_options.push("--hostname #{@host.name}")
 
 # single stack
-if subnet4 && !subnet6
-  network_options.push("--noipv6")
-elsif !subnet4 && subnet6
-  network_options.push("--noipv4")
-end
+network_options.push("--noipv6") if subnet4 && !subnet6
+network_options.push("--noipv4") if !subnet4 && subnet6
 
 # dual stack MTU check
 raise("IPv4 and IPv6 subnets have different MTU") if subnet4 && subnet6 && subnet4.mtu.present? && subnet6.mtu.present? && subnet4.mtu != subnet6.mtu
 
 # mtu method is taking into account both ipv4 and ipv6 stacks
-network_options.push("--mtu=#{@iface.mtu}") if @iface.mtu
+if @iface.respond_to?(:mtu) && @iface.mtu
+  network_options.push("--mtu=#{@iface.mtu}")
+end
 
 # IPv4
 if subnet4
@@ -75,6 +74,13 @@ if @iface.bond?
   network_options.push("--bondopts=mode=#{@iface.mode},#{@iface.bond_options.tr(' ', ',')}")
 end
 
+# bridge
+if @iface.bridge?
+  bridge_slaves = @iface.attached_devices_identifiers.join(',')
+  network_options.push("--bridgeslaves=#{bridge_slaves}")
+  # Currently no support for bridge options in the interface.
+end
+
 # VLAN (only on physical is recognized)
 if @iface.virtual? && @iface.tag.present? && @iface.attached_to.present?
   network_options.push("--vlanid=#{@iface.tag}")
@@ -93,6 +99,6 @@ if @iface.domain && @host.operatingsystem.meets_requirement(fedora: 39, rhel: 10
   network_options.push("--ipv4-dns-search=#{@iface.domain}") if subnet4
   network_options.push("--ipv6-dns-search=#{@iface.domain}") if subnet6
 end
-%>
-<%= "network #{network_options.join(' ')}" %>
-<% end %>
+-%>
+<%= "network #{network_options.join(' ')}\n" -%>
+<% end -%>

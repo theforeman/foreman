@@ -53,14 +53,18 @@ liveimg --url=<%= liveimg_url %>
 
 <%
 # start with provisioning interface, then other non-bond interfaces and the bonds at the end
-@host.managed_interfaces.sort_by { |iface| iface.bond? 0 : iface.provision? 20 : 10 }.each |iface| do
+@host.managed_interfaces.sort_by { |iface| (iface.bond? || iface.bridge?) 0 : iface.provision? 20 : 10 }.each |iface| do
 %>
-  <%= kickstart_network(
-        iface,
-        host: @host,
-        use_slaac: false,
-        static: @static,
-        static6: @static6) %>
+  <%= snippet(
+        'kickstart_network_interface',
+        variables: {
+          iface: iface,
+          host: @host,
+          use_slaac: false,
+          static: @static,
+          static6: @static6
+          }
+      ) -%>
 <%
 end
 -%>
