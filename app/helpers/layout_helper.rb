@@ -95,8 +95,13 @@ module LayoutHelper
     content_for(:stylesheets) { stylesheet_link_tag(*args) }
   end
 
-  def javascript(*args)
-    content_for(:javascripts) { javascript_include_tag(*args) }
+  def javascript(*args, **kwargs)
+    # Workaround for overriding javascript load with webpack_asset_paths, should be removed when webpack_asset_paths is removed
+    if kwargs.is_a?(Hash) && kwargs[:source] == "webpack_asset_paths"
+      content_for(:javascripts) { kwargs[:webpacked] }
+    else
+      content_for(:javascripts) { javascript_include_tag(*args, **kwargs) }
+    end
   end
 
   def javascript_include_tag(*params, **kwargs)
