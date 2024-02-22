@@ -13,8 +13,7 @@ class HostMailer < ApplicationMailer
     host_data = ConfigReport.summarise(time, hosts.all).sort
 
     total_metrics = load_metrics(host_data)
-    total = 0
-    total_metrics.values.each { |v| total += v }
+    total = total_metrics.each_value.sum
 
     @hosts = host_data
     @timerange = time

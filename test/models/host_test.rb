@@ -197,7 +197,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'should not update with multiple invalid macs' do
     host = FactoryBot.create(:host)
-    RFauxFactory.gen_strings(256).values.each do |mac|
+    RFauxFactory.gen_strings(256).each_value do |mac|
       host.interfaces.first.mac = mac
       refute host.valid?, "Can update host with invalid mac #{mac}"
       assert_includes host.errors.attribute_names, :'interfaces.mac'
