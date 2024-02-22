@@ -82,11 +82,12 @@ module Foreman
     private
 
     def expand_nested(filter, context)
-      if filter.is_a?(ParameterFilter)
+      case filter
+      when ParameterFilter
         filter.filter(Context.new(:nested, context.controller_name, context.action))
-      elsif filter.is_a?(Hash)
+      when Hash
         filter.transform_values { |v| expand_nested(v, context) }
-      elsif filter.is_a?(Array)
+      when Array
         filter.map { |v| expand_nested(v, context) }
       else
         filter

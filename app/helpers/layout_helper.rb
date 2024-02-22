@@ -115,13 +115,14 @@ module LayoutHelper
 
   # @deprecated Previously provided by webpack-rails
   def webpack_asset_paths(plugin_name, extension: 'js')
-    if extension == 'js'
+    case extension
+    when 'js'
       Foreman::Deprecation.deprecation_warning('3.12', '`webpack_asset_paths` is deprecated, use `content_for(:javascripts) { webpacked_plugins_js_for(plugin_name) }` instead.')
       [{
         source: 'webpack_asset_paths',
         webpacked: webpacked_plugins_js_for(plugin_name.to_sym),
       }]
-    elsif extension == 'css'
+    when 'css'
       Foreman::Deprecation.deprecation_warning('3.12', '`webpack_asset_paths` is deprecated and not needed for css assets.')
       nil
     end

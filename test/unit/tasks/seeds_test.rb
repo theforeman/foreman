@@ -64,9 +64,10 @@ class SeedsTest < ActiveSupport::TestCase
       requirements = Template.parse_metadata(template)['require'] || []
       # skip templates that require plugins that aren't available
       next unless SeedHelper.send(:test_template_requirements, tmpl, requirements)
-      if tmpl =~ /partition_tables_templates/
+      case tmpl
+      when /partition_tables_templates/
         assert Ptable.unscoped.where(:template => template).any?, "No partition table containing #{tmpl}"
-      elsif tmpl =~ /report_templates/
+      when /report_templates/
         assert ReportTemplate.unscoped.where(:template => template).any?, "No report template containing #{tmpl}"
       else
         assert ProvisioningTemplate.unscoped.where(:template => template).any?, "No template containing #{tmpl}"

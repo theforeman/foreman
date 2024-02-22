@@ -96,10 +96,11 @@ module ComputeResourcesVmsHelper
 
   def openstack_available_actions(vm, authorizer = nil)
     actions = []
-    if vm.state == 'ACTIVE'
+    case vm.state
+    when 'ACTIVE'
       actions << vm_power_action(vm, authorizer)
       actions << vm_pause_action(vm, authorizer)
-    elsif vm.state == 'PAUSED'
+    when 'PAUSED'
       actions << vm_pause_action(vm, authorizer)
     else
       actions << vm_power_action(vm, authorizer)

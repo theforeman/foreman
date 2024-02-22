@@ -139,9 +139,10 @@ module Foreman
       end
 
       def _inline_validates(name, validations)
-        if validations.is_a?(Regexp)
+        case validations
+        when Regexp
           validations = { format: { with: validations } }
-        elsif validations.is_a?(Symbol)
+        when Symbol
           validations = { validations => true }
         end
         validates(name, validations)
