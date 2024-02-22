@@ -25,9 +25,10 @@ class Windows < Operatingsystem
     pxe_dir = ""
 
     PXEFILES.values.collect do |img|
-      if img =~ /boot.sdi/i || img =~ /bcd/i
+      case img
+      when /boot.sdi/i, /bcd/i
         pxe_dir = "boot"
-      elsif img =~ /boot.wim/i
+      when /boot.wim/i
         pxe_dir = "sources"
       else
         pxe_dir = ""

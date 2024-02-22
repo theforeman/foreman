@@ -11,13 +11,14 @@ module ActiveSupport
     end
 
     def deep_convert_value(value, options = {})
-      if value.is_a? HashWithIndifferentAccess
+      case value
+      when HashWithIndifferentAccess
         if options[:for] == :to_hash
           value.deep_to_hash
         else
           value.nested_under_indifferent_access
         end
-      elsif value.is_a?(Array)
+      when Array
         value = value.dup unless options[:for] == :assignment
         value.map! { |e| deep_convert_value(e, options) }
       else

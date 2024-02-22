@@ -75,10 +75,11 @@ module TemplatesHelper
       textarea_f(f, :value, options.merge(rows: 2, class: input.hidden_value? ? 'masked-input' : ''))
     else
       input_type = input.value_type
-      if input_type == 'date'
+      case input_type
+      when 'date'
         input_type = 'dateTime'
         options[:label_help] ||= 'Format is yyyy-MM-dd HH-mm-ss'
-      elsif input_type == 'search'
+      when 'search'
         input_type = 'autocomplete'
         resource_type = input.resource_type&.tableize
         options[:data] = {

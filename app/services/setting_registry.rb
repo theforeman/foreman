@@ -34,10 +34,11 @@ class SettingRegistry
 
     def complete_value_from_db(field, val)
       count = 20
-      if field.field == :name
+      case field.field
+      when :name
         results = @registry.filter_map { |set| ((set.full_name =~ /\s/) ? "\"#{set.full_name.gsub('"', '\"')}\"" : set.full_name) if set.name.include?(val) || set.full_name&.include?(val) }
         results.first(count)
-      elsif field.field == :description
+      when :description
         []
       else
         raise ScopedSearch::QueryNotSupported, "Value '#{val}' is not valid for field '#{field.field}'"

@@ -1,9 +1,10 @@
 class NameSynchronizer
   def initialize(object)
-    if object.is_a?(Host::Base)
+    case object
+    when Host::Base
       @host = object
       @interface = @host.primary_interface
-    elsif object.is_a?(Nic::Base)
+    when Nic::Base
       @interface = object
       @host = @interface.host
     else

@@ -64,11 +64,12 @@ module Foreman
         return value.to_i if value.is_a?(Numeric)
 
         if value.is_a?(String)
-          if value =~ /^0x[0-9a-f]+$/i
+          case value
+          when /^0x[0-9a-f]+$/i
             value.to_i(16)
-          elsif value =~ /^0[0-7]+$/
+          when /^0[0-7]+$/
             value.to_i(8)
-          elsif value =~ /^-?\d+$/
+          when /^-?\d+$/
             value.to_i
           else
             raise TypeError

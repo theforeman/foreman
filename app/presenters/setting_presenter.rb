@@ -85,12 +85,13 @@ class SettingPresenter
       raise ::Foreman::Exception.new N_('Unsupported search operators :and / :or')
     end
 
-    if query =~ /name\s*=\s*(\S+)/
+    case query
+    when /name\s*=\s*(\S+)/
       name == tokenized.last || full_name == tokenized.last
-    elsif query =~ /name\s*~\s*(\S+)/
+    when /name\s*~\s*(\S+)/
       search_value = tokenized.last
       name.include?(search_value) || full_name&.include?(search_value)
-    elsif query =~ /description\s*~\s*(\S+)/
+    when /description\s*~\s*(\S+)/
       search_value = tokenized.last
       description.include? search_value
     else
