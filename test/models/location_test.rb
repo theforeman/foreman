@@ -47,7 +47,7 @@ class LocationTest < ActiveSupport::TestCase
 
   test 'should update with multiple valid descriptions' do
     location = FactoryBot.create(:location)
-    RFauxFactory.gen_strings(300).values.each do |description|
+    RFauxFactory.gen_strings(300).each_value do |description|
       location.description = description
       assert location.valid?, "Can't update location with valid description #{description}"
     end

@@ -71,7 +71,7 @@ module Api
         param :interfaces_attributes, Array, desc: N_("Host's network interfaces") do
           param_group :interface_attributes, ::Api::V2::InterfacesController
         end
-        Facets.registered_facets.values.each do |facet_config|
+        Facets.registered_facets.each_value do |facet_config|
           next unless facet_config.host_configuration.api_param_group && facet_config.host_configuration.api_controller
           param "#{facet_config.name}_attributes".to_sym, Hash, desc: facet_config.api_param_group_description || (N_("Parameters for host's %s facet") % facet_config.name) do
             facet_config.host_configuration.load_api_controller

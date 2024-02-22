@@ -99,7 +99,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'should update with multiple valid firstname' do
     user = users(:one)
-    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values.each do |firstname|
+    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).each_value do |firstname|
       user.firstname = firstname
       assert user.valid?, "Can't update user with valid firstname #{firstname}"
     end
@@ -107,7 +107,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'should update with multiple valid lastname' do
     user = users(:one)
-    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values.each do |lastname|
+    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).each_value do |lastname|
       user.lastname = lastname
       assert user.valid?, "Can't update user with valid lastname #{lastname}"
     end
@@ -115,7 +115,7 @@ class UserTest < ActiveSupport::TestCase
 
   test 'should update with multiple valid username' do
     user = users(:apiadmin)
-    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values.each do |login|
+    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).each_value do |login|
       user.login = login
       assert user.valid?, "Can't update user with valid login #{login}"
     end
