@@ -167,16 +167,16 @@ class ApplicationController < ActionController::Base
 
   def action_permission
     case params[:action]
-      when 'new', 'create'
-        'create'
-      when 'edit', 'update'
-        'edit'
-      when 'destroy'
-        'destroy'
-      when 'index', 'show'
-        'view'
-      else
-        raise ::Foreman::Exception.new(N_("unknown permission for %s"), "#{params[:controller]}##{params[:action]}")
+    when 'new', 'create'
+      'create'
+    when 'edit', 'update'
+      'edit'
+    when 'destroy'
+      'destroy'
+    when 'index', 'show'
+      'view'
+    else
+      raise ::Foreman::Exception.new(N_("unknown permission for %s"), "#{params[:controller]}##{params[:action]}")
     end
   end
 
@@ -196,13 +196,11 @@ class ApplicationController < ActionController::Base
     @original_search_parameter = params[:search]
     params[:search] ||= ""
     params.each do |param, value|
-      if param =~ /(\w+)_id$/
-        if value.present?
-          query = "#{Regexp.last_match(1)} = #{value}"
-          unless params[:search].include? query
-            params[:search] += ' and ' if params[:search].present?
-            params[:search] += query
-          end
+      if param =~ /(\w+)_id$/ && value.present?
+        query = "#{Regexp.last_match(1)} = #{value}"
+        unless params[:search].include? query
+          params[:search] += ' and ' if params[:search].present?
+          params[:search] += query
         end
       end
     end

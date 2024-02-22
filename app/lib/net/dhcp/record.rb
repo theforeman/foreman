@@ -74,9 +74,7 @@ module Net::DHCP
       # If we're converting an 'ad-hoc' lease created by a host booting outside of Foreman's knowledge,
       # then :hostname will be blank on the incoming lease - if the ip/mac still match, then this
       # isn't a conflict. Only applicable on legacy proxy API without "type" attribute.
-      if legacy_dhcp_api?
-        to_compare << :hostname if other.attrs[:hostname].present? && attrs[:hostname].present?
-      end
+      to_compare << :hostname if legacy_dhcp_api? && other.attrs[:hostname].present? && attrs[:hostname].present?
 
       logger.debug "Comparing #{attrs.values_at(*to_compare)} == #{other.attrs.values_at(*to_compare)}"
       attrs.values_at(*to_compare) == other.attrs.values_at(*to_compare)

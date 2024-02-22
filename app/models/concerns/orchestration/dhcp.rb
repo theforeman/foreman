@@ -173,11 +173,9 @@ module Orchestration::DHCP
       (!old.build? && build? && !all_dhcp_records_valid?))
     # Handle jumpstart
     # TODO, abstract this way once interfaces are fully used
-    if is_a?(Host::Base) && jumpstart?
-      if !old.build? || (old.medium != medium || old.arch != arch) ||
-          (os && old.os && (old.os.name != os.name || old.os != os))
-        return true
-      end
+    if is_a?(Host::Base) && jumpstart? && (!old.build? || (old.medium != medium || old.arch != arch) ||
+          (os && old.os && (old.os.name != os.name || old.os != os)))
+      return true
     end
     false
   end
