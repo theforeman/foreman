@@ -1,6 +1,6 @@
 # TRANSLATORS: do not translate
 desc <<~END_DESC
-  Expire or anonymize old audits automatically. 
+  Expire or anonymize old audits automatically.#{' '}
   The number of days can be easily defined in Settings or you can use "days" parameter.
   If both Setting and parameter are undefined, task finishes without cleaning any audits.
   Template audits are left uncleaned.
