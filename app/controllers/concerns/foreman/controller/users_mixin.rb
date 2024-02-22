@@ -13,9 +13,10 @@ module Foreman::Controller::UsersMixin
   protected
 
   def clear_session_locale_on_update
-    if params[:user] && editing_self?
+    user_params = params[:user]
+    if user_params && editing_self? && user_params[:locale].blank?
       # Remove locale from the session when set to "Browser Locale" and editing self
-      session.delete(:locale) if params[:user][:locale].try(:empty?)
+      session.delete(:locale)
     end
   end
 

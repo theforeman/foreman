@@ -300,16 +300,12 @@ class Template < ApplicationRecord
     actual_changes = changes
 
     # Locked & Default are Special
-    if actual_changes.include?('locked') && !modify_locked
-      if User.current.nil? || !User.current.can?("lock_#{self.class.to_s.underscore.pluralize}", self)
-        errors.add(:base, _("You are not authorized to lock templates."))
-      end
+    if actual_changes.include?('locked') && !modify_locked && (User.current.nil? || !User.current.can?("lock_#{self.class.to_s.underscore.pluralize}", self))
+      errors.add(:base, _("You are not authorized to lock templates."))
     end
 
-    if actual_changes.include?('default') && !modify_default
-      if User.current.nil? || !(User.current.can?(:create_organizations) || User.current.can?(:create_locations))
-        errors.add(:base, _("You are not authorized to make a template default."))
-      end
+    if actual_changes.include?('default') && !modify_default && (User.current.nil? || !(User.current.can?(:create_organizations) || User.current.can?(:create_locations)))
+      errors.add(:base, _("You are not authorized to make a template default."))
     end
 
     # API request can be changing the locked content (not allowed_changes) but the locked attribute at the same

@@ -23,9 +23,7 @@ module Menu
     end
 
     def to_hash
-      if @condition.present?
-        return unless @condition.call
-      end
+      return if @condition.present? && !@condition.call
       {type: :item, exact: @exact, html_options: @html_options, name: @caption || @name, url: url} if authorized?
     end
 

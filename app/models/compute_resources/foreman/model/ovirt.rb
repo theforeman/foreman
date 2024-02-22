@@ -619,10 +619,8 @@ module Foreman::Model
         raise Foreman::Exception.new("Interface network or vnic profile are missing.") if (interface[:network].nil? && interface[:vnic_profile].nil?)
         interface[:network] = get_ovirt_id(cluster_networks, 'network', interface[:network]) if interface[:network].present?
         interface[:vnic_profile] = get_ovirt_id(profiles, 'vnic profile', interface[:vnic_profile]) if interface[:vnic_profile].present?
-        if (interface[:network].present? && interface[:vnic_profile].present?)
-          unless (profiles.select { |profile| profile.network.id == interface[:network] }).present?
-            raise Foreman::Exception.new("Vnic Profile have a different network")
-          end
+        if interface[:network].present? && interface[:vnic_profile].present? && profiles.none? { |profile| profile.network.id == interface[:network] }
+          raise Foreman::Exception.new("Vnic Profile have a different network")
         end
         vm.add_interface(interface)
       end
