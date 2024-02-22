@@ -47,8 +47,8 @@ module UINotifications
       feed.items[0, @latest_posts].each do |feed_item|
         item = Item.new(feed_item)
         blueprint = rss_notification_blueprint
-        if notification_already_exists?(item)
-          next unless @force_repost
+        if notification_already_exists?(item) && !@force_repost
+          next
         end
         Notification.create(
           :initiator => User.anonymous_admin,

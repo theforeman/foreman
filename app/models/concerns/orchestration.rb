@@ -170,8 +170,8 @@ module Orchestration
 
     rollback
   ensure
-    unless q.nil?
-      if processed > 0
+    # rubocop:enable Rails/FindEach
+if !q.nil? && (processed > 0)
         logger.info("Processed #{processed} tasks from queue '#{q.name}', completed #{q.completed.count}/#{q.all.count}") unless q.empty?
         # rubocop:disable Rails/FindEach
         q.all.each do |task|
@@ -184,7 +184,6 @@ module Orchestration
         end
         # rubocop:enable Rails/FindEach
       end
-    end
   end
 
   def fail_queue(q)
