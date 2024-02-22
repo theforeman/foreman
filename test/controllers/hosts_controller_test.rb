@@ -1562,6 +1562,6 @@ class HostsControllerTest < ActionController::TestCase
       :root_pass          => "123456789",
       :location_id        => taxonomies(:location1).id,
       :organization_id    => taxonomies(:organization1).id
-                       )
+    )
   end
 end
