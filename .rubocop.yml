@@ -88,3 +88,6 @@ Minitest/AssertEmptyLiteral:
 
 Minitest/RefuteNil:
   Enabled: true
+
+Style/OptionalBooleanParameter:
+  Enabled: false
