@@ -93,7 +93,7 @@ namespace :db do
     puts "You can backup the old database '#{config['database']}' by running:"
     puts " - foreman-rake db:dump destination=/mydir/dumps/foreman.sql RAILS_ENV=#{Rails.env}"
     puts "This task will destroy your old database tables! Are you sure you want to continue? [y/N]"
-    input = STDIN.gets.chomp
+    input = $stdin.gets.chomp
     abort("Bye!") unless input.downcase == "y"
     case config['adapter']
     when 'postgresql'
