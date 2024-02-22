@@ -111,8 +111,8 @@ module Hostext
         end
 
         test "invalid fact property should properly format" do
-          assert_match /\'goofy.bad\'/, Host.search_for("facts.goofy.bad=value").to_sql
-          assert_match /\'goofy\'/, Host.search_for("facts.goofy=value").to_sql
+          assert_match /'goofy.bad'/, Host.search_for("facts.goofy.bad=value").to_sql
+          assert_match /'goofy'/, Host.search_for("facts.goofy=value").to_sql
         end
 
         test "searching fact on complex search returns correct host" do

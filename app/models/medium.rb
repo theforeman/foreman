@@ -16,7 +16,7 @@ class Medium < ApplicationRecord
   has_many :hostgroups, :dependent => :nullify
 
   # We need to include $ in this as $arch, $release, can be in this string
-  VALID_NFS_PATH = /\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/
+  VALID_NFS_PATH = /\A([-\w\d.]+):(\/[\w\d\/$.]+)\Z/
   validates :name, :uniqueness => true, :presence => true
   validates :path, :uniqueness => true, :presence => true,
     :url_schema => ['http', 'https', 'ftp', 'nfs']

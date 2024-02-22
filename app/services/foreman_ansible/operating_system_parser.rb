@@ -52,7 +52,7 @@ module ForemanAnsible
 
     def os_major
       if os_name == 'Debian' &&
-          (facts[:ansible_distribution_major_version][%r{\/sid}i] ||
+          (facts[:ansible_distribution_major_version][%r{/sid}i] ||
            facts[:ansible_distribution_major_version] == 'n/a')
         debian_os_major_sid
       else
