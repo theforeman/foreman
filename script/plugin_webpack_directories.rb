@@ -17,11 +17,11 @@ else
 end
 
 def log_skip_plugin(plugin_name, reason)
-  STDERR.puts "Skipping plugin #{plugin_name}: #{reason}"
+  $stderr.puts "Skipping plugin #{plugin_name}: #{reason}"
 end
 
 def log_plugin(plugin_name)
-  STDERR.puts "Processing plugin #{plugin_name}"
+  $stderr.puts "Processing plugin #{plugin_name}"
 end
 
 def entry_name(plugin_name, entry)

@@ -95,8 +95,8 @@ module TestCaseRailsLoggerExtensions
     ActiveRecord::Base.logger = @_ext_old_ar_logger if @_ext_old_ar_logger
     if (ENV['PRINT_TEST_LOGS_ON_ERROR'] && error?) || (ENV['PRINT_TEST_LOGS_ON_FAILURE'] && !passed?)
       @_ext_current_buffer.close_write
-      STDOUT << "\n\nRails logs for #{name} FAILURE:\n"
-      STDOUT << @_ext_current_buffer.string
+      $stdout << "\n\nRails logs for #{name} FAILURE:\n"
+      $stdout << @_ext_current_buffer.string
     end
     super
   ensure
