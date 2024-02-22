@@ -15,7 +15,7 @@ namespace :puppet do
         name = yaml.match(/.*\/(.*).yaml/)[1]
         puts "Importing #{name}"
         puppet_facts = File.read(yaml)
-        facts_stripped_of_class_names = YAML.safe_load(puppet_facts.gsub(/\!ruby\/object.*$/, ''))
+        facts_stripped_of_class_names = YAML.safe_load(puppet_facts.gsub(/!ruby\/object.*$/, ''))
         User.as_anonymous_admin do
           host = Host::Managed.import_host(facts_stripped_of_class_names['name'], 'puppet')
           HostFactImporter.new(host).import_facts(facts_stripped_of_class_names['values'])

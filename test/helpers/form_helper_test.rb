@@ -102,7 +102,7 @@ class FormHelperTest < ActionView::TestCase
     user = FactoryBot.build_stubbed(:user,
       :organizations => [taxonomies(:organization1)])
     form_for Filter.new do |f|
-      assert_match(/input name=\"filter\[organization_ids\]\[\].*/,
+      assert_match(/input name="filter\[organization_ids\]\[\].*/,
         multiple_checkboxes(f, :organizations, f.object, user.organizations))
     end
   end

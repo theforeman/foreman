@@ -101,21 +101,21 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
       test 'with default expiration' do
         post :create, session: set_session_user
         command = JSON.parse(@response.body)['command']
-        parsed_token = command.scan(/(?<=Bearer )(.*)(?=.*)(?=\')/).flatten[0]
+        parsed_token = command.scan(/(?<=Bearer )(.*)(?=.*)(?=')/).flatten[0]
         assert JwtToken.new(parsed_token).decode['exp']
       end
 
       test 'with expiration' do
         post :create, params: { jwt_expiration: 23 }, session: set_session_user
         command = JSON.parse(@response.body)['command']
-        parsed_token = command.scan(/(?<=Bearer )(.*)(?=.*)(?=\')/).flatten[0]
+        parsed_token = command.scan(/(?<=Bearer )(.*)(?=.*)(?=')/).flatten[0]
         assert JwtToken.new(parsed_token).decode['exp']
       end
 
       test 'unlimited' do
         post :create, params: { jwt_expiration: 'unlimited' }, session: set_session_user
         command = JSON.parse(@response.body)['command']
-        parsed_token = command.scan(/(?<=Bearer )(.*)(?=.*)(?=\')/).flatten[0]
+        parsed_token = command.scan(/(?<=Bearer )(.*)(?=.*)(?=')/).flatten[0]
 
         refute JwtToken.new(parsed_token).decode['exp']
       end
@@ -123,7 +123,7 @@ class RegistrationCommandsControllerTest < ActionController::TestCase
       test '0' do
         post :create, params: { jwt_expiration: 0 }, session: set_session_user
         command = JSON.parse(@response.body)['command']
-        parsed_token = command.scan(/(?<=Bearer )(.*)(?=.*)(?=\')/).flatten[0]
+        parsed_token = command.scan(/(?<=Bearer )(.*)(?=.*)(?=')/).flatten[0]
         refute JwtToken.new(parsed_token).decode['exp']
       end
 

@@ -251,7 +251,7 @@ class PuppetFactParser < FactParser
       majorjunos, minorjunos = os_release_full.split("R")
       majorjunos + "." + minorjunos
     when /FreeBSD/i
-      os_release_full.gsub(/\-RELEASE\-p[0-9]+/, '')
+      os_release_full.gsub(/-RELEASE-p[0-9]+/, '')
     when /Solaris/i
       os_release_full.gsub(/_u/, '.')
     when /PSBM/i
