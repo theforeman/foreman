@@ -7,7 +7,7 @@ class PuppetFactParser < FactParser
     if orel.present?
       major, minor = orel.split('.', 2)
       major = major.to_s.gsub(/\D/, '')
-      minor = minor.to_s.gsub(/[^\d\.]/, '')
+      minor = minor.to_s.gsub(/[^\d.]/, '')
       args = {:name => os_name, :major => major, :minor => minor}
       os = Operatingsystem.find_or_initialize_by(args)
       if os_name[/debian|ubuntu/i] || os.family == 'Debian'
@@ -238,7 +238,7 @@ class PuppetFactParser < FactParser
       majorjunos, minorjunos = os_release_full.split("R")
       majorjunos + "." + minorjunos
     when /FreeBSD/i
-      os_release_full.gsub(/\-RELEASE\-p[0-9]+/, '')
+      os_release_full.gsub(/-RELEASE-p[0-9]+/, '')
     when /Solaris/i
       os_release_full.gsub(/_u/, '.')
     when /PSBM/i
