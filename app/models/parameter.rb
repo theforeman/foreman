@@ -83,7 +83,7 @@ class Parameter < ApplicationRecord
   end
 
   def set_searchable_value
-    self.searchable_value = Parameter.format_value_before_type_cast(value, key_type)
+    self.searchable_value = key_type == 'boolean' ? value.to_s : Parameter.format_value_before_type_cast(value, key_type)
   end
 
   def set_priority
