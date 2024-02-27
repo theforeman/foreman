@@ -71,3 +71,7 @@ else
   wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/built'
 fi
 
+if [ -x "$(command -v subscription-manager)" ] ; then
+  subscription-manager facts --update
+fi
+
