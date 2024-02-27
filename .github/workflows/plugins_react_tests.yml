@@ -66,10 +66,10 @@ jobs:
           repository: ${{ matrix.plugin }}
           path: ${{ github.workspace }}/projects/plugin
       - name: Generate ${{ matrix.plugin }} npm dependencies package-lock
-        run: npm install --package-lock-only --no-audit
+        run: npm install --package-lock-only --no-audit --legacy-peer-deps
         working-directory: ${{ github.workspace }}/projects/plugin
       - name: Install ${{ matrix.plugin }} npm dependencies
-        run: npm ci --no-audit
+        run: npm ci --no-audit --legacy-peer-deps
         working-directory: ${{ github.workspace }}/projects/plugin
       - name: Run ${{ matrix.plugin }} tests
         run: npm test
