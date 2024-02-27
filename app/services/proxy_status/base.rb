@@ -43,11 +43,9 @@ module ProxyStatus
       raise Foreman::WrappedException.new(e, N_('Unable to initialize ProxyAPI class %s'), "ProxyAPI::#{self.class.humanized_name}")
     end
 
-    def fetch_proxy_data(subkey = '')
+    def fetch_proxy_data(subkey = '', &block)
       if cache
-        Rails.cache.fetch(cache_key + subkey, :expires_in => cache_duration) do
-          yield
-        end
+        Rails.cache.fetch(cache_key + subkey, :expires_in => cache_duration, &block)
       else
         yield
       end

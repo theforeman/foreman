@@ -2,17 +2,13 @@ require "benchmark/benchmark_helper"
 require 'memory_profiler'
 require "stackprof"
 
-def with_memory_profiler
-  report = MemoryProfiler.report do
-    yield
-  end
+def with_memory_profiler(&block)
+  report = MemoryProfiler.report(&block)
   report.pretty_print
 end
 
-def with_stackprof
-  StackProf.run(mode: :object, raw: true, out: '/tmp/stackprof_objects.dump', interval: 1) do
-    yield
-  end
+def with_stackprof(&block)
+  StackProf.run(mode: :object, raw: true, out: '/tmp/stackprof_objects.dump', interval: 1, &block)
   puts '/tmp/stackprof_objects.dump dump created, please use "stackprof --text /tmp/stackprof_objects.dump" to investigate'
 end
 
