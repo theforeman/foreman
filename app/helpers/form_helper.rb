@@ -262,11 +262,9 @@ module FormHelper
     options
   end
 
-  def add_help_to_label(size_class, label, help_inline)
+  def add_help_to_label(size_class, label, help_inline, &block)
     label.html_safe +
-        content_tag(:div, :class => size_class) do
-          yield
-        end.html_safe + help_inline.html_safe
+        content_tag(:div, :class => size_class, &block).html_safe + help_inline.html_safe
   end
 
   def is_required?(f, attr)
@@ -356,7 +354,7 @@ module FormHelper
     link_to_function(name, "add_fields('#{options[:target]}', '#{association}', '#{escape_javascript(fields)}', '#{options[:direction] || 'append'}')".html_safe, options)
   end
 
-  def field(f, attr, options = {})
+  def field(f, attr, options = {}, &block)
     table_field = options.delete(:table_field)
     error       = options.delete(:error) || get_attr_error(f, attr)
     help_inline = help_inline(options.delete(:help_inline), error)
@@ -367,9 +365,7 @@ module FormHelper
     label = options[:no_label] ? "" : add_label(options, f, attr)
 
     if table_field
-      add_help_to_label(size_class, label, help_inline) do
-        yield
-      end.html_safe
+      add_help_to_label(size_class, label, help_inline, &block).html_safe
     else
       help_block = content_tag(:span, options.delete(:help_block), :class => "help-block")
 

@@ -90,11 +90,9 @@ class HostFactImporter
     end
   end
 
-  def skipping_orchestration
+  def skipping_orchestration(&block)
     if host.is_a?(Host::Managed)
-      host.without_orchestration do
-        yield
-      end
+      host.without_orchestration(&block)
     else
       yield
     end
