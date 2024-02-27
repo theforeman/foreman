@@ -1,7 +1,6 @@
 module SSO
   class Jwt < Base
-    attr_reader :current_user
-    attr_reader :failed_auth_message
+    attr_reader :current_user, :failed_auth_message
 
     def available?
       controller.api_request? && bearer_token_set? && no_issuer?
