@@ -27,9 +27,9 @@ module Menu
       children.select(&:authorized?)
     end
 
-    def children
+    def children(&block)
       if block_given?
-        @children.each { |child| yield child }
+        @children.each(&block)
       else
         @children
       end

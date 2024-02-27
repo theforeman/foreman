@@ -169,16 +169,14 @@ module ComputeResourcesVmsHelper
     selectable_f form, :resource_pool, resource_pools, options, :class => "col-md-2", :label => _('Resource pool'), :disabled => disabled
   end
 
-  def vms_table
+  def vms_table(&block)
     data = if @compute_resource.supports_vms_pagination?
              { :table => 'server', :source => compute_resource_vms_path }
            else
              { :table => 'inline' }
            end
 
-    content_tag :table, :class => table_css_classes, :width => '100%', :data => data do
-      yield
-    end
+    content_tag :table, :class => table_css_classes, :width => '100%', :data => data, &block
   end
 
   # Really counting vms is as expansive as loading them all, especially when
