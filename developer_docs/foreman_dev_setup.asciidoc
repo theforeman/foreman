@@ -5,12 +5,11 @@
 
 [[prerequisites]]
 == Prerequisites
-Foreman will run with the following requirements (aside from rubygem dependencies):
+Please refer to the `.github/matrix.json` file in the project repository to find the latest supported versions for Ruby, NodeJS, and PostgreSQL. This file is regularly updated to reflect our current support.
 
-* Ruby 2.7.x
-* NodeJS 14
-* NPM 6.x
-* PostgreSQL 10+ (12+ recommended)
+We recommend using PostgreSQL 12+.
+
+If you're using NPM version 7.x or higher, you will need to use the `--legacy-peer-deps` flag when installing npm packages. This is due to changes in how NPM handles peer dependencies from version 7 onwards.
 
 https://github.com/rbenv/rbenv[rbenv] or https://github.com/rvm/rvm[RVM] can be used to install compatible Ruby versions. Similarly, https://github.com/nvm-sh/nvm[nvm] can be used to manage node and npm on your system.
 
