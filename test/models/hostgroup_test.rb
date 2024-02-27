@@ -2,7 +2,7 @@ require 'test_helper'
 
 # Generates a list of valid host group names.
 def valid_hostgroup_name_list
-  # Note::
+  # NOTE:
   # Host group name max length is 245 chars.
   # 220 chars for html as the largest html tag in fauxfactory is 10 chars long,
   # so 245 - (10 chars + 10 chars + '<></>' chars) = 220 chars.

@@ -201,7 +201,7 @@ class User < ApplicationRecord
     }
   end
 
-  # note that if you assign user new usergroups which change the admin flag you must save
+  # NOTE: that if you assign user new usergroups which change the admin flag you must save
   # the record before #admin? will reflect this
   def admin?
     self[:admin] || inherited_admin?

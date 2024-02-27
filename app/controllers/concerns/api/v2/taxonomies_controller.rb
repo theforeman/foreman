@@ -78,7 +78,7 @@ module Api::V2::TaxonomiesController
   param_group :resource
   param :id, :identifier, :required => true
   def update
-    # NOTE - if not ! and invalid, the error is undefined method `permission_failed?' for #<Location:0x7fe38c1d3ec8> (NoMethodError)
+    # NOTE: if not ! and invalid, the error is undefined method `permission_failed?' for #<Location:0x7fe38c1d3ec8> (NoMethodError)
     # removed process_response & added explicit render 'api/v2/taxonomies/update'.  Otherwise, *_ids are not returned
 
     process_response @taxonomy.update(resource_params)

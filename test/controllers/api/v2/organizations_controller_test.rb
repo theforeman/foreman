@@ -190,7 +190,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
 
   test "org admin should not create organizations by default" do
     org = taxonomies(:organization1)
-    # Note: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.
+    # NOTE: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.
     load File.join(Rails.root, '/db/seeds.d/030-permissions.rb')
     load File.join(Rails.root, '/db/seeds.d/040-roles.rb')
     default_org_admin_role = Role.find_by_name('Organization admin')

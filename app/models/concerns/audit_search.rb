@@ -57,7 +57,7 @@ module AuditSearch
 
   module ClassMethods
     def auditable_type_complete_values
-      # Note: this will only work properly in production, as models are lazy loaded
+      # NOTE: this will only work properly in production, as models are lazy loaded
       # in development, meaning we won't have all the class names when this runs.
       complete_values = audited_classes_without_sti.each_with_object({}) do |name, obj|
         obj[name.underscore.to_sym] = name

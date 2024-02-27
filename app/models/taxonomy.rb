@@ -211,7 +211,7 @@ class Taxonomy < ApplicationRecord
     subtree.flat_map(&:users).map(&:id).uniq
   end
 
-  # note - this method used by before_destroy callbacks in extension files from plugins
+  # NOTE: this method used by before_destroy callbacks in extension files from plugins
   # audits for 'destroy' action on resources lead to taxable_taxonomies records.
   # This will check if any taxable_taxonomies records present and apply destroy_all
   # so that it nullifies all associated audit records
