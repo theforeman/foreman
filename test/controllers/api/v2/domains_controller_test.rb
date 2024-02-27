@@ -208,7 +208,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
       @org3 = FactoryBot.create(:organization)
       @loc1 = FactoryBot.create(:location)
       @role = FactoryBot.build(:role, :organization_ids => [@org1.id, @org2.id], :location_ids => [@loc1.id])
-      # note that edit_organizations is required for API calls like POST /organization/1/domain, for GET we require only view_organizations
+      # NOTE: that edit_organizations is required for API calls like POST /organization/1/domain, for GET we require only view_organizations
       @role.add_permissions!([:view_domains, :edit_domains, :view_locations, :assign_locations, :view_organizations, :assign_organizations, :create_domains, :edit_organizations, :edit_locations])
       @user = FactoryBot.create(:user, :organization_ids => [@org1.id, @org2.id], :location_ids => [@loc1.id], :roles => [@role])
 

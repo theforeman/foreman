@@ -6,7 +6,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
   # List of valid organization names.
   def valid_org_name_list
-    # Note: The maximum allowed length of org name is 242 only. This is an
+    # NOTE: The maximum allowed length of org name is 242 only. This is an
     # intended behavior (Also note that 255 is the standard across other
     # entities.)
     [
