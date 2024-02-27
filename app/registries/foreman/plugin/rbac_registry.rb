@@ -1,10 +1,8 @@
 module Foreman
   class Plugin
     class RbacRegistry
-      attr_accessor :role_ids, :default_roles, :registered_permissions
-      attr_accessor :add_all_permissions_to_default_roles, :default_roles_permissions_blocklist
-      attr_reader :modified_roles
-      attr_reader :added_resource_permissions
+      attr_accessor :role_ids, :default_roles, :registered_permissions, :add_all_permissions_to_default_roles, :default_roles_permissions_blocklist
+      attr_reader :modified_roles, :added_resource_permissions
 
       def initialize(plugin_id)
         @plugin_id = plugin_id

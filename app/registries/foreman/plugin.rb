@@ -50,8 +50,7 @@ module Foreman #:nodoc:
     @registries = {}
 
     class << self
-      attr_reader   :registered_plugins
-      attr_reader   :registries
+      attr_reader :registered_plugins, :registries
       attr_accessor :tests_to_skip
       private :new
 
