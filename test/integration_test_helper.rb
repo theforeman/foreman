@@ -20,16 +20,8 @@ Minitest::Retry.on_consistent_failure do |klass, test_name|
 end
 
 Selenium::WebDriver::Chrome::Service.driver_path = ENV['TESTDRIVER_PATH'] || Foreman::Util.which('chromedriver', Rails.root.join('node_modules', '.bin'))
-Capybara.register_driver :selenium_chrome do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.args << '--disable-gpu'
-  options.args << '--no-sandbox'
-  options.args << '--window-size=1024,768'
-  options.args << '--headless' unless ENV['DEBUG_JS_TEST'] == '1'
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
-end
 Capybara.configure do |config|
-  config.javascript_driver      = ENV["JS_TEST_DRIVER"]&.to_sym || :selenium_chrome
+  config.javascript_driver      = ENV.fetch("JS_TEST_DRIVER") { ENV['DEBUG_JS_TEST'] ? :selenium_chrome : :selenium_chrome_headless }.to_sym
   config.default_max_wait_time  = 20
   config.enable_aria_label = true
 end
