@@ -1,3 +1,7 @@
+require_dependency 'foreman/deprecation'
+require_dependency 'setting_presenter'
+require_dependency 'setting_select_collection'
+
 class SettingRegistry
   include Singleton
   include Enumerable

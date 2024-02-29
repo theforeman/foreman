@@ -119,8 +119,8 @@ module Foreman
     config.active_support.use_authenticated_message_encryption = false
     config.action_dispatch.use_authenticated_cookie_encryption = false
 
-    # Rails 6.0 changed this to :zeitwerk
-    config.autoloader = :classic
+    # Match Rails 7.0 default
+    config.action_controller.raise_on_open_redirects = true
 
     # Rails 6.1 changed this to true, but apparently our codebase is not ready for bidirectional associations
     config.active_record.has_many_inversing = false
@@ -138,7 +138,6 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
     config.autoload_paths += %W(#{config.root}/app/models/fact_names)
     config.autoload_paths += %W(#{config.root}/app/models/lookup_keys)
-    config.autoload_paths += %W(#{config.root}/app/models/host_status)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)

@@ -1,5 +1,5 @@
 module IPAM
-  class Dhcp < Base
+  class DHCP < Base
     delegate :dhcp, :dhcp_proxy, :to => :subnet
     def suggest_ip
       unless subnet.dhcp?

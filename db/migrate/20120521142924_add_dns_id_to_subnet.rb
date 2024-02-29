@@ -1,4 +1,4 @@
-class AddDnsIdToSubnet < ActiveRecord::Migration[4.2]
+class AddDNSIdToSubnet < ActiveRecord::Migration[4.2]
   def up
     add_column :subnets, :dns_id, :integer
   end

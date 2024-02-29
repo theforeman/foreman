@@ -1,3 +1,5 @@
+require_dependency 'medium_providers/provider'
+
 module MediumProviders
   class Default < Provider
     def validate

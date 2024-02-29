@@ -1,3 +1,5 @@
+require_dependency 'ui'
+
 module HostDescriptionHelper
   UI.register_host_description do
     multiple_actions_provider :base_multiple_actions

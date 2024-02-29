@@ -1,7 +1,6 @@
 require 'test_helper'
-require 'models/compute_resources/compute_resource_test_helpers'
 
-class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
+class Foreman::Model::OvirtTest < ActiveSupport::TestCase
   include ComputeResourceTestHelpers
 
   should validate_presence_of(:url)
@@ -50,8 +49,6 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
   end
 
   describe "associating operating system" do
-    require 'fog/ovirt/models/compute/operating_system'
-
     setup do
       operating_systems_xml = Nokogiri::XML(File.read('test/fixtures/ovirt_operating_systems.xml'))
       @ovirt_oses = operating_systems_xml.xpath('/operating_systems/operating_system').map do |os|
@@ -105,8 +102,6 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
   end
 
   describe 'APIv4 support' do
-    require 'fog/ovirt/models/compute/quota'
-
     before do
       @compute_resource = FactoryBot.build(:ovirt_cr)
       @quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => "Default" })
@@ -122,8 +117,6 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
   end
 
   describe 'quota validation and name-id substitution' do
-    require 'fog/ovirt/models/compute/quota'
-
     before do
       @compute_resource = FactoryBot.build(:ovirt_cr)
       @quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => 'Default' })

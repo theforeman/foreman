@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DhcpOrchestrationTest < ActiveSupport::TestCase
+class DHCPOrchestrationTest < ActiveSupport::TestCase
   def setup
     disable_orchestration
   end

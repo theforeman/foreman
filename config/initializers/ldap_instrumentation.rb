@@ -1,3 +1,4 @@
+require_dependency 'foreman/telemetry_helper'
 require 'foreman/ldap/ldap_subscriber.rb'
 require 'foreman/ldap/ldap_fluff_subscriber.rb'
 require 'foreman/ldap/net_ldap_subscriber.rb'

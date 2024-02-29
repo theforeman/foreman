@@ -3,9 +3,7 @@ require 'English'
 
 # Registries from app/registries/
 # All are loaded and populated early but are loaded only once
-require_dependency 'foreman/access_permissions'
 require_dependency 'foreman/plugin'
-require_dependency 'foreman/settings'
 
 # Other internal dependencies, may be autoloaded
 require 'net'
@@ -16,9 +14,11 @@ Rails.application.config.before_initialize do
   Menu::Loader.load
 end
 
+require_dependency 'setting_registry'
 Foreman.settings.load_definitions
 
 Foreman::Plugin.initialize_default_registries
+require_dependency 'medium_providers/default'
 Foreman::Plugin.medium_providers_registry.register MediumProviders::Default
 
 Rails.application.config.after_initialize do

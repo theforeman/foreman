@@ -3,7 +3,7 @@ FOREMAN_GEMFILE = __FILE__ unless defined? FOREMAN_GEMFILE
 
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.1.6'
+gem 'rails', '~> 7.0.3'
 gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
 gem 'audited', '~> 5.0', '!= 5.1.0'
 gem 'will_paginate', '~> 3.3'
@@ -14,7 +14,7 @@ gem 'apipie-rails', '>= 0.8.0', '< 2'
 gem 'apipie-dsl', '>= 2.6.1'
 # Pin rdoc to prevent updating bundled psych (https://github.com/ruby/rdoc/commit/ebe185c8775b2afe844eb3da6fa78adaa79e29a4)
 # Rails 6.0 is incompatible with Psych 4, Rails 6.1 should work
-gem 'rdoc', '< 6.4'
+gem 'rdoc', RUBY_VERSION < '3.1' ? '< 6.4' : nil
 gem 'rabl', '>= 0.15.0', '< 1'
 gem 'oauth', '~> 1.0'
 gem 'deep_cloneable', '>= 3', '< 4'
@@ -22,7 +22,7 @@ gem 'validates_lengths_from_database', '~> 0.5'
 gem 'friendly_id', '>= 5.4.2', '< 6'
 gem 'secure_headers', '~> 6.3'
 gem 'safemode', '>= 1.4', '< 2'
-gem 'fast_gettext', '~> 1.4'
+gem 'fast_gettext', '~> 2.1'
 gem 'gettext_i18n_rails', '~> 1.8'
 gem 'rails-i18n', '~> 7.0'
 gem 'logging', '>= 1.8.0', '< 3.0.0'

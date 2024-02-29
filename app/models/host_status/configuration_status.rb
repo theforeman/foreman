@@ -1,3 +1,4 @@
+# TODO: Zeitwerk wants this to be ConfigurationStatus, without a module
 module HostStatus
   class ConfigurationStatus < Status
     delegate :error?, :changes?, :pending?, :to => :calculator

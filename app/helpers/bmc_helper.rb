@@ -1,4 +1,4 @@
-module BmcHelper
+module BMCHelper
   def power_status(s)
     case s.try(:downcase)
     when 'on'
