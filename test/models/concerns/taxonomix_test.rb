@@ -218,8 +218,8 @@ class TaxonomixTest < ActiveSupport::TestCase
         # table of the caller.
         # Since TaxonomixDummy is defined in terms of the Domain table,
         # the table will have Domain, not TaxonomixDummy as taxable_type
-        assert_equal visible_dummies, Domain.taxable_ids(nil, nil)
-        assert_equal visible_dummies, Domain.taxable_ids([], [])
+        assert_equal_arrays visible_dummies, Domain.taxable_ids(nil, nil)
+        assert_equal_arrays visible_dummies, Domain.taxable_ids([], [])
       end
     end
 
