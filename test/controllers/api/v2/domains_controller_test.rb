@@ -30,7 +30,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     invalid_proxy_id = SmartProxy.last.id + 100
     post :create, params: { :domain => { :name => "doma.in", :dns_id => invalid_proxy_id } }
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert_includes(show_response["error"]["full_messages"], "Dns Invalid smart-proxy id")
+    assert_includes(show_response["error"]["full_messages"], "DNS Invalid smart-proxy id")
     assert_response :unprocessable_entity
   end
 
@@ -49,7 +49,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     invalid_proxy_id = -1
     post :update, params: { :id => Domain.first.to_param, :domain => { :name => "domain.new", :dns_id => invalid_proxy_id } }
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert_includes(show_response["error"]["full_messages"], "Dns Invalid smart-proxy id")
+    assert_includes(show_response["error"]["full_messages"], "DNS Invalid smart-proxy id")
     assert_response :unprocessable_entity
   end
 

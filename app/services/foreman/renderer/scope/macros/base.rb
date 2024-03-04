@@ -5,7 +5,7 @@ module Foreman
         module Base
           extend ApipieDSL::Module
           include Foreman::Renderer::Errors
-          include ::Foreman::ForemanUrlRenderer
+          include ::Foreman::ForemanURLRenderer
           include ActiveSupport::NumberHelper
 
           attr_reader :template_name, :medium_provider

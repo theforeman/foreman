@@ -269,7 +269,7 @@ class Subnet < ApplicationRecord
   end
 
   def external_ipam_proxy(attrs = {})
-    @external_ipam_proxy ||= ProxyAPI::ExternalIpam.new({:url => externalipam.url}.merge(attrs)) if external_ipam?
+    @external_ipam_proxy ||= ProxyAPI::ExternalIPAM.new({:url => externalipam.url}.merge(attrs)) if external_ipam?
   end
 
   def ipam?
