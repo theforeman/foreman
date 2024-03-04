@@ -1,5 +1,5 @@
-class HttpUrlValidator < ActiveModel::EachValidator
-  include UrlValidation
+class HttpURLValidator < ActiveModel::EachValidator
+  include URLValidation
 
   def validate_each(record, attribute, value)
     return if options[:allow_blank] && value.empty?

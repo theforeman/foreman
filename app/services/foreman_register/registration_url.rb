@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ForemanRegister
-  class RegistrationUrl
+  class RegistrationURL
     attr_reader :host
 
     delegate :registration_token, to: :host

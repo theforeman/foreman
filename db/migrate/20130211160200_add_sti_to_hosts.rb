@@ -1,4 +1,4 @@
-class AddStiToHosts < ActiveRecord::Migration[4.2]
+class AddSTIToHosts < ActiveRecord::Migration[4.2]
   def up
     add_column :hosts, :type, :string, :limit => 255
     add_index :hosts, :type
