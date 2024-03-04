@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'net'
 
-class DhcpTest < ActiveSupport::TestCase
+class DHCPTest < ActiveSupport::TestCase
   setup do
     @lease1 = setup_lease('{
       "starts": "2014-05-09 11:55:21 UTC",
