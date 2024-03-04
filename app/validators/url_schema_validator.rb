@@ -1,4 +1,4 @@
-class UrlSchemaValidator < ActiveModel::EachValidator
+class URLSchemaValidator < ActiveModel::EachValidator
   def initialize(args)
     @schemas = args[:in]
     super

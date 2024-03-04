@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DnsOrchestrationTest < ActiveSupport::TestCase
+class DNSOrchestrationTest < ActiveSupport::TestCase
   def setup
     disable_orchestration
   end

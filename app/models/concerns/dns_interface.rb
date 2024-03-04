@@ -1,4 +1,4 @@
-module DnsInterface
+module DNSInterface
   extend ActiveSupport::Concern
 
   RECORD_TYPES = [:a, :aaaa, :ptr4, :ptr6]
