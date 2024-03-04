@@ -140,7 +140,7 @@ module Orchestration::Compute
   end
 
   def delUserData
-    # Mostly copied from SSHProvision, should probably refactor to have both use a common set of PuppetCA actions
+    # Mostly copied from SshProvision, should probably refactor to have both use a common set of PuppetCA actions
     compute_attributes.except!(:user_data) # Unset any badly formatted data
     # since we enable certificates/autosign via here, we also need to make sure we clean it up in case of an error
     if puppetca?

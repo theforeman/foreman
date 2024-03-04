@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class NicDnsInterfaceTest < ActiveSupport::TestCase
+class NicDNSInterfaceTest < ActiveSupport::TestCase
   setup do
     disable_orchestration
   end

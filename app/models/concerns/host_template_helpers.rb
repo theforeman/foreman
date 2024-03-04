@@ -2,7 +2,7 @@
 # and are mixed in to Host
 module HostTemplateHelpers
   extend ActiveSupport::Concern
-  include ::Foreman::ForemanUrlRenderer
+  include ::Foreman::ForemanURLRenderer
 
   delegate :medium_uri, to: :medium_provider
 
