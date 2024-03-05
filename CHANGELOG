@@ -1,3 +1,12 @@
+2024-03-05	Griffin-Sullivan <gsulliva@redhat.com>
+	* Release 3.10.0-rc2
+
+2024-03-01	MariaAga <mariaaga@redhat.com>
+	* Fixes #37134 - upgrade to node 18 and npm 8
+
+2024-03-01	Maximilian Kolb <kolb@atix.de>
+	* Refs #37034 - Use apt-key add on Ubuntu 16.04
+
 2024-02-21	Griffin-Sullivan <gsulliva@redhat.com>
 	* Release 3.10.0-rc1
 
