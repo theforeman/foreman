@@ -102,6 +102,10 @@ class HostsController < ApplicationController
     else
       load_vars_for_ajax
       offer_to_overwrite_conflicts
+      # add errors from other sources (e.g. Katello) to base errors
+      errors = @host.errors.full_messages | @host.errors[:base]
+      @host.errors.delete(:base)
+      @host.errors.add(:base, errors.join(', '))
       process_error
     end
   end
