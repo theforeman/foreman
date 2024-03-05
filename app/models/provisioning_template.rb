@@ -266,4 +266,10 @@ class ProvisioningTemplate < Template
   def reject_template_combination_attributes?(params)
     params[:hostgroup_id].blank?
   end
+
+  # Skip checking taxonomy for snippets
+  def ensure_taxonomies_not_escalated
+    return true if snippet?
+    super
+  end
 end

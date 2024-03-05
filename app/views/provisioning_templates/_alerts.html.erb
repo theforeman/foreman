@@ -1,3 +1,10 @@
 <% if @template.locked? -%>
   <%= locked_warning(::Template.find(params[:id])) %>
 <% end -%>
+
+<% if @template.errors.any? -%>
+<%= alert :header => _("Unable to save"),
+          :class  => 'alert-danger base in fade',
+          :text   => @template.errors.map { |e| ("<li>#{e.attribute}: #{e.message}</li>") }.join.html_safe
+-%>
+<% end -%>
