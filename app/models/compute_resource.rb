@@ -375,8 +375,7 @@ class ComputeResource < ApplicationRecord
     vm_attrs = vm_attrs.reject { |k, v| k == :id }
 
     vm_attrs = set_vm_volumes_attributes(vm, vm_attrs)
-    vm_attrs = set_vm_interfaces_attributes(vm, vm_attrs)
-    vm_attrs
+    set_vm_interfaces_attributes(vm, vm_attrs)
   end
 
   def vm_ready(vm)
