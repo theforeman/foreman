@@ -56,7 +56,6 @@ class ArgvParser
       * run     - run the executor in foreground
 
     BANNER
-    
   end
 end
 
