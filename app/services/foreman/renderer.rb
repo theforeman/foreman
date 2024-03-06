@@ -28,7 +28,7 @@ module Foreman
         file
       end
 
-      def get_source(klass: nil, template:, **args)
+      def get_source(template:, klass: nil, **args)
         klass ||= Foreman::Renderer::Source::Database
         klass.new(template)
       end
