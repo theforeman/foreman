@@ -44,8 +44,7 @@ module ProxyReferenceRegistry
         end
         memo
       end
-      references = references.concat to_add
-      references
+      references.concat to_add
     end
 
     private
