@@ -74,6 +74,13 @@ class SmartProxy < ApplicationRecord
     !errors.any?
   end
 
+  def used_taxonomy_ids(type)
+    return [] if new_record? || !respond_to?(:hosts)
+
+    conditions = "#{id} IN (#{Host::Managed.proxy_column_list})"
+    ::Host::Managed.smart_proxy_scope.where(conditions).distinct.pluck(type).compact
+  end
+
   def taxonomy_foreign_conditions
     conditions = {}
     if has_feature?('Puppet') && has_feature?('Puppet CA')

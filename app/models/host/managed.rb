@@ -99,6 +99,7 @@ class Host::Managed < Host::Base
   smart_proxy_reference :domain => [:dns_id]
   smart_proxy_reference :realm => [:realm_proxy_id]
   smart_proxy_reference :self => [:puppet_proxy_id, :puppet_ca_proxy_id]
+  smart_proxy_reference :infrastructure_facet => [:smart_proxy_id]
 
   graphql_type '::Types::Host'
 

@@ -7,8 +7,12 @@ module SmartProxyHostExtensions
       ProxyReferenceRegistry.add_smart_proxy_reference hash
     end
 
+    def smart_proxy_scope(hosts_scope = Host::Managed.all)
+      hosts_scope.eager_load(proxy_join_tables)
+    end
+
     def smart_proxy_ids(hosts_scope = Host::Managed.all)
-      hosts_scope.eager_load(proxy_join_tables).pluck(proxy_column_list).flatten.uniq.compact
+      smart_proxy_scope(hosts_scope).pluck(proxy_column_list).flatten.uniq.compact
     end
 
     # table names containing reference to a proxy
