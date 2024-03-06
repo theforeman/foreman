@@ -535,8 +535,7 @@ autopart"', desc: 'to render the content of host partition table'
       attributes[attribute] = value
     end
 
-    attributes = apply_facet_attributes(new_hostgroup, attributes)
-    attributes
+    apply_facet_attributes(new_hostgroup, attributes)
   end
 
   def hash_clone(value)

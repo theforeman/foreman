@@ -315,8 +315,7 @@ module FormHelper
     if options[:label_help].present?
       label += ' '.html_safe + popover("", options[:label_help], options[:label_help_options] || {})
     end
-    label = label.present? ? label_tag(attr, label.to_s + required_mark.to_s, :class => label_size + " control-label") : ''
-    label
+    label.present? ? label_tag(attr, label.to_s + required_mark.to_s, :class => label_size + " control-label") : ''
   end
 
   def check_required(options, f, attr)
