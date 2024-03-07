@@ -126,19 +126,26 @@ export const Table = ({
               </Td>
             </Tr>
           )}
-          {results.map((result, rowIndex) => (
-            <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
-              {showCheckboxes && <RowSelectTd rowData={result} />}
-              {columnNamesKeys.map(k => (
-                <Td key={k} dataLabel={columnNames[k]}>
-                  {columns[k].wrapper ? columns[k].wrapper(result) : result[k]}
+          {results.map((result, rowIndex) => {
+            const rowActions = actions(result);
+            return (
+              <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
+                {showCheckboxes && <RowSelectTd rowData={result} />}
+                {columnNamesKeys.map(k => (
+                  <Td key={k} dataLabel={columnNames[k]}>
+                    {columns[k].wrapper
+                      ? columns[k].wrapper(result)
+                      : result[k]}
+                  </Td>
+                ))}
+                <Td isActionCell>
+                  {rowActions.length ? (
+                    <ActionsColumn items={rowActions} />
+                  ) : null}
                 </Td>
-              ))}
-              <Td isActionCell>
-                {actions ? <ActionsColumn items={actions(result)} /> : null}
-              </Td>
-            </Tr>
-          ))}
+              </Tr>
+            );
+          })}
         </Tbody>
       </TableComposable>
       {results.length > 0 && !errorMessage && (
