@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { translate as __ } from '../../common/I18n';
 import { EmptyStatePattern as EmptyState } from '../common/EmptyState';
 
-const PermissionDenied = ({ missingPermissions }) => {
+const PermissionDenied = ({ missingPermissions, primaryButton }) => {
   const description = (
     <span>
       {__('You are not authorized to perform this action.')}
@@ -32,16 +32,19 @@ const PermissionDenied = ({ missingPermissions }) => {
       header={__('Permission Denied')}
       description={description}
       documentation={doc}
+      action={primaryButton}
     />
   );
 };
 
 PermissionDenied.propTypes = {
   missingPermissions: PropTypes.array,
+  primaryButton: PropTypes.node,
 };
 
 PermissionDenied.defaultProps = {
   missingPermissions: ['unknown'],
+  primaryButton: null,
 };
 
 export default PermissionDenied;
