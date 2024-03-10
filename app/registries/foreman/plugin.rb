@@ -222,6 +222,11 @@ module Foreman #:nodoc:
       "Foreman plugin: #{id}, #{version}, #{author}, #{description}"
     end
 
+    # @return [String] The ID with underscores
+    def normalized_id
+      id.to_s.tr('-', '_')
+    end
+
     # Sets a requirement on Foreman version
     # Raises a PluginRequirementError exception if the requirement is not met
     # matcher format is gem dependency format
