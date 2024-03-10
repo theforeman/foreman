@@ -16,7 +16,7 @@ class Debian < Operatingsystem
   end
 
   def preseed_path(medium_provider)
-    medium_provider.medium_uri.select(:path, :query).compact.join('?')
+    medium_provider.medium_uri(&method(:transform_vars)).select(:path, :query).compact.join('?')
   end
 
   def boot_file_sources(medium_provider, &block)
