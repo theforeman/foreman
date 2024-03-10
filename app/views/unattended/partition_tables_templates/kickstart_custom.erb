@@ -25,10 +25,11 @@ clearpart --all --initlabel
   lvname_swap = host_param('part_swap_name') || 'lv_swap'
   lvname_root = host_param('part_root_name') || 'lv_root'
   lvname_home = host_param('part_home_name') || 'lv_home'
+  pxe_loader = @host.pxe_loader || ''
 -%>
 
-<% if @host.pxe_loader.include?('UEFI') || @host.pxe_loader.include?('BIOS') -%>
-  <%- if @host.pxe_loader.include?('UEFI') -%>
+<% if pxe_loader.include?('UEFI') || pxe_loader.include?('BIOS') -%>
+  <%- if pxe_loader.include?('UEFI') -%>
   part /boot/efi --fstype="efi" --ondisk=<%= dev %> --size=200 --fsoptions="umask=0077,shortname=efi"
   <%- end -%>
 
