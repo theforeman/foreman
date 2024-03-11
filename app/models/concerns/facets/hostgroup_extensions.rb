@@ -4,6 +4,7 @@ module Facets
   module HostgroupExtensions
     extend ActiveSupport::Concern
     include Facets::ModelExtensionsBase
+    include SelectiveClone
 
     included do
       configure_facet(:hostgroup, :hostgroup, :hostgroup_id) do |facet_config|
