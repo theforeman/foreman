@@ -125,9 +125,23 @@ jobs:
       - name: Run rake ${{ matrix.task }}
         run: bundle exec rake ${{ matrix.task }}
 
+  katello:
+    name: Katello
+    needs:
+      - rubocop
+    uses: theforeman/actions/.github/workflows/foreman_plugin.yml@v0
+    with:
+      plugin: katello
+      plugin_repository: Katello/katello
+      foreman_version: ${{ github.ref }}
+      postgresql_container: ghcr.io/theforeman/postgresql-evr
+      test_existing_database: false
+
   result:
     name: Test suite
     runs-on: ubuntu-latest
-    needs: tests
+    needs:
+      - tests
+      - katello
     steps:
       - run: echo Test suite completed
