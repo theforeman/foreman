@@ -1,0 +1,79 @@
+import { useState } from 'react';
+import URI from 'urijs';
+import { useHistory } from 'react-router-dom';
+import { useAPI } from '../../../../common/hooks/API/APIHooks';
+
+/**
+
+A hook that encapsulates the logic for fetching the API response for TableIndexPage and HostsIndexPage
+@param {Object}{replacementResponse} - If included, skip the API request and use this response instead
+@param {string}{apiUrl} - url for the API to make requests to
+@param {Object}{apiOptions} - options object. Should include { key: HOSTS_API_KEY }; see APIRequest.js for more details
+@param {Object}{defaultParams} - 'params' object to send to useAPI
+@return {Object} - returns the API response
+
+*/
+
+export const useTableIndexAPIResponse = ({
+  replacementResponse,
+  apiUrl,
+  apiOptions = {},
+  defaultParams = {},
+}) => {
+  let response = useAPI(
+    replacementResponse ? null : 'get',
+    apiUrl.includes('include_permissions')
+      ? apiUrl
+      : `${apiUrl}?include_permissions=true`,
+    {
+      ...apiOptions,
+      params: defaultParams,
+    }
+  );
+
+  if (replacementResponse) {
+    response = replacementResponse;
+  }
+
+  return response;
+};
+
+/**
+A hook that stores the 'params' state and returns the setParamsAndAPI and setSearch functions for TableIndexPage and HostsIndexPage
+@param {Object}{defaultParams} - initial state value for params
+@param {Object}{apiOptions} - options object. Should include { key: HOSTS_API_KEY }; see APIRequest.js for more details
+@param {Function}{setAPIOptions} - Pass in the setAPIOptions function returned from useAPI.
+@param {Function}{updateSearchQuery} - Pass in the updateSearchQuery function returned from useBulkSelect.
+@return {Object} - returns the setParamsAndAPI and setSearch functions, and current params
+*/
+export const useSetParamsAndApiAndSearch = ({
+  defaultParams,
+  apiOptions,
+  setAPIOptions,
+  updateSearchQuery,
+}) => {
+  const [params, setParams] = useState(defaultParams);
+  const history = useHistory();
+  const setParamsAndAPI = newParams => {
+    // add url edit params to the new params
+    const uri = new URI();
+    uri.setSearch(newParams);
+    history.push({ search: uri.search() });
+    setParams(newParams);
+    setAPIOptions({ ...apiOptions, params: newParams });
+  };
+
+  const setSearch = newSearch => {
+    const uri = new URI();
+    uri.setSearch(newSearch);
+    updateSearchQuery(newSearch.search);
+    history.push({ search: uri.search() });
+    setParamsAndAPI({ ...params, ...newSearch });
+  };
+
+  return {
+    setParamsAndAPI,
+    setSearch,
+    params,
+  };
+};

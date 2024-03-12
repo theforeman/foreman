@@ -1,8 +1,7 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import { Td } from '@patternfly/react-table';
+import { Tr, Td, ActionsColumn } from '@patternfly/react-table';
 import {
   ToolbarItem,
   Dropdown,
@@ -15,15 +14,18 @@ import {
   SplitItem,
 } from '@patternfly/react-core';
 import { UndoIcon } from '@patternfly/react-icons';
+import { Table } from '../PF4/TableIndexPage/Table/Table';
 import { translate as __ } from '../../common/I18n';
 import TableIndexPage from '../PF4/TableIndexPage/TableIndexPage';
 import { ActionKebab } from './ActionKebab';
 import { HOSTS_API_PATH, API_REQUEST_KEY } from '../../routes/Hosts/constants';
 import { selectKebabItems } from './Selectors';
-import { useAPI } from '../../common/hooks/API/APIHooks';
 import { useBulkSelect } from '../PF4/TableIndexPage/Table/TableHooks';
 import SelectAllCheckbox from '../PF4/TableIndexPage/Table/SelectAllCheckbox';
-import { getPageStats } from '../PF4/TableIndexPage/Table/helpers';
+import {
+  getColumnHelpers,
+  getPageStats,
+} from '../PF4/TableIndexPage/Table/helpers';
 import { deleteHost } from '../HostDetails/ActionsBar/actions';
 import { useForemanSettings } from '../../Root/Context/ForemanContext';
 import { getURIsearch } from '../../common/urlHelpers';
@@ -32,6 +34,12 @@ import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
 import './index.scss';
+import { STATUS } from '../../constants';
+import { RowSelectTd } from './RowSelectTd';
+import {
+  useSetParamsAndApiAndSearch,
+  useTableIndexAPIResponse,
+} from '../PF4/TableIndexPage/Table/TableIndexHooks';
 
 export const ForemanHostsIndexActionsBarContext = forceSingleton(
   'ForemanHostsIndexActionsBarContext',
@@ -46,34 +54,42 @@ const HostsIndex = () => {
       isSorted: true,
     },
   };
-
+  const [columnNamesKeys, keysToColumnNames] = getColumnHelpers(columns);
   const history = useHistory();
   const { location: { search: historySearch } = {} } = history || {};
   const urlParams = new URLSearchParams(historySearch);
   const urlParamsSearch = urlParams.get('search') || '';
   const searchFromUrl = urlParamsSearch || getURIsearch();
   const initialSearchQuery = apiSearchQuery || searchFromUrl || '';
-
   const defaultParams = { search: initialSearchQuery };
+  const apiOptions = { key: API_REQUEST_KEY };
+  const response = useTableIndexAPIResponse({
+    apiUrl: HOSTS_API_PATH,
+    apiOptions,
+    defaultParams,
+  });
 
-  const response = useAPI('get', `${HOSTS_API_PATH}?include_permissions=true`, {
-    key: API_REQUEST_KEY,
-    params: defaultParams,
+  const { setParamsAndAPI, params } = useSetParamsAndApiAndSearch({
+    defaultParams,
+    apiOptions,
+    setAPIOptions: response.setAPIOptions,
   });
 
   const {
     response: {
       search: apiSearchQuery,
       results,
-      subtotal,
       total,
       per_page: perPage,
       page,
+      subtotal,
+      message: errorMessage,
     },
+    status = STATUS.PENDING,
+    setAPIOptions,
   } = response;
 
   const { pageRowCount } = getPageStats({ total, page, perPage });
-
   const {
     fetchBulkParams,
     updateSearchQuery,
@@ -112,22 +128,6 @@ const HostsIndex = () => {
     </ToolbarItem>
   );
 
-  const RowSelectTd = ({ rowData }) => (
-    <Td
-      select={{
-        rowIndex: rowData.id,
-        onSelect: (_event, isSelecting) => {
-          selectOne(isSelecting, rowData.id, rowData);
-        },
-        isSelected: isSelected(rowData.id),
-        disable: false,
-      }}
-    />
-  );
-
-  RowSelectTd.propTypes = {
-    rowData: PropTypes.object.isRequired,
-  };
   const dispatch = useDispatch();
   const { destroyVmOnHostDelete } = useForemanSettings();
   const deleteHostHandler = ({ hostName, computeId }) =>
@@ -153,8 +153,9 @@ const HostsIndex = () => {
       {__('Delete')}
     </DropdownItem>,
   ];
+
   const registeredItems = useSelector(selectKebabItems, shallowEqual);
-  const customToolbarItems = (
+  const pluginToolbarItems = (
     <ForemanHostsIndexActionsBarContext.Provider
       value={{ ...selectAllOptions, fetchBulkParams }}
     >
@@ -166,7 +167,7 @@ const HostsIndex = () => {
     id,
     name: hostName,
     compute_id: computeId,
-    canDelete,
+    can_delete: canDelete,
   }) => [
     {
       title: __('Delete'),
@@ -175,7 +176,7 @@ const HostsIndex = () => {
     },
   ];
 
-  const [legacyUIKebabOpen, setLegacyUIKebabOpen] = React.useState(false);
+  const [legacyUIKebabOpen, setLegacyUIKebabOpen] = useState(false);
   const legacyUIKebab = (
     <Dropdown
       ouiaId="legacy-ui-kebab"
@@ -252,20 +253,58 @@ const HostsIndex = () => {
   return (
     <TableIndexPage
       apiUrl={HOSTS_API_PATH}
-      apiOptions={{ key: API_REQUEST_KEY }}
+      apiOptions={apiOptions}
       headerText={__('Hosts')}
       header={hostsIndexHeader}
       controller="hosts"
-      columns={columns}
       creatable={false}
       replacementResponse={response}
-      customToolbarItems={customToolbarItems}
+      customToolbarItems={pluginToolbarItems}
       selectionToolbar={selectionToolbar}
-      showCheckboxes
-      rowSelectTd={RowSelectTd}
-      rowKebabItems={rowKebabItems}
       updateSearchQuery={updateSearchQuery}
-    />
+    >
+      <Table
+        ouiaId="hosts-index-table"
+        params={params}
+        setParams={setParamsAndAPI}
+        getActions={rowKebabItems}
+        itemCount={subtotal}
+        results={results}
+        url={HOSTS_API_PATH}
+        isDeleteable
+        showCheckboxes
+        refreshData={() =>
+          setAPIOptions({
+            ...apiOptions,
+            params: { search: searchFromUrl },
+          })
+        }
+        columns={columns}
+        errorMessage={
+          status === STATUS.ERROR && errorMessage ? errorMessage : null
+        }
+        isPending={status === STATUS.PENDING}
+      >
+        {results?.map((result, rowIndex) => {
+          const rowActions = rowKebabItems(result);
+          return (
+            <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
+              {<RowSelectTd rowData={result} {...{ selectOne, isSelected }} />}
+              {columnNamesKeys.map(k => (
+                <Td key={k} dataLabel={keysToColumnNames[k]}>
+                  {columns[k].wrapper ? columns[k].wrapper(result) : result[k]}
+                </Td>
+              ))}
+              <Td isActionCell>
+                {rowActions.length ? (
+                  <ActionsColumn items={rowActions} />
+                ) : null}
+              </Td>
+            </Tr>
+          );
+        })}
+      </Table>
+    </TableIndexPage>
   );
 };
 

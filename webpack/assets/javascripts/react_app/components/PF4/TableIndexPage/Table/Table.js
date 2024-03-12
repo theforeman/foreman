@@ -15,6 +15,7 @@ import { useTableSort } from '../../Helpers/useTableSort';
 import Pagination from '../../../Pagination';
 import { DeleteModal } from './DeleteModal';
 import EmptyPage from '../../../../routes/common/EmptyPage';
+import { getColumnHelpers } from './helpers';
 
 export const Table = ({
   columns,
@@ -31,6 +32,7 @@ export const Table = ({
   isEmbedded,
   showCheckboxes,
   rowSelectTd,
+  children,
 }) => {
   const columnsToSortParams = {};
   Object.keys(columns).forEach(key => {
@@ -38,10 +40,7 @@ export const Table = ({
       columnsToSortParams[columns[key].title] = key;
     }
   });
-  const columnNames = {};
-  Object.keys(columns).forEach(key => {
-    columnNames[key] = columns[key].title;
-  });
+  const [columnNamesKeys, keysToColumnNames] = getColumnHelpers(columns);
   const onSort = (_event, index, direction) => {
     setParams({
       ...params,
@@ -71,7 +70,6 @@ export const Table = ({
       },
       ...((getActions && getActions({ id, name, canDelete, ...item })) ?? []),
     ].filter(Boolean);
-  const columnNamesKeys = Object.keys(columns);
   const RowSelectTd = rowSelectTd;
   return (
     <>
@@ -91,10 +89,10 @@ export const Table = ({
                 key={k}
                 sort={
                   Object.values(columnsToSortParams).includes(k) &&
-                  pfSortParams(columnNames[k])
+                  pfSortParams(keysToColumnNames[k])
                 }
               >
-                {columnNames[k]}
+                {keysToColumnNames[k]}
               </Th>
             ))}
           </Tr>
@@ -126,26 +124,27 @@ export const Table = ({
               </Td>
             </Tr>
           )}
-          {results.map((result, rowIndex) => {
-            const rowActions = actions(result);
-            return (
-              <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
-                {showCheckboxes && <RowSelectTd rowData={result} />}
-                {columnNamesKeys.map(k => (
-                  <Td key={k} dataLabel={columnNames[k]}>
-                    {columns[k].wrapper
-                      ? columns[k].wrapper(result)
-                      : result[k]}
+          {children ||
+            results.map((result, rowIndex) => {
+              const rowActions = actions(result);
+              return (
+                <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
+                  {showCheckboxes && <RowSelectTd rowData={result} />}
+                  {columnNamesKeys.map(k => (
+                    <Td key={k} dataLabel={keysToColumnNames[k]}>
+                      {columns[k].wrapper
+                        ? columns[k].wrapper(result)
+                        : result[k]}
+                    </Td>
+                  ))}
+                  <Td isActionCell>
+                    {rowActions.length ? (
+                      <ActionsColumn items={rowActions} />
+                    ) : null}
                   </Td>
-                ))}
-                <Td isActionCell>
-                  {rowActions.length ? (
-                    <ActionsColumn items={rowActions} />
-                  ) : null}
-                </Td>
-              </Tr>
-            );
-          })}
+                </Tr>
+              );
+            })}
         </Tbody>
       </TableComposable>
       {results.length > 0 && !errorMessage && (
@@ -162,6 +161,7 @@ export const Table = ({
 };
 
 Table.propTypes = {
+  children: PropTypes.node,
   columns: PropTypes.object.isRequired,
   params: PropTypes.shape({
     page: PropTypes.number,
@@ -183,6 +183,7 @@ Table.propTypes = {
 };
 
 Table.defaultProps = {
+  children: null,
   errorMessage: null,
   isDeleteable: false,
   itemCount: 0,

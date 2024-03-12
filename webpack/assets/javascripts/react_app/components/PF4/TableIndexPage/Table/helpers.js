@@ -17,3 +17,17 @@ export const getPageStats = ({ total, page, perPage }) => {
     lastPage,
   };
 };
+
+/**
+ * Assembles column data into various forms needed
+ * @param {Object} columns - Object with column sort params as keys and column objects as values. Column objects must have a title key
+ * @returns {Array} - an array of column sort params and a map of keys to column names
+ */
+export const getColumnHelpers = columns => {
+  const columnNamesKeys = Object.keys(columns);
+  const keysToColumnNames = {};
+  columnNamesKeys.forEach(key => {
+    keysToColumnNames[key] = columns[key].title;
+  });
+  return [columnNamesKeys, keysToColumnNames];
+};
