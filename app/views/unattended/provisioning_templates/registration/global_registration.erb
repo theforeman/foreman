@@ -88,7 +88,7 @@ EOF
 elif [ -f /etc/debian_version ]; then
   <%= save_to_file('/etc/apt/sources.list.d/foreman_registration.list', @repo) %>
 <% if @repo_gpg_key_url.present? -%>
-<# "apt 1.2.35" on Ubuntu 16.04 does not support storing GPG public keys in "/etc/apt/trusted.gpg.d/" in ASCII format #>
+<%# "apt 1.2.35" on Ubuntu 16.04 does not support storing GPG public keys in "/etc/apt/trusted.gpg.d/" in ASCII format -%>
   if [ "$(. /etc/os-release ; echo "$VERSION_ID")" = "16.04" ]; then
     $PKG_MANAGER_INSTALL ca-certificates curl gnupg
     curl --silent --show-error <%= shell_escape @repo_gpg_key_url %> | gpg --dearmor > /etc/apt/trusted.gpg.d/client.gpg
