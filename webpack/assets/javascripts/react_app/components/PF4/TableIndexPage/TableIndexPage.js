@@ -1,9 +1,8 @@
 /* eslint-disable max-lines */
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
 import { useHistory } from 'react-router-dom';
-import URI from 'urijs';
 import {
   Spinner,
   Toolbar,
@@ -23,7 +22,6 @@ import {
   helpURL,
   getURIsearch,
 } from '../../../common/urlHelpers';
-import { useAPI } from '../../../common/hooks/API/APIHooks';
 import { translate as __ } from '../../../common/I18n';
 import { noop } from '../../../common/helpers';
 import Pagination from '../../Pagination';
@@ -34,14 +32,19 @@ import Head from '../../Head';
 import { ActionButtons } from './ActionButtons';
 import './TableIndexPage.scss';
 import { Table } from './Table/Table';
+import {
+  useSetParamsAndApiAndSearch,
+  useTableIndexAPIResponse,
+} from './Table/TableIndexHooks';
 /**
 
-A page component that displays a table with data fetched from an API. It provides search and filtering functionality, and the ability to create new entries and export data.
-@param {Object}{apiOptions} - options object for API requests
+A page component that displays a table with data fetched from the API. It provides search and filtering functionality, and the ability to create new entries and export data.
+@param {Object}{apiOptions} - options object for API requests. See APIRequest.js for more details
 @param {string}{apiUrl} - url for the API to make requests to
 @param {React.Component} {beforeToolbarComponent} - a component to be rendered before the toolbar
 @param {Object} {breadcrumbOptions} - props to send to the breadcrumb bar
-@param {Object}{columns} - an object of objects representing the columns to be displayed in the table, keys should be the same as in the api response
+@param {React.ReactNode} {children} - optional children to be rendered inside the page instead of the table
+@param {Object}{columns} - Not needed when passing children. An object of objects representing the columns to be displayed in the table, keys should be the same as in the api response
 @param {string} columns[].title - the title of the column, translated
 @param {function} columns[].wrapper - a function that returns a React component to be rendered in the column
 @param {boolean} columns[].isSorted - whether or not the column is sorted
@@ -59,7 +62,12 @@ A page component that displays a table with data fetched from an API. It provide
 @param {string}{header} - header node; default is <title>{headerText}</title>
 @param {boolean} {isDeleteable} - whether or not entries can be deleted
 @param {boolean} {searchable} - whether or not the table can be searched
-@param {React.ReactNode} {children} - optional children to be rendered inside the page instead of the table
+@param {React.ReactNode} {selectionToolbar} - Pass in the SelectAll toolbar, if desired
+@param {Object} {replacementResponse} - If included, skip the API request and use this response instead
+@param {boolean} {showCheckboxes} - Not needed when passing children. Whether or not to show selection checkboxes in the first column.
+@param {function} {rowSelectTd} - Not needed when passing children. A function that takes a single result object and returns a React component to be rendered in the first column.
+@param {function} {rowKebabItems} - Not needed when passing children. A function that takes a single result object and returns an array of kebab items to be displayed in the last column
+@param {function} {updateSearchQuery} - Pass in the updateSearchQuery function returned from useBulkSelect.
 */
 
 const TableIndexPage = ({
@@ -67,6 +75,7 @@ const TableIndexPage = ({
   apiUrl,
   beforeToolbarComponent,
   breadcrumbOptions,
+  children,
   columns,
   controller,
   creatable,
@@ -82,7 +91,6 @@ const TableIndexPage = ({
   header,
   isDeleteable,
   searchable,
-  children,
   selectionToolbar,
   replacementResponse,
   showCheckboxes,
@@ -104,21 +112,12 @@ const TableIndexPage = ({
   if (urlPerPage) {
     defaultParams.per_page = parseInt(urlPerPage, 10);
   }
-  const [params, setParams] = useState(defaultParams);
-  let response = useAPI(
-    replacementResponse ? null : 'get',
-    apiUrl.includes('include_permissions')
-      ? apiUrl
-      : `${apiUrl}?include_permissions=true`,
-    {
-      ...apiOptions,
-      params: defaultParams,
-    }
-  );
-
-  if (replacementResponse) {
-    response = replacementResponse;
-  }
+  const response = useTableIndexAPIResponse({
+    replacementResponse,
+    apiUrl,
+    apiOptions,
+    defaultParams,
+  });
 
   const {
     response: {
@@ -145,22 +144,13 @@ const TableIndexPage = ({
   );
   const searchProps = customSearchProps || memoDefaultSearchProps;
   searchProps.autocomplete.searchQuery = search;
-  const setParamsAndAPI = newParams => {
-    // add url edit params to the new params
-    const uri = new URI();
-    uri.setSearch(newParams);
-    history.push({ search: uri.search() });
-    setParams(newParams);
-    setAPIOptions({ ...apiOptions, params: newParams });
-  };
 
-  const setSearch = newSearch => {
-    const uri = new URI();
-    uri.setSearch(newSearch);
-    updateSearchQuery(newSearch.search);
-    history.push({ search: uri.search() });
-    setParamsAndAPI({ ...params, ...newSearch });
-  };
+  const { setParamsAndAPI, setSearch, params } = useSetParamsAndApiAndSearch({
+    defaultParams,
+    apiOptions,
+    setAPIOptions,
+    updateSearchQuery,
+  });
 
   const onSearch = newSearch => {
     if (newSearch !== apiSearchQuery) {
