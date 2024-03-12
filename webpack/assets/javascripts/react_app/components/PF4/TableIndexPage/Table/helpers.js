@@ -31,3 +31,22 @@ export const getColumnHelpers = columns => {
   });
   return [columnNamesKeys, keysToColumnNames];
 };
+
+/**
+ * Filters column data by user preferences
+ * @param {Array} columnNames - Array of column names from user preferences
+ * @param {Object} allColumnData - Object with column sort params as keys and column objects as values
+ * @returns {Object} - The filtered object with column sort params as keys and column objects as values
+ */
+export const filterColumnDataByUserPreferences = (
+  columnNames = ['name'],
+  allColumnData
+) => {
+  const filteredColumns = {};
+  columnNames.forEach(key => {
+    if (allColumnData[key]) {
+      filteredColumns[key] = allColumnData[key];
+    }
+  });
+  return filteredColumns;
+};
