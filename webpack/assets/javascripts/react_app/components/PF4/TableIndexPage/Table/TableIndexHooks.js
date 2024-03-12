@@ -77,3 +77,31 @@ export const useSetParamsAndApiAndSearch = ({
     params,
   };
 };
+
+/**
+ * A hook that fetches the current user's preferences for which columns to display in a table
+ * @param  {string} tableName the name of the table, such as 'hosts'
+ * @return {object} returns the current user's id and the columns
+ */
+export const useCurrentUserTablePreferences = ({ tableName }) => {
+  const currentUserResponse = useAPI('get', '/api/v2/current_user');
+  const currentUserId = currentUserResponse.response?.id;
+
+  const userTablePreferenceResponse = useAPI(
+    currentUserId ? 'get' : null, // only make the request if we have the id
+    `/api/v2/users/${currentUserId}/table_preferences/${tableName}`
+  );
+
+  const userTablePreferenceColumns =
+    userTablePreferenceResponse.response?.columns;
+
+  const hasPreference = !(
+    userTablePreferenceResponse.response?.response?.status === 404
+  );
+
+  return {
+    currentUserId,
+    hasPreference,
+    columns: userTablePreferenceColumns,
+  };
+};

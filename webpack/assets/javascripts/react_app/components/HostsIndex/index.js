@@ -1,5 +1,6 @@
+/* eslint-disable max-lines */
 import React, { createContext, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { Tr, Td, ActionsColumn } from '@patternfly/react-table';
 import {
@@ -23,6 +24,7 @@ import { selectKebabItems } from './Selectors';
 import { useBulkSelect } from '../PF4/TableIndexPage/Table/TableHooks';
 import SelectAllCheckbox from '../PF4/TableIndexPage/Table/SelectAllCheckbox';
 import {
+  filterColumnDataByUserPreferences,
   getColumnHelpers,
   getPageStats,
 } from '../PF4/TableIndexPage/Table/helpers';
@@ -37,9 +39,14 @@ import './index.scss';
 import { STATUS } from '../../constants';
 import { RowSelectTd } from './RowSelectTd';
 import {
+  useCurrentUserTablePreferences,
   useSetParamsAndApiAndSearch,
   useTableIndexAPIResponse,
 } from '../PF4/TableIndexPage/Table/TableIndexHooks';
+import getColumnData from './Columns/core';
+import { categoriesFromFrontendColumnData } from '../ColumnSelector/helpers';
+import ColumnSelector from '../ColumnSelector';
+import { ForemanActionsBarContext } from '../HostDetails/ActionsBar';
 
 export const ForemanHostsIndexActionsBarContext = forceSingleton(
   'ForemanHostsIndexActionsBarContext',
@@ -47,14 +54,6 @@ export const ForemanHostsIndexActionsBarContext = forceSingleton(
 );
 
 const HostsIndex = () => {
-  const columns = {
-    name: {
-      title: __('Name'),
-      wrapper: ({ name }) => <Link to={`hosts/${name}`}>{name}</Link>,
-      isSorted: true,
-    },
-  };
-  const [columnNamesKeys, keysToColumnNames] = getColumnHelpers(columns);
   const history = useHistory();
   const { location: { search: historySearch } = {} } = history || {};
   const urlParams = new URLSearchParams(historySearch);
@@ -67,12 +66,6 @@ const HostsIndex = () => {
     apiUrl: HOSTS_API_PATH,
     apiOptions,
     defaultParams,
-  });
-
-  const { setParamsAndAPI, params } = useSetParamsAndApiAndSearch({
-    defaultParams,
-    apiOptions,
-    setAPIOptions: response.setAPIOptions,
   });
 
   const {
@@ -88,6 +81,36 @@ const HostsIndex = () => {
     status = STATUS.PENDING,
     setAPIOptions,
   } = response;
+
+  const { setParamsAndAPI, params } = useSetParamsAndApiAndSearch({
+    defaultParams,
+    apiOptions,
+    setAPIOptions: response.setAPIOptions,
+  });
+
+  const allColumns = getColumnData({ tableName: 'hosts' });
+  const {
+    hasPreference,
+    columns: userColumns,
+    currentUserId,
+  } = useCurrentUserTablePreferences({
+    tableName: 'hosts',
+  });
+  const isLoading = status === STATUS.PENDING;
+  const columns = filterColumnDataByUserPreferences(
+    isLoading,
+    userColumns,
+    allColumns
+  );
+  const [columnNamesKeys, keysToColumnNames] = getColumnHelpers(columns);
+
+  const columnSelectData = categoriesFromFrontendColumnData({
+    registeredColumns: allColumns,
+    userId: currentUserId,
+    tableName: 'hosts',
+    userColumns,
+    hasPreference,
+  });
 
   const { pageRowCount } = getPageStats({ total, page, perPage });
   const {
@@ -160,6 +183,7 @@ const HostsIndex = () => {
       value={{ ...selectAllOptions, fetchBulkParams }}
     >
       <ActionKebab items={dropdownItems.concat(registeredItems)} />
+      <ColumnSelector data={columnSelectData} />
     </ForemanHostsIndexActionsBarContext.Provider>
   );
 
@@ -304,6 +328,11 @@ const HostsIndex = () => {
           );
         })}
       </Table>
+      <ForemanActionsBarContext.Provider
+        value={{ selectedCount, fetchBulkParams }}
+      >
+        <Slot id="_all-hosts-modals" multi />
+      </ForemanActionsBarContext.Provider>
     </TableIndexPage>
   );
 };

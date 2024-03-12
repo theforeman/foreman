@@ -16,6 +16,7 @@ const ColumnSelector = props => {
   const initialColumns = cloneDeep(categories);
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState(categories);
+  const [saving, setSaving] = useState(false);
 
   const getColumnKeys = () => {
     const keys = selectedColumns
@@ -32,8 +33,10 @@ const ColumnSelector = props => {
   };
 
   async function updateTablePreference() {
+    if (!url || !controller) return;
+    setSaving(true);
     if (!hasPreference) {
-      await API.post(url, { name: 'hosts', columns: getColumnKeys() });
+      await API.post(url, { name: controller, columns: getColumnKeys() });
     } else {
       await API.put(`${url}/${controller}`, { columns: getColumnKeys() });
     }
@@ -69,6 +72,7 @@ const ColumnSelector = props => {
   const toggleModal = () => {
     setSelectedColumns(initialColumns);
     setModalOpen(!isModalOpen);
+    setSaving(false);
   };
 
   const updateCheckBox = (treeViewItem, checked = true) => {
@@ -167,6 +171,8 @@ const ColumnSelector = props => {
               ouiaId="save-columns-button"
               key="save"
               variant="primary"
+              isLoading={saving}
+              isDisabled={saving}
               onClick={() => updateTablePreference()}
             >
               {__('Save')}

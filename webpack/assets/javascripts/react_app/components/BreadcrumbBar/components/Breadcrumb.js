@@ -57,6 +57,7 @@ const Breadcrumb = ({
               active,
               'breadcrumb-item-with-icon': icon && active,
             })}
+            {...{ item }}
           >
             {icon && <img src={icon.url} alt={icon.alt} title={icon.alt} />}{' '}
             {inner}

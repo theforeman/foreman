@@ -5,6 +5,12 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
   <BreadcrumbItem
     className="breadcrumb-item"
     isActive={false}
+    item={
+      Object {
+        "caption": "root",
+        "url": "/some-url",
+      }
+    }
     key="0"
     to="/some-url"
   >
@@ -14,6 +20,12 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
   <BreadcrumbItem
     className="breadcrumb-item"
     isActive={false}
+    item={
+      Object {
+        "caption": "child with onClick",
+        "onClick": [MockFunction],
+      }
+    }
     key="1"
     onClick={[MockFunction]}
   >
@@ -23,6 +35,11 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
   <BreadcrumbItem
     className="breadcrumb-item active"
     isActive={true}
+    item={
+      Object {
+        "caption": "active child",
+      }
+    }
     key="2"
   >
      
@@ -40,6 +57,11 @@ exports[`Breadcrumbs renders h1 title 1`] = `
   <BreadcrumbItem
     className="breadcrumb-item active"
     isActive={true}
+    item={
+      Object {
+        "caption": "title",
+      }
+    }
     key="0"
   >
      
@@ -57,6 +79,12 @@ exports[`Breadcrumbs renders title override 1`] = `
   <BreadcrumbItem
     className="breadcrumb-item"
     isActive={false}
+    item={
+      Object {
+        "caption": "root",
+        "url": "/some-url",
+      }
+    }
     key="0"
     to="/some-url"
   >
@@ -66,6 +94,11 @@ exports[`Breadcrumbs renders title override 1`] = `
   <BreadcrumbItem
     className="breadcrumb-item active"
     isActive={true}
+    item={
+      Object {
+        "caption": "active child",
+      }
+    }
     key="1"
   >
      
