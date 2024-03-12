@@ -54,7 +54,7 @@ const HostDetails = ({
   location: { hash },
   history,
 }) => {
-  const { displayFqdnForHosts } = useForemanSettings();
+  const { displayFqdnForHosts, displayNewHostsPage } = useForemanSettings();
   const { response, status } = useAPI(
     'get',
     `/api/hosts/${id}?show_hidden_parameters=true`,
@@ -116,7 +116,13 @@ const HostDetails = ({
                 switcherItemUrl: '/new/hosts/:name',
               }}
               breadcrumbItems={[
-                { caption: __('Hosts'), url: hostsIndexUrl },
+                {
+                  caption: __('Hosts'),
+                  url: hostsIndexUrl,
+                  render: displayNewHostsPage
+                    ? ({ caption }) => <Link to={hostsIndexUrl}>{caption}</Link>
+                    : ({ caption }) => <a href={hostsIndexUrl}>{caption}</a>,
+                },
                 {
                   caption: displayFqdnForHosts
                     ? response.name

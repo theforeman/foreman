@@ -506,6 +506,52 @@ You can find usage of those pagelets in the https://github.com/theforeman/forema
 _Requires Foreman 1.18 or higher, set `requires_foreman '>= 1.18'` in
 engine.rb_
 
+[[adding-columns-to-the-react-hosts-index-page]]
+==== Adding columns to the React hosts index page
+
+Similar to the way the legacy hosts index page can be extended via pagelets, columns can also be added to the React hosts index page, or any other page that uses the ColumnSelector component and user TablePreferences.
+These columns will then be available in the ColumnSelector so that users can customize which columns are displayed in the table.
+Instead of pagelets, column data is defined in the plugin's `webpack/global_index.js` file.
+The following example demonstrates how to add a new column to the React hosts index page:
+
+[source, javascript]
+----
+import React from 'react';
+import { RelativeDateTime } from 'foremanReact/components/RelativeDateTime';
+import { registerColumns } from 'foremanReact/components/HostsIndex/Columns/core';
+import { __ as translate } from 'foremanReact/common/i18n';
+
+const hostsIndexColumnExtensions = [
+  {
+    columnName: 'last_checkin',
+    title: __('Last seen'),
+    wrapper: (hostDetails) => {
+      const lastCheckin =
+        hostDetails?.subscription_facet_attributes?.last_checkin;
+      return <RelativeDateTime defaultValue={__('Never')} date={lastCheckin} />;
+    },
+    weight: 400,
+    tableName: 'hosts',
+    categoryName: __('Content'),
+    categoryKey: 'content',
+    isSorted: false,
+  },
+];
+
+registerColumns(hostsIndexColumnExtensions);
+----
+
+Each column extension object must contain the following properties:
+
+* `columnName` - the name of the column, which must match the column name in the API response.
+* `title` - the title of the column to be displayed on screen in the <th> element. Should be translated.
+* `wrapper` - a function that returns the content (as JSX) to be displayed in the table cell. The function receives the host details as an argument.
+* `weight` - the weight of the column, which determines the order in which columns are displayed. Lower weights are displayed first.
+* `tableName` - the name of the table. Should match the `name` of the user's TablePreference.
+* `categoryName` - the name of the category to which the column belongs. Displayed on screen in the ColumnSelector. Should be translated.
+* `categoryKey` - the key of the category to which the column belongs. Used to group columns in the ColumnSelector. Should not be translated.
+* `isSorted` - whether the column is sortable. Sortable columns must have a `columnName` that matches a sortable column in the API response.
+
 [[new-structure-for-assets]]
 ===== New structure for assets.
 
