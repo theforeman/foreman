@@ -446,6 +446,8 @@ module Foreman::Model
     def vm_hw_versions
       {
         'Default' => _("Default"),
+        'vmx-21' => '21 (ESXi 8.0 U2)',
+        'vmx-20' => '20 (ESXi 8.0)',
         'vmx-19' => '19 (ESXi 7.0 U2)',
         'vmx-18' => '18 (ESXi 7.0 U1)',
         'vmx-17' => '17 (ESXi 7.0)',
