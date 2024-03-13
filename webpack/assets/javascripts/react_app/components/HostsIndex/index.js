@@ -30,9 +30,13 @@ import { getURIsearch } from '../../common/urlHelpers';
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
+import forceSingleton from '../../common/forceSingleton';
 import './index.scss';
 
-export const ForemanHostsIndexActionsBarContext = createContext({});
+export const ForemanHostsIndexActionsBarContext = forceSingleton(
+  'ForemanHostsIndexActionsBarContext',
+  () => createContext({})
+);
 
 const HostsIndex = () => {
   const columns = {
