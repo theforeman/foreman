@@ -29,7 +29,8 @@
         "webpack-bundle-analyzer",
         "tabbable",
         "@adobe/css-tools",
-        "victory-core"
+        "victory-core",
+        "victory-pie"
     ],
     "EXCLUDE_NPM_PREFIXES": [
         "@babel/eslint-",
