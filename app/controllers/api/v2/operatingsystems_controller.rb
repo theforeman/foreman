@@ -92,7 +92,7 @@ module Api
 
         medium = Medium.authorized(:view_media).find(params[:medium])
         arch   = Architecture.authorized(:view_architectures).find(params[:architecture])
-        host_mock = Openstruct.new(operatingsystem: @operatingsystem, medium: medium, architecture: arch)
+        host_mock = OpenStruct.new(operatingsystem: @operatingsystem, medium: medium, architecture: arch)
         medium_provider = MediumProviders::Default.new(host_mock)
 
         render :json => @operatingsystem.pxe_files(medium_provider)
