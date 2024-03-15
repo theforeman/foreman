@@ -82,10 +82,10 @@ module Api
         process_response @operatingsystem.destroy
       end
 
-      api :GET, "/operatingsystems/:id/bootfiles/", N_("List boot files for an operating system")
+      api :GET, "/operatingsystems/:id/bootfiles/", N_("List boot files for an operating system"), deprecated: true
       param :id, String, :required => true
-      param :medium, String
-      param :architecture, String
+      param :medium, String, :required => true
+      param :architecture, String, :required => true
 
       def bootfiles
         Foreman::Deprecation.api_deprecation_warning("Bootfiles should be calculated per host")
