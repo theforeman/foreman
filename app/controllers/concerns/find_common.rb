@@ -32,22 +32,27 @@ module FindCommon
     @resource_class
   end
 
-  def resource_scope(options = {})
-    @resource_scope ||= scope_for(resource_class, options)
+  def resource_scope(*args, **kwargs)
+    @resource_scope ||= scope_for(resource_class, *args, **kwargs)
   end
 
-  def scope_for(resource, options = {})
-    controller = options.delete(:controller) { controller_permission }
+  def scope_for(resource, *args, **kwargs)
+    controller = kwargs.delete(:controller) { controller_permission }
     # don't call the #action_permission method here, we are not sure if the resource is authorized at this point
     # calling #action_permission here can cause an exception, in order to avoid this, ensure :authorized beforehand
-    permission = options.delete(:permission)
+    permission = kwargs.delete(:permission)
 
     if resource.respond_to?(:authorized)
       permission ||= "#{action_permission}_#{controller}"
       resource = resource.authorized(permission, resource)
     end
 
-    resource.where(options)
+    # Callers rely on a plain array
+    if args.empty? && kwargs.empty?
+      resource.all
+    else
+      resource.where(*args, **kwargs)
+    end
   end
 
   def resource_class_for(resource)

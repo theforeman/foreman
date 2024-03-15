@@ -67,7 +67,7 @@ module Api
         end
       end
 
-      def resource_scope(*args)
+      def resource_scope(...)
         if editing_self?
           resource_class.where(user: @user).readonly(false)
         else

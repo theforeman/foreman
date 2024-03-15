@@ -59,7 +59,7 @@ module Api
         'params'
       end
 
-      def resource_scope(*args, &block)
+      def resource_scope(...)
         super.where(:type => 'CommonParameter')
       end
 

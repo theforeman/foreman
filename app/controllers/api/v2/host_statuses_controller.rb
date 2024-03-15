@@ -12,7 +12,7 @@ module Api
 
       private
 
-      def resource_scope(*args, &block)
+      def resource_scope(...)
         HostStatusPresenter.all
       end
 

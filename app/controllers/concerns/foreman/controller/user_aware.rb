@@ -8,7 +8,7 @@ module Foreman::Controller::UserAware
 
   private
 
-  def resource_scope(*args, &block)
+  def resource_scope(...)
     super.where(:user => @user)
   end
 
