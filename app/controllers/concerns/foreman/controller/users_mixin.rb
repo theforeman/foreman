@@ -6,8 +6,8 @@ module Foreman::Controller::UsersMixin
     before_action :clear_session_locale_on_update, :only => :update
   end
 
-  def resource_scope(options = {})
-    super(options).except_hidden
+  def resource_scope(...)
+    super.except_hidden
   end
 
   protected

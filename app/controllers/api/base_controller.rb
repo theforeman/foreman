@@ -70,8 +70,8 @@ module Api
     end
 
     # overwrites resource_scope in FindCommon to consider nested objects
-    def resource_scope(options = {})
-      super(options).merge(parent_scope).readonly(false)
+    def resource_scope(...)
+      super(...).merge(parent_scope).readonly(false)
     end
 
     def parent_scope
@@ -110,8 +110,8 @@ module Api
       resource_class.joins(association.name).merge(scope)
     end
 
-    def resource_scope_for_index(options = {})
-      scope = resource_scope(options).search_for(*search_options)
+    def resource_scope_for_index(...)
+      scope = resource_scope(...).search_for(*search_options)
       return scope if paginate_options[:per_page] == 'all'
       scope.paginate(**paginate_options)
     end
