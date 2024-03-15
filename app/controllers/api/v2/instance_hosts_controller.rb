@@ -7,7 +7,7 @@ module Api
         @resource_class ||= Host::Managed
       end
 
-      def resource_scope(*args)
+      def resource_scope(...)
         super.authorized(:view_hosts).joins(:infrastructure_facet).merge(::HostFacets::InfrastructureFacet.where(foreman_instance: true))
       end
 

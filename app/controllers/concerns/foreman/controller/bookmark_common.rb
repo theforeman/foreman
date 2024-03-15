@@ -3,7 +3,7 @@ module Foreman::Controller::BookmarkCommon
     Bookmark.my_bookmarks
   end
 
-  def resource_scope(*args)
+  def resource_scope(...)
     Bookmark.my_bookmarks
   end
 end
