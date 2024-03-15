@@ -170,11 +170,11 @@ module Api
       end
 
       api :GET, "/compute_resources/:id/available_storage_domains", N_("List storage domains for a compute resource")
-      api :GET, "/compute_resources/:id/available_storage_domains/:storage_domain", N_("List attributes for a given storage domain")
+      api :GET, "/compute_resources/:id/available_storage_domains/:storage_domain", N_("List attributes for a given storage domain"), deprecated: true
       api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_storage_domains", N_("List storage domains for a compute resource")
       param :id, :identifier, :required => true
       param :cluster_id, String
-      param :storage_domain, String
+      param :storage_domain, String, deprecated: true
       def available_storage_domains
         if params[:storage_domain]
           Foreman::Deprecation.api_deprecation_warning("use /compute_resources/:id/storage_domain/:storage_domain_id endpoind instead")
@@ -194,11 +194,11 @@ module Api
       end
 
       api :GET, "/compute_resources/:id/available_storage_pods", N_("List storage pods for a compute resource")
-      api :GET, "/compute_resources/:id/available_storage_pods/:storage_pod", N_("List attributes for a given storage pod")
+      api :GET, "/compute_resources/:id/available_storage_pods/:storage_pod", N_("List attributes for a given storage pod"), deprecated: true
       api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_storage_pods", N_("List storage pods for a compute resource")
       param :id, :identifier, :required => true
       param :cluster_id, String
-      param :storage_pod, String
+      param :storage_pod, String, deprecated: true
       def available_storage_pods
         if params[:storage_pod]
           Foreman::Deprecation.api_deprecation_warning("use /compute_resources/:id/storage_pod/:storage_pod_id endpoind instead")
