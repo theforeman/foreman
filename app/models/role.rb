@@ -44,6 +44,7 @@ class Role < ApplicationRecord
   before_destroy :check_deletable
 
   attr_accessor :modify_locked
+
   validate :not_locked
   before_destroy :not_locked
 

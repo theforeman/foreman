@@ -199,10 +199,10 @@ namespace :seed do
                 "A message"
               end
         base["logs"].append({
-                              "log" => { "sources" => { "source" => src },
-                              "messages" => { "message" => msg },
-                              "level" => (i.even? ? "notice" : "err") },
-                            })
+          "log" => { "sources" => { "source" => src },
+          "messages" => { "message" => msg },
+          "level" => (i.even? ? "notice" : "err") },
+        })
       end
       base["reporter"] = "ansible" if is_ansible
       base

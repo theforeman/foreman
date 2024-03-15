@@ -2,6 +2,7 @@ module Foreman::Model
   class Openstack < ComputeResource
     include KeyPairComputeResource
     attr_accessor :scheduler_hint_value
+
     delegate :flavors, :to => :client
     delegate :security_groups, :to => :client
 

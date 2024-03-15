@@ -216,7 +216,7 @@ class UsergroupTest < ActiveSupport::TestCase
       @usergroup = FactoryBot.create(:usergroup)
       auth_source_ldap = FactoryBot.create(:auth_source_ldap)
       @external = @usergroup.external_usergroups.new(:auth_source_id => auth_source_ldap.id,
-                                                     :name           => 'aname')
+        :name => 'aname')
       LdapFluff.any_instance.stubs(:ldap).returns(Net::LDAP.new)
       users(:one).update_column(:auth_source_id, auth_source_ldap.id)
     end

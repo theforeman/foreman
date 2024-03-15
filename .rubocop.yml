@@ -79,3 +79,18 @@ Style/ParenthesesAroundCondition:
 
 Style/PreferredHashMethods:
   Enabled: false
+
+Layout/SpaceAroundOperators:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: true
+
+Layout/FirstHashElementIndentation:
+  Enabled: false

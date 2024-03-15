@@ -9,6 +9,7 @@ end
 class FacetConfigurationTest < ActiveSupport::TestCase
   class TestFacet < HostFacets::Base
   end
+
   module TestHelper
   end
 

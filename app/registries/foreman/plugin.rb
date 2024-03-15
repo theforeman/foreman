@@ -21,7 +21,7 @@ require_dependency 'foreman/plugin/report_origin_registry'
 require_dependency 'foreman/plugin/medium_providers_registry'
 require_dependency 'foreman/plugin/fact_importer_registry'
 
-module Foreman #:nodoc:
+module Foreman # :nodoc:
   class PluginNotFound < Foreman::Exception; end
   class PluginRequirementError < Foreman::Exception; end
 

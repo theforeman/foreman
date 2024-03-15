@@ -17,6 +17,7 @@ class HostStatusPresenter
   end
 
   attr_reader :status_class
+
   delegate :status_name, to: :status_class
   alias_method :name, :status_name
 

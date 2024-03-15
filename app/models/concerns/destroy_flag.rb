@@ -28,6 +28,7 @@ module DestroyFlag
 
   included do
     attr_accessor :_active_record_being_destroyed
+
     before_destroy { |record| record._active_record_being_destroyed = true }
   end
 end

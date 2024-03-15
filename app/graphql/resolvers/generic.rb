@@ -28,6 +28,7 @@ module Resolvers
     private
 
     attr_reader :type
+
     delegate :model_class, to: :type
 
     def base_class
