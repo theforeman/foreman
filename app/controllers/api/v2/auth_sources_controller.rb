@@ -14,7 +14,7 @@ module Api
         @auth_sources = resource_scope_for_index.except_hidden
       end
 
-      def resource_scope(*args)
+      def resource_scope(...)
         super.except_hidden
       end
 

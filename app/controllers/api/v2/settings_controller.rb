@@ -57,7 +57,7 @@ module Api
         render_error :custom_error, :locals => { :message => e.bare_message }, :status => :unprocessable_entity
       end
 
-      def resource_scope(_options = {})
+      def resource_scope(...)
         Foreman.settings
       end
     end

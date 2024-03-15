@@ -72,9 +72,9 @@ module Api
         params[:search] += " host = " + params[:host_id] if params[:host_id]
       end
 
-      def resource_scope(options = {})
+      def resource_scope(*args, **options)
         options[:permission] = :view_config_reports
-        super(options).my_reports
+        super(*args, **options).my_reports
       end
 
       def action_permission

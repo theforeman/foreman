@@ -194,7 +194,7 @@ module Foreman::Controller::TaxonomiesController
     end
   end
 
-  def resource_scope
+  def resource_scope(...)
     taxonomy_class.send("my_#{taxonomies_plural}")
   end
 

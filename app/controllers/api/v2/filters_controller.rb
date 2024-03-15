@@ -55,7 +55,7 @@ module Api
         process_response @filter.destroy
       end
 
-      def resource_scope(*args)
+      def resource_scope(...)
         resource_class.unscoped
       end
 

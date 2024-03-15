@@ -212,7 +212,7 @@ class TestableResourcesControllerTest < ActionController::TestCase
       mock_scope = mock('mock_scope')
 
       auth_scope = mock('auth_scope')
-      auth_scope.stubs(:where).returns(mock_scope)
+      auth_scope.stubs(:all).returns(mock_scope)
 
       resource_class = mock('authorized_resource')
       resource_class.stubs(:authorized).returns(auth_scope)
