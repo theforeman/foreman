@@ -15,4 +15,4 @@ ignoredisk <%= host_param('ignoredisk_options') %>
 <% end -%>
 zerombr
 clearpart --all --initlabel
-autopart --encrypted --passphrase="<%= host_param('disk_enc_passphrase') ? host_param('disk_enc_passphrase') : 'linux' %>" <%= host_param('autopart_options') %>
+autopart --encrypted --passphrase="<%= host_param('disk_enc_passphrase', 'linux') %>" <%= host_param('autopart_options') %>
