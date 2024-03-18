@@ -14,4 +14,4 @@ oses:
 storage:
   layout:
     name: lvm
-    password: <%= host_param('disk_enc_passphrase') ? host_param('disk_enc_passphrase') : 'linux' %>
+    password: <%= host_param('disk_enc_passphrase', 'linux') %>
