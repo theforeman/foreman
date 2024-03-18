@@ -10,7 +10,7 @@ description: |
   family and Ubuntu operating systems are supported.
 -%>
 <%
-  passphrase = host_param('disk_enc_passphrase') || 'linux'
+  passphrase = host_param('disk_enc_passphrase', 'linux')
   tang_server_list = []
   packages_redhat = "clevis clevis-luks clevis-systemd clevis-dracut"
   packages_ubuntu = "clevis clevis-luks clevis-systemd clevis-initramfs"
