@@ -10,7 +10,6 @@ import { reducers as diffModalReducers } from '../../components/ConfigReports/Di
 import { reducers as editorReducers } from '../../components/Editor';
 import { reducers as templateGenerationReducers } from '../../components/TemplateGenerator';
 import { reducers as fillReducers } from '../../components/common/Fill';
-import { reducers as typeAheadSelectReducers } from '../../components/common/TypeAheadSelect';
 import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
 import { reducers as intervalReducers } from '../middlewares/IntervalMiddleware';
 import { reducers as bookmarksPF4Reducers } from '../../components/PF4/Bookmarks';
@@ -34,7 +33,6 @@ export function combineReducersAsync(asyncReducers) {
     ...diffModalReducers,
     ...editorReducers,
     ...templateGenerationReducers,
-    ...typeAheadSelectReducers,
     ...settingRecordsReducers,
     ...personalAccessTokensReducers,
     ...confirmModalReducers,

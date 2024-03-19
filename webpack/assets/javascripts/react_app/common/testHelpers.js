@@ -231,7 +231,6 @@ export const initMockStore = {
   factChart: {
     modalToDisplay: {},
   },
-  typeAheadSelect: {},
   settingRecords: {
     settings: {},
     editing: null,
