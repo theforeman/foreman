@@ -109,6 +109,15 @@ module Foreman
             Time.zone.today.strftime(format)
           end
 
+          apipie :method, 'Returns current time' do
+            keyword :format, String, desc: 'Format string to format time according to the directives in this string', default: '%T %z'
+            returns String
+            example '<%= current_time %> #=> "21:05:09 +0530"'
+          end
+          def current_time(format: '%T %z')
+            Time.zone.now.strftime(format)
+          end
+
           apipie :method, 'Checks whether a value is truthy or not' do
             optional :value, Object, desc: 'Value to check'
             returns one_of: [true, false], desc: 'Returns true if the value can be considered as truthy, false otherwise'
