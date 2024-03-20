@@ -1473,6 +1473,9 @@ msgstr "Zmień właściciela"
 msgid "Change Power State"
 msgstr "Zmień stan zasilania"
 
+msgid "Change Puppet CA"
+msgstr "Zmień Puppet CA"
+
 msgid "Change the password"
 msgstr "Zmień hasło"
 
@@ -3034,7 +3037,7 @@ msgstr ""
 msgid "Expand nested items"
 msgstr "Rozwiń zagnieżdżone elementy"
 
-msgid "Expiration of the authorization token (in hours)"
+msgid "Expiration of the authorization token (in hours), 0 means 'unlimited'."
 msgstr ""
 
 msgid "Expiration of the authorization token."
@@ -3586,7 +3589,7 @@ msgstr ""
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr ""
 
-msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve its one-time registration password."
 msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
@@ -3925,6 +3928,9 @@ msgstr "Całkowity hasz typu statusu"
 msgid "Help"
 msgstr "Pomoc"
 
+msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgstr ""
+
 msgid "Hidden Value"
 msgstr ""
 
@@ -4050,9 +4056,6 @@ msgid "Host is not associated with an operating system"
 msgstr ""
 
 msgid "Host owner"
-msgstr ""
-
-msgid "Host owner is invalid"
 msgstr ""
 
 msgid "Host reported time is <em>%s</em>"
@@ -4908,6 +4911,9 @@ msgstr "Zainstalowany"
 msgid "Instance %{uuid}"
 msgstr ""
 
+msgid "Instance color"
+msgstr ""
+
 msgid "Instance title"
 msgstr ""
 
@@ -4971,6 +4977,9 @@ msgstr ""
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr ""
 
+msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "Nieprawidłowy poziom logowania: %s"
 
@@ -5003,6 +5012,9 @@ msgstr ""
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "Niepoprawny typ dla utworzenia hostu z powodu: %s"
+
+msgid "Invalid value '%s' for jwt_expiration. The value must be between %s and %s. 0 means 'unlimited'."
+msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "Nieprawidłowy format wersji, wpisz w x.y (tylko w wersji głównej)."
@@ -5348,6 +5360,9 @@ msgstr "Lista wszystkich partycji na organizację"
 
 msgid "List all permissions"
 msgstr "Lista wszystkich uprawnień"
+
+msgid "List all permissions for current user"
+msgstr ""
 
 msgid "List all report templates"
 msgstr ""
@@ -9676,7 +9691,7 @@ msgstr ""
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr ""
 
-msgid "The instance title is shown on the top navigation bar (requires a page reload)."
+msgid "The instance title is shown above the header in a banner (requires a page reload)."
 msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
@@ -11100,7 +11115,7 @@ msgstr "Czy szablon jest zablokowany do edycji"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr ""
 
-msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."

@@ -1447,6 +1447,9 @@ msgstr "所有者の変更"
 msgid "Change Power State"
 msgstr "電源状態の変更"
 
+msgid "Change Puppet CA"
+msgstr "Puppet CA の変更"
+
 msgid "Change the password"
 msgstr "パスワードの変更"
 
@@ -3005,8 +3008,8 @@ msgstr ""
 msgid "Expand nested items"
 msgstr "ネスト項目の展開"
 
-msgid "Expiration of the authorization token (in hours)"
-msgstr "承認トークンの有効期限 (時間)"
+msgid "Expiration of the authorization token (in hours), 0 means 'unlimited'."
+msgstr ""
 
 msgid "Expiration of the authorization token."
 msgstr "承認トークンの有効期限。"
@@ -3556,8 +3559,8 @@ msgstr "IPv4 インターフェースの Foreman サブネット ID"
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr "IPv6 インターフェースの Foreman サブネット ID"
 
-msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
-msgstr "Foreman は、新しいホストのレルムエントリーの自動作成をサポートしています。ホストにレルムが選択されると、Foreman は適切なレルム Smart Proxy に問い合わせて、ホストのエントリーを作成し、ワンタイムの登録パスワードを取得します。"
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve its one-time registration password."
+msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
 msgstr "Foreman はベアメタルホストのほかにも、「コンピュートリソース」と呼ばれる数多くの仮想化およびクラウドサービスでホストを作成し、管理することをサポートします。"
@@ -3895,6 +3898,9 @@ msgstr "ステータスタイプのハッシュ合計"
 msgid "Help"
 msgstr "ヘルプ"
 
+msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgstr ""
+
 msgid "Hidden Value"
 msgstr "非表示の値"
 
@@ -4024,9 +4030,6 @@ msgstr "ホストがオペレーティングシステムに関連付けられて
 
 msgid "Host owner"
 msgstr "ホストの所有者"
-
-msgid "Host owner is invalid"
-msgstr "ホストの所有者が無効です。"
 
 msgid "Host reported time is <em>%s</em>"
 msgstr "ホストのレポート時間は <em>%s</em> です"
@@ -4885,6 +4888,9 @@ msgstr "インストール済み"
 msgid "Instance %{uuid}"
 msgstr "インスタンス %{uuid}"
 
+msgid "Instance color"
+msgstr ""
+
 msgid "Instance title"
 msgstr "インスタンスタイトル"
 
@@ -4948,6 +4954,9 @@ msgstr "無効な HTTP(S) URL"
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "'%{os}' の '%{arch}' アーキテクチャーが無効です"
 
+msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "無効なログレベル: %s"
 
@@ -4980,6 +4989,9 @@ msgstr "無効なタグ。キーおよび値のプロパティーのあるマッ
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "ファクトを使用したホストの作成で無効なタイプ: %s"
+
+msgid "Invalid value '%s' for jwt_expiration. The value must be between %s and %s. 0 means 'unlimited'."
+msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "バージョン形式が無効です。x.y (メジャーバージョンのみ) で入力してください。"
@@ -5325,6 +5337,9 @@ msgstr "組織ごとのすべてのパーティションテーブルを一覧表
 
 msgid "List all permissions"
 msgstr "すべてのパーミッションを一覧表示"
+
+msgid "List all permissions for current user"
+msgstr ""
 
 msgid "List all report templates"
 msgstr "すべてのレポートテンプレートを一覧表示"
@@ -7221,7 +7236,7 @@ msgid "Permission"
 msgstr "パーミッション"
 
 msgid "Permission Denied"
-msgstr ""
+msgstr "パーミッションが拒否されました"
 
 msgid "Permission denied"
 msgstr "パーミッションが拒否されました。"
@@ -9654,8 +9669,8 @@ msgstr "設定カテゴリーの人間が判読できる名前"
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr "たとえば、上記の情報を使用して、プロビジョニングテンプレートでインターフェースごとに NetworkManager の設定ファイルを作成できます。"
 
-msgid "The instance title is shown on the top navigation bar (requires a page reload)."
-msgstr "インスタンスのタイトルは上部のナビゲーションバーに表示されます (ページの再読み込みが必要です)。"
+msgid "The instance title is shown above the header in a banner (requires a page reload)."
+msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
 msgstr "iss (issuer) 要求は、JWT を発行したプリンシパルを特定します。大半の OpenID プロバイダーの場合には `/.well-known/openid-configuration` にあります。"
@@ -11083,7 +11098,7 @@ msgstr "テンプレートの編集機能をロックするかどうか"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr "実験的なラボ機能にアクセスするためのメニューの表示または非表示 (ページのリロードが必要)"
 
-msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."

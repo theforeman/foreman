@@ -1485,6 +1485,9 @@ msgstr "Изменить владельца"
 msgid "Change Power State"
 msgstr "Управление питанием"
 
+msgid "Change Puppet CA"
+msgstr "Изменить Puppet CA"
+
 msgid "Change the password"
 msgstr "Сменить пароль"
 
@@ -3046,7 +3049,7 @@ msgstr ""
 msgid "Expand nested items"
 msgstr "Развернуть"
 
-msgid "Expiration of the authorization token (in hours)"
+msgid "Expiration of the authorization token (in hours), 0 means 'unlimited'."
 msgstr ""
 
 msgid "Expiration of the authorization token."
@@ -3598,7 +3601,7 @@ msgstr "Идентификатор подсети Foreman для интерфе�
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr "Идентификатор подсети Foreman для интерфейса IPv6"
 
-msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve its one-time registration password."
 msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
@@ -3937,6 +3940,9 @@ msgstr "Хэш итогового состояния"
 msgid "Help"
 msgstr "Справка"
 
+msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgstr ""
+
 msgid "Hidden Value"
 msgstr "Скрытое Значение"
 
@@ -4063,9 +4069,6 @@ msgstr "Узел не связан с операционной системой"
 
 msgid "Host owner"
 msgstr "Владелец узла"
-
-msgid "Host owner is invalid"
-msgstr ""
 
 msgid "Host reported time is <em>%s</em>"
 msgstr "Узел сообщил время:  <em>%s</em>"
@@ -4920,6 +4923,9 @@ msgstr "Установлено"
 msgid "Instance %{uuid}"
 msgstr ""
 
+msgid "Instance color"
+msgstr ""
+
 msgid "Instance title"
 msgstr ""
 
@@ -4983,6 +4989,9 @@ msgstr ""
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr ""
 
+msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "Недопустимый  уровень ведения журнала: %s"
 
@@ -5015,6 +5024,9 @@ msgstr ""
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "Неверный тип для создаваемого узла: %s"
+
+msgid "Invalid value '%s' for jwt_expiration. The value must be between %s and %s. 0 means 'unlimited'."
+msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "Не верный формат версии, введите x.y (только основной релиз)."
@@ -5360,6 +5372,9 @@ msgstr "Список всех таблиц разделов по организ�
 
 msgid "List all permissions"
 msgstr "Список всех разрешений"
+
+msgid "List all permissions for current user"
+msgstr ""
 
 msgid "List all report templates"
 msgstr "Список всех шаблонов отчётов"
@@ -9694,7 +9709,7 @@ msgstr "Удобочитаемое название категории наст�
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr ""
 
-msgid "The instance title is shown on the top navigation bar (requires a page reload)."
+msgid "The instance title is shown above the header in a banner (requires a page reload)."
 msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
@@ -11123,7 +11138,7 @@ msgstr "Блокирование шаблона для редактирован�
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr ""
 
-msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."
