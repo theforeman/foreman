@@ -78,7 +78,7 @@ namespace :hosts do
     else
       printhosts(missingdns, "hosts with no DNS entry")
       puts "Are you sure you want to continue? This task will delete the hosts above [y/N]"
-      input = STDIN.gets.chomp
+      input = $stdin.gets.chomp
       abort("No action taken. Bye!") unless input.downcase == "y"
 
       missingdns.each do |h|

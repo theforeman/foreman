@@ -16,7 +16,7 @@ task :config => :environment do
 
     def set_options_key_value(value)
       unless @key
-        STDERR.puts("Key has to be specified first")
+        $stderr.puts("Key has to be specified first")
         exit 2
       end
       @keys << @key
@@ -67,7 +67,7 @@ task :config => :environment do
       parser.parse!(args)
 
       if @key && @key_values.any?
-        STDERR.puts "Missing value for key '#{@key}'"
+        $stderr.puts "Missing value for key '#{@key}'"
         exit 2
       end
 
@@ -111,7 +111,7 @@ task :config => :environment do
         record = Foreman.settings.set_user_value(key, val)
         validate_and_save(record)
       rescue ::Foreman::SettingValueException => _e
-        STDERR.puts("ERROR: Invalid value #{val} for setting '#{key} (type=#{setting.settings_type})'")
+        $stderr.puts("ERROR: Invalid value #{val} for setting '#{key} (type=#{setting.settings_type})'")
         exit 2
       end
     end
@@ -136,7 +136,7 @@ task :config => :environment do
         value
       end
     rescue JSON::ParserError
-      STDERR.puts("ERROR: Could not parse value #{value} as JSON. Please check the value is a valid JSON #{type}.")
+      $stderr.puts("ERROR: Could not parse value #{value} as JSON. Please check the value is a valid JSON #{type}.")
       exit 2
     end
 
@@ -153,7 +153,7 @@ task :config => :environment do
         record.save! unless @dry
         @changed_settings << record
       else
-        STDERR.puts("ERROR: Invalid value #{record.value} for #{record} - #{record.errors.full_messages}")
+        $stderr.puts("ERROR: Invalid value #{record.value} for #{record} - #{record.errors.full_messages}")
         exit 2
       end
       print "#{record.name}: "
