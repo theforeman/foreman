@@ -8,31 +8,27 @@
                        "(status.applied > 0 or status.restarted > 0) and (status.failed = 0)",
                        origin
                      ),
-                     :active_hosts_ok_enabled
-%>
+                     :active_hosts_ok_enabled %>
 <%= searchable_links _('Hosts in error state'),
                      search_filter_with_origin(
                        "(status.failed > 0 or status.failed_restarts > 0) and status.enabled = true",
                        origin
                      ),
-                     :bad_hosts_enabled
-%>
+                     :bad_hosts_enabled %>
 
 <%= searchable_links (out_of_sync_enabled?(origin) ? _("Good host reports in the last %s") % time_ago_in_words((report_origin_interval_setting(origin).to_i || 0).minutes.ago) : _("Good host with reports")),
                      search_filter_with_origin(
                        "status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0",
                        origin
                      ),
-                    :ok_hosts_enabled
-%>
+                    :ok_hosts_enabled %>
 
 <%= searchable_links _('Hosts that had pending changes'),
                      search_filter_with_origin(
                        "status.pending > 0 and status.enabled = true",
                        origin
                      ),
-                     :pending_hosts_enabled
-%>
+                     :pending_hosts_enabled %>
 
 <% if out_of_sync_enabled?(origin) %>
   <%= searchable_links _('Out of sync hosts'),
@@ -41,8 +37,7 @@
                          origin,
                          true
                        ),
-                       :out_of_sync_hosts_enabled
-  %>
+                       :out_of_sync_hosts_enabled %>
 <% end %>
 
 <%= searchable_links _('Hosts with no reports'),
@@ -52,8 +47,7 @@
                        true,
                        true
                      ),
-                     :reports_missing
-%>
+                     :reports_missing %>
 <%= searchable_links _('Hosts with alerts disabled'),
                      search_filter_with_origin(
                        "status.enabled = false",
@@ -61,5 +55,4 @@
                        true,
                        true
                      ),
-                     :disabled_hosts
-%>
+                     :disabled_hosts %>

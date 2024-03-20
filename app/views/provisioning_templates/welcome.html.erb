@@ -1,6 +1,6 @@
 <% content_for(:title, _("Provisioning Templates")) %>
-<% description = _("The Provision Templates is the core of Foreman’s flexibility to used for provisioning and installation of operating systems. There are several types of template, along with a flexible matching system to deliver different templates to different hosts or host groups.")%>
-<% action = { :title => _("Create Provisioning Template"), :url => new_provisioning_template_path } if authorized_for(:action => :new)%>
+<% description = _("The Provision Templates is the core of Foreman’s flexibility to used for provisioning and installation of operating systems. There are several types of template, along with a flexible matching system to deliver different templates to different hosts or host groups.") %>
+<% action = { :title => _("Create Provisioning Template"), :url => new_provisioning_template_path } if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'tasks',
                                     :iconType => 'fa',

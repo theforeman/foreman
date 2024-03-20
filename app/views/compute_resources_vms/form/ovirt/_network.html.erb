@@ -8,7 +8,7 @@
 <% networks = compute_resource.networks(selected_cluster ? { :cluster_id => selected_cluster } : { }) %>
 <%= select_f f, :vnic_profile, compute_resource.vnic_profiles,
              :id, :name, {},
-             :class => "ovirt_network", 
+             :class => "ovirt_network",
              :size => "col-md-8", :disabled => !new_vm,
              :label => _('Vnic Profile'), :label_size => "col-md-3",
              :onchange => 'tfm.computeResource.ovirt.vnicSelected(this)',
@@ -21,6 +21,6 @@
 
 <%= select_f f, :interface, compute_resource.nictypes,
              :id, :name, {},
-             :class => "ovirt_network", 
+             :class => "ovirt_network",
              :size => "col-md-8",  :disabled => !new_vm,
              :label => _('Interface type'), :label_size => "col-md-3" %>

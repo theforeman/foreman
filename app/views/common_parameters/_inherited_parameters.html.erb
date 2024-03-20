@@ -12,12 +12,11 @@
       <% keys = inherited_parameters.keys.sort %>
       <% keys.each do |name| %>
         <% overriden = parameters.detect{|param| param.name == name}.present?
-           param_obj = inherited_parameters[name]
-        %>
-        <tr class="<%="override-param" if overriden %>">
-          <td class="ellipsis"><%= content_tag :span, name, :id => "name_#{name}"%>
+           param_obj = inherited_parameters[name] %>
+        <tr class="<%= "override-param" if overriden %>">
+          <td class="ellipsis"><%= content_tag :span, name, :id => "name_#{name}" %>
           </td>
-          <td class="ellipsis"><%= content_tag :span, param_obj[:parameter_type], :id => "parameter_type_#{param_obj[:parameter_type]}"%>
+          <td class="ellipsis"><%= content_tag :span, param_obj[:parameter_type], :id => "parameter_type_#{param_obj[:parameter_type]}" %>
           </td>
           <td><%= parameter_value_field param_obj %></td>
           <td>

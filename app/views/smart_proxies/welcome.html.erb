@@ -1,6 +1,6 @@
 <% content_for(:title, _("Smart Proxies")) %>
-<% description = _("Smart proxies provide a RESTful API to manage subsystems like DNS, DHCP, and TFTP.")%>
-<% action =  { :title => _("Create Smart Proxy"), :url => new_smart_proxy_path } if authorized_for(:action => :new)%>
+<% description = _("Smart proxies provide a RESTful API to manage subsystems like DNS, DHCP, and TFTP.") %>
+<% action =  { :title => _("Create Smart Proxy"), :url => new_smart_proxy_path } if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'sitemap',
                                     :iconType => 'fa',

@@ -47,8 +47,8 @@
       <%= text_f f, :validator_rule, :size => "col-md-8", :disabled => f.object.validator_type.blank?, :class => "no-stretch" %>
     </div>
   </fieldset>
-  </br>
-  <div class="matcher-parent" <%= "id=#{f.object.key.to_s.gsub(' ', '_')}_lookup_key_override_value" %> style=<%= "display:none;" unless f.object.override %>>
+  <br>
+  <div class="matcher-parent" <%= "id=#{f.object.key.to_s.gsub(' ', '_')}_lookup_key_override_value" %> style="<%= "display:none;" unless f.object.override %>">
     <fieldset>
       <h2><%= _("Prioritize Attribute Order") %></h2>
       <h6><%= _("Set the order in which values are resolved.") %></h6>
@@ -63,7 +63,7 @@
                         :size => "col-md-1", :label_size => "col-md-2", :table_field => true,
                         :label_help => _("Avoid duplicate values when merging them (only array type)?")) %>
     </fieldset>
-    </br>
+    <br>
     <fieldset>
       <h2><%= _("Specify Matchers") %>  <%= documentation_button('4.2.6SmartMatchers') %></h2>
       <div class="children_fields lookup_values">

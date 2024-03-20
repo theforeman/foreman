@@ -1,6 +1,6 @@
 <% content_for(:title, _("Subnets")) %>
-<% description = _("Foreman can store information about the networking setup of a host that it’s provisioning, which can be used to configure the virtual machine, assign the correct IP addresses and network resources, then configure the OS correctly during the provisioning process.")%>
-<% action = { :title => _("Create Subnet"), :url => new_subnet_path } if authorized_for(:action => :new)%>
+<% description = _("Foreman can store information about the networking setup of a host that it’s provisioning, which can be used to configure the virtual machine, assign the correct IP addresses and network resources, then configure the OS correctly during the provisioning process.") %>
+<% action = { :title => _("Create Subnet"), :url => new_subnet_path } if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'globe',
                                     :iconType => 'fa',

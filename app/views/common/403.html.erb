@@ -7,8 +7,8 @@
   </div>
   <h1><%= _("Permission denied") %></h1>
   <p>
-    <%= _("You are not authorized to perform this action.") %></br>
-    <%= _("Please request one of the required permissions listed below from a Foreman administrator:") %></br>
+    <%= _("You are not authorized to perform this action.") %><br>
+    <%= _("Please request one of the required permissions listed below from a Foreman administrator:") %><br>
     <%= content_tag(:ul, permissions.join.html_safe, class: 'list-unstyled') %>
   </p>
   <p><%= link_to(_('Back'), main_app.root_path, :class => 'btn btn-default') %></p>

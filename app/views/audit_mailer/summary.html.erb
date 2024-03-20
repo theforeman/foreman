@@ -10,7 +10,7 @@
         <b>
           <%= link_to(audit.username, audits_url(:search => user_search_param)) %>
           <span style="color: #cccccc"><%= audit_remote_address audit %></span>
-          <%= audit_action_name audit%> <%= audited_type audit %>:
+          <%= audit_action_name audit %> <%= audited_type audit %>:
           <%= link_to(audit_title(audit), audits_url(search: "id = #{audit.id}"), {:style => 'color: #2a6496'}) %>
         </b>
         <ul style="list-style-type: none;">

@@ -9,4 +9,4 @@
                    link_to_function(n_("Select this host",
                                        "Select all <b> %{total} </b> hosts", @hosts.total_entries).html_safe % {total: @hosts.total_entries},
                                     "tfm.hosts.table.multipleSelection()")) %>
-<%= render 'list', :hosts => @hosts, :header => @title || _("Hosts")  %>
+<%= render 'list', :hosts => @hosts, :header => @title || _("Hosts") %>
