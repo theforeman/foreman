@@ -1494,6 +1494,9 @@ msgstr "Besitzer ändern"
 msgid "Change Power State"
 msgstr "Energiezustand ändern"
 
+msgid "Change Puppet CA"
+msgstr "Puppet-CA ändern"
+
 msgid "Change the password"
 msgstr "Passwort ändern"
 
@@ -3053,8 +3056,8 @@ msgstr ""
 msgid "Expand nested items"
 msgstr "Verschachtelte Elemente ausklappen"
 
-msgid "Expiration of the authorization token (in hours)"
-msgstr "Ablauf des Autorisierungstokens (in Stunden)"
+msgid "Expiration of the authorization token (in hours), 0 means 'unlimited'."
+msgstr ""
 
 msgid "Expiration of the authorization token."
 msgstr "Ablauf des Autorisierungstokens."
@@ -3605,8 +3608,8 @@ msgstr "Foreman Subnetz Kennung der IPv4 Schnittstelle"
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr "Foreman Subnetz Kennung der IPv6 Schnittstelle"
 
-msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
-msgstr "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve its one-time registration password."
+msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
 msgstr "Foreman unterstützt das Erstellen und Verwalten von Hosts auf einer Reihe von Virtualisierungs- und Cloud-Diensten – die als „Rechenressourcen“ bezeichnet werden – sowie auf Bare-Metal-Hosts."
@@ -3944,6 +3947,9 @@ msgstr "Hash der Statustypensummen"
 msgid "Help"
 msgstr "Hilfe"
 
+msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgstr ""
+
 msgid "Hidden Value"
 msgstr "Verborgener Wert"
 
@@ -4073,9 +4079,6 @@ msgstr "Host ist keinem Betriebssystem zugeordnet"
 
 msgid "Host owner"
 msgstr "Host Besitzer"
-
-msgid "Host owner is invalid"
-msgstr "Host Besitzer ist ungültig"
 
 msgid "Host reported time is <em>%s</em>"
 msgstr "Die vom Host gemeldete Zeit ist <em>%s</em>"
@@ -4936,6 +4939,9 @@ msgstr "Installiert"
 msgid "Instance %{uuid}"
 msgstr "Instanz %{uuid}"
 
+msgid "Instance color"
+msgstr ""
+
 msgid "Instance title"
 msgstr "Titel der Instanz"
 
@@ -4999,6 +5005,9 @@ msgstr "Ungültige HTTP(S) URL"
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "Ungültige Architektur '%{arch}' für '%{os}'"
 
+msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "Ungültige Protokollstufe: %s"
 
@@ -5031,6 +5040,9 @@ msgstr "Ungültige Tags, muss ein Array von Karten mit Schlüssel- und Werteigen
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "ungültiger Typ für Hosterstellung mittels Fakten: %s"
+
+msgid "Invalid value '%s' for jwt_expiration. The value must be between %s and %s. 0 means 'unlimited'."
+msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "Ungültiges Versionsformat. Bitte im Format x.y (nur Hauptversion) angeben."
@@ -5376,6 +5388,9 @@ msgstr "Alle Partitionstabellen pro Organisation auflisten"
 
 msgid "List all permissions"
 msgstr "Alle Berechtigungen auflisten"
+
+msgid "List all permissions for current user"
+msgstr ""
 
 msgid "List all report templates"
 msgstr "Alle Berichtvorlagen auflisten"
@@ -9713,7 +9728,7 @@ msgstr "Der für Menschen lesbare Name der Einstellungskategorie"
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr "Die Informationen von oben können z.B. um eine NetworkManager-Konfigurationsdatei für jede Schnittstelle in der Bereitstellungsvorlage zu erstellen."
 
-msgid "The instance title is shown on the top navigation bar (requires a page reload)."
+msgid "The instance title is shown above the header in a banner (requires a page reload)."
 msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
@@ -11146,7 +11161,7 @@ msgstr "Ob die Vorlage für die Bearbeitung gesperrt ist oder nicht"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr "Ob das Menu zum zugreifen auf die Experimental Lab Features gezeigt werden soll oder nicht (Seite muss neugeladen werden)"
 
-msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."

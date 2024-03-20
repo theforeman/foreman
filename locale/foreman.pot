@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-14 11:07-0500\n"
-"PO-Revision-Date: 2024-02-14 11:07-0500\n"
+"POT-Creation-Date: 2024-03-20 14:10-0400\n"
+"PO-Revision-Date: 2024-03-20 14:10-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -17,233 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#: ../app/assets/javascripts/application.js:61
-msgid "Failed to fetch: "
-msgstr ""
-
-#: ../app/assets/javascripts/application.js:225
-msgid "Sorry but no templates were configured."
-msgstr ""
-
-#: ../app/assets/javascripts/application.js:356
-#: ../app/models/config_report.rb:82
-msgid "Success"
-msgstr ""
-
-#: ../app/assets/javascripts/application.js:360
-#: ../app/helpers/layout_helper.rb:182 ../app/models/host_status/global.rb:9
-msgid "Warning"
-msgstr ""
-
-#: ../app/assets/javascripts/application.js:364
-#: ../app/controllers/application_controller.rb:376
-#: ../app/helpers/dashboard_helper.rb:61 ../app/helpers/layout_helper.rb:188
-#: ../app/models/host_status/configuration_status.rb:73
-#: ../app/models/host_status/global.rb:10
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:10
-msgid "Error"
-msgstr ""
-
-#: ../app/assets/javascripts/application.js:400
-msgid "Unknown power state"
-msgstr ""
-
-#: ../app/assets/javascripts/application.js:427
-msgid "Exit Full Screen"
-msgstr ""
-
-#: ../app/assets/javascripts/application.js:500
-#: ../webpack/assets/javascripts/foreman_tools.js:108
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:20
-msgid "No matches found"
-msgstr ""
-
-#: ../app/assets/javascripts/compute_resources/libvirt/nic_info.js:3
-msgid "physical @ NAT %s"
-msgstr ""
-
-#: ../app/assets/javascripts/compute_resources/libvirt/nic_info.js:5
-msgid "physical @ bridge %s"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit.js:31
-msgid "Loading interfaces information ..."
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit.js:43
-msgid "Error loading interfaces information: %s"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit.js:92
-msgid "Loading virtual machine information ..."
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit.js:503
-msgid "Loading parameters..."
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit.js:656
-#: ../app/helpers/hosts_nic_helper.rb:22
-#: ../app/views/hostgroups/_form.html.erb:48
-#: ../app/views/hostgroups/_form.html.erb:55
-msgid "No subnets"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit.js:822
-msgid "Error generating IP: %s"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit.js:952
-msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit.js:956
-msgid "Manual configuration is needed."
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:29
-#: ../app/models/nic/managed.rb:64
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:23
-msgid "Interface"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:186
-#: ../app/helpers/hosts_helper.rb:64 ../app/helpers/hosts_helper.rb:372
-#: ../app/views/taxonomies/_form.html.erb:6
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:58
-msgid "Primary"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:192
-#: ../app/helpers/hosts_helper.rb:65 ../app/helpers/hosts_helper.rb:373
-#: ../app/registries/foreman/settings/provisioning.rb:4
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Provisioning/index.js:45
-msgid "Provisioning"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:198
-msgid "Managed"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:269
-msgid ""
-"Some other interface is already set as primary. Are you sure you want to use t"
-"his one instead?"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:289
-msgid ""
-"Some other interface is already set as provisioning. Are you sure you want to "
-"use this one instead?"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:359
-msgid "virtual attached to %s"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:360
-msgid "virtual"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:365
-msgid "physical"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:404
-#: ../app/helpers/hostgroup_description_helper.rb:9
-#: ../app/registries/menu/loader.rb:62 ../app/views/hosts/index.html.erb:5
-#: ../app/views/hosts/new.html.erb:1 ../app/views/hosts/welcome.html.erb:3
-msgid "Create Host"
-msgstr ""
-
-#: ../app/assets/javascripts/hosts.js:25
-#: ../app/helpers/host_description_helper.rb:101
-#: ../app/helpers/hosts_helper.rb:382 ../app/helpers/hosts_helper.rb:384
-#: ../app/models/host_status/build_status.rb:27
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:56
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:88
-msgid "Build"
-msgstr ""
-
-#: ../app/assets/javascripts/hosts.js:25
-msgid "Reboot and build"
-msgstr ""
-
-#: ../app/assets/javascripts/jquery.multi-select.js:8
-#: ../app/views/hosts/_assign_hosts.html.erb:10
-msgid "Select All"
-msgstr ""
-
-#: ../app/assets/javascripts/jquery.multi-select.js:8
-msgid "All items"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/assets/javascripts/jquery.multi-select.js:8
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/EditFiltersFormPage.js:42
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/NewFiltersFormPage.js:23
-#: model_attributes.rb:140
-msgid "Filter"
-msgstr ""
-
-#: ../app/assets/javascripts/jquery.multi-select.js:9
-msgid "Selected items"
-msgstr ""
-
-#: ../app/assets/javascripts/jquery.multi-select.js:9
-msgid "Deselect All"
-msgstr ""
-
-#: ../app/assets/javascripts/jquery.multi-select.js:33
-msgid "Select this since it belongs to a host"
-msgstr ""
-
-#: ../app/assets/javascripts/jquery.multi-select.js:40
-msgid "This is used by a host"
-msgstr ""
-
-#: ../app/assets/javascripts/jquery.multi-select.js:47
-msgid "This is inherited from parent"
-msgstr ""
-
-#: ../app/assets/javascripts/jquery.multi-select.js:54
-#: ../app/assets/javascripts/jquery.multi-select.js:55
-msgid "Parent is already selected"
-msgstr ""
-
-#: ../app/assets/javascripts/proxy_status.js:25
-#: ../app/helpers/dashboard_helper.rb:60
-#: ../app/models/host_status/configuration_status.rb:77
-msgid "Active"
-msgstr ""
-
-#: ../app/assets/javascripts/proxy_status/puppet.js:10
-#: ../app/helpers/puppetca_helper.rb:2 ../app/helpers/puppetca_helper.rb:8
-msgid "pending"
-msgstr ""
-
-#: ../app/assets/javascripts/proxy_status/puppet.js:10
-#: ../app/helpers/puppetca_helper.rb:2 ../app/helpers/puppetca_helper.rb:8
-msgid "valid"
-msgstr ""
-
-#: ../app/assets/javascripts/subnets.js:67
-#: ../app/assets/javascripts/subnets.js:91
-#: ../webpack/assets/javascripts/react_app/components/common/forms/validators.js:8
-msgid "can't be blank"
-msgstr ""
-
-#: ../app/assets/javascripts/subnets.js:77
-#: ../app/assets/javascripts/subnets.js:97
-#: ../app/assets/javascripts/subnets.js:104
-#: ../app/models/lookup_keys/lookup_key.rb:170
-#: ../app/models/nic/interface.rb:101 ../app/models/nic/interface.rb:102
-#: ../app/models/subnet.rb:398
-#: ../app/services/foreman/parameters/validator.rb:29
-#: ../app/validators/email_validator.rb:14
-msgid "is invalid"
-msgstr ""
 
 #: ../app/controllers/api/base_controller.rb:26
 msgid "Internal Server Error: the server was unable to finish the request. "
@@ -1497,7 +1270,6 @@ msgid "Parameters for host's %s facet"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:127
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/EmptyState/index.js:26
 msgid "Create a host"
 msgstr ""
 
@@ -2675,7 +2447,6 @@ msgstr ""
 
 #: ../app/controllers/api/v2/registration_commands_controller.rb:20
 #: ../app/controllers/api/v2/registration_controller.rb:25
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/UpdatePackages.js:20
 msgid "Update all packages on the host"
 msgstr ""
 
@@ -3458,6 +3229,13 @@ msgid "You must create at least one organization before continuing."
 msgstr ""
 
 #: ../app/controllers/application_controller.rb:376
+#: ../app/helpers/dashboard_helper.rb:61 ../app/helpers/layout_helper.rb:193
+#: ../app/models/host_status/configuration_status.rb:73
+#: ../app/models/host_status/global.rb:10
+msgid "Error"
+msgstr ""
+
+#: ../app/controllers/application_controller.rb:376
 #: ../app/helpers/dashboard_helper.rb:62 ../app/models/host_status/global.rb:8
 #: ../app/views/hosts/_dhcp_lease_errors.html.erb:18
 msgid "OK"
@@ -3805,7 +3583,6 @@ msgstr ""
 #: ../app/controllers/hosts_controller.rb:16
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:45
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:45
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:59
 msgid "Disk"
 msgstr ""
 
@@ -3819,7 +3596,6 @@ msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:16
 #: ../app/models/compute_resources/foreman/model/vmware.rb:207
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:25
 msgid "BIOS"
 msgstr ""
 
@@ -3852,7 +3628,6 @@ msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:248
 #: ../app/controllers/hosts_controller.rb:251
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:94
 msgid "Canceled pending build for %s"
 msgstr ""
 
@@ -4133,9 +3908,6 @@ msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr ""
 
 #: ../app/controllers/unattended_controller.rb:217
-#: ../webpack/assets/javascripts/react_app/components/PF4/BreadcrumbSwitcher/index.js:70
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:58
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:133
 msgid "An error occurred."
 msgstr ""
 
@@ -4261,9 +4033,6 @@ msgstr ""
 #: ../app/services/power_manager/power_status.rb:6
 #: ../app/views/fact_values/_fact.html.erb:7
 #: ../app/views/filters/index.html.erb:52
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/index.js:40
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:42
-#: ../webpack/assets/javascripts/react_app/components/common/SkeletonLoader/index.js:43
 msgid "N/A"
 msgstr ""
 
@@ -4272,17 +4041,6 @@ msgstr ""
 #: ../app/views/common/confirm_class_clean_up.html.erb:8
 #: ../app/views/hosts/_interfaces.html.erb:34
 #: ../app/views/puppetca/_list.html.erb:31
-#: ../webpack/assets/javascripts/dashboard/index.js:67
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:39
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:108
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:32
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:116
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:45
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:149
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:168
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:48
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:68
-#: ../webpack/assets/javascripts/react_app/components/common/table/components/DeleteButton.js:9
 msgid "Delete"
 msgstr ""
 
@@ -4295,13 +4053,10 @@ msgstr ""
 
 #: ../app/helpers/application_helper.rb:146
 #: ../app/helpers/provisioning_templates_helper.rb:13
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:180
-#: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:22
 msgid "Export"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:147
-#: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:21
 msgid "Export to CSV"
 msgstr ""
 
@@ -4318,27 +4073,19 @@ msgstr ""
 
 #: ../app/helpers/application_helper.rb:295
 #: ../app/views/about/index.html.erb:121
-#: ../webpack/assets/javascripts/react_app/components/PF4/DocumentationLink/index.js:24
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:184
-#: ../webpack/assets/javascripts/react_app/components/common/DocumentationLink/index.js:19
 msgid "Documentation"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:300
-#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:60
 msgid "None found"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:320 ../app/helpers/hosts_helper.rb:444
 #: ../app/views/users/logout.html.erb:3
-#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:29
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:64
 msgid "Yes"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:320 ../app/helpers/hosts_helper.rb:444
-#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:30
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:66
 msgid "No"
 msgstr ""
 
@@ -4405,24 +4152,17 @@ msgstr ""
 #: ../app/views/taxonomies/index.html.erb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:3
 #: ../db/seeds.d/170-notification_blueprints.rb:17
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:119
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:209
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:252
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:26
 msgid "Hosts"
 msgstr ""
 
 #: ../app/helpers/audits_helper.rb:209
 #: ../app/helpers/host_description_helper.rb:136
 #: ../app/registries/menu/loader.rb:46
-#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:20
 msgid "Audits"
 msgstr ""
 
 #: ../app/helpers/audits_helper.rb:387
 #: ../app/views/config_reports/show.html.erb:19
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/__tests__/AuditsList.fixtures.js:12
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/__tests__/AuditsList.fixtures.js:56
 msgid "Host details"
 msgstr ""
 
@@ -4455,7 +4195,6 @@ msgstr ""
 #: ../app/helpers/compute_resources_helper.rb:13
 #: ../app/helpers/hosts_helper.rb:273
 #: ../app/services/power_manager/power_status.rb:4
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/PowerStatus/constants.js:5
 msgid "On"
 msgstr ""
 
@@ -4463,7 +4202,6 @@ msgstr ""
 #: ../app/helpers/compute_resources_helper.rb:13
 #: ../app/helpers/hosts_helper.rb:273 ../app/services/name_generator.rb:3
 #: ../app/services/power_manager/power_status.rb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/PowerStatus/constants.js:5
 msgid "Off"
 msgstr ""
 
@@ -4495,9 +4233,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/ec2/_ec2_tag.html.erb:6
 #: ../app/views/lookup_keys/_values.html.erb:10
 #: ../app/views/lookup_keys/_values.html.erb:15
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:5
-#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingForm/SettingForm.js:64
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:24
 msgid "Value"
 msgstr ""
 
@@ -4549,7 +4284,6 @@ msgstr ""
 #: ../app/helpers/compute_resources_vms_helper.rb:20
 #: ../app/helpers/compute_resources_vms_helper.rb:278
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:27
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:120
 msgid "Console"
 msgstr ""
 
@@ -4563,8 +4297,6 @@ msgstr ""
 
 #: ../app/helpers/compute_resources_vms_helper.rb:166
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:14
-#: ../webpack/assets/javascripts/compute_resource/vmware.js:33
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:112
 msgid "Please select a cluster"
 msgstr ""
 
@@ -4587,7 +4319,6 @@ msgstr ""
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:3
 #: ../app/views/fact_values/index.html.erb:14
 #: ../app/views/hosts/_form.html.erb:11
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/constants.js:2
 msgid "Host"
 msgstr ""
 
@@ -4639,6 +4370,11 @@ msgstr ""
 msgid "Nothing to add"
 msgstr ""
 
+#: ../app/helpers/dashboard_helper.rb:60
+#: ../app/models/host_status/configuration_status.rb:77
+msgid "Active"
+msgstr ""
+
 #: ../app/helpers/dashboard_helper.rb:63
 msgid "Pending changes"
 msgstr ""
@@ -4663,7 +4399,6 @@ msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:111 ../app/helpers/hosts_helper.rb:207
 #: ../app/views/config_reports/_list.html.erb:9
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:167
 msgid "Applied"
 msgstr ""
 
@@ -4674,7 +4409,6 @@ msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:113 ../app/helpers/hosts_helper.rb:211
 #: ../app/views/config_reports/_list.html.erb:10
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:163
 msgid "Restarted"
 msgstr ""
 
@@ -4686,7 +4420,6 @@ msgstr ""
 #: ../app/helpers/dashboard_helper.rb:115 ../app/helpers/hosts_helper.rb:208
 #: ../app/models/config_report.rb:80
 #: ../app/views/config_reports/_list.html.erb:11
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:155
 msgid "Failed"
 msgstr ""
 
@@ -4706,7 +4439,6 @@ msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:119 ../app/helpers/hosts_helper.rb:210
 #: ../app/views/config_reports/_list.html.erb:13
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:171
 msgid "Skipped"
 msgstr ""
 
@@ -4718,7 +4450,6 @@ msgstr ""
 #: ../app/helpers/dashboard_helper.rb:121
 #: ../app/models/host_status/configuration_status.rb:79
 #: ../app/views/config_reports/_list.html.erb:14
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:175
 msgid "Pending"
 msgstr ""
 
@@ -4790,18 +4521,6 @@ msgstr ""
 #: ../app/views/hosts/_assign_hosts.html.erb:36
 #: ../app/views/hosts/_interfaces.html.erb:64
 #: ../app/views/hosts/_list.html.erb:52
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:180
-#: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:55
-#: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/CancelBtn.js:23
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:64
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:174
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:36
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:56
-#: ../webpack/assets/javascripts/react_app/components/common/RedirectCancelButton/RedirectCancelButton.js:11
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:19
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:193
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:244
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:27
 msgid "Cancel"
 msgstr ""
 
@@ -4810,9 +4529,6 @@ msgid "Overwrite"
 msgstr ""
 
 #: ../app/helpers/form_helper.rb:246 ../app/views/hosts/_list.html.erb:53
-#: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitBtn.js:25
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:14
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:237
 msgid "Submit"
 msgstr ""
 
@@ -4880,7 +4596,6 @@ msgstr ""
 #: ../app/views/about/index.html.erb:25 ../app/views/about/index.html.erb:47
 #: ../app/views/about/index.html.erb:74 ../app/views/hosts/_bmc.html.erb:9
 #: ../app/views/smart_proxies/index.html.erb:13
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:33
 msgid "Status"
 msgstr ""
 
@@ -4889,14 +4604,11 @@ msgid "clear"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:63
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Provisioning/index.js:48
 msgid "Build duration"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/host_description_helper.rb:65
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Provisioning/index.js:65
-#: model_attributes.rb:682
+#: ../app/helpers/host_description_helper.rb:65 model_attributes.rb:682
 msgid "Token"
 msgstr ""
 
@@ -4904,9 +4616,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:66
 #: ../app/views/domains/_form.html.erb:4
 #: ../app/views/hostgroups/_form.html.erb:45
-#: ../app/views/subnets/_form.html.erb:25
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:68
-#: model_attributes.rb:112
+#: ../app/views/subnets/_form.html.erb:25 model_attributes.rb:112
 msgid "Domain"
 msgstr ""
 
@@ -4931,7 +4641,6 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:70
 #: ../app/views/hosts/_list.html.erb:14
 #: ../config/initializers/foreman_register.rb:26
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:169
 msgid "Comment"
 msgstr ""
 
@@ -4943,9 +4652,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/helpers/host_description_helper.rb:72
-#: ../app/views/common/os_selection/_initial.html.erb:3
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:28
-#: model_attributes.rb:2
+#: ../app/views/common/os_selection/_initial.html.erb:3 model_attributes.rb:2
 msgid "Architecture"
 msgstr ""
 
@@ -4971,15 +4678,11 @@ msgstr ""
 #: ../app/views/hosts/_list.html.erb:12
 #: ../app/views/hosts/_selected_hosts.html.erb:13
 #: ../config/initializers/foreman_register.rb:20
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:108
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:100
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/HostGroup.js:14
 msgid "Host group"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:76
 #: ../config/initializers/foreman_register.rb:22
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:72
 msgid "Boot time"
 msgstr ""
 
@@ -4989,17 +4692,13 @@ msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:77
 #: ../app/views/hosts/_selected_hosts.html.erb:16
-#: ../app/views/hosts/select_multiple_location.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:144
-#: taxonomies.rb:10
+#: ../app/views/hosts/select_multiple_location.html.erb:5 taxonomies.rb:10
 msgid "Location"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:78
 #: ../app/views/hosts/_selected_hosts.html.erb:19
-#: ../app/views/hosts/select_multiple_organization.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:133
-#: taxonomies.rb:11
+#: ../app/views/hosts/select_multiple_organization.html.erb:5 taxonomies.rb:11
 msgid "Organization"
 msgstr ""
 
@@ -5032,7 +4731,6 @@ msgstr ""
 #: ../app/views/images/_list.html.erb:20
 #: ../app/views/operatingsystems/index.html.erb:16
 #: ../app/views/taxonomies/index.html.erb:28
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:155
 msgid "Edit"
 msgstr ""
 
@@ -5047,7 +4745,6 @@ msgstr ""
 #: ../app/views/operatingsystems/index.html.erb:17
 #: ../app/views/roles/index.html.erb:28
 #: ../app/views/taxonomies/index.html.erb:30
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:98
 msgid "Clone"
 msgstr ""
 
@@ -5056,12 +4753,17 @@ msgid "Clone this host"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:97
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:88
 msgid "Cancel build"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:99
 msgid "Cancel build request for this host"
+msgstr ""
+
+#: ../app/helpers/host_description_helper.rb:101
+#: ../app/helpers/hosts_helper.rb:382 ../app/helpers/hosts_helper.rb:384
+#: ../app/models/host_status/build_status.rb:27
+msgid "Build"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:103
@@ -5079,7 +4781,6 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:137
 #: ../app/registries/foreman/settings/facts.rb:2
 #: ../app/registries/menu/loader.rb:45
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:129
 msgid "Facts"
 msgstr ""
 
@@ -5092,8 +4793,6 @@ msgstr ""
 #: ../app/views/config_reports/index.html.erb:12
 #: ../app/views/config_reports/index.html.erb:17
 #: ../db/seeds.d/170-notification_blueprints.rb:52
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:38
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:31
 msgid "Reports"
 msgstr ""
 
@@ -5112,6 +4811,12 @@ msgstr ""
 #: ../app/helpers/hostgroup_description_helper.rb:8
 #: ../app/views/taxonomies/index.html.erb:29
 msgid "Nest"
+msgstr ""
+
+#: ../app/helpers/hostgroup_description_helper.rb:9
+#: ../app/registries/menu/loader.rb:62 ../app/views/hosts/index.html.erb:5
+#: ../app/views/hosts/new.html.erb:1 ../app/views/hosts/welcome.html.erb:3
+msgid "Create Host"
 msgstr ""
 
 #: ../app/helpers/hostgroups_helper.rb:6
@@ -5165,6 +4870,16 @@ msgstr[1] ""
 msgid "%s can be changed using bulk action on the All Hosts page"
 msgstr ""
 
+#: ../app/helpers/hosts_helper.rb:64 ../app/helpers/hosts_helper.rb:372
+#: ../app/views/taxonomies/_form.html.erb:6
+msgid "Primary"
+msgstr ""
+
+#: ../app/helpers/hosts_helper.rb:65 ../app/helpers/hosts_helper.rb:373
+#: ../app/registries/foreman/settings/provisioning.rb:4
+msgid "Provisioning"
+msgstr ""
+
 #: ../app/helpers/hosts_helper.rb:80
 msgid "view last report details"
 msgstr ""
@@ -5182,7 +4897,6 @@ msgid "%s - The following hosts are about to be changed"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:209
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:159
 msgid "Failed restarts"
 msgstr ""
 
@@ -5290,6 +5004,12 @@ msgstr ""
 msgid "Suggest new"
 msgstr ""
 
+#: ../app/helpers/hosts_nic_helper.rb:22
+#: ../app/views/hostgroups/_form.html.erb:48
+#: ../app/views/hostgroups/_form.html.erb:55
+msgid "No subnets"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/helpers/images_helper.rb:8
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:7
@@ -5303,7 +5023,6 @@ msgid "Image"
 msgstr ""
 
 #: ../app/helpers/images_helper.rb:10
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:59
 msgid "Image ID"
 msgstr ""
 
@@ -5360,39 +5079,41 @@ msgstr ""
 msgid "How values are validated"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:135
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Form.js:60
+#: ../app/helpers/layout_helper.rb:140
 msgid "Unable to save"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:161
+#: ../app/helpers/layout_helper.rb:166
 msgid "Warning!"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:162
+#: ../app/helpers/layout_helper.rb:167
 msgid "Alert"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:179 ../app/helpers/layout_helper.rb:185
+#: ../app/helpers/layout_helper.rb:184 ../app/helpers/layout_helper.rb:190
 #: ../app/views/hosts/_compute.html.erb:3
 #: ../app/views/media/welcome.html.erb:14
 msgid "Notice"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:216
+#: ../app/helpers/layout_helper.rb:187 ../app/models/host_status/global.rb:9
+msgid "Warning"
+msgstr ""
+
+#: ../app/helpers/layout_helper.rb:221
 #: ../app/views/hosts/_interfaces.html.erb:58
-#: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/ForemanModalFooter.js:16
 msgid "Close"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:221 ../app/views/hosts/show.html.erb:83
+#: ../app/helpers/layout_helper.rb:226 ../app/views/hosts/show.html.erb:83
 #: ../app/views/hosts/show.html.erb:90
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/helpers/layout_helper.rb:225
+#: ../app/helpers/layout_helper.rb:230
 msgid "Full screen"
 msgstr ""
 
@@ -5437,7 +5158,6 @@ msgstr ""
 
 #: ../app/helpers/provisioning_templates_helper.rb:17
 #: ../app/views/report_templates/generate.html.erb:52
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:21
 msgid "Generate"
 msgstr ""
 
@@ -5497,6 +5217,14 @@ msgstr ""
 
 #: ../app/helpers/puppet_related_helper.rb:11
 msgid "Change Puppet CA"
+msgstr ""
+
+#: ../app/helpers/puppetca_helper.rb:2 ../app/helpers/puppetca_helper.rb:8
+msgid "pending"
+msgstr ""
+
+#: ../app/helpers/puppetca_helper.rb:2 ../app/helpers/puppetca_helper.rb:8
+msgid "valid"
 msgstr ""
 
 #: ../app/helpers/puppetca_helper.rb:2
@@ -5645,7 +5373,6 @@ msgstr ""
 #: ../app/views/usergroups/_form.html.erb:40
 #: ../app/views/usergroups/index.html.erb:11
 #: ../app/views/users/index.html.erb:15
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:23
 msgid "Actions"
 msgstr ""
 
@@ -5802,8 +5529,6 @@ msgid "Plain"
 msgstr ""
 
 #: ../app/helpers/templates_helper.rb:99
-#: ../webpack/assets/javascripts/react_app/components/SearchBar/SearchAutocomplete.js:121
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:203
 msgid "Search"
 msgstr ""
 
@@ -6076,8 +5801,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/vmware/_network.html.erb:9
 #: ../app/views/hostgroups/_form.html.erb:7 ../app/views/hosts/_bmc.html.erb:22
 #: ../config/initializers/foreman_register.rb:29
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:20
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:49
 msgid "Network"
 msgstr ""
 
@@ -6636,6 +6359,10 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
+#: ../app/models/config_report.rb:82
+msgid "Success"
+msgstr ""
+
 #: ../app/models/domain.rb:24
 msgid "DNS Proxy"
 msgstr ""
@@ -6678,7 +6405,6 @@ msgid "filter for %s role"
 msgstr ""
 
 #: ../app/models/filter.rb:114
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersFormConstants.js:5
 msgid "(Miscellaneous)"
 msgstr ""
 
@@ -6748,8 +6474,6 @@ msgstr ""
 
 #: ../app/models/host/managed.rb:644
 #: ../app/models/parameters/host_parameter.rb:11
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:39
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:66
 msgid "host"
 msgstr ""
 
@@ -6871,6 +6595,14 @@ msgstr ""
 msgid "invalid path"
 msgstr ""
 
+#: ../app/models/lookup_keys/lookup_key.rb:170
+#: ../app/models/nic/interface.rb:101 ../app/models/nic/interface.rb:102
+#: ../app/models/subnet.rb:398
+#: ../app/services/foreman/parameters/validator.rb:29
+#: ../app/validators/email_validator.rb:14
+msgid "is invalid"
+msgstr ""
+
 #: ../app/models/lookup_keys/lookup_key.rb:193
 msgid "can only be set for array, hash, json or yaml"
 msgstr ""
@@ -6965,7 +6697,6 @@ msgstr ""
 
 #: ../app/models/nic/bmc.rb:31 ../app/models/subnet.rb:83
 #: ../app/views/hosts/show.html.erb:41
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:25
 msgid "BMC"
 msgstr ""
 
@@ -6980,12 +6711,15 @@ msgid "Bond"
 msgstr ""
 
 #: ../app/models/nic/bridge.rb:6
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:24
 msgid "Bridge"
 msgstr ""
 
 #: ../app/models/nic/interface.rb:107
 msgid "subnet boot mode is not %s"
+msgstr ""
+
+#: ../app/models/nic/managed.rb:64
+msgid "Interface"
 msgstr ""
 
 #: ../app/models/operatingsystem.rb:25
@@ -7235,12 +6969,10 @@ msgid "could not be calculated"
 msgstr ""
 
 #: ../app/models/subnet.rb:7 ../config/initializers/foreman_register.rb:31
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:77
 msgid "IPv4"
 msgstr ""
 
 #: ../app/models/subnet.rb:7 ../config/initializers/foreman_register.rb:33
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:83
 msgid "IPv6"
 msgstr ""
 
@@ -7318,7 +7050,6 @@ msgstr ""
 #: ../app/models/subnet.rb:77 ../app/registries/menu/loader.rb:75
 #: ../app/views/hosts/show.html.erb:35
 #: ../app/views/operatingsystems/_form.html.erb:7
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/constants.js:3
 msgid "Templates"
 msgstr ""
 
@@ -7710,7 +7441,6 @@ msgstr ""
 #: ../app/views/smart_proxies/plugins/_puppet_ca.html.erb:2
 #: ../app/views/users/_form.html.erb:69
 #: ../config/initializers/foreman_register.rb:9
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:208
 msgid "General"
 msgstr ""
 
@@ -8397,7 +8127,6 @@ msgstr ""
 #: ../app/views/about/index.html.erb:26 ../app/views/about/index.html.erb:99
 #: ../app/views/smart_proxies/plugins/_plugin_version.html.erb:2
 #: ../app/views/smart_proxies/show.html.erb:43
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:40
 msgid "Version"
 msgstr ""
 
@@ -8529,7 +8258,6 @@ msgstr ""
 
 #: ../app/registries/foreman/settings/notification.rb:2
 #: ../app/views/users/_form.html.erb:78
-#: ../webpack/assets/javascripts/react_app/components/notifications/ToggleIcon/ToggleIcon.js:13
 msgid "Notifications"
 msgstr ""
 
@@ -8566,8 +8294,6 @@ msgid "Default owner on provisioned hosts, if empty Foreman will use current use
 msgstr ""
 
 #: ../app/registries/foreman/settings/provisioning.rb:17
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:154
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:111
 msgid "Host owner"
 msgstr ""
 
@@ -8856,8 +8582,6 @@ msgstr ""
 #: ../app/views/subnets/_form.html.erb:12
 #: ../app/views/taxonomies/_form.html.erb:38
 #: ../app/views/templates/_form.html.erb:20 ../app/views/users/_form.html.erb:9
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:115
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/Taxonomies.js:27
 #: taxonomies.rb:14
 msgid "Locations"
 msgstr ""
@@ -8876,10 +8600,7 @@ msgstr ""
 #: ../app/views/subnets/_form.html.erb:15
 #: ../app/views/taxonomies/_form.html.erb:41
 #: ../app/views/templates/_form.html.erb:23
-#: ../app/views/users/_form.html.erb:12
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:82
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/Taxonomies.js:17
-#: taxonomies.rb:15
+#: ../app/views/users/_form.html.erb:12 taxonomies.rb:15
 msgid "Organizations"
 msgstr ""
 
@@ -8889,7 +8610,6 @@ msgstr ""
 #: ../app/views/auth_source_ldaps/new.html.erb:4
 #: ../app/views/auth_sources/_welcome.html.erb:1
 #: ../app/views/auth_sources/index.html.erb:1
-#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:49
 msgid "Authentication Sources"
 msgstr ""
 
@@ -8906,23 +8626,18 @@ msgstr ""
 #: ../app/views/roles/index.html.erb:1 ../app/views/usergroups/_form.html.erb:5
 #: ../app/views/usergroups/_form.html.erb:31
 #: ../app/views/users/_form.html.erb:14 ../app/views/users/_form.html.erb:103
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/EditFiltersFormPage.js:19
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/NewFiltersFormPage.js:16
 msgid "Roles"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:32 ../app/views/bookmarks/index.html.erb:1
 #: ../app/views/bookmarks/welcome.html.erb:1
 #: ../app/views/bookmarks/welcome.html.erb:6
-#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/Bookmarks.js:81
 msgid "Bookmarks"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:33
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:356
 #: ../app/views/settings/index.html.erb:1
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:29
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:117
 msgid "Settings"
 msgstr ""
 
@@ -8939,7 +8654,6 @@ msgid "Dashboard"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:42
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/index.js:33
 msgid "Host Statuses"
 msgstr ""
 
@@ -8956,7 +8670,6 @@ msgstr ""
 
 #: ../app/registries/menu/loader.rb:64 ../app/views/hosts/index.html.erb:2
 #: ../app/views/hosts/welcome.html.erb:3
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:174
 msgid "Register Host"
 msgstr ""
 
@@ -8968,7 +8681,6 @@ msgstr ""
 #: ../app/views/architectures/index.html.erb:1
 #: ../app/views/architectures/welcome.html.erb:1
 #: ../app/views/operatingsystems/_form.html.erb:26
-#: ../webpack/assets/javascripts/react_app/components/Architectures/Welcome.js:41
 msgid "Architectures"
 msgstr ""
 
@@ -9850,17 +9562,6 @@ msgstr ""
 #: ../app/views/key_pairs/index.html.erb:8
 #: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:6
 #: ../config/initializers/foreman_register.rb:14
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:59
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:33
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:40
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:14
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:14
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:3
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:40
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:17
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:199
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:19
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:10
 msgid "Name"
 msgstr ""
 
@@ -9903,7 +9604,6 @@ msgstr ""
 #: ../app/views/provisioning_templates/_custom_tab_headers.html.erb:1
 #: ../app/views/provisioning_templates/_custom_tabs.html.erb:8
 #: ../app/views/report_templates/_custom_tab_headers.html.erb:1
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:4
 msgid "Type"
 msgstr ""
 
@@ -9915,9 +9615,7 @@ msgstr ""
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:250
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:279
 #: ../app/views/compute_resources/show.html.erb:38
-#: ../app/views/templates/_form.html.erb:70
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableSchema.js:31
-#: apipie.rb:7
+#: ../app/views/templates/_form.html.erb:70 apipie.rb:7
 msgid "Description"
 msgstr ""
 
@@ -10131,7 +9829,6 @@ msgid ""
 msgstr ""
 
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:34
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/index.js:36
 msgid "Provisioning templates"
 msgstr ""
 
@@ -10154,7 +9851,6 @@ msgstr ""
 #: ../app/views/operatingsystems/_form.html.erb:9
 #: ../app/views/subnets/_form.html.erb:9
 #: ../app/views/taxonomies/_form.html.erb:44
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:40
 msgid "Parameters"
 msgstr ""
 
@@ -10481,7 +10177,6 @@ msgid ""
 msgstr ""
 
 #: ../app/views/apipie_dsl/apipie_dsls/help.html.erb:316
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/index.js:17
 msgid "Template type"
 msgstr ""
 
@@ -10544,7 +10239,6 @@ msgstr ""
 
 #: ../app/views/architectures/index.html.erb:2
 #: ../app/views/architectures/new.html.erb:1
-#: ../webpack/assets/javascripts/react_app/components/Architectures/Welcome.js:10
 msgid "Create Architecture"
 msgstr ""
 
@@ -10677,7 +10371,6 @@ msgstr ""
 
 #: ../app/views/auth_source_ldaps/_ldap_card_kebab.html.erb:6
 #: ../app/views/compute_resources_vms/new.html.erb:14
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:239
 msgid "Create"
 msgstr ""
 
@@ -10726,7 +10419,6 @@ msgid "New Autosign Entry"
 msgstr ""
 
 #: ../app/views/autosign/_form.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:172
 msgid "Save"
 msgstr ""
 
@@ -10762,12 +10454,10 @@ msgid "Permission denied"
 msgstr ""
 
 #: ../app/views/common/403.html.erb:10
-#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:9
 msgid "You are not authorized to perform this action."
 msgstr ""
 
 #: ../app/views/common/403.html.erb:11
-#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:11
 msgid ""
 "Please request one of the required permissions listed below from a Foreman adm"
 "inistrator:"
@@ -10862,9 +10552,6 @@ msgstr ""
 #: ../app/views/hosts/_assign_hosts.html.erb:12
 #: ../app/views/hosts/_list.html.erb:9
 #: ../config/initializers/foreman_register.rb:16
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:25
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:74
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/OperatingSystem.js:69
 msgid "Operating system"
 msgstr ""
 
@@ -10896,7 +10583,6 @@ msgid "Partition Table"
 msgstr ""
 
 #: ../app/views/common/os_selection/_pxe_loader.html.erb:12
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Provisioning/index.js:81
 msgid "PXE loader"
 msgstr ""
 
@@ -11123,7 +10809,6 @@ msgstr ""
 
 #: ../app/views/compute_resources/form/_ovirt.html.erb:6
 #: ../app/views/compute_resources/form/_vmware.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:14
 msgid "Datacenter"
 msgstr ""
 
@@ -11300,7 +10985,6 @@ msgid "No networks found."
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_volumes.html.erb:3
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:120
 msgid "Storage"
 msgstr ""
 
@@ -11323,7 +11007,6 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:1
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:2
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:43
 msgid "Flavor"
 msgstr ""
 
@@ -11343,8 +11026,6 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:9
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:13
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:13
 msgid "Availability zone"
 msgstr ""
 
@@ -11356,19 +11037,16 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:15
 #: ../app/views/hosts/_bmc_missing_proxy.html.erb:10
 #: ../app/views/hosts/_nics.html.erb:35 ../app/views/subnets/_form.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:96
 #: model_attributes.rb:572
 msgid "Subnet"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:22
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:17
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:49
 msgid "Security groups"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:32
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:67
 msgid "Public"
 msgstr ""
 
@@ -11398,7 +11076,6 @@ msgid "Remove tag"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:3
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:18
 msgid "Machine type"
 msgstr ""
 
@@ -11409,7 +11086,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/gce/_volume.html.erb:1
 #: ../app/views/compute_resources_vms/form/libvirt/_volume.html.erb:3
 #: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:2
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:95
 msgid "Size (GB)"
 msgstr ""
 
@@ -11418,7 +11094,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:4
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:4
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:42
 msgid "CPUs"
 msgstr ""
 
@@ -11433,9 +11108,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:6
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:28
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:22
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:30
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:26
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:22
 msgid "Memory"
 msgstr ""
 
@@ -11476,12 +11148,10 @@ msgid "NIC type"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_volume.html.erb:2
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:49
 msgid "Storage pool"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:15
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:39
 msgid "Tenant"
 msgstr ""
 
@@ -11531,7 +11201,6 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:8
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:16
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:18
 msgid "Cluster"
 msgstr ""
 
@@ -11560,14 +11229,11 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:37
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:6
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:27
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:18
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:46
 msgid "Cores per socket"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:40
 #: ../config/initializers/foreman_register.rb:42
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:22
 msgid "Sockets"
 msgstr ""
 
@@ -11577,7 +11243,6 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:60
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:33
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:37
 msgid "Keyboard"
 msgstr ""
 
@@ -11623,7 +11288,6 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:9
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:28
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:84
 msgid "Firmware"
 msgstr ""
 
@@ -11702,8 +11366,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_gce.html.erb:5
 #: ../app/views/compute_resources_vms/index/_openstack.html.erb:5
 #: ../app/views/puppetca/_list.html.erb:8
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:45
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:31
 msgid "State"
 msgstr ""
 
@@ -11716,7 +11378,6 @@ msgid "Power"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:9
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:88
 msgid "Hypervisor"
 msgstr ""
 
@@ -11740,13 +11401,11 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:20
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:14
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:22
 msgid "VCPU(s)"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:24
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:18
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:26
 msgid "UUID"
 msgstr ""
 
@@ -11756,13 +11415,11 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:33
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:27
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:32
 msgid "Display"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:39
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:39
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:39
 msgid "NIC"
 msgstr ""
 
@@ -11776,7 +11433,6 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:54
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:50
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:57
 msgid "Running on"
 msgstr ""
 
@@ -11801,7 +11457,6 @@ msgid "using %{allocation} out of %{capacity}"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:32
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:104
 msgid "Annotation notes"
 msgstr ""
 
@@ -11812,7 +11467,6 @@ msgid "Last report"
 msgstr ""
 
 #: ../app/views/config_reports/_list.html.erb:8
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:189
 msgid "Origin"
 msgstr ""
 
@@ -11839,7 +11493,6 @@ msgid "Message"
 msgstr ""
 
 #: ../app/views/config_reports/_output.html.erb:18
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/index.js:143
 msgid "Nothing to show"
 msgstr ""
 
@@ -11905,8 +11558,6 @@ msgstr ""
 
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:6
 #: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:9
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:49
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:20
 msgid "Created"
 msgstr ""
 
@@ -11948,7 +11599,6 @@ msgstr ""
 
 #: ../app/views/dashboard/index.html.erb:1
 #: ../app/views/smart_proxies/show.html.erb:8
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:16
 msgid "Overview"
 msgstr ""
 
@@ -12009,8 +11659,6 @@ msgid "FactValue|Origin"
 msgstr ""
 
 #: ../app/views/fact_values/index.html.erb:19
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:33
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:151
 msgid "Reported at"
 msgstr ""
 
@@ -12030,13 +11678,11 @@ msgid "Filters"
 msgstr ""
 
 #: ../app/views/filters/index.html.erb:17
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/NewFiltersFormPage.js:18
 msgid "Create Filter"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/filters/index.html.erb:24 ../app/views/roles/_form.html.erb:5
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/SelectRole.js:18
 #: model_attributes.rb:508
 msgid "Role"
 msgstr ""
@@ -12272,6 +11918,10 @@ msgstr ""
 msgid "Assign Selected Hosts"
 msgstr ""
 
+#: ../app/views/hosts/_assign_hosts.html.erb:10
+msgid "Select All"
+msgstr ""
+
 #: ../app/views/hosts/_assign_hosts.html.erb:32
 msgid "<b class='select_count'>0</b> selected"
 msgstr ""
@@ -12294,7 +11944,6 @@ msgstr ""
 
 #: ../app/views/hosts/_bmc.html.erb:35
 #: ../config/initializers/foreman_register.rb:35
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:89
 msgid "MAC"
 msgstr ""
 
@@ -12419,7 +12068,6 @@ msgstr ""
 
 #: ../app/views/hosts/_interfaces.html.erb:18
 #: ../app/views/hosts/_nics.html.erb:30
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:71
 msgid "FQDN"
 msgstr ""
 
@@ -12442,9 +12090,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/hosts/_list.html.erb:10
-#: ../config/initializers/foreman_register.rb:40
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:84
-#: model_attributes.rb:362
+#: ../config/initializers/foreman_register.rb:40 model_attributes.rb:362
 msgid "Model"
 msgstr ""
 
@@ -12453,13 +12099,11 @@ msgid "Please Confirm"
 msgstr ""
 
 #: ../app/views/hosts/_metrics.html.erb:4
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:48
 msgid "Report Status"
 msgstr ""
 
 #: ../app/views/hosts/_nics.html.erb:18
 #: ../app/views/subnets/_fields.html.erb:39
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:127
 msgid "MTU"
 msgstr ""
 
@@ -12593,21 +12237,18 @@ msgid "Disassociate host"
 msgstr ""
 
 #: ../app/views/hosts/index.html.erb:7
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:162
 msgid "Single host on this page is selected."
 msgid_plural "All %{per_page} hosts on this page are selected."
 msgstr[0] ""
 msgstr[1] ""
 
 #: ../app/views/hosts/index.html.erb:9
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:170
 msgid "Select this host"
 msgid_plural "Select all <b> %{total} </b> hosts"
 msgstr[0] ""
 msgstr[1] ""
 
 #: ../app/views/hosts/multiple_build.html.erb:4
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:59
 msgid "Provision"
 msgstr ""
 
@@ -12679,7 +12320,6 @@ msgid "Rebuild orchestration configuration"
 msgstr ""
 
 #: ../app/views/hosts/review_before_build.html.erb:3
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:104
 msgid "The following errors may prevent a successful build:"
 msgstr ""
 
@@ -12718,8 +12358,6 @@ msgstr ""
 #: ../app/views/hosts/show.html.erb:17
 #: ../app/views/smart_proxies/show.html.erb:21
 #: ../db/seeds.d/170-notification_blueprints.rb:12
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:48
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/index.js:23
 msgid "Details"
 msgstr ""
 
@@ -12913,7 +12551,6 @@ msgid "SSH keys for: %s"
 msgstr ""
 
 #: ../app/views/key_pairs/index.html.erb:26
-#: ../webpack/assets/javascripts/react_app/components/TemplateGenerator/TemplateGenerator.js:56
 msgid "Download"
 msgstr ""
 
@@ -13073,10 +12710,7 @@ msgid "add a new matcher"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/media/_form.html.erb:5
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:8
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:38
-#: model_attributes.rb:344
+#: ../app/views/media/_form.html.erb:5 model_attributes.rb:344
 msgid "Medium"
 msgstr ""
 
@@ -13557,8 +13191,6 @@ msgid "Valid from"
 msgstr ""
 
 #: ../app/views/puppetca/_list.html.erb:10
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:220
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:21
 msgid "Expires"
 msgstr ""
 
@@ -13567,8 +13199,6 @@ msgid "Sign"
 msgstr ""
 
 #: ../app/views/puppetca/_list.html.erb:31
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:40
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:36
 msgid "Revoke"
 msgstr ""
 
@@ -13628,7 +13258,6 @@ msgid "Generate a Report"
 msgstr ""
 
 #: ../app/views/report_templates/generate.html.erb:8
-#: ../webpack/assets/javascripts/react_app/components/TemplateGenerator/TemplateGenerator.js:20
 msgid "Generating a report"
 msgstr ""
 
@@ -14126,7 +13755,6 @@ msgid ""
 msgstr ""
 
 #: ../app/views/subnets/_form.html.erb:7
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/constants.js:4
 msgid "Proxies"
 msgstr ""
 
@@ -14387,7 +14015,6 @@ msgid "Examples"
 msgstr ""
 
 #: ../app/views/templates/_form.html.erb:119
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/ExpansiveView.js:101
 msgid "Comments"
 msgstr ""
 
@@ -14530,7 +14157,6 @@ msgid "Your Foreman user account has been created:"
 msgstr ""
 
 #: ../app/views/user_mailer/welcome.text.erb:3
-#: ../webpack/assets/javascripts/react_app/components/LoginPage/helpers.js:41
 msgid "Username"
 msgstr ""
 
@@ -14625,8 +14251,6 @@ msgid "SSH Keys"
 msgstr ""
 
 #: ../app/views/users/_form.html.erb:19
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:75
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:49
 msgid "Personal Access Tokens"
 msgstr ""
 
@@ -14719,24 +14343,18 @@ msgid "A class representing %s object"
 msgstr ""
 
 #: ../config/initializers/foreman_register.rb:16
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:48
 msgid "OS"
 msgstr ""
 
 #: ../config/initializers/foreman_register.rb:31
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:74
 msgid "IPv4 address"
 msgstr ""
 
 #: ../config/initializers/foreman_register.rb:33
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:59
 msgid "IPv6 address"
 msgstr ""
 
 #: ../config/initializers/foreman_register.rb:35
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:89
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:53
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:36
 msgid "MAC address"
 msgstr ""
 
@@ -14785,8 +14403,6 @@ msgid "Puppet summary"
 msgstr ""
 
 #: ../db/seeds.d/160-mail_notifications.rb:9
-#: ../webpack/assets/javascripts/react_app/components/ExternalLogout/ExternalLogout.js:25
-#: ../webpack/assets/javascripts/react_app/components/LoginPage/LoginPage.js:29
 msgid "Welcome"
 msgstr ""
 
@@ -14960,1973 +14576,6 @@ msgstr ""
 
 #: ../lib/ws_proxy.rb:57
 msgid "No free ports available for websockify, try again later"
-msgstr ""
-
-#: ../webpack/assets/javascripts/bundle_novnc.js:38
-msgid "New connection has been rejected with reason: %"
-msgstr ""
-
-#: ../webpack/assets/javascripts/bundle_novnc.js:42
-msgid "New connection has been rejected"
-msgstr ""
-
-#: ../webpack/assets/javascripts/bundle_novnc.js:48
-msgid "Disconnected"
-msgstr ""
-
-#: ../webpack/assets/javascripts/bundle_novnc.js:52
-msgid "Connected"
-msgstr ""
-
-#: ../webpack/assets/javascripts/bundle_novnc.js:59
-msgid ""
-"The connection was closed by the browser. please verify that the certificate a"
-"uthority is valid"
-msgstr ""
-
-#: ../webpack/assets/javascripts/bundle_novnc.js:91
-#: ../webpack/assets/javascripts/foreman_tools.js:51
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:109
-msgid "Loading..."
-msgstr ""
-
-#: ../webpack/assets/javascripts/compute_resource/openstack.js:32
-msgid "Error loading scheduler hint filters information: %s"
-msgstr ""
-
-#: ../webpack/assets/javascripts/dashboard/index.js:63
-msgid "Remove widget"
-msgstr ""
-
-#: ../webpack/assets/javascripts/dashboard/index.js:64
-msgid "Are you sure you want to delete this widget from your dashboard?"
-msgstr ""
-
-#: ../webpack/assets/javascripts/dashboard/index.js:75
-msgid "Widget removed from dashboard."
-msgstr ""
-
-#: ../webpack/assets/javascripts/dashboard/index.js:82
-msgid "Error removing widget from dashboard."
-msgstr ""
-
-#: ../webpack/assets/javascripts/dashboard/index.js:98
-msgid "Widget added to dashboard."
-msgstr ""
-
-#: ../webpack/assets/javascripts/dashboard/index.js:105
-msgid "Error adding widget to dashboard."
-msgstr ""
-
-#: ../webpack/assets/javascripts/dashboard/index.js:121
-msgid "Widget positions successfully saved."
-msgstr ""
-
-#: ../webpack/assets/javascripts/dashboard/index.js:127
-msgid "Failed to save widget positions."
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_compute_resource.js:54
-msgid "There was an error listing VMs: %(status)s %(statusText)s"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_compute_resource.js:118
-msgid "Test connection was successful"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_compute_resource.js:125
-msgid "An error occurred while testing the connection: "
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_editor.js:10
-msgid "Revert template"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_editor.js:11
-msgid "Are you sure you would like to revert the Template?"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_editor.js:18
-msgid "Revert Failed, %s"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_overrides.js:18
-#: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:47
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:35
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:184
-msgid "Confirm"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:41
-msgid "Filter..."
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:42
-msgid "No data available in table"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:43
-msgid "Showing %(start)s to %(end)s of %(total)s entries"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:48
-msgid "Showing 0 to 0 of 0 entries"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:49
-msgid "(filtered from %s total entries)"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:50
-msgid "Show %s entries"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:52
-msgid "Processing..."
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:53
-msgid "Search:"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:54
-msgid "No matching records found"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:56
-msgid "First"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:57
-msgid "Last"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:58
-msgid "Next"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:59
-msgid "Previous"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:62
-msgid ": activate to sort column ascending"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_tools.js:63
-msgid ": activate to sort column descending"
-msgstr ""
-
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:77
-msgid "Please select hosts to perform action on."
-msgstr ""
-
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:141
-msgid "Single host is selected in total"
-msgid_plural "All <b> %d </b> hosts are selected."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:148
-msgid "Undo selection"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Architectures/Welcome.js:15
-msgid ""
-"Before you proceed to using Foreman you should provide information about one o"
-"r more architectures."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Architectures/Welcome.js:21
-msgid ""
-"Each entry represents a particular hardware architecture, most commonly {x86_6"
-"4} or {i386}. Foreman also supports the Solaris operating system family, which"
-" includes {sparc} based systems."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Architectures/Welcome.js:31
-msgid ""
-"Each architecture can also be associated with more than one operating system a"
-"nd a selector block is provided to allow you to select valid combinations."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/ShowInlineRequestUuid.js:11
-msgid "Request UUID"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/ShowInlineRequestUuid.js:19
-msgid ""
-"HTTP request UUID, clicking will filter audits for this request. It can also b"
-"e used for searching in application logs."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/ShowOrgsLocs.js:10
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/__tests__/ShowTaxonomyInline.test.js:8
-msgid "Affected Organizations"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/ShowOrgsLocs.js:13
-msgid "Affected Locations"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/UserDetails.js:15
-msgid "Filter audits for this user only"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/UserDetails.js:28
-msgid "Logged-in"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/AuditsList/index.js:52
-msgid "Filter audits for this resource only"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:11
-msgid "Foreman can use LDAP based service for user information and authentication."
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:17
-msgid ""
-"The authentication process currently requires an LDAP provider, such as {FreeI"
-"PA}, {OpenLDAP} or {Microsoft}."
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:28
-msgid "Learn more about LDAP authentication in the documentation."
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:31
-msgid "Foreman can use External service for user information and authentication."
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:36
-msgid "Learn more about External authentication in the documentation."
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/AuthSource/Welcome.js:41
-msgid "Create LDAP Authentication Source"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:30
-msgid "name already exists"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:43
-msgid "Bookmark was successfully created."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:64
-msgid "Query"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/BookmarkForm/SearchModal.js:50
-msgid "Create Bookmark"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/ChartBox/ChartBox.js:124
-#: ../webpack/assets/javascripts/react_app/components/ChartBox/index.js:71
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:27
-#: ../webpack/assets/javascripts/react_app/components/common/charts/AreaChart/index.js:48
-#: ../webpack/assets/javascripts/react_app/components/common/charts/BarChart/index.js:55
-#: ../webpack/assets/javascripts/react_app/components/common/charts/DonutChart/index.js:53
-#: ../webpack/assets/javascripts/react_app/components/common/charts/LineChart/index.js:64
-msgid "No data available"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:152
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:154
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:159
-msgid "Manage columns"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:163
-msgid "Select columns to display in the table."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:39
-msgid "Report Metrics"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:56
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/Details.js:9
-msgid "Total"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:10
-msgid "You don't seem to have any reports."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:15
-msgid ""
-"If you wish to configure Puppet to forward its reports to Foreman, please foll"
-"ow {settingUpPuppetReports} and {emailReporting}"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:21
-msgid "setting up reporting"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/Welcome.js:26
-msgid "e-mail reporting"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/ConfirmModal/index.js:63
-msgid "I understand that this action cannot be undone."
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/DiffView/DiffToggle.js:15
-msgid "Split"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/DiffView/DiffToggle.js:23
-msgid "Unified"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/EditorActions.js:145
-#: ../webpack/assets/javascripts/react_app/components/Editor/EditorActions.js:187
-msgid "Error during rendering, Return to Editor tab."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/EditorActions.js:186
-msgid "Host Fetch %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorHostSelect.js:55
-msgid "Filter Host..."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:77
-msgid "Editor"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:89
-msgid "Changes"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:101
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:159
-msgid "Preview"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:120
-msgid "Select Host..."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:148
-msgid "Preview is outdated."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorOptions.js:61
-msgid "Hide Content"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorOptions.js:75
-msgid "Revert Local Changes"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorOptions.js:107
-msgid "Import File"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorOptions.js:139
-msgid "Maximize"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSafemodeCheckbox.js:19
-msgid "Safemode"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:33
-msgid "Syntax"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:49
-msgid "Keybind"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:68
-msgid "Theme"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:85
-msgid "Autocompletion"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:99
-msgid "Live Autocompletion"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ExternalLogout/ExternalLogout.js:37
-msgid "Click to log in again"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitOrCancelActions.js:30
-msgid "Failed to submit the request."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:43
-msgid "Review before build"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:75
-msgid "Build enables host {hostName} to rebuild on next boot"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:86
-msgid "This action will delete this host and all its data (i.e facts, report)"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:98
-msgid "No errors detected"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:17
-msgid "Host %s deleted"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:25
-msgid ""
-"This will delete the VM and its disks. This behavior can be changed via global"
-" setting \\\"Destroy associated VM on host delete\\\"."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:28
-msgid ""
-"VM and its disks will not be deleted. This behavior can be changed via global "
-"setting \\\"Destroy associated VM on host delete\\\"."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:38
-msgid "Delete host?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:57
-msgid ""
-"Are you sure you want to delete host {host}? This action is irreversible. {cas"
-"cade}"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:78
-msgid "Host %s will be built next boot"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:65
-msgid "Console disabled as the host is powered off."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:67
-msgid "Compute resource does not support the console function."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:138
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:197
-msgid "Legacy UI"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Audits/index.js:52
-msgid "Recent audits"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Audits/index.js:54
-msgid "All audits"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Audits/index.js:64
-msgid "No Results found"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/DefaultLoaderEmptyState.js:6
-msgid "Not available"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/PowerStatus/PowerStatusDropDown.js:37
-msgid "Power Status"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/PowerStatus/PowerStatusDropDown.js:38
-msgid "This will change the host power status, are you sure?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/PowerStatus/actions.js:10
-msgid "an error occurred: %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/PowerStatus/actions.js:13
-msgid "Power has been set to \\\"%s\\\" successfully"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/PowerStatus/constants.js:6
-msgid "Reboot"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/PowerStatus/constants.js:6
-msgid "Reset"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/EmptyState/index.js:13
-msgid "No host found"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/EmptyState/index.js:15
-msgid ""
-"The host %s does not exist or there are access permissions needed. Please cont"
-"act your administrator if this issue continues."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/EmptyState/index.js:21
-msgid "All hosts"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/RecentCommunicationCard/index.js:18
-msgid "Recent communication"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/RecentCommunicationCard/index.js:22
-msgid "Last configuration report"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/RecentCommunicationCard/index.js:33
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:244
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:25
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:29
-msgid "Never"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/AggregateStatusCard.js:94
-msgid "Host status"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/AggregateStatusCard.js:133
-msgid "Manage all statuses"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/Constants.js:14
-msgid "OK statuses"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/Constants.js:15
-msgid "Warning statuses"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/Constants.js:16
-msgid "Error statuses"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/Constants.js:17
-msgid "N/A statuses"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/GlobalState.js:19
-msgid "All statuses cleared"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/GlobalState.js:20
-msgid "All statuses OK"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/GlobalState.js:28
-msgid "No statuses to show"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:18
-msgid "Clear host status"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:20
-msgid "You are about to clear the %s status. Are you sure?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusTable.js:51
-msgid "Clear"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Status/StatusesModal.js:23
-msgid "Manage host statuses"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:28
-msgid "Vendor"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Bios/index.js:52
-msgid "Release date"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:56
-msgid "No name"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:112
-msgid "IPv6 subnet"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/index.js:19
-msgid "Networking interfaces"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/index.js:24
-msgid "No network interfaces"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/index.js:48
-msgid "Edit interfaces"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:83
-msgid "Kernel release"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Provisioning/index.js:35
-msgid "Less than a second"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Provisioning/index.js:56
-msgid "seconds"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:34
-msgid "System properties"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:50
-#: ../webpack/assets/javascripts/react_app/components/SearchBar/AutoCompleteMenu.js:22
-#: ../webpack/assets/javascripts/react_app/components/common/ClipboardCopy/index.js:66
-msgid "Copy to clipboard"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:51
-#: ../webpack/assets/javascripts/react_app/components/SearchBar/AutoCompleteMenu.js:23
-msgid "Copied to clipboard"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:122
-msgid "Owner type"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:38
-msgid "Open in a new tab"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:74
-msgid "View provisioning template {openTemplate}."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:87
-msgid "Safe mode on"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/TemplatesCard/ReviewModal.js:88
-msgid "Safe mode off"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:19
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:30
-msgid "Public IP address"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:25
-msgid "DNS name"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:29
-msgid "Private IP address"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:35
-msgid "Private DNS name"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:41
-msgid "Kernel ID"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:53
-msgid "Root device type"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:63
-msgid "Flavor ID"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtEc2.js:67
-msgid "Security Groups"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:32
-msgid "Maximum"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:47
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:55
-msgid "Disk capacity"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:51
-msgid "Disk allocation"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:53
-msgid "Disk path"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:22
-msgid "Floating IP"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:24
-msgid "Fixed IP"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOpenstack.js:35
-msgid "Created at"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:45
-msgid "NIC name"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:53
-msgid "Disk label"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:65
-msgid "Partition path"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:69
-msgid "Partition capacity"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:75
-msgid "Partition allocation"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:92
-msgid "Connection state"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtVmware.js:98
-msgid "Overall status"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:46
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/ReportsTable.js:61
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:77
-msgid "Something went wrong"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:47
-msgid "There was an error loading this content."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/index.js:52
-msgid "Virtualization"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/index.js:25
-msgid "Collapse all cards"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/index.js:26
-msgid "Expand all cards"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:61
-msgid "Created parameter %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:76
-msgid "Edited parameter %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:102
-msgid "Name can't contain spaces"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:163
-msgid "Hide value"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/EditTableRow.js:189
-msgid "Submit edit"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:6
-#: model_attributes.rb:550
-msgid "Source"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersTable.js:81
-msgid "Find by name"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersTable.js:97
-msgid "Add parameter"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:18
-msgid "Parameter %s deleted"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:36
-msgid "Delete %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:37
-msgid "This will change the delete the parameter, are you sure?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ViewTableRow.js:15
-msgid "No value"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ViewTableRow.js:39
-msgid "Overridden"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ViewTableRow.js:56
-msgid "edit"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ViewTableRow.js:56
-msgid "override"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/ReportsTable.js:52
-#: ../webpack/assets/javascripts/react_app/components/PF4/BreadcrumbSwitcher/index.js:76
-msgid "No results found"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/ReportsTable.js:66
-#: ../webpack/assets/javascripts/react_app/components/Loading/Loading.js:23
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:11
-msgid "Loading"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:86
-msgid "Delete report?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:87
-msgid "Delete report"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:93
-msgid "Report was successfully deleted"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:96
-msgid "There was some issue deleting the report: %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:102
-msgid "Are you sure you want to delete this report? This action is irreversible."
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:232
-msgid "Created %s"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:235
-msgid "by %s"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:238
-msgid "(updated %s)"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/Details.js:9
-msgid "Owned"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/index.js:90
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/index.js:103
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/index.js:116
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/index.js:129
-msgid "Total: %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/index.js:93
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/index.js:107
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/index.js:120
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/Status/index.js:133
-msgid "Owned: %s"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/HostStatuses/index.js:43
-msgid "Host Status Overview"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:15
-msgid "%s hosts deleted"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:22
-msgid "For hosts with compute resources, this will delete the VM and its disks."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:25
-msgid "For hosts with compute resources, VMs and their disks will not be deleted."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:40
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:67
-msgid "hosts"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:76
-msgid "Provisioning settings"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:81
-msgid ""
-"{hostsCount} will be deleted. This action is irreversible. {br}{br} {cascade} "
-"{br}{br} This behavior can be changed via global setting \\\"Destroy associated "
-"VM on host delete\\\" in {settings}.{br}{br}"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:229
-msgid "Register"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:61
-msgid "Any Organization"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:94
-msgid "Any Location"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Layout/NavigationSearch.js:175
-msgid "Search and go"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:19
-msgid "You are impersonating another user, click to stop the impersonation"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:37
-msgid "Confirm Action"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:38
-msgid "You are about to stop impersonating other user. Are you sure?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/TaxonomySwitcher/TaxonomyDropdown.js:22
-msgid "Any organization"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/TaxonomySwitcher/TaxonomyDropdown.js:23
-msgid "Any location"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/TaxonomySwitcher/TaxonomyDropdown.js:90
-msgid "Manage Organizations"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/Layout/components/TaxonomySwitcher/TaxonomyDropdown.js:91
-msgid "Manage Locations"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/LoginPage/LoginPage.js:32
-msgid "Log in to your account"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/LoginPage/helpers.js:49
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:25
-msgid "Password"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/LoginPage/helpers.js:51
-msgid "Log In"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/MemoryAllocationInput/MemoryAllocationInput.js:29
-msgid "Specified value is higher than maximum value %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/MemoryAllocationInput/MemoryAllocationInput.js:37
-msgid "Specified value is higher than recommended maximum %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:22
-msgid "Bookmark this search"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:85
-msgid "Saved Bookmarks"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/Bookmarks/BookmarkItems.js:109
-msgid "Manage Bookmarks"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/InlineEdit/InlineEdit.js:75
-msgid "None provided"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:27
-msgid "%s was successfully deleted"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:35
-msgid "Confirm Deletion"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:60
-msgid "You are about to delete %s. Are you sure?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/SelectAllCheckbox/index.js:82
-msgid "Select none"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/SelectAllCheckbox/index.js:91
-msgid "Select page"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/SelectAllCheckbox/index.js:104
-msgid "Select all"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:174
-msgid "Create new"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:56
-msgid "items"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:58
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:64
-msgid "Items per page"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:59
-msgid "per page"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:60
-msgid "Go to first page"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:61
-msgid "Go to previous page"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:62
-msgid "Go to last page"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:63
-msgid "Go to next page"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:65
-msgid "Current page"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/Pagination/index.js:66
-msgid "Pagination"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:4
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:5
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:7
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:37
-msgid "Weak"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:6
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:35
-msgid "Too short"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:9
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:39
-msgid "Normal"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:10
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:40
-msgid "Strong"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.fixtures.js:11
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:41
-msgid "Very strong"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:48
-msgid "Verify"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:52
-msgid "Passwords do not match"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/PermissionDenied/PermissionDenied.js:32
-msgid "Permission Denied"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SearchBar/AutoCompleteMenu.js:25
-msgid "Error:"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SearchBar/SearchAutocomplete.js:122
-msgid "Reset search"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/SettingUpdateModal.js:14
-msgid "Update value for %s setting"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingForm/SettingForm.js:46
-msgid "Setting updated."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingForm/SettingForm.js:50
-msgid "Error updating setting"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SettingUpdateModal/components/SettingValueField.js:53
-msgid ""
-"This setting is encrypted. Empty input field is displayed instead of the setti"
-"ng value."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:94
-msgid "Not set"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTableHelpers.js:95
-msgid "Empty"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/components/SettingCell.js:21
-msgid "This setting is defined in the configuration file %s and is read-only."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/SettingsTable/components/SettingCell.js:28
-msgid "Default: %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/ClipboardCopy/index.js:67
-msgid "Copied!"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/DateTimePicker/DateComponents/TodayButton.js:17
-msgid "Today"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/EmptyState/EmptyStatePattern.js:34
-msgid "For more information please see "
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/EmptyState/EmptyStatePattern.js:35
-msgid "documentation"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:45
-msgid "There was a problem processing the request. Please try again."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:50
-msgid "To report an issue {clickHere}"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:58
-msgid "click here"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/ErrorBoundary/index.js:68
-msgid "Return to last page"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/ModalProgressBar/ModalProgressBar.js:21
-msgid "%s%% Complete"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/Pf4DualList/index.js:7
-msgid "Available options"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/Pf4DualList/index.js:8
-msgid "Chosen options"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/SearchInput/index.js:31
-msgid "filter..."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/CounterInput/CounterInput.js:24
-msgid "Specified value is higher than maximum value"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/CounterInput/CounterInput.js:27
-msgid "Specified value is higher than recommended maximum"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/ForemanForm.js:37
-msgid "Error! "
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/ForemanForm.js:38
-msgid "Warning! "
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/integration.test.js:41
-msgid "Form was successfully created."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/validators.js:5
-msgid "is too long (maximum is %s characters)"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/common/table/components/TableSelectionCell.js:27
-msgid "Select row"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:41
-msgid "Disk name"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:53
-msgid "Storage Pod"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:68
-msgid "Data store"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:81
-msgid "Disk Mode"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:99
-msgid "Thin provision"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:109
-msgid "Eager zero"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/index.js:57
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/index.js:75
-msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/index.js:109
-msgid "Create SCSI controller"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/index.js:123
-msgid "Add volume"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/index.js:132
-msgid "Delete Controller"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:128
-msgid "Add Controller"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/NewPersonalAccessToken.js:11
-msgid "Your New Personal Access Token"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/NewPersonalAccessToken.js:16
-msgid ""
-"Make sure to copy your new personal access token now. You won’t be able to see"
-" it again!"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:95
-msgid "Fill out the name"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:97
-msgid "Name has already been taken"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:137
-msgid "Personal Access Token was successfully created."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:155
-msgid "Add Personal Access Token"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:162
-msgid "Create Personal Access Token"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:229
-msgid "Cannot be in the past"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:230
-msgid "Fill out the date and time"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:260
-msgid "At"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:272
-msgid "Enter valid date: YYYY-MM-DD"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:292
-msgid "HH:MM:SS"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:294
-msgid "Enter valid time: HH:MM:SS"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:38
-msgid "Revoke personal access token"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:39
-msgid "Do you really want to revoke Access Token?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:57
-msgid "Active Personal Access Tokens"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:63
-msgid "Inactive Personal Access Tokens"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokens.js:76
-msgid ""
-"Personal Access Tokens allow you to authenticate API requests without using yo"
-"ur password, e.g. "
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensActions.js:34
-msgid "Token was successfully revoked."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensActions.js:43
-msgid "Could not revoke Token: "
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/PersonalAccessToken.js:25
-msgid "Revoked"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:21
-msgid "Expired"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:22
-msgid "Last Used"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/redux/actions/common/forms.js:42
-msgid "Error submitting data:"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/redux/actions/common/forms.js:91
-msgid ""
-"Oh no! Something went wrong while submitting the form, the server returned the"
-" following error: %s"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/redux/actions/hosts/storage/vmware.consts.js:13
-msgid "Hard disk"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/Audits/AuditsPage/AuditsPage.js:36
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:189
-msgid " Documentation"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/EditFiltersFormPage.js:26
-msgid "Edit %s Resource Filter"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:78
-msgid "Created role successfully"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:87
-msgid "Edited role successfully"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:96
-msgid "Selected role"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:122
-msgid "Override?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:127
-msgid ""
-"Filters inherit organizations and locations associated with the role by defaul"
-"t. If override field is enabled, the filter can override the set of its organi"
-"zations and locations. Later role changes will not affect such filter.After di"
-"sabling the override field, the role organizations and locations apply again."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:169
-msgid "Unlimited?"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:174
-msgid ""
-"If the unlimited field is enabled, the filter applies to all resources of the "
-"selected type. If the unlimited  field is disabled, you can specify further fi"
-"ltering using Foreman search syntax in the search field. If the role is associ"
-"ated with organizations or locations, the filters are not considered unlimited"
-" as they are scoped accordingly."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:224
-msgid ""
-"Selected resource type does not support granular filtering, therefore you can'"
-"t configure granularity"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/SelectPermissions.js:20
-#: model_attributes.rb:474
-msgid "Permission"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/FiltersForm/SelectResourceType.js:47
-msgid "Resource Type"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:20
-msgid "Vendor class"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:23
-msgid "Hardware model"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:33
-msgid "Hardware models"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:12
-msgid "Nothing to select."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:63
-msgid "Initial configuration template"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:76
-msgid "does not have assigned host_init_config template"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/RegistrationCommandsPageHelpers.js:89
-msgid "No OS from host group"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:21
-msgid "Generating ..."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:20
-msgid ""
-"There was an error while generating the command, see the logs for more informa"
-"tion."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Command.js:27
-msgid "Registration command"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:22
-msgid "yes"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:22
-msgid "no"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:23
-msgid "Inherit from host parameter"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:30
-msgid "Yes (override)"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:31
-msgid "No (override)"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:39
-msgid "Setup REX"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:42
-msgid ""
-"Setup remote execution. If set to `Yes`, SSH keys will be installed on the reg"
-"istered host. The inherited value is based on the `host_registration_remote_ex"
-"ecution` parameter. It can be inherited e.g. from host group, operating system"
-", organization. When overridden, the selected value will be stored on host par"
-"ameter level."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:63
-msgid "Setup Insights"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/ConfigParams.js:67
-msgid ""
-"If set to `Yes`, Insights client will be installed and registered on Red Hat f"
-"amily operating systems. It has no effect on other OS families that do not sup"
-"port it. The inherited value is based on the `host_registration_insights` para"
-"meter. It can be inherited e.g. from host group, operating system, organizatio"
-"n. When overridden, the selected value will be stored on host parameter level."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Insecure.js:15
-msgid "Insecure"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Insecure.js:17
-msgid ""
-"If the target machine does not trust the host SSL certificate, the initial con"
-"nection could be subject to a man-in-the-middle attack. If you accept the risk"
-" and do not require the server authenticity to be verified, you can enable ins"
-"ecure argument for the initial curl. Note that all subsequent communication is"
-" then properly secured, because the initial request deploys the SSL certificat"
-"e for the rest of the registration process."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/OperatingSystem.js:79
-msgid ""
-"Required for registration without subscription manager. Can be specified by ho"
-"st group."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Packages.js:12
-msgid "Install packages"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Packages.js:19
-msgid ""
-"Packages to install on the host when registered. Can be set by `host_packages`"
-" parameter, example: `pkg1 pkg2`."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:19
-msgid "Repository"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:23
-msgid ""
-"A repository to be added before the registration is performed. It can be usefu"
-"l to e.g. make the subscription-manager packages available for the purpose of "
-"the registration. For Red Hat and SUSE family distributions, this should be th"
-"e URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS familie"
-"s, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster "
-"1.0'."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:39
-msgid "Repository GPG key URL"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Repository.js:43
-msgid ""
-"If packages are GPG signed, the public key can be specified here to verify the"
-" packages signatures. It needs to be specified in the ascii form with the GPG "
-"public key header."
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/SmartProxy.js:30
-#: model_attributes.rb:536
-msgid "Smart proxy"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/SmartProxy.js:34
-msgid ""
-"Only smart proxies with enabled `Templates` and `Registration` features are di"
-"splayed."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:28
-msgid "If no organization is set, the default organization of the user is assumed."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:43
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:70
-msgid "Not specified"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/Taxonomies.js:55
-msgid "If no location is set, the default location of the user is assumed."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:35
-msgid "Token life time"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:44
-msgid "Expiration of the authorization token."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:59
-msgid "hours"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/TokenLifeTime.js:63
-msgid "unlimited"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/UpdatePackages.js:19
-msgid "Update packages"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:215
-msgid "Advanced"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/index.js:228
-msgid "There was an error while loading the data, see the logs for more information."
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/RedirectedEmptyPage.js:49
-msgid "Return to the last page"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/RedirectedEmptyPage.js:86
-msgid "Resource not found"
-msgstr ""
-
-#:
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/RedirectedEmptyPage.js:87
-msgid ""
-"Something went wrong and the resource does not exist or there are access permi"
-"ssions needed. Please, contact your administrator if this issue continues"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:9
-msgid "No Results"
-msgstr ""
-
-#: ../webpack/assets/javascripts/spice.js:23
-msgid "must set host and port"
-msgstr ""
-
-#: ../webpack/assets/javascripts/spice.js:59
-msgid "Connected to: %s"
 msgstr ""
 
 #: apipie.rb:8
@@ -17267,6 +14916,11 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:138
 msgid "Feature|Name"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#: model_attributes.rb:140
+msgid "Filter"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -18015,6 +15669,11 @@ msgid "Parameter|Searchable value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#: model_attributes.rb:474
+msgid "Permission"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:476
 msgid "Permission|Name"
 msgstr ""
@@ -18140,6 +15799,11 @@ msgid "Setting|Value"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#: model_attributes.rb:536
+msgid "Smart proxy"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:538
 msgid "SmartProxy|Expired logs"
 msgstr ""
@@ -18162,6 +15826,11 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:548
 msgid "SmartProxyFeature|Settings"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#: model_attributes.rb:550
+msgid "Source"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
