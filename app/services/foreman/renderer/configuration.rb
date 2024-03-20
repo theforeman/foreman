@@ -59,6 +59,7 @@ module Foreman
         :shell_escape,
         :join_with_line_break,
         :current_date,
+        :current_time,
         :truthy?,
         :falsy?,
         :previous_revision,
