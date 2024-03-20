@@ -1,2 +1,2 @@
-<%  content_for(:title, _("Authentication Sources")) %>
+<% content_for(:title, _("Authentication Sources")) %>
 <%= react_component('WelcomeAuthSource', {canCreate: authorized_for(action: :new)}) %>

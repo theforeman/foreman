@@ -1,6 +1,6 @@
 <% content_for(:title, _("Domains")) %>
-<% description =  _("Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter.")%>
-<% action ={ :title => _("Create Domain"), :url => new_domain_path } if authorized_for(:action => :new)%>
+<% description =  _("Foreman considers a domain and a DNS zone as the same thing. That is, if you are planning to manage a site where all the machines are of the form hostname. somewhere.com then the domain is somewhere.com. This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site. The fullname field is used for human readability in reports and other pages that refer to domains, and also available as an external node parameter.") %>
+<% action ={ :title => _("Create Domain"), :url => new_domain_path } if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'globe',
                                     :iconType => 'fa',

@@ -23,11 +23,11 @@
     <div class="container-fluid container-cards-pf">
       <div class="row row-cards-pf">
       <% if authorized_for(:permission => :view_smart_proxies_puppetca, :auth_object => @smart_proxy) %>
-        <span data-ajax-url="<%= counts_smart_proxy_puppetca_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner%></span>
-        <span data-ajax-url="<%= expiry_smart_proxy_puppetca_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner%></span>
+        <span data-ajax-url="<%= counts_smart_proxy_puppetca_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner %></span>
+        <span data-ajax-url="<%= expiry_smart_proxy_puppetca_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner %></span>
       <% end %>
       <% if authorized_for(:permission => :view_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
-        <span data-ajax-url="<%= counts_smart_proxy_autosign_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner%></span>
+        <span data-ajax-url="<%= counts_smart_proxy_autosign_path(:smart_proxy_id => @smart_proxy) %>"><%= spinner %></span>
       <% end %>
       </div>
     </div>
@@ -38,7 +38,7 @@
   <% if authorized_for(:permission => :view_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
     <div class="tab-pane" id="autosign" data-ajax-url="<%= smart_proxy_autosign_index_path(:smart_proxy_id => @smart_proxy) %>" data-on-complete="tfm.tools.activateDatatables"><%= spinner %></div>
     <% if authorized_for(:permission => :create_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
-      <div data-ajax-url=<%= new_smart_proxy_autosign_path(:smart_proxy_id => @smart_proxy) %>></div>
+      <div data-ajax-url="<%= new_smart_proxy_autosign_path(:smart_proxy_id => @smart_proxy) %>"></div>
     <% end %>
   <% end %>
 </div>

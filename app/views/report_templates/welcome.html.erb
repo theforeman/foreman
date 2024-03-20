@@ -1,6 +1,6 @@
 <% content_for(:title, _("Report Templates")) %>
-<% description = _("The Report Templates provides a way to create textual reports out of Foreman data. When the template is rendered, it loads data from database and renders the result. Based on the template, the output format can be csv, json, yaml or any custom textual format")%>
-<% action = { :title => _("Create Report Template"), :url => new_report_template_path } if authorized_for(:action => :new)%>
+<% description = _("The Report Templates provides a way to create textual reports out of Foreman data. When the template is rendered, it loads data from database and renders the result. Based on the template, the output format can be csv, json, yaml or any custom textual format") %>
+<% action = { :title => _("Create Report Template"), :url => new_report_template_path } if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'file-text',
                                     :iconType => 'fa',

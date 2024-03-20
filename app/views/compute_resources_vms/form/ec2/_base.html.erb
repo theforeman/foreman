@@ -25,8 +25,7 @@ images = possible_images(compute_resource, arch, os)
         :subnets => subnet_vpc_hash
       },
       :class => 'security_group_ids without_select2'
-    }
-  %>
+    } %>
 <% end %>
 
   <%= selectable_f f, :managed_ip, {_("Public")=>'public', _("Private")=>'private'}, {}, { :label => _("Managed IP"), :label_size => "col-md-2" } %>

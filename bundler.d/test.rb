@@ -20,4 +20,5 @@ group :test do
   gem 'robottelo_reporter', '~> 0.1'
   gem 'theforeman-rubocop', '~> 0.0.6', require: false
   gem 'webmock'
+  gem 'erb_lint', require: false
 end

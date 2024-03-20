@@ -1,4 +1,4 @@
-<% title "#{@config_report.host}"%>
+<% title "#{@config_report.host}" %>
 <% breadcrumbs(switchable: false) %>
 
 <p class='ra'> <%= _("Reported at %s ") % @config_report.reported_at %> </p>
@@ -17,7 +17,6 @@
 
 <%= title_actions display_delete_if_authorized(hash_for_config_report_path(:id => @config_report), :class=> "btn btn-danger"),
   link_to(_("Host details"), current_host_details_path(@config_report.host), :class => 'btn btn-default'),
-  link_to(_("Other reports for this host"), host_config_reports_path(@config_report.host), :class => 'btn btn-default')
-%>
+  link_to(_("Other reports for this host"), host_config_reports_path(@config_report.host), :class => 'btn btn-default') %>
 
 <%= react_component('DiffModal') %>

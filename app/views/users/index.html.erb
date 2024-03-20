@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th><%= sort :login, :as => s_("User|Login") %></th>
-      <th><%= sort :firstname, :as => s_("User|Firstname")%></th>
+      <th><%= sort :firstname, :as => s_("User|Firstname") %></th>
       <th><%= sort :lastname, :as => s_("User|Lastname") %></th>
       <th><%= sort :mail, :as => s_("User|Mail") %></th>
       <th><%= sort :admin, :as => s_("User|Admin") %></th>
@@ -18,12 +18,12 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td class="ellipsis"><%= avatar_image_tag user, :class => "avatar" %> <%=link_to_if_authorized user.login, hash_for_edit_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer) %></td>
+        <td class="ellipsis"><%= avatar_image_tag user, :class => "avatar" %> <%= link_to_if_authorized user.login, hash_for_edit_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer) %></td>
         <td class="ellipsis"><%= user.firstname %></td>
         <td class="ellipsis"><%= user.lastname %></td>
         <td class="ellipsis"><%= user.mail %></td>
         <td><%= checked_icon user.admin? %></td>
-        <td class="ellipsis"><%= date_time_relative(user.last_login_on)%></td>
+        <td class="ellipsis"><%= date_time_relative(user.last_login_on) %></td>
         <td class="ellipsis"><%= auth_source_column(user) %></td>
         <td><%= user_action_buttons(user) %></td>
       </tr>

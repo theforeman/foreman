@@ -6,6 +6,5 @@
       :class => 'host-architecture-os-select',
       :data => { :url => method_path('os_selected'), :type => controller_name.singularize },
       :required => !item.is_a?(Hostgroup),
-      :placeholder => arch_oss.empty? ? _("No options available for selected Architecture") : nil }
-  %>
+      :placeholder => arch_oss.empty? ? _("No options available for selected Architecture") : nil } %>
 <% end %>

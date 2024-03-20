@@ -3,12 +3,10 @@
     {:include_blank => blank_or_inherit_f(f, :medium), :selected => item.medium_id},
     {:label => _("Media"), :help_inline => :indicator, :class => 'host-os-media-select',
      :data => { :url => method_path('medium_selected'), :type => controller_name.singularize },
-     :required => !item.is_a?(Hostgroup), :placeholder => os_media.empty? ? _("No options available for selected Operating System") : nil }
-  %>
+     :required => !item.is_a?(Hostgroup), :placeholder => os_media.empty? ? _("No options available for selected Operating System") : nil } %>
   <%= select_f f, :ptable_id, os_ptable, :id, :to_label,
     {:include_blank => blank_or_inherit_f(f, :ptable), :selected => item.ptable_id},
-    {:label => _("Partition Table"), :required => !item.is_a?(Hostgroup), :placeholder => os_ptable.empty? ? _("No options available for selected Operating System") : nil }
-  %>
+    {:label => _("Partition Table"), :required => !item.is_a?(Hostgroup), :placeholder => os_ptable.empty? ? _("No options available for selected Operating System") : nil } %>
 
   <% if @operatingsystem && @operatingsystem.supports_image %>
     <%= render "common/os_selection/image_details", {:item => item} %>

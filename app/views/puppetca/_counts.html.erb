@@ -7,7 +7,7 @@
     </h2>
     <div class="card-pf-body">
       <p class="card-pf-aggregate-status-notifications">
-      <% PuppetcaHelper::STATES.each do |state|%>
+      <% PuppetcaHelper::STATES.each do |state| %>
         <span class="card-pf-aggregate-status-notification">
           <a href="#certificates" title="<%= _(state) %>" onclick="$('#puppetca-filter').val('<%= _(state) %>').trigger('change')"><span class="<%= PuppetcaHelper::CA_ICONS[state] %>"></span><%= @certificates.count{|c| c.state == state}.to_s %></a>
         </span>

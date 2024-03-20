@@ -2,9 +2,8 @@
 <% description =
 _("With user groups, you can group your users and assign them roles on a group basis.
  User groups enable users to log into Foreman and be automatically granted permissions.
- A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group.")
-%>
-<% action = { :title => _("Create User group"), :url => new_usergroup_path } if authorized_for(:action => :new)%>
+ A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group.") %>
+<% action = { :title => _("Create User group"), :url => new_usergroup_path } if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'project',
                                     :iconType => 'pf',
