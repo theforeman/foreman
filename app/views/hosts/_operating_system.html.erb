@@ -7,7 +7,7 @@
   <%= render 'common/os_selection/architecture', :item => @host %>
 </span>
 
-<div id='provisioning_method' <%= display? (@host.capabilities.size < 2)  %> >
+<div id='provisioning_method' <%= display? (@host.capabilities.size < 2) %>>
   <%= field(f, :provision_method, :label => _('Provisioning Method'), :required => true, :size => 'col-md-10') do
     Host::Managed.provision_methods.sort_by { |name, friendly_name| name }.collect do |provision_method, friendly_name|
       radio_button_f(f, :provision_method, :value=>provision_method, :text=> _(friendly_name), :disabled => !@host.new_record?)

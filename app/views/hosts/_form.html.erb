@@ -12,7 +12,7 @@
 
       <% if @host.managed %>
         <% if authorized_for(:controller => "Compute::Resources::Vms", :action => :create) %>
-          <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?)%>><a href="#compute_resource" data-toggle="tab"><%= _('Virtual Machine') %></a></li>
+          <li id="compute_resource_tab" <%= display? !(@host.compute_resource_id  || params[:host] && params[:host][:compute_resource_id].present?) %>><a href="#compute_resource" data-toggle="tab"><%= _('Virtual Machine') %></a></li>
         <% end %>
         <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
       <% end %>
@@ -32,10 +32,9 @@
         <%= text_f f, :name, :size => "col-md-4", :value => name_field(@host),
             :input_group_btn => randomize_mac_link,
             :help_inline => _("This value is used also as the host's primary interface name."),
-            :data => {}
-        %>
+            :data => {} %>
 
-        <% if show_organization_tab?  %>
+        <% if show_organization_tab? %>
           <%= host_taxonomy_select(f, Organization) %>
         <% end %>
 
@@ -65,7 +64,7 @@
         <% if @host.new_record? && visible_compute_profiles(@host).any? %>
         <%# only show compute_profile select box for new hosts. It is not relevant for existing hosts as the VM attributes defined could
          be different from the defaults, or the defaults could have changed after the vm was created. %>
-        <div id="compute_profile" <%= display?(!@host.compute_resource_id) %> >
+        <div id="compute_profile" <%= display?(!@host.compute_resource_id) %>>
           <%= select_f f, :compute_profile_id, visible_compute_profiles(@host), :id, :name,
             { :include_blank => true,
               :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
@@ -82,8 +81,7 @@
 
         <%= smart_proxy_fields f,
               :can_override => true,
-              :override => @host.hostgroup && @host.hostgroup_id_was.nil?
-        %>
+              :override => @host.hostgroup && @host.hostgroup_id_was.nil? %>
 
         <%= realm_field f, true, @host.hostgroup && @host.hostgroup_id_was.nil? %>
 
@@ -92,24 +90,24 @@
       <%= render_tab_content_for(:main_tabs, :subject => @host) %>
 
       <%= f.hidden_field :managed %>
-      <% # Required for import and edit actions %>
+      <%# Required for import and edit actions %>
       <%= f.hidden_field :uuid if @host.uuid.present? %>
-      <% # Required for import action %>
+      <%# Required for import action %>
       <%= f.hidden_field :compute_resource_id if @host.new_record? && @host.uuid.present? %>
       <%= f.hidden_field(:progress_report_id, :data=>{:url=>task_path(@host.progress_report_id)}) if @host.orchestrated? %>
       <%= f.hidden_field :type, :value => @host.type if @host.type_changed? %>
 
-      <div class="tab-pane"  id="network">
+      <div class="tab-pane" id="network">
         <%= render 'hosts/interfaces', :host => @host, :f => f %>
       </div>
 
       <%= render('hosts/unattended', :f => f) if @host.managed %>
 
-      <div class="tab-pane"  id="params">
+      <div class="tab-pane" id="params">
 
         <%= slot('HostParams', true, lookup_values: lookup_values_data(@host)) %>
 
-        <br/>
+        <br>
 
         <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
           <fieldset>
@@ -121,16 +119,14 @@
         <% end %>
       </div>
 
-      <div class="tab-pane"  id="info">
+      <div class="tab-pane" id="info">
         <%= selectable_f f, :is_owned_by, option_groups_from_collection_for_select(
           [User.authorized(:view_users), Usergroup.authorized(:view_usergroups)], :visible, :table_name, :id_and_type, :select_title,
-          @host.owner_suggestion.id_and_type), { :include_blank => _("Select an owner") }, { :label => _("Owned By") }
-        %>
+          @host.owner_suggestion.id_and_type), { :include_blank => _("Select an owner") }, { :label => _("Owned By") } %>
         <%= checkbox_f f, :enabled,
-          :help_inline => _("Include this host within Foreman reporting")
-        %>
+          :help_inline => _("Include this host within Foreman reporting") %>
         <div id='model_name'>
-          <%= select_f f, :model_id, accessible_resource(@host, :model), :id, :to_label, { :include_blank => true }, {:label => _("Hardware Model")} unless @host.compute_resource_id%>
+          <%= select_f f, :model_id, accessible_resource(@host, :model), :id, :to_label, { :include_blank => true }, {:label => _("Hardware Model")} unless @host.compute_resource_id %>
         </div>
         <%= textarea_f f, :comment, :help_block => _("Additional information about this host"), :size => "col-md-8", :rows => "3", :class => "no-stretch" %>
       </div>

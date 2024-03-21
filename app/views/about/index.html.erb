@@ -5,7 +5,7 @@
   <div class="col-md-7">
 
     <div class="stats-well">
-      <h4><%=_("System Status")%></h4>
+      <h4><%= _("System Status") %></h4>
       <ul class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#smart_proxies" data-toggle="tab"><%= _('Smart Proxies') %></a></li>
         <li><a href="#available_providers" data-toggle="tab"><%= _('Available Providers') %></a></li>
@@ -28,9 +28,9 @@
               </thead>
               <tbody>
               <% @smart_proxies.each do |proxy| %>
-                <tr class="proxy-show"  data-url="<%= ping_smart_proxy_path(proxy) %>">
+                <tr class="proxy-show" data-url="<%= ping_smart_proxy_path(proxy) %>">
                   <td><%= link_to_if_authorized proxy.name, hash_for_smart_proxy_path(proxy) %></td>
-                  <td><%=h proxy.features.map(&:name).to_sentence %></td>
+                  <td><%= h proxy.features.map(&:name).to_sentence %></td>
                   <td><div class="proxy-show-status"><%= spinner %></div></td>
                   <td><div class="proxy-version"><%= spinner %></div></td>
                 </tr>
@@ -79,7 +79,7 @@
                 <tr>
                   <td class="ellipsis"><%= link_to(compute.name, compute) %></td>
                   <td><%= compute.provider_friendly_name %></td>
-                  <td><div class="compute-status" data-url=<%= ping_compute_resource_path(compute) %>><%= spinner %></div></td>
+                  <td><div class="compute-status" data-url="<%= ping_compute_resource_path(compute) %>"><%= spinner %></div></td>
                 </tr>
               <% end %>
               </tbody>
@@ -102,9 +102,9 @@
               <tbody>
               <% @plugins.each do |plugin| %>
                 <tr>
-                  <td><%= plugin.url.blank? ? plugin.name : link_to(plugin.name, plugin.url, :rel=>'external')%></td>
+                  <td><%= plugin.url.blank? ? plugin.name : link_to(plugin.name, plugin.url, :rel=>'external') %></td>
                   <td class="ellipsis"><%= _(plugin.description) %></td>
-                  <td class="ellipsis"><%= plugin.author_url.blank? ? plugin.author : link_to(plugin.author, plugin.author_url)%></td>
+                  <td class="ellipsis"><%= plugin.author_url.blank? ? plugin.author : link_to(plugin.author, plugin.author_url) %></td>
                   <td><%= plugin.version %></td>
                 </tr>
               <% end %>
@@ -126,7 +126,7 @@
         <li><%= link_to _('Wiki'), external_link_path(type: 'wiki'), :rel => "external" %></li>
       </ul>
       <h6><%= _("IRC") %></h6>
-      <p><%= (_("You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:liberachat => link_to("Libera.Chat", external_link_path(type: 'chat'), :rel => "external")}).html_safe  %></p>
+      <p><%= (_("You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:liberachat => link_to("Libera.Chat", external_link_path(type: 'chat'), :rel => "external")}).html_safe %></p>
       <h6><%= _("Forums") %></h6>
       <p><%= (_("You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman.") % {:community_forums => link_to( _('community forums'), external_link_path(type: 'forums'), :rel => "external")}).html_safe %></p>
       <h6><%= _("Issue tracker") %></h6>

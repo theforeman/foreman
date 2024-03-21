@@ -1,0 +1,44 @@
+---
+glob: "**/*.{html,text,js,json}{+*,}.erb"
+exclude:
+  - '**/vendor/**/*'
+linters:
+  AllowedScriptType:
+    enabled: false
+  ClosingErbTagIndent:
+    enabled: true
+  CommentSyntax:
+    enabled: true
+  ExtraNewline:
+    enabled: true
+  FinalNewline:
+    enabled: true
+  NoJavascriptTagHelper:
+    enabled: false
+  ParserErrors:
+    enabled: true
+  PartialInstanceVariable:
+    enabled: false
+  RequireInputAutocomplete:
+    enabled: false
+  RightTrim:
+    enabled: true
+  SelfClosingTag:
+    enabled: true
+  SpaceAroundErbTag:
+    enabled: true
+  SpaceIndentation:
+    enabled: true
+  SpaceInHtmlTag:
+    enabled: true
+  TrailingWhitespace:
+    enabled: true
+  DeprecatedClasses:
+    enabled: false
+  ErbSafety:
+    enabled: false
+  Rubocop:
+    enabled: false
+  RequireScriptNonce:
+    enabled: false
+...

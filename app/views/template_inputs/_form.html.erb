@@ -1,6 +1,6 @@
 <div class="fields">
   <div class="form-group">
-    <%= field_set_tag template_input_header(f, @template) do  %>
+    <%= field_set_tag template_input_header(f, @template) do %>
       <%= text_f f, :name, :disabled => @template.locked? %>
       <%= checkbox_f f, :required, :disabled => @template.locked? %>
       <%= selectable_f f, :input_type, template_input_types_options(@template.available_input_types), {}, :class => "input_type_selector #{@template.locked? && 'without_select2'}", :disabled => @template.locked? %>

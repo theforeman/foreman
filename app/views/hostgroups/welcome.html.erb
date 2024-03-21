@@ -1,8 +1,8 @@
 <% content_for(:title, _("Host Groups")) %>
 <% description = _("Host Groups allow hosts with common configuration to be defined and grouped together.
             Nested groups will inherit from their parent(s).
-            This is then treated as a template and is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states.")%>
-<% action =  { :title => _("Create Host Group"), :url => new_hostgroup_path } if authorized_for(:action => :new)%>
+            This is then treated as a template and is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states.") %>
+<% action =  { :title => _("Create Host Group"), :url => new_hostgroup_path } if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'object-group',
                                     :iconType => 'fa',

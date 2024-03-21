@@ -4,8 +4,7 @@
                  display_link_if_authorized(_("Build PXE Default"), { :controller => 'provisioning_templates', :action => :build_pxe_default },{
                    :data => {:confirm => _("You are about to change the default PXE menu on all configured TFTP servers - continue?")},
                    :class => "btn btn-default"}),
-                documentation_button('4.4.3ProvisioningTemplates')
-%>
+                documentation_button('4.4.3ProvisioningTemplates') %>
 
 <table class="<%= table_css_classes 'table-fixed' %>">
   <thead>

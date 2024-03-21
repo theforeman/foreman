@@ -13,7 +13,7 @@ end
       <% unless params[:host_id] %>
         <th class="col-md-2"><%= sort :host, :as => _("Host") %></th>
       <% end %>
-      <th><%= sort :name, :as => _("Name")  %></th>
+      <th><%= sort :name, :as => _("Name") %></th>
       <th><%= sort :value, :as => s_("FactValue|Value") %></th>
       <th class="fact-origin"><%= sort :origin, :as => s_("FactValue|Origin") %></th>
       <th class="col-md-2"><%= sort :reported_at, :as => _('Reported at') %></th>

@@ -24,7 +24,7 @@
   <div class='tab-content'>
     <div class='tab-pane active' id='primary'>
       <% if !@user.internal? && !@user.new_record? %>
-        <%  msg = "External user login can not be changed" %>
+        <% msg = "External user login can not be changed" %>
       <% end %>
       <%= text_f f, :login, :disabled => msg.present? , :label_help => msg %>
       <%= text_f f, :firstname %>
@@ -46,7 +46,7 @@
                         :label => _('Authorized by') } ) unless @editing_self %>
 
       <div id='password' <%= display? !@user.manage_password? %>>
-        <% if User.current == @user  %>
+        <% if User.current == @user %>
           <%= password_f f, :current_password, :label => _('Current password'), :placeholder => '' %>
         <% end %>
         <%= react_component('PasswordStrength',
@@ -66,7 +66,7 @@
           <%= documentation_button('4.6.1EmailPreferences') %>
         </div>
       </div>
-      </br>
+      <br>
       <%= field_set_tag _("General") do %>
         <%= checkbox_f f, :mail_enabled %>
         <div class='col-md-4'>
@@ -74,14 +74,14 @@
                                                 :title => _("Send a test message to the user's email address to confirm the configuration is working."), :id => "test_mail_button", :class =>"btn btn-success") + hidden_spinner('', :id => 'test_indicator').html_safe if action_name == "edit" %>
         </div>
       <% end %>
-      </br>
+      <br>
 
       <%= field_set_tag _("Notifications") do %>
         <% if @user.new_record? %>
           <%= alert :class => 'alert-warning', :header => '', :text => _("Please save the user first before assigning mail notifications."), :close => false %>
         <% elsif !@user.user_mail_notifications.empty? %>
           <%= f.fields_for :user_mail_notifications do |mail_form| %>
-            <%= render :partial => "users/mail_notifications", :locals => { :f => mail_form }  %>
+            <%= render :partial => "users/mail_notifications", :locals => { :f => mail_form } %>
           <% end %>
         <% else %>
           <%= alert :class => 'alert-info', :header => '', :text => _("Notifications can't be assigned to this user."), :close => false %>
@@ -114,15 +114,15 @@
               </button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="usergroupsDropdownMenuBtn">
                 <% usergroups.each do |usergroup| %>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" data-id="<%=usergroup.id %>"><%= usergroup %></a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-id="<%= usergroup.id %>"><%= usergroup %></a></li>
                 <% end %>
               </ul>
             </div>
             <ul class="list-group" id='roles_tab'>
-              <% usergroups.each do |usergroup|  %>
+              <% usergroups.each do |usergroup| %>
                   <% unless usergroup.roles.map(&:name).any? %>
                       <li data-id="<%= usergroup.id %>" class="list-group-item"><%= _('This group has no roles') %></li>
-                  <%end %>
+                  <% end %>
                 <% usergroup.roles.map(&:name).each do |role_name| %>
                   <li data-id="<%= usergroup.id %>" class="list-group-item hidden"><%= role_name %></li>
                 <% end %>
@@ -130,11 +130,10 @@
             </ul>
           </div>
         </div>
-      <% end  %>
+      <% end %>
     </div>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
-               :html_options => user_taxonomies_html_options(@user)
-    %>
+               :html_options => user_taxonomies_html_options(@user) %>
     <%= render_tab_content_for(:main_tabs, :subject => @user, :form => f) %>
   </div>
 
@@ -148,5 +147,5 @@
           tfm.users.initInheritedRoles();
         });
     </script>
-  <% end  -%>
-<% end  %>
+  <% end -%>
+<% end %>

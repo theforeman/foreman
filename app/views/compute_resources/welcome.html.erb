@@ -1,7 +1,7 @@
 
 <% content_for(:title, _("Compute Resources")) %>
-<% description = _("Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts.")%>
-<% action = { :title => _("Create Compute Resource"), :url => new_compute_resource_path } if authorized_for(:action => :new)%>
+<% description = _("Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts.") %>
+<% action = { :title => _("Create Compute Resource"), :url => new_compute_resource_path } if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'cubes',
                                     :iconType => 'fa',

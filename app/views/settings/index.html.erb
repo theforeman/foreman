@@ -23,7 +23,7 @@
 
 <div class="tab-content">
   <% @settings.categories.each do |category, _label| %>
-    <div class="tab-pane<%= ' active' if category == @settings.categories.keys.first %>" id='<%= category %>_settings_tab' >
+    <div class="tab-pane<%= ' active' if category == @settings.categories.keys.first %>" id='<%= category %>_settings_tab'>
       <%= render_if_partial_exists "settings/category/#{category.downcase}", category %>
 
       <%= react_component('SettingsTable', { category: category }) %>

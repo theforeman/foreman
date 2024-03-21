@@ -8,6 +8,5 @@
     (display_link_if_authorized(_("Disassociate host"),
                                 hash_for_disassociate_host_path(:id => @host.id).merge(:auth_object => @host, :permission => 'edit_hosts'),
                                {:class => 'btn btn-default', :method => :put}) if @host.compute?)
-   )
-%>
+   ) %>
 <%= render :partial => 'hosts/form' %>

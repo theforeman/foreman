@@ -1,6 +1,6 @@
 <% content_for(:title, _("Operating Systems")) %>
-<% description = _("The Operating systems detail the OSs known to Foreman, and is the central point that the other required components tie into.")%>
-<% action = { :title => _("Create Operating System"), :url =>  new_operatingsystem_path} if authorized_for(:action => :new)%>
+<% description = _("The Operating systems detail the OSs known to Foreman, and is the central point that the other required components tie into.") %>
+<% action = { :title => _("Create Operating System"), :url =>  new_operatingsystem_path} if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'lightbulb-o',
                                     :iconType => 'fa',

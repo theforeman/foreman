@@ -4,12 +4,11 @@
   icon: {
     alt: label(@host.operatingsystem),
     url: icon(@host.operatingsystem, path: true)
-  }
-%>
+  } %>
 <% host_breadcrumb %>
 <%= host_title_actions(@host) %>
 <% content_for(:search_bar) {reports_show} %>
-<div id="host-show" class="row" data-history-url='<%= host_path(@host)%>'>
+<div id="host-show" class="row" data-history-url='<%= host_path(@host) %>'>
   <div class="col-md-4">
     <table id="details_table" class="<%= table_css_classes %>">
       <thead>
@@ -34,7 +33,7 @@
       <% if @host.managed? %>
         <li><a href="#template" data-toggle="tab"><%= _('Templates') %></a></li>
       <% end %>
-      <%  if @host.compute_resource_id && @host.uuid %>
+      <% if @host.compute_resource_id && @host.uuid %>
         <li><a href="#vm" data-toggle="tab"><%= _('VM') %></a></li>
       <% end %>
       <% if @host.bmc_available? %>
@@ -44,7 +43,7 @@
       <%= render_tab_header_for(:main_tabs, :subject => @host) %>
     </ul>
     <div id="host-show-tabs-content" class="tab-content">
-      <div class="tab-pane active in" id="properties" data-ajax-url='<%= overview_host_path(@host)%>'>
+      <div class="tab-pane active in" id="properties" data-ajax-url='<%= overview_host_path(@host) %>'>
         <%= spinner(_('Loading host information ...')) %>
       </div>
       <div class="tab-pane" id="metrics">
@@ -56,16 +55,16 @@
         <% end %>
       </div>
       <% if @host.managed? %>
-        <div class="tab-pane" id="template" data-ajax-url='<%= templates_host_path(@host)%>'>
+        <div class="tab-pane" id="template" data-ajax-url='<%= templates_host_path(@host) %>'>
           <%= spinner(_('Loading template information ...')) %>
         </div>
       <% end %>
-      <%  if @host.compute_resource_id %>
-        <div class="tab-pane" id="vm" data-ajax-url='<%= vm_host_path(@host)%>' data-on-complete='setPowerState'>
+      <% if @host.compute_resource_id %>
+        <div class="tab-pane" id="vm" data-ajax-url='<%= vm_host_path(@host) %>' data-on-complete='setPowerState'>
           <%= spinner(_('Loading VM information ...')) %>
         </div>
       <% end %>
-      <div id="nics" class="tab-pane" data-ajax-url='<%= nics_host_path(@host)%>'>
+      <div id="nics" class="tab-pane" data-ajax-url='<%= nics_host_path(@host) %>'>
         <%= spinner(_('Loading NICs information ...')) %>
       </div>
       <% if @host.bmc_available? %>

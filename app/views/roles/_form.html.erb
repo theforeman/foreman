@@ -22,7 +22,7 @@
 
       <%= divider %>
 
-      <%= text_f f, :name, :class => @role.builtin? ? "disabled" : ""  %>
+      <%= text_f f, :name, :class => @role.builtin? ? "disabled" : "" %>
       <%= textarea_f f, :description, :rows=> 5, :size => "col-md-4" %>
 
       <%= hidden_field_tag :original_role_id, @role.cloned_from_id if @cloned_role %>
@@ -31,12 +31,12 @@
                          Filters that are set to override <br> will remain untouched. Overriding of role filters can be easily disabled by <br> pressing the \"Disable overriding\" button.
                          Note that not all filters support <br>%{taxonomies}, so these always remain global.") %>
       <% if show_location_tab? %>
-        <% loc_help = _(tax_help) % { :taxonomies => _('locations') }%>
+        <% loc_help = _(tax_help) % { :taxonomies => _('locations') } %>
         <%= multiple_checkboxes f, :locations, f.object, User.current.my_locations, { :label => _("Locations"), :label_help => loc_help, :label_help_options => { :title => _("Role locations") } } %>
       <% end %>
 
       <% if show_organization_tab? %>
-        <% org_help = _(tax_help) % { :taxonomies => _('organizations') }%>
+        <% org_help = _(tax_help) % { :taxonomies => _('organizations') } %>
         <%= multiple_checkboxes f, :organizations, f.object, User.current.my_organizations, { :label => _("Organizations"), :label_help => org_help, :label_help_options => { :title => _("Role organizations") } } %>
       <% end %>
     </div>

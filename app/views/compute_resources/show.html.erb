@@ -4,7 +4,7 @@
                                             hash_for_associate_compute_resource_path(:compute_resource_id => @compute_resource).merge(:auth_object => @compute_resource, :permission => 'edit_compute_resources'),
                                             :title => _("Associate VMs to Foreman hosts"), :method => :put, :class=>"btn btn-default"),
 (display_link_if_authorized(_('Refresh Cache'), hash_for_refresh_cache_compute_resource_path(@compute_resource).merge(:auth_object => @compute_resource, :permission => 'view_compute_resources'), :method => :put, :class => "btn btn-default") if @compute_resource.respond_to?(:refresh_cache) && @compute_resource.caching_enabled),
-   link_to_if_authorized(_('Edit'), hash_for_edit_compute_resource_path(@compute_resource).merge(:auth_object => @compute_resource), :class => "btn btn-default")  %>
+   link_to_if_authorized(_('Edit'), hash_for_edit_compute_resource_path(@compute_resource).merge(:auth_object => @compute_resource), :class => "btn btn-default") %>
 
 <ul class="nav nav-tabs" data-tabs="tabs">
   <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>
@@ -43,20 +43,20 @@
       </tbody>
     </table>
   </div>
-  <div id="vms" class="tab-pane" data-url=<%= compute_resource_vms_path(@compute_resource) %>>
+  <div id="vms" class="tab-pane" data-url="<%= compute_resource_vms_path(@compute_resource) %>">
     <%= spinner(_('Loading virtual machines information ...')) %>
   </div>
   <% if @compute_resource.capabilities.include?(:image) %>
     <div id="images" class="tab-pane">
       <%= title_actions(new_link(_("Create Image"), { :compute_resource_id => @compute_resource.id, :controller => :images }, { :data=>{:target=>"full-page"} })) %>
-      <div id="images_list" data-url=<%= compute_resource_images_path(@compute_resource, { :partial => true }) %>>
+      <div id="images_list" data-url="<%= compute_resource_images_path(@compute_resource, { :partial => true }) %>">
         <%= spinner(_('Loading images information ...')) %>
       </div>
     </div>
   <% end %>
   <% if @compute_resource.capabilities.include?(:key_pair) %>
     <div id="key_pairs" class="tab-pane">
-      <div id="key_pairs_list" data-url=<%= compute_resource_key_pairs_path(@compute_resource) %>>
+      <div id="key_pairs_list" data-url="<%= compute_resource_key_pairs_path(@compute_resource) %>">
         <%= spinner(_('Loading SSH keys information ...')) %>
       </div>
     </div>

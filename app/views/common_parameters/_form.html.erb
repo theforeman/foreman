@@ -8,8 +8,8 @@
                    :class => "form-control no-stretch #{'masked-input' if @common_parameter.hidden_value?}" %>
     <%= checkbox_f f, :hidden_value, :class => 'hidden_value_textarea_switch', :onchange => 'turn_textarea_switch()', :checked => f.object.hidden_value? %>
 
-   <input type="hidden" id="old" value="<%= @common_parameter.value %>" />
-   <input type="hidden" id="new" value="<%= @common_parameter.value %>" />
+   <input type="hidden" id="old" value="<%= @common_parameter.value %>">
+   <input type="hidden" id="new" value="<%= @common_parameter.value %>">
 
    <%= submit_or_cancel f %>
 <% end %>
