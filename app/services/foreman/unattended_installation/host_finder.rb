@@ -54,7 +54,13 @@ module Foreman
 
         mac_list = query_params[:mac_list]
 
-        query = mac_list.empty? ? { :nics => { :ip => ip } } : ["lower(nics.mac) IN (?)", mac_list]
+        query = if mac_list.empty?
+                  column = address_parser.native.ipv6? ? :ip6 : :ip
+                  { :nics => { column => ip } }
+                else
+                  ["lower(nics.mac) IN (?)", mac_list]
+                end
+
         hosts = Host.joins(:provision_interface).where(query).order(:created_at)
 
         Rails.logger.warn("Multiple hosts found with #{ip} or #{mac_list}, picking up the most recent") if hosts.count > 1
