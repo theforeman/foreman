@@ -95,8 +95,12 @@ module Api
       param_group :report_template_clone, :as => :create
 
       def clone
-        @report_template = @report_template.dup
+        original = @report_template
+
+        @report_template = original.dup
         @report_template.name = params[:report_template][:name]
+        @report_template.cloned_from = original
+
         process_response @report_template.save
       end
 

@@ -67,6 +67,17 @@
         </div>
       </div>
 
+      <% if @template.cloned_from %>
+      <div class="clearfix">
+        <div class="form-group ">
+          <%= label_tag :cloned_from, _('Cloned from'), class: 'col-md-2 control-label' %>
+          <div class="col-md-10">
+            <%= link_to @template.cloned_from.name, url_for(template_hash_for_member(@template.cloned_from, 'edit')), target: '_blank' %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+
       <%= textarea_f f, :description, :size => 'col-md-10', :rows => 3, :label => _('Description'), :disabled => @template.locked? %>
 
       <%= textarea_f f, :audit_comment, :size => "col-md-10", :rows => 3, :label => _("Audit Comment"),
@@ -199,4 +210,5 @@
 
     <%= submit_or_cancel f, false, :cancel_path => template_path_for(@template.class) %>
   </div>
+  <%= f.hidden_field :cloned_from_id %>
 <% end %>
