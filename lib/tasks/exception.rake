@@ -18,8 +18,7 @@ namespace :exception do
       end
     end
 
-    result.keys.sort.each do |k|
-      v = result[k]
+    result.sort.each do |k, v|
       puts " * [[#{k}]] - #{v}"
     end
   end

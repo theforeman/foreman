@@ -66,15 +66,15 @@ class FiltersController < ApplicationController
   def setup_search_options
     @original_search_parameter = params[:search]
     params[:search] ||= ""
-    params.keys.each do |param|
+    params.each do |param, value|
       if param =~ /role_id$/
-        if (role = Role.find_by_id(params[param])).present?
+        if (role = Role.find_by_id(value)).present?
           query = "role_id = #{role.id}"
           params[:search] += query unless params[:search].include? query
         end
       elsif param =~ /(\w+)_id$/
-        if params[param].present?
-          query = "#{Regexp.last_match(1)} = #{params[param]}"
+        if value.present?
+          query = "#{Regexp.last_match(1)} = #{value}"
           params[:search] += query unless params[:search].include? query
         end
       end

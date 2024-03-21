@@ -20,8 +20,8 @@ class TemplateKindTest < ActiveSupport::TestCase
 
   test '#default_template_descriptions returns description of every template kind' do
     tmpl = TemplateKind.default_template_descriptions
-    tmpl.keys.each do |type|
-      assert_not_empty tmpl[type]
+    tmpl.each_value do |value|
+      assert_not_empty value
     end
   end
 end
