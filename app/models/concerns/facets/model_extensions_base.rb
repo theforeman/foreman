@@ -18,7 +18,7 @@ module Facets
 
         facet_configurations << config
 
-        Facets.registered_facets.values.each do |entry|
+        Facets.registered_facets.each_value do |entry|
           register_facet_relation_for_type(entry, config) if entry.has_configuration(config.facet_type)
         end
 

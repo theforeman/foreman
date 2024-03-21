@@ -55,7 +55,7 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   test 'should create with valid user' do
-    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).values.each do |login|
+    RFauxFactory.gen_strings(1..50, exclude: [:html, :punctuation, :cyrillic, :utf8]).each_value do |login|
       user = FactoryBot.create(:user, :login => login)
       usergroup = FactoryBot.build(:usergroup, :user_ids => [user.id])
       assert usergroup.valid?, "Can't create usergroup with valid user #{user}"
