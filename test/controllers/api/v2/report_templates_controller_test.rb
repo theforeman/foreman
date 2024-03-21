@@ -379,7 +379,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     end
 
     def stub_plan(opts = {})
-      opts.keys.each { |k| plan.send("#{k}=", opts[k]) }
+      opts.each { |k, v| plan.send("#{k}=", v) }
       @controller.expects(:load_dynflow_plan).with('JOBID').returns(plan)
     end
 

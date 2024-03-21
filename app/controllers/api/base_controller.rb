@@ -302,10 +302,10 @@ module Api
     # e.g. /hosts/fqdn/reports # would add host = fqdn to the search bar
     def setup_search_options
       params[:search] ||= ""
-      params.keys.each do |param|
+      params.each do |param, value|
         if param =~ /(\w+)_id$/
-          if params[param].present?
-            query = " #{Regexp.last_match(1)} = #{params[param]}"
+          if value.present?
+            query = " #{Regexp.last_match(1)} = #{value}"
             params[:search] += query unless params[:search].include? query
           end
         end
