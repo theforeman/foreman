@@ -61,38 +61,38 @@ module Orchestration::Compute
 
   def queue_compute_create
     if find_image.try(:user_data)
-      queue.create(:name   => _("Render user data template for %s") % self, :priority => 2,
-                   :action => [self, :setUserData])
+      queue.create(:name => _("Render user data template for %s") % self, :priority => 2,
+        :action => [self, :setUserData])
     end
-    queue.create(:name   => _("Set up compute instance %s") % self, :priority => 3,
-                 :action => [self, :setCompute])
+    queue.create(:name => _("Set up compute instance %s") % self, :priority => 3,
+      :action => [self, :setCompute])
     if compute_provides?(:ip) || compute_provides?(:ip6)
-      queue.create(:name   => _("Acquire IP addresses for %s") % self, :priority => 4,
-                   :action => [self, :setComputeIP])
+      queue.create(:name => _("Acquire IP addresses for %s") % self, :priority => 4,
+        :action => [self, :setComputeIP])
     end
-    queue.create(:name   => _("Query instance details for %s") % self, :priority => 5,
-                 :action => [self, :setComputeDetails])
+    queue.create(:name => _("Query instance details for %s") % self, :priority => 5,
+      :action => [self, :setComputeDetails])
     if compute_provides?(:mac) && (mac_based_ipam?(:subnet) || mac_based_ipam?(:subnet6))
       queue.create(:name   => _("Set IP addresses for %s") % self, :priority => 6,
-                   :action => [self, :setComputeIPAM])
+        :action => [self, :setComputeIPAM])
     end
     if compute_attributes && compute_attributes[:start] == '1'
       queue.create(:name   => _("Power up compute instance %s") % self, :priority => 1000,
-                   :action => [self, :setComputePowerUp])
+        :action => [self, :setComputePowerUp])
     end
   end
 
   def queue_compute_update
     return unless compute_update_required?
     logger.debug("Detected a change is required for compute resource")
-    queue.create(:name   => _("Compute resource update for %s") % old, :priority => 7,
-                 :action => [self, :setComputeUpdate])
+    queue.create(:name => _("Compute resource update for %s") % old, :priority => 7,
+      :action => [self, :setComputeUpdate])
   end
 
   def queue_compute_destroy
     return unless errors.empty? && compute_resource_id.present? && uuid
-    queue.create(:name   => _("Removing compute instance %s") % self, :priority => 100,
-                 :action => [self, :delCompute])
+    queue.create(:name => _("Removing compute instance %s") % self, :priority => 100,
+      :action => [self, :delCompute])
   end
 
   def setCompute
@@ -125,10 +125,10 @@ module Orchestration::Compute
     # actually used. For now, use foreman_url('built') in the template
     if template.nil?
       failure((_("%{image} needs user data, but %{os_link} is not associated to any provisioning template of the kind user_data. Please associate it with a suitable template or uncheck 'User data' for %{compute_resource_image_link}.") %
-      { :image => image.name,
-        :os_link => "<a target='_blank' rel='noopener noreferrer' href='#{edit_operatingsystem_path(operatingsystem)}'>#{operatingsystem.title}</a>",
-        :compute_resource_image_link =>
-          "<a target='_blank' rel='noopener noreferrer' href='#{edit_compute_resource_image_path(:compute_resource_id => compute_resource.id, :id => image.id)}'>#{image.name}</a>"}).html_safe)
+        { :image => image.name,
+          :os_link => "<a target='_blank' rel='noopener noreferrer' href='#{edit_operatingsystem_path(operatingsystem)}'>#{operatingsystem.title}</a>",
+          :compute_resource_image_link =>
+            "<a target='_blank' rel='noopener noreferrer' href='#{edit_compute_resource_image_path(:compute_resource_id => compute_resource.id, :id => image.id)}'>#{image.name}</a>"}).html_safe)
       return false
     end
 

@@ -32,20 +32,20 @@ module Foreman
         if valid_providers.count > 1
           logger.error(
             'Found more than one provider for %{entity}. Found: %{found}. Valid providers: %{providers}' %
-            {
-              entity: entity,
-              providers: providers.map { |provider| provider.class.name },
-              found: valid_providers.map { |provider| provider.class.name },
-            })
+              {
+                entity: entity,
+                providers: providers.map { |provider| provider.class.name },
+                found: valid_providers.map { |provider| provider.class.name },
+              })
         end
 
         unless valid_providers.present?
           logger.warn(
             'Could not find a provider for %{entity}. Providers returned %{errors}' %
-            {
-              entity: entity,
-              errors: provider_instances.map { |provider| [provider.class.name, provider.errors] }.to_h,
-            })
+              {
+                entity: entity,
+                errors: provider_instances.map { |provider| [provider.class.name, provider.errors] }.to_h,
+              })
         end
 
         valid_providers.first

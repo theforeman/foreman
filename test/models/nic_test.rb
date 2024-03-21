@@ -19,7 +19,7 @@ class NicTest < ActiveSupport::TestCase
 
   test "type casting should return the correct class" do
     i = Nic::Base.create! :ip => "127.2.3.8", :mac => "babbccddeeff", :host => FactoryBot.create(:host),
-                          :type => "Nic::Interface"
+      :type => "Nic::Interface"
     assert_equal "Nic::Interface", i.type
   end
 

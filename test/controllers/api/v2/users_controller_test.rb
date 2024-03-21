@@ -415,8 +415,8 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
                                      :location_ids => [loc.id]
     as_user system_admin do
       post :create, params: { :user => min_valid_attrs.clone.update(:role_ids => roles.map { |role| role.id },
-                                                                    :organization_ids => [org.id],
-                                                                    :location_ids => [loc.id]) }
+        :organization_ids => [org.id],
+        :location_ids => [loc.id]) }
       assert_response :success
     end
   end

@@ -126,7 +126,7 @@ class Hostgroup < ApplicationRecord
   def disk_layout_source
     @disk_layout_source ||= if ptable.present?
                               Foreman::Renderer::Source::String.new(name: ptable.name,
-                                                                    content: ptable.layout.tr("\r", ''))
+                                content: ptable.layout.tr("\r", ''))
                             end
   end
 

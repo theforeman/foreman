@@ -52,20 +52,20 @@ module Orchestration::Realm
 
   def queue_realm_create
     queue.create(:name => _("Create realm entry for %s") % self, :priority => 1,
-                 :action => [self, :set_realm])
+      :action => [self, :set_realm])
   end
 
   def queue_realm_update
     # Update if the hostgroup is changed or if the realm is changed
     if hostgroup_id_changed? || realm_id_changed?
       queue.create(:name => _("Update realm entry for %s") % self, :priority => 1,
-                   :action => [self, :update_realm])
+        :action => [self, :update_realm])
     end
   end
 
   def queue_realm_destroy
     return unless realm? && errors.empty?
     queue.create(:name => _("Delete realm entry for %s") % self, :priority => 50,
-                 :action => [self, :del_realm])
+      :action => [self, :del_realm])
   end
 end

@@ -60,8 +60,8 @@ class AnsibleFactParser < FactParser
     macaddress = mac_from_interface(interface)
     iface_facts = HashWithIndifferentAccess[
         interface_facts.merge(:ipaddress => ipaddress,
-                              :ipaddress6 => ipaddress6,
-                              :macaddress => macaddress)
+          :ipaddress6 => ipaddress6,
+          :macaddress => macaddress)
     ]
     logger.debug { "Ansible interface #{interface} facts: #{iface_facts.inspect}" }
     iface_facts

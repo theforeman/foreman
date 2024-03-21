@@ -16,8 +16,8 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   test "should parse virtual interfaces as vlan interfaces when facter < v3.0" do
     parser = PuppetFactParser.new(facterversion: '2.8.9',
-                                  interfaces: 'eth0_0',
-                                  ipaddress_eth0_0: '192.168.0.1')
+      interfaces: 'eth0_0',
+      ipaddress_eth0_0: '192.168.0.1')
     assert_equal 'eth0.0', parser.interfaces.keys.first
     assert_equal '192.168.0.1', parser.interfaces['eth0.0']['ipaddress']
   end
@@ -149,7 +149,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
     test "should set version correctly for PSBM" do
       @importer = PuppetFactParser.new("operatingsystem" => "PSBM",
-                                       "operatingsystemrelease" => "2.6.32-042stab111.11")
+        "operatingsystemrelease" => "2.6.32-042stab111.11")
       assert_equal '2', os.major
       assert_equal '6', os.minor
       assert_os_idempotent
@@ -168,8 +168,8 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
                                            minor: "2.1511",
                                            description: "CentOS Linux 7.2.1511")
       @importer = PuppetFactParser.new("operatingsystem" => "CentOS",
-                                       "lsbdistdescription" => "CentOS Linux release 7.2.1511 (Core) ",
-                                       "operatingsystemrelease" => "7.2.1511")
+        "lsbdistdescription" => "CentOS Linux release 7.2.1511 (Core) ",
+        "operatingsystemrelease" => "7.2.1511")
       assert_valid os
       assert_os_idempotent
     end
@@ -299,15 +299,15 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_empty parser.send(:get_interfaces)
 
     parser = get_parser(facterversion: '3.1.2',
-                       networking: {})
+      networking: {})
     assert_empty parser.send(:get_interfaces)
 
     parser = get_parser(facterversion: '3.1.2',
-                        networking: { interfaces: {} })
+      networking: { interfaces: {} })
     assert_empty parser.send(:get_interfaces)
 
     parser = get_parser(facterversion: '3.1.2',
-                        networking: { interfaces: nil})
+      networking: { interfaces: nil})
     assert_empty parser.send(:get_interfaces)
 
     parser = get_parser(structured_networking_facts)

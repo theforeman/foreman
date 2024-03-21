@@ -4,7 +4,7 @@ class ComputeAttributesController < ApplicationController
 
   def new
     @set = ComputeAttribute.new(:compute_profile_id => params[:compute_profile_id].to_i,
-                                :compute_resource_id => params[:compute_resource_id].to_i)
+      :compute_resource_id => params[:compute_resource_id].to_i)
   end
 
   def create
