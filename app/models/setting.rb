@@ -134,7 +134,7 @@ class Setting < ApplicationRecord
     when "array"
       if val =~ /\A\[.*\]\Z/
         begin
-          self.value = YAML.safe_load(val.gsub(/(\,)(\S)/, "\\1 \\2"))
+          self.value = YAML.safe_load(val.gsub(/(,)(\S)/, "\\1 \\2"))
         rescue => e
           invalid_value_error e.to_s
         end

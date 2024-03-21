@@ -26,7 +26,7 @@ class Architecture < ApplicationRecord
     when /aarch64|aa64/
       'aa64'
     else # ppc64, ppc64le and others
-      name.parameterize.gsub(/[^\w\.-]/, '_')
+      name.parameterize.gsub(/[^\w.-]/, '_')
     end
   end
 end

@@ -93,11 +93,11 @@ class User < ApplicationRecord
   end
 
   def self.name_format
-    /\A[[:alnum:]\s'_\-\.()<>;=,]*\z/
+    /\A[[:alnum:]\s'_\-.()<>;=,]*\z/
   end
 
   validates :login, :presence => true, :uniqueness => {:case_sensitive => false, :message => N_("already exists")},
-                    :format => {:with => /\A[[:alnum:]_\-@\.\\$#+]*\Z/}, :length => {:maximum => 100},
+                    :format => {:with => /\A[[:alnum:]_\-@.\\$#+]*\Z/}, :length => {:maximum => 100},
                     :exclusion => { in: %w(current_user) }
   validates :auth_source_id, :presence => true
   validates :password_hash, :presence => true, :if => proc { |user| user.manage_password? }

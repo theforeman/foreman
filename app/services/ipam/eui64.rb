@@ -24,7 +24,7 @@ module IPAM
 
     def mac_to_ip(mac)
       # cleanup MAC address
-      mac.gsub!(/[\.\:\-]/, '')
+      mac.gsub!(/[.:\-]/, '')
 
       # separate the 48-bit MAC address into two 24-bits
       oui = mac.slice(0..5)
