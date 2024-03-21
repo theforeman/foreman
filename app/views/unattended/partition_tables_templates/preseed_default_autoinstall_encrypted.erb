@@ -1,0 +1,17 @@
+<%#
+kind: ptable
+name: Preseed default autoinstall encrypted
+model: Ptable
+description: |
+  Preseed Autoinstall default storage snippet configures drives automatically
+  with LVM and disk encryption.
+  Requires Ubuntu >= 22.04.3.
+  The snippet is automatically indented by 2 spaces. For reference:
+  https://ubuntu.com/server/docs/install/autoinstall-reference
+oses:
+- Ubuntu
+%>
+storage:
+  layout:
+    name: lvm
+    password: <%= host_param('disk_enc_passphrase', 'linux') %>

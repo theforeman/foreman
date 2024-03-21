@@ -1,0 +1,18 @@
+<%#
+kind: snippet
+name: preseed_autoinstall_clevis_tang_wrapper
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Wrapper snippet to set up Clevis/Tang disk encryption.
+  Requires Ubuntu >= 22.04.3.
+  The snippet is automatically indented by 2 spaces. For reference:
+  https://ubuntu.com/server/docs/install/autoinstall-reference
+%>
+- |
+  cat > /target/tmp/disk_enc_clevis_tang.sh <<"WRAPPER"
+  #!/bin/sh
+<%= indent(2) { snippet 'disk_enc_clevis_tang' } %>
+  WRAPPER
+- curtin in-target -- bash /tmp/disk_enc_clevis_tang.sh
+- curtin in-target -- rm /tmp/disk_enc_clevis_tang.sh
