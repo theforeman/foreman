@@ -303,12 +303,10 @@ module Api
     def setup_search_options
       params[:search] ||= ""
       params.keys.each do |param|
-        if param =~ /(\w+)_id$/
-          if params[param].present?
+        if param =~ /(\w+)_id$/ && params[param].present?
             query = " #{Regexp.last_match(1)} = #{params[param]}"
             params[:search] += query unless params[:search].include? query
           end
-        end
       end
     end
 
