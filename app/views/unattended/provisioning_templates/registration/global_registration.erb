@@ -114,9 +114,9 @@ register_katello_host() {
     UUID=$(subscription-manager identity | grep --max-count 1 --only-matching '\([[:xdigit:]]\{8\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{12\}\)')
     CURL_OUT=$(mktemp)
     HTTP_RETURN_CODE=$(curl --silent --output $CURL_OUT --write-out "%{http_code}" --cacert $KATELLO_SERVER_CA_CERT --request POST "<%= @registration_url %>" \
-         <%= headers.join(' ') %> \
-         --data "uuid=$UUID" \
-         --data "host[build]=false" \
+      <%= headers.join(' ') %> \
+      --data "uuid=$UUID" \
+      --data "host[build]=false" \
 <%= "      --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
 <%= "      --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
 <%= "      --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
@@ -150,20 +150,20 @@ register_katello_host
 register_host() {
     CURL_OUT=$(mktemp)
     HTTP_RETURN_CODE=$(curl --silent --output $CURL_OUT --write-out "%{http_code}"  --cacert $SSL_CA_CERT --request POST <%= @registration_url %> \
-       <%= headers.join(' ') %> \
-       --data "host[name]=$(hostname --fqdn)" \
-       --data "host[build]=false" \
-       --data "host[managed]=false" \
-<%= "       --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
-<%= "       --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
-<%= "       --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
-<%= "       --data 'host[operatingsystem_id]=#{@operatingsystem.id}' \\\n" if @operatingsystem -%>
-<%= "       --data host[interfaces_attributes][0][identifier]=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
-<%= "       --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
-<%= "       --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
-<%= "       --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
-<%= "       --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
-<%= "       --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
+      <%= headers.join(' ') %> \
+      --data "host[name]=$(hostname --fqdn)" \
+      --data "host[build]=false" \
+      --data "host[managed]=false" \
+<%= "      --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
+<%= "      --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
+<%= "      --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
+<%= "      --data 'host[operatingsystem_id]=#{@operatingsystem.id}' \\\n" if @operatingsystem -%>
+<%= "      --data host[interfaces_attributes][0][identifier]=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
+<%= "      --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
+<%= "      --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
+<%= "      --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
+<%= "      --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
+<%= "      --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
 
     )
     if [[ $HTTP_RETURN_CODE -lt 200 || $HTTP_RETURN_CODE -gt 299 ]] ; then
