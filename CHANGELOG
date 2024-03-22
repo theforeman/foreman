@@ -1,3 +1,44 @@
+2024-03-22	Griffin-Sullivan <gsulliva@redhat.com>
+	* Release 3.10.0
+
+2024-03-21	Griffin-Sullivan <gsulliva@redhat.com>
+	* Update translations for 3.10
+
+2024-03-20	Evgeni Golov <evgeni@golov.de>
+	* sort taxable_ids before comparing them
+	* Refs #37065 - require at least apipie-dsl 2.6.2
+	* Refs #36502 - update snapshots after template change
+
+2024-03-20	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #37273 - Use delegation syntax for resource_scope
+
+2024-03-20	Bernhard Suttner <suttner@atix.de>
+	* Fixes #37274 - Mark API/params as deprecated
+	* Fixes #37270 - Misspelled OpenStruct class name
+	* Fixes #37193 - trap ERR not supported on dash
+
+2024-03-20	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #37069 - Fallback to UTC on invalid timezone
+
+2024-03-20	Jeremy Lenz <jlenz@redhat.com>
+	* Fixes #37065 - report_row now explicitly accepts kwargs   also adds a test which fails without the fix
+
+2024-03-20	Maximilian Kolb <kolb@atix.de>
+	* Refs #37034 - Fix ERB syntax for comments
+
+2024-03-20	MariaAga <mariaaga@redhat.com>
+	* Fixes #37199 - javascript method for webpack_asset_paths
+
+2024-03-20	dosas <dosas@users.noreply.github.com>
+	* Fixes #37132 - Fix sorting problem in os integration test
+	* Fixes #37150 - Race condition in edit smart proxy test
+
+2024-03-20	Hao Yu <hyu@redhat.com>
+	* Fixes #37184 - Report template generates incorrect kernel version
+
+2024-03-20	jmott85 <51213510+jmott85@users.noreply.github.com>
+	* Fixes #36502 - iPXE Discovery Only Works on net0
+
 2024-03-05	Griffin-Sullivan <gsulliva@redhat.com>
 	* Release 3.10.0-rc2
 
