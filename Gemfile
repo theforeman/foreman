@@ -9,7 +9,7 @@ gem 'audited', '~> 5.0', '!= 5.1.0'
 gem 'will_paginate', '~> 3.3'
 gem 'ancestry', '~> 4.0'
 gem 'scoped_search', '>= 4.1.10', '< 5'
-gem 'ldap_fluff', '>= 0.5.0', '< 1.0'
+gem 'ldap_fluff', '>= 0.7.0', '< 1.0'
 gem 'apipie-rails', '>= 0.8.0', '< 2'
 gem 'apipie-dsl', '>= 2.6.2'
 # Pin rdoc to prevent updating bundled psych (https://github.com/ruby/rdoc/commit/ebe185c8775b2afe844eb3da6fa78adaa79e29a4)
