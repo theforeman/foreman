@@ -329,6 +329,9 @@ viewer_24_0:
 viewer_25_0:
   filter: viewer_25
   permission: view_subnets
+viewer_26_0:
+  filter: viewer_26
+  permission: view_render_statuses
 default_role_1_0:
   filter: default_role_1
   permission: view_tasks

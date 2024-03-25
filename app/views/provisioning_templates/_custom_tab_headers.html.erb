@@ -1,2 +1,5 @@
 <li><a href="#template_type" data-toggle="tab"><%= _("Type") %></a></li>
 <li><a href="#template_associations" data-toggle="tab"><%= _("Association") %></a></li>
+<% if @template.render_statuses_enabled? %>
+  <li><a href="#render_statuses" data-toggle="tab"><%= _("Render Statuses") %></a></li>
+<% end %>

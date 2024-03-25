@@ -33,6 +33,8 @@ class Host::Managed < Host::Base
   has_one :build_status_object, :class_name => 'HostStatus::BuildStatus', :foreign_key => 'host_id'
   before_destroy :remove_reports
 
+  has_many :render_statuses, foreign_key: :host_id, inverse_of: :host, dependent: :destroy, autosave: true
+
   def self.complete_for(query, opts = {})
     matcher = /(\s*(?:(?:user\.[a-z]+)|owner)\s*[=~])\s*(\S*)\s*\z/
     matches = matcher.match(query)

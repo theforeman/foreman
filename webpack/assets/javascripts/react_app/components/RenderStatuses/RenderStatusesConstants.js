@@ -1,0 +1,2 @@
+export const RENDER_STATUSES_KEY = 'RENDER_STATUSES';
+export const API_OPTIONS = { key: RENDER_STATUSES_KEY };

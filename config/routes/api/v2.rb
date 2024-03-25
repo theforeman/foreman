@@ -56,6 +56,7 @@ Foreman::Application.routes.draw do
         resources :template_combinations, :only => [:index, :create, :update, :show]
         resources :operatingsystems, :except => [:new, :edit]
         resources :os_default_templates, :except => [:new, :edit]
+        resources :render_statuses, :only => :index
       end
 
       resources :dashboard, :only => [:index]
@@ -74,6 +75,7 @@ Foreman::Application.routes.draw do
         end
         resources :hosts, :except => [:new, :edit]
         resources :template_combinations, :only => [:show, :index, :create, :update]
+        resources :render_statuses, :only => :index
       end
 
       resources :media, :except => [:new, :edit] do
@@ -316,6 +318,7 @@ Foreman::Application.routes.draw do
           post :facts, :on => :collection
           resources :audits, :only => :index
           resources :facts, :only => :index, :controller => :fact_values
+          resources :render_statuses, :only => :index
           resources :interfaces, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
             collection do

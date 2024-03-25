@@ -1,6 +1,8 @@
 module Foreman
   module Renderer
     class SafeModeRenderer < BaseRenderer
+      SAFEMODE = true
+
       def render
         box = Safemode::Box.new(scope, allowed_helpers, source_name)
         erb = ERB.new(source_content, trim_mode: '-')

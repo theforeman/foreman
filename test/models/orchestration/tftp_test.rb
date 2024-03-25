@@ -182,6 +182,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     h = FactoryBot.build_stubbed(:host, :managed, :build => true,
                           :operatingsystem => operatingsystems(:redhat),
                           :architecture => architectures(:x86_64))
+    RenderStatus.any_instance.expects(:update).once.with(success: true)
     h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
     h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
     Setting[:unattended_url] = "http://ahost.com:3000"
@@ -346,6 +347,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     h = FactoryBot.build_stubbed(:host, :managed, :build => true,
                           :operatingsystem => operatingsystems(:opensuse),
                           :architecture => architectures(:x86_64))
+    RenderStatus.any_instance.expects(:update).once.with(success: true)
     Setting[:unattended_url] = "http://ahost.com:3000"
     h.organization.update_attribute :ignore_types, h.organization.ignore_types + ['ProvisioningTemplate']
     h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']

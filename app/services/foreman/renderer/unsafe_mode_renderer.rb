@@ -1,6 +1,8 @@
 module Foreman
   module Renderer
     class UnsafeModeRenderer < BaseRenderer
+      SAFEMODE = false
+
       def render
         erb = ERB.new(source_content, trim_mode: '-')
         erb.location = source_name, 0

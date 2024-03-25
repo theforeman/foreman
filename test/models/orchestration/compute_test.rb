@@ -126,6 +126,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     image = images(:one)
     host = FactoryBot.build_stubbed(:host, :operatingsystem => image.operatingsystem, :image => image,
                              :compute_resource => image.compute_resource)
+    RenderStatus.any_instance.expects(:update).once.with(success: true)
     prov_temp = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.create(:name => "user_data"))
     host.stubs(:provisioning_template).returns(prov_temp)
     attrs = {}

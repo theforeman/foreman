@@ -35,6 +35,8 @@ class Hostgroup < ApplicationRecord
   has_many :template_combinations, :dependent => :destroy
   has_many :provisioning_templates, :through => :template_combinations
 
+  has_many :render_statuses, inverse_of: :hostgroup, dependent: :destroy, autosave: true
+
   belongs_to :domain
   belongs_to :subnet
   belongs_to :subnet6, :class_name => "Subnet"

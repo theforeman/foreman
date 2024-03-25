@@ -221,6 +221,10 @@ class Template < ApplicationRecord
     false
   end
 
+  def render_statuses_enabled?
+    false
+  end
+
   private
 
   # This method can be overridden in Template children classes to import additional attributes

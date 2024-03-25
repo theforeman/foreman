@@ -17,3 +17,9 @@
     <%= render "provisioning_templates/combinations", :f => f %>
   </div>
 </div>
+
+<% if @template.render_statuses_enabled? %>
+  <div class="tab-pane" id="render_statuses">
+    <%= render "provisioning_templates/render_statuses" %>
+  </div>
+<% end %>
