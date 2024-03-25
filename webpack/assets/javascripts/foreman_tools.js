@@ -103,39 +103,6 @@ export function activateTooltips(elParam = 'body') {
   });
 }
 
-export function initTypeAheadSelect(input) {
-  input.select2({
-    formatNoMatches: __('No matches found'),
-    ajax: {
-      url: input.data('url'),
-      dataType: 'json',
-      quietMillis: 250,
-      data: (term, page) => ({
-        q: term,
-        scope: input.data('scope'),
-      }),
-      results: data => ({
-        results: data.map(({ id, name }) => ({ id, text: name })),
-      }),
-      cache: true,
-    },
-    initSelection(element, callback) {
-      $.ajax(input.data('url'), {
-        data: {
-          scope: input.data('scope'),
-        },
-        dataType: 'json',
-      }).done(data => {
-        if (data.length > 0) {
-          // eslint-disable-next-line standard/no-callback-literal
-          callback({ id: data[0].id, text: data[0].name });
-        }
-      });
-    },
-    width: '400px',
-  });
-}
-
 // generates an absolute, needed in case of running Foreman from a subpath
 export { foremanUrl } from './react_app/common/helpers';
 

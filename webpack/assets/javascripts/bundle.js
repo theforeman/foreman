@@ -22,7 +22,6 @@ import * as advancedFields from './foreman_advanced_fields';
 import * as configReportsModalDiff from './foreman_config_reports_modal_diff';
 import * as dashboard from './dashboard';
 import * as spice from './spice';
-import * as typeAheadSelect from './foreman_type_ahead_select';
 import * as lookupKeys from './foreman_lookup_keys';
 import './react_app/common/MountingService';
 import './foreman_overrides';
@@ -56,6 +55,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   document,
   componentRegistry,
   store,
-  typeAheadSelect,
   lookupKeys,
 });

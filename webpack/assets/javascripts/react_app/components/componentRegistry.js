@@ -33,7 +33,6 @@ import Editor from './Editor';
 import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
 import Slot from './common/Slot';
-import TypeAheadSelect from './common/TypeAheadSelect';
 import DatePicker from './common/DateTimePicker/DatePicker';
 import RedirectCancelButton from './common/RedirectCancelButton';
 import SettingRecords from './SettingRecords';
@@ -137,7 +136,6 @@ const coreComponents = [
   { name: 'DiffModal', type: DiffModal },
   { name: 'ExternalLogout', type: ExternalLogout },
   { name: 'Slot', type: Slot },
-  { name: 'TypeAheadSelect', type: TypeAheadSelect },
   { name: 'DatePicker', type: DatePicker },
   { name: 'RedirectCancelButton', type: RedirectCancelButton },
   { name: 'SettingRecords', type: SettingRecords },
