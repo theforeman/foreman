@@ -661,6 +661,10 @@ module Foreman::Model
       associate_by("mac", vm.interfaces.map(&:mac))
     end
 
+    def associated_vm(host)
+      vms(:eager_loading => true).find { |vm| associate_by_host("mac", vm.interfaces.map(&:mac), host) }
+    end
+
     def display_type
       attrs[:display] || 'vmrc'
     end
