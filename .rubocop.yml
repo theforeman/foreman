@@ -82,3 +82,6 @@ Style/ParenthesesAroundCondition:
 
 Style/PreferredHashMethods:
   Enabled: false
+
+Style/OptionalBooleanParameter:
+  Enabled: false
