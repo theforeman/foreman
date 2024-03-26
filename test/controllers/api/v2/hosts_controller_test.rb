@@ -925,7 +925,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
     test "should return empty host list by unassigned hostgroup id" do
       get :index, params: { :hostgroup_id => @unassigned_hg2.id }
-      assert_equal [], assigns(:hosts)
+      assert_empty assigns(:hosts)
     end
 
     test "should return a host in list" do

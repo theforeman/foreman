@@ -127,7 +127,7 @@ class Foreman::ClientCertificateTest < ActiveSupport::TestCase
 
       it 'returns an empty list' do
         client_certificate.stubs(:subject)
-        assert_equal [], client_certificate.hosts
+        assert_empty client_certificate.hosts
       end
     end
   end

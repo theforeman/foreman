@@ -193,7 +193,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should clear the current user after processing the request" do
     get :index, session: set_session_user
-    assert User.current.nil?
+    assert_nil User.current
   end
 
   test "should be able to create user without mail and update the mail later" do

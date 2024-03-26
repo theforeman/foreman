@@ -139,10 +139,6 @@ Lint/Void:
     - 'app/models/nic/base.rb'
     - 'app/services/name_generator.rb'
 
-# Offense count: 28
-# Cop supports --auto-correct.
-Minitest/AssertEmpty:
-  Enabled: false
 
 # Offense count: 26
 # Cop supports --auto-correct.
@@ -180,12 +176,6 @@ Minitest/AssertMatch:
     - 'test/controllers/provisioning_templates_controller_test.rb'
     - 'test/controllers/unattended_controller_test.rb'
     - 'test/helpers/pagelets_helper_test.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Minitest/AssertNil:
-  Exclude:
-    - 'test/graphql/queries/personal_access_token_query_test.rb'
 
 # Offense count: 3
 # Cop supports --auto-correct.

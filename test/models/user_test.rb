@@ -750,7 +750,7 @@ class UserTest < ActiveSupport::TestCase
       test 'not existing user without auth source specified' do
         assert_difference('User.count', 0) do
           user = User.find_or_create_external_user({:login => not_existing_user_login}, nil)
-          assert user.nil?
+          assert_nil user
         end
       end
 

@@ -48,7 +48,7 @@ class DomainTest < ActiveSupport::TestCase
 
   test "should not destroy if it contains subnets" do
     @domain.subnets.clear
-    assert @domain.subnets.empty?
+    assert_empty @domain.subnets
     @domain.subnets << Subnet.first
     assert !@domain.destroy
     assert_match /is used by/, @domain.errors.full_messages.join("\n")
@@ -81,7 +81,7 @@ class DomainTest < ActiveSupport::TestCase
 
   test "should query local nameservers when enabled" do
     Setting['query_local_nameservers'] = true
-    assert Domain.first.nameservers.empty?
+    assert_empty Domain.first.nameservers
   end
 
   test "should query remote nameservers from domain SOA" do

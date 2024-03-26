@@ -62,7 +62,7 @@ class StructuredFactImporterTest < ActiveSupport::TestCase
 
     test 'removes nil fact values' do
       importer = StructuredFactImporter.new(nil, 'a' => nil)
-      assert_equal({}, importer.send(:facts))
+      assert_empty(importer.send(:facts))
     end
 
     test 'keeps false fact values' do

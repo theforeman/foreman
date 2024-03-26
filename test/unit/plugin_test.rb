@@ -438,7 +438,7 @@ class PluginTest < ActiveSupport::TestCase
       name 'Parameter filter test'
       parameter_filter Domain, :foo, :bar => [], :ui => true
     end
-    assert_equal([], Foreman::Plugin.find(:test_parameter_filter).parameter_filters(User))
+    assert_empty(Foreman::Plugin.find(:test_parameter_filter).parameter_filters(User))
     assert_equal([[:foo, :bar => [], :ui => true]], Foreman::Plugin.find(:test_parameter_filter).parameter_filters(Domain))
     assert_equal([[:foo, :bar => [], :ui => true]], Foreman::Plugin.find(:test_parameter_filter).parameter_filters('Domain'))
   end
@@ -456,7 +456,7 @@ class PluginTest < ActiveSupport::TestCase
       name 'Smart Proxy test'
       smart_proxy_for Awesome, :foo, :feature => 'Foo'
     end
-    assert_equal({}, Foreman::Plugin.find(:test_smart_proxy).smart_proxies(User))
+    assert_empty(Foreman::Plugin.find(:test_smart_proxy).smart_proxies(User))
     assert_equal({:foo => {:feature => 'Foo'}}, Foreman::Plugin.find(:test_smart_proxy).smart_proxies(Awesome))
   end
 
@@ -640,7 +640,7 @@ class PluginTest < ActiveSupport::TestCase
           path root
           automatic_assets false
         end
-        assert_equal [], plugin.assets
+        assert_empty plugin.assets
       end
     end
   end

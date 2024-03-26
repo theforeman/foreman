@@ -56,7 +56,7 @@ class MediumTest < ActiveSupport::TestCase
 
     test "can't be blank" do
       @medium.path = '  '
-      assert @medium.path.strip.empty?
+      assert_empty @medium.path.strip
       refute_valid @medium
     end
 
@@ -83,7 +83,7 @@ class MediumTest < ActiveSupport::TestCase
 
     assert medium.destroy
     host.reload
-    assert host.medium.nil?
+    assert_nil host.medium
   end
 
   test "should not destroy if medium has hosts that are in build mode" do

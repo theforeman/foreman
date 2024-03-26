@@ -88,7 +88,7 @@ class DhcpTest < ActiveSupport::TestCase
     record1 = Net::DHCP::Record.new(:hostname => "test1", :mac => "aa:bb:cc:dd:ee:ff",
                                     :network => "127.0.0.0", :ip => "127.0.0.1",
                                     "proxy" => subnets(:one).dhcp_proxy)
-    assert record1.conflicts.empty?
+    assert_empty record1.conflicts
   end
 
   test "dhcp record validation should return false when proxy returns nil" do
@@ -137,7 +137,7 @@ class DhcpTest < ActiveSupport::TestCase
     record1 = Net::DHCP::Record.new(:hostname => "discovered_host1", :mac => "aa:bb:cc:dd:ee:01",
                                     :network => "127.0.0.0", :ip => "127.0.0.2",
                                     "proxy" => subnets(:one).dhcp_proxy)
-    assert record1.conflicts.empty?
+    assert_empty record1.conflicts
     assert record1.valid?
   end
 
@@ -160,7 +160,7 @@ class DhcpTest < ActiveSupport::TestCase
                                     "proxy" => subnets(:one).dhcp_proxy)
     assert_equal "lease", subnets(:one).dhcp_proxy.record("127.0.0.0", "aa:bb:cc:dd:ee:01").type
     assert_equal "lease", subnets(:one).dhcp_proxy.records_by_ip("127.0.0.0", "127.0.0.2").first.type
-    assert rec.conflicts.empty?
+    assert_empty rec.conflicts
   end
 
   test "dhcp record and reservation with same MAC is not a conflict" do

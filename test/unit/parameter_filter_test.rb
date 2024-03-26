@@ -29,7 +29,7 @@ class ParameterFilterTest < ActiveSupport::TestCase
 
   test "permitting second-level arrays via permit(Symbol => Array)" do
     filter.permit(:test => [])
-    assert_equal({}, filter.filter_params(params(:example => {:test => 'a'}), ui_context).to_h)
+    assert_empty(filter.filter_params(params(:example => {:test => 'a'}), ui_context).to_h)
     assert_equal({'test' => ['a']}, filter.filter_params(params(:example => {:test => ['a']}), ui_context).to_h)
   end
 
@@ -45,7 +45,7 @@ class ParameterFilterTest < ActiveSupport::TestCase
 
   test "blocks second-level attributes for UI when :ui => false" do
     filter.permit_by_context(:test, :ui => false)
-    assert_equal({}, filter.filter_params(params(:example => {:test => 'a'}), ui_context).to_h)
+    assert_empty(filter.filter_params(params(:example => {:test => 'a'}), ui_context).to_h)
   end
 
   test "#permit_by_context raises error for unknown context types" do

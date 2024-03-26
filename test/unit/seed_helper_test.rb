@@ -226,8 +226,8 @@ class SeedHelperTest < ActiveSupport::TestCase
       mock_taxonomies(Location, locs)
 
       tpl = SeedHelper.import_raw_template(get_template(template_metadata.merge({'name' => 'MyScript'})))
-      assert_equal([], tpl.organizations)
-      assert_equal([], tpl.locations)
+      assert_empty(tpl.organizations)
+      assert_empty(tpl.locations)
     end
 
     it 'updates the template' do

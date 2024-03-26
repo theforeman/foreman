@@ -22,7 +22,7 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
   setup :clear_plugins
 
   test '#registered_smart_proxies has default value' do
-    assert_equal({}, EmptySampleModel.registered_smart_proxies)
+    assert_empty(EmptySampleModel.registered_smart_proxies)
   end
 
   test '#registered_smart_proxies contains foo proxy' do

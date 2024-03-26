@@ -56,7 +56,7 @@ class DashboardManagerTest < ActiveSupport::TestCase
   end
 
   test '.find_default_widget_by_name returns empty array for unknown widget' do
-    assert_equal [], Dashboard::Manager.find_default_widget_by_name('Unknown')
+    assert_empty Dashboard::Manager.find_default_widget_by_name('Unknown')
   end
 
   test '.reset_user_to_default removes and adds default widgets' do
