@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
 import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
 import forceSingleton from './forceSingleton';
@@ -14,19 +16,15 @@ class IntlLoader {
 
   async init() {
     await this.fetchIntl();
-    const localeData = await import(
-      /* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${this.locale}`
-    );
-    addLocaleData(localeData.default);
+    const localeData = await require(/* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${this.locale}`);
+    addLocaleData(localeData);
     return true;
   }
 
   async fetchIntl() {
     if (this.fallbackIntl) {
-      global.Intl = await import(/* webpackChunkName: "intl" */ 'intl');
-      await import(
-        /* webpackChunkName: 'intl/locale/[request]' */ `intl/locale-data/jsonp/${this.locale}`
-      );
+      global.Intl = await require(/* webpackChunkName: "intl" */ 'intl');
+      await require(/* webpackChunkName: 'intl/locale/[request]' */ `intl/locale-data/jsonp/${this.locale}`);
     }
   }
 }
@@ -61,7 +59,8 @@ const mergeLocaleData = locale => {
     Object.entries(translations).forEach(([source, translated]) => {
       if (
         result[source] === undefined ||
-        (result[source] === [''] && translated !== [''])
+        (JSON.stringify(result[source]) === JSON.stringify(['']) &&
+          JSON.stringify(translated) !== JSON.stringify(['']))
       ) {
         result[source] = translated;
       }
