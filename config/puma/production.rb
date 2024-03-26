@@ -67,3 +67,17 @@ activate_control_app "unix://#{run_dir}/sockets/pumactl.sock"
 before_fork do
   Foreman::Gettext::Support.human_available_locales
 end
+
+on_worker_boot do
+  begin
+    require 'katello/middleware/event_daemon'
+  rescue LoadError
+    # No Katello
+  else
+    Katello::EventDaemon::Runner.start
+  end
+end
+
+on_worker_shutdown do
+  Katello::EventDaemon::Runner.stop if defined?(Katello::EventDaemon::Runner)
+end
