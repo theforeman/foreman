@@ -62,6 +62,8 @@ description: |
     elsif dual_stack_fallback == 'IPv6'
       subnet4 = false
     else
+      # Dracut does not support dual stack
+      # https://bugzilla.redhat.com/show_bug.cgi?id=1008076
       raise("Dual-stack provisioning not supported, set parameter 'dual_stack_provision_fallback'")
     end
   end
