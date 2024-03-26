@@ -14,6 +14,14 @@ module Foreman::Model
       Fog::Compute.providers.include?(:libvirt)
     end
 
+    def firmware_types
+      {
+        "automatic" => N_("Automatic"),
+        "bios" => N_("BIOS"),
+        "efi" => N_("EFI"),
+      }
+    end
+
     # Some getters/setters for the attrs Hash
     def display_type
       attrs[:display].presence || 'vnc'
@@ -146,10 +154,27 @@ module Foreman::Model
         opts[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
       end
 
-      opts.reject! { |k, v| v.nil? }
+      opts.compact!
 
       opts[:boot_order] = %w[hd]
       opts[:boot_order].unshift 'network' unless attr[:image_id]
+
+      # Named firmware for consistency with VMware
+      opts[:os_firmware] = opts.delete(:firmware)
+
+      firmware_type = opts.delete(:firmware_type)
+      if opts[:os_firmware] == 'automatic'
+        # See PxeLoaderSupport.firmware_type for possible values
+        case firmware_type
+        when :uefi
+          # TODO opts[:os_loader] = 'secure' for secure boot
+          opts[:os_firmware] = 'efi'
+        when :bios
+          opts[:os_firmware] = 'bios'
+        else
+          opts.delete(:os_firmware)
+        end
+      end
 
       vm = client.servers.new opts
       vm.memory = opts[:memory] if opts[:memory]
@@ -285,6 +310,7 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
+        :firmware   => 'automatic',
         :memory     => 2048.megabytes,
         :nics       => [new_nic],
         :volumes    => [new_volume].compact,
