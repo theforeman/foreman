@@ -24,7 +24,11 @@ class HttpProxiesController < ApplicationController
   end
 
   def test_connection
-    http_proxy = HttpProxy.new(http_proxy_params)
+    http_proxy = HttpProxy.new({name: 'dummy'}.update(http_proxy_params))
+    unless http_proxy.valid?
+      raise Foreman::Exception, http_proxy.errors.full_messages.join(', ')
+    end
+
     http_proxy.test_connection(params[:test_url])
 
     render :json => {:status => 'success', :message => _("HTTP Proxy connection successful.")}, :status => :ok
