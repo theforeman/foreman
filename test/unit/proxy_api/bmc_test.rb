@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ProxyApiBmcTest < ActiveSupport::TestCase
+class ProxyApiBMCTest < ActiveSupport::TestCase
   def setup
     @url = "http://dummyproxy.theforeman.org:8443"
     @options = {:username => "testuser", :password => "fakepass"}

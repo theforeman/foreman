@@ -1,4 +1,4 @@
-class AddExternalIpamIdToSubnets < ActiveRecord::Migration[5.2]
+class AddExternalIPAMIdToSubnets < ActiveRecord::Migration[5.2]
   def up
     add_column :subnets, :externalipam_id, :integer
     add_column :subnets, :externalipam_group, :text

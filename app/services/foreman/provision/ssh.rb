@@ -1,6 +1,6 @@
 require 'timeout'
 
-class Foreman::Provision::SSH
+class Foreman::Provision::Ssh
   attr_reader :template, :uuid, :results, :address, :username, :options
 
   def initialize(address, username = "root", options = { })

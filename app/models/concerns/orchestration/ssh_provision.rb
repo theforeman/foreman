@@ -1,4 +1,4 @@
-module Orchestration::SSHProvision
+module Orchestration::SshProvision
   extend ActiveSupport::Concern
 
   included do
@@ -51,7 +51,7 @@ module Orchestration::SSHProvision
     else
       raise ::Foreman::Exception.new(N_('Unable to find proper authentication method'))
     end
-    self.client = Foreman::Provision::SSH.new provision_host, image.try(:username), { :template => template_file.path, :uuid => uuid }.merge(credentials)
+    self.client = Foreman::Provision::Ssh.new provision_host, image.try(:username), { :template => template_file.path, :uuid => uuid }.merge(credentials)
   rescue => e
     failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e
   end

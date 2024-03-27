@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ProxyApiDhcpTest < ActiveSupport::TestCase
+class ProxyApiDHCPTest < ActiveSupport::TestCase
   let(:url) { 'http://dummyproxy.theforeman.org:8443' }
   let(:proxy_dhcp) { ProxyAPI::DHCP.new(:url => url) }
 

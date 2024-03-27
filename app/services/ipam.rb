@@ -6,7 +6,7 @@ module IPAM
     when IPAM::MODES[:none]
       IPAM::None.new(*args)
     when IPAM::MODES[:dhcp]
-      IPAM::Dhcp.new(*args)
+      IPAM::DHCP.new(*args)
     when IPAM::MODES[:db]
       IPAM::Db.new(*args)
     when IPAM::MODES[:random_db]
@@ -14,7 +14,7 @@ module IPAM
     when IPAM::MODES[:eui64]
       IPAM::Eui64.new(*args)
     when IPAM::MODES[:external_ipam]
-      IPAM::ExternalIpam.new(*args)
+      IPAM::ExternalIPAM.new(*args)
     else
       raise ::Foreman::Exception.new(N_("Unknown IPAM type - can't continue"))
     end

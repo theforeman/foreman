@@ -306,7 +306,7 @@ class Host::Managed < Host::Base
   # TFTP orchestration delegation
   delegate :tftp?, :tftp6?, :tftp, :tftp6, :generate_pxe_template, :to => :provision_interface
   include Orchestration::Puppetca
-  include Orchestration::SSHProvision
+  include Orchestration::SshProvision
   include Orchestration::Realm
   include HostTemplateHelpers
   delegate :require_ip4_validation?, :require_ip6_validation?, :to => :provision_interface
