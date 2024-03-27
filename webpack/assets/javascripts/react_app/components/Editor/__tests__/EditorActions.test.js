@@ -9,7 +9,6 @@ import {
   changeDiffViewType,
   changeEditorValue,
   dismissErrorToast,
-  changeTab,
   toggleMaskValue,
   changeSetting,
   toggleRenderView,
@@ -87,8 +86,6 @@ const fixtures = {
   'should changeEditorValue': () => changeEditorValue('</>'),
 
   'should dismissErrorToast': () => dismissErrorToast(),
-
-  'should changeTab': () => changeTab('diff'),
 
   'should revertChanges': () => revertChanges('<template />'),
 

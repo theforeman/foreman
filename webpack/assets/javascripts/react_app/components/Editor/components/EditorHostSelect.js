@@ -44,11 +44,13 @@ class EditorHostSelect extends Component {
       searchQuery,
       selectedItem,
     } = this.props;
+
     return (
       <div
         ref={this.setWrapperRef}
         id="editor-select-container"
         className={show ? '' : 'hidden'}
+        aria-label="Host selection menu option"
       >
         <Select
           options={options}

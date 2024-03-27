@@ -1,32 +1,85 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ToastNotification } from 'patternfly-react';
+import { Divider } from '@patternfly/react-core';
 
 import { noop } from '../../common/helpers';
 import DiffView from '../DiffView/DiffView';
 import EditorView from './components/EditorView';
-import EditorNavbar from './components/EditorNavbar';
+import EditorToolbar from './components/EditorToolbar';
 import EditorModal from './components/EditorModal';
+import { EditorContext } from './EditorContext';
 import {
   EDITOR_THEMES,
   EDITOR_KEYBINDINGS,
   EDITOR_MODES,
+  INPUT,
+  DIFF,
+  PREVIEW,
 } from './EditorConstants';
 import './editor.scss';
 
-class Editor extends React.Component {
-  componentDidMount() {
-    const {
-      data: { hosts, templateClass, locked, template, type, dslCache },
-      initializeEditor,
-      isMasked,
-      isRendering,
-      readOnly,
-      previewResult,
-      selectedView,
-      showError,
-    } = this.props;
+const Editor = props => {
+  const {
+    data: {
+      templateClass,
+      locked,
+      type,
+      dslCache,
+      name,
+      isSafemodeEnabled,
+      renderPath,
+      safemodeRenderPath,
+      showHide,
+      showImport,
+      showPreview,
+      showHostSelector,
+      template,
+      title,
+    },
+    initializeEditor,
+    changeDiffViewType,
+    changeEditorValue,
+    changeSetting,
+    diffViewType,
+    dismissErrorToast,
+    editorName,
+    errorText,
+    fetchAndPreview,
+    filteredHosts,
+    hosts,
+    importFile,
+    isFetchingHosts,
+    isLoading,
+    isMasked,
+    isMaximized,
+    isRendering,
+    isSearchingHosts,
+    isSelectOpen,
+    keyBinding,
+    mode,
+    onHostSearch,
+    onHostSelectToggle,
+    onSearchClear,
+    previewResult,
+    previewTemplate,
+    readOnly,
+    renderedEditorValue,
+    revertChanges,
+    searchQuery,
+    selectedHost,
+    showError,
+    theme,
+    autocompletion,
+    liveAutocompletion,
+    toggleMaskValue,
+    toggleModal,
+    toggleRenderView,
+    value,
+    templateKindId,
+  } = props;
 
+  useEffect(() => {
     const initializeData = {
       hosts,
       isMasked,
@@ -35,90 +88,40 @@ class Editor extends React.Component {
       locked,
       readOnly,
       previewResult,
-      selectedView,
       showError,
       template,
       type,
       dslCache,
     };
     initializeEditor(initializeData);
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  render() {
-    const {
-      data: {
-        name,
-        isSafemodeEnabled,
-        renderPath,
-        safemodeRenderPath,
-        showHide,
-        showImport,
-        showPreview,
-        showHostSelector,
-        template,
-        title,
-      },
-      changeDiffViewType,
-      changeEditorValue,
-      changeSetting,
-      changeTab,
-      diffViewType,
-      dismissErrorToast,
-      editorName,
-      errorText,
-      fetchAndPreview,
-      filteredHosts,
-      hosts,
-      importFile,
-      isFetchingHosts,
-      isLoading,
-      isMasked,
-      isMaximized,
-      isRendering,
-      isSearchingHosts,
-      isSelectOpen,
-      keyBinding,
-      mode,
-      onHostSearch,
-      onHostSelectToggle,
-      onSearchClear,
-      previewResult,
-      previewTemplate,
-      readOnly,
-      renderedEditorValue,
-      revertChanges,
-      searchQuery,
-      selectedHost,
-      selectedView,
-      showError,
-      theme,
-      autocompletion,
-      liveAutocompletion,
-      toggleMaskValue,
-      toggleModal,
-      toggleRenderView,
-      value,
-      templateKindId,
-    } = this.props;
+  const editorViewProps = {
+    value: isRendering ? previewResult : value,
+    mode: isRendering ? 'Text' : mode,
+    theme,
+    autocompletion,
+    liveAutocompletion,
+    keyBinding,
+    onChange: isRendering ? noop : changeEditorValue,
+    readOnly: readOnly || isRendering,
+    isMasked,
+  };
+  const editorNameTab = {
+    input: `${editorName}Code`,
+    preview: `${editorName}Preview`,
+  };
 
-    const editorViewProps = {
-      value: isRendering ? previewResult : value,
-      mode: isRendering ? 'Text' : mode,
-      theme,
-      autocompletion,
-      liveAutocompletion,
-      keyBinding,
-      onChange: isRendering ? noop : changeEditorValue,
-      readOnly: readOnly || isRendering,
-      isMasked,
-    };
-    const editorNameTab = {
-      input: `${editorName}Code`,
-      preview: `${editorName}Preview`,
-    };
+  const [selectedView, setSelectedView] = useState(INPUT);
+  const editorContextValue = {
+    selectedView,
+    setSelectedView,
+  };
 
-    return (
-      <div id="editor-container">
+  return (
+    <div id="editor-container">
+      <EditorContext.Provider value={editorContextValue}>
         <ToastNotification
           id="preview_error_toast"
           type="error"
@@ -127,9 +130,8 @@ class Editor extends React.Component {
         >
           {errorText}
         </ToastNotification>
-        <EditorNavbar
+        <EditorToolbar
           changeDiffViewType={changeDiffViewType}
-          changeTab={changeTab}
           changeSetting={changeSetting}
           modes={EDITOR_MODES}
           themes={EDITOR_THEMES}
@@ -144,7 +146,6 @@ class Editor extends React.Component {
           renderedEditorValue={renderedEditorValue}
           diffViewType={diffViewType}
           template={template}
-          selectedView={selectedView}
           isDiff={template ? value !== template : false}
           isMasked={isMasked}
           isRendering={isRendering}
@@ -176,24 +177,22 @@ class Editor extends React.Component {
           showError={showError}
           fetchAndPreview={fetchAndPreview}
         />
+        <Divider inset={{ default: 'insetMd' }} />
         <EditorView
           {...editorViewProps}
           key="editorPreview"
           name={editorNameTab.preview}
-          isSelected={selectedView === 'preview'}
+          isSelected={selectedView === PREVIEW}
           className="ace_editor_form ace_preview"
         />
         <EditorView
           {...editorViewProps}
           key="editorCode"
           name={editorNameTab.input}
-          isSelected={selectedView === 'input'}
+          isSelected={selectedView === INPUT}
           className="ace_editor_form ace_input"
         />
-        <div
-          id="diff-table"
-          className={selectedView === 'diff' ? '' : 'hidden'}
-        >
+        <div id="diff-table" className={selectedView === DIFF ? '' : 'hidden'}>
           <DiffView
             oldText={template || ''}
             newText={value}
@@ -218,17 +217,16 @@ class Editor extends React.Component {
           template={template || ''}
           editorValue={value}
           previewValue={previewResult}
-          selectedView={selectedView}
           isMasked={isMasked}
           isRendering={isRendering}
         />
         {!readOnly && (
           <textarea className="hidden" name={name} value={value} readOnly />
         )}
-      </div>
-    );
-  }
-}
+      </EditorContext.Provider>
+    </div>
+  );
+};
 
 Editor.propTypes = {
   data: PropTypes.shape({
@@ -255,7 +253,6 @@ Editor.propTypes = {
   changeDiffViewType: PropTypes.func.isRequired,
   changeEditorValue: PropTypes.func.isRequired,
   changeSetting: PropTypes.func.isRequired,
-  changeTab: PropTypes.func.isRequired,
   diffViewType: PropTypes.string.isRequired,
   dismissErrorToast: PropTypes.func.isRequired,
   editorName: PropTypes.string.isRequired,
@@ -275,7 +272,6 @@ Editor.propTypes = {
   readOnly: PropTypes.bool.isRequired,
   previewResult: PropTypes.string.isRequired,
   revertChanges: PropTypes.func.isRequired,
-  selectedView: PropTypes.string.isRequired,
   showError: PropTypes.bool.isRequired,
   theme: PropTypes.string.isRequired,
   autocompletion: PropTypes.bool.isRequired,

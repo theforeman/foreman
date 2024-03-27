@@ -21,7 +21,6 @@ Object {
   "changeDiffViewType": [Function],
   "changeEditorValue": [Function],
   "changeSetting": [Function],
-  "changeTab": [Function],
   "data": Object {
     "isSafemodeEnabled": true,
     "name": "editor",
@@ -111,7 +110,6 @@ Object {
     "id": "",
     "name": "",
   },
-  "selectedView": "input",
   "showError": true,
   "template": "<? />",
   "theme": "Monokai",
@@ -127,8 +125,6 @@ Object {
 `;
 
 exports[`Editor selectors should return filtered componentHosts 1`] = `Array []`;
-
-exports[`Editor selectors should return selectChosenView 1`] = `"input"`;
 
 exports[`Editor selectors should return selectDiffType 1`] = `"split"`;
 

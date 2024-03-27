@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Modal, Icon, Button } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
 import EditorView from './EditorView';
 import DiffToggle from '../../DiffView/DiffToggle';
 import DiffView from '../../DiffView/DiffView';
+import { EditorContext } from '../EditorContext';
 
 const EditorModal = ({
   changeDiffViewType,
@@ -19,60 +20,62 @@ const EditorModal = ({
   mode,
   name,
   readOnly,
-  selectedView,
   template,
   theme,
   autocompletion,
   liveAutocompletion,
   title,
   toggleModal,
-}) => (
-  <Modal show={isMaximized} onHide={toggleModal} className="editor-modal">
-    <Modal.Header className={`${selectedView} ${theme.toLowerCase()}`}>
-      <h4 id="editor-modal-h4">{title}</h4>
-      <Button
-        className="close"
-        onClick={toggleModal}
-        aria-hidden="true"
-        aria-label="Close"
-        bsStyle="link"
-      >
-        <Icon type="pf" name="close" />
-      </Button>
-      {selectedView === 'diff' && (
-        <DiffToggle
-          stateView={diffViewType}
-          changeState={viewType => changeDiffViewType(viewType)}
-        />
-      )}
-    </Modal.Header>
-    <Modal.Body className={selectedView}>
-      {selectedView === 'diff' ? (
-        <div id="diff-table">
-          <DiffView
-            oldText={template}
-            newText={editorValue}
-            viewType={diffViewType}
+}) => {
+  const { selectedView } = useContext(EditorContext);
+  return (
+    <Modal show={isMaximized} onHide={toggleModal} className="editor-modal">
+      <Modal.Header className={`${selectedView} ${theme.toLowerCase()}`}>
+        <h4 id="editor-modal-h4">{title}</h4>
+        <Button
+          className="close"
+          onClick={toggleModal}
+          aria-hidden="true"
+          aria-label="Close"
+          bsStyle="link"
+        >
+          <Icon type="pf" name="close" role="button" />
+        </Button>
+        {selectedView === 'diff' && (
+          <DiffToggle
+            stateView={diffViewType}
+            changeState={viewType => changeDiffViewType(viewType)}
           />
-        </div>
-      ) : (
-        <EditorView
-          value={isRendering ? previewValue : editorValue}
-          name={name}
-          mode={isRendering ? 'text' : mode}
-          theme={theme}
-          keyBinding={keyBinding}
-          onChange={changeEditorValue}
-          readOnly={readOnly || selectedView === 'preview'}
-          className="editor ace_editor_modal"
-          isMasked={isMasked}
-          autocompletion={autocompletion}
-          liveAutocompletion={liveAutocompletion}
-        />
-      )}
-    </Modal.Body>
-  </Modal>
-);
+        )}
+      </Modal.Header>
+      <Modal.Body className={selectedView}>
+        {selectedView === 'diff' ? (
+          <div id="diff-table">
+            <DiffView
+              oldText={template}
+              newText={editorValue}
+              viewType={diffViewType}
+            />
+          </div>
+        ) : (
+          <EditorView
+            value={isRendering ? previewValue : editorValue}
+            name={name}
+            mode={isRendering ? 'text' : mode}
+            theme={theme}
+            keyBinding={keyBinding}
+            onChange={changeEditorValue}
+            readOnly={readOnly || selectedView === 'preview'}
+            className="editor ace_editor_modal"
+            isMasked={isMasked}
+            autocompletion={autocompletion}
+            liveAutocompletion={liveAutocompletion}
+          />
+        )}
+      </Modal.Body>
+    </Modal>
+  );
+};
 
 EditorModal.propTypes = {
   changeDiffViewType: PropTypes.func.isRequired,
@@ -87,7 +90,6 @@ EditorModal.propTypes = {
   mode: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   readOnly: PropTypes.bool.isRequired,
-  selectedView: PropTypes.string.isRequired,
   template: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
   autocompletion: PropTypes.bool.isRequired,
