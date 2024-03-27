@@ -96,14 +96,14 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
   test "if MAC is changed, dhcp_record cache is dropped" do
     cr = FactoryBot.build_stubbed(:libvirt_cr)
     cr.stubs(:provided_attributes).returns({:mac => :mac})
-    host = FactoryBot.build_stubbed(:host, :managed, :compute_resource => cr)
+    host = FactoryBot.build_stubbed(:host, :managed, :compute_resource => cr, :pxe_loader => 'None')
     host.vm = mock("vm")
     fog_nic = OpenStruct.new(:mac => '00:00:00:00:01')
     host.vm.expects(:interfaces).returns([fog_nic])
     host.vm.expects(:select_nic).returns(fog_nic)
     host.primary_interface.name = 'something'
     host.primary_interface.mac = '00:00:00:00:00:02'
-    host.primary_interface.subnet = FactoryBot.build_stubbed(:subnet, :dhcp, :network => '255.255.255.0')
+    host.primary_interface.subnet = FactoryBot.build_stubbed(:subnet_ipv4, :dhcp, :tftp, :network => '255.255.255.0')
     host.operatingsystem = FactoryBot.build_stubbed(:operatingsystem)
 
     refute_nil host.primary_interface.dhcp_records

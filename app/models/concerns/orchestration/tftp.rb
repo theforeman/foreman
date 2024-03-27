@@ -87,7 +87,15 @@ module Orchestration::TFTP
       logger.info "Deploying TFTP #{kind} configuration for #{host.name}"
       each_unique_feasible_tftp_proxy do |proxy|
         mac_addresses_for_provisioning.each do |mac_addr|
-          proxy.set(kind, mac_addr, :pxeconfig => content)
+          proxy.set(kind, mac_addr, {
+                      :pxeconfig => content,
+                      :targetos => host.operatingsystem.name.downcase,
+                      :major => host.operatingsystem.major,
+                      :minor => host.operatingsystem.minor,
+                      :arch => host.arch.name,
+                      :bootfilename_efi => host.arch.bootfilename_efi,
+                      :build => host.build?,
+                    })
         end
       end
     else
