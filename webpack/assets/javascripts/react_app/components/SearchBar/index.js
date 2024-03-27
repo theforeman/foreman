@@ -7,7 +7,7 @@ import Bookmarks from '../PF4/Bookmarks';
 import { changeQuery } from '../../common/urlHelpers';
 import { STATUS } from '../../constants';
 import { noop } from '../../common/helpers';
-
+//
 const SearchBar = ({
   data: {
     autocomplete: { url, searchQuery, apiParams } = { url: '' },
