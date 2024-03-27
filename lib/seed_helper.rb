@@ -153,6 +153,16 @@ class SeedHelper
       Dir["#{Rails.root}/app/views/unattended/report_templates/*.erb"]
     end
 
+    def plugin_templates
+      default_dirs = Foreman::Plugin.all.map { |plugin| plugin.engine.root.join('app', 'templates') }
+      custom_dirs =  Foreman::Plugin.all.flat_map(&:template_dirs)
+      all_dirs = (default_dirs + custom_dirs).map do |dir|
+        File.join(dir, '**', '*.erb')
+      end
+
+      Dir[*all_dirs]
+    end
+
     def format_errors(model = nil)
       return '(nil found)' if model.nil?
       model.errors.full_messages.join(';')

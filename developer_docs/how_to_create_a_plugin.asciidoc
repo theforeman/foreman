@@ -1475,7 +1475,7 @@ module ForemanRemoteExecution
          # We need to make sure, there's a AR relation we'd be searching on, because the class name can't be determined by the
          # association name, it needs to be specified explicitly (as a string). Similarly for the foreign key.
          has_one :execution_status_object, :class_name => 'HostStatus::ExecutionStatus', :foreign_key => 'host_id'
-         
+
          # Then we define the searching, the relation is the association name we define on a line above
          # :rename key indicates the term user will use to search hosts for a given state, the convention is $feature_status
          # :complete_value must be a hash with symbolized keys specifying all possible state values, otherwise the autocompletion
@@ -2344,6 +2344,21 @@ Example events emitted by Remote Execution plugin:
 Foreman Webhooks plugin ships with an example "Remote Execution Host Job" template.
 
 You can find all observable events by calling `Foreman::EventSubscribers.all_observable_events` in the Rails console.
+
+[[template-dirs]]
+=== Registering plugin's directories with templates for database seed
+(_Requires Foreman 3.10 or higher_)
+
+By default, Foreman will look for the templates in the `:plugin/app/templates` directory.
+If you want to add more directories, you can register them in your `engine.rb`:
+
+[source, ruby]
+....
+Foreman::Plugin.register :my_plugin do
+  # other code here
+  register_template_dirs ["#{ForemanPlugin::Engine.root}/app/views/path/to/templates"]
+end
+....
 
 [[translating]]
 == Translating

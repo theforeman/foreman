@@ -22,6 +22,7 @@ class SeedsTest < ActiveSupport::TestCase
     BCrypt::Engine.stubs(:calibrate).returns(4)
     BCrypt::Engine.stubs(:password_hash).returns(:bcrypt)
     Foreman.stubs(:in_rake?).returns(true)
+    Foreman::Plugin.any_instance.stubs(:engine).returns(OpenStruct.new(root: Pathname.new('/plugin/path')))
   end
 
   def seed(*seed_files)
