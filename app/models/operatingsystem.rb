@@ -92,7 +92,7 @@ class Operatingsystem < ApplicationRecord
     property :password_hash, String, desc: 'Encrypted hash of the operating system password'
   end
   class Jail < Safemode::Jail
-    allow :id, :name, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath, :bootfile
+    allow :id, :name, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath, :bootfile, :meets_requirement
   end
 
   def self.title_name
@@ -363,6 +363,15 @@ class Operatingsystem < ApplicationRecord
 
   def has_default_template?(template_kind)
     os_default_templates.find_by(template_kind: template_kind) || false
+  end
+
+  # Tells if the OS meets a version requirement. This method should be implemented with correct keyword arguments for each
+  # operating system family. For example for Redhat, we would implement it as: def meets_requirement(fedora: nil, rhel: nil)
+  # Main usage for this method is for deciding which features are present on the OS for a given host:
+  # Example:
+  # do_something if @host.operatingsystem.meets_requirement(fedora: 21, rhel: 7)
+  def meets_requirement(**_)
+    false
   end
 
   private

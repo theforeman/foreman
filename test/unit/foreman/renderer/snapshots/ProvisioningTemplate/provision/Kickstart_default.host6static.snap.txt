@@ -12,7 +12,7 @@ lang en_US.UTF-8
 selinux --enforcing
 keyboard us
 
-network --device=00-f0-54-1a-7e-e0 --hostname snapshot-ipv6-static-el7 --noipv6 --bootproto static --ip=2001:db8:42::42 --netmask=ffff:ffff:ffff:: --gateway=2001:db8:42::1 --mtu=1442 --nameserver=2001:db8:42::8,2001:db8:42::4
+network --device=00-f0-54-1a-7e-e0 --hostname snapshot-ipv6-static-el7 --noipv6 --mtu=1442 --bootproto static --ip=2001:db8:42::42 --netmask=ffff:ffff:ffff:: --gateway=2001:db8:42::1 --nameserver=2001:db8:42::8,2001:db8:42::4
 
 rootpw --iscrypted $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
 firewall --service=ssh
@@ -65,10 +65,6 @@ exec < /dev/tty3 > /dev/tty3
 chvt 3
 (
 logger "Starting anaconda snapshot-ipv6-static-el7 postinstall"
-
-
-
-
 
 echo "Updating system time"
 systemctl enable --now chronyd

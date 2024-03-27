@@ -51,13 +51,24 @@ end
 
 liveimg --url=<%= liveimg_url %>
 
-<% subnet = @host.subnet -%>
-<% if subnet.respond_to?(:dhcp_boot_mode?) -%>
-<% dhcp = subnet.dhcp_boot_mode? && !@static -%>
-<% else -%>
-<% dhcp = !@static -%>
-<% end -%>
-network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{subnet.dns_servers.join(',')}" %> --hostname <%= @host %> --device=<%= @host.mac -%>
+<%
+# start with provisioning interface, then other non-bond interfaces and the bonds at the end
+@host.managed_interfaces.sort_by { |iface| (iface.bond? || iface.bridge?) 0 : iface.provision? 20 : 10 }.each |iface| do
+%>
+  <%= snippet(
+        'kickstart_network_interface',
+        variables: {
+          iface: iface,
+          host: @host,
+          use_slaac: false,
+          static: @static,
+          static6: @static6
+          }
+      ) -%>
+<%
+end
+-%>
+
 
 rootpw --iscrypted <%= root_pass %>
 <% if host_param_true?('disable-firewall') -%>
@@ -77,7 +88,6 @@ reboot
 %post --log=/root/ks.post.log --erroronfail
 nodectl init
 <%= snippet 'redhat_register' %>
-<%= snippet 'kickstart_networking_setup' %>
 <%= snippet 'efibootmgr_netboot' %>
 <% if host_param_true?('host_registration_insights') -%>
 <%= snippet 'insights' -%>

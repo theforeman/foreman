@@ -1,6 +1,10 @@
 class Redhat < Operatingsystem
   PXEFILES = {:kernel => "vmlinuz", :initrd => "initrd.img"}
 
+  class Jail < Operatingsystem::Jail
+    allow :fedora?, :rhel_compatible?
+  end
+
   # outputs kickstart installation medium based on the medium type (NFS or URL)
   # it also convert the $arch string to the current host architecture
   def mediumpath(medium_provider)
@@ -71,5 +75,22 @@ class Redhat < Operatingsystem
   # Helper text shown next to minor version (do not use i18n)
   def minor_version_help
     '0, 6.1810'
+  end
+
+  def fedora?
+    name == 'Fedora'
+  end
+
+  def rhel_compatible?
+    name != 'Fedora'
+  end
+
+  # Tells if the OS meets a requirement. The requirement can be specified as rhel version, fedora version or both.
+  def meets_requirement(fedora: nil, rhel: nil)
+    # prefer no translation
+    return major.to_i >= fedora if fedora && fedora?
+    return major.to_i >= rhel if rhel && rhel_compatible?
+
+    false
   end
 end
