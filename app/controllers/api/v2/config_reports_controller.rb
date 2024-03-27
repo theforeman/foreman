@@ -33,6 +33,7 @@ module Api
           param :status, Hash, :required => true, :desc => N_("Hash of status type totals")
           param :metrics, Hash, :required => true, :desc => N_("Hash of report metrics, can be just {}")
           param :logs, Array, :desc => N_("Optional array of log hashes")
+          param :origin, Foreman::Plugin::ReportScannerRegistry.origins, :required => false, :desc => N_('Origin of the report')
         end
       end
 

@@ -52,14 +52,25 @@ class ReportImporter
   end
 
   def add_reporter_specific_data
-    logger.info "Scanning report with: #{report_scanners.join(', ')}"
-    report_scanners.each do |scanner|
-      if (origin = scanner.identify_origin(raw))
-        report.origin = origin
+    if raw['origin']
+      scanner = scanner_registry[raw['origin']]
+      if scanner
+        report.origin = raw['origin']
         scanner.add_reporter_data(report, raw)
-        break
+      else
+        logger.warning("No report scanner found for origin #{raw['origin']}")
+      end
+    else
+      logger.info "Scanning report with: #{report_scanners.join(', ')}"
+      report_scanners.each do |scanner|
+        if (origin = scanner.identify_origin(raw))
+          report.origin = origin
+          scanner.add_reporter_data(report, raw)
+          break
+        end
       end
     end
+
     logger.debug { "Changes after reporter specific data added: #{report.changes.inspect}" }
   end
 
@@ -165,7 +176,11 @@ class ReportImporter
     @report
   end
 
+  def scanner_registry
+    Foreman::Plugin.report_scanner_registry
+  end
+
   def report_scanners
-    Foreman::Plugin.report_scanner_registry.report_scanners
+    scanner_registry.report_scanners
   end
 end
