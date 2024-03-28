@@ -1,0 +1,4 @@
+= developer_docs
+
+The developer docs provide an introduction to developing Foreman.
+You can use the `Makefile` to build a container image and afterwards render the developer docs using `asciidoctor` to view them in your browser.
