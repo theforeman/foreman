@@ -72,10 +72,8 @@ module Foreman
 
     # Structured fields to log in addition to log messages. Every log line created within given block is enriched with these fields.
     # Fields appear in joruand and/or JSON output (hash named 'ndc').
-    def with_fields(fields = {})
-      ::Logging.ndc.push(fields) do
-        yield
-      end
+    def with_fields(fields = {}, &block)
+      ::Logging.ndc.push(fields, &block)
     end
 
     # Standard way for logging exceptions to get the most data in the log.

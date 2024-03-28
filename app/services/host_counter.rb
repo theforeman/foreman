@@ -19,11 +19,9 @@ class HostCounter
 
   private
 
-  def cache
+  def cache(&block)
     delay = Rails.env.test? ? 0 : 2.minutes
-    Rails.cache.fetch("hosts_count/#{@association}/#{User.current.id}", expires_in: delay) do
-      yield
-    end
+    Rails.cache.fetch("hosts_count/#{@association}/#{User.current.id}", expires_in: delay, &block)
   end
 
   def counted_hosts

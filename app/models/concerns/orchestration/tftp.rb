@@ -191,10 +191,8 @@ module Orchestration::TFTP
     proxies.uniq { |p| p.url }
   end
 
-  def each_unique_feasible_tftp_proxy
-    results = unique_feasible_tftp_proxies.map do |proxy|
-      yield(proxy)
-    end
+  def each_unique_feasible_tftp_proxy(&block)
+    results = unique_feasible_tftp_proxies.map(&block)
     results.all?
   end
 end
