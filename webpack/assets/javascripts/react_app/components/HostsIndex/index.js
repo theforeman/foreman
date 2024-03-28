@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { Tr, Td, ActionsColumn } from '@patternfly/react-table';
 import {
@@ -23,6 +23,7 @@ import { selectKebabItems } from './Selectors';
 import { useBulkSelect } from '../PF4/TableIndexPage/Table/TableHooks';
 import SelectAllCheckbox from '../PF4/TableIndexPage/Table/SelectAllCheckbox';
 import {
+  filterColumnDataByUserPreferences,
   getColumnHelpers,
   getPageStats,
 } from '../PF4/TableIndexPage/Table/helpers';
@@ -37,9 +38,11 @@ import './index.scss';
 import { STATUS } from '../../constants';
 import { RowSelectTd } from './RowSelectTd';
 import {
+  useCurrentUserTablePreferences,
   useSetParamsAndApiAndSearch,
   useTableIndexAPIResponse,
 } from '../PF4/TableIndexPage/Table/TableIndexHooks';
+import getColumnData from './Columns/core';
 
 export const ForemanHostsIndexActionsBarContext = forceSingleton(
   'ForemanHostsIndexActionsBarContext',
@@ -47,14 +50,6 @@ export const ForemanHostsIndexActionsBarContext = forceSingleton(
 );
 
 const HostsIndex = () => {
-  const columns = {
-    name: {
-      title: __('Name'),
-      wrapper: ({ name }) => <Link to={`hosts/${name}`}>{name}</Link>,
-      isSorted: true,
-    },
-  };
-  const [columnNamesKeys, keysToColumnNames] = getColumnHelpers(columns);
   const history = useHistory();
   const { location: { search: historySearch } = {} } = history || {};
   const urlParams = new URLSearchParams(historySearch);
@@ -74,6 +69,13 @@ const HostsIndex = () => {
     apiOptions,
     setAPIOptions: response.setAPIOptions,
   });
+
+  const allColumns = getColumnData({ tableName: 'hosts' });
+  const { columns: userColumns } = useCurrentUserTablePreferences({
+    tableName: 'hosts',
+  });
+  const columns = filterColumnDataByUserPreferences(userColumns, allColumns);
+  const [columnNamesKeys, keysToColumnNames] = getColumnHelpers(columns);
 
   const {
     response: {
