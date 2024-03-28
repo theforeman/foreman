@@ -23,6 +23,9 @@ test_on:
                                                   .map { |add_on| "--addon '#{add_on.strip}'" }.join(" ")}" if host_param('syspurpose_addons')
 -%>
 <% if subman_registration -%>
+%pre
+hostnamectl set-hostname --static <%= @host.name %>
+%end
 rhsm --organization="<%= subman_org %>" --activation-key="<%= subman_keys %>"<%= subman_hostname -%><%= subman_rhsm_baseurl -%><%= subman_insights -%>
 <% end -%>
 <%- if host_param('syspurpose_role') %>
