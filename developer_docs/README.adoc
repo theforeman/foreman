@@ -1,0 +1,18 @@
+= developer_docs
+
+.Build container image
+----
+$ cd developer_docs
+$ podman build --tag developer_docs --file Containerfile .
+----
+
+.Build developer docs
+----
+$ cd developer_docs
+$ podman run --rm -it -v $(pwd):/developer_docs:Z developer_docs make html
+----
+
+.View built docs
+----
+$ firefox developer_docs/index.html
+----
