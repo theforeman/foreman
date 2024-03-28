@@ -1,0 +1,15 @@
+FROM fedora:39
+
+RUN dnf upgrade -y && \
+    dnf install -y \
+      findutils \
+      gcc \
+      gcc-c++ \
+      make \
+      redhat-rpm-config \
+      ruby-devel \
+      rubygem-asciidoctor && \
+    dnf groupinstall -y development-tools && \
+    gem install sass
+
+WORKDIR /developer_docs

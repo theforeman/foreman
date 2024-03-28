@@ -55,3 +55,4 @@ npm-debug.log
 .nvmrc
 mkmf.log
 .yardoc/
+developer_docs/index.html
