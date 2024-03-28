@@ -61,4 +61,9 @@ class ReportTemplate < Template
   def support_single_host_render?
     false
   end
+
+  def return_external_id
+    ForemanTasks::Task.where(action: 'Render report Host - Statuses').pluck(:external_id)
+  end
+
 end
