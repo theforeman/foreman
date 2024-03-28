@@ -1,0 +1,34 @@
+<%#
+kind: snippet
+name: first_boot_initd
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Post replacement initd script
+-%>
+#! /bin/bash
+
+### BEGIN INIT INFO
+# Provides:          RedHat
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Execute first boot script
+# Description:       Execute first boot script which executes after machine is successfully built for the first time.
+### END INIT INFO
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+##Service start/stop functions##
+start() {
+/tmp/first_boot_script
+chkconfig --del first_boot_setup
+}
+
+start
+
+exit 5
+esac
+exit $?
