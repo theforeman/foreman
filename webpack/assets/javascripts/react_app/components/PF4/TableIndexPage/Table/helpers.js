@@ -21,13 +21,24 @@ export const getPageStats = ({ total, page, perPage }) => {
 /**
  * Assembles column data into various forms needed
  * @param {Object} columns - Object with column sort params as keys and column objects as values. Column objects must have a title key
- * @returns {Array} - an array of column sort params and a map of keys to column names
+ * @returns {Array} - an array of column sort params, sorted by weight, and a map of keys to column names
  */
 export const getColumnHelpers = columns => {
   const columnNamesKeys = Object.keys(columns);
   const keysToColumnNames = {};
   columnNamesKeys.forEach(key => {
     keysToColumnNames[key] = columns[key].title;
+  });
+  columnNamesKeys.sort((a, b) => {
+    const columnBWeight = columns[b]?.weight;
+    const columnAWeight = columns[a]?.weight;
+    if (columnBWeight === undefined) {
+      return -1;
+    }
+    if (columnAWeight === undefined) {
+      return 1;
+    }
+    return columnAWeight - columnBWeight;
   });
   return [columnNamesKeys, keysToColumnNames];
 };
