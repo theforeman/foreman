@@ -62,6 +62,7 @@ export const useSet = initialArry => {
 export const useSelectionSet = ({
   results,
   metadata,
+  defaultArry = [],
   initialArry = [],
   idColumn = 'id',
   isSelectable = () => true,
@@ -117,6 +118,15 @@ export const useSelectionSet = ({
       }
     }
   };
+  const selectDefault = () => {
+    selectNone();
+    selectionSet.addAll(defaultArry);
+    defaultArry.forEach(id => {
+      selectedResults.current[id] = results.find(
+        result => result[idColumn] === id
+      );
+    });
+  };
 
   const selectedCount = selectionSet.size;
 
@@ -132,6 +142,7 @@ export const useSelectionSet = ({
     areAllRowsSelected,
     selectPage,
     selectNone,
+    selectDefault,
     isSelected,
     isSelectable: canSelect,
     selectionSet,
@@ -152,21 +163,25 @@ export const useBulkSelect = ({
   results,
   metadata,
   initialArry = [],
+  initialExclusionArry = [],
+  defaultArry = [],
   initialSearchQuery = '',
   idColumn = 'id',
   filtersQuery = '',
   isSelectable,
+  initialSelectAllMode = false,
 }) => {
   const { selectionSet: inclusionSet, ...selectOptions } = useSelectionSet({
     results,
     metadata,
     initialArry,
+    defaultArry,
     idColumn,
     isSelectable,
   });
-  const exclusionSet = useSet([]);
+  const exclusionSet = useSet(initialExclusionArry);
   const [searchQuery, updateSearchQuery] = useState(initialSearchQuery);
-  const [selectAllMode, setSelectAllMode] = useState(false);
+  const [selectAllMode, setSelectAllMode] = useState(initialSelectAllMode);
   const selectedCount = selectAllMode
     ? Number(metadata.selectable || metadata.total) - exclusionSet.size
     : selectOptions.selectedCount;
@@ -224,6 +239,11 @@ export const useBulkSelect = ({
     }
   };
 
+  const selectDefault = () => {
+    selectNone();
+    selectOptions.selectDefault();
+  };
+
   const fetchBulkParams = ({
     idColumnName = idColumn,
     selectAllQuery = '',
@@ -269,6 +289,7 @@ export const useBulkSelect = ({
     selectPage,
     selectNone,
     selectAll,
+    selectDefault,
     selectAllMode,
     isSelected,
     selectedCount,
@@ -278,6 +299,8 @@ export const useBulkSelect = ({
     selectOne,
     areAllRowsOnPageSelected,
     areAllRowsSelected,
+    inclusionSet,
+    exclusionSet,
   };
 };
 

@@ -13,8 +13,10 @@ import './SelectAllCheckbox.scss';
 
 const SelectAllCheckbox = ({
   selectNone,
+  selectDefault,
   selectPage,
   selectedCount,
+  selectedDefaultCount,
   pageRowCount,
   totalCount,
   areAllRowsOnPageSelected,
@@ -36,8 +38,10 @@ const SelectAllCheckbox = ({
       } else {
         selectAll(true);
       }
-    } else {
+    } else if (selectDefault === null) {
       selectNone();
+    } else {
+      selectDefault();
     }
   };
 
@@ -59,6 +63,11 @@ const SelectAllCheckbox = ({
     setSelectionToggle(false);
     selectNone();
   };
+  const handleSelectDefault = () => {
+    setSelectAllDropdownOpen(false);
+    setSelectionToggle(false);
+    selectDefault();
+  };
 
   useEffect(() => {
     let newCheckedState = null; // null is partially-checked state
@@ -73,15 +82,6 @@ const SelectAllCheckbox = ({
 
   const selectAllDropdownItems = [
     <DropdownItem
-      key="select-none"
-      ouiaId="select-none"
-      component="button"
-      isDisabled={selectedCount === 0}
-      onClick={handleSelectNone}
-    >
-      {`${__('Select none')} (0)`}
-    </DropdownItem>,
-    <DropdownItem
       key="select-page"
       ouiaId="select-page"
       component="button"
@@ -91,6 +91,31 @@ const SelectAllCheckbox = ({
       {`${__('Select page')} (${pageRowCount})`}
     </DropdownItem>,
   ];
+  if (selectDefault === null) {
+    selectAllDropdownItems.unshift(
+      <DropdownItem
+        key="select-none"
+        ouiaId="select-none"
+        component="button"
+        isDisabled={selectedCount === 0}
+        onClick={handleSelectNone}
+      >
+        {`${__('Select none')} (0)`}
+      </DropdownItem>
+    );
+  } else {
+    selectAllDropdownItems.unshift(
+      <DropdownItem
+        key="select-default"
+        ouiaId="select-default"
+        component="button"
+        isDisabled={totalCount === 0}
+        onClick={handleSelectDefault}
+      >
+        {`${__('Select default')} (${selectedDefaultCount})`}
+      </DropdownItem>
+    );
+  }
   if (canSelectAll) {
     selectAllDropdownItems.push(
       <DropdownItem
@@ -141,6 +166,8 @@ SelectAllCheckbox.propTypes = {
   selectNone: PropTypes.func.isRequired,
   selectPage: PropTypes.func.isRequired,
   selectAll: PropTypes.func,
+  selectDefault: PropTypes.func,
+  selectedDefaultCount: PropTypes.number,
   pageRowCount: PropTypes.number,
   totalCount: PropTypes.number,
   areAllRowsOnPageSelected: PropTypes.bool.isRequired,
@@ -149,8 +176,10 @@ SelectAllCheckbox.propTypes = {
 
 SelectAllCheckbox.defaultProps = {
   selectAll: noop,
+  selectDefault: null,
   pageRowCount: 0,
   totalCount: 0,
+  selectedDefaultCount: 0,
 };
 
 export default SelectAllCheckbox;
