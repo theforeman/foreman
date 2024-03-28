@@ -236,6 +236,20 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       assert_equal '8', os.major
       assert_equal '3.2011', os.minor
     end
+
+    test "should correctly identify Ubuntu 22.04.3 by facter 2.5" do
+      parser = PuppetFactParser.new(ubuntu_22_04_3_facts_facter_2)
+      os = parser.operatingsystem
+      assert_equal 'Ubuntu', os.name
+      assert_equal '22.04', os.major
+    end
+
+    test "should correctly identify Ubuntu 22.04.3 by facter 4.1" do
+      parser = PuppetFactParser.new(ubuntu_22_04_3_facts_facter_4)
+      os = parser.operatingsystem
+      assert_equal 'Ubuntu', os.name
+      assert_equal '22.04', os.major
+    end
   end
 
   describe "#facterversion" do
@@ -868,6 +882,14 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def centos_8_facts_facter_4
     read_json_fixture('facts/puppet_centos_8_facter_4.1.json')
+  end
+
+  def ubuntu_22_04_3_facts_facter_2
+    read_json_fixture('facts/puppet_ubuntu_22_04_3_facter_2.5.json')
+  end
+
+  def ubuntu_22_04_3_facts_facter_4
+    read_json_fixture('facts/puppet_ubuntu_22_04_3_facter_4.1.json')
   end
 
   def debian_facts

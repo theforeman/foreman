@@ -253,13 +253,13 @@ class UnattendedControllerTest < ActionController::TestCase
     test "should get a kickstart if MAC is provided with two hosts with same MAC" do
       ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
         :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
-                                         :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
+                                         :operatingsystem_ids => [operatingsystems(:ubuntu2204).id])
       # explicitly create host1 with tomorrow's created_at so it's guaranteed to be newer than rh_host
       host1 = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
         :name => "host2_same_mac",
         :created_at => Time.now.tomorrow,
         :mac => @rh_host.mac,
-        :operatingsystem => operatingsystems(:ubuntu1010),
+        :operatingsystem => operatingsystems(:ubuntu2204),
         :ptable => ptable_ubuntu,
         :medium => media(:ubuntu),
         :architecture => architectures(:x86_64),
@@ -279,9 +279,9 @@ class UnattendedControllerTest < ActionController::TestCase
     setup do
       ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
         :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
-                                         :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
+                                         :operatingsystem_ids => [operatingsystems(:ubuntu2204).id])
       @ub_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
-                                    :operatingsystem => operatingsystems(:ubuntu1010),
+                                    :operatingsystem => operatingsystems(:ubuntu2204),
                                     :ptable => ptable_ubuntu,
                                     :medium => media(:ubuntu),
                                     :architecture => architectures(:x86_64),
@@ -525,9 +525,9 @@ class UnattendedControllerTest < ActionController::TestCase
     setup do
       ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
         :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
-                                         :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
+                                         :operatingsystem_ids => [operatingsystems(:ubuntu2204).id])
       @host_with_template_subnet = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :with_templates_subnet, :build => true,
-                              :operatingsystem => operatingsystems(:ubuntu1010),
+                              :operatingsystem => operatingsystems(:ubuntu2204),
                               :ptable => ptable_ubuntu,
                               :medium => media(:ubuntu),
                               :architecture => architectures(:x86_64)
