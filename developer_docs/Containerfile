@@ -1,0 +1,7 @@
+FROM fedora-minimal:39
+
+RUN microdnf install -y rubygem-asciidoctor && \
+    microdnf clean all && \
+    asciidoctor --version
+
+WORKDIR /developer_docs
