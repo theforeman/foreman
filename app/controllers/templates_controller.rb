@@ -13,6 +13,8 @@ class TemplatesController < ApplicationController
   def index
     @templates = resource_base_search_and_page
     @templates = @templates.includes(resource_base.template_includes)
+    puts "AUDIT: #{@templates.inspect}"
+    @list_stored_items = StoredValue.all.pluck(:key)
   end
 
   def new

@@ -8,6 +8,7 @@
   <thead>
     <tr>
       <th class="col-md-3"><%= sort :name, :as => s_("ReportTemplate|Name") %></th>
+      <th class="col-md-1"><%= s_("ReportTemplate|Download") %></th>
       <th class="col-md-1"><%= sort :snippet, :as => s_("ReportTemplate|Snippet") %></th>
       <th class="col-md-1"><%= sort :locked, :as => s_("ReportTemplate|Locked"), :default => "DESC" %></th>
       <th class="col-md-1"><%= _('Actions') %></th>
@@ -15,12 +16,39 @@
   </thead>
   <tbody>
     <% for report_template in @templates %>
+      <% available_report = false %>
+    <!-- <%= report_template.inspect -%> -->
+    <!--  <br> -->
+
+    <!--
+    <%#= url %>
+    <br />
+    <%#= "Value:  #{report_template.inspect}" %>
+    <br>
+    <%#= "Items: #{@list_stored_items.inspect}" %>
+    <br>
+    -->
+
+    <% for uuid in @list_stored_items %>
+
+      <% if Notification.where(["actions like ?","%#{uuid}%"])
+            .where(["message like ?","%is ready to download"])
+            .where(["actions like ?","%#{report_template.id}%"])
+            .count == 1 %>
+        <%#= "UUID found: #{uuid}" %>
+        <% available_report = true %>
+        <% url = report_data_report_template_path(report_template, job_id: "#{uuid}") %>
+      <% end %>
+
+    <% end %>
+
     <tr>
         <td class="ellipsis"><%= link_to_if_authorized report_template,
                                          hash_for_edit_report_template_path(:id => report_template.to_param).
                                          merge(:auth_object => report_template, :authorizer => authorizer,
                                          :permission => 'edit_report_templates') %>
         </td>
+        <td align='center'><%= if available_report; then link_to "Current report", url else "" end %></td>
         <td align='center'><%= checked_icon report_template.snippet %></td>
         <td align='center'><%= locked_icon report_template.locked?, _("This template is locked for editing.") %>
         </td>
