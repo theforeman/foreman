@@ -3,8 +3,7 @@ require 'rabl'
 
 module Rabl
   class Configuration
-    attr_accessor :use_controller_name_as_json_root
-    attr_accessor :json_root_default_name
+    attr_accessor :use_controller_name_as_json_root, :json_root_default_name
   end
 end
 
