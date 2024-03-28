@@ -37,7 +37,7 @@ class ArgvParser
   end
 
   def banner(file)
-    banner = <<~BANNER
+    <<~BANNER
       Run Dynflow executor for Foreman tasks.
 
       Usage: #{File.basename(file)} [options] ACTION"
@@ -56,7 +56,6 @@ class ArgvParser
       * run     - run the executor in foreground
 
     BANNER
-    banner
   end
 end
 
