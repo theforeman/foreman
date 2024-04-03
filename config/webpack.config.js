@@ -12,6 +12,7 @@ var vendorEntry = require('./webpack.vendor');
 var fs = require('fs');
 const { ModuleFederationPlugin } = require('webpack').container;
 var pluginUtils = require('../script/plugin_webpack_directories');
+var { generateExportsFile }= require('../webpack/assets/javascripts/exportAll');
 
 class AddRuntimeRequirement {
   // to avoid "webpackRequire.l is not a function" error
@@ -153,10 +154,19 @@ const coreConfig = function() {
   config.entry = {
     bundle: { import: bundleEntry, dependOn: 'vendor' },
     vendor: vendorEntry,
+    reactExports: path.join(
+      __dirname,
+      '..',
+      'webpack/assets/javascripts/all_react_app_exports.js'
+    ),
   };
   config.output = {
     path: path.join(__dirname, '..', 'public', 'webpack'),
     publicPath: '/webpack/',
+    library: {
+      name: ['TheForeman', '[name]'],
+      type: 'var',
+    },
   };
   var plugins = config.plugins;
 
@@ -196,6 +206,21 @@ const pluginConfig = function(plugin) {
   var config = commonConfig();
   config.context = path.join(pluginRoot, 'webpack');
   config.entry = {};
+
+  function convertImportStatement(importStatement) {
+    const importPath = importStatement;
+    const importPathParts = importPath.split('/');
+    const newImportName = importPathParts.slice(1).join('_');
+    return newImportName;
+  }
+  config.externals = function({ request }, callback) {
+    if (/^foremanReact(\/.*)?$/.test(request)) {
+      const prefix = 'var TheForeman.reactExports.';
+      const newPath = prefix + convertImportStatement(request.substring('foremanReact'.length));
+      return callback(null, newPath);
+    }
+    return callback();
+  };
   var pluginEntries = {
     './index': path.resolve(pluginRoot, 'webpack', 'index'),
   };
@@ -233,6 +258,7 @@ const pluginConfig = function(plugin) {
 
   //get the list of webpack plugins
   var plugins = config.plugins;
+
   plugins.push(
     new ModuleFederationPlugin({
       name: pluginName,
@@ -262,6 +288,7 @@ const pluginConfig = function(plugin) {
 };
 
 module.exports = function(env, argv) {
+  generateExportsFile();
   const { pluginName } = env;
   var pluginsDirs = pluginUtils.getPluginDirs('pipe');
   var pluginsInfo = {};
