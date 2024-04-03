@@ -55,3 +55,4 @@ npm-debug.log
 .nvmrc
 mkmf.log
 .yardoc/
+webpack/assets/javascripts/all_react_app_exports.js
