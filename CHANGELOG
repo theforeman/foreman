@@ -1,3 +1,18 @@
+2024-04-04	Griffin-Sullivan <gsulliva@redhat.com>
+	* Release 3.9.2
+
+2024-02-26	MariaAga <mariaaga@redhat.com>
+	* Refs #37067 - closing parent nav should close child nav
+	* Fixes #37026 - EditorView snapshots update
+	* Fixes #37067 - closing parent nav should close child nav
+	* Fixes #37025 - Navigation should only have 1 item expended
+
+2024-02-14	kmalyjur <kmalyjur@github.com>
+	* Fixes #37067 - closing parent nav should close child nav
+
+2024-01-30	Ian Ballou <ianballou67@gmail.com>
+	* Fixes #37016 - don't reference CV/LCE name if nil
+
 2024-01-03	Griffin Sullivan <gsulliva@redhat.com>
 	* Release 3.9.1
 
