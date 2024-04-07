@@ -4,8 +4,7 @@ insmod chain
 
 echo "VMWare hosts with QuickBoot feature enabled may not find the local ESP"
 echo "partition due to not initializing all the EFI devices. To workaround, upgrade"
-echo "to the latest grub2 (*) and uncomment "connectefi scsi" statement in the"
-echo "grub2_chainload template."
+echo "to the latest grub2 (*) and set pxegrub_connectefi_option host parameter to \"scsi\" "
 echo
 echo "Virtual or physical hosts using Software RAID for the ESP partition may try"
 echo "booting on the Software RAID, which will fail. To workaround, upgrade to the"
@@ -14,7 +13,6 @@ echo "the grub2_chainload template."
 echo
 echo "(*) grub2-efi-x64-2.02-122.el8 (upstream doesn't have the patches yet)"
 echo
-#connectefi scsi
 
 menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
   echo "Chainloading Grub2 EFI from ESP, enabled devices for booting:"
