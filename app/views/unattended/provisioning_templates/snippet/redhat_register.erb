@@ -60,7 +60,6 @@ description: |
 
     spacewalk_host = <hostname>                 Hostname of Spacewalk server
 -%>
-
 <%
   # Katello or subscription-manager:
   if host_param_true?('subscription_manager') || host_param('kt_activation_keys')
@@ -68,10 +67,12 @@ description: |
   # Spacewalk:
   elsif host_param('spacewalk_host')
     registration_type = 'spacewalk'
-  end if
-%>
-
-<% if registration_type == 'subscription_manager' %>
+  else
+    registration_type = nil
+  end
+-%>
+# registration_type = '<%= registration_type %>'
+<% if registration_type == 'subscription_manager' -%>
   <%
     if host_param('kt_activation_keys')
       subscription_manager_certpkg_url = subscription_manager_configuration_url(@host)
@@ -86,7 +87,7 @@ description: |
       redhat_install_host_tools = host_param_true?('redhat_install_host_tools')
       redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
     end
-  %>
+  -%>
 
   echo "##############################################################"
   echo "################# SUBSCRIPTION MANAGER #######################"
@@ -97,7 +98,7 @@ description: |
   # Set up subscription-manager
   <%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'provisioning' }).strip -%>
 
-  <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) %>
+  <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) -%>
     # Avoid timeout accessing unreachable repo on air gapped infrastructure,
     #  assuming subscription-manager-syspurpose is installed in custom packages section.
     if ! rpm --query --quiet subscription-manager-syspurpose ; then
@@ -105,53 +106,53 @@ description: |
     fi
 
     if [ -f /usr/sbin/syspurpose ]; then
-      <%- if host_param('syspurpose_role') %>
+      <%- if host_param('syspurpose_role') -%>
         syspurpose set-role "<%= host_param('syspurpose_role') %>"
-      <%- end %>
-      <%- if host_param('syspurpose_usage') %>
+      <%- end -%>
+      <%- if host_param('syspurpose_usage') -%>
         syspurpose set-usage "<%= host_param('syspurpose_usage') %>"
-      <%- end %>
-      <%- if host_param('syspurpose_sla') %>
+      <%- end -%>
+      <%- if host_param('syspurpose_sla') -%>
         syspurpose set-sla "<%= host_param('syspurpose_sla') %>"
-      <%- end %>
-      <%- if host_param('syspurpose_addons') %>
+      <%- end -%>
+      <%- if host_param('syspurpose_addons') -%>
         <%- addons = host_param('syspurpose_addons').split(',')
               .map { |add_on| "'#{add_on.strip}'" }.join(" ") %>
         syspurpose add-addons <%= addons %>
-      <%- end %>
+      <%- end -%>
     else
       echo "Syspurpose CLI not found."
     fi
-  <% end %>
+  <% end -%>
 
-  <% if host_param('http-proxy') %>
+  <% if host_param('http-proxy') -%>
     subscription-manager config --server.proxy_hostname='<%= host_param("http-proxy") %>'
-    <% if host_param('http-proxy-user') %>
+    <% if host_param('http-proxy-user') -%>
       subscription-manager config --server.proxy_user='<%= host_param("http-proxy-user") %>'
-    <% end %>
-    <% if host_param('http-proxy-password') %>
+    <% end -%>
+    <% if host_param('http-proxy-password') -%>
       subscription-manager config --server.proxy_password='<%= host_param("http-proxy-password") %>'
-    <% end %>
-    <% if host_param('http-proxy-port') %>
+    <% end -%>
+    <% if host_param('http-proxy-port') -%>
       subscription-manager config --server.proxy_port='<%= host_param("http-proxy-port") %>'
-    <% end %>
-  <% end %>
+    <% end -%>
+  <% end -%>
   
-  <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') %>
-    <% if host_param('subscription_manager_pool') %>
+  <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') -%>
+    <% if host_param('subscription_manager_pool') -%>
       subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
       subscription-manager attach --pool='<%= host_param('subscription_manager_pool') %>'
-    <% else %>
+    <% else -%>
       subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>' --auto-attach
-    <% end %>
+    <% end -%>
 
-  <% elsif activation_key %>
+  <% elsif activation_key -%>
     subscription-manager register --name="<%= @host.name %>" --org='<%= subscription_manager_org %>' --activationkey='<%= activation_key %>'
-  <% else %>
+  <% else -%>
     echo "No activation key found: Not registering to subscription manager"
-  <% end %>
+  <% end -%>
 
-  <% if host_param_true?('only_subscription_manager_repos') %>
+  <% if host_param_true?('only_subscription_manager_repos') -%>
     for subman_config_file in /etc/yum/pluginconf.d/subscription-manager.conf /etc/dnf/plugins/subscription-manager.conf; do
       if [ -f $subman_config_file ]; then
         egrep -q "^disable_system_repos=" $subman_config_file
@@ -163,39 +164,39 @@ description: |
         fi
       fi
     done
-  <% end %>
+  <% end -%>
 
   <% if host_param_true?('subscription_manager_auto_attach', false) -%>
     subscription-manager attach --auto
 
   <% end -%>
-  <% if host_param('subscription_manager_repos') %>
+  <% if host_param('subscription_manager_repos') -%>
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
     <%= "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(/,\s*/, ' --enable ')}" %>
-  <% end %>
+  <% end -%>
 
-  <% if host_param('subscription_manager_override_repos_cost') %>
+  <% if host_param('subscription_manager_override_repos_cost') -%>
     for repo in $(subscription-manager repos --list-enabled | grep "Repo ID:" | awk -F' ' '{ print $3 }'); do
       <%= "subscription-manager repo-override --list --repo $repo | grep 'cost:' &>/dev/null || subscription-manager repo-override --repo $repo --add=cost:#{host_param('subscription_manager_override_repos_cost')}" %>
     done
-  <% end %>
+  <% end -%>
 
-  <% if redhat_install_host_tools %>
+  <% if redhat_install_host_tools -%>
     $PKG_MANAGER_INSTALL katello-host-tools
-  <% end %>
+  <% end -%>
 
-  <% if redhat_install_host_tracer_tools %>
+  <% if redhat_install_host_tracer_tools -%>
     $PKG_MANAGER_INSTALL katello-host-tools-tracer
-  <% end %>
-<% end %>
+  <% end -%>
+<% end -%>
 
-<% if registration_type == 'spacewalk' %>
+<% if registration_type == 'spacewalk' -%>
   echo "##############################################################"
   echo "################ SPACEWALK REGISTRATION ######################"
   echo "##############################################################"
 
-  <% if host_param('activation_key') %>
+  <% if host_param('activation_key') -%>
     rhn_activation_key="<%= host_param('activation_key') -%>"
     satellite_hostname="<%= host_param('spacewalk_host') -%>"
     rhn_cert_file="RHN-ORG-TRUSTED-SSL-CERT"
@@ -246,7 +247,7 @@ description: |
         echo "registration successful."
     fi
 
-  <% else %>
+  <% else -%>
     echo "No activation key found: Not registering"
-  <% end %>
-<% end %>
+  <% end -%>
+<% end -%>

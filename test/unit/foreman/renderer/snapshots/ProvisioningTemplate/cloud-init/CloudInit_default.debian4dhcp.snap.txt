@@ -27,23 +27,12 @@ runcmd:
   /usr/bin/chronyc -a makestep
   /usr/sbin/hwclock --systohc
 - |
-- |
-  
-  
-  
-  
-  
-  
-- |
-- |
   
 
 - |
   echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
 
 - |
-- |
-
   apt-get update
   apt-get install -y puppet
   

@@ -71,6 +71,7 @@ description: |
   use_ntp = host_param_true?('use-ntp', (is_fedora && os_major < 16) || (rhel_compatible && os_major <= 6))
   iface = @host.provision_interface
   appstream_present = false
+  use_rhsm = (@host.operatingsystem.name == 'RedHat' || @host.operatingsystem.name == 'RHEL') && os_major >= 8
 -%>
 # This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
 # for <%= @host %> running <%= @host.operatingsystem.name %> <%= os_major %> <%= @arch %>
@@ -235,7 +236,7 @@ key --skip
 <% else -%>
 <%= @host.diskLayout %>
 <% end -%>
-<%= snippet('kickstart_rhsm') if rhel_compatible && os_major >= 9 -%>
+<%= snippet('kickstart_rhsm') if use_rhsm -%>
 
 <% if host_param_true?('use_graphical_installer') -%>
 graphical
@@ -309,7 +310,7 @@ logger "Starting anaconda <%= @host %> postinstall"
 <%= snippet 'epel' -%>
 <% end -%>
 
-<%= snippet 'redhat_register' if rhel_compatible && os_major < 9 -%>
+<%= snippet 'redhat_register' if rhel_compatible && !use_rhsm -%>
 
 <% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
 <%= snippet 'freeipa_register' %>

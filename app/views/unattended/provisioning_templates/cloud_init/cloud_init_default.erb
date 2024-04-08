@@ -46,26 +46,28 @@ runcmd:
 <%= indent(2) { snippet 'yum_proxy' } -%>
 - |
 <%= indent(2) { snippet 'ntp' } -%>
+<% if rhel_compatible -%>
+<% if host_param_true?('enable-epel') -%>
 - |
-<% if rhel_compatible && host_param_true?('enable-epel') -%>
 <%= indent(2) { snippet 'epel' } -%>
 <% end -%>
 - |
 <%= indent(2) { snippet 'redhat_register' } -%>
-- |
+<% end -%>
 <% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
+- |
 <%= indent(2) { snippet 'freeipa_register' } %>
 <% end -%>
 - |
 <%= indent(2) { snippet 'remote_execution_ssh_keys' } %>
 - |
 <%= indent(2) { snippet 'blacklist_kernel_modules' } %>
+<% if chef_enabled -%>
 - |
-<% if chef_enabled %>
 <%= indent(2) { snippet 'chef_client' } %>
 <% end -%>
+<% if puppet_enabled -%>
 - |
-<% if puppet_enabled %>
 <% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
 <%= indent(2) { snippet 'puppetlabs_repo' } %>
 <% end -%>

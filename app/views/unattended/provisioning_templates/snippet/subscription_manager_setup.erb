@@ -8,10 +8,9 @@ description: |
   The snippet is included in the "global_registration" template and in the "redhat_register" snippet.
   The latter ensures host registration during the provisioning process.
 -%>
-
 # Select package manager for the OS (sets the $PKG_MANAGER* variables)
 if [ -z "$PKG_MANAGER" ]; then
- <%= snippet 'pkg_manager' -%>
+<%= indent(2) { snippet 'pkg_manager' } -%>
 fi
 
 # Define the path to rhsm.conf
@@ -108,7 +107,7 @@ fi
        rhsm_baseurl = "https://cdn.redhat.com"
      end
    end
-%>
+-%>
 
 # Configure subscription-manager
 test -f $RHSM_CFG.bak || cp $RHSM_CFG $RHSM_CFG.bak
