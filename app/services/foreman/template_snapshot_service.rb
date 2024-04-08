@@ -71,6 +71,7 @@ module Foreman
         "force-puppet" => "true",
         "remote_execution_create_user" => "true",
         "blacklist_kernel_modules" => "amodule",
+        "subscription_manager" => "true",
         "subscription_manager_org" => "Org",
         "activation_key" => "key",
         "host_registration_insights" => "true",
