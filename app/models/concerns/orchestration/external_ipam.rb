@@ -1,4 +1,4 @@
-module Orchestration::ExternalIPAM
+module Orchestration::ExternalIpam
   extend ActiveSupport::Concern
   include Orchestration::Common
   include SubnetsHelper

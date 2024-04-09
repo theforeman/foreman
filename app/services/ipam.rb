@@ -6,7 +6,7 @@ module IPAM
     when IPAM::MODES[:none]
       IPAM::None.new(*args)
     when IPAM::MODES[:dhcp]
-      IPAM::Dhcp.new(*args)
+      IPAM::DHCP.new(*args)
     when IPAM::MODES[:db]
       IPAM::Db.new(*args)
     when IPAM::MODES[:random_db]

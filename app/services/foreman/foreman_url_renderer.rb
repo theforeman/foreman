@@ -1,12 +1,12 @@
 module Foreman
-  module ForemanUrlRenderer
+  module ForemanURLRenderer
     # foreman_url macro uses url_for, therefore we need url helpers and fake default_url_options
     # if it's not defined in class the we mix into
     include Rails.application.routes.url_helpers
     extend ApipieDSL::Module
 
     apipie :class, 'Foreman URL macro class' do
-      name 'ForemanUrlRenderer'
+      name 'ForemanURLRenderer'
       sections only: %w[all reports provisioning jobs partition_tables]
     end
 

@@ -8,7 +8,7 @@ class ForemanUrlRendererTest < ActiveSupport::TestCase
   class Renderer
     include ActionView::Helpers
     include ActionDispatch::Routing
-    include ::Foreman::ForemanUrlRenderer
+    include ::Foreman::ForemanURLRenderer
 
     attr_accessor :host, :template_url
   end

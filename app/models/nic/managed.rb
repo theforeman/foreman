@@ -4,7 +4,7 @@ module Nic
     include Orchestration::DHCP
     include Orchestration::DNS
     include Orchestration::TFTP
-    include Orchestration::ExternalIPAM
+    include Orchestration::ExternalIpam
     include DnsInterface
     include InterfaceCloning
 
