@@ -1,13 +1,12 @@
 # Base container that is used for both building and running the app
-FROM quay.io/centos/centos:stream8 as base
-ARG RUBY_VERSION="2.7"
+FROM quay.io/centos/centos:stream9 as base
 ARG NODEJS_VERSION="18"
 ENV FOREMAN_FQDN=foreman.example.com
 ENV FOREMAN_DOMAIN=example.com
 
 RUN \
   dnf upgrade -y && \
-  dnf module enable ruby:${RUBY_VERSION} nodejs:${NODEJS_VERSION} -y && \
+  dnf module enable nodejs:${NODEJS_VERSION} -y && \
   dnf install -y postgresql-libs ruby{,gems} rubygem-{rake,bundler} npm nc hostname && \
   dnf clean all
 
