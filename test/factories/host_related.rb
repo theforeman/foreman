@@ -327,6 +327,14 @@ FactoryBot.define do
       factory :host_for_snapshots_ipv4_dhcp_rhel9 do
         operatingsystem { FactoryBot.build(:for_snapshots_rhel9) }
       end
+
+      factory :host_for_snapshots_ipv4_dhcp_rocky8 do
+        operatingsystem { FactoryBot.build(:for_snapshots_rocky8) }
+      end
+
+      factory :host_for_snapshots_ipv4_dhcp_rocky9 do
+        operatingsystem { FactoryBot.build(:for_snapshots_rocky9) }
+      end
     end
 
     trait :with_dhcp_orchestration do
