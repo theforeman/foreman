@@ -42,6 +42,14 @@ module Foreman
       new.rhel9_dhcp
     end
 
+    def self.rocky8_dhcp
+      new.rocky8_dhcp
+    end
+
+    def self.rocky9_dhcp
+      new.rocky9_dhcp
+    end
+
     def self.render_template(template, host_name = :host4dhcp)
       host_stub = send(host_name.to_sym)
       source = Foreman::Renderer::Source::Snapshot.new(template)
@@ -168,6 +176,22 @@ module Foreman
     def rhel9_dhcp
       host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rhel9,
         name: 'snapshot-ipv4-dhcp-rhel9',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        interfaces: [ipv4_interface])
+      define_host_params(host)
+    end
+
+    def rocky8_dhcp
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky8,
+        name: 'snapshot-ipv4-dhcp-rocky8',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        interfaces: [ipv4_interface])
+      define_host_params(host)
+    end
+
+    def rocky9_dhcp
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky9,
+        name: 'snapshot-ipv4-dhcp-rocky9',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
       define_host_params(host)

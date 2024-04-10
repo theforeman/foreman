@@ -3,10 +3,12 @@ require "English"
 
 class KickstartSyntaxTest < ActiveSupport::TestCase
   ksfiles = Dir.glob('test/unit/foreman/renderer/snapshots/ProvisioningTemplate/provision/*Kickstart*')
-  ksfiles_rhel9 = ksfiles.select { |ks| ks.match?('rhel9') }
-  ksfiles_rhel7 = ksfiles - ksfiles_rhel9
 
-  versions = {'RHEL7' => ksfiles_rhel7, 'RHEL9' => ksfiles_rhel9}
+  ksfiles_v7 = ksfiles.select { |ks| ks.include?('host') }
+  ksfiles_v8 = ksfiles.select { |ks| ks.include?('rocky8') || ks.include?('rhel8') }
+  ksfiles_v9 = ksfiles.select { |ks| ks.include?('rocky9') || ks.include?('rhel9') }
+
+  versions = { 'RHEL7' => ksfiles_v7, 'RHEL8' => ksfiles_v8, 'RHEL9' => ksfiles_v9 }
 
   versions.each do |version, files|
     files.each do |file|
