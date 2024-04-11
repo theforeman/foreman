@@ -33,7 +33,7 @@ module ReactjsHelper
 
   def get_webpack_chunk(name, extension)
     data = read_webpack_manifest
-    data['assetsByChunkName'][name].find { |value| value.end_with?(".#{extension}") }
+    data['assetsByChunkName'][name]&.find { |value| value.end_with?(".#{extension}") }
   end
 
   def get_webpack_foreman_vendor_js
