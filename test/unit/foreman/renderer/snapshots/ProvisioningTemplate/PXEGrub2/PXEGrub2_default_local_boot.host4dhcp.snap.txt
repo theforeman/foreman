@@ -26,6 +26,18 @@ echo "(*) grub2-efi-x64-2.02-122.el8 (upstream doesn't have the patches yet)"
 echo
 connectefi scsi
 
+if [ "${lockdown}" == "y" ]; then
+  if [ "${default}" == "local" ]; then
+    set default="next_bootdevice"
+  fi
+
+  menuentry 'Booting from next boot device' --id next_bootdevice {
+    echo "SecureBoot is enabled, attempting next boot device..."
+    sleep 2
+    exit 1
+  }
+fi
+
 menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
   echo "Chainloading Grub2 EFI from ESP, enabled devices for booting:"
   ls
