@@ -153,6 +153,12 @@ const coreConfig = function() {
     'webpack/assets/javascripts/bundle.js'
   );
   config.context = path.resolve(__dirname, '..');
+  if (config.mode == 'production') {
+    var chunkFilename = '[name]-[chunkhash].js'
+  } else {
+    var chunkFilename = '[name].js'
+  }
+
   config.entry = {
     bundle: { import: bundleEntry, dependOn: ['vendor', 'reactExports'] },
     vendor: vendorEntry,
@@ -169,6 +175,7 @@ const coreConfig = function() {
       name: ['TheForeman', '[name]'],
       type: 'var',
     },
+    filename: chunkFilename,
   };
   var plugins = config.plugins;
 
@@ -236,6 +243,7 @@ const pluginConfig = function(plugin) {
 
   if (config.mode == 'production') {
     var outputPath = path.join(pluginRoot, 'public', 'webpack', pluginName);
+    var chunkFilename = '[name]-[chunkhash].js'
   } else {
     var outputPath = path.join(
       __dirname,
@@ -244,10 +252,12 @@ const pluginConfig = function(plugin) {
       'webpack',
       pluginName
     );
+    var chunkFilename = '[name].js'
   }
   config.output = {
     path: outputPath,
     publicPath: '/webpack/' + pluginName + '/',
+    filename: chunkFilename,
     uniqueName: pluginName,
   };
   var configModules = config.resolve.modules || [];
