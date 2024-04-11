@@ -40,6 +40,7 @@
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
     "buffer": "^5.7.1",
+    "compression-webpack-plugin": "^10.0.0",
     "cross-env": "^5.2.0",
     "css-loader": "^6.8.1",
     "dotenv": "^5.0.0",

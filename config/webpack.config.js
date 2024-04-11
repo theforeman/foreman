@@ -13,6 +13,7 @@ var fs = require('fs');
 const { ModuleFederationPlugin } = require('webpack').container;
 var pluginUtils = require('../script/plugin_webpack_directories');
 var { generateExportsFile }= require('../webpack/assets/javascripts/exportAll');
+var CompressionPlugin = require('compression-webpack-plugin');
 
 class AddRuntimeRequirement {
   // to avoid "webpackRequire.l is not a function" error
@@ -137,6 +138,7 @@ const commonConfig = function() {
         supportedLanguagesRE
       ),
       new AddRuntimeRequirement(),
+      new CompressionPlugin(),
     ],
     stats: process.env.WEBPACK_STATS || 'normal',
   };
