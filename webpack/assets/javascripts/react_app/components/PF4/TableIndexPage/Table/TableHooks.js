@@ -179,11 +179,12 @@ export const useBulkSelect = ({
     idColumn,
     isSelectable,
   });
+  const [hasInteracted, setHasInteracted] = useState(false);
   const exclusionSet = useSet(initialExclusionArry);
   const [searchQuery, updateSearchQuery] = useState(initialSearchQuery);
   const [selectAllMode, setSelectAllMode] = useState(initialSelectAllMode);
   const selectedCount = selectAllMode
-    ? Number(metadata.selectable || metadata.total) - exclusionSet.size
+    ? Number(metadata.selectable ?? metadata.total) - exclusionSet.size
     : selectOptions.selectedCount;
 
   const areAllRowsOnPageSelected = () =>
@@ -209,6 +210,7 @@ export const useBulkSelect = ({
   const selectPage = () => {
     setSelectAllMode(false);
     selectOptions.selectPage();
+    setHasInteracted(true);
   };
 
   const selectNone = useCallback(() => {
@@ -216,6 +218,7 @@ export const useBulkSelect = ({
     exclusionSet.clear();
     inclusionSet.clear();
     selectOptions.clearSelectedResults();
+    setHasInteracted(true);
   }, [exclusionSet, inclusionSet, selectOptions]);
 
   const selectOne = (isRowSelected, id, data) => {
@@ -228,20 +231,26 @@ export const useBulkSelect = ({
     } else {
       selectOptions.selectOne(isRowSelected, id, data);
     }
+    setHasInteracted(true);
   };
 
-  const selectAll = checked => {
-    setSelectAllMode(checked);
-    if (checked) {
-      exclusionSet.clear();
-    } else {
-      inclusionSet.clear();
-    }
-  };
+  const selectAll = useCallback(
+    checked => {
+      setSelectAllMode(checked);
+      if (checked) {
+        exclusionSet.clear();
+      } else {
+        inclusionSet.clear();
+      }
+      setHasInteracted(true);
+    },
+    [exclusionSet, inclusionSet]
+  );
 
   const selectDefault = () => {
     selectNone();
     selectOptions.selectDefault();
+    setHasInteracted(true);
   };
 
   const fetchBulkParams = ({
@@ -301,6 +310,8 @@ export const useBulkSelect = ({
     areAllRowsSelected,
     inclusionSet,
     exclusionSet,
+    hasInteracted,
+    setHasInteracted,
   };
 };
 

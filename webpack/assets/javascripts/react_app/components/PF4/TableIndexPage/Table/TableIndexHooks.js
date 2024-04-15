@@ -44,30 +44,39 @@ A hook that stores the 'params' state and returns the setParamsAndAPI and setSea
 @param {Object}{apiOptions} - options object. Should include { key: HOSTS_API_KEY }; see APIRequest.js for more details
 @param {Function}{setAPIOptions} - Pass in the setAPIOptions function returned from useAPI.
 @param {Function}{updateSearchQuery} - Pass in the updateSearchQuery function returned from useBulkSelect.
+@param {Boolean}{pushToHistory} - If true, keep the browser url params in sync with search and pagination
 @return {Object} - returns the setParamsAndAPI and setSearch functions, and current params
+@return {Function}{setParamsAndAPI} - function to set the params and API options
+@return {Function}{setSearch} - function to set the search query
+@return {Object}{params} - current params state
 */
 export const useSetParamsAndApiAndSearch = ({
   defaultParams,
   apiOptions,
   setAPIOptions,
   updateSearchQuery,
+  pushToHistory = true,
 }) => {
   const [params, setParams] = useState(defaultParams);
   const history = useHistory();
   const setParamsAndAPI = newParams => {
     // add url edit params to the new params
-    const uri = new URI();
-    uri.setSearch(newParams);
-    history.push({ search: uri.search() });
+    if (pushToHistory) {
+      const uri = new URI();
+      uri.setSearch(newParams);
+      history.push({ search: uri.search() });
+    }
     setParams(newParams);
     setAPIOptions({ ...apiOptions, params: newParams });
   };
 
   const setSearch = newSearch => {
-    const uri = new URI();
-    uri.setSearch(newSearch);
+    if (pushToHistory) {
+      const uri = new URI();
+      uri.setSearch(newSearch);
+      history.push({ search: uri.search() });
+    }
     updateSearchQuery(newSearch.search);
-    history.push({ search: uri.search() });
     setParamsAndAPI({ ...params, ...newSearch });
   };
 
