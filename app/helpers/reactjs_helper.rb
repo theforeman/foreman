@@ -26,20 +26,23 @@ module ReactjsHelper
   end
 
   def read_webpack_manifest
-    JSON.parse(Rails.root.join('public/webpack/manifest.json').read)
-  end
-
-  def get_webpack_foreman_vendor_js
-    Rails.cache.fetch('webpack_foreman_vendor_js', expires_in: 1.minute) do
-      data = read_webpack_manifest
-      foreman_vendor_js = data['assetsByChunkName']['foreman-vendor'].find { |value| value.end_with?('.js') }
-      javascript_include_tag("/webpack/#{foreman_vendor_js}")
+    Rails.cache.fetch('webpack_foreman_manifest', expires_in: 1.minute) do
+      JSON.parse(Rails.root.join('public/webpack/manifest.json').read)
     end
   end
 
-  def get_webpack_foreman_vendor_css
+  def get_webpack_chunk(name, extension)
     data = read_webpack_manifest
-    foreman_vendor_css = data['assetsByChunkName']['foreman-vendor'].find { |value| value.end_with?('.css') }
+    data['assetsByChunkName'][name].find { |value| value.end_with?(".#{extension}") }
+  end
+
+  def get_webpack_foreman_vendor_js
+    foreman_vendor_js = get_webpack_chunk('foreman-vendor', 'js')
+    javascript_include_tag("/webpack/#{foreman_vendor_js}")
+  end
+
+  def get_webpack_foreman_vendor_css
+    foreman_vendor_css = get_webpack_chunk('foreman-vendor', 'css')
     stylesheet_link_tag("/webpack/#{foreman_vendor_css}")
   end
 
