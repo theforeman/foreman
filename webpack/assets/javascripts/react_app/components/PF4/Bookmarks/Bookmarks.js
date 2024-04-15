@@ -28,6 +28,7 @@ const Bookmarks = ({
   setModalOpen,
   setModalClosed,
   searchQuery,
+  bookmarksPosition,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -73,6 +74,7 @@ const Bookmarks = ({
       />
       <Dropdown
         ouiaId="bookmarks-dropdown"
+        position={bookmarksPosition}
         isOpen={isDropdownOpen}
         onSelect={() => setIsDropdownOpen(false)}
         toggle={
@@ -107,6 +109,7 @@ Bookmarks.propTypes = {
   setModalOpen: PropTypes.func.isRequired,
   setModalClosed: PropTypes.func.isRequired,
   searchQuery: PropTypes.string.isRequired,
+  bookmarksPosition: PropTypes.string,
 };
 
 Bookmarks.defaultProps = {
@@ -116,6 +119,7 @@ Bookmarks.defaultProps = {
   status: null,
   documentationUrl: '',
   getBookmarks: noop,
+  bookmarksPosition: 'left',
 };
 
 export default Bookmarks;

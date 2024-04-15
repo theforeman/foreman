@@ -23,6 +23,8 @@ export const Table = ({
   getActions,
   isDeleteable,
   itemCount,
+  selectOne,
+  isSelected,
   params,
   refreshData,
   results,
@@ -32,8 +34,21 @@ export const Table = ({
   isEmbedded,
   showCheckboxes,
   rowSelectTd,
+  idColumn,
   children,
+  bottomPagination,
 }) => {
+  if (!bottomPagination)
+    bottomPagination = (
+      <Pagination
+        key="table-bottom-pagination"
+        page={params.page}
+        perPage={params.perPage}
+        itemCount={itemCount}
+        onChange={onPagination}
+        updateParamsByUrl={!isEmbedded}
+      />
+    );
   const columnsToSortParams = {};
   Object.keys(columns).forEach(key => {
     if (columns[key].isSorted) {
@@ -129,7 +144,14 @@ export const Table = ({
               const rowActions = actions(result);
               return (
                 <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
-                  {showCheckboxes && <RowSelectTd rowData={result} />}
+                  {showCheckboxes && (
+                    <RowSelectTd
+                      rowData={result}
+                      selectOne={selectOne}
+                      isSelected={isSelected}
+                      idColumnName={idColumn}
+                    />
+                  )}
                   {columnNamesKeys.map(k => (
                     <Td key={k} dataLabel={keysToColumnNames[k]}>
                       {columns[k].wrapper
@@ -147,15 +169,7 @@ export const Table = ({
             })}
         </Tbody>
       </TableComposable>
-      {results.length > 0 && !errorMessage && (
-        <Pagination
-          page={params.page}
-          perPage={params.perPage}
-          itemCount={itemCount}
-          onChange={onPagination}
-          updateParamsByUrl={!isEmbedded}
-        />
-      )}
+      {results.length > 0 && !errorMessage && bottomPagination}
     </>
   );
 };
@@ -179,7 +193,11 @@ Table.propTypes = {
   isPending: PropTypes.bool.isRequired,
   isEmbedded: PropTypes.bool,
   rowSelectTd: PropTypes.func,
+  idColumn: PropTypes.string,
+  selectOne: PropTypes.func,
+  isSelected: PropTypes.func,
   showCheckboxes: PropTypes.bool,
+  bottomPagination: PropTypes.node,
 };
 
 Table.defaultProps = {
@@ -191,5 +209,9 @@ Table.defaultProps = {
   results: [],
   isEmbedded: false,
   rowSelectTd: noop,
+  idColumn: 'id',
+  selectOne: noop,
+  isSelected: noop,
   showCheckboxes: false,
+  bottomPagination: null,
 };

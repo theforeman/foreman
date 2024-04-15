@@ -66,8 +66,14 @@ A page component that displays a table with data fetched from the API. It provid
 @param {Object} {replacementResponse} - If included, skip the API request and use this response instead
 @param {boolean} {showCheckboxes} - Not needed when passing children. Whether or not to show selection checkboxes in the first column.
 @param {function} {rowSelectTd} - Not needed when passing children. A function that takes a single result object and returns a React component to be rendered in the first column.
+@param {function} {selectOne} - Not needed when passing children. Pass in the selectOne function from useBulkSelect, to use within rowSelectTd.
+@param {function} {isSelected} - Not needed when passing children. Pass in the isSelected function from useBulkSelect, to use within rowSelectTd.
+@param {string} {idColumn} - Not needed when passing children. The column name to use for RowSelectTd to pass to its selectOne function
 @param {function} {rowKebabItems} - Not needed when passing children. A function that takes a single result object and returns an array of kebab items to be displayed in the last column
 @param {function} {updateSearchQuery} - Pass in the updateSearchQuery function returned from useBulkSelect.
+@param {function} {restrictedSearchQuery} - If included, normalize the search query to add this to all search queries to restrict search results without altering the search input value. Useful for limiting results to an initial selection. 
+@param {boolean} {updateParamsByUrl} - If true, update pagination props from URL params. Default is true.
+@param {string} {bookmarksPosition} - The position of the bookmarks dropdown. Default is 'left', which means the menu will take up space to its right.
 */
 
 const TableIndexPage = ({
@@ -95,8 +101,14 @@ const TableIndexPage = ({
   replacementResponse,
   showCheckboxes,
   rowSelectTd,
+  selectOne,
+  isSelected,
+  idColumn,
   rowKebabItems,
   updateSearchQuery,
+  restrictedSearchQuery,
+  updateParamsByUrl,
+  bookmarksPosition,
 }) => {
   const history = useHistory();
   const { location: { search: historySearch } = {} } = history || {};
@@ -104,13 +116,15 @@ const TableIndexPage = ({
   const urlParamsSearch = urlParams.get('search') || '';
   const search = urlParamsSearch || getURIsearch();
   const defaultParams = { search: search || '' };
-  const urlPage = urlParams.get('page');
-  const urlPerPage = urlParams.get('per_page');
-  if (urlPage) {
-    defaultParams.page = parseInt(urlPage, 10);
-  }
-  if (urlPerPage) {
-    defaultParams.per_page = parseInt(urlPerPage, 10);
+  if (updateParamsByUrl) {
+    const urlPage = urlParams.get('page');
+    const urlPerPage = urlParams.get('per_page');
+    if (urlPage) {
+      defaultParams.page = parseInt(urlPage, 10);
+    }
+    if (urlPerPage) {
+      defaultParams.per_page = parseInt(urlPerPage, 10);
+    }
   }
   const response = useTableIndexAPIResponse({
     replacementResponse,
@@ -134,10 +148,6 @@ const TableIndexPage = ({
     setAPIOptions,
   } = response;
 
-  const onPagination = newPagination => {
-    setParamsAndAPI({ ...params, ...newPagination });
-  };
-
   const memoDefaultSearchProps = useMemo(
     () => getControllerSearchProps(controller),
     [controller]
@@ -150,11 +160,19 @@ const TableIndexPage = ({
     apiOptions,
     setAPIOptions,
     updateSearchQuery,
+    pushToHistory: updateParamsByUrl,
   });
+
+  const onPagination = newPagination => {
+    setParamsAndAPI({ ...params, ...newPagination });
+  };
 
   const onSearch = newSearch => {
     if (newSearch !== apiSearchQuery) {
-      setSearch({ search: newSearch, page: 1 });
+      setSearch({
+        search: newSearch,
+        page: 1,
+      });
     }
   };
 
@@ -209,8 +227,10 @@ const TableIndexPage = ({
                 <ToolbarItem className="toolbar-search">
                   <SearchBar
                     data={searchProps}
-                    initialQuery={apiSearchQuery}
+                    initialQuery=""
+                    restrictedSearchQuery={restrictedSearchQuery}
                     onSearch={onSearch}
+                    bookmarksPosition={bookmarksPosition}
                   />
                 </ToolbarItem>
                 {status === STATUS.PENDING && (
@@ -237,6 +257,8 @@ const TableIndexPage = ({
 
             {total > 0 && (
               <Pagination
+                key="table-index-page-top-pagination"
+                updateParamsByUrl={updateParamsByUrl}
                 variant={PaginationVariant.top}
                 page={page}
                 perPage={perPage}
@@ -253,8 +275,23 @@ const TableIndexPage = ({
       >
         {children || (
           <Table
-            params={params}
+            isEmbedded={!updateParamsByUrl}
+            params={{
+              ...params,
+              page,
+              perPage,
+            }}
             setParams={setParamsAndAPI}
+            bottomPagination={
+              <Pagination
+                key="table-bottom-pagination-yes"
+                page={page}
+                perPage={perPage}
+                itemCount={subtotal}
+                onChange={onPagination}
+                updateParamsByUrl={updateParamsByUrl}
+              />
+            }
             getActions={rowKebabItems}
             itemCount={subtotal}
             results={results}
@@ -271,8 +308,11 @@ const TableIndexPage = ({
               status === STATUS.ERROR && errorMessage ? errorMessage : null
             }
             isPending={status === STATUS.PENDING}
+            selectOne={selectOne}
+            isSelected={isSelected}
             showCheckboxes={showCheckboxes}
             rowSelectTd={rowSelectTd}
+            idColumn={idColumn}
           />
         )}
       </PageSection>
@@ -326,10 +366,16 @@ TableIndexPage.propTypes = {
   searchable: PropTypes.bool,
   children: PropTypes.node,
   selectionToolbar: PropTypes.node,
+  idColumn: PropTypes.string,
   rowSelectTd: PropTypes.func,
+  selectOne: PropTypes.func,
+  isSelected: PropTypes.func,
   showCheckboxes: PropTypes.bool,
   rowKebabItems: PropTypes.func,
   updateSearchQuery: PropTypes.func,
+  restrictedSearchQuery: PropTypes.func,
+  updateParamsByUrl: PropTypes.bool,
+  bookmarksPosition: PropTypes.string,
 };
 
 TableIndexPage.defaultProps = {
@@ -354,10 +400,16 @@ TableIndexPage.defaultProps = {
   searchable: true,
   selectionToolbar: null,
   rowSelectTd: noop,
+  selectOne: noop,
+  isSelected: noop,
   showCheckboxes: false,
+  idColumn: 'id',
   replacementResponse: null,
   rowKebabItems: noop,
   updateSearchQuery: noop,
+  restrictedSearchQuery: noop,
+  updateParamsByUrl: true,
+  bookmarksPosition: 'left',
 };
 
 export default TableIndexPage;

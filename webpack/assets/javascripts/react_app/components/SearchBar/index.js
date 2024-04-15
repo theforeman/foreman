@@ -16,9 +16,11 @@ const SearchBar = ({
     disabled,
   },
   initialQuery,
+  restrictedSearchQuery,
   onSearch,
   onSearchChange,
   name,
+  bookmarksPosition,
 }) => {
   const [search, setSearch] = useState(initialQuery || searchQuery || '');
   const { response, status, setAPIOptions } = useAPI('get', url, {
@@ -28,14 +30,25 @@ const SearchBar = ({
   if (searchQuery !== prevSearch) {
     setPrevSearch(searchQuery);
     if (searchQuery !== search) {
-      setSearch(searchQuery || '');
-      setAPIOptions({ params: { ...apiParams, search: searchQuery || '' } });
+      setSearch(restrictedSearchQuery(searchQuery) ?? (searchQuery || ''));
+      setAPIOptions({
+        params: {
+          ...apiParams,
+          search: restrictedSearchQuery(searchQuery) ?? (searchQuery || ''),
+        },
+      });
     }
   }
   const _onSearchChange = newValue => {
     onSearchChange(newValue);
     setSearch(newValue);
     setAPIOptions({ params: { ...apiParams, search: newValue } });
+  };
+  const _onSearch = searchValue => {
+    if (restrictedSearchQuery(searchValue)) {
+      return onSearch(restrictedSearchQuery(searchValue));
+    }
+    return onSearch(searchValue);
   };
   const error =
     status === STATUS.ERROR || response?.[0]?.error
@@ -49,7 +62,7 @@ const SearchBar = ({
         }
         onSearchChange={_onSearchChange}
         value={search}
-        onSearch={onSearch}
+        onSearch={_onSearch}
         disabled={disabled}
         error={error}
         name={name}
@@ -62,6 +75,7 @@ const SearchBar = ({
           }}
           controller={controller}
           searchQuery={search || ''}
+          bookmarksPosition={bookmarksPosition}
           {...bookmarks}
         />
       )}
@@ -86,15 +100,19 @@ SearchBar.propTypes = {
   }).isRequired,
   initialQuery: PropTypes.string,
   onSearch: PropTypes.func,
+  restrictedSearchQuery: PropTypes.func,
   onSearchChange: PropTypes.func,
   name: PropTypes.string,
+  bookmarksPosition: PropTypes.string,
 };
 
 SearchBar.defaultProps = {
   initialQuery: '',
   onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
   onSearchChange: noop,
+  restrictedSearchQuery: noop,
   name: null,
+  bookmarksPosition: 'left',
 };
 
 export default SearchBar;
