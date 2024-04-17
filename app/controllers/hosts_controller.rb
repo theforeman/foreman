@@ -493,21 +493,13 @@ class HostsController < ApplicationController
   end
 
   def submit_rebuild_config
-    all_fails = {}
-    @hosts.each do |host|
-      result = host.recreate_config
-      result.each_pair do |k, v|
-        all_fails[k] ||= []
-        all_fails[k] << host.name unless v
-      end
-    end
-
+    all_fails = BulkHostsManager.new(hosts: @hosts).rebuild_configuration
     message = ''
     all_fails.each_pair do |key, values|
       unless values.empty?
         message << ((n_("%{config_type} rebuild failed for host: %{host_names}.",
           "%{config_type} rebuild failed for hosts: %{host_names}.",
-          values.count) % {:config_type => _(key), :host_names => values.to_sentence})) + " "
+          values.count) % {:config_type => _(key), :host_names => values.map(&:to_label).to_sentence})) + " "
       end
     end
 
@@ -521,21 +513,8 @@ class HostsController < ApplicationController
 
   def submit_multiple_build
     reboot = params[:host][:build] == '1' || false
-
-    missed_hosts = @hosts.select do |host|
-      success = true
-      forward_url_options(host)
-      begin
-        host.built(false) if host.build? && host.token_expired?
-        host.setBuild
-        host.power.reset if host.supports_power_and_running? && reboot
-      rescue => error
-        message = _('Failed to redeploy %s.') % host
-        Foreman::Logging.exception(message, error)
-        success = false
-      end
-      !success
-    end
+    @hosts.each { |host| forward_url_options(host) }
+    missed_hosts = BulkHostsManager.new(hosts: @hosts).build(reboot: reboot)
 
     if missed_hosts.empty?
       if reboot
