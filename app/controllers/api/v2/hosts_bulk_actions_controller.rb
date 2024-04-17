@@ -5,6 +5,7 @@ module Api
       include Api::V2::BulkHostsExtension
 
       before_action :find_deletable_hosts, :only => [:bulk_destroy]
+      before_action :find_editable_hosts, :only => [:build]
 
       def_param_group :bulk_host_ids do
         param :organization_id, :number, :required => true, :desc => N_("ID of the organization")
@@ -25,10 +26,83 @@ module Api
         process_response @hosts.destroy_all
       end
 
+      api :PUT, "/hosts/bulk/build", N_("Build")
+      param_group :bulk_host_ids
+      param :reboot, :bool, N_("Reboot after build. Ignored if rebuild_configuration is passed.")
+      param :rebuild_configuration, :bool, N_("Rebuild configuration only")
+      def build
+        if Foreman::Cast.to_bool(params[:rebuild_configuration])
+          rebuild_config
+        else
+          reboot = Foreman::Cast.to_bool(params[:reboot])
+          manager = BulkHostsManager.new(hosts: @hosts)
+          missed_hosts = manager.build(reboot: reboot)
+          if missed_hosts.empty?
+            if reboot
+              process_response(true, { :message => n_("%s host set to build and rebooting.",
+                "%s hosts set to build and rebooting.",
+                @hosts.count) % @hosts.count,
+                                      })
+            else
+              process_response(true, { :message => n_("Built %s host",
+                "Built %s hosts", @hosts.count) % @hosts.count })
+            end
+          elsif reboot
+            render_error(:bulk_hosts_error, :status => :unprocessable_entity,
+                        :locals => { :message => n_("Failed to build and reboot %s host",
+                          "Failed to build and reboot %s hosts", missed_hosts.count) % missed_hosts.count,
+                                     :failed_host_ids => missed_hosts.map(&:id),
+                                   })
+          else
+            render_error(:bulk_hosts_error, :status => :unprocessable_entity,
+                         :locals => { :message => n_("Failed to build %s host",
+                           "Failed to build %s hosts", missed_hosts.count) % missed_hosts.count,
+                                      :failed_host_ids => missed_hosts.map(&:id),
+                                    })
+          end
+        end
+      end
+
+      protected
+
+      def action_permission
+        case params[:action]
+        when 'build'
+          'edit'
+        else
+          super
+        end
+      end
+
       private
 
       def find_deletable_hosts
         find_bulk_hosts(:destroy_hosts, params)
+      end
+
+      def find_editable_hosts
+        find_bulk_hosts(:edit_hosts, params)
+      end
+
+      def rebuild_config
+        all_fails = BulkHostsManager.new(hosts: @hosts).rebuild_configuration
+        failed_host_ids = all_fails.flat_map { |_key, values| values&.map(&:id) }
+        failed_host_ids.compact!
+        failed_host_ids.uniq!
+
+        if failed_host_ids.empty?
+          process_response(true, { :message => n_("Rebuilt configuration for %s host",
+            "Rebuilt configuration for %s hosts",
+            @hosts.count) % @hosts.count })
+        else
+          render_error(:bulk_hosts_error, :status => :unprocessable_entity,
+                      :locals => { :message => n_("Failed to rebuild configuration for %s host",
+                        "Failed to rebuild configuration for %s hosts",
+                        failed_host_ids.count) % failed_host_ids.count,
+                                   :failed_host_ids => failed_host_ids,
+                                 }
+          )
+        end
       end
     end
   end

@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { Tr, Td, ActionsColumn } from '@patternfly/react-table';
 import {
@@ -14,6 +14,8 @@ import {
   SplitItem,
 } from '@patternfly/react-core';
 import { UndoIcon } from '@patternfly/react-icons';
+import { useForemanModal } from '../ForemanModal/ForemanModalHooks';
+import { addModal } from '../ForemanModal/ForemanModalActions';
 import { Table } from '../PF4/TableIndexPage/Table/Table';
 import { translate as __ } from '../../common/I18n';
 import TableIndexPage from '../PF4/TableIndexPage/TableIndexPage';
@@ -33,6 +35,7 @@ import {
 import { deleteHost } from '../HostDetails/ActionsBar/actions';
 import { useForemanSettings } from '../../Root/Context/ForemanContext';
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
+import BulkBuildHostModal from './BulkActions/buildHosts';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
@@ -167,6 +170,16 @@ const HostsIndex = () => {
     );
   };
 
+  useEffect(() => {
+    dispatch(
+      addModal({
+        id: 'bulk-build-hosts-modal',
+      })
+    );
+  }, [dispatch]);
+
+  const { setModalOpen } = useForemanModal({ id: 'bulk-build-hosts-modal' });
+
   const dropdownItems = [
     <DropdownItem
       ouiaId="delete=hosts-dropdown-item"
@@ -175,6 +188,14 @@ const HostsIndex = () => {
       isDisabled={selectedCount === 0}
     >
       {__('Delete')}
+    </DropdownItem>,
+    <DropdownItem
+      ouiaId="build-hosts-dropdown-item"
+      key="build-hosts-dropdown-item"
+      onClick={setModalOpen}
+      isDisabled={selectedCount === 0}
+    >
+      {__('Build management')}
     </DropdownItem>,
   ];
 
@@ -332,6 +353,7 @@ const HostsIndex = () => {
       <ForemanActionsBarContext.Provider
         value={{ selectedCount, fetchBulkParams }}
       >
+        <BulkBuildHostModal key="bulk-build-hosts-modal" />
         <Slot id="_all-hosts-modals" multi />
       </ForemanActionsBarContext.Provider>
     </TableIndexPage>
