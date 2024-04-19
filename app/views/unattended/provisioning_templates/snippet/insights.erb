@@ -14,5 +14,6 @@ echo '#'
 
 yum install -y insights-client
 insights-client --register
+systemctl enable --now insights-client.timer
 
 <% end -%>
