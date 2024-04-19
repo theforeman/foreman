@@ -18,10 +18,10 @@ downstream_package_name: foreman
 
 actions:
   post-upstream-clone:
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.spec -O foreman.spec"
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.logrotate -O foreman.logrotate"
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.cron.d -O foreman.cron.d"
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.tmpfiles -O foreman.tmpfiles"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/3.10/packages/foreman/foreman/foreman.spec -O foreman.spec"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/3.10/packages/foreman/foreman/foreman.logrotate -O foreman.logrotate"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/3.10/packages/foreman/foreman/foreman.cron.d -O foreman.cron.d"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/3.10/packages/foreman/foreman/foreman.tmpfiles -O foreman.tmpfiles"
   get-current-version: "sed 's/-develop//' VERSION"
 
 jobs:
@@ -31,11 +31,11 @@ jobs:
       rhel-8:
         additional_modules: "foreman-devel:el8"
         additional_repos:
-          - https://yum.theforeman.org/releases/nightly/el8/x86_64/
+          - https://yum.theforeman.org/releases/3.10/el8/x86_64/
       rhel-9:
         additional_modules: "foreman-devel:el9"
         additional_repos:
-          - https://yum.theforeman.org/releases/nightly/el9/x86_64/
+          - https://yum.theforeman.org/releases/3.10/el9/x86_64/
     module_hotfixes: true
 
 srpm_build_deps:
