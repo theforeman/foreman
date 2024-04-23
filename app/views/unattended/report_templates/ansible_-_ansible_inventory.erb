@@ -174,10 +174,19 @@ model: ReportTemplate
         inventory_data.update('host_collections': host_collections)
       end
       inventory_data.update('host_parameters': host.params) if input_hostparameters
-      inventory_data.update('ipv4': host.ip) if input_ipv4
-      inventory_data.update('ipv6': host.ip6) if input_ipv6
-      inventory_data.update('subnet': host.subnet) if input_subnet
-      inventory_data.update('subnet6': host.subnet6) if input_subnet6
+
+      net_sources = [host]
+      net_sources.unshift(host.execution_interface) if host.respond_to?(:execution_interface)
+      if input_ipv4 || input_subnet
+        ipv4_source = net_sources.find { |s| s.ip }
+        inventory_data.update('ipv4': ipv4_source&.ip) if input_ipv4
+        inventory_data.update('subnet': ipv4_source&.subnet) if input_subnet
+      end
+      if input_ipv6 || input_subnet6
+        ipv6_source = net_sources.find { |s| s.ip6 }
+        inventory_data.update('ipv4': ipv6_source&.ip6) if input_ipv6
+        inventory_data.update('subnet6': ipv6_source&.subnet6) if input_subnet6
+      end
       smart_proxies = host.smart_proxies.map { |p| p.name } if host.smart_proxies
       inventory_data.update('smart_proxies': smart_proxies) if input_smartproxies
       inventory_data.update('content_attributes': content_attribute_data) if content_attrs

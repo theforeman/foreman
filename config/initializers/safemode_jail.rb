@@ -25,5 +25,5 @@ class ActiveSupport::TimeWithZone::Jail < Safemode::Jail
 end
 
 class Array::Jail < Safemode::Jail
-  allow :sort_by, :select, :reject
+  allow :sort_by, :select, :reject, :find
 end
