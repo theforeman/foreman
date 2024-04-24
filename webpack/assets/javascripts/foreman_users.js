@@ -1,3 +1,4 @@
+/* eslint-disable jquery/no-trigger */
 /* eslint-disable jquery/no-toggle */
 /* eslint-disable jquery/no-ajax */
 /* eslint-disable jquery/no-hide */
@@ -11,7 +12,7 @@ import { notify } from './foreman_toast_notifications';
 
 export function initInheritedRoles() {
   $('#inherited-roles .dropdown-menu a')
-    .click(({ target }) => {
+    .on('click', ({ target }) => {
       $('#roles_tab li').hide();
       $(`#roles_tab li[data-id = '${target.getAttribute('data-id')}']`).show();
       $(target)
@@ -20,7 +21,7 @@ export function initInheritedRoles() {
         .html(`${escape(target.text)} <span class="caret"></span>`);
     })
     .first()
-    .click();
+    .trigger('click');
 }
 
 function getSelectValues({ options = [] }) {

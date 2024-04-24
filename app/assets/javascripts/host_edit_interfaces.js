@@ -1,6 +1,6 @@
-$(document).ready(function() {
-  $('#host_name').select();
-  $('#host_name').focus();
+$(document).on('ContentLoad', function() {
+  $('#host_name').trigger("select");
+  $('#host_name').trigger("focus");
 });
 
 function remove_interface(interface_id) {
@@ -107,12 +107,12 @@ function get_interface_row(interface_id) {
     interface_row.attr('id', 'interface' + interface_id);
     interface_row.data('interface-id', interface_id);
 
-    interface_row.find('.showModal').click(function() {
+    interface_row.find('.showModal').on('click', function() {
       edit_interface(interface_id);
       return false;
     });
 
-    interface_row.find('.removeInterface').click(function() {
+    interface_row.find('.removeInterface').on('click', function() {
       remove_interface(interface_id);
       return false;
     });

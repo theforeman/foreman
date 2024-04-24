@@ -2,7 +2,7 @@ $(document).on('ContentLoad', function() {
   tfm.tools.setTab();
 
   var dialog = $('#review_before_build');
-  $('#build-review').click(function() {
+  $('#build-review').on('click', function() {
     dialog.find('.modal-body #build_status').html('');
     $('.loading').addClass('visible');
     $.ajax({
@@ -26,7 +26,7 @@ $(document).on('ContentLoad', function() {
   });
 
   dialog.on('click', '#recheck_review', function() {
-    $('#build-review').click();
+    $('#build-review').trigger('click');
   });
 
   var action_buttons = $('.btn-toolbar a')

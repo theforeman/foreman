@@ -28,7 +28,7 @@ function select_first_tab() {
     pills
       .find('a:visible')
       .first()
-      .click();
+      .trigger('click');
   }
 }
 
@@ -39,7 +39,7 @@ function remove_node(item) {
       .attr('href')
   )
     .children('.btn-danger')
-    .click();
+    .trigger('click');
 }
 
 function fix_template_context(content, context) {
