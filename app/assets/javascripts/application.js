@@ -168,18 +168,6 @@ function add_fields(target, association, content, direction) {
   }
 }
 
-$(document).ready(function() {
-  $('#check_all_roles').click(function(e) {
-    e.preventDefault();
-    $('.role_checkbox').prop('checked', true);
-  });
-
-  $('#uncheck_all_roles').click(function(e) {
-    e.preventDefault();
-    $('.role_checkbox').prop('checked', false);
-  });
-});
-
 function toggleCheckboxesBySelector(selector) {
   boxes = $(selector);
   var all_checked = true;
