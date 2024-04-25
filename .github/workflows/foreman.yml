@@ -124,6 +124,12 @@ jobs:
           bundle exec rake db:migrate
       - name: Run rake ${{ matrix.task }}
         run: bundle exec rake ${{ matrix.task }}
+      - name: Archive all_react_app_exports
+        if: contains(matrix.task, 'compile')
+        uses: actions/upload-artifact@v4
+        with:
+          name: all_react_app_exports-${{ env.ARTIFACT_SUFFIX }}.js
+          path: webpack/assets/javascripts/all_react_app_exports.js
 
   katello:
     name: Katello
