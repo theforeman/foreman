@@ -328,21 +328,6 @@ function spinner_placeholder(text) {
   );
 }
 
-function typeToIcon(type) {
-  switch (type) {
-    case 'success':
-      return tfm.tools.iconText('ok', __('Success') + ': ', 'pficon');
-    case 'warning':
-      return tfm.tools.iconText(
-        'warning-triangle-o',
-        __('Warning') + ': ',
-        'pficon'
-      );
-    case 'danger':
-      return tfm.tools.iconText('error-circle-o', __('Error') + ': ', 'pficon');
-  }
-}
-
 function setPowerState(item, status) {
   var power_actions = $('#power_actions'),
     loading_power_state = $('#loading_power_state');
