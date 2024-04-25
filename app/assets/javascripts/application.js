@@ -181,16 +181,6 @@ function toggleCheckboxesBySelector(selector) {
   }
 }
 
-function toggleRowGroup(el) {
-  var tr = $(el).closest('tr');
-  var n = tr.next();
-  tr.toggleClass('open');
-  while (n.length > 0 && !n.hasClass('group')) {
-    n.toggle();
-    n = n.next();
-  }
-}
-
 function template_info(div, url) {
   // Ignore method as PUT redirects to host page if used on update
   form = $("form :input[name!='_method']").serialize();
@@ -350,24 +340,6 @@ function typeToIcon(type) {
       );
     case 'danger':
       return tfm.tools.iconText('error-circle-o', __('Error') + ': ', 'pficon');
-  }
-}
-
-function filter_permissions(item) {
-  var term = $(item)
-    .val()
-    .trim();
-  if (term.length > 0) {
-    $('.form-group .collapse')
-      .parents('.form-group')
-      .hide();
-    $(".form-group .control-label:icontains('" + term + "')")
-      .parents('.form-group')
-      .show();
-  } else {
-    $('.form-group .collapse')
-      .parents('.form-group')
-      .show();
   }
 }
 
