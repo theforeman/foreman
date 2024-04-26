@@ -1,3 +1,23 @@
+2024-04-26	Griffin-Sullivan <gsulliva@redhat.com>
+	* Release 3.9.3
+
+2024-04-19	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Set Katello version to 4.11
+
+2024-04-19	Evgeni Golov <evgeni@golov.de>
+	* include Katello in GHA tests
+	* run external kickstart and grub tests on GHA
+	* also execute assets:precompile as part of GHA tests
+	* execute db:seed as a test
+	* run integration tests as part of the GHA matrix
+
+2024-04-19	dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+	* Bump actions/upload-artifact from 3 to 4
+	* Bump actions/cache from 3 to 4
+
+2024-04-19	Samir Jha <samirjha1525@gmail.com>
+	* Fixes #37312 - Upgrade foreman-vendor packages to 13.x
+
 2024-04-04	Griffin-Sullivan <gsulliva@redhat.com>
 	* Release 3.9.2
 
