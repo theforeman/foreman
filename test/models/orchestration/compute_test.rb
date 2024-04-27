@@ -253,10 +253,9 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     let(:tax_organization) { FactoryBot.create(:organization) }
     let(:tax_location) { FactoryBot.create(:location) }
     let(:subnet6) do
-      FactoryBot.build(:subnet_ipv6,
+      FactoryBot.build(:subnet_ipv6, :dns,
         :network => '2001:db8::',
         :mask => 'ffff:ffff:ffff:ffff::',
-        :dns => FactoryBot.create(:dns_smart_proxy),
         :organizations => [tax_organization],
         :locations => [tax_location],
         :ipam => IPAM::MODES[:eui64])

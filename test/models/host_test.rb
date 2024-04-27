@@ -337,7 +337,7 @@ class HostTest < ActiveSupport::TestCase
     assert_nil host.puppet_ca_server_uri
     assert_empty host.puppet_ca_server
 
-    proxy = FactoryBot.create(:puppet_ca_smart_proxy, url: 'https://smartproxy.example.com:8443')
+    proxy = FactoryBot.create(:smart_proxy, :puppetca, url: 'https://smartproxy.example.com:8443')
     host.puppet_ca_proxy = proxy
     assert_equal 'https://smartproxy.example.com:8140', host.puppet_ca_server_uri.to_s
     assert_equal 'smartproxy.example.com', host.puppet_ca_server

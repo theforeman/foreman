@@ -64,7 +64,7 @@ class ForemanUrlRendererTest < ActiveSupport::TestCase
 
     test "should render template_url with templates proxy" do
       template_server_from_proxy = 'https://someproxy:8443'
-      proxy = FactoryBot.build_stubbed(:template_smart_proxy, :url => 'https://template.proxy:8443')
+      proxy = FactoryBot.build_stubbed(:smart_proxy, :templates, :url => 'https://template.proxy:8443')
 
       stub_request(:get, "https://template.proxy:8443/unattended/templateServer").
          to_return(status: 200, body: "{\"templateServer\":\"#{template_server_from_proxy}\"}")

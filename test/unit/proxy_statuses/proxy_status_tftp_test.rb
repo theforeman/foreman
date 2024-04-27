@@ -3,7 +3,7 @@ require 'test_helper'
 class ProxyStatusTftpTest < ActiveSupport::TestCase
   setup do
     @proxy = FactoryBot.
-      build_stubbed(:template_smart_proxy, :url => 'https://secure.proxy:4568')
+      build_stubbed(:smart_proxy, :tftp, :url => 'https://secure.proxy:4568')
   end
 
   test 'it returns tftp server ip' do

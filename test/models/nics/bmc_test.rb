@@ -76,7 +76,7 @@ class BMCTest < ActiveSupport::TestCase
     end
 
     test '#proxy instantiates ProxyAPI with password' do
-      @bmc_nic.expects(:bmc_proxy).returns(FactoryBot.create(:bmc_smart_proxy))
+      @bmc_nic.expects(:bmc_proxy).returns(FactoryBot.create(:smart_proxy, :bmc))
       ProxyAPI::BMC.expects(:new).with(has_entry(:password => 'secret'))
       @bmc_nic.proxy
     end

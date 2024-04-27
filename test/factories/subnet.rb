@@ -15,28 +15,10 @@ FactoryBot.define do
       subnet.class.skip_callback(:validation, :after, :validate_against_external_ipam, raise: false)
     end
 
-    trait :tftp do
-      association :tftp, :factory => :template_smart_proxy
-    end
-
-    trait :httpboot do
-      association :httpboot, :factory => :template_smart_proxy
-    end
-
-    trait :dhcp do
-      association :dhcp, :factory => :dhcp_smart_proxy
-    end
-
-    trait :dns do
-      association :dns, :factory => :dns_smart_proxy
-    end
-
-    trait :bmc do
-      association :bmc, :factory => :bmc_smart_proxy
-    end
-
-    trait :template do
-      association :template, :factory => :template_smart_proxy
+    [:bmc, :dhcp, :dns, :httpboot, :templates, :tftp].each do |feature|
+      trait feature do
+        association feature, :factory => [:smart_proxy, feature]
+      end
     end
 
     trait :with_domains do
@@ -85,11 +67,11 @@ FactoryBot.define do
 
     trait :proxies_for_snapshots do
       # ability to build more than one smart proxies with the same url or name for snapshot testing
-      association :tftp, :ignore_validations, :factory => :template_smart_proxy, :name => "snapshot-proxy-tftp", :url => "http://localhost:8001"
-      association :httpboot, :ignore_validations, :factory => :template_smart_proxy, :name => "snapshot-proxy-httpboot", :url => "http://localhost:8002"
-      association :dhcp, :ignore_validations, :factory => :dhcp_smart_proxy, :name => "snapshot-proxy-dhcp", :url => "http://localhost:8003"
-      association :dns, :ignore_validations, :factory => :dns_smart_proxy, :name => "snapshot-proxy-dns", :url => "http://localhost:8004"
-      association :bmc, :ignore_validations, :factory => :bmc_smart_proxy, :name => "snapshot-proxy-bmc", :url => "http://localhost:8005"
+      association :tftp, :ignore_validations, :factory => [:smart_proxy, :tftp], :name => "snapshot-proxy-tftp", :url => "http://localhost:8001"
+      association :httpboot, :ignore_validations, :factory => [:smart_proxy, :httpboot], :name => "snapshot-proxy-httpboot", :url => "http://localhost:8002"
+      association :dhcp, :ignore_validations, :factory => [:smart_proxy, :dhcp], :name => "snapshot-proxy-dhcp", :url => "http://localhost:8003"
+      association :dns, :ignore_validations, :factory => [:smart_proxy, :dns], :name => "snapshot-proxy-dns", :url => "http://localhost:8004"
+      association :bmc, :ignore_validations, :factory => [:smart_proxy, :bmc], :name => "snapshot-proxy-bmc", :url => "http://localhost:8005"
     end
 
     factory :subnet_ipv4_dhcp_for_snapshots, :class => Subnet::Ipv4 do

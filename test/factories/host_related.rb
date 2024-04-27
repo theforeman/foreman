@@ -258,7 +258,7 @@ FactoryBot.define do
 
     trait :with_ipv6 do
       subnet6 do
-        overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
+        overrides = {}
         # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
@@ -277,12 +277,12 @@ FactoryBot.define do
     trait :dualstack do
       with_ipv6
       subnet do
-        overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
+        overrides = {}
         # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
 
-        FactoryBot.create(:subnet_ipv4, overrides)
+        FactoryBot.create(:subnet_ipv4, :dns, overrides)
       end
       interfaces do
         [FactoryBot.build(:nic_managed,
@@ -348,16 +348,11 @@ FactoryBot.define do
       end
       domain
       subnet do
-        overrides = {
-          :dhcp => FactoryBot.create(:dhcp_smart_proxy),
-        }
+        overrides = {}
         # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
-        FactoryBot.create(
-          :subnet_ipv4_with_bmc,
-          overrides
-        )
+        association(:subnet_ipv4_with_bmc, :dhcp, **overrides)
       end
       interfaces do
         [FactoryBot.build(:nic_primary_and_provision, :ip => subnet.network.sub(/0\Z/, '1'))]
@@ -374,12 +369,12 @@ FactoryBot.define do
         FactoryBot.create(:libvirt_cr, taxonomies)
       end
       subnet do
-        overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
+        overrides = {}
         # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
 
-        FactoryBot.create(:subnet_ipv4, overrides)
+        FactoryBot.create(:subnet_ipv4, :dns, overrides)
       end
       domain do
         FactoryBot.create(:domain,
@@ -405,7 +400,7 @@ FactoryBot.define do
         FactoryBot.create(:libvirt_cr, taxonomies)
       end
       subnet6 do
-        overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
+        overrides = {}
         # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
@@ -453,7 +448,7 @@ FactoryBot.define do
     end
 
     trait :with_templates_subnet do
-      subnet { FactoryBot.build(:subnet_ipv4, :template, locations: [location], organizations: [organization]) }
+      subnet { FactoryBot.build(:subnet_ipv4, :templates, locations: [location], organizations: [organization]) }
     end
 
     trait :with_separate_provision_interface do

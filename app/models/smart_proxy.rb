@@ -25,8 +25,12 @@ class SmartProxy < ApplicationRecord
   has_many :infrastructure_host_facets, :class_name => '::HostFacets::InfrastructureFacet', :dependent => :nullify
   has_many :smart_proxy_hosts, :through => :infrastructure_host_facets, :source => :host
 
+  before_save :sanitize_url
+
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
-  before_save :sanitize_url, :associate_features
+  # But it can be useful to skip in tests
+  attr_accessor :skip_associate_features
+  before_save :associate_features, unless: :skip_associate_features
 
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name, :complete_value => :true

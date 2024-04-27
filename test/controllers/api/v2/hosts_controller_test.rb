@@ -1278,7 +1278,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should update with puppet ca proxy" do
-    puppet_ca_proxy = FactoryBot.create(:puppet_ca_smart_proxy)
+    puppet_ca_proxy = FactoryBot.create(:smart_proxy, :puppetca)
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:puppet_ca_proxy_id => puppet_ca_proxy.id) }
     assert_response :success
     assert_equal puppet_ca_proxy['name'], JSON.parse(@response.body)['puppet_ca_proxy']['name'], "Can't update host with puppet ca proxy #{puppet_ca_proxy}"
