@@ -154,7 +154,7 @@ const coreConfig = function() {
   );
   config.context = path.resolve(__dirname, '..');
   config.entry = {
-    bundle: { import: bundleEntry, dependOn: 'vendor' },
+    bundle: { import: bundleEntry, dependOn: ['vendor', 'reactExports'] },
     vendor: vendorEntry,
     reactExports: path.join(
       __dirname,
