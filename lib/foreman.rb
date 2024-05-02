@@ -46,3 +46,9 @@ module Foreman
     SettingRegistry.instance
   end
 end
+
+require_relative 'foreman/exception' # This could be extracted into separate files and get autoloaded
+require_relative 'foreman/force_ssl'
+require_relative 'foreman/logging'
+require_relative 'foreman/middleware'
+require_relative 'foreman/telemetry_helper'
