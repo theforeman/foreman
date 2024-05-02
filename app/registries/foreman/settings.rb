@@ -1,9 +1,10 @@
-require_dependency 'foreman/setting_manager'
 
-require_dependency 'foreman/settings/general'
-require_dependency 'foreman/settings/auth'
-require_dependency 'foreman/settings/email'
-require_dependency 'foreman/settings/notification'
-require_dependency 'foreman/settings/provisioning'
-require_dependency 'foreman/settings/facts'
-require_dependency 'foreman/settings/cfgmgmt'
+require_relative 'setting_manager'
+
+require_relative 'settings/general'
+require_relative 'settings/auth'
+require_relative 'settings/email'
+require_relative 'settings/notification'
+require_relative 'settings/provisioning'
+require_relative 'settings/facts'
+require_relative 'settings/cfgmgmt'

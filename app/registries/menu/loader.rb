@@ -1,9 +1,3 @@
-require_dependency 'menu/node'
-require_dependency 'menu/item'
-require_dependency 'menu/divider'
-require_dependency 'menu/toggle'
-require_dependency 'menu/manager'
-
 module Menu
   class Loader
     def self.load

@@ -14,13 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-require_dependency 'foreman/plugin/logging'
-require_dependency 'foreman/plugin/report_scanner_registry'
-require_dependency 'foreman/plugin/report_origin_registry'
-require_dependency 'foreman/plugin/medium_providers_registry'
-require_dependency 'foreman/plugin/fact_importer_registry'
-
 module Foreman #:nodoc:
   class PluginNotFound < Foreman::Exception; end
   class PluginRequirementError < Foreman::Exception; end

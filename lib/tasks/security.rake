@@ -1,4 +1,4 @@
-require_dependency 'foreman/util'
+require 'foreman/util'
 
 namespace :security do
   desc 'Generate new security token'

@@ -1,5 +1,3 @@
-require_dependency "net/validations"
-
 module Net
   class Record
     attr_accessor :hostname, :proxy, :logger

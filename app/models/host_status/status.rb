@@ -84,6 +84,3 @@ module HostStatus
     end
   end
 end
-
-require_dependency 'host_status/configuration_status'
-require_dependency 'host_status/build_status'

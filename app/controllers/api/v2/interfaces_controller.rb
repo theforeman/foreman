@@ -1,5 +1,3 @@
-require_dependency File.join(Rails.root, "app/models/nic/base")
-
 module Api
   module V2
     class InterfacesController < V2::BaseController

@@ -26,6 +26,6 @@ module Foreman
 end
 
 RestClient::Request.class_eval do
-  include Foreman::HTTPProxy
+  include Foreman::HttpProxy
   prepend Foreman::HttpProxy::RestClientExtension
 end

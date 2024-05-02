@@ -1,7 +1,7 @@
 module Foreman
   module HttpProxy
     class NetHttpExt < Net::HTTP
-      include Foreman::HTTPProxy
+      include Foreman::HttpProxy
 
       def proxy?
         !!proxy_uri

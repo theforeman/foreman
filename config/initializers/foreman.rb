@@ -1,15 +1,13 @@
 # stdlib dependencies
 require 'English'
 
-# Registries from app/registries/
-# All are loaded and populated early but are loaded only once
+# Registries from app/registries/ that do not create a namespace
+# should be loaded manually due to Zeitwerk
 require 'foreman/access_permissions'
-require 'foreman/plugin'
 require 'foreman/settings'
 
 # Other internal dependencies, may be autoloaded
 require 'net'
-require 'foreman/provision'
 
 Rails.application.config.before_initialize do
   # load topbar
