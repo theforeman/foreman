@@ -24,7 +24,6 @@ require "rails"
 end
 
 require File.expand_path('../config/settings', __dir__)
-require File.expand_path('../lib/foreman/dynflow', __dir__)
 
 if File.exist?(File.expand_path('../Gemfile.in', __dir__))
   # If there is a Gemfile.in file, we will not use Bundler but BundlerExt
@@ -65,28 +64,11 @@ else
   end
 end
 
-# CRs in fog core with extra dependencies will have those deps loaded, so then
-# load the corresponding bit of fog
-require 'fog/ovirt' if defined?(::OVIRT)
-
-require File.expand_path('../lib/foreman', __dir__)
-require File.expand_path('../lib/foreman/exception', __dir__)
-require File.expand_path('../lib/foreman/force_ssl', __dir__)
-require File.expand_path('../lib/foreman/logging', __dir__)
-require File.expand_path('../lib/foreman/http_proxy', __dir__)
-require File.expand_path('../lib/foreman/middleware/logging_context_request', __dir__)
-require File.expand_path('../lib/foreman/middleware/logging_context_session', __dir__)
-require File.expand_path('../lib/foreman/middleware/telemetry', __dir__)
-require File.expand_path('../lib/foreman/middleware/libvirt_connection_cleaner', __dir__)
-
-# Ensure ApplicationRecord is loaded early and can be used inside migrations.
-# Can probably be removed once we migrate to Zeitwerk.
-require File.expand_path('../app/models/concerns/host_mix', __dir__)
-require File.expand_path('../app/models/concerns/has_many_common', __dir__)
-require File.expand_path('../app/models/concerns/strip_whitespace', __dir__)
-require File.expand_path('../app/models/concerns/parameterizable', __dir__)
-require File.expand_path('../app/models/concerns/audit_associations', __dir__)
-require File.expand_path('../app/models/application_record', __dir__)
+# Content of these files is being used before Zeitwerk does auto/eager loading
+# We need to call either require with the full path or require_relative with relative path since /lib is not in $LOAD_PATH yet here
+# $LOAD_PATH is available in config/initializers though
+require_relative '../lib/foreman'
+require_relative '../lib/foreman/dynflow'
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../Gemfile.in', __dir__))
@@ -147,6 +129,7 @@ module Foreman
 
     # Eager load all classes under lib directory
     config.eager_load_paths += ["#{config.root}/lib"]
+    config.eager_load_paths += ["#{config.root}/app/lib"]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
