@@ -5,6 +5,8 @@ Pagelets::Manager.with_key 'hosts/show' do |mgr|
     priority: 100
 end
 
+require 'csv_exporter' # Ugly place to put it, but this is the first usage of CsvExporter
+
 Pagelets::Manager.with_key 'hosts/_list' do |ctx|
   ctx.with_profile :general, N_('General'), default: true do
     common_class = 'hidden-tablet hidden-xs ellipsis'
