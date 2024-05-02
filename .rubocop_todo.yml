@@ -275,7 +275,7 @@ Naming/MethodName:
     - 'app/controllers/hosts_controller.rb'
     - 'app/helpers/form_helper.rb'
     - 'app/models/concerns/orchestration/compute.rb'
-    - 'app/models/concerns/orchestration/puppetca.rb'
+    - 'app/models/concerns/orchestration/puppet_ca.rb'
     - 'app/models/concerns/orchestration/ssh_provision.rb'
     - 'app/models/concerns/orchestration/tftp.rb'
     - 'app/models/environment.rb'

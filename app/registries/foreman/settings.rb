@@ -1,4 +1,3 @@
-
 require_relative 'setting_manager'
 
 require_relative 'settings/general'
