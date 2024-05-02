@@ -33,7 +33,7 @@ module Api
       private
 
       def setup_proxy
-        @api = ProxyAPI::Puppetca.new({:url => @nested_obj.url})
+        @api = ProxyAPI::PuppetCA.new({:url => @nested_obj.url})
       end
 
       def allowed_nested_id
