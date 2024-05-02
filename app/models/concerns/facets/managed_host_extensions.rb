@@ -1,5 +1,3 @@
-require_dependency 'facets'
-
 module Facets
   module ManagedHostExtensions
     extend ActiveSupport::Concern

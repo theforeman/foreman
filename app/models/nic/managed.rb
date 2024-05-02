@@ -122,7 +122,3 @@ module Nic
 
   Base.register_type(Managed)
 end
-
-require_dependency 'nic/bmc'
-require_dependency 'nic/bond'
-require_dependency 'nic/bridge'

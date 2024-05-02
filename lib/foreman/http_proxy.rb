@@ -1,5 +1,5 @@
 module Foreman
-  module HTTPProxy
+  module HttpProxy
     def http_proxy
       ActiveRecord::Base.connection_pool.with_connection do
         Setting[:http_proxy].presence
@@ -64,7 +64,3 @@ module Foreman
     end
   end
 end
-
-require_dependency File.expand_path('http_proxy/excon_connection_extension', __dir__)
-require_dependency File.expand_path('http_proxy/net_http_ext', __dir__)
-require_dependency File.expand_path('http_proxy/rest_client_extension', __dir__)

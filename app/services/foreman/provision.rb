@@ -8,6 +8,4 @@ module Foreman::Provision
   def self.global_default_name(kind)
     "#{kind} global default"
   end
-
-  autoload :SSH, 'foreman/provision/ssh'
 end

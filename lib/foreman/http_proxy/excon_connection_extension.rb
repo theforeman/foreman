@@ -18,6 +18,6 @@ module Foreman
 end
 
 Excon::Connection.class_eval do
-  include Foreman::HTTPProxy
+  include Foreman::HttpProxy
   prepend Foreman::HttpProxy::ExconConnectionExtension
 end

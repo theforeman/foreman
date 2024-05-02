@@ -16,5 +16,3 @@ module HostStatus
     status_registry.find { |s| s.humanized_name == name }
   end
 end
-
-require_dependency 'host_status/status'
