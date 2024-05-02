@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'net'
 
 class DHCPTest < ActiveSupport::TestCase
   setup do

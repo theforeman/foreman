@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Token::PuppetcaTest < ActiveSupport::TestCase
+class Token::PuppetCATest < ActiveSupport::TestCase
   should validate_uniqueness_of(:value)
 
   let(:host) { FactoryBot.create(:host) }

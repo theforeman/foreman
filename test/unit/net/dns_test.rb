@@ -1,6 +1,4 @@
 require 'test_helper'
-require 'net'
-require 'net/dns'
 
 class DNSTest < ActiveSupport::TestCase
   setup do
