@@ -1,4 +1,4 @@
-module Orchestration::Puppetca
+module Orchestration::PuppetCA
   extend ActiveSupport::Concern
   include Orchestration::Common
 
@@ -14,7 +14,7 @@ module Orchestration::Puppetca
   def initialize_puppetca
     return unless puppetca?
     return unless Setting[:manage_puppetca]
-    @puppetca = ProxyAPI::Puppetca.new :url => puppet_ca_proxy.url
+    @puppetca = ProxyAPI::PuppetCA.new :url => puppet_ca_proxy.url
     true
   rescue => e
     failure _("Failed to initialize the PuppetCA proxy: %s") % e, e

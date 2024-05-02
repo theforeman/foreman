@@ -67,7 +67,7 @@ module ProxyStatus
     protected
 
     def api_class
-      ProxyAPI::Puppetca
+      ProxyAPI::PuppetCA
     end
   end
 end

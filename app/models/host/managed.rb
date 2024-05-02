@@ -16,7 +16,7 @@ class Host::Managed < Host::Base
   include Hostext::SmartProxy
   include Hostext::Token
   include Hostext::OperatingSystem
-  include Hostext::Puppetca
+  include Hostext::PuppetCA
   include SelectiveClone
   include HostInfoExtensions
   include HostParams
@@ -150,7 +150,7 @@ class Host::Managed < Host::Base
     property :global_status, Integer, desc: 'Returns numerical representation of the host status'
     property :multiboot, String, desc: 'Returns path to multiboot loader'
     property :miniroot, String, desc: 'Returns path to the initial RAM disk for this host'
-    property :puppetca_token, 'Token::Puppetca', desc: 'Returns Puppet CA token for this host'
+    property :puppetca_token, 'Token::PuppetCA', desc: 'Returns Puppet CA token for this host'
     property :last_report, 'ActiveSupport::TimeWithZone', desc: 'Returns date object representing time when the last report was made by this host'
     property :smart_proxies, array_of: ['SmartProxy'], desc: 'Returns Smart Proxies attached to the host'
     property :virtual, one_of: [true, false], desc: 'Returns true if the host is virtual, false otherwise'
@@ -306,7 +306,7 @@ class Host::Managed < Host::Base
   include Rails.application.routes.url_helpers
   # TFTP orchestration delegation
   delegate :tftp?, :tftp6?, :tftp, :tftp6, :generate_pxe_template, :to => :provision_interface
-  include Orchestration::Puppetca
+  include Orchestration::PuppetCA
   include Orchestration::SshProvision
   include Orchestration::Realm
   include HostTemplateHelpers
