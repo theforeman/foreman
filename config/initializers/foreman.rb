@@ -3,9 +3,9 @@ require 'English'
 
 # Registries from app/registries/
 # All are loaded and populated early but are loaded only once
-require_dependency 'foreman/access_permissions'
-require_dependency 'foreman/plugin'
-require_dependency 'foreman/settings'
+require 'foreman/access_permissions'
+require 'foreman/plugin'
+require 'foreman/settings'
 
 # Other internal dependencies, may be autoloaded
 require 'net'

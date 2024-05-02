@@ -71,7 +71,6 @@ require 'fog/ovirt' if defined?(::OVIRT)
 
 require File.expand_path('../lib/foreman', __dir__)
 require File.expand_path('../lib/foreman/exception', __dir__)
-require File.expand_path('../lib/core_extensions', __dir__)
 require File.expand_path('../lib/foreman/force_ssl', __dir__)
 require File.expand_path('../lib/foreman/logging', __dir__)
 require File.expand_path('../lib/foreman/http_proxy', __dir__)
@@ -119,7 +118,7 @@ module Foreman
     config.action_dispatch.use_authenticated_cookie_encryption = false
 
     # Rails 6.0 changed this to :zeitwerk
-    config.autoloader = :classic
+    config.autoloader = :zeitwerk
 
     # Rails 6.1 changed this to true, but apparently our codebase is not ready for bidirectional associations
     config.active_record.has_many_inversing = false
@@ -137,7 +136,6 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
     config.autoload_paths += %W(#{config.root}/app/models/fact_names)
     config.autoload_paths += %W(#{config.root}/app/models/lookup_keys)
-    config.autoload_paths += %W(#{config.root}/app/models/host_status)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)

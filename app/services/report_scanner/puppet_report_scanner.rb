@@ -1,4 +1,4 @@
-module Foreman
+module ReportScanner
   class PuppetReportScanner
     class << self
       def identify_origin(report_data)

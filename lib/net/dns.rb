@@ -4,13 +4,6 @@ require 'ipaddr'
 
 module Net
   module DNS
-    autoload :ForwardRecord, "net/dns/forward_record.rb"
-    autoload :ARecord,       "net/dns/a_record.rb"
-    autoload :AAAARecord,    "net/dns/aaaa_record.rb"
-    autoload :ReverseRecord, "net/dns/reverse_record.rb"
-    autoload :PTR4Record,    "net/dns/ptr_4_record.rb"
-    autoload :PTR6Record,    "net/dns/ptr_6_record.rb"
-
     # Looks up the IP or MAC address. Handles the conversion of a DNS miss
     # exception into nil
     # [+query+]: IP or hostname
