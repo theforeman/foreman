@@ -5,7 +5,7 @@ class HttpProxyTest < ActiveSupport::TestCase
     include Foreman::HttpProxy
   end
 
-  let(:adapter) { DummyHTTPAdapter.new }
+  let(:adapter) { DummyHttpAdapter.new }
   let(:http_proxy) { 'http://dummyproxy.theforeman.org:3218' }
   let(:excepted_hosts) { [] }
   let(:request_host) { 'dummyproxy.theforeman.org' }
