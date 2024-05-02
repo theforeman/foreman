@@ -47,6 +47,7 @@ module Foreman
   end
 end
 
+# Consider moving these to config.autoload_lib_once in Rails 7.1
 require_relative 'foreman/exception' # This could be extracted into separate files and get autoloaded
 require_relative 'foreman/force_ssl'
 require_relative 'foreman/logging'
