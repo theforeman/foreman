@@ -1,5 +1,3 @@
-require_dependency 'foreman/access_control'
-
 # Permissions
 Foreman::AccessControl.map do |permission_set|
   permission_set.security_block :public do |map|
