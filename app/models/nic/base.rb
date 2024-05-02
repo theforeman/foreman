@@ -370,5 +370,3 @@ module Nic
     end
   end
 end
-
-require_dependency 'nic/interface'

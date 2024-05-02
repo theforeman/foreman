@@ -339,6 +339,3 @@ class Template < ApplicationRecord
     end
   end
 end
-
-require_dependency 'provisioning_template'
-require_dependency 'ptable'

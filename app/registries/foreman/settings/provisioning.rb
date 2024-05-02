@@ -1,5 +1,3 @@
-require 'foreman/provision'
-
 Foreman::SettingManager.define(:foreman) do
   category(:provisioning, N_('Provisioning')) do
     CT_LOCATIONS = %w(/usr/bin/ct /usr/local/bin/ct)

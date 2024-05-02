@@ -1,4 +1,3 @@
-require 'fog_extensions/vsphere/mini_servers'
 require 'foreman/exception'
 
 begin

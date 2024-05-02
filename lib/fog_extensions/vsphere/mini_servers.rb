@@ -1,5 +1,3 @@
-require 'fog_extensions/vsphere/mini_server'
-
 module FogExtensions
   module Vsphere
     class MiniServers

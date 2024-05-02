@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class HTTPProxyTest < ActiveSupport::TestCase
-  class DummyHTTPAdapter
-    include Foreman::HTTPProxy
+class HttpProxyTest < ActiveSupport::TestCase
+  class DummyHttpAdapter
+    include Foreman::HttpProxy
   end
 
   let(:adapter) { DummyHTTPAdapter.new }
