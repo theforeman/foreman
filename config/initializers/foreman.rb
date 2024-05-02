@@ -11,8 +11,6 @@ Rails.application.config.before_initialize do
   Menu::Loader.load
 end
 
-Foreman.settings.load_definitions
-
 Foreman::Plugin.initialize_default_registries
 Foreman::Plugin.medium_providers_registry.register MediumProviders::Default
 
