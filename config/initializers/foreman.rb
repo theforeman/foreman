@@ -6,9 +6,6 @@ require 'English'
 require 'foreman/access_permissions'
 require 'foreman/settings'
 
-# Other internal dependencies, may be autoloaded
-require 'net'
-
 Rails.application.config.before_initialize do
   # load topbar
   Menu::Loader.load
