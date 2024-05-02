@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'net'
 
 class NetTest < ActiveSupport::TestCase
   test "Net record should auto assign attributes" do
