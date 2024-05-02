@@ -10,7 +10,3 @@ module ProxyStatus
     status_registry.find { |s| s.humanized_name == name }
   end
 end
-require_dependency('proxy_status/version')
-require_dependency('proxy_status/tftp')
-require_dependency('proxy_status/puppet_ca')
-require_dependency('proxy_status/logs')
