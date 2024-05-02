@@ -1,3 +1,3 @@
-class Token::Puppetca < ::Token
+class Token::PuppetCA < ::Token
   validates :value, uniqueness: true
 end
