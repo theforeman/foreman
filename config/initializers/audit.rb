@@ -1,6 +1,7 @@
 # The audit class is part of audited plugin
 # we reopen here to add search functionality
 require 'audited'
+require 'audit_associations/associations_changes'
 
 # Re-opened AuditorInstanceMethods to audit 1-0-* associations
 Audited::Auditor::AuditedInstanceMethods.prepend AuditAssociations::AssociationsChanges
