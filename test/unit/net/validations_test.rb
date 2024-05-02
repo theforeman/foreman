@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'net'
 
 class ValidationsTest < ActiveSupport::TestCase
   describe "validate_mac" do
