@@ -282,7 +282,7 @@ Naming/MethodName:
     - 'app/models/host/managed.rb'
     - 'app/models/hostgroup.rb'
     - 'app/services/proxy_api/tftp.rb'
-    - 'lib/net/dhcp/record.rb'
+    - 'app/lib/net/dhcp/record.rb'
     - 'test/controllers/api/v2/table_preferences_controller_test.rb'
     - 'test/helpers/fact_values_helper_test.rb'
     - 'test/models/orchestration_test.rb'
@@ -434,7 +434,7 @@ Rails/IndexBy:
 Rails/IndexWith:
   Exclude:
     - 'app/controllers/hosts_controller.rb'
-    - 'app/models/concerns/audit_associations.rb'
+    - 'lib/audit_associations/associations_changes.rb'
     - 'app/models/smart_proxy.rb'
     - 'test/active_support_test_case_helper.rb'
     - 'test/factories/smart_proxy.rb'
