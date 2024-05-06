@@ -65,6 +65,9 @@ autoinstall:
     variant: ''
   locale: <%= host_param('lang', 'en_US') %>.UTF-8
 <%= snippet 'preseed_netplan_setup' -%>
+<% if host_param('http-proxy') -%>
+  proxy: http://<%= host_param('http-proxy') %>:<%= host_param('http-proxy-port') %>
+<% end -%>
   ssh:
     allow-pw: true
     install-server: true
