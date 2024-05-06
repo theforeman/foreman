@@ -4,7 +4,6 @@
 export SCLNAME=tfm
 
 usage() {
-[[ $UPLOAD_DISABLED -ne 0 ]] && UPLOAD_INFO=" (feature disabled by configuration)"
 cat <<USAGE
 $0 - configuration and log data collector
 
@@ -26,11 +25,9 @@ OPTIONS:
   -p      Additionally print password patterns being filtered out
   -q      Quiet mode
   -v      Verbose mode
-  -u      Upload tarball$UPLOAD_INFO
   -h      Shows this message
 
 USAGE
-[[ $UPLOAD_DISABLED -eq 0 ]] && echo "${UPLOAD_USAGE_MSG}"
 }
 
 # Filter for patterns like password=XYZ, -storepass XYZ or secret: XYZ
@@ -141,25 +138,6 @@ PRINTPASS=0
 QUIET=0
 VERBOSE=0
 DEBUG=0
-UPLOAD=0
-UPLOAD_DISABLED=0
-UPLOAD_URL='rsync://rsync.theforeman.org/debug-incoming'
-UPLOAD_CMD='rsync "${TARBALL}" "${UPLOAD_URL}"'
-UPLOAD_USAGE_MSG="\
-You may want to upload the tarball (with -u) to our public server via rsync.
-This is a write-only directory (readable only by Foreman core developers)
-Please note that the rsync transmission is UNENCRYPTED."
-UPLOAD_UNSET_MSG="\
-To upload a tarball to our secure site, please use the -u option."
-UPLOAD_SUCCESS_MSG="\
-The tarball has been uploaded, please contact us on community.theforeman.org
-or on IRC/Matrix (#theforeman), making sure you reference the following URL:
-
-    http://debugs.theforeman.org/"
-UPLOAD_FAIL_MSG="\
-The tarball could not be uploaded, please upload it to an alternate location
-and contact us on community.theforeman.org or on IRC/Matrix (#theforeman),
-making sure you reference that URL."
 
 if type -p xz >/dev/null; then
   COMPRESS="xz -1"
@@ -211,9 +189,6 @@ while getopts "d:gam:s:j:uqpvhx" opt; do
       MAXSIZE="$OPTARG"
       MAXSIZE=$((MAXSIZE*1024*1024))
       ;;
-    u)
-      UPLOAD=1
-      ;;
     x)
       # this option is not docummented - use for extra output,
       # skip slow items and to disable root check
@@ -232,8 +207,6 @@ while getopts "d:gam:s:j:uqpvhx" opt; do
 done
 
 [ $DEBUG -eq 0 -a $EUID -ne 0 ] && error "This script must be run as root" && exit 1
-
-[ $UPLOAD -eq 1 -a $NOTAR -eq 1 ] && error "Options -u and -a cannot be used together" && exit 2
 
 # some tasks take long time, print a banner (unless quiet mode was selected)
 qprintf "Processing... (takes a while)\n"
@@ -423,19 +396,6 @@ if [ "$NOTAR" -eq 0 ]; then
   qprintf "%s: %s\n\n" "A debug file has been created" "$TARBALL ($(stat -c %s "$TARBALL") bytes)"
 else
   qprintf "%s: %s\n\n" "A debug directory has been created" "$DIR"
-fi
-
-# upload if -u was passed in
-if [ $UPLOAD_DISABLED -eq 0 -a $UPLOAD -eq 1 ]; then
-  qprintf "Uploading...\n"
-  if eval ${UPLOAD_CMD} ; then
-    qprintf "%s%s\n" "${UPLOAD_SUCCESS_MSG}" "$(basename ${TARBALL})"
-  else
-    error "${UPLOAD_FAIL_MSG}"
-    exit 3
-  fi
-else
-  [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "%s\n" "${UPLOAD_UNSET_MSG}"
 fi
 
 printv "Finished in $SECONDS seconds"
