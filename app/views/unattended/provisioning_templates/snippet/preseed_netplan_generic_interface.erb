@@ -14,8 +14,8 @@ oses:
 <%- else -%>
     <%= @interface.identifier %>:
 <%- end -%>
-        dhcp4: <%= @dhcp %>
-        dhcp6: <%= @dhcp6 %>
+        dhcp4: <%= @dhcp.present? %>
+        dhcp6: <%= @dhcp6.present? %>
 <%-
 static_v4 = !@dhcp && !@subnet.nil? && !@interface.ip.nil?
 static_v6 = !@dhcp6 && !@subnet6.nil? && !@interface.ip6.nil?
