@@ -1,74 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import PropTypes from 'prop-types';
 
-import { FormGroup, TextInput } from '@patternfly/react-core';
+import { Button, FormGroup } from '@patternfly/react-core';
+import { PlusCircleIcon } from '@patternfly/react-icons';
 
 import LabelIcon from '../../../../../components/common/LabelIcon';
 
-import { translate as __ } from '../../../../../common/I18n';
+import { sprintf, translate as __ } from '../../../../../common/I18n';
 
-const Repository = ({
-  repo,
-  handleRepo,
-  repoGpgKeyUrl,
-  handleRepoGpgKeyUrl,
-  isLoading,
-}) => (
-  <>
-    <FormGroup
-      label={__('Repository')}
-      fieldId="reg_repo"
-      labelIcon={
-        <LabelIcon
-          text={__(
-            "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
-          )}
-        />
-      }
-    >
-      <TextInput
-        ouiaId="red_repo"
-        id="reg_repo"
-        value={repo}
-        type="text"
-        onChange={handleRepo}
-        isDisabled={isLoading}
-      />
-    </FormGroup>
-    <FormGroup
-      label={__('Repository GPG key URL')}
-      fieldId="reg_gpg_key_url"
-      labelIcon={
-        <LabelIcon
-          text={__(
-            'If packages are GPG signed, the public key can be specified here to verify the packages signatures. It needs to be specified in the ascii form with the GPG public key header.'
-          )}
-        />
-      }
-    >
-      <TextInput
-        ouiaId="reg_gpg_key_url"
-        id="reg_gpg_key_url"
-        value={repoGpgKeyUrl}
-        type="text"
-        onChange={handleRepoGpgKeyUrl}
-        isDisabled={isLoading}
-      />
-    </FormGroup>
-  </>
-);
+import RepositoryModal from './RepositoryModal';
 
-Repository.propTypes = {
-  repo: PropTypes.string,
-  repoGpgKeyUrl: PropTypes.string,
-  handleRepo: PropTypes.func.isRequired,
-  handleRepoGpgKeyUrl: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+const Repository = ({ repoData, handleRepoData, isLoading }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalToggle = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const realRepoNumber = () => repoData.filter(r => r.repository !== '').length;
+
+  return (
+    <>
+      <RepositoryModal
+        ouiaId="register_host_repo_modal"
+        id="register_host_repo_modal"
+        repoData={repoData}
+        handleRepoData={handleRepoData}
+        isLoading={isLoading}
+        isModalOpen={isModalOpen}
+        handleModalToggle={handleModalToggle}
+      />
+      <FormGroup
+        label={__('Repositories')}
+        fieldId="reg_repo"
+        labelIcon={
+          <LabelIcon
+            text={__(
+              'Repositories to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. GPG keys can also be provided here if necessary.'
+            )}
+          />
+        }
+      >
+        <Button
+          ouiaId="host_reg_add_more_repositories"
+          variant="link"
+          icon={<PlusCircleIcon />}
+          onClick={handleModalToggle}
+        >
+          {sprintf(
+            __('Add repositories for registration (%s set)'),
+            realRepoNumber()
+          )}
+        </Button>
+      </FormGroup>
+    </>
+  );
 };
 
-Repository.defaultProps = {
-  repo: '',
-  repoGpgKeyUrl: '',
+Repository.propTypes = {
+  repoData: PropTypes.array.isRequired,
+  handleRepoData: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default Repository;

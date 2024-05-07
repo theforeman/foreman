@@ -18,10 +18,8 @@ const Advanced = ({
   handleInvalidField,
   packages,
   handlePackages,
-  repo,
-  handleRepo,
-  repoGpgKeyUrl,
-  handleRepoGpgKeyUrl,
+  repoData,
+  handleRepoData,
   updatePackages,
   handleUpdatePackages,
   isLoading,
@@ -47,10 +45,8 @@ const Advanced = ({
       isLoading={isLoading}
     />
     <Repository
-      repo={repo}
-      handleRepo={handleRepo}
-      repoGpgKeyUrl={repoGpgKeyUrl}
-      handleRepoGpgKeyUrl={handleRepoGpgKeyUrl}
+      repoData={repoData}
+      handleRepoData={handleRepoData}
       isLoading={isLoading}
     />
     <TokenLifeTime
@@ -72,11 +68,9 @@ Advanced.propTypes = {
   handleJwtExpiration: PropTypes.func.isRequired,
   handleInvalidField: PropTypes.func.isRequired,
   packages: PropTypes.string,
-  repo: PropTypes.string,
-  repoGpgKeyUrl: PropTypes.string,
+  repoData: PropTypes.array.isRequired,
   handlePackages: PropTypes.func.isRequired,
-  handleRepo: PropTypes.func.isRequired,
-  handleRepoGpgKeyUrl: PropTypes.func.isRequired,
+  handleRepoData: PropTypes.func.isRequired,
   updatePackages: PropTypes.bool,
   handleUpdatePackages: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -88,8 +82,6 @@ Advanced.defaultProps = {
   setupInsights: '',
   jwtExpiration: 4,
   packages: '',
-  repo: '',
-  repoGpgKeyUrl: '',
   updatePackages: false,
 };
 

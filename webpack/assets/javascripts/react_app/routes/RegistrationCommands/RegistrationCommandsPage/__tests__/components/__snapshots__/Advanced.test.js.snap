@@ -22,11 +22,9 @@ exports[`RegistrationCommandsPage - Advanced renders 1`] = `
     updatePackages={false}
   />
   <Repository
-    handleRepo={[Function]}
-    handleRepoGpgKeyUrl={[Function]}
+    handleRepoData={[Function]}
     isLoading={false}
-    repo=""
-    repoGpgKeyUrl=""
+    repoData={Array []}
   />
   <TokenLifeTime
     handleInvalidField={[Function]}
