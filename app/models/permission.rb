@@ -12,7 +12,11 @@ class Permission < ApplicationRecord
   scoped_search :on => :resource_type
 
   def self.resources
-    @all_resources ||= Permission.distinct.order(:resource_type).pluck(:resource_type).compact
+    # We don't run seeds.rb initializer in test environment, so at the first call of this method in TemplateInputsController
+    # during code loading @all_resources will be an empty array, and don't get populated with the actual resources from db later
+    # In dev and prod environments, the seeds.rb initializer is run, so @all_resources will be populated with the actual resources
+    @all_resources = Permission.distinct.order(:resource_type).pluck(:resource_type).compact if @all_resources.empty?
+    @all_resources
   end
 
   def self.resources_with_translations
