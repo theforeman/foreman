@@ -2,41 +2,38 @@
 
 exports[`RegistrationCommandsPage fields - Repository renders 1`] = `
 <Fragment>
+  <RepositoryModal
+    handleModalToggle={[Function]}
+    handleRepoData={[Function]}
+    id="register_host_repo_modal"
+    isLoading={false}
+    isModalOpen={false}
+    ouiaId="register_host_repo_modal"
+    repoData={Array []}
+  />
   <FormGroup
     fieldId="reg_repo"
-    label="Repository"
+    label="Repositories"
     labelIcon={
       <LabelIcon
-        text="A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+        text="Repositories to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. GPG keys can also be provided here if necessary."
       />
     }
   >
-    <TextInput
-      id="reg_repo"
-      isDisabled={false}
-      onChange={[Function]}
-      ouiaId="red_repo"
-      type="text"
-      value=""
-    />
-  </FormGroup>
-  <FormGroup
-    fieldId="reg_gpg_key_url"
-    label="Repository GPG key URL"
-    labelIcon={
-      <LabelIcon
-        text="If packages are GPG signed, the public key can be specified here to verify the packages signatures. It needs to be specified in the ascii form with the GPG public key header."
-      />
-    }
-  >
-    <TextInput
-      id="reg_gpg_key_url"
-      isDisabled={false}
-      onChange={[Function]}
-      ouiaId="reg_gpg_key_url"
-      type="text"
-      value=""
-    />
+    <Button
+      icon={
+        <PlusCircleIcon
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+        />
+      }
+      onClick={[Function]}
+      ouiaId="host_reg_add_more_repositories"
+      variant="link"
+    >
+      Add repositories for registration (0 set)
+    </Button>
   </FormGroup>
 </Fragment>
 `;

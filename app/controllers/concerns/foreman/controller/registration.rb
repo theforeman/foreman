@@ -18,6 +18,10 @@ module Foreman::Controller::Registration
     location = Location.authorized(:view_locations).find(params['location_id']) if params['location_id'].present?
     host_group = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id']) if params["hostgroup_id"].present?
     operatingsystem = Operatingsystem.authorized(:view_operatingsystems).find(params['operatingsystem_id']) if params["operatingsystem_id"].present?
+    if params["repo_data"].present?
+      repo_data = {}
+      params['repo_data'].each { |repo| repo_data[repo['repository']] = repo['repo_gpg_key_url'] }
+    end
 
     context = {
       user: User.current,
@@ -30,8 +34,7 @@ module Foreman::Controller::Registration
       setup_remote_execution: ActiveRecord::Type::Boolean.new.deserialize(params['setup_remote_execution']),
       packages: params['packages'],
       update_packages: params['update_packages'],
-      repo: params['repo'],
-      repo_gpg_key_url: params['repo_gpg_key_url'],
+      repo_data: repo_data,
     }
 
     params.permit(permitted)

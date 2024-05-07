@@ -33,10 +33,8 @@ export const advancedComponentProps = {
   handleInvalidField: () => {},
   packages: '',
   handlePackages: () => {},
-  repo: '',
-  repoGpgKeyUrl: '',
-  handleRepo: () => {},
-  handleRepoGpgKeyUrl: () => {},
+  repoData: [],
+  handleRepoData: () => {},
   updatePackages: false,
   handleUpdatePackages: () => {},
   isLoading: false,
@@ -101,10 +99,8 @@ export const updatePackagesProps = {
 };
 
 export const repositoryProps = {
-  repo: '',
-  handleRepo: () => {},
-  repoGpgKeyUrl: '',
-  handleRepoGpgKeyUrl: () => {},
+  repoData: [],
+  handleRepoData: () => {},
   isLoading: false,
 };
 

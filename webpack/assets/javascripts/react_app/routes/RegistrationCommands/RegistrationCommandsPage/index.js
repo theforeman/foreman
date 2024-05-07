@@ -85,8 +85,8 @@ const RegistrationCommandsPage = () => {
   const [jwtExpiration, setJwtExpiration] = useState(4);
   const [packages, setPackages] = useState('');
   const [updatePackages, setUpdatePackages] = useState(false);
-  const [repo, setRepo] = useState('');
-  const [repoGpgKeyUrl, setRepoGpgKeyUrl] = useState('');
+  const [repoData, setRepoData] = useState([]);
+  const [repoDataInternal, setRepoDataInternal] = useState([]);
   const [invalidFields, setInvalidFields] = useState([]);
 
   // Command
@@ -126,8 +126,7 @@ const RegistrationCommandsPage = () => {
       setupInsights,
       jwtExpiration,
       packages,
-      repo,
-      repoGpgKeyUrl,
+      repoData,
       updatePackages,
       ...pluginValues,
     };
@@ -139,6 +138,18 @@ const RegistrationCommandsPage = () => {
     e.preventDefault();
     setActiveTab(tab);
   };
+
+  // Update internal repoData that is submitted to server
+  useEffect(() => {
+    setRepoData(
+      repoDataInternal
+        .filter(r => r.repository !== '')
+        .map(repo => ({
+          repository: repo.repository,
+          repo_gpg_key_url: repo.gpgKeyUrl,
+        }))
+    );
+  }, [repoDataInternal]);
 
   // Reset form values when Organization / Location is selected
   useEffect(() => {
@@ -306,10 +317,8 @@ const RegistrationCommandsPage = () => {
                   hostGroupId={hostGroupId}
                   packages={packages}
                   handlePackages={setPackages}
-                  repo={repo}
-                  handleRepo={setRepo}
-                  repoGpgKeyUrl={repoGpgKeyUrl}
-                  handleRepoGpgKeyUrl={setRepoGpgKeyUrl}
+                  repoData={repoDataInternal}
+                  handleRepoData={setRepoDataInternal}
                   updatePackages={updatePackages}
                   handleUpdatePackages={setUpdatePackages}
                   isLoading={isLoading}
