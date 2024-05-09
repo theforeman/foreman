@@ -5,15 +5,13 @@ model: ProvisioningTemplate
 kind: Bootdisk
 description: |
   Example foreman_bootdisk generic host template
- 
   This template is generic, but it will chainload to Foreman so expects the
   host to be registered already.
- 
   It loops through all interfaces using DHCP, requesting a template from
   Foreman in the hope that one of the MACs or IPs matches.
 require:
 - plugin: foreman_bootdisk
-￼ version: 20.0.0
+  version: 20.0.0
 -%>
 #!ipxe
 
