@@ -96,7 +96,7 @@ description: |
   echo "Starting the subscription-manager registration process"
 
   # Set up subscription-manager
-  <%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'provisioning' }).strip -%>
+  <%= indent(2) { snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'provisioning' }).strip } -%>
 
   <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) -%>
     # Avoid timeout accessing unreachable repo on air gapped infrastructure,
