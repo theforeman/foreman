@@ -13,22 +13,22 @@ module LayoutHelper
 
   def available_organizations
     Organization.my_organizations.map do |organization|
-      {id: organization.id, title: organization.title, href: main_app.select_organization_path(organization)}
+      {id: organization.id, title: organization.title&.html_safe, href: main_app.select_organization_path(organization)}
     end
   end
 
   def available_locations
     Location.my_locations.map do |location|
-      {id: location.id, title: location.title, href: main_app.select_location_path(location)}
+      {id: location.id, title: location.title&.html_safe, href: main_app.select_location_path(location)}
     end
   end
 
   def current_organization
-    Organization&.current&.title
+    Organization&.current&.title&.html_safe
   end
 
   def current_location
-    Location&.current&.title
+    Location&.current&.title&.html_safe
   end
 
   def fetch_organizations
@@ -40,7 +40,9 @@ module LayoutHelper
   end
 
   def fetch_user
-    { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu), impersonated_by: User.unscoped.find_by_id(session[:impersonated_by]) }
+    u = User.current.attributes
+    u[:description] = u[:description]&.html_safe
+    { current_user: u, user_dropdown: Menu::Manager.to_hash(:side_menu), impersonated_by: User.unscoped.find_by_id(session[:impersonated_by]) }
   end
 
   def layout_data
@@ -51,7 +53,7 @@ module LayoutHelper
       user: fetch_user, brand: 'foreman',
       root: main_app.root_path,
       locations: fetch_locations, orgs: fetch_organizations,
-      instance_title: Setting[:instance_title],
+      instance_title: Setting[:instance_title]&.html_safe,
       instance_color: Setting[:instance_color]
     }
   end
