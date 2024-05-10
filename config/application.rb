@@ -70,7 +70,6 @@ end
 require 'fog/ovirt' if defined?(::OVIRT)
 
 require File.expand_path('../lib/foreman', __dir__)
-require File.expand_path('../lib/timed_cached_store', __dir__)
 require File.expand_path('../lib/foreman/exception', __dir__)
 require File.expand_path('../lib/core_extensions', __dir__)
 require File.expand_path('../lib/foreman/force_ssl', __dir__)
@@ -300,7 +299,6 @@ module Foreman
     config.active_record.logger = Foreman::Logging.logger('sql')
 
     # enables in memory cache store with ttl
-    # config.cache_store = TimedCachedStore.new
     rails_cache_settings = SETTINGS[:rails_cache_store]
     if (rails_cache_settings && rails_cache_settings[:type] == 'redis')
       options = [:redis_cache_store]
