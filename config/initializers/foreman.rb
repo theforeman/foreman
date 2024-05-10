@@ -11,12 +11,14 @@ Rails.application.config.before_initialize do
   Menu::Loader.load
 end
 
+Foreman::Plugin.initialize_default_registries
+
 Rails.application.config.after_initialize do
   Foreman.settings.load_values unless Foreman.in_setup_db_rake? || !(Setting.table_exists? rescue false)
 end
 
 Rails.application.config.to_prepare do
-  Foreman::Plugin.initialize_default_registries
+  Foreman::Plugin.report_scanner_registry.register_report_scanner ReportScanner::PuppetReportScanner
   Foreman::Plugin.medium_providers_registry.register MediumProviders::Default
   # clear our users topbar cache
   # The users table may not be exist during initial migration of the database
