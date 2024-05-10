@@ -2,17 +2,28 @@ require 'test_helper'
 
 class LinksControllerTest < ActionController::TestCase
   describe 'documentation' do
-    test '#documentation_url returns global url if no section specified' do
-      get :show, params: { type: 'manual' }
+    test '#documentation_url returns global url if no section specified on develop' do
+      with_temporary_settings(version: Foreman::Version.new('3.10-develop')) do
+        get :show, params: { type: 'manual' }
 
-      assert_redirected_to /index.html/
+        assert_redirected_to 'https://theforeman.org/manuals/nightly/index.html#'
+      end
+    end
+
+    test '#documentation_url returns global url if no section specified on stable' do
+      with_temporary_settings(version: Foreman::Version.new('3.9.1')) do
+        get :show, params: { type: 'manual' }
+
+        assert_redirected_to 'https://theforeman.org/manuals/3.9/index.html#'
+      end
     end
 
     test '#documentation_url returns foreman docs url with a given section' do
-      get :show, params: { type: 'manual', section: '1.1TestSection' }
+      with_temporary_settings(version: Foreman::Version.new('3.10-develop')) do
+        get :show, params: { type: 'manual', section: '1.1TestSection' }
 
-      assert_redirected_to /TestSection/
-      assert_redirected_to /manuals/
+        assert_redirected_to 'https://theforeman.org/manuals/nightly/index.html#1.1TestSection'
+      end
     end
 
     test '#documentation_url receives a root_url option' do

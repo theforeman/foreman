@@ -53,17 +53,20 @@ class LinksController < ApplicationController
     "https://theforeman.org/#{sub_path}"
   end
 
+  def documentation_version
+    SETTINGS[:version].tag == 'develop' ? 'nightly' : SETTINGS[:version].short
+  end
+
   def documentation_url(section = "", options = {})
-    root_url = options[:root_url] || foreman_org_path("manuals/#{SETTINGS[:version].short}/index.html#")
+    root_url = options[:root_url] || foreman_org_path("manuals/#{documentation_version}/index.html#")
     root_url + (section || '')
   end
 
   # For new documentation at docs.theforeman.org
   def docs_url(guide:, flavor:, chapter: nil)
-    version = SETTINGS[:version].tag == 'develop' ? 'nightly' : SETTINGS[:version].short
     chapter_hash = "##{chapter}" if chapter
 
-    "https://docs.theforeman.org/#{version}/#{guide}/index-#{flavor}.html#{chapter_hash}"
+    "https://docs.theforeman.org/#{documentation_version}/#{guide}/index-#{flavor}.html#{chapter_hash}"
   end
 
   def plugin_documentation_url
