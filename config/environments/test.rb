@@ -12,7 +12,6 @@ Foreman::Application.configure do
   # and recreated between test runs. Don't rely on the data there!
   config.cache_classes = true
 
-  # Eager load currently cannot be set due to: https://projects.theforeman.org/issues/31977
   config.eager_load = true
 
   # Configure static asset server for tests with Cache-Control for performance.
