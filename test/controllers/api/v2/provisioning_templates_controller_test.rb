@@ -92,7 +92,19 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
   test "should build pxe menu" do
     ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
     ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
+
     post :build_pxe_default
+    assert_response 200
+  end
+
+  test "should build pxe menu with taxonomies" do
+    organization = taxonomies(:organization1)
+    location = taxonomies(:location1)
+
+    ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
+    ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
+
+    post :build_pxe_default, params: { :organization_id => organization.id, :location_id => location.id }
     assert_response 200
   end
 
