@@ -53,7 +53,7 @@ EOF
         subscription-manager clean
       fi
 
-      if ![ -f /etc/debian_version ]; then
+      if ! [ -f /etc/debian_version ]; then
         $PKG_MANAGER_REMOVE katello-ca-consumer\* > /dev/null 2>&1
       fi
     <% end -%>
