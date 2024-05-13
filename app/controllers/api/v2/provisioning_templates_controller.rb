@@ -6,7 +6,7 @@ module Api
       include Foreman::Controller::Parameters::ProvisioningTemplate
       include Foreman::Controller::TemplateImport
 
-      before_action :find_optional_nested_object
+      before_action :find_optional_nested_object, except: [:build_pxe_default]
       before_action :find_resource, :only => %w{show update destroy clone export}
 
       before_action :handle_template_upload, :only => [:create, :update]
