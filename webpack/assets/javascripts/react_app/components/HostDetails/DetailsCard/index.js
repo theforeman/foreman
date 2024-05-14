@@ -24,6 +24,7 @@ import { STATUS } from '../../../constants';
 import DefaultLoaderEmptyState from './DefaultLoaderEmptyState';
 import PowerStatusDropDown from './PowerStatus/PowerStatusDropDown';
 import { foremanUrl } from '../../../common/helpers';
+import { InlineEdit } from '../InlineEdit';
 
 import './styles.scss';
 
@@ -39,7 +40,10 @@ const DetailsCard = ({
     owner_name: ownerName,
     hostgroup_name: hostgroupName,
     hostgroup_id: hostgroupId,
-    permissions: { power_hosts: hasPowerPermission } = {},
+    permissions: {
+      power_hosts: hasPowerPermission,
+      edit_hosts: editPermission,
+    } = {},
   },
 }) => (
   <GridItem xl2={3} xl={4} md={6} lg={4} rowSpan={2}>
@@ -172,7 +176,12 @@ const DetailsCard = ({
                 emptyState={<DefaultLoaderEmptyState />}
                 status={status}
               >
-                {comment}
+                <InlineEdit
+                  name="comment"
+                  defaultValue={comment}
+                  hostName={hostName}
+                  editPermission={editPermission}
+                />
               </SkeletonLoader>
             </DescriptionListDescription>
           </DescriptionListGroup>
