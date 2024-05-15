@@ -47,10 +47,11 @@ class Api::V2::TablePreferencesControllerTest < ActionController::TestCase
 
   def test_should_update_correctly
     resource = resources.first
+    setup_user 'view', resource
     current_user = User.current
-    TablePreference.create!(user: User.current,
-                       name: resource, columns: expected_columns)
 
+    TablePreference.create!(user: User.current,
+                            name: resource, columns: expected_columns)
     put :update, params: {user_id: User.current.id, id: resource, columns: expected_columns}
     assert_response :success
     columns = current_user.reload.table_preferences.first
@@ -60,7 +61,11 @@ class Api::V2::TablePreferencesControllerTest < ActionController::TestCase
   def test_should_destroy_correctly
     resource1 = resources[0]
     resource2 = resources[1]
+
+    setup_user 'view', resource1
+    setup_user 'view', resource2
     current_user = User.current
+
     TablePreference.create!(user: User.current,
                        name: resource1, columns: expected_columns)
     TablePreference.create!(user: User.current,

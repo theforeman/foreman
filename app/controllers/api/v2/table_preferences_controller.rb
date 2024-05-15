@@ -54,8 +54,8 @@ module Api
         deny_access N_("You are trying access the preferences of a different user") if @user != User.current
       end
 
-      def resource_class
-        TablePreference
+      def resource_scope(...)
+        TablePreference.where(user: @user)
       end
     end
   end
