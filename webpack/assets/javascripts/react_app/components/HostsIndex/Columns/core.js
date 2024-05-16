@@ -6,15 +6,16 @@ import { UserIcon, UsersIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
 import forceSingleton from '../../../common/forceSingleton';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
+import HostPowerStatus from './components/HostPowerStatus';
 
 const coreHostsIndexColumns = [
-  // { // TODO: make power status work
-  //   columnName: 'power_status',
-  //   title: __('Power'),
-  //   wrapper: ({ power_status: powerStatus }) => powerStatus ?? __('Unknown'),
-  //   isSorted: false,
-  //   weight: 0,
-  // },
+  {
+    columnName: 'power_status',
+    title: __('Power'),
+    wrapper: ({ name }) => <HostPowerStatus hostName={name} />,
+    isSorted: false,
+    weight: 0,
+  },
   {
     columnName: 'name',
     title: __('Name'),
