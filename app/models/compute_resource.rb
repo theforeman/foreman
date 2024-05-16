@@ -457,6 +457,10 @@ class ComputeResource < ApplicationRecord
       first
   end
 
+  def associated_vm(host)
+    vms(:eager_loading => true).find { |vm| associate_by_host("mac", vm.interfaces.map(&:mac), host) }
+  end
+
   def associate_by_host(name, attributes, host)
     attributes = Array.wrap(attributes).map { |mac| Net::Validations.normalize_mac(mac) } if name == 'mac'
     Host.authorized(:view_hosts, Host).where(:id => host.id).joins(:primary_interface).
