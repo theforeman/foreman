@@ -250,8 +250,6 @@ class PuppetFactParser < FactParser
     when /Debian/i
       release = os_release_full
       case release
-      when 'bookworm/sid' # Debian Bookworm will be 12
-        '12'
       when 'trixie/sid' # Debian Trixie will be 13
         '13'
       when 'forky/sid' # Debian Forky will be 14
