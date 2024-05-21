@@ -32,7 +32,7 @@ module Foreman::Controller::RegistrationCommands
   end
 
   def invalid_expiration_error
-    raise ::Foreman::Exception.new(N_("Invalid value '%s' for jwt_expiration. The value must be between %s and %s. 0 means 'unlimited'."), registration_params['jwt_expiration'], MIN_VALUE, MAX_VALUE)
+    raise ::Foreman::Exception.new(N_("Invalid value '%{value}' for jwt_expiration. The value must be between %{minimum} and %{maximum}. 0 means 'unlimited'."), { value: registration_params['jwt_expiration'], minimum: MIN_VALUE, maximum: MAX_VALUE })
   end
 
   def jwt_expiration_param
