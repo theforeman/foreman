@@ -1,6 +1,5 @@
 /* eslint-disable max-lines */
 import React, { createContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { Tr, Td, ActionsColumn } from '@patternfly/react-table';
 import {
@@ -21,7 +20,10 @@ import TableIndexPage from '../PF4/TableIndexPage/TableIndexPage';
 import { ActionKebab } from './ActionKebab';
 import { HOSTS_API_PATH, API_REQUEST_KEY } from '../../routes/Hosts/constants';
 import { selectKebabItems } from './Selectors';
-import { useBulkSelect } from '../PF4/TableIndexPage/Table/TableHooks';
+import {
+  useBulkSelect,
+  useUrlParams,
+} from '../PF4/TableIndexPage/Table/TableHooks';
 import SelectAllCheckbox from '../PF4/TableIndexPage/Table/SelectAllCheckbox';
 import {
   filterColumnDataByUserPreferences,
@@ -30,7 +32,6 @@ import {
 } from '../PF4/TableIndexPage/Table/helpers';
 import { deleteHost } from '../HostDetails/ActionsBar/actions';
 import { useForemanSettings } from '../../Root/Context/ForemanContext';
-import { getURIsearch } from '../../common/urlHelpers';
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
@@ -54,13 +55,14 @@ export const ForemanHostsIndexActionsBarContext = forceSingleton(
 );
 
 const HostsIndex = () => {
-  const history = useHistory();
-  const { location: { search: historySearch } = {} } = history || {};
-  const urlParams = new URLSearchParams(historySearch);
-  const urlParamsSearch = urlParams.get('search') || '';
-  const searchFromUrl = urlParamsSearch || getURIsearch();
-  const initialSearchQuery = apiSearchQuery || searchFromUrl || '';
-  const defaultParams = { search: initialSearchQuery };
+  const {
+    searchParam: urlSearchQuery = '',
+    page: urlPage,
+    per_page: urlPerPage,
+  } = useUrlParams();
+  const defaultParams = { search: urlSearchQuery };
+  if (urlPage) defaultParams.page = Number(urlPage);
+  if (urlPerPage) defaultParams.per_page = Number(urlPerPage);
   const apiOptions = { key: API_REQUEST_KEY };
   const response = useTableIndexAPIResponse({
     apiUrl: HOSTS_API_PATH,
@@ -70,7 +72,6 @@ const HostsIndex = () => {
 
   const {
     response: {
-      search: apiSearchQuery,
       results,
       total,
       per_page: perPage,
@@ -120,7 +121,7 @@ const HostsIndex = () => {
   } = useBulkSelect({
     results,
     metadata: { total, page, selectable: subtotal },
-    initialSearchQuery,
+    initialSearchQuery: urlSearchQuery,
   });
 
   const {
@@ -300,7 +301,7 @@ const HostsIndex = () => {
         refreshData={() =>
           setAPIOptions({
             ...apiOptions,
-            params: { search: searchFromUrl },
+            params: { search: urlSearchQuery },
           })
         }
         columns={columns}
