@@ -47,23 +47,23 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Create new host when facts are uploaded'))
     setting('location_fact',
       type: :string,
-      description: N_("Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."),
+      description: N_("Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."),
       default: 'foreman_location',
       full_name: N_('Location fact'))
     setting('organization_fact',
       type: :string,
-      description: N_("Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."),
+      description: N_("Hosts created from facts will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."),
       default: 'foreman_organization',
       full_name: N_('Organization fact'))
     setting('default_location',
       type: :string,
-      description: N_("Hosts created after a puppet run that did not send a location fact will be placed in this location"),
+      description: N_("Hosts created from facts will be placed in this location if no location fact was sent"),
       default: '',
       full_name: N_('Default location'),
       collection: proc { Hash[Location.all.pluck(:title).map { |title| [title, title] }] })
     setting('default_organization',
       type: :string,
-      description: N_("Hosts created after a puppet run that did not send a organization fact will be placed in this organization"),
+      description: N_("Hosts created from facts will be placed in this organization if no organization fact was sent"),
       default: '',
       full_name: N_('Default organization'),
       collection: proc { Hash[Organization.all.pluck(:title).map { |title| [title, title] }] })
