@@ -24,3 +24,8 @@ export const useForemanHostsPageUrl = () => {
   const { displayNewHostsPage } = useForemanSettings();
   return getHostsPageUrl(displayNewHostsPage);
 };
+
+export const useForemanHostDetailsPageUrl = () => {
+  const { displayNewHostDetailsPage } = useForemanSettings();
+  return displayNewHostDetailsPage ? '/new/hosts/' : '/hosts/';
+};

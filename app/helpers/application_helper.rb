@@ -428,6 +428,7 @@ module ApplicationHelper
       safeMode: Setting[:safemode_render],
       displayFqdnForHosts: Setting[:display_fqdn_for_hosts],
       displayNewHostsPage: Setting[:new_hosts_page],
+      displayNewHostDetailsPage: Setting[:host_details_ui],
     }
   end
 end
