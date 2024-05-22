@@ -107,6 +107,9 @@ msgid_plural "%s months ago"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "%s saved"
+msgstr ""
+
 msgid "%s selected hosts"
 msgstr "%s 選擇的主機"
 
@@ -394,7 +397,7 @@ msgstr ""
 msgid "A problem occurred when detecting host type: %s"
 msgstr "刪除主機類型時發生錯誤：%s"
 
-msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgid "A repository to be added before the registration is performed. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
 msgstr ""
 
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
@@ -509,6 +512,12 @@ msgid "Add filter"
 msgstr "新增篩選器"
 
 msgid "Add parameter"
+msgstr ""
+
+msgid "Add repositories for registration (%s set)"
+msgstr ""
+
+msgid "Add repository"
 msgstr ""
 
 msgid "Add tag"
@@ -813,6 +822,9 @@ msgstr "參數陣列（名稱、值）"
 
 msgid "Array of template combinations (hostgroup_id, environment_id)"
 msgstr "範本組合陣列（hostgroup_id、environment_id）"
+
+msgid "Array with repository URL and corresponding GPG key URL"
+msgstr ""
 
 msgid "As mentioned above, different template types support different template inputs. See the table below for available combinations."
 msgstr ""
@@ -1453,6 +1465,9 @@ msgstr "改變擁有者"
 
 msgid "Change Power State"
 msgstr "改變電源狀態"
+
+msgid "Change Puppet CA"
+msgstr "改變 Puppet CA"
 
 msgid "Change the password"
 msgstr "更改密碼"
@@ -3013,7 +3028,7 @@ msgstr ""
 msgid "Expand nested items"
 msgstr "展開巢狀的項目"
 
-msgid "Expiration of the authorization token (in hours)"
+msgid "Expiration of the authorization token (in hours), 0 means 'unlimited'."
 msgstr ""
 
 msgid "Expiration of the authorization token."
@@ -3563,7 +3578,7 @@ msgstr ""
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr ""
 
-msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve its one-time registration password."
 msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
@@ -3902,6 +3917,9 @@ msgstr "狀態類型總數的雜湊"
 msgid "Help"
 msgstr "協助"
 
+msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgstr ""
+
 msgid "Hidden Value"
 msgstr ""
 
@@ -4027,9 +4045,6 @@ msgid "Host is not associated with an operating system"
 msgstr ""
 
 msgid "Host owner"
-msgstr ""
-
-msgid "Host owner is invalid"
 msgstr ""
 
 msgid "Host reported time is <em>%s</em>"
@@ -4254,17 +4269,17 @@ msgstr "主機名稱："
 msgid "Hosts"
 msgstr "主機"
 
-msgid "Hosts created after a puppet run that did not send a location fact will be placed in this location"
-msgstr "在 puppet run 之後建立而未傳送位置詳情的主機，將會被放置在此位置中"
+msgid "Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
+msgstr ""
 
-msgid "Hosts created after a puppet run that did not send a organization fact will be placed in this organization"
-msgstr "在 puppet run 之後建立而未傳送組織詳情的主機，將會被放置在這個組織中"
+msgid "Hosts created from facts will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
-msgstr "在 puppet run 之後建立的主機將會被放置在此詳情所指定的位置中。此詳情的內容應該要是位置的完整標籤。"
+msgid "Hosts created from facts will be placed in this location if no location fact was sent"
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
-msgstr "在 puppet run 之後建立的主機將會被放置在此詳情所指定的組織中。此詳情的內容應該要是組織的完整標籤。"
+msgid "Hosts created from facts will be placed in this organization if no organization fact was sent"
+msgstr ""
 
 msgid "Hosts in Build mode or with Build errors"
 msgstr ""
@@ -4885,6 +4900,9 @@ msgstr "已安裝"
 msgid "Instance %{uuid}"
 msgstr ""
 
+msgid "Instance color"
+msgstr ""
+
 msgid "Instance title"
 msgstr ""
 
@@ -4948,6 +4966,9 @@ msgstr ""
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr ""
 
+msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "無效的日誌等級：%s"
 
@@ -4980,6 +5001,9 @@ msgstr ""
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "透過詳情建立主機的類型無效：%s"
+
+msgid "Invalid value '%{value}' for jwt_expiration. The value must be between %{minimum} and %{maximum}. 0 means 'unlimited'."
+msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "無效的版本格式，請輸入 x.y 格式（僅主要版本）。"
@@ -5325,6 +5349,9 @@ msgstr "列出各個組織的所有分割表"
 
 msgid "List all permissions"
 msgstr "列出所有權限"
+
+msgid "List all permissions for current user"
+msgstr ""
 
 msgid "List all report templates"
 msgstr ""
@@ -7914,6 +7941,12 @@ msgstr "回報於"
 msgid "Report|Status"
 msgstr "狀態"
 
+msgid "Repositories"
+msgstr ""
+
+msgid "Repositories to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. GPG keys can also be provided here if necessary."
+msgstr ""
+
 msgid "Repository"
 msgstr "軟體庫"
 
@@ -7924,6 +7957,9 @@ msgid "Repository URL / details, for example for Debian OS family: 'deb http://d
 msgstr ""
 
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
+
+msgid "Repository list"
 msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
@@ -7945,6 +7981,9 @@ msgid "Reset"
 msgstr ""
 
 msgid "Reset PuppetCA certname for %s"
+msgstr ""
+
+msgid "Reset form"
 msgstr ""
 
 msgid "Reset search"
@@ -8343,6 +8382,9 @@ msgstr ""
 
 msgid "Select compute resources"
 msgstr "選擇運算資源"
+
+msgid "Select default"
+msgstr ""
 
 msgid "Select desired %s proxy"
 msgstr "選擇想要的 %s 代理"
@@ -9653,7 +9695,7 @@ msgstr ""
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr ""
 
-msgid "The instance title is shown on the top navigation bar (requires a page reload)."
+msgid "The instance title is shown above the header in a banner (requires a page reload)."
 msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
@@ -10018,6 +10060,9 @@ msgstr "總數"
 
 msgid "Total Hosts: %s"
 msgstr "總時數：%s"
+
+msgid "Total disk space"
+msgstr ""
 
 msgid "Total hosts count"
 msgstr ""
@@ -11073,7 +11118,7 @@ msgstr "範本是否鎖定並禁止進行編輯"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr ""
 
-msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."
@@ -11791,8 +11836,7 @@ msgstr "將外部使用者群組連上這個使用者群組"
 msgid "list"
 msgstr "清單"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "locale_name"
 
