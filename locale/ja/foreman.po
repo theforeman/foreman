@@ -103,6 +103,9 @@ msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s か月前"
 
+msgid "%s saved"
+msgstr ""
+
 msgid "%s selected hosts"
 msgstr "選択したホスト %s 台"
 
@@ -388,7 +391,7 @@ msgstr "ホストが設定エラーをレポートする際の通知"
 msgid "A problem occurred when detecting host type: %s"
 msgstr "ホストタイプの検出時に問題が発生しました: %s"
 
-msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgid "A repository to be added before the registration is performed. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
 msgstr ""
 
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
@@ -503,6 +506,12 @@ msgid "Add filter"
 msgstr "フィルターの追加"
 
 msgid "Add parameter"
+msgstr ""
+
+msgid "Add repositories for registration (%s set)"
+msgstr ""
+
+msgid "Add repository"
 msgstr ""
 
 msgid "Add tag"
@@ -807,6 +816,9 @@ msgstr "パラメーター (名前、値) の配列"
 
 msgid "Array of template combinations (hostgroup_id, environment_id)"
 msgstr "テンプレートの組み合わせ (hostgroup_id、environment_id) の配列"
+
+msgid "Array with repository URL and corresponding GPG key URL"
+msgstr ""
 
 msgid "As mentioned above, different template types support different template inputs. See the table below for available combinations."
 msgstr "上記のように、テンプレートタイプにより、異なるテンプレート入力をサポートします。使用可能な組み合わせについては、以下の表を参照してください。"
@@ -1446,6 +1458,9 @@ msgstr "所有者の変更"
 
 msgid "Change Power State"
 msgstr "電源状態の変更"
+
+msgid "Change Puppet CA"
+msgstr "Puppet CA の変更"
 
 msgid "Change the password"
 msgstr "パスワードの変更"
@@ -3005,8 +3020,8 @@ msgstr ""
 msgid "Expand nested items"
 msgstr "ネスト項目の展開"
 
-msgid "Expiration of the authorization token (in hours)"
-msgstr "承認トークンの有効期限 (時間)"
+msgid "Expiration of the authorization token (in hours), 0 means 'unlimited'."
+msgstr ""
 
 msgid "Expiration of the authorization token."
 msgstr "承認トークンの有効期限。"
@@ -3556,8 +3571,8 @@ msgstr "IPv4 インターフェースの Foreman サブネット ID"
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr "IPv6 インターフェースの Foreman サブネット ID"
 
-msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
-msgstr "Foreman は、新しいホストのレルムエントリーの自動作成をサポートしています。ホストにレルムが選択されると、Foreman は適切なレルム Smart Proxy に問い合わせて、ホストのエントリーを作成し、ワンタイムの登録パスワードを取得します。"
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve its one-time registration password."
+msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
 msgstr "Foreman はベアメタルホストのほかにも、「コンピュートリソース」と呼ばれる数多くの仮想化およびクラウドサービスでホストを作成し、管理することをサポートします。"
@@ -3895,6 +3910,9 @@ msgstr "ステータスタイプのハッシュ合計"
 msgid "Help"
 msgstr "ヘルプ"
 
+msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgstr ""
+
 msgid "Hidden Value"
 msgstr "非表示の値"
 
@@ -4024,9 +4042,6 @@ msgstr "ホストがオペレーティングシステムに関連付けられて
 
 msgid "Host owner"
 msgstr "ホストの所有者"
-
-msgid "Host owner is invalid"
-msgstr "ホストの所有者が無効です。"
 
 msgid "Host reported time is <em>%s</em>"
 msgstr "ホストのレポート時間は <em>%s</em> です"
@@ -4250,17 +4265,17 @@ msgstr "ホスト名:"
 msgid "Hosts"
 msgstr "ホスト"
 
-msgid "Hosts created after a puppet run that did not send a location fact will be placed in this location"
-msgstr "ロケーションのファクトを送信しなかった puppetrun 後に作成されるホストはこのロケーションに置かれます"
+msgid "Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
+msgstr ""
 
-msgid "Hosts created after a puppet run that did not send a organization fact will be placed in this organization"
-msgstr "組織のファクトを送信しなかった puppetrun 後に作成されるホストはこの組織に置かれます"
+msgid "Hosts created from facts will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
-msgstr "puppetrun 後に作成されるホストは、このファクトが定めるロケーションに置かれます。このファクトの内容とロケーションの全ラベルを同一にする必要があります。"
+msgid "Hosts created from facts will be placed in this location if no location fact was sent"
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
-msgstr "puppetrun 後に作成されるホストは、このファクトが定める組織に置かれます。このファクトの内容と組織の全ラベルを同一にする必要があります。"
+msgid "Hosts created from facts will be placed in this organization if no organization fact was sent"
+msgstr ""
 
 msgid "Hosts in Build mode or with Build errors"
 msgstr "ビルドモードのホストまたはビルドエラーのあるホスト"
@@ -4885,6 +4900,9 @@ msgstr "インストール済み"
 msgid "Instance %{uuid}"
 msgstr "インスタンス %{uuid}"
 
+msgid "Instance color"
+msgstr ""
+
 msgid "Instance title"
 msgstr "インスタンスタイトル"
 
@@ -4948,6 +4966,9 @@ msgstr "無効な HTTP(S) URL"
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "'%{os}' の '%{arch}' アーキテクチャーが無効です"
 
+msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "無効なログレベル: %s"
 
@@ -4980,6 +5001,9 @@ msgstr "無効なタグ。キーおよび値のプロパティーのあるマッ
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "ファクトを使用したホストの作成で無効なタイプ: %s"
+
+msgid "Invalid value '%{value}' for jwt_expiration. The value must be between %{minimum} and %{maximum}. 0 means 'unlimited'."
+msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "バージョン形式が無効です。x.y (メジャーバージョンのみ) で入力してください。"
@@ -5325,6 +5349,9 @@ msgstr "組織ごとのすべてのパーティションテーブルを一覧表
 
 msgid "List all permissions"
 msgstr "すべてのパーミッションを一覧表示"
+
+msgid "List all permissions for current user"
+msgstr ""
 
 msgid "List all report templates"
 msgstr "すべてのレポートテンプレートを一覧表示"
@@ -7221,7 +7248,7 @@ msgid "Permission"
 msgstr "パーミッション"
 
 msgid "Permission Denied"
-msgstr ""
+msgstr "パーミッションが拒否されました"
 
 msgid "Permission denied"
 msgstr "パーミッションが拒否されました。"
@@ -7921,6 +7948,12 @@ msgstr "レポート:"
 msgid "Report|Status"
 msgstr "状態"
 
+msgid "Repositories"
+msgstr ""
+
+msgid "Repositories to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. GPG keys can also be provided here if necessary."
+msgstr ""
+
 msgid "Repository"
 msgstr "リポジトリー"
 
@@ -7931,6 +7964,9 @@ msgid "Repository URL / details, for example for Debian OS family: 'deb http://d
 msgstr "リポジトリーURL / 詳細 (例: Debian OS ファミリーの場合は 'deb http://deb.example.com/ buster 1.0'、Red Hat OS ファミリーの場合は 'http://yum.theforeman.org/client/latest/el8/x86_64/')"
 
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
+
+msgid "Repository list"
 msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
@@ -7953,6 +7989,9 @@ msgstr "リセット"
 
 msgid "Reset PuppetCA certname for %s"
 msgstr "%s の PuppetCA certname のリセット"
+
+msgid "Reset form"
+msgstr ""
 
 msgid "Reset search"
 msgstr ""
@@ -8348,6 +8387,9 @@ msgstr ""
 
 msgid "Select compute resources"
 msgstr "コンピュートリソースの選択"
+
+msgid "Select default"
+msgstr ""
 
 msgid "Select desired %s proxy"
 msgstr "希望の %s プロキシーの選択"
@@ -9654,8 +9696,8 @@ msgstr "設定カテゴリーの人間が判読できる名前"
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr "たとえば、上記の情報を使用して、プロビジョニングテンプレートでインターフェースごとに NetworkManager の設定ファイルを作成できます。"
 
-msgid "The instance title is shown on the top navigation bar (requires a page reload)."
-msgstr "インスタンスのタイトルは上部のナビゲーションバーに表示されます (ページの再読み込みが必要です)。"
+msgid "The instance title is shown above the header in a banner (requires a page reload)."
+msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
 msgstr "iss (issuer) 要求は、JWT を発行したプリンシパルを特定します。大半の OpenID プロバイダーの場合には `/.well-known/openid-configuration` にあります。"
@@ -10021,6 +10063,9 @@ msgstr "合計"
 
 msgid "Total Hosts: %s"
 msgstr "ホストの合計数: %s 台"
+
+msgid "Total disk space"
+msgstr ""
 
 msgid "Total hosts count"
 msgstr "ホストの合計数"
@@ -11083,7 +11128,7 @@ msgstr "テンプレートの編集機能をロックするかどうか"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr "実験的なラボ機能にアクセスするためのメニューの表示または非表示 (ページのリロードが必要)"
 
-msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."
@@ -11809,8 +11854,7 @@ msgstr "外部ユーザーグループをこのユーザーグループにリン
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "日本語"
 

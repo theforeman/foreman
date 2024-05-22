@@ -98,6 +98,9 @@ msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s 개월 전 "
 
+msgid "%s saved"
+msgstr ""
+
 msgid "%s selected hosts"
 msgstr "%s 선택된 호스트 "
 
@@ -382,7 +385,7 @@ msgstr ""
 msgid "A problem occurred when detecting host type: %s"
 msgstr "호스트 유형을 감지하는 동안 문제가 발생했습니다: %s"
 
-msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgid "A repository to be added before the registration is performed. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
 msgstr ""
 
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
@@ -497,6 +500,12 @@ msgid "Add filter"
 msgstr "필터 추가 "
 
 msgid "Add parameter"
+msgstr ""
+
+msgid "Add repositories for registration (%s set)"
+msgstr ""
+
+msgid "Add repository"
 msgstr ""
 
 msgid "Add tag"
@@ -801,6 +810,9 @@ msgstr "매개 변수 (이름, 값)의 배열 "
 
 msgid "Array of template combinations (hostgroup_id, environment_id)"
 msgstr "템플릿 조합 (hostgroup_id, environment_id)의 배열 "
+
+msgid "Array with repository URL and corresponding GPG key URL"
+msgstr ""
 
 msgid "As mentioned above, different template types support different template inputs. See the table below for available combinations."
 msgstr ""
@@ -1440,6 +1452,9 @@ msgstr "소유자 변경"
 
 msgid "Change Power State"
 msgstr "전원 상태 변경"
+
+msgid "Change Puppet CA"
+msgstr "Puppet CA 변경"
 
 msgid "Change the password"
 msgstr "암호 변경"
@@ -3000,8 +3015,8 @@ msgstr ""
 msgid "Expand nested items"
 msgstr "중첩된 항목을 확장 "
 
-msgid "Expiration of the authorization token (in hours)"
-msgstr "인증 토큰 만료 (시간)"
+msgid "Expiration of the authorization token (in hours), 0 means 'unlimited'."
+msgstr ""
 
 msgid "Expiration of the authorization token."
 msgstr ""
@@ -3551,7 +3566,7 @@ msgstr "IPv4 인터페이스의 Foreman 서브넷 ID"
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr "IPv6 인터페이스의 Foreman 서브넷 ID"
 
-msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve its one-time registration password."
 msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
@@ -3890,6 +3905,9 @@ msgstr "상태 유형의 해시 합계 "
 msgid "Help"
 msgstr "도움말"
 
+msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgstr ""
+
 msgid "Hidden Value"
 msgstr ""
 
@@ -4016,9 +4034,6 @@ msgstr "호스트가 운영 체제와 연결되어 있지 않습니다."
 
 msgid "Host owner"
 msgstr "호스트 소유자"
-
-msgid "Host owner is invalid"
-msgstr "호스트 소유자가 잘못되었습니다."
 
 msgid "Host reported time is <em>%s</em>"
 msgstr "호스트 보고 시간은 <em>%s</em>입니다 "
@@ -4242,17 +4257,17 @@ msgstr "호스트명:"
 msgid "Hosts"
 msgstr "호스트"
 
-msgid "Hosts created after a puppet run that did not send a location fact will be placed in this location"
-msgstr "위치 정보를 전송하지 않고 puppet 실행 후 생성되는 호스트는 이 위치에 배치됩니다 "
+msgid "Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
+msgstr ""
 
-msgid "Hosts created after a puppet run that did not send a organization fact will be placed in this organization"
-msgstr "조직 정보를 전송하지 않고 puppet 실행 후 생성되는 호스트는 이 조직에 배치됩니다 "
+msgid "Hosts created from facts will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
-msgstr "puppet 실행 후 생성되는 호스트는 정보가 정하는 위치에 배치됩니다. 이러한 정보의 내용은 위치 전체 레이블이 되어야 합니다. "
+msgid "Hosts created from facts will be placed in this location if no location fact was sent"
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
-msgstr "puppet 실행 후 생성되는 호스트는 이 정보가 정하는 조직에 배치됩니다. 이러한 정보의 내용은 조직 전체 레이블이 되어야 합니다."
+msgid "Hosts created from facts will be placed in this organization if no organization fact was sent"
+msgstr ""
 
 msgid "Hosts in Build mode or with Build errors"
 msgstr ""
@@ -4873,6 +4888,9 @@ msgstr "설치됨 "
 msgid "Instance %{uuid}"
 msgstr ""
 
+msgid "Instance color"
+msgstr ""
+
 msgid "Instance title"
 msgstr "인스턴스 제목"
 
@@ -4936,6 +4954,9 @@ msgstr "잘못된 HTTP(S) URL"
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "'%{os}'에 대한 '%{arch}' 아키텍처가 잘못되었습니다."
 
+msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "잘못된 로그 레벨: %s"
 
@@ -4968,6 +4989,9 @@ msgstr "잘못된 태그입니다. 키 및 값 속성이 있는 맵의 배열이
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "팩트를 통한 호스트 생성의 잘못된 유형: %s"
+
+msgid "Invalid value '%{value}' for jwt_expiration. The value must be between %{minimum} and %{maximum}. 0 means 'unlimited'."
+msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "잘못된 버전 형식입니다. x.y 형식(메이저 버전만)으로 입력하십시오."
@@ -5313,6 +5337,9 @@ msgstr "조직별 모든 파티션 테이블 나열"
 
 msgid "List all permissions"
 msgstr "모든 권한 나열 "
+
+msgid "List all permissions for current user"
+msgstr ""
 
 msgid "List all report templates"
 msgstr "모든 보고서 템플릿 나열"
@@ -7900,6 +7927,12 @@ msgstr "보고 "
 msgid "Report|Status"
 msgstr "상태 "
 
+msgid "Repositories"
+msgstr ""
+
+msgid "Repositories to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. GPG keys can also be provided here if necessary."
+msgstr ""
+
 msgid "Repository"
 msgstr "리포지터리 "
 
@@ -7911,6 +7944,9 @@ msgstr "리포지터리 URL / 세부 정보 예시: Debian OS 제품군: 'http:/
 
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr "리포지터리 URL / 세부 정보, 예시 Debian OS 제품군: 'http://deb.example.com/ buster 1.0', Red Hat 및 SUSE OS 제품군: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+
+msgid "Repository list"
+msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
 msgstr ""
@@ -7932,6 +7968,9 @@ msgstr ""
 
 msgid "Reset PuppetCA certname for %s"
 msgstr "%s의 PuppetCA 인증서 이름 재설정"
+
+msgid "Reset form"
+msgstr ""
 
 msgid "Reset search"
 msgstr ""
@@ -8329,6 +8368,9 @@ msgstr ""
 
 msgid "Select compute resources"
 msgstr "컴퓨터 리소스 선택 "
+
+msgid "Select default"
+msgstr ""
 
 msgid "Select desired %s proxy"
 msgstr "원하는 %s 프록시 선택"
@@ -9638,8 +9680,8 @@ msgstr "사용자가 읽을 수 있는 설정 범주 이름"
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr ""
 
-msgid "The instance title is shown on the top navigation bar (requires a page reload)."
-msgstr "인스턴스 제목이 상단 탐색 모음에 표시됩니다 (페이지를 다시 로드해야 함)."
+msgid "The instance title is shown above the header in a banner (requires a page reload)."
+msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
 msgstr "iss(발행자) 클레임은 JWT를 발행한 주체를 식별하며, JWT는 OpenID 제공자의 대부분의 경우 `/.well-known/openid-configuration`에 존재한다."
@@ -10002,6 +10044,9 @@ msgstr "합계 "
 
 msgid "Total Hosts: %s"
 msgstr "총 호스트: %s"
+
+msgid "Total disk space"
+msgstr ""
 
 msgid "Total hosts count"
 msgstr "총 호스트 수"
@@ -11062,7 +11107,7 @@ msgstr "편집을 위한 템플릿의 잠금 여부 "
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr "실험실 기능에 액세스하기 위한 메뉴 표시 여부 (페이지 다시 로드 필요)"
 
-msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."
@@ -11779,8 +11824,7 @@ msgstr "외부 사용자 그룹이 이 사용자 그룹에 연결되어 있습�
 msgid "list"
 msgstr "목록"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "한국어"
 

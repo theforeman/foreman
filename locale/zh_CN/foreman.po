@@ -103,6 +103,9 @@ msgid "%s month ago"
 msgid_plural "%s months ago"
 msgstr[0] "%s 月前"
 
+msgid "%s saved"
+msgstr ""
+
 msgid "%s selected hosts"
 msgstr "%s 选择的主机"
 
@@ -388,7 +391,7 @@ msgstr "当主机报告一个配置错误时的通知"
 msgid "A problem occurred when detecting host type: %s"
 msgstr "删除主机类型时出现错误：%s"
 
-msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgid "A repository to be added before the registration is performed. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
 msgstr ""
 
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
@@ -503,6 +506,12 @@ msgid "Add filter"
 msgstr "增加过滤"
 
 msgid "Add parameter"
+msgstr ""
+
+msgid "Add repositories for registration (%s set)"
+msgstr ""
+
+msgid "Add repository"
 msgstr ""
 
 msgid "Add tag"
@@ -807,6 +816,9 @@ msgstr "参数数组（名称、值）"
 
 msgid "Array of template combinations (hostgroup_id, environment_id)"
 msgstr "模板组合数组（hostgroup_id、environment_id）"
+
+msgid "Array with repository URL and corresponding GPG key URL"
+msgstr ""
 
 msgid "As mentioned above, different template types support different template inputs. See the table below for available combinations."
 msgstr "如上所述，不同的模板类型支持不同的模板输入。有关可用组合，请参见下表。"
@@ -1446,6 +1458,9 @@ msgstr "更改所有者"
 
 msgid "Change Power State"
 msgstr "更改电源状态"
+
+msgid "Change Puppet CA"
+msgstr "更改 Puppet CA"
 
 msgid "Change the password"
 msgstr "更改密码"
@@ -3005,8 +3020,8 @@ msgstr ""
 msgid "Expand nested items"
 msgstr "展开嵌套的项目"
 
-msgid "Expiration of the authorization token (in hours)"
-msgstr "授权令牌过期（小时）。"
+msgid "Expiration of the authorization token (in hours), 0 means 'unlimited'."
+msgstr ""
 
 msgid "Expiration of the authorization token."
 msgstr "授权令牌已过期。"
@@ -3556,8 +3571,8 @@ msgstr "IPv4 接口的 Foreman 子网 ID"
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr "IPv6 接口的 Foreman 子网 ID"
 
-msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
-msgstr "Foreman 支持为新的主机自动创建 realm 项。在为主机选择 realm后，Foreman 与相关范围智能代理服务器联络为该主机生成条目，并检索其一次性注册密码。"
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve its one-time registration password."
+msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
 msgstr "Foreman 支持在多个虚拟和云服务（被称为“计算资源”）以及裸机主机上创建和管理主机 。"
@@ -3895,6 +3910,9 @@ msgstr "状态类型总量的哈希"
 msgid "Help"
 msgstr "帮助"
 
+msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgstr ""
+
 msgid "Hidden Value"
 msgstr "隐藏值"
 
@@ -4024,9 +4042,6 @@ msgstr "主机未与操作系统关联"
 
 msgid "Host owner"
 msgstr "主机所有者"
-
-msgid "Host owner is invalid"
-msgstr "主机所有者无效"
 
 msgid "Host reported time is <em>%s</em>"
 msgstr "主机报告的时间是 <em>%s</em>"
@@ -4250,17 +4265,17 @@ msgstr "主机名："
 msgid "Hosts"
 msgstr "主机"
 
-msgid "Hosts created after a puppet run that did not send a location fact will be placed in this location"
-msgstr "会将在运行 puppet 之后创建且未发送位置信息的主机放在这个位置"
+msgid "Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
+msgstr ""
 
-msgid "Hosts created after a puppet run that did not send a organization fact will be placed in this organization"
-msgstr "将在一次 puppet run 之后创建且未发送机构详情的主机放在这个位置"
+msgid "Hosts created from facts will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
-msgstr "将在一次 puppet run 之后创建的主机放在这个详情描述的位置。这个详情的内容应为该位置的完整标签。"
+msgid "Hosts created from facts will be placed in this location if no location fact was sent"
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
-msgstr "将在一次 puppet run 之后创建的主机放在这个详情描述的机构。这个详情的内容应为该机构的完整标签。"
+msgid "Hosts created from facts will be placed in this organization if no organization fact was sent"
+msgstr ""
 
 msgid "Hosts in Build mode or with Build errors"
 msgstr "处于构建模式或有构建错误的主机"
@@ -4885,6 +4900,9 @@ msgstr "已安裝"
 msgid "Instance %{uuid}"
 msgstr "实例 %{uuid}"
 
+msgid "Instance color"
+msgstr ""
+
 msgid "Instance title"
 msgstr "实例标题"
 
@@ -4948,6 +4966,9 @@ msgstr "无效的 HTTP(S) URL"
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "架构 '%{arch}' 对 '%{os}' 无效"
 
+msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "无效日志等级：%s"
 
@@ -4980,6 +5001,9 @@ msgstr "无效的标签必须是带有键和值属性的一组映射"
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "无效类型用于通过 facts 进行主机创建：%s"
+
+msgid "Invalid value '%{value}' for jwt_expiration. The value must be between %{minimum} and %{maximum}. 0 means 'unlimited'."
+msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "无效版本格式，请使用 x.y 格式（只允许使用主要版本）。"
@@ -5325,6 +5349,9 @@ msgstr "列出每个机构的所有分区表"
 
 msgid "List all permissions"
 msgstr "列出所有权限"
+
+msgid "List all permissions for current user"
+msgstr ""
 
 msgid "List all report templates"
 msgstr "列出所有报告模块"
@@ -7221,7 +7248,7 @@ msgid "Permission"
 msgstr "权限"
 
 msgid "Permission Denied"
-msgstr ""
+msgstr "没有足够权限"
 
 msgid "Permission denied"
 msgstr "没有权限"
@@ -7921,6 +7948,12 @@ msgstr "报告于"
 msgid "Report|Status"
 msgstr "状态"
 
+msgid "Repositories"
+msgstr ""
+
+msgid "Repositories to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. GPG keys can also be provided here if necessary."
+msgstr ""
+
 msgid "Repository"
 msgstr "仓库"
 
@@ -7931,6 +7964,9 @@ msgid "Repository URL / details, for example for Debian OS family: 'deb http://d
 msgstr "仓库 URL / 详情，例如，对于 Debian OS 系列：'deb http://deb.example.com/ buster 1.0'，对于 Red Hat OS 系列：'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
+
+msgid "Repository list"
 msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
@@ -7953,6 +7989,9 @@ msgstr "重置"
 
 msgid "Reset PuppetCA certname for %s"
 msgstr "为 %s 重置 PuppetCA 证书名"
+
+msgid "Reset form"
+msgstr ""
 
 msgid "Reset search"
 msgstr ""
@@ -8348,6 +8387,9 @@ msgstr ""
 
 msgid "Select compute resources"
 msgstr "选择计算资源"
+
+msgid "Select default"
+msgstr ""
 
 msgid "Select desired %s proxy"
 msgstr "选择需要的 %s 代理服务器"
@@ -9654,8 +9696,8 @@ msgstr "人类可读的设置类别名称"
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr "上面的信息可以用于例如为置备模板中的每个接口创建 NetworkManager 配置文件。"
 
-msgid "The instance title is shown on the top navigation bar (requires a page reload)."
-msgstr "实例标题显示在顶部导航栏上（需要重新加载页面）。"
+msgid "The instance title is shown above the header in a banner (requires a page reload)."
+msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
 msgstr "iss（发布者）声明标识了发布 JWT 的主体，对于大多数 OpenID 供应商，该主体位于 `/.well-known/openid-configuration`。"
@@ -10021,6 +10063,9 @@ msgstr "总计"
 
 msgid "Total Hosts: %s"
 msgstr "主机总量：%s"
+
+msgid "Total disk space"
+msgstr ""
 
 msgid "Total hosts count"
 msgstr "总主机数"
@@ -11083,7 +11128,7 @@ msgstr "此模板是否被锁定用于编辑"
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr "是否显示用于访问实验室功能的菜单（需要重新加载页面）"
 
-msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."
@@ -11809,8 +11854,7 @@ msgstr "将外部用户组与这个用户组关联"
 msgid "list"
 msgstr "列出"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "简体中文"
 

@@ -134,6 +134,9 @@ msgstr[0] "%s mês atrás"
 msgstr[1] "%s meses atrás"
 msgstr[2] "%s meses atrás"
 
+msgid "%s saved"
+msgstr ""
+
 msgid "%s selected hosts"
 msgstr "%s hosts selecinados"
 
@@ -447,7 +450,7 @@ msgstr "Uma notificação quando um host relata uma configuração de erro"
 msgid "A problem occurred when detecting host type: %s"
 msgstr "Um problema ocorreu enquanto detectando tipo de host: %s"
 
-msgid "A repository to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
+msgid "A repository to be added before the registration is performed. For Red Hat and SUSE family distributions, this should be the URL of the repository, e.g. 'http://rpm.example.com/'. For Debian OS families, it's the whole list file content, e.g. 'deb http://deb.example.com/ buster 1.0'."
 msgstr ""
 
 msgid "A summary of audit changes report <br> Filtered by a query if needed"
@@ -562,6 +565,12 @@ msgid "Add filter"
 msgstr "Adicionar filtro"
 
 msgid "Add parameter"
+msgstr ""
+
+msgid "Add repositories for registration (%s set)"
+msgstr ""
+
+msgid "Add repository"
 msgstr ""
 
 msgid "Add tag"
@@ -866,6 +875,9 @@ msgstr "Array de parâmetros(name, value)"
 
 msgid "Array of template combinations (hostgroup_id, environment_id)"
 msgstr "Array de combinação de templates (hostgroup_id, environment_id)"
+
+msgid "Array with repository URL and corresponding GPG key URL"
+msgstr ""
 
 msgid "As mentioned above, different template types support different template inputs. See the table below for available combinations."
 msgstr ""
@@ -1507,6 +1519,9 @@ msgstr "Alterar Proprietário"
 
 msgid "Change Power State"
 msgstr "Alterar Estado de Energia "
+
+msgid "Change Puppet CA"
+msgstr "Alterar Puppet CA"
 
 msgid "Change the password"
 msgstr "Trocar a senha"
@@ -3068,7 +3083,7 @@ msgstr ""
 msgid "Expand nested items"
 msgstr "Expandir itens aninhados"
 
-msgid "Expiration of the authorization token (in hours)"
+msgid "Expiration of the authorization token (in hours), 0 means 'unlimited'."
 msgstr ""
 
 msgid "Expiration of the authorization token."
@@ -3619,7 +3634,7 @@ msgstr "ID de sub-rede do Foreman de interface IPv4"
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr "ID de sub-rede do Foreman de interface IPv6"
 
-msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve it's one-time registration password."
+msgid "Foreman supports automatically creating realm entries for new hosts. When a realm is selected for a host, Foreman contacts the relevant realm smart proxy to create an entry for the host and retrieve its one-time registration password."
 msgstr ""
 
 msgid "Foreman supports creating and managing hosts on a number of virtualization and cloud services - referred to as “compute resources” - as well as bare metal hosts."
@@ -3958,6 +3973,9 @@ msgstr "Hash do total do tipo de status"
 msgid "Help"
 msgstr "Ajuda"
 
+msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgstr ""
+
 msgid "Hidden Value"
 msgstr "Valor oculto"
 
@@ -4087,9 +4105,6 @@ msgstr ""
 
 msgid "Host owner"
 msgstr "Proprietário do host"
-
-msgid "Host owner is invalid"
-msgstr "Proprietário do host é inválido"
 
 msgid "Host reported time is <em>%s</em>"
 msgstr "Hora do relatório do Host é <em>%s</em>"
@@ -4313,17 +4328,17 @@ msgstr "Nome da máquina:"
 msgid "Hosts"
 msgstr "Hosts"
 
-msgid "Hosts created after a puppet run that did not send a location fact will be placed in this location"
-msgstr "Os hosts criados após uma execução do puppet que não enviou um fato de localização serão colocados nesta localização."
+msgid "Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
+msgstr ""
 
-msgid "Hosts created after a puppet run that did not send a organization fact will be placed in this organization"
-msgstr "Os hosts criados após uma execução do puppet que não enviou um fato de organização serão colocados nesta organização."
+msgid "Hosts created from facts will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
-msgstr "Os hosts criados após uma execução do puppet serão colocados na localização que este fato determinar. O conteúdo deste fato deve conter o rótulo completo da localização."
+msgid "Hosts created from facts will be placed in this location if no location fact was sent"
+msgstr ""
 
-msgid "Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."
-msgstr "Hosts criados após uma execução de puppet, a qual não enviou um fato da organização, será colocado nesta organização."
+msgid "Hosts created from facts will be placed in this organization if no organization fact was sent"
+msgstr ""
 
 msgid "Hosts in Build mode or with Build errors"
 msgstr "Hosts no modo de construção ou com erros de construção"
@@ -4954,6 +4969,9 @@ msgstr "Instalados"
 msgid "Instance %{uuid}"
 msgstr "%{uuid} da instância"
 
+msgid "Instance color"
+msgstr ""
+
 msgid "Instance title"
 msgstr ""
 
@@ -5017,6 +5035,9 @@ msgstr ""
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "Arquitetura inválida '%{arch}' para '%{os}'"
 
+msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
+msgstr ""
+
 msgid "Invalid log level: %s"
 msgstr "nível de log inválido: %s"
 
@@ -5049,6 +5070,9 @@ msgstr ""
 
 msgid "Invalid type for host creation via facts: %s"
 msgstr "Tipo inválido para criação de host via fatos: %s"
+
+msgid "Invalid value '%{value}' for jwt_expiration. The value must be between %{minimum} and %{maximum}. 0 means 'unlimited'."
+msgstr ""
 
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "Formato de versão inválido, por favor insira em x.y (somente versões principais). "
@@ -5394,6 +5418,9 @@ msgstr "Lista de todas as tabelas de partições por organização"
 
 msgid "List all permissions"
 msgstr "Lista de todas as permissões"
+
+msgid "List all permissions for current user"
+msgstr ""
 
 msgid "List all report templates"
 msgstr "Lista todos os modelos de relatório"
@@ -7994,6 +8021,12 @@ msgstr "Reportado em"
 msgid "Report|Status"
 msgstr "Status"
 
+msgid "Repositories"
+msgstr ""
+
+msgid "Repositories to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. GPG keys can also be provided here if necessary."
+msgstr ""
+
 msgid "Repository"
 msgstr "Repo"
 
@@ -8004,6 +8037,9 @@ msgid "Repository URL / details, for example for Debian OS family: 'deb http://d
 msgstr ""
 
 msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
+
+msgid "Repository list"
 msgstr ""
 
 msgid "Represents the host object for which the template is rendered."
@@ -8026,6 +8062,9 @@ msgstr ""
 
 msgid "Reset PuppetCA certname for %s"
 msgstr "Redefinir nome do certificado PuppetCA para %s"
+
+msgid "Reset form"
+msgstr ""
 
 msgid "Reset search"
 msgstr ""
@@ -8425,6 +8464,9 @@ msgstr ""
 
 msgid "Select compute resources"
 msgstr "Selecionar recursos de computação"
+
+msgid "Select default"
+msgstr ""
 
 msgid "Select desired %s proxy"
 msgstr "Selecione o proxy %s desejado"
@@ -9738,7 +9780,7 @@ msgstr ""
 msgid "The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template."
 msgstr ""
 
-msgid "The instance title is shown on the top navigation bar (requires a page reload)."
+msgid "The instance title is shown above the header in a banner (requires a page reload)."
 msgstr ""
 
 msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."
@@ -10109,6 +10151,9 @@ msgstr "Total"
 
 msgid "Total Hosts: %s"
 msgstr "Total de Hosts: %s"
+
+msgid "Total disk space"
+msgstr ""
 
 msgid "Total hosts count"
 msgstr "Total de hosts"
@@ -11172,7 +11217,7 @@ msgstr "Se seu modelo está travado ou não para edição."
 msgid "Whether or not to show a menu to access experimental lab features (requires reload of page)"
 msgstr "Se deve ou não mostrar um menu para acessar os recursos de laboratório experimental (exige recarregamento da página)"
 
-msgid "Whether or not to show the new overview page for All Hosts (requires reload of page)"
+msgid "Whether or not to show the new overview page for All Hosts"
 msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."
@@ -11897,8 +11942,7 @@ msgstr "grupo de usuário externo com este grupo de usuário"
 msgid "list"
 msgstr "listar"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "Português Brasil"
 
