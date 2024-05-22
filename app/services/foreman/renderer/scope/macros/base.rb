@@ -133,18 +133,21 @@ module Foreman
             desc "This is useful when rendering output is a whitespace sensitive format, such as YAML."
             required :count, Integer, desc: 'The number of spaces'
             keyword :skip1, [true, false], desc: 'Skips the first line prefixing, defaults to false', default: false
+            keyword :skip_content, String, desc: 'Skips indentation, if the line equals the given content', default: nil
             block 'Optional. Does nothing if no block is given', schema: '{ code }'
             returns String, desc: 'The indented text, that was the result of block of code'
             example "indent(2) { snippet('epel') } # => '  echo Installing yum repo\n  yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm'"
             example "indent(2) { snippet('epel', skip1: true) } # => 'echo Installing yum repo\n  yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm'"
             example "indent 4 do\n    snippet 'subscription_manager_registration'\nend"
           end
-          def indent(count, skip1: false)
+          def indent(count, skip1: false, skip_content: nil)
             return unless block_given? && (text = yield.to_s)
             prefix = ' ' * count
             result = []
             text.each_line.with_index do |line, line_no|
               if line_no == 0 && skip1
+                result << line
+              elsif skip_content.present? && line.chomp == skip_content
                 result << line
               else
                 result << prefix + line

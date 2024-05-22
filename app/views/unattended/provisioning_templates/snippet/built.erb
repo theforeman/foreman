@@ -13,17 +13,27 @@ description: |
   endpoint = @endpoint || 'built'
   method = @method || 'POST'
   url = foreman_url(endpoint)
+  built_https = url.start_with?('https')
   curl_opts = ["-H 'Content-Type: text/plain'"]
   wget_opts = ["--header 'Content-Type: text/plain'"]
-  if url.start_with?('https')
-    curl_opts << "--insecure"
-    wget_opts << "--no-check-certificate"
-  end
   if @body_file
     curl_opts << "--data @#{@body_file}"
     wget_opts << "--body-file=#{@body_file}"
+  elsif @post_data
+    curl_opts << "--data '#{@post_data}'"
+    wget_opts << "--body-data='#{@post_data}'"
   end
 -%>
+<% if built_https -%>
+SSL_CA_CERT=$(mktemp)
+cat << EOF > $SSL_CA_CERT
+<%= foreman_server_ca_cert %>
+EOF
+<%
+  curl_opts << "--cacert $SSL_CA_CERT"
+  wget_opts << "--ca-certificate $SSL_CA_CERT"
+-%>
+<% end -%>
 if [ -x /usr/bin/curl ]; then
   /usr/bin/curl -o /dev/null --noproxy \* <%= curl_opts.join(' ') %> --silent '<%= url %>'
 elif [ -x /usr/bin/wget ]; then

@@ -21,7 +21,6 @@ description: |
   performs initial steps, such as puppet deployment, remote execution SSH key configuration etc. At the end
   it informs Foreman that provisioning has finished.
 -%>
-<% built_https = foreman_url('built').start_with?('https') -%>
 #!/bin/bash
 set -e
 
@@ -29,21 +28,14 @@ echo "# Running [<%= @host.name %>] host initial configuration"
 
 <%= snippet_if_exists('host_init_config_pre') -%>
 
-<% if built_https -%>
-SSL_CA_CERT=$(mktemp)
-cat << EOF > $SSL_CA_CERT
-<%= foreman_server_ca_cert %>
-EOF
-<% end -%>
-
-foreman_curl() {
-  curl --silent --show-error <%= '--cacert $SSL_CA_CERT' if built_https %> -o /dev/null --noproxy \* "$@"
-}
-
 exit_and_cancel_build() {
   echo 'Host [<%= @host.name %>] initial configuration failed'
-  foreman_curl --request POST '<%= foreman_url('failed') %>' \
-       --data 'Host initial configuration failed, please see the registration log for more details.'
+
+  <%= indent(2, skip1: true, skip_content: 'EOF') { snippet('built', :variables => {
+    :endpoint => 'failed',
+    :method => 'POST',
+    :post_data => 'Host initial configuration failed, please see the registration log for more details.' }) }
+  -%>
   exit 1
 }
 
@@ -92,7 +84,7 @@ fi
 # Call home to exit build mode
 
 trap - ERR
-foreman_curl '<%= foreman_url('built') %>'
+<%= snippet 'built' %>
 
 if [[ $? == 0 ]] ; then
   echo "Host [<%= @host.name %>] successfully configured."
@@ -102,7 +94,6 @@ fi
 
 <% if plugin_present?('katello') && @host.operatingsystem.family == 'Redhat' -%>
 subscription-manager facts --update
-
 <% end -%>
 
 exit 0
