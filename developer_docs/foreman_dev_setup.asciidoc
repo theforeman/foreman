@@ -22,7 +22,7 @@ Fedora ships with a too new Ruby. It's recommended to install https://github.com
 sudo dnf install rbenv ruby-build-rbenv nodejs
 echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 source ~/.bashrc
-rbenv install 2.7.6
+rbenv install 3.0.7
 ....
 
 https://github.com/rvm/rvm[RVM] can also be used.
@@ -38,13 +38,34 @@ dnf module enable postgresql:12
 dnf module enable nodejs:14
 ....
 
-Now install the development packages:
+=== Enterprise Linux 9
 
 [source, bash]
 ....
+ruby -v
+# => ruby 3.0.4
+....
+
+Now install the development packages:
+
+**RHEL 9**
+[source, bash]
+....
+subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms
+dnf groupinstall "Development Tools"
+....
+
+**Fedora & RHEL8**
+[source, bash]
+....
 dnf groupinstall "Development Tools" "Development Libraries"
+....
+
+**Packages**
+[source, bash]
+....
 dnf -y install gcc-c++ git ruby ruby-devel rubygem-bundler \
-    libvirt-devel postgresql-devel openssl-devel \
+    postgresql-devel openssl-devel libvirt-devel \
     libxml2-devel libxslt-devel zlib-devel \
     readline-devel systemd-devel tar libcurl-devel nodejs
 ....
@@ -56,7 +77,11 @@ Use the following steps to set up PostgreSQL on RPM based distributions:
 [source, bash]
 ....
 sudo dnf install postgresql
-sudo postgresql-setup --initdb
+
+# RHEL9
+sudo dnf install dnf install postgresql postgresql-server
+
+postgresql-setup --initdb
 sudo -u postgres createuser --createdb $USER
 ....
 
@@ -72,11 +97,15 @@ cp config/database.yml.example config/database.yml
 git remote add upstream git@github.com:theforeman/foreman.git
 ....
 
-If you're using rbenv, now you can configure it to locally use Ruby 2.7:
+If you're using rbenv, now you can configure it to use the Ruby version locally:
 
 [source, bash]
 ....
+# RHEL8
 rbenv local 2.7.6
+
+# RHEL9
+rbenv local 3.0.7
 ....
 
 Now you can install the dependencies:
