@@ -151,6 +151,11 @@ register_katello_host(){
 # Set up subscription-manager
 <%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'registration' }).strip -%>
 
+<% if @hostgroup && truthy?(@hostgroup.params['clean_unmanaged_repositories']) -%>
+# clean repositories which are not managed by subscription-manager
+<%= snippet("clean_unmanaged_repositories") -%>
+<% end -%>
+
 subscription-manager register <%= '--force' if truthy?(@force) %> \
   --org='<%= @organization.label if @organization %>' \
   --activationkey='<%= activation_keys %>' || <%= truthy?(@ignore_subman_errors) ? 'true' : 'cleanup_and_exit 1' %>

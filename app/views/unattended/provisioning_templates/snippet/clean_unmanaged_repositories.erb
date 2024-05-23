@@ -1,0 +1,56 @@
+<%#
+kind: snippet
+name: clean_unmanaged_repositories
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Clean repositories which are not managed by subscription-manager
+-%>
+MANAGED_BY_SUBMAN_TEXT="# This host is managed by subscription-manager"
+# Function to clean repository files, skipping files starting with "rhsm" or "redhat"
+clean_repos() {
+  REPO_DIR=$1
+  EXTENSION=$2
+  if [ -d "$REPO_DIR" ]; then
+    for file in "$REPO_DIR"/*."$EXTENSION"; do
+      if [ -f "$file" ]; then
+        BASENAME=$(basename "$file")
+        case "$BASENAME" in
+          rhsm*|redhat*)
+            continue
+            ;;
+          *)
+            echo "$MANAGED_BY_SUBMAN_TEXT" > "$file"
+            ;;
+        esac
+      fi
+    done
+  fi
+}
+
+# Detect the OS and run the appropriate cleaning function
+if [ -f /etc/os-release ]; then
+  . /etc/os-release
+  case "$ID" in
+    sles|opensuse*)
+      clean_repos "/etc/zypp/repos.d" "repo"
+      ;;
+    rhel|centos|fedora|almalinux|rocky|ol)
+      clean_repos "/etc/yum.repos.d" "repo"
+      ;;
+    debian|ubuntu)
+      clean_repos "/etc/apt/sources.list.d" "list"
+      clean_repos "/etc/apt/sources.list.d" "sources"
+      if [ -f /etc/apt/sources.list ]; then
+        echo "$MANAGED_BY_SUBMAN_TEXT" > /etc/apt/sources.list
+      fi
+      ;;
+    *)
+      echo "Unsupported OS: $ID"
+      ;;
+  esac
+else
+  echo "Unable to detect the OS."
+fi
+
+echo "Repository files cleaning completed."
