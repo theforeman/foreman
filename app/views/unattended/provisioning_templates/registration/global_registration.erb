@@ -153,6 +153,17 @@ register_katello_host(){
 # Set up subscription-manager
 <%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'registration' }).strip -%>
 
+<% unless @repo_data.blank? -%>
+# clean repositories which were added for registration purposes (Katello context only)
+if [ x$PKG_MANAGER = xdnf -o x$PKG_MANAGER = xyum ]; then
+  rm -f /etc/yum.repos.d/foreman_registration*.repo
+elif [ x$PKG_MANAGER = xzypper ]; then
+  rm -f /etc/zypp/repos.d/foreman_register*.repo
+elif [ -f /etc/debian_version ]; then
+  rm -f /etc/apt/sources.list.d/foreman_registration*.list
+fi
+<% end %>
+
 subscription-manager register <%= '--force' if truthy?(@force) %> \
   --org='<%= @organization.label if @organization %>' \
   --activationkey='<%= activation_keys %>' || <%= truthy?(@ignore_subman_errors) ? 'true' : 'cleanup_and_exit 1' %>
