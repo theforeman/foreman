@@ -23,10 +23,6 @@ Foreman::Plugin.medium_providers_registry.register MediumProviders::Default
 
 Rails.application.config.after_initialize do
   Foreman.settings.load_values unless Foreman.in_setup_db_rake? || !(Setting.table_exists? rescue false)
-
-  Foreman::Plugin.registered_plugins.each do |_name, plugin|
-    plugin.finalize_setup!
-  end
 end
 
 Rails.application.config.to_prepare do
