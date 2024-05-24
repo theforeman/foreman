@@ -24,7 +24,7 @@ description: |
   end
 -%>
 
-<% if (@host.operatingsystem.family == 'Redhat' || @host.operatingsystem.name == 'Ubuntu') && unless tang_server_list.blank? -%>
+<% if (@host.operatingsystem.family == 'Redhat' || @host.operatingsystem.name == 'Ubuntu') && tang_server_list.present? -%>
 
 cat > /tmp/rootdir-luks-device.sh << "EOF"
 #!/bin/sh
