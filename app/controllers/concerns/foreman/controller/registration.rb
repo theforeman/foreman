@@ -18,9 +18,15 @@ module Foreman::Controller::Registration
     location = Location.authorized(:view_locations).find(params['location_id']) if params['location_id'].present?
     host_group = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id']) if params["hostgroup_id"].present?
     operatingsystem = Operatingsystem.authorized(:view_operatingsystems).find(params['operatingsystem_id']) if params["operatingsystem_id"].present?
-    if params["repo_data"].present?
+
+    if params['repo'].present?
       repo_data = {}
-      params['repo_data'].each { |repo| repo_data[repo['repository']] = repo['repo_gpg_key_url'] }
+      repo_data[params['repo']] = params['repo_gpg_key_url'] || ''
+    end
+
+    if params['repo_data'].present?
+      repo_data = {} unless repo_data.present?
+      params['repo_data'].each { |repo| repo_data[repo['repo']] = repo['repo_gpg_key_url'] }
     end
 
     context = {

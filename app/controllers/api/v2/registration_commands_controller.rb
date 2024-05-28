@@ -18,8 +18,11 @@ module Api
         param :insecure, :bool, desc: N_("Enable insecure argument for the initial curl")
         param :packages, String, desc: N_("Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`")
         param :update_packages, :bool, desc: N_("Update all packages on the host")
+        param :repo, String, desc: N_("DEPRECATED, use the `repo_data` param instead."), deprecated: true
+        param :repo_gpg_key_url, String, desc: N_("DEPRECATED, use the `repo_data` param instead."), deprecated: true
+
         param :repo_data, Array, desc: N_("Array with repository URL and corresponding GPG key URL") do
-          param :repo, String, desc: N_("Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'")
+          param :repo, String, desc: N_("Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'")
           param :repo_gpg_key_url, String, desc: N_("URL of the GPG key for the repository")
         end
       end
@@ -28,6 +31,10 @@ module Api
           message = N_("Operating system doesn't have a 'host_init_config' template assigned.")
           render_error 'custom_error', status: :unprocessable_entity, locals: { message: message }
           return
+        end
+
+        if params[:repo] || params[:repo_gpg_key_url]
+          Foreman::Deprecation.api_deprecation_warning("Use repo_data parameter instead of repo and repo_gpg_key_url. These will be removed soon.")
         end
 
         render json: { registration_command: command }

@@ -145,7 +145,7 @@ const RegistrationCommandsPage = () => {
       repoDataInternal
         .filter(r => r.repository !== '')
         .map(repo => ({
-          repository: repo.repository,
+          repo: repo.repository,
           repo_gpg_key_url: repo.gpgKeyUrl,
         }))
     );
