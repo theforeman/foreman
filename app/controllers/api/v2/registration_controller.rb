@@ -23,12 +23,19 @@ module Api
       param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host")
       param :packages, String, desc: N_("Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`")
       param :update_packages, :bool, desc: N_("Update all packages on the host")
+      param :repo, String, desc: N_("DEPRECATED, use the `repo_data` param instead."), deprecated: true
+      param :repo_gpg_key_url, String, desc: N_("DEPRECATED, use the `repo_data` param instead."), deprecated: true
+
       param :repo_data, Array, desc: N_("Array with repository URL and corresponding GPG key URL") do
-        param :repo, String, desc: N_("Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'")
+        param :repo, String, desc: N_("Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'")
         param :repo_gpg_key_url, String, desc: N_("URL of the GPG key for the repository")
       end
       def global
         find_global_registration
+
+        if params[:repo] || params[:repo_gpg_key_url]
+          Foreman::Deprecation.api_deprecation_warning("Use repo_data parameter instead of repo and repo_gpg_key_url. These will be removed soon.")
+        end
 
         unless @provisioning_template
           not_found _('Global Registration Template with name %s defined via default_global_registration_item Setting not found, please configure the existing template name first') % Setting[:default_global_registration_item]
