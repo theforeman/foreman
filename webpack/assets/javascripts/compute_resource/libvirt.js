@@ -4,9 +4,12 @@
 /* eslint-disable jquery/no-val */
 /* eslint-disable jquery/no-find */
 /* eslint-disable jquery/no-parent */
+/* eslint-disable jquery/no-text */
+/* eslint-disable jquery/no-class */
 
 import $ from 'jquery';
 import { showSpinner } from '../foreman_tools';
+import { translate as __ } from '../react_app/common/I18n';
 
 export function networkSelected(item) {
   const selected = $(item).val();
@@ -54,26 +57,43 @@ export function imageSelected(item) {
 
   if (template) {
     const url = $(item).attr('data-url');
+    // For some reason there are two help blocks
+    // so we need to select the correct one
+    const help = $('#image_selection .form-group > div > .help-block');
 
     showSpinner();
+
     $.ajax({
       type: 'post',
       url,
       data: `template_id=${template}`,
       success(result) {
-        const capacity = $('#storage_volumes')
-          .children('.fields')
-          .find('[id$=capacity]')[0];
+        help.empty();
 
-        if (
-          parseInt(capacity.value.slice(0, -1), 10) <
-          parseInt(result.capacity, 10)
-        ) {
-          capacity.value = `${result.capacity}G`;
+        const capacity = $(
+          '#host_compute_attributes_volumes_attributes_0_capacity'
+        );
+
+        const capacityInForm = parseInt(
+          capacity.attr('value').slice(0, -1),
+          10
+        );
+        const capacityFromImage = parseInt(result.capacity, capacityInForm);
+
+        if (capacityInForm < capacityFromImage) {
+          capacity.attr('value', `${capacityFromImage}G`);
         }
-        $('#storage_volumes')
-          .children('.fields')
-          .find('[id$=format_type]')[0].value = 'qcow2';
+
+        $('#storage_volumes .fields')
+          .find('#host_compute_attributes_volumes_attributes_0_format_type')
+          .select2('val', 'qcow2');
+      },
+      error() {
+        help.html(
+          $('<span />')
+            .addClass('text-danger')
+            .text(__('Image not found'))
+        );
       },
       complete() {
         // eslint-disable-next-line no-undef

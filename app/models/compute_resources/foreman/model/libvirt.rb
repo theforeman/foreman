@@ -128,7 +128,7 @@ module Foreman::Model
 
     def template(id)
       template = client.volumes.get(id)
-      raise Foreman::Exception.new(N_("Unable to find template %s"), id) unless template.persisted?
+      raise Foreman::Exception.new(N_("Unable to find template %s"), id) unless template&.persisted?
       template
     end
 
