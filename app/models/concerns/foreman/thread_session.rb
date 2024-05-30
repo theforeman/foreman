@@ -1,18 +1,14 @@
-#
-# In several cases we want to break chain of responsibility in MVC a bit and provide
-# a safe way to access current user (and maybe few more data items). Storing it as
-# a global variable (or class member) is not thread-safe. Including ThreadSession::
-# UserModel in models and ThreadSession::Controller in the application controller
-# allows this without any concurrent issues.
-#
-# Idea taken from sentinent_user rails plugin.
-#
-# http://github.com/bokmann/sentient_user
-# http://github.com/astrails/let_my_controller_go
-# http://rails-bestpractices.com/posts/47-fetch-current-user-in-models
-#
-
 module Foreman
+  # In several cases we want to break chain of responsibility in MVC a bit and provide
+  # a safe way to access current user (and maybe few more data items). Storing it as
+  # a global variable (or class member) is not thread-safe. Including ThreadSession::
+  # UserModel in models and ThreadSession::Controller in the application controller
+  # allows this without any concurrent issues.
+  #
+  # Idea taken from sentinent_user rails plugin.
+  #
+  # @see http://github.com/bokmann/sentient_user
+  # @see http://github.com/astrails/let_my_controller_go
   module ThreadSession
     # module to be include in controller to clear the session data
     # after (and evenutally before) the request processing.
@@ -60,10 +56,12 @@ module Foreman
       extend ActiveSupport::Concern
 
       module ClassMethods
+        # @return [Optional[User]]
         def current
           Thread.current[:user]
         end
 
+        # @param user [Optional[User]]
         def impersonator=(user)
           ::Logging.mdc['user_impersonator'] = user&.login
         end
@@ -87,16 +85,17 @@ module Foreman
           Thread.current[:user] = o
         end
 
-        # Executes given block on behalf of a different user. Example:
-        #
-        # User.as :admin do
-        #   ...
-        # end
+        # Executes given block on behalf of a different user.
         #
         # Use with care!
         #
-        # @param [String] login to find from the database
-        # @param [block] block to execute
+        # @example
+        #   User.as :admin do
+        #     ...
+        #   end
+        #
+        # @param login [Variant[User, String]]
+        #   Username to find from the database or an instance
         def as(login)
           old_user = current
           self.current = if login.is_a?(User)
@@ -121,10 +120,13 @@ module Foreman
       extend ActiveSupport::Concern
 
       module ClassMethods
+        # @return [Organization]
         def current
           Thread.current[:organization]
         end
 
+        # @param organization [Organization]
+        # @return [Organization]
         def current=(organization)
           unless organization.nil? || organization.is_a?(self) || organization.is_a?(Array)
             raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{organization.inspect}")
@@ -142,12 +144,12 @@ module Foreman
 
         # Executes given block in the scope of an org:
         #
-        # Organization.as_org organization do
-        #   ...
-        # end
+        # @example
+        #   Organization.as_org organization do
+        #     ...
+        #   end
         #
-        # @param [org]
-        # @param [block] block to execute
+        # @param org [Organization]
         def as_org(org)
           old_org = current
           self.current = org
@@ -162,10 +164,13 @@ module Foreman
       extend ActiveSupport::Concern
 
       module ClassMethods
+        # @return [Location]
         def current
           Thread.current[:location]
         end
 
+        # @param location [Location]
+        # @return [Location]
         def current=(location)
           unless location.nil? || location.is_a?(self) || location.is_a?(Array)
             raise(ArgumentError, "Unable to set current location, expected class '#{self}'. got #{location.inspect}")
@@ -183,12 +188,12 @@ module Foreman
 
         # Executes given block without the scope of a location:
         #
-        # Location.as_location location do
-        #   ...
-        # end
+        # @example
+        #   Location.as_location location do
+        #     ...
+        #   end
         #
-        # @param [location]
-        # @param [block] block to execute
+        # @param location [Location]
         def as_location(location)
           old_location = current
           self.current = location

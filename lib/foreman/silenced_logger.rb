@@ -1,12 +1,12 @@
-# Wrap a ::Logging::Logger and implement #silence to temporarily increase the
-# min log level to execute a block of code. Used by sprockets-rails' quiet
-# assets logging feature. Foreman uses logging gem instead Rails logging stack
-# and it does not provide silencing feature (ships with just a noop method).
-# This implementation only works with Logging gem, not with Ruby/Rails Logger.
-#
-# Inspired by lib/active_record/session_store/extension/logger_silencer.rb
-#
 module Foreman
+  # Wrap a ::Logging::Logger and implement #silence to temporarily increase the
+  # min log level to execute a block of code. Used by sprockets-rails' quiet
+  # assets logging feature. Foreman uses logging gem instead Rails logging stack
+  # and it does not provide silencing feature (ships with just a noop method).
+  # This implementation only works with Logging gem, not with Ruby/Rails Logger.
+  #
+  # Inspired by lib/active_record/session_store/extension/logger_silencer.rb
+  #
   class SilencedLogger < SimpleDelegator
     ::Logging::LEVELS.each do |name, num|
       class_eval <<-EOT, __FILE__, __LINE__ + 1

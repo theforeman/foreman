@@ -1,12 +1,11 @@
-# Simple advisory lock manager for PostgreSQL. When used on different database
-# it does not perform any locking. Rails (6) only implements advisory non-blocking
-# locking for migrations via Connection#get_advisory_lock which is not suitable
-# for application use. More information:
-#
-# https://www.postgresql.org/docs/current/explicit-locking.html
-# https://www.kostolansky.sk/posts/postgresql-advisory-locks/
-#
 module Foreman
+  # Simple advisory lock manager for PostgreSQL. When used on different database
+  # it does not perform any locking. Rails (6) only implements advisory non-blocking
+  # locking for migrations via Connection#get_advisory_lock which is not suitable
+  # for application use.
+  #
+  # @see https://www.postgresql.org/docs/current/explicit-locking.html
+  # @see https://www.kostolansky.sk/posts/postgresql-advisory-locks/
   class AdvisoryLockManager
     class << self
       # Performs transaction-level advisory lock which is automaticaly released when the

@@ -1,6 +1,6 @@
-# include this module to translate in all domains by default
 module Foreman
   module Gettext
+    # include this module to translate in all domains by default
     module AllDomains
       class Localizer
         prepend FastGettext::TranslationMultidomain

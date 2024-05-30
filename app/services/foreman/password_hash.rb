@@ -1,13 +1,13 @@
 require 'active_support/core_ext/module/delegation'
 
-#
-# Generic-purpose password hasher with two implementations: BCrypt and SHA1.
-#
-# generate_salt(cost) - generates random salt of optional cost (1-30)
-# calculate_salt(object, cost) - calculates hash from given object (useful for tokens)
-# hash_secret(password, salt) - returns hash from secret and salt
-#
 module Foreman
+  #
+  # Generic-purpose password hasher with three implementations: PBKDF2, BCrypt and SHA1.
+  #
+  # generate_salt(cost) - generates random salt of optional cost (1-30)
+  # calculate_salt(object, cost) - calculates hash from given object (useful for tokens)
+  # hash_secret(password, salt) - returns hash from secret and salt
+  #
   class PasswordHash
     class PBKDF2Implementation
       DEFAULT_SALT_LENGTH = 39

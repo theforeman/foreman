@@ -1,11 +1,10 @@
-# Stores permitted parameters for a given resource/AR model for use in
-# controllers to filter input parameters.
-#
-# Allows the permitted parameters to be set up once model and re-used in
-# multiple contexts, e.g. API controllers, UI controllers and nested UI
-# attributes, by applying different rules.
-#
 module Foreman
+  # Stores permitted parameters for a given resource/AR model for use in
+  # controllers to filter input parameters.
+  #
+  # Allows the permitted parameters to be set up once model and re-used in
+  # multiple contexts, e.g. API controllers, UI controllers and nested UI
+  # attributes, by applying different rules.
   class ParameterFilter
     attr_reader :resource_class
 

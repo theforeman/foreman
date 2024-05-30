@@ -811,9 +811,16 @@ autopart"', desc: 'to render the content of host partition table'
 
   # rebuilds orchestration configuration for a host
   # takes all the methods from Orchestration modules that are registered for configuration rebuild
-  # arguments:
-  # => only : Array of rebuild methods to execute (Example: ['TFTP'])
-  # returns  : Hash with 'true' if rebuild was a success for a given key (Example: {"TFTP" => true, "DNS" => false})
+  # @param [Optional[Array[String]]] only
+  #   Rebuild methods to execute
+  # @return [Hash[String, Bool]]
+  #   A boolean for each method indicating if rebuild was a success
+  #
+  # @example Without only
+  #   recreate_config #=> {"TFTP" => true, "DNS" => false}
+  #
+  # @example With only
+  #   recreate_config(['TFTP']) #=> {"TFTP" => true}
   def recreate_config(only = nil)
     result = {}
 

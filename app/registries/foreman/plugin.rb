@@ -21,20 +21,21 @@ require_dependency 'foreman/plugin/report_origin_registry'
 require_dependency 'foreman/plugin/medium_providers_registry'
 require_dependency 'foreman/plugin/fact_importer_registry'
 
-module Foreman #:nodoc:
+#
+module Foreman
   class PluginNotFound < Foreman::Exception; end
   class PluginRequirementError < Foreman::Exception; end
 
   # Base class for Foreman plugins.
   # Plugins are registered using the <tt>register</tt> class method that acts as the public constructor.
   #
+  # @example
   #   Foreman::Plugin.register :example do
   #     name 'Example plugin'
   #     author 'John Smith'
   #     description 'This is an example plugin for Foreman'
   #     version '0.0.1'
   #   end
-  #
   class Plugin
     DEFAULT_REGISTRIES = {
       fact_importer: 'Foreman::Plugin::FactImporterRegistry',
@@ -65,8 +66,8 @@ module Foreman #:nodoc:
       #
       # Require a name of the registry and the registry instance.
       # It defines an registry access point method by suffixing the registry name with '_registry' as method name
-      # ==== Examples
       #
+      # @example
       #   global_registry(:my_special, MyPluginNamespace::MySpecialRegistry.new)
       def global_registry(name, registry)
         raise "Registry name (#{name}) mustn't have '_registry' suffix" if name.to_s.end_with?('registry')
@@ -86,6 +87,7 @@ module Foreman #:nodoc:
       end
 
       # Plugin constructor
+      # @param id [Symbol]
       def register(id, &block)
         plugin = new(id)
         if (gem = Gem.loaded_specs[id.to_s])
@@ -105,16 +107,19 @@ module Foreman #:nodoc:
         Rails.logger.warn("Failed to register #{id} plugin (#{e})")
       end
 
+      # @param plugin_id [String]
       def unregister(plugin_id)
         @registered_plugins.delete(plugin_id)
       end
 
-      # Returns an array of all registered plugins
+      # @return [Array[Foreman::Plugin]] all registered plugins
       def all
         registered_plugins.values.sort
       end
 
       # Finds a plugin by its id
+      #
+      # @param id [String]
       def find(id)
         registered_plugins[id.to_sym]
       end
@@ -130,10 +135,13 @@ module Foreman #:nodoc:
         report_scanner_registry.report_scanners
       end
 
+      # @return [Array[Foreman::Plugin]] all plugins that use Webpack
       def with_webpack
         all.select(&:uses_webpack?)
       end
 
+      # @return [Array[Foreman::Plugin]]
+      #   all plugins that use Webpack and have global_js_files
       def with_global_js
         with_webpack.select { |plugin| plugin.global_js_files.present? }
       end
@@ -249,6 +257,8 @@ module Foreman #:nodoc:
 
     # Adds an item to the given menu
     # The id parameter is automatically added to the url.
+    #
+    # @example
     #   menu :menu_name, :plugin_example, 'menu text', { :controller => :example, :action => :index }
     #
     # name parameter can be: :top_menu or :admin_menu
@@ -279,16 +289,16 @@ module Foreman #:nodoc:
     end
 
     # Extends page by adding custom pagelet to a mountpoint.
-    # Usage:
     #
-    # extend_page("hosts/_form") do |context|
-    #   context.add_pagelet :mountpoint,
-    #                       :name => N_("Example Pagelet"),
-    #                       :partial => "path/to/partial",
-    #                       :priority => 10000,
-    #                       :id => 'custom-html-id',
-    #                       :onlyif => Proc.new { |subject| subject.should_show_pagelet? }
-    # end
+    # @example
+    #   extend_page("hosts/_form") do |context|
+    #     context.add_pagelet :mountpoint,
+    #                         :name => N_("Example Pagelet"),
+    #                         :partial => "path/to/partial",
+    #                         :priority => 10000,
+    #                         :id => 'custom-html-id',
+    #                         :onlyif => Proc.new { |subject| subject.should_show_pagelet? }
+    #   end
     def extend_page(virtual_path, &block)
       Pagelets::Manager.with_key(virtual_path, &block) if block_given?
     end
@@ -313,8 +323,7 @@ module Foreman #:nodoc:
 
     # Adds setting definition
     #
-    # ===== Example
-    #
+    # @example
     #   settings do
     #     category(:cfgmgmt, N_('Configuration Management')) do
     #       setting(:use_cooler_puppet,
@@ -339,9 +348,10 @@ module Foreman #:nodoc:
     end
 
     # Defines a permission called name for the given controller=>actions
-    # :options can contain :resource_type key which is the string of resource
-    #   class to which this permissions is related, rest of options is passed
-    #   to AccessControl
+    # @param options [Hash]
+    #   can contain :resource_type key which is the string of resource class to
+    #   which this permissions is related, rest of options is passed to
+    #   AccessControl
     def permission(name, hash, options = {})
       rbac_registry.register name, options
       options[:engine] ||= id.to_s
@@ -527,8 +537,8 @@ module Foreman #:nodoc:
 
     # Extends a rabl template by "including" another template
     #
-    # Usage:
-    # extend_rabl_template 'api/v2/hosts/main', 'api/v2/hosts/expiration'
+    # @example
+    #   extend_rabl_template 'api/v2/hosts/main', 'api/v2/hosts/expiration'
     #
     # This will call 'extends api/v2/hosts/expiration' inside
     # the template 'api/v2/hosts/main'
