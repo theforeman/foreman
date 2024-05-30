@@ -184,7 +184,7 @@ model: ReportTemplate
       end
       if input_ipv6 || input_subnet6
         ipv6_source = net_sources.find { |s| s.ip6 }
-        inventory_data.update('ipv4': ipv6_source&.ip6) if input_ipv6
+        inventory_data.update('ipv6': ipv6_source&.ip6) if input_ipv6
         inventory_data.update('subnet6': ipv6_source&.subnet6) if input_subnet6
       end
       smart_proxies = host.smart_proxies.map { |p| p.name } if host.smart_proxies
