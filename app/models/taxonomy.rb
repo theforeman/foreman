@@ -139,7 +139,6 @@ class Taxonomy < ApplicationRecord
     new.media             = media
     new.domains           = domains
     new.realms            = realms
-    new.media             = media
     new.hostgroups        = hostgroups
     new.auth_sources      = auth_sources
     new
