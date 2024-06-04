@@ -1,0 +1,29 @@
+<%#
+kind: snippet
+name: first_boot_setup
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Post replacement for both systemd and non-systemd platforms
+-%>
+<%
+  os_major = @host.operatingsystem.major.to_i
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  has_systemd = (@host.operatingsystem.name == 'Fedora' && os_major >= 20) || (rhel_compatible && os_major >= 7) || (@host.operatingsystem.name == 'Ubuntu' && os_major >= 15) || (@host.operatingsystem.name == 'Debian' && os_major >= 8)
+-%>
+<% if has_systemd -%>
+  <%= save_to_file('/etc/systemd/system/first_boot_service.service', snippet('first_boot_service')) %>
+  <%= save_to_file('/root/first_boot_script.sh', snippet('built', :variables => { :endpoint => 'built', :method => 'POST', :body_file => '/root/install.post.log' })) %>
+
+  systemctl enable first_boot_service
+<% else -%>
+  <%= save_to_file('/root/first_boot_script.sh', snippet('built', :variables => { :endpoint => 'built', :method => 'POST', :body_file => '/root/install.post.log' }) +
+    "\nmv /root/first_boot_script.sh /root/first_boot_script.disabled") %>
+  <%= save_to_file('/etc/init.d/first_boot_setup', snippet('first_boot_initd')) %>
+
+  chmod +x /etc/init.d/first_boot_setup
+  chkconfig --add /etc/init.d/first_boot_setup
+  chkconfig --level 2345 first_boot_setup on
+<% end -%>
+
+chmod +x /root/first_boot_script.sh
