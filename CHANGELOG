@@ -1,3 +1,16 @@
+2024-06-06	Griffin-Sullivan <gsulliva@redhat.com>
+	* Release 3.11.0-rc2
+
+2024-06-05	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #37490 - Correct translation logic in registration cmd
+	* Fixes #37488 - Correct fact setting descriptions
+
+2024-06-05	MariaAga <mariaaga@redhat.com>
+	* Fixes #37443 - edit comment from host details
+
+2024-06-05	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #37515 - Drop Host Vulnerabilities report
+
 2024-05-22	Griffin-Sullivan <gsulliva@redhat.com>
 	* Release 3.11.0-rc1
 
