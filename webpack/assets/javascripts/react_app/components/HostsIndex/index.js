@@ -36,6 +36,7 @@ import { deleteHost } from '../HostDetails/ActionsBar/actions';
 import { useForemanSettings } from '../../Root/Context/ForemanContext';
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import BulkBuildHostModal from './BulkActions/buildHosts';
+import BulkReassignHostgroupModal from './BulkActions/reassignHostGroup';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
@@ -189,9 +190,19 @@ const HostsIndex = () => {
         id: 'bulk-build-hosts-modal',
       })
     );
+    dispatch(
+      addModal({
+        id: 'bulk-reassign-hg-modal',
+      })
+    );
   }, [dispatch]);
 
-  const { setModalOpen } = useForemanModal({ id: 'bulk-build-hosts-modal' });
+  const { setModalOpen: setHgModalOpen } = useForemanModal({
+    id: 'bulk-reassign-hg-modal',
+  });
+  const { setModalOpen: setBuildModalOpen } = useForemanModal({
+    id: 'bulk-build-hosts-modal',
+  });
 
   const dropdownItems = [
     <DropdownItem
@@ -205,10 +216,18 @@ const HostsIndex = () => {
     <DropdownItem
       ouiaId="build-hosts-dropdown-item"
       key="build-hosts-dropdown-item"
-      onClick={setModalOpen}
+      onClick={setBuildModalOpen}
       isDisabled={selectedCount === 0}
     >
       {__('Build management')}
+    </DropdownItem>,
+    <DropdownItem
+      ouiaId="reassign-hg-dropdown-item"
+      key="reassign-hg-dropdown-item"
+      onClick={setHgModalOpen}
+      isDisabled={selectedCount === 0}
+    >
+      {__('Change host group')}
     </DropdownItem>,
   ];
 
@@ -367,6 +386,7 @@ const HostsIndex = () => {
         value={{ selectedCount, fetchBulkParams }}
       >
         <BulkBuildHostModal key="bulk-build-hosts-modal" />
+        <BulkReassignHostgroupModal key="bulk-reassign-hg-modal" />
         <Slot id="_all-hosts-modals" multi />
       </ForemanActionsBarContext.Provider>
     </TableIndexPage>

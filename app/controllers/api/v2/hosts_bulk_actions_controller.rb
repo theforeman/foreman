@@ -5,7 +5,7 @@ module Api
       include Api::V2::BulkHostsExtension
 
       before_action :find_deletable_hosts, :only => [:bulk_destroy]
-      before_action :find_editable_hosts, :only => [:build]
+      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup]
 
       def_param_group :bulk_host_ids do
         param :organization_id, :number, :required => true, :desc => N_("ID of the organization")
@@ -60,6 +60,21 @@ module Api
                                       :failed_host_ids => missed_hosts.map(&:id),
                                     })
           end
+        end
+      end
+
+      api :PUT, "/hosts/bulk/reassign_hostgroups", N_("Reassign hostgroups")
+      param_group :bulk_host_ids
+      param :hostgroup_id, :number, :desc => N_("ID of the hostgroup to reassign the hosts to")
+      def reassign_hostgroup
+        hostgroup = params[:hostgroup_id].present? ? Hostgroup.find(params[:hostgroup_id]) : nil
+        BulkHostsManager.new(hosts: @hosts).reassign_hostgroups(hostgroup)
+        if hostgroup
+          process_response(true, { :message => n_("Reassigned %{count} host to hostgroup %{hostgroup}",
+            "Reassigned %{count} hosts to hostgroup %{hostgroup}", @hosts.count) % {count: @hosts.count, hostgroup: hostgroup.name} })
+        else
+          process_response(true, { :message => n_("Removed assignment of host group from %s host",
+            "Removed assignment of host group from %s hosts", @hosts.count) % @hosts.count })
         end
       end
 

@@ -19,6 +19,13 @@ class BulkHostsManager
     end
   end
 
+  def reassign_hostgroups(hostgroup)
+    @hosts.each do |host|
+      host.hostgroup = hostgroup
+      host.save(:validate => false)
+    end
+  end
+
   def rebuild_configuration
     # returns a hash with a key/value configuration
     all_fails = {}
