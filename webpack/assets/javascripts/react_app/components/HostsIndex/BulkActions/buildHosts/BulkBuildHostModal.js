@@ -110,7 +110,7 @@ const BulkBuildHostModal = ({
                       singular: __('selected host'),
                       plural: __('selected hosts'),
                     }}
-                    id="ccs-options-i18n"
+                    id="bulk-build-hosts-selected-hosts"
                   />
                 </strong>
               ),

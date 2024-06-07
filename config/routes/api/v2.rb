@@ -5,6 +5,7 @@ Foreman::Application.routes.draw do
     scope "(:apiv)", :module => :v2, :defaults => {:apiv => 'v2'}, :apiv => /v2/, :constraints => ApiConstraints.new(:version => 2, :default => true) do
       match 'hosts/bulk', :to => 'hosts_bulk_actions#bulk_destroy', :via => [:delete]
       match 'hosts/bulk/build', :to => 'hosts_bulk_actions#build', :via => [:put]
+      match 'hosts/bulk/reassign_hostgroup', :to => 'hosts_bulk_actions#reassign_hostgroup', :via => [:put]
 
       resources :architectures, :except => [:new, :edit] do
         constraints(:id => /[^\/]+/) do

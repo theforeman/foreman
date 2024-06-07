@@ -435,12 +435,7 @@ class HostsController < ApplicationController
       return
     end
     hg = Hostgroup.find_by_id(id)
-    # update the hosts
-    @hosts.each do |host|
-      host.hostgroup = hg
-      host.save(:validate => false)
-    end
-
+    BulkHostsManager.new(hosts: @hosts).reassign_hostgroups(hg)
     success _('Updated hosts: changed host group')
     # We prefer to go back as this does not lose the current search
     redirect_back_or_to hosts_path
