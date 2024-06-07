@@ -21,7 +21,6 @@ const BulkBuildHostModal = ({
   isOpen,
   closeModal,
   selectedCount,
-  orgId,
   fetchBulkParams,
 }) => {
   const dispatch = useDispatch();
@@ -157,7 +156,6 @@ BulkBuildHostModal.propTypes = {
   closeModal: PropTypes.func,
   selectedCount: PropTypes.number.isRequired,
   fetchBulkParams: PropTypes.func.isRequired,
-  orgId: PropTypes.number.isRequired,
 };
 
 BulkBuildHostModal.defaultProps = {
