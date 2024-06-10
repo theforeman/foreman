@@ -21,6 +21,34 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:parameters)
     parameters = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty parameters
+    assert_equal parameters['total'], 1
+  end
+
+  test "should paginate parameters of a specific domain" do
+    domain = FactoryBot.create(:domain)
+    FactoryBot.create_list(:domain_parameter, 2, :domain => domain)
+    with_temporary_settings(entries_per_page: 1) do
+      get :index, params: { :domain_id => domain.to_param }
+      assert_response :success
+      assert_not_nil assigns(:parameters)
+      parameters = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameters['total'], 2
+      assert_equal parameters['results'].size, 1
+    end
+  end
+
+  test "should get all parameters of a specific domain" do
+    domain = FactoryBot.create(:domain)
+    domain_parameters = FactoryBot.create_list(:domain_parameter, 2, :domain => domain)
+    with_temporary_settings(entries_per_page: 1) do
+      get :index, params: { :domain_id => domain.to_param, :per_page => 'all' }
+      assert_response :success
+      assert_not_nil assigns(:parameters)
+      parameters = ActiveSupport::JSON.decode(@response.body)
+      assert_equal parameters['total'], 2
+      assert_equal parameters['results'].size, parameters['total']
+      assert_equal parameters['results'].map { |p| p['name'] }.sort, domain_parameters.map(&:name).sort
+    end
   end
 
   test "should get index for specific hostgroup" do

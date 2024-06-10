@@ -1,6 +1,9 @@
 FactoryBot.define do
   factory :domain_parameter, :parent => :parameter, :class => DomainParameter do
     type { 'DomainParameter' }
+
+    sequence(:name) { |n| "domain_parameter_#{n}" }
+    sequence(:value) { |n| "value_#{n}" }
   end
 
   factory :domain do
