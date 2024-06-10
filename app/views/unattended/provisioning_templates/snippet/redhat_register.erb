@@ -96,7 +96,7 @@ description: |
   echo "Starting the subscription-manager registration process"
 
   # Set up subscription-manager
-  <%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'provisioning' }).strip -%>
+  <%= indent(2, skip1: true) { snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'provisioning' }).strip } -%>
 
   <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) -%>
     # Avoid timeout accessing unreachable repo on air gapped infrastructure,
@@ -137,7 +137,7 @@ description: |
       subscription-manager config --server.proxy_port='<%= host_param("http-proxy-port") %>'
     <% end -%>
   <% end -%>
-  
+
   <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') -%>
     <% if host_param('subscription_manager_pool') -%>
       subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
