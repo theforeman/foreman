@@ -58,6 +58,10 @@ export const ForemanHostsIndexActionsBarContext = forceSingleton(
 );
 
 const HostsIndex = () => {
+  const [allColumns, setAllColumns] = useState(
+    getColumnData({ tableName: 'hosts' })
+  );
+  const [allJsLoaded, setAllJsLoaded] = useState(false);
   const {
     searchParam: urlSearchQuery = '',
     page: urlPage,
@@ -92,7 +96,16 @@ const HostsIndex = () => {
     setAPIOptions: response.setAPIOptions,
   });
 
-  const allColumns = getColumnData({ tableName: 'hosts' });
+  useEffect(() => {
+    const handleLoadJS = () => {
+      setAllColumns(getColumnData({ tableName: 'hosts' }));
+      setAllJsLoaded(true);
+    };
+    document.addEventListener('loadJS', handleLoadJS);
+    return () => {
+      document.removeEventListener('loadJS', handleLoadJS);
+    };
+  }, [setAllColumns]);
   const {
     hasPreference,
     columns: userColumns,
@@ -200,12 +213,12 @@ const HostsIndex = () => {
   ];
 
   const registeredItems = useSelector(selectKebabItems, shallowEqual);
-  const pluginToolbarItems = (
+  const pluginToolbarItems = jsReady => (
     <ForemanHostsIndexActionsBarContext.Provider
       value={{ ...selectAllOptions, fetchBulkParams }}
     >
       <ActionKebab items={dropdownItems.concat(registeredItems)} />
-      <ColumnSelector data={columnSelectData} />
+      {jsReady && <ColumnSelector data={columnSelectData} />}
     </ForemanHostsIndexActionsBarContext.Provider>
   );
 
@@ -305,7 +318,7 @@ const HostsIndex = () => {
       controller="hosts"
       creatable={false}
       replacementResponse={response}
-      customToolbarItems={pluginToolbarItems}
+      customToolbarItems={pluginToolbarItems(allJsLoaded)}
       selectionToolbar={selectionToolbar}
       updateSearchQuery={updateSearchQuery}
     >
