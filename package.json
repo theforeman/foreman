@@ -26,7 +26,8 @@
     "intl": "~1.2.5",
     "jed": "^1.1.1",
     "os-browserify": "^0.3.0",
-    "react-intl": "^2.8.0"
+    "react-intl": "^2.8.0",
+    "webpack-dev-server": "^5.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",

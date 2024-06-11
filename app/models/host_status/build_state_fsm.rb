@@ -1,13 +1,15 @@
-module HostStatus
-
-  class BuildStateFSM
+module BuildStateFSM
+  class FSM
     # Remove negative numbers
-    TOKEN_EXPIRED = 0
-    FAILED = 1
-    PENDING = 2
-    BUILT = 3
-    HOST_UP = 4
-    PROVISIONED = 5
+    DORMANT = 4
+    PENDING = 1
+    BUILT = 0
+    HOST_UP = 5
+    PROVISIONED = 6
+    CANCELED = 7
+
+    TOKEN_EXPIRED = 2
+    FAILED = 3
 
     def initialize(current_state, global_state, states)
       @current_state = current_state
@@ -16,11 +18,11 @@ module HostStatus
       @done = false
     end
 
-    def transition(name)
+    def transition(name, arguments = {})
       throw "Transition #{name} not possible!" unless @states[@current_state].follows?(name)
 
       begin
-        @states[name].execute
+        @states[name].execute(arguments)
         status_mapper(@states[name])
         @done = @states[name].is_final?
         @current_state = name
@@ -28,6 +30,14 @@ module HostStatus
         @global_status = HostStatus::Global::ERROR
         throw "Transition #{name} failed: #{e}"
       end
+    end
+
+    def current_state
+      @current_state.to_status
+    end
+
+    def global_state
+      @global_status
     end
 
     private
@@ -39,7 +49,7 @@ module HostStatus
   end
 
   class State
-    def initialize(follows, side_effect, name, is_final)
+    def initialize(follows, side_effect, name, is_final = false)
       @follows = follows
       @side_effect = side_effect
       @name = name
@@ -50,8 +60,9 @@ module HostStatus
       @follows.include?(name)
     end
 
-    def execute
+    def execute(trailing_call)
       @side_effect.call
+      trailing_call.call
     end
 
     def is_final?
@@ -62,41 +73,4 @@ module HostStatus
       @name
     end
   end
-
-  fsm = BuildStateFSM.new(
-    BuildStateFSM::PENDING, Global::OK,
-    {
-      BuildStateFSM::PENDING => State.new(
-        [BuildStateFSM::FAILED, BuildStateFSM::BUILT, BuildStateFSM::TOKEN_EXPIRED],
-        -> { },
-        BuildStateFSM::PENDING, false),
-
-      BuildStateFSM::BUILT => State.new(
-        [BuildStateFSM::FAILED, BuildStateFSM::HOST_UP],
-        -> { puts "Built" },
-        BuildStateFSM::BUILT, false),
-
-      BuildStateFSM::HOST_UP => State.new(
-        [BuildStateFSM::FAILED, BuildStateFSM::PROVISIONED],
-        -> { puts "Host up" },
-        BuildStateFSM::HOST_UP, false),
-
-      BuildStateFSM::PROVISIONED => State.new(
-        [BuildStateFSM::FAILED], -> { puts "Provisioned" },
-        BuildStateFSM::PROVISIONED, true),
-
-      BuildStateFSM::FAILED => State.new(
-        [], -> { puts "Failed" },
-        BuildStateFSM::FAILED, true),
-
-      BuildStateFSM::TOKEN_EXPIRED => State.new(
-        [], -> { puts "Token expired" },
-        BuildStateFSM::TOKEN_EXPIRED, true),
-  })
-
-  # fsm.transition(BuildStateFSM::BUILT)
-  fsm.transition(BuildStateFSM::FAILED)
-  # fsm.transition(BuildStateFSM::TOKEN_EXPIRED)
-  fsm.transition(BuildStateFSM::HOST_UP)
-  fsm.transition(BuildStateFSM::PROVISIONED)
 end

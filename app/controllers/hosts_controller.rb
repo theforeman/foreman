@@ -229,6 +229,7 @@ class HostsController < ApplicationController
           end
         end
       end
+      @host.call_state_transition(BuildStateFSM::FSM::PENDING)
     else
       respond_to do |format|
         format.html do
@@ -238,6 +239,7 @@ class HostsController < ApplicationController
           render :json => { :errors => @host.errors.full_messages }, :status => :internal_server_error
         end
       end
+      @host.call_state_transition(BuildStateFSM::FSM::FAILED)
     end
   end
 
@@ -251,6 +253,7 @@ class HostsController < ApplicationController
           render :json => { :success_msg => _("Canceled pending build for %s") % @host.name }
         end
       end
+      @host.call_state_transition(BuildStateFSM::FSM::DORMANT)
     else
       respond_to do |format|
         format.html do

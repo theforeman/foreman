@@ -470,6 +470,7 @@ Foreman::Application.routes.draw do
   post 'unattended/built/(:id(:format))', controller: 'unattended', action: 'built', format: 'text'
   # failed call only via POST
   post 'unattended/failed/(:id(:format))', controller: 'unattended', action: 'failed', format: 'text'
+  get 'unattended/change-status/(:id(:format))/(:status(:format))', controller: 'unattended', action: 'change_host_status', format: 'text'
   # get for all unattended scripts
   get 'unattended/(:kind/(:id(:format)))', controller: 'unattended', action: 'host_template', format: 'text'
 

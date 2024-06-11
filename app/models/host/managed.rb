@@ -22,6 +22,7 @@ class Host::Managed < Host::Base
   include HostParams
   include Facets::ManagedHostExtensions
   include ::ForemanRegister::HostExtensions
+  include BuildStateFSM
 
   has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'
   has_one :last_report_object, -> { order("#{Report.table_name}.id DESC") }, :foreign_key => :host_id, :class_name => 'ConfigReport'
@@ -75,6 +76,21 @@ class Host::Managed < Host::Base
 
   def initialize(attributes = nil, &block)
     super(apply_inherited_attributes(attributes, false), &block)
+  end
+
+  def call_state_transition(new_state, args)
+    @state_fsm = get_fsm
+    @state_fsm.transition(name: new_state, arguments: args)
+  end
+
+  def get_fsm_state
+    @state_fsm = get_fsm
+    @state_fsm.current_state
+  end
+
+  def get_fsm_global_state
+    @state_fsm = get_fsm
+    @state_fsm.global_state
   end
 
   def build_hooks
@@ -380,6 +396,8 @@ class Host::Managed < Host::Base
     self.build        = false
     self.otp          = nil
     self.installed_at = Time.now.utc if installed
+
+    @state_fsm.transition(BuildStateFSM::FSM::BUILT)
 
     if save
       send_built_notification if installed
@@ -748,9 +766,11 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def build_status_checker
-    build_status = HostBuildStatus.new(self)
-    build_status.check_all_statuses
-    build_status
+    # build_status = HostBuildStatus.new(self)
+    # build_status.check_all_statuses
+    # build_status
+    @state_fsm = get_fsm
+    @state_fsm.current_state
   end
 
   def refresh_global_status
@@ -803,6 +823,7 @@ autopart"', desc: 'to render the content of host partition table'
 
   def build_status(options = {})
     @build_status ||= get_status(HostStatus::BuildStatus).to_status(options)
+    # @build_status ||= @state_fsm.current_state()
   end
 
   def build_status_label(options = {})
@@ -857,6 +878,38 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   private
+
+  def get_fsm
+    current_state = self.
+    @state_fsm ||= FSM.new(BuildStateFSM::FSM::PENDING, HostStatus::Global::OK, {
+      BuildStateFSM::FSM::PENDING => State.new(
+        [BuildStateFSM::FSM::FAILED, BuildStateFSM::FSM::BUILT, BuildStateFSM::FSM::TOKEN_EXPIRED],
+        -> do
+          STDERR.puts "################## Pending ############################"
+          # Start active job
+          BuildTimeoutJob.set(wait: Setting[:build_timeout].minutes).perform_later(@state_fsm.transition(BuildStateFSM::FSM::TOKEN_EXPIRED))
+        end,
+        BuildStateFSM::FSM::PENDING),
+
+      BuildStateFSM::FSM::BUILT => State.new(
+        [BuildStateFSM::FSM::FAILED], -> do
+        STDERR.puts "################## Built ############################"
+        # TODO cancel the job
+      end,
+        BuildStateFSM::FSM::BUILT, true),
+
+      BuildStateFSM::FSM::FAILED => State.new([], -> do
+        puts "################## Failed ##################"
+      end,
+                                              BuildStateFSM::FSM::FAILED, true),
+
+      BuildStateFSM::FSM::TOKEN_EXPIRED => State.new(
+        [BuildStateFSM::FSM::DORMANT], -> do
+        puts "################## Token expired ##################"
+      end,
+        BuildStateFSM::FSM::TOKEN_EXPIRED, true),
+    })
+  end
 
   def update_os_from_facts
     operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)

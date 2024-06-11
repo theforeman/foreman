@@ -38,6 +38,7 @@ module HostStatus
       return HostStatus::Global::WARN if WARN_STATUSES.include?(status)
 
       HostStatus::Global::OK
+      # host&.get_fsm_global_state
     end
 
     def to_status(options = {})
@@ -54,14 +55,17 @@ module HostStatus
           BUILT
         end
       end
+      # host&.get_fsm_state
     end
 
     def waiting_for_build?
       host&.build
+      # host&.get_fsm_state == BuildStateFSM::FSM::PENDING
     end
 
     def token_expired?
       host&.token_expired?
+      # host&.get_fsm_state == BuildStateFSM::FSM::TOKEN_EXPIRED
     end
 
     def build_errors?

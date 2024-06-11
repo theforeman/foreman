@@ -11,7 +11,7 @@ class UnattendedController < ApplicationController
 
   before_action :permissions_check, if: -> { preview? }, only: [:host_template, :hostgroup_template]
   before_action :set_admin_user, unless: -> { preview? }
-  before_action :load_host_details, only: [:host_template, :built, :failed]
+  before_action :load_host_details, only: [:host_template, :built, :failed, :change_host_status]
 
   # all of our requests should be returned in text/plain
   after_action :set_content_type
@@ -24,9 +24,9 @@ class UnattendedController < ApplicationController
     return head(:method_not_allowed) unless allowed_to_install?
 
     logger.info "#{controller_name}: #{@host.name} is built!"
-    # Clear possible previous errors
     @host.build_errors = nil
     update_ip if Setting[:update_ip_from_built_request]
+    @host.call_state_transition(BuildStateFSM::FSM::BUILT)
     head(@host.built ? :created : :conflict)
   end
 
@@ -40,7 +40,14 @@ class UnattendedController < ApplicationController
     body_length = @host.build_errors.try(:size) || 0
     @host.build_errors += "\n\nOutput trimmed\n" if body_length >= MAX_BUILT_BODY
     logger.warn { "Log lines from the OS installer:\n#{@host.build_errors}" }
+    @host.call_state_transition(BuildStateFSM::FSM::FAILED)
     head(@host.built ? :created : :conflict)
+  end
+
+  def change_host_status
+    return unless verify_found_host
+    # Parameters: New Host status, host id
+    puts "HERE ###: #{params[:status]}"
   end
 
   def hostgroup_template
