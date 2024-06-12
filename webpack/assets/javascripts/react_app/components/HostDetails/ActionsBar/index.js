@@ -70,7 +70,7 @@ const ActionsBar = ({
   };
   const buildHandler = () => {
     if (isBuild) {
-      dispatch(cancelBuild(hostId));
+      dispatch(cancelBuild(hostId, hostName));
       setKebab(false);
     } else {
       setBuildModal(true);

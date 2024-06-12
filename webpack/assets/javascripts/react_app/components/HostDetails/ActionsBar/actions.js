@@ -89,9 +89,9 @@ export const buildHost = hostId => dispatch => {
   );
 };
 
-export const cancelBuild = hostId => dispatch => {
+export const cancelBuild = (hostId, hostName) => dispatch => {
   const successToast = () =>
-    sprintf(__('Canceled pending build for %s'), hostId);
+    sprintf(__('Canceled pending build for %s'), hostName);
   const errorToast = ({ message }) => message;
   const url = foremanUrl(`/hosts/${hostId}/cancelBuild`);
   dispatch(
