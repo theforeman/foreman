@@ -198,13 +198,13 @@ class ActionController::TestCase
   end
 
   def with_temporary_settings(**kwargs)
-    old_settings = SETTINGS.slice(*kwargs.keys)
+    old_settings = SETTINGS.dup
     begin
       SETTINGS.update(kwargs)
 
       yield
     ensure
-      SETTINGS.update(old_settings)
+      SETTINGS.replace(old_settings)
     end
   end
 end
