@@ -281,7 +281,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     post :create, params: { :host => valid_attrs }
     host = Host.find(JSON.parse(@response.body)['id'])
     assert_not_equal host.root_pass, 'password'
-    assert host.root_pass.starts_with?('$5$')
+    assert host.root_pass.starts_with?('$6$')
   end
 
   test "should create host with host_parameters_attributes" do

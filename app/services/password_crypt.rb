@@ -1,7 +1,7 @@
 require 'base64'
 
 class PasswordCrypt
-  ALGORITHMS = {'SHA256' => '$5$', 'SHA512' => '$6$', 'Base64' => '', 'Base64-Windows' => ''}
+  ALGORITHMS = {'SHA512' => '$6$', 'SHA256' => '$5$', 'Base64' => '', 'Base64-Windows' => ''}
 
   if Foreman::Fips.md5_available?
     ALGORITHMS['MD5'] = '$1$'
