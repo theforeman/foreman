@@ -26,6 +26,17 @@ description: |
     '/EFI/opensuse/grubx64.efi',
     '/EFI/Microsoft/boot/bootmgfw.efi'
   ]
+  config_paths = [
+    '/EFI/fedora/grub.cfg',
+    '/EFI/redhat/grub.cfg',
+    '/EFI/centos/grub.cfg',
+    '/EFI/rocky/grub.cfg',
+    '/EFI/almalinux/grub.cfg',
+    '/EFI/debian/grub.cfg',
+    '/EFI/ubuntu/grub.cfg',
+    '/EFI/sles/grub.cfg',
+    '/EFI/opensuse/grub.cfg',
+  ]
 -%>
 insmod part_gpt
 insmod fat
@@ -58,13 +69,23 @@ echo
 
 if [ "${lockdown}" == "y" ]; then
   if [ "${default}" == "local" ]; then
-    set default="next_bootdevice"
+    set default="grub_config"
   fi
 
-  menuentry 'Booting from next boot device' --id next_bootdevice {
-    echo "SecureBoot is enabled, attempting next boot device..."
-    sleep 2
-    exit 1
+  menuentry 'Loading GRUB2 config from ESP' --id grub_config {
+<%
+  config_paths.each do |config_path|
+-%>
+  echo "Trying <%= config_path %>"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot <%= config_path %>
+  if [ -f ($chroot)<%= config_path %> ]; then
+    configfile ($chroot)<%= config_path %>
+  fi
+<%
+  end
+-%>
   }
 fi
 
