@@ -28,13 +28,73 @@ connectefi scsi
 
 if [ "${lockdown}" == "y" ]; then
   if [ "${default}" == "local" ]; then
-    set default="next_bootdevice"
+    set default="grub_config"
   fi
 
-  menuentry 'Booting from next boot device' --id next_bootdevice {
-    echo "SecureBoot is enabled, attempting next boot device..."
-    sleep 2
-    exit 1
+  menuentry 'Loading GRUB2 config from ESP' --id grub_config {
+  echo "Trying /EFI/fedora/grub.cfg"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/fedora/grub.cfg
+  if [ -f ($chroot)/EFI/fedora/grub.cfg ]; then
+    configfile ($chroot)/EFI/fedora/grub.cfg
+  fi
+  echo "Trying /EFI/redhat/grub.cfg"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/redhat/grub.cfg
+  if [ -f ($chroot)/EFI/redhat/grub.cfg ]; then
+    configfile ($chroot)/EFI/redhat/grub.cfg
+  fi
+  echo "Trying /EFI/centos/grub.cfg"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/centos/grub.cfg
+  if [ -f ($chroot)/EFI/centos/grub.cfg ]; then
+    configfile ($chroot)/EFI/centos/grub.cfg
+  fi
+  echo "Trying /EFI/rocky/grub.cfg"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/rocky/grub.cfg
+  if [ -f ($chroot)/EFI/rocky/grub.cfg ]; then
+    configfile ($chroot)/EFI/rocky/grub.cfg
+  fi
+  echo "Trying /EFI/almalinux/grub.cfg"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/almalinux/grub.cfg
+  if [ -f ($chroot)/EFI/almalinux/grub.cfg ]; then
+    configfile ($chroot)/EFI/almalinux/grub.cfg
+  fi
+  echo "Trying /EFI/debian/grub.cfg"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/debian/grub.cfg
+  if [ -f ($chroot)/EFI/debian/grub.cfg ]; then
+    configfile ($chroot)/EFI/debian/grub.cfg
+  fi
+  echo "Trying /EFI/ubuntu/grub.cfg"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/ubuntu/grub.cfg
+  if [ -f ($chroot)/EFI/ubuntu/grub.cfg ]; then
+    configfile ($chroot)/EFI/ubuntu/grub.cfg
+  fi
+  echo "Trying /EFI/sles/grub.cfg"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/sles/grub.cfg
+  if [ -f ($chroot)/EFI/sles/grub.cfg ]; then
+    configfile ($chroot)/EFI/sles/grub.cfg
+  fi
+  echo "Trying /EFI/opensuse/grub.cfg"
+  unset chroot
+  # add --efidisk-only when using Software RAID
+  search --file --no-floppy --set=chroot /EFI/opensuse/grub.cfg
+  if [ -f ($chroot)/EFI/opensuse/grub.cfg ]; then
+    configfile ($chroot)/EFI/opensuse/grub.cfg
+  fi
   }
 fi
 
