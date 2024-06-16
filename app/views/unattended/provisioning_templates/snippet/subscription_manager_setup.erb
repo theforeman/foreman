@@ -24,17 +24,6 @@ RHSM_CFG=/etc/rhsm/rhsm.conf
 <% end -%>
 
 <% if plugin_present?('katello') -%>
-  # Define the path to the Katello server CA certificate
-  KATELLO_SERVER_CA_CERT=/etc/rhsm/ca/katello-server-ca.pem
-
-  # If SSL_CA_CERT is not set, create a temporary file for it
-  if [ -z "$SSL_CA_CERT" ]; then
-    SSL_CA_CERT=$(mktemp)
-    cat << EOF > "$SSL_CA_CERT"
-<%= foreman_server_ca_cert %>
-EOF
-  fi
-
   <% if @subman_setup_scenario == 'registration' -%>
     # rhn-client-tools conflicts with subscription-manager package
     # since rhn tools replaces subscription-manager, we need to explicitly
@@ -59,10 +48,15 @@ EOF
     <% end -%>
   <% end -%>
 
+  # Define the path to the Katello server CA certificate
+  KATELLO_SERVER_CA_CERT=/etc/rhsm/ca/katello-server-ca.pem
+
   # Prepare the SSL certificate
   mkdir -p /etc/rhsm/ca
-  cp -f $SSL_CA_CERT $KATELLO_SERVER_CA_CERT
+  touch $KATELLO_SERVER_CA_CERT
   chmod 644 $KATELLO_SERVER_CA_CERT
+
+  <%= snippet('ca_registration') -%>
 <% end -%>
 
 # Prepare subscription-manager
@@ -132,26 +126,6 @@ else
   full_refresh_config="#config for on-premise management\nfull_refresh_on_yum = 1"
   sed -i "/baseurl/a $full_refresh_config" $RHSM_CFG
 fi
-
-<% if @subman_setup_scenario == 'provisioning' && plugin_present?('katello') -%>
-  if [ -f /etc/debian_version ]; then
-    CA_TRUST_ANCHORS=/usr/local/share/ca-certificates/
-  else
-    CA_TRUST_ANCHORS=/etc/pki/ca-trust/source/anchors
-  fi
-
-  # Add the Katello CA certificate to the system-wide CA certificate store
-  if [ -d $CA_TRUST_ANCHORS ]; then
-    if [ -f /etc/debian_version ]; then
-      cp $KATELLO_SERVER_CA_CERT $CA_TRUST_ANCHORS
-      update-ca-certificates
-    else
-      update-ca-trust enable
-      cp $KATELLO_SERVER_CA_CERT $CA_TRUST_ANCHORS
-      update-ca-trust
-    fi
-  fi
-<% end -%>
 
 # Restart yggdrasild if installed and running
 systemctl try-restart yggdrasil >/dev/null 2>&1 || true

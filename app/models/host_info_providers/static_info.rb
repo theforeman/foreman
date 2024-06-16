@@ -14,6 +14,7 @@ module HostInfoProviders
       add_taxonomy_params param
       add_domain_params param
       add_login_params param
+      add_certificate_params param
 
       # Parse ERB values contained in the parameters
       param = ParameterSafeRender.new(self).render(param)
@@ -54,6 +55,21 @@ module HostInfoProviders
       param["realm"] = realm.name unless realm.nil?
       param['foreman_subnets'] = all_subnets.map(&:to_export).uniq
       param['foreman_interfaces'] = host.interfaces.map(&:to_export)
+    end
+
+    def add_certificate_params(param)
+      param['server_ca'] = read_cert(Setting[:server_ca_file])
+      param['ssl_ca'] = read_cert(Setting[:ssl_ca_file])
+    end
+
+    def read_cert(path)
+      return nil unless path
+
+      File.read(path)
+    rescue StandardError => e
+      Foreman::Logging.logger('app').warn("Failed to read CA file: #{e}")
+
+      nil
     end
 
     def all_subnets

@@ -34,3 +34,7 @@ host_init_config:
 registration:
   name: registration
   description: description for registration template
+
+public:
+  name: public
+  description: description for public template

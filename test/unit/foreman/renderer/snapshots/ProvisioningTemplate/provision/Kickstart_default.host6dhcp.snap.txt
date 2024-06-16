@@ -169,7 +169,6 @@ rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     sed -i "/baseurl/a $full_refresh_config" $RHSM_CFG
   fi
   
-  
   # Restart yggdrasild if installed and running
   systemctl try-restart yggdrasil >/dev/null 2>&1 || true
     # Avoid timeout accessing unreachable repo on air gapped infrastructure,

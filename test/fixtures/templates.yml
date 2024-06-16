@@ -187,3 +187,19 @@ host_init_config:
   operatingsystems: centos5_3, redhat
   locked: true
   type: ProvisioningTemplate
+
+foreman_ca_refresh:
+  name: foreman_ca_refresh
+  template: 'echo "Refreshing certificates"'
+  template_kind: public
+  operatingsystems: centos5_3, redhat
+  locked: true
+  type: ProvisioningTemplate
+
+foreman_raw_ca:
+  name: foreman_raw_ca
+  template: 'echo "Raw CA certificate"'
+  template_kind: public
+  operatingsystems: centos5_3, redhat
+  locked: true
+  type: ProvisioningTemplate

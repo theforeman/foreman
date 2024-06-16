@@ -3,12 +3,13 @@ module Foreman
     class HostVerifier
       attr_reader :errors, :host, :request_ip, :for_host_template, :controller_name
 
-      def initialize(host, request_ip:, for_host_template:)
+      def initialize(host, request_ip:, for_host_template:, needs_token: true)
         @host = host
         @errors = []
         @for_host_template = for_host_template
         @request_ip = request_ip
         @controller_name = 'unattended'
+        @needs_token = needs_token
       end
 
       def valid?
@@ -25,6 +26,7 @@ module Foreman
       # In case the token expires during installation
       # Only relevant when the verifier is being used with `for_host_template`
       def valid_host_token?
+        return true unless @needs_token
         return true unless for_host_template
         return true unless @host&.token_expired?
 
