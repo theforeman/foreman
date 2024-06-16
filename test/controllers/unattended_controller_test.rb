@@ -58,6 +58,16 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :success
     end
 
+    test "should get a foreman CA refresh for a host" do
+      get :host_template, params: { kind: 'public', id: 'foreman_ca_refresh' }
+      assert_response :success
+    end
+
+    test "should get raw foreman CA certificate" do
+      get :host_template, params: { kind: 'public', id: 'foreman_raw_ca' }
+      assert_response :success
+    end
+
     test "should get a kickstart when IPv6 mapped IPv4 address is used" do
       @request.env["HTTP_X_FORWARDED_FOR"] = "::ffff:" + @rh_host.ip
       @request.env["REMOTE_ADDR"] = "127.0.0.1"

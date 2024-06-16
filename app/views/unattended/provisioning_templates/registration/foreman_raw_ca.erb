@@ -1,0 +1,15 @@
+<%#
+kind: public
+name: foreman_raw_ca
+model: ProvisioningTemplate
+oses:
+- AlmaLinux
+- CentOS
+- CentOS_Stream
+- Fedora
+- RedHat
+- Rocky
+description: |
+  This template exposes the CA certificate to be consumed directly from a URL.
+-%>
+<%= foreman_server_ca_cert -%>

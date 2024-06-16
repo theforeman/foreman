@@ -1,0 +1,34 @@
+<%#
+kind: snippet
+name: ca_registration
+model: ProvisioningTemplate
+snippet: true
+description: |
+  This template is used for updating Foreman's CA on hosts that are registered by Katello.
+  It replaces the CA used by subscription-manager and adds the CA to trusted anchors.
+-%>
+
+<% if plugin_present?('katello') -%>
+  # Define the path to the Katello server CA certificate
+  KATELLO_SERVER_CA_CERT=/etc/rhsm/ca/katello-server-ca.pem
+
+  # If katello ca cert file exists on host, update it and make sure it's in trust anchors
+  if [ -f "$KATELLO_SERVER_CA_CERT" ]; then
+    <%= save_to_file('"$KATELLO_SERVER_CA_CERT"', foreman_server_ca_cert) -%>
+
+    if [ -f /etc/debian_version ]; then
+      CA_TRUST_ANCHORS=/usr/local/share/ca-certificates/
+    else
+      CA_TRUST_ANCHORS=/etc/pki/ca-trust/source/anchors
+    fi
+
+    # Add the Katello CA certificate to the system-wide CA certificate store
+    cp $KATELLO_SERVER_CA_CERT $CA_TRUST_ANCHORS
+
+    if [ -f /etc/debian_version ]; then
+      update-ca-certificates
+    else
+      update-ca-trust
+    fi
+  fi
+<% end -%>

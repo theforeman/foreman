@@ -1,0 +1,17 @@
+<%#
+kind: public
+name: foreman_ca_refresh
+model: ProvisioningTemplate
+oses:
+- AlmaLinux
+- CentOS
+- CentOS_Stream
+- Fedora
+- RedHat
+- Rocky
+description: |
+  This template is used to refresh foreman CA certificates on Katello-registered hosts
+-%>
+#!/bin/sh
+
+<%= snippet('ca_registration') -%>

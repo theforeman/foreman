@@ -19,6 +19,8 @@ class UnattendedController < ApplicationController
   # Maximum size of built/failed request body accepted to prevent DoS (in bytes)
   MAX_BUILT_BODY = 65535
 
+  PUBLIC_TEMPLATE_KIND_NAME = 'public'
+
   def built
     return unless verify_found_host
     return head(:method_not_allowed) unless allowed_to_install?
@@ -60,6 +62,7 @@ class UnattendedController < ApplicationController
     return head(:not_found) unless kind.present?
 
     return if render_ipxe_template
+    return if render_public_template(kind, params[:id])
 
     return unless verify_found_host
     return head(:method_not_allowed) unless allowed_to_install?
@@ -84,6 +87,14 @@ class UnattendedController < ApplicationController
     else
       super
     end
+  end
+
+  def render_public_template(kind, name)
+    return false unless kind == PUBLIC_TEMPLATE_KIND_NAME
+
+    template = ProvisioningTemplate.joins(:template_kind).find_by(name: name, template_kinds: { name: kind })
+
+    render_template(template: template, type: kind)
   end
 
   def render_intermediate_template
@@ -159,7 +170,7 @@ class UnattendedController < ApplicationController
     @host = Foreman::UnattendedInstallation::HostFinder.new(query_params: query_params).search
   end
 
-  def verify_found_host
+  def verify_found_host(needs_token = true)
     host_verifier = Foreman::UnattendedInstallation::HostVerifier.new(@host, request_ip: request.remote_ip,
                                                                              for_host_template: (action_name == 'host_template'))
 

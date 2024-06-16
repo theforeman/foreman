@@ -2344,6 +2344,38 @@ class HostTest < ActiveSupport::TestCase
     assert enc['parameters']['foreman_interfaces'].any? { |s| s['ip6'] == host.ip6 }
   end
 
+  test "#info ENC YAML exposes CA certificates" do
+    cert_path = Rails.root.join('test/static_fixtures/certificates/example.com.crt')
+    cert_2_path = Rails.root.join('test/static_fixtures/certificates/example2.com.crt')
+    cert_file_content = File.read(cert_path)
+    cert_2_file_content = File.read(cert_2_path)
+
+    Setting[:server_ca_file] = cert_path
+    Setting[:ssl_ca_file] = cert_2_path
+
+    host = FactoryBot.build(:host, :managed)
+
+    enc = host.info
+    assert_kind_of Hash, enc
+    assert_equal cert_file_content, enc['parameters']['server_ca']
+    assert_equal cert_2_file_content, enc['parameters']['ssl_ca']
+  end
+
+  test "#info ENC YAML works with wrong ca file paths" do
+    cert_path = Rails.root.join('test/static_fixtures/certificates/example.com.crt')
+    cert_2_path = Rails.root.join('test/static_fixtures/certificates/example2.com.crt')
+
+    Setting[:server_ca_file] = cert_path + 'zzz'
+    Setting[:ssl_ca_file] = cert_2_path + 'zzz'
+
+    host = FactoryBot.build(:host, :managed)
+
+    enc = host.info
+    assert_kind_of Hash, enc
+    assert_nil enc['parameters']['server_ca']
+    assert_nil enc['parameters']['ssl_ca']
+  end
+
   describe 'cloning' do
     test 'relationships are copied' do
       host = FactoryBot.create(:host, :with_parameter)
