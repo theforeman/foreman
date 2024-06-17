@@ -11,7 +11,29 @@ module Foreman::Model
       Fog::Compute.providers.include?(:libvirt)
     end
 
-    # Some getters/setters for the attrs Hash
+    def self.firmware_types
+      {
+        "efi" => N_("EFI"),
+        "bios" => N_("BIOS"),
+      }.freeze
+    end
+
+    def os_firmware
+      attrs[:os_firmware].presence || "efi"
+    end
+
+    def os_firmware=(firmware)
+      attrs[:os_firmware] = firmware
+    end
+
+    def os_firmware_features
+      attrs[:os_firmware_features].presence || {}
+    end
+
+    def os_firmware_features=(attrs)
+      attrs[:os_firmware_features].merge attrs
+    end
+
     def display_type
       attrs[:display].presence || 'vnc'
     end
@@ -289,7 +311,12 @@ module Foreman::Model
         :display    => { :type     => display_type,
                          :listen   => Setting[:libvirt_default_console_address],
                          :password => random_password(console_password_length(display_type)),
-                         :port     => '-1' }
+                         :port     => '-1' },
+        :os_firmware => 'efi',
+        :os_firmware_features => {
+          "secure-boot" => "no",
+          "enrolled-keys" => "no",
+        }
       )
     end
 
