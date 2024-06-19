@@ -32,6 +32,9 @@ export const getColumnHelpers = columns => {
   columnNamesKeys.sort((a, b) => {
     const columnBWeight = columns[b]?.weight;
     const columnAWeight = columns[a]?.weight;
+    if (columnAWeight === undefined && columnBWeight === undefined) {
+      return 0;
+    }
     if (columnBWeight === undefined) {
       return -1;
     }
