@@ -54,7 +54,7 @@ const HostDetails = ({
   location: { hash },
   history,
 }) => {
-  const { displayFqdnForHosts, displayNewHostsPage } = useForemanSettings();
+  const { displayNewHostsPage } = useForemanSettings();
   const { response, status } = useAPI(
     'get',
     `/api/hosts/${id}?show_hidden_parameters=true`,
@@ -124,9 +124,7 @@ const HostDetails = ({
                     : ({ caption }) => <a href={hostsIndexUrl}>{caption}</a>,
                 },
                 {
-                  caption: displayFqdnForHosts
-                    ? response.name
-                    : response.name?.replace(`.${response.domain_name}`, ''),
+                  caption: response.display_name,
                 },
               ]}
             />
@@ -151,12 +149,7 @@ const HostDetails = ({
                           headingLevel="h5"
                           size="2xl"
                         >
-                          {displayFqdnForHosts
-                            ? response.name
-                            : response.name?.replace(
-                                `.${response.domain_name}`,
-                                ''
-                              )}
+                          {response.display_name}
                         </Title>
                       )}
                     </SkeletonLoader>
