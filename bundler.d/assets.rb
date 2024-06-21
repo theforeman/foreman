@@ -6,6 +6,4 @@ group :assets do
   gem 'execjs', '>= 1.4.0', '< 3.0'
   gem 'terser', '~> 1.1'
   gem 'sass-rails', '~> 6.0'
-  # this one is a dependecy for x-editable-rails
-  gem 'coffee-rails', '~> 5.0.0'
 end
