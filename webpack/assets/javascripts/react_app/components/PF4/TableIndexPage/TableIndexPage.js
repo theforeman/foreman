@@ -222,7 +222,10 @@ const TableIndexPage = ({
         <Toolbar ouiaId="table-toolbar" className="table-toolbar">
           <ToolbarContent>
             {searchable && (
-              <ToolbarGroup>
+              <ToolbarGroup
+                className="toolbar-group-search"
+                variant="filter-group"
+              >
                 {selectionToolbar}
                 <ToolbarItem className="toolbar-search">
                   <SearchBar
@@ -240,21 +243,20 @@ const TableIndexPage = ({
                 )}
               </ToolbarGroup>
             )}
-            {actionButtons.length > 0 && (
+            {(customToolbarItems || actionButtons.length > 0) && (
               <ToolbarGroup
                 alignment={{ default: 'alignLeft' }}
                 className="table-toolbar-actions"
+                variant="button-group"
               >
-                <ToolbarItem>
-                  <ActionButtons buttons={actionButtons} />
-                </ToolbarItem>
+                {actionButtons.length > 0 && (
+                  <ToolbarItem>
+                    <ActionButtons buttons={actionButtons} />
+                  </ToolbarItem>
+                )}
+                {customToolbarItems && customToolbarItems}
               </ToolbarGroup>
             )}
-
-            {customToolbarItems && (
-              <ToolbarGroup>{customToolbarItems}</ToolbarGroup>
-            )}
-
             {total > 0 && (
               <Pagination
                 key="table-index-page-top-pagination"
