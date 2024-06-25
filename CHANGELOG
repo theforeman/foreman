@@ -1,3 +1,15 @@
+2024-06-25	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.11.0
+
+2024-06-19	Griffin-Sullivan <gsulliva@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2024-06-18	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #37439 - API 'build_pxe_default' with taxonomies
+
+2024-06-10	Adam Ruzicka <aruzicka@redhat.com>
+	* Refs #37374 - Fix wrong key for ipv6
+
 2024-06-06	Griffin-Sullivan <gsulliva@redhat.com>
 	* Release 3.11.0-rc2
 
