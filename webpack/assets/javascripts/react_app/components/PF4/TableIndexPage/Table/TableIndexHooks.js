@@ -19,9 +19,10 @@ export const useTableIndexAPIResponse = ({
   apiUrl,
   apiOptions = {},
   defaultParams = {},
+  method = 'get',
 }) => {
   let response = useAPI(
-    replacementResponse ? null : 'get',
+    replacementResponse ? null : method,
     apiUrl.includes('include_permissions')
       ? apiUrl
       : `${apiUrl}?include_permissions=true`,
