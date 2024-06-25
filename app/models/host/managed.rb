@@ -779,11 +779,8 @@ autopart"', desc: 'to render the content of host partition table'
   end
   def get_status(type)
     status = host_statuses.detect { |s| s.type == type.to_s }
-    if status.nil?
-      host_statuses.new(:host => self, :type => type.to_s)
-    else
-      status
-    end
+    return status unless status.nil?
+    host_statuses.new(:host => self, :type => type.to_s)
   end
 
   def build_global_status(options = {})
@@ -952,7 +949,12 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def refresh_build_status
-    get_status(HostStatus::BuildStatus).refresh
+    refresh_method = if new_record?
+                       'refresh'
+                     else
+                       'refresh!'
+                     end
+    get_status(HostStatus::BuildStatus).send(refresh_method)
   end
 
   def extract_params_from_object_ancestors(object)

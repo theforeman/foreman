@@ -474,6 +474,25 @@ class HostTest < ActiveSupport::TestCase
     assert_equal status, new_status
   end
 
+  test 'host #get_status(HostStatus::BuildStatus).to_status matches in DB stored "status' do
+    host = FactoryBot.build(:host)
+    host.build = false
+    status = host.get_status(HostStatus::BuildStatus)
+    original_status = status.to_status
+    status.save!
+    host.save!
+
+    assert_equal status.status, status.to_status
+
+    host.build = true
+    host.valid?
+
+    assert host.build?
+    status = host.get_status(HostStatus::BuildStatus)
+    assert_equal status.status, status.to_status
+    assert_not_equal original_status, status.to_status
+  end
+
   test 'host #get_status(type) only builds a new status once' do
     host = FactoryBot.build_stubbed(:host)
     status1 = host.get_status(HostStatus::BuildStatus)
@@ -518,7 +537,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'build status is updated on host validation' do
-    host = FactoryBot.build_stubbed(:host)
+    host = FactoryBot.build(:host)
     host.build = false
     host.valid?
     original_status = host.get_status(HostStatus::BuildStatus).to_status
@@ -808,7 +827,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should allow build mode for unmanaged hosts" do
-    h = FactoryBot.build_stubbed(:host)
+    h = FactoryBot.build(:host)
     assert h.valid?
     h.build = true
     assert h.valid?
