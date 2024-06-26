@@ -18,7 +18,7 @@ class LinksController < ApplicationController
     when 'wiki'
       wiki_url(section: options['section'])
     when 'chat'
-      'https://libera.chat'
+      'https://app.element.io/#/room/#theforeman:matrix.org'
     when 'forums'
       forum_url(options['post'])
     when 'issues'
