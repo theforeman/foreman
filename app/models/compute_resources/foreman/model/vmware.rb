@@ -772,6 +772,22 @@ module Foreman::Model
       normalized
     end
 
+    def secure_boot
+      attrs[:secure_boot] ||= false
+    end
+
+    def secure_boot=(enabled)
+      attrs[:secure_boot] = ActiveRecord::Type::Boolean.new.cast(enabled)
+    end
+
+    def virtual_tpm
+      attrs[:virtual_tpm] ||= false
+    end
+
+    def virtual_tpm=(enabled)
+      attrs[:virtual_tpm] = ActiveRecord::Type::Boolean.new.cast(enabled)
+    end
+
     private
 
     def dc

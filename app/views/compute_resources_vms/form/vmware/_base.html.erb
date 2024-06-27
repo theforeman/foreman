@@ -49,6 +49,16 @@ end %>
                { :disabled => images.empty?, :label => _('Image'), :label_size => "col-md-2" } %>
 </div>
 
+<%= checkbox_f f, :secure_boot, { :help_inline => _("Enable Secure Bott for provisioning."),
+                                  :label => _('Secure Boot'),
+                                  :label_size => "col-md-2",
+                                  :disabled => !new_vm } %>
+
+<%= checkbox_f f, :virtual_tpm, { :help_inline => _("Add Virtual TPM module to the VM."),
+                                  :label => _('Virtual TPM'),
+                                  :label_size => "col-md-2",
+                                  :disabled => !new_vm } %>
+
 <%= compute_specific_js(compute_resource, "nic_info") %>
 
 <%= react_component('StorageContainer', { data: {
