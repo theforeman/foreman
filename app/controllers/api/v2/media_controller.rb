@@ -10,7 +10,7 @@ module Api
       PATH_INFO = <<~EOS
         The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
 
-        for example http://mirror.centos.org/centos/$version/os/$arch
+        for example https://mirror.stream.centos.org/$version-Stream/BaseOS/$arch/os
         where $arch will be substituted for the host\'s actual OS architecture and $version, $major and $minor
         will be substituted for the version of the operating system.
 
