@@ -119,6 +119,4 @@ module Nic
       @old
     end
   end
-
-  Base.register_type(Managed)
 end

@@ -2,10 +2,6 @@ module Foreman
   module STI
     extend ActiveSupport::Concern
 
-    prepended do
-      cattr_accessor :preloaded, instance_accessor: false
-    end
-
     class_methods do
       # ensures that the correct STI object is created when :type is passed.
       def new(attributes = nil, &block)

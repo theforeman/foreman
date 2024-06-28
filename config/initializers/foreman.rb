@@ -52,3 +52,14 @@ Rails.application.config.to_prepare do
 
   ReportImporter.register_smart_proxy_feature("Puppet")
 end
+
+# Preload here all classes which use Foreman::STI and using registration methods
+# E.g. Base.register_type(BMC)
+# Some constants that use such classes may be defined before all the related classes/models are loaded and registered
+# E.g. InterfaceTypeMapper::ALLOWED_TYPE_NAMES
+Rails.application.reloader.to_prepare do
+  Nic::Base.register_type(Nic::Managed)
+  Nic::Base.register_type(Nic::BMC)
+  Nic::Base.register_type(Nic::Bond)
+  Nic::Base.register_type(Nic::Bridge)
+end

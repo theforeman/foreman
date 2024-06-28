@@ -64,6 +64,4 @@ module Nic
       errors.add(:type, e.message)
     end
   end
-
-  Base.register_type(BMC)
 end
