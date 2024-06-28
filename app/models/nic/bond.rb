@@ -19,6 +19,4 @@ module Nic
       N_('Bond')
     end
   end
-
-  Base.register_type(Bond)
 end
