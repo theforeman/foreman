@@ -6,6 +6,4 @@ module Nic
       N_('Bridge')
     end
   end
-
-  Base.register_type(Bridge)
 end
