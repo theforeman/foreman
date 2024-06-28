@@ -51,6 +51,9 @@ gem 'graphql-batch'
 # A bundled gem since Ruby 3.0
 gem 'rss' if RUBY_VERSION >= '3.0'
 
+# FFI 1.17 needs rubygems 3.3.22+, which is Ruby 3.0+ only
+gem "ffi", "<1.17" if RUBY_VERSION < '3.0'
+
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   instance_eval(Bundler.read_file(bundle))
 end
