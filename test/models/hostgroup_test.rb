@@ -224,7 +224,7 @@ class HostgroupTest < ActiveSupport::TestCase
   test "root_pass inherited from settings if blank" do
     Setting[:root_pass] = '12345678'
     PasswordCrypt.expects(:crypt_gnu_compatible?).at_least_once.returns(true)
-    PasswordCrypt.expects(:passw_crypt).with(Setting[:root_pass]).at_least_once.returns(Setting[:root_pass])
+    PasswordCrypt.expects(:passw_crypt).with(Setting[:root_pass], nil).at_least_once.returns(Setting[:root_pass])
     hostgroup = FactoryBot.build(:hostgroup, :root_pass => '')
     assert_equal '12345678', hostgroup.root_pass
     hostgroup.save!
@@ -234,7 +234,7 @@ class HostgroupTest < ActiveSupport::TestCase
   test "root_pass inherited from settings if group and parent are blank" do
     Setting[:root_pass] = '12345678'
     PasswordCrypt.expects(:crypt_gnu_compatible?).at_least_once.returns(true)
-    PasswordCrypt.expects(:passw_crypt).with(Setting[:root_pass]).at_least_once.returns(Setting[:root_pass])
+    PasswordCrypt.expects(:passw_crypt).with(Setting[:root_pass], nil).at_least_once.returns(Setting[:root_pass])
     parent = FactoryBot.create(:hostgroup, :root_pass => '')
     hostgroup = FactoryBot.build(:hostgroup, :parent => parent, :root_pass => '')
     assert_equal '12345678', hostgroup.root_pass

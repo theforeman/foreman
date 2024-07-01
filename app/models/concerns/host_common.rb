@@ -172,7 +172,7 @@ module HostCommon
 
     case pass_kind
     when :root
-      operatingsystem.nil? ? PasswordCrypt.passw_crypt(unencrypted_pass) : PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem.password_hash)
+      PasswordCrypt.passw_crypt(unencrypted_pass, operatingsystem&.password_hash)
     when :grub
       PasswordCrypt.grub2_passw_crypt(unencrypted_pass)
     else
