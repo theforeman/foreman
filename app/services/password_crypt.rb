@@ -2,6 +2,10 @@ require 'base64'
 
 class PasswordCrypt
   ALGORITHMS = {'SHA512' => '$6$', 'SHA256' => '$5$', 'Base64' => '', 'Base64-Windows' => ''}
+  # Matches ENCRYPT_METHOD in /etc/login.defs on EL6+
+  # When changing this, be sure to add a migration for operatingsystems'
+  # default value
+  DEFAULT_HASH_ALGORHITHM = 'SHA512'
 
   if Foreman::Fips.md5_available?
     ALGORITHMS['MD5'] = '$1$'
@@ -12,7 +16,8 @@ class PasswordCrypt
     SecureRandom.alphanumeric(16)
   end
 
-  def self.passw_crypt(passwd, hash_alg = 'SHA256')
+  def self.passw_crypt(passwd, hash_alg = nil)
+    hash_alg ||= DEFAULT_HASH_ALGORHITHM
     raise Foreman::Exception.new(N_("Unsupported password hash function '%s'"), hash_alg) unless ALGORITHMS.has_key?(hash_alg)
 
     case hash_alg
