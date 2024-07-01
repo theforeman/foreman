@@ -93,18 +93,8 @@ class ReportScopeTest < ActiveSupport::TestCase
       expected_csv = "List,String,Number,Bool,Empty,Nil\n\"Val1,1,true\",Text,1,false,\"\",\"\"\n"
       assert_equal expected_csv, @scope.report_render(format: :csv)
 
-      expected_yaml = <<~OUT + "  Nil: \n"
-        ---
-        - List:
-          - Val1
-          - 1
-          - true
-          String: Text
-          Number: 1
-          Bool: false
-          Empty: ''
-      OUT
-      assert_equal expected_yaml, @scope.report_render(format: :yaml)
+      expected_yaml = [{"List" => ["Val1", 1, true], "String" => "Text", "Number" => 1, "Bool" => false, "Empty" => "", "Nil" => nil}]
+      assert_equal expected_yaml, YAML.safe_load(@scope.report_render(format: :yaml))
     end
   end
 end
