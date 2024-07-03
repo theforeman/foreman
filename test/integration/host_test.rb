@@ -13,6 +13,14 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link?('Export', href: current_hosts_path(format: 'csv', search: "name = #{@host.name}"))
   end
 
+  describe "view host page" do
+    test "host with .ics extension" do
+      domain = FactoryBot.create(:domain, name: 'example.ics')
+      host = FactoryBot.create(:host, domain: domain)
+      visit host_details_page_path(host)
+    end
+  end
+
   describe "create new host page" do
     test "tabs are present" do
       assert_new_button(current_hosts_path, "Create Host", new_host_path)
