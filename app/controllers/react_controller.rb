@@ -4,6 +4,6 @@ class ReactController < ApplicationController
 
   def index
     response.headers['X-Request-Path'] = request.path
-    render 'react/index'
+    render("react/index", formats: [:html])
   end
 end
