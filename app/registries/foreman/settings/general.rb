@@ -91,7 +91,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Instance title'))
     setting('instance_color',
       type: :string,
-      description: N_("Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."),
+      description: N_("Hex value for color for the instance title banner. It will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)"),
       default: '#000000',
       full_name: N_('Instance color'))
     setting('audits_period',
