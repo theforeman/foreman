@@ -320,10 +320,10 @@ class Host::Managed < Host::Base
                         :if => proc { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && !host.image_build? && host.build? }
   validates :provision_method, :inclusion => {:in => proc { provision_methods }, :message => N_('is unknown')}, :if => proc { |host| host.managed? }
   validates :medium_id, :presence => true,
-                        :if => proc { |host| host.validate_media? }
+                        :if => proc { |host| host.managed? && host.validate_media? }
   validates :medium_id, :inclusion => {:in => proc { |host| host.operatingsystem.medium_ids },
                                        :message => N_('must belong to host\'s operating system')},
-                        :if => proc { |host| host.operatingsystem && host.medium }
+                        :if => proc { |host| host.managed? && host.operatingsystem && host.medium }
   validate :provision_method_in_capabilities
   validate :short_name_periods
   validate :check_interfaces
