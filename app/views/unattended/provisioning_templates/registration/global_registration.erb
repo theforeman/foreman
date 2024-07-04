@@ -72,13 +72,13 @@ name=foreman_register<%= index %>
 baseurl=<%= shell_escape repo %>
 enabled=1
 type=rpm-md
-EOF
 <% if repo_gpg_key_url.present? -%>
-  echo gpgcheck=1 >> /tmp/foreman_registration.repo
-  echo gpgkey=<%= shell_escape repo_gpg_key_url %> >> /tmp/foreman_registration.repo
+gpgcheck=1
+gpgkey=<%= shell_escape repo_gpg_key_url %>
 <% else -%>
-  echo gpgcheck=0 >> /tmp/foreman_registration.repo
+gpgcheck=0
 <% end -%>
+EOF
   if [ x$PKG_MANAGER = xdnf -o x$PKG_MANAGER = xyum ]; then
     mv -f /tmp/foreman_registration.repo /etc/yum.repos.d/foreman_registration<%= index %>.repo
     echo "Building yum metadata cache, this may take a few minutes"
