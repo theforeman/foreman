@@ -81,8 +81,6 @@ gpgcheck=0
 EOF
   if [ x$PKG_MANAGER = xdnf -o x$PKG_MANAGER = xyum ]; then
     mv -f /tmp/foreman_registration.repo /etc/yum.repos.d/foreman_registration<%= index %>.repo
-    echo "Building yum metadata cache, this may take a few minutes"
-    $PKG_MANAGER makecache
   else
     zypper --quiet --non-interactive addrepo /tmp/foreman_registration.repo
   fi
@@ -98,13 +96,18 @@ elif [ -f /etc/debian_version ]; then
     curl --silent --show-error --output /etc/apt/trusted.gpg.d/client<%= index %>.asc <%= shell_escape repo_gpg_key_url %>
   fi
 <% end -%>
-  apt-get update
-
 else
   echo "Unsupported operating system, can't add repository."
   cleanup_and_exit 1
 fi
 <% end -%>
+
+if [ x$PKG_MANAGER = xdnf -o x$PKG_MANAGER = xyum ]; then
+  echo "Building yum metadata cache, this may take a few minutes"
+  $PKG_MANAGER makecache
+elif [ -f /etc/debian_version ]; then
+  apt-get update
+fi
 <% end -%>
 
 register_host() {
