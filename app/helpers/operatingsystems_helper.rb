@@ -19,6 +19,8 @@ module OperatingsystemsHelper
              "redhat"
            when /ubuntu/
              "ubuntu"
+           when /voidlinux/i
+             "voidlinux"
            when /solaris|sunos/
              "stub/steelblue-s"
            when /darwin/
