@@ -30,6 +30,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'TFTP' # Trivial File Transfer Protocol
   inflect.acronym 'UI' # User Interface
   inflect.acronym 'URL' # Uniform Resource Locator
+  inflect.acronym 'VM' # Virtual Machine
   inflect.acronym 'VRP' # Huawei VRP
   inflect.acronym 'ZTP' # Zero Touch Provisioning
 
