@@ -15,6 +15,19 @@ var sanitizeWebpackDirs = pluginDirs => {
   return splitDirs.length > 2 ? splitDirs[1] : pluginDirs;
 };
 
+var pluginPathObject = file => pluginsObj => {
+  var paths = {};
+  Object.keys(pluginsObj.plugins).forEach(entryKey => {
+    if (!entryKey.includes(':')) {
+      const pluginPath = pluginsObj.plugins[entryKey].root;
+      if (fs.existsSync(path.join(pluginPath, file))) {
+        paths[entryKey] = pluginPath;
+      }
+    }
+  });
+  return paths;
+};
+
 // Get paths that have a specific file or folder
 var pluginPath = file => pluginsObj => {
   var paths = [];
@@ -53,11 +66,16 @@ var getPluginDirs = stderr =>
 var packageJsonDirs = stderr =>
   pluginPath('package.json')(getPluginDirs(stderr)).map(path.dirname);
 
+// Get plugin paths with the plugin name, dont assume the plugin path will have the plugin name
+var packageJsonDirsObject = stderr =>
+  pluginPathObject('package.json')(getPluginDirs(stderr));
+
 module.exports = {
   getPluginDirs,
   pluginNodeModules: pluginPath('node_modules'),
   aliasPlugins,
   packageJsonDirs,
+  packageJsonDirsObject,
   sanitizeWebpackDirs,
   pluginPath,
 };
