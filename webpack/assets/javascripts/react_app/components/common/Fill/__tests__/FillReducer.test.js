@@ -1,4 +1,4 @@
-import { testReducerSnapshotWithFixtures } from '@theforeman/test';
+import { testReducerSnapshotWithFixtures } from 'foremanReact/common/testHelpers';
 import Immutable from 'seamless-immutable';
 import reducer from '../FillReducer';
 import { REMOVE_FILLED_COMPONENT } from '../FillConstants';

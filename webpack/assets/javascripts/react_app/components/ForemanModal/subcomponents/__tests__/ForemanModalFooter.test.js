@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from '@theforeman/test';
+import { shallow } from 'enzyme';
 import { Button, Modal } from 'patternfly-react';
 import ForemanModalFooter from '../ForemanModalFooter';
 import * as ModalContext from '../../ForemanModalHooks'; // so enzyme test works

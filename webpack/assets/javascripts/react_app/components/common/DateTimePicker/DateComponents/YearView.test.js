@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from '@theforeman/test';
+import { shallow } from 'enzyme';
 import YearView from './YearView';
 
 test('YearView is working properly', () => {

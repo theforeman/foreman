@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from '@theforeman/test';
+import { shallow } from 'enzyme';
 import TodayButton from './TodayButton';
 
 const mockedDate = new Date('2/21/2019 , 3:22:31 PM');

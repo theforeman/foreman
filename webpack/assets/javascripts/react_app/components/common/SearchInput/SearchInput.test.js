@@ -1,4 +1,4 @@
-import { shallow, mount } from '@theforeman/test';
+import { shallow, mount } from 'enzyme';
 import React from 'react';
 import SearchInput from './';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IntegrationTestHelper } from '@theforeman/test';
+import IntegrationTestHelper from 'foremanReact/common/IntegrationTestHelper';
 
 import { submitForm } from '../../../../redux/actions/common/forms';
 

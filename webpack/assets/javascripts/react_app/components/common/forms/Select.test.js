@@ -1,16 +1,15 @@
 import 'select2';
-import { mount } from '@theforeman/test';
+import { mount } from 'enzyme';
 import React from 'react';
 
 import Select from './Select';
 
 jest.unmock('jquery');
 
-beforeEach(() => {
-  document.body.innerHTML = '<div>\n  <span id="select" />\n</div>';
-});
-
 describe('Select', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '<div>\n  <span id="select" />\n</div>';
+  });
   it('onChange called exactly once even after update', () => {
     const options = { one: '1', two: '2' };
     const onChangeMock = jest.fn();

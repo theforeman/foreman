@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from '@theforeman/test';
+import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { DndProvider } from 'react-dnd';
 import TestBackend from 'react-dnd-test-backend/dist/cjs/TestBackend';

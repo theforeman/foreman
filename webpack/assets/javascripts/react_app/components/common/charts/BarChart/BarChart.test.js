@@ -1,4 +1,4 @@
-import { shallow } from '@theforeman/test';
+import { shallow } from 'enzyme';
 import React from 'react';
 import BarChart from './';
 import * as chartService from '../../../../../services/charts/BarChartService';

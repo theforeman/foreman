@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from '@theforeman/test';
+import { shallow } from 'enzyme';
 import PickTimeTable from './PickTimeTable';
 import { MINUTE, HOUR } from './TimeConstants';
 

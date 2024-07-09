@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from '@theforeman/test';
+import { shallow } from 'enzyme';
 import { DecadeViewHeader } from './DecadeViewHeader';
 
 test('DecadeViewHeader is working properly', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
+import { testComponentSnapshotsWithFixtures } from 'foremanReact/common/testHelpers';
 
 import RedirectCancelButton from './RedirectCancelButton';
 
