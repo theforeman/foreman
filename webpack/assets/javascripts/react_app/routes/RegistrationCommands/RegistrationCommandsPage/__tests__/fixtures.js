@@ -164,11 +164,19 @@ export const formData = {
       id: 1,
       name: 'Default Organization',
     },
+    {
+      id: 3,
+      name: 'ACME',
+    },
   ],
   locations: [
     {
       id: 2,
       name: 'Default Location',
+    },
+    {
+      id: 4,
+      name: 'munich',
     },
   ],
 };

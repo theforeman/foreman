@@ -64,8 +64,14 @@ const RegistrationCommandsPage = () => {
   const isGenerating = apiStatusCommand === STATUS.PENDING;
 
   // Form data
-  const organizations = useSelector(selectOrganizations);
-  const locations = useSelector(selectLocations);
+  let organizations = useSelector(selectOrganizations);
+  if (currentOrganization !== undefined) {
+    organizations = organizations.filter(f => f.id === currentOrganization.id);
+  }
+  let locations = useSelector(selectLocations);
+  if (currentLocation !== undefined) {
+    locations = locations.filter(f => f.id === currentLocation.id);
+  }
   const hostGroups = useSelector(selectHostGroups);
   const operatingSystems = useSelector(selectOperatingSystems);
   const operatingSystemTemplate = useSelector(selectOperatingSystemTemplate);

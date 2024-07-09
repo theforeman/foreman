@@ -11,9 +11,9 @@ Object {
             "hostgroupId": undefined,
             "insecure": false,
             "jwtExpiration": 4,
-            "locationId": undefined,
+            "locationId": 4,
             "operatingsystemId": undefined,
-            "organizationId": undefined,
+            "organizationId": 3,
             "packages": "",
             "repoData": Array [],
             "setupInsights": "",
@@ -39,8 +39,8 @@ Object {
         "payload": Object {
           "key": "REGISTRATION_COMMANDS_DATA",
           "params": Object {
-            "location_id": undefined,
-            "organization_id": undefined,
+            "location_id": 4,
+            "organization_id": 3,
           },
           "url": "/hosts/register/data",
         },
