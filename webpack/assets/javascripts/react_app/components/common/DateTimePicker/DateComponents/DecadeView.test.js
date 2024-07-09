@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from '@theforeman/test';
+import { shallow, mount } from 'enzyme';
 import DecadeView from './DecadeView';
 
 test('DecadeView is working properly', () => {

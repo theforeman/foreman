@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { testReducerSnapshotWithFixtures } from '@theforeman/test';
+import { testReducerSnapshotWithFixtures } from 'foremanReact/common/testHelpers';
 import {
   SELECT_ROWS,
   UNSELECT_ROWS,

@@ -1,6 +1,6 @@
 /* eslint-disable promise/prefer-await-to-then */
 // Configure Enzyme
-import { mount } from '@theforeman/test';
+import { mount } from 'enzyme';
 import React from 'react';
 import LongDateTime from './LongDateTime';
 import { i18nProviderWrapperFactory } from '../../../common/i18nProviderWrapperFactory';

@@ -1,4 +1,4 @@
-import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
+import { testComponentSnapshotsWithFixtures } from 'foremanReact/common/testHelpers';
 import AppSwitcher from '../';
 import { children } from './ForemanSwitcher.fixtures'
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import { shallow } from '@theforeman/test';
-
-jest.useFakeTimers();
+import { shallow } from 'enzyme';
 
 export default {
   mockStorage: () => {
@@ -80,6 +78,7 @@ const resolveDispatch = async (action, depth) => {
   if (depth && typeof action === 'function') {
     const dispatch = jest.fn();
     await action(dispatch);
+    jest.useFakeTimers();
     jest.runOnlyPendingTimers();
 
     return Promise.all(

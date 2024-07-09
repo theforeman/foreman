@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from '@theforeman/test';
+import { mount } from 'enzyme';
 import DateTimePicker from './DateTimePicker';
 
 describe('DateTimePicker', () => {

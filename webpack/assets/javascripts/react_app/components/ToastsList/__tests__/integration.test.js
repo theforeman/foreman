@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { mount } from '@theforeman/test';
+import { mount } from 'enzyme';
 
 import store from '../../../redux';
 import ToastsList, { addToast, deleteToast } from '../index'

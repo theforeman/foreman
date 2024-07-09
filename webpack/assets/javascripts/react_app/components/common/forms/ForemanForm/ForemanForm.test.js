@@ -1,7 +1,7 @@
 import {
   testComponentSnapshotsWithFixtures,
   testSelectorsSnapshotWithFixtures,
-} from '@theforeman/test';
+} from 'foremanReact/common/testHelpers';
 import * as Yup from 'yup';
 
 import { prepareErrors } from '../../../../redux/actions/common/forms';

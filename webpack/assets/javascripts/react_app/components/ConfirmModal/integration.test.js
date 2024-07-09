@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { mount } from '@theforeman/test';
+import { mount } from 'enzyme';
 import { Button } from '@patternfly/react-core';
 import store from '../../redux';
 import ConfirmModal, { openConfirmModal } from './index';
