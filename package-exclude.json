@@ -1,5 +1,6 @@
 {
     "EXCLUDE_NPM_PACKAGES": [
+        "@apollo/react-testing",
         "@sheerun/mutationobserver-shim",
         "@theforeman/env",
         "@theforeman/eslint-plugin-foreman",
@@ -14,7 +15,10 @@
         "babel-jest",
         "babel-plugin-dynamic-import-node",
         "coveralls",
+        "cheerio",
         "cross-env",
+        "identity-obj-proxy",
+        "jsx-ast-utils",
         "jest",
         "nock",
         "prettier",
@@ -30,6 +34,7 @@
         "tabbable",
         "@adobe/css-tools",
         "victory-core",
+        "victory-legend",
         "victory-pie"
     ],
     "EXCLUDE_NPM_PREFIXES": [

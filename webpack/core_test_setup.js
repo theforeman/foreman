@@ -6,14 +6,20 @@ ace.config.set('themePath', '');
 
 jest.mock('jed');
 jest.mock('./assets/javascripts/react_app/Root/Context/ForemanContext', () => ({
+  getForemanContext: () => ({
+    context: { metadata: { version: 'mocked_version' } },
+  }),
+  useForemanContext: () => ({ metadata: { version: 'mocked_version' } }),
   useForemanVersion: () => 'mocked_version',
   useForemanSettings: () => ({ perPage: 5 }),
   useForemanDocUrl: () => '/url',
   useForemanLocation: () => ({ title: 'location' }),
   useForemanOrganization: () => ({ title: 'organization' }),
+  useForemanUser: () => ({ login: 'user' }),
   getHostsPageUrl: displayNewHostsPage =>
     displayNewHostsPage ? '/new/hosts' : '/hosts',
   useForemanSetContext: () => jest.fn(),
+  useForemanHostsPageUrl: () => '/hosts',
 }));
 jest.mock('./assets/javascripts/react_app/common/I18n');
 jest.mock('./assets/javascripts/foreman_tools', () => ({

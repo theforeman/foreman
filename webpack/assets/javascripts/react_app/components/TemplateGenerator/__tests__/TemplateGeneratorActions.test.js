@@ -21,15 +21,16 @@ import * as actions from '../TemplateGeneratorActions';
 jest.mock('file-saver');
 jest.mock('../../../redux/API');
 
-beforeEach(() => {
-  API.post.mockImplementation(async () => scheduleResponse);
-  API.get.mockImplementation(async () => noContentResponse);
-});
-
 describe('TemplateGeneratorActions', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
   beforeEach(() => {
     API.post.mockClear();
     API.get.mockClear();
+
+    API.post.mockImplementation(async () => scheduleResponse);
+    API.get.mockImplementation(async () => noContentResponse);
   });
 
   describe('generateTemplate', () => {
@@ -55,7 +56,6 @@ describe('TemplateGeneratorActions', () => {
       API.get
         .mockImplementationOnce(async () => noContentResponse)
         .mockImplementationOnce(async () => generatedReportResponse);
-
       runActionInDepth(() => actions.generateTemplate(), 3).then(callTree => {
         const successAction = callTree[1][1][1];
         expect(successAction).toHaveProperty('type', TEMPLATE_GENERATE_SUCCESS);

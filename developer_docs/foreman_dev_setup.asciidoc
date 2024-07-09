@@ -144,9 +144,14 @@ bundle exec foreman start webpack
 ....
 
 Note: You could also create a .env file which lets you customize your individual working environment variables.
-`NOTIFICATIONS_POLLING` and `REDUX_LOGGER` are options that can be set in an .env file (as well as in the cli call).
-`REDUX_LOGGER` has a boolean value which controls if Foreman will print each redux call in the web console,
-and `NOTIFICATIONS_POLLING` is the notification polling interval in ms.
+list of options that can be set in an .env file (as well as in the cli call):
+
+* `REDUX_LOGGER` has a boolean value which controls if Foreman will print each redux call in the web console
+
+* `NOTIFICATIONS_POLLING` is the notification polling interval in ms.
+
+* `NODE_OPTIONS` is used for npm actions, when running plugin tests with `npm run test:plugins` we add `--max-old-space-size=8192` to the options, but it can be overridden by writing your own `NODE_OPTIONS`
+
 
 === Resetting password
 If you can't find your admin user's password, you can update its password from rails console:
