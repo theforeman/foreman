@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, TextInput, Flex, FlexItem } from '@patternfly/react-core';
+import { Button, TextArea, Flex, FlexItem } from '@patternfly/react-core';
 import { PencilAltIcon, CheckIcon, TimesIcon } from '@patternfly/react-icons';
 
 import { APIActions } from '../../redux/API';
@@ -9,10 +9,11 @@ import { sprintf, translate as __ } from '../../common/I18n';
 
 export const InlineEdit = ({
   name,
-  defaultValue,
+  defaultValue: _defaultValue,
   hostName,
   editPermission,
 }) => {
+  const [defaultValue, setDefault] = useState(_defaultValue);
   const [value, setValue] = useState(defaultValue);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -32,6 +33,7 @@ export const InlineEdit = ({
           [name]: value,
         },
         successToast: () => sprintf(__('%s saved'), name),
+        handleSuccess: () => setDefault(value),
       })
     );
   };
@@ -46,9 +48,9 @@ export const InlineEdit = ({
           <FlexItem
             grow={{ default: 'grow' }}
             spacer={{ default: 'spacerNone' }}
+            className="inline-edit-input-flex-item"
           >
-            <TextInput
-              ouiaId={`input-${name}`}
+            <TextArea
               value={value}
               type="text"
               onChange={handleInputChange}

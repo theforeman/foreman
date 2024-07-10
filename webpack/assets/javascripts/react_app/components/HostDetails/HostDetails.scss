@@ -48,8 +48,16 @@
       height: 100%;
     }
   }
+  .inline-edit-input-flex-item {
+    display: contents;
+  }
+
+  .pf-c-inline-edit__value {
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+  }
 }
 
 .host-details-tabs-section + .pf-c-tabs {
-   overflow: visible;
+  overflow: visible;
 }
