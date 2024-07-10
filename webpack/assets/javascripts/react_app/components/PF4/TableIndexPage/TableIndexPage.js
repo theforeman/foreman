@@ -191,7 +191,10 @@ const TableIndexPage = ({
     hasHelpPage && {
       title: __('Documentation'),
       icon: <QuestionCircleIcon />,
-      action: { href: customHelpURL || helpURL() },
+      action: {
+        href: customHelpURL || helpURL(),
+        target: '_blank',
+      },
     },
     ...customActionButtons,
   ].filter(item => item);
