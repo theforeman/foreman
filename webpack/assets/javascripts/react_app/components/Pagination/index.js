@@ -39,17 +39,19 @@ const Pagination = ({
     let nextPage = propsPage;
     let nextPerPage = propsPerPage;
     if (updateParamsByUrl) {
-      if (search !== undefined) {
+      if (search !== undefined && search.length) {
         const params = new URLSearchParams(search);
-        nextPage = Number(params.get('page'));
-        nextPerPage = Number(params.get('per_page'));
+        nextPage = Number(params.get('page') || getURIpage());
+        nextPerPage = Number(params.get('per_page') || getURIperPage());
       } else {
         nextPage = getURIpage();
         nextPerPage = getURIperPage();
       }
     }
-    setPerPage(current => nextPerPage || current || settingsPerPage);
-    setPage(current => nextPage || current);
+    setPerPage(
+      current => nextPerPage || propsPerPage || current || settingsPerPage
+    );
+    setPage(current => nextPage || propsPage || current);
   }, [search, propsPage, propsPerPage, settingsPerPage, updateParamsByUrl]);
 
   const paginationTitles = {
@@ -105,6 +107,7 @@ const Pagination = ({
   const cx = classNames('tfm-pagination', className, {
     'no-side-padding': noSidePadding,
   });
+
   return (
     <PF4Pagination
       titles={paginationTitles}
