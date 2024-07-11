@@ -58,8 +58,9 @@ A page component that displays a table with data fetched from the API. It provid
 @param {Array<Object>} {customToolbarItems} - an array of custom toolbar items to be displayed
 @param {boolean} {exportable} - whether or not to show export button
 @param {boolean} {hasHelpPage} - whether or not to show documentation button
-@param {string}{headerText} - the header text for the page
-@param {string}{header} - header node; default is <title>{headerText}</title>
+@param {React.ReactNode}{customHeader} - a custom header to be rendered instead of the default header
+@param {string}{headerText} - DEPRECATED - the header text for the page
+@param {string}{header} -the header text for the page and the title
 @param {boolean} {isDeleteable} - whether or not entries can be deleted
 @param {boolean} {searchable} - whether or not the table can be searched
 @param {React.ReactNode} {selectionToolbar} - Pass in the SelectAll toolbar, if desired
@@ -93,6 +94,7 @@ const TableIndexPage = ({
   customToolbarItems,
   exportable,
   hasHelpPage,
+  customHeader,
   headerText,
   header,
   isDeleteable,
@@ -196,9 +198,12 @@ const TableIndexPage = ({
     ...customActionButtons,
   ].filter(item => item);
 
+  header = headerText || header;
   return (
     <div id="foreman-page">
-      <Head>{headerText}</Head>
+      <Head>
+        <title>{header}</title>
+      </Head>
       {breadcrumbOptions && (
         <PageSection variant={PageSectionVariants.light} type="breadcrumb">
           <BreadcrumbBar {...breadcrumbOptions} />
@@ -208,11 +213,13 @@ const TableIndexPage = ({
         variant={PageSectionVariants.light}
         className="table-title-section"
       >
-        <TextContent>
-          <Text ouiaId="header-text" component="h1">
-            {header ?? <title>{headerText}</title>}
-          </Text>
-        </TextContent>
+        {customHeader || (
+          <TextContent>
+            <Text ouiaId="header-text" component="h1">
+              {header}
+            </Text>
+          </TextContent>
+        )}
       </PageSection>
       {beforeToolbarComponent}
       <PageSection
@@ -363,7 +370,8 @@ TableIndexPage.propTypes = {
   exportable: PropTypes.bool,
   hasHelpPage: PropTypes.bool,
   headerText: PropTypes.string,
-  header: PropTypes.node,
+  header: PropTypes.string,
+  customHeader: PropTypes.node,
   isDeleteable: PropTypes.bool,
   searchable: PropTypes.bool,
   children: PropTypes.node,
@@ -396,8 +404,9 @@ TableIndexPage.defaultProps = {
   customToolbarItems: null,
   exportable: false,
   hasHelpPage: false,
+  header: '',
   headerText: '',
-  header: undefined,
+  customHeader: undefined,
   isDeleteable: false,
   searchable: true,
   selectionToolbar: null,
