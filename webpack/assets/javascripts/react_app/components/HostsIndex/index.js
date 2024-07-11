@@ -14,6 +14,8 @@ import {
   Button,
   Split,
   SplitItem,
+  TextContent,
+  Text,
 } from '@patternfly/react-core';
 import { UndoIcon } from '@patternfly/react-icons';
 import { useForemanModal } from '../ForemanModal/ForemanModalHooks';
@@ -325,7 +327,11 @@ const HostsIndex = () => {
       justifyContent={{ default: 'justifyContentSpaceBetween' }}
     >
       <FlexItem>
-        <h1>{__('Hosts')}</h1>
+        <TextContent>
+          <Text ouiaId="host-header-text" component="h1">
+            {__('Hosts')}
+          </Text>
+        </TextContent>
       </FlexItem>
       <FlexItem align={{ default: 'alignRight' }}>
         <Split hasGutter>
@@ -368,8 +374,8 @@ const HostsIndex = () => {
     <TableIndexPage
       apiUrl={HOSTS_API_PATH}
       apiOptions={apiOptions}
-      headerText={__('Hosts')}
-      header={hostsIndexHeader}
+      header={__('Hosts')}
+      customHeader={hostsIndexHeader}
       controller="hosts"
       creatable={false}
       replacementResponse={response}
