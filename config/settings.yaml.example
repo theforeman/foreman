@@ -117,6 +117,14 @@
     :enabled: false
     # logging level as in Logger::LEVEL
     :level: 'DEBUG'
+  # Overwrite allowed_labels, if needed, for example:
+  # :allowed_labels:
+  #   :controller:
+  #     - '.*'
+  #   :action:
+  #     - 'index'
+  #   :class:
+  #     - '.*'
 
 #
 # Configure how many workers should dynflow use to handle incoming requests.
