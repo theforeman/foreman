@@ -786,21 +786,46 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
-  test "hostgroup should set default values for new host" do
+  test "hostgroup should set default values for new managed host" do
     hg = hostgroups(:common)
-    h  = Host.new
-
+    h = Host.new :managed => true, :hostgroup => hg
     h.architecture = architectures(:sparc)
-
-    h.hostgroup = hg
     h.set_hostgroup_defaults
 
     assert_equal hg.operatingsystem, h.operatingsystem
+    assert_equal hg.medium, h.medium
     assert_equal architectures(:sparc), h.architecture
     # overwrite host attrs with values from hostgroup
     h.set_hostgroup_defaults true
     assert_equal hg.operatingsystem, h.operatingsystem
     assert_equal hg.architecture, h.architecture
+  end
+
+  test "medium of hostgroup should be assigned if host is managed" do
+    hg = hostgroups(:common)
+    os = FactoryBot.create(:operatingsystem, family: 'Redhat', name: 'RedHat', major: 8, minor: 10, architectures: [architectures(:x86_64)], media: [media(:one)])
+    h = Host.new :managed => true, :hostgroup => hg, :operatingsystem => os, :architecture => architectures(:x86_64)
+    h.set_hostgroup_defaults
+
+    assert h.managed
+    assert_not_equal hg.operatingsystem, h.operatingsystem
+    assert_equal architectures(:x86_64), h.architecture
+    assert_equal h.operatingsystem.name, 'RedHat'
+    assert_equal h.operatingsystem.major, '8'
+    assert_equal hg.medium, h.medium
+  end
+
+  test "various managed-host related attributes of hostgroup should not be assigned if host is unmanaged" do
+    hg = hostgroups(:common)
+    h = Host.new :managed => false, :hostgroup => hg
+    h.set_hostgroup_defaults
+
+    assert_equal hg.operatingsystem, h.operatingsystem
+    assert_equal hg.domain, h.domain
+    assert_empty h.architecture
+    assert_empty h.pxe_loader
+    assert_empty h.ptable
+    assert_empty h.medium
   end
 
   test "host os attributes must be associated with the host os" do
