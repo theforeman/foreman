@@ -125,4 +125,5 @@ allowed_labels = {
     'Widget',
   ],
 }
+allowed_labels.deep_merge!(SETTINGS[:telemetry][:allowed_labels]) if SETTINGS.dig(:telemetry, :allowed_labels)
 telemetry.add_allowed_tags!(allowed_labels)
