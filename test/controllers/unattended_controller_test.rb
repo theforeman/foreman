@@ -201,10 +201,10 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :redirect
     end
 
-    test "should not render a template to user w/o email" do
+    test "should not render a template to user w/o email if they have email enabled" do
       @rh_host.update(build: false)
 
-      user = FactoryBot.create(:user)
+      user = FactoryBot.create(:user, :mail_enabled => true)
       get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text' }, session: set_session_user(user)
       assert_response :unprocessable_entity
     end

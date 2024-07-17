@@ -30,6 +30,7 @@ module SSO
     def authenticated?
       return false unless (self.user = request.env[CAS_USERNAME])
       attrs = { :login => user }.merge(additional_attributes)
+      attrs[:mail] = nil if attrs[:mail] == "(null)"
       if request.env.has_key?('HTTP_REMOTE_USER_GROUPS')
         attrs[:groups] = []
         groups = request.env['HTTP_REMOTE_USER_GROUPS'].split(':')
