@@ -271,8 +271,9 @@ class UsersControllerTest < ActionController::TestCase
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache_mod'
     @request.session.clear
     @request.env['HTTP_REMOTE_USER'] = 'ares'
+    @request.env['HTTP_REMOTE_USER_EMAIL'] = '(null)'
     get :extlogin
-    assert_redirected_to edit_user_path(User.unscoped.find_by_login('ares'))
+    assert_redirected_to ApplicationHelper.current_hosts_path
   end
 
   test "should use intercept if available" do
@@ -393,7 +394,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "#login shows a warning for any user model errors" do
-    attrs = {:firstname => "foo", :mail => "foo#bar", :login => "ldap-user", :auth_source_id => auth_sources(:one).id}
+    attrs = {:firstname => "foo", :mail => "foo#bar", :login => "ldap-user", :auth_source_id => auth_sources(:one).id, :mail_enabled => true}
     AuthSourceLdap.any_instance.stubs(:authenticate).returns(attrs)
     AuthSourceLdap.any_instance.stubs(:update_usergroups).returns(true)
     AuthSourceLdap.any_instance.stubs(:organizations).returns([taxonomies(:organization1)])

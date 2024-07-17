@@ -81,13 +81,14 @@ class ApplicationController < ActionController::Base
   end
 
   def require_mail
-    if User.current && !User.current.hidden? && User.current.mail.blank?
+    user = User.current
+    if user && !user.hidden? && user.mail_enabled && user.mail.blank?
       msg = _("An email address is required, please update your account details")
       respond_to do |format|
         format.html do
           error msg
           flash.keep # keep any warnings added by the user login process, they may explain why this occurred
-          redirect_to main_app.edit_user_path(:id => User.current)
+          redirect_to main_app.edit_user_path(:id => user)
         end
         format.text do
           render :plain => msg, :status => :unprocessable_entity, :content_type => Mime[:text]

@@ -62,9 +62,9 @@ class TestableResourcesControllerTest < ActionController::TestCase
       assert_equal '/realms', session[:original_uri]
     end
 
-    it "requires an account with mail" do
+    it "requires email to be set if the account has mail_enabled set to true" do
       as_admin do
-        @user = FactoryBot.create(:user)
+        @user = FactoryBot.create(:user, :mail_enabled => true)
       end
       get :index, session: set_session_user.merge(:user => @user.id)
       assert_response :redirect

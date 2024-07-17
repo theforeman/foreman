@@ -157,18 +157,9 @@ class UserTest < ActiveSupport::TestCase
     refute u.valid?
   end
 
-  test "mail is required for own user" do
-    user = FactoryBot.create(:user)
-    user.password = nil
-    # refute_valid user can check only one field and due to we need to set password to nil after adding current_password field to verify password change
-    as_user user do
-      refute_valid user, :mail
-    end
-  end
-
   test "hidden users don't need mail when updating" do
     u = User.anonymous_admin
-    u.firstname = 'Bob'
+    u.mail_enabled = true
     assert_valid u
   end
 
