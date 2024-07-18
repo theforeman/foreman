@@ -206,8 +206,18 @@ module Foreman::Model
       {
         "automatic" => N_("Automatic"),
         "bios" => N_("BIOS"),
-        "efi" => N_("EFI"),
-      }
+        "uefi" => N_("UEFI"),
+        "uefi_secure_boot" => N_("UEFI Secure Boot"),
+      }.freeze
+    end
+
+    # Returns the firmware type based on the VM object
+    def firmware_type(vm_obj)
+      if vm_obj.firmware == 'efi'
+        vm_obj.secure_boot ? "uefi_secure_boot" : "uefi"
+      else
+        vm_obj.firmware
+      end
     end
 
     def disk_mode_types
@@ -488,8 +498,24 @@ module Foreman::Model
 
       args.except!(:hardware_version) if args[:hardware_version] == 'Default'
 
-      firmware_type = args.delete(:firmware_type)
-      args[:firmware] = firmware_mapping(firmware_type) if args[:firmware] == 'automatic'
+      # This value comes from PxeLoaderSupport#firmware_type
+      firmware_type = args.delete(:firmware_type).to_s
+
+      # automatic firmware type is determined by the PXE Loader
+      # if no PXE Loader is set, we will set it to bios by default
+      if args[:firmware] == 'automatic'
+        args[:firmware] = (firmware_type == 'none' || firmware_type.empty?) ? 'bios' : firmware_type
+      end
+
+      # Adjust firmware and secure_boot values for VMware compatibility
+      args[:secure_boot] = true if args[:firmware] == 'uefi_secure_boot'
+      # VMware expects the firmware type to be 'efi'
+      args[:firmware] = 'efi' if args[:firmware]&.start_with?('uefi')
+
+      args[:virtual_tpm] = ActiveRecord::Type::Boolean.new.cast(args[:virtual_tpm])
+      if args[:firmware] == 'bios' && args[:virtual_tpm]
+        errors.add :base, _('TPM is not compatible with BIOS firmware. Please change Firmware or disable TPM.')
+      end
 
       args.reject! { |k, v| v.nil? }
       args
@@ -522,7 +548,7 @@ module Foreman::Model
         clone_vm(args)
       else
         vm = new_vm(args)
-        vm.firmware = 'bios' if vm.firmware == 'automatic'
+        raise ArgumentError, errors.full_messages.join(';') if errors.any?
         vm.save
       end
     rescue Fog::Vsphere::Compute::NotFound => e
@@ -772,22 +798,6 @@ module Foreman::Model
       normalized
     end
 
-    def secure_boot
-      attrs[:secure_boot] ||= false
-    end
-
-    def secure_boot=(enabled)
-      attrs[:secure_boot] = ActiveRecord::Type::Boolean.new.cast(enabled)
-    end
-
-    def virtual_tpm
-      attrs[:virtual_tpm] ||= false
-    end
-
-    def virtual_tpm=(enabled)
-      attrs[:virtual_tpm] = ActiveRecord::Type::Boolean.new.cast(enabled)
-    end
-
     private
 
     def dc
@@ -842,11 +852,6 @@ module Foreman::Model
         :firmware => 'automatic',
         :boot_order => ['network', 'disk']
       )
-    end
-
-    def firmware_mapping(firmware_type)
-      return 'efi' if firmware_type == :uefi
-      'bios'
     end
 
     def set_vm_volumes_attributes(vm, vm_attrs)
