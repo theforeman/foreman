@@ -25,6 +25,7 @@
     "graphql-tag": "^2.11.0",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
+    "js-cookie": "^3.0.5",
     "os-browserify": "^0.3.0",
     "react-intl": "^2.8.0"
   },
