@@ -1,5 +1,6 @@
 import 'core-js/shim';
 import 'regenerator-runtime/runtime';
+import Cookies from 'js-cookie';
 
 import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';
@@ -56,4 +57,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   componentRegistry,
   store,
   lookupKeys,
+  Cookies,
 });
