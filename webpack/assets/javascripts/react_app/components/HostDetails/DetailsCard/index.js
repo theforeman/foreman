@@ -38,6 +38,7 @@ const DetailsCard = ({
     comment,
     owner_id: ownerID,
     owner_name: ownerName,
+    hostgroup_title: hostgroupTitle,
     hostgroup_name: hostgroupName,
     hostgroup_id: hostgroupId,
     permissions: {
@@ -120,18 +121,24 @@ const DetailsCard = ({
                     justifyContent={{ default: 'justifyContentSpaceBetween' }}
                   >
                     <FlexItem>
-                      <Button
-                        ouiaId="host-group-link"
-                        component="a"
-                        href={foremanUrl(
-                          `/hosts?search=hostgroup="${hostgroupName}"`
+                      <span>
+                        {hostgroupTitle?.substring(
+                          0,
+                          hostgroupTitle?.lastIndexOf(hostgroupName)
                         )}
-                        variant="link"
-                        target="_blank"
-                        isInline
-                      >
-                        {hostgroupName}
-                      </Button>
+                        <Button
+                          ouiaId="host-group-link"
+                          component="a"
+                          href={foremanUrl(
+                            `/hosts?search=hostgroup="${hostgroupName}"`
+                          )}
+                          variant="link"
+                          target="_blank"
+                          isInline
+                        >
+                          {hostgroupName}
+                        </Button>
+                      </span>
                     </FlexItem>
                     <FlexItem>
                       <Button
@@ -196,6 +203,7 @@ DetailsCard.propTypes = {
   status: PropTypes.string,
   hostDetails: PropTypes.shape({
     comment: PropTypes.string,
+    hostgroup_title: PropTypes.string,
     hostgroup_name: PropTypes.string,
     hostgroup_id: PropTypes.number,
     ip: PropTypes.string,
@@ -212,6 +220,7 @@ DetailsCard.defaultProps = {
   status: STATUS.PENDING,
   hostDetails: {
     comment: undefined,
+    hostgroup_title: undefined,
     hostgroup_name: undefined,
     hostgroup_id: undefined,
     ip: undefined,

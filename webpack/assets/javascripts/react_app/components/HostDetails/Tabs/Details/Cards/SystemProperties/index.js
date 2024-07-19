@@ -25,7 +25,7 @@ const SystemPropertiesCard = ({ status, hostDetails }) => {
     organization_name: organization,
     owner_name: ownerName,
     domain_name: domain,
-    hostgroup_name: hostgroupName,
+    hostgroup_title: hostgroupTitle,
     owner_type: ownerType,
   } = hostDetails;
   return (
@@ -103,7 +103,7 @@ const SystemPropertiesCard = ({ status, hostDetails }) => {
               status={status}
               emptyState={<DefaultLoaderEmptyState />}
             >
-              {hostgroupName}
+              {hostgroupTitle}
             </SkeletonLoader>
           </DescriptionListDescription>
         </DescriptionListGroup>
@@ -164,7 +164,7 @@ const SystemPropertiesCard = ({ status, hostDetails }) => {
 SystemPropertiesCard.propTypes = {
   status: PropTypes.string,
   hostDetails: PropTypes.shape({
-    hostgroup_name: PropTypes.string,
+    hostgroup_title: PropTypes.string,
     model_name: PropTypes.string,
     organization_name: PropTypes.string,
     location_name: PropTypes.string,
@@ -184,7 +184,7 @@ SystemPropertiesCard.defaultProps = {
     model_name: undefined,
     organization_name: undefined,
     location_name: undefined,
-    hostgroup_name: undefined,
+    hostgroup_title: undefined,
     owner_type: undefined,
     owner_name: undefined,
     domain_name: undefined,
