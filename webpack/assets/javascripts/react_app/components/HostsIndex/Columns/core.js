@@ -29,11 +29,16 @@ const coreHostsIndexColumns = [
   {
     columnName: 'hostgroup',
     title: __('Host group'),
-    wrapper: hostDetails => (
-      <a href={`/hostgroups/${hostDetails?.hostgroup_id}/edit`}>
-        {hostDetails?.hostgroup_name}
-      </a>
-    ),
+    wrapper: hostDetails => {
+      const fullTitle = hostDetails?.hostgroup_title;
+      const name = hostDetails?.hostgroup_name;
+      return (
+        <span>
+          {fullTitle?.substring(0, fullTitle?.lastIndexOf(name))}
+          <a href={`/hostgroups/${hostDetails?.hostgroup_id}/edit`}>{name}</a>
+        </span>
+      );
+    },
     isSorted: true,
     weight: 100,
   },
