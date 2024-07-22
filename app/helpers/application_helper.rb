@@ -418,6 +418,7 @@ module ApplicationHelper
       user_settings: {
         lab_features: Setting[:lab_features],
       },
+      permissions: (User.current.admin? ? Permission.all : User.current.permissions).pluck(:name),
     }.compact
   end
 

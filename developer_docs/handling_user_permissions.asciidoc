@@ -1,0 +1,145 @@
+[[handling_user_permissions]]
+
+# Handling user permissions
+:toc: right
+:toclevels: 5
+:source-highlighter: rouge
+
+## Frontend
+
+[IMPORTANT]
+====
+*None* of these solutions are a replacement for authoritative and well-defined permission-management in the backend!
+====
+
+Consider the following:
+
+* A component `MyComponent` that should be rendered if a user is granted the
+* `my_permission` permission and
+* a component `MyUnpermittedComponent` that should be rendered if they aren't
+
+In this section we will explore 4 different approaches to solve this problem.
+
+### Via context-based permission management
+
+#### Component: Permitted
+*Component location*: default export of _/components/Permitted/Permitted.js_
+
+This component abstracts the conditional rendering scheme and provides the following API:
+
+|===
+|Prop |Type |Note
+
+|*requiredPermissions*
+|`Array<String>`
+|An array of permissions required to render `children`.
+
+|*children*
+|`React.ReactNode`
+|A component to be rendered if a user is granted the required permission(s).
+
+|*unpermittedComponent*
+|`React.ReactNode`
+|A component to be rendered if a user is *not* granted the required permission(s). Defaults to PermissionDenied.
+|===
+
+Additionally, the propTypes-check validates the following conditions:
+
+* `requiredPermissions` is given
+* `requiredPermissions` is not an empty array
+
+Our example goal may be achieved as follows:
+[source, jsx]
+----
+import React from 'react';
+import { Permitted } from 'foremanReact/components/Permitted/Permitted';
+
+export const MyComponentWrapper = () => (
+  <Permitted
+    requiredPermissions={["my_permission"]}
+    unpermittedComponent={<MyUnpermittedComponent />}
+  >
+    <MyComponent />
+  </Permitted>
+);
+----
+
+Since the amount of code added is relatively small and trivial, it is rarely necessary to make use of a wrapper component with this approach.
+
+#### Hook: usePermissions
+*Hook location*: export of _/common/hooks/Permissions/permissionHooks.js_
+
+This hook provides an interface with the context and allows checking whether the user is granted *multiple* permissions.
+Returns `true` if the provided permissions are granted to the user and `false` if not. +
+
+The hook provides the following API:
+
+|===
+|Parameter |Type |Note
+
+|*requiredPermissions*
+|`Array<String>`
+|An array of permission names
+|===
+
+Using `usePermissions`, one may solve our initial problem as follows:
+[source, jsx]
+----
+import React from 'react';
+import { usePermissions } from 'foremanReact/common/hooks/Permissions/permissionHooks';
+
+export const MyComponentWrapper = () => {
+  const isUserAuthed = usePermission(['my_permission']);
+
+  if (isUserAuthed) {
+    return <MyComponent />;
+  }
+  return <MyUnpermittedComponent />;
+};
+----
+#### Considerations
+
+The advantage of the context-based approach is that the permission data is essentially cached and available to every component via the React context.
+This context is set every time the ReactApp is mounted.
+This happens when a user navigates from a *server-rendered* page to a *frontend-rendered* page.
+Navigating between frontend-rendered pages does *not* refresh the context.
+Currently (2025-11-14), this does not pose a problem for permission management, as every page that may grant permissions to users is rendered serverside.
+
+
+### Via API-based permission management
+#### Boilerplate
+To keep `MyComponent` clean and free of permission-handling code, it often makes sense to wrap it in a component dedicated to conditionally rendering it.
+
+[source,jsx]
+----
+import React from 'react';
+import { useAPI } from 'foremanReact/common/hooks/API/APIHooks'; // Plugin import | Core import differs
+
+export const MyComponentWrapper = () => {
+  const {
+    response: { results },
+    status,
+  } = useAPI('get', '/api/v2/permissions/current_permissions'); // Current user permissions
+
+  if (status === 'PENDING') {
+    // Handle API pending
+    return null;
+  } else if (status === 'ERROR') {
+    // Handle API error
+    return null;
+  } else if (status === 'RESOLVED') {
+    if (
+      results.some(permission => permission.name === 'my_permission')
+    ) {
+      return <MyComponent />;
+    }
+    return <MyUnpermittedComponent />
+  }
+  return null;
+};
+----
+
+#### Considerations
+The API request will add around *200-250 ms* of load time to your component tree.
+It is advised to structure your component-hierarchy in such a way that this API request is made near the top to avoid re-running it on re-renders.
+Alternatively, check user permissions <<_via_context_based_permission_management>>, which is much faster.

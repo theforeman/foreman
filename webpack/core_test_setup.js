@@ -20,6 +20,8 @@ jest.mock('./assets/javascripts/react_app/Root/Context/ForemanContext', () => ({
     displayNewHostsPage ? '/new/hosts' : '/hosts',
   useForemanSetContext: () => jest.fn(),
   useForemanHostsPageUrl: () => '/hosts',
+  useForemanPermissions: () =>
+    new Set(['test_permission_one', 'test_permission_two']),
 }));
 jest.mock('./assets/javascripts/react_app/common/I18n');
 jest.mock('./assets/javascripts/foreman_tools', () => ({
