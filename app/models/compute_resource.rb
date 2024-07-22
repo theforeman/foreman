@@ -399,6 +399,24 @@ class ComputeResource < ApplicationRecord
     vm_attrs
   end
 
+  def firmware_types
+    {
+      "automatic" => N_("Automatic"),
+      "bios" => N_("BIOS"),
+      "uefi" => N_("UEFI"),
+      "uefi_secure_boot" => N_("UEFI Secure Boot"),
+    }.freeze
+  end
+
+  # Returns the firmware type based on the VM object
+  def firmware_type(vm_obj)
+    if vm_obj.firmware == 'efi'
+      vm_obj.secure_boot ? 'uefi_secure_boot' : 'uefi' # special case for secure boot
+    else
+      vm_obj.firmware
+    end
+  end
+
   protected
 
   def memory_gb_to_bytes(memory_size)

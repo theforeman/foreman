@@ -138,10 +138,3 @@ export function allocationSwitcher(element, action) {
   $(element).button('toggle');
   return false;
 }
-
-export function firmwareSelected(item) {
-  const selected = $(item).val();
-  const inputs = $("#os_firmware_features input[type='checkbox']");
-
-  inputs.attr('disabled', selected === 'bios');
-}

@@ -11,29 +11,6 @@ module Foreman::Model
       Fog::Compute.providers.include?(:libvirt)
     end
 
-    def self.firmware_types
-      {
-        "efi" => N_("EFI"),
-        "bios" => N_("BIOS"),
-      }.freeze
-    end
-
-    def os_firmware
-      attrs[:os_firmware].presence || "efi"
-    end
-
-    def os_firmware=(firmware)
-      attrs[:os_firmware] = firmware
-    end
-
-    def os_firmware_features
-      attrs[:os_firmware_features].presence || {}
-    end
-
-    def os_firmware_features=(attrs)
-      attrs[:os_firmware_features].merge attrs
-    end
-
     def display_type
       attrs[:display].presence || 'vnc'
     end
@@ -169,6 +146,27 @@ module Foreman::Model
 
       opts[:boot_order] = %w[hd]
       opts[:boot_order].unshift 'network' unless attr[:image_id]
+
+      # This value comes from PxeLoaderSupport#firmware_type
+      firmware_type = opts.delete(:firmware_type).to_s
+
+      # automatic firmware type is determined by the PXE Loader
+      # if no PXE Loader is set, we will set it to bios by default
+      if opts[:firmware] == 'automatic'
+        opts[:firmware] = (firmware_type == 'none' || firmware_type.empty?) ? 'bios' : firmware_type
+      end
+
+      # Adjust firmware and secure_boot values for Libvirt compatibility
+      if opts[:firmware] == 'uefi_secure_boot'
+        opts[:firmware_features] = { 'secure-boot' => 'yes', 'enrolled-keys' => 'yes' }
+        opts[:loader] = { 'secure' => 'yes' }
+      end
+      # Libvirt expects the firmware type to be 'efi' instead of 'uefi'
+      if opts[:firmware]&.start_with?('uefi')
+        opts[:firmware] = 'efi'
+      else
+        opts[:firmware] = 'bios'
+      end
 
       vm = client.servers.new opts
       vm.memory = opts[:memory] if opts[:memory]
@@ -312,11 +310,8 @@ module Foreman::Model
                          :listen   => Setting[:libvirt_default_console_address],
                          :password => random_password(console_password_length(display_type)),
                          :port     => '-1' },
-        :os_firmware => 'efi',
-        :os_firmware_features => {
-          "secure-boot" => "no",
-          "enrolled-keys" => "no",
-        }
+        :firmware   => 'automatic',
+        :firmware_features => { "secure-boot" => "no", }
       )
     end
 

@@ -8,6 +8,13 @@
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2"} if new_vm && controller_name != "compute_attributes" %>
 
+<% firmware_type = new_vm ? 'automatic' : compute_resource.firmware_type(f.object) %>
+<%= field(f, :firmware, :disabled => !new_vm, :label => _('Firmware'), :label_help => _("Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."), :label_size => "col-md-2") do
+  compute_resource.firmware_types.collect do |type, name|
+    radio_button_f f, :firmware, {:checked => (firmware_type == type), :disabled => !new_vm, :value => type, :text => _(name) }
+  end.join(' ').html_safe
+end %>
+
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
@@ -21,27 +28,3 @@
 </div>
 
 <%= compute_specific_js(compute_resource, "nic_info") %>
-
-<%= select_f f, :os_firmware,
-                Foreman::Model::Libvirt.firmware_types,
-                :first,
-                :last,
-                {},
-                { :label => _("Firmware"),
-                  :label_size => "col-md-2",
-                  :onchange => "tfm.computeResource.libvirt.firmwareSelected(this);",
-                }
-%>
-<%
-  feature_attrs = ActiveSupport::HashWithIndifferentAccess.new(f.object.os_firmware_features)
-  is_bios = f.object.os_firmware == 'bios'
-%>
-
-<div id="os_firmware_features">
-<%= f.fields_for :os_firmware_features do |ff|
-    secure_field = checkbox_f(ff, 'secure-boot', { checked: feature_attrs['secure-boot'] == 'yes', label: _("Secure Boot"), disabled: is_bios }, 'yes', 'no')
-    keys_field = checkbox_f(ff, 'enrolled-keys', { checked: feature_attrs['enrolled-keys'] == 'yes', label: _("Enrolled keys"), disabled: is_bios }, 'yes', 'no')
-    secure_field + keys_field
-  end
-%>
-</div>
