@@ -13,6 +13,7 @@ import ErrorBoundary from '../components/common/ErrorBoundary';
 import ConfirmModal from '../components/ConfirmModal';
 
 const ReactApp = ({ layout, metadata, toasts }) => {
+  metadata.permissions = new Set(metadata.permissions);
   const [context, setContext] = useState({ metadata });
   const contextData = { context, setContext };
   const ForemanContext = getForemanContext(contextData);

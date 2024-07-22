@@ -43,6 +43,8 @@ Foreman::Application.routes.draw do
 
       resources :common_parameters, :except => [:new, :edit]
 
+      resources :context, :only => [:index]
+
       resources :provisioning_templates, :except => [:new, :edit] do
         resources :locations, :only => [:index, :show]
         resources :organizations, :only => [:index, :show]
