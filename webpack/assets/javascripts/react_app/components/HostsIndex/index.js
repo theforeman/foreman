@@ -4,8 +4,10 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { Tr, Td, ActionsColumn } from '@patternfly/react-table';
 import {
   ToolbarItem,
+  Divider,
   Dropdown,
   DropdownItem,
+  MenuItem,
   KebabToggle,
   Flex,
   FlexItem,
@@ -52,6 +54,7 @@ import getColumnData from './Columns/core';
 import { categoriesFromFrontendColumnData } from '../ColumnSelector/helpers';
 import ColumnSelector from '../ColumnSelector';
 import { ForemanActionsBarContext } from '../HostDetails/ActionsBar';
+import { registerGetActions, getActions } from './TableRowActions/core';
 
 export const ForemanHostsIndexActionsBarContext = forceSingleton(
   'ForemanHostsIndexActionsBarContext',
@@ -59,6 +62,7 @@ export const ForemanHostsIndexActionsBarContext = forceSingleton(
 );
 
 const HostsIndex = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [allColumns, setAllColumns] = useState(
     getColumnData({ tableName: 'hosts' })
   );
@@ -205,54 +209,86 @@ const HostsIndex = () => {
   });
 
   const dropdownItems = [
-    <DropdownItem
-      ouiaId="delete=hosts-dropdown-item"
-      key="delete=hosts-dropdown-item"
-      onClick={handleBulkDelete}
-      isDisabled={selectedCount === 0}
-    >
-      {__('Delete')}
-    </DropdownItem>,
-    <DropdownItem
-      ouiaId="build-hosts-dropdown-item"
+    <MenuItem
+      itemId="build-hosts-dropdown-item"
       key="build-hosts-dropdown-item"
       onClick={setBuildModalOpen}
       isDisabled={selectedCount === 0}
     >
       {__('Build management')}
-    </DropdownItem>,
-    <DropdownItem
-      ouiaId="reassign-hg-dropdown-item"
+    </MenuItem>,
+    <MenuItem
+      itemId="reassign-hg-dropdown-item"
       key="reassign-hg-dropdown-item"
       onClick={setHgModalOpen}
       isDisabled={selectedCount === 0}
     >
       {__('Change host group')}
-    </DropdownItem>,
+    </MenuItem>,
+  ];
+
+  const dangerZoneItems = [
+    <Divider
+      component="li"
+      id="danger-zone-separator"
+      key="danger-zone-separator"
+    />,
+    <MenuItem
+      itemId="delete=hosts-dropdown-item"
+      key="delete=hosts-dropdown-item"
+      onClick={handleBulkDelete}
+      isDisabled={selectedCount === 0}
+    >
+      {__('Delete')}
+    </MenuItem>,
   ];
 
   const registeredItems = useSelector(selectKebabItems, shallowEqual);
   const pluginToolbarItems = jsReady => (
     <ForemanHostsIndexActionsBarContext.Provider
-      value={{ ...selectAllOptions, fetchBulkParams }}
+      value={{ ...selectAllOptions, fetchBulkParams, menuOpen, setMenuOpen }}
     >
-      <ActionKebab items={dropdownItems.concat(registeredItems)} />
+      <ActionKebab
+        items={dropdownItems.concat(registeredItems).concat(dangerZoneItems)}
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+      />
       {jsReady && <ColumnSelector data={columnSelectData} />}
     </ForemanHostsIndexActionsBarContext.Provider>
   );
 
-  const rowKebabItems = ({
+  const coreRowKebabItems = ({
     id,
     name: hostName,
     compute_id: computeId,
     can_delete: canDelete,
+    can_edit: canEdit,
   }) => [
+    {
+      title: __('Edit'),
+      onClick: () => {
+        window.location.href = foremanUrl(`/hosts/${id}/edit`);
+      },
+      isDisabled: !canEdit,
+    },
+    {
+      title: __('Clone'),
+      onClick: () => {
+        window.location.href = foremanUrl(`/hosts/${id}/clone`);
+      },
+      isDisabled: !canEdit,
+    },
     {
       title: __('Delete'),
       onClick: () => deleteHostHandler({ id, hostName, computeId }),
       isDisabled: !canDelete,
     },
   ];
+
+  registerGetActions({
+    pluginName: 'core',
+    getActionsFunc: coreRowKebabItems,
+  });
 
   const [legacyUIKebabOpen, setLegacyUIKebabOpen] = useState(false);
   const legacyUIKebab = (
@@ -345,7 +381,7 @@ const HostsIndex = () => {
         ouiaId="hosts-index-table"
         params={params}
         setParams={setParamsAndAPI}
-        getActions={rowKebabItems}
+        getActions={getActions}
         itemCount={subtotal}
         results={results}
         url={HOSTS_API_PATH}
@@ -364,7 +400,7 @@ const HostsIndex = () => {
         isPending={status === STATUS.PENDING}
       >
         {results?.map((result, rowIndex) => {
-          const rowActions = rowKebabItems(result);
+          const rowActions = getActions(result);
           return (
             <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
               {<RowSelectTd rowData={result} {...{ selectOne, isSelected }} />}

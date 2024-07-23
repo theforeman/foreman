@@ -76,14 +76,22 @@ export const Table = ({
     setSelectedItem({ id, name });
     setDeleteModalOpen(true);
   };
-  const actions = ({ can_delete: canDelete, id, name, ...item }) =>
+  const actions = ({
+    can_delete: canDelete,
+    can_edit: canEdit,
+    id,
+    name,
+    ...item
+  }) =>
     [
       isDeleteable && {
         title: __('Delete'),
         onClick: () => onDeleteClick({ id, name }),
         isDisabled: !canDelete,
       },
-      ...((getActions && getActions({ id, name, canDelete, ...item })) ?? []),
+      ...((getActions &&
+        getActions({ id, name, canDelete, canEdit, ...item })) ??
+        []),
     ].filter(Boolean);
   const RowSelectTd = rowSelectTd;
   return (
