@@ -26,8 +26,10 @@ const initialState = Immutable({
   volumes: [],
 });
 
-const availableControllerKeys = [1000, 1001, 1002, 1003, 1004];
-
+const availableControllerKeys = Array.from(
+  { length: 8 },
+  (value, index) => 1000 + index
+);
 const getAvailableKey = controllers =>
   head(
     difference(

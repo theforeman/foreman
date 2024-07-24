@@ -1408,7 +1408,7 @@ class HostsControllerTest < ActionController::TestCase
       teardown { Fog.unmock! }
 
       it 'allows edit disk size' do
-        scsi_controllers = [{ 'type' => 'VirtualLsiLogicController', 'key' => 1000 }]
+        controllers = [{ 'type' => 'VirtualLsiLogicController', 'key' => 1000 }]
         volume_params = {
           'thin' => true,
           'name' => 'Hard disk',
@@ -1424,7 +1424,8 @@ class HostsControllerTest < ActionController::TestCase
 
         Host::Managed.any_instance.expects('compute_attributes=').with(
           {
-            'scsi_controllers' => scsi_controllers,
+            'scsi_controllers' => controllers,
+            'nvme_controllers' => [],
             'volumes_attributes' => { '0' => volume_attributes },
           }
         )
@@ -1432,7 +1433,7 @@ class HostsControllerTest < ActionController::TestCase
         put :update, params: {
           commit: "Update",
           id: @vmware_host.name,
-          host: { compute_attributes: { scsi_controllers: { 'scsiControllers' => scsi_controllers, 'volumes' => [volume_params] }.to_json } },
+          host: { compute_attributes: { controllers: { 'controllers' => controllers, 'volumes' => [volume_params] }.to_json } },
         }, session: set_session_user
 
         assert_redirected_to host_details_page_path(@vmware_host.to_param)

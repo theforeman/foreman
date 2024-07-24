@@ -22,15 +22,15 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     volumes_attributes    = { "new_volumes" => { "size_gb" => "10", "_delete" => ""},
                               "0"           => { "size_gb" => "1",  "_delete" => ""}}
 
-    attrs_in = HashWithIndifferentAccess.new("cpus"                  => "1",
-                                             "interfaces_attributes" => interfaces_attributes,
-                                             "volumes_attributes"    => volumes_attributes)
+    attrs_in = HashWithIndifferentAccess.new("cpus" => "1",
+      "interfaces_attributes" => interfaces_attributes,
+      "volumes_attributes"    => volumes_attributes)
 
-    attrs_parsed = HashWithIndifferentAccess.new("cpus"                  => "1",
-                                                 "interfaces_attributes" => {"new_interfaces" => {"type" => "VirtualE1000", "network" => "Test network", "_delete" => ""},
-                                                                            "0" => {"type" => "VirtualVmxnet3", "network" => "Test network", "_delete" => ""}},
-                                                 "volumes_attributes"    => {"new_volumes" => {"size_gb" => "10", "_delete" => ""},
-                                                                             "0" => {"size_gb" => "1", "_delete" => ""}})
+    attrs_parsed = HashWithIndifferentAccess.new("cpus" => "1",
+      "interfaces_attributes" => {"new_interfaces" => {"type" => "VirtualE1000", "network" => "Test network", "_delete" => ""},
+                                 "0" => {"type" => "VirtualVmxnet3", "network" => "Test network", "_delete" => ""}},
+      "volumes_attributes"    => {"new_volumes" => {"size_gb" => "10", "_delete" => ""},
+                                  "0" => {"size_gb" => "1", "_delete" => ""}})
 
     mock_vm = mock('vm')
     mock_vm.expects(:save).returns(mock_vm)
@@ -267,7 +267,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     end
 
     test "converts empty hash" do
-      assert_equal({}, @cr.parse_args(HashWithIndifferentAccess.new))
+      assert_empty(@cr.parse_args(HashWithIndifferentAccess.new))
     end
 
     test "converts form attrs to fog attrs" do
@@ -411,31 +411,6 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       @cr.parse_args(attrs_in)
       assert_equal "network-17", attrs_in["interfaces_attributes"]["0"]["network"]
     end
-
-    context 'scsi_controller_type - from hammer' do
-      test 'parse to be a default scsi_controller_type' do
-        attrs_in = HashWithIndifferentAccess.new('scsi_controller_type' => 'ParaVirtualSCSIController')
-        attrs_out = { scsi_controllers: [{ type: 'ParaVirtualSCSIController' }] }
-        assert_equal attrs_out, @cr.parse_args(attrs_in)
-      end
-
-      test 'do not override scsi_controllers if passed' do
-        attrs_in = HashWithIndifferentAccess.new(
-          'scsi_controller_type' => 'ParaVirtualSCSIController',
-          'scsi_controllers' => [{ 'type' => 'VirtualBusLogicController' }]
-        )
-        attrs_out = { scsi_controllers: [{ type: 'VirtualBusLogicController' }] }
-        assert_equal attrs_out, @cr.parse_args(attrs_in)
-      end
-
-      test 'drop invalid scsi_controller_type attribute' do
-        attrs_in = HashWithIndifferentAccess.new(
-          'scsi_controller_type' => 'ParaVirtualSCSICntrlr'
-        )
-        attrs_out = {}
-        assert_equal attrs_out, @cr.parse_args(attrs_in)
-      end
-    end
   end
 
   describe "#parse_networks" do
@@ -459,7 +434,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     end
 
     test "converts empty hash" do
-      assert_equal({}, @cr.parse_networks(HashWithIndifferentAccess.new))
+      assert_empty(@cr.parse_networks(HashWithIndifferentAccess.new))
     end
 
     test "converts form network name to network ID" do
@@ -596,6 +571,9 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       scsi_controller1 = mock('scsi_controller1')
       scsi_controller1.stubs(:attributes).returns({:type => "VirtualLsiLogicController", :shared_bus => "noSharing", :unit_number => 7, :key => 1000})
       @vm.stubs(:scsi_controllers).returns([scsi_controller1])
+      nvme_controller1 = mock('nvme_controller1')
+      nvme_controller1.stubs(:attributes).returns({:type => "VirtualNVMEController", :key => 2000})
+      @vm.stubs(:nvme_controllers).returns([nvme_controller1])
 
       @networks = [
         OpenStruct.new(:id => 'dvportgroup-123456', :name => 'Testnetwork'),
@@ -619,7 +597,14 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
             :key => 1000,
           },
         ],
+        :nvme_controllers => [
+          {
+            :type => "VirtualNVMEController",
+            :key => 2000,
+          },
+        ],
       }
+
       attrs = @cr.vm_compute_attributes_for('abc')
 
       assert_equal expected_attrs, attrs
@@ -655,6 +640,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
             :key => 1000,
           },
         ],
+        :nvme_controllers => [{:type => "VirtualNVMEController", :key => 2000}],
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 
@@ -969,6 +955,33 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       assert_equal(expected_attrs, normalized['scsi_controllers'])
     end
 
+    test 'normalizes nvme_controllers' do
+      vm_attrs = {
+        'nvme_controllers' => [
+          {
+            'type' => 'VirtualNVMEController',
+            'key' => 2000,
+          }, {
+            'type' => 'VirtualNVMEController',
+            'key' => 2001,
+          }
+        ],
+      }
+      expected_attrs = {
+        '0' => {
+          'type' => 'VirtualNVMEController',
+          'key' => 2000,
+        },
+        '1' => {
+          'type' => 'VirtualNVMEController',
+          'key' => 2001,
+        },
+      }
+      normalized = cr.normalize_vm_attrs(vm_attrs)
+
+      assert_equal(expected_attrs, normalized['nvme_controllers'])
+    end
+
     test 'normalizes volumes_attributes' do
       vm_attrs = {
         'volumes_attributes' => {
@@ -1046,6 +1059,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         'memory_hot_add_enabled' => nil,
         'cpu_hot_add_enabled' => nil,
         'scsi_controllers' => {},
+        'nvme_controllers' => {},
         'interfaces_attributes' => {},
         'volumes_attributes' => {},
       }

@@ -18,7 +18,7 @@ describe('StorageContainer integration test', () => {
 
   it('render hidden field correctly', () => {
     expect(
-      JSON.parse(component.find('#scsi_controller_hidden').props().value)
+      JSON.parse(component.find('#controller_hidden').props().value)
     ).toEqual(hiddenFieldValue);
   });
 

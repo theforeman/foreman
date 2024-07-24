@@ -2,7 +2,7 @@ module Foreman::Controller::Parameters::Host
   extend ActiveSupport::Concern
   include Foreman::Controller::Parameters::HostBase
   include Foreman::Controller::Parameters::HostCommon
-  include Foreman::Controller::NormalizeScsiAttributes
+  include Foreman::Controller::NormalizeVmwareStorageControllerAttributes
 
   class_methods do
     def host_params_filter
@@ -33,8 +33,8 @@ module Foreman::Controller::Parameters::Host
 
   def host_params(top_level_hash = controller_name.singularize)
     self.class.host_params_filter.filter_params(params, parameter_filter_context, top_level_hash).tap do |normalized|
-      if parameter_filter_context.ui? && normalized["compute_attributes"] && normalized["compute_attributes"]["scsi_controllers"]
-        normalize_scsi_attributes(normalized["compute_attributes"])
+      if parameter_filter_context.ui? && normalized["compute_attributes"] && normalized["compute_attributes"]["controllers"]
+        normalize_vmware_storage_controller_attributes(normalized["compute_attributes"])
       end
     end
   end

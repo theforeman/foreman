@@ -192,12 +192,13 @@ module Foreman::Model
       }
     end
 
-    def scsi_controller_types
+    def storage_controller_types
       {
         "VirtualBusLogicController" => "Bus Logic Parallel",
         "VirtualLsiLogicController" => "LSI Logic Parallel",
         "VirtualLsiLogicSASController" => "LSI Logic SAS",
         "ParaVirtualSCSIController" => "VMware Paravirtual",
+        "VirtualNVMEController" => "NVME Controller",
       }
     end
 
@@ -482,10 +483,6 @@ module Foreman::Model
         args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
       end
 
-      # see #26402 - consume scsi_controller_type from hammer as a default scsi type
-      scsi_type = args.delete(:scsi_controller_type)
-      args[:scsi_controllers] ||= [{ type: scsi_type }] if scsi_controller_types.key?(scsi_type)
-
       add_cdrom = args.delete(:add_cdrom)
       args[:cdroms] = [new_cdrom] if add_cdrom == '1'
 
@@ -542,8 +539,15 @@ module Foreman::Model
       raise e
     end
 
+    def unassigned_volumes?(vols)
+      vols&.any? { |vol| !vol.key?(:controller_key) } || false
+    end
+
     def new_vm(args = {})
       args = parse_args args
+      args = args.deep_symbolize_keys
+      # we will pass empty scsi controllers if the volumes are assigned to nvme controllers to avoid creation of a default scsi controller.
+      args[:scsi_controllers] = [] if !args.key?(:scsi_controllers) && !args[:volumes].empty? && !unassigned_volumes?(args[:volumes])
       opts = vm_instance_defaults.symbolize_keys.merge(args.symbolize_keys).deep_symbolize_keys
       client.servers.new opts
     end
@@ -637,7 +641,7 @@ module Foreman::Model
       client.interfaces.new attr
     end
 
-    def new_volume(attr = { })
+    def new_volume(attr = {})
       client.volumes.new attr.merge(:size_gb => 10)
     end
 
@@ -694,6 +698,9 @@ module Foreman::Model
       vm_attrs[:scsi_controllers] = vm.scsi_controllers.map do |controller|
         controller.attributes
       end
+      vm_attrs[:nvme_controllers] = vm.nvme_controllers.map do |controller|
+        controller.attributes
+      end
       vm_attrs
     end
 
@@ -726,11 +733,15 @@ module Foreman::Model
       normalized['add_cdrom'] = to_bool(vm_attrs['add_cdrom'])
 
       normalized['image_name'] = images.find_by(:uuid => vm_attrs['image_id']).try(:name)
-
       scsi_controllers = vm_attrs['scsi_controllers'] || {}
-      normalized['scsi_controllers'] = scsi_controllers.map.with_index do |ctrl, idx|
+      normalized['scsi_controllers'] = scsi_controllers.each_with_index.to_h do |ctrl, idx|
         [idx.to_s, ctrl]
-      end.to_h
+      end
+
+      nvme_controllers = vm_attrs['nvme_controllers'] || {}
+      normalized['nvme_controllers'] = nvme_controllers.each_with_index.to_h do |ctrl, idx|
+        [idx.to_s, ctrl]
+      end
 
       stores = datastores
       volumes_attributes = vm_attrs['volumes_attributes'] || {}
@@ -809,6 +820,7 @@ module Foreman::Model
         :interfaces => [new_interface],
         :volumes    => [new_volume],
         :scsi_controllers => [{ :type => scsi_controller_default_type }],
+        :nvme_controllers => [],
         :datacenter => datacenter,
         :firmware => 'automatic',
         :boot_order => ['network', 'disk']
@@ -827,12 +839,12 @@ module Foreman::Model
     end
 
     def build_vmrc_uri(host, vmid, ticket)
-      uri = URI::Generic.build(:scheme   => 'vmrc',
-                               :userinfo => "clone:#{ticket}",
-                               :host     => host,
-                               :port     => 443,
-                               :path     => '/',
-                               :query    => "moid=#{vmid}").to_s
+      uri = URI::Generic.build(:scheme => 'vmrc',
+        :userinfo => "clone:#{ticket}",
+        :host     => host,
+        :port     => 443,
+        :path     => '/',
+        :query    => "moid=#{vmid}").to_s
       # VMRC doesn't like brackets around IPv6 addresses
       uri.sub(/(.*)\[/, '\1').sub(/(.*)\]/, '\1')
     end

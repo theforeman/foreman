@@ -43,8 +43,8 @@ class ComputeAttributesControllerTest < ActionController::TestCase
     assert_equal "t2.medium", compute_attributes(:one).reload.vm_attrs['flavor_id']
   end
 
-  test "should update compute_attribute with scsi normalization" do
-    json_scsi_data = "{\"scsiControllers\":[{\"type\":\"VirtualLsiLogicController\",\"key\":1000}],\"volumes\":[{\"thin\":true,\"name\":\"Hard disk\",\"mode\":\"persistent\",\"controllerKey\":1000,\"size\":10485760,\"sizeGb\":10,\"storagePod\":\"POD-ZERO\"},{\"sizeGb\":10,\"datastore\":\"\",\"storagePod\":\"POD-ZERO\",\"thin\":false,\"eagerZero\":false,\"name\":\"Hard disk\",\"mode\":\"persistent\",\"controllerKey\":1000}]}"
+  test "should update compute_attribute with controllers normalization" do
+    json_controller_data = "{\"controllers\":[{\"type\":\"VirtualLsiLogicController\",\"key\":1000},{\"type\":\"VirtualNVMEController\",\"key\":2000}],\"volumes\":[{\"thin\":true,\"name\":\"Hard disk\",\"mode\":\"persistent\",\"controllerKey\":1000,\"size\":10485760,\"sizeGb\":10,\"storagePod\":\"POD-ZERO\"},{\"sizeGb\":10,\"datastore\":\"\",\"storagePod\":\"POD-ZERO\",\"thin\":false,\"eagerZero\":false,\"name\":\"Hard disk\",\"mode\":\"persistent\",\"controllerKey\":1000}]}"
     @request.session[:redirect_path] = compute_profile_path(@compute_profile.to_param)
     put :update, params: {
       :id => @set,
@@ -52,11 +52,12 @@ class ComputeAttributesControllerTest < ActionController::TestCase
       :compute_attribute => {
         :compute_resource_id => @set.compute_resource_id,
         :compute_profile_id => @set.compute_profile_id,
-        :vm_attrs => {"scsi_controllers" => json_scsi_data},
+        :vm_attrs => {"controllers" => json_controller_data},
       },
     }, session: set_session_user
     saved_attrs = compute_attributes(:one).reload.vm_attrs
     assert_equal [{"type" => "VirtualLsiLogicController", "key" => 1000}], saved_attrs['scsi_controllers']
+    assert_equal [{"type" => "VirtualNVMEController", "key" => 2000}], saved_attrs['nvme_controllers']
     volumes_attrs = {
       '0' => {
         'thin' => true,

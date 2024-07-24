@@ -56,7 +56,7 @@ export const vmwareData = {
 };
 
 export const hiddenFieldValue = {
-  scsiControllers: [{ key: 1000, type: 'VirtualLsiLogicController' }],
+  controllers: [{ key: 1000, type: 'VirtualLsiLogicController' }],
   volumes: [
     {
       controllerKey: 1000,

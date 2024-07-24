@@ -106,7 +106,7 @@ const Controller = ({
     <div className="controller-container">
       <div className="controller-header">
         <div className="control-label col-md-2 controller-selected-container">
-          <label>{__('Create SCSI controller')}</label>
+          <label>{__('Create controller')}</label>
         </div>
         <div className="controller-type-container col-md-4">
           <Select
