@@ -100,6 +100,7 @@ module ComputeResourceTestHelpers
       resource_pool_name
       scheduler_hint_filter
       scsi_controllers
+      nvme_controllers
       security_groups
       security_group_id
       security_group_name

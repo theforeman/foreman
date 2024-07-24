@@ -21,7 +21,7 @@ const filterKeyFromVolume = volume => {
 
 export const controllersToJsonString = (controllers, volumes) =>
   JSON.stringify({
-    scsiControllers: controllers,
+    controllers,
     volumes: volumes.map(v => filterKeyFromVolume(v)),
   });
 
@@ -31,7 +31,6 @@ class StorageContainer extends React.Component {
       data: { config, controllers, volumes, cluster },
       initController,
     } = this.props;
-
     initController(config, cluster, controllers, volumes);
   }
 
@@ -133,7 +132,7 @@ class StorageContainer extends React.Component {
           {this.renderControllers(controllers)}
           <input
             value={controllersToJsonString(controllers, volumes)}
-            id="scsi_controller_hidden"
+            id="controller_hidden"
             name={paramsScope}
             type="hidden"
           />

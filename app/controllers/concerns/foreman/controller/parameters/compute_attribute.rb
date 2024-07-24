@@ -1,6 +1,6 @@
 module Foreman::Controller::Parameters::ComputeAttribute
   extend ActiveSupport::Concern
-  include Foreman::Controller::NormalizeScsiAttributes
+  include Foreman::Controller::NormalizeVmwareStorageControllerAttributes
 
   class_methods do
     def compute_attribute_params_filter
@@ -19,8 +19,8 @@ module Foreman::Controller::Parameters::ComputeAttribute
   def normalized_compute_attribute_params
     normalized = compute_attribute_params
 
-    if normalized["vm_attrs"] && normalized["vm_attrs"]["scsi_controllers"]
-      normalize_scsi_attributes(normalized["vm_attrs"])
+    if normalized["vm_attrs"] && normalized["vm_attrs"]["controllers"]
+      normalize_vmware_storage_controller_attributes(normalized["vm_attrs"])
     end
 
     normalized.to_h

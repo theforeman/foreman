@@ -19,6 +19,7 @@ export const props = {
       VirtualLsiLogicController: 'LSI Logic Parallel',
       VirtualLsiLogicSASController: 'LSI Logic SAS',
       ParaVirtualSCSIController: 'VMware Paravirtual',
+      VirtualNVMEController: "NVME Controller"
     },
     diskModeTypes: {
       persistent: 'Persistent',

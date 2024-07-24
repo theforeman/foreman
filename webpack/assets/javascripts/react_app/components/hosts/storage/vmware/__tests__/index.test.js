@@ -22,8 +22,7 @@ describe('controllersToJsonString', () => {
     ];
 
     const expectedJson =
-      '{"scsiControllers":[{"type":"VirtualLsiLogicController","key":1000}],"volumes":[{"thin":true,"name":"Hard disk","mode":"persistent","controllerKey":1000,"size":10485760,"sizeGb":10}]}';
-
+    "{\"controllers\":[{\"type\":\"VirtualLsiLogicController\",\"key\":1000}],\"volumes\":[{\"thin\":true,\"name\":\"Hard disk\",\"mode\":\"persistent\",\"controllerKey\":1000,\"size\":10485760,\"sizeGb\":10}]}"
     expect(controllersToJsonString(controllers, volumes)).toEqual(expectedJson);
   });
 });

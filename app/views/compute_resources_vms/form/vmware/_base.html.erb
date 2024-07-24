@@ -54,13 +54,13 @@ end %>
 <%= react_component('StorageContainer', { data: {
   config: {
     vmExists: !new_vm,
-    controllerTypes: compute_resource.scsi_controller_types,
+    controllerTypes: compute_resource.storage_controller_types,
     diskModeTypes: compute_resource.disk_mode_types,
-    paramsScope: "#{f.object_name}[scsi_controllers]",
+    paramsScope: "#{f.object_name}[controllers]",
     datastoresUrl: available_storage_domains_api_compute_resource_path(compute_resource),
     storagePodsUrl: available_storage_pods_api_compute_resource_path(compute_resource)
   },
   volumes: f.object.volumes.map { |volume| volume.attributes.merge(:size_gb => volume.size_gb).deep_transform_keys { |key| key.to_s.camelize(:lower).to_sym }.reject { |k,v| k == :size } },
-  controllers: f.object.scsi_controllers,
+  controllers: f.object.scsi_controllers + f.object.nvme_controllers,
   cluster: f.object.cluster
 }}) %>
