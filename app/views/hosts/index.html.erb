@@ -1,8 +1,9 @@
 <%
   register_btn = link_to(_("Register Host"), hash_for_register_hosts_path, :class => "btn btn-default") if authorized_for({contoller: 'hosts', action: 'create'})
+  new_ui_btn = link_to(_("New UI"), new_hosts_index_page_path, :class => "btn btn-default")
 %>
 
-<% title_actions multiple_actions_select, csv_link, register_btn, button_group(new_link(_("Create Host"))) %>
+<% title_actions multiple_actions_select, csv_link, register_btn, new_ui_btn, button_group(new_link(_("Create Host"))) %>
 <%= alert(:class => 'alert-info hide', :id => 'multiple-alert', :close => false, :header => '',
           :text => n_("Single host on this page is selected.",
                       "All %{per_page} hosts on this page are selected.", per_page(@hosts)).html_safe % {per_page: per_page(@hosts)} + ' ' +
