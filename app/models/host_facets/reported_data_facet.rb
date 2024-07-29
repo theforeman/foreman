@@ -13,6 +13,7 @@ module HostFacets
         bios_vendor: parser.bios[:vendor],
         bios_release_date: parser.bios[:release_date],
         bios_version: parser.bios[:version],
+        convert2rhel: parser.convert2rhel,
       }.compact
       facet.save if facet.changed?
     end

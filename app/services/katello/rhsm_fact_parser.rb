@@ -117,6 +117,10 @@ module Katello
       facts['uname.release']
     end
 
+    def convert2rhel
+      facts['conversions.env.CONVERT2RHEL_THROUGH_FOREMAN'].to_i
+    end
+
     def bios
       {
         :vendor => facts['dmi::bios::all_records::vendor'],

@@ -129,6 +129,10 @@ class FactParser
   def kernel_version
   end
 
+  # convert2rhel through Foreman
+  def convert2rhel
+  end
+
   # @return [Hash] bios information
   def bios
     {}
