@@ -14,8 +14,8 @@ module Foreman::Controller::Registration
                                .map(&:allowed_registration_vars)
                                .flatten.compact.uniq
 
-    organization = Organization.authorized(:view_organizations).find(params['organization_id']) if params['organization_id'].present?
-    location = Location.authorized(:view_locations).find(params['location_id']) if params['location_id'].present?
+    organization_from_param = Organization.authorized(:view_organizations).find(params['organization_id']) if params['organization_id'].present?
+    location_from_param = Location.authorized(:view_locations).find(params['location_id']) if params['location_id'].present?
     host_group = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id']) if params["hostgroup_id"].present?
     operatingsystem = Operatingsystem.authorized(:view_operatingsystems).find(params['operatingsystem_id']) if params["operatingsystem_id"].present?
 
@@ -32,8 +32,8 @@ module Foreman::Controller::Registration
     context = {
       user: User.current,
       auth_token: api_authorization_token,
-      organization: (organization || User.current.default_organization || User.current.my_organizations.first),
-      location: (location || User.current.default_location || User.current.my_locations.first),
+      organization: organization_from_param || default_organization,
+      location: location_from_param || default_location,
       hostgroup: host_group,
       operatingsystem: operatingsystem,
       setup_insights: ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights']),
@@ -142,5 +142,13 @@ module Foreman::Controller::Registration
       actions: [:global, :host],
     }]
     User.current.jwt_token!(expiration: 4.hours.to_i, scope: scope)
+  end
+
+  def default_organization
+    User.current.default_organization || User.current.my_organizations.first
+  end
+
+  def default_location
+    User.current.default_location || User.current.my_locations.first
   end
 end

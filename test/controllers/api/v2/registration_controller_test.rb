@@ -122,6 +122,56 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
         assert_equal "#{url}/register", assigns(:global_registration_vars)[:registration_url].to_s
       end
     end
+
+    context 'find organization' do
+      let(:orgs) { [taxonomies(:organization1), taxonomies(:organization2)] }
+
+      test 'with organization_id' do
+        get :global, params: { organization_id: taxonomies(:organization1).id }, session: set_session_user
+        assert_equal taxonomies(:organization1), assigns(:global_registration_vars)[:organization]
+      end
+
+      test 'without organization_id, with user default' do
+        user = FactoryBot.create(:user, organizations: orgs, default_organization: orgs[1], admin: true)
+
+        as_user(user) do
+          get :global, session: set_session_user(user)
+          assert_equal user.default_organization, assigns(:global_registration_vars)[:organization]
+        end
+      end
+
+      test 'without organization_id, without user default' do
+        user = FactoryBot.create(:user, organizations: orgs, default_organization: nil, admin: true)
+
+        get :global, session: set_session_user(user)
+        assert_equal user.my_organizations.first, assigns(:global_registration_vars)[:organization]
+      end
+    end
+
+    context 'find location' do
+      let(:locs) { [taxonomies(:location1), taxonomies(:location2)] }
+
+      test 'with location_id' do
+        get :global, params: { location_id: taxonomies(:location1).id }, session: set_session_user
+        assert_equal taxonomies(:location1), assigns(:global_registration_vars)[:location]
+      end
+
+      test 'without location_id, with user default' do
+        user = FactoryBot.create(:user, locations: locs, default_location: locs[1], admin: true)
+
+        as_user(user) do
+          get :global, session: set_session_user(user)
+          assert_equal user.default_location, assigns(:global_registration_vars)[:location]
+        end
+      end
+
+      test 'without location_id, without user default' do
+        user = FactoryBot.create(:user, locations: locs, default_location: nil, admin: true)
+
+        get :global, session: set_session_user(user)
+        assert_equal user.my_locations.first, assigns(:global_registration_vars)[:location]
+      end
+    end
   end
 
   describe 'host registration' do
