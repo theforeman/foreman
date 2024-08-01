@@ -5,14 +5,13 @@
            public_send("#{@type_name_singular}_path", :id => @template)
          else
            public_send("#{@type_name_singular}_path", :id => @resource_class.new)
-         end
-%>
+         end %>
 <%= form_for @template, :url => url, :html => { :multipart => true } do |f| %>
   <%= base_errors_for @template %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Template") %></a></li>
     <li><a href="#template_inputs" data-toggle="tab"><%= _("Inputs") %></a></li>
-    <%= render "#{@type_name_plural}/custom_tab_headers" unless type == 'ptable'%>
+    <%= render "#{@type_name_plural}/custom_tab_headers" unless type == 'ptable' %>
     <%= render_pagelets_for(:tab_headers, :subject => @template) %>
 
     <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
@@ -131,8 +130,8 @@
             <%%# this is a comment %>
           <% }) %>
           <%= render "help_accordion", :title => N_('In-line code syntax'), :contents => (capture { %>
-            <%% if true -%><br/>
-            &nbsp;&nbsp;some content<br/>
+            <%% if true -%><br>
+            &nbsp;&nbsp;some content<br>
             <%% end -%>
           <% }) %>
           <%= render "help_accordion", :title => N_('Printing data'), :contents => (capture { %>
@@ -151,9 +150,9 @@
             <%%= rand(9999) + 1 %>
           <% }) %>
           <%= render "help_accordion", :title => N_('Iterating'), :contents => (capture { %>
-            <%% @host.interfaces.each do |interface| -%><br/>
-            &nbsp;&nbsp;NIC name: <%%= interface.name %><br/>
-            <%% end -%><br/>
+            <%% @host.interfaces.each do |interface| -%><br>
+            &nbsp;&nbsp;NIC name: <%%= interface.name %><br>
+            <%% end -%><br>
           <% }) %>
           <%= render "help_accordion", :title => N_('Inputs'), :wrap_in_code => false, :contents => (capture { %>
               <p>
@@ -204,7 +203,7 @@
       </table>
     </div>
 
-    <%= render "custom_tabs", :f => f unless type == 'ptable'%>
+    <%= render "custom_tabs", :f => f unless type == 'ptable' %>
     <%= render_pagelets_for(:tab_content, :subject => @template, :f => f) %>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @template %>
 

@@ -6,6 +6,5 @@
     [[_("Select desired state"), "disabled"]] +
     PowerManager::REAL_ACTIONS.map { |a| [_(a.to_s.capitalize), a] },
     {},
-    { :label => _("Power"), :onchange => "tfm.hosts.table.toggleMultipleOkButton(this)" }
-  %>
+    { :label => _("Power"), :onchange => "tfm.hosts.table.toggleMultipleOkButton(this)" } %>
 <% end %>

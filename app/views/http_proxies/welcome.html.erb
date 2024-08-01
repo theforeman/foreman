@@ -1,6 +1,6 @@
 <% content_for(:title, _("HTTP Proxies")) %>
-<% description = _("Defining HTTP Proxies that exist on your network allows you to perform various actions through those proxies.")%>
-<% action = { :title => _("New HTTP Proxy"), :url => new_http_proxy_path } if authorized_for(:action => :new)%>
+<% description = _("Defining HTTP Proxies that exist on your network allows you to perform various actions through those proxies.") %>
+<% action = { :title => _("New HTTP Proxy"), :url => new_http_proxy_path } if authorized_for(:action => :new) %>
 <%= react_component('EmptyState', {
                                     :icon => 'globe',
                                     :iconType => 'fa',

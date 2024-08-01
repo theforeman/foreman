@@ -14,7 +14,7 @@
         <td class="break-me"><%= config_report_content(log) %></td>
       </tr>
     <% end %>
-    <tr id='ntsh' <%= "style='display: none;'".html_safe if logs.size > 0%>><td colspan="3">
+    <tr id='ntsh' <%= "style='display: none;'".html_safe if logs.size > 0 %>><td colspan="3">
         <%= _("Nothing to show") %>
       </td></tr>
   </tbody>

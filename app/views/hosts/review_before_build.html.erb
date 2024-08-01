@@ -8,7 +8,7 @@
 
     <% HostBuildStatus::VALIDATION_TYPES.each do |type| %>
       <% if @build.errors[type].any? %>
-        <hr/>
+        <hr>
         <p><b><%= _(type.to_s.capitalize) %></b></p>
         <ul class="list-group">
           <% @build.errors[type].each do |error| %>
@@ -22,13 +22,10 @@
 <%= form_for :host,
              :method => :put,
              :url    => hash_for_setBuild_host_path(:id => @host).merge(:auth_object => @host, :permission => 'build_hosts'),
-             :html   => { :id => 'build_form' } do |form|
-%>
+             :html   => { :id => 'build_form' } do |form| %>
   <%= checkbox_f(form, :build, :help_text => _('Reboot now') % @host) if @host.supports_power_and_running? %>
   <div class="modal-footer">
     <%= modal_close %>
     <%= review_build_button(form, build_state(@build)) %>
   </div>
 <% end %>
-
-

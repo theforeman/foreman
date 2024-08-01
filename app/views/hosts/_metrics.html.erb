@@ -11,7 +11,7 @@
         <td>
           <%= name %>
         </td>
-        <% style = (name =~ /failed|failed_restart/ and value > 0) ? "label label-danger" : ""%>
+        <% style = (name =~ /failed|failed_restart/ and value > 0) ? "label label-danger" : "" %>
         <td><p class="<%= style %>">
             <%= value %>
           </p></td>

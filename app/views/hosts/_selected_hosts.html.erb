@@ -21,19 +21,19 @@
           </tr>
         </thead>
         <tbody>
-          <% associations = [:hostgroup, :organization, :location]  %>
+          <% associations = [:hostgroup, :organization, :location] %>
           <% hosts.preload(*associations).each do |host| %>
             <tr>
-              <td><%=h host %></td>
-              <td><%=h host.try(:hostgroup) %></td>
-              <td><%=h host.try(:location) %></td>
-              <td><%=h host.try(:organization) %></td>
+              <td><%= h host %></td>
+              <td><%= h host.try(:hostgroup) %></td>
+              <td><%= h host.try(:location) %></td>
+              <td><%= h host.try(:organization) %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
       <%= check_box_tag "keep_selected", "", false, :title => _("Remember hosts selection for the next bulk action") %>
-      <%= _('Remember hosts selection for the next bulk action') %><br/><br/>
+      <%= _('Remember hosts selection for the next bulk action') %><br><br>
     </div>
   <% end %>
 </div>

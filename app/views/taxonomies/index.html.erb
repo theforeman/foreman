@@ -33,7 +33,7 @@
             (link_to(n_("Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}", "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}", @count_nil_hosts) % {:count => @count_nil_hosts, :taxonomy_single => taxonomy_single, :taxonomy_name => taxonomy.name}  ,
                 assign_all_hosts_taxonomy_path(taxonomy),
                 :method => :post) if @count_nil_hosts > 0)
-            )%>
+            ) %>
         </td>
       </tr>
     <% end %>

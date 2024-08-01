@@ -5,7 +5,7 @@
                   :label => _("Console Passwords"),
                   :help_inline => _("Set a randomly generated password on the display connection") %>
 
-<% hypervisor = f.object.hypervisor.uuid rescue nil%>
+<% hypervisor = f.object.hypervisor.uuid rescue nil %>
 <% if hypervisor %>
   <%= f.hidden_field :uuid, :value => hypervisor %>
 <% end %>

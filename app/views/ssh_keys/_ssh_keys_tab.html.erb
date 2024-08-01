@@ -24,8 +24,8 @@
             </div>
             <h1><%= _('SSH keys') %></h1>
             <p>
-              <%= _("You can add SSH public keys to a user in Foreman.") %><br />
-              <%= _("The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman.") %><br />
+              <%= _("You can add SSH public keys to a user in Foreman.") %><br>
+              <%= _("The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman.") %><br>
              </p>
              <% if @user.persisted? && authorized_for(hash_for_new_user_ssh_key_path(:user_id => @user)) %>
                <div class="blank-slate-pf-main-action">

@@ -12,7 +12,7 @@
         <% User.current.widgets.available.order(:id).each do |widget| %>
           <%= content_tag(:li, widget_data(widget)) do %>
             <div class='widget_control'>
-              <a class='remove' data-url='<%= widget_path(widget) %>' onclick='tfm.dashboard.removeWidget(this)' >&times;</a>
+              <a class='remove' data-url='<%= widget_path(widget) %>' onclick='tfm.dashboard.removeWidget(this)'>&times;</a>
             </div>
             <div class="widget <%= widget_class_name(widget).parameterize %>">
               <div data-ajax-url="<%= widget_path(widget, search: params[:search]) %>" data-on-complete="tfm.dashboard.widgetLoaded">

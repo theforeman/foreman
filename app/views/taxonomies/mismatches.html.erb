@@ -23,9 +23,8 @@
               </td>
             <% end %>
             <td><% mismatch.each do |mismatch_row| %>
-                <%= "#{mismatch_row[:taxable_value]} (#{mismatch_row[:taxable_type]})"
-              %>
-                <br />
+                <%= "#{mismatch_row[:taxable_value]} (#{mismatch_row[:taxable_type]})" %>
+                <br>
               <% end %>
             </td>
           </tr>
@@ -34,6 +33,6 @@
     </tbody>
   </table>
 <% else %>
-  <%= _("No hosts are mismatched!") %><br />
+  <%= _("No hosts are mismatched!") %><br>
   <%= _("All hosts data matches configurations for locations and organizations.") %>
 <% end %>

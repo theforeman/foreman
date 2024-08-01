@@ -3,13 +3,12 @@
 <% title_actions new_link(_("Create Parameter")),
                  documentation_button('4.2.3Parameters') %>
 
-
-<table class="<%= table_css_classes('table-hover table-fixed')%>">
+<table class="<%= table_css_classes('table-hover table-fixed') %>">
   <thead>
     <tr>
       <th class="col-md-3"><%= sort :name, :as => s_("Parameter|Name") %></th>
-      <th class="col-md-6" style='min-width: 60%;'><%= sort :value, :as =>  s_("Parameter|Value")%></th>
-      <th class="col-md-2"><%= sort :parameter_type, :as =>  s_("Parameter|Type")%></th>
+      <th class="col-md-6" style='min-width: 60%;'><%= sort :value, :as =>  s_("Parameter|Value") %></th>
+      <th class="col-md-2"><%= sort :parameter_type, :as =>  s_("Parameter|Type") %></th>
       <th class="col-md-1"><%= _('Actions') %></th>
     </tr>
   </thead>
@@ -17,7 +16,7 @@
     <% for common_parameter in @common_parameters %>
       <tr id="<%= dom_id(common_parameter) %>_row">
         <td class="ellipsis"><%= link_to_if_authorized common_parameter, hash_for_edit_common_parameter_path(:id => common_parameter).merge(:auth_object => common_parameter, :authorizer => authorizer, :permission => 'edit_params') %></td>
-        <td class='ellipsis parameter-value' >
+        <td class='ellipsis parameter-value'>
           <%= common_parameter.hidden_value? ? common_parameter.hidden_value : common_parameter.value %>
         </td>
         <td class='ellipsis'><%= common_parameter.parameter_type %></td>
