@@ -171,15 +171,16 @@ module Orchestration::DHCP
       (old&.operatingsystem&.boot_filename(old.host) != operatingsystem&.boot_filename(host)) ||
       ((old.host.pxe_loader == "iPXE Embedded" || host.pxe_loader == "iPXE Embedded") && (old.host.build != host.build)) ||
       (!old.build? && build? && !all_dhcp_records_valid?))
-    # Handle jumpstart
-    # TODO, abstract this way once interfaces are fully used
-    if is_a?(Host::Base) && jumpstart?
-      if !old.build? || (old.medium != medium || old.arch != arch) ||
-          (os && old.os && (old.os.name != os.name || old.os != os))
-        return true
-      end
+
+    if requires_jumpstart_update?
+      return true
     end
     false
+  end
+
+  def requires_jumpstart_update?
+    is_a?(Host::Base) && jumpstart? && (!old.build? || (old.medium != medium || old.arch != arch) ||
+        (os && old.os && (old.os.name != os.name || old.os != os)))
   end
 
   def all_dhcp_records_valid?
