@@ -18,7 +18,7 @@ class UnattendedControllerTest < ActionController::TestCase
       media(:one).locations << @loc
       media(:ubuntu).organizations << @org
       media(:ubuntu).locations << @loc
-      @rh_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
+      @rh_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :dualstack, :build => true,
                                     :operatingsystem => operatingsystems(:redhat),
                                     :ptable => ptable,
                                     :medium => media(:one),
@@ -70,6 +70,13 @@ class UnattendedControllerTest < ActionController::TestCase
 
     test "should get a kickstart when IPv6 mapped IPv4 address is used" do
       @request.env["HTTP_X_FORWARDED_FOR"] = "::ffff:" + @rh_host.ip
+      @request.env["REMOTE_ADDR"] = "127.0.0.1"
+      get :host_template, params: { :kind => 'provision' }
+      assert_response :success
+    end
+
+    test "should get a kickstart over IPv6" do
+      @request.env["HTTP_X_FORWARDED_FOR"] = @rh_host.ip6
       @request.env["REMOTE_ADDR"] = "127.0.0.1"
       get :host_template, params: { :kind => 'provision' }
       assert_response :success
