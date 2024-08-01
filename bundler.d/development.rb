@@ -20,7 +20,7 @@ group :development do
 
   gem 'bullet', '>= 6.1.0'
   gem "parallel_tests"
-  gem 'spring', '>= 1.0', '< 3'
+  gem 'spring', '~> 4.0'
   gem 'benchmark-ips', '>= 2.8.2'
   gem 'foreman'
   gem('bootsnap', :require => false)
