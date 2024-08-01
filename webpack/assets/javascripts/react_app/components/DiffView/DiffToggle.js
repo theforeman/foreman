@@ -9,7 +9,11 @@ const DiffToggle = ({ stateView, changeState }) => {
     isSelected && changeState(viewType);
 
   return (
-    <ToggleGroup id="diff-toggle-buttons" aria-label="editor-diff-buttons">
+    <ToggleGroup
+      id="diff-toggle-buttons"
+      aria-label="editor-diff-buttons"
+      isCompact
+    >
       <ToggleGroupItem
         key={`${SPLIT}-btn`}
         text={__('Split')}

@@ -3,7 +3,6 @@ import Immutable from 'seamless-immutable';
 import {
   EDITOR_CHANGE_DIFF_VIEW,
   EDITOR_CHANGE_SETTING,
-  EDITOR_CHANGE_TAB,
   EDITOR_CHANGE_VALUE,
   EDITOR_DISMISS_ERROR,
   EDITOR_SHOW_ERROR,
@@ -50,7 +49,6 @@ const initialState = Immutable({
     id: '',
     name: '',
   },
-  selectedView: 'input',
   showError: false,
   templateClass: '',
   theme: 'Monokai',
@@ -102,10 +100,6 @@ export default (state = initialState, action) => {
 
     case EDITOR_DISMISS_ERROR: {
       return state.merge(payload);
-    }
-
-    case EDITOR_CHANGE_TAB: {
-      return state.set('selectedView', payload);
     }
 
     case EDITOR_CHANGE_SETTING: {

@@ -1,66 +1,77 @@
 /* eslint-disable no-alert */
-import React from 'react';
+import React, { useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { Button, Icon, FormControl } from 'patternfly-react';
 
-import { Tooltip, TooltipPosition } from '@patternfly/react-core';
+import {
+  Tooltip,
+  TooltipPosition,
+  Flex,
+  FlexItem,
+  Divider,
+} from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
-import { bindMethods } from '../../../common/helpers';
 import DiffToggle from '../../DiffView/DiffToggle';
 import EditorSettings from './EditorSettings';
+import { INPUT, DIFF } from '../EditorConstants';
+import { EditorContext } from '../EditorContext';
 
-class EditorOptions extends React.Component {
-  constructor(props) {
-    super(props);
-    bindMethods(this, ['fileDialog']);
-    this.fileInput = React.createRef();
-  }
+const EditorOptions = props => {
+  const {
+    changeDiffViewType,
+    changeSetting,
+    diffViewType,
+    importFile,
+    isDiff,
+    isMasked,
+    keyBinding,
+    keyBindings,
+    mode,
+    modes,
+    revertChanges,
+    showHide,
+    showImport,
+    template,
+    theme,
+    themes,
+    autocompletion,
+    liveAutocompletion,
+    toggleMaskValue,
+    toggleModal,
+  } = props;
 
-  fileDialog() {
-    this.fileInput.click();
-  }
+  const fileInput = useRef('');
 
-  render() {
-    const {
-      changeDiffViewType,
-      changeSetting,
-      changeTab,
-      diffViewType,
-      importFile,
-      isDiff,
-      isMasked,
-      keyBinding,
-      keyBindings,
-      mode,
-      modes,
-      revertChanges,
-      selectedView,
-      showHide,
-      showImport,
-      template,
-      theme,
-      themes,
-      autocompletion,
-      liveAutocompletion,
-      toggleMaskValue,
-      toggleModal,
-    } = this.props;
+  const openFileDialog = () => {
+    fileInput.current.click();
+  };
 
-    return (
-      <div id="editor-dropdowns">
-        {selectedView === 'diff' && (
-          <DiffToggle
-            stateView={diffViewType}
-            changeState={viewType => changeDiffViewType(viewType)}
+  const { selectedView, setSelectedView } = useContext(EditorContext);
+
+  return (
+    <Flex id="editor-dropdowns" spaceItems={{ default: 'spaceItemsNone' }}>
+      {selectedView === DIFF && (
+        <>
+          <FlexItem>
+            <DiffToggle
+              stateView={diffViewType}
+              changeState={viewType => changeDiffViewType(viewType)}
+            />
+          </FlexItem>
+          <FlexItem spacer={{ default: 'spacerMd' }} />
+          <Divider
+            orientation={{ default: 'vertical' }}
+            inset={{ default: 'insetMd' }}
           />
-        )}
+        </>
+      )}
 
-        <h4 id="divider">|</h4>
-        {showHide && (
+      {showHide && (
+        <FlexItem>
           <Tooltip content={__('Hide Content')} position={TooltipPosition.top}>
             <Button
-              disabled={selectedView !== 'input'}
+              disabled={selectedView !== INPUT}
               className="editor-button"
               id="hide-btn"
               onClick={() => toggleMaskValue(isMasked)}
@@ -69,8 +80,10 @@ class EditorOptions extends React.Component {
               <Icon size="lg" type="fa" name={isMasked ? 'eye' : 'eye-slash'} />
             </Button>
           </Tooltip>
-        )}
-        {isDiff ? ( // fixing tooltip showing sometimes for disabled icon
+        </FlexItem>
+      )}
+      {isDiff ? ( // fixing tooltip showing sometimes for disabled icon
+        <FlexItem>
           <Tooltip
             content={__('Revert Local Changes')}
             position={TooltipPosition.top}
@@ -85,7 +98,9 @@ class EditorOptions extends React.Component {
                   )
                 ) {
                   revertChanges(template);
-                  if (selectedView !== 'input') changeTab('input');
+                  if (selectedView !== INPUT) {
+                    setSelectedView(INPUT);
+                  }
                 }
               }}
               bsStyle="link"
@@ -93,7 +108,9 @@ class EditorOptions extends React.Component {
               <Icon size="2x" type="pf" name="restart" />
             </Button>
           </Tooltip>
-        ) : (
+        </FlexItem>
+      ) : (
+        <FlexItem>
           <Button
             disabled
             className="editor-button"
@@ -102,20 +119,22 @@ class EditorOptions extends React.Component {
           >
             <Icon size="2x" type="pf" name="restart" />
           </Button>
-        )}
-        {showImport && (
+        </FlexItem>
+      )}
+      {showImport && (
+        <FlexItem>
           <Tooltip content={__('Import File')} position={TooltipPosition.top}>
             <Button
-              disabled={selectedView !== 'input'}
+              disabled={selectedView !== INPUT}
               className="import-button"
               id="import-btn"
               bsStyle="link"
-              onClick={() => this.fileDialog()}
+              onClick={openFileDialog}
             >
               <Icon size="lg" type="pf" name="folder-open" />
               <FormControl
                 inputRef={ref => {
-                  this.fileInput = ref;
+                  fileInput.current = ref;
                 }}
                 className="hidden"
                 type="file"
@@ -123,38 +142,43 @@ class EditorOptions extends React.Component {
               />
             </Button>
           </Tooltip>
-        )}
-        <EditorSettings
-          changeSetting={changeSetting}
-          selectedView={selectedView}
-          modes={modes}
-          mode={mode}
-          keyBindings={keyBindings}
-          keyBinding={keyBinding}
-          theme={theme}
-          themes={themes}
-          autocompletion={autocompletion}
-          liveAutocompletion={liveAutocompletion}
-        />
+        </FlexItem>
+      )}
+      <FlexItem>
+        <div role="option" aria-selected>
+          <EditorSettings
+            changeSetting={changeSetting}
+            modes={modes}
+            mode={mode}
+            keyBindings={keyBindings}
+            keyBinding={keyBinding}
+            theme={theme}
+            themes={themes}
+            autocompletion={autocompletion}
+            liveAutocompletion={liveAutocompletion}
+          />
+        </div>
+      </FlexItem>
+      <FlexItem>
         <Tooltip content={__('Maximize')} position={TooltipPosition.top}>
           <Button
             className="editor-button"
             id="fullscreen-btn"
             onClick={toggleModal}
             bsStyle="link"
+            aria-label="Open Modal"
           >
             <Icon size="lg" type="fa" name="arrows-alt" />
           </Button>
         </Tooltip>
-      </div>
-    );
-  }
-}
+      </FlexItem>
+    </Flex>
+  );
+};
 
 EditorOptions.propTypes = {
   changeDiffViewType: PropTypes.func.isRequired,
   changeSetting: PropTypes.func.isRequired,
-  changeTab: PropTypes.func.isRequired,
   diffViewType: PropTypes.string.isRequired,
   importFile: PropTypes.func.isRequired,
   isDiff: PropTypes.bool.isRequired,
@@ -164,7 +188,6 @@ EditorOptions.propTypes = {
   mode: PropTypes.string.isRequired,
   modes: PropTypes.array.isRequired,
   revertChanges: PropTypes.func.isRequired,
-  selectedView: PropTypes.string.isRequired,
   showHide: PropTypes.bool,
   showImport: PropTypes.bool.isRequired,
   template: PropTypes.string,

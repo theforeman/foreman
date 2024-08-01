@@ -17,7 +17,6 @@ export const editor = {
   autocompletion: true,
   liveAutocompletion: false,
   keyBinding: 'Default',
-  selectedView: 'input',
   editorName: 'editor',
   isMaximized: false,
   isMasked: false,
@@ -68,7 +67,6 @@ export const editorOptions = {
   changeDiffViewType: noop,
   changeEditorValue: noop,
   dismissErrorToast: noop,
-  changeTab: noop,
   toggleMaskValue: noop,
   changeSetting: noop,
   toggleRenderView: noop,
@@ -87,3 +85,64 @@ export const hosts = [
   { id: '1', name: 'host1' },
   { id: '2', name: 'host2' },
 ];
+
+// context values for EditorContext.Provider:
+export const inputEditorContextValue = {
+  selectedView: 'input',
+  setSelectedView: jest.fn(),
+};
+
+export const diffEditorContextValue = {
+  selectedView: 'diff',
+  setSelectedView: jest.fn(),
+};
+
+export const previewEditorContextValue = {
+  selectedView: 'preview',
+  setSelectedView: jest.fn(),
+};
+
+// Editor Tabs render props:
+export const editorTabsProps = {
+  isRendering: false,
+  toggleRenderView: jest.fn(),
+  showPreview: true,
+  selectedHost: { id: '', name: '' },
+  fetchAndPreview: jest.fn(),
+  selectedRenderPath: "is used only by the mock function fetchAndPreview",
+  templateKindId: "is used only by the mock function fetchAndPreview",
+  showHostSelector: false,
+};
+
+export const editorTabsWithoutDiff = {
+  ...editorTabsProps,
+  isDiff: false,
+};
+
+export const editorTabsWithDiff = {
+  ...editorTabsProps,
+  isDiff: true,
+};
+
+// classNames for EditorTabs:
+export const PF_CURRENT = 'pf-m-current';
+export const ARIA_SELECTED = 'aria-selected';
+
+// EditorModal fixtures:
+export const EditorModalfixtures = {
+  ...editorOptions,
+  editorValue: '</>',
+  isMaximized: true,
+  changeDiffViewType: noop,
+};
+
+// EditorSettings fixtures:
+export const editorSettingsFixtures = {
+  ...dropdowns,
+  mode: 'Ruby',
+  theme: 'Github',
+  autocompletion: true,
+  liveAutocompletion: false,
+  keyBinding: 'Vim',
+  changeSetting: noop,
+};

@@ -4,7 +4,7 @@ import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
 import { editorOptions, serverRenderResponse } from '../Editor.fixtures';
 import Editor, { reducers } from '../index';
-import * as EditorActions from '../EditorActions'
+import * as EditorActions from '../EditorActions';
 
 jest.mock('../../../redux/API');
 
@@ -21,7 +21,7 @@ describe('Editor integration test', () => {
     );
     integrationTestHelper.takeStoreSnapshot('initial state');
 
-    const previewBtn = component.find('#preview-navitem').at(1);
+    const previewBtn = component.find('button[role="tab"]').at(2);
     previewBtn.simulate('click');
 
     integrationTestHelper.takeStoreAndLastActionSnapshot(
@@ -29,9 +29,9 @@ describe('Editor integration test', () => {
     );
     expect(
       component
-        .find('li[role="presentation"]')
+        .find('button[role="tab"]')
         .at(2)
-        .hasClass('active')
+        .prop('aria-selected')
     ).toBe(true);
 
     IntegrationTestHelper.flushAllPromises();
