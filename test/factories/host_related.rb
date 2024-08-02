@@ -12,6 +12,34 @@ def set_nic_attributes(host, attributes, evaluator)
   host
 end
 
+# @param subnet [Optional[Subnet::Ipv4]]
+# @param n [Integer]
+# @param base [Integer]
+#   The base address if subnet is nil
+def ip_from_subnet(subnet, n = 1, base = 0)
+  addr = if (ipaddr = subnet&.ipaddr)
+           available_ips = 2**(32 - ipaddr.prefix) - 1
+           ipaddr.to_i + (n % available_ips)
+         else
+           base + n
+         end
+  IPAddr.new(addr, Socket::AF_INET).to_s
+end
+
+# @param subnet6 [Optional[Subnet::Ipv6]]
+# @param n [Integer]
+# @param base [Integer]
+#   The base address if subnet is nil
+def ip_from_subnet6(subnet6, n = 1, base = 0)
+  addr = if (ipaddr = subnet6&.ipaddr)
+           available_ips = 2**(128 - ipaddr.prefix)
+           ipaddr.to_i + (n % available_ips)
+         else
+           base + n
+         end
+  IPAddr.new(addr, Socket::AF_INET6).to_s
+end
+
 FactoryBot.define do
   factory :ptable do
     sequence(:name) { |n| "ptable#{n}" }
@@ -80,7 +108,7 @@ FactoryBot.define do
   factory :nic_managed, :class => Nic::Managed, :parent => :nic_interface do
     type { 'Nic::Managed' }
     sequence(:mac) { |n| "00:33:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-    sequence(:ip) { |n| IPAddr.new((subnet.present? ? subnet.ipaddr.to_i : 0) + n, Socket::AF_INET).to_s }
+    sequence(:ip) { |n| ip_from_subnet(subnet, n) }
 
     trait :without_ipv4 do
       ip { nil }
@@ -94,7 +122,7 @@ FactoryBot.define do
   factory :nic_bmc, :class => Nic::BMC, :parent => :nic_managed do
     type { 'Nic::BMC' }
     sequence(:mac) { |n| "00:43:56:cd:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-    sequence(:ip) { |n| IPAddr.new((subnet.present? ? subnet.ipaddr.to_i : 256 * 256 * 256) + n, Socket::AF_INET).to_s }
+    sequence(:ip) { |n| ip_from_subnet(subnet, n, 256 * 256 * 256) }
     provider { 'IPMI' }
     username { 'admin' }
     password { 'admin' }
@@ -113,7 +141,7 @@ FactoryBot.define do
     primary { true }
     provision { true }
     sequence(:mac) { |n| "00:53:67:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
-    sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
+    sequence(:ip) { |n| ip_from_subnet(subnet, n) }
   end
 
   factory :model do
@@ -216,7 +244,7 @@ FactoryBot.define do
         overrides[:locations] = [host.location] unless host.location.nil?
         overrides[:organizations] = [host.organization] unless host.organization.nil?
         host.subnet = FactoryBot.build(:subnet_ipv4, overrides)
-        host.ip = IPAddr.new(IPAddr.new(host.subnet.network).to_i + 1, Socket::AF_INET).to_s
+        host.ip = ip_from_subnet(host.subnet)
       end
     end
 
@@ -276,7 +304,7 @@ FactoryBot.define do
           :primary => true,
           :provision => true,
           :domain => FactoryBot.build(:domain),
-          :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+          :ip6 => ip_from_subnet6(subnet6))]
       end
     end
 
@@ -295,8 +323,8 @@ FactoryBot.define do
           :primary => true,
           :provision => true,
           :domain => FactoryBot.build(:domain),
-          :ip => subnet.network.sub(/0\Z/, '1'),
-          :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+          :ip => ip_from_subnet(subnet),
+          :ip6 => ip_from_subnet6(subnet6))]
       end
     end
 
@@ -433,7 +461,7 @@ FactoryBot.define do
           :primary => true,
           :provision => true,
           :domain => FactoryBot.build(:domain),
-          :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+          :ip6 => ip_from_subnet6(subnet6))]
       end
     end
 
@@ -445,8 +473,8 @@ FactoryBot.define do
           :primary => true,
           :provision => true,
           :domain => FactoryBot.build(:domain),
-          :ip => subnet.network.sub(/0\Z/, '1'),
-          :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+          :ip => ip_from_subnet(subnet),
+          :ip6 => ip_from_subnet6(subnet6))]
       end
     end
 
@@ -525,7 +553,7 @@ FactoryBot.define do
                                          :provision => true,
                                          :domain => FactoryBot.build(:domain),
                                          :subnet => subnet,
-                                         :ip => subnet.network.sub(/0\Z/, '2'))]
+                                         :ip => ip_from_subnet(subnet, 2))]
       end
     end
 
@@ -537,7 +565,7 @@ FactoryBot.define do
                                          :provision => true,
                                          :domain => FactoryBot.build(:domain),
                                          :subnet6 => subnet6,
-                                         :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+                                         :ip6 => ip_from_subnet6(subnet6))]
       end
     end
 
@@ -551,8 +579,8 @@ FactoryBot.define do
                                          :domain => FactoryBot.build(:domain),
                                          :subnet => subnet,
                                          :subnet6 => subnet6,
-                                         :ip => subnet.network.sub(/0\Z/, '2'),
-                                         :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+                                         :ip => ip_from_subnet(subnet, 2),
+                                         :ip6 => ip_from_subnet6(subnet6))]
       end
     end
 
