@@ -206,8 +206,12 @@ class FactParser
   end
 
   # meant to be implemented in inheriting classes
-  # should return array of interfaces names, e.g.
-  #   ['eth0', 'eth0.0', 'eth1']
+  #
+  # @return Array[String]
+  #   A list of interface names
+  #
+  # @example
+  #   get_interfaces # => ['eth0', 'eth0.0', 'eth1']
   def get_interfaces
     raise NotImplementedError, "parsing interfaces is not supported in #{self.class}"
   end
@@ -217,6 +221,15 @@ class FactParser
     @ignored_interfaces ||= Setting.convert_array_to_regexp(Setting[:ignored_interface_identifiers])
   end
 
+  # @param interfaces Array[String]
+  # @result Array[String]
+  #   A filtered list of interfaces
+  #
+  # @example Ignoring bridges
+  #   ignored_interfaces #=> /^br/
+  #   remove_ignored(['eth0', 'eth1', 'br0']) #=> ['eth0', 'eth1']
+  #
+  # @see #ignored_interfaces
   def remove_ignored(interfaces)
     interfaces.clone.delete_if do |identifier|
       if (remove = identifier.match(ignored_interfaces))
