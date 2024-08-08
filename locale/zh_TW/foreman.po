@@ -11836,7 +11836,8 @@ msgstr "將外部使用者群組連上這個使用者群組"
 msgid "list"
 msgstr "清單"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "locale_name"
 

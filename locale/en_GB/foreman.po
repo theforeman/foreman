@@ -11828,7 +11828,8 @@ msgstr ""
 msgid "list"
 msgstr ""
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "English (United Kingdom)"
 

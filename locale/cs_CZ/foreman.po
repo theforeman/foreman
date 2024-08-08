@@ -11844,7 +11844,8 @@ msgstr "propojit tuto a externí skupinu uživatelů"
 msgid "list"
 msgstr "seznam"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Česky"
 
