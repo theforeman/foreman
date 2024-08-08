@@ -1,0 +1,117 @@
+<%#
+name: Proxmox UserData
+snippet: false
+model: ProvisioningTemplate
+kind: user_data
+oses:
+- AlmaLinux
+- Amazon
+- CentOS
+- CentOS_Stream
+- Debian
+- Rocky
+- Ubuntu
+description: |
+  This template is used during image based provisioning with Proxmox Compute Resource, when
+  the image is configured to use user-data and network config. The output is a list of 
+  cloud-init directives that cloud-init parses to configures the VM booted from the image.
+  The image must have cloud-init installed in order for this to work.
+
+  This template accepts the following parameters:
+  - ssh_pwauth: boolean (default=true unless ssh_authorized_keys)
+  - ssh_authorized_keys: string w newline seperated keys (default="")
+  - package_upgrade: boolean (default=false)
+  - reboot: boolean (default=false)
+  - skip-puppet-setup: boolean (default=false)
+-%>
+<%
+  ssh_pwauth = host_param('ssh_pwauth') ? host_param_true?('ssh_pwauth') : !host_param('ssh_authorized_keys')
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  # safemode renderer does not support unary negation
+  puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
+  salt_enabled = host_param('salt_master') ? true : false
+  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
+-%>
+<%
+username_to_create = host_param('username_to_create', 'root')
+password_to_create = host_param('password_to_create') || @host.root_pass
+-%>
+#cloud-config
+hostname: <%= @host.shortname %>
+fqdn: <%= @host %>
+manage_etc_hosts: true
+<% if ssh_pwauth -%>
+<%# Don't enable this in production. It is very insecure! Use ssh_authorized_keys instead...
+    http://cloudinit.readthedocs.io/en/latest/topics/examples.html#including-users-and-groups -%>
+ssh_pwauth: true
+users:
+  - name: <%= username_to_create %>
+    shell: /bin/bash
+    sudo: ALL=(ALL) ALL
+    lock_passwd: false
+    hashed_passwd: <%= password_to_create %>
+<% end -%>
+<% if host_param('ssh_authorized_keys') -%>
+ssh_authorized_keys:
+<% host_param('ssh_authorized_keys').split("\n").each do |ssh_key| -%>
+- <%= ssh_key %>
+<% end -%>
+<% end -%>
+
+<% if host_param_true?('package_upgrade') -%>
+package_upgrade: true
+<% end -%>
+
+runcmd:
+<% if rhel_compatible -%>
+- |
+<%= indent(2) { snippet('epel') } %>
+<% end -%>
+- |
+<%= indent(2) { snippet('remote_execution_ssh_keys') } %>
+<% if chef_enabled -%>
+- |
+<%= indent(2) { snippet('chef_client') } %>
+<% end -%>
+<% if puppet_enabled -%>
+- |
+<%= indent(2) { snippet('puppetlabs_repo') } %>
+- |
+<%= indent(2) { snippet('puppet_setup') } %>
+<% end -%>
+<% if salt_enabled -%>
+- |
+<%= indent(2) { snippet('saltstack_setup') } %>
+<% end -%>
+
+<%# Contact Foreman to confirm instance is built -%>
+phone_home:
+  url: <%= foreman_url('built') %>
+  post: []
+  tries: 10
+
+<% if host_param_true?('reboot') -%>
+power_state:
+  mode: reboot
+  timeout: 30
+  condition: true
+<% end -%>
+
+#network-config
+version: 2
+ethernets:
+  eth0:
+    match:
+      name: e*
+    dhcp4: false
+    dhcp6: false
+    addresses:
+      - <%= @host.ip %>/<%= @host.subnet.cidr %>
+    routes:
+      - to: 0.0.0.0
+        via: <%= @host.subnet.gateway %>
+    nameservers:
+      addresses:
+        - <%= @host.subnet.dns_primary%>
+      search: 
+        - <%= @host.domain.name %>
