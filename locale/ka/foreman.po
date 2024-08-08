@@ -11852,7 +11852,8 @@ msgstr "გარე მომხმარებლების ჯგუფი�
 msgid "list"
 msgstr "სია"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "ენის_სახელი"
 

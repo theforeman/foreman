@@ -11847,7 +11847,8 @@ msgstr "collega il gruppo di utenti esterno a questo gruppo"
 msgid "list"
 msgstr "elenco"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "locale_name"
 

@@ -11918,7 +11918,8 @@ msgstr "externe Benutzergruppe mit dieser Benutzergruppe verknüpfen"
 msgid "list"
 msgstr "Liste"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Deutsch"
 
