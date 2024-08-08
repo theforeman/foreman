@@ -12,6 +12,7 @@ description: |
 - |
   cat > /target/tmp/disk_enc_clevis_tang.sh <<"WRAPPER"
   #!/bin/sh
+<%= indent(2) { snippet 'pkg_manager' } %>
 <%= indent(2) { snippet 'disk_enc_clevis_tang' } %>
   WRAPPER
 - curtin in-target -- bash /tmp/disk_enc_clevis_tang.sh
