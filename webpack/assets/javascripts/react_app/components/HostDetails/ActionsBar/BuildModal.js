@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Modal,
   ModalVariant,
   Button,
   Alert,
-  TreeView,
   Stack,
   StackItem,
 } from '@patternfly/react-core';
@@ -21,9 +20,9 @@ import { selectBuildErrorsTree, selectNoErrorState } from './Selectors';
 import { buildHost } from './actions';
 import StatusIcon from '../Status/StatusIcon';
 import { ERROR_STATUS_STATE, OK_STATUS_STATE } from '../Status/Constants';
+import { ErrorsTree } from './ErrorsTree/ErrorsTree';
 
 const BuildModal = ({ isModalOpen, onClose, hostFriendlyId, hostName }) => {
-  const [activeErrors, setActiveErrors] = useState();
   const errorsTree = useSelector(selectBuildErrorsTree);
   const noErrors = useSelector(selectNoErrorState);
   const dispach = useDispatch();
@@ -32,9 +31,6 @@ const BuildModal = ({ isModalOpen, onClose, hostFriendlyId, hostName }) => {
     foremanUrl(`/hosts/${hostFriendlyId}/review_before_build`),
     API_OPTIONS
   );
-  const onSelectError = (evt, treeViewItem) => {
-    setActiveErrors([treeViewItem]);
-  };
 
   return (
     <Modal
@@ -107,12 +103,7 @@ const BuildModal = ({ isModalOpen, onClose, hostFriendlyId, hostName }) => {
                   statusNumber={ERROR_STATUS_STATE}
                 />
 
-                <TreeView
-                  data={errorsTree}
-                  activeItems={activeErrors}
-                  onSelect={onSelectError}
-                  hasBadges
-                />
+                <ErrorsTree data={errorsTree} />
               </>
             )}
           </SkeletonLoader>
