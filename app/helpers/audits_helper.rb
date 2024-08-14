@@ -91,7 +91,7 @@ module AuditsHelper
       when AUDIT_ADD
         [_("Added %{from} to %{to}") % {:from => from, :to => to}]
       when AUDIT_REMOVE
-        [_("Removed %{from} to %{to}") % {:from => from, :to => to}]
+        [_("Removed %{from} from %{to}") % {:from => from, :to => to}]
       end
     else
       []
