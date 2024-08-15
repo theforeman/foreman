@@ -43,6 +43,8 @@ module AuditsHelper
   def audit_title(audit)
     type_name = audited_type audit
     case type_name
+      when 'Host Ansible Role'
+        audit.associated_name + " / " + id_to_label("ansible_role_id", audit.audited_changes["ansible_role_id"], audit: audit)
       when 'Puppet Class'
         (id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0], audit: audit).to_s
       else
