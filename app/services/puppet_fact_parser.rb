@@ -6,8 +6,8 @@ class PuppetFactParser < FactParser
 
     if orel.present?
       if os_name =~ /ubuntu/i
-        major = os_major_version
-        minor = os_minor_version
+        major = os_major_version.to_s
+        minor = os_minor_version.to_s
       else
         major, minor = orel.split('.', 2)
         major = major.to_s.gsub(/\D/, '')
