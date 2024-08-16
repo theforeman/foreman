@@ -13,10 +13,15 @@ module Foreman::Controller::RegistrationCommands
   end
 
   def registration_args
-    registration_params.except(*ignored_query_args)
-                       .transform_values! { |v| v == false ? v.to_s : v }
-                       .delete_if { |_, v| v.blank? }
-                       .permit!
+    params = registration_params
+    if jwt_expiration_param > 0
+      expires = Time.now.utc + jwt_expiration_param.hours
+      params = params.merge(expires_at_utc: expires.to_i)
+    end
+    params.except(*ignored_query_args)
+          .transform_values! { |v| v == false ? v.to_s : v }
+          .delete_if { |_, v| v.blank? }
+          .permit!
   end
 
   def insecure
