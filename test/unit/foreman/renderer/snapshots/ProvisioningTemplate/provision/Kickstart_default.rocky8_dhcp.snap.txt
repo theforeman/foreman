@@ -247,20 +247,19 @@ echo "Performing initial puppet run for --tags no_such_tag"
 
 
 
-cat << EOF-2929810d > /etc/systemd/system/ansible-callback.service
-[Unit]
-Description=Provisioning callback to Ansible Tower
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/curl -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
-ExecStartPost=/usr/bin/systemctl disable ansible-callback
-
-[Install]
-WantedBy=multi-user.target
-EOF-2929810d
+cat /dev/null > /etc/systemd/system/ansible-callback.service
+echo "[Unit]" >> /etc/systemd/system/ansible-callback.service
+echo "Description=Provisioning callback to Ansible Tower" >> /etc/systemd/system/ansible-callback.service
+echo "Wants=network-online.target" >> /etc/systemd/system/ansible-callback.service
+echo "After=network-online.target" >> /etc/systemd/system/ansible-callback.service
+echo "" >> /etc/systemd/system/ansible-callback.service
+echo "[Service]" >> /etc/systemd/system/ansible-callback.service
+echo "Type=oneshot" >> /etc/systemd/system/ansible-callback.service
+echo "ExecStart=/usr/bin/curl -k -s --data \"host_config_key=\" https:///api/v2/job_templates//callback/" >> /etc/systemd/system/ansible-callback.service
+echo "ExecStartPost=/usr/bin/systemctl disable ansible-callback" >> /etc/systemd/system/ansible-callback.service
+echo "" >> /etc/systemd/system/ansible-callback.service
+echo "[Install]" >> /etc/systemd/system/ansible-callback.service
+echo "WantedBy=multi-user.target" >> /etc/systemd/system/ansible-callback.service
 # Runs during first boot, removes itself
 systemctl enable ansible-callback
 
