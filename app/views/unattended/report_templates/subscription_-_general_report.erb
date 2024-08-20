@@ -19,7 +19,7 @@ template_inputs:
 model: ReportTemplate
 require:
 - plugin: katello
-  version: 4.12.0
+  version: 4.14.0
 -%>
 <%- days_from_now = input('Days from Now') -%>
 <%- days_from_now = "" if days_from_now == 'no limit' -%>
@@ -37,7 +37,8 @@ require:
           'Start date': pool.start_date,
           'End date': pool.end_date,
           'Days Remaining': pool.days_until_expiration,
-          'Organization': pool.organization.name
+          'Organization': pool.organization.name,
+          'Product Host Count': pool.product_host_count
         ) -%>
 <%- end -%>
 <%= report_render -%>
