@@ -140,7 +140,9 @@ register_katello_host(){
 <%= "      --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
 <%= "      --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
 <%= "      --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
+<%= "      --data 'host[operatingsystem_id]=#{@operatingsystem.id}' \\\n" if @operatingsystem -%>
 <%= "      --data 'host[lifecycle_environment_id]=#{@lifecycle_environment_id}' \\\n" if @lifecycle_environment_id.present? -%>
+<%= "      --data host[interfaces_attributes][0][identifier]=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
 <%= "      --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
 <%= "      --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
 <%= "      --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
