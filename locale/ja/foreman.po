@@ -83,6 +83,11 @@ msgstr "%s フィルター"
 msgid "%s has been disassociated from VM"
 msgstr "%s の VM との関連付けが解除されました"
 
+msgid "%s host set to build and rebooting."
+msgid_plural "%s hosts set to build and rebooting."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%s hosts deleted"
 msgstr ""
 
@@ -1309,6 +1314,14 @@ msgstr "OS イメージからのビルド"
 msgid "Build in progress"
 msgstr "ビルド中"
 
+msgid "Build management"
+msgstr ""
+
+msgid "Built %s host"
+msgid_plural "Built %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Built-in variables"
 msgstr "組み込み変数"
 
@@ -1338,9 +1351,6 @@ msgstr "CPU ホット追加"
 
 msgid "CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."
 msgstr "CPU ホット追加により、マシンの電源をオンにしたまま仮想マシンの CPU リソースを追加できます。"
-
-msgid "CPU mode"
-msgstr "CPU モード"
 
 msgid "CPUs"
 msgstr "CPU"
@@ -1462,6 +1472,12 @@ msgstr "電源状態の変更"
 msgid "Change Puppet CA"
 msgstr "Puppet CA の変更"
 
+msgid "Change host group"
+msgstr ""
+
+msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
+msgstr ""
+
 msgid "Change the password"
 msgstr "パスワードの変更"
 
@@ -1488,6 +1504,9 @@ msgstr "プロバイダーの選択"
 
 msgid "Choose a server type"
 msgstr "サーバータイプの選択"
+
+msgid "Choose an action that will be performed on {hosts}."
+msgstr ""
 
 msgid "Chosen options"
 msgstr ""
@@ -1545,6 +1564,9 @@ msgstr "テンプレートのクローン"
 
 msgid "Clone this host"
 msgstr "このホストのクローン"
+
+msgid "Cloned from"
+msgstr ""
 
 msgid "Close"
 msgstr "閉じる"
@@ -1969,9 +1991,6 @@ msgstr "レポートテンプレートの作成"
 msgid "Create Role"
 msgstr "ロールの作成"
 
-msgid "Create SCSI controller"
-msgstr "SCSI コントローラーの作成"
-
 msgid "Create Smart Proxy"
 msgstr "Smart Proxy の作成"
 
@@ -2107,6 +2126,9 @@ msgstr "オペレーティングシステムの作成"
 msgid "Create autosign entry"
 msgstr "自動署名エントリーの作成"
 
+msgid "Create controller"
+msgstr ""
+
 msgid "Create image"
 msgstr "イメージの作成"
 
@@ -2169,6 +2191,9 @@ msgstr "カスタムインスタンスタイプ"
 
 msgid "DB pending seed"
 msgstr "シードを保留中の DB"
+
+msgid "DEPRECATED, use the `repo_data` param instead."
+msgstr ""
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -3169,6 +3194,9 @@ msgid "Failed features: %s"
 msgid_plural "Failed features: %s"
 msgstr[0] "失敗した機能: %s 個"
 
+msgid "Failed hosts"
+msgstr "失敗したホスト"
+
 msgid "Failed login attempts limit"
 msgstr "ログイン試行回数の制限"
 
@@ -3180,6 +3208,16 @@ msgstr "%{host} の %{action} に失敗: %{e}"
 
 msgid "Failed to acquire IP addresses from compute resource for %s"
 msgstr "%s のコンピュートリソースからの IP アドレスの取得に失敗しました"
+
+msgid "Failed to build %s host"
+msgid_plural "Failed to build %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Failed to build and reboot %s host"
+msgid_plural "Failed to build and reboot %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
 msgstr "エラー %{errors} により、%{hostname} の保留中のビルドの取り消しに失敗しました"
@@ -3254,8 +3292,10 @@ msgstr "コンピュート %{compute_resource} のインスタンス %{name} の
 msgid "Failed to reboot %s."
 msgstr "%s の再起動に失敗しました。"
 
-msgid "Failed to redeploy %s."
-msgstr "%s の再デプロイに失敗しました。"
+msgid "Failed to rebuild configuration for %s host"
+msgid_plural "Failed to rebuild configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to refresh the cache."
 msgstr "キャッシュの更新に失敗しました。"
@@ -3910,7 +3950,7 @@ msgstr "ステータスタイプのハッシュ合計"
 msgid "Help"
 msgstr "ヘルプ"
 
-msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgid "Hex value for color for the instance title banner. It will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)"
 msgstr ""
 
 msgid "Hidden Value"
@@ -4486,6 +4526,9 @@ msgstr "ホストを登録する組織の ID"
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "Smart Proxy の ID。このプロキシーは、「Templates」と「Registration」機能の両方を有効にしている必要があります。"
 
+msgid "ID of the hostgroup to reassign the hosts to"
+msgstr ""
+
 msgid "ID of the organization"
 msgstr ""
 
@@ -4604,9 +4647,6 @@ msgstr "IPv6 アドレス。DHCP プロキシーでサブネットを使用す�
 
 msgid "IPv6 subnet"
 msgstr "IPv6 サブネット"
-
-msgid "IRC"
-msgstr "IRC"
 
 msgid "Identifier"
 msgstr "ID"
@@ -5915,6 +5955,9 @@ msgstr "Matcher は、属性とその値の組み合わせです。一致した�
 
 msgid "Matchers inheritance"
 msgstr "Matcher の継承"
+
+msgid "Matrix"
+msgstr ""
 
 msgid "Maximize"
 msgstr "最大化"
@@ -7710,8 +7753,19 @@ msgstr "名前"
 msgid "Realm|Realm type"
 msgstr "レルムタイプ"
 
+msgid "Reassign hostgroups"
+msgstr ""
+
+msgid "Reassigned %{count} host to hostgroup %{hostgroup}"
+msgid_plural "Reassigned %{count} hosts to hostgroup %{hostgroup}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Reboot"
 msgstr "再起動"
+
+msgid "Reboot after build. Ignored if rebuild_configuration is passed."
+msgstr ""
 
 msgid "Reboot and build"
 msgstr "再起動およびビルド"
@@ -7722,11 +7776,22 @@ msgstr "今すぐ再起動"
 msgid "Rebuild Config"
 msgstr "設定の再ビルド"
 
+msgid "Rebuild configuration only"
+msgstr ""
+
 msgid "Rebuild orchestration config"
 msgstr "オーケストレーション設定の再ビルド"
 
 msgid "Rebuild orchestration configuration"
 msgstr "オーケストレーション設定の再ビルド"
+
+msgid "Rebuild provisioning configuration only"
+msgstr ""
+
+msgid "Rebuilt configuration for %s host"
+msgid_plural "Rebuilt configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'."
 msgstr "使用されているコンピュートリソース '%{compute_resource}' からホスト '%{host}' の仮想マシンデータを受信できませんでした: '%{exception}'"
@@ -7834,6 +7899,11 @@ msgstr "ウィジェットの削除"
 
 msgid "Removed %{from} to %{to}"
 msgstr "%{to} に %{from} を削除しました"
+
+msgid "Removed assignment of host group from %s host"
+msgid_plural "Removed assignment of host group from %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Removing IPv4 in External IPAM for %s"
 msgstr "%s の外部 IPAM で IPv4 を削除しています"
@@ -7960,10 +8030,10 @@ msgstr "リポジトリー"
 msgid "Repository GPG key URL"
 msgstr "リポジトリー GPG キーの URL"
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
-msgstr "リポジトリーURL / 詳細 (例: Debian OS ファミリーの場合は 'deb http://deb.example.com/ buster 1.0'、Red Hat OS ファミリーの場合は 'http://yum.theforeman.org/client/latest/el8/x86_64/')"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr ""
 
 msgid "Repository list"
@@ -9474,6 +9544,9 @@ msgstr "テンプレート"
 msgid "Templates DSL"
 msgstr "テンプレート DSL"
 
+msgid "Templates accessible publicly"
+msgstr ""
+
 msgid "Templates are generated using the Embedded Ruby (ERB) language."
 msgstr "テンプレートは、Embedded Ruby (ERB) 言語を使用して生成されます。"
 
@@ -9482,6 +9555,9 @@ msgstr "テンプレートは、<code>@</code> で表記する組み込みイン
 
 msgid "Templates for partition tables"
 msgstr "パーティションテーブルのテンプレート"
+
+msgid "Templates from this category can be accessed publicly using the /unattended endpoint."
+msgstr ""
 
 msgid "Templates resolved for this operating system"
 msgstr "このオペレーティングシステムのテンプレートが解決されました"
@@ -11274,8 +11350,8 @@ msgstr "サポートされていないブラウザーを使用しています"
 msgid "You can add SSH public keys to a user in Foreman."
 msgstr "SSH 公開鍵を Foreman のユーザーに追加できます。"
 
-msgid "You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
-msgstr "%{liberachat} (irc.libera.chat) ネットワークで Foreman を検索できます。一般的なサポートについては #theforeman に、開発関連のチャットについては #theforeman-dev にアクセスしてください。"
+msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
+msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
 msgstr ""
@@ -12107,6 +12183,12 @@ msgstr "秒"
 
 msgid "select an owner"
 msgstr "所有者の選択"
+
+msgid "selected host"
+msgstr ""
+
+msgid "selected hosts"
+msgstr ""
 
 msgid "service configuration will be skipped."
 msgstr "サービス設定が省略されます。"

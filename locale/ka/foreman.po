@@ -80,6 +80,11 @@ msgstr "%s ფილტრი"
 msgid "%s has been disassociated from VM"
 msgstr "%s-ის ასოციაცია ვმ-დან მოხსნილია"
 
+msgid "%s host set to build and rebooting."
+msgid_plural "%s hosts set to build and rebooting."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%s hosts deleted"
 msgstr "%s ჰოსტი წაიშალა"
 
@@ -1321,6 +1326,14 @@ msgstr "ოს-ის ასლიდან აგება"
 msgid "Build in progress"
 msgstr "მიმდინარეობს აგება"
 
+msgid "Build management"
+msgstr ""
+
+msgid "Built %s host"
+msgid_plural "Built %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Built-in variables"
 msgstr "ჩაშენებული ცვლადები"
 
@@ -1350,9 +1363,6 @@ msgstr "CPU-ის ცხლად დამატება"
 
 msgid "CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."
 msgstr ""
-
-msgid "CPU mode"
-msgstr "CPU-ის რეჟიმი"
 
 msgid "CPUs"
 msgstr "CPU"
@@ -1474,6 +1484,12 @@ msgstr "კვების მდგომარეობის შეცვლ�
 msgid "Change Puppet CA"
 msgstr "Puppet CA-ის შეცვლა"
 
+msgid "Change host group"
+msgstr ""
+
+msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
+msgstr ""
+
 msgid "Change the password"
 msgstr "პაროლის შეცვლა"
 
@@ -1500,6 +1516,9 @@ msgstr "აირჩიეთ მომწოდებელი"
 
 msgid "Choose a server type"
 msgstr "აირჩიეთ სერვერის ტიპი"
+
+msgid "Choose an action that will be performed on {hosts}."
+msgstr ""
 
 msgid "Chosen options"
 msgstr "არჩეული პარამეტრები"
@@ -1557,6 +1576,9 @@ msgstr "შაბლონის კლონირება"
 
 msgid "Clone this host"
 msgstr "ჰოსტის კლონირება"
+
+msgid "Cloned from"
+msgstr ""
 
 msgid "Close"
 msgstr "დახურვა"
@@ -1981,9 +2003,6 @@ msgstr "ანგარიშის შაბლონის შექმნა"
 msgid "Create Role"
 msgstr "როლის შექმნა"
 
-msgid "Create SCSI controller"
-msgstr "SCSI კონტროლერის შექმნა"
-
 msgid "Create Smart Proxy"
 msgstr "ჭკვიანი პროქსის შექმნა"
 
@@ -2119,6 +2138,9 @@ msgstr "ოპერაციული სისტემის შექმნ�
 msgid "Create autosign entry"
 msgstr "თვითხელმოწერადი ჩანაწერის შექმნა"
 
+msgid "Create controller"
+msgstr ""
+
 msgid "Create image"
 msgstr "ასლის შექმნა"
 
@@ -2181,6 +2203,9 @@ msgstr "გაშვებული ასლის ტიპის ხელი
 
 msgid "DB pending seed"
 msgstr "DB მარცვალს ელოდება"
+
+msgid "DEPRECATED, use the `repo_data` param instead."
+msgstr ""
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -3183,6 +3208,9 @@ msgid_plural "Failed features: %s"
 msgstr[0] "ავარიული თვისება: %s"
 msgstr[1] "ავარიული თვისება: %s"
 
+msgid "Failed hosts"
+msgstr "ავარიული ჰოსტები"
+
 msgid "Failed login attempts limit"
 msgstr "შესვლის მცდელობის რაოდენობის ზღვარი"
 
@@ -3194,6 +3222,16 @@ msgstr "%{action}-ის შეცდომა %{host}: %{e}"
 
 msgid "Failed to acquire IP addresses from compute resource for %s"
 msgstr "%s-სთვის გამოთვლითი რესურსიდან IP მისამართის მიღების შეცდომა"
+
+msgid "Failed to build %s host"
+msgid_plural "Failed to build %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Failed to build and reboot %s host"
+msgid_plural "Failed to build and reboot %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
 msgstr "მომლოდინე აგების გაუქმების შეცდომა %{hostname}-ისთვის შემდეგი შეტყობინებებით: %{errors}"
@@ -3268,8 +3306,10 @@ msgstr "გამოთვლითი რესურსის %{compute_resour
 msgid "Failed to reboot %s."
 msgstr "%s-ის გადატვირთვის შეცდომა."
 
-msgid "Failed to redeploy %s."
-msgstr "%s-ის თავიდან გაშლის შეცდომა."
+msgid "Failed to rebuild configuration for %s host"
+msgid_plural "Failed to rebuild configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to refresh the cache."
 msgstr "ქეშის განახლების შეცდომა."
@@ -3921,7 +3961,7 @@ msgstr "ტიპის ჯამების ჰეშის სტატუს
 msgid "Help"
 msgstr "დახმარება"
 
-msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgid "Hex value for color for the instance title banner. It will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)"
 msgstr ""
 
 msgid "Hidden Value"
@@ -4494,6 +4534,9 @@ msgstr "ორგანიზაციის ID, რომელშიც ჰო
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "ჭკვიანი პროქსის ID. პროქზე ჩართული უნდა იყოს ორივე თვისება, \"შაბლონები\" და \"რეგისტრაცია\""
 
+msgid "ID of the hostgroup to reassign the hosts to"
+msgstr ""
+
 msgid "ID of the organization"
 msgstr "ორგანიზაციის ID"
 
@@ -4614,9 +4657,6 @@ msgstr "IPv6 მისამართი. საჭირო არაა, თ�
 
 msgid "IPv6 subnet"
 msgstr "IPv6 ქვექსელი"
-
-msgid "IRC"
-msgstr "IRC"
 
 msgid "Identifier"
 msgstr "იდენტიფიკატორი"
@@ -5919,6 +5959,9 @@ msgstr ""
 
 msgid "Matchers inheritance"
 msgstr "შესატყვისების მემკვიდრეობითობა"
+
+msgid "Matrix"
+msgstr ""
 
 msgid "Maximize"
 msgstr "გადიდება"
@@ -7709,8 +7752,19 @@ msgstr "სახელი"
 msgid "Realm|Realm type"
 msgstr "რეალმის ტიპი"
 
+msgid "Reassign hostgroups"
+msgstr ""
+
+msgid "Reassigned %{count} host to hostgroup %{hostgroup}"
+msgid_plural "Reassigned %{count} hosts to hostgroup %{hostgroup}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Reboot"
 msgstr "გადატვირთვა"
+
+msgid "Reboot after build. Ignored if rebuild_configuration is passed."
+msgstr ""
 
 msgid "Reboot and build"
 msgstr "გადატვირთვა და აგება"
@@ -7721,11 +7775,22 @@ msgstr "ახლა გადატვირთვა"
 msgid "Rebuild Config"
 msgstr "კონფიგურაციის თავიდან აგება"
 
+msgid "Rebuild configuration only"
+msgstr ""
+
 msgid "Rebuild orchestration config"
 msgstr "ორქესტრატორის კონფიგურაციის თავიდან აგება"
 
 msgid "Rebuild orchestration configuration"
 msgstr "ორქესტრაციის კონფიგურაციის თავიდან აგება"
+
+msgid "Rebuild provisioning configuration only"
+msgstr ""
+
+msgid "Rebuilt configuration for %s host"
+msgid_plural "Rebuilt configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'."
 msgstr "VM მონაცემების მიღება ჰოსტისთვის „%{host}“ გამოყენებული გამოთვლითი რესურსიდან „%{compute_resource}“ ვერ მოხერხდა: „%{exception}“."
@@ -7835,6 +7900,11 @@ msgstr "ვიჯეტის წაშლა"
 
 msgid "Removed %{from} to %{to}"
 msgstr "წაიშალა %{from}-დან %{to}-მდე"
+
+msgid "Removed assignment of host group from %s host"
+msgid_plural "Removed assignment of host group from %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Removing IPv4 in External IPAM for %s"
 msgstr "გარე IPAM-ში IPv4-ის %s-ისთვის წაშლა"
@@ -7961,11 +8031,11 @@ msgstr "საცავი"
 msgid "Repository GPG key URL"
 msgstr "რეპოზიტორიის GPG გასაღების URL"
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
-msgstr "რეპოზიტორიის URL / დეტალები, მაგალითად, Debian OS ოჯახისთვის: 'deb http://deb.example.com/ buster 1.0', Red Hat OS ოჯახისთვის: 'http://yum.theforeman.org/client/latest/el8 /x86_64/'"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
-msgstr "რეპოზიტორიის URL / დეტალები, მაგალითად, Debian OS ოჯახისთვის: 'deb http://deb.example.com/ buster 1.0', Red Hat და SUSE OS ოჯახისთვის: 'http://yum.theforeman.org/client/latest/el8 /x86_64/'"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
 
 msgid "Repository list"
 msgstr ""
@@ -9480,6 +9550,9 @@ msgstr "ნიმუშები"
 msgid "Templates DSL"
 msgstr "შაბლონების DSL"
 
+msgid "Templates accessible publicly"
+msgstr ""
+
 msgid "Templates are generated using the Embedded Ruby (ERB) language."
 msgstr "შაბლონები ჩადგმული Ruby-ის ენით (ERB) საშუალებით გენერირდება."
 
@@ -9488,6 +9561,9 @@ msgstr ""
 
 msgid "Templates for partition tables"
 msgstr "დანაყოფის ცხრილის შაბლონები"
+
+msgid "Templates from this category can be accessed publicly using the /unattended endpoint."
+msgstr ""
 
 msgid "Templates resolved for this operating system"
 msgstr "ოპერაციული სისტემისთვის ამოხსნილი შაბლონები"
@@ -11271,7 +11347,7 @@ msgstr "მხარდაუჭერელ ბრაუზერს იყე�
 msgid "You can add SSH public keys to a user in Foreman."
 msgstr "Foreman-ით შეგიძლიათ მომხმარებელს SSH გასაღებები დაუმატოთ."
 
-msgid "You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
+msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
 msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
@@ -12105,6 +12181,12 @@ msgstr "წამი"
 
 msgid "select an owner"
 msgstr "აირჩიეთ მფლობელი"
+
+msgid "selected host"
+msgstr ""
+
+msgid "selected hosts"
+msgstr ""
 
 msgid "service configuration will be skipped."
 msgstr "სერვისის კონფიგურაცია გამოტოვებული იქნება."

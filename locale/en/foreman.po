@@ -7883,7 +7883,7 @@ msgstr ""
 msgid "Remove widget"
 msgstr ""
 
-msgid "Removed %{from} to %{to}"
+msgid "Removed %{from} from %{to}"
 msgstr ""
 
 msgid "Removed assignment of host group from %s host"

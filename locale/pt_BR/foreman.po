@@ -110,6 +110,11 @@ msgstr "%s filtros"
 msgid "%s has been disassociated from VM"
 msgstr "%s foi desassociada da VM"
 
+msgid "%s host set to build and rebooting."
+msgid_plural "%s hosts set to build and rebooting."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%s hosts deleted"
 msgstr ""
 
@@ -1370,6 +1375,14 @@ msgstr "Construir a partir de uma imagem de SO"
 msgid "Build in progress"
 msgstr "Construção em andamento"
 
+msgid "Build management"
+msgstr ""
+
+msgid "Built %s host"
+msgid_plural "Built %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Built-in variables"
 msgstr ""
 
@@ -1399,9 +1412,6 @@ msgstr "Inclusão de CPU a quente"
 
 msgid "CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."
 msgstr "A inclusão de CPU a quente permite que recursos da CPU sejam adicionados a uma máquina virtual ao mesmo tempo que a máquina está ligada. "
-
-msgid "CPU mode"
-msgstr "Modo CPU"
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -1523,6 +1533,12 @@ msgstr "Alterar Estado de Energia "
 msgid "Change Puppet CA"
 msgstr "Alterar Puppet CA"
 
+msgid "Change host group"
+msgstr ""
+
+msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
+msgstr ""
+
 msgid "Change the password"
 msgstr "Trocar a senha"
 
@@ -1549,6 +1565,9 @@ msgstr "Escolher provedor"
 
 msgid "Choose a server type"
 msgstr "Escolha um tipo de servidor"
+
+msgid "Choose an action that will be performed on {hosts}."
+msgstr ""
 
 msgid "Chosen options"
 msgstr ""
@@ -1606,6 +1625,9 @@ msgstr "Clonar um template"
 
 msgid "Clone this host"
 msgstr "Clonar esse host"
+
+msgid "Cloned from"
+msgstr ""
 
 msgid "Close"
 msgstr "Fechar"
@@ -2030,9 +2052,6 @@ msgstr "Criar modelo de relatório"
 msgid "Create Role"
 msgstr "Criar função"
 
-msgid "Create SCSI controller"
-msgstr "Criar controlador SCSI"
-
 msgid "Create Smart Proxy"
 msgstr "Criar proxy inteligente"
 
@@ -2168,6 +2187,9 @@ msgstr "Criar um sistema operacional"
 msgid "Create autosign entry"
 msgstr "Criar entrada de autoassinatura"
 
+msgid "Create controller"
+msgstr ""
+
 msgid "Create image"
 msgstr "Criar imagem"
 
@@ -2230,6 +2252,9 @@ msgstr "Tipo de instância personalizado"
 
 msgid "DB pending seed"
 msgstr "Propagação pendente de DB"
+
+msgid "DEPRECATED, use the `repo_data` param instead."
+msgstr ""
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -3234,6 +3259,9 @@ msgstr[0] "Recursos com falhas: %s"
 msgstr[1] "Recursos com falhas: %s"
 msgstr[2] "Recursos com falhas: %s"
 
+msgid "Failed hosts"
+msgstr "Anfitriões fracassados"
+
 msgid "Failed login attempts limit"
 msgstr "Limite de tentativas de login com falhas"
 
@@ -3245,6 +3273,16 @@ msgstr "Falha em %{action} %{host}: %{e}"
 
 msgid "Failed to acquire IP addresses from compute resource for %s"
 msgstr "Falha ao adquirir endereços IP do recurso de computação para %s"
+
+msgid "Failed to build %s host"
+msgid_plural "Failed to build %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Failed to build and reboot %s host"
+msgid_plural "Failed to build and reboot %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
 msgstr "Falha ao cancelar a compilação pendente de %{hostname} com os seguintes erros: %{errors}"
@@ -3317,8 +3355,10 @@ msgstr "Falha ao ativar uma instância %{compute_resource} de computação %{nam
 msgid "Failed to reboot %s."
 msgstr "Falha ao reiniciar %s."
 
-msgid "Failed to redeploy %s."
-msgstr "Falha ao reimplantar %s. "
+msgid "Failed to rebuild configuration for %s host"
+msgid_plural "Failed to rebuild configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to refresh the cache."
 msgstr "Falha ao atualizar o cache."
@@ -3973,7 +4013,7 @@ msgstr "Hash do total do tipo de status"
 msgid "Help"
 msgstr "Ajuda"
 
-msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgid "Hex value for color for the instance title banner. It will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)"
 msgstr ""
 
 msgid "Hidden Value"
@@ -4549,6 +4589,9 @@ msgstr ""
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr ""
 
+msgid "ID of the hostgroup to reassign the hosts to"
+msgstr ""
+
 msgid "ID of the organization"
 msgstr ""
 
@@ -4671,9 +4714,6 @@ msgstr ""
 
 msgid "IPv6 subnet"
 msgstr ""
-
-msgid "IRC"
-msgstr "IRC"
 
 msgid "Identifier"
 msgstr "Identificador"
@@ -5984,6 +6024,9 @@ msgstr "Correspondência é a combinação de um atributo e seu valor, caso corr
 
 msgid "Matchers inheritance"
 msgstr "Herança de correspondências"
+
+msgid "Matrix"
+msgstr ""
 
 msgid "Maximize"
 msgstr "Aumentar"
@@ -7779,8 +7822,19 @@ msgstr "Realm|Nome"
 msgid "Realm|Realm type"
 msgstr "Realm|Tipo de realm "
 
+msgid "Reassign hostgroups"
+msgstr ""
+
+msgid "Reassigned %{count} host to hostgroup %{hostgroup}"
+msgid_plural "Reassigned %{count} hosts to hostgroup %{hostgroup}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Reboot"
 msgstr "Reiniciar"
+
+msgid "Reboot after build. Ignored if rebuild_configuration is passed."
+msgstr ""
 
 msgid "Reboot and build"
 msgstr "Reiniciar e compilar"
@@ -7791,11 +7845,22 @@ msgstr "Reinicializar agora"
 msgid "Rebuild Config"
 msgstr "Recompilar Config"
 
+msgid "Rebuild configuration only"
+msgstr ""
+
 msgid "Rebuild orchestration config"
 msgstr "Reconstruir configuração orquestração"
 
 msgid "Rebuild orchestration configuration"
 msgstr "Recompilar configuração de orquestração "
+
+msgid "Rebuild provisioning configuration only"
+msgstr ""
+
+msgid "Rebuilt configuration for %s host"
+msgid_plural "Rebuilt configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'."
 msgstr ""
@@ -7907,6 +7972,11 @@ msgstr ""
 
 msgid "Removed %{from} to %{to}"
 msgstr "Removido de %{from} a %{to}"
+
+msgid "Removed assignment of host group from %s host"
+msgid_plural "Removed assignment of host group from %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Removing IPv4 in External IPAM for %s"
 msgstr "Removendo IPv4 no IPAM externo para %s"
@@ -8033,10 +8103,10 @@ msgstr "Repo"
 msgid "Repository GPG key URL"
 msgstr ""
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr ""
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr ""
 
 msgid "Repository list"
@@ -9556,6 +9626,9 @@ msgstr "Modelos"
 msgid "Templates DSL"
 msgstr "Modelos de DSL"
 
+msgid "Templates accessible publicly"
+msgstr ""
+
 msgid "Templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
 
@@ -9563,6 +9636,9 @@ msgid "Templates can access built-in instance variables denoted by <code>@</code
 msgstr ""
 
 msgid "Templates for partition tables"
+msgstr ""
+
+msgid "Templates from this category can be accessed publicly using the /unattended endpoint."
 msgstr ""
 
 msgid "Templates resolved for this operating system"
@@ -11360,7 +11436,7 @@ msgstr "Você está usando um browser não suportado"
 msgid "You can add SSH public keys to a user in Foreman."
 msgstr "Você pode adicionar chaves SSH públicas a um usuário no Foreman."
 
-msgid "You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
+msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
 msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
@@ -12195,6 +12271,12 @@ msgstr "segundos"
 
 msgid "select an owner"
 msgstr "selecione um proprietário"
+
+msgid "selected host"
+msgstr ""
+
+msgid "selected hosts"
+msgstr ""
 
 msgid "service configuration will be skipped."
 msgstr "correspondente será ignorado."

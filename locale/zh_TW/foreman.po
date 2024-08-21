@@ -85,6 +85,11 @@ msgstr ""
 msgid "%s has been disassociated from VM"
 msgstr "%s 和 VM 之間的關聯性已解除"
 
+msgid "%s host set to build and rebooting."
+msgid_plural "%s hosts set to build and rebooting."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%s hosts deleted"
 msgstr ""
 
@@ -1316,6 +1321,14 @@ msgstr "由 OS 映像檔組建"
 msgid "Build in progress"
 msgstr ""
 
+msgid "Build management"
+msgstr ""
+
+msgid "Built %s host"
+msgid_plural "Built %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Built-in variables"
 msgstr ""
 
@@ -1345,9 +1358,6 @@ msgstr "熱插入 CPU"
 
 msgid "CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."
 msgstr "熱插入 CPU 能讓您在虛擬機器執行時，加入 CPU 資源。"
-
-msgid "CPU mode"
-msgstr ""
 
 msgid "CPUs"
 msgstr "CPU"
@@ -1469,6 +1479,12 @@ msgstr "改變電源狀態"
 msgid "Change Puppet CA"
 msgstr "改變 Puppet CA"
 
+msgid "Change host group"
+msgstr ""
+
+msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
+msgstr ""
+
 msgid "Change the password"
 msgstr "更改密碼"
 
@@ -1495,6 +1511,9 @@ msgstr "選擇供應者"
 
 msgid "Choose a server type"
 msgstr "檢查伺服器類型"
+
+msgid "Choose an action that will be performed on {hosts}."
+msgstr ""
 
 msgid "Chosen options"
 msgstr ""
@@ -1551,6 +1570,9 @@ msgid "Clone a template"
 msgstr "複製範本"
 
 msgid "Clone this host"
+msgstr ""
+
+msgid "Cloned from"
 msgstr ""
 
 msgid "Close"
@@ -1976,9 +1998,6 @@ msgstr ""
 msgid "Create Role"
 msgstr ""
 
-msgid "Create SCSI controller"
-msgstr ""
-
 msgid "Create Smart Proxy"
 msgstr ""
 
@@ -2114,6 +2133,9 @@ msgstr "建立作業系統"
 msgid "Create autosign entry"
 msgstr ""
 
+msgid "Create controller"
+msgstr ""
+
 msgid "Create image"
 msgstr ""
 
@@ -2176,6 +2198,9 @@ msgstr ""
 
 msgid "DB pending seed"
 msgstr "DB 尚未處理的種子"
+
+msgid "DEPRECATED, use the `repo_data` param instead."
+msgstr ""
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -3178,6 +3203,9 @@ msgid_plural "Failed features: %s"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Failed hosts"
+msgstr ""
+
 msgid "Failed login attempts limit"
 msgstr ""
 
@@ -3189,6 +3217,16 @@ msgstr "%{action} %{host} 失敗：%{e}"
 
 msgid "Failed to acquire IP addresses from compute resource for %s"
 msgstr ""
+
+msgid "Failed to build %s host"
+msgid_plural "Failed to build %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Failed to build and reboot %s host"
+msgid_plural "Failed to build and reboot %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
 msgstr ""
@@ -3261,8 +3299,10 @@ msgstr "開啓運算 %{compute_resource} instance %{name} 的電源失敗：%{e}
 msgid "Failed to reboot %s."
 msgstr "重新啟動 %s 失敗。"
 
-msgid "Failed to redeploy %s."
-msgstr "重新建置 %s 失敗。"
+msgid "Failed to rebuild configuration for %s host"
+msgid_plural "Failed to rebuild configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to refresh the cache."
 msgstr ""
@@ -3917,7 +3957,7 @@ msgstr "狀態類型總數的雜湊"
 msgid "Help"
 msgstr "協助"
 
-msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgid "Hex value for color for the instance title banner. It will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)"
 msgstr ""
 
 msgid "Hidden Value"
@@ -4490,6 +4530,9 @@ msgstr ""
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr ""
 
+msgid "ID of the hostgroup to reassign the hosts to"
+msgstr ""
+
 msgid "ID of the organization"
 msgstr ""
 
@@ -4610,9 +4653,6 @@ msgstr ""
 
 msgid "IPv6 subnet"
 msgstr ""
-
-msgid "IRC"
-msgstr "IRC"
 
 msgid "Identifier"
 msgstr "辨識碼"
@@ -5914,6 +5954,9 @@ msgid "Matcher is a combination of an attribute and its value, if they match, th
 msgstr "比對器乃一個屬性與它的值的組合，若它們相符的話，以下的值將會被提供。<br> 您可使用任何 Foreman 所能辨識的屬性，例如詳情等等。比方說：<code> domain = example.com </code> 或是 <code> is_virtual = true</code>。"
 
 msgid "Matchers inheritance"
+msgstr ""
+
+msgid "Matrix"
 msgstr ""
 
 msgid "Maximize"
@@ -7701,8 +7744,19 @@ msgstr "名稱"
 msgid "Realm|Realm type"
 msgstr "領域類型"
 
+msgid "Reassign hostgroups"
+msgstr ""
+
+msgid "Reassigned %{count} host to hostgroup %{hostgroup}"
+msgid_plural "Reassigned %{count} hosts to hostgroup %{hostgroup}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Reboot"
 msgstr "重新開機"
+
+msgid "Reboot after build. Ignored if rebuild_configuration is passed."
+msgstr ""
 
 msgid "Reboot and build"
 msgstr "重新啟動與組建"
@@ -7713,11 +7767,22 @@ msgstr "現在重新啟動"
 msgid "Rebuild Config"
 msgstr "重建配置"
 
+msgid "Rebuild configuration only"
+msgstr ""
+
 msgid "Rebuild orchestration config"
 msgstr "重建協調配置"
 
 msgid "Rebuild orchestration configuration"
 msgstr "重建協調配置"
+
+msgid "Rebuild provisioning configuration only"
+msgstr ""
+
+msgid "Rebuilt configuration for %s host"
+msgid_plural "Rebuilt configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'."
 msgstr ""
@@ -7827,6 +7892,11 @@ msgstr ""
 
 msgid "Removed %{from} to %{to}"
 msgstr ""
+
+msgid "Removed assignment of host group from %s host"
+msgid_plural "Removed assignment of host group from %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Removing IPv4 in External IPAM for %s"
 msgstr ""
@@ -7953,10 +8023,10 @@ msgstr "軟體庫"
 msgid "Repository GPG key URL"
 msgstr ""
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr ""
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr ""
 
 msgid "Repository list"
@@ -9472,6 +9542,9 @@ msgstr "範本"
 msgid "Templates DSL"
 msgstr ""
 
+msgid "Templates accessible publicly"
+msgstr ""
+
 msgid "Templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
 
@@ -9479,6 +9552,9 @@ msgid "Templates can access built-in instance variables denoted by <code>@</code
 msgstr ""
 
 msgid "Templates for partition tables"
+msgstr ""
+
+msgid "Templates from this category can be accessed publicly using the /unattended endpoint."
 msgstr ""
 
 msgid "Templates resolved for this operating system"
@@ -11255,7 +11331,7 @@ msgstr "您正在使用一個不受支援的瀏覽器。"
 msgid "You can add SSH public keys to a user in Foreman."
 msgstr ""
 
-msgid "You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
+msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
 msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
@@ -12089,6 +12165,12 @@ msgstr "秒"
 
 msgid "select an owner"
 msgstr "選擇一個擁有者"
+
+msgid "selected host"
+msgstr ""
+
+msgid "selected hosts"
+msgstr ""
 
 msgid "service configuration will be skipped."
 msgstr ""
