@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-08 15:05-0400\n"
-"PO-Revision-Date: 2024-08-08 15:05-0400\n"
+"POT-Creation-Date: 2024-08-21 15:27-0400\n"
+"PO-Revision-Date: 2024-08-21 15:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4445,7 +4445,7 @@ msgid "Added %{from} to %{to}"
 msgstr ""
 
 #: ../app/helpers/audits_helper.rb:94
-msgid "Removed %{from} to %{to}"
+msgid "Removed %{from} from %{to}"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages

@@ -83,6 +83,11 @@ msgstr "%s 过滤器"
 msgid "%s has been disassociated from VM"
 msgstr "%s 已从虚拟机取消关联"
 
+msgid "%s host set to build and rebooting."
+msgid_plural "%s hosts set to build and rebooting."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "%s hosts deleted"
 msgstr ""
 
@@ -1309,6 +1314,14 @@ msgstr "从系统介质创建"
 msgid "Build in progress"
 msgstr "构建进行中"
 
+msgid "Build management"
+msgstr ""
+
+msgid "Built %s host"
+msgid_plural "Built %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Built-in variables"
 msgstr "内置变量"
 
@@ -1338,9 +1351,6 @@ msgstr "CPU 热添加"
 
 msgid "CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."
 msgstr "CPU 热添加可让您在虚拟机处于开机状态时为其添加 CPU 资源"
-
-msgid "CPU mode"
-msgstr "CPU 模式"
 
 msgid "CPUs"
 msgstr "CPU"
@@ -1462,6 +1472,12 @@ msgstr "更改电源状态"
 msgid "Change Puppet CA"
 msgstr "更改 Puppet CA"
 
+msgid "Change host group"
+msgstr ""
+
+msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
+msgstr ""
+
 msgid "Change the password"
 msgstr "更改密码"
 
@@ -1488,6 +1504,9 @@ msgstr "选择一个提供者"
 
 msgid "Choose a server type"
 msgstr "选择服务器类型"
+
+msgid "Choose an action that will be performed on {hosts}."
+msgstr ""
 
 msgid "Chosen options"
 msgstr ""
@@ -1545,6 +1564,9 @@ msgstr "克隆模板"
 
 msgid "Clone this host"
 msgstr "克隆此主机"
+
+msgid "Cloned from"
+msgstr ""
 
 msgid "Close"
 msgstr "关闭"
@@ -1969,9 +1991,6 @@ msgstr "创建报告模板"
 msgid "Create Role"
 msgstr "创建角色"
 
-msgid "Create SCSI controller"
-msgstr "创建 SCSI 控制器"
-
 msgid "Create Smart Proxy"
 msgstr "创建智能代理服务器"
 
@@ -2107,6 +2126,9 @@ msgstr "创建操作系统"
 msgid "Create autosign entry"
 msgstr "创建自动签名条目"
 
+msgid "Create controller"
+msgstr ""
+
 msgid "Create image"
 msgstr "创建镜像"
 
@@ -2169,6 +2191,9 @@ msgstr "自定义模板类型"
 
 msgid "DB pending seed"
 msgstr "DB 待处理种子"
+
+msgid "DEPRECATED, use the `repo_data` param instead."
+msgstr ""
 
 msgid "DHCP"
 msgstr "DHCP"
@@ -3169,6 +3194,9 @@ msgid "Failed features: %s"
 msgid_plural "Failed features: %s"
 msgstr[0] "失败的功能：%s"
 
+msgid "Failed hosts"
+msgstr "失败的主机"
+
 msgid "Failed login attempts limit"
 msgstr "尝试登录失败的次数限制。"
 
@@ -3180,6 +3208,16 @@ msgstr "%{action} %{host} 失败：%{e}"
 
 msgid "Failed to acquire IP addresses from compute resource for %s"
 msgstr "无法从计算资源获取 %s 的 IP 地址"
+
+msgid "Failed to build %s host"
+msgid_plural "Failed to build %s hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Failed to build and reboot %s host"
+msgid_plural "Failed to build and reboot %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to cancel pending build for %{hostname} with the following errors: %{errors}"
 msgstr "未能取消 %{hostname} 的未完成构建，发生如下错误：%{errors}"
@@ -3254,8 +3292,10 @@ msgstr "无法启动计算％{compute_resource}实例 %{name}： %{e}"
 msgid "Failed to reboot %s."
 msgstr "重启 %s 失败。"
 
-msgid "Failed to redeploy %s."
-msgstr "重新部署 %s 失败。"
+msgid "Failed to rebuild configuration for %s host"
+msgid_plural "Failed to rebuild configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to refresh the cache."
 msgstr "无法刷新缓存。"
@@ -3910,7 +3950,7 @@ msgstr "状态类型总量的哈希"
 msgid "Help"
 msgstr "帮助"
 
-msgid "Hex value. for color for the instance title banner. Will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)."
+msgid "Hex value for color for the instance title banner. It will only be used if an instance title is defined. If no valid value is given, the default value is: #000000. (requires a page reload)"
 msgstr ""
 
 msgid "Hidden Value"
@@ -4486,6 +4526,9 @@ msgstr "在其中注册主机的机构 ID"
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "智能代理 ID。此代理必须同时启用\"模板\"和\"注册\"功能"
 
+msgid "ID of the hostgroup to reassign the hosts to"
+msgstr ""
+
 msgid "ID of the organization"
 msgstr ""
 
@@ -4604,9 +4647,6 @@ msgstr "IPv6 地址，如果使用带有 DHCP 代理的子网则不需要"
 
 msgid "IPv6 subnet"
 msgstr ""
-
-msgid "IRC"
-msgstr "IRC"
 
 msgid "Identifier"
 msgstr "鉴定"
@@ -5915,6 +5955,9 @@ msgstr "映射器是属性及属性值的组合。如果它们匹配，则提供
 
 msgid "Matchers inheritance"
 msgstr "匹配器继承"
+
+msgid "Matrix"
+msgstr ""
 
 msgid "Maximize"
 msgstr "最大化"
@@ -7710,8 +7753,19 @@ msgstr "名称"
 msgid "Realm|Realm type"
 msgstr "范围类型"
 
+msgid "Reassign hostgroups"
+msgstr ""
+
+msgid "Reassigned %{count} host to hostgroup %{hostgroup}"
+msgid_plural "Reassigned %{count} hosts to hostgroup %{hostgroup}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Reboot"
 msgstr "重启"
+
+msgid "Reboot after build. Ignored if rebuild_configuration is passed."
+msgstr ""
 
 msgid "Reboot and build"
 msgstr "重启并构建"
@@ -7722,11 +7776,22 @@ msgstr "现在重启"
 msgid "Rebuild Config"
 msgstr "重建配置"
 
+msgid "Rebuild configuration only"
+msgstr ""
+
 msgid "Rebuild orchestration config"
 msgstr "重建 orchestration 配置"
 
 msgid "Rebuild orchestration configuration"
 msgstr "重建 orchestration 配置"
+
+msgid "Rebuild provisioning configuration only"
+msgstr ""
+
+msgid "Rebuilt configuration for %s host"
+msgid_plural "Rebuilt configuration for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Receiving vm data for host '%{host}' from used compute resource '%{compute_resource}' failed: '%{exception}'."
 msgstr "从使用的计算资源 '%{compute_resource}' 中接收主机 '%{host}' 的虚拟机数据失败：'%{exception}'。"
@@ -7834,6 +7899,11 @@ msgstr "删除小插件"
 
 msgid "Removed %{from} to %{to}"
 msgstr "移除 %{from} 至 %{to}"
+
+msgid "Removed assignment of host group from %s host"
+msgid_plural "Removed assignment of host group from %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Removing IPv4 in External IPAM for %s"
 msgstr "为 %s 在外部 IPAM 中删除 IPv4"
@@ -7960,10 +8030,10 @@ msgstr "仓库"
 msgid "Repository GPG key URL"
 msgstr "仓库 GPG 密钥 URL"
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
-msgstr "仓库 URL / 详情，例如，对于 Debian OS 系列：'deb http://deb.example.com/ buster 1.0'，对于 Red Hat OS 系列：'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgstr ""
 
-msgid "Repository URL / details, for example for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
+msgid "Repository URL / details, for example, for Debian OS family: 'deb http://deb.example.com/ buster 1.0', for Red Hat and SUSE OS family: 'http://yum.theforeman.org/client/latest/el8/x86_64/'"
 msgstr ""
 
 msgid "Repository list"
@@ -9474,6 +9544,9 @@ msgstr "模板"
 msgid "Templates DSL"
 msgstr "模板 DSL"
 
+msgid "Templates accessible publicly"
+msgstr ""
+
 msgid "Templates are generated using the Embedded Ruby (ERB) language."
 msgstr "模板使用嵌入式 Ruby (ERB) 语言生成。"
 
@@ -9482,6 +9555,9 @@ msgstr "模板可以访问由 <code>@</code> 标注的内置实例变量。"
 
 msgid "Templates for partition tables"
 msgstr "分区表模板"
+
+msgid "Templates from this category can be accessed publicly using the /unattended endpoint."
+msgstr ""
 
 msgid "Templates resolved for this operating system"
 msgstr "为这个操作系统解析的模板"
@@ -11274,8 +11350,8 @@ msgstr "您正在使用不支持的浏览器。"
 msgid "You can add SSH public keys to a user in Foreman."
 msgstr "您可以给 Foreman 中的用户添加 SSH 公钥。"
 
-msgid "You can find The Foreman on the %{liberachat} (irc.libera.chat) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
-msgstr "您可以在 %{liberachat} (irc.libera.chat) 网络中找到 Foreman。常规支持请进入 #theforema，具体与开发相关的探讨，请进入 visit #theforeman-dev。"
+msgid "You can find The Foreman on %{Matrix}.  For general support, please visit the #theforeman:matrix.org room and for development specific related chat, please visit the #theforeman-dev:matrix.org room."
+msgstr ""
 
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:"
 msgstr ""
@@ -12107,6 +12183,12 @@ msgstr "秒"
 
 msgid "select an owner"
 msgstr "选择所有者"
+
+msgid "selected host"
+msgstr ""
+
+msgid "selected hosts"
+msgstr ""
 
 msgid "service configuration will be skipped."
 msgstr "服务配置将被跳过。"
