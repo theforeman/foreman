@@ -27,28 +27,28 @@ function multiSelectToolTips(){
     var msid = '#ms-'+item.id;
     // it an <li> items match multiple tooltips, then only the first tooltip will show
     if (!(mismatches == null || mismatches == 'undefined')) {
-      var missing_ids = $.parseJSON(mismatches);
+      var missing_ids = JSON.parse(mismatches);
       $.each(missing_ids, function(index,missing_id){
         opt_id = sanitize(missing_id+'');
         $(msid).find('li#'+opt_id+'-selectable').addClass('delete').tooltip({container: 'body', title: __("Select this since it belongs to a host"), placement: "left"});
       })
     }
     if (!(useds == null || descendants == 'useds')) {
-      var used_ids = $.parseJSON(useds);
+      var used_ids = JSON.parse(useds);
       $.each(used_ids, function(index,used_id){
         opt_id = sanitize(used_id+'');
         $(msid).find('li#'+opt_id+'-selection').addClass('used_by_hosts').tooltip({container: 'body', title: __("This is used by a host"), placement: "right"});
       })
     }
     if (!(inheriteds == null || inheriteds == 'undefined')) {
-      var inherited_ids = $.parseJSON(inheriteds);
+      var inherited_ids = JSON.parse(inheriteds);
       $.each(inherited_ids, function(index,inherited_id){
         opt_id = sanitize(inherited_id+'');
         $(msid).find('li#'+opt_id+'-selection').addClass('inherited').tooltip({container: 'body', title: __("This is inherited from parent"), placement: "right"});
       })
     }
     if (!(descendants == null || descendants == 'undefined')) {
-      var descendant_ids = $.parseJSON(descendants);
+      var descendant_ids = JSON.parse(descendants);
       $.each(descendant_ids, function(index,descendant_id){
         opt_id = sanitize(descendant_id+'');
         $(msid).find('li#'+opt_id+'-selection').addClass('descendants').tooltip({container: 'body', title: __("Parent is already selected"), placement: "right"});
@@ -77,7 +77,7 @@ $(document).on('click', '.ms-select-all', function () {
     $(this).tooltip('hide')
       .closest('.form-group')
       .find('.ms-selectable .ms-list :visible')
-      .click();
+      .trigger('click');
     return false;
 });
 

@@ -14,6 +14,7 @@
 /* eslint-disable jquery/no-in-array */
 
 import $ from 'jquery';
+import Cookies from 'js-cookie';
 
 import {
   sprintf,
@@ -43,7 +44,7 @@ export function hostChecked({ id, checked }) {
       multipleAlert.data('multiple', false);
     }
   }
-  $.cookie(cookieName, JSON.stringify(foremanSelectedHosts), {
+  Cookies.set(cookieName, JSON.stringify(foremanSelectedHosts), {
     secure: window.location.protocol === 'https:',
   });
   toggleActions();
@@ -62,8 +63,8 @@ function rmHostId(id) {
 
 function readFromCookie() {
   try {
-    const r = $.cookie(cookieName);
-    if (r) return $.parseJSON(r);
+    const r = Cookies.get(cookieName);
+    if (r) return JSON.parse(r);
     return [];
   } catch (err) {
     removeForemanHostsCookie();
@@ -116,7 +117,7 @@ $(document).on('ContentLoad', () => {
 });
 
 function removeForemanHostsCookie() {
-  $.removeCookie(cookieName);
+  Cookies.remove(cookieName);
 }
 
 export function resetSelection() {

@@ -3,7 +3,7 @@ function turn_textarea_switch() {
 }
 
 function hidden_value_control() {
-  $('.toggle-hidden-value a').click(function(event) {
+  $('.toggle-hidden-value a').on('click', function(event) {
     event.preventDefault();
     var link = $(event.currentTarget);
     link

@@ -16,14 +16,13 @@ class ProvisioningTemplateJSTest < IntegrationTestWithJavascript
 
     click_link 'Type'
     assert has_unchecked_field?('provisioning_template_snippet')
-    assert_equal template.template_kind.name, find("#s2id_provisioning_template_template_kind_id .select2-chosen").text
-
+    assert select2_chosen_selector('provisioning_template_template_kind_id').has_text? template.template_kind.name
     # check the type dropdown is hidden when snippet is checked
-    assert has_selector?('#s2id_provisioning_template_template_kind_id')
+    assert has_selector?(select2_selector('provisioning_template_template_kind_id'))
     find_field('provisioning_template_snippet').click
-    assert has_no_selector?('#s2id_provisioning_template_template_kind_id')
+    assert has_no_selector?(select2_selector('provisioning_template_template_kind_id'))
     find_field('provisioning_template_snippet').click
-    assert has_selector?('#s2id_provisioning_template_template_kind_id')
+    assert has_selector?(select2_selector('provisioning_template_template_kind_id'))
 
     assert_submit_button(provisioning_templates_path)
     assert page.has_link? 'updated template'
@@ -39,11 +38,11 @@ class ProvisioningTemplateJSTest < IntegrationTestWithJavascript
     assert has_checked_field?('provisioning_template_snippet')
 
     # check the type dropdown is visible when snippet is unchecked
-    assert has_no_selector?('#s2id_provisioning_template_template_kind_id')
+    assert has_no_selector?('#kind_selector')
     find_field('provisioning_template_snippet').click
-    assert has_selector?('#s2id_provisioning_template_template_kind_id')
+    assert has_selector?('#kind_selector')
     find_field('provisioning_template_snippet').click
-    assert has_no_selector?('#s2id_provisioning_template_template_kind_id')
+    assert has_no_selector?('#kind_selector')
 
     assert_submit_button(provisioning_templates_path)
     assert page.has_link? 'updated snippet'

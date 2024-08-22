@@ -21,7 +21,7 @@ export function testConnection(item, url) {
       notify({ message: result.message, type: 'success' });
     },
     error(xhr) {
-      const error = $.parseJSON(xhr.responseText).message;
+      const error = JSON.parse(xhr.responseText).message;
 
       notify({ message: error, type: 'danger' });
     },

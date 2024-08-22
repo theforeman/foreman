@@ -38,7 +38,7 @@ function onContentLoad() {
   if ($('input[focus_on_load=true]').length > 0) {
     $('input[focus_on_load]')
       .first()
-      .focus();
+      .trigger("focus");
   }
 
   // highlight tabs with errors
@@ -79,24 +79,71 @@ function onContentLoad() {
 
   password_caps_lock_hint();
 
-  tfm.i18n.intl.ready.then(function() {
-    var tz = jstz.determine();
-    $.cookie('timezone', tz.name(), {
-      path: '/',
-      secure: location.protocol === 'https:',
-    });
-  });
-
   $('.full-value').SelectOnClick();
   activate_select2(':root');
 
   $('input.remove_form_templates')
     .closest('form')
-    .submit(function(event) {
+    .on('submit', function(event) {
       $(this)
         .find('.form_template')
         .remove();
     });
+
+  const autoUpdateSelect2Titles = function() {
+    const targetNodes = document.querySelectorAll(
+      '.select2-selection__rendered'
+    );
+
+    const config = { attributes: true, attributeFilter: ['title'] };
+
+    const callback = function(mutationsList, observer) {
+      for (let mutation of mutationsList) {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'title'
+        ) {
+          mutation.target.setAttribute(
+            'data-original-title',
+            mutation.target.getAttribute('title')
+          );
+        }
+      }
+    };
+
+    targetNodes.forEach(targetNode => {
+      const observer = new MutationObserver(callback);
+      observer.observe(targetNode, config);
+    });
+  };
+
+  const hideSelect2ClearTooltip = function() {
+    $(document).on('blur', '.select2-selection__clear', function() {
+      $('.tooltip').tooltip('hide');
+    });
+
+    const targetNode = document.querySelector('body');
+    const config = { attributes: false, childList: true, subtree: true };
+    const callback = function(mutationsList) {
+      for (let mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+          const node = Array.from(mutation.removedNodes).find(
+            node =>
+              node.classList &&
+              node.classList.contains('select2-selection__clear')
+          );
+          if (node) {
+            $('.tooltip').tooltip('hide');
+          }
+        }
+      }
+    };
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
+  };
+
+  hideSelect2ClearTooltip();
+  autoUpdateSelect2Titles();
 }
 
 function preserve_selected_options(elem) {
@@ -106,7 +153,7 @@ function preserve_selected_options(elem) {
 }
 
 function password_caps_lock_hint() {
-  $('[type=password]').keypress(function(e) {
+  $('[type=password]').trigger('keypress', function(e) {
     var $addon = $(this)
         .parent()
         .children('.input-addon'),
@@ -309,7 +356,7 @@ function ignore_subnet(item) {
 
 // shows provisioning templates in a new window
 $(function() {
-  $('[data-provisioning-template=true]').click(function() {
+  $('[data-provisioning-template=true]').on('click', function() {
     window.open(this.href, [
       (width = '300'),
       (height = '400'),
@@ -431,18 +478,34 @@ function disableButtonToggle(item, explicit) {
     $(formControl).val('');
   }
 
-  $(item).blur();
+  $(item).trigger('blur');
 }
 
-function activate_select2(container, allowClear) {
-  allowClear = typeof allowClear !== 'undefined' ? allowClear : true;
+function activate_select2(container, allowClear ) {
+  const htmlElemnt = document.getElementsByTagName('html')[0];
+  const langAttr = htmlElemnt.getAttribute('lang') || 'en';
   $(container)
     .find('select:not(.without_select2)')
     .not('.form_template select')
     .not('#interfaceForms select')
-    .select2({
-      allowClear: allowClear,
-      formatNoMatches: __('No matches found'),
+    .each(function() {
+      const placeholder = $(this).data('placeholder');
+      let selectAllowClear = allowClear
+      if (typeof selectAllowClear === 'undefined') {
+       if ($(this).hasClass('include_blank')) {
+          selectAllowClear = true;
+        } else {
+          selectAllowClear = false;
+        }
+      }
+      $(this).select2({
+        debug: true,
+        language: langAttr,
+        width: '100%',
+        allowClear: selectAllowClear,
+        formatNoMatches: __('No matches found'),
+        placeholder: selectAllowClear? placeholder || '' : { id: '-1', text: '' },
+      });
     });
 }
 
@@ -463,3 +526,14 @@ function clearError(field) {
     .children('.error-message');
   error_block.remove();
 }
+
+// jQuery deprecated functions
+// used by gridster and bootstrap
+$.fn.isFunction = function(func) {
+  return typeof func === 'function';
+};
+$.fn.isArray = Array.isArray;
+$.fn.trim = String.prototype.trim;
+$.fn.bind = function(event, func) {
+  return this.on(event, func);
+};

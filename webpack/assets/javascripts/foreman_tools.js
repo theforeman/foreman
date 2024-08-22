@@ -123,16 +123,19 @@ export function highlightTabErrors() {
   errorFields.parents('.tab-pane').each(function fn() {
     $(`a[href="#${this.id}"]`).addClass('tab-error');
   });
-  $('.tab-error')
-    .first()
-    .click();
-  $('.nav-pills .tab-error')
-    .first()
-    .click();
+  const firstTabError = document.querySelector('.tab-error');
+  if (firstTabError) {
+    $(firstTabError).tab('show');
+  }
+  const firstNestedTabError = document.querySelector('.nav-pills .tab-error');
+  if (firstNestedTabError) {
+    $(firstNestedTabError).tab('show');
+  }
+
   errorFields
     .first()
     .find('.form-control')
-    .focus();
+    .trigger('focus');
 }
 
 export const loadPluginModule = async (url, scope, module, plugin = true) => {
