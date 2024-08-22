@@ -282,6 +282,7 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
+        :cpu        => { mode: 'host-passthrough' },
         :memory     => 2048.megabytes,
         :nics       => [new_nic],
         :volumes    => [new_volume].compact,
