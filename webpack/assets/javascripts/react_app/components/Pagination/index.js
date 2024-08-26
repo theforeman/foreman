@@ -150,7 +150,7 @@ Pagination.defaultProps = {
   perPage: null,
   noSidePadding: false,
   variant: PaginationVariant.bottom,
-  updateParamsByUrl: true,
+  updateParamsByUrl: false,
 };
 
 export default Pagination;
