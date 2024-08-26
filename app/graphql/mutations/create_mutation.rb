@@ -6,7 +6,6 @@ module Mutations
       object = initialize_object(params)
 
       validate_object(object)
-      authorize!(object, :create)
 
       save_object(object)
     end
