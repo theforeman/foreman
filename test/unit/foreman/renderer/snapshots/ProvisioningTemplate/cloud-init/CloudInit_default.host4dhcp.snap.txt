@@ -38,91 +38,91 @@ runcmd:
     echo "Starting the subscription-manager registration process"
   
     # Set up subscription-manager
-      # Select package manager for the OS (sets the $PKG_MANAGER* variables)
-    if [ -z "$PKG_MANAGER" ]; then
-      if [ -f /etc/os-release ] ; then
-        . /etc/os-release
+    # Select package manager for the OS (sets the $PKG_MANAGER* variables)
+  if [ -z "$PKG_MANAGER" ]; then
+    if [ -f /etc/os-release ] ; then
+      . /etc/os-release
+    fi
+    
+    if [ "${NAME%.*}" = 'FreeBSD' ]; then
+      PKG_MANAGER='pkg'
+      PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+      PKG_MANAGER_REMOVE="${PKG_MANAGER} delete -y"
+      PKG_MANAGER_UPGRADE="${PKG_MANAGER} install -y"
+    elif [ -f /etc/fedora-release -o -f /etc/redhat-release -o -f /etc/amazon-linux-release -o -f /etc/system-release ]; then
+      PKG_MANAGER='dnf'
+      if [ -f /etc/redhat-release -a "${VERSION_ID%.*}" -le 7 ]; then
+        PKG_MANAGER='yum'
+      elif [ -f /etc/system-release ]; then
+        PKG_MANAGER='yum'
       fi
-      
-      if [ "${NAME%.*}" = 'FreeBSD' ]; then
-        PKG_MANAGER='pkg'
-        PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
-        PKG_MANAGER_REMOVE="${PKG_MANAGER} delete -y"
-        PKG_MANAGER_UPGRADE="${PKG_MANAGER} install -y"
-      elif [ -f /etc/fedora-release -o -f /etc/redhat-release -o -f /etc/amazon-linux-release -o -f /etc/system-release ]; then
-        PKG_MANAGER='dnf'
-        if [ -f /etc/redhat-release -a "${VERSION_ID%.*}" -le 7 ]; then
-          PKG_MANAGER='yum'
-        elif [ -f /etc/system-release ]; then
-          PKG_MANAGER='yum'
-        fi
-        PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
-        PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
-        PKG_MANAGER_UPGRADE="${PKG_MANAGER} upgrade -y"
-      elif [ -f /etc/debian_version ]; then
-        PKG_MANAGER='apt-get'
-        PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
-        PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
-        PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
-      elif [ -f /etc/arch-release ]; then
-        PKG_MANAGER='pacman'
-        PKG_MANAGER_INSTALL="${PKG_MANAGER} --noconfirm -S"
-        PKG_MANAGER_REMOVE="${PKG_MANAGER} --noconfirm -R"
-        PKG_MANAGER_UPGRADE="${PKG_MANAGER} --noconfirm -S"
-      elif [ x$ID = xopensuse-tumbleweed -o x$ID = xsles ]; then
-        PKG_MANAGER='zypper'
-        PKG_MANAGER_INSTALL="${PKG_MANAGER} --non-interactive install --auto-agree-with-licenses"
-        PKG_MANAGER_REMOVE="${PKG_MANAGER} --non-interactive remove"
-        PKG_MANAGER_UPGRADE="${PKG_MANAGER} --non-interactive update"
-      fi
+      PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+      PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
+      PKG_MANAGER_UPGRADE="${PKG_MANAGER} upgrade -y"
+    elif [ -f /etc/debian_version ]; then
+      PKG_MANAGER='apt-get'
+      PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+      PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
+      PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
+    elif [ -f /etc/arch-release ]; then
+      PKG_MANAGER='pacman'
+      PKG_MANAGER_INSTALL="${PKG_MANAGER} --noconfirm -S"
+      PKG_MANAGER_REMOVE="${PKG_MANAGER} --noconfirm -R"
+      PKG_MANAGER_UPGRADE="${PKG_MANAGER} --noconfirm -S"
+    elif [ x$ID = xopensuse-tumbleweed -o x$ID = xsles ]; then
+      PKG_MANAGER='zypper'
+      PKG_MANAGER_INSTALL="${PKG_MANAGER} --non-interactive install --auto-agree-with-licenses"
+      PKG_MANAGER_REMOVE="${PKG_MANAGER} --non-interactive remove"
+      PKG_MANAGER_UPGRADE="${PKG_MANAGER} --non-interactive update"
     fi
+  fi
+  
+  # Define the path to rhsm.conf
+  RHSM_CFG=/etc/rhsm/rhsm.conf
+  
+  
+  
+  # Prepare subscription-manager
+  if ! [ -x "$(command -v subscription-manager)" ] ; then
+    $PKG_MANAGER_INSTALL subscription-manager
+  else
+    echo "subscription-manager is already installed!"
     
-    # Define the path to rhsm.conf
-    RHSM_CFG=/etc/rhsm/rhsm.conf
-    
-    
-    
-    # Prepare subscription-manager
-    if ! [ -x "$(command -v subscription-manager)" ] ; then
-      $PKG_MANAGER_INSTALL subscription-manager
-    else
-      echo "subscription-manager is already installed!"
-      
-    fi
-    
-    # Check if rhsm.conf exists
-    if ! [ -f $RHSM_CFG ] ; then
-      echo "'$RHSM_CFG' not found, cannot configure subscription-manager"
-        exit 1
-    fi
-    
-    
-    # Configure subscription-manager
-    test -f $RHSM_CFG.bak || cp $RHSM_CFG $RHSM_CFG.bak
-    subscription-manager config \
-      --server.hostname="subscription.rhsm.redhat.com" \
-      --server.port="443" \
-      --server.prefix="/subscription" \
-      --rhsm.repo_ca_cert="/etc/rhsm/ca/redhat-uep.pem" \
-      --rhsm.baseurl="https://cdn.redhat.com"
-    
-    # Older versions of subscription manager may not recognize
-    # report_package_profile and package_profile_on_trans options.
-    # So set them separately and redirect out & error to /dev/null
-    # to fail silently.
-    subscription-manager config --rhsm.package_profile_on_trans=1 > /dev/null 2>&1 || true
-    subscription-manager config --rhsm.report_package_profile=1 > /dev/null 2>&1 || true
-    
-    # Configuration for EL6
-    if grep --quiet full_refresh_on_yum $RHSM_CFG; then
-      sed -i "s/full_refresh_on_yum\s*=.*$/full_refresh_on_yum = 1/g" $RHSM_CFG
-    else
-      full_refresh_config="#config for on-premise management\nfull_refresh_on_yum = 1"
-      sed -i "/baseurl/a $full_refresh_config" $RHSM_CFG
-    fi
-    
-    # Restart yggdrasild if installed and running
-    systemctl try-restart yggdrasil >/dev/null 2>&1 || true
+  fi
+  
+  # Check if rhsm.conf exists
+  if ! [ -f $RHSM_CFG ] ; then
+    echo "'$RHSM_CFG' not found, cannot configure subscription-manager"
+      exit 1
+  fi
+  
+  
+  # Configure subscription-manager
+  test -f $RHSM_CFG.bak || cp $RHSM_CFG $RHSM_CFG.bak
+  subscription-manager config \
+    --server.hostname="subscription.rhsm.redhat.com" \
+    --server.port="443" \
+    --server.prefix="/subscription" \
+    --rhsm.repo_ca_cert="/etc/rhsm/ca/redhat-uep.pem" \
+    --rhsm.baseurl="https://cdn.redhat.com"
+  
+  # Older versions of subscription manager may not recognize
+  # report_package_profile and package_profile_on_trans options.
+  # So set them separately and redirect out & error to /dev/null
+  # to fail silently.
+  subscription-manager config --rhsm.package_profile_on_trans=1 > /dev/null 2>&1 || true
+  subscription-manager config --rhsm.report_package_profile=1 > /dev/null 2>&1 || true
+  
+  # Configuration for EL6
+  if grep --quiet full_refresh_on_yum $RHSM_CFG; then
+    sed -i "s/full_refresh_on_yum\s*=.*$/full_refresh_on_yum = 1/g" $RHSM_CFG
+  else
+    full_refresh_config="#config for on-premise management\nfull_refresh_on_yum = 1"
+    sed -i "/baseurl/a $full_refresh_config" $RHSM_CFG
+  fi
+  
+  # Restart yggdrasild if installed and running
+  systemctl try-restart yggdrasil >/dev/null 2>&1 || true
       # Avoid timeout accessing unreachable repo on air gapped infrastructure,
       #  assuming subscription-manager-syspurpose is installed in custom packages section.
       if ! rpm --query --quiet subscription-manager-syspurpose ; then
