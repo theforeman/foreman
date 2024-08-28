@@ -374,19 +374,10 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     post :create, params: { :host => valid_attrs }
   end
 
-  test "update applies attribute modifiers on the host" do
-    disable_orchestration
-    expect_attribute_modifier(ComputeAttributeMerge)
-    expect_attribute_modifier(InterfaceMerge, :merge_compute_attributes => true)
-    put :update, params: { :id => @host.to_param, :host => valid_attrs }
-  end
-
-  test "update applies attribute modifiers on the host when compute profile is changed" do
-    disable_orchestration
-    expect_attribute_modifier(ComputeAttributeMerge)
-    expect_attribute_modifier(InterfaceMerge, :merge_compute_attributes => true)
-
+  test "The update of the host does not apply the compute profile" do
     compute_attrs = compute_attributes(:with_interfaces)
+
+    Host.any_instance.expects(:apply_compute_profile).never
     put :update, params: { :id => @host.to_param, :host => basic_attrs_with_profile(compute_attrs) }
   end
 
@@ -427,22 +418,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal('Nic::Bond', Nic::Base.find(nic_id).type)
     assert_equal('newname', Nic::Base.find(nic_id).name)
-  end
-
-  test "should update interfaces from compute profile" do
-    disable_orchestration
-
-    compute_attrs = compute_attributes(:with_interfaces)
-
-    put :update, params: { :id => @host.to_param, :host => basic_attrs_with_profile(compute_attrs) }
-    assert_response :success
-
-    as_admin do
-      @host.interfaces.reload
-      assert_equal compute_attrs.vm_interfaces.count, @host.interfaces.count
-      assert_equal expected_compute_attributes(compute_attrs, 0), @host.interfaces.find_by_primary(true).compute_attributes
-      assert_equal expected_compute_attributes(compute_attrs, 1), @host.interfaces.find_by_primary(false).compute_attributes
-    end
   end
 
   test "should update host without :host root node and rails wraps it correctly" do
