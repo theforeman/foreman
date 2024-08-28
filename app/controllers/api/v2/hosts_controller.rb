@@ -159,7 +159,6 @@ module Api
         @all_parameters = true
 
         @host.attributes = host_attributes(host_params, @host)
-        apply_compute_profile(@host) if (params[:host] && params[:host][:compute_attributes].present?) || @host.compute_profile_id_changed?
 
         process_response @host.save
       rescue InterfaceTypeMapper::UnknownTypeException => e
