@@ -88,7 +88,7 @@ fi
      end
    elsif @subman_setup_scenario == 'provisioning'
      if plugin_present?('katello')
-       server_hostname = @host.content_source
+       server_hostname = @host.content_source.rhsm_url.host
        server_port = @host.content_source.rhsm_url.port
        server_prefix = @host.content_source.rhsm_url.path
        repo_ca_cert = "$KATELLO_SERVER_CA_CERT"
