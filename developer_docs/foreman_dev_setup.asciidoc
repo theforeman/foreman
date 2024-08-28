@@ -68,7 +68,6 @@ sudo -u postgres createuser --createdb $USER
 git clone https://github.com/{GITHUB_USER}/foreman.git -b develop
 cd foreman
 cp config/settings.yaml.example config/settings.yaml
-cp config/database.yml.example config/database.yml
 git remote add upstream git@github.com:theforeman/foreman.git
 ....
 
@@ -106,8 +105,6 @@ Foreman uses Bundler to install dependencies and get up and running. This is the
 
 [[Database]]
 == Setting the database
-It is important that config/database.yml is set to use the correct database in the “development” block.
-Rails (and subsequently Foreman) will use these connection settings under “development” to manage the database it uses and setup the necessary schema.
 
 Set up database schema:
 [source, ruby]
