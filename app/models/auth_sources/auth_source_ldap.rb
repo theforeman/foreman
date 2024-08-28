@@ -39,7 +39,7 @@ class AuthSourceLdap < AuthSource
 
   before_validation :strip_ldap_attributes
   before_validation :sanitize_use_netgroups
-  after_initialize :set_defaults
+  after_initialize :set_defaults, if: :new_record?
 
   scoped_search :on => :name, :complete_value => :true
 
