@@ -96,7 +96,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
     test "edit page" do
       visit host_details_page_path(@host)
-      click_button 'Edit'
+      find('.host-details-header-section').find_button('Edit').click # the Edit button for the host details, not the host comment
       assert @host.hostname.start_with? page.find('#host_name').value
     end
 
