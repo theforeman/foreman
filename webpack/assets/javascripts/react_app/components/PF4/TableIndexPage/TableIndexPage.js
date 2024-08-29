@@ -141,14 +141,16 @@ const TableIndexPage = ({
       can_create: canCreate,
       results,
       total,
-      per_page: perPage,
-      page,
+      per_page: respPerPage,
+      page: respPage,
       subtotal,
       message: errorMessage,
     },
     status = STATUS.PENDING,
     setAPIOptions,
   } = response;
+  const page = Number(respPage);
+  const perPage = Number(respPerPage);
 
   const memoDefaultSearchProps = useMemo(
     () => getControllerSearchProps(controller),
