@@ -87,7 +87,7 @@ Foreman::SettingManager.define(:foreman) do
     setting('websockets_encrypt',
       type: :boolean,
       description: N_("VNC/SPICE websocket proxy console access encryption (websockets_ssl_key/cert setting required)"),
-      default: !!SETTINGS[:require_ssl],
+      default: !!SETTINGS[:require_ssl], # rubocop:disable Style/DoubleNegation
       full_name: N_('Websockets encryption'))
     validates('websockets_encrypt', ->(value) { !value || !(Setting["websockets_ssl_key"].empty? || Setting["websockets_ssl_cert"].empty?) }, message: N_("Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_ssl_cert is missing"))
     validates('websockets_ssl_key', ->(value) { !Setting["websockets_encrypt"] || !value.empty? }, message: N_("Unable to unset websockets_ssl_key when websockets_encrypt is on"))

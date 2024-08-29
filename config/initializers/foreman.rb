@@ -1,11 +1,6 @@
 # stdlib dependencies
 require 'English'
 
-# Registries from app/registries/ that do not create a namespace
-# should be loaded manually due to Zeitwerk
-require 'foreman/access_permissions'
-require 'foreman/settings'
-
 Rails.application.config.before_initialize do
   # load topbar
   Menu::Loader.load
