@@ -344,8 +344,6 @@ $(document).on('click', '.managed-flag', function() {
   update_interface_table();
 });
 
-var providerSpecificNICInfo = null;
-
 function nic_info(form) {
   var info = '';
   var virtual_types = ['Nic::Bond', 'Nic::Bridge'];

@@ -691,7 +691,7 @@ module Foreman::Model
         interface_attrs = {}
         interface_attrs[:compute_attributes] = {}
         interface_attrs[:mac] = interface.mac
-        interface_attrs[:compute_attributes][:network] = network.name
+        interface_attrs[:compute_attributes][:network] = network.id
         interface_attrs[:compute_attributes][:type] = interface.type.to_s.split('::').last
         hsh[index.to_s] = interface_attrs
       end
