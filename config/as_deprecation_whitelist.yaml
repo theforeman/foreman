@@ -1,3 +1,1 @@
 ---
-- message: Initialization autoloaded the constants
-- message: DatabaseConfig#config will be removed in 6.2.0 in favor of DatabaseConfigurations#configuration_hash which returns a hash with symbol keys

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :audit do
     sequence(:version) { |n| n.to_s }
-    auditable_type { "test" }
+    auditable_type { ApplicationRecord }
     action { "update" }
 
     trait :with_diff do

@@ -91,7 +91,7 @@ module Foreman::Model
       super
       errors[:user].empty? && errors[:password] && tenants
     rescue => e
-      errors[:base] << e.message
+      errors.add(:base, e.message)
     end
 
     def available_images

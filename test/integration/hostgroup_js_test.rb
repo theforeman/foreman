@@ -23,8 +23,9 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     select2 os.ptables.first.name, :from => 'hostgroup_ptable_id'
     fill_in 'hostgroup_root_pass', :with => '12345678'
     click_button 'Submit'
-
-    hostgroup = Hostgroup.where(:name => "myhostgroup1").first
+    hostgroup = wait_for do
+      Hostgroup.where(:name => "myhostgroup1").first
+    end
     refute_nil hostgroup
     assert_equal os.id, hostgroup.operatingsystem_id
     assert page.has_current_path? hostgroups_path

@@ -95,7 +95,9 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       ensure_selected_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
       page.click_button 'Submit'
 
-      created_domain = Domain.unscoped.find_by_name(domain.name)
+      created_domain = wait_for do
+        Domain.unscoped.find_by_name(domain.name)
+      end
       # sets the only organization anyway
       assert_equal [@org1], created_domain.organizations
     end

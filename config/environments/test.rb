@@ -10,7 +10,8 @@ Foreman::Application.configure do
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs. Don't rely on the data there!
-  config.cache_classes = true
+  # Disable reloading for integration tests
+  config.cache_classes = ARGV.grep(/test\/integration/).any?
 
   config.eager_load = true
 

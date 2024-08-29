@@ -333,10 +333,6 @@ class ApplicationController < ActionController::Base
     render :partial => "common/ajax_error", :status => :internal_server_error, :locals => { :message => message }
   end
 
-  def redirect_back_or_to(url)
-    redirect_back(fallback_location: url, allow_other_host: false)
-  end
-
   def saved_redirect_url_or(default)
     session["redirect_to_url_#{controller_name}"] || default
   end

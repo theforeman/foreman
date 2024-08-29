@@ -78,7 +78,7 @@ module Foreman::Model
       errors[:url].empty? && hypervisor
     rescue => e
       disconnect rescue nil
-      errors[:base] << e.message
+      errors.add(:base, e.message)
     end
 
     def new_nic(attr = {})

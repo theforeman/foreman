@@ -16,5 +16,6 @@ namespace :webpack do
     end
 
     sh "npx --max_old_space_size=#{max_old_space_size} webpack --config #{config_file} --bail"
+    ActiveRecord::Base.clear_all_connections!
   end
 end
