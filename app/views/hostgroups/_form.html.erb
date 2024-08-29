@@ -26,8 +26,16 @@
       <%= text_f f, :name %>
       <%= textarea_f f, :description, :rows => :auto %>
 
-      <%= select_f f, :compute_resource_id, accessible_resource(@hostgroup, :compute_resource), :id, :to_label,
-          { :include_blank => blank_or_inherit_f(f, :compute_resource, blank_value: _('Bare Metal')) },
+      <%= select_f f, :compute_resource_id, 
+          accessible_resource(@hostgroup, :compute_resource), 
+          :id, 
+          :to_label,
+          { 
+            :disable_button_enabled => hostgroup_inherited_by_default?(:compute_resource_id, @hostgroup),
+            :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
+            :user_set => user_set?(:compute_resource_id),
+            :include_blank => _('Bare Metal'),
+          },
           { :label => _('Deploy on'),
             :help_inline => :indicator } %>
 

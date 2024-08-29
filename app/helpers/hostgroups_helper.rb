@@ -37,4 +37,11 @@ module HostgroupsHelper
       sort_by { |member| member[:priority] }.
       map { |member_hash| member_hash[value_key] }
   end
+
+  def hostgroup_inherited_by_default?(field, hostgroup)
+    return false if hostgroup.ancestry.nil?
+    return false if params[:action] == 'clone'
+    return true unless params[:hostgroup]
+    !params[:hostgroup][field]
+  end
 end
