@@ -70,6 +70,7 @@ module Foreman
         "syspurpose_usage" => "Development/Test",
         "syspurpose_sla" => "Self-Support",
         "syspurpose_addons" => "first addon, second addon, third addon",
+        "subscription_manager" => "true",
       }
       host_params.each_pair do |name, value|
         FactoryBot.build(:host_parameter, host: host, name: name, value: value)
