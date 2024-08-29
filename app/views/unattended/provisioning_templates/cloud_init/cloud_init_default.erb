@@ -51,6 +51,7 @@ runcmd:
 <%= indent(2) { snippet 'epel' } -%>
 <% end -%>
 - |
+  # The first line must be indented correctly to keep YAML integrity
 <%= indent(2) { snippet 'redhat_register' } -%>
 - |
 <% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>

@@ -34,6 +34,8 @@ namespace :snapshots do
       Foreman.settings.load
       Setting[:unattended_url] = "http://foreman.example.com"
       Setting[:foreman_url] = "http://foreman.example.com"
+      Setting[:ct_location] = "/usr/bin/cat"
+      Setting[:ct_arguments] = []
 
       User.current = FactoryBot.build(:user, :admin)
       admin = FactoryBot.create(:user, :admin, password: 'password123', auth_source: FactoryBot.create(:auth_source_ldap))
