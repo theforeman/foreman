@@ -32,13 +32,9 @@ ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command no
 echo Trying to ping DNS: ${netX/dns}
 ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
 
-<% boot_files_uris = @host.operatingsystem.boot_files_uri(medium_provider) -%>
-<% kernel = boot_files_uris[0] -%>
-<% initrd = boot_files_uris[1] -%>
+kernel <%= @kernel_uri %> initrd=<%= @initrd_uri.split('/').last %> interface=auto url=<%= url %> ramdisk_size=10800 root=/dev/rd/0 rw auto <%= snippet("preseed_kernel_options", variables: {ipxe_net: true}).strip %>
 
-kernel <%= kernel %> initrd=initrd.img interface=auto url=<%= url %> ramdisk_size=10800 root=/dev/rd/0 rw auto <%= snippet("preseed_kernel_options", variables: {ipxe_net: true}).strip %>
-
-initrd <%= initrd %>
+initrd <%= @initrd_uri %>
 
 imgstat
 sleep 2
