@@ -58,4 +58,9 @@ module Host
     method.to_s =~ /\Afind_by_(.*)\Z/ || method.to_s.include?('create') ||
       [:reorder, :new].include?(method) || super
   end
+
+  # This is a workaround for https://github.com/rails/rails/blob/v7.0.4/activerecord/lib/active_record/reflection.rb#L420-L443
+  def self.<(other)
+    other == ActiveRecord::Base || super
+  end
 end
