@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'foreman/access_control'
 
 class AccessControlTest < ActiveSupport::TestCase
   test '#path_hash_to_string reads controller and action' do

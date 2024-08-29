@@ -1,5 +1,3 @@
-require 'foreman/access_control'
-
 module AccessPermissionsTestBase
   extend ActiveSupport::Concern
 

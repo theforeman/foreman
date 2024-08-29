@@ -4,7 +4,7 @@ class LinksController < ApplicationController
 
   def show
     url = external_url(type: params[:type], options: params)
-    redirect_to(url)
+    redirect_to(url, allow_other_host: true)
   end
 
   def external_url(type:, options: {})

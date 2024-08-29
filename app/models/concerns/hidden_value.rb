@@ -10,4 +10,8 @@ module HiddenValue
   def hidden_value
     HIDDEN_VALUE
   end
+
+  def hidden_value?
+    attributes['hidden_value']
+  end
 end
