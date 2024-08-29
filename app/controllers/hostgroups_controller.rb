@@ -30,6 +30,7 @@ class HostgroupsController < ApplicationController
     @hostgroup = Hostgroup.new(:parent_id => @parent.id)
 
     load_vars_for_ajax
+    @hostgroup.compute_resource_id = @parent.compute_resource_id
     @hostgroup.locations = @parent.locations
     @hostgroup.organizations = @parent.organizations
     # Clone any parameters as well
@@ -101,11 +102,12 @@ class HostgroupsController < ApplicationController
   def load_vars_for_ajax
     return unless @hostgroup.present?
 
-    @architecture    = @hostgroup.architecture
-    @operatingsystem = @hostgroup.operatingsystem
-    @domain          = @hostgroup.domain
-    @subnet          = @hostgroup.subnet
-    @realm           = @hostgroup.realm
+    @compute_resource_id = @hostgroup.compute_resource_id
+    @architecture        = @hostgroup.architecture
+    @operatingsystem     = @hostgroup.operatingsystem
+    @domain              = @hostgroup.domain
+    @subnet              = @hostgroup.subnet
+    @realm               = @hostgroup.realm
   end
 
   def users_in_ancestors
@@ -144,11 +146,12 @@ class HostgroupsController < ApplicationController
   def inherit_parent_attributes
     return unless @parent.present?
 
-    @hostgroup.architecture       ||= @parent.architecture
-    @hostgroup.operatingsystem    ||= @parent.operatingsystem
-    @hostgroup.domain             ||= @parent.domain
-    @hostgroup.subnet             ||= @parent.subnet
-    @hostgroup.realm              ||= @parent.realm
+    @hostgroup.compute_resource_id ||= @parent.compute_resource_id
+    @hostgroup.architecture        ||= @parent.architecture
+    @hostgroup.operatingsystem     ||= @parent.operatingsystem
+    @hostgroup.domain              ||= @parent.domain
+    @hostgroup.subnet              ||= @parent.subnet
+    @hostgroup.realm               ||= @parent.realm
   end
 
   def reset_explicit_attributes

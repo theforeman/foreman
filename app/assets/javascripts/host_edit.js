@@ -1,5 +1,5 @@
 //= require parameter_override
-
+var compute_resource_id = null;
 $(document).ready(function() {
   var searchParams = new URLSearchParams(window.location.search);
   if(searchParams.has('hostgroup_id')) {
@@ -9,6 +9,32 @@ $(document).ready(function() {
 });
 $(document).on('ContentLoad', function() {
   onHostEditLoad();
+  document
+    .querySelector('[name=is_overridden_btn]')
+    .addEventListener('click', function(event) {
+      const item = event.target;
+      var formControl = $(item)
+        .closest('.input-group')
+        .find('.form-control');
+      const itemId = formControl.attr('id');
+      if (itemId.includes('compute_resource_id')) {
+        const select2Id = itemId.replace('s2id_', '');
+        const isDisabled = formControl.attr('disabled');
+        if (isDisabled) {
+          $(`#${select2Id}`)
+            .val(compute_resource_id)
+            .trigger('change');
+        }
+      }
+    });
+  if (window.location.href.includes('hostgroup')) {
+    document.querySelector('form').addEventListener('submit', function() {
+      // making sure inherited compute resource is included in the form
+      const hostgroup_compute_resource_id = $('#hostgroup_compute_resource_id');
+      hostgroup_compute_resource_id.prop('disabled', false);
+    });
+  }
+  update_default_compute_resource($('.hostgroup-select').val());
 });
 $(document)
   .on('change', '.hostgroup-select', function(evt) {
@@ -246,6 +272,24 @@ function update_progress(data) {
   $('#tasks_progress').replaceWith(data);
 }
 
+function update_default_compute_resource(hostgroup_id) {
+  if(hostgroup_id) {
+    tfm.tools.showSpinner();
+    $.ajax({
+      type: 'get',
+      url: '/api/hostgroups/' + hostgroup_id,
+      complete: function() {
+        tfm.tools.hideSpinner();
+      },
+      success: function(response) {
+        compute_resource_id = response['compute_resource_id'];
+      }});
+  }
+  else {
+    compute_resource_id = null
+  }
+}
+
 function hostgroup_changed(element) {
   var host_id = $('form').data('id');
   var host_changed = $('form').data('type-changed');
@@ -255,6 +299,9 @@ function hostgroup_changed(element) {
     // a new host
     handleHostgroupChangedNew(element);
   }
+  const hostgroup_id = element.value;
+  update_default_compute_resource(hostgroup_id);
+
 }
 
 function handleHostgroupChangeEdit(element, host_id, host_changed) {
