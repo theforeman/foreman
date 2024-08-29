@@ -116,7 +116,7 @@ const TableIndexPage = ({
   const { location: { search: historySearch } = {} } = history || {};
   const urlParams = new URLSearchParams(historySearch);
   const urlParamsSearch = urlParams.get('search') || '';
-  const search = urlParamsSearch || getURIsearch();
+  const search = updateParamsByUrl ? urlParamsSearch || getURIsearch() : '';
   const defaultParams = { search: search || '' };
   if (updateParamsByUrl) {
     const urlPage = urlParams.get('page');
