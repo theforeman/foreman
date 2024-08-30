@@ -529,6 +529,7 @@ class HostJSTest < IntegrationTestWithJavascript
       page.find(id).click
       assert page.has_no_selector?(id)
       click_button('Submit')
+      find('h5', :text => host.fqdn) # wait for the host page to load
 
       visit edit_host_path(host)
       switch_form_tab('Parameters')
