@@ -38,6 +38,9 @@ export const Table = ({
   children,
   bottomPagination,
 }) => {
+  const onPagination = newPagination => {
+    setParams({ ...params, ...newPagination });
+  };
   if (!bottomPagination)
     bottomPagination = (
       <Pagination
@@ -61,9 +64,6 @@ export const Table = ({
       ...params,
       order: `${Object.keys(columns)[index]} ${direction}`,
     });
-  };
-  const onPagination = newPagination => {
-    setParams({ ...params, ...newPagination });
   };
   const { pfSortParams } = useTableSort({
     allColumns: Object.keys(columns).map(k => columns[k].title),
