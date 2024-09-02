@@ -11,5 +11,6 @@
     :style_src   => ["'unsafe-inline'", "'self'"],
     :script_src  => ["'unsafe-eval'", "'unsafe-inline'", "'self'"],
     :img_src     => ["'self'", 'data:'],
+    :media_src   => ["'self'", 'data:'],
   }
 end
