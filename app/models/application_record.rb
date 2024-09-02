@@ -15,7 +15,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   class Jail < Safemode::Jail
-    allow :id, :name, :present?
+    allow :id, :name, :present?, :created_at
   end
 
   self.abstract_class = true

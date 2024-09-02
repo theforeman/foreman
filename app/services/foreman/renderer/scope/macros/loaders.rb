@@ -70,6 +70,11 @@ module Foreman
             end
           end
 
+          def load_any_resource(resource:, permission:, search: '', batch: nil)
+            model = resource.constantize
+            load_resource(klass: model, search: search, permission: permission, batch: batch)
+          end
+
           private
 
           # returns a batched relation, use either
@@ -88,7 +93,8 @@ module Foreman
             base = base.limit(limit) unless limit.nil?
             base = base.where(where) unless where.nil?
             base = base.select(select) unless select.nil?
-            base.in_batches(of: batch)
+            base = base.in_batches(of: batch) unless batch.nil?
+            base
           end
         end
       end
