@@ -1,0 +1,17 @@
+<%#
+name: Usage report
+snippet: false
+model: ReportTemplate
+-%>
+
+<%- report_row(item: 'SmartProxy', data: load_smart_proxies(batch: nil).size) -%>
+<%- report_row(item: 'SmartProxy_creation', data: load_smart_proxies(batch: nil).map{|p| p.created_at} ) -%>
+<%- report_row(item: 'SmartProxy_feature_details', data: load_smart_proxies(batch: nil).map{|p| p.feature_details } ) -%>
+<%- report_row(item: 'Experimental', data: global_setting(:lab_features) ) -%>
+
+<%- report_row(item: 'Users', data: load_users(batch: nil).size) -%>
+<%- report_row(item: 'Users', data: load_users(batch: nil, search: 'admin = false').size) -%>
+
+<%- report_row(item: 'AnyResource', data: load_any_resource(resource: 'User', permission: 'view_users', batch: nil, search: 'admin = false').size) -%>
+
+<%= report_render -%>
