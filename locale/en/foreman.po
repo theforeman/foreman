@@ -4741,6 +4741,9 @@ msgstr ""
 msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr ""
 
+msgid "Image not found"
+msgstr ""
+
 msgid "Image path"
 msgstr ""
 

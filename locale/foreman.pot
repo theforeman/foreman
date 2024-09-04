@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-21 15:27-0400\n"
-"PO-Revision-Date: 2024-08-21 15:27-0400\n"
+"POT-Creation-Date: 2024-09-04 15:24-0400\n"
+"PO-Revision-Date: 2024-09-04 15:24-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -5364,7 +5364,7 @@ msgstr ""
 #: ../app/helpers/images_helper.rb:8
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:7
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:13
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:22
+#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:20
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:13
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:77
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:49
@@ -6047,11 +6047,11 @@ msgid ""
 " resource is reachable and that you have appropriate access permissions."
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/libvirt.rb:300
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:301
 msgid "At least one volume must be specified for image-based provisioning."
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/libvirt.rb:325
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:326
 msgid ""
 "Please specify volume size. You may optionally use suffix 'G' to specify volum"
 "e size in gigabytes."
@@ -11539,11 +11539,6 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:21
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:76
-msgid "Image to use"
-msgstr ""
-
 #: ../app/views/compute_resources_vms/form/libvirt/_network.html.erb:8
 msgid "Network type"
 msgstr ""
@@ -11668,6 +11663,10 @@ msgstr ""
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:33
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtOvirt.js:37
 msgid "Keyboard"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:76
+msgid "Image to use"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:13
@@ -15095,6 +15094,10 @@ msgstr ""
 #: ../webpack/assets/javascripts/foreman_tools.js:51
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:130
 msgid "Loading..."
+msgstr ""
+
+#: ../webpack/assets/javascripts/compute_resource/libvirt.js:95
+msgid "Image not found"
 msgstr ""
 
 #: ../webpack/assets/javascripts/compute_resource/openstack.js:32
