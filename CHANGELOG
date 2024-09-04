@@ -1,3 +1,31 @@
+2024-09-04	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.11.2
+	* Test against correct Katello version
+
+2024-09-03	Evgeni Golov <evgeni@golov.de>
+	* Fixes #37775 - include hashes in production builds of assets
+	* Fixes #37774 - wait for the host page to render before editing again
+	* Refs #37443 - find the right Edit button on the host details page
+
+2024-08-30	Chris Roberts <chrobert@redhat.com>
+	* Fixes #37623 - Use html format in react controller for ics domains
+
+2024-08-30	Evgeni Golov <evgeni@golov.de>
+	* properly fail the "Test Suite" check when any inputs are failing
+	* Fixes #37607 - pin FFI to < 1.17 for Ruby 2.7
+
+2024-08-30	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #37711 - Properly derive an IP from subnets in test factories
+
+2024-08-30	Marek Hulan <mhulan@redhat.com>
+	* Fixes #37086 - fix the obsolete chat information
+
+2024-08-30	alazik <alazik@redhat.com>
+	* Fixes #37651 - Fix error msg about invalid MAC appearing twice
+
+2024-08-30	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #37503 - Delay plugin finalization until seeds are seeded
+
 2024-07-17	Griffin-Sullivan <gsulliva@redhat.com>
 	* Release 3.11.1
 	* Pin fog-libvirt to 0.12.0
