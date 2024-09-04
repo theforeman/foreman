@@ -1,3 +1,20 @@
+2024-09-04	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 3.10.1
+
+2024-09-04	Shim Shtein <sshtein@redhat.com>
+	* Fixes #37433 - Add properly indented comment, to fix cloud-init yaml
+
+2024-05-23	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #37421 - foreman_bootdisk templates not seeded
+
+2024-04-19	Evgeni Golov <evgeni@golov.de>
+	* set katello version to 4.12
+	* include Katello in GHA tests
+	* update packit to use 3.10 release branches
+
+2024-04-19	Samir Jha <samirjha1525@gmail.com>
+	* Fixes #37312 - Upgrade foreman-vendor packages to 13.x
+
 2024-03-22	Griffin-Sullivan <gsulliva@redhat.com>
 	* Release 3.10.0
 
