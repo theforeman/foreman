@@ -147,26 +147,8 @@ module Foreman::Model
       opts[:boot_order] = %w[hd]
       opts[:boot_order].unshift 'network' unless attr[:image_id]
 
-      # This value comes from PxeLoaderSupport#firmware_type
-      firmware_type = opts.delete(:firmware_type).to_s
-
-      # automatic firmware type is determined by the PXE Loader
-      # if no PXE Loader is set, we will set it to bios by default
-      if opts[:firmware] == 'automatic'
-        opts[:firmware] = (firmware_type == 'none' || firmware_type.empty?) ? 'bios' : firmware_type
-      end
-
-      # Adjust firmware and secure_boot values for Libvirt compatibility
-      if opts[:firmware] == 'uefi_secure_boot'
-        opts[:firmware_features] = { 'secure-boot' => 'yes', 'enrolled-keys' => 'yes' }
-        opts[:loader] = { 'secure' => 'yes' }
-      end
-      # Libvirt expects the firmware type to be 'efi' instead of 'uefi'
-      if opts[:firmware]&.start_with?('uefi')
-        opts[:firmware] = 'efi'
-      else
-        opts[:firmware] = 'bios'
-      end
+      handle_automatic_firmware(opts)
+      configure_firmware_settings(opts)
 
       vm = client.servers.new opts
       vm.memory = opts[:memory] if opts[:memory]
@@ -311,7 +293,7 @@ module Foreman::Model
                          :password => random_password(console_password_length(display_type)),
                          :port     => '-1' },
         :firmware   => 'automatic',
-        :firmware_features => { "secure-boot" => "no", }
+        :firmware_features => { "secure-boot" => "no" }
       )
     end
 
@@ -347,6 +329,27 @@ module Foreman::Model
       if vol.capacity.to_s.empty? || /\A\d+G?\Z/.match(vol.capacity.to_s).nil?
         raise Foreman::Exception.new(N_("Please specify volume size. You may optionally use suffix 'G' to specify volume size in gigabytes."))
       end
+    end
+
+    def handle_automatic_firmware(opts)
+      # This value comes from PxeLoaderSupport#firmware_type
+      firmware_type = opts.delete(:firmware_type).to_s
+
+      # Handle automatic firmware setting based on PXE Loader
+      # if no PXE Loader is set, we will set it to bios by default
+      if opts[:firmware] == 'automatic'
+        opts[:firmware] = firmware_type.presence || 'bios'
+      end
+    end
+
+    def configure_firmware_settings(opts)
+      # Adjust firmware and secure boot settings for Libvirt compatibility
+      if opts[:firmware] == 'uefi_secure_boot'
+        opts[:firmware_features] = { 'secure-boot' => 'yes', 'enrolled-keys' => 'yes' }
+        opts[:loader] = { 'secure' => 'yes' }
+      end
+
+      opts[:firmware] = opts[:firmware]&.start_with?('uefi') ? 'efi' : 'bios'
     end
   end
 end

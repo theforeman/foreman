@@ -124,6 +124,57 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#handle_automatic_firmware' do
+    setup do
+      @cr = FactoryBot.build_stubbed(:libvirt_cr)
+    end
+
+    test 'sets firmware based on automatic and firmware_type scenarios' do
+      scenarios = [
+        [{ firmware: 'automatic' }, { firmware: 'bios' }],
+        [{ firmware: 'automatic', firmware_type: :bios }, { firmware: 'bios' }],
+        [{ firmware: 'automatic', firmware_type: :uefi }, { firmware: 'uefi' }],
+        [{ firmware: 'automatic', firmware_type: :uefi_secure_boot }, { firmware: 'uefi_secure_boot' }],
+      ]
+
+      scenarios.each do |input, expected|
+        @cr.send(:handle_automatic_firmware, input)
+        assert_equal(expected, input)
+      end
+    end
+
+    test 'does not change firmware if it is not automatic' do
+      attrs_in = { firmware_type: :uefi_secure_boot, firmware: 'uefi' }
+      @cr.send(:handle_automatic_firmware, attrs_in)
+      assert_equal({ firmware: 'uefi' }, attrs_in)
+    end
+  end
+
+  describe '#configure_firmware_settings' do
+    setup do
+      @cr = FactoryBot.build_stubbed(:libvirt_cr)
+    end
+
+    test 'sets firmware to BIOS when no firmware is provided' do
+      attrs_in = { firmware: '' }
+      @cr.send(:configure_firmware_settings, attrs_in)
+      assert_equal({ firmware: 'bios' }, attrs_in)
+    end
+
+    test 'sets firmware to EFI when firmware_type is uefi' do
+      attrs_in = { firmware: 'uefi' }
+      @cr.send(:configure_firmware_settings, attrs_in)
+      assert_equal({ firmware: 'efi' }, attrs_in)
+    end
+
+    test 'sets EFI firmware with SecureBoot enabled and secure loader when firmware type is uefi_secure_boot' do
+      attrs_in = { firmware: 'uefi_secure_boot' }
+      attrs_out = { firmware: 'efi', firmware_features: { 'secure-boot' => 'yes', 'enrolled-keys' => 'yes' }, loader: { 'secure' => 'yes' } }
+      @cr.send(:configure_firmware_settings, attrs_in)
+      assert_equal attrs_out, attrs_in
+    end
+  end
+
   describe '#new_volume' do
     let(:cr) { FactoryBot.build_stubbed(:libvirt_cr) }
 
