@@ -169,6 +169,17 @@ module Foreman
       define_host_params(host)
     end
 
+    def registration_template_default
+      Setting[:server_ca_file] = Rails.root.join('test/static_fixtures/certificates/example.com.crt')
+      Setting[:ssl_ca_file] =  Rails.root.join('test/static_fixtures/certificates/example2.com.crt')
+
+      host = FactoryBot.build(:host_for_snapshots, :with_rocky9,
+        name: 'snapshot-registration-template-default',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        interfaces: [FactoryBot.build(:nic_for_snapshots, :with_v4_dhcp)])
+      define_host_params(host)
+    end
+
     private
 
     def files
