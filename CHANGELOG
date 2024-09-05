@@ -1,3 +1,39 @@
+2024-09-05	Cole Higgins <chiggins@redhat.com>
+	* Release 3.12.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2024-09-04	MariaAga <mariaaga@redhat.com>
+	* Fixes #37770 - hosts bottom pagination doesnt work
+
+2024-09-03	Jason <ludovicus3@users.noreply.github.com>
+	* Fixes #37769 - Point to correct rhsm host
+
+2024-09-03	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Test against correct Katello version
+
+2024-09-03	Jeremy Lenz <jlenz@redhat.com>
+	* Fixes #37768 - Respect the updateParamsByUrl param
+
+2024-09-03	Pavel Moravec <pmoravec@redhat.com>
+	* Fixes #37647 - Make telemetry allowed_labels configurable
+
+2024-09-03	Manisha Singhal <singhal@atix.de>
+	* Fixes #37767 - Fixes User search filter for 'auth_source_type'.
+
+2024-09-03	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #37519 - Host form - Libvirt improvements
+
+2024-09-02	Evgeni Golov <evgeni@golov.de>
+	* Fixes #37775 - include hashes in production builds of assets
+	* Fixes #37774 - wait for the host page to render before editing again
+	* Refs #37443 - find the right Edit button on the host details page
+
+2024-08-29	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #36999 - Force host-passthrough CPU model for libvirt
+
+2024-08-28	Leos Stejskal <lstejska@redhat.com>
+	* refs #37433 - Revert indentation for subscription_manager_setup
+
 2024-08-21	Cole Higgins <chiggins@redhat.com>
 	* Release 3.12.0-rc1
 	* i18n - extracting new, pulling from tx
