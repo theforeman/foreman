@@ -47,7 +47,7 @@ const Status = ({ name }) => {
     error: { total: errorTotalCount, owned: errorOwnedCount },
   } = useSelector(state => selectHostStatusCounter(state, name));
 
-  const cardClass = classNames('pf-c-alert', {
+  const cardClass = classNames('pf-v5-c-alert', {
     'pf-m-danger': errorTotalCount,
     'pf-m-warning': !errorTotalCount && warnTotalCount,
     'pf-m-success': !errorTotalCount && !warnTotalCount,

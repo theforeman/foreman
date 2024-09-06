@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { FormGroup } from '@patternfly/react-core';
 import {
   Select,
   SelectOption,
   SelectVariant,
-  FormGroup,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import { useAPI } from '../../common/hooks/API/APIHooks';
 import { EMPTY_RESOURCE_TYPE } from './FiltersFormConstants';
 import { translate as __ } from '../../common/I18n';
@@ -51,7 +51,7 @@ export const SelectResourceType = ({
         maxHeight="45vh"
         variant={SelectVariant.typeahead}
         typeAheadAriaLabel="Select a resource type"
-        onToggle={setIsOpen}
+        onToggle={(_event, val) => setIsOpen(val)}
         selections={type.translation}
         isOpen={isOpen}
         aria-labelledby="resource type"

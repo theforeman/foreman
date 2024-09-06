@@ -6,6 +6,8 @@ import {
   EmptyState,
   EmptyStateIcon,
   Spinner,
+  EmptyStateHeader,
+  EmptyStateFooter,
 } from '@patternfly/react-core';
 import { translate as __ } from '../../common/I18n';
 
@@ -17,12 +19,14 @@ const Loading = ({ textSize, iconSize, showText }) => {
   return (
     <Bullseye>
       <EmptyState>
-        <EmptyStateIcon variant="container" component={LoadingSpinner} />
-        {showText && (
-          <Title ouiaId="loading-title" size={textSize} headingLevel="h4">
-            {__('Loading')}
-          </Title>
-        )}
+        <EmptyStateHeader icon={<EmptyStateIcon icon={LoadingSpinner} />} />
+        <EmptyStateFooter>
+          {showText && (
+            <Title ouiaId="loading-title" size={textSize} headingLevel="h4">
+              {__('Loading')}
+            </Title>
+          )}
+        </EmptyStateFooter>
       </EmptyState>
     </Bullseye>
   );

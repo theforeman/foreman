@@ -62,7 +62,7 @@ const ConfirmModal = () => {
       ouiaId="dire-warning-checkbox"
       label={__('I understand that this action cannot be undone.')}
       isChecked={direWarningChecked}
-      onChange={val => setDireWarningChecked(val)}
+      onChange={(_event, val) => setDireWarningChecked(val)}
     />
   );
 

@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { Button, Grid, GridItem, Icon } from '@patternfly/react-core';
 import {
   ContextSelector,
   ContextSelectorItem,
   ContextSelectorFooter,
-  Button,
-  Grid,
-  GridItem,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import { CheckIcon, GlobeIcon, BuildingIcon } from '@patternfly/react-icons';
 import { foremanUrl } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
@@ -50,7 +48,11 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
     setSearchValue(event.target.value);
   };
 
-  const selectedIcon = <CheckIcon size="sm" className="current-taxonomy-v" />;
+  const selectedIcon = (
+    <Icon size="sm">
+      <CheckIcon className="current-taxonomy-v" />
+    </Icon>
+  );
   const anyIcon =
     taxonomyType === 'organization' ? (
       <BuildingIcon style={{ marginRight: '5px', marginTop: '3px' }} />
@@ -80,7 +82,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
     <ContextSelectorFooter>
       <Button
         ouiaId={`manage-taxonomy-button-${taxonomyType}`}
-        isSmall
+        size="sm"
         component="a"
         className={taxonomyType}
         variant="secondary"

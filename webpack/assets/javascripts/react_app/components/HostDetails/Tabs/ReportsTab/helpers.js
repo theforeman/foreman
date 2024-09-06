@@ -2,14 +2,12 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Button, FlexItem, Flex, Icon } from '@patternfly/react-core';
 import {
-  Button,
   Dropdown,
   DropdownItem,
   KebabToggle,
-  FlexItem,
-  Flex,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import {
   ExclamationCircleIcon,
   SyncAltIcon,
@@ -25,23 +23,34 @@ import RelativeDateTime from '../../../common/dates/RelativeDateTime';
 const statusMapper = {
   failed: amount => (
     <>
-      <ExclamationCircleIcon color="var(--pf-global--palette--red-100)" />{' '}
+      <Icon color="var(--pf-v5-global--palette--red-100)">
+        <ExclamationCircleIcon />
+      </Icon>
       {amount}
     </>
   ),
   failed_restarts: amount => (
     <>
-      <SyncAltIcon color="var(--pf-global--palette--red-100)" /> {amount}
+      <Icon color="var(--pf-v5-global--palette--red-100)">
+        <SyncAltIcon />
+      </Icon>{' '}
+      {amount}
     </>
   ),
   restarted: amount => (
     <>
-      <SyncAltIcon color="var(--pf-global--palette--orange-300)" /> {amount}
+      <Icon color="var(--pf-v5-global--palette--orange-300)">
+        <SyncAltIcon />
+      </Icon>{' '}
+      {amount}
     </>
   ),
   applied: amount => (
     <>
-      <CheckCircleIcon color="var(--pf-global--success-color--100)" /> {amount}
+      <Icon color="var(--pf-v5-global--success-color--100)">
+        <CheckCircleIcon />
+      </Icon>{' '}
+      {amount}
     </>
   ),
   skipped: amount => (
@@ -122,7 +131,12 @@ export const ActionFormatter = ({ id, can_delete }, fetchReports) => {
         <Dropdown
           ouiaId="action-dropdown"
           onSelect={v => setOpen(!v)}
-          toggle={<KebabToggle onToggle={setOpen} id="toggle-action" />}
+          toggle={
+            <KebabToggle
+              onToggle={(_event, val) => setOpen(val)}
+              id="toggle-action"
+            />
+          }
           isOpen={isOpen}
           isPlain
           dropdownItems={dropdownItems}

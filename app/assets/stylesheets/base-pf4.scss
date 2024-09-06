@@ -9,24 +9,25 @@
 html {
   font-family: sans-serif;
   line-height: 1.15;
+  font-size: unset !important;
 }
 
 body {
-  font-family: var(--pf-global--FontFamily--sans-serif);
-  font-size: var(--pf-global--FontSize--sm);
-  font-weight: var(--pf-global--FontWeight--normal);
-  line-height: var(--pf-global--LineHeight--md);
+  font-family: var(--pf-v5-global--FontFamily--text);
+  font-size: var(--pf-v5-global--FontSize--sm);
+  font-weight: var(--pf-v5-global--FontWeight--normal);
+  line-height: var(--pf-v5-global--LineHeight--md);
   text-align: left;
 }
 
 a {
-  font-weight: var(--pf-global--link--FontWeight);
-  color: var(--pf-global--link--Color);
-  text-decoration: var(--pf-global--link--TextDecoration);
+  font-weight: var(--pf-v5-global--link--FontWeight);
+  color: var(--pf-v5-global--link--Color);
+  text-decoration: var(--pf-v5-global--link--TextDecoration);
 
   &:hover {
-    --pf-global--link--Color: var(--pf-global--link--Color--hover);
-    --pf-global--link--TextDecoration: var(--pf-global--link--TextDecoration--hover);
+    --pf-v5-global--link--Color: var(--pf-v5-global--link--Color--hover);
+    --pf-v5-global--link--TextDecoration: var(--pf-v5-global--link--TextDecoration--hover);
   }
 }
 
@@ -51,6 +52,6 @@ a {
   }
 }
 
-.pf-c-alert h4 {
-  line-height: var(--pf-global--LineHeight--md);
+.pf-v5-c-alert h4 {
+  line-height: var(--pf-v5-global--LineHeight--md);
 }

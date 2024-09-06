@@ -2,15 +2,13 @@ import PropTypes from 'prop-types';
 import React, { useState, useContext, useEffect } from 'react';
 import {
   Card,
-  CardActions,
   CardHeader,
   CardExpandableContent,
-  Dropdown,
-  KebabToggle,
   CardTitle,
   CardBody,
   GridItem,
 } from '@patternfly/react-core';
+import { Dropdown, KebabToggle } from '@patternfly/react-core/deprecated';
 
 import { CardExpansionContext } from '../../../CardExpansionContext';
 
@@ -62,23 +60,33 @@ const CardTemplate = ({
     >
       <Card isExpanded={isExpanded} ouiaId={`card-template-${cardId}`}>
         <CardHeader
+          {...(dropdownItems && {
+            actions: {
+              actions: (
+                <>
+                  <Dropdown
+                    ouiaId="template-card-dropdown"
+                    toggle={
+                      <KebabToggle
+                        onToggle={(_event, isOpen) => onDropdownToggle(isOpen)}
+                      />
+                    }
+                    isOpen={dropdownVisibility}
+                    dropdownItems={dropdownItems}
+                    isPlain
+                    position="right"
+                    {...overrideDropdownProps}
+                    onSelect={onDropdownSelect}
+                  />
+                </>
+              ),
+              hasNoOffset: false,
+              className: undefined,
+            },
+          })}
           onExpand={expandable && onExpandCallback}
           isToggleRightAligned
         >
-          {dropdownItems && (
-            <CardActions>
-              <Dropdown
-                ouiaId="template-card-dropdown"
-                toggle={<KebabToggle onToggle={onDropdownToggle} />}
-                isOpen={dropdownVisibility}
-                dropdownItems={dropdownItems}
-                isPlain
-                position="right"
-                {...overrideDropdownProps}
-                onSelect={onDropdownSelect}
-              />
-            </CardActions>
-          )}
           <CardTitle>{header}</CardTitle>
         </CardHeader>
         {expandable ? (

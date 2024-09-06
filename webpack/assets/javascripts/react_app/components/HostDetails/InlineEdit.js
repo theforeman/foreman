@@ -53,7 +53,7 @@ export const InlineEdit = ({
             <TextArea
               value={value}
               type="text"
-              onChange={handleInputChange}
+              onChange={(_event, newValue) => handleInputChange(newValue)}
               aria-label="Editable text input"
             />
           </FlexItem>
@@ -84,7 +84,7 @@ export const InlineEdit = ({
             spacer={{ default: 'spacerNone' }}
             grow={{ default: 'grow' }}
           >
-            <div className="pf-c-inline-edit__value">{value}</div>
+            <div className="pf-v5-c-inline-edit__value">{value}</div>
           </FlexItem>
           {editPermission && (
             <FlexItem spacer={{ default: 'spacerNone' }}>

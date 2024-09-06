@@ -32,7 +32,7 @@ describe('RegistrationCommandsPage integration', () => {
     integrationTestHelper.takeStoreAndLastActionSnapshot('rendered');
 
     const submitBtn = component.find('#generate_btn').at(0)
-    const commandField = component.find('.pf-c-clipboard-copy__expandable-content pre')
+    const commandField = component.find('.pf-v5-c-clipboard-copy__expandable-content pre')
 
     expect(submitBtn.hasClass('pf-m-disabled')).toBe(false);
     expect(commandField.length).toBe(0);

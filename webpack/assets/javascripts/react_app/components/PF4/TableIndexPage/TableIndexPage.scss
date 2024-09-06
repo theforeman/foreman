@@ -7,7 +7,7 @@
     padding-bottom: 16px;
     .table-toolbar {
       padding: 0;
-      .pf-c-toolbar__content {
+      .pf-v5-c-toolbar__content {
         padding: 0;
       }
       .toolbar-search {
@@ -17,7 +17,7 @@
         padding-left: 16px;
       }
     }
-    .pf-c-toolbar__group {
+    .pf-v5-c-toolbar__group {
       flex-grow: 1;
       &.pf-m-align-right {
         justify-content: flex-end;
@@ -29,7 +29,7 @@
     padding-left: 0;
     padding-right: 0;
   }
-  .pf-c-toolbar__group {
+  .pf-v5-c-toolbar__group {
     flex-grow: 1;
     &.pf-m-align-right {
       justify-content: flex-end;

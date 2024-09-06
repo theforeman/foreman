@@ -12,9 +12,6 @@ exports[`ImpersonateIcon should render 1`] = `
     >
       <EyeIcon
         className="blink-image"
-        color="currentColor"
-        noVerticalAlign={false}
-        size="sm"
       />
     </span>
   </Tooltip>

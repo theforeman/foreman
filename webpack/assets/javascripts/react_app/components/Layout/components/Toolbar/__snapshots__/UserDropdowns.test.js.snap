@@ -30,9 +30,6 @@ exports[`UserDropdown render 1`] = `
     >
       <UserAltIcon
         className="user-icon"
-        color="currentColor"
-        noVerticalAlign={false}
-        size="sm"
       />
       G L
     </DropdownToggle>

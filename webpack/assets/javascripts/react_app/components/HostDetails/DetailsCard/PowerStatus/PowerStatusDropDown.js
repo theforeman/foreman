@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Tooltip } from '@patternfly/react-core';
 import {
   Dropdown,
   DropdownToggle,
   DropdownItem,
-  Tooltip,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 
 import { foremanUrl } from '../../../../common/helpers';
 import { useAPI } from '../../../../common/hooks/API/APIHooks';
@@ -72,7 +72,7 @@ const PowerStatusDropDown = ({ hostID, hasPowerPermission, isBmc }) => {
           <DropdownToggle
             ouiaId="power-status-dropdown-toggle"
             isDisabled={!hasPowerPermission || currentState === 'na'}
-            onToggle={onToggle}
+            onToggle={(_event, open) => onToggle(open)}
           >
             <PowerStatusIcon
               state={currentState}

@@ -49,7 +49,7 @@ const ConfigParams = ({
         <FormSelect
           ouiaId="registration_setup_remote_execution"
           value={setupRemoteExecution}
-          onChange={v => handleRemoteExecution(v)}
+          onChange={(_event, v) => handleRemoteExecution(v)}
           className="without_select2"
           id="registration_setup_remote_execution"
           isDisabled={isLoading}
@@ -73,7 +73,7 @@ const ConfigParams = ({
         <FormSelect
           ouiaId="registration_setup_insights"
           value={setupInsights}
-          onChange={v => handleInsights(v)}
+          onChange={(_event, v) => handleInsights(v)}
           className="without_select2"
           id="registration_setup_insights"
           isDisabled={isLoading}

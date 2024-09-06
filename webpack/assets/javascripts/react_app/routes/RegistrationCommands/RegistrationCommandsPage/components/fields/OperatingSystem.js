@@ -9,6 +9,9 @@ import {
   FormGroup,
   FormSelect,
   FormSelectOption,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
 } from '@patternfly/react-core';
 
 import LabelIcon from '../../../../../components/common/LabelIcon';
@@ -67,13 +70,6 @@ const OperatingSystem = ({
   return (
     <FormGroup
       label={__('Operating system')}
-      helperText={osHelperText(
-        operatingSystemId,
-        operatingSystems,
-        hostGroupId,
-        hostGroups,
-        operatingSystemTemplate
-      )}
       labelIcon={
         <LabelIcon
           text={__(
@@ -86,7 +82,7 @@ const OperatingSystem = ({
       <FormSelect
         ouiaId="os-select"
         value={operatingSystemId}
-        onChange={v => handleOperatingSystem(v)}
+        onChange={(_event, v) => handleOperatingSystem(v)}
         className="without_select2"
         id="reg_os"
         validated={validatedOS(operatingSystemId, operatingSystemTemplate)}
@@ -97,6 +93,19 @@ const OperatingSystem = ({
           <FormSelectOption key={i} value={os.id} label={os.title} />
         ))}
       </FormSelect>
+      <FormHelperText>
+        <HelperText>
+          <HelperTextItem>
+            {osHelperText(
+              operatingSystemId,
+              operatingSystems,
+              hostGroupId,
+              hostGroups,
+              operatingSystemTemplate
+            )}
+          </HelperTextItem>
+        </HelperText>
+      </FormHelperText>
     </FormGroup>
   );
 };

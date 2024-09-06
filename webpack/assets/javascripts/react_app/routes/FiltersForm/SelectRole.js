@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { FormGroup } from '@patternfly/react-core';
 import {
   Select,
   SelectOption,
   SelectVariant,
-  FormGroup,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import { useAPI } from '../../common/hooks/API/APIHooks';
 import { translate as __ } from '../../common/I18n';
 
@@ -22,7 +22,7 @@ export const SelectRole = ({ role, setRole }) => {
         maxHeight="45vh"
         variant={SelectVariant.typeahead}
         typeAheadAriaLabel="Select a role"
-        onToggle={setIsOpen}
+        onToggle={(_event, val) => setIsOpen(val)}
         selections={results.find(result => result.id === role)?.name}
         isOpen={isOpen}
         aria-labelledby="resource type"

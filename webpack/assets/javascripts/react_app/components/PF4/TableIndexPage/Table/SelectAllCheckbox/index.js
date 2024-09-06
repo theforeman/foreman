@@ -5,7 +5,7 @@ import {
   DropdownToggle,
   DropdownToggleCheckbox,
   DropdownItem,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import { translate as __ } from '../../../../../common/I18n';
 import { noop } from '../../../../../common/helpers';
 
@@ -144,7 +144,7 @@ const SelectAllCheckbox = ({
               key="table-select-all-checkbox"
               ouiaId="select-all-checkbox-dropdown-toggle-checkbox"
               aria-label="Select all"
-              onChange={checked => onSelectAllCheckboxChange(checked)}
+              onChange={(_event, checked) => onSelectAllCheckboxChange(checked)}
               isChecked={selectionToggle}
               isDisabled={totalCount === 0 && selectedCount === 0}
             >

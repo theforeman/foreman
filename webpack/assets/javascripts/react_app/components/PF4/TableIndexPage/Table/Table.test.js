@@ -81,7 +81,7 @@ describe('Table', () => {
     });
   });
 
-  test('shows delete modal when delete button is clicked', () => {
+  test('shows delete modal when delete button is clicked', async () => {
     const onDeleteClick = jest.fn();
     const resultWithDeleteButton = { ...results[0], can_delete: true };
 
@@ -101,15 +101,18 @@ describe('Table', () => {
       </Provider>
     );
 
-    fireEvent.click(screen.getByLabelText('Actions'));
+    fireEvent.click(screen.getByLabelText('Kebab toggle'));
     fireEvent.click(screen.getByText('Delete'));
     expect(
       screen.getByText('You are about to delete John Doe. Are you sure?')
     ).toBeInTheDocument();
     fireEvent.click(screen.getByText('Delete'));
+    await act(async () => {
+      jest.advanceTimersByTime(1000); // to handle pf4 table actions popover
+    });
   });
 
-  test('disables delete button when item cannot be deleted', () => {
+  test('disables delete button when item cannot be deleted', async () => {
     const resultWithDeleteButton = { ...results[0], can_delete: false };
 
     render(
@@ -126,8 +129,11 @@ describe('Table', () => {
         />
       </Provider>
     );
-    fireEvent.click(screen.getByLabelText('Actions'));
-    expect(screen.getByText('Delete')).toHaveClass('pf-m-disabled');
+    fireEvent.click(screen.getByLabelText('Kebab toggle'));
+    expect(screen.getByRole('none', {description: 'Delete'})).toHaveClass('pf-m-aria-disabled');
+    await act(async () => {
+      jest.advanceTimersByTime(1000); // to handle pf4 table actions popover
+    });
   });
 
   test('no actions button when there are no actions', () => {
@@ -147,7 +153,7 @@ describe('Table', () => {
         />
       </Provider>
     );
-    expect(screen.queryAllByText('Actions')).toHaveLength(0);
+    expect(screen.queryAllByText('Kebab toggle')).toHaveLength(0);
   });
 
   test('show error and not the table on error', () => {

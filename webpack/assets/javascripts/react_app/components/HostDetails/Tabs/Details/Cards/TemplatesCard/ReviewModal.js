@@ -77,8 +77,8 @@ export const ReviewModal = ({
       {!safeMode && (
         <div
           style={{
-            paddingTop: 'var(--pf-global--spacer--lg)',
-            paddingBottom: 'var(--pf-global--spacer--lg)',
+            paddingTop: 'var(--pf-v5-global--spacer--lg)',
+            paddingBottom: 'var(--pf-v5-global--spacer--lg)',
           }}
         >
           <Switch
@@ -87,7 +87,7 @@ export const ReviewModal = ({
             label={__('Safe mode on')}
             labelOff={__('Safe mode off')}
             isChecked={showSafe}
-            onChange={setShowSafe}
+            onChange={(_event, val) => setShowSafe(val)}
           />
         </div>
       )}

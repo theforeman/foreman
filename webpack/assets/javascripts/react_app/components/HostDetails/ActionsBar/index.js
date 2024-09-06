@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useState, createContext } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { Button, Split, SplitItem } from '@patternfly/react-core';
 import {
-  Button,
   DropdownItem,
   Dropdown,
   DropdownSeparator,
   KebabToggle,
-  Split,
-  SplitItem,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import {
   DatabaseIcon,
   TrashIcon,
@@ -159,7 +157,10 @@ const ActionsBar = ({
               ouiaId="kebab-dropdown"
               alignments={{ default: 'right' }}
               toggle={
-                <KebabToggle id="hostdetails-kebab" onToggle={onKebabToggle} />
+                <KebabToggle
+                  id="hostdetails-kebab"
+                  onToggle={(_event, isOpen) => onKebabToggle(isOpen)}
+                />
               }
               isOpen={kebabIsOpen}
               isPlain

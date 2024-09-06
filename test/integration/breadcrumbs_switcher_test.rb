@@ -19,7 +19,7 @@ class BreadcrumbsSwitcherTest < IntegrationTestWithJavascript
     click_button 'open breadcrumb switcher'
     fill_in('Filter breadcrumb items', :with => 'three')
     wait_for_ajax
-    page.assert_selector('.pf-c-menu__item-main', count: 1)
-    page.assert_selector('.pf-c-menu__item-main', text: 'three')
+    page.assert_selector('.pf-v5-c-menu__item-main', count: 1)
+    page.assert_selector('.pf-v5-c-menu__item-main', text: 'three')
   end
 end
