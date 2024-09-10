@@ -18,7 +18,6 @@ exports[`RegistrationCommandsPage - Command renders 1`] = `
     onCopy={[Function]}
     ouiaSafe={true}
     position="top"
-    removeFindDomNode={false}
     textAriaLabel="Copyable input"
     toggleAriaLabel="Show content"
     variant="expansion"

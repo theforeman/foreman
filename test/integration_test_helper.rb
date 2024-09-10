@@ -111,7 +111,7 @@ class ActionDispatch::IntegrationTest
 
   def assert_new_button(index_path, new_link_text, new_path)
     visit index_path
-    click_link(new_link_text, :class => /^((?!pf-c-nav__link).)*$/)
+    click_link(new_link_text, :class => /^((?!pf-v5-c-nav__link).)*$/)
     assert_current_path new_path
   end
 
@@ -267,11 +267,11 @@ class ActionDispatch::IntegrationTest
 
   def refute_available_organization_dropdown(organization)
     within('#location-dropdown') do
-      find('.pf-c-context-selector__toggle').click
-      within('.pf-c-context-selector__menu>div>ul', visible: :all) do
+      find('.pf-v5-c-context-selector__toggle').click
+      within('.pf-v5-c-context-selector__menu>div>ul', visible: :all) do
         assert page.has_no_link?(organization)
       end
-      find('.pf-c-context-selector__toggle').click
+      find('.pf-v5-c-context-selector__toggle').click
     end
   end
 
@@ -298,7 +298,7 @@ class ActionDispatch::IntegrationTest
 
   def select_organization_dropdown(organization)
     within('#organization-dropdown') do
-      find('.pf-c-context-selector__toggle').click
+      find('.pf-v5-c-context-selector__toggle').click
       find("button.organization_menuitem", text: organization).click
     end
   end
@@ -306,13 +306,13 @@ class ActionDispatch::IntegrationTest
   def select_organization_menu(organization)
     within('.organization-menu') do
       first('button').click
-      find("li.pf-c-nav__item", text: organization).click
+      find("li.pf-v5-c-nav__item", text: organization).click
     end
   end
 
   def select_location_dropdown(location)
     within('#location-dropdown') do
-      find('.pf-c-context-selector__toggle').click
+      find('.pf-v5-c-context-selector__toggle').click
       find("button.location_menuitem", text: location).click
     end
   end

@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Table, TableHeader, TableBody } from '@patternfly/react-table';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+} from '@patternfly/react-table/deprecated';
 import GlobalStatusIcon from './GlobalStatusIcon';
 import LinkOrLabel from './LinkOrLabel';
 import { translate as __ } from '../../../common/I18n';

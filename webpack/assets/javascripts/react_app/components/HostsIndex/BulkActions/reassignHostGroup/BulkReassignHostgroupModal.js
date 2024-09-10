@@ -2,13 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import {
-  Modal,
-  Button,
-  TextContent,
-  Text,
-  SelectOption,
-} from '@patternfly/react-core';
+import { Modal, Button, TextContent, Text } from '@patternfly/react-core';
+import { SelectOption } from '@patternfly/react-core/deprecated';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
 import { failedHostsToastParams } from '../helpers';

@@ -19,8 +19,8 @@ class OperatingsystemJSTest < IntegrationTestWithJavascript
     actions.find("ul > li > a.delete").click
 
     confirm_modal = page.find("#app-confirm-modal")
-    assert_equal "Confirm", confirm_modal.find(".pf-c-modal-box__title-text").text
-    assert_equal "Delete #{os.title}?", confirm_modal.find(".pf-c-modal-box__body").text
+    assert_equal "Confirm", confirm_modal.find(".pf-v5-c-modal-box__title-text").text
+    assert_equal "Delete #{os.title}?", confirm_modal.find(".pf-v5-c-modal-box__body").text
 
     confirm_button = confirm_modal.find("footer > button:nth-child(1)")
     assert_equal "Confirm", confirm_button.text

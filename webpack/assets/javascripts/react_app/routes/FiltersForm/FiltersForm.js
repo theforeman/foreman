@@ -9,6 +9,7 @@ import {
   Popover,
   ActionGroup,
   Button,
+  Icon,
 } from '@patternfly/react-core';
 import { HelpIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../common/I18n';
@@ -134,9 +135,11 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
                 type="button"
                 aria-label="More info for override field"
                 onClick={e => e.preventDefault()}
-                className="pf-c-form__group-label-help"
+                className="pf-v5-c-form__group-label-help"
               >
-                <HelpIcon noVerticalAlign />
+                <Icon isInline>
+                  <HelpIcon />
+                </Icon>
               </button>
             </Popover>
           }
@@ -144,7 +147,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
           <Checkbox
             ouiaId="override-checkbox"
             isChecked={isOverride}
-            onChange={checked => {
+            onChange={(_event, checked) => {
               setIsOverride(checked);
             }}
             aria-label="is override"
@@ -181,9 +184,11 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
                   type="button"
                   aria-label="More info for unlimited field"
                   onClick={e => e.preventDefault()}
-                  className="pf-c-form__group-label-help"
+                  className="pf-v5-c-form__group-label-help"
                 >
-                  <HelpIcon noVerticalAlign />
+                  <Icon isInline>
+                    <HelpIcon />
+                  </Icon>
                 </button>
               </Popover>
             }
@@ -191,7 +196,7 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
             <Checkbox
               ouiaId="unlimited-checkbox"
               isChecked={isUnlimited}
-              onChange={checked => {
+              onChange={(_event, checked) => {
                 setAutocompleteQuery('');
                 setIsUnlimited(checked);
               }}

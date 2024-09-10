@@ -1,25 +1,35 @@
 @import './colors.scss';
 
 .foreman-theme {
-  .pf-c-page__sidebar {
-    --pf-c-page__sidebar--Width: 250px;
-    --pf-c-page__sidebar--BackgroundColor: #{$nav-pf-vertical-bg-color};
+  .pf-v5-c-page__sidebar {
+    --pf-v5-c-page__sidebar--Width: 250px;
+    --pf-v5-c-page__sidebar--BackgroundColor: #{$nav-pf-vertical-bg-color};
+    #navigation-search .pf-v5-c-text-input-group {
+      background-color: var(--pf-v5-global--palette--white);
+      .pf-v5-c-text-input-group__icon{
+        color: var(--pf-v5-global--palette--black-500);
+      }
+      .pf-v5-c-text-input-group__text-input {
+        // color: var(--pf-v5-global--palette--black-500);
+        color: var(--pf-v5-global--palette--black-1000);
+      }
+    }
   }
-  .pf-c-nav__link {
-    --pf-c-nav__link--BackgroundColor: #{$nav-pf-vertical-bg-color};
-    --pf-c-nav__link--m-current--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
-    --pf-c-nav__link--hover--BackgroundColor: #{$nav-pf-vertical-hover-bg-color};
-    --pf-c-nav__link--focus--BackgroundColor: #{$nav-pf-vertical-hover-bg-color};
-    --pf-c-nav__link--active--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
-    --pf-c-nav__link--after--BorderColor: #f0f0f0;
-    --pf-c-nav__link--before--BorderColor: #f0f0f0;
-    --pf-c-nav__link--Color: #{$navbar-default-link-color};
+  .pf-v5-c-nav__link {
+    --pf-v5-c-nav__link--BackgroundColor: #{$nav-pf-vertical-bg-color};
+    --pf-v5-c-nav__link--m-current--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-v5-c-nav__link--hover--BackgroundColor: #{$nav-pf-vertical-hover-bg-color};
+    --pf-v5-c-nav__link--focus--BackgroundColor: #{$nav-pf-vertical-hover-bg-color};
+    --pf-v5-c-nav__link--active--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+    --pf-v5-c-nav__link--after--BorderColor: #f0f0f0;
+    --pf-v5-c-nav__link--before--BorderColor: #f0f0f0;
+    --pf-v5-c-nav__link--Color: #{$navbar-default-link-color};
   }
 
-  .pf-c-nav__subnav {
-    --pf-c-nav--c-divider--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
+  .pf-v5-c-nav__subnav {
+    --pf-v5-c-nav--c-divider--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
   }
-  .pf-c-nav__item {
-    --pf-c-nav__item--before--BorderColor: #{$nav-pf-vertical-active-bg-color};
+  .pf-v5-c-nav__item {
+    --pf-v5-c-nav__item--before--BorderColor: #{$nav-pf-vertical-active-bg-color};
   }
 }

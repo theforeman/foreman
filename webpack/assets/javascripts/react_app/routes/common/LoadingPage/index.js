@@ -4,7 +4,7 @@ import './loadingpage.scss';
 
 const LoadingPage = () => (
   <div id="loading-page">
-    <Spinner isSVG size="xl" aria-label="Loading Page" />
+    <Spinner size="xl" aria-label="Loading Page" />
   </div>
 );
 

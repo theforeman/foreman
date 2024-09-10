@@ -143,8 +143,8 @@ const ColumnSelector = props => {
   };
 
   return (
-    <div className="pf-c-select-input">
-      <div className="pf-c-input-group" id="column-selector">
+    <div className="pf-v5-c-select-input">
+      <div className="pf-v5-c-input-group" id="column-selector">
         <Button
           ouiaId="manage-columns-button"
           id="btn-select-columns"

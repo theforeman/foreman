@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import {
   Bullseye,
   Card,
-  CardActions,
   CardHeader,
   CardTitle,
   CardBody,
@@ -12,7 +11,7 @@ import {
   Title,
 } from '@patternfly/react-core';
 import {
-  TableComposable,
+  Table /* data-codemods */,
   TableText,
   Tr,
   Tbody,
@@ -48,11 +47,18 @@ const AuditCard = ({ hostName }) => {
   return (
     <GridItem xl2={3} xl={4} md={6} lg={4}>
       <Card ouiaId="audit-card">
-        <CardHeader>
+        <CardHeader
+          actions={{
+            actions: (
+              <>
+                <a onClick={() => dispatch(push(uiUrl))}> {__('All audits')}</a>
+              </>
+            ),
+            hasNoOffset: false,
+            className: undefined,
+          }}
+        >
           <CardTitle>{__('Recent audits')}</CardTitle>
-          <CardActions>
-            <a onClick={() => dispatch(push(uiUrl))}> {__('All audits')}</a>
-          </CardActions>
         </CardHeader>
         <CardBody>
           <SkeletonLoader
@@ -67,7 +73,7 @@ const AuditCard = ({ hostName }) => {
             }
           >
             {audits && (
-              <TableComposable
+              <Table
                 aria-label="audits table"
                 variant="compact"
                 borders="compactBorderless"
@@ -95,7 +101,7 @@ const AuditCard = ({ hostName }) => {
                     )
                   )}
                 </Tbody>
-              </TableComposable>
+              </Table>
             )}
           </SkeletonLoader>
         </CardBody>

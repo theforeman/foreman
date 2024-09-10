@@ -5,6 +5,9 @@ import {
   FormGroup,
   FormSelect,
   FormSelectOption,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
 } from '@patternfly/react-core';
 
 import LabelIcon from '../../../../../components/common/LabelIcon';
@@ -36,12 +39,11 @@ const SmartProxy = ({
           )}
         />
       }
-      helperText={smartProxyUrl()}
     >
       <FormSelect
         ouiaId="reg_smart_proxy"
         value={smartProxyId}
-        onChange={v => handleSmartProxy(v)}
+        onChange={(_event, v) => handleSmartProxy(v)}
         className="without_select2"
         id="reg_smart_proxy"
         isDisabled={isLoading || smartProxies.length === 0}
@@ -51,6 +53,11 @@ const SmartProxy = ({
           <FormSelectOption key={i} value={sp.id} label={sp.name} />
         ))}
       </FormSelect>
+      <FormHelperText>
+        <HelperText>
+          <HelperTextItem>{smartProxyUrl()}</HelperTextItem>
+        </HelperText>
+      </FormHelperText>
     </FormGroup>
   );
 };

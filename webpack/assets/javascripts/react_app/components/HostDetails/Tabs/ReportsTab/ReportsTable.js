@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  TableComposable,
+  Table /* data-codemods */,
   Thead,
   Tbody,
   Tr,
@@ -56,7 +56,7 @@ const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
     emptyState = (
       <EmptyState
         icon={
-          <ExclamationCircleIcon color="var(--pf-global--palette--red-200)" />
+          <ExclamationCircleIcon color="var(--pf-v5-global--palette--red-200)" />
         }
         header={__('Something went wrong')}
         description={error}
@@ -68,14 +68,14 @@ const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
 
   return (
     <React.Fragment>
-      <TableComposable
+      <Table
         aria-label="Reports table"
         ouiaId="reports-table"
         variant="compact"
       >
         {tableHead}
         {tableBody}
-      </TableComposable>
+      </Table>
       {emptyState}
     </React.Fragment>
   );

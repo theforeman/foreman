@@ -17,7 +17,7 @@ export const toastType = type => {
     error: AlertVariant.danger,
   };
 
-  return fallbackTypes[type] || AlertVariant.default;
+  return fallbackTypes[type] || AlertVariant.custom;
 };
 
 export const toastTitle = (message, type) => {

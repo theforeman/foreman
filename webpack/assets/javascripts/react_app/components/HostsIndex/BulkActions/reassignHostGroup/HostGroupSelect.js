@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, SelectVariant } from '@patternfly/react-core';
+import { Select, SelectVariant } from '@patternfly/react-core/deprecated';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../../../common/I18n';
 

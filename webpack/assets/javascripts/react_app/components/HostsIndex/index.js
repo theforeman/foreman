@@ -5,10 +5,7 @@ import { Tr, Td, ActionsColumn } from '@patternfly/react-table';
 import {
   ToolbarItem,
   Divider,
-  Dropdown,
-  DropdownItem,
   MenuItem,
-  KebabToggle,
   Flex,
   FlexItem,
   Button,
@@ -17,6 +14,11 @@ import {
   TextContent,
   Text,
 } from '@patternfly/react-core';
+import {
+  Dropdown,
+  DropdownItem,
+  KebabToggle,
+} from '@patternfly/react-core/deprecated';
 import { UndoIcon } from '@patternfly/react-icons';
 import { useForemanModal } from '../ForemanModal/ForemanModalHooks';
 import { addModal } from '../ForemanModal/ForemanModalActions';
@@ -302,7 +304,7 @@ const HostsIndex = () => {
         <KebabToggle
           aria-label="legacy-ui-kebab-toggle"
           id="legacy-ui-kebab-toggle"
-          onToggle={setLegacyUIKebabOpen}
+          onToggle={(_event, val) => setLegacyUIKebabOpen(val)}
         />
       }
       isOpen={legacyUIKebabOpen}
@@ -408,7 +410,7 @@ const HostsIndex = () => {
         {results?.map((result, rowIndex) => {
           const rowActions = getActions(result);
           return (
-            <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
+            <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isClickable>
               {<RowSelectTd rowData={result} {...{ selectOne, isSelected }} />}
               {columnNamesKeys.map(k => (
                 <Td key={k} dataLabel={keysToColumnNames[k]}>

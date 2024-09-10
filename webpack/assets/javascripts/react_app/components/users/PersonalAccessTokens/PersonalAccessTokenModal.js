@@ -12,7 +12,12 @@ import {
   InputGroup,
   TimePicker,
   TextInput,
+  InputGroupItem,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
 } from '@patternfly/react-core';
+import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../../common/I18n';
 import {
@@ -143,13 +148,17 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
       );
     }
   };
-
+  const nameValidationError =
+    showNameErrors && (isNameEmpty() || isNameDuplicate() !== undefined);
+  const expiresValidattionError =
+    !isDateTimeInFuture() ||
+    ((!date.length || !time.length) && endsNever === false);
   return (
     <>
       <Button
         ouiaId="add-personal-access-token-button"
         variant="primary"
-        isSmall
+        size="sm"
         onClick={() => setIsModalOpen(true)}
       >
         {__('Add Personal Access Token')}
@@ -195,16 +204,7 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
         ]}
       >
         <Form className="add-personal-access-token-form">
-          <FormGroup
-            label={__('Name')}
-            isRequired
-            validated={
-              isNameEmpty() || isNameDuplicate() !== undefined
-                ? 'error'
-                : 'default'
-            }
-            helperTextInvalid={nameHelperText()}
-          >
+          <FormGroup label={__('Name')} isRequired>
             <TextInput
               ouiaId="personal-token-name"
               aria-label="personal access token name input"
@@ -212,25 +212,24 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
               isRequired
               validated={nameHelperText().length ? 'error' : 'default'}
               value={name}
-              onChange={setName}
+              onChange={(_event, val) => setName(val)}
               onBlur={() => setShowNameErrors(true)}
             />
+            {nameValidationError && (
+              <FormHelperText>
+                <HelperText>
+                  <HelperTextItem
+                    icon={<ExclamationCircleIcon />}
+                    variant="error"
+                  >
+                    {nameHelperText()}
+                  </HelperTextItem>
+                </HelperText>
+              </FormHelperText>
+            )}
           </FormGroup>
-          <FormGroup
-            label={__('Expires')}
-            validated={
-              !isDateTimeInFuture() ||
-              ((!date.length || !time.length) && endsNever === false)
-                ? 'error'
-                : 'default'
-            }
-            helperTextInvalid={
-              !isDateTimeInFuture()
-                ? __('Cannot be in the past')
-                : __('Fill out the date and time')
-            }
-          >
-            <div className="pf-c-form">
+          <FormGroup label={__('Expires')}>
+            <div className="pf-v5-c-form">
               <FormGroup fieldId="token-expires-never">
                 <Radio
                   ouiaId="expires-never"
@@ -260,54 +259,72 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
                         {__('At')}
                       </div>
                       <InputGroup>
-                        <DatePicker
-                          aria-label="expiration date picker"
-                          isDisabled={isDateTimeDisabled}
-                          value={date}
-                          onChange={(_e, v) => validateDateChange(v)}
-                          appendTo={() => document.body}
-                          invalidFormatText={
-                            isDateValid
-                              ? ''
-                              : __('Enter valid date: YYYY-MM-DD')
-                          }
-                          // for undisplaying invalidFormatText when changing to 'Never'
-                          dateParse={() =>
-                            date === ''
-                              ? new Date()
-                              : date.split('-').length === 3 &&
-                                new Date(`${date}T00:00:00`)
-                          }
-                        />
-                        <TimePicker
-                          aria-label="expiration time picker"
-                          isDisabled={
-                            !isDateValid ||
-                            isDateTimeDisabled ||
-                            date.length === 0
-                          }
-                          is24Hour
-                          includeSeconds
-                          menuAppendTo={() => document.body}
-                          placeholder={__('HH:MM:SS')}
-                          onChange={v => validateTimeChange(v)}
-                          invalidFormatErrorMessage={__(
-                            'Enter valid time: HH:MM:SS'
-                          )}
-                          invalidMinMaxErrorMessage=""
-                          validateTime={() => isTimeValid}
-                          inputProps={{
-                            validated: isTimeValid ? 'default' : 'error',
-                            // for undisplaying time when changing to 'Never'
-                            value: time,
-                          }}
-                        />
+                        <InputGroupItem>
+                          <DatePicker
+                            aria-label="expiration date picker"
+                            isDisabled={isDateTimeDisabled}
+                            value={date}
+                            onChange={(_e, v) => validateDateChange(v)}
+                            appendTo={() => document.body}
+                            invalidFormatText={
+                              isDateValid
+                                ? ''
+                                : __('Enter valid date: YYYY-MM-DD')
+                            }
+                            // for undisplaying invalidFormatText when changing to 'Never'
+                            dateParse={() =>
+                              date === ''
+                                ? new Date()
+                                : date.split('-').length === 3 &&
+                                  new Date(`${date}T00:00:00`)
+                            }
+                          />
+                        </InputGroupItem>
+                        <InputGroupItem>
+                          <TimePicker
+                            aria-label="expiration time picker"
+                            isDisabled={
+                              !isDateValid ||
+                              isDateTimeDisabled ||
+                              date.length === 0
+                            }
+                            is24Hour
+                            includeSeconds
+                            menuAppendTo={() => document.body}
+                            placeholder={__('HH:MM:SS')}
+                            onChange={(e, v) => validateTimeChange(v)}
+                            invalidFormatErrorMessage={__(
+                              'Enter valid time: HH:MM:SS'
+                            )}
+                            invalidMinMaxErrorMessage=""
+                            validateTime={() => isTimeValid}
+                            inputProps={{
+                              validated: isTimeValid ? 'default' : 'error',
+                              // for undisplaying time when changing to 'Never'
+                              value: time,
+                            }}
+                          />
+                        </InputGroupItem>
                       </InputGroup>
                     </div>
                   }
                 />
               </FormGroup>
             </div>
+            {expiresValidattionError && (
+              <FormHelperText>
+                <HelperText>
+                  <HelperTextItem
+                    icon={<ExclamationCircleIcon />}
+                    variant="error"
+                  >
+                    {!isDateTimeInFuture()
+                      ? __('Cannot be in the past')
+                      : __('Fill out the date and time')}
+                  </HelperTextItem>
+                </HelperText>
+              </FormHelperText>
+            )}
           </FormGroup>
         </Form>
       </Modal>

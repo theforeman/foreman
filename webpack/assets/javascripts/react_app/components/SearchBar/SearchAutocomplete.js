@@ -114,9 +114,17 @@ export const SearchAutocomplete = ({
       <SearchInput
         ref={searchInputRef}
         value={value}
-        onChange={onChange}
+        onChange={(_e, newValue) => {
+          onChange(newValue);
+        }}
         onClear={onClear}
-        onSearch={onSearch && _onSearch}
+        onSearch={(event, searchValue) => {
+          if (onSearch) {
+            onSearch(searchValue);
+          } else {
+            _onSearch(searchValue);
+          }
+        }}
         isDisabled={disabled}
         placeholder={__('Search')}
         resetButtonLabel={__('Reset search')}

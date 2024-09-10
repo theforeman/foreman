@@ -63,13 +63,14 @@ exports[`Empty State Pattern should render with props 1`] = `
   >
     <EmptyStateIcon />
   </span>
-  <Title
+  <EmptyStateHeader
     headingLevel="h5"
-    ouiaId="empty-state-header"
-    size="4xl"
-  >
-    Printers
-  </Title>
+    titleText={
+      <React.Fragment>
+        Printers
+      </React.Fragment>
+    }
+  />
   <EmptyStateBody>
     <div
       className="empty-state-description"
@@ -78,6 +79,8 @@ exports[`Empty State Pattern should render with props 1`] = `
     </div>
     <DocumentationBlock />
   </EmptyStateBody>
-  <EmptyStateSecondaryActions />
+  <EmptyStateFooter>
+    <EmptyStateActions />
+  </EmptyStateFooter>
 </EmptyState>
 `;

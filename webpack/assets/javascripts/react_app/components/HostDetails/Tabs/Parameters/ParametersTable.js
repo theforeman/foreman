@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { TableComposable, Thead, Tbody, Tr, Th } from '@patternfly/react-table';
+import {
+  Table /* data-codemods */,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+} from '@patternfly/react-table';
 import {
   Toolbar,
   ToolbarContent,
@@ -80,8 +86,12 @@ export const ParametersTable = ({
             <SearchInput
               placeholder={__('Find by name')}
               value={search}
-              onChange={setSearch}
-              onSearch={onSearch}
+              onChange={(_e, value) => {
+                setSearch(value);
+              }}
+              onSearch={(_e, newSearch) => {
+                onSearch(newSearch);
+              }}
               onClear={() => {
                 setSearch('');
                 onSearch('');
@@ -113,7 +123,7 @@ export const ParametersTable = ({
           </ToolbarItem>
         </ToolbarContent>
       </Toolbar>
-      <TableComposable
+      <Table
         ouiaId="parameters-table"
         id="parameters-table"
         aria-label="Parameters table"
@@ -125,7 +135,7 @@ export const ParametersTable = ({
             <Th>{columnNames.type}</Th>
             <Th>{columnNames.value}</Th>
             <Th>{columnNames.source}</Th>
-            <Th />
+            <Th aria-label='actions'/>
           </Tr>
         </Thead>
         <Tbody>
@@ -160,7 +170,7 @@ export const ParametersTable = ({
             />
           ))}
         </Tbody>
-      </TableComposable>
+      </Table>
       <Pagination
         variant="bottom"
         itemCount={allParameters.length}

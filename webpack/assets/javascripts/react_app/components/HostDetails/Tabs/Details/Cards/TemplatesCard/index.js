@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@patternfly/react-core';
 import { PencilAltIcon } from '@patternfly/react-icons';
-import { TableComposable, Tr, Tbody, Td } from '@patternfly/react-table';
+import {
+  Table /* data-codemods */,
+  Tr,
+  Tbody,
+  Td,
+} from '@patternfly/react-table';
 import { translate as __ } from '../../../../../../common/I18n';
 import { foremanUrl } from '../../../../../../common/helpers';
 import { useAPI } from '../../../../../../common/hooks/API/APIHooks';
@@ -49,7 +54,7 @@ const TemplatesCard = ({ hostName }) => {
             template={currentTemplate}
           />
         )}
-        <TableComposable
+        <Table
           ouiaId="provisioning-templates-table"
           aria-label="templates table"
           variant="compact"
@@ -88,7 +93,7 @@ const TemplatesCard = ({ hostName }) => {
               </Tr>
             ))}
           </Tbody>
-        </TableComposable>
+        </Table>
       </SkeletonLoader>
     </CardTemplate>
   );

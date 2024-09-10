@@ -173,11 +173,13 @@ export const NavigationSearch = ({ items, clickAndNavigate }) => {
     <SearchInput
       value={value}
       placeholder={__('Search and go')}
-      onChange={onChange}
+      onChange={(_e, newValue) => {
+        onChange(newValue);
+      }}
       onClear={onClear}
       ref={searchInputRef}
       id="navigation-search"
-      onSearch={(_, event) => {
+      onSearch={(event, _) => {
         const firstItem = navItems.find(option =>
           option.toLowerCase().includes(value.toLowerCase())
         );

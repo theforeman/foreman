@@ -1,6 +1,6 @@
 <div id="main">
   <div id="content">
-    <section class="pf-c-page__main-breadcrumb">
+    <section class="pf-v5-c-page__main-breadcrumb">
       <% if content_for?(:breadcrumbs) %>
         <%= yield(:breadcrumbs) %>
       <% else %>
@@ -8,7 +8,7 @@
       <% end %>
     </section>
     <%= yield(:before_search_bar) %>
-    <div class="pf-c-page__main-section pf-m-light rails-table-toolbar">
+    <div class="pf-v5-c-page__main-section pf-m-light rails-table-toolbar">
       <div class="title_filter">
         <%= mount_search_bar if searchable? %>
         <%= yield(:search_bar) %>
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div class="pf-c-page__main-section pf-m-light">
+    <div class="pf-v5-c-page__main-section pf-m-light">
       <%= yield %>
     </div>
   </div>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { PlusIcon } from '@patternfly/react-icons';
+import { Spinner } from '@patternfly/react-core';
 import {
   DropdownItem,
   DropdownGroup,
   DropdownSeparator,
-  Spinner,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import { sprintf, translate as __ } from '../../../common/I18n';
 import { STATUS } from '../../../constants';
 import DocumentationUrl from '../DocumentationLink';
