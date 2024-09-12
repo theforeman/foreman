@@ -19,6 +19,7 @@ import { getColumnHelpers } from './helpers';
 
 export const Table = ({
   columns,
+  emptyMessage,
   errorMessage,
   getActions,
   isDeleteable,
@@ -133,10 +134,10 @@ export const Table = ({
               </Td>
             </Tr>
           )}
-          {!isPending && !errorMessage && results.length === 0 && (
+          {!isPending && results.length === 0 && !errorMessage && (
             <Tr ouiaId="table-empty">
               <Td colSpan={100}>
-                <EmptyPage />
+                <EmptyPage message={{ type: 'empty', text: emptyMessage }} />
               </Td>
             </Tr>
           )}
@@ -177,7 +178,7 @@ export const Table = ({
             })}
         </Tbody>
       </TableComposable>
-      {results.length > 0 && !errorMessage && bottomPagination}
+      {results.length > 0 && !errorMessage && !emptyMessage && bottomPagination}
     </>
   );
 };
@@ -190,6 +191,7 @@ Table.propTypes = {
     perPage: PropTypes.number,
     order: PropTypes.string,
   }).isRequired,
+  emptyMessage: PropTypes.string,
   errorMessage: PropTypes.string,
   getActions: PropTypes.func,
   isDeleteable: PropTypes.bool,
@@ -210,6 +212,7 @@ Table.propTypes = {
 
 Table.defaultProps = {
   children: null,
+  emptyMessage: null,
   errorMessage: null,
   isDeleteable: false,
   itemCount: 0,

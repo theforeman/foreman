@@ -179,6 +179,7 @@ describe('Table', () => {
           setParams={setParams}
           refreshData={refreshData}
           results={[]}
+          errorMessage="Empty test"
           isDeleteable={true}
           url="/users"
           isPending={false}
@@ -186,7 +187,7 @@ describe('Table', () => {
       </Provider>
     );
     expect(screen.queryAllByText('items')).toHaveLength(0);
-    expect(screen.queryAllByText('No Results')).toHaveLength(2);
+    expect(screen.queryAllByText('Empty test')).toHaveLength(1);
     expect(screen.queryAllByText('Loading...')).toHaveLength(0);
   });
   test('show empty state while loading', () => {
