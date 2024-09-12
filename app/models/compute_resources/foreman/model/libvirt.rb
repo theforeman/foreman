@@ -148,6 +148,10 @@ module Foreman::Model
       opts[:boot_order] = %w[hd]
       opts[:boot_order].unshift 'network' unless attr[:image_id]
 
+      firmware_type = opts.delete(:firmware_type).to_s
+      firmware = resolve_automatic_firmware(opts[:firmware], firmware_type)
+      opts[:firmware] = normalize_firmware_type(firmware)
+
       vm = client.servers.new opts
       vm.memory = opts[:memory] if opts[:memory]
       vm
@@ -289,7 +293,8 @@ module Foreman::Model
         :display    => { :type     => display_type,
                          :listen   => Setting[:libvirt_default_console_address],
                          :password => random_password(console_password_length(display_type)),
-                         :port     => '-1' }
+                         :port     => '-1' },
+        :firmware   => 'automatic'
       )
     end
 

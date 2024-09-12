@@ -399,6 +399,43 @@ class ComputeResource < ApplicationRecord
     vm_attrs
   end
 
+  # Returns a hash of firmware type identifiers and their corresponding labels for use in the VM creation form.
+  #
+  # @return [Hash<String, String>] a hash mapping firmware type identifiers to labels.
+  def firmware_types
+    {
+      "automatic" => N_("Automatic"),
+      "bios" => N_("BIOS"),
+      "uefi" => N_("UEFI"),
+    }.freeze
+  end
+
+  # Converts the firmware type from a VM object to the Foreman-compatible format.
+  #
+  # @param firmware [String] The firmware type from the VM object.
+  # @return [String] The converted firmware type.
+  def firmware_type(firmware)
+    firmware == 'efi' ? 'uefi' : firmware
+  end
+
+  # Normalizes the firmware type to 'efi' or defaults to 'bios'.
+  #
+  # @param firmware_type [String] The firmware type in Foreman format.
+  # @return [String] The converted firmware type.
+  def normalize_firmware_type(firmware_type)
+    firmware_type == 'uefi' ? 'efi' : 'bios'
+  end
+
+  # Resolves the firmware setting when it is 'automatic' based on the provided firmware_type, or defaults to 'bios'.
+  #
+  # @param firmware [String] The current firmware setting.
+  # @param firmware_type [String] The type of firmware to be used if firmware is 'automatic'.
+  # @return [String] the resolved firmware.
+  def resolve_automatic_firmware(firmware, firmware_type)
+    return firmware unless firmware == 'automatic'
+    firmware_type.presence || 'bios'
+  end
+
   protected
 
   def memory_gb_to_bytes(memory_size)
