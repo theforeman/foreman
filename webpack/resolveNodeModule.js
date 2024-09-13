@@ -39,7 +39,7 @@ const resolveNodeModule = (sourcePath, currentFile) => {
   if (sourcePath.includes('theforeman_test_dependencies')) {
     console.warn(
       'import from @theforeman/test is deprecated, please remove the package and import from enzyme, axios-mock-adapter, foremanReact/testHelpers, foremanReact/common/IntegrationTestHelper directly instead.'
-    );
+    ); // eslint-disable-line no-console
   }
   let results;
   try {
