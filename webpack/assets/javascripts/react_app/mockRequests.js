@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { MockAdapter } from '@theforeman/test';
 
-export const mock = () => new MockAdapter(axios);
+export const mock = new MockAdapter(axios);
 const methods = {
   GET: 'onGet',
   POST: 'onPost',
@@ -15,9 +15,6 @@ export const mockRequest = ({
   data = null,
   status = 200,
   response = null,
-}) =>
-  mock()
-    [methods[method]](url, data)
-    .reply(status, response);
+}) => mock[methods[method]](url, data).reply(status, response);
 
-export const mockReset = () => mock().reset();
+export const mockReset = () => mock.reset();
