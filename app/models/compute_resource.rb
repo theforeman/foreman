@@ -407,23 +407,35 @@ class ComputeResource < ApplicationRecord
       "automatic" => N_("Automatic"),
       "bios" => N_("BIOS"),
       "uefi" => N_("UEFI"),
+      "uefi_secure_boot" => N_("UEFI Secure Boot"),
     }.freeze
   end
 
   # Converts the firmware type from a VM object to the Foreman-compatible format.
   #
   # @param firmware [String] The firmware type from the VM object.
+  # @param secure_boot [Boolean] Indicates if secure boot is enabled for the VM.
   # @return [String] The converted firmware type.
-  def firmware_type(firmware)
-    firmware == 'efi' ? 'uefi' : firmware
+  def firmware_type(firmware, secure_boot)
+    if firmware == 'efi'
+      secure_boot ? 'uefi_secure_boot' : 'uefi' # Adjust for secure boot
+    else
+      firmware
+    end
   end
 
-  # Normalizes the firmware type to 'efi' or defaults to 'bios'.
+  # Converts a firmware type from Foreman format to a CR-compatible format.
+  # If no specific type is provided, defaults to 'bios'.
   #
   # @param firmware_type [String] The firmware type in Foreman format.
   # @return [String] The converted firmware type.
   def normalize_firmware_type(firmware_type)
-    firmware_type == 'uefi' ? 'efi' : 'bios'
+    case firmware_type
+    when 'uefi', 'uefi_secure_boot'
+      'efi'
+    else
+      'bios'
+    end
   end
 
   # Resolves the firmware setting when it is 'automatic' based on the provided firmware_type, or defaults to 'bios'.
@@ -434,6 +446,19 @@ class ComputeResource < ApplicationRecord
   def resolve_automatic_firmware(firmware, firmware_type)
     return firmware unless firmware == 'automatic'
     firmware_type.presence || 'bios'
+  end
+
+  # Processes firmware attributes to configure firmware and secure boot settings.
+  #
+  # @param firmware [String] The firmware setting to be processed.
+  # @param firmware_type [String] The firmware type based on the provided PXE Loader.
+  # @return [Hash] A hash containing the processed firmware attributes.
+  def process_firmware_attributes(firmware, firmware_type)
+    firmware = resolve_automatic_firmware(firmware, firmware_type)
+
+    attrs = generate_secure_boot_settings(firmware)
+    attrs[:firmware] = normalize_firmware_type(firmware)
+    attrs
   end
 
   protected

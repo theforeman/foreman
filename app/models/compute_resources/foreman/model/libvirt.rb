@@ -149,8 +149,7 @@ module Foreman::Model
       opts[:boot_order].unshift 'network' unless attr[:image_id]
 
       firmware_type = opts.delete(:firmware_type).to_s
-      firmware = resolve_automatic_firmware(opts[:firmware], firmware_type)
-      opts[:firmware] = normalize_firmware_type(firmware)
+      opts.merge!(process_firmware_attributes(opts[:firmware], firmware_type))
 
       vm = client.servers.new opts
       vm.memory = opts[:memory] if opts[:memory]
@@ -294,7 +293,8 @@ module Foreman::Model
                          :listen   => Setting[:libvirt_default_console_address],
                          :password => random_password(console_password_length(display_type)),
                          :port     => '-1' },
-        :firmware   => 'automatic'
+        :firmware   => 'automatic',
+        :firmware_features => { "secure-boot" => "no" }
       )
     end
 
@@ -330,6 +330,21 @@ module Foreman::Model
       if vol.capacity.to_s.empty? || /\A\d+G?\Z/.match(vol.capacity.to_s).nil?
         raise Foreman::Exception.new(N_("Please specify volume size. You may optionally use suffix 'G' to specify volume size in gigabytes."))
       end
+    end
+
+    # Generates Secure Boot settings for Libvirt based on the provided firmware type.
+    # The `secure_boot` setting is used to properly configure and display the Firmware in the `compute_attributes` form.
+    #
+    # @param firmware [String] The firmware type.
+    # @return [Hash] A hash with secure boot settings if applicable.
+    def generate_secure_boot_settings(firmware)
+      return {} unless firmware == 'uefi_secure_boot'
+
+      {
+        firmware_features: { 'secure-boot' => 'yes', 'enrolled-keys' => 'yes' },
+        loader: { 'secure' => 'yes' },
+        secure_boot: true,
+      }
     end
   end
 end

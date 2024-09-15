@@ -195,5 +195,9 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
     test 'defaults to bios firmware' do
       assert_equal :bios, DummyPxeLoader.firmware_type('Anything')
     end
+
+    test 'detects uefi_secure_boot firmware' do
+      assert_equal :uefi_secure_boot, DummyPxeLoader.firmware_type('Grub2 UEFI SecureBoot')
+    end
   end
 end
