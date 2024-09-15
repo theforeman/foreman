@@ -34,7 +34,6 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     mock_vm = mock('vm')
     mock_vm.expects(:save).returns(mock_vm)
-    mock_vm.expects(:firmware).returns('biod')
 
     cr = FactoryBot.build_stubbed(:vmware_cr)
     cr.expects(:parse_networks).with(attrs_in).returns(attrs_parsed)
@@ -142,17 +141,6 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       mock_vm.stubs(:firmware).returns('bios')
       @cr.stubs(:parse_networks).returns(args)
       @cr.expects(:clone_vm).times(0)
-      @cr.expects(:new_vm).returns(mock_vm)
-      @cr.create_vm(args)
-    end
-
-    test 'converts automatic firmware to bios default' do
-      args = {"provision_method" => "build"}
-      mock_vm = mock('vm')
-      mock_vm.expects(:save).returns(mock_vm)
-      mock_vm.stubs(:firmware).returns('automatic')
-      mock_vm.expects(:firmware=).with('bios')
-      @cr.stubs(:parse_networks).returns(args)
       @cr.expects(:new_vm).returns(mock_vm)
       @cr.create_vm(args)
     end
@@ -266,8 +254,11 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       @cr = FactoryBot.build_stubbed(:vmware_cr)
     end
 
-    test "converts empty hash" do
-      assert_empty(@cr.parse_args(HashWithIndifferentAccess.new))
+    test "defaults to BIOS firmware when no firmware is provided" do
+      args = HashWithIndifferentAccess.new
+      expected_firmware = { firmware: "bios" }
+
+      assert_equal expected_firmware, @cr.parse_args(args)
     end
 
     test "converts form attrs to fog attrs" do
@@ -297,7 +288,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         }
       )
       # All keys must be symbolized
-      attrs_out = {:cpus => "1", :interfaces => [{:type => "VirtualVmxnet3", :network => "network-17", :_delete => ""}], :volumes => [{:size_gb => "1", :_delete => ""}]}
+      attrs_out = { :cpus => "1", :interfaces => [{ :type => "VirtualVmxnet3", :network => "network-17", :_delete => "" }], :volumes => [{ :size_gb => "1", :_delete => "" }], :firmware => "bios" }
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
@@ -328,7 +319,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           },
         }
       )
-      attrs_out = {:cpus => "1", :interfaces => [{:type => "VirtualVmxnet3", :network => "network-17", :_delete => ""}], :volumes => [{:size_gb => "1", :_delete => ""}]}
+      attrs_out = {:cpus => "1", :interfaces => [{:type => "VirtualVmxnet3", :network => "network-17", :_delete => ""}], :volumes => [{:size_gb => "1", :_delete => ""}], :firmware => "bios" }
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
@@ -375,6 +366,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
             :_delete => "",
           },
         ],
+        :firmware => "bios",
       }
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
@@ -1070,6 +1062,49 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test 'attribute names' do
       check_vm_attribute_names(cr)
+    end
+  end
+
+  describe '#generate_secure_boot_settings' do
+    before do
+      @cr = FactoryBot.build_stubbed(:vmware_cr)
+    end
+
+    test "returns secure boot settings when firmware is 'uefi_secure_boot'" do
+      assert_equal({ "secure_boot" => true }, @cr.send(:generate_secure_boot_settings, 'uefi_secure_boot'))
+    end
+
+    test "returns an empty hash for firmware types other than 'uefi_secure_boot'" do
+      assert_empty @cr.send(:generate_secure_boot_settings, 'uefi')
+      assert_empty @cr.send(:generate_secure_boot_settings, 'bios')
+      assert_empty @cr.send(:generate_secure_boot_settings, '')
+      assert_empty @cr.send(:generate_secure_boot_settings, nil)
+    end
+  end
+
+  describe '#validate_tpm_compatibility' do
+    before do
+      @cr = FactoryBot.build_stubbed(:vmware_cr)
+    end
+
+    test 'returns true and no errors when firmware is EFI and virtual_tpm is enabled' do
+      assert_equal true, @cr.send(:validate_tpm_compatibility, '1', 'efi')
+      assert_empty @cr.errors.full_messages
+    end
+
+    test 'returns false and no errors when firmware is EFI and virtual_tpm is disabled' do
+      assert_equal false, @cr.send(:validate_tpm_compatibility, '0', 'efi')
+      assert_empty @cr.errors.full_messages
+    end
+
+    test 'returns false and no errors when firmware is BIOS and virtual_tpm is disabled' do
+      assert_equal false, @cr.send(:validate_tpm_compatibility, '0', 'bios')
+      assert_empty @cr.errors.full_messages
+    end
+
+    test 'returns true and adds an error when firmware is BIOS and virtual_tpm is enabled' do
+      assert_equal true, @cr.send(:validate_tpm_compatibility, '1', 'bios')
+      assert_includes @cr.errors.full_messages, 'TPM is not compatible with BIOS firmware. Please change Firmware or disable TPM.'
     end
   end
 end
