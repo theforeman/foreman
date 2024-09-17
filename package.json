@@ -29,8 +29,16 @@
     "react-intl": "^2.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.0",
-    "@theforeman/builder": "^13.1.0",
+    "@babel/core": "~7.25.2",
+    "@babel/plugin-proposal-class-properties": "7.16.7",
+    "@babel/plugin-proposal-object-rest-spread": "7.16.7",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-modules-amd": "7.9.0",
+    "@babel/plugin-transform-modules-commonjs": "7.9.0",
+    "@babel/plugin-transform-modules-systemjs": "7.9.0",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/preset-env": "7.9.5",
+    "@babel/preset-react": "7.16.7",
     "@theforeman/eslint-plugin-foreman": "^13.1.0",
     "@theforeman/eslint-plugin-rules": "^13.1.0",
     "@theforeman/test": "^13.1.0",

@@ -14,6 +14,7 @@ const { ModuleFederationPlugin } = require('webpack').container;
 var pluginUtils = require('../script/plugin_webpack_directories');
 var { generateExportsFile }= require('../webpack/assets/javascripts/exportAll');
 var CompressionPlugin = require('compression-webpack-plugin');
+const root = path.resolve(__dirname, '..');
 
 class AddRuntimeRequirement {
   // to avoid "webpackRequire.l is not a function" error
@@ -32,7 +33,7 @@ class AddRuntimeRequirement {
 }
 
 const supportedLocales = () => {
-  const localeDir = path.join(__dirname, '..', 'locale');
+  const localeDir = path.resolve(root, 'locale');
 
   // Find all files in ./locale/*
   const localesFiles = fs.readdirSync(localeDir);
@@ -86,7 +87,7 @@ const commonConfig = function() {
       },
     },
     resolveLoader: {
-      modules: [path.resolve(__dirname, '..', 'node_modules')],
+      modules: [path.resolve(root, 'node_modules')],
     },
     module: {
       rules: [
@@ -97,7 +98,7 @@ const commonConfig = function() {
           exclude: /node_modules(?!\/(@novnc|unidiff))/,
           loader: 'babel-loader',
           options: {
-            presets: [require.resolve('@theforeman/builder/babel')],
+            presets: [path.resolve(root, 'webpack/babel')],
           },
         },
         {
@@ -152,7 +153,7 @@ const coreConfig = function() {
     '..',
     'webpack/assets/javascripts/bundle.js'
   );
-  config.context = path.resolve(__dirname, '..');
+  config.context = root;
   if (config.mode == 'production') {
     var chunkFilename = '[name]-[chunkhash].js'
   } else {
@@ -162,14 +163,12 @@ const coreConfig = function() {
   config.entry = {
     bundle: { import: bundleEntry, dependOn: ['vendor', 'reactExports'] },
     vendor: vendorEntry,
-    reactExports: path.join(
-      __dirname,
-      '..',
+    reactExports: path.resolve(root,
       'webpack/assets/javascripts/all_react_app_exports.js'
     ),
   };
   config.output = {
-    path: path.join(__dirname, '..', 'public', 'webpack'),
+    path: path.resolve(root, 'public', 'webpack'),
     publicPath: '/webpack/',
     library: {
       name: ['TheForeman', '[name]'],
@@ -262,7 +261,7 @@ const pluginConfig = function(plugin) {
   };
   var configModules = config.resolve.modules || [];
   // make webpack to resolve modules from core first
-  configModules.unshift(path.resolve(__dirname, '..', 'node_modules'));
+  configModules.unshift(path.resolve(root, 'node_modules'));
   // add plugin's node_modules to the reslver list
   configModules.push(path.resolve(pluginRoot, 'node_modules'));
   configModules.push('node_modules/');
