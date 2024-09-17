@@ -6582,7 +6582,7 @@ msgid "Not Installed"
 msgstr "설치되지 않음 "
 
 msgid "Not available"
-msgstr ""
+msgstr "사용할 수 없음"
 
 msgid "Not implemented"
 msgstr "구현되지 않습니다"
