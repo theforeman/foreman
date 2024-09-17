@@ -31,6 +31,16 @@ all-mo: $(MOFILES)
 
 check: $(POXFILES)
 
+%.edit.po: %.po.time_stamp
+	touch $@
+
+# gettext will trash the .edit.po file if the time stamp doesn't exist or is older than the po file
+%.po.time_stamp: %.po
+	touch --reference $< $@
+
+# Prevent make from treating this as an intermediate file to be cleaned up
+.PRECIOUS: %.po.time_stamp
+
 # Unify duplicate translations
 uniq-po:
 	for f in $(shell find ./ -name "*.po") ; do \
