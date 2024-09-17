@@ -1,4 +1,4 @@
-import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
+import { testComponentSnapshotsWithFixtures } from 'foremanReact/common/testHelpers';
 import { ActionButtons } from './ActionButtons';
 import { buttons } from './ActionButtons.fixtures';
 

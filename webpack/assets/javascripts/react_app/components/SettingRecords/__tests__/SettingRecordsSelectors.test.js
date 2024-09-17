@@ -1,4 +1,4 @@
-import { testSelectorsSnapshotWithFixtures } from '@theforeman/test';
+import { testSelectorsSnapshotWithFixtures } from 'foremanReact/common/testHelpers';
 
 import {
   selectSettings,

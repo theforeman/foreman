@@ -1,5 +1,6 @@
 {
     "EXCLUDE_NPM_PACKAGES": [
+        "@apollo/react-testing",
         "@sheerun/mutationobserver-shim",
         "@theforeman/env",
         "@theforeman/eslint-plugin-foreman",

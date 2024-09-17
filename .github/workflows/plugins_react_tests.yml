@@ -16,6 +16,9 @@ concurrency:
   group: ${{ github.ref_name }}-${{ github.workflow }}
   cancel-in-progress: true
 
+env:
+  BUNDLE_WITHOUT: "console:development:journald:libvirt"
+
 jobs:
   setup_matrix:
     name: Setup matrix
@@ -45,11 +48,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      # We could update the postinstall action for foreman to look for an environment variable for plugin webpack dirs
-      # before kicking off the ruby script to find them, this would eliminate the ruby dep and running `npm install` in plugins.
-      - uses: ruby/setup-ruby@v1
+      - name: "Set up Ruby ${{ matrix.ruby }}"
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
       - name: Checkout Foreman
         uses: actions/checkout@v4
         with:
@@ -65,12 +68,29 @@ jobs:
         with:
           repository: ${{ matrix.plugin }}
           path: ${{ github.workspace }}/projects/plugin
+      - name: store plugin name
+        run: echo "PLUGIN_NAME=$(echo ${{ matrix.plugin }} | awk -F'/' '{print $NF}')" >> "${GITHUB_ENV}"
+      - name: Set up plugin in Foreman
+        run: |
+          echo "gemspec name: '$PLUGIN_NAME', path: '${{ github.workspace }}/projects/plugin'" > "bundler.d/$PLUGIN_NAME.local.rb"
+          if [ -d $PLUGIN_NAME/gemfile.d ] ; then
+            cat $PLUGIN_NAME/gemfile.d/*.rb >> bundler.d/$PLUGIN_NAME.local.rb
+          fi
+        working-directory: ${{ github.workspace }}/projects/foreman
       - name: Generate ${{ matrix.plugin }} npm dependencies package-lock
         run: npm install --package-lock-only --no-audit --legacy-peer-deps
         working-directory: ${{ github.workspace }}/projects/plugin
       - name: Install ${{ matrix.plugin }} npm dependencies
         run: npm ci --no-audit --legacy-peer-deps
         working-directory: ${{ github.workspace }}/projects/plugin
+      - run: sudo apt-get update
+      - run: sudo apt-get -qq -y install build-essential libcurl4-openssl-dev zlib1g-dev libpq-dev libvirt-dev
+      - name: Install gems
+        run: bundle install 
+        working-directory: ${{ github.workspace }}/projects/foreman
+      - name: Run plugin webpack dir to test
+        run: ./script/plugin_webpack_directories.rb   
+        working-directory: ${{ github.workspace }}/projects/foreman
       - name: Run ${{ matrix.plugin }} tests
-        run: npm test
-        working-directory: ${{ github.workspace }}/projects/plugin
+        run: npm run test:plugins $(echo ${{ matrix.plugin }} | awk -F'/' '{print $NF}')
+        working-directory: ${{ github.workspace }}/projects/foreman

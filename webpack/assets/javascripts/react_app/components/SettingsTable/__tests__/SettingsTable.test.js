@@ -1,4 +1,4 @@
-import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
+import { testComponentSnapshotsWithFixtures } from 'foremanReact/common/testHelpers';
 
 import { groupedSettings } from '../../SettingRecords/__tests__/SettingRecords.fixtures';
 

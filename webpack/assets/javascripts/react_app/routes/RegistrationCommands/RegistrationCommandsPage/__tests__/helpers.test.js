@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, render } from '@theforeman/test';
+import { shallow, render } from 'enzyme'
 import { FormSelectOption } from '@patternfly/react-core';
 
 import { emptyOption, validatedOS, osHelperText } from '../RegistrationCommandsPageHelpers'
