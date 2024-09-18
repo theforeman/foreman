@@ -12,7 +12,7 @@
       <% @vm.disks.each do |vol| %>
         <tr>
           <td><%= _("Disk '%s'") % vol[:label] %></td>
-          <td><%= _("%{capacity}") % { :capacity => number_to_human_size(vol[:capacity])} %></td>
+          <td><%= number_to_human_size(vol[:capacity]) %></td>
         </tr>
       <% end %>
       <% @vm.partitions.each do |part| %>
