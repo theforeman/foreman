@@ -60,7 +60,7 @@ module Foreman
       end
 
       class UnknownResource < RenderingError
-        MESSAGE = N_("Unkown '%{klass}' resource class").freeze
+        MESSAGE = N_("Unknown '%{klass}' resource class").freeze
       end
     end
   end
