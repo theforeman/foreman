@@ -435,14 +435,14 @@ module RenderersSharedTests
           e = assert_raises Foreman::Renderer::Errors::UnknownResource do
             renderer.render(source, preview_scope)
           end
-          assert_includes e.message, "Unkown 'NotExistingResource' resource class"
+          assert_includes e.message, "Unknown 'NotExistingResource' resource class"
         end
 
         test "render" do
           e = assert_raises Foreman::Renderer::Errors::UnknownResource do
             renderer.render(source, real_scope)
           end
-          assert_includes e.message, "Unkown 'NotExistingResource' resource class"
+          assert_includes e.message, "Unknown 'NotExistingResource' resource class"
         end
       end
 
