@@ -37,7 +37,7 @@ Foreman::SettingManager.define(:foreman) do
       full_name: N_('Login page footer text'))
     setting('http_proxy',
       type: :string,
-      description: N_('Set a proxy for all outgoing HTTP(S) connections from Foreman. System-wide proxies must be configured at the operating system level.'),
+      description: N_('Set an HTTP(s) proxy for all outgoing HTTP(S) connections from Foreman. System-wide proxies must be configured at the operating system level.'),
       default: nil,
       full_name: N_('HTTP(S) proxy'))
     validates(:http_proxy, { http_url: { allow_blank: true } })
