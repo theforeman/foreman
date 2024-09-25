@@ -1,3 +1,6 @@
+2024-09-25	Cole Higgins <chiggins@redhat.com>
+	* Release 3.11.3
+
 2024-09-04	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
 	* Release 3.11.2
 	* Test against correct Katello version
