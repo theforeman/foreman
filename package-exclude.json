@@ -13,6 +13,7 @@
         "babel-eslint",
         "babel-jest",
         "babel-plugin-dynamic-import-node",
+        "cosmiconfig-typescript-loader",
         "coveralls",
         "cross-env",
         "jest",
