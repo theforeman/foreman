@@ -19,6 +19,8 @@ import { getColumnHelpers } from './helpers';
 
 export const Table = ({
   columns,
+  customEmptyState,
+  emptyAction,
   emptyMessage,
   errorMessage,
   getActions,
@@ -134,13 +136,23 @@ export const Table = ({
               </Td>
             </Tr>
           )}
-          {!isPending && results.length === 0 && !errorMessage && (
-            <Tr ouiaId="table-empty">
-              <Td colSpan={100}>
-                <EmptyPage message={{ type: 'empty', text: emptyMessage }} />
-              </Td>
-            </Tr>
-          )}
+          {!customEmptyState &&
+            !isPending &&
+            results.length === 0 &&
+            !errorMessage && (
+              <Tr ouiaId="table-empty">
+                <Td colSpan={100}>
+                  <EmptyPage
+                    message={{
+                      type: 'empty',
+                      text: emptyMessage,
+                      action: emptyAction,
+                    }}
+                  />
+                </Td>
+              </Tr>
+            )}
+          {customEmptyState}
           {errorMessage && (
             <Tr ouiaId="table-error">
               <Td colSpan={100}>
@@ -186,11 +198,13 @@ export const Table = ({
 Table.propTypes = {
   children: PropTypes.node,
   columns: PropTypes.object.isRequired,
+  customEmptyState: PropTypes.object,
   params: PropTypes.shape({
     page: PropTypes.number,
     perPage: PropTypes.number,
     order: PropTypes.string,
   }).isRequired,
+  emptyAction: PropTypes.object,
   emptyMessage: PropTypes.string,
   errorMessage: PropTypes.string,
   getActions: PropTypes.func,
@@ -212,6 +226,8 @@ Table.propTypes = {
 
 Table.defaultProps = {
   children: null,
+  customEmptyState: null,
+  emptyAction: null,
   emptyMessage: null,
   errorMessage: null,
   isDeleteable: false,

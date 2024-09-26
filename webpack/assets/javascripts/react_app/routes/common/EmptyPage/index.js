@@ -4,7 +4,7 @@ import { translate as __ } from '../../../common/I18n';
 import DefaultEmptyState from '../../../components/common/EmptyState';
 import './emptypage.scss';
 
-const EmptyPage = ({ message: { type, text } }) => {
+const EmptyPage = ({ message: { type, text, action } }) => {
   const headerTextMap = {
     empty: __('No Results'),
     error: __('Error'),
@@ -16,6 +16,7 @@ const EmptyPage = ({ message: { type, text } }) => {
       icon={type === 'error' ? 'error-circle-o' : 'add-circle-o'}
       header={headerText}
       description={text}
+      action={action}
     />
   );
 };
@@ -24,6 +25,7 @@ EmptyPage.propTypes = {
   message: PropTypes.shape({
     type: PropTypes.oneOf(['empty', 'error', 'loading']),
     text: PropTypes.string,
+    action: PropTypes.object,
   }),
 };
 
