@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'tempfile'
 
 class BaseMacrosTest < ActiveSupport::TestCase
   setup do
@@ -249,21 +250,76 @@ class BaseMacrosTest < ActiveSupport::TestCase
     end
 
     test "should add a missing newline" do
-      delimiter = 'EOF-e6fb375b'
-      command = @scope.save_to_file('/tmp/test', 'echo hello')
-      assert_equal command, "cat << #{delimiter} > /tmp/test\necho hello\n#{delimiter}"
+      tmp_file = Tempfile.new('save_to_file')
+      tmp_file.close
+
+      file_content = 'echo hello'
+
+      command = @scope.save_to_file(tmp_file.path, file_content)
+
+      system({'INTERPOLATED' => 'test_value_123'}, command)
+
+      actual = `cat #{tmp_file.path}`
+
+      assert_equal "#{file_content}\n", actual
+    ensure
+      tmp_file.unlink
     end
 
-    test "should encode content as base64" do
-      delimiter = 'EOF-e6fb375b'
-      base64 = Base64.encode64('echo hello')
-      command = @scope.save_to_file('/tmp/test', 'echo hello', verbatim: true)
-      assert_equal command, "cat << #{delimiter} | base64 -d > /tmp/test\n#{base64}#{delimiter}"
+    test "should not interpolate content with verbatim on" do
+      tmp_file = Tempfile.new('save_to_file')
+      tmp_file.close
+
+      file_content = File.read(Rails.root.join('test', 'static_fixtures', 'interpolated_text.txt'))
+
+      command = @scope.save_to_file(tmp_file.path, file_content, verbatim: true)
+
+      system({'INTERPOLATED' => 'test_value_123'}, command)
+
+      actual = `cat #{tmp_file.path}`
+
+      assert_equal file_content, actual
+    ensure
+      tmp_file.unlink
     end
 
     test "should ignore escaping of filename by default" do
       command = @scope.save_to_file('/tmp/ifcfg-$sanitized_real', nil)
       assert_equal command, 'cp /dev/null /tmp/ifcfg-$sanitized_real'
+    end
+
+    test "Should create a correct script even when indented" do
+      tmp_file = Tempfile.new('save_to_file')
+      tmp_file.close
+
+      file_content = File.read(Rails.root.join('test', 'static_fixtures', 'script.txt'))
+
+      command = @scope.indent(2) { @scope.save_to_file(tmp_file.path, file_content) }
+
+      system(command)
+
+      actual = `cat #{tmp_file.path}`
+
+      assert_equal file_content, actual
+    ensure
+      tmp_file.unlink
+    end
+
+    test "Should interpolate ENV values to the script" do
+      tmp_file = Tempfile.new('save_to_file')
+      tmp_file.close
+
+      file_content = File.read(Rails.root.join('test', 'static_fixtures', 'interpolated_text.txt'))
+
+      command = @scope.indent(2) { @scope.save_to_file(tmp_file.path, file_content) }
+
+      system({'INTERPOLATED' => 'test_value_123'}, command)
+
+      actual = `cat #{tmp_file.path}`
+
+      assert_match /test_value_123/, actual
+    ensure
+      tmp_file.unlink
     end
   end
 end
