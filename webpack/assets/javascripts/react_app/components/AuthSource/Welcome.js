@@ -15,10 +15,10 @@ export const WelcomeAuthSource = ({ canCreate }) => {
       <FormattedMessage
         id="LDAP-providers"
         defaultMessage={__(
-          'The authentication process currently requires an LDAP provider, such as {FreeIPA}, {OpenLDAP} or {Microsoft}.'
+          'The authentication process currently requires an LDAP provider, such as {Free_IPA}, {OpenLDAP} or {Microsoft}.'
         )}
         values={{
-          FreeIPA: <em>FreeIPA</em>,
+          Free_IPA: <em>{__('FreeIPA')}</em>,
           OpenLDAP: <em>OpenLDAP</em>,
           Microsoft: <em>Microsoft&apos;s Active Directory</em>,
         }}
