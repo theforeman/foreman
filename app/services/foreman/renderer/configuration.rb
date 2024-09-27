@@ -122,6 +122,7 @@ module Foreman
         :outofsync_interval,
         :default_puppet_environment,
         :update_ip_from_built_request,
+        :lab_features,
       ]
 
       DEFAULT_ALLOWED_LOADERS = Foreman::Renderer::Scope::Macros::Loaders::LOADERS.map(&:first)
@@ -138,7 +139,7 @@ module Foreman
         :allowed_generic_helpers, :allowed_host_helpers, :allowed_loaders
 
       def allowed_helpers
-        allowed_generic_helpers + allowed_host_helpers + allowed_loaders
+        allowed_generic_helpers + allowed_host_helpers + allowed_loaders + [:load_any_resource]
       end
     end
   end
