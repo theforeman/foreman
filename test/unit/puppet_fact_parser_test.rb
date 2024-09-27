@@ -458,6 +458,43 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_nil parser.interfaces['eth1_1']
   end
 
+  describe "#parse_interfaces?" do
+    describe "with structured facts" do
+      test "with normal data" do
+        facts = {
+          "facterversion" => "4.0.0",
+          "networking" => {
+            "interfaces" => {
+              "em1": {
+                "mac": "00:00:00:00:ab:11",
+              },
+            },
+          },
+        }
+
+        assert get_parser(facts).parse_interfaces?
+      end
+
+      test "with duplicate mac addresses" do
+        facts = {
+          "facterversion" => "4.0.0",
+          "networking" => {
+            "interfaces" => {
+              "em1": {
+                "mac": "00:00:00:00:ab:11",
+              },
+              "em2": {
+                "mac": "00:00:00:00:ab:11",
+              },
+            },
+          },
+        }
+
+        refute get_parser(facts).parse_interfaces?
+      end
+    end
+  end
+
   test "#test boot time based on uptime" do
     host = FactoryBot.build(:host, :hostgroup => FactoryBot.build(:hostgroup))
     freeze_time do
