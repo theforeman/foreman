@@ -69,6 +69,7 @@ files:
   - snippet/remote_execution_ssh_keys.erb
   - snippet/saltstack_minion.erb
   - snippet/saltstack_setup.erb
+  - snippet/subscription_manager_setup.erb
   - PXELinux/preseed_default_pxelinux_autoinstall.erb
   - PXEGrub2/preseed_default_pxegrub2_autoinstall.erb
   - user_data/preseed_autoinstall_cloud_init.erb
