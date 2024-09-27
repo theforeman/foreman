@@ -4,7 +4,7 @@ module MediumProviders
   # Example:
   # provider = MyMediumProvider.new(centos_host)
   # provider.medium_uri
-  # => #<URI::HTTP http://mirror.centos.org/centos/7/os/x86_64>
+  # => #<URI::HTTP http://mirror.stream.centos.org/9-Stream/BaseOS/x86_64/os>
   class Provider
     delegate :logger, :to => :Rails
 
