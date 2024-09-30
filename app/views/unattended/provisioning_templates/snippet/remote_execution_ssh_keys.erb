@@ -61,9 +61,11 @@ EOF
 <% if @host.operatingsystem.family == 'Redhat' || @host.operatingsystem.family == 'Debian' -%>
 echo "<%= ssh_user %> ALL = (root) NOPASSWD : ALL" > /etc/sudoers.d/<%= ssh_user %>
 echo "Defaults:<%= ssh_user %> !requiretty" >> /etc/sudoers.d/<%= ssh_user %>
+chmod 440 /etc/sudoers.d/<%= ssh_user %>
 <% elsif @host.operatingsystem.family == 'Suse' -%>
 echo "<%= ssh_user %> ALL = (root) NOPASSWD : ALL" >> /etc/sudoers
 echo "Defaults:<%= ssh_user %> !targetpw" >> /etc/sudoers
+chmod 440 /etc/sudoers.d/<%= ssh_user %>
 <% end -%>
 <% end -%>
 else
