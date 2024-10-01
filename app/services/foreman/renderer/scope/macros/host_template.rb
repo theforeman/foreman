@@ -173,7 +173,7 @@ module Foreman
               <<~CMD
                 #{banner}
                 zypper refresh
-                zypper -n install #{packages}
+                zypper -n --gpg-auto-import-keys install #{packages}
               CMD
             else
               raise UnsupportedOS.new

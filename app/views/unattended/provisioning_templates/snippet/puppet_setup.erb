@@ -60,7 +60,7 @@ rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppetlabs
 rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppet
 <% end -%>
 <% if @host.provision_method == 'image' -%>
-/usr/bin/zypper -n install <%= linux_package %>
+/usr/bin/zypper -n --gpg-auto-import-keys install <%= linux_package %>
 <% end -%>
 <% elsif os_family == 'Windows' -%>
 $puppet_agent_msi = "${env:TEMP}\<%= windows_package %>"

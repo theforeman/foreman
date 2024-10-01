@@ -22,7 +22,7 @@ else
   yum -t -y install salt-minion
 fi
 <% elsif @host.operatingsystem.family == 'Suse' -%>
-  /usr/bin/zypper -n install salt-minion
+  /usr/bin/zypper -n --gpg-auto-import-keys install salt-minion
 <% end -%>
 
 cat > <%= etc_path %>/minion.d/minion.conf << EOF

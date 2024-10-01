@@ -294,7 +294,7 @@ class HostTemplateTest < ActiveSupport::TestCase
       @scope.instance_variable_set('@host', host)
       command = @scope.install_packages('pkg1')
 
-      assert_includes command, 'zypper -n install pkg1'
+      assert_includes command, 'zypper -n --gpg-auto-import-keys install pkg1'
     end
   end
 
