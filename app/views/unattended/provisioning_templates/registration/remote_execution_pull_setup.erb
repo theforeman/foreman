@@ -54,10 +54,13 @@ if [ -f $CONFIGTOML ]; then
     cat <<EOF > $CONFIGTOML
 # yggdrasil global configuration settings written by katello-pull-transport-migrate
 broker = ["mqtts://$SERVER_NAME:1883"]
+server = ["mqtts://$SERVER_NAME:1883"]
 cert-file = "$CERT_FILE"
 key-file = "$KEY_FILE"
 ca-root = ["$CA_FILE"]
 log-level = "error"
+data-host = ""
+path-prefix = "yggdrasil"
 EOF
 
 else
@@ -65,23 +68,29 @@ else
     exit 1
 fi
 
-# start the yggdrasild service
-if systemctl is-enabled yggdrasild 2>/dev/null && [ -n "$YGGDRASIL_RESTART_DELAY" ] && [ "$YGGDRASIL_RESTART_DELAY" -gt 0 ]; then
-    systemd-run --on-active="$YGGDRASIL_RESTART_DELAY" --collect --no-block systemctl restart yggdrasild
-else
-    echo "Starting yggdrasild..."
-    systemctl try-restart yggdrasild
-    systemctl enable --now yggdrasild
+YGGDRASIL_SERVICE=yggdrasil.service
+systemctl cat $YGGDRASIL_SERVICE >/dev/null 2>/dev/null || YGGDRASIL_SERVICE=yggdrasild.service
 
-    # check status of yggdrasild and fail if it is not running
+# start the yggdrasild service
+if systemctl is-enabled $YGGDRASIL_SERVICE 2>/dev/null && [ -n "$YGGDRASIL_RESTART_DELAY" ] && [ "$YGGDRASIL_RESTART_DELAY" -gt 0 ]; then
+    systemd-run --on-active="$YGGDRASIL_RESTART_DELAY" --collect --no-block systemctl restart $YGGDRASIL_SERVICE
+else
+    echo "Starting $YGGDRASIL_SERVICE..."
+    systemctl try-restart $YGGDRASIL_SERVICE
+    systemctl enable --now $YGGDRASIL_SERVICE
+
+    # check status of $YGGDRASIL_SERVICE and fail if it is not running
     # possible failure reason: incorrect protocol (should be tcp:// or mqtt://) or port (should be 1883)
     # also, cert-file and key-file must be valid
     # and broker must be running on the server
-    yggdrasil status
+    # yggdrasil-0.2.z provides a dedicated status subcommand, newer yggdrasil doesn't have anything like that
+    if which yggdrasil >/dev/null 2>/dev/null; then
+        yggdrasil status
+    fi
 
-    if ! systemctl is-active --quiet yggdrasild; then
+    if ! systemctl is-active --quiet $YGGDRASIL_SERVICE; then
         echo ""
-        echo "yggdrasild failed to start! Check configuration in $CONFIGTOML and make sure the broker is running on the server."
+        echo "$YGGDRASIL_SERVICE failed to start! Check configuration in $CONFIGTOML and make sure the broker is running on the server."
         exit $?
     fi
 fi
