@@ -2,7 +2,7 @@
 import React from 'react';
 import { FormSelectOption } from '@patternfly/react-core';
 
-import { foremanUrl } from '../../../../foreman_tools';
+import { foremanUrl } from '../../../common/helpers';
 import { sprintf, translate as __ } from '../../../common/I18n';
 
 // Form helpers

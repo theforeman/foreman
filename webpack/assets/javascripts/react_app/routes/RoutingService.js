@@ -1,6 +1,6 @@
 import { Route } from 'react-router-dom';
 import React from 'react';
-import { visit } from '../../foreman_navigation';
+import { visit } from '../common/helpers';
 import { addGlobalFill } from '../components/common/Fill/GlobalFill';
 
 let currentPath = window.location.href;
