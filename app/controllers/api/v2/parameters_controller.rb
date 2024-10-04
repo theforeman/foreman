@@ -64,6 +64,7 @@ module Api
           param :name, String, :required => true
           param :value, String, :required => true
           param :parameter_type, Parameter::KEY_TYPES, :desc => N_("Type of value"), :required => true
+          param :hidden_value, :bool, :desc => N_("Should the value be hidden")
         end
       end
 
