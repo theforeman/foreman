@@ -419,5 +419,12 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_equal parameter.hidden_value, show_response['value']
     end
+
+    test "should create hidden host parameter" do
+      assert_difference('@host.parameters.count') do
+        post :create, params: { :host_id => @host.to_param, :parameter => { :name => 'secret', :value => '123', :hidden_value => true } }
+      end
+      assert_response :created
+    end
   end
 end
