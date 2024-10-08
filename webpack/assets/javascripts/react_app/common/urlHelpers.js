@@ -1,6 +1,6 @@
 import URI from 'urijs';
 
-import { visit } from '../../foreman_navigation';
+import { visit } from './helpers';
 
 /**
  * Build a url from given controller, action and id

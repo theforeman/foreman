@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { ActionGroup, Button } from '@patternfly/react-core';
 
 import { translate as __ } from '../../../../common/I18n';
-import { foremanUrl } from '../../../../../foreman_tools';
+import { foremanUrl } from '../../../../common/helpers';
 
 const Actions = ({ isLoading, isGenerating, handleSubmit, invalidFields }) => (
   <>
