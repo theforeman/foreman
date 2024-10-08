@@ -150,7 +150,7 @@ list of options that can be set in an .env file (as well as in the cli call):
 
 * `NOTIFICATIONS_POLLING` is the notification polling interval in ms.
 
-* `NODE_OPTIONS` is used for npm actions, when running plugin tests with `npm run test:plugins` we add `--max-old-space-size=8192` to the options, but it can be overridden by writing your own `NODE_OPTIONS`
+* `NODE_OPTIONS` is used for npm actions, when running plugin tests with `npm run test:plugins` we add `--max-old-space-size=8192` to the options, but it can be overridden by writing your own `NODE_OPTIONS`. It is also added for webpack compile (`foreman start webpack`).
 
 
 === Resetting password

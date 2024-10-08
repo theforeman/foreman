@@ -26,3 +26,14 @@ jest.mock('./assets/javascripts/foreman_tools', () => ({
   foremanUrl: url => url,
 }));
 jest.mock('./assets/javascripts/foreman_navigation');
+
+jest.mock('./assets/javascripts/react_app/common/helpers', () => {
+  const helpers = jest.requireActual(
+    './assets/javascripts/react_app/common/helpers'
+  );
+  return {
+    ...helpers,
+    visit: jest.fn(),
+    reloadPage: jest.fn(),
+  };
+});

@@ -5,19 +5,10 @@ const path = require('path');
 const nodeModules = path.resolve(__dirname, '..', 'node_modules');
 const packageJsonPath = path.resolve(__dirname, '..', 'package.json');
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-const vendorCorePackageJsonPath = path.resolve(
-  nodeModules,
-  '@theforeman/vendor-core',
-  'package.json'
-);
-const vendorCorePackageJson = JSON.parse(
-  fs.readFileSync(vendorCorePackageJsonPath, 'utf8')
-);
 
 const dependencies = {
   ...packageJson.dependencies,
   ...packageJson.devDependencies,
-  ...vendorCorePackageJson.dependencies,
   '@apollo/client/testing': '@apollo/client/testing',
 }; // Use shared dependencies from foreman node_modules and not plugin node_modules to avoid jest errors due to multiple instances of same package
 
@@ -52,12 +43,7 @@ module.exports = {
     '.+fixtures.+',
     'foreman/webpack', // dont test foreman core in plugins
   ],
-  moduleDirectories: [
-    `node_modules`,
-    `<rootDir>/node_modules/@theforeman/vendor-core/node_modules`,
-    `node_modules/@theforeman/vendor-core/node_modules`,
-    '<rootDir>/node_modules',
-  ],
+  moduleDirectories: [`node_modules`, '<rootDir>/node_modules'],
   transform: {
     '^.+\\.js?$': 'babel-jest',
     '\\.(gql|graphql)$': require.resolve('jest-transform-graphql'), // for graphql-tag
@@ -82,5 +68,4 @@ module.exports = {
     __testing__: true,
     URL_PREFIX: '',
   },
-  resolver: require.resolve('./resolveNodeModule'),
 };

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { PageSection, Grid, GridItem, Title } from '@patternfly/react-core';
-import { foremanUrl } from '../../../foreman_tools';
+import { foremanUrl } from '../../common/helpers';
 import { useAPI } from '../../common/hooks/API/APIHooks';
 import Status from './Status';
 import StatusSkeleton from './Status/StatusSkeleton';
