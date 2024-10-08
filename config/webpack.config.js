@@ -4,17 +4,33 @@
 var path = require('path');
 var webpack = require('webpack');
 const dotenv = require('dotenv');
+const root = path.resolve(__dirname, '..');
 dotenv.config();
-var ForemanVendorPlugin = require('@theforeman/vendor')
-  .WebpackForemanVendorPlugin;
 var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 var vendorEntry = require('./webpack.vendor');
 var fs = require('fs');
 const { ModuleFederationPlugin } = require('webpack').container;
 var pluginUtils = require('../script/plugin_webpack_directories');
-var { generateExportsFile }= require('../webpack/assets/javascripts/exportAll');
+var {
+  generateExportsFile,
+} = require('../webpack/assets/javascripts/exportAll');
 var CompressionPlugin = require('compression-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const packageJsonPath = path.resolve(root, 'package.json');
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+const dependencies = packageJson.dependencies || {};
+const devDependencies = packageJson.devDependencies || {};
+const allDependencies = { ...dependencies, ...devDependencies };
+const shared = isPlugin =>
+  Object.keys(allDependencies).map(dep => ({
+    [dep]: {
+      eager: !isPlugin, // core should load all dependencies eagerly so they will be available for plugins
+      singleton: true,
+      requiredVersion: allDependencies[dep],
+      import: isPlugin ? false : dep,
+    },
+  }));
 
 class AddRuntimeRequirement {
   // to avoid "webpackRequire.l is not a function" error
@@ -33,7 +49,7 @@ class AddRuntimeRequirement {
 }
 
 const supportedLocales = () => {
-  const localeDir = path.join(__dirname, '..', 'locale');
+  const localeDir = path.join(root, 'locale');
 
   // Find all files in ./locale/*
   const localesFiles = fs.readdirSync(localeDir);
@@ -80,14 +96,31 @@ const commonConfig = function() {
         os: require.resolve('os-browserify'),
       },
       alias: {
+        'patternfly-react$': path.resolve(
+          __dirname,
+          '..',
+          'node_modules/patternfly-react/dist/js/index.js'
+        ), // to avoid circular dependency in dist/esm
+        '/node_modules/jquery': path.resolve(
+          __dirname,
+          '..',
+          'webpack/assets/javascripts/jquery.js'
+        ),
+        jquery: path.resolve(root, 'webpack/assets/javascripts/jquery.js'),
         foremanReact: path.join(
           __dirname,
           '../webpack/assets/javascripts/react_app'
         ),
+        'react/jsx-runtime': 'react/jsx-runtime.js', // for react-dnd
+        'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js', // for react-dnd
+        'datatables.net': path.resolve(
+          root,
+          'node_modules/datatables.net/js/jquery.dataTables.js'
+        ), // otherwise we get datatables.net-bs Cannot read properties of undefined (reading 'classes') since dataTables.mjs is a module.
       },
     },
     resolveLoader: {
-      modules: [path.resolve(__dirname, '..', 'node_modules')],
+      modules: [path.resolve(root, 'node_modules')],
     },
     module: {
       rules: [
@@ -118,9 +151,6 @@ const commonConfig = function() {
       ],
     },
     plugins: [
-      new ForemanVendorPlugin({
-        mode,
-      }),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(mode),
@@ -148,30 +178,32 @@ const commonConfig = function() {
 const coreConfig = function() {
   var config = commonConfig();
   var manifestFilename = 'manifest.json';
-  var bundleEntry = path.join(
-    __dirname,
-    '..',
-    'webpack/assets/javascripts/bundle.js'
-  );
-  config.context = path.resolve(__dirname, '..');
+  var bundleEntry = path.join(root, 'webpack/assets/javascripts/bundle.js');
+  config.context = path.resolve(root);
   if (config.mode == 'production') {
-    var chunkFilename = '[name]-[chunkhash].js'
+    var chunkFilename = '[name]-[chunkhash].js';
   } else {
-    var chunkFilename = '[name].js'
+    var chunkFilename = '[name].js';
   }
 
   config.entry = {
+    /* keep bundle entry files and reactExports seperate to avoid late loading issues of mixed files, import in react_app only from react_app and node_modules */
     bundle: { import: bundleEntry, dependOn: ['vendor', 'reactExports'] },
+    reactExports: {
+      import: path.join(
+        root,
+        'webpack/assets/javascripts/all_react_app_exports.js'
+      ),
+      dependOn: 'vendor',
+    },
     vendor: vendorEntry,
-    reactExports: path.join(
-      __dirname,
-      '..',
-      'webpack/assets/javascripts/all_react_app_exports.js'
-    ), 
-    vendorStyles: path.join(__dirname, '..', 'webpack/assets/javascripts/react_app/common/scss/vendor-core.scss'),
+    vendorStyles: path.join(
+      root,
+      'webpack/assets/javascripts/react_app/common/scss/vendor-core.scss'
+    ),
   };
   config.output = {
-    path: path.join(__dirname, '..', 'public', 'webpack'),
+    path: path.join(root, 'public', 'webpack'),
     publicPath: '/webpack/',
     library: {
       name: ['TheForeman', '[name]'],
@@ -181,9 +213,11 @@ const coreConfig = function() {
   };
   var plugins = config.plugins;
 
+  plugins.push(new MiniCssExtractPlugin());
   plugins.push(
     new ModuleFederationPlugin({
       name: 'foremanReact',
+      shared: shared(false),
     })
   );
   plugins.push(
@@ -191,11 +225,10 @@ const coreConfig = function() {
       filename: manifestFilename,
     })
   );
-  plugins.push(
-    new MiniCssExtractPlugin()
-  );
+  plugins.push(new MiniCssExtractPlugin());
   config.plugins = plugins;
   var rules = config.module.rules;
+
   rules.push({
     test: /\.(sa|sc|c)ss$/,
     exclude: /vendor-core/i,
@@ -213,11 +246,7 @@ const coreConfig = function() {
   });
   rules.push({
     test: /vendor-core/i,
-    use: [
-      MiniCssExtractPlugin.loader,
-      'css-loader',
-      'sass-loader',
-    ],
+    use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
   });
   config.module.rules = rules;
   return config;
@@ -239,7 +268,9 @@ const pluginConfig = function(plugin) {
   config.externals = function({ request }, callback) {
     if (/^foremanReact(\/.*)?$/.test(request)) {
       const prefix = 'var TheForeman.reactExports.';
-      const newPath = prefix + convertImportStatement(request.substring('foremanReact'.length));
+      const newPath =
+        prefix +
+        convertImportStatement(request.substring('foremanReact'.length));
       return callback(null, newPath);
     }
     return callback();
@@ -257,7 +288,7 @@ const pluginConfig = function(plugin) {
 
   if (config.mode == 'production') {
     var outputPath = path.join(pluginRoot, 'public', 'webpack', pluginName);
-    var chunkFilename = '[name]-[chunkhash].js'
+    var chunkFilename = '[name]-[chunkhash].js';
   } else {
     var outputPath = path.join(
       __dirname,
@@ -266,7 +297,7 @@ const pluginConfig = function(plugin) {
       'webpack',
       pluginName
     );
-    var chunkFilename = '[name].js'
+    var chunkFilename = '[name].js';
   }
   config.output = {
     path: outputPath,
@@ -276,7 +307,7 @@ const pluginConfig = function(plugin) {
   };
   var configModules = config.resolve.modules || [];
   // make webpack to resolve modules from core first
-  configModules.unshift(path.resolve(__dirname, '..', 'node_modules'));
+  configModules.unshift(path.resolve(root, 'node_modules'));
   // add plugin's node_modules to the reslver list
   configModules.push(path.resolve(pluginRoot, 'node_modules'));
   configModules.push('node_modules/');
@@ -290,8 +321,10 @@ const pluginConfig = function(plugin) {
       name: pluginName,
       filename: pluginName + '_remoteEntry.js',
       exposes: pluginEntries,
+      shared: shared(true),
     })
   );
+
   config.plugins = plugins;
   var rules = config.module.rules;
   rules.push({
