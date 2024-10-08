@@ -4,9 +4,10 @@
 var path = require('path');
 var webpack = require('webpack');
 const dotenv = require('dotenv');
+const root = path.resolve(__dirname, '..');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 dotenv.config();
-var ForemanVendorPlugin = require('@theforeman/vendor')
-  .WebpackForemanVendorPlugin;
 var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 var vendorEntry = require('./webpack.vendor');
 var fs = require('fs');
@@ -14,6 +15,18 @@ const { ModuleFederationPlugin } = require('webpack').container;
 var pluginUtils = require('../script/plugin_webpack_directories');
 var { generateExportsFile }= require('../webpack/assets/javascripts/exportAll');
 var CompressionPlugin = require('compression-webpack-plugin');
+
+const packageJsonPath = path.resolve(__dirname,'..', 'package.json');
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+const dependencies = packageJson.dependencies || {};
+const devDependencies = packageJson.devDependencies || {};
+const allDependencies = { ...dependencies, ...devDependencies };
+const shared = isPlugin => Object.keys(allDependencies).map(dep => ({
+  [dep]: {
+    eager: !isPlugin, // core should load all dependencies eagerly so they will be available for plugins
+    singleton: true,
+    requiredVersion: allDependencies[dep],
+  }}));
 
 class AddRuntimeRequirement {
   // to avoid "webpackRequire.l is not a function" error
@@ -79,11 +92,18 @@ const commonConfig = function() {
         os: require.resolve('os-browserify'),
       },
       alias: {
+        'patternfly-react$': path.resolve(__dirname,'..', 'node_modules/patternfly-react/dist/js/index.js'), // to avoid circular dependency in dist/esm
+        '/node_modules/jquery': path.resolve(__dirname, '..', 'webpack/assets/javascripts/jquery.js'),
+        'jquery': path.resolve(__dirname, '..', 'webpack/assets/javascripts/jquery.js'),
         foremanReact: path.join(
           __dirname,
           '../webpack/assets/javascripts/react_app'
         ),
+        'react/jsx-runtime': 'react/jsx-runtime.js', // for react-dnd
+        'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js', // for react-dnd
+        
       },
+
     },
     resolveLoader: {
       modules: [path.resolve(__dirname, '..', 'node_modules')],
@@ -117,9 +137,6 @@ const commonConfig = function() {
       ],
     },
     plugins: [
-      new ForemanVendorPlugin({
-        mode,
-      }),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(mode),
@@ -160,13 +177,18 @@ const coreConfig = function() {
   }
 
   config.entry = {
+    /* keep bundle entry files and reactExports seperate to avoid late loading issues of mixed files, import in react_app only from react_app and node_modules */
     bundle: { import: bundleEntry, dependOn: ['vendor', 'reactExports'] },
-    vendor: vendorEntry,
-    reactExports: path.join(
+    reactExports: {
+      import: path.join(
       __dirname,
       '..',
       'webpack/assets/javascripts/all_react_app_exports.js'
-    ),
+      ),
+      dependOn: 'vendor',
+     },
+     vendor: vendorEntry,
+     vendorStyles: path.join(__dirname, '..', 'webpack/assets/javascripts/react_app/common/scss/vendor-core.scss'),
   };
   config.output = {
     path: path.join(__dirname, '..', 'public', 'webpack'),
@@ -180,8 +202,11 @@ const coreConfig = function() {
   var plugins = config.plugins;
 
   plugins.push(
+    new MiniCssExtractPlugin());
+  plugins.push(
     new ModuleFederationPlugin({
       name: 'foremanReact',
+      shared: shared(false),
     })
   );
   plugins.push(
@@ -191,8 +216,10 @@ const coreConfig = function() {
   );
   config.plugins = plugins;
   var rules = config.module.rules;
+
   rules.push({
     test: /\.(sa|sc|c)ss$/,
+    exclude: /vendor-core/i,
     use: [
       {
         loader: 'style-loader',
@@ -201,6 +228,14 @@ const coreConfig = function() {
           attributes: { id: 'foreman_core_css' },
         },
       },
+      'css-loader',
+      'sass-loader',
+    ],
+  });
+  rules.push({
+    test: /vendor-core/i,
+    use: [
+      MiniCssExtractPlugin.loader,
       'css-loader',
       'sass-loader',
     ],
@@ -276,8 +311,10 @@ const pluginConfig = function(plugin) {
       name: pluginName,
       filename: pluginName + '_remoteEntry.js',
       exposes: pluginEntries,
+      shared: shared(true),
     })
   );
+
   config.plugins = plugins;
   var rules = config.module.rules;
   rules.push({

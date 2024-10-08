@@ -11,7 +11,6 @@ import apolloClient from './apollo';
 import ToastsList from '../components/ToastsList';
 import ErrorBoundary from '../components/common/ErrorBoundary';
 import ConfirmModal from '../components/ConfirmModal';
-import '../common/scss/vendor-core.scss';
 
 const ReactApp = ({ layout, metadata, toasts }) => {
   const [context, setContext] = useState({ metadata });

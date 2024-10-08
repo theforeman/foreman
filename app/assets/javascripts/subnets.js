@@ -69,7 +69,7 @@ function subnetMaskChanged(field) {
   }
   if ($('input[id^=subnet_type_]:checked').val() === 'Subnet::Ipv4') {
     try {
-      var cidr = ipaddr.IPv4.parse(mask).prefixLengthFromSubnetMask();
+      var cidr = tfm.ipaddr.IPv4.parse(mask).prefixLengthFromSubnetMask();
     } catch (err) {
       var cidr = '';
     }

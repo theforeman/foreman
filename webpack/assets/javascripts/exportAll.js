@@ -19,6 +19,8 @@ function generateExports(directoryPath, exportFileContent = '') {
         !dirent.name.endsWith('.test.js') &&
         !dirent.name.endsWith('.fixtures.js') &&
         !dirent.name.endsWith('mockRequests.js') &&
+        !dirent.name.endsWith('jquery.js') &&
+        !dirent.name.endsWith('vendor-core.scss') &&
         !fileNameWithoutExtension.includes('TestHelper') &&
         !fileNameWithoutExtension.includes('testHelper') &&
         !fileNameWithoutExtension.includes('APITestSetup')

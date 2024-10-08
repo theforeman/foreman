@@ -1,5 +1,7 @@
 import 'core-js/shim';
 import 'regenerator-runtime/runtime';
+import jstz from 'jstz';
+import ipaddr from 'ipaddr.js';
 
 import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';
@@ -56,4 +58,6 @@ window.tfm = Object.assign(window.tfm || {}, {
   componentRegistry,
   store,
   lookupKeys,
+  jstz,
+  ipaddr,
 });
