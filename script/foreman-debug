@@ -9,11 +9,11 @@ $0 - configuration and log data collector
 
 USAGE: $0 [options]
 
-Collects configuration and log data for Foreman, Smart Proxies, backend
+Collects configuration and log data for $FOREMAN_NAME, $SMART_PROXIES_NAME, backend
 services and system information while removing security information like
 passwords, tokens and keys.
 
-This program can be used on Foreman instances, Smart Proxy instances or
+This program can be used on $FOREMAN_NAME instances, $SMART_PROXY_NAME instances or
 backend services separately.
 
 OPTIONS:
@@ -129,6 +129,9 @@ add_files() {
 }
 
 # default values
+FOREMAN_NAME="Foreman"
+SMART_PROXY_NAME="Smart Proxy"
+SMART_PROXIES_NAME="Smart Proxies"
 DIR=""
 NOGENERIC=0
 NOTAR=0
