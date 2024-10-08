@@ -402,12 +402,12 @@ function serializeForm() {
 }
 
 function subnet_contains(network, cidr, ip) {
-  if (!ip || 0 === ip.length || !ipaddr.isValid(ip)) {
+  if (!ip || 0 === ip.length || !tfm.ipaddr.isValid(ip)) {
     return;
   }
 
-  var addr = ipaddr.parse(ip);
-  var range = ipaddr.parse(network);
+  var addr = tfm.ipaddr.parse(ip);
+  var range = tfm.ipaddr.parse(network);
 
   return addr.match(range, cidr);
 }

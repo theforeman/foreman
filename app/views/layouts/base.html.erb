@@ -10,6 +10,7 @@
 
     <%= favicon_link_tag "favicon.ico"%>
 
+    <%= get_webpack_foreman_vendor_css %>
     <%= stylesheet_link_tag 'application' %>
     <%= yield(:stylesheets) %>
 
@@ -35,10 +36,10 @@
   </head>
 
   <body class='<%= body_css_classes %>'>
-    <%= get_webpack_foreman_vendor_js %>
+  
     <%= javascript_include_tag("/webpack/#{get_webpack_chunk('vendor', 'js')}") %>
-    <%= javascript_include_tag("/webpack/#{get_webpack_chunk('bundle', 'js')}") %>
     <%= javascript_include_tag("/webpack/#{get_webpack_chunk('reactExports', 'js')}") %>
+    <%= javascript_include_tag("/webpack/#{get_webpack_chunk('bundle', 'js')}") %>
 
     <%= javascript_include_tag 'application' %>
     <%= webpacked_plugins_with_global_js %>
