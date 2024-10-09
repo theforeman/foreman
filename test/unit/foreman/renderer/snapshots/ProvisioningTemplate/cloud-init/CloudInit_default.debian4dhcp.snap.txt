@@ -4,6 +4,10 @@ hostname: snapshot-ipv4-dhcp-deb10
 fqdn: snapshot-ipv4-dhcp-deb10
 manage_etc_hosts: true
 users: []
+chpasswd:
+  expire: False
+  users:
+  - {name: root, password: $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0}
 runcmd:
 - |
   echo "" > /etc/hostname

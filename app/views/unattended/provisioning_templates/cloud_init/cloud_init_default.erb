@@ -39,6 +39,12 @@ hostname: <%= @host.name %>
 fqdn: <%= @host %>
 manage_etc_hosts: true
 users: []
+<% if root_pass.present? -%>
+chpasswd:
+  expire: False
+  users:
+  - {name: root, password: <%= root_pass -%>}
+<% end -%>
 runcmd:
 - |
 <%= indent(2) { snippet 'fix_hosts' } -%>
