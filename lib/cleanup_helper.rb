@@ -50,6 +50,8 @@ class CleanupHelper
         ActiveRecord::Base.connection.remove_column :hostgroups, :environment_id
       end
       ActiveRecord::Base.connection.drop_table(:environments, if_exists: true, force: :cascade)
+      ActiveRecord::Base.connection.drop_table(:hostgroup_puppet_facets, if_exists: true, force: :cascade)
+      ActiveRecord::Base.connection.drop_table(:host_puppet_facets, if_exists: true, force: :cascade)
 
       ActiveRecord::SchemaMigration.
         where(version: %w[20090722141107 20090802062223 20110412103238 20110712070522
@@ -57,7 +59,9 @@ class CleanupHelper
                           20140318153157 20140407161817 20140407162007 20140407162059
                           20140413123650 20140415032811 20141109131448 20150614171717
                           20160307120453 20160626085636 20180831115634 20181023112532
-                          20181224174419]).delete_all
+                          20181224174419 20090905150132 20101121140000 20201125113903
+                          20200803113803 20200722171017 20200803113531 20200803113903
+                          20211111125003]).delete_all
 
       envs = %w[view_environments create_environments edit_environments destroy_environments import_environments]
       cfgs = %w[view_config_groups create_config_groups edit_config_groups destroy_config_groups]
