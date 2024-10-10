@@ -51,7 +51,19 @@
                     <Value>$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0</Value>
                     <PlainText>false</PlainText>
                 </AdministratorPassword>
-                        </UserAccounts>
+                            <LocalAccounts>
+                    <LocalAccount wcm:action="add">
+                        <Password>
+                            <Value><![CDATA[win_ansible_user_ssh_pass]]></Value>
+                            <PlainText>true</PlainText>
+                        </Password>
+                        <Description>Ansible login service user</Description>
+                        <DisplayName>win_ansible_user</DisplayName>
+                        <Group>Administrators</Group>
+                        <Name>win_ansible_user</Name>
+                    </LocalAccount>
+	            </LocalAccounts>
+	                    </UserAccounts>
             <TimeZone>GMT Standard Time</TimeZone>
                         <OOBE>
                 <HideEULAPage>true</HideEULAPage>

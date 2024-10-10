@@ -45,6 +45,12 @@ w32tm /resync
 
 powershell /c "Get-NetConnectionProfile -InterfaceAlias \"Ethernet0\" | Set-NetConnectionProfile -NetworkCategory Private"
 
+powershell /c "set-localuser -name win_ansible_user -passwordneverexpires 1"
+powershell /c "Enable-PSRemoting"
+cmd /c "netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow"
+cmd /c winrm set winrm/config/service @{AllowUnencrypted="true"}
+cmd /c winrm set winrm/config/client/auth @{Basic="true"}
+cmd /c winrm set winrm/config/service/auth @{Basic="true"}
 
 
 
