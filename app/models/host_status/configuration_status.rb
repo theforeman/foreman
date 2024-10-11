@@ -27,12 +27,15 @@ module HostStatus
 
     def reported_origin_interval
       if last_report.origin
-        if host.params.has_key? "#{last_report.origin.downcase}_interval"
-          interval = host.params["#{last_report.origin.downcase}_interval"]
-        else
-          interval = Setting[:"#{last_report.origin.downcase}_interval"]
+        interval = nil
+        begin
+          if host.params.has_key? "#{last_report.origin.downcase}_interval"
+            interval = host.params["#{last_report.origin.downcase}_interval"]
+          end
+        rescue NameError, Safemode::SecurityError, Safemode::NoMethodError => exception
+          Foreman::Logging.logger('app').error("A parameter (Global, Org, OS, Host...) for the host #{host} is used which can not be rendered: #{exception}.")
         end
-        interval
+        interval || Setting[:"#{last_report.origin.downcase}_interval"]
       end
     end
 

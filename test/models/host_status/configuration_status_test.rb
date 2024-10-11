@@ -111,6 +111,62 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#reported_origin_interval' do
+    let(:host) { FactoryBot.create(:host, :with_reports) }
+    let(:status) do
+      HostStatus::ConfigurationStatus.new(:host => host)
+    end
+
+    test '#reported_origin_interval returns nil if no report origin set' do
+      @status.last_report.origin = nil
+      assert_nil @status.reported_origin_interval
+    end
+
+    test '#reported_origin_interval use |last_report.origin|_interval from settings' do
+      Setting.expects(:[]).with(:puppet_interval).returns(35)
+      @status.last_report.origin = 'Puppet'
+
+      assert_equal '35', @status.reported_origin_interval
+    end
+
+    test '#reported_origin_interval use |last_report.origin|_interval of the host' do
+      Setting.stubs(:[]).with(:puppet_interval).returns(35)
+      @status.last_report.origin = 'Puppet'
+
+      @host.params['puppet_interval'] = '50'
+      @host.save!
+      assert_equal '50', @status.reported_origin_interval
+    end
+
+    test '#reported_origin_interval use |last_report.origin|_interval from settings if a host param can not be rendered without Safemode' do
+      Setting.expects(:[]).with(:puppet_interval).returns(35)
+      @status.last_report.origin = 'Puppet'
+
+      @host.params['puppet_interval'] = '50'
+      @host.params['tainted_param'] = "Tainted value: <%= @host.tainted_value %>"
+      @host.save!
+
+      Setting[:interpolate_erb_in_parameters] = true
+      Setting[:safemode_render] = false
+      Rails.logger.expects(:error).with(regexp_matches(/cannot be rendered:.*NameError.*/))
+      assert_equal '35', @status.reported_origin_interval
+    end
+
+    test '#reported_origin_interval use |last_report.origin|_interval from settings if a host param can not be rendered with Safemode' do
+      Setting.expects(:[]).with(:puppet_interval).returns(35)
+      @status.last_report.origin = 'Puppet'
+
+      @host.params['puppet_interval'] = '50'
+      @host.params['tainted_param'] = "Tainted value: <%= @host.tainted_value %>"
+      @host.save!
+
+      Setting[:interpolate_erb_in_parameters] = true
+      Setting[:safemode_render] = true
+      Rails.logger.expects(:error).with(regexp_matches(/cannot be rendered:.*Safemode::SecurityError.*/))
+      assert_equal '35', @status.reported_origin_interval
+    end
+  end
+
   test '#refresh! refreshes the date and persists the record' do
     @status.expects(:refresh)
     @status.refresh!
