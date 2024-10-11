@@ -5,7 +5,6 @@ namespace :db do
     Make a dump of your database
 
     Foreman will make a dump of your database at the provided location, or it will put it in #{File.expand_path('../../db', __dir__)} if no destination file is provided.
-    A valid config/database.yml file with the database details is needed to perform this operation.
 
     Available conditions:
       * destination => path to dump output file (defaults to #{File.expand_path('../../db', __dir__)}/foreman.EPOCH.sql)
@@ -73,7 +72,6 @@ namespace :db do
     Import a database dump
 
     Foreman will import a database from the provided location.
-    A valid config/database.yml file with the database details is needed to perform this operation.
 
     Available conditions:
       * file => database dump file path
