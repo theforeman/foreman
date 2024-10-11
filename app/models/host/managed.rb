@@ -557,10 +557,15 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def inherited_attributes
-    inherited_attrs = %w{domain_id operatingsystem_id architecture_id compute_resource_id}
+    inherited_attrs = %w{domain_id operatingsystem_id compute_resource_id}
     inherited_attrs << "subnet_id" unless compute_provides?(:ip)
     inherited_attrs << "subnet6_id" unless compute_provides?(:ip6)
-    inherited_attrs.concat(%w{medium_id ptable_id pxe_loader}) unless image_build?
+
+    if managed?
+      inherited_attrs << "architecture_id"
+      inherited_attrs.concat(%w{medium_id ptable_id pxe_loader}) unless image_build?
+    end
+
     inherited_attrs
   end
 
