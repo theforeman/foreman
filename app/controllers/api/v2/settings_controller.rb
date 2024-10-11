@@ -1,6 +1,8 @@
 module Api
   module V2
     class SettingsController < V2::BaseController
+      hide_taxonomy_options
+
       before_action :find_resource, :only => %w{show update}
 
       def_param_group :setting_params do

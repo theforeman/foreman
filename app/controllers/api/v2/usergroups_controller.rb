@@ -3,6 +3,8 @@ module Api
     class UsergroupsController < V2::BaseController
       include Foreman::Controller::Parameters::Usergroup
 
+      hide_taxonomy_options
+
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
 

@@ -3,6 +3,8 @@ module Api
     class ArchitecturesController < V2::BaseController
       include Foreman::Controller::Parameters::Architecture
 
+      hide_taxonomy_options
+
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
 

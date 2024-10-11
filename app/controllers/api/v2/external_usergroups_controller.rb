@@ -4,6 +4,8 @@ module Api
       include Api::Version2
       include Foreman::Controller::Parameters::ExternalUsergroup
 
+      hide_taxonomy_options
+
       before_action :find_resource, :only => [:show, :update, :destroy, :refresh]
       before_action :find_required_nested_object, :only => [:index, :show, :create]
       after_action :refresh_external_usergroup, :only => [:create, :update, :destroy]
