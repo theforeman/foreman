@@ -84,7 +84,7 @@
             <%= render :partial => "users/mail_notifications", :locals => { :f => mail_form }  %>
           <% end %>
         <% else %>
-          <%= alert :class => 'alert-info', :header => '', :text => _("Notifications can't be assigned to this user."), :close => false %>
+          <%= alert :class => 'alert-info', :header => '', :text => _("You cannot assign notifications to this user. Grant the view_mail_notifications permission to the user first."), :close => false %>
         <% end %>
       <% end %>
     </div>
