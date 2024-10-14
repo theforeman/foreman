@@ -81,7 +81,7 @@ description: |
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
                         <Password>
-                            <Value>![CDATA[<%= host_param('ansible_ssh_pass') %>]]</Value>
+                            <Value><![CDATA[<%= host_param('ansible_ssh_pass') %>]]></Value>
                             <PlainText>true</PlainText>
                         </Password>
                         <Description>Ansible login service user</Description>
