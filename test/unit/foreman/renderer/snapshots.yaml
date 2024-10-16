@@ -83,3 +83,4 @@ files:
   - finish/windows_default_finish.erb
   - script/windows_default_script.erb
   - snippet/windows_network.erb
+  - registration/global_registration.erb
