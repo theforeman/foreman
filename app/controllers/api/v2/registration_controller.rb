@@ -15,10 +15,14 @@ module Api
       end
 
       api :GET, '/register', N_('Render Global registration template')
-      param :organization_id, :number, desc: N_("ID of the Organization to register the host in")
-      param :location_id, :number, desc: N_("ID of the Location to register the host in")
-      param :hostgroup_id, :number, desc: N_("ID of the Host group to register the host in")
-      param :operatingsystem_id, :number, desc: N_("ID of the Operating System to register the host in")
+      param :organization_id, :number, desc: N_("ID of the Organization to register the host in. Takes precedence over the `organization` parameter")
+      param :organization, String, desc: N_("Title of the Organization to register the host in")
+      param :location_id, :number, desc: N_("ID of the Location to register the host in. Takes precedence over the `location` parameter")
+      param :location, String, desc: N_("Title of the Location to register the host in")
+      param :hostgroup_id, :number, desc: N_("ID of the Host group to register the host in. Takes precedence over the `hostgroup` parameter")
+      param :hostgroup, String, desc: N_("Title of the Host group to register the host in")
+      param :operatingsystem_id, :number, desc: N_("ID of the Operating System to register the host in. Takes precedence over the `operatingsystem` parameter")
+      param :operatingsystem, String, desc: N_("Title of the Operating System to register the host in")
       param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems")
       param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host")
       param :packages, String, desc: N_("Packages to install on the host when registered. Can be set by `host_packages` parameter, example: `pkg1 pkg2`")
