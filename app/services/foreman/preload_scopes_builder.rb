@@ -26,7 +26,7 @@ module Foreman
     end
 
     def build_scopes(model, ignore: [], assoc_name: nil)
-      scopes = dependent_associations(model).map do |assoc|
+      scopes = dependent_associations(model, ignore: ignore).map do |assoc|
         next if ignore.include?(assoc.name)
 
         dep_associations = dependent_associations(assoc.klass)
@@ -34,8 +34,14 @@ module Foreman
           ignore += dep_associations.select { |to_ignore| to_ignore.options.key?(:through) }.map(&:name)
           ignore << assoc.name
           dep_scopes = build_scopes(assoc.klass, ignore: ignore, assoc_name: assoc.name)
-          if assoc.options.key?(:through) && dep_scopes.is_a?(Hash)
-            next { assoc.options[:through] => assoc.source_reflection_name }.merge(dep_scopes)
+          if assoc.options.key?(:through)
+            deps = dependent_associations(assoc.source_reflection.klass, ignore: ignore)
+            if deps.any?
+              dep_scopes = build_scopes(assoc.source_reflection.klass, ignore: ignore, assoc_name: assoc.source_reflection_name)
+              next { assoc.options[:through] => dep_scopes }
+            else
+              next { assoc.options[:through] => assoc.source_reflection_name }
+            end
           end
           next dep_scopes
         end
@@ -46,9 +52,9 @@ module Foreman
       scopes.empty? ? assoc_name : { assoc_name => scopes }
     end
 
-    def dependent_associations(model)
+    def dependent_associations(model, ignore: [])
       model.reflect_on_all_associations.select do |assoc|
-        (assoc.options.values & [:destroy, :delete_all, :destroy_async]).any?
+        !ignore.include?(assoc.name) && (assoc.options.values & [:destroy, :delete_all, :destroy_async]).any?
       end
     end
   end
