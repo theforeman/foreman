@@ -1,5 +1,5 @@
-@import "~@theforeman/vendor/scss/variables";
-@import "~@theforeman/vendor/scss/mixins";
+@import "../../../common/variables";
+@import "../../../common/scss/mixins";
 
 .foreman-numeric-input {
   position: relative;

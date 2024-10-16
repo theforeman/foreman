@@ -1,3 +1,22 @@
-@import '~@theforeman/vendor/scss/variables.scss';
+/**
+  Third Party variables imports here
+*/
+// patternfly v3
+$font-path: '~patternfly/dist/fonts/';
+$img-path: '~patternfly/dist/img/';
+$icon-font-path: '~patternfly/dist/fonts/';
 
-$header-max-width: calc(#{$pf-global--breakpoint--lg} + 70px); //TODO move into @theforeman/vendor/scss/variables
+// patternfly v4
+$pf-global--font-path: '~@patternfly/patternfly/assets/fonts';
+$fa-font-path: '~@patternfly/patternfly/assets/fonts/webfonts';
+$pf-global--fonticon-path: '~@patternfly/patternfly/assets/pficon';
+$pf-global--image-path: '~@patternfly/patternfly/assets/images';
+
+// patternfly v3
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/variables';
+@import '~patternfly/dist/sass/patternfly/variables';
+
+// patternfly v4
+@import '~@patternfly/patternfly/base/patternfly-variables';
+
+$header-max-width: calc(#{$pf-global--breakpoint--lg} + 70px);

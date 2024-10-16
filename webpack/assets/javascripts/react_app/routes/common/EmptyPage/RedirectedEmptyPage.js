@@ -4,7 +4,7 @@ import { Button } from '@patternfly/react-core';
 import { useHistory } from 'react-router-dom';
 import { SearchIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
-import { visit } from '../../../../foreman_navigation';
+import { visit } from '../../../common/helpers';
 import { EmptyStatePattern } from '../../../components/common/EmptyState';
 
 const RedirectedEmptyPage = ({ location: { state = {} } }) => {

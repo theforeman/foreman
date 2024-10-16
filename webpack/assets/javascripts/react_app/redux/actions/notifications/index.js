@@ -10,7 +10,7 @@ import {
 } from '../../consts';
 import * as sessionStorage from '../../../components/notifications/NotificationDrawerSessionStorage';
 import { API, get } from '../../API';
-import { reloadPage } from '../../../../foreman_navigation';
+import { reloadPage } from '../../../common/helpers';
 import {
   stopInterval,
   withInterval,
