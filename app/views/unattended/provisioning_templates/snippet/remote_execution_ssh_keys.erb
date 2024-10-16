@@ -28,6 +28,11 @@ description: |
   file.
 -%>
 
+# Select package manager for the OS (sets the $PKG_MANAGER* variables)
+if [ -z "$PKG_MANAGER" ]; then
+<%= indent(2) { snippet 'pkg_manager' } -%>
+fi
+
 <% if !host_param('remote_execution_ssh_keys').blank? %>
 <% ssh_user = host_param('remote_execution_ssh_user') || 'root' %>
 
@@ -58,6 +63,9 @@ EOF
   command -v restorecon && restorecon -RvF <%= ssh_path %> || true
 
 <% if ssh_user != 'root' && host_param('remote_execution_effective_user_method') == 'sudo' -%>
+if [ ! -x "$(command -v sudo)" ]; then
+  $PKG_MANAGER_INSTALL sudo
+fi
 <% if @host.operatingsystem.family == 'Redhat' || @host.operatingsystem.family == 'Debian' -%>
 echo "<%= ssh_user %> ALL = (root) NOPASSWD : ALL" > /etc/sudoers.d/<%= ssh_user %>
 echo "Defaults:<%= ssh_user %> !requiretty" >> /etc/sudoers.d/<%= ssh_user %>
