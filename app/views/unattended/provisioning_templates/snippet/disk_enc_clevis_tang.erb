@@ -5,7 +5,7 @@ model: ProvisioningTemplate
 snippet: true
 description: |
   Binds encrypted root directory ('/') utilizing Clevis to Tang server(s) for
-  decryption. The first parent device containing a LUKS container will be used.
+  decryption. All parent devices containing a LUKS container will be used.
   The temporary passphrase will be removed afterwards. Currently, only Red Hat
   family and Ubuntu operating systems are supported.
 -%>
@@ -27,35 +27,47 @@ description: |
 <% if (@host.operatingsystem.family == 'Redhat' || @host.operatingsystem.name == 'Ubuntu') && tang_server_list.present? -%>
 
 cat > /tmp/rootdir-luks-device.sh << "EOF"
-#!/bin/sh
+#!/bin/bash
 #
-# Author Jan Löser <loeser@atix.de>
-# Published under the GNU Public Licence 3
+# SPDX-FileCopyrightText: 2024 Jan Löser <loeser@atix.de>
+# SPDX-FileCopyrightText: 2024 Martin Spiessl <spiessl@atix.de>
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
-# This scripts tries to find the 1st LUKS device for / (root directory).
+# This script tries to find all LUKS devices mounted in /etc/crypttab.
 #
 set -o pipefail
 
-rootdev=$(df / --output=source | tail -n1)
-targetdev=$(readlink -f $rootdev)
-slavedev=$targetdev
-
-while : ; do
-    /sbin/cryptsetup luksDump $slavedev &>/dev/null && echo $slavedev && exit 0
+mapfile -t maybe_luks_devices < <(
+    awk '{print $1}' /etc/crypttab | \
+    xargs -rn1 find /dev -name | \
+    xargs -rn1 readlink -f
+)
+luks_devices=()
+while [[ ${#maybe_luks_devices[@]} -gt 0 ]] ; do
+    # classify maybe_luks_devices into luks_devices and non_luks_devices
+    non_luks_devices=()
+    for dev in "${maybe_luks_devices[@]}" ; do
+        /sbin/cryptsetup luksDump "$dev" &>/dev/null && luks_devices+=("$dev") || non_luks_devices+=("$dev")
+    done
+    # resolve non_luks_devices to discover new maybe_luks_devices
     set -e
-    slave=$(find /sys/class/block/$(basename $slavedev)/slaves -type l | head -n1)
-    slavedev=$(find /dev -name "$(basename $slave)" | head -n1)
+    maybe_luks_devices=()
+    for dev in "${non_luks_devices[@]}" ; do
+        mapfile -t  slaves < <(find "/sys/class/block/$(basename "$dev")/slaves" -type l)
+        for slave in "${slaves[@]}" ; do
+            slavedev=$(find /dev -name "$(basename "$slave")" | head -n1)
+            maybe_luks_devices+=("$slavedev")
+        done
+    done
     set +e
 done
-
-exit 1
+printf "%s\n" "${luks_devices[@]}"
 EOF
 
 # needs bash here because Ubuntu's sh (dash) doesn't support `-o pipefail` option
-luksdev=$(bash /tmp/rootdir-luks-device.sh)
-
-if [[ -n "$luksdev" ]]; then
-  echo "LUKS device found for '/': $luksdev"
+luksdevs=$(bash /tmp/rootdir-luks-device.sh)
+if [ -n "$luksdevs" ]; then
+  echo "LUKS devices found for '/': $luksdevs"
 
 <% if @host.operatingsystem.family == 'Redhat' -%>
   $PKG_MANAGER_INSTALL <%= packages_redhat %>
@@ -63,9 +75,10 @@ if [[ -n "$luksdev" ]]; then
   $PKG_MANAGER_INSTALL <%= packages_ubuntu %>
 <% end -%>
 
+for luksdev in $luksdevs; do
 <% for tang_server in tang_server_list -%>
   echo '<%= passphrase %>' | clevis luks bind -y -k - -d $luksdev tang '{"url": "<%= tang_server %>"}'
-  if [[ $? -ne 0 ]]; then
+  if [ $? -ne 0 ]; then
     echo "---"
     echo "There was an error during Clevis LUKS bind of '$luksdev' to Tang server '<%= tang_server %>'."
     echo "System halted."
@@ -73,6 +86,7 @@ if [[ -n "$luksdev" ]]; then
   fi
 <% end -%>
   echo '<%= passphrase %>' | cryptsetup luksRemoveKey $luksdev
+done
   systemctl enable clevis-luks-askpass.path
   systemctl enable remote-cryptsetup.target
 
