@@ -45,6 +45,27 @@ module Foreman
   def self.settings
     SettingRegistry.instance
   end
+
+  def self.download_utilities
+    {
+      'curl' => {
+        :ca_cert => '--cacert',
+        :download_command => 'curl --silent --show-error',
+        :insecure => '--insecure',
+        :output_file => '--output',
+        :request_type_post => '--request POST',
+        :format_params => proc { |params| params.map { |param| "--data #{param}" } },
+      },
+      'wget' => {
+        :ca_cert => '--ca-certificate',
+        :download_command => 'wget --no-verbose --no-hsts',
+        :insecure => '--no-check-certificate',
+        :output_file => '--output-document',
+        :output_pipe => '--output-document -',
+        :format_params => proc { |params| ["--post-data #{params.join('\&')}"] },
+      },
+    }.freeze
+  end
 end
 
 # Consider moving these to config.autoload_lib_once in Rails 7.1

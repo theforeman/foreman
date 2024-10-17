@@ -14,7 +14,7 @@ description: |
 # Make sure, all command output can be parsed (e.g. from subscription-manager)
 export LC_ALL=C LANG=C
 <%
-    headers = ["-H 'Authorization: Bearer #{@auth_token}'"]
+    headers = ["--header 'Authorization: Bearer #{@auth_token}'"]
     activation_keys = [(@hostgroup.params['kt_activation_keys'] if @hostgroup), @activation_keys].compact.join(',')
 -%>
 
@@ -35,6 +35,7 @@ export LC_ALL=C LANG=C
 <%= "\n# Ignore subman errors: [#{@ignore_subman_errors}]" unless @ignore_subman_errors.nil? -%>
 <%= "\n# Lifecycle environment id: [#{@lifecycle_environment_id}]" if @lifecycle_environment_id.present? -%>
 <%= "\n# Activation keys: [#{activation_keys}]" if activation_keys.present? -%>
+<%= "\n# Download utility: [#{@download_utility}]" unless @download_utility.nil? -%>
 
 
 if ! [ $(id -u) = 0 ]; then
@@ -91,11 +92,11 @@ elif [ -f /etc/debian_version ]; then
 <% if repo_gpg_key_url.present? -%>
 <%# "apt 1.2.35" on Ubuntu 16.04 does not support storing GPG public keys in "/etc/apt/trusted.gpg.d/" in ASCII format -%>
   if [ "$(. /etc/os-release ; echo "$VERSION_ID")" = "16.04" ]; then
-    $PKG_MANAGER_INSTALL ca-certificates curl gnupg
-    curl --silent --show-error <%= shell_escape repo_gpg_key_url %> | gpg --dearmor > /etc/apt/trusted.gpg.d/client<%= index %>.gpg
+    $PKG_MANAGER_INSTALL ca-certificates gnupg
+    <%= indent(4, skip1: true) { generate_web_request(utility: @download_utility, url: shell_escape(repo_gpg_key_url)) } %> | gpg --dearmor > /etc/apt/trusted.gpg.d/client<%= index %>.gpg
   else
-    $PKG_MANAGER_INSTALL ca-certificates curl
-    curl --silent --show-error --output /etc/apt/trusted.gpg.d/client<%= index %>.asc <%= shell_escape repo_gpg_key_url %>
+    $PKG_MANAGER_INSTALL ca-certificates
+    <%= indent(4, skip1: true) { generate_web_request(utility: @download_utility, url: shell_escape(repo_gpg_key_url), output_file: "/etc/apt/trusted.gpg.d/client#{index}.asc") } %>
   fi
 <% end -%>
   apt-get update
@@ -108,22 +109,22 @@ fi
 <% end -%>
 
 register_host() {
-  curl --silent --show-error --cacert $SSL_CA_CERT --request POST <%= @registration_url %> \
-       <%= headers.join(' ') %> \
-       --data "host[name]=$(hostname --fqdn)" \
-       --data "host[build]=false" \
-       --data "host[managed]=false" \
-<%= "       --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
-<%= "       --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
-<%= "       --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
-<%= "       --data 'host[operatingsystem_id]=#{@operatingsystem.id}' \\\n" if @operatingsystem -%>
-<%= "       --data host[interfaces_attributes][0][identifier]=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
-<%= "       --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
-<%= "       --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
-<%= "       --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
-<%= "       --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
-<%= "       --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
-
+<%
+  params = ["host[name]=$(hostname --fqdn)"]
+  params << "host[build]=false"
+  params << "host[managed]=false"
+  params << "host[organization_id]=#{@organization.id}" if @organization
+  params << "host[location_id]=#{@location.id}" if @location
+  params << "host[hostgroup_id]=#{@hostgroup.id}" if @hostgroup
+  params << "host[operatingsystem_id]=#{@operatingsystem.id}" if @operatingsystem
+  params << "host[interfaces_attributes][0][identifier]=#{shell_escape(@remote_execution_interface)}" if @remote_execution_interface.present?
+  params << "setup_insights=#{@setup_insights}" unless @setup_insights.nil?
+  params << "setup_remote_execution=#{@setup_remote_execution}" unless @setup_remote_execution.nil?
+  params << "remote_execution_interface=#{shell_escape(@remote_execution_interface)}" if @remote_execution_interface.present?
+  params << "packages=#{shell_escape(@packages)}" if @packages.present?
+  params << "update_packages=#{@update_packages}" unless @update_packages.nil?
+-%>
+  <%= indent(2, skip1: true) { generate_web_request(utility: @download_utility, url: @registration_url, ssl_ca_cert: "$SSL_CA_CERT", headers: headers, params: params) } %>
 }
 
 echo "#"
@@ -132,22 +133,22 @@ echo "#"
 
 <% if plugin_present?('katello') && activation_keys.present? -%>
 register_katello_host(){
-    UUID=$(subscription-manager identity | grep --max-count 1 --only-matching '\([[:xdigit:]]\{8\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{12\}\)')
-    curl --silent --show-error --cacert $KATELLO_SERVER_CA_CERT --request POST "<%= @registration_url %>" \
-         <%= headers.join(' ') %> \
-         --data "uuid=$UUID" \
-         --data "host[build]=false" \
-<%= "      --data 'host[organization_id]=#{@organization.id}' \\\n" if @organization -%>
-<%= "      --data 'host[location_id]=#{@location.id}' \\\n" if @location -%>
-<%= "      --data 'host[hostgroup_id]=#{@hostgroup.id}' \\\n" if @hostgroup -%>
-<%= "      --data 'host[lifecycle_environment_id]=#{@lifecycle_environment_id}' \\\n" if @lifecycle_environment_id.present? -%>
-<%= "      --data 'setup_insights=#{@setup_insights}' \\\n" unless @setup_insights.nil? -%>
-<%= "      --data 'setup_remote_execution=#{@setup_remote_execution}' \\\n" unless @setup_remote_execution.nil? -%>
-<%= "      --data remote_execution_interface=#{shell_escape(@remote_execution_interface)} \\\n" if @remote_execution_interface.present? -%>
-<%= "      --data 'setup_remote_execution_pull=#{@setup_remote_execution_pull}' \\\n" unless @setup_remote_execution_pull.nil? -%>
-<%= "      --data packages=#{shell_escape(@packages)} \\\n" if @packages.present? -%>
-<%= "      --data 'update_packages=#{@update_packages}' \\\n" unless @update_packages.nil? -%>
-
+<%
+  params = ["uuid=$UUID"]
+  params << "host[build]=false"
+  params << "host[organization_id]=#{@organization.id}" if @organization
+  params << "host[location_id]=#{@location.id}" if @location
+  params << "host[hostgroup_id]=#{@hostgroup.id}" if @hostgroup
+  params << "host[lifecycle_environment_id]=#{@lifecycle_environment_id}" if @lifecycle_environment_id.present?
+  params << "setup_insights=#{@setup_insights}" unless @setup_insights.nil?
+  params << "setup_remote_execution=#{@setup_remote_execution}" unless @setup_remote_execution.nil?
+  params << "remote_execution_interface=#{shell_escape(@remote_execution_interface)}" if @remote_execution_interface.present?
+  params << "setup_remote_execution_pull=#{@setup_remote_execution_pull}" unless @setup_remote_execution_pull.nil?
+  params << "packages=#{shell_escape(@packages)}" if @packages.present?
+  params << "update_packages=#{@update_packages}" unless @update_packages.nil?
+-%>
+  UUID=$(subscription-manager identity | grep --max-count 1 --only-matching '\([[:xdigit:]]\{8\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{12\}\)')
+  <%= indent(2, skip1: true) { generate_web_request(utility: @download_utility, url: @registration_url, ssl_ca_cert: "$KATELLO_SERVER_CA_CERT", headers: headers, params: params) } %>
 }
 
 # Set up subscription-manager
