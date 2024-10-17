@@ -5,6 +5,7 @@ class ExportableTest < ActiveSupport::TestCase
     include Exportable
 
     attr_accessor :name, :attrs, :subnet, :mac, :password, :subnet
+
     attr_exportable :name, :attrs, :mac, :subnet, :mac => ->(m) { m.mac.upcase if m.mac },
       :custom_attr => ->(m) { "hello world" }
 
@@ -23,6 +24,7 @@ class ExportableTest < ActiveSupport::TestCase
     include Exportable
 
     attr_accessor :name, :network
+
     attr_exportable :name, :network
 
     def attributes
@@ -37,6 +39,7 @@ class ExportableTest < ActiveSupport::TestCase
     include Exportable
 
     attr_accessor :domain
+
     attr_exportable :domain
 
     def attributes

@@ -1,6 +1,7 @@
 module Menu
   class Toggle < Node
     attr_accessor :icon
+
     def initialize(name, caption, icon)
       @caption = caption
       @icon = icon || ""

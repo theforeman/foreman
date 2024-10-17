@@ -91,7 +91,22 @@ Minitest/AssertEmptyLiteral:
   Enabled: true
 
 Minitest/RefuteNil:
+  Enabled: false
+
+Layout/SpaceAroundOperators:
   Enabled: true
 
 Style/OptionalBooleanParameter:
+  Enabled: false
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: true
+
+Layout/FirstHashElementIndentation:
   Enabled: false

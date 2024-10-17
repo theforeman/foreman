@@ -2,6 +2,7 @@ module SSO
   class Base
     attr_reader :controller
     attr_accessor :user, :has_rendered
+
     delegate :request, :to => :controller
 
     OIDC_ACCESS_TOKEN = 'HTTP_OIDC_ACCESS_TOKEN'
