@@ -42,6 +42,11 @@ users: {}
 runcmd:
 - |
 <%= indent(2) { snippet 'fix_hosts' } -%>
+<% if @host.provision_method == 'image' && root_pass.present? -%>
+- |
+  # Install the root password
+  echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
+<% end -%>
 - |
 <%= indent(2) { snippet 'yum_proxy' } -%>
 - |
