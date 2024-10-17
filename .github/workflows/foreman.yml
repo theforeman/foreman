@@ -21,7 +21,7 @@ concurrency:
 jobs:
   setup_matrix:
     name: Setup matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.build_matrix.outputs.matrix }}
     steps:
@@ -32,7 +32,7 @@ jobs:
   rubocop:
     name: Rubocop
     needs: setup_matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       BUNDLE_WITHOUT: assets:console:development:dynflow_sidekiq:ec2:journald:jsonp:libvirt:openid:openstack:ovirt:redis:service:telemetry:vmware
     steps:
@@ -47,7 +47,7 @@ jobs:
 
   tests:
     name: "${{ matrix.task }} - Ruby ${{ matrix.ruby }} and Node ${{ matrix.node }} on PostgreSQL ${{ matrix.postgresql }}"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs:
       - setup_matrix
       - rubocop
@@ -146,7 +146,7 @@ jobs:
   result:
     if: always()
     name: Test suite
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs:
       - tests
       - katello
