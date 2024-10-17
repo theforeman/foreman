@@ -92,7 +92,7 @@ class HasManyCommonTest < ActiveSupport::TestCase
 
   ## Test name methods resolve for Plugin AR objects
   class ::FakePlugin; end
-  class ::FakePlugin::FakeModel; end
+  class ::FakePlugin::FakeModel < ApplicationRecord; end
 
   test "should return plugin associations" do
     Host::Managed.class_eval do

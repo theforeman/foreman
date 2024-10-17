@@ -80,7 +80,7 @@ end
 
 module Foreman
   class Application < Rails::Application
-    config.load_defaults '6.1'
+    config.load_defaults '7.0'
 
     # Rails 5.0 changed this to true, but a lot of code depends on this
     config.active_record.belongs_to_required_by_default = false
@@ -99,11 +99,13 @@ module Foreman
     config.active_support.use_authenticated_message_encryption = false
     config.action_dispatch.use_authenticated_cookie_encryption = false
 
-    # Rails 6.0 changed this to :zeitwerk
-    config.autoloader = :zeitwerk
-
     # Rails 6.1 changed this to true, but apparently our codebase is not ready for bidirectional associations
     config.active_record.has_many_inversing = false
+
+    # Rails 7.0 changed this to true
+    config.active_record.verify_foreign_keys_for_fixtures = false
+    config.active_record.automatic_scope_inversing = false
+
     # Setup additional routes by loading all routes file from routes directory
     Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
       config.paths['config/routes.rb'] << route_file
@@ -113,6 +115,8 @@ module Foreman
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    # Recommended by Rails: https://guides.rubyonrails.org/v7.0/configuring.html#config-add-autoload-paths-to-load-path
+    config.add_autoload_paths_to_load_path = false
     # Autoloading
     config.autoload_paths += %W(#{config.root}/app/models/auth_sources)
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
