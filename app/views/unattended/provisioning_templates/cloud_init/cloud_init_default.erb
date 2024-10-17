@@ -39,6 +39,36 @@ hostname: <%= @host.name %>
 fqdn: <%= @host %>
 manage_etc_hosts: true
 users: {}
+<% if host_param_true?('subscription_manager') || host_param('kt_activation_keys') -%>
+<%
+  if host_param('kt_activation_keys')
+    subscription_manager_org = @host.rhsm_organization_label
+    activation_key = host_param('kt_activation_keys')
+  else
+    subscription_manager_org = host_param('subscription_manager_org')
+    activation_key = host_param('activation_key')
+  end
+-%>
+write_files:
+- content: |
+<%= indent(4) { foreman_server_ca_cert } %>
+  path: /etc/rhsm/ca/katello-server-ca.pem
+ca_certs:
+  trusted:
+    -|
+<%= indent(6) { foreman_server_ca_cert } %>
+rh_subscription:
+<% if activation_key -%>
+  activation-key: "<%= activation_key %>"
+<% end -%>
+  org: "<%= subscription_manager_org %>"
+<% if plugin_present?('katello') -%>
+  rhsm-baseurl: "<%= @pulp_content_url %>"
+  server-hostname: "<%= @rhsm_url&.host %>"
+<% end -%>
+  # TODO: server-port and path from rhsm_url aren't supported
+# TODO syspurpose
+<% end -%>
 runcmd:
 - |
 <%= indent(2) { snippet 'fix_hosts' } -%>
@@ -50,9 +80,6 @@ runcmd:
 <% if host_param_true?('enable-epel') -%>
 - |
 <%= indent(2) { snippet 'epel' } -%>
-<% end -%>
-- |
-<%= indent(2) { snippet 'redhat_register' } -%>
 <% end -%>
 <% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
 - |
