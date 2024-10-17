@@ -391,4 +391,73 @@ class ComputeResourceTest < ActiveSupport::TestCase
       assert_equal volume_attributes, volumes
     end
   end
+
+  describe '#firmware_type' do
+    before do
+      @cr = compute_resources(:mycompute)
+    end
+
+    test "returns firmware unchanged when firmware is not 'efi'" do
+      assert_equal 'bios', @cr.firmware_type('bios', true)
+      assert_equal 'bios', @cr.firmware_type('bios', false)
+      assert_empty(@cr.firmware_type('', true))
+      assert_nil(@cr.firmware_type(nil, false))
+    end
+
+    test "returns 'uefi' when firmware is 'efi' and secure boot is not enabled" do
+      assert_equal 'uefi', @cr.firmware_type('efi', false)
+      assert_equal 'uefi', @cr.firmware_type('efi', nil)
+    end
+
+    test "returns 'uefi_secure_boot' when firmware is 'efi' and secure boot is enabled" do
+      assert_equal 'uefi_secure_boot', @cr.firmware_type('efi', true)
+    end
+  end
+
+  describe '#normalize_firmware_type' do
+    before do
+      @cr = compute_resources(:mycompute)
+    end
+
+    test "returns 'efi' when firmware is 'uefi'" do
+      assert_equal 'efi', @cr.normalize_firmware_type('uefi')
+    end
+
+    test "returns 'bios' for non-uefi firmware types" do
+      assert_equal 'bios', @cr.normalize_firmware_type('bios')
+      assert_equal 'bios', @cr.normalize_firmware_type('none')
+      assert_equal 'bios', @cr.normalize_firmware_type('')
+      assert_equal 'bios', @cr.normalize_firmware_type(nil)
+    end
+
+    test "returns 'efi' when firmware is 'uefi_secure_boot'" do
+      assert_equal 'efi', @cr.normalize_firmware_type('uefi_secure_boot')
+    end
+  end
+
+  describe '#resolve_automatic_firmware' do
+    before do
+      @cr = compute_resources(:mycompute)
+    end
+
+    test "returns firmware_type when firmware is 'automatic' and firmware_type is present" do
+      assert_equal 'uefi', @cr.send(:resolve_automatic_firmware, 'automatic', 'uefi')
+      assert_equal 'bios', @cr.send(:resolve_automatic_firmware, 'automatic', 'bios')
+      assert_equal 'none', @cr.send(:resolve_automatic_firmware, 'automatic', 'none')
+      assert_equal 'uefi_secure_boot', @cr.send(:resolve_automatic_firmware, 'automatic', 'uefi_secure_boot')
+    end
+
+    test "returns firmware unchanged when not 'automatic'" do
+      assert_equal 'uefi', @cr.send(:resolve_automatic_firmware, 'uefi', 'bios')
+      assert_equal 'bios', @cr.send(:resolve_automatic_firmware, 'bios', 'uefi')
+      assert_equal 'uefi', @cr.send(:resolve_automatic_firmware, 'uefi', false)
+      assert_equal 'bios', @cr.send(:resolve_automatic_firmware, 'bios', '')
+      assert_equal 'uefi_secure_boot', @cr.send(:resolve_automatic_firmware, 'uefi_secure_boot', '')
+    end
+
+    test "returns 'bios' when firmware is 'automatic' and firmware_type is not present" do
+      assert_equal 'bios', @cr.send(:resolve_automatic_firmware, 'automatic', '')
+      assert_equal 'bios', @cr.send(:resolve_automatic_firmware, 'automatic', nil)
+    end
+  end
 end

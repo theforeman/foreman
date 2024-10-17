@@ -3313,6 +3313,11 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryBot.build_stubbed(:host, :managed, :pxe_loader => "Grub2 UEFI")
       assert_equal :uefi, host.firmware_type
     end
+
+    test 'should be :uefi_secure_boot for host with uefi_secure_boot loader' do
+      host = FactoryBot.build_stubbed(:host, :managed, :pxe_loader => "Grub2 UEFI SecureBoot")
+      assert_equal :uefi_secure_boot, host.firmware_type
+    end
   end
 
   describe '#templates_used' do
