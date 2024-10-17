@@ -201,14 +201,6 @@ module Foreman::Model
       }
     end
 
-    def firmware_types
-      {
-        "automatic" => N_("Automatic"),
-        "bios" => N_("BIOS"),
-        "efi" => N_("EFI"),
-      }
-    end
-
     def disk_mode_types
       {
         "persistent" => _("Persistent"),
@@ -487,8 +479,9 @@ module Foreman::Model
 
       args.except!(:hardware_version) if args[:hardware_version] == 'Default'
 
-      firmware_type = args.delete(:firmware_type)
-      args[:firmware] = firmware_mapping(firmware_type) if args[:firmware] == 'automatic'
+      firmware_type = args.delete(:firmware_type).to_s
+      args.merge!(process_firmware_attributes(args[:firmware], firmware_type))
+      args[:virtual_tpm] = validate_tpm_compatibility(args[:virtual_tpm], args[:firmware])
 
       args.reject! { |k, v| v.nil? }
       args
@@ -521,7 +514,7 @@ module Foreman::Model
         clone_vm(args)
       else
         vm = new_vm(args)
-        vm.firmware = 'bios' if vm.firmware == 'automatic'
+        raise ArgumentError, errors.full_messages.join(';') if errors.any?
         vm.save
       end
     rescue Fog::Vsphere::Compute::NotFound => e
@@ -827,11 +820,6 @@ module Foreman::Model
       )
     end
 
-    def firmware_mapping(firmware_type)
-      return 'efi' if firmware_type == :uefi
-      'bios'
-    end
-
     def set_vm_volumes_attributes(vm, vm_attrs)
       volumes = vm.volumes || []
       vm_attrs[:volumes_attributes] = Hash[volumes.each_with_index.map { |volume, idx| [idx.to_s, volume.attributes.merge(:size_gb => volume.size_gb)] }]
@@ -861,6 +849,31 @@ module Foreman::Model
 
     def cachekey_with_cluster(key, cluster_id = nil)
       cluster_id.nil? ? key.to_sym : "#{key}-#{cluster_id}".to_sym
+    end
+
+    # Generates Secure Boot settings for VMware, based on the provided firmware type.
+    #
+    # @param firmware [String] The firmware type.
+    # @return [Hash] A hash with secure boot settings if applicable.
+    def generate_secure_boot_settings(firmware)
+      firmware == 'uefi_secure_boot' ? { "secure_boot" => true } : {}
+    end
+
+    # Validates TPM compatibility based on the firmware type and virtual TPM setting.
+    # Adds an error if TPM is enabled with BIOS firmware, which is incompatible.
+    # This error is later raised as an `ArgumentError` in the `#create_vm` method.
+    #
+    # @param virtual_tpm [String] indicates if the virtual TPM is enabled ('1') or disabled ('0').
+    # @param firmware [String] the firmware type.
+    # @return [Boolean] the cast value of virtual_tpm after validation.
+    def validate_tpm_compatibility(virtual_tpm, firmware)
+      virtual_tpm = ActiveModel::Type::Boolean.new.cast(virtual_tpm)
+
+      if virtual_tpm && firmware == 'bios'
+        errors.add :base, _('TPM is not compatible with BIOS firmware. Please change Firmware or disable TPM.')
+      end
+
+      virtual_tpm
     end
   end
 end
