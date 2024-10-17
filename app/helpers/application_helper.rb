@@ -67,6 +67,21 @@ module ApplicationHelper
     Setting['host_details_ui'] ? host_details_page_path(host) : host_path(host)
   end
 
+  def app_metadata
+    {
+      UISettings: ui_settings,
+      version: SETTINGS[:version].short,
+      docUrl: documentation_url,
+      location: Location.current && { id: Location.current.id, title: Location.current.title },
+      organization: Organization.current && { id: Organization.current.id, title: Organization.current.title },
+      user: User.current&.attributes&.slice('id', 'login', 'firstname', 'lastname', 'admin'),
+      user_settings: {
+        lab_features: Setting[:lab_features],
+      },
+      permissions: (User.current.admin? ? Permission.all : User.current.permissions).pluck(:name),
+    }.compact
+  end
+
   protected
 
   def generate_date_id
@@ -404,20 +419,6 @@ module ApplicationHelper
 
   def current_url_params(permitted: [])
     params.slice(*permitted.concat([:locale, :search, :per_page])).permit!
-  end
-
-  def app_metadata
-    {
-      UISettings: ui_settings,
-      version: SETTINGS[:version].short,
-      docUrl: documentation_url,
-      location: Location.current && { id: Location.current.id, title: Location.current.title },
-      organization: Organization.current && { id: Organization.current.id, title: Organization.current.title },
-      user: User.current&.attributes&.slice('id', 'login', 'firstname', 'lastname', 'admin'),
-      user_settings: {
-        lab_features: Setting[:lab_features],
-      },
-    }.compact
   end
 
   def ui_settings

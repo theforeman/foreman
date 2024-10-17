@@ -33,6 +33,7 @@ class PermissionsList
         ['ConfigReport', 'view_config_reports'],
         ['ConfigReport', 'destroy_config_reports'],
         ['ConfigReport', 'upload_config_reports'],
+        ['Context', 'view_context'],
         [nil, 'access_dashboard'],
         ['Domain', 'view_domains'],
         ['Domain', 'create_domains'],

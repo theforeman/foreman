@@ -113,6 +113,10 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :console_compute_resources_vms, {:compute_resources_vms => [:console]}
   end
 
+  permission_set.security_block :context do |map|
+    map.permission :view_context, {:"api/v2/context" => [:index]}
+  end
+
   permission_set.security_block :provisioning_templates do |map|
     map.permission :view_provisioning_templates,    {:provisioning_templates => [:index, :show, :revision, :auto_complete_search, :preview, :export, :welcome],
                                         :"api/v2/provisioning_templates" => [:index, :show, :revision, :export],
