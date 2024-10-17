@@ -65,7 +65,7 @@ if ! [ -x "$(command -v subscription-manager)" ] ; then
 else
   echo "subscription-manager is already installed!"
   <% if @subman_setup_scenario == 'registration' -%>
-    $PKG_MANAGER_UPGRADE subscription-manager > /dev/null 2>&1
+    $PKG_MANAGER_UPGRADE --setopt=exclude=rhn-client-tools subscription-manager > /dev/null 2>&1
   <% end %>
 fi
 
