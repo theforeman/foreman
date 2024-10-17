@@ -47,6 +47,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-spellcheck": "0.0.17",
     "graphql": "^15.5.0",
+    "mini-css-extract-plugin": "^2.9.1",
     "path-browserify": "^1.0.1",
     "prettier": "^1.19.1",
     "pretty-format": "26.6.2",

@@ -14,6 +14,7 @@ const { ModuleFederationPlugin } = require('webpack').container;
 var pluginUtils = require('../script/plugin_webpack_directories');
 var { generateExportsFile }= require('../webpack/assets/javascripts/exportAll');
 var CompressionPlugin = require('compression-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 class AddRuntimeRequirement {
   // to avoid "webpackRequire.l is not a function" error
@@ -166,7 +167,8 @@ const coreConfig = function() {
       __dirname,
       '..',
       'webpack/assets/javascripts/all_react_app_exports.js'
-    ),
+    ), 
+    vendorStyles: path.join(__dirname, '..', 'webpack/assets/javascripts/react_app/common/scss/vendor-core.scss'),
   };
   config.output = {
     path: path.join(__dirname, '..', 'public', 'webpack'),
@@ -189,10 +191,14 @@ const coreConfig = function() {
       filename: manifestFilename,
     })
   );
+  plugins.push(
+    new MiniCssExtractPlugin()
+  );
   config.plugins = plugins;
   var rules = config.module.rules;
   rules.push({
     test: /\.(sa|sc|c)ss$/,
+    exclude: /vendor-core/i,
     use: [
       {
         loader: 'style-loader',
@@ -201,6 +207,14 @@ const coreConfig = function() {
           attributes: { id: 'foreman_core_css' },
         },
       },
+      'css-loader',
+      'sass-loader',
+    ],
+  });
+  rules.push({
+    test: /vendor-core/i,
+    use: [
+      MiniCssExtractPlugin.loader,
       'css-loader',
       'sass-loader',
     ],

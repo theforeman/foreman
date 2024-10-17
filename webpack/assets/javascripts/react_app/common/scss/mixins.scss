@@ -1,0 +1,21 @@
+// Mixins - Bootstrap overrides
+// -------------------
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+          box-shadow: $shadow;
+}
+
+// Form control outline
+@mixin form-control-outline($color: $input-border-focus){
+  $color-rgba: rgba(red($color), green($color), blue($color), .6);
+  &:focus {
+    border-color: $color;
+    outline: 0 !important;
+    @include box-shadow(unquote("inset 0 1px 1px rgba(3, 3, 3, 0.075), 0 0 8px #{$color-rgba}"));
+  }
+}
+/**
+  Third Party mixins imports here
+*/
+@import '~patternfly/dist/sass/patternfly/bootstrap-mixin-overrides';
+@import '~patternfly/dist/sass/patternfly/mixins';
