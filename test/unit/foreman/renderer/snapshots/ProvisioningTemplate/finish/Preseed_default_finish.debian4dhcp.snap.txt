@@ -3,6 +3,45 @@
 
 
 
+# Select package manager for the OS (sets the $PKG_MANAGER* variables)
+if [ -z "$PKG_MANAGER" ]; then
+  if [ -f /etc/os-release ] ; then
+    . /etc/os-release
+  fi
+  
+  if [ "${NAME%.*}" = 'FreeBSD' ]; then
+    PKG_MANAGER='pkg'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} delete -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} install -y"
+  elif [ -f /etc/fedora-release -o -f /etc/redhat-release -o -f /etc/amazon-linux-release -o -f /etc/system-release ]; then
+    PKG_MANAGER='dnf'
+    if [ -f /etc/redhat-release -a "${VERSION_ID%.*}" -le 7 ]; then
+      PKG_MANAGER='yum'
+    elif [ -f /etc/system-release ]; then
+      PKG_MANAGER='yum'
+    fi
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} upgrade -y"
+  elif [ -f /etc/debian_version ]; then
+    PKG_MANAGER='apt-get'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
+  elif [ -f /etc/arch-release ]; then
+    PKG_MANAGER='pacman'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} --noconfirm -S"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} --noconfirm -R"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} --noconfirm -S"
+  elif [ x$ID = xopensuse-tumbleweed -o x$ID = xsles ]; then
+    PKG_MANAGER='zypper'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} --non-interactive install --auto-agree-with-licenses"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} --non-interactive remove"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} --non-interactive update"
+  fi
+fi
+
 
 
 echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
