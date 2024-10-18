@@ -86,6 +86,7 @@ module Foreman
         "ansible_user" => "win_ansible_user",
         "create_ansible_user" => "true",
         "ansible_ssh_pass" => "win_ansible_user_ssh_pass",
+        "remote_desktop" => "true",
       }
       host_params.each_pair do |name, value|
         FactoryBot.build(:host_parameter, host: host, name: name, value: value)
