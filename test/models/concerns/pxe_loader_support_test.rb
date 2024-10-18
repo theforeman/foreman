@@ -32,18 +32,28 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
       assert_equal :PXEGrub, @subject.pxe_loader_kind(@host)
     end
 
-    test "PXEGrub2 is found for given filename" do
-      @host.pxe_loader = "grub2/grubx64.efi"
+    test "PXEGrub2 is found for grubx64.elf filename" do
+      @host.pxe_loader = "grub2/grubx64.elf"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for grubx64.0 filename" do
+      @host.pxe_loader = "grub2/grubx64.0"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for grubx64.efi filename" do
+      @host.pxe_loader = "host-config/#{@host.mac.tr(':', '-')}/grub2/grubx64.efi"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
     end
 
     test "PXEGrub2 is found for shimx64.efi filename" do
-      @host.pxe_loader = "grub2/shimx64.efi"
+      @host.pxe_loader = "host-config/#{@host.mac.tr(':', '-')}/grub2/shimx64.efi"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
     end
 
     test "PXEGrub2 is found for shimia32.efi filename" do
-      @host.pxe_loader = "grub2/shimia32.efi"
+      @host.pxe_loader = "host-config/#{@host.mac.tr(':', '-')}/grub2/shimia32.efi"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
     end
 
@@ -88,22 +98,17 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
     end
 
     test "PXEGrub2 is found for http://smart_proxy/tftp/grub2/grubx64.efi filename" do
-      @host.pxe_loader = "http://smart_proxy/tftp/grub2/grubx64.efi"
+      @host.pxe_loader = "http://smart_proxy/tftp/host-config/#{@host.mac.tr(':', '-')}/grub2/grubx64.efi"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
     end
 
     test "PXEGrub2 is found for https://smart_proxy/tftp/grub2/grubx64.efi filename" do
-      @host.pxe_loader = "https://smart_proxy/tftp/grub2/grubx64.efi"
+      @host.pxe_loader = "https://smart_proxy/tftp/host-config/#{@host.mac.tr(':', '-')}/grub2/grubx64.efi"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
     end
 
     test "PXEGrub2 is found for https://smart_proxy/tftp/grub2/shimx64.efi filename" do
-      @host.pxe_loader = "https://smart_proxy/tftp/grub2/shimx64.efi"
-      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
-    end
-
-    test "PXEGrub2 is found for https://smart_proxy/tftp/grub2/shimx64.efi filename" do
-      @host.pxe_loader = "https://smart_proxy/tftp/grub2/shimx64.efi"
+      @host.pxe_loader = "https://smart_proxy/tftp/host-config/#{@host.mac.tr(':', '-')}/grub2/shimx64.efi"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
     end
 
