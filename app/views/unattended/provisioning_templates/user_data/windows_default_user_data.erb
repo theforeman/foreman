@@ -22,6 +22,8 @@ identity:
         <% if host_param('remote_desktop') %>
         - "<%= powershell %> -NonInteractive -Command \"netsh advfirewall firewall set rule group=\"remote desktop\" new enable=Yes\""
         - "<%= powershell %> -NonInteractive -Command \"netsh advfirewall firewall set rule group=\"remotedesktop\" new enable=Yes\""
+        - "<%= powershell %> -NonInteractive -Command \"Set-ItemProperty -Path 'HKLM:\\System\\CurrentControlSet\\Control\\Terminal Server' -Name 'fDenyTSConnections' -Value 0\""
+        - "<%= powershell %> -NonInteractive -Command \"Set-ItemProperty -Path 'HKLM:\\System\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -Name 'UserAuthentication' -Value 0\""
         <% end %>
         <% if host_param('ping') %>
         - "<%= powershell %> -NonInteractive -Command \"netsh advfirewall firewall add rule name=\"Enable IPv4 ICMP\" dir=in protocol=icmpv4 action=allow\""

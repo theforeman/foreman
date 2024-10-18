@@ -53,6 +53,8 @@ cmd /c winrm set winrm/config/client/auth @{Basic="true"}
 cmd /c winrm set winrm/config/service/auth @{Basic="true"}
 
 
+cmd /c "netsh advfirewall firewall set rule group=\"remote desktop\" new enable=Yes"
+cmd /c "netsh advfirewall firewall set rule group=\"remotedesktop\" new enable=Yes"
 
 echo Downloading Puppet installer
 wget "" -O C:\puppet-agent-latest.msi
