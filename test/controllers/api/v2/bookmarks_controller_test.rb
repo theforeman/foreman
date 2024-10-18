@@ -7,14 +7,14 @@ class Api::V2::BookmarksControllerTest < ActionController::TestCase
   }
 
   simple_bookmark = bookmark_base.merge({
-                                          :name  => "foo-bar",
+    :name  => "foo-bar",
                                           :query => "bar",
-                                        })
+  })
 
   dot_bookmark = bookmark_base.merge({
-                                       :name  => "facts.architecture",
+    :name  => "facts.architecture",
                                        :query => " facts.architecture = x86_64",
-                                     })
+  })
 
   context 'index test' do
     def setup

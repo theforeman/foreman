@@ -5,6 +5,7 @@ class TaxonomixDummy < ApplicationRecord
   include Taxonomix
 
   attr_accessor :locations, :organizations
+
   after_initialize :set_taxonomies_to_empty
 
   def set_taxonomies_to_empty

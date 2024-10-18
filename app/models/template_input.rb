@@ -3,6 +3,7 @@ class TemplateInput < ApplicationRecord
 
   class ValueNotReady < ::Foreman::Exception
   end
+
   class UnsatisfiedRequiredInput < ::Foreman::Exception
   end
 
