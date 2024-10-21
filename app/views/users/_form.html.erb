@@ -1,4 +1,3 @@
-
 <%= form_for @user do |f| %>
   <%= base_errors_for @user %>
 
@@ -29,7 +28,7 @@
       <%= text_f f, :login, :disabled => msg.present? , :label_help => msg %>
       <%= text_f f, :firstname %>
       <%= text_f f, :lastname %>
-      <%= text_f f, :mail %>
+      <%= text_f f, :mail, id: "mail", required: f.object.mail_enabled%>
       <% unless @user == User.current %>
         <%= checkbox_f f, :disabled %>
       <% end %>
@@ -68,7 +67,7 @@
       </div>
       </br>
       <%= field_set_tag _("General") do %>
-        <%= checkbox_f f, :mail_enabled %>
+        <%= checkbox_f f, :mail_enabled, onchange: 'toggleMailRequired(this)' %>
         <div class='col-md-4'>
             <%= link_to_function(_("Test email"), "tfm.users.testMail(this, '#{test_mail_user_url(f.object)}', {user_email: $('#user_mail').val()})",
                                                 :title => _("Send a test message to the user's email address to confirm the configuration is working."), :id => "test_mail_button", :class =>"btn btn-success") + hidden_spinner('', :id => 'test_indicator').html_safe if action_name == "edit" %>
@@ -139,6 +138,15 @@
   </div>
 
   <%= submit_or_cancel f %>
+
+  <script type="text/javascript">
+    function toggleMailRequired(checkbox) {
+      const emailLabel = document.querySelector('label[for="mail"]');
+      if (emailLabel) {
+        emailLabel.innerHTML = checkbox.checked ? _("Email Address *") : _("Email Address");
+      }
+    }
+  </script>
 <% end %>
 
 <% if @user.cached_usergroups.any? %>
