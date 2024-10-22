@@ -13,17 +13,7 @@ Medium.without_auditing do
     {
       :name => "CentOS Stream",
       :os_family => "Redhat",
-      :path => "http://mirror.centos.org/centos/$major-stream/BaseOS/$arch/os",
-    },
-    {
-      :name => "CentOS Stream 9 mirror",
-      :os_family => "Redhat",
-      :path => "http://mirror.stream.centos.org/$major-stream/BaseOS/$arch/os",
-    },
-    {
-      :name => "CentOS Stream 10 mirror",
-      :os_family => "Redhat",
-      :path => "http://mirror.stream.centos.org/$major-stream/BaseOS/$arch/os",
+      :path => "http://mirror.stream.centos.org/centos/$major-stream/BaseOS/$arch/os",
     },
     {
       :name => "Debian mirror",
