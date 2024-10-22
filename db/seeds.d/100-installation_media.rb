@@ -6,17 +6,7 @@ os_suse = Operatingsystem.unscoped.where(:type => "Suse") || Operatingsystem.uns
 Medium.without_auditing do
   [
     {
-      :name => "CentOS 7 mirror",
-      :os_family => "Redhat",
-      :path => "http://mirror.centos.org/centos/$major/os/$arch",
-    },
-    {
-      :name => "CentOS Stream",
-      :os_family => "Redhat",
-      :path => "http://mirror.centos.org/centos/$major-stream/BaseOS/$arch/os",
-    },
-    {
-      :name => "CentOS Stream 9 mirror",
+      :name => "CentOS mirror",
       :os_family => "Redhat",
       :path => "http://mirror.stream.centos.org/$major-stream/BaseOS/$arch/os",
     },
