@@ -5,5 +5,5 @@
 <% cluster_id = params.fetch(:host, {}).fetch(:compute_attributes, {}).fetch(:cluster, nil).presence %>
 <%= select_f f, :network, vsphere_networks(compute_resource), :first, :last, { },
              :class => "col-md-3 vmware_network",
-             :size => "col-md-8", :disabled => !new_vm,
+             :size => "col-md-8", 
              :label => _('Network'), :label_size => "col-md-3" %>
