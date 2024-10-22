@@ -2,6 +2,8 @@
 /* eslint-disable import/no-dynamic-require */
 import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
+import Cookies from 'js-cookie';
+import jstz from 'jstz';
 import forceSingleton from './forceSingleton';
 
 class IntlLoader {
@@ -18,6 +20,10 @@ class IntlLoader {
     await this.fetchIntl();
     const localeData = require(/* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${this.locale}`);
     addLocaleData(localeData);
+    Cookies.set('timezone', jstz.determine().name(), {
+      path: '/',
+      secure: window.location.protocol === 'https:',
+    });
     return true;
   }
 
