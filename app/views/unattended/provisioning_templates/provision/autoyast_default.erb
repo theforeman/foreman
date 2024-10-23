@@ -3,15 +3,17 @@ kind: provision
 name: AutoYaST default
 model: ProvisioningTemplate
 oses:
-- OpenSUSE
+- openSUSE
 description: |
   Provisioning template for the OpenSUSE AutoYaST installer.
 -%>
 <%
   # safemode renderer does not support unary negation
+  aio_enabled = host_param_true?('enable-puppetlabs-repo') || %w[official-puppet8 official-puppet7].any? { |repo| host_param_true?("enable-#{repo}-repo") }
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
   salt_enabled = host_param('salt_master') ? true : false
   os_major = @host.operatingsystem.major.to_i
+  os_minor = @host.operatingsystem.minor.to_i
   primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
   primary_interface_subnet = @host.primary_interface.subnet
 -%>
@@ -29,7 +31,9 @@ description: |
       <hostname><%= @host.name %></hostname>
 <% unless primary_interface_subnet.dhcp_boot_mode? -%>
       <dhcp_hostname config:type="boolean">false</dhcp_hostname>
+<% if os_major < 12 -%>
       <dhcp_resolv config:type="boolean">false</dhcp_resolv>
+<% end -%>
 <% if @host.domain -%>
       <domain><%= @host.domain -%></domain>
 <% end -%>
@@ -96,9 +100,18 @@ description: |
     </routing>
 <% end -%>
   </networking>
-  <%# NTP client configuration has incompatible changes in Leap 15 -%>
-  <% if os_major <= 12 || os_major == 42 -%>
   <ntp-client>
+<% if os_major >= 15 -%>
+    <ntp_policy>auto</ntp_policy>
+    <ntp_servers config:type="list">
+      <ntp_server>
+        <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
+        <iburst config:type="boolean">false</iburst>
+        <offline config:type="boolean">true</offline>
+      </ntp_server>
+    </ntp_servers>
+    <ntp_sync>15</ntp_sync>
+<% else -%>
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
       <peer>
@@ -110,23 +123,21 @@ description: |
     </peers>
     <start_at_boot config:type="boolean">true</start_at_boot>
     <start_in_chroot config:type="boolean">true</start_in_chroot>
+<% end -%>
   </ntp-client>
-<% else -%>
-  <ntp-client>
-   <ntp_policy>auto</ntp_policy>
-   <ntp_servers config:type="list">
-    <ntp_server>
-     <iburst config:type="boolean">false</iburst>
-     <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
-     <offline config:type="boolean">true</offline>
-    </ntp_server>
-   </ntp_servers>
-   <ntp_sync>systemd</ntp_sync>
-   </ntp-client>
-<% end -%>
 <% if ! @dynamic -%>
-  <%= @host.diskLayout %>
+<%= @host.diskLayout %>
 <% end -%>
+<% if os_major >= 15 -%>
+  <services-manager>
+    <default_target>multi-user</default_target>
+    <services>
+      <enable config:type="list">
+        <service>sshd</service>
+      </enable>
+    </services>
+  </services-manager>
+<% else -%>
   <runlevel>
     <default>3</default>
     <services config:type="list">
@@ -136,8 +147,11 @@ description: |
       </service>
     </services>
   </runlevel>
+<% end -%>
   <software>
+<% if os_major < 15 -%>
     <base>default</base>
+<% end -%>
     <patterns config:type="list">
       <pattern>base</pattern>
       <pattern>enhanced_base</pattern>
@@ -147,7 +161,11 @@ description: |
     <packages config:type="list">
       <package>lsb-release</package>
 <% if puppet_enabled -%>
+<% if aio_enabled -%>
+      <package>puppet-agent</package>
+<% else -%>
       <package>rubygem-puppet</package>
+<% end -%>
 <% end -%>
 <% if host_param('additional-packages').present? -%>
       <%= host_param('additional-packages').split(" ").collect{|x| "<package>#{x}</package>" }.join("\n") %>
@@ -181,6 +199,7 @@ description: |
     </pre-scripts>
 <% end -%>
     <chroot-scripts config:type="list">
+<% if os_major < 15 -%>
       <script>
         <filename>cp-resolv.sh</filename>
         <chrooted config:type="boolean">false</chrooted>
@@ -191,6 +210,7 @@ cp /etc/resolv.conf /mnt/etc
 ]]>
         </source>
       </script>
+<% end -%>
       <script>
         <filename>foreman.sh</filename>
         <chrooted config:type="boolean">true</chrooted>
@@ -224,6 +244,22 @@ rm /etc/resolv.conf
       </script>
     </chroot-scripts>
   </scripts>
+<% if os_major >= 15 -%>
+  <firewall>
+    <enable_firewall config:type="boolean">true</enable_firewall>
+    <log_denied_packets>off</log_denied_packets>
+    <default_zone>public</default_zone>
+    <zones config:type="list">
+      <zone>
+        <name>public</name>
+        <services config:type="list">
+          <service>ssh</service>
+          <service>dhcpv6-client</service>
+        </services>
+      </zone>
+    </zones>
+  </firewall>
+<% end -%>
   <keyboard>
     <keymap>english-us</keymap>
   </keyboard>
@@ -231,4 +267,37 @@ rm /etc/resolv.conf
     <hwclock>UTC</hwclock>
     <timezone><%= host_param('time-zone') || 'Etc/UTC' %></timezone>
   </timezone>
+  <add-on>
+    <add_on_others config:type="list">
+<% if puppet_enabled && aio_enabled -%>
+<%
+  puppet_repo_url_base = 'https://yum.puppet.com'
+  if host_param_true?('enable-official-puppet8-repo')
+    puppet_repo_url = "#{puppet_repo_url_base}/puppet8/sles/#{os_major}/#{@host.architecture}/"
+    puppet_repo_alias = 'puppet8-release'
+  elsif host_param_true?('enable-official-puppet7-repo')
+    puppet_repo_url = "#{puppet_repo_url_base}/puppet7/sles/#{os_major}/#{@host.architecture}/"
+    puppet_repo_alias = 'puppet7-release'
+  else
+    puppet_repo_url = "#{puppet_repo_url_base}/puppet/sles/#{os_major}/#{@host.architecture}/"
+    puppet_repo_alias = 'puppet-release'
+  end
+-%>
+      <listentry>
+        <media_url><![CDATA[<%= puppet_repo_url %>]]></media_url>
+        <alias><%= puppet_repo_alias %></alias>
+        <name>Puppet AutoYaST repository</name>
+        <signature-handling>
+          <accept_unknown_gpg_key>
+            <all config:type="boolean">false</all>
+            <keys config:type="list">
+              <keyid>7F438280EF8D349F</keyid>
+              <keyid>4528B6CD9E61EF26</keyid>
+            </keys>
+          </accept_unknown_gpg_key>
+        </signature-handling>
+      </listentry>
+<% end -%>
+    </add_on_others>
+  </add-on>
 </profile>

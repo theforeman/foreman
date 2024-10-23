@@ -24,7 +24,7 @@
       </interface>
     </interfaces>
   </networking>
-      <ntp-client>
+  <ntp-client>
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
       <peer>
@@ -37,7 +37,7 @@
     <start_at_boot config:type="boolean">true</start_at_boot>
     <start_in_chroot config:type="boolean">true</start_in_chroot>
   </ntp-client>
-  zerombr
+zerombr
 clearpart --all    --initlabel
 part /boot --fstype ext3 --size=100 --asprimary
 part /     --fstype ext3 --size=1024 --grow
@@ -164,4 +164,8 @@ rm /etc/resolv.conf
     <hwclock>UTC</hwclock>
     <timezone>Etc/UTC</timezone>
   </timezone>
+  <add-on>
+    <add_on_others config:type="list">
+    </add_on_others>
+  </add-on>
 </profile>
