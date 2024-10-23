@@ -498,21 +498,6 @@ table {
   line-height: 2;
 }
 
-.navbar-editor
-  > span
-  > .select2-container
-  .select2-choices
-  .select2-search-field
-  input,
-.select2-container .select2-choice,
-.select2-container .select2-choices .select2-chosen {
-  height: 24px;
-
-  .select2-search-choice-close {
-    top: 6px;
-  }
-}
-
 .select2-chosen,
 .select2-choice > span:first-child,
 .select2-container .select2-choices .select2-search-field input {
