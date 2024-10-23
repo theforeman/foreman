@@ -147,6 +147,10 @@ module Foreman::Model
       associate_by("ip", [vm.public_ip_address, vm.private_ip_address])
     end
 
+    def associated_vm(host)
+      vms(:eager_loading => true).find { |vm| associate_by_host("ip", [vm.public_ip_address, vm.private_ip_address], host) }
+    end
+
     def user_data_supported?
       true
     end

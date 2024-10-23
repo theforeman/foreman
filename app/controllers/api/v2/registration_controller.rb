@@ -87,6 +87,7 @@ module Api
           ActiveRecord::Base.transaction do
             find_host
             prepare_host
+            associate_vm
             setup_host_params
             host_setup_extension
             @template = @host.initial_configuration_template
@@ -129,6 +130,19 @@ module Api
         @host.assign_attributes(host_attributes)
         @host.owner = User.current
         @host.save!
+      end
+
+      def associate_vm
+        if @host.compute_resource
+          associator = ComputeResourceHostAssociator.new(@host.compute_resource)
+          associator.associate_host(@host)
+        else
+          ComputeResource.all.each do |compute_resource|
+            associator = ComputeResourceHostAssociator.new(compute_resource)
+            associator.associate_host(@host)
+            break if @host.uuid
+          end
+        end
       end
 
       # Extension point for plugins

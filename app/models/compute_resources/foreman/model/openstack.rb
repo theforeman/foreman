@@ -205,6 +205,10 @@ module Foreman::Model
       associate_by("ip", [vm.floating_ip_address, vm.private_ip_address].compact)
     end
 
+    def associated_vm(host)
+      vms(:eager_loading => true).find { |vm| associate_by_host("ip", [vm.floating_ip_address, vm.private_ip_address].compact, host) }
+    end
+
     def flavor_name(flavor_ref)
       client.flavors.get(flavor_ref).try(:name)
     end
