@@ -168,6 +168,13 @@ module Api
         render options.merge(:template => "api/v2/errors/#{error}",
           :layout => 'api/v2/layouts/error_layout')
       end
+
+      def self.hide_taxonomy_options
+        resource_description do
+          param :location_id, Integer, :show => false
+          param :organization_id, Integer, :show => false
+        end
+      end
     end
   end
 end
