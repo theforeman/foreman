@@ -92,7 +92,7 @@ class FactParser
   end
 
   def parse_interfaces?
-    support_interfaces_parsing? && !Setting['ignore_puppet_facts_for_provisioning']
+    support_interfaces_parsing? && !Setting['ignore_puppet_facts_for_provisioning'] && !has_duplicate_mac?
   end
 
   def class_name_humanized
@@ -135,6 +135,14 @@ class FactParser
   end
 
   private
+
+  # Return if multiple interfaces have the same MAC address
+  # This can happen on Azure and Foreman can't parse that since a MAC is
+  # supposed to uniquely identify an interface in Foreman
+  # https://bugzilla.redhat.com/show_bug.cgi?id=2088782
+  def has_duplicate_mac?
+    interfaces.group_by { |_interface, facts| facts['macaddress'] }.any? { |_mac, interfaces| interfaces.length > 1 }
+  end
 
   def find_interface_by_name(host_name)
     resolver = Resolv::DNS.new
@@ -206,8 +214,12 @@ class FactParser
   end
 
   # meant to be implemented in inheriting classes
-  # should return array of interfaces names, e.g.
-  #   ['eth0', 'eth0.0', 'eth1']
+  #
+  # @return Array[String]
+  #   A list of interface names
+  #
+  # @example
+  #   get_interfaces # => ['eth0', 'eth0.0', 'eth1']
   def get_interfaces
     raise NotImplementedError, "parsing interfaces is not supported in #{self.class}"
   end
@@ -217,6 +229,15 @@ class FactParser
     @ignored_interfaces ||= Setting.convert_array_to_regexp(Setting[:ignored_interface_identifiers])
   end
 
+  # @param interfaces Array[String]
+  # @result Array[String]
+  #   A filtered list of interfaces
+  #
+  # @example Ignoring bridges
+  #   ignored_interfaces #=> /^br/
+  #   remove_ignored(['eth0', 'eth1', 'br0']) #=> ['eth0', 'eth1']
+  #
+  # @see #ignored_interfaces
   def remove_ignored(interfaces)
     interfaces.clone.delete_if do |identifier|
       if (remove = identifier.match(ignored_interfaces))
