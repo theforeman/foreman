@@ -27,7 +27,6 @@ const ToastsList = ({ railsMessages }) => {
     ([key, { type, message, link, sticky, ...toastProps }]) => (
       <Alert
         ouiaId={`toast-item-${key}`}
-        key={key}
         title={toastTitle(message, toastType(type))}
         variant={toastType(type)}
         timeout={sticky ? false : 8000}
@@ -44,6 +43,7 @@ const ToastsList = ({ railsMessages }) => {
           )
         }
         {...toastProps}
+        key={toastProps.key || key}
       >
         {(message.length > 60 || React.isValidElement(message)) && message}
       </Alert>
