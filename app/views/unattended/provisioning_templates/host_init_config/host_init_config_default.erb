@@ -73,7 +73,7 @@ if command -v subscription-manager &>/dev/null; then
   subscription-manager refresh
 fi
 
-<% if host_param_true?('redhat_install_host_tools') -%>
+<% if host_param_true?('redhat_install_host_tools', true) -%>
 <%= install_packages('katello-host-tools') -%>
 <% end -%>
 
