@@ -44,6 +44,10 @@ class FactValue < ApplicationRecord
   scope :with_roots, -> { joins(:fact_name) }
   scope :root_only, -> { with_roots.where(:fact_names => {:ancestry => nil}) }
 
+  default_scope lambda {
+    joins_authorized(Host, :view_hosts, :where => Host.taxonomy_conditions)
+  }
+
   validates_lengths_from_database
   validates :fact_name_id, :uniqueness => { :scope => :host_id }
 
