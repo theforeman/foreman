@@ -1,0 +1,278 @@
+[[handling_user_permissions]]
+
+# Handling user permissions
+:toc: right
+:toclevels: 5
+:source-highlighter: rouge
+
+## Frontend
+
+[IMPORTANT]
+====
+*None* of these solutions are a replacement for authoritative and well-defined permission-management in the backend!
+====
+
+Consider the following:
+
+* A component `MyComponent` that should be rendered if a user is granted the
+* `my_permission` permission and
+* a component `MyUnpermittedComponent` that should be rendered if they aren't
+
+In this section we will explore 4 different approaches to solve this problem.
+
+### Via context-based permission management
+
+#### Component: Permitted
+*Component location*: default export of _/components/Permitted/Permitted.js_
+
+This component abstracts the conditional rendering scheme and provides the following API:
+
+|===
+|Prop |Type |Note
+
+|*requiredPermission*
+|`String`
+|A single permission required to render `children`.
+
+|*requiredPermissions*
+|`Array<String>`
+|An array of permissions required to render `children`.
+
+|*children*
+|`React.ReactNode`
+|A component to be rendered if a user is granted the required permission(s).
+
+|*unpermittedComponent*
+|`React.ReactNode`
+|A component to be rendered if a user is *not* granted the required permission(s).
+|===
+
+Additionally, the propTypes-check validates the following conditions:
+
+* At least one of `[requiredPermission, requiredPermissions]` is given
+* `requiredPermission` is not an empty string
+* `requiredPermissions` is not an empty array
+
+It is not recommended to supply both `requiredPermissions` and `requiredPermission` simultaneously.
+
+Our example goal may be achieved as follows:
+[source, jsx]
+----
+import React from 'react';
+import { Permitted } from 'foremanReact/components/Permitted/Permitted';
+
+export const MyComponentWrapper = () => (
+  <Permitted
+    requiredPermission="my_permission"
+    unpermittedComponent={<MyUnpermittedComponent />}
+  >
+    <MyComponent />
+  </Permitted>
+);
+----
+
+Since the amount of code added is relatively small and trivial, it is rarely necessary to make use of a wrapper component with this approach.
+
+#### Hook: usePermission
+*Hook location*: export of _/common/hooks/Permissions/permissionHooks.js_
+
+This hook provides an interface with the context and allows checking whether the user is granted a *single* permission.
+Returns `true` if the provided permission is granted to the user and `false` if not. +
+If you want to check multiple permissions, use <<_hook_usepermissions>>.
+
+The hook provides the following API:
+
+|===
+|Parameter |Type |Note
+
+|*requiredPermission*
+|`String`
+|A single permission name
+|===
+
+Using `usePermission`, one may solve our initial problem as follows:
+[source, jsx]
+----
+import React from 'react';
+import { usePermission } from 'foremanReact/common/hooks/Permissions/permissionHooks';
+
+export const MyComponentWrapper = () => {
+  const isUserAuthed = usePermission('my_permission');
+
+  if (isUserAuthed) {
+    return <MyComponent />;
+  }
+  return <MyUnpermittedComponent />;
+};
+----
+
+#### Hook: usePermissions
+*Hook location*: export of _/common/hooks/Permissions/permissionHooks.js_
+
+This hook provides an interface with the context and allows checking whether the user is granted *multiple* permissions.
+Returns `true` if the provided permissions are granted to the user and `false` if not. +
+If you want to a single permission, use <<_hook_usepermission>>.
+
+The hook provides the following API:
+
+|===
+|Parameter |Type |Note
+
+|*requiredPermissions*
+|`Array<String>`
+|An array of permission names
+|===
+
+A code sample is omitted, as it would be nearly identical to the one above.
+
+#### Considerations
+
+The advantage of the context-based approach is that the permission data is essentially cached and available to every component via the React context.
+This context is set every time the ReactApp is mounted.
+This happens when a user navigates from a *server-rendered* page to a *frontend-rendered* page.
+Navigating between frontend-rendered pages does *not* refresh the context.
+Currently (2024-09-24), this does not pose a problem for permission management, as every page that may grant permissions to users is rendered serverside.
+To address the issue of *stale context*, developers may use the `useRefreshedContext` hook.
+
+##### Hook: useRefreshedContext
+
+*Hook location*: default export of _'foremanReact/Root/Context/Hooks/useRefreshedContext.js'_
+
+This hook allows developers to explicitly refresh the application context.
+If called, this hook will do the following:
+
+* Request the up-to-date context via an API call to `/api/v2/context/`
+* Update the React context with the queried values
+
+Partial context updates are supported.
+
+The hook provides the following API:
+
+|===
+|Parameter |Type | Note
+
+|*only*
+|`Array<String>`
+|*(optional)* An array of specific context fields to update. The full context is refreshed if omitted.
+|===
+
+At the time of writing (2024-09-29), the following context fields may be specified:
+
+
+|===
+|Field-key |Note
+
+|*UISettings*
+|General UI settings, e.g.: +
+"perPage"-setting, "displayNewHostsPage"-setting, etc.
+
+|*version*
+|Foreman version
+
+|*docUrl*
+|Docs URL for branding purposes.
+
+|*location*
+|Information about the current location
+
+|*organization*
+|Information about the current organization
+
+|*user*
+|Information about the current user
+
+|*user_settings*
+|User settings concerning Lab features
+
+|*permissions*
+|The current user's permissions
+|===
+
+Implementation details may be found in the `app_metadata` function of _foreman/app/helpers/application_helper.rb_
+
+The following is returned by the hook:
+
+|===
+|Value |Type |Note
+
+|*isLoading*
+|`Boolean`
+|Whether the api request is ongoing or not.
+
+|*isError*
+|`Boolean`
+|Whether an error has occurred.
+
+|*error*
+|`Object`
+|The exception, should one have been raised.
+
+|*data*
+|`Object`
+|The response data from the API request.
+
+|*status*
+|`Number`
+|The HTTP status code of the API request.
+|===
+
+Our first example with refreshed context would look like this:
+[source, jsx]
+----
+import React from 'react';
+import Permitted from 'foremanReact/components/Permitted/Permitted';
+import { useRefreshedContext } from 'foremanReact/Root/Context/ForemanContext';
+
+
+export const MyComponentWrapper = () => {
+
+  useRefreshedContext(['permissions']);
+
+    return (
+      <Permitted
+        requiredPermission="my_permission"
+        unpermittedComponent={<MyUnpermittedComponent />}
+      >
+        <MyComponent />
+      </Permitted>
+    );
+};
+----
+
+### Via API-based permission management
+#### Boilerplate
+To keep `MyComponent` clean and free of permission-handling code, it often makes sense to wrap it in a component dedicated to conditionally rendering it.
+
+[source,jsx]
+----
+import React from 'react';
+import { useAPI } from 'foremanReact/common/hooks/API/APIHooks'; // Plugin import | Core import differs
+
+export const MyComponentWrapper = () => {
+  const {
+    response: { results },
+    status,
+  } = useAPI('get', '/api/v2/permissions/current_permissions'); // Current user permissions
+
+  if (status === 'PENDING') {
+    // Handle API pending
+    return null;
+  } else if (status === 'ERROR') {
+    // Handle API error
+    return null;
+  } else if (status === 'RESOLVED') {
+    if (
+      results.some(permission => permission.name === 'my_permission')
+    ) {
+      return <MyComponent />;
+    }
+    return <MyUnpermittedComponent />
+  }
+  return null;
+};
+----
+
+#### Considerations
+The API request will add around *200-250 ms* of load time to your component tree.
+It is advised to structure your component-hierarchy in such a way that this API request is made near the top to avoid re-running it on re-renders.
+Alternatively, check user permissions <<_via_context_based_permission_management>>, which is much faster.
