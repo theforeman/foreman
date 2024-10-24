@@ -270,4 +270,26 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
       check_vm_attribute_names(cr)
     end
   end
+
+  describe '#generate_secure_boot_settings' do
+    before do
+      @cr = FactoryBot.build_stubbed(:libvirt_cr)
+    end
+
+    test "returns secure boot settings when firmware is 'uefi_secure_boot'" do
+      expected_sb_settings = {
+        firmware_features: { 'secure-boot' => 'yes', 'enrolled-keys' => 'yes' },
+        loader: { 'secure' => 'yes' },
+      }
+
+      assert_equal expected_sb_settings, @cr.send(:generate_secure_boot_settings, 'uefi_secure_boot')
+    end
+
+    test "returns an empty hash for firmware types other than 'uefi_secure_boot'" do
+      assert_empty @cr.send(:generate_secure_boot_settings, 'uefi')
+      assert_empty @cr.send(:generate_secure_boot_settings, 'bios')
+      assert_empty @cr.send(:generate_secure_boot_settings, '')
+      assert_empty @cr.send(:generate_secure_boot_settings, nil)
+    end
+  end
 end

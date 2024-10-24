@@ -50,6 +50,8 @@ module PxeLoaderSupport
       case pxe_loader
       when 'None'
         :none
+      when /SecureBoot/
+        :uefi_secure_boot
       when /UEFI/
         :uefi
       else
