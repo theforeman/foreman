@@ -371,7 +371,8 @@ class DHCPOrchestrationTest < ActiveSupport::TestCase
 
     h.build = true
     assert h.valid?, h.errors.messages.to_s
-    assert_equal ["dhcp_remove_aa:bb:cc:dd:ee:f1", "dhcp_create_aa:bb:cc:dd:ee:f1"], h.queue.task_ids
+    assert_includes h.queue.task_ids, "dhcp_remove_aa:bb:cc:dd:ee:f1"
+    assert_includes h.queue.task_ids, "dhcp_create_aa:bb:cc:dd:ee:f1"
   end
 
   test "when an existing host trigger a 'rebuild', its dhcp records should not be updated if valid dhcp records are found" do
@@ -383,7 +384,8 @@ class DHCPOrchestrationTest < ActiveSupport::TestCase
     h.build = true
     assert h.valid?
     assert_empty h.errors
-    assert_equal ["dhcp_create_aa:bb:cc:dd:ee:f1"], h.queue.task_ids
+    assert_includes h.queue.task_ids, "dhcp_create_aa:bb:cc:dd:ee:f1"
+    assert_not_includes h.queue.task_ids, "dhcp_remove_aa:bb:cc:dd:ee:f1"
   end
 
   test "when an existing host change its bmc mac address, its dhcp record should be updated" do

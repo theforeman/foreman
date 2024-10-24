@@ -5,7 +5,7 @@ module PxeLoaderSupport
   PXE_KINDS = {
     :PXELinux => /^(pxelinux.*|PXELinux (BIOS|UEFI))$/,
     :PXEGrub => /^(grub\/|Grub UEFI).*/,
-    :PXEGrub2 => /^(grub2\/|Grub2 (BIOS|UEFI|ELF)|http.*grub2\/).*/,
+    :PXEGrub2 => /(^Grub2 (BIOS|UEFI|ELF).*|\/?grub2\/)/,
     :iPXE => /^((iPXE|http.*\/ipxe-).*|ipxe\.efi|undionly\.kpxe)$/,
   }.with_indifferent_access.freeze
 
@@ -26,11 +26,11 @@ module PxeLoaderSupport
         "Grub UEFI" => "grub/grub#{precision}.efi",
         "Grub2 BIOS" => "grub2/grub#{precision}.0",
         "Grub2 ELF" => "grub2/grub#{precision}.elf",
-        "Grub2 UEFI" => "grub2/grub#{precision}.efi",
-        "Grub2 UEFI SecureBoot" => "grub2/shim#{precision}.efi",
-        "Grub2 UEFI HTTP" => "http://#{httpboot_host}/httpboot/grub2/grub#{precision}.efi",
-        "Grub2 UEFI HTTPS" => "https://#{httpboot_host}/httpboot/grub2/grub#{precision}.efi",
-        "Grub2 UEFI HTTPS SecureBoot" => "https://#{httpboot_host}/httpboot/grub2/shim#{precision}.efi",
+        "Grub2 UEFI" => "@@subdir@@/grub2/grub#{precision}.efi",
+        "Grub2 UEFI SecureBoot" => "@@subdir@@/grub2/shim#{precision}.efi",
+        "Grub2 UEFI HTTP" => "http://#{httpboot_host}/httpboot/@@subdir@@/grub2/grub#{precision}.efi",
+        "Grub2 UEFI HTTPS" => "https://#{httpboot_host}/httpboot/@@subdir@@/grub2/grub#{precision}.efi",
+        "Grub2 UEFI HTTPS SecureBoot" => "https://#{httpboot_host}/httpboot/@@subdir@@/grub2/shim#{precision}.efi",
         "iPXE Embedded" => nil, # renders directly as foreman_url('iPXE')
         "iPXE UEFI HTTP" => "http://#{httpboot_host}/httpboot/ipxe-#{precision}.efi",
         "iPXE Chain BIOS" => "undionly-ipxe.0",

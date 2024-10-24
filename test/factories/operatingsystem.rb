@@ -160,6 +160,17 @@ FactoryBot.define do
       title { 'Red Hat Enterprise Linux 7.5' }
     end
 
+    factory :rhel9, class: Redhat do
+      name { 'RHEL' }
+      major { '9' }
+      minor { '0' }
+      type { 'Redhat' }
+      title { 'Red Hat Enterprise Linux 9.0' }
+      architectures { [FactoryBot.build(:architecture, :x64)] }
+      media { [FactoryBot.build(:rhel_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
     factory :for_snapshots_centos_7_0, class: Redhat do
       name { 'CentOS' }
       major { '7' }

@@ -108,6 +108,20 @@ module Orchestration::DHCP
     end
   end
 
+  def dhcp_filename(record_mac)
+    filename = operatingsystem.boot_filename(host)
+    if filename.include? "@@subdir@@"
+      if host.subnet&.tftp&.has_capability?(:TFTP, :bootloader_universe)
+        filename = filename.gsub("@@subdir@@", "host-config/#{record_mac.tr(':', '-').downcase}")
+        filename = filename.gsub(/\/grub\w*\.efi$/, "/boot.efi")
+        return filename.gsub(/\/shim\w*\.efi$/, "/boot-sb.efi")
+      else
+        return filename.gsub("@@subdir@@/", "")
+      end
+    end
+    filename
+  end
+
   # returns a hash of dhcp record settings
   def dhcp_attrs(record_mac)
     raise ::Foreman::Exception.new(N_("DHCP not supported for this NIC")) unless dhcp?
@@ -124,7 +138,7 @@ module Orchestration::DHCP
 
     if provision?
       dhcp_attr[:nextServer] = boot_server unless host.pxe_loader == 'None'
-      filename = operatingsystem.boot_filename(host)
+      filename = dhcp_filename(record_mac)
       dhcp_attr[:filename] = filename if filename.present?
       if jumpstart?
         jumpstart_arguments = os.jumpstart_params host, model.vendor_class

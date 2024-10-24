@@ -10,6 +10,10 @@ module ProxyAPI
     # [+mac+]  : MAC address
     # [+args+] : Hash containing
     #    :pxeconfig => String containing the configuration
+    #    :targetos  => String containing the lowercase operating system name
+    #    :release  => String containing the operating system major and minor version
+    #    :arch  => String containing the operating system architecture
+    #    :bootfile_suffix => String containing the architecture specific boot filename suffix
     # Returns  : Boolean status
     def set(kind, mac, args)
       parse(post(args, "#{kind}/#{mac}"))
