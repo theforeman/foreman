@@ -256,6 +256,7 @@ Foreman::Application.routes.draw do
     end
     member do
       post 'impersonate'
+      patch 'invalidate_jwt'
     end
     resources :ssh_keys, only: [:new, :create, :destroy]
   end

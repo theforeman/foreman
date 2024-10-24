@@ -8,6 +8,10 @@ module JwtAuth
       jwt_secret || create_jwt_secret!
     end
 
+    def invalidate_jwt
+      User.find_by(id: id).jwt_secret&.destroy
+    end
+
     # expiration:  integer, eg: 4.hours.to_i
     # scope:       example: [{ controller: :registration, actions: [:global, :host] }]
     def jwt_token!(expiration: nil, scope: [])

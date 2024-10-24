@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   rescue_from ActionController::InvalidAuthenticityToken, with: :login_token_reload
   skip_before_action :require_mail, :only => [:edit, :update, :logout, :stop_impersonation]
   skip_before_action :require_login, :check_user_enabled, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
-  skip_before_action :authorize, :only => [:extlogin, :impersonate, :stop_impersonation]
+  skip_before_action :authorize, :only => [:extlogin, :impersonate, :stop_impersonation, :invalidate_jwt]
   before_action      :require_admin, :only => :impersonate
   after_action       :update_activity_time, :only => :login
   before_action      :verify_active_session, :only => :login
@@ -90,6 +90,15 @@ class UsersController < ApplicationController
     else
       info _("You are already impersonating, click the impersonation icon in the top bar before starting a new impersonation.")
       redirect_to users_path
+    end
+  end
+
+  def invalidate_jwt
+    @user = find_resource(:edit_users)
+    if @user.invalidate_jwt.blank?
+      process_success(
+        :success_msg => _('Successfully invalidated JWT for %s.') % @user.login
+      )
     end
   end
 
