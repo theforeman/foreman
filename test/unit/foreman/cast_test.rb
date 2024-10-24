@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'foreman/cast'
 
 class CastTest < ActiveSupport::TestCase
   include Foreman::Cast

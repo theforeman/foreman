@@ -41,7 +41,7 @@ class CollectionLoader < GraphQL::Batch::Loader
   end
 
   def preloader_for_association(records)
-    ::ActiveRecord::Associations::Preloader.new.preload(records, association_name, base_scope).first
+    ::ActiveRecord::Associations::Preloader.new(records: records, associations: association_name, scope: base_scope).call.first
   end
 
   def read_association(preloader, record)
