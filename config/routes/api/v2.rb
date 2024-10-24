@@ -218,6 +218,7 @@ Foreman::Application.routes.draw do
           resources :mail_notifications, :only => [:create, :destroy, :update]
           get 'mail_notifications', :to => 'mail_notifications#user_mail_notifications', :on => :member
           get 'extlogin', :to => 'users#extlogin', :on => :collection
+          patch 'invalidate_jwt', :to => 'users#invalidate_jwt', :on => :member
         end
       end
 

@@ -12,8 +12,8 @@ module Api
         ['compute_attributes']
 
       before_action :find_optional_nested_object
-      skip_before_action :authorize, :only => [:extlogin]
-      before_action :authenticate, :only => [:extlogin]
+      skip_before_action :authorize, :only => [:extlogin, :invalidate_jwt]
+      before_action :authenticate, :only => [:extlogin, :invalidate_jwt]
 
       api :GET, "/users/", N_("List all users")
       api :GET, "/auth_source_ldaps/:auth_source_ldap_id/users", N_("List all users for LDAP authentication source")
@@ -96,7 +96,7 @@ module Api
       api :PUT, "/users/:id/", N_("Update a user")
       description <<-DOC
         Adds role 'Default role' to the user if it is not already present.
-        Only another admin can change the admin account attribute.
+      Only another admin can change the admin account attribute.
       DOC
       param :id, String, :required => true
       param_group :user_update
@@ -108,6 +108,23 @@ module Api
           process_success
         else
           process_resource_error
+        end
+      end
+
+      api :PATCH, "/users/:id/invalidate_jwt", N_("Get vm attributes of host")
+      param :id, String, :required => true
+      description <<-DOC
+        Invalidate JWT for a specific user
+      DOC
+
+      def invalidate_jwt
+        @user = User.find(params[:id])
+        if !@user
+          render :json => { :error => _("User %s does not exist.") % @user.login}
+        elsif !User.current.can?(:edit_users, @user)
+          deny_access N_("User %s does not have permissions to invalidate JWT." % User.current.login)
+        elsif User.current.can?(:edit_users, @user) && @user.invalidate_jwt.blank?
+          process_success _('Successfully invalidated JWT for %s.' % @user.login)
         end
       end
 
