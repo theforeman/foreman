@@ -36,13 +36,8 @@ module ReactjsHelper
     data['assetsByChunkName'][name]&.find { |value| value.end_with?(".#{extension}") }
   end
 
-  def get_webpack_foreman_vendor_js
-    foreman_vendor_js = get_webpack_chunk('foreman-vendor', 'js')
-    javascript_include_tag("/webpack/#{foreman_vendor_js}")
-  end
-
   def get_webpack_foreman_vendor_css
-    foreman_vendor_css = get_webpack_chunk('foreman-vendor', 'css')
+    foreman_vendor_css = get_webpack_chunk('vendorStyles', 'css')
     stylesheet_link_tag("/webpack/#{foreman_vendor_css}")
   end
 
