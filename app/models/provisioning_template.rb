@@ -29,7 +29,7 @@ class ProvisioningTemplate < Template
     :reject_if => :reject_template_combination_attributes?
   has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_provisioning_templates, :association_foreign_key => :operatingsystem_id, :foreign_key => :provisioning_template_id
   has_many :os_default_templates
-  before_save :check_for_snippet_assoications
+  before_save :check_for_snippet_associations
 
   validate :no_os_for_registration
 
@@ -255,7 +255,7 @@ class ProvisioningTemplate < Template
   end
 
   # check if our template is a snippet, and remove its associations just in case they were selected.
-  def check_for_snippet_assoications
+  def check_for_snippet_associations
     return unless snippet
     hostgroups.clear
     template_combinations.clear
