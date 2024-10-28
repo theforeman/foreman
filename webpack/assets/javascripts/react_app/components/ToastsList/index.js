@@ -18,8 +18,8 @@ const ToastsList = ({ railsMessages }) => {
   const messages = useSelector(selectToastsList);
 
   useEffect(() => {
-    railsMessages.forEach(({ message, type, key }) => {
-      dispatch(addToast({ message, type, key }));
+    railsMessages.forEach(({ message, type }) => {
+      dispatch(addToast({ message, type }));
     });
   }, [dispatch, railsMessages]);
 
