@@ -7,7 +7,8 @@ ListenStream=3000
 # Socket options matching Puma defaults
 NoDelay=true
 ReusePort=true
-Backlog=1024
+# Match systemd v254+'s default because EL9 has 252
+Backlog=4294967295
 
 [Install]
 WantedBy=sockets.target
