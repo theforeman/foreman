@@ -158,12 +158,6 @@ class SeedHelper
       model.errors.full_messages.join(';')
     end
 
-    private
-
-    def logger
-      Foreman::Logging.logger('app')
-    end
-
     def test_template_requirements(template_name, requirements)
       requirements.each do |r|
         plugin = Foreman::Plugin.find(r['plugin'])
@@ -177,6 +171,12 @@ class SeedHelper
         end
       end
       true
+    end
+
+    private
+
+    def logger
+      Foreman::Logging.logger('app')
     end
   end
 end
