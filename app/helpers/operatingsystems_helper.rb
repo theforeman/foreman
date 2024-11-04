@@ -60,7 +60,7 @@ module OperatingsystemsHelper
            when /puppet/
              "stub/goldenrod-p"
            when /windows/
-             "stub/steelblue-w"
+             "windows"
            when /OpenWrt/i
              "openwrt"
            when /Raspbian/i
