@@ -103,6 +103,32 @@ class ActionDispatch::IntegrationTest
     assert_breadcrumb_text(title_text)
     (assert first(:link, new_link_text).visible?, "#{new_link_text} is not visible") if new_link_text
     (assert find('.autocomplete-search button').visible?, "Search button is not visible") if has_search
+    assert_sortable_table index_path
+  end
+
+  def assert_sortable_table(index_path)
+    visit index_path
+    if page.has_selector?('table')
+      if page.has_selector?(:css, ".pf-c-table")
+        th_with_sort = "//th/button"
+      else
+        th_with_sort = "//th/a"
+      end
+      len = page.all(:xpath, th_with_sort).length
+      (0..len - 1).each do |i|
+        th = page.all(:xpath, th_with_sort)[i]
+        th_text = th.text
+        th.click
+        sort_by = page.all(:xpath, th_with_sort)[i]
+        assert(
+          sort_by[:class].include?('ascending') ||
+          sort_by[:class].include?('descending') ||
+          sort_by["aria-sort"] == 'ascending' ||
+          sort_by["aria-sort"] == 'descending',
+          "sort by #{th_text} does not have 'ascending' or 'descending' class"
+        )
+      end
+    end
   end
 
   def assert_breadcrumb_text(text)
