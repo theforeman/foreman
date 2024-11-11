@@ -28,6 +28,8 @@
                                                      :spinner_id => 'test_connection_indicator',
                                                      :class => 'btn-default',
                                                      :spinner_class => nil) %>
+
+      <%= render_pagelets_for(:main_tab_fields, :subject => @http_proxy, :form => f) %>
     </div>
 
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @http_proxy %>
