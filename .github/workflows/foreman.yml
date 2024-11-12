@@ -139,6 +139,7 @@ jobs:
     with:
       plugin: katello
       plugin_repository: Katello/katello
+      plugin_version: KATELLO-4.15
       foreman_version: ${{ github.ref }}
       postgresql_container: ghcr.io/theforeman/postgresql-evr
       test_existing_database: false
