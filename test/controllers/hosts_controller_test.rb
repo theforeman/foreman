@@ -1218,9 +1218,6 @@ class HostsControllerTest < ActionController::TestCase
   context 'Fog.mock!' do
     setup do
       Fog.mock!
-      Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(stub(:hypervisor))
-      Foreman::Model::Libvirt.any_instance.expects(:max_cpu_count).returns(10)
-      Foreman::Model::Libvirt.any_instance.expects(:max_memory).returns(10000000000)
     end
 
     teardown { Fog.unmock! }

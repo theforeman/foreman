@@ -75,11 +75,11 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
 
   context 'on libvirt' do
     let(:compute_resource) { FactoryBot.build(:libvirt_cr) }
-    let(:uuid) { 'fog-449765558356062' }
+    let(:uuid) { '6695eb01-f6a4-8304-79aa-97f2502e193f' }
 
     test 'imports the VM with all parameters' do
-      assert_equal 'fog-dom1', host.name
-      assert_equal 'dom.uuid', host.uuid
+      assert_equal 'test', host.name
+      assert_equal uuid, host.uuid
       assert_nil host.domain
       assert_equal 'aa:bb:cc:dd:ee:ff', host.mac
       assert_empty host.primary_interface.compute_attributes
