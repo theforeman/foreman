@@ -1,4 +1,4 @@
 group :libvirt do
-  gem 'fog-libvirt', '>= 0.12.0'
+  gem 'fog-libvirt', github: 'ekohl/fog-libvirt', branch: 'force-test-urls'
   gem 'ruby-libvirt', '~> 0.5', :require => 'libvirt'
 end
