@@ -88,11 +88,11 @@ fi
      end
    elsif @subman_setup_scenario == 'provisioning'
      if plugin_present?('katello')
-       server_hostname = @host.content_source.rhsm_url.host
+       server_hostname = @host.content_source.registration_url.host
        server_port = @host.content_source.rhsm_url.port
        server_prefix = @host.content_source.rhsm_url.path
        repo_ca_cert = "$KATELLO_SERVER_CA_CERT"
-       rhsm_baseurl = @host.content_source.pulp_content_url
+       rhsm_baseurl = @host.content_source.load_balancer_pulp_content_url
      else
        server_hostname = "subscription.rhsm.redhat.com"
        server_port = "443"
