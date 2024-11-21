@@ -55,8 +55,9 @@ Use the following steps to set up PostgreSQL on RPM based distributions:
 
 [source, bash]
 ....
-sudo dnf install postgresql
+sudo dnf install postgresql-server
 sudo postgresql-setup --initdb
+sudo systemctl enable --now postgresql
 sudo -u postgres createuser --createdb $USER
 ....
 
