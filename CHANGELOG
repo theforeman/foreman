@@ -1,3 +1,21 @@
+2024-11-21	Cole Higgins <chiggins@redhat.com>
+	* Release 3.12.1
+
+2024-11-20	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #38017 - Pin fog-libvirt to ~> 0.12.0
+
+2024-11-19	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #37891 - Add enable-puppet8 parameter to provisioning templates
+
+2024-11-19	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #37978 - CVE-2024-8553 - Forbid strings as loader macros argument
+
+2024-11-19	Nadja Heitmann <nadjah@atix.de>
+	* Fixes #37903 - Parse Ansible password in Windows default provisioning template correctly
+
+2024-09-25	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #37800 - Don't apply the compute profile when updating host
+
 2024-09-19	Cole Higgins <chiggins@redhat.com>
 	* Release 3.12.0
 
