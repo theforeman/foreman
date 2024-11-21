@@ -5,11 +5,11 @@ specfile_path: foreman.spec
 
 # add or remove files that should be synced
 files_to_sync:
-    - foreman.spec
-    - foreman.logrotate
-    - foreman.cron.d
-    - foreman.tmpfiles
-    - .packit.yaml
+  - foreman.spec
+  - foreman.logrotate
+  - foreman.cron.d
+  - foreman.tmpfiles
+  - .packit.yaml
 
 # name in upstream package repository or registry (e.g. in PyPI)
 upstream_package_name: foreman
