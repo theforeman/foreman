@@ -337,6 +337,7 @@ class User < ApplicationRecord
         user.usergroups = new_usergroups.uniq
       end
 
+      user.post_successful_login
       user
     # not existing user and creating is disabled by settings
     elsif auth_source_name.nil?
