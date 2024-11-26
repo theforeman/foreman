@@ -731,10 +731,15 @@ class UserTest < ActiveSupport::TestCase
 
     context "internal or not existing AuthSource" do
       test 'existing user without auth source specified' do
-        assert_difference('User.count', 0) do
-          login = users(:external).login
-          user = User.find_or_create_external_user({:login => login}, nil)
-          assert_equal user, users(:external)
+        # If a user is found, it is set as User.current.
+        # Because this user doesn't have permissions to view other users, we
+        # need to unscope the query to count the existing users
+        assert_difference('User.unscoped.count', 0) do
+          user = users(:external)
+          found_user = User.find_or_create_external_user({:login => user.login}, nil)
+
+          assert_equal found_user, user
+          assert_operator user.last_login_on, :<, found_user.last_login_on
         end
       end
 
