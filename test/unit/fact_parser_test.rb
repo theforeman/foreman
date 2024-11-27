@@ -297,6 +297,22 @@ class FactParserTest < ActiveSupport::TestCase
       assert_equal '00:00:00:00:00:12', found.last[:macaddress]
     end
 
+    test "#suggested_primary_interface detects primary interface using DNS IPv6" do
+      parser.stubs(:interfaces).returns({
+        'br0' => {'ipaddress6' => '2001:db8::10', 'macaddress' => '00:00:00:00:00:10'},
+        'em1' => {'ipaddress6' => '2001:db8::20', 'macaddress' => '00:00:00:00:00:20'},
+        'em2' => {'ipaddress6' => '2001:db8::30', 'macaddress' => '00:00:00:00:00:30'},
+        'bond0' => {'ipaddress6' => '2001:db8::40', 'macaddress' => '00:00:00:00:00:40'},
+      }.with_indifferent_access)
+
+      Resolv::DNS.any_instance.stubs(:getnames).returns([])
+      Resolv::DNS.any_instance.expects(:getnames).with('2001:db8::30').returns([host.name])
+      found = parser.suggested_primary_interface(host)
+      assert_equal 'em2', found.first
+      assert_equal '2001:db8::30', found.last[:ipaddress6]
+      assert_equal '00:00:00:00:00:30', found.last[:macaddress]
+    end
+
     test "#suggested_primary_interface primary interface detection falls back to physical with ip and mac" do
       parser.stubs(:interfaces).returns({
         'br0' => {'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'},
@@ -310,6 +326,22 @@ class FactParserTest < ActiveSupport::TestCase
       found = parser.suggested_primary_interface(host)
       assert_equal 'em1', found.first
       assert_equal '10.0.0.10', found.last[:ipaddress]
+      assert_equal '00:00:00:00:00:10', found.last[:macaddress]
+    end
+
+    test "#suggested_primary_interface primary interface detection falls back to physical with ip and mac" do
+      parser.stubs(:interfaces).returns({
+        'br0' => {'ipaddress6' => '2001:db8::10', 'macaddress' => '00:00:00:00:00:30'},
+        'em0' => {'ipaddress6' => '', 'macaddress' => ''},
+        'em1' => {'ipaddress6' => '2001:db8::20', 'macaddress' => '00:00:00:00:00:10'},
+        'em2' => {'ipaddress6' => '2001:db8::30', 'macaddress' => '00:00:00:00:00:12'},
+        'bond0' => {'ipaddress6' => '2001:db8::40', 'macaddress' => '00:00:00:00:00:15'},
+      }.with_indifferent_access)
+
+      Resolv::DNS.any_instance.stubs(:getnames).returns([])
+      found = parser.suggested_primary_interface(host)
+      assert_equal 'em1', found.first
+      assert_equal '2001:db8::20', found.last[:ipaddress6]
       assert_equal '00:00:00:00:00:10', found.last[:macaddress]
     end
 
