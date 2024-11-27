@@ -22,7 +22,7 @@ class Operatingsystem < ApplicationRecord
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
     :reject_if => :reject_empty_provisioning_template
 
-  validates :major, numericality: true, presence: { message: N_("Operating System version is required") }
+  validates :major, :presence => true, :numericality => {:greater_than_or_equal_to => 0, :message => N_("Major version of the operating system must be greater than or equal to 0") }
   validates :minor, format: { with: /\A\d+(\.\d+)*\z/, message: "Operating System minor version must be in N or N.N format" }, allow_blank: true
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :operatingsystem
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
