@@ -1521,7 +1521,7 @@ module ForemanRemoteExecution
          # We need to make sure, there's a AR relation we'd be searching on, because the class name can't be determined by the
          # association name, it needs to be specified explicitly (as a string). Similarly for the foreign key.
          has_one :execution_status_object, :class_name => 'HostStatus::ExecutionStatus', :foreign_key => 'host_id'
-         
+
          # Then we define the searching, the relation is the association name we define on a line above
          # :rename key indicates the term user will use to search hosts for a given state, the convention is $feature_status
          # :complete_value must be a hash with symbolized keys specifying all possible state values, otherwise the autocompletion
@@ -2390,6 +2390,38 @@ Example events emitted by Remote Execution plugin:
 Foreman Webhooks plugin ships with an example "Remote Execution Host Job" template.
 
 You can find all observable events by calling `Foreman::EventSubscribers.all_observable_events` in the Rails console.
+
+=== How to order by a virtual column
+_Requires Foreman 3.16 or higher, set `requires_foreman '>= 3.17'` in
+engine.rb_
+
+NOTE: The following assumes usage of:
+* `resource_scope_for_index` in the API controller's index action.
+* `resource_base_with_search` or `resource_base_search_and_page` in the UI controller's index action.
+
+Starting Foreman 3.16, both UI and API controllers can order by virtual columns.
+This is achieved by using the `virtual_column_scope :select_<virtual_column>, lambda {}` scope in the model.
+The scope should return the virtual column in the select statement.
+
+[source, ruby]
+....
+# app/models/model.rb
+virtual_column_scope :select_virtual_column, lambda {
+  select("model_table.*,(column,column2) as virtual_column")
+}
+....
+
+NOTE: In case your UI controller doesn't use `resource_base_with_search` or `resource_base_search_and_page`,
+you can use the `wrap_for_virt_column_select` method in the controller to order by virtual columns.
+
+[source, ruby]
+....
+# app/controllers/plugin/controller.rb
+def index
+  # Model can be already scoped by other means
+  @objects = wrap_for_virt_column_select(Model)
+end
+....
 
 [[translating]]
 == Translating

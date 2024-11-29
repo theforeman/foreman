@@ -12,6 +12,19 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_equal Role.order(:name).pluck(:name), roles['results'].map { |r| r['name'] }
   end
 
+  test "should order index by locked" do
+    unlocked_role = FactoryBot.create(:role, :name => "unlocked role", :origin => '', :builtin => 0)
+    get :index, params: { :order => "locked DESC" }
+    assert_response :success
+    roles = ActiveSupport::JSON.decode(@response.body)
+    assert_equal unlocked_role.id, roles['results'].first['id']
+
+    get :index, params: { :order => "locked ASC" }
+    assert_response :success
+    roles = ActiveSupport::JSON.decode(@response.body)
+    assert_not_equal unlocked_role.id, roles['results'].first['id']
+  end
+
   test "should show individual record" do
     get :show, params: { :id => roles(:manager).to_param }
     assert_response :success

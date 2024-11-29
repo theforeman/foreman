@@ -61,6 +61,11 @@ class RolesControllerTest < ActionController::TestCase
     assert_not_nil Role.find_by_id(roles(:default_role).id)
   end
 
+  test "should order index by locked" do
+    get :index, params: { order: "locked DESC" }, session: set_session_user
+    assert_response :success
+  end
+
   context "with taxonomies" do
     before do
       @permission1 = FactoryBot.create(:permission, :domain, :name => 'permission1')

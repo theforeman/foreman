@@ -232,7 +232,7 @@ class ApplicationController < ActionController::Base
   end
 
   def resource_base_with_search
-    resource_base.search_for(params[:search], :order => params[:order])
+    virtual_column_scope(resource_base) || resource_base.search_for(params[:search], :order => params[:order])
   end
 
   def resource_base_search_and_page(tables = [])
@@ -391,6 +391,11 @@ class ApplicationController < ActionController::Base
 
   def parameter_filter_context
     Foreman::ParameterFilter::Context.new(:ui, controller_name, params[:action])
+  end
+
+  def wrap_for_virt_column_select(base_scope)
+    scope = virtual_column_scope(base_scope) || base_scope.search_for(params[:search], :order => params[:order])
+    scope.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   class << self

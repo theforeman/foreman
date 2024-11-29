@@ -144,4 +144,12 @@ module ApplicationShared
   def find_selected_columns
     @selected_columns = User.current.table_preferences.find_by(name: controller_name)&.columns&.sort
   end
+
+  def virtual_column_scope(base_scope)
+    virt_column = params[:order]&.split(' ')&.first
+    select_method = "select_#{virt_column}"
+    model = respond_to?(:model_of_controller) ? model_of_controller : resource_class
+    return if virt_column.blank? || model.columns_hash[virt_column] || !base_scope.virtual_column_scopes.include?(select_method.to_sym)
+    base_scope.public_send(select_method).search_for(params[:search]).reorder(params[:order])
+  end
 end

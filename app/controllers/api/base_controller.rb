@@ -112,7 +112,8 @@ module Api
     end
 
     def resource_scope_for_index(...)
-      scope = resource_scope(...).search_for(*search_options)
+      virtual_column_scope = virtual_column_scope(resource_scope(...))
+      scope = virtual_column_scope || resource_scope(...).search_for(*search_options)
       return scope if paginate_options[:per_page] == 'all'
       scope.paginate(**paginate_options)
     end

@@ -49,4 +49,14 @@ class ApplicationRecord < ActiveRecord::Base
   end
   alias_attribute :to_label, :name_method
   alias_attribute :to_s, :to_label
+
+  def self.virtual_column_scope(name, proc)
+    name = name.to_sym
+    virtual_column_scopes << name
+    scope name, proc
+  end
+
+  def self.virtual_column_scopes
+    @virtual_column_scopes ||= []
+  end
 end

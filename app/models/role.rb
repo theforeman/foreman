@@ -39,6 +39,7 @@ class Role < ApplicationRecord
     where("#{compare} builtin = 0")
   }
   scope :cloned, -> { where.not(:cloned_from_id => nil) }
+  virtual_column_scope :select_locked, -> { select("roles.*,(origin IS NOT NULL AND builtin <> #{BUILTIN_DEFAULT_ROLE}) as locked") }
 
   validates_lengths_from_database
   before_destroy :check_deletable
