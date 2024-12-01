@@ -373,6 +373,16 @@ class UnattendedControllerTest < ActionController::TestCase
       refute nic.build
     end
 
+    test "should accept built notifications over ipv6 and store the address" do
+      nic6 = '2001:db8::1234'
+      Setting[:update_ip_from_built_request] = true
+      @request.env["REMOTE_ADDR"] = nic6
+      post :built, params: { mac: @ub_host.primary_interface.mac }
+      assert_response :created
+      @ub_host.reload
+      assert_equal nic6, @ub_host.primary_interface.ip6
+    end
+
     test "should accept failed notifications" do
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       post :failed

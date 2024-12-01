@@ -214,11 +214,26 @@ class UnattendedController < ApplicationController
   # the form save)
   def update_ip
     ip = request.remote_ip
-    logger.debug "Built notice from #{ip}, current host ip is #{@host.ip}, updating" if @host.ip != ip
+    address = IPAddr.new(ip)
 
     # @host has been changed even if the save fails, so we have to change it back
+    if address.ipv4?
+      update_ip4(ip)
+    elsif address.ipv6? && !address.link_local?
+      update_ip6(ip)
+    end
+  end
+
+  def update_ip4(ip)
+    logger.debug "Built notice from #{ip}, current host ip is #{@host.ip}, updating" if @host.ip != ip
     old_ip = @host.ip
     @host.ip = old_ip unless @host.update({'ip' => ip})
+  end
+
+  def update_ip6(ip)
+    logger.debug "Built notice from #{ip}, current host ip is #{@host.ip6}, updating" if @host.ip6 != ip
+    old_ip = @host.ip6
+    @host.ip6 = old_ip unless @host.update({'ip6' => ip})
   end
 
   def ipxe_request?
