@@ -217,8 +217,16 @@ class UnattendedController < ApplicationController
     logger.debug "Built notice from #{ip}, current host ip is #{@host.ip}, updating" if @host.ip != ip
 
     # @host has been changed even if the save fails, so we have to change it back
-    old_ip = @host.ip
-    @host.ip = old_ip unless @host.update({'ip' => ip})
+    address = IPAddr.new(ip)
+    if address.ipv4?
+      old_ip = @host.ip
+      @host.ip = old_ip unless @host.update({'ip' => ip})
+    end
+
+    if address.ipv6?
+      old_ip = @host.ip6
+      @host.ip6 = old_ip unless @host.update({'ip6' => ip})
+    end
   end
 
   def ipxe_request?
