@@ -75,6 +75,21 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :success
     end
 
+    test "should get a kickstart when pure IPv6 address is used" do
+      ptable = Ptable.find_by(name: 'default')
+      @ipv6_host = FactoryBot.create(:host, :managed, :with_ipv6, :build => true,
+                                     :operatingsystem => operatingsystems(:redhat),
+                                     :ptable => ptable,
+                                     :medium => media(:one),
+                                     :architecture => architectures(:x86_64),
+                                     :organization => @org,
+                                     :location => @loc)
+      @request.env["HTTP_X_FORWARDED_FOR"] = @ipv6_host.ip6
+      @request.env["REMOTE_ADDR"] = "::1"
+      get :host_template, params: { :kind => 'provision' }
+      assert_response :success
+    end
+
     test "should set @static when requested" do
       Setting[:safemode_render] = false
       @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
