@@ -99,6 +99,6 @@ module Orchestration::SshProvision
 
   def provision_host
     # usually cloud compute resources provide IPs but virtualization do not
-    provision_interface.ip || provision_interface.fqdn
+    provision_interface.ip6 || provision_interface.ip || provision_interface.fqdn
   end
 end
