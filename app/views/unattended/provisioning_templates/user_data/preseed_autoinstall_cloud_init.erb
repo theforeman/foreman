@@ -72,6 +72,6 @@ autoinstall:
 <%= indent(2) { snippet_if_exists(template_name + " custom root") } -%>
   late-commands:
 <%= indent(2) { snippet 'preseed_autoinstall_clevis_tang_wrapper' if host_param('disk_enc_tang_servers') && os_major >= 22 } %>
-  - wget -Y off <%= @static ? "'#{foreman_url('finish', static: 'true')}'" : foreman_url('finish') %> -O /target/tmp/finish.sh
+  - wget --no-proxy <%= @static ? "'#{foreman_url('finish', static: 'true')}'" : foreman_url('finish') %> -O /target/tmp/finish.sh
   - curtin in-target -- chmod +x /tmp/finish.sh
   - curtin in-target -- /tmp/finish.sh

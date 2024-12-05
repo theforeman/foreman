@@ -34,6 +34,6 @@ autoinstall:
 
   late-commands:
 
-  - wget -Y off http://foreman.example.com/unattended/finish -O /target/tmp/finish.sh
+  - wget --no-proxy http://foreman.example.com/unattended/finish -O /target/tmp/finish.sh
   - curtin in-target -- chmod +x /tmp/finish.sh
   - curtin in-target -- /tmp/finish.sh
