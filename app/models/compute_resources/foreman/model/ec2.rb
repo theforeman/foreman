@@ -122,9 +122,9 @@ module Foreman::Model
       super
       errors[:user].empty? && errors[:password].empty? && regions
     rescue Fog::AWS::Compute::Error => e
-      errors[:base] << e.message
+      errors.add(:base, e.message)
     rescue Excon::Error::Socket => e
-      errors[:base] << e.message
+      errors.add(:base, e.message)
     end
 
     def console(uuid)

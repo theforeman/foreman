@@ -470,7 +470,7 @@ module Foreman::Model
         errors.delete(:datacenter)
       end
     rescue => e
-      errors[:base] << e.message
+      errors.add(:base, e.message)
     end
 
     def parse_args(args)

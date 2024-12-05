@@ -56,6 +56,6 @@ class HostBuildStatus
 
   def fail!(type, message, id = nil)
     @state = false
-    @errors[type] << {:message => message, :edit_id => id}
+    @errors.add(type, {:message => message, :edit_id => id})
   end
 end

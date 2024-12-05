@@ -37,7 +37,7 @@ class UsergroupsController < ApplicationController
       process_error
     end
   rescue Foreman::CyclicGraphException => e
-    @usergroup.errors[:usergroups] << e.record.errors[:base].join(' ')
+    @usergroup.errors.add(:usergroups, e.record.errors[:base].join(' '))
     process_error
   rescue => e
     external_usergroups_error(@usergroup, e)
