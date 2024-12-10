@@ -240,7 +240,7 @@ class SeedsTest < ActiveSupport::TestCase
     end
 
     test 'does not change value for existing setting' do
-      Setting[:instance_id] = Foreman.uuid
+      Setting.create(name: 'instance_id', value: Foreman.uuid)
       Setting.expects(:[]=).with(:instance_id, anything).never
       seed('190-instance_id.rb')
     end
