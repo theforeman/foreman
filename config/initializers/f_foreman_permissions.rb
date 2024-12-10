@@ -562,7 +562,7 @@ Foreman::AccessControl.map do |permission_set|
       :users => [:new, :create],
       :"api/v2/users" => [:create]
     map.permission :edit_users,
-      :users => [:edit, :update],
+      :users => [:edit, :update, :invalidate_jwt],
       :"api/v2/users" => [:update]
     map.permission :destroy_users,
       :users => [:destroy],

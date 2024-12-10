@@ -93,6 +93,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def invalidate_jwt
+    @user = find_resource(:edit_users)
+    @user.jwt_secret&.destroy
+    process_success(
+      :success_msg => _('Successfully invalidated JWTs for %s.') % @user.login
+    )
+  end
+
   def stop_impersonation
     if session[:impersonated_by].present?
       user = User.unscoped.find_by_id(session[:impersonated_by])

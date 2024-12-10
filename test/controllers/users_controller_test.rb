@@ -158,6 +158,32 @@ class UsersControllerTest < ActionController::TestCase
     assert !User.exists?(user.id)
   end
 
+  test "Admin should be able to invalidate jwt for any user" do
+    User.current = users(:admin)
+    user = users(:two)
+    FactoryBot.build(:jwt_secret, token: 'test_jwt_secret', user: user)
+    patch :invalidate_jwt, params: { :id => user.id }
+    user.reload
+    assert_nil user.jwt_secret
+  end
+
+  test 'user with edit users permission should be able to invalidate jwt for another user' do
+    User.current = setup_user "edit", "users"
+    user = users(:two)
+    FactoryBot.build(:jwt_secret, token: 'test_jwt_secret', user: user)
+    patch :invalidate_jwt, params: { :id => user.id }
+    user.reload
+    assert_nil user.jwt_secret
+  end
+
+  test 'user without edit users permission should not be able to invalidate jwt for another user' do
+    User.current = users(:one)
+    user = users(:two)
+    FactoryBot.build(:jwt_secret, token: 'test_jwt_secret', user: user)
+    patch :invalidate_jwt, params: { :id => user.id }
+    assert_response :forbidden
+  end
+
   test "should modify session when locale is updated" do
     as_admin do
       put :update, params: { :id => users(:admin).id, :user => { :locale => "cs" } }, session: set_session_user

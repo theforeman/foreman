@@ -34,6 +34,13 @@ module UsersHelper
         :data => { :no_turbolink => true })
     end
 
+    if user != User.current
+      additional_actions << display_link_if_authorized(_("Invalidate JWTs"),
+        hash_for_invalidate_jwt_user_path(:id => user.id).merge(:auth_object => user, :permission => "edit_users"),
+        :method => :patch, :id => user.id,
+        :data => { :confirm => _("Invalidate all JSON Web Tokens for %s?") % user.name })
+    end
+
     delete_btn = display_delete_if_authorized(
       hash_for_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer),
       :data => { :confirm => _("Delete %s?") % user.name })
