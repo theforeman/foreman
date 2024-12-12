@@ -1,6 +1,6 @@
 
 <%= select_f f, :architecture_id, accessible_resource(f.object, :architecture), :id, :to_label, {:include_blank => true},
-    {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected'), :'data-type' => controller_name.singularize,
+    {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected'), :'data-type' =>  controller_name.singularize == 'compute_resources_vm' ? 'host' : controller_name.singularize,
     :help_inline => :indicator, :required => true} %>
 
 <span id="os_select">
