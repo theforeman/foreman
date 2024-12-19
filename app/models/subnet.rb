@@ -208,14 +208,14 @@ class Subnet < ApplicationRecord
   def cidr
     return if mask.nil?
     IPAddr.new(mask).to_i.to_s(2).count("1")
-  rescue invalid_address_error
+  rescue IPAddr::InvalidAddressError
     nil
   end
 
   def cidr=(cidr)
     return if cidr.nil?
     self[:mask] = IPAddr.new(in_mask, family).mask(cidr).to_s
-  rescue invalid_address_error
+  rescue IPAddr::InvalidAddressError
     nil
   end
 
@@ -437,11 +437,5 @@ class Subnet < ApplicationRecord
       end
       raise ::Foreman::Exception.new N_("unknown network_type")
     end
-  end
-
-  def invalid_address_error
-    # IPAddr::InvalidAddressError is undefined for ruby 1.9
-    return IPAddr::InvalidAddressError if IPAddr.const_defined?('InvalidAddressError')
-    ArgumentError
   end
 end

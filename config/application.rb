@@ -161,7 +161,7 @@ module Foreman
     # Disable fieldWithErrors divs
     config.action_view.field_error_proc = proc { |html_tag, instance| html_tag.to_s.html_safe }
 
-    # Configure the default encoding used in templates for Ruby 1.9.
+    # Configure the default encoding used in templates
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
