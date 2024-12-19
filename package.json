@@ -5,7 +5,7 @@
   "description": "Foreman isn't really a node module, these are just dependencies needed to build the webpack bundle. 'dependencies' are the asset libraries in use and 'devDependencies' are used for the build process.",
   "private": true,
   "engines": {
-    "node": ">=14.0.0 <21.0.0"
+    "node": ">=18.0.0 <21.0.0"
   },
   "scripts": {
     "lint": "tfm-lint",
