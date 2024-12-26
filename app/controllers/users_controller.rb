@@ -96,9 +96,16 @@ class UsersController < ApplicationController
   def invalidate_jwt
     @user = find_resource(:edit_users)
     @user.jwt_secret&.destroy
-    process_success(
-      :success_msg => _('Successfully invalidated JWTs for %s.') % @user.login
-    )
+    respond_to do |format|
+      format.html do
+        process_success(
+          :success_msg => _('Successfully invalidated registration tokens for %s.') % @user.login
+        )
+      end
+      format.json do
+        render :json => {}, :status => :ok
+      end
+    end
   end
 
   def stop_impersonation

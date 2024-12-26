@@ -18,6 +18,9 @@
     <% if @editing_self || (@user.persisted? && authorized_for(hash_for_api_user_personal_access_tokens_path(user_id: @user))) %>
       <li><a href='#personal_access_tokens' data-toggle='tab'><%= _('Personal Access Tokens') %></a></li>
     <% end %>
+    <% if @editing_self %>
+      <li><a href='#jwt_tokens' data-toggle='tab'><%= _('Registration Tokens') %></a></li>
+    <% end %>
     <%= render_tab_header_for(:main_tabs, :subject => @user, :form => f) %>
   </ul>
 
@@ -95,6 +98,10 @@
 
     <% if @editing_self || (@user.persisted? && authorized_for(hash_for_api_user_personal_access_tokens_path(user_id: @user))) %>
       <%= render 'personal_access_tokens/personal_access_tokens_tab', :f => f, :user => @user %>
+    <% end %>
+
+    <% if @editing_self %>
+      <%= render 'jwt_tokens/jwt_tokens_tab', :f => f, :user => @user %>
     <% end %>
 
     <div class='tab-pane' id='roles'>

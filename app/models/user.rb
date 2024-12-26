@@ -463,7 +463,7 @@ class User < ApplicationRecord
 
   def editing_self?(options = {})
     options[:controller].to_s == 'users' &&
-      options[:action] =~ /edit|update/ &&
+      options[:action] =~ /edit|update|invalidate_jwt/ &&
       options[:id].to_i == id ||
     options[:controller].to_s =~ /\Aapi\/v\d+\/users\Z/ &&
       options[:action] =~ /show|update/ &&

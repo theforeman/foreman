@@ -162,26 +162,39 @@ class UsersControllerTest < ActionController::TestCase
     User.current = users(:admin)
     user = users(:two)
     FactoryBot.build(:jwt_secret, token: 'test_jwt_secret', user: user)
-    patch :invalidate_jwt, params: { :id => user.id }
+    patch :invalidate_jwt, params: { :id => user.id }, session: set_session_user(User.current)
     user.reload
     assert_nil user.jwt_secret
+    assert_response :redirect
+  end
+
+  test "User should be able to invalidate jwt for self" do
+    User.current = users(:one)
+    user = User.current
+    FactoryBot.create(:jwt_secret, token: 'test_jwt_secret', user: user)
+    patch :invalidate_jwt, params: { :id => user.id }, session: set_session_user(User.current)
+    user.reload
+    assert_nil user.jwt_secret
+    assert_response :redirect
   end
 
   test 'user with edit users permission should be able to invalidate jwt for another user' do
     User.current = setup_user "edit", "users"
-    user = users(:two)
-    FactoryBot.build(:jwt_secret, token: 'test_jwt_secret', user: user)
-    patch :invalidate_jwt, params: { :id => user.id }
+    user = users(:scoped)
+    FactoryBot.create(:jwt_secret, token: 'test_jwt_secret', user: user)
+    patch :invalidate_jwt, params: { :id => user.id }, session: set_session_user(User.current)
     user.reload
     assert_nil user.jwt_secret
+    assert_response :redirect
   end
 
   test 'user without edit users permission should not be able to invalidate jwt for another user' do
     User.current = users(:one)
     user = users(:two)
-    FactoryBot.build(:jwt_secret, token: 'test_jwt_secret', user: user)
-    patch :invalidate_jwt, params: { :id => user.id }
+    FactoryBot.create(:jwt_secret, token: 'test_jwt_secret', user: user)
+    patch :invalidate_jwt, params: { :id => user.id }, session: set_session_user(User.current)
     assert_response :forbidden
+    assert_not_nil user.jwt_secret
   end
 
   test "should modify session when locale is updated" do

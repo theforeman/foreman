@@ -44,6 +44,7 @@ import LabelIcon from './common/LabelIcon';
 import { WelcomeAuthSource } from './AuthSource/Welcome';
 import { WelcomeConfigReports } from './ConfigReports/Welcome';
 import { WelcomeArchitecture } from './Architectures/Welcome';
+import JwtTokens from './users/JwtTokens/JwtTokens';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -142,6 +143,7 @@ const coreComponents = [
   { name: 'SettingsTable', type: SettingsTable },
   { name: 'SettingUpdateModal', type: SettingUpdateModal },
   { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
+  { name: 'JwtTokens', type: JwtTokens },
   { name: 'ClipboardCopy', type: ClipboardCopy },
   { name: 'LabelIcon', type: LabelIcon },
   {
