@@ -54,8 +54,8 @@ class JwtToken < Struct.new(:token)
     @decoded_payload = JWT.decode(token, nil, false).first
 
     unless @decoded_payload.is_a?(Hash)
-      logger.error "Invalid decoded JWT format."
-      logger.debug "Received payload: #{@decoded_payload}"
+      Rails.logger.error "Invalid decoded JWT format."
+      Rails.logger.debug "Received payload: #{@decoded_payload}"
       @decoded_payload = nil
     end
     @decoded_payload
