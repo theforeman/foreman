@@ -64,7 +64,7 @@ function rmHostId(id) {
 function readFromCookie() {
   try {
     const r = Cookies.get(cookieName);
-    if (r) return $.parseJSON(r);
+    if (r) return JSON.parse(r);
     return [];
   } catch (err) {
     removeForemanHostsCookie();

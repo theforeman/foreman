@@ -8,7 +8,7 @@ function override_param(item) {
   var v = param_value.val();
 
   var addParameterButton = $('#parameters').find('.btn-primary');
-  addParameterButton.click();
+  addParameterButton.trigger('click');
   var directionOfAddedItems = addParameterButton.attr('direction');
   var new_param = $('#parameters').find('.fields');
   if(directionOfAddedItems === 'append'){
@@ -26,6 +26,6 @@ function override_param(item) {
       hiddenValueCheckBox = new_param.find('.set_hidden_value');
     hiddenValueCheckBox.prop('checked', true);
     hiddenValueCheckBox.val('1');
-    alink.click();
+    alink.trigger('click');
   }
 }

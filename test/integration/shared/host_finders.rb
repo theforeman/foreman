@@ -54,7 +54,7 @@ module HostFinders
   end
 
   def click_on_inherit(attribute, prefix: 'host_')
-    find("##{prefix}#{attribute}_id + .input-group-btn .btn").click
+    find("##{prefix}#{attribute}_id").ancestor('.input-group').find(".input-group-btn .btn").click
   end
 
   def current_hosts_path(*args)

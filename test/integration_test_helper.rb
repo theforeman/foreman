@@ -149,18 +149,31 @@ class ActionDispatch::IntegrationTest
     Organization.all_import_missing_ids
   end
 
+  def select2_selector(name)
+    "#select2-#{name}-container"
+  end
+
+  def select2_result_selector(name)
+    "#select2-#{name}-container .select2-results"
+  end
+
+  def select2_chosen_selector(name)
+    find(select2_selector(name), visible: false, wait: 10).ancestor('.select2-container')
+  end
+
   def select2(value, attrs)
-    find("#s2id_#{attrs[:from]}").click
-    wait_for { find('.select2-input').visible? rescue false }
-    wait_for { find(".select2-input").set(value) }
+    find(select2_selector(attrs[:from]), visible: false).ancestor('.select2-container').click
+    wait_for { find('.select2-search__field').visible? rescue false }
+    # set(value) errors on not interactable error even though the element is visible and not disabled
+    page.execute_script("arguments[0].value = arguments[1];", find('.select2-search__field').native, value)
     wait_for { find('.select2-results').visible? rescue false }
-    within ".select2-results" do
-      wait_for { find(".select2-results span", text: value).visible? rescue false }
-      find("span", text: value).click
+    within ".select2-results__options" do
+      wait_for { find(".select2-results__options li", text: value).visible? rescue false }
+      find("li", text: value).hover
+      find("li", text: value).click
     end
-    wait_for do
-      page.find("#s2id_#{attrs[:from]} .select2-chosen").has_text? value
-    end
+    sleep 0.15
+    select2_chosen_selector(attrs[:from]).has_text? value
   end
 
   def wait_for

@@ -62,7 +62,7 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
     output_options = ['CSV', 'JSON', 'YAML', 'HTML']
 
     visit generate_report_template_path(template)
-    find('#s2id_report_template_report_format').click
+    find(select2_selector('report_template_report_format')).click
 
     output_options.each { |opt| assert page.has_content? opt }
   end
@@ -71,10 +71,10 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
     template = FactoryBot.create(:report_template)
 
     visit generate_report_template_path(template)
-    select = find('#s2id_report_template_report_format')
+    select = find(select2_selector('report_template_report_format'), visible: false).ancestor('.select2-container')
 
     assert select.text ''
-    assert select[:class].include?('select2-container-disabled'), true
+    assert select[:class].include?('select2-container--disabled'), true
   end
 
   test "should have correct generate_at field" do

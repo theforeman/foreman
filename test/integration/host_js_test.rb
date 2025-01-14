@@ -292,7 +292,8 @@ class HostJSTest < IntegrationTestWithJavascript
       wait_for_ajax
       click_on_inherit('compute_resource')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
-      assert page.find('#s2id_host_compute_resource_id .select2-chosen').has_text? overridden_hostgroup.compute_resource.name
+      wait_for_ajax
+      assert page.find(select2_selector('host_compute_resource_id'), visible: false, wait: 10).ancestor('.select2-container').has_text? overridden_hostgroup.compute_resource.name
     end
 
     test 'choosing a hostgroup with compute resource works' do
@@ -713,8 +714,7 @@ class HostJSTest < IntegrationTestWithJavascript
   private
 
   def subnet_and_domain_are_selected(modal, domain)
-    modal.assert_selector("#interfaceModal #s2id_host_interfaces_attributes_0_domain_id .select2-chosen",
-      text: domain.name)
+    assert select2_chosen_selector('host_interfaces_attributes_0_domain_id').has_text? domain.name
     modal.assert_selector('#interfaceModal #host_interfaces_attributes_0_subnet_id option',
       visible: false,
       count: domain.subnets.count + 1) # plus one empty

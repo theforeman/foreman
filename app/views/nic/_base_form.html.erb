@@ -33,10 +33,10 @@
               { :label => _("IPv4 Subnet"),
               :label_help => _("IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."),
               :label_help_options => { :rel => 'popover-modal' },
-              :class => 'interface_subnet' } %>
+              :class => 'interface_subnet include_blank' } %>
 <%= nic_subnet_field f, :subnet6_id, :"Subnet::Ipv6",
               { :label => _("IPv6 Subnet"),
-              :class => 'interface_subnet6' } %>
+              :class => 'interface_subnet6 include_blank' } %>
 <%= text_f f, :ip,
               :class => :interface_ip,
               :label => _("IPv4 Address"),

@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@module-federation/utilities": "^1.7.0",
-    "@theforeman/vendor": "^13.1.0",
+    "@theforeman/vendor": "^14.0.0",
     "graphql-tag": "^2.11.0",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
@@ -31,10 +31,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
-    "@theforeman/builder": "^13.1.0",
-    "@theforeman/eslint-plugin-foreman": "^13.1.0",
-    "@theforeman/eslint-plugin-rules": "^13.1.0",
-    "@theforeman/test": "^13.1.0",
+    "@theforeman/builder": "^14.0.0",
+    "@theforeman/eslint-plugin-foreman": "^14.0.0",
+    "@theforeman/eslint-plugin-rules": "^14.0.0",
+    "@theforeman/test": "^14.0.0",
     "@types/jest": "<27.0.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",

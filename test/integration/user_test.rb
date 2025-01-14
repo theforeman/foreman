@@ -26,8 +26,8 @@ class UserIntegrationTest < IntegrationTestWithJavascript
     visit users_path
     click_link "Create User"
     assert fill_in "user_login", :with => "new_user"
-    find("#s2id_user_auth_source_id").click
-    all(".select2-result-label").find do |result|
+    find(select2_selector('user_auth_source_id'), visible: false).ancestor('.select2-container').click
+    all(".select2-results__option").find do |result|
       result.text == 'INTERNAL'
     end.click
     assert click_button("Submit")

@@ -38,10 +38,10 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     click_link("amazon123 (eu-west-1-EC2)")
 
     assert page.has_selector?('.pf-c-page__main-breadcrumb .active', :text => compute_profiles(:one).name), "#{compute_profiles(:one).name} was expected in the breadcrumb active, but was not found"
-    selected_profile = find("#s2id_compute_attribute_compute_profile_id .select2-chosen").text
+    selected_profile = select2_chosen_selector('compute_attribute_compute_profile_id').text
     assert_equal compute_profiles(:one).name, selected_profile
 
-    selected_compute = find("#s2id_compute_attribute_compute_resource_id .select2-chosen").text
+    selected_compute = select2_chosen_selector('compute_attribute_compute_resource_id').text
     assert_equal "amazon123 (eu-west-1-EC2)", selected_compute
 
     click_button('Submit')
@@ -55,7 +55,7 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     fill_in('compute_profile_name', :with => 'test')
     click_on("Submit")
     assert click_link(compute_resources(:ovirt).to_s)
-    selected_profile = find("#s2id_compute_attribute_compute_profile_id .select2-chosen").text
+    selected_profile = select2_chosen_selector('compute_attribute_compute_profile_id').text
     assert select2('hwp_small', :from => 'compute_attribute_vm_attrs_template')
     wait_for_ajax
     assert click_button("Submit")

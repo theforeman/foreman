@@ -1,13 +1,12 @@
 //= require parameter_override
 var compute_resource_id = null;
-$(document).ready(function() {
+
+$(document).on('ContentLoad', function() {
   var searchParams = new URLSearchParams(window.location.search);
   if(searchParams.has('hostgroup_id')) {
     var param = searchParams.get('hostgroup_id');
     $('#host_hostgroup_id').val(param).trigger('change');
   }
-});
-$(document).on('ContentLoad', function() {
   onHostEditLoad();
   document
     .querySelector('[name=is_overridden_btn]')
@@ -171,11 +170,11 @@ function update_capabilities(capabilities) {
   var build = capabilities.indexOf('build') > -1;
   if (build) {
     $('#manage_network_build').show();
-    $('#host_provision_method_build').click();
+    $('#host_provision_method_build').trigger('click');
     build_provision_method_selected();
   } else if (capabilities.length > 0) {
     $('#manage_network_build').hide();
-    $('#host_provision_method_' + capabilities[0]).click();
+    $('#host_provision_method_' + capabilities[0]).trigger('click');
     if (capabilities[0].toLowerCase() === 'image') {
       image_provision_method_selected();
     }
@@ -376,7 +375,7 @@ function update_form(element, options) {
       if (host_compute_resource_id.exists()) {
         // to handle case if def process_taxonomy changed compute_resource_id to nil
         if (!host_compute_resource_id.val()) {
-          host_compute_resource_id.change();
+          host_compute_resource_id.trigger('change');
         } else {
           // in case the compute resource was selected, we still want to check for
           // free ip if applicable
