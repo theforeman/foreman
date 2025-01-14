@@ -186,11 +186,16 @@ systemctl try-restart yggdrasil >/dev/null 2>&1 || true
       echo "Syspurpose CLI not found."
     fi
   
-    
+  
       subscription-manager register --name="snapshot-ipv4-dhcp-rocky9" --org='Org' --activationkey='key'
   
   
-    
+  
+    subscription-manager refresh  --force
+  
+    subscription-manager status
+  
+  
   
   
   

@@ -21,6 +21,12 @@ description: |
 
     subscription_manager_auto_attach = 'false'  Run attach --auto after registering.
 
+    subscription_manager_status = 'true'        Show status of subscription-manager
+
+    subscription_manager_refresh = 'true'       Run refresh after registering host.
+
+    subscription_manager_refresh_force = 'true' Add --force to `subscription_manager_refresh` command.
+
     subscription_manager_username = <username>  Username for subscription-manager
 
     subscription_manager_password = <password>  Password for subscription-manager
@@ -129,7 +135,7 @@ description: |
       subscription-manager config --server.proxy_port='<%= host_param("http-proxy-port") %>'
     <% end -%>
   <% end -%>
-  
+
   <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') -%>
     <% if host_param('subscription_manager_pool') -%>
       subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
@@ -162,6 +168,15 @@ description: |
     subscription-manager attach --auto
 
   <% end -%>
+
+  <% if host_param_true?('subscription_manager_refresh', false) -%>
+  subscription-manager refresh <% if host_param_true?('subscription_manager_refresh_force', false) %> --force<% end %>
+  <% end -%>
+
+  <% if host_param_true?('subscription_manager_status', false) -%>
+  subscription-manager status
+  <% end -%>
+
   <% if host_param('subscription_manager_repos') -%>
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null

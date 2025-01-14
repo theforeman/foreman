@@ -137,11 +137,16 @@ runcmd:
         echo "Syspurpose CLI not found."
       fi
     
-      
+    
         subscription-manager register --name="snapshot-ipv4-dhcp-el7" --org='Org' --activationkey='key'
     
     
-      
+    
+      subscription-manager refresh  --force
+    
+      subscription-manager status
+    
+    
     
     
     
