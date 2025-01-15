@@ -7,7 +7,7 @@
 == Prerequisites
 Please refer to the `.github/matrix.json` file in the project repository to find the latest supported versions for Ruby, NodeJS, and PostgreSQL. This file is regularly updated to reflect our current support.
 
-We recommend using PostgreSQL 12+.
+We recommend using PostgreSQL 13+.
 
 If you're using NPM version 7.x or higher, you will need to use the `--legacy-peer-deps` flag when installing npm packages. This is due to changes in how NPM handles peer dependencies from version 7 onwards.
 
@@ -15,11 +15,21 @@ https://github.com/rbenv/rbenv[rbenv] or https://github.com/rvm/rvm[RVM] can be 
 
 === Fedora
 
+Install the development packages:
+
+[source, bash]
+....
+sudo dnf install gcc-c++ make git ruby ruby-devel rubygem-bundler \
+    libvirt-devel postgresql-devel openssl-devel \
+    libxml2-devel libxslt-devel zlib-devel \
+    readline-devel systemd-devel tar libcurl-devel nodejs
+....
+
 Fedora ships with a too new Ruby. It's recommended to install https://github.com/rbenv/rbenv[rbenv] to install a compatible version:
 
 [source, bash]
 ....
-sudo dnf install rbenv ruby-build-rbenv nodejs
+sudo dnf install rbenv ruby-build-rbenv
 echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 source ~/.bashrc
 rbenv install 3.0.7
@@ -27,23 +37,22 @@ rbenv install 3.0.7
 
 https://github.com/rvm/rvm[RVM] can also be used.
 
-=== Enterprise Linux 8
+=== Enterprise Linux 9
 
-By default EL8 ships with older versions, but newer modules are available:
+For `libvirt-devel` you need the `crb` repository, for example on CentOS set the right `enabled=1` in `/etc/yum.repos.d/centos.repo`.
+
+Then you also need to enable NodeJS 22:
 
 [source, bash]
 ....
-dnf module enable ruby:3.0
-dnf module enable postgresql:12
-dnf module enable nodejs:14
+dnf module enable nodejs:22
 ....
 
 Now install the development packages:
 
 [source, bash]
 ....
-dnf groupinstall "Development Tools" "Development Libraries"
-dnf -y install gcc-c++ git ruby ruby-devel rubygem-bundler \
+sudo dnf -y install gcc-c++ make git ruby ruby-devel rubygem-bundler \
     libvirt-devel postgresql-devel openssl-devel \
     libxml2-devel libxslt-devel zlib-devel \
     readline-devel systemd-devel tar libcurl-devel nodejs
