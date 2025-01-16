@@ -62,7 +62,7 @@ const SearchBar = ({
         }
         onSearchChange={_onSearchChange}
         value={search}
-        onSearch={_onSearch}
+        onSearch={onSearch && _onSearch}
         disabled={disabled}
         error={error}
         name={name}
