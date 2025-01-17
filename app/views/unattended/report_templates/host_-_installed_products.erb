@@ -15,13 +15,12 @@ require:
 - plugin: katello
   version: 4.11.0
 -%>
-<%- report_headers 'Host Name', 'Organization', 'Lifecycle Environment', 'Content View', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Usage', 'Release Version', 'Products', 'Last Checkin' -%>
+<%- report_headers 'Host Name', 'Organization', 'Content View Environments', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Usage', 'Release Version', 'Products', 'Last Checkin' -%>
 <%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :architecture, :content_view_environments, :organization, :reported_data, :subscription_facet]).each_record do |host| -%>
 <%-   report_row(
         'Host Name': host.name,
         'Organization': host.organization,
-        'Lifecycle Environment': host.single_lifecycle_environment,
-        'Content View': host.single_content_view,
+        'Content View Environments': host.content_view_environment_labels,
         'Host Collections': host_collections_names(host),
         'Virtual': host.virtual,
         'Guest of Host': host.hypervisor_host,
