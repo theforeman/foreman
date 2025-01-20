@@ -1,14 +1,16 @@
 module Api
   module V2
     class RegistrationTokensController < V2::BaseController
-      include Foreman::Controller::UsersMixin
+      include Foreman::Controller::UserSelfEditing
 
-      include Foreman::Controller::Parameters::User
-      include Foreman::Controller::AutoCompleteSearch
       before_action :authenticate, :only => [:invalidate_jwt_tokens, :invalidate_jwt]
 
       def resource_class
         User
+      end
+
+      def resource_name(resource = resource_class.model_name.name.downcase)
+        resource
       end
 
       def find_resource(permission = :view_users)
@@ -24,22 +26,20 @@ module Api
         end
       end
 
-      api :DELETE, '/users/:id/registration_tokens', N_("Invalidate all registration tokens for a specific user.")
+      api :DELETE, '/users/:user_id/registration_tokens', N_("Invalidate all registration tokens for a specific user")
       description <<-DOC
       The user you specify will no longer be able to register hosts by using their JWTs.
       DOC
-      param :id, String, :desc => N_("ID of the user"), :required => true
+      param :user_id, String, :desc => N_("ID of the user"), :required => true
 
       def invalidate_jwt
         @user = find_resource(:edit_users)
-        unless @user
-          raise ::Foreman::Exception.new(N_("No record found for %s"), params[:id])
-        end
         @user.jwt_secret&.destroy
-        process_success _("Successfully invalidated registration tokens for %s.\n" % @user.login)
+        login = @user.login
+        render :json => { :message => _("Successfully invalidated registration tokens."), :user => login}, :status => :ok
       end
 
-      api :DELETE, "/registration_tokens", N_("Invalidate all registration tokens for multiple users.")
+      api :DELETE, "/registration_tokens", N_("Invalidate all registration tokens for multiple users")
       param :search, String, :desc => N_("URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"), :required => true
       description <<-DOC
       The users you specify will no longer be able to register hosts by using their JWTs.
@@ -51,7 +51,8 @@ module Api
         if @users.blank?
           raise ::Foreman::Exception.new(N_("No record found for search '%s'"), params[:search]) end
         JwtSecret.where(user_id: @users).destroy_all
-        process_success _("Successfully invalidated registration tokens for %s.\n" % @users.pluck(:login).to_sentence)
+        login = @users.pluck(:login).to_sentence
+        render :json => { :message => _("Successfully invalidated registration tokens."), :users => login}, :status => :ok
       end
     end
   end
