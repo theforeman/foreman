@@ -197,6 +197,34 @@ class UsersControllerTest < ActionController::TestCase
     assert_not_nil user.jwt_secret
   end
 
+  test 'user with edit users permission should be able to invalidate jwt for all authorized users' do
+    User.current = setup_user "edit", "users"
+    users = User.except_hidden
+    users.each do |user|
+      FactoryBot.create(:jwt_secret, token: "test_jwt_secret_#{user.id}", user: user)
+    end
+    delete :invalidate_jwt_for_all_users, session: set_session_user(User.current)
+    users.each do |user|
+      user.reload
+      assert_nil user.jwt_secret
+    end
+    assert_response :redirect
+  end
+
+  test 'Admin should be able to invalidate jwt for all authorized users' do
+    User.current = users(:admin)
+    users = User.except_hidden
+    users.each do |user|
+      FactoryBot.create(:jwt_secret, token: "test_jwt_secret_#{user.id}", user: user)
+    end
+    delete :invalidate_jwt_for_all_users, session: set_session_user(User.current)
+    users.each do |user|
+      user.reload
+      assert_nil user.jwt_secret
+    end
+    assert_response :redirect
+  end
+
   test "should modify session when locale is updated" do
     as_admin do
       put :update, params: { :id => users(:admin).id, :user => { :locale => "cs" } }, session: set_session_user

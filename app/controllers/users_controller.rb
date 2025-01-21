@@ -93,6 +93,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def invalidate_jwt_for_all_users
+    user_ids = User.authorized(:edit_users).ids.uniq
+    JwtSecret.where(user_id: user_ids).destroy_all
+    process_success(
+      :success_msg => _('Successfully invalidated registration tokens for all users.')
+    )
+  end
+
   def invalidate_jwt
     @user = find_resource(:edit_users)
     @user.jwt_secret&.destroy
