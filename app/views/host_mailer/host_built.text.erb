@@ -2,7 +2,8 @@
 <%= _("Your host has finished building:") %>
 
   <%= _("Hostname:") %> <%= @host.fqdn %>
-  <%= _("IP:") %>       <%= @host.ip %>
+  <%= _("IPv4:") %>       <%= @host.ip %>
+  <%= _("IPv6:") %>       <%= @host.ip6 %>
 
 <%= _("View in Foreman:") %>
   <%= host_url(:id => @host) %>
