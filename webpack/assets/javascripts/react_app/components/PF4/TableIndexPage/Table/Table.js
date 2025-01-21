@@ -40,6 +40,7 @@ export const Table = ({
   idColumn,
   children,
   bottomPagination,
+  childrenOutsideTbody, // Expendable table rows are each a Tbody so they cant be inside the Tbody
 }) => {
   const onPagination = newPagination => {
     setParams({ ...params, ...newPagination });
@@ -123,6 +124,7 @@ export const Table = ({
             ))}
           </Tr>
         </Thead>
+        {childrenOutsideTbody ? children : null}
         <Tbody>
           {isPending && results.length === 0 && (
             <Tr ouiaId="table-loading">
@@ -160,34 +162,39 @@ export const Table = ({
               </Td>
             </Tr>
           )}
-          {children ||
-            results.map((result, rowIndex) => {
-              const rowActions = actions(result);
-              return (
-                <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isHoverable>
-                  {showCheckboxes && (
-                    <RowSelectTd
-                      rowData={result}
-                      selectOne={selectOne}
-                      isSelected={isSelected}
-                      idColumnName={idColumn}
-                    />
-                  )}
-                  {columnNamesKeys.map(k => (
-                    <Td key={k} dataLabel={keysToColumnNames[k]}>
-                      {columns[k].wrapper
-                        ? columns[k].wrapper(result)
-                        : result[k]}
+          {!childrenOutsideTbody &&
+            (children ||
+              results.map((result, rowIndex) => {
+                const rowActions = actions(result);
+                return (
+                  <Tr
+                    key={rowIndex}
+                    ouiaId={`table-row-${rowIndex}`}
+                    isHoverable
+                  >
+                    {showCheckboxes && (
+                      <RowSelectTd
+                        rowData={result}
+                        selectOne={selectOne}
+                        isSelected={isSelected}
+                        idColumnName={idColumn}
+                      />
+                    )}
+                    {columnNamesKeys.map(k => (
+                      <Td key={k} dataLabel={keysToColumnNames[k]}>
+                        {columns[k].wrapper
+                          ? columns[k].wrapper(result)
+                          : result[k]}
+                      </Td>
+                    ))}
+                    <Td isActionCell>
+                      {rowActions.length ? (
+                        <ActionsColumn items={rowActions} />
+                      ) : null}
                     </Td>
-                  ))}
-                  <Td isActionCell>
-                    {rowActions.length ? (
-                      <ActionsColumn items={rowActions} />
-                    ) : null}
-                  </Td>
-                </Tr>
-              );
-            })}
+                  </Tr>
+                );
+              }))}
         </Tbody>
       </TableComposable>
       {results.length > 0 && !errorMessage && !emptyMessage && bottomPagination}
@@ -222,6 +229,7 @@ Table.propTypes = {
   isSelected: PropTypes.func,
   showCheckboxes: PropTypes.bool,
   bottomPagination: PropTypes.node,
+  childrenOutsideTbody: PropTypes.bool,
 };
 
 Table.defaultProps = {
@@ -241,4 +249,5 @@ Table.defaultProps = {
   isSelected: noop,
   showCheckboxes: false,
   bottomPagination: null,
+  childrenOutsideTbody: false,
 };
