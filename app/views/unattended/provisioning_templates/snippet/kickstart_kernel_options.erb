@@ -52,7 +52,7 @@ description: |
       options.push("ks=#{foreman_url('provision', static6: '1').gsub("&", "\\\\&")}")
     else
       options.push("ks=#{foreman_url('provision').gsub("&", "\\\\&")}", "kssendmac", "ks.sendmac")
-    end  
+    end
   end
 
   # networking credentials
@@ -84,11 +84,7 @@ description: |
       end
     end
   elsif subnet6 && subnet6.dhcp_boot_mode? && rhel_compatible && major >= 7
-    if host_param_true?("use-slaac")
-      options.push("ip=auto6")
-    else
-      options.push("ip=dhcp6")
-    end
+    options.push("ip=auto6")
   elsif subnet6 && !subnet6.dhcp_boot_mode?
     raise("Static IPv6 provisioning works on RHEL7 or newer") if rhel_compatible && major < 7
     gw = subnet6.gateway ? "[#{subnet6.gateway}]" : ""

@@ -5,7 +5,7 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
     @renderer ||= Foreman::Renderer::SafeModeRenderer
   end
 
-  def render_template(iface, host:, use_slaac:, static:, static6:)
+  def render_template(iface, host:, static:, static6:)
     @snippet ||= File.read(Rails.root.join('app', 'views', 'unattended', 'provisioning_templates', 'snippet', 'kickstart_network_interface.erb'))
 
     source = OpenStruct.new(
@@ -20,7 +20,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       variables: {
         iface: iface,
         host: host,
-        use_slaac: use_slaac,
         static: static,
         static6: static6,
       })
@@ -43,7 +42,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         @host.managed_interfaces.first,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -57,7 +55,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -78,7 +75,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -103,7 +99,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -125,7 +120,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -145,7 +139,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -163,7 +156,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: true,
         static6: false
       )
@@ -185,7 +177,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -205,7 +196,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: true
       )
@@ -227,13 +217,12 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
 
       assert_not_nil(ipv6_match = /--ipv6 ([^ ]*)/.match(actual))
-      assert_match(/dhcp/, ipv6_match[1])
+      assert_match(/auto/, ipv6_match[1])
     end
 
     test 'should use auto ipv6 configuration' do
@@ -246,7 +235,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: true,
         static: false,
         static6: false
       )
@@ -267,7 +255,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -288,7 +275,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -309,7 +295,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )
@@ -342,7 +327,6 @@ class KickstartNetworkInterfaceTest < ActiveSupport::TestCase
       actual = render_template(
         iface,
         host: @host,
-        use_slaac: false,
         static: false,
         static6: false
       )

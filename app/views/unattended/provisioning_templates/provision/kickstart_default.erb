@@ -122,7 +122,6 @@ keyboard <%= host_param('keyboard') || 'us' %>
       variables: {
         iface: iface,
         host: @host,
-        use_slaac: host_param_true?('use-slaac'),
         static: @static,
         static6: @static6
       }

@@ -8,7 +8,7 @@ description: |
   Generates network directive for a given interface. It is not expected to be used directly.
 -%>
 <%#
-  # Variables: iface, host, use_slaac, static, static6
+  # Variables: iface, host, static, static6
 -%>
 <%if @iface.managed? -%>
 <%
@@ -61,11 +61,7 @@ if subnet6
     network_options.push("--ipv6=#{@iface.ip6}/#{subnet6.cidr}")
     network_options.push("--ipv6gateway=#{subnet6.gateway}")
   elsif subnet6.dhcp_boot_mode?
-    if @use_slaac
-      network_options.push("--ipv6 auto")
-    else
-      network_options.push("--ipv6 dhcp")
-    end
+    network_options.push("--ipv6 auto")
   end
 
   nameservers.concat(subnet6.dns_servers)
