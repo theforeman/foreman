@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
 import { useHistory } from 'react-router-dom';
@@ -54,6 +54,7 @@ A page component that displays a table with data fetched from the API. It provid
 @param {function} {customCreateAction} - a custom action for the create new button
 @param {string} {customExportURL} - a custom URL for the export button
 @param {string} {customHelpURL} - a custom URL for the documentation button
+@param {function} {customOnPagination} - custom function to handle pagination
 @param {Object} {customSearchProps} custom search props to send to the search bar
 @param {Array<Object>} {customToolbarItems} - an array of custom toolbar items to be displayed
 @param {boolean} {exportable} - whether or not to show export button
@@ -89,6 +90,7 @@ const TableIndexPage = ({
   customActionButtons,
   customCreateAction,
   customExportURL,
+  customOnPagination,
   customHelpURL,
   customSearchProps,
   customToolbarItems,
@@ -118,16 +120,7 @@ const TableIndexPage = ({
   const urlParamsSearch = urlParams.get('search') || '';
   const search = updateParamsByUrl ? urlParamsSearch || getURIsearch() : '';
   const defaultParams = { search: search || '' };
-  if (updateParamsByUrl) {
-    const urlPage = urlParams.get('page');
-    const urlPerPage = urlParams.get('per_page');
-    if (urlPage) {
-      defaultParams.page = parseInt(urlPage, 10);
-    }
-    if (urlPerPage) {
-      defaultParams.per_page = parseInt(urlPerPage, 10);
-    }
-  }
+
   const response = useTableIndexAPIResponse({
     replacementResponse,
     apiUrl,
@@ -150,13 +143,6 @@ const TableIndexPage = ({
     setAPIOptions,
   } = response;
 
-  const memoDefaultSearchProps = useMemo(
-    () => getControllerSearchProps(controller),
-    [controller]
-  );
-  const searchProps = customSearchProps || memoDefaultSearchProps;
-  searchProps.autocomplete.searchQuery = search;
-
   const { setParamsAndAPI, setSearch, params } = useSetParamsAndApiAndSearch({
     defaultParams,
     apiOptions,
@@ -165,8 +151,38 @@ const TableIndexPage = ({
     pushToHistory: updateParamsByUrl,
   });
 
-  const onPagination = newPagination => {
+  useEffect(() => {
+    if (updateParamsByUrl) {
+      const urlPage = parseInt(urlParams.get('page'), 10) || 1;
+      const urlPerPage =
+        parseInt(urlParams.get('per_page'), 10) || defaultParams.per_page;
+      const maxPage = Math.ceil(subtotal / urlPerPage) || 1;
+
+      if (urlPage > maxPage) {
+        onPagination({ page: 1, per_page: urlPerPage, ...params });
+      } else {
+        defaultParams.page = urlPage;
+      }
+      if (urlPerPage) {
+        defaultParams.per_page = urlPerPage;
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateParamsByUrl, subtotal, params, setParamsAndAPI]);
+
+  const memoDefaultSearchProps = useMemo(
+    () => getControllerSearchProps(controller),
+    [controller]
+  );
+  const searchProps = customSearchProps || memoDefaultSearchProps;
+  searchProps.autocomplete.searchQuery = search;
+
+  const defaultOnPagination = newPagination => {
     setParamsAndAPI({ ...params, ...newPagination });
+  };
+  const onPagination = customOnPagination || defaultOnPagination;
+  const handlePaginationChange = newPagination => {
+    onPagination(newPagination);
   };
 
   const onSearch = newSearch => {
@@ -275,7 +291,7 @@ const TableIndexPage = ({
                 page={page}
                 perPage={perPage}
                 itemCount={subtotal}
-                onChange={onPagination}
+                onChange={handlePaginationChange}
               />
             )}
           </ToolbarContent>
@@ -300,7 +316,7 @@ const TableIndexPage = ({
                 page={page}
                 perPage={perPage}
                 itemCount={subtotal}
-                onChange={onPagination}
+                onChange={handlePaginationChange}
                 updateParamsByUrl={updateParamsByUrl}
               />
             }
@@ -367,6 +383,7 @@ TableIndexPage.propTypes = {
   customCreateAction: PropTypes.func,
   customExportURL: PropTypes.string,
   customHelpURL: PropTypes.string,
+  customOnPagination: PropTypes.func,
   customSearchProps: PropTypes.object,
   customToolbarItems: PropTypes.node,
   replacementResponse: PropTypes.object,
@@ -403,6 +420,7 @@ TableIndexPage.defaultProps = {
   customCreateAction: null,
   customExportURL: '',
   customHelpURL: '',
+  customOnPagination: null,
   customSearchProps: null,
   customToolbarItems: null,
   exportable: false,
