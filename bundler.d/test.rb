@@ -1,5 +1,5 @@
 group :test do
-  gem 'mocha', '~> 2.1'
+  gem 'mocha', '3.0.0.pre.rc.1'
   gem 'minitest', '~> 5.1'
   gem 'minitest-reporters', '~> 1.4', :require => false
   gem 'minitest-retry', '~> 0.0', :require => false
