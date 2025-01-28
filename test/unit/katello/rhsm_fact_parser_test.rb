@@ -223,5 +223,18 @@ module Katello
 
       assert 'i386', parser.architecture.name
     end
+
+    def test_operatingsystem_race_condition_handling
+      existing_os = ::Operatingsystem.create(name: 'RedHat', major: '9', minor: '')
+      ::Operatingsystem.expects(:find_by).twice.returns(nil)
+      @facts['distribution.name'] = 'Red Hat Enterprise Linux'
+      @facts['distribution.version'] = '9'
+      @facts['distribution.id'] = 'Nine'
+
+      assert_nothing_raised do
+        parser.operatingsystem
+        existing_os.destroy
+      end
+    end
   end
 end
