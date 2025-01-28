@@ -67,7 +67,7 @@ description: |
   end
   options.push("dualstack!") if subnet4 && subnet6
   if subnet4 && subnet4.dhcp_boot_mode?
-    options.push("ip=dhcp") if rhel_compatible && major >= 7
+    options.push("ip=::::#{hostname}::dhcp") if rhel_compatible && major >= 7
   elsif subnet4 && !subnet4.dhcp_boot_mode?
     if rhel_compatible && major < 7
       dns_servers = subnet4.dns_servers.join(',')
@@ -84,7 +84,7 @@ description: |
       end
     end
   elsif subnet6 && subnet6.dhcp_boot_mode? && rhel_compatible && major >= 7
-    options.push("ip=auto6")
+    options.push("ip=::::#{hostname}::auto6")
   elsif subnet6 && !subnet6.dhcp_boot_mode?
     raise("Static IPv6 provisioning works on RHEL7 or newer") if rhel_compatible && major < 7
     gw = subnet6.gateway ? "[#{subnet6.gateway}]" : ""
