@@ -37,7 +37,10 @@ import {
   getPageStats,
 } from '../PF4/TableIndexPage/Table/helpers';
 import { deleteHost } from '../HostDetails/ActionsBar/actions';
-import { useForemanSettings } from '../../Root/Context/ForemanContext';
+import {
+  useForemanSettings,
+  useForemanHostsPageUrl,
+} from '../../Root/Context/ForemanContext';
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import BulkBuildHostModal from './BulkActions/buildHosts';
 import BulkReassignHostgroupModal from './BulkActions/reassignHostGroup';
@@ -177,8 +180,11 @@ const HostsIndex = () => {
 
   const dispatch = useDispatch();
   const { destroyVmOnHostDelete } = useForemanSettings();
+  const hostsIndexUrl = useForemanHostsPageUrl();
   const deleteHostHandler = ({ hostName, computeId }) =>
-    dispatch(deleteHost(hostName, computeId, destroyVmOnHostDelete));
+    dispatch(
+      deleteHost(hostName, computeId, destroyVmOnHostDelete, hostsIndexUrl)
+    );
   const handleBulkDelete = () => {
     const bulkParams = fetchBulkParams();
     dispatch(

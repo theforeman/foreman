@@ -23,7 +23,10 @@ import { translate as __ } from '../../../common/I18n';
 import { selectKebabItems } from './Selectors';
 import { foremanUrl } from '../../../common/helpers';
 import { cancelBuild, deleteHost, isHostTurnOn } from './actions';
-import { useForemanSettings } from '../../../Root/Context/ForemanContext';
+import {
+  useForemanSettings,
+  useForemanHostsPageUrl,
+} from '../../../Root/Context/ForemanContext';
 import BuildModal from './BuildModal';
 import Slot from '../../common/Slot';
 
@@ -51,12 +54,15 @@ const ActionsBar = ({
   const [isBuildModalOpen, setBuildModal] = useState(false);
   const onKebabToggle = isOpen => setKebab(isOpen);
   const { destroyVmOnHostDelete } = useForemanSettings();
+  const hostsIndexUrl = useForemanHostsPageUrl();
   const registeredItems = useSelector(selectKebabItems, shallowEqual);
   const isHostActive = useSelector(isHostTurnOn);
 
   const dispatch = useDispatch();
   const deleteHostHandler = () =>
-    dispatch(deleteHost(hostName, computeId, destroyVmOnHostDelete));
+    dispatch(
+      deleteHost(hostName, computeId, destroyVmOnHostDelete, hostsIndexUrl)
+    );
 
   const isConsoleDisabled = !(computeId && isHostActive);
   const determineTooltip = () => {

@@ -12,7 +12,8 @@ import { POWER_REQURST_KEY } from '../DetailsCard/PowerStatus/constants';
 export const deleteHost = (
   hostName,
   compute,
-  destroyVmOnHostDelete
+  destroyVmOnHostDelete,
+  hostsIndexUrl
 ) => dispatch => {
   const successToast = () => sprintf(__('Host %s deleted'), hostName);
   const errorToast = ({ message }) => message;
@@ -44,7 +45,7 @@ export const deleteHost = (
             key: `${hostName}-DELETE`,
             successToast,
             errorToast,
-            handleSuccess: () => visit(foremanUrl('/hosts')),
+            handleSuccess: () => visit(foremanUrl(hostsIndexUrl)),
           })
         ),
       message: (
