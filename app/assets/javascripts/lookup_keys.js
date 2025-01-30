@@ -19,7 +19,6 @@ $(document).on('ContentLoad', function() {
     .on('submit', function() {
       build_match();
     });
-  $('.matcher_key').select2('destroy');
 });
 
 function select_first_tab() {
