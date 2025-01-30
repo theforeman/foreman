@@ -11,6 +11,14 @@
 #   System locale
 #
 
+# Wrapper for deprecated linuxefi/initrdefi commands
+function linuxefi {
+  linux $*
+}
+function initrdefi {
+  initrd $*
+}
+
 set default=0
 set timeout=10
 

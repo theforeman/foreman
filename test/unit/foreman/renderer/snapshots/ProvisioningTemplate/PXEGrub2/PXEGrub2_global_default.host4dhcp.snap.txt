@@ -1,3 +1,11 @@
+# Wrapper for deprecated linuxefi/initrdefi commands
+function linuxefi {
+  linux $*
+}
+function initrdefi {
+  initrd $*
+}
+
 default=local
 timeout=20
 echo Default PXE global template entry is set to 'local'
