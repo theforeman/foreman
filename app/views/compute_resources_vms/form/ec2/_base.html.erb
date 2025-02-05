@@ -11,7 +11,7 @@ images = possible_images(compute_resource, arch, os)
 <div id='subnet_selection'>
   <% if compute_resource.subnets.any? %>
     <%= select_f f, :subnet_id, compute_resource.subnets, :subnet_id, :cidr_block,
-    {:include_blank => _("EC2")},
+    {:include_blank => true},
     {:label => _("Subnet"), :label_size => "col-md-2", :onchange => "tfm.computeResource.ec2.vpcSelected(this);"} %>
   <% end %>
 
