@@ -144,7 +144,11 @@ class Setting < ApplicationRecord
 
     when "string", "text", nil
       # string is taken as default setting type for parsing
-      self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip
+      intermediate = val
+      intermediate = intermediate.to_s.strip unless NOT_STRIPPED.include?(name)
+      intermediate = nil if intermediate.blank? && default.nil?
+
+      self.value = intermediate
 
     when "hash"
       raise Foreman::SettingValueException, N_("Parsing a hash from a string is not supported")

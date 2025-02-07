@@ -126,6 +126,29 @@ class SettingRegistryTest < ActiveSupport::TestCase
       end
     end
 
+    context 'string setting' do
+      setup do
+        registry._add('test',
+          category: 'Setting',
+          default: nil,
+          type: :string,
+          full_name: 'test Foo',
+          description: 'test update',
+          encrypted: false,
+          context: :test)
+      end
+
+      it 'does not distinguish between nil default and an empty string' do
+        Setting.any_instance.stubs(:setting_definition).returns(registry.find('test'))
+        registry.set_user_value('test', 'foobar').save!
+        s = registry.set_user_value('test', '')
+
+        assert s.save
+        assert_nil s.value
+        assert_nil s.read_attribute(:value)
+      end
+    end
+
     context 'encrypted setting' do
       setup do
         registry._add('test',
