@@ -106,15 +106,20 @@ const HostsIndex = () => {
     setAPIOptions: response.setAPIOptions,
   });
 
+  /* eslint-disable consistent-return */
   useEffect(() => {
     const handleLoadJS = () => {
       setAllColumns(getColumnData({ tableName: 'hosts' }));
       setAllJsLoaded(true);
     };
-    document.addEventListener('loadJS', handleLoadJS);
-    return () => {
-      document.removeEventListener('loadJS', handleLoadJS);
-    };
+    if (window.allJsLoaded) {
+      handleLoadJS();
+    } else {
+      document.addEventListener('loadJS', handleLoadJS);
+      return () => {
+        document.removeEventListener('loadJS', handleLoadJS);
+      };
+    }
   }, [setAllColumns]);
   const {
     hasPreference,
