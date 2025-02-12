@@ -24,7 +24,7 @@ class HttpProxiesController < ApplicationController
   end
 
   def test_connection
-    http_proxy = HttpProxy.new({name: 'dummy'}.update(http_proxy_params))
+    http_proxy = HttpProxy.new(http_proxy_params.merge(name: 'dummy'))
     unless http_proxy.valid?
       raise Foreman::Exception, http_proxy.errors.full_messages.join(', ')
     end
