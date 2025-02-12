@@ -25,8 +25,8 @@ class Select extends React.Component {
   attachEvent() {
     const { onChange } = this.props;
     $(this.select)
-      .off('change', onChange)
-      .on('change', onChange);
+      .off('select2:select select2:unselecting', onChange)
+      .on('select2:select select2:unselecting', onChange);
   }
 
   componentDidMount() {
