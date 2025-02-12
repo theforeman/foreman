@@ -442,6 +442,15 @@ module FormHelper
     include_blank = select_options.delete(:include_blank)
     if include_blank
       addClass html_options, "include_blank"
+      blank_value = include_blank.is_a?(TrueClass) ? nil : include_blank
+      if array.kind_of?(Array) # incase array is options_for_select
+        array = array.to_a.dup
+        blank_option = [blank_value, nil]
+        array.insert(0, blank_option)
+      end
+      html_options['data-placeholder'] = blank_value || html_options['placeholder']
+    elsif html_options[:placeholder]
+      html_options['data-placeholder'] = html_options.delete(:placeholder)
     end
     f.select attr, array, select_options, html_options
   end
