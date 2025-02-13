@@ -163,7 +163,7 @@ class UnattendedController < ApplicationController
 
   def load_host_details
     query_params = params
-    query_params[:ip] = request.remote_ip
+    query_params[:ip] = host_ip
     query_params[:mac_list] = Foreman::UnattendedInstallation::MacListExtractor.new.extract_from_env(request.env, params: params)
     query_params[:built] = ['built', 'failed'].include? action_name
 
@@ -171,8 +171,7 @@ class UnattendedController < ApplicationController
   end
 
   def verify_found_host(needs_token = true)
-    host_verifier = Foreman::UnattendedInstallation::HostVerifier.new(@host, request_ip: request.remote_ip,
-                                                                             for_host_template: (action_name == 'host_template'))
+    host_verifier = Foreman::UnattendedInstallation::HostVerifier.new(@host, request_ip: host_ip, for_host_template: (action_name == 'host_template'))
 
     if host_verifier.valid?
       logger.debug "Found #{@host}"
@@ -213,7 +212,7 @@ class UnattendedController < ApplicationController
   # doesn't know the IP in advance (and has been given a fake one just to make
   # the form save)
   def update_ip
-    ip = request.remote_ip
+    ip = host_ip
     address = IPAddr.new(ip)
 
     # @host has been changed even if the save fails, so we have to change it back
@@ -246,5 +245,13 @@ class UnattendedController < ApplicationController
 
   def spoof
     @spoof ||= @host.present? && (params.key?(:spoof) || params.key?(:hostname))
+  end
+
+  def host_ip
+    return request.remote_ip unless params[:url]
+
+    # The call is from external proxy
+    # We need to get the original (host's) IP, not the proxy
+    request.env["HTTP_X_FORWARDED_FOR"].split(",").first
   end
 end

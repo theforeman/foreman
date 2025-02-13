@@ -58,6 +58,13 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :success
     end
 
+    test "should get a kickstart even if we are behind a smart proxy" do
+      @request.env["HTTP_X_FORWARDED_FOR"] = "#{@rh_host.ip}, 192.0.2.66"
+      @request.env["REMOTE_ADDR"] = "127.0.0.1"
+      get :host_template, params: { :kind => 'provision' }
+      assert_response :success
+    end
+
     test "should get a foreman CA refresh for a host" do
       get :host_template, params: { kind: 'public', id: 'foreman_ca_refresh' }
       assert_response :success
