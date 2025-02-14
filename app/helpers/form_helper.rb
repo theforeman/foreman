@@ -119,9 +119,9 @@ module FormHelper
       # that was defined in the struct.
       blank_option.instance_eval('undef to_s', __FILE__, __LINE__) if method.to_s == 'to_s' || id.to_s == 'to_s'
       array.insert(0, blank_option)
-      html_options['data-placeholder'] = blank_value || html_options['placeholder']
+      html_options['data-placeholder'] = blank_value || html_options[:placeholder]
     elsif html_options[:placeholder]
-      html_options['data-placeholder'] = html_options.delete(:placeholder)
+      html_options['data-placeholder'] = html_options[:placeholder]
     end
 
     select_options[:disabled] = '' if select_options[:disabled] == include_blank
@@ -448,9 +448,9 @@ module FormHelper
         blank_option = [blank_value, nil]
         array.insert(0, blank_option)
       end
-      html_options['data-placeholder'] = blank_value || html_options['placeholder']
+      html_options['data-placeholder'] = blank_value || html_options[:placeholder]
     elsif html_options[:placeholder]
-      html_options['data-placeholder'] = html_options.delete(:placeholder)
+      html_options['data-placeholder'] = html_options[:placeholder]
     end
     f.select attr, array, select_options, html_options
   end
