@@ -2,7 +2,10 @@ module FormHelper
   def text_f(f, attr, options = {})
     field(f, attr, options) do
       addClass options, "form-control"
-      options[:focus_on_load] = true if options[:focus_on_load].nil? && attr.to_s == 'name'
+      if attr.to_s == 'name'
+        options[:focus_on_load] ||= true
+        options[:autocomplete] ||= "section-#{f.object_name} name"
+      end
       f.text_field attr, options
     end
   end
