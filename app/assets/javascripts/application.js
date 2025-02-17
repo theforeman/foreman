@@ -507,7 +507,15 @@ function activate_select2(container, allowClear ) {
         formatNoMatches: __('No matches found'),
         placeholder: selectAllowClear? placeholder || '' : { id: '-1', text: '' },
       });
+      $(this).on("select2:clear", function (evt) {
+        $(this).on("select2:opening.cancelOpen", function (evt) {
+          evt.preventDefault();
+          
+          $(this).off("select2:opening.cancelOpen");
+        });
+      });
     });
+
 }
 
 function setError(field, text) {
