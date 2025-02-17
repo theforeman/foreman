@@ -37,17 +37,19 @@ $(document).on('ContentLoad', function() {
   update_default_compute_resource($('.hostgroup-select').val());
 });
 $(document)
-  .on('change', '.hostgroup-select', function(evt) {
+  .on('select2:select select2:unselecting', '.hostgroup-select', function(evt) {
     hostgroup_changed(evt.target);
-  }).on('change', '.host-form-compute-resource-handle', function(evt) {
+  }).on('select2:select select2:unselecting', '.host-form-compute-resource-handle', function(evt) {
     computeResourceSelected(evt.target);
-  }).on('change', '.host-taxonomy-select', function(evt) {
+  }).on('select2:select select2:unselecting', '.host-taxonomy-select', function(evt) {
     update_form(evt.target);
-  }).on('change', '.host-architecture-select', function(evt) {
+  }).on('select2:select select2:unselecting', '#host_architecture_id', function(evt) {
     architecture_selected(evt.target);
-  }).on('change', '.host-architecture-os-select', function(evt) {
+  }).on('select2:select select2:unselecting', '#hostgroup_architecture_id', function(evt) {
+    architecture_selected(evt.target);
+  }).on('select2:select select2:unselecting', '.host-architecture-os-select', function(evt) {
     os_selected(evt.target);
-  }).on('change', '.host-os-media-select', function(evt) {
+  }).on('select2:select select2:unselecting', '.host-os-media-select', function(evt) {
     medium_selected(evt.target);
   });
 
@@ -600,7 +602,7 @@ function build_provision_method_selected() {
     $('#host_compute_attributes_template').select2('readonly',false);
 }
 $(document).on(
-  'change',
+  'select2:select select2:unselecting',
   '#host_provision_method_build',
   build_provision_method_selected
 );
@@ -623,12 +625,12 @@ function image_provision_method_selected() {
   }
 }
 $(document).on(
-  'change',
+  'select2:select select2:unselecting',
   '#host_provision_method_image',
   image_provision_method_selected
 );
 
-$(document).on('change', '.interface_domain', function() {
+$(document).on('select2:select select2:unselecting', '.interface_domain', function() {
     interface_domain_selected(this);
     clearIpField(this, '.interface_ip');
     clearIpField(this, '.interface_ip6');
