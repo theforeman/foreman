@@ -38,6 +38,10 @@ module Foreman
       new.ubuntu_autoinst4dhcp
     end
 
+    def self.ubuntu_autoinstmulti4dhcp
+      new.ubuntu_autoinstmulti4dhcp
+    end
+
     def self.rhel9_dhcp
       new.rhel9_dhcp
     end
@@ -189,6 +193,22 @@ module Foreman
         name: 'snapshot-ipv4-dhcp-ubuntu20',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
+      host.define_singleton_method(:managed_interfaces) { interfaces }
+      define_host_params(host)
+    end
+
+    def ubuntu_autoinstmulti4dhcp
+      nic_a = FactoryBot.build(:nic_primary_and_provision, identifier: '',
+        mac: '00-f0-54-1a-7e-e0',
+        ip: '192.168.42.42')
+      nic_b = FactoryBot.build(:nic_managed, identifier: '',
+        mac: '00-f0-54-1a-7e-e1',
+        ip: '192.168.42.43')
+
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_ubuntu20,
+        name: 'snapshot-ipv4-dhcp-ubuntu20',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        interfaces: [nic_a, nic_b])
       host.define_singleton_method(:managed_interfaces) { interfaces }
       define_host_params(host)
     end
