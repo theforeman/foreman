@@ -8,9 +8,9 @@ $(document).on('ContentLoad', function() {
     $('#host_hostgroup_id').val(param).trigger('change');
   }
   onHostEditLoad();
-  document
-    .querySelector('[name=is_overridden_btn]')
-    .addEventListener('click', function(event) {
+  const overrideButtons = document.querySelectorAll('[name=is_overridden_btn]');
+  overrideButtons.forEach(button =>
+    button.addEventListener('click', function(event) {
       const item = event.target;
       var formControl = $(item)
         .closest('.input-group')
@@ -25,7 +25,8 @@ $(document).on('ContentLoad', function() {
             .trigger('change');
         }
       }
-    });
+    })
+  );
   if (window.location.href.includes('hostgroup')) {
     document.querySelector('form').addEventListener('submit', function() {
       // making sure inherited compute resource is included in the form
