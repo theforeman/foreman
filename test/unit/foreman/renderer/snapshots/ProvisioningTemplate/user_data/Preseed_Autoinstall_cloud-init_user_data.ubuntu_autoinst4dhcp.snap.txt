@@ -24,6 +24,10 @@ autoinstall:
   locale: en_US.UTF-8
   network:
     version: 2
+    ethernets:
+      eth0:
+        dhcp4: true
+        dhcp6: false
   ssh:
     allow-pw: true
     install-server: true

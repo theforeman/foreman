@@ -184,6 +184,7 @@ module Foreman
         name: 'snapshot-ipv4-dhcp-ubuntu20',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
+      host.define_singleton_method(:managed_interfaces) { interfaces }
       define_host_params(host)
     end
 
