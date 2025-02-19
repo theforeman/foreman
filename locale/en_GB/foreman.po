@@ -492,6 +492,9 @@ msgstr ""
 msgid "Add SSH key"
 msgstr ""
 
+msgid "Add Virtual TPM module to the VM."
+msgstr ""
+
 msgid "Add Volume"
 msgstr ""
 
@@ -1338,6 +1341,9 @@ msgstr ""
 msgid "By default, a newline character is inserted after a Ruby block if it is closed at the end of a line:"
 msgstr ""
 
+msgid "By invalidating your JSON Web Tokens (JWTs), you will no longer be able to register hosts by using your existing JWTs."
+msgstr ""
+
 msgid "CA Certificate Expiry Date"
 msgstr ""
 
@@ -1495,6 +1501,12 @@ msgid "Chassis"
 msgstr ""
 
 msgid "Check again"
+msgstr ""
+
+msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
+msgstr ""
+
+msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
 msgstr ""
 
 msgid "Choose a family"
@@ -2790,12 +2802,6 @@ msgid "Duration in days to preserve audits for. Leave empty to disable the audit
 msgstr ""
 
 msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
-msgstr ""
-
-msgid "EC2"
-msgstr ""
-
-msgid "EFI"
 msgstr ""
 
 msgid "ERROR or FATAL"
@@ -4518,16 +4524,25 @@ msgstr ""
 msgid "ID of the Host group to register the host in"
 msgstr ""
 
+msgid "ID of the Host group to register the host in. Takes precedence over the `hostgroup` parameter"
+msgstr ""
+
 msgid "ID of the Location to register the host in"
 msgstr ""
 
-msgid "ID of the Operating System to register the host in"
+msgid "ID of the Location to register the host in. Takes precedence over the `location` parameter"
 msgstr ""
 
 msgid "ID of the Operating System to register the host in. Operating system must have a `host_init_config` template assigned"
 msgstr ""
 
+msgid "ID of the Operating System to register the host in. Takes precedence over the `operatingsystem` parameter"
+msgstr ""
+
 msgid "ID of the Organization to register the host in"
+msgstr ""
+
+msgid "ID of the Organization to register the host in. Takes precedence over the `organization` parameter"
 msgstr ""
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
@@ -4599,9 +4614,6 @@ msgstr ""
 msgid "IP addresses that should be excluded from suggestion"
 msgstr ""
 
-msgid "IP:"
-msgstr ""
-
 msgid "IPAM"
 msgstr ""
 
@@ -4631,6 +4643,9 @@ msgstr ""
 msgid "IPv4 address, not required if using a subnet with DHCP proxy"
 msgstr ""
 
+msgid "IPv4:"
+msgstr ""
+
 msgid "IPv6"
 msgstr ""
 
@@ -4655,6 +4670,9 @@ msgid "IPv6 address, not required if using a subnet with DHCP proxy"
 msgstr ""
 
 msgid "IPv6 subnet"
+msgstr ""
+
+msgid "IPv6:"
 msgstr ""
 
 msgid "Identifier"
@@ -5054,6 +5072,27 @@ msgstr ""
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr ""
 
+msgid "Invalidate JWTs"
+msgstr ""
+
+msgid "Invalidate JWTs for all users"
+msgstr ""
+
+msgid "Invalidate all JSON Web Tokens for %s?"
+msgstr ""
+
+msgid "Invalidate all JSON Web Tokens for all users?"
+msgstr ""
+
+msgid "Invalidate all registration tokens for a specific user"
+msgstr ""
+
+msgid "Invalidate all registration tokens for multiple users"
+msgstr ""
+
+msgid "Invalidate tokens for self?"
+msgstr ""
+
 msgid "Is this setting encrypted?"
 msgstr ""
 
@@ -5097,6 +5136,9 @@ msgid "JWT SSO: Expired JWT token."
 msgstr ""
 
 msgid "JWT SSO: Failed to decode JWT."
+msgstr ""
+
+msgid "JWT Tokens"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -5908,6 +5950,9 @@ msgstr ""
 msgid "MailNotification|Subscription type"
 msgstr ""
 
+msgid "Major version of the operating system must be greater than or equal to 0"
+msgstr ""
+
 msgid "Make sure to copy your new personal access token now. You won’t be able to see it again!"
 msgstr ""
 
@@ -6533,6 +6578,9 @@ msgstr ""
 msgid "No puppet activity for this host in the last %s days"
 msgstr ""
 
+msgid "No record found for search '%s'"
+msgstr ""
+
 msgid "No report"
 msgstr ""
 
@@ -6818,6 +6866,9 @@ msgstr ""
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
 msgstr ""
 
+msgid "Only compatible with UEFI firmware."
+msgstr ""
+
 msgid "Only for BMC interfaces."
 msgstr ""
 
@@ -6872,9 +6923,6 @@ msgid "Operating System Family"
 msgstr ""
 
 msgid "Operating System has no family, can't load PXE files"
-msgstr ""
-
-msgid "Operating System version is required"
 msgstr ""
 
 msgid "Operating Systems"
@@ -7388,6 +7436,9 @@ msgstr ""
 msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)"
 msgstr ""
 
+msgid "Please provide search parameter"
+msgstr ""
+
 msgid "Please request one of the required permissions listed below from a Foreman administrator:"
 msgstr ""
 
@@ -7833,6 +7884,9 @@ msgid "Register"
 msgstr ""
 
 msgid "Register Host"
+msgstr ""
+
+msgid "Registration Tokens"
 msgstr ""
 
 msgid "Registration command"
@@ -9281,6 +9335,9 @@ msgstr ""
 msgid "Success"
 msgstr "Success"
 
+msgid "Successfully Invalidated registration tokens."
+msgstr ""
+
 msgid "Successfully created %s."
 msgstr ""
 
@@ -9291,6 +9348,15 @@ msgid "Successfully deleted %s."
 msgstr ""
 
 msgid "Successfully deleted report."
+msgstr ""
+
+msgid "Successfully invalidated registration tokens for %s."
+msgstr ""
+
+msgid "Successfully invalidated registration tokens for all users."
+msgstr ""
+
+msgid "Successfully invalidated registration tokens."
 msgstr ""
 
 msgid "Successfully recreated"
@@ -9357,6 +9423,9 @@ msgid "TFTP Proxy to use within this subnet"
 msgstr ""
 
 msgid "TFTP server"
+msgstr ""
+
+msgid "TPM is not compatible with BIOS firmware. Please change Firmware or disable TPM."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -10076,6 +10145,18 @@ msgstr ""
 msgid "Timezone to use for new users"
 msgstr ""
 
+msgid "Title of the Host group to register the host in"
+msgstr ""
+
+msgid "Title of the Location to register the host in"
+msgstr ""
+
+msgid "Title of the Operating System to register the host in"
+msgstr ""
+
+msgid "Title of the Organization to register the host in"
+msgstr ""
+
 msgid "To access %s API, you need to install the Foreman Puppet plugin"
 msgstr ""
 
@@ -10185,6 +10266,12 @@ msgstr "Type of value"
 msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
 msgstr ""
 
+msgid "UEFI"
+msgstr ""
+
+msgid "UEFI Secure Boot"
+msgstr ""
+
 msgid "URL"
 msgstr "URL"
 
@@ -10213,6 +10300,9 @@ msgid "URL to fetch RSS notifications from"
 msgstr ""
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
+msgstr ""
+
+msgid "URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
 msgstr ""
 
 msgid "UTC time of report"
@@ -10297,9 +10387,6 @@ msgid "Unable to fetch logs"
 msgstr ""
 
 msgid "Unable to find 'Host initial configuration' template for host %{host} running %{os}, associate the 'Host initial configuration' template for this OS first"
-msgstr ""
-
-msgid "Unable to find IP address for '%s'"
 msgstr ""
 
 msgid "Unable to find a proxy with BMC feature"
@@ -10447,6 +10534,9 @@ msgid "Undefined setting '%{setting}'"
 msgstr ""
 
 msgid "Undo selection"
+msgstr ""
+
+msgid "Unexpected error occurred."
 msgstr ""
 
 msgid "Unhide this value"
@@ -11077,6 +11167,9 @@ msgid "Virtual Machines on %s"
 msgstr ""
 
 msgid "Virtual NIC"
+msgstr ""
+
+msgid "Virtual TPM"
 msgstr ""
 
 msgid "Virtual machine settings cannot be edited on an existing machine in %s"

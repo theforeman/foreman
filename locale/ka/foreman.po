@@ -500,6 +500,9 @@ msgstr "SSH გასაღების დამატება"
 msgid "Add SSH key"
 msgstr "SSH გასაღების დამატება"
 
+msgid "Add Virtual TPM module to the VM."
+msgstr ""
+
 msgid "Add Volume"
 msgstr "ტომის დამატება"
 
@@ -1346,6 +1349,9 @@ msgstr ""
 msgid "By default, a newline character is inserted after a Ruby block if it is closed at the end of a line:"
 msgstr ""
 
+msgid "By invalidating your JSON Web Tokens (JWTs), you will no longer be able to register hosts by using your existing JWTs."
+msgstr ""
+
 msgid "CA Certificate Expiry Date"
 msgstr "CA სერტიფიკატის ვადა"
 
@@ -1504,6 +1510,12 @@ msgstr "შასი"
 
 msgid "Check again"
 msgstr "თავიდან შემოწმება"
+
+msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
+msgstr ""
+
+msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
+msgstr ""
 
 msgid "Choose a family"
 msgstr "არჩიეთ ოჯახი"
@@ -2799,12 +2811,6 @@ msgstr ""
 
 msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
 msgstr ""
-
-msgid "EC2"
-msgstr "EC2"
-
-msgid "EFI"
-msgstr "EFI"
 
 msgid "ERROR or FATAL"
 msgstr "შეცდომა ან ფატალური"
@@ -4528,17 +4534,26 @@ msgstr "შაბლონის ID"
 msgid "ID of the Host group to register the host in"
 msgstr "ჰოსტების ჯგუფის ID, რომელშიც ჰოსტი უნდა დარეგისტრირდეს"
 
+msgid "ID of the Host group to register the host in. Takes precedence over the `hostgroup` parameter"
+msgstr ""
+
 msgid "ID of the Location to register the host in"
 msgstr "მდებარეობის ID, რომელშიც ჰოსტი უნდა დარეგისტრირდეს"
 
-msgid "ID of the Operating System to register the host in"
-msgstr "ჰოსტის დასარეგისტრირებელი ოპერაციული სისტემის ID"
+msgid "ID of the Location to register the host in. Takes precedence over the `location` parameter"
+msgstr ""
 
 msgid "ID of the Operating System to register the host in. Operating system must have a `host_init_config` template assigned"
 msgstr "ჰოსტის დასარეგისტრირებელი ოპერაციული სისტემის ID. ოპერაციულ სისტემას 'host_init_config' შაბლონი უნდა ჰქონდეს მინიჭებული"
 
+msgid "ID of the Operating System to register the host in. Takes precedence over the `operatingsystem` parameter"
+msgstr ""
+
 msgid "ID of the Organization to register the host in"
 msgstr "ორგანიზაციის ID, რომელშიც ჰოსტი უნდა დარეგისტრირდეს"
+
+msgid "ID of the Organization to register the host in. Takes precedence over the `organization` parameter"
+msgstr ""
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "ჭკვიანი პროქსის ID. პროქზე ჩართული უნდა იყოს ორივე თვისება, \"შაბლონები\" და \"რეგისტრაცია\""
@@ -4609,9 +4624,6 @@ msgstr "IP მისამართის ავტომატური შე�
 msgid "IP addresses that should be excluded from suggestion"
 msgstr "რჩევებიდან ამოსაღები IP მისამართები"
 
-msgid "IP:"
-msgstr "IP:"
-
 msgid "IPAM"
 msgstr "IPAM"
 
@@ -4641,6 +4653,9 @@ msgstr "ინტერფეისის IPv4 მისამართი"
 msgid "IPv4 address, not required if using a subnet with DHCP proxy"
 msgstr "IPv4 მისამართი. საჭირო არაა, თუ ქვექსელს DHCP პროქსით იყენებთ"
 
+msgid "IPv4:"
+msgstr ""
+
 msgid "IPv6"
 msgstr "IPv6"
 
@@ -4666,6 +4681,9 @@ msgstr "IPv6 მისამართი. საჭირო არაა, თ�
 
 msgid "IPv6 subnet"
 msgstr "IPv6 ქვექსელი"
+
+msgid "IPv6:"
+msgstr ""
 
 msgid "Identifier"
 msgstr "იდენტიფიკატორი"
@@ -5064,6 +5082,27 @@ msgstr ""
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "ვერსიის არასწორი ფორმატი. შეიყვანეთ ფორმატში x.y (მხოლოდ ძირითადი ვერსია)."
 
+msgid "Invalidate JWTs"
+msgstr ""
+
+msgid "Invalidate JWTs for all users"
+msgstr ""
+
+msgid "Invalidate all JSON Web Tokens for %s?"
+msgstr ""
+
+msgid "Invalidate all JSON Web Tokens for all users?"
+msgstr ""
+
+msgid "Invalidate all registration tokens for a specific user"
+msgstr ""
+
+msgid "Invalidate all registration tokens for multiple users"
+msgstr ""
+
+msgid "Invalidate tokens for self?"
+msgstr ""
+
 msgid "Is this setting encrypted?"
 msgstr "პარამეტრი დაშიფრულია?"
 
@@ -5108,6 +5147,9 @@ msgstr "JWT SSO: ვადაგასული JWT კოდი."
 
 msgid "JWT SSO: Failed to decode JWT."
 msgstr "JWT SSO: JWT-ის გაშიფვრა ჩავარდა."
+
+msgid "JWT Tokens"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Jwt secret"
@@ -5918,6 +5960,9 @@ msgstr "გამოწერადი"
 msgid "MailNotification|Subscription type"
 msgstr "გამოწერის ტიპი"
 
+msgid "Major version of the operating system must be greater than or equal to 0"
+msgstr ""
+
 msgid "Make sure to copy your new personal access token now. You won’t be able to see it again!"
 msgstr "დარწმუნდით, რომ თქვენი პირადი წვდომის კოდის ასლი სადმე შეინახეთ. მეორედ ამის გაკეთების საშუალება აღარ გექნებათ!"
 
@@ -6543,6 +6588,9 @@ msgstr "პროქსი არჩეული არაა!"
 msgid "No puppet activity for this host in the last %s days"
 msgstr ""
 
+msgid "No record found for search '%s'"
+msgstr ""
+
 msgid "No report"
 msgstr "ანგარიშის გარეშე"
 
@@ -6828,6 +6876,9 @@ msgstr ""
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
 msgstr "ერთი ან მეტი ასოცირებული ფილტრი არასწორია. ეს როლის შენახვას ხელს უშლის"
 
+msgid "Only compatible with UEFI firmware."
+msgstr ""
+
 msgid "Only for BMC interfaces."
 msgstr "მხოლოდ BMC ინტერფეისებისთვის."
 
@@ -6885,9 +6936,6 @@ msgstr "ოპერაციული სისტემის ოჯახი"
 
 msgid "Operating System has no family, can't load PXE files"
 msgstr "ოპერაციულ სისტემას ოჯახი არ გააჩნია. PXE ფაილებს ვერ ჩავტვირთავ"
-
-msgid "Operating System version is required"
-msgstr "საჭიროა ოპერაციული სისტემის ვერსია"
 
 msgid "Operating Systems"
 msgstr "ოპერაციული სისტემები"
@@ -7400,6 +7448,9 @@ msgstr ""
 msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)"
 msgstr "გთხოვთ, მიუთითოთ შუალედური მომწოდებელი. ის შეიძლება მოიძებნოს როგორც @medium_provider შაბლონებში, ან Foreman::Plugin.medium_providers_registry.find_provider(მასპინძელი)"
 
+msgid "Please provide search parameter"
+msgstr ""
+
 msgid "Please request one of the required permissions listed below from a Foreman administrator:"
 msgstr "საჭიროა ერთი ან მეტი ქვემოთ ჩამოთვლილი წვდომის გამოთხოვა Foreman-ის ადმინისტრატორისგან:"
 
@@ -7848,6 +7899,9 @@ msgstr "რესგისტრაცია"
 
 msgid "Register Host"
 msgstr "ჰოსტის რეგისტრაცია"
+
+msgid "Registration Tokens"
+msgstr ""
 
 msgid "Registration command"
 msgstr "რეგისტრაციის ბრძანება"
@@ -9295,6 +9349,9 @@ msgstr "გამოწერის პარამეტრი არასწ�
 msgid "Success"
 msgstr "წარმატება"
 
+msgid "Successfully Invalidated registration tokens."
+msgstr ""
+
 msgid "Successfully created %s."
 msgstr "\"%s\" წარმატებით შეიქმნა."
 
@@ -9306,6 +9363,15 @@ msgstr "\"%s\" წარმატებით წაიშალა."
 
 msgid "Successfully deleted report."
 msgstr "ანგარიში წარმატებით წაიშალა."
+
+msgid "Successfully invalidated registration tokens for %s."
+msgstr ""
+
+msgid "Successfully invalidated registration tokens for all users."
+msgstr ""
+
+msgid "Successfully invalidated registration tokens."
+msgstr ""
 
 msgid "Successfully recreated"
 msgstr "წარმატებით შეიქმნა თავიდან"
@@ -9372,6 +9438,9 @@ msgstr "ამ ქვექსელში გამოყენებული 
 
 msgid "TFTP server"
 msgstr "TFTP სერვერი"
+
+msgid "TPM is not compatible with BIOS firmware. Please change Firmware or disable TPM."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Table preference"
@@ -10092,6 +10161,18 @@ msgstr "ჰოსტის კვების სტატუსის მოლ
 msgid "Timezone to use for new users"
 msgstr "დროის სარტყელი ახალი მომხმარებლებისთვის"
 
+msgid "Title of the Host group to register the host in"
+msgstr ""
+
+msgid "Title of the Location to register the host in"
+msgstr ""
+
+msgid "Title of the Operating System to register the host in"
+msgstr ""
+
+msgid "Title of the Organization to register the host in"
+msgstr ""
+
 msgid "To access %s API, you need to install the Foreman Puppet plugin"
 msgstr "%s -ის API-სთან წვდომისთვის საჭიროა Foreman-ის Puppet-ის დამატების დაყენება"
 
@@ -10203,6 +10284,12 @@ msgstr "მნიშვნელობის ტიპი"
 msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
 msgstr "პროტოკოლის ტიპი: IPv4 თუ IPv6. ნაგულისხმები მნიშვნელობაა IPv4"
 
+msgid "UEFI"
+msgstr ""
+
+msgid "UEFI Secure Boot"
+msgstr ""
+
 msgid "URL"
 msgstr "ბმული"
 
@@ -10231,6 +10318,9 @@ msgid "URL to fetch RSS notifications from"
 msgstr "RSS შეტყობინებების URL"
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
+msgstr ""
+
+msgid "URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
 msgstr ""
 
 msgid "UTC time of report"
@@ -10316,9 +10406,6 @@ msgstr "ჟურნალის გამოთხოვის შეცდო�
 
 msgid "Unable to find 'Host initial configuration' template for host %{host} running %{os}, associate the 'Host initial configuration' template for this OS first"
 msgstr "ვერ მოიძებნა „ჰოსტის საწყისი კონფიგურაციის“ შაბლონი ჰოსტის %{host} გაშვებული %{os}-ისთვის, ჯერ ამ OS-ისთვის „ჰოსტის საწყისი კონფიგურაციის“ შაბლონის ასოცირება საჭირო"
-
-msgid "Unable to find IP address for '%s'"
-msgstr "IP მისამართის მიღების შეცდომა '%s'-სთვის"
 
 msgid "Unable to find a proxy with BMC feature"
 msgstr "პროქსის პოვნა BMC-ის ფუნქციით შეუძლებელია"
@@ -10466,6 +10553,9 @@ msgstr "აღუწერელი პარამეტრი '%{setting}'"
 
 msgid "Undo selection"
 msgstr "მონიშნულის დაბრუნება"
+
+msgid "Unexpected error occurred."
+msgstr ""
 
 msgid "Unhide this value"
 msgstr "მნიშვნელობის გამოჩენა"
@@ -11096,6 +11186,9 @@ msgstr "ვირტუალური მანქანები %s-ზე"
 
 msgid "Virtual NIC"
 msgstr "ვირტუალური NIC"
+
+msgid "Virtual TPM"
+msgstr ""
 
 msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr "ვირტუალური მანქანის პარამეტრების ჩასწორება შეუძლებელია არსებულ მანქანაზე %s-ში"

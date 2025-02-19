@@ -481,6 +481,9 @@ msgstr "SSH 키 추가"
 msgid "Add SSH key"
 msgstr "SSH 키 추가"
 
+msgid "Add Virtual TPM module to the VM."
+msgstr "VM에 가상 TPM 모듈을 추가합니다."
+
 msgid "Add Volume"
 msgstr "볼륨 추가 "
 
@@ -581,7 +584,7 @@ msgid "Alias or VLAN device"
 msgstr "별칭 또는 VLAN 장치 "
 
 msgid "All"
-msgstr "모두"
+msgstr "전체"
 
 msgid "All Hosts"
 msgstr "전체 호스트 "
@@ -1055,7 +1058,7 @@ msgid "Authentication Sources"
 msgstr "인증 소스"
 
 msgid "Author"
-msgstr "저자 "
+msgstr "작성자"
 
 msgid "Authorize login delegation"
 msgstr "로그인 권한 승인"
@@ -1325,6 +1328,9 @@ msgstr "기본적으로 사용자 그룹을 표준 LDAP 그룹 객체에 매핑�
 msgid "By default, a newline character is inserted after a Ruby block if it is closed at the end of a line:"
 msgstr "기본적으로 Ruby 블록이 줄의 끝에서 닫히면 블록 뒤에 줄바꿈 문자가 삽입됩니다."
 
+msgid "By invalidating your JSON Web Tokens (JWTs), you will no longer be able to register hosts by using your existing JWTs."
+msgstr "JSON 웹 토큰(JWT)을 무효화하면 기존 JWT를 사용하여 호스트를 더 이상 등록할 수 없습니다."
+
 msgid "CA Certificate Expiry Date"
 msgstr "CA 인증서 만료일"
 
@@ -1483,6 +1489,12 @@ msgstr "섀시 "
 
 msgid "Check again"
 msgstr "다시 확인 "
+
+msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
+msgstr "PXE 로더를 기반으로 펌웨어를 설정하려면 '자동'을 선택합니다. PXE 로더를 선택하지 않으면 기본값은 BIOS입니다."
+
+msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
+msgstr "'자동'을 선택하여 호스트의 PXE 로더를 기반으로 펌웨어를 설정합니다. PXE 로더를 선택하지 않으면 기본값은 BIOS입니다."
 
 msgid "Choose a family"
 msgstr "제품군 선택 "
@@ -1788,7 +1800,7 @@ msgid "Contains the instructions in form of a bash script for the initial host c
 msgstr "호스트가 Foreman에 등록된 후 초기 호스트 구성에 대한 bash 스크립트 형식의 지침을 포함합니다."
 
 msgid "Content"
-msgstr "컨텐츠"
+msgstr "컨텐츠 "
 
 msgid "Continue to look for matches after first find (only array/hash/json/yaml type)? Note: merging overrides ignores all matchers that are omitted."
 msgstr "첫 번째 검색 이후에도 일치하는 항목 검색을 계속하시겠습니까 ? (배열/해시/json/yaml 유형만 해당) 참고: 병합 오버라이드는 생략된 모든 매처를 무시합니다."
@@ -1803,7 +1815,7 @@ msgid "Copied!"
 msgstr "복사됨!"
 
 msgid "Copy"
-msgstr ""
+msgstr "복사"
 
 msgid "Copy to clipboard"
 msgstr "클립보드에 복사"
@@ -2628,7 +2640,7 @@ msgid "Disable overriding"
 msgstr "재정의 비활성화"
 
 msgid "Disabled"
-msgstr "비활성화됨 "
+msgstr "사용 안함"
 
 msgid "Disabled alerts"
 msgstr "비활성화된 알림"
@@ -2764,7 +2776,7 @@ msgid "Download generated report"
 msgstr "생성된 보고서 다운로드"
 
 msgid "Download utility"
-msgstr ""
+msgstr "유틸리티 다운로드"
 
 msgid "Downloads a generated report"
 msgstr "생성된 보고서를 다운로드합니다"
@@ -2777,12 +2789,6 @@ msgstr "감사를 보존할 기간은 날짜로 계산합니다. 감사 정리�
 
 msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
 msgstr "서버가 동기화되지 않은 것으로 분류된 후의 기간 분 입니다. 이 설정은 구성 관리 도구의 특정 설정(예: puppet_interval, ansible_interval)에 의해 재정의됩니다."
-
-msgid "EC2"
-msgstr "EC2"
-
-msgid "EFI"
-msgstr "EFI"
 
 msgid "ERROR or FATAL"
 msgstr "오류 또는 치명적 오류"
@@ -2884,7 +2890,7 @@ msgid "Enable if this is an alias or VLAN interface, note that alias can be used
 msgstr "별칭 또는 VLAN 인터페이스인 경우 활성화합니다. 별칭은 정적 부팅 모드 서브넷에만 사용할 수 있습니다."
 
 msgid "Enable insecure argument for the initial curl/wget"
-msgstr ""
+msgstr "초기 curl/wget에 대해 안전하지 않은 인수 사용"
 
 msgid "Enable rebuild on next host boot"
 msgstr "다음 호스트 부팅 시 다시 빌드를 활성화 "
@@ -3064,7 +3070,7 @@ msgid "Explain matchers"
 msgstr "매처 (Matcher) 설명 "
 
 msgid "Export"
-msgstr "내보내기"
+msgstr "내보내기 "
 
 msgid "Export a partition template to ERB"
 msgstr "파티션 템플릿을 ERB로 내보내기"
@@ -3414,7 +3420,7 @@ msgid "Filter..."
 msgstr "필터..."
 
 msgid "Filters"
-msgstr "필터"
+msgstr "필터 "
 
 msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, the filter can override the set of its organizations and locations. Later role changes will not affect such filter.After disabling the override field, the role organizations and locations apply again."
 msgstr "필터는 기본적으로 역할과 관련된 조직과 위치를 상속합니다. 재정의 필드가 활성화된 경우 필터는 해당 조직 및 위치 집합을 재정의할 수 있습니다. 이후 역할 변경은 이러한 필터에 영향을 미치지 않습니다. 재정의 필드를 비활성화한 후 역할 조직 및 위치가 다시 적용됩니다."
@@ -3686,7 +3692,7 @@ msgid "Found %{count} reports from the last %{days} days"
 msgstr "지난 %{days}일의 기간에서 %{count}개의 보고서가 발견되었습니다."
 
 msgid "FreeIPA"
-msgstr ""
+msgstr "FreeIPA"
 
 msgid "Full"
 msgstr "전체 "
@@ -4284,7 +4290,7 @@ msgid "Hostgroup|Vm defaults"
 msgstr "Vm 기본값 "
 
 msgid "Hostname"
-msgstr "호스트 이름 "
+msgstr "호스트 이름"
 
 msgid "Hostname and client certificate must be valid. Ports are typically 8443 or 9090."
 msgstr "호스트 이름과 클라이언트 인증서는 유효해야 합니다. 포트는 일반적으로 8443 또는 9090입니다."
@@ -4504,17 +4510,26 @@ msgstr "템플릿 ID "
 msgid "ID of the Host group to register the host in"
 msgstr "호스트를 등록할 호스트 그룹의 ID"
 
+msgid "ID of the Host group to register the host in. Takes precedence over the `hostgroup` parameter"
+msgstr "호스트를 등록할 호스트 그룹의 ID입니다. 'hostgroup' 매개변수보다 우선합니다."
+
 msgid "ID of the Location to register the host in"
 msgstr "호스트를 등록할 위치의 ID"
 
-msgid "ID of the Operating System to register the host in"
-msgstr "호스트를 등록할 운영 체제의 ID"
+msgid "ID of the Location to register the host in. Takes precedence over the `location` parameter"
+msgstr "호스트를 등록할 위치 ID입니다. 'location' 매개변수보다 우선합니다."
 
 msgid "ID of the Operating System to register the host in. Operating system must have a `host_init_config` template assigned"
 msgstr "호스트를 등록할 운영 체제의 ID. 운영 체제에 'host_init_config' 템플릿이 할당되어 있어야 함"
 
+msgid "ID of the Operating System to register the host in. Takes precedence over the `operatingsystem` parameter"
+msgstr "호스트를 등록할 운영 체제 ID입니다. `operatingsystem` 매개변수보다 우선합니다."
+
 msgid "ID of the Organization to register the host in"
 msgstr "호스트를 등록할 조직의 ID"
+
+msgid "ID of the Organization to register the host in. Takes precedence over the `organization` parameter"
+msgstr "호스트를 등록할 조직의 ID입니다. '조직' 매개변수보다 우선합니다."
 
 msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' and 'Registration' features"
 msgstr "스마트 프록시의 ID입니다. 이 프록시는 '템플릿' 및 '등록' 기능을 모두 사용하도록 설정해야 합니다."
@@ -4585,9 +4600,6 @@ msgstr "IP 주소 자동 제시 "
 msgid "IP addresses that should be excluded from suggestion"
 msgstr "제안에서 제외해야 하는 IP 주소"
 
-msgid "IP:"
-msgstr "IP:"
-
 msgid "IPAM"
 msgstr "IPAM"
 
@@ -4616,6 +4628,9 @@ msgstr "인터페이스의 IPv4 주소"
 msgid "IPv4 address, not required if using a subnet with DHCP proxy"
 msgstr "IPv4 주소, 서브넷을 DHCP 프록시와 함께 사용하는 경우에는 필요하지 않음"
 
+msgid "IPv4:"
+msgstr "IPv4:"
+
 msgid "IPv6"
 msgstr "IPv6"
 
@@ -4640,6 +4655,9 @@ msgstr "IPv6 주소. 서브넷을 DHCP 프록시와 함께 사용하는 경우 �
 
 msgid "IPv6 subnet"
 msgstr "IPv6 서브넷"
+
+msgid "IPv6:"
+msgstr "IPv6:"
 
 msgid "Identifier"
 msgstr "식별자 "
@@ -4736,7 +4754,7 @@ msgid "Image ID as provided by the compute resource, e.g. ami-.."
 msgstr "컴퓨터 리소스에 의해 지정된 이미지 ID, 예: ami-.."
 
 msgid "Image not found"
-msgstr ""
+msgstr "이미지를 찾을 수 없음"
 
 msgid "Image path"
 msgstr "이미지 경로 "
@@ -4775,7 +4793,7 @@ msgid "Image|Uuid"
 msgstr "Uuid"
 
 msgid "Impersonate"
-msgstr "사칭하다"
+msgstr "대리 실행"
 
 msgid "Import File"
 msgstr "파일 가져오기"
@@ -5038,6 +5056,27 @@ msgstr "jwt_expiration의 값 '%{value}'은 유효하지 않습니다. 값은 %{
 msgid "Invalid version format, please enter in x.y (only major version)."
 msgstr "잘못된 버전 형식입니다. x.y 형식(메이저 버전만)으로 입력하십시오."
 
+msgid "Invalidate JWTs"
+msgstr "JWT 비활성화"
+
+msgid "Invalidate JWTs for all users"
+msgstr "모든 사용자에 대해 유효하지 않은 JWT"
+
+msgid "Invalidate all JSON Web Tokens for %s?"
+msgstr "%s에 대한 모든 JSON 웹 토큰을 비활성화하시겠습니까?"
+
+msgid "Invalidate all JSON Web Tokens for all users?"
+msgstr "모든 사용자의 JSON 웹 토큰을 비활성화하시겠습니까?"
+
+msgid "Invalidate all registration tokens for a specific user"
+msgstr "특정 사용자의 모든 등록 토큰 무효화"
+
+msgid "Invalidate all registration tokens for multiple users"
+msgstr "여러 사용자의 모든 등록 토큰 비활성화"
+
+msgid "Invalidate tokens for self?"
+msgstr "자신의 토큰을 비활성화 하시겠습니까?"
+
 msgid "Is this setting encrypted?"
 msgstr "이 설정이 암호화되어 있습니까?"
 
@@ -5082,6 +5121,9 @@ msgstr "JWT SSO: 만료된 JWT 토큰입니다."
 
 msgid "JWT SSO: Failed to decode JWT."
 msgstr "JWT SSO: JWT를 디코딩하지 못했습니다."
+
+msgid "JWT Tokens"
+msgstr "JWT 토큰"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Jwt secret"
@@ -5892,6 +5934,9 @@ msgstr "구독 가능"
 msgid "MailNotification|Subscription type"
 msgstr "서브스크립션 유형"
 
+msgid "Major version of the operating system must be greater than or equal to 0"
+msgstr "운영 체제의 주요 버전은 0보다 크거나 같아야 합니다"
+
 msgid "Make sure to copy your new personal access token now. You won’t be able to see it again!"
 msgstr "새로운 개인 액세스 토큰을 지금 복사하세요. 다시 확인할 수 없습니다!"
 
@@ -6517,6 +6562,9 @@ msgstr "프록시를 선택하지 않았습니다."
 msgid "No puppet activity for this host in the last %s days"
 msgstr "지난 %s 일 동안 이 호스트의 puppet 활동이 없습니다 "
 
+msgid "No record found for search '%s'"
+msgstr "'%s' 검색에 대한 기록을 찾을 수 없음"
+
 msgid "No report"
 msgstr "보고서가 없음 "
 
@@ -6587,7 +6635,7 @@ msgid "Not available"
 msgstr "사용할 수 없음"
 
 msgid "Not implemented"
-msgstr "구현되지 않습니다"
+msgstr "구현되지 않음"
 
 msgid "Not implemented for %s"
 msgstr "%s에 대해 구현되지 않습니다 "
@@ -6802,6 +6850,9 @@ msgstr "입력 탭에서 템플릿 입력을 정의하고 템플릿을 저장하
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
 msgstr "연결된 필터 중 하나 이상이 잘못되어 역할을 저장할 수 없습니다."
 
+msgid "Only compatible with UEFI firmware."
+msgstr "UEFI 펌웨어와만 호환됩니다."
+
 msgid "Only for BMC interfaces."
 msgstr "BMC 인터페이스만 해당합니다."
 
@@ -6857,9 +6908,6 @@ msgstr "운영 체제 제품군 "
 
 msgid "Operating System has no family, can't load PXE files"
 msgstr "운영 체제에 구성원이 없으므로 PXE 파일을 로드할 수 없습니다."
-
-msgid "Operating System version is required"
-msgstr "운영 체제 버전이 필요합니다 "
 
 msgid "Operating Systems"
 msgstr "운영 체제 "
@@ -7244,7 +7292,7 @@ msgid "Passwords do not match"
 msgstr "비밀번호가 일치하지 않습니다"
 
 msgid "Path"
-msgstr "경로"
+msgstr "경로 "
 
 msgid "Path to template, relative to datacenter (e.g. My templates/RHEL 6)"
 msgstr "데이터 센터 관련 템플릿으로의 경로 (예: My templates/RHEL 6)"
@@ -7335,7 +7383,7 @@ msgid "Physical (Bridge)"
 msgstr "물리 (브리지)"
 
 msgid "Plain"
-msgstr "평지"
+msgstr "일반"
 
 msgid "Please Confirm"
 msgstr "확인해 주십시오 "
@@ -7371,6 +7419,9 @@ msgstr "이러한 HTTP 프록시 구성은 Foreman 또는 Foreman 플러그인�
 
 msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)"
 msgstr "중간 공급자를 제공하십시오. 템플릿에서 @medium_provider 또는 Foreman::Plugin.medium_providers_registry.find_provider(host)에서 찾을 수 있습니다."
+
+msgid "Please provide search parameter"
+msgstr "검색 매개변수를 입력하십시오"
 
 msgid "Please request one of the required permissions listed below from a Foreman administrator:"
 msgstr "Foreman 관리자에게 아래에 나열된 필수 권한 중 하나를 요청하십시오."
@@ -7819,6 +7870,9 @@ msgstr "등록"
 msgid "Register Host"
 msgstr "호스트 등록"
 
+msgid "Registration Tokens"
+msgstr "등록 토큰"
+
 msgid "Registration command"
 msgstr "등록 명령"
 
@@ -7879,7 +7933,7 @@ msgid "Remove widget"
 msgstr "위젯 제거"
 
 msgid "Removed %{from} from %{to}"
-msgstr ""
+msgstr "%{to}에서 %{from}를 제거"
 
 msgid "Removed assignment of host group from %s host"
 msgid_plural "Removed assignment of host group from %s hosts"
@@ -7999,7 +8053,7 @@ msgid "Report|Status"
 msgstr "상태 "
 
 msgid "Repositories"
-msgstr "리포지토리"
+msgstr "리포지터리 "
 
 msgid "Repositories to be added before the registration is performed. It can be useful to e.g. make the subscription-manager packages available for the purpose of the registration. GPG keys can also be provided here if necessary."
 msgstr "등록이 수행되기 전에 추가할 리포지토리입니다. 예를 들어 등록 목적으로 subscription-manager 패키지를 사용할 수 있도록 하는 것이 유용할 수 있습니다. 필요한 경우 GPG 키도 여기에 제공할 수 있습니다."
@@ -8581,7 +8635,7 @@ msgid "Set a randomly generated password on the display connection"
 msgstr "디스플레이 연결 시 임의로 생성된 암호를 설정합니다"
 
 msgid "Set an HTTP(s) proxy for all outgoing HTTP(S) connections from Foreman. System-wide proxies must be configured at the operating system level."
-msgstr ""
+msgstr "Foreman의 모든 외부 HTTP(S) 연결에 대한 HTTP(s) 프록시를 설정합니다. 운영 체제 수준에서 시스템 전체 프록시를 구성해야 합니다."
 
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
 msgstr "요청을 프록시할 수 없는 호스트 이름을 설정합니다. 로컬 호스트에 대한 요청은 기본적으로 제외됩니다."
@@ -8674,7 +8728,7 @@ msgid "Should the `foreman-rake db:seed` be executed on the next run of the inst
 msgstr "다음번 설치 프로그램 모듈 실행 시 `foreman-rake db:seed`를 실행해야 합니까? "
 
 msgid "Should the value be hidden"
-msgstr ""
+msgstr "값을 숨겨야 합니다."
 
 msgid "Should the value be hidden from users? Useful for sensitive input values such as passwords. Only applicable to Plain value types."
 msgstr "값을 사용자에게 숨겨야 합니까? 암호와 같은 중요한 입력 값에 유용합니다. 일반 값 유형에만 적용됩니다."
@@ -9257,6 +9311,9 @@ msgstr "서브스크립션 옵션이 올바르지 않습니다."
 msgid "Success"
 msgstr "성공 "
 
+msgid "Successfully Invalidated registration tokens."
+msgstr "성공적으로 잘못된 등록 토큰입니다."
+
 msgid "Successfully created %s."
 msgstr "%s을(를) 성공적으로 생성했습니다. "
 
@@ -9268,6 +9325,15 @@ msgstr "%s을(를) 성공적으로 삭제했습니다. "
 
 msgid "Successfully deleted report."
 msgstr "보고서를 성공적으로 삭제했습니다."
+
+msgid "Successfully invalidated registration tokens for %s."
+msgstr "%s 의 등록 토큰이 성공적으로 비활성되었습니다."
+
+msgid "Successfully invalidated registration tokens for all users."
+msgstr "모든 사용자의 등록 토큰이 성공적으로 비활성화되었습니다."
+
+msgid "Successfully invalidated registration tokens."
+msgstr "등록 토큰이 성공적으로 무효화되었습니다."
 
 msgid "Successfully recreated"
 msgstr "성공적으로 재생성했습니다."
@@ -9334,6 +9400,9 @@ msgstr "이 서브넷에서 사용할 TFTP 프록시 "
 
 msgid "TFTP server"
 msgstr "TFTP 서버"
+
+msgid "TPM is not compatible with BIOS firmware. Please change Firmware or disable TPM."
+msgstr "TPM은 BIOS 펌웨어와 호환되지 않습니다. 펌웨어를 변경하거나 TPM을 비활성화하십시오."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Table preference"
@@ -9672,7 +9741,7 @@ msgid "The algorithm used to encode the JWT in the OpenID provider."
 msgstr "OpenID 공급자에서 JWT를 인코딩하기위해 사용되는 알고리즘."
 
 msgid "The authentication process currently requires an LDAP provider, such as {Free_IPA}, {OpenLDAP} or {Microsoft}."
-msgstr ""
+msgstr "현재 인증 프로세스에는 {Free_IPA}, {OpenLDAP}, {Microsoft}과 같은 LDAP 공급자가 필요합니다."
 
 msgid "The authentication source of your external user groups could not connect to LDAP with the provided credentials. Please verify the credentials are still valid."
 msgstr "외부 사용자 그룹의 인증 소스가 제공된 자격 증명으로 LDAP에 연결할 수 없습니다. 자격 증명이 여전히 유효한지 확인하십시오."
@@ -9699,7 +9768,7 @@ msgid "The default administrator email address"
 msgstr "기본값 관리자 이메일 주소 "
 
 msgid "The download utility to use during host registration"
-msgstr ""
+msgstr "호스트 등록 중에 사용할 다운로드 유틸리티"
 
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "최종 엔트리, 운영 체제 기본값은 %s 페이지를 편집하여 설정할 수 있습니다. "
@@ -10051,6 +10120,18 @@ msgstr "호스트의 전원 상태를 검색하는 시간 초과입니다. 기�
 msgid "Timezone to use for new users"
 msgstr "새 사용자에게 사용할 표준 시간대"
 
+msgid "Title of the Host group to register the host in"
+msgstr "호스트를 등록할 호스트 그룹의 ID"
+
+msgid "Title of the Location to register the host in"
+msgstr "호스트를 등록할 위치의 ID"
+
+msgid "Title of the Operating System to register the host in"
+msgstr "호스트를 등록할 운영 체제 이름"
+
+msgid "Title of the Organization to register the host in"
+msgstr "호스트를 등록할 조직의 이름"
+
 msgid "To access %s API, you need to install the Foreman Puppet plugin"
 msgstr "%s API에 액세스하려면, Foreman Puppet 플러그인을 설치해야 합니다."
 
@@ -10159,6 +10240,12 @@ msgstr "값의 유형"
 msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
 msgstr "유형 또는 프로토콜, IPv4 또는 IPv6, 기본적으로 IPv4로 설정됨"
 
+msgid "UEFI"
+msgstr "UEFI"
+
+msgid "UEFI Secure Boot"
+msgstr "UEFI 보안 부트"
+
 msgid "URL"
 msgstr "URL"
 
@@ -10188,6 +10275,9 @@ msgstr "RSS 알림을 가져올 URL"
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
 msgstr "Foreman 인스턴스가 도달할 수 있는 URL (프로비저닝 > unattended_url 참조)"
+
+msgid "URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
+msgstr "등록 토큰이 비활성화될 사용자를 선택하는 URL로 인코딩된 검색 쿼리입니다. 쿼리 예: id ^ (2, 4, 6)"
 
 msgid "UTC time of report"
 msgstr "보고서의 UTC 시간"
@@ -10272,9 +10362,6 @@ msgstr "로그를 가져올 수 없습니다"
 
 msgid "Unable to find 'Host initial configuration' template for host %{host} running %{os}, associate the 'Host initial configuration' template for this OS first"
 msgstr "%{os}를 실행하는 호스트 %{host}에 대한 '호스트 초기 구성' 템플릿을 찾을 수 없습니다, 먼저 이 OS에 대한 '호스트 초기 구성' 템플릿을 연결하십시오."
-
-msgid "Unable to find IP address for '%s'"
-msgstr " '%s'의 IP 주소를 찾을 수 없습니다 "
 
 msgid "Unable to find a proxy with BMC feature"
 msgstr "BMC 기능이 있는 프록시를 찾을 수 없습니다 "
@@ -10423,6 +10510,9 @@ msgstr "'%{setting}' 설정이 정의되지 않았습니다."
 msgid "Undo selection"
 msgstr "실행 취소"
 
+msgid "Unexpected error occurred."
+msgstr "예기치 않은 오류가 발생했습니다."
+
 msgid "Unhide this value"
 msgstr "이 값 숨기기 취소"
 
@@ -10433,7 +10523,7 @@ msgid "Unknown"
 msgstr "알 수 없음 "
 
 msgid "Unknown '%{klass}' resource class"
-msgstr ""
+msgstr "알 수 없는 '%{klass}' 리소스 클래스"
 
 msgid "Unknown IPAM type - can't continue"
 msgstr "알 수 없는 IPAM 유형 - 계속할 수 없습니다."
@@ -11053,6 +11143,9 @@ msgstr "%s 상의 가상 머신 "
 msgid "Virtual NIC"
 msgstr "가상 NIC"
 
+msgid "Virtual TPM"
+msgstr "가상 TPM"
+
 msgid "Virtual machine settings cannot be edited on an existing machine in %s"
 msgstr "%s의 기존 가상 머신에서는 가상 머신 설정을 편집할 수 없습니다."
 
@@ -11270,7 +11363,7 @@ msgid "X509 Certification Authorities"
 msgstr "X509 인증 기관 "
 
 msgid "Yes"
-msgstr "제공됨"
+msgstr "예  "
 
 msgid "Yes (override)"
 msgstr "예 (덮어쓰기)"
@@ -11510,7 +11603,7 @@ msgid "can't find domain with this id"
 msgstr "이 ID의 도메인을 찾을 수 없습니다."
 
 msgid "cannot be changed"
-msgstr "변경할 수 없습니다 "
+msgstr "변경할 수 없음"
 
 msgid "cannot be changed by a non-admin user"
 msgstr "관리자가 아닌 사용자는 변경할 수 없습니다."

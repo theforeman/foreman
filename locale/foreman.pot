@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-10 14:23-0500\n"
-"PO-Revision-Date: 2025-02-10 14:23-0500\n"
+"POT-Creation-Date: 2025-02-19 10:38-0500\n"
+"PO-Revision-Date: 2025-02-19 10:38-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -47,38 +47,38 @@ msgstr ""
 msgid "physical @ bridge %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:56
+#: ../app/assets/javascripts/host_edit.js:59
 msgid "Loading interfaces information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:68
+#: ../app/assets/javascripts/host_edit.js:71
 msgid "Error loading interfaces information: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:117
+#: ../app/assets/javascripts/host_edit.js:120
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:549
+#: ../app/assets/javascripts/host_edit.js:552
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:702
+#: ../app/assets/javascripts/host_edit.js:705
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:56
 #: ../app/views/hostgroups/_form.html.erb:63
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:868
+#: ../app/assets/javascripts/host_edit.js:871
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:998
+#: ../app/assets/javascripts/host_edit.js:1001
 msgid "Warning: This combination of loader and OS might not be able to boot."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:1002
+#: ../app/assets/javascripts/host_edit.js:1005
 msgid "Manual configuration is needed."
 msgstr ""
 
@@ -4418,8 +4418,8 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:32
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:116
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:45
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:250
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:290
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:255
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:295
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:48
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:92
 #: ../webpack/assets/javascripts/react_app/components/common/table/components/DeleteButton.js:9
@@ -4546,8 +4546,8 @@ msgstr ""
 #: ../db/seeds.d/170-notification_blueprints.rb:3
 #: ../db/seeds.d/170-notification_blueprints.rb:17
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:120
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:338
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:383
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:343
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:388
 #: ../webpack/assets/javascripts/react_app/routes/Models/ModelsPage/index.js:26
 msgid "Hosts"
 msgstr ""
@@ -4914,19 +4914,19 @@ msgid ""
 " that are query keywords such as < and >"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:30
+#: ../app/helpers/form_helper.rb:33
 msgid "Caps lock ON"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:33
+#: ../app/helpers/form_helper.rb:36
 msgid "Change the password"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:202
+#: ../app/helpers/form_helper.rb:205
 msgid "Choose a new file:"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:248 ../app/views/autosign/_form.html.erb:4
+#: ../app/helpers/form_helper.rb:251 ../app/views/autosign/_form.html.erb:4
 #: ../app/views/hosts/_assign_hosts.html.erb:36
 #: ../app/views/hosts/_interfaces.html.erb:64
 #: ../app/views/hosts/_list.html.erb:52
@@ -4946,26 +4946,26 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:251 ../app/views/hosts/_conflicts.html.erb:23
+#: ../app/helpers/form_helper.rb:254 ../app/views/hosts/_conflicts.html.erb:23
 msgid "Overwrite"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:251 ../app/views/hosts/_list.html.erb:53
+#: ../app/helpers/form_helper.rb:254 ../app/views/hosts/_list.html.erb:53
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitBtn.js:25
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:14
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:237
 msgid "Submit"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:331
+#: ../app/helpers/form_helper.rb:334
 msgid "no value"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:336
+#: ../app/helpers/form_helper.rb:339
 msgid "Inherit parent (%s)"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:340
+#: ../app/helpers/form_helper.rb:343
 msgid "Remove Parameter"
 msgstr ""
 
@@ -5178,7 +5178,7 @@ msgstr ""
 #: ../app/views/operatingsystems/index.html.erb:16
 #: ../app/views/taxonomies/index.html.erb:28
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:161
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:276
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:281
 msgid "Edit"
 msgstr ""
 
@@ -5194,7 +5194,7 @@ msgstr ""
 #: ../app/views/roles/index.html.erb:28
 #: ../app/views/taxonomies/index.html.erb:30
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:104
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:283
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:288
 msgid "Clone"
 msgstr ""
 
@@ -6870,7 +6870,7 @@ msgstr ""
 msgid "is not found in the authentication source"
 msgstr ""
 
-#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:755
+#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:756
 msgid "is not permitted"
 msgstr ""
 
@@ -7371,23 +7371,23 @@ msgstr ""
 msgid "must be an array"
 msgstr ""
 
-#: ../app/models/setting.rb:150
+#: ../app/models/setting.rb:154
 msgid "Parsing a hash from a string is not supported"
 msgstr ""
 
-#: ../app/models/setting.rb:153
+#: ../app/models/setting.rb:157
 msgid "Parsing settings type '%s' from a string is not defined"
 msgstr ""
 
-#: ../app/models/setting.rb:157
+#: ../app/models/setting.rb:161
 msgid "Error parsing value for setting '%(name)s': %(error)s"
 msgstr ""
 
-#: ../app/models/setting.rb:242
+#: ../app/models/setting.rb:246
 msgid "is invalid: %s"
 msgstr ""
 
-#: ../app/models/setting.rb:250
+#: ../app/models/setting.rb:254
 msgid "is not allowed to change"
 msgstr ""
 
@@ -7796,63 +7796,63 @@ msgstr ""
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
 
-#: ../app/models/user.rb:661
+#: ../app/models/user.rb:662
 msgid "Incorrect password"
 msgstr ""
 
-#: ../app/models/user.rb:669
+#: ../app/models/user.rb:670
 msgid "A user group already exists with this name"
 msgstr ""
 
-#: ../app/models/user.rb:675
+#: ../app/models/user.rb:676
 msgid "Can't delete the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:683 ../app/models/usergroup.rb:113
+#: ../app/models/user.rb:684 ../app/models/usergroup.rb:113
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:692
+#: ../app/models/user.rb:693
 msgid "Can't delete internal admin account"
 msgstr ""
 
-#: ../app/models/user.rb:701
+#: ../app/models/user.rb:702
 msgid "cannot be removed from an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:707
+#: ../app/models/user.rb:708
 msgid "cannot be changed on an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:719
+#: ../app/models/user.rb:720
 msgid "you can't assign some of roles you selected"
 msgstr ""
 
-#: ../app/models/user.rb:726
+#: ../app/models/user.rb:727
 msgid "you can't change administrator flag"
 msgstr ""
 
-#: ../app/models/user.rb:737
+#: ../app/models/user.rb:738
 msgid "cannot be changed by a non-admin user"
 msgstr ""
 
-#: ../app/models/user.rb:743
+#: ../app/models/user.rb:744
 msgid "default locations need to be user locations first"
 msgstr ""
 
-#: ../app/models/user.rb:749
+#: ../app/models/user.rb:750
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
-#: ../app/models/user.rb:762
+#: ../app/models/user.rb:763
 msgid "It is not possible to change external users login"
 msgstr ""
 
-#: ../app/models/user.rb:764
+#: ../app/models/user.rb:765
 msgid "You do not have permission to edit the login"
 msgstr ""
 
-#: ../app/models/user.rb:771
+#: ../app/models/user.rb:772
 msgid "It is not possible to disable yourself"
 msgstr ""
 
@@ -9812,7 +9812,7 @@ msgstr ""
 
 #: ../app/views/auth_source_ldaps/_ldap_card_kebab.html.erb:6
 #: ../app/views/compute_resources_vms/new.html.erb:14
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:370
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:375
 msgid "Create"
 msgstr ""
 
@@ -15732,7 +15732,7 @@ msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:144
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:324
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:329
 msgid "Legacy UI"
 msgstr ""
 
@@ -16277,7 +16277,7 @@ msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/buildHosts/BulkBuildHostModal.js:89
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:226
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:231
 msgid "Build management"
 msgstr ""
 
@@ -16344,7 +16344,7 @@ msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:130
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:234
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:239
 msgid "Change host group"
 msgstr ""
 
@@ -16360,7 +16360,7 @@ msgstr ""
 msgid "Total disk space"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:360
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:365
 msgid "Register"
 msgstr ""
 
