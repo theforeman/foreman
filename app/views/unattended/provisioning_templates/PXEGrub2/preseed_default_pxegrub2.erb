@@ -19,7 +19,7 @@ description: |
   os_major = @host.operatingsystem.major.to_i
   os_name  = @host.operatingsystem.name
 
-  if (os_name == 'Ubuntu' && os_major > 12) || (os_name == 'Debian' && os_major > 8)
+  if (os_name == 'Ubuntu' && os_major > 12 && os_major < 24) || (os_name == 'Debian' && os_major > 8 && os_major < 13)
     efi_suffix = 'efi'
   else
     efi_suffix = ''

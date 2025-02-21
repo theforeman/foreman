@@ -19,7 +19,13 @@ test_on:
 #   System locale
 #
 <%
-  efi_suffix = 'efi'
+  os_major = @host.operatingsystem.major.to_i
+
+  if (os_major > 12 && os_major < 24)
+    efi_suffix = 'efi'
+  else
+    efi_suffix = ''
+  end
 -%>
 
 set default=0
