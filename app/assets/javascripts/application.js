@@ -500,7 +500,11 @@ function activate_select2(container, allowClear ) {
           selectAllowClear = false;
         }
       }
+      var dropdownParent = $(document.body);
+      if ($(this).parents('.modal').length !== 0)
+        dropdownParent = $(this).parents('.modal');
       $(this).select2({
+        dropdownParent,
         language: langAttr,
         width: '100%',
         allowClear: selectAllowClear,
