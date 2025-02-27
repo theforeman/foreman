@@ -171,6 +171,12 @@ module Hostext
 
       def search_by_params(key, operator, value)
         key_name = key.sub(/^.*\./, '')
+
+        if Parameter.find_by(name: key_name)&.key_type == 'boolean'
+          # boolean value is saved as 't'/'f' in searchable_value column
+          value = value.chr
+        end
+
         condition = sanitize_sql_for_conditions(["name = ? and searchable_value #{operator} ?", key_name, value_to_sql(operator, value)])
         p = Parameter.where(condition).reorder(:priority)
         return {:conditions => '1 = 0'} if p.blank?

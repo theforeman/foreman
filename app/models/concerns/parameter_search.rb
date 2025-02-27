@@ -10,6 +10,11 @@ module ParameterSearch
       key_name = key.sub(/^.*\./, '')
       parameters_relation = parameter_relation_symbol
 
+      if Parameter.find_by(name: key_name)&.key_type == 'boolean'
+        # boolean value is saved as 't'/'f' in searchable_value column
+        value = value.chr
+      end
+
       conditions = sanitize_sql_for_conditions(
         ["parameters.name = ? and parameters.searchable_value #{operator} ?", key_name, value_to_sql(operator, value)]
       )

@@ -1965,6 +1965,30 @@ class HostTest < ActiveSupport::TestCase
       results = Host.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
       assert results.include?(host)
     end
+
+    test "can search hosts by boolean parameter" do
+      host = FactoryBot.create(:host, :managed)
+      parameter = CommonParameter.create(:name => "test_param", :value => "true", :parameter_type => 'boolean')
+      results = Host.search_for("params.#{parameter.name} = true")
+      assert results.include?(host)
+      results = Host.search_for("params.#{parameter.name} = t")
+      assert results.include?(host)
+      results = Host.search_for("params.#{parameter.name} = false")
+      assert_empty results
+      results = Host.search_for("params.#{parameter.name} = f")
+      assert_empty results
+
+      host2 = FactoryBot.create(:host, :managed)
+      HostParameter.create(:name => "test_param", :value => "false", :parameter_type => 'boolean', :reference_id => host2.id)
+      results = Host.search_for("params.#{parameter.name} = true")
+      assert_same_elements results, [host]
+      results = Host.search_for("params.#{parameter.name} = t")
+      assert_same_elements results, [host]
+      results = Host.search_for("params.#{parameter.name} = false")
+      assert_same_elements results, [host2]
+      results = Host.search_for("params.#{parameter.name} = f")
+      assert_same_elements results, [host2]
+    end
   end
 
   test "can search hosts by current_user" do

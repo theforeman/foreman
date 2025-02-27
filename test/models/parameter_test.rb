@@ -135,4 +135,20 @@ class ParameterTest < ActiveSupport::TestCase
       assert parameter.valid?, "Can't create parameter with valid name #{name}"
     end
   end
+
+  test "should allow search by boolean parameter" do
+    hg1 = FactoryBot.create(:hostgroup)
+    hg2 = FactoryBot.create(:hostgroup)
+    GroupParameter.create(:name => "dev", :value => "true", :parameter_type => 'boolean', :reference_id => hg1.id)
+    GroupParameter.create(:name => "dev", :value => "false", :parameter_type => 'boolean', :reference_id => hg2.id)
+
+    results = Hostgroup.search_for("params.dev = true")
+    assert_same_elements results, [hg1]
+    results = Hostgroup.search_for("params.dev = t")
+    assert_same_elements results, [hg1]
+    results = Hostgroup.search_for("params.dev = false")
+    assert_same_elements results, [hg2]
+    results = Hostgroup.search_for("params.dev = f")
+    assert_same_elements results, [hg2]
+  end
 end
