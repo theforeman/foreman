@@ -40,7 +40,7 @@ module Api
       end
 
       api :DELETE, "/registration_tokens", N_("Invalidate all registration tokens for multiple users")
-      param :search, String, :desc => N_("URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"), :required => true
+      param :search, String, :desc => N_("Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"), :required => true
       description <<-DOC
       The users you specify will no longer be able to register hosts by using their JWTs.
       DOC
