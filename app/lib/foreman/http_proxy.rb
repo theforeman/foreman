@@ -51,7 +51,11 @@ module Foreman
     end
 
     def log_proxied_request(lib, current_proxy, requested_host)
-      foreman_logger.info "(#{lib}) Proxying request to #{requested_host} via #{current_proxy}"
+      foreman_logger.info do
+        parsed_url = URI(current_proxy)
+        parsed_url.password = '****' if parsed_url.password.present?
+        "(#{lib}) Proxying request to #{requested_host} via #{parsed_url}"
+      end
     end
 
     def http_host_excepted_by_wildcard?(host)
