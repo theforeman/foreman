@@ -69,7 +69,7 @@ module SSO
       end
       unless payload.key?('iss') && (payload['iss'] == Setting['oidc_issuer'])
         logger.error "Invalid OIDC issuer received in JWT."
-        logger.debug "Received invalid OIDC issuer '#{payload['iss']}'"
+        logger.info "Received invalid OIDC issuer '#{payload['iss']}' but expected '#{Setting['oidc_issuer']}'"
         return false
       end
       true
