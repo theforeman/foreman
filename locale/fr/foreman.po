@@ -15,6 +15,7 @@
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2013-2015
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2016-2017
 # Pierre-Emmanuel Dutang <dutangp@gmail.com>, 2014
+# Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025
 # Romain Vrignaud <rvrignaud@gmail.com>, 2013
 # 21966816214bc546c1fc8a185e75ca1c, 2013-2014
 # Frederic Schaer <frederic.schaer@cea.fr>, 2013
@@ -40,7 +41,8 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
-"Last-Translator: zyurs <romain.partouche@tutanota.com>, 2020\n"
+"Last-Translator: Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarde"
+"n.nl>, 2025\n"
 "Language-Team: French (http://app.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -8288,7 +8290,7 @@ msgstr[2] "Enregistrement inverse DNS IPv4"
 
 msgid "Reverse IPv6 DNS record"
 msgid_plural "Reverse IPv6 DNS records"
-msgstr[0] "Enregistrement inverse DNS IPv6 "
+msgstr[0] "Enregistrement inverse DNS IPv6"
 msgstr[1] "Enregistrement inverse DNS IPv6"
 msgstr[2] "Enregistrement inverse DNS IPv6"
 
