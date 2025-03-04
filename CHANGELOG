@@ -1,3 +1,13 @@
+2025-03-04	Cole Higgins <chiggins@redhat.com>
+	* Release 3.14.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2025-03-04	MariaAga <mariaaga@redhat.com>
+	* Fixes #38237 - select2 search not working in modals
+
+2025-02-20	MariaAga <mariaaga@redhat.com>
+	* Fixes #38220 - page scroll freeze in host edit unselect arch
+
 2025-02-19	Cole Higgins <chiggins@redhat.com>
 	* Release 3.14.0-rc1
 	* i18n - extracting new, pulling from tx
