@@ -13,7 +13,6 @@ import EmptyState from '../../../../../common/EmptyState';
 import ErrorBoundary from '../../../../../common/ErrorBoundary';
 import CardTemplate from '../../../../Templates/CardItem/CardTemplate';
 import VirtVmware from './VirtVmware';
-import VirtOvirt from './VirtOvirt';
 import VirtLibvirt from './VirtLibvirt';
 import VirtEc2 from './VirtEc2';
 import VirtOpenstack from './VirtOpenstack';
@@ -34,7 +33,6 @@ const VirtualizationCard = ({ hostDetails }) => {
   const components = {
     vmware: VirtVmware,
     libvirt: VirtLibvirt,
-    ovirt: VirtOvirt,
     ec2: VirtEc2,
     openstack: VirtOpenstack,
   };

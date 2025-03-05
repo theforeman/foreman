@@ -10,8 +10,6 @@
 
 // link compute_resource.js
 //= link compute_resources/libvirt/nic_info.js
-//= link compute_resources/ovirt/nic_info.js
-//= link compute_resources/ovirt/display.js
 //= link compute_resources/vmware/nic_info.js
 //= link host_edit.js
 //= link host_edit_interfaces.js

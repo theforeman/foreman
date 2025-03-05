@@ -188,12 +188,6 @@ exports[`SettingValueField should render for setting with hash selection 1`] = `
           Kickstart default PXELinux
         </option>
         <option
-          key="Kickstart oVirt-RHVH PXELinux"
-          value="Kickstart oVirt-RHVH PXELinux"
-        >
-          Kickstart oVirt-RHVH PXELinux
-        </option>
-        <option
           key="Preseed default PXELinux"
           value="Preseed default PXELinux"
         >

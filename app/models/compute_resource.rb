@@ -44,7 +44,6 @@ class ComputeResource < ApplicationRecord
   def self.supported_providers
     {
       'Libvirt'   => 'Foreman::Model::Libvirt',
-      'Ovirt'     => 'Foreman::Model::Ovirt',
       'EC2'       => 'Foreman::Model::EC2',
       'Vmware'    => 'Foreman::Model::Vmware',
       'Openstack' => 'Foreman::Model::Openstack',
@@ -75,7 +74,7 @@ class ComputeResource < ApplicationRecord
   end
 
   def self.providers_requiring_url
-    _("Libvirt, oVirt and OpenStack")
+    _("Libvirt and OpenStack")
   end
 
   def self.provider_class(name)
@@ -272,10 +271,6 @@ class ComputeResource < ApplicationRecord
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
-  def available_vnic_profiles(cluster_id = nil)
-    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
-  end
-
   def available_clusters
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
@@ -315,7 +310,7 @@ class ComputeResource < ApplicationRecord
     []
   end
 
-  # this method is overwritten for Libvirt and OVirt
+  # this method is overwritten for Libvirt
   def editable_network_interfaces?
     networks.any?
   end
@@ -331,21 +326,12 @@ class ComputeResource < ApplicationRecord
     attrs[:setpw] = nil
   end
 
-  # this method is overwritten for Libvirt, oVirt & VMWare
+  # this method is overwritten for Libvirt & VMWare
   def display_type=(_)
   end
 
-  # this method is overwritten for Libvirt, oVirt & VMWare
+  # this method is overwritten for Libvirt & VMWare
   def display_type
-    nil
-  end
-
-  # this method is overwritten for oVirt
-  def keyboard_layout=(_)
-  end
-
-  # this method is overwritten for oVirt
-  def keyboard_layout
     nil
   end
 

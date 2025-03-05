@@ -20,14 +20,12 @@ import { sprintf, translate as __ } from './react_app/common/I18n';
 import * as ec2 from './compute_resource/ec2';
 import * as libvirt from './compute_resource/libvirt';
 import * as openstack from './compute_resource/openstack';
-import * as ovirt from './compute_resource/ovirt';
 import * as vmware from './compute_resource/vmware';
 
 export default {
   ec2,
   libvirt,
   openstack,
-  ovirt,
   vmware,
   capacityEdit,
   providerSelected,

@@ -201,7 +201,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "invalid if provider is changed on update" do
-    cr = compute_resources(:ovirt)
+    cr = compute_resources(:vmware)
     cr.provider = 'Libvirt'
     refute_valid cr, :provider, "cannot be changed"
   end
@@ -267,26 +267,34 @@ class ComputeResourceTest < ActiveSupport::TestCase
       @vm = mock()
       @vm.stubs(:attributes).returns(@plain_attrs)
 
-      @cr = compute_resources(:ovirt)
+      @cr = compute_resources(:mycompute)
       @cr.stubs(:find_vm_by_uuid).returns(@vm)
     end
 
     test "returns vm attributes without id" do
-      require 'fog/ovirt/models/compute/volume'
+      @vm.stubs(:volumes).returns([@cr.new_volume(name: 'disk1'), @cr.new_volume(name: 'disk2')])
 
-      volume1 = Fog::Ovirt::Compute::Volume.new(:storage_domain => '', :size_gb => '1', :bootable => 'false',
-        :sparse => 'true', :wipe_after_delete => 'true', :name => 'disk1')
-      volume2 = Fog::Ovirt::Compute::Volume.new(:storage_domain => '', :size_gb => '1', :bootable => 'false',
-        :sparse => 'true', :wipe_after_delete => 'true', :name => 'disk2')
-
-      @vm.stubs(:volumes).returns([volume1, volume2])
-
-      expected_attrs = {:cpus => 5, :volumes_attributes => {
-        "0" => {:size_gb => 1, :storage_domain => "", :preallocate => "0", :wipe_after_delete => "true",
-              :interface => nil, :bootable => "false", :id => nil},
-          "1" => {:size_gb => 1, :storage_domain => "", :preallocate => "0", :wipe_after_delete => "true",
-                :interface => nil, :bootable => "false", :id => nil}}
-      }
+      expected_attrs = {:cpus => 5,
+                        :volumes_attributes =>
+                          {"0" =>
+                            {:persistent => true,
+                            :format_type => "raw",
+                            :name => "disk1",
+                            :capacity => "10G",
+                            :allocation => "0G",
+                            :owner => nil,
+                            :group => nil,
+                            :pool_name => "default-pool"},
+                          "1" =>
+                            {:persistent => true,
+                            :format_type => "raw",
+                            :name => "disk2",
+                            :capacity => "10G",
+                            :allocation => "0G",
+                            :owner => nil,
+                            :group => nil,
+                            :pool_name => "default-pool"}},
+                        :memory => nil}
       attrs = @cr.vm_compute_attributes_for('abc')
 
       assert_equal expected_attrs, attrs
@@ -299,6 +307,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
       expected_attrs = {
         :cpus => 5,
         :volumes_attributes => {},
+        :memory => nil,
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 
@@ -308,7 +317,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
     test "returns default attributes when the vm no longer exists" do
       @cr.stubs(:find_vm_by_uuid).returns(nil)
 
-      expected_attrs = {}
+      expected_attrs = {:memory => nil}
       attrs = @cr.vm_compute_attributes_for('abc')
 
       assert_equal expected_attrs, attrs
@@ -317,7 +326,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
     test "returns default attributes when the vm no longer exists and provider raises exception" do
       @cr.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
 
-      expected_attrs = {}
+      expected_attrs = {:memory => nil}
       attrs = @cr.vm_compute_attributes_for('abc')
 
       assert_equal expected_attrs, attrs

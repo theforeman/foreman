@@ -25,13 +25,6 @@ FactoryBot.define do
       after(:build) { |cr| cr.stubs(:setup_key_pair) }
     end
 
-    trait :ovirt do
-      provider { 'Ovirt' }
-      user { 'ovirtuser' }
-      password { 'ovirtpassword' }
-      after(:build) { |cr| cr.stubs(:update_public_key) }
-    end
-
     trait :vmware do
       provider { 'Vmware' }
       user { 'vuser' }
@@ -52,7 +45,6 @@ FactoryBot.define do
     factory :ec2_cr, :class => Foreman::Model::EC2, :traits => [:ec2]
     factory :libvirt_cr, :class => Foreman::Model::Libvirt, :traits => [:libvirt]
     factory :openstack_cr, :class => Foreman::Model::Openstack, :traits => [:openstack]
-    factory :ovirt_cr, :class => Foreman::Model::Ovirt, :traits => [:ovirt]
     factory :vmware_cr, :class => Foreman::Model::Vmware, :traits => [:vmware]
   end
 

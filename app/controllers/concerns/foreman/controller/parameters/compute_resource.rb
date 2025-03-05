@@ -32,14 +32,6 @@ module Foreman::Controller::Parameters::ComputeResource
           :project_domain_name,
           :project_domain_id
 
-        # ovirt
-        filter.permit :datacenter,
-          :ovirt_quota,
-          :keyboard_layout,
-          :use_v4,
-          :public_key,
-          :uuid
-
         # vmware
         filter.permit :datacenter,
           :pubkey_hash,

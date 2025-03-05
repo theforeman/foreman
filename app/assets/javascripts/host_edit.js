@@ -483,12 +483,6 @@ function update_provisioning_image() {
         if ($('#host_provision_method_image')[0].checked) {
           if ($('#provider').val() == 'Libvirt') {
             tfm.computeResource.libvirt.imageSelected(image_options);
-          } else if ($('#provider').val() == 'Ovirt') {
-            var template_select = $('#host_compute_attributes_template');
-            if (template_select.length > 0) {
-              template_select.val(image_options.val());
-              tfm.computeResource.ovirt.templateSelected(image_options);
-            }
           }
         }
       }
@@ -621,7 +615,6 @@ function image_provision_method_selected() {
     if (template_options.length > 0) {
       template_options.select2('readonly',true);
       template_options.val(image_options.val());
-      tfm.computeResource.ovirt.templateSelected(image_options);
     }
   }
 }
@@ -884,7 +877,7 @@ function selectRelatedNetwork(subnetElement) {
   var vlanId = subnet_select.find(':selected').attr('data-vlan_id');
   var network_select = subnet_select
     .closest('fieldset')
-    .find('.vmware_network,.ovirt_network');
+    .find('.vmware_network');
   var isVisible = subnet_select.closest('#interfaceModal').length > 0;
   var isPreSelected = network_select.find('option[selected]').length > 0;
 

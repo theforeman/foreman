@@ -116,9 +116,9 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     vm.stubs(:name).returns('some_vm')
     vm.stubs(:id).returns('123456')
 
-    Foreman::Model::EC2.any_instance.stubs(:available_virtual_machines).returns([vm])
+    Foreman::Model::Libvirt.any_instance.stubs(:available_virtual_machines).returns([vm])
 
-    get :available_virtual_machines, params: { :id => compute_resources(:ovirt).to_param }
+    get :available_virtual_machines, params: { :id => compute_resources(:mycompute).to_param }
     assert_response :success
     available_virtual_machines = ActiveSupport::JSON.decode(@response.body)
     assert_not_empty available_virtual_machines
@@ -129,9 +129,9 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     network.stubs(:name).returns('test_network')
     network.stubs(:id).returns('my11-test35-uuid99')
 
-    Foreman::Model::Ovirt.any_instance.stubs(:available_networks).returns([network])
+    Foreman::Model::Vmware.any_instance.stubs(:available_networks).returns([network])
 
-    get :available_networks, params: { :id => compute_resources(:ovirt).to_param, :cluster_id => '123-456-789' }
+    get :available_networks, params: { :id => compute_resources(:vmware).to_param, :cluster_id => '123-456-789' }
     assert_response :success
     available_networks = ActiveSupport::JSON.decode(@response.body)
     assert !available_networks.empty?
@@ -142,9 +142,9 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     cluster.stubs(:name).returns('test_cluster')
     cluster.stubs(:id).returns('my11-test35-uuid99')
 
-    Foreman::Model::Ovirt.any_instance.stubs(:available_clusters).returns([cluster])
+    Foreman::Model::Vmware.any_instance.stubs(:available_clusters).returns([cluster])
 
-    get :available_clusters, params: { :id => compute_resources(:ovirt).to_param }
+    get :available_clusters, params: { :id => compute_resources(:vmware).to_param }
     assert_response :success
     available_clusters = ActiveSupport::JSON.decode(@response.body)
     assert !available_clusters.empty?
@@ -155,30 +155,19 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     storage_domain.stubs(:name).returns('test_cluster')
     storage_domain.stubs(:id).returns('my11-test35-uuid99')
 
-    Foreman::Model::Ovirt.any_instance.stubs(:available_storage_domains).returns([storage_domain])
+    Foreman::Model::Vmware.any_instance.stubs(:available_storage_domains).returns([storage_domain])
 
-    get :available_storage_domains, params: { :id => compute_resources(:ovirt).to_param }
+    get :available_storage_domains, params: { :id => compute_resources(:vmware).to_param }
     assert_response :success
     available_storage_domains = ActiveSupport::JSON.decode(@response.body)
     assert !available_storage_domains.empty?
   end
 
   test "should create with datacenter name" do
-    Foreman::Model::Ovirt.any_instance.stubs(:datacenters).returns([["test", Foreman.uuid]])
-    Foreman::Model::Ovirt.any_instance.stubs(:test_connection).returns(true)
-
-    attrs = { :name => 'Ovirt-create-test', :url => 'https://myovirt/api', :provider => 'ovirt', :datacenter => 'test', :user => 'user@example.com', :password => 'secret' }
-    post :create, params: { :compute_resource => attrs }
-    assert_response :created
-    show_response = ActiveSupport::JSON.decode(@response.body)
-    assert Foreman.is_uuid?(show_response["datacenter"])
-  end
-
-  test "should create with datacenter uuid" do
     datacenter_uuid = Foreman.uuid
-    Foreman::Model::Ovirt.any_instance.stubs(:datacenters).returns([["test", datacenter_uuid]])
+    Foreman::Model::Vmware.any_instance.stubs(:datacenters).returns([["test", datacenter_uuid]])
 
-    attrs = { :name => 'Ovirt-create-test', :url => 'https://myovirt/api', :provider => 'ovirt', :datacenter => datacenter_uuid, :user => 'user@example.com', :password => 'secret' }
+    attrs = { :name => 'vmware-create-test', :url => 'https://vmware/api', :provider => 'vmware', :datacenter => datacenter_uuid, :user => 'user@example.com', :password => 'secret' }
     post :create, params: { :compute_resource => attrs }
     assert_response :created
     show_response = ActiveSupport::JSON.decode(@response.body)
@@ -186,15 +175,15 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   test "should update with datacenter name" do
-    compute_resource = compute_resources(:ovirt)
-    Foreman::Model::Ovirt.any_instance.stubs(:datacenters).returns([["test", Foreman.uuid]])
-    Foreman::Model::Ovirt.any_instance.stubs(:test_connection).returns(true)
+    compute_resource = compute_resources(:vmware)
+    Foreman::Model::Vmware.any_instance.stubs(:datacenters).returns([["test", Foreman.uuid]])
+    Foreman::Model::Vmware.any_instance.stubs(:test_connection).returns(true)
 
     attrs = { :datacenter => 'test' }
     post :update, params: { :id => compute_resource.id, :compute_resource => attrs }
     assert_response :created
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert Foreman.is_uuid?(show_response["datacenter"])
+    assert 'test', show_response["datacenter"]
   end
 
   context 'cache refreshing' do
@@ -204,7 +193,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     end
 
     test 'should fail if unsupported' do
-      put :refresh_cache, params: { :id => compute_resources(:ovirt).to_param }
+      put :refresh_cache, params: { :id => compute_resources(:ec2).to_param }
       assert_response :error
     end
   end

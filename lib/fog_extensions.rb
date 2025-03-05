@@ -23,17 +23,6 @@ if Foreman::Model::Libvirt.available?
   Fog::Libvirt::Compute::Server.include FogExtensions::Libvirt::Server
 end
 
-if Foreman::Model::Ovirt.available?
-  require 'fog/ovirt'
-  require 'fog/ovirt/models/compute/server'
-  Fog::Ovirt::Compute::Server.include FogExtensions::Ovirt::Server
-  require 'fog/ovirt/models/compute/template'
-  Fog::Ovirt::Compute::Template.include FogExtensions::Ovirt::Template
-
-  require 'fog/ovirt/models/compute/volume'
-  Fog::Ovirt::Compute::Volume.include FogExtensions::Ovirt::Volume
-end
-
 if Foreman::Model::Openstack.available?
   require 'fog/openstack'
   require 'fog/openstack/compute/models/server'

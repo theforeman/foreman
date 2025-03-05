@@ -97,7 +97,6 @@ export const settings = [
       'CoreOS PXELinux': 'CoreOS PXELinux',
       'FreeBSD (mfsBSD) PXELinux': 'FreeBSD (mfsBSD) PXELinux',
       'Kickstart default PXELinux': 'Kickstart default PXELinux',
-      'Kickstart oVirt-RHVH PXELinux': 'Kickstart oVirt-RHVH PXELinux',
       'Preseed default PXELinux': 'Preseed default PXELinux',
       'PXELinux chain iPXE': 'PXELinux chain iPXE',
       'PXELinux chain iPXE UNDI': 'PXELinux chain iPXE UNDI',
@@ -213,7 +212,7 @@ export const settings = [
     value: 'root@example.com',
     encrypted: false,
     configFile: 'settings.yaml',
-  }
+  },
 ];
 
 export const httpProxySetting = {
@@ -229,10 +228,10 @@ export const httpProxySetting = {
       children: [
         { label: 'foo (https://foo.com)', value: 'foo' },
         { label: 'bar (https://bar.com)', value: 'bar' },
-      ]
-    }
-  ]
-}
+      ],
+    },
+  ],
+};
 
 export const groupedSettings = settings.reduce((memo, setting) => {
   if (memo[setting.category]) {

@@ -59,7 +59,6 @@ Layout/MultilineOperationIndentation:
 Layout/SpaceAroundMethodCallOperator:
   Exclude:
     - 'test/controllers/api/v2/hosts_controller_test.rb'
-    - 'test/models/compute_resources/ovirt_test.rb'
 
 # Offense count: 3321
 # Cop supports --auto-correct.

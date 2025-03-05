@@ -6,7 +6,6 @@ module Types
 
     test 'contains all supported providers' do
       assert_includes enum.values.keys, 'Libvirt'
-      assert_includes enum.values.keys, 'Ovirt'
       assert_includes enum.values.keys, 'EC2'
       assert_includes enum.values.keys, 'Vmware'
       assert_includes enum.values.keys, 'Openstack'

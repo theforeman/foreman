@@ -54,15 +54,13 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     work_around_selenium_file_detector_bug
     fill_in('compute_profile_name', :with => 'test')
     click_on("Submit")
-    assert click_link(compute_resources(:ovirt).to_s)
+    assert click_link(compute_resources(:mycompute).to_s)
     selected_profile = select2_chosen_selector('compute_attribute_compute_profile_id').text
-    assert select2('hwp_small', :from => 'compute_attribute_vm_attrs_template')
-    wait_for_ajax
     assert click_button("Submit")
     visit compute_profile_path(selected_profile)
-    assert click_link(compute_resources(:ovirt).to_s)
-    assert_equal  "512 MB", find_field('compute_attribute_vm_attrs_memory').value
-    assert_equal  "1", find_field('compute_attribute[vm_attrs][cores]').value
+    assert click_link(compute_resources(:mycompute).to_s)
+    assert_equal  "2048 MB", find_field('compute_attribute_vm_attrs_memory').value
+    assert_equal  "1", find_field('compute_attribute_vm_attrs_cpus').value
   end
 
   test "index page" do
