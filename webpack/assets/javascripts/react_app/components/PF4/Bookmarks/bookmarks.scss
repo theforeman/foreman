@@ -11,14 +11,14 @@
   white-space: normal;
 }
 
-@media only screen and (min-width: $pf-global--breakpoint--xl) {
+@media only screen and (min-width: $pf-v5-global--breakpoint--xl) {
   .bookmarks-dropdown-item.adapt-long-bookmark {
     width: 600px;
     white-space: normal;
   }
 }
 
-@media only screen and (min-width: $pf-global--breakpoint--2xl) {
+@media only screen and (min-width: $pf-v5-global--breakpoint--2xl) {
   .bookmarks-dropdown-item.adapt-long-bookmark {
     width: 700px;
     white-space: normal;

@@ -11,14 +11,18 @@ exports[`DateTimePicker edit works 1`] = `
       type="text"
       value="2019-02-22 14:22:00"
     />
-    <span
-      class="date-time-picker-pf input-group-addon"
+    <div
+      style="display: contents;"
     >
       <span
-        aria-hidden="true"
-        class="fa fa-calendar"
-      />
-    </span>
+        class="date-time-picker-pf input-group-addon"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-calendar"
+        />
+      </span>
+    </div>
     <span
       class="clear-button input-group-addon"
     >
@@ -42,14 +46,18 @@ exports[`DateTimePicker prefils the value from prop 1`] = `
       type="text"
       value="2019-02-21 14:22:00"
     />
-    <span
-      class="date-time-picker-pf input-group-addon"
+    <div
+      style="display: contents;"
     >
       <span
-        aria-hidden="true"
-        class="fa fa-calendar"
-      />
-    </span>
+        class="date-time-picker-pf input-group-addon"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-calendar"
+        />
+      </span>
+    </div>
     <span
       class="clear-button input-group-addon"
     >
@@ -73,14 +81,18 @@ exports[`DateTimePicker renders properly 1`] = `
       type="text"
       value=""
     />
-    <span
-      class="date-time-picker-pf input-group-addon"
+    <div
+      style="display: contents;"
     >
       <span
-        aria-hidden="true"
-        class="fa fa-calendar"
-      />
-    </span>
+        class="date-time-picker-pf input-group-addon"
+      >
+        <span
+          aria-hidden="true"
+          class="fa fa-calendar"
+        />
+      </span>
+    </div>
     <span
       class="clear-button input-group-addon"
     >

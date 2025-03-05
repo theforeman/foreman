@@ -5,7 +5,7 @@ import {
   DropdownToggle,
   DropdownItem,
   DropdownSeparator,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 import { UserAltIcon } from '@patternfly/react-icons';
 
 import { userPropType } from '../../LayoutHelper';
@@ -49,7 +49,9 @@ const UserDropdowns = ({ user, notificationUrl, instanceTitle, ...props }) => {
         toggle={
           <DropdownToggle
             ouiaId="user-dropdown-toggle"
-            onToggle={onDropdownToggle}
+            onToggle={(_event, newUserDropdownOpen) =>
+              onDropdownToggle(newUserDropdownOpen)
+            }
           >
             <UserAltIcon className="user-icon" />
             {userInfo.name}

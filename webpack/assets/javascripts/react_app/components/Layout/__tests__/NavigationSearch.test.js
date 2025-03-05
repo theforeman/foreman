@@ -25,7 +25,7 @@ describe('NavigationSearch', () => {
       getByRole,
       getByLabelText,
     } = render(
-      <div className="pf-c-masthead pf-m-display-inline">
+      <div className="pf-v5-c-masthead pf-m-display-inline">
         <NavigationSearch items={items} clickAndNavigate={() => {}} />
       </div>
     );

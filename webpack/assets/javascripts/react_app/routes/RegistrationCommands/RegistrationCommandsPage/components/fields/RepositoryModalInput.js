@@ -28,7 +28,7 @@ const RepositoryModalInput = ({
             id="host_reg_repo"
             value={initRepo}
             type="text"
-            onChange={onRepoUpdate}
+            onChange={(_event, repo) => onRepoUpdate(repo)}
             isDisabled={isLoading}
           />
         </FormGroup>
@@ -40,7 +40,7 @@ const RepositoryModalInput = ({
             id="host_reg_gpg_key"
             value={initGpgKey}
             type="text"
-            onChange={onGpgKeyUpdate}
+            onChange={(_event, gpgKey) => onGpgKeyUpdate(gpgKey)}
             isDisabled={isLoading}
           />
         </FormGroup>

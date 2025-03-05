@@ -1,7 +1,7 @@
 @import '~@theforeman/vendor/scss/variables';
 
-.pf-c-masthead .pf-c-toolbar {
-  .pf-c-context-selector__menu-search {
+.pf-v5-c-masthead .pf-v5-c-toolbar {
+  .pf-v5-c-context-selector__menu-search {
     border-bottom: 0;
   }
   .current-taxonomy-v {
@@ -9,11 +9,11 @@
   }
   .organizations_clear,
   .locations_clear {
-    border-bottom: var(--pf-c-context-selector__menu-search--BorderBottomWidth)
-      solid var(--pf-c-context-selector__menu-search--BorderBottomColor);
+    border-bottom: var(--pf-v5-c-context-selector__menu-search--BorderBottomWidth)
+      solid var(--pf-v5-c-context-selector__menu-search--BorderBottomColor);
   }
-  .pf-c-context-selector__menu-footer > a{
+  .pf-v5-c-context-selector__menu-footer > a{
     // to override secondry button text color being white if the button is in a menu
-    color: $pf-color-blue-400
+    color: $pf-v5-color-blue-400
   }
 }

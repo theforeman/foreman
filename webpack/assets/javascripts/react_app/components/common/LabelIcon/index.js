@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Popover } from '@patternfly/react-core';
+import { Popover, Icon } from '@patternfly/react-core';
 import { HelpIcon } from '@patternfly/react-icons';
 
 const LabelIcon = ({ text }) => (
   <Popover bodyContent={text}>
     <button
-      className="pf-c-form__group-label-help"
+      className="pf-v5-c-form__group-label-help"
       onClick={e => e.preventDefault()}
     >
-      <HelpIcon noVerticalAlign />
+      <Icon isInline>
+        <HelpIcon />
+      </Icon>
     </button>
   </Popover>
 );

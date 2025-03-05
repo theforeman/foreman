@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Tr, Td } from '@patternfly/react-table';
-import { TimesIcon, CheckIcon } from '@patternfly/react-icons';
 import {
-  SelectVariant,
-  Select,
-  SelectOption,
+  TimesIcon,
+  CheckIcon,
+  ExclamationCircleIcon,
+} from '@patternfly/react-icons';
+import {
   Button,
   TextInput,
   TextArea,
@@ -14,7 +15,15 @@ import {
   FormGroup,
   Form,
   Tooltip,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
 } from '@patternfly/react-core';
+import {
+  SelectVariant,
+  Select,
+  SelectOption,
+} from '@patternfly/react-core/deprecated';
 import { APIActions } from '../../../../redux/API';
 import { sprintf, translate as __ } from '../../../../common/I18n';
 import { HOST_PARAM, columnNames, typeOptions } from './ParametersConstants';
@@ -97,18 +106,27 @@ export const EditParametersTableRow = ({
     <Tr ouiaId={`edit-parameters-table-row-${rowIndex}`} key={rowIndex}>
       <Td dataLabel={columnNames.name}>
         <Form>
-          <FormGroup
-            validated={name.includes(' ') ? 'error' : null}
-            helperTextInvalid={__("Name can't contain spaces")}
-          >
+          <FormGroup>
             <TextInput
               ouiaId={`edit-parameters-table-row-name-${rowIndex}`}
               validated={name.includes(' ') ? 'error' : null}
               aria-label={`${param.name} name text`}
               value={name}
-              onChange={setName}
+              onChange={(_event, val) => setName(val)}
               label={null}
             />
+            {name.includes(' ') && (
+              <FormHelperText>
+                <HelperText>
+                  <HelperTextItem
+                    icon={<ExclamationCircleIcon />}
+                    variant="error"
+                  >
+                    {__("Name can't contain spaces")}
+                  </HelperTextItem>
+                </HelperText>
+              </FormHelperText>
+            )}
           </FormGroup>
         </Form>
       </Td>
@@ -117,7 +135,7 @@ export const EditParametersTableRow = ({
           ouiaId={`edit-parameters-table-row-type-${rowIndex}`}
           variant={SelectVariant.single}
           aria-label={`Select ${param.name} type`}
-          onToggle={setSelectIsOpen}
+          onToggle={(_event, val) => setSelectIsOpen(val)}
           selections={type}
           isOpen={selectIsOpen}
           onSelect={(event, selection) => {
@@ -137,8 +155,8 @@ export const EditParametersTableRow = ({
               ouiaId={`edit-parameters-table-row-boolean-${rowIndex}`}
               variant={SelectVariant.single}
               aria-label={`Select ${param.name} value`}
-              onToggle={setSelectValueIsOpen}
               selections={value?.toString()}
+              onToggle={(_event, val) => setSelectValueIsOpen(val)}
               isOpen={selectValueIsOpen}
               onSelect={onSelect}
             >
@@ -151,7 +169,7 @@ export const EditParametersTableRow = ({
               ouiaId={`edit-parameters-table-row-value-${rowIndex}`}
               aria-label={`${param.name} value text`}
               value={typeof value === 'object' ? JSON.stringify(value) : value}
-              onChange={setValue}
+              onChange={(_event, val) => setValue(val)}
               label={null}
               type={isHide ? 'password' : 'text'}
               rows={1}
@@ -162,7 +180,7 @@ export const EditParametersTableRow = ({
             ouiaId={`edit-parameters-table-row-hide-${rowIndex}`}
             label={__('Hide value')}
             isChecked={isHide}
-            onChange={setIsHide}
+            onChange={(_event, val) => setIsHide(val)}
             id="hide value checkbox"
           />
         </>

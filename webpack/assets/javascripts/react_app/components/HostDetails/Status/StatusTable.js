@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Table, TableHeader, TableBody } from '@patternfly/react-table';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+} from '@patternfly/react-table/deprecated';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
 import StatusIcon from './StatusIcon';
 import { forgetStatus } from './StatusActions';

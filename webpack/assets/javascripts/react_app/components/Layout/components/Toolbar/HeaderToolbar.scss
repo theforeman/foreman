@@ -11,20 +11,20 @@
   }
 }
 
-.pf-c-toolbar#data-toolbar {
+.pf-v5-c-toolbar#data-toolbar {
   // Override for unupdated plugins that use unupdated foreman CSS
   display: grid;
   justify-content: normal;
 }
 
-.pf-c-masthead__brand {
+.pf-v5-c-masthead__brand {
   padding-right: 15px;
 
   &:hover {
     text-decoration: none;
   }
 
-  .pf-c-brand {
+  .pf-v5-c-brand {
     height: 34px;
   }
 

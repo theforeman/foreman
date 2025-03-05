@@ -6,7 +6,7 @@ exports[`Status renders Status 1`] = `
   xl2={6}
 >
   <Card
-    className="pf-c-alert pf-m-danger"
+    className="pf-v5-c-alert pf-m-danger"
     isExpanded={false}
     ouiaId="status-card"
   >

@@ -7,7 +7,6 @@ import {
   DescriptionListGroup,
   DescriptionListDescription,
   Card,
-  CardActions,
   CardHeader,
   CardTitle,
   CardBody,
@@ -49,14 +48,19 @@ const DetailsCard = ({
 }) => (
   <GridItem xl2={3} xl={4} md={6} lg={4} rowSpan={2}>
     <Card ouiaId="details-card">
-      <CardHeader>
+      <CardHeader
+        actions={{
+          actions: (
+            <>
+              <PowerStatusDropDown
+                hostID={hostName}
+                hasPowerPermission={hasPowerPermission}
+              />
+            </>
+          ),
+        }}
+      >
         <CardTitle>{__('Details')}</CardTitle>
-        <CardActions>
-          <PowerStatusDropDown
-            hostID={hostName}
-            hasPowerPermission={hasPowerPermission}
-          />
-        </CardActions>
       </CardHeader>
       <CardBody>
         <DescriptionList>

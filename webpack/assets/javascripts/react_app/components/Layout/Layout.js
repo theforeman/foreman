@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { Page, PageSidebar, Flex, FlexItem } from '@patternfly/react-core';
+import {
+  Page,
+  PageSidebar,
+  Flex,
+  FlexItem,
+  PageSidebarBody,
+} from '@patternfly/react-core';
 import { layoutPropTypes, layoutDefaultProps } from './LayoutHelper';
 import { InstanceBanner } from './components/InstanceBanner';
 import Header from './components/Toolbar/Header';
@@ -51,17 +57,16 @@ const Layout = ({
             }
             id="foreman-page"
             sidebar={
-              <PageSidebar
-                isNavOpen={!isCollapsed}
-                nav={
+              <PageSidebar isSidebarOpen={!isCollapsed}>
+                <PageSidebarBody>
                   <Navigation
                     items={items}
                     navigate={navigate}
                     navigationActiveItem={navigationActiveItem}
                     setNavigationActiveItem={setNavigationActiveItem}
                   />
-                }
-              />
+                </PageSidebarBody>
+              </PageSidebar>
             }
           >
             {children}

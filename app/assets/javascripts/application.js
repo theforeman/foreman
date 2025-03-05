@@ -489,6 +489,7 @@ function activate_select2(container, allowClear ) {
   $(container)
     .find('select:not(.without_select2)')
     .not('.form_template select')
+    .not('.without_select2 select')
     .not('#interfaceForms select')
     .each(function() {
       const placeholder = $(this).data('placeholder');

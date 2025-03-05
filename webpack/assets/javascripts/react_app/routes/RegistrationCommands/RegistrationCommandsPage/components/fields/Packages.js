@@ -2,7 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FormGroup, TextInput } from '@patternfly/react-core';
+import {
+  FormGroup,
+  TextInput,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
+} from '@patternfly/react-core';
 import LabelIcon from '../../../../../components/common/LabelIcon';
 
 import { sprintf, translate as __ } from '../../../../../common/I18n';
@@ -10,10 +16,6 @@ import { sprintf, translate as __ } from '../../../../../common/I18n';
 const Packages = ({ packages, handlePackages, configParams, isLoading }) => (
   <FormGroup
     label={__('Install packages')}
-    helperText={
-      configParams?.host_packages &&
-      sprintf('Default value: "%s"', configParams?.host_packages)
-    }
     labelIcon={
       <LabelIcon
         text={__(
@@ -28,9 +30,17 @@ const Packages = ({ packages, handlePackages, configParams, isLoading }) => (
       id="reg_packages"
       value={packages}
       type="text"
-      onChange={handlePackages}
+      onChange={(e, v) => handlePackages(v)}
       isDisabled={isLoading}
     />
+    <FormHelperText>
+      <HelperText>
+        <HelperTextItem>
+          {configParams?.host_packages &&
+            sprintf('Default value: "%s"', configParams?.host_packages)}
+        </HelperTextItem>
+      </HelperText>
+    </FormHelperText>
   </FormGroup>
 );
 

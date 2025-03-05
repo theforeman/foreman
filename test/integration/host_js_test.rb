@@ -77,7 +77,7 @@ class HostJSTest < IntegrationTestWithJavascript
     test "assert breadcrumbs" do
       visit current_hosts_path
       click_link @host.fqdn
-      find('.pf-c-breadcrumb__item', :text => @host.fqdn)
+      find('.pf-v5-c-breadcrumb__item', :text => @host.fqdn)
     end
 
     test "switch between hosts" do
@@ -112,7 +112,7 @@ class HostJSTest < IntegrationTestWithJavascript
       visit host_details_page_path(host)
       find('#hostdetails-kebab').click
       click_button 'Delete'
-      find('button.pf-c-button.pf-m-danger').click # the red delete button, not the menu item
+      find('button.pf-v5-c-button.pf-m-danger').click # the red delete button, not the menu item
       assert_current_path current_hosts_path
       assert_raises(ActiveRecord::RecordNotFound) do
         Host.find(host.id)

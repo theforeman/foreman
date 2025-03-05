@@ -1,8 +1,8 @@
 .pf-gray-background {
-  background: var(--pf-global--BackgroundColor--200);
+  background: var(--pf-v5-global--BackgroundColor--200);
 }
 
-.pf-c-page__main-section.pf-m-light.host-details-tabs-section {
+.pf-v5-c-page__main-section.pf-m-light.host-details-tabs-section {
   padding-left: 24px;
   .tab-width-138 {
     max-width: calc(
@@ -44,7 +44,7 @@
 
 .host-details-cards-section {
   .host-details-tab-item {
-    .pf-c-card {
+    .pf-v5-c-card {
       height: 100%;
     }
   }
@@ -52,12 +52,12 @@
     display: contents;
   }
 
-  .pf-c-inline-edit__value {
+  .pf-v5-c-inline-edit__value {
     overflow-wrap: anywhere;
     white-space: pre-line;
   }
 }
 
-.host-details-tabs-section + .pf-c-tabs {
+.host-details-tabs-section + .pf-v5-c-tabs {
   overflow: visible;
 }

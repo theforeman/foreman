@@ -1,15 +1,15 @@
-#legacy-ui-kebab ul.pf-c-dropdown__menu {
+#legacy-ui-kebab ul.pf-v5-c-dropdown__menu {
   padding-left: 0;
   li {
     display: unset;
     a {
       font-size: 16px;
-      color: var(--pf-c-dropdown__menu-item--Color);
+      color: var(--pf-v5-c-dropdown__menu-item--Color);
       font-weight: 300;
     }
   }
 }
 
-#header-text .pf-l-flex {
+#header-text .pf-v5-l-flex {
   align-items: center;
 }

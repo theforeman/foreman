@@ -47,7 +47,7 @@ exports[`HeaderToolbar rendering render HeaderToolbar 1`] = `
       />
     </ForwardRef>
     <ForwardRef
-      alignment={
+      align={
         Object {
           "default": "alignRight",
         }

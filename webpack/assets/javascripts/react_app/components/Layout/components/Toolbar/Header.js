@@ -30,7 +30,7 @@ const Header = ({
       </Button>
     </MastheadToggle>
     <MastheadMain>
-      <MastheadBrand href={root}>
+      <MastheadBrand component="a" href={root}>
         <React.Fragment>
           <Brand src={logo} alt={brand} href={root} />
           <span className="navbar-brand-txt">

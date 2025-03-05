@@ -41,7 +41,6 @@ export const ActionKebab = ({ items, menuOpen, setMenuOpen }) => {
         popper={menu}
         appendTo={containerRef.current || undefined}
         isVisible={menuOpen}
-        popperMatchesTriggerWidth={false}
       />
     </div>
   );

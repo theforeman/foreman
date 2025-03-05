@@ -48,7 +48,7 @@ export const AutoCompleteMenu = ({ results, error }) => {
     .map(category => (
       <Fragment key={`${category}-fragment`}>
         {!!itemIndex && <Divider key={`${category}-divider`} />}
-        <MenuGroup label={category} key={category}>
+        <MenuGroup label={category || null} key={category}>
           <MenuList>{getMenuItemsByCategory(category)}</MenuList>
         </MenuGroup>
       </Fragment>

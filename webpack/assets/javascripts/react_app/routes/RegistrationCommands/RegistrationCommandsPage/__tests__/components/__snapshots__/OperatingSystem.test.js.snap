@@ -3,7 +3,6 @@
 exports[`RegistrationCommandsPage fields - OperatingSystem renders 1`] = `
 <FormGroup
   fieldId="reg_os"
-  helperText=""
   label="Operating system"
   labelIcon={
     <LabelIcon
@@ -15,7 +14,6 @@ exports[`RegistrationCommandsPage fields - OperatingSystem renders 1`] = `
     className="without_select2"
     id="reg_os"
     isDisabled={true}
-    isIconSprite={false}
     isRequired={false}
     onBlur={[Function]}
     onChange={[Function]}
@@ -30,5 +28,10 @@ exports[`RegistrationCommandsPage fields - OperatingSystem renders 1`] = `
       value=""
     />
   </FormSelect>
+  <FormHelperText>
+    <HelperText>
+      <HelperTextItem />
+    </HelperText>
+  </FormHelperText>
 </FormGroup>
 `;

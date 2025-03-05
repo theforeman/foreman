@@ -16,7 +16,7 @@ const DiffToggle = ({ stateView, changeState }) => {
         buttonId={`${SPLIT}-btn`}
         className="diff-button"
         isSelected={stateView === SPLIT}
-        onChange={selected => handleItemClick(selected, SPLIT)}
+        onChange={(_event, selected) => handleItemClick(selected, SPLIT)}
       />
       <ToggleGroupItem
         key={`${UNIFIED}-btn`}
@@ -24,7 +24,7 @@ const DiffToggle = ({ stateView, changeState }) => {
         buttonId={`${UNIFIED}-btn`}
         className="diff-button"
         isSelected={stateView === UNIFIED}
-        onChange={selected => handleItemClick(selected, UNIFIED)}
+        onChange={(_event, selected) => handleItemClick(selected, UNIFIED)}
       />
     </ToggleGroup>
   );

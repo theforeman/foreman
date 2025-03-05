@@ -123,7 +123,7 @@ const BulkBuildHostModal = ({
       <Radio
         isChecked={buildRadioChecked}
         name="buildHostRadioGroup"
-        onChange={checked => handleBuildRadioSelected(checked)}
+        onChange={(_event, checked) => handleBuildRadioSelected(checked)}
         label={__('Build')}
         id="build-host-radio"
         ouiaId="build-host-radio"
@@ -134,7 +134,7 @@ const BulkBuildHostModal = ({
             name="reboot-now"
             isChecked={rebootChecked}
             isDisabled={!buildRadioChecked}
-            onChange={setRebootChecked}
+            onChange={(_event, val) => setRebootChecked(val)}
             ouiaId="build-reboot-checkbox"
           />
         }
@@ -142,7 +142,7 @@ const BulkBuildHostModal = ({
       <hr />
       <Radio
         name="buildHostRadioGroup"
-        onChange={checked => handleBuildRadioSelected(!checked)}
+        onChange={(_event, checked) => handleBuildRadioSelected(!checked)}
         label={__('Rebuild provisioning configuration only')}
         id="rebuild-host-radio"
         ouiaId="rebuild-host-radio"

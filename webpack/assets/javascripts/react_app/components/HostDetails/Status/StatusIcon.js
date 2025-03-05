@@ -6,6 +6,7 @@ import {
   ExclamationCircleIcon,
   BanIcon,
 } from '@patternfly/react-icons';
+import { Icon } from '@patternfly/react-core';
 import './styles.scss';
 import {
   ERROR_STATUS_STATE,
@@ -19,26 +20,38 @@ const StatusIcon = ({ statusNumber, label, style }) => {
     case OK_STATUS_STATE:
       return (
         <span className="status-success" style={style}>
-          <CheckCircleIcon noVerticalAlign /> {label}
+          <Icon isInline>
+            <CheckCircleIcon />
+          </Icon>
+          {label}
         </span>
       );
     case WARNING_STATUS_STATE:
       return (
         <span className="status-warning" style={style}>
-          <ExclamationTriangleIcon noVerticalAlign /> {label}
+          <Icon isInline>
+            <ExclamationTriangleIcon />
+          </Icon>
+          {label}
         </span>
       );
 
     case ERROR_STATUS_STATE:
       return (
         <span className="status-error" style={style}>
-          <ExclamationCircleIcon noVerticalAlign /> {label}
+          <Icon isInline>
+            <ExclamationCircleIcon />
+          </Icon>
+          {label}
         </span>
       );
     case NA_STATUS_STATE:
       return (
         <span className="disabled" style={style}>
-          <BanIcon noVerticalAlign /> {label}
+          <Icon isInline>
+            <BanIcon />
+          </Icon>
+          {label}
         </span>
       );
     default:

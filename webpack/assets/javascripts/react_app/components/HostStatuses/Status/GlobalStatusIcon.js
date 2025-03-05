@@ -17,28 +17,28 @@ const GlobalStatusIcon = ({ status, ...props }) => {
     case GLOBAL_STATUS_OK:
       return (
         <CheckCircleIcon
-          style={{ fill: 'var(--pf-global--success-color--100)' }}
+          style={{ fill: 'var(--pf-v5-global--success-color--100)' }}
           {...props}
         />
       );
     case GLOBAL_STATUS_WARN:
       return (
         <ExclamationTriangleIcon
-          style={{ fill: 'var(--pf-global--warning-color--100)' }}
+          style={{ fill: 'var(--pf-v5-global--warning-color--100)' }}
           {...props}
         />
       );
     case GLOBAL_STATUS_ERROR:
       return (
         <ExclamationCircleIcon
-          style={{ fill: 'var(--pf-global--danger-color--100)' }}
+          style={{ fill: 'var(--pf-v5-global--danger-color--100)' }}
           {...props}
         />
       );
     default:
       return (
         <QuestionCircleIcon
-          style={{ fill: 'var(--pf-global--info-color--200)' }}
+          style={{ fill: 'var(--pf-v5-global--info-color--200)' }}
           {...props}
         />
       );

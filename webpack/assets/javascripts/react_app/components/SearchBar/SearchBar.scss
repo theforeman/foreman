@@ -2,20 +2,20 @@
 
 .autocomplete-search {
   width: 100%;
-  &.disabled-autocomplete-search .pf-c-input-group{
-    color: var(--pf-global--disabled-color--100);
-    background-color: var(--pf-global--disabled-color--300);
+  &.disabled-autocomplete-search .pf-v5-c-input-group{
+    color: var(--pf-v5-global--disabled-color--100);
+    background-color: var(--pf-v5-global--disabled-color--300);
     cursor: not-allowed;
-    border-color: var(--pf-global--disabled-color--300);
+    border-color: var(--pf-v5-global--disabled-color--300);
   }
 }
 
 .foreman-search-bar {
   display: flex;
-  .pf-c-dropdown.pf-m-align-right {
+  .pf-v5-c-dropdown.pf-m-align-right {
     width: unset;
   }
-  .pf-c-dropdown { 
+  .pf-v5-c-dropdown { 
     width: unset; // just in case Katello overrides it
   }
 }

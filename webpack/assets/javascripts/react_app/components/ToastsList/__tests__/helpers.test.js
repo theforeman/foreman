@@ -15,7 +15,7 @@ describe('toastType', () => {
   });
 
   it('with invalid type', () => {
-    expect(toastType('invalid')).toEqual('default');
+    expect(toastType('invalid')).toEqual('custom');
   });
 });
 

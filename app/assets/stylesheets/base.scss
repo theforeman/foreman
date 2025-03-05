@@ -16,8 +16,8 @@ html {
   margin-left: 250px;
   &.user-banner-present {
     --banner-height: calc(
-      2 * var(--pf-global--spacer--xs) +
-        (var(--pf-global--LineHeight--md) * var(--pf-global--FontSize--sm))
+      2 * var(--pf-v5-global--spacer--xs) +
+        (var(--pf-v5-global--LineHeight--md) * var(--pf-v5-global--FontSize--sm))
     ); // banner height is line height and a small padding
     top: calc(
       var(--header-height) + var(--banner-height)
@@ -31,7 +31,7 @@ html {
     flex-wrap: wrap;
     justify-content: space-between;
   }
-  &.pf-c-page {
+  &.pf-v5-c-page {
     display: block;
     grid-template-columns: unset;
     grid-template-areas: unset;
@@ -48,7 +48,7 @@ body {
 #react-app-root {
   height: 100%;
   width: 100%;
-  .pf-c-page {
+  .pf-v5-c-page {
     // pf grid rule stops at @media (min-width: 1200px)
     display: grid;
     grid-template-columns: max-content 1fr;

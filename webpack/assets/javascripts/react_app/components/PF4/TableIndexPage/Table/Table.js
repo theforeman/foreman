@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  TableComposable,
+  Table as PFTable,
   Thead,
   Tr,
   Th,
@@ -86,17 +86,23 @@ export const Table = ({
     id,
     name,
     ...item
-  }) =>
-    [
+  }) => {
+    const extendActions =
+      (getActions && getActions({ id, name, canDelete, canEdit, ...item })) ??
+      [];
+
+    return [
       isDeleteable && {
         title: __('Delete'),
         onClick: () => onDeleteClick({ id, name }),
-        isDisabled: !canDelete,
+        isAriaDisabled: !canDelete,
       },
-      ...((getActions &&
-        getActions({ id, name, canDelete, canEdit, ...item })) ??
-        []),
+      ...extendActions.map(action => ({
+        ...action,
+        isAriaDisabled: action.isDisabled,
+      })),
     ].filter(Boolean);
+  };
   const RowSelectTd = rowSelectTd;
   return (
     <>
@@ -107,10 +113,12 @@ export const Table = ({
         url={url}
         refreshData={refreshData}
       />
-      <TableComposable variant="compact" ouiaId="table" isStriped>
+      <PFTable variant="compact" ouiaId="table" isStriped>
         <Thead>
           <Tr ouiaId="table-header">
-            {showCheckboxes && <Th key="checkbox-th" />}
+            {showCheckboxes && (
+              <Th aria-label="checkbox-header" key="checkbox-th" />
+            )}
             {columnNamesKeys.map(k => (
               <Th
                 key={k}
@@ -118,6 +126,7 @@ export const Table = ({
                   Object.values(columnsToSortParams).includes(k) &&
                   pfSortParams(keysToColumnNames[k])
                 }
+                aria-label={keysToColumnNames[k]}
               >
                 {keysToColumnNames[k]}
               </Th>
@@ -170,7 +179,7 @@ export const Table = ({
                   <Tr
                     key={rowIndex}
                     ouiaId={`table-row-${rowIndex}`}
-                    isHoverable
+                    isClickable
                   >
                     {showCheckboxes && (
                       <RowSelectTd
@@ -196,7 +205,7 @@ export const Table = ({
                 );
               }))}
         </Tbody>
-      </TableComposable>
+      </PFTable>
       {results.length > 0 && !errorMessage && !emptyMessage && bottomPagination}
     </>
   );

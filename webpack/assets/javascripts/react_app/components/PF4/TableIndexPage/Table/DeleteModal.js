@@ -37,7 +37,6 @@ export const DeleteModal = ({
       variant="small"
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
-      appendTo={() => document.getElementsByTagName('table')[0]}
       actions={[
         <Button
           key="confirm"

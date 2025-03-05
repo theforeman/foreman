@@ -29,8 +29,8 @@ const HostPowerStatus = ({ hostName }) => {
   const tooltipText = state === 'na' ? `${title} - ${statusText}` : title;
   let powerIcon = <UnknownIcon />;
   const moveItALittleUp = { position: 'relative', top: '-0.1em' };
-  const green = 'var(--pf-global--palette--green-300)';
-  const disabledGray = 'var(--pf-global--disabled-color--200)';
+  const green = 'var(--pf-v5-global--palette--green-300)';
+  const disabledGray = 'var(--pf-v5-global--disabled-color--200)';
   switch (state) {
     case 'on':
       powerIcon = (

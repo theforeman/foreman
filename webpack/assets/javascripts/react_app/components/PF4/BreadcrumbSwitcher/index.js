@@ -9,10 +9,11 @@ import {
   MenuContent,
   MenuFooter,
   MenuList,
-  MenuInput,
+  MenuSearch,
   MenuItem,
   Tooltip,
   Spinner,
+  MenuSearchInput,
 } from '@patternfly/react-core';
 import { ExchangeAltIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
@@ -123,17 +124,19 @@ const BreadcrumbSwitcher = ({
         bodyContent={
           <div>
             <Menu ouiaId="breadcrumb-menu" isScrollable>
-              <MenuInput>
-                <SearchInput
-                  value={searchValue}
-                  aria-label="Filter breadcrumb items"
-                  type="search"
-                  onChange={value => {
-                    autoSearch(value || '');
-                  }}
-                  onClear={onSearchClear}
-                />
-              </MenuInput>
+              <MenuSearch>
+                <MenuSearchInput>
+                  <SearchInput
+                    value={searchValue}
+                    aria-label="Filter breadcrumb items"
+                    type="search"
+                    onChange={(_e, value) => {
+                      autoSearch(value || '');
+                    }}
+                    onClear={onSearchClear}
+                  />
+                </MenuSearchInput>
+              </MenuSearch>
               <Divider />
               <MenuContent>
                 <MenuList>{menuListItems}</MenuList>

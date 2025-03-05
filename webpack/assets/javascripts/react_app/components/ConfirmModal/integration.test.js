@@ -29,19 +29,19 @@ describe('Confirm modal', () => {
         .first()
         .simulate('click');
     
-    expect(wrapper.find('.pf-c-modal-box__body').text()).toEqual(modalMessage);
-    expect(wrapper.find('.pf-c-modal-box__title-text').text()).toEqual(modalTitle);
+    expect(wrapper.find('.pf-v5-c-modal-box__body').text()).toEqual(modalMessage);
+    expect(wrapper.find('.pf-v5-c-modal-box__title-text').text()).toEqual(modalTitle);
 
     expect(onConfirm).toBeCalledTimes(0);
 
     wrapper
-        .find('.pf-c-modal-box__footer > Button')
+        .find('.pf-v5-c-modal-box__footer > Button')
         .first()
         .simulate('click');
     
     expect(onConfirm).toBeCalledTimes(1);
 
     // The modal should be hidden
-    expect(wrapper.find('.pf-c-modal-box__body')).toHaveLength(0);
+    expect(wrapper.find('.pf-v5-c-modal-box__body')).toHaveLength(0);
   });
 });

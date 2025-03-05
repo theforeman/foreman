@@ -15,7 +15,7 @@ export const RowSelectTd = ({
         selectOne(isSelecting, rowData[idColumnName], rowData);
       },
       isSelected: isSelected(rowData[idColumnName]),
-      disable: false,
+      isDisabled: false,
     }}
   />
 );

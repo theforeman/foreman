@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from '@patternfly/react-core';
 import {
-  Button,
   Dropdown,
   KebabToggle,
   DropdownItem,
-} from '@patternfly/react-core';
+} from '@patternfly/react-core/deprecated';
 
 /**
  * Generate a button or a dropdown of buttons
@@ -33,7 +33,7 @@ export const ActionButtons = ({ buttons: originalButtons }) => {
           toggle={
             <KebabToggle
               aria-label="toggle action dropdown"
-              onToggle={setIsOpen}
+              onToggle={(_event, val) => setIsOpen(val)}
             />
           }
           isOpen={isOpen}
