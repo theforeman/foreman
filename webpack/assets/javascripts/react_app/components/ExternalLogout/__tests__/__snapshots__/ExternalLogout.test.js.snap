@@ -9,61 +9,50 @@ exports[`ExternalLogout rendering renders ExternalLogout 1`] = `
     }
   }
 >
-  <Grid
-    bsClass="container"
-    componentClass="div"
-    fluid={false}
-  >
-    <Row
-      bsClass="row"
-      componentClass="div"
+  <Grid>
+    <GridItem
+      md={6}
+      mdOffset={3}
+      sm={8}
+      smOffset={2}
+      span={12}
     >
-      <Col
-        bsClass="col"
-        componentClass="div"
-        md={6}
-        mdOffset={3}
-        sm={8}
-        smOffset={2}
+      <header
+        className="login-pf-page-header"
       >
-        <header
-          className="login-pf-page-header"
+        <img
+          alt="logo"
+          className="brand"
+          src="/some-logo"
+        />
+        <div
+          className="login-pf-caption"
         >
-          <img
-            alt="logo"
-            className="brand"
-            src="/some-logo"
-          />
-          <div
-            className="login-pf-caption"
+          <h1
+            id="title"
           >
-            <h1
-              id="title"
-            >
-              Welcome
-            </h1>
-            <p
-              id="login_text"
-            >
-              some caption
-            </p>
-          </div>
-        </header>
-        <Button
-          active={false}
-          block={true}
-          bsClass="btn"
-          bsSize="large"
-          bsStyle="primary"
-          className="login-pf-submit-button"
-          disabled={false}
-          href="some link"
-          type="submit"
-        >
-          Click to log in again
-        </Button>
-      </Col>
-    </Row>
+            Welcome
+          </h1>
+          <p
+            id="login_text"
+          >
+            some caption
+          </p>
+        </div>
+      </header>
+      <Button
+        className="login-pf-submit-button"
+        component="a"
+        href="some link"
+        isBlock={true}
+        ouiaId="login-pf-submit-button"
+        size="lg"
+        type="submit"
+        variant="primary"
+      >
+        Click to log in again
+      </Button>
+    </GridItem>
   </Grid>
 </div>
 `;
