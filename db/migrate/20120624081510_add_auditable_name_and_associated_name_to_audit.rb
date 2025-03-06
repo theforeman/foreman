@@ -6,7 +6,7 @@ class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration[4.2]
   end
 
   def down
-    remove_index :audits, :id               if  index_exists?  :audits, :id
+    remove_index :audits, :id, if_exists: true
     remove_column :audits, :associated_name if  column_exists? :audits, :associated_name
     remove_column :audits, :auditable_name  if  column_exists? :audits, :auditable_name
   end
