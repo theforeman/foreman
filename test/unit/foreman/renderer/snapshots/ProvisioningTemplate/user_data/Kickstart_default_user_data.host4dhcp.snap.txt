@@ -240,7 +240,7 @@ echo "Performing initial puppet run for --tags no_such_tag"
 #!/bin/sh
 
 echo "Calling Ansible AWX/Tower provisioning callback..."
-/usr/bin/curl -v -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
+/usr/bin/curl -v -k -s --data "host_config_key=" https://host.example.com/api/controller/v2/job_templates/20/callback/
 echo "DONE"
 EOF-d592f4ed
     /bin/sh /tmp/ansible_provisioning_call.sh

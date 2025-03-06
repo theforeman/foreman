@@ -70,6 +70,8 @@ module Foreman
         "enable-epel" => "true",
         "package_upgrade" => "true",
         "ansible_tower_provisioning" => "true",
+        "ansible_tower_api_url" => "https://host.example.com/api/controller/v2",
+        "ansible_job_template_id" => "20",
         "schedule_reboot" => "true",
         "fips_enabled" => "true",
         "force-puppet" => "true",

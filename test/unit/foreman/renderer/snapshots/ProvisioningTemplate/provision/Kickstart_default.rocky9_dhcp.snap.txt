@@ -291,7 +291,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/curl -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
+ExecStart=/usr/bin/curl -k -s --data "host_config_key=" https://host.example.com/api/controller/v2/job_templates/20/callback/
 ExecStartPost=/usr/bin/systemctl disable ansible-callback
 
 [Install]
