@@ -6,7 +6,10 @@ class SmartProxiesController < ApplicationController
   before_action :find_status, :only => [:ping, :tftp_server]
 
   def index
-    @smart_proxies = resource_base_search_and_page.includes(:features)
+    # Large content_counts data may cause slow page load, especially with eager load.
+    # So exclude this field since it is not used in index page.
+    needed_columns = SmartProxy.attribute_names.reject { |name| name == "content_counts" }
+    @smart_proxies = resource_base_search_and_page.select(needed_columns).preload(:features)
   end
 
   def show
@@ -144,7 +147,12 @@ class SmartProxiesController < ApplicationController
   end
 
   def resource_base
-    super.eager_load(:locations, :organizations)
+    # Preload appears to consume less memory (20k+ less alloctions) compared to eager load.
+    # Maybe because it prevented thousands of duplicate rows with table joins when using
+    # eager load.
+    # No signficant performance tradeoff is noticed when using preload, slightly faster
+    # view rendering is noticed in large data.
+    super.preload(:locations, :organizations)
   end
 
   def versions_mismatched?(proxy_versions_hash)
