@@ -26,6 +26,7 @@ function changeFilterSelection(index) {
 
 function activateLogsDataTable() {
   $('#table-proxy-status-logs').dataTable({
+    pagingType: 'simple_numbers',
     dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
     autoWidth: false,
     columnDefs: [{

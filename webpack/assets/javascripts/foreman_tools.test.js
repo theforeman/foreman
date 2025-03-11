@@ -36,6 +36,7 @@ describe('activateDatatables', () => {
     $.fn.DataTable = jest.fn();
     tools.activateDatatables();
     expect($.fn.DataTable).toBeCalledWith({
+      pagingType: "simple_numbers",
       processing: true,
       serverSide: true,
       ordering: false,
