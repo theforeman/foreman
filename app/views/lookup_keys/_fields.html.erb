@@ -44,6 +44,7 @@
                      :label_help => _("If checked, will raise an error if there is no default value and no matcher provide a value.")
           ) %>
       <%= validator_type_selector f %>
+      <%#we need to nil as validator rule default instead of "" %>
       <%= text_f f, :validator_rule, :size => "col-md-8", :disabled => f.object.validator_type.blank?, :class => "no-stretch" %>
     </div>
   </fieldset>

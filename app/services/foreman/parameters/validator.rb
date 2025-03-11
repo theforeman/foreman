@@ -24,7 +24,7 @@ module Foreman
 
       def validate_regexp
         return true if value.contains_erb? && Setting[:interpolate_erb_in_parameters]
-
+        # issue happens here as it checks if value matches with "" regex instead of nil
         unless value =~ /#{@options[:validate_with]}/
           add_error(_("is invalid"))
           return false
