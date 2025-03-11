@@ -66,6 +66,7 @@ export function activateDatatables() {
   $('[data-table=inline]')
     .not('.dataTable')
     .DataTable({
+      pagingType: 'simple_numbers',
       language,
       dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
     });
@@ -76,6 +77,7 @@ export function activateDatatables() {
       const url = el.getAttribute('data-source');
 
       $(el).DataTable({
+        pagingType: 'simple_numbers',
         language,
         processing: true,
         serverSide: true,
