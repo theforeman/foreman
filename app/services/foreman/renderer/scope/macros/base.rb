@@ -117,15 +117,21 @@ module Foreman
             example "save_to_file(shell_escape('/tmp/a file with spaces'), nil) # => 'cp /dev/null /tmp/a\ file\ with\ spaces'"
           end
           def save_to_file(filename, content, verbatim: false)
-            delimiter = 'EOF-' + Digest::SHA512.hexdigest(filename)[0..7]
             if content.empty?
               "cp /dev/null #{filename}"
             elsif verbatim
-              content = Base64.encode64(content)
-              "cat << #{delimiter} | base64 -d > #{filename}\n#{content}#{delimiter}"
+              base64 = Base64.encode64(content)
+              content_assignments = base64.split("\n").map { |l| "echo #{Shellwords.shellescape(l)}" }.join("\n")
+              "(#{content_assignments}) | base64 -d  > #{filename}"
             else
-              content += "\n" unless content.end_with?("\n")
-              "cat << #{delimiter} > #{filename}\n#{content}#{delimiter}"
+              content_echos = content.split("\n").map do |content_line|
+                # to make sure there the substitutions are working, have the bash script
+                # handle all special characters except double quotes.
+                "echo \"#{content_line.gsub('"', '\"')}\" >> #{filename}"
+              end.join("\n")
+
+              # prefix the append commands with a cleanup command
+              "cat /dev/null > #{filename}\n#{content_echos}"
             end
           end
 
