@@ -20,6 +20,7 @@ const CardTemplate = ({
   overrideGridProps,
   overrideDropdownProps,
   masonryLayout,
+  ouiaId,
 }) => {
   const { cardExpandStates, dispatch, registerCard } = useContext(
     CardExpansionContext
@@ -58,7 +59,10 @@ const CardTemplate = ({
       {...overrideGridProps}
       className="masonry-item"
     >
-      <Card isExpanded={isExpanded} ouiaId={`card-template-${cardId}`}>
+      <Card
+        isExpanded={isExpanded}
+        ouiaId={`card-template-${ouiaId || cardId}`}
+      >
         <CardHeader
           {...(dropdownItems && {
             actions: {
@@ -107,6 +111,7 @@ CardTemplate.propTypes = {
   overrideDropdownProps: PropTypes.object,
   expandable: PropTypes.bool,
   masonryLayout: PropTypes.bool,
+  ouiaId: PropTypes.string,
 };
 
 CardTemplate.defaultProps = {
@@ -116,6 +121,7 @@ CardTemplate.defaultProps = {
   overrideDropdownProps: {},
   expandable: false,
   masonryLayout: false,
+  ouiaId: undefined,
 };
 
 export default CardTemplate;
