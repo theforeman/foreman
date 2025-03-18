@@ -12,6 +12,7 @@
       }
       .toolbar-search {
         flex-grow: 1;
+        display: block;
       }
       .table-toolbar-actions {
         padding-left: 16px;
@@ -39,7 +40,7 @@
       width: min-content;
     }
   }
-  .pf-c-table tr.pf-m-hoverable {
+  .pf-v5-c-table tr.pf-m-clickable {
     cursor: default;
   }
 }

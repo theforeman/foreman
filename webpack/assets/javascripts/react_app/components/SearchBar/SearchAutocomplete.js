@@ -151,6 +151,8 @@ export const SearchAutocomplete = ({
     <Popper
       trigger={searchInput}
       popper={autocomplete}
+      triggerRef={searchWrapperRef}
+      popperRef={autocompleteRef}
       isVisible={isAutocompleteOpen}
       enableFlip={false}
     />
