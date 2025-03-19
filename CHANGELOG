@@ -1,3 +1,22 @@
+2025-03-19	Cole Higgins <chiggins@redhat.com>
+	* Release 3.14.0
+
+2025-03-19	nofaralfasi <nofaralfasi@gmail.com>
+	* Fixes #38219 - Update Ansible Tower API URL for AAP 2.5+ compatibility
+	* Fixes #38281 - Refactor handling of `:include_blank` in `form_select_f`
+
+2025-03-18	Ian Ballou <ianballou67@gmail.com>
+	* Fixes #38289 - customize CardTemplate ouiaId
+
+2025-03-18	MariaAga <mariaaga@redhat.com>
+	* Fixes #38282 - datatables pagination not working
+
+2025-03-18	Lucy Fu <lufu@redhat.com>
+	* Fixes #38185 - Hide HTTP(S) proxy password in proxy request logging
+
+2025-03-11	Shim Shtein <sshtein@redhat.com>
+	* Fixes #38272 - Use .presence for ip6 address
+
 2025-03-04	Cole Higgins <chiggins@redhat.com>
 	* Release 3.14.0-rc2
 	* i18n - extracting new, pulling from tx
