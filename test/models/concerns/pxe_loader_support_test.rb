@@ -127,6 +127,16 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
       assert_equal :iPXE, @subject.pxe_loader_kind(@host)
     end
 
+    test "iPXE is found for iPXE Chain UEFI" do
+      @host.pxe_loader = "iPXE Chain UEFI"
+      assert_equal :iPXE, @subject.pxe_loader_kind(@host)
+    end
+
+    test "iPXE is found for ipxe-x64.efi" do
+      @host.pxe_loader = "ipxe-x64.efi"
+      assert_equal :iPXE, @subject.pxe_loader_kind(@host)
+    end
+
     test "iPXE is found for undionly.kpxe filename" do
       @host.pxe_loader = 'undionly.kpxe'
       assert_equal :iPXE, @subject.pxe_loader_kind(@host)
