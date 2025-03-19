@@ -5,7 +5,7 @@ begin
   require "gettext_i18n_rails_js/task"
   require File.expand_path('../../lib/foreman/gettext/support.rb', __dir__)
 
-  FILE_GLOB = '{app,db/seeds.d,lib,config,locale,webpack}/**/*.{rb,erb,haml,slim,rhtml,js,rabl}'
+  FILE_GLOB = '{app,db/seeds.d,lib,config,locale,webpack}/**/*.{rb,erb,haml,slim,rhtml,js,ts,tsx,rabl}'
 
   namespace :gettext do
     # redefine locale path to be taken from current directory (for plugins)

@@ -96,7 +96,7 @@ const supportedLanguagesRE = new RegExp(
   `/(${supportedLanguages().join('|')})$`
 );
 
-const commonConfig = function(buildName = 'core') {
+const commonConfig = function(buildName = 'core', tsConfig = 'tsconfig.json') {
   var production =
     process.env.RAILS_ENV === 'production' ||
     process.env.NODE_ENV === 'production';
@@ -159,12 +159,41 @@ const commonConfig = function(buildName = 'core') {
           'node_modules/datatables.net/js/jquery.dataTables.js'
         ), // otherwise we get datatables.net-bs Cannot read properties of undefined (reading 'classes') since dataTables.mjs is a module.
       },
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     resolveLoader: {
       modules: [path.resolve(root, 'node_modules')],
     },
     module: {
       rules: [
+        {
+          test: /\.tsx?$/,
+          exclude: /node_modules(?!\/(@novnc|unidiff))/,
+          loader: 'ts-loader',
+          options: {
+            configFile: tsConfig,
+            ...(production && {
+              compilerOptions: {
+                moduleResolution: 'node',
+                baseUrl: '.',
+                paths: {
+                  '*': [
+                    '/usr/lib/node_modules/@types/*',
+                    '/usr/lib/node_modules/*',
+                    path.resolve(root, 'node_modules/@types/*'),
+                    path.resolve(root, 'node_modules/*')
+                  ]
+                },
+                types: [],
+                typeRoots: [],
+                skipLibCheck: true,
+                skipDefaultLibCheck: true,
+              },
+              transpileOnly: false,
+              onlyCompileBundledFiles: true,
+            })
+          },
+        },
         {
           test: /\.js$/,
           /* Include novnc, unidiff in webpack, transpiling is needed for phantomjs (which does not support ES6) to run tests
@@ -296,7 +325,14 @@ const coreConfig = function() {
 const pluginConfig = function(plugin) {
   const pluginRoot = plugin.root;
   const pluginName = plugin.name.replace('-', '_'); // module federation doesnt like -
-  var config = commonConfig(pluginName);
+  const tsConfigPath = path.join(pluginRoot, 'tsconfig.json')
+  let config;
+  if (fs.existsSync(tsConfigPath)) {
+    config = commonConfig(pluginName, tsConfigPath);
+  }
+  else {
+    config = commonConfig(pluginName);
+  }
   config.context = path.join(pluginRoot, 'webpack');
   config.entry = {};
 

@@ -153,6 +153,8 @@
     "stylelint": "^9.3.0",
     "stylelint-config-standard": "^18.0.0",
     "tabbable": "^6.2.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.2",
     "webpack": "^5.75.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^5.0.1",
