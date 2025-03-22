@@ -47,17 +47,31 @@ class HostCounterTest < ActiveSupport::TestCase
 
     setup do
       FactoryBot.create(:host, :model => model, :location => loc1, :organization => org1)
+      FactoryBot.create(:host, :model => model, :location => loc1, :organization => org1)
+      FactoryBot.create(:host, :model => model, :location => loc1, :organization => org1)
       FactoryBot.create(:host, :model => model, :location => loc2, :organization => org2)
     end
 
     test 'it should count only hosts in user location/organization' do
-      assert_equal 2, hosts_count(:model)[model]
+      assert_equal 4, hosts_count(:model)[model]
+
+      Taxonomy.as_taxonomy(org1, loc1) do
+        assert_equal 3, hosts_count(:model)[model]
+      end
 
       Taxonomy.as_taxonomy(nil, loc1) do
-        assert_equal 1, hosts_count(:model)[model]
+        assert_equal 3, hosts_count(:model)[model]
       end
 
       Taxonomy.as_taxonomy(org1, nil) do
+        assert_equal 3, hosts_count(:model)[model]
+      end
+
+      Taxonomy.as_taxonomy(org2, nil) do
+        assert_equal 1, hosts_count(:model)[model]
+      end
+
+      Taxonomy.as_taxonomy(nil, loc2) do
         assert_equal 1, hosts_count(:model)[model]
       end
 
@@ -66,10 +80,15 @@ class HostCounterTest < ActiveSupport::TestCase
       end
     end
 
-    test 'it should count hosts associated to location/organization even though current location/organization is set' do
+    test 'it should count hosts associated to organization even though current organization is set' do
       Taxonomy.as_taxonomy(org1, loc2) do
-        assert_equal 2, hosts_count(:organization).hosts_count.count
-        assert_equal 2, hosts_count(:location).hosts_count.count
+        assert_equal 4, hosts_count(:organization).hosts_count.values.sum
+      end
+    end
+
+    test 'it should count hosts associated to location even though current location is set' do
+      Taxonomy.as_taxonomy(org1, loc2) do
+        assert_equal 4, hosts_count(:location).hosts_count.values.sum
       end
     end
   end

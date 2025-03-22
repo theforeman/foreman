@@ -21,7 +21,14 @@ class HostCounter
 
   def cache(&block)
     delay = Rails.env.test? ? 0 : 2.minutes
-    Rails.cache.fetch("hosts_count/#{@association}/#{User.current.id}", expires_in: delay, &block)
+    # If we are on /organizations or /locations, this allows to display the
+    # count for hosts not in the current organization & location.
+    org, loc = if %w[organization location].include?(@association.to_s)
+                 ["all", "all"]
+               else
+                 [Organization.current&.id || "all", Location.current&.id || "all"]
+               end
+    Rails.cache.fetch("hosts_count/org_#{org}/loc_#{loc}/#{@association}/#{User.current.id}", expires_in: delay, &block)
   end
 
   def counted_hosts
