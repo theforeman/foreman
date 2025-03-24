@@ -4,11 +4,18 @@ exports[`Editor rendering renders editor 1`] = `
 <div
   id="editor-container"
 >
-  <ToastNotification
+  <Alert
+    actionClose={
+      <AlertActionCloseButton
+        className="close"
+        onClose={[Function]}
+      />
+    }
     className=""
     id="preview_error_toast"
-    onDismiss={[Function]}
-    type="error"
+    ouiaId="preview_error_toast"
+    title=""
+    variant="danger"
   />
   <EditorNavbar
     autocompletion={true}

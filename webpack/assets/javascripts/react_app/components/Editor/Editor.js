@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ToastNotification } from 'patternfly-react';
+import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
 
 import { noop } from '../../common/helpers';
 import DiffView from '../DiffView/DiffView';
@@ -119,14 +119,19 @@ class Editor extends React.Component {
 
     return (
       <div id="editor-container">
-        <ToastNotification
+        <Alert
           id="preview_error_toast"
-          type="error"
+          ouiaId="preview_error_toast"
+          variant="danger"
           className={showError ? '' : 'hidden'}
-          onDismiss={() => dismissErrorToast()}
-        >
-          {errorText}
-        </ToastNotification>
+          actionClose={
+            <AlertActionCloseButton
+              className="close"
+              onClose={() => dismissErrorToast()}
+            />
+          }
+          title={errorText}
+        />
         <EditorNavbar
           changeDiffViewType={changeDiffViewType}
           changeTab={changeTab}
