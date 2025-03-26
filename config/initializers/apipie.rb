@@ -173,3 +173,30 @@ class AnyTypeValidator < Apipie::Validator::BaseValidator
     :any_type
   end
 end
+
+class CallableEnumValidator < Apipie::Validator::BaseValidator
+  def initialize(param_description, block)
+    super(param_description)
+    @block = block
+  end
+
+  def self.build(param_description, argument, options, block)
+    if argument == :callable_enum
+      raise ArgumentError, "options[:of] must be provided and must be a proc/lambda" unless options[:of].is_a?(Proc)
+      new(param_description, options[:of])
+    end
+  end
+
+  def values
+    @block&.call || []
+  end
+
+  def validate(value)
+    values.include?(value)
+  end
+
+  def description
+    enum = values.map { |value| format_description_value(value) }.join(', ')
+    "Must be one of: #{enum}."
+  end
+end

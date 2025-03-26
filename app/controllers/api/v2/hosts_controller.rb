@@ -181,14 +181,7 @@ module Api
 
       api :GET, "/hosts/:id/status/:type", N_("Get status of host")
       param :id, :identifier_dottable, :required => true
-      param :type, [HostStatus::Global] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(
-        <<~EOS
-          status type, can be one of
-          * global
-          * configuration
-          * build
-        EOS
-      )
+      param :type, :callable_enum, of: -> { [HostStatus::Global.status_name.underscore] + HostStatus.status_registry.to_a.map { |s| s.humanized_name } }, required: true
 
       description N_('Returns string representing a host status of a given type')
       def get_status
@@ -203,11 +196,7 @@ module Api
 
       api :DELETE, "/hosts/:id/status/:type", N_("Clear sub-status of host")
       param :id, :identifier_dottable, :required => true
-      param :type, HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(
-        <<~EOS
-          status type
-        EOS
-      )
+      param :type, :callable_enum, of: -> { HostStatus.status_registry.to_a.map { |s| s.humanized_name } }, required: true
 
       description N_('Clears a host sub-status of a given type')
       def forget_status
