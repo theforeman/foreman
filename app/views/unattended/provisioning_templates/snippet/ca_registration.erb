@@ -16,16 +16,21 @@ description: |
   if [ -f "$KATELLO_SERVER_CA_CERT" ]; then
     <%= save_to_file('"$KATELLO_SERVER_CA_CERT"', foreman_server_ca_cert) -%>
 
-    if [ -f /etc/debian_version ]; then
-      CA_TRUST_ANCHORS=/usr/local/share/ca-certificates/
+    . /etc/os-release
+
+    if [ "$ID" = "debian" ] || [ "$ID_LIKE" = "debian" ]; then
+      # update-ca-certificates is picky and only looks at .crt files
+      CA_TRUST_ANCHOR_CERT=/usr/local/share/ca-certificates/katello-server-ca.crt
+    elif [ "$ID" = "sles" ] || [ "$ID_LIKE" = "suse" ] || [ "$ID_LIKE" = "suse opensuse" ]; then
+      CA_TRUST_ANCHOR_CERT=/etc/pki/trust/anchors/katello-server-ca.pem
     else
-      CA_TRUST_ANCHORS=/etc/pki/ca-trust/source/anchors
+      CA_TRUST_ANCHOR_CERT=/etc/pki/ca-trust/source/anchors/katello-server-ca.pem
     fi
 
     # Add the Katello CA certificate to the system-wide CA certificate store
-    cp $KATELLO_SERVER_CA_CERT $CA_TRUST_ANCHORS
+    cp $KATELLO_SERVER_CA_CERT $CA_TRUST_ANCHOR_CERT
 
-    if [ -f /etc/debian_version ]; then
+    if [ "$ID" = "debian" ] || [ "$ID_LIKE" = "debian" ] || [ "$ID" = "sles" ] || [ "$ID_LIKE" = "suse" ] || [ "$ID_LIKE" = "suse opensuse" ]; then
       update-ca-certificates
     else
       update-ca-trust
