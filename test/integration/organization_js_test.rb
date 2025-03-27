@@ -13,9 +13,11 @@ class OrganizationJSTest < IntegrationTestWithJavascript
     assert_new_button(organizations_path, "New Organization", new_organization_path)
     fill_in "organization_name", :with => "Finance"
     click_button "Submit"
-    assert_current_path step2_organization_path(Organization.unscoped.order(:id).last)
+    # wait for submit to finish
+    page.all('.breadcrumb-item div', text: 'Edit Finance')
+    assert_current_path step2_organization_path(Organization.find_by(name: "Finance"))
     click_link "Proceed to Edit"
-    assert_current_path edit_organization_path(Organization.unscoped.order(:id).last)
+    assert_current_path edit_organization_path(Organization.find_by(name: "Finance"))
     assert_breadcrumb_text('Edit')
   end
 

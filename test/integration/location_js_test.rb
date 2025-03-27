@@ -13,9 +13,11 @@ class LocationJSTest < IntegrationTestWithJavascript
     assert_new_button(locations_path, "New Location", new_location_path)
     fill_in "location_name", :with => "Raleigh"
     click_button "Submit"
-    assert_current_path step2_location_path(Location.unscoped.order(:id).last)
+    # wait for submit to finish
+    page.all('.breadcrumb-item div', text: 'Edit Raleigh')
+    assert_current_path step2_location_path(Location.find_by(name: "Raleigh"))
     click_link "Proceed to Edit"
-    assert_current_path edit_location_path(Location.unscoped.order(:id).last)
+    assert_current_path edit_location_path(Location.find_by(name: "Raleigh"))
     assert_breadcrumb_text('Edit')
   end
 end
