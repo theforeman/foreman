@@ -28,7 +28,24 @@ Object {
       },
     ],
   ],
-  "state": Object {},
+  "state": Object {
+    "apiReducer": Object {
+      "REGISTRATION_COMMANDS": Object {
+        "payload": Object {
+          "url": "/hosts/register",
+        },
+        "response": null,
+        "status": "PENDING",
+      },
+      "REGISTRATION_COMMANDS_DATA": Object {
+        "payload": Object {
+          "url": "/hosts/register/data",
+        },
+        "response": null,
+        "status": "PENDING",
+      },
+    },
+  },
 }
 `;
 
@@ -49,6 +66,16 @@ Object {
       },
     ],
   ],
-  "state": Object {},
+  "state": Object {
+    "apiReducer": Object {
+      "REGISTRATION_COMMANDS_DATA": Object {
+        "payload": Object {
+          "url": "/hosts/register/data",
+        },
+        "response": null,
+        "status": "PENDING",
+      },
+    },
+  },
 }
 `;
