@@ -25,6 +25,7 @@ javascript_driver = ENV.fetch("JS_TEST_DRIVER") { ENV['DEBUG_JS_TEST'] ? :seleni
 
 def chrome_options
   options = Selenium::WebDriver::Chrome::Options.new
+  options.add_option("goog:loggingPrefs", {browser: 'ALL'}) if ENV['SHOW_JS_LOG']
   options.args << '--window-size=1024,768'
   options.args += ENV.fetch('ADDITIONAL_CHROME_OPTIONS', '').split(';')
   options

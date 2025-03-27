@@ -206,6 +206,10 @@ Foreman's integration tests use the https://github.com/teamcapybara/capybara[Cap
 
 Adding `DEBUG_JS_TEST=1` to the test run, will open a web browser and run the tests in chrome.
 
+To print the warning and error javascript logs within your test, include `puts page.driver.browser.logs.get(:browser)` in the test run.
+Adding `SHOW_JS_LOG=1` to the test run will enable all levels of javascript logs for viewing.
+
+
 To run Foreman's integration tests:
 [source, shell]
 ....
