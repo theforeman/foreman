@@ -268,6 +268,10 @@ module LayoutHelper
     "pf-m-redhat-font foreman-theme"
   end
 
+  def all_body_css_classes
+    body_css_classes + ' ' + (User.current&.ui_compact_mode ? 'compact-ui' : '')
+  end
+
   private
 
   def table_css_classes(classes = '')

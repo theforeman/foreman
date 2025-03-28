@@ -414,7 +414,7 @@ module ApplicationHelper
       docUrl: documentation_url,
       location: Location.current && { id: Location.current.id, title: Location.current.title },
       organization: Organization.current && { id: Organization.current.id, title: Organization.current.title },
-      user: User.current&.attributes&.slice('id', 'login', 'firstname', 'lastname', 'admin'),
+      user: User.current&.attributes&.slice('id', 'login', 'firstname', 'lastname', 'admin', 'ui_compact_mode'),
       user_settings: {
         lab_features: Setting[:lab_features],
       },

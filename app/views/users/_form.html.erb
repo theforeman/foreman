@@ -21,6 +21,7 @@
     <% if @editing_self %>
       <li><a href='#jwt_tokens' data-toggle='tab'><%= _('Registration Tokens') %></a></li>
     <% end %>
+    <li><a href='#ui_preferences' data-toggle='tab'><%= _('UI Preferences') %></a></li>
     <%= render_tab_header_for(:main_tabs, :subject => @user, :form => f) %>
   </ul>
 
@@ -142,6 +143,10 @@
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
                :html_options => user_taxonomies_html_options(@user)
     %>
+    
+    <div class='tab-pane' id='ui_preferences'>
+      <%= checkbox_f f, :ui_compact_mode, :label => _("Compact table mode"),  :label_help => _("Will show table rows with less space between items") %>
+    </div>
     <%= render_tab_content_for(:main_tabs, :subject => @user, :form => f) %>
   </div>
 

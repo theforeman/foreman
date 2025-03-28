@@ -63,6 +63,7 @@ module Api
         param :role_ids, Array, :require => false
         param :mail_enabled, :bool, :desc => N_("Enable user's email")
         param_group :taxonomies, ::Api::V2::BaseController
+        param :ui_compact_mode, :bool, :desc => N_("Use compact UI")
       end
 
       def_param_group :user do

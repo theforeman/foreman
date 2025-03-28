@@ -675,3 +675,13 @@ td .dropdown-menu > li > a.disabled:focus {
 span.btn a.disabled {
  color: #8b8d8f;
 }
+
+.compact-ui {
+  td.pf-v5-c-table__td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    > button {
+      padding:0;
+    }
+  }
+}
