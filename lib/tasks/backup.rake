@@ -23,7 +23,7 @@ namespace :db do
     backup_dir  = File.expand_path('../../db', __dir__)
     backup_name = ENV['destination'] || File.join(backup_dir, "foreman.#{Time.now.to_i}")
     unless ENV["destination"].present?
-      backup_name << '.sql'
+      backup_name += '.sql'
     end
 
     if ENV['tables'].present?

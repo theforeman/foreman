@@ -70,7 +70,7 @@ module Foreman
 
       def generate_name(prefix, original_name, num = nil)
         new_name = "#{prefix} #{original_name}"
-        num ? new_name << " #{num}" : new_name
+        num ? "#{new_name} #{num}" : new_name
       end
 
       def last_role_num(role, role_name)

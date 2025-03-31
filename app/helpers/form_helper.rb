@@ -461,7 +461,7 @@ module FormHelper
 
   def link_to_add_fields_classes(options = {})
     classes = "btn btn-default #{options[:class]}"
-    classes << ' btn-primary' if options.fetch(:primary_button, true)
+    classes += ' btn-primary' if options.fetch(:primary_button, true)
     classes
   end
 end

@@ -23,9 +23,9 @@ module Api
 
     rescue_from NoMethodError do |error|
       Foreman::Logging.exception("Action failed", error)
-      message = _("Internal Server Error: the server was unable to finish the request. ")
-      message << _("This may be caused by unavailability of some required service, incorrect API call or a server-side bug. ")
-      message << _("There may be more information in the server's logs.")
+      message = _("Internal Server Error: the server was unable to finish the request. " \
+        "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. " \
+        "There may be more information in the server's logs.")
       render_error 'custom_error', :status => :internal_server_error, :locals => { :message => message }
     end
 

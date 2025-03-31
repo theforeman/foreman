@@ -492,7 +492,7 @@ class HostsController < ApplicationController
     message = ''
     all_fails.each_pair do |key, values|
       unless values.empty?
-        message << ((n_("%{config_type} rebuild failed for host: %{host_names}.",
+        message += ((n_("%{config_type} rebuild failed for host: %{host_names}.",
           "%{config_type} rebuild failed for hosts: %{host_names}.",
           values.count) % {:config_type => _(key), :host_names => values.map(&:to_label).to_sentence})) + " "
       end

@@ -121,7 +121,7 @@ module Foreman
         end
 
         def report_render_html
-          html = ""
+          html = +""
 
           html << "<html><head><title>#{@template_name}</title><style>#{html_style}</style></head><body><table><thead><tr>"
           html << @report_headers.map { |header| "<th>#{ERB::Util.html_escape(header)}</th>" }.join('')

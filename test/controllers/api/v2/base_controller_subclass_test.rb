@@ -124,9 +124,9 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
   test "should have server error message" do
     get :new
     assert_response 500
-    msg = "Internal Server Error: the server was unable to finish the request. "
-    msg << "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
-    msg << "There may be more information in the server's logs."
+    msg = "Internal Server Error: the server was unable to finish the request. " \
+      "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. " \
+      "There may be more information in the server's logs."
     assert_equal JSON.parse(response.body)['error']['message'], msg
   end
 
