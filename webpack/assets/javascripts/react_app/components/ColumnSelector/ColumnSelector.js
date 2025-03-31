@@ -187,7 +187,7 @@ const ColumnSelector = props => {
             </Button>,
           ]}
         >
-          <TreeView data={selectedColumns} onCheck={onCheck} hasChecks />
+          <TreeView data={selectedColumns} onCheck={onCheck} hasCheckboxes />
         </Modal>
       </div>
     </div>
