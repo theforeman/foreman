@@ -24,6 +24,9 @@ module Menu
           menu.item :usergroups,         :caption => N_('User Groups')
           menu.item :roles,              :caption => N_('Roles')
           menu.item :bookmarks,          :caption => N_('Bookmarks')
+          menu.item :upgrade,
+            caption: N_('Foreman Upgrade'),
+            url: '/upgrade'
           menu.item :settings,           :caption => N_('Settings')
           menu.item :about_index,        :caption => N_('About')
         end

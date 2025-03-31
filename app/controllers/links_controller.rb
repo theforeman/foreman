@@ -30,6 +30,10 @@ class LinksController < ApplicationController
       guide, chapter, flavor = params.permit(:section, :chapter, :flavor).values_at(:section, :chapter, :flavor)
       flavor ||= self.class.new_docs_flavor
       docs_url(guide: guide, chapter: chapter, flavor: flavor)
+    when 'upgrade'
+      upgrade_url(params[:section])
+    when 'support'
+      support_url
     end
   end
 
@@ -89,5 +93,13 @@ class LinksController < ApplicationController
 
   def wiki_url(section: '')
     "https://projects.theforeman.org/projects/foreman/wiki/#{section}"
+  end
+
+  def support_url
+    forum_url('c/support')
+  end
+
+  def upgrade_url(section)
+    docs_url(guide: 'Upgrading_Project', flavor: self.class.new_docs_flavor)
   end
 end

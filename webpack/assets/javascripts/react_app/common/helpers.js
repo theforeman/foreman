@@ -162,6 +162,8 @@ export const stringIsPositiveNumber = value => {
  */
 export const getManualURL = section => foremanUrl(`/links/manual/${section}`);
 export const getWikiURL = section => foremanUrl(`/links/wiki/${section}`);
+export const getUpgradeURL = section => foremanUrl(`/links/upgrade/${section}`);
+export const getSupportURL = () => foremanUrl('/links/support');
 
 /**
  * Get the documentation URL

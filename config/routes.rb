@@ -561,4 +561,5 @@ Foreman::Application.routes.draw do
 
   get 'page-not-found' => 'react#index'
   get 'links/:type(/:section)' => 'links#show', :as => 'external_link', :constraints => { section: %r{.*} }
+  get 'upgrade' => 'react#index'
 end

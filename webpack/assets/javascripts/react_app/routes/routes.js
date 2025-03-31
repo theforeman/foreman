@@ -6,6 +6,7 @@ import HostStatuses from './HostStatuses';
 import Hosts from './Hosts';
 import EmptyPage from './common/EmptyPage/route';
 import FiltersForm from './FiltersForm';
+import Upgrade from './Upgrade';
 
 export const routes = [
   Audits,
@@ -16,4 +17,5 @@ export const routes = [
   HostStatuses,
   EmptyPage,
   ...FiltersForm,
+  Upgrade,
 ];
