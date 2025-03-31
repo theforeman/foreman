@@ -25,7 +25,8 @@ const CardTemplate = ({
   const { cardExpandStates, dispatch, registerCard } = useContext(
     CardExpansionContext
   );
-  const cardId = header;
+  const cardId =
+    typeof header === 'string' || header instanceof String ? header : ouiaId;
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
   const isExpanded = expandable && cardExpandStates[`${cardId}`] === true;
   const onDropdownToggle = isOpen => setDropdownVisibility(isOpen);
