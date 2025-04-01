@@ -23,15 +23,15 @@ oses:
 <%#
 ##### Processing bond-interfaces #####
 -%>
-<%- found = false -%>
+<%- id = 0 -%>
 <%- @host.bond_interfaces.each do | bond | -%>
   <%- bonding_interfaces.push(bond.identifier) -%>
-  <%- if !found -%>
-  <%- found = true -%>
+  <%- if id == 0 -%>
     bonds:
   <%- end -%>
 <%- result= snippet('preseed_netplan_generic_interface', :variables => {
                   :interface => bond,
+                  :label => "bond#{id}",
                   :subnet => bond.subnet,
                   :subnet6 => bond.subnet6,
                   :dhcp => bond.subnet.nil? ? false : bond.subnet.dhcp_boot_mode?,
@@ -44,41 +44,43 @@ oses:
           <%- options.each do | option | -%>
           <%= option.gsub('=',': ') %>
           <%- end -%>
+  <%- id += 1 -%>
 <% end -%>
 <%#
 ##### Processing bridge interfaces #####
 -%>
-<%- found = false -%>
+<%- id = 0 -%>
 <%- @host.bridge_interfaces.each do | bridge | -%>
 <%- next if bonding_interfaces.include?(bridge.identifier) -%>
   <%- bridged_interfaces.push(bridge.identifier) -%>
-  <%- if !found -%>
-  <%- found = true -%>
+  <%- if id == 0 -%>
     bridges:
   <%- end -%>
 <%- result= snippet('preseed_netplan_generic_interface', :variables => {
                   :interface => bridge,
+                  :label => "bridge#{id}",
                   :subnet => bridge.subnet,
                   :subnet6 => bridge.subnet6,
                   :dhcp => bridge.subnet.nil? ? false : bridge.subnet.dhcp_boot_mode?,
                   :dhcp6 => bridge.subnet6.nil? ? false : bridge.subnet6.dhcp_boot_mode? }) -%>
   <%= result -%>
+  <%- id += 1 -%>
 <%- end -%>
 <%#
 ##### Processing vlan interfaces #####
 -%>
-<%- found = false -%>
+<%- id = 0 -%>
 <%- @host.managed_interfaces.each do | vlan | -%>
 <%- next if bonding_interfaces.include?(vlan.identifier) -%>
 <%- next if bridged_interfaces.include?(vlan.identifier) -%>
 <%- next if !vlan.virtual? -%>
   <%- vlans_interfaces.push(vlan.identifier) -%>
-  <%- if !found -%>
-  <%- found = true -%>
+  <%- if id == 0 -%>
     vlans:
   <%- end -%>
 <%- result= snippet('preseed_netplan_generic_interface', :variables => {
                   :interface => vlan,
+                  :label => "vlan#{id}",
                   :subnet => vlan.subnet,
                   :subnet6 => vlan.subnet6,
                   :dhcp => vlan.subnet.nil? ? false : vlan.subnet.dhcp_boot_mode?,
@@ -86,26 +88,28 @@ oses:
   <%= result -%>
         id: <%= vlan.tag %>
         link: <%= vlan.attached_to %>
+  <%- id += 1 -%>
 <%- end -%>
 <%#
 ##### Processing remaining interfaces (ethernets) #####
 -%>
-<%- found = false -%>
+<%- id = 0 -%>
 <%- @host.managed_interfaces.each do | interface | -%>
 <%- next if bonding_interfaces.include?(interface.identifier) -%>
 <%- next if bridged_interfaces.include?(interface.identifier) -%>
 <%- next if vlans_interfaces.include?(interface.identifier) -%>
   <%- interface_subnet = interface.subnet -%>
-  <%- if !found -%>
-  <%- found = true -%>
+  <%- if id == 0 -%>
     ethernets:
   <%- end -%>
 <%- result= snippet('preseed_netplan_generic_interface', :variables => {
                   :interface => interface,
+                  :label => "id#{id}",
                   :subnet => interface.subnet,
                   :subnet6 => interface.subnet6,
                   :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?,
                   :dhcp6 => interface.subnet6.nil? ? false : interface.subnet6.dhcp_boot_mode? }) -%>
   <%= result -%>
+  <%- id += 1 -%>
 <%- end -%>
 <%- end -%>

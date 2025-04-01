@@ -8,9 +8,11 @@ oses:
 - Ubuntu
 -%>
 <%- if @interface.identifier.blank? -%>
-    id0:
+    <%= @label %>:
+        <%- unless @interface.virtual? -%>
         match:
-          macaddress: "<%= @host.mac %>"
+          macaddress: "<%= @interface.mac %>"
+        <%- end -%>
 <%- else -%>
     <%= @interface.identifier %>:
 <%- end -%>
