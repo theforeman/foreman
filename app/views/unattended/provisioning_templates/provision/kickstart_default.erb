@@ -41,6 +41,7 @@ description: |
   - ntp-server: string (default=undef)
   - bootloader-append: string (default="nofb quiet splash=quiet")
   - disable-firewall: boolean (default=false)
+  - kdump-options: string (default=undef)
   - package_upgrade: boolean (default=true)
   - disable-uek: boolean (default=false)
   - use-ntp: boolean (default depends on OS release)
@@ -53,7 +54,8 @@ description: |
   Reference links:
   - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
   - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/sect-kickstart-syntax
-  - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-commands-and-options-reference_installing-rhel-as-an-experienced-user
+  - https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/automatically_installing_rhel/kickstart-commands-and-options-reference_rhel-installer
+  - https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/automatically_installing_rhel/kickstart-commands-and-options-reference_rhel-installer
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -131,16 +133,25 @@ end
 -%>
 
 rootpw --iscrypted <%= root_pass %>
+<%# Firewall -%>
 <% if host_param_true?('disable-firewall') -%>
 firewall --disable
 <% else -%>
 firewall --<%= os_major >= 6 ? 'service=' : '' %>ssh
 <% end -%>
+<%# Kdump -%>
+<%# Ignore empty strings, & because .presence isn't allowed on nil
+See https://github.com/theforeman/foreman/pull/10507 -%>
+<% if host_param('kdump-options')&.presence -%>
+%addon com_redhat_kdump <%= host_param('kdump-options') %>
+<% end -%>
+<%# Authentication options -%>
 <% if (is_fedora && os_major >= 28) || (rhel_compatible && os_major > 7) -%>
 authselect --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
 <% else -%>
 authconfig --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
 <% end -%>
+<%# Timezone + NTP -%>
 <% if rhel_compatible && os_major < 9 -%>
 timezone --utc <%= host_param('time-zone') || 'UTC' %> <%= host_param('ntp-server') ? "--ntpservers #{host_param('ntp-server')}" : '' %>
 <% else -%>
