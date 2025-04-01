@@ -86,10 +86,11 @@ module Api::V2::TaxonomiesController
 
   api :DELETE, '/:resource_id/:id', N_('Delete :a_resource')
   param :id, :identifier, :required => true
+  error :code => 409, :desc => 'In case a nested entity exists'
   def destroy
     process_response @taxonomy.destroy
   rescue Ancestry::AncestryException
-    render :json => {:error => {:message => (_('Cannot delete %{current} because it has nested %{sti_name}.') % { :current => @taxonomy.title, :sti_name => @taxonomy.sti_name }) } }
+    render :status => :conflict, :json => {:error => {:message => (_('Cannot delete %{current} because it has nested %{sti_name}.') % { :current => @taxonomy.title, :sti_name => @taxonomy.sti_name }) } }
   end
 
   # overriding public FindCommon#resource_scope to scope only to user's taxonomies
