@@ -602,7 +602,7 @@ function build_provision_method_selected() {
     $('#host_compute_attributes_template').select2('readonly',false);
 }
 $(document).on(
-  'select2:select select2:unselecting',
+  'change',
   '#host_provision_method_build',
   build_provision_method_selected
 );
@@ -625,7 +625,7 @@ function image_provision_method_selected() {
   }
 }
 $(document).on(
-  'select2:select select2:unselecting',
+  'change',
   '#host_provision_method_image',
   image_provision_method_selected
 );
