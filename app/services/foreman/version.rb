@@ -7,9 +7,11 @@ module Foreman
     def initialize(givenversion = nil)
       if givenversion
         @version = givenversion
+      elsif File.exist?(File.join(root, '.git'))
+        command = ['git', '--git-dir', File.join(root, '.git'), 'describe']
+        @version = IO.popen(command) { |f| f.readline }.chomp
       else
-        root = File.expand_path(File.dirname(__FILE__) + "/../../..")
-        @version = File.read(root + "/VERSION").chomp # or fail if not found
+        @version = File.read(File.join(root, "VERSION")).chomp # or fail if not found
       end
       @major, @minor, @build = @version.scan(/\d+/)
       @short = "#{@major}.#{@minor}"
@@ -25,6 +27,13 @@ module Foreman
 
     def to_s
       @version
+    end
+
+    private
+
+    # Find the rails root. This is undefined in very early init
+    def root
+      Rails.root || File.join(__dir__, '..', '..', '..')
     end
   end
 end

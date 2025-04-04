@@ -22,7 +22,7 @@ actions:
     - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.logrotate -O foreman.logrotate"
     - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.cron.d -O foreman.cron.d"
     - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.tmpfiles -O foreman.tmpfiles"
-  get-current-version: "sed 's/-develop//' VERSION"
+  get-current-version: "git describe --abbrev=0 | sed 's/-develop//'"
 
 jobs:
   - job: copr_build
