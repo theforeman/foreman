@@ -1,17 +1,7 @@
-<style>
-.host-init-conf-textarea{
-  font-size: 11px;
-  padding: 2px;
-  color: #363636;
-  background-color: #fafafa;
-  border: 1px solid #ccc;
-}
-</style>
 <% if @host.operatingsystem && @host.initial_configuration_template %>
 <div style="max-width: 600px">
   <%= _('For initial configuration of the host run this command:') %>
-  <%= react_component('ClipboardCopy', { text: "curl #{@host.registration_url} | bash",
-                                         textareaProps: { readOnly: true, rows: '1', className: 'host-init-conf-textarea'}})
+  <%= react_component('ClipboardCopy', { text: "curl #{@host.registration_url} | bash" , textareaProps: {className: 'host-init-conf-textarea', readOnly: true }})
   %>
   <%= _('Host template') %>: <%= link_to(@host.initial_configuration_template, edit_provisioning_template_path(@host.initial_configuration_template))%>
 </div>
