@@ -39,7 +39,7 @@ export const DualListWithIds = ({
     []
   );
   useAPI('get', url, apiOptions);
-  const onListChange = (newAvailableOptions, newChosenOptions) => {
+  const onListChange = (_event, newAvailableOptions, newChosenOptions) => {
     setAvailableOptions(newAvailableOptions.sort());
     setChosenOptions(newChosenOptions.sort());
     setChosenIds(newChosenOptions.map(option => nameToId[option]));
