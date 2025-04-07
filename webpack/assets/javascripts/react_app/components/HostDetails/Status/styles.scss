@@ -7,19 +7,32 @@
     }
   }
 }
+.host-status-icon-container {
+  .disabled {
+    color: var(--pf-v5-global--disabled-color--200);
+    .pf-v5-c-icon {
+      margin-right: 4px;
+    }
+  }
 
-.disabled {
-  color: var(--pf-v5-global--disabled-color--200);
-}
+  .status-success {
+    color: var(--pf-v5-global--success-color--100);
+    .pf-v5-c-icon {
+      margin-right: 4px;
+    }
+  }
 
-.status-success {
-  color: var(--pf-v5-global--success-color--100);
-}
+  .status-error {
+    color: var(--pf-v5-global--danger-color--100);
+    .pf-v5-c-icon {
+      margin-right: 4px;
+    }
+  }
 
-.status-error {
-  color: var(--pf-v5-global--danger-color--100);
-}
-
-.status-warning {
-  color: var(--pf-v5-global--warning-color--100);
+  .status-warning {
+    color: var(--pf-v5-global--warning-color--100);
+    .pf-v5-c-icon {
+      margin-right: 4px;
+    }
+  }
 }

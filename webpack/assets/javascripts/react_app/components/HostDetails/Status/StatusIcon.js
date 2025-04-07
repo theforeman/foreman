@@ -15,49 +15,52 @@ import {
   WARNING_STATUS_STATE,
 } from './Constants';
 
-const StatusIcon = ({ statusNumber, label, style }) => {
-  switch (statusNumber) {
-    case OK_STATUS_STATE:
-      return (
-        <span className="status-success" style={style}>
-          <Icon isInline>
-            <CheckCircleIcon />
-          </Icon>
-          {label}
-        </span>
-      );
-    case WARNING_STATUS_STATE:
-      return (
-        <span className="status-warning" style={style}>
-          <Icon isInline>
-            <ExclamationTriangleIcon />
-          </Icon>
-          {label}
-        </span>
-      );
-
-    case ERROR_STATUS_STATE:
-      return (
-        <span className="status-error" style={style}>
-          <Icon isInline>
-            <ExclamationCircleIcon />
-          </Icon>
-          {label}
-        </span>
-      );
-    case NA_STATUS_STATE:
-      return (
-        <span className="disabled" style={style}>
-          <Icon isInline>
-            <BanIcon />
-          </Icon>
-          {label}
-        </span>
-      );
-    default:
-      return null;
-  }
-};
+const StatusIcon = ({ statusNumber, label }) => (
+  <span className="host-status-icon-container">
+    {(() => {
+      switch (statusNumber) {
+        case OK_STATUS_STATE:
+          return (
+            <span className="status-success">
+              <Icon isInline>
+                <CheckCircleIcon />
+              </Icon>
+              {label}
+            </span>
+          );
+        case WARNING_STATUS_STATE:
+          return (
+            <span className="status-warning">
+              <Icon isInline>
+                <ExclamationTriangleIcon />
+              </Icon>
+              {label}
+            </span>
+          );
+        case ERROR_STATUS_STATE:
+          return (
+            <span className="status-error">
+              <Icon isInline>
+                <ExclamationCircleIcon />
+              </Icon>
+              {label}
+            </span>
+          );
+        case NA_STATUS_STATE:
+          return (
+            <span className="disabled">
+              <Icon isInline>
+                <BanIcon />
+              </Icon>
+              {label}
+            </span>
+          );
+        default:
+          return null;
+      }
+    })()}
+  </span>
+);
 
 StatusIcon.propTypes = {
   label: PropTypes.string,

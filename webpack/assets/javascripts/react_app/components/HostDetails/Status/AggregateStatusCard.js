@@ -92,12 +92,7 @@ const AggregateStatusCard = ({
         <CardTitle>
           <span>
             <span style={{ marginRight: '0.5rem' }}>{__('Host status')}</span>
-            {!isOKState && (
-              <StatusIcon
-                statusNumber={global}
-                style={{ position: 'relative', top: '2px' }}
-              />
-            )}
+            {!isOKState && <StatusIcon statusNumber={global} />}
           </span>
         </CardTitle>
         <CardBody style={{ height: '129px' }}>
