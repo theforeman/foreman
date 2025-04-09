@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { TableText } from '@patternfly/react-table';
 import { UserIcon, UsersIcon } from '@patternfly/react-icons';
+import { number_to_human_size as NumberToHumanSize } from 'number_helpers';
 import { translate as __ } from '../../../common/I18n';
 import forceSingleton from '../../../common/forceSingleton';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
@@ -163,7 +164,12 @@ const reportedDataColumns = [
   {
     columnName: 'ram',
     title: __('RAM'),
-    wrapper: hostDetails => hostDetails?.reported_data?.ram,
+    wrapper: hostDetails => {
+      if (!hostDetails?.reported_data?.ram) return null;
+      return NumberToHumanSize(hostDetails.reported_data.ram * 1024 * 1024, {
+        strip_insignificant_zeros: true,
+      });
+    },
     isSorted: false,
     weight: 1300,
   },
@@ -177,7 +183,12 @@ const reportedDataColumns = [
   {
     columnName: 'disks_total',
     title: __('Total disk space'),
-    wrapper: hostDetails => hostDetails?.reported_data?.disks_total,
+    wrapper: hostDetails => {
+      if (!hostDetails?.reported_data?.disks_total) return null;
+      return NumberToHumanSize(hostDetails.reported_data.disks_total, {
+        strip_insignificant_zeros: true,
+      });
+    },
     isSorted: false,
     weight: 1500,
   },
