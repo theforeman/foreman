@@ -429,6 +429,7 @@ function architecture_selected(element) {
     },
     success: function(request) {
       $('#os_select').html(request);
+      os_selected($('.host-architecture-os-select'));
     },
   });
 }
