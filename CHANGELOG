@@ -1,3 +1,15 @@
+2025-04-10	Lukas Hellebrandt <lhellebr@redhat.com>
+	* Release 3.13.1
+
+2025-03-31	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #38078 - Correctly create a DB entry for settings test
+
+2025-03-31	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #38122 - Use Rails for JwtToken logger
+
+2025-02-20	MariaAga <mariaaga@redhat.com>
+	* Fixes #38223 - host_edit when no inherit button creates error
+
 2024-12-03	Cole Higgins <chiggins@redhat.com>
 	* Release 3.13.0
 
