@@ -1,48 +1,14 @@
-@import '~@theforeman/vendor/scss/variables';
-
 $caption_font_weight: 600;
 $background_image: url('../LoginPage/background.svg');
 
 #login-page {
   min-height: 100vh;
 
-  .login-pf-page-footer-link[href*='foreman-login-footer-text'] {
-    pointer-events: none;
-    cursor: default;
-  }
-
   .login-pf {
     min-height: 100vh;
     background: none;
     background-image: $background_image;
     background-size: contain;
-
-    .login-pf-header {
-      margin-bottom: 0 !important; // conflicts with patternfly-sass gem.
-
-      h1 {
-        font-weight: 500;
-      }
-    }
-
-    .login-pf-caption {
-      color: $color-pf-white;
-
-      h1 {
-        font-weight: $caption_font_weight;
-      }
-    }
-
-    // patternfly_and_overrides.scss sets all spinners in the app to left.
-    .spinner {
-      float: none;
-    }
-
-    // patternfly_and_overrides.scss adjusts all inputs glyphicons.
-    .form-control + .glyphicon {
-      position: absolute;
-      padding: 0;
-      right: 0;
-    }
+    background-repeat: repeat-y;
   }
 }

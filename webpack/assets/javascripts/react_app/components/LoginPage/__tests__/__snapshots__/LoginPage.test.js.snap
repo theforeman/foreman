@@ -5,73 +5,82 @@ exports[`LoginPage rendering renders LoginPage 1`] = `
   id="login-page"
 >
   <LoginPage
-    card={
-      Object {
-        "form": Object {
-          "additionalFields": <input
-            name="authenticity_token"
-            type="hidden"
-            value="some token"
-          />,
-          "attributes": Object {
-            "action": "/users/login",
-            "method": "post",
-          },
-          "passwordField": Object {
-            "attributes": Object {
-              "name": "login[password]",
-            },
-            "id": "login_password",
-            "placeholder": "Password",
-            "type": "password",
-          },
-          "submitButtonAttributes": Object {
-            "id": "login_submit_btn",
-            "name": "commit",
-          },
-          "submitError": Array [
-            "some-error",
-          ],
-          "submitText": "Log In",
-          "topErrorOnly": true,
-          "usernameField": Object {
-            "attributes": Object {
-              "autoFocus": true,
-              "name": "login[login]",
-            },
-            "id": "login_login",
-            "placeholder": "Username",
-            "type": "text",
-          },
-          "validate": true,
-        },
-        "title": "Log in to your account",
-      }
-    }
-    container={
-      Object {
-        "alert": Array [],
-        "backgroundUrl": "/some-background",
-      }
-    }
-    footerLinks={
-      Array [
-        Object {
-          "children": "some caption",
-          "href": "foreman-login-footer-text",
-        },
-      ]
-    }
-    header={
-      Object {
-        "caption": <h1
-          id="title"
+    brandImgSrc="/some-logo"
+    className="login-pf"
+    loginSubtitle="Log in to your account"
+    loginTitle="Welcome"
+    textContent="some caption"
+  >
+    <Form
+      action="/users/login"
+      method="post"
+    >
+      <FormAlert>
+        <Alert
+          aria-live="polite"
+          isInline={true}
+          key="login-failed"
+          ouiaId="login-alert"
+          title={
+            Array [
+              "some-error",
+            ]
+          }
+          variant="danger"
+        />
+      </FormAlert>
+      <FormGroup
+        fieldId="username"
+        isRequired={true}
+      >
+        <TextInput
+          autoComplete="username"
+          autoFocus={true}
+          id="login_login"
+          isRequired={true}
+          name="login[login]"
+          onChange={[Function]}
+          ouiaId="login-username"
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+      </FormGroup>
+      <FormGroup
+        fieldId="password"
+        isRequired={true}
+      >
+        <TextInput
+          autoComplete="current-password"
+          id="login_password"
+          isRequired={true}
+          name="login[password]"
+          onChange={[Function]}
+          ouiaId="login-password"
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+      </FormGroup>
+      <input
+        name="authenticity_token"
+        type="hidden"
+        value="some token"
+      />
+      <ActionGroup>
+        <Button
+          isBlock={true}
+          isDisabled={true}
+          isLoading={false}
+          onClick={[Function]}
+          ouiaId="login-submit"
+          type="submit"
+          variant="primary"
         >
-          Welcome
-        </h1>,
-        "logoSrc": "/some-logo",
-      }
-    }
-  />
+          Log In
+        </Button>
+      </ActionGroup>
+    </Form>
+  </LoginPage>
 </div>
 `;

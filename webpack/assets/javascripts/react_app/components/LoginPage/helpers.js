@@ -29,28 +29,16 @@ export const defaultFormProps = {
     action: '/users/login',
     method: 'post',
   },
-  validate: true,
-  topErrorOnly: true,
   usernameField: {
     id: 'login_login',
-    attributes: {
-      name: 'login[login]',
-      autoFocus: true,
-    },
-    type: 'text',
+    name: 'login[login]',
+    autoFocus: true,
     placeholder: __('Username'),
   },
   passwordField: {
     id: 'login_password',
-    attributes: {
-      name: 'login[password]',
-    },
-    type: 'password',
+    name: 'login[password]',
     placeholder: __('Password'),
   },
   submitText: __('Log In'),
-  submitButtonAttributes: {
-    id: 'login_submit_btn',
-    name: 'commit',
-  },
 };
