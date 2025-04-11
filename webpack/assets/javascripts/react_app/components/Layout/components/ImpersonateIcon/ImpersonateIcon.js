@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { EyeIcon } from '@patternfly/react-icons';
-import { MessageDialog } from 'patternfly-react';
-import { Tooltip, TooltipPosition } from '@patternfly/react-core';
+import {
+  Tooltip,
+  TooltipPosition,
+  Modal,
+  ModalVariant,
+  Button,
+} from '@patternfly/react-core';
 import { translate as __ } from '../../../../common/I18n';
 
 import './ImpersonateIcon.scss';
@@ -25,20 +29,34 @@ const ImpersonateIcon = props => {
           <EyeIcon className="blink-image" />
         </span>
       </Tooltip>
-      <MessageDialog
-        show={showModal}
-        onHide={toggleModal}
-        primaryAction={() =>
-          props.stopImpersonating(props.stopImpersonationUrl)
-        }
-        secondaryAction={toggleModal}
-        primaryActionButtonContent={__('Confirm')}
-        secondaryActionButtonContent={__('Cancel')}
+      <Modal
+        ouiaId="impersonate-modal"
+        variant={ModalVariant.small}
+        position="top"
+        isOpen={showModal}
+        onClose={toggleModal}
         title={__('Confirm Action')}
-        primaryContent={__(
-          'You are about to stop impersonating other user. Are you sure?'
-        )}
-      />
+        actions={[
+          <Button
+            ouiaId="stop-impersonating"
+            key="confirm"
+            variant="primary"
+            onClick={() => props.stopImpersonating(props.stopImpersonationUrl)}
+          >
+            {__('Confirm')}
+          </Button>,
+          <Button
+            ouiaId="cancel-impersonating-modal"
+            key="cancel"
+            variant="secondary"
+            onClick={toggleModal}
+          >
+            {__('Cancel')}
+          </Button>,
+        ]}
+      >
+        {__('You are about to stop impersonating other user. Are you sure?')}
+      </Modal>
     </React.Fragment>
   );
 };

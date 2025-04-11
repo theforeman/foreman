@@ -15,24 +15,43 @@ exports[`ImpersonateIcon should render 1`] = `
       />
     </span>
   </Tooltip>
-  <MessageDialog
-    accessibleDescription=""
-    accessibleName=""
+  <Modal
+    actions={
+      Array [
+        <Button
+          onClick={[Function]}
+          ouiaId="stop-impersonating"
+          variant="primary"
+        >
+          Confirm
+        </Button>,
+        <Button
+          onClick={[Function]}
+          ouiaId="cancel-impersonating-modal"
+          variant="secondary"
+        >
+          Cancel
+        </Button>,
+      ]
+    }
+    appendTo={[Function]}
+    aria-describedby=""
+    aria-label=""
+    aria-labelledby=""
     className=""
-    enforceFocus={true}
-    footer={null}
-    icon={null}
-    onHide={[Function]}
-    primaryAction={[Function]}
-    primaryActionButtonBsStyle="primary"
-    primaryActionButtonContent="Confirm"
-    primaryContent="You are about to stop impersonating other user. Are you sure?"
-    secondaryAction={[Function]}
-    secondaryActionButtonBsStyle="default"
-    secondaryActionButtonContent="Cancel"
-    secondaryContent={null}
-    show={false}
+    hasNoBodyWrapper={false}
+    isOpen={false}
+    onClose={[Function]}
+    ouiaId="impersonate-modal"
+    ouiaSafe={true}
+    position="top"
+    showClose={true}
     title="Confirm Action"
-  />
+    titleIconVariant={null}
+    titleLabel=""
+    variant="small"
+  >
+    You are about to stop impersonating other user. Are you sure?
+  </Modal>
 </Fragment>
 `;

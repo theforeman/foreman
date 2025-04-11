@@ -15,6 +15,7 @@
 }
 
 .blink-image {
+  cursor: pointer;
   -moz-animation: blink normal 1s infinite ease-in-out; /* Firefox */
   -webkit-animation: blink normal 1s infinite ease-in-out; /* Webkit */
   -ms-animation: blink normal 1s infinite ease-in-out; /* IE */
