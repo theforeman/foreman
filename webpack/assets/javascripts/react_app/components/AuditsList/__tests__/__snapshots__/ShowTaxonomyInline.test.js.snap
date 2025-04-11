@@ -1,41 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ShowTaxonomyInline rendering render organizations 1`] = `
-<Row
-  bsClass="row"
-  componentClass="div"
->
-  <Col
-    bsClass="col"
-    componentClass="div"
-    md={2}
+<Grid>
+  <GridItem
+    span={3}
   >
     <span>
       Affected Organizations
     </span>
-  </Col>
-  <Col
-    bsClass="col"
-    componentClass="div"
-    md={10}
+  </GridItem>
+  <GridItem
+    span={9}
   >
     <strong>
-      <a
+      <Button
         className="apply-comma "
+        component="a"
         href="/organizations/1-testOrg/edit"
+        isInline={true}
         key="0"
+        ouiaId="taxonomy-inline-btn"
+        variant="link"
       >
         testOrg
-      </a>
-      <a
+      </Button>
+      <Button
         className="apply-comma disabled"
-        disabled={true}
+        component="a"
         href="#"
+        isDisabled={true}
+        isInline={true}
         key="1"
+        ouiaId="taxonomy-inline-btn"
+        variant="link"
       >
         testOrg2
-      </a>
+      </Button>
     </strong>
-  </Col>
-</Row>
+  </GridItem>
+</Grid>
 `;

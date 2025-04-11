@@ -1,11 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ShowOrgsLocs rendering render organizations and locations 1`] = `
-<Col
-  bsClass="col"
+<GridItem
   className="taxonomy-section"
-  componentClass="div"
-  sm={10}
+  span={12}
 >
   <ShowTaxonomyInline
     displayLabel="Affected Organizations"
@@ -35,5 +33,5 @@ exports[`ShowOrgsLocs rendering render organizations and locations 1`] = `
       ]
     }
   />
-</Col>
+</GridItem>
 `;

@@ -1,30 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col } from 'patternfly-react';
+import { Grid, GridItem, Button } from '@patternfly/react-core';
 
 const ShowTaxonomyInline = ({ displayLabel, items }) => {
   const listItems = items.map(
     ({ name, url, disabled, css_class: addCSS }, index) => (
-      <a
+      <Button
+        ouiaId="taxonomy-inline-btn"
+        variant="link"
+        isInline
+        isDisabled={disabled}
+        component="a"
         href={url}
         key={index}
         className={`apply-comma ${addCSS || ''}`}
-        disabled={disabled}
       >
         {name}
-      </a>
+      </Button>
     )
   );
 
   return (
-    <Row>
-      <Col md={2}>
+    <Grid>
+      <GridItem span={3}>
         <span>{displayLabel}</span>
-      </Col>
-      <Col md={10}>
+      </GridItem>
+      <GridItem span={9}>
         <strong>{items && listItems}</strong>
-      </Col>
-    </Row>
+      </GridItem>
+    </Grid>
   );
 };
 

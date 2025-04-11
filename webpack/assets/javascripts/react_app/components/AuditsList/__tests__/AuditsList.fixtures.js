@@ -10,7 +10,6 @@ export const actionsList = [
   {
     url: '/hosts/foo.example.com',
     title: __('Host details'),
-    css_class: 'btn btn-default',
   },
 ];
 
@@ -54,7 +53,6 @@ export const AuditRecord = {
     {
       url: '/hosts/foo.example.com',
       title: __('Host details'),
-      css_class: 'btn btn-default',
     },
   ],
   associated_id: null,
@@ -140,7 +138,7 @@ export const AuditsProps = {
       allowed_actions: [
         {
           title: 'Host details',
-          css_class: 'btn btn-default',
+          css_class: 'pf-v5-c-button pf-m-primary pf-m-small pf-v5-u-float-right',
           url: '/hosts/host-foo.example.com',
         },
       ],

@@ -1,18 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
+import { Tooltip } from '@patternfly/react-core';
 
 const SearchLink = ({ url, title, id, textValue }) => {
   const linkProps = {
     href: url,
-    title,
     id: `resource-link-${id}`,
   };
 
   return (
-    <EllipsisWithTooltip>
+    <Tooltip
+      content={
+        <div>
+          <div>{title}</div>
+          <div>
+            <a {...linkProps}>{textValue}</a>
+          </div>
+        </div>
+      }
+      position="top-start"
+    >
       <a {...linkProps}>{textValue}</a>
-    </EllipsisWithTooltip>
+    </Tooltip>
   );
 };
 

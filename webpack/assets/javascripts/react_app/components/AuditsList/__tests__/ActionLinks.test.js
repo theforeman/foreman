@@ -15,7 +15,7 @@ describe('ActionLinks', () => {
     );
     components.forEach(({ description, component }) => {
       it(description, () => {
-        expect(component.find('a')).toHaveLength(1);
+        expect(component.find('Button')).toHaveLength(1);
         expect(component).toMatchSnapshot();
       });
     });

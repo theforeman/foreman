@@ -1,185 +1,195 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AuditsList rendering render resources list 1`] = `
-<ListView
-  className=""
+<DataList
+  aria-label="Audits data list"
+  id="audit-list"
+  isCompact={true}
 >
-  <ListViewItem
-    actions={
-      <span
-        className="gray-text"
-      >
-        <ShortDateTime
-          date="2018-08-13 00:34:55 -1100"
-          defaultValue="N/A"
-          seconds={false}
-          showRelativeTimeTooltip={true}
-        />
-      </span>
-    }
-    additionalInfo={
-      Array [
-        <ListViewInfoItem
-          className=""
-          stacked={false}
-        >
-          HOST
-        </ListViewInfoItem>,
-        <ListViewInfoItem
-          className=""
-          stacked={false}
-        >
-          <SearchLink
-            id={234}
-            textValue="host-foo.example.com"
-            title="Filter audits for this resource only"
-            url="/audits?search=type+%3D+host+and+auditable_id+%3D+9"
-          />
-        </ListViewInfoItem>,
-      ]
-    }
-    checkboxInput={null}
-    className="main-info-minimize-padding"
-    compoundExpand={false}
-    compoundExpanded={false}
-    description={
-      <ListViewDescription>
-        <ListViewDescriptionText>
-          updated
-        </ListViewDescriptionText>
-      </ListViewDescription>
-    }
-    heading={
-      <UserDetails
-        isAuditLogin={false}
-        remoteAddress="127.0.0.1"
-        userInfo={
-          Object {
-            "audit_path": "/audits?search=id+%3D+234",
-            "display_name": "Admin ",
-            "login": "admin",
-            "search_path": "/audits?search=user+%3D+admin",
-          }
-        }
-      />
-    }
-    hideCloseIcon={true}
+  <DataListItem
+    aria-labelledby=""
+    className="audits-data-list main-info-minimize-padding"
     id={234}
-    initExpanded={true}
+    isExpanded={false}
     key="234"
-    leftContent={null}
-    onCloseCompoundExpand={[Function]}
-    onExpand={[Function]}
-    onExpandClose={[Function]}
-    stacked={false}
   >
-    <Row
-      bsClass="row"
-      componentClass="div"
+    <DataListItemRow
+      className="audits-list-item-row"
+      onClick={[Function]}
     >
-      <ShowOrgsLocs
-        locs={
+      <DataListToggle
+        isExpanded={false}
+        onClick={[Function]}
+      />
+      <DataListItemCells
+        dataListCells={
           Array [
-            Object {
-              "name": "test_loc1",
-              "url": "/locations/2-test_loc1/edit",
-            },
-            Object {
-              "name": "test_loc2",
-              "url": "/locations/6-test_loc2/edit",
-            },
-            Object {
-              "name": "test_loc3",
-              "url": "/locations/9-test_loc3/edit",
-            },
-          ]
-        }
-        orgs={
-          Array [
-            Object {
-              "name": "test_org1",
-              "url": "/organizations/1-test_org1/edit",
-            },
-            Object {
-              "name": "test_org2",
-              "url": "/organizations/3-test_org2/edit",
-            },
-            Object {
-              "name": "test_org3",
-              "url": "/organizations/5-test_org3/edit",
-            },
+            <DataListCell
+              width={3}
+            >
+              <UserDetails
+                isAuditLogin={false}
+                remoteAddress="127.0.0.1"
+                userInfo={
+                  Object {
+                    "audit_path": "/audits?search=id+%3D+234",
+                    "display_name": "Admin ",
+                    "login": "admin",
+                    "search_path": "/audits?search=user+%3D+admin",
+                  }
+                }
+              />
+            </DataListCell>,
+            <DataListCell
+              width={1}
+            >
+              updated
+            </DataListCell>,
+            <DataListCell
+              alignRight={true}
+              className="additional-info-item item-name"
+              width={3}
+            >
+              <span>
+                HOST
+              </span>
+            </DataListCell>,
+            <DataListCell
+              className="additional-info-item item-resource"
+              width={5}
+              wrapModifier="truncate"
+            >
+              <span>
+                <SearchLink
+                  id={234}
+                  textValue="host-foo.example.com"
+                  title="Filter audits for this resource only"
+                  url="/audits?search=type+%3D+host+and+auditable_id+%3D+9"
+                />
+              </span>
+            </DataListCell>,
           ]
         }
       />
-      <ActionLinks
-        allowedActions={
-          Array [
-            Object {
-              "css_class": "btn btn-default",
-              "title": "Host details",
-              "url": "/hosts/host-foo.example.com",
-            },
-          ]
-        }
-      />
-    </Row>
-    <Row
-      bsClass="row"
-      componentClass="div"
+      <DataListAction
+        className="audits-list-actions"
+      >
+        <span
+          className="gray-text"
+        >
+          <ShortDateTime
+            date="2018-08-13 00:34:55 -1100"
+            defaultValue="N/A"
+            seconds={false}
+            showRelativeTimeTooltip={true}
+          />
+        </span>
+      </DataListAction>
+    </DataListItemRow>
+    <DataListContent
+      className="data-list-content"
+      isHidden={true}
     >
-      <ShowInlineRequestUuid
-        fetchAndPush={[MockFunction]}
-        id={234}
-        requestUuid="c134239d-8ac3-494b-9962-35133fe153ba"
-      />
-    </Row>
-    <ExpansiveView
-      actionDisplayName="updated"
-      auditTitle="host-foo.example.com"
-      auditedChanges={
-        Object {
-          "comment": Array [
-            "",
-            "This is info about host for audit",
-          ],
-          "root_pass": Array [
-            "[redacted]",
-            "[redacted]",
-          ],
-        }
-      }
-      auditedChangesWithIdToLabel={
-        Array [
-          Object {
-            "change": Array [
+      <Grid>
+        <ActionLinks
+          allowedActions={
+            Array [
               Object {
-                "css_class": "show-old",
-                "id_to_label": "[redacted]",
+                "css_class": "pf-v5-c-button pf-m-primary pf-m-small pf-v5-u-float-right",
+                "title": "Host details",
+                "url": "/hosts/host-foo.example.com",
+              },
+            ]
+          }
+        />
+        <ShowOrgsLocs
+          locs={
+            Array [
+              Object {
+                "name": "test_loc1",
+                "url": "/locations/2-test_loc1/edit",
               },
               Object {
-                "css_class": "show-new",
-                "id_to_label": "[redacted]",
-              },
-            ],
-            "name": "Root pass",
-          },
-          Object {
-            "change": Array [
-              Object {
-                "css_class": "show-old",
-                "id_to_label": "[empty]",
+                "name": "test_loc2",
+                "url": "/locations/6-test_loc2/edit",
               },
               Object {
-                "css_class": "show-new",
-                "id_to_label": "This is info about host for audit",
+                "name": "test_loc3",
+                "url": "/locations/9-test_loc3/edit",
               },
-            ],
-            "name": "Comment",
-          },
-        ]
-      }
-      comment={null}
-    />
-  </ListViewItem>
-</ListView>
+            ]
+          }
+          orgs={
+            Array [
+              Object {
+                "name": "test_org1",
+                "url": "/organizations/1-test_org1/edit",
+              },
+              Object {
+                "name": "test_org2",
+                "url": "/organizations/3-test_org2/edit",
+              },
+              Object {
+                "name": "test_org3",
+                "url": "/organizations/5-test_org3/edit",
+              },
+            ]
+          }
+        />
+        <ShowInlineRequestUuid
+          fetchAndPush={[MockFunction]}
+          id={234}
+          requestUuid="c134239d-8ac3-494b-9962-35133fe153ba"
+        />
+        <ExpansiveView
+          actionDisplayName="updated"
+          auditTitle="host-foo.example.com"
+          auditedChanges={
+            Object {
+              "comment": Array [
+                "",
+                "This is info about host for audit",
+              ],
+              "root_pass": Array [
+                "[redacted]",
+                "[redacted]",
+              ],
+            }
+          }
+          auditedChangesWithIdToLabel={
+            Array [
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[redacted]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "[redacted]",
+                  },
+                ],
+                "name": "Root pass",
+              },
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[empty]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "This is info about host for audit",
+                  },
+                ],
+                "name": "Comment",
+              },
+            ]
+          }
+          comment={null}
+        />
+      </Grid>
+    </DataListContent>
+  </DataListItem>
+</DataList>
 `;

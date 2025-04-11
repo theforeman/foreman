@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ListView, Row } from 'patternfly-react';
-import SearchLink from './SearchLink';
+import {
+  DataList,
+  DataListItem,
+  DataListItemRow,
+  DataListCell,
+  DataListAction,
+  DataListToggle,
+  DataListContent,
+  DataListItemCells,
+  Grid,
+} from '@patternfly/react-core';
 import ShowInlineRequestUuid from './ShowInlineRequestUuid';
+import SearchLink from './SearchLink';
 import ShowOrgsLocs from './ShowOrgsLocs';
 import ActionLinks from './ActionLinks';
 import ExpansiveView from './ExpansiveView';
@@ -21,17 +31,8 @@ const isAuditLogin = auditedChanges => {
   return name === 'last_login_on';
 };
 
-const description = actionDisplayName => (
-  <ListView.Description>
-    <ListView.DescriptionText>{actionDisplayName}</ListView.DescriptionText>
-  </ListView.Description>
-);
-
 const renderAdditionalInfoItems = items =>
-  items &&
-  items.map((item, index) => (
-    <ListView.InfoItem key={index}>{item}</ListView.InfoItem>
-  ));
+  items && items.map((item, index) => <span key={index}>{item}</span>);
 
 const renderTimestamp = date => (
   <span className="gray-text">
@@ -58,9 +59,17 @@ const renderResourceLink = (auditTitle, auditTitleUrl, id) => {
 };
 
 const AuditsList = ({ data: { audits }, fetchAndPush }) => {
-  const initExpanded = audits.length === 1;
+  const [expandedRow, setExpandedRow] = useState([]);
+  const isExpanded = id => expandedRow.includes(id);
+  const newToggle = id => {
+    const otherExpanded = expandedRow.filter(arrIds => arrIds !== id);
+    return isExpanded(id)
+      ? setExpandedRow(otherExpanded)
+      : setExpandedRow([...otherExpanded, id]);
+  };
+
   return (
-    <ListView>
+    <DataList aria-label="Audits data list" id="audit-list" isCompact>
       {audits.map(
         ({
           id,
@@ -80,61 +89,91 @@ const AuditsList = ({ data: { audits }, fetchAndPush }) => {
           audited_changes_with_id_to_label: auditedChangesWithIdToLabel,
           details,
         }) => (
-          <ListView.Item
+          <DataListItem
             id={id}
             key={id}
-            className={
+            className={`audits-data-list ${
               remoteAddress
                 ? 'main-info-minimize-padding'
                 : 'main-info-maximize-padding'
-            }
-            actions={renderTimestamp(createdAt)}
-            additionalInfo={renderAdditionalInfoItems([
-              auditedTypeName.toUpperCase(),
-              renderResourceLink(auditTitle, auditTitleUrl, id),
-            ])}
-            heading={
-              <UserDetails
-                isAuditLogin={isAuditLogin(auditedChanges)}
-                userInfo={userInfo}
-                remoteAddress={remoteAddress}
-              />
-            }
-            description={description(actionDisplayName)}
-            stacked={false}
-            hideCloseIcon
-            initExpanded={initExpanded}
+            }`}
+            isExpanded={isExpanded(id)}
           >
-            <Row>
-              <ShowOrgsLocs
-                orgs={affectedOrganizations}
-                locs={affectedLocations}
+            <DataListItemRow
+              onClick={() => newToggle(id)}
+              className="audits-list-item-row"
+            >
+              <DataListToggle
+                onClick={() => newToggle(id)}
+                isExpanded={isExpanded(id)}
               />
-              <ActionLinks allowedActions={allowedActions} />
-            </Row>
-
-            <Row>
-              <ShowInlineRequestUuid
-                fetchAndPush={fetchAndPush}
-                requestUuid={requestUuid}
-                id={id}
+              <DataListItemCells
+                dataListCells={[
+                  <DataListCell key="primary" width={3}>
+                    <UserDetails
+                      isAuditLogin={isAuditLogin(auditedChanges)}
+                      userInfo={userInfo}
+                      remoteAddress={remoteAddress}
+                    />
+                  </DataListCell>,
+                  <DataListCell key="secondary" width={1}>
+                    {actionDisplayName}
+                  </DataListCell>,
+                  <DataListCell
+                    key="third"
+                    className="additional-info-item item-name"
+                    width={3}
+                    alignRight
+                  >
+                    {renderAdditionalInfoItems([auditedTypeName.toUpperCase()])}
+                  </DataListCell>,
+                  <DataListCell
+                    key="fourth"
+                    className="additional-info-item item-resource"
+                    width={5}
+                    wrapModifier="truncate"
+                  >
+                    {renderAdditionalInfoItems([
+                      renderResourceLink(auditTitle, auditTitleUrl, id),
+                    ])}
+                  </DataListCell>,
+                ]}
               />
-            </Row>
-
-            <ExpansiveView
-              {...{
-                actionDisplayName,
-                details,
-                comment,
-                auditTitle,
-                auditedChanges,
-                auditedChangesWithIdToLabel,
-              }}
-            />
-          </ListView.Item>
+              <DataListAction className="audits-list-actions">
+                {renderTimestamp(createdAt)}
+              </DataListAction>
+            </DataListItemRow>
+            <DataListContent
+              isHidden={!isExpanded(id)}
+              className="data-list-content"
+            >
+              <Grid>
+                <ActionLinks allowedActions={allowedActions} />
+                <ShowOrgsLocs
+                  orgs={affectedOrganizations}
+                  locs={affectedLocations}
+                />
+                <ShowInlineRequestUuid
+                  fetchAndPush={fetchAndPush}
+                  requestUuid={requestUuid}
+                  id={id}
+                />
+                <ExpansiveView
+                  {...{
+                    actionDisplayName,
+                    details,
+                    comment,
+                    auditTitle,
+                    auditedChanges,
+                    auditedChangesWithIdToLabel,
+                  }}
+                />
+              </Grid>
+            </DataListContent>
+          </DataListItem>
         )
       )}
-    </ListView>
+    </DataList>
   );
 };
 AuditsList.propTypes = {

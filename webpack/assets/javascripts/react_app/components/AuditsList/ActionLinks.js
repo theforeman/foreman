@@ -1,21 +1,26 @@
 import React from 'react';
-import { Col } from 'patternfly-react';
+import { GridItem, Button } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 
 const ActionLinks = ({ allowedActions }) => (
-  <Col sm={2} className="actions-btns">
+  <GridItem span={12} className="actions-btns">
     {allowedActions &&
-      allowedActions.map(
-        ({ url, css_class: CssClassString, disabled, name, title }, index) => (
-          <a
-            key={index}
-            {...{ className: CssClassString, href: url, disabled }}
-          >
-            {name || title}
-          </a>
-        )
-      )}
-  </Col>
+      allowedActions.map(({ url, disabled, name, title }, index) => (
+        <Button
+          ouiaId="action-links-btn"
+          variant="primary"
+          component="a"
+          size="sm"
+          isInline
+          key={index}
+          href={url}
+          isDisabled={disabled}
+          className="pf-v5-u-float-right"
+        >
+          {name || title}
+        </Button>
+      ))}
+  </GridItem>
 );
 
 ActionLinks.propTypes = {
