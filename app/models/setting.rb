@@ -229,6 +229,18 @@ class Setting < ApplicationRecord
     ActiveModel::Name.new(Setting)
   end
 
+  def filter_encrypted_attrs(filtered_changes)
+    # Check if the value should be masked for this instance
+    if encrypted?
+      filter_attr_values(
+        audited_changes: filtered_changes,
+        attrs: [:value]
+      )
+    else
+      filtered_changes
+    end
+  end
+
   # End methods for loading default settings
 
   private

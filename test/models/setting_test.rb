@@ -384,4 +384,31 @@ class SettingTest < ActiveSupport::TestCase
       assert setting.valid?, "Can't update login_text setting with valid value #{value}"
     end
   end
+
+  test 'filter_encrypted_attrs filters :value if setting is encrypted' do
+    setting = Setting.new(name: 'smtp_password')
+    changes = { value: ['old', 'new'] }
+
+    filtered = setting.filter_encrypted_attrs(changes)
+
+    assert_equal ['[FILTERED]', '[FILTERED]'], filtered[:value]
+  end
+
+  test 'filter_encrypted_attrs leaves :value unchanged if setting is not encrypted' do
+    setting = Setting.new(name: 'non_secret')
+    changes = { value: ['old', 'new'] }
+
+    filtered = setting.filter_encrypted_attrs(changes)
+
+    assert_equal ['old', 'new'], filtered[:value]
+  end
+
+  test 'audit should call filter_encrypted_attrs' do
+    setting = Setting.new(name: 'smtp_password', value: 'secret')
+
+    # Expect filter_encrypted_attrs to be called when auditing
+    Setting.any_instance.expects(:filter_encrypted_attrs).once.returns({ value: ['[FILTERED]', '[FILTERED]'] })
+
+    setting.update!(value: 'new_secret')
+  end
 end

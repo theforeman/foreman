@@ -39,7 +39,8 @@ Foreman::SettingManager.define(:foreman) do
       type: :string,
       description: N_('Set an HTTP(s) proxy for all outgoing HTTP(S) connections from Foreman. System-wide proxies must be configured at the operating system level.'),
       default: nil,
-      full_name: N_('HTTP(S) proxy'))
+      full_name: N_('HTTP(S) proxy'),
+      encrypted: true)
     validates(:http_proxy, { http_url: { allow_blank: true } })
     setting('http_proxy_except_list',
       type: :array,
