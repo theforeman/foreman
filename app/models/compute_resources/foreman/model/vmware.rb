@@ -591,6 +591,9 @@ module Foreman::Model
         "resource_pool" => [args[:cluster], args[:resource_pool]],
         "boot_order" => [:disk],
         "annotation" => args[:annotation],
+        "virtual_tpm" => args[:virtual_tpm],
+        "firmware" => args[:firmware],
+        "secure_boot" => args[:secure_boot],
       }
 
       opts['transform'] = (args[:volumes].first[:thin] == 'true') ? 'sparse' : 'flat' unless args[:volumes].empty?
@@ -858,7 +861,7 @@ module Foreman::Model
     # @param firmware [String] The firmware type.
     # @return [Hash] A hash with secure boot settings if applicable.
     def generate_secure_boot_settings(firmware)
-      firmware == 'uefi_secure_boot' ? { "secure_boot" => true } : {}
+      firmware == 'uefi_secure_boot' ? { secure_boot: true } : {}
     end
 
     # Validates TPM compatibility based on the firmware type and virtual TPM setting.

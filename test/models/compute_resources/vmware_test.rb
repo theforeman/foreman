@@ -1071,7 +1071,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     end
 
     test "returns secure boot settings when firmware is 'uefi_secure_boot'" do
-      assert_equal({ "secure_boot" => true }, @cr.send(:generate_secure_boot_settings, 'uefi_secure_boot'))
+      assert_equal({ secure_boot: true }, @cr.send(:generate_secure_boot_settings, 'uefi_secure_boot'))
     end
 
     test "returns an empty hash for firmware types other than 'uefi_secure_boot'" do
