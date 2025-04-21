@@ -384,4 +384,71 @@ class SettingTest < ActiveSupport::TestCase
       assert setting.valid?, "Can't update login_text setting with valid value #{value}"
     end
   end
+
+  context "when encryption key is expected" do
+    # Set the encryption key once for the context
+    before do
+      Setting.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
+    end
+
+    # Helper to initialize and save the setting
+    def create_setting(url)
+      setting = Setting.new(name: 'test_url', value: url)
+      setting.save!
+      setting
+    end
+
+    test 'encrypt URL setting when it contains password' do
+      url = 'http://user:pass@example.com'
+      setting = create_setting(url)
+
+      assert setting.is_decryptable?(setting.read_attribute(:value)), 'Expected URL to be encrypted'
+      assert_equal url, setting.value
+    end
+
+    test 'does not encrypt URL when userinfo does not contain password' do
+      url = 'http://user@example.com'
+      setting = create_setting(url)
+
+      refute setting.is_decryptable?(setting.read_attribute(:value)), 'Expected URL not to be encrypted'
+      assert_equal url, setting.value
+    end
+
+    test 'does not encrypt URL when URL does not have userinfo' do
+      url = 'http://example.com'
+      setting = create_setting(url)
+
+      refute setting.is_decryptable?(setting.read_attribute(:value)), 'Expected URL not to be encrypted'
+      assert_equal url, setting.value
+    end
+
+    test 'adds an error when URL is invalid' do
+      url = 'http://example.com/hello world'
+      setting = create_setting(url)
+
+      refute setting.is_decryptable?(setting.read_attribute(:value)), 'Expected URL not to be encrypted'
+      assert_includes setting.errors[:value], "Invalid URI '#{url}'"
+    end
+
+    test 'encrypt_url_if_password_present is not called if value does not start with http' do
+      setting = Setting.new(name: 'test_url', value: 'ftp://user:pass@example.com')
+
+      setting.expects(:encrypt_url_if_password_present).never
+      setting.save!
+    end
+
+    test 'encrypt_url_if_password_present is not called if value includes http but is not a URL' do
+      setting = Setting.new(name: 'test_url', value: 'my_http_proxy')
+
+      setting.expects(:encrypt_url_if_password_present).never
+      setting.save!
+    end
+
+    test 'encrypted? should return false when URL contains password' do
+      setting = Setting.new(name: 'test_url', value: 'http://user:pass@example.comjkjk')
+      setting.save!
+
+      assert_not setting.encrypted?, 'encrypted? should return false when URL contains password'
+    end
+  end
 end

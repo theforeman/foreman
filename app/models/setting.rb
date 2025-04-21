@@ -45,6 +45,7 @@ class Setting < ApplicationRecord
   validates :value, :array_hostnames_ips => true, :if => proc { |s| ARRAY_HOSTNAMES.include? s.name }
   validates :value, :email => true, :if => proc { |s| EMAIL_ATTRS.include? s.name }
   before_save :clear_value_when_default
+  before_save :encrypt_url_if_password_present, :if => proc { |s| s.value.is_a?(String) && s.value.start_with?('http') }
   validate :validate_frozen_attributes
   before_validation :remove_whitespaces, :if => proc { |s| s.settings_type == "array" }
   # Custom validations are added from SettingManager class
@@ -282,5 +283,14 @@ class Setting < ApplicationRecord
 
   def remove_whitespaces
     self[:value] = value.each { |a| a.strip! if a.respond_to? :strip! }
+  end
+
+  def encrypt_url_if_password_present
+    uri = URI.parse(value)
+    return unless uri.userinfo&.include?(':')
+
+    self[:value] = encrypt_field(value)
+  rescue URI::InvalidURIError
+    errors.add(:value, _("Invalid URI '#{value}'"))
   end
 end
