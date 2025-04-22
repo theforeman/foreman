@@ -178,12 +178,12 @@ model: ReportTemplate
       net_sources = [host]
       net_sources.unshift(host.execution_interface) if host.respond_to?(:execution_interface)
       if input_ipv4 || input_subnet
-        ipv4_source = net_sources.find { |s| s.ip }
+        ipv4_source = net_sources.find { |s| s&.ip }
         inventory_data.update('ipv4': ipv4_source&.ip) if input_ipv4
         inventory_data.update('subnet': ipv4_source&.subnet) if input_subnet
       end
       if input_ipv6 || input_subnet6
-        ipv6_source = net_sources.find { |s| s.ip6 }
+        ipv6_source = net_sources.find { |s| s&.ip6 }
         inventory_data.update('ipv6': ipv6_source&.ip6) if input_ipv6
         inventory_data.update('subnet6': ipv6_source&.subnet6) if input_subnet6
       end
