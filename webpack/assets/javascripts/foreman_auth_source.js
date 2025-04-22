@@ -83,14 +83,30 @@ function updateLdapAccountHelp(selectedType) {
 
 export function changeLdapServerType() {
   const type = $('#auth_source_ldap_server_type').val();
-  $('#auth_source_ldap_use_netgroups')
-    .closest('.form-group')
-    .toggle(type !== 'active_directory');
+  const membershipType = $('#auth_source_ldap_ldap_group_membership');
+
+  membershipType.closest('.form-group').toggle(type !== 'active_directory');
+
+  if (type !== 'active_directory') {
+    const rfc4519 = $(
+      '#auth_source_ldap_ldap_group_membership option[value="rfc4519"]'
+    );
+
+    if (type !== 'posix') {
+      rfc4519.attr('disabled', 'disabled');
+      if (membershipType.find(':selected').val() === 'rfc4519') {
+        membershipType.val('posix').trigger('change');
+      }
+    } else {
+      rfc4519.removeAttr('disabled');
+    }
+  }
+
   updateLdapAccountHelp(type);
 }
 
 $(document).ready(() => {
-  if (window.location.pathname.match('auth_source_ldaps/i')) {
+  if (window.location.pathname.match(/auth_source_ldaps/i)) {
     changeLdapServerType();
   }
 });

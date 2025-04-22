@@ -8,6 +8,7 @@ FactoryBot.define do
     attr_lastname { 'daho' }
     port { '389' }
     server_type { 'posix' }
+    ldap_group_membership { 'posix' }
   end
 
   trait :posix

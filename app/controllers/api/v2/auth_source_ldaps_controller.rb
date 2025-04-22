@@ -45,7 +45,8 @@ module Api
           param :usergroup_sync, :bool, :desc => N_("sync external user groups on login")
           param :tls, :bool
           param :groups_base, String, :desc => N_("groups base DN")
-          param :use_netgroups, :bool, :desc => N_("use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa")
+          param :use_netgroups, :bool, :desc => N_("use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa. Deprecated in favor of ldap_group_membership = nis_netgroups"), :deprecated => true
+          param :ldap_group_membership, AuthSourceLdap::GROUP_MEMBERSHIP_TYPES.keys, :desc => N_("type of group membership to use, applicable only when server_type is posix, free_ipa or netiq. Option rfc4519 is only applicable  when server_type is posix.")
           param :server_type, AuthSourceLdap::SERVER_TYPES.keys, :desc => N_("type of the LDAP server")
           param :ldap_filter, String, :desc => N_("LDAP filter")
           param_group :taxonomies, ::Api::V2::BaseController

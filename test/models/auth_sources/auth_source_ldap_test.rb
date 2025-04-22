@@ -58,11 +58,21 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   test "it enforces use_netgroups to false for active directory" do
-    auth_source_ldap.use_netgroups = true
+    auth_source_ldap.ldap_group_membership = 'nis_netgroups'
     auth_source_ldap.server_type = :active_directory
 
     assert auth_source_ldap.valid?
-    refute auth_source_ldap.use_netgroups
+    assert_nil auth_source_ldap.ldap_group_membership
+  end
+
+  test "it propagates group membership to the config" do
+    auth_source_ldap.ldap_group_membership = 'rfc4519'
+    assert auth_source_ldap.to_config[:use_rfc4519_group_membership]
+    refute auth_source_ldap.to_config[:use_netgroups]
+
+    auth_source_ldap.ldap_group_membership = 'nis_netgroups'
+    refute auth_source_ldap.to_config[:use_rfc4519_group_membership]
+    assert auth_source_ldap.to_config[:use_netgroups]
   end
 
   test "return nil if login is blank or password is blank" do

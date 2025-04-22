@@ -22,6 +22,8 @@ class AuthSourceLdap < AuthSource
   SERVER_TYPES = { :free_ipa => 'FreeIPA', :active_directory => 'Active Directory',
                    :posix    => 'POSIX', :netiq => "NetIQ"}
 
+  GROUP_MEMBERSHIP_TYPES = { :posix => 'POSIX', :rfc4519 => 'POSIX + RFC4519', :nis_netgroups => 'NIS Netgroups' }
+
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
@@ -35,10 +37,11 @@ class AuthSourceLdap < AuthSource
   validates :account_password, :length => {:maximum => 69}, :allow_nil => true
   validates :port, :presence => true, :numericality => {:only_integer => true}
   validates :server_type, :presence => true, :inclusion => { :in => SERVER_TYPES.keys.map(&:to_s) }
+  validates :ldap_group_membership, :presence => true, :inclusion => { :in => :allowed_group_membership_types }, :if => proc { |auth| %w[posix netiq free_ipa].include?(auth.server_type.to_s) }
   validate :validate_ldap_filter, :unless => proc { |auth| auth.ldap_filter.blank? }
 
   before_validation :strip_ldap_attributes
-  before_validation :sanitize_use_netgroups
+  before_validation :sanitize_group_membership
   after_initialize :set_defaults, if: :new_record?
 
   scoped_search :on => :name, :complete_value => :true
@@ -92,7 +95,8 @@ class AuthSourceLdap < AuthSource
       :anon_queries => account.blank?, :service_user => service_user(login),
       :service_pass => use_user_login_for_service? ? password : account_password,
       :instrumentation_service => ActiveSupport::Notifications,
-      :use_netgroups => use_netgroups }
+      :use_netgroups => ldap_group_membership == 'nis_netgroups',
+      :use_rfc4519_group_membership => ldap_group_membership == 'rfc4519' }
   end
 
   def encryption_config
@@ -195,8 +199,13 @@ class AuthSourceLdap < AuthSource
     end
   end
 
-  def sanitize_use_netgroups
-    self.use_netgroups = false if server_type.to_s == 'active_directory'
+  def sanitize_group_membership
+    if server_type.to_s == 'active_directory'
+      self.ldap_group_membership = nil
+    else
+      self.ldap_group_membership ||= 'posix'
+    end
+
     true
   end
 
@@ -275,5 +284,16 @@ class AuthSourceLdap < AuthSource
 
   def service_user(login)
     use_user_login_for_service? ? account.sub("$login", login) : account
+  end
+
+  def allowed_group_membership_types
+    case server_type.to_s
+    when 'posix'
+      GROUP_MEMBERSHIP_TYPES.keys.map(&:to_s)
+    when 'netiq', 'free_ipa'
+      ['posix', 'nis_netgroups']
+    when 'active_directory'
+      []
+    end
   end
 end
