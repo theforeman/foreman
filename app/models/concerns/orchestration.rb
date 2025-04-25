@@ -159,10 +159,17 @@ module Orchestration
     end
 
     update_cache
-    # if we have no failures - we are done
-    return true if q.failed.empty? && q.pending.empty? && q.conflict.empty? && orchestration_errors?
 
-    logger.warn "Rolling back due to a problem: #{q.failed + q.conflict}"
+    if !q.failed.empty? || !q.conflict.empty?
+      logger.warn "Rolling back due to a problem: #{q.failed + q.conflict}"
+    elsif !q.pending.empty?
+      logger.warn "Rolling back due to unexpected pending task(s): #{q.pending}"
+    elsif !orchestration_errors?
+      logger.warn "Rolling back due to errors: #{errors}"
+    else
+      # if we have no failures - we are done
+      return true
+    end
     fail_queue(q)
 
     rollback
