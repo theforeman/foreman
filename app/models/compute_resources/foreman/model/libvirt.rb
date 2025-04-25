@@ -148,8 +148,11 @@ module Foreman::Model
       opts[:boot_order] = %w[hd]
       opts[:boot_order].unshift 'network' unless attr[:image_id]
 
-      firmware_type = opts.delete(:firmware_type).to_s
-      opts.merge!(process_firmware_attributes(opts[:firmware], firmware_type))
+      source = opts.delete(:source).to_s
+      unless source == 'compute_profile'
+        firmware_type = opts.delete(:firmware_type).to_s
+        opts.merge!(process_firmware_attributes(opts[:firmware], firmware_type))
+      end
 
       vm = client.servers.new opts
       vm.memory = opts[:memory] if opts[:memory]

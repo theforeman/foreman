@@ -4,7 +4,7 @@
   <%= select_f f, :compute_profile_id, ComputeProfile.all, :id, :name, {}, :disabled => true, :label => _('Compute profile'), :label_size => "col-md-2" %>
   <%= select_f f, :compute_resource_id, ComputeResource.all, :id, :to_label, {}, :disabled => true, :label => _('Compute resource'), :label_size => "col-md-2" %>
 
-  <%= fields_for 'compute_attribute[vm_attrs]', @set.compute_resource.new_vm(@set.vm_attrs) do |f2| %>
+  <%= fields_for 'compute_attribute[vm_attrs]', @set.compute_resource.new_vm(@set.vm_attrs.merge(:source => 'compute_profile')) do |f2| %>
     <%= render :partial => "compute_form",
                :locals => { :f => f2, :compute_resource => @set.compute_resource, :selected_cluster => @set.vm_attrs['cluster'] } %>
   <% end %>
