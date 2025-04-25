@@ -40,7 +40,7 @@ export const Table = ({
   idColumn,
   children,
   bottomPagination,
-  childrenOutsideTbody, // Expendable table rows are each a Tbody so they cant be inside the Tbody
+  childrenOutsideTbody, // Expandable table rows are each a Tbody so they cant be inside the Tbody
 }) => {
   const onPagination = newPagination => {
     setParams({ ...params, ...newPagination });
@@ -113,11 +113,19 @@ export const Table = ({
         url={url}
         refreshData={refreshData}
       />
-      <PFTable variant="compact" ouiaId="table" isStriped>
+      <PFTable
+        variant="compact"
+        ouiaId="table"
+        isStriped
+        isExpandable={childrenOutsideTbody}
+      >
         <Thead>
           <Tr ouiaId="table-header">
             {showCheckboxes && (
               <Th aria-label="checkbox-header" key="checkbox-th" />
+            )}
+            {childrenOutsideTbody && (
+              <Th aria-label="expansion-carat" key="expansion-carat" />
             )}
             {columnNamesKeys.map(k => (
               <Th
