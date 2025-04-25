@@ -469,4 +469,45 @@ class ComputeResourceTest < ActiveSupport::TestCase
       assert_equal 'bios', @cr.send(:resolve_automatic_firmware, 'automatic', nil)
     end
   end
+
+  describe '#process_firmware_attributes' do
+    before do
+      @cr = compute_resources(:vmware)
+    end
+
+    test "returns 'automatic' when firmware is nil and firmware_type is not present" do
+      attr_exp = { :firmware => "automatic" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, nil, nil)
+    end
+
+    test "returns 'bios' when firmware is 'automatic' and firmware_type is 'bios'" do
+      attr_exp = { :firmware => "bios" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'automatic', 'bios')
+    end
+
+    test "returns 'automatic' when firmware is 'automatic' and firmware_type is not present" do
+      attr_exp = { :firmware => "automatic" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'automatic', nil)
+    end
+
+    test "returns 'uefi' when firmware is 'uefi' and firmware_type is not present" do
+      attr_exp = { :firmware => "uefi" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'uefi', nil)
+    end
+
+    test "returns 'efi' when firmware is 'automatic' and firmware_type is 'uefi'" do
+      attr_exp = { :firmware => "efi" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'automatic', 'uefi')
+    end
+
+    test "returns 'uefi_secure_boot' with secure boot flag when firmware is 'uefi_secure_boot' and firmware_type is not present" do
+      attr_exp = { :secure_boot => true, :firmware => "uefi_secure_boot" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'uefi_secure_boot', nil)
+    end
+
+    test "returns 'efi' with secure boot flag when firmware is 'uefi_secure_boot' and firmware_type is 'uefi_secure_boot'" do
+      attr_exp = { :secure_boot => true, :firmware => "efi" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'uefi_secure_boot', 'uefi_secure_boot')
+    end
+  end
 end

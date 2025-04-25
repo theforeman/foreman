@@ -439,11 +439,23 @@ class ComputeResource < ApplicationRecord
   # @param firmware_type [String] The firmware type based on the provided PXE Loader.
   # @return [Hash] A hash containing the processed firmware attributes.
   def process_firmware_attributes(firmware, firmware_type)
-    firmware = resolve_automatic_firmware(firmware, firmware_type)
+    attrs = {}
 
-    attrs = generate_secure_boot_settings(firmware)
-    attrs[:firmware] = normalize_firmware_type(firmware)
-    attrs
+    # The `firmware_type` flag is set through `host_compute_attrs(host)` and only used
+    # during host creation via the orchestration process.
+    # If not set, the method may be used for validation, preview, or UI-related logic
+    # without performing any real provisioning actions.
+    # The normalization should only be used during host creation, otherwise the firmware is set
+    # to the initial firmware value so that the UI can display the correct value.
+
+    if firmware_type.present?
+      firmware = resolve_automatic_firmware(firmware, firmware_type)
+      attrs[:firmware] = normalize_firmware_type(firmware)
+    else
+      attrs[:firmware] = firmware || 'automatic'
+    end
+
+    attrs.merge!(generate_secure_boot_settings(firmware))
   end
 
   protected

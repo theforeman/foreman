@@ -254,9 +254,9 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       @cr = FactoryBot.build_stubbed(:vmware_cr)
     end
 
-    test "defaults to BIOS firmware when no firmware is provided" do
+    test "defaults to automatic firmware when no firmware is provided" do
       args = HashWithIndifferentAccess.new
-      expected_firmware = { firmware: "bios" }
+      expected_firmware = { firmware: "automatic" }
 
       assert_equal expected_firmware, @cr.parse_args(args)
     end
@@ -288,7 +288,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         }
       )
       # All keys must be symbolized
-      attrs_out = { :cpus => "1", :interfaces => [{ :type => "VirtualVmxnet3", :network => "network-17", :_delete => "" }], :volumes => [{ :size_gb => "1", :_delete => "" }], :firmware => "bios" }
+      attrs_out = { :cpus => "1", :interfaces => [{ :type => "VirtualVmxnet3", :network => "network-17", :_delete => "" }], :volumes => [{ :size_gb => "1", :_delete => "" }], :firmware => "automatic" }
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
@@ -319,7 +319,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           },
         }
       )
-      attrs_out = {:cpus => "1", :interfaces => [{:type => "VirtualVmxnet3", :network => "network-17", :_delete => ""}], :volumes => [{:size_gb => "1", :_delete => ""}], :firmware => "bios" }
+      attrs_out = {:cpus => "1", :interfaces => [{:type => "VirtualVmxnet3", :network => "network-17", :_delete => ""}], :volumes => [{:size_gb => "1", :_delete => ""}], :firmware => "automatic" }
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
 
@@ -366,7 +366,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
             :_delete => "",
           },
         ],
-        :firmware => "bios",
+        :firmware => "automatic",
       }
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
@@ -390,9 +390,21 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         assert_equal attrs_out, @cr.parse_args(attrs_in)
       end
 
-      test 'chooses BIOS firmware when no pxe loader is set and firmware is automatic' do
+      test 'chooses EFI firmware with secure boot flag when pxe loader is set to UEFI SecureBoot and firmware is automatic' do
+        attrs_in = HashWithIndifferentAccess.new(:firmware_type => :uefi_secure_boot, 'firmware' => 'automatic')
+        attrs_out = {:firmware => "efi", :secure_boot => true}
+        assert_equal attrs_out, @cr.parse_args(attrs_in)
+      end
+
+      test 'chooses UEFI firmware when no pxe loader is set and firmware is UEFI' do
+        attrs_in = HashWithIndifferentAccess.new('firmware' => 'uefi')
+        attrs_out = {:firmware => "uefi"}
+        assert_equal attrs_out, @cr.parse_args(attrs_in)
+      end
+
+      test 'chooses automatic firmware when no pxe loader is set and firmware is automatic' do
         attrs_in = HashWithIndifferentAccess.new('firmware' => 'automatic')
-        attrs_out = {:firmware => "bios"}
+        attrs_out = {:firmware => "automatic"}
         assert_equal attrs_out, @cr.parse_args(attrs_in)
       end
     end

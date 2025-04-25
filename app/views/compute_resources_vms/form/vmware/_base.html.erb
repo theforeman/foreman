@@ -7,8 +7,10 @@
 </div>
 <%= text_f f, :memory_mb, :class => "col-md-2", :label => _("Memory (MB)") %>
 
-<% firmware_type = new_vm ? 'automatic' : compute_resource.firmware_type(f.object.firmware, f.object.secure_boot) %>
-<%= field(f, :firmware, :label => _('Firmware'), :label_help => _("Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."), :label_size => "col-md-2") do
+<%
+  firmware_type = compute_resource.firmware_type(f.object.firmware, f.object.secure_boot)
+%>
+<%= field(f, :firmware, :label => _('Firmware'), :label_help => _("Choose 'Automatic' to set the firmware based on the PXE loader of the host. If no PXE loader is selected, firmware defaults to BIOS."), :label_size => "col-md-2") do
   compute_resource.firmware_types.collect do |type, name|
     radio_button_f f, :firmware, { :checked => (firmware_type == type), :disabled => !new_vm, :value => type, :text => _(name) }
   end.join(' ').html_safe
