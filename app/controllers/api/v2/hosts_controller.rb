@@ -362,15 +362,15 @@ module Api
           end
           # map interface types
           params[:interfaces_attributes] = params[:interfaces_attributes].map do |nic_attr|
-            interface_attributes(nic_attr, allow_nil_type: host.nil?)
+            interface_attributes(nic_attr)
           end
         end
         params = host.apply_inherited_attributes(params) if host
         params
       end
 
-      def interface_attributes(params, allow_nil_type: false)
-        params[:type] = InterfaceTypeMapper.map(params[:type]) if params.has_key?(:type) || allow_nil_type
+      def interface_attributes(params)
+        params[:type] = InterfaceTypeMapper.map(params[:type]) if params.has_key?(:type) || params[:id].nil?
         params
       end
 

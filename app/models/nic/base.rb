@@ -346,8 +346,7 @@ module Nic
     end
 
     def validate_updating_types
-      sti_type = type || 'Nic::Base'
-      errors.add(:type, _("can't be changed once the interface is saved")) if persisted? && (self.class.name != sti_type)
+      errors.add(:type, _("can't be changed once the interface is saved")) if persisted? && (self.class.name != type)
     end
 
     def mac_addresses_for_provisioning

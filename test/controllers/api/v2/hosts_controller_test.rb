@@ -317,6 +317,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal Nic::BMC,     last_record.interfaces.find_by_mac('00:11:22:33:44:01').class
   end
 
+  test "should provide a default type for interfaces" do
+    disable_orchestration
+
+    post :create, params: { :host => basic_attrs.merge!(:interfaces_attributes => nics_attrs << {:mac => '00:11:22:33:44:03'}) }
+    assert_response :created
+    assert_equal 3, last_record.interfaces.count
+
+    assert_equal Nic::Managed, last_record.interfaces.find_by_mac('00:11:22:33:44:03').class
+  end
+
   test "should create interfaces sent in a hash" do
     disable_orchestration
     hash_nics_attrs = nics_attrs.inject({}) do |hash, item|
