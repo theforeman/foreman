@@ -25,70 +25,37 @@
   }
 }
 
-.editor-modal {
-  .modal-content {
-    height: -webkit-fill-available;
+#editor-modal{
+  margin: 15px;
+  max-width: unset;
+
+  .pf-v5-c-modal-box__body{
+    padding: 0;
   }
 
-  .modal-header {
-    #diff-toggle-buttons {
-      margin-bottom: unset;
-      margin-right: 15px;
-
-      button {
-        outline: none;
-      }
-    }
-
-    #editor-modal-h4 {
-      margin-top: 4px;
-      margin-bottom: 0;
-      float: left;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 700px;
-    }
+  .pf-v5-c-modal-box__header{
+    margin-right: 0;
+    padding-top: 0;
+    min-height: 44px;
   }
 
-  .modal-dialog {
-    padding: 15px;
-    width: auto !important;
+  .pf-v5-c-button.pf-m-plain{
+    top: -18px;
+  }
 
-    .input.modal-body {
-      background-color: #363636;
-    }
+  &.monokai:not(.diff) {
+    .pf-v5-c-modal-box__header {
+      background-color: var(--pf-v5-global--palette--black-800);
 
-    .modal-body {
-      padding: 0;
-      overflow: auto;
-      height: 100%;
-
-      .ace_editor {
-        border: none !important;
-      }
-
-      #diff-table {
-        max-height: 80vh;
-
-        div {
-          border: none;
-        }
+      #editor-modal-h4 {
+        color: var(--pf-v5-global--palette--white);
       }
     }
 
-    .input.modal-header.monokai,
-    .preview.modal-header.monokai {
-      background-color: #363636;
-
-      h4 {
-        color: #fff;
-      }
-
-      .pficon-close {
-        color: #fff;
-      }
+    .pf-v5-c-button {
+      color: var(--pf-v5-global--palette--white);
     }
+
   }
 }
 

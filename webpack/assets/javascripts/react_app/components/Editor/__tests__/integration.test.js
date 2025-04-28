@@ -41,6 +41,6 @@ describe('Editor integration test', () => {
     maximizeBtn.simulate('click');
 
     integrationTestHelper.takeStoreAndLastActionSnapshot('entered fullscreen');
-    expect(component.find('.editor-modal.in').length).toBeGreaterThan(0);
+    expect(component.find('.editor-modal').length).toBeGreaterThan(0);
   });
 });

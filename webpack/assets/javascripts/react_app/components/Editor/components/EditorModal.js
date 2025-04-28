@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Icon, Button } from 'patternfly-react';
+import { Modal, Title } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 
 import EditorView from './EditorView';
@@ -26,27 +26,32 @@ const EditorModal = ({
   liveAutocompletion,
   title,
   toggleModal,
-}) => (
-  <Modal show={isMaximized} onHide={toggleModal} className="editor-modal">
-    <Modal.Header className={`${selectedView} ${theme.toLowerCase()}`}>
-      <h4 id="editor-modal-h4">{title}</h4>
-      <Button
-        className="close"
-        onClick={toggleModal}
-        aria-hidden="true"
-        aria-label="Close"
-        bsStyle="link"
-      >
-        <Icon type="pf" name="close" />
-      </Button>
+}) => {
+  const header = (
+    <div className={`${selectedView} ${theme.toLowerCase()}`}>
+      <Title headingLevel="h4" id="editor-modal-h4" ouiaId="editor-modal-title">
+        {title}
+      </Title>
       {selectedView === 'diff' && (
         <DiffToggle
           stateView={diffViewType}
           changeState={viewType => changeDiffViewType(viewType)}
         />
       )}
-    </Modal.Header>
-    <Modal.Body className={selectedView}>
+    </div>
+  );
+  return (
+    <Modal
+      position="top"
+      aria-labelledby="editor-modal-h4"
+      ouiaId="editor-modal-component"
+      id="editor-modal"
+      className={`${selectedView} ${theme.toLowerCase()} editor-modal`}
+      variant="primary"
+      isOpen={isMaximized}
+      onClose={toggleModal}
+      header={header}
+    >
       {selectedView === 'diff' ? (
         <div id="diff-table">
           <DiffView
@@ -70,9 +75,9 @@ const EditorModal = ({
           liveAutocompletion={liveAutocompletion}
         />
       )}
-    </Modal.Body>
-  </Modal>
-);
+    </Modal>
+  );
+};
 
 EditorModal.propTypes = {
   changeDiffViewType: PropTypes.func.isRequired,
