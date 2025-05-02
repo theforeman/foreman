@@ -19,7 +19,7 @@ const DownloadUtility = ({
     <FormSelect
       ouiaId="reg_download_utility"
       value={downloadUtility}
-      onChange={v => handleDownloadUtility(v)}
+      onChange={(_event, v) => handleDownloadUtility(v)}
       className="without_select2"
       id="reg_download_utility"
       isDisabled={isLoading}
