@@ -14,6 +14,9 @@ import {
 export const selectAPIStatusData = state =>
   selectAPIStatus(state, REGISTRATION_COMMANDS_DATA);
 
+export const selectApiDataResponseCode = state =>
+  selectAPIResponse(state, REGISTRATION_COMMANDS_DATA)?.response?.status;
+
 export const selectOrganizations = state =>
   selectAPIResponse(state, REGISTRATION_COMMANDS_DATA).organizations || [];
 

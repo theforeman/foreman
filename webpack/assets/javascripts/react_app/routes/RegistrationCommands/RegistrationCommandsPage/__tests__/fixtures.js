@@ -151,6 +151,7 @@ export const spySelector = selectors => {
   jest.spyOn(selectors, 'selectPluginData');
   jest.spyOn(selectors, 'selectAPIStatusCommand');
   jest.spyOn(selectors, 'selectCommand');
+  jest.spyOn(selectors, 'selectApiDataResponseCode');
 
   selectors.selectAPIStatusData.mockImplementation(() => STATUS.RESOLVED);
   selectors.selectOrganizations.mockImplementation(
@@ -165,6 +166,7 @@ export const spySelector = selectors => {
   selectors.selectPluginData.mockImplementation(() => {});
   selectors.selectAPIStatusCommand.mockImplementation(() => undefined);
   selectors.selectCommand.mockImplementation(() => '');
+  selectors.selectApiDataResponseCode.mockImplementation(() => null);
 };
 
 export const formData = {

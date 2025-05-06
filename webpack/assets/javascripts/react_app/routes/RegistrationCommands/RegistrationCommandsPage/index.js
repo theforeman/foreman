@@ -23,9 +23,11 @@ import {
 import { STATUS } from '../../../constants';
 import PageLayout from '../../common/PageLayout/PageLayout';
 import Slot from '../../../components/common/Slot';
+import PermissionDenied from '../../../components/PermissionDenied';
 
 import {
   selectAPIStatusData,
+  selectApiDataResponseCode,
   selectAPIStatusCommand,
   selectOrganizations,
   selectLocations,
@@ -61,6 +63,7 @@ const RegistrationCommandsPage = () => {
   // API statuses
   const apiStatusCommand = useSelector(selectAPIStatusCommand);
   const apiStatusData = useSelector(selectAPIStatusData);
+  const apiDataResponseCode = useSelector(selectApiDataResponseCode);
   const isLoading = apiStatusData === STATUS.PENDING;
   const isGenerating = apiStatusCommand === STATUS.PENDING;
 
@@ -188,6 +191,11 @@ const RegistrationCommandsPage = () => {
     // Disabled lint warning, need to check only hostgroup_id & operatingsystem_id
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, hostGroupId, operatingSystemId]);
+
+  // Do not show the form if the user is not authorized to register hosts
+  if (apiDataResponseCode === 403) {
+    return <PermissionDenied missingPermissions={['register_hosts']} />;
+  }
 
   return (
     <PageLayout
