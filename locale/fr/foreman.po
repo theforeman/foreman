@@ -2692,6 +2692,9 @@ msgstr "Détruire la machine virtuelle associée lors de la suppression de l'hô
 msgid "Destroyed selected hosts"
 msgstr "Hôtes sélectionnés détruits"
 
+msgid "Detailed instructions to guide you through each stage of the upgrade process."
+msgstr ""
+
 msgid "Details"
 msgstr "Détails"
 
@@ -3646,6 +3649,9 @@ msgstr "URL de Foreman"
 msgid "Foreman UUID"
 msgstr "UUID de Foreman"
 
+msgid "Foreman Upgrade"
+msgstr ""
+
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr "Foreman permet de définir une hiérarchie d'héritage de paramètres, où les paramètres globaux sont accessibles depuis n'importe quel manifeste."
 
@@ -3713,6 +3719,9 @@ msgstr "Courrier de test de Foreman"
 
 msgid "Foreman ticketing system"
 msgstr "le gestionnaire de tickets Foreman"
+
+msgid "Foreman upgrade"
+msgstr ""
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman signera automatiquement les certificats au provisioning de l'hôte"
@@ -5092,8 +5101,8 @@ msgstr "Script iPXE intermédiaire pour les installations non surveillées"
 msgid "Internal DB"
 msgstr "Base de données interne"
 
-msgid "Internal Server Error: the server was unable to finish the request. "
-msgstr "Erreur interne du serveur : le serveur n'a pas pu terminer la requête."
+msgid "Internal Server Error: the server was unable to finish the request. This may be caused by unavailability of some required service, incorrect API call or a server-side bug. There may be more information in the server's logs."
+msgstr ""
 
 msgid "Internal network"
 msgstr "Réseau interne"
@@ -6316,6 +6325,12 @@ msgstr "Nom de la table"
 
 msgid "Name of the template being rendered, \"Unnamed\" when the template does not have a name, e.g. preview on unsaved template."
 msgstr "Nom du modèle rendu, \"Unnamed\" lorsque le modèle n'a pas de nom, par exemple: aperçu sur un modèle non sauvegardé."
+
+msgid "Need help with Foreman? Got a different type of question? Ask them all on our community forum!"
+msgstr ""
+
+msgid "Need help?"
+msgstr ""
 
 msgid "Nest"
 msgstr "Imbriquer"
@@ -8555,6 +8570,9 @@ msgstr "Rechercher les champs"
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr "La recherche peut échouer ou vous donner des résultats erronés car elle contient des caractères spéciaux qui sont des mots-clés d'interrogation tels que < and >"
 
+msgid "Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
+msgstr ""
+
 msgid "Search string describing which hosts to perform the action on"
 msgstr "Chaîne de recherche décrivant les hôtes sur lesquels performer l'action"
 
@@ -10067,9 +10085,6 @@ msgstr "Aucun propriétaire ayant pour id %d et type %s"
 msgid "There is no proxy with BMC feature set up. Associate a BMC feature with a subnet."
 msgstr "Il n'y a pas de proxy avec la fonction BMC configurée. Associez une fonctionnalité BMC à un sous-réseau."
 
-msgid "There may be more information in the server's logs."
-msgstr "Vous trouverez peut-être des informations supplémentaires dans les journaux du serveur."
-
 msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
 msgstr "Il doit y avoir au moins un Smart Proxy présent avec un plugin IPAM externe installé et configuré"
 
@@ -10165,9 +10180,6 @@ msgstr "Utilisé par un hôte"
 
 msgid "This is used to reduce the number of lines, where Ruby syntax permits, in rendered templates. White spaces in ERB tags are ignored."
 msgstr "Ceci est utilisé pour réduire le nombre de lignes, lorsque la syntaxe Ruby le permet, dans les modèles rendus. Les espaces blancs dans les balises ERB sont ignorés."
-
-msgid "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
-msgstr "Cela peut être dû à l'indisponibilité d'un service requis, à un appel d'API incorrect ou à un bogue sur le serveur."
 
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "Ceci peut prendre un certain temps, car tous les hôtes, faits et rapports <b>seront supprimés</b> également. %s Ce comportement peut être modifié via le paramètre global « Détruire la machine virtuelle associée lors de la suppression de l'hôte »."
@@ -10419,9 +10431,6 @@ msgstr "URL à partir de laquelle récupérer les notifications RSS"
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
 msgstr "L'URL utilisée pour joindre l'instance Foreman (voir également Provisioning> unattended_url)"
-
-msgid "URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
-msgstr "Requête de recherche codée par URL qui sélectionne les utilisateurs pour lesquels les jetons d'enregistrement seront invalidés. Exemple de requête de recherche : id ^ (2, 4, 6)"
 
 msgid "UTC time of report"
 msgstr "Date UTC du rapport"
@@ -10897,6 +10906,9 @@ msgstr "Mise à jour des hôtes : le propriétaire a changé"
 msgid "Updates a table preference for a given table"
 msgstr "Met à jour une préférence de table pour une table donnée"
 
+msgid "Upgrade documentation"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
 msgstr "Mettre à niveau la tâche"
@@ -11266,6 +11278,9 @@ msgstr "Afficher la liste"
 msgid "View provisioning template {openTemplate}."
 msgstr "Afficher le modèle de provisionnement {openTemplate}."
 
+msgid "View upgrade documentation"
+msgstr ""
+
 msgid "Virtual"
 msgstr "Virtuel"
 
@@ -11298,6 +11313,9 @@ msgstr "La machine virtuelle n'a pas été trouvée pour id%{vm_id}"
 
 msgid "Virtualization"
 msgstr "Virtualisation"
+
+msgid "Visit the community forum"
+msgstr ""
 
 msgid "Vnic Profile"
 msgstr "Profil Vnic"
@@ -12153,8 +12171,7 @@ msgstr "joindre un group d'utilisateur externe avec ce groupe d'utilisateur"
 msgid "list"
 msgstr "liste"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "Français"
 
@@ -12454,22 +12471,6 @@ msgstr "état"
 
 msgid "status"
 msgstr "état"
-
-msgid ""
-"status type\n"
-msgstr ""
-"type de statut\n"
-
-msgid ""
-"status type, can be one of\n"
-"* global\n"
-"* configuration\n"
-"* build\n"
-msgstr ""
-"le type de statut est l'un de ceux-ci :\n"
-"* global\n"
-"* configuration\n"
-"* build\n"
 
 msgid "stop"
 msgstr "Arrêt"

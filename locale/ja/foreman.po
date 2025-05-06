@@ -2619,6 +2619,9 @@ msgstr "ホストの削除時に関連付けられた仮想マシンを破棄し
 msgid "Destroyed selected hosts"
 msgstr "破棄された選択済みホスト"
 
+msgid "Detailed instructions to guide you through each stage of the upgrade process."
+msgstr ""
+
 msgid "Details"
 msgstr "詳細"
 
@@ -3561,6 +3564,9 @@ msgstr "Foreman の URL"
 msgid "Foreman UUID"
 msgstr "Foreman の UUID"
 
+msgid "Foreman Upgrade"
+msgstr ""
+
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr "Foreman では、パラメーター継承権の階層を定義できます。ここでは、グローバルパラメーターはすべてのマニフェストからアクセスできます。"
 
@@ -3628,6 +3634,9 @@ msgstr "Foreman テストメール"
 
 msgid "Foreman ticketing system"
 msgstr "Foreman チケットシステム"
+
+msgid "Foreman upgrade"
+msgstr ""
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman は、新規ホストのプロビジョニング時に証明書の署名を自動化します"
@@ -5003,8 +5012,8 @@ msgstr "無人インストールの iPXE 中間スクリプト"
 msgid "Internal DB"
 msgstr "内部 DB"
 
-msgid "Internal Server Error: the server was unable to finish the request. "
-msgstr "内部サーバーエラー: サーバーで要求を完了できませんでした。 "
+msgid "Internal Server Error: the server was unable to finish the request. This may be caused by unavailability of some required service, incorrect API call or a server-side bug. There may be more information in the server's logs."
+msgstr ""
 
 msgid "Internal network"
 msgstr "内部ネットワーク"
@@ -6227,6 +6236,12 @@ msgstr "テーブル名"
 
 msgid "Name of the template being rendered, \"Unnamed\" when the template does not have a name, e.g. preview on unsaved template."
 msgstr "レンダリングされるテンプレートの名前。未保存のテンプレートのプレビューなど、名前がないテンプレートは「Unnamed」になります。"
+
+msgid "Need help with Foreman? Got a different type of question? Ask them all on our community forum!"
+msgstr ""
+
+msgid "Need help?"
+msgstr ""
 
 msgid "Nest"
 msgstr "ネスト"
@@ -8452,6 +8467,9 @@ msgstr "検索フィールド"
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr "クエリーキーワードである特殊文字 (例: < and >) が含まれているため、検索が失敗したり、誤った結果が表示されたりする場合があります"
 
+msgid "Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
+msgstr ""
+
 msgid "Search string describing which hosts to perform the action on"
 msgstr "アクションを実行するホストを表す検索文字列"
 
@@ -9952,9 +9970,6 @@ msgstr "ID が %d、タイプが %s の所有者はありません"
 msgid "There is no proxy with BMC feature set up. Associate a BMC feature with a subnet."
 msgstr "BMC 機能が設定されたプロキシーはありません。 BMC 機能をサブネットに関連付けます。"
 
-msgid "There may be more information in the server's logs."
-msgstr "サーバーのログに詳細にわたる情報が含まれる可能性があります。"
-
 msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
 msgstr "外部 IPAM プラグインをインストールし、設定した Smart Proxyが最低でも 1 つ必要です。"
 
@@ -10050,9 +10065,6 @@ msgstr "これはホストに使用されています"
 
 msgid "This is used to reduce the number of lines, where Ruby syntax permits, in rendered templates. White spaces in ERB tags are ignored."
 msgstr "これはレンダリングされるテンプレートの行数を減らすために使用されます (Ruby 構文で許可される場合)。ERB タグの空白は無視されます。"
-
-msgid "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
-msgstr "これは、必要なサービスが利用できない、API 呼び出しが正しくない、またはサーバー側のバグが原因である可能性があります。 "
 
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "ホスト、ファクト、レポートすべてが <b>削除されるので</b>、しばらく時間がかかる可能性があります。%sこの動きはグローバル設定「ホストの削除時に関連の仮想マシンを破棄」から変更できます。"
@@ -10302,9 +10314,6 @@ msgstr "RSS 通知を取得する URL"
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
 msgstr "Foreman インスタンスに到達できる URL (プロビジョニング > unattended_url も参照)"
-
-msgid "URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
-msgstr "URL 向けにエンコードされた検索クエリー。登録トークンを無効化すべきユーザーを特定します。検索クエリーの例: id ^ (2, 4, 6)"
 
 msgid "UTC time of report"
 msgstr "レポートの UTC 時間"
@@ -10780,6 +10789,9 @@ msgstr "更新済みホスト: 変更済み所有者"
 msgid "Updates a table preference for a given table"
 msgstr "特定のテーブルの設定を更新します"
 
+msgid "Upgrade documentation"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
 msgstr "アップグレードタスク"
@@ -11149,6 +11161,9 @@ msgstr "一覧の表示"
 msgid "View provisioning template {openTemplate}."
 msgstr "プロビジョニングテンプレート {openTemplate} を表示します。"
 
+msgid "View upgrade documentation"
+msgstr ""
+
 msgid "Virtual"
 msgstr "仮想"
 
@@ -11181,6 +11196,9 @@ msgstr "ID %{vm_id} では仮想マシンが見つかりませんでした"
 
 msgid "Virtualization"
 msgstr "仮想化"
+
+msgid "Visit the community forum"
+msgstr ""
 
 msgid "Vnic Profile"
 msgstr "Vnic プロファイル"
@@ -12032,8 +12050,7 @@ msgstr "外部ユーザーグループをこのユーザーグループにリン
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "日本語"
 
@@ -12333,22 +12350,6 @@ msgstr "状態"
 
 msgid "status"
 msgstr "ステータス"
-
-msgid ""
-"status type\n"
-msgstr ""
-"スタータスタイプ\n"
-
-msgid ""
-"status type, can be one of\n"
-"* global\n"
-"* configuration\n"
-"* build\n"
-msgstr ""
-"ステータスタイプ。以下のいずれか\n"
-"* global\n"
-"* configuration\n"
-"* build\n"
 
 msgid "stop"
 msgstr "停止"

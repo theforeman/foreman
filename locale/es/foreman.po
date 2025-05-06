@@ -2682,6 +2682,9 @@ msgstr "Destruir máquina virtual asociada con la eliminación del host. Las má
 msgid "Destroyed selected hosts"
 msgstr "Eliminados equipos seleccionados"
 
+msgid "Detailed instructions to guide you through each stage of the upgrade process."
+msgstr ""
+
 msgid "Details"
 msgstr "Detalles"
 
@@ -3631,6 +3634,9 @@ msgstr "URL de Foreman"
 msgid "Foreman UUID"
 msgstr "UUID de Foreman"
 
+msgid "Foreman Upgrade"
+msgstr ""
+
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr "Foreman permite definir una jerarquía de herencia de parámetros en la cual los parámetros globales son accesibles desde cualquier manifiesto."
 
@@ -3698,6 +3704,9 @@ msgstr "Correo electrónico de prueba de Foreman"
 
 msgid "Foreman ticketing system"
 msgstr "Sistema de tiquetes Foreman"
+
+msgid "Foreman upgrade"
+msgstr ""
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman automatizará la firma de certificados tras el aprovisionamiento de un nuevo host"
@@ -5077,8 +5086,8 @@ msgstr "Script iPXE intermediario para instalaciones desatendidas"
 msgid "Internal DB"
 msgstr "Base de datos interna"
 
-msgid "Internal Server Error: the server was unable to finish the request. "
-msgstr "Error interno del servidor: el servidor no pudo finalizar la solicitud."
+msgid "Internal Server Error: the server was unable to finish the request. This may be caused by unavailability of some required service, incorrect API call or a server-side bug. There may be more information in the server's logs."
+msgstr ""
 
 msgid "Internal network"
 msgstr "Red interna"
@@ -6301,6 +6310,12 @@ msgstr "Nombre de la tabla"
 
 msgid "Name of the template being rendered, \"Unnamed\" when the template does not have a name, e.g. preview on unsaved template."
 msgstr "Nombre de la plantilla que se está renderizando, \"Sin nombre\" cuando la plantilla no tiene nombre, por ejemplo, la vista previa en una plantilla no guardada."
+
+msgid "Need help with Foreman? Got a different type of question? Ask them all on our community forum!"
+msgstr ""
+
+msgid "Need help?"
+msgstr ""
 
 msgid "Nest"
 msgstr "Anidar"
@@ -8537,6 +8552,9 @@ msgstr "Campos de búsqueda"
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr "La búsqueda puede fallar o dar resultados erróneos ya que contiene caracteres especiales que son palabras clave de consulta como < y >"
 
+msgid "Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
+msgstr ""
+
 msgid "Search string describing which hosts to perform the action on"
 msgstr ""
 
@@ -10048,9 +10066,6 @@ msgstr "No hay un propietario con el ID %d y tipo %s"
 msgid "There is no proxy with BMC feature set up. Associate a BMC feature with a subnet."
 msgstr "No hay ningún proxy con la función BMC configurada. Asociar una función BMC con una subred."
 
-msgid "There may be more information in the server's logs."
-msgstr "Es posible que los registros del servidor contengan más información."
-
 msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
 msgstr "Debe haber al menos un proxy inteligente con un plugin IPAM externo instalado y configurado"
 
@@ -10146,9 +10161,6 @@ msgstr "Un host está utilizándolo"
 
 msgid "This is used to reduce the number of lines, where Ruby syntax permits, in rendered templates. White spaces in ERB tags are ignored."
 msgstr "Se utiliza para reducir el número de líneas, cuando la sintaxis de Ruby lo permite, en las plantillas renderizadas. Los espacios en blanco en las etiquetas ERB se ignoran."
-
-msgid "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
-msgstr "Esto se puede deber a la falta de disponibilidad de algún servicio requerido, llamada de API incorrecta o un error del servidor."
 
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr "Esto puede demorar un tiempo, ya que también se <b>eliminarán</b> todos los hosts, eventos e informes. %s Este comportamiento se puede cambiar a través del ajuste global \"Destruir máquina virtual asociada con la eliminación del host\"."
@@ -10398,9 +10410,6 @@ msgstr "URL desde la cual buscar notificaciones RSS"
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
 msgstr "URL de la instancia Foreman (vea también aprovisionamiento > unattened_url)"
-
-msgid "URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
-msgstr ""
 
 msgid "UTC time of report"
 msgstr "Hora UTC del informe"
@@ -10876,6 +10885,9 @@ msgstr "Hosts actualizados: se cambió el propietario."
 msgid "Updates a table preference for a given table"
 msgstr "Actualiza una preferencia de tabla para una determinada tabla"
 
+msgid "Upgrade documentation"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
 msgstr "Actualizar tarea"
@@ -11245,6 +11257,9 @@ msgstr "Ver lista"
 msgid "View provisioning template {openTemplate}."
 msgstr ""
 
+msgid "View upgrade documentation"
+msgstr ""
+
 msgid "Virtual"
 msgstr "Virtual"
 
@@ -11276,6 +11291,9 @@ msgid "Virtual machine was not found by id %{vm_id}"
 msgstr "No se encontró la máquina virtual por id %{vm_id}"
 
 msgid "Virtualization"
+msgstr ""
+
+msgid "Visit the community forum"
 msgstr ""
 
 msgid "Vnic Profile"
@@ -12132,8 +12150,7 @@ msgstr "enlazar grupo de usuarios externos con este grupo de usuario"
 msgid "list"
 msgstr "lista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "Español"
 
@@ -12433,22 +12450,6 @@ msgstr "Estado"
 
 msgid "status"
 msgstr "estado"
-
-msgid ""
-"status type\n"
-msgstr ""
-"tipo de estado\n"
-
-msgid ""
-"status type, can be one of\n"
-"* global\n"
-"* configuration\n"
-"* build\n"
-msgstr ""
-"tipo de estado, se puede hacer\n"
-"* global\n"
-"* configuración\n"
-"* construir\n"
 
 msgid "stop"
 msgstr "parar"

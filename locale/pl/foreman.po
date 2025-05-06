@@ -2647,6 +2647,9 @@ msgstr ""
 msgid "Destroyed selected hosts"
 msgstr "Zniszczono wybrane hosty"
 
+msgid "Detailed instructions to guide you through each stage of the upgrade process."
+msgstr ""
+
 msgid "Details"
 msgstr "Szczegóły"
 
@@ -3597,6 +3600,9 @@ msgstr "Foreman URL"
 msgid "Foreman UUID"
 msgstr ""
 
+msgid "Foreman Upgrade"
+msgstr ""
+
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr ""
 
@@ -3664,6 +3670,9 @@ msgstr "testowy e-mail Foreman"
 
 msgid "Foreman ticketing system"
 msgstr "System ticketowy Foreman"
+
+msgid "Foreman upgrade"
+msgstr ""
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman będzie automatycznie podpisywać certyfikaty po złożeniu nowego hosta"
@@ -5032,7 +5041,7 @@ msgstr ""
 msgid "Internal DB"
 msgstr "Wewnętrzna DB"
 
-msgid "Internal Server Error: the server was unable to finish the request. "
+msgid "Internal Server Error: the server was unable to finish the request. This may be caused by unavailability of some required service, incorrect API call or a server-side bug. There may be more information in the server's logs."
 msgstr ""
 
 msgid "Internal network"
@@ -6255,6 +6264,12 @@ msgid "Name of the table"
 msgstr ""
 
 msgid "Name of the template being rendered, \"Unnamed\" when the template does not have a name, e.g. preview on unsaved template."
+msgstr ""
+
+msgid "Need help with Foreman? Got a different type of question? Ask them all on our community forum!"
+msgstr ""
+
+msgid "Need help?"
 msgstr ""
 
 msgid "Nest"
@@ -8479,6 +8494,9 @@ msgstr ""
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr ""
 
+msgid "Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
+msgstr ""
+
 msgid "Search string describing which hosts to perform the action on"
 msgstr ""
 
@@ -9987,9 +10005,6 @@ msgstr ""
 msgid "There is no proxy with BMC feature set up. Associate a BMC feature with a subnet."
 msgstr ""
 
-msgid "There may be more information in the server's logs."
-msgstr ""
-
 msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
 msgstr ""
 
@@ -10084,9 +10099,6 @@ msgid "This is used by a host"
 msgstr "Aktualnie używany przez host"
 
 msgid "This is used to reduce the number of lines, where Ruby syntax permits, in rendered templates. White spaces in ERB tags are ignored."
-msgstr ""
-
-msgid "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
 msgstr ""
 
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
@@ -10336,9 +10348,6 @@ msgstr ""
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
 msgstr "URL gdzie instancja Foreman jest osiągalna (zobacz również Provisioning > unattended_url)"
-
-msgid "URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
-msgstr ""
 
 msgid "UTC time of report"
 msgstr "Czas UTC raportu"
@@ -10814,6 +10823,9 @@ msgstr "Zaktualizowano hosty: zmieniono właściciela"
 msgid "Updates a table preference for a given table"
 msgstr ""
 
+msgid "Upgrade documentation"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
 msgstr ""
@@ -11183,6 +11195,9 @@ msgstr "Pokaż listę"
 msgid "View provisioning template {openTemplate}."
 msgstr ""
 
+msgid "View upgrade documentation"
+msgstr ""
+
 msgid "Virtual"
 msgstr ""
 
@@ -11214,6 +11229,9 @@ msgid "Virtual machine was not found by id %{vm_id}"
 msgstr ""
 
 msgid "Virtualization"
+msgstr ""
+
+msgid "Visit the community forum"
 msgstr ""
 
 msgid "Vnic Profile"
@@ -12052,8 +12070,7 @@ msgstr "Link zewnętrzny grupy użytkowników z tej grupy użytkowników"
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "locale_name"
 
@@ -12353,21 +12370,6 @@ msgstr "stan"
 
 msgid "status"
 msgstr "status"
-
-msgid ""
-"status type\n"
-msgstr ""
-
-msgid ""
-"status type, can be one of\n"
-"* global\n"
-"* configuration\n"
-"* build\n"
-msgstr ""
-"Typem statusu może być:\n"
-"* globalny\n"
-"* konfigurowany\n"
-"* zbudowany\n"
 
 msgid "stop"
 msgstr "stop"

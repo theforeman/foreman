@@ -2634,6 +2634,9 @@ msgstr "Distruggi VM associate sull'host cancellato. Quando abilitato, le VM col
 msgid "Destroyed selected hosts"
 msgstr "Host selezionati annullati"
 
+msgid "Detailed instructions to guide you through each stage of the upgrade process."
+msgstr ""
+
 msgid "Details"
 msgstr "Dettagli"
 
@@ -3577,6 +3580,9 @@ msgstr ""
 msgid "Foreman UUID"
 msgstr ""
 
+msgid "Foreman Upgrade"
+msgstr ""
+
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr ""
 
@@ -3644,6 +3650,9 @@ msgstr ""
 
 msgid "Foreman ticketing system"
 msgstr "Sistema di creazione ticket di Foreman"
+
+msgid "Foreman upgrade"
+msgstr ""
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman automatizzerà la firma dei certificati previa presenza di un nuovo host "
@@ -5015,8 +5024,8 @@ msgstr ""
 msgid "Internal DB"
 msgstr "DB interno"
 
-msgid "Internal Server Error: the server was unable to finish the request. "
-msgstr "Errore interno del server: il server non è stato in grado di completare la richiesta."
+msgid "Internal Server Error: the server was unable to finish the request. This may be caused by unavailability of some required service, incorrect API call or a server-side bug. There may be more information in the server's logs."
+msgstr ""
 
 msgid "Internal network"
 msgstr "Rete interna"
@@ -6238,6 +6247,12 @@ msgid "Name of the table"
 msgstr ""
 
 msgid "Name of the template being rendered, \"Unnamed\" when the template does not have a name, e.g. preview on unsaved template."
+msgstr ""
+
+msgid "Need help with Foreman? Got a different type of question? Ask them all on our community forum!"
+msgstr ""
+
+msgid "Need help?"
 msgstr ""
 
 msgid "Nest"
@@ -8462,6 +8477,9 @@ msgstr ""
 msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr ""
 
+msgid "Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
+msgstr ""
+
 msgid "Search string describing which hosts to perform the action on"
 msgstr ""
 
@@ -9967,9 +9985,6 @@ msgstr ""
 msgid "There is no proxy with BMC feature set up. Associate a BMC feature with a subnet."
 msgstr ""
 
-msgid "There may be more information in the server's logs."
-msgstr "Ci possono essere ulteriori informazioni nei log del server."
-
 msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
 msgstr ""
 
@@ -10065,9 +10080,6 @@ msgstr "Usato da un host"
 
 msgid "This is used to reduce the number of lines, where Ruby syntax permits, in rendered templates. White spaces in ERB tags are ignored."
 msgstr ""
-
-msgid "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
-msgstr "Questo può essere causato dalla indisponibilità di alcuni servizi necessari, da una chiamata API non corretta o da un bug lato server."
 
 msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
@@ -10316,9 +10328,6 @@ msgstr ""
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
 msgstr "URL attraverso il quale è possibile raggiungere l'istanza di Foreman (consultare anche Provisioning > unattended_url)"
-
-msgid "URL-encoded search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
-msgstr ""
 
 msgid "UTC time of report"
 msgstr "Orario UTC della notifica"
@@ -10794,6 +10803,9 @@ msgstr ""
 msgid "Updates a table preference for a given table"
 msgstr ""
 
+msgid "Upgrade documentation"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
 msgstr ""
@@ -11163,6 +11175,9 @@ msgstr ""
 msgid "View provisioning template {openTemplate}."
 msgstr ""
 
+msgid "View upgrade documentation"
+msgstr ""
+
 msgid "Virtual"
 msgstr "Virtuale"
 
@@ -11194,6 +11209,9 @@ msgid "Virtual machine was not found by id %{vm_id}"
 msgstr "La macchina virtuale non è stata trovata con l'id% {vm_id}"
 
 msgid "Virtualization"
+msgstr ""
+
+msgid "Visit the community forum"
 msgstr ""
 
 msgid "Vnic Profile"
@@ -12034,8 +12052,7 @@ msgstr "collega il gruppo di utenti esterno a questo gruppo"
 msgid "list"
 msgstr "elenco"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
-#. of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
 msgid "locale_name"
 msgstr "locale_name"
 
@@ -12335,22 +12352,6 @@ msgstr "stato"
 
 msgid "status"
 msgstr "stato"
-
-msgid ""
-"status type\n"
-msgstr ""
-"Tipo status\n"
-
-msgid ""
-"status type, can be one of\n"
-"* global\n"
-"* configuration\n"
-"* build\n"
-msgstr ""
-"tipo status, può essere uno di\n"
-"* global\n"
-"* configuration\n"
-"* build\n"
 
 msgid "stop"
 msgstr "stop"
