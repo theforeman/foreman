@@ -78,6 +78,32 @@ module Api
         end
       end
 
+      api :PUT, "/hosts/bulk/assign_taxonomy", N_("Assign organization/location")
+      param_group :bulk_host_ids
+      param :target_organization_id, :number, :desc => N_("ID of the organization to assign the hosts to")
+      param :target_location_id, :number, :desc => N_("ID of the location to assign the hosts to")
+      param :mismatch_setting_organization, :bool, N_("Fix organization on mismatch")
+      param :mismatch_setting_location, :bool, N_("Fix location on mismatch")
+      def assign_taxonomy
+        validate_taxonomy_settings
+        clear_current_taxonomy
+        find_editable_hosts
+
+        targets = Taxonomy.where(id: [params[:target_organization_id], params[:target_location_id]])
+        messages = targets.map do |tax|
+          tax_type = tax.type.downcase
+          BulkHostsManager.new(hosts: @hosts).assign_taxonomy(tax, params["mismatch_setting_#{tax_type}"])
+          tax_type == 'organization' ? _("Organization is set to %s.") % tax.name : _("Location is set to %s.") % tax.name
+        end
+
+        process_response(true, { :message => n_("Updated host: %{update}", "Updated hosts: %{update}",
+          @hosts.count) % { update: messages.join(" ") }})
+      rescue => e
+        render_error(:custom_error, :status => :unprocessable_entity, :locals => { :message => e.message})
+      ensure
+        restore_current_taxonomy
+      end
+
       protected
 
       def action_permission
@@ -97,6 +123,23 @@ module Api
 
       def find_editable_hosts
         find_bulk_hosts(:edit_hosts, params)
+      end
+
+      def clear_current_taxonomy
+        @context = Foreman::ThreadSession::Context.get
+        Foreman::ThreadSession::Context.set(user: @context[:user])
+      end
+
+      def restore_current_taxonomy
+        Foreman::ThreadSession::Context.set(**@context) if @context
+      end
+
+      def validate_taxonomy_settings
+        if [params[:mismatch_setting_organization], params[:mismatch_setting_location]].any? { |val| val == false }
+          raise _("Cannot update host(s) because of mismatch in settings.")
+        elsif [params[:mismatch_setting_organization], params[:mismatch_setting_location]].all? { |val| val.nil? }
+          raise _("At lease one of organization/location mismatch settings should be specified.")
+        end
       end
 
       def rebuild_config

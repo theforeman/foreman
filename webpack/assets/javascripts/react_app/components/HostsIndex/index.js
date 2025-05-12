@@ -5,10 +5,13 @@ import { Tr, Td, ActionsColumn } from '@patternfly/react-table';
 import {
   ToolbarItem,
   Divider,
-  MenuItem,
   Flex,
   FlexItem,
   Button,
+  Menu,
+  MenuItem,
+  MenuContent,
+  MenuList,
   Split,
   SplitItem,
   TextContent,
@@ -46,6 +49,7 @@ import {
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import BulkBuildHostModal from './BulkActions/buildHosts';
 import BulkReassignHostgroupModal from './BulkActions/reassignHostGroup';
+import BulkAssignTaxonomyModal from './BulkActions/assignTaxonomy';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
@@ -214,6 +218,11 @@ const HostsIndex = () => {
         id: 'bulk-reassign-hg-modal',
       })
     );
+    dispatch(
+      addModal({
+        id: 'bulk-assign-taxonomy-modal',
+      })
+    );
   }, [dispatch]);
 
   const { setModalOpen: setHgModalOpen } = useForemanModal({
@@ -221,6 +230,9 @@ const HostsIndex = () => {
   });
   const { setModalOpen: setBuildModalOpen } = useForemanModal({
     id: 'bulk-build-hosts-modal',
+  });
+  const { setModalOpen: setTaxonomyModalOpen } = useForemanModal({
+    id: 'bulk-assign-taxonomy-modal',
   });
 
   const dropdownItems = [
@@ -233,12 +245,38 @@ const HostsIndex = () => {
       {__('Build management')}
     </MenuItem>,
     <MenuItem
-      itemId="reassign-hg-dropdown-item"
-      key="reassign-hg-dropdown-item"
-      onClick={setHgModalOpen}
+      itemId="host-affiliation-dropdown-item"
+      key="host-affiliation-dropdown-item"
       isDisabled={selectedCount === 0}
+      flyoutMenu={
+        <Menu
+          ouiaId="host-affiliation-dropdown-menu"
+          onSelect={() => setMenuOpen(false)}
+        >
+          <MenuContent>
+            <MenuList>
+              <MenuItem
+                itemId="reassign-hg-dropdown-item"
+                key="reassign-hg-dropdown-item"
+                onClick={setHgModalOpen}
+                isDisabled={selectedCount === 0}
+              >
+                {__('Host group')}
+              </MenuItem>
+              <MenuItem
+                itemId="assign-taxonomy-dropdown-item"
+                key="assign-taxonomy-dropdown-item"
+                onClick={setTaxonomyModalOpen}
+                isDisabled={selectedCount === 0}
+              >
+                {__('Organization/location')}
+              </MenuItem>
+            </MenuList>
+          </MenuContent>
+        </Menu>
+      }
     >
-      {__('Change host group')}
+      {__('Change associations')}
     </MenuItem>,
   ];
 
@@ -442,6 +480,7 @@ const HostsIndex = () => {
       >
         <BulkBuildHostModal key="bulk-build-hosts-modal" />
         <BulkReassignHostgroupModal key="bulk-reassign-hg-modal" />
+        <BulkAssignTaxonomyModal key="bulk-assign-taxonomy-modal" />
         <Slot id="_all-hosts-modals" multi />
       </ForemanActionsBarContext.Provider>
     </TableIndexPage>
