@@ -620,8 +620,18 @@ class HostsController < ApplicationController
     kind = params.delete(:provisioning)
     host.attributes = host_attributes_for_templates(host)
     templates = host.available_template_kinds(kind)
+
     return not_found if templates.empty?
-    render :partial => 'provisioning', :locals => { :templates => templates }
+
+    rendered_errors = {}
+    ok_tmpl, err_tmpl = templates.partition do |t|
+      t.render(host: host)
+    rescue => e
+      rendered_errors[t.id] = e.message
+      false
+    end
+
+    render partial: 'provisioning', locals: { ok_tmpl: ok_tmpl, err_tmpl: err_tmpl, rendered_errors: rendered_errors }
   end
 
   def preview_host_collection

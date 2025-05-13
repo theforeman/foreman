@@ -1,12 +1,36 @@
+<% if ok_tmpl.any? %>
 <div class="alert alert-success alert-dismissable">
-  <%= icon_text("ok", "",:kind => "pficon") %>
+  <%= icon_text('ok', "", :kind => "pficon") %>
   <%= alert_close %>
-  <h4><%= _('Templates resolved for this operating system') %></h4>
-  <% templates.sort{|t,x| t.template_kind <=> x.template_kind}.each do |tmplt| %>
-      <div class="form-group">
-        <div class="control-label col-md-8"> <%= tmplt.template_kind %>
-          <%= link_to_if_authorized h(tmplt), hash_for_edit_provisioning_template_path(:id => tmplt.to_param, :auth_object => tmplt, :permission => 'edit_provisioning_templates'), :rel=>"external" %>
-        </div>
-    </div>
+  <h4 class="alert-heading"><%= _('Templates resolved for this operating system') %></h4>
+
+  <ul>
+  <% ok_tmpl.sort{|t,x| t.template_kind <=> x.template_kind}.each do |t| %>
+    <li>
+      <%= t.template_kind %>:
+      <%= link_to_if_authorized h(t), hash_for_edit_provisioning_template_path(id: t.to_param, auth_object: t, permission: 'edit_provisioning_templates'), rel: "external", target: "_blank" %>
+    </li>
   <% end %>
+  </ul>
 </div>
+<% end %>
+
+<% if err_tmpl.any? %>
+<div class="alert alert-danger alert-dismissable">
+  <%= icon_text('error-circle-o', "", :kind => "pficon") %>
+  <%= alert_close %>
+  <h4 class="alert-heading"><%= _('Templates rendered with errors') %></h4>
+
+  <ul>
+  <% err_tmpl.sort{|t,x| t.template_kind <=> x.template_kind}.each do |t| %>
+    <li>
+      <div>
+        <%= t.template_kind %>:
+        <%= link_to_if_authorized h(t), hash_for_edit_provisioning_template_path(id: t.to_param, auth_object: t, permission: 'edit_provisioning_templates'), rel: "external", target: "_blank" %>
+      </div>
+      <pre><%= rendered_errors[t.id] %></pre>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<% end %>
