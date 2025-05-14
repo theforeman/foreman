@@ -310,6 +310,7 @@ class Host::Managed < Host::Base
   include Orchestration::PuppetCA
   include Orchestration::SshProvision
   include Orchestration::Realm
+  include Orchestration::Templates
   include HostTemplateHelpers
   delegate :require_ip4_validation?, :require_ip6_validation?, :to => :provision_interface
 
