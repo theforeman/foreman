@@ -179,7 +179,10 @@ const HostsIndex = () => {
           pageRowCount,
         }}
         totalCount={total}
-        areAllRowsOnPageSelected={areAllRowsOnPageSelected()}
+        areAllRowsOnPageSelected={
+          !Array.isArray(areAllRowsOnPageSelected()) &&
+          !!areAllRowsOnPageSelected()
+        } // returns array if all rows selected
         areAllRowsSelected={areAllRowsSelected()}
       />
     </ToolbarItem>
