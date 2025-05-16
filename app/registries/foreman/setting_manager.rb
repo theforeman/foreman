@@ -121,7 +121,7 @@ module Foreman
       #   end
       #
       def setting(name, default:, description:, type:, full_name: nil, collection: nil, encrypted: false, validate: nil, **options)
-        raise ::Foreman::Exception.new(N_("Setting '%s' is already defined, please avoid collisions"), name) if storage.key?(name.to_s)
+        Rails.logger.warn(format("Setting '%s' is already defined, please avoid collisions", name)) if storage.key?(name.to_s)
         raise ::Foreman::Exception.new(N_("Setting '%s' has an invalid type definition. Please use a valid type."), name) unless available_types.include?(type)
         storage[name.to_s] = {
           context: context_name,
