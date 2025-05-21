@@ -42,7 +42,6 @@ module Api
       end
 
       before_action :setup_has_many_params, :only => [:create, :update]
-      before_action :check_media_type
 
       layout 'api/v2/layouts/index_layout', :only => :index
 
@@ -155,12 +154,6 @@ module Api
         model_name = controller_name.singularize
         append_array_of_ids(params[model_name]) # wrapped params
         append_array_of_ids(params)             # unwrapped params
-      end
-
-      def check_media_type
-        if (request.post? || request.put?) && request.media_type != "application/json"
-          render_error(:unsupported_media_type, :status => :unsupported_media_type)
-        end
       end
 
       def render_error(error, options = { })

@@ -7,6 +7,16 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:organizations)
   end
 
+  # assign_lone_taxonomies causes internal server error in case the content is not JSON and contains
+  # organization data should it be called before the media type check.
+  # We must make sure the media type check is performed before assign_lone_taxonomies is called.
+  test "handles unsupported content type" do
+    @request.env['CONTENT_TYPE'] = 'application/x-www-form-urlencoded'
+    @controller.expects(:assign_lone_taxonomies).never
+    post :create, params: { :organization => { :name => 'new org' } }
+    assert_response 415
+  end
+
   test "index respects taxonomies" do
     org1 = FactoryBot.create(:organization)
     org2 = FactoryBot.create(:organization)

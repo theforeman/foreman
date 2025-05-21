@@ -7,6 +7,7 @@ module Api
 
     before_action :load_settings
     before_action :set_default_response_format, :authorize, :set_taxonomy
+    before_action :check_media_type
     before_action :assign_lone_taxonomies, :only => :create
     before_action :add_info_headers, :set_gettext_locale
     before_action :session_expiry, :update_activity_time
@@ -118,6 +119,12 @@ module Api
 
     def api_request?
       true
+    end
+
+    def check_media_type
+      if (request.post? || request.put?) && request.media_type != "application/json"
+        render_error(:unsupported_media_type, :status => :unsupported_media_type)
+      end
     end
 
     protected
