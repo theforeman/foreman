@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-06 17:04+0200\n"
-"PO-Revision-Date: 2025-05-06 17:04+0200\n"
+"POT-Creation-Date: 2025-05-21 14:24+0200\n"
+"PO-Revision-Date: 2025-05-21 14:24+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -6636,7 +6636,7 @@ msgid "This IP address has already been reserved in External IPAM"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/external_ipam.rb:26
-#: ../app/models/host/managed.rb:878
+#: ../app/models/host/managed.rb:879
 msgid "Some interfaces are invalid"
 msgstr ""
 
@@ -6905,88 +6905,88 @@ msgstr ""
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:271
+#: ../app/models/host/managed.rb:272
 msgid "invalid time range"
 msgstr ""
 
-#: ../app/models/host/managed.rb:316 ../app/models/hostgroup.rb:26
+#: ../app/models/host/managed.rb:317 ../app/models/hostgroup.rb:26
 msgid "should be 8 characters or more"
 msgstr ""
 
-#: ../app/models/host/managed.rb:317
+#: ../app/models/host/managed.rb:318
 msgid "should not be blank - consider setting a global or host group default"
 msgstr ""
 
-#: ../app/models/host/managed.rb:319
+#: ../app/models/host/managed.rb:320
 msgid "can't be blank unless a custom partition has been defined"
 msgstr ""
 
-#: ../app/models/host/managed.rb:321
+#: ../app/models/host/managed.rb:322
 msgid "is unknown"
 msgstr ""
 
-#: ../app/models/host/managed.rb:325
+#: ../app/models/host/managed.rb:326
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:491
+#: ../app/models/host/managed.rb:492
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:492
+#: ../app/models/host/managed.rb:493
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:644
+#: ../app/models/host/managed.rb:645
 #: ../app/models/parameters/host_parameter.rb:11
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:39
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:66
 msgid "host"
 msgstr ""
 
-#: ../app/models/host/managed.rb:645
+#: ../app/models/host/managed.rb:646
 msgid "hostgroup"
 msgstr ""
 
-#: ../app/models/host/managed.rb:646
+#: ../app/models/host/managed.rb:647
 msgid "global setting"
 msgstr ""
 
-#: ../app/models/host/managed.rb:666
+#: ../app/models/host/managed.rb:667
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:667
+#: ../app/models/host/managed.rb:668
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:712
+#: ../app/models/host/managed.rb:713
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:825
+#: ../app/models/host/managed.rb:826
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:903
+#: ../app/models/host/managed.rb:904
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:918
+#: ../app/models/host/managed.rb:919
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:923
+#: ../app/models/host/managed.rb:924
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:928 ../app/models/nic/interface.rb:141
+#: ../app/models/host/managed.rb:929 ../app/models/nic/interface.rb:141
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:982
+#: ../app/models/host/managed.rb:983
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
