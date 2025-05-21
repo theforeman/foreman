@@ -104,5 +104,10 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Foreman will load the new UI for host details"),
       default: true,
       full_name: N_('New host details UI'))
+    setting('expose_version',
+      type: :boolean,
+      default: true,
+      description: _('Expose Foreman version in UI and API responses'),
+      full_name: N_('Expose version'))
   end
 end

@@ -9,12 +9,13 @@ module Api
     before_action :set_default_response_format, :authorize, :set_taxonomy
     before_action :check_media_type
     before_action :assign_lone_taxonomies, :only => :create
-    before_action :add_info_headers, :set_gettext_locale
+    before_action :set_gettext_locale
     before_action :session_expiry, :update_activity_time
     around_action :set_timezone
 
     respond_to :json
 
+    after_action :add_info_headers
     after_action :log_response_body
 
     rescue_from StandardError do |error|
@@ -288,8 +289,9 @@ module Api
     end
 
     def add_version_header
-      response.headers["Foreman_version"] = SETTINGS[:version].full
-      response.headers["Foreman_api_version"] = api_version
+      response.headers['Foreman_api_version'] = api_version
+      version = user_visible_version
+      response.headers['Foreman_version'] = version if version && User.current.present?
     end
 
     def add_taxonomies_header

@@ -23,6 +23,11 @@ module ApplicationShared
     Foreman.settings.load_values
   end
 
+  def user_visible_version
+    return nil unless Setting[:expose_version]
+    SETTINGS[:version].full
+  end
+
   def set_taxonomy
     TopbarSweeper.expire_cache
     user = User.current
