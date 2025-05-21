@@ -37,6 +37,7 @@ const resolveNodeModule = (sourcePath, currentFile) => {
     currentFileDirectory: basedir,
   });
   if (sourcePath.includes('theforeman_test_dependencies')) {
+    // eslint-disable-next-line no-console
     console.warn(
       'import from @theforeman/test is deprecated, please remove the package and import from enzyme, axios-mock-adapter, foremanReact/testHelpers, foremanReact/common/IntegrationTestHelper directly instead.'
     );

@@ -52,8 +52,6 @@ jobs:
         run: npm ci --no-audit
       - name: Run linter
         run: npm run lint
-      - name: Run custom eslint rules Spellcheck (only warnings) and missing ouia-ids
-        run: npm run lint:custom
       - name: Run tests
         run: npm run test
       - name: Publish Coveralls

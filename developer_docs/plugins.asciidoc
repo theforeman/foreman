@@ -63,7 +63,8 @@ There are 3 conditions that a plugin has to fulfill to share the Webpack infrast
 The Webpack config is shared with core, so there's no need for custom configuration.
 
 Once all the above is set up, then the script `npm run install` executed from root of the core's git checkout installs dependencies for plugins too.
-Also `npm run lint` and `npm run test` behaves similarly.
+You can run your plugin test by running `npm run test:plugins PLUGIN_NAME` from core.
+You can run lint on your plugin by running `npm run lint:plugins PLUGIN_NAME` from core.
 
 ### Entry points
 
