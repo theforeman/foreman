@@ -13,7 +13,7 @@ module Foreman
       end
 
       def safe_render(template)
-        renderer = params.delete('force_safemode') ? Foreman::Renderer::SafeModeRenderer : Foreman::Renderer
+        renderer = Foreman::Cast.to_bool(params.delete('force_safemode')) ? Foreman::Renderer::SafeModeRenderer : Foreman::Renderer
 
         render plain: template.render(renderer: renderer, host: @host, params: params).html_safe
       rescue StandardError => error
