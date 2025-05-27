@@ -1,0 +1,14 @@
+name: Label a PR `breaks-robottelo` on appropriate comment
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  breaks-robottelo:
+    uses: theforeman/actions/.github/workflows/breaks-robottelo.yml@v0
+    permissions:
+      pull-requests: write
+    with:
+      repo: ${{ github.repository }}
+      issue: ${{ github.event.issue.number }}
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
