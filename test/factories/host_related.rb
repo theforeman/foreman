@@ -588,6 +588,10 @@ FactoryBot.define do
       realm
     end
 
+    trait :with_realm_freeipa do
+      realm { association :realm, realm_type: "FreeIPA", name: 'freeipa.example.com' }
+    end
+
     trait :without_owner do
       owner { nil }
     end

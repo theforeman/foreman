@@ -1,7 +1,6 @@
-      freeipa_client=ipa-client
-    
-      /usr/sbin/sshd-keygen
-  
+freeipa_client=ipa-client
+/usr/sbin/sshd-keygen
+
 yum install -y libsss_sudo $freeipa_client
 
 ##
@@ -14,7 +13,7 @@ freeipa_mkhomedir="--mkhomedir"
 
 
 # One-time password will be requested at install time. Otherwise, $HOST[OTP] is used as a placeholder value.
-/usr/sbin/ipa-client-install -w '$HOST[OTP]' --realm= -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_domain $freeipa_ssh
+/usr/sbin/ipa-client-install -w '$HOST[OTP]' --realm=freeipa.example.com -U $freeipa_mkhomedir $freeipa_opts $freeipa_server $freeipa_domain $freeipa_ssh
 
 ##
 ## Automounter
@@ -76,11 +75,11 @@ EOF
   # Configure nisdomain
       authconfig --nisdomain ${freeipa_domain} --update
     chkconfig sssd on
-    
+
     if [[ $(rpm -qa systemd | wc -l) -gt 0 ]];
     then
       domain_service=/usr/lib/systemd/system/*-domainname.service
-      
+
       # Workaround for BZ1071969 on RHEL 7.0
       grep -q "DefaultDependencies=no" $domain_service
       if [[ $? -ne 0 ]]

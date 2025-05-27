@@ -88,6 +88,7 @@ module Foreman
         "create_ansible_user" => "true",
         "ansible_ssh_pass" => "win_ansible_user_ssh_pass",
         "remote_desktop" => "true",
+        "realm" => "true",
       }
       host_params.each_pair do |name, value|
         FactoryBot.build(:host_parameter, host: host, name: name, value: value)
@@ -119,7 +120,7 @@ module Foreman
     end
 
     def host4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7, :with_realm_freeipa,
         name: 'snapshot-ipv4-dhcp-el7',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])

@@ -18,21 +18,21 @@ description: |
     freeipa_opts                Additional options to pass directly to installer
     freeipa_automount_server    Override automount server if freeipa_automount is true and the server differs from freeipa_server
 -%>
-<% if @host.operatingsystem.family == 'Redhat' -%>
-  <% if @host.operatingsystem.name == 'Fedora' -%>
-    freeipa_client=freeipa-client
-  <% else -%>
-    freeipa_client=ipa-client
-  <% end -%>
-  <% os_major = @host.operatingsystem.major.to_i %>
-  <% if os_major == 7 -%>
-    /usr/sbin/sshd-keygen
-  <% elsif os_major > 7 %>
-    /usr/libexec/openssh/sshd-keygen rsa
-  <% end -%>
-<% else -%>
-  freeipa_client=freeipa-client
-<% end -%>
+<%- if @host.operatingsystem.family == 'Redhat' -%>
+  <%- if @host.operatingsystem.name == 'Fedora' -%>
+freeipa_client=freeipa-client
+  <%- else -%>
+freeipa_client=ipa-client
+  <%- end -%>
+  <%- os_major = @host.operatingsystem.major.to_i -%>
+  <%- if os_major == 7 -%>
+/usr/sbin/sshd-keygen
+  <%- elsif os_major > 7 -%>
+/usr/libexec/openssh/sshd-keygen rsa
+  <%- end -%>
+<%- else -%>
+freeipa_client=freeipa-client
+<%- end -%>
 
 <%= @host.operatingsystem.family == 'Redhat' ? 'yum install -y libsss_sudo' : 'DEBIAN_FRONTEND=noninteractive apt-get install -y libsss-sudo' %> $freeipa_client
 
@@ -140,11 +140,11 @@ EOF
   <% if @host.operatingsystem.family == 'Redhat' -%>
     authconfig --nisdomain ${freeipa_domain} --update
     chkconfig sssd on
-    
+
     if [[ $(rpm -qa systemd | wc -l) -gt 0 ]];
     then
       domain_service=/usr/lib/systemd/system/*-domainname.service
-      
+
       # Workaround for BZ1071969 on RHEL 7.0
       grep -q "DefaultDependencies=no" $domain_service
       if [[ $? -ne 0 ]]
@@ -160,7 +160,7 @@ EOF
   sed -i -e '/^exit /d' /etc/rc.local
   echo "nisdomainname ${freeipa_domain}" >> /etc/rc.local
   echo "exit 0" >> /etc/rc.local
-  nisdomainname ${freeipa_domain}  
+  nisdomainname ${freeipa_domain}
   <% end -%>
 fi
 
