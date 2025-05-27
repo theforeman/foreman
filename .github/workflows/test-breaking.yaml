@@ -1,0 +1,17 @@
+name: Label an issue 'test-breaking' when a 'test-breaking' comment is added to a PR
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  label_issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    if: github.event.comment.body == 'test-breaking'
+    steps:
+      - run: gh issue edit "$NUMBER" --add-label "$LABELS"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          LABELS: test-breaking
