@@ -551,9 +551,7 @@ class HostsController < ApplicationController
   end
 
   def update_multiple_disassociate
-    @hosts.each do |host|
-      host.disassociate!
-    end
+    BulkHostsManager.new(hosts: @hosts).disassociate
     success _('Updated hosts: Disassociated from VM')
     redirect_back_or_to helpers.current_hosts_path
   end

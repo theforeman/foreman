@@ -45,4 +45,10 @@ class BulkHostsManager
       host.save(:validate => false)
     end
   end
+
+  def disassociate
+    @hosts.each do |host|
+      host.disassociate!
+    end
+  end
 end

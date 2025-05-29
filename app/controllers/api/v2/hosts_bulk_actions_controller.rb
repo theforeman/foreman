@@ -5,7 +5,7 @@ module Api
       include Api::V2::BulkHostsExtension
 
       before_action :find_deletable_hosts, :only => [:bulk_destroy]
-      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner]
+      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner, :disassociate]
 
       def_param_group :bulk_host_ids do
         param :organization_id, :number, :required => true, :desc => N_("ID of the organization")
@@ -84,6 +84,14 @@ module Api
       def change_owner
         BulkHostsManager.new(hosts: @hosts).change_owner(params[:owner_id])
         process_response(true, { :message => n_("Updated host: changed owner", "Updated hosts: changed owner", @hosts.count)})
+      end
+
+      api :PUT, "/hosts/bulk/disassociate", N_("Disassociate compute resources")
+      param_group :bulk_host_ids
+      def disassociate
+        BulkHostsManager.new(hosts: @hosts).disassociate
+        process_response(true, { :message => n_("Updated host: Disassociated from compute resource",
+          "Updated hosts: Disassociated from compute resource", @hosts.count)})
       end
 
       protected

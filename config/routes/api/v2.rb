@@ -6,6 +6,7 @@ Foreman::Application.routes.draw do
       match 'hosts/bulk', :to => 'hosts_bulk_actions#bulk_destroy', :via => [:delete]
       match 'hosts/bulk/build', :to => 'hosts_bulk_actions#build', :via => [:put]
       match 'hosts/bulk/change_owner', :to => 'hosts_bulk_actions#change_owner', :via => [:put]
+      put 'hosts/bulk/disassociate', :to => 'hosts_bulk_actions#disassociate'
       match 'hosts/bulk/reassign_hostgroup', :to => 'hosts_bulk_actions#reassign_hostgroup', :via => [:put]
 
       resources :architectures, :except => [:new, :edit] do

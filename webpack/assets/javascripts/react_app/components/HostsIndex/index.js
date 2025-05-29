@@ -47,6 +47,7 @@ import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import BulkBuildHostModal from './BulkActions/buildHosts';
 import BulkReassignHostgroupModal from './BulkActions/reassignHostGroup';
 import BulkChangeOwnerModal from './BulkActions/changeOwner';
+import BulkDisassociateModal from './BulkActions/disassociate';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
@@ -223,6 +224,11 @@ const HostsIndex = () => {
         id: 'bulk-change-owner-modal',
       })
     );
+    dispatch(
+      addModal({
+        id: 'bulk-disassociate-modal',
+      })
+    );
   }, [dispatch]);
 
   const { setModalOpen: setHgModalOpen } = useForemanModal({
@@ -233,6 +239,9 @@ const HostsIndex = () => {
   });
   const { setModalOpen: setChangeOwnerModalOpen } = useForemanModal({
     id: 'bulk-change-owner-modal',
+  });
+  const { setModalOpen: setDisassociateModalOpen } = useForemanModal({
+    id: 'bulk-disassociate-modal',
   });
 
   const dropdownItems = [
@@ -259,6 +268,14 @@ const HostsIndex = () => {
       isDisabled={selectedCount === 0}
     >
       {__('Change owner')}
+    </MenuItem>,
+    <MenuItem
+      itemId="disassociate-dropdown-item"
+      key="disassociate-dropdown-item"
+      onClick={setDisassociateModalOpen}
+      isDisabled={selectedCount === 0}
+    >
+      {__('Disassociate hosts')}
     </MenuItem>,
   ];
 
@@ -468,6 +485,7 @@ const HostsIndex = () => {
         <BulkBuildHostModal key="bulk-build-hosts-modal" />
         <BulkReassignHostgroupModal key="bulk-reassign-hg-modal" />
         <BulkChangeOwnerModal key="bulk-change-owner-modal" />
+        <BulkDisassociateModal key="bulk-disassociate-modal" />
         <Slot id="_all-hosts-modals" multi />
       </ForemanActionsBarContext.Provider>
     </TableIndexPage>
