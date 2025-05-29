@@ -33,6 +33,7 @@ export LC_ALL=C LANG=C
 <%= "\n# Repository data: [#{@repo_data}]" if @repo_data.present? -%>
 <%= "\n# Force: [#{@force}]" unless @force.nil? -%>
 <%= "\n# Ignore subman errors: [#{@ignore_subman_errors}]" unless @ignore_subman_errors.nil? -%>
+<%= "\n# Set up container certs: [#{@setup_container_registry_certs}]" unless @setup_container_registry_certs.nil? -%>
 <%= "\n# Lifecycle environment id: [#{@lifecycle_environment_id}]" if @lifecycle_environment_id.present? -%>
 <%= "\n# Activation keys: [#{activation_keys}]" if activation_keys.present? -%>
 <%= "\n# Download utility: [#{@download_utility}]" unless @download_utility.nil? -%>
@@ -163,6 +164,9 @@ register_katello_host | bash
 register_host | bash
 <% end -%>
 
+<% if truthy?(@setup_container_registry_certs) -%>
+<%= snippet('container_certs_setup') -%>
+<% end -%>
 <%= snippet_if_exists('after_registration') -%>
 
 cleanup_and_exit

@@ -42,6 +42,7 @@ module Foreman::Controller::Registration
       update_packages: params['update_packages'],
       repo_data: repo_data,
       download_utility: params['download_utility'],
+      registration_host: registration_host,
     }
 
     params.permit(permitted)
@@ -107,6 +108,10 @@ module Foreman::Controller::Registration
 
   def context_urls
     { registration_url: registration_url }
+  end
+
+  def registration_host
+    registration_url.host
   end
 
   def setup_host_params

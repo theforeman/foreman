@@ -1,0 +1,45 @@
+<%#
+kind: snippet
+name: container_certs_setup
+model: ProvisioningTemplate
+snippet: true
+description: |
+  This snippet sets up SSL certificates for secure communication with the Foreman registry.
+-%>
+echo "#"
+echo "Running certificate setup for container registry"
+<% raise "Unable to determine registration hostname" if @registration_host.blank? %>
+hostname="<%= @registration_host %>"
+
+# Validate CA certificate
+ca_cert="/etc/pki/tls/certs/ca-bundle.crt"
+if [ ! -f "$ca_cert" ]; then
+  echo "Error: CA certificate not found at $ca_cert"
+  exit 1
+fi
+
+# Validate client key
+key_file=$(find /etc/pki/entitlement/ -name '*-key.pem' -type f -print -quit)
+if [ -z "$key_file" ]; then
+  echo "Error: Client key file not found in /etc/pki/entitlement/"
+  exit 1
+fi
+
+# Validate client certificate
+cert_file=$(find /etc/pki/entitlement/ -maxdepth 1 -type f -name '*.pem' -not -name '*-key.pem' -print -quit)
+if [ -z "$cert_file" ]; then
+  echo "Error: Client certificate file not found in /etc/pki/entitlement/"
+  exit 1
+fi
+
+# Create directory for certificates
+cert_dir="/etc/containers/certs.d/$hostname"
+echo "Creating $cert_dir directory"
+mkdir -p "$cert_dir" || { echo "Error: Failed to create directory $cert_dir"; exit 1; }
+
+# Perform linking if all checks pass
+ln -sf "$ca_cert" "$cert_dir/ca-bundle.crt"
+ln -sf "$key_file" "$cert_dir/client.key"
+ln -sf "$cert_file" "$cert_dir/client.cert"
+
+echo "Container certificate setup completed successfully."
