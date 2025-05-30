@@ -1,14 +1,11 @@
 import {
   NOTIFICATIONS,
-  NOTIFICATIONS_TOGGLE_DRAWER,
-  NOTIFICATIONS_SET_EXPANDED_GROUP,
   NOTIFICATIONS_MARK_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_READ,
   NOTIFICATIONS_MARK_AS_CLEAR,
   NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
-  NOTIFICATIONS_LINK_CLICKED,
+  NOTIFICATIONS_URL,
 } from '../../consts';
-import * as sessionStorage from '../../../components/notifications/NotificationDrawerSessionStorage';
 import { API, get } from '../../API';
 import { reloadPage } from '../../../common/helpers';
 import {
@@ -19,18 +16,18 @@ import { DEFAULT_INTERVAL } from './constants';
 
 const interval = process.env.NOTIFICATIONS_POLLING || DEFAULT_INTERVAL;
 
-const handleNotificationPollingError = (error, stopNotificationPolling) => {
+const handleNotificationPollingError = error => {
   if (error.response?.status === 401) {
-    stopNotificationPolling();
+    stopNotificationsPolling();
     reloadPage();
   }
 };
 
-export const startNotificationsPolling = url =>
+export const startNotificationsPolling = () =>
   withInterval(
     get({
       key: NOTIFICATIONS,
-      url,
+      url: NOTIFICATIONS_URL,
       handleError: handleNotificationPollingError,
     }),
     interval
@@ -38,15 +35,14 @@ export const startNotificationsPolling = url =>
 
 export const stopNotificationsPolling = () => stopInterval(NOTIFICATIONS);
 
-export const markAsRead = (group, id) => dispatch => {
+export const markAsRead = id => dispatch => {
   dispatch({
     type: NOTIFICATIONS_MARK_AS_READ,
     payload: {
-      group,
       id,
     },
   });
-  const url = `/notification_recipients/${id}`;
+  const url = `${NOTIFICATIONS_URL}/${id}`;
   const data = { seen: true };
   API.put(url, data);
 };
@@ -58,19 +54,18 @@ export const markGroupAsRead = group => dispatch => {
       group,
     },
   });
-  const url = `/notification_recipients/group/${group}`;
+  const url = `${NOTIFICATIONS_URL}/group/${group}`;
   API.put(url);
 };
 
-export const clearNotification = (group, id) => dispatch => {
+export const clearNotification = id => dispatch => {
   dispatch({
     type: NOTIFICATIONS_MARK_AS_CLEAR,
     payload: {
-      group,
       id,
     },
   });
-  const url = `/notification_recipients/${id}`;
+  const url = `${NOTIFICATIONS_URL}/${id}`;
   API.delete(url);
 };
 
@@ -81,52 +76,6 @@ export const clearGroup = group => dispatch => {
       group,
     },
   });
-  const url = `/notification_recipients/group/${group}`;
+  const url = `${NOTIFICATIONS_URL}/group/${group}`;
   API.delete(url);
-};
-
-export const expandGroup = group => (dispatch, getState) => {
-  const currentExpanded = getState().notifications.expandedGroup;
-
-  const getNewExpandedGroup = () => (currentExpanded === group ? '' : group);
-
-  sessionStorage.setExpandedGroup(getNewExpandedGroup());
-  dispatch({
-    type: NOTIFICATIONS_SET_EXPANDED_GROUP,
-    payload: {
-      group: getNewExpandedGroup(),
-    },
-  });
-};
-
-export const toggleDrawer = () => (dispatch, getState) => {
-  const isDrawerOpened = getState().notifications.isDrawerOpen;
-
-  sessionStorage.setIsOpened(!isDrawerOpened);
-  dispatch({
-    type: NOTIFICATIONS_TOGGLE_DRAWER,
-    payload: {
-      value: !isDrawerOpened,
-    },
-  });
-};
-
-export const clickedLink = (
-  { href, external = false },
-  toggleDrawerAction = toggleDrawer
-) => dispatch => {
-  dispatch(toggleDrawerAction());
-
-  const openedWindow = window.open(href, external ? '_blank' : '_self');
-
-  if (external) {
-    openedWindow.opener = null;
-  }
-
-  dispatch({
-    type: NOTIFICATIONS_LINK_CLICKED,
-    payload: { href, external },
-  });
-
-  return openedWindow;
 };

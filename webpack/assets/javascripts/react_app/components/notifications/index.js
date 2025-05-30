@@ -1,157 +1,74 @@
-import onClickOutside from 'react-onclickoutside';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { groupBy } from 'lodash';
+import React, { useContext } from 'react';
+import { createPortal } from 'react-dom';
 import {
-  NotificationDrawerWrapper,
-  NotificationDrawerPanelWrapper,
-} from 'patternfly-react';
-import * as NotificationActions from '../../redux/actions/notifications';
-import { noop, translateObject } from '../../common/helpers';
+  NotificationDrawer,
+  NotificationDrawerBody,
+  NotificationDrawerList,
+  NotificationDrawerGroupList,
+  NotificationDrawerGroup,
+} from '@patternfly/react-core';
+
+import NotificationHeader from './components/NotificationHeader';
+import NotificationItems from './components/NotificationListItems';
+import NotificationGroupFooter from './components/NotificationGroupFooter';
+import { NotificationsContext } from './NotificationsContext';
 
 import './notifications.scss';
-import ToggleIcon from './ToggleIcon/ToggleIcon';
 
-class notificationContainer extends React.Component {
-  componentDidMount() {
-    const {
-      startNotificationsPolling,
-      data: { url },
-    } = this.props;
-
-    startNotificationsPolling(url);
-  }
-
-  handleClickOutside() {
-    const { isDrawerOpen, isReady, toggleDrawer } = this.props;
-
-    if (isReady && isDrawerOpen) {
-      toggleDrawer();
-    }
-  }
-
-  componentWillUnmount() {
-    const { stopNotificationsPolling } = this.props;
-    stopNotificationsPolling();
-  }
-
-  render() {
-    const {
-      notifications,
-      isDrawerOpen,
-      toggleDrawer,
-      expandGroup,
-      expandedGroup,
-      markAsRead,
-      markGroupAsRead,
-      clearNotification,
-      clearGroup,
-      hasUnreadMessages,
-      isReady,
-      clickedLink,
-      translations,
-    } = this.props;
-
-    const notificationGroups = Object.entries(notifications).map(
-      ([key, group]) => ({
-        panelkey: key,
-        panelName: key,
-        notifications: group,
-      })
-    );
-
-    return (
-      <div>
-        <ToggleIcon
-          hasUnreadMessages={hasUnreadMessages}
-          onClick={toggleDrawer}
-        />
-        {isReady && isDrawerOpen && (
-          <NotificationDrawerWrapper
-            panels={notificationGroups}
-            expandedPanel={expandedGroup}
-            togglePanel={expandGroup}
-            onNotificationAsRead={markAsRead}
-            onNotificationHide={clearNotification}
-            onMarkPanelAsRead={markGroupAsRead}
-            onMarkPanelAsClear={clearGroup}
-            onClickedLink={clickedLink}
-            toggleDrawerHide={toggleDrawer}
-            isExpandable={false}
-            translations={translateObject(translations)}
-          />
-        )}
-      </div>
-    );
-  }
-}
-
-notificationContainer.propTypes = {
-  data: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-  isDrawerOpen: PropTypes.bool,
-  isReady: PropTypes.bool,
-  notifications: PropTypes.object,
-  expandedGroup: PropTypes.string,
-  hasUnreadMessages: PropTypes.bool,
-  clickedLink: PropTypes.func,
-  startNotificationsPolling: PropTypes.func,
-  toggleDrawer: PropTypes.func,
-  expandGroup: PropTypes.func,
-  markAsRead: PropTypes.func,
-  markGroupAsRead: PropTypes.func,
-  clearNotification: PropTypes.func,
-  clearGroup: PropTypes.func,
-  stopNotificationsPolling: PropTypes.func,
-  translations: PropTypes.shape({
-    title: PropTypes.string,
-    unreadEvent: PropTypes.string,
-    unreadEvents: PropTypes.string,
-    emptyState: PropTypes.string,
-    readAll: PropTypes.string,
-    clearAll: PropTypes.string,
-    deleteNotification: PropTypes.string,
-  }),
-};
-
-notificationContainer.defaultProps = {
-  isDrawerOpen: false,
-  isReady: false,
-  notifications: {},
-  expandedGroup: null,
-  hasUnreadMessages: false,
-  clickedLink: noop,
-  startNotificationsPolling: noop,
-  toggleDrawer: noop,
-  expandGroup: noop,
-  markAsRead: noop,
-  markGroupAsRead: noop,
-  clearNotification: noop,
-  clearGroup: noop,
-  stopNotificationsPolling: noop,
-  translations: NotificationDrawerPanelWrapper.defaultProps.translations,
-};
-
-const mapStateToProps = state => {
+const Notifications = () => {
   const {
+    isKebabExpanded,
+    drawerRef,
+    isExpanded,
     notifications,
-    isDrawerOpen,
-    expandedGroup,
-    hasUnreadMessages,
-  } = state.notifications;
+    isGroupExpanded,
+    toggleKebab,
+    toggleNotifications,
+  } = useContext(NotificationsContext);
 
-  return {
-    isDrawerOpen,
-    notifications: groupBy(notifications, n => n.group),
-    expandedGroup,
-    isReady: !!notifications,
-    hasUnreadMessages,
-  };
+  const unreadPerGroup = groupItems => groupItems.filter(i => !i.seen).length;
+
+  const notificationDrawer = (
+    <>
+      {isExpanded && (
+        <NotificationDrawer ref={drawerRef} className="notifications">
+          <NotificationHeader
+            toggleKebab={toggleKebab}
+            isKebabExpanded={isKebabExpanded}
+          />
+          <NotificationDrawerBody>
+            <NotificationDrawerGroupList>
+              {Object.entries(notifications).map(([groupName, items], key) => (
+                <NotificationDrawerGroup
+                  key={key}
+                  title={groupName}
+                  id={groupName}
+                  count={unreadPerGroup(items) || items.length}
+                  isRead={unreadPerGroup(items) === 0}
+                  isExpanded={isGroupExpanded(key)}
+                  onExpand={() => toggleNotifications(key)}
+                >
+                  <NotificationDrawerList isHidden={!isGroupExpanded(key)}>
+                    <NotificationItems
+                      isKebabExpanded={isKebabExpanded}
+                      toggleKebab={toggleKebab}
+                      items={items}
+                    />
+                    <NotificationGroupFooter
+                      groupName={groupName}
+                      unread={unreadPerGroup(items)}
+                    />
+                  </NotificationDrawerList>
+                </NotificationDrawerGroup>
+              ))}
+            </NotificationDrawerGroupList>
+          </NotificationDrawerBody>
+        </NotificationDrawer>
+      )}
+    </>
+  );
+
+  return <>{createPortal(notificationDrawer, document.body)}</>;
 };
 
-export default connect(
-  mapStateToProps,
-  NotificationActions
-)(onClickOutside(notificationContainer));
+export default Notifications;

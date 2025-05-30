@@ -2,8 +2,6 @@
 import Immutable from 'seamless-immutable';
 
 export const initialState = Immutable({
-  expandedGroup: null,
-  isDrawerOpen: null,
   hasUnreadMessages: false,
 });
 

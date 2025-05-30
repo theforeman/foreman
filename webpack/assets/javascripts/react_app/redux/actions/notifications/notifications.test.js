@@ -25,7 +25,7 @@ describe('Notification Drawer actions', () => {
       },
     };
     const dispatch = jest.fn();
-    const dispatcher = actions.markAsRead('Community', 21);
+    const dispatcher = actions.markAsRead(21);
 
     dispatcher(dispatch, () => state);
 
@@ -42,7 +42,7 @@ describe('Notification Drawer actions', () => {
       },
     };
     const dispatch = jest.fn();
-    const dispatcher = actions.markAsRead('Community', 21);
+    const dispatcher = actions.markAsRead(21);
 
     dispatcher(dispatch, () => state);
 
@@ -54,7 +54,7 @@ describe('Notification Drawer actions', () => {
     API.put.mockImplementation(async () => null);
 
     const dispatch = jest.fn();
-    const dispatcher = actions.clearNotification('Community', 21);
+    const dispatcher = actions.clearNotification(21);
 
     dispatcher(dispatch);
 
@@ -72,84 +72,5 @@ describe('Notification Drawer actions', () => {
 
     expect(dispatch.mock.calls).toMatchSnapshot();
     expect(API.put.mock.calls).toMatchSnapshot();
-  });
-
-  it('should expand different group', () => {
-    const state = { notifications: { expandedGroup: 'Hosts' } };
-    const dispatch = jest.fn();
-    const dispatcher = actions.expandGroup('Community');
-
-    dispatcher(dispatch, () => state);
-
-    expect(dispatch.mock.calls).toMatchSnapshot();
-  });
-
-  it('should expand same group', () => {
-    const state = { notifications: { expandedGroup: 'Community' } };
-    const dispatch = jest.fn();
-    const dispatcher = actions.expandGroup('Community');
-
-    dispatcher(dispatch, () => state);
-
-    expect(dispatch.mock.calls).toMatchSnapshot();
-  });
-
-  it('should toggle closed drawer', () => {
-    const state = { notifications: { isDrawerOpen: false } };
-    const dispatch = jest.fn();
-    const dispatcher = actions.toggleDrawer();
-
-    dispatcher(dispatch, () => state);
-
-    expect(dispatch.mock.calls).toMatchSnapshot();
-  });
-
-  it('should toggle opened drawer', () => {
-    const state = { notifications: { isDrawerOpen: true } };
-    const dispatch = jest.fn();
-    const dispatcher = actions.toggleDrawer();
-
-    dispatcher(dispatch, () => state);
-
-    expect(dispatch.mock.calls).toMatchSnapshot();
-  });
-
-  it('should open link', () => {
-    const opener = 'original-opener';
-    global.open = () => ({ opener });
-
-    const toggleDrawerAction = () => 'toggle the drawer action';
-
-    const dispatch = jest.fn();
-    const dispatcher = actions.clickedLink(
-      { href: 'https://www.redhat.com/en' },
-      toggleDrawerAction
-    );
-
-    const openedWindow = dispatcher(dispatch);
-
-    expect(openedWindow.opener).toEqual(opener);
-    expect(dispatch.mock.calls).toMatchSnapshot();
-  });
-
-  it('should open external link', () => {
-    const opener = 'original-opener';
-    global.open = () => ({ opener });
-
-    const toggleDrawerAction = () => 'toggle the drawer action';
-
-    const dispatch = jest.fn();
-    const dispatcher = actions.clickedLink(
-      {
-        href: 'https://www.redhat.com/en',
-        external: true,
-      },
-      toggleDrawerAction
-    );
-
-    const openedWindow = dispatcher(dispatch);
-
-    expect(openedWindow.opener).toBe(null);
-    expect(dispatch.mock.calls).toMatchSnapshot();
   });
 });

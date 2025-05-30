@@ -35,45 +35,43 @@ const Layout = ({
     }
   };
   return (
-    <>
-      <Flex
-        direction={{ default: 'column' }}
-        flexWrap={{ default: 'nowrap' }}
-        spaceItems={{ default: 'spaceItemsNone' }}
-        style={{ height: '100%' }}
-      >
-        <FlexItem>
-          <InstanceBanner data={data} />
-        </FlexItem>
-        <FlexItem grow={{ default: 'grow' }} style={{ minHeight: 0 }}>
-          <Page
-            mainContainerId="foreman-main-container"
-            header={
-              <Header
-                data={data}
-                onNavToggle={onNavToggle}
-                isLoading={isLoading}
-              />
-            }
-            id="foreman-page"
-            sidebar={
-              <PageSidebar isSidebarOpen={!isCollapsed}>
-                <PageSidebarBody>
-                  <Navigation
-                    items={items}
-                    navigate={navigate}
-                    navigationActiveItem={navigationActiveItem}
-                    setNavigationActiveItem={setNavigationActiveItem}
-                  />
-                </PageSidebarBody>
-              </PageSidebar>
-            }
-          >
-            {children}
-          </Page>
-        </FlexItem>
-      </Flex>
-    </>
+    <Flex
+      direction={{ default: 'column' }}
+      flexWrap={{ default: 'nowrap' }}
+      spaceItems={{ default: 'spaceItemsNone' }}
+      style={{ height: '100%' }}
+    >
+      <FlexItem>
+        <InstanceBanner data={data} />
+      </FlexItem>
+      <FlexItem grow={{ default: 'grow' }} style={{ minHeight: 0 }}>
+        <Page
+          mainContainerId="foreman-main-container"
+          header={
+            <Header
+              data={data}
+              onNavToggle={onNavToggle}
+              isLoading={isLoading}
+            />
+          }
+          id="foreman-page"
+          sidebar={
+            <PageSidebar isSidebarOpen={!isCollapsed}>
+              <PageSidebarBody>
+                <Navigation
+                  items={items}
+                  navigate={navigate}
+                  navigationActiveItem={navigationActiveItem}
+                  setNavigationActiveItem={setNavigationActiveItem}
+                />
+              </PageSidebarBody>
+            </PageSidebar>
+          }
+        >
+          {children}
+        </Page>
+      </FlexItem>
+    </Flex>
   );
 };
 

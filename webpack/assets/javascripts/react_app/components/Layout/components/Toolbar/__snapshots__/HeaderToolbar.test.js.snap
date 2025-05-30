@@ -53,16 +53,11 @@ exports[`HeaderToolbar rendering render HeaderToolbar 1`] = `
         }
       }
     >
-      <ToolbarItem
-        className="notifications_container"
-      >
-        <Connect(OnClickOutside(notificationContainer))
-          data={
-            Object {
-              "url": "/notification_recipients",
-            }
-          }
-        />
+      <ToolbarItem>
+        <NotificationsContextWrapper>
+          <NotificationIcon />
+          <Notifications />
+        </NotificationsContextWrapper>
       </ToolbarItem>
       <ToolbarItem
         className="impersonation-item"

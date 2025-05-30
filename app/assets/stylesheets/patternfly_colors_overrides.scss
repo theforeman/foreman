@@ -20,6 +20,7 @@
       }
     }
   }
+
   .pf-v5-c-nav__link {
     --pf-v5-c-nav__link--BackgroundColor: #{$nav-pf-vertical-bg-color};
     --pf-v5-c-nav__link--m-current--BackgroundColor: #{$nav-pf-vertical-active-bg-color};
@@ -36,5 +37,8 @@
   }
   .pf-v5-c-nav__item {
     --pf-v5-c-nav__item--before--BorderColor: #{$nav-pf-vertical-active-bg-color};
+  }
+  .pf-v5-c-notification-badge {
+    --pf-v5-c-notification-badge--m-read--m-expanded--after--BackgroundColor: var(--pf-v5-global--palette--blue-500)
   }
 }

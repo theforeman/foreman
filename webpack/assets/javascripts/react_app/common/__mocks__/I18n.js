@@ -12,6 +12,8 @@ export const intl = {
   locale: 'en',
 };
 
+export const documentLocale = jest.fn(() => 'en');
+
 const i18n = {
   translate,
   ngettext,

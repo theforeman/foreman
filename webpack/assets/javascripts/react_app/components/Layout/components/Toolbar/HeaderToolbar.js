@@ -8,7 +8,6 @@ import {
 } from '@patternfly/react-core';
 import TaxonomySwitcher from '../TaxonomySwitcher/TaxonomySwitcher';
 import UserDropdowns from './UserDropdowns';
-import NotificationContainer from '../../../notifications';
 import ImpersonateIcon from '../ImpersonateIcon';
 import {
   layoutPropTypes,
@@ -18,6 +17,9 @@ import {
   userPropType,
 } from '../../LayoutHelper';
 import './HeaderToolbar.scss';
+import NotificationIcon from '../../../notifications/components/NotificationIcon';
+import { NotificationsContextWrapper } from '../../../notifications/NotificationsContext';
+import Notifications from '../../../notifications';
 
 const HeaderToolbar = ({
   locations,
@@ -37,15 +39,17 @@ const HeaderToolbar = ({
         />
       </ToolbarGroup>
       <ToolbarGroup align={{ default: 'alignRight' }}>
-        <ToolbarItem className="notifications_container">
-          <NotificationContainer data={{ url: notificationUrl }} />
+        <ToolbarItem>
+          <NotificationsContextWrapper>
+            <NotificationIcon />
+            <Notifications />
+          </NotificationsContextWrapper>
         </ToolbarItem>
         {user.impersonated_by && (
           <ToolbarItem className="impersonation-item">
             <ImpersonateIcon stopImpersonationUrl={stopImpersonationUrl} />
           </ToolbarItem>
         )}
-
         <ToolbarItem className="header-tool-item-hidden-lg user-nav-item">
           <UserDropdowns notificationUrl={notificationUrl} user={user} />
         </ToolbarItem>
