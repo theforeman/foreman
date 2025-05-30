@@ -116,6 +116,7 @@ class HelpersTest < ActiveSupport::TestCase
       url = "https://www.example.com/keys/client.asc"
       output_file = "/etc/apt/trusted.gpg.d/client1.asc"
       expected_request = "curl --silent --show-error https://www.example.com/keys/client.asc \\\n" \
+                         "  --fail \\\n" \
                          "  --output /etc/apt/trusted.gpg.d/client1.asc"
       assert_equal expected_request, scope.generate_web_request(utility: utility, url: url, output_file: output_file)
     end
@@ -128,6 +129,7 @@ class HelpersTest < ActiveSupport::TestCase
       params = ["host[build]=false", "host[organization_id]=1"]
       expected_request = "curl --silent --show-error https://www.example.com/register \\\n" \
                          "  --cacert /etc/ssl/custom_certs/ca_cert.crt \\\n" \
+                         "  --fail \\\n" \
                          "  --request POST \\\n" \
                          "  --header 'Authorization: Bearer my_token' \\\n" \
                          "  --data host[build]=false \\\n" \

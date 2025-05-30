@@ -54,6 +54,7 @@ module Foreman
         :insecure => '--insecure',
         :output_file => '--output',
         :request_type_post => '--request POST',
+        :fail => '--fail',
         :format_params => proc { |params| params.map { |param| "--data #{param}" } },
       },
       'wget' => {

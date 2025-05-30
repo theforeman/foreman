@@ -171,7 +171,9 @@ module Foreman
             utility = Foreman.download_utilities.fetch(utility || 'curl')
             command = ["#{utility[:download_command]} #{url}"]
             command << "#{utility[:ca_cert]} #{ssl_ca_cert}" if ssl_ca_cert
+            command << "--fail" if utility[:fail]
             command << utility[:request_type_post] if params && utility[:request_type_post]
+
             if output_file
               command << "#{utility[:output_file]} #{output_file}"
             elsif utility[:output_pipe]
