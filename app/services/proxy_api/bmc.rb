@@ -53,7 +53,7 @@ module ProxyAPI
         full_path_as_hash = bmc_url_for_get('power', args[:action])
         response = parse(get(full_path_as_hash[:path], query: full_path_as_hash[:query]))
         response.is_a?(Hash) ? response['result'] : response
-      when "on", "off", "cycle", "soft"
+      when "on", "off", "cycle", "soft", "reboot", "reset"
         res = parse put(with_provider(args), bmc_url_for('power', args[:action]))
         res && (res['result'] == true || res['result'] == "#{@target}: ok\n")
       else

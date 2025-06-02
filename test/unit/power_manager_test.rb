@@ -82,4 +82,54 @@ class PowerManagerTest < ActiveSupport::TestCase
     end
     actions.uniq
   end
+
+  test "should call reboot and reset directly when power_action_v2 is supported" do
+    host = FactoryBot.build_stubbed(:host, :managed)
+    bmc_proxy_mock = mock('bmc_proxy')
+    nic_mock = mock('nic_bmc')
+    relation_mock = mock('smart_proxies_relation')
+    bmc_caps = mock('bmc_caps')
+    filtered_relation_mock = mock('filtered_relation_mock')
+
+    host.stubs(:bmc_proxy).returns(bmc_proxy_mock)
+    host.stubs(:bmc_nic).returns(nic_mock)
+    nic_mock.stubs(:credentials_present?).returns(true)
+    nic_mock.stubs(:provider).returns('IPMI')
+    host.stubs(:bmc_available?).returns(true)
+    host.stubs(:smart_proxies).returns(relation_mock)
+    relation_mock.stubs(:with_features).with(:BMC).returns(filtered_relation_mock)
+    filtered_relation_mock.stubs(:first).returns(bmc_caps)
+    bmc_caps.stubs(:has_capability?).with(:BMC, :power_action_v2).returns(true)
+
+    bmc_proxy_mock.expects(:power).with(:action => "reboot").returns(true)
+    bmc_proxy_mock.expects(:power).with(:action => "reset").returns(true)
+
+    assert host.power.reboot
+    assert host.power.reset
+  end
+
+  test "should fallback to soft and cycle when power_action_v2 is not supported" do
+    host = FactoryBot.build_stubbed(:host, :managed)
+    bmc_proxy_mock = mock('bmc_proxy')
+    nic_mock = mock('nic_bmc')
+    relation_mock = mock('smart_proxies_relation')
+    bmc_caps = mock('bmc_caps')
+    filtered_relation_mock = mock('filtered_relation_mock')
+
+    host.stubs(:bmc_proxy).returns(bmc_proxy_mock)
+    host.stubs(:bmc_nic).returns(nic_mock)
+    nic_mock.stubs(:credentials_present?).returns(true)
+    nic_mock.stubs(:provider).returns('IPMI')
+    host.stubs(:bmc_available?).returns(true)
+    host.stubs(:smart_proxies).returns(relation_mock)
+    relation_mock.stubs(:with_features).with(:BMC).returns(filtered_relation_mock)
+    filtered_relation_mock.stubs(:first).returns(bmc_caps)
+    bmc_caps.stubs(:has_capability?).with(:BMC, :power_action_v2).returns(false)
+
+    bmc_proxy_mock.expects(:power).with(:action => "soft").returns(true)
+    bmc_proxy_mock.expects(:power).with(:action => "cycle").returns(true)
+
+    assert host.power.reboot
+    assert host.power.reset
+  end
 end

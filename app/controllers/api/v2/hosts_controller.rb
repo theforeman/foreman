@@ -242,7 +242,7 @@ module Api
 
       api :PUT, "/hosts/:id/power", N_("Run a power operation on host")
       param :id, :identifier_dottable, :required => true
-      param :power_action, String, :required => true, :desc => N_("power action, valid actions are (on/start), (off/stop), (soft/reboot), (cycle/reset), (state/status)")
+      param :power_action, String, :required => true, :desc => N_("power action, valid actions are (on/start), (off/stop), reboot, reset, soft, cycle, (state/status)")
 
       def power
         unless @host.supports_power?
