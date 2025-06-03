@@ -34,7 +34,7 @@ jobs:
     needs: setup_matrix
     runs-on: ubuntu-24.04
     env:
-      BUNDLE_WITHOUT: assets:console:development:dynflow_sidekiq:ec2:journald:jsonp:libvirt:openid:openstack:ovirt:redis:service:telemetry:vmware
+      BUNDLE_WITHOUT: assets:console:development:dynflow_sidekiq:ec2:journald:jsonp:libvirt:openid:openstack:redis:service:telemetry:vmware
     steps:
       - uses: actions/checkout@v4
       - name: Setup Ruby
