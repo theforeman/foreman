@@ -1,6 +1,7 @@
 module UINotifications
   class CleanExpired
-    def initialize(blueprint: nil, group: nil, expired_at: Time.now.utc)
+    def initialize(blueprint: nil, group: nil, expired_at: nil)
+      expired_at ||= Time.now.utc
       @blueprint = blueprint.present? ? {:notification_blueprints => {:name => blueprint }} : nil
       @group = group.present? ? {:notification_blueprints => {:group => group}} : nil
       expired_at = expired_at.to_time if expired_at.is_a?(String)

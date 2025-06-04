@@ -13,8 +13,8 @@ namespace :notifications do
   task :clean, [:time, :group, :blueprint] => :environment do |t, args|
     puts 'Starting expired notifications clean up...'
     begin
-      cleaner = UINotifications::CleanExpired.new({blueprint: args.blueprint, group: args.group,
-                                                   expired_at: args.time}.compact)
+      cleaner = UINotifications::CleanExpired.new(blueprint: args.blueprint, group: args.group,
+        expired_at: args.time)
       cleaner.clean!
       puts "Finished, cleaned #{cleaner.deleted_count} notifications"
     rescue => error
