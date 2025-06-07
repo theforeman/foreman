@@ -72,7 +72,7 @@ A page component that displays a table with data fetched from the API. It provid
 @param {string} {idColumn} - Not needed when passing children. The column name to use for RowSelectTd to pass to its selectOne function
 @param {function} {rowKebabItems} - Not needed when passing children. A function that takes a single result object and returns an array of kebab items to be displayed in the last column
 @param {function} {updateSearchQuery} - Pass in the updateSearchQuery function returned from useBulkSelect.
-@param {function} {restrictedSearchQuery} - If included, normalize the search query to add this to all search queries to restrict search results without altering the search input value. Useful for limiting results to an initial selection. 
+@param {function} {restrictedSearchQuery} - If included, normalize the search query to add this to all search queries to restrict search results without altering the search input value. Useful for limiting results to an initial selection.
 @param {boolean} {updateParamsByUrl} - If true, update pagination props from URL params. Default is true.
 @param {string} {bookmarksPosition} - The position of the bookmarks dropdown. Default is 'left', which means the menu will take up space to its right.
 */
@@ -117,7 +117,9 @@ const TableIndexPage = ({
   const urlParams = new URLSearchParams(historySearch);
   const urlParamsSearch = urlParams.get('search') || '';
   const search = updateParamsByUrl ? urlParamsSearch || getURIsearch() : '';
-  const defaultParams = { search: search || '' };
+  const defaultParams = {
+    search: (restrictedSearchQuery(search) ?? search) || '',
+  };
   if (updateParamsByUrl) {
     const urlPage = urlParams.get('page');
     const urlPerPage = urlParams.get('per_page');

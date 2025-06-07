@@ -19,7 +19,9 @@ const store = mockStore({
       },
     },
   },
-  autocomplete: { 'searchBar-testController': { url: '/test/', searchQuery: 'name=test' } },
+  autocomplete: {
+    'searchBar-testController': { url: '/test/', searchQuery: 'name=test' },
+  },
   foremanModals: {
     modal2: { isOpen: false },
   },
@@ -39,9 +41,9 @@ const props = {
   hasHelpPage: true,
   response: {
     response: {
-      search: "",
+      search: '',
       can_create: true,
-      results: [{item: 1}],
+      results: [{ item: 1 }],
       total: 1,
       per_page: 20,
       page: 1,
@@ -61,7 +63,7 @@ Object.defineProperty(window, 'location', {
   value: { href: '/test?search=name=test' },
 });
 describe('TableIndexPage', () => {
-  it('All props are shown', async () => {
+  test('All props are shown', async () => {
     render(
       <Provider store={store}>
         <TableIndexPage {...props} />
@@ -92,5 +94,15 @@ describe('TableIndexPage', () => {
     expect(screen.getByDisplayValue('name=test')).toBeInTheDocument();
     expect(screen.queryAllByText('Test Title')).toHaveLength(1);
     expect(screen.queryAllByText('Custom button')).toHaveLength(1);
+  });
+
+  test('Correct query is shown for restricted search query', async () => {
+    const restrictedSearch = jest.fn();
+    render(
+      <Provider store={store}>
+        <TableIndexPage restrictedSearchQuery={restrictedSearch} {...props} />
+      </Provider>
+    );
+    expect(restrictedSearch).toHaveBeenCalled();
   });
 });
