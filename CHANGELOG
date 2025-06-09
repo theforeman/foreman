@@ -1,3 +1,7 @@
+2025-06-09	Lukas Hellebrandt <lhellebr@redhat.com>
+	* Release 3.15.0
+	* i18n - extracting new, pulling from tx
+
 2025-05-21	Lukas Hellebrandt <lhellebr@redhat.com>
 	* Release 3.15.0-rc1
 	* i18n - extracting new, pulling from tx
