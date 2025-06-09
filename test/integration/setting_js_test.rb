@@ -29,4 +29,77 @@ class SettingJSTest < IntegrationTestWithJavascript
     assert_index_page(settings_path, "Settings", false, true, false)
     assert page.has_link?("My Pretty Setting Label", :href => "#category_label_test_settings_tab")
   end
+
+  test "general headers values" do
+    visit settings_path
+
+    assert_text 'Name'
+    assert_text 'Value'
+    assert_text 'Description'
+  end
+
+  test "edit single arrays values" do
+    visit settings_path
+    click_button 'http_proxy_except_list'
+
+    input = find('textarea#setting-textarea-http_proxy_except_list')
+    assert_empty input.value
+
+    input.fill_in with: 'testArr'
+    find(:ouia_component_id, 'submit-edit-btn').click
+    assert_text 'updated setting'
+
+    assert_text '[testArr]'
+  end
+
+  test "edit empty array values" do
+    visit settings_path
+    click_button 'http_proxy_except_list'
+
+    input = find('textarea#setting-textarea-http_proxy_except_list')
+    assert_empty input.value
+
+    input.fill_in with: ''
+    find(:ouia_component_id, 'submit-edit-btn').click
+    assert_text 'updated setting'
+
+    assert_text '[]'
+  end
+
+  test "edit multi array values" do
+    visit settings_path
+    click_button 'http_proxy_except_list'
+
+    input = find('textarea#setting-textarea-http_proxy_except_list')
+    assert_empty input.value
+
+    input.fill_in with: 'testArr,testArr2'
+    find(:ouia_component_id, 'submit-edit-btn').click
+    assert_text 'updated setting'
+
+    assert_text '[testArr, testArr2]'
+  end
+
+  test "string input type" do
+    visit settings_path
+    click_button 'entries_per_page'
+
+    input = find('input#setting-input-entries_per_page')
+    assert_equal input.value, '20'
+
+    input.fill_in with: '25'
+    find(:ouia_component_id, 'submit-edit-btn').click
+
+    assert_text '25'
+  end
+
+  test "select input type" do
+    visit settings_path
+    click_button 'default_timezone'
+
+    select "(GMT +01:00) Berlin", from: 'setting-select-default_timezone'
+    find(:ouia_component_id, 'submit-edit-btn').click
+
+    assert_text '(GMT +01:00) Berlin'
+  end
 end

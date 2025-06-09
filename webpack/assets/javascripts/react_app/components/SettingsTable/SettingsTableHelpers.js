@@ -1,10 +1,20 @@
 import React from 'react';
 
-import { Tooltip } from '@patternfly/react-core';
+import {
+  Tooltip,
+  FormSelectOption,
+  FormSelectOptionGroup,
+} from '@patternfly/react-core';
 import { translate as __ } from '../../common/I18n';
 
 import { deepPropsToCamelCase } from '../../common/helpers';
 
+/**
+ *
+ * @param Component
+ * @returns {function(*): *}
+ * @description returns component wrapped in Tooltip element
+ */
 export const withTooltip = Component => componentProps => {
   const { tooltipId, tooltipText, ...rest } = componentProps;
 
@@ -60,7 +70,7 @@ const formatBooleanValue = setting => formatBoolean('value', setting);
 
 const formatBoolean = (attr, setting) => {
   if (setting.settingsType === 'boolean') {
-    if (setting[attr]) {
+    if (String(setting[attr]).toLowerCase() === 'true') {
       return __('Yes');
     }
     return __('No');
@@ -166,3 +176,36 @@ export const hasDefault = setting => {
     }
   }
 };
+
+const renderOption = (val, text, key = null) => {
+  const optValue = val === null || val === undefined ? '' : val;
+
+  return <FormSelectOption value={optValue} key={key || val} label={text} />;
+};
+
+const renderOptGroup = group => (
+  <FormSelectOptionGroup label={group.groupLabel} key={group.groupLabel}>
+    {renderPF5Options(group.children)}
+  </FormSelectOptionGroup>
+);
+
+/**
+ *
+ * @param opts
+ * @returns {*|*[]} PF5 select options elements
+ * @description Renders PF5 select options elements
+ */
+export const renderPF5Options = opts => {
+  if (Array.isArray(opts)) {
+    return opts.map((opt, index) => {
+      if (opt.children) {
+        return renderOptGroup(opt);
+      }
+      return renderOption(opt.value, opt.label, index);
+    });
+  }
+  return Object.entries(opts).map(([val, text]) => renderOption(val, text));
+};
+
+export const formatEncryptedValue = setting =>
+  setting.encrypted ? '*****' : setting.value;
