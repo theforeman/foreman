@@ -20,8 +20,6 @@ function load_dynamic_javascripts(html) {
   }
   waitForAllLoaded().then(async function() {
     // parse html string
-    var template = document.createElement('template');
-    template.innerHTML = html;
     var doc = new DOMParser().parseFromString(html, 'text/html');
     var copyChildren = [...doc.head.children];
     const loadScript = async scripts => {
