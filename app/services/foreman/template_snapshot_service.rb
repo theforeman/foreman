@@ -89,6 +89,7 @@ module Foreman
         "ansible_ssh_pass" => "win_ansible_user_ssh_pass",
         "remote_desktop" => "true",
         "realm" => "true",
+        "ntp-pools" => ['first.ntp-pool', 'second.ntp-pool'],
       }
       host_params.each_pair do |name, value|
         FactoryBot.build(:host_parameter, host: host, name: name, value: value)
