@@ -11,7 +11,7 @@ import { STATUS } from '../../../constants';
 import DocumentationUrl from '../DocumentationLink';
 import './bookmarks.scss';
 
-export const addBookmarkItem = ({ setModalOpen }) => (
+export const addBookmarkItem = setModalOpen => (
   <DropdownGroup key="create-bookmark">
     <DropdownItem
       ouiaId="new-bookmark-dropdown-item"

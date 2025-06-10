@@ -1,5 +1,3 @@
 export const BOOKMARKS = 'BOOKMARKS';
 export const BOOKMARKS_FORM_SUBMITTED_SUCCESS =
   'BOOKMARKS_FORM_SUBMITTED_SUCCESS';
-
-export const BOOKMARKS_MODAL = 'bookmarksModal';

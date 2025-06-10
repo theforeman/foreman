@@ -23,8 +23,6 @@ const commonFixture = {
   status: STATUS.PENDING,
   errors: null,
   bookmarks: [],
-  setModalOpen: jest.fn(),
-  setModalClosed: jest.fn(),
   searchQuery: 'query',
 };
 

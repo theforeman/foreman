@@ -1,76 +1,206 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import * as Yup from 'yup';
+import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import {
+  Button,
+  Form,
+  FormGroup,
+  TextInput,
+  Checkbox,
+  ActionGroup,
+  HelperText,
+  HelperTextItem,
+  FormHelperText,
+} from '@patternfly/react-core';
 import { useDispatch } from 'react-redux';
-import { noop } from '../../common/helpers';
-import ForemanForm from '../common/forms/ForemanForm';
-import TextField from '../common/forms/TextField';
-import { translate as __ } from '../../common/I18n';
-import { maxLengthMsg, requiredMsg } from '../common/forms/validators';
-import { submitForm } from '../../redux/actions/common/forms';
+import { sprintf, translate as __ } from '../../common/I18n';
+import { APIActions } from '../../redux/API';
+import './bookmarkForm.css';
 
 const BookmarkForm = ({
   url,
   controller,
-  onCancel,
   searchQuery,
   setModalClosed,
   bookmarks,
 }) => {
   const dispatch = useDispatch();
-  const existsNamesRegex = new RegExp(
-    `^(?!(${bookmarks.map(({ name }) => name).join('|')})$).+`
-  );
-  const bookmarkFormSchema = Yup.object().shape({
-    name: Yup.string()
-      .max(...maxLengthMsg(254))
-      .required(requiredMsg())
-      .matches(existsNamesRegex, {
-        excludeEmptyString: true,
-        message: __('name already exists'),
-      }),
-    query: Yup.string()
-      .max(...maxLengthMsg(4096))
-      .required(requiredMsg()),
-  });
+  const existingNames = bookmarks.map(({ name }) => name);
 
-  const handleSubmit = (values, actions) =>
+  const NAME_MAX_LENGTH = 255;
+  const NAME_MIN_LENGTH = 1;
+  const SUCCESS_TYPE = 'success';
+  const ERROR_TYPE = 'error';
+  const BLANK_ERROR = "Can't be blank";
+
+  const nameTooLongMsg = sprintf(
+    __('Name is too long, max %s'),
+    NAME_MAX_LENGTH
+  );
+
+  const nameExists = __('Name already exists');
+  const nameShort = __(BLANK_ERROR);
+  const blankInputErrMsg = __(BLANK_ERROR);
+
+  const [name, setName] = useState('');
+  const [query, setQuery] = useState(searchQuery);
+  const [isPublic, setIsPublic] = useState(true);
+
+  const [nameErrorMsg, setNameErrorMsg] = useState('');
+  const [nameValidated, setNameValidated] = useState('');
+  const [queryErrorMsg, setQueryErrorMsg] = useState('');
+  const [queryValidated, setQueryValidated] = useState('');
+
+  const validateName = value => {
+    if (value.length > NAME_MAX_LENGTH) {
+      setNameValidated(ERROR_TYPE);
+      setNameErrorMsg(nameTooLongMsg);
+    } else if (value.length < NAME_MIN_LENGTH) {
+      setNameValidated(ERROR_TYPE);
+      setNameErrorMsg(nameShort);
+    } else if (existingNames.includes(value)) {
+      setNameValidated(ERROR_TYPE);
+      setNameErrorMsg(nameExists);
+    } else {
+      setNameValidated(SUCCESS_TYPE);
+    }
+  };
+
+  const validateQueryLength = value => {
+    if (value.length < 1) {
+      setQueryValidated(ERROR_TYPE);
+      setQueryErrorMsg(blankInputErrMsg);
+    } else {
+      setQueryValidated(SUCCESS_TYPE);
+    }
+  };
+
+  const handleSubmit = () => {
     dispatch(
-      submitForm({
+      APIActions.post({
+        key: 'BOOKMARKS_FORM_SUBMITTED',
         url,
-        values: { ...values, controller },
-        item: 'Bookmarks',
-        message: __('Bookmark was successfully created.'),
-        successCallback: setModalClosed,
-        actions,
+        params: {
+          public: isPublic,
+          controller,
+          query,
+          name,
+        },
+        handleSuccess: setModalClosed,
+        successToast: () => __('Bookmark created.'),
+        errorToast: ({ response }) =>
+          // eslint-disable-next-line camelcase
+          response?.data?.error?.full_messages?.[0] || response,
       })
     );
+  };
+
+  const isValidated =
+    nameValidated === SUCCESS_TYPE && queryValidated === SUCCESS_TYPE;
+
+  useEffect(() => {
+    if (searchQuery !== '') {
+      validateQueryLength(query);
+    }
+  });
+
+  const handleNameChange = (_event, value) => {
+    validateName(value);
+    setName(value);
+  };
+
+  const handleQueryChange = (_event, value) => {
+    validateQueryLength(value);
+    setQuery(value);
+  };
+
+  const handleIsPublicChange = (_event, value) => {
+    setIsPublic(value);
+  };
 
   return (
-    <ForemanForm
-      onSubmit={handleSubmit}
-      initialValues={{
-        public: true,
-        query: searchQuery,
-      }}
-      validationSchema={bookmarkFormSchema}
-      onCancel={onCancel}
-    >
-      <TextField name="name" type="text" required="true" label={__('Name')} />
-      <TextField
-        name="query"
-        type="textarea"
-        required="true"
-        label={__('Query')}
-        inputClassName="col-md-8"
-      />
-      <TextField name="public" type="checkbox" label={__('Public')} />
-    </ForemanForm>
+    <>
+      <Form>
+        <FormGroup label={__('Name')}>
+          <TextInput
+            ouiaId="name-input"
+            id="name-input"
+            isRequired
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleNameChange}
+            validated={nameValidated}
+          />
+          {nameValidated === ERROR_TYPE && (
+            <FormHelperText>
+              <HelperText>
+                <HelperTextItem
+                  icon={<ExclamationCircleIcon />}
+                  variant={nameValidated}
+                >
+                  {nameErrorMsg}
+                </HelperTextItem>
+              </HelperText>
+            </FormHelperText>
+          )}
+        </FormGroup>
+        <FormGroup label={__('Query')}>
+          <TextInput
+            ouiaId="query-input"
+            id="query-input"
+            isRequired
+            type="text"
+            name="query"
+            value={query}
+            onChange={handleQueryChange}
+            validated={queryValidated}
+          />
+          {queryValidated === ERROR_TYPE && (
+            <FormHelperText>
+              <HelperText>
+                <HelperTextItem
+                  icon={<ExclamationCircleIcon />}
+                  variant={queryValidated}
+                >
+                  {queryErrorMsg}
+                </HelperTextItem>
+              </HelperText>
+            </FormHelperText>
+          )}
+        </FormGroup>
+        <Checkbox
+          ouiaId="isPublic-checkbox"
+          id="isPublic-checkbox"
+          label={__('Public')}
+          isLabelBeforeButton
+          isLabelWrapped
+          isChecked={isPublic}
+          onChange={handleIsPublicChange}
+        />
+        <ActionGroup>
+          <Button
+            ouiaId="submit-btn"
+            variant="primary"
+            isDisabled={!isValidated}
+            onClick={handleSubmit}
+          >
+            {__('Submit')}
+          </Button>
+          <Button
+            ouiaId="cancel-btn"
+            variant="secondary"
+            onClick={setModalClosed}
+          >
+            {__('Cancel')}
+          </Button>
+        </ActionGroup>
+      </Form>
+    </>
   );
 };
 
 BookmarkForm.propTypes = {
-  onCancel: PropTypes.func,
   controller: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   setModalClosed: PropTypes.func.isRequired,
@@ -79,7 +209,6 @@ BookmarkForm.propTypes = {
 };
 
 BookmarkForm.defaultProps = {
-  onCancel: noop,
   bookmarks: [],
 };
 

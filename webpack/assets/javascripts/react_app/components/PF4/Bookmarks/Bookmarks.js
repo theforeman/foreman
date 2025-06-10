@@ -25,12 +25,11 @@ const Bookmarks = ({
   errors,
   documentationUrl,
   onBookmarkClick,
-  setModalOpen,
-  setModalClosed,
   searchQuery,
   bookmarksPosition,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onToggle = isOpen => {
     setIsDropdownOpen(isOpen);
@@ -48,7 +47,7 @@ const Bookmarks = ({
     setIsDropdownOpen(false);
   };
   const dropdownItems = [
-    canCreate && addBookmarkItem({ setModalOpen }),
+    canCreate && addBookmarkItem(() => setIsModalOpen(true)),
     savedBookmarksItems({
       bookmarks,
       onBookmarkClick: _onBookmarkClick,
@@ -63,14 +62,15 @@ const Bookmarks = ({
   ].filter(i => i);
 
   return (
-    <React.Fragment>
+    <>
       <BookmarkModal
         id={id}
         controller={controller}
         url={url}
-        setModalClosed={setModalClosed}
+        setModalClosed={() => setIsModalOpen(false)}
         bookmarks={bookmarks}
         searchQuery={searchQuery}
+        isOpened={isModalOpen}
       />
       <Dropdown
         ouiaId="bookmarks-dropdown"
@@ -91,7 +91,7 @@ const Bookmarks = ({
         dropdownItems={dropdownItems}
         isGrouped
       />
-    </React.Fragment>
+    </>
   );
 };
 
@@ -106,8 +106,6 @@ Bookmarks.propTypes = {
   status: PropTypes.string,
   documentationUrl: PropTypes.string,
   getBookmarks: PropTypes.func,
-  setModalOpen: PropTypes.func.isRequired,
-  setModalClosed: PropTypes.func.isRequired,
   searchQuery: PropTypes.string.isRequired,
   bookmarksPosition: PropTypes.string,
 };
