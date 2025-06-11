@@ -42,7 +42,7 @@ module ReactjsHelper
   end
 
   def get_webpack_foreman_vendor_css
-    foreman_vendor_css = get_webpack_chunk('foreman-vendor', 'css')
+    foreman_vendor_css = get_webpack_chunk('vendorStyles', 'css')
     stylesheet_link_tag("/webpack/#{foreman_vendor_css}")
   end
 

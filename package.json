@@ -69,6 +69,7 @@
     "jest-svg-transformer": "^1.0.0",
     "jest-transform-graphql": "^2.1.0",
     "jsx-ast-utils": "^3.3.3",
+    "mini-css-extract-plugin": "^2.9.1",
     "path-browserify": "^1.0.1",
     "prettier": "^1.19.1",
     "pretty-format": "26.6.2",
