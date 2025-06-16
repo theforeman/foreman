@@ -10,6 +10,9 @@ description: |
 
   remote_execution_ssh_keys: public keys to be put in ~/.ssh/authorized_keys
 
+  remote_execution_ssh_ca_keys: public ssh CA keys to be put in
+                                /etc/ssh/foreman-user-ca.pub
+
   remote_execution_ssh_user: user for which remote_execution_ssh_keys will be
                              authorized
 
@@ -33,7 +36,7 @@ if [ -z "$PKG_MANAGER" ]; then
 <%= indent(2) { snippet 'pkg_manager' } -%>
 fi
 
-<% if !host_param('remote_execution_ssh_keys').blank? %>
+<% if host_param('remote_execution_ssh_keys').present? || host_param('remote_execution_ssh_ca_keys').present? %>
 <% ssh_user = host_param('remote_execution_ssh_user') || 'root' %>
 
 user_exists=false
@@ -46,6 +49,7 @@ fi
 <% end -%>
 
 if $user_exists; then
+<% if host_param('remote_execution_ssh_keys').present? -%>
 <% ssh_path = "~#{ssh_user}/.ssh" %>
 
   mkdir -p <%= ssh_path %>
@@ -63,6 +67,23 @@ EOF
 
   # Restore SELinux context with restorecon, if it's available:
   command -v restorecon && restorecon -RvF <%= ssh_path %> || true
+<% end -%>
+
+<% user_ca_keys = host_param('remote_execution_ssh_ca_keys') %>
+<% if user_ca_keys.present? -%>
+  mkdir -p /etc/ssh/sshd_config.d
+
+<% user_ca_path = '/etc/ssh/foreman-user-ca.pub' %>
+<%= save_to_file(user_ca_path, user_ca_keys.is_a?(String) ? user_ca_keys : user_ca_keys.join("\n")) %>
+
+  chmod 0644 <%= user_ca_path %>
+
+<%= save_to_file('/etc/ssh/sshd_config.d/60-foreman-user-ca.conf', "TrustedUserCAKeys #{user_ca_path}") %>
+
+  command -v restorecon && restorecon -RvF /etc/ssh || true
+
+  systemctl try-restart <%= @host.operatingsystem&.family == 'Debian' ? 'ssh' : 'sshd' %>
+<% end -%>
 
 <% if ssh_user != 'root' && host_param('remote_execution_effective_user_method') == 'sudo' -%>
 if [ ! -x "$(command -v sudo)" ]; then
