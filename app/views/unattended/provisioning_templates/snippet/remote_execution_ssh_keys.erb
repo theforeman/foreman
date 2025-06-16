@@ -85,6 +85,24 @@ EOF
   systemctl try-restart <%= @host.operatingsystem&.family == 'Debian' ? 'ssh' : 'sshd' %>
 <% end -%>
 
+<% user_ca_keys = host_param('remote_execution_ssh_ca_keys') %>
+<% if user_ca_keys.present? -%>
+  mkdir -p /etc/ssh/sshd_config.d
+
+<% user_ca_path = '/etc/ssh/foreman-user-ca.pub' %>
+<%= save_to_file(user_ca_path, user_ca_keys.is_a?(String) ? user_ca_keys : user_ca_keys.join("\n")) %>
+
+  chmod 0644 <%= user_ca_path %>
+
+<%= save_to_file('/etc/ssh/sshd_config.d/60-foreman-user-ca.conf', "TrustedUserCAKeys #{user_ca_path}") %>
+
+  command -v restorecon && restorecon -RvF /etc/ssh || true
+
+  # restart the sshd service
+  $(command -v cloud-init && cloud-init status --wait) >/dev/null 2>&1 || true
+  systemctl restart <%= @host.operatingsystem.family == 'Debian' ? 'ssh' : 'sshd' %>
+<% end -%>
+
 <% if ssh_user != 'root' && host_param('remote_execution_effective_user_method') == 'sudo' -%>
 if [ ! -x "$(command -v sudo)" ]; then
   $PKG_MANAGER_INSTALL sudo

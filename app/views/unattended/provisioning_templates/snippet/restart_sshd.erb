@@ -1,0 +1,15 @@
+<%#
+kind: snippet
+name: restart_sshd
+model: ProvisioningTemplate
+snippet: true
+description: |
+    This snippet restarts the sshd service
+
+    Parameters:
+
+    remote_execution_ssh_ca_keys: public ssh CA keys
+-%>
+
+systemctl try-restart <%= @host.operatingsystem&.family == 'Debian' ? 'ssh' : 'sshd' %>
+echo "Restarted sshd to apply CA keys" > /tmp/ssh_ca_keys_applied
