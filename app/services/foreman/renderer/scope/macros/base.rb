@@ -129,6 +129,33 @@ module Foreman
             end
           end
 
+          apipie :method, 'Generates a shell command to append the given text into a file' do
+            desc "This is useful if some multiline string needs to be appended to some file on the hard disk. This
+              is typically used in provisioning or job templates, e.g. when ssh keys need to be appended to the
+              authorized_keys file. The content must end with a line end, if not an extra trailing line end is
+              appended automatically unless the content is empty. Note that, the file name or path is printed as
+              it is without any escaping even if it contains any whitespace or special charecters. In order to
+              escape the special charecters, process the file name using the shell_escape function."
+            required :filename, String, desc: 'The file path to append the content to'
+            required :content, String, desc: 'Content to be appended'
+            keyword :verbatim, [true, false], desc: 'Controls whether the file should be put on disk as-is or if variables should be replaced by shell before the file is written out', default: false
+            returns String, desc: 'String representing the shell command'
+            example "append_to_file('/etc/motd', \"hello\\nworld\\n\") # => 'cat << EOF-0e4f089a >> /etc/motd\\nhello\\nworld\\nEOF-0e4f089a'"
+            example "append_to_file(shell_escape('/tmp/a file with spaces'), nil) # => 'touch /tmp/a\ file\ with\ spaces'"
+          end
+          def append_to_file(filename, content, verbatim: false)
+            delimiter = 'EOF-' + Digest::SHA512.hexdigest(filename)[0..7]
+            if content.empty?
+              "touch #{filename}"
+            elsif verbatim
+              content = Base64.encode64(content)
+              "cat << #{delimiter} | base64 -d >> #{filename}\n#{content}#{delimiter}"
+            else
+              content += "\n" unless content.end_with?("\n")
+              "cat << #{delimiter} >> #{filename}\n#{content}#{delimiter}"
+            end
+          end
+
           apipie :method, desc: 'Takes a block of code, runs it and prefixes the resulting text by given number of spaces' do
             desc "This is useful when rendering output is a whitespace sensitive format, such as YAML."
             required :count, Integer, desc: 'The number of spaces'

@@ -100,6 +100,15 @@ module Foreman
             Shellwords.shellescape(string)
           end
 
+          apipie :method, "Expand file path to be able to safely process it using shell_escape" do
+            required :string, String, desc: 'File path to expand'
+            returns String
+            example "expand_path('~root/.ssh/authorized_keys') #=> '/root/.ssh/authorized_keys'"
+          end
+          def expand_path(path)
+            File.expand_path(path)
+          end
+
           apipie :method, 'Returns current date' do
             keyword :format, String, desc: 'Format string to format date according to the directives in this string', default: '%F'
             returns String
