@@ -34,7 +34,9 @@ const packageJsonDirectories = [
   './',
   './node_modules/@theforeman/vendor-core/',
 ];
+const errors = [];
 dirsKeys.forEach(dirsKey => {
+  let exitCode;
   const pluginPath = allPluginDirs[dirsKey];
   const pluginLintScript = pluginDefinesLint(pluginPath);
   if (pluginLintScript?.includes('tfm-lint') || !pluginLintScript?.length) {
@@ -51,7 +53,7 @@ dirsKeys.forEach(dirsKey => {
       .map(item => `"${item}"`)
       .join(',')}]}]`; // Adding the plugins own node_modules to the import search
 
-    spawnSync(
+    exitCode = spawnSync(
       'npx',
       [
         'eslint',
@@ -65,18 +67,30 @@ dirsKeys.forEach(dirsKey => {
         cwd: path.join(__dirname, '..'),
         stdio: 'inherit',
       }
-    );
+    ).status;
   } else if (pluginLintScript?.length) {
     // Dont run foreman config lint for plugins with custom lint
-    spawnSync('npm', ['run', 'lint'], {
+    exitCode = spawnSync('npm', ['run', 'lint'], {
       env: process.env,
       cwd: pluginPath,
       stdio: 'inherit',
-    });
+    }).status;
   }
+
+  if (exitCode)
+    errors.push(
+      `Run for npm run lint:plugins ${path.basename(pluginPath)} failed`
+    );
 });
 
 console.log(
   'The following plugin dirs were gems, and therefore skipped: ',
   skippedDirsKeys
 );
+if (errors.length) {
+  throw new Error(
+    ['Errors while running were printed in the output above', ...errors].join(
+      '\n'
+    )
+  );
+}

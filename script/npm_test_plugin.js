@@ -110,11 +110,13 @@ const runTests = async () => {
       }
     }
   }
-  if (errors.length)
-    console.error(
-      'Errors while running were printed in the output above\n',
-      errors.join('\n')
+  if (errors.length) {
+    throw new Error(
+      ['Errors while running were printed in the output above', ...errors].join(
+        '\n'
+      )
     );
+  }
 };
 
 runTests();
