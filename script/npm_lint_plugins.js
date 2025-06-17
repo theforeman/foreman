@@ -62,6 +62,7 @@ dirsKeys.forEach(dirsKey => {
         path.join(pluginPath, 'webpack'),
         '-c',
         eslintConfigPath,
+        ...passedArgs,
       ],
       {
         cwd: path.join(__dirname, '..'),
@@ -70,7 +71,7 @@ dirsKeys.forEach(dirsKey => {
     ).status;
   } else if (pluginLintScript?.length) {
     // Dont run foreman config lint for plugins with custom lint
-    exitCode = spawnSync('npm', ['run', 'lint'], {
+    exitCode = spawnSync('npm', ['run', 'lint', ...passedArgs], {
       env: process.env,
       cwd: pluginPath,
       stdio: 'inherit',
