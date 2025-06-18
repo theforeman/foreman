@@ -70,11 +70,11 @@ file under the folder /usr/share/foreman/bundler.d) and adding the following lin
 ----
 gem 'my_plugin', :path => 'path_to/my_plugin'
 ----
-Install the 'preface' bundle by running from foreman core directory:
+Install the 'preface' bundle by running from foreman core directory (/usr/share/foreman):
 
 [source, bash]
 ----
-bundle install
+BUNDLE_GEMFILE=Gemfile.in bundle install
 ----
 Restart (or start if it wasn't up) foreman (type 'rails server') and the
 new foreman plugin should be listed in the about page plugin tab. If it
