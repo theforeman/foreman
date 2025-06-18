@@ -1142,7 +1142,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     test 'returns templates with host parameters' do
-      @attrs[:host_parameters_attributes] = {'0' => {:name => 'foo', :value => 'bar', :id => '34'}}
+      @attrs[:host_parameters_attributes] = {'0' => {:name => 'foo', :value => 'bar'}}
       put :template_used, params: {:provisioning => 'build', :host => @attrs }, session: set_session_user
       assert_response :success
       assert_template :partial => '_provisioning'

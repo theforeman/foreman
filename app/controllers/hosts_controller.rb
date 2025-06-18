@@ -616,7 +616,7 @@ class HostsController < ApplicationController
   # we don't need any has_many relation to determine what proxies are used and the view
   # renders only resulting templates set so the rest of form is unaffected
   def template_used
-    host = params[:id] ? Host::Base.readonly.find(params[:id]) : Host.new
+    host = params[:id] ? Host::Base.readonly.find(params[:id]) : Host.new(host_params)
     kind = params.delete(:provisioning)
     host.attributes = host_attributes_for_templates(host)
     templates = host.available_template_kinds(kind)
