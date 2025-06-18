@@ -63,7 +63,7 @@ contribution guide] describes setting up a small test instance.
 
 You can enable the plugin right away, and see what it's default
 behavior is, by editing foreman Gemfile.local.rb file (or creating this
-file under the folder bundler.d) and adding the following line
+file under the folder /usr/share/foreman/bundler.d) and adding the following line
 
 .Gemfile.local.rb
 [source, ruby]
