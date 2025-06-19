@@ -36,6 +36,9 @@ if Foreman::Model::Vmware.available?
   require 'fog/vsphere'
   require 'fog/vsphere/models/compute/cluster'
   require 'fog/vsphere/models/compute/network'
+  require 'fog/vsphere/models/compute/datastore'
+  require 'fog/vsphere/models/compute/storage_pod'
+  require 'fog/vsphere/models/compute/resource_pool'
   require 'fog/vsphere/models/compute/server'
   Fog::Vsphere::Compute::Server.include FogExtensions::Vsphere::Server
 
