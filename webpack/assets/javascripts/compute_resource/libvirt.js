@@ -84,9 +84,12 @@ export function imageSelected(item) {
           capacity.attr('value', `${capacityFromImage}G`);
         }
 
-        $('#storage_volumes .fields')
-          .find('#host_compute_attributes_volumes_attributes_0_format_type')
-          .select2('val', 'qcow2');
+        const volume = $('#storage_volumes .fields').find(
+          '#host_compute_attributes_volumes_attributes_0_format_type'
+        );
+
+        volume.val('qcow2');
+        volume.trigger('change');
       },
       error() {
         help.html(
