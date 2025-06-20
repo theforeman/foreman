@@ -164,12 +164,12 @@ class ActionDispatch::IntegrationTest
 
   def select2(value, attrs)
     find(select2_selector(attrs[:from]), visible: false).ancestor('.select2-container').click
-    wait_for { find('.select2-search__field').visible? rescue false }
+    find('.select2-search__field')
     # set(value) errors on not interactable error even though the element is visible and not disabled
     page.execute_script("arguments[0].value = arguments[1];", find('.select2-search__field').native, value)
-    wait_for { find('.select2-results').visible? rescue false }
+    find('.select2-results')
     within ".select2-results__options" do
-      wait_for { find(".select2-results__options li", text: value).visible? rescue false }
+      find(".select2-results__options li", text: value)
       find("li", text: value).hover
       find("li", text: value).click
     end
@@ -332,15 +332,16 @@ class ActionDispatch::IntegrationTest
   end
 
   def assert_form_tab(label)
-    within('form .nav-tabs') do
+    within('form .nav-tabs', wait: 2 * Capybara.default_max_wait_time) do
       assert page.has_content?(label)
     end
   end
 
   def switch_form_tab(name)
-    within('form .nav-tabs') do
+    within('form .nav-tabs', wait: 2 * Capybara.default_max_wait_time) do
       click_link name
     end
+    wait_for { page.find(:xpath, "//li[@class='active']//a[contains(text(), '#{name}')]").visible? rescue false }
   end
 
   setup :start_database_cleaner, :login_admin

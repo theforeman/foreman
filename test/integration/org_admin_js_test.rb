@@ -95,6 +95,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       ensure_selected_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
       page.click_button 'Submit'
 
+      find('.pf-v5-c-page__main-breadcrumb h1')
       created_domain = wait_for do
         Domain.unscoped.find_by_name(domain.name)
       end
