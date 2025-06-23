@@ -38,7 +38,7 @@ description: |
 hostname: <%= @host.name %>
 fqdn: <%= @host %>
 manage_etc_hosts: true
-users: {}
+users: []
 runcmd:
 - |
 <%= indent(2) { snippet 'fix_hosts' } -%>

@@ -3,7 +3,7 @@
 hostname: snapshot-ipv4-dhcp-ubuntu18
 fqdn: snapshot-ipv4-dhcp-ubuntu18
 manage_etc_hosts: true
-users: {}
+users: []
 runcmd:
 - |
   echo "" > /etc/hostname

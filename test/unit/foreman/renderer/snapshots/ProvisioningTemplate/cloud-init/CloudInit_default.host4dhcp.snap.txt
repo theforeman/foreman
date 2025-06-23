@@ -3,7 +3,7 @@
 hostname: snapshot-ipv4-dhcp-el7
 fqdn: snapshot-ipv4-dhcp-el7
 manage_etc_hosts: true
-users: {}
+users: []
 runcmd:
 - |
   echo "" > /etc/hostname
