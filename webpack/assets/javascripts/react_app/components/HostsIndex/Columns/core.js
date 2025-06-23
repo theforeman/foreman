@@ -28,6 +28,20 @@ const coreHostsIndexColumns = [
     isRequired: true,
   },
   {
+    columnName: 'organization',
+    title: __('Organization'),
+    wrapper: hostDetails => hostDetails?.organization_name,
+    isSorted: false,
+    weight: 75,
+  },
+  {
+    columnName: 'location',
+    title: __('Location'),
+    wrapper: hostDetails => hostDetails?.location_name,
+    isSorted: false,
+    weight: 80,
+  },
+  {
     columnName: 'hostgroup',
     title: __('Host group'),
     wrapper: hostDetails => {
@@ -173,13 +187,22 @@ const reportedDataColumns = [
     isSorted: false,
     weight: 1300,
   },
-  // { // TODO: make virtual work
-  //   columnName: 'virtual',
-  //   title: __('Virtual'),
-  //   wrapper: hostDetails => hostDetails?.reported_data?.virtual,
-  //   isSorted: false,
-  //   weight: 1400,
-  // },
+  {
+    columnName: 'virtual',
+    title: __('Virtual'),
+    wrapper: hostDetails => {
+      const value = hostDetails?.reported_data?.virtual;
+      if (value === undefined || value === null) {
+        return '';
+      }
+      if (value) {
+        return __('Virtual');
+      }
+      return __('Physical');
+    },
+    isSorted: false,
+    weight: 1400,
+  },
   {
     columnName: 'disks_total',
     title: __('Total disk space'),
