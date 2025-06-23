@@ -46,6 +46,7 @@ import {
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
 import BulkBuildHostModal from './BulkActions/buildHosts';
 import BulkReassignHostgroupModal from './BulkActions/reassignHostGroup';
+import BulkChangeOwnerModal from './BulkActions/changeOwner';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
@@ -149,6 +150,7 @@ const HostsIndex = () => {
   const { pageRowCount } = getPageStats({ total, page, perPage });
   const {
     fetchBulkParams,
+    searchQuery,
     updateSearchQuery,
     ...selectAllOptions
   } = useBulkSelect({
@@ -166,7 +168,9 @@ const HostsIndex = () => {
     areAllRowsOnPageSelected,
     areAllRowsSelected,
     isSelected,
+    selectedResults,
   } = selectAllOptions;
+  const selectAllHostsMode = areAllRowsSelected() && searchQuery === '';
 
   const selectionToolbar = (
     <ToolbarItem key="selectAll">
@@ -214,6 +218,11 @@ const HostsIndex = () => {
         id: 'bulk-reassign-hg-modal',
       })
     );
+    dispatch(
+      addModal({
+        id: 'bulk-change-owner-modal',
+      })
+    );
   }, [dispatch]);
 
   const { setModalOpen: setHgModalOpen } = useForemanModal({
@@ -221,6 +230,9 @@ const HostsIndex = () => {
   });
   const { setModalOpen: setBuildModalOpen } = useForemanModal({
     id: 'bulk-build-hosts-modal',
+  });
+  const { setModalOpen: setChangeOwnerModalOpen } = useForemanModal({
+    id: 'bulk-change-owner-modal',
   });
 
   const dropdownItems = [
@@ -239,6 +251,14 @@ const HostsIndex = () => {
       isDisabled={selectedCount === 0}
     >
       {__('Change host group')}
+    </MenuItem>,
+    <MenuItem
+      itemId="change-owner-dropdown-item"
+      key="change-owner-dropdown-item"
+      onClick={setChangeOwnerModalOpen}
+      isDisabled={selectedCount === 0}
+    >
+      {__('Change owner')}
     </MenuItem>,
   ];
 
@@ -438,10 +458,16 @@ const HostsIndex = () => {
         })}
       </Table>
       <ForemanActionsBarContext.Provider
-        value={{ selectedCount, fetchBulkParams }}
+        value={{
+          selectAllHostsMode,
+          selectedCount,
+          selectedResults,
+          fetchBulkParams,
+        }}
       >
         <BulkBuildHostModal key="bulk-build-hosts-modal" />
         <BulkReassignHostgroupModal key="bulk-reassign-hg-modal" />
+        <BulkChangeOwnerModal key="bulk-change-owner-modal" />
         <Slot id="_all-hosts-modals" multi />
       </ForemanActionsBarContext.Provider>
     </TableIndexPage>

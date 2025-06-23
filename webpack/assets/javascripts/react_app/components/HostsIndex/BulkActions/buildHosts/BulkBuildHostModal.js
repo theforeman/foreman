@@ -78,7 +78,7 @@ const BulkBuildHostModal = ({
       variant="link"
       onClick={handleModalClose}
     >
-      Cancel
+      {__('Cancel')}
     </Button>,
   ];
   return (

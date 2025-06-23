@@ -38,4 +38,11 @@ class BulkHostsManager
     end
     all_fails
   end
+
+  def change_owner(owner_id)
+    @hosts.each do |host|
+      host.is_owned_by = owner_id
+      host.save(:validate => false)
+    end
+  end
 end

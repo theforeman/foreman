@@ -5,7 +5,7 @@ module Api
       include Api::V2::BulkHostsExtension
 
       before_action :find_deletable_hosts, :only => [:bulk_destroy]
-      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup]
+      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner]
 
       def_param_group :bulk_host_ids do
         param :organization_id, :number, :required => true, :desc => N_("ID of the organization")
@@ -76,6 +76,14 @@ module Api
           process_response(true, { :message => n_("Removed assignment of host group from %s host",
             "Removed assignment of host group from %s hosts", @hosts.count) % @hosts.count })
         end
+      end
+
+      api :PUT, "/hosts/bulk/change_owner", N_("Change owner")
+      param_group :bulk_host_ids
+      param :owner_id, :number, :required => true, :desc => N_("ID of the owner to reassign the hosts to")
+      def change_owner
+        BulkHostsManager.new(hosts: @hosts).change_owner(params[:owner_id])
+        process_response(true, { :message => n_("Updated host: changed owner", "Updated hosts: changed owner", @hosts.count)})
       end
 
       protected
