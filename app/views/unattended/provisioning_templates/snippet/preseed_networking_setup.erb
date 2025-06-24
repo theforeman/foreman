@@ -25,7 +25,9 @@ allow-hotplug $real
 iface $real inet <%= host_dhcp ? 'dhcp' : 'static' %>
 <% if host_subnet && !host_dhcp -%>
     address <%= @host.ip %>
+<% if host_subnet.gateway.present? -%>
     gateway <%= host_subnet.gateway %>
+<% end -%>
     netmask <%= host_subnet.mask %>
     dns-nameservers <%= host_subnet.dns_servers.join(' ') %>
     dns-search <%= @host.domain %>
@@ -33,7 +35,7 @@ iface $real inet <%= host_dhcp ? 'dhcp' : 'static' %>
 <% if @host.ip6 && host_subnet6 && !host_dhcp6 -%>
 iface $real inet6 static
     address <%= @host.ip6 %>/<%= host_subnet6.cidr %>
-<% if host_subnet6.gateway -%>
+<% if host_subnet6.gateway.present? -%>
     gateway <%= host_subnet6.gateway %>
 <% end -%>
 <% end -%>
@@ -65,9 +67,6 @@ iface $real inet <%= interface_dhcp ? 'dhcp' : 'static' %>
 <% unless interface_dhcp6 -%>
 iface $real inet6 static
     address <%= interface.ip6 %>/<%= interface_subnet6.cidr %>
-<% if interface_subnet6.gateway -%>
-    gateway <%= interface_subnet6.gateway %>
-<% end -%>
 <% end -%>
 <% end -%>
 EOF
