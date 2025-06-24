@@ -416,14 +416,17 @@ module Foreman
             example 'join_with_line_break(values) # => 1\n2\n3 for CSV,JSON,YAML'
           end
           def join_with_line_break(array)
+            # Normalize elements of the array to end with "\n" if they do
+            # not do already.
+            array.map! { |str| str.end_with?("\n") ? str : "#{str}\n" }
             case report_format.mime_type
-            when 'text/csv'
-              array.join("\n")
-            when 'application/json', 'text/yaml'
-              array.join("\\n")
+            when 'text/csv', 'application/json', 'text/yaml'
+              array.join
             when 'text/html'
               array.map! { |str| CGI.escapeHTML(str) }
-              array.join("<br>").html_safe
+              # Replace all "\n" in the string with "\n<br>"
+              array.map! { |str| str.gsub("\n", "\n<br>") }
+              array.join.html_safe
             end
           end
 
