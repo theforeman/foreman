@@ -4,6 +4,7 @@ class ImagesControllerTest < ActionController::TestCase
   setup do
     @image      = images(:one)
     @image.uuid = Foreman.uuid.to_s
+    Foreman::Model::Libvirt.any_instance.stubs(:image_exists?).returns(true)
   end
 
   test "should get index" do

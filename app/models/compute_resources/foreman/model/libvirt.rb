@@ -262,6 +262,10 @@ module Foreman::Model
       self.class.terminate_connection(url)
     end
 
+    def image_exists?(uuid)
+      client.volumes.get(uuid) != nil
+    end
+
     protected
 
     def libvirt_connection_error

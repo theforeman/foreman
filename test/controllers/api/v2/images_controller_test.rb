@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Api::V2::ImagesControllerTest < ActionController::TestCase
+  setup do
+    Foreman::Model::Libvirt.any_instance.stubs(:image_exists?).returns(true)
+  end
+
   def valid_attrs
     { :name                => 'TestImage', :username => 'ec2-user', :uuid => 'abcdef', :password => "password",
       :operatingsystem_id  => Operatingsystem.first.id,

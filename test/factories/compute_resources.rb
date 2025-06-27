@@ -15,6 +15,7 @@ FactoryBot.define do
 
     trait :libvirt do
       provider { 'Libvirt' }
+      after(:build) { |cr| cr.stubs(:image_exists?).returns(true) }
     end
 
     trait :openstack do

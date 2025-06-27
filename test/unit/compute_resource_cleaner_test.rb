@@ -9,6 +9,7 @@ class ComputeResourceCleanerTest < ActiveSupport::TestCase
   let(:subject) { ComputeResourceCleaner.new(klass: klass) }
 
   setup do
+    Foreman::Model::Libvirt.any_instance.stubs(:image_exists?).returns(true)
     setup_compute_attrs
     setup_image
     setup_hostgroup
