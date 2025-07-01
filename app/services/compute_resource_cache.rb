@@ -31,7 +31,13 @@ class ComputeResourceCache
 
   def read(key)
     logger.debug "Reading from compute resource cache: #{key}"
-    Rails.cache.read(cache_key + key.to_s, cache_options)
+
+    begin
+      Rails.cache.read(cache_key + key.to_s, cache_options)
+    rescue StandardError => e
+      Foreman::Logging.exception('Failed to read from compute resource cache', e)
+      nil
+    end
   end
 
   def write(key, value)

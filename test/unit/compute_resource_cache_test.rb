@@ -42,6 +42,14 @@ class ComputeResourceCacheTest < ActiveSupport::TestCase
       cache.write(:write_test, message)
       assert_equal message, cache.read(:write_test)
     end
+
+    test 'it does not raise an error when the cache is not available' do
+      cache.write(:err_key, 'val1')
+      assert_equal 'val1', cache.cache(:err_key)
+
+      Rails.cache.expects(:read).raises(StandardError)
+      assert_equal 'fresh', cache.cache(:err_key) { 'fresh' }
+    end
   end
 
   context 'with caching disabled' do
