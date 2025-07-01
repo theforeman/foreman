@@ -6,6 +6,7 @@ import { UserIcon, UsersIcon } from '@patternfly/react-icons';
 import { number_to_human_size as NumberToHumanSize } from 'number_helpers';
 import { translate as __ } from '../../../common/I18n';
 import forceSingleton from '../../../common/forceSingleton';
+import { foremanUrl } from '../../../common/helpers';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
 import HostPowerStatus from './components/HostPowerStatus';
 
@@ -96,8 +97,12 @@ const coreHostsIndexColumns = [
     title: __('Last report'),
     wrapper: hostDetails => {
       const lastReport = hostDetails?.last_report;
-      return (
-        <RelativeDateTime defaultValue={__('Unknown')} date={lastReport} />
+      return lastReport ? (
+        <Link to={foremanUrl(`/hosts/${hostDetails.name}/config_reports/last`)}>
+          <RelativeDateTime date={lastReport} />
+        </Link>
+      ) : (
+        __('No report')
       );
     },
     isSorted: true,
