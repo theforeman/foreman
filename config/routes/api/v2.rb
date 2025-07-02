@@ -4,6 +4,8 @@ Foreman::Application.routes.draw do
     # new v2 routes that point to v2
     scope "(:apiv)", :module => :v2, :defaults => {:apiv => 'v2'}, :apiv => /v2/, :constraints => ApiConstraints.new(:version => 2, :default => true) do
       match 'hosts/bulk', :to => 'hosts_bulk_actions#bulk_destroy', :via => [:delete]
+      put 'hosts/bulk/assign_organization', :to => 'hosts_bulk_actions#assign_organization'
+      put 'hosts/bulk/assign_location', :to => 'hosts_bulk_actions#assign_location'
       match 'hosts/bulk/build', :to => 'hosts_bulk_actions#build', :via => [:put]
       match 'hosts/bulk/change_owner', :to => 'hosts_bulk_actions#change_owner', :via => [:put]
       put 'hosts/bulk/disassociate', :to => 'hosts_bulk_actions#disassociate'

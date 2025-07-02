@@ -94,6 +94,34 @@ module Api
           "Updated hosts: Disassociated from compute resource", @hosts.count)})
       end
 
+      api :PUT, "/hosts/bulk/assign_organization", N_("Assign organization")
+      param_group :bulk_host_ids
+      param :id, :number, :required => true, :desc => N_("The organization ID to assign the hosts to")
+      param :mismatch_setting, :bool, :required => true, :desc => N_("Fix organization on mismatch")
+      def assign_organization
+        without_taxonomy do
+          find_editable_hosts
+          taxonomy = Organization.find(params[:id])
+          BulkHostsManager.new(hosts: @hosts).assign_taxonomy(taxonomy, params[:mismatch_setting])
+          message = _("Organization is set to %s") % taxonomy.name
+          process_response(true, { :message => n_("Updated host: #{message}", "Updated hosts: #{message}", @hosts.count)})
+        end
+      end
+
+      api :PUT, "/hosts/bulk/assign_location", N_("Assign location")
+      param_group :bulk_host_ids
+      param :id, :number, :required => true, :desc => N_("The location ID to assign the hosts to")
+      param :mismatch_setting, :bool, :required => true, :desc => N_("Fix location on mismatch")
+      def assign_location
+        without_taxonomy do
+          find_editable_hosts
+          taxonomy = Location.find(params[:id])
+          BulkHostsManager.new(hosts: @hosts).assign_taxonomy(taxonomy, params[:mismatch_setting])
+          message = _("Location is set to %s") % taxonomy.name
+          process_response(true, { :message => n_("Updated host: #{message}", "Updated hosts: #{message}", @hosts.count)})
+        end
+      end
+
       protected
 
       def action_permission
@@ -113,6 +141,16 @@ module Api
 
       def find_editable_hosts
         find_bulk_hosts(:edit_hosts, params)
+      end
+
+      def without_taxonomy
+        context = Foreman::ThreadSession::Context.get
+        Foreman::ThreadSession::Context.set(user: context[:user])
+        yield
+      rescue => e
+        render_error(:custom_error, :status => :unprocessable_entity, :locals => { :message => e.message})
+      ensure
+        Foreman::ThreadSession::Context.set(**context) if context
       end
 
       def rebuild_config

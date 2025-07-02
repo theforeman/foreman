@@ -5,10 +5,13 @@ import { Tr, Td, ActionsColumn } from '@patternfly/react-table';
 import {
   ToolbarItem,
   Divider,
-  MenuItem,
   Flex,
   FlexItem,
   Button,
+  Menu,
+  MenuItem,
+  MenuContent,
+  MenuList,
   Split,
   SplitItem,
   TextContent,
@@ -44,6 +47,10 @@ import {
   useForemanHostsPageUrl,
 } from '../../Root/Context/ForemanContext';
 import { bulkDeleteHosts } from './BulkActions/bulkDelete';
+import {
+  BulkAssignOrganizationModalScene as BulkAssignOrganizationModal,
+  BulkAssignLocationModalScene as BulkAssignLocationModal,
+} from './BulkActions/assignTaxonomy';
 import BulkBuildHostModal from './BulkActions/buildHosts';
 import BulkReassignHostgroupModal from './BulkActions/reassignHostGroup';
 import BulkChangeOwnerModal from './BulkActions/changeOwner';
@@ -211,6 +218,16 @@ const HostsIndex = () => {
   useEffect(() => {
     dispatch(
       addModal({
+        id: 'bulk-assign-organization-modal',
+      })
+    );
+    dispatch(
+      addModal({
+        id: 'bulk-assign-location-modal',
+      })
+    );
+    dispatch(
+      addModal({
         id: 'bulk-build-hosts-modal',
       })
     );
@@ -231,6 +248,12 @@ const HostsIndex = () => {
     );
   }, [dispatch]);
 
+  const { setModalOpen: setOrganizationModalOpen } = useForemanModal({
+    id: 'bulk-assign-organization-modal',
+  });
+  const { setModalOpen: setLocationModalOpen } = useForemanModal({
+    id: 'bulk-assign-location-modal',
+  });
   const { setModalOpen: setHgModalOpen } = useForemanModal({
     id: 'bulk-reassign-hg-modal',
   });
@@ -254,12 +277,46 @@ const HostsIndex = () => {
       {__('Build management')}
     </MenuItem>,
     <MenuItem
-      itemId="reassign-hg-dropdown-item"
-      key="reassign-hg-dropdown-item"
-      onClick={setHgModalOpen}
+      itemId="host-association-dropdown-item"
+      key="host-association-dropdown-item"
       isDisabled={selectedCount === 0}
+      flyoutMenu={
+        <Menu
+          ouiaId="host-association-dropdown-menu"
+          onSelect={() => setMenuOpen(false)}
+        >
+          <MenuContent>
+            <MenuList>
+              <MenuItem
+                itemId="reassign-hg-dropdown-item"
+                key="reassign-hg-dropdown-item"
+                onClick={setHgModalOpen}
+                isDisabled={selectedCount === 0}
+              >
+                {__('Host group')}
+              </MenuItem>
+              <MenuItem
+                itemId="assign-organization-dropdown-item"
+                key="assign-organization-dropdown-item"
+                onClick={setOrganizationModalOpen}
+                isDisabled={selectedCount === 0}
+              >
+                {__('Organization')}
+              </MenuItem>
+              <MenuItem
+                itemId="assign-location-dropdown-item"
+                key="assign-location-dropdown-item"
+                onClick={setLocationModalOpen}
+                isDisabled={selectedCount === 0}
+              >
+                {__('Location')}
+              </MenuItem>
+            </MenuList>
+          </MenuContent>
+        </Menu>
+      }
     >
-      {__('Change host group')}
+      {__('Change associations')}
     </MenuItem>,
     <MenuItem
       itemId="change-owner-dropdown-item"
@@ -482,6 +539,8 @@ const HostsIndex = () => {
           fetchBulkParams,
         }}
       >
+        <BulkAssignOrganizationModal key="bulk-assign-organization-modal" />
+        <BulkAssignLocationModal key="bulk-assign-location-modal" />
         <BulkBuildHostModal key="bulk-build-hosts-modal" />
         <BulkReassignHostgroupModal key="bulk-reassign-hg-modal" />
         <BulkChangeOwnerModal key="bulk-change-owner-modal" />

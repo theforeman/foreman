@@ -51,4 +51,19 @@ class BulkHostsManager
       host.disassociate!
     end
   end
+
+  # @param [Boolean] optimistic_import
+  #   either fix on mismatch or fail on mismatch
+  def assign_taxonomy(taxonomy, optimistic_import)
+    tax_type = taxonomy.type.downcase
+    if optimistic_import
+      @hosts.update_all("#{tax_type}_id".to_sym => taxonomy.id)
+      # hosts location needs to be updated before import missing ids
+      taxonomy.import_missing_ids
+    elsif taxonomy.need_to_be_selected_ids.empty?
+      @hosts.update_all("#{tax_type}_id".to_sym => taxonomy.id)
+    else
+      raise _("Cannot update %{type} to %{name} because of mismatch in settings") % {type: taxonomy.type.downcase, name: taxonomy.name}
+    end
+  end
 end

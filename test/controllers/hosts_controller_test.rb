@@ -812,7 +812,7 @@ class HostsControllerTest < ActionController::TestCase
       :host_ids => Host.pluck('hosts.id'),
     }, session: set_session_user
     assert_redirected_to new_hosts_index_page_path
-    assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
+    assert_equal "Cannot update location to Location 1 because of mismatch in settings", flash[:error]
   end
   test "update multiple location does not update location of hosts if fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = current_hosts_path
@@ -871,7 +871,7 @@ class HostsControllerTest < ActionController::TestCase
       :host_ids => Host.pluck('hosts.id'),
     }, session: set_session_user
     assert_redirected_to new_hosts_index_page_path
-    assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
+    assert_equal "Cannot update organization to Organization 1 because of mismatch in settings", flash[:error]
   end
   test "update multiple organization does not update organization of hosts if fails on pessimistic import" do
     @request.env['HTTP_REFERER'] = current_hosts_path
