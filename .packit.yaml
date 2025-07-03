@@ -9,6 +9,7 @@ files_to_sync:
   - foreman.logrotate
   - foreman.cron.d
   - foreman.tmpfiles
+  - gen-gem-buildreqs
   - .packit.yaml
 
 # name in upstream package repository or registry (e.g. in PyPI)
@@ -22,6 +23,8 @@ actions:
     - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.logrotate -O foreman.logrotate"
     - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.cron.d -O foreman.cron.d"
     - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.tmpfiles -O foreman.tmpfiles"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/gen-gem-buildreqs -O gen-gem-buildreqs"
+    - "chmod +x ./gen-gem-buildreqs"
   get-current-version: "sed 's/-develop//' VERSION"
 
 jobs:
