@@ -41,5 +41,8 @@
     <% end %>
   </div>
 
+  <% if @cloned_os %>
+    <%= hidden_field_tag :cloned_os_id, @cloned_os.id %>
+  <% end %>
   <%= submit_or_cancel f %>
 <% end %>

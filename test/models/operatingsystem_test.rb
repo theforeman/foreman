@@ -452,6 +452,15 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert_equal Setting[:default_host_init_config_template], os.provisioning_templates[0]&.name
   end
 
+  test "should not assign 'host initial configuration' template if it already exists" do
+    os = FactoryBot.create(:operatingsystem, name: 'TestOS', major: '23')
+    cloned_os = CloneOperatingSystem.clone_obj(os, { name: 'TestOS', major: '24' })
+    cloned_os.save!
+    cloned_os.reload
+
+    assert_equal 1, cloned_os.os_default_templates.count
+  end
+
   context 'has_default_template?' do
     setup do
       @kind = TemplateKind.find_by(name: 'host_init_config')
@@ -470,5 +479,12 @@ class OperatingsystemTest < ActiveSupport::TestCase
       assert_empty os.os_default_templates
       refute os.has_default_template?(@kind)
     end
+  end
+
+  test "should sort os by version" do
+    os23_2 = FactoryBot.create(:operatingsystem, name: 'TestOS', major: '23', minor: '2')
+    os24 = FactoryBot.create(:operatingsystem, name: 'TestOS', major: '24')
+    os23_1 = FactoryBot.create(:operatingsystem, name: 'TestOS', major: '23', minor: '1')
+    assert_equal [os23_1, os23_2, os24], Operatingsystem.where(name: 'TestOS').sort_by_version
   end
 end

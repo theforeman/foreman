@@ -46,6 +46,12 @@ class Operatingsystem < ApplicationRecord
 
   default_scope -> { order(:title) }
 
+  scope :sort_by_version, lambda {
+    sort_by do |os|
+      Gem::Version.new(os.release)
+    end
+  }
+
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :name,        :complete_value => :true
   scoped_search :on => :major,       :complete_value => :true
@@ -410,6 +416,9 @@ class Operatingsystem < ApplicationRecord
     template_kind = TemplateKind.unscoped.find_by(name: 'host_init_config')
     template = ProvisioningTemplate.unscoped.find_by(name: template_name, template_kind: template_kind)
     return unless template
+
+    # If the OS already has a default template, don't assign a new one
+    return if os_default_templates.find_by(template_kind: template_kind)
 
     template.operatingsystems << self
     OsDefaultTemplate.create(template_kind: template_kind, provisioning_template: template, operatingsystem: self)

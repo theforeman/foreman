@@ -104,5 +104,10 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"),
       default: IGNORED_INTERFACES + IGNORED_FACTS,
       full_name: N_('Exclude pattern for facts stored in foreman'))
+    setting('facts_clone_os',
+      type: :boolean,
+      description: N_("If there is older version of operating system matching the OS from facts, clone it with its properties and associations"),
+      default: true,
+      full_name: N_('Clone operating system from previous version'))
   end
 end

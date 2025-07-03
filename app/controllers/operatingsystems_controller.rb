@@ -12,8 +12,14 @@ class OperatingsystemsController < ApplicationController
     @operatingsystem = Operatingsystem.new
   end
 
+  # TODO: Update API controller as well
   def create
-    @operatingsystem = Operatingsystem.new(operatingsystem_params)
+    if params[:cloned_os_id]
+      @operatingsystem = CloneOperatingSystem.clone_obj(Operatingsystem.find(params[:cloned_os_id]), operatingsystem_params)
+    else
+      @operatingsystem = Operatingsystem.new(operatingsystem_params)
+    end
+
     if @operatingsystem.save
       process_success
     else
@@ -47,7 +53,8 @@ class OperatingsystemsController < ApplicationController
   end
 
   def clone
-    @operatingsystem = @operatingsystem.deep_clone include: [:media, :ptables, :architectures, :os_parameters], except: [:title]
+    @cloned_os = @operatingsystem
+    @operatingsystem = CloneOperatingSystem.clone_obj(@cloned_os)
   end
 
   private
