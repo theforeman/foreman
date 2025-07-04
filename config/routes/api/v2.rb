@@ -319,6 +319,7 @@ Foreman::Application.routes.draw do
           put :boot, :on => :member
           get :power, :on => :member, :action => :power_status
           put :power, :on => :member
+          put :wol, :on => :member
           put :rebuild_config, :on => :member
           get :inherited_parameters, :on => :member
           post :facts, :on => :collection

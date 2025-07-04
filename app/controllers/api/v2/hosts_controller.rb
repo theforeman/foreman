@@ -280,6 +280,38 @@ module Api
         render_exception(e, :status => :unprocessable_entity)
       end
 
+      api :PUT, "/hosts/:id/wol", N_("Send Wake on LAN request to host")
+      param :id, :identifier_dottable, :required => true
+
+      def wol
+        primary_interface = @host.primary_interface
+
+        unless primary_interface
+          return render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _('Host has no primary interface') }
+        end
+
+        unless primary_interface.mac.present?
+          return render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _('Primary interface has no MAC address') }
+        end
+
+        unless primary_interface.subnet&.dhcp?
+          return render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _('Primary interface subnet has no DHCP proxy configured') }
+        end
+
+        dhcp_proxy = primary_interface.subnet.dhcp
+        unless dhcp_proxy.has_feature?('WOL')
+          return render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _('DHCP proxy does not have WOL feature enabled') }
+        end
+
+        begin
+          wol_api = ProxyAPI::Wol.new(:url => dhcp_proxy.url)
+          result = wol_api.wake(primary_interface.mac)
+          render :json => { :wol => result }, :status => :ok
+        rescue => e
+          render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.message }
+        end
+      end
+
       api :POST, "/hosts/facts", N_("Upload facts for a host, creating the host if required")
       param :name, String, :required => true, :desc => N_("hostname of the host")
       param :facts, Hash,      :required => true, :desc => N_("hash containing the facts for the host")
@@ -382,6 +414,8 @@ module Api
             :power
           when 'boot'
             :ipmi_boot
+          when 'wol'
+            :power
           when 'console'
             :console
           when 'disassociate', 'forget_status'
@@ -397,7 +431,7 @@ module Api
 
       def parent_permission(child_permission)
         case child_permission.to_s
-          when 'power', 'boot', 'console', 'vm_compute_attributes', 'get_status', 'template', 'enc', 'rebuild_config', 'inherited_parameters'
+          when 'power', 'boot', 'wol', 'console', 'vm_compute_attributes', 'get_status', 'template', 'enc', 'rebuild_config', 'inherited_parameters'
             'view'
           when 'disassociate'
             'edit'

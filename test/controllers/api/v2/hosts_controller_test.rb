@@ -1427,4 +1427,127 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal json_response['facet_param'], 'bar'
     end
   end
+
+  context 'Wake-on-LAN (WOL) tests' do
+    setup do
+      @dhcp_proxy = FactoryBot.create(:dhcp_smart_proxy)
+      @dhcp_proxy.features << FactoryBot.create(:feature, :name => 'WOL')
+      @subnet = FactoryBot.create(:subnet_ipv4, :dhcp => @dhcp_proxy)
+      @host = FactoryBot.create(:host, :managed)
+      @primary_interface = FactoryBot.create(:nic_primary_and_provision,
+        :host => @host,
+        :subnet => @subnet,
+        :mac => '00:61:23:18:48:a5')
+      @host.interfaces = [@primary_interface]
+      @host.save!
+      User.current = users(:apiadmin)
+    end
+
+    test 'should send WOL request successfully' do
+      ProxyAPI::Wol.any_instance.expects(:wake).with('00:61:23:18:48:a5').returns(true)
+
+      put :wol, params: { :id => @host.to_param }
+
+      assert_response :success
+      response_body = JSON.parse(@response.body)
+      assert_equal true, response_body['wol']
+    end
+
+    test 'should return error when host has no primary interface' do
+      @host.interfaces = []
+      @host.save!
+
+      put :wol, params: { :id => @host.to_param }
+
+      assert_response :unprocessable_entity
+      response_body = JSON.parse(@response.body)
+      assert_match(/Host has no primary interface/, response_body['error']['message'])
+    end
+
+    test 'should return error when primary interface has no MAC address' do
+      @primary_interface.update_attribute(:mac, nil)
+
+      put :wol, params: { :id => @host.to_param }
+
+      assert_response :unprocessable_entity
+      response_body = JSON.parse(@response.body)
+      assert_match(/Primary interface has no MAC address/, response_body['error']['message'])
+    end
+
+    test 'should return error when primary interface has empty MAC address' do
+      @primary_interface.update_attribute(:mac, '')
+
+      put :wol, params: { :id => @host.to_param }
+
+      assert_response :unprocessable_entity
+      response_body = JSON.parse(@response.body)
+      assert_match(/Primary interface has no MAC address/, response_body['error']['message'])
+    end
+
+    test 'should return error when primary interface subnet has no DHCP proxy' do
+      @primary_interface.subnet.update_attribute(:dhcp, nil)
+
+      put :wol, params: { :id => @host.to_param }
+
+      assert_response :unprocessable_entity
+      response_body = JSON.parse(@response.body)
+      assert_match(/Primary interface subnet has no DHCP proxy configured/, response_body['error']['message'])
+    end
+
+    test 'should return error when DHCP proxy does not have WOL feature' do
+      @dhcp_proxy.features.delete_all
+
+      put :wol, params: { :id => @host.to_param }
+
+      assert_response :unprocessable_entity
+      response_body = JSON.parse(@response.body)
+      assert_match(/DHCP proxy does not have WOL feature enabled/, response_body['error']['message'])
+    end
+
+    test 'should handle ProxyException with proper error message' do
+      proxy_exception = ProxyException.new('http://proxy.example.com/wol',
+        StandardError.new('Network error'),
+        N_("Unable to send Wake on LAN request for MAC %s"),
+        '00:61:23:18:48:a5')
+      ProxyAPI::Wol.any_instance.expects(:wake).with('00:61:23:18:48:a5').raises(proxy_exception)
+
+      put :wol, params: { :id => @host.to_param }
+
+      assert_response :unprocessable_entity
+      response_body = JSON.parse(@response.body)
+      assert_match(/Unable to send Wake on LAN request/, response_body['error']['message'])
+    end
+
+    test 'should return 404 for non-existent host' do
+      put :wol, params: { :id => 'non-existent-host' }
+
+      assert_response :not_found
+    end
+
+    context 'permissions' do
+      setup do
+        setup_user 'view', 'hosts'
+        setup_user 'power', 'hosts'
+      end
+
+      test 'should allow user with power permission to send WOL request' do
+        ProxyAPI::Wol.any_instance.expects(:wake).with('00:61:23:18:48:a5').returns(true)
+
+        put :wol, params: { :id => @host.to_param }, session: set_session_user.merge(:user => @one.id)
+
+        assert_response :success
+        response_body = JSON.parse(@response.body)
+        assert_equal true, response_body['wol']
+      end
+
+      test 'should deny user without power permission' do
+        setup_user 'view', 'hosts'
+        # Don't add power permission
+
+        put :wol, params: { :id => @host.to_param }, session: set_session_user.merge(:user => @one.id)
+
+        assert_response :forbidden
+      end
+    end
+  end
 end
