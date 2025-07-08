@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionsBar actions wakeOnLan should call Wake on LAN API action 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "errorToast": [Function],
+        "key": "1_WOL",
+        "successToast": [Function],
+        "url": "/api/hosts/1/wol",
+      },
+      "type": "API_PUT",
+    },
+  ],
+]
+`;
+
+exports[`ActionsBar actions wakeOnLan should call Wake on LAN API action with different host 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "errorToast": [Function],
+        "key": "42_WOL",
+        "successToast": [Function],
+        "url": "/api/hosts/42/wol",
+      },
+      "type": "API_PUT",
+    },
+  ],
+]
+`;
