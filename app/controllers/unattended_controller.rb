@@ -143,7 +143,7 @@ class UnattendedController < ApplicationController
   def render_ipxe_template
     return false unless ipxe_request?
 
-    if @host.nil? && params[:bootstrap]
+    if params[:bootstrap]
       render_intermediate_template
       return true
     end
