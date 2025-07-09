@@ -185,7 +185,7 @@ const TableIndexPage = ({
       canCreate && {
         title: __('Create new'),
         action: customCreateAction
-          ? { onClick: customCreateAction() }
+          ? { onClick: customCreateAction }
           : { href: createURL() },
       },
     exportable && {
