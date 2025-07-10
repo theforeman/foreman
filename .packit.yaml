@@ -18,7 +18,7 @@ downstream_package_name: foreman
 
 actions:
   post-upstream-clone:
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.spec -O foreman.spec"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/vendortesting/packages/foreman/foreman/foreman.spec -O foreman.spec"
     - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.logrotate -O foreman.logrotate"
     - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.cron.d -O foreman.cron.d"
     - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman/foreman.tmpfiles -O foreman.tmpfiles"
