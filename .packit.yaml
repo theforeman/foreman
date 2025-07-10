@@ -10,7 +10,6 @@ files_to_sync:
   - foreman.cron.d
   - foreman.tmpfiles
   - gen-gem-buildreqs
-  - .packit.yaml
 
 # name in upstream package repository or registry (e.g. in PyPI)
 upstream_package_name: foreman
