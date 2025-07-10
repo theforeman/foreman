@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ConnectedRouter } from 'connected-react-router';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import history from '../history';
 import { getForemanContext } from '../Root/Context/ForemanContext';
@@ -21,7 +21,7 @@ const ReactApp = ({ layout, metadata, toasts }) => {
     <div id="react-app-root">
       <ForemanContext.Provider value={contextData}>
         <ApolloProvider client={apolloClient}>
-          <ConnectedRouter history={history}>
+          <HistoryRouter history={history}>
             <Layout data={layout}>
               <ErrorBoundary history={history}>
                 <ToastsList railsMessages={toasts} />
@@ -29,7 +29,7 @@ const ReactApp = ({ layout, metadata, toasts }) => {
                 <ConfirmModal />
               </ErrorBoundary>
             </Layout>
-          </ConnectedRouter>
+          </HistoryRouter>
         </ApolloProvider>
       </ForemanContext.Provider>
     </div>

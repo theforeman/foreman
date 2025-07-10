@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import URI from 'urijs';
 import classNames from 'classnames';
 import {
@@ -12,7 +12,6 @@ import { useForemanSettings } from '../../Root/Context/ForemanContext';
 import {
   getURIpage,
   getURIperPage,
-  changeQuery,
 } from '../../common/urlHelpers';
 import './index.scss';
 
@@ -32,14 +31,15 @@ const Pagination = ({
   const { perPage: settingsPerPage = 20 } = useForemanSettings() || {};
   const [page, setPage] = useState(propsPage);
   const [perPage, setPerPage] = useState(propsPerPage || settingsPerPage);
-  const history = useHistory();
-  const { location: { search } = {} } = history || {};
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     let nextPage = propsPage;
     let nextPerPage = propsPerPage;
     if (updateParamsByUrl) {
-      if (search !== undefined && search.length) {
+      const search = location.search;
+      if (search && search.length) {
         const params = new URLSearchParams(search);
         nextPage = Number(params.get('page') || getURIpage());
         nextPerPage = Number(params.get('per_page') || getURIperPage());
@@ -52,7 +52,7 @@ const Pagination = ({
       current => nextPerPage || propsPerPage || current || settingsPerPage
     );
     setPage(current => nextPage || propsPage || current);
-  }, [search, propsPage, propsPerPage, settingsPerPage, updateParamsByUrl]);
+  }, [location.search, propsPage, propsPerPage, settingsPerPage, updateParamsByUrl]);
 
   const paginationTitles = {
     items: __('items'),
@@ -95,13 +95,9 @@ const Pagination = ({
 
   const updateSearch = params => {
     if (!updateParamsByUrl) return;
-    if (history) {
-      const uri = new URI();
-      uri.setSearch(params);
-      history.push({ search: uri.search() });
-    } else {
-      changeQuery(params);
-    }
+    const uri = new URI(location.pathname); // Ensure path is preserved
+    uri.setSearch(params);
+    navigate({ search: uri.search() });
   };
 
   const cx = classNames('tfm-pagination', className, {

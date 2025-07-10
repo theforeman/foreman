@@ -1,19 +1,27 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import { fallbackRoute } from '../RoutingService';
 import { selectRoutes } from '../RouterSelector';
+
+const FallbackRoute = () => {
+  React.useEffect(() => {
+    fallbackRoute();
+  }, []);
+
+  return null;
+};
 
 const ForemanSwitcher = ({ children: coreRoutes }) => {
   const routes = useSelector(() => selectRoutes(coreRoutes), shallowEqual);
 
   return (
-    <Switch>
+    <Routes>
       {routes}
-      <Route render={fallbackRoute} key="default-route" />
-    </Switch>
+      <Route path="*" element={<FallbackRoute />} />
+    </Routes>
   );
 };
 

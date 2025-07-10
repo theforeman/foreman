@@ -19,24 +19,24 @@ export const registerRoutes = (id, routes) =>
         path={path}
         key={path}
         {...routeProps}
-        render={renderProps => renderRoute(render, renderProps)}
+        element={<RouteWrapper render={render} />}
       />
     )
   );
 
 /**
- * a Helper function for rendering a route
- * @param {Function} renderFn - a component's rendering function
- * @param {Object} props - routing props
+ * Route wrapper component to mimic legacy `render` behavior
  */
-export const renderRoute = (renderFn, props) => {
-  const {
-    location,
-    location: { pathname, search },
-  } = props;
+const RouteWrapper = ({ render }) => {
+  const location = window.location;
+  const pathname = location.pathname;
+  const search = location.search;
+
   removeRailsContent();
-  location && updatePath(`${pathname}${search}`);
-  return renderFn(props);
+  updatePath(`${pathname}${search}`);
+
+  // You may use `useLocation()` here if this becomes a component inside Router context
+  return render({ location });
 };
 
 export const fallbackRoute = () => {

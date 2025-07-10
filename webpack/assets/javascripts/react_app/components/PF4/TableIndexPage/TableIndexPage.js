@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Spinner,
   Toolbar,
@@ -112,9 +112,9 @@ const TableIndexPage = ({
   updateParamsByUrl,
   bookmarksPosition,
 }) => {
-  const history = useHistory();
-  const { location: { search: historySearch } = {} } = history || {};
-  const urlParams = new URLSearchParams(historySearch);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
   const urlParamsSearch = urlParams.get('search') || '';
   const search = updateParamsByUrl ? urlParamsSearch || getURIsearch() : '';
   const defaultParams = {

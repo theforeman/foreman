@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Grid, GridItem } from '@patternfly/react-core';
 import URI from 'urijs';
@@ -20,7 +20,8 @@ import PermissionDenied from '../../../PermissionDenied';
 
 const ReportsTab = ({ hostName, origin }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   const API_KEY = `get-reports-${hostName}`;
   const { reports, itemCount, response } = useSelector(state =>
     selectAPIResponse(state, API_KEY)
@@ -58,7 +59,7 @@ const ReportsTab = ({ hostName, origin }) => {
 
   useEffect(() => {
     fetchReports();
-  }, [fetchReports, history.location]);
+  }, [fetchReports, location]);
 
   const onPaginationChange = ({ page, per_page }) => {
     const { search } = getUrlParams();
@@ -95,7 +96,7 @@ const ReportsTab = ({ hostName, origin }) => {
     ({ page, per_page, search = '' }) => {
       const uri = new URI();
       uri.search({ page, per_page, search });
-      history.push({ search: uri.search() });
+      navigate({ search: uri.search() });
     },
     [history]
   );

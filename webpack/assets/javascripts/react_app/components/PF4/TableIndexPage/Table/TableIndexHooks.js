@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import URI from 'urijs';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAPI } from '../../../../common/hooks/API/APIHooks';
 
 /**
@@ -58,13 +58,13 @@ export const useSetParamsAndApiAndSearch = ({
   pushToHistory = true,
 }) => {
   const [params, setParams] = useState(defaultParams);
-  const history = useHistory();
+  const navigate = useNavigate();
   const setParamsAndAPI = newParams => {
     // add url edit params to the new params
     if (pushToHistory) {
       const uri = new URI();
       uri.setSearch(newParams);
-      history.push({ search: uri.search() });
+      navigate({ search: uri.search() });
     }
     setParams(newParams);
     setAPIOptions({ ...apiOptions, params: newParams });
@@ -74,7 +74,7 @@ export const useSetParamsAndApiAndSearch = ({
     if (pushToHistory) {
       const uri = new URI();
       uri.setSearch(newSearch);
-      history.push({ search: uri.search() });
+      navigate({ search: uri.search() });
     }
     updateSearchQuery(newSearch.search);
     setParamsAndAPI({ ...params, ...newSearch });

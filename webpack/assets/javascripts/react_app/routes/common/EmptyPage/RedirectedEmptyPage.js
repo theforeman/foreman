@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button } from '@patternfly/react-core';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SearchIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
 import { visit } from '../../../common/helpers';
@@ -18,7 +18,7 @@ const RedirectedEmptyPage = ({ location: { state = {} } }) => {
     secondayActions,
     back = defaultState.back,
   } = state;
-  const history = useHistory();
+  const navigate = useNavigate();
   const primaryAction = action && (
     <Button
       ouiaId="redirected-empty-page-primary-action"
@@ -43,7 +43,7 @@ const RedirectedEmptyPage = ({ location: { state = {} } }) => {
   const backButton = back && (
     <Button
       ouiaId="redirected-empty-page-back-button"
-      onClick={() => history.goBack()}
+      onClick={() => navigate(-1)}
       variant="link"
     >
       {__('Return to the last page')}

@@ -1,6 +1,10 @@
 /* eslint-disable */
 
 module.exports = [
+  'unleash-proxy-client',
+  '@unleash/proxy-client-react',
+  '@scalprum/core',
+  '@scalprum/react-core',
   'intl',
   /**
    * React related

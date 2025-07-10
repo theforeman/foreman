@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   initializeLayout,
@@ -49,7 +49,7 @@ const ConnectedLayout = ({ children, data }) => {
       document.body.classList.add('pf-m-expanded');
     }
   }, [isNavCollapsed]);
-  const { push: navigate } = useHistory();
+  const navigate = useNavigate();
   const items = useSelector(state =>
     patternflyMenuItemsSelector(state, currentLocation, currentOrganization)
   );
