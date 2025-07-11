@@ -1,0 +1,373 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionsBar rendering renders ActionsBar with all permissions (including power) 1`] = `
+<Fragment>
+  <Split
+    hasGutter={true}
+  >
+    <SplitItem>
+      <Slot
+        deprecated={false}
+        fills={Array []}
+        hostId={1}
+        hostName="test-host.example.com"
+        id="_rex-host-features"
+        multi={false}
+        replacedBy=""
+      />
+    </SplitItem>
+    <SplitItem>
+      <Button
+        isDisabled={false}
+        onClick={[Function]}
+        ouiaId="host-edit-button"
+        variant="secondary"
+      >
+        Edit
+      </Button>
+      <ContextProvider
+        value={
+          Object {
+            "onKebabToggle": [Function],
+          }
+        }
+      >
+        <Dropdown
+          alignments={
+            Object {
+              "default": "right",
+            }
+          }
+          dropdownItems={
+            Array [
+              <DropdownItem
+                component="button"
+                icon={<BuildIcon />}
+                isDisabled={false}
+                onClick={[Function]}
+                ouiaId="build-dropdown-item"
+              >
+                Build
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<CloneIcon />}
+                isDisabled={false}
+                onClick={[Function]}
+                ouiaId="clone-dropdown-item"
+              >
+                Clone
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<TrashIcon />}
+                isDisabled={false}
+                onClick={[Function]}
+                ouiaId="delete-dropdown-item"
+              >
+                Delete
+              </DropdownItem>,
+              <DropdownSeparator
+                ouiaId="dropdown-separator-1"
+              />,
+              <DropdownItem
+                component="button"
+                icon={<TerminalIcon />}
+                isAriaDisabled={false}
+                onClick={[Function]}
+                ouiaId="console-dropdown-item"
+              >
+                Console
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<DatabaseIcon />}
+                onClick={[Function]}
+                ouiaId="fact-dropdown-item"
+              >
+                Facts
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<PlayIcon />}
+                isDisabled={false}
+                onClick={[Function]}
+                ouiaId="wol-dropdown-item"
+              >
+                Wake on LAN
+              </DropdownItem>,
+              <DropdownSeparator
+                ouiaId="dropdown-separator-2"
+              />,
+              <DropdownItem
+                href="/hosts/test-host.example.com"
+                icon={<UndoIcon />}
+                ouiaId="pre-version-dropdown-item"
+              >
+                Legacy UI
+              </DropdownItem>,
+            ]
+          }
+          isOpen={false}
+          isPlain={true}
+          ouiaId="kebab-dropdown"
+          toggle={
+            <KebabToggle
+              id="hostdetails-kebab"
+              onToggle={[Function]}
+            />
+          }
+        />
+      </ContextProvider>
+    </SplitItem>
+  </Split>
+</Fragment>
+`;
+
+exports[`ActionsBar rendering renders ActionsBar without any permissions 1`] = `
+<Fragment>
+  <Split
+    hasGutter={true}
+  >
+    <SplitItem>
+      <Slot
+        deprecated={false}
+        fills={Array []}
+        hostId={1}
+        hostName="test-host.example.com"
+        id="_rex-host-features"
+        multi={false}
+        replacedBy=""
+      />
+    </SplitItem>
+    <SplitItem>
+      <Button
+        isDisabled={true}
+        onClick={[Function]}
+        ouiaId="host-edit-button"
+        variant="secondary"
+      >
+        Edit
+      </Button>
+      <ContextProvider
+        value={
+          Object {
+            "onKebabToggle": [Function],
+          }
+        }
+      >
+        <Dropdown
+          alignments={
+            Object {
+              "default": "right",
+            }
+          }
+          dropdownItems={
+            Array [
+              <DropdownItem
+                component="button"
+                icon={<BuildIcon />}
+                isDisabled={true}
+                onClick={[Function]}
+                ouiaId="build-dropdown-item"
+              >
+                Build
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<CloneIcon />}
+                isDisabled={true}
+                onClick={[Function]}
+                ouiaId="clone-dropdown-item"
+              >
+                Clone
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<TrashIcon />}
+                isDisabled={true}
+                onClick={[Function]}
+                ouiaId="delete-dropdown-item"
+              >
+                Delete
+              </DropdownItem>,
+              <DropdownSeparator
+                ouiaId="dropdown-separator-1"
+              />,
+              <DropdownItem
+                component="button"
+                icon={<TerminalIcon />}
+                isAriaDisabled={false}
+                onClick={[Function]}
+                ouiaId="console-dropdown-item"
+              >
+                Console
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<DatabaseIcon />}
+                onClick={[Function]}
+                ouiaId="fact-dropdown-item"
+              >
+                Facts
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<PlayIcon />}
+                isDisabled={true}
+                onClick={[Function]}
+                ouiaId="wol-dropdown-item"
+              >
+                Wake on LAN
+              </DropdownItem>,
+              <DropdownSeparator
+                ouiaId="dropdown-separator-2"
+              />,
+              <DropdownItem
+                href="/hosts/test-host.example.com"
+                icon={<UndoIcon />}
+                ouiaId="pre-version-dropdown-item"
+              >
+                Legacy UI
+              </DropdownItem>,
+            ]
+          }
+          isOpen={false}
+          isPlain={true}
+          ouiaId="kebab-dropdown"
+          toggle={
+            <KebabToggle
+              id="hostdetails-kebab"
+              onToggle={[Function]}
+            />
+          }
+        />
+      </ContextProvider>
+    </SplitItem>
+  </Split>
+</Fragment>
+`;
+
+exports[`ActionsBar rendering renders ActionsBar without power permissions 1`] = `
+<Fragment>
+  <Split
+    hasGutter={true}
+  >
+    <SplitItem>
+      <Slot
+        deprecated={false}
+        fills={Array []}
+        hostId={1}
+        hostName="test-host.example.com"
+        id="_rex-host-features"
+        multi={false}
+        replacedBy=""
+      />
+    </SplitItem>
+    <SplitItem>
+      <Button
+        isDisabled={false}
+        onClick={[Function]}
+        ouiaId="host-edit-button"
+        variant="secondary"
+      >
+        Edit
+      </Button>
+      <ContextProvider
+        value={
+          Object {
+            "onKebabToggle": [Function],
+          }
+        }
+      >
+        <Dropdown
+          alignments={
+            Object {
+              "default": "right",
+            }
+          }
+          dropdownItems={
+            Array [
+              <DropdownItem
+                component="button"
+                icon={<BuildIcon />}
+                isDisabled={false}
+                onClick={[Function]}
+                ouiaId="build-dropdown-item"
+              >
+                Build
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<CloneIcon />}
+                isDisabled={false}
+                onClick={[Function]}
+                ouiaId="clone-dropdown-item"
+              >
+                Clone
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<TrashIcon />}
+                isDisabled={false}
+                onClick={[Function]}
+                ouiaId="delete-dropdown-item"
+              >
+                Delete
+              </DropdownItem>,
+              <DropdownSeparator
+                ouiaId="dropdown-separator-1"
+              />,
+              <DropdownItem
+                component="button"
+                icon={<TerminalIcon />}
+                isAriaDisabled={false}
+                onClick={[Function]}
+                ouiaId="console-dropdown-item"
+              >
+                Console
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<DatabaseIcon />}
+                onClick={[Function]}
+                ouiaId="fact-dropdown-item"
+              >
+                Facts
+              </DropdownItem>,
+              <DropdownItem
+                component="button"
+                icon={<PlayIcon />}
+                isDisabled={true}
+                onClick={[Function]}
+                ouiaId="wol-dropdown-item"
+              >
+                Wake on LAN
+              </DropdownItem>,
+              <DropdownSeparator
+                ouiaId="dropdown-separator-2"
+              />,
+              <DropdownItem
+                href="/hosts/test-host.example.com"
+                icon={<UndoIcon />}
+                ouiaId="pre-version-dropdown-item"
+              >
+                Legacy UI
+              </DropdownItem>,
+            ]
+          }
+          isOpen={false}
+          isPlain={true}
+          ouiaId="kebab-dropdown"
+          toggle={
+            <KebabToggle
+              id="hostdetails-kebab"
+              onToggle={[Function]}
+            />
+          }
+        />
+      </ContextProvider>
+    </SplitItem>
+  </Split>
+</Fragment>
+`;

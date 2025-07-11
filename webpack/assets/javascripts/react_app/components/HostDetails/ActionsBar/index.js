@@ -15,12 +15,13 @@ import {
   UndoIcon,
   BuildIcon,
   TerminalIcon,
+  PlayIcon,
 } from '@patternfly/react-icons';
 import { visit } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
 import { selectKebabItems } from './Selectors';
 import { foremanUrl } from '../../../common/helpers';
-import { cancelBuild, deleteHost, isHostTurnOn } from './actions';
+import { cancelBuild, deleteHost, isHostTurnOn, wakeOnLan } from './actions';
 import {
   useForemanSettings,
   useForemanHostsPageUrl,
@@ -46,6 +47,7 @@ const ActionsBar = ({
     create_hosts: canCreate,
     edit_hosts: canEdit,
     build_hosts: canBuild,
+    power_hosts: canPower,
   },
 }) => {
   const [kebabIsOpen, setKebab] = useState(false);
@@ -61,6 +63,11 @@ const ActionsBar = ({
     dispatch(
       deleteHost(hostName, computeId, destroyVmOnHostDelete, hostsIndexUrl)
     );
+
+  const wakeOnLanHandler = () => {
+    dispatch(wakeOnLan(hostId, hostName));
+    setKebab(false);
+  };
 
   const isConsoleDisabled = !(computeId && isHostActive);
   const determineTooltip = () => {
@@ -131,6 +138,16 @@ const ActionsBar = ({
       icon={<DatabaseIcon />}
     >
       {__('Facts')}
+    </DropdownItem>,
+    <DropdownItem
+      ouiaId="wol-dropdown-item"
+      onClick={wakeOnLanHandler}
+      key="wol"
+      component="button"
+      isDisabled={!canPower}
+      icon={<PlayIcon />}
+    >
+      {__('Wake on LAN')}
     </DropdownItem>,
     <DropdownSeparator key="sp-2" ouiaId="dropdown-separator-2" />,
     <DropdownItem
@@ -205,6 +222,7 @@ ActionsBar.defaultProps = {
     create_hosts: false,
     edit_hosts: false,
     build_hosts: false,
+    power_hosts: false,
   },
   isBuild: false,
 };

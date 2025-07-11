@@ -110,3 +110,19 @@ export const isHostTurnOn = store => {
   const { state } = selectAPIResponse(store, POWER_REQURST_KEY);
   return state === 'on';
 };
+
+export const wakeOnLan = (hostId, hostName) => dispatch => {
+  const successToast = () => __('Wake on LAN signal has been sent');
+  const errorToast = ({ message }) =>
+    message || __('Sending Wake on LAN signal has failed');
+  const url = foremanUrl(`/api/hosts/${hostId}/wol`);
+
+  dispatch(
+    APIActions.put({
+      url,
+      key: `${hostId}_WOL`,
+      successToast,
+      errorToast,
+    })
+  );
+};

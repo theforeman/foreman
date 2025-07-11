@@ -27,7 +27,7 @@ module AccessPermissionsTestBase
           # Pass if the controller deliberately skips login requirement
           next if controller < ApplicationController && filters.select { |f| f.filter == :require_login }.empty?
 
-          assert_not_empty Foreman::AccessControl.permissions.select { |p| p.actions.include? path }, "permission for #{path} not found, check access_permissions.rb"
+          assert_not_empty Foreman::AccessControl.permissions.select { |p| p.actions.include? path }, "permission for #{path} not found, check config/initializers/f_foreman_permissions.rb.rb"
         end
       end
     end
