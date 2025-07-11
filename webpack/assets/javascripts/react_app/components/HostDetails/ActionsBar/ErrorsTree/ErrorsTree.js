@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableComposable, Tbody } from '@patternfly/react-table';
+import { Table, Tbody } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
 import { ErrorsTreePrimaryRow } from './components/ErrorsTreePrimaryRow';
 import { ErrorsTreeSecondaryRow } from './components/ErrorsTreeSecondaryRow';
@@ -86,14 +86,14 @@ export const ErrorsTree = props => {
   };
 
   return (
-    <TableComposable
+    <Table
       ouiaId="errorsTreeTable"
       isTreeTable
       aria-label="Tree table"
       variant="compact"
     >
       <Tbody>{renderPrimaryRows(props.data)}</Tbody>
-    </TableComposable>
+    </Table>
   );
 };
 
