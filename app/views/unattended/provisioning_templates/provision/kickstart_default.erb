@@ -140,10 +140,9 @@ firewall --disable
 firewall --<%= os_major >= 6 ? 'service=' : '' %>ssh
 <% end -%>
 <%# Kdump -%>
-<%# Ignore empty strings, & because .presence isn't allowed on nil
-See https://github.com/theforeman/foreman/pull/10507 -%>
-<% if host_param('kdump-options')&.presence -%>
+<% if host_param('kdump-options').present? -%>
 %addon com_redhat_kdump <%= host_param('kdump-options') %>
+%end
 <% end -%>
 <%# Authentication options -%>
 <% if (is_fedora && os_major >= 28) || (rhel_compatible && os_major > 7) -%>

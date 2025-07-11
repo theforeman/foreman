@@ -68,6 +68,7 @@ module Foreman
     def define_host_params(host)
       host_params = {
         "enable-epel" => "true",
+        "kdump-options" => "--disable",
         "package_upgrade" => "true",
         "ansible_tower_provisioning" => "true",
         "ansible_tower_api_url" => "https://host.example.com/api/controller/v2",

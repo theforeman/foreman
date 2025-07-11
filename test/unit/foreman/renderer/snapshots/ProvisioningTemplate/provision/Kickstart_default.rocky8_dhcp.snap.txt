@@ -15,6 +15,8 @@ network --device=00-f0-54-1a-7e-e0 --hostname snapshot-ipv4-dhcp-rocky8 --noipv6
 
 rootpw --iscrypted $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
 firewall --service=ssh
+%addon com_redhat_kdump --disable
+%end
 authselect --useshadow --passalgo=sha512 --kickstart
 timezone --utc UTC 
 
