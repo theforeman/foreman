@@ -327,29 +327,41 @@ cp -vf /tmp/*.pre.*.log /mnt/sysimage/root/
 if test -f /tmp/foreman_built; then
   echo "calling home: build is done!"
   if [ -x /usr/bin/curl ]; then
-    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --data @/root/install.post.log --noproxy \* --silent 'http://foreman.example.com/unattended/built'
+    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --data @/root/install.post.log --noproxy \* --silent --show-error 'http://foreman.example.com/unattended/built'
   elif [ -x /usr/bin/wget ]; then
     /usr/bin/wget -q -O /dev/null --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log --no-proxy 'http://foreman.example.com/unattended/built'
   else
     wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/built'
   fi
   
-  if [ -x "$(command -v subscription-manager)" ] ; then
-    subscription-manager facts --update
+  if [[ $? == 0  ]] ; then
+    echo "Host [snapshot-ipv4-dhcp-rocky8] successfully configured."
+    if [ -x "$(command -v subscription-manager)" ] ; then
+      subscription-manager facts --update
+    fi
+  else
+    echo "Failed to set built status for host [snapshot-ipv4-dhcp-rocky8]."
   fi
+  
 else
   echo "calling home: build failed!"
   if [ -x /usr/bin/curl ]; then
-    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --data @/root/install.post.log --noproxy \* --silent 'http://foreman.example.com/unattended/failed'
+    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --data @/root/install.post.log --noproxy \* --silent --show-error 'http://foreman.example.com/unattended/failed'
   elif [ -x /usr/bin/wget ]; then
     /usr/bin/wget -q -O /dev/null --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log --no-proxy 'http://foreman.example.com/unattended/failed'
   else
     wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/failed'
   fi
   
-  if [ -x "$(command -v subscription-manager)" ] ; then
-    subscription-manager facts --update
+  if [[ $? == 0  ]] ; then
+    echo "Host [snapshot-ipv4-dhcp-rocky8] successfully configured."
+    if [ -x "$(command -v subscription-manager)" ] ; then
+      subscription-manager facts --update
+    fi
+  else
+    echo "Failed to set built status for host [snapshot-ipv4-dhcp-rocky8]."
   fi
+  
 fi
 
 sync

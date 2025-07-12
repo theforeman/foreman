@@ -91,14 +91,7 @@ fi
 trap - ERR
 <%= snippet 'built' %>
 
-if [[ $? == 0 ]] ; then
-  echo "Host [<%= @host.name %>] successfully configured."
-else
-  echo "Host [<%= @host.name %>] successfully configured, but failed to set built status."
-fi
-
 <% if plugin_present?('katello') -%>
-subscription-manager facts --update
 subscription-manager repos
 <% end -%>
 
