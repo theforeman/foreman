@@ -94,7 +94,17 @@ module.exports = [
   'select2',
   'multiselect',
   '@novnc/novnc/core/rfb',
-  
+  'sanitize-html',
+
+  /*
+   * for rh_cloud
+   * /index is a workaround until we find a better way
+  */
+  'unleash-proxy-client',
+  '@unleash/proxy-client-react',
+  '@scalprum/core/index',
+  '@scalprum/react-core/index',
+
   // '@webcomponents/webcomponentsjs/webcomponents-bundle',
   // '@webcomponents/webcomponentsjs/custom-elements-es5-adapter',
 ];

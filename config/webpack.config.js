@@ -22,8 +22,8 @@ const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 const dependencies = packageJson.dependencies || {};
 const devDependencies = packageJson.devDependencies || {};
 const allDependencies = { ...dependencies, ...devDependencies };
-const shared = isPlugin =>
-  Object.keys(allDependencies).map(dep => ({
+const shared = isPlugin => {
+  const sharedArr = Object.keys(allDependencies).map(dep => ({
     [dep]: {
       eager: !isPlugin, // core should load all dependencies eagerly so they will be available for plugins
       singleton: true,
@@ -31,6 +31,33 @@ const shared = isPlugin =>
       import: isPlugin ? false : dep,
     },
   }));
+  return [
+    ...sharedArr,
+    {
+      /*
+      have to use '@scalprum/core/index' in vendor.js entry otherwise we get 
+      Uncaught ReferenceError: __webpack_exports__ is not defined
+      but without need to "convert" @scalprum/core/index to @scalprum/core 
+      so the shared context can find it
+      */
+      '@scalprum/react-core': {
+        eager: !isPlugin,
+        singleton: true,
+        import: isPlugin ? false : '@scalprum/react-core/index',
+        packageName: '@scalprum/react-core',
+      },
+    },
+    {
+      '@scalprum/core': {
+        eager: !isPlugin,
+        singleton: true,
+        import: isPlugin ? false : '@scalprum/core/index',
+        import: '@scalprum/core/index',
+        packageName: '@scalprum/core',
+      },
+    },
+  ];
+};
 
 class AddRuntimeRequirement {
   // to avoid "webpackRequire.l is not a function" error
@@ -97,19 +124,17 @@ const commonConfig = function() {
       },
       alias: {
         'patternfly-react$': path.resolve(
-          __dirname,
-          '..',
+          root,
           'node_modules/patternfly-react/dist/js/index.js'
         ), // to avoid circular dependency in dist/esm
         '/node_modules/jquery': path.resolve(
-          __dirname,
-          '..',
+          root,
           'webpack/assets/javascripts/jquery.js'
         ),
         jquery: path.resolve(root, 'webpack/assets/javascripts/jquery.js'),
         foremanReact: path.join(
-          __dirname,
-          '../webpack/assets/javascripts/react_app'
+          root,
+          '/webpack/assets/javascripts/react_app'
         ),
         'react/jsx-runtime': 'react/jsx-runtime.js', // for react-dnd
         'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js', // for react-dnd
@@ -291,8 +316,7 @@ const pluginConfig = function(plugin) {
     var chunkFilename = '[name]-[chunkhash].js';
   } else {
     var outputPath = path.join(
-      __dirname,
-      '..',
+      root,
       'public',
       'webpack',
       pluginName
