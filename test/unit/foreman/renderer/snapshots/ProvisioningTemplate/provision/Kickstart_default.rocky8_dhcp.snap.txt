@@ -67,9 +67,9 @@ chvt 3
 logger "Starting anaconda snapshot-ipv4-dhcp-rocky8 postinstall"
 
 echo "Updating system time"
-systemctl enable --now chronyd
-/usr/bin/chronyc -a makestep
-/usr/sbin/hwclock --systohc
+        systemctl enable --now chronyd
+    /usr/bin/chronyc -a makestep
+  [ -f /usr/sbin/hwclock ] && /usr/sbin/hwclock --systohc
 
 
 
