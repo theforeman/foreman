@@ -22,7 +22,7 @@ Fedora ships with a too new Ruby. It's recommended to install https://github.com
 sudo dnf install rbenv ruby-build-rbenv nodejs
 echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 source ~/.bashrc
-rbenv install 2.7.6
+rbenv install 3.0.7
 ....
 
 https://github.com/rvm/rvm[RVM] can also be used.
@@ -33,7 +33,7 @@ By default EL8 ships with older versions, but newer modules are available:
 
 [source, bash]
 ....
-dnf module enable ruby:2.7
+dnf module enable ruby:3.0
 dnf module enable postgresql:12
 dnf module enable nodejs:14
 ....
@@ -73,11 +73,11 @@ cp config/database.yml.example config/database.yml
 git remote add upstream git@github.com:theforeman/foreman.git
 ....
 
-If you're using rbenv, now you can configure it to locally use Ruby 2.7:
+If you're using rbenv, now you can configure it to locally use Ruby 3.0:
 
 [source, bash]
 ....
-rbenv local 2.7.6
+rbenv local 3.0.7
 ....
 
 Now you can install the dependencies:
