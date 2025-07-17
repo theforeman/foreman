@@ -121,7 +121,7 @@ module Foreman
       end
 
       def scp_cmd(mask: false)
-        [passwd_cmd(mask: mask), "scp", ssh_options, @template, "#{@username}@#{@address}:#{@remote_script}"].flatten
+        [passwd_cmd(mask: mask), "scp", ssh_options, @template, "#{@username}@#{@address}:#{remote_script}"].flatten
       end
 
       def ssh_options
@@ -160,11 +160,7 @@ module Foreman
       end
 
       def socket_file
-        @socket_file ||= begin
-          file = Tempfile.new("ssh-socket-#{@uuid}")
-          file.close
-          file.path
-        end
+        @socket_file ||= "~/.ssh/ssh-socket-#{@uuid}"
       end
 
       def cleanup_files
@@ -177,7 +173,7 @@ module Foreman
       end
 
       def remote_script
-        @remote_script ||= "~/#{File.basename(@template)}"
+        @remote_script ||= "/tmp/#{File.basename(@template)}"
       end
     end
   end
