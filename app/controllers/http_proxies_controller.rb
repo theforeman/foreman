@@ -24,12 +24,21 @@ class HttpProxiesController < ApplicationController
   end
 
   def test_connection
-    http_proxy = HttpProxy.new(http_proxy_params.merge(name: 'dummy'))
-    unless http_proxy.valid?
-      raise Foreman::Exception, http_proxy.errors.full_messages.join(', ')
+    if params[:http_proxy_id].present?
+      @http_proxy = HttpProxy.authorized(:edit_http_proxies).find(params[:http_proxy_id])
+      # Update attributes except password - preserve existing password
+      form_params = http_proxy_params.except(:password)
+      @http_proxy.attributes = form_params
+    else
+      @http_proxy = HttpProxy.new(http_proxy_params)
+    end
+    @http_proxy.name = 'dummy' # Required for validation
+
+    unless @http_proxy.valid?
+      raise Foreman::Exception, @http_proxy.errors.full_messages.join(', ')
     end
 
-    http_proxy.test_connection(params[:test_url])
+    @http_proxy.test_connection(params[:test_url])
 
     render :json => {:status => 'success', :message => _("HTTP Proxy connection successful.")}, :status => :ok
   rescue => e

@@ -72,4 +72,43 @@ class HttpProxiesControllerTest < ActionController::TestCase
     controller.expects(:render).with(:json => {:status => 'failure', :message => "some error"}, :status => :unprocessable_entity)
     controller.test_connection
   end
+
+  context 'test_connection with  existing proxy' do
+    test 'preserves password when empty password is provided' do
+      existing_proxy = FactoryBot.create(:http_proxy,
+        :name => 'existing_proxy',
+        :url => 'https://old.example.com:8080',
+        :username => 'olduser',
+        :password => 'oldpassword'
+      )
+
+      HttpProxy.any_instance.stubs(:test_connection).returns(true)
+
+      put :test_connection,
+        params: {
+          :http_proxy_id => existing_proxy.id,
+          :http_proxy => {
+            :name => 'updated_name',
+            :url => 'https://new.example.com:8080',
+            :username => 'newuser',
+            :password => '', # Empty password in form (disabled field)
+          },
+          :test_url => 'https://test.example.com',
+        },
+        session: set_session_user
+
+      assert_response :success
+      response_json = JSON.parse(@response.body)
+      assert_equal 'success', response_json['status']
+
+      # Verify that the existing proxy object used for testing still has original password
+      # but updated other attributes
+      assigns(:http_proxy).tap do |proxy|
+        assert_equal 'oldpassword', proxy.password, 'Password should be preserved from database'
+        assert_equal 'https://new.example.com:8080', proxy.url, 'URL should be updated from form'
+        assert_equal 'newuser', proxy.username, 'Username should be updated from form'
+        assert_equal 'dummy', proxy.name, 'Name should be set to dummy for validation'
+      end
+    end
+  end
 end
