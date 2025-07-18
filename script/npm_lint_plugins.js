@@ -30,8 +30,11 @@ try {
   console.error(`Error: ${error.message}`);
 }
 
+const packageJsonDirectories = [
+  './',
+  './node_modules/@theforeman/vendor-core/',
+];
 const errors = [];
-const packageJsonDirectories = ['./'];
 dirsKeys.forEach(dirsKey => {
   let exitCode;
   const pluginPath = allPluginDirs[dirsKey];

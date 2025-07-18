@@ -1,4 +1,6 @@
-const packageJsonDirectories = ['./'];
+const foremanVendorRelative = './node_modules/@theforeman/vendor-core/';
+
+const packageJsonDirectories = ['./', foremanVendorRelative];
 
 module.exports = {
   plugins: [

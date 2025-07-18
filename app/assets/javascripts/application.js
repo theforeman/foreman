@@ -35,31 +35,20 @@ $(document).on('click', 'a[disabled="disabled"]', function(event) {
   return handleDisabledClick(event, this);
 });
 
-const autoUpdateSelect2Titles = function() {
-  const targetNodes = document.querySelectorAll(
-    '.select2-selection__rendered'
-  );
-
-  const config = { attributes: true, attributeFilter: ['title'] };
-
-  const callback = function(mutationsList) {
-    for (let mutation of mutationsList) {
-      if (
-        mutation.type === 'attributes' &&
-        mutation.attributeName === 'title'
-      ) {
-        mutation.target.setAttribute(
-          'data-original-title',
-          mutation.target.getAttribute('title')
-        );
-      }
+const removeSelect2TitlesTooltips = function() {
+  // select2 tooltips dont update and dont close properly
+  $('.select2-selection span').attr('title', '');
+  $('.select2-selection__rendered').attr('title', '');
+  $('.select2-selection__clear').attr('title', '');
+  $(document).on(
+    'select2:select select2:unselecting',
+    '.select2-hidden-accessible',
+    function() {
+      $('.select2-selection span').attr('title', '');
+      $('.select2-selection__rendered').attr('title', '');
+      $('.select2-selection__clear').attr('title', '');
     }
-  };
-
-  targetNodes.forEach(targetNode => {
-    const observer = new MutationObserver(callback);
-    observer.observe(targetNode, config);
-  });
+  );
 };
 
 function onContentLoad() {
@@ -118,33 +107,7 @@ function onContentLoad() {
         .remove();
     });
 
-  const hideSelect2ClearTooltip = function() {
-    $(document).on('blur', '.select2-selection__clear', function() {
-      $('.tooltip').tooltip('hide');
-    });
-
-    const targetNode = document.querySelector('body');
-    const config = { attributes: false, childList: true, subtree: true };
-    const callback = function(mutationsList) {
-      for (let mutation of mutationsList) {
-        if (mutation.type === 'childList') {
-          const node = Array.from(mutation.removedNodes).find(
-            node =>
-              node.classList &&
-              node.classList.contains('select2-selection__clear')
-          );
-          if (node) {
-            $('.tooltip').tooltip('hide');
-          }
-        }
-      }
-    };
-    const observer = new MutationObserver(callback);
-    observer.observe(targetNode, config);
-  };
-
-  hideSelect2ClearTooltip();
-  autoUpdateSelect2Titles();
+  removeSelect2TitlesTooltips();
 }
 
 function preserve_selected_options(elem) {
@@ -412,7 +375,7 @@ function reloadOnAjaxComplete(element) {
   activate_select2(':root');
   tfm.advancedFields.initAdvancedFields();
   tfm.templateInputs.initTypeChanges();
-  autoUpdateSelect2Titles();
+  removeSelect2TitlesTooltips();
 }
 
 function set_fullscreen(element) {

@@ -37,6 +37,7 @@ import DatePicker from './common/DateTimePicker/DatePicker';
 import RedirectCancelButton from './common/RedirectCancelButton';
 import SettingRecords from './SettingRecords';
 import SettingsTable from './SettingsTable';
+import SettingUpdateModal from './SettingUpdateModal';
 import PersonalAccessTokens from './users/PersonalAccessTokens';
 import ClipboardCopy from './common/ClipboardCopy';
 import LabelIcon from './common/LabelIcon';
@@ -140,6 +141,7 @@ const coreComponents = [
   { name: 'RedirectCancelButton', type: RedirectCancelButton },
   { name: 'SettingRecords', type: SettingRecords },
   { name: 'SettingsTable', type: SettingsTable },
+  { name: 'SettingUpdateModal', type: SettingUpdateModal },
   { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
   { name: 'JwtTokens', type: JwtTokens },
   { name: 'ClipboardCopy', type: ClipboardCopy },

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Settings actions should load settings and fail 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "GET_SETTING_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "result": [Error: some-error],
+      "type": "GET_SETTING_FAILURE",
+    },
+  ],
+]
+`;
+
+exports[`Settings actions should load settings and success 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "GET_SETTING_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "response": "some-data",
+      "type": "GET_SETTING_SUCCESS",
+    },
+  ],
+]
+`;

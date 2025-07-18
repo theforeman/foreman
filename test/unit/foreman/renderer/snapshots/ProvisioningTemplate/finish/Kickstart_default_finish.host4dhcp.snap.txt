@@ -7,9 +7,9 @@
 
 
 echo "Updating system time"
-        systemctl enable --now chronyd
-    /usr/bin/chronyc -a makestep
-  [ -f /usr/sbin/hwclock ] && /usr/sbin/hwclock --systohc
+systemctl enable --now chronyd
+/usr/bin/chronyc -a makestep
+/usr/sbin/hwclock --systohc
 
 
 rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
@@ -46,9 +46,9 @@ if [ -z "$PKG_MANAGER" ]; then
     PKG_MANAGER_UPGRADE="${PKG_MANAGER} upgrade -y"
   elif [ -f /etc/debian_version ]; then
     PKG_MANAGER='apt-get'
-    PKG_MANAGER_INSTALL="${PKG_MANAGER} -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' install -y"
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confdef' install -y"
     PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
-    PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confdef' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
   elif [ -f /etc/arch-release ]; then
     PKG_MANAGER='pacman'
     PKG_MANAGER_INSTALL="${PKG_MANAGER} --noconfirm -S"
@@ -260,9 +260,9 @@ if [ -z "$PKG_MANAGER" ]; then
     PKG_MANAGER_UPGRADE="${PKG_MANAGER} upgrade -y"
   elif [ -f /etc/debian_version ]; then
     PKG_MANAGER='apt-get'
-    PKG_MANAGER_INSTALL="${PKG_MANAGER} -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' install -y"
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confdef' install -y"
     PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
-    PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confdef' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
   elif [ -f /etc/arch-release ]; then
     PKG_MANAGER='pacman'
     PKG_MANAGER_INSTALL="${PKG_MANAGER} --noconfirm -S"

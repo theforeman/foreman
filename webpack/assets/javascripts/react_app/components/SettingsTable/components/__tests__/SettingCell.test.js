@@ -6,7 +6,7 @@ import {
   withoutFullName,
 } from '../../../SettingRecords/__tests__/SettingRecords.fixtures';
 
-import SettingValue from '../SettingValue';
+import SettingCell from '../SettingCell';
 
 const fixtures = {
   'render ordinary': {
@@ -21,4 +21,4 @@ const fixtures = {
 };
 
 describe('SettingCell', () =>
-  testComponentSnapshotsWithFixtures(SettingValue, fixtures));
+  testComponentSnapshotsWithFixtures(SettingCell, fixtures));

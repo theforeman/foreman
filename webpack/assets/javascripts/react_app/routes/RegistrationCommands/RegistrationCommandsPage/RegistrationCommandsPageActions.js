@@ -1,4 +1,4 @@
-import { foremanUrl } from '../../../common/helpers';
+import { foremanUrl } from '../../../../foreman_tools';
 import { get, post } from '../../../redux/API';
 
 import {

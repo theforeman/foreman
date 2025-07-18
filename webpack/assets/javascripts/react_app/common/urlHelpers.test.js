@@ -1,5 +1,5 @@
 import { mockWindowLocation } from './testHelpers';
-import { visit } from './helpers';
+import { visit } from '../../foreman_navigation';
 import {
   urlBuilder,
   urlWithSearch,
@@ -12,7 +12,6 @@ import {
   exportURL,
 } from './urlHelpers';
 
-jest.mock('./helpers')
 describe('urlBuilder', () => {
   const controller = 'testController';
   const action = 'testAction';

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import './APITestSetup';
-import { foremanUrl } from '../../common/helpers';
+import { foremanUrl } from '../../../foreman_tools';
 
 const getcsrfToken = () => {
   const token = document.querySelector('meta[name="csrf-token"]');

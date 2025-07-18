@@ -1,5 +1,5 @@
 import { API } from '../../../../redux/API';
-import { foremanUrl } from '../../../../common/helpers';
+import { foremanUrl } from '../../../../../foreman_tools';
 
 import { addToast } from '../../../ToastsList';
 

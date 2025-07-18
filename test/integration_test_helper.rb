@@ -393,9 +393,6 @@ class IntegrationTestWithJavascript < ActionDispatch::IntegrationTest
 
   def before_setup
     Capybara.current_driver = Capybara.javascript_driver
-    Capybara.add_selector(:ouia_component_id) do
-      css { |value| %[*[data-ouia-component-id="#{value}"]] }
-    end
     super
   end
 end

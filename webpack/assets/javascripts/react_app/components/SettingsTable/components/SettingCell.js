@@ -1,27 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { sprintf, translate as __ } from '../../../common/I18n';
-import {
-  hasDefault,
-  withTooltip,
-  defaultToString,
-  valueToString,
-} from '../SettingsTableHelpers';
 
-const innerCell = props => {
-  const { setting } = props;
+import { withTooltip, defaultToString } from '../SettingsTableHelpers';
 
-  let field = <>{valueToString(setting)}</>;
+import SettingCellInner from './SettingCellInner';
 
-  if (setting.value !== setting.default && hasDefault(setting))
-    field = <strong>{field}</strong>;
-  return field;
-};
+import './SettingCell.scss';
 
-const SettingValue = ({ setting }) => {
+const SettingCell = ({ setting, className }) => {
   const fieldProps = {
     setting,
     tooltipId: setting.name,
+    className,
   };
 
   if (setting.readonly) {
@@ -36,17 +28,17 @@ const SettingValue = ({ setting }) => {
     fieldProps.tooltipText = sprintf(__('Default: %s'), defaultStr);
   }
 
-  const Component = withTooltip(innerCell);
+  const Component = withTooltip(SettingCellInner);
   return <Component {...fieldProps} />;
 };
 
-SettingValue.propTypes = {
+SettingCell.propTypes = {
   setting: PropTypes.object.isRequired,
   className: PropTypes.string,
 };
 
-SettingValue.defaultProps = {
+SettingCell.defaultProps = {
   className: '',
 };
 
-export default SettingValue;
+export default SettingCell;
