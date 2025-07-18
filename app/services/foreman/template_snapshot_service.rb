@@ -68,6 +68,7 @@ module Foreman
     def define_host_params(host)
       host_params = {
         "enable-epel" => "true",
+        "kdump-options" => "--disable",
         "package_upgrade" => "true",
         "ansible_tower_provisioning" => "true",
         "ansible_tower_api_url" => "https://host.example.com/api/controller/v2",
@@ -89,6 +90,7 @@ module Foreman
         "ansible_ssh_pass" => "win_ansible_user_ssh_pass",
         "remote_desktop" => "true",
         "realm" => "true",
+        "ntp-pools" => ['first.ntp-pool', 'second.ntp-pool'],
       }
       host_params.each_pair do |name, value|
         FactoryBot.build(:host_parameter, host: host, name: name, value: value)

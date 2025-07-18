@@ -453,10 +453,7 @@ class HostsController < ApplicationController
     end
 
     # update the hosts
-    @hosts.each do |host|
-      host.is_owned_by = id
-      host.save(:validate => false)
-    end
+    BulkHostsManager.new(hosts: @hosts).change_owner(id)
 
     success _('Updated hosts: changed owner')
     redirect_back_or_to helpers.current_hosts_path
@@ -554,9 +551,7 @@ class HostsController < ApplicationController
   end
 
   def update_multiple_disassociate
-    @hosts.each do |host|
-      host.disassociate!
-    end
+    BulkHostsManager.new(hosts: @hosts).disassociate
     success _('Updated hosts: Disassociated from VM')
     redirect_back_or_to helpers.current_hosts_path
   end

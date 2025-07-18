@@ -3,7 +3,7 @@
   <tr>
     <th colspan='2' class='col-md-5'><%= _('Attribute type') %>
       <span class="help-inline">
-        <%= popover("", _("Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."),
+        <%= popover("", _("Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code>domain = example.com</code> or <code>hostgroup = webserver</code>."),
                     :title => _("Explain matchers")).html_safe %>
       </span></th>
     <% if is_param %>

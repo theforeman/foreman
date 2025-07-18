@@ -21,6 +21,7 @@ class HostJSTest < IntegrationTestWithJavascript
     as_admin { @host = FactoryBot.create(:host, :managed) }
     Fog.mock!
     Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Libvirt::Compute::Node.new(:cpus => 4))
+    Setting[:new_hosts_page] = false
   end
 
   after do

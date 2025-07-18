@@ -204,6 +204,13 @@ export const formatDateTime = date => {
 // generates an absolute, needed in case of running Foreman from a subpath
 export const foremanUrl = path => `${window.URL_PREFIX}${path}`;
 
+export const visit = url => {
+  window.location.href = url;
+};
+
+export const reloadPage = () => {
+  window.location.reload();
+};
 export default {
   isoCompatibleDate,
   bindMethods,
@@ -224,4 +231,6 @@ export default {
   formatDateTime,
   foremanUrl,
   getWikiURL,
+  visit,
+  reloadPage,
 };

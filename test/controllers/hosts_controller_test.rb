@@ -218,7 +218,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference('Host.unscoped.count', -1) do
       delete :destroy, params: { :id => @host.name }, session: set_session_user
     end
-    assert_redirected_to hosts_url
+    assert_redirected_to new_hosts_index_page_url
   end
 
   test "when host is not saved after setBuild, the flash should inform it" do
@@ -434,13 +434,13 @@ class HostsControllerTest < ActionController::TestCase
 
   test 'multiple without hosts' do
     post :update_multiple_hostgroup, session: set_session_user
-    assert_redirected_to hosts_url
+    assert_redirected_to new_hosts_index_page_url
     assert_equal "No hosts selected", flash[:error]
 
     # now try to pass an invalid id
     post :update_multiple_hostgroup, params: { :host_ids => [-1], :host_names => ["no.such.host"] }, session: set_session_user
 
-    assert_redirected_to hosts_url
+    assert_redirected_to new_hosts_index_page_url
     assert_equal "No hosts were found with that id, name or query filter", flash[:error]
   end
 
@@ -777,6 +777,7 @@ class HostsControllerTest < ActionController::TestCase
     end
 
     def multiple_hosts_submit_request(method, ids, success, params = {})
+      Setting[:new_hosts_page] = false
       post :"submit_multiple_#{method}", params: params.merge({:host_ids => ids}), session: set_session_user
       assert_response :found
       assert_redirected_to current_hosts_path
@@ -810,7 +811,7 @@ class HostsControllerTest < ActionController::TestCase
       :location => {:id => location.id, :optimistic_import => "no"},
       :host_ids => Host.pluck('hosts.id'),
     }, session: set_session_user
-    assert_redirected_to :controller => :hosts, :action => :index
+    assert_redirected_to new_hosts_index_page_path
     assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
   end
   test "update multiple location does not update location of hosts if fails on pessimistic import" do
@@ -845,7 +846,7 @@ class HostsControllerTest < ActionController::TestCase
         :host_ids => Host.pluck('hosts.id'),
       }, session: set_session_user
     end
-    assert_redirected_to :controller => :hosts, :action => :index
+    assert_redirected_to new_hosts_index_page_path
     assert_equal "Updated hosts: Changed Location", flash[:success]
   end
   test "update multiple location imports taxable_taxonomies rows if succeeds on optimistic import" do
@@ -869,7 +870,7 @@ class HostsControllerTest < ActionController::TestCase
       :organization => {:id => organization.id, :optimistic_import => "no"},
       :host_ids => Host.pluck('hosts.id'),
     }, session: set_session_user
-    assert_redirected_to :controller => :hosts, :action => :index
+    assert_redirected_to new_hosts_index_page_path
     assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
   end
   test "update multiple organization does not update organization of hosts if fails on pessimistic import" do
@@ -901,7 +902,7 @@ class HostsControllerTest < ActionController::TestCase
       :organization => {:id => organization.id, :optimistic_import => "yes"},
       :host_ids => Host.pluck('hosts.id'),
     }, session: set_session_user
-    assert_redirected_to :controller => :hosts, :action => :index
+    assert_redirected_to new_hosts_index_page_path
     assert_equal "Updated hosts: Changed Organization", flash[:success]
   end
   test "update multiple organization succeeds with search" do
@@ -914,7 +915,7 @@ class HostsControllerTest < ActionController::TestCase
       organization: {id: organization2.id, optimistic_import: 'yes'},
       search: 'domain ~ example',
     }, session: set_session_user
-    assert_redirected_to :controller => :hosts, :action => :index
+    assert_redirected_to new_hosts_index_page_path
     assert_equal "Updated hosts: Changed Organization", flash[:success]
 
     hosts = hosts.map(&:reload)

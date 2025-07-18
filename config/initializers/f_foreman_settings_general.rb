@@ -54,7 +54,7 @@ Foreman::SettingManager.define(:foreman) do
     setting('new_hosts_page',
       type: :boolean,
       description: N_("Whether or not to show the new overview page for All Hosts"),
-      default: false,
+      default: true,
       full_name: N_('Show New Host Overview Page'))
     setting('display_fqdn_for_hosts',
       type: :boolean,

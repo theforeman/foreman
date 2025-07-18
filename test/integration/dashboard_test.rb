@@ -7,6 +7,7 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
   def setup
     Dashboard::Manager.reset_user_to_default(users(:admin))
     Setting[:outofsync_interval] = 35
+    Setting[:new_hosts_page] = false
   end
 
   def assert_dashboard_link(text)

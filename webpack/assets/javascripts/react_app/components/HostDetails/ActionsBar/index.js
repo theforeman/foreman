@@ -16,10 +16,9 @@ import {
   BuildIcon,
   TerminalIcon,
 } from '@patternfly/react-icons';
-import { visit } from '../../../../foreman_navigation';
 import { translate as __ } from '../../../common/I18n';
 import { selectKebabItems } from './Selectors';
-import { foremanUrl } from '../../../common/helpers';
+import { visit, foremanUrl } from '../../../common/helpers';
 import { cancelBuild, deleteHost, isHostTurnOn } from './actions';
 import {
   useForemanSettings,

@@ -6,25 +6,45 @@ snippet: true
 description: |
   The snippet configuring the system time using a given NTP server
   It respects the following parameters:
+
+  Parameters:
   - use-ntp: boolean (default depends on OS release)
   - ntp-server: string (default=undef)
 -%>
 <%
-rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
-is_fedora = @host.operatingsystem.name == 'Fedora'
+os_family = @host.operatingsystem.family
 os_major = @host.operatingsystem.major.to_i
-use_ntp = host_param_true?('use-ntp', (is_fedora && os_major < 16) || (rhel_compatible && os_major <= 6))
+ntp_server = host_param('ntp-server')
 -%>
 
 echo "Updating system time"
-<% if use_ntp -%>
-yum -y install ntpdate
-  <% if host_param('ntp-server') -%>
-/usr/sbin/ntpdate -sub <%= host_param('ntp-server') %>
+<% if os_family == 'Debian' -%>
+  <% if ntp_server -%>
+    <% if @host.operatingsystem.name == "Ubuntu" -%>
+      sed -i -E 's/^[[:space:]]*#?\s*NTP=.*/NTP=<%= ntp_server %>/' /etc/systemd/timesyncd.conf
+      systemctl enable --now systemd-timesyncd
+      timedatectl set-ntp true
+    <% else -%>
+      apt-get install -y chrony
+      sed -i -E 's|^pool .*|server <%= ntp_server %> iburst|' /etc/chrony/chrony.conf
+      systemctl enable --now chrony
+    <% end -%>
   <% end -%>
-systemctl enable --now ntpd
-<% else -%>
-systemctl enable --now chronyd
-/usr/bin/chronyc -a makestep
+<% elsif os_family == 'Redhat' -%>
+  <%
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  is_fedora = @host.operatingsystem.name == 'Fedora'
+  use_ntp = host_param_true?('use-ntp', (is_fedora && os_major < 16) || (rhel_compatible && os_major <= 6))
+  -%>
+  <% if use_ntp -%>
+    yum -y install ntpdate
+    <% if host_param('ntp-server') -%>
+      /usr/sbin/ntpdate -sub <%= host_param('ntp-server') %>
+    <% end -%>
+    systemctl enable --now ntpd
+  <% else -%>
+    systemctl enable --now chronyd
+    /usr/bin/chronyc -a makestep
+  <% end -%>
 <% end -%>
-/usr/sbin/hwclock --systohc
+[ -f /usr/sbin/hwclock ] && /usr/sbin/hwclock --systohc

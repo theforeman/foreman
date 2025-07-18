@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { visit } from '../../../../foreman_navigation';
-import { foremanUrl } from '../../../common/helpers';
+import { visit, foremanUrl } from '../../../common/helpers';
 import { sprintf, translate as __ } from '../../../common/I18n';
 import { openConfirmModal } from '../../ConfirmModal';
 import { APIActions } from '../../../redux/API';

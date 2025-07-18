@@ -38,6 +38,7 @@ description: |
   - enable-official-puppet8-repo: boolean (default=false)
   - skip-puppet-setup: boolean (default=false)
   - salt_master: string (default=undef)
+  - ntp-pools: array (default=undef)
   - ntp-server: string (default=undef)
   - bootloader-append: string (default="nofb quiet splash=quiet")
   - disable-firewall: boolean (default=false)
@@ -140,10 +141,9 @@ firewall --disable
 firewall --<%= os_major >= 6 ? 'service=' : '' %>ssh
 <% end -%>
 <%# Kdump -%>
-<%# Ignore empty strings, & because .presence isn't allowed on nil
-See https://github.com/theforeman/foreman/pull/10507 -%>
-<% if host_param('kdump-options')&.presence -%>
+<% if host_param('kdump-options').present? -%>
 %addon com_redhat_kdump <%= host_param('kdump-options') %>
+%end
 <% end -%>
 <%# Authentication options -%>
 <% if (is_fedora && os_major >= 28) || (rhel_compatible && os_major > 7) -%>
@@ -156,7 +156,11 @@ authconfig --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downca
 timezone --utc <%= host_param('time-zone') || 'UTC' %> <%= host_param('ntp-server') ? "--ntpservers #{host_param('ntp-server')}" : '' %>
 <% else -%>
 timezone --utc <%= host_param('time-zone') || 'UTC' %>
-<% if host_param('ntp-server') -%>
+<% if host_param('ntp-pools') -%>
+<% host_param('ntp-pools').each do |ntppool| -%>
+timesource --ntp-pool <%= ntppool %>
+<% end -%>
+<% elsif host_param('ntp-server') -%>
 timesource --ntp-server <%= host_param('ntp-server') %>
 <% end -%>
 <% end -%>

@@ -37,7 +37,7 @@ const StatusTable = ({ hostName, statuses, canForgetStatuses }) => {
   const columns = [__('Name'), __('Status'), __('Reported at')];
   const rows = statuses?.map(
     ({ name, label, link, global, reported_at: reportedAt }) => [
-      link ? { title: <a href={link}>{name}</a> } : name,
+      link ? { title: <a href={link}>{__(name)}</a> } : __(name),
       { title: <StatusIcon statusNumber={global} label={label} /> },
       {
         title: (

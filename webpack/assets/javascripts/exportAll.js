@@ -20,9 +20,11 @@ function generateExports(directoryPath, exportFileContent = '') {
         !dirent.name.endsWith('.fixtures.js') &&
         !dirent.name.endsWith('mockRequests.js') &&
         !dirent.name.endsWith('vendor-core.scss') &&
+        !dirent.name.endsWith('jquery.js') &&
         !fileNameWithoutExtension.includes('TestHelper') &&
         !fileNameWithoutExtension.includes('testHelper') &&
-        !fileNameWithoutExtension.includes('APITestSetup')
+        !fileNameWithoutExtension.includes('APITestSetup') &&
+        !fileNameWithoutExtension.includes('vendor-core.scss')
       ) {
         let relativeFilePath = path.relative(
           __dirname,
