@@ -1,6 +1,6 @@
 # Base container that is used for both building and running the app
 FROM quay.io/centos/centos:stream9 as base
-ARG NODEJS_VERSION="18"
+ARG NODEJS_VERSION="22"
 ENV FOREMAN_FQDN=foreman.example.com
 ENV FOREMAN_DOMAIN=example.com
 
