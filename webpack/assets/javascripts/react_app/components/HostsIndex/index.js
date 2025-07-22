@@ -277,6 +277,14 @@ const HostsIndex = () => {
       {__('Build management')}
     </MenuItem>,
     <MenuItem
+      itemId="disassociate-dropdown-item"
+      key="disassociate-dropdown-item"
+      onClick={setDisassociateModalOpen}
+      isDisabled={selectedCount === 0}
+    >
+      {__('Disassociate hosts')}
+    </MenuItem>,
+    <MenuItem
       itemId="host-association-dropdown-item"
       key="host-association-dropdown-item"
       isDisabled={selectedCount === 0}
@@ -294,6 +302,14 @@ const HostsIndex = () => {
                 isDisabled={selectedCount === 0}
               >
                 {__('Host group')}
+              </MenuItem>
+              <MenuItem
+                itemId="change-owner-dropdown-item"
+                key="change-owner-dropdown-item"
+                onClick={setChangeOwnerModalOpen}
+                isDisabled={selectedCount === 0}
+              >
+                {__('Owner')}
               </MenuItem>
               <MenuItem
                 itemId="assign-organization-dropdown-item"
@@ -317,22 +333,6 @@ const HostsIndex = () => {
       }
     >
       {__('Change associations')}
-    </MenuItem>,
-    <MenuItem
-      itemId="change-owner-dropdown-item"
-      key="change-owner-dropdown-item"
-      onClick={setChangeOwnerModalOpen}
-      isDisabled={selectedCount === 0}
-    >
-      {__('Change owner')}
-    </MenuItem>,
-    <MenuItem
-      itemId="disassociate-dropdown-item"
-      key="disassociate-dropdown-item"
-      onClick={setDisassociateModalOpen}
-      isDisabled={selectedCount === 0}
-    >
-      {__('Disassociate hosts')}
     </MenuItem>,
   ];
 
