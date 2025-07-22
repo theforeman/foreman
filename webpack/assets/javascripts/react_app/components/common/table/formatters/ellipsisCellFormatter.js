@@ -1,6 +1,5 @@
 import React from 'react';
-import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
+import { Truncate } from '@patternfly/react-core';
 import cellFormatter from './cellFormatter';
 
-export default value =>
-  cellFormatter(<EllipsisWithTooltip>{value || ''}</EllipsisWithTooltip>);
+export default value => cellFormatter(<Truncate content={value || ''} />);

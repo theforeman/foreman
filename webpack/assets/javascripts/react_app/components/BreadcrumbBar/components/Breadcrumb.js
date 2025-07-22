@@ -6,8 +6,8 @@ import {
   BreadcrumbItem,
   TextContent,
   Text,
+  Truncate,
 } from '@patternfly/react-core';
-import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import './Breadcrumbs.scss';
 
 const Breadcrumb = ({
@@ -40,9 +40,7 @@ const Breadcrumb = ({
         if (!icon && !itemTitle) return null;
 
         const inner = active ? (
-          <EllipsisWithTooltip placement="bottom">
-            {itemTitle}
-          </EllipsisWithTooltip>
+          <Truncate content={itemTitle} tooltipPosition="bottom" />
         ) : (
           itemTitle
         );

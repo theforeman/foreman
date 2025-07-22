@@ -43,11 +43,10 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
     key="2"
   >
      
-    <EllipisWithTooltip
-      placement="bottom"
-    >
-      active child
-    </EllipisWithTooltip>
+    <Truncate
+      content="active child"
+      tooltipPosition="bottom"
+    />
   </BreadcrumbItem>
 </Breadcrumb>
 `;
@@ -65,11 +64,10 @@ exports[`Breadcrumbs renders h1 title 1`] = `
     key="0"
   >
      
-    <EllipisWithTooltip
-      placement="bottom"
-    >
-      title
-    </EllipisWithTooltip>
+    <Truncate
+      content="title"
+      tooltipPosition="bottom"
+    />
   </BreadcrumbItem>
 </Breadcrumb>
 `;
@@ -102,11 +100,10 @@ exports[`Breadcrumbs renders title override 1`] = `
     key="1"
   >
      
-    <EllipisWithTooltip
-      placement="bottom"
-    >
-      override title
-    </EllipisWithTooltip>
+    <Truncate
+      content="override title"
+      tooltipPosition="bottom"
+    />
   </BreadcrumbItem>
 </Breadcrumb>
 `;

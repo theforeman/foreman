@@ -19,7 +19,6 @@ module.exports = [
   'react-dnd-html5-backend',
   'react-debounce-input',
   'react-diff-view',
-  'react-ellipsis-with-tooltip',
   'react-onclickoutside',
   'react-password-strength',
   'react-router-dom',
