@@ -92,7 +92,7 @@
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.2.0",
     "redux": "^4.0.4",
-    "regenerator-runtime": "^0.13.3",
+    "regenerator-runtime": "0.14.1",
     "reselect": "^3.0.1",
     "sanitize-html": "2.3.2",
     "seamless-immutable": "^7.1.2",
