@@ -11,7 +11,15 @@ import {
 const innerCell = props => {
   const { setting } = props;
 
-  let field = <>{valueToString(setting)}</>;
+  let field = (
+    <div
+      className={
+        setting.value || setting.settingsType === 'boolean' ? '' : 'empty-value'
+      }
+    >
+      {valueToString(setting)}
+    </div>
+  );
 
   if (setting.value !== setting.default && hasDefault(setting))
     field = <strong>{field}</strong>;

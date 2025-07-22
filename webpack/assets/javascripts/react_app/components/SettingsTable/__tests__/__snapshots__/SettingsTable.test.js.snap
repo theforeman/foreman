@@ -3,6 +3,7 @@
 exports[`SettingsTableSnapshot should render 1`] = `
 <Table
   borders={true}
+  id="settings-table"
   isStriped={true}
   ouiaId="settings-table"
   variant="compact"

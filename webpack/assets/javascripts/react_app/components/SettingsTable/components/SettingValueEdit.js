@@ -72,6 +72,11 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
   };
 
   const handleSubmit = () => {
+    if (value !== '' && value.trim() === '') {
+      setErrMsg(__('Invalid value'));
+      return;
+    }
+
     setLoading(true);
     setErrMsg(null);
 
@@ -91,9 +96,11 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
       handleError: errorCallback,
       errorToast: error => {
         const msg =
+          error.response?.data?.error?.message ||
           // eslint-disable-next-line camelcase
-          error.response?.data?.error?.full_messages ??
-          error.response?.data?.error?.errors?.value[0];
+          error.response?.data?.error?.full_messages ||
+          error.response?.data?.error?.errors?.value[0] ||
+          error.response?.data?.errors?.value[0];
         setErrMsg(msg);
         return `${__('Error updating setting')}: ${msg}`;
       },

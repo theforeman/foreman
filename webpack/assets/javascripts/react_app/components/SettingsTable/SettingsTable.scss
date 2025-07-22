@@ -1,0 +1,10 @@
+@import '../../common/variables';
+
+#settings-table {
+    .pf-v5-c-table__tr .pf-v5-c-table__td .setting-value{
+        overflow-wrap: anywhere;
+    }
+    .empty-value{
+        color: var(--pf-v5-global--Color--200);
+    }
+}

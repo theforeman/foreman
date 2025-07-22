@@ -7,6 +7,8 @@ import { translate as __ } from '../../common/I18n';
 import SettingValueCell from './components/SettingValueCell';
 import SettingNameCell from './components/SettingName';
 
+import './SettingsTable.scss';
+
 const TableHead = () => (
   <Thead>
     <Tr ouiaId="setting-table-heading-row">
@@ -20,18 +22,24 @@ const TableHead = () => (
 const ViewRows = ({ settings }) =>
   settings.map((data, index) => (
     <Tr key={index} ouiaId={`setting-table-heading-row-${index}`}>
-      <Td>
+      <Td width={30}>
         <SettingNameCell setting={data} />
       </Td>
-      <Td>
+      <Td width={35}>
         <SettingValueCell setting={data} index={index} />
       </Td>
-      <Td>{data.description}</Td>
+      <Td width={35}>{data.description}</Td>
     </Tr>
   ));
 
 const SettingsTable = ({ settings }) => (
-  <Table isStriped variant="compact" ouiaId="settings-table" borders>
+  <Table
+    isStriped
+    variant="compact"
+    ouiaId="settings-table"
+    borders
+    id="settings-table"
+  >
     <TableHead />
     <Tbody>
       <ViewRows settings={settings} />

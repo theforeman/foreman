@@ -23,20 +23,21 @@ const SettingValueCell = ({ setting, index }) => {
         <Flex
           justifyContent={{ default: 'justifyContentSpaceBetween' }}
           alignItems={{ default: 'alignItemsCenter' }}
-          flexWrap={{ default: 'nowrap' }}
         >
-          <FlexItem>
+          <FlexItem className="setting-value">
             <SettingValue setting={settingData} />
           </FlexItem>
           <FlexItem>
-            <Button
-              onClick={() => setEditingRow(true)}
-              variant="plain"
-              ouiaId={`edit-row-${index}-icon`}
-              id={setting.name}
-            >
-              <PencilAltIcon />
-            </Button>
+            {!setting.readonly && (
+              <Button
+                onClick={() => setEditingRow(true)}
+                variant="plain"
+                ouiaId={`edit-row-${index}-icon`}
+                id={setting.name}
+              >
+                <PencilAltIcon />
+              </Button>
+            )}
           </FlexItem>
         </Flex>
       )}
