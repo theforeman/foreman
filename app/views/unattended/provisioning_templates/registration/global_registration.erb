@@ -86,7 +86,14 @@ EOF
     echo "Building yum metadata cache, this may take a few minutes"
     $PKG_MANAGER makecache
   else
-    zypper --quiet --non-interactive addrepo /tmp/foreman_registration.repo
+    REPO_OPTIONS=""
+    <% if repo_gpg_key_url.present? -%>
+    <%= generate_web_request(utility: @download_utility, url: shell_escape(repo_gpg_key_url)) %> >/tmp/repo_gpg.key
+    rpm --import /tmp/repo_gpg.key
+    rm -f /tmp/repo_gpg.key
+    REPO_OPTIONS='--gpgcheck-allow-unsigned-repo'
+    <% end -%>
+    zypper --quiet --non-interactive addrepo $REPO_OPTIONS /tmp/foreman_registration.repo
   fi
 elif [ -f /etc/debian_version ]; then
   <%= save_to_file("/etc/apt/sources.list.d/foreman_registration#{index}.list", repo) %>
