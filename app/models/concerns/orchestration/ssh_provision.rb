@@ -43,11 +43,11 @@ module Orchestration::SshProvision
   def setSSHWaitForResponse
     logger.info "Starting SSH provisioning script - waiting for #{provision_host} to respond"
     if compute_resource.respond_to?(:key_pair) && compute_resource.key_pair.try(:secret)
-      credentials = { :key_data => compute_resource.key_pair.secret }
+      credentials = { :key_data => [compute_resource.key_pair.secret] }
     elsif vm.respond_to?(:password) && vm.password.present?
-      credentials = { :password => vm.password }
+      credentials = { :password => vm.password, :auth_methods => ["password", "keyboard-interactive"] }
     elsif image.respond_to?(:password) && image.password.present?
-      credentials = { :password => image.password }
+      credentials = { :password => image.password, :auth_methods => ["password", "keyboard-interactive"] }
     else
       raise ::Foreman::Exception.new(N_('Unable to find proper authentication method'))
     end
