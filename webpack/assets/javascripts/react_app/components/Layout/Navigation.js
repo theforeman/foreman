@@ -8,7 +8,7 @@ import {
   NavExpandable,
   NavItemSeparator,
 } from '@patternfly/react-core';
-import { getCurrentPath } from './LayoutHelper';
+import { getCurrentPath, cleanNavPath } from './LayoutHelper';
 import { NavigationSearch } from './NavigationSearch';
 import {
   useForemanOrganization,
@@ -114,7 +114,7 @@ const Navigation = ({
     groupedItems.some(({ groups }) =>
       groups.some(({ groupItems, title }) =>
         groupItems.some(({ href }) => {
-          if (href === pathFragment(getCurrentPath())) {
+          if (cleanNavPath(href) === pathFragment(getCurrentPath())) {
             setCurrentExpandedSecondary(title);
             return true;
           }

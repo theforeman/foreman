@@ -2,6 +2,7 @@
 
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
+import URI from 'urijs';
 import { translate as __ } from '../../common/I18n';
 import {
   removeLastSlashFromPath,
@@ -23,6 +24,12 @@ export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
 
 export const getCurrentPath = () =>
   removeLastSlashFromPath(window.location.pathname);
+
+export const cleanNavPath = href => {
+  if (!href) return href;
+  const uri = new URI(href);
+  return uri.pathname();
+};
 
 export const combineMenuItems = (data, displayNewHostsPage) => {
   const items = [];
