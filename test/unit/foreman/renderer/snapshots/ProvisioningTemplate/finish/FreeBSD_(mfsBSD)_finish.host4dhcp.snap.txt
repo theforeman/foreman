@@ -13,7 +13,7 @@ echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 /bin/hostname snapshot-ipv4-dhcp-el7
 cp /usr/share/zoneinfo/UTC /etc/localtime
 adjkerntz -a
-ntpdate 0.freebsd.pool.ntp.org
+ntpdate first.ntp.server
 
 mkdir /root/install/
 freebsd-update fetch > /root/install/freebsd-update_fetch.txt

@@ -23,7 +23,10 @@ runcmd:
 - |
   
   echo "Updating system time"
-    [ -f /usr/sbin/hwclock ] && /usr/sbin/hwclock --systohc
+              sed -i -E 's/^[[:space:]]*#?\s*NTP=.*/NTP=first.ntp.server/' /etc/systemd/timesyncd.conf
+        systemctl enable --now systemd-timesyncd
+        timedatectl set-ntp true
+        [ -f /usr/sbin/hwclock ] && /usr/sbin/hwclock --systohc
 - |
   
   # Select package manager for the OS (sets the $PKG_MANAGER* variables)

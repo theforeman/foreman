@@ -91,6 +91,7 @@ module Foreman
         "remote_desktop" => "true",
         "realm" => "true",
         "ntp-pools" => ['first.ntp-pool', 'second.ntp-pool'],
+        "ntp-server" => "first.ntp.server",
       }
       host_params.each_pair do |name, value|
         FactoryBot.build(:host_parameter, host: host, name: name, value: value)

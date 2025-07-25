@@ -28,7 +28,7 @@
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
       <peer>
-        <address>0.opensuse.pool.ntp.org</address>
+        <address>first.ntp.server</address>
         <initial_sync config:type="boolean">true</initial_sync>
         <options></options>
         <type>server</type>

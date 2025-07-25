@@ -9,8 +9,8 @@ system {
                 192.168.42.3;
             }
     ntp {
-        boot-server 0.pool.ntp.org;
-        server 0.pool.ntp.org;
+        boot-server first.ntp.server;
+        server first.ntp.server;
     }
     login {
         message "This device was provisioned by using The Foreman!\nSee http://theforeman.org/ for further information.\n";

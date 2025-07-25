@@ -2,6 +2,14 @@
 
 
 
+echo "Updating system time"
+            apt-get install -y chrony
+      sed -i -E 's|^pool .*|server first.ntp.server iburst|' /etc/chrony/chrony.conf
+      systemctl enable --now chrony
+      [ -f /usr/sbin/hwclock ] && /usr/sbin/hwclock --systohc
+
+
+
 
 
 # Select package manager for the OS (sets the $PKG_MANAGER* variables)
