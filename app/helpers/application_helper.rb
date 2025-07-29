@@ -64,7 +64,8 @@ module ApplicationHelper
   end
 
   def current_host_details_path(host)
-    Setting['host_details_ui'] ? host_details_page_path(host) : host_path(host)
+    route_param = host.name.present? ? host : host.id
+    Setting['host_details_ui'] ? host_details_page_path(route_param) : host_path(route_param)
   end
 
   protected

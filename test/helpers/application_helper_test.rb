@@ -114,4 +114,23 @@ class ApplicationHelperTest < ActionView::TestCase
         '<a class="btn" href="javascript:foo()">link</a>')
     end
   end
+
+  describe 'host details ui path generation' do
+    setup do
+      Setting[:host_details_ui] = true
+      @host = FactoryBot.create(:host, :name => 'test-host')
+    end
+
+    test 'current_host_details_path generates path with host name when present' do
+      result = current_host_details_path(@host)
+      assert_equal "/new/hosts/#{@host.name}", result
+    end
+
+    test 'current_host_details_path falls back to host id for host without a name' do
+      @host.name = ''
+
+      result = current_host_details_path(@host)
+      assert_equal "/new/hosts/#{@host.id}", result
+    end
+  end
 end
