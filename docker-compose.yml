@@ -1,31 +1,51 @@
-version: '3.4'
+## Updated to work with the latest version of 
+## Foreman. Implemented fix for missing tables
+## in the database by running rake. 
+
+## To set the default admin user password run the
+## following after running: docker compose up -d
+## and waiting for all containers to become healthy
+##
+## docker exec container-name-here bundle exec bin/rake permissions:reset username=admin password=admin
+
+version: '3.5'
+name: foreman
+
 services:
   db:
-    environment:
-      - POSTGRES_USER=foreman
-      - POSTGRES_PASSWORD=foreman
-      - POSTGRES_DATABASE=foreman
-      - PGDATA=/var/lib/postgresql/data/pgdata
+    image: postgres:17-alpine
+    restart: unless-stopped
     hostname: db.example.com
-    image: postgres:12
+    environment:
+      - POSTGRES_PASSWORD=foreman
+      - PGDATA=/var/lib/postgresql/data
     ports:
       - '5432'
-    restart: always
+    networks:
+      - foreman_net
     healthcheck:
-      test: ["CMD-SHELL", "nc -z 127.0.0.1 5432 || exit 1"]
-      interval: 30s
-      timeout: 30s
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
       retries: 3
     volumes:
       - db:/var/lib/postgresql/data
 
   app: &app_base
     image: quay.io/foreman/foreman:develop
-    command: bundle exec bin/rails server -b 0.0.0.0
+    networks:
+      - foreman_net
+    command: 
+      - /bin/bash
+      - -c
+      - |
+        bundle exec bin/rake db:reset
+        bundle exec bin/rake db:migrate
+        bundle exec bin/rails server -b 0.0.0.0
     build:
       context: .
     environment:
-      - DATABASE_URL=postgres://foreman:foreman@db/foreman?pool=5
+      - DATABASE_URL=postgres://postgres:foreman@db:5432/foreman?pool=5
       - RAILS_MAX_THREADS=5
       - RAILS_ENV=production
       - FOREMAN_FQDN=foreman.example.com
@@ -33,7 +53,7 @@ services:
       - FOREMAN_RAILS_CACHE_STORE_TYPE=redis
       - FOREMAN_RAILS_CACHE_STORE_URLS=redis://redis-cache:6379/0
       - DYNFLOW_REDIS_URL=redis://redis-tasks:6379/0
-      - REDIS_PROVIDER=DYNFLOW_REDIS_URL
+      - REDIS_PROVIDER=$DYNFLOW_REDIS_URL
     hostname: foreman.example.com
     links:
       - db
@@ -47,27 +67,45 @@ services:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 3000 || exit 1"]
       interval: 5m
       start_period: 1m
+    depends_on:
+      - db
+      - redis-cache
+      - redis-tasks
 
-  orchestrator:
-    <<: *app_base
-    command: bundle exec sidekiq -r ./extras/dynflow-sidekiq.rb -c 1 -q dynflow_orchestrator
-    hostname: orchestrator.example.com
-    ports: []
+  ## Not required
+  # orchestrator:
+  #   <<: *app_base
+  #   command: bundle exec sidekiq -r ./extras/dynflow-sidekiq.rb -c 1 -q dynflow_orchestrator
+  #   hostname: orchestrator.example.com
+  #   ports: []
+  #   depends_on:
+  #     - app
 
-  worker:
-    <<: *app_base
-    command: bundle exec sidekiq -r ./extras/dynflow-sidekiq.rb -c 15 -q default,1 -q remote_execution,1
-    ports: []
+  ## Not required
+  # worker:
+  #   <<: *app_base
+  #   command: bundle exec sidekiq -r ./extras/dynflow-sidekiq.rb -c 15 -q default,1 -q remote_execution,1
+  #   ports: []
+  #   depends_on:
+  #     - app
 
   redis-cache:
     image: redis
+    networks:
+      - foreman_net
 
   redis-tasks:
     image: redis
+    networks:
+      - foreman_net
     command: redis-server --appendonly yes
     volumes:
       - redis-persistent:/data
 
+networks:
+  foreman_net:
+
 volumes:
   db:
   redis-persistent:
+
