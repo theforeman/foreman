@@ -12,3 +12,7 @@ $background_image: url('../LoginPage/background.svg');
     background-repeat: repeat-y;
   }
 }
+
+.pf-v5-c-login__footer p {
+  overflow-wrap: break-word;
+}
