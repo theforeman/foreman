@@ -41,6 +41,8 @@ export const Table = ({
   children,
   bottomPagination,
   childrenOutsideTbody, // Expandable table rows are each a Tbody so they cant be inside the Tbody
+  onExpandAll,
+  areAllRowsExpanded,
 }) => {
   const onPagination = newPagination => {
     setParams({ ...params, ...newPagination });
@@ -121,11 +123,20 @@ export const Table = ({
       >
         <Thead>
           <Tr ouiaId="table-header">
+            {childrenOutsideTbody && (
+              <Th
+                aria-label="expansion-header"
+                key="expansion-th"
+                expand={
+                  onExpandAll && {
+                    areAllExpanded: areAllRowsExpanded,
+                    onToggle: onExpandAll,
+                  }
+                }
+              />
+            )}
             {showCheckboxes && (
               <Th aria-label="checkbox-header" key="checkbox-th" />
-            )}
-            {childrenOutsideTbody && (
-              <Th aria-label="expansion-carat" key="expansion-carat" />
             )}
             {columnNamesKeys.map(k => (
               <Th
@@ -247,6 +258,8 @@ Table.propTypes = {
   showCheckboxes: PropTypes.bool,
   bottomPagination: PropTypes.node,
   childrenOutsideTbody: PropTypes.bool,
+  onExpandAll: PropTypes.func,
+  areAllRowsExpanded: PropTypes.bool,
 };
 
 Table.defaultProps = {
@@ -267,4 +280,6 @@ Table.defaultProps = {
   showCheckboxes: false,
   bottomPagination: null,
   childrenOutsideTbody: false,
+  onExpandAll: null,
+  areAllRowsExpanded: false,
 };
