@@ -15,6 +15,7 @@
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2013-2015
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2016-2017
 # Pierre-Emmanuel Dutang <dutangp@gmail.com>, 2014
+# Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025
 # Romain Vrignaud <rvrignaud@gmail.com>, 2013
 # 21966816214bc546c1fc8a185e75ca1c, 2013-2014
 # Frederic Schaer <frederic.schaer@cea.fr>, 2013
@@ -8303,7 +8304,7 @@ msgstr[2] "Enregistrement inverse DNS IPv4"
 
 msgid "Reverse IPv6 DNS record"
 msgid_plural "Reverse IPv6 DNS records"
-msgstr[0] "Enregistrement inverse DNS IPv6 "
+msgstr[0] "Enregistrement inverse DNS IPv6"
 msgstr[1] "Enregistrement inverse DNS IPv6"
 msgstr[2] "Enregistrement inverse DNS IPv6"
 
@@ -12171,7 +12172,8 @@ msgstr "joindre un group d'utilisateur externe avec ce groupe d'utilisateur"
 msgid "list"
 msgstr "liste"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "Français"
 

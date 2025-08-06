@@ -6,18 +6,19 @@
 # Amit Upadhye <aupadhye@redhat.com>, 2020
 # dingtim, 2013
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2014-2015
+# Ewoud Kohl van Wijngaarden <ewoud+transifex@kohlvanwijngaarden.nl>, 2025
 # June Zhang <zhangjune99@gmail.com>, 2017
 # Martin Liu <liuzh66@gmail.com>, 2015
 # Ondrej <ondpraz@gmail.com>, 2018
 # tim123, 2013-2014
 # Xingchao Yu <yuxcer@gmail.com>, 2017
-# 蒋浩海 <jhaohai@foxmail.com>, 2016
+# 蒋浩海, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
-"Last-Translator: 蒋浩海 <jhaohai@foxmail.com>, 2016\n"
+"Last-Translator: 蒋浩海, 2016\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1876,7 +1877,7 @@ msgid "Could not find %{association} with name: %{name}"
 msgstr "找不到 %{association} 名称：%{name}"
 
 msgid "Could not find %{migration_name} migration in %{destination}"
-msgstr "无法在 %{destination} 中找到 %{migration_name} 迁移 "
+msgstr "无法在 %{destination} 中找到 %{migration_name} 迁移"
 
 msgid "Could not find a Configuration Template with the name \"%s\", please create one."
 msgstr "找不到名称为 \"%s\" 的置备模板，请创建一个。"
@@ -7184,7 +7185,7 @@ msgid "Parameter"
 msgstr "参数"
 
 msgid "Parameter %s deleted"
-msgstr "参数 [%%s] 被删除"
+msgstr "参数 [%s] 被删除"
 
 msgid "Parameter %{name} is not set for host %{host}"
 msgstr "没有为主机 %{host} 设置参数 %{name}"
@@ -12050,7 +12051,8 @@ msgstr "将外部用户组与这个用户组关联"
 msgid "list"
 msgstr "列出"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead of German)
+#. TRANSLATORS: Provide locale name in native language (e.g. Deutsch instead
+#. of German)
 msgid "locale_name"
 msgstr "简体中文"
 
