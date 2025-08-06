@@ -30,9 +30,16 @@ class BreadcrumbsOptions
       class_name = ''
     end
 
+    # Use setting-aware path for hosts
+    url = if resource_name.downcase == 'host'
+            ApplicationHelper.current_hosts_path
+          else
+            resource_path(class_name) || resource_path(resource_name)
+          end
+
     {
       caption: _(Menu::Manager.get_resource_caption(controller.controller_name.to_s.downcase.pluralize.to_sym)),
-      url: resource_path(class_name) || resource_path(resource_name),
+      url: url,
     }
   end
 
