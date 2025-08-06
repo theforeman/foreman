@@ -162,7 +162,7 @@ register_katello_host(){
 # Set up subscription-manager
 <%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'registration' }).strip -%>
 
-subscription-manager register <%= '--force' if truthy?(@force) %> \
+subscription-manager register \
   --org='<%= @organization.label if @organization %>' \
   --activationkey='<%= activation_keys %>' || <%= truthy?(@ignore_subman_errors) ? 'true' : 'cleanup_and_exit 1' %>
 
