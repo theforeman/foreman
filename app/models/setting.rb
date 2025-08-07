@@ -45,7 +45,7 @@ class Setting < ApplicationRecord
   validates :value, :array_hostnames_ips => true, :if => proc { |s| ARRAY_HOSTNAMES.include? s.name }
   validates :value, :email => true, :if => proc { |s| EMAIL_ATTRS.include? s.name }
   before_save :clear_value_when_default
-  before_save :encrypt_url_if_password_present, :if => proc { |s| s.value.is_a?(String) && s.value.start_with?('http') }
+  before_save :encrypt_url_if_password_present, :if => proc { |s| s.name == "http_proxy" && s.value.present? }
   validate :validate_frozen_attributes
   before_validation :remove_whitespaces, :if => proc { |s| s.settings_type == "array" }
   # Custom validations are added from SettingManager class
