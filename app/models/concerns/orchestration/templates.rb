@@ -8,6 +8,7 @@ module Orchestration::Templates
 
   def queue_render_checks
     return if skip_orchestration?
+    return unless managed?
     return unless template
 
     logger.debug "Scheduling render checks of template for #{self}"
