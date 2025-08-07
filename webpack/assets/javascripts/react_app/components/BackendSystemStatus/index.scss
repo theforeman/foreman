@@ -1,0 +1,24 @@
+span.bss-service-info dl {
+  row-gap: 0;
+  margin-bottom: 0.3em;
+}
+
+.service-name-parent::after {
+  content: '•';
+  margin: 0 0.4em;
+  font-weight: normal;
+  /* This helps ensure the bullet is perfectly centered with the text */
+  vertical-align: middle;
+}
+
+#backend-system-status span.pf-v5-c-icon {
+  margin-right: 0.3em;
+}
+
+span.bss-status-value .pf-v5-c-icon {
+  margin-right: 0.3em;
+}
+
+span.service-name-parent {
+  color: var(--pf-v5-global--disabled-color--100);
+}

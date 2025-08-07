@@ -40,6 +40,7 @@ import SettingsTable from './SettingsTable';
 import PersonalAccessTokens from './users/PersonalAccessTokens';
 import ClipboardCopy from './common/ClipboardCopy';
 import LabelIcon from './common/LabelIcon';
+import { BackendSystemStatus } from './BackendSystemStatus';
 import { WelcomeAuthSource } from './AuthSource/Welcome';
 import { WelcomeConfigReports } from './ConfigReports/Welcome';
 import { WelcomeArchitecture } from './Architectures/Welcome';
@@ -144,6 +145,7 @@ const coreComponents = [
   { name: 'JwtTokens', type: JwtTokens },
   { name: 'ClipboardCopy', type: ClipboardCopy },
   { name: 'LabelIcon', type: LabelIcon },
+  { name: 'BackendSystemStatus', type: BackendSystemStatus },
   {
     name: 'RelativeDateTime',
     type: RelativeDateTime,
