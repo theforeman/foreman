@@ -23,6 +23,7 @@ module.exports = {
           'bool',
           'bootable',
           'Borderless',
+          'bss',
           'btns',
           'candlepin',
           'centos',

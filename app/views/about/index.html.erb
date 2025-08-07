@@ -143,5 +143,7 @@
       <p><kbd>CTRL + SHIFT + F</kbd> <%= _("To focus the navigation search bar") %></p>
     </div>
   </div>
-  <%= slot('aboutFooterSlot', true) %>
+  <div id="backend-system-status" class="col-md-7">
+    <%= react_component('BackendSystemStatus', ping: ::Ping.ping) %>
+  </div>
 </div>
