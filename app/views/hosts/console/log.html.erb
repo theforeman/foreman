@@ -1,7 +1,7 @@
 <div class="row">
   <% search_bar(_("Generated %s ago") % time_ago_in_words(@console['timestamp'])) %>
   <% if @host && authorized_for(hash_for_host_path(@host)) %>
-    <%= title_actions(link_to(_("Back to host"), current_host_details_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')) %>
+    <%= title_actions(link_to(_("Back to host"), current_host_details_path(@host), :title => _("Back to host"), :class => 'btn btn-default')) %>
   <% end %>
   <% title "#{@console[:name]}" %>
 </div>

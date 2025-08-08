@@ -2,7 +2,7 @@
 <%= title_actions(
         button_group(link_to(_("Ctrl-Alt-Del"), "#", :id => "sendCtrlAltDelButton", :onclick => 'tfm.spice.sendCtrlAltDel()', :class => "btn btn-default"),
                      if @host && authorized_for(hash_for_host_path(@host))
-                       link_to(_("Back to host"), current_host_details_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')
+                       link_to(_("Back to host"), current_host_details_path(@host), :title => _("Back to host"), :class => 'btn btn-default')
                      end
         ),
         documentation_button("7.1NoVNC",
