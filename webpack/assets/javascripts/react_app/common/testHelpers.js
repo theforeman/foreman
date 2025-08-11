@@ -1,272 +1,197 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { i18nProviderWrapperFactory } from './i18nProviderWrapperFactory';
 
-export default {
-  mockStorage: () => {
-    const storage = {};
+const mockStore = configureMockStore([thunk]);
 
-    return {
-      setItem: (key, value) => {
-        storage[key] = value || '';
-      },
-      getItem: key => (key in storage ? storage[key] : null),
-      removeItem: key => {
-        delete storage[key];
-      },
-      get length() {
-        return Object.keys(storage).length;
-      },
-      key: i => {
-        const keys = Object.keys(storage);
-
-        return keys[i] || null;
-      },
-    };
-  },
+/**
+ * Utility for rendering components that need Redux store
+ * @param {ReactElement} component - Component to render
+ * @param {Object} initialState - Initial Redux state
+ * @param {Object} storeConfig - Additional store configuration
+ * @returns {Object} RTL render result with store
+ */
+export const renderWithStore = (component, initialState = {}, storeConfig = {}) => {
+  const store = mockStore({ ...initialState, ...storeConfig });
+  return {
+    ...render(
+      <Provider store={store}>
+        {component}
+      </Provider>
+    ),
+    store,
+  };
 };
 
-export const mockWindowLocation = ({ href }) => {
-  let currentHref = href;
-  delete global.window.location;
-  global.window.location = { reload: jest.fn() };
-  Object.defineProperty(global.window.location, 'href', {
-    configurable: true,
-    get: () => currentHref,
-    set: newValue => {
-      currentHref = newValue;
-    },
+/**
+ * Utility for rendering components that need i18n context
+ * @param {ReactElement} component - Component to render
+ * @param {Date} mockDate - Mock date for time-based components
+ * @param {string} timezone - Timezone for date formatting
+ * @returns {Object} RTL render result
+ */
+export const renderWithI18n = (component, mockDate = new Date(), timezone = 'UTC') => {
+  const IntlWrapper = i18nProviderWrapperFactory(mockDate, timezone);
+  return render(React.createElement(IntlWrapper, {}, component));
+};
+
+/**
+ * Utility for rendering components that need both Redux and i18n
+ * @param {ReactElement} component - Component to render
+ * @param {Object} initialState - Initial Redux state
+ * @param {Date} mockDate - Mock date for time-based components
+ * @param {string} timezone - Timezone for date formatting
+ * @returns {Object} RTL render result with store
+ */
+export const renderWithStoreAndI18n = (
+  component,
+  initialState = {},
+  mockDate = new Date(),
+  timezone = 'UTC'
+) => {
+  const store = mockStore(initialState);
+  const IntlWrapper = i18nProviderWrapperFactory(mockDate, timezone);
+
+  return {
+    ...render(
+      <Provider store={store}>
+        {React.createElement(IntlWrapper, {}, component)}
+      </Provider>
+    ),
+    store,
+  };
+};
+
+/**
+ * Common assertions for form components
+ */
+export const formAssertions = {
+  expectSubmitButton: (screen) =>
+    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument(),
+
+  expectCancelButton: (screen) =>
+    expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument(),
+
+  expectErrorAlert: (screen, errorText) => {
+    expect(screen.getByRole('alert')).toBeInTheDocument();
+    if (errorText) {
+      expect(screen.getByText(errorText)).toBeInTheDocument();
+    }
+  },
+
+  expectErrorList: (screen, errorMessages) => {
+    expect(screen.getByRole('alert')).toBeInTheDocument();
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems).toHaveLength(errorMessages.length);
+    errorMessages.forEach(message => {
+      expect(screen.getByText(message)).toBeInTheDocument();
+    });
+  },
+
+  expectWarningAlert: (screen, warningText) => {
+    const alert = screen.getByRole('alert');
+    expect(alert).toBeInTheDocument();
+    // PatternFly alerts with warning severity should have appropriate styling
+    if (warningText) {
+      expect(screen.getByText(warningText)).toBeInTheDocument();
+    }
+  }
+};
+
+/**
+ * Common assertions for table components
+ */
+export const tableAssertions = {
+  expectColumnHeaders: (screen, columnNames) => {
+    columnNames.forEach(columnName => {
+      expect(screen.getByText(columnName)).toBeInTheDocument();
+    });
+  },
+
+  expectRowData: (screen, rowData) => {
+    rowData.forEach(data => {
+      expect(screen.getByText(data)).toBeInTheDocument();
+    });
+  },
+
+  expectSortableColumn: (screen, columnName) => {
+    expect(screen.getByRole('button', { name: columnName })).toBeInTheDocument();
+  },
+
+  expectActionMenu: (screen) => {
+    expect(screen.getByLabelText('Kebab toggle')).toBeInTheDocument();
+  }
+};
+
+/**
+ * Common assertions for date/time components
+ */
+export const dateTimeAssertions = {
+  expectFormattedDate: (screen, expectedFormat) => {
+    expect(screen.getByText(expectedFormat)).toBeInTheDocument();
+  },
+
+  expectTooltip: (screen, tooltipText) => {
+    // For components with tooltips, we might need to hover or check aria-describedby
+    expect(screen.getByText(tooltipText)).toBeInTheDocument();
+  },
+
+  expectDefaultValue: (screen, defaultValue) => {
+    expect(screen.getByText(defaultValue)).toBeInTheDocument();
+  }
+};
+
+/**
+ * Helper to create mock props for common component patterns
+ */
+export const createMockProps = {
+  formError: (messages = ['Test error'], severity = 'danger') => ({
+    error: {
+      errorMsgs: Array.isArray(messages) ? messages : [messages],
+      severity
+    }
+  }),
+
+  tableData: (columns, results) => ({
+    columns,
+    results,
+    params: { page: 1, perPage: 10, order: '' },
+    setParams: jest.fn(),
+    refreshData: jest.fn(),
+    url: '/test',
+    isPending: false
+  }),
+
+  dateTimeProps: (date = new Date('2017-10-13 00:54:55 -1100')) => ({
+    date,
+    defaultValue: 'Default value'
+  })
+};
+
+/**
+ * Mock functions commonly used in tests
+ */
+export const mockFunctions = {
+  onSubmit: jest.fn(),
+  onCancel: jest.fn(),
+  onClick: jest.fn(),
+  onChange: jest.fn(),
+  onDeleteClick: jest.fn(),
+  setParams: jest.fn(),
+  refreshData: jest.fn()
+};
+
+/**
+ * Helper to wait for async operations in tests
+ */
+export const waitForAsync = async (callback, timeout = 1000) => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      callback();
+      resolve();
+    }, timeout);
   });
-  return jest.spyOn(global.window.location, 'href', 'set');
-};
-
-// a helper method for invoking a class method (for unit tests)
-// obj = a class
-// func = a tested function
-// objThis = an object's this
-// arg = function args
-
-export const classFunctionUnitTest = (obj, func, objThis, args) =>
-  obj.prototype[func].apply(objThis, args);
-
-/**
- * Shallow render a component multipile times with fixtures
- * @param  {ReactComponent} Component Component to shallow-render
- * @param  {Object}         fixtures  key=fixture description, value=props to apply
- * @return {Object}                   key=fixture description, value=shallow-rendered component
- */
-export const shallowRenderComponentWithFixtures = (Component, fixtures) =>
-  Object.entries(fixtures).map(([description, props]) => ({
-    description,
-    component: shallow(<Component {...props} />),
-  }));
-
-/**
- * Test a component with fixtures and snapshots
- * @param  {function(): *} Component Component to test
- * @param  {Object}         fixtures  key=fixture description, value=props to apply
- */
-export const testComponentSnapshotsWithFixtures = (Component, fixtures) =>
-  shallowRenderComponentWithFixtures(
-    Component,
-    fixtures
-  ).forEach(({ description, component }) =>
-    it(description, () => expect(component).toMatchSnapshot())
-  );
-
-const resolveDispatch = async (action, depth) => {
-  // if it is async action and we are allowed to go deeper
-  if (depth && typeof action === 'function') {
-    const dispatch = jest.fn();
-    await action(dispatch);
-    jest.useFakeTimers();
-    jest.runOnlyPendingTimers();
-
-    return Promise.all(
-      dispatch.mock.calls.map(call => resolveDispatch(call[0], depth - 1))
-    );
-  }
-  // else return the action itself
-  return action;
-};
-
-/**
- * run an action (sync or async) and returns a call tree
- * @param  {Function}  runAction  Action runner function
- * @param  {Number} states the depth of dispatch calls
- * @return calls result tree to the given depth - array for each branch of calls
- */
-export const runActionInDepth = (runAction, depth = 1) =>
-  resolveDispatch(runAction(), depth);
-
-/**
- * run an action (sync or async) and except the results to much snapshot
- * @param  {Function}  runAction  Action runner function
- * @return {Promise}
- */
-export const testActionSnapshot = async runAction => {
-  const actionResults = runAction();
-
-  // if it's an async action
-  if (typeof actionResults === 'function') {
-    const dispatch = jest.fn();
-    await actionResults(dispatch);
-
-    expect(dispatch.mock.calls).toMatchSnapshot();
-  } else {
-    expect(actionResults).toMatchSnapshot();
-  }
-};
-
-/**
- * Test actions with fixtures and snapshots
- * @param  {Object} fixtures key=fixture description, value=action runner function
- */
-export const testActionSnapshotWithFixtures = fixtures =>
-  Object.entries(fixtures).forEach(([description, runAction]) =>
-    it(description, () => testActionSnapshot(runAction))
-  );
-
-/**
- * Test a reducer with fixtures and snapshots
- * @param  {Function} reducer  reducer to test
- * @param  {Object}   fixtures key=fixture description, value=props to apply
- */
-export const testReducerSnapshotWithFixtures = (reducer, fixtures) => {
-  const reduce = ({ state, action = {} } = {}) => reducer(state, action);
-  Object.entries(fixtures).forEach(([description, action]) =>
-    it(description, () => expect(reduce(action)).toMatchSnapshot())
-  );
-};
-
-/**
- * Test selectors with fixtures and snapshots
- * @param  {Object} fixtures  key=fixture description,
- *                            value=selector runner function
- */
-export const testSelectorsSnapshotWithFixtures = fixtures =>
-  Object.entries(fixtures).forEach(([description, selectorRunner]) =>
-    it(description, () => expect(selectorRunner()).toMatchSnapshot())
-  );
-
-export const initMockStore = {
-  bookmarksPF4: {},
-  hosts: {
-    storage: {
-      vmware: {
-        controllers: [],
-        volumes: [],
-      },
-    },
-  },
-  notifications: {
-    isDrawerOpen: null,
-    expandedGroup: null,
-    hasUnreadMessages: false,
-  },
-  toasts: {},
-  passwordStrength: {
-    password: '',
-    passwordConfirmation: '',
-  },
-  breadcrumbBar: {
-    resourceSwitcherItems: [],
-    isLoadingResources: false,
-    isSwitcherOpen: false,
-    resourceUrl: null,
-    requestError: null,
-    currentPage: null,
-    searchQuery: '',
-    pages: null,
-    titleReplacement: null,
-  },
-  layout: {
-    items: [],
-    isLoading: false,
-    isCollapsed: false,
-  },
-  diffModal: {
-    isOpen: false,
-    diff: '',
-    title: '',
-    diffViewType: 'split',
-  },
-  editor: {
-    hosts: [],
-    filteredHosts: [],
-    diffViewType: 'split',
-    editorName: 'editor',
-    errorText: '',
-    isFetchingHosts: false,
-    isLoading: false,
-    isMasked: false,
-    isMaximized: false,
-    isRendering: false,
-    isSearchingHosts: false,
-    isSelectOpen: false,
-    keyBinding: 'Default',
-    mode: 'Ruby',
-    previewResult: '',
-    renderedEditorValue: '',
-    readOnly: false,
-    searchQuery: '',
-    selectedHost: {
-      id: '',
-      name: '',
-    },
-    selectedView: 'input',
-    showError: false,
-    templateClass: '',
-    theme: 'Monokai',
-    autocompletion: true,
-    liveAutocompletion: false,
-    value: '',
-    kind: '',
-  },
-  templates: {
-    scheduleInProgress: false,
-    polling: false,
-    dataUrl: null,
-  },
-  factChart: {
-    modalToDisplay: {},
-  },
-  settingRecords: {
-    settings: {},
-    editing: null,
-  },
-  personalAccessTokens: {
-    tokens: [],
-  },
-  confirmModal: {
-    isOpen: false,
-  },
-  router: {
-    location: {
-      pathname: '/users/login',
-      search: '',
-      hash: '',
-      query: {},
-    },
-    action: 'POP',
-  },
-  extendable: {},
-  auditsPage: {
-    data: {
-      isLoading: true,
-      hasError: false,
-      hasData: false,
-      message: {
-        type: 'empty',
-        text: '',
-      },
-    },
-    query: {
-      page: 1,
-      searchQuery: '',
-      itemCount: 0,
-    },
-  },
-  foremanModals: {},
-  intervals: {},
-  API: {},
 };
