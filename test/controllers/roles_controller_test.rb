@@ -71,24 +71,11 @@ class RolesControllerTest < ActionController::TestCase
       @role.organizations = [@org1]
     end
 
-    test 'should disable filter overriding' do
-      @role.filters.reload
-      @filter_with_org = @role.filters.detect { |f| f.resource_taxable_by_organization? }
-      @filter_with_org.update :organizations => [@org1, @org2], :override => true
-
-      patch :disable_filters_overriding, params: { :id => @role.id }, session: set_session_user
-      @filter_with_org.reload
-
-      assert_response :redirect
-      assert_equal [@org1], @filter_with_org.organizations
-      refute @filter_with_org.override?
-    end
-
     test 'update syncs filters taxonomies if configuration changed' do
       put :update, params: { :id => @role.id, :role => { :organization_ids => ['', @org2.id.to_s, ''] } }, session: set_session_user
       assert_response :redirect
       filter = @role.filters.first
-      assert_equal [@org2], filter.organizations.all
+      assert_equal "(organization_id ^ (#{@org2.id}))", filter.taxonomy_search
     end
 
     test 'sets new taxonomies to filters after cloning properly' do
@@ -99,7 +86,7 @@ class RolesControllerTest < ActionController::TestCase
 
       assert_response :redirect
       filter = Role.find_by_name('clonedrole').filters.first
-      assert_equal [@org2], filter.organizations.all
+      assert_equal "(organization_id ^ (#{@org2.id}))", filter.taxonomy_search
     end
   end
 

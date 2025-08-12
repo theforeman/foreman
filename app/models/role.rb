@@ -216,10 +216,6 @@ class Role < ApplicationRecord
     find_for_permission_removal(args).map(&:destroy!)
   end
 
-  def disable_filters_overriding
-    filters.where(:override => true).map { |filter| filter.disable_overriding! }
-  end
-
   def clone(role_params = {})
     new_role = deep_clone(:except => [:name, :builtin, :origin],
       :include => [:locations, :organizations, { :filters => :permissions }])
@@ -286,7 +282,7 @@ class Role < ApplicationRecord
   private
 
   def sync_inheriting_filters
-    filters.where(:override => false).find_each do |f|
+    filters.find_each do |f|
       unless f.save
         errors.add :base, N_('One or more of the associated filters are invalid which prevented the role to be saved')
         raise ActiveRecord::Rollback, N_("Unable to submit role: Problem with associated filter %s") % f.errors

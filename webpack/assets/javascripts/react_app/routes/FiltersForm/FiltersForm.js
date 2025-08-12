@@ -4,14 +4,14 @@ import { useDispatch } from 'react-redux';
 import {
   Form,
   FormGroup,
-  Checkbox,
   Alert,
-  Popover,
   ActionGroup,
   Button,
-  Icon,
+  TextInput,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
 } from '@patternfly/react-core';
-import { HelpIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../common/I18n';
 import SearchBar from '../../components/SearchBar';
 import './FilterForm.scss';
@@ -19,7 +19,6 @@ import { SelectPermissions } from './SelectPermissions';
 import { SelectResourceType } from './SelectResourceType';
 import { SelectRole } from './SelectRole';
 import { EMPTY_RESOURCE_TYPE, SEARCH_ID } from './FiltersFormConstants';
-import { Taxonomies } from './Taxonomies';
 import { APIActions } from '../../redux/API';
 import { addToast } from '../../components/ToastsList';
 
@@ -27,31 +26,18 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
   const [role, setRole] = useState(roleId);
   const [type, setType] = useState(EMPTY_RESOURCE_TYPE);
   const [chosenPermissions, setChosenPermissions] = useState([]);
-  const [isUnlimited, setIsUnlimited] = useState(!!data['unlimited?']);
-  const [isOverride, setIsOverride] = useState(!!data['override?']);
   const [isGranular, setIsGranular] = useState(false);
-  const [chosenOrgs, setChosenOrgs] = useState(
-    data.organizations?.map(o => o.id) || []
-  );
-  const [chosenLocations, setChosenLocations] = useState(
-    data.locations?.map(l => l.id) || []
-  );
-  const {
-    show_organizations: showOrgs = false,
-    show_locations: showLocations = false,
-  } = type;
+  const chosenOrgs = data?.role?.organizations?.map(o => o.name) || [];
+  const chosenLocations = data?.role?.locations?.map(l => l.name) || [];
+
   const dispatch = useDispatch();
   const [autocompleteQuery, setAutocompleteQuery] = useState(data.search || '');
   const submit = async () => {
     const params = {
       filter: {
         role_id: role,
-        search: isUnlimited ? null : autocompleteQuery,
-        unlimited: isUnlimited,
-        override: isOverride,
+        search: autocompleteQuery,
         permission_ids: chosenPermissions,
-        organization_ids: chosenOrgs,
-        location_ids: chosenLocations,
       },
     };
     const apiOptions = {
@@ -105,9 +91,6 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
         }}
         setIsGranular={val => {
           setIsGranular(val);
-          if (!val) {
-            setIsUnlimited(false);
-          }
         }}
         defaultType={data.resource_type}
         setAutocompleteQuery={setAutocompleteQuery}
@@ -118,93 +101,40 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
         defaultPermissions={data.permissions}
         setChosenPermissions={setChosenPermissions}
       />
-      {(showOrgs || showLocations) && (
-        <FormGroup
-          label={__('Override?')}
-          labelIcon={
-            <Popover
-              bodyContent={
-                <div>
-                  {__(
-                    'Filters inherit organizations and locations associated with the role by default. If override field is enabled, the filter can override the set of its organizations and locations. Later role changes will not affect such filter.After disabling the override field, the role organizations and locations apply again.'
-                  )}
-                </div>
-              }
-            >
-              <button
-                type="button"
-                aria-label="More info for override field"
-                onClick={e => e.preventDefault()}
-                className="pf-v5-c-form__group-label-help"
-              >
-                <Icon isInline>
-                  <HelpIcon />
-                </Icon>
-              </button>
-            </Popover>
-          }
-        >
-          <Checkbox
-            ouiaId="override-checkbox"
-            isChecked={isOverride}
-            onChange={(_event, checked) => {
-              setIsOverride(checked);
-            }}
-            aria-label="is override"
-            id="override-check"
-            name="override"
-          />
-        </FormGroup>
-      )}
-      {isOverride && (
-        <Taxonomies
-          showOrgs={showOrgs}
-          showLocations={showLocations}
-          setChosenOrgs={setChosenOrgs}
-          setChosenLocations={setChosenLocations}
-          defaultOrgs={data.organizations}
-          defaultLocations={data.locations}
+      <FormGroup label={__('Organizations')}>
+        <TextInput
+          ouiaId="filter-org-text-disabled"
+          aria-label="disabled organization field"
+          isDisabled
+          type="text"
+          value={chosenOrgs.join(', ')}
         />
-      )}
+        <FormHelperText>
+          <HelperText>
+            <HelperTextItem>
+              {__('Organizations are inherited from the role')}
+            </HelperTextItem>
+          </HelperText>
+        </FormHelperText>
+      </FormGroup>
+      <FormGroup label={__('Locations')}>
+        <TextInput
+          aria-label="disabled location field"
+          ouiaId="filter-location-text-disabled"
+          isDisabled
+          type="text"
+          value={chosenLocations.join(', ')}
+        />
+        <FormHelperText>
+          <HelperText>
+            <HelperTextItem>
+              {__('Locations are inherited from the role')}
+            </HelperTextItem>
+          </HelperText>
+        </FormHelperText>
+      </FormGroup>
       {isGranular ? (
         <>
-          <FormGroup
-            label={__('Unlimited?')}
-            labelIcon={
-              <Popover
-                bodyContent={
-                  <div>
-                    {__(
-                      'If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited  field is disabled, you can specify further filtering using Foreman search syntax in the search field. If the role is associated with organizations or locations, the filters are not considered unlimited as they are scoped accordingly.'
-                    )}
-                  </div>
-                }
-              >
-                <button
-                  type="button"
-                  aria-label="More info for unlimited field"
-                  onClick={e => e.preventDefault()}
-                  className="pf-v5-c-form__group-label-help"
-                >
-                  <Icon isInline>
-                    <HelpIcon />
-                  </Icon>
-                </button>
-              </Popover>
-            }
-          >
-            <Checkbox
-              ouiaId="unlimited-checkbox"
-              isChecked={isUnlimited}
-              onChange={(_event, checked) => {
-                setAutocompleteQuery('');
-                setIsUnlimited(checked);
-              }}
-              aria-label="is unlimited"
-              id="unlimited-check"
-              name="unlimited"
-            />
-          </FormGroup>
           <FormGroup label={__('Search')} className="filter-form-search">
             <SearchBar
               initialQuery={data.search}
@@ -215,7 +145,6 @@ export const FiltersForm = ({ roleName, roleId, isNew, data, history }) => {
                   id: SEARCH_ID,
                   url: type.search_path,
                 },
-                disabled: isUnlimited,
               }}
               onSearch={null}
               onSearchChange={setAutocompleteQuery}
@@ -260,13 +189,9 @@ FiltersForm.propTypes = {
   isNew: PropTypes.bool.isRequired,
   data: PropTypes.shape({
     search: PropTypes.string,
-    'unlimited?': PropTypes.bool,
-    'override?': PropTypes.bool,
     id: PropTypes.number,
     resource_type: PropTypes.string,
     role: PropTypes.object,
     permissions: PropTypes.arrayOf(PropTypes.object),
-    locations: PropTypes.arrayOf(PropTypes.object),
-    organizations: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };

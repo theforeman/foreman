@@ -27,10 +27,8 @@ const editProps = {
   data: {
     search: 'os = CentOS',
     resource_type_label: 'Host',
-    'unlimited?': true,
     created_at: '2022-04-06 14:26:22 +0200',
     updated_at: '2022-04-06 14:26:22 +0200',
-    'override?': true,
     id: 567,
     resource_type: 'Host',
     role: {
@@ -213,8 +211,6 @@ describe('FiltersForm', () => {
     expect(screen.queryAllByText('access_dashboard')).toHaveLength(0);
     expect(screen.queryAllByText('view_hosts')).toHaveLength(1);
     expect(screen.queryAllByDisplayValue('os = CentOS')).toHaveLength(1);
-    expect(screen.queryAllByText('Override?')).toHaveLength(1);
-    expect(screen.queryAllByText('Unlimited?')).toHaveLength(1);
     expect(screen.queryAllByText('0 of 7 items selected')).toHaveLength(1); // unselected permissions
     expect(screen.queryAllByText('0 of 2 items selected')).toHaveLength(1); // selected permissions
   });
@@ -231,8 +227,6 @@ describe('FiltersForm', () => {
     );
     expect(screen.queryAllByText('access_dashboard')).toHaveLength(1);
     expect(screen.queryAllByText('view_hosts')).toHaveLength(0);
-    expect(screen.queryAllByText('Override?')).toHaveLength(0);
-    expect(screen.queryAllByText('Unlimited?')).toHaveLength(0);
     act(() => {
       fireEvent.click(screen.getByLabelText('resource type toggle'));
     });
@@ -242,19 +236,8 @@ describe('FiltersForm', () => {
     
     expect(screen.queryAllByText('access_dashboard')).toHaveLength(0);
     expect(screen.queryAllByText('view_hosts')).toHaveLength(1);
-    expect(screen.queryAllByText('Override?')).toHaveLength(1);
-    expect(screen.queryAllByText('Unlimited?')).toHaveLength(1);
     expect(screen.getByPlaceholderText('Search')).not.toBeDisabled();
-    act(() => {
-      fireEvent.click(screen.getByLabelText('is unlimited'));
-    });
-    expect(screen.getByPlaceholderText('Search')).toBeDisabled();
 
-    expect(screen.queryAllByText('Organizations')).toHaveLength(0);
-    expect(screen.queryAllByText('Locations')).toHaveLength(0);
-    await act(async() => {
-      fireEvent.click(screen.getByLabelText('is override'));
-    });
     expect(screen.queryAllByText('Organizations')).toHaveLength(1);
     expect(screen.queryAllByText('Locations')).toHaveLength(1);
   });

@@ -9,7 +9,7 @@ import { FiltersForm } from './FiltersForm';
 const NewFiltersFormPage = ({ location: { search }, history }) => {
   const { role_id: urlRoleId } = URI.parseQuery(search);
   const {
-    response: { name: roleName, id: roleId },
+    response: { name: roleName, id: roleId, locations, organizations },
   } = useAPI('get', `/api/v2/roles/${urlRoleId}`);
   const breadcrumbOptions = {
     breadcrumbItems: [
@@ -29,7 +29,7 @@ const NewFiltersFormPage = ({ location: { search }, history }) => {
           isNew
           roleName={roleName || ''}
           roleId={urlRoleId}
-          data={{}}
+          data={{ role: { locations, organizations } }}
           history={history}
         />
       ) : (

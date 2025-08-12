@@ -19,23 +19,14 @@ class AuthorizerTest < ActiveSupport::TestCase
     [true, false].each do |cache|
       context "with cache = #{cache}" do
         context 'without subject' do
-          # limited, unlimited, permission with resource, without resource...
-          test "with unlimited filter" do
+          # permission with resource, without resource...
+          test "with filter" do
             FactoryBot.create(:filter, :role => @role, :permissions => [@permission])
             auth = Authorizer.new(@user)
 
             assert auth.can?(@permission.name.to_sym, nil, cache)
             refute auth.can?(:view_domains, nil, cache)
           end
-
-          test "with limited filter (name ~ *)" do
-            FactoryBot.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
-            auth = Authorizer.new(@user)
-
-            assert auth.can?(@permission.name.to_sym, nil, cache)
-            refute auth.can?(:view_domains, nil, cache)
-          end
-
           test "permission without resource" do
             FactoryBot.create(:filter, :on_name_all, :role => @role, :permissions => [@permission])
             auth = Authorizer.new(@user)
@@ -53,7 +44,7 @@ class AuthorizerTest < ActiveSupport::TestCase
         end
 
         context 'with subject (e.g: Domain)' do
-          test "unlimited filter" do
+          test "filter" do
             permission = Permission.find_by_name('view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission])
             domain     = FactoryBot.create(:domain)
@@ -63,18 +54,7 @@ class AuthorizerTest < ActiveSupport::TestCase
             assert auth.can?(:view_domains, domain, cache)
           end
 
-          test "matching limited filter" do
-            permission = Permission.find_by_name('view_domains')
-            FactoryBot.create(:filter, :role => @role, :permissions => [permission],
-                               :search => 'name ~ example*')
-            domain     = FactoryBot.create(:domain)
-            auth       = Authorizer.new(@user)
-
-            assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
-            assert auth.can?(:view_domains, domain, cache)
-          end
-
-          test "matching and not matching limited filter" do
+          test "matching and not matching filter" do
             permission = Permission.find_by_name('view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
                                :search => 'name ~ noexample*')
@@ -87,7 +67,7 @@ class AuthorizerTest < ActiveSupport::TestCase
             assert auth.can?(:view_domains, domain, cache)
           end
 
-          test "not matching limited filter" do
+          test "not matching filter" do
             permission = Permission.find_by_name('view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
                                :search        => 'name ~ noexample*')
@@ -98,7 +78,7 @@ class AuthorizerTest < ActiveSupport::TestCase
             refute auth.can?(:view_domains, domain, cache)
           end
 
-          test "filters records by matching limited filter" do
+          test "filters records by matching filter" do
             permission = Permission.find_by_name('view_domains')
             FactoryBot.create(:filter, :on_name_starting_with_a,
               :role => @role, :permissions => [permission])
@@ -143,8 +123,7 @@ class AuthorizerTest < ActiveSupport::TestCase
             refute auth.can?(:edit_domains, domain2, cache)
             refute auth.can?(:edit_domains, domain3, cache)
             assert auth.can?(:edit_domains, domain4, cache)
-
-            # unlimited filter on Domain permission does add the domain
+            # filter on Domain permission does add the domain
             FactoryBot.create(:filter, :role => @role, :permissions => [permission1])
             collection = auth.find_collection(Domain)
             assert_includes collection, domain1
@@ -243,7 +222,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     assert_equal '(name ~ *) OR (name ~ a*)', result
   end
 
-  test "#build_scoped_search_condition(filters) for unlimited filter" do
+  test "#build_scoped_search_condition(filters) for filter" do
     auth    = Authorizer.new(FactoryBot.create(:user))
     filters = [FactoryBot.build_stubbed(:filter)]
     result  = auth.build_scoped_search_condition(filters)
@@ -251,7 +230,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     assert_equal '', result
   end
 
-  test "#build_scoped_search_condition(filters) for limited and unlimited filter" do
+  test "#build_scoped_search_condition(filters) for filter" do
     auth    = Authorizer.new(FactoryBot.create(:user))
     filters = [FactoryBot.build_stubbed(:filter, :on_name_all), FactoryBot.build_stubbed(:filter)]
     result  = auth.build_scoped_search_condition(filters)
@@ -289,21 +268,10 @@ class AuthorizerTest < ActiveSupport::TestCase
     assert_includes auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report), report
   end
 
-  test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching unlimited filter" do
+  test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching filter" do
     permission = Permission.find_by_name('view_hosts')
-    FactoryBot.create(:filter, :role => @role, :permissions => [permission], :unlimited => true)
+    FactoryBot.create(:filter, :role => @role, :permissions => [permission])
     host       = FactoryBot.create(:host)
-    report     = FactoryBot.create(:config_report, :host => host)
-    auth       = Authorizer.new(@user)
-
-    assert_includes auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report), report
-  end
-
-  test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching limited filter" do
-    permission = Permission.find_by_name('view_hosts')
-    FactoryBot.create(:filter, :role => @role, :permissions => [permission],
-                                :search => 'hostgroup ~ hostgroup*')
-    host       = FactoryBot.create(:host, :with_hostgroup)
     report     = FactoryBot.create(:config_report, :host => host)
     auth       = Authorizer.new(@user)
 
@@ -326,7 +294,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report, :where => ..) applies where clause" do
     permission = Permission.find_by_name('view_hosts')
-    FactoryBot.create(:filter, :role => @role, :permissions => [permission], :unlimited => true)
+    FactoryBot.create(:filter, :role => @role, :permissions => [permission])
     hosts      = FactoryBot.create_pair(:host)
     report1    = FactoryBot.create(:config_report, :host => hosts.first)
     report2    = FactoryBot.create(:config_report, :host => hosts.last)
@@ -340,7 +308,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
   test "#find_collection(Host::Base) works with taxonomies thanks to class name sanitization" do
     permission = Permission.find_by_name('view_hosts')
-    FactoryBot.create(:filter, :role => @role, :permissions => [permission], :unlimited => true, :organization_ids => [taxonomies(:organization1).id])
+    FactoryBot.create(:filter, :role => @role, :permissions => [permission])
     auth = Authorizer.new(@user)
 
     assert_nothing_raised do
@@ -361,7 +329,7 @@ class AuthorizerTest < ActiveSupport::TestCase
       test 'allows filtering on associations that do not match association class' do
         permission = Permission.find_by_name('view_hosts')
         FactoryBot.create(:host, :debian, :with_facts)
-        FactoryBot.create(:filter, role: @role, permissions: [permission], search: 'os = Debian', organization_ids: [taxonomies(:organization1).id])
+        FactoryBot.create(:filter, role: @role, permissions: [permission], search: 'os = Debian')
         authorizer = Authorizer.new(@user)
         # FactValue is referencing HostBase, but operatingsystem association is defined on Host::Managed
         # this could cause unknown association exception in Rails, we should avoid it

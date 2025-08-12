@@ -264,7 +264,6 @@ Foreman::Application.routes.draw do
   resources :roles, except: [:show] do
     member do
       get 'clone'
-      patch 'disable_filters_overriding'
     end
     collection do
       get 'auto_complete_search'
@@ -273,7 +272,6 @@ Foreman::Application.routes.draw do
 
   resources :filters, except: [:show, :new, :edit] do
     member do
-      patch 'disable_overriding'
       get 'edit', to: 'react#index'
     end
     collection do

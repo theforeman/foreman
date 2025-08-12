@@ -49,7 +49,7 @@ class ReportTest < ActiveSupport::TestCase
 
     test 'returns visible reports for unlimited user' do
       user_role = FactoryBot.create(:user_user_role)
-      FactoryBot.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'), :unlimited => true)
+      FactoryBot.create(:filter, :role => user_role.role, :permissions => Permission.where(:name => 'view_hosts'))
       collection = as_user(user_role.owner) { Report.my_reports }
       assert_empty (@target_reports + @other_reports).map(&:id) - collection.map(&:id)
     end

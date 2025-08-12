@@ -136,8 +136,7 @@ class FactValueTest < ActiveSupport::TestCase
     test 'returns visible facts for unlimited user' do
       user_role = FactoryBot.create(:user_user_role)
       FactoryBot.create(:filter, :role => user_role.role,
-                         :permissions => Permission.unscoped.where(:name => 'view_hosts'),
-                         :unlimited => true)
+                         :permissions => Permission.unscoped.where(:name => 'view_hosts'))
       target_host.organization = user_role.owner.organizations.first
       target_host.location = user_role.owner.locations.first
       other_host.organization = user_role.owner.organizations.first

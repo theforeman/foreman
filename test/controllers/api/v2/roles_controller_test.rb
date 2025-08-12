@@ -208,23 +208,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
       assert @org, updated_role.organizations.first
       assert @loc, updated_role.locations.first
       updated_filter = Filter.find_by :id => filter.id
-      assert_equal @org, updated_filter.organizations.first
-      assert_equal @loc, updated_filter.locations.first
-    end
-
-    test "should not update overridable filter taxonomies on role taxonomies update" do
-      role_name = 'New Role'
-      role = FactoryBot.create(:role, :name => role_name)
-      filter = FactoryBot.create(:filter, :role_id => role.id, :permission_ids => [permissions(:view_domains).id], :override => true)
-      new_role_attrs = { :location_ids => [@loc.id], :organization_ids => [@org.id] }
-      put :update, params: { :id => role.id, :role => new_role_attrs }
-      assert_response :success
-      updated_role = Role.find_by :name => role_name
-      assert @org, updated_role.organizations.first
-      assert @loc, updated_role.locations.first
-      updated_filter = Filter.find_by :id => filter.id
-      assert_empty updated_filter.organizations
-      assert_empty updated_filter.locations
+      assert_equal "(organization_id ^ (#{@org.id})) and (location_id ^ (#{@loc.id}))", updated_filter.taxonomy_search
     end
   end
 

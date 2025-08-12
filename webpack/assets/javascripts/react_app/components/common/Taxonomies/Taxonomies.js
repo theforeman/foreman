@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup } from '@patternfly/react-core';
-import { DualListWithIds } from '../../components/common/Pf4DualList/DualListWithIds';
-import { translate as __ } from '../../common/I18n';
+import { DualListWithIds } from '../Pf4DualList/DualListWithIds';
+import { translate as __ } from '../../../common/I18n';
 
 export const Taxonomies = ({
   showOrgs,

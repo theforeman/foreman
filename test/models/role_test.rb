@@ -261,7 +261,7 @@ class RoleTest < ActiveSupport::TestCase
 
     it "should build filters with assigned permission" do
       @role.add_permissions [@permission1.name, @permission2.name.to_sym]
-      assert @role.filters.all?(&:unlimited?)
+      assert @role.filters.all? { |f| f.search.blank? }
       permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
       assert_equal 2, @role.filters.size
       assert_includes permissions, Permission.find_by_name(@permission1.name)
@@ -287,7 +287,7 @@ class RoleTest < ActiveSupport::TestCase
     it "sets search filter to all filters" do
       search = "id = 1"
       @role.add_permissions [@permission1.name, @permission2.name.to_sym], :search => search
-      refute @role.filters.any?(&:unlimited?)
+      refute @role.filters.any? { |f| f.search.blank? }
       assert @role.filters.all? { |f| f.search == search }
     end
   end
@@ -371,34 +371,6 @@ class RoleTest < ActiveSupport::TestCase
     end
 
     describe '#sync_inheriting_filters' do
-      it 'automatically propagates taxonomies to filters after save' do
-        @role.organizations = [@org1]
-        @role.save
-        @filter_with_org.reload
-        assert_equal [@org1], @filter_with_org.organizations
-      end
-
-      it 'automatically propagates taxonomies only to inheriting filters' do
-        @filter_with_org.update_attribute :override, true
-        @role.organizations = [@org2]
-        @role.save
-        @filter_with_org.reload
-        assert_empty @filter_with_org.organizations
-      end
-
-      it 'should forced unlimited check if role or filter have no taxonomies' do
-        @role.organizations = [@org1]
-        @role.save
-        @filter_with_org.reload
-        assert @filter_without_org.unlimited?
-        refute @filter_with_org.unlimited?
-        @role.organizations = []
-        @role.save
-        @filter_with_org.reload
-        assert @filter_without_org.unlimited?
-        assert @filter_with_org.unlimited?
-      end
-
       it 'should rollback when invalid filter was saved' do
         role = FactoryBot.build(:role)
         role.add_permissions! :view_domains
@@ -413,30 +385,7 @@ class RoleTest < ActiveSupport::TestCase
         @role.organizations = [@org1]
         @role.save
         @filter_without_org.reload
-        assert_empty @filter_without_org.organizations
         assert_nil @filter_without_org.taxonomy_search
-      end
-
-      it 'does not touch filters that do not support taxonomies even if they override' do
-        @filter_without_org.update_attribute :override, true
-        @role.organizations = [@org1]
-        @role.save
-        @filter_without_org.reload
-        assert_empty @filter_without_org.organizations
-        assert_nil @filter_without_org.taxonomy_search
-      end
-    end
-
-    describe '#disable_filters_overriding' do
-      it 'disables overriding and inherits taxonomies' do
-        @filter_with_org.update_attribute :override, true
-        @role.organizations = [@org1]
-        as_admin do
-          @role.disable_filters_overriding
-          @filter_with_org.reload
-          assert_equal [@org1], @filter_with_org.organizations
-          refute @filter_with_org.override
-        end
       end
     end
 

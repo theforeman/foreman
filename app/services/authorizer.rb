@@ -101,9 +101,9 @@ class Authorizer
     end
 
     result[:where] << { id: base_ids } if @base_collection.present?
-    return result if all_filters.any?(&:unlimited?)
+    return result if all_filters.any? { |f| f.search_condition.blank? }
 
-    search_string = build_scoped_search_condition(all_filters.select(&:limited?))
+    search_string = build_scoped_search_condition(all_filters)
 
     begin
       find_options = ScopedSearch::QueryBuilder.build_query(resource_class.scoped_search_definition, search_string, options)

@@ -18,7 +18,7 @@
 class RolesController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::Role
-  before_action :find_resource, :only => [:clone, :edit, :update, :destroy, :disable_filters_overriding]
+  before_action :find_resource, :only => [:clone, :edit, :update, :destroy]
 
   def index
     params[:order] ||= 'name'
@@ -69,19 +69,12 @@ class RolesController < ApplicationController
     end
   end
 
-  def disable_filters_overriding
-    @role.disable_filters_overriding
-    process_success :success_msg => _('Filters overriding has been disabled')
-  end
-
   private
 
   def action_permission
     case params[:action]
       when 'clone'
         'view'
-      when 'disable_filters_overriding'
-        'edit'
       else
         super
     end
