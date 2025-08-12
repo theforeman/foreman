@@ -21,7 +21,7 @@ class ComputeResourcesVmsController < ApplicationController
       format.html
       format.json do
         if @compute_resource.supports_vms_pagination?
-          render :partial => "compute_resources_vms/index/#{@compute_resource.provider.downcase}.json"
+          render :partial => "compute_resources_vms/index/#{@compute_resource.provider.downcase}", :formats => :json
         else
           render :json => _('JSON VM listing is not supported for this compute resource.'),
             :status => :not_implemented
