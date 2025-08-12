@@ -5,6 +5,11 @@ module Api
 
       before_action :find_resource, :only => %w{show update}
 
+      def find_resource
+        @setting = resource_scope.find(params[:id])
+        raise ActiveRecord::RecordNotFound if @setting.nil?
+      end
+
       def_param_group :setting_params do
         property :id, String, desc: N_('Alias for setting name')
         property :name, String, desc: N_('Setting unique name')

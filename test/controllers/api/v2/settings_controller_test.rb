@@ -81,6 +81,11 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
       show_response = ActiveSupport::JSON.decode(@response.body)
       assert_include show_response.keys, 'updated_at'
     end
+
+    test "return 404 for non-existent setting" do
+      get :show, params: { :id => 'non_existent_setting' }
+      assert_response :not_found
+    end
   end
 
   test "should not update setting" do
