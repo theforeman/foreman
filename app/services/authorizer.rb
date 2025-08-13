@@ -104,10 +104,18 @@ class Authorizer
     return result if all_filters.any?(&:unlimited?)
 
     search_string = build_scoped_search_condition(all_filters.select(&:limited?))
-    find_options = ScopedSearch::QueryBuilder.build_query(resource_class.scoped_search_definition, search_string, options)
-    result[:where] << find_options[:conditions]
-    result[:includes].push(*find_options[:include])
-    result[:joins].push(*find_options[:joins])
+
+    begin
+      find_options = ScopedSearch::QueryBuilder.build_query(resource_class.scoped_search_definition, search_string, options)
+
+      result[:where] << find_options[:conditions]
+      result[:includes].push(*find_options[:include])
+      result[:joins].push(*find_options[:joins])
+    rescue ScopedSearch::QueryNotSupported => e
+      Foreman::Logging.logger('permissions').error N_("Scoped search query not supported: #{e.message}")
+      result[:where] << '1=0' unless user.admin?
+    end
+
     result
   end
 
