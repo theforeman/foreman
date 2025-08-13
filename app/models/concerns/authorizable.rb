@@ -104,5 +104,9 @@ module Authorizable
     ensure
       Thread.current[:ignore_permission_check] = original_value
     end
+
+    def completer_scope(_options)
+      authorized(find_permission_name(:view))
+    end
   end
 end
