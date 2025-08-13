@@ -348,6 +348,14 @@ class AuthorizerTest < ActiveSupport::TestCase
     end
   end
 
+  test "#find_collection returns no results for unsupported scoped search" do
+    permission = Permission.find_by_name('view_hosts')
+    auth = Authorizer.new(@user)
+
+    Filter.new(role: @role, permissions: [permission], search: 'invalid_field = raise-an-error').save(validate: false)
+    assert_empty auth.find_collection(Host::Managed, permission: :view_hosts)
+  end
+
   describe '#find_collection' do
     context 'using joined_on option' do
       test 'allows filtering on associations that do not match association class' do
