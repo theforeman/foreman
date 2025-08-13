@@ -143,11 +143,16 @@ class Role < ApplicationRecord
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
-    if action.is_a?(Hash) || action.is_a?(ActionController::Parameters)
-      allowed_actions.include? Foreman::AccessControl.path_hash_to_string(action)
-    else
-      allowed_permissions.include? action
-    end
+    action_allowed?(action, allowed_permissions)
+  end
+
+  def allowed_to_in_taxonomy_scope?(action)
+    public_permission_names = Foreman::AccessControl.public_permissions.map(&:name)
+    return true if action_allowed?(action, public_permission_names)
+
+    allowed_to?(action) &&
+      allowed_to_in_taxonomy?(action, Organization.current, organization_ids) &&
+      allowed_to_in_taxonomy?(action, Location.current, location_ids)
   end
 
   # options can have following keys
@@ -281,6 +286,35 @@ class Role < ApplicationRecord
   end
 
   private
+
+  def allowed_to_in_taxonomy?(action, current_taxonomy, taxonomy_ids)
+    # If current_taxonomy is unset, the user is in Any context. In that case we
+    # can skip doing taxonomy-based checks on permissions. Either the user has
+    # the permission or not, which should already be covered by #allowed_to?(action).
+    return true if current_taxonomy.nil?
+
+    # If the role is is not assigned to any taxonomy, it is considered to be
+    # globally applicable - it grants the permission in all taxonomies
+    return true if taxonomy_ids.empty?
+
+    # This intentionally checks only for directly assigned taxonomies. In other
+    # words, this intentionally skips checks for taxonomy inheritance.
+    return false unless taxonomy_ids.include?(current_taxonomy.id)
+
+    filters.any? do |filter|
+      action_allowed?(action, filter.permissions.pluck(:name))
+    end
+  end
+
+  def action_allowed?(action, permissions)
+    permissions = permissions.map(&:to_sym)
+    if action.is_a?(Hash) || action.is_a?(ActionController::Parameters)
+      action = Foreman::AccessControl.path_hash_to_string(action)
+      permissions = permissions.flat_map { |perm| Foreman::AccessControl.allowed_actions(perm) }
+    end
+
+    permissions.include?(action)
+  end
 
   def sync_inheriting_filters
     filters.find_each do |f|

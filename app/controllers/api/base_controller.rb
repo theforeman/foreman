@@ -6,7 +6,7 @@ module Api
     include Foreman::Controller::BruteforceProtection
 
     before_action :load_settings
-    before_action :set_default_response_format, :authorize, :set_taxonomy
+    before_action :set_default_response_format, :authorize, :set_taxonomy, :authorize_in_taxonomy_scope
     before_action :check_media_type
     before_action :assign_lone_taxonomies, :only => :create
     before_action :add_info_headers, :set_gettext_locale
@@ -218,6 +218,15 @@ module Api
       end
 
       unless authorized
+        deny_access
+        return false
+      end
+
+      true
+    end
+
+    def authorize_in_taxonomy_scope
+      unless authorized_in_taxonomy_scope
         deny_access
         return false
       end
