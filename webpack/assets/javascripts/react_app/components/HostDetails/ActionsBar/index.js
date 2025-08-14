@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { useState, createContext } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { Button, Split, SplitItem } from '@patternfly/react-core';
 import {
-  DropdownItem,
+  Button,
+  Split,
+  SplitItem,
   Dropdown,
-  DropdownSeparator,
-  KebabToggle,
-} from '@patternfly/react-core/deprecated';
+  DropdownItem,
+  DropdownList,
+  MenuToggle,
+  Divider,
+} from '@patternfly/react-core';
 import {
   DatabaseIcon,
   TrashIcon,
@@ -15,6 +18,7 @@ import {
   UndoIcon,
   BuildIcon,
   TerminalIcon,
+  EllipsisVIcon,
 } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
 import { selectKebabItems } from './Selectors';
@@ -110,7 +114,7 @@ const ActionsBar = ({
     >
       {__('Delete')}
     </DropdownItem>,
-    <DropdownSeparator key="sp-1" ouiaId="dropdown-separator-1" />,
+    <Divider key="sp-1" component="li" />,
     <DropdownItem
       ouiaId="console-dropdown-item"
       onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/console`))}
@@ -131,11 +135,11 @@ const ActionsBar = ({
     >
       {__('Facts')}
     </DropdownItem>,
-    <DropdownSeparator key="sp-2" ouiaId="dropdown-separator-2" />,
+    <Divider key="sp-2" component="li" />,
     <DropdownItem
       ouiaId="pre-version-dropdown-item"
       icon={<UndoIcon />}
-      href={`/hosts/${hostFriendlyId}`}
+      to={`/hosts/${hostFriendlyId}`}
       key="prev-version"
     >
       {__('Legacy UI')}
@@ -160,17 +164,25 @@ const ActionsBar = ({
           <ForemanActionsBarContext.Provider value={{ onKebabToggle }}>
             <Dropdown
               ouiaId="kebab-dropdown"
-              alignments={{ default: 'right' }}
-              toggle={
-                <KebabToggle
-                  id="hostdetails-kebab"
-                  onToggle={(_event, isOpen) => onKebabToggle(isOpen)}
-                />
-              }
               isOpen={kebabIsOpen}
-              isPlain
-              dropdownItems={dropdownItems.concat(registeredItems)}
-            />
+              onOpenChange={isOpen => onKebabToggle(isOpen)}
+              popperProps={{ position: 'right' }}
+              toggle={toggleRef => (
+                <MenuToggle
+                  ref={toggleRef}
+                  id="hostdetails-kebab"
+                  variant="plain"
+                  isExpanded={kebabIsOpen}
+                  onClick={() => onKebabToggle(!kebabIsOpen)}
+                >
+                  <EllipsisVIcon />
+                </MenuToggle>
+              )}
+            >
+              <DropdownList>
+                {dropdownItems.concat(registeredItems)}
+              </DropdownList>
+            </Dropdown>
           </ForemanActionsBarContext.Provider>
         </SplitItem>
       </Split>
