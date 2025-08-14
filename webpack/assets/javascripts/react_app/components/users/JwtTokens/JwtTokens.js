@@ -27,7 +27,7 @@ const JwtTokens = ({ userId }) => {
               <Button
                 ouiaId="invalidate-jwt-token-button"
                 variant="primary"
-                isSmall
+                size="sm"
                 onClick={() =>
                   dispatch(
                     openConfirmModal({
@@ -61,7 +61,7 @@ const JwtTokens = ({ userId }) => {
 };
 
 JwtTokens.propTypes = {
-  userId: PropTypes.string.isRequired,
+  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default JwtTokens;
