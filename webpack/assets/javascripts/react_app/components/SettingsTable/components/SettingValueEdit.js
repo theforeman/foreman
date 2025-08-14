@@ -97,10 +97,10 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
       errorToast: error => {
         const msg =
           error.response?.data?.error?.message ||
+          error.response?.data?.error?.errors?.value?.join('\n') ||
           // eslint-disable-next-line camelcase
           error.response?.data?.error?.full_messages ||
-          error.response?.data?.error?.errors?.value[0] ||
-          error.response?.data?.errors?.value[0];
+          error.response?.data?.errors?.value?.join('\n');
         setErrMsg(msg);
         return `${__('Error updating setting')}: ${msg}`;
       },
