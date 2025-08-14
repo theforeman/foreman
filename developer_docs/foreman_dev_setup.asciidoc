@@ -102,7 +102,7 @@ Run the following command:
 gem install pg -v '{PG_VERSION}' -- --with-pg-config=/usr/pgsql-13/bin/pg_config
 ....
 
-*Good to Notice:* 
+*Good to Notice:*
 Foreman uses Bundler to install dependencies and get up and running. This is the preferred way to get Foreman if you want to benefit from the latest improvements. By using the git repository you can also upgrade more easily.
 
 [[Database]]
@@ -150,7 +150,7 @@ list of options that can be set in an .env file (as well as in the cli call):
 
 * `NOTIFICATIONS_POLLING` is the notification polling interval in ms.
 
-* `NODE_OPTIONS` is used for npm actions, when running plugin tests with `npm run test:plugins` we add `--max-old-space-size=8192` to the options, but it can be overridden by writing your own `NODE_OPTIONS`. It is also added for webpack compile (`foreman start webpack`).
+* `NODE_OPTIONS` is used for npm actions, when running plugin tests with `npm run test:plugins` we add `--max-old-space-size=8192` to the options, but it can be overridden by writing your own `NODE_OPTIONS`. It is also added for webpack compile (`foreman start webpack`). For more permanent setup of node options, please use the [.npmrc](https://docs.npmjs.com/cli/v8/configuring-npm/npmrc) local file (or the project file, if you want to share the option with everyone)
 
 
 === Resetting password

@@ -20,8 +20,7 @@ var { allPluginDirs, skippedDirsKeys, dirsKeys } = filterPluginDirectories();
 const passedArgs = process.argv.slice(2);
 const coreConfigPath = path.resolve(__dirname, '../webpack/jest.config.js');
 const coreConfig = require(coreConfigPath);
-process.env.NODE_OPTIONS =
-  process.env.NODE_OPTIONS || '--max-old-space-size=8192';
+process.env.NODE_OPTIONS = '--max-old-space-size=8192 ' + (process.env.NODE_OPTIONS || '');
 
 const runTests = async () => {
   if (passedArgs[0] && passedArgs[0][0] !== '-') {
