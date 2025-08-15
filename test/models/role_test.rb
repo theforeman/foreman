@@ -440,4 +440,88 @@ class RoleTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe '#allowed_to_in_taxonomy_scope?' do
+    setup do
+      @permission = :view_domains
+      @action = { controller: "domains", action: "index" }
+      @o1 = FactoryBot.create(:organization)
+      @o2 = FactoryBot.create(:organization)
+      @l1 = FactoryBot.create(:location)
+      @l2 = FactoryBot.create(:location)
+      @role = FactoryBot.create(:role,
+        filters: [FactoryBot.create(:filter, permissions: [Permission.find_by(name: @permission)])],
+        organizations: [@o1],
+        locations: [@l1])
+    end
+
+    it 'allows all public permissions implicitly' do
+      blank_role = FactoryBot.create(:role)
+      assert_predicate blank_role.permissions, :empty?
+      Foreman::AccessControl.public_permissions.each do |permission|
+        assert blank_role.allowed_to_in_taxonomy_scope?(permission.name)
+      end
+    end
+
+    it 'does nothing when taxonomies are unset' do
+      assert @role.allowed_to?(@permission) # A sanity check
+      assert @role.allowed_to_in_taxonomy_scope?(@permission)
+
+      assert @role.allowed_to?(@action) # A sanity check
+      assert @role.allowed_to_in_taxonomy_scope?(@action)
+    end
+
+    it 'does nothing when Organization is not set on the role' do
+      @role.organizations = []
+      assert @role.allowed_to_in_taxonomy_scope?(@permission)
+      Taxonomy.as_taxonomy(@o1, nil) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+      end
+      Taxonomy.as_taxonomy(@o2, nil) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+      end
+    end
+
+    it 'passes in the right Organization' do
+      Taxonomy.as_taxonomy(@o1, nil) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+      end
+    end
+
+    it 'fails in the wrong Organization' do
+      Taxonomy.as_taxonomy(@o2, nil) do
+        refute @role.allowed_to_in_taxonomy_scope?(@permission)
+      end
+    end
+
+    it 'only honors direct role-taxonomy assignment' do
+      o3 = FactoryBot.create(:organization, parent: @o1)
+      Taxonomy.as_taxonomy(o3, nil) do
+        refute @role.allowed_to_in_taxonomy_scope?(@permission)
+      end
+    end
+
+    it 'does nothing when Location is not set on the role' do
+      @role.locations = []
+      assert @role.allowed_to_in_taxonomy_scope?(@permission)
+      Taxonomy.as_taxonomy(nil, @l1) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+      end
+      Taxonomy.as_taxonomy(nil, @l2) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+      end
+    end
+
+    it 'passes in the right Location' do
+      Taxonomy.as_taxonomy(nil, @l1) do
+        assert @role.allowed_to_in_taxonomy_scope?(@permission)
+      end
+    end
+
+    it 'fails in the wrong Location' do
+      Taxonomy.as_taxonomy(nil, @l2) do
+        refute @role.allowed_to_in_taxonomy_scope?(@permission)
+      end
+    end
+  end
 end
