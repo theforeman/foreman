@@ -1,0 +1,42 @@
+[[ui-troubleshooting]]
+# UI Troubleshooting
+:toc: right
+:toclevels: 5
+
+A short guide, intended for either quick local fixes that developers can do in their env, or say that they tried before opening bug reports to save time. 
+
+## What is (probably) a ui error?
+When something isn't displaying correctly, such as a blank or partially loaded page, UI elements overlapping, or unexpected behavior without corresponding server-side errors.
+
+## What to do?
+First, please open your browser's developer console and examine the console logs for any error messages. Often, the error message's path may include the name of a specific plugin and the line where the issue occurred. Keep in mind that an error originating in one plugin can sometimes impact the entire application.
+
+Other things to check when there is a UI error:
+
+errors about packages not being found / errors about imported packages:
+
+1. Check if the package is defined in `package.json`. If it's not there, it might be defined in `foreman-js` and imported from there.
+
+2. Try removing your `node_modules` directory and `package-lock.json` file by running `rm -rf node_modules package-lock.json`.
+
+3. Then, reinstall the dependencies using `npm i --legacy-peer-deps` (or just `npm i` for npm 6).
+
+If you've recently updated the Foreman version or code and your changes aren't visible, try the following:
+
+* Allow sufficient time for the webpack compilation to complete, as this can sometimes take a few minutes. Alternatively, you can try deleting the `public/webpack` folder and recompiling.
+
+* Make sure all webpack compilations for Foreman core and plugins are successfull
+
+* Clear your browser's cache.
+
+* Run `bundle exec rake assets:clobber`.
+
+## Other Errors
+
+* `No such file or directory @ rb_sysopen -foreman/public/webpack/manifest.json` That means webpack compile is not finished.
+
+* `FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory` Try running the webpack compilation seperetly with `NODE_OPTIONS='--max-old-space-size=8192' bundle exec foreman start webpack`
+
+* `consumes:64 Uncaught (in promise) Error: Shared module X doesn't exist in shared scope default` Is caused by adding a package to package.json and forgetting to add it to config/webpack.vendor.js.
+
+* `Uncaught ReferenceError: __webpack_exports__ is not defined` is caused by wrong entry point in webpack.vendor.js. It might be a typo, or that the package export is not exported from the package name. (For example @scalprum/core should be @scalprum/core/index)
