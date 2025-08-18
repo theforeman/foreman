@@ -8,7 +8,7 @@ class Setting < ApplicationRecord
   include EncryptValue
   include PermissionName
 
-  TYPES = %w{integer boolean hash array string}
+  TYPES = %w{integer boolean hash array string http_url}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page outofsync_interval}
   # constant BLANK_ATTRS is deprecated and all settings without custom validation allow blank values
   # if you wish to validate non-empty arrays, please add validation through the new setting DSL
@@ -44,8 +44,9 @@ class Setting < ApplicationRecord
   validates_with ValueValidator, :if => proc { |s| Foreman.settings.ready? && s.respond_to?("validate_#{s.name}") }
   validates :value, :array_hostnames_ips => true, :if => proc { |s| ARRAY_HOSTNAMES.include? s.name }
   validates :value, :email => true, :if => proc { |s| EMAIL_ATTRS.include? s.name }
+  validates :value, :http_url => { allow_blank: true }, :if => proc { |s| s.settings_type == "http_url" }
+
   before_save :clear_value_when_default
-  before_save :encrypt_url_if_password_present, :if => proc { |s| s.name == "http_proxy" && s.value.present? }
   validate :validate_frozen_attributes
   before_validation :remove_whitespaces, :if => proc { |s| s.settings_type == "array" }
   # Custom validations are added from SettingManager class
@@ -94,16 +95,27 @@ class Setting < ApplicationRecord
   end
 
   def value=(v)
-    v = v.to_yaml unless v.nil?
-    # the has_attribute is for enabling DB migrations on older versions
-    if setting_definition&.encrypted?
-      # Don't re-write the attribute if the current encrypted value is identical to the new one
-      current_value = self[:value]
-      unless is_decryptable?(current_value) && decrypt_field(current_value) == v
-        self[:value] = encrypt_field(v)
+    raw_value = v.to_s
+    serialized_value = v.nil? ? nil : v.to_yaml
+    current_value = self[:value]
+
+    encrypt_needed =
+      if setting_definition&.settings_type == "http_url"
+        begin
+          URI.parse(raw_value).userinfo.present?
+        rescue URI::InvalidURIError
+          false
+        end
+      else
+        setting_definition&.encrypted?
+      end
+
+    if encrypt_needed
+      unless is_decryptable?(current_value) && decrypt_field(current_value) == serialized_value
+        self[:value] = encrypt_field(serialized_value)
       end
     else
-      self[:value] = v
+      self[:value] = serialized_value
     end
   end
 
@@ -143,7 +155,7 @@ class Setting < ApplicationRecord
         invalid_value_error _("must be an array")
       end
 
-    when "string", "text", nil
+    when "string", "text", "http_url", nil
       # string is taken as default setting type for parsing
       intermediate = val
       intermediate = intermediate.to_s.strip unless NOT_STRIPPED.include?(name)
@@ -283,14 +295,5 @@ class Setting < ApplicationRecord
 
   def remove_whitespaces
     self[:value] = value.each { |a| a.strip! if a.respond_to? :strip! }
-  end
-
-  def encrypt_url_if_password_present
-    uri = URI.parse(value)
-    return unless uri.userinfo&.include?(':')
-
-    self[:value] = encrypt_field(value)
-  rescue URI::InvalidURIError
-    errors.add(:value, _("Invalid URI '#{value}'"))
   end
 end

@@ -245,6 +245,37 @@ class SettingTest < ActiveSupport::TestCase
     check_length_must_be_under_8 'entries_per_page'
   end
 
+  test "invalid http_url values are rejected" do
+    url_setting = Setting.new(name: 'test_url_setting', value: 'invalid url')
+    url_setting.stubs(:settings_type).returns('http_url')
+    url_setting.valid?
+    assert_includes url_setting.errors[:value], "Invalid HTTP(S) URL"
+  end
+
+  test "http_url validation allows blank values" do
+    setting = Setting.new(name: 'test_url_setting', value: '')
+    setting.stubs(:settings_type).returns('http_url')
+    setting.valid?
+    assert_not_includes setting.errors[:value], "Invalid HTTP(S) URL"
+  end
+
+  test "valid http_url values are accepted" do
+    setting = Setting.new(name: 'test_url_setting', value: 'http://example.com')
+    setting.stubs(:settings_type).returns('http_url')
+    setting.valid?
+    assert_not_includes setting.errors[:value], "Invalid HTTP(S) URL"
+  end
+
+  test "non-http_url settings do not trigger http_url validation" do
+    %w[string integer boolean].each do |type|
+      setting = Setting.new(name: "test_#{type}_setting", value: 'not a url at all')
+      setting.stubs(:settings_type).returns(type)
+      setting.valid?
+      assert_not_includes setting.errors[:value], "Invalid HTTP(S) URL",
+        "#{type} setting should not get http_url validation"
+    end
+  end
+
   # test parsing string values
   test "parse boolean attribute from string" do
     check_parsed_value "boolean", true, "true"
@@ -391,52 +422,52 @@ class SettingTest < ActiveSupport::TestCase
       Setting.any_instance.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
     end
 
-    test 'encrypt URL setting when it contains password' do
-      url = 'http://user:pass@example.com'
-      attrs = { :name => "http_proxy", :value => url }
-      setting = Setting.find_or_create_by!(attrs)
-
-      assert setting.is_decryptable?(setting.read_attribute(:value)), 'Expected URL to be encrypted'
-      assert_equal url, setting.value
-    end
-
-    test 'does not encrypt URL when userinfo does not contain password' do
-      url = 'http://user@example.com'
-      attrs = { :name => "http_proxy", :value => url }
-      setting = Setting.find_or_create_by!(attrs)
-
-      refute setting.is_decryptable?(setting.read_attribute(:value)), 'Expected URL not to be encrypted'
-      assert_equal url, setting.value
-    end
-
-    test 'does not encrypt URL when URL does not have userinfo' do
+    test 'does not encrypt URL when it has no credentials' do
       url = 'http://example.com'
-      attrs = { :name => "http_proxy", :value => url }
-      setting = Setting.find_or_create_by!(attrs)
+      setting = Setting.find_or_create_by!(name: "http_proxy", value: url)
 
       refute setting.is_decryptable?(setting.read_attribute(:value)), 'Expected URL not to be encrypted'
       assert_equal url, setting.value
     end
 
     test 'adds an error when URL is invalid' do
-      url = 'http://example.com/hello world'
-      attrs = { :name => "http_proxy", :value => url }
-      setting = Setting.find_or_create_by(attrs)
+      setting = Setting.find_or_create_by!(name: "test_url_setting", value: 'http://example.com/hello world')
+      setting.stubs(:settings_type).returns('http_url')
 
-      refute setting.is_decryptable?(setting.read_attribute(:value)), 'Expected URL not to be encrypted'
+      setting.valid?
       assert_includes setting.errors[:value], "Invalid HTTP(S) URL"
     end
-    test 'no error when URL is invalid and the setting is not http_proxy' do
-      url = 'http://example.com/hello world'
-      attrs = { :name => "not_http_proxy", :value => url }
-      Setting.find_or_create_by!(attrs)
+
+    test 'encrypted? returns true when URL contains username and password' do
+      url = 'http://user:pass@example.com'
+      setting = Setting.find_or_create_by!(name: "http_proxy", value: url)
+
+      assert setting.encrypted?, 'encrypted? should return true when URL contains username and password'
+      assert_equal url, setting.value
     end
 
-    test 'encrypted? should return false when URL contains password' do
-      setting = Setting.new(name: 'http_proxy', value: 'http://user:pass@example.comjkjk')
-      setting.save!
+    test 'encrypted? should return true when URL contains username only' do
+      url = 'http://user@example.com'
+      setting = Setting.find_or_create_by!(name: "http_proxy", value: url)
 
-      assert_not setting.encrypted?, 'encrypted? should return false when URL contains password'
+      assert setting.encrypted?, 'encrypted? should return true when URL contains username only'
+      assert_equal url, setting.value
     end
+  end
+
+  test 'encrypted? should return true when URL contains password only' do
+    url = 'http://:password@example.com'
+    setting = Setting.find_or_create_by!(name: 'http_proxy', value: url)
+
+    assert_predicate setting, :encrypted?, 'encrypted? should return true when URL contains password only'
+    assert_equal url, setting.value
+  end
+
+  test 'encrypted? should return false when URL does not contain credentials' do
+    url = 'http://example.com'
+    setting = Setting.find_or_create_by!(name: 'http_proxy', value: url)
+
+    refute setting.encrypted?, 'encrypted? should not return true when URL does not contain credentials'
+    assert_equal url, setting.value
   end
 end

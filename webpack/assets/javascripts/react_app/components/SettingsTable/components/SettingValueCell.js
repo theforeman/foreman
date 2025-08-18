@@ -10,8 +10,19 @@ const SettingValueCell = ({ setting, index }) => {
   const [editingRow, setEditingRow] = useState(false);
   const [settingData, setSettingData] = useState(setting);
   const updateSetting = newValue => {
-    const newSetting = { ...setting, value: newValue };
-    setSettingData({ ...settingData, value: formatEncryptedValue(newSetting) });
+    // newValue might be the raw value or a full setting object from the server
+    const updatedSetting =
+      newValue && typeof newValue === 'object' && newValue.id
+        ? { ...settingData, ...newValue }
+        : { ...settingData, value: newValue };
+
+    // Ensure the displayed value respects encryption based on the updated flag
+    const displaySetting = {
+      ...updatedSetting,
+      value: formatEncryptedValue(updatedSetting),
+    };
+
+    setSettingData(displaySetting);
     setEditingRow(false);
   };
 
