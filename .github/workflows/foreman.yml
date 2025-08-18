@@ -68,7 +68,7 @@ jobs:
           - 'test:units'
           - 'test:functionals'
           - 'test:graphql'
-          - 'webpack:compile test:integration'
+          - 'webpack:compile test:integration apipie:cache'
           - 'db:seed'
           - 'assets:precompile RAILS_ENV=production DATABASE_URL=nulldb://nohost'
           - 'test:external'
@@ -123,7 +123,13 @@ jobs:
           bundle exec rake db:create
           bundle exec rake db:migrate
       - name: Run rake ${{ matrix.task }}
-        run: bundle exec rake ${{ matrix.task }}
+        run: ${{ contains(matrix.task, 'apipie') && 'APIPIE_RECORD=examples FOREMAN_APIPIE_LANGS=en' || '' }} bundle exec rake ${{ matrix.task }}
+      - name: Archive apidoc
+        uses: actions/upload-artifact@v4
+        if: contains(matrix.task, 'apipie')
+        with:
+          name: apidoc-${{ env.ARTIFACT_SUFFIX }}
+          path: public/apipie-cache/apidoc/
       - name: Archive all_react_app_exports
         if: contains(matrix.task, 'compile')
         uses: actions/upload-artifact@v4
