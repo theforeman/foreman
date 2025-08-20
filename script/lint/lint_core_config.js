@@ -87,6 +87,7 @@ module.exports = {
           'labelledby',
           'lang',
           'ldap',
+          'listitem',
           'loc',
           'locs',
           'lsi',

@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import CounterInput from '../';
 
 
-describe('CounterInput', async () => {
+describe('CounterInput', () => {
   it('warning alert', () => {
     const setWarning = jest.fn();
     const component = mount(

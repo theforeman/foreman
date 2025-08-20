@@ -1,6 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
+import { rtlHelpers } from './rtlTestHelpers';
+
 export default {
   mockStorage: () => {
     const storage = {};
@@ -270,3 +272,5 @@ export const initMockStore = {
   intervals: {},
   API: {},
 };
+
+export { rtlHelpers };
