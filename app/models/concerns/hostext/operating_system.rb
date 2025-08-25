@@ -35,13 +35,14 @@ module Hostext
       cr_id  = compute_resource_id || hostgroup&.compute_resource_id
       cr     = ComputeResource.find_by_id(cr_id)
       images = cr.try(:images)
-      if images.blank?
-        [TemplateKind.friendly.find('finish')]
-      else
-        uuid       = compute_attributes[cr.image_param_name]
-        image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
-        [TemplateKind.friendly.find(image_kind)]
-      end
+
+      return [TemplateKind.friendly.find('finish')] if images.blank?
+      return [] if compute_attributes_empty?
+
+      uuid       = compute_attributes[cr.image_param_name]
+      image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
+
+      [TemplateKind.friendly.find(image_kind)]
     end
 
     def templates_used
