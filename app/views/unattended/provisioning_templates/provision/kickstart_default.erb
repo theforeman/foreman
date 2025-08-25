@@ -169,7 +169,7 @@ timesource --ntp-server <%= host_param('ntp-server') %>
 services --disabled gpm,sendmail,cups,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd
 <% end -%>
 
-<% if realm_compatible && host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'Active Directory' -%>
+<% if realm_compatible && @host.realm && @host.realm.realm_type == 'Active Directory' -%>
 # One-time password will be requested at install time. Otherwise, $HOST[OTP] is used as a placeholder value.
 realm join --one-time-password='<%= @host.otp || "$HOST[OTP]" %>' <%= @host.realm %>
 <% end -%>
@@ -268,7 +268,7 @@ logger "Starting anaconda <%= @host %> postinstall"
 
 <%= snippet 'redhat_register' if rhel_compatible && !use_rhsm -%>
 
-<% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
+<% if @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
