@@ -54,7 +54,7 @@ runcmd:
 - |
 <%= indent(2) { snippet 'redhat_register' } -%>
 <% end -%>
-<% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
+<% if @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
 - |
 <%= indent(2) { snippet 'freeipa_register' } %>
 <% end -%>

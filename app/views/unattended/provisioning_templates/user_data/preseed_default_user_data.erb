@@ -31,7 +31,7 @@ description: |
 echo 'Acquire::http::Proxy "<%= proxy_uri %>";' >> /etc/apt/apt.conf
 <% end -%>
 
-<% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<% if @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
