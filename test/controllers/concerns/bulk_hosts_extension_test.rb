@@ -77,6 +77,18 @@ class BulkHostsExtensionTest < ActiveSupport::TestCase
     assert_includes result, @host3
   end
 
+  def test_search_with_set_search
+    bulk_params = {
+      :included => {
+        :ids => [@host1.id],
+      },
+      :search => "bugfix",
+    }
+    result = @controller.find_bulk_hosts(@edit, bulk_params)
+
+    assert_equal result, [@host1]
+  end
+
   def test_no_hosts_specified
     bulk_params = {
       :included => {},

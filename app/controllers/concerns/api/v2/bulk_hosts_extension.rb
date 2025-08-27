@@ -11,7 +11,7 @@ module Api::V2::BulkHostsExtension
     # works on a structure of param_group bulk_params and transforms it into a list of systems
     bulk_params[:included] ||= {}
     bulk_params[:excluded] ||= {}
-    search_param = bulk_params[:included][:search] || bulk_params[:search]
+    search_param = bulk_params[:included][:search]
 
     if !params[:install_all] && bulk_params[:included][:ids].blank? && search_param.nil?
       render_error :custom_error, :status => :bad_request, :locals => { :message => _('No hosts have been specified') }

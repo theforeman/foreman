@@ -136,7 +136,7 @@ module Api
       private
 
       def find_deletable_hosts
-        find_bulk_hosts(:destroy_hosts, params)
+        find_bulk_hosts(:destroy_hosts, included: params)
       end
 
       def find_editable_hosts
