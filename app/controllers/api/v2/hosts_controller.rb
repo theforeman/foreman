@@ -90,7 +90,7 @@ module Api
           param :compute_resource_id, :number, :desc => N_("nil means host is bare metal")
           param :root_pass, String, :desc => N_("required if host is managed and value is not inherited from host group or default password in settings")
           param :model_id, :number
-          param :hostgroup_id, :number
+          param :hostgroup_id, :number, :desc => N_("ID of the host group. Note: Changing the host group will re-apply attributes inherited from the new host group, unless you explicitly override them again in the update request")
           param :owner_id, :number
           param :owner_type, Host::Base::OWNER_TYPES, :desc => N_("Host's owner type")
           param :image_id, :number
