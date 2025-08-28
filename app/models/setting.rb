@@ -230,6 +230,14 @@ class Setting < ApplicationRecord
     ActiveModel::Name.new(Setting)
   end
 
+  def validate_discovery_prefix(record)
+    return if record.value.blank?
+
+    unless record.value.to_s.match?(/\A[a-zA-Z]/)
+      record.errors.add(:value, _("must start with a letter"))
+    end
+  end
+
   # End methods for loading default settings
 
   private
