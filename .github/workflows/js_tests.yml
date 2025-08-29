@@ -1,12 +1,5 @@
 name: JavaScript
-on:
-  pull_request:
-    paths:
-      - 'webpack/**'
-      - 'package.json'
-      - '.github/workflows/js_tests.yml'
-      - '.eslintrc'
-      - '.eslintignore'
+on: pull_request
 
 permissions:
   contents: read
