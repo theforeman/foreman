@@ -10,6 +10,7 @@ module.exports = {
         lang: 'en_US',
         ignoreRequire: false,
         skipWords: [
+          '70vh',
           '2xl',
           '45vh',
           '4xl',

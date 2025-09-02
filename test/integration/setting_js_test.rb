@@ -32,6 +32,7 @@ class SettingJSTest < IntegrationTestWithJavascript
 
   test "general headers values" do
     visit settings_path
+    assert_no_selector('.pf-v5-c-skeleton', wait: 25)
 
     assert_text 'Name'
     assert_text 'Value'
@@ -40,6 +41,8 @@ class SettingJSTest < IntegrationTestWithJavascript
 
   test "edit single arrays values" do
     visit settings_path
+    assert_no_selector('.pf-v5-c-skeleton', wait: 25)
+
     click_button 'http_proxy_except_list'
 
     input = find('textarea#setting-textarea-http_proxy_except_list')
@@ -54,6 +57,8 @@ class SettingJSTest < IntegrationTestWithJavascript
 
   test "edit empty array values" do
     visit settings_path
+    assert_no_selector('.pf-v5-c-skeleton', wait: 25)
+
     click_button 'http_proxy_except_list'
 
     input = find('textarea#setting-textarea-http_proxy_except_list')
@@ -68,6 +73,8 @@ class SettingJSTest < IntegrationTestWithJavascript
 
   test "edit multi array values" do
     visit settings_path
+    assert_no_selector('.pf-v5-c-skeleton', wait: 25)
+
     click_button 'http_proxy_except_list'
 
     input = find('textarea#setting-textarea-http_proxy_except_list')
@@ -82,6 +89,8 @@ class SettingJSTest < IntegrationTestWithJavascript
 
   test "string input type" do
     visit settings_path
+    assert_no_selector('.pf-v5-c-skeleton', wait: 25)
+
     click_button 'entries_per_page'
 
     input = find('input#setting-input-entries_per_page')
@@ -95,6 +104,8 @@ class SettingJSTest < IntegrationTestWithJavascript
 
   test "select input type" do
     visit settings_path
+    assert_no_selector('.pf-v5-c-skeleton', wait: 25)
+
     click_button 'default_timezone'
 
     select "(GMT +01:00) Berlin", from: 'setting-select-default_timezone'
