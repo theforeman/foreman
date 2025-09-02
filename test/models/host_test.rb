@@ -2184,6 +2184,26 @@ class HostTest < ActiveSupport::TestCase
     assert host.require_ip6_validation?
   end
 
+  test 'uses_httpboot? returns false for pxe lodaer Grub2 UEFI without HTTP' do
+    host = FactoryBot.build_stubbed(:host, :managed, :pxe_loader => "Grub2 UEFI")
+    refute host.uses_httpboot?
+  end
+
+  test 'uses_httpboot? returns true for Grub2 UEFI HTTP pxe loader' do
+    host = FactoryBot.build_stubbed(:host, :managed, :pxe_loader => "Grub2 UEFI HTTP")
+    assert host.uses_httpboot?
+  end
+
+  test 'uses_httpboot? returns true for Grub2 UEFI HTTPS pxe loader' do
+    host = FactoryBot.build_stubbed(:host, :managed, :pxe_loader => "Grub2 UEFI HTTPS")
+    assert host.uses_httpboot?
+  end
+
+  test 'uses_httpboot? returns true for Grub2 UEFI HTTPS pxe loader with enabled secure check' do
+    host = FactoryBot.build_stubbed(:host, :managed, :pxe_loader => "Grub2 UEFI HTTPS")
+    assert host.uses_httpboot?(secure: true)
+  end
+
   test "test tokens are not created until host is saved" do
     class Host::Test < Host::Base
       def lookup_value_match

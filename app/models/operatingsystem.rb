@@ -267,8 +267,8 @@ class Operatingsystem < ApplicationRecord
     return default_boot_filename if host.nil? || host.pxe_loader.nil?
     return host.foreman_url('iPXE') if host.pxe_loader == 'iPXE Embedded'
     architecture = host.arch.nil? ? '' : host.arch.bootfilename_efi
-    if host.subnet&.httpboot? && host.pxe_loader =~ /UEFI HTTP/
-      if host.pxe_loader =~ /HTTPS/
+    if host.subnet&.httpboot? && host.uses_httpboot?
+      if host.uses_httpboot?(secure: true)
         port = host.subnet.httpboot.httpboot_https_port!
       else
         port = host.subnet.httpboot.httpboot_http_port!
@@ -276,7 +276,7 @@ class Operatingsystem < ApplicationRecord
       hostname = URI.parse(host.subnet.httpboot.url).hostname
       self.class.all_loaders_map(architecture, "#{hostname}:#{port}")[host.pxe_loader]
     else
-      raise(::Foreman::Exception.new(N_("HTTP UEFI boot requires proxy with httpboot feature"))) if host.pxe_loader =~ /UEFI HTTP/
+      raise(::Foreman::Exception.new(N_("HTTP UEFI boot requires proxy with httpboot feature"))) if host.uses_httpboot?
       self.class.all_loaders_map(architecture)[host.pxe_loader]
     end
   end

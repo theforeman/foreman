@@ -9,4 +9,8 @@ menuentry 'Preseed default PXEGrub2' {
   initrdefi boot/debian-mirror-2De7fzShMmxe-initrd.gz
 }
 
+# Smart proxy does not have HTTPBoot feature with HTTP port enabled, skipping EFI HTTP boot menu entry
+
+# Smart proxy does not have HTTPBoot feature with HTTPS port enabled, skipping EFI HTTPS boot menu entry
+
 

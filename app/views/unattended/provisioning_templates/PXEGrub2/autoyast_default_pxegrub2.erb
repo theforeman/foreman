@@ -32,15 +32,8 @@ description: |
   kernel_options = "ramdisk_size=65536 install=#{@mediapath} autoyast=#{foreman_url('provision')} textmode=1 #{http_proxy_string}"
 -%>
 
-set default=<%= host_param('default_grub_install_entry') || 0 %>
-set timeout=<%= host_param('loader_timeout') || 10 %>
-
-menuentry '<%= template_name %>' {
-  <%= linuxcmd %> <%= @kernel %> <%= kernel_options %>
-  <%= initrdcmd %> <%= @initrd %>
-}
-
 <%
+fallback_grub_install_entry = "0"
 # Workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561 and https://bugzilla.redhat.com/show_bug.cgi?id=1842893
 subnet = @host.provision_interface.subnet || @host.provision_interface.subnet6
 if subnet && subnet.httpboot
@@ -48,7 +41,21 @@ if subnet && subnet.httpboot
   proxy_https_port = subnet.httpboot.httpboot_https_port
   # Workaround for "no DNS server configured" https://bugzilla.redhat.com/show_bug.cgi?id=1842509
   proxy_host = dns_lookup(subnet.httpboot.hostname)
+
+  if proxy_https_port && @host.uses_httpboot?(secure: true)
+    fallback_grub_install_entry = "efi_https"
+  elsif proxy_http_port && @host.uses_httpboot?
+    fallback_grub_install_entry = "efi_http"
+  end
+end
 -%>
+set default=<%= host_param('default_grub_install_entry', fallback_grub_install_entry) %>
+set timeout=<%= host_param('loader_timeout') || 10 %>
+
+menuentry '<%= template_name %>' {
+  <%= linuxcmd %> <%= @kernel %> <%= kernel_options %>
+  <%= initrdcmd %> <%= @initrd %>
+}
 <% if proxy_http_port -%>
 menuentry '<%= template_name %> EFI HTTP' --id efi_http {
   <%= linuxcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @kernel %> <%= kernel_options %>
@@ -66,7 +73,5 @@ menuentry '<%= template_name %> EFI HTTPS' --id efi_https {
 <% else -%>
 # Smart proxy does not have HTTPBoot feature with HTTPS port enabled, skipping EFI HTTPS boot menu entry
 <% end -%>
-
-<% end %>
 
 <%= snippet_if_exists(template_name + " custom menu") %>

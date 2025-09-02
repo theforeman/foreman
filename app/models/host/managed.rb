@@ -148,6 +148,7 @@ class Host::Managed < Host::Base
     property :ssh_authorized_keys, array_of: String, desc: 'Returns an array of host owner\'s SSH authorized keys'
     property :pxe_loader, String, desc: 'Returns name of PXE loader, e.g. PXELinux BIOS'
     property :pxe_build?, one_of: [true, false], desc: 'Returns true if this host provision method is build, meaning network based provisioning, false otherwise'
+    property :uses_httpboot?, one_of: [true, false], desc: 'Returns true if this host is using the PXE Loader \'UEFI HTTP\' or \'UEFI HTTPs\', false otherwise'
     property :global_status, Integer, desc: 'Returns numerical representation of the host status'
     property :multiboot, String, desc: 'Returns path to multiboot loader'
     property :miniroot, String, desc: 'Returns path to the initial RAM disk for this host'
@@ -167,7 +168,7 @@ class Host::Managed < Host::Base
     allow :id, :name, :created_at, :diskLayout, :puppet_server, :puppet_ca_server, :operatingsystem, :os, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :subnet6, :token, :location, :organization, :provision_method,
-      :image_build?, :pxe_build?, :otp, :realm, :nil?, :indent, :primary_interface,
+      :image_build?, :pxe_build?, :uses_httpboot?, :otp, :realm, :nil?, :indent, :primary_interface,
       :provision_interface, :interfaces, :bond_interfaces, :bridge_interfaces, :interfaces_with_identifier,
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
       :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used, :owner, :owner_type,
@@ -743,6 +744,11 @@ autopart"', desc: 'to render the content of host partition table'
 
   def pxe_build?
     provision_method == 'build'
+  end
+
+  def uses_httpboot?(secure: false)
+    return pxe_loader.to_s.include?("UEFI HTTPS") if secure
+    pxe_loader.to_s.include?("UEFI HTTP")
   end
 
   def validate_media?
