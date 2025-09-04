@@ -92,10 +92,10 @@ class DateTimePicker extends React.Component {
           />
           <Popover
             position={placement}
-            className="container"
-            style={{ minWidth: '50em', width: '33%' }}
+            className="date-time-picker-popover"
             bodyContent={popover}
             onShown={() => this.setState({ hiddenValue: false })}
+            minWidth="500px"
           >
             <InputGroup.Addon className="date-time-picker-pf">
               <Icon type="fa" name="calendar" />
