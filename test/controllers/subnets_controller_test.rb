@@ -16,11 +16,11 @@ class SubnetsControllerTest < ActionController::TestCase
   context 'three similar subnets exists' do
     def setup
       as_admin do
-        @s1 = FactoryBot.create(:subnet_ipv4, :network => '100.20.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
-        @s3 = FactoryBot.create(:subnet_ipv4, :network => '200.100.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
-        @s2 = FactoryBot.create(:subnet_ipv4, :network => '100.100.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
-        @s4 = FactoryBot.create(:subnet_ipv6, :network => 'beef::', :cidr => '64', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
-        @s5 = FactoryBot.create(:subnet_ipv6, :network => 'ffee::', :cidr => '64', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s1 = FactoryBot.create(:subnet_ipv4, :dhcp, :network => '100.20.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s3 = FactoryBot.create(:subnet_ipv4, :dhcp, :network => '200.100.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s2 = FactoryBot.create(:subnet_ipv4, :dhcp, :network => '100.100.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s4 = FactoryBot.create(:subnet_ipv6, :dhcp, :network => 'beef::', :cidr => '64', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s5 = FactoryBot.create(:subnet_ipv6, :dhcp, :network => 'ffee::', :cidr => '64', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
       end
     end
 

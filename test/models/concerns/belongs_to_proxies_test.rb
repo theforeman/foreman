@@ -5,7 +5,7 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
     include BelongsToProxies
 
     class << self
-      def belongs_to(name, options = {})
+      def belongs_to(name, scope, options = {})
       end
 
       def validates(name, options = {})

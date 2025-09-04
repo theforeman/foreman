@@ -4,7 +4,7 @@ class ProxyFeaturesValidatorTest < ActiveSupport::TestCase
   class Validatable
     include ActiveModel::Validations
     validates :proxy, :proxy_features => { :feature => 'DNS' }
-    attr_accessor :proxy
+    attr_accessor :proxy, :proxy_id
   end
 
   def setup
@@ -18,6 +18,12 @@ class ProxyFeaturesValidatorTest < ActiveSupport::TestCase
 
   test 'should fail when proxy feature is not present' do
     @validatable.proxy = FactoryBot.build(:dhcp_smart_proxy)
+    refute_valid @validatable
+    assert_equal ['does not have the DNS feature'], @validatable.errors[:proxy_id]
+  end
+
+  test 'should fail when id is present but association returns nil' do
+    @validatable.proxy_id = FactoryBot.create(:dhcp_smart_proxy).id
     refute_valid @validatable
     assert_equal ['does not have the DNS feature'], @validatable.errors[:proxy_id]
   end
