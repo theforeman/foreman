@@ -13,7 +13,7 @@ class ModelsController < ApplicationController
     if @model.save
       process_success :success_redirect => '/models'
     else
-      process_error
+      redirect_to new_model_path, alert: @model.errors.full_messages.to_sentence
     end
   end
 
