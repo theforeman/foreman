@@ -53,6 +53,7 @@ const TaxonomySelect = ({
     <div style={{ marginTop: '1em' }}>
       <h3>{headerText}</h3>
       <Select
+        className="scrollable-container"
         id={`select-${taxonomy}`}
         ouiaId={`select-${taxonomy}`}
         shouldFocusToggleOnSelect

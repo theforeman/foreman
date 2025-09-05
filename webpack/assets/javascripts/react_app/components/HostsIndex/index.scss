@@ -13,3 +13,8 @@
 #header-text .pf-v5-l-flex {
   align-items: center;
 }
+
+.scrollable-container {
+  max-height: 400px;
+  overflow: auto;
+}
