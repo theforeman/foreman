@@ -28,7 +28,7 @@ const ViewRows = ({ settings }) =>
       <Td width={35}>
         <SettingValueCell setting={data} index={index} />
       </Td>
-      <Td width={35}>{data.description}</Td>
+      <Td width={35}>{__(data.description)}</Td>
     </Tr>
   ));
 
