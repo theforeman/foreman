@@ -24,7 +24,7 @@ description: |
                    else 'python3'
                    end
 
-  additional_packages = ['lsb-release', 'wget']
+  additional_packages = ['wget']
   additional_packages << host_param('additional-packages')
   additional_packages << python_package if ansible_enabled
   additional_packages << 'eject' if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build?

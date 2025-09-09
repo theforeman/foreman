@@ -60,7 +60,6 @@ part swap  --recommended
       <pattern>yast2_basis</pattern>
     </patterns>
     <packages config:type="list">
-      <package>lsb-release</package>
       <package>rubygem-puppet</package>
     </packages>
   </software>

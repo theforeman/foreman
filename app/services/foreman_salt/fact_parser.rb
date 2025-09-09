@@ -6,7 +6,7 @@ module ForemanSalt
       os = Operatingsystem.where(os_hash).first_or_initialize
       if os.new_record?
         os.deduce_family
-        os.release_name = facts[:lsb_distrib_codename]
+        os.release_name = facts[:oscodename] || facts[:lsb_distrib_codename]
         os.save
       end
       os if os.persisted?

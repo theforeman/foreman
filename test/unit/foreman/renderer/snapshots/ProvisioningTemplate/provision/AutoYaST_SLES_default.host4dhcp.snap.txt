@@ -56,7 +56,6 @@ part swap  --recommended
       <pattern>Minimal</pattern>
     </patterns>
     <packages config:type="list">
-      <package>lsb-release</package>
       <package>openssh</package>
       <package>rubygem-puppet</package>
     </packages>
