@@ -3,6 +3,7 @@
 
 
 
+
 # Select package manager for the OS (sets the $PKG_MANAGER* variables)
 if [ -z "$PKG_MANAGER" ]; then
   if [ -f /etc/os-release ] ; then

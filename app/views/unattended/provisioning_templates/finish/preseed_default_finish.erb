@@ -39,6 +39,11 @@ description: |
 /bin/hostname  <%= @host.shortname %>.<%= @host.domain %>
 <% end -%>
 
+<% if @host.operatingsystem.name == "Debian" && @host.operatingsystem.major.to_i >= 13 -%>
+echo "# Removed by Foreman" > /etc/grub.d/30_uefi-firmware
+/usr/sbin/grub-mkconfig -o /boot/grub/grub.cfg
+<% end -%>
+
 <% if @host.provision_method == 'image' && root_pass.present? -%>
 # Install the root password
 echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
