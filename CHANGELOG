@@ -1,3 +1,17 @@
+2025-09-09	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.16.0
+	* i18n - extracting new, pulling from tx
+
+2025-08-29	MariaAga <mariaaga@redhat.com>
+	* Fixes #38663 - Host details kebab inconsistent ui
+	* Fixes #38661 - In setting error show errors.value instead of full_messages
+
+2025-08-29	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #38688 - Drop redundant realm check in provisioning
+
+2025-08-28	Frank Wall <fw@moov.de>
+	* Refs #38266 - Skip removal of oVirt data if plugin is installed
+
 2025-08-26	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.16.0-rc2
 
