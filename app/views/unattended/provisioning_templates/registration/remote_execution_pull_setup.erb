@@ -69,7 +69,9 @@ else
 fi
 
 YGGDRASIL_SERVICE=yggdrasil.service
-systemctl cat $YGGDRASIL_SERVICE >/dev/null 2>/dev/null || YGGDRASIL_SERVICE=yggdrasild.service
+if ! systemctl list-unit-files "$YGGDRASIL_SERVICE" | grep -q "^$YGGDRASIL_SERVICE"; then
+    YGGDRASIL_SERVICE="yggdrasild.service"
+fi
 
 # start the yggdrasild service
 if systemctl is-enabled $YGGDRASIL_SERVICE 2>/dev/null && [ -n "$YGGDRASIL_RESTART_DELAY" ] && [ "$YGGDRASIL_RESTART_DELAY" -gt 0 ]; then
