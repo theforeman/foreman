@@ -207,43 +207,47 @@ class AuthorizerTest < ActiveSupport::TestCase
   end
 
   test "#build_scoped_search_condition(filters) for one filter" do
-    auth    = Authorizer.new(FactoryBot.create(:user))
+    user = FactoryBot.create(:user)
+    auth    = Authorizer.new(user)
     filters = [FactoryBot.build_stubbed(:filter, :on_name_all)]
     result  = auth.build_scoped_search_condition(filters)
 
-    assert_equal '(name ~ *)', result
+    assert_equal "(((name ~ *)) AND ((organization_id ^ (#{user.organization_ids.first})) AND (location_id ^ (#{user.location_ids.first}))))", result
   end
 
   test "#build_scoped_search_condition(filters) for more filters" do
-    auth    = Authorizer.new(FactoryBot.create(:user))
+    user = FactoryBot.create(:user)
+    auth    = Authorizer.new(user)
     filters = [FactoryBot.build_stubbed(:filter, :on_name_all), FactoryBot.build_stubbed(:filter, :on_name_starting_with_a)]
     result  = auth.build_scoped_search_condition(filters)
-
-    assert_equal '(name ~ *) OR (name ~ a*)', result
+    assert_equal result, "(((name ~ *) OR (name ~ a*)) AND ((organization_id ^ (#{user.organization_ids.first})) AND (location_id ^ (#{user.location_ids.first}))))"
   end
 
   test "#build_scoped_search_condition(filters) for filter" do
-    auth    = Authorizer.new(FactoryBot.create(:user))
+    user = FactoryBot.create(:user)
+    auth    = Authorizer.new(user)
     filters = [FactoryBot.build_stubbed(:filter)]
     result  = auth.build_scoped_search_condition(filters)
 
-    assert_equal '', result
+    assert_equal "(((organization_id ^ (#{user.organization_ids.first})) AND (location_id ^ (#{user.location_ids.first}))))", result
   end
 
-  test "#build_scoped_search_condition(filters) for filter" do
-    auth    = Authorizer.new(FactoryBot.create(:user))
+  test "#build_scoped_search_condition(filters) for limited and unlimited filter" do
+    user = FactoryBot.create(:user)
+    auth    = Authorizer.new(user)
     filters = [FactoryBot.build_stubbed(:filter, :on_name_all), FactoryBot.build_stubbed(:filter)]
     result  = auth.build_scoped_search_condition(filters)
 
-    assert_equal '(name ~ *)', result
+    assert_equal "(((organization_id ^ (#{user.organization_ids.first})) AND (location_id ^ (#{user.location_ids.first}))))", result
   end
 
   test "#build_scoped_search_condition(filters) for empty filter" do
-    auth    = Authorizer.new(FactoryBot.create(:user))
-    filters = [FactoryBot.build_stubbed(:filter, :search => '')]
+    user = FactoryBot.create(:user)
+    auth    = Authorizer.new(user)
+    filters = [FactoryBot.build_stubbed(:filter, :search => nil)]
     result  = auth.build_scoped_search_condition(filters)
 
-    assert_equal '', result
+    assert_equal "(((organization_id ^ (#{user.organization_ids.first})) AND (location_id ^ (#{user.location_ids.first}))))", result
   end
 
   test "#find_collection(Host, :permission => :view_hosts) with scoped_search join returns r/w resources" do
@@ -337,6 +341,57 @@ class AuthorizerTest < ActiveSupport::TestCase
           authorizer.find_collection(Host, permission: :view_hosts, joined_on: FactValue).to_a
         end
         assert_operator 0, :<, authorizer.find_collection(Host, permission: :view_hosts, joined_on: FactValue).count
+      end
+    end
+
+    context 'user taxonomy scoping' do
+      setup do
+        as_admin do
+          @org1 = FactoryBot.create(:organization)
+          @org2 = FactoryBot.create(:organization)
+          @loc1 = FactoryBot.create(:location)
+          @loc2 = FactoryBot.create(:location)
+          @user_role  = FactoryBot.create(:user_user_role)
+          @user       = @user_role.owner
+          @role       = @user_role.role
+        end
+      end
+
+      test 'user should not see resource from a different org' do
+        permission = Permission.find_by_name('view_domains')
+        domain = FactoryBot.create(:domain, organization_ids: [@org1.id])
+        FactoryBot.create(:filter, role: @role, permissions: [permission], search: "name = #{domain.name}")
+
+        assert_predicate (domain.organization_ids & @user.organization_ids), :empty?, 'user and domain do not share any organization'
+
+        User.current = @user
+        assert_empty ::Domain.unscoped.authorized(:view_domains)
+      end
+
+      test 'user should see resource in the same org' do
+        permission = Permission.find_by_name('view_domains')
+        domain = FactoryBot.create(:domain)
+        FactoryBot.create(:filter, role: @role, permissions: [permission], search: "name = #{domain.name}")
+
+        assert_predicate (domain.organization_ids & @user.organization_ids), :any?, 'user and domain share at least one organization'
+
+        User.current = @user
+        assert_equal [domain.id], ::Domain.unscoped.authorized(:view_domains).map(&:id)
+      end
+
+      test 'user should see resource in a child org' do
+        permission = Permission.find_by_name('view_domains')
+        child_org = FactoryBot.create(:organization)
+        child_org.parent_id = @user.organization_ids.first
+        child_org.save!
+
+        domain = FactoryBot.create(:domain, organization_ids: [child_org.id])
+        FactoryBot.create(:filter, role: @role, permissions: [permission], search: "name = #{domain.name}")
+
+        assert_predicate (domain.organization_ids & @user.organization_ids), :empty?, 'user and domain do not share any organization'
+
+        User.current = @user
+        assert_equal [domain.id], ::Domain.unscoped.authorized(:view_domains).map(&:id)
       end
     end
   end

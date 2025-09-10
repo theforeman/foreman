@@ -49,7 +49,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       within('#ms-domain_location_ids') do
         assert page.has_content? @loc1.name
         assert page.has_content? @loc2.name
-        assert page.has_content? @loc3.name
+        assert page.has_no_content? @loc3.name # User is not in loc3
       end
       select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
       select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
@@ -92,35 +92,12 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
 
       switch_form_tab('Organizations')
-      ensure_selected_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
       page.click_button 'Submit'
 
       wait_for_success_toast
       created_domain = Domain.unscoped.find_by_name(domain.name)
       # sets the only organization anyway
       assert_equal [@org1], created_domain.organizations
-    end
-
-    def test_org_admins_can_not_assign_location_which_they_do_not_belong_to
-      login_user(@user.login, 'changeme')
-      wait_for_ajax
-      visit new_domain_path
-      wait_for_ajax
-
-      domain = FactoryBot.build_stubbed(:domain)
-      page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
-      switch_form_tab('Organizations')
-      ensure_selected_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
-
-      # once selection are driven by permissions only, this should not be possible
-      switch_form_tab('Locations')
-      select_option_of_multiselect(@loc3.name, select_id: 'domain_location_ids')
-      page.click_button 'Submit'
-
-      # this is partly buggy behavior based on fact user does not belong to location
-      # but has view + assign locations permission, this test describe this behavior
-      # which should change once org/loc selection is based on permissions entirely
-      assert page.has_content?("don't have access to specified organizations or locations")
     end
   end
 
@@ -167,7 +144,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       within('#ms-domain_location_ids') do
         assert page.has_content? @loc1.name
         assert page.has_content? @loc2.name
-        assert page.has_content? @loc3.name
+        assert page.has_no_content? @loc3.name # User is not in loc3
       end
       select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
       select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
@@ -266,7 +243,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       within('#ms-domain_location_ids') do
         assert page.has_content? @loc1.name
         assert page.has_content? @loc2.name
-        assert page.has_content? @loc3.name
+        assert page.has_no_content? @loc3.name # User is not a member of loc3
       end
       select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
       select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
@@ -317,9 +294,8 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       @invisible_domain_2 = FactoryBot.create(:domain, :organizations => [@org1], :locations => [@loc3])
     end
 
-    # this test illustrate the inconsistency results where user can assign resource to org but he/she can't
-    # switch to that org context so after assignment, the resource is not visible, assign_organizations defines
-    # what organizations can be assigned
+    # This test illustrates the consistency of results where user cannot assign resource to an org the user can't
+    # switch to, even though the user has the assign_organizations permission
     def test_org_admins_can_assign_resources_to_both_orgs_but_cant_switch_to_its_context
       login_user(@user.login, 'changeme')
       wait_for_ajax
@@ -338,7 +314,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       within('#ms-domain_location_ids') do
         assert page.has_content? @loc1.name
         assert page.has_content? @loc2.name
-        assert page.has_content? @loc3.name
+        assert page.has_no_content? @loc3.name
       end
       select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
       select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
@@ -346,19 +322,12 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       switch_form_tab('Organizations')
       within('#ms-domain_organization_ids') do
         assert page.has_content? @org1.name
-        assert page.has_content? @org2.name
+        assert page.has_no_content? @org2.name
         assert page.has_content? @org3.name
 
         # current context is any organization
         assert page.has_no_content?('option[selected="selected"]')
       end
-      # select_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
-      select_option_of_multiselect(@org2.name, select_id: 'domain_organization_ids')
-
-      page.click_button 'Submit'
-
-      # choosing only org that user does not belong to is forbidden
-      assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified organizations or locations")
 
       switch_form_tab('Organizations')
       # with org1 which user belongs to, submit passes but the organization selection is limited to user's list
@@ -397,9 +366,8 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
     end
 
     # this test illustrate the non-user without any organization assigned, they can't list or create anything
-    # but because of restrictions coming both from Taxonomix and Authorizable. Taxonomix prevents listing while
-    # Authorizable prevents creation. The information leaks through form, thanks to assign_organizations, names
-    # of organizations in form are visible
+    # because of the restrictions coming from Authorizable. It prevents both listing as well as creation.
+    # The information does not leak through form, names of organizations in form are not visible, despite assign_organizations
     def test_org_admins_can_assign_resources_to_both_orgs_but_cant_switch_to_its_context
       login_user(@user.login, 'changeme')
       wait_for_ajax
@@ -424,20 +392,9 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
 
       switch_form_tab('Organizations')
       within('#ms-domain_organization_ids') do
-        assert page.has_content? @org1.name
-        assert page.has_content? @org2.name
+        assert page.has_no_content? @org1.name
+        assert page.has_no_content? @org2.name
       end
-      select_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
-      select_option_of_multiselect(@org2.name, select_id: 'domain_organization_ids')
-      page.click_button 'Submit'
-
-      # choosing only org that user does not belong to is forbidden
-      assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified organizations or locations")
-
-      switch_form_tab('Organizations')
-      # with org1 which user belongs to, submit passes but the organization selection is limited to user's list
-      deselect_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
-      deselect_option_of_multiselect(@org2.name, select_id: 'domain_organization_ids')
       page.click_button 'Submit'
 
       # can't create in any context either

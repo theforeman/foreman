@@ -298,6 +298,14 @@ class TaxonomixTest < ActiveSupport::TestCase
     resource = FactoryBot.create(:domain, :organizations => [org1, org3])
     assert_includes resource.organizations, org3
 
+    # user is not a member of org2 so the user cannot assign org2 to any resource
+    as_user user do
+      resource.organization_ids = [org1, org2, org3].map(&:id)
+      refute resource.valid?
+      assert_equal "Invalid organizations selection, you must select at least one of yours and have 'assign_organizations' permission.", resource.errors[:organization_ids].first
+    end
+
+    user.organizations = [org1, org2]
     as_user user do
       resource.organization_ids = [org1, org2, org3].map(&:id)
       assert resource.save!

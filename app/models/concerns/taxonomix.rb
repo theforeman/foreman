@@ -249,7 +249,6 @@ module Taxonomix
       key = assoc_base + '_ids'
 
       next if (User.current.nil? || User.current.send(assoc.to_s).empty?) || (!new_record? && !send("#{key}_changed?"))
-
       allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set.union(send("#{key}_was"))
       tried = send(key).to_set
 

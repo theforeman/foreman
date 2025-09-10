@@ -221,7 +221,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
       assert @org, updated_role.organizations.first
       assert @loc, updated_role.locations.first
       updated_filter = Filter.find_by :id => filter.id
-      assert_equal "(organization_id ^ (#{@org.id})) and (location_id ^ (#{@loc.id}))", updated_filter.taxonomy_search
+      assert_equal "((organization_id ^ (#{@org.id})) AND (location_id ^ (#{@loc.id})))", updated_filter.taxonomy_search
     end
   end
 

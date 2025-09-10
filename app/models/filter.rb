@@ -115,11 +115,35 @@ class Filter < ApplicationRecord
   end
 
   def search_condition
-    searches = [search]
-    searches << taxonomy_search
-    searches.compact!
-    searches.map! { |s| parenthesize(s) } if searches.size > 1
-    searches.join(' and ')
+    QueryBuilder.join('AND', [search, taxonomy_search])
+  end
+
+  def search_condition_for_user(user)
+    return search_condition unless granular?
+
+    parts = [search]
+    parts += taxonomy_search_condition_for_user(user, taxonomy_search)
+    QueryBuilder.join('AND', parts)
+  end
+
+  def taxonomy_search_condition_for_user(user, search = nil)
+    parts = []
+    if resource_taxable_by_organization?
+      parts << merge_taxonomy_search('organization_id', search, user.organization_and_child_ids)
+    end
+    if resource_taxable_by_location?
+      parts << merge_taxonomy_search('location_id', search, user.location_and_child_ids)
+    end
+    parts
+  end
+
+  def merge_taxonomy_search(key, search, user_ids)
+    ids = if search.nil? || !search.include?(key)
+            user_ids
+          else
+            search.scan(/\d+/).map(&:to_i) & user_ids
+          end
+    QueryBuilder.key_value_in(key, ids, :block)
   end
 
   def expire_topbar_cache
@@ -139,25 +163,15 @@ class Filter < ApplicationRecord
     orgs = build_taxonomy_search_string_from_ids('organization', organization_ids)
     locs = build_taxonomy_search_string_from_ids('location', location_ids)
 
-    taxonomies = [orgs, locs].reject { |t| t.blank? }
-    self.taxonomy_search = taxonomies.join(' and ').presence
+    self.taxonomy_search = QueryBuilder.join('AND', [orgs, locs])
   end
 
   def build_taxonomy_search_string_from_ids(name, ids)
-    return '' if ids.empty?
-    parenthesize("#{name}_id ^ (#{ids.join(',')})")
+    QueryBuilder.key_value_in("#{name}_id", ids || [])
   end
 
   def nilify_empty_searches
     self.search = nil if search.empty?
-  end
-
-  def parenthesize(string)
-    if string.blank? || (string.start_with?('(') && string.end_with?(')'))
-      string
-    else
-      "(#{string})"
-    end
   end
 
   # if we have 0 types, empty validation will set error, we can't have more than one type

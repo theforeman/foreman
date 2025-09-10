@@ -285,6 +285,8 @@ module Mutations
         let(:context_user) do
           setup_user('create', 'hosts') do |user|
             user.roles << Role.find_by(name: 'Viewer')
+            user.organizations = [organization]
+            user.locations = [tax_location]
           end
         end
         let(:data) { result['data']['createHost']['host'] }
@@ -322,6 +324,8 @@ module Mutations
         let(:context_user) do
           setup_user('show', 'hosts') do |user|
             user.roles << Role.find_by(name: 'Viewer')
+            user.organizations = [organization]
+            user.locations = [tax_location]
           end
         end
 

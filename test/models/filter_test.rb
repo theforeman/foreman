@@ -84,16 +84,16 @@ class FilterTest < ActiveSupport::TestCase
 
   test "search string composition" do
     f = FactoryBot.build_stubbed :filter, :search => nil, :taxonomy_search => nil
-    assert_equal '', f.search_condition
+    assert_nil f.search_condition
 
     f = FactoryBot.build_stubbed :filter, :search => 'domain ~ test*', :taxonomy_search => nil
-    assert_equal 'domain ~ test*', f.search_condition
+    assert_equal '(domain ~ test*)', f.search_condition
 
     f = FactoryBot.build_stubbed :filter, :search => nil, :taxonomy_search => 'organization_id = 1'
-    assert_equal 'organization_id = 1', f.search_condition
+    assert_equal '(organization_id = 1)', f.search_condition
 
     f = FactoryBot.build_stubbed :filter, :search => 'domain ~ test*', :taxonomy_search => 'organization_id = 1'
-    assert_equal '(domain ~ test*) and (organization_id = 1)', f.search_condition
+    assert_equal '((domain ~ test*) AND (organization_id = 1))', f.search_condition
   end
 
   test "filter with a valid search string is valid" do
@@ -132,6 +132,101 @@ class FilterTest < ActiveSupport::TestCase
     location_test = FactoryBot.create(:location)
     f.role = FactoryBot.create(:role, :organizations => [organization_test], :locations => [location_test])
     f.save
-    assert_equal f.taxonomy_search, "(organization_id ^ (#{organization_test.id})) and (location_id ^ (#{location_test.id}))"
+    assert_equal f.taxonomy_search, "((organization_id ^ (#{organization_test.id})) AND (location_id ^ (#{location_test.id})))"
+  end
+
+  context '#search_condition_for_user' do
+    setup do
+      as_admin do
+        @user = FactoryBot.create(:user)
+        @org1 = FactoryBot.create(:organization)
+        @org2 = FactoryBot.create(:organization)
+        @loc1 = FactoryBot.create(:location)
+        @loc2 = FactoryBot.create(:location)
+        @user.organizations = [@org1, @org2]
+        @user.locations = [@loc1, @loc2]
+      end
+    end
+
+    test 'returns search_condition when filter is not granular' do
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Bookmark')
+      f.stub :granular?, false do
+        assert_equal f.search_condition, f.search_condition_for_user(@user)
+      end
+    end
+
+    test 'adds organization scope when resource is taxable by organization' do
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Domain')
+      f.stub :resource_taxable_by_location?, false do
+        expected = "((name ~ test*) AND (organization_id ^ (#{@org1.id},#{@org2.id})))"
+        assert_equal expected, f.search_condition_for_user(@user)
+      end
+    end
+
+    test 'adds location scope when resource is taxable by location' do
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Domain')
+      f.stub :resource_taxable_by_organization?, false do
+        expected = "((name ~ test*) AND (location_id ^ (#{@loc1.id},#{@loc2.id})))"
+        assert_equal expected, f.search_condition_for_user(@user)
+      end
+    end
+
+    test 'adds both organization and location scope when resource is taxable by both' do
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Domain')
+      expected = "((name ~ test*) AND (organization_id ^ (#{@org1.id},#{@org2.id})) AND (location_id ^ (#{@loc1.id},#{@loc2.id})))"
+      assert_equal expected, f.search_condition_for_user(@user)
+    end
+
+    test 'works with nil search and only taxonomy scope' do
+      f = FactoryBot.build_stubbed(:filter, :search => nil, :resource_type => 'Domain')
+      expected = "((organization_id ^ (#{@org1.id},#{@org2.id})) AND (location_id ^ (#{@loc1.id},#{@loc2.id})))"
+      assert_equal expected, f.search_condition_for_user(@user)
+    end
+
+    test 'works with existing taxonomy_search' do
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :taxonomy_search => "organization_id = #{@org1.id}", :resource_type => 'Domain')
+      expected = "((name ~ test*) AND (organization_id ^ (#{@org1.id})) AND (location_id ^ (#{@loc1.id},#{@loc2.id})))"
+      assert_equal expected, f.search_condition_for_user(@user)
+    end
+
+    test 'works with conflicting existing taxonomy_search' do
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :taxonomy_search => "organization_id = 7", :resource_type => 'Domain')
+      expected = "((name ~ test*) AND (set? organization_id AND null? organization_id) AND (location_id ^ (#{@loc1.id},#{@loc2.id})))"
+      assert_equal expected, f.search_condition_for_user(@user)
+    end
+
+    test 'also covers nested organizations' do
+      skip('katello forbids having nested organizations') if ::Foreman::Plugin.installed?('katello')
+
+      sub_org = FactoryBot.create(:organization, parent_id: @org2.id)
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Domain')
+      expected = "((name ~ test*) AND (organization_id ^ (#{@org1.id},#{@org2.id},#{sub_org.id})) AND (location_id ^ (#{@loc1.id},#{@loc2.id})))"
+      assert_equal expected, f.search_condition_for_user(@user)
+    end
+
+    test 'also covers nested locations' do
+      sub_loc = FactoryBot.create(:location, parent_id: @loc2.id)
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Domain')
+      expected = "((name ~ test*) AND (organization_id ^ (#{@org1.id},#{@org2.id})) AND (location_id ^ (#{@loc1.id},#{@loc2.id},#{sub_loc.id})))"
+      assert_equal expected, f.search_condition_for_user(@user)
+    end
+
+    test 'handles user with no organizations' do
+      user_no_orgs = FactoryBot.create(:user)
+      user_no_orgs.organizations = []
+      user_no_orgs.locations = [@loc1]
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Domain')
+      expected = "((name ~ test*) AND (set? organization_id AND null? organization_id) AND (location_id ^ (#{@loc1.id})))"
+      assert_equal expected, f.search_condition_for_user(user_no_orgs)
+    end
+
+    test 'handles user with no locations' do
+      user_no_locs = FactoryBot.create(:user)
+      user_no_locs.organizations = [@org1]
+      user_no_locs.locations = []
+      f = FactoryBot.build_stubbed(:filter, :search => 'name ~ test*', :resource_type => 'Domain')
+      expected = "((name ~ test*) AND (organization_id ^ (#{@org1.id})) AND (set? location_id AND null? location_id))"
+      assert_equal expected, f.search_condition_for_user(user_no_locs)
+    end
   end
 end
