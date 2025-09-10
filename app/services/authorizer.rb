@@ -112,7 +112,7 @@ class Authorizer
       result[:includes].push(*find_options[:include])
       result[:joins].push(*find_options[:joins])
     rescue ScopedSearch::QueryNotSupported => e
-      Foreman::Logging.logger('permissions').error N_("Scoped search query not supported: #{e.message}")
+      Foreman::Logging.logger('permissions').error "Scoped search query not supported: #{e.message}"
       result[:where] << '1=0' unless user.admin?
     end
 
