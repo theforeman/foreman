@@ -7,8 +7,11 @@ import {
   CardTitle,
   CardBody,
   GridItem,
+  Dropdown,
+  DropdownList,
+  MenuToggle,
 } from '@patternfly/react-core';
-import { Dropdown, KebabToggle } from '@patternfly/react-core/deprecated';
+import { EllipsisVIcon } from '@patternfly/react-icons';
 
 import { CardExpansionContext } from '../../../CardExpansionContext';
 
@@ -71,18 +74,24 @@ const CardTemplate = ({
                 <>
                   <Dropdown
                     ouiaId="template-card-dropdown"
-                    toggle={
-                      <KebabToggle
-                        onToggle={(_event, isOpen) => onDropdownToggle(isOpen)}
-                      />
-                    }
                     isOpen={dropdownVisibility}
-                    dropdownItems={dropdownItems}
-                    isPlain
-                    position="right"
+                    onOpenChange={isOpen => onDropdownToggle(isOpen)}
+                    popperProps={{ position: 'right' }}
+                    toggle={toggleRef => (
+                      <MenuToggle
+                        ref={toggleRef}
+                        variant="plain"
+                        isExpanded={dropdownVisibility}
+                        onClick={() => onDropdownToggle(!dropdownVisibility)}
+                      >
+                        <EllipsisVIcon />
+                      </MenuToggle>
+                    )}
                     {...overrideDropdownProps}
                     onSelect={onDropdownSelect}
-                  />
+                  >
+                    <DropdownList>{dropdownItems}</DropdownList>
+                  </Dropdown>
                 </>
               ),
             },
