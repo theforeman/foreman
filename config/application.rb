@@ -105,6 +105,8 @@ module Foreman
     # Rails 7.0 changed this to true
     config.active_record.verify_foreign_keys_for_fixtures = false
     config.active_record.automatic_scope_inversing = false
+    # Open redirects are necessary for container pull over a DNS alias set as an allowed hostname
+    config.action_controller.raise_on_open_redirects = false
 
     # Setup additional routes by loading all routes file from routes directory
     Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
