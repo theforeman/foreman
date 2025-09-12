@@ -130,7 +130,7 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
           isDisabled={title === currentTaxonomy}
         >
           <Grid hasGutter>
-            <GridItem span={10} style={{ textAlign: 'left' }}>
+            <GridItem span={11} style={{ textAlign: 'left' }}>
               {title}
             </GridItem>
             <GridItem span={1}>
