@@ -18,6 +18,7 @@ os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
 aio_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6') || host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppet5')
+aio_openvox_enabled = host_param_true?('enable-openvox7') || host_param_true?('enable-openvox8')
 
 if host_param('run-puppet-in-installer-tags')
   puppet_tags = host_param('run-puppet-in-installer-tags')
@@ -35,6 +36,10 @@ elsif os_family == 'Windows'
   bin_path = 'C:\Program Files\Puppet Labs\Puppet\bin'
 elsif aio_enabled
   linux_package = 'puppet-agent'
+  etc_path = '/etc/puppetlabs/puppet'
+  bin_path = '/opt/puppetlabs/bin'
+elsif aio_openvox_enabled
+  linux_package = 'openvox-agent'
   etc_path = '/etc/puppetlabs/puppet'
   bin_path = '/opt/puppetlabs/bin'
 else
@@ -55,9 +60,10 @@ else
   yum -t -y install <%= linux_package %>
 fi
 <% elsif os_family == 'Suse' -%>
-<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
-rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppetlabs
+<% if aio_enabled -%>
 rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppet
+<% elsif aio_openvox_enabled -%>
+rpmkeys --import https://yum.voxpupuli.org/GPG-KEY-openvox.pub
 <% end -%>
 <% if @host.provision_method == 'image' -%>
 /usr/bin/zypper -n --gpg-auto-import-keys install <%= linux_package %>
@@ -111,7 +117,7 @@ puppet_unit=puppet
 <% if os_family == 'Freebsd' -%>
 echo 'puppet_enable="YES"' >>/etc/rc.conf
 <% end -%>
-<% unless aio_enabled -%>
+<% unless aio_enabled || aio_openvox_enabled -%>
 <% if os_family == 'Debian' -%>
 if [ -f "/etc/default/puppet" ]
 then
