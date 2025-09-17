@@ -1,0 +1,291 @@
+= Foreman - Baremetal DEV Environment Provisioning
+
+Local development setup for simulating bare-metal provisioning in environments where Foreman is not directly accessible from the machines, but only via Smart Proxy.
+
+== Prerequisites
+
+* Running Foreman
+* Running Smart Proxy
+* link:https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/[Installed virtualization]
+* Installed Wireshark (for network traffic analysis)
+
+=== Tools
+
+* `Libvirt` for virtual machines (our 'baremetals') & subnet configuration
+* link:https://www.isc.org/dhcp/[ISC DHCP] for `DHCP`
+
+=== Data
+
+* Domain: `virtual.lan`
+* Subnet: `192.168.66.1`
+* Provisioning interface: `virbr66`
+
+== Libvirt Subnet
+
+See the `libvirt/virtual.lan.xml` for the network configuration.
+
+=== Create the Network
+
+[source,shell]
+----
+sudo virsh net-create ./virtual.lan.xml
+sudo virsh net-define ./virtual.lan.xml
+sudo virsh net-autostart virtual.lan
+
+sudo virsh net-info virtual.lan
+----
+
+=== Firewall
+
+[source,shell]
+----
+sudo firewall-cmd --change-interface virbr66 --zone trusted
+sudo firewall-cmd --change-interface virbr66 --zone trusted --permanent
+sudo firewall-cmd --zone=libvirt --add-port=8080/tcp --permanent
+sudo firewall-cmd --reload
+----
+
+== TFTP
+
+=== Installation
+
+[source,shell]
+----
+sudo dnf install tftp-server
+sudo systemctl enable --now tftp.socket
+sudo systemctl status tftp.socket
+----
+
+=== Directories
+
+[source,shell]
+----
+sudo mkdir -p /var/lib/tftpboot
+sudo mkdir -p /var/lib/tftpboot/{boot,grub,grub2,pxelinux.cfg}
+----
+
+=== Bootloaders
+
+[source,shell]
+----
+sudo dnf install -y syslinux
+sudo cp /usr/share/syslinux/{pxelinux.0,menu.c32,chain.c32,ldlinux.c32,libcom32.c32,libutil.c32} /var/lib/tftpboot
+----
+
+=== Permissions
+
+[source,shell]
+----
+sudo chown your-account:your-group -R /var/lib/tftpboot
+
+sudo semanage fcontext -a -t tftpdir_t "/var/lib/tftpboot(/.*)?"
+sudo restorecon -R -v /var/lib/tftpboot/
+----
+
+=== Firewall
+
+[source,shell]
+----
+sudo firewall-cmd --add-service=tftp --permanent
+sudo firewall-cmd --reload
+----
+
+== DHCP
+
+=== Installation
+
+[source,shell]
+----
+sudo dnf install dhcp-server
+----
+
+=== Configuration
+
+Configure the `/etc/dhcp/dhcpd.conf` file.
+See the `dhcp/dhcpd.conf` file for reference.
+
+=== Service
+
+[source,shell]
+----
+sudo systemctl edit dhcpd
+----
+
+Add the following content:
+
+[source,ini]
+----
+[Service]
+ExecStart=
+ExecStart=/usr/sbin/dhcpd -f -cf /etc/dhcp/dhcpd.conf virbr66 -user dhcpd -group dhcpd --no-pid $DHCPDARGS
+----
+
+The `virbr66` is the interface for your virtual machines. You don't want the DHCP server to listen everywhere, otherwise you'll have a bad time.
+
+Start the `dhcpd` service:
+
+[source,shell]
+----
+sudo systemctl enable --now dhcpd.service
+----
+
+Check the status:
+
+[source,shell]
+----
+sudo systemctl status dhcpd.service
+----
+
+=== Final Steps
+
+Add yourself to the `dhcpd` group:
+
+[source,shell]
+----
+usermod -a -G dhcpd $USER
+chown $USER:dhcpd -R /etc/dhcp
+----
+
+== Smart Proxy
+
+For Smart Proxy configuration, follow the setup in the link:https://github.com/theforeman/smart-proxy[Smart Proxy repository].
+
+== Foreman
+
+* Refresh features on Smart Proxy
+* Import subnet from Smart Proxy, make sure data is correct:
+
+[source]
+----
+Name: default
+Network Address: 192.168.66.0
+Network Prefix: 24
+Network Mask: 255.255.255.0
+Gateway Address: 192.168.66.1
+Primary DNS server: 192.168.66.1
+IPAM: DHCP
+Start of IP range: 192.168.66.2
+End of IP range: 192.168.66.254
+MTU: 1500
+Boot mode: DHCP
+Proxies tab: Set all to your Smart Proxy
+Domains tab: virtual.lan
+----
+
+* Create the domain & assign DNS proxy:
++
+`virtual.lan`
+
+* _Hosts > Operating Systems_ - Create new OS:
+
+[source]
+----
+Name: CentOS_Stream
+Major Version: 10
+Family: Red Hat
+Architectures: x86_64
+Partition table: Kickstart default
+Installation media: CentOS Stream 9 mirror
+----
+
+* _Hosts > Provisioning templates_ - Assign templates to the OS:
+  . PXELinux template: `Kickstart default PXELinux` (`name = "Kickstart default PXELinux"`)
+  . Provisioning template: `Kickstart default` (`name = "Kickstart default"`)
+
+* _Hosts > Operating Systems_ - Set default templates and partition table for the OS
+
+* _Hosts > Templates > Provisioning templates_ **Build PXE Default**
+
+== Provisioning the Host
+
+=== Create the Host in Foreman
+
+[source]
+----
+Compute resource: Bare metal
+OS: CentOS Stream 10
+Subnet: 192.168.66.1
+MAC: 0A:AA:BB:CC:DD:01
+Domain: virtual.lan
+----
+
+=== Running Bare-metal
+
+Now we are going to run the virtual machine, representing our bare metal machine.
+
+[source,shell]
+----
+virt-install  --name="my-bare-metal" \
+  --ram 8192 \
+  --vcpus 4 \
+  --connect qemu:///system \
+  --network network=virtual.lan,mac=0A:AA:BB:CC:DD:01 \
+  --os-variant centos-stream10 \
+  --pxe
+----
+
+== Troubleshooting and Debugging
+
+https://community.theforeman.org/t/debugging-provisioning/32952[Debugging Provisioning Guide]
+
+=== Network Traffic
+
+[source,shell]
+----
+sudo wireshark -ki virbr66
+----
+
+=== Smart Proxy
+
+Make sure the `template_url` port in `config/templates.yml` matches the port your smart-proxy is running on.
+
+=== MAC Address
+
+When creating a new host, make sure the MAC address is unique (not used in other provisioned hosts in the same network).
+
+=== Firewall
+
+NOTE: Please confirm that the link:#firewall[firewall configuration] is correctly configured, as it usually needs to be updated after each reboot or power-on of your PC.
+
+=== Network Interface
+
+Make sure after changing `virtual.lan.xml` link:#create-the-network[network configuration], restart DHCP.
+
+=== DHCP
+
+[source,shell]
+----
+tail -f /var/log/messages
+journalctl -fxeu dhcpd.service
+----
+
+Leases file:
+
+[source,shell]
+----
+/var/lib/dhcpd/dhcpd.leases
+----
+
+=== TFTP
+
+[source,shell]
+----
+cd /tmp
+tftp 192.168.66.1
+get pxelinux.0
+quit
+
+# Check if the file has been downloaded (size is not 0)
+ls pxelinux.0
+----
+
+=== Common Errors
+
+==== Fetching Kickstart from Foreman/Smart Proxy
+
+[source,shell]
+----
+Warning: anaconda: failed to fetch kickstart from http://your-smart-proxy/unattende ...
+----
+
+Solution: Check your firewall and verify that `virbr66` is in the `trusted` zone.

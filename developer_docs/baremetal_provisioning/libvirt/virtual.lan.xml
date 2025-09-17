@@ -1,0 +1,19 @@
+<network>
+  <name>virtual.lan</name>
+  <uuid>2764fd7d-c437-6666-b76d-484dfb0e933e</uuid>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='virbr66' stp='on' delay='0'/>
+  <mac address='52:54:00:3c:30:44'/>
+  <domain name='virtual.lan'/>
+  <dns>
+    <host ip='192.168.66.1'>
+      <hostname>foreman.local.lan</hostname>
+    </host>
+  </dns>
+  <ip address='192.168.66.1' netmask='255.255.255.0'>
+  </ip>
+</network>
