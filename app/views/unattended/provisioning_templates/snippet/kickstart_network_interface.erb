@@ -30,8 +30,9 @@ end
 network_options.push("--hostname #{@host.name}")
 
 # single stack
-network_options.push("--noipv6") if subnet4 && !subnet6
-network_options.push("--noipv4") if !subnet4 && subnet6
+network_options.push("--noipv4") unless subnet4
+network_options.push("--noipv6") unless subnet6
+network_options.push("--onboot=false") unless subnet4 || subnet6 || @iface.bond?
 
 # dual stack MTU check
 raise("IPv4 and IPv6 subnets have different MTU") if subnet4 && subnet6 && subnet4.mtu.present? && subnet6.mtu.present? && subnet4.mtu != subnet6.mtu
