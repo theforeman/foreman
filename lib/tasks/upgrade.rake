@@ -35,7 +35,7 @@ namespace :upgrade do
 
     if task.skip_failure?
       Foreman::Logging.exception("Failed upgrade task: #{task.name}", e)
-      false
+      return false
     end
 
     true
