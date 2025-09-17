@@ -1,36 +1,29 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
-import thunk from 'redux-thunk';
 import PageLayout from './PageLayout';
 import '@testing-library/jest-dom';
 import { pageLayoutMock } from './PageLayout.fixtures';
-import { initMockStore } from '../../../common/testHelpers';
+import { rtlHelpers } from '../../../common/rtlTestHelpers';
 
-const mockStore = configureMockStore([thunk]);
-
-const store = mockStore({ ...initMockStore });
+const { renderWithStore } = rtlHelpers;
 
 jest.unmock('react-helmet');
 describe('PageLayout', () => {
   it('should render header text', () => {
     const header = 'My Header';
-    const { getByText } = render(
-      <Provider store={store}>
-        <Router>
-          <PageLayout
-            {...pageLayoutMock}
-            breadcrumbOptions={null}
-            header={header}
-            searchable={false}
-          >
-            <div>Content</div>
-          </PageLayout>
-        </Router>
-      </Provider>
+    const { getByText } = renderWithStore(
+      <Router>
+        <PageLayout
+          {...pageLayoutMock}
+          breadcrumbOptions={null}
+          header={header}
+          searchable={false}
+        >
+          <div>Content</div>
+        </PageLayout>
+      </Router>
     );
     const headerElement = getByText(header);
     expect(headerElement).toBeInTheDocument();
@@ -39,8 +32,7 @@ describe('PageLayout', () => {
 
   it('should have Search', () => {
     const onSearchMock = jest.fn();
-    const { getByLabelText } = render(
-      <Provider store={store}>
+    const { getByLabelText } = renderWithStore(
         <Router>
           <PageLayout
             {...pageLayoutMock}
@@ -48,9 +40,8 @@ describe('PageLayout', () => {
             onSearch={onSearchMock}
           >
             <div>Content</div>
-          </PageLayout>
-        </Router>
-      </Provider>
+        </PageLayout>
+      </Router>
     );
     expect(getByLabelText('Search input')).toBeInTheDocument();
     expect(getByLabelText('Search')).toBeInTheDocument();
@@ -58,8 +49,7 @@ describe('PageLayout', () => {
 
   it('should render custom breadcrumbs', () => {
     const customBreadcrumbs = <div>test Breadcrumbs</div>;
-    const { getByText } = render(
-      <Provider store={store}>
+    const { getByText } = renderWithStore(
         <Router>
           <PageLayout
             {...pageLayoutMock}
@@ -67,9 +57,8 @@ describe('PageLayout', () => {
             customBreadcrumbs={customBreadcrumbs}
           >
             <div>Content</div>
-          </PageLayout>
-        </Router>
-      </Provider>
+        </PageLayout>
+      </Router>
     );
     const breadcrumbsElement = getByText('test Breadcrumbs');
     expect(breadcrumbsElement).toBeInTheDocument();
@@ -77,8 +66,7 @@ describe('PageLayout', () => {
 
   it('should render toolbar buttons', () => {
     const toolbarButtons = <button>test Button</button>;
-    const { getByText } = render(
-      <Provider store={store}>
+    const { getByText } = renderWithStore(
         <Router>
           <PageLayout
             {...pageLayoutMock}
@@ -86,23 +74,20 @@ describe('PageLayout', () => {
             toolbarButtons={toolbarButtons}
           >
             <div>Content</div>
-          </PageLayout>
-        </Router>
-      </Provider>
+        </PageLayout>
+      </Router>
     );
     const buttonElement = getByText('test Button');
     expect(buttonElement).toBeInTheDocument();
   });
 
   it('should render content', () => {
-    const { getByText } = render(
-      <Provider store={store}>
+    const { getByText } = renderWithStore(
         <Router>
           <PageLayout {...pageLayoutMock} searchable={false}>
             <div>Content</div>
-          </PageLayout>
-        </Router>
-      </Provider>
+        </PageLayout>
+      </Router>
     );
     const contentElement = getByText('Content');
     expect(contentElement).toBeInTheDocument();

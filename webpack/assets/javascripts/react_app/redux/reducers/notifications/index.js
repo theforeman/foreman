@@ -10,7 +10,7 @@ import {
   NOTIFICATIONS,
 } from '../../consts';
 import * as sessionStorage from '../../../components/notifications/NotificationDrawerSessionStorage';
-import { actionTypeGenerator } from '../../API';
+import { actionTypeGenerator } from '../../API/APIActionTypeGenerator';
 
 const initialState = Immutable({
   isDrawerOpen: sessionStorage.getIsOpened(),

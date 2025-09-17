@@ -37,3 +37,5 @@ jest.mock('./assets/javascripts/react_app/common/helpers', () => {
     reloadPage: jest.fn(),
   };
 });
+jest.mock('axios');
+jest.mock('./assets/javascripts/react_app/redux/API/API');

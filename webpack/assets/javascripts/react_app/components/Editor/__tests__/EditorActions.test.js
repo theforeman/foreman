@@ -1,4 +1,4 @@
-import { API } from '../../../redux/API';
+import API from '../../../redux/API/API';
 import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
 import {
   initializeEditor,
@@ -24,7 +24,7 @@ import {
   hostsResponse,
 } from '../Editor.fixtures';
 
-jest.mock('../../../redux/API');
+jest.mock('../../../redux/API/API');
 
 const runWithGetState = (state, params, action) => async dispatch => {
   const getState = () => ({

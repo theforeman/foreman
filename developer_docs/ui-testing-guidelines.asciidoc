@@ -1,0 +1,93 @@
+[[ui-testing-guidelines]]
+= UI Testing Guidelines
+:toc: right
+:toclevels: 5
+
+== Running jest tests
+To run jest tests, you can use the following command:
+```bash
+npm run test
+```
+This will run all .js.test files.
+To test plugins, you can use the following command:
+```bash
+npm run test:plugins <plugin-name>
+```
+plugin name is optional, if not provided, all plugins will be tested.
+As the output for tests is long, the command will list the plugins that have failed tests at the end.
+
+== Running linters
+To run linters, you can use the following command:
+```bash
+npm run lint
+```
+To run linters for plugins, you can use the following command:
+```bash
+npm run lint:plugins <plugin-name>
+```
+plugin name is optional, if not provided, all plugins will be linted.
+
+== Writing tests
+Suggestions for simple and complex components, but developers should use their best judgement.
+
+=== Simple components - React Testing Library
+For simple components, that dont rely on API, a simple React Testing Library test is enough.
+In the React Testing Library test, render the component and check that the text you expect to see is there.
+and when a user action happens, see that the change is reflected after the action and not before.
+You can read more about React Testing Library in https://testing-library.com/docs/guiding-principles/[React Testing Guiding Principles].
+Test examples:
+
+** link:../webpack/assets/javascripts/react_app/routes/common/PageLayout/PageLayout.test.js[]
+** link:../webpack/assets/javascripts/react_app/components/Layout/components/TaxonomySwitcher/TaxonomySwitcher.test.js[]
+** link:../webpack/assets/javascripts/react_app/routes/Upgrade/UpgradePage/__tests__/UpgradePage.test.js[]
+** link:../webpack/assets/javascripts/react_app/components/Loading/__tests__/Loading.test.js[]
+
+Any test that ran by jest (`npm run test`) might use mocked functions.
+You can set a mock per test, or globally by adding the mock to a `\\__mocks__` folder in the same folder as the component.
+Some mocked files are already in `\\__mocks__` folder, but dont define all the functions from the original file, so they will show up as undefined.
+For plugins, the mock folder for Foreman core is in `webpack/__mocks__/foremanReact/`
+
+Tests files should be named like `*.test.js`, and should be in the same folder as the component, or in the `\\__tests__` folder.
+Tests can mock the API in a few ways:
+
+* By adding the mock data to the store using `rtlHelpers.renderWithStore`. `renderWithStore` will create a Redux store with the global mock data using an initial state mock. You can either add to the mock in `/testInitialReduxStore.js` or send a custom initial state as a second argument.
+```js
+import { rtlHelpers } from '../../../common/rtlTestHelpers';
+
+const { renderWithStore } = rtlHelpers;
+...
+it('should render the component', () => {
+  const defaultProps = {...};
+  const extraReduxStoreItems = {...}
+  renderWithStore(<Component {...defaultProps} />, extraReduxStoreItems);
+  expect(screen.getByText('some text')).toBeInTheDocument();
+};
+```
+* By mocking the API calls directly
+```js
+jest.mock('../../redux/API/API');
+...
+API.get.mockImplementation(serverMock);
+```
+* By mocking the selectors return values, if the other ways are not possible.
+
+
+=== Complex components - Capybara
+For more complex components, that rely on API or too many other components, write a Capybara test.
+You can create db items with FactoryBot.
+To test simple index you can use assert_index_page.
+
+Test examples:
+
+- link:../test/integration/domain_test.rb[]
+- link:../test/integration/domain_js_test.rb[]
+- link:../test/integration/audit_js_test.rb[]
+
+=== Timing issues 
+A note on both types of tests, is sometimes they might fail because of timing issues. (popovers, modals, api calls, etc.)
+
+For React Testing Library tests, you can use:
+
+* `jest.useFakeTimers();` in the setup, and then `await act(async () => jest.advanceTimersByTime(1000));` after a timed action has taken place (for example, popover closed).
+
+* For Capybara tests, you can use `wait_for_ajax`

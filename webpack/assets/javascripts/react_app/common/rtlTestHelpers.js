@@ -1,22 +1,34 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose } from 'redux';
+import Immutable from 'seamless-immutable';
+import { merge } from 'lodash';
 import { i18nProviderWrapperFactory } from './i18nProviderWrapperFactory';
+import reducers from '../redux/reducers';
+import { middlewares } from '../redux/middlewares';
+import { initMockStore } from './testInitialReduxStore';
 
-const mockStore = configureMockStore([thunk]);
+export const createTestStore = (
+  initialState = {},
+  storeConfig = compose(applyMiddleware(...middlewares))
+) =>
+  createStore(
+    reducers,
+    Immutable(merge(initMockStore, initialState)),
+    storeConfig
+  );
 
 export const rtlHelpers = {
   /**
    * Utility for rendering components that need Redux store
    * @param {ReactElement} component - Component to render
-   * @param {Object} initialState - Initial Redux state
-   * @param {Object} storeConfig - Additional store configuration
+   * @param {Object} initialState - Initial Redux state, defaults to initMockStore from testHelpers.js
+   * @param {Object} storeConfig - Additional store configuration, defaults to foreman Redux setup
    * @returns {Object} RTL render result with store
    */
-  renderWithStore: (component, initialState = {}, storeConfig = {}) => {
-    const store = mockStore({ ...initialState, ...storeConfig });
+  renderWithStore: (component, initialState, storeConfig) => {
+    const store = createTestStore(initialState, storeConfig);
     return {
       ...render(<Provider store={store}>{component}</Provider>),
       store,
@@ -49,7 +61,7 @@ export const rtlHelpers = {
     mockDate = new Date(),
     timezone = 'UTC'
   ) => {
-    const store = mockStore(initialState);
+    const store = createTestStore(initialState);
     const IntlWrapper = i18nProviderWrapperFactory(mockDate, timezone);
 
     return {

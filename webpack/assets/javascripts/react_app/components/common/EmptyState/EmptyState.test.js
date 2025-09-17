@@ -1,28 +1,37 @@
 import React from 'react';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { push } from 'connected-react-router';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
-import { rtlHelpers, initMockStore } from '../../../common/testHelpers';
+import { rtlHelpers } from '../../../common/testHelpers';
 import { props, action } from './EmptyStateFixtures';
 
+jest.mock('connected-react-router', () => ({
+  ...jest.requireActual('connected-react-router'),
+  push: jest.fn(() => ({ type: 'DUMMY' })),
+}));
+
 describe('Default Empty State', () => {
-  const mockStore = {
-    ...initMockStore,
-  };
+  beforeEach(() => {
+    push.mockClear();
+  });
+  afterAll(() => {
+    jest.unmock('connected-react-router');
+  });
 
   it('should render documentation when given a url', () => {
-    const { store } = rtlHelpers.renderWithStore(
-      <DefaultEmptyState
-        {...props}
-        action={action}
-      />,
-      mockStore
+    rtlHelpers.renderWithStore(
+      <DefaultEmptyState {...props} action={action} />
     );
 
     // Test basic content rendering
     expect(screen.getByText('Printers')).toBeInTheDocument();
-    expect(screen.getByText('Printers print a file from the computer')).toBeInTheDocument();
-    expect(screen.getByText('For more information please see')).toBeInTheDocument();
+    expect(
+      screen.getByText('Printers print a file from the computer')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('For more information please see')
+    ).toBeInTheDocument();
 
     const docLink = screen.getByRole('link', { name: 'documentation' });
     expect(docLink).toBeInTheDocument();
@@ -33,88 +42,77 @@ describe('Default Empty State', () => {
     // Test action button - PatternFly Button renders as <a> with button classes
     const actionButton = screen.getByText('action-title');
     expect(actionButton).toBeInTheDocument();
-    expect(actionButton).toHaveAttribute('data-ouia-component-id', 'empty-state-action-button');
+    expect(actionButton).toHaveAttribute(
+      'data-ouia-component-id',
+      'empty-state-action-button'
+    );
     expect(actionButton).toHaveClass('pf-v5-c-button', 'pf-m-primary');
   });
 
   it('should render secondary actions', () => {
-    const { store } = rtlHelpers.renderWithStore(
+    rtlHelpers.renderWithStore(
       <DefaultEmptyState
         {...props}
         action={action}
         secondaryActions={[action]}
-      />,
-      mockStore
+      />
     );
 
     // Test primary action
-    const primaryButton = document.querySelector('[data-ouia-component-id="empty-state-action-button"]');
+    const primaryButton = document.querySelector(
+      '[data-ouia-component-id="empty-state-action-button"]'
+    );
     expect(primaryButton).toBeInTheDocument();
     expect(primaryButton).toHaveClass('pf-v5-c-button', 'pf-m-primary');
     expect(primaryButton).toHaveTextContent('action-title');
 
     // Test secondary action
-    const secondaryButton = document.querySelector('[data-ouia-component-id="empty-state-secondary-action-button"]');
+    const secondaryButton = document.querySelector(
+      '[data-ouia-component-id="empty-state-secondary-action-button"]'
+    );
     expect(secondaryButton).toBeInTheDocument();
     expect(secondaryButton).toHaveClass('pf-v5-c-button', 'pf-m-secondary');
     expect(secondaryButton).toHaveTextContent('action-title');
   });
 
   it('should dispatch navigation action when primary button is clicked', () => {
-    const { store } = rtlHelpers.renderWithStore(
-      <DefaultEmptyState
-        {...props}
-        action={action}
-      />,
-      mockStore
+    rtlHelpers.renderWithStore(
+      <DefaultEmptyState {...props} action={action} />
     );
 
     const actionButton = screen.getByText('action-title');
     fireEvent.click(actionButton);
-
-    // Check that the store received the push action
-    const actions = store.getActions();
-    expect(actions).toHaveLength(1);
-    expect(actions[0]).toEqual({
-      type: '@@router/CALL_HISTORY_METHOD',
-      payload: {
-        method: 'push',
-        args: ['action-url']
-      }
-    });
+    expect(push).toHaveBeenCalledWith('action-url');
   });
 
   it('should call custom onClick when provided instead of navigation', () => {
     const mockOnClick = jest.fn();
     const customAction = { title: 'Custom Action', onClick: mockOnClick };
 
-    const { store } = rtlHelpers.renderWithStore(
-      <DefaultEmptyState
-        {...props}
-        action={customAction}
-      />,
-      mockStore
+    rtlHelpers.renderWithStore(
+      <DefaultEmptyState {...props} action={customAction} />
     );
 
     const actionButton = screen.getByText('Custom Action');
     fireEvent.click(actionButton);
 
     expect(mockOnClick).toHaveBeenCalledTimes(1);
-    // Should not dispatch navigation action when onClick is provided
-    expect(store.getActions()).toHaveLength(0);
+    expect(push).not.toHaveBeenCalled();
   });
 
   it('should handle secondary action clicks', () => {
     const mockSecondaryClick = jest.fn();
-    const secondaryAction = { title: 'Secondary Action', onClick: mockSecondaryClick };
+    const secondaryAction = {
+      title: 'Secondary Action',
+      onClick: mockSecondaryClick,
+    };
 
-    const { store } = rtlHelpers.renderWithStore(
+    rtlHelpers.renderWithStore(
       <DefaultEmptyState
         {...props}
         action={action}
         secondaryActions={[secondaryAction]}
-      />,
-      mockStore
+      />
     );
 
     const secondaryButton = screen.getByText('Secondary Action');
@@ -124,43 +122,47 @@ describe('Default Empty State', () => {
   });
 
   it('should not render action button when no action provided', () => {
-    const { store } = rtlHelpers.renderWithStore(
-      <DefaultEmptyState {...props} />,
-      mockStore
-    );
+    rtlHelpers.renderWithStore(<DefaultEmptyState {...props} />);
 
     expect(screen.getByText('Printers')).toBeInTheDocument();
-    expect(screen.getByText('Printers print a file from the computer')).toBeInTheDocument();
+    expect(
+      screen.getByText('Printers print a file from the computer')
+    ).toBeInTheDocument();
 
     // Should not have any action buttons
-    expect(document.querySelector('[data-ouia-component-id="empty-state-action-button"]')).not.toBeInTheDocument();
-    expect(document.querySelector('[data-ouia-component-id="empty-state-secondary-action-button"]')).not.toBeInTheDocument();
+    expect(
+      document.querySelector(
+        '[data-ouia-component-id="empty-state-action-button"]'
+      )
+    ).not.toBeInTheDocument();
+    expect(
+      document.querySelector(
+        '[data-ouia-component-id="empty-state-secondary-action-button"]'
+      )
+    ).not.toBeInTheDocument();
   });
 
   it('should use default props when not provided', () => {
-    const { store } = rtlHelpers.renderWithStore(
-      <DefaultEmptyState
-        header="Test Header"
-        description="Test Description"
-      />,
-      mockStore
+    rtlHelpers.renderWithStore(
+      <DefaultEmptyState header="Test Header" description="Test Description" />
     );
 
     expect(screen.getByText('Test Header')).toBeInTheDocument();
     expect(screen.getByText('Test Description')).toBeInTheDocument();
 
     // Should not render documentation when not provided
-    expect(screen.queryByText('For more information please see')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('For more information please see')
+    ).not.toBeInTheDocument();
   });
 
   it('should render with icon and proper accessibility', () => {
-    const { store } = rtlHelpers.renderWithStore(
-      <DefaultEmptyState {...props} />,
-      mockStore
-    );
+    rtlHelpers.renderWithStore(<DefaultEmptyState {...props} />);
 
     // Check heading structure
-    expect(screen.getByRole('heading', { name: 'Printers', level: 5 })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Printers', level: 5 })
+    ).toBeInTheDocument();
 
     // Check icon presence (pficon class)
     const iconElement = document.querySelector('.pficon-printer');
@@ -171,23 +173,27 @@ describe('Default Empty State', () => {
 
 describe('Empty State Pattern', () => {
   it('should render with props', () => {
-    rtlHelpers.renderWithStore(<EmptyStatePattern {...props} />, initMockStore);
+    rtlHelpers.renderWithStore(<EmptyStatePattern {...props} />);
 
     expect(screen.getByText('Printers')).toBeInTheDocument();
-    expect(screen.getByText('Printers print a file from the computer')).toBeInTheDocument();
-    expect(screen.getByText('For more information please see')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'documentation' })).toBeInTheDocument();
+    expect(
+      screen.getByText('Printers print a file from the computer')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('For more information please see')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'documentation' })
+    ).toBeInTheDocument();
   });
 
   it('should render custom documentation element', () => {
-    const customDoc = <div data-testid="custom-doc">Custom Documentation Block</div>;
+    const customDoc = (
+      <div data-testid="custom-doc">Custom Documentation Block</div>
+    );
 
     rtlHelpers.renderWithStore(
-      <EmptyStatePattern
-        {...props}
-        documentation={customDoc}
-      />,
-      initMockStore
+      <EmptyStatePattern {...props} documentation={customDoc} />
     );
 
     expect(screen.getByTestId('custom-doc')).toBeInTheDocument();
@@ -198,22 +204,22 @@ describe('Empty State Pattern', () => {
     const propsWithoutDocs = { ...props };
     delete propsWithoutDocs.documentation;
 
-    rtlHelpers.renderWithStore(<EmptyStatePattern {...propsWithoutDocs} />, initMockStore);
+    rtlHelpers.renderWithStore(<EmptyStatePattern {...propsWithoutDocs} />);
 
     expect(screen.getByText('Printers')).toBeInTheDocument();
-    expect(screen.queryByText('For more information please see')).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'documentation' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('For more information please see')
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: 'documentation' })
+    ).not.toBeInTheDocument();
   });
 
   it('should render custom icon element', () => {
     const customIcon = <div data-testid="custom-icon">Custom Icon</div>;
 
     rtlHelpers.renderWithStore(
-      <EmptyStatePattern
-        {...props}
-        icon={customIcon}
-      />,
-      initMockStore
+      <EmptyStatePattern {...props} icon={customIcon} />
     );
 
     expect(screen.getByTestId('custom-icon')).toBeInTheDocument();
@@ -221,16 +227,19 @@ describe('Empty State Pattern', () => {
   });
 
   it('should render action and secondary actions when provided', () => {
-    const actionElement = <button data-testid="primary-action">Primary Action</button>;
-    const secondaryElement = <button data-testid="secondary-action">Secondary Action</button>;
+    const actionElement = (
+      <button data-testid="primary-action">Primary Action</button>
+    );
+    const secondaryElement = (
+      <button data-testid="secondary-action">Secondary Action</button>
+    );
 
     rtlHelpers.renderWithStore(
       <EmptyStatePattern
         {...props}
         action={actionElement}
         secondaryActions={secondaryElement}
-      />,
-      initMockStore
+      />
     );
 
     expect(screen.getByTestId('primary-action')).toBeInTheDocument();
@@ -241,15 +250,11 @@ describe('Empty State Pattern', () => {
     const customDocumentation = {
       label: 'Check out our ',
       buttonLabel: 'help guide',
-      url: 'https://help.example.com'
+      url: 'https://help.example.com',
     };
 
     rtlHelpers.renderWithStore(
-      <EmptyStatePattern
-        {...props}
-        documentation={customDocumentation}
-      />,
-      initMockStore
+      <EmptyStatePattern {...props} documentation={customDocumentation} />
     );
 
     expect(screen.getByText('Check out our')).toBeInTheDocument();

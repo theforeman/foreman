@@ -4,6 +4,7 @@ import { store } from '../HostStatuses.fixtures.js'
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
   useSelector: jest.fn().mockImplementation(selector => selector()),
 }));
 
