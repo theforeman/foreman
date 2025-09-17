@@ -1,0 +1,133 @@
+= HTTPS in Development Environment
+
+This guide explains how to set up HTTPS for Foreman development using locally trusted certificates.
+
+== mkcert
+
+https://github.com/FiloSottile/mkcert[mkcert] is a simple tool for creating locally trusted development certificates. It requires no configuration.
+
+=== Installation
+
+[source,bash]
+----
+dnf install mkcert
+----
+
+Reload your terminal after installation.
+
+=== Certificate Generation
+
+[source,bash]
+----
+cd /etc/httpd/conf.d
+mkcert -install "*.local.lan"
+
+# To see where the CA is stored:
+echo $(mkcert -CAROOT)
+----
+
+== Foreman Configuration
+
+Configure Foreman to use the development domain:
+
+[source,yaml]
+----
+# /path/to/foreman/config/settings.yaml
+
+webpack_dev_server: true
+:domain: "local.lan"
+:fqdn: "foreman.local.lan"
+:hosts:
+  - foreman.local.lan
+  - localhost
+----
+
+== Smart Proxy Configuration
+
+Configure the Smart Proxy to communicate with Foreman:
+
+[source,yaml]
+----
+# /path/to/smart/proxy/config/settings.yml
+---
+:trusted_hosts:
+  - foreman.local.lan
+  - localhost
+
+:foreman_url: https://foreman.local.lan
+:log_file: STDOUT
+:http_port: 8000
+
+:bind_host: ["*"]
+:log_level: DEBUG
+----
+
+== Apache Configuration
+
+Install Apache and the SSL module:
+
+[source,bash]
+----
+dnf install httpd mod_ssl
+----
+
+Remove any unnecessary `/etc/httpd/conf.d/*.conf` files.
+
+See the example configuration files:
+- `conf/httpd/httpd.conf`
+- `conf/httpd/foreman.conf`
+
+[source,bash]
+----
+# Test the configuration
+apachectl configtest
+
+# Start and enable the service
+systemctl start --now httpd.service
+----
+
+== Firewall Configuration
+
+Allow HTTP and HTTPS traffic through the firewall:
+
+[source,bash]
+----
+firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --add-service=https
+----
+
+== Local DNS Configuration
+
+Add entries to `/etc/hosts` for local development:
+
+[source]
+----
+127.0.0.1   localhost localhost.localdomain foreman.local.lan
+::1         localhost localhost.localdomain foreman.local.lan
+----
+
+== Testing the Setup
+
+Test the HTTP to HTTPS redirect:
+
+[source,bash]
+----
+curl -I http://foreman.local.lan
+----
+
+Expected response:
+
+[source]
+----
+HTTP/1.1 302 Found
+Date: Tue, 12 Mar 2024 13:16:27 GMT
+Server: Apache/2.4.58 (Fedora Linux) OpenSSL/3.1.1
+Location: https://foreman.local.lan/
+----
+
+=== Test the connection
+
+[source,bash]
+----
+curl --user admin:changeme "https://foreman.local.lan/api/hosts"
+----
