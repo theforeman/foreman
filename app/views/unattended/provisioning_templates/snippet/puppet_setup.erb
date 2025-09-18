@@ -148,6 +148,48 @@ if [ -f "/etc/sysconfig/puppet" ]
 then
 /usr/bin/sed -ie s/^PUPPET_SERVER=.*/PUPPET_SERVER=<%= host_puppet_server %>/ /etc/sysconfig/puppet
 fi
+<%#
+IMPORTANT NOTE: Setting "run-puppet-in-installer" is UNSUPPORTED!
+
+The default mode of operation in Foreman is only to set up Puppet, but to not run it inside the installer environment.
+Running Puppet inside the installer can cause various hard to diagnose errors, many of them resulting from the fact that
+services are not started inside the installer.
+
+If you are aware of the downsides, you can trigger a Puppet run inside the installer by setting the variable
+run-puppet-in-installer to true.
+
+Note, that this is an *unsupported mode of operation* and not supported by Foreman at all. You have been warned!
+%>
+<% if host_param_true?('run-puppet-in-installer') -%>
+<% if (os_name == 'Ubuntu' && os_major >= 15) || (os_name == 'Debian' && os_major >= 8) -%>
+# Puppet tries to detect the init system by checking the presence of the directory /run/systemd/system. That detection
+# fails in a chroot environment like the one the installer provides. See Puppet tickets PA-136 and PUP-5577
+#
+# We work around that here until it gets fixed in Puppet (probably never for Puppet 3.x)
+mkdir -p /run/systemd/system
+<% end -%>
+<% end -%>
+# export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
+<% if os_family == 'Windows' -%>
+$env:FACTER_is_installer = $TRUE
+
+# passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+# You can select specific tag(s) with the "run-puppet-in-installer-tags" parameter
+# or set a full puppet run by setting "run-puppet-in-installer" = true
+$puppet_agent_args = @(
+  "agent",
+  "--config", "<%= etc_path %>\puppet.conf",
+  "--onetime",
+  <%= host_param_true?('run-puppet-in-installer') || @full_puppet_run ? '' : "\"--tags #{puppet_tags}\"," %>
+  <%= host_puppet_server.blank? ? '' : "\"--server #{host_puppet_server}\"," %>
+  "--no-daemonize"
+)
+Start-Process '<%= bin_path %>\puppet' -ArgumentList $puppet_agent_args -Wait -NoNewWindow
+<% else -%>
+export FACTER_is_installer=true
+# passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+# You can select specific tag(s) with the "run-puppet-in-installer-tags" parameter
+# or set a full puppet run by setting "run-puppet-in-installer" = true
 <% if host_param_true?('run-puppet-in-installer') || @full_puppet_run -%>
 echo "Performing initial full puppet run"
 <% else -%>
