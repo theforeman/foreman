@@ -94,11 +94,11 @@ trap - ERR
 if [[ $? == 0 ]] ; then
   echo "Host [<%= @host.name %>] successfully configured."
 else
-  echo "Host [<%= @host.name %>] successfully configured, but failed to set built status."
+  echo "ERROR: Host [<%= @host.name %>] configured, but failed to report status to Foreman." >&2
+  exit 1
 fi
 
 <% if plugin_present?('katello') -%>
-subscription-manager facts --update
 subscription-manager repos
 <% end -%>
 

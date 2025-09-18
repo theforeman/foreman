@@ -15,6 +15,7 @@ description: |
   url = foreman_url(endpoint)
   built_https = url.start_with?('https')
   curl_opts = ["-H 'Content-Type: text/plain'"]
+  curl_opts << "--fail"
   wget_opts = ["--header 'Content-Type: text/plain'"]
   if @body_file
     curl_opts << "--data @#{@body_file}"
@@ -45,7 +46,15 @@ elif [ -x /usr/bin/wget ]; then
 else
   wget -q -O /dev/null --header 'Content-Type: text/plain' '<%= url %>'
 fi
+FINAL_STATUS=$?
 
 if [ -x "$(command -v subscription-manager)" ] ; then
   subscription-manager facts --update
+  SUB_MAN_STATUS=$?
+
+  if [ $FINAL_STATUS -eq 0 ]; then
+    FINAL_STATUS=$SUB_MAN_STATUS
+  fi
 fi
+
+(exit $FINAL_STATUS);

@@ -214,29 +214,45 @@ cp -vf /tmp/*.pre.*.log /mnt/sysimage/root/
 if test -f /tmp/foreman_built; then
   echo "calling home: build is done!"
   if [ -x /usr/bin/curl ]; then
-    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --data @/root/install.post.log --noproxy \* --silent 'http://foreman.example.com/unattended/built'
+    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --fail --data @/root/install.post.log --noproxy \* --silent 'http://foreman.example.com/unattended/built'
   elif [ -x /usr/bin/wget ]; then
     /usr/bin/wget -q -O /dev/null --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log --no-proxy 'http://foreman.example.com/unattended/built'
   else
     wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/built'
   fi
+  FINAL_STATUS=$?
   
   if [ -x "$(command -v subscription-manager)" ] ; then
     subscription-manager facts --update
+    SUB_MAN_STATUS=$?
+  
+    if [ $FINAL_STATUS -eq 0 ]; then
+      FINAL_STATUS=$SUB_MAN_STATUS
+    fi
   fi
+  
+  (exit $FINAL_STATUS);
 else
   echo "calling home: build failed!"
   if [ -x /usr/bin/curl ]; then
-    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --data @/root/install.post.log --noproxy \* --silent 'http://foreman.example.com/unattended/failed'
+    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --fail --data @/root/install.post.log --noproxy \* --silent 'http://foreman.example.com/unattended/failed'
   elif [ -x /usr/bin/wget ]; then
     /usr/bin/wget -q -O /dev/null --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log --no-proxy 'http://foreman.example.com/unattended/failed'
   else
     wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/failed'
   fi
+  FINAL_STATUS=$?
   
   if [ -x "$(command -v subscription-manager)" ] ; then
     subscription-manager facts --update
+    SUB_MAN_STATUS=$?
+  
+    if [ $FINAL_STATUS -eq 0 ]; then
+      FINAL_STATUS=$SUB_MAN_STATUS
+    fi
   fi
+  
+  (exit $FINAL_STATUS);
 fi
 
 sync

@@ -35,16 +35,24 @@ EOF
 /sbin/chkconfig puppetd on
 
 if [ -x /usr/bin/curl ]; then
-  /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --noproxy \* --silent 'http://foreman.example.com/unattended/built'
+  /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --fail --noproxy \* --silent 'http://foreman.example.com/unattended/built'
 elif [ -x /usr/bin/wget ]; then
   /usr/bin/wget -q -O /dev/null --method POST --header 'Content-Type: text/plain' --no-proxy 'http://foreman.example.com/unattended/built'
 else
   wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/built'
 fi
+FINAL_STATUS=$?
 
 if [ -x "$(command -v subscription-manager)" ] ; then
   subscription-manager facts --update
+  SUB_MAN_STATUS=$?
+
+  if [ $FINAL_STATUS -eq 0 ]; then
+    FINAL_STATUS=$SUB_MAN_STATUS
+  fi
 fi
+
+(exit $FINAL_STATUS);
 
 PATH=/usr/bin:/usr/sbin:/bin:/sbin:$PATH shutdown -r +1
 
