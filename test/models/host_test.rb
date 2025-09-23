@@ -3300,7 +3300,8 @@ class HostTest < ActiveSupport::TestCase
       host.subnet.tftp_id = 2
       host.subnet.dhcp_id = 3
       host.subnet.dns_id = 4
-      assert host.smart_proxy_ids, [1, 2, 3, 4]
+      host.subnet.bmc_id = 5
+      assert host.smart_proxy_ids, [1, 2, 3, 4, 5]
     end
 
     context 'from hostgroup' do

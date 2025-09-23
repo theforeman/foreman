@@ -12,6 +12,7 @@ module Hostext
         ids << s.dhcp_id
         ids << s.tftp_id
         ids << s.dns_id
+        ids << s.bmc_id
       end
       ids << domain.dns_id if domain.present?
       ids << realm.realm_proxy_id if realm.present?
