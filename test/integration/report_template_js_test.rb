@@ -32,6 +32,7 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
 
     find('input[name="commit"]').click
 
+    wait_for_success_toast
     template = ReportTemplate.find_by_name('A testing report')
     visit generate_report_template_path(template)
 

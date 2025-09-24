@@ -202,6 +202,10 @@ class ActionDispatch::IntegrationTest
     end
   end
 
+  def wait_for_success_toast
+    wait_for { find('.pf-m-success.foreman-toast').visible? rescue false }
+  end
+
   def cookie_named(name)
     page.driver.browser.manage.cookie_named(name)
   end
