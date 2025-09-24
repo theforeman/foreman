@@ -4,9 +4,10 @@ var compute_resource_id = null;
 var isInitialLoad = true;
 $(document).on('ContentLoad', function() {
   var searchParams = new URLSearchParams(window.location.search);
-  if(searchParams.has('hostgroup_id') && isInitialLoad) {
-    var param = searchParams.get('hostgroup_id');
-    $('#host_hostgroup_id').val(param).trigger('change');
+  var hostGroupId = searchParams.get('hostgroup_id') || searchParams.get('host[hostgroup_id]');
+
+  if(hostGroupId && isInitialLoad) {
+    $('#host_hostgroup_id').val(hostGroupId).trigger('change');
     hostgroup_changed($('#host_hostgroup_id'));
   }
   isInitialLoad=false;
