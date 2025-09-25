@@ -87,20 +87,19 @@ class PXECompatibilityCheck {
 /* eslint-disable no-unused-vars */
 const PXE_BIOS = 'PXELinux BIOS';
 const PXE_UEFI = 'PXELinux UEFI';
-const GRUB_UEFI = 'Grub UEFI';
 const GRUB2_UEFI = 'Grub2 UEFI';
 const GRUB2_UEFI_SB = 'Grub2 UEFI SecureBoot';
 
 export const pxeCompatibility = {};
 
-// Ubuntu 10.x or older and Grub1
+// Ubuntu 10.x or older => only PXE_BIOS
 // Ubuntu 11.x or newer and Grub2
 set(
   pxeCompatibility,
   'ubuntu',
   new PXECompatibilityCheck(/ubuntu[^\d]*(\d+)(?:[.]\d+)?/, os => {
     if (os[1] <= '10') {
-      return [PXE_BIOS, GRUB_UEFI];
+      return [PXE_BIOS];
     } else if (os[1] > '10') {
       return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
     }
@@ -108,7 +107,7 @@ set(
   })
 );
 
-// RHEL 6.x and Grub1
+// RHEL 6.x => only PXE_BIOS
 // RHEL 7.x and Grub2
 set(
   pxeCompatibility,
@@ -117,7 +116,7 @@ set(
     /(?:red[ ]*hat|rhel|cent[ ]*os|scientific|oracle)[^\d]*(\d+)(?:[.]\d+)?/,
     os => {
       if (os[1] === '6') {
-        return [PXE_BIOS, GRUB_UEFI];
+        return [PXE_BIOS];
       } else if (os[1] >= '7') {
         return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
       }
@@ -126,14 +125,14 @@ set(
   )
 );
 
-// Debian 2-6 and Grub1
+// Debian 2-6 => only PXE_BIOS
 // Debian 7+ and Grub2
 set(
   pxeCompatibility,
   'debian',
   new PXECompatibilityCheck(/debian[^\d]*(\d+)(?:[.]\d+)?/, os => {
     if (os[1] >= '2' && os[1] <= '6') {
-      return [PXE_BIOS, GRUB_UEFI];
+      return [PXE_BIOS];
     } else if (os[1] > '6') {
       return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
     }

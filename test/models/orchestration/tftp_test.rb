@@ -49,7 +49,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     test 'should queue tftp' do
       @host.provision_interface.send(:queue_tftp)
       tasks = @host.queue.all.map { |t| t.name }
-      assert_includes tasks, "Deploy TFTP PXEGrub config for #{@host.provision_interface}"
+      assert_includes tasks, "Deploy TFTP PXEGrub2 config for #{@host.provision_interface}"
       assert_includes tasks, "Fetch TFTP boot files for #{@host.provision_interface}"
     end
 
@@ -82,7 +82,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     test 'should queue tftp' do
       @host.provision_interface.send(:queue_tftp)
       tasks = @host.queue.all.map { |t| t.name }
-      assert_includes tasks, "Deploy TFTP PXEGrub config for #{@host.provision_interface}"
+      assert_includes tasks, "Deploy TFTP PXEGrub2 config for #{@host.provision_interface}"
       assert_includes tasks, "Fetch TFTP boot files for #{@host.provision_interface}"
     end
   end
@@ -116,7 +116,7 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     test 'should queue tftp' do
       @host.provision_interface.send(:queue_tftp)
       tasks = @host.queue.all.map { |t| t.name }
-      assert_includes tasks, "Deploy TFTP PXEGrub config for #{@host.provision_interface}"
+      assert_includes tasks, "Deploy TFTP PXEGrub2 config for #{@host.provision_interface}"
       assert_includes tasks, "Fetch TFTP boot files for #{@host.provision_interface}"
     end
   end
@@ -294,7 +294,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   test 'should rebuild tftp IPv4' do
     host = FactoryBot.create(:host, :with_tftp_orchestration)
     Nic::Managed.any_instance.expects(:setTFTP).with('PXELinux').once.returns(true)
-    Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub').once.returns(true)
     Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub2').once.returns(true)
     assert host.interfaces.first.rebuild_tftp
   end
@@ -302,7 +301,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   test 'should rebuild tftp IPv6' do
     host = FactoryBot.create(:host, :with_tftp_v6_orchestration)
     Nic::Managed.any_instance.expects(:setTFTP).with('PXELinux').once.returns(true)
-    Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub').once.returns(true)
     Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub2').once.returns(true)
     assert host.interfaces.first.rebuild_tftp
   end
@@ -331,12 +329,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
       assert_match /^No PXEGrub2 templates were found.*/, @host.errors[:base].first
     end
 
-    test "should fail without PXEGrub kind" do
-      @host.pxe_loader = "grub/bootx64.efi"
-      @host.interfaces.first.send(:validate_tftp)
-      assert_match /^No PXEGrub templates were found.*/, @host.errors[:base].first
-    end
-
     test "should fail without PXELinux kind" do
       @host.pxe_loader = "pxelinux.0"
       @host.interfaces.first.send(:validate_tftp)
@@ -347,7 +339,6 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
   test "should_fail_rebuild_tftp_with_exception" do
     h = FactoryBot.create(:host, :with_tftp_orchestration)
     Nic::Managed.any_instance.expects(:setTFTP).with('PXELinux').raises(StandardError, 'TFTP rebuild failed')
-    Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub').once.returns(true)
     Nic::Managed.any_instance.expects(:setTFTP).with('PXEGrub2').once.returns(true)
     refute h.interfaces.first.rebuild_tftp
   end

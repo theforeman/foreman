@@ -227,7 +227,6 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
         default_template = ProvisioningTemplate.find_global_default_template(global_template_name, kind)
         expected = {}
         expected["PXELinux"] = [/combo_medium-[A-Za-z0-9_=]+-(vmlinuz|initrd.img)/, /LABEL hg1 - ct1/]
-        expected["PXEGrub"] = [/combo_medium-[A-Za-z0-9_=]+-(vmlinuz|initrd.img)/, /title hg1 - ct1/]
         expected["PXEGrub2"] = [/combo_medium-[A-Za-z0-9_=]+-(vmlinuz|initrd.img)/, /hg1 - ct1/]
         expected[kind].each do |match|
           assert_match match, default_template.render(variables: { profiles: ProvisioningTemplate.pxe_default_combos })
@@ -238,7 +237,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     test "should call build_pxe_default with allowed_helpers containing the default helpers" do
       ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
       ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
-      ProvisioningTemplate.any_instance.expects(:render).times(3).returns(true)
+      ProvisioningTemplate.any_instance.expects(:render).times(2).returns(true)
       ProvisioningTemplate.build_pxe_default
     end
 

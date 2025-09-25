@@ -28,7 +28,7 @@ class Solaris < Operatingsystem
   end
 
   def template_kinds
-    ["PXEGrub"]
+    ["PXEGrub2"]
   end
 
   def pxedir(medium_provider = nil)

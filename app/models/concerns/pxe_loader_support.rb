@@ -4,7 +4,6 @@ module PxeLoaderSupport
   # mapping from filename or loader name to template kind
   PXE_KINDS = {
     :PXELinux => /^(pxelinux.*|PXELinux (BIOS|UEFI))$/,
-    :PXEGrub => /^(grub\/|Grub UEFI).*/,
     :PXEGrub2 => /(^Grub2 (BIOS|UEFI|ELF).*|\/?grub2\/)/,
     :iPXE => /^((iPXE|http.*\/ipxe-).*|ipxe\.efi|undionly\.kpxe)$/,
   }.with_indifferent_access.freeze
@@ -13,7 +12,6 @@ module PxeLoaderSupport
   PREFERRED_KINDS = {
     :PXELinux => "PXELinux BIOS",
     :PXEGrub2 => "Grub2 UEFI",
-    :PXEGrub => "Grub UEFI",
     :iPXE => 'iPXE Chain BIOS',
   }.with_indifferent_access.freeze
 
@@ -23,7 +21,6 @@ module PxeLoaderSupport
         "None" => "",
         "PXELinux BIOS" => "pxelinux.0",
         "PXELinux UEFI" => "pxelinux.efi",
-        "Grub UEFI" => "grub/grub#{precision}.efi",
         "Grub2 BIOS" => "grub2/grub#{precision}.0",
         "Grub2 ELF" => "grub2/grub#{precision}.elf",
         "Grub2 UEFI" => "@@subdir@@/grub2/grub#{precision}.efi",
@@ -69,7 +66,7 @@ module PxeLoaderSupport
     PXE_KINDS.find { |k, v| v.match(host.pxe_loader) }.try(:first).try(:to_sym)
   end
 
-  # Suggested PXE loader when template kind is available (PXEGrub2, then PXELinux, then PXEGrub in this order)
+  # Suggested PXE loader when template kind is available (PXEGrub2, then PXELinux, in this order)
   def preferred_loader
     associated_templates = os_default_templates.map(&:template_kind).compact.map(&:name)
     template_kinds.each do |loader|

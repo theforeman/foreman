@@ -32,9 +32,9 @@ FactoryBot.define do
       with_os_defaults
     end
 
-    trait :with_grub do
+    trait :with_grub2 do
       provisioning_templates do
-        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXEGrub'))]
+        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXEGrub2'))]
       end
       with_os_defaults
     end

@@ -20,8 +20,8 @@ four:
   operatingsystem: redhat
 
 five:
-  provisioning_template: pxegrub
-  template_kind: pxegrub
+  provisioning_template: pxegrub2
+  template_kind: pxegrub2
   operatingsystem: redhat
 
 six:

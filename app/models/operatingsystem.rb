@@ -255,7 +255,7 @@ class Operatingsystem < ApplicationRecord
 
   # Compatible kinds for this OS sorted by preferrence
   def template_kinds
-    ['PXELinux', 'PXEGrub2', 'PXEGrub', 'iPXE']
+    ['PXELinux', 'PXEGrub2', 'iPXE']
   end
 
   # iPXE templates should not get transfered to tftp

@@ -136,7 +136,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     end
 
     test "build menu" do
-      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template/))).returns(true).times(3)
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template/))).returns(true).times(2)
       get :build_pxe_default, session: set_session_user
       assert flash[:success].present?
       assert_empty flash[:error]
@@ -156,7 +156,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       t2.provisioning_template = templates(:mystring2)
       t1.save
       t2.save
-      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/#{hostgroups(:common).name}.*#{hostgroups(:db).name}/m))).returns(true).times(3)
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/#{hostgroups(:common).name}.*#{hostgroups(:db).name}/m))).returns(true).times(2)
       get :build_pxe_default, session: set_session_user
       assert_redirected_to provisioning_templates_path
     end
@@ -165,7 +165,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       t1 = TemplateCombination.new :hostgroup => hostgroups(:inherited)
       t1.provisioning_template = templates(:mystring2)
       t1.save
-      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template\/MyString2\/Parent\/inherited/))).returns(true).times(3)
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/ks=http:\/\/foreman.unattended.url\/unattended\/template\/MyString2\/Parent\/inherited/))).returns(true).times(2)
       get :build_pxe_default, session: set_session_user
       assert_redirected_to provisioning_templates_path
     end
@@ -175,7 +175,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       second = FactoryBot.build(:hostgroup, :parent => FactoryBot.create(:hostgroup, :name => "parent2"), :name => "abc", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
       FactoryBot.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => second)
       FactoryBot.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => first)
-      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/#{first.name}.*#{second.name}/m))).returns(true).times(3)
+      ProxyAPI::TFTP.any_instance.expects(:create_default).with(regexp_matches(/^PXE.*/), has_entry(:menu, regexp_matches(/#{first.name}.*#{second.name}/m))).returns(true).times(2)
       get :build_pxe_default, session: set_session_user
       assert_redirected_to provisioning_templates_path
     end

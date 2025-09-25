@@ -32,7 +32,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
 
   test_attributes :pid => 'd7309be8-b5c9-4f77-8c4e-e9f2b8982076'
   test "should create with template kind and min attributes" do
-    template_kind = template_kinds(:pxegrub)
+    template_kind = template_kinds(:pxegrub2)
     valid_attrs = { :template => 'This is a test template', :template_kind_id => template_kind.id, :name => 'new_template' }
     post :create, params: { :provisioning_template => valid_attrs }
     assert_response :created
@@ -43,7 +43,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
 
   test_attributes :pid => '4a1410e4-aa3c-4d27-b062-089e34722bd9'
   test "should create with template kind name" do
-    template_kind = template_kinds(:pxegrub)
+    template_kind = template_kinds(:pxegrub2)
     valid_attrs = { :template => 'This is a test template', :template_kind_name => template_kind.name, :name => 'new_template' }
     post :create, params: { :provisioning_template => valid_attrs }
     assert_response :created

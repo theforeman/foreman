@@ -27,11 +27,6 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
       assert_equal :PXELinux, @subject.pxe_loader_kind(@host)
     end
 
-    test "PXEGrub is found for given filename" do
-      @host.pxe_loader = "grub/grubx64.efi"
-      assert_equal :PXEGrub, @subject.pxe_loader_kind(@host)
-    end
-
     test "PXEGrub2 is found for grubx64.elf filename" do
       @host.pxe_loader = "grub2/grubx64.elf"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
@@ -60,11 +55,6 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
     test "PXELinux is found for given loader name" do
       @host.pxe_loader = "PXELinux UEFI"
       assert_equal :PXELinux, @subject.pxe_loader_kind(@host)
-    end
-
-    test "PXEGrub is found for given loader name" do
-      @host.pxe_loader = "Grub UEFI"
-      assert_equal :PXEGrub, @subject.pxe_loader_kind(@host)
     end
 
     test "PXEGrub2 is found for EFI loader name" do
@@ -136,7 +126,6 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
   describe "preferred loader" do
     setup do
       @template_pxelinux = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXELinux))
-      @template_pxegrub = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub))
       @template_pxegrub2 = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub2))
       @template_ipxe = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:iPXE))
     end
@@ -154,28 +143,18 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
 
     test "is none for zero template kinds" do
       @subject.expects(:template_kinds).returns([])
-      @subject.expects(:os_default_templates).returns([@template_pxelinux, @template_pxegrub, @template_pxegrub2])
+      @subject.expects(:os_default_templates).returns([@template_pxelinux, @template_pxegrub2])
       assert_nil @subject.preferred_loader
     end
 
     test "is PXELinux for all associated template kinds" do
-      @subject.expects(:os_default_templates).returns([@template_pxelinux, @template_pxegrub, @template_pxegrub2])
-      assert_equal "PXELinux BIOS", @subject.preferred_loader
-    end
-
-    test "is PXELinux for associated PXELinux and PXEGrub" do
-      @subject.expects(:os_default_templates).returns([@template_pxelinux, @template_pxegrub])
+      @subject.expects(:os_default_templates).returns([@template_pxelinux, @template_pxegrub2])
       assert_equal "PXELinux BIOS", @subject.preferred_loader
     end
 
     test "is PXEGrub2 for associated template PXEGrub2" do
       @subject.expects(:os_default_templates).returns([@template_pxegrub2])
       assert_equal "Grub2 UEFI", @subject.preferred_loader
-    end
-
-    test "is PXEGrub for associated template PXEGrub" do
-      @subject.expects(:os_default_templates).returns([@template_pxegrub])
-      assert_equal "Grub UEFI", @subject.preferred_loader
     end
 
     test "is iPXE Chain BIOS for associated template iPXE" do

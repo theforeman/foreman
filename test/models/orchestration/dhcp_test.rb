@@ -129,10 +129,6 @@ class DHCPOrchestrationTest < ActiveSupport::TestCase
         assert_equal 'pxelinux.efi', host_with_loader('PXELinux UEFI').provision_interface.dhcp_records.first.filename
       end
 
-      test "with Grub UEFI" do
-        assert_equal 'grub/grubx64.efi', host_with_loader('Grub UEFI').provision_interface.dhcp_records.first.filename
-      end
-
       test "with Grub2 UEFI" do
         assert_equal 'grub2/grubx64.efi', host_with_loader('Grub2 UEFI').provision_interface.dhcp_records.first.filename
       end

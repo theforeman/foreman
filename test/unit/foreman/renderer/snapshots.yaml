@@ -4,10 +4,8 @@ files:
   - provision/alterator_default.erb
   - cloud_init/cloud_init_default.erb
   - PXELinux/pxelinux_global_default.erb
-  - PXEGrub/pxegrub_global_default.erb
   - PXEGrub2/pxegrub2_global_default.erb
   - PXELinux/pxelinux_default_local_boot.erb
-  - PXEGrub/pxegrub_default_local_boot.erb
   - PXEGrub2/pxegrub2_default_local_boot.erb
   - PXELinux/pxelinux_default_memdisk.erb
   - PXELinux/pxelinux_chain_ipxe.erb
@@ -31,7 +29,6 @@ files:
   - provision/kickstart_default.erb
   - finish/kickstart_default_finish.erb
   - PXELinux/kickstart_default_pxelinux.erb
-  - PXEGrub/kickstart_default_pxegrub.erb
   - PXEGrub2/kickstart_default_pxegrub2.erb
   - user_data/kickstart_default_user_data.erb
   - POAP/nx-os_default_poap_setup.erb
@@ -61,8 +58,6 @@ files:
   - snippet/puppet_setup.erb
   - snippet/pxegrub2_chainload.erb
   - snippet/pxegrub2_discovery.erb
-  - snippet/pxegrub_chainload.erb
-  - snippet/pxegrub_discovery.erb
   - snippet/pxelinux_chainload.erb
   - snippet/pxelinux_discovery.erb
   - snippet/rancheros_cloudconfig.erb

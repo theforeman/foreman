@@ -263,7 +263,6 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "provides available loaders for Redhat" do
     assert Redhat.new.available_loaders.include? "PXELinux BIOS"
-    assert Redhat.new.available_loaders.include? "Grub UEFI"
     assert Redhat.new.available_loaders.include? "Grub2 UEFI"
   end
 
@@ -284,9 +283,9 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert_equal "PXELinux BIOS", os.preferred_loader
   end
 
-  test "should have preferred pxe loader for OS with Grub template" do
-    os = FactoryBot.create(:operatingsystem, :with_associations, :with_grub)
-    assert_equal "Grub UEFI", os.preferred_loader
+  test "should have preferred pxe loader for OS with Grub2 template" do
+    os = FactoryBot.create(:operatingsystem, :with_associations, :with_grub2)
+    assert_equal "Grub2 UEFI", os.preferred_loader
   end
 
   test "additional_media returns media from medium provider" do

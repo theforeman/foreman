@@ -107,11 +107,6 @@ class UnattendedControllerTest < ActionController::TestCase
         assert_response :success
       end
 
-      test "should render spoof pxegrub for a host" do
-        get :host_template, params: { :kind => 'PXEGrub', :spoof => @rh_host.ip }, session: set_session_user
-        assert_response :success
-      end
-
       test "should render spoof iPXE for a host" do
         ipxe_template = FactoryBot.create(:provisioning_template, template_kind: TemplateKind.find_by(name: 'iPXE'),
                                                                   name: 'iPXE default local boot')

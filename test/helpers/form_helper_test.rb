@@ -41,7 +41,7 @@ class FormHelperTest < ActionView::TestCase
       end
 
       test "inherited but pxe_loader attr is overriden -> returns 'Inherit parent(<parent-pxe-loader-value>)'" do
-        new_pxe_loader = 'Grub UEFI'
+        new_pxe_loader = 'Grub2 UEFI'
         hostgroup = hostgroups(:inherited)
         hostgroup.pxe_loader = new_pxe_loader
         hostgroup.save
