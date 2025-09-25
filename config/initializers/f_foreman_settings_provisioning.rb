@@ -142,6 +142,8 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Fedora CoreOS transpiler (fcct) arguments as an comma-separated array"),
       default: ['--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
       full_name: N_("Fedora CoreOS Transpiler Command Arguments"))
+    validates('ct_location', ->(value) { value.blank? || CT_LOCATIONS.include?(value) }, message: N_("Invalid ct location, use settings.yaml for arbitrary location"))
+    validates('fcct_location', ->(value) { value.blank? || FCCT_LOCATIONS.include?(value) }, message: N_("Invalid fcct location, use settings.yaml for arbitrary location"))
 
     # We have following loop twice to keep the historical order.
     # TODO: First resolve the correct order and then optimize this loop.
