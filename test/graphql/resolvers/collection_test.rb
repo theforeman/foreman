@@ -71,50 +71,110 @@ class CollectionResolverTest < ActiveSupport::TestCase
         end
       end
 
-      context 'with taxonmies' do
-        let(:type) { Types::Subnet }
+      context 'with taxonomies' do
+        let(:type) { Types::Hostgroup }
         setup do
           @locations = FactoryBot.create_list(:location, 2)
           @organizations = FactoryBot.create_list(:organization, 2)
-          @expected_subnets = FactoryBot.create_list(:subnet_ipv4, 2, organizations: [@organizations.first], locations: [@locations.first])
-          @unexpected_subnets = FactoryBot.create_list(:subnet_ipv4, 2, organizations: [@organizations.last], locations: [@locations.last])
+          @expected_hostgroups = FactoryBot.create_list(:hostgroup, 2, organizations: [@organizations.first], locations: [@locations.first])
+          @unexpected_hostgroups = FactoryBot.create_list(:hostgroup, 2, organizations: [@organizations.last], locations: [@locations.last])
         end
 
-        it 'gets all subnets' do
+        it 'gets all hostgroups' do
           results = resolver.resolve
-          (@expected_subnets + @unexpected_subnets).each do |subnet|
-            assert_includes results, subnet
+          (@expected_hostgroups + @unexpected_hostgroups).each do |hostgroup|
+            assert_includes results, hostgroup
           end
         end
 
         it 'filters by location' do
           results = resolver.resolve(location: @locations.first.name)
-          assert_same_elements @expected_subnets, results
+          assert_same_elements @expected_hostgroups, results
         end
 
         it 'filters by organization' do
           results = resolver.resolve(organization: @organizations.first.name)
-          assert_same_elements @expected_subnets, results
+          assert_same_elements @expected_hostgroups, results
         end
 
         it 'filters by location and organization' do
           results = resolver.resolve(location: @locations.first.name, organization: @organizations.first.name)
-          assert_same_elements @expected_subnets, results
+          assert_same_elements @expected_hostgroups, results
         end
 
         it 'filters by location_id' do
           results = resolver.resolve(location_id: Foreman::GlobalId.for(@locations.first))
-          assert_same_elements @expected_subnets, results
+          assert_same_elements @expected_hostgroups, results
         end
 
         it 'filters by organization_id' do
           results = resolver.resolve(organization_id: Foreman::GlobalId.for(@organizations.first))
-          assert_same_elements @expected_subnets, results
+          assert_same_elements @expected_hostgroups, results
         end
 
         it 'filters by location_id and organization_id' do
           results = resolver.resolve(location_id: Foreman::GlobalId.for(@locations.first), organization_id: Foreman::GlobalId.for(@organizations.first))
-          assert_same_elements @expected_subnets, results
+          assert_same_elements @expected_hostgroups, results
+        end
+      end
+
+      context 'with taxonomy scoping' do
+        context 'for organizations' do
+          let(:type) { Types::Organization }
+
+          setup do
+            @test_orgs = FactoryBot.create_list(:organization, 2)
+          end
+
+          it 'returns only user-scoped organizations' do
+            @user = setup_user('view', 'organizations')
+            @user.organizations = [@test_orgs.first]
+            @user.save!
+            @context = { current_user: @user }
+            @resolver = resolver_class.new(object: nil, context: @context, field: nil)
+            results = @resolver.resolve
+            assert_includes results, @test_orgs.first
+            assert_not_includes results, @test_orgs.last
+          end
+
+          it 'admin returns all organizations' do
+            admin = FactoryBot.create(:user, :admin)
+            admin_context = { current_user: admin }
+            admin_resolver = resolver_class.new(object: nil, context: admin_context, field: nil)
+            results = admin_resolver.resolve
+            @test_orgs.each do |org|
+              assert_includes results, org
+            end
+          end
+        end
+
+        context 'for locations' do
+          let(:type) { Types::Location }
+
+          setup do
+            @test_locs = FactoryBot.create_list(:location, 2)
+          end
+
+          it 'returns only user-scoped locations' do
+            @user = setup_user('view', 'locations')
+            @user.locations = [@test_locs.first]
+            @user.save!
+            @context = { current_user: @user }
+            @resolver = resolver_class.new(object: nil, context: @context, field: nil)
+            results = @resolver.resolve
+            assert_includes results, @test_locs.first
+            assert_not_includes results, @test_locs.last
+          end
+
+          it 'admin returns all locations' do
+            admin = FactoryBot.create(:user, :admin)
+            admin_context = { current_user: admin }
+            admin_resolver = resolver_class.new(object: nil, context: admin_context, field: nil)
+            results = admin_resolver.resolve
+            @test_locs.each do |loc|
+              assert_includes results, loc
+            end
+          end
         end
       end
     end
