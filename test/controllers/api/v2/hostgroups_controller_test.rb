@@ -342,6 +342,36 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     end
   end
 
+  context 'taxonomy scoping for associations' do
+    setup do
+      @organizations = FactoryBot.create_list(:organization, 2)
+      @locations = FactoryBot.create_list(:location, 2)
+
+      @hostgroup = FactoryBot.create(:hostgroup, organizations: @organizations, locations: @locations)
+
+      setup_user('view', 'organizations')
+      setup_user('view', 'locations')
+      @user = setup_user('view', 'hostgroups') do |u|
+        u.organizations = @organizations.take(1)
+        u.locations = @locations.take(1)
+      end
+    end
+
+    it 'shows only the organizations the user is allowed to see' do
+      get :show, params: { id: @hostgroup.id }, session: set_session_user(@user)
+      data = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 1, data['organizations'].length
+      assert_equal @organizations.first.name, data['organizations'].first['name']
+    end
+
+    it 'shows only the locations the user is allowed to see' do
+      get :show, params: { id: @hostgroup.id }, session: set_session_user(@user)
+      data = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 1, data['locations'].length
+      assert_equal @locations.first.name, data['locations'].first['name']
+    end
+  end
+
   private
 
   def last_record
