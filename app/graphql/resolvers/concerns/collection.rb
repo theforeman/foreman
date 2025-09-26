@@ -41,7 +41,10 @@ module Resolvers
         return model_class unless model_class.respond_to?(:authorized)
 
         permission = model_class.find_permission_name(:view)
-        model_class.authorized_as(user, permission, model_class)
+
+        scope = model_class
+        scope = scope.public_send("my_#{model_class.name.downcase.pluralize}") if model_class < Taxonomy
+        scope.authorized_as(user, permission, model_class)
       end
 
       def search_options(search:, sort_by:, sort_direction:)
