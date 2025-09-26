@@ -18,8 +18,10 @@ class RecordLoader < GraphQL::Batch::Loader
 
   def authorized_scope
     return @model unless @model.respond_to?(:authorized)
-
     permission_name = @model.find_permission_name(:view)
-    @model.authorized_as(User.current, permission_name)
+
+    scope = @model
+    scope = scope.public_send("my_#{@model.name.downcase.pluralize}") if @model < Taxonomy
+    scope.authorized_as(User.current, permission_name)
   end
 end
