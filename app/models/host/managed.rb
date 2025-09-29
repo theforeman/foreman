@@ -171,7 +171,7 @@ class Host::Managed < Host::Base
       :provision_interface, :interfaces, :bond_interfaces, :bridge_interfaces, :interfaces_with_identifier,
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
       :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used, :owner, :owner_type,
-      :ssh_authorized_keys, :pxe_loader, :global_status, :global_status_label, :get_status, :puppetca_token, :last_report, :build?, :smart_proxies, :host_param,
+      :ssh_authorized_keys, :pxe_loader, :global_status, :global_status_label, :global_status_fulltext, :get_status, :puppetca_token, :last_report, :build?, :smart_proxies, :host_param,
       :virtual, :ram, :sockets, :cores, :params, :pxe_loader_efi?, :comment
   end
 
@@ -795,6 +795,10 @@ autopart"', desc: 'to render the content of host partition table'
 
   def global_status_label(options = {})
     HostStatus::Global.build(host_statuses, options).to_label
+  end
+
+  def global_status_fulltext
+    host_statuses.select { |s| s.relevant? && !s.substatus? }.sort_by(&:type).map { |s| "#{_(s.name)}: #{_(s.to_label)}" }
   end
 
   def configuration_status(options = {})

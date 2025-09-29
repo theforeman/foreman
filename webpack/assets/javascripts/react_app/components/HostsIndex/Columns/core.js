@@ -2,6 +2,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TableText } from '@patternfly/react-table';
+import {
+  Popover,
+  TextContent,
+  TextList,
+  TextListItem,
+} from '@patternfly/react-core';
 import { UserIcon, UsersIcon } from '@patternfly/react-icons';
 import { number_to_human_size as NumberToHumanSize } from 'number_helpers';
 import { translate as __ } from '../../../common/I18n';
@@ -9,6 +15,7 @@ import forceSingleton from '../../../common/forceSingleton';
 import { foremanUrl } from '../../../common/helpers';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
 import HostPowerStatus from './components/HostPowerStatus';
+import GlobalStatusIcon from '../../HostStatuses/Status/GlobalStatusIcon';
 
 const coreHostsIndexColumns = [
   {
@@ -21,8 +28,31 @@ const coreHostsIndexColumns = [
   {
     columnName: 'name',
     title: __('Name'),
-    wrapper: ({ name, display_name: displayName }) => (
-      <Link to={`hosts/${name}`}>{displayName}</Link>
+    wrapper: ({
+      name,
+      display_name: displayName,
+      global_status: globalStatus,
+      global_status_fulltext: statuses,
+    }) => (
+      <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <Popover
+          id="host-index-global-status-tooltip"
+          bodyContent={
+            <TextContent>
+              <TextList isPlain>
+                {statuses.map((status, index) => (
+                  <TextListItem key={`status-list-${index}`}>
+                    {status}
+                  </TextListItem>
+                ))}
+              </TextList>
+            </TextContent>
+          }
+        >
+          <GlobalStatusIcon status={globalStatus} />
+        </Popover>
+        <Link to={`hosts/${name}`}>{displayName}</Link>
+      </span>
     ),
     isSorted: true,
     weight: 50,
