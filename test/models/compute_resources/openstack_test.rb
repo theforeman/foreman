@@ -55,6 +55,166 @@ module Foreman
           :flavor_ref => 'foo_flavor', :image_ref => 'foo_image')
       end
 
+      test "process_fixed_ips adds fixed IP when interface has IP specified" do
+        args = {
+          :nics => [{ 'net_id' => 'network-123' }],
+          :interfaces_attributes => {
+            '0' => { 'ip' => '192.168.1.100' },
+          },
+        }
+
+        @compute_resource.send(:process_fixed_ips, args)
+
+        expected_nics = [{ 'net_id' => 'network-123', 'v4_fixed_ip' => '192.168.1.100' }]
+        assert_equal expected_nics, args[:nics]
+        assert_nil args[:interfaces_attributes]
+      end
+
+      test "process_fixed_ips handles multiple networks correctly" do
+        args = {
+          :nics => [
+            { 'net_id' => 'network-123' },
+            { 'net_id' => 'network-456' },
+          ],
+          :interfaces_attributes => {
+            '0' => { 'ip' => '192.168.1.100' },
+            '1' => { 'ip' => '10.0.0.50' },
+          },
+        }
+
+        @compute_resource.send(:process_fixed_ips, args)
+
+        expected_nics = [
+          { 'net_id' => 'network-123', 'v4_fixed_ip' => '192.168.1.100' },
+          { 'net_id' => 'network-456', 'v4_fixed_ip' => '10.0.0.50' },
+        ]
+        assert_equal expected_nics, args[:nics]
+      end
+
+      test "process_fixed_ips handles out-of-order interface indices" do
+        args = {
+          :nics => [
+            { 'net_id' => 'network-123' },
+            { 'net_id' => 'network-456' },
+          ],
+          :interfaces_attributes => {
+            '1' => { 'ip' => '10.0.0.50' },
+            '0' => { 'ip' => '192.168.1.100' },
+          },
+        }
+
+        @compute_resource.send(:process_fixed_ips, args)
+
+        expected_nics = [
+          { 'net_id' => 'network-123', 'v4_fixed_ip' => '192.168.1.100' },
+          { 'net_id' => 'network-456', 'v4_fixed_ip' => '10.0.0.50' },
+        ]
+        assert_equal expected_nics, args[:nics]
+      end
+
+      test "process_fixed_ips adds IPv6 address when interface has IPv6 specified" do
+        args = {
+          :nics => [{ 'net_id' => 'network-123' }],
+          :interfaces_attributes => {
+            '0' => { 'ip6' => '2001:db8::1' },
+          },
+        }
+
+        @compute_resource.send(:process_fixed_ips, args)
+
+        expected_nics = [{ 'net_id' => 'network-123', 'v6_fixed_ip' => '2001:db8::1' }]
+        assert_equal expected_nics, args[:nics]
+        assert_nil args[:interfaces_attributes]
+      end
+
+      test "process_fixed_ips adds both IPv4 and IPv6 addresses" do
+        args = {
+          :nics => [{ 'net_id' => 'network-123' }],
+          :interfaces_attributes => {
+            '0' => { 'ip' => '192.168.1.100', 'ip6' => '2001:db8::1' },
+          },
+        }
+
+        @compute_resource.send(:process_fixed_ips, args)
+
+        expected_nics = [{ 'net_id' => 'network-123', 'v4_fixed_ip' => '192.168.1.100', 'v6_fixed_ip' => '2001:db8::1' }]
+        assert_equal expected_nics, args[:nics]
+        assert_nil args[:interfaces_attributes]
+      end
+
+      test "process_fixed_ips handles multiple networks with mixed IPv4 and IPv6" do
+        args = {
+          :nics => [
+            { 'net_id' => 'network-123' },
+            { 'net_id' => 'network-456' },
+          ],
+          :interfaces_attributes => {
+            '0' => { 'ip' => '192.168.1.100', 'ip6' => '2001:db8::1' },
+            '1' => { 'ip' => '10.0.0.50', 'ip6' => '2001:db8::2' },
+          },
+        }
+
+        @compute_resource.send(:process_fixed_ips, args)
+
+        expected_nics = [
+          { 'net_id' => 'network-123', 'v4_fixed_ip' => '192.168.1.100', 'v6_fixed_ip' => '2001:db8::1' },
+          { 'net_id' => 'network-456', 'v4_fixed_ip' => '10.0.0.50', 'v6_fixed_ip' => '2001:db8::2' },
+        ]
+        assert_equal expected_nics, args[:nics]
+      end
+
+      test "process_fixed_ips skips nics without net_id" do
+        args = {
+          :nics => [
+            { 'net_id' => 'network-123' },
+            { 'other_key' => 'value' },
+            { 'net_id' => 'network-456' },
+          ],
+          :interfaces_attributes => {
+            '0' => { 'ip' => '192.168.1.100' },
+            '1' => { 'ip' => '10.0.0.50' },
+            '2' => { 'ip' => '172.16.0.1' },
+          },
+        }
+
+        @compute_resource.send(:process_fixed_ips, args)
+
+        expected_nics = [
+          { 'net_id' => 'network-123', 'v4_fixed_ip' => '192.168.1.100' },
+          { 'other_key' => 'value' },
+          { 'net_id' => 'network-456', 'v4_fixed_ip' => '10.0.0.50' },
+        ]
+        assert_equal expected_nics, args[:nics]
+      end
+
+      test "process_fixed_ips handles empty IP values gracefully" do
+        args = {
+          :nics => [{ 'net_id' => 'network-123' }],
+          :interfaces_attributes => {
+            '0' => { 'ip' => '', 'ip6' => '' },
+          },
+        }
+
+        @compute_resource.send(:process_fixed_ips, args)
+
+        expected_nics = [{ 'net_id' => 'network-123' }]
+        assert_equal expected_nics, args[:nics]
+        assert_nil args[:interfaces_attributes]
+      end
+
+      test "create_vm processes fixed IPs when interfaces_attributes present" do
+        Fog.mock!
+        @compute_resource.stubs(:key_pair).returns(mocked_key_pair)
+        @compute_resource.expects(:process_fixed_ips).once
+
+        @compute_resource.create_vm(
+          :nics => [{ 'net_id' => 'network-123' }],
+          :interfaces_attributes => { '0' => { 'ip' => '192.168.1.100' } },
+          :flavor_ref => 'foo_flavor',
+          :image_ref => 'foo_image'
+        )
+      end
+
       describe "formatting hints" do
         it "formats well when set to ServerGroupAntiAffinity" do
           args = {

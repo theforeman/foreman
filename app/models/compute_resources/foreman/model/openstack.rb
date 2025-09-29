@@ -162,6 +162,10 @@ module Foreman::Model
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
       args[:nics].map! { |nic| nic.is_a?(String) ? { 'net_id' => nic } : nic }
+
+      # Process interface attributes to add fixed IP addresses
+      process_fixed_ips(args)
+
       args[:security_groups].delete_if(&:blank?) if args[:security_groups].present?
       format_scheduler_hint_filter(args) if args[:scheduler_hint_filter].present?
       vm = super(args)
@@ -335,6 +339,35 @@ module Foreman::Model
     rescue => e
       logger.warn "failed to allocate ip address for network #{network}: #{e}"
       raise e
+    end
+
+    def process_fixed_ips(args)
+      interfaces_attrs = args.delete(:interfaces_attributes)
+      return unless interfaces_attrs&.any?
+
+      # Filter nics that have net_id
+      nics = args[:nics].select { |nic| nic.is_a?(Hash) && nic['net_id'] }
+      return if nics.empty?
+
+      # Update nics with fixed IPs based on position
+      nics.each_with_index do |nic, index|
+        interface_attrs = interfaces_attrs[index.to_s]
+        next unless interface_attrs.is_a?(Hash)
+
+        # Handle IPv4
+        ipv4 = interface_attrs[:ip] || interface_attrs['ip']
+        if ipv4.present?
+          logger.debug("Fixed IPv4 mapping: network #{nic['net_id']} -> IP #{ipv4}")
+          nic['v4_fixed_ip'] = ipv4
+        end
+
+        # Handle IPv6
+        ipv6 = interface_attrs[:ip6] || interface_attrs['ip6']
+        if ipv6.present?
+          logger.debug("Fixed IPv6 mapping: network #{nic['net_id']} -> IP #{ipv6}")
+          nic['v6_fixed_ip'] = ipv6
+        end
+      end
     end
   end
 end
