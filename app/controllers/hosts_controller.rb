@@ -242,6 +242,8 @@ class HostsController < ApplicationController
   end
 
   def cancelBuild
+    @host.skip_orchestration!
+
     if @host.built(false)
       respond_to do |format|
         format.html do
