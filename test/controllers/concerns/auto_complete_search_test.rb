@@ -13,6 +13,6 @@ class AutoCompleteSearchTest < ActionController::TestCase
     assert_predicate response, :successful?
     suggestions = ActiveSupport::JSON.decode(response.body)
     assert_equal 1, suggestions.length
-    assert_equal suggestions.first['part'], "name = #{domain1.name}"
+    assert_equal suggestions.first['label'], "name = \"#{domain1.name}\""
   end
 end

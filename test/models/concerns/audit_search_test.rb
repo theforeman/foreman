@@ -11,7 +11,7 @@ class AuditSearchTest < ActiveSupport::TestCase
   end
 
   test "host autocomplete works in audit search" do
-    FactoryBot.create(:host, :managed)
+    FactoryBot.create(:host, :managed, :with_auditing)
     hosts = Audit.complete_for("host = ", {:controller => 'audits'})
     assert hosts.count > 0
   end
