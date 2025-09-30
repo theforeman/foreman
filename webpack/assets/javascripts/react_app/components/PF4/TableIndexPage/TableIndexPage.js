@@ -111,6 +111,7 @@ const TableIndexPage = ({
   restrictedSearchQuery,
   updateParamsByUrl,
   bookmarksPosition,
+  ouiaId,
 }) => {
   const history = useHistory();
   const { location: { search: historySearch } = {} } = history || {};
@@ -296,6 +297,7 @@ const TableIndexPage = ({
               perPage,
             }}
             setParams={setParamsAndAPI}
+            ouiaId={ouiaId}
             bottomPagination={
               <Pagination
                 key="table-bottom-pagination-yes"
@@ -391,6 +393,7 @@ TableIndexPage.propTypes = {
   restrictedSearchQuery: PropTypes.func,
   updateParamsByUrl: PropTypes.bool,
   bookmarksPosition: PropTypes.string,
+  ouiaId: PropTypes.string,
 };
 
 TableIndexPage.defaultProps = {
@@ -426,6 +429,7 @@ TableIndexPage.defaultProps = {
   restrictedSearchQuery: noop,
   updateParamsByUrl: true,
   bookmarksPosition: 'left',
+  ouiaId: 'table',
 };
 
 export default TableIndexPage;

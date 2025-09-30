@@ -43,6 +43,7 @@ export const Table = ({
   childrenOutsideTbody, // Expandable table rows are each a Tbody so they cant be inside the Tbody
   onExpandAll,
   areAllRowsExpanded,
+  ouiaId,
 }) => {
   const onPagination = newPagination => {
     setParams({ ...params, ...newPagination });
@@ -117,7 +118,7 @@ export const Table = ({
       />
       <PFTable
         variant="compact"
-        ouiaId="table"
+        ouiaId={ouiaId}
         isStriped
         isExpandable={childrenOutsideTbody}
       >
@@ -260,6 +261,7 @@ Table.propTypes = {
   childrenOutsideTbody: PropTypes.bool,
   onExpandAll: PropTypes.func,
   areAllRowsExpanded: PropTypes.bool,
+  ouiaId: PropTypes.string,
 };
 
 Table.defaultProps = {
@@ -282,4 +284,5 @@ Table.defaultProps = {
   childrenOutsideTbody: false,
   onExpandAll: null,
   areAllRowsExpanded: false,
+  ouiaId: 'table',
 };
