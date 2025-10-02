@@ -392,7 +392,7 @@ end
 
 class IntegrationTestWithJavascript < ActionDispatch::IntegrationTest
   def database_cleaner_strategy
-    :truncation
+    [:truncation, except: %w[dynflow_coordinator_records dynflow_schema_info]]
   end
 
   def before_setup
