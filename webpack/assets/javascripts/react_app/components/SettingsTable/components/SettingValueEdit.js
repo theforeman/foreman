@@ -59,8 +59,9 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
     setLoading(false);
   };
 
-  const successCallback = submitValue => {
-    updateSetting(submitValue);
+  const successCallback = response => {
+    const responseValue = response?.data?.value;
+    updateSetting(responseValue);
 
     if (setting.name === SETTING_NEW_HOSTS_PAGE) {
       const bool = value === 'true';
@@ -92,7 +93,7 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
       url: SETTING_UPDATE_PATH.replace(':id', setting.id),
       params: { ...setting, value: splitValue },
       key: `${setting.id}-EDIT`,
-      handleSuccess: () => successCallback(splitValue),
+      handleSuccess: response => successCallback(response),
       handleError: errorCallback,
       errorToast: error => {
         const msg =
