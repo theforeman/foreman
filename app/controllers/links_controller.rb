@@ -3,7 +3,8 @@ class LinksController < ApplicationController
   before_action :validate_root_url
 
   def show
-    url = external_url(type: params[:type], options: params)
+    permitted = params.permit(:type, :section, :chapter, :flavor, :root_url)
+    url = external_url(type: permitted[:type], options: permitted)
     redirect_to(url, allow_other_host: true)
   end
 
@@ -27,7 +28,7 @@ class LinksController < ApplicationController
       'https://www.vmware.com/go/download-vmrc'
     when 'docs'
       params.require(:section)
-      guide, chapter, flavor = params.permit(:section, :chapter, :flavor).values_at(:section, :chapter, :flavor)
+      guide, chapter, flavor = options.values_at(:section, :chapter, :flavor)
       flavor ||= self.class.new_docs_flavor
       docs_url(guide: guide, chapter: chapter, flavor: flavor)
     when 'upgrade'
