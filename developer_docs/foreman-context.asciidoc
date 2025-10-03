@@ -33,12 +33,12 @@ const { id, title } = useForemanOrganization();
 const { id, login, firstname, lastname, admin } = useForemanUser();
 ```
 
-## How to add a value to the context
+## How to add a value to the core context
 
-Keys and values are set in the `app_metadata` method of `/application_helper.rb`.
+Keys and values are set in the `core_app_metadata` method of `/application_helper.rb`.
 The `app_metadata` object is passed down and becomes ForemanContext.
 
-If you add a new value to `app_metadata`, it will also be useful to add a new custom hook in `webpack/assets/javascripts/react_app/ReactApp/Context/ForemanContext.js`
+If you add a new value to `core_app_metadata`, it will also be useful to add a new custom hook in `webpack/assets/javascripts/react_app/ReactApp/Context/ForemanContext.js`
 so that the value can be easily consumed on the front end.
 For example, Adding a new hook:
 ```js
@@ -46,3 +46,25 @@ For example, Adding a new hook:
 
 export const useForemanFeature = () => useForemanContext().feature;
 ```
+
+## Adding a value to the context from a plugin
+
+To add a value to the context from a plugin, the plugin must register the data like so:
+
+```ruby
+Foreman::Plugin.register :plugin_name do
+  ...
+  ::Foreman::Plugin.app_metadata_registry.register(:plugin_name, {
+    context_key: 'context value',
+  })
+end
+```
+
+The value will then be in ForemanContext under the `:plugin_name` namespace:
+
+```js
+import { useForemanContext } from 'foremanReact/Root/Context/ForemanContext';
+...
+useForemanContext().metadata?.plugin_name?.context_key
+```
+

@@ -8,12 +8,26 @@ const getCheckedStateForCategory = (category = { children: [] }) => {
   return false;
 };
 
+export const checkColumnRelevancy = (isRelevantFunc, contextData) => {
+  let result = true;
+  if (typeof isRelevantFunc === 'function') {
+    try {
+      result = isRelevantFunc(contextData);
+    } catch (e) {
+      // If isRelevantFunc throws, treat the column as not relevant
+      result = false;
+    }
+  }
+  return result;
+};
+
 export const categoriesFromFrontendColumnData = ({
   registeredColumns,
   userId,
   controller = 'hosts',
   userColumns = ['name'],
   hasPreference = false,
+  contextData = {},
 }) => {
   // need to build an object like
   // {
@@ -57,6 +71,7 @@ export const categoriesFromFrontendColumnData = ({
       columnName,
       title,
       isRequired,
+      isRelevant,
     } = registeredColumns[column];
     if (tableName !== controller) return;
     const category = categories.find(cat => cat.key === categoryKey);
@@ -72,14 +87,18 @@ export const categoriesFromFrontendColumnData = ({
       });
     }
     const categoryIndex = categories.findIndex(cat => cat.key === categoryKey);
-    categories[categoryIndex].children.push({
-      name: title,
-      key: columnName,
-      checkProps: {
-        checked: isRequired || userColumns.includes(columnName),
-        disabled: isRequired ?? null,
-      },
-    });
+    const shouldShowColumn = checkColumnRelevancy(isRelevant, contextData);
+
+    if (shouldShowColumn) {
+      categories[categoryIndex].children.push({
+        name: title,
+        key: columnName,
+        checkProps: {
+          checked: isRequired || userColumns.includes(columnName),
+          disabled: isRequired ?? null,
+        },
+      });
+    }
   });
   categories.forEach(category => {
     category.checkProps.checked = getCheckedStateForCategory(category);

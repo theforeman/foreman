@@ -1,3 +1,5 @@
+import { checkColumnRelevancy } from '../../../ColumnSelector/helpers';
+
 export const getPageStats = ({ total, page, perPage }) => {
   // logic adapted from patternfly so that we can know the number of items per page
   const lastPage = Math.ceil(total / perPage) ?? 0;
@@ -63,12 +65,17 @@ export const DEFAULT_USER_COLUMNS = [
 export const filterColumnDataByUserPreferences = (
   isLoading,
   columnNames = isLoading ? [] : DEFAULT_USER_COLUMNS,
-  allColumnData
+  allColumnData,
+  contextData
 ) => {
   const filteredColumns = {};
   columnNames.forEach(key => {
     if (allColumnData[key]) {
-      filteredColumns[key] = allColumnData[key];
+      const shouldShowColumnInTable = checkColumnRelevancy(
+        allColumnData[key]?.isRelevant,
+        contextData
+      );
+      if (shouldShowColumnInTable) filteredColumns[key] = allColumnData[key];
     }
   });
   return filteredColumns;

@@ -32,6 +32,7 @@ module Foreman #:nodoc:
     DEFAULT_REGISTRIES = {
       fact_importer: 'Foreman::Plugin::FactImporterRegistry',
       fact_parser: 'Foreman::Plugin::FactParserRegistry',
+      app_metadata: 'Foreman::Plugin::AppMetadataRegistry',
       report_scanner: 'Foreman::Plugin::ReportScannerRegistry',
       report_origin: 'Foreman::Plugin::ReportOriginRegistry',
       medium_providers: 'Foreman::Plugin::MediumProvidersRegistry',

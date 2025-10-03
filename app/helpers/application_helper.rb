@@ -407,7 +407,7 @@ module ApplicationHelper
     params.slice(*permitted.concat([:locale, :search, :per_page])).permit!
   end
 
-  def app_metadata
+  def core_app_metadata
     {
       UISettings: ui_settings,
       version: SETTINGS[:version].short,
@@ -419,6 +419,12 @@ module ApplicationHelper
         lab_features: Setting[:lab_features],
       },
     }.compact
+  end
+
+  def app_metadata
+    core_app_metadata.merge(
+      ::Foreman::Plugin.app_metadata_registry.all_plugin_metadata
+    )
   end
 
   def ui_settings
