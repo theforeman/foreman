@@ -260,7 +260,7 @@ msgid "%{value} is not one of %{rules}"
 msgstr "%{value} は %{rules} の 1 つではありません"
 
 msgid "%{vm} is now %{vm_state}"
-msgstr "%{vm} の現在の状態は %%{vm_state} です"
+msgstr "%{vm} の現在の状態は %{vm_state} です"
 
 msgid "'%{host}' could be deleted or '%{resource}' is not responding."
 msgstr "'%{host}' は削除されている可能性があるか、または %{resource}' が応答していません。"
@@ -269,7 +269,7 @@ msgid "'%{host}' not found on '%{resource}'"
 msgstr "'%{resource}' で '%{host}' が見つかりませんでした"
 
 msgid "'%{loader}' is not one of %{loaders}"
-msgstr "'%{loader} 'は %{loaders} の 1 つです"
+msgstr "'%{loader}' は %{loaders} の 1 つではありません"
 
 msgid "(Miscellaneous)"
 msgstr "(その他)"
@@ -1375,13 +1375,13 @@ msgid "Calling methods on objects"
 msgstr "オブジェクトのメソッドの呼び出し"
 
 msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
-msgstr "CLI または RC ファイル (「redhat.com」など) で取得できます。v3認証のみ。"
+msgstr "CLI または RC ファイルで取得できます ('redhat.com' など)。v3 認証専用です。"
 
 msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
-msgstr "CLI または RC ファイル (「redhat.com」など) で取得できます。空白のままにすることができます。v3認証のみ。"
+msgstr "CLI または RC ファイルで取得できます。空白のままにすることも可能です。v3 認証専用です。"
 
 msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
-msgstr "CLI または RC ファイル (「redhat.com」など) で取得できます。「デフォルト」に設定できます。v3認証のみ。"
+msgstr "CLI または RC ファイルで取得できます。'default' に設定することも可能です。v3 認証専用です。"
 
 msgid "Can not load datacenters due to an incorrect user name or password."
 msgstr "ユーザー名またはパスワードが正しくないため、データセンターを読み込むことができません。"
@@ -1426,7 +1426,7 @@ msgid "Cannot create LDAP configuration for %s without dedicated service account
 msgstr "専用のサービスアカウントなしに %s の LDAP 設定を作成できません"
 
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
-msgstr "%{sti_name} をネストしているため %{current} を削除できません。"
+msgstr "%{current} は %{sti_name} をネストしているため削除できません。"
 
 msgid "Cannot delete built-in role"
 msgstr "組み込みロールを削除できません"
@@ -1531,7 +1531,7 @@ msgid "Clean up failed deployment"
 msgstr "障害が発生したデプロイメントのクリーンアップ"
 
 msgid "Cleanup PuppetCA certificates for %s"
-msgstr "%s の Puppet CA 証明書のクリーンアップ"
+msgstr "%s の PuppetCA 証明書のクリーンアップ"
 
 msgid "Clear"
 msgstr "消去"
@@ -2353,7 +2353,7 @@ msgid "Default organization"
 msgstr "デフォルトの組織"
 
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
-msgstr "空の Forman が現在のユーザーを使用する場合の、プロビジョニングされたホストのデフォルトの所有者"
+msgstr "プロビジョニングされたホストのデフォルトの所有者。空の場合、Foreman は現在のユーザーを使用します"
 
 msgid "Default parameters lookup path"
 msgstr "デフォルトのパラメーター検索パス"
@@ -2407,7 +2407,7 @@ msgid "Delete Hosts"
 msgstr "ホストの削除"
 
 msgid "Delete PuppetCA certificates for %s"
-msgstr "%s の Puppet CA 証明書の削除"
+msgstr "%s の PuppetCA 証明書の削除"
 
 msgid "Delete TFTP %{kind} config for %{host}"
 msgstr "%{host} の TFTP %{kind} 設定の削除"
@@ -2473,7 +2473,7 @@ msgid "Delete a nested parameter for an organization"
 msgstr "組織のネストされたパラメーターの削除"
 
 msgid "Delete a partition table"
-msgstr "パーティションテーブルの解除"
+msgstr "パーティションテーブルの削除"
 
 msgid "Delete a provisioning template"
 msgstr "プロビジョニングテンプレートの削除"
@@ -2620,7 +2620,7 @@ msgid "Destroyed selected hosts"
 msgstr "破棄された選択済みホスト"
 
 msgid "Detailed instructions to guide you through each stage of the upgrade process."
-msgstr ""
+msgstr "アップグレードプロセスの各段階をガイドする詳細な手順。"
 
 msgid "Details"
 msgstr "詳細"
@@ -3086,10 +3086,10 @@ msgid "Export a partition template to ERB"
 msgstr "パーティションテンプレートを ERB にエクスポート"
 
 msgid "Export a provisioning template to ERB"
-msgstr "プロビジョニングテンプレート ERB にエクスポート"
+msgstr "プロビジョニングテンプレートを ERB にエクスポート"
 
 msgid "Export a report template to ERB"
-msgstr "レポートテンプレートの ERB へのエクスポート"
+msgstr "レポートテンプレートを ERB にエクスポート"
 
 msgid "Export to CSV"
 msgstr "CSV にエクスポート"
@@ -3565,7 +3565,7 @@ msgid "Foreman UUID"
 msgstr "Foreman の UUID"
 
 msgid "Foreman Upgrade"
-msgstr ""
+msgstr "Foreman のアップグレード"
 
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr "Foreman では、パラメーター継承権の階層を定義できます。ここでは、グローバルパラメーターはすべてのマニフェストからアクセスできます。"
@@ -3592,7 +3592,7 @@ msgid "Foreman domain ID of interface. Required for primary interfaces on manage
 msgstr "インターフェースの Foreman ドメイン ID。管理対象ホストのプライマリーインターフェースに必要。"
 
 msgid "Foreman has detected definitions of unknown classes in your database. This can happen after a plugin removal which did not properly cleaned up data it created. Would you like to delete all records from SQL table <b>\"%{table}\"</b> with column <b>\"%{column}\"</b> having the value <b>\"%{value}\"</b>"
-msgstr "Foreman は、データベースで不明なクラスの定義を検出しました。これは、プラグインを削除してプラグインが作成したデータが正しく消去されなかった場合に発生する可能性があります。<b>\"%{column}\"</b> の値が </b><b>\"%{value}\"</b> の SQL テーブル <b>\"%{table}\"</b> からのレコードをすべて削除しますか?"
+msgstr "Foreman は、データベースで不明なクラスの定義を検出しました。これは、プラグインを削除してプラグインが作成したデータが正しく消去されなかった場合に発生する可能性があります。<b>\"%{column}\"</b> の値が <b>\"%{value}\"</b> の SQL テーブル <b>\"%{table}\"</b> からのレコードをすべて削除しますか"
 
 msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr "Foreman インスタンス ID。この Foreman インスタンスの一意の ID。"
@@ -3636,7 +3636,7 @@ msgid "Foreman ticketing system"
 msgstr "Foreman チケットシステム"
 
 msgid "Foreman upgrade"
-msgstr ""
+msgstr "Foreman のアップグレード"
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman は、新規ホストのプロビジョニング時に証明書の署名を自動化します"
@@ -3975,7 +3975,7 @@ msgid "Hidden Value"
 msgstr "非表示の値"
 
 msgid "Hide Content"
-msgstr "SCAP の非表示"
+msgstr "コンテンツを非表示"
 
 msgid "Hide advanced fields"
 msgstr "詳細フィールドを非表示"
@@ -4596,7 +4596,7 @@ msgid "IDs of associated partition tables"
 msgstr "関連付けられたパーティションテーブルの ID"
 
 msgid "IDs of associated provisioning templates"
-msgstr "関連付けられたプロビジョニングテーブルの ID"
+msgstr "関連付けられたプロビジョニングテンプレートの ID"
 
 msgid "INFO or DEBUG"
 msgstr "INFO または DEBUG"
@@ -5013,7 +5013,7 @@ msgid "Internal DB"
 msgstr "内部 DB"
 
 msgid "Internal Server Error: the server was unable to finish the request. This may be caused by unavailability of some required service, incorrect API call or a server-side bug. There may be more information in the server's logs."
-msgstr ""
+msgstr "内部サーバーエラー: サーバーがリクエストを完了できませんでした。必要なサービスが利用できないこと、不適切な API 呼び出し、またはサーバー側のバグが原因である可能性があります。サーバーのログに詳細情報が記載されている可能性があります。"
 
 msgid "Internal network"
 msgstr "内部ネットワーク"
@@ -6238,10 +6238,10 @@ msgid "Name of the template being rendered, \"Unnamed\" when the template does n
 msgstr "レンダリングされるテンプレートの名前。未保存のテンプレートのプレビューなど、名前がないテンプレートは「Unnamed」になります。"
 
 msgid "Need help with Foreman? Got a different type of question? Ask them all on our community forum!"
-msgstr ""
+msgstr "Foreman についてサポートが必要ですか? 別の種類の質問がありますか? コミュニティーフォーラムでお問い合わせください!"
 
 msgid "Need help?"
-msgstr ""
+msgstr "ヘルプが必要ですか?"
 
 msgid "Nest"
 msgstr "ネスト"
@@ -6964,7 +6964,7 @@ msgid "Operating system doesn't have a 'host_init_config' template assigned."
 msgstr "オペレーティングシステムには 'host_init_config' テンプレートが割り当てられていません。"
 
 msgid "Operating system family, available values: %{operatingsystem_families}"
-msgstr "オペレーティングシステムファミリー。利用可能な値: %%{operatingsystem_families}"
+msgstr "オペレーティングシステムファミリー。利用可能な値: %{operatingsystem_families}"
 
 msgid "Operating system version already exists"
 msgstr "オペレーティングシステムのバージョンがすでに存在します"
@@ -7603,7 +7603,7 @@ msgid "Project domain name"
 msgstr "プロジェクトドメイン名"
 
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
-msgstr "プロジェクト名 (v3) またはタレント名 (v2)。CLI または RC ファイルを使用して取得できます。"
+msgstr "プロジェクト名 (v3) またはテナント名 (v2)。CLI または RC ファイルで取得できます。"
 
 msgid "Properties"
 msgstr "プロパティー"
@@ -8468,7 +8468,7 @@ msgid "Search may fail or give you wrong results since it contains special chara
 msgstr "クエリーキーワードである特殊文字 (例: < and >) が含まれているため、検索が失敗したり、誤った結果が表示されたりする場合があります"
 
 msgid "Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
-msgstr ""
+msgstr "登録トークンを無効化するユーザーを選択する検索クエリー。検索クエリーの例: id ^ (2, 4, 6)"
 
 msgid "Search string describing which hosts to perform the action on"
 msgstr "アクションを実行するホストを表す検索文字列"
@@ -8592,7 +8592,7 @@ msgstr "サブネットの選択"
 
 msgid "Select this host"
 msgid_plural "Select all <b> %{total} </b> hosts"
-msgstr[0] "このホストの/すべての <b> %{total} </b> のホストの選択"
+msgstr[0] "このホストを選択"
 
 msgid "Select this since it belongs to a host"
 msgstr "ホストに属するのでこれを選択してください"
@@ -8769,7 +8769,7 @@ msgid "Should the `foreman-rake db:seed` be executed on the next run of the inst
 msgstr "インストーラーモジュールの次回実行時に `foreman-rake db:seed` を実行する必要がありますか?"
 
 msgid "Should the value be hidden"
-msgstr "値を非表示にする必要があります"
+msgstr "値を非表示にしますか"
 
 msgid "Should the value be hidden from users? Useful for sensitive input values such as passwords. Only applicable to Plain value types."
 msgstr "この値をユーザーに表示されないようにしますか? パスワードなど、機密情報の入力値に便利です。プレーンタイプの値にのみ該当します。"
@@ -9123,7 +9123,7 @@ msgid "Source|Value"
 msgstr "値"
 
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
-msgstr "スペースで区切られたオプション (例: e.g. miimon=100)。ボンドインターフェイスの場合のみ使用します。"
+msgstr "スペース区切りのオプション (例: miimon=100)。ボンドインターフェイスの場合のみ使用します。"
 
 msgid "Specified value is higher than maximum value"
 msgstr "最大値よりも大きい値が指定されています"
@@ -9761,7 +9761,7 @@ msgid "The NFS path to the media."
 msgstr "メディアの NFS パスです。"
 
 msgid "The Operating systems detail the OSs known to Foreman, and is the central point that the other required components tie into."
-msgstr "Forman に認識される OS についてのオペレーティングシステムの詳細です。これは他の必須コンポーネントが関連付けられる中心的なポイントになります。"
+msgstr "オペレーティングシステムは、Foreman が認識している OS の詳細を示すものであり、他の必須コンポーネントが結びつく中心点です。"
 
 msgid "The Primary interface is used for constructing the FQDN of the host."
 msgstr "ホストの FQDN 構築にはプライマリーインターフェイスが使用されます。"
@@ -9894,7 +9894,7 @@ msgid "The method used to provision the host."
 msgstr "このメソッドは、ホストのプロビジョニングに使用されます。"
 
 msgid "The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup,environment</code> would expect a matcher such as <code>hostgroup,environment = example-group,production</code>"
-msgstr "Matcher キーの処理順序で、先に一致したものから処理されます。<br>複数の属性を Matcher キーとして使用できます。たとえば、<code>host group, environment</code> の順序の場合には、<code>hostgroup,environment = example-group,production</code> などの Matcher が予想されます"
+msgstr "Matcher キーの処理順序で、先に一致したものから処理されます。<br>複数の属性を Matcher キーとして使用できます。たとえば、<code>hostgroup,environment</code> の順序の場合には、<code>hostgroup,environment = example-group,production</code> などの Matcher が予想されます"
 
 msgid "The password is currently set by %s."
 msgstr "パスワードは現在 %s で設定されています。"
@@ -10022,7 +10022,7 @@ msgid "This email was sent from Foreman identified by UUID %{uuid}"
 msgstr "このメールは UUID (%{uuid} で識別) によって特定される Foreman から送信されました"
 
 msgid "This email was sent from Foreman instance %{title} identified by %{uuid}"
-msgstr "このメールは Foreman インスタンス (%{uuid} で識別) %{title} から送信されました"
+msgstr "このメールは、%{uuid} で識別される Foreman インスタンス %{title} から送信されました"
 
 msgid "This generates no output. However if the closing tag was <code>&#37;></code> without the dash, it would generate a new line"
 msgstr "これでは、出力が生成されませんが、終了タグがダッシュなしの <code>&#37;></code> の場合には、改行が追加されます。"
@@ -10790,7 +10790,7 @@ msgid "Updates a table preference for a given table"
 msgstr "特定のテーブルの設定を更新します"
 
 msgid "Upgrade documentation"
-msgstr ""
+msgstr "アップグレードドキュメント"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
@@ -11162,7 +11162,7 @@ msgid "View provisioning template {openTemplate}."
 msgstr "プロビジョニングテンプレート {openTemplate} を表示します。"
 
 msgid "View upgrade documentation"
-msgstr ""
+msgstr "アップグレードドキュメントの表示"
 
 msgid "Virtual"
 msgstr "仮想"
@@ -11198,7 +11198,7 @@ msgid "Virtualization"
 msgstr "仮想化"
 
 msgid "Visit the community forum"
-msgstr ""
+msgstr "コミュニティーフォーラムにアクセス"
 
 msgid "Vnic Profile"
 msgstr "Vnic プロファイル"
@@ -12452,7 +12452,7 @@ msgid "will assign the IPv6 address based on the MAC address of the interface"
 msgstr "インターフェースの MAC アドレスをもとに IPv6 アドレスを割り当てます。"
 
 msgid "will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)"
-msgstr "外部 IPAM Smart-proxy プラグインを使用して次に利用可能なアドレスを自動補完します。"
+msgstr "外部 IPAM 用の Smart-proxy プラグインを使用して次に利用可能なアドレス (IPv4、IPv6) を自動補完します"
 
 msgid "will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP"
 msgstr "割り当てられた DHCP プロキシーを介して DHCP の IP を管理し、DHCP から自動補完される IP を管理します。"

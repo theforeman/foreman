@@ -2614,7 +2614,7 @@ msgid "Destroyed selected hosts"
 msgstr "선택된 호스트 삭제"
 
 msgid "Detailed instructions to guide you through each stage of the upgrade process."
-msgstr ""
+msgstr "업그레이드 과정의 각 단계를 안내하는 자세한 지침입니다."
 
 msgid "Details"
 msgstr "상세 정보 "
@@ -3559,7 +3559,7 @@ msgid "Foreman UUID"
 msgstr "Foreman UUID"
 
 msgid "Foreman Upgrade"
-msgstr ""
+msgstr "Foreman 업그레이드"
 
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr "Foreman을 사용하면 모든 매니페스트에서 액세스할 수 있는 전역 매개변수를 사용하여 매개변수 상속 계층을 정의할 수 있습니다."
@@ -3630,7 +3630,7 @@ msgid "Foreman ticketing system"
 msgstr "Foreman 티켓 생성 시스템 "
 
 msgid "Foreman upgrade"
-msgstr ""
+msgstr "Foreman 업그레이드"
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman은 새 호스트의 프로비저닝에서 인증서 서명을 자동화합니다 "
@@ -4998,7 +4998,7 @@ msgid "Internal DB"
 msgstr "내부 DB"
 
 msgid "Internal Server Error: the server was unable to finish the request. This may be caused by unavailability of some required service, incorrect API call or a server-side bug. There may be more information in the server's logs."
-msgstr ""
+msgstr "내부 서버 오류: 서버가 요청을 완료하지 못했습니다. 이는 필요한 서비스를 사용할 수 없거나, API 호출이 잘못되었거나, 서버 측 버그가 원인일 수 있습니다. 서버 로그에 자세한 정보가 있을 수 있습니다."
 
 msgid "Internal network"
 msgstr "내부 네트워크 "
@@ -6223,10 +6223,10 @@ msgid "Name of the template being rendered, \"Unnamed\" when the template does n
 msgstr "렌더링되는 템플릿의 이름입니다. 저장되지 않은 템플릿 미리보기와 같이 이름이 없는 템플릿은 \"Unnamed\"입니다."
 
 msgid "Need help with Foreman? Got a different type of question? Ask them all on our community forum!"
-msgstr ""
+msgstr "Foreman 관련 도움이 필요하신가요? 다른 질문이 있으신가요? 커뮤니티 포럼에서 모두 질문해 보세요!"
 
 msgid "Need help?"
-msgstr ""
+msgstr "도움이 필요하신가요?"
 
 msgid "Nest"
 msgstr "중첩 "
@@ -8446,7 +8446,7 @@ msgid "Search may fail or give you wrong results since it contains special chara
 msgstr "검색이 실패하거나 잘못된 결과가 나올 수 있습니다. 왜냐하면 검색에 < and >와 같은 쿼리 키워드인 특수 문자가 포함되어 있기 때문입니다."
 
 msgid "Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
-msgstr ""
+msgstr "등록 토큰이 비활성화될 사용자를 선택하는 검색 쿼리입니다. 검색 쿼리 예: id ^ (2, 4, 6)"
 
 msgid "Search string describing which hosts to perform the action on"
 msgstr "작업을 수행할 호스트를 설명하는 검색 문자열"
@@ -10764,7 +10764,7 @@ msgid "Updates a table preference for a given table"
 msgstr "지정된 테이블에 대한 테이블 환경설정을 업데이트"
 
 msgid "Upgrade documentation"
-msgstr ""
+msgstr "업그레이드 문서"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
@@ -11136,7 +11136,7 @@ msgid "View provisioning template {openTemplate}."
 msgstr "프로비저닝 템플릿 생성."
 
 msgid "View upgrade documentation"
-msgstr ""
+msgstr "업그레이드 문서 보기"
 
 msgid "Virtual"
 msgstr "가상 "
@@ -11172,7 +11172,7 @@ msgid "Virtualization"
 msgstr "가상화"
 
 msgid "Visit the community forum"
-msgstr ""
+msgstr "커뮤니티 포럼을 방문하세요"
 
 msgid "Vnic Profile"
 msgstr "Vnic 프로필"

@@ -13,6 +13,7 @@
 # tim123, 2013-2014
 # Xingchao Yu <yuxcer@gmail.com>, 2017
 # 蒋浩海, 2016
+# 蒋浩海, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
@@ -2621,7 +2622,7 @@ msgid "Destroyed selected hosts"
 msgstr "销毁选定的主机"
 
 msgid "Detailed instructions to guide you through each stage of the upgrade process."
-msgstr ""
+msgstr "指导您完成升级过程的每个阶段的详细说明。"
 
 msgid "Details"
 msgstr "详情"
@@ -3566,7 +3567,7 @@ msgid "Foreman UUID"
 msgstr "Foreman UUID"
 
 msgid "Foreman Upgrade"
-msgstr ""
+msgstr "Foreman 升级"
 
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr "Foreman 允许定义参数继承层次结构，可从任意清单访问全局参数。"
@@ -3637,7 +3638,7 @@ msgid "Foreman ticketing system"
 msgstr "Foreman ticketing 系统"
 
 msgid "Foreman upgrade"
-msgstr ""
+msgstr "Foreman 升级"
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman 会在供应新主机时自动进行证书签署"
@@ -5014,7 +5015,7 @@ msgid "Internal DB"
 msgstr "内部数据库"
 
 msgid "Internal Server Error: the server was unable to finish the request. This may be caused by unavailability of some required service, incorrect API call or a server-side bug. There may be more information in the server's logs."
-msgstr ""
+msgstr "内部服务器错误：服务器无法完成请求。这可能是由于一些所需的服务不可用、不正确的 API 调用或服务器端错误造成的。在服务器日志中可能会包括更多信息。"
 
 msgid "Internal network"
 msgstr "内部网络"
@@ -6239,10 +6240,10 @@ msgid "Name of the template being rendered, \"Unnamed\" when the template does n
 msgstr "要呈现的模板名称，如果模板没有名称（例如未保存的模板上的预览），则为“Unnamed”。"
 
 msgid "Need help with Foreman? Got a different type of question? Ask them all on our community forum!"
-msgstr ""
+msgstr "需要 Foreman 的帮助？有不同类型的问题？在我们的社区论坛中提出问题！"
 
 msgid "Need help?"
-msgstr ""
+msgstr "需要帮助？"
 
 msgid "Nest"
 msgstr "嵌套"
@@ -8469,7 +8470,7 @@ msgid "Search may fail or give you wrong results since it contains special chara
 msgstr "搜索可能会失败或给您错误的结果，因为它包含特殊字符，这些特殊字符是查询关键字，例如 < and >"
 
 msgid "Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
-msgstr ""
+msgstr "搜索查询，用于选择哪些用户的注册令牌将无效。搜索查询示例：id ^(2, 4, 6)"
 
 msgid "Search string describing which hosts to perform the action on"
 msgstr "搜索字符串，描述要对其执行操作的主机"
@@ -10791,7 +10792,7 @@ msgid "Updates a table preference for a given table"
 msgstr "为一个指定的表更新表偏好"
 
 msgid "Upgrade documentation"
-msgstr ""
+msgstr "升级文档"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
@@ -11163,7 +11164,7 @@ msgid "View provisioning template {openTemplate}."
 msgstr "查看置备模版 {openTemplate}。"
 
 msgid "View upgrade documentation"
-msgstr ""
+msgstr "查看升级文档"
 
 msgid "Virtual"
 msgstr "虚拟"
@@ -11199,7 +11200,7 @@ msgid "Virtualization"
 msgstr "虚拟化"
 
 msgid "Visit the community forum"
-msgstr ""
+msgstr "访问社区论坛"
 
 msgid "Vnic Profile"
 msgstr "Vnic 配置集"
