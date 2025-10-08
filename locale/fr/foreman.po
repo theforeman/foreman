@@ -2694,7 +2694,7 @@ msgid "Destroyed selected hosts"
 msgstr "Hôtes sélectionnés détruits"
 
 msgid "Detailed instructions to guide you through each stage of the upgrade process."
-msgstr ""
+msgstr "Des instructions détaillées pour vous guider à travers chaque étape du processus de mise à niveau."
 
 msgid "Details"
 msgstr "Détails"
@@ -3651,7 +3651,7 @@ msgid "Foreman UUID"
 msgstr "UUID de Foreman"
 
 msgid "Foreman Upgrade"
-msgstr ""
+msgstr "Mise à niveau de Forman"
 
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr "Foreman permet de définir une hiérarchie d'héritage de paramètres, où les paramètres globaux sont accessibles depuis n'importe quel manifeste."
@@ -3722,7 +3722,7 @@ msgid "Foreman ticketing system"
 msgstr "le gestionnaire de tickets Foreman"
 
 msgid "Foreman upgrade"
-msgstr ""
+msgstr "Mise à niveau de Forman"
 
 msgid "Foreman will automate certificate signing upon provision of new host"
 msgstr "Foreman signera automatiquement les certificats au provisioning de l'hôte"
@@ -5103,7 +5103,7 @@ msgid "Internal DB"
 msgstr "Base de données interne"
 
 msgid "Internal Server Error: the server was unable to finish the request. This may be caused by unavailability of some required service, incorrect API call or a server-side bug. There may be more information in the server's logs."
-msgstr ""
+msgstr "Erreur interne du serveur : le serveur n'a pas pu terminer la requête. Cela peut être dû à l'indisponibilité d'un service requis, à un appel d'API incorrect ou à un bug côté serveur. Des informations supplémentaires peuvent être disponibles dans les journaux du serveur."
 
 msgid "Internal network"
 msgstr "Réseau interne"
@@ -6328,10 +6328,10 @@ msgid "Name of the template being rendered, \"Unnamed\" when the template does n
 msgstr "Nom du modèle rendu, \"Unnamed\" lorsque le modèle n'a pas de nom, par exemple: aperçu sur un modèle non sauvegardé."
 
 msgid "Need help with Foreman? Got a different type of question? Ask them all on our community forum!"
-msgstr ""
+msgstr "Besoin d'aide avec Foreman ? Vous avez une autre question ? Posez-les sur notre forum !"
 
 msgid "Need help?"
-msgstr ""
+msgstr "Besoin d'aide ?"
 
 msgid "Nest"
 msgstr "Imbriquer"
@@ -8572,7 +8572,7 @@ msgid "Search may fail or give you wrong results since it contains special chara
 msgstr "La recherche peut échouer ou vous donner des résultats erronés car elle contient des caractères spéciaux qui sont des mots-clés d'interrogation tels que < and >"
 
 msgid "Search query that selects users for which registration tokens will be invalidated. Search query example: id ^ (2, 4, 6)"
-msgstr ""
+msgstr "Requête de recherche sélectionnant les utilisateurs dont les jetons d'inscription seront invalidés. Exemple : id ^ (2, 4, 6)"
 
 msgid "Search string describing which hosts to perform the action on"
 msgstr "Chaîne de recherche décrivant les hôtes sur lesquels performer l'action"
@@ -10908,7 +10908,7 @@ msgid "Updates a table preference for a given table"
 msgstr "Met à jour une préférence de table pour une table donnée"
 
 msgid "Upgrade documentation"
-msgstr ""
+msgstr "Mise à niveau de la documentation"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
@@ -11280,7 +11280,7 @@ msgid "View provisioning template {openTemplate}."
 msgstr "Afficher le modèle de provisionnement {openTemplate}."
 
 msgid "View upgrade documentation"
-msgstr ""
+msgstr "Mise à niveau de la documentation"
 
 msgid "Virtual"
 msgstr "Virtuel"
@@ -11316,7 +11316,7 @@ msgid "Virtualization"
 msgstr "Virtualisation"
 
 msgid "Visit the community forum"
-msgstr ""
+msgstr "Visitez le forum communautaire"
 
 msgid "Vnic Profile"
 msgstr "Profil Vnic"
