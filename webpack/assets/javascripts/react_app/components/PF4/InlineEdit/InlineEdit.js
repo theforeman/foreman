@@ -6,6 +6,7 @@ import {
   Button,
   Split,
   SplitItem,
+  Icon,
 } from '@patternfly/react-core';
 import { TimesIcon, CheckIcon, PencilAltIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
@@ -48,7 +49,9 @@ const InlineEdit = ({ onSave, value, textArea, attribute }) => {
             variant="plain"
             onClick={onSubmit}
           >
-            <CheckIcon />
+            <Icon>
+              <CheckIcon />
+            </Icon>
           </Button>
         </SplitItem>
         <SplitItem>
@@ -58,7 +61,9 @@ const InlineEdit = ({ onSave, value, textArea, attribute }) => {
             variant="plain"
             onClick={onClear}
           >
-            <TimesIcon />
+            <Icon>
+              <TimesIcon />
+            </Icon>
           </Button>
         </SplitItem>
       </Split>
@@ -83,7 +88,9 @@ const InlineEdit = ({ onSave, value, textArea, attribute }) => {
           variant="plain"
           onClick={() => setEditing(true)}
         >
-          <PencilAltIcon />
+          <Icon>
+            <PencilAltIcon />
+          </Icon>
         </Button>
       </SplitItem>
     </Split>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle } from '@patternfly/react-core/deprecated';
+import { Icon } from '@patternfly/react-core';
 import { OutlinedBookmarkIcon } from '@patternfly/react-icons';
 import BookmarkModal from '../../BookmarkForm/SearchModal';
 import { STATUS } from '../../../constants';
@@ -84,7 +85,9 @@ const Bookmarks = ({
             aria-label="bookmarks dropdown toggle"
             ouiaId="bookmarks-dropdown-toggle"
           >
-            <OutlinedBookmarkIcon />
+            <Icon>
+              <OutlinedBookmarkIcon />
+            </Icon>
           </DropdownToggle>
         }
         id={controller}

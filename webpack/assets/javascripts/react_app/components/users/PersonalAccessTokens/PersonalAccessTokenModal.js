@@ -16,6 +16,7 @@ import {
   FormHelperText,
   HelperText,
   HelperTextItem,
+  Icon,
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
@@ -219,7 +220,11 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
               <FormHelperText>
                 <HelperText>
                   <HelperTextItem
-                    icon={<ExclamationCircleIcon />}
+                    icon={
+                      <Icon>
+                        <ExclamationCircleIcon />
+                      </Icon>
+                    }
                     variant="error"
                   >
                     {nameHelperText()}
@@ -315,7 +320,11 @@ const PersonalAccessTokenModal = ({ controller, url }) => {
               <FormHelperText>
                 <HelperText>
                   <HelperTextItem
-                    icon={<ExclamationCircleIcon />}
+                    icon={
+                      <Icon>
+                        <ExclamationCircleIcon />
+                      </Icon>
+                    }
                     variant="error"
                   >
                     {!isDateTimeInFuture()

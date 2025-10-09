@@ -3,7 +3,6 @@
 <% action = { :title => _("Create Global Parameter"), :url => new_common_parameter_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'list-ul',
-                                    :iconType => 'fa',
                                     :header => _('Global Parameters'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("global-parameters") },

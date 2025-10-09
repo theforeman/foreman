@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, MenuItem, Button, Icon } from 'patternfly-react';
+import { Dropdown, MenuItem, Button } from 'patternfly-react';
+import { CogIcon } from '@patternfly/react-icons';
 import {
+  Icon,
   Popover,
   PopoverPosition,
   Tooltip,
@@ -120,7 +122,9 @@ const EditorSettings = ({
     />
     <Tooltip content={__('Settings')} position={TooltipPosition.top}>
       <Button className="editor-button" id="cog-btn" bsStyle="link">
-        <Icon size="lg" name="cog" />
+        <Icon size="md">
+          <CogIcon />
+        </Icon>
       </Button>
     </Tooltip>
   </>

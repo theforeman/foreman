@@ -3,7 +3,6 @@
 <% action = { :title => _("Create Operating System"), :url =>  new_operatingsystem_path} if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'lightbulb-o',
-                                    :iconType => 'fa',
                                     :header => _('Operating Systems'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("4.4.1OperatingSystems") },

@@ -5,7 +5,6 @@
 <% action =  { :title => _("Create Host Group"), :url => new_hostgroup_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'object-group',
-                                    :iconType => 'fa',
                                     :header => _('Host Groups'),
                                     :description => description,
                                     :action => action

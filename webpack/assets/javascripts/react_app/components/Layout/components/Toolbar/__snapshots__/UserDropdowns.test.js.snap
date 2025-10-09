@@ -28,9 +28,11 @@ exports[`UserDropdown render 1`] = `
       onToggle={[Function]}
       ouiaId="user-dropdown-toggle"
     >
-      <UserAltIcon
+      <Icon
         className="user-icon"
-      />
+      >
+        <UserAltIcon />
+      </Icon>
       G L
     </DropdownToggle>
   }

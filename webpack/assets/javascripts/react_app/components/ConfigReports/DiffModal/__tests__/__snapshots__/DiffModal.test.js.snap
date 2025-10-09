@@ -46,10 +46,9 @@ exports[`DiffModal rendering... renders diffModal 1`] = `
       disabled={false}
       onClick={[Function]}
     >
-      <Icon
-        name="close"
-        type="pf"
-      />
+      <Icon>
+        <TimesIcon />
+      </Icon>
     </Button>
     <DiffToggle
       changeState={[Function]}

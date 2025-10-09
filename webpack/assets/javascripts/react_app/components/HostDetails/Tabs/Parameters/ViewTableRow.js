@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tr, Td, TableText } from '@patternfly/react-table';
 import { PencilAltIcon, FlagIcon } from '@patternfly/react-icons';
-import { Button, Tooltip } from '@patternfly/react-core';
+import { Button, Tooltip, Icon } from '@patternfly/react-core';
 import { translate as __ } from '../../../../common/I18n';
 import { HOST_PARAM, columnNames } from './ParametersConstants';
 import { RowActions } from './RowActions';
@@ -37,7 +37,9 @@ export const ViewParametersTableRow = ({
         {param.override && (
           <>
             <Tooltip content={__('Overridden')}>
-              <FlagIcon />{' '}
+              <Icon>
+                <FlagIcon />
+              </Icon>{' '}
             </Tooltip>
           </>
         )}
@@ -68,7 +70,9 @@ export const ViewParametersTableRow = ({
               setEditingRow(rowIndex);
             }}
           >
-            <PencilAltIcon />
+            <Icon>
+              <PencilAltIcon />
+            </Icon>
           </Button>
         </Tooltip>
       </Td>

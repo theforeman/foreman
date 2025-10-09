@@ -10,9 +10,11 @@ exports[`ImpersonateIcon should render 1`] = `
       className="nav-item-iconic"
       onClick={[Function]}
     >
-      <EyeIcon
+      <Icon
         className="blink-image"
-      />
+      >
+        <EyeIcon />
+      </Icon>
     </span>
   </Tooltip>
   <Modal

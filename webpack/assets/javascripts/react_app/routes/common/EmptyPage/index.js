@@ -1,3 +1,4 @@
+import { PlusCircleIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../../common/I18n';
@@ -13,7 +14,7 @@ const EmptyPage = ({ message: { type, text, action } }) => {
   const headerText = headerTextMap[type];
   return (
     <DefaultEmptyState
-      icon={type === 'error' ? 'error-circle-o' : 'add-circle-o'}
+      icon={type === 'error' ? <ExclamationCircleIcon /> : <PlusCircleIcon />}
       header={headerText}
       description={text}
       action={action}

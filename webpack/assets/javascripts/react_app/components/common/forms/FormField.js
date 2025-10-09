@@ -8,6 +8,7 @@ import {
   HelpBlock,
   FieldLevelHelp,
 } from 'patternfly-react';
+import { Icon } from '@patternfly/react-core';
 import { WarningTriangleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
 import InputFactory from './InputFactory';
 import { noop } from '../../../common/helpers';
@@ -23,8 +24,16 @@ const InlineMessage = ({ error, warning, helpInline }) => {
         'warning-message': !!warning,
       })}
     >
-      {error && <ErrorCircleOIcon className="error-icon" />}
-      {!error && warning && <WarningTriangleIcon className="warning-icon" />}
+      {error && (
+        <Icon className="error-icon">
+          <ErrorCircleOIcon />
+        </Icon>
+      )}
+      {!error && warning && (
+        <Icon className="warning-icon">
+          <WarningTriangleIcon />
+        </Icon>
+      )}
       {error || warning || helpInline}
     </HelpBlock>
   );

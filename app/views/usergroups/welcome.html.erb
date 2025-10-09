@@ -7,7 +7,6 @@ _("With user groups, you can group your users and assign them roles on a group b
 <% action = { :title => _("Create User group"), :url => new_usergroup_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'project',
-                                    :iconType => 'pf',
                                     :header => _('User Groups'),
                                     :description => description,
                                     :action => action

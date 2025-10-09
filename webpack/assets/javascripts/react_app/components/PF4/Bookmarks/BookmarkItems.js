@@ -1,6 +1,6 @@
 import React from 'react';
 import { PlusIcon } from '@patternfly/react-icons';
-import { Spinner } from '@patternfly/react-core';
+import { Spinner, Icon } from '@patternfly/react-core';
 import {
   DropdownItem,
   DropdownGroup,
@@ -19,7 +19,10 @@ export const addBookmarkItem = setModalOpen => (
       id="newBookmark"
       onClick={setModalOpen}
     >
-      <PlusIcon /> {__('Bookmark this search')}
+      <Icon>
+        <PlusIcon />
+      </Icon>{' '}
+      {__('Bookmark this search')}
     </DropdownItem>
     <DropdownSeparator
       ouiaId="new-bookmark-dropdown-separator"

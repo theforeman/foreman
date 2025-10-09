@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormControl, InputGroup, Icon } from 'patternfly-react';
-import { Popover } from '@patternfly/react-core';
+import { FormControl, InputGroup } from 'patternfly-react';
+import { Icon, Popover } from '@patternfly/react-core';
+import { CalendarAltIcon, TimesIcon } from '@patternfly/react-icons';
 import DateInput from './DateComponents/DateInput';
 import TodayButton from './DateComponents/TodayButton';
 import { formatDate } from '../../../common/helpers';
@@ -64,18 +65,21 @@ class DatePicker extends React.Component {
             onShown={() => this.setState({ hiddenValue: false })}
           >
             <InputGroup.Addon className="date-picker-pf">
-              <Icon type="fa" name="calendar" />
+              <Icon>
+                <CalendarAltIcon />
+              </Icon>
             </InputGroup.Addon>
           </Popover>
           {!required && (
-            <InputGroup.Addon className="clear-button">
-              <Icon
-                type="fa"
-                name="close"
-                onClick={() =>
-                  this.setState({ hiddenValue: true, value: new Date() })
-                }
-              />
+            <InputGroup.Addon
+              className="clear-button"
+              onClick={() =>
+                this.setState({ hiddenValue: true, value: new Date() })
+              }
+            >
+              <Icon>
+                <TimesIcon />
+              </Icon>
             </InputGroup.Addon>
           )}
         </InputGroup>

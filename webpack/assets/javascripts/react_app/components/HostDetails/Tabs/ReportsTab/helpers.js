@@ -23,7 +23,7 @@ import RelativeDateTime from '../../../common/dates/RelativeDateTime';
 const statusMapper = {
   failed: amount => (
     <>
-      <Icon color="var(--pf-v5-global--palette--red-100)">
+      <Icon style={{ color: 'var(--pf-v5-global--palette--red-100)' }}>
         <ExclamationCircleIcon />
       </Icon>
       {amount}
@@ -31,7 +31,7 @@ const statusMapper = {
   ),
   failed_restarts: amount => (
     <>
-      <Icon color="var(--pf-v5-global--palette--red-100)">
+      <Icon style={{ color: 'var(--pf-v5-global--palette--red-100)' }}>
         <SyncAltIcon />
       </Icon>{' '}
       {amount}
@@ -39,7 +39,7 @@ const statusMapper = {
   ),
   restarted: amount => (
     <>
-      <Icon color="var(--pf-v5-global--palette--orange-300)">
+      <Icon style={{ color: 'var(--pf-v5-global--palette--orange-300)' }}>
         <SyncAltIcon />
       </Icon>{' '}
       {amount}
@@ -47,7 +47,7 @@ const statusMapper = {
   ),
   applied: amount => (
     <>
-      <Icon color="var(--pf-v5-global--success-color--100)">
+      <Icon style={{ color: 'var(--pf-v5-global--success-color--100)' }}>
         <CheckCircleIcon />
       </Icon>{' '}
       {amount}
@@ -55,12 +55,18 @@ const statusMapper = {
   ),
   skipped: amount => (
     <>
-      <AngleDoubleRightIcon /> {amount}
+      <Icon>
+        <AngleDoubleRightIcon />
+      </Icon>{' '}
+      {amount}
     </>
   ),
   pending: amount => (
     <>
-      <PendingIcon /> {amount}
+      <Icon>
+        <PendingIcon />
+      </Icon>{' '}
+      {amount}
     </>
   ),
 };

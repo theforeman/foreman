@@ -14,6 +14,7 @@ import {
   Tooltip,
   Spinner,
   MenuSearchInput,
+  Icon,
 } from '@patternfly/react-core';
 import { ExchangeAltIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
@@ -162,7 +163,9 @@ const BreadcrumbSwitcher = ({
           variant="plain"
           aria-label="open breadcrumb switcher"
         >
-          <ExchangeAltIcon />
+          <Icon>
+            <ExchangeAltIcon />
+          </Icon>
         </Button>
       </Popover>
     </div>

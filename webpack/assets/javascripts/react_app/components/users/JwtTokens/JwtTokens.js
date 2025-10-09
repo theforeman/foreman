@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Button } from '@patternfly/react-core';
+import { Button, Icon } from '@patternfly/react-core';
 import { KeyIcon } from '@patternfly/react-icons';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,7 +16,9 @@ const JwtTokens = ({ userId }) => {
           <tr>
             <td className="blank-slate-pf">
               <div className="blank-slate-pf-icon">
-                <KeyIcon type="fa" name="key" color="#9c9c9c" />
+                <Icon>
+                  <KeyIcon />
+                </Icon>
               </div>
               <h1>{__('JWT Tokens')}</h1>
               <p>

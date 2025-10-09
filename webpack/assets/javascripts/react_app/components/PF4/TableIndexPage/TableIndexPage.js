@@ -13,6 +13,7 @@ import {
   PageSectionVariants,
   TextContent,
   Text,
+  Icon,
   PaginationVariant,
 } from '@patternfly/react-core';
 
@@ -195,7 +196,11 @@ const TableIndexPage = ({
     },
     hasHelpPage && {
       title: __('Documentation'),
-      icon: <QuestionCircleIcon />,
+      icon: (
+        <Icon>
+          <QuestionCircleIcon />
+        </Icon>
+      ),
       action: {
         href: customHelpURL || helpURL(),
         target: '_blank',

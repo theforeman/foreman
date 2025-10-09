@@ -3,7 +3,6 @@
 <% action ={ :title => _("Create Domain"), :url => new_domain_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'globe',
-                                    :iconType => 'fa',
                                     :header => _('Domains'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("4.4.7Networking") },

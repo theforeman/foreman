@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Icon } from 'patternfly-react';
+import { Icon } from '@patternfly/react-core';
+import { KeyIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 import {
   clearNewPersonalAccessToken,
@@ -70,7 +71,9 @@ const PersonalAccessTokens = ({ url, canCreate }) => {
             <tr>
               <td className="blank-slate-pf">
                 <div className="blank-slate-pf-icon">
-                  <Icon type="fa" name="key" color="#9c9c9c" />
+                  <Icon>
+                    <KeyIcon />
+                  </Icon>
                 </div>
                 <h1>{__('Personal Access Tokens')}</h1>
                 {__(

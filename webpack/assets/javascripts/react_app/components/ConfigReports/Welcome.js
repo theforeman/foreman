@@ -1,3 +1,4 @@
+import { BookIcon } from '@patternfly/react-icons';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { translate as __ } from '../../common/I18n';
@@ -33,8 +34,7 @@ export const WelcomeConfigReports = () => {
   );
   return (
     <EmptyState
-      icon="book"
-      iconType="fa"
+      icon={<BookIcon />}
       header={__('Reports')}
       description={description}
       documentation={{ url: getManualURL('3.5.4PuppetReports') }}

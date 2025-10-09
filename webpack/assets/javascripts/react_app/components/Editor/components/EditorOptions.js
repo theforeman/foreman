@@ -2,9 +2,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Icon, FormControl } from 'patternfly-react';
+import { Button, FormControl } from 'patternfly-react';
+import {
+  ArrowsAltIcon,
+  EyeIcon,
+  EyeSlashIcon,
+  UndoIcon,
+  UploadIcon,
+} from '@patternfly/react-icons';
 
-import { Tooltip, TooltipPosition } from '@patternfly/react-core';
+import { Tooltip, TooltipPosition, Icon } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import { bindMethods } from '../../../common/helpers';
 import DiffToggle from '../../DiffView/DiffToggle';
@@ -66,7 +73,7 @@ class EditorOptions extends React.Component {
               onClick={() => toggleMaskValue(isMasked)}
               bsStyle="link"
             >
-              <Icon size="lg" type="fa" name={isMasked ? 'eye' : 'eye-slash'} />
+              <Icon size="md">{isMasked ? <EyeIcon /> : <EyeSlashIcon />}</Icon>
             </Button>
           </Tooltip>
         )}
@@ -90,7 +97,9 @@ class EditorOptions extends React.Component {
               }}
               bsStyle="link"
             >
-              <Icon size="2x" type="pf" name="restart" />
+              <Icon size="md">
+                <UndoIcon />
+              </Icon>
             </Button>
           </Tooltip>
         ) : (
@@ -100,7 +109,9 @@ class EditorOptions extends React.Component {
             id="undo-btn"
             bsStyle="link"
           >
-            <Icon size="2x" type="pf" name="restart" />
+            <Icon size="md">
+              <UndoIcon />
+            </Icon>
           </Button>
         )}
         {showImport && (
@@ -112,7 +123,9 @@ class EditorOptions extends React.Component {
               bsStyle="link"
               onClick={() => this.fileDialog()}
             >
-              <Icon size="lg" type="pf" name="folder-open" />
+              <Icon size="md">
+                <UploadIcon />
+              </Icon>
               <FormControl
                 inputRef={ref => {
                   this.fileInput = ref;
@@ -143,7 +156,9 @@ class EditorOptions extends React.Component {
             onClick={toggleModal}
             bsStyle="link"
           >
-            <Icon size="lg" type="fa" name="arrows-alt" />
+            <Icon size="md">
+              <ArrowsAltIcon />
+            </Icon>
           </Button>
         </Tooltip>
       </div>

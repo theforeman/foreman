@@ -1,5 +1,7 @@
 import React from 'react';
-import { Modal, Icon, Button } from 'patternfly-react';
+import { Modal, Button } from 'patternfly-react';
+import { Icon } from '@patternfly/react-core';
+import { TimesIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 
 import { noop } from '../../../common/helpers';
@@ -26,7 +28,9 @@ const DiffModal = ({
         onClick={toggleModal}
         bsStyle="link"
       >
-        <Icon type="pf" name="close" />
+        <Icon>
+          <TimesIcon />
+        </Icon>
       </Button>
       <DiffToggle changeState={changeViewType} stateView={diffViewType} />
     </Modal.Header>

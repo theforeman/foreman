@@ -8,6 +8,7 @@ import {
   MastheadBrand,
   MastheadContent,
   Button,
+  Icon,
 } from '@patternfly/react-core';
 import { BarsIcon } from '@patternfly/react-icons';
 
@@ -26,7 +27,9 @@ const Header = ({
   <Masthead display={{ default: 'inline' }}>
     <MastheadToggle>
       <Button ouiaId="nav-toggle" onClick={onNavToggle} variant="plain">
-        <BarsIcon />
+        <Icon>
+          <BarsIcon />
+        </Icon>
       </Button>
     </MastheadToggle>
     <MastheadMain>

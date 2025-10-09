@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'patternfly-react';
+import { PlusCircleIcon } from '@patternfly/react-icons';
 import {
   EmptyState,
   EmptyStateVariant,
@@ -7,9 +7,11 @@ import {
   EmptyStateActions,
   EmptyStateHeader,
   EmptyStateFooter,
+  Icon,
 } from '@patternfly/react-core';
 import { emptyStatePatternPropTypes } from './EmptyStatePropTypes';
 import { translate as __ } from '../../../common/I18n';
+import { iconMapper } from '../Icon/IconMapper';
 import './EmptyState.scss';
 
 const EmptyStatePattern = props => {
@@ -17,7 +19,6 @@ const EmptyStatePattern = props => {
     documentation,
     action,
     secondaryActions,
-    iconType,
     icon,
     header,
     description,
@@ -46,12 +47,18 @@ const EmptyStatePattern = props => {
     );
   };
 
-  const EmptyStateIcon = () =>
-    React.isValidElement(icon) ? (
-      icon
-    ) : (
-      <Icon name={icon} type={iconType} size="2x" />
-    );
+  const EmptyStateIcon = () => {
+    let iconElement = typeof icon === 'string' ? iconMapper(icon) : icon;
+    iconElement = iconElement || <PlusCircleIcon size="2x" />;
+    // Wrap icon in Icon component if it's not already wrapped
+    if (
+      React.isValidElement(iconElement) &&
+      iconElement.type?.displayName !== 'Icon'
+    ) {
+      return <Icon>{iconElement}</Icon>;
+    }
+    return iconElement;
+  };
 
   return (
     <EmptyState variant={EmptyStateVariant.xl}>
@@ -74,11 +81,10 @@ const EmptyStatePattern = props => {
 EmptyStatePattern.propTypes = emptyStatePatternPropTypes;
 
 EmptyStatePattern.defaultProps = {
-  icon: 'add-circle-o',
+  icon: <PlusCircleIcon />,
   secondaryActions: [],
   documentation: null,
   action: null,
-  iconType: 'pf',
 };
 
 export default EmptyStatePattern;

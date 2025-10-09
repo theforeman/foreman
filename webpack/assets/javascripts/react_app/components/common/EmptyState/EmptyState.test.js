@@ -157,15 +157,17 @@ describe('Default Empty State', () => {
   });
 
   it('should render with icon and proper accessibility', () => {
-    rtlHelpers.renderWithStore(<DefaultEmptyState {...props} />);
+    const { container } = rtlHelpers.renderWithStore(
+      <DefaultEmptyState {...props} />
+    );
 
     // Check heading structure
     expect(
       screen.getByRole('heading', { name: 'Printers', level: 5 })
     ).toBeInTheDocument();
 
-    // Check icon presence (pficon class)
-    const iconElement = document.querySelector('.pficon-printer');
+    // Check icon presence
+    const iconElement = container.querySelector('svg');
     expect(iconElement).toBeInTheDocument();
     expect(iconElement).toHaveAttribute('aria-hidden', 'true');
   });

@@ -1,3 +1,4 @@
+import { UsersIcon } from '@patternfly/react-icons';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -44,8 +45,7 @@ export const WelcomeAuthSource = ({ canCreate }) => {
 
   return (
     <EmptyState
-      icon="users"
-      iconType="fa"
+      icon={<UsersIcon />}
       header={__('Authentication Sources')}
       description={description}
       action={action}

@@ -10,6 +10,7 @@ import {
   DropdownList,
   MenuToggle,
   Divider,
+  Icon,
 } from '@patternfly/react-core';
 import {
   DatabaseIcon,
@@ -90,7 +91,11 @@ const ActionsBar = ({
       key="build"
       component="button"
       isDisabled={!canBuild}
-      icon={<BuildIcon />}
+      icon={
+        <Icon>
+          <BuildIcon />
+        </Icon>
+      }
     >
       {isBuild ? __('Cancel build') : __('Build')}
     </DropdownItem>,
@@ -100,7 +105,11 @@ const ActionsBar = ({
       onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/clone`))}
       key="clone"
       component="button"
-      icon={<CloneIcon />}
+      icon={
+        <Icon>
+          <CloneIcon />
+        </Icon>
+      }
     >
       {__('Clone')}
     </DropdownItem>,
@@ -110,7 +119,11 @@ const ActionsBar = ({
       onClick={deleteHostHandler}
       key="delete"
       component="button"
-      icon={<TrashIcon />}
+      icon={
+        <Icon>
+          <TrashIcon />
+        </Icon>
+      }
     >
       {__('Delete')}
     </DropdownItem>,
@@ -122,7 +135,11 @@ const ActionsBar = ({
       isAriaDisabled={isConsoleDisabled}
       tooltip={determineTooltip()}
       component="button"
-      icon={<TerminalIcon />}
+      icon={
+        <Icon>
+          <TerminalIcon />
+        </Icon>
+      }
     >
       {__('Console')}
     </DropdownItem>,
@@ -131,14 +148,22 @@ const ActionsBar = ({
       onClick={() => visit(foremanUrl(`/hosts/${hostFriendlyId}/facts`))}
       key="fact"
       component="button"
-      icon={<DatabaseIcon />}
+      icon={
+        <Icon>
+          <DatabaseIcon />
+        </Icon>
+      }
     >
       {__('Facts')}
     </DropdownItem>,
     <Divider key="sp-2" component="li" />,
     <DropdownItem
       ouiaId="pre-version-dropdown-item"
-      icon={<UndoIcon />}
+      icon={
+        <Icon>
+          <UndoIcon />
+        </Icon>
+      }
       to={`/hosts/${hostFriendlyId}`}
       key="prev-version"
     >
@@ -175,7 +200,9 @@ const ActionsBar = ({
                   isExpanded={kebabIsOpen}
                   onClick={() => onKebabToggle(!kebabIsOpen)}
                 >
-                  <EllipsisVIcon />
+                  <Icon>
+                    <EllipsisVIcon />
+                  </Icon>
                 </MenuToggle>
               )}
             >

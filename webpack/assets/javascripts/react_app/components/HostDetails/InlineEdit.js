@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, TextArea, Flex, FlexItem } from '@patternfly/react-core';
+import { Button, TextArea, Flex, FlexItem, Icon } from '@patternfly/react-core';
 import { PencilAltIcon, CheckIcon, TimesIcon } from '@patternfly/react-icons';
 
 import { APIActions } from '../../redux/API';
@@ -64,7 +64,9 @@ export const InlineEdit = ({
               ouiaId={`save-${name}`}
               onClick={handleSave}
             >
-              <CheckIcon />
+              <Icon>
+                <CheckIcon />
+              </Icon>
             </Button>
           </FlexItem>
           <FlexItem spacer={{ default: 'spacerNone' }}>
@@ -74,7 +76,9 @@ export const InlineEdit = ({
               ouiaId={`cancel-edit-${name}`}
               onClick={handleCancel}
             >
-              <TimesIcon />
+              <Icon>
+                <TimesIcon />
+              </Icon>
             </Button>
           </FlexItem>
         </>
@@ -94,7 +98,9 @@ export const InlineEdit = ({
                 aria-label="Edit"
                 onClick={() => setIsEditing(true)}
               >
-                <PencilAltIcon />
+                <Icon>
+                  <PencilAltIcon />
+                </Icon>
               </Button>
             </FlexItem>
           )}

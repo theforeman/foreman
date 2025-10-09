@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Button, FormGroup } from '@patternfly/react-core';
+import { Button, FormGroup, Icon } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons';
 
 import LabelIcon from '../../../../../components/common/LabelIcon';
@@ -45,7 +45,11 @@ const Repository = ({ repoData, handleRepoData, isLoading }) => {
         <Button
           ouiaId="host_reg_add_more_repositories"
           variant="link"
-          icon={<PlusCircleIcon />}
+          icon={
+            <Icon>
+              <PlusCircleIcon />
+            </Icon>
+          }
           onClick={handleModalToggle}
         >
           {sprintf(

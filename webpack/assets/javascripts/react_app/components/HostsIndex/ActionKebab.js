@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Menu, MenuToggle, Popper } from '@patternfly/react-core';
+import { Menu, MenuToggle, Popper, Icon } from '@patternfly/react-core';
 import { EllipsisVIcon } from '@patternfly/react-icons';
 
 /**
@@ -30,7 +30,9 @@ export const ActionKebab = ({ items, menuOpen, setMenuOpen }) => {
       onClick={() => setMenuOpen(prev => !prev)}
       isExpanded={menuOpen}
     >
-      <EllipsisVIcon />
+      <Icon>
+        <EllipsisVIcon />
+      </Icon>
     </MenuToggle>
   );
 

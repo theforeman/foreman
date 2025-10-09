@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionToggle,
   AccordionContent,
+  Icon,
 } from '@patternfly/react-core';
 import { TagIcon, HddIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../../../../common/I18n';
@@ -55,8 +56,16 @@ const NICDescriptionList = ({ status, foremanInterface }) => {
               {identifier || (
                 <span className="disabled-text">{__('No name')}</span>
               )}
-              {primary && <TagIcon title={__('Primary')} />}
-              {provision && <HddIcon title={__('Provision')} />}
+              {primary && (
+                <Icon className="primary-icon">
+                  <TagIcon title={__('Primary')} />
+                </Icon>
+              )}
+              {provision && (
+                <Icon className="provision-icon">
+                  <HddIcon title={__('Provision')} />
+                </Icon>
+              )}
             </GridItem>
             <GridItem span={4}>
               <Label isCompact color="blue">

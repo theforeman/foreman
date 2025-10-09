@@ -3,7 +3,6 @@
 <% action = { :title => _("Create Realm"), :url => new_realm_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'key',
-                                    :iconType => 'fa',
                                     :header => _('Realms'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("4.3.8Realm") },

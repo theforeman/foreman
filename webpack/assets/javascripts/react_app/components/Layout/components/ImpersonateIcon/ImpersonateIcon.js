@@ -7,6 +7,7 @@ import {
   Modal,
   ModalVariant,
   Button,
+  Icon,
 } from '@patternfly/react-core';
 import { translate as __ } from '../../../../common/I18n';
 
@@ -26,7 +27,9 @@ const ImpersonateIcon = props => {
         position={TooltipPosition.bottom}
       >
         <span className="nav-item-iconic" onClick={toggleModal}>
-          <EyeIcon className="blink-image" />
+          <Icon className="blink-image">
+            <EyeIcon />
+          </Icon>
         </span>
       </Tooltip>
       <Modal

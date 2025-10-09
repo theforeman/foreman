@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@patternfly/react-core';
+import { Button, Icon } from '@patternfly/react-core';
 import { PencilAltIcon } from '@patternfly/react-icons';
 import { Table, Tr, Tbody, Td } from '@patternfly/react-table';
 import { translate as __ } from '../../../../../../common/I18n';
@@ -81,7 +81,9 @@ const TemplatesCard = ({ hostName }) => {
                       variant="plain"
                       target="_blank"
                     >
-                      <PencilAltIcon />
+                      <Icon>
+                        <PencilAltIcon />
+                      </Icon>
                     </Button>
                   </Td>
                 )}

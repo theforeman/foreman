@@ -1,4 +1,7 @@
-export const icon = 'printer';
+import React from 'react';
+import { PrintIcon } from '@patternfly/react-icons';
+
+export const icon = <PrintIcon />;
 export const header = 'Printers';
 export const description = 'Printers print a file from the computer';
 export const documentation = {

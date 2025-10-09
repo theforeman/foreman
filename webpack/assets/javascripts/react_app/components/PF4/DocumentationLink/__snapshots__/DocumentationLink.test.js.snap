@@ -6,7 +6,9 @@ exports[`documentation links should have an external link to documentation 1`] =
   onClick={[Function]}
   ouiaId="doc-url-dropdown"
 >
-  <QuestionCircleIcon />
+  <Icon>
+    <QuestionCircleIcon />
+  </Icon>
    
   Documentation
 </DropdownItem>

@@ -3,7 +3,6 @@
 <% action = { :title => _("New HTTP Proxy"), :url => new_http_proxy_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'globe',
-                                    :iconType => 'fa',
                                     :header => _('HTTP Proxies'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("5.9HTTP(S)Proxy") },

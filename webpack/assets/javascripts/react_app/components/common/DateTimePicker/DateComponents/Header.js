@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'patternfly-react';
+import { Icon } from '@patternfly/react-core';
+import { AngleLeftIcon, AngleRightIcon } from '@patternfly/react-icons';
 import { YEAR } from './DateConstants';
 import { getWeekArray } from './HeaderHelpers';
 
@@ -22,7 +23,9 @@ const Header = ({
     <thead>
       <tr>
         <th className="prev" onClick={getPrevMonth}>
-          <Icon type="fa" name="angle-left" />
+          <Icon>
+            <AngleLeftIcon />
+          </Icon>
         </th>
         <th
           className="picker-switch"
@@ -32,7 +35,9 @@ const Header = ({
           {month} {year}
         </th>
         <th className="next" onClick={getNextMonth}>
-          <Icon type="fa" name="angle-right" />
+          <Icon>
+            <AngleRightIcon />
+          </Icon>
         </th>
       </tr>
       <tr>

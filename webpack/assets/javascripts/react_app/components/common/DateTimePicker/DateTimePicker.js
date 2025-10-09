@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormControl, InputGroup, Icon } from 'patternfly-react';
-import { Popover } from '@patternfly/react-core';
+import { FormControl, InputGroup } from 'patternfly-react';
+import { OutlinedCalendarAltIcon, TimesIcon } from '@patternfly/react-icons';
+import { Popover, Icon } from '@patternfly/react-core';
 import DateInput from './DateComponents/DateInput';
 import TodayButton from './DateComponents/TodayButton';
 import TimeInput from './TimeComponents/TimeInput';
@@ -98,12 +99,19 @@ class DateTimePicker extends React.Component {
             minWidth="500px"
           >
             <InputGroup.Addon className="date-time-picker-pf">
-              <Icon type="fa" name="calendar" />
+              <Icon>
+                <OutlinedCalendarAltIcon />
+              </Icon>
             </InputGroup.Addon>
           </Popover>
           {!required && (
-            <InputGroup.Addon className="clear-button">
-              <Icon type="fa" name="close" onClick={this.clearSelected} />
+            <InputGroup.Addon
+              className="clear-button"
+              onClick={this.clearSelected}
+            >
+              <Icon>
+                <TimesIcon />
+              </Icon>
             </InputGroup.Addon>
           )}
         </InputGroup>

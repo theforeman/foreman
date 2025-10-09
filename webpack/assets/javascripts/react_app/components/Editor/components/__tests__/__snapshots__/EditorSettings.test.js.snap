@@ -263,10 +263,10 @@ exports[`EditorSettings renders EditorSettings 1`] = `
       id="cog-btn"
     >
       <Icon
-        name="cog"
-        size="lg"
-        type="fa"
-      />
+        size="md"
+      >
+        <CogIcon />
+      </Icon>
     </Button>
   </Tooltip>
 </Fragment>
@@ -535,10 +535,10 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
       id="cog-btn"
     >
       <Icon
-        name="cog"
-        size="lg"
-        type="fa"
-      />
+        size="md"
+      >
+        <CogIcon />
+      </Icon>
     </Button>
   </Tooltip>
 </Fragment>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Bullseye, Radio, Select, Tooltip } from '@patternfly/react-core';
+import { Bullseye, Radio, Select, Tooltip, Icon } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../../common/I18n';
 import './TaxonomySelect.css';
@@ -29,7 +29,9 @@ const TaxonomySelect = ({
         />
       }
     >
-      <OutlinedQuestionCircleIcon style={{ marginLeft: '4px' }} />
+      <Icon style={{ marginLeft: '4px' }}>
+        <OutlinedQuestionCircleIcon />
+      </Icon>
     </Tooltip>
   );
   const mismatchFailTip = (
@@ -45,7 +47,9 @@ const TaxonomySelect = ({
         />
       }
     >
-      <OutlinedQuestionCircleIcon style={{ marginLeft: '4px' }} />
+      <Icon style={{ marginLeft: '4px' }}>
+        <OutlinedQuestionCircleIcon />
+      </Icon>
     </Tooltip>
   );
 

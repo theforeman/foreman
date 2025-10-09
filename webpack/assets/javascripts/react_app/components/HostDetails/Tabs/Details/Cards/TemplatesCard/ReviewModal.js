@@ -7,6 +7,7 @@ import {
   Modal,
   Switch,
   Tooltip,
+  Icon,
 } from '@patternfly/react-core';
 import { OutlinedWindowRestoreIcon } from '@patternfly/react-icons';
 import { FormattedMessage } from 'react-intl';
@@ -43,7 +44,11 @@ export const ReviewModal = ({
               isInline
               href={url}
               variant="link"
-              icon={<OutlinedWindowRestoreIcon />}
+              icon={
+                <Icon>
+                  <OutlinedWindowRestoreIcon />
+                </Icon>
+              }
               target="_blank"
               rel="external noreferrer noopener"
             />

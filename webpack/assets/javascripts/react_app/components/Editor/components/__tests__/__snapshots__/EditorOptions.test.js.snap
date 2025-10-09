@@ -24,10 +24,10 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
       onClick={[Function]}
     >
       <Icon
-        name="eye-slash"
-        size="lg"
-        type="fa"
-      />
+        size="md"
+      >
+        <EyeSlashIcon />
+      </Icon>
     </Button>
   </Tooltip>
   <Tooltip
@@ -45,10 +45,10 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
       onClick={[Function]}
     >
       <Icon
-        name="restart"
-        size="2x"
-        type="pf"
-      />
+        size="md"
+      >
+        <UndoIcon />
+      </Icon>
     </Button>
   </Tooltip>
   <Tooltip
@@ -66,10 +66,10 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
       onClick={[Function]}
     >
       <Icon
-        name="folder-open"
-        size="lg"
-        type="pf"
-      />
+        size="md"
+      >
+        <UploadIcon />
+      </Icon>
       <FormControl
         bsClass="form-control"
         className="hidden"
@@ -128,10 +128,10 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
       onClick={[Function]}
     >
       <Icon
-        name="arrows-alt"
-        size="lg"
-        type="fa"
-      />
+        size="md"
+      >
+        <ArrowsAltIcon />
+      </Icon>
     </Button>
   </Tooltip>
 </div>

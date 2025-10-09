@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button } from '@patternfly/react-core';
+import { Button, Icon } from '@patternfly/react-core';
 import { useHistory } from 'react-router-dom';
 import { SearchIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
@@ -54,7 +54,11 @@ const RedirectedEmptyPage = ({ location: { state = {} } }) => {
     <EmptyStatePattern
       header={header}
       variant="xl"
-      icon={<SearchIcon />}
+      icon={
+        <Icon>
+          <SearchIcon />
+        </Icon>
+      }
       action={primaryAction}
       description={body}
       secondaryActions={

@@ -3,7 +3,6 @@
 <% action =  { :title => _("Create Smart Proxy"), :url => new_smart_proxy_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'sitemap',
-                                    :iconType => 'fa',
                                     :header => _('Smart Proxies'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("4.3SmartProxies") },

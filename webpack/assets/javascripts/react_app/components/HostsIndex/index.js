@@ -16,6 +16,7 @@ import {
   SplitItem,
   TextContent,
   Text,
+  Icon,
 } from '@patternfly/react-core';
 import {
   Dropdown,
@@ -420,7 +421,11 @@ const HostsIndex = () => {
           ouiaId="legacy-ui-link-dropdown-item"
           key="legacy-ui-link-dropdown-item"
           href="/hosts"
-          icon={<UndoIcon />}
+          icon={
+            <Icon>
+              <UndoIcon />
+            </Icon>
+          }
         >
           {__('Legacy UI')}
         </DropdownItem>,

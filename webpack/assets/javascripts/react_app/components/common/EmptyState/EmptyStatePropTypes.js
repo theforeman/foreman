@@ -8,7 +8,6 @@ export const actionButtonPropTypes = {
 
 export const emptyStatePatternPropTypes = {
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  iconType: PropTypes.string,
   header: PropTypes.string.isRequired,
   documentation: PropTypes.oneOfType([
     PropTypes.shape({

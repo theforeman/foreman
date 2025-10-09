@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { TableText } from '@patternfly/react-table';
 import {
+  Icon,
   Popover,
   TextContent,
   TextList,
@@ -105,7 +106,9 @@ const generalColumns = [
         hostDetails?.owner_type !== 'User' ? UsersIcon : UserIcon;
       return (
         <TableText>
-          <OwnerIcon color="#2B9AF3" style={{ marginRight: '5px' }} />
+          <Icon style={{ color: '#2B9AF3', marginRight: '5px' }}>
+            <OwnerIcon />
+          </Icon>
           {hostDetails?.owner_name}
         </TableText>
       );

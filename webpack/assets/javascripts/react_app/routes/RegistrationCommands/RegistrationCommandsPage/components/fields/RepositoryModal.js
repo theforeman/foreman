@@ -9,6 +9,7 @@ import {
   ModalVariant,
   Grid,
   GridItem,
+  Icon,
 } from '@patternfly/react-core';
 import { PlusCircleIcon, MinusCircleIcon } from '@patternfly/react-icons';
 import LabelIcon from '../../../../../components/common/LabelIcon';
@@ -97,7 +98,11 @@ const RepositoryModal = ({
         <Button
           ouiaId={repo.reference}
           variant="link"
-          icon=<MinusCircleIcon />
+          icon={
+            <Icon>
+              <MinusCircleIcon />
+            </Icon>
+          }
           onClick={() => removeRepository(repo.reference)}
         >
           {__('Remove')}
@@ -136,7 +141,11 @@ const RepositoryModal = ({
         <Button
           ouiaId="host_reg_modal_add_new_repo"
           variant="link"
-          icon={<PlusCircleIcon />}
+          icon={
+            <Icon>
+              <PlusCircleIcon />
+            </Icon>
+          }
           onClick={addRepositoryModalInput}
         >
           {__('Add repository')}

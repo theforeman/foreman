@@ -11,6 +11,7 @@ import {
   HelperText,
   HelperTextItem,
   FormHelperText,
+  Icon,
 } from '@patternfly/react-core';
 import { useDispatch } from 'react-redux';
 import { sprintf, translate as __ } from '../../common/I18n';
@@ -136,7 +137,11 @@ const BookmarkForm = ({
             <FormHelperText>
               <HelperText>
                 <HelperTextItem
-                  icon={<ExclamationCircleIcon />}
+                  icon={
+                    <Icon>
+                      <ExclamationCircleIcon />
+                    </Icon>
+                  }
                   variant={nameValidated}
                 >
                   {nameErrorMsg}
@@ -160,7 +165,11 @@ const BookmarkForm = ({
             <FormHelperText>
               <HelperText>
                 <HelperTextItem
-                  icon={<ExclamationCircleIcon />}
+                  icon={
+                    <Icon>
+                      <ExclamationCircleIcon />
+                    </Icon>
+                  }
                   variant={queryValidated}
                 >
                   {queryErrorMsg}

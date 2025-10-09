@@ -11,6 +11,7 @@ import {
   FormHelperText,
   HelperText,
   HelperTextItem,
+  Icon,
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 
@@ -72,7 +73,14 @@ const TokenLifeTime = ({ value, onChange, handleInvalidField, isLoading }) => {
       {!isValid(value) && (
         <FormHelperText>
           <HelperText>
-            <HelperTextItem icon={<ExclamationCircleIcon />} variant="error">
+            <HelperTextItem
+              icon={
+                <Icon>
+                  <ExclamationCircleIcon />
+                </Icon>
+              }
+              variant="error"
+            >
               {sprintf(
                 'Token life time value must be between %s and %s hours.',
                 minValue,

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@patternfly/react-table';
-import { Spinner } from '@patternfly/react-core';
+import { Spinner, Icon } from '@patternfly/react-core';
 import { SearchIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 import { STATUS } from '../../../../constants';
 import EmptyState from '../../../common/EmptyState';
@@ -49,7 +49,9 @@ const ReportsTable = ({ reports, status, fetchReports, error, origin }) => {
     emptyState = (
       <EmptyState
         icon={
-          <ExclamationCircleIcon color="var(--pf-v5-global--palette--red-200)" />
+          <Icon style={{ color: 'var(--pf-v5-global--palette--red-200)' }}>
+            <ExclamationCircleIcon />
+          </Icon>
         }
         header={__('Something went wrong')}
         description={error}

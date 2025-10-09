@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { LockIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../common/I18n';
 import { EmptyStatePattern as EmptyState } from '../common/EmptyState';
 
@@ -27,8 +28,7 @@ const PermissionDenied = ({ missingPermissions, primaryButton }) => {
 
   return (
     <EmptyState
-      iconType="fa"
-      icon="lock"
+      icon={<LockIcon />}
       header={__('Permission Denied')}
       description={description}
       documentation={doc}

@@ -6,6 +6,7 @@ import {
   CardTitle,
   CardFooter,
   Button,
+  Icon,
 } from '@patternfly/react-core';
 import { ExternalLinkSquareAltIcon } from '@patternfly/react-icons';
 
@@ -25,7 +26,11 @@ const DocumentationCard = () => (
         ouiaId="upgrade-docs-button"
         component="a"
         variant="link"
-        icon={<ExternalLinkSquareAltIcon />}
+        icon={
+          <Icon>
+            <ExternalLinkSquareAltIcon />
+          </Icon>
+        }
         iconPosition="right"
         target="_blank"
         isInline

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DebounceInput } from 'react-debounce-input';
-import { Icon } from 'patternfly-react';
+import { Icon, Button } from '@patternfly/react-core';
+import { SearchIcon, TimesIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../../react_app/common/I18n';
 import { noop } from '../../../common/helpers';
 import './searchInput.scss';
@@ -21,7 +22,9 @@ class SearchInput extends React.Component {
 
     return (
       <div className="input-search">
-        <Icon type="fa" name="search" />
+        <Icon>
+          <SearchIcon />
+        </Icon>
         <DebounceInput
           className="form-control"
           inputRef={input => {
@@ -34,7 +37,16 @@ class SearchInput extends React.Component {
           debounceTimeout={timeout}
           onChange={onSearchChange}
         />
-        <Icon type="fa" name="close" onClick={() => onClear()} />
+        <Button
+          variant="plain"
+          onClick={() => onClear()}
+          aria-label="Clear"
+          ouiaId="clear-search-input-button"
+        >
+          <Icon>
+            <TimesIcon />
+          </Icon>
+        </Button>
       </div>
     );
   }

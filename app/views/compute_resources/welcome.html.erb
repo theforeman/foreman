@@ -4,7 +4,6 @@
 <% action = { :title => _("Create Compute Resource"), :url => new_compute_resource_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'cubes',
-                                    :iconType => 'fa',
                                     :header => _('Compute Resources'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("5.2ComputeResources") },

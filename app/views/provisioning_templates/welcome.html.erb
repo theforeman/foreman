@@ -3,7 +3,6 @@
 <% action = { :title => _("Create Provisioning Template"), :url => new_provisioning_template_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'tasks',
-                                    :iconType => 'fa',
                                     :header => _('Provisioning Templates'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("4.4.3ProvisioningTemplates") },

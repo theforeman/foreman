@@ -21,7 +21,11 @@ exports[`RegistrationCommandsPage fields - Repository renders 1`] = `
     }
   >
     <Button
-      icon={<PlusCircleIcon />}
+      icon={
+        <Icon>
+          <PlusCircleIcon />
+        </Icon>
+      }
       onClick={[Function]}
       ouiaId="host_reg_add_more_repositories"
       variant="link"

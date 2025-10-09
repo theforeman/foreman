@@ -13,6 +13,7 @@ import {
   HelperTextItem,
   TextArea,
   TextInput,
+  Icon,
 } from '@patternfly/react-core';
 
 import { useDispatch } from 'react-redux';
@@ -213,7 +214,9 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
               isDisabled={loading}
               ouiaId="cancel-edit-btn"
             >
-              <TimesIcon />
+              <Icon>
+                <TimesIcon />
+              </Icon>
             </Button>
           </FlexItem>
           <FlexItem>
@@ -223,7 +226,9 @@ const SettingValueEdit = ({ setting, updateSetting }) => {
               isDisabled={loading}
               ouiaId="submit-edit-btn"
             >
-              <CheckIcon />
+              <Icon>
+                <CheckIcon />
+              </Icon>
             </Button>
           </FlexItem>
         </Flex>

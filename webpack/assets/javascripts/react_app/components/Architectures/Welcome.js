@@ -1,3 +1,4 @@
+import { BuildingIcon } from '@patternfly/react-icons';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -36,8 +37,7 @@ export const WelcomeArchitecture = ({ canCreate }) => {
 
   return (
     <EmptyState
-      icon="building"
-      iconType="fa"
+      icon={<BuildingIcon />}
       header={__('Architectures')}
       description={description}
       action={action}

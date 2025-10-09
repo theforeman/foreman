@@ -3,7 +3,6 @@
 <% action = { :title => _("Create Compute Profile"), :url => new_compute_profile_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'list-alt',
-                                    :iconType => 'fa',
                                     :header => _('Compute Profiles'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("5.2.2UsingComputeProfiles") },

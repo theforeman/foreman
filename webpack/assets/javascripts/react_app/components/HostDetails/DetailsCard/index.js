@@ -15,6 +15,7 @@ import {
   Flex,
   FlexItem,
   GridItem,
+  Icon,
 } from '@patternfly/react-core';
 import { PencilAltIcon, UserIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
@@ -157,7 +158,9 @@ const DetailsCard = ({
                         target="_blank"
                         isInline
                       >
-                        <PencilAltIcon />
+                        <Icon>
+                          <PencilAltIcon />
+                        </Icon>
                       </Button>
                     </FlexItem>
                   </Flex>
@@ -174,7 +177,10 @@ const DetailsCard = ({
               >
                 {ownerID && (
                   <span>
-                    <UserIcon /> {ownerName}
+                    <Icon>
+                      <UserIcon />
+                    </Icon>{' '}
+                    {ownerName}
                   </span>
                 )}
               </SkeletonLoader>

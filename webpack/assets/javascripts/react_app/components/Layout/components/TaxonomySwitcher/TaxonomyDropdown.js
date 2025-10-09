@@ -49,17 +49,15 @@ const TaxonomyDropdown = ({ taxonomyType, currentTaxonomy, taxonomies }) => {
   };
 
   const selectedIcon = (
-    <Icon size="sm">
-      <CheckIcon className="current-taxonomy-v" />
+    <Icon size="sm" className="current-taxonomy-v">
+      <CheckIcon />
     </Icon>
   );
-  const anyIcon =
-    taxonomyType === 'organization' ? (
-      <BuildingIcon style={{ marginRight: '5px', marginTop: '3px' }} />
-    ) : (
-      <GlobeIcon style={{ marginRight: '5px', marginTop: '3px' }} />
-    );
-
+  const anyIcon = (
+    <Icon style={{ marginRight: '5px', marginTop: '3px' }}>
+      {taxonomyType === 'organization' ? <BuildingIcon /> : <GlobeIcon />}
+    </Icon>
+  );
   const anyTaxonomyItem = (
     <ContextSelectorItem
       key={0}

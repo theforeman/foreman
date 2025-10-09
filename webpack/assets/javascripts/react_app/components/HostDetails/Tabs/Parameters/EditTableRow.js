@@ -18,6 +18,7 @@ import {
   FormHelperText,
   HelperText,
   HelperTextItem,
+  Icon,
 } from '@patternfly/react-core';
 import {
   SelectVariant,
@@ -119,7 +120,11 @@ export const EditParametersTableRow = ({
               <FormHelperText>
                 <HelperText>
                   <HelperTextItem
-                    icon={<ExclamationCircleIcon />}
+                    icon={
+                      <Icon>
+                        <ExclamationCircleIcon />
+                      </Icon>
+                    }
                     variant="error"
                   >
                     {__("Name can't contain spaces")}
@@ -201,7 +206,9 @@ export const EditParametersTableRow = ({
                   setValue(param.value);
                 }}
               >
-                <TimesIcon />
+                <Icon>
+                  <TimesIcon />
+                </Icon>
               </Button>
             </Tooltip>
             <Tooltip content={__('Submit edit')}>
@@ -215,7 +222,9 @@ export const EditParametersTableRow = ({
                 }}
                 isDisabled={name.includes(' ')}
               >
-                <CheckIcon />
+                <Icon>
+                  <CheckIcon />
+                </Icon>
               </Button>
             </Tooltip>
           </>

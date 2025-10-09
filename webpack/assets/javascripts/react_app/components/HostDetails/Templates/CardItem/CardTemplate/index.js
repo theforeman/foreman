@@ -10,6 +10,7 @@ import {
   Dropdown,
   DropdownList,
   MenuToggle,
+  Icon,
 } from '@patternfly/react-core';
 import { EllipsisVIcon } from '@patternfly/react-icons';
 
@@ -84,7 +85,9 @@ const CardTemplate = ({
                         isExpanded={dropdownVisibility}
                         onClick={() => onDropdownToggle(!dropdownVisibility)}
                       >
-                        <EllipsisVIcon />
+                        <Icon>
+                          <EllipsisVIcon />
+                        </Icon>
                       </MenuToggle>
                     )}
                     {...overrideDropdownProps}

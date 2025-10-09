@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Flex, FlexItem } from '@patternfly/react-core';
+import { Button, Flex, FlexItem, Icon } from '@patternfly/react-core';
 import { PencilAltIcon } from '@patternfly/react-icons';
 import SettingValueEdit from './SettingValueEdit';
 import SettingValue from './SettingValue';
@@ -35,7 +35,9 @@ const SettingValueCell = ({ setting, index }) => {
                 ouiaId={`edit-row-${index}-icon`}
                 id={setting.name}
               >
-                <PencilAltIcon />
+                <Icon>
+                  <PencilAltIcon />
+                </Icon>
               </Button>
             )}
           </FlexItem>

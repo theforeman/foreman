@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { Button, Modal, ModalVariant, TreeView } from '@patternfly/react-core';
+import {
+  Button,
+  Modal,
+  ModalVariant,
+  TreeView,
+  Icon,
+} from '@patternfly/react-core';
 import { ColumnsIcon } from '@patternfly/react-icons';
 import { cloneDeep } from 'lodash';
 import { translate as __ } from '../../common/I18n';
@@ -149,7 +155,11 @@ const ColumnSelector = props => {
           ouiaId="manage-columns-button"
           id="btn-select-columns"
           variant="link"
-          icon={<ColumnsIcon />}
+          icon={
+            <Icon>
+              <ColumnsIcon />
+            </Icon>
+          }
           iconPosition="left"
           className="columns-selector"
           onClick={toggleModal}

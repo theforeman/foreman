@@ -4,10 +4,9 @@ exports[`Search Input should render 1`] = `
 <div
   className="input-search"
 >
-  <Icon
-    name="search"
-    type="fa"
-  />
+  <Icon>
+    <SearchIcon />
+  </Icon>
   <DebounceInput
     className="form-control"
     debounceTimeout={300}
@@ -22,10 +21,15 @@ exports[`Search Input should render 1`] = `
     type="text"
     value="val"
   />
-  <Icon
-    name="close"
+  <Button
+    aria-label="Clear"
     onClick={[Function]}
-    type="fa"
-  />
+    ouiaId="clear-search-input-button"
+    variant="plain"
+  >
+    <Icon>
+      <TimesIcon />
+    </Icon>
+  </Button>
 </div>
 `;

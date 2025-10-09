@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormControl, InputGroup, Icon } from 'patternfly-react';
-import { Popover } from '@patternfly/react-core';
+import { FormControl, InputGroup } from 'patternfly-react';
+import { Icon, Popover } from '@patternfly/react-core';
+import { OutlinedClockIcon } from '@patternfly/react-icons';
 import TimeInput from './TimeComponents/TimeInput';
 
 class TimePicker extends React.Component {
@@ -65,7 +66,9 @@ class TimePicker extends React.Component {
               onChange={e => this.setSelected(e.target.value)}
             />
             <InputGroup.Addon className="date-picker-pf">
-              <Icon type="fa" name="clock-o" />
+              <Icon>
+                <OutlinedClockIcon />
+              </Icon>
             </InputGroup.Addon>
           </InputGroup>
         </Popover>

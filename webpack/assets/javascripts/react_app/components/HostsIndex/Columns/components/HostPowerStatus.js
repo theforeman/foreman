@@ -6,6 +6,7 @@ import {
   OffIcon as PowerOffIcon,
   UnknownIcon,
 } from '@patternfly/react-icons';
+import { Icon } from '@patternfly/react-core';
 import { useAPI } from '../../../../common/hooks/API/APIHooks';
 import SkeletonLoader from '../../../common/SkeletonLoader';
 import { selectAPIResponse } from '../../../../redux/API/APISelectors';
@@ -27,7 +28,11 @@ const HostPowerStatus = ({ hostName }) => {
   }
   const { state, statusText, title } = response.response || {};
   const tooltipText = state === 'na' ? `${title} - ${statusText}` : title;
-  let powerIcon = <UnknownIcon />;
+  let powerIcon = (
+    <Icon>
+      <UnknownIcon />
+    </Icon>
+  );
   const moveItALittleUp = { position: 'relative', top: '-0.1em' };
   const green = 'var(--pf-v5-global--palette--green-300)';
   const disabledGray = 'var(--pf-v5-global--disabled-color--200)';
@@ -35,21 +40,27 @@ const HostPowerStatus = ({ hostName }) => {
     case 'on':
       powerIcon = (
         <span style={{ ...moveItALittleUp, color: green }}>
-          <PowerOnIcon title={tooltipText} />
+          <Icon>
+            <PowerOnIcon title={tooltipText} />
+          </Icon>
         </span>
       );
       break;
     case 'off':
       powerIcon = (
         <span style={{ ...moveItALittleUp }}>
-          <PowerOffIcon title={tooltipText} />
+          <Icon>
+            <PowerOffIcon title={tooltipText} />
+          </Icon>
         </span>
       );
       break;
     default:
       powerIcon = (
         <span style={{ ...moveItALittleUp, color: disabledGray }}>
-          <UnknownIcon title={tooltipText} />
+          <Icon>
+            <UnknownIcon title={tooltipText} />
+          </Icon>
         </span>
       );
   }

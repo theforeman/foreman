@@ -3,7 +3,6 @@
 <% action = { :title => _("Create Report Template"), :url => new_report_template_path } if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'file-text',
-                                    :iconType => 'fa',
                                     :header => _('Report Templates'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("4.11ReportTemplates") },

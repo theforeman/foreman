@@ -3,7 +3,6 @@
 <% action = [{ :title => _("Create Host"), :url => new_host_path }, {:title => _("Register Host"), :url => register_hosts_path }]  if authorized_for(:action => :new)%>
 <%= react_component('EmptyState', {
                                     :icon => 'tasks',
-                                    :iconType => 'fa',
                                     :header => _('Hosts'),
                                     :description => description,
                                     :documentation => { :url => documentation_url("4.4Provisioning") },

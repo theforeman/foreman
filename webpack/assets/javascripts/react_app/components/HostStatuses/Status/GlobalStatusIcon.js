@@ -6,6 +6,7 @@ import {
   ExclamationCircleIcon,
   QuestionCircleIcon,
 } from '@patternfly/react-icons';
+import { Icon } from '@patternfly/react-core';
 import {
   GLOBAL_STATUS_OK,
   GLOBAL_STATUS_WARN,
@@ -16,31 +17,51 @@ const GlobalStatusIcon = ({ status, style, ...props }) => {
   switch (status) {
     case GLOBAL_STATUS_OK:
       return (
-        <CheckCircleIcon
-          style={{ fill: 'var(--pf-v5-global--success-color--100)', ...style }}
+        <Icon
+          style={{
+            color: 'var(--pf-v5-global--success-color--100)',
+            ...style,
+          }}
           {...props}
-        />
+        >
+          <CheckCircleIcon />
+        </Icon>
       );
     case GLOBAL_STATUS_WARN:
       return (
-        <ExclamationTriangleIcon
-          style={{ fill: 'var(--pf-v5-global--warning-color--100)', ...style }}
+        <Icon
+          style={{
+            color: 'var(--pf-v5-global--warning-color--100)',
+            ...style,
+          }}
           {...props}
-        />
+        >
+          <ExclamationTriangleIcon />
+        </Icon>
       );
     case GLOBAL_STATUS_ERROR:
       return (
-        <ExclamationCircleIcon
-          style={{ fill: 'var(--pf-v5-global--danger-color--100)', ...style }}
+        <Icon
+          style={{
+            color: 'var(--pf-v5-global--danger-color--100)',
+            ...style,
+          }}
           {...props}
-        />
+        >
+          <ExclamationCircleIcon />
+        </Icon>
       );
     default:
       return (
-        <QuestionCircleIcon
-          style={{ fill: 'var(--pf-v5-global--info-color--200)', ...style }}
+        <Icon
+          style={{
+            color: 'var(--pf-v5-global--info-color--200)',
+            ...style,
+          }}
           {...props}
-        />
+        >
+          <QuestionCircleIcon />
+        </Icon>
       );
   }
 };
