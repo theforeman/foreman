@@ -10,8 +10,6 @@ menuentry 'Kickstart default PXEGrub2' {
 
 # Smart proxy does not have HTTPBoot feature with HTTP port enabled, skipping EFI HTTP boot menu entry
 
-# Smart proxy does not have HTTPBoot feature with HTTPS port enabled, skipping EFI HTTPS boot menu entry
-
 
 
 
