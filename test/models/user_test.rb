@@ -1337,4 +1337,57 @@ class UserTest < ActiveSupport::TestCase
     assert_equal ['one', 'two'], login_values
     assert_not_includes login_values, 'tHREE'
   end
+
+  context 'host_owner setting cleanup on destroy' do
+    setup do
+      @user = FactoryBot.create(:user)
+    end
+
+    test 'should clear host_owner setting when destroyed user is set as host_owner' do
+      Foreman.settings.set_user_value('host_owner', @user.id_and_type).save
+
+      @user.destroy
+
+      assert_nil Setting[:host_owner]
+    end
+
+    test 'should not clear host_owner setting when destroyed user is not set as host_owner' do
+      other_user = FactoryBot.create(:user)
+      Foreman.settings.set_user_value('host_owner', other_user.id_and_type).save
+
+      @user.destroy
+
+      assert_equal other_user.id_and_type, Setting[:host_owner]
+    end
+
+    test 'should handle destroy when host_owner setting is empty' do
+      Foreman.settings.set_user_value('host_owner', '').save
+
+      assert_nothing_raised do
+        @user.destroy
+      end
+    end
+
+    test 'should handle destroy when host_owner setting points to a usergroup' do
+      usergroup = FactoryBot.create(:usergroup)
+      Foreman.settings.set_user_value('host_owner', usergroup.id_and_type).save
+
+      @user.destroy
+
+      assert_equal usergroup.id_and_type, Setting[:host_owner]
+    end
+
+    test 'should not clear host_owner when user destroy is prevented by hosts' do
+      disable_orchestration
+      org = FactoryBot.create(:organization)
+      loc = FactoryBot.create(:location)
+      user = FactoryBot.create(:user, :organizations => [org], :locations => [loc])
+      Foreman.settings.set_user_value('host_owner', user.id_and_type).save
+      FactoryBot.create(:host, :owner => user, :organization => org, :location => loc)
+
+      user.destroy
+
+      assert_equal user.id_and_type, Setting[:host_owner]
+    end
+  end
 end

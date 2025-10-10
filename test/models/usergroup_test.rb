@@ -418,4 +418,54 @@ class UsergroupTest < ActiveSupport::TestCase
 
     assert_equal expected, usergroup.to_export
   end
+
+  context 'host_owner setting cleanup on destroy' do
+    setup do
+      @usergroup = FactoryBot.create(:usergroup)
+    end
+
+    test 'should clear host_owner setting when destroyed usergroup is set as host_owner' do
+      Foreman.settings.set_user_value('host_owner', @usergroup.id_and_type).save
+
+      @usergroup.destroy
+
+      assert_nil Setting[:host_owner]
+    end
+
+    test 'should not clear host_owner setting when destroyed usergroup is not set as host_owner' do
+      other_usergroup = FactoryBot.create(:usergroup)
+      Foreman.settings.set_user_value('host_owner', other_usergroup.id_and_type).save
+
+      @usergroup.destroy
+
+      assert_equal other_usergroup.id_and_type, Setting[:host_owner]
+    end
+
+    test 'should handle destroy when host_owner setting is empty' do
+      Foreman.settings.set_user_value('host_owner', '').save
+
+      assert_nothing_raised do
+        @usergroup.destroy
+      end
+    end
+
+    test 'should handle destroy when host_owner setting points to a user' do
+      user = FactoryBot.create(:user)
+      Foreman.settings.set_user_value('host_owner', user.id_and_type).save
+
+      @usergroup.destroy
+
+      assert_equal user.id_and_type, Setting[:host_owner]
+    end
+
+    test 'should not clear host_owner when usergroup destroy is prevented by hosts' do
+      disable_orchestration
+      Foreman.settings.set_user_value('host_owner', @usergroup.id_and_type).save
+      FactoryBot.create(:host, :owner => @usergroup)
+
+      @usergroup.destroy
+
+      assert_equal @usergroup.id_and_type, Setting[:host_owner]
+    end
+  end
 end

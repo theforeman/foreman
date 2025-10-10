@@ -3453,6 +3453,40 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 'ens1.102', res.first.identifier
   end
 
+  context 'host_owner setting cleanup on destroy' do
+    setup do
+      User.current = users(:admin)
+    end
+
+    test 'destroying user as host_owner updates host owner suggestion' do
+      user = FactoryBot.create(:user)
+      Foreman.settings.set_user_value('host_owner', user.id_and_type).save
+
+      disable_orchestration
+      host = Host.new(:name => 'test-host')
+
+      assert_equal user, host.owner_suggestion
+
+      user.destroy
+
+      host2 = Host.new(:name => 'test-host-2')
+      assert_not_equal user, host2.owner_suggestion
+      assert_equal User.current, host2.owner_suggestion
+    end
+
+    test 'prevents destruction of host owner if set' do
+      user = FactoryBot.create(:user)
+      host = FactoryBot.create(:host)
+
+      host.owner = user
+      host.save
+
+      assert_raise(ActiveRecord::RecordNotDestroyed) { user.destroy! }
+
+      assert_equal user.id_and_type, host.owner.id_and_type
+    end
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)
