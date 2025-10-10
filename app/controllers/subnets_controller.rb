@@ -5,7 +5,7 @@ class SubnetsController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @subnets = resource_base_search_and_page.includes(:domains, :dhcp)
+    @subnets = resource_base_search_and_page.preload(:domains, :dhcp)
     @subnets = @subnets.network_reorder(params[:order]) if params[:order].present? && params[:order] =~ /\Anetwork( ASC| DESC)?\Z/
   end
 

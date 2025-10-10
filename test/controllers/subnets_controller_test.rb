@@ -21,6 +21,7 @@ class SubnetsControllerTest < ActionController::TestCase
         @s2 = FactoryBot.create(:subnet_ipv4, :dhcp, :network => '100.100.100.100', :cidr => '24', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
         @s4 = FactoryBot.create(:subnet_ipv6, :dhcp, :network => 'beef::', :cidr => '64', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
         @s5 = FactoryBot.create(:subnet_ipv6, :dhcp, :network => 'ffee::', :cidr => '64', :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
+        @s6 = FactoryBot.create(:subnet_ipv6, :organization_ids => [taxonomies(:organization1).id], :location_ids => [taxonomies(:location1).id])
       end
     end
 
@@ -40,6 +41,13 @@ class SubnetsControllerTest < ActionController::TestCase
       assert result.index(@s2.id) < result.index(@s1.id)
       assert result.index(@s4.id) < result.index(@s1.id)
       assert result.index(@s5.id) < result.index(@s4.id)
+    end
+
+    def test_index_includes_subnets_without_dhcp
+      user = setup_user('view', 'subnets', "organization_id = #{taxonomies(:organization1).id} AND location_id = #{taxonomies(:location1).id}")
+      get :index, session: set_session_user(user)
+      names = assigns(:subnets).map(&:name)
+      assert_includes names, @s6.name
     end
   end
 
