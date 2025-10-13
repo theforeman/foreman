@@ -16,6 +16,7 @@ import Pagination from '../../../Pagination';
 import { DeleteModal } from './DeleteModal';
 import EmptyPage from '../../../../routes/common/EmptyPage';
 import { getColumnHelpers } from './helpers';
+import { RowSelectTd as DefaultRowSelectTd } from '../RowSelectTd';
 
 export const Table = ({
   columns,
@@ -28,6 +29,7 @@ export const Table = ({
   itemCount,
   selectOne,
   isSelected,
+  isSelectable,
   params,
   refreshData,
   results,
@@ -106,7 +108,7 @@ export const Table = ({
       })),
     ].filter(Boolean);
   };
-  const RowSelectTd = rowSelectTd;
+  const RowSelectTd = rowSelectTd === noop ? DefaultRowSelectTd : rowSelectTd;
   return (
     <>
       <DeleteModal
@@ -206,6 +208,7 @@ export const Table = ({
                         rowData={result}
                         selectOne={selectOne}
                         isSelected={isSelected}
+                        isSelectable={isSelectable}
                         idColumnName={idColumn}
                       />
                     )}
@@ -256,6 +259,7 @@ Table.propTypes = {
   idColumn: PropTypes.string,
   selectOne: PropTypes.func,
   isSelected: PropTypes.func,
+  isSelectable: PropTypes.func,
   showCheckboxes: PropTypes.bool,
   bottomPagination: PropTypes.node,
   childrenOutsideTbody: PropTypes.bool,
@@ -279,6 +283,7 @@ Table.defaultProps = {
   idColumn: 'id',
   selectOne: noop,
   isSelected: noop,
+  isSelectable: null,
   showCheckboxes: false,
   bottomPagination: null,
   childrenOutsideTbody: false,

@@ -61,7 +61,7 @@ import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
 import './index.scss';
 import { STATUS } from '../../constants';
-import { RowSelectTd } from './RowSelectTd';
+import { RowSelectTd } from '../PF4/TableIndexPage/RowSelectTd';
 import {
   useCurrentUserTablePreferences,
   useSetParamsAndApiAndSearch,
@@ -304,6 +304,12 @@ const HostsIndex = () => {
               >
                 {__('Host group')}
               </MenuItem>
+              <Slot
+                id="_host-associations"
+                fetchBulkParams={fetchBulkParams}
+                selectedCount={selectedCount}
+                multi
+              />
               <MenuItem
                 itemId="change-owner-dropdown-item"
                 key="change-owner-dropdown-item"
