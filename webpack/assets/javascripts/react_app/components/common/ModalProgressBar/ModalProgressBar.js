@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ProgressBar } from 'patternfly-react';
+import { Modal, Progress } from '@patternfly/react-core';
 import { sprintf, translate as __ } from '../../../common/I18n';
 import './ModalProgressBar.scss';
 
@@ -8,19 +8,19 @@ const ModalProgressBar = ({ show, container, title, progress }) => (
   <Modal
     id="modal-progress-bar"
     ouiaId="modal-progress-bar"
-    show={show}
-    container={container}
+    variant="small"
+    isOpen={show}
+    aria-label={title || 'modal-progress-bar'}
+    appendTo={container}
+    title={title}
+    disableFocusTrap
+    showClose={false}
   >
-    <Modal.Header>
-      <Modal.Title>{title}</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <ProgressBar
-        active
-        now={progress}
-        label={sprintf(__('%s%% Complete'), progress)}
-      />
-    </Modal.Body>
+    <Progress
+      value={progress}
+      label={sprintf(__('%s%% Complete'), progress)}
+      aria-label="progress-bar"
+    />
   </Modal>
 );
 
