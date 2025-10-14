@@ -35,9 +35,9 @@ const shared = isPlugin => {
     ...sharedArr,
     {
       /*
-      have to use '@scalprum/core/index' in vendor.js entry otherwise we get 
+      have to use '@scalprum/core/index' in vendor.js entry otherwise we get
       Uncaught ReferenceError: __webpack_exports__ is not defined
-      but without need to "convert" @scalprum/core/index to @scalprum/core 
+      but without need to "convert" @scalprum/core/index to @scalprum/core
       so the shared context can find it
       */
       '@scalprum/react-core': {
@@ -96,12 +96,13 @@ const supportedLanguagesRE = new RegExp(
   `/(${supportedLanguages().join('|')})$`
 );
 
-const commonConfig = function() {
+const commonConfig = function(buildName = 'core') {
   var production =
     process.env.RAILS_ENV === 'production' ||
     process.env.NODE_ENV === 'production';
   const mode = production ? 'production' : 'development';
   const config = {};
+
   if (production) {
     config.devtool = 'source-map';
     config.optimization = {
@@ -109,9 +110,24 @@ const commonConfig = function() {
       splitChunks: false,
     };
   } else {
-    config.devtool = 'inline-source-map';
+    config.devtool = 'eval-cheap-module-source-map';
     config.optimization = {
       splitChunks: false,
+      removeAvailableModules: false,
+      removeEmptyChunks: false,
+    };
+
+    config.cache = {
+      type: 'filesystem',
+      maxAge: 604800000, // one week
+      version: '1.0',
+      cacheDirectory: path.resolve(root, '.webpack_cache'),
+      compression: false,
+      name: `${buildName}-${mode}`,
+      store: 'pack',
+      buildDependencies: {
+        config: [__filename],
+      },
     };
   }
   return {
@@ -201,7 +217,7 @@ const commonConfig = function() {
 };
 
 const coreConfig = function() {
-  var config = commonConfig();
+  var config = commonConfig('core');
   var manifestFilename = 'manifest.json';
   var bundleEntry = path.join(root, 'webpack/assets/javascripts/bundle.js');
   config.context = path.resolve(root);
@@ -280,7 +296,7 @@ const coreConfig = function() {
 const pluginConfig = function(plugin) {
   const pluginRoot = plugin.root;
   const pluginName = plugin.name.replace('-', '_'); // module federation doesnt like -
-  var config = commonConfig();
+  var config = commonConfig(pluginName);
   config.context = path.join(pluginRoot, 'webpack');
   config.entry = {};
 
