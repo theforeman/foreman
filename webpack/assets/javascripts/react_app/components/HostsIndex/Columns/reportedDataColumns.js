@@ -45,10 +45,7 @@ const reportedDataColumns = [
       if (value === undefined || value === null) {
         return '';
       }
-      if (value) {
-        return __('Virtual');
-      }
-      return __('Physical');
+      return value ? __('Virtual') : __('Physical');
     },
     isSorted: false,
     weight: 1400,
