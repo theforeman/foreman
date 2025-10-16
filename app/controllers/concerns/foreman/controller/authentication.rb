@@ -36,7 +36,9 @@ module Foreman::Controller::Authentication
       backup_session_content { reset_session }
       inline_warning _('User account is disabled, please contact your administrator')
       redirect_to main_app.login_users_path
+      return false
     end
+    true
   end
 
   def authorized

@@ -12,7 +12,12 @@ class SmartProxyAuthApiTest < ActionController::TestCase
 
     @controller.stubs(:auth_smart_proxy).returns(false)
     @controller.stubs(:require_login).returns(true)
+    @controller.stubs(:check_user_enabled).returns(true)
     @controller.stubs(:authorize).returns(true)
+    @controller.stubs(:verify_authenticity_token).returns(true)
+    @controller.stubs(:set_taxonomy).returns(true)
+    @controller.stubs(:session_expiry).returns(true)
+    @controller.stubs(:update_activity_time).returns(true)
 
     assert @controller.send(:require_smart_proxy_or_login)
   end
@@ -41,11 +46,53 @@ class SmartProxyAuthApiTest < ActionController::TestCase
 
     @controller.stubs(:auth_smart_proxy).returns(false)
     @controller.stubs(:require_login).returns(true)
+    @controller.stubs(:check_user_enabled).returns(true)
     @controller.stubs(:authorize).returns(true)
+    @controller.stubs(:verify_authenticity_token).returns(true)
+    @controller.stubs(:set_taxonomy).returns(true)
+    @controller.stubs(:session_expiry).returns(true)
+    @controller.stubs(:update_activity_time).returns(true)
 
     assert_raise ArgumentError, 'test' do
       @controller.send(:require_smart_proxy_or_login, proc { raise ArgumentError, 'test' })
     end
+  end
+
+  def test_require_user_login_calls_all_required_filters
+    User.current = users(:admin)
+
+    @controller.expects(:require_login).returns(true)
+    @controller.expects(:check_user_enabled).returns(true)
+    @controller.expects(:authorize).returns(true)
+    @controller.expects(:verify_authenticity_token).returns(true)
+    @controller.expects(:set_taxonomy).returns(true)
+    @controller.expects(:session_expiry).returns(true)
+    @controller.expects(:update_activity_time).returns(true)
+
+    assert @controller.send(:require_user_login)
+  end
+
+  def test_require_user_login_fails_when_user_current_is_nil
+    User.current = nil
+
+    @controller.stubs(:require_login).returns(true)
+    @controller.stubs(:check_user_enabled).returns(true)
+    @controller.stubs(:performed?).returns(false)
+    @controller.expects(:render_error).with('access_denied', status: :forbidden)
+
+    refute @controller.send(:require_user_login)
+  end
+
+  def test_require_user_login_does_not_render_error_when_already_performed_for_api
+    User.current = nil
+
+    @controller.stubs(:require_login).returns(true)
+    @controller.stubs(:check_user_enabled).returns(true)
+    @controller.stubs(:performed?).returns(true)
+    @controller.stubs(:api_request?).returns(true)
+    @controller.expects(:render_error).never
+
+    refute @controller.send(:require_user_login)
   end
 
   def test_certificate_with_dn_permits_access
@@ -204,7 +251,12 @@ class SmartProxyAuthWebUITest < ActionController::TestCase
 
     @controller.stubs(:auth_smart_proxy).returns(false)
     @controller.stubs(:require_login).returns(true)
+    @controller.stubs(:check_user_enabled).returns(true)
     @controller.stubs(:authorize).returns(true)
+    @controller.stubs(:verify_authenticity_token).returns(true)
+    @controller.stubs(:set_taxonomy).returns(true)
+    @controller.stubs(:session_expiry).returns(true)
+    @controller.stubs(:update_activity_time).returns(true)
 
     assert @controller.send(:require_smart_proxy_or_login)
   end

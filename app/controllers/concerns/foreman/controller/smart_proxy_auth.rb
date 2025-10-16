@@ -32,12 +32,18 @@ module Foreman::Controller::SmartProxyAuth
       return true
     end
 
-    require_login
-    unless User.current
+    # if we reach this, the requestor is a user and not a smart proxy
+    require_user_login
+  end
+
+  def require_user_login
+    unless require_login && User.current.present? && check_user_enabled
       render_error 'access_denied', :status => :forbidden unless performed? && api_request?
       return false
     end
-    authorize
+    authorize && verify_authenticity_token && set_taxonomy
+    session_expiry
+    update_activity_time
   end
 
   # Filter requests to only permit from hosts with a registered smart proxy
