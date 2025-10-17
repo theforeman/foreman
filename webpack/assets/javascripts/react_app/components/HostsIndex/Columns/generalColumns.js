@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { TableText } from '@patternfly/react-table';
 import {
+  Button,
   Icon,
   Popover,
   TextContent,
@@ -48,10 +49,13 @@ const generalColumns = [
             </TextContent>
           }
         >
-          <GlobalStatusIcon
-            status={globalStatus}
-            style={{ cursor: 'pointer' }}
-          />
+          <Button
+            variant="plain"
+            ouiaId="plain-button-popover"
+            style={{ padding: 0 }}
+          >
+            <GlobalStatusIcon status={globalStatus} />
+          </Button>
         </Popover>
         <Link to={`hosts/${name}`}>{displayName}</Link>
       </span>
