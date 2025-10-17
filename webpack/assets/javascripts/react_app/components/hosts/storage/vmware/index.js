@@ -1,6 +1,7 @@
 import { pick } from 'lodash';
 import React from 'react';
-import { Alert, Button } from 'patternfly-react';
+import { Alert } from 'patternfly-react';
+import { Button } from '@patternfly/react-core';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -119,10 +120,11 @@ class StorageContainer extends React.Component {
           <div className="col-md-2 storage-title">{__('Storage')}</div>
           <div className="col-md-10 storage-controller-buttons">
             <Button
+              ouiaId="add-controller-button"
               className="btn-add-controller"
               onClick={() => addController()}
               disabled={!enableAddControllerBtn}
-              bsStyle="primary"
+              variant="primary"
             >
               {__('Add Controller')}
             </Button>
