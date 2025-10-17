@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormControl } from 'patternfly-react';
+import { TextInput } from '@patternfly/react-core';
 
 import { noop } from '../../../common/helpers';
 import SearchBar from '../../SearchBar';
@@ -27,18 +27,53 @@ export const registerInputComponent = (name, Component) => {
   inputComponents[name] = Component;
 };
 
-export const getComponentClass = name => inputComponents[name] || 'input';
+export const getComponentClass = name => inputComponents[name] || null;
 
-const InputFactory = ({ type, setError, setWarning, ...controlProps }) => {
-  const componentClass = getComponentClass(type);
-  let validations = {};
-  if (componentClass !== 'input') validations = { setError, setWarning };
+const InputFactory = ({
+  type,
+  setError,
+  setWarning,
+  validated,
+  ...controlProps
+}) => {
+  const CustomComponent = getComponentClass(type);
+
+  if (CustomComponent) {
+    return (
+      <CustomComponent
+        setError={setError}
+        setWarning={setWarning}
+        type={type}
+        {...controlProps}
+      />
+    );
+  }
+
+  const {
+    id,
+    name,
+    value,
+    disabled,
+    required,
+    className,
+    onChange,
+    ...otherProps
+  } = controlProps;
+
   return (
-    <FormControl
-      componentClass={componentClass}
-      type={type}
-      {...validations}
-      {...controlProps}
+    <TextInput
+      id={id}
+      type={type || 'text'}
+      name={name}
+      value={value}
+      isDisabled={disabled}
+      isRequired={required}
+      className={className}
+      onChange={(_event, val) => onChange(val)}
+      validated={validated}
+      ouiaId={`input-factory-text-input-${id}`}
+      aria-label={`text-input-${id}`}
+      {...otherProps}
     />
   );
 };
@@ -58,6 +93,7 @@ InputFactory.propTypes = {
   onChange: PropTypes.func,
   setError: PropTypes.func,
   setWarning: PropTypes.func,
+  validated: PropTypes.oneOf(['default', 'success', 'warning', 'error']),
 };
 
 InputFactory.defaultProps = {
@@ -70,6 +106,7 @@ InputFactory.defaultProps = {
   onChange: noop,
   setError: noop,
   setWarning: noop,
+  validated: undefined,
 };
 
 export default InputFactory;

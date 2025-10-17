@@ -72,6 +72,7 @@ const FormField = ({
   const [innerWarning, setWarning] = useState(null);
 
   const controlProps = {
+    id,
     value,
     name,
     disabled,
