@@ -1,18 +1,18 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { Button, Modal } from 'patternfly-react';
+import { screen, fireEvent, render, act } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+
 import ForemanModalFooter from '../ForemanModalFooter';
 import * as ModalContext from '../../ForemanModalHooks'; // so enzyme test works
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
 
 const fixtures = {
-  'should render with default markup': {
+  renders: {
     title: 'foo',
   },
-  'should render with supplied children': {
+  withCustomChildren: {
     title: 'ignored',
     children: <h4>Modal Footer</h4>,
-  },
+  }
 };
 
 const contextValues = {
@@ -25,18 +25,28 @@ jest
 
 describe('ForemanModal.Footer', () => {
   describe('rendering', () => {
-    testComponentSnapshotsWithFixtures(ForemanModalFooter, fixtures);
-  });
-  describe('data flow', () => {
-    it('should make onClose available thru context', () => {
-      const wrapper = shallow(<ForemanModalFooter />);
-      expect(wrapper.find(Button).prop('onClick')).toEqual(
-        contextValues.onClose
-      );
+    it('should show Close when onClose is provided', () => {
+      render(<ForemanModalFooter {...fixtures.renders} />);
+      expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument();
     });
+
+    it('should render custom children when provided', () => {
+      render(<ForemanModalFooter {...fixtures.withCustomChildren} />);
+      expect(screen.getByText('Modal Footer')).toBeInTheDocument();
+    });
+  });
+
+  describe('data flow', () => {
+    it('should call onClose available through context', async () => {
+      render(<ForemanModalFooter {...fixtures.renders} />);
+      await act( async () => await fireEvent.click(screen.getByRole('button', { name: /close/i })));
+      expect(contextValues.onClose).toHaveBeenCalled();
+    });
+
     it('passes props to PF component using spread', () => {
-      const wrapper = shallow(<ForemanModalFooter myCustomProp="hi" />);
-      expect(wrapper.find(Modal.Footer).prop('myCustomProp')).toEqual('hi');
+      const { container } = render(<ForemanModalFooter className="custom-class" />);
+      const modalFooter = container.querySelector('.modal-footer');
+      expect(modalFooter).toHaveClass('custom-class');
     });
   });
 });

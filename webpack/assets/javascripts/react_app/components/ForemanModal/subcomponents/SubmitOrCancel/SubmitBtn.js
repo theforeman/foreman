@@ -1,11 +1,16 @@
 import React from 'react';
-import { Button } from 'patternfly-react';
+import { Button } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../../../common/I18n';
 import { simpleLoader } from '../../../common/Loader';
 
-const SubmitBtn = ({ isSubmitting, onSubmit, bsStyle, btnText }) => (
-  <Button bsStyle={bsStyle} disabled={isSubmitting} onClick={onSubmit}>
+const SubmitBtn = ({ isSubmitting, onSubmit, variant, btnText }) => (
+  <Button
+    ouiaId="submit-button"
+    variant={variant}
+    isDisabled={isSubmitting}
+    onClick={onSubmit}
+  >
     &nbsp;
     {btnText}
     &nbsp;
@@ -16,12 +21,12 @@ const SubmitBtn = ({ isSubmitting, onSubmit, bsStyle, btnText }) => (
 SubmitBtn.propTypes = {
   isSubmitting: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  bsStyle: PropTypes.string,
+  variant: PropTypes.oneOf(['primary']),
   btnText: PropTypes.string,
 };
 
 SubmitBtn.defaultProps = {
-  bsStyle: 'primary',
+  variant: 'primary',
   btnText: __('Submit'),
 };
 

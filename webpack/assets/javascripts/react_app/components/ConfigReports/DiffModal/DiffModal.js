@@ -1,6 +1,6 @@
 import React from 'react';
-import { Modal, Button } from 'patternfly-react';
-import { Icon } from '@patternfly/react-core';
+import { Modal } from 'patternfly-react';
+import { Icon, Button } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import PropTypes from 'prop-types';
 
@@ -24,9 +24,10 @@ const DiffModal = ({
     <Modal.Header>
       <h4 id="diff-modal-h4">{title}</h4>
       <Button
+        ouiaId="diff-modal-close-button"
         className="close diff-modal-close"
         onClick={toggleModal}
-        bsStyle="link"
+        variant="link"
       >
         <Icon>
           <TimesIcon />
