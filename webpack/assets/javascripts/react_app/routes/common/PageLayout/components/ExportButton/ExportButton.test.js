@@ -1,11 +1,25 @@
-import { testComponentSnapshotsWithFixtures } from 'foremanReact/common/testHelpers';
+import React from 'react';
+import { screen, render } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+
 
 import ExportButton from './ExportButton';
 
 const fixtures = {
-  'render without props': {},
-  'render with props': { url: 'url', title: 'title info', text: 'info' },
+  renders: {},
+  withProps: { url: 'url', title: 'title info', text: 'info' },
 };
 
-describe('ExportButton', () =>
-  testComponentSnapshotsWithFixtures(ExportButton, fixtures));
+describe('ExportButton', () => {
+  it('renders', () => {
+    render(<ExportButton />)
+    expect(screen.getByRole('link', { name: "Export" })).toBeInTheDocument();
+  });
+  it('renders with props', () => {
+    render(<ExportButton {...fixtures.withProps} />)
+    const button = screen.getByRole('link', { name: "info" });
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute('href', 'url');
+    expect(button).toHaveAttribute('title', 'title info');
+  })
+});
