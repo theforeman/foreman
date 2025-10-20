@@ -20,6 +20,7 @@ export const EDITOR_HOST_SELECT_CLEAR = 'EDITOR_HOST_SELECT_CLEAR';
 export const EDITOR_HOST_SELECT_RESET = 'EDITOR_HOST_SELECT_RESET';
 export const EDITOR_HOST_INITIAL_FETCH = 'EDITOR_HOST_INITIAL_FETCH';
 export const EDITOR_CHANGE_KIND = 'EDITOR_CHANGE_KIND';
+export const EDITOR_TAB_NAMES = { input: 'input', diff: 'diff', preview: 'preview' };
 
 export const EDITOR_HOSTS_URL = '/hosts/preview_host_collection.json';
 export const EDITOR_HOST_ARR = 'hosts';

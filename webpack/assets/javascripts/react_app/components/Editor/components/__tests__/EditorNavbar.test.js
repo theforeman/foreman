@@ -1,6 +1,6 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
+import { render, screen, act, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
 import EditorNavbar from '../EditorNavbar';
 import { editorOptions, showBooleans } from '../../Editor.fixtures';
@@ -14,41 +14,51 @@ const props = {
   isDiff: true,
 };
 
-const fixtures = {
-  'renders EditorNavbar': props,
-};
-
 describe('EditorNavbar', () => {
-  describe('rendring', () =>
-    testComponentSnapshotsWithFixtures(EditorNavbar, fixtures));
+  describe('rendering', () => {
+    it('renders EditorNavbar', () => {
+      render(<EditorNavbar {...props}/>)
 
+      const navbar = screen.getByRole('tablist' );
+      expect(navbar).toBeInTheDocument();
+      expect(navbar).toHaveClass('pf-v5-c-tabs__list');
+    })
+  })
   describe('simulate onClick', () => {
-    const changeTab = jest.fn();
+    it('handles click correctly', async () => {
+      const getTabById = id =>
+            screen.getAllByRole('presentation', { current: "page" })
+                  .find(tab => (tab.getAttribute('id') || '').match(id));
 
-    const wrapper = mount(
-      <EditorNavbar
-        {...props}
-        changeTab={changeTab}
-        isDiff
-        isRendering
-        selectedView="preview"
-      />
-    );
-    wrapper
-      .find('#input-navitem')
-      .at(1)
-      .simulate('click');
-    wrapper
-      .find('#diff-navitem')
-      .at(1)
-      .simulate('click');
+      const changeTab = jest.fn();
 
-    wrapper.setProps({ ...props, isRendering: false, selectedView: 'input' });
-    wrapper.update();
-    wrapper
-      .find('#preview-navitem')
-      .at(1)
-      .simulate('click');
-    expect(changeTab).toHaveBeenCalledTimes(2);
+      const { rerender } = render(
+        <EditorNavbar
+          {...props}
+          changeTab={changeTab}
+          isDiff
+          isRendering
+          selectedView="preview"
+        />
+      );
+
+      const inputTab = getTabById('input-navitem');
+      const diffTab = getTabById('diff-navitem');
+      await act(async () => await fireEvent.click(inputTab));
+      await act(async () => await fireEvent.click(diffTab));
+
+      rerender(
+        <EditorNavbar
+          {...props}
+          changeTab={changeTab}
+          isRendering={false}
+          selectedView="input"
+        />
+      );
+      const previewTab = getTabById('preview-navitem');
+      await act(async () => await fireEvent.click(previewTab));
+
+      expect(changeTab).toHaveBeenCalledTimes(3);
+    })
   });
 });

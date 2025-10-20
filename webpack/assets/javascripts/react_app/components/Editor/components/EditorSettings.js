@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, MenuItem, Button } from 'patternfly-react';
 import { CogIcon } from '@patternfly/react-icons';
 import {
+  Button,
+  Checkbox,
+  Form,
+  FormGroup,
+  FormSelect,
+  FormSelectOption,
   Icon,
   Popover,
   PopoverPosition,
@@ -10,6 +15,7 @@ import {
   TooltipPosition,
 } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
+import { EDITOR_TAB_NAMES } from '../EditorConstants';
 
 const EditorSettings = ({
   selectedView,
@@ -26,102 +32,92 @@ const EditorSettings = ({
   <>
     <Popover
       id="cog-popover"
-      position={PopoverPosition.bottom}
+      position={PopoverPosition.auto}
       enableFlip={false}
       hasAutoWidth
       headerContent={__('Settings')}
       bodyContent={
-        <div>
-          <div className="cog-popover-dropdown">
-            <div className="cog-popover-dropdown-title">{__('Syntax')}</div>
-            <Dropdown disabled={selectedView === 'preview'} id="mode-dropdown">
-              <Dropdown.Toggle>{mode}</Dropdown.Toggle>
-              <Dropdown.Menu id="settings-dropdown">
-                {modes.map((aceMode, i) => (
-                  <MenuItem
-                    key={i}
-                    onClick={() => changeSetting({ mode: aceMode })}
-                  >
-                    {aceMode}
-                  </MenuItem>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          <div className="cog-popover-dropdown">
-            <div className="cog-popover-dropdown-title">{__('Keybind')}</div>
-            <Dropdown
-              disabled={selectedView === 'preview'}
-              id="keybindings-dropdown"
+        <Form>
+          <FormGroup label={__('Syntax')} fieldId="mode-select">
+            <FormSelect
+              ouiaId="mode-select"
+              id="mode-select"
+              value={mode}
+              onChange={(_event, value) => changeSetting({ mode: value })}
+              isDisabled={selectedView === EDITOR_TAB_NAMES.preview}
             >
-              <Dropdown.Toggle>{keyBinding}</Dropdown.Toggle>
-              <Dropdown.Menu id="settings-dropdown">
-                {keyBindings.map((keyBind, i) => (
-                  <MenuItem
-                    key={i}
-                    onClick={() => changeSetting({ keyBinding: keyBind })}
-                  >
-                    {keyBind}
-                  </MenuItem>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          <div className="cog-popover-dropdown">
-            <div className="cog-popover-dropdown-title">{__('Theme')}</div>
-            <Dropdown id="themes-dropdown">
-              <Dropdown.Toggle>{theme}</Dropdown.Toggle>
-              <Dropdown.Menu id="settings-dropdown">
-                {themes.map((themeKey, i) => (
-                  <MenuItem
-                    key={i}
-                    onClick={() => changeSetting({ theme: themeKey })}
-                  >
-                    {themeKey}
-                  </MenuItem>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          <div className="cog-popover-dropdown">
-            <div className="cog-popover-dropdown-title">
-              {__('Autocompletion')}
-            </div>
-            <div className="dropdown btn-group">
-              <input
-                id="autocompletion-checkbox"
-                name="autocompletion"
-                type="checkbox"
-                checked={autocompletion}
-                onChange={e =>
-                  changeSetting({ autocompletion: !autocompletion })
-                }
-              />
-            </div>
-          </div>
-          <div className="cog-popover-dropdown">
-            <div className="cog-popover-dropdown-title">
-              {__('Live Autocompletion')}
-            </div>
-            <div className="dropdown btn-group">
-              <input
-                id="live-autocompletion-checkbox"
-                name="liveAutocompletion"
-                type="checkbox"
-                checked={liveAutocompletion}
-                disabled={!autocompletion}
-                onChange={e =>
-                  changeSetting({ liveAutocompletion: !liveAutocompletion })
-                }
-              />
-            </div>
-          </div>
-        </div>
+              {modes.map((aceMode, i) => (
+                <FormSelectOption key={i} value={aceMode} label={aceMode} />
+              ))}
+            </FormSelect>
+          </FormGroup>
+          <FormGroup label={__('Keybind')} fieldId="keybindings-select">
+            <FormSelect
+              ouiaId="keybindings-select"
+              id="keybindings-select"
+              value={keyBinding}
+              onChange={(_event, value) => changeSetting({ keyBinding: value })}
+              isDisabled={selectedView === EDITOR_TAB_NAMES.preview}
+            >
+              {keyBindings.map((keyBind, i) => (
+                <FormSelectOption key={i} value={keyBind} label={keyBind} />
+              ))}
+            </FormSelect>
+          </FormGroup>
+          <FormGroup label={__('Theme')} fieldId="themes-select">
+            <FormSelect
+              ouiaId="themes-select"
+              id="themes-select"
+              value={theme}
+              onChange={(_event, value) => changeSetting({ theme: value })}
+            >
+              {themes.map((themeKey, i) => (
+                <FormSelectOption key={i} value={themeKey} label={themeKey} />
+              ))}
+            </FormSelect>
+          </FormGroup>
+          <FormGroup
+            label={__('Autocompletion')}
+            fieldId="autocompletion-checkbox"
+          >
+            <Checkbox
+              ouiaId="autocompletion-checkbox"
+              id="autocompletion-checkbox"
+              name="autocompletion"
+              isChecked={autocompletion}
+              onChange={(_event, value) =>
+                changeSetting({ autocompletion: value })
+              }
+              label={__('Enable autocompletion')}
+            />
+          </FormGroup>
+          <FormGroup
+            label={__('Live Autocompletion')}
+            fieldId="live-autocompletion-checkbox"
+          >
+            <Checkbox
+              ouiaId="live-autocompletion-checkbox"
+              id="live-autocompletion-checkbox"
+              name="liveAutocompletion"
+              isChecked={liveAutocompletion}
+              isDisabled={!autocompletion}
+              onChange={(_event, value) =>
+                changeSetting({ liveAutocompletion: value })
+              }
+              label={__('Enable live autocompletion')}
+            />
+          </FormGroup>
+        </Form>
       }
-      triggerRef={() => document.getElementById('cog-btn')}
+      triggerRef={() => document.getElementById('settings-btn')}
     />
     <Tooltip content={__('Settings')} position={TooltipPosition.top}>
-      <Button className="editor-button" id="cog-btn" bsStyle="link">
+      <Button
+        ouiaId="editor-settings-button"
+        className="editor-button"
+        id="settings-btn"
+        variant="link"
+      >
         <Icon size="md">
           <CogIcon />
         </Icon>

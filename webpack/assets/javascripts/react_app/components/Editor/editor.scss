@@ -59,38 +59,39 @@
   }
 }
 
-.navbar-editor {
-  padding: 2px 2px 0 2px !important;
-  margin: 10px 0 0 !important;
-  height: 40px;
-  min-height: unset !important;
+.navbar.navbar-editor {
+  margin-bottom: unset;
 
-  .nav-tabs-pf-secondary {
-    float: left;
-    background: unset !important;
-    border-bottom: unset;
-    display: flex;
+  .pf-v5-c-tabs__list {
+    width: 100%;
+    align-items: center;
 
-    a {
-      background: unset !important;
+    .middle {
+      margin: 0 auto;
     }
 
-    .dropdown-menu > li > a:hover {
-      background-color: #08c !important;
+    .divider {
+      margin-left: auto;
+      padding: 0 var(--pf-v5-global--spacer--sm);
     }
 
-    #editor-select-container {
-      width: 260px;
-      margin-top: 4px;
+    .divider::before {
+      content: '';
+      display: block;
+      height: 20px;
+      width: 1px;
+      background: #e1e1e1;
+    }
 
-      .select-container-pf {
-        border-radius: 2px;
-      }
+    .divider + li {
+      display: flex;
+      align-items: flex-end;
     }
 
     #outdated-preview-alert {
       display: flex;
       align-items: center;
+      min-width: 220px;
 
       .alert {
         padding: 0;
@@ -109,89 +110,39 @@
         }
       }
     }
-
-    #preview-spinner {
-      align-items: center;
-      display: flex;
-      margin-left: 10px;
-    }
   }
-
-  .btn-group {
-    padding: 4px;
-  }
-
-  .btn[disabled] {
-    cursor: unset;
-  }
-
-  #editor-dropdowns {
-    float: right;
-
-    #diff-toggle-buttons {
-      float: left;
-      margin-right: 12px;
-
-      button {
-        outline: none;
-      }
+  .pf-v5-c-check.safemode-rendering-checkbox {
+    label {
+      margin-bottom: unset;
+      padding-left: var(--pf-v5-global--spacer--sm);
+      color: var(--pf-v5-global--danger-color--200);
     }
-
-    #divider {
-      float: left;
-      font-size: 18px;
-      margin-top: 6px;
-      font-weight: 200;
-      color: #c5c5c5;
-      cursor: default;
-      user-select: none;
-    }
-
-    button:enabled :not(#diff-toggle-buttons) {
-      color: #1e1d24;
-    }
-
-    button:hover:enabled :not(#diff-toggle-buttons) {
-      color: rgb(75, 79, 94) !important;
-    }
-  }
-
-  .preview_type_ahead {
-    float: right;
-    padding: 4px;
-
-    input {
-      width: 275px;
-    }
-
-    .rbt-aux {
-      right: 0;
+    input[type="checkbox"]{
+      margin-top: unset;
     }
   }
 }
 
-#hide-btn {
-  width: 40px !important;
-  font-size: 15px;
-  margin-top: -4px;
+.pf-v5-c-form {
+  label.pf-v5-c-check__label {
+    margin-bottom: 0 !important;
+  }
+
+  .pf-v5-c-check {
+    input[type="checkbox"],
+    input[type="radio"] {
+      margin-top: 0;
+    }
+  }
 }
 
-#fullscreen-btn {
-  width: 40px !important;
-  font-size: 14px;
-  margin-bottom: 2px;
-}
-
-#cog-btn {
-  width: 40px !important;
-  font-size: 16px;
-  margin-bottom: 2px;
-}
-
+#hide-btn,
+#fullscreen-btn,
+#settings-btn,
 #import-btn,
 #undo-btn {
-  width: 40px !important;
-  font-size: 16px;
+  display: flex;
+  font-size: var(--pf-v5-global--icon--FontSize--lg);
 }
 
 .ace_editor_form {
@@ -242,45 +193,37 @@
   }
 }
 
-#preview_error_toast {
-  margin-bottom: 0;
-}
-
-#cog-popover {
-  .cog-popover-dropdown {
-    display: flex;
-    align-items: center;
-
-    .cog-popover-dropdown-title {
-      width: 50px;
-      margin-bottom: 5px;
-      margin-right: 10px;
-      font-weight: 600;
-    }
-
-    .dropdown {
-      margin-left: auto;
-
-      .dropdown-menu {
-        min-width: 80px;
-      }
-
-      #mode-dropdown,
-      #keybindings-dropdown,
-      #themes-dropdown {
-        width: 80px;
-        text-align: left;
-
-        .caret {
-          position: absolute;
-          right: 2px;
-          top: 7px;
-        }
-      }
+#outdated-preview-alert .pf-m-warning {
+  padding: 5px 10px;
+  .pf-v5-c-alert__title {
+    font-size: 12px;
+    button {
+      margin-left: 10px;
+      padding: 0;
+      font-size: 12px;
     }
   }
 }
 
+#preview_error_toast {
+  margin-bottom: 0;
+}
+
 .ace_tooltip.ace_doc-tooltip {
   position: absolute;
+}
+
+
+.select-container-pf.open {
+  position: static;
+  overflow: visible;
+}
+
+.select-body-container {
+  position: fixed;
+  width: auto;
+  min-width: 200px;
+  max-width: 400px;
+  transform: none;
+  z-index: var(--pf-v5-global--ZIndex--2xl);
 }

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import EditorView from './EditorView';
 import DiffToggle from '../../DiffView/DiffToggle';
 import DiffView from '../../DiffView/DiffView';
+import { EDITOR_TAB_NAMES } from '../EditorConstants';
 
 const EditorModal = ({
   changeDiffViewType,
@@ -32,7 +33,7 @@ const EditorModal = ({
       <Title headingLevel="h4" id="editor-modal-h4" ouiaId="editor-modal-title">
         {title}
       </Title>
-      {selectedView === 'diff' && (
+      {selectedView === EDITOR_TAB_NAMES.diff && (
         <DiffToggle
           stateView={diffViewType}
           changeState={viewType => changeDiffViewType(viewType)}
@@ -52,7 +53,7 @@ const EditorModal = ({
       onClose={toggleModal}
       header={header}
     >
-      {selectedView === 'diff' ? (
+      {selectedView === EDITOR_TAB_NAMES.diff ? (
         <div id="diff-table">
           <DiffView
             oldText={template}
@@ -68,7 +69,7 @@ const EditorModal = ({
           theme={theme}
           keyBinding={keyBinding}
           onChange={changeEditorValue}
-          readOnly={readOnly || selectedView === 'preview'}
+          readOnly={readOnly || selectedView === EDITOR_TAB_NAMES.preview}
           className="editor ace_editor_modal"
           isMasked={isMasked}
           autocompletion={autocompletion}

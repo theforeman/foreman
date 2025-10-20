@@ -1,7 +1,7 @@
 import React from 'react';
-import { act } from '@testing-library/react';
-import { mount } from 'enzyme';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { render, screen, act, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+
 import Editor from '../Editor';
 import { editorOptions } from '../Editor.fixtures';
 
@@ -14,25 +14,42 @@ const didMountStubs = () => ({
 });
 
 const fixtures = {
-  'renders editor': editorOptions,
+  renders: editorOptions,
 };
 
-describe('Editor', () => {
-  jest.useFakeTimers();
-  describe('rendering', () =>
-    testComponentSnapshotsWithFixtures(Editor, fixtures));
+const renderEditor = (props = fixtures.renders) =>  render(<Editor {...props} />);
 
+describe('Editor', () => {
+  describe('rendering', () => {
+    const getAceEditors = () => screen.getAllByRole('textbox', { name: 'Cursor at row 1' })
+
+    it('renders', () => {
+      renderEditor();
+
+      expect(screen.getByText('<? />')).toBeInTheDocument();
+      expect(getAceEditors().length).toBe(2);
+    });
+    it('re-renders', () => {
+      const { rerender } = renderEditor();
+      const props = { ...editorOptions, ...didMountStubs() };
+      rerender(<Editor {...props} />);
+
+      expect(getAceEditors().length).toBe(2);
+    });
+  });
   describe('triggering', () => {
+    const getTabById = id =>
+      screen.getAllByRole('presentation', { current: "page" })
+        .find(tab => (tab.getAttribute('id') || '').match(id));
+
     it('should trigger input view', async () => {
       const props = { ...editorOptions, ...didMountStubs() };
-      const component = mount(<Editor {...props} />);
-      await act(async () => jest.advanceTimersByTime(1000));
-      expect(
-        component
-          .find('li[role="presentation"]')
-          .at(0)
-          .hasClass('active')
-      ).toBe(true);
+      renderEditor(props);
+      const inputTab = getTabById('input-navitem');
+
+      expect(inputTab).toBeInTheDocument();
+      expect(inputTab.parentElement).toHaveClass('pf-m-current');
+      expect(inputTab).toHaveTextContent('Editor');
     });
     it('should trigger input view with no template', async () => {
       const props = {
@@ -40,9 +57,11 @@ describe('Editor', () => {
         ...didMountStubs(),
         data: { ...editorOptions.data, template: null },
       };
-      const component = mount(<Editor {...props} />);
-      await act(async () => jest.advanceTimersByTime(1000));
-      expect(component.props().template).toBe('<? />');
+      renderEditor(props);
+      const aceEditors = document.querySelectorAll('.ace_editor_form');
+      const hasTemplateText = Array.from(aceEditors).some(container => container.textContent.includes('<? />'));
+
+      expect(hasTemplateText).toBe(false);
     });
     it('should trigger diff view', async () => {
       const props = {
@@ -50,14 +69,12 @@ describe('Editor', () => {
         ...didMountStubs(),
         selectedView: 'diff',
       };
-      const component = mount(<Editor {...props} />);
-      await act(async () => jest.advanceTimersByTime(1000));
-      expect(
-        component
-          .find('li[role="presentation"]')
-          .at(1)
-          .hasClass('active')
-      ).toBe(true);
+      renderEditor(props);
+      const diffTab = getTabById('diff-navitem');
+
+      expect(diffTab).toBeInTheDocument();
+      expect(diffTab.parentElement).toHaveClass('pf-m-current');
+      expect(diffTab).toHaveTextContent('Changes');
     });
     it('should trigger preview view', async () => {
       const props = {
@@ -66,18 +83,14 @@ describe('Editor', () => {
         selectedView: 'preview',
         isRendering: true,
       };
-      const wrapper = mount(<Editor {...props} />);
-      wrapper.find('button.close').simulate('click');
-      await act(async () => jest.advanceTimersByTime(1000));
-      const component = mount(<Editor {...props} />);
-      await act(async () => jest.advanceTimersByTime(1000));
+      renderEditor(props);
+      const closeButton = screen.queryByLabelText(/close danger alert/i);
 
-      expect(
-        component
-          .find('li[role="presentation"]')
-          .at(2)
-          .hasClass('active')
-      ).toBe(true);
+      if (closeButton) await act(async () => await fireEvent.click(closeButton));
+      const previewTab = getTabById('preview-navitem');
+
+      expect(previewTab).toBeInTheDocument();
+      expect(previewTab.parentElement).toHaveClass('pf-m-current');
     });
   });
   it('should trigger hidden value editor', async () => {
@@ -88,20 +101,29 @@ describe('Editor', () => {
       isRendering: true,
       isMasked: true,
     };
-    const wrapper = mount(<Editor {...props} />);
-    await act(async () => jest.advanceTimersByTime(1000));
-    expect(wrapper.find('.mask-editor').exists()).toBe(true);
+    renderEditor(props);
+    const maskedEditor = document.querySelector('.mask-editor');
+
+    expect(maskedEditor).toBeInTheDocument();
   });
   it('textarea disappears if readOnly', async () => {
+    const getTextAreasHidden = () => document.querySelectorAll('textarea.hidden')
     const props = {
       ...editorOptions,
       ...didMountStubs(),
       selectedView: 'input',
+      readOnly: false,
     };
-    const wrapper = mount(<Editor {...props} />);
-    await act(async () => jest.advanceTimersByTime(1000));
-    expect(wrapper.find('textarea.hidden').exists()).toBe(true);
-    wrapper.setProps({ readOnly: true });
-    expect(wrapper.find('textarea.hidden').exists()).toBe(false);
+    const { rerender } = renderEditor(props);
+
+    expect(getTextAreasHidden().length).toBe(1);
+
+    const newProps = {
+      ...props,
+      readOnly: true,
+    };
+    rerender(<Editor {...newProps} />);
+
+    expect(getTextAreasHidden().length).toBe(0);
   });
 });

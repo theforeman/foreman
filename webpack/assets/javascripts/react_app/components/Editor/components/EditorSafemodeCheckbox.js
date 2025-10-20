@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Checkbox } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
-import './editorsafemodecheckbox.scss';
 
 const EditorSafemodeCheckbox = ({
   show,
@@ -11,21 +11,16 @@ const EditorSafemodeCheckbox = ({
 }) => {
   if (show) {
     return (
-      <React.Fragment>
-        <label
-          className="safemode-rendering-checkbox"
-          htmlFor="safemode-rendering-checkbox"
-        >
-          {__('Safemode')}
-        </label>
-        <input
-          type="checkbox"
-          id="safemode-rendering-checkbox"
-          onChange={handleSafeModeChange}
-          checked={checked}
-          disabled={disabled}
-        />
-      </React.Fragment>
+      <Checkbox
+        ouiaId="safemode-rendering-switch"
+        id="safemode-rendering-checkbox"
+        className="safemode-rendering-checkbox"
+        label={__('Safemode')}
+        isChecked={checked}
+        isDisabled={disabled}
+        onChange={handleSafeModeChange}
+        isLabelBeforeButton
+      />
     );
   }
   return null;

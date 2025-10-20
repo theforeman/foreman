@@ -15,7 +15,7 @@ const fixtures = {
     changeViewType: changeState,
   },
 };
-configure({ testIdAttribute: 'data-ouia-component-id'})
+configure({ testIdAttribute: 'data-ouia-component-id' });
 
 describe('DiffModal', () => {
   describe('rendering', () => {

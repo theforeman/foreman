@@ -44,11 +44,17 @@ class EditorHostSelect extends Component {
       searchQuery,
       selectedItem,
     } = this.props;
+
+    if (!show) {
+      return null;
+    }
+
     return (
-      <div
+      <li
+        key="editor-host-select"
+        className="pf-c-tabs__item"
+        role="presentation"
         ref={this.setWrapperRef}
-        id="editor-select-container"
-        className={show ? '' : 'hidden'}
       >
         <Select
           options={options}
@@ -63,7 +69,7 @@ class EditorHostSelect extends Component {
           selectedItem={selectedItem}
           isLoading={isLoading}
         />
-      </div>
+      </li>
     );
   }
 }

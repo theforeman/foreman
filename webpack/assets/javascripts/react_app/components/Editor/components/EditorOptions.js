@@ -2,7 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, FormControl } from 'patternfly-react';
+import { FormControl } from 'patternfly-react';
+import { Button, Icon, Tooltip, TooltipPosition } from '@patternfly/react-core';
 import {
   ArrowsAltIcon,
   EyeIcon,
@@ -11,11 +12,11 @@ import {
   UploadIcon,
 } from '@patternfly/react-icons';
 
-import { Tooltip, TooltipPosition, Icon } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import { bindMethods } from '../../../common/helpers';
 import DiffToggle from '../../DiffView/DiffToggle';
 import EditorSettings from './EditorSettings';
+import { EDITOR_TAB_NAMES } from '../EditorConstants';
 
 class EditorOptions extends React.Component {
   constructor(props) {
@@ -28,140 +29,173 @@ class EditorOptions extends React.Component {
     this.fileInput.click();
   }
 
-  render() {
+  renderOptionButtons() {
     const {
-      changeDiffViewType,
-      changeSetting,
       changeTab,
-      diffViewType,
       importFile,
       isDiff,
       isMasked,
-      keyBinding,
-      keyBindings,
-      mode,
-      modes,
       revertChanges,
       selectedView,
       showHide,
       showImport,
       template,
+      toggleMaskValue,
+    } = this.props;
+
+    const buttons = [];
+
+    if (showHide) {
+      buttons.push(
+        <Tooltip
+          key="hide-content-tooltip"
+          content={__('Hide Content')}
+          position={TooltipPosition.top}
+        >
+          <Button
+            ouiaId="hide-content-button"
+            isDisabled={selectedView !== EDITOR_TAB_NAMES.input}
+            className="editor-button"
+            id="hide-btn"
+            onClick={() => toggleMaskValue(isMasked)}
+            variant="link"
+          >
+            <Icon size="md">{isMasked ? <EyeIcon /> : <EyeSlashIcon />}</Icon>
+          </Button>
+        </Tooltip>
+      );
+    }
+
+    const revertButton = (
+      <Tooltip
+        key="revert-changes-tooltip"
+        content={__('Revert Local Changes')}
+        position={TooltipPosition.top}
+      >
+        <Button
+          ouiaId="revert-local-changes-button"
+          className="editor-button"
+          id="undo-btn"
+          onClick={() => {
+            if (
+              window.confirm(
+                'Are you sure you would like to revert all changes?'
+              )
+            ) {
+              revertChanges(template);
+              if (selectedView !== EDITOR_TAB_NAMES.input) {
+                changeTab(EDITOR_TAB_NAMES.input);
+              }
+            }
+          }}
+          isDisabled={!isDiff}
+          variant="link"
+        >
+          <Icon size="md">
+            <UndoIcon />
+          </Icon>
+        </Button>
+      </Tooltip>
+    );
+
+    buttons.push(revertButton);
+
+    if (showImport) {
+      buttons.push(
+        <Tooltip
+          key="import-file-tooltip"
+          content={__('Import File')}
+          position={TooltipPosition.top}
+        >
+          <Button
+            ouiaId="import-file-button"
+            isDisabled={selectedView !== EDITOR_TAB_NAMES.input}
+            className="import-button"
+            id="import-btn"
+            variant="link"
+            onClick={() => this.fileDialog()}
+          >
+            <Icon size="md">
+              <UploadIcon />
+            </Icon>
+            <FormControl
+              inputRef={ref => {
+                this.fileInput = ref;
+              }}
+              className="hidden"
+              type="file"
+              onChange={importFile}
+            />
+          </Button>
+        </Tooltip>
+      );
+    }
+
+    return buttons;
+  }
+
+  render() {
+    const {
+      changeDiffViewType,
+      changeSetting,
+      diffViewType,
+      keyBinding,
+      keyBindings,
+      mode,
+      modes,
+      selectedView,
       theme,
       themes,
       autocompletion,
       liveAutocompletion,
-      toggleMaskValue,
       toggleModal,
     } = this.props;
 
     return (
-      <div id="editor-dropdowns">
-        {selectedView === 'diff' && (
-          <DiffToggle
-            stateView={diffViewType}
-            changeState={viewType => changeDiffViewType(viewType)}
+      <>
+        <li key="diff-toggle" className="middle">
+          {selectedView === EDITOR_TAB_NAMES.diff && (
+            <DiffToggle
+              stateView={diffViewType}
+              changeState={viewType => changeDiffViewType(viewType)}
+            />
+          )}
+        </li>
+        <li key="divider" className="divider" />
+        <li key="editor-options" id="editor-options">
+          {this.renderOptionButtons()}
+          <EditorSettings
+            key="editor-settings"
+            changeSetting={changeSetting}
+            selectedView={selectedView}
+            modes={modes}
+            mode={mode}
+            keyBindings={keyBindings}
+            keyBinding={keyBinding}
+            theme={theme}
+            themes={themes}
+            autocompletion={autocompletion}
+            liveAutocompletion={liveAutocompletion}
           />
-        )}
-
-        <h4 id="divider">|</h4>
-        {showHide && (
-          <Tooltip content={__('Hide Content')} position={TooltipPosition.top}>
-            <Button
-              disabled={selectedView !== 'input'}
-              className="editor-button"
-              id="hide-btn"
-              onClick={() => toggleMaskValue(isMasked)}
-              bsStyle="link"
-            >
-              <Icon size="md">{isMasked ? <EyeIcon /> : <EyeSlashIcon />}</Icon>
-            </Button>
-          </Tooltip>
-        )}
-        {isDiff ? ( // fixing tooltip showing sometimes for disabled icon
           <Tooltip
-            content={__('Revert Local Changes')}
+            key="maximize-editor-tooltip"
+            content={__('Maximize')}
             position={TooltipPosition.top}
           >
             <Button
+              ouiaId="maximize-editor-button"
               className="editor-button"
-              id="undo-btn"
-              onClick={() => {
-                if (
-                  window.confirm(
-                    'Are you sure you would like to revert all changes?'
-                  )
-                ) {
-                  revertChanges(template);
-                  if (selectedView !== 'input') changeTab('input');
-                }
-              }}
-              bsStyle="link"
+              id="fullscreen-btn"
+              onClick={toggleModal}
+              variant="link"
             >
               <Icon size="md">
-                <UndoIcon />
+                <ArrowsAltIcon />
               </Icon>
             </Button>
           </Tooltip>
-        ) : (
-          <Button
-            disabled
-            className="editor-button"
-            id="undo-btn"
-            bsStyle="link"
-          >
-            <Icon size="md">
-              <UndoIcon />
-            </Icon>
-          </Button>
-        )}
-        {showImport && (
-          <Tooltip content={__('Import File')} position={TooltipPosition.top}>
-            <Button
-              disabled={selectedView !== 'input'}
-              className="import-button"
-              id="import-btn"
-              bsStyle="link"
-              onClick={() => this.fileDialog()}
-            >
-              <Icon size="md">
-                <UploadIcon />
-              </Icon>
-              <FormControl
-                inputRef={ref => {
-                  this.fileInput = ref;
-                }}
-                className="hidden"
-                type="file"
-                onChange={importFile}
-              />
-            </Button>
-          </Tooltip>
-        )}
-        <EditorSettings
-          changeSetting={changeSetting}
-          selectedView={selectedView}
-          modes={modes}
-          mode={mode}
-          keyBindings={keyBindings}
-          keyBinding={keyBinding}
-          theme={theme}
-          themes={themes}
-          autocompletion={autocompletion}
-          liveAutocompletion={liveAutocompletion}
-        />
-        <Tooltip content={__('Maximize')} position={TooltipPosition.top}>
-          <Button
-            className="editor-button"
-            id="fullscreen-btn"
-            onClick={toggleModal}
-            bsStyle="link"
-          >
-            <Icon size="md">
-              <ArrowsAltIcon />
-            </Icon>
-          </Button>
-        </Tooltip>
-      </div>
+        </li>
+      </>
     );
   }
 }

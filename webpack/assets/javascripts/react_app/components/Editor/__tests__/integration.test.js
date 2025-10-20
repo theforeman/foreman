@@ -1,46 +1,50 @@
 import React from 'react';
-
-import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
+import { act, screen, fireEvent } from '@testing-library/react';
+import { rtlHelpers } from '../../../common/testHelpers';
+import '@testing-library/jest-dom/extend-expect';
 
 import { editorOptions, serverRenderResponse } from '../Editor.fixtures';
 import Editor, { reducers } from '../index';
 import * as EditorActions from '../EditorActions'
+import { API } from '../../../redux/API';
 
-jest.mock('../../../redux/API');
+jest.mock('react-ace', () => {
+  return function MockReactAce(props) {
+    return (
+      <textarea
+        data-testid="mock-ace-editor"
+        value={props.value}
+        onChange={(e) => props.onChange && props.onChange(e.target.value)}
+        onBlur={props.onBlur}
+        onFocus={props.onFocus}
+      />
+    );
+  };
+});
 
 describe('Editor integration test', () => {
-  it('should flow', () => {
+  it('should flow', async () => {
+    jest
+      .spyOn(API, 'get')
+      .mockImplementation(async () => ({ data: [] }));
     jest
       .spyOn(EditorActions, 'fetchTemplatePreview')
       .mockImplementation(async () => serverRenderResponse);
 
-    const integrationTestHelper = new IntegrationTestHelper(reducers);
-
-    const component = integrationTestHelper.mount(
+    const { container } = rtlHelpers.renderWithStore(
       <Editor {...editorOptions} />
     );
-    integrationTestHelper.takeStoreSnapshot('initial state');
 
-    const previewBtn = component.find('#preview-navitem').at(1);
-    previewBtn.simulate('click');
+    const previewBtn = screen.getByText('Preview');
+    const previewTab = previewBtn.parentElement.parentElement;
+    await act(async () => await fireEvent.click(previewBtn));
 
-    integrationTestHelper.takeStoreAndLastActionSnapshot(
-      'switched to preview view'
-    );
-    expect(
-      component
-        .find('li[role="presentation"]')
-        .at(2)
-        .hasClass('active')
-    ).toBe(true);
+    expect(previewTab).toHaveClass('pf-m-current');
 
-    IntegrationTestHelper.flushAllPromises();
-    component.update();
+    const fullscreenBtn = container.querySelector('#fullscreen-btn');
+    expect(fullscreenBtn).toBeInTheDocument();
+    await act(async () => await fireEvent.click(fullscreenBtn));
 
-    const maximizeBtn = component.find('#fullscreen-btn').at(0);
-    maximizeBtn.simulate('click');
-
-    integrationTestHelper.takeStoreAndLastActionSnapshot('entered fullscreen');
-    expect(component.find('.editor-modal').length).toBeGreaterThan(0);
+    expect(document.querySelector('.pf-v5-c-modal-box')).toBeInTheDocument();
   });
 });

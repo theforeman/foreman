@@ -1,6 +1,6 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
+import { render, screen, act, fireEvent, configure } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
 import EditorOptions from '../EditorOptions';
 import { editorOptions, showBooleans } from '../../Editor.fixtures';
@@ -11,53 +11,62 @@ const fixtures = {
   'renders EditorOptions': props,
 };
 
+configure({ testIdAttribute: 'data-ouia-component-id' });
+
 describe('EditorOptions', () => {
-  describe('EditorOptions', () =>
-    testComponentSnapshotsWithFixtures(EditorOptions, fixtures));
+  it('renders', () => {
+    render(<EditorOptions {...props}/>)
+    const editorDropdowns = document.getElementById('editor-options');
 
-  describe('simulate onClick', () => {
-    const toggleMaskValue = jest.fn();
-    const changeTab = jest.fn();
-    const revertChanges = jest.fn();
-    jest.mock('../EditorOptions');
-    window.confirm = jest.fn(() => true);
+    expect(editorDropdowns).toBeInTheDocument();
 
-    const diffWrapper = mount(
-      <EditorOptions
-        {...props}
-        changeTab={changeTab}
-        toggleMaskValue={toggleMaskValue}
-        revertChanges={revertChanges}
-        isDiff
-        selectedView="diff"
-      />
-    );
+    const hideButton = screen.getByTestId('hide-content-button');
+    expect(hideButton).toBeInTheDocument();
+  })
+  describe('simulate', () => {
+    it('clicks', async () => {
+      const toggleMaskValue = jest.fn();
+      const changeTab = jest.fn();
+      const revertChanges = jest.fn();
+      jest.mock('../EditorOptions');
+      window.confirm = jest.fn(() => true);
 
-    const inputWrapper = mount(
-      <EditorOptions
-        {...props}
-        changeTab={changeTab}
-        toggleMaskValue={toggleMaskValue}
-        revertChanges={revertChanges}
-        isDiff
-      />
-    );
+      const { rerender } = render( /* diff view */
+        <EditorOptions
+          {...props}
+          changeTab={changeTab}
+          toggleMaskValue={toggleMaskValue}
+          revertChanges={revertChanges}
+          isDiff
+          selectedView="diff"
+        />
+      );
+      const undoButton = screen.getByTestId('revert-local-changes-button');
+      await act(async () => await fireEvent.click(undoButton));
 
-    diffWrapper
-      .find('#undo-btn')
-      .at(0)
-      .simulate('click');
-    inputWrapper
-      .find('#hide-btn')
-      .at(0)
-      .simulate('click');
-    diffWrapper
-      .find('#import-btn')
-      .at(0)
-      .simulate('click');
+      expect(window.confirm).toHaveBeenCalledTimes(1);
+      expect(revertChanges).toHaveBeenCalledTimes(1);
 
-    expect(toggleMaskValue).toHaveBeenCalledTimes(1);
-    expect(changeTab).toHaveBeenCalledTimes(1);
-    expect(window.confirm).toHaveBeenCalledTimes(1);
+
+      rerender( /* input view */
+        <EditorOptions
+          {...props}
+          changeTab={changeTab}
+          toggleMaskValue={toggleMaskValue}
+          revertChanges={revertChanges}
+          isDiff
+        />
+      );
+
+      const hideButton = screen.getByTestId('hide-content-button');
+      await act(async () => await fireEvent.click(hideButton));
+
+      expect(toggleMaskValue).toHaveBeenCalledTimes(1);
+
+      const importButton = screen.getByTestId('import-file-button');
+      await act(async () => await fireEvent.click(importButton));
+
+      expect(changeTab).toHaveBeenCalledTimes(1);
+    });
   });
 });

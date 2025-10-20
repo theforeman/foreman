@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
-
 import { noop } from '../../common/helpers';
 import DiffView from '../DiffView/DiffView';
 import EditorView from './components/EditorView';
@@ -11,6 +10,7 @@ import {
   EDITOR_THEMES,
   EDITOR_KEYBINDINGS,
   EDITOR_MODES,
+  EDITOR_TAB_NAMES,
 } from './EditorConstants';
 import './editor.scss';
 
@@ -185,19 +185,19 @@ class Editor extends React.Component {
           {...editorViewProps}
           key="editorPreview"
           name={editorNameTab.preview}
-          isSelected={selectedView === 'preview'}
+          isSelected={selectedView === EDITOR_TAB_NAMES.preview}
           className="ace_editor_form ace_preview"
         />
         <EditorView
           {...editorViewProps}
           key="editorCode"
           name={editorNameTab.input}
-          isSelected={selectedView === 'input'}
+          isSelected={selectedView === EDITOR_TAB_NAMES.input}
           className="ace_editor_form ace_input"
         />
         <div
           id="diff-table"
-          className={selectedView === 'diff' ? '' : 'hidden'}
+          className={selectedView === EDITOR_TAB_NAMES.diff ? '' : 'hidden'}
         >
           <DiffView
             oldText={template || ''}

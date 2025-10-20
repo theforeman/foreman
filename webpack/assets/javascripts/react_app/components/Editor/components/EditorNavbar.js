@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Nav, Spinner, Alert, Button } from 'patternfly-react';
+import { Tabs } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 import EditorRadioButton from './EditorRadioButton';
 import EditorOptions from './EditorOptions';
 import EditorHostSelect from './EditorHostSelect';
 import EditorSafemodeCheckbox from './EditorSafemodeCheckbox';
+import EditorAlert from './EditorAlert';
+import { EDITOR_TAB_NAMES } from '../EditorConstants';
 
 const EditorNavbar = ({
   changeDiffViewType,
@@ -67,138 +69,168 @@ const EditorNavbar = ({
     });
   };
   const selectedRenderPath = safemode ? safemodeRenderPath : renderPath;
+  const selectedTabsIndex = Object.values(EDITOR_TAB_NAMES).indexOf(
+    selectedView
+  );
+
+  const renderTabsContent = () => {
+    const tabs = [];
+
+    tabs.push(
+      <EditorRadioButton
+        key="input"
+        eventKey={0}
+        stateView={selectedView}
+        btnView="input"
+        title={__('Editor')}
+        onClick={() => {
+          if (selectedView !== EDITOR_TAB_NAMES.input) {
+            if (isRendering) toggleRenderView();
+            changeTab(EDITOR_TAB_NAMES.input);
+          }
+        }}
+      />
+    );
+    tabs.push(
+      <EditorRadioButton
+        key="diff"
+        eventKey={1}
+        stateView={selectedView}
+        disabled={!isDiff}
+        btnView="diff"
+        title={__('Changes')}
+        onClick={() => {
+          if (selectedView !== EDITOR_TAB_NAMES.diff) {
+            changeTab(EDITOR_TAB_NAMES.diff);
+          }
+        }}
+      />
+    );
+
+    if (showPreview)
+      tabs.push(
+        <EditorRadioButton
+          key="preview"
+          eventKey={2}
+          stateView={selectedView}
+          btnView="preview"
+          title={__('Preview')}
+          onClick={() => {
+            if (selectedView !== EDITOR_TAB_NAMES.preview) {
+              if (!isRendering) toggleRenderView();
+              changeTab(EDITOR_TAB_NAMES.preview);
+              if (selectedHost.id === '')
+                fetchAndPreview(
+                  selectedRenderPath,
+                  templateKindId,
+                  !showHostSelector
+                );
+            }
+          }}
+        />
+      );
+
+    if (
+      showPreview &&
+      showHostSelector &&
+      selectedView === EDITOR_TAB_NAMES.preview
+    )
+      tabs.push(
+        <EditorHostSelect
+          key="host-select"
+          show
+          open={isSelectOpen}
+          selectedItem={selectedHost}
+          placeholder={__('Select Host...')}
+          isLoading={isFetchingHosts}
+          onChange={host =>
+            previewTemplate({
+              host,
+              renderPath: selectedRenderPath,
+              templateKindId,
+            })
+          }
+          searchQuery={searchQuery}
+          onToggle={onHostSelectToggle}
+          onSearchChange={onHostSearch}
+          onSearchClear={onSearchClear}
+          options={isSearchingHosts ? filteredHosts : hosts}
+        />
+      );
+
+    if (showPreview)
+      tabs.push(
+        <EditorSafemodeCheckbox
+          key="safe-mode"
+          show={selectedView === EDITOR_TAB_NAMES.preview}
+          checked={safemode}
+          disabled={isSafemodeEnabled}
+          handleSafeModeChange={handleSafeModeChange}
+        />
+      );
+
+    tabs.push(
+      <EditorAlert
+        key="editor-alert"
+        showPreview={showPreview}
+        selectedView={selectedView}
+        previewResult={previewResult}
+        renderedEditorValue={renderedEditorValue}
+        value={value}
+        onClick={() =>
+          previewTemplate({
+            host: selectedHost,
+            renderPath: selectedRenderPath,
+            templateKindId,
+          })
+        }
+      />
+    );
+
+    return tabs;
+  };
 
   return (
     <div className="navbar navbar-form navbar-full-width navbar-editor">
-      <Nav className="nav nav-tabs nav-tabs-pf nav-tabs-pf-secondary">
-        <EditorRadioButton
-          stateView={selectedView}
-          btnView="input"
-          title={__('Editor')}
-          onClick={() => {
-            if (selectedView !== 'input') {
-              if (isRendering) toggleRenderView();
-              changeTab('input');
-            }
-          }}
+      <Tabs
+        ouiaId="editor-horizontal-navbar"
+        aria-label="Editor Tabs"
+        variant="horizontal"
+        activeKey={selectedTabsIndex}
+      >
+        {renderTabsContent()}
+        <EditorOptions
+          key="options"
+          hosts={hosts}
+          value={value}
+          renderPath={renderPath}
+          showImport={showImport}
+          showHide={showHide}
+          showPreview={showPreview}
+          showHostSelector={showHostSelector}
+          isDiff={isDiff}
+          diffViewType={diffViewType}
+          isMasked={isMasked}
+          isRendering={isRendering}
+          importFile={importFile}
+          template={template}
+          revertChanges={revertChanges}
+          changeDiffViewType={changeDiffViewType}
+          toggleMaskValue={toggleMaskValue}
+          changeSetting={changeSetting}
+          changeTab={changeTab}
+          toggleModal={toggleModal}
+          selectedView={selectedView}
+          mode={mode}
+          modes={modes}
+          keyBinding={keyBinding}
+          keyBindings={keyBindings}
+          theme={theme}
+          themes={themes}
+          autocompletion={autocompletion}
+          liveAutocompletion={liveAutocompletion}
         />
-        <EditorRadioButton
-          stateView={selectedView}
-          disabled={!isDiff}
-          btnView="diff"
-          title={__('Changes')}
-          onClick={() => {
-            if (selectedView !== 'diff') {
-              changeTab('diff');
-            }
-          }}
-        />
-        {showPreview && (
-          <React.Fragment>
-            <EditorRadioButton
-              stateView={selectedView}
-              btnView="preview"
-              title={__('Preview')}
-              onClick={() => {
-                if (selectedView !== 'preview') {
-                  if (!isRendering) toggleRenderView();
-                  changeTab('preview');
-                  if (selectedHost.id === '')
-                    fetchAndPreview(
-                      selectedRenderPath,
-                      templateKindId,
-                      !showHostSelector
-                    );
-                }
-              }}
-            />
-            {showHostSelector && (
-              <EditorHostSelect
-                show={selectedView === 'preview'}
-                open={isSelectOpen}
-                selectedItem={selectedHost}
-                placeholder={__('Select Host...')}
-                isLoading={isFetchingHosts}
-                onChange={host =>
-                  previewTemplate({
-                    host,
-                    renderPath: selectedRenderPath,
-                    templateKindId,
-                  })
-                }
-                searchQuery={searchQuery}
-                onToggle={onHostSelectToggle}
-                onSearchChange={onHostSearch}
-                onSearchClear={onSearchClear}
-                options={isSearchingHosts ? filteredHosts : hosts}
-                key="hostsSelect"
-              />
-            )}
-            <EditorSafemodeCheckbox
-              show={selectedView === 'preview'}
-              checked={safemode}
-              disabled={isSafemodeEnabled}
-              handleSafeModeChange={handleSafeModeChange}
-            />
-            {selectedView === 'preview' &&
-              previewResult !== '' &&
-              renderedEditorValue !== value && (
-                <div id="outdated-preview-alert">
-                  <Alert type="warning">
-                    {__('Preview is outdated.')}
-                    <Button
-                      bsStyle="link"
-                      onClick={() =>
-                        previewTemplate({
-                          host: selectedHost,
-                          renderPath: selectedRenderPath,
-                          templateKindId,
-                        })
-                      }
-                    >
-                      {__('Preview')}
-                    </Button>
-                  </Alert>
-                </div>
-              )}
-            {isLoading && (
-              <div id="preview-spinner">
-                <Spinner size="sm" loading />
-              </div>
-            )}
-          </React.Fragment>
-        )}
-      </Nav>
-      <EditorOptions
-        hosts={hosts}
-        value={value}
-        renderPath={renderPath}
-        showImport={showImport}
-        showHide={showHide}
-        showPreview={showPreview}
-        showHostSelector={showHostSelector}
-        isDiff={isDiff}
-        diffViewType={diffViewType}
-        isMasked={isMasked}
-        isRendering={isRendering}
-        importFile={importFile}
-        template={template}
-        revertChanges={revertChanges}
-        changeDiffViewType={changeDiffViewType}
-        toggleMaskValue={toggleMaskValue}
-        changeSetting={changeSetting}
-        changeTab={changeTab}
-        toggleModal={toggleModal}
-        selectedView={selectedView}
-        mode={mode}
-        modes={modes}
-        keyBinding={keyBinding}
-        keyBindings={keyBindings}
-        theme={theme}
-        themes={themes}
-        autocompletion={autocompletion}
-        liveAutocompletion={liveAutocompletion}
-      />
+      </Tabs>
     </div>
   );
 };

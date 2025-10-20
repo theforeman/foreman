@@ -30,8 +30,8 @@ export const patchMock = {
 };
 
 export const fixtures = {
-    'render DiffView w/oldText & newText': diffMock,
-    'render DiffView w/Patch': patchMock,
+    diffMock,
+    patchMock,
   };
 
 export const PF_SELECTED = 'pf-m-selected';
