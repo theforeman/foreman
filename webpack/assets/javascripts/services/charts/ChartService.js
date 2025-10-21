@@ -105,6 +105,89 @@ export const getChartConfig = ({
   };
 };
 
+// PF5 Victory Charts Configuration
+export const getDonutChartConfigPF5 = ({
+  data,
+  config,
+  onclick,
+  searchUrl,
+  searchFilters,
+  id = uuidV1(),
+}) => {
+  const chartConfigForType = chartsSizeConfig.donut[config];
+  const dataExists = doDataExist(data);
+
+  if (!dataExists) {
+    return { data: [] };
+  }
+
+  // Transform data from [label, value, color] to Victory format
+  const transformedData = [];
+  const colorScale = [];
+
+  data.forEach(item => {
+    const [label, value, color] = item;
+    transformedData.push({ x: label, y: value, name: label });
+
+    if (color) {
+      colorScale.push(color);
+    }
+  });
+
+  // Handle click events for Victory charts
+  const events =
+    onclick || searchUrl
+      ? [
+          {
+            target: 'data',
+            eventHandlers: {
+              onClick: (event, props) => {
+                const { datum } = props;
+                const fullLabel = datum.name || datum.x;
+
+                // Create data object compatible with onclick handler
+                const clickData = {
+                  id: fullLabel,
+                  name: datum.x,
+                  value: datum.y,
+                };
+
+                if (onclick) {
+                  onclick(clickData, event);
+                }
+
+                if (searchUrl) {
+                  navigateToSearch(searchUrl, searchFilters || {}, clickData);
+                }
+              },
+            },
+          },
+        ]
+      : undefined;
+
+  // Calculate total for percentage display in tooltips
+  const total = transformedData.reduce((sum, item) => sum + item.y, 0);
+
+  // Configure labels to show full name and percentage in tooltip
+  const labels = ({ datum }) => {
+    const percentage = total > 0 ? ((datum.y / total) * 100).toFixed(1) : 0;
+    return `${datum.name}: ${percentage}%`;
+  };
+
+  return {
+    id,
+    data: transformedData,
+    colorScale: colorScale.length > 0 ? colorScale : undefined,
+    width: chartConfigForType.size.width,
+    height: chartConfigForType.size.height,
+    padding: chartConfigForType.padding,
+    innerRadius: chartConfigForType.innerRadius,
+    labels,
+    events,
+    legendData: undefined, // Can be added if needed
+  };
+};
+
 export const navigateToSearch = (url, searchFilters, data) => {
   let val = searchFilters[data.id] || data.id;
   let setUrl;

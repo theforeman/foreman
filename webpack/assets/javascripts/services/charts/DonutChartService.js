@@ -1,5 +1,5 @@
 import uuidV1 from 'uuid/v1';
-import { getChartConfig, navigateToSearch } from './ChartService';
+import { getDonutChartConfigPF5 } from './ChartService';
 
 export const getDonutChartConfig = ({
   data,
@@ -9,13 +9,11 @@ export const getDonutChartConfig = ({
   searchFilters,
   id = uuidV1(),
 }) =>
-  getChartConfig({
-    type: 'donut',
+  getDonutChartConfigPF5({
     data,
     config,
+    onclick,
+    searchUrl,
+    searchFilters,
     id,
-    onclick: (d, element) => {
-      if (onclick) onclick(d, element);
-      if (searchUrl) navigateToSearch(searchUrl, searchFilters || {}, d);
-    },
   });
