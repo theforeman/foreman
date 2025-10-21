@@ -14,6 +14,7 @@ const ForemanForm = ({
   validationSchema,
   enableReinitialize,
   onCancel,
+  isPF5,
 }) => (
   <Formik
     onSubmit={onSubmit}
@@ -38,6 +39,9 @@ const ForemanForm = ({
               : __('Warning! ')
           }
           submitting={formProps.isSubmitting}
+          className={
+            isPF5 ? 'pf-v5-c-form pf-m-horizontal' : 'form-horizontal well'
+          }
         >
           {cloneChildren(children, { formProps, disabled })}
         </Form>
@@ -63,11 +67,13 @@ ForemanForm.propTypes = {
   validationSchema: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   enableReinitialize: PropTypes.bool,
+  isPF5: PropTypes.bool,
 };
 
 ForemanForm.defaultProps = {
   validationSchema: undefined,
   enableReinitialize: false,
+  isPF5: false,
 };
 
 export default ForemanForm;

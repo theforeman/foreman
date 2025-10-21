@@ -8,10 +8,52 @@ import {
   HelpBlock,
   FieldLevelHelp,
 } from 'patternfly-react';
-import { Icon } from '@patternfly/react-core';
+import {
+  FormGroup as PF5FormGroup,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
+  Icon,
+} from '@patternfly/react-core';
+
+import LabelIcon from 'foremanReact/components/common/LabelIcon';
 import { WarningTriangleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
 import InputFactory from './InputFactory';
 import { noop } from '../../../common/helpers';
+
+const InlineMessagePF5 = ({ error, warning, helpInline }) => {
+  if (!error && !warning && !helpInline) {
+    return null;
+  }
+  const validationState = Object.entries({ error, warning }).find(
+    ([_, v]) => v
+  )?.[0];
+  const icon = () =>
+    ({
+      error: { icon: <ErrorCircleOIcon /> },
+      warning: { icon: <WarningTriangleIcon /> },
+    }[validationState]);
+
+  return (
+    <FormHelperText>
+      <HelperText>
+        <HelperTextItem variant={validationState || 'default'} {...icon()}>
+          {error || warning || helpInline}
+        </HelperTextItem>
+      </HelperText>
+    </FormHelperText>
+  );
+};
+InlineMessagePF5.propTypes = {
+  error: PropTypes.string,
+  warning: PropTypes.string,
+  helpInline: PropTypes.string,
+};
+InlineMessagePF5.defaultProps = {
+  error: null,
+  warning: null,
+  helpInline: null,
+};
 
 const InlineMessage = ({ error, warning, helpInline }) => {
   if (!error && !warning && !helpInline) {
@@ -66,6 +108,7 @@ const FormField = ({
   onChange,
   children,
   inputProps,
+  isPF5,
   ...otherProps
 }) => {
   const [innerError, setError] = useState(error);
@@ -88,6 +131,28 @@ const FormField = ({
   if (innerWarning) validationState = 'warning';
   if (innerError) validationState = 'error';
 
+  if (isPF5) {
+    return (
+      <PF5FormGroup
+        role="group"
+        fieldId={id}
+        label={label}
+        labelIcon={
+          typeof labelHelp === 'string' ? <LabelIcon text={labelHelp} /> : null
+        }
+        isRequired={required}
+        isStack
+        disabled={disabled}
+      >
+        {children}
+        <InlineMessagePF5
+          error={innerError}
+          warning={innerWarning}
+          helpInline={helpInline}
+        />
+      </PF5FormGroup>
+    );
+  }
   return (
     <FormGroup
       controlId={id}
@@ -117,6 +182,16 @@ const FormField = ({
   );
 };
 
+PF5FormGroup.propTypes = {
+  fieldId: PropTypes.string,
+  label: PropTypes.string,
+  labelIcon: PropTypes.element,
+  isRequired: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  validationState: PropTypes.oneOf([null, 'error', 'warning', 'success']),
+  isStack: PropTypes.bool,
+};
+
 FormField.propTypes = {
   type: PropTypes.string,
   id: PropTypes.string,
@@ -130,7 +205,7 @@ FormField.propTypes = {
   ]),
   className: PropTypes.string,
   label: PropTypes.string,
-  labelHelp: PropTypes.string,
+  labelHelp: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   required: PropTypes.bool,
   disabled: PropTypes.bool,
   error: PropTypes.string,
@@ -140,6 +215,7 @@ FormField.propTypes = {
   onChange: PropTypes.func,
   children: PropTypes.element,
   inputProps: PropTypes.object,
+  isPF5: PropTypes.bool,
 };
 
 FormField.defaultProps = {
@@ -159,6 +235,7 @@ FormField.defaultProps = {
   onChange: noop,
   children: null,
   inputProps: null,
+  isPF5: false,
 };
 
 export default FormField;

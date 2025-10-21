@@ -46,6 +46,7 @@ export const formAutocompleteDataProps = {
   searchQuery: '',
   name: 'Filter[search]',
   id: 'form-search',
+
 };
 
 export const counterProps = {
