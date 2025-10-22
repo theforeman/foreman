@@ -20,7 +20,6 @@ module Foreman::Controller::SmartProxyAuth
 
   # Permits registered Smart Proxies or a user with permission
   def require_smart_proxy_or_login(features = nil)
-    Rails.logger.info "require_smart_proxy_or_login"
     features = features.call if features.respond_to?(:call)
     allowed_smart_proxies = if features.blank?
                               SmartProxy.unscoped.all
@@ -29,33 +28,28 @@ module Foreman::Controller::SmartProxyAuth
                             end
 
     if !Setting[:restrict_registered_smart_proxies] || auth_smart_proxy(allowed_smart_proxies)
-      Rails.logger.info "set_admin_user"
       set_admin_user
       return true
     end
 
     # if we reach this, the requestor is a user and not a smart proxy
-    Rails.logger.info "requestor is a user and not a smart proxy"
     require_user_login
   end
 
   def require_user_login
-    Rails.logger.info "require_user_login"
+    verify_authenticity_token
     unless require_login && User.current.present? && check_user_enabled
       render_error 'access_denied', :status => :forbidden unless performed? && api_request?
       return false
     end
-    Rails.logger.info "after require_login && check_user_enabled"
-    authorize && verify_authenticity_token && set_taxonomy
-    Rails.logger.info "after authorize && verify_authenticity_token && set_taxonomy"
+    return false unless authorize && set_taxonomy
     session_expiry
-    Rails.logger.info "after session_expiry"
     update_activity_time
+    true
   end
 
   # Filter requests to only permit from hosts with a registered smart proxy
   def auth_smart_proxy(proxies = SmartProxy.unscoped.all)
-    Rails.logger.info "auth_smart_proxy"
     request_hosts = nil
     if request.ssl?
       # If we have the client certficate in the request environment we can extract the dn and sans from there

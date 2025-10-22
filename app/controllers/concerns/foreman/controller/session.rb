@@ -2,7 +2,6 @@ module Foreman::Controller::Session
   extend ActiveSupport::Concern
 
   def session_expiry
-    Rails.logger.info "session_expiry"
     return if ignore_api_request?
     if session[:expires_at].blank? || (Time.at(session[:expires_at]).utc - Time.now.utc).to_i < 0
       session[:original_uri] = request.fullpath unless api_request?
@@ -38,7 +37,7 @@ module Foreman::Controller::Session
     else
       sso = get_sso_method
       if sso.nil? || !sso.support_expiration?
-        inline_warning _("Your session has expired, please login again")
+        inline_warning _("Your session has expired; please log in again")
         redirect_to main_app.login_users_path
       else
         redirect_to sso.expiration_url
