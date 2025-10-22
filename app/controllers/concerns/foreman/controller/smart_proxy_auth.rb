@@ -20,6 +20,7 @@ module Foreman::Controller::SmartProxyAuth
 
   # Permits registered Smart Proxies or a user with permission
   def require_smart_proxy_or_login(features = nil)
+    Rails.logger.info "require_smart_proxy_or_login"
     features = features.call if features.respond_to?(:call)
     allowed_smart_proxies = if features.blank?
                               SmartProxy.unscoped.all
@@ -28,26 +29,33 @@ module Foreman::Controller::SmartProxyAuth
                             end
 
     if !Setting[:restrict_registered_smart_proxies] || auth_smart_proxy(allowed_smart_proxies)
+      Rails.logger.info "set_admin_user"
       set_admin_user
       return true
     end
 
     # if we reach this, the requestor is a user and not a smart proxy
+    Rails.logger.info "requestor is a user and not a smart proxy"
     require_user_login
   end
 
   def require_user_login
+    Rails.logger.info "require_user_login"
     unless require_login && User.current.present? && check_user_enabled
       render_error 'access_denied', :status => :forbidden unless performed? && api_request?
       return false
     end
+    Rails.logger.info "after require_login && check_user_enabled"
     authorize && verify_authenticity_token && set_taxonomy
+    Rails.logger.info "after authorize && verify_authenticity_token && set_taxonomy"
     session_expiry
+    Rails.logger.info "after session_expiry"
     update_activity_time
   end
 
   # Filter requests to only permit from hosts with a registered smart proxy
   def auth_smart_proxy(proxies = SmartProxy.unscoped.all)
+    Rails.logger.info "auth_smart_proxy"
     request_hosts = nil
     if request.ssl?
       # If we have the client certficate in the request environment we can extract the dn and sans from there
@@ -75,10 +83,21 @@ module Foreman::Controller::SmartProxyAuth
       request_hosts = [request.remote_ip] if request_hosts.empty?
     end
     return false unless request_hosts
+    Rails.logger.info request_hosts
 
     hosts = Hash[proxies.map { |p| [URI.parse(p.url).host, p] }]
-    allowed_hosts = hosts.keys.push(*Setting[:trusted_hosts])
-    logger.debug { "Verifying request from #{request_hosts.inspect} against #{allowed_hosts.inspect}" }
+
+    # For loopback addresses in non-SSL mode, only match against trusted_hosts,
+    # not registered smart proxy URLs. This prevents local processes from
+    # impersonating smart proxies while still allowing explicit trusted_hosts entries.
+    remote_ip = IPAddr.new(request.remote_ip) rescue nil
+    if !request.ssl? && remote_ip&.loopback?
+      allowed_hosts = Setting[:trusted_hosts]
+      logger.debug { "Verifying loopback request from #{request_hosts.inspect} against trusted_hosts only: #{allowed_hosts.inspect}" }
+    else
+      allowed_hosts = hosts.keys.push(*Setting[:trusted_hosts])
+      logger.debug { "Verifying request from #{request_hosts.inspect} against #{allowed_hosts.inspect}" }
+    end
 
     if (host = detect_matching_host(allowed_hosts, request_hosts))
       @detected_proxy = hosts[host] if host

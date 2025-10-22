@@ -2,6 +2,7 @@ module Foreman::Controller::Session
   extend ActiveSupport::Concern
 
   def session_expiry
+    Rails.logger.info "session_expiry"
     return if ignore_api_request?
     if session[:expires_at].blank? || (Time.at(session[:expires_at]).utc - Time.now.utc).to_i < 0
       session[:original_uri] = request.fullpath unless api_request?
