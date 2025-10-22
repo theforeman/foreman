@@ -38,11 +38,11 @@ module Foreman::Controller::SmartProxyAuth
 
   def require_user_login
     verify_authenticity_token
-    unless require_login && User.current.present? && check_user_enabled
+    if require_login == false || User.current.blank? || check_user_enabled == false
       render_error 'access_denied', :status => :forbidden unless performed? && api_request?
       return false
     end
-    return false unless authorize && set_taxonomy
+    return false if (authorize == false || set_taxonomy == false)
     session_expiry
     update_activity_time
     true
