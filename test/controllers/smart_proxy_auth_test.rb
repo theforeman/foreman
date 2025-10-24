@@ -237,6 +237,22 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     Setting[:trusted_hosts] = ['2001:db8:cafe::/48']
     refute @controller.send(:auth_smart_proxy)
   end
+
+  def test_non_ssl_loopback_does_not_match_proxy_urls
+    # Ensure non-SSL loopback requests don't match against registered proxy URLs
+    Resolv.any_instance.expects(:getnames).with('127.0.0.1').returns(['localhost'])
+    @request.env['REMOTE_ADDR'] = '127.0.0.1'
+    @request.stubs(:ssl?).returns(false)
+
+    # Proxy registered with localhost URL
+    proxy = FactoryBot.create(:smart_proxy, :url => 'http://localhost:8443')
+    SmartProxy.expects(:unscoped).returns(stub(all: [proxy]))
+
+    # trusted_hosts is empty - should NOT match
+    Setting[:trusted_hosts] = []
+
+    refute @controller.send(:auth_smart_proxy)
+  end
 end
 
 class SmartProxyAuthWebUITest < ActionController::TestCase
