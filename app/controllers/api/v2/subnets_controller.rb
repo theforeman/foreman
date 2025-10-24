@@ -20,7 +20,7 @@ module Api
       add_scoped_search_description_for(Subnet)
 
       def index
-        @subnets = resource_scope_for_index.includes(:tftp, :dhcp, :dns)
+        @subnets = resource_scope_for_index.preload(:tftp, :dhcp, :dns)
         @subnets = @subnets.network_reorder(params[:order]) if params[:order].present? && params[:order] =~ /\Anetwork( ASC| DESC)?\Z/
       end
 

@@ -220,7 +220,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     loc = FactoryBot.create(:location)
     FactoryBot.create(:subnet_ipv4, :organizations => [org], :locations => [loc])
     manager = roles(:manager)
-    role = manager.clone :name => "Clonned manager", :organizations => [org], :locations => [loc]
+    role = manager.clone :name => "Cloned manager", :organizations => [org], :locations => [loc]
     role.save!
     user = FactoryBot.create(:user, :organizations => [org], :locations => [loc], :default_organization_id => org.id,
                              :default_location_id => loc.id, :roles => [role])
@@ -228,5 +228,22 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
       get :index, params: { :location_id => loc.id }
     end
     assert_response :success
+  end
+
+  test "index includes subnets without features" do
+    org = FactoryBot.create(:organization)
+    loc = FactoryBot.create(:location)
+    subnet = FactoryBot.create(:subnet_ipv4, :organizations => [org], :locations => [loc])
+    user = setup_user('view', 'subnets', "organization_id = #{org.id} AND location_id = #{loc.id}")
+    user.organizations << org
+    user.locations << loc
+
+    as_user user do
+      get :index
+    end
+
+    assert_response :success
+    data = ActiveSupport::JSON.decode(@response.body)
+    assert_include data['results'].map { |r| r['id'] }, subnet.id
   end
 end
