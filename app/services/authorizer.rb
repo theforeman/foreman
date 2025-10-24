@@ -55,7 +55,7 @@ class Authorizer
     all_filters = all_filters.reorder(nil).to_a # load all records, so #empty? does not call extra COUNT(*) query
     Foreman::Logging.logger('permissions').debug do
       all_filters.map do |f|
-        "filter with role_id: #{f.role_id} limited: #{f.limited?} search: #{f.search} taxonomy_search: #{f.taxonomy_search}"
+        "filter with role_id: #{f.role_id} limited: #{f.search.present?} search: #{f.search} taxonomy_search: #{f.taxonomy_search}"
       end.join("\n")
     end
 
