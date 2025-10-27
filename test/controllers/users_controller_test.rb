@@ -583,6 +583,13 @@ class UsersControllerTest < ActionController::TestCase
       assert_response :success
       assert @response.body.include?("Are you")
     end
+
+    test "logout sets Clear-Site-Data header" do
+      @controller.expects(:verify_authenticity_token).returns(true)
+      post :logout, session: set_session_user
+      assert_response :found
+      assert_equal '"cache", "cookies", "storage"', @response.headers['Clear-Site-Data']
+    end
   end
 
   test "#login respects session original_uri" do

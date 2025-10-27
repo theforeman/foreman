@@ -31,6 +31,10 @@ module Foreman::Controller::Session
 
   def expire_session
     logger.info "Session for #{User.current} is expired."
+
+    # Clear browser data on session expiry
+    use_secure_headers_override(:logout_clear_data)
+
     backup_session_content { reset_session }
     if api_request?
       render :plain => '', :status => :unauthorized

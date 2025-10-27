@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   skip_before_action :require_login, :check_user_enabled, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_action :authorize, :only => [:extlogin, :impersonate, :stop_impersonation]
   before_action      :require_admin, :only => :impersonate
+  before_action      :apply_logout_security_headers, :only => [:logout]
   after_action       :update_activity_time, :only => :login
   before_action      :verify_active_session, :only => :login
 
@@ -264,5 +265,9 @@ class UsersController < ApplicationController
     raise exception unless request.post? && action_name == 'login'
     inline_warning _("CSRF protection token expired, please log in again")
     redirect_to login_users_path
+  end
+
+  def apply_logout_security_headers
+    use_secure_headers_override(:logout_clear_data)
   end
 end
