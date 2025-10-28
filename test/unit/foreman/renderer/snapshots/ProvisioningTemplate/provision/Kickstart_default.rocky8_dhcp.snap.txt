@@ -152,7 +152,8 @@ subscription-manager config \
   --server.port="443" \
   --server.prefix="/subscription" \
   --rhsm.repo_ca_cert="/etc/rhsm/ca/redhat-uep.pem" \
-  --rhsm.baseurl="https://cdn.redhat.com"
+  --rhsm.baseurl="https://cdn.redhat.com" \
+  --rhsm.manage_repos=1
 
 # Older versions of subscription manager may not recognize
 # report_package_profile and package_profile_on_trans options.

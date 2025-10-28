@@ -110,7 +110,8 @@ subscription-manager config \
   --server.port="<%= server_port %>" \
   --server.prefix="<%= server_prefix %>" \
   --rhsm.repo_ca_cert="<%= repo_ca_cert %>" \
-  --rhsm.baseurl="<%= rhsm_baseurl %>"
+  --rhsm.baseurl="<%= rhsm_baseurl %>" \
+  --rhsm.manage_repos=1
 
 # Older versions of subscription manager may not recognize
 # report_package_profile and package_profile_on_trans options.
