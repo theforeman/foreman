@@ -27,7 +27,8 @@ actions:
   get-current-version: "sed 's/-develop//' VERSION"
 
 jobs:
-  - job: copr_build
+  - &copr
+    job: copr_build
     trigger: pull_request
     targets:
       rhel-9:
@@ -35,6 +36,12 @@ jobs:
         additional_repos:
           - https://yum.theforeman.org/releases/nightly/el9/x86_64/
     module_hotfixes: true
+
+  - <<: *copr
+    trigger: commit
+    branch: develop
+    owner: '@theforeman'
+    project: develop
 
 srpm_build_deps:
   - wget
