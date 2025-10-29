@@ -1,0 +1,46 @@
+<%#
+kind: finish
+name: Agama default finish
+model: ProvisioningTemplate
+oses:
+- OpenSUSE
+- SLES
+-%>
+<%
+  pm_set = @host.puppet_server.present?
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
+-%>
+
+/usr/bin/hostnamectl set-hostname <%= @host.name %>
+
+<%= snippet_if_exists(template_name + " custom pre") -%>
+
+<%- if plugin_present?('katello') && host_param('kt_activation_keys') -%>
+<%= snippet_if_exists("sles_register") -%>
+<% end -%>
+
+<%= snippet('remote_execution_ssh_keys') -%>
+
+<% if plugin_present?('katello') && host_param_true?('enable-remote-execution-pull') -%>
+<%= save_to_file('/root/remote_execution_pull_setup.sh', snippet('remote_execution_pull_setup'), verbatim: true) %>
+chmod +x /root/remote_execution_pull_setup.sh
+/root/remote_execution_pull_setup.sh
+<% end -%>
+
+<%= snippet "blacklist_kernel_modules" -%>
+
+<% if puppet_enabled -%>
+<%= snippet 'puppet_setup' -%>
+<% end -%>
+
+<% if salt_enabled -%>
+<%= snippet 'saltstack_setup' -%>
+<% end -%>
+
+<%= snippet 'eject_cdrom' -%>
+
+<%= snippet_if_exists(template_name + " custom post") -%>
+
+# Mark the build as finished
+<%= snippet 'built' -%>

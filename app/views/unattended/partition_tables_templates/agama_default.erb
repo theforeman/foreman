@@ -1,0 +1,39 @@
+<%#
+kind: ptable
+name: Agama default
+model: Ptable
+oses:
+- OpenSUSE
+- SLES
+%>
+<%
+  pxe_loader = @host.pxe_loader || ''
+-%>
+
+"drives": [
+    {
+        "search": "*",
+        "partitions": [
+            {
+                "search": "*",
+                "delete": true
+            },
+            {
+                "filesystem": { "path": "/boot", "type": "ext4", "name": "boot" },
+                "size": { "min": "2 GiB", "max": "4 GiB" }
+            },
+<%- if pxe_loader.include?('UEFI') -%>
+            {
+               "filesystem": { "path": "/boot/efi", "type": "vfat", "name": "vfat" },
+               "size": "1 GiB"
+            },
+<%- end -%>
+            {
+                "generate": "default"
+            }
+        ]
+    }
+],
+"boot": {
+    "configure": false
+}

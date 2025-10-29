@@ -1,0 +1,26 @@
+#!gpxe
+<%#
+kind: iPXE
+name: Agama default iPXE
+model: ProvisioningTemplate
+oses:
+- SLES
+- OpenSUSE
+description: |
+  The template to render iPXE installation script for SLES and OpenSUSE
+  The output is deployed on the host's subnet TFTP proxy.
+  See https://ipxe.org/scripting for more details
+-%>
+echo Trying to ping Gateway: ${netX/gateway}
+ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command not available.
+echo Trying to ping DNS: ${netX/dns}
+ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
+
+<% boot_files_uris = @host.operatingsystem.boot_files_uri(medium_provider) -%>
+<% kernel = boot_files_uris[0] -%>
+<% initrd = boot_files_uris[1] -%>
+
+<% subnet = @host.subnet -%>
+kernel <%= kernel %> initrd=initrd.img <%= snippet("agama_kernel_options").strip %>
+initrd <%= initrd %>
+boot

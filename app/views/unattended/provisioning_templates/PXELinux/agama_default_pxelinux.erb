@@ -1,0 +1,15 @@
+<%#
+kind: PXELinux
+name: Agama default PXELinux
+model: ProvisioningTemplate
+oses:
+- OpenSUSE
+- SLES
+description: |
+  The template to render PXELinux bootloader configuration for SLES and OpenSUSE distributions.
+  The output is deployed on the host's subnet TFTP proxy.
+-%>
+DEFAULT linux
+LABEL linux
+    KERNEL <%= @kernel %>
+    APPEND initrd=<%= @initrd %> <%= snippet("agama_kernel_options").strip %>

@@ -1,0 +1,59 @@
+<%#
+name: agama_generic_interface
+model: ProvisioningTemplate
+snippet: true
+model: ProvisioningTemplate
+kind: snippet
+oses:
+- SLES
+- OpenSUSE
+-%>
+        "id": "<%= @id %>",
+<%- if @interface.identifier.present? -%>
+        "interface": "<%= @interface.identifier %>",
+<%- end -%>
+        "method4": "<%= @dhcp ? 'auto' : (@subnet.nil? ? 'disabled' : 'manual') %>",
+        "method6": "<%= @dhcp6 ? 'auto' : (@subnet6.nil? ? 'disabled' : 'manual') %>",
+<%- if @interface.mac.present? && !@interface.virtual? -%>
+        "macAddress": "<%= @interface.mac %>",
+<%- end -%>
+<%-
+ips = []
+static_v4 = !@dhcp && !@subnet.nil? && !@interface.ip.nil?
+ips.push("#{@interface.ip}/#{@subnet.cidr}") if static_v4
+static_v6 = !@dhcp6 && !@subnet6.nil? && !@interface.ip6.nil?
+ips.push("#{@interface.ip6}/#{@subnet6.cidr}") if static_v6
+-%>
+<%- if static_v4 || static_v6 -%>
+        "addresses": [<%= ips.map { |d| %("#{d}") }.join(", ") %>],
+<%-   if static_v4 && @subnet.gateway.present? -%>
+        "gateway4": "<%= @subnet.gateway %>",
+<%-   end -%>
+<%-   if static_v6 && @subnet6.gateway.present? -%>
+        "gateway6": "<%= @subnet6.gateway %>",
+<%-   end -%>
+        "ignoreAutoDns": true,
+<%- else -%>
+        "ignoreAutoDns": false,
+<%- end -%>
+<%- if @interface.primary -%>
+<%-
+  dns_servers = []
+  dns_servers += @subnet.dns_servers if @subnet&.dns_servers
+  dns_servers += @subnet6.dns_servers if @subnet6&.dns_servers
+  dns_servers = dns_servers.compact.uniq
+-%>
+        "nameservers": [<%= dns_servers.map { |d| %("#{d}") }.join(", ") %>],
+<%- end -%>
+<%- if @interface&.domain -%>
+        // Does currently break the agama installation wizard (complains about wrong 'storage' configuration)
+        // "dnsSearchlist": ["<%= @interface.domain %>"],
+<%- end -%>
+<%- if @subnet && @subnet.mtu.present? -%>
+        "mtu": <%= @subnet.mtu %>,
+<%- elsif @subnet6 && @subnet6.mtu.present? -%>
+        "mtu": <%= @subnet6.mtu %>,
+<%- end -%>
+        "status": "up",
+        "autoconnect": true,
+        "persistent": true

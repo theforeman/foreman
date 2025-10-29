@@ -1,0 +1,4 @@
+DEFAULT linux
+LABEL linux
+    KERNEL boot/centos-mirror-nrm0GtSX1ZC5-vmlinuz
+    APPEND initrd=boot/centos-mirror-nrm0GtSX1ZC5-initrd.img ip=dhcp showopts root=live:url --url http://mirror.centos.org/centos/7/os/x86_64/LiveOS/squashfs.img inst.install_url=url --url http://mirror.centos.org/centos/7/os/x86_64/install/ inst.auto=http://foreman.example.com/unattended/provision fips=1

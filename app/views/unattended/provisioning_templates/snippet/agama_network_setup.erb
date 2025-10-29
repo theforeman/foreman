@@ -1,0 +1,111 @@
+<%#
+kind: snippet
+name: agama_network_setup
+model: ProvisioningTemplate
+snippet: true
+description: |
+  This will configure your host networking, it configures your
+  primary interface as well as other NICs like BOND, BRIDGE, VLAN and Alias
+  interfaces.
+oses:
+- OpenSUSE
+- SLES
+-%>
+<%
+bonding_interfaces = []
+bridged_interfaces = []
+vlans_interfaces = []
+-%>
+
+<%#
+##### Processing bond-interfaces #####
+-%>
+<%- id = 0 -%>
+<%- @host.bond_interfaces.each do | bond | -%>
+  <%- bonding_interfaces.push(bond.identifier) -%>
+  {
+<%- result = snippet('agama_generic_interface', :variables => {
+                  :interface => bond,
+                  :id => "bond#{id}",
+                  :subnet => bond.subnet,
+                  :subnet6 => bond.subnet6,
+                  :dhcp => bond.subnet.nil? ? false : bond.subnet.dhcp_boot_mode?,
+                  :dhcp6 => bond.subnet6.nil? ? false : bond.subnet6.dhcp_boot_mode? }) -%>
+<%= result %>,
+        "bond": {
+          "ports": <%= bond.attached_devices_identifiers.to_s %>,
+    <%- if bond&.bond_options.present? -%>
+          "options": "<%= bond.bond_options %>",
+    <% end -%>
+          "mode": "<%= bond.mode %>"
+        }
+  },
+  <%- id += 1 -%>
+<% end -%>
+
+<%# ##### Processing bridge interfaces ##### -%>
+<%- id = 0 -%>
+<%- @host.bridge_interfaces.each do | bridge | -%>
+<%- next if bonding_interfaces.include?(bridge.identifier) -%>
+  <%- bridged_interfaces.push(bridge.identifier) -%>
+  {
+<%- result = snippet('agama_generic_interface', :variables => {
+                  :interface => bridge,
+                  :id => "br#{id}",
+                  :subnet => bridge.subnet,
+                  :subnet6 => bridge.subnet6,
+                  :dhcp => bridge.subnet.nil? ? false : bridge.subnet.dhcp_boot_mode?,
+                  :dhcp6 => bridge.subnet6.nil? ? false : bridge.subnet6.dhcp_boot_mode? }) -%>
+<%= result %>,
+        "bridge": {
+          "ports": <%= bridge.attached_devices_identifiers.to_s %>,
+          <%- # Currently no support for bridge options in the interface. -%>
+        }
+  },
+  <%- id += 1 -%>
+<%- end -%>
+
+<%# ##### Processing vlan interfaces ##### -%>
+<%- id = 0 -%>
+<%- @host.managed_interfaces.each do | vlan | -%>
+<%- next if bonding_interfaces.include?(vlan.identifier) -%>
+<%- next if bridged_interfaces.include?(vlan.identifier) -%>
+<%- next if !vlan.virtual? -%>
+  <%- vlans_interfaces.push(vlan.identifier) -%>
+  {
+<%- result = snippet('agama_generic_interface', :variables => {
+                  :interface => vlan,
+                  :id => "vlan#{id}",
+                  :subnet => vlan.subnet,
+                  :subnet6 => vlan.subnet6,
+                  :dhcp => vlan.subnet.nil? ? false : vlan.subnet.dhcp_boot_mode?,
+                  :dhcp6 => vlan.subnet6.nil? ? false : vlan.subnet6.dhcp_boot_mode? }) -%>
+<%= result %>,
+        "vlan": {
+          "id": <%= vlan.tag %>,
+          "parent": "<%= vlan.attached_to %>"
+        }
+  },
+  <%- id += 1 -%>
+<%- end -%>
+
+<%# ##### Processing remaining interfaces (ethernets) ##### -%>
+<%- id = 0 -%>
+<%- interfaces_count = @host.managed_interfaces.size -%>
+<%- @host.managed_interfaces.each do | interface | -%>
+<%- next if bonding_interfaces.include?(interface.identifier) -%>
+<%- next if bridged_interfaces.include?(interface.identifier) -%>
+<%- next if vlans_interfaces.include?(interface.identifier) -%>
+  <%- interface_subnet = interface.subnet -%>
+  {
+<%- result = snippet('agama_generic_interface', :variables => {
+                  :interface => interface,
+                  :id => "id#{id}",
+                  :subnet => interface.subnet,
+                  :subnet6 => interface.subnet6,
+                  :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?,
+                  :dhcp6 => interface.subnet6.nil? ? false : interface.subnet6.dhcp_boot_mode? }) -%>
+<%= result %>
+  }<%= "," unless (id + 1) == interfaces_count %>
+  <%- id += 1 -%>
+<%- end -%>

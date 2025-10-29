@@ -1,0 +1,132 @@
+<%#
+kind: provision
+name: Agama sles default
+model: ProvisioningTemplate
+oses:
+- OpenSUSE
+- SLES
+-%>
+<%
+  os_major = @host.operatingsystem.major.to_i
+  os_minor = @host.operatingsystem.minor.to_i
+  pm_set = @host.puppet_server.present?
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
+-%>
+{
+    "product": {
+        "id": "SLES"
+    },
+    "hostname": {
+        "static": "<%= @host.name %>"
+    },
+    "root": {
+        "hashedPassword": true,
+        "password": "<%= root_pass %>"
+    },
+    "localization": {
+        "language": "en_US.UTF-8",
+        "keyboard": "us",
+        "timezone": "<%= host_param('time-zone') || 'Europe/London' %>"
+    },
+    "software": {
+        "packages": ["openssh", "wget"]
+    },
+    "network": {
+        "connections": [
+            <%= indent(8, skip1: true) { snippet('agama_network_setup') } %>
+        ]
+    },
+    "storage": {
+        <%= indent(8, skip1: true) { @host.diskLayout } %>
+    },
+    "scripts": {
+        "post": [
+            {
+                "name": "enable-sshd",
+                "chroot": true,
+                "content": |||
+                    #!/usr/bin/bash
+                    systemctl enable sshd.service
+                |||
+            },
+            {
+                "name": "eject-cdrom",
+                "chroot": true,
+                "content": |||
+                    # eject bootdisk if this is requested provisioning method
+                    <%= indent(20, skip1: true) { snippet 'eject_cdrom' } -%>
+
+                |||
+            },
+            {
+                "name": "foreman-finish",
+                "chroot": true,
+                "content": |||
+                    #!/usr/bin/bash
+                    <%- if host_param('http-proxy') -%>
+                    export http_proxy="http://<%= host_param('http-proxy') %>:<%= host_param('http-proxy-port') -%>"
+                    <%- if host_param('noproxy') -%>
+                    export no_proxy="<%= host_param('http-proxy') %> <%= host_param('noproxy') -%>"
+                    <%- end -%>
+                    <%- end -%>
+                    <%= indent(20, skip1: true) { snippet_if_exists(template_name + " custom finish pre") } -%>
+                    <%- if plugin_present?('katello') && host_param('kt_activation_keys') -%>
+                    <%= indent(20, skip1: true) { snippet_if_exists("sles_register") } -%>
+                    <%- end -%>
+
+                    <%= indent(20, skip1: true) { snippet "blacklist_kernel_modules" } -%>
+
+                    # Fix agama vs puppet/salt cleaning the /etc/resolv.conf
+                    # https://github.com/agama-project/agama/issues/2911
+                    cp /etc/resolv.conf /etc/resolv.conf.backup
+
+                    <%- if puppet_enabled -%>
+                    <%= indent(20, skip1: true) { snippet 'puppet_setup' } -%>
+                    # Fix agama vs puppet/salt cleaning the /etc/resolv.conf
+                    # https://github.com/agama-project/agama/issues/2911
+                    cat /etc/resolv.conf.backup >/etc/resolv.conf
+                    <%- end -%>
+
+                    <%- if salt_enabled -%>
+                    <%= indent(20, skip1: true) { snippet 'saltstack_setup' } -%>
+                    # Fix agama vs puppet/salt cleaning the /etc/resolv.conf
+                    # https://github.com/agama-project/agama/issues/2911
+                    cat /etc/resolv.conf.backup >/etc/resolv.conf
+                    <%- end -%>
+
+                    <%= indent(20, skip1: true) { snippet_if_exists(template_name + " custom finish post") } -%>
+
+                    rm -f /etc/resolv.conf.backup
+                    echo "End of foreman-finish script"
+                |||
+            },
+            {
+                "name": "built",
+                "content": |||
+                    # Let foreman know that the build is complete
+                    <%= indent(20, skip1: true) { snippet 'built' } -%>
+
+                |||
+            }
+        ],
+        "init": [
+            {
+                "name": "foreman-init",
+                "content": |||
+                    #!/usr/bin/bash
+                    <%= indent(20, skip1: true) { snippet_if_exists(template_name + " custom init pre") } -%>
+                    <%= indent(20, skip1: true) { snippet('remote_execution_ssh_keys') } -%>
+                    <%- if plugin_present?('katello') && host_param_true?('enable-remote-execution-pull') -%>
+                    <%= indent(20, skip1: true) { save_to_file('/root/remote_execution_pull_setup.sh', snippet('remote_execution_pull_setup'), verbatim: true) } %>
+                    chmod +x /root/remote_execution_pull_setup.sh
+                    /root/remote_execution_pull_setup.sh
+                    <%- end -%>
+                    <%= indent(20, skip1: true) { snippet_if_exists(template_name + " custom init post") } -%>
+
+                    echo "End of foreman-init script"
+                |||
+            }
+        ]
+   }
+}

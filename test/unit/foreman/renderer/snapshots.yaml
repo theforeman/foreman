@@ -1,6 +1,11 @@
 # Edit this file and then run: rake snapshots:generate RAILS_ENV=test
 
 files:
+  - PXEGrub2/agama_default_pxegrub2.erb
+  - PXELinux/agama_default_pxelinux.erb
+  - finish/agama_default_finish.erb
+  - provision/agama_sles_default.erb
+  - user_data/agama_default_user_data.erb
   - provision/alterator_default.erb
   - cloud_init/cloud_init_default.erb
   - PXELinux/pxelinux_global_default.erb
@@ -67,6 +72,7 @@ files:
   - PXELinux/preseed_default_pxelinux_autoinstall.erb
   - PXEGrub2/preseed_default_pxegrub2_autoinstall.erb
   - user_data/preseed_autoinstall_cloud_init.erb
+  - iPXE/agama_default_ipxe.erb
   - iPXE/autoyast_default_ipxe.erb
   - iPXE/ipxe_default_local_boot.erb
   - iPXE/ipxe_global_default.erb

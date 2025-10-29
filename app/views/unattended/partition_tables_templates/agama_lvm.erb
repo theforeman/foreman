@@ -1,0 +1,61 @@
+<%#
+kind: ptable
+name: Agama LVM
+model: Ptable
+oses:
+- OpenSUSE
+- SLES
+%>
+<%
+  pxe_loader = @host.pxe_loader || ''
+-%>
+
+"boot": { "configure": false },
+"drives": [
+    {
+        "alias": "disk",
+        "search": "*",
+        "partitions": [
+            {
+                "search": "*",
+                "delete": true
+            },
+<%- if pxe_loader.include?('UEFI') -%>
+            {
+               "filesystem": { "path": "/boot/efi", "type": "vfat" },
+               "size": "1 GiB"
+            },
+<%- else -%>
+            {
+               "filesystem": { "path": "/boot/", "type": "ext4" },
+               "size": "2 GiB"
+            },
+<%- end -%>
+            {
+                "alias": "pv",
+                "id": "lvm",
+                "size": { "min": "20 GiB" }
+            }
+        ]
+    }
+],
+"volumeGroups": [
+    {
+        "name": "system",
+        "physicalVolumes": [ "pv" ],
+        "logicalVolumes": [
+            {
+                "filesystem": { "path": "/", "type": "ext4", "name": "root" },
+                "size": { "min": "10 GiB" }
+            },
+            {
+                "filesystem": { "path": "/var", "type": "ext4", "name": "var" },
+                "size": { "min": "2 GiB", "max": "10 GiB" }
+            },
+            {
+                "filesystem": { "path": "swap", "type": "swap", "name": "swap" },
+                "size": { "min": "1 GiB", "max": "8 GiB" }
+            }
+        ]
+    }
+]

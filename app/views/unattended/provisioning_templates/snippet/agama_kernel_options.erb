@@ -1,0 +1,49 @@
+<%#
+kind: snippet
+name: agama_kernel_options
+model: ProvisioningTemplate
+snippet: true
+description: |
+  The list of kernel options for initrd appended to the bootloader kernel line on SUSE compatible distributions.
+    Typically renders to a string with the url where to fetch the OS installer answer files, e.g.
+    ip=dhcp showopts root=live:url --url https://media.local/suse/LiveOS/squashfs.img inst.install_url=url --url https://media.local/suse/install/ 
+    inst.auto=http://foreman/unattended/provision?token=1234
+  Custom options can be added by setting the array parameter agama_kernel_custom_options
+-%>
+<%
+options = []
+
+iface = @host.provision_interface
+subnet4 = iface.subnet
+subnet6 = iface.subnet6
+
+if host_param('http-proxy') && host_param('http-proxy-port')
+  options << "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port')
+elsif host_param('http-proxy')
+  options << "proxy=http://" + host_param('http-proxy')
+end
+
+if subnet4.respond_to?(:dhcp_boot_mode?) and subnet4.dhcp_boot_mode?
+  options << "ip=dhcp"
+elsif subnet4 && !subnet4.dhcp_boot_mode?
+  options << "ip=#{iface.ip}::#{subnet4.gateway}:#{subnet4.cidr} nameserver=#{subnet4.dns_primary}"
+elsif subnet6 && subnet6.dhcp_boot_mode?
+  options << "ip=auto6"
+elsif subnet6 && !subnet6.dhcp_boot_mode?
+  options << "ip=#{iface.ip6}::#{subnet6.gateway}:#{subnet6.cidr} nameserver=#{subnet6.dns_primary}"
+end
+
+custom_options = [host_param('agama_kernel_custom_options')].flatten.compact
+
+options << "showopts"
+options << "root=live:#{@mediapath}/LiveOS/squashfs.img"
+options << "inst.install_url=#{@mediapath}/install/"
+options << "inst.auto=#{foreman_url('provision')}"
+
+# FIPS
+options.push('fips=1') if host_param_true?('fips_enabled')
+
+options.concat(custom_options)
+-%>
+<%# do not add newline after the next line %>
+<%= options.join(' ') -%>
