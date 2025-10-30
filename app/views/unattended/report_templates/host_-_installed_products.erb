@@ -11,30 +11,65 @@ template_inputs:
   advanced: false
   value_type: search
   resource_type: Host
+- name: Include Hardware Model
+  required: false
+  input_type: user
+  description: Include hardware model information in the report
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "no"
 require:
 - plugin: katello
   version: 4.11.0
 -%>
-<%- report_headers 'Host Name', 'Organization', 'Content View Environments', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Usage', 'Release Version', 'Products', 'Last Checkin' -%>
+<%- if input('Include Hardware Model') == 'yes' -%>
+    <%- report_headers 'Host Name', 'Organization', 'Content View Environments', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Model', 'Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Usage', 'Release Version', 'Products', 'Last Checkin' -%>
+<%- else -%>
+    <%- report_headers 'Host Name', 'Organization', 'Content View Environments', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Usage', 'Release Version', 'Products', 'Last Checkin' -%>
+<%- end -%>
 <%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :architecture, :content_view_environments, :organization, :reported_data, :subscription_facet]).each_record do |host| -%>
-<%-   report_row(
-        'Host Name': host.name,
-        'Organization': host.organization,
-        'Content View Environments': host.content_view_environment_labels,
-        'Host Collections': host_collections_names(host),
-        'Virtual': host.virtual,
-        'Guest of Host': host.hypervisor_host,
-        'OS': host.operatingsystem,
-        'Arch': host.architecture,
-        'Sockets': host.sockets,
-        'RAM (MB)': host.ram,
-        'Cores': host.cores,
-        'SLA': host_sla(host),
-        'Role': host.purpose_role,
-        'Usage': host.purpose_usage,
-        'Release Version': host.release_version,
-        'Products': host_products_names_and_ids(host),
-        'Last Checkin': last_checkin(host).to_s,
-      ) -%>
+<%-   if input('Include Hardware Model') == 'yes' -%>
+<%-     report_row(
+          'Host Name': host.name,
+          'Organization': host.organization,
+          'Content View Environments': host.content_view_environment_labels,
+          'Host Collections': host_collections_names(host),
+          'Virtual': host.virtual,
+          'Guest of Host': host.hypervisor_host,
+          'OS': host.operatingsystem,
+          'Arch': host.architecture,
+          'Model': host.model,
+          'Sockets': host.sockets,
+          'RAM (MB)': host.ram,
+          'Cores': host.cores,
+          'SLA': host_sla(host),
+          'Role': host.purpose_role,
+          'Usage': host.purpose_usage,
+          'Release Version': host.release_version,
+          'Products': host_products_names_and_ids(host),
+          'Last Checkin': last_checkin(host).to_s,
+        ) -%>
+<%-   else -%>
+<%-     report_row(
+          'Host Name': host.name,
+          'Organization': host.organization,
+          'Content View Environments': host.content_view_environment_labels,
+          'Host Collections': host_collections_names(host),
+          'Virtual': host.virtual,
+          'Guest of Host': host.hypervisor_host,
+          'OS': host.operatingsystem,
+          'Arch': host.architecture,
+          'Sockets': host.sockets,
+          'RAM (MB)': host.ram,
+          'Cores': host.cores,
+          'SLA': host_sla(host),
+          'Role': host.purpose_role,
+          'Usage': host.purpose_usage,
+          'Release Version': host.release_version,
+          'Products': host_products_names_and_ids(host),
+          'Last Checkin': last_checkin(host).to_s,
+        ) -%>
+<%-   end -%>
 <%- end -%>
 <%= report_render -%>
