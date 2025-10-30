@@ -229,7 +229,7 @@ export const Table = ({
               }))}
         </Tbody>
       </PFTable>
-      {results.length > 0 && !errorMessage && !emptyMessage && bottomPagination}
+      {results.length > 0 && !errorMessage && bottomPagination}
     </>
   );
 };

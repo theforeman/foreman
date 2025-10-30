@@ -77,6 +77,9 @@ A page component that displays a table with data fetched from the API. It provid
 @param {function} {restrictedSearchQuery} - If included, normalize the search query to add this to all search queries to restrict search results without altering the search input value. Useful for limiting results to an initial selection.
 @param {boolean} {updateParamsByUrl} - If true, update pagination props from URL params. Default is true.
 @param {string} {bookmarksPosition} - The position of the bookmarks dropdown. Default is 'left', which means the menu will take up space to its right.
+@param {React.ReactNode} {customEmptyState} - Optional custom empty state component to display when there are no results
+@param {string} {emptyMessage} - Optional message to display in the default empty state when there are no results
+@param {Object} {emptyAction} - Optional action button for the empty state. Object with 'title' and 'onClick' properties
 */
 
 const TableIndexPage = ({
@@ -113,6 +116,9 @@ const TableIndexPage = ({
   restrictedSearchQuery,
   updateParamsByUrl,
   bookmarksPosition,
+  customEmptyState,
+  emptyMessage,
+  emptyAction,
   ouiaId,
 }) => {
   const history = useHistory();
@@ -335,6 +341,9 @@ const TableIndexPage = ({
             showCheckboxes={showCheckboxes}
             rowSelectTd={rowSelectTd}
             idColumn={idColumn}
+            customEmptyState={customEmptyState}
+            emptyMessage={emptyMessage}
+            emptyAction={emptyAction}
           />
         )}
       </PageSection>
@@ -399,6 +408,12 @@ TableIndexPage.propTypes = {
   restrictedSearchQuery: PropTypes.func,
   updateParamsByUrl: PropTypes.bool,
   bookmarksPosition: PropTypes.string,
+  customEmptyState: PropTypes.node,
+  emptyMessage: PropTypes.string,
+  emptyAction: PropTypes.shape({
+    title: PropTypes.string,
+    onClick: PropTypes.func,
+  }),
   ouiaId: PropTypes.string,
 };
 
@@ -435,6 +450,9 @@ TableIndexPage.defaultProps = {
   restrictedSearchQuery: noop,
   updateParamsByUrl: true,
   bookmarksPosition: 'left',
+  customEmptyState: null,
+  emptyMessage: null,
+  emptyAction: null,
   ouiaId: 'table',
 };
 
