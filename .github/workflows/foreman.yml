@@ -145,6 +145,7 @@ jobs:
     with:
       plugin: katello
       plugin_repository: Katello/katello
+      plugin_version: KATELLO-4.18
       foreman_version: ${{ github.ref }}
       test_existing_database: false
 
