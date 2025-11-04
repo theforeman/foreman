@@ -166,6 +166,69 @@ class PuppetFactParser < FactParser
     {:vendor => facts.dig('dmi', 'bios', 'vendor') || facts['bios_vendor'], :version => facts.dig('dmi', 'bios', 'version') || facts['bios_version'], :release_date => facts.dig('dmi', 'bios', 'release_date') || facts['bios_release_date']}
   end
 
+  # AWS cloud billing fields
+  def aws_account_id
+    facts['aws_account_id']
+  end
+
+  def aws_billing_products
+    facts['aws_billing_products']
+  end
+
+  def aws_instance_id
+    facts['aws_instance_id']
+  end
+
+  def aws_instance_type
+    facts['aws_instance_type']
+  end
+
+  def aws_marketplace_product_codes
+    facts['aws_marketplace_product_codes']
+  end
+
+  def aws_region
+    facts['aws_region']
+  end
+
+  # Azure cloud billing fields
+  def azure_instance_id
+    facts['azure_instance_id']
+  end
+
+  def azure_offer
+    facts['azure_offer']
+  end
+
+  def azure_sku
+    facts['azure_sku']
+  end
+
+  def azure_subscription_id
+    facts['azure_subscription_id']
+  end
+
+  # GCP cloud billing fields
+  def gcp_instance_id
+    facts['gcp_instance_id']
+  end
+
+  def gcp_license_codes
+    facts['gcp_license_codes']
+  end
+
+  def gcp_project_id
+    facts['gcp_project_id']
+  end
+
+  def gcp_project_number
+    facts['gcp_project_number']
+  end
+
+  def gcp_zone
+    facts['gcp_zone']
+  end
+
   private
 
   # remove when dropping support for facter < 3.0

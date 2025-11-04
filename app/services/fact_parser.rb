@@ -134,6 +134,54 @@ class FactParser
     {}
   end
 
+  # AWS cloud billing fields
+  def aws_account_id
+  end
+
+  def aws_billing_products
+  end
+
+  def aws_instance_id
+  end
+
+  def aws_instance_type
+  end
+
+  def aws_marketplace_product_codes
+  end
+
+  def aws_region
+  end
+
+  # Azure cloud billing fields
+  def azure_instance_id
+  end
+
+  def azure_offer
+  end
+
+  def azure_sku
+  end
+
+  def azure_subscription_id
+  end
+
+  # GCP cloud billing fields
+  def gcp_instance_id
+  end
+
+  def gcp_license_codes
+  end
+
+  def gcp_project_id
+  end
+
+  def gcp_project_number
+  end
+
+  def gcp_zone
+  end
+
   private
 
   def find_interface_by_name(host_name)

@@ -7,12 +7,14 @@ import NetworkingInterfaces from '../Details/Cards/NetworkingInterfaces';
 import TemplatesCard from '../Details/Cards/TemplatesCard';
 import ProvisioningCard from '../Details/Cards/Provisioning';
 import VirtualizationCard from '../Details/Cards/Virtualization';
+import CloudBillingCard from '../Details/Cards/CloudBilling';
 
 const cards = [
   { key: '[core] System properties', Component: Properties, weight: 4000 },
   { key: '[core] Operating systems', Component: OperatingSystem, weight: 3000 },
   { key: '[core] Provisioning', Component: ProvisioningCard, weight: 2900 },
   { key: '[core] BIOS', Component: Bios, weight: 2000 },
+  { key: '[core] Cloud Billing', Component: CloudBillingCard, weight: 1500 },
   { key: '[core] Virtualization', Component: VirtualizationCard, weight: 1000 },
   {
     key: '[core] Templates',
