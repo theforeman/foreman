@@ -166,6 +166,83 @@ class PuppetFactParser < FactParser
     {:vendor => facts.dig('dmi', 'bios', 'vendor') || facts['bios_vendor'], :version => facts.dig('dmi', 'bios', 'version') || facts['bios_version'], :release_date => facts.dig('dmi', 'bios', 'release_date') || facts['bios_release_date']}
   end
 
+  # Cloud provider identifier
+  def cloud_provider
+    facts.dig('cloud', 'provider') || facts['cloud_provider']
+  end
+
+  # AWS cloud billing fields
+  def aws_account_id
+    facts.dig('ec2_metadata', 'account-id') || facts.dig('ec2', 'metadata', 'account-id') || facts['aws_account_id']
+  end
+
+  def aws_billing_products
+    facts.dig('ec2_metadata', 'billing-products') || facts.dig('ec2', 'metadata', 'billing-products') || facts['aws_billing_products']
+  end
+
+  def aws_instance_id
+    facts.dig('ec2_metadata', 'instance-id') || facts.dig('ec2', 'metadata', 'instance-id') || facts['aws_instance_id']
+  end
+
+  def aws_instance_type
+    facts.dig('ec2_metadata', 'instance-type') || facts.dig('ec2', 'metadata', 'instance-type') || facts['aws_instance_type']
+  end
+
+  def aws_marketplace_product_codes
+    # marketplace-product-codes is an array in Facter, convert to comma-separated string
+    codes = facts.dig('ec2_metadata', 'marketplace-product-codes') || facts.dig('ec2', 'metadata', 'marketplace-product-codes')
+    codes = codes.join(',') if codes.is_a?(Array)
+    codes || facts['aws_marketplace_product_codes']
+  end
+
+  def aws_region
+    facts.dig('ec2_metadata', 'placement', 'region') || facts.dig('ec2', 'metadata', 'placement', 'region') || facts['aws_region']
+  end
+
+  # Azure cloud billing fields
+  def azure_instance_id
+    facts.dig('az_metadata', 'compute', 'vmId') || facts.dig('azure', 'metadata', 'compute', 'vmId') || facts['azure_instance_id']
+  end
+
+  def azure_offer
+    facts.dig('az_metadata', 'compute', 'offer') || facts.dig('azure', 'metadata', 'compute', 'offer') || facts['azure_offer']
+  end
+
+  def azure_sku
+    facts.dig('az_metadata', 'compute', 'sku') || facts.dig('azure', 'metadata', 'compute', 'sku') || facts['azure_sku']
+  end
+
+  def azure_subscription_id
+    facts.dig('az_metadata', 'compute', 'subscriptionId') || facts.dig('azure', 'metadata', 'compute', 'subscriptionId') || facts['azure_subscription_id']
+  end
+
+  # GCP cloud billing fields
+  def gcp_instance_id
+    facts.dig('gce', 'instance', 'id') || facts['gcp_instance_id']
+  end
+
+  def gcp_license_codes
+    # licenses is an array of objects with 'id' field in Facter, convert to comma-separated string
+    licenses = facts.dig('gce', 'instance', 'licenses')
+    if licenses.is_a?(Array)
+      licenses.map { |l| l.is_a?(Hash) ? l['id'] : l }.compact.join(',')
+    else
+      licenses || facts['gcp_license_codes']
+    end
+  end
+
+  def gcp_project_id
+    facts.dig('gce', 'project', 'projectId') || facts['gcp_project_id']
+  end
+
+  def gcp_project_number
+    facts.dig('gce', 'project', 'numericProjectId') || facts['gcp_project_number']
+  end
+
+  def gcp_zone
+    facts.dig('gce', 'zone') || facts['gcp_zone']
+  end
+
   private
 
   # remove when dropping support for facter < 3.0

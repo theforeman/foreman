@@ -88,6 +88,14 @@ module Hostext
       scoped_search :relation => :reported_data, :on => :bios_vendor, :rename => 'reported.bios_vendor'
       scoped_search :relation => :reported_data, :on => :bios_release_date, :rename => 'reported.bios_release_date'
       scoped_search :relation => :reported_data, :on => :bios_version, :rename => 'reported.bios_version'
+      scoped_search :relation => :reported_data, :on => :cloud_provider, :rename => 'reported.cloud_provider', :complete_value => true
+      scoped_search :relation => :reported_data, :on => :aws_account_id, :rename => 'reported.aws_account_id', :only_explicit => true
+      scoped_search :relation => :reported_data, :on => :aws_region, :rename => 'reported.aws_region', :only_explicit => true
+      scoped_search :relation => :reported_data, :on => :aws_instance_id, :rename => 'reported.aws_instance_id', :only_explicit => true
+      scoped_search :relation => :reported_data, :on => :azure_subscription_id, :rename => 'reported.azure_subscription_id', :only_explicit => true
+      scoped_search :relation => :reported_data, :on => :azure_instance_id, :rename => 'reported.azure_instance_id', :only_explicit => true
+      scoped_search :relation => :reported_data, :on => :gcp_project_id, :rename => 'reported.gcp_project_id', :only_explicit => true
+      scoped_search :relation => :reported_data, :on => :gcp_instance_id, :rename => 'reported.gcp_instance_id', :only_explicit => true
 
       scoped_search :relation => :location, :on => :title, :rename => :location, :complete_value => true, :only_explicit => true
       scoped_search :on => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
