@@ -44,7 +44,20 @@ fi
 cat <<EOF > /tmp/diskpart.cfg
 zerombr
 clearpart --all --initlabel
-part /boot --fstype ext4 --size 200 --asprimary
+EOF
+
+if [ -d /sys/firmware/efi ]; then
+    cat <<EOF >> /tmp/diskpart.cfg
+part /boot/efi --fstype efi --size=600 --asprimary
+part /boot --fstype ext4 --size=1024
+EOF
+else
+    cat <<EOF >> /tmp/diskpart.cfg
+part /boot --fstype ext4 --size=1024 --asprimary
+EOF
+fi
+
+cat <<EOF >> /tmp/diskpart.cfg
 part swap --size "$SWAP_MEMORY"
 part / --fstype ext4 --size 1024 --grow
 EOF
