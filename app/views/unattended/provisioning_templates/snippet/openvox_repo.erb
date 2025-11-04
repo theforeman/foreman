@@ -1,0 +1,58 @@
+<%#
+kind: snippet
+name: openvox_repo
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Fetches the package that deploys the OpenVox repository that can be
+  used to install openvox from. It only performs the installation in case
+  one of the enable-openvox*repo parameter is set to true.
+-%>
+<%
+http_proxy   = host_param('http-proxy') ? " --httpproxy #{host_param('http-proxy')}" : nil
+http_port    = host_param('http-proxy-port') ? " --httpport #{host_param('http-proxy-port')}" : nil
+proxy_uri    = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
+proxy_string = proxy_uri ? " -e https_proxy=#{proxy_uri}/" : ''
+proxy_string_bits = proxy_uri ? " -ProxyUsage Override -ProxyList #{proxy_uri}" : ''
+os_family = @host.operatingsystem.family
+os_major  = @host.operatingsystem.major.to_i
+os_name   = @host.operatingsystem.name
+
+if os_family == 'Redhat'
+  repo_host = 'yum.voxpupuli.org'
+  if os_name == 'Fedora'
+    repo_os = 'fedora'
+  else
+    repo_os = 'el'
+  end
+elsif os_family == 'Suse'
+  repo_host = 'yum.voxpupuli.org'
+  repo_os = 'sles' # Only exist for SLES, not OpenSUSE
+elsif os_family == 'Debian'
+  repo_host = 'apt.voxpupuli.org'
+  repo_os = "#{os_name.downcase}#{os_major}"
+elsif os_family == 'Windows'
+  repo_host = 'downloads.voxpupuli.org'
+  repo_os = 'windows'
+end
+
+if host_param_true?('enable-openvox8-repo')
+  repo_name = 'openvox8-release'
+  repo_name = 'openvox8' if os_family == 'Windows'
+end
+-%>
+<% if repo_name -%>
+<% if os_family == 'Redhat' || os_name == 'SLES' -%>
+rpm -Uvh<%= http_proxy %><%= http_port %> https://<%= repo_host %>/<%= repo_name %>-<%= repo_os %>-<%= os_major %>.noarch.rpm
+<% elsif os_family == 'Debian' -%>
+apt-get update
+apt-get -y install ca-certificates
+wget -O /tmp/<%= repo_name %>-<%= repo_os %>.deb<%= proxy_string %> https://<%= repo_host %>/<%= repo_name %>-<%= repo_os %>.deb
+dpkg -i /tmp/<%= repo_name %>-<%= repo_os %>.deb
+<% elsif os_family == 'Windows' -%>
+$openvox_agent_source = 'https://<%= repo_host %>/<%= repo_os %>/<%= repo_name %>/openvox-agent-latest-<%= @host.architecture %>.msi'
+$openvox_agent_msi = "${env:TEMP}\openvox-agent-<%= @host.architecture %>.msi"
+Write-Host "Downloading openvox-agent from ${$openvox_agent_source} to ${openvox_agent_msi}"
+Start-BitsTransfer -Source "${openvox_agent_source}" -Destination "${openvox_agent_msi}"<%= proxy_string_bits %>
+<% end -%>
+<% end -%>

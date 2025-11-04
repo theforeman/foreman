@@ -18,7 +18,7 @@ os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
 aio_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6') || host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppet5')
-aio_openvox_enabled = host_param_true?('enable-openvox7') || host_param_true?('enable-openvox8')
+aio_openvox_enabled = host_param_true?('enable-openvox8')
 
 if host_param('run-puppet-in-installer-tags')
   puppet_tags = host_param('run-puppet-in-installer-tags')
@@ -32,6 +32,7 @@ if os_family == 'Freebsd'
   bin_path = '/usr/local/bin'
 elsif os_family == 'Windows'
   windows_package = "puppet-agent-#{@host.architecture}.msi"
+  windows_package = "openvox-agent-#{@host.architecture}.msi" if aio_openvox_enabled
   etc_path = 'C:\ProgramData\PuppetLabs\puppet\etc'
   bin_path = 'C:\Program Files\Puppet Labs\Puppet\bin'
 elsif aio_enabled
@@ -65,9 +66,7 @@ rpmkeys --import https://yum.puppet.com/RPM-GPG-KEY-puppet
 <% elsif aio_openvox_enabled -%>
 rpmkeys --import https://yum.voxpupuli.org/GPG-KEY-openvox.pub
 <% end -%>
-<% if @host.provision_method == 'image' -%>
 /usr/bin/zypper -n --gpg-auto-import-keys install <%= linux_package %>
-<% end -%>
 <% elsif os_family == 'Windows' -%>
 $puppet_agent_msi = "${env:TEMP}\<%= windows_package %>"
 $puppet_install_args = @(

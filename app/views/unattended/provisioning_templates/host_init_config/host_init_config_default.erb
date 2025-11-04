@@ -49,6 +49,7 @@ apt-get -y update
 
 <% if !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet')) -%>
 <%= snippet 'puppetlabs_repo' %>
+<%= snippet 'openvox_repo' %>
 <%= snippet 'puppet_setup' %>
 <% end -%>
 
