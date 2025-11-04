@@ -1,3 +1,5 @@
+@import '../../common/colors';
+
 #audit-list {
   .additional-info-item {
     font-weight: 600;
@@ -16,7 +18,7 @@
   }
 
   .audits-list-item-row:hover {
-    background-color: #edf8ff;
+    background-color: $list-color;
     cursor: pointer;
   }
 
@@ -37,7 +39,7 @@
   .data-list-content {
     .grid-container {
       .details-row {
-        border: 1px solid #d1d1d1;
+        border: 1px solid $details-row;
         margin-top: 15px;
       }
 
@@ -82,37 +84,37 @@
 
       .table-hover > tbody > tr:hover,
       .table-hover > tbody > tr:hover > td {
-        border: 1px solid #d1d1d1;
+        border: 1px solid $pf-border-gray;
       }
 
       .table-hover > tbody > tr:hover,
       .table-hover > tbody > tr:hover > td:first-child {
-        background-color: #fff;
+        background-color: $pf-color-white;
       }
 
       .show-old {
-        background-color: #ffeef0;
+        background-color: $old-value-table-view;
       }
 
       .show-new {
-        background-color: #e6ffed;
+        background-color: $new-value-table-view;
       }
 
       .table-inline-changes.table-hover.show-new > tbody > tr:hover > td,
       .table-inline-changes.table-hover.show-new > tbody > tr:hover > th {
-        background-color: #e6ffed;
+        background-color: $new-value-table-view;
       }
 
       .table-inline-changes.table-hover.show-old > tbody > tr:hover > td,
       .table-inline-changes.table-hover.show-old > tbody > tr:hover > th {
-        background-color: #ffeef0;
+        background-color: $old-value-table-view;
       }
 
       .editor-section {
         margin-top: 15px;
 
         .editor.ace_editor {
-          border: 1px solid #d1d1d1;
+          border: 1px solid $pf-border-gray;
         }
       }
     }
