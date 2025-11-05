@@ -1,3 +1,33 @@
+2025-11-05	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.16.1
+
+2025-11-04	Evgeni Golov <evgeni@golov.de>
+	* Fixes #38885 - Properly validate ct_location and fcct_location
+	* test against the right stable Katello release
+
+2025-11-04	Jeremy Lenz <jlenz@redhat.com>
+	* Fixes #38667 - Move ping widget to Foreman
+
+2025-11-04	MariaAga <mariaaga@redhat.com>
+	* Fixes #38715 - generate report datepicker overlapping
+
+2025-10-31	Leos Stejskal <lstejska@redhat.com>
+	* scoped_search < 4.3.0
+	* Fixes #38795 - Settings - Update value from response
+
+2025-10-08	alazik <alazik@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2025-09-18	Stejskal Leos <github@stejskalleos.cz>
+	* refs #38422 - template_kinds if compute_attributes_empty?
+
+2025-09-12	Kostas Familonidis <kostas.familonidis@gmail.com>
+	* Fixes #38735 - Translate setting descriptions in UI
+
+2025-09-11	Leos Stejskal <lstejska@redhat.com>
+	* refs #38655 - Don't translate log message in authorizer.rb
+	* Fixes #38655 - Handle invalid scope filter in UI
+
 2025-09-09	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.16.0
 	* i18n - extracting new, pulling from tx
