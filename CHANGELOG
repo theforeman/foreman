@@ -1,3 +1,16 @@
+2025-11-05	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.15.1
+
+2025-11-05	Evgeni Golov <evgeni@golov.de>
+	* update packit config to use 3.15, not develop
+	* Fixes #38885 - Properly validate ct_location and fcct_location
+
+2025-11-05	Leos Stejskal <lstejska@redhat.com>
+	* scoped_search < 4.3.0
+
+2025-11-04	Eric D. Helms <ericdhelms@gmail.com>
+	* Pin Katello version to 4.17 in tests
+
 2025-06-09	Lukas Hellebrandt <lhellebr@redhat.com>
 	* Release 3.15.0
 	* i18n - extracting new, pulling from tx
