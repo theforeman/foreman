@@ -11,10 +11,10 @@ import {
   MenuList,
   MenuSearch,
   MenuItem,
-  Tooltip,
   Spinner,
   MenuSearchInput,
   Icon,
+  Truncate,
 } from '@patternfly/react-core';
 import { ExchangeAltIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../common/I18n';
@@ -88,9 +88,9 @@ const BreadcrumbSwitcher = ({
         onClick={e => onResourceClick(e, href)}
         isSelected={isActive(href, id, name)}
       >
-        <Tooltip content={__(name)}>
-          <span>{__(name)}</span>
-        </Tooltip>
+        <Truncate content={__(name)}
+          position={__('middle')} 
+        />
       </MenuItem>
     ));
   }
