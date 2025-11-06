@@ -85,7 +85,7 @@ class HostJSTest < IntegrationTestWithJavascript
       host = FactoryBot.create(:host)
       visit host_details_page_path(host)
       find('.pf4-breadcrumb-switcher button').click
-      find('a', :text => @host.name).click
+      find("[data-item-name='#{@host.name}']").click
       find('h5', :text => @host.fqdn)
     end
 
