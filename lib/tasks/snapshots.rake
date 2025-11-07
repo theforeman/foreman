@@ -34,7 +34,9 @@ namespace :snapshots do
       Foreman.settings.load
       Setting[:unattended_url] = "http://foreman.example.com"
       Setting[:foreman_url] = "http://foreman.example.com"
-      Setting[:ct_location] = "/usr/bin/cat"
+      # The ct_location setting is protected by a validation and cat is not an allowed value.
+      # Use SETTINGS directly to mimic a direct change to settings.yaml
+      SETTINGS[:ct_location] = "/usr/bin/cat"
       Setting[:ct_arguments] = []
 
       User.current = FactoryBot.build(:user, :admin)
