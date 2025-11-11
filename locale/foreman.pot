@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-11 14:59+0100\n"
-"PO-Revision-Date: 2025-11-11 14:59+0100\n"
+"POT-Creation-Date: 2025-11-11 20:56+0100\n"
+"PO-Revision-Date: 2025-11-11 20:56+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4466,7 +4466,7 @@ msgstr ""
 
 #: ../app/helpers/application_helper.rb:147
 #: ../app/helpers/provisioning_templates_helper.rb:13
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:195
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:201
 #: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:22
 msgid "Export"
 msgstr ""
@@ -4490,7 +4490,7 @@ msgstr ""
 #: ../app/helpers/application_helper.rb:296
 #: ../app/views/about/index.html.erb:121
 #: ../webpack/assets/javascripts/react_app/components/PF4/DocumentationLink/index.js:28
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:199
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:205
 msgid "Documentation"
 msgstr ""
 
@@ -16524,7 +16524,7 @@ msgid "Select all"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:189
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:195
 msgid "Create new"
 msgstr ""
 
