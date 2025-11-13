@@ -58,7 +58,10 @@ module Orchestration::SshProvision
     self.client = Foreman::Provision::Ssh.new provision_host, username, { :template => template_file.path, :uuid => uuid }.merge(credentials)
     client.ping
   rescue => e
-    failure _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }, e
+    error_message = _("Failed to login via SSH to %{name}: %{e}") % { :name => name, :e => e }
+    self.build_errors = [build_errors, error_message].compact.join("\n")
+    refresh_build_status
+    failure error_message, e
   end
 
   def delSSHWaitForResponse

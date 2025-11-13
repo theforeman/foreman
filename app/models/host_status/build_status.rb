@@ -41,18 +41,13 @@ module HostStatus
     end
 
     def to_status(options = {})
-      if waiting_for_build?
-        if token_expired?
-          TOKEN_EXPIRED
-        else
-          PENDING
-        end
+      return BUILD_FAILED if build_errors?
+      return BUILT unless waiting_for_build?
+
+      if token_expired?
+        TOKEN_EXPIRED
       else
-        if build_errors?
-          BUILD_FAILED
-        else
-          BUILT
-        end
+        PENDING
       end
     end
 
