@@ -37,10 +37,14 @@ module Hostext
       images = cr.try(:images)
 
       return [TemplateKind.friendly.find('finish')] if images.blank?
-      return [] if compute_attributes_empty?
 
-      uuid       = compute_attributes[cr.image_param_name]
-      image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
+      if compute_attributes_empty?
+        return [] unless image
+        image_kind = image.try(:user_data) ? 'user_data' : 'finish'
+      else
+        uuid       = compute_attributes[cr.image_param_name]
+        image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
+      end
 
       [TemplateKind.friendly.find(image_kind)]
     end

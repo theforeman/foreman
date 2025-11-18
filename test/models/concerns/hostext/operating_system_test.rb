@@ -47,6 +47,37 @@ module Hostext
         assert_equal [os_dt.provisioning_template], host.available_template_kinds('image')
       end
 
+      test "template_kinds returns user data kind for host without compute attributes" do
+        Foreman::Model::EC2.any_instance.stubs(:image_exists?).returns(true)
+        os_dt = FactoryBot.create(:os_default_template,
+          :template_kind => TemplateKind.friendly.find('finish'))
+        host  = FactoryBot.create(:host, :on_compute_resource,
+          :operatingsystem => os_dt.operatingsystem)
+        host.image = FactoryBot.create(
+          :image,
+          :uuid => 'abcde',
+          :compute_resource => host.compute_resource,
+          :user_data => true)
+        actual = host.template_kinds('image')
+        assert_equal [TemplateKind.friendly.find('user_data')], actual
+      end
+
+      test "template_kinds returns user data kind for host with compute attributes" do
+        Foreman::Model::EC2.any_instance.stubs(:image_exists?).returns(true)
+        os_dt = FactoryBot.create(:os_default_template,
+          :template_kind => TemplateKind.friendly.find('finish'))
+        host  = FactoryBot.create(:host, :on_compute_resource,
+          :operatingsystem => os_dt.operatingsystem)
+        host.image = FactoryBot.create(
+          :image,
+          :uuid => 'abcde',
+          :compute_resource => host.compute_resource,
+          :user_data => true)
+        host.compute_attributes = {:image_id => 'abcde'}
+        actual = host.template_kinds('image')
+        assert_equal [TemplateKind.friendly.find('user_data')], actual
+      end
+
       test "#render_template" do
         provision_template = @host.provisioning_template({:kind => "provision"})
         rendered_template = @host.render_template(template: provision_template)
