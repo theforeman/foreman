@@ -48,6 +48,7 @@ jobs:
       - name: Run tests
         run: npm run test
       - name: Publish Coveralls
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-error: false
