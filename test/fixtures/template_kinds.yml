@@ -34,3 +34,7 @@ registration:
 public:
   name: public
   description: description for public template
+
+user_data:
+  name: user_data
+  description: description for user_data template

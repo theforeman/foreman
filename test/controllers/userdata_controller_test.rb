@@ -6,7 +6,9 @@ class UserdataControllerTest < ActionController::TestCase
     let(:tax_location) { FactoryBot.create(:location) }
     let(:user_data_content) { 'template content user_data' }
     let(:cloud_init_content) { 'template content cloud-init' }
-    let(:user_data_template_kind) { FactoryBot.create(:template_kind, name: 'user_data') }
+    let(:user_data_template_kind) do
+      TemplateKind.where(name: 'user_data').first || FactoryBot.create(:template_kind, name: 'user_data')
+    end
     let(:cloud_init_template_kind) { FactoryBot.create(:template_kind, name: 'cloud-init') }
     let(:user_data_template) do
       FactoryBot.create(
