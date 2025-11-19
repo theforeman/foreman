@@ -146,6 +146,7 @@ jobs:
       plugin: katello
       plugin_repository: Katello/katello
       foreman_version: ${{ github.ref }}
+      plugin_version: KATELLO-4.19
 
   result:
     if: always()
