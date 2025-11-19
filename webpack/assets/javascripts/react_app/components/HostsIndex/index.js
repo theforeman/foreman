@@ -103,6 +103,7 @@ const HostsIndex = () => {
 
   const {
     response: {
+      search: apiSearchQuery,
       results,
       total,
       per_page: perPage,
@@ -491,6 +492,9 @@ const HostsIndex = () => {
     </Flex>
   );
 
+  // Exclude stale perPage from params to avoid duplicating it with per_page
+  const { perPage: _, ...paramsWithoutPerPage } = params;
+
   return (
     <TableIndexPage
       apiUrl={HOSTS_API_PATH}
@@ -506,7 +510,12 @@ const HostsIndex = () => {
     >
       <Table
         ouiaId="hosts-index-table"
-        params={params}
+        params={{
+          ...paramsWithoutPerPage,
+          page,
+          per_page: perPage,
+          search: apiSearchQuery,
+        }}
         setParams={setParamsAndAPI}
         getActions={getActions}
         itemCount={subtotal}
