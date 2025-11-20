@@ -1,0 +1,12 @@
+// Styling for hostgroup hierarchy display in dropdown options
+.hostgroup-name-parent {
+  color: var(--pf-v5-global--disabled-color--100);
+}
+
+.hostgroup-name-parent::after {
+  content: '>';
+  margin: 0 0.4em;
+  font-weight: normal;
+  color: var(--pf-v5-global--disabled-color--100);
+  vertical-align: middle;
+}

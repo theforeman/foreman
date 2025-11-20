@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Modal, Button, TextContent, Text } from '@patternfly/react-core';
-import { SelectOption } from '@patternfly/react-core/deprecated';
+import {
+  Modal,
+  Button,
+  TextContent,
+  Text,
+  SelectOption,
+} from '@patternfly/react-core';
 import { addToast } from '../../../ToastsList/slice';
 import { translate as __ } from '../../../../common/I18n';
 import { failedHostsToastParams } from '../helpers';
@@ -25,6 +30,46 @@ import {
   HOSTS_API_PATH,
   API_REQUEST_KEY,
 } from '../../../../routes/Hosts/constants';
+import './BulkReassignHostgroupModal.scss';
+
+// Helper function to format hostgroup title for display
+const formatHostgroupTitle = title => {
+  if (!title) return '';
+  // Replace / with > for better hierarchy visualization
+  return title.replace(/\//g, ' > ');
+};
+
+// Component to render styled hostgroup label in dropdown options
+const HostgroupOptionLabel = ({ formattedTitle }) => {
+  if (!formattedTitle) return null;
+
+  const parts = formattedTitle.split(' > ');
+  if (parts.length === 1) {
+    return <strong>{parts[0]}</strong>;
+  }
+
+  const parentParts = parts.slice(0, -1);
+  const finalPart = parts[parts.length - 1];
+
+  return (
+    <span className="hostgroup-label">
+      {parentParts.map((part, index) => (
+        <span key={`${part}-${index}`} className="hostgroup-name-parent">
+          {part}
+        </span>
+      ))}
+      <strong>{finalPart}</strong>
+    </span>
+  );
+};
+
+HostgroupOptionLabel.propTypes = {
+  formattedTitle: PropTypes.string,
+};
+
+HostgroupOptionLabel.defaultProps = {
+  formattedTitle: '',
+};
 
 const BulkReassignHostgroupModal = ({
   isOpen,
@@ -34,6 +79,10 @@ const BulkReassignHostgroupModal = ({
 }) => {
   const dispatch = useDispatch();
   const [hostgroupId, setHostgroupId] = useState('');
+  const [selectedName, setSelectedName] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [filterValue, setFilterValue] = useState('');
+
   const hostgroups = useSelector(state =>
     selectAPIResponse(state, HOSTGROUP_KEY)
   );
@@ -43,12 +92,31 @@ const BulkReassignHostgroupModal = ({
   const hostUpdateStatus = useSelector(state =>
     selectAPIStatus(state, BULK_REASSIGN_HOSTGROUP_KEY)
   );
+
   const handleModalClose = () => {
     setHostgroupId('');
+    setSelectedName('');
+    setInputValue('');
+    setFilterValue('');
     closeModal();
   };
 
   const [hgSelectOpen, setHgSelectOpen] = useState(false);
+
+  // Extract results for useMemo dependency
+  const hostgroupResults = hostgroups?.results;
+
+  // Filter hostgroups based on search input
+  const filteredHostgroups = useMemo(() => {
+    if (!hostgroupResults) return [];
+    if (!filterValue) return hostgroupResults;
+
+    return hostgroupResults.filter(
+      hg =>
+        hg.title.toLowerCase().includes(filterValue.toLowerCase()) ||
+        hg.name.toLowerCase().includes(filterValue.toLowerCase())
+    );
+  }, [filterValue, hostgroupResults]);
 
   useEffect(() => {
     dispatch(fetchHostgroups());
@@ -92,8 +160,34 @@ const BulkReassignHostgroupModal = ({
     dispatch(bulkReassignHostgroups(requestBody, handleSuccess, handleError));
   };
 
-  const handleHgSelect = (event, selection) => {
-    setHostgroupId(selection);
+  const handleClear = () => {
+    setHostgroupId('');
+    setSelectedName('');
+    setInputValue('');
+    setFilterValue('');
+  };
+
+  const handleInputValueChange = value => {
+    setInputValue(value);
+    setFilterValue(value);
+    if (value !== selectedName) {
+      setSelectedName('');
+      setHostgroupId('');
+    }
+    // Auto-open dropdown when user starts typing
+    if (value && !hgSelectOpen) {
+      setHgSelectOpen(true);
+    }
+  };
+
+  const handleSelect = (event, value) => {
+    const selectedHg = filteredHostgroups.find(hg => hg.name === value);
+    if (selectedHg) {
+      setHostgroupId(selectedHg.id);
+      setSelectedName(selectedHg.name);
+      setInputValue(selectedHg.name);
+      setFilterValue('');
+    }
     setHgSelectOpen(false);
   };
 
@@ -157,19 +251,24 @@ const BulkReassignHostgroupModal = ({
       </TextContent>
       {hostgroups && hostgroupStatus === STATUS.RESOLVED && (
         <HostGroupSelect
-          onClear={() => setHostgroupId('')}
+          onClear={handleClear}
           headerText={__('Select host group')}
-          selections={hostgroupId}
-          onChange={value => setHostgroupId(value)}
+          selected={selectedName}
           isOpen={hgSelectOpen}
-          onToggle={isExpanded => setHgSelectOpen(isExpanded)}
-          onSelect={handleHgSelect}
+          onToggle={setHgSelectOpen}
+          inputValue={inputValue}
+          onInputValueChange={handleInputValueChange}
+          onSelect={handleSelect}
+          placeholder={__('Select host group')}
         >
-          {hostgroups?.results?.map(hg => (
-            <SelectOption key={hg.id} value={hg.id}>
-              {hg.name}
-            </SelectOption>
-          ))}
+          {filteredHostgroups.map(hg => {
+            const formattedTitle = formatHostgroupTitle(hg.title);
+            return (
+              <SelectOption key={hg.id} value={hg.name}>
+                <HostgroupOptionLabel formattedTitle={formattedTitle} />
+              </SelectOption>
+            );
+          })}
         </HostGroupSelect>
       )}
       <hr />
