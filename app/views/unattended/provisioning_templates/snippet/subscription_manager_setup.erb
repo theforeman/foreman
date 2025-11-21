@@ -80,17 +80,17 @@ fi
 
 <% if @subman_setup_scenario == 'registration'
      if plugin_present?('katello')
-       server_hostname = @rhsm_url.host if @rhsm_url
-       server_port = @rhsm_url.port if @rhsm_url
-       server_prefix = @rhsm_url.path if @rhsm_url
+       server_hostname = @https_rhsm_url.host if @https_rhsm_url
+       server_port = @https_rhsm_url.port if @https_rhsm_url
+       server_prefix = @https_rhsm_url.path if @https_rhsm_url
        repo_ca_cert = "$KATELLO_SERVER_CA_CERT"
        rhsm_baseurl = @pulp_content_url
      end
    elsif @subman_setup_scenario == 'provisioning'
      if plugin_present?('katello')
-       server_hostname = @host.content_source.registration_url.host
-       server_port = @host.content_source.rhsm_url.port
-       server_prefix = @host.content_source.rhsm_url.path
+       server_hostname = @host.content_source.https_rhsm_url.host
+       server_port = @host.content_source.https_rhsm_url.port
+       server_prefix = @host.content_source.https_rhsm_url.path
        repo_ca_cert = "$KATELLO_SERVER_CA_CERT"
        rhsm_baseurl = @host.content_source.load_balancer_pulp_content_url
      else
