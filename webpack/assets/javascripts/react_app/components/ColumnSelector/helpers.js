@@ -1,3 +1,5 @@
+import { DEFAULT_USER_COLUMNS } from '../PF4/TableIndexPage/Table/helpers';
+
 const getCheckedStateForCategory = (category = { children: [] }) => {
   // return true if all children are checked
   // return null if some children are checked
@@ -25,7 +27,7 @@ export const categoriesFromFrontendColumnData = ({
   registeredColumns,
   userId,
   controller = 'hosts',
-  userColumns = ['name'],
+  userColumns = DEFAULT_USER_COLUMNS,
   hasPreference = false,
   contextData = {},
 }) => {
