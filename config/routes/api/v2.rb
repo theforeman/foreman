@@ -8,6 +8,7 @@ Foreman::Application.routes.draw do
       put 'hosts/bulk/assign_location', :to => 'hosts_bulk_actions#assign_location'
       match 'hosts/bulk/build', :to => 'hosts_bulk_actions#build', :via => [:put]
       match 'hosts/bulk/change_owner', :to => 'hosts_bulk_actions#change_owner', :via => [:put]
+      put 'hosts/bulk/change_power_state', :to => 'hosts_bulk_actions#change_power_state'
       put 'hosts/bulk/disassociate', :to => 'hosts_bulk_actions#disassociate'
       match 'hosts/bulk/reassign_hostgroup', :to => 'hosts_bulk_actions#reassign_hostgroup', :via => [:put]
 

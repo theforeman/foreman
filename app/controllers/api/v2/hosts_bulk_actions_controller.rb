@@ -5,7 +5,8 @@ module Api
       include Api::V2::BulkHostsExtension
 
       before_action :find_deletable_hosts, :only => [:bulk_destroy]
-      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner, :disassociate]
+      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner, :disassociate, :change_power_state]
+      before_action :validate_power_action, :only => [:change_power_state]
 
       def_param_group :bulk_host_ids do
         param :organization_id, :number, :required => true, :desc => N_("ID of the organization")
@@ -60,6 +61,56 @@ module Api
                                       :failed_host_ids => missed_hosts.map(&:id),
                                     })
           end
+        end
+      end
+
+      api :PUT, "/hosts/bulk/change_power_state", N_("Change power state")
+      param_group :bulk_host_ids
+      param :power, String, :required => true, :desc => N_("Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)")
+      def change_power_state
+        action = params[:power]
+
+        manager = BulkHostsManager.new(hosts: @hosts)
+        result = manager.change_power_state(action)
+
+        failed_hosts         = result[:failed_hosts] || []
+        failed_host_ids      = result[:failed_host_ids] || []
+        unsupported_hosts    = result[:unsupported_hosts] || []
+        unsupported_host_ids = result[:unsupported_host_ids] || []
+
+        if failed_hosts.empty? && unsupported_hosts.empty?
+          render json: {
+            message: _('The power state of the selected hosts will be set to %s') % _(action),
+          }, status: :ok
+        else
+          total_failed      = failed_hosts.size
+          total_unsupported = unsupported_hosts.size
+
+          parts = []
+          if total_failed > 0
+            parts << n_(
+              "Failed to set power state for %s host.",
+              "Failed to set power state for %s hosts.",
+              total_failed
+            ) % total_failed
+          end
+
+          if total_unsupported > 0
+            parts << n_(
+              "%s host does not support power management.",
+              "%s hosts do not support power management.",
+              total_unsupported
+            ) % total_unsupported
+          end
+
+          render json: {
+            error: {
+              message: parts.join(' '),
+              failed_host_ids: (failed_host_ids + unsupported_host_ids).uniq,
+              failed_hosts: failed_hosts,
+              unsupported_hosts: unsupported_hosts,
+            },
+          }, status: :unprocessable_entity
         end
       end
 
@@ -126,7 +177,7 @@ module Api
 
       def action_permission
         case params[:action]
-        when 'build'
+        when 'build', 'change_power_state'
           'edit'
         else
           super
@@ -172,6 +223,31 @@ module Api
                                  }
           )
         end
+      end
+
+      def validate_power_action
+        action   = params[:power]
+        host_ids = @hosts&.map(&:id) || []
+
+        return true if action.present? && PowerManager::REAL_ACTIONS.include?(action)
+
+        if action.blank?
+          render json: {
+            error: {
+              message: _("Power action is required"),
+              failed_host_ids: host_ids,
+            },
+          }, status: :unprocessable_entity
+        else
+          render json: {
+            error: {
+              message: _("Invalid power action"),
+              valid_power_actions: PowerManager::REAL_ACTIONS,
+              failed_host_ids: host_ids,
+            },
+          }, status: :unprocessable_entity
+        end
+        false
       end
     end
   end

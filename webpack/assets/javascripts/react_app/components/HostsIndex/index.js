@@ -57,9 +57,11 @@ import BulkBuildHostModal from './BulkActions/buildHosts';
 import BulkReassignHostgroupModal from './BulkActions/reassignHostGroup';
 import BulkChangeOwnerModal from './BulkActions/changeOwner';
 import BulkDisassociateModal from './BulkActions/disassociate';
+import BulkPowerStateModal from './BulkActions/powerState/index';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
+import { HostsPowerRefreshContext } from './HostsPowerRefreshContext';
 import './index.scss';
 import { STATUS } from '../../constants';
 import { RowSelectTd } from '../PF4/TableIndexPage/RowSelectTd';
@@ -85,6 +87,8 @@ const HostsIndex = () => {
     getColumnData({ tableName: 'hosts' })
   );
   const [allJsLoaded, setAllJsLoaded] = useState(false);
+  const [powerRefreshId, setPowerRefreshId] = useState(0);
+  const bumpPowerRefresh = () => setPowerRefreshId(prev => prev + 1);
   const {
     searchParam: urlSearchQuery = '',
     page: urlPage,
@@ -251,6 +255,11 @@ const HostsIndex = () => {
         id: 'bulk-disassociate-modal',
       })
     );
+    dispatch(
+      addModal({
+        id: 'bulk-power-state-modal',
+      })
+    );
   }, [dispatch]);
 
   const { setModalOpen: setOrganizationModalOpen } = useForemanModal({
@@ -271,6 +280,9 @@ const HostsIndex = () => {
   const { setModalOpen: setDisassociateModalOpen } = useForemanModal({
     id: 'bulk-disassociate-modal',
   });
+  const { setModalOpen: setPowerStateModalOpen } = useForemanModal({
+    id: 'bulk-power-state-modal',
+  });
 
   const dropdownItems = [
     <MenuItem
@@ -288,6 +300,14 @@ const HostsIndex = () => {
       isDisabled={selectedCount === 0}
     >
       {__('Disassociate hosts')}
+    </MenuItem>,
+    <MenuItem
+      itemId="power-state-dropdown-item"
+      key="power-state-dropdown-item"
+      onClick={setPowerStateModalOpen}
+      isDisabled={selectedCount === 0}
+    >
+      {__('Change power state')}
     </MenuItem>,
     <MenuItem
       itemId="host-association-dropdown-item"
@@ -496,81 +516,93 @@ const HostsIndex = () => {
   const { perPage: _, ...paramsWithoutPerPage } = params;
 
   return (
-    <TableIndexPage
-      apiUrl={HOSTS_API_PATH}
-      apiOptions={apiOptions}
-      header={__('Hosts')}
-      customHeader={hostsIndexHeader}
-      controller="hosts"
-      creatable={false}
-      replacementResponse={response}
-      customToolbarItems={pluginToolbarItems(allJsLoaded)}
-      selectionToolbar={selectionToolbar}
-      updateSearchQuery={updateSearchQuery}
+    <HostsPowerRefreshContext.Provider
+      value={{ refreshId: powerRefreshId, bumpRefresh: bumpPowerRefresh }}
     >
-      <Table
-        ouiaId="hosts-index-table"
-        params={{
-          ...paramsWithoutPerPage,
-          page,
-          per_page: perPage,
-          search: apiSearchQuery,
-        }}
-        setParams={setParamsAndAPI}
-        getActions={getActions}
-        itemCount={subtotal}
-        results={results}
-        url={HOSTS_API_PATH}
-        isDeleteable
-        showCheckboxes
-        refreshData={() =>
-          setAPIOptions({
-            ...apiOptions,
-            params: { search: urlSearchQuery },
-          })
-        }
-        columns={columns}
-        errorMessage={
-          status === STATUS.ERROR && errorMessage ? errorMessage : null
-        }
-        isPending={status === STATUS.PENDING}
+      <TableIndexPage
+        apiUrl={HOSTS_API_PATH}
+        apiOptions={apiOptions}
+        header={__('Hosts')}
+        customHeader={hostsIndexHeader}
+        controller="hosts"
+        creatable={false}
+        replacementResponse={response}
+        customToolbarItems={pluginToolbarItems(allJsLoaded)}
+        selectionToolbar={selectionToolbar}
+        updateSearchQuery={updateSearchQuery}
       >
-        {results?.map((result, rowIndex) => {
-          const rowActions = getActions(result);
-          return (
-            <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isClickable>
-              {<RowSelectTd rowData={result} {...{ selectOne, isSelected }} />}
-              {columnNamesKeys.map(k => (
-                <Td key={k} dataLabel={keysToColumnNames[k]}>
-                  {columns[k].wrapper ? columns[k].wrapper(result) : result[k]}
+        <Table
+          ouiaId="hosts-index-table"
+          params={{
+            ...paramsWithoutPerPage,
+            page,
+            per_page: perPage,
+            search: apiSearchQuery,
+          }}
+          setParams={setParamsAndAPI}
+          getActions={getActions}
+          itemCount={subtotal}
+          results={results}
+          url={HOSTS_API_PATH}
+          isDeleteable
+          showCheckboxes
+          refreshData={() =>
+            setAPIOptions({
+              ...apiOptions,
+              params: { search: urlSearchQuery },
+            })
+          }
+          columns={columns}
+          errorMessage={
+            status === STATUS.ERROR && errorMessage ? errorMessage : null
+          }
+          isPending={status === STATUS.PENDING}
+        >
+          {results?.map((result, rowIndex) => {
+            const rowActions = getActions(result);
+            return (
+              <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isClickable>
+                {
+                  <RowSelectTd
+                    rowData={result}
+                    {...{ selectOne, isSelected }}
+                  />
+                }
+                {columnNamesKeys.map(k => (
+                  <Td key={k} dataLabel={keysToColumnNames[k]}>
+                    {columns[k].wrapper
+                      ? columns[k].wrapper(result)
+                      : result[k]}
+                  </Td>
+                ))}
+                <Td isActionCell>
+                  {rowActions.length ? (
+                    <ActionsColumn items={rowActions} />
+                  ) : null}
                 </Td>
-              ))}
-              <Td isActionCell>
-                {rowActions.length ? (
-                  <ActionsColumn items={rowActions} />
-                ) : null}
-              </Td>
-            </Tr>
-          );
-        })}
-      </Table>
-      <ForemanActionsBarContext.Provider
-        value={{
-          selectAllHostsMode,
-          selectedCount,
-          selectedResults,
-          fetchBulkParams,
-        }}
-      >
-        <BulkAssignOrganizationModal key="bulk-assign-organization-modal" />
-        <BulkAssignLocationModal key="bulk-assign-location-modal" />
-        <BulkBuildHostModal key="bulk-build-hosts-modal" />
-        <BulkReassignHostgroupModal key="bulk-reassign-hg-modal" />
-        <BulkChangeOwnerModal key="bulk-change-owner-modal" />
-        <BulkDisassociateModal key="bulk-disassociate-modal" />
-        <Slot id="_all-hosts-modals" multi />
-      </ForemanActionsBarContext.Provider>
-    </TableIndexPage>
+              </Tr>
+            );
+          })}
+        </Table>
+        <ForemanActionsBarContext.Provider
+          value={{
+            selectAllHostsMode,
+            selectedCount,
+            selectedResults,
+            fetchBulkParams,
+          }}
+        >
+          <BulkAssignOrganizationModal key="bulk-assign-organization-modal" />
+          <BulkAssignLocationModal key="bulk-assign-location-modal" />
+          <BulkBuildHostModal key="bulk-build-hosts-modal" />
+          <BulkReassignHostgroupModal key="bulk-reassign-hg-modal" />
+          <BulkChangeOwnerModal key="bulk-change-owner-modal" />
+          <BulkPowerStateModal key="bulk-power-state-modal" />
+          <BulkDisassociateModal key="bulk-disassociate-modal" />
+          <Slot id="_all-hosts-modals" multi />
+        </ForemanActionsBarContext.Provider>
+      </TableIndexPage>
+    </HostsPowerRefreshContext.Provider>
   );
 };
 

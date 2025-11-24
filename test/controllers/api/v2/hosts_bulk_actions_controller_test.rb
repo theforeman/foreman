@@ -26,6 +26,10 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
     }
   end
 
+  def valid_power_params(host_ids = @host_ids, action = 'start')
+    valid_bulk_params(host_ids).merge(:power => action)
+  end
+
   test "should change owner with user id" do
     put :change_owner, params: valid_bulk_params.merge(:owner_id => @user.id_and_type)
 
@@ -100,6 +104,88 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
       response = ActiveSupport::JSON.decode(@response.body)
       # Should use plural form "hosts"
       assert_match(/Updated hosts: changed owner/, response['message'])
+    end
+  end
+
+  context "change_power_state" do
+    test "successfully changes power state for all hosts" do
+      Host.any_instance.stubs(:supports_power?).returns(true)
+      power_mock = mock('power')
+      Host.any_instance.stubs(:power).returns(power_mock)
+      power_mock.expects(:send).with(:start).times(@host_ids.size)
+
+      put :change_power_state, params: valid_power_params(@host_ids, 'start')
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/The power state of the selected hosts will be set to start/, body['message'])
+    end
+
+    test "returns failed_host_ids when all hosts fail" do
+      Host.any_instance.stubs(:supports_power?).returns(true)
+      power_mock = mock('power')
+      Host.any_instance.stubs(:power).returns(power_mock)
+      power_mock.stubs(:send).with(:start).raises(StandardError.new('Power operation failed'))
+
+      put :change_power_state, params: valid_power_params(@host_ids, 'start')
+
+      assert_response :unprocessable_entity
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Failed to set power state for 3 hosts/, body['error']['message'])
+      assert_equal @host_ids.sort, body['error']['failed_host_ids'].sort
+    end
+
+    test "returns error when power param is missing" do
+      Host.any_instance.stubs(:supports_power?).returns(true)
+      power_mock = mock('power')
+      Host.any_instance.stubs(:power).returns(power_mock)
+      power_mock.stubs(:send).raises(StandardError.new('Power operation failed'))
+
+      put :change_power_state, params: valid_bulk_params(@host_ids)
+
+      assert_response :unprocessable_entity
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_equal "Power action is required", body['error']['message']
+      assert_equal @host_ids.sort, body['error']['failed_host_ids'].sort
+    end
+
+    test "returns error when power action is invalid" do
+      put :change_power_state, params: valid_power_params(@host_ids, 'invalid')
+
+      assert_response :unprocessable_entity
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_equal "Invalid power action", body['error']['message']
+      assert_equal PowerManager::REAL_ACTIONS, body['error']['valid_power_actions']
+      assert_equal @host_ids.sort, body['error']['failed_host_ids'].sort
+    end
+
+    test "handles mixed hosts with no power support, failure, and success" do
+      Host.any_instance.stubs(:supports_power?)
+                      .returns(false)
+                      .then.returns(true)
+                      .then.returns(true)
+
+      power_fail = mock('power_fail')
+      power_ok   = mock('power_ok')
+
+      Host.any_instance.stubs(:power)
+                      .returns(power_fail)
+                      .then.returns(power_ok)
+
+      power_fail.expects(:send).with(:start).raises(StandardError.new('Power operation failed'))
+      power_ok.expects(:send).with(:start)
+
+      put :change_power_state, params: valid_power_params(@host_ids, 'start')
+
+      assert_response :unprocessable_entity
+      body = ActiveSupport::JSON.decode(@response.body)
+      # Message should contain both failure types
+      assert_match(/Failed to set power state for 1 host/, body['error']['message'])
+      assert_match(/1 host does not support power management/, body['error']['message'])
+      assert_equal 2, body['error']['failed_host_ids'].size
+      body['error']['failed_host_ids'].each do |id|
+        assert_includes @host_ids, id
+      end
     end
   end
 

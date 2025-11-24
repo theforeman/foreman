@@ -66,4 +66,36 @@ class BulkHostsManager
       raise _("Cannot update %{type} to %{name} because of mismatch in settings") % {type: taxonomy.type.downcase, name: taxonomy.name}
     end
   end
+
+  def change_power_state(action)
+    failed_hosts = []
+    unsupported_hosts = []
+
+    @hosts.each do |host|
+      unless host.supports_power?
+        unsupported_hosts << {
+          id: host.id,
+          error: _('Power management not available for this host'),
+        }
+        next
+      end
+
+      begin
+        host.power.send(action.to_sym)
+      rescue => error
+        Foreman::Logging.exception("Failed to set power state for #{host}.", error)
+        failed_hosts << {
+          id: host.id,
+          error: error.message,
+        }
+      end
+    end
+
+    {
+      failed_hosts: failed_hosts,
+      failed_host_ids: failed_hosts.map { |h| h[:id] },
+      unsupported_hosts: unsupported_hosts,
+      unsupported_host_ids: unsupported_hosts.map { |h| h[:id] },
+    }
+  end
 end
