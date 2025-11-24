@@ -19,57 +19,97 @@ template_inputs:
   value_type: plain
   options: "yes\r\nno"
   default: "no"
+- name: Include AWS
+  required: false
+  input_type: user
+  description: Include AWS billing metadata in the report
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "no"
+- name: Include GCP
+  required: false
+  input_type: user
+  description: Include GCP billing metadata in the report
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "no"
+- name: Include Azure
+  required: false
+  input_type: user
+  description: Include Azure billing metadata in the report
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "no"
 require:
 - plugin: katello
   version: 4.11.0
 -%>
-<%- if input('Include Hardware Model') == 'yes' -%>
-    <%- report_headers 'Host Name', 'Organization', 'Content View Environments', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Model', 'Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Usage', 'Release Version', 'Products', 'Last Checkin' -%>
-<%- else -%>
-    <%- report_headers 'Host Name', 'Organization', 'Content View Environments', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Usage', 'Release Version', 'Products', 'Last Checkin' -%>
-<%- end -%>
+<%-
+  headers = ['Host Name', 'Organization', 'Content View Environments', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch']
+  headers << 'Model' if input('Include Hardware Model') == 'yes'
+  headers += ['Sockets', 'RAM (MB)', 'Cores', 'SLA', 'Role', 'Usage', 'Release Version']
+
+  if input('Include Azure') == 'yes'
+    headers += ['Azure Subscription ID', 'Azure Offer']
+  end
+  if input('Include AWS') == 'yes'
+    headers += ['AWS Account ID', 'AWS Billing Product', 'AWS Instance Type', 'AWS Marketplace Product']
+  end
+  if input('Include GCP') == 'yes'
+    headers << 'GCP License Code'
+  end
+
+  headers += ['Products', 'Last Checkin']
+
+  report_headers(*headers)
+-%>
 <%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :architecture, :content_view_environments, :organization, :reported_data, :subscription_facet]).each_record do |host| -%>
-<%-   if input('Include Hardware Model') == 'yes' -%>
-<%-     report_row(
-          'Host Name': host.name,
-          'Organization': host.organization,
-          'Content View Environments': host.content_view_environment_labels,
-          'Host Collections': host_collections_names(host),
-          'Virtual': host.virtual,
-          'Guest of Host': host.hypervisor_host,
-          'OS': host.operatingsystem,
-          'Arch': host.architecture,
-          'Model': host.model,
-          'Sockets': host.sockets,
-          'RAM (MB)': host.ram,
-          'Cores': host.cores,
-          'SLA': host_sla(host),
-          'Role': host.purpose_role,
-          'Usage': host.purpose_usage,
-          'Release Version': host.release_version,
-          'Products': host_products_names_and_ids(host),
-          'Last Checkin': last_checkin(host).to_s,
-        ) -%>
-<%-   else -%>
-<%-     report_row(
-          'Host Name': host.name,
-          'Organization': host.organization,
-          'Content View Environments': host.content_view_environment_labels,
-          'Host Collections': host_collections_names(host),
-          'Virtual': host.virtual,
-          'Guest of Host': host.hypervisor_host,
-          'OS': host.operatingsystem,
-          'Arch': host.architecture,
-          'Sockets': host.sockets,
-          'RAM (MB)': host.ram,
-          'Cores': host.cores,
-          'SLA': host_sla(host),
-          'Role': host.purpose_role,
-          'Usage': host.purpose_usage,
-          'Release Version': host.release_version,
-          'Products': host_products_names_and_ids(host),
-          'Last Checkin': last_checkin(host).to_s,
-        ) -%>
-<%-   end -%>
+<%-
+    # Build row data dynamically using hash merging (Safemode-compatible)
+    row_data = {
+      'Host Name': host.name,
+      'Organization': host.organization,
+      'Content View Environments': host.content_view_environment_labels,
+      'Host Collections': host_collections_names(host),
+      'Virtual': host.virtual,
+      'Guest of Host': host.hypervisor_host,
+      'OS': host.operatingsystem,
+      'Arch': host.architecture,
+    }.merge(
+      input('Include Hardware Model') == 'yes' ? { 'Model': host.model } : {}
+    ).merge({
+      'Sockets': host.sockets,
+      'RAM (MB)': host.ram,
+      'Cores': host.cores,
+      'SLA': host_sla(host),
+      'Role': host.purpose_role,
+      'Usage': host.purpose_usage,
+      'Release Version': host.release_version,
+    }).merge(
+      input('Include Azure') == 'yes' ? {
+        'Azure Subscription ID': host.reported_data_attributes['azure_subscription_id'],
+        'Azure Offer': host.reported_data_attributes['azure_offer'],
+      } : {}
+    ).merge(
+      input('Include AWS') == 'yes' ? {
+        'AWS Account ID': host.reported_data_attributes['aws_account_id'],
+        'AWS Billing Product': host.reported_data_attributes['aws_billing_products'],
+        'AWS Instance Type': host.reported_data_attributes['aws_instance_type'],
+        'AWS Marketplace Product': host.reported_data_attributes['aws_marketplace_product_codes'],
+      } : {}
+    ).merge(
+      input('Include GCP') == 'yes' ? {
+        'GCP License Code': host.reported_data_attributes['gcp_license_codes'],
+      } : {}
+    ).merge({
+      'Products': host_products_names_and_ids(host),
+      'Last Checkin': last_checkin(host).to_s,
+    })
+
+    report_row(row_data)
+-%>
 <%- end -%>
 <%= report_render -%>

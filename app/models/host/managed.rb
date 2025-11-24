@@ -33,6 +33,7 @@ class Host::Managed < Host::Base
   has_one :configuration_status_object, :class_name => 'HostStatus::ConfigurationStatus', :foreign_key => 'host_id'
   has_one :build_status_object, :class_name => 'HostStatus::BuildStatus', :foreign_key => 'host_id'
   before_destroy :remove_reports
+  delegate :reported_data_attributes, to: :reported_data_facet
 
   def self.complete_for(query, opts = {})
     matcher = /(\s*(?:(?:user\.[a-z]+)|owner)\s*[=~])\s*(\S*)\s*\z/
@@ -172,7 +173,7 @@ class Host::Managed < Host::Base
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
       :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used, :owner, :owner_type,
       :ssh_authorized_keys, :pxe_loader, :global_status, :global_status_label, :global_status_fulltext, :get_status, :puppetca_token, :last_report, :build?, :smart_proxies, :host_param,
-      :virtual, :ram, :sockets, :cores, :params, :pxe_loader_efi?, :comment
+      :virtual, :ram, :sockets, :cores, :params, :pxe_loader_efi?, :comment, :reported_data_attributes
   end
 
   scope :recent, lambda { |interval = Setting[:outofsync_interval]|

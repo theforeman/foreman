@@ -1,5 +1,9 @@
 module HostFacets
   class ReportedDataFacet < Base
+    class Jail < ::Safemode::Jail
+      allow :[]
+    end
+
     def self.populate_fields_from_facts(host, parser, type, source_proxy)
       facet = host.reported_data || host.build_reported_data
       facet.attributes = {
@@ -40,6 +44,10 @@ module HostFacets
 
     def uptime_seconds
       boot_time && Time.zone.now.to_i - boot_time.to_i
+    end
+
+    def reported_data_attributes
+      attributes
     end
   end
 end
