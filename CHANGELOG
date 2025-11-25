@@ -1,3 +1,9 @@
+2025-11-25	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.16.2
+
+2025-11-24	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #38913 - GraphQL taxonomy scoping
+
 2025-11-05	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.16.1
 
