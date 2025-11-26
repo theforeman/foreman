@@ -1,3 +1,10 @@
+2025-11-26	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.17.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2025-11-24	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #38913 - GraphQL taxonomy scoping
+
 2025-11-11	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.17.0-rc1
 	* i18n - extracting new, pulling from tx
