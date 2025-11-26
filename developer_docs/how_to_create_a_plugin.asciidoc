@@ -1269,6 +1269,39 @@ package installed and run (again in the *foreman* app folder):
 ----
 $ rake plugin:assets:precompile[foreman_plugin]
 ----
+
+[[scheduling-recurring-tasks]]
+=== Scheduling recurring tasks
+
+If your plugin needs periodic jobs (cleanup tasks, data refreshes, etc.), you can
+register rake tasks with Foreman’s cron framework instead of creating your own
+cron entries.
+
+The recommended place to do this is in your plugin’s `engine.rb`, inside the
+initializer where you register the plugin (`Foreman::Plugin.register`), just like
+other plugin configuration:
+
+[source,ruby]
+----
+module MyPlugin
+  class Engine < ::Rails::Engine
+    initializer 'my_plugin.register_plugin', before: :finisher_hook do
+      Foreman::Plugin.register :my_plugin do
+        # other plugin registration…
+
+        # Register recurring tasks
+        # These will be run when the corresponding cron/systemd timer runs
+        Foreman::Cron.register(:daily,  'my_plugin:cleanup')
+        Foreman::Cron.register(:weekly, 'my_plugin:rebuild_caches')
+      end
+    end
+  end
+end
+----
+
+This keeps cron registration alongside the rest of your plugin setup and matches
+how other plugin APIs are used from `engine.rb`.
+
 [[logging]]
 === Logging
 
