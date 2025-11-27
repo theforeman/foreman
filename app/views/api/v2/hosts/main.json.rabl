@@ -21,6 +21,10 @@ attributes :ip, :ip6, :last_report, :mac, :realm_id, :realm_name,
 attributes :organization_id, :organization_name
 attributes :location_id, :location_name
 
+node :operatingsystem_icon do |host|
+  icon(host.operatingsystem, size: "16x16", path: true) if host.operatingsystem
+end
+
 # for compatibility, :puppet_status was moved to host statuses
 attributes :configuration_status => :puppet_status
 

@@ -16,6 +16,7 @@ import { foremanUrl } from '../../../common/helpers';
 import RelativeDateTime from '../../common/dates/RelativeDateTime';
 import HostPowerStatus from './components/HostPowerStatus';
 import GlobalStatusIcon from '../../HostStatuses/Status/GlobalStatusIcon';
+import './core.scss';
 
 const generalColumns = [
   {
@@ -97,7 +98,16 @@ const generalColumns = [
   {
     columnName: 'os_title',
     title: __('OS'),
-    wrapper: hostDetails => hostDetails?.operatingsystem_name,
+    wrapper: hostDetails => {
+      const osIcon = hostDetails?.operatingsystem_icon;
+      const osName = hostDetails?.operatingsystem_name;
+      return (
+        <span className="os-title-wrapper">
+          {osIcon && <img src={osIcon} alt={`${osName} icon`} />}
+          <span>{osName}</span>
+        </span>
+      );
+    },
     isSorted: true,
     weight: 200,
   },
