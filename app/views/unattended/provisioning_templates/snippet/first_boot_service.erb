@@ -1,0 +1,20 @@
+<%#
+kind: snippet
+name: first_boot_service
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Post replacement service
+-%>
+[Unit]
+Description=Initial setup callback
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/bin/bash /root/first_boot_script.sh
+Type=oneshot
+ExecStartPost=/usr/bin/systemctl disable first_boot_service
+
+[Install]
+WantedBy=multi-user.target

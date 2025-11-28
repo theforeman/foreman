@@ -310,6 +310,13 @@ sed -e 's/DEFAULTKERNEL=kernel-uek/DEFAULTKERNEL=kernel/g' -i /etc/sysconfig/ker
 <%= snippet 'insights' if host_param_true?('host_registration_insights') && os_major < 9 -%>
 <%= snippet 'disk_enc_clevis_tang' if host_param('disk_enc_tang_servers') -%>
 
+# Prepare first-boot service
+<%= save_to_file('/etc/systemd/system/first_boot_service.service', snippet('first_boot_service')) %>
+<%= save_to_file('/root/first_boot_script.sh', snippet('built', :variables => { :endpoint => 'built', :method => 'POST', :body_file => '/root/install.post.log' })) %>
+
+systemctl enable first_boot_service
+chmod +x /root/first_boot_script.sh
+
 touch /tmp/foreman_built
 
 <% if host_param_true?('use_graphical_installer') -%>
@@ -332,10 +339,7 @@ The last post section halts Anaconda to prevent endless loop in case HTTP reques
 
 <%= snippet 'eject_cdrom' -%>
 
-if test -f /tmp/foreman_built; then
-  echo "calling home: build is done!"
-  <%= indent(2, skip1: true, skip_content: 'EOF') { snippet('built', :variables => { :endpoint => 'built', :method => 'POST', :body_file => '/root/install.post.log' }) } -%>
-else
+if ! [ -f /tmp/foreman_built ]; then
   echo "calling home: build failed!"
   <%= indent(2, skip1: true, skip_content: 'EOF') { snippet('built', :variables => { :endpoint => 'failed', :method => 'POST', :body_file => '/root/install.post.log' }) } -%>
 fi
