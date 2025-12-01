@@ -1,4 +1,6 @@
 class ConfigReport < Report
+  include Foreman::ObservableModel
+
   METRIC = %w[applied restarted failed failed_restarts skipped pending].freeze
   BIT_NUM = 10
   MAX = (1 << BIT_NUM) - 1 # maximum value per metric
@@ -22,6 +24,23 @@ class ConfigReport < Report
 
   class << self
     delegate :model_name, :to => :superclass
+  end
+
+  set_crud_hooks :config_report
+
+  apipie :class do
+    name 'Configuration Report'
+    sections only: %w[all additional]
+    property :id, Integer, desc: "Numerical ID of the report"
+    property :origin, String, desc: "The origin of the report, e.g. 'Ansible'"
+    property :metrics, Hash, desc: "A hash of report metrics and their values"
+    property :host, 'Host', desc: "The host this report belongs to"
+    property :status, Hash, desc: "A key => value object where key is status metric name and value is the metric count"
+    property :reported_at, 'ActiveSupport::TimeWithZone', desc: "The time when the report was generated"
+  end
+
+  class Jail < Safemode::Jail
+    allow :id, :origin, :metrics, :host, :status, :reported_at
   end
 
   def self.import(report, proxy_id = nil)

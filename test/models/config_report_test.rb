@@ -63,4 +63,13 @@ class ConfigReportTest < ActiveSupport::TestCase
     @report.save
     assert ConfigReport.with("pending").include?(@report)
   end
+
+  test 'hooks are defined' do
+    expected = [
+      'config_report_created.event.foreman',
+      'config_report_updated.event.foreman',
+      'config_report_destroyed.event.foreman',
+    ]
+    assert_same_elements expected, ConfigReport.event_subscription_hooks
+  end
 end
