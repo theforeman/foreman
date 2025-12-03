@@ -4,6 +4,8 @@ class PuppetFactParser < FactParser
   def operatingsystem
     orel = os_release.dup
 
+    args = { :name => os_name }
+
     if orel.present?
       if os_name =~ /ubuntu/i
         major = os_major_version.to_s
@@ -13,28 +15,23 @@ class PuppetFactParser < FactParser
         major = major.to_s.gsub(/\D/, '')
         minor = minor.to_s.gsub(/[^\d\.]/, '')
       end
-      args = {:name => os_name, :major => major, :minor => minor}
-      os = Operatingsystem.find_or_initialize_by(args)
-      if os_name[/debian|ubuntu/i] || os.family == 'Debian'
-        if distro_codename
-          os.release_name = distro_codename
-        elsif os.release_name.blank?
-          os.release_name = 'unknown'
-        end
+      args[:major] = major
+      args[:minor] = minor
+      if os_name[/debian|ubuntu/i]
+        args[:release_name] = distro_codename if distro_codename
+        args[:release_name] = 'unknown' if args[:release_name].blank?
       end
-    else
-      os = Operatingsystem.find_or_initialize_by(:name => os_name)
     end
 
-    if os.description.blank?
-      if os_name == 'SLES'
-        os.description = os_name + ' ' + orel.gsub('.', ' SP')
-      elsif distro_description
-        family = os.deduce_family || 'Operatingsystem'
-        os = os.becomes(family.constantize)
-        os.description = os.shorten_description(distro_description)
-      end
+    if os_name == 'SLES'
+      args[:description] = "#{os_name} #{orel.gsub('.', ' SP')}"
+    elsif distro_description
+      family = Operatingsystem.deduce_family(os_name) || 'Operatingsystem'
+      os_class = family.constantize
+      args[:description] = os_class.new(args).shorten_description(distro_description)
     end
+
+    os = Operatingsystem.find_by_attributes(**args.slice(:name, :major, :minor, :description)).first || Operatingsystem.new(args)
 
     if os.new_record?
       os.save!

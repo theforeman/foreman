@@ -47,15 +47,13 @@ module ForemanAnsible
     end
 
     test 'creates operatingsystem from operating system options' do
-      sample_mock = mock
       major_fact = @facts_parser.facts['ansible_distribution_major_version']
       _, minor_fact = @facts_parser.
                       facts['ansible_distribution_version'].split('.')
-      Operatingsystem.expects(:where).
-        with({ :name => @facts_parser.facts['ansible_distribution'],
-             :major => major_fact, :minor => minor_fact || '' }).
-        returns(sample_mock)
-      sample_mock.expects(:first)
+      description = @facts_parser.facts[:ansible_lsb]['description']
+      Operatingsystem.expects(:find_by_attributes)
+        .with(name: @facts_parser.facts['ansible_distribution'], major: major_fact, minor: minor_fact.to_s, description: description)
+        .returns([])
       @facts_parser.operatingsystem
     end
 
@@ -66,6 +64,22 @@ module ForemanAnsible
       @facts_parser.expects(:os_description).returns('').at_least_once
       Operatingsystem.any_instance.expects(:valid?).returns(false)
       assert_nil @facts_parser.operatingsystem
+    end
+
+    test 'should pick up an OS by description' do
+      # Create OS with the same description as the one in the facts, but different name
+      expected = FactoryBot.create(:operatingsystem, name: 'FedFed', major: '22', description: 'Fedora release 22 (Twenty Two)')
+      os = @facts_parser.operatingsystem
+      assert_equal expected.id, os.id
+    end
+
+    test 'should pick up an OS by title' do
+      # Create OS with the same description as the one in the facts, but different name
+      expected = FactoryBot.create(:operatingsystem, name: 'Fedora', major: '22', description: 'Fedora release 22 (Twenty Two)')
+      # now we update the description in the DB to make sure we're testing the title comparison
+      Operatingsystem.where(id: expected.id).update_all(description: 'ZZZ')
+      os = @facts_parser.operatingsystem
+      assert_equal expected.id, os.id
     end
 
     test 'RHEL 7 OS is correctly mapped' do

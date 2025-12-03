@@ -3,7 +3,7 @@ module ForemanSalt
     attr_reader :facts
 
     def operatingsystem
-      os = Operatingsystem.where(os_hash).first_or_initialize
+      os = Operatingsystem.find_by_attributes(**os_hash).first || Operatingsystem.new(os_hash)
       if os.new_record?
         os.deduce_family
         os.release_name = facts[:oscodename] || facts[:lsb_distrib_codename]

@@ -8,6 +8,7 @@ module ForemanAnsible
       args[:release_name] = os_release_name if os_name == 'Debian' || os_name == 'Ubuntu'
       # for Ansible, the CentOS Stream can be identified by missing minor version only
       args[:name] = "CentOS_Stream" if os_name == 'CentOS' && os_minor.blank?
+      args[:description] = os_description
       return @local_os if local_os(args).present?
       return @new_os if new_os(args).present?
       logger.debug do
@@ -20,13 +21,17 @@ module ForemanAnsible
     end
 
     def local_os(args)
-      @local_os = Operatingsystem.where(args).first
+      @local_os = Operatingsystem.find_by_attributes(**args.slice(:name, :major, :minor, :description)).first
     end
 
     def new_os(args)
       return @new_os if @new_os.present?
-      @new_os = Operatingsystem.new(args.merge(:description => os_description))
+      @new_os = generate_new_os(args)
       @new_os if @new_os.valid? && @new_os.save
+    end
+
+    def generate_new_os(args)
+      Operatingsystem.new(args.merge(:description => os_description))
     end
 
     def debian_os_major_sid

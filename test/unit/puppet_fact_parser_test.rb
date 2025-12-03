@@ -236,6 +236,24 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       assert_equal '8', os.major
       assert_equal '3.2011', os.minor
     end
+
+    test 'should pick up an OS by description' do
+      # Create OS with the same description as the one in the facts, but different name
+      expected = FactoryBot.create(:operatingsystem, name: 'RHEL', major: '9', minor: '6', description: 'RHEL 9.6')
+      parser = PuppetFactParser.new(rhel_9_6_facts)
+      os = parser.operatingsystem
+      assert_equal expected.id, os.id
+    end
+
+    test 'should pick up an OS by title' do
+      # Create OS with the same description as the one in the facts, but different name
+      expected = FactoryBot.create(:operatingsystem, name: 'RHEL', major: '9', minor: '6', description: 'RHEL 9.6')
+      # now we update the description in the DB to make sure we're testing the title comparison
+      Operatingsystem.where(id: expected.id).update_all(description: 'ZZZ 9.6')
+      parser = PuppetFactParser.new(rhel_9_6_facts)
+      os = parser.operatingsystem
+      assert_equal expected.id, os.id
+    end
   end
 
   describe "#facterversion" do
@@ -892,6 +910,10 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def centos_8_facts_facter_4
     read_json_fixture('facts/puppet_centos_8_facter_4.1.json')
+  end
+
+  def rhel_9_6_facts
+    read_json_fixture('facts/puppet_rhel_9_facter_4.1.json')
   end
 
   def debian_facts

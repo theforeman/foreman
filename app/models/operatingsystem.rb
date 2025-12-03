@@ -6,6 +6,7 @@ class Operatingsystem < ApplicationRecord
   include Authorizable
   include ValidateOsFamily
   include PxeLoaderSupport
+  include OperatingSystemNaming
   extend FriendlyId
   friendly_id :title
 
@@ -95,10 +96,6 @@ class Operatingsystem < ApplicationRecord
     allow :id, :name, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath, :bootfile
   end
 
-  def self.title_name
-    "title".freeze
-  end
-
   def additional_media(medium_provider)
     medium_provider.additional_media.map(&:with_indifferent_access)
   end
@@ -141,8 +138,7 @@ class Operatingsystem < ApplicationRecord
 
   # The OS is usually represented as the concatenation of the OS and the revision
   def to_label
-    return description if description.present?
-    fullname
+    self.class.to_label(description: description, name: name, major: major, minor: minor)
   end
 
   # to_label setter updates description and does not try to parse and update major, minor attributes
@@ -155,38 +151,15 @@ class Operatingsystem < ApplicationRecord
   end
 
   def release
-    "#{major}#{('.' + minor.to_s) if minor.present?}"
+    self.class.release(major: major, minor: minor)
   end
 
   def fullname
-    "#{name} #{release}"
+    self.class.fullname(name: name, major: major, minor: minor)
   end
 
   def to_s
     fullname
-  end
-
-  def self.find_by_to_label(str)
-    os = find_by_description(str.to_s)
-    return os if os
-    name, version = str.split(" ")
-    cond = {:name => name}
-    if version
-      (major, minor) = os_major_minor_from_version_str(name, version)
-      cond[:major] = major if major
-      cond[:minor] = minor if minor
-    end
-    find_by(cond)
-  end
-
-  def self.os_major_minor_from_version_str(os_name, version_str)
-    if os_name == 'Ubuntu'
-      x, y, minor = version_str.split('.', 3)
-      major = "#{x}.#{y}"
-    else
-      major, minor = version_str.split('.')
-    end
-    [major, minor]
   end
 
   # Implemented only in the OSs subclasses where it makes sense
@@ -384,7 +357,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   def set_title
-    self.title = to_label.to_s[0..254]
+    self.title = self.class.generate_title(description: description, name: name, major: major, minor: minor)
   end
 
   def stringify_major_and_minor

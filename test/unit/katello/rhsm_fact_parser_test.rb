@@ -226,7 +226,8 @@ module Katello
 
     def test_operatingsystem_race_condition_handling
       existing_os = ::Operatingsystem.create(name: 'RedHat', major: '9', minor: '')
-      ::Operatingsystem.expects(:find_by).twice.returns(nil)
+      ::Operatingsystem.expects(:find_by).returns(nil)
+      ::Operatingsystem.expects(:find_by_attributes).returns([])
       @facts['distribution.name'] = 'Red Hat Enterprise Linux'
       @facts['distribution.version'] = '9'
       @facts['distribution.id'] = 'Nine'
