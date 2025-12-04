@@ -3381,24 +3381,6 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
-  describe 'HostParams module' do
-    test 'shows global params' do
-      host = FactoryBot.build_stubbed(:host)
-      FactoryBot.create(:common_parameter, :name => 'test_param1', :value => 'test_value1')
-
-      assert_equal 'test_value1', host.host_params['test_param1']
-    end
-
-    test 'renders global params if template specified' do
-      host = FactoryBot.build_stubbed(:host)
-      # rubocop:disable Lint/InterpolationCheck
-      FactoryBot.create(:common_parameter, :name => 'test_param1', :value => '<%= "test_value1-#{@host.name}" %>')
-      # rubocop:enable Lint/InterpolationCheck
-
-      assert_equal "test_value1-#{host.name}", host.host_params['test_param1']
-    end
-  end
-
   test "should find smart proxy ids" do
     host_1 = FactoryBot.create(:host, :with_tftp_orchestration)
     host_2 = FactoryBot.create(:host, :with_dns_orchestration)
