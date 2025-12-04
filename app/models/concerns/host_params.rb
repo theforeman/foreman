@@ -21,7 +21,11 @@ module HostParams
     end
 
     def non_inherited_params_hash
-      params_to_hash(host_parameters.authorized(:view_params))
+      items = host_parameters.authorized(:view_params).to_a
+      # Add transient host parameters to the array
+      # :authorized removes records that are not saved in the db
+      items += host_parameters.reject(&:persisted?) if User.current.can?(:view_params)
+      params_to_hash(items.uniq(&:name))
     end
 
     def params_to_hash(params)
