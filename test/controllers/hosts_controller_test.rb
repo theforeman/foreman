@@ -1128,13 +1128,14 @@ class HostsControllerTest < ActionController::TestCase
   describe '#template_used' do
     setup do
       @host.setBuild
-      ActiveRecord::Base.any_instance.expects(:destroy).never
-      ActiveRecord::Base.any_instance.expects(:save).never
       @attrs = host_attributes(@host)
       @attrs['hostgroup_id'] = hostgroups(:common).id
     end
 
     test 'returns templates with interfaces' do
+      ActiveRecord::Base.any_instance.expects(:destroy).never
+      ActiveRecord::Base.any_instance.expects(:save).never
+
       nic = FactoryBot.build(:nic_managed, :host => @host)
       @attrs[:interfaces_attributes] = nic.attributes.except 'updated_at', 'created_at', 'attrs'
       put :template_used, params: {:provisioning => 'build', :host => @attrs, :id => @host.id }, session: set_session_user, xhr: true
@@ -1142,14 +1143,37 @@ class HostsControllerTest < ActionController::TestCase
       assert_template :partial => '_provisioning'
     end
 
-    test 'returns templates with host parameters' do
-      @attrs[:host_parameters_attributes] = {'0' => {:name => 'foo', :value => 'bar'}}
-      put :template_used, params: {:provisioning => 'build', :host => @attrs }, session: set_session_user
+    test 'render templates with host parameters' do
+      template_kind = TemplateKind.find_by_name('provision')
+      template_with_error = FactoryBot.create :provisioning_template,
+        name: 'fail_without_hp_parameter',
+        template: "<% raise 'BOOOM' if host_param('transient-hp', '').empty? -%>",
+        template_kind: template_kind
+      os = FactoryBot.create(:operatingsystem, :with_archs, :with_os_defaults, provisioning_templates: [template_with_error])
+      host = FactoryBot.create(:host, :managed, operatingsystem: os)
+      attrs = host_attributes(host)
+
+      ActiveRecord::Base.any_instance.expects(:destroy).never
+      ActiveRecord::Base.any_instance.expects(:save).never
+
+      put :template_used, params: {:provisioning => 'build', :host => attrs }, session: set_session_user
       assert_response :success
       assert_template :partial => '_provisioning'
+      assert response.body.include? 'Templates rendered with errors'
+      assert response.body.include? 'BOOOM'
+
+      attrs[:host_parameters_attributes] = {'0' => {:name => 'transient-hp', :value => 'i-am-not-saved-in-db'}}
+      put :template_used, params: {:provisioning => 'build', :host => attrs }, session: set_session_user
+      assert_response :success
+      assert_template :partial => '_provisioning'
+      refute response.body.include? 'Templates rendered with errors'
+      refute response.body.include? 'BOOOM'
     end
 
     test 'shows templates for image provisioning' do
+      ActiveRecord::Base.any_instance.expects(:destroy).never
+      ActiveRecord::Base.any_instance.expects(:save).never
+
       image = compute_resources(:one).images.first
       @attrs[:compute_resource_id] = compute_resources(:one).id
       @attrs[:operatingsystem_id] = image.operatingsystem.id
