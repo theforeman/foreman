@@ -11,6 +11,7 @@ desc <<~END_DESC
     Example:
       rake audits:expire # expires all audits older then 90 days
       rake audits:expire days=7 # expires all audits older then 7 days
+      AUDITS_PURGE_INCLUDE_TEMPLATES=yes rake audits:expire # expires all audits older then 90 days, including templates
       rake audits:anonymize days=7 # anonymizes all audits older then 7 days
 
 END_DESC
@@ -61,7 +62,11 @@ namespace :audits do
 
   def get_audits_without_templates
     User.as_anonymous_admin do
-      Audited::Audit.up_until(before_date).where.not(auditable_type: %w(ReportTemplate Ptable ProvisioningTemplate JobTemplate))
+      if Foreman::Cast.to_bool(ENV['AUDITS_PURGE_INCLUDE_TEMPLATES'])
+        Audited::Audit.up_until(before_date)
+      else
+        Audited::Audit.up_until(before_date).where.not(auditable_type: %w(ReportTemplate Ptable ProvisioningTemplate JobTemplate))
+      end
     end
   end
 
