@@ -59,7 +59,11 @@ namespace :audits do
 
   def get_audits_without_templates
     User.as_anonymous_admin do
-      Audited::Audit.up_until(before_date).where.not(auditable_type: %w(ReportTemplate Ptable ProvisioningTemplate JobTemplate))
+      if ENV.key?('AUDITS_PURGE_INCLUDE_TEMPLATES')
+        Audited::Audit.up_until(before_date)
+      else
+        Audited::Audit.up_until(before_date).where.not(auditable_type: %w(ReportTemplate Ptable ProvisioningTemplate JobTemplate))
+      end
     end
   end
 
