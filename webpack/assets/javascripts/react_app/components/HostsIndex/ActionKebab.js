@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Menu, MenuToggle, Popper, Icon } from '@patternfly/react-core';
 import { EllipsisVIcon } from '@patternfly/react-icons';
@@ -10,8 +10,33 @@ import { EllipsisVIcon } from '@patternfly/react-icons';
  * @return {Function} button component or splitbutton component
  */
 export const ActionKebab = ({ items, menuOpen, setMenuOpen }) => {
-  const containerRef = React.useRef();
+  const containerRef = useRef();
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const handleClickOutside = event => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    // eslint-disable-next-line spellcheck/spell-checker
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      // eslint-disable-next-line spellcheck/spell-checker
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [menuOpen, setMenuOpen]);
+
   if (!items.length) return null;
+
   const menu = (
     <Menu
       containsFlyout
