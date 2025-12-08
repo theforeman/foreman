@@ -21,6 +21,10 @@ Pagelets::Manager.with_key 'hosts/_list' do |ctx|
     add_pagelet :hosts_table_column_content, key: :owner, callback: ->(host) { host_owner_column(host) }, class: common_class
     add_pagelet :hosts_table_column_header, key: :hostgroup, label: N_('Host group'), sortable: true, width: '15%', class: common_class
     add_pagelet :hosts_table_column_content, key: :hostgroup, callback: ->(host) { label_with_link host.hostgroup, 23, @hostgroup_authorizer }, class: common_class
+    add_pagelet :hosts_table_column_header, key: :organization, label: N_('Organization'), sortable: true, width: '12%', export_key: 'organization.name', class: common_class
+    add_pagelet :hosts_table_column_content, key: :organization, callback: ->(host) { host.organization&.name }, class: common_class
+    add_pagelet :hosts_table_column_header, key: :location, label: N_('Location'), sortable: true, width: '12%', export_key: 'location.name', class: common_class
+    add_pagelet :hosts_table_column_content, key: :location, callback: ->(host) { host.location&.name }, class: common_class
     add_pagelet :hosts_table_column_header, key: :boot_time, label: N_('Boot time'), sortable: true, width: '10%', export_key: 'reported_data.boot_time', class: common_class
     add_pagelet :hosts_table_column_content, key: :boot_time, callback: ->(host) { date_time_unless_empty(host.reported_data&.boot_time) }, class: common_class
     add_pagelet :hosts_table_column_header, key: :last_report, label: N_('Last report'), sortable: true, default_sort: 'DESC', width: '10%', class: common_class

@@ -468,6 +468,23 @@ const HostsIndex = () => {
           <SplitItem>
             <Button
               component="a"
+              ouiaId="export-hosts-button"
+              href={foremanUrl(
+                `${hostsIndexUrl}.csv${
+                  searchQuery
+                    ? `?search=${encodeURIComponent(searchQuery)}`
+                    : ''
+                }`
+              )}
+              variant="secondary"
+              isDisabled={false}
+            >
+              {__('Export')}
+            </Button>
+          </SplitItem>
+          <SplitItem>
+            <Button
+              component="a"
               ouiaId="register-host-button"
               href={foremanUrl('/hosts/register')}
               variant="secondary"

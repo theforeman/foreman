@@ -552,6 +552,7 @@ Foreman::Application.routes.draw do
 
   match 'host_statuses' => 'react#index', :via => :get
   match 'new/hosts/auto_complete_search', :via => :get, :to => 'hosts#auto_complete_search', :as => "auto_complete_search_hosts_new"
+  match 'new/hosts.csv', :via => :get, :to => 'hosts#index', :defaults => { :format => 'csv' }, :as => :new_hosts_csv
   constraints(id: /[^\/]+/) do
     match 'new/hosts/:id' => 'react#index', :via => :get, :as => :host_details_page
   end

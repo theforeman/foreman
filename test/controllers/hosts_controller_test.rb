@@ -51,6 +51,43 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
+  test "csv_headers should use ExportDefinition labels for power_status" do
+    User.current.table_preferences.create(name: 'hosts', columns: ['power_status'])
+    get :index, params: { :format => 'csv' }, session: set_session_user
+    assert_response :success
+    buf = response.stream.instance_variable_get(:@buf)
+    header_line = buf.next
+    assert_includes header_line, "Power Status", "Header should use ExportDefinition label 'Power Status' not 'Power'"
+  end
+
+  test "csv_headers should derive headers from export_key when available" do
+    User.current.table_preferences.create(name: 'hosts', columns: ['os_title', 'boot_time'])
+    get :index, params: { :format => 'csv' }, session: set_session_user
+    assert_response :success
+    buf = response.stream.instance_variable_get(:@buf)
+    header_line = buf.next
+    assert_includes header_line, "Operatingsystem", "Header should be derived from export_key 'operatingsystem'"
+    assert_includes header_line, "Reported Data - Boot Time", "Header should format dotted keys with ' - '"
+  end
+
+  test "csv_columns should return columns from pagelets" do
+    User.current.table_preferences.create(name: 'hosts', columns: ['name', 'power_status'])
+    get :index, params: { :format => 'csv' }, session: set_session_user
+    assert_response :success
+    # Verify columns are properly extracted from pagelets
+    assert @controller.send(:csv_columns).any? { |col| col.is_a?(String) || col.is_a?(CsvExporter::ExportDefinition) }
+  end
+
+  test "csv_pagelets should be memoized" do
+    User.current.table_preferences.create(name: 'hosts', columns: ['name'])
+    get :index, params: { :format => 'csv' }, session: set_session_user
+
+    # Call csv_pagelets twice and verify it returns the same object (memoized)
+    pagelets1 = @controller.send(:csv_pagelets)
+    pagelets2 = @controller.send(:csv_pagelets)
+    assert_same pagelets1, pagelets2, "csv_pagelets should be memoized"
+  end
+
   test "should include registered scope on index" do
     # remember the previous state
     old_scopes = HostsController.scopes_for(:index).dup

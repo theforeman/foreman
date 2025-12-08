@@ -56,7 +56,7 @@ class HostsController < ApplicationController
       end
       format.csv do
         @hosts = search.preload(included_associations - [:host_statuses, :token])
-        csv_response(@hosts)
+        csv_response(@hosts, csv_columns, csv_headers)
       end
     end
   end
@@ -892,9 +892,29 @@ class HostsController < ApplicationController
   end
 
   def csv_columns
-    Pagelets::Manager.pagelets_at("hosts/_list", 'hosts_table_column_header', filter: { selected: @selected_columns })
-      .map { |pagelet| pagelet.opts[:export_data] || pagelet.opts[:export_key] || pagelet.opts[:key] }
-      .flatten
+    csv_pagelets.map { |pagelet| pagelet.opts[:export_data] || pagelet.opts[:export_key] || pagelet.opts[:key] }.flatten
+  end
+
+  def csv_headers
+    csv_pagelets.map do |pagelet|
+      export_data = pagelet.opts[:export_data]
+
+      # Handle array of ExportDefinitions (like installable_updates)
+      case export_data
+      when Array
+        export_data.map(&:label)
+      when CsvExporter::ExportDefinition
+        export_data.label
+      else
+        # Check for explicit export_label first, then derive from export_key/key
+        # Use the same logic as CsvExporter::ExportDefinition.derive_label
+        pagelet.opts[:export_label] || (pagelet.opts[:export_key] || pagelet.opts[:key]).to_s.titleize.gsub('.', ' - ')
+      end
+    end.flatten
+  end
+
+  def csv_pagelets
+    @csv_pagelets ||= Pagelets::Manager.pagelets_at("hosts/_list", 'hosts_table_column_header', filter: { selected: @selected_columns })
   end
 
   def origin_intervals_query(compare_with)
