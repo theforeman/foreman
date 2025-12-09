@@ -42,17 +42,24 @@ Foreman::AccessControl.map do |permission_set|
                                              :"api/v2/auth_sources" => [:index, :show],
                                              :"api/v2/auth_source_internals" => [:index, :show],
                                              :"api/v2/auth_source_externals" => [:index, :show],
+                                             :"api/v2/auth_source_oidcs" => [:index, :show, :status, :test_connection],
     }
     map.permission :create_authenticators, {:auth_source_ldaps => [:new, :create].push(*ajax_actions),
                                              :"api/v2/auth_source_ldaps" => [:create],
+                                             :auth_source_oidcs => [:new, :create],
+                                             :"api/v2/auth_source_oidcs" => [:create],
     }
     map.permission :edit_authenticators, {:auth_source_ldaps => [:edit, :update].push(*ajax_actions),
                                              :auth_source_externals => [:edit, :update],
                                              :"api/v2/auth_source_ldaps" => [:update, :test],
                                              :"api/v2/auth_source_externals" => [:update],
+                                             :auth_source_oidcs => [:edit, :update],
+                                             :"api/v2/auth_source_oidcs" => [:update],
     }
     map.permission :destroy_authenticators, {:auth_source_ldaps => [:destroy],
                                              :"api/v2/auth_source_ldaps" => [:destroy],
+                                             :auth_source_oidcs => [:destroy],
+                                             :"api/v2/auth_source_oidcs" => [:destroy],
     }
   end
 

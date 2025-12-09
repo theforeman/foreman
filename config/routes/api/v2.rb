@@ -44,6 +44,14 @@ Foreman::Application.routes.draw do
         resources :external_usergroups, :except => [:new, :edit]
       end
 
+      resources :auth_source_oidcs, :except => [:new, :edit] do
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
+        resources :users, :except => [:new, :edit]
+      end
+      get 'auth_source_oidcs/:id/status', :to => 'auth_source_oidcs#status'
+      get 'auth_source_oidcs/:id/test_connection', :to => 'auth_source_oidcs#test_connection'
+
       resources :bookmarks, :except => [:new, :edit]
 
       resources :common_parameters, :except => [:new, :edit]
