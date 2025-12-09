@@ -7,8 +7,10 @@ class UsersController < ApplicationController
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :login_token_reload
   skip_before_action :require_mail, :only => [:edit, :update, :logout, :stop_impersonation]
-  skip_before_action :require_login, :check_user_enabled, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
+  skip_before_action :require_login, :check_user_enabled, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db,
+    :only => [:login, :logout, :extlogout, :oidc_passthru, :oidc_callback, :oidc_failure]
   skip_before_action :authorize, :only => [:extlogin, :impersonate, :stop_impersonation]
+  skip_before_action :verify_authenticity_token, :only => [:oidc_passthru, :oidc_callback, :oidc_failure]
   before_action      :require_admin, :only => :impersonate
   after_action       :update_activity_time, :only => :login
   before_action      :verify_active_session, :only => :login
@@ -209,6 +211,122 @@ class UsersController < ApplicationController
     render :extlogout, :layout => 'login'
   end
 
+  # ========== OIDC Authentication Methods ==========
+
+  # GET/POST /users/auth/:provider
+  # Initiates the OIDC authentication flow
+  # This is handled by OmniAuth middleware, but we need this action as fallback
+  def oidc_passthru
+    unless AuthSourceOidc.any?
+      render_oidc_error(
+        :service_unavailable,
+        "OIDC authentication is not available",
+        "No OIDC authentication providers are configured. Please contact your administrator."
+      )
+      return
+    end
+
+    provider_name = params[:provider]
+    auth_source = AuthSourceOidc.find_by_provider_name(provider_name)
+
+    unless auth_source
+      render_oidc_error(
+        :not_found,
+        "Unknown authentication provider",
+        "The requested authentication provider '#{provider_name}' is not configured."
+      )
+      return
+    end
+
+    # If OmniAuth didn't intercept, something is wrong with the configuration
+    render_oidc_error(
+      :internal_server_error,
+      "OIDC configuration error",
+      "OIDC provider '#{auth_source.name}' is configured but not properly initialized. Please restart Foreman."
+    )
+  end
+
+  # GET/POST /users/auth/:provider/callback
+  # Handles the OIDC callback from the identity provider
+  def oidc_callback
+    auth_hash = request.env['omniauth.auth']
+
+    unless auth_hash
+      Rails.logger.error "OIDC: No auth hash present in callback"
+      render_oidc_error(
+        :unauthorized,
+        "Authentication failed",
+        "No authentication data received from identity provider"
+      )
+      return
+    end
+
+    provider_name = auth_hash.provider
+    Rails.logger.info "OIDC: Processing authentication callback for provider: #{provider_name}"
+    Rails.logger.debug "OIDC: Auth hash: #{auth_hash.inspect}" if Rails.env.development?
+
+    auth_source = AuthSourceOidc.find_by_provider_name(provider_name)
+
+    unless auth_source
+      Rails.logger.error "OIDC: Unknown provider in callback: #{provider_name}"
+      render_oidc_error(
+        :unauthorized,
+        "Authentication failed",
+        "Unknown authentication provider"
+      )
+      return
+    end
+
+    unless validate_oidc_token(auth_hash, auth_source)
+      render_oidc_error(
+        :unauthorized,
+        "Invalid authentication token",
+        "Token validation failed"
+      )
+      return
+    end
+
+    user = User.from_omniauth(auth_hash, auth_source)
+
+    if user
+      Rails.logger.info "OIDC: Successfully authenticated user: #{user.login} via #{auth_source.name}"
+
+      login_user(user)
+    else
+      Rails.logger.error "OIDC: User creation/lookup failed for provider #{auth_source.name}"
+      render_oidc_error(
+        :forbidden,
+        "User not authorized",
+        "Your account could not be provisioned or found. Please contact your administrator."
+      )
+    end
+  rescue => e
+    Foreman::Logging.exception("OIDC: Error during authentication", e)
+
+    render_oidc_error(
+      :internal_server_error,
+      "Authentication error",
+      "An error occurred during authentication. Please try again or contact your administrator."
+    )
+  end
+
+  # GET/POST /users/auth/failure
+  # Handles authentication failures from OmniAuth
+  def oidc_failure
+    error_message = params[:message]
+    error_type = params[:strategy]
+
+    Rails.logger.error "OIDC: Authentication failure - #{error_type}: #{error_message}"
+
+    render_oidc_error(
+      :unauthorized,
+      "Authentication failed",
+      error_message || "An error occurred during authentication"
+    )
+  end
+
+  # ========== End OIDC Methods ==========
+
   def test_mail
     begin
       user = find_resource
@@ -264,5 +382,53 @@ class UsersController < ApplicationController
     raise exception unless request.post? && action_name == 'login'
     inline_warning _("CSRF protection token expired, please log in again")
     redirect_to login_users_path
+  end
+
+  # ========== OIDC Private Helpers ==========
+
+  def validate_oidc_token(auth_hash, auth_source)
+    # The omniauth-openid-connect gem already validates:
+    # 1. Token signature using JWKS
+    # 2. Token expiration (exp claim)
+    # 3. Token not-before (nbf claim)
+    # 4. Issuer (iss claim)
+    # 5. Audience (aud claim) - matches client_id
+    # 6. Nonce to prevent replay attacks
+
+    # Additional validation
+    id_token = auth_hash.credentials&.id_token
+
+    unless id_token
+      Rails.logger.error "OIDC: No ID token present"
+      return false
+    end
+
+    unless auth_hash.uid.present?
+      Rails.logger.error "OIDC: No subject (sub) claim in token"
+      return false
+    end
+
+    token_issuer = auth_hash.extra&.raw_info&.iss || auth_hash.info&.issuer
+
+    unless token_issuer == auth_source.oidc_issuer
+      Rails.logger.error "OIDC: Issuer mismatch - expected #{auth_source.oidc_issuer}, got #{token_issuer}"
+      return false
+    end
+
+    Rails.logger.info "OIDC: Token validation successful for #{auth_source.name}"
+    true
+  rescue => e
+    Rails.logger.error "OIDC: Token validation error: #{e.message}"
+    false
+  end
+
+  def render_oidc_error(status, title, message)
+    @error_title = title
+    @error_message = message
+
+    respond_to do |format|
+      format.html { render 'users/oidc_error', status: status, layout: 'login' }
+      format.json { render json: { error: title, message: message }, status: status }
+    end
   end
 end

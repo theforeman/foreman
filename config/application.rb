@@ -337,7 +337,14 @@ module Foreman
     end
 
     # Use the database for sessions instead of the cookie-based default
-    config.session_store :active_record_store, :secure => !!SETTINGS[:require_ssl]
+    # SameSite=Lax allows session cookie to be sent on OIDC redirects from IdPs
+    # key: explicit session cookie name
+    # domain: :all allows the cookie to work across subdomains
+    config.session_store :active_record_store,
+      key: '_foreman_session',
+      secure: !!SETTINGS[:require_ssl],
+      same_site: :lax,
+      domain: :all
 
     # We need to mount the sprockets engine before we use the routes_reloader
     initializer(:mount_sprocket_env, :before => :sooner_routes_load) do

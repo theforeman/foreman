@@ -1,5 +1,14 @@
 Foreman::Application.routes.draw do
   apipie_dsl
+
+  # POST only for login initiation (security best practice - prevents CSRF via GET)
+  post '/users/auth/:provider', to: 'users#oidc_passthru', as: :oidc_login,
+       constraints: { provider: /oidc_\d+/ }
+  # Callback accepts GET (IdP redirect) and POST (form_post response mode)
+  match '/users/auth/:provider/callback', to: 'users#oidc_callback', via: [:get, :post], as: :oidc_callback,
+        constraints: { provider: /oidc_\d+/ }
+  match '/users/auth/failure', to: 'users#oidc_failure', via: [:get, :post], as: :oidc_failure
+
   resources :mail_notifications, only: [] do
     collection do
       get 'auto_complete_search'
