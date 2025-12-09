@@ -857,6 +857,13 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     require 'facterdb'
     # This uses the legacy facts since it's always present
     filter = "facterversion=/^#{Regexp.escape(facterversion)}\./ and operatingsystem=#{os_name} and operatingsystemmajrelease=#{os_major}"
+
+    # patch the facterdb_fact_files to return only the facts for the given OS and Facter version
+    # This prevents the facterDB from loading other files, that may contain incorrect JSON
+    facterdb_fact_files = FacterDB.facterdb_fact_files
+    cutom_files_list = facterdb_fact_files.select { |file| file =~ /\/#{Regexp.escape(facterversion)}\// && file.include?(os_name.downcase) && file.include?(os_major) }
+    FacterDB.expects(:facterdb_fact_files).returns(cutom_files_list)
+
     result = FacterDB.get_facts(filter)
     raise "No facts found for #{os_name} #{os_major} on Facter #{facterversion}" if result.empty?
     result.first.dup
