@@ -16,6 +16,7 @@ class User < ApplicationRecord
   include TopbarCacheExpiry
   include JwtAuth
   include Foreman::ObservableModel
+  include UserOidc
 
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
