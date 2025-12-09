@@ -47,6 +47,10 @@ gem 'rack-cors', '~> 1.1', require: 'rack/cors'
 gem 'jwt', '>= 2.2.2', '< 3.0'
 gem 'graphql', '~> 1.13.0'
 gem 'graphql-batch'
+gem 'omniauth'
+gem 'openid_connect', '~> 1.3.0' # Pin to 1.3.x for faraday 1.x compatibility with Katello
+gem 'omniauth_openid_connect', '~> 0.6.0' # Pin to 0.6.x for openid_connect 1.x compatibility
+gem 'omniauth-rails_csrf_protection'
 
 # A bundled gem since Ruby 3.0
 gem 'rss'
