@@ -3,12 +3,16 @@
     <div class="card-pf-body">
       <% if auth_source.type == 'AuthSourceLdap' %>
         <%= render :partial => 'auth_source_ldaps/ldap_card_kebab', :locals => {:auth_source => auth_source, :users => users} %>
-      <% end %>
-      <% if auth_source.type == 'AuthSourceExternal' %>
+      <% elsif auth_source.type == 'AuthSourceExternal' %>
         <%= render :partial => 'auth_source_externals/external_card_kebab', :locals => {:auth_source => auth_source, :users => users} %>
+      <% elsif auth_source.type == 'AuthSourceOidc' %>
+        <%= render :partial => 'auth_source_oidcs/oidc_card_kebab', :locals => {:auth_source => auth_source, :users => users} %>
       <% end %>
       <h2 class="card-pf-title text-center">
         <%= type_of_auth_source(auth_source) %>
+        <% if auth_source.type == 'AuthSourceOidc' %>
+          <br/><small><%= auth_source.name %></small>
+        <% end %>
       </h2>
       <div class="card-pf-items text-center">
         <div class="card-pf-item">

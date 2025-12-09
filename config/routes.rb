@@ -294,6 +294,7 @@ Foreman::Application.routes.draw do
 
   resources :auth_sources, only: [:show, :index]
   resources :auth_source_externals, only: [:update, :edit]
+  resources :auth_source_oidcs, except: [:show, :index]
 
   put 'users/(:id)/test_mail', to: 'users#test_mail', as: 'test_mail_user'
 

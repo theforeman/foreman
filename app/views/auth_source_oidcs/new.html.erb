@@ -1,0 +1,15 @@
+<%= breadcrumbs(
+  items: [
+    {
+      caption: _("Authentication Sources"),
+      url: auth_sources_path
+    },
+    {
+      caption: _("Create OIDC Authentication Source"),
+    }
+  ],
+  switchable: false,
+)
+%>
+<% title _("Create OIDC Authentication Source") %>
+<%= render partial: 'form' %>

@@ -1,0 +1,100 @@
+<%= form_for @auth_source_oidc do |f| %>
+  <%= base_errors_for @auth_source_oidc %>
+
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active">
+      <a href="#oidc" data-toggle="tab"><%= _("OIDC Settings") %></a>
+    </li>
+    <li>
+      <a href="#options" data-toggle="tab"><%= _("Options") %></a>
+    </li>
+    <% if show_location_tab? %>
+      <li>
+        <a href="#locations" data-toggle="tab"><%= _("Locations") %></a>
+      </li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li>
+        <a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="oidc">
+      <%= text_f f, :name, help_inline: _("A descriptive name for this OIDC provider (e.g., 'Google', 'Keycloak')") %>
+
+      <%= text_f f, :oidc_issuer,
+          label: _("Issuer URL"),
+          help_inline: _("The OIDC issuer URL (must be HTTPS, e.g., https://accounts.google.com)"),
+          required: true %>
+
+      <%= text_f f, :oidc_client_id,
+          label: _("Client ID"),
+          help_inline: _("The client ID registered with your identity provider"),
+          required: true %>
+      <%= password_f f, :oidc_client_secret,
+          label: _("Client Secret"),
+          help_inline: @auth_source_oidc.persisted? ? _("Leave blank to keep existing secret") : _("The client secret from your identity provider"),
+          required: !@auth_source_oidc.persisted? %>
+      <%= text_f f, :oidc_scopes,
+          label: _("Scopes"),
+          help_inline: _("Space-separated list of OIDC scopes (default: openid email profile)") %>
+
+      <% if @auth_source_oidc.persisted? && @auth_source_oidc.oidc_redirect_uri.present? %>
+        <div class="form-group">
+          <label class="col-md-2 control-label"><%= _("Redirect URI") %></label>
+          <div class="col-md-4">
+            <p class="form-control-static">
+              <code><%= @auth_source_oidc.oidc_redirect_uri %></code>
+              <br/>
+              <small class="help-block"><%= _("Configure this URL as an authorized redirect URI in your identity provider") %></small>
+            </p>
+          </div>
+        </div>
+      <% end %>
+
+      <hr/>
+      <h4><%= _("Manual Endpoints") %></h4>
+      <div class="alert alert-info">
+        <span class="pficon pficon-info"></span>
+        <%= _("Most OIDC providers support automatic discovery. Only configure these endpoints manually if your identity provider does not support the .well-known/openid-configuration endpoint.") %>
+      </div>
+
+      <%= text_f f, :oidc_authorization_endpoint,
+          label: _("Authorization Endpoint"),
+          help_inline: _("URL for user authorization (leave blank to use discovery)") %>
+      <%= text_f f, :oidc_token_endpoint,
+          label: _("Token Endpoint"),
+          help_inline: _("URL to exchange authorization code for tokens (leave blank to use discovery)") %>
+      <%= text_f f, :oidc_userinfo_endpoint,
+          label: _("UserInfo Endpoint"),
+          help_inline: _("URL to fetch user information (leave blank to use discovery)") %>
+      <%= text_f f, :oidc_jwks_uri,
+          label: _("JWKS URI"),
+          help_inline: _("URL to fetch JSON Web Key Set for token verification (leave blank to use discovery)") %>
+      <%= text_f f, :oidc_end_session_endpoint,
+          label: _("End Session Endpoint"),
+          help_inline: _("URL for logout (optional, enables single sign-out)") %>
+    </div>
+
+    <div class="tab-pane" id="options">
+      <%= checkbox_f f, :oidc_auto_provision,
+          label: _("Auto-provision users"),
+          help_inline: _("Automatically create new user accounts on first OIDC login") %>
+      <%= checkbox_f f, :oidc_email_autolink,
+          label: _("Link by email"),
+          help_inline: _("Automatically link existing users by matching email address") %>
+      <%= text_f f, :oidc_groups_claim,
+          label: _("Groups claim"),
+          help_inline: _("Name of the claim in the ID token that contains user groups (default: groups)") %>
+      <%= checkbox_f f, :onthefly_register,
+          label: _("On-the-fly registration"),
+          help_inline: _("Enable on-the-fly user creation") %>
+    </div>
+
+    <%= render 'taxonomies/loc_org_tabs', f: f, obj: @auth_source_oidc %>
+  </div>
+
+  <%= submit_or_cancel f, false, cancel_path: auth_sources_path %>
+<% end %>

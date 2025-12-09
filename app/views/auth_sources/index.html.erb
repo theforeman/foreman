@@ -1,4 +1,9 @@
 <% title _("Authentication Sources") %>
+<% title_actions(
+  new_link(_("Create LDAP Source"), hash_for_new_auth_source_ldap_path, { title: _('Create a new LDAP authentication source'), class: 'btn btn-default' }),
+  new_link(_("Create OIDC Source"), hash_for_new_auth_source_oidc_path, { title: _('Create a new OIDC authentication source'), class: 'btn btn-default' })
+) %>
+
 <div class="container-fluid container-cards-pf">
   <div class="row row-cards-pf">
     <% @auth_sources.each do |auth_source| %>

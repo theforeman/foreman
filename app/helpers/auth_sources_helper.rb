@@ -17,6 +17,8 @@ module AuthSourcesHelper
       type = "Internal"
     when "AuthSourceExternal"
       type = "External"
+    when "AuthSourceOidc"
+      type = "OIDC"
     end
     type
   end
