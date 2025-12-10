@@ -263,7 +263,6 @@ class UsersController < ApplicationController
 
     provider_name = auth_hash.provider
     Rails.logger.info "OIDC: Processing authentication callback for provider: #{provider_name}"
-    Rails.logger.debug "OIDC: Auth hash: #{auth_hash.inspect}" if Rails.env.development?
 
     auth_source = AuthSourceOidc.find_by_provider_name(provider_name)
 

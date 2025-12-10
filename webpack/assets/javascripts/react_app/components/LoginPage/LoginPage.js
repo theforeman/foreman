@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   LoginPage as PF5LoginPage,
@@ -16,7 +16,7 @@ import { translate as __ } from '../../common/I18n';
 import { adjustAlerts, defaultFormProps } from './helpers';
 import './LoginPage.scss';
 
-const LoginPage = ({ alerts, caption, logoSrc, token }) => {
+const LoginPage = ({ alerts, caption, logoSrc, token, oidcProviders = [] }) => {
   const { modifiedAlerts, submitErrors } = adjustAlerts(alerts);
 
   const [username, setUsername] = useState('');
@@ -24,6 +24,8 @@ const LoginPage = ({ alerts, caption, logoSrc, token }) => {
   const [isLoginDisabled, setIsLoginDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [alertArr, setAlertArr] = useState(modifiedAlerts);
+  const [loadingProvider, setLoadingProvider] = useState(null);
+
   const closeAlert = index => {
     const other = alertArr.filter((_, i) => i !== index);
     setAlertArr(other);
@@ -44,6 +46,12 @@ const LoginPage = ({ alerts, caption, logoSrc, token }) => {
     setTimeout(() => {
       setIsLoginDisabled(true);
     }, 10);
+  };
+
+  // Handle OIDC provider login via POST form submission
+  const handleOidcLogin = (provider, formRef) => {
+    setLoadingProvider(provider.id);
+    formRef.current.submit();
   };
 
   const loginForm = (
@@ -111,6 +119,58 @@ const LoginPage = ({ alerts, caption, logoSrc, token }) => {
     </Form>
   );
 
+  // OIDC Provider Buttons Component
+  const OidcProviderButton = ({ provider }) => {
+    const formRef = useRef(null);
+    return (
+      <form
+        ref={formRef}
+        action={provider.loginUrl}
+        method="post"
+        // eslint-disable-next-line spellcheck/spell-checker
+        className="oidc-provider-form"
+      >
+        <input type="hidden" name="authenticity_token" value={token} />
+        <Button
+          // eslint-disable-next-line spellcheck/spell-checker
+          ouiaId={`oidc-login-${provider.id}`}
+          variant="secondary"
+          isBlock
+          isLoading={loadingProvider === provider.id}
+          onClick={() => handleOidcLogin(provider, formRef)}
+        >
+          {__('Login with %s').replace('%s', provider.name)}
+        </Button>
+      </form>
+    );
+  };
+
+  OidcProviderButton.propTypes = {
+    provider: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      loginUrl: PropTypes.string.isRequired,
+    }).isRequired,
+  };
+
+  // eslint-disable-next-line spellcheck/spell-checker
+  const oidcSection = oidcProviders.length > 0 && (
+    // eslint-disable-next-line spellcheck/spell-checker
+    <div className="oidc-login-section">
+      {/* eslint-disable-next-line spellcheck/spell-checker */}
+      <div className="oidc-divider">
+        <span>{__('Or login with')}</span>
+      </div>
+      {/* eslint-disable-next-line spellcheck/spell-checker */}
+      <div className="oidc-buttons">
+        {oidcProviders.map(provider => (
+          // eslint-disable-next-line react/prop-types
+          <OidcProviderButton key={provider.id} provider={provider} />
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <div id="login-page">
       <PF5LoginPage
@@ -121,6 +181,7 @@ const LoginPage = ({ alerts, caption, logoSrc, token }) => {
         textContent={caption}
       >
         {loginForm}
+        {oidcSection}
       </PF5LoginPage>
     </div>
   );
@@ -136,6 +197,13 @@ LoginPage.propTypes = {
   caption: PropTypes.string,
   logoSrc: PropTypes.string,
   token: PropTypes.string.isRequired,
+  oidcProviders: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      loginUrl: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 LoginPage.defaultProps = {
@@ -143,6 +211,7 @@ LoginPage.defaultProps = {
   backgroundUrl: null,
   caption: null,
   logoSrc: null,
+  oidcProviders: [],
 };
 
 export default LoginPage;
