@@ -81,7 +81,7 @@ class FormHelperTest < ActionView::TestCase
         html = field(f, :login, :error => user.errors[:mail]) do
           'zzz'
         end
-        assert_match /is invalid/, html
+        assert_match /is not a valid email address/, html
       end
     end
 
