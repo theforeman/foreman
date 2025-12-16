@@ -1,124 +1,212 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormControl, InputGroup } from 'patternfly-react';
-import { OutlinedCalendarAltIcon, TimesIcon } from '@patternfly/react-icons';
-import { Popover, Icon } from '@patternfly/react-core';
-import DateInput from './DateComponents/DateInput';
-import TodayButton from './DateComponents/TodayButton';
-import TimeInput from './TimeComponents/TimeInput';
-import { MONTH } from './DateComponents/DateConstants';
-import { noop, formatDateTime } from '../../../common/helpers';
+import {
+  CalendarMonth,
+  InputGroup,
+  InputGroupItem,
+  TextInput,
+  Button,
+  HelperText,
+  HelperTextItem,
+  Popover,
+} from '@patternfly/react-core';
+import { OutlinedCalendarAltIcon } from '@patternfly/react-icons';
+import { formatDate, formatTime } from './dateTimeHelpers';
+import { noop } from '../../../common/helpers';
+import TimePicker from './TimePicker';
+import { translate as __ } from '../../../common/I18n';
 import './date-time-picker.scss';
 
-class DateTimePicker extends React.Component {
-  get hasDefaultValue() {
-    const { value } = this.props;
-    return !!Date.parse(value);
-  }
+const DateTimePicker = ({
+  value: initialValue,
+  locale,
+  weekStartsOn,
+  name,
+  id,
+  placement,
+  required,
+  inputProps,
+  isFutureOnly,
+  onChange, // additional prop to allow for custom onChange logic
+}) => {
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [valueDate, setValueDate] = useState(formatDate(initialValue));
+  const [valueTime, setValueTime] = useState(formatTime(initialValue));
+  const [value, setValue] = useState(`${valueDate} ${valueTime}`);
+  const [errorText, setErrorText] = useState(null);
 
-  get initialDate() {
-    const { value } = this.props;
-    return this.hasDefaultValue ? new Date(value) : new Date();
-  }
-
-  state = {
-    value: this.initialDate,
-    typeOfDateInput: MONTH,
-    isTimeTableOpen: false,
-    hiddenValue: !this.hasDefaultValue,
+  const intervalRef = useRef(null);
+  const onToggleCalendar = () => {
+    setIsCalendarOpen(!isCalendarOpen);
   };
-
-  setSelected = date => {
-    if (Date.parse(date)) {
-      const newDate = new Date(date);
-      this.setState({ value: newDate });
-      this.props.onChange(newDate);
+  const futureErrorMessage = __('Date must be in the future');
+  useEffect(() => {
+    const updateError = () => {
+      if ((!valueDate || !valueTime || !value) && required) {
+        setErrorText(__('Date and time are required'));
+      } else if (
+        isFutureOnly &&
+        new Date().setSeconds(0, 0) > new Date(value).setSeconds(0, 0)
+      ) {
+        setErrorText(futureErrorMessage);
+      } else {
+        setErrorText(null);
+        onChange(value);
+      }
+    };
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
-    this.setState({
-      typeOfDateInput: MONTH,
-      isTimeTableOpen: false,
-    });
+    updateError();
+    intervalRef.current = setInterval(updateError, 30000); // make sure the error is updated every 30 seconds so isFutureOnly is always up to date
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [valueDate, valueTime, value, required, isFutureOnly]);
+
+  const onSelectCalendar = (_event, newValueDate) => {
+    const newDate = formatDate(newValueDate);
+    setValueDate(newDate);
+    setIsCalendarOpen(!isCalendarOpen);
+    setValue(`${newDate} ${valueTime}`);
   };
 
-  clearSelected = () => {
-    this.setState({ hiddenValue: true, value: new Date() });
-    this.props.onChange(undefined);
+  const onBlur = () => {
+    const [date, time] = value
+      .replace(/\s+/g, ' ')
+      .trim()
+      .split(' ');
+    setValueDate(formatDate(date || ''));
+    setValueTime(formatTime(time || ''));
+    if (date && time) {
+      setValue(`${date} ${time}`);
+    } else {
+      setValue('');
+    }
   };
+  const onClear = () => {
+    setValueDate('');
+    setValue('');
+  };
+  const onSelectTime = newTime => {
+    newTime = formatTime(newTime);
+    const newDate = formatDate(valueDate);
+    setValueTime(newTime);
+    setValue(`${newDate} ${newTime}`);
+  };
+  const onToday = () => {
+    const todayDate = formatDate(new Date());
+    const todayTime = formatTime(new Date());
+    setValueDate(todayDate);
+    setValueTime(todayTime);
+    setValue(`${todayDate} ${todayTime}`);
+  };
+  const futureValidator = date => {
+    if (
+      isFutureOnly &&
+      date.setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0)
+    ) {
+      return false;
+    }
+    return true;
+  };
+  const calendar = (
+    <CalendarMonth
+      locale={locale}
+      weekStart={weekStartsOn}
+      date={valueDate ? new Date(valueDate) : ''}
+      onChange={onSelectCalendar}
+      validators={[futureValidator]}
+    />
+  );
 
-  render() {
-    const {
-      locale,
-      weekStartsOn,
-      inputProps,
-      id,
-      placement,
-      name,
-      required,
-    } = this.props;
-    const { value, typeOfDateInput, isTimeTableOpen, hiddenValue } = this.state;
-    const popover = (
-      <div
-        className="row bootstrap-datetimepicker-widget timepicker-sbs"
-        id={id}
-      >
-        <DateInput
-          date={value}
-          setSelected={this.setSelected}
-          locale={locale}
-          weekStartsOn={weekStartsOn}
-          className="col-md-6"
-          typeOfDateInput={typeOfDateInput}
-        />
-        <TimeInput
-          time={value}
-          setSelected={this.setSelected}
-          isTimeTableOpen={isTimeTableOpen}
-        />
-        <li className="picker-switch accordion-toggle">
-          <TodayButton setSelected={this.setSelected} />
-        </li>
-      </div>
-    );
-    return (
-      <div>
-        <InputGroup className="input-group date-time-picker-pf">
-          <FormControl
-            {...inputProps}
-            aria-label="date-picker-input"
-            type="text"
-            className="date-time-input"
-            name={name}
-            value={hiddenValue && !required ? '' : formatDateTime(value)}
-            onChange={e => this.setSelected(e.target.value)}
-          />
-          <Popover
-            position={placement}
-            className="date-time-picker-popover"
-            bodyContent={popover}
-            onShown={() => this.setState({ hiddenValue: false })}
-            minWidth="500px"
-          >
-            <InputGroup.Addon className="date-time-picker-pf">
-              <Icon>
-                <OutlinedCalendarAltIcon />
-              </Icon>
-            </InputGroup.Addon>
-          </Popover>
-          {!required && (
-            <InputGroup.Addon
-              className="clear-button"
-              onClick={this.clearSelected}
+  return (
+    <div className="date-time-picker-pf-wrapper">
+      <Popover
+        position={placement}
+        bodyContent={calendar}
+        showClose={false}
+        isVisible={isCalendarOpen}
+        shouldClose={() => {
+          setIsCalendarOpen(false);
+        }}
+        hasNoPadding
+        hasAutoWidth
+        className="date-picker-popover"
+        footerContent={
+          <div className="date-picker-input-items">
+            <Button
+              className="date-picker-input-item"
+              ouiaId="today-button"
+              onClick={onToday}
             >
-              <Icon>
-                <TimesIcon />
-              </Icon>
-            </InputGroup.Addon>
-          )}
+              {__('Today')}
+            </Button>
+            <Button
+              className="date-picker-input-item"
+              ouiaId="clear-button"
+              onClick={onClear}
+            >
+              {__('Clear')}
+            </Button>
+          </div>
+        }
+      >
+        <InputGroup>
+          <InputGroupItem className="pf-v5-c-date-picker__input pf-v5-c-date-picker ">
+            <TextInput
+              ouiaId="datetime-picker-input"
+              type="text"
+              id={id}
+              name={name}
+              aria-label="date and time picker"
+              value={value}
+              onChange={(e, newValue) => {
+                setValue(newValue);
+                setIsCalendarOpen(false);
+              }}
+              onBlur={onBlur}
+              isRequired={required}
+              validated={errorText ? 'error' : 'default'}
+              placeholder="YYYY-MM-DD HH:MM"
+              className=" pf-v5-c-form-control"
+              {...inputProps}
+            />
+          </InputGroupItem>
+          <InputGroupItem className="date-picker-input-item">
+            <Button
+              ouiaId="toggle-calendar-button"
+              variant="control"
+              aria-label="Toggle date picker"
+              onClick={onToggleCalendar}
+            >
+              <OutlinedCalendarAltIcon />
+            </Button>
+          </InputGroupItem>
+          <InputGroupItem className="date-picker-input-item">
+            <TimePicker
+              value={valueTime}
+              onChange={onSelectTime}
+              id={`${id}-time-picker`}
+              locale={locale}
+              is24Hour
+            />
+          </InputGroupItem>
         </InputGroup>
-      </div>
-    );
-  }
-}
+      </Popover>
+      {errorText && (
+        <HelperText>
+          <HelperTextItem variant="error">{errorText}</HelperTextItem>
+        </HelperText>
+      )}
+    </div>
+  );
+};
 
 DateTimePicker.propTypes = {
   value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
@@ -129,6 +217,7 @@ DateTimePicker.propTypes = {
   placement: PropTypes.string,
   name: PropTypes.string,
   required: PropTypes.bool,
+  isFutureOnly: PropTypes.bool,
   onChange: PropTypes.func,
 };
 
@@ -141,6 +230,7 @@ DateTimePicker.defaultProps = {
   placement: 'top',
   name: undefined,
   required: false,
+  isFutureOnly: false,
   onChange: noop,
 };
 export default DateTimePicker;

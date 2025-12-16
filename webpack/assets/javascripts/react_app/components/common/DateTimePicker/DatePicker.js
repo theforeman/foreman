@@ -1,92 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormControl, InputGroup } from 'patternfly-react';
-import { Icon, Popover } from '@patternfly/react-core';
-import { CalendarAltIcon, TimesIcon } from '@patternfly/react-icons';
-import DateInput from './DateComponents/DateInput';
-import TodayButton from './DateComponents/TodayButton';
-import { formatDate } from '../../../common/helpers';
+import { DatePicker as PfDatePicker, Button } from '@patternfly/react-core';
+import { translate as __ } from '../../../common/I18n';
+import { formatDate } from './dateTimeHelpers';
 import './date-time-picker.scss';
 
-class DatePicker extends React.Component {
-  get hasDefaultValue() {
-    const { value } = this.props;
-    return !!Date.parse(value);
-  }
-
-  get initialDate() {
-    const { value } = this.props;
-    return this.hasDefaultValue ? new Date(value) : new Date();
-  }
-
-  state = {
-    value: this.initialDate,
-    hiddenValue: !this.hasDefaultValue,
-  };
-
-  setSelected = date => {
-    if (Date.parse(date)) {
-      const newDate = new Date(date);
-      this.setState({ value: newDate });
-    }
-  };
-
-  render() {
-    const { locale, weekStartsOn, name, id, placement, required } = this.props;
-    const { value, hiddenValue } = this.state;
-    const popover = (
-      <div className="row bootstrap-datetimepicker-widget" id={id}>
-        <DateInput
-          date={value}
-          setSelected={this.setSelected}
-          locale={locale}
-          weekStartsOn={weekStartsOn}
-          className="col-xs-12"
-        />
-        <li className="picker-switch accordion-toggle">
-          <TodayButton setSelected={this.setSelected} />
-        </li>
-      </div>
-    );
-    return (
-      <div>
-        <InputGroup className="input-group date-time-picker-pf">
-          <FormControl
-            aria-label="date-time-picker-input"
-            type="text"
-            className="date-input"
-            value={hiddenValue && !required ? '' : formatDate(value)}
-            name={name}
-            onChange={e => this.setSelected(e.target.value)}
-          />
-          <Popover
-            position={placement}
-            bodyContent={popover}
-            onShown={() => this.setState({ hiddenValue: false })}
-          >
-            <InputGroup.Addon className="date-picker-pf">
-              <Icon>
-                <CalendarAltIcon />
-              </Icon>
-            </InputGroup.Addon>
-          </Popover>
-          {!required && (
-            <InputGroup.Addon
-              className="clear-button"
-              onClick={() =>
-                this.setState({ hiddenValue: true, value: new Date() })
-              }
-            >
-              <Icon>
-                <TimesIcon />
-              </Icon>
-            </InputGroup.Addon>
-          )}
-        </InputGroup>
-      </div>
-    );
-  }
-}
+const DatePicker = ({
+  value: initialValue,
+  locale,
+  weekStartsOn,
+  name,
+  id,
+  placement,
+  required,
+}) => {
+  const [value, setValue] = useState(formatDate(initialValue));
+  return (
+    <div className="date-picker-pf-wrapper">
+      <PfDatePicker
+        value={value}
+        onChange={(_event, newValue) => setValue(newValue)}
+        locale={locale}
+        weekStart={weekStartsOn}
+        inputProps={{ name, id }}
+        popoverProps={{
+          position: placement,
+          className: 'date-picker-popover',
+          footerContent: (
+            <div className="date-picker-input-items">
+              <Button
+                className="date-picker-input-item"
+                ouiaId="today-button"
+                onClick={() => setValue(formatDate(new Date()))}
+              >
+                {__('Today')}
+              </Button>
+              <Button
+                className="date-picker-input-item"
+                ouiaId="clear-button"
+                onClick={() => setValue('')}
+              >
+                {__('Clear')}
+              </Button>
+            </div>
+          ),
+        }}
+        requiredDateOptions={{
+          isRequired: required,
+          emptyDateText: __('Date is required'),
+        }}
+      />
+    </div>
+  );
+};
 
 DatePicker.propTypes = {
   value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),

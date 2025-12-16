@@ -65,19 +65,19 @@ describe('InputFactory', () => {
 
     it('should render DateTimePicker for type="dateTime"', () => {
       const { container } = render(<InputFactory type="dateTime" name="test" id="test-datetime" />);
-      const input = container.querySelector('.date-time-input');
+      const input = container.querySelector('.date-time-picker-pf-wrapper');
       expect(input).toBeInTheDocument();
     });
 
     it('should render DatePicker for type="date"', () => {
       const { container } = render(<InputFactory type="date" name="test" id="test-date" />);
-      const input = container.querySelector('.date-input');
+      const input = container.querySelector('.date-picker-pf-wrapper');
       expect(input).toBeInTheDocument();
     });
 
     it('should render TimePicker for type="time"', () => {
       const { container } = render(<InputFactory type="time" name="test" id="test-time" />);
-      const input = container.querySelector('.date-time-picker-pf');
+      const input = container.querySelector('.time-picker-pf');
       expect(input).toBeInTheDocument();
     });
 

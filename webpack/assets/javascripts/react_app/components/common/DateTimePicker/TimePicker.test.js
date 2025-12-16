@@ -1,24 +1,58 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import TimePicker from './TimePicker';
 
-test('TimePicker is working properly', () => {
-  const component = mount(<TimePicker value="2/2/2   5:22:31 PM" />);
+describe('TimePicker', () => {
+  test('renders properly', () => {
+    render(<TimePicker />);
+    
+    const timeInput = screen.getByLabelText('Time picker');
+    expect(timeInput).toBeInTheDocument();
+  });
 
-  expect(component.render()).toMatchSnapshot();
-});
+  test('prefils the value from prop', () => {
+    const testTime = '14:30';
+    const { container } = render(<TimePicker value={testTime} />);
+    
+    const timeInput = container.querySelector('input');
+    expect(timeInput).toBeInTheDocument();
+    expect(timeInput).toHaveValue(testTime);
+  });
 
-test('TimePicker is working properly with time only', () => {
-  const component = mount(<TimePicker value="5:22:31 PM  " />);
+  test('edit works', () => {
+    const testTime = '14:30';
+    const { container } = render(<TimePicker value={testTime} />);
+    const timeInput = container.querySelector('input');
+    expect(timeInput).toHaveValue(testTime);
+    fireEvent.change(timeInput, { target: { value: '16:45' } });
+    expect(timeInput).toHaveValue('16:45');
+  });
 
-  expect(component.render()).toMatchSnapshot();
-});
+  test('calls onChange callback when provided', () => {
+    const onChange = jest.fn();
+    const initialTime = '14:30';
+    const { container } = render(<TimePicker onChange={onChange} value={initialTime} />);
+    
+    const timeInput = container.querySelector('input');
+    fireEvent.change(timeInput, { target: { value: '18:00' } });
+    
+    expect(onChange).toHaveBeenCalledWith('18:00');
+  });
 
-test('Edit form of TimePicker', () => {
-  const component = mount(<TimePicker value="2:22:31 PM  " />);
-  component
-    .find('input')
-    .simulate('change', { target: { value: '2:42 PM  ' } });
-  expect(component.render()).toMatchSnapshot();
-  expect(component.state().value).toEqual(new Date('1/1/1 2:42:00 PM  '));
+  test('passes props to PatternFly TimePicker', () => {
+    const { container } = render(
+      <TimePicker
+        name="test-time"
+        id="test-time-picker"
+        locale="en-US"
+      />
+    );
+    
+    const timeInput = container.querySelector('input[name="test-time"]');
+    
+    expect(timeInput).toBeInTheDocument();
+    expect(timeInput).toHaveAttribute('name', 'test-time');
+    expect(timeInput).toHaveAttribute('id', 'test-time-picker');
+  });
 });
