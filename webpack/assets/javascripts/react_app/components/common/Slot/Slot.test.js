@@ -1,55 +1,27 @@
 import React from 'react';
-import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
-
+import '@testing-library/jest-dom';
+import { screen } from '@testing-library/react';
 import Fill from '../Fill';
 import Slot from './';
-import FillReducer from '../Fill/FillReducer';
+import { rtlHelpers } from '../../../common/rtlTestHelpers';
 
-const combinedReducers = { extendable: FillReducer };
+const { renderWithStore } = rtlHelpers;
 const SlotComponent = ({ text }) => <div>{text}</div>; // eslint-disable-line
 
 jest.unmock('../../../../services/SlotsRegistry');
 
 describe('Slot-Fill', () => {
-  const integrationTestHelper = new IntegrationTestHelper(combinedReducers);
-
-  it('render multiple fills', () => {
-    const FirstComponent = () => <span> Should be the first in the snap</span>;
-    const SecondComponent = () => <span> Should be the first in the snap</span>;
-    const wrapper = integrationTestHelper.mount(
-      <React.Fragment>
-        <Fill slotId="slot-1" id="some-key-1" weight={100}>
-          <SecondComponent key={1} />
-        </Fill>
-        <Fill slotId="slot-1" id="some-key-2" weight={200}>
-          <FirstComponent key={2} />
-        </Fill>
-
-        <Slot id="slot-1" multi>
-          <div> defaul value </div>
-        </Slot>
-      </React.Fragment>
-    );
-
-    wrapper.update();
-    expect(wrapper.find('Slot')).toMatchSnapshot();
-    integrationTestHelper.takeStoreSnapshot();
-    integrationTestHelper.takeActionsSnapshot();
-  });
-
-  it('Slot with a prop should be pass to a fill', () => {
-    const wrapper = integrationTestHelper.mount(
+  it('Slot with a prop should be passed to a fill', async () => {
+    renderWithStore(
       <React.Fragment>
         <Fill slotId="slot-9" id="some-key-1" weight={100}>
           <SlotComponent key="key" />
         </Fill>
-
         <Slot id="slot-9" text="this prop should be taken" />
       </React.Fragment>
     );
 
-    wrapper.update();
-    expect(wrapper.find('Slot')).toMatchSnapshot();
+    expect(await screen.findByText('this prop should be taken')).toBeInTheDocument();
   });
 
   it('Fill with no component nor overriden props should throw an error', () => {
@@ -58,7 +30,7 @@ describe('Slot-Fill', () => {
     // eslint-disable-next-line no-console
     console.error = jest.fn();
     expect(() => {
-      integrationTestHelper.mount(
+      renderWithStore(
         <React.Fragment>
           <Fill slotId="slot-7" id="some-key-1" weight={100} />
 
@@ -66,16 +38,18 @@ describe('Slot-Fill', () => {
         </React.Fragment>
       );
     }).toThrowError(new Error('Slot with override props must have a child'));
+
     // eslint-disable-next-line no-console
     console.error = err;
   });
 
-  it('no multiple fills', () => {
-    const AbsentComponent = () => <div> This should not be in the snap </div>;
+  it('no multiple fills', async () => {
+    const AbsentComponent = () => <div>This should not be in the snap</div>;
     const PresentComponent = () => (
-      <span> This span should be in the snap </span>
+      <span>This span should be in the snap</span>
     );
-    const wrapper = integrationTestHelper.mount(
+
+    renderWithStore(
       <React.Fragment>
         <Fill slotId="slot-2" id="some-key-1" weight={100}>
           <AbsentComponent key="a" />
@@ -83,18 +57,19 @@ describe('Slot-Fill', () => {
         <Fill slotId="slot-2" id="some-key-1" weight={200}>
           <PresentComponent key="b" />
         </Fill>
-
         <Slot id="slot-2" multi={false}>
-          <div> defaul value </div>
+          <div>default value</div>
         </Slot>
       </React.Fragment>
     );
 
-    wrapper.update();
-    expect(wrapper.find('Slot')).toMatchSnapshot();
+    expect(await screen.findByText('This span should be in the snap')).toBeInTheDocument();
+
+    expect(screen.queryByText('This should not be in the snap')).not.toBeInTheDocument();
   });
-  it('props fill', () => {
-    const wrapper = integrationTestHelper.mount(
+
+  it('props fill', async () => {
+    renderWithStore(
       <React.Fragment>
         <Fill
           overrideProps={{ text: 'This is given by a prop' }}
@@ -102,28 +77,27 @@ describe('Slot-Fill', () => {
           id="some-key-1"
           weight={100}
         />
-
         <Slot id="slot-3" multi={false}>
           <SlotComponent key="c" />
         </Slot>
       </React.Fragment>
     );
 
-    wrapper.update();
-    expect(wrapper.find('Slot')).toMatchSnapshot();
+    expect(await screen.findByText('This is given by a prop')).toBeInTheDocument();
   });
+
   it('default slot', () => {
-    const wrapper = integrationTestHelper.mount(
+    renderWithStore(
       <Slot id="slot-4" multi>
         <SlotComponent text="Default Value" />
       </Slot>
     );
 
-    wrapper.update();
-    expect(wrapper.find('Slot')).toMatchSnapshot();
+    expect(screen.getByText('Default Value')).toBeInTheDocument();
   });
-  it('multiple slot with override props', () => {
-    const wrapper = integrationTestHelper.mount(
+
+  it('multiple slot with override props', async () => {
+    renderWithStore(
       <React.Fragment>
         <Fill
           overrideProps={{ text: 'This should be the second', key: 1 }}
@@ -142,12 +116,13 @@ describe('Slot-Fill', () => {
         </Slot>
       </React.Fragment>
     );
-    wrapper.update();
-    expect(wrapper.find('Slot')).toMatchSnapshot();
+    const e1 = await screen.findByText('This should be the first');
+    const e2 = await screen.findByText('This should be the second');
+    expect(e1.compareDocumentPosition(e2)).toBe(4);
   });
 
-  it('slot with multi override props should take max weight', () => {
-    const wrapper = integrationTestHelper.mount(
+  it('slot with multi override props should take max weight', async () => {
+    renderWithStore(
       <React.Fragment>
         <Fill
           overrideProps={{ text: 'This should not be in the snap' }}
@@ -169,13 +144,15 @@ describe('Slot-Fill', () => {
         </Slot>
       </React.Fragment>
     );
-    wrapper.update();
-    expect(wrapper.find('Slot')).toMatchSnapshot();
+
+    expect(await screen.findByText('This text should be in the snap')).toBeInTheDocument();
+
+    expect(screen.queryByText('This should not be in the snap')).not.toBeInTheDocument();
   });
 
-  it('multi slot with override props fill and component fill', () => {
-    const TestComponent = () => <div> Also this should be in the snap </div>;
-    const wrapper = integrationTestHelper.mount(
+  it('multi slot with override props fill and component fill', async () => {
+    const TestComponent = () => <div>Also this should be in the snap</div>;
+    renderWithStore(
       <React.Fragment>
         <Fill
           overrideProps={{ key: 'def', text: 'This should be in the snap' }}
@@ -191,7 +168,8 @@ describe('Slot-Fill', () => {
         </Slot>
       </React.Fragment>
     );
-    wrapper.update();
-    expect(wrapper.find('Slot')).toMatchSnapshot();
+
+    expect(await screen.findByText('This should be in the snap')).toBeInTheDocument();
+    expect(await screen.findByText('Also this should be in the snap')).toBeInTheDocument();
   });
 });
