@@ -28,6 +28,10 @@ module Katello
     end
     let(:parser) { RhsmFactParser.new(@facts) }
 
+    def rhel_9_facts
+      read_json_fixture('facts/rhsm_rhel_9.json').with_indifferent_access
+    end
+
     def test_virtual_interfaces
       assert parser.interfaces['eth0.1'][:virtual]
       refute parser.interfaces['eth0'][:virtual]
@@ -222,6 +226,24 @@ module Katello
       @facts['uname.machine'] = 'i686'
 
       assert 'i386', parser.architecture.name
+    end
+
+    def test_bios
+      # Verify BIOS parsing works with real RHSM facts from a VM
+      facts = rhel_9_facts
+      bios_parser = RhsmFactParser.new(facts)
+
+      bios = bios_parser.bios
+      assert_equal 'SeaBIOS', bios[:vendor]
+      assert_equal '1.16.1-1.el9', bios[:version]
+      assert_equal '04/01/2014', bios[:release_date]
+    end
+
+    def test_bios_empty
+      bios = parser.bios
+      assert_nil bios[:vendor]
+      assert_nil bios[:version]
+      assert_nil bios[:release_date]
     end
 
     def test_operatingsystem_race_condition_handling

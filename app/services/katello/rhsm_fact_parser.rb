@@ -8,7 +8,7 @@ module Katello
     end
 
     def model
-      if facts['virt::is_guest'] == "true"
+      if facts['virt.is_guest'] == "true"
         name = facts['lscpu.hypervisor_vendor']
       else
         name = facts['dmi.system.product_name']
@@ -125,9 +125,9 @@ module Katello
 
     def bios
       {
-        :vendor => facts['dmi::bios::all_records::vendor'],
-        :version => facts['dmi::bios::all_records::version'],
-        :release_date => facts['dmi::bios::all_records::release_date'],
+        :vendor => facts['dmi.bios.vendor'],
+        :version => facts['dmi.bios.version'],
+        :release_date => facts['dmi.bios.release_date'],
       }
     end
 
