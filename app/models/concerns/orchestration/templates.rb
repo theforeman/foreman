@@ -7,6 +7,9 @@ module Orchestration::Templates
   end
 
   def queue_render_checks
+    # Skip if the host class is not supported
+    # (for example Host::Discovered from foreman_discovery)
+    return unless instance_of? Host::Managed
     return if skip_orchestration?
     return unless managed?
     return unless template

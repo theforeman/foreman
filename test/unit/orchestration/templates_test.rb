@@ -44,4 +44,14 @@ class TemplatesTest < ActiveSupport::TestCase
     assert_equal 1, @queue.count
     assert @host.set_renderability
   end
+
+  test 'orchestration is queued for Host::Managed class only' do
+    template = FactoryBot.build(:provisioning_template, template: "<%= @host.name %>")
+
+    @host.stubs(:provisioning_template).returns(template)
+    @host.stubs(:instance_of?).with(Host::Managed).returns(false)
+    @host.queue_render_checks
+
+    assert_equal 0, @queue.count
+  end
 end
