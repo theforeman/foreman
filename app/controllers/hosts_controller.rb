@@ -33,6 +33,8 @@ class HostsController < ApplicationController
   before_action :set_host_type, :only => [:update]
   before_action :find_multiple, :only => MULTIPLE_ACTIONS
   before_action :validate_power_action, :only => :update_multiple_power_state
+  before_action :host_for_template_used, :only => :template_used
+
   # index action is already included in ApplicationController
   before_action(:only => SEARCHABLE_ACTIONS.without('index')) { find_selected_columns }
 
@@ -611,16 +613,15 @@ class HostsController < ApplicationController
   # we don't need any has_many relation to determine what proxies are used and the view
   # renders only resulting templates set so the rest of form is unaffected
   def template_used
-    host = params[:id] ? Host::Base.readonly.find(params[:id]) : Host.new(host_params)
     kind = params.delete(:provisioning)
-    host.attributes = host_attributes_for_templates(host)
-    templates = host.available_template_kinds(kind)
+    @host.attributes = host_attributes_for_templates(@host)
+    templates = @host.available_template_kinds(kind)
 
     return not_found if templates.empty?
 
     rendered_errors = {}
     ok_tmpl, err_tmpl = templates.partition do |t|
-      t.render(host: host)
+      t.render(host: @host)
     rescue => e
       rendered_errors[t.id] = e.message
       false
@@ -915,5 +916,9 @@ class HostsController < ApplicationController
     path_hash = main_app.routes.recognize_path(session["redirect_to_url_#{controller_name}"])
     return default_redirection if (path_hash.nil? || (path_hash && path_hash[:action] != 'index'))
     { :success_redirect => saved_redirect_url_or(send("#{controller_name}_url")) }
+  end
+
+  def host_for_template_used
+    @host = params[:id] ? Host::Base.readonly.find(params[:id]) : Host.new(host_params)
   end
 end
