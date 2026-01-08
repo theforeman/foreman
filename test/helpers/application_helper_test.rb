@@ -133,4 +133,69 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_equal "/new/hosts/#{@host.id}", result
     end
   end
+
+  describe 'app_metadata and evaluate_metadata_hash' do
+    test 'app_metadata returns hash with core and plugin metadata' do
+      result = app_metadata
+
+      assert_kind_of Hash, result
+      assert result.key?(:version)
+      assert result.key?(:UISettings)
+    end
+
+    test 'app_metadata evaluates lambda values in plugin metadata' do
+      counter = 0
+      ::Foreman::Plugin.app_metadata_registry.register(:test_plugin, {
+        dynamic: -> { counter += 1 },
+      })
+
+      metadata = app_metadata
+      result1 = metadata['test_plugin']['dynamic']
+      result2 = app_metadata['test_plugin']['dynamic']
+
+      assert_equal 1, result1
+      assert_equal 2, result2
+    ensure
+      # Clean up test registration
+      ::Foreman::Plugin.app_metadata_registry.instance_variable_get(:@plugin_metadata).delete(:test_plugin)
+    end
+
+    test 'app_metadata preserves static values' do
+      ::Foreman::Plugin.app_metadata_registry.register(:test_plugin_static, {
+        static_string: 'test',
+        static_number: 42,
+        static_bool: true,
+      })
+
+      result = app_metadata['test_plugin_static']
+
+      assert_equal 'test', result['static_string']
+      assert_equal 42, result['static_number']
+      assert_equal true, result['static_bool']
+    ensure
+      ::Foreman::Plugin.app_metadata_registry.instance_variable_get(:@plugin_metadata).delete(:test_plugin_static)
+    end
+
+    test 'app_metadata handles mixed static and lambda values' do
+      call_count = 0
+      ::Foreman::Plugin.app_metadata_registry.register(:test_plugin_mixed, {
+        static: 'static_value',
+        dynamic: lambda {
+                   call_count += 1
+                   "dynamic_#{call_count}"
+                 },
+      })
+
+      result = app_metadata['test_plugin_mixed']
+
+      assert_equal 'static_value', result['static']
+      assert_equal 'dynamic_1', result['dynamic']
+
+      # Second call should re-evaluate lambda
+      result2 = app_metadata['test_plugin_mixed']
+      assert_equal 'dynamic_2', result2['dynamic']
+    ensure
+      ::Foreman::Plugin.app_metadata_registry.instance_variable_get(:@plugin_metadata).delete(:test_plugin_mixed)
+    end
+  end
 end

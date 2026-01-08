@@ -422,9 +422,8 @@ module ApplicationHelper
   end
 
   def app_metadata
-    core_app_metadata.merge(
-      ::Foreman::Plugin.app_metadata_registry.all_plugin_metadata
-    )
+    ::Foreman::Plugin::AppMetadataRegistry.resolve_procs(core_app_metadata)
+      .merge(::Foreman::Plugin.app_metadata_registry.all_plugin_metadata_resolved)
   end
 
   def ui_settings

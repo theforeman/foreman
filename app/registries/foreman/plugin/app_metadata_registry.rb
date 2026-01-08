@@ -17,6 +17,18 @@ module Foreman
       def all_plugin_metadata
         @plugin_metadata
       end
+
+      def all_plugin_metadata_resolved
+        @plugin_metadata.transform_values { |v| self.class.resolve_procs(v) }
+      end
+
+      # Evaluates any Proc values in the given hash, calling them and replacing
+      # them with their return values. All other values remain unchanged.
+      # @param hash [Hash] A hash potentially containing Proc values
+      # @return [Hash] A new hash with Procs evaluated
+      def self.resolve_procs(hash)
+        hash.transform_values { |v| v.is_a?(Proc) ? v.call : v }
+      end
     end
   end
 end
