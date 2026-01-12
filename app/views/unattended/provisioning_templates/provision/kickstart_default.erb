@@ -41,7 +41,7 @@ description: |
   - skip-puppet-setup: boolean (default=false)
   - salt_master: string (default=undef)
   - ntp-pools: array (default=undef)
-  - ntp-server: string (default=undef)
+  - ntp-server: string (default=undef), an array is permitted for multiple servers
   - bootloader-append: string (default="nofb quiet splash=quiet")
   - disable-firewall: boolean (default=false)
   - kdump-options: string (default=undef)
@@ -153,15 +153,28 @@ authconfig --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downca
 <% end -%>
 <%# Timezone + NTP -%>
 <% if rhel_compatible && os_major < 9 -%>
-timezone --utc <%= host_param('time-zone') || 'UTC' %> <%= host_param('ntp-server') ? "--ntpservers #{host_param('ntp-server')}" : '' %>
+<%# RHEL < 9: Use legacy timezone command with --ntpservers -%>
+<% if host_param('ntp-server').respond_to?(:join) -%>
+timezone --ntpservers <%= host_param('ntp-server').join(',') %> --utc <%= host_param('time-zone') || 'UTC' %>
+<% elsif host_param('ntp-server') -%>
+timezone --ntpservers <%= host_param('ntp-server') %> --utc <%= host_param('time-zone') || 'UTC' %>
 <% else -%>
+timezone --utc <%= host_param('time-zone') || 'UTC' %>
+<% end -%>
+<% else -%>
+<%# RHEL >= 9: Use timezone + timesource commands -%>
 timezone --utc <%= host_param('time-zone') || 'UTC' %>
 <% if host_param('ntp-pools') -%>
 <% host_param('ntp-pools').each do |ntppool| -%>
 timesource --ntp-pool <%= ntppool %>
 <% end -%>
-<% elsif host_param('ntp-server') -%>
-timesource --ntp-server <%= host_param('ntp-server') %>
+<% elsif host_param('ntp-server').respond_to?(:join) -%>
+<% host_param('ntp-server').each do |ntpserver| -%>
+timesource --ntp-server <%= ntpserver %>
+<% end -%>
+<% else -%>
+<%# too many possible OS vendors to easily pick a default subdomain for ntp.org -%>
+timesource --ntp-server <%= host_param('ntp-server') || '2.pool.ntp.org' %>
 <% end -%>
 <% end -%>
 

@@ -31,7 +31,13 @@ description: |
 <% subnet.dns_servers.each do |nameserver| -%>
   <name-server><%= nameserver %></name-server>
 <% end -%>
-  <ntp-server><%= host_param('ntp-server') || 'pool.ntp.org' %></ntp-server>
+<% if host_param('ntp-server').respond_to?(:join) -%>
+<% host_param('ntp-server').each do |srv| -%>
+  <ntp-server><%= srv  %></ntp-server>
+<% end -%>
+<% else -%>
+  <ntp-server><%= host_param('ntp-server') || '2.xenserver.pool.ntp.org' %></ntp-server>
+<% end -%>
   <timezone><%= host_param('time-zone') || 'UTC' %></timezone>
   <time-config-method>ntp</time-config-method>
   <script stage="installation-complete" type="url">

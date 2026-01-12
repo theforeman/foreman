@@ -21,12 +21,20 @@ echo "Updating system time"
 <% if os_family == 'Debian' -%>
   <% if ntp_server -%>
     <% if @host.operatingsystem.name == "Ubuntu" -%>
+      <%- if ntp_server.respond_to?(:join) -%>
+      sed -i -E 's/^[[:space:]]*#?\s*NTP=.*/NTP=<%= ntp_server.first %>/' /etc/systemd/timesyncd.conf
+      <%- else -%>
       sed -i -E 's/^[[:space:]]*#?\s*NTP=.*/NTP=<%= ntp_server %>/' /etc/systemd/timesyncd.conf
+      <%- end -%>
       systemctl enable --now systemd-timesyncd
       timedatectl set-ntp true
     <% else -%>
       apt-get install -y chrony
+      <%- if ntp_server.respond_to?(:join) -%>
+      sed -i -E 's|^pool .*|server <%= ntp_server.first %> iburst|' /etc/chrony/chrony.conf
+      <%- else -%>
       sed -i -E 's|^pool .*|server <%= ntp_server %> iburst|' /etc/chrony/chrony.conf
+      <%- end -%>
       systemctl enable --now chrony
     <% end -%>
   <% end -%>
@@ -38,8 +46,12 @@ echo "Updating system time"
   -%>
   <% if use_ntp -%>
     yum -y install ntpdate
-    <% if host_param('ntp-server') -%>
-      /usr/sbin/ntpdate -sub <%= host_param('ntp-server') %>
+    <% if ntp-server -%>
+      <% if ntp_server.respond_to?(:join) -%>
+    /usr/sbin/ntpdate -sub <%= ntp-server.first %>
+      <% else -%>
+    /usr/sbin/ntpdate -sub <%= ntp-server %>
+      <% end -%>
     <% end -%>
     systemctl enable --now ntpd
   <% else -%>

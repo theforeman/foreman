@@ -23,8 +23,14 @@ system {
         <% end -%>
     }
     ntp {
-        boot-server <%= host_param('ntp-server') || '0.pool.ntp.org' %>;
-        server <%= host_param('ntp-server') || '0.pool.ntp.org' %>;
+<% if host_param('ntp-server').respond_to?(:join) -%>
+        boot-server <%= host_param('ntp-server').first %>;
+        server <%= host_param('ntp-server').first %>;
+<% else -%>
+<%# no known subdomain for Junos at ntp.org -%>
+        boot-server <%= host_param('ntp-server') || '2.pool.ntp.org' %>;
+        server <%= host_param('ntp-server') || '2.pool.ntp.org' %>;
+<% end -%>
     }
     login {
         message "This device was provisioned by using The Foreman!\nSee http://theforeman.org/ for further information.\n";

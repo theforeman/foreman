@@ -33,7 +33,11 @@ echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 /bin/hostname <%= @host.name %>
 cp /usr/share/zoneinfo/<%= host_param('time-zone') || 'UTC' %> /etc/localtime
 adjkerntz -a
-ntpdate <%= host_param('ntp-server') || '0.freebsd.pool.ntp.org' %>
+<% if host_param('ntp-server').respond_to?(:join) -%>
+ntpdate <%= host_param('ntp-server').first %>
+<% else -%>
+ntpdate <%= host_param('ntp-server') || '2.freebsd.pool.ntp.org' %>
+<% end -%>
 
 mkdir /root/install/
 freebsd-update fetch > /root/install/freebsd-update_fetch.txt

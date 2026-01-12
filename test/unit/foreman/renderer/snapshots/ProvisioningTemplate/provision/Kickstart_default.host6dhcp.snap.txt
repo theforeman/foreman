@@ -19,7 +19,7 @@ firewall --service=ssh
 %addon com_redhat_kdump --disable
 %end
 authconfig --useshadow --passalgo=sha512 --kickstart
-timezone --utc UTC --ntpservers first.ntp.server
+timezone --ntpservers first.ntp.server --utc UTC
 
 services --disabled gpm,sendmail,cups,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd
 

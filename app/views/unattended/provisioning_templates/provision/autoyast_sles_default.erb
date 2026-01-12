@@ -107,11 +107,21 @@ description: |
   <ntp-client>
     <ntp_policy>auto</ntp_policy>
     <ntp_servers config:type="list">
+      <%- if host_param('ntp-server').respond_to?(:join) -%>
+      <%- host_param('ntp-server').each do |ntp| -%>
       <ntp_server>
-        <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
+        <address><%= ntp %></address>
         <iburst config:type="boolean">false</iburst>
         <offline config:type="boolean">true</offline>
       </ntp_server>
+      <%- end -%>
+      <%- else -%>
+      <ntp_server>
+        <address><%= host_param('ntp-server') || '2.opensuse.pool.ntp.org' %></address>
+        <iburst config:type="boolean">false</iburst>
+        <offline config:type="boolean">true</offline>
+      </ntp_server>
+      <%- end -%>
     </ntp_servers>
     <ntp_sync>15</ntp_sync>
   </ntp-client>
@@ -120,7 +130,11 @@ description: |
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
       <peer>
-        <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
+        <%- if host_param('ntp-server').respond_to?(:join) -%>
+        <address><%= host_param('ntp-server').first %></address>
+        <%- else -%>
+        <address><%= host_param('ntp-server') || '2.opensuse.pool.ntp.org' %></address>
+        <%- end -%>
         <initial_sync config:type="boolean">true</initial_sync>
         <options></options>
         <type>server</type>
