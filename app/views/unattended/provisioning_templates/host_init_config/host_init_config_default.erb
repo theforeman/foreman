@@ -20,6 +20,28 @@ description: |
   It deploys the CA certificate so any later communication with the Foreman is TLS secured. Then it
   performs initial steps, such as puppet deployment, remote execution SSH key configuration etc. At the end
   it informs Foreman that provisioning has finished.
+
+  This template accepts the following parameters:
+  - enable-puppetlabs-repo: boolean (default=undef)
+  - enable-puppetlabs-puppet6-repo: boolean (default=undef)
+  - enable-official-puppet7-repo: boolean (default=undef)
+  - enable-official-puppet8-repo: boolean (default=undef)
+  - enable-openvox8: boolean (default=undef)
+  - enable-openvox9: boolean (default=undef)
+
+  This template inherits the following parameters from included snippets:
+  - puppet_setup
+    * enable-openvox8
+    * enable-openvox9
+  - voxpupuli_repo
+    * enable-openvox8-repo
+    * enable-openvox9-repo
+-%>
+<%
+  # safemode renderer does not support unary negation
+  puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
+  puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')
+  voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
 -%>
 #!/bin/bash
 set -e
@@ -48,8 +70,13 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
 <% end -%>
 
-<% if !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet')) -%>
+<% if puppet_enabled -%>
+<% if puppetlabs_repo_enabled -%>
 <%= snippet 'puppetlabs_repo' %>
+<% end -%>
+<% if voxpupuli_repo_enabled -%>
+<%= snippet 'voxpupuli_repo' %>
+<% end -%>
 <%= snippet 'puppet_setup' %>
 <% end -%>
 

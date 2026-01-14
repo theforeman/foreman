@@ -103,6 +103,7 @@ echo "Performing initial puppet run for --tags no_such_tag"
 
 
 
+
 # Mark the build as finished
 if [ -x /usr/bin/curl ]; then
   /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --fail --noproxy \* --silent 'http://foreman.example.com/unattended/built'

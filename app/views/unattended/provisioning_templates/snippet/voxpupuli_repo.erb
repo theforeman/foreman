@@ -1,0 +1,81 @@
+<%#
+kind: snippet
+name: voxpupuli_repo
+model: ProvisioningTemplate
+snippet: true
+description: |
+  Fetches the package that deploys the VoxPupuli repository that can be used to 
+  install OpenVox from. It only performs the installation in case one of the
+  enable-openvox*-repo parameter is set to true.
+  It is modeled after puppetlabs_repo snippet.
+
+  This template accepts the following parameters:
+  - enable-openvox8-repo: boolean (default=undef)
+    Set to true to enable the OpenVox 8 repository appropriate for the OS.
+  - enable-openvox9-repo: boolean (default=undef)
+    Set to true to enable the OpenVox 9 repository appropriate for the OS.
+-%>
+
+<%
+http_proxy   = host_param('http-proxy') ? " --httpproxy #{host_param('http-proxy')}" : nil
+http_port    = host_param('http-proxy-port') ? " --httpport #{host_param('http-proxy-port')}" : nil
+os_family = @host.operatingsystem.family
+os_major  = @host.operatingsystem.major.to_i
+os_name   = @host.operatingsystem.name
+proxy_uri    = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
+proxy_string = proxy_uri ? " -e https_proxy=#{proxy_uri}/" : ''
+proxy_string_bits = proxy_uri ? " -ProxyUsage Override -ProxyList #{proxy_uri}" : ''
+
+puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')
+voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
+
+if puppetlabs_repo_enabled && voxpupuli_repo_enabled
+  raise "Both Puppet and OpenVox repositories are enabled"
+end
+
+if os_family == 'Redhat'
+  repo_host = 'yum.voxpupuli.org'
+  if os_name == 'Amazon Linux'
+    repo_os = 'amazon'
+  elsif os_name == 'Fedora'
+    repo_os = 'fedora'
+  else
+    repo_os = 'el'
+  end
+elsif os_family == 'Suse'
+  repo_host = 'yum.voxpupuli.org'
+  repo_os = 'sles' # OpenVox repos only exist for SLES, not OpenSUSE
+elsif os_family == 'Debian'
+  repo_host = 'apt.voxpupuli.org'
+  repo_os = @host.operatingsystem.release_name
+  case os_name
+  when 'Debian'
+    os_string = "#{os_name.downcase}#{os_major}"
+  when 'Ubuntu'
+    # It's different from Debian for a reason, do not change
+    # On Ubuntu @host.operatingsystem.major != os_major (eg. '22.04' vs '22')
+    os_string = "#{os_name.downcase}#{@host.operatingsystem.major}"
+  end
+end
+
+if host_param_true?('enable-openvox9-repo')
+  repo_name = 'openvox9-release'
+elsif host_param_true?('enable-openvox8-repo')
+  repo_name = 'openvox8-release'
+end
+
+if host_param_true?('enable-openvox9-repo') && host_param_true?('enable-openvox8-repo')
+  raise "Both 'enable-openvox9-repo' and 'enable-openvox8-repo' are true"
+end
+-%>
+
+<% if repo_name -%>
+<%  if os_family == 'Redhat' || os_name == 'Amazon Linux' || os_family == 'Suse' -%>
+rpm -Uvh<%= http_proxy %><%= http_port %> https://<%= repo_host %>/<%= repo_name %>-<%= repo_os %>-<%= os_major %>.noarch.rpm
+<%  elsif os_family == 'Debian' -%>
+apt-get update
+apt-get -y install ca-certificates
+wget -O /tmp/<%= repo_name %>-<%= os_string %>.deb<%= proxy_string %> https://<%= repo_host %>/<%= repo_name %>-<%= os_string %>.deb
+dpkg -i /tmp/<%= repo_name %>-<%= os_string %>.deb
+<%  end -%>
+<% end -%>

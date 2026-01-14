@@ -13,11 +13,34 @@ description: |
   The output is a shell script that cloud-init runs to configures the VM
   booted from the image. The image must have cloud-init installed in order for this to work.
   This script can be used with kickstart based distributions images.
+
+  This template accepts the following parameters:
+  - enable-epel: boolean (default=undef)
+  - enable-official-puppet7-repo: boolean (default=false)
+  - enable-official-puppet8-repo: boolean (default=false)
+  - enable-openvox8: boolean (default=false)
+  - enable-openvox9: boolean (default=false)
+  - enable-puppetlabs-puppet6-repo: boolean (default=false)
+  - enable-puppetlabs-repo: boolean (default=false)
+  - force-puppet: boolean (default=false)
+  - package_upgrade: boolean (default=true)
+  - salt_master: string (default=undef)
+  - skip-puppet-setup: boolean (default=true)
+
+  This template inherits the following parameters from included snippets:
+  - puppet_setup
+    * enable-openvox8
+    * enable-openvox9
+  - voxpupuli_repo
+    * enable-openvox8-repo
+    * enable-openvox9-repo
 -%>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   # safemode renderer does not support unary negation
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
+  puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')
+  voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
   salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 -%>
@@ -63,8 +86,11 @@ fi
 <% end -%>
 
 <% if puppet_enabled %>
-<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') -%>
+<% if puppetlabs_repo_enabled -%>
 <%= snippet 'puppetlabs_repo' %>
+<% end -%>
+<% if voxpupuli_repo_enabled -%>
+<%= snippet 'voxpupuli_repo' %>
 <% end -%>
 <%= snippet 'puppet_setup' %>
 <% end -%>

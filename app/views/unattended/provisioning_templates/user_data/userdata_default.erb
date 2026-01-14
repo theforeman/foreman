@@ -20,13 +20,30 @@ description: |
   - ssh_authorized_keys: string w newline seperated keys (default="")
   - package_upgrade: boolean (default=false)
   - reboot: boolean (default=false)
-  - skip-puppet-setup: boolean (default=false)
+  - enable-puppetlabs-repo: boolean (default=undef)
+  - enable-puppetlabs-puppet6-repo: boolean (default=undef)
+  - enable-official-puppet7-repo: boolean (default=undef)
+  - enable-official-puppet8-repo: boolean (default=undef)
+  - enable-openvox8: boolean (default=undef)
+  - enable-openvox9: boolean (default=undef)
+  - skip-puppet-setup: boolean (default=undef)
+  - force-puppet: boolean (default=undef)
+
+  This template inherits the following parameters from included snippets:
+  - puppet_setup
+    * enable-openvox8
+    * enable-openvox9
+  - voxpupuli_repo
+    * enable-openvox8-repo
+    * enable-openvox9-repo
 -%>
 <%
   ssh_pwauth = host_param('ssh_pwauth') ? host_param_true?('ssh_pwauth') : !host_param('ssh_authorized_keys')
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   # safemode renderer does not support unary negation
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
+  puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')
+  voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
   salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
 -%>
@@ -74,9 +91,13 @@ runcmd:
 <% end -%>
 <% if puppet_enabled -%>
 - |
-<%= indent(2) { snippet('puppetlabs_repo') } %>
-- |
-<%= indent(2) { snippet('puppet_setup') } %>
+<% if puppetlabs_repo_enabled -%>
+<%= indent(2) { snippet 'puppetlabs_repo' } %>
+<% end -%>
+<% if voxpupuli_repo_enabled -%>
+<%= indent(2) { snippet 'voxpupuli_repo' } %>
+<% end -%>
+<%= indent(2) { snippet 'puppet_setup' } %>
 <% end -%>
 <% if salt_enabled -%>
 - |

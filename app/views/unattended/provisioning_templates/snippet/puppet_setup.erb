@@ -18,7 +18,11 @@ os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
 aio_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-puppet8') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppet7') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6')
-aio_openvox_enabled = host_param_true?('enable-openvox7') || host_param_true?('enable-openvox8')
+aio_openvox_enabled = %w(enable-openvox9 enable-openvox9-repo enable-openvox8 enable-openvox8-repo).any? { |param| host_param_true?(param) }
+
+if aio_enabled && aio_openvox_enabled
+  raise "Both Puppet and OpenVox parameters are true"
+end
 
 if host_param('run-puppet-in-installer-tags')
   puppet_tags = host_param('run-puppet-in-installer-tags')
