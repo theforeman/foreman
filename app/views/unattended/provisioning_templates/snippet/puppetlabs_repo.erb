@@ -18,6 +18,13 @@ os_family = @host.operatingsystem.family
 os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
+puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')
+voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
+
+if puppetlabs_repo_enabled && voxpupuli_repo_enabled
+  raise "Both Puppet and OpenVox repositories are enabled"
+end
+
 if os_family == 'Redhat'
   repo_host = 'yum.puppet.com'
   if os_name == 'Fedora'

@@ -73,8 +73,6 @@ runcmd:
   
 
 - |
-
-- |
   if [ -f /usr/bin/dnf ]; then
     dnf -y install puppet
   else

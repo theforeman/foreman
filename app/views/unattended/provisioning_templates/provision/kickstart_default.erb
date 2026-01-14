@@ -37,6 +37,8 @@ description: |
   - enable-puppetlabs-puppet6-repo: boolean (default=false)
   - enable-official-puppet7-repo: boolean (default=false)
   - enable-official-puppet8-repo: boolean (default=false)
+  - enable-openvox8: boolean (default=undef)
+  - enable-openvox9: boolean (default=undef)
   - skip-puppet-setup: boolean (default=false)
   - salt_master: string (default=undef)
   - ntp-pools: array (default=undef)
@@ -54,6 +56,14 @@ description: |
   - additional-packages: string (default=undef)
   - use-redhat-register-snippet: boolean (default=false)
 
+  This template inherits the following parameters from included snippets:
+  - puppet_setup
+    * enable-openvox8
+    * enable-openvox9
+  - voxpupuli_repo
+    * enable-openvox8-repo
+    * enable-openvox9-repo
+
   Reference links:
   - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
   - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/sect-kickstart-syntax
@@ -69,6 +79,8 @@ description: |
   proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
   proxy_string = proxy_uri ? " --proxy=#{proxy_uri}" : ''
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
+  puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')
+  voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
   salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
   use_ntp = host_param_true?('use-ntp')
@@ -304,8 +316,11 @@ chmod +x /root/remote_execution_pull_setup.sh
 <% end -%>
 
 <% if puppet_enabled %>
-<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') -%>
+<% if puppetlabs_repo_enabled -%>
 <%= snippet 'puppetlabs_repo' %>
+<% end -%>
+<% if voxpupuli_repo_enabled -%>
+<%= snippet 'voxpupuli_repo' %>
 <% end -%>
 <%= snippet 'puppet_setup' %>
 <% end -%>

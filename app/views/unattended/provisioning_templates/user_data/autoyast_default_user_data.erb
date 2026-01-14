@@ -10,10 +10,28 @@ description: |
   The output is a shell script that cloud-init runs to configures the VM
   booted from the image. The image must have cloud-init installed in order for this to work.
   This script can be used with OpenSUSE and SLES images.
+
+  This template accepts the following parameters:
+  - enable-puppetlabs-repo: boolean (default=undef)
+  - enable-puppetlabs-puppet6-repo: boolean (default=undef)
+  - enable-official-puppet7-repo: boolean (default=undef)
+  - enable-official-puppet8-repo: boolean (default=undef)
+  - enable-openvox8: boolean (default=undef)
+  - enable-openvox9: boolean (default=undef)
+
+  This template inherits the following parameters from included snippets:
+  - puppet_setup
+    * enable-openvox8
+    * enable-openvox9
+  - voxpupuli_repo
+    * enable-openvox8-repo
+    * enable-openvox9-repo
 -%>
 <%
   # safemode renderer does not support unary negation
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
+  puppetlabs_repo_enabled = host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')
+  voxpupuli_repo_enabled = host_param_true?('enable-openvox9-repo') || host_param_true?('enable-openvox8-repo')
   salt_enabled = host_param('salt_master') ? true : false
 -%>
 #!/bin/bash
@@ -31,8 +49,11 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <%= snippet "blacklist_kernel_modules" %>
 
 <% if puppet_enabled %>
-<% if host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') -%>
+<% if puppetlabs_repo_enabled -%>
 <%= snippet 'puppetlabs_repo' %>
+<% end -%>
+<% if voxpupuli_repo_enabled -%>
+<%= snippet 'voxpupuli_repo' %>
 <% end -%>
 <%= snippet 'puppet_setup' %>
 <% end -%>

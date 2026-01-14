@@ -144,12 +144,29 @@ FactoryBot.define do
       title { 'Debian Wheezy' }
     end
 
+    factory :debian13_0, class: Debian do
+      sequence(:name) { 'Debian' }
+      major { '13' }
+      minor { '0' }
+      type { 'Debian' }
+      release_name { 'trixie' }
+      title { 'Debian Trixie' }
+    end
+
     factory :suse, class: Suse do
       sequence(:name) { 'OpenSuse' }
       major { '11' }
       minor { '4' }
       type { 'Suse' }
       title { 'OpenSuse 11.4' }
+    end
+
+    factory :opensuse_16_0, class: Suse do
+      sequence(:name) { 'OpenSuse' }
+      major { '16' }
+      minor { '0' }
+      type { 'Suse' }
+      title { 'openSUSE Leap 16.0' }
     end
 
     factory :rhel7_5, class: Redhat do
