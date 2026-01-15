@@ -26,7 +26,7 @@ class KickstartSyntaxTest < ActiveSupport::TestCase
     skip unless find_executable 'ksvalidator'
     output = `ksvalidator --version #{version} '#{file}' 2>&1`
     status = $CHILD_STATUS
-    assert_empty output.strip.sub(/Checking kickstart file [^ ]+/, '')
+    assert_empty output.strip.sub(/Checking kickstart file [^ ]+/, ''), "Tried file: #{file}, version: #{version}, ksvalidate failed with: #{output}"
     assert status.success?
   end
 end
