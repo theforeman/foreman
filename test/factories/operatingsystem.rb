@@ -171,6 +171,17 @@ FactoryBot.define do
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
     end
 
+    factory :rhel10, class: Redhat do
+      name { 'RHEL' }
+      major { '10' }
+      minor { '0' }
+      type { 'Redhat' }
+      title { 'Red Hat Enterprise Linux 10.0' }
+      architectures { [FactoryBot.build(:architecture, :x64)] }
+      media { [FactoryBot.build(:rhel_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
     factory :for_snapshots_centos_7_0, class: Redhat do
       name { 'CentOS' }
       major { '7' }
@@ -231,6 +242,17 @@ FactoryBot.define do
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
     end
 
+    factory :for_snapshots_rhel10, class: Redhat do
+      name { 'RHEL' }
+      major { '10' }
+      minor { '0' }
+      type { 'Redhat' }
+      title { 'Red Hat Enterprise Linux 10.0' }
+      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
+      media { [FactoryBot.build(:rhel_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
     factory :for_snapshots_rocky8, class: Redhat do
       name { 'Rocky' }
       major { '8' }
@@ -248,6 +270,17 @@ FactoryBot.define do
       minor { '0' }
       type { 'Redhat' }
       title { 'Rocky Linux 9.0' }
+      architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
+      media { [FactoryBot.build(:rhel_for_snapshots)] }
+      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+    end
+
+    factory :for_snapshots_rocky10, class: Redhat do
+      name { 'Rocky' }
+      major { '10' }
+      minor { '0' }
+      type { 'Redhat' }
+      title { 'Rocky Linux 10.0' }
       architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
       media { [FactoryBot.build(:rhel_for_snapshots)] }
       ptables { [FactoryBot.build(:ptable, name: 'ptable')] }

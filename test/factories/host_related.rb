@@ -362,12 +362,20 @@ FactoryBot.define do
         operatingsystem { FactoryBot.build(:for_snapshots_rhel9) }
       end
 
+      factory :host_for_snapshots_ipv4_dhcp_rhel10 do
+        operatingsystem { FactoryBot.build(:for_snapshots_rhel10) }
+      end
+
       factory :host_for_snapshots_ipv4_dhcp_rocky8 do
         operatingsystem { FactoryBot.build(:for_snapshots_rocky8) }
       end
 
       factory :host_for_snapshots_ipv4_dhcp_rocky9 do
         operatingsystem { FactoryBot.build(:for_snapshots_rocky9) }
+      end
+
+      factory :host_for_snapshots_ipv4_dhcp_rocky10 do
+        operatingsystem { FactoryBot.build(:for_snapshots_rocky10) }
       end
 
       factory :host_for_snapshots_ipv4_dhcp_windows10 do

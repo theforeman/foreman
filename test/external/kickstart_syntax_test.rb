@@ -7,8 +7,9 @@ class KickstartSyntaxTest < ActiveSupport::TestCase
   ksfiles_v7 = ksfiles.select { |ks| ks.include?('host') }
   ksfiles_v8 = ksfiles.select { |ks| ks.include?('rocky8') || ks.include?('rhel8') }
   ksfiles_v9 = ksfiles.select { |ks| ks.include?('rocky9') || ks.include?('rhel9') }
+  ksfiles_v10 = ksfiles.select { |ks| ks.include?('rocky10') || ks.include?('rhel10') }
 
-  versions = { 'RHEL7' => ksfiles_v7, 'RHEL8' => ksfiles_v8, 'RHEL9' => ksfiles_v9 }
+  versions = { 'RHEL7' => ksfiles_v7, 'RHEL8' => ksfiles_v8, 'RHEL9' => ksfiles_v9, 'RHEL10' => ksfiles_v10 }
 
   versions.each do |version, files|
     files.each do |file|

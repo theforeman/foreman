@@ -46,12 +46,20 @@ module Foreman
       new.rhel9_dhcp
     end
 
+    def self.rhel10_dhcp
+      new.rhel10_dhcp
+    end
+
     def self.rocky8_dhcp
       new.rocky8_dhcp
     end
 
     def self.rocky9_dhcp
       new.rocky9_dhcp
+    end
+
+    def self.rocky10_dhcp
+      new.rocky10_dhcp
     end
 
     def self.windows10_dhcp
@@ -226,6 +234,15 @@ module Foreman
       define_host_params(host)
     end
 
+    def rhel10_dhcp
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rhel10,
+        name: 'snapshot-ipv4-dhcp-rhel10',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        interfaces: [ipv4_interface])
+      host.define_singleton_method(:managed_interfaces) { interfaces }
+      define_host_params(host)
+    end
+
     def rocky8_dhcp
       host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky8,
         name: 'snapshot-ipv4-dhcp-rocky8',
@@ -237,6 +254,14 @@ module Foreman
     def rocky9_dhcp
       host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky9,
         name: 'snapshot-ipv4-dhcp-rocky9',
+        subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
+        interfaces: [ipv4_interface])
+      define_host_params(host)
+    end
+
+    def rocky10_dhcp
+      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky10,
+        name: 'snapshot-ipv4-dhcp-rocky10',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
       define_host_params(host)

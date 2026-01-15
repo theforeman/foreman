@@ -1,0 +1,379 @@
+# This kickstart file was rendered from the Foreman provisioning template "Kickstart default".
+# for snapshot-ipv4-dhcp-rocky10 running Rocky 10 x86_64
+# Organization: Organization 1
+# Location: Location 1
+
+
+url --url http://mirror.example.com/rhel/10/os/x86_64
+
+
+lang en_US.UTF-8
+selinux --enforcing
+keyboard us
+
+network --device=00-f0-54-1a-7e-e0 --hostname snapshot-ipv4-dhcp-rocky10 --noipv6 --mtu=1142 --bootproto dhcp --nameserver=192.168.42.2,192.168.42.3 --ipv4-dns-search=snap.example.com
+
+rootpw --iscrypted $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
+firewall --service=ssh
+%addon com_redhat_kdump --disable
+%end
+authselect --useshadow --passalgo=sha512 --kickstart
+timezone --utc UTC
+timesource --ntp-pool first.ntp-pool
+timesource --ntp-pool second.ntp-pool
+
+services --disabled gpm,sendmail,cups,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd
+
+
+
+bootloader --location=mbr --append="nofb quiet splash=quiet" 
+
+zerombr
+clearpart --all    --initlabel
+part /boot --fstype ext3 --size=100 --asprimary
+part /     --fstype ext3 --size=1024 --grow
+part swap  --recommended
+
+skipx
+text
+reboot
+
+%packages
+
+yum
+chrony
+-ntp
+dracut-fips
+-prelink
+
+%end
+
+
+%post --nochroot
+exec < /dev/tty3 > /dev/tty3
+chvt 3
+(
+
+
+
+chvt 1
+) 2>&1 | tee /mnt/sysimage/root/install.postnochroot.log
+%end
+
+
+%post
+exec < /dev/tty3 > /dev/tty3
+chvt 3
+(
+logger "Starting anaconda snapshot-ipv4-dhcp-rocky10 postinstall"
+
+echo "Updating system time"
+        systemctl enable --now chronyd
+    /usr/bin/chronyc -a makestep
+  [ -f /usr/sbin/hwclock ] && /usr/sbin/hwclock --systohc
+
+
+
+
+
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+
+# registration_type = 'subscription_manager'
+  
+  echo "##############################################################"
+  echo "################# SUBSCRIPTION MANAGER #######################"
+  echo "##############################################################"
+  echo
+  echo "Starting the subscription-manager registration process"
+
+  # Set up subscription-manager
+  # Select package manager for the OS (sets the $PKG_MANAGER* variables)
+if [ -z "$PKG_MANAGER" ]; then
+  if [ -f /etc/os-release ] ; then
+    . /etc/os-release
+  fi
+  
+  if [ "${NAME%.*}" = 'FreeBSD' ]; then
+    PKG_MANAGER='pkg'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} delete -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} install -y"
+  elif [ -f /etc/fedora-release -o -f /etc/redhat-release -o -f /etc/amazon-linux-release -o -f /etc/system-release ]; then
+    PKG_MANAGER='dnf'
+    if [ -f /etc/redhat-release -a "${VERSION_ID%.*}" -le 7 ]; then
+      PKG_MANAGER='yum'
+    elif [ -f /etc/system-release ]; then
+      PKG_MANAGER='yum'
+    fi
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} upgrade -y"
+  elif [ -f /etc/debian_version ]; then
+    PKG_MANAGER='apt-get'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' install -y"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' remove -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
+  elif [ -f /etc/arch-release ]; then
+    PKG_MANAGER='pacman'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} --noconfirm -S"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} --noconfirm -R"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} --noconfirm -S"
+  elif [ x$ID = xopensuse-tumbleweed -o x$ID = xsles ]; then
+    PKG_MANAGER='zypper'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} --non-interactive install --auto-agree-with-licenses"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} --non-interactive remove"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} --non-interactive update"
+  fi
+fi
+
+# Define the path to rhsm.conf
+RHSM_CFG=/etc/rhsm/rhsm.conf
+
+
+
+# Prepare subscription-manager
+if ! [ -x "$(command -v subscription-manager)" ] ; then
+  $PKG_MANAGER_INSTALL subscription-manager
+else
+  echo "subscription-manager is already installed!"
+  
+fi
+
+# Check if rhsm.conf exists
+if ! [ -f $RHSM_CFG ] ; then
+  echo "'$RHSM_CFG' not found, cannot configure subscription-manager"
+    exit 1
+fi
+
+
+# Configure subscription-manager
+test -f $RHSM_CFG.bak || cp $RHSM_CFG $RHSM_CFG.bak
+subscription-manager config \
+  --server.hostname="subscription.rhsm.redhat.com" \
+  --server.port="443" \
+  --server.prefix="/subscription" \
+  --rhsm.repo_ca_cert="/etc/rhsm/ca/redhat-uep.pem" \
+  --rhsm.baseurl="https://cdn.redhat.com" \
+  --rhsm.manage_repos=1
+
+# Older versions of subscription manager may not recognize
+# report_package_profile and package_profile_on_trans options.
+# So set them separately and redirect out & error to /dev/null
+# to fail silently.
+subscription-manager config --rhsm.package_profile_on_trans=1 > /dev/null 2>&1 || true
+subscription-manager config --rhsm.report_package_profile=1 > /dev/null 2>&1 || true
+
+# Configuration for EL6
+if grep --quiet full_refresh_on_yum $RHSM_CFG; then
+  sed -i "s/full_refresh_on_yum\s*=.*$/full_refresh_on_yum = 1/g" $RHSM_CFG
+else
+  full_refresh_config="#config for on-premise management\nfull_refresh_on_yum = 1"
+  sed -i "/baseurl/a $full_refresh_config" $RHSM_CFG
+fi
+
+# Restart yggdrasild if installed and running
+systemctl try-restart yggdrasil >/dev/null 2>&1 || true
+    # Avoid timeout accessing unreachable repo on air gapped infrastructure,
+    #  assuming subscription-manager-syspurpose is installed in custom packages section.
+    if ! rpm --query --quiet subscription-manager-syspurpose ; then
+      $PKG_MANAGER_INSTALL subscription-manager-syspurpose
+    fi
+
+    if [ -f /usr/sbin/syspurpose ]; then
+        syspurpose set-role "Red Hat Enterprise Linux Server"
+        syspurpose set-usage "Development/Test"
+        syspurpose set-sla "Self-Support"
+    else
+      echo "Syspurpose CLI not found."
+    fi
+  
+  
+      subscription-manager register --name="snapshot-ipv4-dhcp-rocky10" --org='Org' --activationkey='key'
+  
+  
+  
+    subscription-manager refresh  --force
+  
+    subscription-manager status
+  
+  
+  
+  
+  
+
+
+# update all the base packages from the updates repository
+if [ -f /usr/bin/dnf ]; then
+  dnf -y update
+else
+  yum -t -y update
+fi
+
+
+# Select package manager for the OS (sets the $PKG_MANAGER* variables)
+if [ -z "$PKG_MANAGER" ]; then
+  if [ -f /etc/os-release ] ; then
+    . /etc/os-release
+  fi
+  
+  if [ "${NAME%.*}" = 'FreeBSD' ]; then
+    PKG_MANAGER='pkg'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} delete -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} install -y"
+  elif [ -f /etc/fedora-release -o -f /etc/redhat-release -o -f /etc/amazon-linux-release -o -f /etc/system-release ]; then
+    PKG_MANAGER='dnf'
+    if [ -f /etc/redhat-release -a "${VERSION_ID%.*}" -le 7 ]; then
+      PKG_MANAGER='yum'
+    elif [ -f /etc/system-release ]; then
+      PKG_MANAGER='yum'
+    fi
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} install -y"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} remove -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} upgrade -y"
+  elif [ -f /etc/debian_version ]; then
+    PKG_MANAGER='apt-get'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' install -y"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' remove -y"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' -o APT::Get::Upgrade-Allow-New='true' upgrade -y"
+  elif [ -f /etc/arch-release ]; then
+    PKG_MANAGER='pacman'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} --noconfirm -S"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} --noconfirm -R"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} --noconfirm -S"
+  elif [ x$ID = xopensuse-tumbleweed -o x$ID = xsles ]; then
+    PKG_MANAGER='zypper'
+    PKG_MANAGER_INSTALL="${PKG_MANAGER} --non-interactive install --auto-agree-with-licenses"
+    PKG_MANAGER_REMOVE="${PKG_MANAGER} --non-interactive remove"
+    PKG_MANAGER_UPGRADE="${PKG_MANAGER} --non-interactive update"
+  fi
+fi
+
+
+
+
+echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
+
+
+
+
+if [ -f /usr/bin/dnf ]; then
+  dnf -y install puppet
+else
+  yum -t -y install puppet
+fi
+
+cat > /etc/puppet/puppet.conf << EOF
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = \$vardir/ssl
+
+[agent]
+pluginsync      = true
+report          = true
+certname        = snapshot-ipv4-dhcp-rocky10
+
+EOF
+
+
+puppet_unit=puppet
+/usr/bin/systemctl list-unit-files | grep -q puppetagent && puppet_unit=puppetagent
+/usr/bin/systemctl enable ${puppet_unit}
+
+# export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
+export FACTER_is_installer=true
+# passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+# You can select specific tag(s) with the "run-puppet-in-installer-tags" parameter
+# or set a full puppet run by setting "run-puppet-in-installer" = true
+echo "Performing initial puppet run for --tags no_such_tag"
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
+
+
+
+
+cat << EOF-2929810d > /etc/systemd/system/ansible-callback.service
+[Unit]
+Description=Provisioning callback to Ansible Tower
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/curl -k -s --data "host_config_key=" https://host.example.com/api/controller/v2/job_templates/20/callback/
+ExecStartPost=/usr/bin/systemctl disable ansible-callback
+
+[Install]
+WantedBy=multi-user.target
+EOF-2929810d
+# Runs during first boot, removes itself
+systemctl enable ansible-callback
+
+
+
+
+
+
+
+touch /tmp/foreman_built
+
+chvt 1
+) 2>&1 | tee /root/install.post.log
+%end
+
+# copy %pre log files into chroot
+%post --nochroot
+cp -vf /tmp/*.pre.*.log /mnt/sysimage/root/
+%end
+
+
+%post --erroronfail --log=/root/install-callhome.post.log
+
+
+if test -f /tmp/foreman_built; then
+  echo "calling home: build is done!"
+  if [ -x /usr/bin/curl ]; then
+    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --fail --data @/root/install.post.log --noproxy \* --silent 'http://foreman.example.com/unattended/built'
+  elif [ -x /usr/bin/wget ]; then
+    /usr/bin/wget -q -O /dev/null --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log --no-proxy 'http://foreman.example.com/unattended/built'
+  else
+    wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/built'
+  fi
+  FINAL_STATUS=$?
+  
+  if [ -x "$(command -v subscription-manager)" ] ; then
+    subscription-manager facts --update
+    SUB_MAN_STATUS=$?
+  
+    if [ $FINAL_STATUS -eq 0 ]; then
+      FINAL_STATUS=$SUB_MAN_STATUS
+    fi
+  fi
+  
+  (exit $FINAL_STATUS);
+else
+  echo "calling home: build failed!"
+  if [ -x /usr/bin/curl ]; then
+    /usr/bin/curl -o /dev/null -H 'Content-Type: text/plain' --fail --data @/root/install.post.log --noproxy \* --silent 'http://foreman.example.com/unattended/failed'
+  elif [ -x /usr/bin/wget ]; then
+    /usr/bin/wget -q -O /dev/null --method POST --header 'Content-Type: text/plain' --body-file=/root/install.post.log --no-proxy 'http://foreman.example.com/unattended/failed'
+  else
+    wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.example.com/unattended/failed'
+  fi
+  FINAL_STATUS=$?
+  
+  if [ -x "$(command -v subscription-manager)" ] ; then
+    subscription-manager facts --update
+    SUB_MAN_STATUS=$?
+  
+    if [ $FINAL_STATUS -eq 0 ]; then
+      FINAL_STATUS=$SUB_MAN_STATUS
+    fi
+  fi
+  
+  (exit $FINAL_STATUS);
+fi
+
+sync
+%end
