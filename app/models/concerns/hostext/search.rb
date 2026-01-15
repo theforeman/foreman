@@ -196,8 +196,18 @@ module Hostext
         conditions = param_conditions(p)
         negate = param_conditions(n)
 
-        conditions += " AND " unless conditions.blank? || negate.blank?
-        conditions += " NOT(#{negate})" if negate.present?
+        # If we have parameters but no valid conditions (e.g., all GroupParameters have nil hostgroup),
+        # return no results instead of matching all hosts
+        return {:conditions => '1 = 0'} if conditions.blank? && negate.blank?
+
+        # If only the positive conditions are blank (orphaned), but we have negations,
+        # we need to negate from a base of "all hosts"
+        if conditions.blank? && negate.present?
+          conditions = "NOT(#{negate})"
+        elsif conditions.present? && negate.present?
+          conditions += " AND NOT(#{negate})"
+        end
+
         {:joins => :primary_interface, :conditions => conditions}
       end
 
@@ -274,7 +284,9 @@ module Hostext
             when 'OsParameter'
               conditions << "hosts.operatingsystem_id = #{param.reference_id}"
             when 'GroupParameter'
-              conditions << "hosts.hostgroup_id IN (#{param.hostgroup.subtree_ids.join(', ')})"
+              if param.hostgroup.present?
+                conditions << "hosts.hostgroup_id IN (#{param.hostgroup.subtree_ids.join(', ')})"
+              end
             when 'HostParameter'
               conditions << "hosts.id = #{param.reference_id}"
             when 'OrganizationParameter'

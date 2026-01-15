@@ -271,6 +271,56 @@ module Hostext
         it { assert_includes(subject, built_status.host) }
         it { assert_not_includes(subject, build_failed_status.host) }
       end
+
+      context "search by parameters" do
+        let(:hostgroup) { FactoryBot.create(:hostgroup) }
+        let(:group_param) { FactoryBot.create(:hostgroup_parameter, name: 'test_param', value: 'test_value', hostgroup: hostgroup) }
+        let(:host_with_param) { FactoryBot.create(:host, hostgroup: hostgroup) }
+        let(:host_without_param) { FactoryBot.create(:host) }
+
+        setup do
+          group_param
+          host_with_param
+          host_without_param
+        end
+
+        test "can search hosts by GroupParameter value" do
+          result = Host.search_for("params.test_param = test_value")
+          assert_includes result, host_with_param
+          assert_not_includes result, host_without_param
+        end
+
+        test "handles orphaned GroupParameter with nil hostgroup gracefully" do
+          # Create an orphaned GroupParameter (bypassing validation)
+          orphaned_param = GroupParameter.new(name: 'orphaned_param', value: 'orphaned_value')
+          orphaned_param.save(validate: false)
+
+          # Search should not crash even with orphaned parameter
+          assert_nothing_raised do
+            Host.search_for("params.orphaned_param = orphaned_value")
+          end
+
+          # Should return empty results since no host has this orphaned param
+          result = Host.search_for("params.orphaned_param = orphaned_value")
+          assert_empty result
+        end
+
+        test "handles negated search with orphaned GroupParameter" do
+          # Create an orphaned GroupParameter with value 'f'
+          orphaned_param = GroupParameter.new(name: 'test_negation', value: 'f')
+          orphaned_param.save(validate: false)
+
+          # Search "not params.test_negation = f" should not crash with SQL syntax error
+          assert_nothing_raised do
+            Host.search_for("not params.test_negation = f")
+          end
+
+          # Since the orphaned param doesn't apply to any host, no host has test_negation=f,
+          # therefore all hosts match "not params.test_negation = f"
+          result = Host.search_for("not params.test_negation = f")
+          assert_equal Host.count, result.count
+        end
+      end
     end
   end
 end
