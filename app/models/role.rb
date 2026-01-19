@@ -283,7 +283,7 @@ class Role < ApplicationRecord
   private
 
   def sync_inheriting_filters
-    filters.find_each do |f|
+    filters.reorder(nil).find_each do |f|
       unless f.save
         errors.add :base, N_('One or more of the associated filters are invalid which prevented the role to be saved')
         raise ActiveRecord::Rollback, N_("Unable to submit role: Problem with associated filter %s") % f.errors
