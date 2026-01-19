@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DonutChart as PfDonutChart } from 'patternfly-react';
+import {
+  ChartDonut,
+  ChartThemeColor,
+  ChartTooltip,
+} from '@patternfly/react-charts';
 import { getDonutChartConfig } from '../../../../../services/charts/DonutChartService';
 import MessageBox from '../../MessageBox';
 import { translate as __ } from '../../../../../react_app/common/I18n';
@@ -12,7 +16,6 @@ const DonutChart = ({
   config,
   noDataMsg,
   title,
-  unloadData,
   searchUrl,
   searchFilters,
 }) => {
@@ -22,15 +25,66 @@ const DonutChart = ({
     onclick,
     searchUrl,
     searchFilters,
+    title,
   });
 
-  if (chartConfig.data.columns.length > 0) {
+  if (chartConfig.data && chartConfig.data.length > 0) {
+    const {
+      data: chartData,
+      colorScale,
+      width,
+      height,
+      padding,
+      innerRadius,
+      labels,
+      events,
+      legendData,
+    } = chartConfig;
+
+    // Calculate title values for display based on title prop
+    const total = chartData.reduce((sum, item) => sum + item.y, 0);
+    let titleText = '';
+    let subtitleText = '';
+
+    if (title) {
+      if (title.type === 'percent' && chartData.length > 0) {
+        // Find the largest value for percentage calculation
+        const maxItem = chartData.reduce(
+          (max, item) => (item.y > max.y ? item : max),
+          chartData[0]
+        );
+        const percentage =
+          total > 0
+            ? ((maxItem.y / total) * 100).toFixed(title.precision ?? 1)
+            : 0;
+        titleText = `${percentage}%`;
+        subtitleText = title.secondary || maxItem.x;
+      } else if (title.primary) {
+        titleText = title.primary;
+        subtitleText = title.secondary || '';
+      }
+    }
+
     return (
-      <PfDonutChart
-        {...chartConfig}
-        title={title}
-        unloadBeforeLoad={unloadData}
-      />
+      <div className="donut-chart-pf" style={{ height, width, margin: 'auto' }}>
+        <ChartDonut
+          ariaDesc="Donut chart"
+          constrainToVisibleArea
+          data={chartData}
+          height={height}
+          width={width}
+          padding={padding}
+          innerRadius={innerRadius}
+          colorScale={colorScale}
+          labels={labels}
+          labelComponent={<ChartTooltip constrainToVisibleArea />}
+          events={events}
+          legendData={legendData}
+          themeColor={ChartThemeColor.multiOrdered}
+          title={titleText}
+          subTitle={subtitleText}
+        />
+      </div>
     );
   }
   return <MessageBox msg={noDataMsg} icontype="info" />;
@@ -41,7 +95,6 @@ DonutChart.propTypes = {
   config: PropTypes.oneOf(['regular', 'medium', 'large']),
   noDataMsg: PropTypes.string,
   title: PropTypes.object,
-  unloadData: PropTypes.bool,
   onclick: PropTypes.func,
   searchUrl: PropTypes.string,
   searchFilters: PropTypes.object,
@@ -52,7 +105,6 @@ DonutChart.defaultProps = {
   config: 'regular',
   noDataMsg: __('No data available'),
   title: { type: 'percent', precision: 1 },
-  unloadData: false,
   onclick: noop,
   searchUrl: undefined,
   searchFilters: undefined,

@@ -50,8 +50,21 @@ export const chartConfig = {
   size: enums.SIZE.REGULAR,
 };
 
+// PF5 Victory Charts Configurations for Donut Charts
+// Note: PF5 uses different configuration structure than C3.js
 export const donutChartConfig = {
   ...chartConfig,
+  // PF5-specific properties
+  size: enums.SIZE.REGULAR,
+  padding: {
+    top: 20,
+    left: 20,
+    right: 20,
+    bottom: 20,
+  },
+  // innerRadius controls the donut hole size (higher = larger hole)
+  // Regular: small donut width means larger inner radius (thinner ring)
+  innerRadius: 75, // Approximates C3 width: 15
   donut: {
     width: enums.WIDTH.SMALL,
     label: { show: false },
@@ -61,6 +74,13 @@ export const donutChartConfig = {
 export const donutMediumChartConfig = {
   ...donutChartConfig,
   size: enums.SIZE.MEDIUM,
+  padding: {
+    top: 20,
+    left: 20,
+    right: 20,
+    bottom: 20,
+  },
+  innerRadius: 100, // Approximates C3 width: 20
   legend: { show: false },
   donut: {
     ...donutChartConfig.donut,
@@ -71,6 +91,13 @@ export const donutMediumChartConfig = {
 export const donutLargeChartConfig = {
   ...donutChartConfig,
   size: enums.SIZE.LARGE,
+  padding: {
+    top: 20,
+    left: 20,
+    right: 20,
+    bottom: 80, // More space for legend at bottom
+  },
+  innerRadius: 130, // Approximates C3 width: 25
   legend: { show: true, position: 'bottom' },
   donut: {
     ...donutChartConfig.donut,
