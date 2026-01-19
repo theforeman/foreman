@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+# `cloud-init schema` needs to run as root
+# https://github.com/canonical/cloud-init/issues/6592
+# But we can implement the same in 10 lines of Python
+
+import sys
+from cloudinit.config.schema import get_schema, validate_cloudconfig_file, SchemaValidationError
+
+try:
+    valid = validate_cloudconfig_file(config_path=sys.argv[1], schema=get_schema())
+    if not valid:
+        raise RuntimeError("Schema is not valid")
+except (SchemaValidationError, RuntimeError) as e:
+    print(e)
+    sys.exit(1)
