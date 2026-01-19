@@ -202,7 +202,7 @@ FactoryBot.define do
       title { 'Debian Buster' }
       architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
       media { [FactoryBot.build(:debian_for_snapshots)] }
-      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+      ptables { [FactoryBot.build(:ptable, :debian, name: 'ptable')] }
     end
 
     # pre-netinstall release
@@ -215,7 +215,7 @@ FactoryBot.define do
       title { 'Ubuntu Bionic' }
       architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
       media { [FactoryBot.build(:ubuntu_for_snapshots)] }
-      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+      ptables { [FactoryBot.build(:ptable, :debian, name: 'ptable')] }
     end
 
     # post-netinstall release
@@ -228,7 +228,7 @@ FactoryBot.define do
       title { 'Ubuntu Focal' }
       architectures { [FactoryBot.build(:architecture, :for_snapshots_x86_64)] }
       media { [FactoryBot.build(:ubuntu_for_snapshots)] }
-      ptables { [FactoryBot.build(:ptable, name: 'ptable')] }
+      ptables { [FactoryBot.build(:ptable, :ubuntu_autoinstall, name: 'ptable')] }
     end
 
     factory :for_snapshots_rhel9, class: Redhat do

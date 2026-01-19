@@ -48,9 +48,9 @@ FactoryBot.define do
     organizations { [Organization.find_by_name('Organization 1')] }
     locations { [Location.find_by_name('Location 1')] }
 
-    trait :ubuntu do
-      sequence(:name) { |n| "ubuntu default#{n}" }
-      layout { "d-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular..." }
+    trait :debian do
+      sequence(:name) { |n| "debian default#{n}" }
+      layout { "d-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular" }
       os_family { 'Debian' }
     end
 
@@ -354,7 +354,6 @@ FactoryBot.define do
       end
 
       factory :host_for_snapshots_ipv4_dhcp_ubuntu20 do
-        ptable { FactoryBot.build(:ptable, :ubuntu_autoinstall) }
         operatingsystem { FactoryBot.build(:for_snapshots_ubuntu_20) }
       end
 

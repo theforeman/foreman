@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class PtableJSTest < IntegrationTestWithJavascript
   setup do
-    @ptable = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default')
+    @ptable = FactoryBot.create(:ptable, :debian, :name => 'ubuntu default')
   end
 
   test "index page" do

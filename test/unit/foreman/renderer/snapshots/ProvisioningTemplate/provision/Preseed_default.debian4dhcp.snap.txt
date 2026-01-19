@@ -42,11 +42,8 @@ d-i clock-setup/ntp-server string first.ntp.server
 # Choices: cylinder, minimal, optimal
 #d-i partman/alignment select cylinder
 
-zerombr
-clearpart --all    --initlabel
-part /boot --fstype ext3 --size=100 --asprimary
-part /     --fstype ext3 --size=1024 --grow
-part swap  --recommended
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string regular
 
 
 

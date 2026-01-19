@@ -271,8 +271,7 @@ class UnattendedControllerTest < ActionController::TestCase
     end
 
     test "should get a kickstart if MAC is provided with two hosts with same MAC" do
-      ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
-        :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
+      ptable_ubuntu = FactoryBot.create(:ptable, :debian, :name => 'ubuntu default',
                                          :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
       # explicitly create host1 with tomorrow's created_at so it's guaranteed to be newer than rh_host
       host1 = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
@@ -297,8 +296,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
   context "ubuntu" do
     setup do
-      ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
-        :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
+      ptable_ubuntu = FactoryBot.create(:ptable, :debian, :name => 'ubuntu default',
                                          :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
       @ub_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:ubuntu1010),
@@ -553,8 +551,7 @@ class UnattendedControllerTest < ActionController::TestCase
 
   context "with template subnet" do
     setup do
-      ptable_ubuntu = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default',
-        :layout => 'd-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular...',
+      ptable_ubuntu = FactoryBot.create(:ptable, :debian, :name => 'ubuntu default',
                                          :operatingsystem_ids => [operatingsystems(:ubuntu1010).id])
       @host_with_template_subnet = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :with_templates_subnet, :build => true,
                               :operatingsystem => operatingsystems(:ubuntu1010),
