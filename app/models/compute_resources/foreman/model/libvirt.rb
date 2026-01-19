@@ -298,8 +298,7 @@ module Foreman::Model
                          :password => random_password(console_password_length(display_type)),
                          :port     => '-1' },
         :firmware   => 'automatic',
-        :firmware_features => { "secure-boot" => "no" },
-        :tpm        => false
+        :firmware_features => { "secure-boot" => "no" }
       )
     end
 
