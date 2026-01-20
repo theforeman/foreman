@@ -33,10 +33,6 @@ if File.exist?(File.expand_path('../Gemfile.in', __dir__))
   require 'bundler_ext'
   Bundler.ui = Bundler::UI::Silent.new if Rails.env.production?
   BundlerExt.system_require(File.expand_path('../Gemfile.in', __dir__), :all)
-
-  class Foreman::Consoletie < Rails::Railtie
-    console { Foreman.setup_console }
-  end
 else
   # If you have a Gemfile, require the gems listed there
   # Note that :default, :test, :development and :production groups
@@ -44,22 +40,28 @@ else
   if defined?(Bundler)
     Bundler.ui = Bundler::UI::Silent.new if Rails.env.production?
 
-    class Foreman::Consoletie < Rails::Railtie
-      console do
-        begin
-          Bundler.require(:console)
-        rescue LoadError
-          # no action, logs a warning in setup_console only
-        end
-        Foreman.setup_console
-      end
-    end
     Bundler.require(*Rails.groups)
     optional_bundler_groups = %w[assets ec2 fog libvirt openstack vmware redis]
     optional_bundler_groups.each do |group|
       Bundler.require(group)
     rescue LoadError
       # ignoring intentionally
+    end
+  end
+end
+
+class Foreman::Consoletie < Rails::Railtie
+  console do |app|
+    begin
+      Bundler.require(:console) if defined?(Bundler) && !defined?(BundlerExt)
+    rescue LoadError
+      # no action, logs a warning in setup_console only
+    end
+
+    Foreman.setup_console
+
+    app.reloader.to_prepare do
+      Foreman.setup_console
     end
   end
 end
