@@ -116,7 +116,7 @@ jobs:
       - name: Install external test dependencies
         run: |
           pip3 install --break-system-packages pykickstart
-          sudo apt-get -qq -y install --no-install-recommends grub-common cloud-init
+          sudo apt-get -qq -y install --no-install-recommends grub-common cloud-init debconf keyboard-configuration
         if: contains(matrix.task, 'external')
       - name: Prepare test env
         run: |
