@@ -10,6 +10,8 @@ module Api::V2::TaxonomiesController
                                               medium_ids smart_proxy_ids environment_ids user_ids organization_ids realm_ids)
     before_action :params_match_database, :only => %w(create update)
     before_action :process_parameter_attributes, :only => %w(update)
+
+    hide_taxonomy_options
   end
 
   extend Apipie::DSL::Concern

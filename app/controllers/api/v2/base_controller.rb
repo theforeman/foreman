@@ -163,10 +163,16 @@ module Api
       end
 
       def self.hide_taxonomy_options
+        prepend_before_action :drop_taxonomy_id_from_params
         resource_description do
           param :location_id, Integer, :show => false
           param :organization_id, Integer, :show => false
         end
+      end
+
+      def drop_taxonomy_id_from_params
+        params.delete(:location_id)
+        params.delete(:organization_id)
       end
     end
   end
