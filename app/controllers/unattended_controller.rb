@@ -167,12 +167,15 @@ class UnattendedController < ApplicationController
     query_params[:mac_list] = Foreman::UnattendedInstallation::MacListExtractor.new.extract_from_env(request.env, params: params)
     query_params[:built] = ['built', 'failed'].include? action_name
 
-    @host = Foreman::UnattendedInstallation::HostFinder.new(query_params: query_params).search
+    host_finder = Foreman::UnattendedInstallation::HostFinder.new(query_params: query_params)
+    @host = host_finder.search
+    @host_search_paths = host_finder.search_paths
   end
 
   def verify_found_host(needs_token = true)
     host_verifier = Foreman::UnattendedInstallation::HostVerifier.new(@host, request_ip: request.remote_ip,
-                                                                             for_host_template: (action_name == 'host_template'))
+                                                                             for_host_template: (action_name == 'host_template'),
+                                                                             search_paths: @host_search_paths)
 
     if host_verifier.valid?
       logger.debug "Found #{@host}"

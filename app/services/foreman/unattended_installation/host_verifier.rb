@@ -3,10 +3,11 @@ module Foreman
     class HostVerifier
       attr_reader :errors, :host, :request_ip, :for_host_template, :controller_name
 
-      def initialize(host, request_ip:, for_host_template:, needs_token: true)
+      def initialize(host, request_ip:, for_host_template:, search_paths:, needs_token: true)
         @host = host
         @errors = []
         @for_host_template = for_host_template
+        @search_paths = search_paths
         @request_ip = request_ip
         @controller_name = 'unattended'
         @needs_token = needs_token
@@ -41,11 +42,10 @@ module Foreman
 
       def host_found?
         return true if host.present?
-
         errors << {
-          message: N_("%{controller}: unable to find a host that matches the request from %{addr}"),
+          message: N_("%{controller}: unable to find a host that matches the request from %{addr}. Search paths: %{search_paths}"),
           type: :not_found,
-          params: { addr: request_ip, controller: controller_name },
+          params: { controller: controller_name, addr: request_ip, search_paths: @search_paths.join(',') },
         }
 
         false
