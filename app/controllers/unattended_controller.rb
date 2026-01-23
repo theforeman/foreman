@@ -180,12 +180,15 @@ class UnattendedController < ApplicationController
     end
 
     error = host_verifier.errors.first
+    logger.debug("Could not verify host: #{error[:message]}")
     render_error(error[:message], { :status => error[:type] }.merge(error[:params]))
     false
   end
 
   def allowed_to_install?
-    @host.build? || spoof || Setting[:access_unattended_without_build]
+    allowed = @host.build? || spoof || Setting[:access_unattended_without_build]
+    logger.info("Host #{@host.name} is not allowed to install") unless allowed
+    allowed
   end
 
   # Reset realm OTP. This is run as a before_action for provisioning templates.
