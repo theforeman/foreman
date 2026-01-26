@@ -575,10 +575,10 @@ const HostsIndex = () => {
           }
           isPending={status === STATUS.PENDING}
         >
-          {results?.map((result, rowIndex) => {
+          {results?.map(result => {
             const rowActions = getActions(result);
             return (
-              <Tr key={rowIndex} ouiaId={`table-row-${rowIndex}`} isClickable>
+              <Tr key={result.id} ouiaId={`table-row-${result.id}`} isClickable>
                 {
                   <RowSelectTd
                     rowData={result}

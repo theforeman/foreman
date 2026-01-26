@@ -195,12 +195,12 @@ export const Table = ({
           )}
           {!childrenOutsideTbody &&
             (children ||
-              results.map((result, rowIndex) => {
+              results.map(result => {
                 const rowActions = actions(result);
                 return (
                   <Tr
-                    key={rowIndex}
-                    ouiaId={`table-row-${rowIndex}`}
+                    key={result[idColumn] || result.id}
+                    ouiaId={`table-row-${result[idColumn] || result.id}`}
                     isClickable
                   >
                     {showCheckboxes && (

@@ -215,4 +215,105 @@ describe('Table', () => {
     expect(screen.queryAllByText('No Results')).toHaveLength(0);
     expect(screen.queryAllByText('Loading...')).toHaveLength(1);
   });
+
+  test('uses result.id as React key for table rows', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <Table
+          columns={columns}
+          params={{ page: 1, perPage: 10, order: '' }}
+          setParams={setParams}
+          refreshData={refreshData}
+          results={results}
+          url="/users"
+          isPending={false}
+        />
+      </Provider>
+    );
+
+    // Find all table rows (excluding header row)
+    const rows = container.querySelectorAll('tbody tr');
+    expect(rows).toHaveLength(2);
+
+    // Verify first row uses result.id as key
+    expect(rows[0]).toHaveAttribute('data-ouia-component-id', 'table-row-1');
+
+    // Verify second row uses result.id as key
+    expect(rows[1]).toHaveAttribute('data-ouia-component-id', 'table-row-2');
+  });
+
+  test('uses idColumn prop for React key when provided', () => {
+    const customResults = [
+      { custom_id: 'abc-123', name: 'John Doe', email: 'johndoe@example.com', role: 'Admin' },
+      { custom_id: 'xyz-456', name: 'Jane Smith', email: 'janesmith@example.com', role: 'User' },
+    ];
+
+    const { container } = render(
+      <Provider store={store}>
+        <Table
+          columns={columns}
+          params={{ page: 1, perPage: 10, order: '' }}
+          setParams={setParams}
+          refreshData={refreshData}
+          results={customResults}
+          idColumn="custom_id"
+          url="/users"
+          isPending={false}
+        />
+      </Provider>
+    );
+
+    const rows = container.querySelectorAll('tbody tr');
+    expect(rows).toHaveLength(2);
+
+    // Verify rows use custom_id as key
+    expect(rows[0]).toHaveAttribute('data-ouia-component-id', 'table-row-abc-123');
+    expect(rows[1]).toHaveAttribute('data-ouia-component-id', 'table-row-xyz-456');
+  });
+
+  test('keys remain stable when results are reordered', () => {
+    const sortedResults = [
+      { id: 2, name: 'Jane Smith', email: 'janesmith@example.com', role: 'User' },
+      { id: 1, name: 'John Doe', email: 'johndoe@example.com', role: 'Admin' },
+    ];
+
+    const { container, rerender } = render(
+      <Provider store={store}>
+        <Table
+          columns={columns}
+          params={{ page: 1, perPage: 10, order: '' }}
+          setParams={setParams}
+          refreshData={refreshData}
+          results={results}
+          url="/users"
+          isPending={false}
+        />
+      </Provider>
+    );
+
+    // Check initial order
+    let rows = container.querySelectorAll('tbody tr');
+    expect(rows[0]).toHaveAttribute('data-ouia-component-id', 'table-row-1');
+    expect(rows[1]).toHaveAttribute('data-ouia-component-id', 'table-row-2');
+
+    // Re-render with sorted results
+    rerender(
+      <Provider store={store}>
+        <Table
+          columns={columns}
+          params={{ page: 1, perPage: 10, order: 'name desc' }}
+          setParams={setParams}
+          refreshData={refreshData}
+          results={sortedResults}
+          url="/users"
+          isPending={false}
+        />
+      </Provider>
+    );
+
+    // After sort, keys should follow the data
+    rows = container.querySelectorAll('tbody tr');
+    expect(rows[0]).toHaveAttribute('data-ouia-component-id', 'table-row-2');
+    expect(rows[1]).toHaveAttribute('data-ouia-component-id', 'table-row-1');
+  });
 });
