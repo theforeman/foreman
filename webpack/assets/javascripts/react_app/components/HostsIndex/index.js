@@ -24,8 +24,6 @@ import {
   KebabToggle,
 } from '@patternfly/react-core/deprecated';
 import { UndoIcon } from '@patternfly/react-icons';
-import { useForemanModal } from '../ForemanModal/ForemanModalHooks';
-import { addModal } from '../ForemanModal/ForemanModalActions';
 import { Table } from '../PF4/TableIndexPage/Table/Table';
 import { translate as __ } from '../../common/I18n';
 import TableIndexPage from '../PF4/TableIndexPage/TableIndexPage';
@@ -224,71 +222,19 @@ const HostsIndex = () => {
     );
   };
 
-  useEffect(() => {
-    dispatch(
-      addModal({
-        id: 'bulk-assign-organization-modal',
-      })
-    );
-    dispatch(
-      addModal({
-        id: 'bulk-assign-location-modal',
-      })
-    );
-    dispatch(
-      addModal({
-        id: 'bulk-build-hosts-modal',
-      })
-    );
-    dispatch(
-      addModal({
-        id: 'bulk-reassign-hg-modal',
-      })
-    );
-    dispatch(
-      addModal({
-        id: 'bulk-change-owner-modal',
-      })
-    );
-    dispatch(
-      addModal({
-        id: 'bulk-disassociate-modal',
-      })
-    );
-    dispatch(
-      addModal({
-        id: 'bulk-power-state-modal',
-      })
-    );
-  }, [dispatch]);
-
-  const { setModalOpen: setOrganizationModalOpen } = useForemanModal({
-    id: 'bulk-assign-organization-modal',
-  });
-  const { setModalOpen: setLocationModalOpen } = useForemanModal({
-    id: 'bulk-assign-location-modal',
-  });
-  const { setModalOpen: setHgModalOpen } = useForemanModal({
-    id: 'bulk-reassign-hg-modal',
-  });
-  const { setModalOpen: setBuildModalOpen } = useForemanModal({
-    id: 'bulk-build-hosts-modal',
-  });
-  const { setModalOpen: setChangeOwnerModalOpen } = useForemanModal({
-    id: 'bulk-change-owner-modal',
-  });
-  const { setModalOpen: setDisassociateModalOpen } = useForemanModal({
-    id: 'bulk-disassociate-modal',
-  });
-  const { setModalOpen: setPowerStateModalOpen } = useForemanModal({
-    id: 'bulk-power-state-modal',
-  });
+  const [organizationModalOpen, setOrganizationModalOpen] = useState(false);
+  const [locationModalOpen, setLocationModalOpen] = useState(false);
+  const [hgModalOpen, setHgModalOpen] = useState(false);
+  const [buildModalOpen, setBuildModalOpen] = useState(false);
+  const [changeOwnerModalOpen, setChangeOwnerModalOpen] = useState(false);
+  const [disassociateModalOpen, setDisassociateModalOpen] = useState(false);
+  const [powerStateModalOpen, setPowerStateModalOpen] = useState(false);
 
   const dropdownItems = [
     <MenuItem
       itemId="build-hosts-dropdown-item"
       key="build-hosts-dropdown-item"
-      onClick={setBuildModalOpen}
+      onClick={() => setBuildModalOpen(true)}
       isDisabled={selectedCount === 0}
     >
       {__('Build management')}
@@ -296,7 +242,7 @@ const HostsIndex = () => {
     <MenuItem
       itemId="disassociate-dropdown-item"
       key="disassociate-dropdown-item"
-      onClick={setDisassociateModalOpen}
+      onClick={() => setDisassociateModalOpen(true)}
       isDisabled={selectedCount === 0}
     >
       {__('Disassociate hosts')}
@@ -304,7 +250,7 @@ const HostsIndex = () => {
     <MenuItem
       itemId="power-state-dropdown-item"
       key="power-state-dropdown-item"
-      onClick={setPowerStateModalOpen}
+      onClick={() => setPowerStateModalOpen(true)}
       isDisabled={selectedCount === 0}
     >
       {__('Change power state')}
@@ -323,7 +269,7 @@ const HostsIndex = () => {
               <MenuItem
                 itemId="reassign-hg-dropdown-item"
                 key="reassign-hg-dropdown-item"
-                onClick={setHgModalOpen}
+                onClick={() => setHgModalOpen(true)}
                 isDisabled={selectedCount === 0}
               >
                 {__('Host group')}
@@ -337,7 +283,7 @@ const HostsIndex = () => {
               <MenuItem
                 itemId="change-owner-dropdown-item"
                 key="change-owner-dropdown-item"
-                onClick={setChangeOwnerModalOpen}
+                onClick={() => setChangeOwnerModalOpen(true)}
                 isDisabled={selectedCount === 0}
               >
                 {__('Owner')}
@@ -345,7 +291,7 @@ const HostsIndex = () => {
               <MenuItem
                 itemId="assign-organization-dropdown-item"
                 key="assign-organization-dropdown-item"
-                onClick={setOrganizationModalOpen}
+                onClick={() => setOrganizationModalOpen(true)}
                 isDisabled={selectedCount === 0}
               >
                 {__('Organization')}
@@ -353,7 +299,7 @@ const HostsIndex = () => {
               <MenuItem
                 itemId="assign-location-dropdown-item"
                 key="assign-location-dropdown-item"
-                onClick={setLocationModalOpen}
+                onClick={() => setLocationModalOpen(true)}
                 isDisabled={selectedCount === 0}
               >
                 {__('Location')}
@@ -609,13 +555,41 @@ const HostsIndex = () => {
             fetchBulkParams,
           }}
         >
-          <BulkAssignOrganizationModal key="bulk-assign-organization-modal" />
-          <BulkAssignLocationModal key="bulk-assign-location-modal" />
-          <BulkBuildHostModal key="bulk-build-hosts-modal" />
-          <BulkReassignHostgroupModal key="bulk-reassign-hg-modal" />
-          <BulkChangeOwnerModal key="bulk-change-owner-modal" />
-          <BulkPowerStateModal key="bulk-power-state-modal" />
-          <BulkDisassociateModal key="bulk-disassociate-modal" />
+          <BulkAssignOrganizationModal
+            key="bulk-assign-organization-modal"
+            isOpen={organizationModalOpen}
+            closeModal={() => setOrganizationModalOpen(false)}
+          />
+          <BulkAssignLocationModal
+            key="bulk-assign-location-modal"
+            isOpen={locationModalOpen}
+            closeModal={() => setLocationModalOpen(false)}
+          />
+          <BulkBuildHostModal
+            key="bulk-build-hosts-modal"
+            isOpen={buildModalOpen}
+            closeModal={() => setBuildModalOpen(false)}
+          />
+          <BulkReassignHostgroupModal
+            key="bulk-reassign-hg-modal"
+            isOpen={hgModalOpen}
+            closeModal={() => setHgModalOpen(false)}
+          />
+          <BulkChangeOwnerModal
+            key="bulk-change-owner-modal"
+            isOpen={changeOwnerModalOpen}
+            closeModal={() => setChangeOwnerModalOpen(false)}
+          />
+          <BulkPowerStateModal
+            key="bulk-power-state-modal"
+            isOpen={powerStateModalOpen}
+            closeModal={() => setPowerStateModalOpen(false)}
+          />
+          <BulkDisassociateModal
+            key="bulk-disassociate-modal"
+            isOpen={disassociateModalOpen}
+            closeModal={() => setDisassociateModalOpen(false)}
+          />
           <Slot id="_all-hosts-modals" multi />
         </ForemanActionsBarContext.Provider>
       </TableIndexPage>

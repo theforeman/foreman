@@ -1,45 +1,49 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { ForemanActionsBarContext } from '../../../../components/HostDetails/ActionsBar';
-import { useForemanModal } from '../../../../components/ForemanModal/ForemanModalHooks';
 import {
   BulkAssignOrganizationModal,
   BulkAssignLocationModal,
 } from './BulkAssignTaxonomyModal';
 
-export const BulkAssignOrganizationModalScene = () => {
+export const BulkAssignOrganizationModalScene = ({ isOpen, closeModal }) => {
   const { selectAllHostsMode, selectedCount, fetchBulkParams } = useContext(
     ForemanActionsBarContext
   );
-  const { modalOpen, setModalClosed } = useForemanModal({
-    id: 'bulk-assign-organization-modal',
-  });
   return (
     <BulkAssignOrganizationModal
       key="bulk-assign-organization-modal"
       selectAllHostsMode={selectAllHostsMode}
       selectedCount={selectedCount}
       fetchBulkParams={fetchBulkParams}
-      isOpen={modalOpen}
-      closeModal={setModalClosed}
+      isOpen={isOpen}
+      closeModal={closeModal}
     />
   );
 };
 
-export const BulkAssignLocationModalScene = () => {
+export const BulkAssignLocationModalScene = ({ isOpen, closeModal }) => {
   const { selectAllHostsMode, selectedCount, fetchBulkParams } = useContext(
     ForemanActionsBarContext
   );
-  const { modalOpen, setModalClosed } = useForemanModal({
-    id: 'bulk-assign-location-modal',
-  });
   return (
     <BulkAssignLocationModal
       key="bulk-assign-location-modal"
       selectAllHostsMode={selectAllHostsMode}
       selectedCount={selectedCount}
       fetchBulkParams={fetchBulkParams}
-      isOpen={modalOpen}
-      closeModal={setModalClosed}
+      isOpen={isOpen}
+      closeModal={closeModal}
     />
   );
+};
+
+BulkAssignOrganizationModalScene.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+};
+
+BulkAssignLocationModalScene.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
 };

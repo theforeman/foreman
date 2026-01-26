@@ -103,16 +103,6 @@ jest.mock('../ColumnSelector', () => ({
   default: () => null,
 }));
 
-jest.mock('../ForemanModal/ForemanModalHooks', () => ({
-  useForemanModal: jest.fn(() => ({
-    setModalOpen: jest.fn(),
-  })),
-}));
-
-jest.mock('../ForemanModal/ForemanModalActions', () => ({
-  addModal: jest.fn(() => ({ type: 'ADD_MODAL' })),
-}));
-
 jest.mock('../HostDetails/ActionsBar/actions', () => ({
   deleteHost: jest.fn(),
 }));

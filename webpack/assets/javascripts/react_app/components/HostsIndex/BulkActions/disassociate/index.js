@@ -1,18 +1,15 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { ForemanActionsBarContext } from '../../../../components/HostDetails/ActionsBar';
-import { useForemanModal } from '../../../../components/ForemanModal/ForemanModalHooks';
 import BulkDisassociateModal from './BulkDisassociateModal';
 
-const BulkDisassociateModalScene = () => {
+const BulkDisassociateModalScene = ({ isOpen, closeModal }) => {
   const {
     selectAllHostsMode,
     selectedCount,
     selectedResults,
     fetchBulkParams,
   } = useContext(ForemanActionsBarContext);
-  const { modalOpen, setModalClosed } = useForemanModal({
-    id: 'bulk-disassociate-modal',
-  });
   return (
     <BulkDisassociateModal
       key="bulk-disassociate-modal"
@@ -20,10 +17,15 @@ const BulkDisassociateModalScene = () => {
       selectedCount={selectedCount}
       selectedResults={selectedResults}
       fetchBulkParams={fetchBulkParams}
-      isOpen={modalOpen}
-      closeModal={setModalClosed}
+      isOpen={isOpen}
+      closeModal={closeModal}
     />
   );
 };
 
 export default BulkDisassociateModalScene;
+
+BulkDisassociateModalScene.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+};

@@ -1,24 +1,26 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { ForemanActionsBarContext } from '../../../../components/HostDetails/ActionsBar';
-import { useForemanModal } from '../../../../components/ForemanModal/ForemanModalHooks';
 import BulkBuildHostModal from './BulkBuildHostModal';
 
-const BulkBuildHostModalScene = () => {
+const BulkBuildHostModalScene = ({ isOpen, closeModal }) => {
   const { selectedCount, fetchBulkParams } = useContext(
     ForemanActionsBarContext
   );
-  const { modalOpen, setModalClosed } = useForemanModal({
-    id: 'bulk-build-hosts-modal',
-  });
   return (
     <BulkBuildHostModal
       key="bulk-build-hosts-modal"
       selectedCount={selectedCount}
       fetchBulkParams={fetchBulkParams}
-      isOpen={modalOpen}
-      closeModal={setModalClosed}
+      isOpen={isOpen}
+      closeModal={closeModal}
     />
   );
 };
 
 export default BulkBuildHostModalScene;
+
+BulkBuildHostModalScene.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+};
