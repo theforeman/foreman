@@ -9,8 +9,6 @@ import {
 import { translate as __ } from '../../../../../common/I18n';
 import { noop } from '../../../../../common/helpers';
 
-import './SelectAllCheckbox.scss';
-
 const SelectAllCheckbox = ({
   selectNone,
   selectDefault,
@@ -140,7 +138,6 @@ const SelectAllCheckbox = ({
           ouiaId="select-all-checkbox-dropdown-toggle"
           splitButtonItems={[
             <DropdownToggleCheckbox
-              className="table-select-all-checkbox"
               key="table-select-all-checkbox"
               ouiaId="select-all-checkbox-dropdown-toggle-checkbox"
               aria-label="Select all"

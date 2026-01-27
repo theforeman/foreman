@@ -348,3 +348,30 @@ span.btn-action a {
 span.btn-action.btn-primary a {
   color: #fff;
 }
+
+.pf-v5-c-menu ul {
+  /* override bootstrap-sass
+  ul, ol {
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }*/
+  margin-bottom: 0;
+}
+
+label[class^='pf-v5'],
+[class^='pf-v5'] label {
+  /* override  
+    patternfly-sass
+    label {
+      font-weight: 600;
+    }
+    bootstrap-sass
+    label {
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 5px;
+      font-weight: 700;
+    } */
+  margin-bottom: 0;
+  font-weight: normal;
+}
