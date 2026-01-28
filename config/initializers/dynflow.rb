@@ -7,6 +7,7 @@ ActiveRecord::SchemaDumper.ignore_tables = [
   'dynflow_coordinator_records',
   'dynflow_delayed_plans',
   'dynflow_envelopes',
+  'dynflow_execution_plan_dependencies',
   'dynflow_execution_plans',
   'dynflow_output_chunks',
   'dynflow_schema_info',
