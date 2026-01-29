@@ -198,4 +198,42 @@ class ApplicationHelperTest < ActionView::TestCase
       ::Foreman::Plugin.app_metadata_registry.instance_variable_get(:@plugin_metadata).delete(:test_plugin_mixed)
     end
   end
+
+  describe 'action_buttons' do
+    test 'returns nil when no arguments provided' do
+      result = action_buttons
+      assert_nil result
+    end
+
+    test 'returns single button' do
+      result = action_buttons('Edit')
+      assert_match /Edit/, result
+      assert_match /<span.*btn/, result
+    end
+
+    test 'returns single button from hash' do
+      result = action_buttons({ content: 'Edit' })
+      assert_match /Edit/, result
+      assert_match /<span.*btn/, result
+    end
+
+    test 'returns dropdown for multiple buttons' do
+      result = action_buttons('Edit', 'Delete', 'Clone')
+      assert_match /btn-group/, result
+      assert_match /dropdown-menu/, result
+      assert_match /dropdown-toggle/, result
+    end
+
+    test 'renders dropdown for multiple buttons from hash' do
+      items = [
+        { content: 'Edit', options: { class: 'primary' } },
+        { content: 'Delete', options: { class: 'danger' } },
+        { content: 'Clone', options: { class: 'warning' } },
+      ]
+      result = action_buttons(*items)
+      assert_match /btn-group/, result
+      assert_match /<li class="danger">Delete<\/li>/, result
+      assert_match /<li class="warning">Clone<\/li>/, result
+    end
+  end
 end

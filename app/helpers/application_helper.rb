@@ -255,7 +255,8 @@ module ApplicationHelper
     end
 
     # multiple buttons
-    primary = args.delete_at(0).html_safe
+    primary = args.delete_at(0)
+    primary = (primary.is_a?(Hash) ? primary[:content] : primary).html_safe
     primary = content_tag(:span, primary, :class => 'btn btn-sm btn-default') if primary !~ /btn/
 
     content_tag(:div, :class => "btn-group") do
