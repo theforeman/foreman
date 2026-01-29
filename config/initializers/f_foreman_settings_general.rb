@@ -64,7 +64,7 @@ Foreman::SettingManager.define(:foreman) do
     setting('outofsync_interval',
       type: :integer,
       description: N_('Duration in minutes after servers are classed as out of sync. ' \
-                      'This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval).'),
+                      'This setting is overridden by specific settings from config management tools (e.g. puppet_interval, ansible_interval).'),
       default: 30,
       full_name: N_('Out of sync interval'))
     setting('instance_id',
