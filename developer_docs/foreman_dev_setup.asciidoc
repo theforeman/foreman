@@ -142,7 +142,9 @@ In order to run Foreman you can use the following command inside your git reposi
 bundle exec foreman start
 ....
 
-You can also run Foreman in two separate processes - frontend and rails. This way when you need to restart Foreman (for code reload) you don't have to wait for webpack build:
+You can also run Foreman in two separate processes - frontend and rails.
+This way when you need to restart Foreman (for code reload) you don't have to wait for webpack build. 
+Additionally, this allows you to use interactive tools which bind to the console such as [pry](https://github.com/pry/pry) or [byebug](https://github.com/deivid-rodriguez/byebug).
 [source, bash]
 ....
 # Rails

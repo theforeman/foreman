@@ -11,7 +11,6 @@ group :development do
   gem 'byebug'
   gem 'pry'
   gem 'pry-rails'
-  gem 'pry-byebug'
   gem 'pry-doc'
   gem 'pry-stack_explorer'
   gem 'pry-remote' # will not work when running via foreman
