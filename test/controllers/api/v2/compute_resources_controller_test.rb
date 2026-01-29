@@ -451,7 +451,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     new_organizations = [Organization.first, Organization.second, Organization.third]
     put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:organization_ids => new_organizations.map { |org| org.id } } }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['organizations'].map { |org| org['name'] }.sort, new_organizations.map { |org| org.name }, "Can't update libvirt compute resource with orgs #{new_organizations}"
+    assert_equal_arrays JSON.parse(@response.body)['organizations'].map { |org| org['name'] }, new_organizations.map { |org| org.name }, "Can't update libvirt compute resource with orgs #{new_organizations}"
   end
 
   test "should not create with same name" do
@@ -528,7 +528,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
       libvirt_with_locs = @valid_libvirt_with_org_loc.clone.update(:location_ids => locs.map { |loc| loc.id })
       post :create, params: { :compute_resource => libvirt_with_locs }
       assert_response :created
-      assert_equal JSON.parse(@response.body)['locations'].map { |loc| loc['name'] }, locs.map { |loc| loc.name }, "Can't create libvirt compute resource with locs #{locs}"
+      assert_equal_arrays JSON.parse(@response.body)['locations'].map { |loc| loc['name'] }, locs.map { |loc| loc.name }, "Can't create libvirt compute resource with locs #{locs}"
     end
 
     test "should create libvirt compute resource with orgs" do
@@ -536,14 +536,14 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
       libvirt_with_orgs = @valid_libvirt_attrs.clone.update(:organization_ids => orgs.map { |org| org.id })
       post :create, params: { :compute_resource => libvirt_with_orgs }
       assert_response :created
-      assert_equal JSON.parse(@response.body)['organizations'].map { |org| org['name'] }, orgs.map { |org| org.name }, "Can't create libvirt compute resource with orgs #{orgs}"
+      assert_equal_arrays JSON.parse(@response.body)['organizations'].map { |org| org['name'] }, orgs.map { |org| org.name }, "Can't create libvirt compute resource with orgs #{orgs}"
     end
 
     test "should update libvirt compute resource with locs" do
       new_locations = Array.new(3) { FactoryBot.create(:location, :organization_ids => [@organization.id]) }
       put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:location_ids => new_locations.map { |loc| loc.id } } }
       assert_response :success
-      assert_equal JSON.parse(@response.body)['locations'].map { |loc| loc['name'] }, new_locations.map { |loc| loc.name }, "Can't update libvirt compute resource with locs #{new_locations}"
+      assert_equal_arrays JSON.parse(@response.body)['locations'].map { |loc| loc['name'] }, new_locations.map { |loc| loc.name }, "Can't update libvirt compute resource with locs #{new_locations}"
     end
 
     test "should not create libvirt compute resource with invalid name" do

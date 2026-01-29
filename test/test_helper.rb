@@ -150,8 +150,8 @@ class ActiveSupport::TestCase
     assert_equal num_of_queries, queries.size, "Expected #{num_of_queries} queries, but got #{queries.size}"
   end
 
-  def assert_equal_arrays(array1, array2)
-    assert_equal array1.sort, array2.sort
+  def assert_equal_arrays(array1, array2, msg = nil)
+    assert_equal array1.sort, array2.sort, msg
   end
 end
 
