@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from 'patternfly-react';
 
+import { deprecate } from '../../../common/DeprecationService';
 import { translate as __ } from '../../../common/I18n';
 import { noop } from '../../../common/helpers';
 import CommonForm from './CommonForm';
@@ -30,6 +31,11 @@ class Select extends React.Component {
   }
 
   componentDidMount() {
+    deprecate(
+      'Select',
+      'Select or TypeaheadSelect from @patternfly/react-core or @patternfly/react-templates',
+      '3.20'
+    );
     if (this.props.useSelect2) {
       this.initializeSelect2();
       this.attachEvent();
