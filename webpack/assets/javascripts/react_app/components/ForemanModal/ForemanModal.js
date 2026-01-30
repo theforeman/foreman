@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal } from 'patternfly-react';
 import PropTypes from 'prop-types';
 import ModalContext from './ForemanModalContext';
 import ForemanModalHeader from './subcomponents/ForemanModalHeader';
 import ForemanModalFooter from './subcomponents/ForemanModalFooter';
 import { extractModalNodes } from './helpers';
+import { deprecate } from '../../common/DeprecationService';
 
 /**
  * A modal component that provides a standardized layout and context for modals in Foreman.
@@ -31,6 +32,10 @@ import { extractModalNodes } from './helpers';
   </ForemanModal>
 */
 const ForemanModal = props => {
+  useEffect(() => {
+    deprecate('ForemanModal', 'Modal from @patternfly/react-core', '3.20');
+  }, []);
+
   const {
     id,
     title,

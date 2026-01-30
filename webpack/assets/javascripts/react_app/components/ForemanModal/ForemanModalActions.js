@@ -6,17 +6,21 @@ import {
   SET_MODAL_STOP_SUBMITTING,
 } from './ForemanModalConstants';
 import { selectModalExists } from './ForemanModalSelectors';
+import { deprecate } from '../../common/DeprecationService';
 
 export const addModal = ({ id, isOpen = false, isSubmitting = false }) => (
   dispatch,
   getState
-) =>
+) => {
+  deprecate('ForemanModal', 'Modal from @patternfly/react-core', '3.20');
   dispatch({
     type: ADD_MODAL,
     payload: { id, isOpen, isSubmitting },
   });
+};
 
 const modalAction = actionType => ({ id }) => (dispatch, getState) => {
+  deprecate('ForemanModal', 'Modal from @patternfly/react-core', '3.20');
   if (!selectModalExists(getState(), id)) {
     // eslint-disable-next-line no-console
     console.warn(

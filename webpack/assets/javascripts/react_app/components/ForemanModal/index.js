@@ -11,10 +11,15 @@ import ForemanModal from './ForemanModal';
 import ForemanModalHeader from './subcomponents/ForemanModalHeader';
 import ForemanModalFooter from './subcomponents/ForemanModalFooter';
 import reducer from './ForemanModalReducer';
+import { deprecate } from '../../common/DeprecationService';
 
 export const reducers = { foremanModals: reducer };
 
 const ConnectedForemanModal = props => {
+  useEffect(() => {
+    deprecate('ForemanModal', 'Modal from @patternfly/react-core', '3.20');
+  }, []);
+
   const { id, title } = props;
   const isOpen = useSelector(state => selectIsModalOpen(state, id));
   const isSubmitting = useSelector(state => selectIsModalSubmitting(state, id));

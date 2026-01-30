@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsModalOpen } from './ForemanModalSelectors';
 import { setModalOpen, setModalClosed } from './ForemanModalActions';
 import ModalContext from './ForemanModalContext';
+import { deprecate } from '../../common/DeprecationService';
 
 // Because enzyme doesn't support useContext yet
 export const useModalContext = () => useContext(ModalContext);
@@ -11,6 +12,10 @@ export const useModalContext = () => useContext(ModalContext);
 // Make sure the id passed in matches the id prop of your <ForemanModal />.
 // Returns a variable that tells you the state and a function to toggle it.
 export const useForemanModal = ({ id, isOpen = false }) => {
+  useEffect(() => {
+    deprecate('ForemanModal', 'Modal from @patternfly/react-core', '3.20');
+  }, []);
+
   if (!id) throw new Error('useForemanModal: ID is required');
   const initialModalState = isOpen;
   const modalOpen = useSelector(state => selectIsModalOpen(state, id)) || false;
