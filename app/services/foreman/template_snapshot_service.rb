@@ -6,68 +6,8 @@ module Foreman
       new.templates
     end
 
-    def self.host4dhcp
-      new.host4dhcp
-    end
-
-    def self.host6dhcp
-      new.host6dhcp
-    end
-
-    def self.host4and6dhcp
-      new.host4and6dhcp
-    end
-
-    def self.host4static
-      new.host4static
-    end
-
-    def self.host6static
-      new.host6static
-    end
-
-    def self.debian4dhcp
-      new.debian4dhcp
-    end
-
-    def self.ubuntu4dhcp
-      new.ubuntu4dhcp
-    end
-
-    def self.ubuntu_autoinst4dhcp
-      new.ubuntu_autoinst4dhcp
-    end
-
-    def self.ubuntu_autoinstmulti4dhcp
-      new.ubuntu_autoinstmulti4dhcp
-    end
-
-    def self.rhel9_dhcp
-      new.rhel9_dhcp
-    end
-
-    def self.rhel10_dhcp
-      new.rhel10_dhcp
-    end
-
-    def self.rocky8_dhcp
-      new.rocky8_dhcp
-    end
-
-    def self.rocky9_dhcp
-      new.rocky9_dhcp
-    end
-
-    def self.rocky10_dhcp
-      new.rocky10_dhcp
-    end
-
-    def self.windows10_dhcp
-      new.windows10_dhcp
-    end
-
     def self.render_template(template, host_name = :host4dhcp)
-      host_stub = send(host_name.to_sym)
+      host_stub = new.send(host_name.to_sym)
       source = Foreman::Renderer::Source::Snapshot.new(template)
       scope = Foreman::Renderer.get_scope(host: host_stub, source: source)
       Foreman::Renderer.render(source, scope)
