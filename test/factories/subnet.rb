@@ -20,7 +20,7 @@ FactoryBot.define do
     end
 
     trait :httpboot do
-      association :httpboot, :factory => :template_smart_proxy
+      association :httpboot, :factory => :httpboot_smart_proxy
     end
 
     trait :dhcp do
@@ -86,7 +86,7 @@ FactoryBot.define do
     trait :proxies_for_snapshots do
       # ability to build more than one smart proxies with the same url or name for snapshot testing
       association :tftp, :ignore_validations, :factory => :template_smart_proxy, :name => "snapshot-proxy-tftp", :url => "http://localhost:8001"
-      association :httpboot, :ignore_validations, :factory => :template_smart_proxy, :name => "snapshot-proxy-httpboot", :url => "http://localhost:8002"
+      association :httpboot, :ignore_validations, :factory => :httpboot_smart_proxy, :name => "snapshot-proxy-httpboot", :url => "http://localhost:8002"
       association :dhcp, :ignore_validations, :factory => :dhcp_smart_proxy, :name => "snapshot-proxy-dhcp", :url => "http://localhost:8003"
       association :dns, :ignore_validations, :factory => :dns_smart_proxy, :name => "snapshot-proxy-dns", :url => "http://localhost:8004"
       association :bmc, :ignore_validations, :factory => :bmc_smart_proxy, :name => "snapshot-proxy-bmc", :url => "http://localhost:8005"
