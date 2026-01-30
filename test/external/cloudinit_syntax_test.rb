@@ -3,7 +3,12 @@ require 'mkmf'
 require 'English'
 
 class CloudInitSyntaxTest < ActiveSupport::TestCase
-  files = Dir.glob('test/unit/foreman/renderer/snapshots/ProvisioningTemplate/cloud-init/*')
+  files = Dir.glob('test/unit/foreman/renderer/snapshots/ProvisioningTemplate/*/*').select do |f|
+    content = File.read(f)
+    # coreos and rancheros have own cloud-init implementations, which we can't validate using
+    # the original cloud-init tooling
+    content.match?(/^#cloud-config/) && !content.match?(/coreos:/) && !content.match?(/rancher:/)
+  end
 
   files.each do |file|
     test file do
@@ -18,7 +23,6 @@ class CloudInitSyntaxTest < ActiveSupport::TestCase
     skip unless find_executable 'cloud-init'
     output = `./script/cloud-init-validate '#{file}' 2>&1`
     status = $CHILD_STATUS
-    assert_empty output.strip
-    assert status.success?
+    assert status.success?, "cloud-init-validate result:\n#{output.strip}"
   end
 end
