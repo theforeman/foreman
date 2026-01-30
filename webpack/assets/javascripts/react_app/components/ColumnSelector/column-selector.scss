@@ -12,10 +12,14 @@
   padding-top: 0px
 }
 
-#btn-select-columns{
+#btn-select-columns {
   @media (max-width: 1530px) {
     .columns-selector-text {
       display: none;
     }
   }
+}
+
+div [data-ouia-component-id="manage-columns-modal"].pf-v5-c-modal-box {                                                                                                                                        
+  max-height: calc(100% - 128px);                                                                                                                                                          
 }
