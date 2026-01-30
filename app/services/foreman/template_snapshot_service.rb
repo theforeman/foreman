@@ -78,7 +78,7 @@ module Foreman
     end
 
     def host4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7, :with_realm_freeipa,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7, :with_realm_freeipa,
         name: 'snapshot-ipv4-dhcp-el7',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
@@ -87,7 +87,7 @@ module Foreman
     end
 
     def host4static
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7,
         name: 'snapshot-ipv4-static-el7',
         subnet: FactoryBot.build(:subnet_ipv4_static_for_snapshots),
         interfaces: [ipv4_interface])
@@ -96,7 +96,7 @@ module Foreman
     end
 
     def host6dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7,
         name: 'snapshot-ipv6-dhcp-el7',
         subnet: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
         interfaces: [ipv6_interface])
@@ -105,7 +105,7 @@ module Foreman
     end
 
     def host6static
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7,
         name: 'snapshot-ipv6-static-el7',
         subnet: FactoryBot.build(:subnet_ipv6_static_for_snapshots),
         interfaces: [ipv6_interface])
@@ -114,7 +114,7 @@ module Foreman
     end
 
     def host4and6dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_el7,
+      host = FactoryBot.build(:host_for_snapshots, :with_c7,
         name: 'snapshot-ipv4-6-dhcp-el7',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         subnet6: FactoryBot.build(:subnet_ipv6_dhcp_for_snapshots),
@@ -124,7 +124,7 @@ module Foreman
     end
 
     def debian4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_deb10,
+      host = FactoryBot.build(:host_for_snapshots, :with_deb10,
         name: 'snapshot-ipv4-dhcp-deb10',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
@@ -133,7 +133,7 @@ module Foreman
     end
 
     def ubuntu4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_ubuntu18,
+      host = FactoryBot.build(:host_for_snapshots, :with_ubuntu18,
         name: 'snapshot-ipv4-dhcp-ubuntu18',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
@@ -141,7 +141,7 @@ module Foreman
     end
 
     def ubuntu_autoinst4dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_ubuntu20,
+      host = FactoryBot.build(:host_for_snapshots, :with_ubuntu20,
         name: 'snapshot-ipv4-dhcp-ubuntu20',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
@@ -157,7 +157,7 @@ module Foreman
         mac: '00-f0-54-1a-7e-e1',
         ip: '192.168.42.43')
 
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_ubuntu20,
+      host = FactoryBot.build(:host_for_snapshots, :with_ubuntu20,
         name: 'snapshot-ipv4-dhcp-ubuntu20',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [nic_a, nic_b])
@@ -166,7 +166,7 @@ module Foreman
     end
 
     def rhel9_dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rhel9,
+      host = FactoryBot.build(:host_for_snapshots, :with_rhel9,
         name: 'snapshot-ipv4-dhcp-rhel9',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
@@ -175,7 +175,7 @@ module Foreman
     end
 
     def rhel10_dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rhel10,
+      host = FactoryBot.build(:host_for_snapshots, :with_rhel10,
         name: 'snapshot-ipv4-dhcp-rhel10',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
@@ -184,7 +184,7 @@ module Foreman
     end
 
     def rocky8_dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky8,
+      host = FactoryBot.build(:host_for_snapshots, :with_rocky8,
         name: 'snapshot-ipv4-dhcp-rocky8',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
@@ -192,7 +192,7 @@ module Foreman
     end
 
     def rocky9_dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky9,
+      host = FactoryBot.build(:host_for_snapshots, :with_rocky9,
         name: 'snapshot-ipv4-dhcp-rocky9',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])
@@ -200,7 +200,7 @@ module Foreman
     end
 
     def rocky10_dhcp
-      host = FactoryBot.build(:host_for_snapshots_ipv4_dhcp_rocky10,
+      host = FactoryBot.build(:host_for_snapshots, :with_rocky10,
         name: 'snapshot-ipv4-dhcp-rocky10',
         subnet: FactoryBot.build(:subnet_ipv4_dhcp_for_snapshots),
         interfaces: [ipv4_interface])

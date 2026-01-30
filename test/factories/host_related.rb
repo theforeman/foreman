@@ -328,7 +328,7 @@ FactoryBot.define do
       end
     end
 
-    factory :host_for_snapshots_base do
+    factory :host_for_snapshots do
       name { 'snapshot-ipv4-dhcp-el7' }
       hostname { name }
       managed { true }
@@ -341,39 +341,39 @@ FactoryBot.define do
       root_pass { '$1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0' }
       certname { name }
 
-      factory :host_for_snapshots_ipv4_dhcp_el7 do
+      trait :with_c7 do
         operatingsystem { FactoryBot.build(:for_snapshots_centos_7_0) }
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_deb10 do
+      trait :with_deb10 do
         operatingsystem { FactoryBot.build(:for_snapshots_debian_10) }
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_ubuntu18 do
+      trait :with_ubuntu18 do
         operatingsystem { FactoryBot.build(:for_snapshots_ubuntu_18) }
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_ubuntu20 do
+      trait :with_ubuntu20 do
         operatingsystem { FactoryBot.build(:for_snapshots_ubuntu_20) }
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_rhel9 do
+      trait :with_rhel9 do
         operatingsystem { FactoryBot.build(:for_snapshots_rhel9) }
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_rhel10 do
+      trait :with_rhel10 do
         operatingsystem { FactoryBot.build(:for_snapshots_rhel10) }
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_rocky8 do
+      trait :with_rocky8 do
         operatingsystem { FactoryBot.build(:for_snapshots_rocky8) }
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_rocky9 do
+      trait :with_rocky9 do
         operatingsystem { FactoryBot.build(:for_snapshots_rocky9) }
       end
 
-      factory :host_for_snapshots_ipv4_dhcp_rocky10 do
+      trait :with_rocky10 do
         operatingsystem { FactoryBot.build(:for_snapshots_rocky10) }
       end
 
