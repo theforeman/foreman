@@ -47,6 +47,7 @@ module.exports = [
   '@patternfly/react-tokens',
   '@patternfly/react-styles',
   '@patternfly/react-charts',
+  '@patternfly/react-templates',
 
   /**
    * ace-builds related
