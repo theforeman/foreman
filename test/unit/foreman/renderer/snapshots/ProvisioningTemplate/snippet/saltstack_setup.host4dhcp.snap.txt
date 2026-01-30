@@ -19,6 +19,6 @@ EOF
 
 echo snapshot-ipv4-dhcp-el7 > /etc/salt/minion_id
 
-/sbin/chkconfig --level 345 salt-minion on
+/usr/bin/systemctl enable salt-minion
 
 /usr/bin/salt-call --no-color --grains >/dev/null

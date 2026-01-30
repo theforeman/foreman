@@ -34,10 +34,8 @@ echo <%= @host.name %> > <%= etc_path %>/minion_id
 <% if @host.operatingsystem.family == 'Freebsd' -%>
 echo 'salt_minion_enable="YES"' >>/etc/rc.conf
 echo 'salt_minion_paths="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"' >>/etc/rc.conf
-<% elsif @host.operatingsystem.family == 'Redhat' -%>
-/sbin/chkconfig --level 345 salt-minion on
-<% elsif @host.operatingsystem.family == 'Suse' -%>
-/sbin/chkconfig salt-minion on -f
+<% else -%>
+/usr/bin/systemctl enable salt-minion
 <% end -%>
 
 <%= bin_path %>/salt-call --no-color --grains >/dev/null
