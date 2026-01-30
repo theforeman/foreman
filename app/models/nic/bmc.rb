@@ -19,6 +19,7 @@ module Nic
       raise Foreman::Exception.new(N_('Unable to find a proxy with BMC feature')) if proxy.nil?
       args = {
         :host_ip => ip,
+        :fqdn => fqdn,
         :url => proxy.url,
         :user => username,
         :password => password_unredacted,

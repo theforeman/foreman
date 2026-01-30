@@ -3,7 +3,7 @@ module ProxyAPI
     SUPPORTED_BOOT_DEVICES = %w[disk cdrom pxe bios]
 
     def initialize(args)
-      @target = args[:host_ip] || '127.0.0.1'
+      @target = args[:fqdn].presence || args[:host_ip] || '127.0.0.1'
       @url = args[:url] + "/bmc"
       @provider = args[:bmc_provider]
       super args

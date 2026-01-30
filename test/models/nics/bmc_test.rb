@@ -62,22 +62,24 @@ class BMCTest < ActiveSupport::TestCase
   context 'with bmc_credentials_accessible => false' do
     setup do
       Setting[:bmc_credentials_accessible] = false
-      host = FactoryBot.build(:host, :managed)
-      @bmc_nic = FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => 'IPMI', :username => "user", :password => 'secret', :subnet => subnets(:one))
+      domain = FactoryBot.build(:domain, :name => 'example.com')
+      host = FactoryBot.build(:host, :managed, :domain => domain)
+      @bmc_nic = FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => 'IPMI', :username => "user", :password => 'secret', :subnet => subnets(:one), :name => 'bmc', :domain => domain)
     end
 
     test 'BMC password is redacted in ENC output' do
       assert_nil @bmc_nic.to_export['password']
     end
 
-    test 'BMC password is hidden in #password' do
+    test 'password is hidden and fqdn is correctly constructed' do
       assert_nil @bmc_nic.password
       assert_equal 'secret', @bmc_nic.password_unredacted
+      assert_equal 'bmc.example.com', @bmc_nic.fqdn
     end
 
-    test '#proxy instantiates ProxyAPI with password' do
+    test '#proxy instantiates ProxyAPI with correct password and fqdn' do
       @bmc_nic.expects(:bmc_proxy).returns(FactoryBot.create(:bmc_smart_proxy))
-      ProxyAPI::BMC.expects(:new).with(has_entry(:password => 'secret'))
+      ProxyAPI::BMC.expects(:new).with(has_entries(:password => 'secret', :fqdn => 'bmc.example.com'))
       @bmc_nic.proxy
     end
 
