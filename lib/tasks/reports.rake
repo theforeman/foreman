@@ -80,8 +80,7 @@ namespace :reports do
     env = ENV['environment']
     unless env.empty?
       unless (e = Environment.find_by_name(env))
-        $stdout.puts "Unable to find puppet environment=#{env}"
-        exit 1
+        raise "Unable to find puppet environment=#{env}"
       end
       options[:env] = e if e
     end
@@ -89,8 +88,7 @@ namespace :reports do
     unless ENV['fact'].empty?
       name, value = ENV['fact'].split(":")
       if name.empty? || value.empty?
-        $stdout.puts "invalid fact #{ENV['fact']}"
-        exit 1
+        raise "Invalid fact #{ENV['fact']}"
       end
       options[:factname] = name
       options[:factvalue] = value

@@ -17,6 +17,7 @@ END_DESC
 
 namespace :audits do
   task :expire => :environment do
+    next unless before_date
     audits = get_audits_without_templates
     puts "Deleting audits older than #{before_date}. This might take a few minutes..."
     TaxableTaxonomy.where(taxable_type: "Audited::Audit", taxable: audits).delete_all
@@ -25,6 +26,7 @@ namespace :audits do
   end
 
   task :anonymize => :environment do
+    next unless before_date
     puts "Anonymizing audits older than #{before_date}. This might take a few minutes..."
 
     count = get_audits_without_templates.where.not(remote_address: nil)
@@ -66,8 +68,8 @@ namespace :audits do
   def before_date
     days = ENV['days'] || Setting[:audits_period]
     if days.blank?
-      puts "The interval for keeping the Audits is not defined in the settings, exiting..."
-      exit 0
+      puts "The interval for keeping the Audits is not defined in the settings, skipping..."
+      return nil
     end
     @before_date ||= days.to_i.days.ago
   end
