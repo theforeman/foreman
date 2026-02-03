@@ -202,7 +202,7 @@ class UsersController < ApplicationController
       session.clear
       inline_success _("Logged out - See you soon")
     end
-    redirect_to sso_logout_path || login_users_path
+    redirect_to(sso_logout_path || login_users_path, allow_other_host: true)
   end
 
   def extlogout
