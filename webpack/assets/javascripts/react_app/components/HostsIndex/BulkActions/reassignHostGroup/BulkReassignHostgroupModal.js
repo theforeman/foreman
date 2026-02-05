@@ -26,6 +26,7 @@ import {
 import { foremanUrl } from '../../../../common/helpers';
 import { APIActions } from '../../../../redux/API';
 import HostGroupSelect from './HostGroupSelect';
+import SkeletonLoader from '../../../common/SkeletonLoader';
 import {
   HOSTS_API_PATH,
   API_REQUEST_KEY,
@@ -197,7 +198,10 @@ const BulkReassignHostgroupModal = ({
       ouiaId="bulk-reassign-hg-modal-add-button"
       variant="primary"
       onClick={handleSave}
-      isDisabled={hostUpdateStatus === STATUS.PENDING}
+      isDisabled={
+        hostUpdateStatus === STATUS.PENDING ||
+        hostgroupStatus !== STATUS.RESOLVED
+      }
       isLoading={hostUpdateStatus === STATUS.PENDING}
     >
       {__('Save')}
@@ -249,7 +253,7 @@ const BulkReassignHostgroupModal = ({
           />
         </Text>
       </TextContent>
-      {hostgroups && hostgroupStatus === STATUS.RESOLVED && (
+      <SkeletonLoader status={hostgroupStatus} skeletonProps={{ count: 3 }}>
         <HostGroupSelect
           onClear={handleClear}
           headerText={__('Select host group')}
@@ -270,7 +274,7 @@ const BulkReassignHostgroupModal = ({
             );
           })}
         </HostGroupSelect>
-      )}
+      </SkeletonLoader>
       <hr />
     </Modal>
   );

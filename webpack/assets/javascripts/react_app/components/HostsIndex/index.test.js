@@ -9,8 +9,7 @@ import HostsIndex from './index';
 
 const mockStore = configureMockStore([thunk]);
 
-// Mock useSelector and useDispatch
-jest.spyOn(ReactRedux, 'useSelector').mockImplementation(() => []);
+// Mock useDispatch
 jest.spyOn(ReactRedux, 'useDispatch').mockImplementation(() => jest.fn());
 
 // Mock the API hook to return a controlled response
@@ -128,6 +127,10 @@ jest.mock('../PF4/TableIndexPage/TableIndexPage', () => ({
 describe('HostsIndex', () => {
   const store = mockStore({
     foremanModals: {},
+    API: {
+      HOSTGROUP_KEY: { status: 'RESOLVED', response: { results: [] } },
+      BULK_REASSIGN_HOSTGROUP_KEY: { status: undefined },
+    },
   });
 
   beforeEach(() => {
