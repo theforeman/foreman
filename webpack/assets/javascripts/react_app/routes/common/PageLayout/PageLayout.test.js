@@ -92,4 +92,26 @@ describe('PageLayout', () => {
     const contentElement = getByText('Content');
     expect(contentElement).toBeInTheDocument();
   });
+
+  it('should show spinner when isLoading is true', () => {
+    const { container } = renderWithStore(
+      <Router>
+        <PageLayout {...pageLayoutMock} isLoading={true}>
+          <div>Content</div>
+        </PageLayout>
+      </Router>
+    );
+    expect(container.querySelector('#toolbar-spinner')).toBeInTheDocument();
+  });
+
+  it('should not show spinner when isLoading is false', () => {
+    const { container } = renderWithStore(
+      <Router>
+        <PageLayout {...pageLayoutMock} isLoading={false}>
+          <div>Content</div>
+        </PageLayout>
+      </Router>
+    );
+    expect(container.querySelector('#toolbar-spinner')).toBeNull();
+  });
 });

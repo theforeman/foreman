@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Spinner } from 'patternfly-react';
 import {
+  Spinner,
+  Toolbar,
+  ToolbarContent,
+  ToolbarGroup,
+  ToolbarItem,
   PageSection,
   PageSectionVariants,
   TextContent,
@@ -59,32 +63,38 @@ const PageLayout = ({
         beforeToolbarComponent ||
         isLoading ||
         toolbarButtons) && (
-        <PageSection variant={PageSectionVariants.light}>
+        <PageSection
+          variant={PageSectionVariants.light}
+          className="page-toolbar-section"
+        >
           {beforeToolbarComponent}
-          <div className="title_filter_parent">
-            <Col className="title_filter" md={6}>
-              {!searchable && toolbarButtons && title}
-              {searchable && (
-                <SearchBar
-                  data={{
-                    ...searchProps,
-                    autocomplete: { ...searchProps.autocomplete, searchQuery },
-                  }}
-                  onSearch={onSearch}
-                />
-              )}
-            </Col>
-            <Col md={6}>
-              <div className="btn-toolbar pull-right">
-                {isLoading && (
-                  <div id="toolbar-spinner">
-                    <Spinner loading size="sm" />
-                  </div>
+          <Toolbar ouiaId="page-toolbar">
+            <ToolbarContent>
+              <ToolbarItem widths={{ default: '50%' }}>
+                {!searchable && toolbarButtons && title}
+                {searchable && (
+                  <SearchBar
+                    data={{
+                      ...searchProps,
+                      autocomplete: {
+                        ...searchProps.autocomplete,
+                        searchQuery,
+                      },
+                    }}
+                    onSearch={onSearch}
+                  />
                 )}
+              </ToolbarItem>
+              {isLoading && (
+                <ToolbarItem alignSelf="center" id="toolbar-spinner">
+                  <Spinner size="md" />
+                </ToolbarItem>
+              )}
+              <ToolbarGroup align={{ default: 'alignRight' }}>
                 {toolbarButtons}
-              </div>
-            </Col>
-          </div>
+              </ToolbarGroup>
+            </ToolbarContent>
+          </Toolbar>
         </PageSection>
       )}
       <PageSection variant={PageSectionVariants.light} type={pageSectionType}>
