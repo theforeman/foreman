@@ -1,4 +1,5 @@
 const packageJsonDirectories = ['./'];
+const vendorEntry = require('../../../../config/webpack.vendor');
 
 module.exports = {
   plugins: [
@@ -49,7 +50,7 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['foremanReact/.*'],
+        ignore: ['foremanReact/.*', ...vendorEntry],
       },
     ],
     'import/extensions': [
