@@ -34,10 +34,10 @@ class ForemanSeeder
     Digest::SHA256.base64digest(hashes.join)
   end
 
-  def execute
+  def execute(force: false)
     Foreman::AdvisoryLockManager.with_transaction_lock(ADVISORY_LOCK) do
       # if we had to wait for the lock it is likely that the seeding has already been done, no need to seed again
-      return unless hash_changed?
+      return unless hash_changed? || force
 
       self.class.is_seeding = true
       begin

@@ -229,4 +229,11 @@ namespace :seed do
       puts "Import rate: #{reports.to_f / (total_time / (10**9))} r/s"
     end
   end
+
+  desc 'Force to run foreman seeder. Call via rake seed:force'
+  task :force => :environment do
+    puts "Running foreman seeder with attribute force"
+    seeder = ::ForemanSeeder.new
+    seeder.execute(force: true)
+  end
 end
