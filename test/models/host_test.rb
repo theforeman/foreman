@@ -549,6 +549,62 @@ class HostTest < ActiveSupport::TestCase
     refute_equal original_status, new_status
   end
 
+  test "rebuild_requires_poweroff is validated and prevents to re-build a running host" do
+    power = mock("power")
+    power.stubs(:ready?).returns(true)
+
+    host = FactoryBot.create(:host, :managed)
+    host.stubs(:power).returns(power)
+    host.save!
+
+    host.expects(:build_rebuild_requires_poweroff).returns(true)
+    host.build = true
+    refute host.valid?
+    assert host.errors[:build].include?("The host must be powered off to build.")
+  end
+
+  test "rebuild_requires_poweroff is validated and allows to re-build the turned-off host" do
+    power = mock("power")
+    power.stubs(:ready?).returns(false)
+
+    host = FactoryBot.create(:host, :managed)
+    host.stubs(:power).returns(power)
+    host.save!
+
+    host.expects(:build_rebuild_requires_poweroff).returns(true)
+    host.build = true
+    assert host.valid?
+    refute host.errors[:build].any?
+  end
+
+  test "rebuild_requires_poweroff is validated and allows to re-build the host because provision_method allows it" do
+    power = mock("power")
+    power.stubs(:ready?).returns(true)
+
+    host = FactoryBot.create(:host, :managed)
+    host.stubs(:power).returns(power)
+    host.save!
+
+    host.expects(:build_rebuild_requires_poweroff).returns(false)
+    host.build = true
+    assert host.valid?
+    refute host.errors[:build].any?
+  end
+
+  test "rebuild_requires_poweroff allows rebuild when power state check fails" do
+    power = mock("power")
+    power.stubs(:ready?).raises(Foreman::Exception.new("boom"))
+
+    host = FactoryBot.create(:host, :managed)
+    host.stubs(:power).returns(power)
+    host.save!
+
+    host.expects(:build_rebuild_requires_poweroff).returns(true)
+    host.build = true
+    assert host.valid?
+    refute host.errors[:build].any?
+  end
+
   context 'host assigned to location and organization' do
     setup do
       @host = FactoryBot.create(:host, :managed => false)

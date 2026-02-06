@@ -333,6 +333,7 @@ class Host::Managed < Host::Base
   before_validation :set_compute_attributes, :on => :create, :if => proc { compute_attributes_empty? }
   validate :check_if_provision_method_changed, :on => :update, :if => proc { |host| host.managed }
   validates :uuid, uniqueness: { :allow_blank => true }
+  validate :check_if_rebuild_allowed, :if => proc { |host| host.build_changed?(from: false, to: true) }
 
   before_validation :set_hostgroup_defaults, :set_ip_address
   after_validation :ensure_associations
@@ -498,6 +499,23 @@ autopart"', desc: 'to render the content of host partition table'
 
   def self.registered_provision_methods
     Foreman::Plugin.all.map(&:provision_methods).inject(:merge) || {}
+  end
+
+  def check_if_rebuild_allowed
+    return true unless rebuild_requires_poweroff && power.ready?
+
+    errors.add(:build, N_('The host must be powered off to build.'))
+    false
+  rescue Foreman::Exception => _e
+    logger.info "Could not read power state of #{name}. Allowing to build the host."
+    true
+  end
+
+  def rebuild_requires_poweroff
+    method_name = "#{provision_method}_rebuild_requires_poweroff"
+    return false unless respond_to?(method_name)
+
+    public_send(method_name)
   end
 
   def self.valid_rebuild_only_values

@@ -45,6 +45,7 @@ const ActionsBar = ({
   hostName,
   computeId,
   isBuild,
+  buildRequiresPowerOff,
   permissions: {
     destroy_hosts: canDestroy,
     create_hosts: canCreate,
@@ -67,6 +68,7 @@ const ActionsBar = ({
     );
 
   const isConsoleDisabled = !(computeId && isHostActive);
+  const isHostActiveButRequiresPowerOff = buildRequiresPowerOff && isHostActive;
   const determineTooltip = () => {
     if (isConsoleDisabled) {
       if (computeId) {
@@ -76,6 +78,27 @@ const ActionsBar = ({
     }
     return undefined;
   };
+  const determineBuildDescription = () => {
+    if (!isBuild) {
+      if (!canBuild) {
+        return __('No permission to start build for this host.');
+      }
+      if (isHostActiveButRequiresPowerOff) {
+        return __('The host must be powered off to build.');
+      }
+      return __('Start build for this host.');
+    }
+
+    // isBuild=true => build is already in progress
+    if (!canBuild) {
+      return __('No permission to cancel the build.');
+    }
+    return __('Cancel the current build.');
+  };
+  // Build action is disabled if user doesn't have permissions to build or
+  // if the host is active but requires power off before build
+  const isBuildDisabled =
+    !canBuild || (!isBuild && isHostActiveButRequiresPowerOff);
   const buildHandler = () => {
     if (isBuild) {
       dispatch(cancelBuild(hostId, hostName));
@@ -90,7 +113,8 @@ const ActionsBar = ({
       onClick={buildHandler}
       key="build"
       component="button"
-      isDisabled={!canBuild}
+      description={determineBuildDescription()}
+      isDisabled={isBuildDisabled}
       icon={
         <Icon>
           <BuildIcon />
@@ -232,6 +256,7 @@ ActionsBar.propTypes = {
   computeId: PropTypes.number,
   permissions: PropTypes.object,
   isBuild: PropTypes.bool,
+  buildRequiresPowerOff: PropTypes.bool,
 };
 ActionsBar.defaultProps = {
   hostId: undefined,
@@ -245,6 +270,7 @@ ActionsBar.defaultProps = {
     build_hosts: false,
   },
   isBuild: false,
+  buildRequiresPowerOff: false,
 };
 
 export default ActionsBar;

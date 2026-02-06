@@ -216,6 +216,7 @@ const HostDetails = ({
                   hostName={response.name}
                   permissions={response.permissions}
                   isBuild={response.build}
+                  buildRequiresPowerOff={response.rebuild_requires_poweroff}
                 />
               </FlexItem>
             </Flex>
