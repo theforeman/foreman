@@ -63,7 +63,8 @@ class CleanupHelper
       cfgs = %w[view_config_groups create_config_groups edit_config_groups destroy_config_groups]
       plks = %w[view_external_parameters create_external_parameters edit_external_parameters
                 destroy_external_parameters]
-      pcls = %w[view_puppetclasses create_puppetclasses edit_puppetclasses destroy_puppetclasses import_puppetclasses]
+      pcls = %w[view_puppetclasses create_puppetclasses edit_puppetclasses destroy_puppetclasses import_puppetclasses
+                edit_classes]
       perms = Permission.where(name: envs + cfgs + plks + pcls)
       perms.destroy_all
       Filter.where.not(id: Filtering.distinct.select(:filter_id)).destroy_all
