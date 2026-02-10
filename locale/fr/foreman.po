@@ -11,6 +11,7 @@
 # Baptiste Agasse <baptiste.agasse@gmail.com>, 2018-2020,2023
 # Claer <transiblu@claer.hammock.fr>, 2013-2016
 # 21966816214bc546c1fc8a185e75ca1c, 2013
+# Cyril Lopez, 2026
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2013
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2013-2015
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2016-2017
@@ -41,7 +42,7 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
-"Last-Translator: zyurs <romain.partouche@tutanota.com>, 2020\n"
+"Last-Translator: Cyril Lopez, 2026\n"
 "Language-Team: French (http://app.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,11 +120,23 @@ msgstr "%s filtres"
 msgid "%s has been disassociated from VM"
 msgstr "%s a été dissocié de la VM"
 
+msgid "%s host does not support power management."
+msgid_plural "%s hosts do not support power management."
+msgstr[0] "L'hôte %s ne prend pas en charge la gestion de l'alimentation."
+msgstr[1] "Les hôtes %s ne prennent pas en charge la gestion de l'alimentation."
+msgstr[2] "Les hôtes %s ne prennent pas en charge la gestion de l'alimentation."
+
+msgid "%s host is selected for power state change"
+msgstr ""
+
 msgid "%s host set to build and rebooting."
 msgid_plural "%s hosts set to build and rebooting."
 msgstr[0] "%s hôte configuré pour build et redémarrer."
 msgstr[1] "%s hôte configuré pour build et redémarrer."
 msgstr[2] "%s hôte configuré pour build et redémarrer."
+
+msgid "%s hosts are selected for power state change"
+msgstr ""
 
 msgid "%s hosts deleted"
 msgstr "%s hôtes supprimés"
@@ -200,8 +213,8 @@ msgstr "%{controller} Le système d'exploitation de %{host} est manquant"
 msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr "%{controller}: jeton d'attribution pour l'hôte %{host} expiré"
 
-msgid "%{controller}: unable to find a host that matches the request from %{addr}"
-msgstr "%{controller}: impossible de trouver l'hôte correspondant à la requête venant de %{addr}"
+msgid "%{controller}: unable to find a host that matches the request from %{addr}. Search paths: %{search_paths}"
+msgstr ""
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
@@ -488,6 +501,27 @@ msgstr "Ressources API"
 
 msgid "API documentation"
 msgstr "Documentation de l'API"
+
+msgid "AWS Account ID"
+msgstr ""
+
+msgid "AWS Billing Product"
+msgstr ""
+
+msgid "AWS Instance ID"
+msgstr ""
+
+msgid "AWS Instance Type"
+msgstr ""
+
+msgid "AWS Marketplace Product"
+msgstr ""
+
+msgid "AWS Region"
+msgstr ""
+
+msgid "AWS details"
+msgstr ""
 
 msgid "About"
 msgstr "A propos"
@@ -826,6 +860,9 @@ msgstr "Appliqué"
 msgid "Applied|A"
 msgstr "A"
 
+msgid "Apply"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
 msgstr "Architecture"
@@ -928,10 +965,10 @@ msgid "Assign a host to the smart proxy"
 msgstr "Assigner un hôte au proxy smart"
 
 msgid "Assign location"
-msgstr ""
+msgstr "Attribuer un emplacement"
 
 msgid "Assign organization"
-msgstr ""
+msgstr "Attribuer une organisation"
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
@@ -944,9 +981,6 @@ msgstr "Attribuer à %s"
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr "L'attribution des hôtes à %{taxonomy_name} mettra également à jour %{taxonomy_name} pour inclure toutes les ressources que les hôtes sélectionnés sont en train d'utiliser."
-
-msgid "Associate Ephemeral External IP"
-msgstr "Associer l’IP externe éphémère"
 
 msgid "Associate VM"
 msgstr "Associer à une VM"
@@ -1210,6 +1244,21 @@ msgstr "Options disponibles"
 
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "Éviter les doublons lors des fusions (seulement pour les tableaux) ?"
+
+msgid "Azure Instance ID"
+msgstr ""
+
+msgid "Azure Offer"
+msgstr ""
+
+msgid "Azure SKU"
+msgstr ""
+
+msgid "Azure Subscription ID"
+msgstr ""
+
+msgid "Azure details"
+msgstr ""
 
 msgid "BCrypt"
 msgstr "BCrypt"
@@ -1566,7 +1615,10 @@ msgid "Change organization"
 msgstr ""
 
 msgid "Change owner"
-msgstr ""
+msgstr "Changer le propriétaire"
+
+msgid "Change power state"
+msgstr "Changer l'état de l'alimentation."
 
 msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
 msgstr "Changer le groupe d’hôtes de{hosts} Certains hôtes peuvent déjà faire partie du groupe d'hôtes que vous avez choisi."
@@ -1589,11 +1641,8 @@ msgstr "Revérifiez"
 msgid "Check renderability of template '%{name}'."
 msgstr ""
 
-msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "Choisissez « Automatique » pour définir le micrologiciel en fonction du chargeur PXE. Si aucun chargeur PXE n'est sélectionné, le BIOS sera utilisé par défaut."
-
-msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "Choisissez « Automatique » pour définir le micrologiciel en fonction du chargeur PXE de l'hôte. Si aucun chargeur PXE n'est sélectionné, la valeur par défaut est le BIOS."
+msgid "Choose 'Automatic' to set the firmware based on the PXE loader of the host. If no PXE loader is selected, firmware defaults to BIOS."
+msgstr ""
 
 msgid "Choose a family"
 msgstr "Sélectionner une famille"
@@ -1679,6 +1728,9 @@ msgstr "Cloné à partir de"
 msgid "Close"
 msgstr "Fermer"
 
+msgid "Cloud provider details"
+msgstr ""
+
 msgid "Cloud-init template"
 msgstr "Modèle cloud-init"
 
@@ -1711,6 +1763,9 @@ msgstr "Statut de la communication"
 
 msgid "Community"
 msgstr "Communauté"
+
+msgid "Compact table mode"
+msgstr ""
 
 msgid "Compress the report using gzip"
 msgstr "Compresser le rapport en utilisant gzip"
@@ -2393,6 +2448,15 @@ msgstr "Datacenter"
 msgid "Date"
 msgstr "Date"
 
+msgid "Date and time are required"
+msgstr ""
+
+msgid "Date is required"
+msgstr ""
+
+msgid "Date must be in the future"
+msgstr "La date doit être dans le futur"
+
 msgid "Default"
 msgstr "Par défaut"
 
@@ -2748,7 +2812,7 @@ msgid "Disassociate Hosts"
 msgstr "Dissocier les hôtes des VM"
 
 msgid "Disassociate compute resources"
-msgstr ""
+msgstr "Dissocier des ressources d'ordinateur"
 
 msgid "Disassociate host"
 msgstr "Dissocier l'hôte"
@@ -2888,8 +2952,8 @@ msgstr "Entrées dupliquées détectées : %{duplicated_inputs}"
 msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr "Durée en jours pendant laquelle les audits sont conservées. Laisser vide pour désactiver le nettoyage des audits."
 
-msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
-msgstr "Durée en minutes après laquelle les serveurs sont classés comme non synchronisés. Ce paramètre est remplacé par des paramètres spécifiques des outils de gestion de la configuration (par exemple, puppet_inteval, ansible_interval)."
+msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_interval, ansible_interval)."
+msgstr ""
 
 msgid "ERROR or FATAL"
 msgstr "ERROR ou FATAL"
@@ -3439,6 +3503,12 @@ msgstr "N'a pas pu définir les IP via IPAM pour %{name}: %{e}"
 msgid "Failed to set console: %s"
 msgstr "Échec de création de la console : %s"
 
+msgid "Failed to set power state for %s host."
+msgid_plural "Failed to set power state for %s hosts."
+msgstr[0] "La tentative de modification de l'état d'alimentation de l'hôte %s a échoué."
+msgstr[1] "La tentative de modification de l'état d'alimentation des hôtes %s a échoué."
+msgstr[2] "La tentative de modification de l'état d'alimentation de(s) hôte(s) %s a échoué."
+
 msgid "Failed to set power state for %s."
 msgstr "Échec du changement d'état d'alimentation électrique pour %s."
 
@@ -3588,7 +3658,7 @@ msgid "Fix on mismatch"
 msgstr ""
 
 msgid "Fix organization on mismatch"
-msgstr ""
+msgstr "Corriger l'organisation en cas d'inadéquation."
 
 msgid "Fixed IP"
 msgstr "IP fixe"
@@ -3837,6 +3907,24 @@ msgstr "Plein écran"
 
 msgid "Function not available for %s"
 msgstr "Fonction non disponible pour %s"
+
+msgid "GCP Instance ID"
+msgstr ""
+
+msgid "GCP License Code"
+msgstr ""
+
+msgid "GCP Project ID"
+msgstr ""
+
+msgid "GCP Project Number"
+msgstr ""
+
+msgid "GCP Zone"
+msgstr ""
+
+msgid "GCP details"
+msgstr ""
 
 msgid "GMT time"
 msgstr "Heure UTC"
@@ -4673,7 +4761,7 @@ msgid "ID of the organization"
 msgstr "ID de l'organisation"
 
 msgid "ID of the owner to reassign the hosts to"
-msgstr ""
+msgstr "ID du propriétaire auquel réaffecter les hôtes"
 
 msgid "ID of the user"
 msgstr "ID de l'utilisateur"
@@ -5165,6 +5253,9 @@ msgstr "Niveau de log invalide : %s"
 msgid "Invalid medium '%{medium}' for '%{os}'"
 msgstr "Medium invalide '%{medium}' pour '%{os}'"
 
+msgid "Invalid power action"
+msgstr ""
+
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "Requête état invalide: %{action}, les actions prises en charge sont %{supported}"
 
@@ -5385,7 +5476,7 @@ msgid "Level"
 msgstr "Niveau"
 
 msgid "Libvirt and OpenStack"
-msgstr ""
+msgstr "Libvirt et OpenStack"
 
 msgid "Libvirt default console address"
 msgstr "Adresse par défaut pour la console Libvirt"
@@ -6737,6 +6828,9 @@ msgstr "Aucun rapports"
 msgid "No results found"
 msgstr "Aucun résultat"
 
+msgid "No results found for %s"
+msgstr ""
+
 msgid "No setting value provided."
 msgstr "Aucune valeur de configuration fournie."
 
@@ -7183,7 +7277,7 @@ msgid "Organization fact"
 msgstr "Fact d'organisation"
 
 msgid "Organization is set to %s"
-msgstr ""
+msgstr "L'organisation est configurée pour %s"
 
 msgid "Organization parameters"
 msgstr "Paramètres d'organisation"
@@ -7424,7 +7518,7 @@ msgid "Password"
 msgstr "Mot de passe"
 
 msgid "Password for EC2, VMware, OpenStack. Secret key for EC2"
-msgstr ""
+msgstr "Mot de passe pour EC2, VMware, OpenStack. Clé secrète pour EC2"
 
 msgid "Password has been changed"
 msgstr "Le mot de passe a été modifié"
@@ -7650,11 +7744,23 @@ msgstr "État d’alimentation"
 msgid "Power a Virtual Machine"
 msgstr "Démarrer une Machine Virtuelle"
 
+msgid "Power action is required"
+msgstr ""
+
+msgid "Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)"
+msgstr "Action d'alimentation à effectuer (démarrer, arrêter, éteindre, redémarrer, réinitialiser, soft, cycle)"
+
 msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr "L’alimentation a pu être définie sur \"%s\""
 
+msgid "Power management not available for this host"
+msgstr ""
+
 msgid "Power operations are not enabled on this host."
 msgstr "Les opérations d'alimentation ne sont pas autorisées sur cet hôte."
+
+msgid "Power state"
+msgstr ""
 
 msgid "Power up compute instance %s"
 msgstr "Démarrer l'instance %s"
@@ -8724,6 +8830,9 @@ msgstr "Sélectionner page"
 msgid "Select partition tables"
 msgstr "Choisir les tables de partition"
 
+msgid "Select power state"
+msgstr ""
+
 msgid "Select provisioning templates"
 msgstr "Choisir les modèles d'attribution"
 
@@ -9335,6 +9444,9 @@ msgstr "Nom"
 
 msgid "Start"
 msgstr "Démarrer"
+
+msgid "Start typing to search"
+msgstr ""
 
 msgid "Starting IP Address for IP auto suggestion"
 msgstr "Adresse IP de début pour l'auto suggestion d'IP"
@@ -10071,7 +10183,7 @@ msgid "The order in which matchers keys are processed, first match wins.<br> You
 msgstr "L'ordre dans lequel les clés de correspondance (matchers) sont parcourues, la première correspondance gagne<br>.Vous pouvez utiliser plusieurs attributs comme clés de Matchers, par exemple, l'ordre suivant <code>hostgroup,environment</code> s’attendrait à une correspondance <code>hostgroup,environment = example-group,production</code>"
 
 msgid "The organization ID to assign the hosts to"
-msgstr ""
+msgstr "L'ID de l'organisation à laquelle affecter les hôtes"
 
 msgid "The password is currently set by %s."
 msgstr "Le mot de passe est actuellement défini par %s."
@@ -10465,6 +10577,9 @@ msgstr "UEFI"
 
 msgid "UEFI Secure Boot"
 msgstr "Démarrage sécurisé UEFI"
+
+msgid "UI Preferences"
+msgstr ""
 
 msgid "URL"
 msgstr "URL"
@@ -10954,13 +11069,15 @@ msgstr "Tous les hôtes ont été mis à jour."
 
 msgid "Updated host: Disassociated from compute resource"
 msgid_plural "Updated hosts: Disassociated from compute resource"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hôte mis à jour : Dissociés de la ressource d'ordinateur."
+msgstr[1] "Hôtes mis à jour : Dissociés de la ressource d'ordinateur."
+msgstr[2] "Hôtes mis à jour : Dissociés de la ressource d'ordinateur."
 
 msgid "Updated host: changed owner"
 msgid_plural "Updated hosts: changed owner"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mise à jour de l'hôte : le propriétaire a changé"
+msgstr[1] "Mise à jour des hôtes : le propriétaire a changé"
+msgstr[2] "Mise à jour des hôtes : le propriétaire a changé"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "Mise à jour des hôtes : dissociation de leur VM"
@@ -11024,6 +11141,9 @@ msgstr ""
 
 msgid "Use UUID for certificates"
 msgstr "Utilisation des UUID des certificats"
+
+msgid "Use compact UI"
+msgstr ""
 
 msgid "Use group membership based on the groupOfNames and groupOfUniqueNames attributes as defined in RFC4519 in addition to POSIX groups. Some POSIX LDAP servers support an alternative way of using the groupOfNames - member and groupOfUniqueNames - uniqueMember attributes to model group membership."
 msgstr ""
@@ -11146,7 +11266,7 @@ msgid "Username"
 msgstr "Nom d'utilisateur"
 
 msgid "Username for EC2, VMware, OpenStack. Access Key for EC2."
-msgstr ""
+msgstr "Nom d'utilisateur pour EC2, VMware, OpenStack. Clé d'accès pour EC2."
 
 msgid "Username to use if authentication is required."
 msgstr "Nom d'utilisateur à utiliser si l'authentification est requise."
@@ -11571,6 +11691,9 @@ msgstr "Modèle"
 
 msgid "Wiki"
 msgstr "Wiki"
+
+msgid "Will show table rows with less space between items"
+msgstr ""
 
 msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"
@@ -11999,7 +12122,7 @@ msgid "for VMware"
 msgstr "pour VMware"
 
 msgid "for VMware Datacenter"
-msgstr ""
+msgstr "pour VMware Datacenter"
 
 msgid "for proxy"
 msgstr "pour le proxy"
@@ -12532,7 +12655,7 @@ msgid "these hosts for a build operation on next boot"
 msgstr "ces hôtes pour une installation au prochain redémarrage"
 
 msgid "type of group membership to use, applicable only when server_type is posix, free_ipa or netiq. Option rfc4519 is only applicable  when server_type is posix."
-msgstr ""
+msgstr "Le type d'adhésion au groupe à utiliser, applicable uniquement lorsque server_type est posix, free_ipa ou netiq. L'option rfc4519 est uniquement applicable lorsque server_type est posix."
 
 msgid "type of the LDAP server"
 msgstr "Type de serveur LDAP"
@@ -12565,7 +12688,7 @@ msgid "unspecified"
 msgstr "non spécifié"
 
 msgid "use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa. Deprecated in favor of ldap_group_membership = nis_netgroups"
-msgstr ""
+msgstr "Utiliser les netgroups NIS au lieu des groupes POSIX, applicable uniquement lorsque server_type est posix ou free_ipa. Déprécié en faveur de ldap_group_membership = nis_netgroups"
 
 msgid "use if you want update locked templates"
 msgstr "à utiliser si vous voulez mettre à jour les modèles verrouillés"

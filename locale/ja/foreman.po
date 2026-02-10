@@ -83,9 +83,20 @@ msgstr "%s フィルター"
 msgid "%s has been disassociated from VM"
 msgstr "%s の VM との関連付けが解除されました"
 
+msgid "%s host does not support power management."
+msgid_plural "%s hosts do not support power management."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s host is selected for power state change"
+msgstr ""
+
 msgid "%s host set to build and rebooting."
 msgid_plural "%s hosts set to build and rebooting."
 msgstr[0] "%s 台のホストのビルドと再起動が設定されました。"
+
+msgid "%s hosts are selected for power state change"
+msgstr ""
 
 msgid "%s hosts deleted"
 msgstr "%s 個のホストが削除されました"
@@ -152,8 +163,8 @@ msgstr "%{controller}: %{host} のオペレーティングシステムがあり�
 msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr "%{controller}: ホスト %{host} のプロビジョニングトークンが期限切れです"
 
-msgid "%{controller}: unable to find a host that matches the request from %{addr}"
-msgstr "%{controller}: %{addr} からの要求に一致するホストを見つけることができません"
+msgid "%{controller}: unable to find a host that matches the request from %{addr}. Search paths: %{search_paths}"
+msgstr ""
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
@@ -418,6 +429,27 @@ msgstr "API リソース"
 
 msgid "API documentation"
 msgstr "API ドキュメント"
+
+msgid "AWS Account ID"
+msgstr ""
+
+msgid "AWS Billing Product"
+msgstr ""
+
+msgid "AWS Instance ID"
+msgstr ""
+
+msgid "AWS Instance Type"
+msgstr ""
+
+msgid "AWS Marketplace Product"
+msgstr ""
+
+msgid "AWS Region"
+msgstr ""
+
+msgid "AWS details"
+msgstr ""
 
 msgid "About"
 msgstr "情報"
@@ -756,6 +788,9 @@ msgstr "適用"
 msgid "Applied|A"
 msgstr "A"
 
+msgid "Apply"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
 msgstr "アーキテクチャー"
@@ -872,9 +907,6 @@ msgstr "%s に割り当て"
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr "ホストを %{taxonomy_name} に割り当てると、選択したホストが現在使用している全リソースを追加するように %{taxonomy_name} も更新されます。"
-
-msgid "Associate Ephemeral External IP"
-msgstr "一時外部 ID の関連付け"
 
 msgid "Associate VM"
 msgstr "VM の関連付け"
@@ -1138,6 +1170,21 @@ msgstr "利用可能なオプション"
 
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "値をマージするときに重複する値を回避しますか (配列タイプのみ)?"
+
+msgid "Azure Instance ID"
+msgstr ""
+
+msgid "Azure Offer"
+msgstr ""
+
+msgid "Azure SKU"
+msgstr ""
+
+msgid "Azure Subscription ID"
+msgstr ""
+
+msgid "Azure details"
+msgstr ""
 
 msgid "BCrypt"
 msgstr "BCrypt"
@@ -1494,6 +1541,9 @@ msgstr ""
 msgid "Change owner"
 msgstr ""
 
+msgid "Change power state"
+msgstr ""
+
 msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
 msgstr "{hosts} のホストグループを変更します。一部のホストは、選択したホストグループにすでに含まれている場合があります。"
 
@@ -1515,11 +1565,8 @@ msgstr "もう一度選択してください"
 msgid "Check renderability of template '%{name}'."
 msgstr ""
 
-msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "PXE ローダーに基づいてファームウェアを設定するには、自動を選択します。PXE ローダーが選択されていない場合は、デフォルトで BIOS に設定されます。"
-
-msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "ホストの PXE ローダーに基づいてファームウェアを設定するには、自動を選択します。PXE ローダーが選択されていない場合は、デフォルトで BIOS に設定されます。"
+msgid "Choose 'Automatic' to set the firmware based on the PXE loader of the host. If no PXE loader is selected, firmware defaults to BIOS."
+msgstr ""
 
 msgid "Choose a family"
 msgstr "ファミリーの選択"
@@ -1605,6 +1652,9 @@ msgstr "クローン作成元"
 msgid "Close"
 msgstr "閉じる"
 
+msgid "Cloud provider details"
+msgstr ""
+
 msgid "Cloud-init template"
 msgstr "Cloud-init テンプレート"
 
@@ -1637,6 +1687,9 @@ msgstr "通信ステータス"
 
 msgid "Community"
 msgstr "コミュニティー"
+
+msgid "Compact table mode"
+msgstr ""
 
 msgid "Compress the report using gzip"
 msgstr "gzip を使用してレポートを圧縮します"
@@ -2319,6 +2372,15 @@ msgstr "データセンター"
 msgid "Date"
 msgstr "日付"
 
+msgid "Date and time are required"
+msgstr ""
+
+msgid "Date is required"
+msgstr ""
+
+msgid "Date must be in the future"
+msgstr "日付は未来の日付でなければなりません"
+
 msgid "Default"
 msgstr "デフォルト"
 
@@ -2812,8 +2874,8 @@ msgstr "重複した入力が検出されました: %{duplicated_inputs}"
 msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr "監査を保持する日数。監査のクリーンアップを無効にするには、未設定のままにします。"
 
-msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
-msgstr "サーバーを非同期に分類するときの経過期間 (分単位)。この設定は、設定管理ツールの特定の設定 (puppet_inteval、ansible_interval など) によってオーバーライドされます。"
+msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_interval, ansible_interval)."
+msgstr ""
 
 msgid "ERROR or FATAL"
 msgstr "ERROR または FATAL"
@@ -3353,6 +3415,11 @@ msgstr "%{name} の IPAM を介した IP の設定に失敗しました: %{e}"
 msgid "Failed to set console: %s"
 msgstr "コンソールの設定に失敗しました: %s"
 
+msgid "Failed to set power state for %s host."
+msgid_plural "Failed to set power state for %s hosts."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Failed to set power state for %s."
 msgstr "%s の電源状態の設定に失敗しました。"
 
@@ -3751,6 +3818,24 @@ msgstr "全画面"
 
 msgid "Function not available for %s"
 msgstr "%s で使用できない機能"
+
+msgid "GCP Instance ID"
+msgstr ""
+
+msgid "GCP License Code"
+msgstr ""
+
+msgid "GCP Project ID"
+msgstr ""
+
+msgid "GCP Project Number"
+msgstr ""
+
+msgid "GCP Zone"
+msgstr ""
+
+msgid "GCP details"
+msgstr ""
 
 msgid "GMT time"
 msgstr "GMT 時間"
@@ -5074,6 +5159,9 @@ msgstr "無効なログレベル: %s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
 msgstr "'%{os}' の  '%{medium}' メディアが無効です"
+
+msgid "Invalid power action"
+msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "パワー状態の無効な要求: %{action}、サポートされているアクション: %{supported}"
@@ -6647,6 +6735,9 @@ msgstr "レポートがありません"
 msgid "No results found"
 msgstr "結果は見つかりませんでした"
 
+msgid "No results found for %s"
+msgstr ""
+
 msgid "No setting value provided."
 msgstr "設定値が提供されていません。"
 
@@ -7560,11 +7651,23 @@ msgstr "電源状態"
 msgid "Power a Virtual Machine"
 msgstr "仮想マシンの電源をオンにする"
 
+msgid "Power action is required"
+msgstr ""
+
+msgid "Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)"
+msgstr ""
+
 msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr "電源が正常に \\\"%s\\\" に設定されました"
 
+msgid "Power management not available for this host"
+msgstr ""
+
 msgid "Power operations are not enabled on this host."
 msgstr "このホストでは電源操作が有効ではありません。"
+
+msgid "Power state"
+msgstr ""
 
 msgid "Power up compute instance %s"
 msgstr "コンピュートインスタンス %s の電源投入"
@@ -8620,6 +8723,9 @@ msgstr "ページの選択"
 msgid "Select partition tables"
 msgstr "パーティションテーブルの選択"
 
+msgid "Select power state"
+msgstr ""
+
 msgid "Select provisioning templates"
 msgstr "プロビジョニングテンプレートの選択"
 
@@ -9225,6 +9331,9 @@ msgstr "名前"
 
 msgid "Start"
 msgstr "開始"
+
+msgid "Start typing to search"
+msgstr ""
 
 msgid "Starting IP Address for IP auto suggestion"
 msgstr "IP 自動補完の開始 IP アドレス"
@@ -10348,6 +10457,9 @@ msgstr "UEFI"
 msgid "UEFI Secure Boot"
 msgstr "UEFI セキュアブート"
 
+msgid "UI Preferences"
+msgstr ""
+
 msgid "URL"
 msgstr "URL"
 
@@ -10907,6 +11019,9 @@ msgstr ""
 msgid "Use UUID for certificates"
 msgstr "証明書に UUID を使用"
 
+msgid "Use compact UI"
+msgstr ""
+
 msgid "Use group membership based on the groupOfNames and groupOfUniqueNames attributes as defined in RFC4519 in addition to POSIX groups. Some POSIX LDAP servers support an alternative way of using the groupOfNames - member and groupOfUniqueNames - uniqueMember attributes to model group membership."
 msgstr ""
 
@@ -11451,6 +11566,9 @@ msgstr "テンプレート"
 
 msgid "Wiki"
 msgstr "Wiki"
+
+msgid "Will show table rows with less space between items"
+msgstr ""
 
 msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"

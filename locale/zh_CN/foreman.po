@@ -85,9 +85,20 @@ msgstr "%s 过滤器"
 msgid "%s has been disassociated from VM"
 msgstr "%s 已从虚拟机取消关联"
 
+msgid "%s host does not support power management."
+msgid_plural "%s hosts do not support power management."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s host is selected for power state change"
+msgstr ""
+
 msgid "%s host set to build and rebooting."
 msgid_plural "%s hosts set to build and rebooting."
 msgstr[0] "%s 主机设置为构建和重新引导。"
+
+msgid "%s hosts are selected for power state change"
+msgstr ""
 
 msgid "%s hosts deleted"
 msgstr "删除的主机 %s"
@@ -154,8 +165,8 @@ msgstr "%{controller}：缺少 %{host} 的操作系统"
 msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr "%{controller}：主机 %{host} 的置备令牌已过期"
 
-msgid "%{controller}: unable to find a host that matches the request from %{addr}"
-msgstr "%{controller}：无法找到与来自 %{addr} 的请求相匹配的主机"
+msgid "%{controller}: unable to find a host that matches the request from %{addr}. Search paths: %{search_paths}"
+msgstr ""
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
@@ -420,6 +431,27 @@ msgstr "API 资源"
 
 msgid "API documentation"
 msgstr "API 文档"
+
+msgid "AWS Account ID"
+msgstr ""
+
+msgid "AWS Billing Product"
+msgstr ""
+
+msgid "AWS Instance ID"
+msgstr ""
+
+msgid "AWS Instance Type"
+msgstr ""
+
+msgid "AWS Marketplace Product"
+msgstr ""
+
+msgid "AWS Region"
+msgstr ""
+
+msgid "AWS details"
+msgstr ""
 
 msgid "About"
 msgstr "关于"
@@ -758,6 +790,9 @@ msgstr "应用的"
 msgid "Applied|A"
 msgstr "应用|A"
 
+msgid "Apply"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
 msgstr "架构"
@@ -874,9 +909,6 @@ msgstr "分配到 %s"
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr "分配主机到 %{taxonomy_name} 同时更新为 %{taxonomy_name}，包括选定主机目前正在使用的所有资源。"
-
-msgid "Associate Ephemeral External IP"
-msgstr "关联临时外部 IP"
 
 msgid "Associate VM"
 msgstr "关联 VM"
@@ -1140,6 +1172,21 @@ msgstr "可用选项"
 
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "合并时是否避免重复值（只适用于阵列类型）？"
+
+msgid "Azure Instance ID"
+msgstr ""
+
+msgid "Azure Offer"
+msgstr ""
+
+msgid "Azure SKU"
+msgstr ""
+
+msgid "Azure Subscription ID"
+msgstr ""
+
+msgid "Azure details"
+msgstr ""
 
 msgid "BCrypt"
 msgstr "BCrypt"
@@ -1496,6 +1543,9 @@ msgstr ""
 msgid "Change owner"
 msgstr ""
 
+msgid "Change power state"
+msgstr ""
+
 msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
 msgstr "更改 {hosts} 的主机组。有些主机可能已在您选择的主机组中。"
 
@@ -1517,11 +1567,8 @@ msgstr "再次检查"
 msgid "Check renderability of template '%{name}'."
 msgstr ""
 
-msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "选择\"Automatic\" 根据 PXE Loader 设置固件。如果没有选择 PXE Loader，则默认为 BIOS。"
-
-msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "选择\"Automatic\" 根据主机的 PXE Loader 设置固件。如果没有选择 PXE Loader，则默认为 BIOS。"
+msgid "Choose 'Automatic' to set the firmware based on the PXE loader of the host. If no PXE loader is selected, firmware defaults to BIOS."
+msgstr ""
 
 msgid "Choose a family"
 msgstr "选择一个产品线"
@@ -1607,6 +1654,9 @@ msgstr "从中克隆"
 msgid "Close"
 msgstr "关闭"
 
+msgid "Cloud provider details"
+msgstr ""
+
 msgid "Cloud-init template"
 msgstr "Cloud-init 模板"
 
@@ -1639,6 +1689,9 @@ msgstr "通讯状态"
 
 msgid "Community"
 msgstr "社区"
+
+msgid "Compact table mode"
+msgstr ""
 
 msgid "Compress the report using gzip"
 msgstr "使用 gzip 压缩报告"
@@ -2321,6 +2374,15 @@ msgstr "数据中心"
 msgid "Date"
 msgstr "日期"
 
+msgid "Date and time are required"
+msgstr ""
+
+msgid "Date is required"
+msgstr ""
+
+msgid "Date must be in the future"
+msgstr "日期必须是未来的日期"
+
 msgid "Default"
 msgstr "默认"
 
@@ -2814,8 +2876,8 @@ msgstr "检测到重复的输入：%{duplicated_inputs}"
 msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr "保留审计的持续时间（以天为单位）。留空代表禁用审计清理。"
 
-msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
-msgstr "在服务器被认定为未同步之后的时间（以分钟为单位）。此设置会被来自配置管理工具（如 puppet_inteval、ansible_interval）的特定设置覆盖。"
+msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_interval, ansible_interval)."
+msgstr ""
 
 msgid "ERROR or FATAL"
 msgstr "ERROR 或者 FATAL"
@@ -3355,6 +3417,11 @@ msgstr "无法通过 IPAM 为 %{name} 设置 IP：%{e}"
 msgid "Failed to set console: %s"
 msgstr "设置控制台失败：%s"
 
+msgid "Failed to set power state for %s host."
+msgid_plural "Failed to set power state for %s hosts."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Failed to set power state for %s."
 msgstr "为 %s 设定电源状态失败。"
 
@@ -3753,6 +3820,24 @@ msgstr "全屏"
 
 msgid "Function not available for %s"
 msgstr "功能无法用于 %s"
+
+msgid "GCP Instance ID"
+msgstr ""
+
+msgid "GCP License Code"
+msgstr ""
+
+msgid "GCP Project ID"
+msgstr ""
+
+msgid "GCP Project Number"
+msgstr ""
+
+msgid "GCP Zone"
+msgstr ""
+
+msgid "GCP details"
+msgstr ""
 
 msgid "GMT time"
 msgstr "GMT 时间"
@@ -5076,6 +5161,9 @@ msgstr "无效日志等级：%s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
 msgstr "介质 '%{medium}' 对 '%{os}' 无效"
+
+msgid "Invalid power action"
+msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "无效电源状态请求：%{action}，支持的操作为 %{supported}"
@@ -6649,6 +6737,9 @@ msgstr "没有报告"
 msgid "No results found"
 msgstr "没有找到结果"
 
+msgid "No results found for %s"
+msgstr ""
+
 msgid "No setting value provided."
 msgstr "未提供设置值。"
 
@@ -7562,11 +7653,23 @@ msgstr "电源状态"
 msgid "Power a Virtual Machine"
 msgstr "开启一个虚拟主机"
 
+msgid "Power action is required"
+msgstr ""
+
+msgid "Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)"
+msgstr ""
+
 msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr "电源状态已成功设置为 \\\"%s\\\""
 
+msgid "Power management not available for this host"
+msgstr ""
+
 msgid "Power operations are not enabled on this host."
 msgstr "此主机上没有启用电源操作。"
+
+msgid "Power state"
+msgstr ""
 
 msgid "Power up compute instance %s"
 msgstr "启动计算实例 %s"
@@ -8622,6 +8725,9 @@ msgstr "选择页"
 msgid "Select partition tables"
 msgstr "选择分区表"
 
+msgid "Select power state"
+msgstr ""
+
 msgid "Select provisioning templates"
 msgstr "选择预配模板"
 
@@ -9227,6 +9333,9 @@ msgstr "Ssh 密钥|名称"
 
 msgid "Start"
 msgstr "开始"
+
+msgid "Start typing to search"
+msgstr ""
 
 msgid "Starting IP Address for IP auto suggestion"
 msgstr "IP 自动提示的起始 IP 地址"
@@ -10350,6 +10459,9 @@ msgstr "UEFI"
 msgid "UEFI Secure Boot"
 msgstr "UEFI 安全引导"
 
+msgid "UI Preferences"
+msgstr ""
+
 msgid "URL"
 msgstr "URL"
 
@@ -10909,6 +11021,9 @@ msgstr ""
 msgid "Use UUID for certificates"
 msgstr "在证书中使用 UUID"
 
+msgid "Use compact UI"
+msgstr ""
+
 msgid "Use group membership based on the groupOfNames and groupOfUniqueNames attributes as defined in RFC4519 in addition to POSIX groups. Some POSIX LDAP servers support an alternative way of using the groupOfNames - member and groupOfUniqueNames - uniqueMember attributes to model group membership."
 msgstr ""
 
@@ -11453,6 +11568,9 @@ msgstr "小工具|模板"
 
 msgid "Wiki"
 msgstr "Wiki"
+
+msgid "Will show table rows with less space between items"
+msgstr ""
 
 msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"
