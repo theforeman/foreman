@@ -269,7 +269,10 @@ module LayoutHelper
   end
 
   def all_body_css_classes
-    body_css_classes + ' ' + (User.current&.ui_compact_mode ? 'compact-ui' : '')
+    classes = body_css_classes
+    classes += ' compact-ui' if User.current&.ui_compact_mode
+    classes += ' user-banner-present' if Setting[:instance_title].present?
+    classes
   end
 
   private
