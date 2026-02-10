@@ -111,15 +111,15 @@ description: |
       <%- host_param('ntp-server').each do |ntp| -%>
       <ntp_server>
         <address><%= ntp %></address>
-        <iburst config:type="boolean">false</iburst>
-        <offline config:type="boolean">true</offline>
+        <iburst config:type="boolean">true</iburst>
+        <offline config:type="boolean">false</offline>
       </ntp_server>
       <%- end -%>
       <%- else -%>
       <ntp_server>
         <address><%= host_param('ntp-server') || '2.opensuse.pool.ntp.org' %></address>
-        <iburst config:type="boolean">false</iburst>
-        <offline config:type="boolean">true</offline>
+        <iburst config:type="boolean">true</iburst>
+        <offline config:type="boolean">false</offline>
       </ntp_server>
       <%- end -%>
     </ntp_servers>

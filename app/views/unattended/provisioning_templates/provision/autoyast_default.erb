@@ -122,16 +122,16 @@ description: |
     <%- if host_param('ntp-server').respond_to?(:join) -%>
     <%- host_param('ntp-server').each do |ntp| -%>
     <ntp_server>
-     <iburst config:type="boolean">false</iburst>
+     <iburst config:type="boolean">true</iburst>
      <address><%= ntp %></address>
-     <offline config:type="boolean">true</offline>
+     <offline config:type="boolean">false</offline>
     </ntp_server>
     <%- end -%>
     <%- else -%>
     <ntp_server>
-     <iburst config:type="boolean">false</iburst>
+     <iburst config:type="boolean">true</iburst>
      <address><%= host_param('ntp-server') || '2.opensuse.pool.ntp.org' %></address>
-     <offline config:type="boolean">true</offline>
+     <offline config:type="boolean">false</offline>
     </ntp_server>
     <%- end -%>
    </ntp_servers>
