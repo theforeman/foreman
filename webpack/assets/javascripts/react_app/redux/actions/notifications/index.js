@@ -23,6 +23,14 @@ const handleNotificationPollingError = error => {
   }
 };
 
+// One-time fetch without polling (for use with Action Cable)
+export const fetchNotifications = () =>
+  get({
+    key: NOTIFICATIONS,
+    url: NOTIFICATIONS_URL,
+    handleError: handleNotificationPollingError,
+  });
+
 export const startNotificationsPolling = () =>
   withInterval(
     get({

@@ -28,6 +28,20 @@ class NotificationRecipient < ApplicationRecord
   private
 
   def delete_user_cache
-    UINotifications::CacheHandler.new(user_id).clear
+    cache_handler = UINotifications::CacheHandler.new(user_id)
+    cache_handler.clear
+
+    # Broadcast notification update via Action Cable
+    begin
+      payload_json = cache_handler.payload
+      user = User.unscoped.find_by(id: user_id)
+
+      if user
+        NotificationChannel.broadcast_to(user, { payload: payload_json })
+      end
+    rescue => e
+      # Don't let broadcast errors break notification system
+      Rails.logger.error("Failed to broadcast notification update: #{e.message}")
+    end
   end
 end

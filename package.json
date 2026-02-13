@@ -34,6 +34,7 @@
     "@patternfly/react-table": "^5.4.8",
     "@patternfly/react-tokens": "^5.4.1",
     "@patternfly/react-templates": "^1.1.8",
+    "@rails/actioncable": "^8.1.200",
     "@reduxjs/toolkit": "^1.6.0",
     "@scalprum/core": "^0.8.1",
     "@scalprum/react-core": "^0.9.3",
