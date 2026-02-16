@@ -87,9 +87,9 @@ const BulkReassignHostgroupModal = ({
   const hostgroups = useSelector(state =>
     selectAPIResponse(state, HOSTGROUP_KEY)
   );
-  const hostgroupStatus = useSelector(state =>
-    selectAPIStatus(state, HOSTGROUP_KEY)
-  );
+  const hostgroupStatus =
+    useSelector(state => selectAPIStatus(state, HOSTGROUP_KEY)) ||
+    STATUS.PENDING;
   const hostUpdateStatus = useSelector(state =>
     selectAPIStatus(state, BULK_REASSIGN_HOSTGROUP_KEY)
   );
