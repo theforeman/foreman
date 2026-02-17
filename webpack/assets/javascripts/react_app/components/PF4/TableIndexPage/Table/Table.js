@@ -144,6 +144,7 @@ export const Table = ({
             {columnNamesKeys.map(k => (
               <Th
                 key={k}
+                modifier="wrap"
                 sort={
                   Object.values(columnsToSortParams).includes(k) &&
                   pfSortParams(keysToColumnNames[k])
