@@ -41,11 +41,11 @@ class WsProxy
     end
     # execute websockify proxy
     begin
-      cmd  = "websockify --daemon --idle-timeout=#{idle_timeout} --timeout=#{timeout} #{port} #{host}:#{host_port}"
-      cmd += " --ssl-target" if ssl_target
+      cmd = ["websockify", "--daemon", "--idle-timeout=#{idle_timeout}", "--timeout=#{timeout}", port.to_s, "#{host}:#{host_port}"]
+      cmd += [" --ssl-target"] if ssl_target
       if Setting[:websockets_encrypt]
-        cmd += " --cert #{Setting[:websockets_ssl_cert]}" if Setting[:websockets_ssl_cert]
-        cmd += " --key #{Setting[:websockets_ssl_key]}" if Setting[:websockets_ssl_key]
+        cmd += ["--cert", Setting[:websockets_ssl_cert]] if Setting[:websockets_ssl_cert]
+        cmd += ["--key", Setting[:websockets_ssl_key]] if Setting[:websockets_ssl_key]
       end
       execute(cmd)
     rescue Errno::ENOENT
@@ -80,7 +80,7 @@ class WsProxy
 
   def execute(cmd)
     logger.debug "Starting VNC Proxy: #{cmd}"
-    Open3.popen3(cmd) do |stdin, stdout, stderr|
+    Open3.popen3(*cmd) do |stdin, stdout, stderr|
       stdout.each do |line|
         logger.debug "[#{line}"
       end
