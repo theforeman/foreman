@@ -46,11 +46,11 @@ echo "Updating system time"
   -%>
   <% if use_ntp -%>
     yum -y install ntpdate
-    <% if ntp-server -%>
+    <% if ntp_server -%>
       <% if ntp_server.respond_to?(:join) -%>
-    /usr/sbin/ntpdate -sub <%= ntp-server.first %>
+    /usr/sbin/ntpdate -sub <%= ntp_server.first %>
       <% else -%>
-    /usr/sbin/ntpdate -sub <%= ntp-server %>
+    /usr/sbin/ntpdate -sub <%= ntp_server %>
       <% end -%>
     <% end -%>
     systemctl enable --now ntpd
