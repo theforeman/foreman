@@ -132,6 +132,12 @@ module Foreman::Model
       template
     end
 
+    def set_boot_order(attr = {})
+      order = %w[hd]
+      order.unshift 'network' unless attr[:image_id]
+      order
+    end
+
     def new_vm(attr = { })
       test_connection
       libvirt_connection_error unless errors.empty?
@@ -144,9 +150,7 @@ module Foreman::Model
       end
 
       opts.reject! { |k, v| v.nil? }
-
-      opts[:boot_order] = %w[hd]
-      opts[:boot_order].unshift 'network' unless attr[:image_id]
+      opts[:boot_order] = set_boot_order(attr)
 
       firmware_type = opts.delete(:firmware_type).to_s
       opts.merge!(process_firmware_attributes(opts[:firmware], firmware_type))
