@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FieldLevelHelp } from 'patternfly-react';
 import { Field } from 'formik';
@@ -7,6 +7,7 @@ import DateTimePicker from '../../DateTimePicker/DateTimePicker';
 import CommonForm from '../CommonForm';
 import { documentLocale } from '../../../../common/I18n';
 import './DateTimeOverrides.scss';
+import { deprecate } from '../../../../common/DeprecationService';
 
 const DateTime = ({
   label,
@@ -20,6 +21,10 @@ const DateTime = ({
   initialError,
 }) => {
   const currentLocale = locale || documentLocale();
+
+  useEffect(() => {
+    deprecate('forms/DateTime', 'common/DateTimePicker', '3.21');
+  }, []);
 
   return (
     <Field
