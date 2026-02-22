@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CommonForm from '../CommonForm';
+import { deprecate } from '../../../../common/DeprecationService';
 
 const TextFieldInner = ({
   input,
@@ -10,27 +11,37 @@ const TextFieldInner = ({
   className,
   inputClassName,
   meta: { touched, error },
-}) => (
-  <CommonForm
-    label={label}
-    className={className}
-    inputClassName={inputClassName}
-    touched={touched}
-    required={required}
-    error={error}
-  >
-    {type === 'textarea' ? (
-      <textarea {...input} className="form-control" />
-    ) : (
-      <input
-        {...input}
-        type={type}
-        checked={type === 'checkbox' ? input.value : undefined}
-        className={type === 'checkbox' ? '' : 'form-control'}
-      />
-    )}
-  </CommonForm>
-);
+}) => {
+  useEffect(() => {
+    deprecate(
+      'forms/TextFieldInner',
+      'TextInput/TextArea from @patternfly/react-core',
+      '3.21'
+    );
+  }, []);
+
+  return (
+    <CommonForm
+      label={label}
+      className={className}
+      inputClassName={inputClassName}
+      touched={touched}
+      required={required}
+      error={error}
+    >
+      {type === 'textarea' ? (
+        <textarea {...input} className="form-control" />
+      ) : (
+        <input
+          {...input}
+          type={type}
+          checked={type === 'checkbox' ? input.value : undefined}
+          className={type === 'checkbox' ? '' : 'form-control'}
+        />
+      )}
+    </CommonForm>
+  );
+};
 
 TextFieldInner.propTypes = {
   input: PropTypes.object,
