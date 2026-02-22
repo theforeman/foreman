@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { deprecate } from '../../../common/DeprecationService';
 
 const CommonForm = ({
   className,
@@ -10,23 +11,31 @@ const CommonForm = ({
   children,
   inputClassName,
   tooltipHelp,
-}) => (
-  <div
-    className={`form-group ${className} ${touched && error ? 'has-error' : ''}`}
-  >
-    <label className="col-md-2 control-label">
-      {label}
-      {required && ' *'}
-      {tooltipHelp}
-    </label>
-    <div className={inputClassName}>{children}</div>
-    {touched && error && (
-      <span className="help-block help-inline">
-        <span className="error-message">{error}</span>
-      </span>
-    )}
-  </div>
-);
+}) => {
+  useEffect(() => {
+    deprecate('forms/CommonForm', 'Form from @patternfly/react-core', '3.21');
+  }, []);
+
+  return (
+    <div
+      className={`form-group ${className} ${
+        touched && error ? 'has-error' : ''
+      }`}
+    >
+      <label className="col-md-2 control-label">
+        {label}
+        {required && ' *'}
+        {tooltipHelp}
+      </label>
+      <div className={inputClassName}>{children}</div>
+      {touched && error && (
+        <span className="help-block help-inline">
+          <span className="error-message">{error}</span>
+        </span>
+      )}
+    </div>
+  );
+};
 
 CommonForm.propTypes = {
   className: PropTypes.string,

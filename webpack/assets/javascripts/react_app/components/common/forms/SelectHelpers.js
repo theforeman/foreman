@@ -1,4 +1,5 @@
 import React from 'react';
+import { deprecate } from '../../../common/DeprecationService';
 
 const renderOption = (val, text, key = null) => {
   const optValue = val === null || val === undefined ? '' : val;
@@ -17,6 +18,11 @@ const renderOptGroup = group => (
 );
 
 export const renderOptions = opts => {
+  deprecate(
+    'forms/SelectHelpers',
+    'Select from @patternfly/react-core',
+    '3.21'
+  );
   if (Array.isArray(opts)) {
     return opts.map((opt, index) => {
       if (opt.children) {
