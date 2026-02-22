@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'formik';
 
 import CommonForm from '../CommonForm';
 import RadioButton from './RadioButton';
+import { deprecate } from '../../../../common/DeprecationService';
 
 const RadioButtonGroup = ({
   controlLabel,
@@ -12,29 +13,39 @@ const RadioButtonGroup = ({
   className,
   inputClassName,
   disabled,
-}) => (
-  <CommonForm
-    label={controlLabel}
-    className={className}
-    inputClassName={inputClassName}
-  >
-    {radios.map((item, index) => (
-      <Field
-        key={index}
-        name={name}
-        render={({ field }) => (
-          <RadioButton
-            input={field}
-            disabled={disabled}
-            item={item}
-            name={name}
-            checked={field.value === item.value}
-          />
-        )}
-      />
-    ))}
-  </CommonForm>
-);
+}) => {
+  useEffect(() => {
+    deprecate(
+      'forms/RadioButtonGroup',
+      'Radio from @patternfly/react-core',
+      '3.21'
+    );
+  }, []);
+
+  return (
+    <CommonForm
+      label={controlLabel}
+      className={className}
+      inputClassName={inputClassName}
+    >
+      {radios.map((item, index) => (
+        <Field
+          key={index}
+          name={name}
+          render={({ field }) => (
+            <RadioButton
+              input={field}
+              disabled={disabled}
+              item={item}
+              name={name}
+              checked={field.value === item.value}
+            />
+          )}
+        />
+      ))}
+    </CommonForm>
+  );
+};
 
 RadioButtonGroup.propTypes = {
   controlLabel: PropTypes.string.isRequired,
