@@ -1,0 +1,58 @@
+.bar-chart__container {
+  width: 100%;
+}
+
+.bar-chart__container svg {
+  overflow: visible;
+}
+
+.bar-chart__container foreignObject {
+  overflow: visible;
+}
+
+.bar-chart__container--small {
+  height: 310px;
+}
+
+.bar-chart__container--medium {
+  height: 340px;
+}
+
+.bar-chart__container--regular {
+  height: 360px;
+}
+
+.bar-chart__tooltip {
+  background: var(--pf-v5-global--BackgroundColor--dark-100);
+  border-radius: var(--pf-v5-global--BorderRadius--sm);
+  color: var(--pf-v5-global--Color--light-100);
+  font-family: var(--pf-v5-global--FontFamily--sans-serif);
+  font-size: var(--pf-v5-global--FontSize--sm);
+  padding: var(--pf-v5-global--spacer--sm) var(--pf-v5-global--spacer--md);
+}
+
+.bar-chart__tooltip-title {
+  font-weight: 700;
+}
+
+.bar-chart__tooltip-divider {
+  background-color: var(--pf-v5-global--Color--200);
+  margin: var(--pf-v5-global--spacer--xs) 0;
+}
+
+.bar-chart__tooltip-row {
+  align-items: center;
+  display: flex;
+}
+
+.bar-chart__tooltip-swatch {
+  background: var(--bar-chart-legend-color, var(--pf-v5-global--Color--100));
+  display: inline-block;
+  height: var(--pf-v5-global--spacer--sm);
+  margin-right: var(--pf-v5-global--spacer--xs);
+  width: var(--pf-v5-global--spacer--sm);
+}
+
+.bar-chart__tooltip-value {
+  margin-left: var(--pf-v5-global--spacer--xs);
+}
