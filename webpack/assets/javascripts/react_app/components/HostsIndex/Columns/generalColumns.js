@@ -25,6 +25,7 @@ const generalColumns = [
     wrapper: ({ name }) => <HostPowerStatus hostName={name} />,
     isSorted: false,
     weight: 0,
+    textCenter: true,
   },
   {
     columnName: 'name',

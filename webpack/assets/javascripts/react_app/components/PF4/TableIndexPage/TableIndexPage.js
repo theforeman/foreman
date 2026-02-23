@@ -50,6 +50,7 @@ A page component that displays a table with data fetched from the API. It provid
 @param {function} columns[].wrapper - a function that returns a React component to be rendered in the column
 @param {boolean} columns[].isSorted - whether or not the column is sortable by its columnName. Only works if ORDER BY <columnName> will work.
 @param {function} columns[].isRelevant - optional function that takes in ForemanContext and returns a boolean. The column will be hidden from the column selector if isRelevant returns false. If the isRelevant key is omitted, columns are always relevant.
+@param {boolean} columns[].textCenter - optional boolean to center-align the column header and cell content. Uses PatternFly's textCenter prop on Th and Td.
 @param {string}{controller} - the name of the controller for the API
 @param {boolean} {creatable} - whether or not to show create button
 @param {Array<Object>} {customActionButtons} - an array of custom action buttons to be displayed in the toolbar

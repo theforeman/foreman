@@ -532,7 +532,11 @@ const HostsIndex = () => {
                   />
                 }
                 {columnNamesKeys.map(k => (
-                  <Td key={k} dataLabel={keysToColumnNames[k]}>
+                  <Td
+                    key={k}
+                    dataLabel={keysToColumnNames[k]}
+                    textCenter={columns[k]?.textCenter}
+                  >
                     {columns[k].wrapper
                       ? columns[k].wrapper(result)
                       : result[k]}

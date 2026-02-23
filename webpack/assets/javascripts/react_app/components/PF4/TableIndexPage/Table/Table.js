@@ -145,6 +145,7 @@ export const Table = ({
               <Th
                 key={k}
                 modifier="wrap"
+                textCenter={columns[k]?.textCenter}
                 sort={
                   Object.values(columnsToSortParams).includes(k) &&
                   pfSortParams(keysToColumnNames[k])
@@ -214,7 +215,11 @@ export const Table = ({
                       />
                     )}
                     {columnNamesKeys.map(k => (
-                      <Td key={k} dataLabel={keysToColumnNames[k]}>
+                      <Td
+                        key={k}
+                        dataLabel={keysToColumnNames[k]}
+                        textCenter={columns[k]?.textCenter}
+                      >
                         {columns[k].wrapper
                           ? columns[k].wrapper(result)
                           : result[k]}
