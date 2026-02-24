@@ -46,9 +46,17 @@ class Host::Managed < Host::Base
     output
   end
 
-  set_hook :host_created, on: :create
-  set_hook :host_destroyed, on: :destroy
-  set_hook :host_updated, on: :update, unless: -> { anonymous_admin_context? }
+  set_hook :host_created, on: :create do |h|
+    { id: h.id, hostname: h.hostname }
+  end
+
+  set_hook :host_destroyed, on: :destroy do |h|
+    { id: h.id, hostname: h.hostname }
+  end
+
+  set_hook :host_updated, on: :update, unless: -> { anonymous_admin_context? } do |h|
+    { id: h.id, hostname: h.hostname }
+  end
 
   set_hook :build_entered, if: -> { saved_change_to_build? && build? } do |h|
     { id: h.id, hostname: h.hostname }
