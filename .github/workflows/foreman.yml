@@ -8,6 +8,9 @@ on:
       - 'develop'
       - '*-stable'
 
+permissions:
+  contents: read
+
 env:
   RAILS_ENV: test
   DATABASE_URL: postgresql://postgres:password@localhost/test
