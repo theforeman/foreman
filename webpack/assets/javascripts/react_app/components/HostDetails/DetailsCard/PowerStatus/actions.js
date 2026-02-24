@@ -1,10 +1,10 @@
 import { translate as __, sprintf } from '../../../../common/I18n';
 import { put } from '../../../../redux/API';
-import { POWER_REQURST_KEY, SUPPORTED_POWER_STATES } from './constants';
+import { POWER_REQUEST_KEY, SUPPORTED_POWER_STATES } from './constants';
 
 export const changeHostPower = (state, hostID) =>
   put({
-    key: POWER_REQURST_KEY,
+    key: POWER_REQUEST_KEY,
     params: { power_action: state },
     url: `/api/hosts/${hostID}/power`,
     errorToast: err => sprintf(__('an error occurred: %s'), err),
