@@ -1,3 +1,13 @@
+2026-02-24	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.18.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2026-02-19	Evgeni Golov <evgeni@golov.de>
+	* Refs #38173 - correct variable name to `ntp_server`
+
+2026-02-16	MariaAga <mariaaga@redhat.com>
+	* Fixes #39069 - Notifications title is cut by the header
+
 2026-02-10	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.18.0-rc1
 	* i18n - extracting new, pulling from tx
