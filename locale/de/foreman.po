@@ -6,7 +6,7 @@
 # Alexander Stoll <Alexander.Stoll@netways.de>, 2019
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
-# Bernhard Suttner <bernhard.suttner@atix.de>, 2019
+# Bernhard Suttner <bernhard.suttner@atix.de>, 2019,2026
 # bse <bse666@gmail.com>, 2015
 # Christina Gurski <Gurski_christina@yahoo.de>, 2015
 # Hannes Schaller <admin@cyberkov.at>, 2013
@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
-"Last-Translator: Donien, 2026\n"
+"Last-Translator: Bernhard Suttner <bernhard.suttner@atix.de>, 2019,2026\n"
 "Language-Team: German (http://app.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6637,7 +6637,7 @@ msgid "No TFTP proxies defined, can't continue"
 msgstr "Keine TFTP-Proxys definiert, kann nicht fortfahren"
 
 msgid "No VMs matched any host"
-msgstr ""
+msgstr "Keine VMs passen zu einem Host"
 
 msgid "No VMs matched any host."
 msgstr "Keine VMs passen zu einem Host"
