@@ -52,6 +52,32 @@ class LocationIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link? "Raleigh"
   end
 
+  test "create a location with an unprivileged user with admin usergroup" do
+    ug = FactoryBot.create(:usergroup, :admin => true)
+    user = FactoryBot.create(:user, :usergroups => [ug])
+
+    set_request_user(user)
+    assert_new_button(locations_path, "New Location", new_location_path)
+    fill_in "location_name", :with => "Raleigh"
+    click_button "Submit"
+    assert_current_path step2_location_path(Location.unscoped.order(:id).last)
+  end
+
+  test "create a location with an unprivileged user with create_locations permission" do
+    user = setup_user('view', 'locations')
+    setup_user('create', 'locations', 'name ~ "R*"')
+    set_request_user(user)
+    assert_new_button(locations_path, "New Location", new_location_path)
+    fill_in "location_name", :with => "aleigh2"
+    click_button "Submit"
+    error = find('div.alert')
+    assert_match "You don't have permission create_locations", error.text
+
+    fill_in "location_name", :with => "Raleigh2"
+    click_button "Submit"
+    assert_current_path edit_location_path(Location.unscoped.order(:id).last)
+  end
+
   # PENDING
   # test "mismatches report" do
   # end
