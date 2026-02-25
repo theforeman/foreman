@@ -3,6 +3,9 @@ module Api
     class RegistrationCommandsController < V2::BaseController
       include Api::Version2
       include Foreman::Controller::RegistrationCommands
+      include Foreman::Controller::SmartProxyAuth
+
+      add_smart_proxy_filters :create, :features => ['Registration', 'Templates']
 
       before_action :find_smart_proxy, if: -> { registration_params['smart_proxy_id'] }
       api :POST, "/registration_commands", N_("Generate global registration command")

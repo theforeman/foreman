@@ -93,4 +93,82 @@ class Api::V2::RegistrationCommandsControllerTest < ActionController::TestCase
       assert_includes response, "--header 'Authorization: Bearer"
     end
   end
+
+  describe 'Smart Proxy authentication' do
+    test 'smart proxy with Registration and Templates features can generate registration command' do
+      Setting[:restrict_registered_smart_proxies] = true
+
+      features = [FactoryBot.create(:feature, name: 'Registration'), FactoryBot.create(:feature, name: 'Templates')]
+      proxy = FactoryBot.create(:smart_proxy, features: features, url: 'https://proxy.example.com')
+
+      @request.env['HTTPS'] = 'on'
+      @request.env['SSL_CLIENT_S_DN'] = 'CN=proxy.example.com'
+      @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+      post :create
+      assert_response :success
+      assert_equal proxy, @controller.detected_proxy
+    end
+
+    test 'smart proxy without Registration feature cannot generate registration command' do
+      Setting[:restrict_registered_smart_proxies] = true
+      reset_api_credentials
+      User.current = nil
+
+      features = [FactoryBot.create(:feature, name: 'Templates')]
+      FactoryBot.create(:smart_proxy, features: features, url: 'https://proxy.example.com')
+
+      @request.env['HTTPS'] = 'on'
+      @request.env['SSL_CLIENT_S_DN'] = 'CN=proxy.example.com'
+      @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+      post :create
+      assert_response :forbidden
+    end
+
+    test 'smart proxy without Templates feature cannot generate registration command' do
+      Setting[:restrict_registered_smart_proxies] = true
+      reset_api_credentials
+      User.current = nil
+
+      features = [FactoryBot.create(:feature, name: 'Registration')]
+      FactoryBot.create(:smart_proxy, features: features, url: 'https://proxy.example.com')
+
+      @request.env['HTTPS'] = 'on'
+      @request.env['SSL_CLIENT_S_DN'] = 'CN=proxy.example.com'
+      @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+      post :create
+      assert_response :forbidden
+    end
+
+    test 'unregistered smart proxy cannot generate registration command' do
+      Setting[:restrict_registered_smart_proxies] = true
+      reset_api_credentials
+      User.current = nil
+
+      @request.env['HTTPS'] = 'on'
+      @request.env['SSL_CLIENT_S_DN'] = 'CN=unknown.example.com'
+      @request.env['SSL_CLIENT_VERIFY'] = 'SUCCESS'
+
+      post :create
+      assert_response :forbidden
+    end
+
+    test 'smart proxy with unverified SSL cert cannot generate registration command' do
+      Setting[:restrict_registered_smart_proxies] = true
+      reset_api_credentials
+      User.current = nil
+
+      features = [FactoryBot.create(:feature, name: 'Registration'), FactoryBot.create(:feature, name: 'Templates')]
+      FactoryBot.create(:smart_proxy, features: features, url: 'https://proxy.example.com')
+
+      @request.env['HTTPS'] = 'on'
+      @request.env['SSL_CLIENT_S_DN'] = 'CN=proxy.example.com'
+      @request.env['SSL_CLIENT_VERIFY'] = 'FAILED'
+
+      post :create
+      assert_response :forbidden
+    end
+  end
 end
