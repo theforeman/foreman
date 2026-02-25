@@ -1,8 +1,6 @@
 class Taxonomy < ApplicationRecord
   validates_lengths_from_database
 
-  after_create :assign_taxonomy_to_user
-
   include Authorizable
   include NestedAncestryCommon
   include TopbarCacheExpiry
@@ -10,6 +8,7 @@ class Taxonomy < ApplicationRecord
   serialize :ignore_types, Array
 
   before_create :assign_default_templates
+  after_create :assign_taxonomy_to_user
   before_validation :sanitize_ignored_types
 
   has_many :taxable_taxonomies, :dependent => :destroy
@@ -246,7 +245,10 @@ class Taxonomy < ApplicationRecord
 
   def assign_taxonomy_to_user
     return if User.current.nil? || User.current.admin
+
     User.current.public_send(self.class.to_s.downcase.pluralize) << self
+    User.current.reload
+    User.current.invalidate_cache
   end
 
   def parent_id_does_not_escalate
