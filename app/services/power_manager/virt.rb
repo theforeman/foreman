@@ -24,8 +24,8 @@ module PowerManager
 
     def state_output(result)
       result = result.to_s
-      return 'on' if result =~ /started/i
-      return 'off' if result =~ /paused/i
+      return 'on' if result.match?(/started|running/i)
+      return 'off' if result.match?(/paused|stopped/i)
       translate_status(result) # unknown output
     end
 
