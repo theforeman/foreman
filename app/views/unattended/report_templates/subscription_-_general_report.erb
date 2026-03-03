@@ -24,12 +24,11 @@ require:
 <%- days_from_now = input('Days from Now') -%>
 <%- days_from_now = "" if days_from_now == 'no limit' -%>
 <%- should_filter = days_from_now.present? -%>
-<%- report_headers 'ID', 'Name', 'Available', 'Quantity', 'SKU', 'Contract number' -%>
+<%- report_headers 'ID', 'Name', 'Quantity', 'SKU', 'Contract number' -%>
 <%- load_pools(search: input('Subscriptions filter'), includes: [:subscription, :products, :organization], expiring_in_days: should_filter ? days_from_now : nil).each_record do |pool| -%>
   <%-   report_row(
           'ID': pool.id,
           'Name': pool.name,
-          'Available': pool.available,
           'Quantity': pool.quantity,
           'SKU': pool.product_id,
           'Contract number': pool.contract_number,
