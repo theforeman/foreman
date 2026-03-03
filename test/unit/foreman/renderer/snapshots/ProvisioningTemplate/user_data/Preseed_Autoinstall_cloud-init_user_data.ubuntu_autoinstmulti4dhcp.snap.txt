@@ -22,6 +22,7 @@ autoinstall:
     toggle: null
     variant: ''
   locale: en_US.UTF-8
+  timezone: Etc/UTC
   network:
     version: 2
     ethernets:

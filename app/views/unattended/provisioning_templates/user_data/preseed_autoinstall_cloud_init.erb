@@ -16,6 +16,7 @@ description: |
   - keyboard: string (default="us")
   - package_upgrade: boolean (default=false)
   - remote_execution_ssh_keys: string (default="")
+  - time-zone: string (default="Etc/UTC")
   - username_to_create: string (default="root")
   - realname_to_create: string (default=username_to_create)
   - password_to_create: string (default=@host.root_pass)
@@ -64,6 +65,7 @@ autoinstall:
     toggle: null
     variant: ''
   locale: <%= host_param('lang', 'en_US') %>.UTF-8
+  timezone: <%= host_param('time-zone', 'Etc/UTC') %>
 <%= snippet 'preseed_netplan_setup' -%>
   ssh:
     allow-pw: true
