@@ -32,7 +32,7 @@ ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter cons
 RUN \
   dnf install -y redhat-rpm-config git-core \
     gcc-c++ make bzip2 gettext tar \
-    libxml2-devel libcurl-devel ruby-devel \
+    libxml2-devel libffi-devel libcurl-devel ruby-devel \
     postgresql-devel && \
   dnf clean all
 
