@@ -262,17 +262,17 @@ Foreman::Application.routes.draw do
           get 'available_storage_domains/(:storage_domain)', :to => 'compute_resources#available_storage_domains', :on => :member
           get :available_storage_pods, :on => :member
           get 'storage_pods/(:storage_pod_id)', :to => 'compute_resources#storage_pod', :on => :member
-          get 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#show_vm', :on => :member
+          get 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#show_vm', :on => :member, :vm_id => /[^\/]+/
           get 'available_storage_pods/(:storage_pod)', :to => 'compute_resources#available_storage_pods', :on => :member
           get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member, :cluster_id => /[^\/]+/
           get 'available_clusters/(:cluster_id)/available_resource_pools', :to => 'compute_resources#available_resource_pools', :on => :member, :cluster_id => /[^\/]+/
           get 'available_clusters/(:cluster_id)/available_storage_domains', :to => 'compute_resources#available_storage_domains', :on => :member, :cluster_id => /[^\/]+/
           get 'available_clusters/(:cluster_id)/available_storage_pods', :to => 'compute_resources#available_storage_pods', :on => :member, :cluster_id => /[^\/]+/
           get :available_zones, :on => :member
-          put 'associate/(:vm_id)', :to => 'compute_resources#associate', :on => :member
+          put 'associate/(:vm_id)', :to => 'compute_resources#associate', :on => :member, :vm_id => /[^\/]+/
           put :refresh_cache, :on => :member
-          put 'available_virtual_machines/(:vm_id)/power', :to => 'compute_resources#power_vm', :on => :member
-          delete 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#destroy_vm', :on => :member
+          put 'available_virtual_machines/(:vm_id)/power', :to => 'compute_resources#power_vm', :on => :member, :vm_id => /[^\/]+/
+          delete 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#destroy_vm', :on => :member, :vm_id => /[^\/]+/
           resources :locations, :only => [:index, :show]
           resources :organizations, :only => [:index, :show]
           resources :compute_attributes, :only => [:index, :show, :create, :update]
