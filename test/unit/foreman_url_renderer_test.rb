@@ -87,4 +87,48 @@ class ForemanURLRendererTest < ActiveSupport::TestCase
       assert_equal "www.example.com", renderer.foreman_request_addr
     end
   end
+
+  context '#force_url_https' do
+    test "should convert HTTP to HTTPS" do
+      url = "http://satellite.example.com/unattended/built?token=abc123"
+      expected = "https://satellite.example.com/unattended/built?token=abc123"
+      assert_equal expected, renderer.force_url_https(url)
+    end
+
+    test "should remove port 80 when converting to HTTPS" do
+      url = "http://satellite.example.com:80/unattended/built?token=abc123"
+      expected = "https://satellite.example.com/unattended/built?token=abc123"
+      assert_equal expected, renderer.force_url_https(url)
+    end
+
+    test "should preserve custom HTTP port when converting to HTTPS" do
+      url = "http://satellite.example.com:8080/unattended/built?token=abc123"
+      expected = "https://satellite.example.com:8080/unattended/built?token=abc123"
+      assert_equal expected, renderer.force_url_https(url)
+    end
+
+    test "should not modify already HTTPS URL" do
+      url = "https://satellite.example.com/unattended/built?token=abc123"
+      expected = "https://satellite.example.com/unattended/built?token=abc123"
+      assert_equal expected, renderer.force_url_https(url)
+    end
+
+    test "should preserve custom HTTPS port" do
+      url = "https://satellite.example.com:8443/unattended/built?token=abc123"
+      expected = "https://satellite.example.com:8443/unattended/built?token=abc123"
+      assert_equal expected, renderer.force_url_https(url)
+    end
+
+    test "should handle URL with path" do
+      url = "http://satellite.example.com/some/path/built?token=abc123"
+      expected = "https://satellite.example.com/some/path/built?token=abc123"
+      assert_equal expected, renderer.force_url_https(url)
+    end
+
+    test "should handle URL without query parameters" do
+      url = "http://satellite.example.com/unattended/built"
+      expected = "https://satellite.example.com/unattended/built"
+      assert_equal expected, renderer.force_url_https(url)
+    end
+  end
 end

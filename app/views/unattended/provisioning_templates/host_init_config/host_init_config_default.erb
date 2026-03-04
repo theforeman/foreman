@@ -34,7 +34,8 @@ exit_and_cancel_build() {
   <%= indent(2, skip1: true, skip_content: 'EOF') { snippet('built', :variables => {
     :endpoint => 'failed',
     :method => 'POST',
-    :post_data => 'Host initial configuration failed, please see the registration log for more details.' }) }
+    :post_data => 'Host initial configuration failed, please see the registration log for more details.',
+    :force_https => true }) }
   -%>
   exit 1
 }
@@ -89,7 +90,7 @@ fi
 # Call home to exit build mode
 
 trap - ERR
-<%= snippet 'built' %>
+<%= snippet('built', :variables => { :force_https => true }) %>
 
 if [[ $? == 0 ]] ; then
   echo "Host [<%= @host.name %>] successfully configured."

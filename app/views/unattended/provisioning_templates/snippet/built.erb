@@ -13,6 +13,10 @@ description: |
   endpoint = @endpoint || 'built'
   method = @method || 'POST'
   url = foreman_url(endpoint)
+
+  # Force HTTPS for Global Registration (when port 80 is blocked)
+  url = force_url_https(url) if @force_https
+
   built_https = url.start_with?('https')
   curl_opts = ["-H 'Content-Type: text/plain'"]
   curl_opts << "--fail"

@@ -5,6 +5,7 @@ module Foreman
 
       DEFAULT_ALLOWED_GENERIC_HELPERS = [
         :foreman_url,
+        :force_url_https,
         :snippet, :snippets,
         :snippet_if_exists,
         :indent,

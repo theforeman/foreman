@@ -54,6 +54,18 @@ module Foreman
       result
     end
 
+    apipie :method, 'Converts a URL to use HTTPS' do
+      desc 'Converts an HTTP URL to HTTPS, handling port conversion (80 -> 443). Used by Global Registration to enforce HTTPS when port 80 is blocked.'
+      required :url, String, desc: 'URL to convert to HTTPS'
+      returns String, desc: "HTTPS URL"
+    end
+    def force_url_https(url)
+      uri = URI.parse(url)
+      uri.scheme = 'https'
+      uri.port = nil if uri.port == 80 # Use default HTTPS port (443)
+      uri.to_s
+    end
+
     private
 
     def foreman_url_options
