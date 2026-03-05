@@ -62,5 +62,33 @@ module ForemanSalt
     test "should set mac correctly" do
       assert_equal '52:54:00:35:30:2a', @facts_parser.mac
     end
+
+    test "should parse cloud provider" do
+      facts = HashWithIndifferentAccess.new(read_json_fixture("facts/salt_centos_8.json"))
+      parser = ForemanSalt::FactParser.new(facts.merge(:cloud_provider => 'aws'))
+
+      assert_equal 'aws', parser.cloud_provider
+    end
+
+    test "should parse aws billing fields" do
+      facts = HashWithIndifferentAccess.new(read_json_fixture("facts/salt_centos_8.json"))
+      parser = ForemanSalt::FactParser.new(
+        facts.merge(
+          :aws_account_id => '123456789',
+          :aws_region => 'us-east-1',
+          :aws_instance_id => 'i-abc123',
+          :aws_instance_type => 'm5.large',
+          :aws_billing_products => 'bp-1',
+          :aws_marketplace_product_codes => 'mp-1'
+        )
+      )
+
+      assert_equal '123456789', parser.aws_account_id
+      assert_equal 'us-east-1', parser.aws_region
+      assert_equal 'i-abc123', parser.aws_instance_id
+      assert_equal 'm5.large', parser.aws_instance_type
+      assert_equal 'bp-1', parser.aws_billing_products
+      assert_equal 'mp-1', parser.aws_marketplace_product_codes
+    end
   end
 end
