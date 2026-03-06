@@ -109,7 +109,8 @@ class Authorizer
       find_options = ScopedSearch::QueryBuilder.build_query(resource_class.scoped_search_definition, search_string, options)
 
       result[:where] << find_options[:conditions]
-      result[:includes].push(*find_options[:include])
+      includes = Array.wrap(find_options[:include]) - [:organizations, :locations]
+      result[:includes].push(*includes)
       result[:joins].push(*find_options[:joins])
     rescue ScopedSearch::QueryNotSupported => e
       Foreman::Logging.logger('permissions').error "Scoped search query not supported: #{e.message}"
