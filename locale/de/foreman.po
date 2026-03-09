@@ -6,7 +6,7 @@
 # Alexander Stoll <Alexander.Stoll@netways.de>, 2019
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
-# Bernhard Suttner <bernhard.suttner@atix.de>, 2019
+# Bernhard Suttner <bernhard.suttner@atix.de>, 2019,2026
 # bse <bse666@gmail.com>, 2015
 # Christina Gurski <Gurski_christina@yahoo.de>, 2015
 # Hannes Schaller <admin@cyberkov.at>, 2013
@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
-"Last-Translator: Donien, 2026\n"
+"Last-Translator: Bernhard Suttner <bernhard.suttner@atix.de>, 2019,2026\n"
 "Language-Team: German (http://app.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -113,10 +113,21 @@ msgstr "%s Filter"
 msgid "%s has been disassociated from VM"
 msgstr "%s ist nun nicht mehr der VM zugewiesen"
 
+msgid "%s host does not support power management."
+msgid_plural "%s hosts do not support power management."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s host is selected for power state change"
+msgstr ""
+
 msgid "%s host set to build and rebooting."
 msgid_plural "%s hosts set to build and rebooting."
 msgstr[0] "%s Host zum Erstellen und Neustarten eingerichtet."
 msgstr[1] "%s Hosts zum Erstellen und Neustarten eingerichtet."
+
+msgid "%s hosts are selected for power state change"
+msgstr ""
 
 msgid "%s hosts deleted"
 msgstr "%s Hosts gelöscht"
@@ -188,8 +199,8 @@ msgstr "%{controller}: Fehlendes Betriebssystem für %{host}"
 msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr "%{controller}: Token für die Bereitstellung von Host %{host} abgelaufen"
 
-msgid "%{controller}: unable to find a host that matches the request from %{addr}"
-msgstr "%{controller}: Zu einer Anfrage von %{addr} wurde kein passender Host gefunden"
+msgid "%{controller}: unable to find a host that matches the request from %{addr}. Search paths: %{search_paths}"
+msgstr ""
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
@@ -465,6 +476,27 @@ msgstr "API Ressourcen"
 
 msgid "API documentation"
 msgstr "API-Dokumentation"
+
+msgid "AWS Account ID"
+msgstr ""
+
+msgid "AWS Billing Product"
+msgstr ""
+
+msgid "AWS Instance ID"
+msgstr ""
+
+msgid "AWS Instance Type"
+msgstr ""
+
+msgid "AWS Marketplace Product"
+msgstr ""
+
+msgid "AWS Region"
+msgstr ""
+
+msgid "AWS details"
+msgstr ""
 
 msgid "About"
 msgstr "Info"
@@ -803,6 +835,9 @@ msgstr "Angewendet"
 msgid "Applied|A"
 msgstr "A"
 
+msgid "Apply"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
 msgstr "Architektur"
@@ -920,9 +955,6 @@ msgstr "Hinzufügen zu %s"
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr "Das Zuweisen aller Hosts zu %{taxonomy_name} wird ebenfalls %{taxonomy_name} aktualisieren, um alle Ressourcen aufzunehmen, die derzeit von den ausgewählten Hosts in Gebrauch sind."
-
-msgid "Associate Ephemeral External IP"
-msgstr "Temporäre externe IP anfügen"
 
 msgid "Associate VM"
 msgstr "VM zuweisen"
@@ -1186,6 +1218,21 @@ msgstr "Verfügbare Optionen"
 
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "Doppelte Werte bei der Zusammenführung vermeiden (nur Array Typ)?"
+
+msgid "Azure Instance ID"
+msgstr ""
+
+msgid "Azure Offer"
+msgstr ""
+
+msgid "Azure SKU"
+msgstr ""
+
+msgid "Azure Subscription ID"
+msgstr ""
+
+msgid "Azure details"
+msgstr ""
 
 msgid "BCrypt"
 msgstr "BCrypt"
@@ -1543,6 +1590,9 @@ msgstr "Organisation ändern"
 msgid "Change owner"
 msgstr "Besitzer ändern"
 
+msgid "Change power state"
+msgstr ""
+
 msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
 msgstr "Ändere die Hostgruppe von {hosts}. Manche Hosts sind eventuell bereits Teil der ausgewählten Hostgruppe."
 
@@ -1564,10 +1614,7 @@ msgstr "Erneut überprüfen"
 msgid "Check renderability of template '%{name}'."
 msgstr ""
 
-msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr ""
-
-msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
+msgid "Choose 'Automatic' to set the firmware based on the PXE loader of the host. If no PXE loader is selected, firmware defaults to BIOS."
 msgstr ""
 
 msgid "Choose a family"
@@ -1654,6 +1701,9 @@ msgstr "Geklont von"
 msgid "Close"
 msgstr "Schließen"
 
+msgid "Cloud provider details"
+msgstr ""
+
 msgid "Cloud-init template"
 msgstr "Cloud-init-Vorlage"
 
@@ -1686,6 +1736,9 @@ msgstr "Kommunikationsstatus"
 
 msgid "Community"
 msgstr "Community"
+
+msgid "Compact table mode"
+msgstr ""
 
 msgid "Compress the report using gzip"
 msgstr "Bericht mittels gzip komprimieren"
@@ -2368,6 +2421,15 @@ msgstr "Datacenter"
 msgid "Date"
 msgstr "Datum"
 
+msgid "Date and time are required"
+msgstr ""
+
+msgid "Date is required"
+msgstr ""
+
+msgid "Date must be in the future"
+msgstr ""
+
 msgid "Default"
 msgstr "Standard"
 
@@ -2862,8 +2924,8 @@ msgstr "Doppelte Eingaben gefunden: %{duplicated_inputs}"
 msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr "Dauer in Tagen, für die Audits aufbewahrt werden sollen. Lassen Sie das Feld leer, um die Bereinigung der Audits zu deaktivieren."
 
-msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
-msgstr "Dauer in Minuten, nach der Server als nicht synchronisiert eingestuft werden. Diese Einstellung wird durch spezifische Einstellungen aus Konfigurationsmanagement-Tools (z. B. puppet_inteval, ansible_interval) überschrieben."
+msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_interval, ansible_interval)."
+msgstr ""
 
 msgid "ERROR or FATAL"
 msgstr "FEHLER oder SCHWERWIEGENDER FEHLER"
@@ -3408,6 +3470,11 @@ msgstr "Fehler beim Festlegen von IPs via IPAM für %{name}: %{e}"
 msgid "Failed to set console: %s"
 msgstr "Konnte Konsole nicht setzen: %s"
 
+msgid "Failed to set power state for %s host."
+msgid_plural "Failed to set power state for %s hosts."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Failed to set power state for %s."
 msgstr "Fehler beim Festlegen des Energiezustands für %s."
 
@@ -3806,6 +3873,24 @@ msgstr "Vollbildansicht"
 
 msgid "Function not available for %s"
 msgstr "Funktion für %s nicht verfügbar"
+
+msgid "GCP Instance ID"
+msgstr ""
+
+msgid "GCP License Code"
+msgstr ""
+
+msgid "GCP Project ID"
+msgstr ""
+
+msgid "GCP Project Number"
+msgstr ""
+
+msgid "GCP Zone"
+msgstr ""
+
+msgid "GCP details"
+msgstr ""
 
 msgid "GMT time"
 msgstr "Zeitzone GMT (Greenwich Mean Time)"
@@ -5131,6 +5216,9 @@ msgstr "Ungültige Protokollstufe: %s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
 msgstr "Ungültiges Medium '%{medium}' für '%{os}'"
+
+msgid "Invalid power action"
+msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "Ungültige Energiezustandsanforderung: %{action}, unterstützte Aktionen sind %{supported}"
@@ -6549,7 +6637,7 @@ msgid "No TFTP proxies defined, can't continue"
 msgstr "Keine TFTP-Proxys definiert, kann nicht fortfahren"
 
 msgid "No VMs matched any host"
-msgstr ""
+msgstr "Keine VMs passen zu einem Host"
 
 msgid "No VMs matched any host."
 msgstr "Keine VMs passen zu einem Host"
@@ -6703,6 +6791,9 @@ msgstr "Keine Berichte"
 
 msgid "No results found"
 msgstr "Keine Ergebnisse gefunden"
+
+msgid "No results found for %s"
+msgstr ""
 
 msgid "No setting value provided."
 msgstr "Kein Einstellungswert geliefert."
@@ -7617,11 +7708,23 @@ msgstr "Energiestatus"
 msgid "Power a Virtual Machine"
 msgstr "Schalte eine Virtuelle Maschine an"
 
+msgid "Power action is required"
+msgstr ""
+
+msgid "Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)"
+msgstr ""
+
 msgid "Power has been set to \\\"%s\\\" successfully"
+msgstr ""
+
+msgid "Power management not available for this host"
 msgstr ""
 
 msgid "Power operations are not enabled on this host."
 msgstr "Power-Operationen werden auf diesem Host nicht unterstützt"
+
+msgid "Power state"
+msgstr ""
 
 msgid "Power up compute instance %s"
 msgstr "Die Recheninstanz %s starten"
@@ -8684,6 +8787,9 @@ msgstr ""
 msgid "Select partition tables"
 msgstr "Partitionstabelle auswählen"
 
+msgid "Select power state"
+msgstr ""
+
 msgid "Select provisioning templates"
 msgstr "Bereitstellungsvorlagen auswählen"
 
@@ -9292,6 +9398,9 @@ msgstr "Name"
 
 msgid "Start"
 msgstr "Start"
+
+msgid "Start typing to search"
+msgstr ""
 
 msgid "Starting IP Address for IP auto suggestion"
 msgstr "Beginnende IP-Adresse für automatischen IP-Vorschlag"
@@ -10419,6 +10528,9 @@ msgstr "UEFI"
 msgid "UEFI Secure Boot"
 msgstr "UEFI Secure Boot"
 
+msgid "UI Preferences"
+msgstr ""
+
 msgid "URL"
 msgstr "URL"
 
@@ -10978,6 +11090,9 @@ msgstr ""
 msgid "Use UUID for certificates"
 msgstr "UUID für Zertifikate verwenden"
 
+msgid "Use compact UI"
+msgstr ""
+
 msgid "Use group membership based on the groupOfNames and groupOfUniqueNames attributes as defined in RFC4519 in addition to POSIX groups. Some POSIX LDAP servers support an alternative way of using the groupOfNames - member and groupOfUniqueNames - uniqueMember attributes to model group membership."
 msgstr ""
 
@@ -11523,6 +11638,9 @@ msgstr "Vorlage"
 
 msgid "Wiki"
 msgstr "Wiki"
+
+msgid "Will show table rows with less space between items"
+msgstr ""
 
 msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"

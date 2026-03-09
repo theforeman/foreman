@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-09 14:54+0100\n"
-"PO-Revision-Date: 2026-02-09 14:54+0100\n"
+"POT-Creation-Date: 2026-03-09 13:43+0000\n"
+"PO-Revision-Date: 2026-03-09 13:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -144,7 +144,7 @@ msgstr ""
 #: ../app/helpers/hosts_helper.rb:383 ../app/helpers/hosts_helper.rb:385
 #: ../app/models/host_status/build_status.rb:27
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/BuildModal.js:52
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:100
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:124
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/buildHosts/BulkBuildHostModal.js:127
 msgid "Build"
 msgstr ""
@@ -4481,7 +4481,7 @@ msgstr ""
 #: ../app/views/puppetca/_list.html.erb:31
 #: ../webpack/assets/javascripts/dashboard/index.js:67
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/actions.js:39
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:128
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:152
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/RowActions.js:32
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/ReportsTab/helpers.js:131
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:44
@@ -4503,7 +4503,7 @@ msgstr ""
 #: ../app/helpers/application_helper.rb:147
 #: ../app/helpers/provisioning_templates_helper.rb:13
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:448
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:201
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:202
 #: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:22
 msgid "Export"
 msgstr ""
@@ -4527,7 +4527,7 @@ msgstr ""
 #: ../app/helpers/application_helper.rb:297
 #: ../app/views/about/index.html.erb:121
 #: ../webpack/assets/javascripts/react_app/components/PF4/DocumentationLink/index.js:28
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:205
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:206
 msgid "Documentation"
 msgstr ""
 
@@ -4755,7 +4755,7 @@ msgstr ""
 #: ../app/helpers/compute_resources_vms_helper.rb:20
 #: ../app/helpers/compute_resources_vms_helper.rb:246
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:27
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:144
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:168
 msgid "Console"
 msgstr ""
 
@@ -4847,7 +4847,7 @@ msgid "Out of sync"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:65
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:153
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:154
 msgid "No report"
 msgstr ""
 
@@ -5000,11 +5000,11 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/changeOwner/BulkChangeOwnerModal.js:163
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/disassociate/BulkDisassociateModal.js:121
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/powerState/BulkPowerStateModal.js:141
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:211
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:215
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:57
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:55
 #: ../webpack/assets/javascripts/react_app/components/common/RedirectCancelButton/RedirectCancelButton.js:11
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:19
+#: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:33
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:203
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:178
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/Actions.js:27
@@ -5018,7 +5018,7 @@ msgstr ""
 #: ../app/helpers/form_helper.rb:254 ../app/views/hosts/_list.html.erb:53
 #: ../webpack/assets/javascripts/react_app/components/BookmarkForm/BookmarkForm.js:197
 #: ../webpack/assets/javascripts/react_app/components/ForemanModal/subcomponents/SubmitOrCancel/SubmitBtn.js:30
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:14
+#: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:28
 #: ../webpack/assets/javascripts/react_app/routes/FiltersForm/FiltersForm.js:171
 msgid "Submit"
 msgstr ""
@@ -5140,7 +5140,7 @@ msgstr ""
 #: ../app/views/hosts/_list.html.erb:14
 #: ../config/initializers/foreman_register.rb:32
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:190
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:161
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:162
 msgid "Comment"
 msgstr ""
 
@@ -5182,7 +5182,7 @@ msgstr ""
 #: ../config/initializers/foreman_register.rb:22
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/DetailsCard/index.js:118
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:100
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:84
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:85
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:275
 #: ../webpack/assets/javascripts/react_app/routes/RegistrationCommands/RegistrationCommandsPage/components/fields/HostGroup.js:14
 msgid "Host group"
@@ -5191,7 +5191,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:76
 #: ../config/initializers/foreman_register.rb:28
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:72
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:135
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:136
 msgid "Boot time"
 msgstr ""
 
@@ -5204,7 +5204,7 @@ msgstr ""
 #: ../app/views/hosts/select_multiple_location.html.erb:5
 #: ../config/initializers/foreman_register.rb:26
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:144
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:77
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:78
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:305
 #: taxonomies.rb:10
 msgid "Location"
@@ -5215,7 +5215,7 @@ msgstr ""
 #: ../app/views/hosts/select_multiple_organization.html.erb:5
 #: ../config/initializers/foreman_register.rb:24
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:133
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:70
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:71
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:297
 #: taxonomies.rb:11
 msgid "Organization"
@@ -5228,7 +5228,7 @@ msgstr ""
 #: ../app/views/hosts/_list.html.erb:11
 #: ../app/views/hosts/select_multiple_owner.html.erb:6
 #: ../config/initializers/foreman_register.rb:20
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:116
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:117
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:289
 msgid "Owner"
 msgstr ""
@@ -5252,7 +5252,7 @@ msgstr ""
 #: ../app/views/images/_list.html.erb:20
 #: ../app/views/operatingsystems/index.html.erb:16
 #: ../app/views/taxonomies/index.html.erb:28
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:187
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:211
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:354
 msgid "Edit"
 msgstr ""
@@ -5268,7 +5268,7 @@ msgstr ""
 #: ../app/views/operatingsystems/index.html.erb:17
 #: ../app/views/roles/index.html.erb:28
 #: ../app/views/taxonomies/index.html.erb:30
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:114
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:138
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:361
 msgid "Clone"
 msgstr ""
@@ -5278,7 +5278,7 @@ msgid "Clone this host"
 msgstr ""
 
 #: ../app/helpers/host_description_helper.rb:97
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:100
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:124
 msgid "Cancel build"
 msgstr ""
 
@@ -5301,7 +5301,7 @@ msgstr ""
 #: ../app/helpers/host_description_helper.rb:137
 #: ../app/registries/menu/loader.rb:42
 #: ../config/initializers/f_foreman_settings_facts.rb:2
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:157
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:181
 msgid "Facts"
 msgstr ""
 
@@ -5583,7 +5583,7 @@ msgid "How values are validated"
 msgstr ""
 
 #: ../app/helpers/layout_helper.rb:141
-#: ../webpack/assets/javascripts/react_app/components/common/forms/Form.js:60
+#: ../webpack/assets/javascripts/react_app/components/common/forms/Form.js:71
 msgid "Unable to save"
 msgstr ""
 
@@ -6698,7 +6698,7 @@ msgid "This IP address has already been reserved in External IPAM"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/external_ipam.rb:26
-#: ../app/models/host/managed.rb:890
+#: ../app/models/host/managed.rb:908
 msgid "Some interfaces are invalid"
 msgstr ""
 
@@ -6991,64 +6991,69 @@ msgstr ""
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:494
+#: ../app/models/host/managed.rb:495
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:495
+#: ../app/models/host/managed.rb:496
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:652
+#: ../app/models/host/managed.rb:507
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:87
+msgid "The host must be powered off to build."
+msgstr ""
+
+#: ../app/models/host/managed.rb:670
 #: ../app/models/parameters/host_parameter.rb:11
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:38
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:65
 msgid "host"
 msgstr ""
 
-#: ../app/models/host/managed.rb:653
+#: ../app/models/host/managed.rb:671
 msgid "hostgroup"
 msgstr ""
 
-#: ../app/models/host/managed.rb:654
+#: ../app/models/host/managed.rb:672
 msgid "global setting"
 msgstr ""
 
-#: ../app/models/host/managed.rb:674
+#: ../app/models/host/managed.rb:692
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:675
+#: ../app/models/host/managed.rb:693
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:720
+#: ../app/models/host/managed.rb:738
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:837
+#: ../app/models/host/managed.rb:855
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:915
+#: ../app/models/host/managed.rb:933
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:930
+#: ../app/models/host/managed.rb:948
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:935
+#: ../app/models/host/managed.rb:953
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:940 ../app/models/nic/interface.rb:141
+#: ../app/models/host/managed.rb:958 ../app/models/nic/interface.rb:141
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:994
+#: ../app/models/host/managed.rb:1012
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
@@ -7216,13 +7221,13 @@ msgstr ""
 msgid "Unable to find a proxy with BMC feature"
 msgstr ""
 
-#: ../app/models/nic/bmc.rb:31 ../app/models/subnet.rb:83
+#: ../app/models/nic/bmc.rb:32 ../app/models/subnet.rb:83
 #: ../app/views/hosts/show.html.erb:41
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/NetworkingInterfaces/NICDescriptionList.js:26
 msgid "BMC"
 msgstr ""
 
-#: ../app/models/nic/bmc.rb:56
+#: ../app/models/nic/bmc.rb:57
 msgid ""
 "There is no proxy with BMC feature set up. Associate a BMC feature with a subn"
 "et."
@@ -7669,7 +7674,7 @@ msgstr ""
 msgid "Prefix length must be /64 or less to use EUI-64"
 msgstr ""
 
-#: ../app/models/taxonomy.rb:254
+#: ../app/models/taxonomy.rb:256
 msgid "Missing a permission to edit parent %s"
 msgstr ""
 
@@ -8665,7 +8670,7 @@ msgstr ""
 
 #: ../app/services/power_manager/base.rb:50
 #: ../app/views/host_mailer/_nonactive_hosts.html.erb:24
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:138
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:139
 msgid "Unknown"
 msgstr ""
 
@@ -9035,7 +9040,7 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/SystemProperties/index.js:40
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/Virtualization/VirtLibvirt.js:14
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Parameters/ParametersConstants.js:3
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:31
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:32
 #: ../webpack/assets/javascripts/react_app/components/SettingsTable/SettingsTable.js:15
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:208
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokensList/index.js:19
@@ -9940,7 +9945,7 @@ msgstr ""
 
 #: ../app/views/autosign/_form.html.erb:5
 #: ../webpack/assets/javascripts/react_app/components/ColumnSelector/ColumnSelector.js:188
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:203
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:207
 msgid "Save"
 msgstr ""
 
@@ -10876,7 +10881,7 @@ msgstr ""
 #: ../app/views/config_reports/_list.html.erb:7
 #: ../app/views/hosts/_list.html.erb:13
 #: ../config/initializers/foreman_register.rb:30
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:145
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:146
 msgid "Last report"
 msgstr ""
 
@@ -11763,8 +11768,8 @@ msgid "Edit Host"
 msgstr ""
 
 #: ../app/views/hosts/select_multiple_hostgroup.html.erb:4
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:255
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:262
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:259
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:266
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/HostGroupSelect.js:118
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/HostGroupSelect.js:123
 msgid "Select host group"
@@ -14902,7 +14907,7 @@ msgstr ""
 
 #: ../config/initializers/foreman_register.rb:18
 #: ../webpack/assets/javascripts/react_app/components/HostDetails/Tabs/Details/Cards/OperatingSystem/index.js:48
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:100
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/Columns/generalColumns.js:101
 msgid "OS"
 msgstr ""
 
@@ -15141,7 +15146,7 @@ msgstr ""
 
 #: ../webpack/assets/javascripts/bundle_novnc.js:91
 #: ../webpack/assets/javascripts/foreman_tools.js:51
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:166
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:168
 msgid "Loading..."
 msgstr ""
 
@@ -15668,17 +15673,37 @@ msgid "Host %s will be built next boot"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:73
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:75
 msgid "Console disabled as the host is powered off."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:75
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:77
 msgid "Compute resource does not support the console function."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:170
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:84
+msgid "No permission to start build for this host."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:89
+msgid "Start build for this host."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:94
+msgid "No permission to cancel the build."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:96
+msgid "Cancel the current build."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/ActionsBar/index.js:194
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:406
 msgid "Legacy UI"
 msgstr ""
@@ -16296,15 +16321,15 @@ msgstr ""
 msgid "Are you sure you want to delete this report? This action is irreversible."
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:231
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:232
 msgid "Created %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:234
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:235
 msgid "by %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:237
+#: ../webpack/assets/javascripts/react_app/components/HostDetails/index.js:238
 msgid "(updated %s)"
 msgstr ""
 
@@ -16412,13 +16437,13 @@ msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/buildHosts/BulkBuildHostModal.js:110
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:240
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:244
 msgid "selected host"
 msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/buildHosts/BulkBuildHostModal.js:111
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:241
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:245
 msgid "selected hosts"
 msgstr ""
 
@@ -16532,12 +16557,12 @@ msgid "Select power state"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:219
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:223
 msgid "Change host group"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:230
+#: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:234
 msgid ""
 "Change the host group of {hosts}. Some hosts may already be in your chosen hos"
 "t group."
@@ -16690,7 +16715,7 @@ msgid "Select all"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:195
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:196
 msgid "Create new"
 msgstr ""
 

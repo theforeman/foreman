@@ -77,9 +77,19 @@ msgstr "%s 필터"
 msgid "%s has been disassociated from VM"
 msgstr "%s이(가) VM에서 연결 해제되었습니다 "
 
+msgid "%s host does not support power management."
+msgid_plural "%s hosts do not support power management."
+msgstr[0] "%s 호스트는 전원 관리를 지원하지 않습니다."
+
+msgid "%s host is selected for power state change"
+msgstr "%s 호스트가 전원 상태 변경 대상으로 선택되었습니다."
+
 msgid "%s host set to build and rebooting."
 msgid_plural "%s hosts set to build and rebooting."
 msgstr[0] "%s 호스트를 빌드하고 재부팅합니다."
+
+msgid "%s hosts are selected for power state change"
+msgstr "%s 호스트가 전원 상태 변경 대상으로 선택되었습니다."
 
 msgid "%s hosts deleted"
 msgstr "%s개 호스트 삭제됨"
@@ -146,8 +156,8 @@ msgstr "%{controller}: %{host}의 운영 체제가 없습니다."
 msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr "%{controller}: 호스트 %{host}에 대한 프로비저닝 토큰이 만료됨"
 
-msgid "%{controller}: unable to find a host that matches the request from %{addr}"
-msgstr "%{controller}: %{addr}의 요청과 일치하는 호스트를 찾을 수 없습니다."
+msgid "%{controller}: unable to find a host that matches the request from %{addr}. Search paths: %{search_paths}"
+msgstr "%{controller}: %{addr}의 요청과 일치하는 호스트를 찾을 수 없습니다. 검색 경로: %{search_paths}"
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
@@ -375,10 +385,10 @@ msgstr ""
 "  인터넷의 미러이거나 CD 또는 DVD 하나 이상의 사본인 경우가 많습니다."
 
 msgid "A mismatch happens if there is a resource associated with a host, such as a domain or subnet, and at the same time not associated with the {taxonomy} you want to assign the host to. The option Fail on mismatch will always result in an error message. For example, reassigning a host from one {taxonomy} to another will fail, even if there is no actual mismatch in settings."
-msgstr ""
+msgstr "호스트에 도메인이나 서브넷과 같은 리소스가 연결되어 있으나, 동시에 호스트를 할당하려는 {taxonomy}에는 연결되어 있지 않은 경우 불일치가 발생합니다. '불일치 시 실패' 옵션을 선택하면 항상 오류 메시지가 표시됩니다. 예를 들어, 호스트의 설정 자체에 실질적인 불일치가 없는 경우에서도, 호스트를 한 {taxonomy}로부터 다른 것에 재할당하려고 하면, 처리 실패합니다."
 
 msgid "A mismatch happens if there is a resource associated with a host, such as a domain or subnet, and at the same time not associated with the {taxonomy} you want to assign the host to. The option Fix on mismatch will add such a resource to the {taxonomy}, and is therefore the recommended choice."
-msgstr ""
+msgstr "호스트에 도메인이나 서브넷과 같은 리소스가 연결되어 있으나, 동시에 호스트를 할당하려는 {taxonomy}에는 연결되어 있지 않은 경우 불일치가 발생합니다. ‘불일치 시 수정’ 옵션을 선택하면 해당 리소스를 {taxonomy}에 추가하므로 일반적으로 이 설정을 사용하는 것이 좋습니다."
 
 msgid "A notification when a host finishes building"
 msgstr "호스트가 빌드를 완료하면 알림 전송"
@@ -412,6 +422,27 @@ msgstr "API 리소스"
 
 msgid "API documentation"
 msgstr "API 문서 "
+
+msgid "AWS Account ID"
+msgstr "AWS 계정 ID"
+
+msgid "AWS Billing Product"
+msgstr "AWS Billing 제품"
+
+msgid "AWS Instance ID"
+msgstr "AWS 인스턴스 ID"
+
+msgid "AWS Instance Type"
+msgstr "AWS 인스턴스 유형"
+
+msgid "AWS Marketplace Product"
+msgstr "AWS Marketplace 제품"
+
+msgid "AWS Region"
+msgstr "AWS 리전"
+
+msgid "AWS details"
+msgstr "AWS 세부 정보"
 
 msgid "About"
 msgstr "정보 "
@@ -468,7 +499,7 @@ msgid "Add Interface"
 msgstr "인터페이스 추가 "
 
 msgid "Add Matcher"
-msgstr "일치 조건 추가"
+msgstr "Matcher 추가"
 
 msgid "Add Parameter"
 msgstr "매개 변수 추가 "
@@ -570,7 +601,7 @@ msgid "Affected Organizations"
 msgstr "영향을 받는 조직"
 
 msgid "After disassociating, a host can be deleted from Foreman without affecting its virtual machine."
-msgstr ""
+msgstr "연결을 해제한 후에는 가상 머신에 영향을 주지 않고 Foreman에서 호스트를 삭제할 수 있습니다."
 
 msgid "Aim to use macros and variables that are already available with Safe Mode enabled in your template. If you are looking for some information that you are not able to retrieve via allowed methods or macros listed in this documentation, you can consider disabling the Safe Mode. Doing that, you will be able to access all internal application variables and methods directly, when the template is rendered."
 msgstr "템플릿에서 안전 모드가 활성화된 상태에서 이미 사용할 수 있는 매크로와 변수를 사용하도록 합니다. 이 문서에 나열된 허용된 메서드나 매크로를 통해 찾고 있는 정보를 검색할 수 없는 경우 안전 모드를 비활성화하는 것이 좋습니다. 안전 모드를 비활성화하면 템플릿이 렌더링될 때 모든 내부 애플리케이션 변수와 메서드에 직접 액세스할 수 있습니다."
@@ -750,6 +781,9 @@ msgstr "적용됨 "
 msgid "Applied|A"
 msgstr "Applied|A"
 
+msgid "Apply"
+msgstr "적용"
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
 msgstr "아키텍처 "
@@ -852,10 +886,10 @@ msgid "Assign a host to the smart proxy"
 msgstr "스마트 프록시에 호스트 할당"
 
 msgid "Assign location"
-msgstr ""
+msgstr "위치 지정"
 
 msgid "Assign organization"
-msgstr ""
+msgstr "조직 지정"
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
@@ -866,9 +900,6 @@ msgstr "%s에 지정 "
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr "호스트를 %{taxonomy_name}에 할당하여 선택한 호스트가 현재 사용하고 있는 모든 리소스를 포함하도록 %{taxonomy_name} 을 업데이트합니다."
-
-msgid "Associate Ephemeral External IP"
-msgstr "임시 외부 IP 연결"
 
 msgid "Associate VM"
 msgstr "VM 연결 "
@@ -1133,6 +1164,21 @@ msgstr "사용 가능한 옵션"
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "값을 병합할 때 중복 값을 제외하시겠습니까(배열 유형만)?"
 
+msgid "Azure Instance ID"
+msgstr "Azure 인스턴스 ID"
+
+msgid "Azure Offer"
+msgstr "Azure 오퍼"
+
+msgid "Azure SKU"
+msgstr "Azure SKU"
+
+msgid "Azure Subscription ID"
+msgstr "Azure 서브스크립션 ID"
+
+msgid "Azure details"
+msgstr "Azure 세부 정보"
+
 msgid "BCrypt"
 msgstr "BCrypt"
 
@@ -1182,7 +1228,7 @@ msgid "Back to host list"
 msgstr "호스트 목록으로 돌아가기 "
 
 msgid "Backend system status"
-msgstr ""
+msgstr "백엔드 시스템 상태"
 
 msgid "Backtrace"
 msgstr "역추적"
@@ -1216,7 +1262,7 @@ msgid "Bookmark"
 msgstr "북마크 "
 
 msgid "Bookmark created."
-msgstr ""
+msgstr "북마크가 생성되었습니다."
 
 msgid "Bookmark this search"
 msgstr "이 검색을 북마크 "
@@ -1447,7 +1493,7 @@ msgid "Cannot resolve network type for %s"
 msgstr "%s에 대한 네트워크 유형을 확인할 수 없습니다."
 
 msgid "Cannot update %{type} to %{name} because of mismatch in settings"
-msgstr ""
+msgstr "설정 불일치로 인해 %{type}를 %{name}로 업데이트할 수 없습니다"
 
 msgid "Caps lock ON"
 msgstr "Caps Lock 켜짐"
@@ -1474,19 +1520,22 @@ msgid "Change Puppet CA"
 msgstr "Puppet CA 변경"
 
 msgid "Change associations"
-msgstr ""
+msgstr "연결 변경"
 
 msgid "Change host group"
 msgstr "호스트 그룹 변경"
 
 msgid "Change location"
-msgstr ""
+msgstr "위치 변경"
 
 msgid "Change organization"
-msgstr ""
+msgstr "조직 변경"
 
 msgid "Change owner"
-msgstr ""
+msgstr "소유자 변경"
+
+msgid "Change power state"
+msgstr "전원 상태 변경"
 
 msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
 msgstr "{hosts}의 호스트 그룹을 변경합니다. 일부 호스트는 선택한 호스트 그룹에 이미 포함되어 있을 수 있습니다."
@@ -1507,13 +1556,10 @@ msgid "Check again"
 msgstr "다시 확인 "
 
 msgid "Check renderability of template '%{name}'."
-msgstr ""
+msgstr "템플릿 ‘%{name}’의 렌더링 가능 여부 확인"
 
-msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "PXE 로더를 기반으로 펌웨어를 설정하려면 '자동'을 선택합니다. PXE 로더를 선택하지 않으면 기본값은 BIOS입니다."
-
-msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "'자동'을 선택하여 호스트의 PXE 로더를 기반으로 펌웨어를 설정합니다. PXE 로더를 선택하지 않으면 기본값은 BIOS입니다."
+msgid "Choose 'Automatic' to set the firmware based on the PXE loader of the host. If no PXE loader is selected, firmware defaults to BIOS."
+msgstr "'Automatic'을 선택하여 호스트의 PXE 로더를 기반으로 펌웨어를 설정합니다. PXE 로더를 선택하지 않으면 기본값은 BIOS입니다."
 
 msgid "Choose a family"
 msgstr "제품군 선택 "
@@ -1549,10 +1595,10 @@ msgid "Clear"
 msgstr "삭제"
 
 msgid "Clear all"
-msgstr ""
+msgstr "모두 지우기"
 
 msgid "Clear group"
-msgstr ""
+msgstr "그룹 비우기"
 
 msgid "Clear host status"
 msgstr "호스트 상태 지우기"
@@ -1599,6 +1645,9 @@ msgstr "복제 원본"
 msgid "Close"
 msgstr "종료 "
 
+msgid "Cloud provider details"
+msgstr "클라우드 제공업체 세부 정보"
+
 msgid "Cloud-init template"
 msgstr "클라우드-초기 템플릿"
 
@@ -1631,6 +1680,9 @@ msgstr "통신 상태"
 
 msgid "Community"
 msgstr "커뮤니티"
+
+msgid "Compact table mode"
+msgstr "컴팩트 테이블 모드"
 
 msgid "Compress the report using gzip"
 msgstr "gzip을 사용하여 보고서 압축"
@@ -1831,7 +1883,7 @@ msgid "Continue?"
 msgstr "계속하시겠습니까?"
 
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
-msgstr ""
+msgstr "LDAP에서 사용자의 그룹 멤버십을 조회하는 데 사용할 메커니즘을 제어합니다."
 
 msgid "Copied to clipboard"
 msgstr "클립보드에 복사됨"
@@ -2218,7 +2270,7 @@ msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "사용자 정의 LDAP 검색 필터, <i>옵션</i>"
 
 msgid "Cycle"
-msgstr ""
+msgstr "사이클"
 
 msgid "DB pending seed"
 msgstr "DB 보류 중인 시드"
@@ -2312,6 +2364,15 @@ msgstr "데이터 센터 "
 
 msgid "Date"
 msgstr "날짜 "
+
+msgid "Date and time are required"
+msgstr "날짜와 시간은 필수 입력 사항입니다."
+
+msgid "Date is required"
+msgstr "날짜는 필수 입력 사항입니다"
+
+msgid "Date must be in the future"
+msgstr "날짜는 미래 시점이어야 합니다."
 
 msgid "Default"
 msgstr "기본값 "
@@ -2662,19 +2723,19 @@ msgid "Disabling Safe mode"
 msgstr "안전 모드 비활성화"
 
 msgid "Disassociate"
-msgstr ""
+msgstr "연결 해제"
 
 msgid "Disassociate Hosts"
 msgstr "호스트 연결 해제 "
 
 msgid "Disassociate compute resources"
-msgstr ""
+msgstr "컴퓨팅 리소스 연결 해제"
 
 msgid "Disassociate host"
 msgstr "호스트 연결 해제 "
 
 msgid "Disassociate hosts"
-msgstr ""
+msgstr "호스트 연결 해제"
 
 msgid "Disassociate the host from a VM"
 msgstr "VM에서 호스트 연결 해제 "
@@ -2806,7 +2867,7 @@ msgstr "중복된 입력이 감지되었습니다: %{duplicated_inputs}"
 msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr "감사를 보존할 기간은 날짜로 계산합니다. 감사 정리를 사용하지 않으려면 비워 두십시오."
 
-msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
+msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_interval, ansible_interval)."
 msgstr "서버가 동기화되지 않은 것으로 분류된 후의 기간 분 입니다. 이 설정은 구성 관리 도구의 특정 설정(예: puppet_interval, ansible_interval)에 의해 재정의됩니다."
 
 msgid "ERROR or FATAL"
@@ -3059,7 +3120,7 @@ msgid "Exclude pattern for facts stored in foreman"
 msgstr "foreman에 저장된 팩트에 대한 패턴 제외"
 
 msgid "Excluded hosts"
-msgstr ""
+msgstr "제외된 호스트"
 
 msgid "Exit Full Screen"
 msgstr "전체 화면에서 나가기 "
@@ -3089,7 +3150,7 @@ msgid "Expiry Date"
 msgstr "만료 날짜"
 
 msgid "Explain matchers"
-msgstr "매처 (Matcher) 설명 "
+msgstr "Matcher 설명 "
 
 msgid "Export"
 msgstr "내보내기 "
@@ -3200,7 +3261,7 @@ msgid "Fail on Mismatch"
 msgstr "불일치로 인해 실패 "
 
 msgid "Fail on mismatch"
-msgstr ""
+msgstr "불일치 시 실패 "
 
 msgid "Failed"
 msgstr "실패 "
@@ -3326,7 +3387,7 @@ msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "%{name}의 인증서 삭제에 실패했습니다: %{e}"
 
 msgid "Failed to render template '%{t}', error: %{e}"
-msgstr ""
+msgstr "템플릿 ‘%{t}’ 렌더링 실패, 오류: %{e}"
 
 msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
 msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
@@ -3346,6 +3407,10 @@ msgstr "IPAM을 통해 %{name}에 대한 IPs를 설정하지 못함: %{e}"
 
 msgid "Failed to set console: %s"
 msgstr "콘솔 설정에 실패했습니다: %s"
+
+msgid "Failed to set power state for %s host."
+msgid_plural "Failed to set power state for %s hosts."
+msgstr[0] "%s 호스트의 전원 상태를 설정하지 못했습니다."
 
 msgid "Failed to set power state for %s."
 msgstr "%s의 전원 상태를 설정하지 못했습니다."
@@ -3490,13 +3555,13 @@ msgid "Fix Mismatches"
 msgstr "불일치 수정 "
 
 msgid "Fix location on mismatch"
-msgstr ""
+msgstr "위치 불일치 시 수정"
 
 msgid "Fix on mismatch"
-msgstr ""
+msgstr "불일치 시 수정"
 
 msgid "Fix organization on mismatch"
-msgstr ""
+msgstr "불일치 시 조직 수정"
 
 msgid "Fixed IP"
 msgstr "고정 IP"
@@ -3746,6 +3811,24 @@ msgstr "전체 화면 "
 msgid "Function not available for %s"
 msgstr "%s에 사용할 수 없는 기능"
 
+msgid "GCP Instance ID"
+msgstr "GCP 인스턴스 ID"
+
+msgid "GCP License Code"
+msgstr "GCP 라이선스 코드"
+
+msgid "GCP Project ID"
+msgstr "GCP 프로젝트 ID"
+
+msgid "GCP Project Number"
+msgstr "GCP 프로젝트 번호"
+
+msgid "GCP Zone"
+msgstr "GCP 존"
+
+msgid "GCP details"
+msgstr "GCP 세부 정보"
+
 msgid "GMT time"
 msgstr "GMT 시간"
 
@@ -3885,7 +3968,7 @@ msgid "Good host with reports"
 msgstr "보고서를 제공하는 좋은 호스트"
 
 msgid "Group membership type"
-msgstr ""
+msgstr "그룹 멤버십 유형"
 
 msgid "Group not found in the configured External IPAM instance"
 msgstr "구성된 외부 IPAM 인스턴스에서 그룹을 찾을 수 없습니다."
@@ -3996,7 +4079,7 @@ msgid "Hide all values for this parameter."
 msgstr "이 매개 변수의 값을 모두 숨깁니다."
 
 msgid "Hide this notification"
-msgstr ""
+msgstr "이 알림을 숨기기"
 
 msgid "Hide this value"
 msgstr "이 값 숨기기"
@@ -4333,7 +4416,7 @@ msgid "Hosts"
 msgstr "호스트"
 
 msgid "Hosts associated to compute resources"
-msgstr ""
+msgstr "컴퓨팅 리소스에 연결된 호스트"
 
 msgid "Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
 msgstr "팩트(fact)로부터 생성된 호스트는 해당 팩트가 지시하는 위치에 배치됩니다. 이 팩트의 내용은 해당 위치의 전체 레이블이어야 합니다."
@@ -4423,7 +4506,7 @@ msgid "Hosts with notifications disabled"
 msgstr "통지가 비활성화되어 있는 호스트 "
 
 msgid "Hosts without a compute resource will be excluded."
-msgstr ""
+msgstr "컴퓨팅 리소스가 없는 호스트는 제외됩니다."
 
 msgid "Hosts without changes or errors"
 msgstr "변경 또는 오류가 없는 호스트"
@@ -4569,7 +4652,7 @@ msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' 
 msgstr "스마트 프록시의 ID입니다. 이 프록시는 '템플릿' 및 '등록' 기능을 모두 사용하도록 설정해야 합니다."
 
 msgid "ID of the host group. Note: Changing the host group will re-apply attributes inherited from the new host group, unless you explicitly override them again in the update request"
-msgstr ""
+msgstr "호스트 그룹의 ID입니다. 참고: 호스트 그룹을 변경하면 업데이트 요청에서 해당 속성을 명시적으로 다시 재정의하지 않는 한 새 호스트 그룹에서 상속된 속성이 다시 적용됩니다."
 
 msgid "ID of the hostgroup to reassign the hosts to"
 msgstr "호스트를 재할당할 호스트 그룹의 ID"
@@ -4578,7 +4661,7 @@ msgid "ID of the organization"
 msgstr "조직의 ID"
 
 msgid "ID of the owner to reassign the hosts to"
-msgstr ""
+msgstr "호스트를 재할당할 소유자의 ID"
 
 msgid "ID of the user"
 msgstr "사용자 ID"
@@ -5046,10 +5129,10 @@ msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "'%{os}'에 대한 '%{arch}' 아키텍처가 잘못되었습니다."
 
 msgid "Invalid ct location, use settings.yaml for arbitrary location"
-msgstr ""
+msgstr "잘못된 ct 위치입니다. 임의 위치를 사용하려면 settings.yaml을 사용하십시오."
 
 msgid "Invalid fcct location, use settings.yaml for arbitrary location"
-msgstr ""
+msgstr "잘못된 fcct 위치입니다. 임의 위치를 사용하려면 settings.yaml을 사용하십시오."
 
 msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
 msgstr "잘못된 입력 형식입니다. '${id}-[Users|Usergroups]'형식을 사용하세요."
@@ -5059,6 +5142,9 @@ msgstr "잘못된 로그 레벨: %s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
 msgstr "'%{os}'에 대한 '%{medium}' 매체가 잘못되었습니다."
+
+msgid "Invalid power action"
+msgstr "잘못된 전원 작동"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "잘못된 전원 상태 요청: %{action}, 지원되는 동작은 %{supported}입니다 "
@@ -5088,7 +5174,7 @@ msgid "Invalid type for host creation via facts: %s"
 msgstr "팩트를 통한 호스트 생성의 잘못된 유형: %s"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "잘못된 값"
 
 msgid "Invalid value '%{value}' for jwt_expiration. The value must be between %{minimum} and %{maximum}. 0 means 'unlimited'."
 msgstr "jwt_expiration의 값 '%{value}'은 유효하지 않습니다. 값은 %{minimum}에서 %{maximum} 사이여야 합니다. 0은 '제한 없음'을 의미합니다."
@@ -5280,7 +5366,7 @@ msgid "Level"
 msgstr "레벨 "
 
 msgid "Libvirt and OpenStack"
-msgstr ""
+msgstr "Libvirt 및 OpenStack"
 
 msgid "Libvirt default console address"
 msgstr "Libvirt 기본 콘솔 주소"
@@ -5760,7 +5846,7 @@ msgid "Location fact"
 msgstr "위치 팩트"
 
 msgid "Location is set to %s"
-msgstr ""
+msgstr "위치가 %s로 설정됨"
 
 msgid "Location parameters"
 msgstr "위치 매개 변수"
@@ -5772,7 +5858,7 @@ msgid "Locations"
 msgstr "위치 "
 
 msgid "Locations are inherited from the role"
-msgstr ""
+msgstr "위치는 역할로부터 상속됩니다"
 
 msgid "Lock"
 msgstr "잠금"
@@ -6026,13 +6112,13 @@ msgid "Manually select and assign hosts with no %s"
 msgstr "%s이(가) 없는 호스트를 수동으로 선택 및 할당합니다 "
 
 msgid "Mark all read"
-msgstr ""
+msgstr "모두 읽음으로 표시"
 
 msgid "Mark group as read"
-msgstr ""
+msgstr "그룹을 읽음으로 표시"
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code>domain = example.com</code> or <code>hostgroup = webserver</code>."
-msgstr ""
+msgstr "Matcher는 속성과 해당 값의 조합입니다. 조건이 일치하는 경우 아래의 값이 제공됩니다.<br> 팩트와 같이 Foreman에 알려진 속성을 모두 사용할 수 있습니다. 예: <code>domain = example.com</code> 또는 <code>hostgroup = webserver</code>"
 
 msgid "Matchers inheritance"
 msgstr "일치 조건 상속"
@@ -6041,7 +6127,7 @@ msgid "Matrix"
 msgstr "Matrix"
 
 msgid "Maximize"
-msgstr "최대화하다"
+msgstr "최대화"
 
 msgid "Maximum"
 msgstr "최고"
@@ -6059,7 +6145,7 @@ msgid "Media ID"
 msgstr "Media ID"
 
 msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, libvirt) <br/> will provide new random MAC address."
-msgstr ""
+msgstr "이 인터페이스에 대한 미디어 액세스 제어 주소입니다. 형식은 2개의 16진수 숫자로 구성된 6개 그룹을 <br/> 콜론(:)으로 구분해야 합니다. 예: 00:11:22:33:44:55. 대부분의 가상화 컴퓨팅 리소스(예: VMware, libvirt)<br/>는 새로운 랜덤 MAC 주소를 제공합니다."
 
 msgid "Media type in 'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "'Content-Type'의 미디어 유형:%s '는 API v2에서 POST 및 PUT 요청에 지원되지 않습니다. 'Content-Type: application/json'을 사용하세요."
@@ -6226,13 +6312,13 @@ msgid "NICs"
 msgstr "NIC"
 
 msgid "NIS Netgroups"
-msgstr ""
+msgstr "NIS Netgroups"
 
 msgid "Name"
 msgstr "이름 "
 
 msgid "Name already exists"
-msgstr ""
+msgstr "이름이 이미 존재합니다"
 
 msgid "Name can't contain spaces"
 msgstr "이름에는 공백을 포함할 수 없습니다."
@@ -6241,7 +6327,7 @@ msgid "Name has already been taken"
 msgstr "이름이 이미 사용 중입니다"
 
 msgid "Name is too long, max %s"
-msgstr ""
+msgstr "이름이 너무 깁니다. 최대 길이: %s"
 
 msgid "Name of media"
 msgstr "미디어 이름"
@@ -6632,6 +6718,9 @@ msgstr "보고서가 없음 "
 msgid "No results found"
 msgstr "검색 결과가 없습니다"
 
+msgid "No results found for %s"
+msgstr "%s의 검색 결과가 없습니다"
+
 msgid "No setting value provided."
 msgstr "제공된 설정 값이 없습니다."
 
@@ -6732,7 +6821,7 @@ msgid "Nothing to add"
 msgstr "추가할 항목 없음"
 
 msgid "Nothing to do."
-msgstr ""
+msgstr "수행할 작업이 없습니다."
 
 msgid "Nothing to select."
 msgstr "선택할 항목이 없습니다."
@@ -7073,7 +7162,7 @@ msgid "Organization fact"
 msgstr "조직 팩트"
 
 msgid "Organization is set to %s"
-msgstr ""
+msgstr "조직이 %s로 설정됨"
 
 msgid "Organization parameters"
 msgstr "조직 매개 변수"
@@ -7082,7 +7171,7 @@ msgid "Organizations"
 msgstr "조직 "
 
 msgid "Organizations are inherited from the role"
-msgstr ""
+msgstr "조직은 역할로부터 상속됩니다"
 
 msgid "Origin"
 msgstr "소스"
@@ -7160,10 +7249,10 @@ msgid "POAP PXE template"
 msgstr "POAP PXE 템플릿"
 
 msgid "POSIX"
-msgstr ""
+msgstr "POSIX"
 
 msgid "POSIX + RFC4519"
-msgstr ""
+msgstr "POSIX + RFC4519"
 
 msgid "PXE"
 msgstr "PXE"
@@ -7314,7 +7403,7 @@ msgid "Password"
 msgstr "암호 "
 
 msgid "Password for EC2, VMware, OpenStack. Secret key for EC2"
-msgstr ""
+msgstr "EC2, VMware, OpenStack의 암호. EC2의 시크릿 키"
 
 msgid "Password has been changed"
 msgstr "암호가 변경되었습니다."
@@ -7438,7 +7527,7 @@ msgid "Photo attribute"
 msgstr "사진 속성 "
 
 msgid "Physical"
-msgstr ""
+msgstr "물리적"
 
 msgid "Physical (Bridge)"
 msgstr "물리 (브리지)"
@@ -7538,11 +7627,23 @@ msgstr "전원 상태"
 msgid "Power a Virtual Machine"
 msgstr "가상 머신 전원 켜기"
 
+msgid "Power action is required"
+msgstr "전원 동작이 필요합니다."
+
+msgid "Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)"
+msgstr "수행할 전원 동작 (start, stop, poweroff, reboot, reset, soft, cycle)"
+
 msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr "전원이 성공적으로 \\\"%s\\\"로 설정되었습니다"
 
+msgid "Power management not available for this host"
+msgstr "이 호스트에서는 전원 관리 기능을 사용할 수 없습니다."
+
 msgid "Power operations are not enabled on this host."
 msgstr "이 호스트에서 전원 작업을 사용할 수 없습니다."
+
+msgid "Power state"
+msgstr "전원 상태"
 
 msgid "Power up compute instance %s"
 msgstr "컴퓨터 인스턴스 %s의 파워 업 "
@@ -8598,6 +8699,9 @@ msgstr "페이지 선택"
 msgid "Select partition tables"
 msgstr "파티션 테이블 선택"
 
+msgid "Select power state"
+msgstr "전원 상태 선택"
+
 msgid "Select provisioning templates"
 msgstr "프로비저닝 템플릿 선택"
 
@@ -8624,13 +8728,13 @@ msgid "Select users"
 msgstr "사용자 선택 "
 
 msgid "Select {taxonomy} to add hosts to. This change may affect all your selected hosts."
-msgstr ""
+msgstr "호스트를 추가하려면 {taxonomy}을 선택합니다. 이 변경 사항은 선택한 모든 호스트에 영향을 미칠 수 있습니다."
 
 msgid "Selectable values for user inputs"
 msgstr "사용자 입력으로 선택 가능한 값"
 
 msgid "Selected hosts"
-msgstr ""
+msgstr "선택된 호스트"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "선택된 호스트는 %s에 할당되어 있습니다 "
@@ -8684,7 +8788,7 @@ msgid "Server type"
 msgstr "서버 유형 "
 
 msgid "Service name"
-msgstr ""
+msgstr "서비스 이름"
 
 msgid "Service unavailable"
 msgstr "서비스를 이용할 수 없습니다."
@@ -9105,7 +9209,7 @@ msgid "Sockets"
 msgstr "소켓 "
 
 msgid "Soft"
-msgstr ""
+msgstr "소프트"
 
 msgid "Some imported user account details cannot be saved: %s"
 msgstr "가져온 사용자 계정 세부 정보 일부를 저장할 수 없습니다: %s"
@@ -9203,6 +9307,9 @@ msgstr "이름"
 
 msgid "Start"
 msgstr "시작 "
+
+msgid "Start typing to search"
+msgstr "검색하려면 입력 시작"
 
 msgid "Starting IP Address for IP auto suggestion"
 msgstr "IP 자동 제안의 시작 IP 주소 "
@@ -9682,7 +9789,7 @@ msgid "Templates from this category can be accessed publicly using the /unattend
 msgstr "이 카테고리의 템플릿은 /unattended 엔드포인트를 사용하여 공개적으로 액세스할 수 있습니다."
 
 msgid "Templates rendered with errors"
-msgstr ""
+msgstr "오류와 함께 렌더링된 템플릿"
 
 msgid "Templates resolved for this operating system"
 msgstr "이 운영 체제에 대해 확인된 템플릿"
@@ -9747,7 +9854,7 @@ msgid "Tester"
 msgstr "테스트 장치"
 
 msgid "Text (or ERB template) to be used as your OS disk layout options. Leave empty if you want to use the partition table option"
-msgstr ""
+msgstr "OS 디스크 레이아웃 옵션으로 사용할 텍스트(또는 ERB 템플릿)입니다. 파티션 테이블 옵션을 사용하려면 비워 두십시오."
 
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr "로그인 페이지 푸터에 표시할 텍스트입니다. 키워드 $VERSION이 현재 버전으로 대체되었습니다."
@@ -9920,7 +10027,7 @@ msgid_plural "The list is excluding %{count} %{link_start}physical hosts%{link_e
 msgstr[0] "목록에서 제외된 항목은 다음과 같습니다.%{count}%{link_start} 물리적 호스트%{link_end}."
 
 msgid "The location ID to assign the hosts to"
-msgstr ""
+msgstr "호스트에 지정할 위치 ID"
 
 msgid "The location of the sendmail executable. Only used when the delivery method is set to sendmail."
 msgstr "송신 메일 실행 파일의 위치입니다. 전송 방법이 메일을 보내도록 설정된 경우에만 사용됩니다."
@@ -9935,7 +10042,7 @@ msgid "The order in which matchers keys are processed, first match wins.<br> You
 msgstr "매처 키가 처리되는 순서입니다. 먼저 일치하는 항목 부터 처리합니다.<br> 예를 들어, <code>hostgroup,environment</code>의 순서는 <code>hostgroup,environment = example-group,production</code>과 같은 매처로 될 수 있습니다."
 
 msgid "The organization ID to assign the hosts to"
-msgstr ""
+msgstr "호스트에 지정할 조직 ID"
 
 msgid "The password is currently set by %s."
 msgstr "현재 비밀번호는 다음과 같이 설정되어 있습니다.%s ."
@@ -10170,7 +10277,7 @@ msgid "This will delete the VM and its disks. This behavior can be changed via g
 msgstr "이렇게 하면 VM과 해당 디스크가 삭제됩니다. 이 동작은 글로벌 설정 \\\"Destroy associated VM on host delete\\\"를 통해 변경할 수 있습니다."
 
 msgid "This will disassociate the host in Foreman from its compute resource."
-msgstr ""
+msgstr "Foreman에서 해당 호스트를 컴퓨트 리소스와의 연결을 해제합니다."
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr "이렇게 하면 %s 보고서가 생성됩니다. 정의에 따라 처리하는 데 시간이 오래 걸릴 수 있습니다."
@@ -10218,7 +10325,7 @@ msgid "To customize a template for each individual rendering, various inputs can
 msgstr "각 개별 렌더링에 대한 템플릿을 사용자 지정하려면 다양한 입력을 정의할 수 있습니다. 입력에는 여러 유형이 있으며 템플릿 유형이 다르면 지원되는 입력 유형도 다릅니다."
 
 msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. libvirt)."
-msgstr ""
+msgstr "공급자를 활성화하려면 OS 패키지 (예:  foreman-libvirt)를 설치하거나 개발 설정을 위한 번들러 그룹 (e.g. libvirt) 활성화합니다."
 
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
 msgstr "안전 모드를 활성화하려면 설정 페이지로 이동하여 안전 모드 렌더링 옵션을 활성화하세요."
@@ -10321,6 +10428,9 @@ msgstr "UEFI"
 
 msgid "UEFI Secure Boot"
 msgstr "UEFI 보안 부트"
+
+msgid "UI Preferences"
+msgstr "UI 환경설정"
 
 msgid "URL"
 msgstr "URL"
@@ -10810,13 +10920,11 @@ msgstr "모든 호스트를 업데이트했습니다! "
 
 msgid "Updated host: Disassociated from compute resource"
 msgid_plural "Updated hosts: Disassociated from compute resource"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "호스트 업데이트됨: 컴퓨팅 리소스에서 연결 해제됨"
 
 msgid "Updated host: changed owner"
 msgid_plural "Updated hosts: changed owner"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "호스트 업데이트: 소유자 변경됨"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "업데이트된 호스트: VM에서 연결 해제 "
@@ -10876,13 +10984,16 @@ msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/toke
 msgstr "API 버전을 강제로 적용하려면 /v2 또는 /v3을 사용합니다. (예: http://openstack:5000/v2.0/tokens 또는 http://openstack:5000/v3/auth/tokens)"
 
 msgid "Use NIS netgroups instead of posix groups. FreeIPA and POSIX LDAP server types supports alternative way of grouping users through Netgroups."
-msgstr ""
+msgstr "POSIX 그룹 대신 NIS Netgroups을 사용합니다. FreeIPA 및 POSIX LDAP 서버 유형은 Netgroups을 통해 사용자를 그룹화하는 다른 방법을 지원합니다."
 
 msgid "Use UUID for certificates"
 msgstr "인증서에 UUID 사용"
 
+msgid "Use compact UI"
+msgstr "컴팩트 UI 사용"
+
 msgid "Use group membership based on the groupOfNames and groupOfUniqueNames attributes as defined in RFC4519 in addition to POSIX groups. Some POSIX LDAP servers support an alternative way of using the groupOfNames - member and groupOfUniqueNames - uniqueMember attributes to model group membership."
-msgstr ""
+msgstr "POSIX 그룹 외에도 RFC4519에 정의된 groupOfNames 및 groupOfUniqueNames 속성을 기반으로 그룹 멤버십을 사용할 수 있습니다. 일부 POSIX LDAP 서버는 groupOfNames - member 및 groupOfUniqueNames - uniqueMember 속성을 사용하여 그룹 멤버십을 모델링하는 대체 방법을 지원합니다."
 
 msgid "Use short name for VMs"
 msgstr "VM에 약어 사용"
@@ -10894,7 +11005,7 @@ msgid "Use the Puppetserver configured on this Smart Proxy"
 msgstr "이 스마트 프록시에 구성된 Puppet 서버"
 
 msgid "Use the memberuid attribute to map user groups to standard LDAP Group objects."
-msgstr ""
+msgstr "memberuid 속성을 사용하여 사용자 그룹을 표준 LDAP 그룹 객체에 매핑합니다."
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "인증을 위해 이 계정을 사용합니다. <i>옵션</i>"
@@ -11002,7 +11113,7 @@ msgid "Username"
 msgstr "사용자 이름 "
 
 msgid "Username for EC2, VMware, OpenStack. Access Key for EC2."
-msgstr ""
+msgstr "EC2, VMware, OpenStack의 사용자 이름. EC2의 액세스 키."
 
 msgid "Username to use if authentication is required."
 msgstr "인증이 필요한 경우 사용할 사용자 이름입니다."
@@ -11324,6 +11435,8 @@ msgid ""
 "When the role's associated %{taxonomies} are changed,<br> the change will propagate to all inheriting filters.\n"
 "                         Note that not all filters support <br>%{taxonomies}, so these always remain global."
 msgstr ""
+"역할에 연결된 %{taxonomies}가 <br>로 변경되면, 해당 변경 사항은 이를 상속하는 모든 필터에 전파됩니다.\n"
+"                          단, 모든 필터가 <br>%{taxonomies}를 지원하는 것은 아니므로, 이러한 항목은 항상 전역으로 유지됩니다."
 
 msgid "When the system asks for evaluated template, the code in the ERB tags is executed and the variables are replaced with their current values. This process is referred to as rendering. Typically rendering occurs during provisioning, when Kickstart file is asked by Anaconda or partition table is about to be deployed. Rendering also happens when a Remote Execution job is triggered to render the script to be executed. While the ERB exposes the power of programming language executed on the application server, the rendering mechanism has the safemode rendering option enabled by default, which prevents any harmful code being executed from templates."
 msgstr "시스템이 평가된 템플릿을 요청하면 ERB 태그의 코드가 실행되고 변수는 현재 값으로 대체됩니다. 이 프로세스를 렌더링이라고 합니다. 일반적으로 렌더링은 프로비저닝 중에, Anaconda에서 Kickstart 파일을 요청하거나 파티션 테이블이 배포되려고 할 때 발생합니다. 또한 스크립트를 실행하기 위해 원격 실행 작업이 트리거될 때도 렌더링이 발생합니다. ERB는 애플리케이션 서버에서 실행되는 프로그래밍 언어의 강력함을 드러내지만, 렌더링 메커니즘에는 기본적으로 안전 모드 렌더링 옵션이 활성화되어 있어 템플릿에서 유해한 코드가 실행되는 것을 방지합니다."
@@ -11419,6 +11532,9 @@ msgstr "템플릿"
 
 msgid "Wiki"
 msgstr "Wiki"
+
+msgid "Will show table rows with less space between items"
+msgstr "항목 간 간격이 더 좁은 테이블 행을 표시합니다"
 
 msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"
@@ -11562,7 +11678,7 @@ msgid "Your session has expired, please login again"
 msgstr "세션이 만료되었습니다. 다시 로그인하십시오 "
 
 msgid "Your session has expired; please log in again"
-msgstr ""
+msgstr "세션이 만료되었습니다. 다시 로그인해 주세요."
 
 msgid "ZTP PXE template"
 msgstr "ZTP PXE 템플릿"
@@ -11577,13 +11693,13 @@ msgid "a location"
 msgstr "위치 "
 
 msgid "active"
-msgstr ""
+msgstr "활성"
 
 msgid "add a input for this template"
 msgstr "이 템플릿에 대한 입력을 추가합니다."
 
 msgid "add a new matcher"
-msgstr "새 일치 조건 추가"
+msgstr "새 Matcher 추가"
 
 msgid "add new network interface"
 msgstr "새 네트워크 인터페이스 추가 "
@@ -11772,7 +11888,7 @@ msgid "domain"
 msgstr "도메인 "
 
 msgid "duration (ms)"
-msgstr ""
+msgstr "소요 시간 (ms)"
 
 msgid "e-mail reporting"
 msgstr "이메일 보고서 "
@@ -11832,7 +11948,7 @@ msgid "for Libvirt and VMware only"
 msgstr "Libvirt 및 VMware만 해당"
 
 msgid "for Libvirt only"
-msgstr ""
+msgstr "Libvirt만 해당"
 
 msgid "for OpenStack (v3) only"
 msgstr "OpenStack (v3)만 해당"
@@ -11844,7 +11960,7 @@ msgid "for VMware"
 msgstr "VMware의 경우"
 
 msgid "for VMware Datacenter"
-msgstr ""
+msgstr "VMware Datacenter의 경우"
 
 msgid "for proxy"
 msgstr "프록시의 경우 "
@@ -12222,7 +12338,7 @@ msgid "physical @ bridge %s"
 msgstr "물리 @ bridge %s"
 
 msgid "power action, valid actions are (on/start), (off/stop), reboot, reset, soft, cycle, (state/status)"
-msgstr ""
+msgstr "전원 동작, 유효한 동작은 ((on/start), (off/stop), reboot, reset, soft, cycle, (state/status)입니다."
 
 msgid "poweroff"
 msgstr "전원 끄기 "
@@ -12375,7 +12491,7 @@ msgid "these hosts for a build operation on next boot"
 msgstr "다음 부팅 시 빌드 작업을 위한 호스트 "
 
 msgid "type of group membership to use, applicable only when server_type is posix, free_ipa or netiq. Option rfc4519 is only applicable  when server_type is posix."
-msgstr ""
+msgstr "사용할 그룹 멤버십 유형인 server_type이 posix, free_ipa 또는 netiq인 경우에만 적용됩니다. rfc4519 옵션은 server_type이 posix인 경우에만 적용됩니다."
 
 msgid "type of the LDAP server"
 msgstr "LDAP 서버 유형"
@@ -12408,7 +12524,7 @@ msgid "unspecified"
 msgstr "지정되어 있지 않음 "
 
 msgid "use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa. Deprecated in favor of ldap_group_membership = nis_netgroups"
-msgstr ""
+msgstr "posix 그룹 대신 NIS netgroups를 사용합니다. 이 설정은 server_type이 posix 또는 free_ipa 인 경우에만 적용됩니다. 이제 ldap_group_membership = nis_netgroups로 대체되어 더 이상 사용되지 않습니다."
 
 msgid "use if you want update locked templates"
 msgstr "잠긴 템플릿을 업데이트하려면 사용"

@@ -1456,6 +1456,9 @@ msgstr ""
 msgid "Cancel build request for this host"
 msgstr ""
 
+msgid "Cancel the current build."
+msgstr ""
+
 msgid "Canceled pending build for %s"
 msgstr ""
 
@@ -6710,6 +6713,12 @@ msgstr ""
 msgid "No parameters were allocated to the selected hosts, can't mass assign"
 msgstr ""
 
+msgid "No permission to cancel the build."
+msgstr ""
+
+msgid "No permission to start build for this host."
+msgstr ""
+
 msgid "No plugins found"
 msgstr ""
 
@@ -9332,6 +9341,9 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
+msgid "Start build for this host."
+msgstr ""
+
 msgid "Start typing to search"
 msgstr ""
 
@@ -10024,6 +10036,9 @@ msgid "The groups you added as external user groups were found. However, no user
 msgstr ""
 
 msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
+msgstr ""
+
+msgid "The host must be powered off to build."
 msgstr ""
 
 msgid "The hostname of the LDAP server"

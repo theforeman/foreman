@@ -85,9 +85,19 @@ msgstr "%s 过滤器"
 msgid "%s has been disassociated from VM"
 msgstr "%s 已从虚拟机取消关联"
 
+msgid "%s host does not support power management."
+msgid_plural "%s hosts do not support power management."
+msgstr[0] "%s 主机不支持电源管理。"
+
+msgid "%s host is selected for power state change"
+msgstr "选择 %s 个主机用于电源状态更改"
+
 msgid "%s host set to build and rebooting."
 msgid_plural "%s hosts set to build and rebooting."
 msgstr[0] "%s 主机设置为构建和重新引导。"
+
+msgid "%s hosts are selected for power state change"
+msgstr "选择 %s 个主机用于电源状态更改"
 
 msgid "%s hosts deleted"
 msgstr "删除的主机 %s"
@@ -154,8 +164,8 @@ msgstr "%{controller}：缺少 %{host} 的操作系统"
 msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr "%{controller}：主机 %{host} 的置备令牌已过期"
 
-msgid "%{controller}: unable to find a host that matches the request from %{addr}"
-msgstr "%{controller}：无法找到与来自 %{addr} 的请求相匹配的主机"
+msgid "%{controller}: unable to find a host that matches the request from %{addr}. Search paths: %{search_paths}"
+msgstr "%{controller}: 无法找到与来自 %{addr} 的请求匹配的主机。搜索路径：%{search_paths}"
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
@@ -383,10 +393,10 @@ msgstr ""
 "它可能是互联网内容的一个镜像或者一个或多个 CD 或者 DVD 的副本。"
 
 msgid "A mismatch happens if there is a resource associated with a host, such as a domain or subnet, and at the same time not associated with the {taxonomy} you want to assign the host to. The option Fail on mismatch will always result in an error message. For example, reassigning a host from one {taxonomy} to another will fail, even if there is no actual mismatch in settings."
-msgstr ""
+msgstr "如果有与主机关联的资源（如域或子网），且与您要为其分配主机的 {taxonomy} 没有关联，则会发生不匹配的情况。不匹配时失败（Fail on mismatch）的选项总是生成错误信息。例如，从一个 {taxonomy} 到另一个重新分配一个主机会失败，即时在设置中没有实际的不匹配。"
 
 msgid "A mismatch happens if there is a resource associated with a host, such as a domain or subnet, and at the same time not associated with the {taxonomy} you want to assign the host to. The option Fix on mismatch will add such a resource to the {taxonomy}, and is therefore the recommended choice."
-msgstr ""
+msgstr "如果有与主机关联的资源（如域或子网），且与您要为其分配主机的 {taxonomy} 没有关联，则会发生不匹配的情况。不匹配时修复（Fix on mismatch）的选项会在 {taxonomy} 中添加此类资源，因此是推荐的选择。"
 
 msgid "A notification when a host finishes building"
 msgstr "当主机完成构建时的通知"
@@ -420,6 +430,27 @@ msgstr "API 资源"
 
 msgid "API documentation"
 msgstr "API 文档"
+
+msgid "AWS Account ID"
+msgstr "AWS 帐户 ID"
+
+msgid "AWS Billing Product"
+msgstr "AWS Billing 产品"
+
+msgid "AWS Instance ID"
+msgstr "AWS 实例 ID"
+
+msgid "AWS Instance Type"
+msgstr "AWS 实例类型"
+
+msgid "AWS Marketplace Product"
+msgstr "AWS Marketplace 产品"
+
+msgid "AWS Region"
+msgstr "AWS 区域"
+
+msgid "AWS details"
+msgstr "AWS 详情"
 
 msgid "About"
 msgstr "关于"
@@ -578,7 +609,7 @@ msgid "Affected Organizations"
 msgstr "受影响的机构"
 
 msgid "After disassociating, a host can be deleted from Foreman without affecting its virtual machine."
-msgstr ""
+msgstr "在解除关联后，可以从 Foreman 中删除主机，而不会影响其虚拟机。"
 
 msgid "Aim to use macros and variables that are already available with Safe Mode enabled in your template. If you are looking for some information that you are not able to retrieve via allowed methods or macros listed in this documentation, you can consider disabling the Safe Mode. Doing that, you will be able to access all internal application variables and methods directly, when the template is rendered."
 msgstr "旨在使用在模板中启用了安全模式后已经可用的宏和变量。如果要查找某些无法通过本文档中列出的允许的方法或宏检索的信息，则可以考虑禁用安全模式。这样，在呈现模板时，您将能够直接访问所有内部应用程序变量和方法。"
@@ -758,6 +789,9 @@ msgstr "应用的"
 msgid "Applied|A"
 msgstr "应用|A"
 
+msgid "Apply"
+msgstr "应用"
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
 msgstr "架构"
@@ -860,10 +894,10 @@ msgid "Assign a host to the smart proxy"
 msgstr "为智能代理分配一个主机"
 
 msgid "Assign location"
-msgstr ""
+msgstr "分配位置"
 
 msgid "Assign organization"
-msgstr ""
+msgstr "分配机构"
 
 msgid "Assign the %{count} host with no %{taxonomy_single} to %{taxonomy_name}"
 msgid_plural "Assign all %{count} hosts with no %{taxonomy_single} to %{taxonomy_name}"
@@ -874,9 +908,6 @@ msgstr "分配到 %s"
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr "分配主机到 %{taxonomy_name} 同时更新为 %{taxonomy_name}，包括选定主机目前正在使用的所有资源。"
-
-msgid "Associate Ephemeral External IP"
-msgstr "关联临时外部 IP"
 
 msgid "Associate VM"
 msgstr "关联 VM"
@@ -1141,6 +1172,21 @@ msgstr "可用选项"
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "合并时是否避免重复值（只适用于阵列类型）？"
 
+msgid "Azure Instance ID"
+msgstr "Azure 实例 ID"
+
+msgid "Azure Offer"
+msgstr "Azure 提供"
+
+msgid "Azure SKU"
+msgstr "Azure SKU"
+
+msgid "Azure Subscription ID"
+msgstr "Azure 订阅 ID"
+
+msgid "Azure details"
+msgstr "Azure 详情"
+
 msgid "BCrypt"
 msgstr "BCrypt"
 
@@ -1190,7 +1236,7 @@ msgid "Back to host list"
 msgstr "转到主机列表"
 
 msgid "Backend system status"
-msgstr ""
+msgstr "后端系统状态"
 
 msgid "Backtrace"
 msgstr "回溯"
@@ -1224,7 +1270,7 @@ msgid "Bookmark"
 msgstr "书签"
 
 msgid "Bookmark created."
-msgstr ""
+msgstr "创建的书签。"
 
 msgid "Bookmark this search"
 msgstr "收藏本搜索"
@@ -1455,7 +1501,7 @@ msgid "Cannot resolve network type for %s"
 msgstr "无法为 %s 解析网络类型"
 
 msgid "Cannot update %{type} to %{name} because of mismatch in settings"
-msgstr ""
+msgstr "由于设置不匹配而无法将 %{type} 更新至 %{name}"
 
 msgid "Caps lock ON"
 msgstr "打开大写锁"
@@ -1482,25 +1528,28 @@ msgid "Change Puppet CA"
 msgstr "更改 Puppet CA"
 
 msgid "Change associations"
-msgstr ""
+msgstr "更改关联"
 
 msgid "Change host group"
 msgstr "更改主机组"
 
 msgid "Change location"
-msgstr ""
+msgstr "更改位置"
 
 msgid "Change organization"
-msgstr ""
+msgstr "更改机构"
 
 msgid "Change owner"
-msgstr ""
+msgstr "更改所有者"
+
+msgid "Change power state"
+msgstr "更改电源状态"
 
 msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
 msgstr "更改 {hosts} 的主机组。有些主机可能已在您选择的主机组中。"
 
 msgid "Change the password"
-msgstr "更改密码"
+msgstr "修改密码"
 
 msgid "Changes"
 msgstr "修改"
@@ -1515,13 +1564,10 @@ msgid "Check again"
 msgstr "再次检查"
 
 msgid "Check renderability of template '%{name}'."
-msgstr ""
+msgstr "检查模板 '%{name}' 的呈现性。"
 
-msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "选择\"Automatic\" 根据 PXE Loader 设置固件。如果没有选择 PXE Loader，则默认为 BIOS。"
-
-msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr "选择\"Automatic\" 根据主机的 PXE Loader 设置固件。如果没有选择 PXE Loader，则默认为 BIOS。"
+msgid "Choose 'Automatic' to set the firmware based on the PXE loader of the host. If no PXE loader is selected, firmware defaults to BIOS."
+msgstr "选择\"Automatic\"来根据主机的 PXE 加载程序设置固件。如果没有选择 PXE 加载程序，固件默认为 BIOS。"
 
 msgid "Choose a family"
 msgstr "选择一个产品线"
@@ -1557,10 +1603,10 @@ msgid "Clear"
 msgstr "清除"
 
 msgid "Clear all"
-msgstr ""
+msgstr "全部清除"
 
 msgid "Clear group"
-msgstr ""
+msgstr "清除组"
 
 msgid "Clear host status"
 msgstr "清除主机状态"
@@ -1607,6 +1653,9 @@ msgstr "从中克隆"
 msgid "Close"
 msgstr "关闭"
 
+msgid "Cloud provider details"
+msgstr "云供应商详情"
+
 msgid "Cloud-init template"
 msgstr "Cloud-init 模板"
 
@@ -1639,6 +1688,9 @@ msgstr "通讯状态"
 
 msgid "Community"
 msgstr "社区"
+
+msgid "Compact table mode"
+msgstr "紧凑表模式"
 
 msgid "Compress the report using gzip"
 msgstr "使用 gzip 压缩报告"
@@ -1839,7 +1891,7 @@ msgid "Continue?"
 msgstr "要继续操作码？"
 
 msgid "Controls which mechanism will be used for looking up users' group membership in LDAP."
-msgstr ""
+msgstr "控制在 LDAP 中用于查找用户的组成员资格的机制。"
 
 msgid "Copied to clipboard"
 msgstr "已复制到剪贴板"
@@ -1902,7 +1954,7 @@ msgid "Could not find %{association} with name: %{name}"
 msgstr "找不到 %{association} 名称：%{name}"
 
 msgid "Could not find %{migration_name} migration in %{destination}"
-msgstr "无法在 %{destination} 中找到 %{migration_name} 迁移"
+msgstr "无法在 %{destination} 中找到 %{migration_name} 迁移 "
 
 msgid "Could not find a Configuration Template with the name \"%s\", please create one."
 msgstr "找不到名称为 \"%s\" 的置备模板，请创建一个。"
@@ -2226,7 +2278,7 @@ msgid "Custom LDAP search filter, <i>optional</i>"
 msgstr "定制 LDAP 搜索过滤，<i>optional</i>"
 
 msgid "Cycle"
-msgstr ""
+msgstr "循环"
 
 msgid "DB pending seed"
 msgstr "DB 待处理种子"
@@ -2320,6 +2372,15 @@ msgstr "数据中心"
 
 msgid "Date"
 msgstr "日期"
+
+msgid "Date and time are required"
+msgstr "需要日期和时间"
+
+msgid "Date is required"
+msgstr "需要日期"
+
+msgid "Date must be in the future"
+msgstr "日期必须是未来的日期"
 
 msgid "Default"
 msgstr "默认"
@@ -2670,19 +2731,19 @@ msgid "Disabling Safe mode"
 msgstr "禁用安全模式"
 
 msgid "Disassociate"
-msgstr ""
+msgstr "解除关联"
 
 msgid "Disassociate Hosts"
 msgstr "取消与主机的关联"
 
 msgid "Disassociate compute resources"
-msgstr ""
+msgstr "解除关联计算资源"
 
 msgid "Disassociate host"
 msgstr "取消与主机的关联"
 
 msgid "Disassociate hosts"
-msgstr ""
+msgstr "解除与主机的关联"
 
 msgid "Disassociate the host from a VM"
 msgstr "从虚拟机中取消关联主机"
@@ -2814,7 +2875,7 @@ msgstr "检测到重复的输入：%{duplicated_inputs}"
 msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr "保留审计的持续时间（以天为单位）。留空代表禁用审计清理。"
 
-msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
+msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_interval, ansible_interval)."
 msgstr "在服务器被认定为未同步之后的时间（以分钟为单位）。此设置会被来自配置管理工具（如 puppet_inteval、ansible_interval）的特定设置覆盖。"
 
 msgid "ERROR or FATAL"
@@ -3067,7 +3128,7 @@ msgid "Exclude pattern for facts stored in foreman"
 msgstr "foreman 中存储的详情的排除模式"
 
 msgid "Excluded hosts"
-msgstr ""
+msgstr "排除主机"
 
 msgid "Exit Full Screen"
 msgstr "退出全屏"
@@ -3208,7 +3269,7 @@ msgid "Fail on Mismatch"
 msgstr "匹配失败"
 
 msgid "Fail on mismatch"
-msgstr ""
+msgstr "不匹配时失败"
 
 msgid "Failed"
 msgstr "失败"
@@ -3334,7 +3395,7 @@ msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr "删除 %{name} 的证书失败：%{e}"
 
 msgid "Failed to render template '%{t}', error: %{e}"
-msgstr ""
+msgstr "呈现模板 '%{t}' 失败, 错误: %{e}"
 
 msgid "Failed to retrieve power status for %{host} within %{req_timeout} second."
 msgid_plural "Failed to retrieve power status for %{host} within %{req_timeout} seconds."
@@ -3354,6 +3415,10 @@ msgstr "无法通过 IPAM 为 %{name} 设置 IP：%{e}"
 
 msgid "Failed to set console: %s"
 msgstr "设置控制台失败：%s"
+
+msgid "Failed to set power state for %s host."
+msgid_plural "Failed to set power state for %s hosts."
+msgstr[0] "为 %s 主机设置电源状态失败。"
 
 msgid "Failed to set power state for %s."
 msgstr "为 %s 设定电源状态失败。"
@@ -3498,13 +3563,13 @@ msgid "Fix Mismatches"
 msgstr "修复不匹配"
 
 msgid "Fix location on mismatch"
-msgstr ""
+msgstr "修复不匹配的位置"
 
 msgid "Fix on mismatch"
-msgstr ""
+msgstr "不匹配时修复"
 
 msgid "Fix organization on mismatch"
-msgstr ""
+msgstr "修复不匹配的机构"
 
 msgid "Fixed IP"
 msgstr "固定 IP"
@@ -3754,6 +3819,24 @@ msgstr "全屏"
 msgid "Function not available for %s"
 msgstr "功能无法用于 %s"
 
+msgid "GCP Instance ID"
+msgstr "GCP 实例 ID"
+
+msgid "GCP License Code"
+msgstr "GCP 许可证码"
+
+msgid "GCP Project ID"
+msgstr "GCP 项目 ID"
+
+msgid "GCP Project Number"
+msgstr "GCP 项目号"
+
+msgid "GCP Zone"
+msgstr "GCP 区"
+
+msgid "GCP details"
+msgstr "GCP 详情"
+
 msgid "GMT time"
 msgstr "GMT 时间"
 
@@ -3893,7 +3976,7 @@ msgid "Good host with reports"
 msgstr "带有报告的良好主机"
 
 msgid "Group membership type"
-msgstr ""
+msgstr "组成员资格类型"
 
 msgid "Group not found in the configured External IPAM instance"
 msgstr "在配置的外部 IPAM 实例中找不到组"
@@ -4344,7 +4427,7 @@ msgid "Hosts"
 msgstr "主机"
 
 msgid "Hosts associated to compute resources"
-msgstr ""
+msgstr "与计算资源关联的主机"
 
 msgid "Hosts created from facts will be placed in the location this fact dictates. The content of this fact should be the full label of the location."
 msgstr "从事实创建的主机将放入此事实所规定的位置。此事实的内容应当是该位置的完整标签。"
@@ -4434,7 +4517,7 @@ msgid "Hosts with notifications disabled"
 msgstr "主机通知禁用"
 
 msgid "Hosts without a compute resource will be excluded."
-msgstr ""
+msgstr "没有计算资源的主机将被排除。"
 
 msgid "Hosts without changes or errors"
 msgstr "没有更改或错误的主机"
@@ -4580,7 +4663,7 @@ msgid "ID of the Smart Proxy. This Proxy must have enabled both the 'Templates' 
 msgstr "智能代理 ID。此代理必须同时启用\"模板\"和\"注册\"功能"
 
 msgid "ID of the host group. Note: Changing the host group will re-apply attributes inherited from the new host group, unless you explicitly override them again in the update request"
-msgstr ""
+msgstr "主机组的 ID。请注意：更改主机组将重新应用从新主机组继承的属性，除非您在更新请求中明确指定覆盖它们"
 
 msgid "ID of the hostgroup to reassign the hosts to"
 msgstr "将主机重新分配到的主机组的 ID"
@@ -4589,7 +4672,7 @@ msgid "ID of the organization"
 msgstr "机构 ID"
 
 msgid "ID of the owner to reassign the hosts to"
-msgstr ""
+msgstr "将主机重新分配到的所有者 ID"
 
 msgid "ID of the user"
 msgstr "用户 ID"
@@ -5063,10 +5146,10 @@ msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "架构 '%{arch}' 对 '%{os}' 无效"
 
 msgid "Invalid ct location, use settings.yaml for arbitrary location"
-msgstr ""
+msgstr "无效的 ct 位置，使用 settings.yaml 作为任意位置"
 
 msgid "Invalid fcct location, use settings.yaml for arbitrary location"
-msgstr ""
+msgstr "无效的 fcct 位置，使用 settings.yaml 作为任意位置"
 
 msgid "Invalid input format. Please use the format '${id}-[Users|Usergroups]'."
 msgstr "无效的输入格式。请使用格式 '${id}-[Users|Usergroups]'。"
@@ -5076,6 +5159,9 @@ msgstr "无效日志等级：%s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
 msgstr "介质 '%{medium}' 对 '%{os}' 无效"
+
+msgid "Invalid power action"
+msgstr "无效的电源操作"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "无效电源状态请求：%{action}，支持的操作为 %{supported}"
@@ -5105,7 +5191,7 @@ msgid "Invalid type for host creation via facts: %s"
 msgstr "无效类型用于通过 facts 进行主机创建：%s"
 
 msgid "Invalid value"
-msgstr ""
+msgstr "无效的值"
 
 msgid "Invalid value '%{value}' for jwt_expiration. The value must be between %{minimum} and %{maximum}. 0 means 'unlimited'."
 msgstr "jwt_expiration 的无效值 '%{value}'。值必须在 %{minimum} 和 %{maximum} 之间。0 表示 'unlimited'。"
@@ -5297,7 +5383,7 @@ msgid "Level"
 msgstr "等级"
 
 msgid "Libvirt and OpenStack"
-msgstr ""
+msgstr "Libvirt 和 OpenStack"
 
 msgid "Libvirt default console address"
 msgstr "Libvirt 默认控制台地址"
@@ -5777,7 +5863,7 @@ msgid "Location fact"
 msgstr "位置详情"
 
 msgid "Location is set to %s"
-msgstr ""
+msgstr "位置设置为 %s"
 
 msgid "Location parameters"
 msgstr "位置参数"
@@ -5789,7 +5875,7 @@ msgid "Locations"
 msgstr "位置"
 
 msgid "Locations are inherited from the role"
-msgstr ""
+msgstr "位置从角色继承"
 
 msgid "Lock"
 msgstr "锁定"
@@ -6043,13 +6129,13 @@ msgid "Manually select and assign hosts with no %s"
 msgstr "手动选择并分配没有 %s 的主机"
 
 msgid "Mark all read"
-msgstr ""
+msgstr "标记所有读取"
 
 msgid "Mark group as read"
-msgstr ""
+msgstr "将组标记为读取"
 
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code>domain = example.com</code> or <code>hostgroup = webserver</code>."
-msgstr ""
+msgstr "映射器是属性及属性值的组合。如果它们匹配，则提供以下值。<br>您可以使用任意 Foreman 了解的属性，比如 fact 等等。例如：<code> domain = example.com </code> 或 <code>hostgroup = webserver</code>。"
 
 msgid "Matchers inheritance"
 msgstr "匹配器继承"
@@ -6076,7 +6162,7 @@ msgid "Media ID"
 msgstr "介质 ID"
 
 msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, libvirt) <br/> will provide new random MAC address."
-msgstr ""
+msgstr "此接口的介质访问控制地址。格式必须是六组两位十六进制数<br/>，用冒号 (:) 分隔，如 00:11:22:33:44:55。大部分虚拟化计算资源（如 VMware、libvirt）<br/> 会使用新的随机 MAC 地址覆盖提供的值。"
 
 msgid "Media type in 'Content-Type: %s' is unsupported in API v2 for POST and PUT requests. Please use 'Content-Type: application/json'."
 msgstr "对于 POST 和 PUT 请求，API v2 不支持 'Content-Type: %s' 中的介质类型。请使用 'Content-Type: application/json'。"
@@ -6243,13 +6329,13 @@ msgid "NICs"
 msgstr "NIC"
 
 msgid "NIS Netgroups"
-msgstr ""
+msgstr "NIS Netgroups"
 
 msgid "Name"
 msgstr "名称"
 
 msgid "Name already exists"
-msgstr ""
+msgstr "名称已存在"
 
 msgid "Name can't contain spaces"
 msgstr "名称不能包含空格"
@@ -6258,7 +6344,7 @@ msgid "Name has already been taken"
 msgstr "名称已被使用"
 
 msgid "Name is too long, max %s"
-msgstr ""
+msgstr "名称太长，最大 %s"
 
 msgid "Name of media"
 msgstr "介质名称"
@@ -6649,6 +6735,9 @@ msgstr "没有报告"
 msgid "No results found"
 msgstr "没有找到结果"
 
+msgid "No results found for %s"
+msgstr "没有为 %s 找到结果"
+
 msgid "No setting value provided."
 msgstr "未提供设置值。"
 
@@ -6749,7 +6838,7 @@ msgid "Nothing to add"
 msgstr "没有要添加的内容"
 
 msgid "Nothing to do."
-msgstr ""
+msgstr "什么都不做。"
 
 msgid "Nothing to select."
 msgstr "没有选择。"
@@ -7095,7 +7184,7 @@ msgid "Organization fact"
 msgstr "机构 fact"
 
 msgid "Organization is set to %s"
-msgstr ""
+msgstr "机构设置为 %s"
 
 msgid "Organization parameters"
 msgstr "机构参数"
@@ -7104,7 +7193,7 @@ msgid "Organizations"
 msgstr "机构"
 
 msgid "Organizations are inherited from the role"
-msgstr ""
+msgstr "机构从角色继承"
 
 msgid "Origin"
 msgstr "起源"
@@ -7182,10 +7271,10 @@ msgid "POAP PXE template"
 msgstr "POAP PXE 模板"
 
 msgid "POSIX"
-msgstr ""
+msgstr "POSIX"
 
 msgid "POSIX + RFC4519"
-msgstr ""
+msgstr "POSIX + RFC4519"
 
 msgid "PXE"
 msgstr "PXE"
@@ -7228,7 +7317,7 @@ msgid "Parameter"
 msgstr "参数"
 
 msgid "Parameter %s deleted"
-msgstr "参数 [%s] 被删除"
+msgstr "参数 [%%s] 被删除"
 
 msgid "Parameter %{name} is not set for host %{host}"
 msgstr "没有为主机 %{host} 设置参数 %{name}"
@@ -7336,7 +7425,7 @@ msgid "Password"
 msgstr "密码"
 
 msgid "Password for EC2, VMware, OpenStack. Secret key for EC2"
-msgstr ""
+msgstr "EC2、VMware、OpenStack 的密码。EC2 的 Secret 密钥"
 
 msgid "Password has been changed"
 msgstr "密码已被修改"
@@ -7460,7 +7549,7 @@ msgid "Photo attribute"
 msgstr "照片属性"
 
 msgid "Physical"
-msgstr ""
+msgstr "物理"
 
 msgid "Physical (Bridge)"
 msgstr "物理（桥）"
@@ -7562,11 +7651,23 @@ msgstr "电源状态"
 msgid "Power a Virtual Machine"
 msgstr "开启一个虚拟主机"
 
+msgid "Power action is required"
+msgstr "需要电源操作"
+
+msgid "Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)"
+msgstr "要执行的电源操作（start, stop, poweroff, reboot, reset, soft, cycle）"
+
 msgid "Power has been set to \\\"%s\\\" successfully"
 msgstr "电源状态已成功设置为 \\\"%s\\\""
 
+msgid "Power management not available for this host"
+msgstr "电源管理对此主机不可用"
+
 msgid "Power operations are not enabled on this host."
 msgstr "此主机上没有启用电源操作。"
+
+msgid "Power state"
+msgstr "电源状态"
 
 msgid "Power up compute instance %s"
 msgstr "启动计算实例 %s"
@@ -8622,6 +8723,9 @@ msgstr "选择页"
 msgid "Select partition tables"
 msgstr "选择分区表"
 
+msgid "Select power state"
+msgstr "选择电源状态"
+
 msgid "Select provisioning templates"
 msgstr "选择预配模板"
 
@@ -8648,13 +8752,13 @@ msgid "Select users"
 msgstr "选择用户"
 
 msgid "Select {taxonomy} to add hosts to. This change may affect all your selected hosts."
-msgstr ""
+msgstr "选择 {taxonomy} 将主机添加到其中。此更改可能会影响您选择的所有主机。"
 
 msgid "Selectable values for user inputs"
 msgstr "用户输入的可选值"
 
 msgid "Selected hosts"
-msgstr ""
+msgstr "选择的主机"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "选择的主机现在分配给 %s"
@@ -8708,7 +8812,7 @@ msgid "Server type"
 msgstr "服务器类型"
 
 msgid "Service name"
-msgstr ""
+msgstr "服务名称"
 
 msgid "Service unavailable"
 msgstr "服务不可用"
@@ -9129,7 +9233,7 @@ msgid "Sockets"
 msgstr "插槽"
 
 msgid "Soft"
-msgstr ""
+msgstr "软"
 
 msgid "Some imported user account details cannot be saved: %s"
 msgstr "无法保存某些导入的用户帐户详细信息：%s"
@@ -9227,6 +9331,9 @@ msgstr "Ssh 密钥|名称"
 
 msgid "Start"
 msgstr "开始"
+
+msgid "Start typing to search"
+msgstr "开始输入来进行搜素"
 
 msgid "Starting IP Address for IP auto suggestion"
 msgstr "IP 自动提示的起始 IP 地址"
@@ -9706,7 +9813,7 @@ msgid "Templates from this category can be accessed publicly using the /unattend
 msgstr "此类别中的模板可以使用 /unattended 端点来公开访问。"
 
 msgid "Templates rendered with errors"
-msgstr ""
+msgstr "模板显示时带有错误"
 
 msgid "Templates resolved for this operating system"
 msgstr "为这个操作系统解析的模板"
@@ -9771,7 +9878,7 @@ msgid "Tester"
 msgstr "测试者"
 
 msgid "Text (or ERB template) to be used as your OS disk layout options. Leave empty if you want to use the partition table option"
-msgstr ""
+msgstr "用作 OS 磁盘布局选项的文本（或 ERB 模板）。如果要使用分区表选项，请保留为空"
 
 msgid "Text to be shown in the login-page footer. Keyword $VERSION is replaced by current version."
 msgstr "在登录页的页脚中显示的文本。关键字 $VERSION 替换为当前版本。"
@@ -9944,7 +10051,7 @@ msgid_plural "The list is excluding %{count} %{link_start}physical hosts%{link_e
 msgstr[0] "该列表不包括 %{count} %{link_start}物理主机 %{link_end}。"
 
 msgid "The location ID to assign the hosts to"
-msgstr ""
+msgstr "将主机分配到的位置 ID"
 
 msgid "The location of the sendmail executable. Only used when the delivery method is set to sendmail."
 msgstr "sendmail 执行代码的位置。只有发送方法设置为 sendmail 时才使用。"
@@ -9959,7 +10066,7 @@ msgid "The order in which matchers keys are processed, first match wins.<br> You
 msgstr "处理匹配器键的顺序，第一个会生效。<br>您可以使用多个属性作为匹配器健，例如：<code>hostgroup,environment</code> 会期望一个匹配器，如 <code>hostgroup,environment = example-group,production</code>"
 
 msgid "The organization ID to assign the hosts to"
-msgstr ""
+msgstr "将主机分配到的机构 ID"
 
 msgid "The password is currently set by %s."
 msgstr "该密码目前由 %s 设置。"
@@ -10196,7 +10303,7 @@ msgid "This will delete the VM and its disks. This behavior can be changed via g
 msgstr "这将会删除虚拟机和它的磁盘，这个行为可以通过全局设置 \\\"Destroy associated VM on host delete\\\" 进行改变。"
 
 msgid "This will disassociate the host in Foreman from its compute resource."
-msgstr ""
+msgstr "这将在 Foreman 中将主机与其计算资源解除关联。"
 
 msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr "这将生成一个报告 %s。根据其定义，可能需要很长时间才能处理。"
@@ -10244,7 +10351,7 @@ msgid "To customize a template for each individual rendering, various inputs can
 msgstr "要为每个呈现自定义模板，可以定义各种输入。输入有几种类型。不同的模板类型支持不同的输入类型。"
 
 msgid "To enable a provider, either install the OS package (e.g. foreman-libvirt) or enable the bundler group for development setup (e.g. libvirt)."
-msgstr ""
+msgstr "要启用供应商，可以安装 OS 软件包（比如 foreman-libvirt），也可以启用打包程序组进行开发设置（例如 libvirt）。"
 
 msgid "To enable safe mode, navigate to Settings page and enable Safemode rendering option."
 msgstr "要启用安全模式，请前往“设置”页面，再启用“安全模式渲染”选项。"
@@ -10349,6 +10456,9 @@ msgstr "UEFI"
 
 msgid "UEFI Secure Boot"
 msgstr "UEFI 安全引导"
+
+msgid "UI Preferences"
+msgstr "UI 首选项"
 
 msgid "URL"
 msgstr "URL"
@@ -10838,13 +10948,11 @@ msgstr "更新所有主机！"
 
 msgid "Updated host: Disassociated from compute resource"
 msgid_plural "Updated hosts: Disassociated from compute resource"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "更新的主机： 从计算资源中解除关联"
 
 msgid "Updated host: changed owner"
 msgid_plural "Updated hosts: changed owner"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "更新的主机：更改的所有者"
 
 msgid "Updated hosts: Disassociated from VM"
 msgstr "已更新主机：取消与 VM 的关联"
@@ -10904,13 +11012,16 @@ msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/toke
 msgstr "使用 /v2 或 /v3 来强制 API 版本，例如 http://openstack:5000/v2.0/tokens 或 http://openstack:5000/v3/auth/tokens"
 
 msgid "Use NIS netgroups instead of posix groups. FreeIPA and POSIX LDAP server types supports alternative way of grouping users through Netgroups."
-msgstr ""
+msgstr "使用 NIS netgroups 而不是 posix 组。FreeIPA 和 POSIX LDAP 服务器类型支持通过 Netgroups 对用户进行分组的替代方法。"
 
 msgid "Use UUID for certificates"
 msgstr "在证书中使用 UUID"
 
+msgid "Use compact UI"
+msgstr "使用紧凑 UI"
+
 msgid "Use group membership based on the groupOfNames and groupOfUniqueNames attributes as defined in RFC4519 in addition to POSIX groups. Some POSIX LDAP servers support an alternative way of using the groupOfNames - member and groupOfUniqueNames - uniqueMember attributes to model group membership."
-msgstr ""
+msgstr "除了 POSIX 组外，使用 RFC4519 中定义的 groupOfNames 和 groupOfUniqueNames 属性的组成员资格。一些 POSIX LDAP 服务器支持使用 groupOfNames - member 和 groupOfUniqueNames - uniqueMember 属性来建模组成员资格。"
 
 msgid "Use short name for VMs"
 msgstr "在 VM 中使用短名称"
@@ -10922,7 +11033,7 @@ msgid "Use the Puppetserver configured on this Smart Proxy"
 msgstr "使用在此智能代理上配置的 Puppetserver"
 
 msgid "Use the memberuid attribute to map user groups to standard LDAP Group objects."
-msgstr ""
+msgstr "使用 memberuid 属性将用户组映射到标准 LDAP 组对象。"
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "使用此账号进行验证， <i>optional</i>"
@@ -11030,7 +11141,7 @@ msgid "Username"
 msgstr "用户名"
 
 msgid "Username for EC2, VMware, OpenStack. Access Key for EC2."
-msgstr ""
+msgstr "EC2、VMware、OpenStack 的用户名。EC2 的访问密钥。"
 
 msgid "Username to use if authentication is required."
 msgstr "需要身份验证时要使用的用户名。"
@@ -11352,6 +11463,8 @@ msgid ""
 "When the role's associated %{taxonomies} are changed,<br> the change will propagate to all inheriting filters.\n"
 "                         Note that not all filters support <br>%{taxonomies}, so these always remain global."
 msgstr ""
+"当角色关联的 %{taxonomies} 被改变时，<br> 更改将传播到所有继承的过滤。\n"
+" 请注意，并非所有过滤都支持 <br>%{taxonomies}，因此它们始终保持全局。"
 
 msgid "When the system asks for evaluated template, the code in the ERB tags is executed and the variables are replaced with their current values. This process is referred to as rendering. Typically rendering occurs during provisioning, when Kickstart file is asked by Anaconda or partition table is about to be deployed. Rendering also happens when a Remote Execution job is triggered to render the script to be executed. While the ERB exposes the power of programming language executed on the application server, the rendering mechanism has the safemode rendering option enabled by default, which prevents any harmful code being executed from templates."
 msgstr "当系统要求提供评估模板时，将执行 ERB 标签中的代码，并将变量替换为其当前值。此过程称为呈现（rendering）。通常呈现会在配置期间发生，Anaconda 询问 Kickstart 文件或即将部署分区表时。当触发远程执行作业以处理要执行的脚本时，也会发生呈现。尽管 ERB 展示了在应用程序服务器上执行的编程语言的强大功能，但是呈现机制默认情况下启用了安全模式呈现选项，这可以防止从模板执行任何有害代码。"
@@ -11454,6 +11567,9 @@ msgstr "小工具|模板"
 msgid "Wiki"
 msgstr "Wiki"
 
+msgid "Will show table rows with less space between items"
+msgstr "显示时在项目之间表行有较少的空间"
+
 msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"
 " User groups enable users to log into Foreman and be automatically granted permissions.\n"
@@ -11479,7 +11595,7 @@ msgid "You are about to clear the %s status. Are you sure?"
 msgstr "您要清除 %s 状态。确定吗？"
 
 msgid "You are about to delete %s. Are you sure?"
-msgstr "您将要删除 %s。确定吗？"
+msgstr "您将要删除 %s。您确定吗？"
 
 msgid "You are about to stop impersonating other user. Are you sure?"
 msgstr "您即将停止模拟其他用户。是否确定？"
@@ -11599,7 +11715,7 @@ msgid "Your session has expired, please login again"
 msgstr "会话已过期，请重新登录"
 
 msgid "Your session has expired; please log in again"
-msgstr ""
+msgstr "您的会话已过期，请再次登录"
 
 msgid "ZTP PXE template"
 msgstr "ZTP PXE 模板"
@@ -11614,7 +11730,7 @@ msgid "a location"
 msgstr "位置"
 
 msgid "active"
-msgstr ""
+msgstr "活跃"
 
 msgid "add a input for this template"
 msgstr "新增輸入至此範本"
@@ -11809,7 +11925,7 @@ msgid "domain"
 msgstr "域"
 
 msgid "duration (ms)"
-msgstr ""
+msgstr "持续时间 (ms)"
 
 msgid "e-mail reporting"
 msgstr "电子邮件报告"
@@ -11869,7 +11985,7 @@ msgid "for Libvirt and VMware only"
 msgstr "仅适用于 Libvirt 和 VMware"
 
 msgid "for Libvirt only"
-msgstr "仅用于 Libvirt"
+msgstr "仅限 Libvirt"
 
 msgid "for OpenStack (v3) only"
 msgstr "仅适用于 OpenStack (v3)"
@@ -11881,7 +11997,7 @@ msgid "for VMware"
 msgstr "适用于 VMware"
 
 msgid "for VMware Datacenter"
-msgstr ""
+msgstr "对于 VMware Datacenter"
 
 msgid "for proxy"
 msgstr "代理服务器"
@@ -12259,7 +12375,7 @@ msgid "physical @ bridge %s"
 msgstr "物理 @ 网桥 %s"
 
 msgid "power action, valid actions are (on/start), (off/stop), reboot, reset, soft, cycle, (state/status)"
-msgstr ""
+msgstr "电源操作。有效的操作为 (on/start), (off/stop), reboot, reset, soft, cycle, (state/status)"
 
 msgid "poweroff"
 msgstr "关闭"
@@ -12412,7 +12528,7 @@ msgid "these hosts for a build operation on next boot"
 msgstr "这些主机下次重启时构建操作"
 
 msgid "type of group membership to use, applicable only when server_type is posix, free_ipa or netiq. Option rfc4519 is only applicable  when server_type is posix."
-msgstr ""
+msgstr "要使用的组成员资格类型，仅在 server_type 为 posix, free_ipa 或 netiq 时适用。Option rfc4519 仅在 server_type 是 posix 时适用。"
 
 msgid "type of the LDAP server"
 msgstr "LDAP 服务器类型"
@@ -12445,7 +12561,7 @@ msgid "unspecified"
 msgstr "未指定"
 
 msgid "use NIS netgroups instead of posix groups, applicable only when server_type is posix or free_ipa. Deprecated in favor of ldap_group_membership = nis_netgroups"
-msgstr ""
+msgstr "使用 NIS 网络组代替 posix 组，仅在 server_type 为 posix 或 free_ipa 时适用。已弃用，使用 ldap_group_membership = nis_netgroups 替代"
 
 msgid "use if you want update locked templates"
 msgstr "在您希望更新锁定的模板时使用"

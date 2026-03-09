@@ -110,10 +110,21 @@ msgstr "Filtros"
 msgid "%s has been disassociated from VM"
 msgstr "%s ya no está asociado a la máquina virtual"
 
+msgid "%s host does not support power management."
+msgid_plural "%s hosts do not support power management."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%s host is selected for power state change"
+msgstr ""
+
 msgid "%s host set to build and rebooting."
 msgid_plural "%s hosts set to build and rebooting."
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "%s hosts are selected for power state change"
+msgstr ""
 
 msgid "%s hosts deleted"
 msgstr ""
@@ -190,8 +201,8 @@ msgstr "%{controller}: %{host}'s operating system is missing"
 msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr "%{controller}: token de aprovisionamiento para el host %{host} expirado"
 
-msgid "%{controller}: unable to find a host that matches the request from %{addr}"
-msgstr "%{controller}: no se puede encontrar un host que coincida con la solicitud de %{addr}"
+msgid "%{controller}: unable to find a host that matches the request from %{addr}. Search paths: %{search_paths}"
+msgstr ""
 
 msgid "%{count} host with no %{taxonomy_single} assigned"
 msgid_plural "%{count} hosts with no %{taxonomy_single} assigned"
@@ -478,6 +489,27 @@ msgstr "Recursos de API"
 
 msgid "API documentation"
 msgstr "Documentación de la API"
+
+msgid "AWS Account ID"
+msgstr ""
+
+msgid "AWS Billing Product"
+msgstr ""
+
+msgid "AWS Instance ID"
+msgstr ""
+
+msgid "AWS Instance Type"
+msgstr ""
+
+msgid "AWS Marketplace Product"
+msgstr ""
+
+msgid "AWS Region"
+msgstr ""
+
+msgid "AWS details"
+msgstr ""
 
 msgid "About"
 msgstr "Acerca"
@@ -816,6 +848,9 @@ msgstr "Aplicado"
 msgid "Applied|A"
 msgstr "A"
 
+msgid "Apply"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Architecture"
 msgstr "Arquitectura"
@@ -934,9 +969,6 @@ msgstr "Asignar a %s"
 
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr "La asignación de hosts a %{taxonomy_name} también actualizará %{taxonomy_name} para incluir todos los recursos que los hosts seleccionados están utilizando actualmente."
-
-msgid "Associate Ephemeral External IP"
-msgstr "Asociar IP externa efímera"
 
 msgid "Associate VM"
 msgstr "Asociar máquina virtual"
@@ -1200,6 +1232,21 @@ msgstr ""
 
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "¿Evitar valores duplicados al combinarlos (solo tipo array)?"
+
+msgid "Azure Instance ID"
+msgstr ""
+
+msgid "Azure Offer"
+msgstr ""
+
+msgid "Azure SKU"
+msgstr ""
+
+msgid "Azure Subscription ID"
+msgstr ""
+
+msgid "Azure details"
+msgstr ""
 
 msgid "BCrypt"
 msgstr "BCrypt"
@@ -1557,6 +1604,9 @@ msgstr ""
 msgid "Change owner"
 msgstr ""
 
+msgid "Change power state"
+msgstr ""
+
 msgid "Change the host group of {hosts}. Some hosts may already be in your chosen host group."
 msgstr ""
 
@@ -1578,10 +1628,7 @@ msgstr "Comprobar de nuevo"
 msgid "Check renderability of template '%{name}'."
 msgstr ""
 
-msgid "Choose 'Automatic' to set the firmware based on the PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
-msgstr ""
-
-msgid "Choose 'Automatic' to set the firmware based on the host's PXE Loader. If no PXE Loader is selected, it defaults to BIOS."
+msgid "Choose 'Automatic' to set the firmware based on the PXE loader of the host. If no PXE loader is selected, firmware defaults to BIOS."
 msgstr ""
 
 msgid "Choose a family"
@@ -1668,6 +1715,9 @@ msgstr ""
 msgid "Close"
 msgstr "Cerrar"
 
+msgid "Cloud provider details"
+msgstr ""
+
 msgid "Cloud-init template"
 msgstr "Planatilla cloud-init"
 
@@ -1700,6 +1750,9 @@ msgstr "Estado de la comunicación"
 
 msgid "Community"
 msgstr "Comunidad"
+
+msgid "Compact table mode"
+msgstr ""
 
 msgid "Compress the report using gzip"
 msgstr "Comprimir el informe con gzip"
@@ -2382,6 +2435,15 @@ msgstr "Centro de datos"
 msgid "Date"
 msgstr "Fecha"
 
+msgid "Date and time are required"
+msgstr ""
+
+msgid "Date is required"
+msgstr ""
+
+msgid "Date must be in the future"
+msgstr ""
+
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -2877,8 +2939,8 @@ msgstr "Entradas duplicadas detectadas: %{duplicated_inputs}"
 msgid "Duration in days to preserve audits for. Leave empty to disable the audits cleanup."
 msgstr "Duración en días para conservar las auditorías. Dejar vacío para desactivar la limpieza de las auditorías."
 
-msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_inteval, ansible_interval)."
-msgstr "Duración en minutos después de que los servidores se clasifiquen como no sincronizados. Este ajuste es anulado por ajustes específicos de las herramientas de gestión de la configuración (por ejemplo, puppet_inteval, ansible_interval)."
+msgid "Duration in minutes after servers are classed as out of sync. This setting is overridden by specific settings from config management tools (e.g. puppet_interval, ansible_interval)."
+msgstr ""
 
 msgid "ERROR or FATAL"
 msgstr "ERROR o FATAL"
@@ -3424,6 +3486,11 @@ msgstr "No se pudieron configurar las IP a través de IPAM para %{name}: %{e}"
 msgid "Failed to set console: %s"
 msgstr "Falló al configurar consola: %s"
 
+msgid "Failed to set power state for %s host."
+msgid_plural "Failed to set power state for %s hosts."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Failed to set power state for %s."
 msgstr "No se pudo establecer el estado de energía para %s."
 
@@ -3821,6 +3888,24 @@ msgstr "Pantalla completa"
 
 msgid "Function not available for %s"
 msgstr "Función no disponible para %s"
+
+msgid "GCP Instance ID"
+msgstr ""
+
+msgid "GCP License Code"
+msgstr ""
+
+msgid "GCP Project ID"
+msgstr ""
+
+msgid "GCP Project Number"
+msgstr ""
+
+msgid "GCP Zone"
+msgstr ""
+
+msgid "GCP details"
+msgstr ""
 
 msgid "GMT time"
 msgstr "Hora GMT"
@@ -5148,6 +5233,9 @@ msgstr "Nivel de registro no válido: %s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
 msgstr "Medio inválido '%{medium}' para '%{os}'"
+
+msgid "Invalid power action"
+msgstr ""
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr "Solicitud de estado de energía inválida: %{action}, las acciones soportadas son %{supported}"
@@ -6721,6 +6809,9 @@ msgstr "No hay informes"
 msgid "No results found"
 msgstr "No se han encontrado resultados"
 
+msgid "No results found for %s"
+msgstr ""
+
 msgid "No setting value provided."
 msgstr "No hay ningún valor de configuración."
 
@@ -7634,11 +7725,23 @@ msgstr "Estado de energía"
 msgid "Power a Virtual Machine"
 msgstr "Encender una máquina virtual"
 
+msgid "Power action is required"
+msgstr ""
+
+msgid "Power action to perform (start, stop, poweroff, reboot, reset, soft, cycle)"
+msgstr ""
+
 msgid "Power has been set to \\\"%s\\\" successfully"
+msgstr ""
+
+msgid "Power management not available for this host"
 msgstr ""
 
 msgid "Power operations are not enabled on this host."
 msgstr "Las operaciones de encendido no están habilitadas en este host."
+
+msgid "Power state"
+msgstr ""
 
 msgid "Power up compute instance %s"
 msgstr "Encienda la instancia %s"
@@ -8705,6 +8808,9 @@ msgstr ""
 msgid "Select partition tables"
 msgstr "Seleccionar tablas de particiones"
 
+msgid "Select power state"
+msgstr ""
+
 msgid "Select provisioning templates"
 msgstr "Seleccionar plantillas de aprovisionamiento"
 
@@ -9315,6 +9421,9 @@ msgstr "SshKey|Nombre"
 
 msgid "Start"
 msgstr "Iniciar"
+
+msgid "Start typing to search"
+msgstr ""
 
 msgid "Starting IP Address for IP auto suggestion"
 msgstr "Dirección IP de inicio para autosugerencia de IP"
@@ -10444,6 +10553,9 @@ msgstr ""
 msgid "UEFI Secure Boot"
 msgstr ""
 
+msgid "UI Preferences"
+msgstr ""
+
 msgid "URL"
 msgstr "URL"
 
@@ -11003,6 +11115,9 @@ msgstr ""
 msgid "Use UUID for certificates"
 msgstr "Usar UUID para certificados"
 
+msgid "Use compact UI"
+msgstr ""
+
 msgid "Use group membership based on the groupOfNames and groupOfUniqueNames attributes as defined in RFC4519 in addition to POSIX groups. Some POSIX LDAP servers support an alternative way of using the groupOfNames - member and groupOfUniqueNames - uniqueMember attributes to model group membership."
 msgstr ""
 
@@ -11549,6 +11664,9 @@ msgstr "Widget|Plantilla"
 
 msgid "Wiki"
 msgstr "Wiki"
+
+msgid "Will show table rows with less space between items"
+msgstr ""
 
 msgid ""
 "With user groups, you can group your users and assign them roles on a group basis.\n"
