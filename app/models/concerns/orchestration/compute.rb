@@ -51,7 +51,7 @@ module Orchestration::Compute
   protected
 
   def queue_compute
-    return log_orchestration_errors unless compute? && errors.empty?
+    return log_orchestration_errors unless managed? && compute? && errors.empty?
     # Create a new VM if it doesn't already exist or update an existing vm
 
     update_or_create = vm_exists?
@@ -91,7 +91,7 @@ module Orchestration::Compute
   end
 
   def queue_compute_destroy
-    return unless errors.empty? && compute_resource_id.present? && uuid
+    return unless managed? && errors.empty? && compute_resource_id.present? && uuid
     queue.create(:name => _("Removing compute instance %s") % self, :priority => 100,
       :action => [self, :delCompute])
   end
