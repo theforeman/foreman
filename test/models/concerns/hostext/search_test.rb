@@ -272,6 +272,49 @@ module Hostext
         it { assert_not_includes(subject, build_failed_status.host) }
       end
 
+      context "search by origin" do
+        let(:host1) { FactoryBot.create(:host) }
+        let(:host2) { FactoryBot.create(:host) }
+        let(:host3) { FactoryBot.create(:host) }
+
+        setup do
+          # Create multiple reports for host1 with Puppet origin
+          55.times do
+            FactoryBot.create(:config_report, host: host1, origin: 'Puppet')
+          end
+          # Create a few reports for host2 with Puppet origin
+          3.times do
+            FactoryBot.create(:config_report, host: host2, origin: 'Puppet')
+          end
+          # Create reports for host3 with Ansible origin
+          5.times do
+            FactoryBot.create(:config_report, host: host3, origin: 'Ansible')
+          end
+        end
+
+        test "searching by origin returns distinct hosts not report rows" do
+          result = Host.search_for("origin = Puppet")
+          assert_equal 2, result.count
+          assert_includes result, host1
+          assert_includes result, host2
+          assert_not_includes result, host3
+        end
+
+        test "pagination works correctly with many reports per host" do
+          # Even with 55 reports for host1 and 3 for host2, pagination should work on hosts
+          result = Host.search_for("origin = Puppet").limit(20).to_a
+          assert_equal 2, result.count
+          assert_includes result, host1
+          assert_includes result, host2
+        end
+
+        test "searching by origin = Ansible returns correct host" do
+          result = Host.search_for("origin = Ansible")
+          assert_equal 1, result.count
+          assert_includes result, host3
+        end
+      end
+
       context "search by parameters" do
         let(:hostgroup) { FactoryBot.create(:hostgroup) }
         let(:group_param) { FactoryBot.create(:hostgroup_parameter, name: 'test_param', value: 'test_value', hostgroup: hostgroup) }

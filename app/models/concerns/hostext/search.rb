@@ -22,7 +22,7 @@ module Hostext
       scoped_search :on => :id,            :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :on => :pxe_loader, :complete_value => Operatingsystem.all_loaders_map.to_h { |k, _v| [k.tr(' ', '_').to_sym, k] }.except(:None), :only_explicit => true, :operators => ['=']
 
-      scoped_search :relation => :last_report_object, :on => :origin, :only_explicit => true
+      scoped_search :relation => :last_report_object, :on => :origin, :only_explicit => true, :ext_method => :search_by_origin
 
       scoped_search :relation => :configuration_status_object, :on => :status, :offset => 0, :word_size => ConfigReport::BIT_NUM * 4, :rename => :'status.interesting', :complete_value => {:true => true, :false => false}, :only_explicit => true, :aliases => [:'configuration_status.interesting']
       scoped_search_status "applied",         :relation => :configuration_status_object, :on => :status, :rename => :'status.applied', :aliases => ['configuration_status.applied']
@@ -123,6 +123,15 @@ module Hostext
     end
 
     module ClassMethods
+      def search_by_origin(key, operator, value)
+        condition = sanitize_sql_for_conditions(["#{Report.table_name}.origin #{operator} ?", value_to_sql(operator, value)])
+        host_ids = Report.select(:host_id).where(condition).distinct.pluck(:host_id)
+
+        return { conditions: '1 = 0' } if host_ids.empty?
+
+        { conditions: "#{Host.table_name}.id IN (#{host_ids.join(',')})" }
+      end
+
       def search_by_user(key, operator, value)
         clean_key = key.sub(/^.*\./, '')
         if value == "current_user"

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { isEqual } from 'lodash';
 import URI from 'urijs';
 import { useHistory } from 'react-router-dom';
 import { useAPI } from '../../../../common/hooks/API/APIHooks';
@@ -19,6 +20,7 @@ export const useTableIndexAPIResponse = ({
   apiUrl,
   apiOptions = {},
   defaultParams = {},
+  syncWithOptions = false,
 }) => {
   let response = useAPI(
     replacementResponse ? null : 'get',
@@ -28,6 +30,7 @@ export const useTableIndexAPIResponse = ({
     {
       ...apiOptions,
       params: defaultParams,
+      syncWithOptions,
     }
   );
 
@@ -59,6 +62,16 @@ export const useSetParamsAndApiAndSearch = ({
 }) => {
   const [params, setParams] = useState(defaultParams);
   const history = useHistory();
+
+  // Sync params state when defaultParams changes (e.g., URL params change externally)
+  const prevDefaultParamsRef = useRef(defaultParams);
+  useEffect(() => {
+    if (!isEqual(prevDefaultParamsRef.current, defaultParams)) {
+      prevDefaultParamsRef.current = defaultParams;
+      setParams(defaultParams);
+    }
+  }, [defaultParams]);
+
   const setParamsAndAPI = newParams => {
     // add url edit params to the new params
     if (pushToHistory) {
@@ -71,13 +84,14 @@ export const useSetParamsAndApiAndSearch = ({
   };
 
   const setSearch = newSearch => {
-    if (pushToHistory) {
-      const uri = new URI();
-      uri.setSearch(newSearch);
-      history.push({ search: uri.search() });
-    }
+    // Only preserve per_page from existing params, not all params
+    // This prevents breaking existing behavior while still fixing the pagination issue
+    const searchParams =
+      params.per_page && !newSearch.per_page
+        ? { ...newSearch, per_page: params.per_page }
+        : newSearch;
     updateSearchQuery(newSearch.search);
-    setParamsAndAPI({ ...params, ...newSearch });
+    setParamsAndAPI(searchParams);
   };
 
   return {

@@ -100,6 +100,7 @@ const HostsIndex = () => {
     apiUrl: HOSTS_API_PATH,
     apiOptions,
     defaultParams,
+    syncWithOptions: true,
   });
   const contextData = useForemanContext();
 

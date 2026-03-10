@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { isEqual } from 'lodash';
 import uuid from 'uuid/v1';
 import {
   selectAPIResponse,
@@ -17,13 +18,23 @@ import { APIActions } from '../../../redux/API';
 
 export const useAPI = (method, url, options = {}) => {
   const dispatch = useDispatch();
-  const { key, ...rest } = options;
+  const { key, syncWithOptions = false, ...rest } = options;
   const [keyState, setKeyState] = useState(key || uuid());
   const [APIoptions, setAPIOptions] = useState(rest);
 
   useEffect(() => {
     if (key) setKeyState(key);
   }, [key]);
+
+  // Optionally sync APIoptions when the options parameter changes (e.g., URL params change)
+  // Set syncWithOptions: true to enable this behavior
+  const prevOptionsRef = useRef(rest);
+  useEffect(() => {
+    if (syncWithOptions && !isEqual(prevOptionsRef.current, rest)) {
+      prevOptionsRef.current = rest;
+      setAPIOptions(rest);
+    }
+  }, [rest, syncWithOptions]);
 
   useEffect(() => {
     if (url && method) {
