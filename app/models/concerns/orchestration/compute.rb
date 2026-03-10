@@ -9,7 +9,7 @@ module Orchestration::Compute
     attr_accessor :compute_attributes, :vm
 
     after_validation :validate_compute_provisioning, :queue_compute
-    before_destroy :queue_compute_destro
+    before_destroy :queue_compute_destroy
   end
 
   def compute?
