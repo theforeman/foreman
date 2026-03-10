@@ -9,7 +9,7 @@ module Orchestration::Compute
     attr_accessor :compute_attributes, :vm
 
     after_validation :validate_compute_provisioning, :queue_compute
-    before_destroy :queue_compute_destroy
+    before_destroy :queue_compute_destro
   end
 
   def compute?
@@ -91,7 +91,7 @@ module Orchestration::Compute
   end
 
   def queue_compute_destroy
-    return unless managed? && errors.empty? && compute_resource_id.present? && uuid
+    return unless errors.empty? && compute_resource_id.present? && uuid
     queue.create(:name => _("Removing compute instance %s") % self, :priority => 100,
       :action => [self, :delCompute])
   end
