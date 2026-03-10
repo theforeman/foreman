@@ -1,3 +1,15 @@
+2026-03-10	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.18.0
+
+2026-03-10	alazik <alazik@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2026-03-06	Evgeni Golov <evgeni@golov.de>
+	* Fixes #39123 - allow VM ids with dots
+
+2026-03-03	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #39106 - Fix taxonomy creation for unprivileged users
+
 2026-02-24	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.18.0-rc2
 	* i18n - extracting new, pulling from tx
