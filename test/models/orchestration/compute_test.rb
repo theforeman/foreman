@@ -250,6 +250,29 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  describe 'unmanaged host on compute resource' do
+    let(:host) do
+      FactoryBot.build(:host,
+        :on_compute_resource,
+        :with_compute_profile,
+        :managed => false)
+    end
+
+    test 'should skip compute orchestration for unmanaged host' do
+      host.stubs(:vm_exists?).returns(false)
+      assert_valid host
+      tasks = host.queue.all.map(&:name)
+      assert_empty tasks
+    end
+
+    test 'should log info when skipping compute orchestration for unmanaged host' do
+      host.stubs(:vm_exists?).returns(false)
+      host.expects(:logger).at_least_once.returns(mock_logger = mock)
+      mock_logger.expects(:info).with("Skipping compute orchestration for %s - host is not managed" % host.name)
+      host.send(:queue_compute)
+    end
+  end
+
   describe 'setting eui-64 ip address based on mac provided by compute resource' do
     let(:tax_organization) { FactoryBot.create(:organization) }
     let(:tax_location) { FactoryBot.create(:location) }

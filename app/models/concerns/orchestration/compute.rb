@@ -52,6 +52,10 @@ module Orchestration::Compute
 
   def queue_compute
     return log_orchestration_errors unless compute? && errors.empty?
+    unless managed?
+      logger.info('Skipping compute orchestration for %s - host is not managed' % name)
+      return
+    end
     # Create a new VM if it doesn't already exist or update an existing vm
 
     update_or_create = vm_exists?
