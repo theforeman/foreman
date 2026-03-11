@@ -91,3 +91,20 @@ For React Testing Library tests, you can use:
 * `jest.useFakeTimers();` in the setup, and then `await act(async () => jest.advanceTimersByTime(1000));` after a timed action has taken place (for example, popover closed).
 
 * For Capybara tests, you can use `wait_for_ajax`
+
+=== Plugin test configuration and setup
+Foreman core has two test setup files:
+
+* `webpack/global_test_setup.js` - This is the global test setup file that is used for all tests.
+* `webpack/core_test_setup.js` - This is the core test setup file that is used for all tests in Foreman core.
+
+In plugins, Foreman will look for a test setup file in the plugin's webpack directory:
+`plugin_name/webpack/test_setup.js`. If it exists, it will be used with the global test setup file.
+
+If a plugin wants to just use the core test setup, it can use the following import in the test setup file (`plugin_name/webpack/test_setup.js`):
+```js
+import 'foremanJSTestSetup';
+```
+
+For jest configuration, Foreman will look for a jest configuration file in the plugin's webpack directory: (`plugin_name/jest.config.js`).
+If it exists, it will be used with the global jest configuration file.

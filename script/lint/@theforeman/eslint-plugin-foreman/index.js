@@ -8,13 +8,13 @@ module.exports = {
         'import/no-unresolved': [
           'error',
           {
-            ignore: ['foremanReact/.*'],
+            ignore: ['foremanReact/.*', '^foremanJSTestSetup$'],
           },
         ],
         'import/extensions': [
           'error',
           {
-            ignore: ['foremanReact/.*'],
+            ignore: ['foremanReact/.*', '^foremanJSTestSetup$'],
           },
         ],
       },

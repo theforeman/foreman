@@ -60,6 +60,7 @@ module.exports = {
     '^react-dnd-test-backend$': `${nodeModules}/react-dnd-test-backend/dist/cjs`,
     '^react-dnd-test-utils$': `${nodeModules}/react-dnd-test-utils/dist/cjs`,
     '^foremanReact(.*)$': `${foremanReactFull}/$1`,
+    '^foremanJSTestSetup$': path.resolve(__dirname, 'core_test_setup.js'),
     '^@theforeman/test$': foremanTest,
     '^react-redux-test-utils$': foremanTest,
     '^victory(.*)$': `${nodeModules}/victory$1`,
