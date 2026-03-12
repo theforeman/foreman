@@ -33,9 +33,22 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
+    Setting[:new_hosts_page] = false
     get :index, session: set_session_user
     assert_response :success
     assert_template 'index'
+  end
+
+  test "should redirect index to new hosts page when new_hosts_page setting is enabled" do
+    Setting[:new_hosts_page] = true
+    get :index, session: set_session_user
+    assert_redirected_to new_hosts_index_page_path
+  end
+
+  test "should redirect index to new hosts page with search parameter" do
+    Setting[:new_hosts_page] = true
+    get :index, params: { :search => "name ~ foo" }, session: set_session_user
+    assert_redirected_to new_hosts_index_page_path(search: "name ~ foo")
   end
 
   test "should get csv index with data" do

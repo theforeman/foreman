@@ -49,6 +49,10 @@ class HostsController < ApplicationController
     end
     respond_to do |format|
       format.html do
+        if Setting[:new_hosts_page]
+          redirect_to new_hosts_index_page_path(search: params[:search])
+          return
+        end
         @hosts = search.includes(included_associations).paginate(:page => params[:page], :per_page => params[:per_page])
         # SQL optimization
         preload_reports
