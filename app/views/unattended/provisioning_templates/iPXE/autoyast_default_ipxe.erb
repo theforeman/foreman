@@ -24,15 +24,11 @@ ping --count 1 ${netX/gateway} || echo Ping to Gateway failed or ping command no
 echo Trying to ping DNS: ${netX/dns}
 ping --count 1 ${netX/dns} || echo Ping to DNS failed or ping command not available.
 
-<% boot_files_uris = @host.operatingsystem.boot_files_uri(medium_provider) -%>
-<% kernel = boot_files_uris[0] -%>
-<% initrd = boot_files_uris[1] -%>
-
 <% subnet = @host.subnet -%>
 <% if subnet.respond_to?(:dhcp_boot_mode?) && subnet.dhcp_boot_mode? -%>
-kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1 <%= extra_args.join(' ')%>
+kernel <%= @kernel_uri %> initrd=<%= @initrd_uri.split('/').last %> splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1 <%= extra_args.join(' ')%>
 <% else -%>
-kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=0 netsetup=-dhcp ifcfg=*="${netX/ip}/<%= @host.primary_interface.subnet.cidr -%>,${netX/gateway},${dns},<%= @host.domain %>" <%= extra_args.join(' ')%>
+kernel <%= @kernel_uri %> initrd=<%= @initrd_uri.split('/').last %> splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=0 netsetup=-dhcp ifcfg=*="${netX/ip}/<%= @host.primary_interface.subnet.cidr -%>,${netX/gateway},${dns},<%= @host.domain %>" <%= extra_args.join(' ')%>
 <% end -%>
-initrd <%= initrd %>
+initrd <%= @initrd_uri %>
 boot

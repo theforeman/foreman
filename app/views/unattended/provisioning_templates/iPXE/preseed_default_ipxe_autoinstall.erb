@@ -26,13 +26,9 @@ test_on:
 # and optionally update the KERNEL and INITRD lines in this template.
 #
 
-<% boot_files_uris = @host.operatingsystem.boot_files_uri(medium_provider) -%>
-<% kernel = boot_files_uris[0] -%>
-<% initrd = boot_files_uris[1] -%>
+kernel <%= @kernel_uri %> initrd=<%= @initrd_uri.split('/').last %> root=/dev/rd/0 rw auto <%= snippet('preseed_kernel_options_autoinstall').strip %>
 
-kernel <%= kernel %> initrd=initrd root=/dev/rd/0 rw auto <%= snippet('preseed_kernel_options_autoinstall').strip %>
-
-initrd <%= initrd %>
+initrd <%= @initrd_uri %>
 
 imgstat
 sleep 2
