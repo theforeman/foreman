@@ -1274,10 +1274,11 @@ $ rake plugin:assets:precompile[foreman_plugin]
 === Scheduling recurring tasks
 
 If your plugin needs periodic jobs (cleanup tasks, data refreshes, etc.), you can
-register rake tasks with Foreman’s cron framework instead of creating your own
-cron entries.
+register rake tasks with Foreman's cron framework instead of creating your own
+cron entries. Do not manually add cron entries or systemd timers - use the
+`Foreman::Cron.register` API instead.
 
-The recommended place to do this is in your plugin’s `engine.rb`, inside the
+The recommended place to do this is in your plugin's `engine.rb`, inside the
 initializer where you register the plugin (`Foreman::Plugin.register`), just like
 other plugin configuration:
 
@@ -1291,8 +1292,10 @@ module MyPlugin
 
         # Register recurring tasks
         # These will be run when the corresponding cron/systemd timer runs
-        Foreman::Cron.register(:daily,  'my_plugin:cleanup')
-        Foreman::Cron.register(:weekly, 'my_plugin:rebuild_caches')
+        Foreman::Cron.register(:hourly,  'my_plugin:refresh_data')
+        Foreman::Cron.register(:daily,   'my_plugin:cleanup')
+        Foreman::Cron.register(:weekly,  'my_plugin:rebuild_caches')
+        Foreman::Cron.register(:monthly, 'my_plugin:archive_old_data')
       end
     end
   end
@@ -1301,6 +1304,25 @@ end
 
 This keeps cron registration alongside the rest of your plugin setup and matches
 how other plugin APIs are used from `engine.rb`.
+
+==== Available cadences
+
+Foreman supports four scheduling cadences:
+
+* `:hourly` - runs every hour
+* `:daily` - runs once per day
+* `:weekly` - runs once per week
+* `:monthly` - runs once per month
+
+==== Important requirements for recurring tasks
+
+WARNING: Recurring tasks must not call `exit`, `abort`, or similar functions that
+terminate the process. When a task is registered, it runs as part of a batch with
+other registered tasks (e.g., `foreman-rake cron:daily` runs all daily tasks
+sequentially). If your task calls `exit`, it will terminate the entire rake
+process and prevent subsequent tasks from running. Instead, use `raise` to signal
+errors - the cron framework will catch exceptions, log them, and continue running
+remaining tasks.
 
 [[logging]]
 === Logging
