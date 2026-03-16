@@ -402,4 +402,20 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     response = JSON.parse(@response.body)
     assert_equal "Missing one of the required permissions: create_locations", response['error']['details']
   end
+
+  test 'should correctly update location with the new smart proxy' do
+    proxy = FactoryBot.create(:smart_proxy)
+    proxy2 = FactoryBot.create(:smart_proxy)
+    location = FactoryBot.create(:location, smart_proxies: [proxy])
+    post :show, params: { :id => location.id }
+    response = JSON.parse(@response.body)
+    assert_equal response['smart_proxies'][0]['id'], proxy.id
+    assert_equal response['smart_proxies'].length, 1
+
+    put :update, params: { :id => location.id, :location => { :smart_proxy_ids => [proxy2.id] } }
+    assert_response :success
+    response = JSON.parse(@response.body)
+    assert_equal response['smart_proxies'][0]['id'], proxy2.id
+    assert_equal response['smart_proxies'].length, 1
+  end
 end
