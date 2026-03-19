@@ -10,7 +10,7 @@ import Upgrade from './Upgrade';
 
 export const routes = [
   Audits,
-  Models,
+  ...Models,
   Hosts,
   HostDetails,
   RegistrationCommands,

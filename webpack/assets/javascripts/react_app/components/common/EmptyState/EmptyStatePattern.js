@@ -22,6 +22,7 @@ const EmptyStatePattern = props => {
     icon,
     header,
     description,
+    variant,
   } = props;
 
   const DocumentationBlock = () => {
@@ -61,7 +62,7 @@ const EmptyStatePattern = props => {
   };
 
   return (
-    <EmptyState variant={EmptyStateVariant.xl}>
+    <EmptyState variant={variant}>
       <span className="empty-state-icon">
         <EmptyStateIcon />
       </span>
@@ -85,6 +86,7 @@ EmptyStatePattern.defaultProps = {
   secondaryActions: [],
   documentation: null,
   action: null,
+  variant: EmptyStateVariant.xl,
 };
 
 export default EmptyStatePattern;

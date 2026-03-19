@@ -20,6 +20,7 @@ export const emptyStatePatternPropTypes = {
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   action: PropTypes.node,
   secondaryActions: PropTypes.node,
+  variant: PropTypes.oneOf(['xs', 'sm', 'lg', 'xl', 'full']),
 };
 
 export const defaultEmptyStatePropTypes = {

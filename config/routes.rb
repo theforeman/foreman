@@ -390,11 +390,16 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :models, except: [:show, :index] do
+  resources :models, except: [:show, :index, :new, :edit] do
+    member do
+      get 'edit', to: 'react#index'
+    end
     collection do
+      get 'new', to: 'react#index', as: 'new'
       get 'auto_complete_search'
     end
   end
+  get 'models/:id', to: 'react#index'
   match 'models' => 'react#index', :via => :get
 
   resources :architectures, except: [:show] do

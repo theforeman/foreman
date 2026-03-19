@@ -84,7 +84,13 @@ export const submitForm = ({
       });
     };
     const defaultSuccessToast = () =>
-      message || sprintf('%s was successfully created.', __(item));
+      message ||
+      sprintf(
+        method === 'put'
+          ? __('%s was successfully updated.')
+          : __('%s was successfully created.'),
+        __(item)
+      );
 
     const defaultErrorToast = error =>
       sprintf(

@@ -38,6 +38,18 @@ class Api::V2::ModelsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:model)
   end
 
+  test "should not create model with blank name" do
+    assert_difference('Model.count', 0) do
+      post :create, params: { :model => valid_attrs.merge(:name => '') }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should not update model with blank name" do
+    put :update, params: { :id => models(:one).to_param, :model => { :name => '' } }
+    assert_response :unprocessable_entity
+  end
+
   test "should update model" do
     name = Model.first.name
     put :update, params: { :id => Model.first.to_param, :name => name.to_s.to_param }
