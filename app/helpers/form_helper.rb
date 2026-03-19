@@ -248,7 +248,7 @@ module FormHelper
 
   def submit_or_cancel(f, overwrite = false, args = { })
     args[:cancel_path] ||= resource_path(controller_name)
-    cancel_btn = args[:react_cancel_button] ? react_cancel_button(args) : link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default")
+    cancel_btn = link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default")
     content_tag(:div, :class => "clearfix") do
       content_tag(:div, :class => "form-actions") do
         text    = overwrite ? _("Overwrite") : args.delete(:button_text) || _("Submit")
@@ -256,10 +256,6 @@ module FormHelper
         f.submit(text, options) + " " + cancel_btn
       end
     end
-  end
-
-  def react_cancel_button(args)
-    react_component('RedirectCancelButton', { :cancelPath => args[:cancel_path] })
   end
 
   def options_for_submit_or_cancel(f, overwrite, args)

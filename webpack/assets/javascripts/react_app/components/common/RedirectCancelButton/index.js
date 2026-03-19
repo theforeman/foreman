@@ -1,1 +1,3 @@
-export { default } from './RedirectCancelButton';
+import RedirectCancelButton from './RedirectCancelButton';
+
+export default RedirectCancelButton;
