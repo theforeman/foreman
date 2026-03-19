@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'patternfly-react';
+import { Button } from '@patternfly/react-core';
 import RelativeDateTime from '../../../common/dates/RelativeDateTime';
 import { translate as __ } from '../../../../common/I18n';
 import { noop } from '../../../../common/helpers';
@@ -31,7 +31,10 @@ const PersonalAccessToken = ({
       {isActive && (
         <Button
           onClick={() => revokePersonalAccessToken(id)}
-          className="btn-sm btn-default"
+          size="sm"
+          variant="link"
+          isInline
+          ouiaId="revoke-personal-access-token-button"
         >
           {__('Revoke')}
         </Button>
