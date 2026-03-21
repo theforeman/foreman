@@ -7,14 +7,14 @@ class ProxyAPI::BMCTest < ActiveSupport::TestCase
     @bmc_api = ProxyAPI::BMC.new(@options)
   end
 
-  test 'initialize should set target to fqdn if present' do
-    assert_equal 'bmc.example.com', @bmc_api.instance_variable_get(:@target)
+  test 'initialize should set target to host_ip if present' do
+    assert_equal '192.168.1.1', @bmc_api.instance_variable_get(:@target)
   end
 
-  test 'initialize should set target to host_ip if fqdn is not present' do
-    options = { url: @url, host_ip: '192.168.1.1' }
+  test 'initialize should set target to fqdn if host_ip is not present' do
+    options = { url: @url, fqdn: 'bmc.example.com' }
     bmc_api = ProxyAPI::BMC.new(options)
-    assert_equal '192.168.1.1', bmc_api.instance_variable_get(:@target)
+    assert_equal 'bmc.example.com', bmc_api.instance_variable_get(:@target)
   end
 
   test 'initialize should set target to 127.0.0.1 if fqdn and host_ip are not present' do
@@ -24,19 +24,19 @@ class ProxyAPI::BMCTest < ActiveSupport::TestCase
   end
 
   test 'power_on should call put with correct arguments' do
-    @bmc_api.expects(:put).with({ bmc_provider: 'Redfish', action: 'on' }, '/bmc.example.com/chassis/power/on').returns('fake response').once
+    @bmc_api.expects(:put).with({ bmc_provider: 'Redfish', action: 'on' }, '/192.168.1.1/chassis/power/on').returns('fake response').once
     @bmc_api.expects(:parse).with('fake response').returns({ 'result' => true })
     assert @bmc_api.power_on({})
   end
 
   test 'power_off should call put with correct arguments' do
-    @bmc_api.expects(:put).with({ bmc_provider: 'Redfish', action: 'off' }, '/bmc.example.com/chassis/power/off').returns('fake response').once
+    @bmc_api.expects(:put).with({ bmc_provider: 'Redfish', action: 'off' }, '/192.168.1.1/chassis/power/off').returns('fake response').once
     @bmc_api.expects(:parse).with('fake response').returns({ 'result' => true })
     assert @bmc_api.power_off({})
   end
 
   test 'power_status should call get with correct arguments' do
-    expected_path = '/bmc.example.com/chassis/power/status'
+    expected_path = '/192.168.1.1/chassis/power/status'
     expected_query = { bmc_provider: 'Redfish' }
     @bmc_api.expects(:get).with(expected_path, query: expected_query).returns('fake response')
     @bmc_api.expects(:parse).with('fake response').returns({ 'result' => 'on' })
@@ -44,7 +44,7 @@ class ProxyAPI::BMCTest < ActiveSupport::TestCase
   end
 
   test 'lan_ip should call get and return the result' do
-    expected_path = '/bmc.example.com/lan/ip'
+    expected_path = '/192.168.1.1/lan/ip'
     expected_query = { bmc_provider: 'Redfish' }
     @bmc_api.expects(:get).with(expected_path, query: expected_query).returns('fake response')
     @bmc_api.expects(:parse).with('fake response').returns({ 'result' => '192.168.1.100' })
@@ -54,7 +54,7 @@ class ProxyAPI::BMCTest < ActiveSupport::TestCase
   test 'boot_pxe should call boot with correct device' do
     args = { reboot: true }
     expected_args = { function: 'bootdevice', device: 'pxe', reboot: true, bmc_provider: 'Redfish' }
-    @bmc_api.expects(:put).with(expected_args, '/bmc.example.com/chassis/config/bootdevice/pxe').returns('{}')
+    @bmc_api.expects(:put).with(expected_args, '/192.168.1.1/chassis/config/bootdevice/pxe').returns('{}')
     @bmc_api.boot_pxe(args)
   end
 
