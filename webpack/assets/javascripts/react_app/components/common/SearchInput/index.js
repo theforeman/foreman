@@ -4,11 +4,17 @@ import { DebounceInput } from 'react-debounce-input';
 import { Icon, Button } from '@patternfly/react-core';
 import { SearchIcon, TimesIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../../react_app/common/I18n';
+import { deprecate } from '../../../common/DeprecationService';
 import { noop } from '../../../common/helpers';
 import './searchInput.scss';
 
 class SearchInput extends React.Component {
   componentDidMount() {
+    deprecate(
+      'components/common/SearchInput',
+      'SearchInput from @patternfly/react-core or SearchBar from components/SearchBar or AutocompleteInput from components/common/AutocompleteInput',
+      '3.21'
+    );
     if (this.props.focus) {
       this.gainFocus();
     }
