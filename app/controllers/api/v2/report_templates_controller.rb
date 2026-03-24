@@ -99,6 +99,7 @@ module Api
 
         @report_template = original.dup
         @report_template.name = params[:report_template][:name]
+        @report_template.locked = false
         @report_template.cloned_from = original
 
         process_response @report_template.save

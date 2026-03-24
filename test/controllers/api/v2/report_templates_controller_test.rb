@@ -165,7 +165,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
   end
 
   test 'should clone template' do
-    original_report_template = FactoryBot.create(:report_template)
+    original_report_template = FactoryBot.create(:report_template, :locked => true)
     post :clone, params: { :id => original_report_template.to_param,
                            :report_template => {:name => 'MyClone'} }
     assert_response :success
@@ -173,6 +173,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     assert_equal(template['name'], 'MyClone')
     assert_equal(template['template'], original_report_template.template)
     assert_equal(template['cloned_from_id'], original_report_template.id)
+    assert_equal(template['locked'], false)
     refute_equal(template['id'], original_report_template.id)
   end
 

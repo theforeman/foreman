@@ -118,7 +118,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
   end
 
   test 'should clone template' do
-    original_provisioning_template = templates(:pxekickstart)
+    original_provisioning_template = templates(:locked)
     post :clone, params: { :id => original_provisioning_template.to_param,
                            :provisioning_template => {:name => 'MyClone'} }
     assert_response :success
@@ -126,6 +126,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_equal(template['name'], 'MyClone')
     assert_equal(template['template'], original_provisioning_template.template)
     assert_equal(template['cloned_from_id'], original_provisioning_template.id)
+    assert_equal(template['locked'], false)
   end
 
   test 'clone name should not be blank' do
