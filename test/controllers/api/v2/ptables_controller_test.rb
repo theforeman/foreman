@@ -217,13 +217,16 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
   end
 
   test 'should clone template' do
-    original_ptable = FactoryBot.create(:ptable)
+    original_ptable = FactoryBot.create(:ptable, :locked => true)
     post :clone, params: { :id => original_ptable.to_param,
                            :ptable => {:name => 'MyClone'} }
     assert_response :success
     template = ActiveSupport::JSON.decode(@response.body)
     assert_equal(template['name'], 'MyClone')
     assert_equal(template['template'], original_ptable.template)
+    refute_equal(template['id'], original_ptable.id, 'Clone ID different from original')
+    assert_equal(template['cloned_from_id'], original_ptable.id)
+    assert_equal(template['locked'], false)
   end
 
   test 'export should export the erb of the template' do

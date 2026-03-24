@@ -99,9 +99,16 @@ module Api
       param_group :ptable_clone, :as => :create
 
       def clone
-        @ptable = @ptable.clone
-        load_vars_from_ptable
+        original = @ptable
+        @ptable = original.dup
+        @ptable.cloned_from = original
+        @ptable.organizations = original.organizations
+        @ptable.locations = original.locations
+        @ptable.operatingsystems = original.operatingsystems
         @ptable.name = params[:ptable][:name]
+        @ptable.vendor = '' # for consistency with WebUI which sets vendor field to blank
+        @ptable.locked = false
+
         process_response @ptable.save
       end
 
@@ -112,14 +119,6 @@ module Api
       end
 
       private
-
-      def load_vars_from_ptable
-        return unless @ptable
-
-        @locations        = @ptable.locations
-        @organizations    = @ptable.organizations
-        @operatingsystems = @ptable.operatingsystems
-      end
 
       def allowed_nested_id
         %w(operatingsystem_id)
