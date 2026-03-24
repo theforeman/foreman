@@ -11,6 +11,7 @@ require 'active_support_test_case_helper'
 require 'minitest/retry'
 require 'selenium/webdriver'
 require 'test_report_helper'
+require 'temporary_settings_test_helper'
 
 retry_count = (ENV['MINITEST_RETRY_COUNT'] || 3).to_i rescue 1
 Minitest::Retry.use!(retry_count: retry_count) if retry_count > 1
@@ -85,6 +86,7 @@ class ActionDispatch::IntegrationTest
   include Capybara::DSL
   include Capybara::Minitest::Assertions
   include ShowMeTheCookies
+  include TemporarySettingsTestHelper
 
   class << self
     alias_method :test, :it

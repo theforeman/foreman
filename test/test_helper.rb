@@ -15,6 +15,7 @@ require 'webmock/minitest'
 require 'webmock'
 require 'robottelo/reporter/attributes'
 require 'test_report_helper'
+require 'temporary_settings_test_helper'
 
 # FactoryBot 5 changed the default to 'true'
 FactoryBot.use_parent_strategy = false
@@ -167,6 +168,7 @@ end
 class ActionController::TestCase
   extend Robottelo::Reporter::TestAttributes
   include ::BasicRestResponseTest
+  include TemporarySettingsTestHelper
   setup :setup_set_script_name, :set_api_user, :turn_off_login, :set_admin
 
   class << self
@@ -199,17 +201,6 @@ class ActionController::TestCase
     @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(login, password)
     @request.env['CONTENT_TYPE'] = 'application/json'
     @request.env['HTTP_ACCEPT'] = 'application/json'
-  end
-
-  def with_temporary_settings(**kwargs)
-    old_settings = SETTINGS.dup
-    begin
-      SETTINGS.update(kwargs)
-
-      yield
-    ensure
-      SETTINGS.replace(old_settings)
-    end
   end
 end
 
