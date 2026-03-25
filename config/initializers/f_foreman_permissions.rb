@@ -271,7 +271,7 @@ Foreman::AccessControl.map do |permission_set|
                                     :"api/v2/hosts" => [:update, :disassociate, :forget_status],
                                     :"api/v2/interfaces" => [:create, :update, :destroy],
                                     :"api/v2/compute_resources" => [:associate],
-                                    :"api/v2/hosts_bulk_actions" => [:assign_organization, :assign_location, :build, :reassign_hostgroup, :change_owner, :disassociate, :change_power_state],
+                                    :"api/v2/hosts_bulk_actions" => [:assign_organization, :assign_location, :build, :reassign_hostgroup, :change_owner, :disassociate, :change_power_state, :manage_notifications],
                                   }
     map.permission :destroy_hosts, {:hosts => [:destroy, :multiple_actions, :reset_multiple, :multiple_destroy, :submit_multiple_destroy],
                                     :"api/v2/hosts" => [:destroy],

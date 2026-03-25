@@ -189,6 +189,47 @@ class Api::V2::HostsBulkActionsControllerTest < ActionController::TestCase
     end
   end
 
+  context "manage_notifications" do
+    test "should enable notifications for all hosts" do
+      @hosts = [@host1, @host2, @host3]
+      @hosts.each { |host| host.update_attribute(:enabled, false) }
+
+      put :manage_notifications, params: valid_bulk_params.merge(:enabled => true)
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Notifications enabled for 3 hosts/, body['message'])
+
+      @hosts.each do |host|
+        host.reload
+        assert host.enabled?, "Expected #{host.name} to be enabled"
+      end
+    end
+
+    test "should disable notifications for all hosts" do
+      put :manage_notifications, params: valid_bulk_params.merge(:enabled => false)
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Notifications disabled for 3 hosts/, body['message'])
+
+      [@host1, @host2, @host3].each do |host|
+        host.reload
+        refute host.enabled?, "Expected #{host.name} to be disabled"
+      end
+    end
+
+    test "should handle single host notification change" do
+      single_host_params = valid_bulk_params([@host1.id])
+
+      put :manage_notifications, params: single_host_params.merge(:enabled => true)
+
+      assert_response :success
+      body = ActiveSupport::JSON.decode(@response.body)
+      assert_match(/Notifications enabled for 1 host/, body['message'])
+    end
+  end
+
   private
 
   def set_session_user

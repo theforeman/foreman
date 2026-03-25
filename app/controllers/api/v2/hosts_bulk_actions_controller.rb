@@ -5,7 +5,7 @@ module Api
       include Api::V2::BulkHostsExtension
 
       before_action :find_deletable_hosts, :only => [:bulk_destroy]
-      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner, :disassociate, :change_power_state]
+      before_action :find_editable_hosts, :only => [:build, :reassign_hostgroup, :change_owner, :disassociate, :change_power_state, :manage_notifications]
       before_action :validate_power_action, :only => [:change_power_state]
 
       def_param_group :bulk_host_ids do
@@ -173,11 +173,35 @@ module Api
         end
       end
 
+      api :PUT, "/hosts/bulk/manage_notifications", N_("Manage notifications")
+      param_group :bulk_host_ids
+      param :enabled, :bool, :required => true, :desc => N_("Whether to enable or disable notification alerts for the selected hosts")
+      def manage_notifications
+        enabled = Foreman::Cast.to_bool(params[:enabled])
+        # Load hosts into an array so .length is not affected by the update
+        hosts = @hosts.to_a
+        missed_hosts = hosts.reject { |host| host.update(enabled: enabled) }
+        action = enabled ? _("enabled") : _("disabled")
+
+        if missed_hosts.empty?
+          process_response(true, { :message => n_("Notifications %{action} for %{count} host",
+            "Notifications %{action} for %{count} hosts",
+            hosts.length) % { action: action, count: hosts.length } })
+        else
+          render_error(:bulk_hosts_error, :status => :unprocessable_entity,
+                       :locals => { :message => n_("Failed to update notifications for %s host",
+                         "Failed to update notifications for %s hosts",
+                         missed_hosts.count) % missed_hosts.count,
+                                    :failed_host_ids => missed_hosts.map(&:id),
+                                  })
+        end
+      end
+
       protected
 
       def action_permission
         case params[:action]
-        when 'build', 'change_power_state'
+        when 'build', 'change_power_state', 'manage_notifications'
           'edit'
         else
           super

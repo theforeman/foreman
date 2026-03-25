@@ -56,6 +56,7 @@ import BulkReassignHostgroupModal from './BulkActions/reassignHostGroup';
 import BulkChangeOwnerModal from './BulkActions/changeOwner';
 import BulkDisassociateModal from './BulkActions/disassociate';
 import BulkPowerStateModal from './BulkActions/powerState/index';
+import BulkManageNotificationsModal from './BulkActions/manageNotifications';
 import { foremanUrl } from '../../common/helpers';
 import Slot from '../common/Slot';
 import forceSingleton from '../../common/forceSingleton';
@@ -230,6 +231,7 @@ const HostsIndex = () => {
   const [changeOwnerModalOpen, setChangeOwnerModalOpen] = useState(false);
   const [disassociateModalOpen, setDisassociateModalOpen] = useState(false);
   const [powerStateModalOpen, setPowerStateModalOpen] = useState(false);
+  const [notificationsModalOpen, setNotificationsModalOpen] = useState(false);
 
   const dropdownItems = [
     <MenuItem
@@ -255,6 +257,14 @@ const HostsIndex = () => {
       isDisabled={selectedCount === 0}
     >
       {__('Change power state')}
+    </MenuItem>,
+    <MenuItem
+      itemId="manage-notifications-dropdown-item"
+      key="manage-notifications-dropdown-item"
+      onClick={() => setNotificationsModalOpen(true)}
+      isDisabled={selectedCount === 0}
+    >
+      {__('Manage notifications')}
     </MenuItem>,
     <MenuItem
       itemId="host-association-dropdown-item"
@@ -594,6 +604,18 @@ const HostsIndex = () => {
             key="bulk-disassociate-modal"
             isOpen={disassociateModalOpen}
             closeModal={() => setDisassociateModalOpen(false)}
+          />
+          <BulkManageNotificationsModal
+            key="bulk-manage-notifications-modal"
+            isOpen={notificationsModalOpen}
+            closeModal={() => setNotificationsModalOpen(false)}
+            // Re-fetch hosts with the current search so the table stays in sync
+            onSuccess={() =>
+              setAPIOptions({
+                ...apiOptions,
+                params: { search: urlSearchQuery },
+              })
+            }
           />
           <Slot id="_all-hosts-modals" multi />
         </ForemanActionsBarContext.Provider>

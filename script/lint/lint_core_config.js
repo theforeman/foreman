@@ -57,6 +57,7 @@ module.exports = {
           'dropdowns',
           'dsmorse',
           'ec2',
+          'enablement',
           'erb',
           'fieldset',
           'fnc',
