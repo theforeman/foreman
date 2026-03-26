@@ -1,3 +1,9 @@
+2026-03-26	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.16.3
+
+2026-03-26	Evgeni Golov <evgeni@golov.de>
+	* Fixes #39121 - Execute websockify without a shell
+
 2025-11-25	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.16.2
 
