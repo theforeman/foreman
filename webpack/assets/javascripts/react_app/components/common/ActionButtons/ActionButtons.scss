@@ -1,0 +1,15 @@
+.pf-v5-c-menu-toggle.pf-m-split-button.pf-m-action {
+  .action-buttons-menu-toggle-action, .pf-v5-c-menu-toggle__button {
+    font-size: var(--pf-v5-global--FontSize--sm);
+  }
+
+  .pf-v5-c-menu-toggle__controls {
+    margin: 0;
+  }
+}
+
+.pf-v5-c-menu .pf-v5-c-menu__content .pf-v5-c-menu__list {
+   .pf-v5-c-menu__item-main .pf-v5-c-menu__item-text {
+    font-size: var(--pf-v5-global--FontSize--sm);
+  }
+}
