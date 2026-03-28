@@ -32,7 +32,7 @@ Use the *foreman-debug* tool to generate a tarball with your configuration and
 recent logs and send it to developers for further investigation. Note that
 passwords and tokens are filtered out, but the tarball still can contain
 *sensitive information*. For this reason it is recommended to send directly to
-the developers, and not publicly on the mailing list for production instances.
+the developers, and not publicly on the community forum for production instances.
 
 OPTIONS
 -------
@@ -47,7 +47,7 @@ The following options are available:
   -p      Additionally print all passwords which are being filtered
   -q      Quiet mode
   -v      Verbose mode
-  -u      Upload tarball
+  -u      Upload tarball to theforeman.org rsync server
   -h      Shows this message
 
 CONFIGURATION
@@ -82,5 +82,5 @@ SEE ALSO
 GETTING HELP
 ------------
 
-For support, please see http://theforeman.org/support.html, the
-foreman-users@googlegroups.com mailing list or #theforeman on Libera.Chat.
+For support, please see https://theforeman.org/support.html or
+https://community.theforeman.org.
