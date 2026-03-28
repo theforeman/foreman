@@ -317,7 +317,8 @@ class Host::Managed < Host::Base
 
   validates :architecture_id, :presence => true, :if => proc { |host| host.managed }
   validates :root_pass, :length => {:minimum => 8, :message => N_('should be 8 characters or more')},
-                        :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
+                        :if => proc { |host| host.managed && !host.image_build? && host.root_pass.present? }
+  validates :root_pass, :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
                         :if => proc { |host| host.managed && !host.image_build? && build? }
   validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
                         :if => proc { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && !host.image_build? && host.build? }
