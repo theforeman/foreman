@@ -16,6 +16,7 @@ Foreman::SettingManager.define(:foreman) do
       # uptime_seconds is not here since the boot time fact is derived from it
       'uptime_hours',
       'uptime_days',
+      '_timestamp',
     ].freeze
 
     IGNORED_INTERFACES = [
