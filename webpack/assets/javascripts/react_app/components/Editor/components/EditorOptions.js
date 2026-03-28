@@ -13,14 +13,13 @@ import {
 
 import { Tooltip, TooltipPosition, Icon } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
-import { bindMethods } from '../../../common/helpers';
 import DiffToggle from '../../DiffView/DiffToggle';
 import EditorSettings from './EditorSettings';
 
 class EditorOptions extends React.Component {
   constructor(props) {
     super(props);
-    bindMethods(this, ['fileDialog']);
+    this.fileDialog = this.fileDialog.bind(this);
     this.fileInput = React.createRef();
   }
 
