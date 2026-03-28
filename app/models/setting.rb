@@ -33,9 +33,9 @@ class Setting < ApplicationRecord
   validates :value, :numericality => true, :length => {:maximum => 8}, :if => proc { |s| s.settings_type == "integer" }
   validates :value, :numericality => {:greater_than => 0}, :if => proc { |s| NONZERO_ATTRS.include?(s.name) }
   validates :value, :inclusion => {:in => [true, false]}, :if => proc { |s| s.settings_type.to_s == "boolean" }, :allow_nil => true
-  validates :value, :url_schema => ['http', 'https'], :if => proc { |s| URI_ATTRS.include?(s.name) }
+  validates :value, :url_scheme => ['http', 'https'], :if => proc { |s| URI_ATTRS.include?(s.name) }
 
-  validates :value, :url_schema => ['http', 'https'], :if => proc { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
+  validates :value, :url_scheme => ['http', 'https'], :if => proc { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
 
   validate :validate_host_owner, :if => proc { |s| s.name == "host_owner" }
   validates :value, :format => { :with => Resolv::AddressRegex }, :if => proc { |s| IP_ATTRS.include? s.name }
