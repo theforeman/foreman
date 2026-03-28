@@ -88,4 +88,15 @@ class PersonalAccessTokenTest < ActiveSupport::TestCase
       assert token.valid?
     end
   end
+
+  test "authenticating with token should not create audit records" do
+    user = FactoryBot.create(:user)
+    token = FactoryBot.create(:personal_access_token, :user => user)
+    token_value = token.generate_token
+    token.save
+
+    assert_no_difference "Audit.count" do
+      PersonalAccessToken.authenticate_user(user, token_value)
+    end
+  end
 end

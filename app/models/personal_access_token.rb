@@ -1,5 +1,5 @@
 class PersonalAccessToken < ApplicationRecord
-  audited :except => [:token], :associated_with => :user
+  audited :except => [:token, :last_used_at], :associated_with => :user
   include Authorizable
   include Expirable
   extend Foreman::TelemetryHelper
