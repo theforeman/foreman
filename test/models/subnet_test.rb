@@ -163,4 +163,31 @@ class SubnetTest < ActiveSupport::TestCase
     results = Subnet.search_for(%{params.#{parameter.name} ~ "192"})
     assert results.include?(subnet)
   end
+  describe '#strip_network_cidr' do
+    test 'should strip CIDR prefix from network address' do
+      subnet = FactoryBot.build(:subnet_ipv4, :network => '192.168.1.0/24', :mask => '255.255.255.0')
+      subnet.valid?
+      assert_equal '192.168.1.0', subnet.network
+    end
+
+    test 'should not modify network address without CIDR' do
+      subnet = FactoryBot.build(:subnet_ipv4, :network => '192.168.1.0', :mask => '255.255.255.0')
+      subnet.valid?
+      assert_equal '192.168.1.0', subnet.network
+    end
+
+    test 'should set cidr from network CIDR when mask is blank' do
+      subnet = Subnet::Ipv4.new(:name => 'test', :network => '10.0.0.0/8')
+      subnet.valid?
+      assert_equal '10.0.0.0', subnet.network
+      assert_equal 8, subnet.cidr
+    end
+
+    test 'should not produce duplicated prefix after save' do
+      subnet = FactoryBot.build(:subnet_ipv4, :network => '192.168.1.0/24', :mask => '255.255.255.0')
+      subnet.valid?
+      assert_equal '192.168.1.0/24', subnet.network_address
+      refute_match %r{/24/24}, subnet.network_address
+    end
+  end
 end

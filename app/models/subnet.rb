@@ -390,7 +390,15 @@ class Subnet < ApplicationRecord
       val = send(f)
       send("#{f}=", normalize_ip(val)) if val.present?
     end
+    strip_network_cidr
     self
+  end
+
+  def strip_network_cidr
+    return unless network.present? && network.include?('/')
+    parts = network.split('/')
+    self.network = parts[0]
+    self.cidr = parts[1].to_i if mask.blank? || cidr.nil?
   end
 
   def ensure_ip_addrs_valid
