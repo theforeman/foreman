@@ -2,7 +2,7 @@
 /* eslint no-case-declarations:0 */
 import { difference, head } from 'lodash';
 import Immutable from 'seamless-immutable';
-import uuidV1 from 'uuid/v1';
+import uuidV4 from 'uuid/v4';
 
 import {
   HARD_DISK_LABEL,
@@ -73,7 +73,7 @@ export default (state = initialState, { type, payload, response }) => {
               {},
               payload.volume,
               { controllerKey: availableKey },
-              { key: uuidV1() },
+              { key: uuidV4() },
               { name: vmwareDiskNameForIndex(volumes.length + 1) }
             )
           )
@@ -83,7 +83,7 @@ export default (state = initialState, { type, payload, response }) => {
         'volumes',
         state.volumes.concat({
           ...payload.data,
-          key: uuidV1(),
+          key: uuidV4(),
           controllerKey: payload.controllerKey,
           name: vmwareDiskNameForIndex(state.volumes.length + 1),
         })
@@ -128,7 +128,7 @@ export default (state = initialState, { type, payload, response }) => {
         storagePodsError: undefined,
         volumes: payload.volumes.map(volume => ({
           ...volume,
-          key: uuidV1(),
+          key: uuidV4(),
           name: normalizeDiskName(volume.name),
         })),
         cluster: payload.cluster,

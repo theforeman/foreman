@@ -1,11 +1,11 @@
-import uuidV1 from 'uuid/v1';
+import uuidV4 from 'uuid/v4';
 import { getChartConfig } from './ChartService';
 
 export const getLineChartConfig = ({
   data,
   config,
   onclick,
-  id = uuidV1(),
+  id = uuidV4(),
   xAxisDataLabel,
   axisOpts,
 }) => {
