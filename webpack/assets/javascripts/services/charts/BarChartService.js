@@ -1,4 +1,4 @@
-import uuidV1 from 'uuid/v1';
+import uuidV4 from 'uuid/v4';
 import { getChartConfig } from './ChartService';
 
 export const getBarChartConfig = ({
@@ -7,7 +7,7 @@ export const getBarChartConfig = ({
   onclick,
   xAxisLabel,
   yAxisLabel,
-  id = uuidV1(),
+  id = uuidV4(),
 }) => {
   const chartConfig = getChartConfig({
     type: 'bar',

@@ -1,4 +1,4 @@
-import uuidV1 from 'uuid/v1';
+import uuidV4 from 'uuid/v4';
 import { getChartConfig } from './ChartService';
 
 export const getAreaChartConfig = ({
@@ -8,7 +8,7 @@ export const getAreaChartConfig = ({
   yAxisLabel,
   xAxisDataLabel = 'time',
   stacked = true,
-  id = uuidV1(),
+  id = uuidV4(),
   size = undefined,
 }) => {
   const chartConfig = getChartConfig({
