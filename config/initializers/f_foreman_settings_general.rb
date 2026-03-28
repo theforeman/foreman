@@ -14,7 +14,7 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"),
       default: "#{SETTINGS[:require_ssl] ? 'https' : 'http'}://#{SETTINGS[:fqdn]}",
       full_name: N_('Foreman URL'),
-      validate: :http_url)
+      validate: { url_scheme: ['http', 'https'] })
     setting('entries_per_page',
       type: :integer,
       description: N_("Number of records shown per page in Foreman"),
@@ -40,7 +40,7 @@ Foreman::SettingManager.define(:foreman) do
       description: N_('Set an HTTP(s) proxy for all outgoing HTTP(S) connections from Foreman. System-wide proxies must be configured at the operating system level.'),
       default: nil,
       full_name: N_('HTTP(S) proxy'))
-    validates(:http_proxy, { http_url: { allow_blank: true } })
+    validates(:http_proxy, { url_scheme: { in: ['http', 'https'], allow_blank: true } })
     setting('http_proxy_except_list',
       type: :array,
       description: N_('Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default.'),

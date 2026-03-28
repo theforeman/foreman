@@ -20,7 +20,7 @@ class SmartProxy < ApplicationRecord
   has_many :puppet_ca_hostgroups, :class_name => 'Hostgroup', :foreign_key => 'puppet_ca_proxy_id'
   has_many :realms,                                           :foreign_key => 'realm_proxy_id'
   validates :name, :uniqueness => true, :presence => true
-  validates :url, :presence => true, :url_schema => ['http', 'https'],
+  validates :url, :presence => true, :url_scheme => ['http', 'https'],
     :uniqueness => { :message => N_('Only one declaration of a proxy is allowed') }
   has_many :infrastructure_host_facets, :class_name => '::HostFacets::InfrastructureFacet', :dependent => :nullify
   has_many :smart_proxy_hosts, :through => :infrastructure_host_facets, :source => :host
