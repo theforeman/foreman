@@ -15,7 +15,7 @@ module Foreman
             list :path, 'List of strings representing path to a parameter to be returned'
             raises error: HostENCParamUndefined, desc: "when the parameter is not set in host's ENC output"
             returns one_of: [Hash, Object], desc: 'The value of a parameter or a key=value object with all information from ENC'
-            example "host_enc('parameters', 'enable-puppet5') #=> true"
+            example "host_enc('parameters', 'enable-puppet7') #=> true"
             example 'host_enc #=> {"parameters"=>{...}'
           end
           def host_enc(*path)

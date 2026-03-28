@@ -34,7 +34,6 @@ description: |
   - force-puppet: boolean (default=false)
   - enable-epel: boolean (default=false)
   - enable-puppetlabs-repo: boolean (default=false)
-  - enable-puppetlabs-puppet5-repo: boolean (default=false)
   - enable-puppetlabs-puppet6-repo: boolean (default=false)
   - enable-official-puppet7-repo: boolean (default=false)
   - enable-official-puppet8-repo: boolean (default=false)
@@ -305,7 +304,7 @@ chmod +x /root/remote_execution_pull_setup.sh
 <% end -%>
 
 <% if puppet_enabled %>
-<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')|| host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-official-puppet8-repo') || host_param_true?('enable-official-puppet7-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') -%>
 <%= snippet 'puppetlabs_repo' %>
 <% end -%>
 <%= snippet 'puppet_setup' %>
