@@ -1,4 +1,5 @@
 <%= form_for @compute_resource, :html => {:data => {:id => @compute_resource.try(:id)}} do |f| %>
+  <%= render_pagelets_for(:compute_resource_form, :subject => @compute_resource, :form => f) %>
   <%= base_errors_for @compute_resource %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>
