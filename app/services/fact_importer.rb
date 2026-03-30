@@ -28,17 +28,17 @@ class FactImporter
     @error    = false
     @host     = host
     @facts    = normalize(facts)
-    @counters = {}
+    @counters = { added: 0, updated: 0, deleted: 0 }
   end
 
   # expect a facts hash
-  def import!
+  def import!(additive: false)
     # This function uses its own transactions that should not be included
     # in the transaction that handles fact values
     ensure_fact_names
 
     ActiveRecord::Base.transaction do
-      delete_removed_facts
+      delete_removed_facts unless additive
       update_facts
       add_new_facts
     end
@@ -120,7 +120,6 @@ class FactImporter
   end
 
   def add_new_fact(name)
-    # if the host does not exist yet, we don't have an host_id to use the fact_values table.
     method = host.new_record? ? :build : :create!
     fact_name = fact_names[name]
     host.fact_values.send(method, :value => facts[name], :fact_name => fact_name)
@@ -130,8 +129,31 @@ class FactImporter
   end
 
   def add_new_facts
-    facts_to_create.each { |f| add_new_fact(f) }
+    # Compose/parent facts (nil values, produced by StructuredFactImporter's
+    # fill_hierarchy) are always handled individually to preserve per-fact
+    # error handling. Regular facts use bulk insert for persisted hosts.
+    compose_names, regular_names = facts_to_create.partition { |name| facts[name].nil? }
+    compose_names.each { |f| add_new_fact(f) }
+
+    if host.new_record?
+      regular_names.each { |f| add_new_fact(f) }
+    else
+      bulk_insert_new_facts(regular_names)
+    end
     @counters[:added] = facts_to_create.size
+  end
+
+  def bulk_insert_new_facts(names)
+    return if names.empty?
+    time = Time.now.utc
+    records = names.map do |name|
+      { value: facts[name], fact_name_id: fact_names[name].id, host_id: host.id,
+        created_at: time, updated_at: time }
+    end
+    FactValue.insert_all(records, unique_by: [:fact_name_id, :host_id])
+  rescue => e
+    logger.error("Facts could not be imported because of #{e.message}")
+    @error = e
   end
 
   def update_facts

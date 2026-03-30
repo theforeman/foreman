@@ -19,7 +19,7 @@ module ForemanAnsible
                                     facts[:ansible_facts][:fqdn]) ||
               host
       @facts = normalize(facts[:ansible_facts])
-      @counters = {}
+      @counters = { added: 0, updated: 0, deleted: 0 }
     end
   end
 end
