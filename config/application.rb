@@ -277,7 +277,8 @@ module Foreman
       :blob => {:enabled => false},
       :taxonomy => {:enabled => true},
       :api_deprecations => {:enabled => true},
-      :sidekiq => {:enabled => true, :level => :warn}
+      :sidekiq => {:enabled => true, :level => :warn},
+      :registration => {:enabled => true}
     ))
 
     config.logger = Foreman::Logging.logger('app')
