@@ -9,10 +9,15 @@ description: |
 -%>
 <% if @host.operatingsystem.name == 'RedHat' -%>
 echo '#'
-echo '# Installing Insights client'
+echo '# Installing and registering Insights client (runs in background)'
 echo '#'
 
 yum install -y insights-client
-insights-client --register < /dev/null
+
+# Run insights-client in a transient systemd unit so it does not block
+# host registration. The unit survives shell exit and logs to the journal.
+# To check status: systemctl status insights-register
+#                  journalctl -u insights-register
+systemd-run --unit=insights-register --no-block insights-client --register
 
 <% end -%>

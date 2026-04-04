@@ -311,4 +311,34 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     refute template.valid?
     assert_includes template.errors.attribute_names, :operatingsystems
   end
+
+  # insights snippet — non-blocking registration via systemd-run
+  test "insights snippet uses systemd-run --no-block for non-blocking insights registration on RHEL" do
+    snippet_path = Rails.root.join(
+      'app/views/unattended/provisioning_templates/snippet/insights.erb'
+    )
+    skip "insights snippet not found" unless File.exist?(snippet_path)
+
+    host = OpenStruct.new(operatingsystem: OpenStruct.new(name: 'RedHat'))
+    template_content = File.read(snippet_path).gsub(/\A<%#.*?-%>/m, '')
+    rendered = ERB.new(template_content).result(binding)
+
+    assert_match(/systemd-run --unit=insights-register --no-block/, rendered)
+    assert_no_match(/insights-client --register\s*<\s*\/dev\/null/, rendered,
+      "Old blocking insights-client call should not be present")
+  end
+
+  test "insights snippet renders nothing for non-RHEL hosts" do
+    snippet_path = Rails.root.join(
+      'app/views/unattended/provisioning_templates/snippet/insights.erb'
+    )
+    skip "insights snippet not found" unless File.exist?(snippet_path)
+
+    host = OpenStruct.new(operatingsystem: OpenStruct.new(name: 'Debian'))
+    template_content = File.read(snippet_path).gsub(/\A<%#.*?-%>/m, '')
+    rendered = ERB.new(template_content).result(binding)
+
+    assert_no_match(/systemd-run/, rendered)
+    assert_no_match(/insights-client/, rendered)
+  end
 end
