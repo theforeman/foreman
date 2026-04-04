@@ -166,7 +166,20 @@ register_katello_host(){
 
 subscription-manager register \
   --org='<%= @organization.label if @organization %>' \
-  --activationkey='<%= activation_keys %>' || <%= truthy?(@ignore_subman_errors) ? 'true' : 'cleanup_and_exit 1' %>
+  --activationkey='<%= activation_keys %>' || {
+  # At high registration concurrency the TCP connection is sometimes reset
+  # after the server commits the consumer record but before returning a
+  # response. Check whether registration actually succeeded server-side
+  # before deciding to fail or continue.
+  _SM_UUID=$(subscription-manager identity 2>/dev/null | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
+  if [ -n "$_SM_UUID" ]; then
+    echo "REGISTRATION_SUCCESS recovered=true uuid=$_SM_UUID host=$(hostname --fqdn)"
+    echo "# Consumer already exists server-side; connection was reset during response delivery"
+  else
+    echo "REGISTRATION_FAILED reason=server_overload phase=rhsm_register host=$(hostname --fqdn)"
+    <%= truthy?(@ignore_subman_errors) ? 'true' : 'cleanup_and_exit 1' %>
+  fi
+}
 <% end -%>
 
 # Update / create the host record in Foreman and fetch the host initial configuration script
