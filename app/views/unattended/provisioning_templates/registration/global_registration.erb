@@ -142,6 +142,10 @@ echo "# Running registration"
 echo "#"
 
 <% if plugin_present?('katello') && activation_keys.present? -%>
+get_consumer_uuid() {
+  subscription-manager identity 2>/dev/null | grep --max-count 1 --only-matching '\([[:xdigit:]]\{8\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{12\}\)'
+}
+
 register_katello_host(){
 <%
   params = ["uuid=$UUID"]
@@ -157,16 +161,30 @@ register_katello_host(){
   params << "packages=#{shell_escape(@packages)}" if @packages.present?
   params << "update_packages=#{@update_packages}" unless @update_packages.nil?
 -%>
-  UUID=$(subscription-manager identity | grep --max-count 1 --only-matching '\([[:xdigit:]]\{8\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{12\}\)')
+  UUID=${UUID:-$(get_consumer_uuid)}
   <%= indent(2, skip1: true) { generate_web_request(utility: @download_utility, url: @registration_url, ssl_ca_cert: "$KATELLO_SERVER_CA_CERT", output_file: "/root/registration_host_init.sh", headers: headers, params: params) } %>
 }
 
 # Set up subscription-manager
 <%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'registration' }).strip -%>
 
-subscription-manager register \
+register_output=$(subscription-manager register \
   --org='<%= @organization.label if @organization %>' \
-  --activationkey='<%= activation_keys %>' || <%= truthy?(@ignore_subman_errors) ? 'true' : 'cleanup_and_exit 1' %>
+  --activationkey='<%= activation_keys %>' 2>&1)
+register_status=$?
+printf '%s\n' "$register_output"
+
+if [ $register_status -eq 0 ]; then
+  # Reuse the UUID subscription-manager already printed; avoids a redundant identity call.
+  UUID=$(printf '%s' "$register_output" | grep --max-count 1 --only-matching '\([[:xdigit:]]\{8\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{4\}-[[:xdigit:]]\{12\}\)')
+else
+  # register may exit non-zero even though the consumer was created (e.g. TCP reset
+  # under high concurrency). identity confirms this locally, with no server round trip.
+  UUID=$(get_consumer_uuid)
+  if [ -z "$UUID" ]; then
+    <%= truthy?(@ignore_subman_errors) ? 'true' : 'cleanup_and_exit $register_status' %>
+  fi
+fi
 <% end -%>
 
 # Update / create the host record in Foreman and fetch the host initial configuration script
