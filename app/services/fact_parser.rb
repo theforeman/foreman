@@ -134,6 +134,10 @@ class FactParser
     {}
   end
 
+  # Cloud provider (e.g., AWS, Azure, GCP)
+  def cloud_provider
+  end
+
   # AWS cloud billing fields
   def aws_account_id
   end

@@ -388,6 +388,11 @@ class FactParserTest < ActiveSupport::TestCase
     end
   end
 
+  test "base class responds to cloud_provider" do
+    parser = get_parser
+    assert_nil parser.cloud_provider
+  end
+
   def get_parser(facts = {})
     FactParser.new(facts)
   end
