@@ -1,0 +1,92 @@
+[[pf3-to-pf5-migration]]
+# Migrating a React component from PatternFly 3 to PatternFly 5
+
+As we are migrating from PF3 to PF5, we need to migrate our components to the new version. This guide has a suggested process to follow when migrating a component from PF3 to PF5.
+Use this when you have a file path (e.g. `webpack/SomeFeature/MyWidget.js`) and need to move it from PF3 to PF5 while keeping behavior the same.
+
+## 1. Run the UI and locate the component
+
+* Start Foreman and open the screen that uses this file.
+* Remember that some components are not mounted from other React code: they are embedded from ERB via the Rails `react_component` helper. Search `.html.erb` (and plugin views) for the component name, and check the https://github.com/theforeman/foreman/blob/develop/developer_docs/adding-new-components.asciidoc#making-it-available-from-erb[component registry] if you rename the registered name or change how props are passed from the server.
+* Confirm what it does for users: layout, labels, keyboard flow, loading/error states, special behaviors, edge cases. We are aiming for *no workflow or behavior change*.
+
+## 2. Map PF3 → PF5 mentally (not always 1:1)
+
+* Identify the *PF3 building blocks* in the file (e.g. old `Button`, `Modal`, form controls, data list patterns).
+* For each, decide the *closest PF5 equivalent*. Names and APIs may differ; PF5 may split one old component into a pattern (composition) or rename props.
+* If there is *no direct replacement*, choose the PF5 pattern that matches UX (e.g. a different list/table or form layout) and keep labels and actions equivalent.
+
+## 3. Read PatternFly 5 docs for those components
+
+* Use the https://v5-archive.patternfly.org/[*PatternFly v5 documentation*] for the component you will use: props, variants, accessibility notes, and examples. Avoid the main PatternFly website (`patternfly.org`) as your reference for this work as it documents *PatternFly 6*, not PatternFly 5.
+* Pay attention to breaking changes from PF3: controlled vs uncontrolled state, event signatures, interactions with other components, css classes and look.
+
+## 4. Update imports and package usage
+
+* Replace PF3 import paths (`patternfly-react`, and related PF3 packages) with PF5 imports from `@patternfly/*` as needed: most UI is `@patternfly/react-core`; icons use `@patternfly/react-icons`; tables often `@patternfly/react-table`; charts `@patternfly/react-charts`; simple dropdowns `@patternfly/react-templates`.
+* Prefer *direct imports* from the concrete module (e.g. the component file) over importing through a folder `index.js` when that avoids an extra hop, ambiguous re-exports, and inconsistent naming across the codebase.
+
+## 5. Align props and structure with PF5
+
+* *Props*: Rename and reshape props to match PF5 (e.g. `variant`, `isDisabled`, `onChange` shapes). Use PF5’s recommended patterns for icons, spacing, and typography instead of ad-hoc PF3 classes where possible.
+* *Styling*: Prefer PF5 components and layout props; use *specific selectors* if you add CSS so you do not clash with core or other plugins (https://theforeman.org/handbook.html[Foreman handbook – JavaScript]).
+* *Component shape*: While touching the file for PF5, convert *class components* to *function components* (`useState`, `useEffect`, `useRef`, and related hooks as needed) and keep behavior the same. New or heavily refactored code should follow this style.
+* *Thin wrappers*: Do not keep (or add) components that only wrap and re-export a PatternFly widget with no meaningful logic, layout, or shared behavior. If the wrapper is just indirection, use the PF5 import at the call site instead. If the wrapper is used in plugins, consider directly importing the PF5 component in the plugin.
+
+## 6. When there is no 1:1 replacement
+
+* Implement the *same user-visible outcome* with the nearest PF5 pattern (e.g. different list or form primitive, or a small composition of PF5 pieces).
+* Document in the PR *what changed structurally* and why, so reviewers can verify parity.
+
+## 7. Remove obsolete logic: delete vs deprecate
+
+After the PF5 version works, *trim leftover PF3-only code paths*, helpers, and wrappers—but only when you are sure nothing else relies on them.
+
+* *Search the codebase* (and sibling plugins, if applicable) for imports, re-exports, and string references to the symbols or files you want to remove. If anything still uses the old API, do not delete it yet.
+* *If still in use:* keep the old surface (function, component, module) and add a *deprecation* instead of deleting. In Foreman’s JS stack, use `import { deprecate } from '…/common/DeprecationService';` with a path relative to your file under `webpack/assets/javascripts/react_app/` (see existing call sites in the tree), or the re-export from `foreman_tools.js` where applicable (https://theforeman.org/handbook.html[Foreman handbook – JavaScript]).
+* *Shared / common components* (used from multiple features or plugins): treat as a public-ish API. Deprecate first; avoid hard deletes until all known call sites are migrated or a major release policy allows removal.
+* *Safe to delete:* Plugin components and helpers should be safe to delete if not used in the plugin.
+
+## 8. CSS: keep only what the new UI still needs
+
+PF5 brings its own layout and tokens; old PF3-scoped or component CSS often becomes redundant.
+
+* *Audit styles* tied to the old component (same directory, imported SCSS/CSS, or global rules keyed on old class names). Open the screen in the app and confirm whether each rule still affects the PF5 markup.
+* *Delete* rules that no longer match any DOM, duplicate what PF5 already provides, or only existed to patch PF3 quirks that are gone.
+* *Update* rules that still apply (e.g. plugin-specific layout, integration with non-PF surfaces, or genuinely custom visuals). Prefer *specific selectors* so you do not bleed into core or other plugins.
+* Only delete CSS if it is component specific and declared in a global file.
+
+## 9. Prefer local React state over Redux when it fits
+
+Migration is a good time to simplify state that does not need to be global.
+
+* *Use component or hook state* (`useState`, `useReducer`, `useContext` for subtree-only sharing) for UI-only concerns: open/close panels, wizard step UI, form draft state that is not required elsewhere, and transient loading flags that other routes do not read.
+* *Keep Redux* when multiple distant screens or middleware need the same data, when state must survive navigation in ways you already rely on today, or when ripping it out would be a large, unrelated refactor. Do not change Redux shape or global contracts as a drive-by unless the PF5 work truly requires it and the PR scope is agreed.
+* If you collapse local UI into React state, *delete unused actions, reducers, and selectors* only after confirming no other subscribers exist (same discipline as section 7).
+
+## 10. Tests: move off Enzyme (and snapshots) to React Testing Library
+
+Foreman’s handbook explicitly discourages *snapshot tests and Enzyme*; use *React Testing Library* for component tests (https://theforeman.org/handbook.html[Foreman handbook – JavaScript]).
+
+* Replace Enzyme `mount`/`shallow` with RTL: render the component, query by role/label/text users see, and assert behavior (clicks, form submission, visible state).
+* *Mock only API/network* and avoid mocking `foremanReact` where possible.
+* For flows that are hard to unit-test through RTL alone, consider Capybara system tests.
+
+## 11. Quick review checklist
+
+* [ ] Visual and interaction parity checked in the running app
+* [ ] PF5 imports and props correct per docs
+* [ ] Import from the component file when you can (not through `index.js`)
+* [ ] Turn class components into function components in the migrated file
+* [ ] No new thin PF re-export wrappers
+* [ ] No new global pollution; follow existing Foreman JS conventions
+* [ ] Obsolete logic removed or deprecated after confirming no remaining callers; shared/common pieces deprecated, not silently deleted
+* [ ] Old PF3-only CSS removed where unused; remaining styles scoped and still justified
+* [ ] Redux vs local state choices are intentional; unused Redux pieces not left behind without a follow-up
+* [ ] ESLint clean (`npm run lint` or `npm run lint:plugins <plugin-name>` from Foreman root as documented in the https://theforeman.org/handbook.html[handbook])
+* [ ] Tests pass (`npm run test` or `npm run test:plugins <plugin-name>` from Foreman root as documented in the https://theforeman.org/handbook.html[handbook])
+* [ ] Enzyme/snapshot tests replaced or supplemented with RTL (and Capybara if appropriate)
+
+'''
+
+*Summary:* Treat migration as *behavior-preserving UI kit swap*: verify in the app, map to PF5 with docs, fix imports and props (or substitute patterns), *drop dead code and CSS carefully* (deprecate shared surfaces still in use), *simplify state to React where it is clearly local*, then *rewrite tests in RTL* so the change stays maintainable and matches Foreman’s current standards.
