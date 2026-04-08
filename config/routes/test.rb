@@ -5,6 +5,8 @@ if Rails.env.test?
     namespace :api do
       namespace :v2 do
         resources :testable, :only => [:create, :index, :new]
+        resources :hide_taxonomy_simple, :only => :index
+        resources :hide_taxonomy_with_description, :only => :index
       end
 
       resources :testable, :only => :index do
