@@ -78,7 +78,13 @@ class SmartProxy < ApplicationRecord
     return [] if new_record? || !respond_to?(:hosts)
 
     conditions = "#{id} IN (#{Host::Managed.proxy_column_list})"
-    ::Host::Managed.with_smart_proxies.where(conditions).distinct.pluck(type).compact
+    allowed_ids = case type
+                  when :location_id then location_ids
+                  when :organization_id then organization_ids
+                  else raise ArgumentError, "type must be :location_id or :organization_id"
+                  end
+    host_taxonomy_ids = ::Host::Managed.with_smart_proxies.where(conditions).distinct.pluck(type).compact
+    host_taxonomy_ids & allowed_ids
   end
 
   def taxonomy_foreign_conditions
