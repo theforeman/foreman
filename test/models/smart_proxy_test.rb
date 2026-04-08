@@ -38,6 +38,48 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal [taxonomies(:location1).id], smart_proxies(:puppetmaster).used_or_selected_location_ids
   end
 
+  describe '#used_taxonomy_ids' do
+    let(:location1) { taxonomies(:location1) }
+    let(:location2) { taxonomies(:location2) }
+    let(:organization1) { taxonomies(:organization1) }
+    let(:organization2) { taxonomies(:organization2) }
+    let(:organization3) { taxonomies(:empty_organization) }
+
+    test 'returns empty array for a new unsaved proxy' do
+      proxy = SmartProxy.new(:name => 'New', :url => 'https://new.proxy:8443')
+      assert_empty proxy.used_taxonomy_ids(:location_id)
+      assert_empty proxy.used_taxonomy_ids(:organization_id)
+    end
+
+    test 'returns empty array when no managed host references the proxy' do
+      proxy = FactoryBot.create(:smart_proxy,
+        :locations => [location1],
+        :organizations => [organization1])
+      assert_empty proxy.used_taxonomy_ids(:location_id)
+      assert_empty proxy.used_taxonomy_ids(:organization_id)
+    end
+
+    test 'returns intersection of organizations on proxy and organizations of hosts using the proxy' do
+      as_admin do
+        proxy = FactoryBot.create(:smart_proxy,
+          :locations => [location1],
+          :organizations => [organization1, organization2])
+        FactoryBot.create(:host, :managed,
+          :puppet_proxy => proxy,
+          :location => location1,
+          :organization => organization2)
+        FactoryBot.create(:host, :managed,
+          :puppet_proxy => proxy,
+          :location => location1,
+          :organization => organization3)
+
+        assert_equal [organization2.id], proxy.reload.used_taxonomy_ids(:organization_id)
+        assert_includes proxy.host_taxonomy_ids_outside_proxy_assignment(:organization_id), organization3.id
+        refute_includes proxy.host_taxonomy_ids_outside_proxy_assignment(:organization_id), organization2.id
+      end
+    end
+  end
+
   describe "with older smart proxy on v1 api" do
     before do
       ProxyAPI::V2::Features.any_instance.stubs(:features).raises(NotImplementedError.new('not supported'))

@@ -77,8 +77,15 @@ class SmartProxy < ApplicationRecord
   def used_taxonomy_ids(type)
     return [] if new_record? || !respond_to?(:hosts)
 
-    conditions = "#{id} IN (#{Host::Managed.proxy_column_list})"
-    ::Host::Managed.with_smart_proxies.where(conditions).distinct.pluck(type).compact
+    host_taxonomy_ids_for_proxy(type) & allowed_taxonomy_ids_for_proxy(type)
+  end
+
+  # Host taxonomies where managed hosts still reference this proxy, but the proxy
+  # is not assigned to those taxonomies (subset of host_taxonomy_ids_for_proxy).
+  def host_taxonomy_ids_outside_proxy_assignment(type)
+    return [] if new_record? || !respond_to?(:hosts)
+
+    host_taxonomy_ids_for_proxy(type) - allowed_taxonomy_ids_for_proxy(type)
   end
 
   def taxonomy_foreign_conditions
@@ -153,6 +160,19 @@ class SmartProxy < ApplicationRecord
   end
 
   private
+
+  def host_taxonomy_ids_for_proxy(type)
+    conditions = "#{id} IN (#{Host::Managed.proxy_column_list})"
+    ::Host::Managed.with_smart_proxies.where(conditions).distinct.pluck(type).compact.uniq
+  end
+
+  def allowed_taxonomy_ids_for_proxy(type)
+    case type
+    when :location_id then location_ids
+    when :organization_id then organization_ids
+    else raise ArgumentError, "type must be :location_id or :organization_id"
+    end
+  end
 
   def sanitize_url
     self.url = url.chomp('/') unless url.empty?

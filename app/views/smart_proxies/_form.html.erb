@@ -16,7 +16,8 @@
       <%= text_f(f, :url, :label => _("URL"), :help_inline => _("HTTPS endpoint"), :label_help => _("Hostname and client certificate must be valid. Ports are typically 8443 or 9090."), :size => "col-md-8" ) %>
     </div>
 
-    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @smart_proxy %>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @smart_proxy,
+               :html_options => smart_proxy_taxonomies_html_options(@smart_proxy) %>
 
     <%= submit_or_cancel f %>
   </div>

@@ -1,6 +1,17 @@
 module SmartProxiesHelper
   TABBED_FEATURES = ["Puppet CA", "Logs"]
 
+  def smart_proxy_taxonomies_html_options(smart_proxy)
+    {
+      :location => {
+        'data-host-taxonomy-outside-proxy' => smart_proxy.host_taxonomy_ids_outside_proxy_assignment(:location_id).to_json,
+      },
+      :organization => {
+        'data-host-taxonomy-outside-proxy' => smart_proxy.host_taxonomy_ids_outside_proxy_assignment(:organization_id).to_json,
+      },
+    }
+  end
+
   def proxy_actions(proxy, authorizer)
     actions = []
     actions << display_link_if_authorized(_("Edit"), hash_for_edit_smart_proxy_path(:id => proxy))

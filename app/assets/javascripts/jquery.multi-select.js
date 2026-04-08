@@ -7,6 +7,9 @@ function multiSelectOnLoad(){
     $(item).multiSelect({
       selectableHeader: $("<div class='ms-header'>" + __('All items') + " <input placeholder='" + __('Filter') + "' class='form-control ms-filter' type='text'><a href='#' title='" + __('Select All') + "' class='ms-select-all pull-right glyphicon glyphicon-plus'></a></div>"),
       selectionHeader: $("<div class='ms-header'>" + __('Selected items') + "<a href='#' title='" + __('Deselect All') + "' class='ms-deselect-all pull-right glyphicon glyphicon-minus'></a></div>"),
+      afterSelect: function(){
+        multiSelectToolTips();
+      },
       afterDeselect: function(value){
         var current_select = $(item).closest('.tab-pane').find('select[multiple]');
         current_select.data('descendants', null);
@@ -24,6 +27,7 @@ function multiSelectToolTips(){
     var inheriteds = $(item).attr('data-inheriteds');
     var descendants = $(item).attr('data-descendants');
     var useds = $(item).attr('data-useds');
+    var hostTaxonomyOutsideProxy = $(item).attr('data-host-taxonomy-outside-proxy');
     var msid = '#ms-'+item.id;
     // it an <li> items match multiple tooltips, then only the first tooltip will show
     if (!(mismatches == null || mismatches == 'undefined')) {
@@ -33,12 +37,35 @@ function multiSelectToolTips(){
         $(msid).find('li#'+opt_id+'-selectable').addClass('delete').tooltip({container: 'body', title: __("Select this since it belongs to a host"), placement: "left"});
       })
     }
-    if (!(useds == null || descendants == 'useds')) {
+    if (!(useds == null || useds == 'undefined')) {
       var used_ids = JSON.parse(useds);
       $.each(used_ids, function(index,used_id){
         opt_id = sanitize(used_id+'');
         $(msid).find('li#'+opt_id+'-selection').addClass('used_by_hosts').tooltip({container: 'body', title: __("This is used by a host"), placement: "right"});
       })
+    }
+    if (!(hostTaxonomyOutsideProxy == null || hostTaxonomyOutsideProxy == 'undefined')) {
+      var outside_ids = JSON.parse(hostTaxonomyOutsideProxy);
+      $.each(outside_ids, function(index, outside_id) {
+        opt_id = sanitize(outside_id + '');
+        var $selectableLi = $(msid).find('li#' + opt_id + '-selectable');
+        if ($selectableLi.length) {
+          $selectableLi.addClass('host_taxonomy_outside_proxy');
+          if (!$selectableLi.find('.host-taxonomy-outside-proxy-icon').length) {
+            $selectableLi.find('span').first().after(
+              "<span class='glyphicon glyphicon-exclamation-sign text-warning host-taxonomy-outside-proxy-icon' aria-hidden='true'></span>"
+            );
+          }
+          if ($selectableLi.data('bs.tooltip')) {
+            $selectableLi.tooltip('destroy');
+          }
+          $selectableLi.tooltip({
+            container: 'body',
+            title: __("Hosts use this Smart Proxy in this taxonomy, but the proxy is not assigned to it."),
+            placement: "left"
+          });
+        }
+      });
     }
     if (!(inheriteds == null || inheriteds == 'undefined')) {
       var inherited_ids = JSON.parse(inheriteds);
