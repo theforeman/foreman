@@ -25,7 +25,11 @@ os_major = @host.operatingsystem.major.to_i
 if @iface.bond? || @iface.bridge?
   network_options.push("--device=#{@iface.identifier}")
 else
-  network_options.push("--device=#{@iface.mac || @iface.identifier}")
+  if @iface.virtual? && @iface.tag.present? && @iface.attached_to.present?
+    network_options.push("--device=#{@iface.attached_to}")
+  else
+    network_options.push("--device=#{@iface.mac || @iface.identifier}")
+  end
 end
 network_options.push("--hostname #{@host.name}")
 
