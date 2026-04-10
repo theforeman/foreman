@@ -185,6 +185,7 @@ describe('AutocompleteInput RTL Tests', () => {
       const input = screen.getByRole('combobox');
       expect(input).toHaveValue('true');
     });
+
   });
 
   describe('Accessibility', () => {

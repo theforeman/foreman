@@ -69,7 +69,6 @@
     "multiselect": "~0.9.12",
     "number_helpers": "^0.1.1",
     "os-browserify": "^0.3.0",
-    "patternfly-react-extensions": "^3.0.15",
     "patternfly-react": "^2.40.0",
     "patternfly": "^3.59.5",
     "prop-types": "^15.6.0",

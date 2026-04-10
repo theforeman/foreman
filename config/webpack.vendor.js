@@ -40,7 +40,6 @@ module.exports = [
    * Patternfly related
    */
   'patternfly-react',
-  'patternfly-react-extensions',
   '@patternfly/react-core',
   '@patternfly/react-icons',
   '@patternfly/react-table',

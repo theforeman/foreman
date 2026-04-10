@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Select,
@@ -27,12 +27,16 @@ export const AutocompleteInputComponent = ({
   validationMsg,
   isDisabled,
   fieldId,
+  onBlur,
 }) => {
   if (validationStatus === 'error') validationStatus = 'danger';
   const NO_RESULTS = __('No matches found');
-  const noOptions = [
-    { value: '', isAriaDisabled: true, disabled: true, label: NO_RESULTS },
-  ];
+  const noOptions = useMemo(
+    () => [
+      { value: '', isAriaDisabled: true, disabled: true, label: NO_RESULTS },
+    ],
+    [NO_RESULTS]
+  );
 
   const displayOptions = options.length < 1 ? noOptions : options;
 
@@ -49,6 +53,10 @@ export const AutocompleteInputComponent = ({
   const [activeItemId, setActiveItemId] = useState(null);
   const textInputRef = useRef(null);
   const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    setInputValue(displayValue);
+  }, [displayValue]);
 
   useEffect(() => {
     const input = textInputRef.current;
@@ -73,14 +81,10 @@ export const AutocompleteInputComponent = ({
           },
         ];
       }
-      if (!isOpen) {
-        setIsOpen(true);
-      }
+      setIsOpen(true);
     }
     setSelectOptions(newSelectOptions);
-
-    /* eslint-disable react-hooks/exhaustive-deps */
-  }, [filterValue]);
+  }, [filterValue, displayOptions, NO_RESULTS, options]);
 
   const createItemId = value => `select-typeahead-${value}`;
   const setActiveAndFocusedItem = itemIndex => {
@@ -103,6 +107,8 @@ export const AutocompleteInputComponent = ({
       closeMenu();
     }
     setInputValue(displayValue);
+    setFilterValue('');
+    onBlur(displayValue);
   };
 
   const onInputClick = () => {
@@ -311,6 +317,7 @@ AutocompleteInputComponent.propTypes = {
   validationMsg: PropTypes.string,
   isDisabled: PropTypes.bool,
   fieldId: PropTypes.string,
+  onBlur: PropTypes.func,
 };
 
 AutocompleteInputComponent.defaultProps = {
@@ -323,6 +330,7 @@ AutocompleteInputComponent.defaultProps = {
   onChange: () => {},
   isDisabled: false,
   fieldId: undefined,
+  onBlur: () => {},
 };
 
 export default AutocompleteInputComponent;

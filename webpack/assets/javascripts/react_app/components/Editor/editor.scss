@@ -79,13 +79,13 @@
       background-color: #08c !important;
     }
 
-    #editor-select-container {
+    #editor-select-container.autocomplete-input-wrapper {
+      display: flex;
+      align-items: center;
       width: 260px;
       margin-top: 4px;
-
-      .select-container-pf {
-        border-radius: 2px;
-      }
+      flex: 1;
+      min-width: 0;
     }
 
     #outdated-preview-alert {

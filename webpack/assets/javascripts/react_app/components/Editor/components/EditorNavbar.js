@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+/* eslint-disable max-lines */
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Nav, Spinner, Alert, Button } from 'patternfly-react';
 import { translate as __ } from '../../../common/I18n';
+import AutocompleteInput from '../../common/AutocompleteInput/AutocompleteInput';
 import EditorRadioButton from './EditorRadioButton';
 import EditorOptions from './EditorOptions';
-import EditorHostSelect from './EditorHostSelect';
 import EditorSafemodeCheckbox from './EditorSafemodeCheckbox';
 
 const EditorNavbar = ({
@@ -68,6 +69,47 @@ const EditorNavbar = ({
   };
   const selectedRenderPath = safemode ? safemodeRenderPath : renderPath;
 
+  const hostOptions = useMemo(() => {
+    const pool = isSearchingHosts ? filteredHosts : hosts;
+    const mapped = Array.from(pool, h => ({
+      value: h.id,
+      label: h.name,
+    }));
+    if (selectedHost?.id !== '' && selectedHost?.id != null) {
+      const idStr = String(selectedHost.id);
+      if (!mapped.some(o => String(o.value) === idStr)) {
+        return [
+          { value: selectedHost.id, label: selectedHost.name },
+          ...mapped,
+        ];
+      }
+    }
+    return mapped;
+  }, [hosts, filteredHosts, selectedHost, isSearchingHosts]);
+
+  const resolveHostById = hostId => {
+    const strId = String(hostId);
+    if (String(selectedHost.id) === strId) {
+      previewTemplate({
+        host: selectedHost,
+        renderPath: selectedRenderPath,
+        templateKindId,
+      });
+      return;
+    }
+    const primary = isSearchingHosts ? filteredHosts : hosts;
+    let host = primary.find(h => String(h.id) === strId);
+    if (!host) host = hosts.find(h => String(h.id) === strId);
+    if (!host) host = filteredHosts.find(h => String(h.id) === strId);
+    if (host) {
+      previewTemplate({
+        host,
+        renderPath: selectedRenderPath,
+        templateKindId,
+      });
+    }
+  };
+
   return (
     <div className="navbar navbar-form navbar-full-width navbar-editor">
       <Nav className="nav nav-tabs nav-tabs-pf nav-tabs-pf-secondary">
@@ -94,7 +136,7 @@ const EditorNavbar = ({
           }}
         />
         {showPreview && (
-          <React.Fragment>
+          <>
             <EditorRadioButton
               stateView={selectedView}
               btnView="preview"
@@ -112,27 +154,29 @@ const EditorNavbar = ({
                 }
               }}
             />
-            {showHostSelector && (
-              <EditorHostSelect
-                show={selectedView === 'preview'}
-                open={isSelectOpen}
-                selectedItem={selectedHost}
-                placeholder={__('Select Host...')}
-                isLoading={isFetchingHosts}
-                onChange={host =>
-                  previewTemplate({
-                    host,
-                    renderPath: selectedRenderPath,
-                    templateKindId,
-                  })
-                }
-                searchQuery={searchQuery}
-                onToggle={onHostSelectToggle}
-                onSearchChange={onHostSearch}
-                onSearchClear={onSearchClear}
-                options={isSearchingHosts ? filteredHosts : hosts}
-                key="hostsSelect"
-              />
+            {showHostSelector && selectedView === 'preview' && (
+              <>
+                <AutocompleteInput
+                  name="editor-preview-host"
+                  placeholder={__('Filter Host...')}
+                  selected={
+                    selectedHost.id === '' || selectedHost.id == null
+                      ? ''
+                      : selectedHost.id
+                  }
+                  options={hostOptions}
+                  onChange={inputValue =>
+                    onHostSearch({ target: { value: inputValue } })
+                  }
+                  onBlur={() => onHostSearch({ target: { value: '' } })}
+                  onSelect={resolveHostById}
+                />
+                {isFetchingHosts && (
+                  <div id="editor-host-fetch-spinner">
+                    <Spinner size="sm" loading />
+                  </div>
+                )}
+              </>
             )}
             <EditorSafemodeCheckbox
               show={selectedView === 'preview'}
@@ -166,7 +210,7 @@ const EditorNavbar = ({
                 <Spinner size="sm" loading />
               </div>
             )}
-          </React.Fragment>
+          </>
         )}
       </Nav>
       <EditorOptions
