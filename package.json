@@ -50,7 +50,7 @@
     "datatables.net-bs": "1.13.5",
     "datatables.net-dt": "1.13.5",
     "datatables.net": "1.13.5",
-    "diff": "5.2.0",
+    "diff": "5.2.2",
     "dsmorse-gridster": "^0.8.0",
     "file-saver": "^2.0.1",
     "formik": "^1.5.8",
