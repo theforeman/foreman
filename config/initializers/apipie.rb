@@ -20,7 +20,7 @@ ApipieDSL.configure do |config|
   config.locale = ->(loc) { loc ? FastGettext.set_locale(loc) : FastGettext.locale }
 
   config.translate = ->(str, loc) { str ? FastGettext.with_locale(loc) { _(str) } : nil }
-  config.help_layout = 'apipie_dsl/apipie_dsls/help.html.erb'
+  config.help_layout = 'apipie_dsl/apipie_dsls/help'
   config.default_class_description = lambda do |model|
     return nil unless model.respond_to?(:model_name)
     _("A class representing %s object") % model.model_name.human
