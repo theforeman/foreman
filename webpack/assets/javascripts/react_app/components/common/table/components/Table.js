@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Table as PfTable } from 'patternfly-react';
 import TableBody from './TableBody';
+import { deprecate } from '../../../../common/DeprecationService';
 
 const Table = ({ columns, rows, bodyMessage, children, ...props }) => {
+  useEffect(() => {
+    deprecate(
+      'common/table/components/Table',
+      'TableIndexPage from foremanReact/components/PF4/TableIndexPage/TableIndexPage or Table from @patternfly/react-table',
+      '3.21'
+    );
+  }, []);
+
   const body = children || [
     <PfTable.Header key="header" />,
     <TableBody
