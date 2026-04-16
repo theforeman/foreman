@@ -36,7 +36,7 @@ dirsKeys.forEach(dirsKey => {
   let exitCode;
   const pluginPath = allPluginDirs[dirsKey];
   const pluginLintScript = pluginDefinesLint(pluginPath);
-  if (pluginLintScript?.includes('tfm-lint') || !pluginLintScript?.length) {
+  if (!pluginLintScript?.length) {
     const eslintConfigPath = path.join(
       __dirname,
       'lint/@theforeman/eslint-plugin-foreman',
@@ -66,9 +66,12 @@ dirsKeys.forEach(dirsKey => {
         stdio: 'inherit',
       }
     ).status;
-  } else if (pluginLintScript?.length) {
-    // Dont run foreman config lint for plugins with custom lint
-    exitCode = spawnSync('npm', ['run', 'lint', ...passedArgs], {
+  } else {
+    const npmArgs = ['run', 'lint'];
+    if (passedArgs.length) {
+      npmArgs.push('--', ...passedArgs);
+    }
+    exitCode = spawnSync('npm', npmArgs, {
       env: process.env,
       cwd: pluginPath,
       stdio: 'inherit',
