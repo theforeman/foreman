@@ -172,7 +172,7 @@ export const NavigationSearch = ({ items, clickAndNavigate }) => {
   const searchInput = (
     <SearchInput
       value={value}
-      placeholder={__('Search and go')}
+      placeholder={__('Search (Ctrl+Shift+F)')}
       onChange={(_e, newValue) => {
         onChange(newValue);
       }}

@@ -29,7 +29,7 @@ describe('NavigationSearch', () => {
         <NavigationSearch items={items} clickAndNavigate={() => {}} />
       </div>
     );
-    const input = getByPlaceholderText('Search and go');
+    const input = getByPlaceholderText('Search (Ctrl+Shift+F)');
     act(() => input.focus());
     await act(async () => {
       await fireEvent.change(input, { target: { value: 'a' } });
