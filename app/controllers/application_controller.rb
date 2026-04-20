@@ -373,8 +373,8 @@ class ApplicationController < ActionController::Base
 
   def taxonomy_scope
     if params[controller_name.singularize.to_sym]
-      @organization = Organization.find_by_id(params[controller_name.singularize.to_sym][:organization_id])
-      @location     = Location.find_by_id(params[controller_name.singularize.to_sym][:location_id])
+      @organization = find_user_taxonomy(Organization, params[controller_name.singularize.to_sym][:organization_id])
+      @location     = find_user_taxonomy(Location, params[controller_name.singularize.to_sym][:location_id])
     end
 
     if instance_variable_get("@#{controller_name}").present?
@@ -382,11 +382,18 @@ class ApplicationController < ActionController::Base
       @location     ||= instance_variable_get("@#{controller_name}").location
     end
 
-    @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
-    @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
+    @organization ||= find_user_taxonomy(Organization, params[:organization_id])
+    @location     ||= find_user_taxonomy(Location, params[:location_id])
 
     @organization ||= Organization.current
     @location     ||= Location.current
+  end
+
+  def find_user_taxonomy(taxonomy_class, id)
+    return if id.blank? || User.current.nil?
+
+    user_taxonomies = User.current.public_send("my_#{taxonomy_class.to_s.underscore.pluralize}")
+    user_taxonomies.find_by(:id => id)
   end
 
   def parameter_filter_context

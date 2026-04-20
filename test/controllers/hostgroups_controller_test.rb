@@ -145,6 +145,29 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_empty JSON.parse(response.body)
   end
 
+  test "domain_selected json must not allow nested organization outside user taxonomies" do
+    org1 = taxonomies(:organization1)
+    org2 = taxonomies(:organization2)
+    loc1 = taxonomies(:location1)
+    subnet_name = "foreign_subnet_taxonomy_scope"
+    domain_id = as_admin do
+      domain = FactoryBot.create(:domain, organizations: [org2], locations: [loc1])
+      subnet = FactoryBot.create(:subnet_ipv4, name: subnet_name, organizations: [org2], locations: [loc1])
+      domain.subnets << subnet
+      domain.save!
+      domain.id
+    end
+    setup_user "edit", "hostgroups"
+    post :domain_selected, params: {
+      organization_id: org1.id,
+      hostgroup: { organization_id: org2.id },
+      domain_id: domain_id,
+      format: :json,
+    }, session: set_session_user(:one), xhr: true
+    assert_response :success
+    refute_includes JSON.parse(response.body).map { |row| row["name"] }, subnet_name
+  end
+
   test "architecture_selected should not fail when no architecture selected" do
     post :architecture_selected, params: { :id => hostgroups(:common), :hostgroup => { :architecture_id => nil }}, session: set_session_user
     assert_response :success
