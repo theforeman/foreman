@@ -41,6 +41,7 @@ class Usergroup < ApplicationRecord
   scoped_search :relation => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   validate :ensure_uniq_name, :ensure_last_admin_remains_admin
   validate :admin_can_be_set, :if => ->(o) { o.changed.include?('admin') }
+  validate :ensure_roles_not_escalated
 
   accepts_nested_attributes_for :external_usergroups, :reject_if => ->(a) { a[:name].blank? }, :allow_destroy => true
 
@@ -130,5 +131,14 @@ class Usergroup < ApplicationRecord
 
   def admin_can_be_set
     errors.add :admin, _('admin flag can only be modified by admins') unless User.current.admin?
+  end
+
+  def ensure_roles_not_escalated
+    return if User.current.nil?
+
+    roles_check = new_record? ? role_ids.present? : role_ids_changed?
+    if roles_check && !User.current.can_assign?(role_ids)
+      errors.add :role_ids, _("you can't assign some of roles you selected")
+    end
   end
 end
