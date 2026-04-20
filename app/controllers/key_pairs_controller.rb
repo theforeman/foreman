@@ -1,7 +1,7 @@
 class KeyPairsController < ApplicationController
   include Foreman::Controller::ComputeResourcesCommon
 
-  before_action :find_compute_resource, :except => [:show]
+  before_action :find_compute_resource
   before_action :find_resource, :only => [:show]
 
   def index
@@ -44,7 +44,8 @@ class KeyPairsController < ApplicationController
   end
 
   def find_resource
-    @key_pair = KeyPair.find(params[:id])
+    @key_pair = @compute_resource.key_pair
+    return not_found unless @key_pair && @key_pair.id.to_s == params[:id].to_s
   end
 
   def action_permission
