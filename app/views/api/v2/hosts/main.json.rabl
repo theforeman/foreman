@@ -17,9 +17,14 @@ attributes :ip, :ip6, :last_report, :mac, :realm_id, :realm_name,
   :compute_resource_id, :compute_resource_name,
   :compute_profile_id, :compute_profile_name, :capabilities, :provision_method,
   :certname, :image_id, :image_name, :created_at, :updated_at,
-  :last_compile, :global_status, :global_status_label, :global_status_fulltext, :tags, :bmc_available
+  :last_compile, :global_status_label, :global_status_fulltext, :tags, :bmc_available
 attributes :organization_id, :organization_name
 attributes :location_id, :location_name
+
+# Calculate global_status dynamically to ensure it reflects current time (e.g., out_of_sync status changes as time passes)
+node :global_status do |host|
+  host.build_global_status(:last_reports => @last_reports).status
+end
 
 node :operatingsystem_icon do |host|
   icon(host.operatingsystem, size: "16x16", path: true) if host.operatingsystem

@@ -119,6 +119,62 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal Host.all.pluck(:id, :name), hosts['results'].map(&:values)
   end
 
+  test "index should return dynamically calculated global_status not stale database value" do
+    Setting['outofsync_interval'] = 30
+    # Create host with old report (out of sync)
+    travel_to 2.hours.ago do
+      @host.reports.create!(
+        reported_at: Time.now.utc,
+        status: {"applied" => 4, "restarted" => 0, "failed" => 0,
+                 "failed_restarts" => 0, "skipped" => 0, "pending" => 0}
+      )
+
+      # Refresh config status for host
+      @host.refresh_statuses([HostStatus::ConfigurationStatus])
+    end
+
+    # Mark Build status as irrelevant
+    HostStatus::BuildStatus.any_instance.stubs(:relevant?).returns(false)
+
+    # Manually set stale database value to OK
+    @host.update_column(:global_status, HostStatus::Global::OK)
+
+    # Fetch via API
+    get :index
+    assert_response :success
+
+    # Parse response
+    response_json = ActiveSupport::JSON.decode(@response.body)
+    host_data = response_json['results'].find { |h| h['id'] == @host.id }
+
+    # Assert global_status is WARN (calculated) not OK (stale DB value)
+    assert_equal HostStatus::Global::WARN, host_data['global_status'],
+      "global_status should be dynamically calculated as WARN for out-of-sync host"
+    assert_equal "Warning", host_data['global_status_label']
+
+    # Verify global_status differs from stale database column
+    refute_equal @host.read_attribute(:global_status), host_data['global_status'],
+      "API should not return stale database column value"
+  end
+
+  test "index should show ok status for hosts with recent reports" do
+    # Create report within outofsync_interval
+    @host.reports.create!(
+      reported_at: Time.now.utc,
+      status: {"applied" => 4, "restarted" => 2, "failed" => 0,
+               "failed_restarts" => 0, "skipped" => 0, "pending" => 0}
+    )
+
+    get :index
+    assert_response :success
+
+    response_json = ActiveSupport::JSON.decode(@response.body)
+    host_data = response_json['results'].find { |h| h['id'] == @host.id }
+
+    assert_equal HostStatus::Global::OK, host_data['global_status']
+    assert_equal "OK", host_data['global_status_label']
+  end
+
   test "subtotal should be the same as the search count with thin" do
     FactoryBot.create_list(:host, 2)
     Host.last.update_attribute(:name, 'test')
