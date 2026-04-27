@@ -1,0 +1,226 @@
+#!/usr/bin/env bash
+#
+# Run tests or rake tasks for a Foreman plugin.
+#
+# Works from four contexts:
+#   1. From the Foreman checkout:  foreman-test katello test/models/foo_test.rb
+#   2. From a plugin checkout:     foreman-test test/models/foo_test.rb
+#   3. From anywhere (on PATH):    foreman-test katello test/models/foo_test.rb
+#   4. With direct paths:          foreman-test ../katello/test/models/foo_test.rb
+#
+# Arguments containing ":" are treated as rake tasks and run via bundle exec rake.
+# When run without test file arguments, delegates to: rake test:<plugin>
+# When run with test files, uses direct ruby invocation (faster, no rake overhead).
+
+set -euo pipefail
+trap 'exit 130' INT
+
+usage() {
+  local cmd
+  cmd=$(basename "$0")
+  cat <<EOF
+Usage: $cmd [PLUGIN_NAME] [TEST_FILES|RAKE_TASKS...] [OPTIONS...]
+
+Run Foreman plugin tests or rake tasks from any directory.
+
+Arguments:
+  PLUGIN_NAME   Plugin gem name (e.g. katello, foreman_puppet).
+                Optional when running from a plugin checkout or
+                when test file paths include the plugin directory.
+  TEST_FILES    One or more test files to run. Paths are resolved
+                relative to the current directory or the plugin root.
+  RAKE_TASKS    One or more rake tasks to run. Any argument containing
+                ":" is treated as a rake task (e.g. katello:reindex).
+  OPTIONS       Extra arguments passed through to the test runner
+                (e.g. --name test_create).
+
+Filtering by test name:
+  --name matches Minitest method names, not the strings passed to
+  test "...". A block like:
+
+      test 'child class should inherit loaders' do
+
+  becomes a method named test_0001_child class should inherit loaders,
+  so a literal --name won't match the original string. Wrap the
+  string in slashes to use a regex match instead:
+
+      --name "/child class should inherit loaders/"
+
+Examples:
+  $cmd katello                                     # full suite via rake
+  $cmd katello test/models/repo_test.rb            # single file
+  $cmd test/models/repo_test.rb                    # from plugin checkout
+  $cmd ../katello/test/models/repo_test.rb         # direct path from foreman
+  $cmd test/models/repo_test.rb --name test_create # literal method name
+  $cmd test/models/repo_test.rb --name "/inherit loaders/" # regex match
+  $cmd foreman_theme_satellite:validate_docs       # run a rake task
+EOF
+  exit 1
+}
+
+find_foreman() {
+  local dir="$1"
+  for candidate in "$dir" "$dir/foreman" "$dir/../foreman" "$dir/../../foreman"; do
+    if [[ -f "$candidate/config/application.rb" ]] && [[ -f "$candidate/Rakefile" ]]; then
+      readlink -f "$candidate"
+      return 0
+    fi
+  done
+  return 1
+}
+
+detect_plugin_name() {
+  local dir="$1"
+  local gemspec
+  gemspec=$(ls -1 "$dir"/*.gemspec 2>/dev/null | head -1) || true
+  if [[ -n "$gemspec" ]]; then
+    basename "$gemspec" .gemspec
+  fi
+}
+
+detect_plugin_root() {
+  local dir="$1"
+  git -C "$dir" rev-parse --show-toplevel 2>/dev/null
+}
+
+resolve_path() {
+  (cd "$(dirname "$1")" && printf '%s/%s' "$(pwd)" "$(basename "$1")")
+}
+
+is_foreman_dir() {
+  [[ -f "$1/config/application.rb" ]] && [[ -f "$1/Rakefile" ]]
+}
+
+is_plugin_dir() {
+  ls -1 "$1"/*.gemspec &>/dev/null
+}
+
+# --- Determine context ---
+
+FOREMAN_PATH=""
+PLUGIN_NAME=""
+PLUGIN_PATH=""
+
+if is_foreman_dir "."; then
+  FOREMAN_PATH="$(pwd)"
+elif is_plugin_dir "."; then
+  PLUGIN_NAME=$(detect_plugin_name ".")
+  PLUGIN_PATH="$(pwd)"
+  FOREMAN_PATH=$(find_foreman "$(pwd)") || true
+fi
+
+if [[ -z "$FOREMAN_PATH" ]]; then
+  FOREMAN_PATH=$(find_foreman "$(pwd)") || true
+fi
+
+# --- First pass: extract plugin name from args ---
+
+ARGS=("$@")
+
+if [[ -z "$PLUGIN_NAME" ]] && [[ ${#ARGS[@]} -gt 0 ]]; then
+  first="${ARGS[0]}"
+  if [[ "$first" != -* ]] && [[ "$first" != */* ]] && [[ "$first" != *.rb ]] && [[ "$first" != *:* ]]; then
+    PLUGIN_NAME="$first"
+    ARGS=("${ARGS[@]:1}")
+  fi
+fi
+
+[[ "$PLUGIN_NAME" == "-h" || "$PLUGIN_NAME" == "--help" ]] && usage
+[[ ${#ARGS[@]} -gt 0 ]] && [[ "${ARGS[0]}" == "-h" || "${ARGS[0]}" == "--help" ]] && usage
+
+# Discover plugin path via bundle if not already known
+if [[ -n "$PLUGIN_NAME" ]] && [[ -z "$PLUGIN_PATH" ]] && [[ -n "$FOREMAN_PATH" ]]; then
+  PLUGIN_PATH=$(cd "$FOREMAN_PATH" && bundle info "$PLUGIN_NAME" --path 2>/dev/null) || true
+fi
+
+# --- Second pass: classify args as test files or options ---
+
+TEST_FILES=()
+RAKE_TASKS=()
+OTHER_OPTS=()
+
+for arg in "${ARGS[@]}"; do
+  if [[ "$arg" != -* ]] && [[ "$arg" != */* ]] && [[ "$arg" == *:* ]]; then
+    RAKE_TASKS+=("$arg")
+  elif [[ "$arg" == *.rb ]]; then
+    # Resolve against CWD first, then plugin path
+    if [[ -f "$arg" ]]; then
+      resolved=$(resolve_path "$arg")
+    elif [[ -n "$PLUGIN_PATH" ]] && [[ -f "$PLUGIN_PATH/$arg" ]]; then
+      resolved=$(resolve_path "$PLUGIN_PATH/$arg")
+    else
+      echo "Error: Test file not found: $arg" >&2
+      [[ -n "$PLUGIN_PATH" ]] && echo "  Searched: $(pwd)/$arg and $PLUGIN_PATH/$arg" >&2
+      [[ -z "$PLUGIN_PATH" ]] && echo "  Searched: $(pwd)/$arg (plugin path not found)" >&2
+      exit 1
+    fi
+
+    TEST_FILES+=("$resolved")
+
+    # Infer plugin from the file path if not already known
+    if [[ -z "$PLUGIN_PATH" ]]; then
+      PLUGIN_PATH=$(detect_plugin_root "$(dirname "$resolved")") || true
+      if [[ -n "$PLUGIN_PATH" ]] && [[ -z "$PLUGIN_NAME" ]]; then
+        PLUGIN_NAME=$(detect_plugin_name "$PLUGIN_PATH")
+      fi
+    fi
+  else
+    OTHER_OPTS+=("$arg")
+  fi
+done
+
+# --- Validate ---
+
+if [[ -z "$FOREMAN_PATH" ]]; then
+  echo "Error: Could not find Foreman. Run from a Foreman or plugin checkout." >&2
+  exit 1
+fi
+
+if [[ -z "$PLUGIN_NAME" ]] && [[ ${#RAKE_TASKS[@]} -eq 0 ]] && [[ ${#TEST_FILES[@]} -eq 0 ]]; then
+  echo "Error: Could not determine plugin name. Pass it as the first argument." >&2
+  usage
+fi
+
+# --- Run ---
+
+if [[ ${#RAKE_TASKS[@]} -gt 0 ]]; then
+  cd "$FOREMAN_PATH"
+  exec bundle exec rake "${RAKE_TASKS[@]}" ${OTHER_OPTS[@]+"${OTHER_OPTS[@]}"}
+elif [[ ${#TEST_FILES[@]} -gt 0 ]]; then
+  cd "$FOREMAN_PATH"
+
+  INCLUDE_PATHS="lib:test"
+  if [[ -n "$PLUGIN_PATH" ]]; then
+    [[ -d "$PLUGIN_PATH/test" ]] && INCLUDE_PATHS="$INCLUDE_PATHS:$PLUGIN_PATH/test"
+    [[ -d "$PLUGIN_PATH/spec" ]] && INCLUDE_PATHS="$INCLUDE_PATHS:$PLUGIN_PATH/spec"
+  fi
+
+  RAKE_PATH=$(bundle info rake --path) || {
+    echo "Error: Could not find rake in the bundle." >&2
+    exit 1
+  }
+
+  run_test_file() {
+    bundle exec ruby \
+      -I"$INCLUDE_PATHS" \
+      -I"${RAKE_PATH}/lib" \
+      "$1" \
+      ${OTHER_OPTS[@]+"${OTHER_OPTS[@]}"}
+  }
+
+  if [[ ${#TEST_FILES[@]} -eq 1 ]]; then
+    run_test_file "${TEST_FILES[0]}"
+    exit $?
+  else
+    failed=0
+    for test_file in "${TEST_FILES[@]}"; do
+      if ! run_test_file "$test_file"; then
+        failed=1
+      fi
+    done
+    exit $failed
+  fi
+else
+  cd "$FOREMAN_PATH"
+  exec bundle exec rake test:"${PLUGIN_NAME//-/_}" ${OTHER_OPTS[@]+"${OTHER_OPTS[@]}"}
+fi
