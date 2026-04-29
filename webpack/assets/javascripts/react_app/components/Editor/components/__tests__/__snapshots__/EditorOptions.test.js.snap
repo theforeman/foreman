@@ -10,27 +10,6 @@ exports[`EditorOptions EditorOptions renders EditorOptions 1`] = `
     |
   </h4>
   <Tooltip
-    content="Hide Content"
-    position="top"
-  >
-    <Button
-      active={false}
-      block={false}
-      bsClass="btn"
-      bsStyle="link"
-      className="editor-button"
-      disabled={false}
-      id="hide-btn"
-      onClick={[Function]}
-    >
-      <Icon
-        size="md"
-      >
-        <EyeSlashIcon />
-      </Icon>
-    </Button>
-  </Tooltip>
-  <Tooltip
     content="Revert Local Changes"
     position="top"
   >

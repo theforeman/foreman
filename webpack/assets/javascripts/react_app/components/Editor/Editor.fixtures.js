@@ -44,7 +44,6 @@ export const showBooleans = {
   showPreview: true,
   showHostSelector: true,
   showImport: true,
-  showHide: true,
 };
 
 export const editorOptions = {

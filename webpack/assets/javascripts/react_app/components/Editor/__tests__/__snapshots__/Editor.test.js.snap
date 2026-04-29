@@ -41,7 +41,6 @@ exports[`Editor rendering renders editor 1`] = `
     isDiff={true}
     isFetchingHosts={false}
     isLoading={false}
-    isMasked={false}
     isRendering={false}
     isSafemodeEnabled={true}
     isSearchingHosts={false}
@@ -85,7 +84,6 @@ exports[`Editor rendering renders editor 1`] = `
     }
     selectedView="input"
     showError={true}
-    showHide={true}
     showHostSelector={true}
     showImport={true}
     showPreview={true}
@@ -98,7 +96,6 @@ exports[`Editor rendering renders editor 1`] = `
         "Monokai",
       ]
     }
-    toggleMaskValue={[Function]}
     toggleModal={[Function]}
     toggleRenderView={[Function]}
     value="value"

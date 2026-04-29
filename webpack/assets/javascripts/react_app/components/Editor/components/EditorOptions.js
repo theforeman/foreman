@@ -3,13 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Button, FormControl } from 'patternfly-react';
-import {
-  ArrowsAltIcon,
-  EyeIcon,
-  EyeSlashIcon,
-  UndoIcon,
-  UploadIcon,
-} from '@patternfly/react-icons';
+import { ArrowsAltIcon, UndoIcon, UploadIcon } from '@patternfly/react-icons';
 
 import { Tooltip, TooltipPosition, Icon } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
@@ -35,21 +29,18 @@ class EditorOptions extends React.Component {
       diffViewType,
       importFile,
       isDiff,
-      isMasked,
       keyBinding,
       keyBindings,
       mode,
       modes,
       revertChanges,
       selectedView,
-      showHide,
       showImport,
       template,
       theme,
       themes,
       autocompletion,
       liveAutocompletion,
-      toggleMaskValue,
       toggleModal,
     } = this.props;
 
@@ -63,19 +54,6 @@ class EditorOptions extends React.Component {
         )}
 
         <h4 id="divider">|</h4>
-        {showHide && (
-          <Tooltip content={__('Hide Content')} position={TooltipPosition.top}>
-            <Button
-              disabled={selectedView !== 'input'}
-              className="editor-button"
-              id="hide-btn"
-              onClick={() => toggleMaskValue(isMasked)}
-              bsStyle="link"
-            >
-              <Icon size="md">{isMasked ? <EyeIcon /> : <EyeSlashIcon />}</Icon>
-            </Button>
-          </Tooltip>
-        )}
         {isDiff ? ( // fixing tooltip showing sometimes for disabled icon
           <Tooltip
             content={__('Revert Local Changes')}
@@ -172,26 +150,22 @@ EditorOptions.propTypes = {
   diffViewType: PropTypes.string.isRequired,
   importFile: PropTypes.func.isRequired,
   isDiff: PropTypes.bool.isRequired,
-  isMasked: PropTypes.bool.isRequired,
   keyBinding: PropTypes.string.isRequired,
   keyBindings: PropTypes.array.isRequired,
   mode: PropTypes.string.isRequired,
   modes: PropTypes.array.isRequired,
   revertChanges: PropTypes.func.isRequired,
   selectedView: PropTypes.string.isRequired,
-  showHide: PropTypes.bool,
   showImport: PropTypes.bool.isRequired,
   template: PropTypes.string,
   theme: PropTypes.string.isRequired,
   themes: PropTypes.array.isRequired,
   autocompletion: PropTypes.bool.isRequired,
   liveAutocompletion: PropTypes.bool.isRequired,
-  toggleMaskValue: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
 };
 
 EditorOptions.defaultProps = {
-  showHide: false,
   template: '',
 };
 

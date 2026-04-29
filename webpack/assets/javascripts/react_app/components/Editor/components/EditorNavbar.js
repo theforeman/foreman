@@ -18,7 +18,6 @@ const EditorNavbar = ({
   importFile,
   isDiff,
   isLoading,
-  isMasked,
   isRendering,
   isFetchingHosts,
   isSearchingHosts,
@@ -33,7 +32,6 @@ const EditorNavbar = ({
   revertChanges,
   selectedHost,
   selectedView,
-  showHide,
   showImport,
   showPreview,
   showHostSelector,
@@ -42,7 +40,6 @@ const EditorNavbar = ({
   themes,
   autocompletion,
   liveAutocompletion,
-  toggleMaskValue,
   toggleModal,
   toggleRenderView,
   value,
@@ -218,18 +215,15 @@ const EditorNavbar = ({
         value={value}
         renderPath={renderPath}
         showImport={showImport}
-        showHide={showHide}
         showPreview={showPreview}
         showHostSelector={showHostSelector}
         isDiff={isDiff}
         diffViewType={diffViewType}
-        isMasked={isMasked}
         isRendering={isRendering}
         importFile={importFile}
         template={template}
         revertChanges={revertChanges}
         changeDiffViewType={changeDiffViewType}
-        toggleMaskValue={toggleMaskValue}
         changeSetting={changeSetting}
         changeTab={changeTab}
         toggleModal={toggleModal}
@@ -259,7 +253,6 @@ EditorNavbar.propTypes = {
   isDiff: PropTypes.bool.isRequired,
   isFetchingHosts: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  isMasked: PropTypes.bool.isRequired,
   isRendering: PropTypes.bool.isRequired,
   isSearchingHosts: PropTypes.bool.isRequired,
   isSelectOpen: PropTypes.bool.isRequired,
@@ -286,14 +279,12 @@ EditorNavbar.propTypes = {
   }).isRequired,
   selectedView: PropTypes.string.isRequired,
   showError: PropTypes.bool.isRequired,
-  showHide: PropTypes.bool,
   showImport: PropTypes.bool.isRequired,
   showPreview: PropTypes.bool.isRequired,
   showHostSelector: PropTypes.bool,
   template: PropTypes.string,
   theme: PropTypes.string.isRequired,
   themes: PropTypes.array.isRequired,
-  toggleMaskValue: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   toggleRenderView: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
@@ -305,7 +296,6 @@ EditorNavbar.defaultProps = {
   filteredHosts: [],
   renderPath: '',
   safemodeRenderPath: '',
-  showHide: false,
   template: '',
   showHostSelector: true,
   templateKindId: '',

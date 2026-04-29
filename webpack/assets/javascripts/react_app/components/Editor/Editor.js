@@ -51,7 +51,6 @@ class Editor extends React.Component {
         isSafemodeEnabled,
         renderPath,
         safemodeRenderPath,
-        showHide,
         showImport,
         showPreview,
         showHostSelector,
@@ -94,7 +93,6 @@ class Editor extends React.Component {
       theme,
       autocompletion,
       liveAutocompletion,
-      toggleMaskValue,
       toggleModal,
       toggleRenderView,
       value,
@@ -151,7 +149,6 @@ class Editor extends React.Component {
           template={template}
           selectedView={selectedView}
           isDiff={template ? value !== template : false}
-          isMasked={isMasked}
           isRendering={isRendering}
           isLoading={isLoading}
           isFetchingHosts={isFetchingHosts}
@@ -160,7 +157,6 @@ class Editor extends React.Component {
           showImport={showImport}
           showPreview={showPreview}
           showHostSelector={showHostSelector}
-          showHide={showHide}
           revertChanges={revertChanges}
           previewTemplate={previewTemplate}
           hosts={hosts}
@@ -169,7 +165,6 @@ class Editor extends React.Component {
           isSafemodeEnabled={isSafemodeEnabled}
           renderPath={renderPath}
           safemodeRenderPath={safemodeRenderPath}
-          toggleMaskValue={toggleMaskValue}
           toggleRenderView={toggleRenderView}
           toggleModal={toggleModal}
           previewResult={previewResult}
@@ -237,7 +232,6 @@ class Editor extends React.Component {
 
 Editor.propTypes = {
   data: PropTypes.shape({
-    showHide: PropTypes.bool,
     showImport: PropTypes.bool,
     showPreview: PropTypes.bool,
     showHostSelector: PropTypes.bool,
@@ -285,7 +279,6 @@ Editor.propTypes = {
   theme: PropTypes.string.isRequired,
   autocompletion: PropTypes.bool.isRequired,
   liveAutocompletion: PropTypes.bool.isRequired,
-  toggleMaskValue: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   toggleRenderView: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,

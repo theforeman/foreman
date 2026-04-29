@@ -63,7 +63,6 @@ exports[`EditorNavbar rendring renders EditorNavbar 1`] = `
     }
     importFile={[Function]}
     isDiff={true}
-    isMasked={false}
     isRendering={false}
     keyBinding="Default"
     keyBindings={
@@ -89,7 +88,6 @@ exports[`EditorNavbar rendring renders EditorNavbar 1`] = `
     renderPath="/render/path"
     revertChanges={[Function]}
     selectedView="input"
-    showHide={true}
     showHostSelector={true}
     showImport={true}
     showPreview={true}
@@ -101,7 +99,6 @@ exports[`EditorNavbar rendring renders EditorNavbar 1`] = `
         "Monokai",
       ]
     }
-    toggleMaskValue={[Function]}
     toggleModal={[Function]}
     value="value"
   />
