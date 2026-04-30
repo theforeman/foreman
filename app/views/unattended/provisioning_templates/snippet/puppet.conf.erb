@@ -30,6 +30,8 @@ description: |
     run_dir = '/var/run/puppet'
     ssl_dir = '\$vardir/ssl'
   end
+
+  host_puppet_ca_server_port_default = 8140
 -%>
 [main]
 <%- unless host_param('dns_alt_names').to_s.empty? -%>
@@ -47,6 +49,11 @@ pluginsync      = true
 report          = true
 <%- if host_puppet_ca_server.present? -%>
 ca_server       = <%= host_puppet_ca_server %>
+<%- end -%>
+<%- if host_puppet_ca_server_port.present? -%>
+<%- if host_puppet_ca_server_port.to_i != host_puppet_ca_server_port_default -%>
+ca_port         = <%= host_puppet_ca_server_port %>
+<%- end -%>
 <%- end -%>
 certname        = <%= @host.certname %>
 <%- if host_puppet_server.present? -%>

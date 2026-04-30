@@ -79,6 +79,7 @@ module Foreman
         :host_param, :host_param!,
         :host_puppet_server,
         :host_puppet_ca_server,
+        :host_puppet_ca_server_port,
         :host_puppet_environment,
         :host_enc,
         :install_packages,

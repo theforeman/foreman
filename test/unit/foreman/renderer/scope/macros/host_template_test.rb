@@ -122,6 +122,110 @@ class HostTemplateTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#host_puppet_ca_server_port' do
+    test 'should return integer from proxy port' do
+      host = stub(puppet_ca_server_port: 8443)
+      @scope.instance_variable_set('@host', host)
+      result = @scope.host_puppet_ca_server_port
+      assert_equal 8443, result
+      assert_instance_of Integer, result
+    end
+
+    test 'should convert string parameter to integer' do
+      host = stub(puppet_ca_server_port: '')
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_ca_server_port').returns('8080')
+      result = @scope.host_puppet_ca_server_port
+      assert_equal 8080, result
+      assert_instance_of Integer, result
+    end
+
+    test 'should convert string "8140" parameter to integer' do
+      host = stub(puppet_ca_server_port: '')
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_ca_server_port').returns('8140')
+      result = @scope.host_puppet_ca_server_port
+      assert_equal 8140, result
+      assert_instance_of Integer, result
+    end
+
+    test 'should return nil when no port is set' do
+      host = stub(puppet_ca_server_port: nil)
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_ca_server_port').returns(nil)
+      assert_nil @scope.host_puppet_ca_server_port
+    end
+
+    test 'should return nil when port is empty string' do
+      host = stub(puppet_ca_server_port: '')
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_ca_server_port').returns(nil)
+      assert_nil @scope.host_puppet_ca_server_port
+    end
+
+    test 'should reject port out of range (0)' do
+      host = stub(puppet_ca_server_port: 0)
+      @scope.instance_variable_set('@host', host)
+      assert_raises(ArgumentError) { @scope.host_puppet_ca_server_port }
+    end
+
+    test 'should reject port out of range (700000)' do
+      host = stub(puppet_ca_server_port: 700000)
+      @scope.instance_variable_set('@host', host)
+      assert_raises(ArgumentError) { @scope.host_puppet_ca_server_port }
+    end
+
+    test 'should reject negative port' do
+      host = stub(puppet_ca_server_port: '')
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_ca_server_port').returns('-1')
+      assert_raises(ArgumentError) { @scope.host_puppet_ca_server_port }
+    end
+
+    test 'should reject float with decimal' do
+      host = stub(puppet_ca_server_port: 8443.5)
+      @scope.instance_variable_set('@host', host)
+      assert_raises(ArgumentError) { @scope.host_puppet_ca_server_port }
+    end
+
+    test 'should reject string with decimal notation' do
+      host = stub(puppet_ca_server_port: '')
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_ca_server_port').returns('8443.5')
+      assert_raises(ArgumentError) { @scope.host_puppet_ca_server_port }
+    end
+
+    test 'should reject non-numeric string' do
+      host = stub(puppet_ca_server_port: '')
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_ca_server_port').returns('invalid')
+      assert_raises(ArgumentError) { @scope.host_puppet_ca_server_port }
+    end
+
+    test 'should accept valid port at lower boundary' do
+      host = stub(puppet_ca_server_port: 1)
+      @scope.instance_variable_set('@host', host)
+      result = @scope.host_puppet_ca_server_port
+      assert_equal 1, result
+    end
+
+    test 'should accept valid port at upper boundary' do
+      host = stub(puppet_ca_server_port: 65535)
+      @scope.instance_variable_set('@host', host)
+      result = @scope.host_puppet_ca_server_port
+      assert_equal 65535, result
+    end
+
+    test 'should accept string that is whole number with leading zeros' do
+      host = stub(puppet_ca_server_port: '')
+      @scope.instance_variable_set('@host', host)
+      @scope.expects(:host_param).with('puppet_ca_server_port').returns('08140')
+      result = @scope.host_puppet_ca_server_port
+      assert_equal 8140, result
+      assert_instance_of Integer, result
+    end
+  end
+
   describe '#host_puppet_environment' do
     test 'should render environment' do
       host = stub(environment: 'production')
