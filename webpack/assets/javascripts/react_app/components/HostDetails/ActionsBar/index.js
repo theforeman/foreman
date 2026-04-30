@@ -64,7 +64,7 @@ const ActionsBar = ({
   const dispatch = useDispatch();
   const deleteHostHandler = () =>
     dispatch(
-      deleteHost(hostName, computeId, destroyVmOnHostDelete, hostsIndexUrl)
+      deleteHost(hostName, computeId, destroyVmOnHostDelete, { hostsIndexUrl })
     );
 
   const isConsoleDisabled = !(computeId && isHostActive);

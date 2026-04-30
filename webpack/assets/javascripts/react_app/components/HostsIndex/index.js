@@ -209,9 +209,16 @@ const HostsIndex = () => {
   const dispatch = useDispatch();
   const { destroyVmOnHostDelete } = useForemanSettings();
   const hostsIndexUrl = useForemanHostsPageUrl();
+  const refreshTableData = () =>
+    setAPIOptions({
+      ...apiOptions,
+      params: { search: urlSearchQuery },
+    });
   const deleteHostHandler = ({ hostName, computeId }) =>
     dispatch(
-      deleteHost(hostName, computeId, destroyVmOnHostDelete, hostsIndexUrl)
+      deleteHost(hostName, computeId, destroyVmOnHostDelete, {
+        onDeleteSuccess: refreshTableData,
+      })
     );
   const handleBulkDelete = () => {
     const bulkParams = fetchBulkParams();
@@ -220,6 +227,10 @@ const HostsIndex = () => {
         bulkParams,
         selectedCount,
         destroyVmOnHostDelete,
+        onDeleteSuccess: () => {
+          selectNone();
+          refreshTableData();
+        },
       })
     );
   };
@@ -520,12 +531,7 @@ const HostsIndex = () => {
           url={HOSTS_API_PATH}
           isDeleteable
           showCheckboxes
-          refreshData={() =>
-            setAPIOptions({
-              ...apiOptions,
-              params: { search: urlSearchQuery },
-            })
-          }
+          refreshData={refreshTableData}
           columns={columns}
           errorMessage={
             status === STATUS.ERROR && errorMessage ? errorMessage : null

@@ -12,7 +12,7 @@ export const deleteHost = (
   hostName,
   compute,
   destroyVmOnHostDelete,
-  hostsIndexUrl
+  { hostsIndexUrl, onDeleteSuccess }
 ) => dispatch => {
   const successToast = () => sprintf(__('Host %s deleted'), hostName);
   const errorToast = ({ message }) => message;
@@ -32,6 +32,9 @@ export const deleteHost = (
     return null;
   };
 
+  const handleSuccess =
+    onDeleteSuccess || (() => visit(foremanUrl(hostsIndexUrl)));
+
   dispatch(
     openConfirmModal({
       isWarning: true,
@@ -44,7 +47,7 @@ export const deleteHost = (
             key: `${hostName}-DELETE`,
             successToast,
             errorToast,
-            handleSuccess: () => visit(foremanUrl(hostsIndexUrl)),
+            handleSuccess,
           })
         ),
       message: (

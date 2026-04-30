@@ -10,6 +10,7 @@ export const bulkDeleteHosts = ({
   bulkParams,
   selectedCount,
   destroyVmOnHostDelete,
+  onDeleteSuccess,
 }) => dispatch => {
   const successToast = () => sprintf(__('%s hosts deleted'), selectedCount);
   const errorToast = ({ message }) => message;
@@ -24,6 +25,9 @@ export const bulkDeleteHosts = ({
       : __(
           'For hosts with compute resources, VMs and their disks will not be deleted.'
         );
+
+  const handleSuccess =
+    onDeleteSuccess || (() => visit(foremanUrl('/new/hosts')));
 
   dispatch(
     openConfirmModal({
@@ -49,7 +53,7 @@ export const bulkDeleteHosts = ({
             key: `BULK-HOSTS-DELETE`,
             successToast,
             errorToast,
-            handleSuccess: () => visit(foremanUrl('/new/hosts')),
+            handleSuccess,
           })
         ),
       message: (
