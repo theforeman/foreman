@@ -21,4 +21,25 @@ namespace :notifications do
       puts "Failed to clean notification: #{error}"
     end
   end
+
+  desc "Clean all notifications regardless of expiry
+        Optionally pass a blueprint name to only clean notifications of that blueprint
+        With no arguments, all notifications will be removed
+        Examples:
+        rake notifications:clean_all -
+          - Will clean all notifications
+        rake notifications:clean_all['blueprint_name'] -
+          - Will clean all notifications belonging to the given blueprint name"
+
+  task :clean_all, [:blueprint] => :environment do |t, args|
+    message = args.blueprint.present? ? "Starting full notifications clean up for blueprint '#{args.blueprint}'..." : 'Starting full notifications clean up...'
+    puts message
+    begin
+      cleaner = UINotifications::CleanAll.new(blueprint: args.blueprint)
+      cleaner.clean!
+      puts "Finished, cleaned #{cleaner.deleted_count} notifications"
+    rescue => error
+      puts "Failed to clean notifications: #{error}"
+    end
+  end
 end
