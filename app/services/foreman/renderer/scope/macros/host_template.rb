@@ -68,6 +68,15 @@ module Foreman
             host.try(:puppet_ca_server).presence || host_param('puppet_ca_server')
           end
 
+          apipie :method, 'Returns Puppet CA server\'s port configured via the assigned Smart Proxy or the puppet_ca_server_port host parameter' do
+            returns Integer, desc: 'Returns the configured Puppet CA server\'s port (1-65535), or nil if not configured'
+          end
+          def host_puppet_ca_server_port
+            check_host
+            port = host.try(:puppet_ca_server_port).presence || host_param('puppet_ca_server_port')
+            validate_port(port)
+          end
+
           apipie :method, 'Returns the Puppet environment configured configured through the ENC or the puppet_environment host parameter' do
             returns String, desc: 'Returns the configured Puppet environment name, or nil if not configured'
           end
@@ -234,6 +243,19 @@ module Foreman
           def check_host_param(name)
             check_host
             raise HostParamUndefined.new(name: name, host: host) unless host.params.key?(name)
+          end
+
+          def validate_port(value)
+            return nil if value.nil?
+
+            unless value.to_s.match?(/^\d+$/)
+              raise ArgumentError, "Puppet CA server port must be an integer, got: #{value.inspect}"
+            end
+            port = value.to_i
+            if port < 1 || port > 65535
+              raise ArgumentError, "Puppet CA server port must be between 1 and 65535, got: #{value.inspect}"
+            end
+            port
           end
         end
       end
