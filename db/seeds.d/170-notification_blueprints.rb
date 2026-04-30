@@ -8,7 +8,7 @@ blueprints = [
     {
       links:
       [
-        path_method: :host_path,
+        path_method: :host_details_page_path,
         title: N_('Details'),
       ],
     },
