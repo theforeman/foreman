@@ -138,7 +138,6 @@ fi
 echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
 
 
-
 if [ -f /usr/bin/dnf ]; then
   dnf -y install puppet
 else

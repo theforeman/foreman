@@ -173,23 +173,12 @@ fi
 
 # Restart yggdrasild if installed and running
 systemctl try-restart yggdrasil >/dev/null 2>&1 || true
-    # Avoid timeout accessing unreachable repo on air gapped infrastructure,
-    #  assuming subscription-manager-syspurpose is installed in custom packages section.
-    if ! rpm --query --quiet subscription-manager-syspurpose ; then
-      $PKG_MANAGER_INSTALL subscription-manager-syspurpose
-    fi
+    subscription-manager syspurpose role --set "Red Hat Enterprise Linux Server"
+    subscription-manager syspurpose usage --set "Development/Test"
+    subscription-manager syspurpose service-level --set "Self-Support"
 
-    if [ -f /usr/sbin/syspurpose ]; then
-        syspurpose set-role "Red Hat Enterprise Linux Server"
-        syspurpose set-usage "Development/Test"
-        syspurpose set-sla "Self-Support"
-    else
-      echo "Syspurpose CLI not found."
-    fi
-  
   
       subscription-manager register --name="snapshot-ipv4-dhcp-rocky10" --org='Org' --activationkey='key'
-  
   
   
     subscription-manager refresh  --force
@@ -200,7 +189,6 @@ systemctl try-restart yggdrasil >/dev/null 2>&1 || true
   
   
   
-
 
 # update all the base packages from the updates repository
 if [ -f /usr/bin/dnf ]; then

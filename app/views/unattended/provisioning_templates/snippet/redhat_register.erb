@@ -19,8 +19,6 @@ description: |
 
     subscription_manager = 'true'               You're going to use subscription-manager
 
-    subscription_manager_auto_attach = 'false'  Run attach --auto after registering.
-
     subscription_manager_status = 'true'        Show status of subscription-manager
 
     subscription_manager_refresh = 'true'       Run refresh after registering host.
@@ -41,8 +39,6 @@ description: |
 
     subscription_manager_override_repos_cost = <cost>  Override repository cost
 
-    subscription_manager_pool = <pool>          Specific subscription pool to use
-
     only_subscription_manager_repos = 'true'    dnf/yum should only use repos managed by sub-man
 
     http-proxy = <host>                         Proxy hostname to be used for registration
@@ -58,18 +54,11 @@ description: |
     syspurpose_usage                            Sets the system purpose usage
 
     syspurpose_sla                              Sets the system purpose SLA
-
-  Set these parameters if you're using rhnreg_ks:
-
-    spacewalk_host = <hostname>                 Hostname of Spacewalk server
 -%>
 <%
   # Katello or subscription-manager:
   if host_param_true?('subscription_manager') || host_param('kt_activation_keys')
     registration_type = 'subscription_manager'
-  # Spacewalk:
-  elsif host_param('spacewalk_host')
-    registration_type = 'spacewalk'
   else
     registration_type = nil
   end
@@ -101,27 +90,15 @@ description: |
   # Set up subscription-manager
   <%= snippet("subscription_manager_setup", variables: { subman_setup_scenario: 'provisioning' }).strip -%>
 
-  <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla')) -%>
-    # Avoid timeout accessing unreachable repo on air gapped infrastructure,
-    #  assuming subscription-manager-syspurpose is installed in custom packages section.
-    if ! rpm --query --quiet subscription-manager-syspurpose ; then
-      $PKG_MANAGER_INSTALL subscription-manager-syspurpose
-    fi
-
-    if [ -f /usr/sbin/syspurpose ]; then
-      <%- if host_param('syspurpose_role') -%>
-        syspurpose set-role "<%= host_param('syspurpose_role') %>"
-      <%- end -%>
-      <%- if host_param('syspurpose_usage') -%>
-        syspurpose set-usage "<%= host_param('syspurpose_usage') %>"
-      <%- end -%>
-      <%- if host_param('syspurpose_sla') -%>
-        syspurpose set-sla "<%= host_param('syspurpose_sla') %>"
-      <%- end -%>
-    else
-      echo "Syspurpose CLI not found."
-    fi
-  <% end -%>
+  <%- if host_param('syspurpose_role') -%>
+    subscription-manager syspurpose role --set "<%= host_param('syspurpose_role') %>"
+  <%- end -%>
+  <%- if host_param('syspurpose_usage') -%>
+    subscription-manager syspurpose usage --set "<%= host_param('syspurpose_usage') %>"
+  <%- end -%>
+  <%- if host_param('syspurpose_sla') -%>
+    subscription-manager syspurpose service-level --set "<%= host_param('syspurpose_sla') %>"
+  <%- end -%>
 
   <% if host_param('http-proxy') -%>
     subscription-manager config --server.proxy_hostname='<%= host_param("http-proxy") %>'
@@ -137,12 +114,7 @@ description: |
   <% end -%>
 
   <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') -%>
-    <% if host_param('subscription_manager_pool') -%>
-      subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
-      subscription-manager attach --pool='<%= host_param('subscription_manager_pool') %>'
-    <% else -%>
-      subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>' --auto-attach
-    <% end -%>
+    subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
 
   <% elsif activation_key -%>
     subscription-manager register --name="<%= @host.name %>" --org='<%= subscription_manager_org %>' --activationkey='<%= activation_key %>'
@@ -164,11 +136,6 @@ description: |
     done
   <% end -%>
 
-  <% if host_param_true?('subscription_manager_auto_attach', false) -%>
-    subscription-manager attach --auto
-
-  <% end -%>
-
   <% if host_param_true?('subscription_manager_refresh', false) -%>
   subscription-manager refresh <% if host_param_true?('subscription_manager_refresh_force', false) %> --force<% end %>
   <% end -%>
@@ -178,7 +145,6 @@ description: |
   <% end -%>
 
   <% if host_param('subscription_manager_repos') -%>
-    # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
     <%= "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(/,\s*/, ' --enable ')}" %>
   <% end -%>
@@ -195,66 +161,5 @@ description: |
 
   <% if redhat_install_host_tracer_tools -%>
     $PKG_MANAGER_INSTALL katello-host-tools-tracer
-  <% end -%>
-<% end -%>
-
-<% if registration_type == 'spacewalk' -%>
-  echo "##############################################################"
-  echo "################ SPACEWALK REGISTRATION ######################"
-  echo "##############################################################"
-
-  <% if host_param('activation_key') -%>
-    rhn_activation_key="<%= host_param('activation_key') -%>"
-    satellite_hostname="<%= host_param('spacewalk_host') -%>"
-    rhn_cert_file="RHN-ORG-TRUSTED-SSL-CERT"
-
-    echo "Registering to RHN Satellite at [$satellite_hostname]"
-    echo "Using Registration Key [$rhn_activation_key]"
-
-    # Obtain our RHN Satellite Certificate
-    echo "Obtaining RHN SSL certificate"
-    curl -o /usr/share/rhn/$rhn_cert_file -k https://$satellite_hostname/pub/$rhn_cert_file
-
-    <% if @host.operatingsystem.name == 'SLES' -%>
-      # If SLES then add CA Cert to CA Certs for curl
-      cp /usr/share/rhn/$rhn_cert_file /etc/ssl/certs/
-      ln -s /etc/ssl/certs/$rhn_cert_file /etc/ssl/certs/`openssl x509 -hash -noout -in /etc/ssl/certs/$rhn_cert_file`.0
-    <% end -%>
-
-    # Update our up2date configuration file
-    echo "Updating SSL CA Certificate to /usr/share/rhn/$rhn_cert_file"
-    sed -i -e "s|^sslCACert=.*$|sslCACert=/usr/share/rhn/$rhn_cert_file|" /etc/sysconfig/rhn/up2date
-
-    # Update our Satellite Hostname
-    echo "Updating Satellite Hostname to [$satellite_hostname]"
-    sed -i -e "s|^serverURL=.*$|serverURL=https://$satellite_hostname/XMLRPC|" /etc/sysconfig/rhn/up2date
-    sed -i -e "s|^noSSLServerURL=.*$|noSSLServerURL=https://$satellite_hostname/XMLRPC|" /etc/sysconfig/rhn/up2date
-
-    # Restart messagebus/HAL to try and prevent hardware detection errors in rhnreg_ks
-    echo "Restarting services..."
-    <% if @host.operatingsystem.name == 'SLES' && @host.operatingsystem.major.to_i < 12 -%>
-      service haldaemon restart
-    <% else -%>
-      service messagebus restart
-      service hald restart
-    <% end -%>
-
-    # Now, perform our registration
-    #  (might get hardware errors here, due to dbus/messagebus lameness. These are safe to ignore.)
-    echo -n "Performing RHN Registration... "
-    rhnreg_ks --activationkey=$rhn_activation_key
-    echo "done."
-
-    # Check we registered
-    echo -n "Checking System Registration... "
-    if ! rhn_check; then
-        echo "FAILED"
-        echo " >> RHN Registration FAILED. Please Investigate. <<"
-    else
-        echo "registration successful."
-    fi
-
-  <% else -%>
-    echo "No activation key found: Not registering"
   <% end -%>
 <% end -%>

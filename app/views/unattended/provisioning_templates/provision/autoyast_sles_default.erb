@@ -15,7 +15,6 @@ description: |
   puppet_enabled = !host_param_true?('skip-puppet-setup') && (host_puppet_server.present? || host_param_true?('force-puppet'))
   salt_enabled = host_param('salt_master') ? true : false
   sles_minor_string = (os_minor == 0) ? '' : "_SP#{os_minor}"
-  spacewalk_enabled = host_param('spacewalk_host') ? true : false
 
   primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
   primary_interface_subnet = @host.primary_interface.subnet
@@ -189,9 +188,6 @@ description: |
       <package>rubygem-puppet</package>
 <% end -%>
 <% end -%>
-<% if spacewalk_enabled -%>
-      <package>rhn-setup</package>
-<% end -%>
 <% if host_param('additional-packages').present? -%>
       <%= host_param('additional-packages').split(" ").collect{|x| "<package>#{x}</package>" }.join("\n") %>
 <% end -%>
@@ -247,10 +243,6 @@ cp /etc/resolv.conf /mnt/etc
 <%= snippet('remote_execution_ssh_keys') %>
 
 <%= snippet "blacklist_kernel_modules" %>
-
-<% if spacewalk_enabled -%>
-<%= snippet 'redhat_register' %>
-<% end -%>
 
 <% if puppet_enabled -%>
 <%= snippet 'puppet_setup' %>
@@ -413,28 +405,6 @@ rm /etc/resolv.conf
             <all config:type="boolean">false</all>
             <keys config:type="list">
               <keyid>27163A4EEDF0D733</keyid>
-            </keys>
-          </import_gpg_key>
-        </signature-handling>
-      </listentry>
-<% end -%>
-<% if spacewalk_enabled -%>
-      <listentry>
-        <media_url><![CDATA[http://download.opensuse.org/repositories/systemsmanagement:/spacewalk/SLE_<%= os_major %><%= sles_minor_string %>/]]></media_url>
-        <name>systemsmanagement_spacewalk</name>
-        <product>systemsmanagement_spacewalk</product>
-        <product_dir>/</product_dir>
-        <signature-handling>
-          <accept_non_trusted_gpg_key>
-            <all config:type="boolean">false</all>
-            <keys config:type="list">
-              <keyid>2ABFA143A0E46E11</keyid>
-            </keys>
-          </accept_non_trusted_gpg_key>
-          <import_gpg_key>
-            <all config:type="boolean">false</all>
-            <keys config:type="list">
-              <keyid>2ABFA143A0E46E11</keyid>
             </keys>
           </import_gpg_key>
         </signature-handling>
