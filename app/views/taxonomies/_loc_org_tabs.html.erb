@@ -9,7 +9,8 @@
     <%= location_selects f, obj.used_or_selected_location_ids,
             {:disabled => obj.used_location_ids }.merge!(select_options),
             {'data-descendants' => obj.children_of_selected_location_ids.to_json,
-             'data-useds' => obj.used_location_ids.to_json }.merge!(html_options[:location]) %>
+             'data-useds' => obj.used_location_ids.to_json,
+             'data-host-taxonomy-outside-proxy' => (obj.respond_to?(:host_taxonomy_ids_outside_proxy_assignment) ? obj.host_taxonomy_ids_outside_proxy_assignment(:location_id) : []).to_json }.merge!(html_options[:location]) %>
     <% if obj.kind_of? User %>
       <%= select_f f, :default_location_id, (obj.admin? ? Location.all : obj.my_locations), :id, :title,
                     { :include_blank => true }, { :label => _('Default on login') } %>
@@ -22,7 +23,8 @@
     <%= organization_selects f, obj.used_or_selected_organization_ids,
             {:disabled => obj.used_organization_ids }.merge!(select_options),
             {'data-descendants' => obj.children_of_selected_organization_ids.to_json,
-             'data-useds' => obj.used_organization_ids.to_json }.merge!(html_options[:organization]) %>
+             'data-useds' => obj.used_organization_ids.to_json,
+             'data-host-taxonomy-outside-proxy' => (obj.respond_to?(:host_taxonomy_ids_outside_proxy_assignment) ? obj.host_taxonomy_ids_outside_proxy_assignment(:organization_id) : []).to_json }.merge!(html_options[:organization]) %>
     <% if obj.kind_of? User %>
       <%= select_f f, :default_organization_id,(obj.admin? ? Organization.all : obj.my_organizations), :id, :title,
                     { :include_blank => true }, { :label => _('Default on login') } %>

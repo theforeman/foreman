@@ -74,6 +74,8 @@ class SmartProxyTest < ActiveSupport::TestCase
           :organization => organization3)
 
         assert_equal [organization2.id], proxy.reload.used_taxonomy_ids(:organization_id)
+        assert_includes proxy.host_taxonomy_ids_outside_proxy_assignment(:organization_id), organization3.id
+        refute_includes proxy.host_taxonomy_ids_outside_proxy_assignment(:organization_id), organization2.id
       end
     end
   end
