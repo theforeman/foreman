@@ -156,11 +156,18 @@ const TableIndexPage = ({
       per_page: perPage,
       page,
       subtotal,
-      message: errorMessage,
+      message: rawErrorMessage,
+      response: errorHttpResponse,
     },
     status = STATUS.PENDING,
     setAPIOptions,
   } = response;
+
+  const errorMessage =
+    // eslint-disable-next-line camelcase
+    errorHttpResponse?.data?.error?.full_messages?.join(', ') ||
+    errorHttpResponse?.data?.error?.message ||
+    rawErrorMessage;
 
   const memoDefaultSearchProps = useMemo(
     () => getControllerSearchProps(controller),

@@ -13,6 +13,16 @@ export const DeleteModal = ({
   selectedItem,
   refreshData,
 }) => {
+  const ERROR_MESSAGE_PREFIX = __('Failed to delete: ');
+  const parsedErrorMessage = (response, message) => {
+    const errMsg =
+      // eslint-disable-next-line camelcase
+      response?.data?.error?.full_messages?.join(', ') ||
+      response?.data?.error?.message ||
+      message;
+    return `${ERROR_MESSAGE_PREFIX} ${errMsg}`;
+  };
+
   const { name, id } = selectedItem;
   const dispatch = useDispatch();
   const onSubmit = () => {
@@ -25,7 +35,8 @@ export const DeleteModal = ({
           refreshData();
         },
         successToast: () => sprintf(__('%s was successfully deleted'), name),
-        errorToast: ({ message }) => message,
+        errorToast: ({ response, message }) =>
+          parsedErrorMessage(response, message),
       })
     );
   };
