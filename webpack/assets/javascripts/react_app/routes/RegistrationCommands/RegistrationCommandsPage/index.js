@@ -208,7 +208,7 @@ const RegistrationCommandsPage = () => {
           className="btn-docs"
           href={getDocsURL(
             'Managing_Hosts',
-            'registering-a-host_managing-hosts'
+            'registering-hosts-by-using-global-registration'
           )}
           rel="noreferrer"
           target="_blank"

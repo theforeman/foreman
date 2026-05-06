@@ -135,8 +135,8 @@ describe('formatDateTime', () => {
 describe('getDocsURL', () => {
   it('should return URL with guide and chapter', () => {
     const guide = 'Managing_Hosts';
-    const chapter = 'registering-a-host_managing-hosts';
-    const expectedUrl = '/links/docs/Managing_Hosts?chapter=registering-a-host_managing-hosts';
+    const chapter = 'registering-hosts-by-using-global-registration';
+    const expectedUrl = '/links/docs/Managing_Hosts?chapter=registering-hosts-by-using-global-registration';
 
     expect(getDocsURL(guide, chapter)).toEqual(expectedUrl);
   });
