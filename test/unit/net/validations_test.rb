@@ -59,6 +59,39 @@ class ValidationsTest < ActiveSupport::TestCase
     end
   end
 
+  describe "domain name regexp" do
+    test "matches valid DNS-style domain names" do
+      %w[
+        example.com
+        Example.com
+        Sub.EXAMPLE.co.uk
+        a1.example.org
+        foo-bar.example.com
+        localhost
+      ].each do |name|
+        assert_match Net::Validations::DOMAIN_NAME_REGEXP, name,
+          "#{name.inspect} should match DOMAIN_NAME_REGEXP"
+      end
+    end
+
+    test "does not match invalid domain names" do
+      [
+        'example..com',
+        '-bad.example.com',
+        'bad-.example.com',
+        'example_domain.com',
+        'example!.com',
+        'exam ple.com',
+        '/example.com',
+        '*',
+        '*.*',
+      ].each do |name|
+        assert_no_match Net::Validations::DOMAIN_NAME_REGEXP, name,
+          "#{name.inspect} should not match DOMAIN_NAME_REGEXP"
+      end
+    end
+  end
+
   test "hostname should be valid" do
     assert_nothing_raised do
       Net::Validations.validate_hostname! "this.is.an.example.com"

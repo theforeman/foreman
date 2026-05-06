@@ -37,6 +37,9 @@ class Domain < ApplicationRecord
   include ScopedSearchExtensions
   include ParameterSearch
   validates :name, :presence => true, :uniqueness => true
+  validates :name,
+    :format => {:with => Net::Validations::DOMAIN_NAME_REGEXP, :message => Net::Validations::DOMAIN_NAME_FORMAT_ERR_MSG},
+    :on => :create
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
 
   scoped_search :on => [:name, :fullname], :complete_value => true

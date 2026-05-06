@@ -103,7 +103,7 @@ class AuthorizerTest < ActiveSupport::TestCase
             domain1     = FactoryBot.create(:domain)
             domain2     = FactoryBot.create(:domain, :name => 'a-domain.to-be-found.com')
             domain3     = FactoryBot.create(:domain, :name => 'another-domain.to-be-found.com')
-            domain4     = FactoryBot.create(:domain, :name => 'be_editable.to-be-found.com')
+            domain4     = FactoryBot.create(:domain, :name => 'be-editable.to-be-found.com')
             auth        = Authorizer.new(@user)
 
             collection = auth.find_collection(Domain, :permission => :view_domains)

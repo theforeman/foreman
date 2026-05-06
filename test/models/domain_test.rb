@@ -14,6 +14,33 @@ class DomainTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:fullname).allow_blank
   should belong_to(:dns)
 
+  test 'accepts valid domain name characters and shapes' do
+    valid = [
+      'example.com',
+      'Example.com',
+      'Sub.EXAMPLE.co.uk',
+      'foo-bar.valid-domain.test',
+      'a1.b2.example.org',
+    ]
+    valid.each do |name|
+      domain = Domain.new(:name => name)
+      assert domain.valid?, "expected #{name.inspect} to be valid: #{domain.errors.full_messages.join(', ')}"
+    end
+  end
+
+  test 'rejects invalid domain name characters and shapes' do
+    invalid = [
+      '*', '*.*', '*.example.com', 'example.*.com',
+      '!!!', 'example..com', '-bad.example.com', 'bad-.example.com',
+      'example!.com', 'exam ple.com', '/example.com', 'example_domain.com'
+    ]
+    invalid.each do |name|
+      domain = Domain.new(:name => name)
+      refute domain.valid?, "expected #{name.inspect} to be invalid"
+      assert domain.errors[:name].present?, "expected :name errors for #{name.inspect}"
+    end
+  end
+
   test 'hooks are defined' do
     expected = [
       'domain_created.event.foreman',

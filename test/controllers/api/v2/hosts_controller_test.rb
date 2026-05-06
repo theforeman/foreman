@@ -726,7 +726,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       test 'created domain gets host taxonomies' do
         Setting[:default_location] = loc.title
         Setting[:default_organization] = org.title
-        domain_name = 'my_new_domain.com'
+        domain_name = 'my-new-domain.com'
         facts['domain'] = domain_name
         post :facts, params: { :name => hostname, :facts => facts }
         assert_response :success
