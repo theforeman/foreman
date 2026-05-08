@@ -316,7 +316,7 @@ export const useBulkSelect = ({
 };
 
 export const friendlySearchParam = searchParam =>
-  decodeURIComponent(searchParam.replace(/\+/g, ' '));
+  searchParam.replace(/\+/g, ' ');
 
 // takes a url query like ?type=security&search=name+~+foo
 // and returns an object
@@ -330,7 +330,6 @@ export const useUrlParams = () => {
     new URLSearchParams(location.search).entries()
   );
   const searchParam = urlSearchParam ? friendlySearchParam(urlSearchParam) : '';
-
   return {
     searchParam,
     ...urlParams,

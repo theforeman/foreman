@@ -1,5 +1,12 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useBulkSelect } from './TableHooks';
+import { useLocation } from 'react-router-dom';
+import { friendlySearchParam, useBulkSelect, useUrlParams } from './TableHooks';
+
+jest.mock('react-router-dom', () => ({
+  useLocation: jest.fn(),
+}));
+
+const mockUseLocation = useLocation;
 
 const isSelectable = () => true;
 const idColumn = 'errata_id';
@@ -96,4 +103,25 @@ it('adds filter dropdown query to scoped search string', () => {
   });
 
   expect(result.current.fetchBulkParams({})).toBe('severity=Low and errata_id !^ (RHSA-2022:2031)');
+});
+
+it('normalizes + separators in friendlySearchParam', () => {
+  expect(friendlySearchParam('name+~+foo/bar')).toBe('name ~ foo/bar');
+});
+
+it('keeps encoded percent fragments untouched in friendlySearchParam', () => {
+  expect(friendlySearchParam('name+~+foo%2Fbar')).toBe('name ~ foo%2Fbar');
+  expect(friendlySearchParam('name+~+foo%2')).toBe('name ~ foo%2');
+});
+
+it('parses hosts search query params without crashing on percent search', () => {
+  mockUseLocation.mockReturnValue({
+    search: '?search=%25&page=1',
+  });
+
+  const { result } = renderHook(() => useUrlParams());
+  expect(result.current).toEqual({
+    searchParam: '%',
+    page: '1',
+  });
 });
