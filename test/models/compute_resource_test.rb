@@ -509,5 +509,25 @@ class ComputeResourceTest < ActiveSupport::TestCase
       attr_exp = { :secure_boot => true, :firmware => "efi" }
       assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'uefi_secure_boot', 'uefi_secure_boot')
     end
+
+    test "firmware is 'uefi' and provisioning_method is 'image'" do
+      attr_exp = { :firmware => "efi" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'uefi', nil, 'image')
+    end
+
+    test "firmware is 'uefi_secure_boot' and provisioning_method is 'image'" do
+      attr_exp = { :firmware => "efi", :secure_boot => true }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'uefi_secure_boot', nil, 'image')
+    end
+
+    test "firmware is 'bios' and provisioning_method is 'image'" do
+      attr_exp = { :firmware => "bios" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'bios', nil, 'image')
+    end
+
+    test "firmware is 'automatic' and provisioning_method is 'image'" do
+      attr_exp = { :firmware => "bios" }
+      assert_equal attr_exp, @cr.send(:process_firmware_attributes, 'automatic', nil, 'image')
+    end
   end
 end
