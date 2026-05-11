@@ -437,18 +437,20 @@ class ComputeResource < ApplicationRecord
   #
   # @param firmware [String] The firmware setting to be processed.
   # @param firmware_type [String] The firmware type based on the provided PXE Loader.
+  # @param provision_method [String] The provisioning method.
   # @return [Hash] A hash containing the processed firmware attributes.
-  def process_firmware_attributes(firmware, firmware_type)
+  def process_firmware_attributes(firmware, firmware_type, provision_method = nil)
     attrs = {}
 
     # The `firmware_type` flag is set through `host_compute_attrs(host)` and only used
     # during host creation via the orchestration process.
+    # The `provision_method` is used during host creation as well.
     # If not set, the method may be used for validation, preview, or UI-related logic
     # without performing any real provisioning actions.
     # The normalization should only be used during host creation, otherwise the firmware is set
     # to the initial firmware value so that the UI can display the correct value.
 
-    if firmware_type.present?
+    if provision_method == 'image' || firmware_type.present?
       firmware = resolve_automatic_firmware(firmware, firmware_type)
       attrs[:firmware] = normalize_firmware_type(firmware)
     else
