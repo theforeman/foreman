@@ -28,6 +28,7 @@ export const AutocompleteInputComponent = ({
   isDisabled,
   fieldId,
   onBlur,
+  allowClear,
 }) => {
   if (validationStatus === 'error') validationStatus = 'danger';
   const NO_RESULTS = __('No matches found');
@@ -49,13 +50,12 @@ export const AutocompleteInputComponent = ({
   const [inputValue, setInputValue] = useState(displayValue);
   const [filterValue, setFilterValue] = useState('');
   const [selectOptions, setSelectOptions] = useState(displayOptions);
-  const [focusedItemIndex, setFocusedItemIndex] = useState(null);
-  const [activeItemId, setActiveItemId] = useState(null);
   const textInputRef = useRef(null);
-  const wrapperRef = useRef(null);
+  const inputValueRef = useRef(inputValue);
 
   useEffect(() => {
     setInputValue(displayValue);
+    inputValueRef.current = displayValue;
   }, [displayValue]);
 
   useEffect(() => {
@@ -86,29 +86,26 @@ export const AutocompleteInputComponent = ({
     setSelectOptions(newSelectOptions);
   }, [filterValue, displayOptions, NO_RESULTS, options]);
 
-  const createItemId = value => `select-typeahead-${value}`;
-  const setActiveAndFocusedItem = itemIndex => {
-    setFocusedItemIndex(itemIndex);
-    const focusedItem = selectOptions[itemIndex];
-    setActiveItemId(createItemId(focusedItem.value));
-  };
-  const resetActiveAndFocusedItem = () => {
-    setFocusedItemIndex(null);
-    setActiveItemId(null);
-  };
   const closeMenu = () => {
     setIsOpen(false);
-    resetActiveAndFocusedItem();
   };
 
-  const handleBlurCapture = e => {
-    const next = e.relatedTarget;
-    if (!wrapperRef.current?.contains(next)) {
-      closeMenu();
-    }
-    setInputValue(displayValue);
+  const onClose = () => {
+    closeMenu();
     setFilterValue('');
-    onBlur(displayValue);
+    if (
+      allowClear &&
+      !inputValueRef.current &&
+      selected != null &&
+      selected !== ''
+    ) {
+      onSelect('');
+      onBlur('');
+    } else {
+      setInputValue(displayValue);
+      inputValueRef.current = displayValue;
+      onBlur(displayValue);
+    }
   };
 
   const onInputClick = () => {
@@ -120,6 +117,7 @@ export const AutocompleteInputComponent = ({
   };
   const selectOption = (value, content) => {
     setInputValue(String(content));
+    inputValueRef.current = String(content);
     setFilterValue('');
     onSelect(value);
     closeMenu();
@@ -134,71 +132,10 @@ export const AutocompleteInputComponent = ({
   const onTextInputChange = (_event, value) => {
     onChange(value);
     setInputValue(value);
+    inputValueRef.current = value;
     setFilterValue(value);
-    resetActiveAndFocusedItem();
-  };
-  const handleMenuArrowKeys = key => {
-    let indexToFocus = 0;
-    if (!isOpen) {
-      setIsOpen(true);
-    }
-    if (selectOptions.every(option => option.isDisabled)) {
-      return;
-    }
-    if (key === 'ArrowUp') {
-      if (focusedItemIndex === null || focusedItemIndex === 0) {
-        indexToFocus = selectOptions.length - 1;
-      } else {
-        indexToFocus = focusedItemIndex - 1;
-      }
-      while (selectOptions[indexToFocus].isDisabled) {
-        indexToFocus--;
-        if (indexToFocus === -1) {
-          indexToFocus = selectOptions.length - 1;
-        }
-      }
-    }
-    if (key === 'ArrowDown') {
-      if (
-        focusedItemIndex === null ||
-        focusedItemIndex === selectOptions.length - 1
-      ) {
-        indexToFocus = 0;
-      } else {
-        indexToFocus = focusedItemIndex + 1;
-      }
-      while (selectOptions[indexToFocus].isDisabled) {
-        indexToFocus++;
-        if (indexToFocus === selectOptions.length) {
-          indexToFocus = 0;
-        }
-      }
-    }
-    setActiveAndFocusedItem(indexToFocus);
-  };
-  const onInputKeyDown = event => {
-    const focusedItem =
-      focusedItemIndex !== null ? selectOptions[focusedItemIndex] : null;
-    // eslint-disable-next-line default-case
-    switch (event.key) {
-      case 'Enter':
-        if (
-          isOpen &&
-          focusedItem &&
-          focusedItem.value !== NO_RESULTS &&
-          !focusedItem.isAriaDisabled
-        ) {
-          selectOption(focusedItem.value, focusedItem.label);
-        }
-        if (!isOpen) {
-          setIsOpen(true);
-        }
-        break;
-      case 'ArrowUp':
-      case 'ArrowDown':
-        event.preventDefault();
-        handleMenuArrowKeys(event.key);
-        break;
+    if (allowClear && !value && selected != null && selected !== '') {
+      onSelect('');
     }
   };
   const onToggleClick = () => {
@@ -224,14 +161,10 @@ export const AutocompleteInputComponent = ({
           value={inputValue}
           onClick={onInputClick}
           onChange={onTextInputChange}
-          onKeyDown={onInputKeyDown}
           inputId={fieldId ?? `id-${name}`}
           id={`typeahead-select-input-${name}`}
           innerRef={textInputRef}
           placeholder={placeholder}
-          {...(activeItemId && {
-            'aria-activedescendant': activeItemId,
-          })}
           role="combobox"
           isExpanded={isOpen}
           aria-controls={`id-${name}`}
@@ -250,11 +183,7 @@ export const AutocompleteInputComponent = ({
     </MenuToggle>
   );
   return (
-    <div
-      ref={wrapperRef}
-      onBlurCapture={handleBlurCapture}
-      className="autocomplete-input-wrapper"
-    >
+    <div className="autocomplete-input-wrapper">
       <Select
         name={name}
         ouiaId={`autocomplete-select-${name}`}
@@ -263,20 +192,18 @@ export const AutocompleteInputComponent = ({
         selected={selected}
         onSelect={onSelectLocal}
         onOpenChange={nextIsOpen => {
-          if (!nextIsOpen) closeMenu();
+          if (!nextIsOpen) onClose();
           else setIsOpen(true);
         }}
         toggle={toggle}
         shouldFocusFirstItemOnOpen={false}
       >
         <SelectList id="select-typeahead-listbox">
-          {selectOptions.map((option, index) => (
+          {selectOptions.map(option => (
             <SelectOption
               key={option.value || option.label}
-              isFocused={focusedItemIndex === index}
               className={option.className}
               isDisabled={option.disabled || false}
-              id={createItemId(option.value)}
               {...option}
               ref={null}
             >
@@ -318,6 +245,7 @@ AutocompleteInputComponent.propTypes = {
   isDisabled: PropTypes.bool,
   fieldId: PropTypes.string,
   onBlur: PropTypes.func,
+  allowClear: PropTypes.bool,
 };
 
 AutocompleteInputComponent.defaultProps = {
@@ -331,6 +259,7 @@ AutocompleteInputComponent.defaultProps = {
   isDisabled: false,
   fieldId: undefined,
   onBlur: () => {},
+  allowClear: true,
 };
 
 export default AutocompleteInputComponent;

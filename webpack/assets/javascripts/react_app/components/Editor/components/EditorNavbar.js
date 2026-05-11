@@ -167,6 +167,7 @@ const EditorNavbar = ({
                   }
                   onBlur={() => onHostSearch({ target: { value: '' } })}
                   onSelect={resolveHostById}
+                  allowClear={false}
                 />
                 {isFetchingHosts && (
                   <div id="editor-host-fetch-spinner">

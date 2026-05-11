@@ -124,14 +124,32 @@ describe('AutocompleteInput RTL Tests', () => {
         expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
       });
     });
-  });
 
-  describe('Keyboard Navigation', () => {
-    test('opens dropdown on Enter key', async () => {
+    test('selects option after typing to filter', async () => {
       render(<AutocompleteInput {...defaultProps} />);
 
       const input = screen.getByRole('combobox');
-      fireEvent.keyDown(input, { key: 'Enter' });
+      fireEvent.change(input, { target: { value: 'Option 2' } });
+
+      await waitFor(() => {
+        expect(screen.getByText('Option 2')).toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByText('Option 2'));
+
+      await waitFor(() => {
+        expect(setSelected).toHaveBeenCalledWith('option2');
+      });
+      expect(input).toHaveValue('Option 2');
+    });
+  });
+
+  describe('Keyboard Navigation', () => {
+    test('opens dropdown on click', async () => {
+      render(<AutocompleteInput {...defaultProps} />);
+
+      const input = screen.getByRole('combobox');
+      fireEvent.click(input);
 
       await waitFor(() => {
         expect(screen.getByRole('listbox')).toBeInTheDocument();
@@ -149,6 +167,153 @@ describe('AutocompleteInput RTL Tests', () => {
         expect(screen.getByText('Option 1')).toHaveClass(
           'pf-v5-c-menu__item-text'
         );
+      });
+    });
+  });
+
+  describe('allowClear', () => {
+    test('clears selection when input is emptied with allowClear=true (default)', async () => {
+      const onSelect = jest.fn();
+      render(
+        <AutocompleteInput
+          {...defaultProps}
+          selected="option1"
+          onSelect={onSelect}
+        />
+      );
+
+      const input = screen.getByRole('combobox');
+      expect(input).toHaveValue('Option 1');
+
+      fireEvent.change(input, { target: { value: '' } });
+
+      expect(onSelect).toHaveBeenCalledWith('');
+    });
+
+    test('does not clear selection when input is emptied with allowClear=false', async () => {
+      const onSelect = jest.fn();
+      render(
+        <AutocompleteInput
+          {...defaultProps}
+          selected="option1"
+          onSelect={onSelect}
+          allowClear={false}
+        />
+      );
+
+      const input = screen.getByRole('combobox');
+      expect(input).toHaveValue('Option 1');
+
+      fireEvent.change(input, { target: { value: '' } });
+
+      expect(onSelect).not.toHaveBeenCalled();
+    });
+
+    test('clears selection for numeric selected value with allowClear=true', async () => {
+      const numericOptions = [
+        { value: 0, label: 'Zero' },
+        { value: 1, label: 'One' },
+      ];
+      const onSelect = jest.fn();
+      render(
+        <AutocompleteInput
+          {...defaultProps}
+          options={numericOptions}
+          selected={0}
+          onSelect={onSelect}
+        />
+      );
+
+      const input = screen.getByRole('combobox');
+      expect(input).toHaveValue('Zero');
+
+      fireEvent.change(input, { target: { value: '' } });
+
+      expect(onSelect).toHaveBeenCalledWith('');
+    });
+
+    test('does not call onSelect when selected is already empty', () => {
+      const onSelect = jest.fn();
+      render(
+        <AutocompleteInput
+          {...defaultProps}
+          selected=""
+          onSelect={onSelect}
+        />
+      );
+
+      const input = screen.getByRole('combobox');
+      fireEvent.change(input, { target: { value: '' } });
+
+      expect(onSelect).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onClose behavior', () => {
+    test('calls onBlur on close', async () => {
+      const onBlur = jest.fn();
+      render(
+        <AutocompleteInput
+          {...defaultProps}
+          selected="option1"
+          onBlur={onBlur}
+        />
+      );
+
+      const input = screen.getByRole('combobox');
+      fireEvent.click(input);
+
+      await waitFor(() => {
+        expect(screen.getByRole('listbox')).toBeInTheDocument();
+      });
+
+      fireEvent.keyDown(input, { key: 'Escape' });
+
+      await waitFor(() => {
+        expect(onBlur).toHaveBeenCalledWith('Option 1');
+      });
+    });
+
+    test('restores input value on close when allowClear=false', async () => {
+      render(
+        <AutocompleteInput
+          {...defaultProps}
+          selected="option1"
+          allowClear={false}
+        />
+      );
+
+      const input = screen.getByRole('combobox');
+      expect(input).toHaveValue('Option 1');
+
+      fireEvent.change(input, { target: { value: 'typed text' } });
+      expect(input).toHaveValue('typed text');
+
+      fireEvent.keyDown(input, { key: 'Escape' });
+
+      await waitFor(() => {
+        expect(input).toHaveValue('Option 1');
+      });
+    });
+
+    test('resets filter on close', async () => {
+      render(<AutocompleteInput {...defaultProps} />);
+
+      const input = screen.getByRole('combobox');
+      fireEvent.change(input, { target: { value: 'Option 1' } });
+
+      await waitFor(() => {
+        expect(screen.queryByText('Option 2')).not.toBeInTheDocument();
+      });
+
+      fireEvent.keyDown(input, { key: 'Escape' });
+
+      fireEvent.click(input);
+
+      await waitFor(() => {
+        expect(screen.getByText('Option 1')).toBeInTheDocument();
+        expect(screen.getByText('Option 2')).toBeInTheDocument();
+        expect(screen.getByText('Option 3')).toBeInTheDocument();
       });
     });
   });
@@ -184,21 +349,6 @@ describe('AutocompleteInput RTL Tests', () => {
 
       const input = screen.getByRole('combobox');
       expect(input).toHaveValue('true');
-    });
-
-  });
-
-  describe('Accessibility', () => {
-    test('has proper ARIA attributes when focused', async () => {
-      render(<AutocompleteInput {...defaultProps} />);
-
-      const input = screen.getByRole('combobox');
-      fireEvent.click(input);
-
-      await waitFor(() => {
-        fireEvent.keyDown(input, { key: 'ArrowDown' });
-        expect(input).toHaveAttribute('aria-activedescendant');
-      });
     });
   });
 });
