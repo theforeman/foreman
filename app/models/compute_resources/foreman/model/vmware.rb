@@ -482,7 +482,7 @@ module Foreman::Model
       args.except!(:hardware_version) if args[:hardware_version] == 'Default'
 
       firmware_type = args.delete(:firmware_type).to_s
-      args.merge!(process_firmware_attributes(args[:firmware], firmware_type))
+      args.merge!(process_firmware_attributes(args[:firmware], firmware_type, args[:provision_method]))
       args[:virtual_tpm] = validate_tpm_compatibility(args[:virtual_tpm], args[:firmware])
 
       args.reject! { |k, v| v.nil? }

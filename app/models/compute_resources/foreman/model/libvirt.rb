@@ -153,7 +153,7 @@ module Foreman::Model
       opts[:boot_order] = set_boot_order(attr)
 
       firmware_type = opts.delete(:firmware_type).to_s
-      opts.merge!(process_firmware_attributes(opts[:firmware], firmware_type))
+      opts.merge!(process_firmware_attributes(opts[:firmware], firmware_type, opts[:provision_method]))
 
       vm = client.servers.new opts
       vm.memory = opts[:memory] if opts[:memory]
