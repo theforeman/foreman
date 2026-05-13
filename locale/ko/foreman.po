@@ -121,8 +121,14 @@ msgid "%s warning message"
 msgid_plural "%s warning messages"
 msgstr[0] "%s 경고 메시지"
 
+msgid "%s was successfully created."
+msgstr ""
+
 msgid "%s was successfully deleted"
 msgstr "%s이/가 성공적으로 삭제되었습니다"
+
+msgid "%s was successfully updated."
+msgstr ""
 
 msgid "%s week ago"
 msgid_plural "%s weeks ago"
@@ -389,6 +395,9 @@ msgstr "호스트에 도메인이나 서브넷과 같은 리소스가 연결되�
 
 msgid "A mismatch happens if there is a resource associated with a host, such as a domain or subnet, and at the same time not associated with the {taxonomy} you want to assign the host to. The option Fix on mismatch will add such a resource to the {taxonomy}, and is therefore the recommended choice."
 msgstr "호스트에 도메인이나 서브넷과 같은 리소스가 연결되어 있으나, 동시에 호스트를 할당하려는 {taxonomy}에는 연결되어 있지 않은 경우 불일치가 발생합니다. ‘불일치 시 수정’ 옵션을 선택하면 해당 리소스를 {taxonomy}에 추가하므로 일반적으로 이 설정을 사용하는 것이 좋습니다."
+
+msgid "A model with this name already exists. Please choose a different name."
+msgstr ""
 
 msgid "A notification when a host finishes building"
 msgstr "호스트가 빌드를 완료하면 알림 전송"
@@ -1221,6 +1230,9 @@ msgstr "BMC 비밀번호 사용"
 msgid "Back"
 msgstr "뒤로 "
 
+msgid "Back to hardware models"
+msgstr ""
+
 msgid "Back to host"
 msgstr "호스트로 돌아가기 "
 
@@ -1232,6 +1244,9 @@ msgstr "백엔드 시스템 상태"
 
 msgid "Backtrace"
 msgstr "역추적"
+
+msgid "Bar chart"
+msgstr ""
 
 msgid "Bare Metal"
 msgstr "베어 메탈 "
@@ -2155,6 +2170,9 @@ msgstr "운영 체제의 중첩된 매개 변수 생성 "
 msgid "Create a nested parameter for an organization"
 msgstr "조직의 중첩된 매개 변수 생성 "
 
+msgid "Create a new hardware model"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "파티션 테이블 생성 "
 
@@ -2707,6 +2725,9 @@ msgstr "이 인터페이스의 장치 ID입니다. 이는 다양한 플랫폼 �
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "장치 식별자. 예: eth0 또는 eth1.1"
 
+msgid "Disable"
+msgstr "비활성화 "
+
 msgid "Disable Notifications"
 msgstr "통지 비활성화 "
 
@@ -2957,6 +2978,9 @@ msgstr "Embedded Ruby(ERB)는 일반 텍스트와 Ruby 코드를 결합한 템�
 msgid "Empty"
 msgstr "비어 있음"
 
+msgid "Enable"
+msgstr "활성화 "
+
 msgid "Enable Caching"
 msgstr "캐싱 활성화"
 
@@ -2998,6 +3022,9 @@ msgstr "다음 부팅시 다시 빌드하기 위해 %s 활성화 "
 
 msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
 msgstr "다음 부팅 시 재구성에 %s를 사용하도록 설정했지만 호스트의 전원을 껐다가 켜지 못했습니다."
+
+msgid "Enablement state of the selected hosts may vary."
+msgstr ""
 
 msgid "Encloses a comment that is ignored during template rendering:"
 msgstr "템플릿 렌더링 중 무시되는 주석을 묶습니다."
@@ -3429,6 +3456,11 @@ msgstr "컴퓨팅 %{compute_resource} 인스턴스 %{name} 업데이트 취소�
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "컴퓨팅 %{compute_resource} 인스턴스 %{name} 업데이트에 실패했습니다: %{e}"
+
+msgid "Failed to update notifications for %s host"
+msgid_plural "Failed to update notifications for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to validate %{host}: %{error}"
 msgstr "%{host} 확인에 실패했습니다: %{error}"
@@ -4071,9 +4103,6 @@ msgstr "인스턴스 제목 배너의 색상에 대한 16진수 값입니다. �
 
 msgid "Hidden Value"
 msgstr "숨겨진 값"
-
-msgid "Hide Content"
-msgstr "내용 숨기기"
 
 msgid "Hide advanced fields"
 msgstr "고급 필드 숨기기"
@@ -5803,6 +5832,9 @@ msgstr "VM 정보 로딩 중 ..."
 msgid "Loading filters ..."
 msgstr "필터 로드 중 ..."
 
+msgid "Loading form"
+msgstr ""
+
 msgid "Loading host information ..."
 msgstr "호스트 정보 로딩 중 ..."
 
@@ -6095,6 +6127,9 @@ msgstr "호스트 관리 "
 
 msgid "Manage host statuses"
 msgstr "호스트 상태 관리"
+
+msgid "Manage notifications"
+msgstr ""
 
 msgid "Managed"
 msgstr "관리됨 "
@@ -6856,6 +6891,9 @@ msgstr "알림 청사진"
 msgid "Notification recipient"
 msgstr "알림 수신자"
 
+msgid "Notification state"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Actions"
 msgstr "작업"
@@ -6887,8 +6925,19 @@ msgstr "확인됨"
 msgid "Notifications"
 msgstr "통지 "
 
+msgid "Notifications %{action} for %{count} host"
+msgid_plural "Notifications %{action} for %{count} hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Notifications are sent when a host reports a configuration error via Puppet, Ansible, or another configuration management tool."
+msgstr ""
+
 msgid "Notifications can't be assigned to this user."
 msgstr "이 사용자에게 알림을 할당할 수 없습니다."
+
+msgid "Notifications enabled"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Actions"
@@ -8317,6 +8366,9 @@ msgstr "마지막 페이지로 이동"
 msgid "Return to the last page"
 msgstr "마지막 페이지로 돌아가기"
 
+msgid "Return to the previous page"
+msgstr ""
+
 msgid "Returns string representing a host status of a given type"
 msgstr "지정한 유형의 호스트 상태를 나타내는 문자열을 반환합니다."
 
@@ -8582,8 +8634,8 @@ msgstr "스크립트 템플릿"
 msgid "Search"
 msgstr "검색 "
 
-msgid "Search and go"
-msgstr "검색 및 이동"
+msgid "Search (Ctrl+Shift+F)"
+msgstr ""
 
 msgid "Search error"
 msgstr "검색 오류"
@@ -8629,9 +8681,6 @@ msgstr "작업 선택 "
 
 msgid "Select All"
 msgstr "모두 선택 "
-
-msgid "Select Host..."
-msgstr "호스트를 선택하세요..."
 
 msgid "Select Hosts"
 msgstr "호스트 선택"
@@ -8768,6 +8817,9 @@ msgstr "사용자의 이메일 주소로 테스트 메시지를 보내 구성이
 
 msgid "Send a welcome email including username and URL to new users"
 msgstr "새 사용자에게 사용자 이름 및 URL이 포함된 환영 이메일을 보냅니다."
+
+msgid "Send email notifications when configuration errors are reported"
+msgstr ""
 
 msgid "Send report via e-mail"
 msgstr "이메일로 보고서 보내기"
@@ -10010,6 +10062,9 @@ msgstr "전체 DNS 도메인 이름 "
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "외부 사용자 그룹으로 추가한 그룹을 찾았습니다. 그러나 사용자의 인증 소스 기본 DN 및 필터와 일치하는 사용자가 그 안에 없습니다. 외부 사용자 그룹이 인증 소스 필터에 속하는지 확인하십시오."
 
+msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
+msgstr ""
+
 msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
 msgstr "호스트 %s이/가 존재하지 않거나 액세스 권한이 필요합니다. 이 문제가 계속되면 관리자에게 문의하세요."
 
@@ -10486,6 +10541,9 @@ msgstr "UTC, 보고서 생성 시간"
 msgid "UUID"
 msgstr "UUID"
 
+msgid "UUID of a VM to import from a compute resource"
+msgstr ""
+
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr "오케스트레이션 작업 상태를 추적하기 위한 UUID, GET /api/orchestration/:UUID/tasks"
 
@@ -10599,6 +10657,9 @@ msgstr "설치된 BMC 공급자를 가져올 수 없습니다 "
 
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI 클래스 %s을(를) 초기화할 수 없습니다."
+
+msgid "Unable to load hardware model"
+msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr "외부 IPAM에서 서브넷 %{subnet}의 IP 주소를 가져올 수 없습니다."
@@ -11482,6 +11543,9 @@ msgstr "모든 호스트에 대한 새 개요 페이지를 표시할지 여부"
 
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "클래스 매개 변수 값을 Foreman에서 관리하는지 여부"
+
+msgid "Whether to enable or disable notification alerts for the selected hosts"
+msgstr ""
 
 msgid "Whether to pull RSS notifications or not"
 msgstr "RSS 알림 풀 여부"

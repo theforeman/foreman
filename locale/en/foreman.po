@@ -3366,6 +3366,9 @@ msgid ""
 " "
 msgstr ""
 
+msgid "Failed to delete: "
+msgstr ""
+
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 

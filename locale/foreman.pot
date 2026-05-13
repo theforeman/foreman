@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-07 16:46+0200\n"
-"PO-Revision-Date: 2026-05-07 16:46+0200\n"
+"POT-Creation-Date: 2026-05-13 12:49+0200\n"
+"PO-Revision-Date: 2026-05-13 12:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4522,7 +4522,7 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/bulkDelete.js:48
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:350
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:390
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:47
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:58
 #: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/Table.js:101
 #: ../webpack/assets/javascripts/react_app/components/common/table/components/DeleteButton.js:18
 msgid "Delete"
@@ -4538,7 +4538,7 @@ msgstr ""
 #: ../app/helpers/application_helper.rb:147
 #: ../app/helpers/provisioning_templates_helper.rb:13
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/index.js:470
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:202
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:209
 #: ../webpack/assets/javascripts/react_app/routes/common/PageLayout/components/ExportButton/ExportButton.js:33
 msgid "Export"
 msgstr ""
@@ -4562,7 +4562,7 @@ msgstr ""
 #: ../app/helpers/application_helper.rb:297
 #: ../app/views/about/index.html.erb:121
 #: ../webpack/assets/javascripts/react_app/components/PF4/DocumentationLink/index.js:28
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:206
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:213
 msgid "Documentation"
 msgstr ""
 
@@ -5039,7 +5039,7 @@ msgstr ""
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/powerState/BulkPowerStateModal.js:141
 #: ../webpack/assets/javascripts/react_app/components/HostsIndex/BulkActions/reassignHostGroup/BulkReassignHostgroupModal.js:215
 #: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:57
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:55
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:66
 #: ../webpack/assets/javascripts/react_app/components/common/RedirectCancelButton/RedirectCancelButton.js:21
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:33
 #: ../webpack/assets/javascripts/react_app/components/users/PersonalAccessTokens/PersonalAccessTokenModal.js:203
@@ -16745,17 +16745,22 @@ msgid "None provided"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:27
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:16
+msgid "Failed to delete: "
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:37
 msgid "%s was successfully deleted"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:35
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:46
 msgid "Confirm Deletion"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:59
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/Table/DeleteModal.js:70
 msgid "You are about to delete %s. Are you sure?"
 msgstr ""
 
@@ -16780,7 +16785,7 @@ msgid "Select all"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:196
+#: ../webpack/assets/javascripts/react_app/components/PF4/TableIndexPage/TableIndexPage.js:203
 msgid "Create new"
 msgstr ""
 

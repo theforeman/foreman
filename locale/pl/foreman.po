@@ -145,7 +145,13 @@ msgstr[1] "%s ostrzeżeń o błędach"
 msgstr[2] "%s ostrzeżeń o błędach"
 msgstr[3] "%s ostrzeżeń o błędach"
 
+msgid "%s was successfully created."
+msgstr ""
+
 msgid "%s was successfully deleted"
+msgstr ""
+
+msgid "%s was successfully updated."
 msgstr ""
 
 msgid "%s week ago"
@@ -419,6 +425,9 @@ msgid "A mismatch happens if there is a resource associated with a host, such as
 msgstr ""
 
 msgid "A mismatch happens if there is a resource associated with a host, such as a domain or subnet, and at the same time not associated with the {taxonomy} you want to assign the host to. The option Fix on mismatch will add such a resource to the {taxonomy}, and is therefore the recommended choice."
+msgstr ""
+
+msgid "A model with this name already exists. Please choose a different name."
 msgstr ""
 
 msgid "A notification when a host finishes building"
@@ -1255,6 +1264,9 @@ msgstr ""
 msgid "Back"
 msgstr "Wstecz"
 
+msgid "Back to hardware models"
+msgstr ""
+
 msgid "Back to host"
 msgstr "Powrót do hosta"
 
@@ -1266,6 +1278,9 @@ msgstr ""
 
 msgid "Backtrace"
 msgstr "Backtrace"
+
+msgid "Bar chart"
+msgstr ""
 
 msgid "Bare Metal"
 msgstr "Czysta maszyna"
@@ -2190,6 +2205,9 @@ msgstr "Tworzenie zagnieżdżonego parametru dla systemu operacyjnego"
 msgid "Create a nested parameter for an organization"
 msgstr "Tworzenie zagnieżdżonego parametru dla organizacji"
 
+msgid "Create a new hardware model"
+msgstr ""
+
 msgid "Create a partition table"
 msgstr "Tworzenie tablicy partycji"
 
@@ -2742,6 +2760,9 @@ msgstr "Identyfikator urządzenia dla tego interfejsu. Może się różnić w za
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "identyfikator wejścia, np. eth0 lub eth1.1"
 
+msgid "Disable"
+msgstr ""
+
 msgid "Disable Notifications"
 msgstr "Wyłącz powiadomienia"
 
@@ -2995,6 +3016,9 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
+msgid "Enable"
+msgstr ""
+
 msgid "Enable Caching"
 msgstr ""
 
@@ -3035,6 +3059,9 @@ msgid "Enabled %s for rebuild on next boot"
 msgstr "Włączone %s dla przebudowania przy następnym uruchomieniu"
 
 msgid "Enabled %s for rebuild on next boot, but failed to power cycle the host"
+msgstr ""
+
+msgid "Enablement state of the selected hosts may vary."
 msgstr ""
 
 msgid "Encloses a comment that is ignored during template rendering:"
@@ -3473,6 +3500,11 @@ msgstr "Nie udało się cofnąć aktualizacji instancji zasobu %{compute_resourc
 
 msgid "Failed to update a compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Nie udało się aktualizować instancji zasobu %{compute_resource} %{name}: %{message}"
+
+msgid "Failed to update notifications for %s host"
+msgid_plural "Failed to update notifications for %s hosts"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Failed to validate %{host}: %{error}"
 msgstr "Nie udało się zweryfikować %{host}: %{error}"
@@ -4114,9 +4146,6 @@ msgid "Hex value for color for the instance title banner. It will only be used i
 msgstr ""
 
 msgid "Hidden Value"
-msgstr ""
-
-msgid "Hide Content"
 msgstr ""
 
 msgid "Hide advanced fields"
@@ -5849,6 +5878,9 @@ msgstr "Ładowanie informacji o maszynie wirtualnej ..."
 msgid "Loading filters ..."
 msgstr "Ładowanie filtrów..."
 
+msgid "Loading form"
+msgstr ""
+
 msgid "Loading host information ..."
 msgstr "Ładowanie informacji o hoście ..."
 
@@ -6140,6 +6172,9 @@ msgid "Manage host"
 msgstr "Zarządzaj hostem"
 
 msgid "Manage host statuses"
+msgstr ""
+
+msgid "Manage notifications"
 msgstr ""
 
 msgid "Managed"
@@ -6902,6 +6937,9 @@ msgstr ""
 msgid "Notification recipient"
 msgstr ""
 
+msgid "Notification state"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "NotificationBlueprint|Actions"
 msgstr ""
@@ -6933,7 +6971,18 @@ msgstr ""
 msgid "Notifications"
 msgstr "Powiadomienia"
 
+msgid "Notifications %{action} for %{count} host"
+msgid_plural "Notifications %{action} for %{count} hosts"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Notifications are sent when a host reports a configuration error via Puppet, Ansible, or another configuration management tool."
+msgstr ""
+
 msgid "Notifications can't be assigned to this user."
+msgstr ""
+
+msgid "Notifications enabled"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8366,6 +8415,9 @@ msgstr ""
 msgid "Return to the last page"
 msgstr ""
 
+msgid "Return to the previous page"
+msgstr ""
+
 msgid "Returns string representing a host status of a given type"
 msgstr "Zwraca napis reprezentujący status hostu danego typu"
 
@@ -8633,7 +8685,7 @@ msgstr ""
 msgid "Search"
 msgstr "Szukaj"
 
-msgid "Search and go"
+msgid "Search (Ctrl+Shift+F)"
 msgstr ""
 
 msgid "Search error"
@@ -8680,9 +8732,6 @@ msgstr "Wybierz akcję"
 
 msgid "Select All"
 msgstr "Wybierz wszystko"
-
-msgid "Select Host..."
-msgstr ""
 
 msgid "Select Hosts"
 msgstr "Wybierz hosty"
@@ -8820,6 +8869,9 @@ msgstr "Wyślij wiadomość testową na adres e-mail użytkownika, aby potwierdz
 
 msgid "Send a welcome email including username and URL to new users"
 msgstr "Wyślij e-mail powitalny włącznie z nazwą użytkownika i adresem URL do nowych użytkowników"
+
+msgid "Send email notifications when configuration errors are reported"
+msgstr ""
 
 msgid "Send report via e-mail"
 msgstr ""
@@ -10065,6 +10117,9 @@ msgstr "Pełna nazwa domeny DNS"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
+msgid "The hardware model with id %s could not be loaded. It may not exist or you may not have permission to view it."
+msgstr ""
+
 msgid "The host %s does not exist or there are access permissions needed. Please contact your administrator if this issue continues."
 msgstr ""
 
@@ -10548,6 +10603,9 @@ msgstr ""
 msgid "UUID"
 msgstr "UUID"
 
+msgid "UUID of a VM to import from a compute resource"
+msgstr ""
+
 msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/tasks"
 msgstr "UUID do śledzenia statusu zadań orkiestracji, GET /api/orchestration/:UUID/tasks"
 
@@ -10661,6 +10719,9 @@ msgstr "Nie można zainstalować BMC providers"
 
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "Nie udało się zainicjalizować klasy ProxyAPI: %s "
+
+msgid "Unable to load hardware model"
+msgstr ""
 
 msgid "Unable to obtain IP address for subnet %{subnet} in External IPAM."
 msgstr ""
@@ -11539,6 +11600,9 @@ msgstr ""
 
 msgid "Whether the class parameter value is managed by Foreman."
 msgstr "Czy wartość parametru klasy jest zarządzana przez Foremana."
+
+msgid "Whether to enable or disable notification alerts for the selected hosts"
+msgstr ""
 
 msgid "Whether to pull RSS notifications or not"
 msgstr ""
