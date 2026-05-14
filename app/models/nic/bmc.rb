@@ -1,6 +1,6 @@
 module Nic
   class BMC < Managed
-    PROVIDERS = %w(IPMI Redfish SSH)
+    PROVIDERS = %w(IPMI Redfish)
     before_validation :ensure_physical
     before_validation { |nic| nic.provider == 'Redfish' || nic.provider.try(:upcase!) }
     validates :provider, :presence => true, :inclusion => { :in => PROVIDERS }

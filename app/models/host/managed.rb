@@ -728,7 +728,7 @@ autopart"', desc: 'to render the content of host partition table'
   def bmc_available?
     ipmi = bmc_nic
     return false if ipmi.nil?
-    (ipmi.credentials_present? && %w(IPMI Redfish).include?(ipmi.provider)) || ipmi.provider == 'SSH'
+    (ipmi.credentials_present? && %w(IPMI Redfish).include?(ipmi.provider))
   end
   alias_method :bmc_available, :bmc_available?
 

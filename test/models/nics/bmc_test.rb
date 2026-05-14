@@ -13,13 +13,6 @@ class BMCTest < ActiveSupport::TestCase
     assert host.bmc_available?
   end
 
-  test 'BMC SSH availability' do
-    host = FactoryBot.build_stubbed(:host, :managed)
-    nic = FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => 'SSH', :subnet => subnets(:one))
-    host.expects(:bmc_nic).returns(nic)
-    assert host.bmc_available?
-  end
-
   test 'upcasing provider does not fail if provider is not present' do
     host = FactoryBot.build_stubbed(:host, :managed)
     assert_nothing_raised do
