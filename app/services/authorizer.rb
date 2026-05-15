@@ -102,7 +102,7 @@ class Authorizer
 
     result[:where] << { id: base_ids } if @base_collection.present?
 
-    search_string = build_scoped_search_condition(all_filters)
+    search_string = build_scoped_search_condition(all_filters, resource_class)
     return result if search_string.blank?
 
     begin
@@ -120,23 +120,23 @@ class Authorizer
     result
   end
 
-  def build_scoped_search_condition(filters)
+  def build_scoped_search_condition(filters, resource_class = nil)
     raise ArgumentError if filters.blank?
 
-    if filters.all?(&:granular?)
+    if granular_filter_resource?(resource_class, filters)
       # All the filters support granular filtering
       #
       # This means we can build a simplified query by OR-ing all the per-filter
       # searches together and then AND-ing a single check for user's taxonomies
 
       # Do not do any scoping if there's a filter which grants the permission universally
-      base_conditions = filters.any? { |f| f.taxonomy_search.nil? && f.search.nil? } ? [] : filters.map(&:search_condition)
+      base_conditions = grouped_granular_filter_conditions(filters)
       tax_conditions = filters.first.taxonomy_search_condition_for_user(@user)
 
       QueryBuilder.join(
         'AND',
         [
-          QueryBuilder.join('OR', base_conditions),
+          base_conditions,
           QueryBuilder.join('AND', tax_conditions),
         ])
     else
@@ -152,6 +152,58 @@ class Authorizer
   end
 
   private
+
+  def grouped_granular_filter_conditions(filters)
+    return nil if filters.any? { |filter| filter.taxonomy_search.blank? && filter.search.blank? }
+
+    grouped_conditions = grouped_granular_filters(filters).map do |grouped_filters|
+      build_grouped_granular_filter_condition(grouped_filters, grouped_filters.first.taxonomy_search)
+    end
+
+    QueryBuilder.join('OR', grouped_conditions)
+  end
+
+  def grouped_granular_filters(filters)
+    filters.group_by { |filter| normalized_granular_filter_group_key(filter) }.values
+  end
+
+  def build_grouped_granular_filter_condition(filters, taxonomy_search)
+    return taxonomy_search if filters.any? { |filter| filter.search.blank? }
+
+    searches = filters.map(&:search).uniq
+    search_condition = QueryBuilder.join('OR', searches)
+    return search_condition if taxonomy_search.blank?
+
+    QueryBuilder.join('AND', [search_condition, taxonomy_search])
+  end
+
+  def normalized_granular_filter_group_key(filter)
+    @normalized_group_keys ||= {}
+    cache_key = filter.taxonomy_search.presence
+
+    @normalized_group_keys[cache_key] ||= filter.taxonomy_search_condition_for_user(@user, filter.taxonomy_search).map do |condition|
+      normalize_taxonomy_group_condition(condition)
+    end
+  end
+
+  def normalize_taxonomy_group_condition(condition)
+    matches = condition.to_s.match(/\A(?<key>\w+_id) \^ \((?<ids>[\d,\s]+)\)\z/)
+    return condition if matches.blank?
+
+    ids = matches[:ids].split(',').map(&:to_i).uniq.sort
+    QueryBuilder.key_value_in(matches[:key], ids)
+  end
+
+  def granular_filter_resource?(resource_class, filters)
+    return filters.all?(&:granular?) if resource_class.nil?
+
+    filter_resource_type = resource_name(resource_class)
+    filter_resource_class = Filter.get_resource_class(filter_resource_type)
+    return false if filter_resource_class.nil?
+    return true if filter_resource_type == 'Host'
+
+    filter_resource_class.included_modules.include?(Authorizable) && filter_resource_class.respond_to?(:search_for)
+  end
 
   def allowed_organizations(resource_class)
     allowed_taxonomies(resource_class, 'organization')
