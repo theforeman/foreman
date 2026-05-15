@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`API selectors should return the API HTTP status from an axios error 1`] = `404`;
+
+exports[`API selectors should return the API error message from an axios response body 1`] = `"Record not found"`;
+
 exports[`API selectors should return the API substate by key 1`] = `
 Object {
   "payload": Object {
@@ -49,3 +53,5 @@ Object {
   },
 }
 `;
+
+exports[`API selectors should return undefined HTTP status when there is no API error 1`] = `undefined`;

@@ -29,7 +29,11 @@ import {
 import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
 import { registerCoreTabs } from './Tabs';
-import { HOST_DETAILS_API_OPTIONS, TABS_SLOT_ID } from './consts';
+import {
+  HOST_DETAILS_API_OPTIONS,
+  HOST_DETAILS_KEY,
+  TABS_SLOT_ID,
+} from './consts';
 
 import { translate as __, sprintf } from '../../common/I18n';
 import HostGlobalStatus from './Status/GlobalStatus';
@@ -37,8 +41,12 @@ import SkeletonLoader from '../common/SkeletonLoader';
 import { STATUS } from '../../constants';
 import './HostDetails.scss';
 import { useAPI } from '../../common/hooks/API/APIHooks';
+import {
+  selectAPIErrorMessage,
+  selectAPIHttpStatus,
+} from '../../redux/API/APISelectors';
 import TabRouter from './Tabs/TabRouter';
-import RedirectToEmptyHostPage from './EmptyState';
+import HostDetailsEmptyState from './EmptyState';
 import BreadcrumbBar from '../BreadcrumbBar';
 import { CardExpansionContextWrapper } from './CardExpansionContext';
 import Head from '../Head';
@@ -59,6 +67,12 @@ const HostDetails = ({
     'get',
     `/api/hosts/${id}?show_hidden_parameters=true`,
     HOST_DETAILS_API_OPTIONS
+  );
+  const httpStatus = useSelector(state =>
+    selectAPIHttpStatus(state, HOST_DETAILS_KEY)
+  );
+  const errorMessage = useSelector(state =>
+    selectAPIErrorMessage(state, HOST_DETAILS_KEY)
   );
   const isNavCollapsed = useSelector(selectIsCollapsed);
   const hostsIndexUrl = useForemanHostsPageUrl();
@@ -91,7 +105,14 @@ const HostDetails = ({
       tab => !slotMetadata?.[tab]?.hideTab?.({ hostDetails: response })
     ) ?? [];
 
-  if (status === STATUS.ERROR) return <RedirectToEmptyHostPage hostname={id} />;
+  if (status === STATUS.ERROR)
+    return (
+      <HostDetailsEmptyState
+        hostname={id}
+        httpStatus={httpStatus}
+        errorMessage={errorMessage}
+      />
+    );
   return (
     <>
       <Head>

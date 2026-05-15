@@ -14,6 +14,7 @@ const DefaultEmptyState = props => {
     documentation,
     action,
     secondaryActions,
+    variant,
   } = props;
 
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const DefaultEmptyState = props => {
       documentation={documentation}
       action={ActionButton}
       secondaryActions={SecondaryButton}
+      variant={variant}
     />
   );
 };

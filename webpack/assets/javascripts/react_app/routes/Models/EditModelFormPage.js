@@ -9,6 +9,7 @@ import { STATUS } from '../../constants';
 import { APIActions } from '../../redux/API';
 import {
   selectAPIErrorMessage,
+  selectAPIHttpStatus,
   selectAPIResponse,
   selectAPIStatus,
 } from '../../redux/API/APISelectors';
@@ -48,6 +49,7 @@ const EditModelFormPage = ({
   const errorMessage = useSelector(state =>
     selectAPIErrorMessage(state, fetchKey)
   );
+  const httpStatus = useSelector(state => selectAPIHttpStatus(state, fetchKey));
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -112,7 +114,11 @@ const EditModelFormPage = ({
   let pageContent;
   if (status === STATUS.ERROR) {
     pageContent = (
-      <ModelFormEmptyState modelId={id} errorMessage={errorMessage} />
+      <ModelFormEmptyState
+        modelId={id}
+        errorMessage={errorMessage}
+        httpStatus={httpStatus}
+      />
     );
   } else if (isLoading) {
     pageContent = <ModelFormSkeleton />;

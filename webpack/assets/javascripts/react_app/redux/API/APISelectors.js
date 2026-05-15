@@ -20,5 +20,15 @@ export const selectAPIError = (state, key) =>
 
 export const selectAPIErrorMessage = (state, key) => {
   const error = selectAPIError(state, key);
-  return error && error.message;
+  if (!error) return undefined;
+  return (
+    error.response?.data?.error?.message ||
+    error.response?.data?.message ||
+    error.message
+  );
+};
+
+export const selectAPIHttpStatus = (state, key) => {
+  const error = selectAPIError(state, key);
+  return error?.response?.status;
 };
