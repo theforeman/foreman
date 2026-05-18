@@ -57,9 +57,9 @@ class AuthorizerTest < ActiveSupport::TestCase
           test "matching and not matching filter" do
             permission = Permission.find_by_name('view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
-                               :search => 'name ~ noexample*')
+              :search => 'name ~ noexample*')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
-                               :search        => 'name ~ example*')
+              :search        => 'name ~ example*')
             domain = FactoryBot.create(:domain)
             auth = Authorizer.new(@user)
 
@@ -70,7 +70,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           test "not matching filter" do
             permission = Permission.find_by_name('view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
-                               :search        => 'name ~ noexample*')
+              :search        => 'name ~ noexample*')
             domain     = FactoryBot.create(:domain)
             auth       = Authorizer.new(@user)
 
@@ -262,13 +262,13 @@ class AuthorizerTest < ActiveSupport::TestCase
     result = auth.build_scoped_search_condition(filters)
 
     expected_base = QueryBuilder.join('AND', [
-      QueryBuilder.join('OR', ['name ~ *', 'name ~ a*']),
-      taxonomy_search,
-    ])
+                                        QueryBuilder.join('OR', ['name ~ *', 'name ~ a*']),
+                                        taxonomy_search,
+                                      ])
     expected = QueryBuilder.join('AND', [
-      expected_base,
-      QueryBuilder.join('AND', filters.first.taxonomy_search_condition_for_user(user)),
-    ])
+                                   expected_base,
+                                   QueryBuilder.join('AND', filters.first.taxonomy_search_condition_for_user(user)),
+                                 ])
 
     assert_equal expected, result
   end
@@ -285,9 +285,9 @@ class AuthorizerTest < ActiveSupport::TestCase
     result = auth.build_scoped_search_condition(filters)
 
     expected = QueryBuilder.join('AND', [
-      taxonomy_search,
-      QueryBuilder.join('AND', filters.first.taxonomy_search_condition_for_user(user)),
-    ])
+                                   taxonomy_search,
+                                   QueryBuilder.join('AND', filters.first.taxonomy_search_condition_for_user(user)),
+                                 ])
 
     assert_equal expected, result
   end
@@ -305,13 +305,13 @@ class AuthorizerTest < ActiveSupport::TestCase
     result = auth.build_scoped_search_condition([filter_one, filter_two])
 
     expected_base = QueryBuilder.join('AND', [
-      QueryBuilder.join('OR', ['name ~ *', 'name ~ a*']),
-      filter_one.taxonomy_search,
-    ])
+                                        QueryBuilder.join('OR', ['name ~ *', 'name ~ a*']),
+                                        filter_one.taxonomy_search,
+                                      ])
     expected = QueryBuilder.join('AND', [
-      expected_base,
-      QueryBuilder.join('AND', ['organization_id ^ (1,2,3)']),
-    ])
+                                   expected_base,
+                                   QueryBuilder.join('AND', ['organization_id ^ (1,2,3)']),
+                                 ])
 
     assert_equal expected, result
   end
@@ -327,13 +327,13 @@ class AuthorizerTest < ActiveSupport::TestCase
     result = auth.build_scoped_search_condition([filter_one, filter_two], Host::Managed)
 
     expected_base = QueryBuilder.join('AND', [
-      QueryBuilder.join('OR', ['name ~ *', 'name ~ a*']),
-      filter_one.taxonomy_search,
-    ])
+                                        QueryBuilder.join('OR', ['name ~ *', 'name ~ a*']),
+                                        filter_one.taxonomy_search,
+                                      ])
     expected = QueryBuilder.join('AND', [
-      expected_base,
-      QueryBuilder.join('AND', filter_one.taxonomy_search_condition_for_user(user)),
-    ])
+                                   expected_base,
+                                   QueryBuilder.join('AND', filter_one.taxonomy_search_condition_for_user(user)),
+                                 ])
 
     assert_equal expected, result
   end
@@ -343,7 +343,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     fact       = host.fact_values.first
     permission = Permission.find_by_name('view_hosts')
     FactoryBot.create(:filter, :role => @role, :permissions => [permission],
-                                :search => "facts.#{fact.name} = #{fact.value}")
+      :search => "facts.#{fact.name} = #{fact.value}")
     auth = Authorizer.new(@user)
 
     results = auth.find_collection(Host::Managed, :permission => :view_hosts)
@@ -373,7 +373,7 @@ class AuthorizerTest < ActiveSupport::TestCase
   test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching limited filter with base collection set" do
     permission = Permission.find_by_name('view_hosts')
     FactoryBot.create(:filter, :role => @role, :permissions => [permission],
-                                :search => 'hostgroup ~ hostgroup*')
+      :search => 'hostgroup ~ hostgroup*')
     (host1, host2) = FactoryBot.create_pair(:host, :with_hostgroup)
     report1        = FactoryBot.create(:config_report, :host => host1)
     report2        = FactoryBot.create(:config_report, :host => host2)
@@ -393,7 +393,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     auth       = Authorizer.new(@user)
 
     collection = auth.find_collection(Host::Managed, :permission => :view_hosts, :joined_on => Report,
-                                      :where => {'name' => hosts.first.name})
+      :where => {'name' => hosts.first.name})
     assert_includes collection, report1
     refute_includes collection, report2
   end

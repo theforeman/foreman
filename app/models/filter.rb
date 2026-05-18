@@ -95,6 +95,7 @@ class Filter < ApplicationRecord
   # We detect granularity by inclusion of Authorizable module and scoped_search definition
   # we can define exceptions for resources with more complex hierarchy (e.g. Host is proxy module)
   def self.granular_for_resource?(resource)
+    return false if resource.nil?
     resource_type = resource.is_a?(String) ? resource : Permission.resource_name(resource)
     resource_class = get_resource_class(resource_type)
     return false if resource_class.nil?

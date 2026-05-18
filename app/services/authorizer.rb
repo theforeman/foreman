@@ -180,8 +180,8 @@ class Authorizer
   def normalize_taxonomy_search(search)
     return search if search.blank?
     search.gsub(/(\w+_id) \^ \(([\d,\s]+)\)/) do
-      ids = $2.split(',').map(&:to_i).uniq.sort.join(',')
-      "#{$1} ^ (#{ids})"
+      ids = ::Regexp.last_match(2).split(',').map(&:to_i).uniq.sort.join(',')
+      "#{::Regexp.last_match(1)} ^ (#{ids})"
     end
   end
 
