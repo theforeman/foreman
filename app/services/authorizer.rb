@@ -154,7 +154,7 @@ class Authorizer
   private
 
   def grouped_granular_filter_conditions(filters)
-    return nil if filters.any? { |filter| filter.taxonomy_search.blank? && filter.search.blank? }
+    return [] if filters.any? { |filter| filter.taxonomy_search.blank? && filter.search.blank? }
 
     grouped_conditions = grouped_granular_filters(filters).map do |grouped_filters|
       build_grouped_granular_filter_condition(grouped_filters, grouped_filters.first.taxonomy_search)
@@ -164,7 +164,7 @@ class Authorizer
   end
 
   def grouped_granular_filters(filters)
-    filters.group_by { |filter| normalized_granular_filter_group_key(filter) }.values
+    filters.group_by { |filter| normalize_taxonomy_search(filter.taxonomy_search) }.values
   end
 
   def build_grouped_granular_filter_condition(filters, taxonomy_search)
@@ -177,32 +177,17 @@ class Authorizer
     QueryBuilder.join('AND', [search_condition, taxonomy_search])
   end
 
-  def normalized_granular_filter_group_key(filter)
-    @normalized_group_keys ||= {}
-    cache_key = filter.taxonomy_search.presence
-
-    @normalized_group_keys[cache_key] ||= filter.taxonomy_search_condition_for_user(@user, filter.taxonomy_search).map do |condition|
-      normalize_taxonomy_group_condition(condition)
+  def normalize_taxonomy_search(search)
+    return search if search.blank?
+    search.gsub(/(\w+_id) \^ \(([\d,\s]+)\)/) do
+      ids = $2.split(',').map(&:to_i).uniq.sort.join(',')
+      "#{$1} ^ (#{ids})"
     end
-  end
-
-  def normalize_taxonomy_group_condition(condition)
-    matches = condition.to_s.match(/\A(?<key>\w+_id) \^ \((?<ids>[\d,\s]+)\)\z/)
-    return condition if matches.blank?
-
-    ids = matches[:ids].split(',').map(&:to_i).uniq.sort
-    QueryBuilder.key_value_in(matches[:key], ids)
   end
 
   def granular_filter_resource?(resource_class, filters)
     return filters.all?(&:granular?) if resource_class.nil?
-
-    filter_resource_type = resource_name(resource_class)
-    filter_resource_class = Filter.get_resource_class(filter_resource_type)
-    return false if filter_resource_class.nil?
-    return true if filter_resource_type == 'Host'
-
-    filter_resource_class.included_modules.include?(Authorizable) && filter_resource_class.respond_to?(:search_for)
+    Filter.granular_for_resource?(resource_class)
   end
 
   def allowed_organizations(resource_class)

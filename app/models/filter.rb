@@ -94,12 +94,16 @@ class Filter < ApplicationRecord
 
   # We detect granularity by inclusion of Authorizable module and scoped_search definition
   # we can define exceptions for resources with more complex hierarchy (e.g. Host is proxy module)
+  def self.granular_for_resource?(resource)
+    resource_type = resource.is_a?(String) ? resource : Permission.resource_name(resource)
+    resource_class = get_resource_class(resource_type)
+    return false if resource_class.nil?
+    return true if resource_type == 'Host'
+    resource_class.included_modules.include?(Authorizable) && resource_class.respond_to?(:search_for)
+  end
+
   def granular?
-    @granular ||= begin
-      return false if resource_class.nil?
-      return true if resource_type == 'Host'
-      resource_class.included_modules.include?(Authorizable) && resource_class.respond_to?(:search_for)
-    end
+    @granular ||= self.class.granular_for_resource?(resource_type)
   end
 
   def resource_taxable?
@@ -167,7 +171,7 @@ class Filter < ApplicationRecord
   end
 
   def build_taxonomy_search_string_from_ids(name, ids)
-    QueryBuilder.key_value_in("#{name}_id", ids || [])
+    QueryBuilder.key_value_in("#{name}_id", (ids || []).sort)
   end
 
   def nilify_empty_searches
