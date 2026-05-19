@@ -237,9 +237,10 @@ class FilterTest < ActiveSupport::TestCase
     loc1 = FactoryBot.create(:location)
     loc2 = FactoryBot.create(:location)
 
-    filter = FactoryBot.create(:filter, :on_name_all,
-      :organizations => [org3, org1, org2],
-      :locations => [loc2, loc1])
+    role = FactoryBot.create(:role, :organizations => [org3, org1, org2], :locations => [loc2, loc1])
+    filter = FactoryBot.create(:filter, :on_name_all, :role => role)
+    filter.enforce_inherited_taxonomies
+    filter.save!
 
     sorted_org_ids = [org1.id, org2.id, org3.id].sort.join(',')
     sorted_loc_ids = [loc1.id, loc2.id].sort.join(',')
