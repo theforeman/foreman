@@ -160,6 +160,8 @@ class Authorizer
       build_grouped_granular_filter_condition(grouped_filters, grouped_filters.first.taxonomy_search)
     end
 
+    return grouped_conditions.first if grouped_conditions.one?
+
     QueryBuilder.join('OR', grouped_conditions)
   end
 
