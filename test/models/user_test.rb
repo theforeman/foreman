@@ -967,6 +967,44 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user.my_organizations, organization
   end
 
+  test "taxonomy_and_child_ids includes assigned taxonomies and ignoring taxonomies with children" do
+    # Setup user with no default taxonomies
+    user = FactoryBot.create(:user, organizations: [], locations: [])
+
+    # Organizations: assigned + children
+    org_assigned = FactoryBot.create(:organization)
+    org_assigned_child = FactoryBot.create(:organization, parent: org_assigned)
+    user.organizations << org_assigned
+
+    # Organizations: ignoring User + children
+    org_ignoring = FactoryBot.create(:organization, ignore_types: ['User'])
+    org_ignoring_child = FactoryBot.create(:organization, parent: org_ignoring)
+
+    # Locations: mirror the same pattern
+    loc_assigned = FactoryBot.create(:location)
+    loc_assigned_child = FactoryBot.create(:location, parent: loc_assigned)
+    user.locations << loc_assigned
+
+    loc_ignoring = FactoryBot.create(:location, ignore_types: ['User'])
+    loc_ignoring_child = FactoryBot.create(:location, parent: loc_ignoring)
+
+    # Test organizations
+    expected_org_ids = [org_assigned.id, org_assigned_child.id, org_ignoring.id, org_ignoring_child.id].sort
+    assert_equal expected_org_ids, user.organization_and_child_ids.sort
+
+    # Verify it matches batch_subtree_ids (which returns sorted results)
+    batch_result = Taxonomy.batch_subtree_ids([org_assigned, org_ignoring])
+    assert_equal batch_result, user.organization_and_child_ids.sort
+
+    # Test locations
+    expected_loc_ids = [loc_assigned.id, loc_assigned_child.id, loc_ignoring.id, loc_ignoring_child.id].sort
+    assert_equal expected_loc_ids, user.location_and_child_ids.sort
+
+    # Verify it matches batch_subtree_ids (which returns sorted results)
+    batch_result = Taxonomy.batch_subtree_ids([loc_assigned, loc_ignoring])
+    assert_equal batch_result, user.location_and_child_ids.sort
+  end
+
   test "chaging hostgroup should update cache" do
     u = FactoryBot.create(:user)
     g1 = FactoryBot.create(:usergroup)

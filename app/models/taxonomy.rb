@@ -6,6 +6,9 @@ class Taxonomy < ApplicationRecord
   include TopbarCacheExpiry
 
   serialize :ignore_types, Array
+  # Coarse SQL pre-filter on serialized YAML; may over-match (e.g. 'User' matches 'UserProfile').
+  # Callers must verify with ignore? for exactness.
+  scope :potentially_ignoring, ->(type) { where("ignore_types LIKE ?", "%#{sanitize_sql_like(type.to_s.classify)}%") }
 
   before_create :assign_default_templates
   after_create :assign_taxonomy_to_user
@@ -85,6 +88,28 @@ class Taxonomy < ApplicationRecord
 
   def self.types
     [Organization, Location]
+  end
+
+  def self.batch_subtree_ids(taxonomies)
+    return [] if taxonomies.empty?
+
+    raise ArgumentError, "batch_subtree_ids requires persisted records" if taxonomies.any?(&:new_record?)
+
+    klass = taxonomies.first.class
+    raise ArgumentError, "expected all taxonomies to be #{klass}, got: #{taxonomies.map(&:class).uniq.join(', ')}" unless taxonomies.all? { |t| t.is_a?(klass) }
+
+    sql_parts = ["#{klass.table_name}.id IN (?)"]
+    binds = [taxonomies.map(&:id)]
+
+    taxonomies.each do |tax|
+      ca = tax.child_ancestry
+      sql_parts << "#{klass.table_name}.ancestry LIKE ?"
+      binds << "#{sanitize_sql_like(ca)}/%"
+      sql_parts << "#{klass.table_name}.ancestry = ?"
+      binds << ca
+    end
+
+    klass.where(sql_parts.join(' OR '), *binds).order(:id).pluck(:id)
   end
 
   def self.ignore?(taxable_type)

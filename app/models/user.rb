@@ -515,10 +515,11 @@ class User < ApplicationRecord
   def taxonomy_and_child_ids(taxonomies)
     delay = Rails.env.test? ? 0 : 2.minutes
     Rails.cache.fetch("user/#{id}/taxonomy_and_child_ids/#{taxonomies}", expires_in: delay) do
-      top_level = send(taxonomies) + taxonomies.to_s.classify.constantize.unscoped.select { |tax| tax.ignore?('user') }
-      top_level.each_with_object([]) do |taxonomy, ids|
-        ids.concat taxonomy.subtree_ids
-      end.uniq
+      klass = taxonomies.to_s.classify.constantize
+      top_level = send(taxonomies) + klass.unscoped.potentially_ignoring('user').select { |tax| tax.ignore?('user') }
+      next [] if top_level.empty?
+
+      Taxonomy.batch_subtree_ids(top_level)
     end
   end
 

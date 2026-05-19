@@ -58,7 +58,18 @@ module Taxonomix
     end
 
     def get_taxonomy_ids(taxonomy, method)
-      Array(taxonomy).map { |t| t.send(method) + t.ancestor_ids }.flatten.uniq
+      taxonomies = Array(taxonomy)
+      return [] if taxonomies.empty?
+
+      ancestor_ids = taxonomies.flat_map(&:ancestor_ids)
+
+      ids = if method == :subtree_ids
+              Taxonomy.batch_subtree_ids(taxonomies)
+            else
+              taxonomies.flat_map { |t| t.send(method) }
+            end
+
+      (ids + ancestor_ids).uniq
     end
 
     def taxable_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
