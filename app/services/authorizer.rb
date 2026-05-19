@@ -153,38 +153,28 @@ class Authorizer
 
   private
 
+  # taxonomy_search is stored canonically (IDs sorted) by Filter and backfilled
+  # by CanonicalizeFilterTaxonomySearch migration. Grouping relies on string
+  # equality of persisted values — no runtime normalization.
   def grouped_granular_filter_conditions(filters)
+    # A filter with no search and no taxonomy_search grants the permission
+    # unconditionally for its resource — only user taxonomy scoping applies.
     return [] if filters.any? { |filter| filter.taxonomy_search.blank? && filter.search.blank? }
 
-    grouped_conditions = grouped_granular_filters(filters).map do |grouped_filters|
-      build_grouped_granular_filter_condition(grouped_filters, grouped_filters.first.taxonomy_search)
+    grouped_conditions = filters.group_by(&:taxonomy_search).values.map do |group|
+      taxonomy_search = group.first.taxonomy_search
+
+      if group.any? { |f| f.search.blank? }
+        taxonomy_search
+      else
+        search_condition = QueryBuilder.join('OR', group.map(&:search).uniq)
+        taxonomy_search.blank? ? search_condition : QueryBuilder.join('AND', [search_condition, taxonomy_search])
+      end
     end
 
     return grouped_conditions.first if grouped_conditions.one?
 
     QueryBuilder.join('OR', grouped_conditions)
-  end
-
-  def grouped_granular_filters(filters)
-    filters.group_by { |filter| normalize_taxonomy_search(filter.taxonomy_search) }.values
-  end
-
-  def build_grouped_granular_filter_condition(filters, taxonomy_search)
-    return taxonomy_search if filters.any? { |filter| filter.search.blank? }
-
-    searches = filters.map(&:search).uniq
-    search_condition = QueryBuilder.join('OR', searches)
-    return search_condition if taxonomy_search.blank?
-
-    QueryBuilder.join('AND', [search_condition, taxonomy_search])
-  end
-
-  def normalize_taxonomy_search(search)
-    return search if search.blank?
-    search.gsub(/(\w+_id) \^ \(([\d,\s]+)\)/) do
-      ids = ::Regexp.last_match(2).split(',').map(&:to_i).uniq.sort.join(',')
-      "#{::Regexp.last_match(1)} ^ (#{ids})"
-    end
   end
 
   def granular_filter_resource?(resource_class, filters)

@@ -292,15 +292,11 @@ class AuthorizerTest < ActiveSupport::TestCase
     assert_equal expected, result
   end
 
-  test "#build_scoped_search_condition groups filters with equivalent taxonomy scopes in different id order" do
+  test "#build_scoped_search_condition groups filters with identical canonical taxonomy scopes" do
     user = FactoryBot.create(:user)
     auth = Authorizer.new(user)
-    filter_one = FactoryBot.build_stubbed(:filter, :on_name_all, :taxonomy_search => 'organization_id ^ (3,1,2)')
-    filter_two = FactoryBot.build_stubbed(:filter, :on_name_starting_with_a, :taxonomy_search => 'organization_id ^ (1,2,3)')
-
-    filter_one.stubs(:taxonomy_search_condition_for_user).with(user, filter_one.taxonomy_search).returns(['organization_id ^ (3,1,2)'])
-    filter_two.stubs(:taxonomy_search_condition_for_user).with(user, filter_two.taxonomy_search).returns(['organization_id ^ (1,2,3)'])
-    filter_one.stubs(:taxonomy_search_condition_for_user).with(user).returns(['organization_id ^ (1,2,3)'])
+    filter_one = FactoryBot.build_stubbed(:filter, :on_name_all, :taxonomy_search => '(organization_id ^ (1,2,3))')
+    filter_two = FactoryBot.build_stubbed(:filter, :on_name_starting_with_a, :taxonomy_search => '(organization_id ^ (1,2,3))')
 
     result = auth.build_scoped_search_condition([filter_one, filter_two])
 
@@ -310,7 +306,7 @@ class AuthorizerTest < ActiveSupport::TestCase
                                       ])
     expected = QueryBuilder.join('AND', [
                                    expected_base,
-                                   QueryBuilder.join('AND', ['organization_id ^ (1,2,3)']),
+                                   QueryBuilder.join('AND', filter_one.taxonomy_search_condition_for_user(user)),
                                  ])
 
     assert_equal expected, result

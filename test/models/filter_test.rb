@@ -229,4 +229,22 @@ class FilterTest < ActiveSupport::TestCase
       assert_equal expected, f.search_condition_for_user(user_no_locs)
     end
   end
+
+  test "taxonomy_search stores IDs in sorted order" do
+    org1 = FactoryBot.create(:organization)
+    org2 = FactoryBot.create(:organization)
+    org3 = FactoryBot.create(:organization)
+    loc1 = FactoryBot.create(:location)
+    loc2 = FactoryBot.create(:location)
+
+    filter = FactoryBot.create(:filter, :on_name_all,
+      :organizations => [org3, org1, org2],
+      :locations => [loc2, loc1])
+
+    sorted_org_ids = [org1.id, org2.id, org3.id].sort.join(',')
+    sorted_loc_ids = [loc1.id, loc2.id].sort.join(',')
+
+    assert_equal "((organization_id ^ (#{sorted_org_ids})) AND (location_id ^ (#{sorted_loc_ids})))",
+      filter.taxonomy_search
+  end
 end
