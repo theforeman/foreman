@@ -1,5 +1,15 @@
 .registration_commands_form {
-  input[type='checkbox'] {
-    margin: auto;
+  .pf-v5-c-check {
+    align-items: center;
+  }
+
+  .pf-v5-c-check__input {
+    align-self: center;
+    transform: none;
+    -moz-transform: none;
+  }
+
+  .pf-v5-c-check__label .pf-v5-c-form__group-label-help {
+    vertical-align: middle;
   }
 }
