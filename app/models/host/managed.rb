@@ -817,7 +817,7 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def global_status_fulltext
-    host_statuses.select { |s| s.relevant? && !s.substatus? }.sort_by(&:type).map { |s| "#{_(s.name)}: #{_(s.to_label)}" }
+    host_statuses.select { |s| s.persisted? && s.relevant? && !s.substatus? }.sort_by(&:type).map { |s| "#{_(s.name)}: #{_(s.to_label)}" }
   end
 
   def configuration_status(options = {})

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class GlobalTest < ActiveSupport::TestCase
-  class StatusMock < Struct.new(:global, :relevant, :substatus)
+  class StatusMock < Struct.new(:global, :relevant, :substatus, :is_persisted)
     def relevant?(options = {})
       relevant
     end
@@ -12,6 +12,10 @@ class GlobalTest < ActiveSupport::TestCase
 
     def substatus?(options = {})
       substatus
+    end
+
+    def persisted?
+      is_persisted.nil? ? true : is_persisted
     end
   end
 
@@ -38,10 +42,29 @@ class GlobalTest < ActiveSupport::TestCase
   test '.build(statuses, :last_reports => [reports]) uses reports cache for configuration statuses' do
     status = HostStatus::ConfigurationStatus.new
     report = Report.new(:host => Host.last)
+    status.stubs(:persisted?).returns(true)
     status.expects(:relevant?).with({ :last_reports => [report] }).returns(true)
     status.expects(:to_global).returns(:result)
     global = HostStatus::Global.build([status], :last_reports => [report])
     assert_equal :result, global.status
+  end
+
+  test '.build(statuses) ignores non-persisted statuses' do
+    persisted_ok = StatusMock.new(HostStatus::Global::OK, true, false, true)
+    non_persisted_error = StatusMock.new(HostStatus::Global::ERROR, true, false, false)
+
+    global = HostStatus::Global.build([persisted_ok, non_persisted_error])
+
+    assert_equal HostStatus::Global::OK, global.status
+  end
+
+  test '.build(statuses) returns OK when only non-persisted statuses exist' do
+    non_persisted_warn = StatusMock.new(HostStatus::Global::WARN, true, false, false)
+    non_persisted_error = StatusMock.new(HostStatus::Global::ERROR, true, false, false)
+
+    global = HostStatus::Global.build([non_persisted_warn, non_persisted_error])
+
+    assert_equal HostStatus::Global::OK, global.status
   end
 
   test '.to_label returns string representation of status code' do
