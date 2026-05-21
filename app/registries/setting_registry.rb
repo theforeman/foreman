@@ -82,7 +82,7 @@ class SettingRegistry
   end
 
   def loaded?
-    !!@values_loaded_at
+    !!@last_reload_at
   end
 
   def logger
@@ -176,20 +176,34 @@ class SettingRegistry
     end
   end
 
+  # Two-tier settings cache:
+  # - Same-process: Setting#after_save updates the in-memory SettingPresenter directly
+  # - Cross-process: Setting#after_commit bumps a shared cache counter so other
+  #   Puma workers know to reload from DB on their next request
+  # - Safety net: reload from DB every GENERATION_MAX_STALENESS seconds even if
+  #   the generation counter appears current (guards against lost cache writes)
+  SETTINGS_GENERATION_KEY = 'setting_registry:generation'
+  GENERATION_MAX_STALENESS = 30.seconds
+
   def load_values(ignore_cache: false)
-    # we are loading only known STIs as we load settings fairly early the first time and plugin classes might not be loaded yet.
-    settings = Setting.unscoped
-    settings = settings.where('updated_at >= ?', @values_loaded_at) unless ignore_cache || @values_loaded_at.nil?
-    settings.each do |s|
+    return unless reload_required?(ignore_cache)
+
+    Setting.unscoped.each do |s|
       unless (definition = find(s.name))
         logger.debug("Setting #{s.name} has no definition, clean up your database")
         next
       end
       definition.updated_at = s.updated_at
       definition.value_from_db = s.value
-      logger.debug("Updated cached value for setting=#{s.name}") unless ignore_cache
     end
-    @values_loaded_at = Time.zone.now if settings.any?
+    @last_reload_at = Time.zone.now
+    @last_seen_generation = current_generation
+  end
+
+  def self.increment_generation!
+    Rails.cache.increment(SETTINGS_GENERATION_KEY, 1, raw: true)
+  rescue StandardError
+    # Cache unavailable — next load_values will fall through to DB
   end
 
   def _add(name, category:, type:, default:, description:, full_name:, context:, encrypted: false, collection: nil, options: {})
@@ -213,5 +227,29 @@ class SettingRegistry
 
   def _new_db_record(definition)
     Setting.new(name: definition.name, value: definition.value)
+  end
+
+  private
+
+  def reload_required?(ignore_cache)
+    return true if ignore_cache || @last_reload_at.nil?
+    return true if stale?
+    !generation_current?
+  end
+
+  def generation_current?
+    gen = current_generation
+    return false if gen.nil?
+    gen == @last_seen_generation
+  end
+
+  def current_generation
+    Rails.cache.read(SETTINGS_GENERATION_KEY, raw: true)
+  rescue StandardError
+    nil
+  end
+
+  def stale?
+    Time.zone.now - @last_reload_at > GENERATION_MAX_STALENESS
   end
 end

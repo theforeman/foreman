@@ -51,6 +51,7 @@ class Setting < ApplicationRecord
   # Custom validations are added from SettingManager class
   after_find :readonly_when_overridden
   after_save :refresh_registry_value
+  after_commit :invalidate_settings_generation, on: [:create, :update, :destroy]
   default_scope -> { order(:name) }
 
   scope :order_by, ->(attr) { except(:order).order(attr) }
@@ -279,6 +280,10 @@ class Setting < ApplicationRecord
       definition.updated_at = updated_at
       definition.value_from_db = value
     end
+  end
+
+  def invalidate_settings_generation
+    SettingRegistry.increment_generation!
   end
 
   def remove_whitespaces

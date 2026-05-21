@@ -22,9 +22,10 @@ class SettingRegistryTest < ActiveSupport::TestCase
 
     it "updates definitions for changed settings" do
       setting.update(value: 100)
-      registry.expects(:find).once
 
       registry.load_values
+
+      assert_equal 100, registry['foo']
     end
 
     it "updates definitions for settings which were changed to their default values" do
@@ -32,14 +33,92 @@ class SettingRegistryTest < ActiveSupport::TestCase
       registry.load_values
 
       setting.update(value: nil)
-      registry.expects(:find).once
-      assert registry.load_values
+      registry.load_values
+
+      assert_equal default, registry['foo']
     end
 
     it "can be forced to load all values" do
       registry.expects(:find).times(Setting.count)
 
       registry.load_values(ignore_cache: true)
+    end
+
+    context 'generation counter' do
+      it "skips DB query when generation is current" do
+        Setting.expects(:unscoped).never
+
+        registry.load_values
+      end
+
+      it "queries DB when generation changes" do
+        SettingRegistry.increment_generation!
+
+        setting.update(value: 999)
+        registry.load_values
+
+        assert_equal 999, registry['foo']
+      end
+
+      it "queries DB when generation is nil (cache unavailable)" do
+        Rails.cache.delete(SettingRegistry::SETTINGS_GENERATION_KEY)
+        registry.instance_variable_set(:@last_seen_generation, nil)
+
+        setting.update(value: 888)
+        registry.load_values
+
+        assert_equal 888, registry['foo']
+      end
+
+      it "bypasses generation check with ignore_cache" do
+        registry.expects(:generation_current?).never
+
+        registry.load_values(ignore_cache: true)
+      end
+
+      it "increments generation when a setting is saved" do
+        before = Rails.cache.read(SettingRegistry::SETTINGS_GENERATION_KEY, raw: true)
+        setting.update(value: 777)
+        after = Rails.cache.read(SettingRegistry::SETTINGS_GENERATION_KEY, raw: true)
+
+        refute_equal before, after
+      end
+
+      it "reloads from DB when staleness threshold exceeded despite matching generation" do
+        setting.update(value: 555)
+        registry.load_values
+
+        registry.instance_variable_set(:@last_reload_at, Time.zone.now - SettingRegistry::GENERATION_MAX_STALENESS - 1.second)
+
+        setting.update_column(:value, 444.to_yaml)
+
+        registry.load_values
+
+        assert_equal 444, registry['foo']
+      end
+
+      it "increments generation when a setting is destroyed" do
+        before = Rails.cache.read(SettingRegistry::SETTINGS_GENERATION_KEY, raw: true)
+        setting.destroy!
+        after = Rails.cache.read(SettingRegistry::SETTINGS_GENERATION_KEY, raw: true)
+
+        refute_equal before, after
+      end
+
+      it "increments generation after commit, not during save" do
+        before = Rails.cache.read(SettingRegistry::SETTINGS_GENERATION_KEY, raw: true)
+        mid_transaction_generation = nil
+
+        Setting.transaction do
+          setting.update(value: 666)
+          mid_transaction_generation = Rails.cache.read(SettingRegistry::SETTINGS_GENERATION_KEY, raw: true)
+        end
+
+        after = Rails.cache.read(SettingRegistry::SETTINGS_GENERATION_KEY, raw: true)
+
+        assert_equal before, mid_transaction_generation, "generation should not change before commit"
+        refute_equal before, after, "generation should change after commit"
+      end
     end
   end
 
