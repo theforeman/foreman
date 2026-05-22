@@ -1955,9 +1955,9 @@ end
 ==== Config files
 
 Config files are in YAML format and can contain simple or complex data.
-They are read from config/settings.yaml and config/settings.plugins.d/
-(aka /etc/foreman/plugins/) at startup and all contents are merged
-together and stored in the global `SETTINGS` hash.
+They are read from config/settings.yaml, config/settings.plugins.d/
+(aka /etc/foreman/plugins/) and config/settings.d/ at startup. All
+contents are merged together and stored in the global `SETTINGS` hash.
 
 It's recommended to put all settings in a hash named after the plugin so
 they don't conflict with others, e.g.
@@ -1978,7 +1978,8 @@ to see what the possible options are.
 
 Tip: database settings can be overridden from a config file out of the
 box, making the value read-only in the UI. Just set
-`:example_string: foo` in settings.yaml or settings.plugins.d/.
+`:example_string: foo` in settings.yaml, settings.plugins.d/ or
+settings.d/.
 
 [[provision-method]]
 === Provision Method
