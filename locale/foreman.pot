@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-13 12:49+0200\n"
-"PO-Revision-Date: 2026-05-13 12:49+0200\n"
+"POT-Creation-Date: 2026-05-26 14:16+0200\n"
+"PO-Revision-Date: 2026-05-26 14:16+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -35,7 +35,7 @@ msgid "Exit Full Screen"
 msgstr ""
 
 #: ../app/assets/javascripts/application.js:475
-#: ../webpack/assets/javascripts/react_app/components/common/AutocompleteInput/AutocompleteInput.js:33
+#: ../webpack/assets/javascripts/react_app/components/common/AutocompleteInput/AutocompleteInput.js:34
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:21
 msgid "No matches found"
 msgstr ""
@@ -6260,11 +6260,11 @@ msgstr ""
 msgid "UEFI Secure Boot"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:478
+#: ../app/models/compute_resource.rb:480
 msgid "Not implemented"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:534
+#: ../app/models/compute_resource.rb:536
 msgid "cannot be changed"
 msgstr ""
 
@@ -15574,7 +15574,7 @@ msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:140
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:200
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:201
 msgid "Preview"
 msgstr ""
 
@@ -15584,7 +15584,7 @@ msgid "Filter Host..."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:189
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:190
 msgid "Preview is outdated."
 msgstr ""
 
