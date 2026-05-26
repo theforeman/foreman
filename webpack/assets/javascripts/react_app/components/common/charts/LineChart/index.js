@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LineChart as PfLineChart } from 'patternfly-react';
 
 import { translate as __ } from '../../../../../react_app/common/I18n';
+import { deprecate } from '../../../../common/DeprecationService';
 import { getLineChartConfig } from '../../../../../services/charts/LineChartService';
 
 import MessageBox from '../../MessageBox';
@@ -25,6 +26,14 @@ const LineChart = ({
   onclick,
   id,
 }) => {
+  useEffect(() => {
+    deprecate(
+      'common/charts/LineChart (patternfly-react LineChart)',
+      '@patternfly/react-charts ChartLine / Chart',
+      '5.1'
+    );
+  }, []);
+
   const chartConfig = getLineChartConfig({
     data,
     config,
