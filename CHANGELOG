@@ -1,3 +1,13 @@
+2026-05-26	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.19.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2026-05-26	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #39311 - Allow selection clearance for AutocompleteInput
+
+2026-05-25	Leos Stejskal <lstejska@redhat.com>
+	* Fixes #39310 - Normalize firmware type for image based provisioning
+
 2026-05-13	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.19.0-rc1
 	* i18n - extracting new, pulling from tx
