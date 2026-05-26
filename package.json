@@ -100,7 +100,7 @@
     "unidiff": "^1.0.0",
     "unleash-proxy-client": "^3.7.6",
     "urijs": "^1.19.4",
-    "uuid": "^3.3.2",
+    "uuid": "^13.0.0",
     "yup": "^0.29.3"
   },
   "devDependencies": {

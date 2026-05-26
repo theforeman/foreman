@@ -2,7 +2,7 @@
 /* eslint no-case-declarations:0 */
 import { difference, head } from 'lodash';
 import Immutable from 'seamless-immutable';
-import uuidV1 from 'uuid/v1';
+import { v7 as uuidV7 } from 'uuid';
 
 import {
   VMWARE_CLUSTER_CHANGE,
@@ -58,7 +58,7 @@ export default (state = initialState, { type, payload, response }) => {
               {},
               payload.volume,
               { controllerKey: availableKey },
-              { key: uuidV1() }
+              { key: uuidV7() }
             )
           )
         );
@@ -67,7 +67,7 @@ export default (state = initialState, { type, payload, response }) => {
         'volumes',
         state.volumes.concat({
           ...payload.data,
-          key: uuidV1(),
+          key: uuidV7(),
           controllerKey: payload.controllerKey,
         })
       );
@@ -107,7 +107,7 @@ export default (state = initialState, { type, payload, response }) => {
         storagePods: [],
         storagePodsLoading: false,
         storagePodsError: undefined,
-        volumes: payload.volumes.map(volume => ({ ...volume, key: uuidV1() })),
+        volumes: payload.volumes.map(volume => ({ ...volume, key: uuidV7() })),
         cluster: payload.cluster,
       };
       return initialState

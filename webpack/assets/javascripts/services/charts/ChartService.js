@@ -1,4 +1,4 @@
-import uuidV1 from 'uuid/v1';
+import { v7 as uuidV7 } from 'uuid';
 import Immutable from 'seamless-immutable';
 import {
   donutChartConfig,
@@ -56,7 +56,7 @@ export const getChartConfig = ({
   data,
   config,
   onclick,
-  id = uuidV1(),
+  id = uuidV7(),
 }) => {
   const chartConfigForType = chartsSizeConfig[type][config];
   const colors = getColors(data);
@@ -113,7 +113,7 @@ export const getDonutChartConfigPF5 = ({
   searchUrl,
   searchFilters,
   title,
-  id = uuidV1(),
+  id = uuidV7(),
 }) => {
   const chartConfigForType = chartsSizeConfig.donut[config];
   const dataExists = doDataExist(data);

@@ -1,5 +1,3 @@
-import uuidV1 from 'uuid/v1';
-
 import * as types from '../../../consts';
 
 import {
@@ -13,8 +11,7 @@ import {
 
 import reducer from './vmware';
 
-jest.mock('uuid/v1');
-uuidV1.mockImplementation(() => '1547e1c0-309a-11e9-98f5-5f761412a4c2');
+jest.mock('uuid', () => ({ v7: jest.fn(() => '1547e1c0-309a-11e9-98f5-5f761412a4c2') }));
 
 describe('vmware storage reducer', () => {
   it('returns the initial state', () => {
