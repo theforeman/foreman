@@ -144,6 +144,7 @@ jobs:
     uses: theforeman/actions/.github/workflows/foreman_plugin.yml@v0
     with:
       plugin: katello
+      plugin_version: KATELLO-4.20
       plugin_repository: Katello/katello
       foreman_version: ${{ github.ref }}
 
