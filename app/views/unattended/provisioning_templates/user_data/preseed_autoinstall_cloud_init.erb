@@ -47,6 +47,10 @@ autoinstall:
 <%= indent(4) { snippet_if_exists(template_name + " custom apt") } -%>
   user-data:
     disable_root: false
+    chpasswd:
+      list: |
+        root:<%= password_to_create %>
+      expire: false
     fqdn: <%= @host.name %>
     users:
     - name: <%= username_to_create %>
