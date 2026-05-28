@@ -241,6 +241,21 @@ class UsergroupTest < ActiveSupport::TestCase
       assert_includes usergroup.errors.attribute_names, :role_ids
     end
 
+    test "non-admin member of usergroup cannot add a role granting escalate_roles" do
+      usergroup = as_admin { FactoryBot.create(:usergroup, :name => "escalate-via-membership") }
+      escalate_role = as_admin do
+        role = FactoryBot.create(:role, :name => "role_with_escalate")
+        FactoryBot.create(:filter, :role => role, :permissions => [permissions(:escalate_roles)])
+        role
+      end
+      setup_user "edit", "usergroups" do |user|
+        usergroup.users << user
+      end
+      usergroup.role_ids = [escalate_role.id]
+      refute usergroup.valid?
+      assert_includes usergroup.errors.attribute_names, :role_ids
+    end
+
     test "admin can assign arbitrary roles to usergroup" do
       as_admin do
         usergroup = Usergroup.new(:name => "admin-assigns-roles", :role_ids => [@foreign_role.id])
