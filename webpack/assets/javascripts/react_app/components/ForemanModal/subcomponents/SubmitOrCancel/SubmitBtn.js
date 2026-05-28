@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button } from '@patternfly/react-core';
+import { Button, Spinner } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import { translate as __ } from '../../../../common/I18n';
-import { simpleLoader } from '../../../common/Loader';
 
 const SubmitBtn = ({ isSubmitting, onSubmit, variant, btnText }) => (
   <Button
@@ -14,7 +13,11 @@ const SubmitBtn = ({ isSubmitting, onSubmit, variant, btnText }) => (
     &nbsp;
     {btnText}
     &nbsp;
-    {isSubmitting && <span className="fr">{simpleLoader('sm')}</span>}
+    {isSubmitting && (
+      <span className="fr">
+        <Spinner size="sm" aria-label="Loading" isInline />
+      </span>
+    )}
   </Button>
 );
 

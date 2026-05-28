@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { simpleLoader } from '../../common/Loader';
+import { Spinner } from '@patternfly/react-core';
 import './PowerStatus.scss';
 
 const PowerStatus = ({ state, title }) =>
@@ -10,7 +10,7 @@ const PowerStatus = ({ state, title }) =>
       title={title}
     />
   ) : (
-    simpleLoader('xs')
+    <Spinner size="sm" aria-label="Loading" isInline />
   );
 
 PowerStatus.propTypes = {

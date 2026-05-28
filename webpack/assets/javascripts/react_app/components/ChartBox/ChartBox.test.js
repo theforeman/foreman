@@ -35,16 +35,6 @@ jest.mock('../common/MessageBox', () => ({
   default: ({ msg }) => <div data-testid="message-box">{msg}</div>,
 }));
 
-// Mock Loader to avoid CSS import issues
-jest.mock('../common/Loader', () => ({
-  __esModule: true,
-  default: ({ children, status }) => (
-    <div className="loader-root">
-      {status === 'PENDING' ? 'Loading...' : children}
-    </div>
-  ),
-}));
-
 describe('ChartBox', () => {
   const defaultProps = {
     type: 'donut',
@@ -66,8 +56,8 @@ describe('ChartBox', () => {
         <ChartBox {...defaultProps} status="PENDING" />
       );
 
-      // Loader component uses .loader-root class
-      expect(container.querySelector('.loader-root')).toBeInTheDocument();
+      expect(container.querySelector('.chart-box-loader')).toBeInTheDocument();
+      expect(screen.getByLabelText('Loading')).toBeInTheDocument();
     });
 
     it('renders with error status and error message', () => {
