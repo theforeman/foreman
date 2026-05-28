@@ -22,6 +22,6 @@ class SafeModeRendererTest < ActiveSupport::TestCase
       renderer.render(source, @scope)
     end
 
-    assert_include exception.message, 'parse error on value ")"'
+    assert_include exception.message, "unexpected ')'"
   end
 end

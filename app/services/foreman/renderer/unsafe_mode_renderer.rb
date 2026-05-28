@@ -6,7 +6,7 @@ module Foreman
         erb.location = source_name, 0
         erb.result(get_binding)
       rescue ::SyntaxError => e
-        new_e = SyntaxError.new(name: source_name, message: e.message)
+        new_e = Foreman::Renderer::Errors::SyntaxError.new(name: source_name, message: e.message)
         new_e.set_backtrace(e.backtrace)
         raise new_e
       end
