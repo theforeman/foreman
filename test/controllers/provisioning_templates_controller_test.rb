@@ -208,7 +208,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
     assert_equal '2'.to_json, @response.body
 
     post :preview, params: { :template => '<%= 1+ -%>', :id => template }, session: set_session_user
-    assert_includes @response.body, 'parse error on value'
+    assert_includes @response.body, "unexpected ')'"
   end
 
   context 'templates combinations' do

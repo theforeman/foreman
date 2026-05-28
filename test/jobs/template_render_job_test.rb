@@ -12,7 +12,7 @@ class TemplateRenderJobTest < ActiveJob::TestCase
       composer = Minitest::Mock.new
       composer.expect('render', 'result')
       composer.expect('send_mail?', false)
-      ReportComposer.expects('new').with('foo' => 'bar', 'gzip' => false).returns(composer)
+      ReportComposer.expects('new').with({'foo' => 'bar', 'gzip' => false}).returns(composer)
       StoredValue.expects('write').with('UNIQUE-PROVIDER-ID', 'result', has_key(:expire_at))
       render_job({'foo' => 'bar'}).perform_now
       assert composer.verify
