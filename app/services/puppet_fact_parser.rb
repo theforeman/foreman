@@ -7,7 +7,7 @@ class PuppetFactParser < FactParser
     args = { :name => os_name }
 
     if orel.present?
-      if os_name.to_s =~ /ubuntu/i
+      if /ubuntu/i.match?(os_name)
         major = os_major_version.to_s
         minor = os_minor_version.to_s
       else

@@ -25,7 +25,7 @@ module Foreman
       def validate_regexp
         return true if value.contains_erb? && Setting[:interpolate_erb_in_parameters]
 
-        unless value.to_s =~ /#{@options[:validate_with]}/
+        unless /#{@options[:validate_with]}/.match?(value)
           add_error(_("is invalid"))
           return false
         end

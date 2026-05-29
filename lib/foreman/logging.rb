@@ -222,7 +222,7 @@ module Foreman
 
     def build_layout(enable_colors = true)
       pattern, colorize = @config[:pattern], @config[:colorize]
-      pattern = @config[:sys_pattern] if @config[:type].to_s =~ /^(journald?|syslog)$/i
+      pattern = @config[:sys_pattern] if /^(journald?|syslog)$/i.match?(@config[:type])
       colorize = nil unless enable_colors
       case @config[:layout]
       when 'json'

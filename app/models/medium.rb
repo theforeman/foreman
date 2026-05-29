@@ -56,7 +56,7 @@ class Medium < ApplicationRecord
 
   # Write the image path, with a trailing "/" if required
   def image_path=(path)
-    self[:image_path] = "#{path}#{'/' unless path.to_s =~ /\/$|^$/}"
+    self[:image_path] = "#{path}#{'/' unless /\/$|^$/.match?(path)}"
   end
 
   def ensure_hosts_not_in_build

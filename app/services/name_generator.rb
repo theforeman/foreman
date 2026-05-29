@@ -6,12 +6,12 @@ class NameGenerator
   }.freeze
 
   def self.random_based?
-    Setting[:name_generator_type].to_s =~ /^Random/i
+    /^Random/i.match?(Setting[:name_generator_type])
   end
   delegate :random_based?, :to => :class
 
   def self.mac_based?
-    Setting[:name_generator_type].to_s =~ /^MAC/i
+    /^MAC/i.match?(Setting[:name_generator_type])
   end
   delegate :mac_based?, :to => :class
 

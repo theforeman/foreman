@@ -49,7 +49,7 @@ class FactValue < ApplicationRecord
 
   def self.search_by_host_or_hostgroup(key, operator, value)
     host_or_hg = (key == 'host.hostgroup') ? 'hostgroup' : 'host'
-    search_term = (value.to_s =~ /\A\d+\Z/) ? 'id' : 'name'
+    search_term = /\A\d+\Z/.match?(value) ? 'id' : 'name'
     conditions = sanitize_sql_for_conditions(["#{host_or_hg.pluralize}.#{search_term} #{operator} ?", value_to_sql(operator, value)])
     { :joins => host_or_hg.to_sym, :conditions => conditions }
   end

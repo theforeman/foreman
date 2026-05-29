@@ -44,7 +44,7 @@ module Net
 
     # validates a network mask
     def self.validate_mask(mask)
-      mask.to_s =~ MASK_REGEXP
+      MASK_REGEXP.match?(mask)
     end
 
     # validates a network mask and raises an error
@@ -90,7 +90,7 @@ module Net
 
     # validates the hostname
     def self.validate_hostname(hostname)
-      hostname.to_s =~ HOST_REGEXP
+      HOST_REGEXP.match?(hostname)
     end
 
     # validates the hostname and raises an error

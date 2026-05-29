@@ -60,7 +60,7 @@ module Foreman
 
     def http_host_excepted_by_wildcard?(host)
       return false if http_proxy_except_list.empty?
-      host.to_s =~ Setting.convert_array_to_regexp(http_proxy_except_list)
+      Setting.convert_array_to_regexp(http_proxy_except_list).match?(host)
     end
 
     def http_host_excepted?(host)

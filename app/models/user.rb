@@ -464,22 +464,22 @@ class User < ApplicationRecord
 
   def editing_self?(options = {})
     options[:controller].to_s == 'users' &&
-      options[:action].to_s =~ /edit|update|invalidate_jwt/ &&
+      /edit|update|invalidate_jwt/.match?(options[:action]) &&
       options[:id].to_i == id ||
-    options[:controller].to_s =~ /\Aapi\/v\d+\/users\Z/ &&
-      options[:action].to_s =~ /show|update/ &&
+    /\Aapi\/v\d+\/users\Z/.match?(options[:controller]) &&
+      /show|update/.match?(options[:action]) &&
       (options[:id].to_i == id || options[:id] == login) ||
     options[:controller].to_s == 'ssh_keys' &&
       options[:user_id].to_i == id &&
-      options[:action].to_s =~ /new|create|destroy/ ||
+      /new|create|destroy/.match?(options[:action]) ||
     options[:controller].to_s == 'api/v2/ssh_keys' &&
-      options[:action].to_s =~ /show|destroy|index|create/ &&
+      /show|destroy|index|create/.match?(options[:action]) &&
       options[:user_id].to_i == id ||
     options[:controller].to_s == 'api/v2/personal_access_tokens' &&
-      options[:action].to_s =~ /show|destroy|index|create/ &&
+      /show|destroy|index|create/.match?(options[:action]) &&
       options[:user_id].to_i == id ||
     options[:controller].to_s == 'api/v2/registration_tokens' &&
-      options[:action].to_s =~ /invalidate_jwt/ &&
+      /invalidate_jwt/.match?(options[:action]) &&
       options[:id].to_i == id
   end
 

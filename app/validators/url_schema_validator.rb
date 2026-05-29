@@ -5,7 +5,7 @@ class URLSchemaValidator < ActiveModel::EachValidator
   end
 
   def validate_each(record, attribute, value)
-    unless value.to_s =~ /\A#{URI.regexp(@schemas)}\z/
+    unless /\A#{URI.regexp(@schemas)}\z/.match?(value)
       error_message = _('URL must be valid and schema must be one of %s') %
         @schemas.to_sentence
       record.errors.add(attribute, error_message)

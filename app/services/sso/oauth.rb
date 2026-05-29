@@ -3,7 +3,7 @@ require 'oauth/client/action_controller_request'
 module SSO
   class Oauth < Base
     def available?
-      controller.api_request? && !!(request.authorization.to_s =~ /^OAuth/)
+      controller.api_request? && /^OAuth/.match?(request.authorization)
     end
 
     def authenticate!
