@@ -137,8 +137,11 @@ class Usergroup < ApplicationRecord
     return if User.current.nil?
 
     roles_check = new_record? ? role_ids.present? : role_ids_changed?
-    if roles_check && !User.current.can_assign?(role_ids)
-      errors.add :role_ids, _("you can't assign some of roles you selected")
+    if roles_check
+      new_role_ids = new_record? ? role_ids : role_ids - role_ids_was
+      unless User.current.can_assign_for_usergroup?(role_ids, self, new_role_ids)
+        errors.add :role_ids, _("you can't assign some of roles you selected")
+      end
     end
   end
 end
