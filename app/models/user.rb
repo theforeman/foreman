@@ -457,6 +457,10 @@ class User < ApplicationRecord
     admin? || can?(:escalate_roles)
   end
 
+  def can_assign_for_usergroup?(role_ids, usergroup, new_role_ids)
+    can_escalate_excluding_roles?(usergroup, new_role_ids) || role_ids.all? { |r| role_ids_was.include?(r) }
+  end
+
   # only admin can change admin flag
   def can_change_admin_flag?
     admin?
@@ -610,6 +614,16 @@ class User < ApplicationRecord
   end
 
   private
+
+  def can_escalate_excluding_roles?(usergroup, role_ids)
+    return true if admin?
+    tainted_user_role_ids = UserRole.where(owner: usergroup, role_id: role_ids).pluck(:id)
+    cached_user_roles
+      .where.not(user_role_id: tainted_user_role_ids)
+      .joins(role: { filters: :permissions })
+      .where(permissions: { name: :escalate_roles })
+      .exists?
+  end
 
   def prepare_password
     if password.present?
