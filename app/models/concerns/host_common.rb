@@ -143,7 +143,7 @@ module HostCommon
   def image_file=(file)
     # We only save a value into the image_file field if the value is not the default path, (which was placed in the entry when it was displayed,)
     # and it is not a directory, (ends in /)
-    value = ((default_image_file == file) || (file =~ /\/\Z/) || file == "") ? nil : file
+    value = ((default_image_file == file) || (file.to_s =~ /\/\Z/) || file == "") ? nil : file
     self[:image_file] = value
   end
 

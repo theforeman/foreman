@@ -267,7 +267,7 @@ module Hostext
           operator_addition2 = (operator == "=") ? "=" : ""
           operator = '!=' if operator == '<>'
           if operator =~ /ILIKE/
-            match = os.minor =~ /#{value}/
+            match = os.minor.to_s =~ /#{value}/
             match = !match if operator.start_with?('NOT')
             operatingsystem_ids.append(os.id) if match
           elsif os_y.to_i.public_send(operator + operator_addition1, y.to_i)

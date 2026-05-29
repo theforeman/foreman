@@ -36,7 +36,7 @@ class SettingRegistry
       count = 20
       case field.field
       when :name
-        results = @registry.filter_map { |set| ((set.full_name =~ /\s/) ? "\"#{set.full_name.gsub('"', '\"')}\"" : set.full_name) if set.name.include?(val) || set.full_name&.include?(val) }
+        results = @registry.filter_map { |set| ((set.full_name.to_s =~ /\s/) ? "\"#{set.full_name.gsub('"', '\"')}\"" : set.full_name) if set.name.include?(val) || set.full_name&.include?(val) }
         results.first(count)
       when :description
         []

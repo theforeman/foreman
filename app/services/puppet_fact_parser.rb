@@ -7,7 +7,7 @@ class PuppetFactParser < FactParser
     args = { :name => os_name }
 
     if orel.present?
-      if os_name =~ /ubuntu/i
+      if os_name.to_s =~ /ubuntu/i
         major = os_major_version.to_s
         minor = os_minor_version.to_s
       else
@@ -79,7 +79,7 @@ class PuppetFactParser < FactParser
 
   def ipmi_interface
     # ipmi_ facts are custom facts in foreman-discovery-image
-    ipmi = facts.select { |name, _| name =~ /\Aipmi_(.*)\Z/ }.map { |name, value| [name.sub(/\Aipmi_/, ''), value] }
+    ipmi = facts.select { |name, _| name.to_s =~ /\Aipmi_(.*)\Z/ }.map { |name, value| [name.to_s.sub(/\Aipmi_/, ''), value] }
     Hash[ipmi].with_indifferent_access
   end
 

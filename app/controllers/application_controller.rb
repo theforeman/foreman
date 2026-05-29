@@ -196,7 +196,7 @@ class ApplicationController < ActionController::Base
     @original_search_parameter = params[:search]
     params[:search] ||= ""
     params.each do |param, value|
-      if param =~ /(\w+)_id$/ && value.present?
+      if param.to_s =~ /(\w+)_id$/ && value.present?
         query = "#{Regexp.last_match(1)} = #{value}"
         unless params[:search].include? query
           params[:search] += ' and ' if params[:search].present?

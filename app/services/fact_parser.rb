@@ -218,17 +218,17 @@ class FactParser
 
   # adds attributes like virtual
   def set_additional_attributes(attributes, name)
-    if name =~ VIRTUAL_NAMES
+    if name.to_s =~ VIRTUAL_NAMES
       attributes[:virtual] = true
-      if Regexp.last_match(1).nil? && name =~ BRIDGES
+      if Regexp.last_match(1).nil? && name.to_s =~ BRIDGES
         attributes[:bridge] = true
-      elsif name =~ ALIASES
+      elsif name.to_s =~ ALIASES
         attributes[:attached_to] = Regexp.last_match(1)
         attributes[:tag] = ''
-      elsif name =~ VLANS
+      elsif name.to_s =~ VLANS
         attributes[:attached_to] = Regexp.last_match(1)
         attributes[:tag] = Regexp.last_match(2)
-      elsif name =~ VIRTUAL
+      elsif name.to_s =~ VIRTUAL
         # Legacy: facter < v3.0
         # vlans fact has been removed in facter 3.0
         attributes[:attached_to] = Regexp.last_match(1)
