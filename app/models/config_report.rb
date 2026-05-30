@@ -74,18 +74,30 @@ class ConfigReport < Report
     (metrics[:time][:total] || metrics[:time].values.sum).round(2) rescue 0
   end
 
+  # Batch size for IN-clause chunking in summarise. Prevents unbounded queries
+  # when the host list is large.
+  SUMMARISE_BATCH_SIZE = 1000
+  private_constant :SUMMARISE_BATCH_SIZE
+
   # returns a hash of hosts and their recent reports metric counts which have values
   # e.g. non zero metrics.
   # first argument is time range, everything afterwards is a host list.
-  # TODO: improve SQL query (so its not N+1 queries)
   def self.summarise(time = 1.day.ago, *hosts)
     list = {}
     raise ::Foreman::Exception.new(N_("invalid host list")) unless hosts
-    hosts.flatten.each do |host|
-      # set default of 0 per metric
+    hosts_by_id = hosts.flatten.index_by(&:id)
+    # Load reports in batches to avoid an unbounded IN clause when the host
+    # list is large (e.g. a full host page).
+    reports_by_host = {}
+    hosts_by_id.keys.each_slice(SUMMARISE_BATCH_SIZE) do |batch_ids|
+      ConfigReport.where(:host_id => batch_ids).recent(time).select(:host_id, :status).each do |r|
+        (reports_by_host[r.host_id] ||= []) << r
+      end
+    end
+    hosts_by_id.each do |host_id, host|
       metrics = {}
       METRIC.each { |m| metrics[m] = 0 }
-      host.reports.recent(time).select(:status).each do |r|
+      (reports_by_host[host_id] || []).each do |r|
         metrics.each_key do |m|
           metrics[m] += r.status_of(m)
         end
