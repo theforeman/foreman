@@ -53,7 +53,7 @@ class HostsController < ApplicationController
         # SQL optimization
         preload_reports
         # rendering index page for non index page requests (out of sync hosts etc)
-        @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.map(&:hostgroup_id).compact.uniq)
+        @hostgroup_authorizer = Authorizer.new(User.current, :collection => @hosts.pluck(:hostgroup_id).compact.uniq)
         render :index if title && (@title = title)
       end
       format.csv do
