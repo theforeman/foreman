@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { number_to_human_size as NumberToHumanSize } from 'number_helpers';
 import { translate as __ } from '../../../common/I18n';
+import { BYTES_PER_KB } from '../../../constants';
 
 const reportedDataColumns = [
   {
@@ -30,9 +31,12 @@ const reportedDataColumns = [
     title: __('RAM'),
     wrapper: hostDetails => {
       if (!hostDetails?.reported_data?.ram) return null;
-      return NumberToHumanSize(hostDetails.reported_data.ram * 1024 * 1024, {
-        strip_insignificant_zeros: true,
-      });
+      return NumberToHumanSize(
+        hostDetails.reported_data.ram * BYTES_PER_KB * BYTES_PER_KB,
+        {
+          strip_insignificant_zeros: true,
+        }
+      );
     },
     isSorted: false,
     weight: 1300,

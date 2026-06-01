@@ -13,7 +13,7 @@ import CardTemplate from '../../../../Templates/CardItem/CardTemplate';
 import Slot from '../../../../../common/Slot';
 import SkeletonLoader from '../../../../../common/SkeletonLoader';
 import DefaultLoaderEmptyState from '../../../../DetailsCard/DefaultLoaderEmptyState';
-import { STATUS } from '../../../../../../constants';
+import { STATUS, MS_PER_SECOND } from '../../../../../../constants';
 
 const ProvisioningCard = ({ status, hostDetails }) => {
   const {
@@ -30,8 +30,9 @@ const ProvisioningCard = ({ status, hostDetails }) => {
     round: true,
   };
 
+  const BUILD_OFFSET_MS = 500000;
   const getWordsDurations = duration =>
-    duration > 0 && duration < 1000
+    duration > 0 && duration < MS_PER_SECOND
       ? __('Less than a second')
       : humanizeDuration(duration, dateOptions);
 
@@ -40,7 +41,9 @@ const ProvisioningCard = ({ status, hostDetails }) => {
   const duration =
     initiatedAt &&
     installedAt &&
-    Math.abs(installedDate.getTime() + 500000 - initiateDate.getTime());
+    Math.abs(
+      installedDate.getTime() + BUILD_OFFSET_MS - initiateDate.getTime()
+    );
   return (
     <CardTemplate header={__('Provisioning')} expandable masonryLayout>
       <DescriptionList isCompact isHorizontal>
@@ -53,7 +56,9 @@ const ProvisioningCard = ({ status, hostDetails }) => {
             >
               {(duration || duration === 0) && (
                 <Tooltip
-                  content={`${Math.round(duration / 1000)} ${__('seconds')}`}
+                  content={`${Math.round(duration / MS_PER_SECOND)} ${__(
+                    'seconds'
+                  )}`}
                 >
                   <span>{getWordsDurations(duration)}</span>
                 </Tooltip>

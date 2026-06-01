@@ -3,6 +3,7 @@ import { isEqual } from 'lodash';
 import URI from 'urijs';
 import { useHistory } from 'react-router-dom';
 import { useAPI } from '../../../../common/hooks/API/APIHooks';
+import { HTTP_STATUS_CODES } from '../../../../constants';
 
 /**
 
@@ -119,7 +120,8 @@ export const useCurrentUserTablePreferences = ({ tableName }) => {
     userTablePreferenceResponse.response?.columns;
 
   const hasPreference = !(
-    userTablePreferenceResponse.response?.response?.status === 404
+    userTablePreferenceResponse.response?.response?.status ===
+    HTTP_STATUS_CODES.NOT_FOUND
   );
 
   return {

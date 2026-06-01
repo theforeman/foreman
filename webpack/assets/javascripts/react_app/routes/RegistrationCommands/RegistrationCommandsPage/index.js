@@ -20,7 +20,7 @@ import {
   useForemanOrganization,
   useForemanLocation,
 } from '../../../Root/Context/ForemanContext';
-import { STATUS } from '../../../constants';
+import { STATUS, HTTP_STATUS_CODES } from '../../../constants';
 import PageLayout from '../../common/PageLayout/PageLayout';
 import Slot from '../../../components/common/Slot';
 import PermissionDenied from '../../../components/PermissionDenied';
@@ -193,7 +193,7 @@ const RegistrationCommandsPage = () => {
   }, [dispatch, hostGroupId, operatingSystemId]);
 
   // Do not show the form if the user is not authorized to register hosts
-  if (apiDataResponseCode === 403) {
+  if (apiDataResponseCode === HTTP_STATUS_CODES.FORBIDDEN) {
     return <PermissionDenied missingPermissions={['register_hosts']} />;
   }
 

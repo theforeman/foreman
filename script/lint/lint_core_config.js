@@ -208,6 +208,7 @@ module.exports = {
           'xml',
           'xpi',
           'xyz',
+          'uname',
           'yaml',
         ],
         minLength: 3,

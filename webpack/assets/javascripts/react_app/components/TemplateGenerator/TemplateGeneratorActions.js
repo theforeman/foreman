@@ -1,6 +1,7 @@
 /* eslint-disable promise/prefer-await-to-then */
 import { saveAs } from 'file-saver';
 import { API } from '../../redux/API';
+import { HTTP_STATUS_CODES } from '../../constants';
 
 import {
   TEMPLATE_GENERATE_REQUEST,
@@ -40,7 +41,8 @@ const _downloadFile = response => {
 
 const _getErrors = errorResponse => {
   if (!errorResponse || !errorResponse.data) return null;
-  if (errorResponse.status === 422) return errorResponse.data.errors;
+  if (errorResponse.status === HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+    return errorResponse.data.errors;
   if (errorResponse.data.error) return [errorResponse.data.error]; // most of >500
   return [errorResponse.data];
 };
@@ -50,7 +52,7 @@ export const pollReportData = pollUrl => dispatch => {
 
   return API.get(pollUrl, { responseType: 'blob' })
     .then(response => {
-      if (response.status === 200) {
+      if (response.status === HTTP_STATUS_CODES.OK) {
         dispatch({ type: TEMPLATE_GENERATE_SUCCESS, payload: {} });
         _downloadFile(response);
       } else if (pollingInterval) {

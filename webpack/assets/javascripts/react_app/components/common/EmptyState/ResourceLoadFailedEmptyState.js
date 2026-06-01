@@ -5,6 +5,7 @@ import { LockIcon, SearchIcon } from '@patternfly/react-icons';
 import EmptyStatePattern from './EmptyStatePattern';
 import { resourceLoadFailedEmptyStatePropTypes } from './EmptyStatePropTypes';
 import { translate as __, sprintf } from '../../../common/I18n';
+import { HTTP_STATUS_CODES } from '../../../constants';
 import { usePermissions } from '../../../common/hooks/Permissions/permissionHooks';
 import { useForemanPermissions } from '../../../Root/Context/ForemanContext';
 
@@ -19,11 +20,13 @@ const resolveFailureReason = ({
   viewPermissions,
   hasViewPermission,
 }) => {
-  if (httpStatus === 403) return FAILURE_REASON.FORBIDDEN;
+  if (httpStatus === HTTP_STATUS_CODES.FORBIDDEN)
+    return FAILURE_REASON.FORBIDDEN;
   if (viewPermissions?.length > 0 && !hasViewPermission) {
     return FAILURE_REASON.FORBIDDEN;
   }
-  if (httpStatus === 404) return FAILURE_REASON.NOT_FOUND;
+  if (httpStatus === HTTP_STATUS_CODES.NOT_FOUND)
+    return FAILURE_REASON.NOT_FOUND;
   if (viewPermissions?.length > 0 && hasViewPermission) {
     return FAILURE_REASON.NOT_FOUND;
   }

@@ -25,6 +25,7 @@ $(document).on('ContentLoad', () => {
 
 let refreshTimeout;
 
+const AUTO_REFRESH_INTERVAL_MS = 60000;
 function autoRefresh() {
   const element = $('.auto-refresh');
   clearTimeout(refreshTimeout);
@@ -37,7 +38,7 @@ function autoRefresh() {
       if (autoRefreshIsOn && hasFocus) {
         reloadPage();
       }
-    }, 60000);
+    }, AUTO_REFRESH_INTERVAL_MS);
   }
 }
 
@@ -45,7 +46,7 @@ export function startGridster() {
   $('.gridster>ul')
     .gridster({
       widget_margins: [10, 10],
-      widget_base_dimensions: [94, 340],
+      widget_base_dimensions: [94, 340], // eslint-disable-line no-magic-numbers
       max_size_x: 12,
       min_cols: 12,
       max_cols: 12,

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { HTTP_STATUS_CODES } from './constants';
 
 export const mock = new MockAdapter(axios);
 const methods = {
@@ -13,7 +14,7 @@ export const mockRequest = ({
   method = 'GET',
   url,
   data = null,
-  status = 200,
+  status = HTTP_STATUS_CODES.OK,
   response = null,
 }) => mock[methods[method]](url, data).reply(status, response);
 

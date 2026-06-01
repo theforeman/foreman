@@ -2,9 +2,17 @@ import React from 'react';
 import { ChartLabel, ChartPoint } from '@patternfly/react-charts';
 import { chart_color_black_500 as chartColorBlack500 } from '@patternfly/react-tokens';
 import './LegendHelpers.scss';
+import { MS_PER_SECOND } from '../../../../constants';
+
+const MS_THRESHOLD = 1e12;
+const DIMMED_OPACITY = 0.35;
+const SCIENTIFIC_NOTATION_THRESHOLD = 1e21;
+const EPOCH_THRESHOLD = 1e9;
+const DEFAULT_Y_AXIS_LABEL_OFFSET = -12;
+const STAGGER_OFFSET = 14;
 
 export const getSeriesOpacity = isDimmedByHover => {
-  if (isDimmedByHover) return 0.35;
+  if (isDimmedByHover) return DIMMED_OPACITY;
   return 1;
 };
 
@@ -42,7 +50,8 @@ export const getLegendEvents = (chartName, toggleSeries) => ({
 
 /** Format a timestamp for axis tick display (matches formatAxisTick output). */
 const formatTickForDedup = t => {
-  const date = t instanceof Date ? t : new Date(t >= 1e12 ? t : t * 1000);
+  const ms = t >= MS_THRESHOLD ? t : t * MS_PER_SECOND;
+  const date = t instanceof Date ? t : new Date(ms);
   return date.toLocaleString(undefined, {
     month: 'short',
     day: 'numeric',
@@ -92,7 +101,7 @@ export const XAxisTickLabel = props => {
   const {
     style,
     index = 0,
-    yAxisLabelOffset = -12,
+    yAxisLabelOffset = DEFAULT_Y_AXIS_LABEL_OFFSET,
     dy: _dyIgnored,
     text,
     ...rest
@@ -101,7 +110,7 @@ export const XAxisTickLabel = props => {
     style && typeof style === 'object' && !Array.isArray(style)
       ? { ...style, verticalAnchor: undefined }
       : style;
-  const staggerOffset = index % 2 === 1 ? 14 : 0;
+  const staggerOffset = index % 2 === 1 ? STAGGER_OFFSET : 0;
   const axisSpacing = 16;
   const tooltipText = getTooltipText(text);
   return (
@@ -124,8 +133,8 @@ export const formatAxisTick = t => {
   let date;
   if (t instanceof Date) {
     date = t;
-  } else if (typeof t === 'number' && t >= 1e9) {
-    const ms = t >= 1e12 ? t : t * 1000;
+  } else if (typeof t === 'number' && t >= EPOCH_THRESHOLD) {
+    const ms = t >= MS_THRESHOLD ? t : t * MS_PER_SECOND;
     date = new Date(ms);
   } else {
     date = null;
@@ -144,7 +153,7 @@ export const formatAxisTick = t => {
 /** Fixed decimals for normal range; scientific notation for very large magnitudes. */
 export const formatYAxisTick = t => {
   const num = Number(t);
-  if (Math.abs(num) >= 1e21) {
+  if (Math.abs(num) >= SCIENTIFIC_NOTATION_THRESHOLD) {
     return num.toExponential(1);
   }
   return num.toFixed(1);
@@ -153,7 +162,8 @@ export const formatYAxisTick = t => {
 export const formatTooltipTitle = datum => {
   const x = datum?.x ?? datum?._x;
   if (x == null) return '';
-  const date = x instanceof Date ? x : new Date(x >= 1e12 ? x : x * 1000);
+  const ms = x >= MS_THRESHOLD ? x : x * MS_PER_SECOND;
+  const date = x instanceof Date ? x : new Date(ms);
   const dateStr = date.toLocaleDateString(undefined, {
     month: 'numeric',
     day: 'numeric',

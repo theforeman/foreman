@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Banner } from '@patternfly/react-core';
 
+// sRGB luminance coefficients per ITU-R BT.709
+const LUMINANCE_R = 0.2126;
+const LUMINANCE_G = 0.7152;
+const LUMINANCE_B = 0.0722;
+const MAX_CHANNEL_VALUE = 255;
+const LUMINANCE_THRESHOLD = 0.5;
+
 const getContrastColor = backgroundColor => {
   const hexToRgb = hex => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -14,15 +21,13 @@ const getContrastColor = backgroundColor => {
       : null;
   };
   backgroundColor = hexToRgb(backgroundColor);
-  // Calculate the relative luminance of the background color
   const luminance =
-    (0.2126 * backgroundColor.r +
-      0.7152 * backgroundColor.g +
-      0.0722 * backgroundColor.b) /
-    255;
+    (LUMINANCE_R * backgroundColor.r +
+      LUMINANCE_G * backgroundColor.g +
+      LUMINANCE_B * backgroundColor.b) /
+    MAX_CHANNEL_VALUE;
 
-  // Choose black or white text based on the relative luminance
-  return luminance > 0.5 ? 'black' : 'white';
+  return luminance > LUMINANCE_THRESHOLD ? 'black' : 'white';
 };
 const validateHexColor = instanceColor => {
   // Check if the string is a valid hex color code

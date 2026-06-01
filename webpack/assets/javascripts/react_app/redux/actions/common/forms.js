@@ -1,5 +1,6 @@
 import { APIActions } from '../../API';
 import { sprintf, translate as __ } from '../../../../react_app/common/I18n';
+import { HTTP_STATUS_CODES } from '../../../../react_app/constants';
 
 const getBaseErrors = ({ error: { errors, severity } }) => {
   let _error;
@@ -29,7 +30,7 @@ export const prepareErrors = (errors, base) =>
 
 export const onError = (error, actions) => {
   actions.setSubmitting(false);
-  if (error.response?.status === 422) {
+  if (error.response?.status === HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY) {
     const base = getBaseErrors(error?.response?.data);
 
     actions.setErrors(

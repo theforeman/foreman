@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { MEGABYTES } from '../constants';
+import { BYTES_PER_MB } from '../constants';
 import MemoryAllocationInput from '../';
 
 
@@ -11,7 +11,7 @@ describe('MemoryAllocationInput', () => {
       const setWarning = jest.fn();
       const component = mount(
         <MemoryAllocationInput
-          value={11264*MEGABYTES}
+          value={11264*BYTES_PER_MB}
           recommendedMaxValue={10240}
           setWarning={setWarning}
         />
@@ -23,7 +23,7 @@ describe('MemoryAllocationInput', () => {
   it('error alert', async () => {
       const setError = jest.fn();
       const component = mount(
-        <MemoryAllocationInput value={21504*MEGABYTES} maxValue={20480*MEGABYTES} setError={setError} />
+        <MemoryAllocationInput value={21504*BYTES_PER_MB} maxValue={20480*BYTES_PER_MB} setError={setError} />
       );
       expect(component.find('.foreman-numeric-input-input').prop('value')).toEqual('21504 MB');
       expect(setError.mock.calls.length).toBe(1);

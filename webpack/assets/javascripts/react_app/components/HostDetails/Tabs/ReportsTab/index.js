@@ -15,7 +15,10 @@ import {
 } from '../../../../redux/API/APISelectors';
 import { useForemanSettings } from '../../../../Root/Context/ForemanContext';
 import ReportsTable from './ReportsTable';
-import { getControllerSearchProps } from '../../../../constants';
+import {
+  HTTP_STATUS_CODES,
+  getControllerSearchProps,
+} from '../../../../constants';
 import PermissionDenied from '../../../PermissionDenied';
 
 const ReportsTab = ({ hostName, origin }) => {
@@ -99,7 +102,7 @@ const ReportsTab = ({ hostName, origin }) => {
     },
     [history]
   );
-  if (response?.status === 403) {
+  if (response?.status === HTTP_STATUS_CODES.FORBIDDEN) {
     return <PermissionDenied missingPermissions={['view_config_reports']} />;
   }
   return (

@@ -42,8 +42,12 @@ const pendingItem = (
   </DropdownItem>
 );
 
+const MAX_BOOKMARK_NAME_LENGTH = 90;
+
 const bookmarksList = ({ bookmarks, onBookmarkClick }) => {
-  const hasLongerName = bookmarks.some(bookmark => bookmark.name.length > 90);
+  const hasLongerName = bookmarks.some(
+    bookmark => bookmark.name.length > MAX_BOOKMARK_NAME_LENGTH
+  );
 
   return (
     (bookmarks.length > 0 &&
@@ -70,7 +74,7 @@ const errorItem = errors => (
   <DropdownItem
     ouiaId="error-dropdown-item"
     className={`bookmarks-dropdown-item ${
-      errors.length > 90 ? 'adapt-long-bookmark' : ''
+      errors.length > MAX_BOOKMARK_NAME_LENGTH ? 'adapt-long-bookmark' : ''
     }`}
     key="bookmarks-errors"
     isDisabled

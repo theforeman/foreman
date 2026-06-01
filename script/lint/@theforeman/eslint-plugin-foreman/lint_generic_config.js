@@ -65,6 +65,33 @@ module.exports = {
         packageDir: packageJsonDirectories,
       },
     ],
+    'no-magic-numbers': [
+      'error',
+      {
+        ignore: [
+          // Common general-purpose values
+          0,
+          1,
+          -1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          8,
+          9,
+          // Pagination per-page options
+          10,
+          15,
+          20,
+          25,
+          50,
+        ],
+        ignoreArrayIndexes: true,
+        enforceConst: true,
+        detectObjects: false,
+      },
+    ],
     '@theforeman/rules/require-ouiaid': 'error',
   },
 };

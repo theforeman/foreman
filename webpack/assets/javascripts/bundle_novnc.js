@@ -52,8 +52,9 @@ function connectFinished() {
   showStatus('normal', __('Connected'));
 }
 
+const WS_ABNORMAL_CLOSURE = 1006;
 function onClose(e) {
-  if (e.code === 1006) {
+  if (e.code === WS_ABNORMAL_CLOSURE) {
     showStatus(
       'failed',
       __(

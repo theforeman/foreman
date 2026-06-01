@@ -2,7 +2,7 @@ import RCInputNumber from 'rc-input-number';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { sprintf, translate as __ } from '../../common/I18n';
-import { MB_FORMAT, MEGABYTES } from './constants';
+import { DEFAULT_MEMORY_MB, MB_FORMAT, BYTES_PER_MB } from './constants';
 import '../common/forms/NumericInput.scss';
 import { noop } from '../../common/helpers';
 
@@ -18,16 +18,16 @@ const MemoryAllocationInput = ({
   setError,
   setWarning,
 }) => {
-  const [valueMB, setValueMB] = useState(value / MEGABYTES);
+  const [valueMB, setValueMB] = useState(value / BYTES_PER_MB);
 
   useEffect(() => {
-    const valueBytes = valueMB * MEGABYTES;
+    const valueBytes = valueMB * BYTES_PER_MB;
     if (maxValue && valueBytes > maxValue) {
       setWarning(null);
       setError(
         sprintf(
           __('Specified value is higher than maximum value %s'),
-          `${maxValue / MEGABYTES} ${MB_FORMAT}`
+          `${maxValue / BYTES_PER_MB} ${MB_FORMAT}`
         )
       );
     } else if (recommendedMaxValue && valueBytes > recommendedMaxValue) {
@@ -35,7 +35,7 @@ const MemoryAllocationInput = ({
       setWarning(
         sprintf(
           __('Specified value is higher than recommended maximum %s'),
-          `${recommendedMaxValue / MEGABYTES} ${MB_FORMAT}`
+          `${recommendedMaxValue / BYTES_PER_MB} ${MB_FORMAT}`
         )
       );
     } else {
@@ -50,7 +50,7 @@ const MemoryAllocationInput = ({
       v = Math.floor(valueMB / 2);
     }
     setValueMB(v);
-    onChange(v * MEGABYTES);
+    onChange(v * BYTES_PER_MB);
   };
 
   return (
@@ -62,13 +62,13 @@ const MemoryAllocationInput = ({
         parser={str => str.replace(/\D/g, '')}
         onChange={handleChange}
         disabled={disabled}
-        min={minValue && minValue / MEGABYTES}
+        min={minValue && minValue / BYTES_PER_MB}
         step={1}
         precision={0}
         name=""
         prefixCls="foreman-numeric-input"
       />
-      <input type="hidden" name={name} value={valueMB * MEGABYTES} />
+      <input type="hidden" name={name} value={valueMB * BYTES_PER_MB} />
     </>
   );
 };
@@ -97,7 +97,7 @@ MemoryAllocationInput.propTypes = {
 };
 
 MemoryAllocationInput.defaultProps = {
-  value: 2048 * MEGABYTES,
+  value: DEFAULT_MEMORY_MB * BYTES_PER_MB,
   onChange: noop,
   recommendedMaxValue: null,
   maxValue: null,
