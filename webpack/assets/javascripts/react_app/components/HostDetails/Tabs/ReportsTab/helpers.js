@@ -205,7 +205,8 @@ export const getColumns = (fetchReports, origin) => {
    there is no need to show that origin column.
   */
   if (!origin) {
-    columns.splice(-2, 0, {
+    const ORIGIN_COLUMN_OFFSET = -2;
+    columns.splice(ORIGIN_COLUMN_OFFSET, 0, {
       title: __('Origin'),
       formatter: originFormatter,
     });

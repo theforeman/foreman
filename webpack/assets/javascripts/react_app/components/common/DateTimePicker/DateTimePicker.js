@@ -59,7 +59,8 @@ const DateTimePicker = ({
       intervalRef.current = null;
     }
     updateError();
-    intervalRef.current = setInterval(updateError, 30000); // make sure the error is updated every 30 seconds so isFutureOnly is always up to date
+    const ERROR_UPDATE_INTERVAL = 30000;
+    intervalRef.current = setInterval(updateError, ERROR_UPDATE_INTERVAL);
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);

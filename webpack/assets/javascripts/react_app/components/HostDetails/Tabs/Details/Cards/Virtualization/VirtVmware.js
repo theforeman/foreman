@@ -7,6 +7,7 @@ import {
 } from '@patternfly/react-core';
 import { number_to_human_size as NumberToHumanSize } from 'number_helpers';
 import { translate as __ } from '../../../../../../common/I18n';
+import { BYTES_PER_KB } from '../../../../../../constants';
 
 const VirtVmware = ({ vm }) => (
   <>
@@ -21,7 +22,7 @@ const VirtVmware = ({ vm }) => (
     <DescriptionListGroup>
       <DescriptionListTerm>{__('Memory')}</DescriptionListTerm>
       <DescriptionListDescription>
-        {NumberToHumanSize(vm.memory_mb * 1024 ** 2, {
+        {NumberToHumanSize(vm.memory_mb * BYTES_PER_KB ** 2, {
           strip_insignificant_zeros: true,
         })}
       </DescriptionListDescription>

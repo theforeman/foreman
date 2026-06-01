@@ -10,8 +10,10 @@ import {
 } from '@patternfly/react-core';
 
 import { addToast, deleteToast, selectToastsList } from './slice';
-import { toastType, toastTitle } from './helpers';
+import { toastType, toastTitle, MAX_TOAST_TITLE_LENGTH } from './helpers';
 import './style.scss';
+
+const TOAST_TIMEOUT_MS = 8000;
 
 const ToastsList = ({ railsMessages }) => {
   const dispatch = useDispatch();
@@ -30,7 +32,7 @@ const ToastsList = ({ railsMessages }) => {
         key={key}
         title={toastTitle(message, toastType(type))}
         variant={toastType(type)}
-        timeout={sticky ? false : 8000}
+        timeout={sticky ? false : TOAST_TIMEOUT_MS}
         onTimeout={() => dispatch(deleteToast(key))}
         className="foreman-toast"
         actionClose={
@@ -45,7 +47,9 @@ const ToastsList = ({ railsMessages }) => {
         }
         {...toastProps}
       >
-        {(message.length > 60 || React.isValidElement(message)) && message}
+        {(message.length > MAX_TOAST_TITLE_LENGTH ||
+          React.isValidElement(message)) &&
+          message}
       </Alert>
     )
   );

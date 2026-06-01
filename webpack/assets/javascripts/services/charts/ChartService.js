@@ -11,6 +11,7 @@ import {
   timeseriesLineChartConfig,
   timeseriesAreaChartConfig,
 } from './ChartService.consts';
+import { PERCENT_MULTIPLIER } from '../../react_app/constants';
 
 const chartsSizeConfig = {
   area: {
@@ -70,7 +71,12 @@ export const getChartConfig = ({
     dataWithShortNames = data.map(val => {
       const item = Immutable.asMutable(val.slice());
       const longName = item[0];
-      item[0] = item[0].length > 30 ? `${val[0].substring(0, 10)}...` : item[0];
+      const MAX_LABEL_LENGTH = 30;
+      const TRUNCATED_LABEL_LENGTH = 10;
+      item[0] =
+        item[0].length > MAX_LABEL_LENGTH
+          ? `${val[0].substring(0, TRUNCATED_LABEL_LENGTH)}...`
+          : item[0];
       longNames[item[0]] = longName;
       return item;
     });
@@ -214,7 +220,11 @@ export const getDonutChartConfigPF5 = ({
   // Configure labels to show full name and percentage in tooltip
   const labels = ({ datum }) => {
     const percentage =
-      total > 0 ? ((datum.y / total) * 100).toFixed(title?.precision ?? 1) : 0;
+      total > 0
+        ? ((datum.y / total) * PERCENT_MULTIPLIER).toFixed(
+            title?.precision ?? 1
+          )
+        : 0;
     return `${datum.name}: ${percentage}%`;
   };
 

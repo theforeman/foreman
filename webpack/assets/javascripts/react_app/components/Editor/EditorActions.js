@@ -199,7 +199,11 @@ const createHostAPIRequest = async (query, array, url, dispatch, getState) => {
     return onResultsError(error);
   }
 };
-const debouncedCreateHostAPIRequest = debounce(createHostAPIRequest, 250);
+const DEBOUNCE_DELAY_MS = 250;
+const debouncedCreateHostAPIRequest = debounce(
+  createHostAPIRequest,
+  DEBOUNCE_DELAY_MS
+);
 
 export const onHostSearch = e => (dispatch, getState) => {
   if (e.target.value === '')

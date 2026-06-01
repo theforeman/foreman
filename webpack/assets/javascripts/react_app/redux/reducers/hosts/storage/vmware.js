@@ -23,6 +23,7 @@ import {
   STORAGE_VMWARE_STORAGEPODS_REQUEST,
   STORAGE_VMWARE_STORAGEPODS_SUCCESS,
   STORAGE_VMWARE_STORAGEPODS_FAILURE,
+  CONTROLLER_KEY_BASE,
 } from '../../../consts';
 
 const initialState = Immutable({
@@ -43,7 +44,7 @@ const renumberVolumes = volumes =>
 
 const availableControllerKeys = Array.from(
   { length: 8 },
-  (value, index) => 1000 + index
+  (value, index) => CONTROLLER_KEY_BASE + index
 );
 const getAvailableKey = controllers =>
   head(

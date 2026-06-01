@@ -204,6 +204,7 @@ export const rtlHelpers = {
   /**
    * Helper to wait for async operations in tests
    */
+  // eslint-disable-next-line no-magic-numbers
   waitForAsync: async (callback, timeout = 1000) =>
     new Promise(resolve =>
       setTimeout(() => {

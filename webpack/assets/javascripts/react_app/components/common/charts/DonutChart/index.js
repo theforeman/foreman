@@ -9,6 +9,7 @@ import { Icon } from '@patternfly/react-core';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { getDonutChartConfig } from '../../../../../services/charts/DonutChartService';
 import EmptyState from '../../EmptyState';
+import { PERCENT_MULTIPLIER } from '../../../../constants';
 import { translate as __ } from '../../../../../react_app/common/I18n';
 import { noop } from '../../../../common/helpers';
 
@@ -57,7 +58,9 @@ const DonutChart = ({
         );
         const percentage =
           total > 0
-            ? ((maxItem.y / total) * 100).toFixed(title.precision ?? 1)
+            ? ((maxItem.y / total) * PERCENT_MULTIPLIER).toFixed(
+                title.precision ?? 1
+              )
             : 0;
         titleText = `${percentage}%`;
         subtitleText = title.secondary || maxItem.x;

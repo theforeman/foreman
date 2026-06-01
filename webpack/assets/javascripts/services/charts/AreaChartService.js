@@ -1,5 +1,6 @@
 import uuidV1 from 'uuid/v1';
 import { getChartConfig } from './ChartService';
+import { MS_PER_SECOND } from '../../react_app/constants';
 
 export const getAreaChartConfig = ({
   data,
@@ -29,7 +30,7 @@ export const getAreaChartConfig = ({
   if (data) {
     const timestamps = data[0].slice(1);
     const formatedDates = timestamps.map(
-      epochSecs => new Date(epochSecs * 1000)
+      epochSecs => new Date(epochSecs * MS_PER_SECOND)
     );
     chartConfig.data.colors = {};
     chartConfig.data.columns[0] = [xAxisDataLabel].concat(formatedDates);

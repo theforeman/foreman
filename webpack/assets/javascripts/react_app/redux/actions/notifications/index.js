@@ -13,11 +13,12 @@ import {
   withInterval,
 } from '../../middlewares/IntervalMiddleware';
 import { DEFAULT_INTERVAL } from './constants';
+import { HTTP_STATUS_CODES } from '../../../constants';
 
 const interval = process.env.NOTIFICATIONS_POLLING || DEFAULT_INTERVAL;
 
 const handleNotificationPollingError = error => {
-  if (error.response?.status === 401) {
+  if (error.response?.status === HTTP_STATUS_CODES.UNAUTHORIZED) {
     stopNotificationsPolling();
     reloadPage();
   }

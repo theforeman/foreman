@@ -1,3 +1,9 @@
+import { MS_PER_SECOND } from '../../../../constants';
+
+const MS_THRESHOLD = 1e12;
+const MIN_Y_STEP = 0.1;
+const HALF_STEP = 0.5;
+
 /** Process raw data into chart series. Backend may send Unix seconds or milliseconds. */
 export const processChartData = (data, xAxisDataLabel) => {
   if (!data || data.length === 0) return null;
@@ -6,7 +12,7 @@ export const processChartData = (data, xAxisDataLabel) => {
   const timestamps = timeColumn.slice(1);
   const toMs = val => {
     const n = Number(val);
-    return n >= 1e12 ? n : n * 1000;
+    return n >= MS_THRESHOLD ? n : n * MS_PER_SECOND;
   };
   const dates = timestamps.map(t => new Date(toMs(t)));
   const series = data
@@ -45,7 +51,7 @@ export const getYTickValues = (chartData, config, hiddenSeries) => {
         });
       });
   }
-  if (maxY <= 0) return [0, 0.5, 1.0];
-  const step = Math.max(0.1, Math.ceil((maxY / 4) * 10) / 10);
+  if (maxY <= 0) return [0, HALF_STEP, 1.0];
+  const step = Math.max(MIN_Y_STEP, Math.ceil((maxY / 4) * 10) / 10);
   return [0, 1, 2, 3, 4, 5].map(i => Math.round(i * step * 10) / 10);
 };
