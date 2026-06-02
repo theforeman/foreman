@@ -49,7 +49,7 @@ autoinstall:
     disable_root: false
     chpasswd:
       list: |
-        root:<%= password_to_create %>
+        root: <%= @host.root_pass %>
       expire: false
     fqdn: <%= @host.name %>
     users:
