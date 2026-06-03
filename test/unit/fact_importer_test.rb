@@ -152,6 +152,25 @@ class FactImporterTest < ActiveSupport::TestCase
       assert_equal 0, importer.counters[:added]
     end
 
+    test 'additive import preserves existing facts not in the new set' do
+      # baseline: two facts in DB
+      assert_equal '2.6.9', value('kernelversion')
+      assert_equal '10.0.19.33', value('ipaddress')
+
+      # additive import of a single new fact — existing facts must survive
+      @importer = FactImporter.new(host, 'uptime' => '1 day')
+      allow_transactions_for @importer
+      @importer.stubs(:fact_name_class).returns(FactName)
+      @importer.import!(additive: true)
+
+      assert_equal '2.6.9', value('kernelversion')
+      assert_equal '10.0.19.33', value('ipaddress')
+      assert_equal '1 day', value('uptime')
+      assert_equal 0, @importer.counters[:deleted]
+      assert_equal 1, @importer.counters[:added]
+      assert_equal 0, @importer.counters[:updated]
+    end
+
     test 'importer updates fact values' do
       assert_equal '2.6.9', value('kernelversion')
       assert_equal '10.0.19.33', value('ipaddress')

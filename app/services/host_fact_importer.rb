@@ -11,7 +11,7 @@ class HostFactImporter
     Setting[:create_new_host_when_facts_are_uploaded]
   end
 
-  def import_facts(facts, source_proxy = nil)
+  def import_facts(facts, source_proxy = nil, additive: false)
     return false if !create_new_record_when_facts_are_uploaded? && host.new_record?
 
     # we are not importing facts for hosts in build state (e.g. waiting for a re-installation)
@@ -24,7 +24,7 @@ class HostFactImporter
     facts_importer = Foreman::Plugin.fact_importer_registry.get(type).new(host, facts)
     telemetry_observe_histogram(:importer_facts_import_duration, facts.size, type: type)
     telemetry_duration_histogram(:importer_facts_import_duration, 1000, type: type) do
-      facts_importer.import!
+      facts_importer.import!(additive: additive)
     end
 
     skipping_orchestration do

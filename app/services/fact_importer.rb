@@ -28,17 +28,17 @@ class FactImporter
     @error    = false
     @host     = host
     @facts    = normalize(facts)
-    @counters = {}
+    @counters = { added: 0, updated: 0, deleted: 0 }
   end
 
   # expect a facts hash
-  def import!
+  def import!(additive: false)
     # This function uses its own transactions that should not be included
     # in the transaction that handles fact values
     ensure_fact_names
 
     ActiveRecord::Base.transaction do
-      delete_removed_facts
+      delete_removed_facts unless additive
       update_facts
       add_new_facts
     end
