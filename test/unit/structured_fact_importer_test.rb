@@ -32,6 +32,18 @@ class StructuredFactImporterTest < ActiveSupport::TestCase
       assert_equal fact_value('structured::one').fact_name, fact_value('structured::one::two').fact_name.parent
     end
 
+    test 'bulk inserted compose facts set host and timestamps' do
+      import 'structured' => {'one' => {'two' => 'value'}}
+
+      ['structured', 'structured::one', 'structured::one::two'].each do |fact|
+        imported_fact = fact_value(fact)
+
+        assert_equal host.id, imported_fact.host_id
+        assert_not_nil imported_fact.created_at
+        assert_not_nil imported_fact.updated_at
+      end
+    end
+
     test 'updates fact values within hashes' do
       import 'structured' => {'one' => 'value'}
       assert_equal 'value', value('structured::one')
