@@ -48,8 +48,8 @@ autoinstall:
   user-data:
     disable_root: false
     chpasswd:
-      list: |
-        root:<%= @host.root_pass %>
+      users:
+      - { name: root, password: <%= @host.root_pass %> }
       expire: false
     fqdn: <%= @host.name %>
     users:
