@@ -19,20 +19,19 @@ import {
   getTheme,
 } from '@patternfly/react-charts';
 import MessageBox from '../../MessageBox';
+import { processChartData, getYTickValues } from './AreaChartHelpers';
 import {
-  processChartData,
-  getSeriesOpacity,
   buildLegendData,
-  getLegendEvents,
-  getYTickValues,
-  getXAxisTickValues,
-  formatTooltipTitle,
   formatAxisTick,
+  formatTooltipTitle,
   formatYAxisTick,
-  InteractiveLegendSymbol,
+  getLegendEvents,
+  getSeriesOpacity,
+  getXAxisTickValues,
   InteractiveLegendLabel,
+  InteractiveLegendSymbol,
   XAxisTickLabel,
-} from './AreaChartLegend';
+} from '../helpers/LegendHelpers';
 import {
   areaChartPropTypes,
   areaChartDefaultProps,
