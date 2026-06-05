@@ -398,7 +398,7 @@ module Api
 
       def parent_permission(child_permission)
         case child_permission.to_s
-          when 'power', 'boot', 'console', 'vm_compute_attributes', 'get_status', 'template', 'enc', 'rebuild_config', 'inherited_parameters'
+          when 'power', 'boot', 'ipmi_boot', 'console', 'vm_compute_attributes', 'get_status', 'template', 'enc', 'rebuild_config', 'inherited_parameters'
             'view'
           when 'disassociate'
             'edit'

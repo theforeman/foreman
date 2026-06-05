@@ -894,6 +894,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       setup do
         setup_user 'view', 'hosts'
         setup_user 'ipmi_boot', 'hosts'
+        setup_user 'view', 'locations'
+        setup_user 'view', 'organizations'
       end
 
       test 'returns error for non-admin user if BMC is not available' do
@@ -909,6 +911,23 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
           returns({ "action" => "bios", "result" => true } .to_json)
         put :boot, params: { :id => @bmchost.to_param, :device => 'bios' },
           session: set_session_user.merge(:user => @one.id)
+        assert_response :success
+      end
+
+      test 'responds correctly for non-admin user with taxonomy context if BMC is available' do
+        ProxyAPI::BMC.any_instance.stubs(:boot).
+          with({ :function => 'bootdevice', :device => 'bios' }).
+          returns({ "action" => "bios", "result" => true } .to_json)
+
+        @bmchost.update!(:organization => taxonomies(:organization1), :location => taxonomies(:location1))
+
+        put :boot, params: {
+          :id => @bmchost.to_param,
+          :device => 'bios',
+          :organization_id => taxonomies(:organization1).id,
+          :location_id => taxonomies(:location1).id,
+        }, session: set_session_user.merge(:user => @one.id)
+
         assert_response :success
       end
     end
