@@ -8,6 +8,12 @@ import {
   emptyData,
 } from './BarChart.fixtures';
 
+// Mock EmptyState to avoid Redux/CSS import issues in Jest
+jest.mock('../../EmptyState', () => ({
+  __esModule: true,
+  default: ({ header }) => <div data-testid="empty-state">{header}</div>,
+}));
+
 describe('BarChart', () => {
   it('renders bar chart with data', () => {
     const { container } = render(<BarChart data={barChartData.data} />);

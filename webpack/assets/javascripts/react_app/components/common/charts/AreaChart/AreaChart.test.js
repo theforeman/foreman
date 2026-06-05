@@ -9,6 +9,12 @@ import {
 } from '../helpers/LegendHelpers';
 import { areaChartData, areaChartDataDenseSameMinute } from './AreaChart.fixtures';
 
+// Mock EmptyState to avoid Redux/CSS import issues in Jest
+jest.mock('../../EmptyState', () => ({
+  __esModule: true,
+  default: ({ header }) => <div data-testid="empty-state">{header}</div>,
+}));
+
 jest.unmock('./');
 
 /** Build chartData shape from fixture (same as AreaChart does). */

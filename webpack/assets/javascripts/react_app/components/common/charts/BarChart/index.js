@@ -10,9 +10,11 @@ import {
   ChartVoronoiContainer,
   getTheme,
 } from '@patternfly/react-charts';
+import { Icon } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 import { noop } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';
-import MessageBox from '../../MessageBox';
+import EmptyState from '../../EmptyState';
 import BarChartHtmlTooltip from './BarChartHtmlTooltip';
 import './BarChart.scss';
 
@@ -97,7 +99,17 @@ const BarChart = ({
 
   // Handle empty data
   if (!chartData.length) {
-    return <MessageBox msg={noDataMsg} icontype="info" />;
+    return (
+      <EmptyState
+        variant="xs"
+        icon={
+          <Icon iconSize="lg">
+            <InfoCircleIcon />
+          </Icon>
+        }
+        header={noDataMsg}
+      />
+    );
   }
 
   const dimensions = {

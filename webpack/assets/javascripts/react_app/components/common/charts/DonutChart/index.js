@@ -5,8 +5,10 @@ import {
   ChartThemeColor,
   ChartTooltip,
 } from '@patternfly/react-charts';
+import { Icon } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 import { getDonutChartConfig } from '../../../../../services/charts/DonutChartService';
-import MessageBox from '../../MessageBox';
+import EmptyState from '../../EmptyState';
 import { translate as __ } from '../../../../../react_app/common/I18n';
 import { noop } from '../../../../common/helpers';
 
@@ -87,7 +89,17 @@ const DonutChart = ({
       </div>
     );
   }
-  return <MessageBox msg={noDataMsg} icontype="info" />;
+  return (
+    <EmptyState
+      variant="xs"
+      icon={
+        <Icon iconSize="lg">
+          <InfoCircleIcon />
+        </Icon>
+      }
+      header={noDataMsg}
+    />
+  );
 };
 
 DonutChart.propTypes = {

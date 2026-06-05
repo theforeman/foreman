@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Icon } from '@patternfly/react-core';
+import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { Spinner } from 'patternfly-react';
 
 import { deprecate } from '../../../common/DeprecationService';
@@ -8,7 +10,7 @@ import { translate as __ } from '../../../common/I18n';
 import { noop } from '../../../common/helpers';
 import CommonForm from './CommonForm';
 import { STATUS } from '../../../constants';
-import MessageBox from '../MessageBox';
+import EmptyState from '../EmptyState';
 import { renderOptions } from './SelectHelpers';
 
 class Select extends React.Component {
@@ -94,11 +96,31 @@ class Select extends React.Component {
         break;
       }
       case STATUS.ERROR: {
-        content = <MessageBox icontype="error-circle-o" msg={errorMessage} />;
+        content = (
+          <EmptyState
+            variant="xs"
+            icon={
+              <Icon iconSize="lg">
+                <ExclamationCircleIcon />
+              </Icon>
+            }
+            header={errorMessage}
+          />
+        );
         break;
       }
       default:
-        content = <MessageBox icontype="error-circle-o" msg="Invalid Status" />;
+        content = (
+          <EmptyState
+            variant="xs"
+            icon={
+              <Icon iconSize="lg">
+                <ExclamationCircleIcon />
+              </Icon>
+            }
+            header={__('Invalid status')}
+          />
+        );
         break;
     }
 

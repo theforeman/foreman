@@ -12,10 +12,10 @@ import * as chartService from '../../../../../services/charts/DonutChartService'
 // Mock the DonutChartService
 jest.mock('../../../../../services/charts/DonutChartService');
 
-// Mock MessageBox to avoid CSS import issues in Jest
-jest.mock('../../MessageBox', () => ({
+// Mock EmptyState to avoid Redux/CSS import issues in Jest
+jest.mock('../../EmptyState', () => ({
   __esModule: true,
-  default: ({ msg }) => <div data-testid="message-box">{msg}</div>,
+  default: ({ header }) => <div data-testid="empty-state">{header}</div>,
 }));
 
 describe('DonutChart', () => {
@@ -152,12 +152,12 @@ describe('DonutChart', () => {
   });
 
   describe('with empty data', () => {
-    it('renders MessageBox when no data is available', () => {
+    it('renders EmptyState when no data is available', () => {
       chartService.getDonutChartConfig.mockReturnValue(emptyChartConfig);
 
       const { container } = render(<DonutChart data={[]} />);
 
-      expect(screen.getByTestId('message-box')).toBeInTheDocument();
+      expect(screen.getByTestId('empty-state')).toBeInTheDocument();
       expect(screen.getByText('No data available')).toBeInTheDocument();
       // Should not render chart container
       expect(
@@ -170,7 +170,7 @@ describe('DonutChart', () => {
 
       render(<DonutChart data={[]} noDataMsg="Custom empty message" />);
 
-      expect(screen.getByTestId('message-box')).toBeInTheDocument();
+      expect(screen.getByTestId('empty-state')).toBeInTheDocument();
       expect(screen.getByText('Custom empty message')).toBeInTheDocument();
     });
   });

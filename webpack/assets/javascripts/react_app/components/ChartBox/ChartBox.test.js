@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ChartBox from './ChartBox';
 
-// Mock DonutChart to avoid CSS import issues from MessageBox
+// Mock DonutChart to avoid CSS import issues from EmptyState
 jest.mock('../common/charts/DonutChart', () => ({
   __esModule: true,
   default: ({ data, noDataMsg }) => (
@@ -29,10 +29,10 @@ jest.mock('../common/charts/BarChart', () => ({
   ),
 }));
 
-// Mock MessageBox to avoid CSS import issues in Jest
-jest.mock('../common/MessageBox', () => ({
+// Mock EmptyState to avoid Redux/CSS import issues in Jest
+jest.mock('../common/EmptyState', () => ({
   __esModule: true,
-  default: ({ msg }) => <div data-testid="message-box">{msg}</div>,
+  default: ({ header }) => <div data-testid="empty-state">{header}</div>,
 }));
 
 describe('ChartBox', () => {

@@ -10,12 +10,15 @@ import {
   Modal,
   ModalVariant,
   Spinner,
+  Icon,
 } from '@patternfly/react-core';
+import { ErrorCircleOIcon } from '@patternfly/react-icons';
 import classNames from 'classnames';
 import DonutChart from '../common/charts/DonutChart';
 import BarChart from '../common/charts/BarChart';
 import MessageBox from '../common/MessageBox';
 import { STATUS } from '../../constants';
+import EmptyState from '../common/EmptyState';
 import { translate as __ } from '../../common/I18n';
 import './ChartBox.css';
 
@@ -105,10 +108,15 @@ const ChartBox = ({
 
   const panelChart = <Chart {...chartPropsForType[type]} config={config} />;
   const error = (
-    <MessageBox
-      msg={errorText}
+    <EmptyState
       key={`${chart.id}-error`}
-      icontype="error-circle-o"
+      variant="xs"
+      icon={
+        <Icon iconSize="lg">
+          <ErrorCircleOIcon />
+        </Icon>
+      }
+      header={errorText}
     />
   );
 

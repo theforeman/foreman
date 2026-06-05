@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LineChart as PfLineChart } from 'patternfly-react';
+import { Icon } from '@patternfly/react-core';
+import { InfoCircleIcon } from '@patternfly/react-icons';
 
 import { translate as __ } from '../../../../../react_app/common/I18n';
 import { deprecate } from '../../../../common/DeprecationService';
 import { getLineChartConfig } from '../../../../../services/charts/LineChartService';
-
-import MessageBox from '../../MessageBox';
+import EmptyState from '../../EmptyState';
 
 /* Data format example:
   data={[
@@ -52,7 +53,17 @@ const LineChart = ({
       />
     );
   }
-  return <MessageBox msg={noDataMsg} icontype="info" />;
+  return (
+    <EmptyState
+      variant="xs"
+      icon={
+        <Icon iconSize="lg">
+          <InfoCircleIcon />
+        </Icon>
+      }
+      header={noDataMsg}
+    />
+  );
 };
 
 LineChart.propTypes = {
