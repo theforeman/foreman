@@ -52,7 +52,7 @@ Our example goal may be achieved as follows:
 [source, jsx]
 ----
 import React from 'react';
-import { Permitted } from 'foremanReact/components/Permitted/Permitted';
+import Permitted from 'foremanReact/components/Permitted/Permitted';
 
 export const MyComponentWrapper = () => (
   <Permitted
@@ -89,7 +89,7 @@ import React from 'react';
 import { usePermissions } from 'foremanReact/common/hooks/Permissions/permissionHooks';
 
 export const MyComponentWrapper = () => {
-  const isUserAuthed = usePermission(['my_permission']);
+  const isUserAuthed = usePermissions(['my_permission']);
 
   if (isUserAuthed) {
     return <MyComponent />;

@@ -22,15 +22,17 @@ import {
   useForemanVersion,
   useForemanOrganization,
   useForemanLocation,
-  useForemanUser, 
+  useForemanUser,
   useForemanDocUrl,
+  useForemanPermissions,
 } from '../../Root/Context/ForemanContext';
 
 const { perPage } = useForemanSettings();
 const foremanVersion = useForemanVersion();
-const { id, title } = useForemanLocation();
-const { id, title } = useForemanOrganization();
+const { id: locationId, title: locationTitle } = useForemanLocation();
+const { id: orgId, title: orgTitle } = useForemanOrganization();
 const { id, login, firstname, lastname, admin } = useForemanUser();
+const permissions = useForemanPermissions();
 ```
 
 ## How to add a value to the core context
@@ -38,7 +40,7 @@ const { id, login, firstname, lastname, admin } = useForemanUser();
 Keys and values are set in the `core_app_metadata` method of `/application_helper.rb`.
 The `app_metadata` object is passed down and becomes ForemanContext.
 
-If you add a new value to `core_app_metadata`, it will also be useful to add a new custom hook in `webpack/assets/javascripts/react_app/ReactApp/Context/ForemanContext.js`
+If you add a new value to `core_app_metadata`, it will also be useful to add a new custom hook in `webpack/assets/javascripts/react_app/Root/Context/ForemanContext.js`
 so that the value can be easily consumed on the front end.
 For example, Adding a new hook:
 ```js

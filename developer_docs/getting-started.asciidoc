@@ -9,7 +9,8 @@
 Following steps are required to setup a webpack development environment:
 
 1. **Dependencies**
-   Make sure you have all npm dependencies up to date:
+   Make sure you are running Node.js 22.x and npm 8+ (see the `engines` field in `package.json` for the exact range).
+   Then install all npm dependencies:
    `npm install`
    Alternatively you can run the install command with option `--no-optional` which skips packages that aren't required and can save you some space.
 

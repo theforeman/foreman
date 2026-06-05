@@ -846,8 +846,8 @@ class HostsController < ::HostsController
 layout 'foreman_plugin_template/layouts/new_layout'
 
 ----
-In Foreman 1.7+, if you want to use Foreman's `find_resource` method as
-a before_filter in your plugin, you will need to extend Foreman's
+If you want to use Foreman's `find_resource` method as
+a before_action in your plugin, you will need to extend Foreman's
 ApplicationController and override `resource_class`, see
 https://github.com/theforeman/foreman_salt/blob/84bc9cb9d8c6cb9748c14e7634b8e1a062558a3d/app/controllers/foreman_salt/application_controller.rb[foreman_salt]
 for an example.
@@ -880,7 +880,7 @@ module YourPlugin::ApplicationControllerExt
     extend ActiveSupport::Concern
 
     included do
-        before_filter :set_csp
+        before_action :set_csp
     end
 
     def set_csp
@@ -1161,22 +1161,21 @@ When instantiating the Deface::Override class, you need to specify one
 Target, one Action one Source parameter and any number of Optional
 parameters. All the supported values for each of them are in the manual.
 
-For instance, in order to replace the line "<%= link_to "Foreman",
-main_app.root_path %>" from the file
-foreman/app/views/home/_topbar.html.erb:
+For instance, in order to replace the Properties header in the host
+overview partial at `foreman/app/views/hosts/_overview.html.erb`:
 
 [source, ruby]
 ----
-Deface::Override.new(:virtual_path => "home/_topbar",
-                     :name => "replace_title",
-                     :replace => "erb[loud]:contains('link_to')",
-                     :text => "<a href='/'>Hello</a>",
-                     :original => "<%= link_to \"Foreman\", main_app.root_path %>")
+Deface::Override.new(:virtual_path => "hosts/_overview",
+                     :name => "replace_properties_header",
+                     :replace => "th",
+                     :text => "<th colspan='2'>Custom Properties</th>",
+                     :original => "<%= _('Properties') %>")
 ----
 Just copy and paste the code above as it is, within a file under
 app/overrides within your own plugin folder. The file name has to be the
 same as what specified by the parameter :name above, i.e., in this case,
-replace_title.rb.
+replace_properties_header.rb.
 
 The :original parameter enables the logging of eventual future changes
 to the original view, whenever those changes affect the line that is

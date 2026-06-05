@@ -76,8 +76,8 @@ React Router also uses React Context under the hood.
 
 ## localStorage and sessionStorage
 
-The browser's `sessionStorage` is currently used to store some user preferences; see `LayoutSessionStorage.js`, `HostSessionStorage.js`, and `NotificationDrawerSessionStorage.js`.
+The browser's `sessionStorage` is currently used to store some user preferences; see `HostsSessionStorage.js`, `LayoutSessionStorage.js`, and `NotificationDrawerSessionStorage.js`.
 
 `sessionStorage` should only be used for volatile, temporary state-- i.e. things that won't impact the user if they get lost.
 
-Currently the browser `localStorage` is not used by Foreman.  It is recommended to use the Redux store instead.
+The browser `localStorage` is used for persistent UI preferences such as card expansion state (see `CardExpansionContext.js`).  A `useLocalStorage` hook is available in `common/hooks/Storage/index.js` for components that need to persist small amounts of state across sessions.

@@ -38,7 +38,13 @@ If you are creating a component that uses legacy Redux actions and reducers, the
 
 ### Testing components
 
-Please use React-Testing-Library for tests. It's a library that helps you test your components in a way that resembles how they are used by the end user. It's a good idea to read the https://testing-library.com/docs/guiding-principles[guiding principles] of the library. 
+Please use React-Testing-Library for tests. It's a library that helps you test your components in a way that resembles how they are used by the end user. It's a good idea to read the https://testing-library.com/docs/guiding-principles[guiding principles] of the library.
+
+Test helpers are available in `webpack/assets/javascripts/react_app/common/rtlTestHelpers.js`, or `foremanReact/common/rtlTestHelpers.js` in plugins:
+
+* `renderWithStore(component, initialState)` — renders with a Redux `<Provider>`
+* `renderWithI18n(component)` — renders with an i18n context wrapper
+* `renderWithStoreAndI18n(component, initialState)` — combines both
 
 ### Running the tests
 
