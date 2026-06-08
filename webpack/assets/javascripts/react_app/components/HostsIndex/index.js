@@ -80,6 +80,16 @@ export const ForemanHostsIndexActionsBarContext = forceSingleton(
   () => createContext({})
 );
 
+export const getScheduleJobSearch = ({
+  selectedCount,
+  areAllRowsSelected,
+  selectedHostsSearch,
+}) => {
+  if (selectedCount === 0) return null;
+  if (areAllRowsSelected && selectedHostsSearch === '') return 'name ~ *';
+  return selectedHostsSearch;
+};
+
 const HostsIndex = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [allColumns, setAllColumns] = useState(
@@ -188,6 +198,11 @@ const HostsIndex = () => {
     selectedResults,
   } = selectAllOptions;
   const selectAllHostsMode = areAllRowsSelected() && searchQuery === '';
+  const scheduleJobSearch = getScheduleJobSearch({
+    selectedCount,
+    areAllRowsSelected: areAllRowsSelected(),
+    selectedHostsSearch: selectedCount > 0 ? fetchBulkParams() : null,
+  });
 
   const selectionToolbar = (
     <ToolbarItem key="selectAll">
@@ -448,7 +463,7 @@ const HostsIndex = () => {
           <SplitItem>
             <Slot
               id="_all-hosts-schedule-a-job"
-              hostSearch={selectedCount ? fetchBulkParams() : null}
+              hostSearch={scheduleJobSearch}
               hostResponse={response}
               selectedCount={selectedCount}
             />
