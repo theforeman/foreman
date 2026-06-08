@@ -14,7 +14,8 @@ import {
 import reducer from './vmware';
 
 jest.mock('uuid/v1');
-uuidV1.mockImplementation(() => '1547e1c0-309a-11e9-98f5-5f761412a4c2');
+let uuidCounter = 0;
+uuidV1.mockImplementation(() => `uuid-${++uuidCounter}`);
 
 describe('vmware storage reducer', () => {
   it('returns the initial state', () => {
@@ -79,6 +80,76 @@ describe('vmware storage reducer', () => {
           },
         })
       ).toMatchSnapshot();
+    });
+
+    it('renumbers volumes after deletion', () => {
+      const stateWith2Disks = reducer(stateWithController, {
+        type: types.STORAGE_VMWARE_ADD_DISK,
+        payload: { controllerKey: 1000, data: diskAttributes },
+      });
+      expect(stateWith2Disks.volumes).toHaveLength(2);
+
+      const stateAfterRemove = reducer(stateWith2Disks, {
+        type: types.STORAGE_VMWARE_REMOVE_DISK,
+        payload: { key: diskKey },
+      });
+      expect(stateAfterRemove.volumes).toHaveLength(1);
+      expect(stateAfterRemove.volumes[0].name).toEqual('Hard disk 1');
+    });
+
+    it('keeps sequential names after removing middle disks', () => {
+      let state = stateWithController;
+
+      state = reducer(state, {
+        type: types.STORAGE_VMWARE_ADD_DISK,
+        payload: { controllerKey: 1000, data: diskAttributes },
+      });
+      state = reducer(state, {
+        type: types.STORAGE_VMWARE_ADD_DISK,
+        payload: { controllerKey: 1000, data: diskAttributes },
+      });
+      state = reducer(state, {
+        type: types.STORAGE_VMWARE_ADD_DISK,
+        payload: { controllerKey: 1000, data: diskAttributes },
+      });
+      expect(state.volumes).toHaveLength(4);
+      expect(state.volumes.map(vol => vol.name)).toEqual([
+        'Hard disk 1',
+        'Hard disk 2',
+        'Hard disk 3',
+        'Hard disk 4',
+      ]);
+
+      state = reducer(state, {
+        type: types.STORAGE_VMWARE_REMOVE_DISK,
+        payload: { key: state.volumes[1].key },
+      });
+      state = reducer(state, {
+        type: types.STORAGE_VMWARE_REMOVE_DISK,
+        payload: { key: state.volumes[1].key },
+      });
+      expect(state.volumes).toHaveLength(2);
+      expect(state.volumes.map(vol => vol.name)).toEqual([
+        'Hard disk 1',
+        'Hard disk 2',
+      ]);
+    });
+  });
+
+  describe('STORAGE_VMWARE_INIT', () => {
+    it('normalizes Hard disk to Hard disk 1 on init', () => {
+      const result = reducer(initialState, {
+        type: types.STORAGE_VMWARE_INIT,
+        payload: {
+          config: { controllerTypes: {} },
+          controllers: [{ type: 'VirtualLsiLogicController', key: 1000 }],
+          volumes: [
+            { name: 'Hard disk', controllerKey: 1000, sizeGb: 10 },
+          ],
+          cluster: 'TestCluster',
+        },
+      });
+      expect(result.volumes[0].name).toEqual('Hard disk 1');
     });
   });
 

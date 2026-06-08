@@ -1,28 +1,17 @@
-@import '../../../../common/colors';
-
 .vmware-storage-container {
-  display: flex;
-  flex-direction: column;
-
-  .storage-header {
-    padding: 10px 0;
-    margin-bottom: 10px;
-    border-bottom: 1px solid $pf-black-200;
-
-    .storage-title {
-      font-size: 18px;
-    }
-
-    .storage-controller-buttons {
-      text-align: right;
-
-      > button {
-        margin-left: 20px;
-      }
-    }
+  .pf-v5-c-expandable-section__toggle-text {
+    font-size: var(--pf-v5-global--FontSize--md);
   }
 
-  .controller-container {
-    margin-bottom: 20px;
+  .pf-v5-c-menu-toggle {
+    width: 80%;
+    max-width: 880px;
+  }
+
+  .disks-container {
+    padding-top: var(--pf-v5-global--spacer--md);
+    .disk-form-status-container {
+      align-self: center;
+    }
   }
 }

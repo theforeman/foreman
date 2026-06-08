@@ -1,4 +1,6 @@
-import { translate as __ } from '../../../../../react_app/common/I18n';
+export const HARD_DISK_LABEL = 'Hard disk';
+export const vmwareDiskNameForIndex = oneBasedIndex =>
+  `${HARD_DISK_LABEL} ${oneBasedIndex}`;
 
 export const defaultControllerAttributes = 
   {
@@ -11,7 +13,7 @@ const _defaultDiskAttributes = {
   storagePod: '',
   thin: false,
   eagerZero: false,
-  name: __('Hard disk'),
+  name: vmwareDiskNameForIndex(1),
   mode: 'persistent',
 };
 

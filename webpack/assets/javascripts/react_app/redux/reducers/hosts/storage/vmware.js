@@ -5,6 +5,10 @@ import Immutable from 'seamless-immutable';
 import uuidV1 from 'uuid/v1';
 
 import {
+  HARD_DISK_LABEL,
+  vmwareDiskNameForIndex,
+} from '../../../actions/hosts/storage/vmware.consts';
+import {
   VMWARE_CLUSTER_CHANGE,
   STORAGE_VMWARE_ADD_CONTROLLER,
   STORAGE_VMWARE_ADD_DISK,
@@ -26,6 +30,17 @@ const initialState = Immutable({
   volumes: [],
 });
 
+const normalizeDiskName = name => {
+  if (name === HARD_DISK_LABEL) return vmwareDiskNameForIndex(1);
+  return name;
+};
+
+const renumberVolumes = volumes =>
+  volumes.map((vol, idx) => ({
+    ...vol,
+    name: vmwareDiskNameForIndex(idx + 1),
+  }));
+
 const availableControllerKeys = Array.from(
   { length: 8 },
   (value, index) => 1000 + index
@@ -45,7 +60,6 @@ export default (state = initialState, { type, payload, response }) => {
     case STORAGE_VMWARE_ADD_CONTROLLER:
       const availableKey = getAvailableKey(state.controllers);
 
-      // controller key is assigned here using getAvailableKey
       return state
         .update('controllers', ctrls =>
           ctrls.concat(
@@ -58,7 +72,8 @@ export default (state = initialState, { type, payload, response }) => {
               {},
               payload.volume,
               { controllerKey: availableKey },
-              { key: uuidV1() }
+              { key: uuidV1() },
+              { name: vmwareDiskNameForIndex(volumes.length + 1) }
             )
           )
         );
@@ -69,6 +84,7 @@ export default (state = initialState, { type, payload, response }) => {
           ...payload.data,
           key: uuidV1(),
           controllerKey: payload.controllerKey,
+          name: vmwareDiskNameForIndex(state.volumes.length + 1),
         })
       );
     case STORAGE_VMWARE_REMOVE_CONTROLLER:
@@ -77,8 +93,10 @@ export default (state = initialState, { type, payload, response }) => {
           ctrls.filter(ctrl => ctrl.key !== payload.controllerKey)
         )
         .update('volumes', volumes =>
-          volumes.filter(
-            volume => volume.controllerKey !== payload.controllerKey
+          renumberVolumes(
+            volumes.filter(
+              volume => volume.controllerKey !== payload.controllerKey
+            )
           )
         );
     case STORAGE_VMWARE_UPDATE_CONTROLLER:
@@ -95,7 +113,7 @@ export default (state = initialState, { type, payload, response }) => {
     case STORAGE_VMWARE_REMOVE_DISK:
       return state.set(
         'volumes',
-        state.volumes.filter(v => v.key !== payload.key)
+        renumberVolumes(state.volumes.filter(v => v.key !== payload.key))
       );
     case STORAGE_VMWARE_INIT:
       const newState = {
@@ -107,7 +125,11 @@ export default (state = initialState, { type, payload, response }) => {
         storagePods: [],
         storagePodsLoading: false,
         storagePodsError: undefined,
-        volumes: payload.volumes.map(volume => ({ ...volume, key: uuidV1() })),
+        volumes: payload.volumes.map(volume => ({
+          ...volume,
+          key: uuidV1(),
+          name: normalizeDiskName(volume.name),
+        })),
         cluster: payload.cluster,
       };
       return initialState

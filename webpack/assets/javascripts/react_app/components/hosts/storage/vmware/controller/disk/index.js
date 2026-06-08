@@ -1,12 +1,17 @@
-import React from 'react';
-import { Button } from 'patternfly-react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Select from '../../../../../common/forms/Select';
-import Checkbox from '../../../../../common/forms/Checkbox';
-import NumericInput from '../../../../../common/forms/NumericInput';
+import {
+  ExpandableSection,
+  ExpandableSectionToggle,
+  Flex,
+  FlexItem,
+  Button,
+} from '@patternfly/react-core';
+import { TrashIcon } from '@patternfly/react-icons';
 import { translate as __ } from '../../../../../../../react_app/common/I18n';
+import { vmwareDiskNameForIndex } from '../../../../../../redux/actions/hosts/storage/vmware.consts';
 import { noop } from '../../../../../../common/helpers';
-import './disk.scss';
+import DiskForm from './DiskForm';
 
 const Disk = ({
   removeDisk,
@@ -25,95 +30,75 @@ const Disk = ({
   storagePods,
   storagePodsStatus,
   storagePodsError,
+  volumeNumber,
+  defaultExpanded,
 }) => {
-  const updateStoragePod = newValues => {
-    updateDisk('storagePod', newValues);
-    updateDisk('datastore', { target: { value: null } });
-  };
-  const updateDatastore = newValues => {
-    updateDisk('datastore', newValues);
-    updateDisk('storagePod', { target: { value: null } });
-  };
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+
+  const volumeTitle =
+    typeof name === 'string' && name.trim() !== ''
+      ? name
+      : vmwareDiskNameForIndex(volumeNumber);
+
+  const toggleId = `volume-toggle-${volumeNumber}`;
+  const contentId = `volume-content-${volumeNumber}`;
 
   return (
     <div className="disk-container">
-      <div className="form-group">
-        <label className="col-md-2 control-label">{__('Disk name')}</label>
-        <div className="col-md-4">{name}</div>
-        <div className="col-md-2">
-          {!vmExists && (
-            <Button className="close" onClick={removeDisk}>
-              <span aria-hidden="true">&times;</span>
+      <Flex
+        alignItems={{ default: 'alignItemsCenter' }}
+        className="disk-header"
+      >
+        <FlexItem>
+          <ExpandableSectionToggle
+            isExpanded={isExpanded}
+            onToggle={() => setIsExpanded(prev => !prev)}
+            toggleId={toggleId}
+            contentId={contentId}
+          >
+            {volumeTitle}
+          </ExpandableSectionToggle>
+        </FlexItem>
+        <FlexItem>{`${sizeGb} GB`}</FlexItem>
+        {!vmExists && (
+          <FlexItem>
+            <Button
+              variant="link"
+              icon={<TrashIcon />}
+              onClick={removeDisk}
+              ouiaId="btn-volume-delete"
+              aria-label={__('Remove volume')}
+            >
+              {__('Remove')}
             </Button>
-          )}
-        </div>
-      </div>
-      {!(datastore && datastore.length) && (
-        <Select
-          label={__('Storage Pod')}
-          value={storagePod}
-          disabled={vmExists}
-          onChange={newValues => updateStoragePod(newValues)}
-          options={storagePods}
-          allowClear
-          key="storagePodsSelect"
-          status={storagePodsStatus}
-          errorMessage={storagePodsError}
-          className="storage-pod"
+          </FlexItem>
+        )}
+      </Flex>
+      <ExpandableSection
+        isExpanded={isExpanded}
+        isDetached
+        isIndented
+        toggleId={toggleId}
+        contentId={contentId}
+      >
+        <DiskForm
+          updateDisk={updateDisk}
+          vmExists={vmExists}
+          storagePod={storagePod}
+          datastore={datastore}
+          sizeGb={sizeGb}
+          thin={thin}
+          eagerZero={eagerZero}
+          mode={mode}
+          diskModeTypes={diskModeTypes}
+          datastores={datastores}
+          datastoresStatus={datastoresStatus}
+          datastoresError={datastoresError}
+          storagePods={storagePods}
+          storagePodsStatus={storagePodsStatus}
+          storagePodsError={storagePodsError}
         />
-      )}
-      {!(storagePod && storagePod.length) && (
-        <Select
-          disabled={vmExists}
-          label={__('Data store')}
-          value={datastore}
-          onChange={newValues => updateDatastore(newValues)}
-          options={datastores}
-          allowClear
-          key="datastoresSelect"
-          status={datastoresStatus}
-          errorMessage={datastoresError}
-          className="datastore"
-        />
-      )}
-
-      <Select
-        label={__('Disk Mode')}
-        value={mode}
-        disabled={vmExists}
-        onChange={newValues => updateDisk('mode', newValues)}
-        options={diskModeTypes}
-      />
-
-      <NumericInput
-        value={sizeGb}
-        minValue={1}
-        format={v => `${v} GB`}
-        parser={str => str.replace(/\D/g, '')}
-        className="text-vmware-size"
-        onChange={newValues => updateDisk('sizeGb', newValues)}
-        label={__('Size (GB)')}
-      />
-
-      <Checkbox
-        label={__('Thin provision')}
-        checked={thin}
-        disabled={vmExists || eagerZero}
-        onChange={newValues => {
-          updateDisk('thin', newValues);
-          newValues && updateDisk('eagerZero', false);
-        }}
-      />
-
-      <Checkbox
-        label={__('Eager zero')}
-        checked={eagerZero}
-        disabled={vmExists || thin}
-        onChange={newValues => {
-          updateDisk('eagerZero', newValues);
-          newValues && updateDisk('thin', false);
-        }}
-      />
+      </ExpandableSection>
     </div>
   );
 };
@@ -126,7 +111,7 @@ Disk.propTypes = {
   name: PropTypes.string,
   storagePod: PropTypes.string,
   datastore: PropTypes.string,
-  sizeGb: PropTypes.number,
+  sizeGb: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   thin: PropTypes.bool,
   eagerZero: PropTypes.bool,
   mode: PropTypes.string,
@@ -138,13 +123,15 @@ Disk.propTypes = {
   storagePodsError: PropTypes.string,
   removeDisk: PropTypes.func,
   updateDisk: PropTypes.func,
+  volumeNumber: PropTypes.number,
+  defaultExpanded: PropTypes.bool,
 };
 
 Disk.defaultProps = {
   name: '',
   storagePod: '',
   datastore: '',
-  sizeGb: null,
+  sizeGb: 1,
   thin: false,
   eagerZero: false,
   mode: '',
@@ -156,6 +143,8 @@ Disk.defaultProps = {
   storagePodsError: undefined,
   removeDisk: noop,
   updateDisk: noop,
+  volumeNumber: 1,
+  defaultExpanded: false,
 };
 
 export default Disk;

@@ -1,10 +1,16 @@
 /* eslint-disable camelcase, no-mixed-operators, no-param-reassign */
-import { Button } from 'patternfly-react';
-import React from 'react';
+import {
+  Button,
+  Divider,
+  Flex,
+  FlexItem,
+  Tooltip,
+} from '@patternfly/react-core';
+import { PlusCircleIcon, TrashIcon } from '@patternfly/react-icons';
+import { SimpleSelect } from '@patternfly/react-templates';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { number_to_human_size } from 'number_helpers';
-
-import Select from '../../../../common/forms/Select';
 
 import Disk from './disk';
 import {
@@ -12,7 +18,7 @@ import {
   translate as __,
 } from '../../../../../../react_app/common/I18n';
 import { noop } from '../../../../../common/helpers';
-import './controller.scss';
+import { MaxDisksPerController } from '../StorageContainer.consts';
 
 const Controller = ({
   addDiskEnabled,
@@ -40,10 +46,6 @@ const Controller = ({
 
   const _updateController = (attribute, e) => {
     updateController({ [attribute]: getEventValue(e) });
-  };
-
-  const _updateDisk = (uuid, attribute, e) => {
-    updateDisk(uuid, { [attribute]: getEventValue(e) });
   };
 
   const humanSize = number => number_to_human_size(number, { precision: 2 });
@@ -85,11 +87,19 @@ const Controller = ({
   };
 
   const disks = () =>
-    controllerVolumes.map(disk => (
+    controllerVolumes.map((disk, index) => (
       <Disk
         key={disk.key}
         id={disk.key}
-        updateDisk={(attribute, e) => _updateDisk(disk.key, attribute, e)}
+        volumeNumber={index + 1}
+        defaultExpanded={
+          config.vmExists ||
+          index === 0 ||
+          index === controllerVolumes.length - 1
+        }
+        updateDisk={(attribute, e) => {
+          updateDisk(disk.key, { [attribute]: e });
+        }}
         removeDisk={() => removeDisk(disk.key)}
         config={config}
         datastores={datastoresStats()}
@@ -102,38 +112,86 @@ const Controller = ({
       />
     ));
 
+  const controllerTypeOptions = useMemo(
+    () =>
+      Object.entries(config.controllerTypes).map(([key, value]) => ({
+        content: value,
+        value: key,
+        selected: key === controller.type,
+      })),
+    [config.controllerTypes, controller.type]
+  );
+
+  const hasVolumes = controllerVolumes.length > 0;
+  const addVolumeDisabled = !addDiskEnabled || config.vmExists;
+
+  let addVolumeTooltip = '';
+  if (config.vmExists) {
+    addVolumeTooltip = __('Cannot add volumes to an existing VM');
+  } else if (!addDiskEnabled) {
+    addVolumeTooltip = sprintf(
+      __('Maximum number of disks (%s) has been reached'),
+      MaxDisksPerController
+    );
+  }
+
   return (
     <div className="controller-container">
-      <div className="controller-header">
-        <div className="control-label col-md-2 controller-selected-container">
-          <label>{__('Create controller')}</label>
-        </div>
-        <div className="controller-type-container col-md-4">
-          <Select
-            value={controller.type}
-            disabled={config.vmExists}
-            onChange={e => _updateController('type', e)}
-            options={config.controllerTypes}
+      <Flex
+        alignItems={{ default: 'alignItemsCenter' }}
+        className="controller-header"
+      >
+        <FlexItem>
+          <b>{__('Controller')}</b>
+        </FlexItem>
+        <FlexItem>
+          <SimpleSelect
+            ouiaId="select-controller-type"
+            initialOptions={controllerTypeOptions}
+            isDisabled={config.vmExists}
+            onSelect={(_ev, selection) => _updateController('type', selection)}
           />
+        </FlexItem>
+        <FlexItem align={{ default: 'alignRight' }}>
           <Button
-            className="btn-add-disk"
-            disabled={!addDiskEnabled || config.vmExists}
-            onClick={addDisk}
-          >
-            {__('Add volume')}
-          </Button>
-        </div>
-        <div className="delete-controller-container">
-          <Button
-            className="btn-remove-controller"
+            variant="link"
+            icon={<TrashIcon />}
             onClick={removeController}
-            disabled={config.vmExists}
+            isDisabled={config.vmExists}
+            ouiaId="btn-remove-controller"
+            aria-label={__('Remove controller')}
           >
-            {__('Delete Controller')}
+            {__('Remove')}
           </Button>
-        </div>
+        </FlexItem>
+      </Flex>
+      <div className="disks-container">
+        {disks()}
+        {hasVolumes && <Divider className="volume-divider" />}
+        {addVolumeDisabled ? (
+          <Tooltip content={addVolumeTooltip}>
+            <Button
+              variant="link"
+              icon={<PlusCircleIcon />}
+              className="btn-add-disk"
+              isAriaDisabled
+              ouiaId="btn-add-disk"
+            >
+              {hasVolumes ? __('Add another volume') : __('Add volume')}
+            </Button>
+          </Tooltip>
+        ) : (
+          <Button
+            variant="link"
+            icon={<PlusCircleIcon />}
+            className="btn-add-disk"
+            onClick={addDisk}
+            ouiaId="btn-add-disk"
+          >
+            {hasVolumes ? __('Add another volume') : __('Add volume')}
+          </Button>
+        )}
       </div>
-      <div className="disks-container">{disks()}</div>
     </div>
   );
 };
@@ -160,6 +218,7 @@ Controller.propTypes = {
       name: PropTypes.string,
       capacity: PropTypes.number,
       freespace: PropTypes.number,
+      datacenter: PropTypes.string,
     })
   ),
   storagePodsStatus: PropTypes.string,

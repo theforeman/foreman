@@ -5,7 +5,7 @@ export const props = {
   controllerVolumes: [
     {
       thin: true,
-      name: 'Hard disk',
+      name: 'Hard disk 1',
       mode: 'persistent',
       controllerKey: 1000,
       sizeGb: 10,

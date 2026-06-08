@@ -45,7 +45,7 @@ export const vmwareData = {
   volumes: [
     {
       thin: true,
-      name: 'Hard disk',
+      name: 'Hard disk 1',
       mode: 'persistent',
       controllerKey: 1000,
       sizeGb: 10,
@@ -61,7 +61,7 @@ export const hiddenFieldValue = {
     {
       controllerKey: 1000,
       mode: 'persistent',
-      name: 'Hard disk',
+      name: 'Hard disk 1',
       sizeGb: 10,
       thin: true,
     },
