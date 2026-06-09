@@ -19,7 +19,7 @@
 # Hannes Schaller <admin@cyberkov.at>, 2013
 # Jörg Dreffein, 2022
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
-# Markus Bucher <bucher@atix.de>, 2019-2020
+# Markus Bucher <bucher@atix.de>, 2019-2020,2026
 # Martin Zimmermann <martin.zimmermann@gmx.com>, 2018
 # Oliver Freyermuth <o.freyermuth@googlemail.com>, 2019
 # pdolinic, 2021
@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2013-04-24 11:26+0000\n"
-"Last-Translator: Bernhard Suttner <bernhard.suttner@atix.de>, 2019,2026\n"
+"Last-Translator: Markus Bucher <bucher@atix.de>, 2019-2020,2026\n"
 "Language-Team: German (http://app.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1477,7 +1477,7 @@ msgid "Cache refreshing is not supported for %s"
 msgstr "Cache-refreshing wird nicht unterstützt für %s"
 
 msgid "Cache slow calls to VMWare to speed up page rendering"
-msgstr "Der Cache verlangsamt Abfragen zu VMWare um das Seiten Rendering zu beschleunigen"
+msgstr "Ergebnisse langsamer Abfragen zu VMWare zwischenspeichern um das Laden von Seiten zu beschleunigen"
 
 msgid "Caching"
 msgstr "Caching"
