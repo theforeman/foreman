@@ -1,3 +1,7 @@
+2026-06-09	Ondřej Gajdušek <ogajduse@redhat.com>
+	* Release 3.19.0
+	* i18n - extracting new, pulling from tx
+
 2026-05-26	Ondřej Gajdušek <ogajduse@redhat.com>
 	* Release 3.19.0-rc2
 	* i18n - extracting new, pulling from tx
