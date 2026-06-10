@@ -69,6 +69,7 @@ class SmartProxyTest < ActiveSupport::TestCase
       ProxyAPI::Features.any_instance.stubs(:features => ["feature"])
       refute proxy.save
       assert_equal(error_message, proxy.errors[:base].first)
+      assert_equal ['feature'], proxy.unrecognized_features
     end
 
     test "should not be saved if features are not array" do
@@ -113,6 +114,73 @@ class SmartProxyTest < ActiveSupport::TestCase
       ProxyAPI::V2::Features.any_instance.stubs(:features).returns({'feature' => {'state' => 'running'}})
       refute proxy.save
       assert_equal(error_message, proxy.errors[:base].first)
+    end
+
+    test "should store unrecognized features when proxy has mix of known and unknown" do
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(
+        'tftp' => {'state' => 'running'},
+        'unknown_plugin' => {'state' => 'running'},
+        'another_unknown' => {'state' => 'running'}
+      )
+      proxy = FactoryBot.build(:smart_proxy)
+      assert proxy.save
+      proxy.reload
+      assert_include(proxy.features, features(:tftp))
+      assert_equal %w[unknown_plugin another_unknown].sort, proxy.unrecognized_features.sort
+    end
+
+    test "should clear unrecognized features when all proxy features are known" do
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(
+        'tftp' => {'state' => 'running'}
+      )
+      proxy = FactoryBot.build(:smart_proxy)
+      assert proxy.save
+      proxy.reload
+      assert_empty proxy.unrecognized_features
+    end
+
+    test "should populate unrecognized features even when no valid features exist" do
+      proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns({'unknown_feature' => {'state' => 'running'}})
+      refute proxy.save
+      assert_equal ['unknown_feature'], proxy.unrecognized_features
+    end
+
+    test "should clear previously stored unrecognized features on re-save" do
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(
+        'tftp' => {'state' => 'running'},
+        'unknown_plugin' => {'state' => 'running'}
+      )
+      proxy = FactoryBot.build(:smart_proxy)
+      assert proxy.save
+      proxy.reload
+      assert_equal ['unknown_plugin'], proxy.unrecognized_features
+
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(
+        'tftp' => {'state' => 'running'}
+      )
+      assert proxy.save
+      proxy.reload
+      assert_empty proxy.unrecognized_features
+    end
+
+    test "should return empty array for unrecognized_features when column is NULL" do
+      proxy = FactoryBot.build(:smart_proxy)
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns('tftp' => {'state' => 'running'})
+      proxy.save!
+      SmartProxy.where(id: proxy.id).update_all(unrecognized_features: nil)
+      proxy.reload
+      assert_empty proxy.unrecognized_features
+    end
+
+    test "should store unrecognized features with v1 api when proxy has mix of known and unknown" do
+      proxy = FactoryBot.build(:smart_proxy)
+      ProxyAPI::V2::Features.any_instance.stubs(:features).raises(NotImplementedError)
+      ProxyAPI::Features.any_instance.stubs(:features => ["tftp", "unknown_v1_plugin"])
+      assert proxy.save
+      proxy.reload
+      assert_include(proxy.features.map(&:name), "TFTP")
+      assert_equal ['unknown_v1_plugin'], proxy.unrecognized_features
     end
 
     test "can import and access capabilities and settings" do

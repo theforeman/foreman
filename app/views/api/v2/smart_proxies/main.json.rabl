@@ -2,7 +2,7 @@ object @smart_proxy
 
 extends "api/v2/smart_proxies/base"
 
-attributes :created_at, :updated_at, :hosts_count
+attributes :created_at, :updated_at, :hosts_count, :unrecognized_features
 
 child :smart_proxy_features => :features do
   attributes :capabilities

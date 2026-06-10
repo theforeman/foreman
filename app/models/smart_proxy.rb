@@ -6,6 +6,8 @@ class SmartProxy < ApplicationRecord
   include Taxonomix
   include Parameterizable::ByIdName
 
+  serialize :unrecognized_features, Array
+
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, [:puppet_ca_hosts, :hosts], [:puppet_ca_hostgroups, :hostgroups], :realms)
   # TODO check if there is a way to look into the tftp_id too
@@ -168,15 +170,21 @@ class SmartProxy < ApplicationRecord
       end
 
       feature_name_map = Feature.name_map
-      valid_features = reply.select { |feature, options| feature_name_map.key?(feature) }
+      valid_features, unknown_features = reply.partition { |feature, _options| feature_name_map.key?(feature) }
+      valid_features = valid_features.to_h
+      self.unrecognized_features = unknown_features.map(&:first)
 
       if valid_features.any?
         SmartProxyFeature.import_features(self, valid_features)
+        if unrecognized_features.any?
+          logger.warn("Proxy #{name} has features not recognized by Foreman: #{unrecognized_features.to_sentence}. "\
+                      "This may indicate missing Foreman plugins, a version mismatch, or custom proxy extensions.")
+        end
       else
         smart_proxy_features.clear
         if reply.any?
           errors.add :base, _('Features "%s" in this proxy are not recognized by Foreman. '\
-                              'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.') % reply.keys.to_sentence
+                              'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.') % unrecognized_features.to_sentence
         else
           errors.add :base, _('No features found on this proxy, please make sure you enable at least one feature')
         end
@@ -213,8 +221,9 @@ class SmartProxy < ApplicationRecord
     property :httpboot_http_port!, Integer, desc: 'Same as httpboot_http_port, but raises Foreman::Exception if no port is set'
     property :httpboot_https_port, Integer, desc: 'Returns proxy port for HTTPS boot'
     property :httpboot_https_port!, Integer, desc: 'Same as httpboot_https_port, but raises Foreman::Exception if no port is set'
+    property :unrecognized_features, Array, desc: 'Returns array of feature names reported by proxy but not recognized by Foreman'
   end
   class Jail < ::Safemode::Jail
-    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!, :url
+    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!, :url, :unrecognized_features
   end
 end

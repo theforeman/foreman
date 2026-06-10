@@ -202,6 +202,31 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   #   assert_response :unprocessable_entity
   # end
 
+  test "should include unrecognized_features in show response" do
+    features_with_unknown = Feature.name_map.keys.index_with { {'state' => 'running'} }
+    features_with_unknown['unknown_plugin'] = {'state' => 'running'}
+    ProxyAPI::V2::Features.any_instance.stubs(:features).returns(features_with_unknown)
+    proxy = smart_proxies(:one)
+    proxy.save!
+    get :show, params: { :id => proxy.to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal ['unknown_plugin'], show_response['unrecognized_features']
+  end
+
+  test "should include unrecognized_features in index response" do
+    features_with_unknown = Feature.name_map.keys.index_with { {'state' => 'running'} }
+    features_with_unknown['unknown_plugin'] = {'state' => 'running'}
+    ProxyAPI::V2::Features.any_instance.stubs(:features).returns(features_with_unknown)
+    proxy = smart_proxies(:one)
+    proxy.save!
+    get :index
+    assert_response :success
+    index_response = ActiveSupport::JSON.decode(@response.body)
+    proxy_response = index_response['results'].find { |p| p['id'] == proxy.id }
+    assert_equal ['unknown_plugin'], proxy_response['unrecognized_features']
+  end
+
   test "should refresh smart proxy features" do
     proxy = smart_proxies(:one)
     post :refresh, params: { :id => proxy }

@@ -64,6 +64,22 @@
           <% end %>
         </div>
 
+        <% if @smart_proxy.unrecognized_features.present? %>
+          <div class="row">
+            <div class="col-md-4">
+              <strong><span class="pficon pficon-warning-triangle-o"></span> <%= _('Unrecognized features') %></strong>
+            </div>
+            <div class="col-md-8">
+              <p><%= _('The following features are reported by this Smart Proxy but are not recognized by Foreman. This is usually because the corresponding Foreman plugins are not installed, but may also occur due to version mismatches or custom proxy extensions.') %></p>
+              <ul>
+                <% @smart_proxy.unrecognized_features.each do |feature| %>
+                  <li><%= feature %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+
         <div class="row">
           <div class="col-md-4"></div>
           <div class="col-md-8">
