@@ -16,6 +16,13 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     assert_includes vmware_cr.errors.full_messages, "Server can't be blank"
   end
 
+  describe '#scsi_controller_default_type' do
+    test 'defaults new scsi controllers to ParaVirtualSCSIController' do
+      vmware_cr = FactoryBot.build_stubbed(:vmware_cr)
+      assert_equal 'ParaVirtualSCSIController', vmware_cr.scsi_controller_default_type
+    end
+  end
+
   test "#create_vm calls new_vm when network provisioning" do
     interfaces_attributes = { "new_interfaces" => { "type" => "VirtualE1000",   "network" => "network-17", "_delete" => ""},
                               "0"              => { "type" => "VirtualVmxnet3", "network" => "network-17", "_delete" => ""}}
