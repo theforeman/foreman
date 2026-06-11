@@ -69,4 +69,14 @@ describe('vmware storage hosts actions', () => {
       expect(action).toMatchSnapshot();
     });
   });
+
+  describe('addController', () => {
+    it('defaults new controllers to ParaVirtualSCSIController', () => {
+      const action = actions.addController();
+
+      expect(action.payload.controller.type).toEqual(
+        'ParaVirtualSCSIController'
+      );
+    });
+  });
 });
