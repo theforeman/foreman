@@ -89,15 +89,11 @@ EOF
 if [ ! -x "$(command -v sudo)" ]; then
   $PKG_MANAGER_INSTALL sudo
 fi
-<% if @host.operatingsystem.family == 'Redhat' || @host.operatingsystem.family == 'Debian' -%>
 echo "<%= ssh_user %> ALL = (ALL) NOPASSWD : ALL" > /etc/sudoers.d/<%= ssh_user %>
-echo "Defaults:<%= ssh_user %> !requiretty" >> /etc/sudoers.d/<%= ssh_user %>
-chmod 440 /etc/sudoers.d/<%= ssh_user %>
-<% elsif @host.operatingsystem.family == 'Suse' -%>
-echo "<%= ssh_user %> ALL = (ALL) NOPASSWD : ALL" >> /etc/sudoers
-echo "Defaults:<%= ssh_user %> !targetpw" >> /etc/sudoers
-chmod 440 /etc/sudoers.d/<%= ssh_user %>
+<% if @host.operatingsystem.family == 'Suse' -%>
+echo "Defaults:<%= ssh_user %> !targetpw" >> /etc/sudoers.d/<%= ssh_user %>
 <% end -%>
+chmod 440 /etc/sudoers.d/<%= ssh_user %>
 <% end -%>
 else
   echo 'The remote_execution_ssh_user does not exist and remote_execution_create_user is not set to true.  remote_execution_ssh_keys snippet will not install keys'
