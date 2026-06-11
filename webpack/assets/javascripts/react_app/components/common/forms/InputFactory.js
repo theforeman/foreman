@@ -7,6 +7,7 @@ import SearchBar from '../../SearchBar';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
 import OrderableSelect from './OrderableSelect';
+import OrderableDataList from './OrderableDataList';
 import MemoryAllocationInput from '../../MemoryAllocationInput';
 import CounterInput from './CounterInput';
 import TimePicker from '../DateTimePicker/TimePicker';
@@ -18,6 +19,7 @@ const inputComponents = {
   date: DatePicker,
   dateTime: DateTimePicker,
   orderableSelect: OrderableSelect,
+  orderableDataList: OrderableDataList,
   time: TimePicker,
   memory: MemoryAllocationInput,
   counter: CounterInput,

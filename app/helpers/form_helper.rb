@@ -409,6 +409,13 @@ module FormHelper
     react_form_input('orderableSelect', f, attr, html_options.merge(input_props: input_props))
   end
 
+  def orderable_data_list_f(f, attr, choices, select_options = {}, html_options = {})
+    options = choices.collect { |choice| { label: choice[0], value: choice[1] } } if choices.is_a?(Array)
+    options = choices.collect { |(key, val)| { label: val, value: key } } if choices.is_a?(Hash)
+    input_props = select_options.merge(options: options)
+    react_form_input('orderableDataList', f, attr, html_options.merge(input_props: input_props))
+  end
+
   def react_form_input(type, f, attr, options = {})
     options[:label] ||= get_attr_label(f, attr)
     options[:error] ||= get_attr_error(f, attr)
