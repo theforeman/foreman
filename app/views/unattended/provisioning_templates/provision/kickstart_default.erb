@@ -240,7 +240,7 @@ wget
 <% end -%>
 
 %pre-install
-<%= snippet_if_exists(template_name + " custom pre-install") %>
+<%= snippet_if_exists(template_name + " custom pre-install") -%>
 %end
 
 %post --nochroot

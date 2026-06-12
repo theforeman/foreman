@@ -51,6 +51,9 @@ dracut-fips
 %end
 
 
+%pre-install
+%end
+
 %post --nochroot
 exec < /dev/tty3 > /dev/tty3
 chvt 3
