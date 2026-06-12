@@ -1,35 +1,4 @@
-#foreman-page {
-  .table-title-section {
-    padding-bottom: 0;
-  }
-  .table-toolbar-section {
-    padding-top: 16px;
-    padding-bottom: 16px;
-    .table-toolbar {
-      padding: 0;
-      .pf-v5-c-toolbar__content {
-        padding: 0;
-      }
-      .toolbar-search {
-        flex-grow: 1;
-        display: block;
-      }
-      .table-toolbar-actions {
-        padding-left: 16px;
-      }
-    }
-    .pf-v5-c-toolbar__group {
-      flex-grow: 1;
-      &.pf-m-align-right {
-        justify-content: flex-end;
-      }
-    }
-  }
-  .table-section {
-    padding-top: 0;
-    padding-left: 0;
-    padding-right: 0;
-  }
+.table-index-page {
   .pf-v5-c-toolbar__group {
     flex-grow: 1;
     &.pf-m-align-right {

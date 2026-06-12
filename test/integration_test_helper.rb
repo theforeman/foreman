@@ -107,7 +107,8 @@ class ActionDispatch::IntegrationTest
   end
 
   def assert_breadcrumb_text(text)
-    assert page.has_selector?(:xpath, "//section//div[contains(@class, 'breadcrumb-bar') or contains(@id, 'breadcrumb')]  //*[contains(.,'#{text}')]"), "#{text} was expected in //section//div[contains(@class, 'breadcrumb-bar') or contains(@id, 'breadcrumb')], but was not found"
+    title_xpath = "//section//div[contains(@class, 'breadcrumb-bar') or contains(@id, 'breadcrumb') or @id='page-title']"
+    assert page.has_selector?(:xpath, "#{title_xpath}//*[contains(.,'#{text}')]"), "#{text} was expected in #{title_xpath}, but was not found"
   end
 
   def assert_new_button(index_path, new_link_text, new_path)

@@ -9,10 +9,6 @@ import {
   ToolbarContent,
   ToolbarGroup,
   ToolbarItem,
-  PageSection,
-  PageSectionVariants,
-  TextContent,
-  Text,
   Icon,
   PaginationVariant,
 } from '@patternfly/react-core';
@@ -27,9 +23,8 @@ import { translate as __ } from '../../../common/I18n';
 import { noop } from '../../../common/helpers';
 import Pagination from '../../Pagination';
 import { getControllerSearchProps, STATUS } from '../../../constants';
-import BreadcrumbBar from '../../BreadcrumbBar';
+import PageLayout from '../../../routes/common/PageLayout/PageLayout';
 import SearchBar from '../../SearchBar';
-import Head from '../../Head';
 import { ActionButtons } from './ActionButtons';
 import './TableIndexPage.scss';
 import { Table } from './Table/Table';
@@ -37,6 +32,7 @@ import {
   useSetParamsAndApiAndSearch,
   useTableIndexAPIResponse,
 } from './Table/TableIndexHooks';
+
 /**
 
 A page component that displays a table with data fetched from the API. It provides search and filtering functionality, and the ability to create new entries and export data.
@@ -62,7 +58,6 @@ A page component that displays a table with data fetched from the API. It provid
 @param {boolean} {exportable} - whether or not to show export button
 @param {boolean} {hasHelpPage} - whether or not to show documentation button
 @param {React.ReactNode}{customHeader} - a custom header to be rendered instead of the default header
-@param {string}{headerText} - DEPRECATED - the header text for the page
 @param {string}{header} -the header text for the page and the title
 @param {boolean} {isDeleteable} - whether or not entries can be deleted
 @param {boolean} {searchable} - whether or not the table can be searched
@@ -101,7 +96,6 @@ const TableIndexPage = ({
   exportable,
   hasHelpPage,
   customHeader,
-  headerText,
   header,
   isDeleteable,
   searchable,
@@ -224,89 +218,66 @@ const TableIndexPage = ({
     ...customActionButtons,
   ].filter(item => item);
 
-  header = headerText || header;
-  return (
-    <div id="foreman-page">
-      <Head>
-        <title>{header}</title>
-      </Head>
-      {breadcrumbOptions && (
-        <PageSection variant={PageSectionVariants.light} type="breadcrumb">
-          <BreadcrumbBar {...breadcrumbOptions} />
-        </PageSection>
-      )}
-      <PageSection
-        variant={PageSectionVariants.light}
-        className="table-title-section"
-      >
-        {customHeader || (
-          <TextContent>
-            <Text ouiaId="header-text" component="h1">
-              {header}
-            </Text>
-          </TextContent>
-        )}
-      </PageSection>
-      {beforeToolbarComponent}
-      <PageSection
-        variant={PageSectionVariants.light}
-        className="table-toolbar-section"
-      >
-        <Toolbar ouiaId="table-toolbar" className="table-toolbar">
-          <ToolbarContent>
-            {searchable && (
-              <ToolbarGroup
-                className="toolbar-group-search"
-                variant="filter-group"
-              >
-                {selectionToolbar}
-                <ToolbarItem className="toolbar-search">
-                  <SearchBar
-                    data={searchProps}
-                    initialQuery=""
-                    restrictedSearchQuery={restrictedSearchQuery}
-                    onSearch={onSearch}
-                    bookmarksPosition={bookmarksPosition}
-                  />
-                </ToolbarItem>
-                {status === STATUS.PENDING && (
-                  <ToolbarItem>
-                    <Spinner size="sm" />
-                  </ToolbarItem>
-                )}
-              </ToolbarGroup>
-            )}
-            {(customToolbarItems || actionButtons.length > 0) && (
-              <ToolbarGroup
-                align={{ default: 'alignLeft' }}
-                className="table-toolbar-actions"
-                variant="button-group"
-              >
-                {actionButtons.length > 0 && (
-                  <ToolbarItem>
-                    <ActionButtons buttons={actionButtons} />
-                  </ToolbarItem>
-                )}
-                {customToolbarItems && customToolbarItems}
-              </ToolbarGroup>
-            )}
-            {total > 0 && (
-              <Pagination
-                key="table-index-page-top-pagination"
-                updateParamsByUrl={updateParamsByUrl}
-                variant={PaginationVariant.top}
-                page={page}
-                perPage={perPage}
-                itemCount={subtotal}
-                onChange={onPagination}
+  const customToolbar = (
+    <Toolbar ouiaId="page-toolbar" className="page-toolbar">
+      <ToolbarContent>
+        {searchable && (
+          <ToolbarGroup className="toolbar-group-search" variant="filter-group">
+            {selectionToolbar}
+            <ToolbarItem className="toolbar-search">
+              <SearchBar
+                data={searchProps}
+                initialQuery=""
+                restrictedSearchQuery={restrictedSearchQuery}
+                onSearch={onSearch}
+                bookmarksPosition={bookmarksPosition}
               />
+            </ToolbarItem>
+            {status === STATUS.PENDING && (
+              <ToolbarItem>
+                <Spinner size="sm" />
+              </ToolbarItem>
             )}
-          </ToolbarContent>
-        </Toolbar>
-      </PageSection>
-      <PageSection
-        variant={PageSectionVariants.light}
-        className="table-section"
+          </ToolbarGroup>
+        )}
+        {(customToolbarItems || actionButtons.length > 0) && (
+          <ToolbarGroup
+            align={{ default: 'alignLeft' }}
+            className="table-toolbar-actions"
+            variant="button-group"
+          >
+            {actionButtons.length > 0 && (
+              <ToolbarItem>
+                <ActionButtons buttons={actionButtons} />
+              </ToolbarItem>
+            )}
+            {customToolbarItems && customToolbarItems}
+          </ToolbarGroup>
+        )}
+        {total > 0 && (
+          <Pagination
+            key="table-index-page-top-pagination"
+            updateParamsByUrl={updateParamsByUrl}
+            variant={PaginationVariant.top}
+            page={page}
+            perPage={perPage}
+            itemCount={subtotal}
+            onChange={onPagination}
+          />
+        )}
+      </ToolbarContent>
+    </Toolbar>
+  );
+
+  return (
+    <div className="table-index-page">
+      <PageLayout
+        breadcrumbOptions={breadcrumbOptions}
+        header={header}
+        customHeader={customHeader}
+        searchable={false}
+        beforeToolbarComponent={beforeToolbarComponent}
+        customToolbar={customToolbar}
       >
         {children || (
           <Table
@@ -354,7 +325,7 @@ const TableIndexPage = ({
             emptyAction={emptyAction}
           />
         )}
-      </PageSection>
+      </PageLayout>
     </div>
   );
 };
@@ -399,7 +370,6 @@ TableIndexPage.propTypes = {
   replacementResponse: PropTypes.object,
   exportable: PropTypes.bool,
   hasHelpPage: PropTypes.bool,
-  headerText: PropTypes.string,
   header: PropTypes.string,
   customHeader: PropTypes.node,
   isDeleteable: PropTypes.bool,
@@ -442,7 +412,6 @@ TableIndexPage.defaultProps = {
   exportable: false,
   hasHelpPage: false,
   header: '',
-  headerText: '',
   customHeader: undefined,
   isDeleteable: false,
   searchable: true,
