@@ -11,9 +11,6 @@
     }
   
     .page-toolbar-section {
-      padding-bottom: 0;
-      padding-top: 0;
-
       .page-toolbar {
         .toolbar-search {
           flex-grow: 1;
@@ -34,6 +31,22 @@
   
       .pf-v5-c-toolbar__content {
         padding: 0;
+      }
+    }
+
+    .page-title-section ~ .page-toolbar-section {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .page-toolbar-section:not(.page-title-section ~ .page-toolbar-section) {
+      padding-left: var(--pf-v5-global--spacer--lg);
+      padding-right: var(--pf-v5-global--spacer--lg);
+      padding-bottom: var(--pf-v5-global--spacer--md);
+
+      .page-toolbar {
+        padding-top: 0;
+        padding-bottom: 0;
       }
     }
   
