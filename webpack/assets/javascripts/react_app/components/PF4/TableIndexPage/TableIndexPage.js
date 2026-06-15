@@ -194,16 +194,19 @@ const TableIndexPage = ({
     creatable &&
       canCreate && {
         title: __('Create new'),
+        ouiaId: 'action-buttons-create',
         action: customCreateAction
           ? { onClick: customCreateAction() }
           : { href: createURL() },
       },
     exportable && {
       title: __('Export'),
+      ouiaId: 'action-buttons-export',
       action: { href: customExportURL || exportURL() },
     },
     hasHelpPage && {
       title: __('Documentation'),
+      ouiaId: 'action-buttons-documentation',
       icon: (
         <Icon>
           <QuestionCircleIcon />

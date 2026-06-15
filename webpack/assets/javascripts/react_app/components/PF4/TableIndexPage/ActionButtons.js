@@ -10,6 +10,7 @@ import {
 /**
  * Generate a button or a dropdown of buttons
  * @param  {String} title The title of the button for the title and text inside the button
+ * @param  {String} ouiaId If included, use this as the ouiaId
  * @param  {Object} action action to preform when the button is click can be href with data-method or Onclick
  * @return {Function} button component or splitbutton component
  */
@@ -21,7 +22,7 @@ export const ActionButtons = ({ buttons: originalButtons }) => {
   return (
     <>
       <Button
-        ouiaId="action-buttons-button"
+        ouiaId={firstButton.ouiaId || 'action-buttons-button'}
         component={firstButton.action?.href ? 'a' : undefined}
         {...firstButton.action}
       >
