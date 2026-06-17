@@ -42,4 +42,17 @@ ln -sf "$ca_cert" "$cert_dir/ca-bundle.crt"
 ln -sf "$key_file" "$cert_dir/client.key"
 ln -sf "$cert_file" "$cert_dir/client.cert"
 
+<%
+  backend_hostnames = @lb_backend_hostnames.to_a
+-%>
+<% if backend_hostnames.any? -%>
+<% backend_hostnames.each do |backend_hostname| -%>
+echo "Creating /etc/containers/certs.d/<%= backend_hostname %> directory (load balancer backend)"
+mkdir -p "/etc/containers/certs.d/<%= backend_hostname %>/"
+ln -sf "$cert_file" "/etc/containers/certs.d/<%= backend_hostname %>/client.cert"
+ln -sf "$key_file"  "/etc/containers/certs.d/<%= backend_hostname %>/client.key"
+ln -sf "$ca_cert"   "/etc/containers/certs.d/<%= backend_hostname %>/ca-bundle.crt"
+<% end -%>
+<% end -%>
+
 echo "Container certificate setup completed successfully."

@@ -43,6 +43,7 @@ module Foreman::Controller::Registration
       repo_data: repo_data,
       download_utility: params['download_utility'],
       registration_host: registration_host,
+      lb_backend_hostnames: SmartProxy.respond_to?(:behind_load_balancer) ? SmartProxy.behind_load_balancer(registration_host).map(&:hostname) : [],
     }
 
     params.permit(permitted)
