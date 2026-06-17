@@ -20,10 +20,11 @@ module Api
 
       def index
         @hostgroups = resource_scope_for_index
-
         if params[:include].present?
           @parameters = params[:include].include?('parameters')
         end
+
+        @hostgroup_read_context = load_hostgroup_read_context(@hostgroups)
       end
 
       api :GET, "/hostgroups/:id/", N_("Show a host group")
@@ -31,6 +32,7 @@ module Api
       param :show_hidden_parameters, :bool, :desc => N_("Display hidden parameter values")
 
       def show
+        @hostgroup_read_context = load_hostgroup_read_context(@hostgroup)
       end
 
       def_param_group :hostgroup do
@@ -115,7 +117,7 @@ module Api
           render_message _("Configuration successfully rebuilt."), :status => :ok
         else
           render_error :custom_error, :status => :unprocessable_entity,
-                       :locals => { :message => _("Configuration rebuild failed for: %s." % failures.to_sentence) }
+            :locals => { :message => _("Configuration rebuild failed for: %s." % failures.to_sentence) }
         end
       end
 
@@ -123,6 +125,10 @@ module Api
 
       def include_parameters_in_response
         @parameters = true
+      end
+
+      def load_hostgroup_read_context(hostgroups)
+        HostgroupReadContext.load(hostgroups, include_parameters: @parameters)
       end
 
       def action_permission

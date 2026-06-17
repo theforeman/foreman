@@ -22,13 +22,10 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     wait_for_ajax
     select2 os.ptables.first.name, :from => 'hostgroup_ptable_id'
     fill_in 'hostgroup_root_pass', :with => '12345678'
-    click_button 'Submit'
-    hostgroup = wait_for do
-      Hostgroup.where(:name => "myhostgroup1").first
-    end
-    refute_nil hostgroup
+    assert_submit_button(hostgroups_path)
+    assert page.has_link?('myhostgroup1')
+    hostgroup = Hostgroup.find_by!(:name => 'myhostgroup1')
     assert_equal os.id, hostgroup.operatingsystem_id
-    assert page.has_current_path? hostgroups_path
   end
 
   describe 'with parent hostgroup' do

@@ -10,7 +10,7 @@ def valid_hostgroup_name_list
     RFauxFactory.gen_alpha(1),
     RFauxFactory.gen_alpha(245),
     *RFauxFactory.gen_strings(1..245, exclude: [:html, :punctuation]).values,
-    RFauxFactory.gen_html(rand((1..220))),
+    RFauxFactory.gen_html(rand(1..220)),
   ]
 end
 
@@ -89,8 +89,8 @@ class HostgroupTest < ActiveSupport::TestCase
 
     as_admin do
       top = FactoryBot.create(:hostgroup, :name => "topA",
-                               :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1"},
-                                                                 pid += 1 => {"name" => "topB", "value" => "1"}})
+        :group_parameters_attributes => { pid += 1 => {"name" => "topA", "value" => "1"},
+                                          pid += 1 => {"name" => "topB", "value" => "1"}})
       child = Hostgroup.create!(:name => "secondB", :parent_id => top.id)
     end
 
@@ -179,6 +179,45 @@ class HostgroupTest < ActiveSupport::TestCase
      :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id].each do |field|
       refute_nil parent.send(field), "missing #{field}"
       assert_equal parent.send(field), child.send("inherited_#{field}")
+    end
+  end
+
+  test "reuses one ancestor query for repeated inherited id lookups" do
+    child = hostgroups(:inherited)
+    assert_sql_queries(1) do
+      child.inherited_domain_id
+      child.inherited_architecture_id
+      child.inherited_operatingsystem_id
+    end
+  end
+
+  test "inherited lookups reflect in-memory updates on the same hostgroup instance" do
+    child = hostgroups(:inherited)
+    assert_equal hostgroups(:parent).domain_id, child.inherited_domain_id
+
+    child.domain_id = domains(:yourdomain).id
+
+    assert_equal domains(:yourdomain).id, child.inherited_domain_id
+  end
+
+  test "reuses preloaded ancestor associations for inherited object lookups" do
+    child = hostgroups(:inherited)
+    HostgroupReadContext.load([child])
+
+    assert_sql_queries(0) do
+      child.domain
+      child.architecture
+      child.operatingsystem
+    end
+  end
+
+  test "reuses read context for parent display metadata" do
+    child = hostgroups(:inherited)
+    HostgroupReadContext.load([child])
+    expected_parent_title = hostgroups(:parent).title
+
+    assert_sql_queries(0) do
+      assert_equal expected_parent_title, child.parent_name
     end
   end
 
